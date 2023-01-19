@@ -15,7 +15,8 @@ public class StringModifierCollection {
   }
 
   public boolean set(StringModifier modifier, String value) {
-    String oldValue = value.isEmpty() ? this.strings.remove(modifier) : this.strings.put(modifier, value);
+    String oldValue =
+        value.isEmpty() ? this.strings.remove(modifier) : this.strings.put(modifier, value);
 
     // TODO: does anything use this return value, or can we save ourselves a check?
     return oldValue == null || !oldValue.equals(value);

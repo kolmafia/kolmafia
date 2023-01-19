@@ -72,7 +72,8 @@ public class Modifiers {
   private static final TwoLevelEnumHashMap<ModifierType, IntOrString, Modifiers> modifiersByName =
       new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
-  private static final Map<String, net.sourceforge.kolmafia.modifiers.Modifier> modifierTypesByName = new HashMap<>();
+  private static final Map<String, net.sourceforge.kolmafia.modifiers.Modifier>
+      modifierTypesByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
   private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
@@ -106,7 +107,7 @@ public class Modifiers {
   private static final HashSet<String> numericModifiers = new HashSet<>();
 
   public static final Set<DoubleModifier> DOUBLE_MODIFIERS =
-    Collections.unmodifiableSet(EnumSet.allOf(DoubleModifier.class));
+      Collections.unmodifiableSet(EnumSet.allOf(DoubleModifier.class));
 
   static {
     for (var modifier : Modifiers.DOUBLE_MODIFIERS) {
@@ -262,7 +263,7 @@ public class Modifiers {
   }
 
   public static final Set<StringModifier> STRING_MODIFIERS =
-    Collections.unmodifiableSet(EnumSet.allOf(StringModifier.class));
+      Collections.unmodifiableSet(EnumSet.allOf(StringModifier.class));
 
   static {
     for (var modifier : Modifiers.STRING_MODIFIERS) {
@@ -593,7 +594,8 @@ public class Modifiers {
   }
 
   public static final DoubleModifier findName(String name) {
-    // this is caseless because it accepts anything typed into the maximizer, which is normally lowercase
+    // this is caseless because it accepts anything typed into the maximizer, which is normally
+    // lowercase
     return DoubleModifier.byCaselessName(name);
   }
 
@@ -766,7 +768,8 @@ public class Modifiers {
     // Can't cache this as expressions can be dependent on things
     // that can change within a session, like character level.
     if (name.equals("Evaluated Modifiers")) {
-      return Modifiers.evaluateModifiers(this.originalLookup, this.strings.get(StringModifier.MODIFIERS))
+      return Modifiers.evaluateModifiers(
+              this.originalLookup, this.strings.get(StringModifier.MODIFIERS))
           .toString();
     }
 
@@ -2442,10 +2445,7 @@ public class Modifiers {
 
       if (ascensionClass == null) return null;
 
-      return StringModifier.CLASS.getTag()
-          + ": \""
-          + ascensionClass.getName()
-          + "\"";
+      return StringModifier.CLASS.getTag() + ": \"" + ascensionClass.getName() + "\"";
     }
 
     matcher = Modifiers.COMBAT_PATTERN.matcher(enchantment);

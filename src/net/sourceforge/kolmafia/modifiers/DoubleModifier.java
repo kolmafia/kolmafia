@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.Modifiers;
 
 public enum DoubleModifier implements Modifier {
   FAMILIAR_WEIGHT(

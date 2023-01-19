@@ -119,7 +119,8 @@ public class LocketManager {
 
     // ... grab the raw mod string for the locket from modifiers.txt...
     var locketModString =
-        Modifiers.getItemModifiers(ItemPool.COMBAT_LOVERS_LOCKET).getString(StringModifier.MODIFIERS);
+        Modifiers.getItemModifiers(ItemPool.COMBAT_LOVERS_LOCKET)
+            .getString(StringModifier.MODIFIERS);
 
     String phylum = "";
 

@@ -7,55 +7,53 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AscensionClass;
-import net.sourceforge.kolmafia.Modifiers;
 
 public enum StringModifier implements Modifier {
-    CLASS(
-        "Class",
-          new Pattern[] {
-    Pattern.compile("Only (.*?) may use this item"),
-      Pattern.compile("Bonus for (.*?) only"),
-      Pattern.compile("Bonus&nbsp;for&nbsp;(.*?)&nbsp;only"),
-  },
-    Pattern.compile("Class: \"(.*?)\"")),
-    INTRINSIC_EFFECT(
-        "Intrinsic Effect",
-    Pattern.compile("Intrinsic Effect: <a.*?><font color=blue>(.*)</font></a>"),
-        Pattern.compile("Intrinsic Effect: \"(.*?)\"")),
-          EQUALIZE("Equalize", Pattern.compile("Equalize: \"(.*?)\"")),
-    WIKI_NAME("Wiki Name", Pattern.compile("Wiki Name: \"(.*?)\"")),
-    MODIFIERS("Modifiers", Pattern.compile("^(none)$")),
-    OUTFIT("Outfit", null),
-    STAT_TUNING("Stat Tuning", Pattern.compile("Stat Tuning: \"(.*?)\"")),
-    EFFECT("Effect", Pattern.compile("(?:^|, )Effect: \"(.*?)\"")),
-    EQUIPS_ON("Equips On", Pattern.compile("Equips On: \"(.*?)\"")),
-    FAMILIAR_EFFECT("Familiar Effect", Pattern.compile("Familiar Effect: \"(.*?)\"")),
-    JIGGLE(
-        "Jiggle", Pattern.compile("Jiggle: *(.*?)$"), Pattern.compile("Jiggle: \"(.*?)\"")),
-    EQUALIZE_MUSCLE("Equalize Muscle", Pattern.compile("Equalize Muscle: \"(.*?)\"")),
-    EQUALIZE_MYST("Equalize Mysticality", Pattern.compile("Equalize Mysticality: \"(.*?)\"")),
-    EQUALIZE_MOXIE("Equalize Moxie", Pattern.compile("Equalize Moxie: \"(.*?)\"")),
-    AVATAR(
-        "Avatar",
-          new Pattern[] {
-    Pattern.compile("Makes you look like (?:a |an |the )?(.++)(?<!doctor|gross doctor)"),
-      Pattern.compile("Te hace ver como un (.++)"),
-  },
-    Pattern.compile("Avatar: \"(.*?)\"")),
-    ROLLOVER_EFFECT(
-        "Rollover Effect",
-    Pattern.compile("Adventures of <b><a.*?>(.*)</a></b> at Rollover"),
-        Pattern.compile("Rollover Effect: \"(.*?)\"")),
-          SKILL(
-        "Skill",
-    Pattern.compile("Grants Skill:.*?<b>(.*?)</b>"),
-        Pattern.compile("Skill: \"(.*?)\"")),
-          FLOOR_BUFFED_MUSCLE("Floor Buffed Muscle", Pattern.compile("Floor Buffed Muscle: \"(.*?)\"")),
-    FLOOR_BUFFED_MYST(
-        "Floor Buffed Mysticality", Pattern.compile("Floor Buffed Mysticality: \"(.*?)\"")),
-    FLOOR_BUFFED_MOXIE("Floor Buffed Moxie", Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")),
-    PLUMBER_STAT("Plumber Stat", Pattern.compile("Plumber Stat: \"(.*?)\"")),
-    RECIPE("Recipe", Pattern.compile("Recipe: \"(.*?)\""));
+  CLASS(
+      "Class",
+      new Pattern[] {
+        Pattern.compile("Only (.*?) may use this item"),
+        Pattern.compile("Bonus for (.*?) only"),
+        Pattern.compile("Bonus&nbsp;for&nbsp;(.*?)&nbsp;only"),
+      },
+      Pattern.compile("Class: \"(.*?)\"")),
+  INTRINSIC_EFFECT(
+      "Intrinsic Effect",
+      Pattern.compile("Intrinsic Effect: <a.*?><font color=blue>(.*)</font></a>"),
+      Pattern.compile("Intrinsic Effect: \"(.*?)\"")),
+  EQUALIZE("Equalize", Pattern.compile("Equalize: \"(.*?)\"")),
+  WIKI_NAME("Wiki Name", Pattern.compile("Wiki Name: \"(.*?)\"")),
+  MODIFIERS("Modifiers", Pattern.compile("^(none)$")),
+  OUTFIT("Outfit", null),
+  STAT_TUNING("Stat Tuning", Pattern.compile("Stat Tuning: \"(.*?)\"")),
+  EFFECT("Effect", Pattern.compile("(?:^|, )Effect: \"(.*?)\"")),
+  EQUIPS_ON("Equips On", Pattern.compile("Equips On: \"(.*?)\"")),
+  FAMILIAR_EFFECT("Familiar Effect", Pattern.compile("Familiar Effect: \"(.*?)\"")),
+  JIGGLE("Jiggle", Pattern.compile("Jiggle: *(.*?)$"), Pattern.compile("Jiggle: \"(.*?)\"")),
+  EQUALIZE_MUSCLE("Equalize Muscle", Pattern.compile("Equalize Muscle: \"(.*?)\"")),
+  EQUALIZE_MYST("Equalize Mysticality", Pattern.compile("Equalize Mysticality: \"(.*?)\"")),
+  EQUALIZE_MOXIE("Equalize Moxie", Pattern.compile("Equalize Moxie: \"(.*?)\"")),
+  AVATAR(
+      "Avatar",
+      new Pattern[] {
+        Pattern.compile("Makes you look like (?:a |an |the )?(.++)(?<!doctor|gross doctor)"),
+        Pattern.compile("Te hace ver como un (.++)"),
+      },
+      Pattern.compile("Avatar: \"(.*?)\"")),
+  ROLLOVER_EFFECT(
+      "Rollover Effect",
+      Pattern.compile("Adventures of <b><a.*?>(.*)</a></b> at Rollover"),
+      Pattern.compile("Rollover Effect: \"(.*?)\"")),
+  SKILL(
+      "Skill",
+      Pattern.compile("Grants Skill:.*?<b>(.*?)</b>"),
+      Pattern.compile("Skill: \"(.*?)\"")),
+  FLOOR_BUFFED_MUSCLE("Floor Buffed Muscle", Pattern.compile("Floor Buffed Muscle: \"(.*?)\"")),
+  FLOOR_BUFFED_MYST(
+      "Floor Buffed Mysticality", Pattern.compile("Floor Buffed Mysticality: \"(.*?)\"")),
+  FLOOR_BUFFED_MOXIE("Floor Buffed Moxie", Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")),
+  PLUMBER_STAT("Plumber Stat", Pattern.compile("Plumber Stat: \"(.*?)\"")),
+  RECIPE("Recipe", Pattern.compile("Recipe: \"(.*?)\""));
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
@@ -95,8 +93,8 @@ public enum StringModifier implements Modifier {
   }
 
   private static final Map<String, StringModifier> caselessNameToModifier =
-    Arrays.stream(values())
-      .collect(Collectors.toMap(type -> type.name.toLowerCase(), Function.identity()));
+      Arrays.stream(values())
+          .collect(Collectors.toMap(type -> type.name.toLowerCase(), Function.identity()));
 
   // equivalent to `Modifiers.findName`
   public static StringModifier byCaselessName(String name) {
