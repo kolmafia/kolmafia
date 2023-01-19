@@ -11055,7 +11055,7 @@
 11027
 11028	chiffon chevrons	332021835	chifchevrons.gif	accessory		0
 11029	chiffon chapeau	900963107	chifhat.gif	hat		0
-11030
+11030	chiffon chamberpot	467542968	chifpot.gif	offhand		0
 11031	chiffon chemise	682610694	chifchemise.gif	shirt		0
 11032	chiffon chakram	919226181	chifchakram.gif	weapon		0
 11033	chiffon chaps	614635306	chifchaps.gif	pants		0	pairs of chiffon chaps
