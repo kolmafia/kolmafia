@@ -1811,11 +1811,12 @@ cardboard box turtle	70	Mus: 20	shield
 cardboard wine carrier	0	none
 carnivorous potted plant	150	none
 catskin buckler	180	Mus: 75	shield
-ceramic centurion shield	0	Mus: 40	shield
+ceramic centurion shield	120	Mus: 40	shield
 Chalice of the Malkovich Prince	0	none
 chalk chalice	50	none
 charged druidic orb	0	none
 charged magnet	30	none
+chiffon chamberpot	50	none
 chipped coffee mug	50	none
 Cloaca-Cola shield	70	none	shield
 clockwork detective skull	80	Mox: 25
@@ -2404,9 +2405,9 @@ Cat-Herding Prod	0	none
 Caveman Dan's favorite rock	100	Mus: 35
 cement sandals	50	Mus: 10
 cement shoes	0	Mys: 35
-ceramic celsiturometer	0	Mys: 40
-ceramic cerecloth belt	0	Mox: 40
-ceramic cestus	0	Mus: 40
+ceramic celsiturometer	120	Mys: 40
+ceramic cerecloth belt	120	Mox: 40
+ceramic cestus	120	Mus: 40
 chalk chain	50	none
 chalk choker	50	none
 Charleston shoes	100	Mys: 25
