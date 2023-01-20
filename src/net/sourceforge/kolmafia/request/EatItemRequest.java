@@ -1051,13 +1051,14 @@ public class EatItemRequest extends UseItemRequest {
 
     // With your sharpened appetite, that really hits the spot.
     if (responseText.contains("With your sharpened appetite")) {
-      int itemsUsed = Math.min(count, InventoryManager.getCount(ItemPool.WHETSTONE));
-      if (itemsUsed > 1) {
-        EatItemRequest.logConsumption("You used " + itemsUsed + " whetstones with your food");
+      var chargesUsed = Math.min(count, Preferences.getInteger("whetstonesUsed"));
+      if (chargesUsed > 1) {
+        EatItemRequest.logConsumption(
+            "You used " + chargesUsed + " whetstone charges with your food");
       } else {
-        EatItemRequest.logConsumption("You used a whetstone with your food");
+        EatItemRequest.logConsumption("You used a whetstone charge with your food");
       }
-      Preferences.decrement("whetstonesUsed", itemsUsed);
+      Preferences.decrement("whetstonesUsed", chargesUsed);
     }
 
     // Satisfied, you let loose a nasty magnesium-flavored belch.
