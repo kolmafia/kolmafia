@@ -5360,22 +5360,18 @@ public abstract class KoLCharacter {
       boolean all = tuning.endsWith("(all)");
 
       // Experience percentage modifiers
+      record StatExp(DoubleModifier exp, DoubleModifier pct) {}
+      var MUS = new StatExp(DoubleModifier.MUS_EXPERIENCE, DoubleModifier.MUS_EXPERIENCE_PCT);
+      var MYS = new StatExp(DoubleModifier.MYS_EXPERIENCE, DoubleModifier.MYS_EXPERIENCE_PCT);
+      var MOX = new StatExp(DoubleModifier.MOX_EXPERIENCE, DoubleModifier.MOX_EXPERIENCE_PCT);
+
       double finalBaseExp = baseExp;
       double finalExp = exp;
       var mods =
           switch (prime) {
-            case 0 -> List.of(
-                DoubleModifier.MUS_EXPERIENCE_PCT,
-                DoubleModifier.MYS_EXPERIENCE_PCT,
-                DoubleModifier.MOX_EXPERIENCE_PCT);
-            case 1 -> List.of(
-                DoubleModifier.MYS_EXPERIENCE_PCT,
-                DoubleModifier.MOX_EXPERIENCE_PCT,
-                DoubleModifier.MUS_EXPERIENCE_PCT);
-            case 2 -> List.of(
-                DoubleModifier.MOX_EXPERIENCE_PCT,
-                DoubleModifier.MUS_EXPERIENCE_PCT,
-                DoubleModifier.MYS_EXPERIENCE_PCT);
+            case 0 -> List.of(MUS, MYS, MOX);
+            case 1 -> List.of(MYS, MOX, MUS);
+            case 2 -> List.of(MOX, MUS, MYS);
             default -> throw new IllegalStateException("Unexpected value: " + prime);
           };
       Function<DoubleModifier, Double> calc =
@@ -5384,16 +5380,17 @@ public abstract class KoLCharacter {
 
       if (all) {
         var mod = mods.get(0);
-        newModifiers.addDouble(mod, 1 + calc.apply(mod), ModifierType.CLASS, "EXP");
+        newModifiers.addDouble(mod.exp, 1 + calc.apply(mod.pct), ModifierType.CLASS, "EXP");
       } else {
         // Adjust for prime stat
         // The base +1 Exp for mainstat IS tuned
         var mod = mods.get(0);
-        newModifiers.addDouble(mod, 1 + calc.apply(mod) / 2.0f, ModifierType.CLASS, "EXP/2");
+        newModifiers.addDouble(
+            mod.exp, 1 + calc.apply(mod.pct) / 2.0f, ModifierType.CLASS, "EXP/2");
         mod = mods.get(1);
-        newModifiers.addDouble(mod, calc.apply(mod) / 4.0f, ModifierType.CLASS, "EXP/4");
+        newModifiers.addDouble(mod.exp, calc.apply(mod.pct) / 4.0f, ModifierType.CLASS, "EXP/4");
         mod = mods.get(2);
-        newModifiers.addDouble(mod, calc.apply(mod) / 4.0f, ModifierType.CLASS, "EXP/4");
+        newModifiers.addDouble(mod.exp, calc.apply(mod.pct) / 4.0f, ModifierType.CLASS, "EXP/4");
       }
     }
 
