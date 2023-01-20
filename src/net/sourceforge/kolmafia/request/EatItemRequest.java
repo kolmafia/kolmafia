@@ -1051,7 +1051,7 @@ public class EatItemRequest extends UseItemRequest {
 
     // With your sharpened appetite, that really hits the spot.
     if (responseText.contains("With your sharpened appetite")) {
-      int itemsUsed = Math.min(count, InventoryManager.getCount(ItemPool.WHETSTONE));
+      int itemsUsed = Math.min(count, Preferences.getInteger("whetstonesUsed"));
       if (itemsUsed > 1) {
         EatItemRequest.logConsumption("You used " + itemsUsed + " whetstones with your food");
       } else {
