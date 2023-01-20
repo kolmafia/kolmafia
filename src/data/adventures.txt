@@ -304,7 +304,7 @@ The Mer-Kin Deepcity	sea_merkin=temple	DiffLevel: unknown Env: underwater overdr
 # Nemesis areas
 
 Nemesis Cave	adventure=452	DiffLevel: mid Env: underground Stat: 0	The Fungal Nethers	6 fizzing spore pod
-Volcano	adventure=214	DiffLevel: unknown Env: outdoor Stat: 140	The Broodling Grounds	6 hellseal brain,6 hellseal hide, 6 hellseal sinew|sealhide hood, sealhide leggings, sealhide buckler|sealhide hood, sealhide leggings, sealhide cloak, sealhide buckler, sealhide whip, sealhide moccasins, sealhide gloves, sealhide belt
+Volcano	adventure=214	DiffLevel: mid Env: outdoor Stat: 140	The Broodling Grounds	6 hellseal brain, 6 hellseal hide, 6 hellseal sinew|sealhide hood, sealhide leggings, sealhide buckler|sealhide hood, sealhide leggings, sealhide cloak, sealhide buckler, sealhide whip, sealhide moccasins, sealhide gloves, sealhide belt
 Volcano	adventure=215	DiffLevel: unknown Env: outdoor Stat: 140	The Outer Compound
 Volcano	adventure=217	DiffLevel: unknown Env: outdoor Stat: 140	The Temple Portico	5 cult memo
 Volcano	adventure=218	DiffLevel: unknown Env: indoor Stat: 140	Convention Hall Lobby	6 vial of blue slime, 6 vial of red slime, 6 vial of yellow slime|9 vial of blue slime, 9 vial of red slime, 9 vial of yellow slime|91 vial of blue slime, 91 vial of red slime, 91 vial of yellow slime

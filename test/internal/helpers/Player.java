@@ -879,19 +879,7 @@ public class Player {
    * @return Resets stats to zero
    */
   public static Cleanups withStats(final int muscle, final int mysticality, final int moxie) {
-    KoLCharacter.setStatPoints(
-        muscle,
-        (long) muscle * muscle,
-        mysticality,
-        (long) mysticality * mysticality,
-        moxie,
-        (long) moxie * moxie);
-    KoLCharacter.recalculateAdjustments();
-    return new Cleanups(
-        () -> {
-          KoLCharacter.setStatPoints(0, 0, 0, 0, 0, 0);
-          KoLCharacter.recalculateAdjustments();
-        });
+    return withSubStats(muscle * muscle, mysticality * mysticality, moxie * moxie);
   }
 
   /**
