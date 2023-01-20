@@ -5936,7 +5936,7 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
 
-        // If you've not already trained somebody, KoL does a Javascript redirects to curse.pjp
+        // If you've not already trained somebody, KoL does a Javascript redirects to curse.php
         Preferences.setBoolean("_crimboTraining", false);
         return;
 
@@ -5948,11 +5948,32 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.TRAINBOT_AUTOASSEMBLY_MODULE:
+        // The module emits an angry beep. It must need some raw materials in order to do...
+        // whatever it does.
+        if (responseText.contains("It must need some raw materials")) {
+          return;
+        }
         // The module scans you, whirrs for a moment, then reassembles your pile of Trainbot slag
         // into a small robot you can wear.
         if (responseText.contains("reassembles your pile of Trainbot slag")) {
           ResultProcessor.removeItem(ItemPool.TRAINBOT_SLAG);
         }
+        break;
+
+      case ItemPool.MILESTONE:
+        // You don't know what desert this milestone is for....yet.
+        if (responseText.contains("You don't know what desert this milestone is for")) {
+          // Not consumed.
+          return;
+        }
+        // Keeping your eye on your milestone, you quickly explore part of the desert.
+        if (responseText.contains("you quickly explore part of the desert")) {
+          Preferences.increment("desertExploration", 5, 100, false);
+          // Is consumed.
+        }
+        // You've already explored all the desert there is to explore.
+        // Instead you explore inside yourself.
+        // Gives stats and is consumed.
         break;
 
       case ItemPool.LODESTONE:
