@@ -1053,7 +1053,8 @@ public class EatItemRequest extends UseItemRequest {
     if (responseText.contains("With your sharpened appetite")) {
       var chargesUsed = Math.min(count, Preferences.getInteger("whetstonesUsed"));
       if (chargesUsed > 1) {
-        EatItemRequest.logConsumption("You used " + chargesUsed + " whetstone charges with your food");
+        EatItemRequest.logConsumption(
+            "You used " + chargesUsed + " whetstone charges with your food");
       } else {
         EatItemRequest.logConsumption("You used a whetstone charge with your food");
       }
