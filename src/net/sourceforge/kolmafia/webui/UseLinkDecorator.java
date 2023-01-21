@@ -1658,21 +1658,7 @@ public abstract class UseLinkDecorator {
           useLocation = "shop.php?whichshop=exploathing";
           break;
         }
-        // Fall through
-
-      case ItemPool.RED_PIXEL:
-      case ItemPool.GREEN_PIXEL:
-      case ItemPool.BLUE_PIXEL:
-        if (KoLCharacter.isKingdomOfExploathing()) {
-          // Cannot combine RGB pixels
-          return null;
-        }
-        int whiteCount =
-            CreateItemRequest.getInstance(ItemPool.WHITE_PIXEL).getQuantityPossible()
-                + InventoryManager.getCount(ItemPool.WHITE_PIXEL);
-        useType = whiteCount + " white";
-        useLocation = "place.php?whichplace=forestvillage&action=fv_mystic";
-        break;
+        return null;
 
         // Special handling for star charts, lines, and stars, where
         // KoLmafia shows you how many of each you have.
