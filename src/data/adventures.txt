@@ -748,3 +748,4 @@ Obsolete	adventure=179	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Win
 Obsolete	adventure=180	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Southwest)
 Obsolete	adventure=181	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Southwest)
 Obsolete	adventure=213	DiffLevel: unknown Env: unknown Stat: 0	Nemesis Cave
+Obsolete	adventure=73	DiffLevel: low Env: outdoor Stat: 20	8-Bit Realm
