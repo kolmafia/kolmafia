@@ -5644,6 +5644,7 @@ Effect	Delighted by Autumn	Muscle Percent: +100, Mysticality Percent: +100, Moxi
 Effect	Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Effect	Demonic Taint	Stench Damage: +30
 Effect	Demonicity	Monster Level: +40, Spooky Damage: +80, Spooky Spell Damage: +80
+Effect	Desandwiched	Meat Drop: +50
 Effect	Desenfantasmada	Spooky Resistance: +2, Experience (Muscle): +3
 Effect	Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
 Effect	Devil Inside	Hot Damage: +30, Cold Resistance: +3, Spooky Resistance: +3
@@ -7657,6 +7658,7 @@ Effect	Waking the Dead	Combat Rate: +20
 Effect	WAKKA WAKKA WAKKA	Monster Level: +20
 Effect	Walberg's Dim Bulb	Initiative: +10
 Effect	Walking Carpet	Avatar: "grouchy furry monster"
+Effect	Wall Rage	Item Drop: +50
 Effect	Wallflowering	Damage Absorption: +100, Damage Reduction: 10
 Effect	Wandering Eye Surgery	Item Drop: +50
 # Wanged: Unable to use obnoxious abbreviations
@@ -8857,6 +8859,7 @@ Item	petit fortran	Effect: "Petit Forbearance", Effect Duration: 10
 # pirate fork: Cannot be traded or discarded
 # pirate fork: Only one may be consumed per day<p><center><b><font color=blue>Usable once each day to steal some food!
 Item	pixel banana	Effect: "Going Ape", Effect Duration: 40
+Item	pixel bread	Effect: "Desandwiched", Effect Duration: 5
 Item	Pizza of Legend	Effect: "Endless Drool", Effect Duration: 100
 Item	plain calzone	Effect: "Angering Pizza Purists", Effect Duration: 50
 Item	plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
@@ -9176,6 +9179,7 @@ Item	Phil Collins	Effect: "Hello, I Must Be Going", Effect Duration: 40
 Item	Phlegethon	Effect: "Flambé-a-thon", Effect Duration: 40
 Item	piscatini	Effect: "You Drank Fish Wine", Effect Duration: 40
 Item	pixel beer	Effect: "Analog Drunk", Effect Duration: 40
+Item	pixel whiskey	Effect: "Wall Rage", Effect Duration: 5
 Item	Plague of Locusts	Effect: "Cockroach Scurry", Effect Duration: 15
 # plastic cup of beer: Deals 30-40 <font color=blueviolet>Sleaze Damage</font>
 # primitive alien booze: Extends the duration of up to 10 of your effects by 5 Adventures

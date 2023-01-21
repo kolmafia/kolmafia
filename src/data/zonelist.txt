@@ -29,6 +29,7 @@ Cyrpt	Cyrpt	Defiled Cyrpt
 Woods	Woods	Distant Woods
 HiddenCity	Woods	Hidden City
 The Drip	Woods	The Drip
+The 8-Bit Realm	Woods	The 8-Bit Realm
 
 # The following are in the woods but have their own sorting
 Friars	Friars	Deep Fat Friars

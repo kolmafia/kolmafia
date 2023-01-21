@@ -1653,6 +1653,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
     }
 
+    if (this.zone.equals("The 8-Bit Realm")) {
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return false;
+      }
+      return QuestDatabase.isQuestStarted(Quest.LARVA) || InventoryManager.hasItem(TRANSFUNCTIONER);
+    }
+
     if (this.zone.equals("The Drip")) {
       if (!InventoryManager.hasItem(DRIP_HARNESS)) {
         return false;
@@ -2444,7 +2451,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // some way of equipping it.  If they do not have one, then
     // acquire one then try to equip it.
 
-    if (this.adventureNumber == AdventurePool.PIXEL_REALM || this.zone.equals("Vanya's Castle")) {
+    if (this.zone.equals("The 8-Bit Realm") || this.zone.equals("Vanya's Castle")) {
       if (!InventoryManager.hasItem(TRANSFUNCTIONER)) {
         RequestThread.postRequest(new PlaceRequest("forestvillage", "fv_mystic"));
         // This redirects to choice.php&forceoption=0.

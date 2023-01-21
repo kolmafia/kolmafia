@@ -11136,3 +11136,6 @@
 11108	hard rock	878413969	rghardrock.gif	multiple	t,d	25
 11109	strange stalagmite	720163663	rgstalagmite.gif	reusable	t,d	250
 11110	chocolate covered ping-pong ball	997920598	ccppball.gif	usable	t,d	20
+11111
+11112	pixel bread	950236935	pixelbread.gif	food	t,d	30
+11113	pixel whiskey	262338395	pixelwhiskey.gif	drink	t,d	30
