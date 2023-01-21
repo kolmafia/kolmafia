@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -833,8 +834,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     Modifiers mods = spec.getModifiers();
     int predictedSongLimit =
         3
-            + (int) mods.get(Modifiers.ADDITIONAL_SONG)
-            + (mods.getBoolean(Modifiers.ADDITIONAL_SONG) ? 1 : 0);
+            + (int) mods.get(DoubleModifier.ADDITIONAL_SONG)
+            + (mods.getBoolean(Modifiers.FOUR_SONGS) ? 1 : 0);
     int predictedSongsNeeded =
         UseSkillRequest.songsActive() + (UseSkillRequest.newSong(skillId) ? 1 : 0);
     if (predictedSongsNeeded > predictedSongLimit) {
@@ -886,7 +887,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     for (int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length - AVOID_REMOVAL_ONLY; ++i) {
       // If you can't reduce cost further, stop
-      if (mpCost == 1 || KoLCharacter.currentNumericModifier(Modifiers.MANA_COST) <= -3) {
+      if (mpCost == 1 || KoLCharacter.currentNumericModifier(DoubleModifier.MANA_COST) <= -3) {
         return;
       }
 
@@ -908,7 +909,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           continue;
         }
       } else if (item.getItemId() == ItemPool.KREMLIN_BRIEFCASE) {
-        if (Modifiers.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE).get(Modifiers.MANA_COST) == 0) {
+        if (Modifiers.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE).get(DoubleModifier.MANA_COST)
+            == 0) {
           continue;
         }
       }
@@ -945,7 +947,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       ++rv;
     }
 
-    rv += (int) KoLCharacter.currentNumericModifier(Modifiers.ADDITIONAL_SONG);
+    rv += (int) KoLCharacter.currentNumericModifier(DoubleModifier.ADDITIONAL_SONG);
 
     return rv;
   }

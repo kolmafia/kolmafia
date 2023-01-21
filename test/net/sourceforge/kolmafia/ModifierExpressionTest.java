@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import java.time.Month;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -268,7 +269,7 @@ public class ModifierExpressionTest {
           containsString("mod("));
       KoLCharacter.recalculateAdjustments();
 
-      assertThat(KoLCharacter.getCurrentModifiers().get(Modifiers.INITIATIVE), is(40.0));
+      assertThat(KoLCharacter.getCurrentModifiers().get(DoubleModifier.INITIATIVE), is(40.0));
     }
   }
 

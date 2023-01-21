@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -1422,7 +1423,7 @@ public class MonsterData extends AdventureResult {
 
   public int getDefense() {
     double reduceMonsterDefense =
-        KoLCharacter.currentNumericModifier(Modifiers.REDUCE_ENEMY_DEFENSE) / 100;
+        KoLCharacter.currentNumericModifier(DoubleModifier.REDUCE_ENEMY_DEFENSE) / 100;
     if (this.scale != null && this.defense == null) {
       int scale = evaluate(this.scale, MonsterData.DEFAULT_SCALE);
       int defense = KoLCharacter.getAdjustedMuscle() + scale;

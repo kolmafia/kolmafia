@@ -2,27 +2,29 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class DebugModifiers extends Modifiers {
-  private static HashMap<Integer, String> wanted, adjustments;
+  private static Map<DoubleModifier, String> wanted, adjustments;
   private static String currentType;
   private static String currentName;
   private static StringBuilder buffer;
 
   public static int setup(String parameters) {
-    DebugModifiers.wanted = new HashMap<>();
-    DebugModifiers.adjustments = new HashMap<>();
-    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
-      String name = Modifiers.getModifierName(i);
+    DebugModifiers.wanted = new EnumMap<>(DoubleModifier.class);
+    DebugModifiers.adjustments = new EnumMap<>(DoubleModifier.class);
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+      String name = Modifiers.getModifierName(mod);
       if (name.toLowerCase().contains(parameters)) {
-        DebugModifiers.wanted.put(i, "<td colspan=3>" + name + "</td>");
-        DebugModifiers.adjustments.put(i, "<td colspan=2>" + name + "</td>");
+        DebugModifiers.wanted.put(mod, "<td colspan=3>" + name + "</td>");
+        DebugModifiers.adjustments.put(mod, "<td colspan=2>" + name + "</td>");
       }
     }
     DebugModifiers.currentType = "type";
@@ -46,7 +48,7 @@ public class DebugModifiers extends Modifiers {
     DebugModifiers.buffer.append("</td><td>");
     DebugModifiers.buffer.append(DebugModifiers.getDesc());
     DebugModifiers.buffer.append("</td>");
-    for (Integer key : DebugModifiers.wanted.keySet()) {
+    for (DoubleModifier key : DebugModifiers.wanted.keySet()) {
       String item = DebugModifiers.adjustments.get(key);
       DebugModifiers.buffer.append(Objects.requireNonNullElse(item, "<td></td><td></td>"));
     }
@@ -56,31 +58,35 @@ public class DebugModifiers extends Modifiers {
 
   @Override
   protected void addDouble(
-      final int index, final double mod, final ModifierType type, final IntOrString key) {
-    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS || mod == 0.0) {
+      final DoubleModifier modifier,
+      final double mod,
+      final ModifierType type,
+      final IntOrString key) {
+    if (modifier == null || mod == 0.0) {
       return;
     }
 
     Lookup lookup = new Lookup(type, key);
 
-    super.addDouble(index, mod, type, key);
+    super.addDouble(modifier, mod, type, key);
 
-    if (!DebugModifiers.wanted.containsKey(index)) {
+    if (!DebugModifiers.wanted.containsKey(modifier)) {
       return;
     }
 
     String name = lookup.getName();
-    if (!name.equals(DebugModifiers.currentName) || DebugModifiers.adjustments.containsKey(index)) {
+    if (!name.equals(DebugModifiers.currentName)
+        || DebugModifiers.adjustments.containsKey(modifier)) {
       DebugModifiers.flushRow();
     }
     DebugModifiers.currentType = type.wordsName();
     DebugModifiers.currentName = name;
     DebugModifiers.adjustments.put(
-        index,
+        modifier,
         "<td>"
             + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(mod)
             + "</td><td>=&nbsp;"
-            + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(this.get(index))
+            + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(this.get(modifier))
             + "</td>");
   }
 
@@ -94,8 +100,8 @@ public class DebugModifiers extends Modifiers {
 
   public static void allModifiers() {
     DebugModifiers.buffer.append("<tr>");
-    HashMap<Integer, Iterator<Change>> modifiersChangers = new HashMap<>();
-    for (Integer key : DebugModifiers.wanted.keySet()) {
+    Map<DoubleModifier, Iterator<Change>> modifiersChangers = new EnumMap<>(DoubleModifier.class);
+    for (DoubleModifier key : DebugModifiers.wanted.keySet()) {
       String modifier = DebugModifiers.wanted.get(key);
       DebugModifiers.buffer.append(modifier);
       ArrayList<Change> modChangers = new ArrayList<>();
@@ -119,7 +125,7 @@ public class DebugModifiers extends Modifiers {
     DebugModifiers.buffer.append("</tr>");
     while (modifiersChangers.size() > 0) {
       DebugModifiers.buffer.append("<tr>");
-      for (Integer key : DebugModifiers.wanted.keySet()) {
+      for (DoubleModifier key : DebugModifiers.wanted.keySet()) {
         Iterator<Change> li = modifiersChangers.get(key);
         if (li == null) {
           DebugModifiers.buffer.append("<td colspan=3></td>");

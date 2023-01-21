@@ -425,10 +425,10 @@ public class TableCellFactory {
     buff.append(modifiersWidth);
     buff.append(">");
 
-    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
-      double val = mods.get(i);
+    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+      double val = mods.get(mod);
       if (val == 0.0) continue;
-      name = Modifiers.getModifierName(i);
+      name = Modifiers.getModifierName(mod);
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");
       name = StringUtilities.singleStringReplace(name, "Experience", "Exp");
       name = StringUtilities.singleStringReplace(name, "Damage", "Dmg");

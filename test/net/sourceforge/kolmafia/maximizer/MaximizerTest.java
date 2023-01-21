@@ -82,6 +82,20 @@ public class MaximizerTest {
     }
   }
 
+  @Test
+  public void exactMatchFindsModifier() {
+    var cleanups =
+        new Cleanups(
+            withEquippableItem("hemlock helm"), withEquippableItem("government-issued slacks"));
+
+    try (cleanups) {
+      assertTrue(maximize("Muscle Experience Percent, -tie"));
+      recommendedSlotIsUnchanged(EquipmentManager.HAT);
+      recommendedSlotIs(EquipmentManager.PANTS, "government-issued slacks");
+      assertEquals(10, modFor("Muscle Experience Percent"), 0.01);
+    }
+  }
+
   @Nested
   class Max {
     @Test

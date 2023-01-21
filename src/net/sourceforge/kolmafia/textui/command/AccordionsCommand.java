@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -132,7 +133,7 @@ public class AccordionsCommand extends AbstractCommand {
 
       Modifiers mods = Modifiers.getItemModifiers(itemId);
       if (mods != null) {
-        this.songDuration = (int) mods.get(Modifiers.SONG_DURATION);
+        this.songDuration = (int) mods.get(DoubleModifier.SONG_DURATION);
         this.modsLookup = mods.getLookup();
 
         if (itemId == ItemPool.AUTOCALLIOPE) {
