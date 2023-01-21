@@ -429,7 +429,7 @@ public class TableCellFactory {
     for (var mod : Modifiers.DOUBLE_MODIFIERS) {
       double val = mods.get(mod);
       if (val == 0.0) continue;
-      name = Modifiers.getModifierName(mod);
+      name = mod.getName();
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");
       name = StringUtilities.singleStringReplace(name, "Experience", "Exp");
       name = StringUtilities.singleStringReplace(name, "Damage", "Dmg");

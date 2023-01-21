@@ -39,7 +39,7 @@ public class SpeculateCommand extends AbstractCommand {
     buf.append(">");
     int len = buf.length();
     for (var mod : Modifiers.DOUBLE_MODIFIERS) {
-      String modName = Modifiers.getModifierName(mod);
+      String modName = mod.getName();
       doNumeric(modName, mods, buf);
     }
     for (int i = 0; i < Modifiers.DERIVED_MODIFIERS; i++) {
@@ -64,7 +64,7 @@ public class SpeculateCommand extends AbstractCommand {
       buf.append("</td></tr>");
     }
     for (var modifier : Modifiers.STRING_MODIFIERS) {
-      String mod = Modifiers.getStringModifierName(modifier);
+      String mod = modifier.getName();
       String was = KoLCharacter.currentStringModifier(mod);
       String now = mods.getString(mod);
       if (now.equals(was)) {

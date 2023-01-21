@@ -18,7 +18,7 @@ public class ModRefCommand extends AbstractCommand {
         new StringBuilder(
             "<table border=2>" + "<tr><td colspan=" + colSpan + ">NUMERIC MODIFIERS</td></tr>");
     for (var mod : Modifiers.DOUBLE_MODIFIERS) {
-      String modName = Modifiers.getModifierName(mod);
+      String modName = mod.getName();
       buf.append("<tr><td>");
       buf.append(modName);
       buf.append("</td><td>");
@@ -63,7 +63,7 @@ public class ModRefCommand extends AbstractCommand {
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">STRING MODIFIERS</td></tr>");
     for (var modifier : Modifiers.STRING_MODIFIERS) {
-      String mod = Modifiers.getStringModifierName(modifier);
+      String mod = modifier.getName();
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>");

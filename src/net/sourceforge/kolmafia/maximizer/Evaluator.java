@@ -614,7 +614,7 @@ public class Evaluator {
         // We found a match. If only the first instance
         // of particular equipped items provide this
         // modifier, add them to the "uniques" list.
-        String modifierName = Modifiers.getModifierName(index);
+        String modifierName = index.getName();
         this.addUniqueItems(modifierName);
         this.weight.set(index, weight);
         continue;

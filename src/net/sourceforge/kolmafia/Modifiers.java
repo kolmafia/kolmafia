@@ -35,7 +35,6 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
-import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifierCollection;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -148,9 +147,8 @@ public class Modifiers {
 
     for (int i = 0; i < BITMAP_MODIFIERS; ++i) {
       BitmapModifier modifier = Modifiers.bitmapModifiers[i];
-      int index = i;
-      modifierIndicesByName.put(modifier.getName(), index);
-      modifierIndicesByName.put(modifier.getTag(), index);
+      modifierIndicesByName.put(modifier.getName(), i);
+      modifierIndicesByName.put(modifier.getTag(), i);
     }
   }
 
@@ -493,20 +491,12 @@ public class Modifiers {
     Modifiers.modifiersByName.remove(lookup.type, lookup.getKey());
   }
 
-  public static final String getModifierName(final DoubleModifier modifier) {
-    return modifier.getName();
-  }
-
   public static final String getBitmapModifierName(final int index) {
     return Modifiers.bitmapModifiers[index].getName();
   }
 
   public static final String getBooleanModifierName(final int index) {
     return Modifiers.booleanModifiers[index].getName();
-  }
-
-  public static final String getStringModifierName(final StringModifier mod) {
-    return mod.getName();
   }
 
   public static final String getDerivedModifierName(final int index) {
