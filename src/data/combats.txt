@@ -308,7 +308,7 @@ The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet cast member	Susie Soyburger	Susie Soyburger cast member	Timmy Tofurkey	Timmy Tofurkey cast member
 The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	uppercase Q
 The Evil Cathedral	100	plywood cultists
-The Fungus Plains	100	Blooper	Bullet Bill	Buzzy Beetle	Koopa Troopa
+The Fungus Plains	100	Blooper	Bullet Bill	Buzzy Beetle: 1e	Goomba: 1o	Koopa Troopa
 The Spectral Pickle Factory	75	carnivorous dill plant	ghostly pickle factory worker	vine gar
 
 // If you are wearing the War Frat uniform, you get all hippies.
