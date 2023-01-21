@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -814,20 +815,22 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     Speculation spec_old = new Speculation();
-    int[] predictions_old = spec_old.calculate().predict();
+    var predictions_old = spec_old.calculate().predict();
 
     Speculation spec = new Speculation();
     spec.equip(slotId, newItem);
-    int[] predictions = spec.calculate().predict();
+    var predictions = spec.calculate().predict();
 
     double MPgap = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
-    double deltaMP = predictions[Modifiers.BUFFED_MP] - predictions_old[Modifiers.BUFFED_MP];
+    double deltaMP =
+        predictions.get(DerivedModifier.BUFFED_MP) - predictions_old.get(DerivedModifier.BUFFED_MP);
     // Make sure we do not lose mp in the switch
     if (MPgap + deltaMP < 0) {
       return false;
     }
     // Make sure we do not reduce max hp in the switch, to avoid loops when casting a heal
-    if (predictions_old[Modifiers.BUFFED_HP] > predictions[Modifiers.BUFFED_HP]) {
+    if (predictions_old.get(DerivedModifier.BUFFED_HP)
+        > predictions.get(DerivedModifier.BUFFED_HP)) {
       return false;
     }
     // Don't allow if we'd lose a song in the switch

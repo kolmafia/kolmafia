@@ -42,9 +42,9 @@ public class SpeculateCommand extends AbstractCommand {
       String modName = mod.getName();
       doNumeric(modName, mods, buf);
     }
-    for (int i = 0; i < Modifiers.DERIVED_MODIFIERS; i++) {
-      String mod = Modifiers.getDerivedModifierName(i);
-      doNumeric(mod, mods, buf);
+    for (var mod : Modifiers.DERIVED_MODIFIERS) {
+      String modName = mod.getName();
+      doNumeric(modName, mods, buf);
     }
     for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; i++) {
       String mod = Modifiers.getBitmapModifierName(i);

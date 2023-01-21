@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -270,25 +271,11 @@ public class Modifiers {
     }
   }
 
-  // Indexes for array returned by predict():
-  public static final int BUFFED_MUS = 0;
-  public static final int BUFFED_MYS = 1;
-  public static final int BUFFED_MOX = 2;
-  public static final int BUFFED_HP = 3;
-  public static final int BUFFED_MP = 4;
+  public static final Set<DerivedModifier> DERIVED_MODIFIERS =
+      Collections.unmodifiableSet(EnumSet.allOf(DerivedModifier.class));
 
-  private static final DerivedModifier[] derivedModifiers = {
-    new DerivedModifier("Buffed Muscle"),
-    new DerivedModifier("Buffed Mysticality"),
-    new DerivedModifier("Buffed Moxie"),
-    new DerivedModifier("Buffed HP Maximum"),
-    new DerivedModifier("Buffed MP Maximum"),
-  };
-
-  public static final int DERIVED_MODIFIERS = Modifiers.derivedModifiers.length;
-
-  public int[] predict() {
-    int[] rv = new int[Modifiers.DERIVED_MODIFIERS];
+  public Map<DerivedModifier, Integer> predict() {
+    Map<DerivedModifier, Integer> rv = new EnumMap<>(DerivedModifier.class);
 
     int mus = KoLCharacter.getBaseMuscle();
     int mys = KoLCharacter.getBaseMysticality();
@@ -338,47 +325,56 @@ public class Modifiers {
       mox = mox_limit;
     }
 
-    rv[Modifiers.BUFFED_MUS] =
+    rv.put(
+        DerivedModifier.BUFFED_MUS,
         mus
             + (int) this.get(DoubleModifier.MUS)
-            + (int) Math.ceil(this.get(DoubleModifier.MUS_PCT) * mus / 100.0);
-    rv[Modifiers.BUFFED_MYS] =
+            + (int) Math.ceil(this.get(DoubleModifier.MUS_PCT) * mus / 100.0));
+    rv.put(
+        DerivedModifier.BUFFED_MYS,
         mys
             + (int) this.get(DoubleModifier.MYS)
-            + (int) Math.ceil(this.get(DoubleModifier.MYS_PCT) * mys / 100.0);
-    rv[Modifiers.BUFFED_MOX] =
+            + (int) Math.ceil(this.get(DoubleModifier.MYS_PCT) * mys / 100.0));
+    rv.put(
+        DerivedModifier.BUFFED_MOX,
         mox
             + (int) this.get(DoubleModifier.MOX)
-            + (int) Math.ceil(this.get(DoubleModifier.MOX_PCT) * mox / 100.0);
+            + (int) Math.ceil(this.get(DoubleModifier.MOX_PCT) * mox / 100.0));
 
     String mus_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MUSCLE);
     if (mus_buffed_floor.startsWith("Mys")) {
-      if (rv[Modifiers.BUFFED_MYS] > rv[Modifiers.BUFFED_MUS]) {
-        rv[Modifiers.BUFFED_MUS] = rv[Modifiers.BUFFED_MYS];
+      var mod = rv.get(DerivedModifier.BUFFED_MYS);
+      if (mod > rv.get(DerivedModifier.BUFFED_MUS)) {
+        rv.put(DerivedModifier.BUFFED_MUS, mod);
       }
     } else if (mus_buffed_floor.startsWith("Mox")) {
-      if (rv[Modifiers.BUFFED_MOX] > rv[Modifiers.BUFFED_MUS]) {
-        rv[Modifiers.BUFFED_MUS] = rv[Modifiers.BUFFED_MOX];
+      var mod = rv.get(DerivedModifier.BUFFED_MOX);
+      if (mod > rv.get(DerivedModifier.BUFFED_MUS)) {
+        rv.put(DerivedModifier.BUFFED_MUS, mod);
       }
     }
     String mys_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MYST);
     if (mys_buffed_floor.startsWith("Mus")) {
-      if (rv[Modifiers.BUFFED_MUS] > rv[Modifiers.BUFFED_MYS]) {
-        rv[Modifiers.BUFFED_MYS] = rv[Modifiers.BUFFED_MUS];
+      var mod = rv.get(DerivedModifier.BUFFED_MUS);
+      if (mod > rv.get(DerivedModifier.BUFFED_MYS)) {
+        rv.put(DerivedModifier.BUFFED_MYS, mod);
       }
     } else if (mys_buffed_floor.startsWith("Mox")) {
-      if (rv[Modifiers.BUFFED_MOX] > rv[Modifiers.BUFFED_MYS]) {
-        rv[Modifiers.BUFFED_MYS] = rv[Modifiers.BUFFED_MOX];
+      var mod = rv.get(DerivedModifier.BUFFED_MOX);
+      if (mod > rv.get(DerivedModifier.BUFFED_MYS)) {
+        rv.put(DerivedModifier.BUFFED_MYS, mod);
       }
     }
     String mox_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MOXIE);
     if (mox_buffed_floor.startsWith("Mus")) {
-      if (rv[Modifiers.BUFFED_MUS] > rv[Modifiers.BUFFED_MOX]) {
-        rv[Modifiers.BUFFED_MOX] = rv[Modifiers.BUFFED_MUS];
+      var mod = rv.get(DerivedModifier.BUFFED_MUS);
+      if (mod > rv.get(DerivedModifier.BUFFED_MOX)) {
+        rv.put(DerivedModifier.BUFFED_MOX, mod);
       }
     } else if (mox_buffed_floor.startsWith("Mys")) {
-      if (rv[Modifiers.BUFFED_MYS] > rv[Modifiers.BUFFED_MOX]) {
-        rv[Modifiers.BUFFED_MOX] = rv[Modifiers.BUFFED_MYS];
+      var mod = rv.get(DerivedModifier.BUFFED_MYS);
+      if (mod > rv.get(DerivedModifier.BUFFED_MOX)) {
+        rv.put(DerivedModifier.BUFFED_MOX, mod);
       }
     }
 
@@ -400,13 +396,13 @@ public class Modifiers {
       hp = hpbase + (int) this.get(DoubleModifier.HP);
       buffedHP = hp;
     } else {
-      hpbase = rv[Modifiers.BUFFED_MUS] + 3;
+      hpbase = rv.get(DerivedModifier.BUFFED_MUS) + 3;
       double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
       double hpPercent = this.get(DoubleModifier.HP_PCT);
       hp = (int) Math.ceil(hpbase * (C + hpPercent / 100.0)) + (int) this.get(DoubleModifier.HP);
       buffedHP = Math.max(hp, mus);
     }
-    rv[Modifiers.BUFFED_HP] = buffedHP;
+    rv.put(DerivedModifier.BUFFED_HP, buffedHP);
 
     int mpbase;
     int mp;
@@ -418,18 +414,18 @@ public class Modifiers {
       mp = mpbase + (int) this.get(DoubleModifier.MP);
       buffedMP = mp;
     } else {
-      mpbase = rv[Modifiers.BUFFED_MYS];
+      mpbase = rv.get(DerivedModifier.BUFFED_MYS);
       if (this.getBoolean(Modifiers.MOXIE_CONTROLS_MP)
           || (this.getBoolean(Modifiers.MOXIE_MAY_CONTROL_MP)
-              && rv[Modifiers.BUFFED_MOX] > mpbase)) {
-        mpbase = rv[Modifiers.BUFFED_MOX];
+              && rv.get(DerivedModifier.BUFFED_MOX) > mpbase)) {
+        mpbase = rv.get(DerivedModifier.BUFFED_MOX);
       }
       double C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
       double mpPercent = this.get(DoubleModifier.MP_PCT);
       mp = (int) Math.ceil(mpbase * (C + mpPercent / 100.0)) + (int) this.get(DoubleModifier.MP);
       buffedMP = Math.max(mp, mys);
     }
-    rv[Modifiers.BUFFED_MP] = buffedMP;
+    rv.put(DerivedModifier.BUFFED_MP, buffedMP);
 
     return rv;
   }
@@ -497,10 +493,6 @@ public class Modifiers {
 
   public static final String getBooleanModifierName(final int index) {
     return Modifiers.booleanModifiers[index].getName();
-  }
-
-  public static final String getDerivedModifierName(final int index) {
-    return Modifiers.derivedModifiers[index].getName();
   }
 
   private static final String COLD = DoubleModifier.COLD_RESISTANCE.getTag() + ": ";
@@ -682,11 +674,11 @@ public class Modifiers {
 
     DoubleModifier modifier = Modifiers.findName(name);
     if (modifier == null) {
-      int index = Modifiers.findName(Modifiers.derivedModifiers, name);
-      if (index < 0 || index >= Modifiers.DERIVED_MODIFIERS) {
+      DerivedModifier derived = DerivedModifier.byCaselessName(name);
+      if (derived == null) {
         return this.getBitmap(name);
       }
-      return this.predict()[index];
+      return this.predict().get(derived);
     }
 
     return this.doubles.get(modifier);
