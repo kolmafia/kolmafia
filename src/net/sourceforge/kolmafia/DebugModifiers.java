@@ -21,7 +21,7 @@ public class DebugModifiers extends Modifiers {
     DebugModifiers.wanted = new EnumMap<>(DoubleModifier.class);
     DebugModifiers.adjustments = new EnumMap<>(DoubleModifier.class);
     for (var mod : Modifiers.DOUBLE_MODIFIERS) {
-      String name = Modifiers.getModifierName(mod);
+      String name = mod.getName();
       if (name.toLowerCase().contains(parameters)) {
         DebugModifiers.wanted.put(mod, "<td colspan=3>" + name + "</td>");
         DebugModifiers.adjustments.put(mod, "<td colspan=2>" + name + "</td>");

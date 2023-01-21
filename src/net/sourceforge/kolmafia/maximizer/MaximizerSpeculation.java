@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -121,7 +122,7 @@ public class MaximizerSpeculation extends Speculation
       int itemId = this.equipment[i].getItemId();
       Modifiers mods = Modifiers.getItemModifiers(itemId);
       if (mods == null) continue;
-      String name = mods.getString(Modifiers.ROLLOVER_EFFECT);
+      String name = mods.getString(StringModifier.ROLLOVER_EFFECT);
       if (name.length() > 0) countThisEffects++;
       if (mods.getBoolean(Modifiers.BREAKABLE)) countThisBreakables++;
       if (mods.getBoolean(Modifiers.DROPS_ITEMS)) countThisDropsItems++;
@@ -132,7 +133,7 @@ public class MaximizerSpeculation extends Speculation
       int itemId = other.equipment[i].getItemId();
       Modifiers mods = Modifiers.getItemModifiers(itemId);
       if (mods == null) continue;
-      String name = mods.getString(Modifiers.ROLLOVER_EFFECT);
+      String name = mods.getString(StringModifier.ROLLOVER_EFFECT);
       if (name.length() > 0) countOtherEffects++;
       if (mods.getBoolean(Modifiers.BREAKABLE)) countOtherBreakables++;
       if (mods.getBoolean(Modifiers.DROPS_ITEMS)) countOtherDropsItems++;

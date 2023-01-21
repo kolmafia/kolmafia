@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -241,7 +242,7 @@ public abstract class YouRobotManager {
     RobotUpgrade(String name, Part part, int index, int cost) {
       this(name, part, Effect.PASSIVE, cost);
       this.index = index;
-      this.string = this.mods.getString("Modifiers");
+      this.string = this.mods.getString(StringModifier.MODIFIERS);
       addToIndexMaps();
     }
 
@@ -266,7 +267,7 @@ public abstract class YouRobotManager {
     RobotUpgrade(String name, String keyword, int cost) {
       this(name, Part.CPU, Effect.PASSIVE, cost);
       this.keyword = keyword;
-      this.string = this.mods.getString("Modifiers");
+      this.string = this.mods.getString(StringModifier.MODIFIERS);
       addToIndexMaps();
     }
 

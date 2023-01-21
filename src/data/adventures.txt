@@ -182,7 +182,6 @@ Woods	cellar=0	DiffLevel: none Env: none Stat: 0 Level: 6	The Typical Tavern Cel
 Woods	adventure=15	DiffLevel: low Env: outdoor Stat: 0	The Spooky Forest	1 mosquito larva|1 spooky sapling, 1 Spooky Temple map, 1 Spooky-Gro fertilizer|+1 fake blood
 Woods	adventure=280	DiffLevel: low Env: indoor Stat: 0	The Hidden Temple	3 choiceadv
 Woods	adventure=233	DiffLevel: mid Env: indoor Stat: 0	A Barroom Brawl	1 beer goggles|+3 beer lens
-Woods	adventure=73	DiffLevel: low Env: outdoor Stat: 20	8-Bit Realm	1 digital key|+1 [2426]fire flower
 Woods	adventure=100	DiffLevel: mid Env: outdoor Stat: 37	Whitey's Grove	1 bird rib, 1 lion oil|+5 piece of wedding cake|+3 white rice|+5 white rice|+1 bag of lard
 
 Woods	adventure=413	DiffLevel: mid Env: outdoor	The Road to the White Citadel	+1 duonoculars
@@ -212,6 +211,11 @@ HiddenCity	adventure=350	DiffLevel: high Env: outdoor Stat: 140 nowander	A Massi
 
 The Drip	adventure=542	DiffLevel: unknown Env: outdoor nowander	The Dripping Trees
 The Drip	adventure=544	DiffLevel: unknown Env: indoor nowander	The Dripping Hall
+
+The 8-Bit Realm	adventure=563	DiffLevel: mid Env: outdoor	The Fungus Plains	+1 [2426]fire flower
+The 8-Bit Realm	adventure=564	DiffLevel: mid Env: outdoor	Hero's Field
+The 8-Bit Realm	adventure=565	DiffLevel: mid Env: outdoor Stat: 70	Vanya's Castle
+The 8-Bit Realm	adventure=566	DiffLevel: mid Env: indoor	Megalo-City
 
 # Mysterious Island areas
 
@@ -744,3 +748,4 @@ Obsolete	adventure=179	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Win
 Obsolete	adventure=180	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Southwest)
 Obsolete	adventure=181	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Southwest)
 Obsolete	adventure=213	DiffLevel: unknown Env: unknown Stat: 0	Nemesis Cave
+Obsolete	adventure=73	DiffLevel: low Env: outdoor Stat: 20	8-Bit Realm

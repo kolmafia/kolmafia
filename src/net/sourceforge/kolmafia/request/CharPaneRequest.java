@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -261,6 +262,8 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.checkSweatiness(responseText);
 
+    CharPaneRequest.check8BitScore(responseText);
+
     // Mana cost adjustment may have changed
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
@@ -495,10 +498,10 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     Modifiers mods = KoLCharacter.getCurrentModifiers();
-    boolean equalize = mods.getString(Modifiers.EQUALIZE).length() != 0;
-    boolean mus_equalize = mods.getString(Modifiers.EQUALIZE_MUSCLE).length() != 0;
-    boolean mys_equalize = mods.getString(Modifiers.EQUALIZE_MYST).length() != 0;
-    boolean mox_equalize = mods.getString(Modifiers.EQUALIZE_MOXIE).length() != 0;
+    boolean equalize = mods.getString(StringModifier.EQUALIZE).length() != 0;
+    boolean mus_equalize = mods.getString(StringModifier.EQUALIZE_MUSCLE).length() != 0;
+    boolean mys_equalize = mods.getString(StringModifier.EQUALIZE_MYST).length() != 0;
+    boolean mox_equalize = mods.getString(StringModifier.EQUALIZE_MOXIE).length() != 0;
     boolean mus_limit = (int) mods.get(DoubleModifier.MUS_LIMIT) != 0;
     boolean mys_limit = (int) mods.get(DoubleModifier.MYS_LIMIT) != 0;
     boolean mox_limit = (int) mods.get(DoubleModifier.MOX_LIMIT) != 0;
@@ -1470,6 +1473,26 @@ public class CharPaneRequest extends GenericRequest {
     // If we don't find the matcher but we're wearing the pants we have zero sweatiness
     int sweatiness = (matcher.find()) ? StringUtilities.parseInt(matcher.group(1)) : 0;
     Preferences.setInteger("sweat", sweatiness);
+  }
+
+  // <td align=right><span class='nes' style='line-height: 14px; font-size:
+  // 12px;'>Score:</span></td><td align=left><font color=black><span class='nes' style='line-height:
+  // 14px; font-size: 12px;'>0</span></font></td>
+
+  private static final Pattern SCORE =
+      Pattern.compile("<font color=(\\w+)><span class='nes'[^>]*?>([\\d,]+)</span></font>");
+
+  public static void check8BitScore(final String responseText) {
+    if (!KoLCharacter.hasEquipped(ItemPool.TRANSFUNCTIONER)) {
+      return;
+    }
+
+    Matcher matcher = SCORE.matcher(responseText);
+
+    if (matcher.find()) {
+      Preferences.setString("8BitScore", matcher.group(2));
+      Preferences.setString("8BitColor", matcher.group(1));
+    }
   }
 
   public static final void parseStatus(final JSONObject JSON) throws JSONException {

@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -447,7 +448,7 @@ public class Evaluator {
       if (keyword.startsWith("outfit")) {
         keyword = keyword.substring(6).trim();
         if (keyword.equals("")) { // allow "+outfit" to mean "keep the current outfit on"
-          keyword = KoLCharacter.currentStringModifier(Modifiers.OUTFIT);
+          keyword = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
         }
         SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(keyword);
         if (outfit == null || outfit.getOutfitId() <= 0) {
@@ -613,7 +614,7 @@ public class Evaluator {
         // We found a match. If only the first instance
         // of particular equipped items provide this
         // modifier, add them to the "uniques" list.
-        String modifierName = Modifiers.getModifierName(index);
+        String modifierName = index.getName();
         this.addUniqueItems(modifierName);
         this.weight.set(index, weight);
         continue;
@@ -840,7 +841,7 @@ public class Evaluator {
       }
     }
     // Add fudge factor for Rollover Effect
-    if (mods.getString(Modifiers.ROLLOVER_EFFECT).length() > 0) {
+    if (mods.getString(StringModifier.ROLLOVER_EFFECT).length() > 0) {
       score += 0.01f;
     }
     if (score < this.totalMin) this.failed = true;
@@ -889,7 +890,7 @@ public class Evaluator {
       }
     }
     if (!this.failed) {
-      String outfit = mods.getString(Modifiers.OUTFIT);
+      String outfit = mods.getString(StringModifier.OUTFIT);
       if (this.negOutfits.contains(outfit)) {
         this.failed = true;
       } else {
@@ -1393,7 +1394,7 @@ public class Evaluator {
         }
 
         boolean wrongClass = false;
-        String classType = mods.getString(Modifiers.CLASS);
+        String classType = mods.getString(StringModifier.CLASS);
         if (classType != "" && !classType.equals(KoLCharacter.getAscensionClassName())) {
           wrongClass = true;
         }
@@ -1494,7 +1495,7 @@ public class Evaluator {
           break gotItem;
         }
 
-        String intrinsic = mods.getString(Modifiers.INTRINSIC_EFFECT);
+        String intrinsic = mods.getString(StringModifier.INTRINSIC_EFFECT);
         if (intrinsic.length() > 0) {
           Modifiers newMods = new Modifiers();
           newMods.add(mods);

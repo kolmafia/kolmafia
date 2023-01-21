@@ -2615,8 +2615,8 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class Pixels {
-    private static final KoLAdventure PIXEL_REALM =
-        AdventureDatabase.getAdventureByName("8-Bit Realm");
+    private static final KoLAdventure FUNGUS_PLAINS =
+        AdventureDatabase.getAdventureByName("The Fungus Plains");
     private static final KoLAdventure VANYA =
         AdventureDatabase.getAdventureByName("Vanya's Castle Foyer");
 
@@ -2624,7 +2624,7 @@ public class KoLAdventureValidationTest {
     public void pixelRealmNotAvailableWithoutWoods() {
       var cleanups = new Cleanups(withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED));
       try (cleanups) {
-        assertFalse(PIXEL_REALM.canAdventure());
+        assertFalse(FUNGUS_PLAINS.canAdventure());
       }
     }
 
@@ -2638,8 +2638,8 @@ public class KoLAdventureValidationTest {
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
               withEquipped(EquipmentManager.ACCESSORY1, ItemPool.TRANSFUNCTIONER));
       try (cleanups) {
-        assertTrue(PIXEL_REALM.canAdventure());
-        assertTrue(PIXEL_REALM.prepareForAdventure());
+        assertTrue(FUNGUS_PLAINS.canAdventure());
+        assertTrue(FUNGUS_PLAINS.prepareForAdventure());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(0));
@@ -2657,9 +2657,9 @@ public class KoLAdventureValidationTest {
               withEquippableItem(ItemPool.TRANSFUNCTIONER));
       try (cleanups) {
         client.addResponse(200, html("request/test_equip_transfunctioner.html"));
-        client.addResponse(200, ""); // api.php
-        assertTrue(PIXEL_REALM.canAdventure());
-        assertTrue(PIXEL_REALM.prepareForAdventure());
+        client.addResponse(200, ""); // charpane.php
+        assertTrue(FUNGUS_PLAINS.canAdventure());
+        assertTrue(FUNGUS_PLAINS.prepareForAdventure());
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(2));
@@ -2667,7 +2667,7 @@ public class KoLAdventureValidationTest {
             requests.get(0),
             "/inv_equip.php",
             "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
-        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertGetRequest(requests.get(1), "/charpane.php", null);
       }
     }
 
@@ -2685,10 +2685,10 @@ public class KoLAdventureValidationTest {
       client.addResponse(200, ""); // api.php
       // inv_equip.php?which=2&ajax=1&slot=1&action=equip&whichitem=458
       client.addResponse(200, html("request/test_equip_transfunctioner.html"));
-      client.addResponse(200, ""); // api.php
+      client.addResponse(200, ""); // charpane.php
 
-      assertTrue(PIXEL_REALM.canAdventure());
-      assertTrue(PIXEL_REALM.prepareForAdventure());
+      assertTrue(FUNGUS_PLAINS.canAdventure());
+      assertTrue(FUNGUS_PLAINS.prepareForAdventure());
 
       var requests = client.getRequests();
       assertThat(requests, hasSize(8));
@@ -2702,7 +2702,7 @@ public class KoLAdventureValidationTest {
           requests.get(6),
           "/inv_equip.php",
           "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
-      assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
+      assertGetRequest(requests.get(7), "/charpane.php", null);
     }
 
     @Test

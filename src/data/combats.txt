@@ -41,7 +41,6 @@
 1st Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 2nd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 3rd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
-8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle: 1e	Goomba: 1o	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A Barroom Brawl	100	drunken 7-foot dwarf	plastered frat orc	skeleton with a mop	unemployed knob goblin	werecougar
 A Crater Full of Space Beasts	100	space beast	space beast matriarch: 0
 A Crowd of (Element) Adventurers	100
@@ -156,6 +155,7 @@ Gumdrop Forest	-1	candied pecan tree	licorice snake	tricksy pixie
 Haert of the Cyrpt	100	Bonerdagon
 Hamburglaris Shield Generator	100	alien hamsterpus	mutated alielephant	mutated alielf
 Hell	-1	devil	vampire
+Hero's Field	100	Keese	Octorok	Tektite	Zol
 Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	dirty hippy	dirty hippy jewelry maker	dirty hippy Vegan chef	filthy hippy	filthy hippy jewelry maker	filthy hippy Vegan chef
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 Hottest Adventurer Contest	100	Fire Fighter	Cereal Arsonist	Burnglar	The Lavalier: 0
@@ -183,6 +183,7 @@ McMillicancuddy's Other Back 40	100	greasy duck
 McMillicancuddy's Pond	100	figure-skating duck	frozen duck
 McMillicancuddy's Shady Thicket	100	drunk duck	mean drunk duck
 Medbay	100	hypodermic bugbear	anesthesiologist bugbear	bugbear robo-surgeon
+Megalo-City	100	Blader	Met	Tackle Fire
 Mer-kin Colosseum	100	Mer-kin balldodger	Mer-kin bladeswitcher	Mer-kin netdragger	Georgepaul, the Balldodger: 0	Johnringo, the Netdragger: 0	Ringogeorge, the Bladeswitcher: 0
 Mer-kin Elementary School	-1	Mer-kin monitor	Mer-kin punisher	Mer-kin teacher
 Mer-kin Gymnasium	-1	Mer-kin juicer	Mer-kin poseur	Mer-kin trainer
@@ -307,6 +308,7 @@ The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet cast member	Susie Soyburger	Susie Soyburger cast member	Timmy Tofurkey	Timmy Tofurkey cast member
 The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	uppercase Q
 The Evil Cathedral	100	plywood cultists
+The Fungus Plains	100	Blooper	Bullet Bill	Buzzy Beetle: 1e	Goomba: 1o	Koopa Troopa
 The Spectral Pickle Factory	75	carnivorous dill plant	ghostly pickle factory worker	vine gar
 
 // If you are wearing the War Frat uniform, you get all hippies.
@@ -473,6 +475,7 @@ Trivial Pursuits, LLC	100	high-level mook	inquisitee	trivia researcher	The Inqui
 Twin Peak	80	bearpig topiary animal	Big Wheelin' Twins	Bubblemint Twins	Creepy Ginger Twin	elephant (meatcar?) topiary animal	Mismatched Twins	spider (duck?) topiary animal	Troll Twins
 Uncle Gator's Country Fun-Time Liquid Waste Sluice	100	C<i>bzzt</i>er the Grisly Bear	Gurgle the Turgle	Skeezy the Jug Rat	nasty bear: 0
 Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	brick icehouse	brick kiln	brick mausoleum	brick outhouse	cold ironwood house	Dutch Angle straw house	frosty straw house	glowing ash house	oily straw house	pitch pine house	quaking aspen house	slippery elm house	steaming straw house
+Vanya's Castle	100	fleaman	ghost	medusa
 Vanya's Castle Foyer	100	fleaman	ghost	medusa
 Video Game Level 1	-1	Video Game Minion (weak)
 Video Game Level 2	-1	Video Game Minion (moderate)	Video Game Miniboss: 0

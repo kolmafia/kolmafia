@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -340,7 +341,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     if (this.id != 0) {
       Modifiers mods = Modifiers.getModifiers(ModifierType.THRALL, this.type);
       if (mods != null) {
-        this.mods = mods.getString("Modifiers");
+        this.mods = mods.getString(StringModifier.MODIFIERS);
         this.modsLookup = mods.getLookup();
       }
     }

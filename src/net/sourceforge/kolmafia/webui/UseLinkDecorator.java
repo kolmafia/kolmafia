@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -1502,14 +1503,14 @@ public abstract class UseLinkDecorator {
   private static String getPotionSpeculation(String label, int itemId) {
     Modifiers mods = Modifiers.getItemModifiers(itemId);
     if (mods == null) return label;
-    String effect = mods.getString(Modifiers.EFFECT);
+    String effect = mods.getString(StringModifier.EFFECT);
     if (effect.equals("")) return label;
     int duration = (int) mods.get(DoubleModifier.EFFECT_DURATION);
     int effectId = EffectDatabase.getEffectId(effect);
     Speculation spec = new Speculation();
     spec.addEffect(EffectPool.get(effectId, Math.max(1, duration)));
     mods = spec.calculate();
-    mods.setString(Modifiers.EFFECT, effect);
+    mods.setString(StringModifier.EFFECT, effect);
     if (duration > 0) {
       mods.setDouble(DoubleModifier.EFFECT_DURATION, (float) duration);
     }
@@ -1658,21 +1659,7 @@ public abstract class UseLinkDecorator {
           useLocation = "shop.php?whichshop=exploathing";
           break;
         }
-        // Fall through
-
-      case ItemPool.RED_PIXEL:
-      case ItemPool.GREEN_PIXEL:
-      case ItemPool.BLUE_PIXEL:
-        if (KoLCharacter.isKingdomOfExploathing()) {
-          // Cannot combine RGB pixels
-          return null;
-        }
-        int whiteCount =
-            CreateItemRequest.getInstance(ItemPool.WHITE_PIXEL).getQuantityPossible()
-                + InventoryManager.getCount(ItemPool.WHITE_PIXEL);
-        useType = whiteCount + " white";
-        useLocation = "place.php?whichplace=forestvillage&action=fv_mystic";
-        break;
+        return null;
 
         // Special handling for star charts, lines, and stars, where
         // KoLmafia shows you how many of each you have.
