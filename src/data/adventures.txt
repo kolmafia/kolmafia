@@ -212,10 +212,10 @@ HiddenCity	adventure=350	DiffLevel: high Env: outdoor Stat: 140 nowander	A Massi
 The Drip	adventure=542	DiffLevel: unknown Env: outdoor nowander	The Dripping Trees
 The Drip	adventure=544	DiffLevel: unknown Env: indoor nowander	The Dripping Hall
 
-The 8-Bit Realm	adventure=563	DiffLevel: unknown Env: unknown	The Fungus Plains	+1 [2426]fire flower
-The 8-Bit Realm	adventure=564	DiffLevel: unknown Env: unknown	Hero's Field
-The 8-Bit Realm	adventure=565	DiffLevel: unknown Env: unknown	Vanya's Castle
-The 8-Bit Realm	adventure=566	DiffLevel: unknown Env: unknown	Megalo-City
+The 8-Bit Realm	adventure=563	DiffLevel: mid Env: outdoor	The Fungus Plains	+1 [2426]fire flower
+The 8-Bit Realm	adventure=564	DiffLevel: mid Env: outdoor	Hero's Field
+The 8-Bit Realm	adventure=565	DiffLevel: mid Env: outdoor Stat: 70	Vanya's Castle
+The 8-Bit Realm	adventure=566	DiffLevel: mid Env: indoor	Megalo-City
 
 # Mysterious Island areas
 
