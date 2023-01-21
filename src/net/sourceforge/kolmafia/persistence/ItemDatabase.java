@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -2129,7 +2130,7 @@ public class ItemDatabase {
         Modifiers.parseModifiers(ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, iEnchantments);
 
     // Validate this by seeing what effect this wine grants.
-    String effectName = imods.getString("Effect");
+    String effectName = imods.getString(StringModifier.EFFECT);
     int effectId = EffectDatabase.getEffectId(effectName);
 
     // If it doesn't grant one, this is the generic 1950 Vampire Vintner wine

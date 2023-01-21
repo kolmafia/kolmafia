@@ -1445,7 +1445,7 @@ public class Modifiers {
       return new ModifierList();
     }
 
-    return Modifiers.splitModifiers(mods.getString("Modifiers"));
+    return Modifiers.splitModifiers(mods.getString(StringModifier.MODIFIERS));
   }
 
   public static final ModifierList splitModifiers(String modifiers) {
