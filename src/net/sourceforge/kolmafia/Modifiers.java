@@ -790,7 +790,7 @@ public class Modifiers {
   }
 
   public double getDoublerAccumulator(final String name) {
-    // doublerAccumulators uses the same indexes as doubles, so the same lookup will work
+    // doublerAccumulators uses the same keys as doubles, so the same lookup will work
     DoubleModifier modifier = findName(name);
     return getDoublerAccumulator(modifier);
   }
