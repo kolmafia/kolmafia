@@ -75,7 +75,7 @@ public class DebugModifiersTest {
   }
 
   private void evaluateDebugModifiers(DoubleModifier index) {
-    evaluateDebugModifiers(Modifiers.getModifierName(index));
+    evaluateDebugModifiers(index.getName());
   }
 
   @Test

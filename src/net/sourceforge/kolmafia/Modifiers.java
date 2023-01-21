@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifierCollection;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -70,7 +71,8 @@ public class Modifiers {
   private static final TwoLevelEnumHashMap<ModifierType, IntOrString, Modifiers> modifiersByName =
       new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
-  private static final Map<String, DoubleModifier> modifierTypesByName = new HashMap<>();
+  private static final Map<String, net.sourceforge.kolmafia.modifiers.Modifier>
+      modifierTypesByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
   private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
@@ -103,8 +105,8 @@ public class Modifiers {
 
   private static final HashSet<String> numericModifiers = new HashSet<>();
 
-  public static final EnumSet<DoubleModifier> DOUBLE_MODIFIERS =
-      EnumSet.allOf(DoubleModifier.class);
+  public static final Set<DoubleModifier> DOUBLE_MODIFIERS =
+      Collections.unmodifiableSet(EnumSet.allOf(DoubleModifier.class));
 
   static {
     for (var modifier : Modifiers.DOUBLE_MODIFIERS) {
@@ -145,9 +147,8 @@ public class Modifiers {
 
     for (int i = 0; i < BITMAP_MODIFIERS; ++i) {
       BitmapModifier modifier = Modifiers.bitmapModifiers[i];
-      int index = i;
-      modifierIndicesByName.put(modifier.getName(), index);
-      modifierIndicesByName.put(modifier.getTag(), index);
+      modifierIndicesByName.put(modifier.getName(), i);
+      modifierIndicesByName.put(modifier.getTag(), i);
     }
   }
 
@@ -259,86 +260,13 @@ public class Modifiers {
     }
   }
 
-  public static final int CLASS = 0;
-  public static final int INTRINSIC_EFFECT = 1;
-  public static final int EQUALIZE = 2;
-  public static final int WIKI_NAME = 3;
-  public static final int MODIFIERS = 4;
-  public static final int OUTFIT = 5;
-  public static final int STAT_TUNING = 6;
-  public static final int EFFECT = 7;
-  public static final int EQUIPS_ON = 8;
-  public static final int FAMILIAR_EFFECT = 9;
-  public static final int JIGGLE = 10;
-  public static final int EQUALIZE_MUSCLE = 11;
-  public static final int EQUALIZE_MYST = 12;
-  public static final int EQUALIZE_MOXIE = 13;
-  public static final int AVATAR = 14;
-  public static final int ROLLOVER_EFFECT = 15;
-  public static final int SKILL = 16;
-  public static final int FLOOR_BUFFED_MUSCLE = 17;
-  public static final int FLOOR_BUFFED_MYST = 18;
-  public static final int FLOOR_BUFFED_MOXIE = 19;
-  public static final int PLUMBER_STAT = 20;
-  public static final int RECIPE = 21;
-
-  private static final StringModifier[] stringModifiers = {
-    new StringModifier(
-        "Class",
-        new Pattern[] {
-          Pattern.compile("Only (.*?) may use this item"),
-          Pattern.compile("Bonus for (.*?) only"),
-          Pattern.compile("Bonus&nbsp;for&nbsp;(.*?)&nbsp;only"),
-        },
-        Pattern.compile("Class: \"(.*?)\"")),
-    new StringModifier(
-        "Intrinsic Effect",
-        Pattern.compile("Intrinsic Effect: <a.*?><font color=blue>(.*)</font></a>"),
-        Pattern.compile("Intrinsic Effect: \"(.*?)\"")),
-    new StringModifier("Equalize", Pattern.compile("Equalize: \"(.*?)\"")),
-    new StringModifier("Wiki Name", Pattern.compile("Wiki Name: \"(.*?)\"")),
-    new StringModifier("Modifiers", Pattern.compile("^(none)$")),
-    new StringModifier("Outfit", null),
-    new StringModifier("Stat Tuning", Pattern.compile("Stat Tuning: \"(.*?)\"")),
-    new StringModifier("Effect", Pattern.compile("(?:^|, )Effect: \"(.*?)\"")),
-    new StringModifier("Equips On", Pattern.compile("Equips On: \"(.*?)\"")),
-    new StringModifier("Familiar Effect", Pattern.compile("Familiar Effect: \"(.*?)\"")),
-    new StringModifier(
-        "Jiggle", Pattern.compile("Jiggle: *(.*?)$"), Pattern.compile("Jiggle: \"(.*?)\"")),
-    new StringModifier("Equalize Muscle", Pattern.compile("Equalize Muscle: \"(.*?)\"")),
-    new StringModifier("Equalize Mysticality", Pattern.compile("Equalize Mysticality: \"(.*?)\"")),
-    new StringModifier("Equalize Moxie", Pattern.compile("Equalize Moxie: \"(.*?)\"")),
-    new StringModifier(
-        "Avatar",
-        new Pattern[] {
-          Pattern.compile("Makes you look like (?:a |an |the )?(.++)(?<!doctor|gross doctor)"),
-          Pattern.compile("Te hace ver como un (.++)"),
-        },
-        Pattern.compile("Avatar: \"(.*?)\"")),
-    new StringModifier(
-        "Rollover Effect",
-        Pattern.compile("Adventures of <b><a.*?>(.*)</a></b> at Rollover"),
-        Pattern.compile("Rollover Effect: \"(.*?)\"")),
-    new StringModifier(
-        "Skill",
-        Pattern.compile("Grants Skill:.*?<b>(.*?)</b>"),
-        Pattern.compile("Skill: \"(.*?)\"")),
-    new StringModifier("Floor Buffed Muscle", Pattern.compile("Floor Buffed Muscle: \"(.*?)\"")),
-    new StringModifier(
-        "Floor Buffed Mysticality", Pattern.compile("Floor Buffed Mysticality: \"(.*?)\"")),
-    new StringModifier("Floor Buffed Moxie", Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")),
-    new StringModifier("Plumber Stat", Pattern.compile("Plumber Stat: \"(.*?)\"")),
-    new StringModifier("Recipe", Pattern.compile("Recipe: \"(.*?)\"")),
-  };
-
-  public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
+  public static final Set<StringModifier> STRING_MODIFIERS =
+      Collections.unmodifiableSet(EnumSet.allOf(StringModifier.class));
 
   static {
-    for (int i = 0; i < STRING_MODIFIERS; ++i) {
-      StringModifier modifier = Modifiers.stringModifiers[i];
-      int index = BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i;
-      modifierIndicesByName.put(modifier.getName(), index);
-      modifierIndicesByName.put(modifier.getTag(), index);
+    for (var modifier : Modifiers.STRING_MODIFIERS) {
+      modifierTypesByName.put(modifier.getName(), modifier);
+      modifierTypesByName.put(modifier.getTag(), modifier);
     }
   }
 
@@ -366,7 +294,7 @@ public class Modifiers {
     int mys = KoLCharacter.getBaseMysticality();
     int mox = KoLCharacter.getBaseMoxie();
 
-    String equalize = this.getString(Modifiers.EQUALIZE);
+    String equalize = this.getString(StringModifier.EQUALIZE);
     if (equalize.startsWith("Mus")) {
       mys = mox = mus;
     } else if (equalize.startsWith("Mys")) {
@@ -378,19 +306,19 @@ public class Modifiers {
       mus = mys = mox = high;
     }
 
-    String mus_equalize = this.getString(Modifiers.EQUALIZE_MUSCLE);
+    String mus_equalize = this.getString(StringModifier.EQUALIZE_MUSCLE);
     if (mus_equalize.startsWith("Mys")) {
       mus = mys;
     } else if (mus_equalize.startsWith("Mox")) {
       mus = mox;
     }
-    String mys_equalize = this.getString(Modifiers.EQUALIZE_MYST);
+    String mys_equalize = this.getString(StringModifier.EQUALIZE_MYST);
     if (mys_equalize.startsWith("Mus")) {
       mys = mus;
     } else if (mys_equalize.startsWith("Mox")) {
       mys = mox;
     }
-    String mox_equalize = this.getString(Modifiers.EQUALIZE_MOXIE);
+    String mox_equalize = this.getString(StringModifier.EQUALIZE_MOXIE);
     if (mox_equalize.startsWith("Mus")) {
       mox = mus;
     } else if (mox_equalize.startsWith("Mys")) {
@@ -423,7 +351,7 @@ public class Modifiers {
             + (int) this.get(DoubleModifier.MOX)
             + (int) Math.ceil(this.get(DoubleModifier.MOX_PCT) * mox / 100.0);
 
-    String mus_buffed_floor = this.getString(Modifiers.FLOOR_BUFFED_MUSCLE);
+    String mus_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MUSCLE);
     if (mus_buffed_floor.startsWith("Mys")) {
       if (rv[Modifiers.BUFFED_MYS] > rv[Modifiers.BUFFED_MUS]) {
         rv[Modifiers.BUFFED_MUS] = rv[Modifiers.BUFFED_MYS];
@@ -433,7 +361,7 @@ public class Modifiers {
         rv[Modifiers.BUFFED_MUS] = rv[Modifiers.BUFFED_MOX];
       }
     }
-    String mys_buffed_floor = this.getString(Modifiers.FLOOR_BUFFED_MYST);
+    String mys_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MYST);
     if (mys_buffed_floor.startsWith("Mus")) {
       if (rv[Modifiers.BUFFED_MUS] > rv[Modifiers.BUFFED_MYS]) {
         rv[Modifiers.BUFFED_MYS] = rv[Modifiers.BUFFED_MUS];
@@ -443,7 +371,7 @@ public class Modifiers {
         rv[Modifiers.BUFFED_MYS] = rv[Modifiers.BUFFED_MOX];
       }
     }
-    String mox_buffed_floor = this.getString(Modifiers.FLOOR_BUFFED_MOXIE);
+    String mox_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MOXIE);
     if (mox_buffed_floor.startsWith("Mus")) {
       if (rv[Modifiers.BUFFED_MUS] > rv[Modifiers.BUFFED_MOX]) {
         rv[Modifiers.BUFFED_MOX] = rv[Modifiers.BUFFED_MUS];
@@ -563,20 +491,12 @@ public class Modifiers {
     Modifiers.modifiersByName.remove(lookup.type, lookup.getKey());
   }
 
-  public static final String getModifierName(final DoubleModifier modifier) {
-    return modifier.getName();
-  }
-
   public static final String getBitmapModifierName(final int index) {
     return Modifiers.bitmapModifiers[index].getName();
   }
 
   public static final String getBooleanModifierName(final int index) {
     return Modifiers.booleanModifiers[index].getName();
-  }
-
-  public static final String getStringModifierName(final int index) {
-    return Modifiers.stringModifiers[index].getName();
   }
 
   public static final String getDerivedModifierName(final int index) {
@@ -664,8 +584,8 @@ public class Modifiers {
   }
 
   public static final DoubleModifier findName(String name) {
-    // TODO: does this need to be caseless? Can it not use modifierTypesByName,
-    // which is case-sensitive and includes tags?
+    // this is caseless because it accepts anything typed into the maximizer, which is normally
+    // lowercase
     return DoubleModifier.byCaselessName(name);
   }
 
@@ -678,14 +598,13 @@ public class Modifiers {
   public boolean variable = true;
   private final DoubleModifierCollection doubles = new DoubleModifierCollection();
   private final int[] bitmaps = new int[Modifiers.BITMAP_MODIFIERS];
-  private final String[] strings = new String[Modifiers.STRING_MODIFIERS];
+  private final StringModifierCollection strings = new StringModifierCollection();
   private ArrayList<Indexed<ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
   private final DoubleModifierCollection doublerAccumulators = new DoubleModifierCollection();
 
   public Modifiers() {
-    Arrays.fill(this.strings, "");
-    // Everything else should be initialized above.
+    // Everything should be initialized above.
   }
 
   public Modifiers(Modifiers copy) {
@@ -709,8 +628,8 @@ public class Modifiers {
 
   public final void reset() {
     this.doubles.reset();
+    this.strings.reset();
     Arrays.fill(this.bitmaps, 0);
-    Arrays.fill(this.strings, "");
     this.expressions = null;
   }
 
@@ -827,46 +746,43 @@ public class Modifiers {
     return ((this.bitmaps[0] >>> index) & 1) != 0;
   }
 
-  public String getString(final int index) {
-    if (index < 0 || index >= this.strings.length) {
+  public String getString(final StringModifier modifier) {
+    if (modifier == null) {
       return "";
     }
 
-    return this.strings[index];
+    return this.strings.get(modifier);
   }
 
   public String getString(final String name) {
     // Can't cache this as expressions can be dependent on things
     // that can change within a session, like character level.
     if (name.equals("Evaluated Modifiers")) {
-      return Modifiers.evaluateModifiers(this.originalLookup, this.strings[Modifiers.MODIFIERS])
+      return Modifiers.evaluateModifiers(
+              this.originalLookup, this.strings.get(StringModifier.MODIFIERS))
           .toString();
     }
 
-    int index = Modifiers.findName(Modifiers.stringModifiers, name);
-    if (index < 0 || index >= this.strings.length) {
+    StringModifier modifier = StringModifier.byCaselessName(name);
+    if (modifier == null) {
       return "";
     }
 
-    return this.strings[index];
+    return this.strings.get(modifier);
   }
 
   public double getDoublerAccumulator(final DoubleModifier modifier) {
     if (modifier == null) {
+      // For now, make it obvious that something went wrong
       return -9999.0;
     }
     return this.doublerAccumulators.get(modifier);
   }
 
   public double getDoublerAccumulator(final String name) {
-    // doublerAccumulators uses the same indexes as doubles, so the same lookup will work
+    // doublerAccumulators uses the same keys as doubles, so the same lookup will work
     DoubleModifier modifier = findName(name);
-    if (modifier == null) {
-      // For now, make it obvious that something went wrong
-      return -9999.0;
-    }
-
-    return this.doublerAccumulators.get(modifier);
+    return getDoublerAccumulator(modifier);
   }
 
   public boolean setDouble(final DoubleModifier mod, final double value) {
@@ -903,8 +819,8 @@ public class Modifiers {
     return false;
   }
 
-  public boolean setString(final int index, String mod) {
-    if (index < 0 || index >= this.strings.length) {
+  public boolean setString(final StringModifier modifier, String mod) {
+    if (modifier == null) {
       return false;
     }
 
@@ -912,11 +828,7 @@ public class Modifiers {
       mod = "";
     }
 
-    if (!mod.equals(this.strings[index])) {
-      this.strings[index] = mod;
-      return true;
-    }
-    return false;
+    return this.strings.set(modifier, mod);
   }
 
   public boolean set(final Modifiers mods) {
@@ -939,12 +851,8 @@ public class Modifiers {
       }
     }
 
-    String[] copyStrings = mods.strings;
-    for (int index = 0; index < this.strings.length; ++index) {
-      if (!this.strings[index].equals(copyStrings[index])) {
-        this.strings[index] = copyStrings[index];
-        changed = true;
-      }
+    for (var mod : Modifiers.STRING_MODIFIERS) {
+      changed |= this.setString(mod, mods.strings.get(mod));
     }
 
     return changed;
@@ -1052,7 +960,7 @@ public class Modifiers {
     }
 
     // Make sure the modifiers apply to current class
-    String className = mods.strings[Modifiers.CLASS];
+    String className = mods.strings.get(StringModifier.CLASS);
     if (className != null && !className.isEmpty()) {
       AscensionClass ascensionClass = AscensionClass.findByExactName(className);
       if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
@@ -1081,34 +989,34 @@ public class Modifiers {
     // Add in string modifiers as appropriate.
 
     String val;
-    val = mods.strings[Modifiers.EQUALIZE];
-    if (!val.isEmpty() && this.strings[Modifiers.EQUALIZE].isEmpty()) {
-      this.strings[Modifiers.EQUALIZE] = val;
+    val = mods.strings.get(StringModifier.EQUALIZE);
+    if (!val.isEmpty() && this.strings.get(StringModifier.EQUALIZE).isEmpty()) {
+      this.strings.set(StringModifier.EQUALIZE, val);
     }
-    val = mods.strings[Modifiers.INTRINSIC_EFFECT];
+    val = mods.strings.get(StringModifier.INTRINSIC_EFFECT);
     if (!val.isEmpty()) {
-      String prev = this.strings[INTRINSIC_EFFECT];
+      String prev = this.strings.get(StringModifier.INTRINSIC_EFFECT);
       if (prev.isEmpty()) {
-        this.strings[Modifiers.INTRINSIC_EFFECT] = val;
+        this.strings.set(StringModifier.INTRINSIC_EFFECT, val);
       } else {
-        this.strings[Modifiers.INTRINSIC_EFFECT] = prev + "\t" + val;
+        this.strings.set(StringModifier.INTRINSIC_EFFECT, prev + "\t" + val);
       }
     }
-    val = mods.strings[Modifiers.STAT_TUNING];
+    val = mods.strings.get(StringModifier.STAT_TUNING);
     if (!val.isEmpty()) {
-      this.strings[Modifiers.STAT_TUNING] = val;
+      this.strings.set(StringModifier.STAT_TUNING, val);
     }
-    val = mods.strings[Modifiers.EQUALIZE_MUSCLE];
+    val = mods.strings.get(StringModifier.EQUALIZE_MUSCLE);
     if (!val.isEmpty()) {
-      this.strings[Modifiers.EQUALIZE_MUSCLE] = val;
+      this.strings.set(StringModifier.EQUALIZE_MUSCLE, val);
     }
-    val = mods.strings[Modifiers.EQUALIZE_MYST];
+    val = mods.strings.get(StringModifier.EQUALIZE_MYST);
     if (!val.isEmpty()) {
-      this.strings[Modifiers.EQUALIZE_MYST] = val;
+      this.strings.set(StringModifier.EQUALIZE_MYST, val);
     }
-    val = mods.strings[Modifiers.EQUALIZE_MOXIE];
+    val = mods.strings.get(StringModifier.EQUALIZE_MOXIE);
     if (!val.isEmpty()) {
-      this.strings[Modifiers.EQUALIZE_MOXIE] = val;
+      this.strings.set(StringModifier.EQUALIZE_MOXIE, val);
     }
 
     // OR in the bitmap modifiers (including all the boolean modifiers)
@@ -1124,9 +1032,13 @@ public class Modifiers {
       return false;
     }
 
-    DoubleModifier modifier = modifierTypesByName.get(mod.getName());
+    var modifier = modifierTypesByName.get(mod.getName());
     if (modifier != null) {
-      return this.setDouble(modifier, Double.parseDouble(mod.getValue()));
+      if (modifier instanceof DoubleModifier d) {
+        return this.setDouble(d, Double.parseDouble(mod.getValue()));
+      } else if (modifier instanceof StringModifier s) {
+        return this.setString(s, mod.getValue());
+      }
     }
     Integer index = modifierIndicesByName.get(mod.getName());
     if (index == null) {
@@ -1138,12 +1050,7 @@ public class Modifiers {
     }
 
     index -= BITMAP_MODIFIERS;
-    if (index < BOOLEAN_MODIFIERS) {
-      return this.setBoolean(index, mod.getValue().equals("true"));
-    }
-
-    index -= BOOLEAN_MODIFIERS;
-    return this.setString(index, mod.getValue());
+    return this.setBoolean(index, mod.getValue().equals("true"));
   }
 
   public static final Modifiers getItemModifiers(final int id) {
@@ -1249,7 +1156,7 @@ public class Modifiers {
   public static final Modifiers parseModifiers(final Lookup lookup, final String string) {
     Modifiers newMods = new Modifiers();
     int[] newBitmaps = newMods.bitmaps;
-    String[] newStrings = newMods.strings;
+    StringModifierCollection newStrings = newMods.strings;
 
     newMods.originalLookup = lookup;
 
@@ -1326,8 +1233,8 @@ public class Modifiers {
       newBitmaps[0] |= 1 << i;
     }
 
-    for (int i = 0; i < newStrings.length; ++i) {
-      Pattern pattern = Modifiers.stringModifiers[i].getTagPattern();
+    for (var mod : Modifiers.STRING_MODIFIERS) {
+      Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -1337,52 +1244,18 @@ public class Modifiers {
         continue;
       }
 
-      String modifierName = Modifiers.stringModifiers[i].getName();
       String value = matcher.group(1);
 
-      if (modifierName.equals("Class")) {
-        value = Modifiers.depluralizeClassName(value);
+      if (mod == StringModifier.CLASS) {
+        value = StringModifier.depluralizeClassName(value);
       }
 
-      newStrings[i] = value;
+      newStrings.set(mod, value);
     }
 
-    newStrings[Modifiers.MODIFIERS] = string;
+    newStrings.set(StringModifier.MODIFIERS, string);
 
     return newMods;
-  }
-
-  private static final String[][] classStrings = {
-    {
-      AscensionClass.SEAL_CLUBBER.getName(), "Seal Clubbers", "Seal&nbsp;Clubbers",
-    },
-    {
-      AscensionClass.TURTLE_TAMER.getName(), "Turtle Tamers", "Turtle&nbsp;Tamers",
-    },
-    {
-      AscensionClass.PASTAMANCER.getName(), "Pastamancers",
-    },
-    {
-      AscensionClass.SAUCEROR.getName(), "Saucerors",
-    },
-    {
-      AscensionClass.DISCO_BANDIT.getName(), "Disco Bandits", "Disco&nbsp;Bandits",
-    },
-    {
-      AscensionClass.ACCORDION_THIEF.getName(), "Accordion Thieves", "Accordion&nbsp;Thieves",
-    },
-  };
-
-  private static String depluralizeClassName(final String string) {
-    for (String[] results : Modifiers.classStrings) {
-      String result = results[0];
-      for (String candidate : results) {
-        if (candidate.equals(string)) {
-          return result;
-        }
-      }
-    }
-    return string;
   }
 
   public static class Modifier {
@@ -1562,7 +1435,7 @@ public class Modifiers {
       return new ModifierList();
     }
 
-    return Modifiers.splitModifiers(mods.getString("Modifiers"));
+    return Modifiers.splitModifiers(mods.getString(StringModifier.MODIFIERS));
   }
 
   public static final ModifierList splitModifiers(String modifiers) {
@@ -2345,7 +2218,7 @@ public class Modifiers {
   public static final String parseSkill(final String text) {
     Matcher matcher = Modifiers.SKILL_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.stringModifiers[Modifiers.SKILL].getTag() + ": \"" + matcher.group(1) + "\"";
+      return StringModifier.SKILL.getTag() + ": \"" + matcher.group(1) + "\"";
     }
 
     return null;
@@ -2446,7 +2319,7 @@ public class Modifiers {
           name = "[" + effectId + "]" + name;
         }
       }
-      return Modifiers.stringModifiers[Modifiers.EFFECT].getTag() + ": \"" + name + "\"";
+      return StringModifier.EFFECT.getTag() + ": \"" + name + "\"";
     }
 
     return null;
@@ -2520,7 +2393,7 @@ public class Modifiers {
 
     // Then the string modifiers
 
-    result = Modifiers.parseModifier(Modifiers.stringModifiers, enchantment, true);
+    result = StringModifier.parseModifier(enchantment);
     if (result != null) {
       return result;
     }
@@ -2562,10 +2435,7 @@ public class Modifiers {
 
       if (ascensionClass == null) return null;
 
-      return Modifiers.stringModifiers[Modifiers.CLASS].getTag()
-          + ": \""
-          + ascensionClass.getName()
-          + "\"";
+      return StringModifier.CLASS.getTag() + ": \"" + ascensionClass.getName() + "\"";
     }
 
     matcher = Modifiers.COMBAT_PATTERN.matcher(enchantment);
@@ -2601,7 +2471,7 @@ public class Modifiers {
   }
 
   public static final String parseStringModifier(final String enchantment) {
-    return Modifiers.parseModifier(Modifiers.stringModifiers, enchantment, true);
+    return StringModifier.parseModifier(enchantment);
   }
 
   private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> String parseModifier(
@@ -2628,10 +2498,6 @@ public class Modifiers {
         String tag = tableRow.getTag();
 
         String value = matcher.group(1);
-
-        if (tag.equals("Class")) {
-          value = Modifiers.depluralizeClassName(value);
-        }
 
         return tag + ": " + quote + value.trim() + quote;
       }
@@ -2754,7 +2620,7 @@ public class Modifiers {
 
         Modifiers modifiers = Modifiers.modifiersByName.get(type, key);
         if (modifiers != null) {
-          modifierString = modifiers.getString(Modifiers.MODIFIERS);
+          modifierString = modifiers.getString(StringModifier.MODIFIERS);
         }
 
         ModifierList list = Modifiers.splitModifiers(modifierString);
@@ -2771,7 +2637,7 @@ public class Modifiers {
           if (Modifiers.findModifier(Modifiers.booleanModifiers, mod)) {
             continue;
           }
-          if (Modifiers.findModifier(Modifiers.stringModifiers, mod)) {
+          if (StringModifier.byTagPattern(mod) != null) {
             continue;
           }
           if (type == ModifierType.FAM_EQ) {
@@ -3005,11 +2871,11 @@ public class Modifiers {
           if (mods == null) {
             break;
           }
-          if (!mods.getString(Modifiers.EFFECT).isEmpty()) {
+          if (!mods.getString(StringModifier.EFFECT).isEmpty()) {
             potions.add(name);
           } else if (mods.getBoolean(Modifiers.FREE_PULL)) {
             freepulls.add(name);
-          } else if (!mods.getString(Modifiers.WIKI_NAME).isEmpty()) {
+          } else if (!mods.getString(StringModifier.WIKI_NAME).isEmpty()) {
             wikiname.add(name);
           }
         }

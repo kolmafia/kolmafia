@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -176,7 +177,7 @@ public class GearChangePanel extends JPanel {
       return buff;
     }
 
-    String name = mods.getString(Modifiers.INTRINSIC_EFFECT);
+    String name = mods.getString(StringModifier.INTRINSIC_EFFECT);
     if (name.length() > 0) {
       Modifiers newMods = new Modifiers();
       newMods.add(mods);
@@ -191,7 +192,7 @@ public class GearChangePanel extends JPanel {
     for (var mod : Modifiers.DOUBLE_MODIFIERS) {
       double val = mods.get(mod);
       if (val == 0.0f) continue;
-      name = Modifiers.getModifierName(mod);
+      name = mod.getName();
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");
       name = StringUtilities.singleStringReplace(name, "Experience", "Exp");
       name = StringUtilities.singleStringReplace(name, "Damage", "Dmg");
@@ -222,17 +223,17 @@ public class GearChangePanel extends JPanel {
       buff.append(Modifiers.getBooleanModifierName(i));
     }
 
-    for (int i = 1; i < Modifiers.STRING_MODIFIERS; ++i) {
-      if (i == Modifiers.WIKI_NAME
-          || i == Modifiers.MODIFIERS
-          || i == Modifiers.OUTFIT
-          || i == Modifiers.FAMILIAR_EFFECT) {
+    for (var mod : Modifiers.STRING_MODIFIERS) {
+      if (mod == StringModifier.WIKI_NAME
+          || mod == StringModifier.MODIFIERS
+          || mod == StringModifier.OUTFIT
+          || mod == StringModifier.FAMILIAR_EFFECT) {
         continue;
       }
 
-      String strval = mods.getString(i);
+      String strval = mods.getString(mod);
       if (strval.equals("")) continue;
-      name = Modifiers.getStringModifierName(i);
+      name = mod.getName();
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");
       if (anyBool) {
         buff.append(", ");

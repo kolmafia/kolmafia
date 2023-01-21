@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -2233,8 +2234,8 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.getString(name);
   }
 
-  public static final String currentStringModifier(final int index) {
-    return KoLCharacter.currentModifiers.getString(index);
+  public static final String currentStringModifier(final StringModifier mod) {
+    return KoLCharacter.currentModifiers.getString(mod);
   }
 
   /** Accessor method to retrieve the total current monster level adjustment */
@@ -4999,7 +5000,7 @@ public abstract class KoLCharacter {
     // from the outfit counts towards a Hodgman offhand.
     SpecialOutfit outfit = EquipmentManager.currentOutfit(equipment);
     if (outfit != null) {
-      newModifiers.setString(Modifiers.OUTFIT, outfit.getName());
+      newModifiers.setString(StringModifier.OUTFIT, outfit.getName());
       newModifiers.add(Modifiers.getModifiers(ModifierType.OUTFIT, outfit.getName()));
       // El Vibrato Relics may have additional benefits based on
       // punchcards inserted into the helmet:
@@ -5351,7 +5352,7 @@ public abstract class KoLCharacter {
     }
 
     if (exp != 0.0f) {
-      String tuning = newModifiers.getString(Modifiers.STAT_TUNING);
+      String tuning = newModifiers.getString(StringModifier.STAT_TUNING);
       int prime = KoLCharacter.getPrimeIndex();
       if (tuning.startsWith("Muscle")) prime = 0;
       else if (tuning.startsWith("Mysticality")) prime = 1;
@@ -5535,7 +5536,7 @@ public abstract class KoLCharacter {
 
     if (imod != null) {
       if (speculation) {
-        String intrinsic = imod.getString(Modifiers.INTRINSIC_EFFECT);
+        String intrinsic = imod.getString(StringModifier.INTRINSIC_EFFECT);
         if (intrinsic.length() > 0) {
           newModifiers.add(Modifiers.getModifiers(ModifierType.EFFECT, intrinsic));
         }
@@ -5674,7 +5675,7 @@ public abstract class KoLCharacter {
             || itemId > ItemPool.SHAKESPEARES_SISTERS_ACCORDION) continue;
         Modifiers imod = Modifiers.getItemModifiers(itemId);
         if (imod != null) {
-          AscensionClass classType = AscensionClass.find(imod.getString(Modifiers.CLASS));
+          AscensionClass classType = AscensionClass.find(imod.getString(StringModifier.CLASS));
           if (classType == null
               || classType == ascensionClass
                   && (slot != EquipmentManager.FAMILIAR

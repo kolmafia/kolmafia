@@ -279,7 +279,7 @@ public class Maximizer {
             if (mods.length() > 0) {
               mods.append(", ");
             }
-            mods.append(Modifiers.getModifierName(mod) + ": " + itemMods.get(mod));
+            mods.append(mod.getName() + ": " + itemMods.get(mod));
           }
         }
         if (mods.length() == 0) {

@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -497,10 +498,10 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     Modifiers mods = KoLCharacter.getCurrentModifiers();
-    boolean equalize = mods.getString(Modifiers.EQUALIZE).length() != 0;
-    boolean mus_equalize = mods.getString(Modifiers.EQUALIZE_MUSCLE).length() != 0;
-    boolean mys_equalize = mods.getString(Modifiers.EQUALIZE_MYST).length() != 0;
-    boolean mox_equalize = mods.getString(Modifiers.EQUALIZE_MOXIE).length() != 0;
+    boolean equalize = mods.getString(StringModifier.EQUALIZE).length() != 0;
+    boolean mus_equalize = mods.getString(StringModifier.EQUALIZE_MUSCLE).length() != 0;
+    boolean mys_equalize = mods.getString(StringModifier.EQUALIZE_MYST).length() != 0;
+    boolean mox_equalize = mods.getString(StringModifier.EQUALIZE_MOXIE).length() != 0;
     boolean mus_limit = (int) mods.get(DoubleModifier.MUS_LIMIT) != 0;
     boolean mys_limit = (int) mods.get(DoubleModifier.MYS_LIMIT) != 0;
     boolean mox_limit = (int) mods.get(DoubleModifier.MOX_LIMIT) != 0;

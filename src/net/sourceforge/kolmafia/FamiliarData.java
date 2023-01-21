@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -318,7 +319,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
     int itemId = getItem().getItemId();
     if (itemId == ItemPool.MAYFLOWER_BOUQUET) {
-      String modifierName = Modifiers.getModifierName(DoubleModifier.FAMILIAR_EXP);
+      String modifierName = DoubleModifier.FAMILIAR_EXP.getName();
       double itemModifier = Modifiers.getNumericModifier(ModifierType.ITEM, itemId, modifierName);
 
       experienceModifier -= itemModifier;
@@ -1362,8 +1363,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return true;
     }
 
-    String others = mods.getString(Modifiers.EQUIPS_ON);
-    if (others == null || others.isEmpty()) {
+    String others = mods.getString(StringModifier.EQUIPS_ON);
+    if (others.isEmpty()) {
       return false;
     }
 

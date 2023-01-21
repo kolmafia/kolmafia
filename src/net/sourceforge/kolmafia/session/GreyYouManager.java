@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -520,7 +521,7 @@ public abstract class GreyYouManager {
       if (this.skillType == SkillType.PASSIVE) {
         mods = Modifiers.getModifiers(ModifierType.SKILL, this.name);
         if (mods != null) {
-          this.enchantments = mods.getString("Modifiers");
+          this.enchantments = mods.getString(StringModifier.MODIFIERS);
           this.modsLookup = mods.getLookup();
         } else {
           // This would be a KoLmafia bug.

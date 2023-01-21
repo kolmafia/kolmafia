@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
@@ -537,7 +538,7 @@ public class ValhallaDecorator {
         if (name.startsWith("folder (")) {
           Modifiers mods = Modifiers.getItemModifiers(folder.getItemId());
           name = name.substring(8, name.indexOf(")"));
-          enchantments = mods != null ? mods.getString("Modifiers") : "none";
+          enchantments = mods != null ? mods.getString(StringModifier.MODIFIERS) : "none";
         } else {
           name = "(empty)";
           enchantments = "none";
