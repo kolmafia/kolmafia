@@ -1490,7 +1490,7 @@ public class CharPaneRequest extends GenericRequest {
     Matcher matcher = SCORE.matcher(responseText);
 
     if (matcher.find()) {
-      Preferences.setString("8BitScore", matcher.group(2));
+      Preferences.setInteger("8BitScore", StringUtilities.parseInt(matcher.group(2)));
       Preferences.setString("8BitColor", matcher.group(1));
     }
   }
