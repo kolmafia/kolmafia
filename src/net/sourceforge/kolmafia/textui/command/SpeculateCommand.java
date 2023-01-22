@@ -50,15 +50,15 @@ public class SpeculateCommand extends AbstractCommand {
       String mod = Modifiers.getBitmapModifierName(i);
       doNumeric(mod, mods, buf);
     }
-    for (int i = 0; i < Modifiers.BOOLEAN_MODIFIERS; i++) {
-      String mod = Modifiers.getBooleanModifierName(i);
-      boolean was = KoLCharacter.currentBooleanModifier(mod);
-      boolean now = mods.getBoolean(mod);
+    for (var mod : Modifiers.BOOLEAN_MODIFIERS) {
+      String modName = mod.getName();
+      boolean was = KoLCharacter.currentBooleanModifier(modName);
+      boolean now = mods.getBoolean(modName);
       if (now == was) {
         continue;
       }
       buf.append("<tr><td>");
-      buf.append(mod);
+      buf.append(modName);
       buf.append("</td><td>");
       buf.append(now);
       buf.append("</td></tr>");

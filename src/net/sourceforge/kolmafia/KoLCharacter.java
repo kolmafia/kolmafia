@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -1087,7 +1088,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int getMaxSongs() {
-    return (currentBooleanModifier(Modifiers.FOUR_SONGS) ? 4 : 3)
+    return (currentBooleanModifier(BooleanModifier.FOUR_SONGS) ? 4 : 3)
         + (int) currentNumericModifier(DoubleModifier.ADDITIONAL_SONG);
   }
 
@@ -2222,12 +2223,13 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.getBitmap(index);
   }
 
+  // TODO: many calls to this (with String name) (and the others) could be calls to the mod directly
   public static final boolean currentBooleanModifier(final String name) {
     return KoLCharacter.currentModifiers.getBoolean(name);
   }
 
-  public static final boolean currentBooleanModifier(final int index) {
-    return KoLCharacter.currentModifiers.getBoolean(index);
+  public static final boolean currentBooleanModifier(final BooleanModifier mod) {
+    return KoLCharacter.currentModifiers.getBoolean(mod);
   }
 
   public static final String currentStringModifier(final String name) {

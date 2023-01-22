@@ -49,8 +49,8 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">BOOLEAN MODIFIERS</td></tr>");
-    for (int i = 0; i < Modifiers.BOOLEAN_MODIFIERS; i++) {
-      String mod = Modifiers.getBooleanModifierName(i);
+    for (var modifier : Modifiers.BOOLEAN_MODIFIERS) {
+      String mod = modifier.getName();
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>");

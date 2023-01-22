@@ -14,6 +14,7 @@ import javax.swing.JList;
 import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -1359,7 +1360,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return false;
     }
 
-    if (mods.getBoolean(Modifiers.GENERIC)) {
+    if (mods.getBoolean(BooleanModifier.GENERIC)) {
       return true;
     }
 
@@ -1393,7 +1394,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     Modifiers mods = Modifiers.getItemModifiers(item.getItemId());
-    return mods != null && mods.getBoolean(Modifiers.GENERIC);
+    return mods != null && mods.getBoolean(BooleanModifier.GENERIC);
   }
 
   public boolean isCombatFamiliar() {

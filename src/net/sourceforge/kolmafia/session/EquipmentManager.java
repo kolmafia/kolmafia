@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -2005,7 +2006,7 @@ public class EquipmentManager {
    */
   public static final int getAdjustedHitStat() {
     int hitStat;
-    if (KoLCharacter.currentBooleanModifier(Modifiers.ATTACKS_CANT_MISS)) {
+    if (KoLCharacter.currentBooleanModifier(BooleanModifier.ATTACKS_CANT_MISS)) {
       return Integer.MAX_VALUE;
     }
     switch (getHitStatType()) {
@@ -2196,7 +2197,7 @@ public class EquipmentManager {
 
     if (KoLCharacter.isHardcore()) {
       Modifiers mods = Modifiers.getItemModifiers(itemId);
-      if (mods != null && mods.getBoolean(Modifiers.SOFTCORE)) {
+      if (mods != null && mods.getBoolean(BooleanModifier.SOFTCORE)) {
         return false;
       }
     }

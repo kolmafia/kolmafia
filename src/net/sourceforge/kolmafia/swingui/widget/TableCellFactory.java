@@ -451,13 +451,13 @@ public class TableCellFactory {
       buff.append(Modifiers.getBitmapModifierName(i));
     }
 
-    for (int i = 1; i < Modifiers.BOOLEAN_MODIFIERS; ++i) {
-      if (!mods.getBoolean(i)) continue;
+    for (var mod : Modifiers.BOOLEAN_MODIFIERS) {
+      if (!mods.getBoolean(mod)) continue;
       if (anyBool) {
         buff.append(", ");
       }
       anyBool = true;
-      buff.append(Modifiers.getBooleanModifierName(i));
+      buff.append(mod.getName());
     }
 
     buff.append("</td></tr></table></html>");
