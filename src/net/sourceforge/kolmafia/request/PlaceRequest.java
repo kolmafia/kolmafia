@@ -426,6 +426,13 @@ public class PlaceRequest extends GenericRequest {
     boolean compact = false;
 
     switch (place) {
+      case "8bit" -> {
+        message =
+            switch (action) {
+              case "8treasure" -> "Visiting The Treasure House";
+              default -> null;
+            };
+      }
       case "airport_hot" -> {
         message =
             switch (action) {
