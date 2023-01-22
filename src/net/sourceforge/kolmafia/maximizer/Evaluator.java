@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -715,7 +716,7 @@ public class Evaluator {
   public double getScore(Modifiers mods, AdventureResult[] equipment) {
     this.failed = false;
     this.exceeded = false;
-    int[] predicted = mods.predict();
+    var predicted = mods.predict();
 
     double score = 0.0;
     for (var mod : Modifiers.DOUBLE_MODIFIERS) {
@@ -726,13 +727,13 @@ public class Evaluator {
       double max = this.max.get(mod);
       switch (mod) {
         case MUS:
-          val = predicted[Modifiers.BUFFED_MUS];
+          val = predicted.get(DerivedModifier.BUFFED_MUS);
           break;
         case MYS:
-          val = predicted[Modifiers.BUFFED_MYS];
+          val = predicted.get(DerivedModifier.BUFFED_MYS);
           break;
         case MOX:
-          val = predicted[Modifiers.BUFFED_MOX];
+          val = predicted.get(DerivedModifier.BUFFED_MOX);
           break;
         case FAMILIAR_WEIGHT:
           val += mods.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
@@ -760,10 +761,10 @@ public class Evaluator {
                   + mods.get(DoubleModifier.SPORADIC_ITEMDROP);
           break;
         case HP:
-          val = predicted[Modifiers.BUFFED_HP];
+          val = predicted.get(DerivedModifier.BUFFED_HP);
           break;
         case MP:
-          val = predicted[Modifiers.BUFFED_MP];
+          val = predicted.get(DerivedModifier.BUFFED_MP);
           break;
         case WEAPON_DAMAGE:
           // Incorrect - needs to estimate base damage
