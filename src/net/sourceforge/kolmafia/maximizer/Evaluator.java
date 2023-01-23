@@ -193,7 +193,7 @@ public class Evaluator {
     this.tiebreaker = tiebreaker;
     tiebreaker.min = new EnumMap<>(DoubleModifier.class);
     tiebreaker.max = new EnumMap<>(DoubleModifier.class);
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       tiebreaker.min.put(mod, Double.NEGATIVE_INFINITY);
       tiebreaker.max.put(mod, Double.POSITIVE_INFINITY);
     }
@@ -722,7 +722,7 @@ public class Evaluator {
     var predicted = mods.predict();
 
     double score = 0.0;
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       double weight = this.weight.get(mod);
       double min = this.min.get(mod);
       if (weight == 0.0 && min == Double.NEGATIVE_INFINITY) continue;

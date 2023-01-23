@@ -107,11 +107,8 @@ public class Modifiers {
 
   private static final HashSet<String> numericModifiers = new HashSet<>();
 
-  public static final Set<DoubleModifier> DOUBLE_MODIFIERS =
-      Collections.unmodifiableSet(EnumSet.allOf(DoubleModifier.class));
-
   static {
-    for (var modifier : Modifiers.DOUBLE_MODIFIERS) {
+    for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
       modifierTypesByName.put(modifier.getName(), modifier);
       String tag = modifier.getTag();
       modifierTypesByName.put(tag, modifier);
@@ -154,28 +151,19 @@ public class Modifiers {
     }
   }
 
-  public static final Set<BooleanModifier> BOOLEAN_MODIFIERS =
-      Collections.unmodifiableSet(EnumSet.allOf(BooleanModifier.class));
-
   static {
-    for (var modifier : Modifiers.BOOLEAN_MODIFIERS) {
+    for (var modifier : BooleanModifier.BOOLEAN_MODIFIERS) {
       modifierTypesByName.put(modifier.getName(), modifier);
       modifierTypesByName.put(modifier.getTag(), modifier);
     }
   }
 
-  public static final Set<StringModifier> STRING_MODIFIERS =
-      Collections.unmodifiableSet(EnumSet.allOf(StringModifier.class));
-
   static {
-    for (var modifier : Modifiers.STRING_MODIFIERS) {
+    for (var modifier : StringModifier.STRING_MODIFIERS) {
       modifierTypesByName.put(modifier.getName(), modifier);
       modifierTypesByName.put(modifier.getTag(), modifier);
     }
   }
-
-  public static final Set<DerivedModifier> DERIVED_MODIFIERS =
-      Collections.unmodifiableSet(EnumSet.allOf(DerivedModifier.class));
 
   public Map<DerivedModifier, Integer> predict() {
     Map<DerivedModifier, Integer> rv = new EnumMap<>(DerivedModifier.class);
@@ -733,7 +721,7 @@ public class Modifiers {
     boolean changed = false;
     this.originalLookup = mods.originalLookup;
 
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       changed |= this.setDouble(mod, mods.doubles.get(mod));
     }
 
@@ -745,11 +733,11 @@ public class Modifiers {
       }
     }
 
-    for (var mod : Modifiers.BOOLEAN_MODIFIERS) {
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
       changed |= this.setBoolean(mod, mods.booleans.get(mod));
     }
 
-    for (var mod : Modifiers.STRING_MODIFIERS) {
+    for (var mod : StringModifier.STRING_MODIFIERS) {
       changed |= this.setString(mod, mods.strings.get(mod));
     }
 
@@ -927,7 +915,7 @@ public class Modifiers {
     }
 
     // OR in the boolean modifiers
-    for (var mod : Modifiers.BOOLEAN_MODIFIERS) {
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
       if (mods.booleans.get(mod)) {
         this.booleans.set(mod, true);
       }
@@ -1065,7 +1053,7 @@ public class Modifiers {
 
     newMods.originalLookup = lookup;
 
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;
@@ -1124,7 +1112,7 @@ public class Modifiers {
       newBitmaps[i] |= mask;
     }
 
-    for (var mod : Modifiers.BOOLEAN_MODIFIERS) {
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
       Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;
@@ -1138,7 +1126,7 @@ public class Modifiers {
       newBools.set(mod, true);
     }
 
-    for (var mod : Modifiers.STRING_MODIFIERS) {
+    for (var mod : StringModifier.STRING_MODIFIERS) {
       Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;

@@ -4,6 +4,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 
 public class ModRefCommand extends AbstractCommand {
   public ModRefCommand() {
@@ -17,7 +20,7 @@ public class ModRefCommand extends AbstractCommand {
     StringBuilder buf =
         new StringBuilder(
             "<table border=2>" + "<tr><td colspan=" + colSpan + ">NUMERIC MODIFIERS</td></tr>");
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       String modName = mod.getName();
       buf.append("<tr><td>");
       buf.append(modName);
@@ -49,7 +52,7 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">BOOLEAN MODIFIERS</td></tr>");
-    for (var modifier : Modifiers.BOOLEAN_MODIFIERS) {
+    for (var modifier : BooleanModifier.BOOLEAN_MODIFIERS) {
       String mod = modifier.getName();
       buf.append("<tr><td>");
       buf.append(mod);
@@ -62,7 +65,7 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">STRING MODIFIERS</td></tr>");
-    for (var modifier : Modifiers.STRING_MODIFIERS) {
+    for (var modifier : StringModifier.STRING_MODIFIERS) {
       String mod = modifier.getName();
       buf.append("<tr><td>");
       buf.append(mod);

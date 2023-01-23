@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.modifiers;
 
 import static net.sourceforge.kolmafia.Modifiers.EXPR;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -578,8 +580,11 @@ public enum DoubleModifier implements Modifier {
     return tag;
   }
 
+  public static final Set<DoubleModifier> DOUBLE_MODIFIERS =
+      Collections.unmodifiableSet(EnumSet.allOf(DoubleModifier.class));
+
   private static final Map<String, DoubleModifier> caselessNameToModifier =
-      Arrays.stream(values())
+      DOUBLE_MODIFIERS.stream()
           .collect(Collectors.toMap(type -> type.name.toLowerCase(), Function.identity()));
 
   // equivalent to `Modifiers.findName`
@@ -589,7 +594,7 @@ public enum DoubleModifier implements Modifier {
 
   // equivalent to `Modifiers.findModifier`
   public static DoubleModifier byTagPattern(final String tag) {
-    for (var modifier : values()) {
+    for (var modifier : DOUBLE_MODIFIERS) {
       Pattern pattern = modifier.getTagPattern();
       if (pattern == null) {
         continue;
@@ -605,7 +610,7 @@ public enum DoubleModifier implements Modifier {
 
   // equivalent to `Modifiers.parseModifier`
   public static String parseModifier(final String enchantment) {
-    for (var mod : values()) {
+    for (var mod : DOUBLE_MODIFIERS) {
       Pattern[] patterns = mod.getDescPatterns();
 
       if (patterns == null) {

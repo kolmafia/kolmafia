@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.modifiers;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -101,8 +103,11 @@ public enum BooleanModifier implements Modifier {
     return name;
   }
 
+  public static final Set<BooleanModifier> BOOLEAN_MODIFIERS =
+      Collections.unmodifiableSet(EnumSet.allOf(BooleanModifier.class));
+
   private static final Map<String, BooleanModifier> caselessNameToModifier =
-      Arrays.stream(values())
+      BOOLEAN_MODIFIERS.stream()
           .collect(Collectors.toMap(type -> type.name.toLowerCase(), Function.identity()));
 
   // equivalent to `Modifiers.findName`
@@ -112,7 +117,7 @@ public enum BooleanModifier implements Modifier {
 
   // equivalent to `Modifiers.findModifier`
   public static BooleanModifier byTagPattern(final String tag) {
-    for (var modifier : values()) {
+    for (var modifier : BOOLEAN_MODIFIERS) {
       Pattern pattern = modifier.getTagPattern();
       if (pattern == null) {
         continue;
@@ -128,7 +133,7 @@ public enum BooleanModifier implements Modifier {
 
   // equivalent to `Modifiers.parseModifier`
   public static String parseModifier(final String enchantment) {
-    for (var mod : values()) {
+    for (var mod : BOOLEAN_MODIFIERS) {
       Pattern[] patterns = mod.getDescPatterns();
 
       if (patterns == null) {
