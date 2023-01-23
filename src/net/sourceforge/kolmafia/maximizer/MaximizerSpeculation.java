@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -124,9 +125,9 @@ public class MaximizerSpeculation extends Speculation
       if (mods == null) continue;
       String name = mods.getString(StringModifier.ROLLOVER_EFFECT);
       if (name.length() > 0) countThisEffects++;
-      if (mods.getBoolean(Modifiers.BREAKABLE)) countThisBreakables++;
-      if (mods.getBoolean(Modifiers.DROPS_ITEMS)) countThisDropsItems++;
-      if (mods.getBoolean(Modifiers.DROPS_MEAT)) countThisDropsMeat++;
+      if (mods.getBoolean(BooleanModifier.BREAKABLE)) countThisBreakables++;
+      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countThisDropsItems++;
+      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countThisDropsMeat++;
     }
     for (int i = other.equipment.length - 1; i >= 0; --i) {
       if (other.equipment[i] == null) continue;
@@ -135,9 +136,9 @@ public class MaximizerSpeculation extends Speculation
       if (mods == null) continue;
       String name = mods.getString(StringModifier.ROLLOVER_EFFECT);
       if (name.length() > 0) countOtherEffects++;
-      if (mods.getBoolean(Modifiers.BREAKABLE)) countOtherBreakables++;
-      if (mods.getBoolean(Modifiers.DROPS_ITEMS)) countOtherDropsItems++;
-      if (mods.getBoolean(Modifiers.DROPS_MEAT)) countOtherDropsMeat++;
+      if (mods.getBoolean(BooleanModifier.BREAKABLE)) countOtherBreakables++;
+      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countOtherDropsItems++;
+      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countOtherDropsMeat++;
     }
     // Prefer item droppers
     if (Maximizer.eval.isUsingTiebreaker() && countThisDropsItems != countOtherDropsItems) {

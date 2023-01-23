@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -1087,7 +1088,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int getMaxSongs() {
-    return (currentBooleanModifier(Modifiers.FOUR_SONGS) ? 4 : 3)
+    return (currentBooleanModifier(BooleanModifier.FOUR_SONGS) ? 4 : 3)
         + (int) currentNumericModifier(DoubleModifier.ADDITIONAL_SONG);
   }
 
@@ -2198,6 +2199,7 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers;
   }
 
+  // TODO: many calls to this (with String name) (and the others) could be calls to the mod directly
   public static final double currentNumericModifier(final String name) {
     return KoLCharacter.currentModifiers.get(name);
   }
@@ -2226,8 +2228,8 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.getBoolean(name);
   }
 
-  public static final boolean currentBooleanModifier(final int index) {
-    return KoLCharacter.currentModifiers.getBoolean(index);
+  public static final boolean currentBooleanModifier(final BooleanModifier mod) {
+    return KoLCharacter.currentModifiers.getBoolean(mod);
   }
 
   public static final String currentStringModifier(final String name) {
@@ -5547,7 +5549,7 @@ public abstract class KoLCharacter {
         // Remove MOST Numeric Modifiers from Items in Noobcore
         // and in G Lover if they don't contain G's
         Modifiers iModCopy = new Modifiers(imod);
-        for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+        for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
           switch (mod) {
             case SLIME_HATES_IT:
             case SURGEONOSITY:

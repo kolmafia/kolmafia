@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -210,11 +211,13 @@ public class BigBrotherRequest extends CoinMasterRequest {
       return "You haven't rescued Big Brother yet.";
     }
 
-    if (self == null && !KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+    if (self == null
+        && !KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
       return "You don't have the right equipment to adventure underwater.";
     }
 
-    if (familiar == null && !KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+    if (familiar == null
+        && !KoLCharacter.currentBooleanModifier(BooleanModifier.UNDERWATER_FAMILIAR)) {
       return "Your familiar doesn't have the right equipment to adventure underwater.";
     }
 
@@ -224,12 +227,12 @@ public class BigBrotherRequest extends CoinMasterRequest {
   @Override
   public void equip() {
     update();
-    if (!KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+    if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
       EquipmentRequest request = new EquipmentRequest(self);
       RequestThread.postRequest(request);
     }
 
-    if (!KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+    if (!KoLCharacter.currentBooleanModifier(BooleanModifier.UNDERWATER_FAMILIAR)) {
       EquipmentRequest request = new EquipmentRequest(familiar);
       RequestThread.postRequest(request);
     }

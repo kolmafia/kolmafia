@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -2562,14 +2563,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.rootZone.equals("The Sea")) {
-      if (!KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
         // In theory, we could choose equipment or effects.
         // It's complicated. Let the user do that.
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't breathe underwater.");
         return false;
       }
 
-      if (!KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.UNDERWATER_FAMILIAR)) {
         // In theory, we could choose equipment or effects or even another familiar.
         // It's complicated. Let the user do that.
         KoLmafia.updateDisplay(MafiaState.ERROR, "Your familiar can't breathe underwater.");
@@ -3090,7 +3091,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (this.areaSummary != null
           && action.startsWith("attack")
           && !this.areaSummary.willHitSomething()
-          && !KoLCharacter.currentBooleanModifier(Modifiers.ATTACKS_CANT_MISS)
+          && !KoLCharacter.currentBooleanModifier(BooleanModifier.ATTACKS_CANT_MISS)
           && !KoLCharacter.getFamiliar().isCombatFamiliar()) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't hit anything there.");
         return;

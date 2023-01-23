@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -838,7 +839,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     int predictedSongLimit =
         3
             + (int) mods.get(DoubleModifier.ADDITIONAL_SONG)
-            + (mods.getBoolean(Modifiers.FOUR_SONGS) ? 1 : 0);
+            + (mods.getBoolean(BooleanModifier.FOUR_SONGS) ? 1 : 0);
     int predictedSongsNeeded =
         UseSkillRequest.songsActive() + (UseSkillRequest.newSong(skillId) ? 1 : 0);
     if (predictedSongsNeeded > predictedSongLimit) {
@@ -946,7 +947,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   public static final int songLimit() {
     int rv = 3;
-    if (KoLCharacter.currentBooleanModifier(Modifiers.FOUR_SONGS)) {
+    if (KoLCharacter.currentBooleanModifier(BooleanModifier.FOUR_SONGS)) {
       ++rv;
     }
 

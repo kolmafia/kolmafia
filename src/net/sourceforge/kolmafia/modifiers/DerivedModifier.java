@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.modifiers;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -39,8 +41,11 @@ public enum DerivedModifier implements Modifier {
     return null;
   }
 
+  public static final Set<DerivedModifier> DERIVED_MODIFIERS =
+      Collections.unmodifiableSet(EnumSet.allOf(DerivedModifier.class));
+
   private static final Map<String, DerivedModifier> caselessNameToModifier =
-      Arrays.stream(values())
+      DERIVED_MODIFIERS.stream()
           .collect(Collectors.toMap(type -> type.name.toLowerCase(), Function.identity()));
 
   // equivalent to `Modifiers.findName`
