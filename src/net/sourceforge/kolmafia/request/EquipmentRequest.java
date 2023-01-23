@@ -245,7 +245,11 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     switch (equipmentSlot) {
       case EquipmentManager.CROWNOFTHRONES:
+        this.error = "Cannot change enthronement using equip command; use enthrone command instead";
+        break;
       case EquipmentManager.BUDDYBJORN:
+        this.error =
+            "Cannot change bjorned familiar using equip command; use bjornify command instead";
         break;
       case EquipmentManager.STICKER1:
       case EquipmentManager.STICKER2:
