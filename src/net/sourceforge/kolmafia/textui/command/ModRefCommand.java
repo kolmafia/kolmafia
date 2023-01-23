@@ -54,10 +54,10 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>");
-      buf.append(KoLCharacter.currentBooleanModifier(mod));
+      buf.append(KoLCharacter.currentBooleanModifier(modifier));
       if (mods != null) {
         buf.append("</td><td>");
-        buf.append(mods.getBoolean(mod));
+        buf.append(mods.getBoolean(modifier));
       }
       buf.append("</td></tr>");
     }

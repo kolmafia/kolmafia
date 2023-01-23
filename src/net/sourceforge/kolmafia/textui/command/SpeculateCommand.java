@@ -52,8 +52,8 @@ public class SpeculateCommand extends AbstractCommand {
     }
     for (var mod : Modifiers.BOOLEAN_MODIFIERS) {
       String modName = mod.getName();
-      boolean was = KoLCharacter.currentBooleanModifier(modName);
-      boolean now = mods.getBoolean(modName);
+      boolean was = KoLCharacter.currentBooleanModifier(mod);
+      boolean now = mods.getBoolean(mod);
       if (now == was) {
         continue;
       }

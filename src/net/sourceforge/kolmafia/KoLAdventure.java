@@ -2563,14 +2563,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.rootZone.equals("The Sea")) {
-      if (!KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
         // In theory, we could choose equipment or effects.
         // It's complicated. Let the user do that.
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't breathe underwater.");
         return false;
       }
 
-      if (!KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.UNDERWATER_FAMILIAR)) {
         // In theory, we could choose equipment or effects or even another familiar.
         // It's complicated. Let the user do that.
         KoLmafia.updateDisplay(MafiaState.ERROR, "Your familiar can't breathe underwater.");
