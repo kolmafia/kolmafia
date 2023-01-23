@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -50,9 +51,9 @@ public class SpeculateCommand extends AbstractCommand {
       String modName = mod.getName();
       doNumeric(modName, mods, buf);
     }
-    for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; i++) {
-      String mod = Modifiers.getBitmapModifierName(i);
-      doNumeric(mod, mods, buf);
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      String modName = mod.getName();
+      doNumeric(modName, mods, buf);
     }
     for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
       String modName = mod.getName();

@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -2212,16 +2213,16 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.getRawBitmap(name);
   }
 
-  public static final int currentRawBitmapModifier(final int index) {
-    return KoLCharacter.currentModifiers.getRawBitmap(index);
+  public static final int currentRawBitmapModifier(final BitmapModifier modifier) {
+    return KoLCharacter.currentModifiers.getRawBitmap(modifier);
   }
 
   public static final int currentBitmapModifier(final String name) {
     return KoLCharacter.currentModifiers.getBitmap(name);
   }
 
-  public static final int currentBitmapModifier(final int index) {
-    return KoLCharacter.currentModifiers.getBitmap(index);
+  public static final int currentBitmapModifier(final BitmapModifier modifier) {
+    return KoLCharacter.currentModifiers.getBitmap(modifier);
   }
 
   public static final boolean currentBooleanModifier(final String name) {
@@ -5087,7 +5088,7 @@ public abstract class KoLCharacter {
           "fake hand (" + fakeHands + ")");
     }
 
-    int brimstoneMonsterLevel = 1 << newModifiers.getBitmap(Modifiers.BRIMSTONE);
+    int brimstoneMonsterLevel = 1 << newModifiers.getBitmap(BitmapModifier.BRIMSTONE);
     // Brimstone was believed to affect monster level only if more than
     // one is worn, but this is confirmed to not be true now.
     // Also affects item/meat drop, but only one is needed
@@ -5100,7 +5101,7 @@ public abstract class KoLCharacter {
           DoubleModifier.ITEMDROP, brimstoneMonsterLevel, ModifierType.OUTFIT, "Brimstone");
     }
 
-    int cloathingLevel = 1 << newModifiers.getBitmap(Modifiers.CLOATHING);
+    int cloathingLevel = 1 << newModifiers.getBitmap(BitmapModifier.CLOATHING);
     // Cloathing gives item/meat drop and all stats.
     if (cloathingLevel > 1) {
       newModifiers.addDouble(

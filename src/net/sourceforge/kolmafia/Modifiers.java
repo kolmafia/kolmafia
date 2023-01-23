@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BitmapModifierCollection;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifierCollection;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
@@ -75,7 +76,6 @@ public class Modifiers {
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, net.sourceforge.kolmafia.modifiers.Modifier>
       modifierTypesByName = new HashMap<>();
-  private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
   private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
       new TreeMap<>();
@@ -120,34 +120,14 @@ public class Modifiers {
     return Modifiers.numericModifiers.contains(key);
   }
 
-  public static final int BOOLEANS = 0;
-  public static final int BRIMSTONE = 1;
-  public static final int CLOATHING = 2;
-  public static final int SYNERGETIC = 3;
-  public static final int RAVEOSITY = 4;
-  public static final int MUTEX = 5;
-  public static final int MUTEX_VIOLATIONS = 6;
-
-  private static final BitmapModifier[] bitmapModifiers = {
-    new BitmapModifier("(booleans)", null),
-    new BitmapModifier("Brimstone", Pattern.compile("Brimstone")),
-    new BitmapModifier("Cloathing", Pattern.compile("Cloathing")),
-    new BitmapModifier("Synergetic", Pattern.compile("Synergetic")),
-    new BitmapModifier("Raveosity", Pattern.compile("Raveosity: (\\+?\\d+)")),
-    new BitmapModifier("Mutually Exclusive", null),
-    new BitmapModifier("Mutex Violations", null),
-  };
-
-  public static final int BITMAP_MODIFIERS = Modifiers.bitmapModifiers.length;
-  private static final int[] bitmapMasks = new int[BITMAP_MODIFIERS];
+  private static final Map<BitmapModifier, Integer> bitmapMasks =
+      new EnumMap<>(BitmapModifier.class);
 
   static {
-    Arrays.fill(bitmapMasks, 1);
-
-    for (int i = 1; i < BITMAP_MODIFIERS; ++i) {
-      BitmapModifier modifier = Modifiers.bitmapModifiers[i];
-      modifierIndicesByName.put(modifier.getName(), i);
-      modifierIndicesByName.put(modifier.getTag(), i);
+    for (var modifier : BitmapModifier.BITMAP_MODIFIERS) {
+      bitmapMasks.put(modifier, 1);
+      modifierTypesByName.put(modifier.getName(), modifier);
+      modifierTypesByName.put(modifier.getTag(), modifier);
     }
   }
 
@@ -378,10 +358,6 @@ public class Modifiers {
     Modifiers.modifiersByName.remove(lookup.type, lookup.getKey());
   }
 
-  public static final String getBitmapModifierName(final int index) {
-    return Modifiers.bitmapModifiers[index].getName();
-  }
-
   private static final String COLD = DoubleModifier.COLD_RESISTANCE.getTag() + ": ";
   private static final String HOT = DoubleModifier.HOT_RESISTANCE.getTag() + ": ";
   private static final String SLEAZE = DoubleModifier.SLEAZE_RESISTANCE.getTag() + ": ";
@@ -452,16 +428,6 @@ public class Modifiers {
     return available;
   }
 
-  private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> int findName(
-      final T[] table, final String name) {
-    for (int i = 0; i < table.length; ++i) {
-      if (name.equalsIgnoreCase(table[i].getName())) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   public static final DoubleModifier findName(String name) {
     // this is caseless because it accepts anything typed into the maximizer, which is normally
     // lowercase
@@ -473,7 +439,7 @@ public class Modifiers {
   public boolean variable = true;
   private final DoubleModifierCollection doubles = new DoubleModifierCollection();
   private final BooleanModifierCollection booleans = new BooleanModifierCollection();
-  private final int[] bitmaps = new int[Modifiers.BITMAP_MODIFIERS];
+  private final BitmapModifierCollection bitmaps = new BitmapModifierCollection();
   private final StringModifierCollection strings = new StringModifierCollection();
   private ArrayList<Indexed<ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
@@ -506,7 +472,7 @@ public class Modifiers {
     this.doubles.reset();
     this.strings.reset();
     this.booleans.reset();
-    Arrays.fill(this.bitmaps, 0);
+    this.bitmaps.reset();
     this.expressions = null;
   }
 
@@ -569,29 +535,25 @@ public class Modifiers {
     return this.doubles.get(modifier);
   }
 
-  public int getRawBitmap(final int index) {
-    if (index < 0 || index >= this.bitmaps.length) {
+  public int getRawBitmap(final BitmapModifier modifier) {
+    if (modifier == null) {
       return 0;
     }
 
-    return this.bitmaps[index];
+    return this.bitmaps.get(modifier);
   }
 
   public int getRawBitmap(final String name) {
-    int index = Modifiers.findName(Modifiers.bitmapModifiers, name);
-    if (index < 0 || index >= this.bitmaps.length) {
-      return 0;
-    }
-
-    return this.bitmaps[index];
+    var modifier = BitmapModifier.byCaselessName(name);
+    return getRawBitmap(modifier);
   }
 
-  public int getBitmap(final int index) {
-    if (index < 0 || index >= this.bitmaps.length) {
+  public int getBitmap(final BitmapModifier modifier) {
+    if (modifier == null) {
       return 0;
     }
 
-    int n = this.bitmaps[index];
+    int n = this.bitmaps.get(modifier);
     // Count the bits:
     if (n == 0) return 0;
     n = ((n & 0xAAAAAAAA) >>> 1) + (n & 0x55555555);
@@ -603,7 +565,7 @@ public class Modifiers {
   }
 
   public int getBitmap(final String name) {
-    return this.getBitmap(Modifiers.findName(Modifiers.bitmapModifiers, name));
+    return this.getBitmap(BitmapModifier.byCaselessName(name));
   }
 
   public boolean getBoolean(final BooleanModifier modifier) {
@@ -627,11 +589,7 @@ public class Modifiers {
 
   public boolean getBoolean(final String name) {
     BooleanModifier modifier = BooleanModifier.byCaselessName(name);
-    if (modifier == null) {
-      return false;
-    }
-
-    return this.booleans.get(modifier);
+    return getBoolean(modifier);
   }
 
   public String getString(final StringModifier modifier) {
@@ -652,11 +610,7 @@ public class Modifiers {
     }
 
     StringModifier modifier = StringModifier.byCaselessName(name);
-    if (modifier == null) {
-      return "";
-    }
-
-    return this.strings.get(modifier);
+    return getString(modifier);
   }
 
   public double getDoublerAccumulator(final DoubleModifier modifier) {
@@ -681,16 +635,12 @@ public class Modifiers {
     return this.doubles.set(mod, value);
   }
 
-  public boolean setBitmap(final int index, final int mod) {
-    if (index < 0 || index >= this.bitmaps.length) {
+  public boolean setBitmap(final BitmapModifier modifier, final int value) {
+    if (modifier == null) {
       return false;
     }
 
-    if (this.bitmaps[index] != mod) {
-      this.bitmaps[index] = mod;
-      return true;
-    }
-    return false;
+    return this.bitmaps.set(modifier, value);
   }
 
   public boolean setBoolean(final BooleanModifier modifier, final boolean value) {
@@ -725,12 +675,8 @@ public class Modifiers {
       changed |= this.setDouble(mod, mods.doubles.get(mod));
     }
 
-    int[] copyBitmaps = mods.bitmaps;
-    for (int index = 1; index < this.bitmaps.length; ++index) {
-      if (this.bitmaps[index] != copyBitmaps[index]) {
-        this.bitmaps[index] = copyBitmaps[index];
-        changed = true;
-      }
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      changed |= this.setBitmap(mod, mods.bitmaps.get(mod));
     }
 
     for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
@@ -908,10 +854,10 @@ public class Modifiers {
     }
 
     // OR in the bitmap modifiers
-    this.bitmaps[Modifiers.MUTEX_VIOLATIONS] |=
-        this.bitmaps[Modifiers.MUTEX] & mods.bitmaps[Modifiers.MUTEX];
-    for (int i = 1; i < this.bitmaps.length; ++i) {
-      this.bitmaps[i] |= mods.bitmaps[i];
+    var mutexes = this.bitmaps.get(BitmapModifier.MUTEX) & mods.bitmaps.get(BitmapModifier.MUTEX);
+    this.bitmaps.add(BitmapModifier.MUTEX_VIOLATIONS, mutexes);
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      this.bitmaps.add(mod, mods.bitmaps.get(mod));
     }
 
     // OR in the boolean modifiers
@@ -933,16 +879,13 @@ public class Modifiers {
         return this.setDouble(d, Double.parseDouble(mod.getValue()));
       } else if (modifier instanceof StringModifier s) {
         return this.setString(s, mod.getValue());
+      } else if (modifier instanceof BitmapModifier b) {
+        return this.setBitmap(b, Integer.parseInt(mod.getValue()));
       } else if (modifier instanceof BooleanModifier b) {
         return this.setBoolean(b, mod.getValue().equals("true"));
       }
     }
-    Integer index = modifierIndicesByName.get(mod.getName());
-    if (index == null) {
-      return false;
-    }
-
-    return this.setBitmap(index, Integer.parseInt(mod.getValue()));
+    return false;
   }
 
   public static final Modifiers getItemModifiers(final int id) {
@@ -962,9 +905,9 @@ public class Modifiers {
     Modifiers mods = new Modifiers(getItemModifiers(id));
 
     mods.setDouble(DoubleModifier.SLIME_HATES_IT, 0.0f);
-    mods.setBitmap(Modifiers.BRIMSTONE, 0);
-    mods.setBitmap(Modifiers.CLOATHING, 0);
-    mods.setBitmap(Modifiers.SYNERGETIC, 0);
+    mods.setBitmap(BitmapModifier.BRIMSTONE, 0);
+    mods.setBitmap(BitmapModifier.CLOATHING, 0);
+    mods.setBitmap(BitmapModifier.SYNERGETIC, 0);
     mods.setBoolean(BooleanModifier.MOXIE_MAY_CONTROL_MP, false);
     mods.setBoolean(BooleanModifier.MOXIE_CONTROLS_MP, false);
 
@@ -1047,9 +990,7 @@ public class Modifiers {
 
   public static final Modifiers parseModifiers(final Lookup lookup, final String string) {
     Modifiers newMods = new Modifiers();
-    int[] newBitmaps = newMods.bitmaps;
     StringModifierCollection newStrings = newMods.strings;
-    BooleanModifierCollection newBools = newMods.booleans;
 
     newMods.originalLookup = lookup;
 
@@ -1075,8 +1016,8 @@ public class Modifiers {
       }
     }
 
-    for (int i = 1; i < newBitmaps.length; ++i) {
-      Pattern pattern = Modifiers.bitmapModifiers[i].getTagPattern();
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -1089,12 +1030,13 @@ public class Modifiers {
       if (matcher.groupCount() > 0) {
         bitcount = StringUtilities.parseInt(matcher.group(1));
       }
-      int mask = Modifiers.bitmapMasks[i];
+      // bitmapMasks stores the next mask we're going to use for modifier mod
+      int mask = Modifiers.bitmapMasks.get(mod);
       switch (bitcount) {
-        case 1 -> Modifiers.bitmapMasks[i] <<= 1;
+        case 1 -> Modifiers.bitmapMasks.put(mod, mask << 1);
         case 2 -> {
+          Modifiers.bitmapMasks.put(mod, mask << 2);
           mask |= mask << 1;
-          Modifiers.bitmapMasks[i] <<= 2;
         }
         default -> {
           KoLmafia.updateDisplay(
@@ -1102,14 +1044,14 @@ public class Modifiers {
           continue;
         }
       }
-      if (Modifiers.bitmapMasks[i] == 0) {
+      if (Modifiers.bitmapMasks.get(mod) == 0) {
         KoLmafia.updateDisplay(
             "ERROR: too many sources for bitmap modifier "
-                + Modifiers.bitmapModifiers[i].getName()
+                + mod.getName()
                 + ", consider using longs.");
       }
 
-      newBitmaps[i] |= mask;
+      newMods.bitmaps.add(mod, mask);
     }
 
     for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
@@ -1123,7 +1065,7 @@ public class Modifiers {
         continue;
       }
 
-      newBools.set(mod, true);
+      newMods.booleans.set(mod, true);
     }
 
     for (var mod : StringModifier.STRING_MODIFIERS) {
@@ -1746,7 +1688,7 @@ public class Modifiers {
   }
 
   public void applySynergies() {
-    int synergetic = this.getRawBitmap(Modifiers.SYNERGETIC);
+    int synergetic = this.getRawBitmap(BitmapModifier.SYNERGETIC);
     if (synergetic == 0) return; // nothing possible
     for (Entry<String, Integer> entry : Modifiers.synergies.entrySet()) {
       String name = entry.getKey();
@@ -2452,22 +2394,6 @@ public class Modifiers {
             Collectors.collectingAndThen(Collectors.joining(", "), m -> m.isEmpty() ? null : m));
   }
 
-  private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> boolean findModifier(
-      final T[] table, final String tag) {
-    for (T modifier : table) {
-      Pattern pattern = modifier.getTagPattern();
-      if (pattern == null) {
-        continue;
-      }
-
-      Matcher matcher = pattern.matcher(tag);
-      if (matcher.find()) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   public static final void checkModifiers() {
     for (Entry<ModifierType, Map<IntOrString, String>> typeEntry :
         Modifiers.modifierStringsByName.entrySet()) {
@@ -2494,7 +2420,7 @@ public class Modifiers {
           if (DoubleModifier.byTagPattern(mod) != null) {
             continue;
           }
-          if (Modifiers.findModifier(Modifiers.bitmapModifiers, mod)) {
+          if (BitmapModifier.byTagPattern(mod) != null) {
             continue;
           }
           if (BooleanModifier.byTagPattern(mod) != null) {
@@ -2600,7 +2526,7 @@ public class Modifiers {
           KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
           return;
         }
-        int emask = mods.bitmaps[Modifiers.SYNERGETIC];
+        int emask = mods.bitmaps.get(BitmapModifier.SYNERGETIC);
         if (emask == 0) {
           KoLmafia.updateDisplay(name + " contains element " + piece + " that isn't Synergetic.");
           return;
@@ -2629,7 +2555,7 @@ public class Modifiers {
         KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
         return;
       }
-      mods.bitmaps[Modifiers.MUTEX] |= bit;
+      mods.bitmaps.add(BitmapModifier.MUTEX, bit);
     }
     Modifiers.mutexes.add(name);
   }
@@ -2666,7 +2592,9 @@ public class Modifiers {
     // resetModifiers then won't set them back up due to the if() guarding loadAllModifiers.
     Modifiers.modifiersByName.clear();
     Modifiers.availablePassiveSkillModifiersByVariable.clear();
-    Arrays.fill(Modifiers.bitmapMasks, 1);
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      Modifiers.bitmapMasks.put(mod, 1);
+    }
 
     if (Modifiers.modifierStringsByName.size() == 0) {
       Modifiers.loadAllModifiers();
