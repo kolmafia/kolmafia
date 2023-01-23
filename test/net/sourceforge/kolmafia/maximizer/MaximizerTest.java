@@ -1186,4 +1186,52 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  public class NonStackingGear {
+    @Test
+    public void suggestsBestNonStackingWatch() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Counterclockwise Watch"), // 10, watch
+              withEquippableItem("grandfather watch"), // 6, also a watch
+              withEquippableItem("plexiglass pocketwatch"), // 3, stacks
+              withEquippableItem("gold wedding ring") // 1
+              );
+
+      try (cleanups) {
+        assertTrue(maximize("adv"));
+        assertEquals(14, modFor("Adventures"), 0.01);
+        recommends("Counterclockwise Watch");
+        recommends("plexiglass pocketwatch");
+        recommends("gold wedding ring");
+      }
+    }
+  }
+
+  @Nested
+  public class Sea {
+    @Test
+    public void unableToAdventureInSeaMarksAsFailed() {
+      assertFalse(maximize("sea"));
+    }
+
+    @Test
+    public void prefersSeaGearToHigherScore() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withEquippableItem(ItemPool.DAS_BOOT),
+              withEquippableItem("Mer-kin scholar mask"),
+              withEquippableItem("Lens of Violence"),
+              withEquippableItem("old SCUBA tank"));
+
+      try (cleanups) {
+        assertTrue(maximize("item, sea"));
+        recommendedSlotIs(EquipmentManager.HAT, "Mer-kin scholar mask");
+        recommendedSlotIs(EquipmentManager.FAMILIAR, "das boot");
+        recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
+      }
+    }
+  }
 }

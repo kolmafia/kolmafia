@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -1416,7 +1417,7 @@ public class CompactSidePane extends JPanel implements Runnable {
     buf.append("</td></tr><tr><td>Fumble</td><td>");
     if (KoLConstants.activeEffects.contains(CompactSidePane.CLUMSY)) {
       buf.append("always");
-    } else if (KoLCharacter.currentBooleanModifier(Modifiers.NEVER_FUMBLE)) {
+    } else if (KoLCharacter.currentBooleanModifier(BooleanModifier.NEVER_FUMBLE)) {
       buf.append("never");
     } else {
       buf.append(

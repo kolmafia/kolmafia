@@ -7,6 +7,10 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 
 public class SpeculateCommand extends AbstractCommand {
   public SpeculateCommand() {
@@ -38,11 +42,11 @@ public class SpeculateCommand extends AbstractCommand {
     buf.append(attribs);
     buf.append(">");
     int len = buf.length();
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       String modName = mod.getName();
       doNumeric(modName, mods, buf);
     }
-    for (var mod : Modifiers.DERIVED_MODIFIERS) {
+    for (var mod : DerivedModifier.DERIVED_MODIFIERS) {
       String modName = mod.getName();
       doNumeric(modName, mods, buf);
     }
@@ -50,23 +54,23 @@ public class SpeculateCommand extends AbstractCommand {
       String mod = Modifiers.getBitmapModifierName(i);
       doNumeric(mod, mods, buf);
     }
-    for (int i = 0; i < Modifiers.BOOLEAN_MODIFIERS; i++) {
-      String mod = Modifiers.getBooleanModifierName(i);
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
+      String modName = mod.getName();
       boolean was = KoLCharacter.currentBooleanModifier(mod);
       boolean now = mods.getBoolean(mod);
       if (now == was) {
         continue;
       }
       buf.append("<tr><td>");
-      buf.append(mod);
+      buf.append(modName);
       buf.append("</td><td>");
       buf.append(now);
       buf.append("</td></tr>");
     }
-    for (var modifier : Modifiers.STRING_MODIFIERS) {
+    for (var modifier : StringModifier.STRING_MODIFIERS) {
       String mod = modifier.getName();
-      String was = KoLCharacter.currentStringModifier(mod);
-      String now = mods.getString(mod);
+      String was = KoLCharacter.currentStringModifier(modifier);
+      String now = mods.getString(modifier);
       if (now.equals(was)) {
         continue;
       }
