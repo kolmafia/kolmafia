@@ -17,7 +17,7 @@ public class BooleanModifierCollection {
     return value ? this.booleans.add(modifier) : this.booleans.remove(modifier);
   }
 
-  public EnumSet<BooleanModifier> clone() {
+  public EnumSet<BooleanModifier> raw() {
     return this.booleans.clone();
   }
 }

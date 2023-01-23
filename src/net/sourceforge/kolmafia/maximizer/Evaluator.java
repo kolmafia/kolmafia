@@ -522,11 +522,11 @@ public class Evaluator {
       }
 
       if (index == null) {
-        BooleanModifier boolIndex = Modifiers.findBooleanName(keyword);
-        if (boolIndex != null) {
-          this.booleanMask.add(boolIndex);
+        BooleanModifier modifier = Modifiers.findBooleanName(keyword);
+        if (modifier != null) {
+          this.booleanMask.add(modifier);
           if (weight > 0.0) {
-            this.booleanValue.add(boolIndex);
+            this.booleanValue.add(modifier);
           }
           continue;
         }

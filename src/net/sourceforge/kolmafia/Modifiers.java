@@ -394,10 +394,6 @@ public class Modifiers {
     return Modifiers.bitmapModifiers[index].getName();
   }
 
-  public static final String getBooleanModifierName(final BooleanModifier modifier) {
-    return modifier.getName();
-  }
-
   private static final String COLD = DoubleModifier.COLD_RESISTANCE.getTag() + ": ";
   private static final String HOT = DoubleModifier.HOT_RESISTANCE.getTag() + ": ";
   private static final String SLEAZE = DoubleModifier.SLEAZE_RESISTANCE.getTag() + ": ";
@@ -525,6 +521,7 @@ public class Modifiers {
   public final void reset() {
     this.doubles.reset();
     this.strings.reset();
+    this.booleans.reset();
     Arrays.fill(this.bitmaps, 0);
     this.expressions = null;
   }
@@ -639,7 +636,7 @@ public class Modifiers {
    * <p>Used in Evaluator to test whether an evaluation should be marked as failed.
    */
   public EnumSet<BooleanModifier> getBooleans(final EnumSet<BooleanModifier> mask) {
-    var bools = this.booleans.clone();
+    var bools = this.booleans.raw();
     bools.retainAll(mask);
     return bools;
   }
