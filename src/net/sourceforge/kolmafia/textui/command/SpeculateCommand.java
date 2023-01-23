@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -43,16 +44,13 @@ public class SpeculateCommand extends AbstractCommand {
     buf.append(">");
     int len = buf.length();
     for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-      String modName = mod.getName();
-      doNumeric(modName, mods, buf);
+      handleDouble(mod, mods, buf);
     }
     for (var mod : DerivedModifier.DERIVED_MODIFIERS) {
-      String modName = mod.getName();
-      doNumeric(modName, mods, buf);
+      handleDerived(mod, mods, buf);
     }
-    for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; i++) {
-      String mod = Modifiers.getBitmapModifierName(i);
-      doNumeric(mod, mods, buf);
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      handleBitmap(mod, mods, buf);
     }
     for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
       String modName = mod.getName();
@@ -97,12 +95,38 @@ public class SpeculateCommand extends AbstractCommand {
     return null;
   }
 
-  private static void doNumeric(final String mod, final Modifiers mods, final StringBuilder buf) {
+  private static void handleDouble(
+      final DoubleModifier mod, final Modifiers mods, final StringBuilder buf) {
     double was = KoLCharacter.currentNumericModifier(mod);
     double now = mods.get(mod);
     if (now == was) {
       return;
     }
+    doNumeric(mod.getName(), was, now, buf);
+  }
+
+  private static void handleDerived(
+      final DerivedModifier mod, final Modifiers mods, final StringBuilder buf) {
+    double was = KoLCharacter.currentDerivedModifier(mod);
+    double now = mods.getDerived(mod);
+    if (now == was) {
+      return;
+    }
+    doNumeric(mod.getName(), was, now, buf);
+  }
+
+  private static void handleBitmap(
+      final BitmapModifier mod, final Modifiers mods, final StringBuilder buf) {
+    double was = KoLCharacter.currentBitmapModifier(mod);
+    double now = mods.getBitmap(mod);
+    if (now == was) {
+      return;
+    }
+    doNumeric(mod.getName(), was, now, buf);
+  }
+
+  private static void doNumeric(
+      final String mod, final double was, final double now, final StringBuilder buf) {
     buf.append("<tr><td>");
     buf.append(mod);
     buf.append("</td><td>");

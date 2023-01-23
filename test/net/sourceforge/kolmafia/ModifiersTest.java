@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -127,7 +128,7 @@ public class ModifiersTest {
       int manualMask = 0;
       for (String piece : name.split("/")) {
         Modifiers mods = Modifiers.getModifiers(ModifierType.ITEM, piece);
-        manualMask |= mods.getRawBitmap(Modifiers.SYNERGETIC);
+        manualMask |= mods.getRawBitmap(BitmapModifier.SYNERGETIC);
       }
 
       assertEquals(manualMask, mask, name);

@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -33,10 +34,10 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">BITMAP MODIFIERS</td></tr>");
-    for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; i++) {
-      String mod = Modifiers.getBitmapModifierName(i);
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      String modName = mod.getName();
       buf.append("<tr><td>");
-      buf.append(mod);
+      buf.append(modName);
       buf.append("</td><td>0x");
       buf.append(Integer.toHexString(KoLCharacter.currentRawBitmapModifier(mod)));
       buf.append(" (");
