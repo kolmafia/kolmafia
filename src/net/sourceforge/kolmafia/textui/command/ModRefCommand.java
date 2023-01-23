@@ -22,10 +22,10 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("<tr><td>");
       buf.append(modName);
       buf.append("</td><td>");
-      buf.append(KoLCharacter.currentNumericModifier(modName));
+      buf.append(KoLCharacter.currentNumericModifier(mod));
       if (mods != null) {
         buf.append("</td><td>");
-        buf.append(mods.get(modName));
+        buf.append(mods.get(mod));
       }
       buf.append("</td></tr>");
     }
@@ -67,10 +67,10 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>");
-      buf.append(KoLCharacter.currentStringModifier(mod).replaceAll("\t", "<br>"));
+      buf.append(KoLCharacter.currentStringModifier(modifier).replaceAll("\t", "<br>"));
       if (mods != null) {
         buf.append("</td><td>");
-        buf.append(mods.getString(mod));
+        buf.append(mods.getString(modifier));
       }
       buf.append("</td></tr>");
     }

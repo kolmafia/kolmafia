@@ -2199,6 +2199,7 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers;
   }
 
+  // TODO: many calls to this (with String name) (and the others) could be calls to the mod directly
   public static final double currentNumericModifier(final String name) {
     return KoLCharacter.currentModifiers.get(name);
   }
@@ -2223,7 +2224,6 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.getBitmap(index);
   }
 
-  // TODO: many calls to this (with String name) (and the others) could be calls to the mod directly
   public static final boolean currentBooleanModifier(final String name) {
     return KoLCharacter.currentModifiers.getBoolean(name);
   }

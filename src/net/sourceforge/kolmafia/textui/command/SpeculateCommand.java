@@ -65,8 +65,8 @@ public class SpeculateCommand extends AbstractCommand {
     }
     for (var modifier : Modifiers.STRING_MODIFIERS) {
       String mod = modifier.getName();
-      String was = KoLCharacter.currentStringModifier(mod);
-      String now = mods.getString(mod);
+      String was = KoLCharacter.currentStringModifier(modifier);
+      String now = mods.getString(modifier);
       if (now.equals(was)) {
         continue;
       }
