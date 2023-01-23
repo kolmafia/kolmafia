@@ -2381,38 +2381,6 @@ public class Modifiers {
     return StringModifier.parseModifier(enchantment);
   }
 
-  private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> String parseModifier(
-      final T[] table, final String enchantment, final boolean quoted) {
-    String quote = quoted ? "\"" : "";
-
-    for (net.sourceforge.kolmafia.modifiers.Modifier tableRow : table) {
-      Pattern[] patterns = tableRow.getDescPatterns();
-
-      if (patterns == null) {
-        continue;
-      }
-
-      for (Pattern pattern : patterns) {
-        Matcher matcher = pattern.matcher(enchantment);
-        if (!matcher.find()) {
-          continue;
-        }
-
-        if (matcher.groupCount() == 0) {
-          return tableRow.getTag();
-        }
-
-        String tag = tableRow.getTag();
-
-        String value = matcher.group(1);
-
-        return tag + ": " + quote + value.trim() + quote;
-      }
-    }
-
-    return null;
-  }
-
   private static final Pattern REGEN_PATTERN =
       Pattern.compile("Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$");
 
