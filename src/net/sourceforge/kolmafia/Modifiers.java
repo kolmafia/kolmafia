@@ -543,11 +543,6 @@ public class Modifiers {
     return this.bitmaps.get(modifier);
   }
 
-  public int getRawBitmap(final String name) {
-    var modifier = BitmapModifier.byCaselessName(name);
-    return getRawBitmap(modifier);
-  }
-
   public int getBitmap(final BitmapModifier modifier) {
     if (modifier == null) {
       return 0;
@@ -566,6 +561,10 @@ public class Modifiers {
 
   public int getBitmap(final String name) {
     return this.getBitmap(BitmapModifier.byCaselessName(name));
+  }
+
+  public double getDerived(final DerivedModifier modifier) {
+    return this.predict().get(modifier);
   }
 
   public boolean getBoolean(final BooleanModifier modifier) {

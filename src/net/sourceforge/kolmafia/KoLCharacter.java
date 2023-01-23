@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -2209,24 +2210,16 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.get(modifier);
   }
 
-  public static final int currentRawBitmapModifier(final String name) {
-    return KoLCharacter.currentModifiers.getRawBitmap(name);
+  public static final double currentDerivedModifier(final DerivedModifier modifier) {
+    return KoLCharacter.currentModifiers.getDerived(modifier);
   }
 
   public static final int currentRawBitmapModifier(final BitmapModifier modifier) {
     return KoLCharacter.currentModifiers.getRawBitmap(modifier);
   }
 
-  public static final int currentBitmapModifier(final String name) {
-    return KoLCharacter.currentModifiers.getBitmap(name);
-  }
-
   public static final int currentBitmapModifier(final BitmapModifier modifier) {
     return KoLCharacter.currentModifiers.getBitmap(modifier);
-  }
-
-  public static final boolean currentBooleanModifier(final String name) {
-    return KoLCharacter.currentModifiers.getBoolean(name);
   }
 
   public static final boolean currentBooleanModifier(final BooleanModifier mod) {

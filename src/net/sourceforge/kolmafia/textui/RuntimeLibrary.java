@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
@@ -9098,7 +9099,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value boolean_modifier(ScriptRuntime controller, final Value modifier) {
-    String mod = modifier.toString();
+    String modName = modifier.toString();
+    BooleanModifier mod = BooleanModifier.byCaselessName(modName);
     return DataTypes.makeBooleanValue(KoLCharacter.currentBooleanModifier(mod));
   }
 
