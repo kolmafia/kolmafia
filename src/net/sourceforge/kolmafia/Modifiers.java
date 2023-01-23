@@ -480,10 +480,6 @@ public class Modifiers {
     return DoubleModifier.byCaselessName(name);
   }
 
-  public static final BooleanModifier findBooleanName(String name) {
-    return BooleanModifier.byCaselessName(name);
-  }
-
   private Lookup originalLookup;
   // Assume modifiers are variable until proven otherwise.
   public boolean variable = true;
@@ -642,7 +638,7 @@ public class Modifiers {
   }
 
   public boolean getBoolean(final String name) {
-    BooleanModifier modifier = Modifiers.findBooleanName(name);
+    BooleanModifier modifier = BooleanModifier.byCaselessName(name);
     if (modifier == null) {
       return false;
     }

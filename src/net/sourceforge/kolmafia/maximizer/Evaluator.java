@@ -522,7 +522,7 @@ public class Evaluator {
       }
 
       if (index == null) {
-        BooleanModifier modifier = Modifiers.findBooleanName(keyword);
+        BooleanModifier modifier = BooleanModifier.byCaselessName(keyword);
         if (modifier != null) {
           this.booleanMask.add(modifier);
           if (weight > 0.0) {
