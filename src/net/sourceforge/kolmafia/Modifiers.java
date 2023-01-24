@@ -80,9 +80,13 @@ public class Modifiers {
   private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
       new TreeMap<>();
   private static Modifiers cachedPassiveModifiers = null;
+  /** Map of synergetic item name to bitmap mask of all items in set */
   private static final Map<String, Integer> synergies = new HashMap<>();
+  /** List of slash-separated members of a mutex */
   private static final List<String> mutexes = new ArrayList<>();
+  /** Map of unique item type (e.g. Clowniness) to names of items in set */
   private static final Map<String, Set<String>> uniques = new HashMap<>();
+
   public static String currentLocation = "";
   public static String currentZone = "";
   public static String currentEnvironment = "";

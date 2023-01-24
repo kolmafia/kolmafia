@@ -28,16 +28,24 @@ function adjustPlatforms(res) {
 				t.removeClass('no').addClass('you');
 				setTitle(t, 'You');
 			}
+			t.removeClass('next');
+			if (t.attr('rel') == res.next) {
+				t.removeClass('no').addClass('yes').addClass('next');
+				setTitle(t, 'Next Platform');
+			}
 		});
 		for (i in res.show) {
 			if (!res.show.hasOwnProperty(i)) continue;
 			var sq = $('#sq'+res.show[i]);
 			if (sq.hasClass('goal')) continue;
-			sq.removeClass('no')
-			if (!sq.hasClass('you')) {	
-				sq.addClass('yes').find('a').css('background','url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/platformup'+Math.floor((Math.random() * 4) +1)+'.gif?foo='+1+'")');
+			if (sq.hasClass('you')) continue;
+			var image = 'platformup'+Math.floor((Math.random() * 4) +1);
+			var url ='url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/'+image+'.gif?foo='+1+'")';
+			if (!sq.hasClass('next')) {
+				sq.removeClass('no').addClass('yes');
 				setTitle(sq, 'Platform');
 			}
+			sq.find('a').css('background', url);
 		}
 	}
 	else {

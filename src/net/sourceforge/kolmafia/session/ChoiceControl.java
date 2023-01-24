@@ -9187,6 +9187,7 @@ public abstract class ChoiceControl {
       case 1483: // Direct Autumn-Aton
       case 1484: // Conspicuous Plaque
       case 1485: // Play with your train
+      case 1493: // Treasure House
         return true;
 
       default:
