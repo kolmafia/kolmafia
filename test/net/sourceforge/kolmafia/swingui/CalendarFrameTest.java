@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.Component;
 import java.io.IOException;
@@ -35,8 +36,9 @@ class CalendarFrameTest {
       return sw.toString();
     } catch (IOException | BadLocationException e) {
       e.printStackTrace();
-      return "";
+      fail();
     }
+    return "";
   }
 
   public String getDataFromTab(Component aTab) {
