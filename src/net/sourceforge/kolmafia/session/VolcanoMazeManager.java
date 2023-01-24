@@ -277,8 +277,41 @@ public abstract class VolcanoMazeManager {
       return;
     }
 
+    // Calculate "next" location - where we will step to
+    int nextLocation = -1;
+
+    // Stop before stepping onto the goal
+    if (!atGoal()) {
+      // Calculate the path from here to the goal
+      Path solution = solve(currentLocation, currentMap);
+      nextLocation = (solution == null) ? -1 : solution.get(0);
+    }
+
+    if (buffer.charAt(0) == '{') {
+      decorateJSON(buffer, nextLocation);
+      return;
+    }
+
+    decorateHTML(buffer, nextLocation);
+  }
+
+  private static final void decorateHTML(final StringBuffer buffer, int nextLocation) {
     // Replace the inline Javascript for handling the maze with our local copy.
     replaceVolcanoMazeJavaScript(buffer);
+
+    // <div id="sq163" class="sq yes  lv3" rel="7,12"><a href="?move=7,12" title="(7,12 -
+    // Platform)">&nbsp;</a></div>
+    if (nextLocation != -1) {
+      Pattern pattern =
+          Pattern.compile("<div id=\"sq" + nextLocation + "\".*?</div>", Pattern.DOTALL);
+      Matcher matcher = pattern.matcher(buffer);
+      if (matcher.find()) {
+        String div = matcher.group(0);
+        div = StringUtilities.singleStringReplace(div, "yes", "yes next");
+        div = StringUtilities.singleStringReplace(div, "Platform", "Next Platform");
+        buffer.replace(matcher.start(), matcher.end(), div);
+      }
+    }
 
     // Add a "Solve!" button to the Volcanic Cave which invokes the
     // "volcano solve" command.
@@ -322,6 +355,18 @@ public abstract class VolcanoMazeManager {
 
     // Insert it into the page
     buffer.insert(index, span);
+  }
+
+  private static final void decorateJSON(final StringBuffer buffer, int nextLocation) {
+    // {"won":false,"pos":"5,12","show":[3,6,10,14,18,23,26,30,32,41,43,50,52,57,59,60,64,82,84,94,97,102,106,109,111,114,115,117,119,129,136,145,148,153,154,157,164]}
+    if (nextLocation == -1) {
+      return;
+    }
+    int index = buffer.indexOf(",\"show\"");
+    if (index != -1) {
+      String nextCoords = ",\"next\":\"" + coordinateString(nextLocation) + "\"";
+      buffer.insert(index, nextCoords);
+    }
   }
 
   public static final void replaceVolcanoMazeJavaScript(StringBuffer buffer) {
@@ -918,6 +963,11 @@ public abstract class VolcanoMazeManager {
   // pathsExamined - paths examined
 
   public static Path solve(final int location, final int map) {
+    // Can't solve unless we know all the maps
+    if (found < CELLS) {
+      return null;
+    }
+
     // Generate neighbors for every cell
     generateNeighbors();
 
