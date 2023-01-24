@@ -19,8 +19,8 @@ import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,10 +72,145 @@ class CalendarFrameTest {
     Document document = rPane.getDocument();
     assertThat(document, instanceOf(HTMLDocument.class));
     HTMLDocument hDoc = (HTMLDocument) document;
-    String x = writeDocumentToString(hDoc);
-    x = StringUtilities.stripHtml(x);
-    return x;
+    return writeDocumentToString(hDoc);
   }
+
+  private static final String expectedKOLDay =
+      "<html>\n"
+          + "  <head>\n"
+          + "    \n"
+          + "  </head>\n"
+          + "  <body>\n"
+          + "    <center>\n"
+          + "      <table>\n"
+          + "        <tr>\n"
+          + "          <td valign=\"top\">\n"
+          + "            <center>\n"
+          + "              <table border=\"1\">\n"
+          + "                <tr>\n"
+          + "                  <td align=\"center\">\n"
+          + "                    drawn by <b><a href=\"http://elfwood.lysator.liu.se/loth/l/e/leigh/leigh.html\">SpaceMonkey</a></b>\n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td>\n"
+          + "                    <img src=\"https://d2uyhvukfffg5a.cloudfront.net/otherimages/bikini/nov.gif\">\n"
+          + "                    \n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td align=\"center\">\n"
+          + "                    September 1, 2010\n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td align=\"center\">\n"
+          + "                    <font size=\"+1\"><b>Boozember 2</b></font>\n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "              </table>\n"
+          + "            </center>\n"
+          + "          </td>\n"
+          + "          <td valign=\"top\">\n"
+          + "            <center>\n"
+          + "              <table>\n"
+          + "                <tr>\n"
+          + "                  <td colspan=\"2\" align=\"center\">\n"
+          + "                    \n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td colspan=\"2\">\n"
+          + "                    \n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td colspan=\"2\" align=\"center\">\n"
+          + "                    <img src=\"https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon2.gif\">\n"
+          + "                    <img src=\"https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon1a.gif\">\n"
+          + "                    \n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td colspan=\"2\">\n"
+          + "                    \n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td align=\"right\">\n"
+          + "                    <b>Ronald</b>:&#160;\n"
+          + "                  </td>\n"
+          + "                  <td>\n"
+          + "                    waxing crescent\n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td align=\"right\">\n"
+          + "                    <b>Grimace</b>:&#160;\n"
+          + "                  </td>\n"
+          + "                  <td>\n"
+          + "                    new moon\n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td align=\"right\">\n"
+          + "                    <b>Stats</b>:&#160;\n"
+          + "                  </td>\n"
+          + "                  <td>\n"
+          + "                    3 days until Mysticism.\n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td align=\"right\">\n"
+          + "                    <b>Grue</b>:&#160;\n"
+          + "                  </td>\n"
+          + "                  <td>\n"
+          + "                    bloodlusty\n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td align=\"right\">\n"
+          + "                    <b>Blood</b>:&#160;\n"
+          + "                  </td>\n"
+          + "                  <td>\n"
+          + "                    +38%\n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td align=\"right\">\n"
+          + "                    <b>Baio</b>:&#160;\n"
+          + "                  </td>\n"
+          + "                  <td>\n"
+          + "                    +20%\n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "                <tr>\n"
+          + "                  <td align=\"right\">\n"
+          + "                    <b>Jekyllin</b>:&#160;\n"
+          + "                  </td>\n"
+          + "                  <td>\n"
+          + "                    +7 stats, 25% items\n"
+          + "                  </td>\n"
+          + "                </tr>\n"
+          + "              </table>\n"
+          + "            </center>\n"
+          + "          </td>\n"
+          + "        </tr>\n"
+          + "      </table>\n"
+          + "    </center>\n"
+          + "  </body>\n"
+          + "</html>"
+          + KoLConstants.LINE_BREAK;
+  private static final String expectedEvents =
+      "<html>\n"
+          + "  <head>\n"
+          + "    \n"
+          + "  </head>\n"
+          + "  <body>\n"
+          + "    <b><u>September 1, 2010</u></b><br><i>Boozember 2</i><br>&#160;<br><nobr><b>Muscle Day</b>:&#160;7 days</nobr><br><nobr><b>Mysticality Day</b>:&#160;3 days</nobr><br><nobr><b>Moxie Day</b>:&#160;14 days</nobr><br>&#160;<br><nobr><b>Feast of Boris:</b>&#160; 5 days</nobr><br><nobr><b>Yuletide:</b>&#160; 10 days</nobr><br><nobr><b>Festival of Jarlsberg:</b>&#160; 15 days</nobr><br><nobr><b>Valentine's Day:</b>&#160; 26 days</nobr><br><nobr><b>St. Sneaky Pete's Day:</b>&#160; 33 days</nobr><br><nobr><b>Oyster Egg Day:</b>&#160; 40 days</nobr><br><nobr><b>El Dia De Los Muertos Borrachos:</b>&#160; 48 days</nobr><br><nobr><b>Generic Summer Holiday:</b>&#160; 57 days</nobr><br><nobr><b>Halloween:</b>&#160; 60 days</nobr><br><nobr><b>Dependence Day:</b>&#160; 66 days</nobr><br><nobr><b>Arrrbor Day:</b>&#160; 74 days</nobr><br><nobr><b>Lab&#243;r Day:</b>&#160; 84 days</nobr><br>\n"
+          + "  </body>\n"
+          + "</html>"
+          + KoLConstants.LINE_BREAK;
 
   @Test
   public void calendarFrameShouldHaveBasicFunctionality() {
@@ -91,8 +226,6 @@ class CalendarFrameTest {
 
   @Test
   public void itShouldCalculateExpectedCalendarDataForKnownTime() {
-    String expectedKOLDay =
-        "drawn by SpaceMonkeySeptember 1, 2010Boozember 2Ronald: waxing crescentGrimace: new moonStats: 3 days until Mysticism.Grue: bloodlustyBlood: +38%Baio: +20%Jekyllin: +7 stats, 25% items";
     Calendar useTime = new GregorianCalendar();
     useTime.set(2010, Calendar.SEPTEMBER, 1);
     CalendarFrame testFrame = new CalendarFrame(useTime);
@@ -107,27 +240,6 @@ class CalendarFrameTest {
 
   @Test
   public void itShouldCalculateExpectedEventsForKnownTime() {
-    String expectedEvents =
-        """
-                        September 1, 2010
-                        Boozember 2
-                         
-                        Muscle Day: 7 days
-                        Mysticality Day: 3 days
-                        Moxie Day: 14 days
-                         
-                        Feast of Boris:  5 days
-                        Yuletide:  10 days
-                        Festival of Jarlsberg:  15 days
-                        Valentine's Day:  26 days
-                        St. Sneaky Pete's Day:  33 days
-                        Oyster Egg Day:  40 days
-                        El Dia De Los Muertos Borrachos:  48 days
-                        Generic Summer Holiday:  57 days
-                        Halloween:  60 days
-                        Dependence Day:  66 days
-                        Arrrbor Day:  74 days
-                        Labór Day:  84 days""";
     Calendar useTime = new GregorianCalendar();
     useTime.set(2010, Calendar.SEPTEMBER, 1);
     CalendarFrame testFrame = new CalendarFrame(useTime);
