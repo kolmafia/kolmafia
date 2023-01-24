@@ -39,6 +39,9 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -189,7 +192,7 @@ public class GearChangePanel extends JPanel {
     buff.append(width);
     buff.append(">");
 
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       double val = mods.get(mod);
       if (val == 0.0f) continue;
       name = mod.getName();
@@ -205,25 +208,25 @@ public class GearChangePanel extends JPanel {
     }
 
     boolean anyBool = false;
-    for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; ++i) {
-      if (mods.getRawBitmap(i) == 0) continue;
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      if (mods.getRawBitmap(mod) == 0) continue;
       if (anyBool) {
         buff.append(", ");
       }
       anyBool = true;
-      buff.append(Modifiers.getBitmapModifierName(i));
+      buff.append(mod.getName());
     }
 
-    for (int i = 1; i < Modifiers.BOOLEAN_MODIFIERS; ++i) {
-      if (!mods.getBoolean(i)) continue;
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
+      if (!mods.getBoolean(mod)) continue;
       if (anyBool) {
         buff.append(", ");
       }
       anyBool = true;
-      buff.append(Modifiers.getBooleanModifierName(i));
+      buff.append(mod.getName());
     }
 
-    for (var mod : Modifiers.STRING_MODIFIERS) {
+    for (var mod : StringModifier.STRING_MODIFIERS) {
       if (mod == StringModifier.WIKI_NAME
           || mod == StringModifier.MODIFIERS
           || mod == StringModifier.OUTFIT

@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.maximizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -27,6 +28,9 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -61,7 +65,8 @@ public class Evaluator {
   private int raveosity = 0;
   private int surgeonosity = 0;
   private int beeosity = 2;
-  private int booleanMask, booleanValue;
+  private EnumSet<BooleanModifier> booleanMask = EnumSet.noneOf(BooleanModifier.class);
+  private Set<BooleanModifier> booleanValue = EnumSet.noneOf(BooleanModifier.class);
   private final List<FamiliarData> familiars = new ArrayList<>();
   private final List<FamiliarData> carriedFamiliars = new ArrayList<>();
   private int carriedFamiliarsNeeded = 0;
@@ -189,7 +194,7 @@ public class Evaluator {
     this.tiebreaker = tiebreaker;
     tiebreaker.min = new EnumMap<>(DoubleModifier.class);
     tiebreaker.max = new EnumMap<>(DoubleModifier.class);
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       tiebreaker.min.put(mod, Double.NEGATIVE_INFINITY);
       tiebreaker.max.put(mod, Double.POSITIVE_INFINITY);
     }
@@ -360,10 +365,10 @@ public class Evaluator {
       }
 
       if (keyword.equals("sea")) {
-        this.booleanMask |=
-            (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
-        this.booleanValue |=
-            (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
+        var adventureUnderwater =
+            EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
+        this.booleanMask.addAll(adventureUnderwater);
+        this.booleanValue.addAll(adventureUnderwater);
         index = null;
         // Force Crown of Ed to Fish
         forcedModeables.put(Modeable.EDPIECE, "fish");
@@ -518,11 +523,11 @@ public class Evaluator {
       }
 
       if (index == null) {
-        int boolIndex = Modifiers.findBooleanName(keyword);
-        if (boolIndex >= 0) {
-          this.booleanMask |= 1 << boolIndex;
+        BooleanModifier modifier = BooleanModifier.byCaselessName(keyword);
+        if (modifier != null) {
+          this.booleanMask.add(modifier);
           if (weight > 0.0) {
-            this.booleanValue |= 1 << boolIndex;
+            this.booleanValue.add(modifier);
           }
           continue;
         }
@@ -715,10 +720,10 @@ public class Evaluator {
   public double getScore(Modifiers mods, AdventureResult[] equipment) {
     this.failed = false;
     this.exceeded = false;
-    int[] predicted = mods.predict();
+    var predicted = mods.predict();
 
     double score = 0.0;
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       double weight = this.weight.get(mod);
       double min = this.min.get(mod);
       if (weight == 0.0 && min == Double.NEGATIVE_INFINITY) continue;
@@ -726,13 +731,13 @@ public class Evaluator {
       double max = this.max.get(mod);
       switch (mod) {
         case MUS:
-          val = predicted[Modifiers.BUFFED_MUS];
+          val = predicted.get(DerivedModifier.BUFFED_MUS);
           break;
         case MYS:
-          val = predicted[Modifiers.BUFFED_MYS];
+          val = predicted.get(DerivedModifier.BUFFED_MYS);
           break;
         case MOX:
-          val = predicted[Modifiers.BUFFED_MOX];
+          val = predicted.get(DerivedModifier.BUFFED_MOX);
           break;
         case FAMILIAR_WEIGHT:
           val += mods.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
@@ -760,10 +765,10 @@ public class Evaluator {
                   + mods.get(DoubleModifier.SPORADIC_ITEMDROP);
           break;
         case HP:
-          val = predicted[Modifiers.BUFFED_HP];
+          val = predicted.get(DerivedModifier.BUFFED_HP);
           break;
         case MP:
-          val = predicted[Modifiers.BUFFED_MP];
+          val = predicted.get(DerivedModifier.BUFFED_MP);
           break;
         case WEAPON_DAMAGE:
           // Incorrect - needs to estimate base damage
@@ -778,37 +783,37 @@ public class Evaluator {
           val += mods.get(DoubleModifier.SPELL_DAMAGE_PCT);
           break;
         case COLD_RESISTANCE:
-          if (mods.getBoolean(Modifiers.COLD_IMMUNITY)) {
+          if (mods.getBoolean(BooleanModifier.COLD_IMMUNITY)) {
             val = 100.0;
-          } else if (mods.getBoolean(Modifiers.COLD_VULNERABILITY)) {
+          } else if (mods.getBoolean(BooleanModifier.COLD_VULNERABILITY)) {
             val -= 100.0;
           }
           break;
         case HOT_RESISTANCE:
-          if (mods.getBoolean(Modifiers.HOT_IMMUNITY)) {
+          if (mods.getBoolean(BooleanModifier.HOT_IMMUNITY)) {
             val = 100.0;
-          } else if (mods.getBoolean(Modifiers.HOT_VULNERABILITY)) {
+          } else if (mods.getBoolean(BooleanModifier.HOT_VULNERABILITY)) {
             val -= 100.0;
           }
           break;
         case SLEAZE_RESISTANCE:
-          if (mods.getBoolean(Modifiers.SLEAZE_IMMUNITY)) {
+          if (mods.getBoolean(BooleanModifier.SLEAZE_IMMUNITY)) {
             val = 100.0;
-          } else if (mods.getBoolean(Modifiers.SLEAZE_VULNERABILITY)) {
+          } else if (mods.getBoolean(BooleanModifier.SLEAZE_VULNERABILITY)) {
             val -= 100.0;
           }
           break;
         case SPOOKY_RESISTANCE:
-          if (mods.getBoolean(Modifiers.SPOOKY_IMMUNITY)) {
+          if (mods.getBoolean(BooleanModifier.SPOOKY_IMMUNITY)) {
             val = 100.0;
-          } else if (mods.getBoolean(Modifiers.SPOOKY_VULNERABILITY)) {
+          } else if (mods.getBoolean(BooleanModifier.SPOOKY_VULNERABILITY)) {
             val -= 100.0;
           }
           break;
         case STENCH_RESISTANCE:
-          if (mods.getBoolean(Modifiers.STENCH_IMMUNITY)) {
+          if (mods.getBoolean(BooleanModifier.STENCH_IMMUNITY)) {
             val = 100.0;
-          } else if (mods.getBoolean(Modifiers.STENCH_VULNERABILITY)) {
+          } else if (mods.getBoolean(BooleanModifier.STENCH_VULNERABILITY)) {
             val -= 100.0;
           }
           break;
@@ -856,7 +861,7 @@ public class Evaluator {
       if (osity < this.clownosity) this.failed = true;
     }
     if (this.raveosity > 0) {
-      int osity = mods.getBitmap(Modifiers.RAVEOSITY);
+      int osity = mods.getBitmap(BitmapModifier.RAVEOSITY);
       score += Math.min(osity, this.raveosity);
       if (osity < this.raveosity) this.failed = true;
     }
@@ -866,8 +871,8 @@ public class Evaluator {
       if (osity < this.surgeonosity) this.failed = true;
     }
     if (!this.failed
-        && this.booleanMask != 0
-        && (mods.getRawBitmap(0) & this.booleanMask) != this.booleanValue) {
+        && this.booleanMask.size() != 0
+        && !mods.getBooleans(this.booleanMask).equals(this.booleanValue)) {
       this.failed = true;
     }
     return score;
@@ -922,9 +927,9 @@ public class Evaluator {
     //	0: item not relevant to any constraints
     //	1: item meets a constraint, give it special handling
     if (mods == null) return 0;
-    int bools = mods.getRawBitmap(0) & this.booleanMask;
-    if ((bools & ~this.booleanValue) != 0) return -1;
-    if (bools != 0) return 1;
+    EnumSet<BooleanModifier> bools = mods.getBooleans(this.booleanMask);
+    if (!this.booleanValue.containsAll(bools)) return -1;
+    if (bools.size() != 0) return 1;
     return 0;
   }
 
@@ -1399,7 +1404,7 @@ public class Evaluator {
           wrongClass = true;
         }
 
-        if (mods.getBoolean(Modifiers.SINGLE)) {
+        if (mods.getBoolean(BooleanModifier.SINGLE)) {
           item.singleFlag = true;
         }
 
@@ -1444,7 +1449,7 @@ public class Evaluator {
           modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));
         }
 
-        if (mods.getBoolean(Modifiers.NONSTACKABLE_WATCH)) {
+        if (mods.getBoolean(BooleanModifier.NONSTACKABLE_WATCH)) {
           slot = Evaluator.WATCHES;
         }
 
@@ -1464,13 +1469,13 @@ public class Evaluator {
 
         if ((hoboPowerUseful && mods.get(DoubleModifier.HOBO_POWER) > 0.0)
             || (smithsnessUseful && !wrongClass && mods.get(DoubleModifier.SMITHSNESS) > 0.0)
-            || (brimstoneUseful && mods.getRawBitmap(Modifiers.BRIMSTONE) != 0)
-            || (cloathingUseful && mods.getRawBitmap(Modifiers.CLOATHING) != 0)
+            || (brimstoneUseful && mods.getRawBitmap(BitmapModifier.BRIMSTONE) != 0)
+            || (cloathingUseful && mods.getRawBitmap(BitmapModifier.CLOATHING) != 0)
             || (slimeHateUseful && mods.get(DoubleModifier.SLIME_HATES_IT) > 0.0)
             || (this.clownosity > 0 && mods.get(DoubleModifier.CLOWNINESS) != 0)
-            || (this.raveosity > 0 && mods.getRawBitmap(Modifiers.RAVEOSITY) != 0)
+            || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
             || (this.surgeonosity > 0 && mods.get(DoubleModifier.SURGEONOSITY) != 0)
-            || ((mods.getRawBitmap(Modifiers.SYNERGETIC) & usefulSynergies) != 0)) {
+            || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;
         }
@@ -1510,8 +1515,8 @@ public class Evaluator {
           if (item.automaticFlag) continue;
         }
 
-        if (mods.getBoolean(Modifiers.UNARMED)
-            || mods.getRawBitmap(Modifiers.MUTEX)
+        if (mods.getBoolean(BooleanModifier.UNARMED)
+            || mods.getRawBitmap(BitmapModifier.MUTEX)
                 != 0) { // This item may turn out to be unequippable, so don't
           // count it towards the shortlist length.
           item.conditionalFlag = true;

@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -468,7 +469,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         return Preferences.getInteger("usablePants");
       case ACCESSORY:
         Modifiers mods = Modifiers.getItemModifiers(id);
-        if (mods != null && mods.getBoolean(Modifiers.SINGLE)) {
+        if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {
           return Preferences.getInteger("usable1xAccs");
         } else {
           return Preferences.getInteger("usableAccessories");

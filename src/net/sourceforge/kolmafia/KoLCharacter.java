@@ -23,6 +23,9 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -1087,7 +1090,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int getMaxSongs() {
-    return (currentBooleanModifier(Modifiers.FOUR_SONGS) ? 4 : 3)
+    return (currentBooleanModifier(BooleanModifier.FOUR_SONGS) ? 4 : 3)
         + (int) currentNumericModifier(DoubleModifier.ADDITIONAL_SONG);
   }
 
@@ -2198,6 +2201,7 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers;
   }
 
+  // TODO: many calls to this (with String name) (and the others) could be calls to the mod directly
   public static final double currentNumericModifier(final String name) {
     return KoLCharacter.currentModifiers.get(name);
   }
@@ -2206,28 +2210,20 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.get(modifier);
   }
 
-  public static final int currentRawBitmapModifier(final String name) {
-    return KoLCharacter.currentModifiers.getRawBitmap(name);
+  public static final double currentDerivedModifier(final DerivedModifier modifier) {
+    return KoLCharacter.currentModifiers.getDerived(modifier);
   }
 
-  public static final int currentRawBitmapModifier(final int index) {
-    return KoLCharacter.currentModifiers.getRawBitmap(index);
+  public static final int currentRawBitmapModifier(final BitmapModifier modifier) {
+    return KoLCharacter.currentModifiers.getRawBitmap(modifier);
   }
 
-  public static final int currentBitmapModifier(final String name) {
-    return KoLCharacter.currentModifiers.getBitmap(name);
+  public static final int currentBitmapModifier(final BitmapModifier modifier) {
+    return KoLCharacter.currentModifiers.getBitmap(modifier);
   }
 
-  public static final int currentBitmapModifier(final int index) {
-    return KoLCharacter.currentModifiers.getBitmap(index);
-  }
-
-  public static final boolean currentBooleanModifier(final String name) {
-    return KoLCharacter.currentModifiers.getBoolean(name);
-  }
-
-  public static final boolean currentBooleanModifier(final int index) {
-    return KoLCharacter.currentModifiers.getBoolean(index);
+  public static final boolean currentBooleanModifier(final BooleanModifier mod) {
+    return KoLCharacter.currentModifiers.getBoolean(mod);
   }
 
   public static final String currentStringModifier(final String name) {
@@ -5085,7 +5081,7 @@ public abstract class KoLCharacter {
           "fake hand (" + fakeHands + ")");
     }
 
-    int brimstoneMonsterLevel = 1 << newModifiers.getBitmap(Modifiers.BRIMSTONE);
+    int brimstoneMonsterLevel = 1 << newModifiers.getBitmap(BitmapModifier.BRIMSTONE);
     // Brimstone was believed to affect monster level only if more than
     // one is worn, but this is confirmed to not be true now.
     // Also affects item/meat drop, but only one is needed
@@ -5098,7 +5094,7 @@ public abstract class KoLCharacter {
           DoubleModifier.ITEMDROP, brimstoneMonsterLevel, ModifierType.OUTFIT, "Brimstone");
     }
 
-    int cloathingLevel = 1 << newModifiers.getBitmap(Modifiers.CLOATHING);
+    int cloathingLevel = 1 << newModifiers.getBitmap(BitmapModifier.CLOATHING);
     // Cloathing gives item/meat drop and all stats.
     if (cloathingLevel > 1) {
       newModifiers.addDouble(
@@ -5547,7 +5543,7 @@ public abstract class KoLCharacter {
         // Remove MOST Numeric Modifiers from Items in Noobcore
         // and in G Lover if they don't contain G's
         Modifiers iModCopy = new Modifiers(imod);
-        for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+        for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
           switch (mod) {
             case SLIME_HATES_IT:
             case SURGEONOSITY:

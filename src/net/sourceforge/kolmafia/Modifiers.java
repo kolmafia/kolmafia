@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,7 +32,9 @@ import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BitmapModifierCollection;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifierCollection;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
@@ -73,7 +76,6 @@ public class Modifiers {
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, net.sourceforge.kolmafia.modifiers.Modifier>
       modifierTypesByName = new HashMap<>();
-  private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
   private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
       new TreeMap<>();
@@ -105,11 +107,8 @@ public class Modifiers {
 
   private static final HashSet<String> numericModifiers = new HashSet<>();
 
-  public static final Set<DoubleModifier> DOUBLE_MODIFIERS =
-      Collections.unmodifiableSet(EnumSet.allOf(DoubleModifier.class));
-
   static {
-    for (var modifier : Modifiers.DOUBLE_MODIFIERS) {
+    for (var modifier : DoubleModifier.DOUBLE_MODIFIERS) {
       modifierTypesByName.put(modifier.getName(), modifier);
       String tag = modifier.getTag();
       modifierTypesByName.put(tag, modifier);
@@ -121,174 +120,33 @@ public class Modifiers {
     return Modifiers.numericModifiers.contains(key);
   }
 
-  public static final int BOOLEANS = 0;
-  public static final int BRIMSTONE = 1;
-  public static final int CLOATHING = 2;
-  public static final int SYNERGETIC = 3;
-  public static final int RAVEOSITY = 4;
-  public static final int MUTEX = 5;
-  public static final int MUTEX_VIOLATIONS = 6;
-
-  private static final BitmapModifier[] bitmapModifiers = {
-    new BitmapModifier("(booleans)", null),
-    new BitmapModifier("Brimstone", Pattern.compile("Brimstone")),
-    new BitmapModifier("Cloathing", Pattern.compile("Cloathing")),
-    new BitmapModifier("Synergetic", Pattern.compile("Synergetic")),
-    new BitmapModifier("Raveosity", Pattern.compile("Raveosity: (\\+?\\d+)")),
-    new BitmapModifier("Mutually Exclusive", null),
-    new BitmapModifier("Mutex Violations", null),
-  };
-
-  public static final int BITMAP_MODIFIERS = Modifiers.bitmapModifiers.length;
-  private static final int[] bitmapMasks = new int[BITMAP_MODIFIERS];
+  private static final Map<BitmapModifier, Integer> bitmapMasks =
+      new EnumMap<>(BitmapModifier.class);
 
   static {
-    Arrays.fill(bitmapMasks, 1);
-
-    for (int i = 0; i < BITMAP_MODIFIERS; ++i) {
-      BitmapModifier modifier = Modifiers.bitmapModifiers[i];
-      modifierIndicesByName.put(modifier.getName(), i);
-      modifierIndicesByName.put(modifier.getTag(), i);
-    }
-  }
-
-  public static final int SOFTCORE = 0;
-  public static final int SINGLE = 1;
-  public static final int NEVER_FUMBLE = 2;
-  public static final int WEAKENS = 3;
-  public static final int FREE_PULL = 4;
-  public static final int VARIABLE = 5;
-  public static final int NONSTACKABLE_WATCH = 6;
-  public static final int COLD_IMMUNITY = 7;
-  public static final int HOT_IMMUNITY = 8;
-  public static final int SLEAZE_IMMUNITY = 9;
-  public static final int SPOOKY_IMMUNITY = 10;
-  public static final int STENCH_IMMUNITY = 11;
-  public static final int COLD_VULNERABILITY = 12;
-  public static final int HOT_VULNERABILITY = 13;
-  public static final int SLEAZE_VULNERABILITY = 14;
-  public static final int SPOOKY_VULNERABILITY = 15;
-  public static final int STENCH_VULNERABILITY = 16;
-  public static final int MOXIE_CONTROLS_MP = 17;
-  public static final int MOXIE_MAY_CONTROL_MP = 18;
-  public static final int FOUR_SONGS = 19;
-  public static final int ADVENTURE_UNDERWATER = 20;
-  public static final int UNDERWATER_FAMILIAR = 21;
-  public static final int GENERIC = 22;
-  public static final int UNARMED = 23;
-  public static final int NOPULL = 24;
-  public static final int LASTS_ONE_DAY = 25;
-  public static final int ATTACKS_CANT_MISS = 26;
-  public static final int LOOK_LIKE_A_PIRATE = 27;
-  public static final int BREAKABLE = 28;
-  public static final int DROPS_ITEMS = 29;
-  public static final int DROPS_MEAT = 30;
-
-  private static final BooleanModifier[] booleanModifiers = {
-    new BooleanModifier(
-        "Softcore Only",
-        Pattern.compile("This item cannot be equipped while in Hardcore"),
-        Pattern.compile("Softcore Only")),
-    new BooleanModifier("Single Equip", Pattern.compile("Single Equip")),
-    new BooleanModifier(
-        "Never Fumble", Pattern.compile("Never Fumble"), Pattern.compile("Never Fumble")),
-    new BooleanModifier(
-        "Weakens Monster",
-        Pattern.compile("Successful hit weakens opponent"),
-        Pattern.compile("Weakens Monster")),
-    new BooleanModifier("Free Pull", Pattern.compile("Free Pull")),
-    new BooleanModifier("Variable", Pattern.compile("Variable")),
-    new BooleanModifier("Nonstackable Watch", Pattern.compile("Nonstackable Watch")),
-    new BooleanModifier("Cold Immunity", Pattern.compile("Cold Immunity")),
-    new BooleanModifier("Hot Immunity", Pattern.compile("Hot Immunity")),
-    new BooleanModifier("Sleaze Immunity", Pattern.compile("Sleaze Immunity")),
-    new BooleanModifier("Spooky Immunity", Pattern.compile("Spooky Immunity")),
-    new BooleanModifier("Stench Immunity", Pattern.compile("Stench Immunity")),
-    new BooleanModifier("Cold Vulnerability", Pattern.compile("Cold Vulnerability")),
-    new BooleanModifier("Hot Vulnerability", Pattern.compile("Hot Vulnerability")),
-    new BooleanModifier("Sleaze Vulnerability", Pattern.compile("Sleaze Vulnerability")),
-    new BooleanModifier("Spooky Vulnerability", Pattern.compile("Spooky Vulnerability")),
-    new BooleanModifier("Stench Vulnerability", Pattern.compile("Stench Vulnerability")),
-    new BooleanModifier("Moxie Controls MP", Pattern.compile("Moxie Controls MP")),
-    new BooleanModifier("Moxie May Control MP", Pattern.compile("Moxie May Control MP")),
-    new BooleanModifier(
-        "Four Songs",
-        Pattern.compile("Allows you to keep 4 songs in your head instead of 3"),
-        Pattern.compile("Four Songs")),
-    new BooleanModifier(
-        "Adventure Underwater",
-        Pattern.compile("Lets you [bB]reathe [uU]nderwater"),
-        Pattern.compile("Adventure Underwater")),
-    new BooleanModifier(
-        "Underwater Familiar",
-        Pattern.compile("Lets your Familiar Breathe Underwater"),
-        Pattern.compile("Underwater Familiar")),
-    new BooleanModifier("Generic", Pattern.compile("Generic")),
-    new BooleanModifier(
-        "Unarmed",
-        Pattern.compile("Bonus&nbsp;for&nbsp;Unarmed&nbsp;Characters&nbsp;only"),
-        Pattern.compile("Unarmed")),
-    new BooleanModifier("No Pull", Pattern.compile("No Pull")),
-    new BooleanModifier(
-        "Lasts Until Rollover",
-        Pattern.compile("This item will disappear at the end of the day"),
-        Pattern.compile("Lasts Until Rollover")),
-    new BooleanModifier(
-        "Attacks Can't Miss",
-        new Pattern[] {
-          Pattern.compile("Regular Attacks Can't Miss"), Pattern.compile("Cannot miss")
-        },
-        Pattern.compile("Attacks Can't Miss")),
-    new BooleanModifier("Pirate", Pattern.compile("Look like a Pirate")),
-    new BooleanModifier("Breakable", Pattern.compile("Breakable")),
-    new BooleanModifier("Drops Items", Pattern.compile("Drops Items")),
-    new BooleanModifier("Drops Meat", Pattern.compile("Drops Meat")),
-  };
-
-  public static final int BOOLEAN_MODIFIERS = Modifiers.booleanModifiers.length;
-
-  static {
-    if (BOOLEAN_MODIFIERS > 32) {
-      KoLmafia.updateDisplay(
-          "Too many boolean modifiers to fit into bitmaps[0].  Will have to store bitmaps as longs, or use two bitmaps to hold the booleans.");
-    }
-    for (int i = 0; i < BOOLEAN_MODIFIERS; ++i) {
-      BooleanModifier modifier = Modifiers.booleanModifiers[i];
-      int index = BITMAP_MODIFIERS + i;
-      modifierIndicesByName.put(modifier.getName(), index);
-      modifierIndicesByName.put(modifier.getTag(), index);
-    }
-  }
-
-  public static final Set<StringModifier> STRING_MODIFIERS =
-      Collections.unmodifiableSet(EnumSet.allOf(StringModifier.class));
-
-  static {
-    for (var modifier : Modifiers.STRING_MODIFIERS) {
+    for (var modifier : BitmapModifier.BITMAP_MODIFIERS) {
+      bitmapMasks.put(modifier, 1);
       modifierTypesByName.put(modifier.getName(), modifier);
       modifierTypesByName.put(modifier.getTag(), modifier);
     }
   }
 
-  // Indexes for array returned by predict():
-  public static final int BUFFED_MUS = 0;
-  public static final int BUFFED_MYS = 1;
-  public static final int BUFFED_MOX = 2;
-  public static final int BUFFED_HP = 3;
-  public static final int BUFFED_MP = 4;
+  static {
+    for (var modifier : BooleanModifier.BOOLEAN_MODIFIERS) {
+      modifierTypesByName.put(modifier.getName(), modifier);
+      modifierTypesByName.put(modifier.getTag(), modifier);
+    }
+  }
 
-  private static final DerivedModifier[] derivedModifiers = {
-    new DerivedModifier("Buffed Muscle"),
-    new DerivedModifier("Buffed Mysticality"),
-    new DerivedModifier("Buffed Moxie"),
-    new DerivedModifier("Buffed HP Maximum"),
-    new DerivedModifier("Buffed MP Maximum"),
-  };
+  static {
+    for (var modifier : StringModifier.STRING_MODIFIERS) {
+      modifierTypesByName.put(modifier.getName(), modifier);
+      modifierTypesByName.put(modifier.getTag(), modifier);
+    }
+  }
 
-  public static final int DERIVED_MODIFIERS = Modifiers.derivedModifiers.length;
-
-  public int[] predict() {
-    int[] rv = new int[Modifiers.DERIVED_MODIFIERS];
+  public Map<DerivedModifier, Integer> predict() {
+    Map<DerivedModifier, Integer> rv = new EnumMap<>(DerivedModifier.class);
 
     int mus = KoLCharacter.getBaseMuscle();
     int mys = KoLCharacter.getBaseMysticality();
@@ -338,47 +196,56 @@ public class Modifiers {
       mox = mox_limit;
     }
 
-    rv[Modifiers.BUFFED_MUS] =
+    rv.put(
+        DerivedModifier.BUFFED_MUS,
         mus
             + (int) this.get(DoubleModifier.MUS)
-            + (int) Math.ceil(this.get(DoubleModifier.MUS_PCT) * mus / 100.0);
-    rv[Modifiers.BUFFED_MYS] =
+            + (int) Math.ceil(this.get(DoubleModifier.MUS_PCT) * mus / 100.0));
+    rv.put(
+        DerivedModifier.BUFFED_MYS,
         mys
             + (int) this.get(DoubleModifier.MYS)
-            + (int) Math.ceil(this.get(DoubleModifier.MYS_PCT) * mys / 100.0);
-    rv[Modifiers.BUFFED_MOX] =
+            + (int) Math.ceil(this.get(DoubleModifier.MYS_PCT) * mys / 100.0));
+    rv.put(
+        DerivedModifier.BUFFED_MOX,
         mox
             + (int) this.get(DoubleModifier.MOX)
-            + (int) Math.ceil(this.get(DoubleModifier.MOX_PCT) * mox / 100.0);
+            + (int) Math.ceil(this.get(DoubleModifier.MOX_PCT) * mox / 100.0));
 
     String mus_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MUSCLE);
     if (mus_buffed_floor.startsWith("Mys")) {
-      if (rv[Modifiers.BUFFED_MYS] > rv[Modifiers.BUFFED_MUS]) {
-        rv[Modifiers.BUFFED_MUS] = rv[Modifiers.BUFFED_MYS];
+      var mod = rv.get(DerivedModifier.BUFFED_MYS);
+      if (mod > rv.get(DerivedModifier.BUFFED_MUS)) {
+        rv.put(DerivedModifier.BUFFED_MUS, mod);
       }
     } else if (mus_buffed_floor.startsWith("Mox")) {
-      if (rv[Modifiers.BUFFED_MOX] > rv[Modifiers.BUFFED_MUS]) {
-        rv[Modifiers.BUFFED_MUS] = rv[Modifiers.BUFFED_MOX];
+      var mod = rv.get(DerivedModifier.BUFFED_MOX);
+      if (mod > rv.get(DerivedModifier.BUFFED_MUS)) {
+        rv.put(DerivedModifier.BUFFED_MUS, mod);
       }
     }
     String mys_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MYST);
     if (mys_buffed_floor.startsWith("Mus")) {
-      if (rv[Modifiers.BUFFED_MUS] > rv[Modifiers.BUFFED_MYS]) {
-        rv[Modifiers.BUFFED_MYS] = rv[Modifiers.BUFFED_MUS];
+      var mod = rv.get(DerivedModifier.BUFFED_MUS);
+      if (mod > rv.get(DerivedModifier.BUFFED_MYS)) {
+        rv.put(DerivedModifier.BUFFED_MYS, mod);
       }
     } else if (mys_buffed_floor.startsWith("Mox")) {
-      if (rv[Modifiers.BUFFED_MOX] > rv[Modifiers.BUFFED_MYS]) {
-        rv[Modifiers.BUFFED_MYS] = rv[Modifiers.BUFFED_MOX];
+      var mod = rv.get(DerivedModifier.BUFFED_MOX);
+      if (mod > rv.get(DerivedModifier.BUFFED_MYS)) {
+        rv.put(DerivedModifier.BUFFED_MYS, mod);
       }
     }
     String mox_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MOXIE);
     if (mox_buffed_floor.startsWith("Mus")) {
-      if (rv[Modifiers.BUFFED_MUS] > rv[Modifiers.BUFFED_MOX]) {
-        rv[Modifiers.BUFFED_MOX] = rv[Modifiers.BUFFED_MUS];
+      var mod = rv.get(DerivedModifier.BUFFED_MUS);
+      if (mod > rv.get(DerivedModifier.BUFFED_MOX)) {
+        rv.put(DerivedModifier.BUFFED_MOX, mod);
       }
     } else if (mox_buffed_floor.startsWith("Mys")) {
-      if (rv[Modifiers.BUFFED_MYS] > rv[Modifiers.BUFFED_MOX]) {
-        rv[Modifiers.BUFFED_MOX] = rv[Modifiers.BUFFED_MYS];
+      var mod = rv.get(DerivedModifier.BUFFED_MYS);
+      if (mod > rv.get(DerivedModifier.BUFFED_MOX)) {
+        rv.put(DerivedModifier.BUFFED_MOX, mod);
       }
     }
 
@@ -400,13 +267,13 @@ public class Modifiers {
       hp = hpbase + (int) this.get(DoubleModifier.HP);
       buffedHP = hp;
     } else {
-      hpbase = rv[Modifiers.BUFFED_MUS] + 3;
+      hpbase = rv.get(DerivedModifier.BUFFED_MUS) + 3;
       double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
       double hpPercent = this.get(DoubleModifier.HP_PCT);
       hp = (int) Math.ceil(hpbase * (C + hpPercent / 100.0)) + (int) this.get(DoubleModifier.HP);
       buffedHP = Math.max(hp, mus);
     }
-    rv[Modifiers.BUFFED_HP] = buffedHP;
+    rv.put(DerivedModifier.BUFFED_HP, buffedHP);
 
     int mpbase;
     int mp;
@@ -418,18 +285,18 @@ public class Modifiers {
       mp = mpbase + (int) this.get(DoubleModifier.MP);
       buffedMP = mp;
     } else {
-      mpbase = rv[Modifiers.BUFFED_MYS];
-      if (this.getBoolean(Modifiers.MOXIE_CONTROLS_MP)
-          || (this.getBoolean(Modifiers.MOXIE_MAY_CONTROL_MP)
-              && rv[Modifiers.BUFFED_MOX] > mpbase)) {
-        mpbase = rv[Modifiers.BUFFED_MOX];
+      mpbase = rv.get(DerivedModifier.BUFFED_MYS);
+      if (this.getBoolean(BooleanModifier.MOXIE_CONTROLS_MP)
+          || (this.getBoolean(BooleanModifier.MOXIE_MAY_CONTROL_MP)
+              && rv.get(DerivedModifier.BUFFED_MOX) > mpbase)) {
+        mpbase = rv.get(DerivedModifier.BUFFED_MOX);
       }
       double C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
       double mpPercent = this.get(DoubleModifier.MP_PCT);
       mp = (int) Math.ceil(mpbase * (C + mpPercent / 100.0)) + (int) this.get(DoubleModifier.MP);
       buffedMP = Math.max(mp, mys);
     }
-    rv[Modifiers.BUFFED_MP] = buffedMP;
+    rv.put(DerivedModifier.BUFFED_MP, buffedMP);
 
     return rv;
   }
@@ -489,18 +356,6 @@ public class Modifiers {
 
   private static final void overrideRemoveModifierInternal(final Lookup lookup) {
     Modifiers.modifiersByName.remove(lookup.type, lookup.getKey());
-  }
-
-  public static final String getBitmapModifierName(final int index) {
-    return Modifiers.bitmapModifiers[index].getName();
-  }
-
-  public static final String getBooleanModifierName(final int index) {
-    return Modifiers.booleanModifiers[index].getName();
-  }
-
-  public static final String getDerivedModifierName(final int index) {
-    return Modifiers.derivedModifiers[index].getName();
   }
 
   private static final String COLD = DoubleModifier.COLD_RESISTANCE.getTag() + ": ";
@@ -573,31 +428,18 @@ public class Modifiers {
     return available;
   }
 
-  private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> int findName(
-      final T[] table, final String name) {
-    for (int i = 0; i < table.length; ++i) {
-      if (name.equalsIgnoreCase(table[i].getName())) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   public static final DoubleModifier findName(String name) {
     // this is caseless because it accepts anything typed into the maximizer, which is normally
     // lowercase
     return DoubleModifier.byCaselessName(name);
   }
 
-  public static final int findBooleanName(String name) {
-    return Modifiers.findName(Modifiers.booleanModifiers, name);
-  }
-
   private Lookup originalLookup;
   // Assume modifiers are variable until proven otherwise.
   public boolean variable = true;
   private final DoubleModifierCollection doubles = new DoubleModifierCollection();
-  private final int[] bitmaps = new int[Modifiers.BITMAP_MODIFIERS];
+  private final BooleanModifierCollection booleans = new BooleanModifierCollection();
+  private final BitmapModifierCollection bitmaps = new BitmapModifierCollection();
   private final StringModifierCollection strings = new StringModifierCollection();
   private ArrayList<Indexed<ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
@@ -629,7 +471,8 @@ public class Modifiers {
   public final void reset() {
     this.doubles.reset();
     this.strings.reset();
-    Arrays.fill(this.bitmaps, 0);
+    this.booleans.reset();
+    this.bitmaps.reset();
     this.expressions = null;
   }
 
@@ -682,39 +525,30 @@ public class Modifiers {
 
     DoubleModifier modifier = Modifiers.findName(name);
     if (modifier == null) {
-      int index = Modifiers.findName(Modifiers.derivedModifiers, name);
-      if (index < 0 || index >= Modifiers.DERIVED_MODIFIERS) {
+      DerivedModifier derived = DerivedModifier.byCaselessName(name);
+      if (derived == null) {
         return this.getBitmap(name);
       }
-      return this.predict()[index];
+      return this.predict().get(derived);
     }
 
     return this.doubles.get(modifier);
   }
 
-  public int getRawBitmap(final int index) {
-    if (index < 0 || index >= this.bitmaps.length) {
+  public int getRawBitmap(final BitmapModifier modifier) {
+    if (modifier == null) {
       return 0;
     }
 
-    return this.bitmaps[index];
+    return this.bitmaps.get(modifier);
   }
 
-  public int getRawBitmap(final String name) {
-    int index = Modifiers.findName(Modifiers.bitmapModifiers, name);
-    if (index < 0 || index >= this.bitmaps.length) {
+  public int getBitmap(final BitmapModifier modifier) {
+    if (modifier == null) {
       return 0;
     }
 
-    return this.bitmaps[index];
-  }
-
-  public int getBitmap(final int index) {
-    if (index < 0 || index >= this.bitmaps.length) {
-      return 0;
-    }
-
-    int n = this.bitmaps[index];
+    int n = this.bitmaps.get(modifier);
     // Count the bits:
     if (n == 0) return 0;
     n = ((n & 0xAAAAAAAA) >>> 1) + (n & 0x55555555);
@@ -726,24 +560,35 @@ public class Modifiers {
   }
 
   public int getBitmap(final String name) {
-    return this.getBitmap(Modifiers.findName(Modifiers.bitmapModifiers, name));
+    return this.getBitmap(BitmapModifier.byCaselessName(name));
   }
 
-  public boolean getBoolean(final int index) {
-    if (index < 0 || index >= Modifiers.BOOLEAN_MODIFIERS) {
+  public double getDerived(final DerivedModifier modifier) {
+    return this.predict().get(modifier);
+  }
+
+  public boolean getBoolean(final BooleanModifier modifier) {
+    if (modifier == null) {
       return false;
     }
 
-    return ((this.bitmaps[0] >>> index) & 1) != 0;
+    return this.booleans.get(modifier);
+  }
+
+  /**
+   * Get all boolean values matching a given mask.
+   *
+   * <p>Used in Evaluator to test whether an evaluation should be marked as failed.
+   */
+  public EnumSet<BooleanModifier> getBooleans(final EnumSet<BooleanModifier> mask) {
+    var bools = this.booleans.raw();
+    bools.retainAll(mask);
+    return bools;
   }
 
   public boolean getBoolean(final String name) {
-    int index = Modifiers.findName(Modifiers.booleanModifiers, name);
-    if (index < 0 || index >= Modifiers.BOOLEAN_MODIFIERS) {
-      return false;
-    }
-
-    return ((this.bitmaps[0] >>> index) & 1) != 0;
+    BooleanModifier modifier = BooleanModifier.byCaselessName(name);
+    return getBoolean(modifier);
   }
 
   public String getString(final StringModifier modifier) {
@@ -764,11 +609,7 @@ public class Modifiers {
     }
 
     StringModifier modifier = StringModifier.byCaselessName(name);
-    if (modifier == null) {
-      return "";
-    }
-
-    return this.strings.get(modifier);
+    return getString(modifier);
   }
 
   public double getDoublerAccumulator(final DoubleModifier modifier) {
@@ -793,30 +634,20 @@ public class Modifiers {
     return this.doubles.set(mod, value);
   }
 
-  public boolean setBitmap(final int index, final int mod) {
-    if (index < 0 || index >= this.bitmaps.length) {
+  public boolean setBitmap(final BitmapModifier modifier, final int value) {
+    if (modifier == null) {
       return false;
     }
 
-    if (this.bitmaps[index] != mod) {
-      this.bitmaps[index] = mod;
-      return true;
-    }
-    return false;
+    return this.bitmaps.set(modifier, value);
   }
 
-  public boolean setBoolean(final int index, final boolean mod) {
-    if (index < 0 || index >= Modifiers.BOOLEAN_MODIFIERS) {
+  public boolean setBoolean(final BooleanModifier modifier, final boolean value) {
+    if (modifier == null) {
       return false;
     }
 
-    int mask = 1 << index;
-    int val = mod ? mask : 0;
-    if ((this.bitmaps[0] & mask) != val) {
-      this.bitmaps[0] ^= mask;
-      return true;
-    }
-    return false;
+    return this.booleans.set(modifier, value);
   }
 
   public boolean setString(final StringModifier modifier, String mod) {
@@ -839,19 +670,19 @@ public class Modifiers {
     boolean changed = false;
     this.originalLookup = mods.originalLookup;
 
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       changed |= this.setDouble(mod, mods.doubles.get(mod));
     }
 
-    int[] copyBitmaps = mods.bitmaps;
-    for (int index = 0; index < this.bitmaps.length; ++index) {
-      if (this.bitmaps[index] != copyBitmaps[index]) {
-        this.bitmaps[index] = copyBitmaps[index];
-        changed = true;
-      }
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      changed |= this.setBitmap(mod, mods.bitmaps.get(mod));
     }
 
-    for (var mod : Modifiers.STRING_MODIFIERS) {
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
+      changed |= this.setBoolean(mod, mods.booleans.get(mod));
+    }
+
+    for (var mod : StringModifier.STRING_MODIFIERS) {
       changed |= this.setString(mod, mods.strings.get(mod));
     }
 
@@ -969,7 +800,7 @@ public class Modifiers {
     }
 
     // Unarmed modifiers apply only if the character has no weapon or offhand
-    boolean unarmed = mods.getBoolean(Modifiers.UNARMED);
+    boolean unarmed = mods.getBoolean(BooleanModifier.UNARMED);
     if (unarmed && !Modifiers.unarmed) {
       return;
     }
@@ -977,11 +808,13 @@ public class Modifiers {
     Lookup lookup = mods.originalLookup;
 
     // Add in the double modifiers
+    var bothWatches =
+        mods.booleans.get(BooleanModifier.NONSTACKABLE_WATCH)
+            && this.booleans.get(BooleanModifier.NONSTACKABLE_WATCH);
 
     mods.doubles.forEach(
         (i, addition) -> {
-          if (i != DoubleModifier.ADVENTURES
-              || (mods.bitmaps[0] & this.bitmaps[0] & (1 << Modifiers.NONSTACKABLE_WATCH)) == 0) {
+          if (!bothWatches || i != DoubleModifier.ADVENTURES) {
             this.addDouble(i, addition, lookup);
           }
         });
@@ -1019,11 +852,18 @@ public class Modifiers {
       this.strings.set(StringModifier.EQUALIZE_MOXIE, val);
     }
 
-    // OR in the bitmap modifiers (including all the boolean modifiers)
-    this.bitmaps[Modifiers.MUTEX_VIOLATIONS] |=
-        this.bitmaps[Modifiers.MUTEX] & mods.bitmaps[Modifiers.MUTEX];
-    for (int i = 0; i < this.bitmaps.length; ++i) {
-      this.bitmaps[i] |= mods.bitmaps[i];
+    // OR in the bitmap modifiers
+    var mutexes = this.bitmaps.get(BitmapModifier.MUTEX) & mods.bitmaps.get(BitmapModifier.MUTEX);
+    this.bitmaps.add(BitmapModifier.MUTEX_VIOLATIONS, mutexes);
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      this.bitmaps.add(mod, mods.bitmaps.get(mod));
+    }
+
+    // OR in the boolean modifiers
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
+      if (mods.booleans.get(mod)) {
+        this.booleans.set(mod, true);
+      }
     }
   }
 
@@ -1038,19 +878,13 @@ public class Modifiers {
         return this.setDouble(d, Double.parseDouble(mod.getValue()));
       } else if (modifier instanceof StringModifier s) {
         return this.setString(s, mod.getValue());
+      } else if (modifier instanceof BitmapModifier b) {
+        return this.setBitmap(b, Integer.parseInt(mod.getValue()));
+      } else if (modifier instanceof BooleanModifier b) {
+        return this.setBoolean(b, mod.getValue().equals("true"));
       }
     }
-    Integer index = modifierIndicesByName.get(mod.getName());
-    if (index == null) {
-      return false;
-    }
-
-    if (index < BITMAP_MODIFIERS) {
-      return this.setBitmap(index, Integer.parseInt(mod.getValue()));
-    }
-
-    index -= BITMAP_MODIFIERS;
-    return this.setBoolean(index, mod.getValue().equals("true"));
+    return false;
   }
 
   public static final Modifiers getItemModifiers(final int id) {
@@ -1070,11 +904,11 @@ public class Modifiers {
     Modifiers mods = new Modifiers(getItemModifiers(id));
 
     mods.setDouble(DoubleModifier.SLIME_HATES_IT, 0.0f);
-    mods.setBitmap(Modifiers.BRIMSTONE, 0);
-    mods.setBitmap(Modifiers.CLOATHING, 0);
-    mods.setBitmap(Modifiers.SYNERGETIC, 0);
-    mods.setBoolean(Modifiers.MOXIE_MAY_CONTROL_MP, false);
-    mods.setBoolean(Modifiers.MOXIE_CONTROLS_MP, false);
+    mods.setBitmap(BitmapModifier.BRIMSTONE, 0);
+    mods.setBitmap(BitmapModifier.CLOATHING, 0);
+    mods.setBitmap(BitmapModifier.SYNERGETIC, 0);
+    mods.setBoolean(BooleanModifier.MOXIE_MAY_CONTROL_MP, false);
+    mods.setBoolean(BooleanModifier.MOXIE_CONTROLS_MP, false);
 
     return mods;
   }
@@ -1155,12 +989,11 @@ public class Modifiers {
 
   public static final Modifiers parseModifiers(final Lookup lookup, final String string) {
     Modifiers newMods = new Modifiers();
-    int[] newBitmaps = newMods.bitmaps;
     StringModifierCollection newStrings = newMods.strings;
 
     newMods.originalLookup = lookup;
 
-    for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
       Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;
@@ -1182,8 +1015,8 @@ public class Modifiers {
       }
     }
 
-    for (int i = 0; i < newBitmaps.length; ++i) {
-      Pattern pattern = Modifiers.bitmapModifiers[i].getTagPattern();
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -1196,12 +1029,13 @@ public class Modifiers {
       if (matcher.groupCount() > 0) {
         bitcount = StringUtilities.parseInt(matcher.group(1));
       }
-      int mask = Modifiers.bitmapMasks[i];
+      // bitmapMasks stores the next mask we're going to use for modifier mod
+      int mask = Modifiers.bitmapMasks.get(mod);
       switch (bitcount) {
-        case 1 -> Modifiers.bitmapMasks[i] <<= 1;
+        case 1 -> Modifiers.bitmapMasks.put(mod, mask << 1);
         case 2 -> {
+          Modifiers.bitmapMasks.put(mod, mask << 2);
           mask |= mask << 1;
-          Modifiers.bitmapMasks[i] <<= 2;
         }
         default -> {
           KoLmafia.updateDisplay(
@@ -1209,18 +1043,18 @@ public class Modifiers {
           continue;
         }
       }
-      if (Modifiers.bitmapMasks[i] == 0) {
+      if (Modifiers.bitmapMasks.get(mod) == 0) {
         KoLmafia.updateDisplay(
             "ERROR: too many sources for bitmap modifier "
-                + Modifiers.bitmapModifiers[i].getName()
+                + mod.getName()
                 + ", consider using longs.");
       }
 
-      newBitmaps[i] |= mask;
+      newMods.bitmaps.add(mod, mask);
     }
 
-    for (int i = 0; i < Modifiers.BOOLEAN_MODIFIERS; ++i) {
-      Pattern pattern = Modifiers.booleanModifiers[i].getTagPattern();
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
+      Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -1230,10 +1064,10 @@ public class Modifiers {
         continue;
       }
 
-      newBitmaps[0] |= 1 << i;
+      newMods.booleans.set(mod, true);
     }
 
-    for (var mod : Modifiers.STRING_MODIFIERS) {
+    for (var mod : StringModifier.STRING_MODIFIERS) {
       Pattern pattern = mod.getTagPattern();
       if (pattern == null) {
         continue;
@@ -1544,7 +1378,8 @@ public class Modifiers {
         return true;
       }
       case ItemPool.PANTSGIVING -> {
-        this.setBoolean(Modifiers.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
+        this.setBoolean(
+            BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
         return true;
       }
       case ItemPool.PATRIOT_SHIELD -> {
@@ -1559,7 +1394,7 @@ public class Modifiers {
         // Disco Bandit
         this.setDouble(DoubleModifier.RANGED_DAMAGE, 0.0);
         // Accordion Thief
-        this.setBoolean(Modifiers.FOUR_SONGS, false);
+        this.setBoolean(BooleanModifier.FOUR_SONGS, false);
         // Mysticality classes
         this.setDouble(DoubleModifier.MP_REGEN_MIN, 0.0);
         this.setDouble(DoubleModifier.MP_REGEN_MAX, 0.0);
@@ -1585,7 +1420,7 @@ public class Modifiers {
             }
             case DISCO_BANDIT, AVATAR_OF_SNEAKY_PETE -> this.setDouble(
                 DoubleModifier.RANGED_DAMAGE, 20.0);
-            case ACCORDION_THIEF -> this.setBoolean(Modifiers.FOUR_SONGS, true);
+            case ACCORDION_THIEF -> this.setBoolean(BooleanModifier.FOUR_SONGS, true);
             case PASTAMANCER -> {
               this.setDouble(DoubleModifier.MP_REGEN_MIN, 5.0);
               this.setDouble(DoubleModifier.MP_REGEN_MAX, 6.0);
@@ -1607,46 +1442,47 @@ public class Modifiers {
   private boolean overrideThrone(final Lookup lookup) {
     switch (lookup.getStringKey()) {
       case "Adventurous Spelunker" -> {
-        this.setBoolean(Modifiers.DROPS_ITEMS, Preferences.getInteger("_oreDropsCrown") < 6);
+        this.setBoolean(BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_oreDropsCrown") < 6);
         return true;
       }
       case "Garbage Fire" -> {
         this.setBoolean(
-            Modifiers.DROPS_ITEMS, Preferences.getInteger("_garbageFireDropsCrown") < 3);
+            BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_garbageFireDropsCrown") < 3);
         return true;
       }
       case "Grimstone Golem" -> {
         this.setBoolean(
-            Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimstoneMaskDropsCrown") < 1);
+            BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_grimstoneMaskDropsCrown") < 1);
         return true;
       }
       case "Grim Brother" -> {
         this.setBoolean(
-            Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimFairyTaleDropsCrown") < 2);
+            BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_grimFairyTaleDropsCrown") < 2);
         return true;
       }
       case "Machine Elf" -> {
         this.setBoolean(
-            Modifiers.DROPS_ITEMS, Preferences.getInteger("_abstractionDropsCrown") < 25);
+            BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_abstractionDropsCrown") < 25);
         return true;
       }
       case "Puck Man", "Ms. Puck Man" -> {
         this.setBoolean(
-            Modifiers.DROPS_ITEMS, Preferences.getInteger("_yellowPixelDropsCrown") < 25);
+            BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_yellowPixelDropsCrown") < 25);
         return true;
       }
       case "Optimistic Candle" -> {
         this.setBoolean(
-            Modifiers.DROPS_ITEMS, Preferences.getInteger("_optimisticCandleDropsCrown") < 3);
+            BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_optimisticCandleDropsCrown") < 3);
         return true;
       }
       case "Trick-or-Treating Tot" -> {
         this.setBoolean(
-            Modifiers.DROPS_ITEMS, Preferences.getInteger("_hoardedCandyDropsCrown") < 3);
+            BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_hoardedCandyDropsCrown") < 3);
         return true;
       }
       case "Twitching Space Critter" -> {
-        this.setBoolean(Modifiers.DROPS_ITEMS, Preferences.getInteger("_spaceFurDropsCrown") < 1);
+        this.setBoolean(
+            BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_spaceFurDropsCrown") < 1);
         return true;
       }
     }
@@ -1661,7 +1497,7 @@ public class Modifiers {
     }
 
     // If the object does not require hard-coding, we're done
-    if (!this.getBoolean(Modifiers.VARIABLE)) {
+    if (!this.getBoolean(BooleanModifier.VARIABLE)) {
       return this.expressions != null;
     }
 
@@ -1851,7 +1687,7 @@ public class Modifiers {
   }
 
   public void applySynergies() {
-    int synergetic = this.getRawBitmap(Modifiers.SYNERGETIC);
+    int synergetic = this.getRawBitmap(BitmapModifier.SYNERGETIC);
     if (synergetic == 0) return; // nothing possible
     for (Entry<String, Integer> entry : Modifiers.synergies.entrySet()) {
       String name = entry.getKey();
@@ -2054,7 +1890,7 @@ public class Modifiers {
         DoubleModifier.CANDYDROP);
 
     if (FamiliarDatabase.isUnderwaterType(familiarId)) {
-      this.setBoolean(Modifiers.UNDERWATER_FAMILIAR, true);
+      this.setBoolean(BooleanModifier.UNDERWATER_FAMILIAR, true);
     }
 
     switch (familiarId) {
@@ -2248,7 +2084,7 @@ public class Modifiers {
   public static final String parseSingleEquip(final String text) {
     Matcher matcher = Modifiers.SINGLE_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.booleanModifiers[Modifiers.SINGLE].getTag();
+      return BooleanModifier.SINGLE.getTag();
     }
 
     return null;
@@ -2260,7 +2096,7 @@ public class Modifiers {
   public static final String parseSoftcoreOnly(final String text) {
     Matcher matcher = Modifiers.SOFTCORE_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.booleanModifiers[Modifiers.SOFTCORE].getTag();
+      return BooleanModifier.SOFTCORE.getTag();
     }
 
     return null;
@@ -2271,7 +2107,7 @@ public class Modifiers {
   public static final String parseDropsItems(final String text) {
     Matcher matcher = Modifiers.ITEM_DROPPER_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.booleanModifiers[Modifiers.DROPS_ITEMS].getTag();
+      return BooleanModifier.DROPS_ITEMS.getTag();
     }
 
     return null;
@@ -2283,7 +2119,7 @@ public class Modifiers {
   public static final String parseLastsOneDay(final String text) {
     Matcher matcher = Modifiers.LASTS_ONE_DAY_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.booleanModifiers[Modifiers.LASTS_ONE_DAY].getTag();
+      return BooleanModifier.LASTS_ONE_DAY.getTag();
     }
 
     return null;
@@ -2294,7 +2130,7 @@ public class Modifiers {
   public static final String parseFreePull(final String text) {
     Matcher matcher = Modifiers.FREE_PULL_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.booleanModifiers[Modifiers.FREE_PULL].getTag();
+      return BooleanModifier.FREE_PULL.getTag();
     }
 
     return null;
@@ -2306,7 +2142,7 @@ public class Modifiers {
   public static final String parseEffect(final String text) {
     Matcher matcher = Modifiers.EFFECT_PATTERN.matcher(text);
     if (matcher.find()) {
-      // matcher.group( 1 ) contains the the link to the description
+      // matcher.group( 1 ) contains the link to the description
       // matcher.group( 2 ) contains the name.
       // Look up the effect by descid. If it is unknown, we'll just use the name.
       // Otherwise, we may need to disambiguate the name by effectId.
@@ -2386,7 +2222,7 @@ public class Modifiers {
 
     // Then the boolean modifiers
 
-    result = Modifiers.parseModifier(Modifiers.booleanModifiers, enchantment, false);
+    result = BooleanModifier.parseModifier(enchantment);
     if (result != null) {
       return result;
     }
@@ -2474,38 +2310,6 @@ public class Modifiers {
     return StringModifier.parseModifier(enchantment);
   }
 
-  private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> String parseModifier(
-      final T[] table, final String enchantment, final boolean quoted) {
-    String quote = quoted ? "\"" : "";
-
-    for (net.sourceforge.kolmafia.modifiers.Modifier tableRow : table) {
-      Pattern[] patterns = tableRow.getDescPatterns();
-
-      if (patterns == null) {
-        continue;
-      }
-
-      for (Pattern pattern : patterns) {
-        Matcher matcher = pattern.matcher(enchantment);
-        if (!matcher.find()) {
-          continue;
-        }
-
-        if (matcher.groupCount() == 0) {
-          return tableRow.getTag();
-        }
-
-        String tag = tableRow.getTag();
-
-        String value = matcher.group(1);
-
-        return tag + ": " + quote + value.trim() + quote;
-      }
-    }
-
-    return null;
-  }
-
   private static final Pattern REGEN_PATTERN =
       Pattern.compile("Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$");
 
@@ -2589,22 +2393,6 @@ public class Modifiers {
             Collectors.collectingAndThen(Collectors.joining(", "), m -> m.isEmpty() ? null : m));
   }
 
-  private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> boolean findModifier(
-      final T[] table, final String tag) {
-    for (T modifier : table) {
-      Pattern pattern = modifier.getTagPattern();
-      if (pattern == null) {
-        continue;
-      }
-
-      Matcher matcher = pattern.matcher(tag);
-      if (matcher.find()) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   public static final void checkModifiers() {
     for (Entry<ModifierType, Map<IntOrString, String>> typeEntry :
         Modifiers.modifierStringsByName.entrySet()) {
@@ -2631,10 +2419,10 @@ public class Modifiers {
           if (DoubleModifier.byTagPattern(mod) != null) {
             continue;
           }
-          if (Modifiers.findModifier(Modifiers.bitmapModifiers, mod)) {
+          if (BitmapModifier.byTagPattern(mod) != null) {
             continue;
           }
-          if (Modifiers.findModifier(Modifiers.booleanModifiers, mod)) {
+          if (BooleanModifier.byTagPattern(mod) != null) {
             continue;
           }
           if (StringModifier.byTagPattern(mod) != null) {
@@ -2737,7 +2525,7 @@ public class Modifiers {
           KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
           return;
         }
-        int emask = mods.bitmaps[Modifiers.SYNERGETIC];
+        int emask = mods.bitmaps.get(BitmapModifier.SYNERGETIC);
         if (emask == 0) {
           KoLmafia.updateDisplay(name + " contains element " + piece + " that isn't Synergetic.");
           return;
@@ -2766,7 +2554,7 @@ public class Modifiers {
         KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
         return;
       }
-      mods.bitmaps[Modifiers.MUTEX] |= bit;
+      mods.bitmaps.add(BitmapModifier.MUTEX, bit);
     }
     Modifiers.mutexes.add(name);
   }
@@ -2803,7 +2591,9 @@ public class Modifiers {
     // resetModifiers then won't set them back up due to the if() guarding loadAllModifiers.
     Modifiers.modifiersByName.clear();
     Modifiers.availablePassiveSkillModifiersByVariable.clear();
-    Arrays.fill(Modifiers.bitmapMasks, 1);
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      Modifiers.bitmapMasks.put(mod, 1);
+    }
 
     if (Modifiers.modifierStringsByName.size() == 0) {
       Modifiers.loadAllModifiers();
@@ -2873,7 +2663,7 @@ public class Modifiers {
           }
           if (!mods.getString(StringModifier.EFFECT).isEmpty()) {
             potions.add(name);
-          } else if (mods.getBoolean(Modifiers.FREE_PULL)) {
+          } else if (mods.getBoolean(BooleanModifier.FREE_PULL)) {
             freepulls.add(name);
           } else if (!mods.getString(StringModifier.WIKI_NAME).isEmpty()) {
             wikiname.add(name);

@@ -11139,3 +11139,4 @@
 11111
 11112	pixel bread	950236935	pixelbread.gif	food	t,d	30
 11113	pixel whiskey	262338395	pixelwhiskey.gif	drink	t,d	30
+11114	pixel rock	827961712	pixelrock.gif	grow	d	16384

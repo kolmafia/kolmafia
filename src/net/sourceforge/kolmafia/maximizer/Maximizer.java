@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -270,7 +271,7 @@ public class Maximizer {
         }
         // Only take numeric modifiers, and not Surgeonosity, from Items in Noobcore
         StringBuilder mods = new StringBuilder();
-        for (var mod : Modifiers.DOUBLE_MODIFIERS) {
+        for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
           switch (mod) {
             case SURGEONOSITY:
               continue;
@@ -410,8 +411,8 @@ public class Maximizer {
       if (!hasEffect) {
         spec.addEffect(effect);
         delta = spec.getScore() - current;
-        if ((spec.getModifiers().getRawBitmap(Modifiers.MUTEX_VIOLATIONS)
-                & ~KoLCharacter.currentRawBitmapModifier(Modifiers.MUTEX_VIOLATIONS))
+        if ((spec.getModifiers().getRawBitmap(BitmapModifier.MUTEX_VIOLATIONS)
+                & ~KoLCharacter.currentRawBitmapModifier(BitmapModifier.MUTEX_VIOLATIONS))
             != 0) { // This effect creates a mutex problem that the player
           // didn't already have.  In the future, perhaps suggest
           // uneffecting the conflicting effect, but for now just skip.

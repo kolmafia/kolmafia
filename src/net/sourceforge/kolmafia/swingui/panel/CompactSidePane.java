@@ -36,6 +36,9 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -983,7 +986,7 @@ public class CompactSidePane extends JPanel implements Runnable {
         this.bonusValueLabel[count].setText(surgeon + " / 5");
         count++;
       }
-      int rave = KoLCharacter.currentBitmapModifier(Modifiers.RAVEOSITY);
+      int rave = KoLCharacter.currentBitmapModifier(BitmapModifier.RAVEOSITY);
       if (rave != 0 && count < this.BONUS_LABELS) {
         this.bonusLabel[count].setText("Rave: ");
         this.bonusValueLabel[count].setText(rave + " / 7");
@@ -1295,10 +1298,10 @@ public class CompactSidePane extends JPanel implements Runnable {
 
   private static String modifierPopupText() {
     StringBuffer buf = new StringBuffer("<html><body><table border=1>");
-    int[] predicted = KoLCharacter.getCurrentModifiers().predict();
-    int mus = Math.max(1, predicted[Modifiers.BUFFED_MUS]);
-    int mys = Math.max(1, predicted[Modifiers.BUFFED_MYS]);
-    int mox = Math.max(1, predicted[Modifiers.BUFFED_MOX]);
+    var predicted = KoLCharacter.getCurrentModifiers().predict();
+    int mus = Math.max(1, predicted.get(DerivedModifier.BUFFED_MUS));
+    int mys = Math.max(1, predicted.get(DerivedModifier.BUFFED_MYS));
+    int mox = Math.max(1, predicted.get(DerivedModifier.BUFFED_MOX));
     int dmus = KoLCharacter.getAdjustedMuscle() - mus;
     int dmys = KoLCharacter.getAdjustedMysticality() - mys;
     int dmox = KoLCharacter.getAdjustedMoxie() - mox;
@@ -1317,8 +1320,8 @@ public class CompactSidePane extends JPanel implements Runnable {
       buf.append(KoLConstants.MODIFIER_FORMAT.format(dmox));
       buf.append(")</td></tr>");
     }
-    long hp = Math.max(1, predicted[Modifiers.BUFFED_HP]);
-    long mp = Math.max(1, predicted[Modifiers.BUFFED_MP]);
+    long hp = Math.max(1, predicted.get(DerivedModifier.BUFFED_HP));
+    long mp = Math.max(1, predicted.get(DerivedModifier.BUFFED_MP));
     long dhp = KoLCharacter.getMaximumHP() - hp;
     long dmp = KoLCharacter.getMaximumMP() - mp;
     if (dhp != 0 || dmp != 0) {
@@ -1415,7 +1418,7 @@ public class CompactSidePane extends JPanel implements Runnable {
     buf.append("</td></tr><tr><td>Fumble</td><td>");
     if (KoLConstants.activeEffects.contains(CompactSidePane.CLUMSY)) {
       buf.append("always");
-    } else if (KoLCharacter.currentBooleanModifier(Modifiers.NEVER_FUMBLE)) {
+    } else if (KoLCharacter.currentBooleanModifier(BooleanModifier.NEVER_FUMBLE)) {
       buf.append("never");
     } else {
       buf.append(
