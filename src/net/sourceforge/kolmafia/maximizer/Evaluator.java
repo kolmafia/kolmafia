@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -860,7 +861,7 @@ public class Evaluator {
       if (osity < this.clownosity) this.failed = true;
     }
     if (this.raveosity > 0) {
-      int osity = mods.getBitmap(Modifiers.RAVEOSITY);
+      int osity = mods.getBitmap(BitmapModifier.RAVEOSITY);
       score += Math.min(osity, this.raveosity);
       if (osity < this.raveosity) this.failed = true;
     }
@@ -1468,13 +1469,13 @@ public class Evaluator {
 
         if ((hoboPowerUseful && mods.get(DoubleModifier.HOBO_POWER) > 0.0)
             || (smithsnessUseful && !wrongClass && mods.get(DoubleModifier.SMITHSNESS) > 0.0)
-            || (brimstoneUseful && mods.getRawBitmap(Modifiers.BRIMSTONE) != 0)
-            || (cloathingUseful && mods.getRawBitmap(Modifiers.CLOATHING) != 0)
+            || (brimstoneUseful && mods.getRawBitmap(BitmapModifier.BRIMSTONE) != 0)
+            || (cloathingUseful && mods.getRawBitmap(BitmapModifier.CLOATHING) != 0)
             || (slimeHateUseful && mods.get(DoubleModifier.SLIME_HATES_IT) > 0.0)
             || (this.clownosity > 0 && mods.get(DoubleModifier.CLOWNINESS) != 0)
-            || (this.raveosity > 0 && mods.getRawBitmap(Modifiers.RAVEOSITY) != 0)
+            || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
             || (this.surgeonosity > 0 && mods.get(DoubleModifier.SURGEONOSITY) != 0)
-            || ((mods.getRawBitmap(Modifiers.SYNERGETIC) & usefulSynergies) != 0)) {
+            || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;
         }
@@ -1515,7 +1516,7 @@ public class Evaluator {
         }
 
         if (mods.getBoolean(BooleanModifier.UNARMED)
-            || mods.getRawBitmap(Modifiers.MUTEX)
+            || mods.getRawBitmap(BitmapModifier.MUTEX)
                 != 0) { // This item may turn out to be unequippable, so don't
           // count it towards the shortlist length.
           item.conditionalFlag = true;

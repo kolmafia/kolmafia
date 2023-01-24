@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -985,7 +986,7 @@ public class CompactSidePane extends JPanel implements Runnable {
         this.bonusValueLabel[count].setText(surgeon + " / 5");
         count++;
       }
-      int rave = KoLCharacter.currentBitmapModifier(Modifiers.RAVEOSITY);
+      int rave = KoLCharacter.currentBitmapModifier(BitmapModifier.RAVEOSITY);
       if (rave != 0 && count < this.BONUS_LABELS) {
         this.bonusLabel[count].setText("Rave: ");
         this.bonusValueLabel[count].setText(rave + " / 7");
