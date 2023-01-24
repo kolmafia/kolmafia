@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.swingui;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,10 +40,10 @@ class CalendarFrameTest {
   }
 
   public String getDataFromTab(Component aTab) {
-    assertTrue(aTab instanceof RequestPane);
+    assertThat(aTab, instanceOf(RequestPane.class));
     RequestPane rPane = (RequestPane) aTab;
     Document document = rPane.getDocument();
-    assertTrue(document instanceof HTMLDocument);
+    assertThat(document, instanceOf(HTMLDocument.class));
     HTMLDocument hDoc = (HTMLDocument) document;
     String x = writeDocumentToString(hDoc);
     x = StringUtilities.stripHtml(x);
@@ -57,7 +59,7 @@ class CalendarFrameTest {
     assertEquals("Farmer's Almanac (Not Logged In)", testFrame.getTitle());
     Component[] components = testFrame.getComponents();
     assertEquals(1, components.length);
-    assertTrue(components[0] instanceof JRootPane);
+    assertThat(components[0], instanceOf(JRootPane.class));
   }
 
   @Test
