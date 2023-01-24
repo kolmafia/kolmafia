@@ -443,7 +443,7 @@ public class VolcanoMazeManagerTest {
           // RelayAgent intercepts that and calls VolcanoMazeManager.autoStep,
           // which submits the appropriate request to KoL, leaving the response
           // in the responseText
-          url = "volcanomaze,php?autostep";
+          url = "volcanomaze.php?autostep";
           request = new RelayRequest(false);
           request.constructURLString(url);
           VolcanoMazeManager.autoStep(request);
