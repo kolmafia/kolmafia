@@ -28,7 +28,7 @@ function adjustPlatforms(res) {
 				t.removeClass('no').addClass('you');
 				setTitle(t, 'You');
 			}
-		        t.removeClass('next');
+			t.removeClass('next');
 			if (t.attr('rel') == res.next) {
 				t.removeClass('no').addClass('yes').addClass('next');
 				setTitle(t, 'Next Platform');
@@ -40,10 +40,10 @@ function adjustPlatforms(res) {
 			if (sq.hasClass('goal')) continue;
 			if (sq.hasClass('you')) continue;
 			var image = 'platformup'+Math.floor((Math.random() * 4) +1);
-		        var url ='url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/'+image+'.gif?foo='+1+'")';
-		        if (!sq.hasClass('next')) {
-			    sq.removeClass('no').addClass('yes');
-			    setTitle(sq, 'Platform');
+			var url ='url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/'+image+'.gif?foo='+1+'")';
+			if (!sq.hasClass('next')) {
+				sq.removeClass('no').addClass('yes');
+				setTitle(sq, 'Platform');
 			}
 			sq.find('a').css('background', url);
 		}
