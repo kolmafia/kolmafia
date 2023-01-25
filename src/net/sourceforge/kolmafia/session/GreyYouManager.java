@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -489,7 +490,7 @@ public abstract class GreyYouManager {
     private final int level;
 
     private String enchantments = "";
-    private Modifiers.Lookup modsLookup = new Modifiers.Lookup(ModifierType.NONE, "");
+    private Lookup modsLookup = new Lookup(ModifierType.NONE, "");
 
     public GooSkill(
         final int skillId, final String monsterName, PassiveEffect passiveEffect, int level) {

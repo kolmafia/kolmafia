@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -967,7 +968,7 @@ public class ModifiersTest {
     @Test
     void canEvaluateExperienceModifiers() {
       String setting = "Meat Drop: +30, Experience (familiar): +2, Experience (Muscle): +4";
-      Modifiers.Lookup lookup = new Modifiers.Lookup(ModifierType.LOCAL_VOTE, "");
+      Lookup lookup = new Lookup(ModifierType.LOCAL_VOTE, "");
 
       Modifiers mods = Modifiers.parseModifiers(lookup, setting);
       assertEquals(30, mods.get(DoubleModifier.MEATDROP));

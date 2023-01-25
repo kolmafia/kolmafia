@@ -17,12 +17,12 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -3872,7 +3872,7 @@ public abstract class ChoiceControl {
             int vote = StringUtilities.parseInt(matcher.group(1)) + 1;
             String pref = Preferences.getString("_voteLocal" + vote);
             ModifierList addModList = Modifiers.splitModifiers(pref);
-            for (Modifier modifier : addModList) {
+            for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }
           }

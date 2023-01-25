@@ -26,13 +26,14 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -1098,14 +1099,14 @@ public class DebugDatabase {
     //   of parsed modifiers in the order they appear in modifiers.txt
 
     // Get the existing modifiers for the name
-    ModifierList existing = Modifiers.getModifierList(new Modifiers.Lookup(type, name));
+    ModifierList existing = Modifiers.getModifierList(new Lookup(type, name));
 
     // Look at each modifier in known
-    for (Modifier modifier : known) {
+    for (ModifierValue modifier : known) {
       String key = modifier.getName();
       String value = modifier.getValue();
 
-      Modifier current = existing.removeModifier(key);
+      ModifierValue current = existing.removeModifier(key);
       if (current != null) {
         String currentValue = current.getValue();
         if (currentValue == null) {
@@ -1194,7 +1195,7 @@ public class DebugDatabase {
       // Add all modifiers in existing list that were not seen in description to "known"
       known.addAll(existing);
     } else {
-      for (Modifier modifier : existing) {
+      for (ModifierValue modifier : existing) {
         String key = modifier.getName();
         String value = modifier.getValue();
         if (value == null) {
@@ -1221,19 +1222,8 @@ public class DebugDatabase {
         Modifiers.writeModifierComment(report, null, name);
       }
     } else {
-      Modifiers.writeModifierString(report, type, name, DebugDatabase.createModifierString(known));
+      Modifiers.writeModifierString(report, type, name, known.toString());
     }
-  }
-
-  private static String createModifierString(final ModifierList modifiers) {
-    StringBuilder buffer = new StringBuilder();
-    for (Modifier modifier : modifiers) {
-      if (buffer.length() > 0) {
-        buffer.append(", ");
-      }
-      buffer.append(modifier.toString());
-    }
-    return buffer.toString();
   }
 
   private static final Pattern ITEM_ENCHANTMENT_PATTERN =
@@ -1353,14 +1343,14 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown, final ConsumptionType type) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static final String parseItemEnchantments(final String text, final ConsumptionType type) {
     ModifierList known = new ModifierList();
     ArrayList<String> unknown = new ArrayList<>();
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static void parseStandardEnchantments(
@@ -1518,7 +1508,7 @@ public class DebugDatabase {
     }
 
     if (decemberEvent) {
-      for (Modifier m : known) {
+      for (ModifierValue m : known) {
         m.setValue("[" + m.getValue() + "*event(December)]");
       }
     }
@@ -1540,11 +1530,11 @@ public class DebugDatabase {
     }
   }
 
-  private static Modifier makeModifier(final String mod) {
+  private static ModifierValue makeModifier(final String mod) {
     int colon = mod.indexOf(":");
     String key = colon == -1 ? mod.trim() : mod.substring(0, colon).trim();
     String value = colon == -1 ? null : mod.substring(colon + 1).trim();
-    return new Modifier(key, value);
+    return new ModifierValue(key, value);
   }
 
   // **********************************************************
@@ -1721,7 +1711,7 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseOutfitEnchantments(text, known, unknown);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   // **********************************************************
@@ -1942,7 +1932,7 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseEffectEnchantments(text, known, unknown);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static final String parseEffectEnchantments(final String text) {
@@ -2191,7 +2181,7 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseSkillEnchantments(text, known, unknown);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static final String parseSkillEnchantments(final String text) {

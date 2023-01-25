@@ -6,10 +6,10 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -289,11 +289,11 @@ public class PlaceRequest extends GenericRequest {
             ModifierList modList = new ModifierList();
             ModifierList addModList =
                 Modifiers.splitModifiers(Modifiers.parseModifier(matcher.group(1)));
-            for (Modifier modifier : addModList) {
+            for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }
             addModList = Modifiers.splitModifiers(Modifiers.parseModifier(matcher.group(2)));
-            for (Modifier modifier : addModList) {
+            for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }
             Preferences.setString("_voteModifier", modList.toString());

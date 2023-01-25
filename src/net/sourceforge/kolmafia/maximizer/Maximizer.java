@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Maximizer {
@@ -201,7 +202,7 @@ public class Maximizer {
 
     // Include skills from absorbing items in Noobcore
     if (KoLCharacter.inNoobcore()) {
-      for (Map.Entry<Modifiers.IntOrString, String> entry :
+      for (Map.Entry<IntOrString, String> entry :
           Modifiers.getAllModifiersOfType(ModifierType.SKILL)) {
         if (!entry.getKey().isInt()) continue;
         int skillId = entry.getKey().getIntValue();
@@ -244,7 +245,7 @@ public class Maximizer {
       }
 
       // Include enchantments from absorbing equipment in Noobcore
-      for (Map.Entry<Modifiers.IntOrString, String> entry :
+      for (Map.Entry<IntOrString, String> entry :
           Modifiers.getAllModifiersOfType(ModifierType.ITEM)) {
         if (!entry.getKey().isInt()) continue;
         int itemId = entry.getKey().getIntValue();
@@ -320,7 +321,7 @@ public class Maximizer {
     }
 
     if (filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
-      for (Map.Entry<Modifiers.IntOrString, String> entry :
+      for (Map.Entry<IntOrString, String> entry :
           Modifiers.getAllModifiersOfType(ModifierType.HORSERY)) {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
@@ -357,7 +358,7 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, name, delta));
       }
 
-      for (Map.Entry<Modifiers.IntOrString, String> entry :
+      for (Map.Entry<IntOrString, String> entry :
           Modifiers.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
@@ -392,7 +393,7 @@ public class Maximizer {
       }
     }
 
-    for (Map.Entry<Modifiers.IntOrString, String> entry :
+    for (Map.Entry<IntOrString, String> entry :
         Modifiers.getAllModifiersOfType(ModifierType.EFFECT)) {
       if (!entry.getKey().isInt()) continue;
       int effectId = entry.getKey().getIntValue();
