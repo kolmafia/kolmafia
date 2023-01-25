@@ -56,7 +56,7 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -9545,7 +9545,7 @@ public abstract class RuntimeLibrary {
     AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE);
     MapValue value = new MapValue(type);
 
-    for (Modifier modifier :
+    for (ModifierValue modifier :
         VotingBoothManager.getInitiatives(
             (int) clss.intValue(), (int) path.intValue(), (int) daycount.intValue())) {
       value.aset(new Value(modifier.toString()), DataTypes.TRUE_VALUE);

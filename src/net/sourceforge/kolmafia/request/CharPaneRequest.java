@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
@@ -1283,7 +1283,7 @@ public class CharPaneRequest extends GenericRequest {
       ModifierList newModList = Modifiers.splitModifiers(mod);
 
       // Iterate over modifiers
-      for (Modifier modifier : newModList) {
+      for (ModifierValue modifier : newModList) {
         String key = modifier.getName();
         String value = modifier.getValue();
         int modVal = StringUtilities.parseInt(value);

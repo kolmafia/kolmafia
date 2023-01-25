@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -164,11 +164,11 @@ public class KGBRequest extends GenericRequest {
           Modifiers.getModifierList(
               new Lookup(ModifierType.ITEM, ItemPool.KREMLIN_BRIEFCASE));
       ModifierList oldModList = modMap.get(oldEnchantment);
-      for (Modifier modifier : oldModList) {
+      for (ModifierValue modifier : oldModList) {
         modList.removeModifier(modifier.getName());
       }
       ModifierList newModList = modMap.get(newEnchantment);
-      for (Modifier modifier : newModList) {
+      for (ModifierValue modifier : newModList) {
         modList.addModifier(modifier);
       }
       Modifiers.overrideModifier(ModifierType.ITEM, ItemPool.KREMLIN_BRIEFCASE, modList.toString());

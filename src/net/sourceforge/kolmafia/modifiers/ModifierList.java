@@ -5,23 +5,23 @@ import java.util.LinkedList;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import net.sourceforge.kolmafia.ModifierExpression;
-import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ModifierList implements Iterable<Modifier> {
+public class ModifierList implements Iterable<ModifierValue> {
 
-  private final LinkedList<Modifier> list;
+  private final LinkedList<ModifierValue> list;
 
   public ModifierList() {
     this.list = new LinkedList<>();
   }
 
   @Override
-  public Iterator<Modifier> iterator() {
+  public Iterator<ModifierValue> iterator() {
     return this.list.iterator();
   }
 
-  public Stream<Modifier> stream() {
+  public Stream<ModifierValue> stream() {
     return StreamSupport.stream(spliterator(), false);
   }
 
@@ -37,15 +37,15 @@ public class ModifierList implements Iterable<Modifier> {
     this.list.addAll(list.list);
   }
 
-  public void addModifier(final Modifier modifier) {
+  public void addModifier(final ModifierValue modifier) {
     this.list.add(modifier);
   }
 
   public void addModifier(final String name, final String value) {
-    this.list.add(new Modifier(name, value));
+    this.list.add(new ModifierValue(name, value));
   }
 
-  public void addToModifier(final Modifier modifier) {
+  public void addToModifier(final ModifierValue modifier) {
     String name = modifier.getName();
     String current = this.getModifierValue(name);
     if (current == null) {
@@ -56,7 +56,7 @@ public class ModifierList implements Iterable<Modifier> {
       if (StringUtilities.isNumeric(current) && StringUtilities.isNumeric(value)) {
         int newValue = Integer.parseInt(current) + Integer.parseInt(value);
         this.removeModifier(name);
-        this.list.add(new Modifier(name, String.valueOf(newValue)));
+        this.list.add(new ModifierValue(name, String.valueOf(newValue)));
       }
     }
   }
@@ -64,19 +64,19 @@ public class ModifierList implements Iterable<Modifier> {
   public void addToModifier(final String name, final String value) {
     String current = this.getModifierValue(name);
     if (current == null) {
-      this.list.add(new Modifier(name, value));
+      this.list.add(new ModifierValue(name, value));
     } else {
       // We can only add to numeric values
       if (StringUtilities.isNumeric(current) && StringUtilities.isNumeric(value)) {
         int newValue = Integer.parseInt(current) + Integer.parseInt(value);
         this.removeModifier(name);
-        this.list.add(new Modifier(name, String.valueOf(newValue)));
+        this.list.add(new ModifierValue(name, String.valueOf(newValue)));
       }
     }
   }
 
   public boolean containsModifier(final String name) {
-    for (Modifier modifier : this.list) {
+    for (ModifierValue modifier : this.list) {
       if (name.equals(modifier.name)) {
         return true;
       }
@@ -85,7 +85,7 @@ public class ModifierList implements Iterable<Modifier> {
   }
 
   public String getModifierValue(final String name) {
-    for (Modifier modifier : this.list) {
+    for (ModifierValue modifier : this.list) {
       if (name.equals(modifier.name)) {
         return modifier.value;
       }
@@ -93,10 +93,10 @@ public class ModifierList implements Iterable<Modifier> {
     return null;
   }
 
-  public Modifier removeModifier(final String name) {
-    Iterator<Modifier> iterator = this.iterator();
+  public ModifierValue removeModifier(final String name) {
+    Iterator<ModifierValue> iterator = this.iterator();
     while (iterator.hasNext()) {
-      Modifier modifier = iterator.next();
+      ModifierValue modifier = iterator.next();
       if (name.equals(modifier.name)) {
         iterator.remove();
         return modifier;
@@ -108,7 +108,7 @@ public class ModifierList implements Iterable<Modifier> {
   @Override
   public String toString() {
     StringBuilder buffer = new StringBuilder();
-    for (Modifier modifier : this.list) {
+    for (ModifierValue modifier : this.list) {
       if (buffer.length() > 0) {
         buffer.append(", ");
       }
@@ -118,12 +118,12 @@ public class ModifierList implements Iterable<Modifier> {
     return buffer.toString();
   }
 
-  public static class Modifier {
+  public static class ModifierValue {
 
     private final String name;
     private String value;
 
-    public Modifier(final String name, final String value) {
+    public ModifierValue(final String name, final String value) {
       this.name = name;
       this.value = value;
     }

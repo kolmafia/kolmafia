@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -689,7 +689,7 @@ public class LatteRequest extends GenericRequest {
     ModifierList modList = new ModifierList();
     for (String mod : mods) {
       ModifierList addModList = Modifiers.splitModifiers(mod);
-      for (Modifier modifier : addModList) {
+      for (ModifierValue modifier : addModList) {
         modList.addToModifier(modifier);
       }
     }

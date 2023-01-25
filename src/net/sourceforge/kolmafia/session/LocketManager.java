@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
-import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -114,7 +114,7 @@ public class LocketManager {
     // ...find the first modifier that can indicate the phylum...
     var indicativeMod =
         mods.stream()
-            .map(Modifier::getName)
+            .map(ModifierValue::getName)
             .filter(Predicate.not(CONSTANT_MODS::contains))
             .findAny()
             .orElse(null);

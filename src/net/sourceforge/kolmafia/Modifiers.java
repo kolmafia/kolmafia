@@ -35,8 +35,9 @@ import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
-import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifierCollection;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -74,7 +75,7 @@ public class Modifiers {
   private static final TwoLevelEnumHashMap<ModifierType, IntOrString, Modifiers> modifiersByName =
       new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
-  private static final Map<String, net.sourceforge.kolmafia.modifiers.Modifier>
+  private static final Map<String, Modifier>
       modifierTypesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
   private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
@@ -871,7 +872,7 @@ public class Modifiers {
     }
   }
 
-  public boolean setModifier(final Modifier mod) {
+  public boolean setModifier(final ModifierValue mod) {
     if (mod == null) {
       return false;
     }
@@ -1179,7 +1180,7 @@ public class Modifiers {
 
     // Otherwise, break apart the string and rebuild it with all
     // expressions evaluated.
-    for (Modifier modifier : list) {
+    for (ModifierValue modifier : list) {
       // Evaluate the modifier expression
       modifier.eval(lookup);
     }
@@ -2246,7 +2247,7 @@ public class Modifiers {
 
         ModifierList list = Modifiers.splitModifiers(modifierString);
 
-        for (Modifier modifier : list) {
+        for (ModifierValue modifier : list) {
           String mod = modifier.toString();
 
           if (DoubleModifier.byTagPattern(mod) != null) {

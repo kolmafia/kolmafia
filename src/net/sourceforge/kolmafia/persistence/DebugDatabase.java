@@ -26,7 +26,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -1102,11 +1102,11 @@ public class DebugDatabase {
     ModifierList existing = Modifiers.getModifierList(new Lookup(type, name));
 
     // Look at each modifier in known
-    for (Modifier modifier : known) {
+    for (ModifierValue modifier : known) {
       String key = modifier.getName();
       String value = modifier.getValue();
 
-      Modifier current = existing.removeModifier(key);
+      ModifierValue current = existing.removeModifier(key);
       if (current != null) {
         String currentValue = current.getValue();
         if (currentValue == null) {
@@ -1195,7 +1195,7 @@ public class DebugDatabase {
       // Add all modifiers in existing list that were not seen in description to "known"
       known.addAll(existing);
     } else {
-      for (Modifier modifier : existing) {
+      for (ModifierValue modifier : existing) {
         String key = modifier.getName();
         String value = modifier.getValue();
         if (value == null) {
@@ -1508,7 +1508,7 @@ public class DebugDatabase {
     }
 
     if (decemberEvent) {
-      for (Modifier m : known) {
+      for (ModifierValue m : known) {
         m.setValue("[" + m.getValue() + "*event(December)]");
       }
     }
@@ -1530,11 +1530,11 @@ public class DebugDatabase {
     }
   }
 
-  private static Modifier makeModifier(final String mod) {
+  private static ModifierValue makeModifier(final String mod) {
     int colon = mod.indexOf(":");
     String key = colon == -1 ? mod.trim() : mod.substring(0, colon).trim();
     String value = colon == -1 ? null : mod.substring(colon + 1).trim();
-    return new Modifier(key, value);
+    return new ModifierValue(key, value);
   }
 
   // **********************************************************
