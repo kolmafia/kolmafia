@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import static internal.helpers.Maximizer.commandStartsWith;
+import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.getSlot;
 import static internal.helpers.Maximizer.maximize;
 import static internal.helpers.Maximizer.modFor;
@@ -8,6 +9,7 @@ import static internal.helpers.Maximizer.recommendedSlotIs;
 import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
 import static internal.helpers.Maximizer.recommends;
 import static internal.helpers.Maximizer.someBoostIs;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
@@ -30,12 +32,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.util.Optional;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -902,7 +906,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("Monster Level Percent"));
-        someBoostIs(b -> commandStartsWith(b, "umbrella broken"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "umbrella broken")));
         recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
@@ -918,7 +922,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("exp"));
-        someBoostIs(b -> commandStartsWith(b, "umbrella broken"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "umbrella broken")));
         recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
@@ -948,7 +952,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("meat, shield"));
-        someBoostIs(b -> commandStartsWith(b, "umbrella forward-facing"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "umbrella forward-facing")));
         recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
@@ -964,7 +968,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("muscle, sea"));
-        someBoostIs(b -> commandStartsWith(b, "edpiece fish"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "edpiece fish")));
         recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
       }
     }
@@ -980,7 +984,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("muscle"));
-        someBoostIs(b -> commandStartsWith(b, "edpiece bear"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "edpiece bear")));
         recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
       }
     }
@@ -994,8 +998,8 @@ public class MaximizerTest {
               withEquipped(EquipmentManager.PANTS, "old sweatpants"));
       try (cleanups) {
         assertTrue(maximize("ml, -combat, equip backup camera, equip unbreakable umbrella"));
-        someBoostIs(b -> commandStartsWith(b, "umbrella cocoon"));
-        someBoostIs(b -> commandStartsWith(b, "backupcamera ml"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "umbrella cocoon")));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "backupcamera ml")));
       }
     }
 
@@ -1188,9 +1192,9 @@ public class MaximizerTest {
   }
 
   @Nested
-  public class NonStackingGear {
+  public class Uniques {
     @Test
-    public void suggestsBestNonStackingWatch() {
+    public void suggestsBestNonStackingWatchForAdventures() {
       var cleanups =
           new Cleanups(
               withEquippableItem("Counterclockwise Watch"), // 10, watch
@@ -1207,30 +1211,251 @@ public class MaximizerTest {
         recommends("gold wedding ring");
       }
     }
-  }
 
-  @Nested
-  public class Sea {
     @Test
-    public void unableToAdventureInSeaMarksAsFailed() {
-      assertFalse(maximize("sea"));
+    public void watchesDontStackOutsideAdventuresEither() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.SASQ_WATCH), // 3, watch
+              withEquippableItem("Crimbolex watch") // 5, also a watch
+              );
+
+      try (cleanups) {
+        assertTrue(maximize("fites"));
+        assertEquals(5, modFor("PvP Fights"), 0.01);
+        recommends("Crimbolex watch");
+        assertFalse(
+            someBoostIs(x -> x.isEquipment() && ItemPool.SASQ_WATCH == x.getItem().getItemId()));
+      }
     }
 
     @Test
-    public void prefersSeaGearToHigherScore() {
-      var cleanups =
-          new Cleanups(
-              withFamiliar(FamiliarPool.MOSQUITO),
-              withEquippableItem(ItemPool.DAS_BOOT),
-              withEquippableItem("Mer-kin scholar mask"),
-              withEquippableItem("Lens of Violence"),
-              withEquippableItem("old SCUBA tank"));
+    public void surgeonosityItemsStackOutsideSurgeonosity() {
+      var cleanups = withEquippableItem("surgical mask", 3);
 
       try (cleanups) {
-        assertTrue(maximize("item, sea"));
-        recommendedSlotIs(EquipmentManager.HAT, "Mer-kin scholar mask");
-        recommendedSlotIs(EquipmentManager.FAMILIAR, "das boot");
-        recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
+        assertTrue(maximize("mp, -tie"));
+        assertEquals(120, modFor("Maximum MP"), 0.01);
+        assertThat(
+            getBoosts().stream()
+                .filter(x -> x.isEquipment() && "surgical mask".equals(x.getItem().getName()))
+                .count(),
+            equalTo(3L));
+        // TODO: make duplicate surgeonosity not count in modifiers
+        // assertEquals(1, modFor("Surgeonosity"), 0.01);
+      }
+    }
+
+    @Test
+    public void clownosityItemsStackOutsideClownosity() {
+      var cleanups = withEquippableItem("clownskin belt", 3);
+
+      try (cleanups) {
+        assertTrue(maximize("mp, -tie"));
+        assertEquals(45, modFor("Maximum MP"), 0.01);
+        assertThat(
+            getBoosts().stream()
+                .filter(x -> x.isEquipment() && "clownskin belt".equals(x.getItem().getName()))
+                .count(),
+            equalTo(3L));
+        // TODO: make duplicate clowniness not count in modifiers
+        // assertEquals(50, modFor("Clowniness"), 0.01);
+      }
+    }
+
+    @Test
+    public void raveosityItemsStackOutsideRaveosity() {
+      var cleanups = withEquippableItem("blue glowstick", 3);
+
+      try (cleanups) {
+        assertTrue(maximize("mp, -tie"));
+        assertEquals(15, modFor("Maximum MP"), 0.01);
+        assertThat(
+            getBoosts().stream()
+                .filter(x -> x.isEquipment() && "blue glowstick".equals(x.getItem().getName()))
+                .count(),
+            equalTo(3L));
+        assertEquals(1, modFor("Raveosity"), 0.01);
+      }
+    }
+
+    @Test
+    public void brimstoneItemsStackOutsideBrimstone() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Brimstone Bludgeon", 3),
+              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING));
+
+      try (cleanups) {
+        assertTrue(maximize("muscle, -tie"));
+        assertEquals(100, modFor("Muscle Percent"), 0.01);
+        recommendedSlotIs(EquipmentManager.WEAPON, "Brimstone Bludgeon");
+        recommendedSlotIs(EquipmentManager.OFFHAND, "Brimstone Bludgeon");
+        assertEquals(1, modFor("Brimstone"), 0.01);
+      }
+    }
+
+    @Test
+    public void cloathingItemsStackOutsideCloathing() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Stick-Knife of Loathing", 3),
+              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, -tie"));
+        assertEquals(400, modFor("Spell Damage Percent"), 0.01);
+        recommendedSlotIs(EquipmentManager.WEAPON, "Stick-Knife of Loathing");
+        recommendedSlotIs(EquipmentManager.OFFHAND, "Stick-Knife of Loathing");
+        assertEquals(1, modFor("Cloathing"), 0.01);
+      }
+    }
+  }
+
+  @Nested
+  public class Booleans {
+    @Nested
+    public class NeverFumble {
+      @Test
+      public void unableToNeverFumbleMarksAsFailed() {
+        assertFalse(maximize("never fumble"));
+      }
+
+      @Test
+      public void requiresConditionToSucceed() {
+        var cleanups =
+            new Cleanups(
+                withEquippableItem("aerogel anvil"),
+                withEquippableItem("Baron von Ratsworth's monocle"),
+                withEquippableItem("observational glasses"),
+                withEquippableItem("ring of the Skeleton Lord"));
+
+        try (cleanups) {
+          assertTrue(maximize("never fumble"));
+          recommends("aerogel anvil");
+          recommends("ring of the Skeleton Lord");
+          recommends("Baron von Ratsworth's monocle");
+        }
+      }
+    }
+
+    @Nested
+    public class Pirate {
+      @Test
+      public void unableToPirateMarksAsFailed() {
+        assertFalse(maximize("pirate"));
+      }
+
+      @Test
+      public void fledgesOrOutfitBothCount() {
+        var cleanups =
+            new Cleanups(
+                withEquippableItem("eyepatch"),
+                withEquippableItem("swashbuckling pants"),
+                withEquippableItem("Pantsgiving"),
+                withEquippableItem("stuffed shoulder parrot"),
+                withEquippableItem("pirate fledges"),
+                withEquippableItem("moustache sock"),
+                withEquippableItem("tube sock"),
+                withEquippableItem("mirrored aviator shades"));
+
+        try (cleanups) {
+          assertTrue(maximize("pirate, meat, -tie"));
+          recommends("pirate fledges");
+          recommends("Pantsgiving");
+
+          assertTrue(maximize("pirate, moxie, -tie"));
+          recommendedSlotIs(EquipmentManager.HAT, "eyepatch");
+          recommendedSlotIs(EquipmentManager.PANTS, "swashbuckling pants");
+          recommends("stuffed shoulder parrot");
+          recommends("moustache sock");
+          recommends("tube sock");
+        }
+      }
+    }
+
+    @Nested
+    public class Sea {
+      @Test
+      public void unableToAdventureInSeaMarksAsFailed() {
+        assertFalse(maximize("sea"));
+      }
+
+      @Test
+      public void prefersSeaGearToHigherScore() {
+        var cleanups =
+            new Cleanups(
+                withFamiliar(FamiliarPool.MOSQUITO),
+                withEquippableItem(ItemPool.DAS_BOOT),
+                withEquippableItem("Mer-kin scholar mask"),
+                withEquippableItem("Lens of Violence"),
+                withEquippableItem("old SCUBA tank"));
+
+        try (cleanups) {
+          assertTrue(maximize("item, sea"));
+          recommendedSlotIs(EquipmentManager.HAT, "Mer-kin scholar mask");
+          recommendedSlotIs(EquipmentManager.FAMILIAR, "das boot");
+          recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
+        }
+      }
+    }
+  }
+
+  @Nested
+  public class Chefstaves {
+    @Test
+    public void cantEquipCheffstaffsOnLeftHandMan() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Staff of Kitchen Royalty"),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withSkill(SkillPool.SPIRIT_OF_RIGATONI));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, -weapon"));
+        recommendedSlotIsUnchanged(EquipmentManager.FAMILIAR);
+      }
+    }
+
+    @Test
+    public void mustEquipSauceGloveForChefstaff() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Staff of Kitchen Royalty"),
+              withEquippableItem("special sauce glove"),
+              withClass(AscensionClass.SAUCEROR));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, -tie"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "Staff of Kitchen Royalty");
+        recommends("special sauce glove");
+      }
+    }
+
+    @Test
+    public void cannotUseSauceGloveIfNotSauceror() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Staff of Kitchen Royalty"),
+              withEquippableItem("special sauce glove"),
+              withClass(AscensionClass.SEAL_CLUBBER));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, -tie"));
+        recommendedSlotIsUnchanged(EquipmentManager.WEAPON);
+      }
+    }
+
+    @Test
+    public void canUseSkillToEquipChefstaves() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Staff of Kitchen Royalty"),
+              withSkill(SkillPool.SPIRIT_OF_RIGATONI));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, -tie"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "Staff of Kitchen Royalty");
       }
     }
   }
