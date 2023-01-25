@@ -5456,11 +5456,10 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.FR_GUEST:
-        // if ( responseText.contains( "????????" ) )
-        // {
-        // If you already have access it is not consumed
-        //	return;
-        // }
+        if (responseText.contains("You've already got access to FantasyRealm.")) {
+          // If you already have access it is not consumed
+          return;
+        }
         Preferences.setBoolean("_frToday", true);
         break;
 
@@ -5495,6 +5494,10 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.NEVERENDING_PARTY_INVITE_DAILY:
+        if (responseText.contains("You're already invited to that party.")) {
+          // If you already have access it is not consumed
+          return;
+        }
         Preferences.setBoolean("_neverendingPartyToday", true);
         break;
 
@@ -5512,6 +5515,14 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.VOTER_BALLOT:
+        if (responseText.contains("You're already registered.")) {
+          // If you already have access it is not consumed
+          return;
+        }
+        if (responseText.contains("You can't vote again today!")) {
+          // If you already have voted it is not consumed
+          return;
+        }
         Preferences.setBoolean("_voteToday", true);
         break;
 
@@ -5520,6 +5531,10 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.BOXING_DAY_PASS:
+        if (responseText.contains("You already have access to the Boxing Daycare")) {
+          // If you already have access it is not consumed
+          return;
+        }
         Preferences.setBoolean("_daycareToday", true);
         break;
 
@@ -5544,11 +5559,10 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.PR_GUEST:
-        // if ( responseText.contains( "????????" ) )
-        // {
-        // If you already have access it is not consumed
-        //	return;
-        // }
+        if (responseText.contains("You've already got access to PirateRealm.")) {
+          // If you already have access it is not consumed
+          return;
+        }
         Preferences.setBoolean("_prToday", true);
         break;
 

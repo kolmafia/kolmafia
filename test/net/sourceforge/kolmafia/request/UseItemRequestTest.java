@@ -367,6 +367,106 @@ class UseItemRequestTest {
     }
   }
 
+  @Test
+  void detectsCanAlreadyAccessFantasyRealm() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.FR_GUEST),
+            withProperty("_frToday", false),
+            withNextResponse(200, html("request/test_use_item_fantasyrealm_guest_pass.html")));
+
+    try (cleanups) {
+      assertThat(InventoryManager.getCount(ItemPool.FR_GUEST), is(1));
+
+      var req = UseItemRequest.getInstance(ItemPool.FR_GUEST);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.FR_GUEST), is(1));
+      assertThat("_frToday", isSetTo(false));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+        "request/test_use_item_absentee_voter_ballot_already_have_access.html",
+        "request/test_use_item_absentee_voter_ballot_already_voted.html"
+      })
+  void detectsCanAlreadyAccessVoterRegistrationOrHasVotedAlready(String htmlSource) {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.VOTER_BALLOT),
+            withProperty("_voteToday", false),
+            withNextResponse(200, html(htmlSource)));
+
+    try (cleanups) {
+      assertThat(InventoryManager.getCount(ItemPool.VOTER_BALLOT), is(1));
+
+      var req = UseItemRequest.getInstance(ItemPool.VOTER_BALLOT);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.VOTER_BALLOT), is(1));
+      assertThat("_voteToday", isSetTo(false));
+    }
+  }
+
+  @Test
+  void detectsAlreadyHasAccessToNeverendingParty() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.NEVERENDING_PARTY_INVITE_DAILY),
+            withProperty("_neverendingPartyToday", false),
+            withNextResponse(200, html("request/test_use_item_neverending_party_guest_pass.html")));
+
+    try (cleanups) {
+      assertThat(InventoryManager.getCount(ItemPool.NEVERENDING_PARTY_INVITE_DAILY), is(1));
+
+      var req = UseItemRequest.getInstance(ItemPool.NEVERENDING_PARTY_INVITE_DAILY);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.NEVERENDING_PARTY_INVITE_DAILY), is(1));
+      assertThat("_neverendingPartyToday", isSetTo(false));
+    }
+  }
+
+  @Test
+  void detectsAlreadyCanAccessBoxingDaycare() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.BOXING_DAY_PASS),
+            withProperty("_daycareToday", false),
+            withNextResponse(200, html("request/test_use_item_boxing_day_pass.html")));
+
+    try (cleanups) {
+      assertThat(InventoryManager.getCount(ItemPool.BOXING_DAY_PASS), is(1));
+
+      var req = UseItemRequest.getInstance(ItemPool.BOXING_DAY_PASS);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.BOXING_DAY_PASS), is(1));
+      assertThat("_daycareToday", isSetTo(false));
+    }
+  }
+
+  @Test
+  void detectsCanAlreadyAccessPirateRealm() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.PR_GUEST),
+            withProperty("_prToday", false),
+            withNextResponse(200, html("request/test_use_item_piraterealm_guest_pass.html")));
+
+    try (cleanups) {
+      assertThat(InventoryManager.getCount(ItemPool.PR_GUEST), is(1));
+
+      var req = UseItemRequest.getInstance(ItemPool.PR_GUEST);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.PR_GUEST), is(1));
+      assertThat("_prToday", isSetTo(false));
+    }
+  }
+
   @Nested
   class Milestone {
     static final AdventureResult MILESTONE = ItemPool.get(ItemPool.MILESTONE);
