@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -505,6 +506,17 @@ public class CampgroundRequest extends GenericRequest {
     return null;
   }
 
+  public static List<AdventureResult> getCrops() {
+    var list = new ArrayList<AdventureResult>();
+    for (AdventureResult crop : CampgroundRequest.CROPS) {
+      int index = KoLConstants.campground.indexOf(crop);
+      if (index != -1) {
+        list.add(KoLConstants.campground.get(index));
+      }
+    }
+    return list;
+  }
+
   public static CropType getCropType() {
     return CampgroundRequest.getCropType(getCrop());
   }
@@ -603,13 +615,13 @@ public class CampgroundRequest extends GenericRequest {
   }
 
   public static void harvestCrop() {
-    AdventureResult crop = CampgroundRequest.getCrop();
-    if (crop == null) {
+    List<AdventureResult> crops = CampgroundRequest.getCrops();
+    if (crops.isEmpty()) {
       // No garden
       return;
     }
 
-    CropType cropType = CampgroundRequest.getCropType(crop);
+    CropType cropType = CampgroundRequest.getCropType(crops.get(0));
 
     // Dealing with mushroom gardens is an Adventure
     if (cropType == CropType.MUSHROOM) {
@@ -619,23 +631,47 @@ public class CampgroundRequest extends GenericRequest {
 
     // Other garden types have zero or more things to pick.
     // We learned the count by looking at the campground.
-    int count = crop.getCount();
+    int count = crops.stream().mapToInt(AdventureResult::getCount).sum();
     if (count == 0) {
       // Nothing to pick.
       return;
     }
 
-    // Grass plots are special: each cluster of tall grass is picked
-    // individually - except for Very Tall Grass (the 8th growth)
-    if (cropType == CropType.GRASS || count == 8) {
-      // Harvest the entire garden in one go
-      count = 1;
-    }
+    if (cropType == CropType.ROCK) {
+      // rock garden is actually 3 gardens
+      var itemIds =
+          crops.stream().map(AdventureResult::getItemId).collect(Collectors.toUnmodifiableSet());
+      if (itemIds.contains(ItemPool.GROVELING_GRAVEL)
+          || itemIds.contains(ItemPool.FRUITY_PEBBLE)
+          || itemIds.contains(ItemPool.LODESTONE)) {
+        CampgroundRequest request = new CampgroundRequest("rgarden1");
+        RequestThread.postRequest(request);
+      }
+      if (itemIds.contains(ItemPool.MILESTONE)
+          || itemIds.contains(ItemPool.BOLDER_BOULDER)
+          || itemIds.contains(ItemPool.MOLEHILL_MOUNTAIN)) {
+        CampgroundRequest request = new CampgroundRequest("rgarden2");
+        RequestThread.postRequest(request);
+      }
+      if (itemIds.contains(ItemPool.WHETSTONE)
+          || itemIds.contains(ItemPool.HARD_ROCK)
+          || itemIds.contains(ItemPool.STRANGE_STALAGMITE)) {
+        CampgroundRequest request = new CampgroundRequest("rgarden3");
+        RequestThread.postRequest(request);
+      }
+    } else {
+      // Grass plots are special: each cluster of tall grass is picked
+      // individually - except for Very Tall Grass (the 8th growth)
+      if (cropType != CropType.GRASS || count == 8) {
+        // Harvest the entire garden in one go
+        count = 1;
+      }
 
-    // Pick your crop (in multiple requests, if Tall Grass)
-    CampgroundRequest request = new CampgroundRequest("garden");
-    while (count-- > 0) {
-      RequestThread.postRequest(request);
+      // Pick your crop (in multiple requests, if Tall Grass)
+      CampgroundRequest request = new CampgroundRequest("garden");
+      while (count-- > 0) {
+        RequestThread.postRequest(request);
+      }
     }
   }
 

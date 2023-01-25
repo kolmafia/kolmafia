@@ -1,28 +1,35 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSpleenUse;
+import static internal.helpers.Player.withSubStats;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Enum;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -357,6 +364,223 @@ class UseItemRequestTest {
       req.run();
 
       assertThat(InventoryManager.getCount(ItemPool.BASTILLE_LOANER_VOUCHER), is(1));
+    }
+  }
+
+  @Test
+  void detectsCanAlreadyAccessFantasyRealm() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.FR_GUEST),
+            withProperty("_frToday", false),
+            withNextResponse(200, html("request/test_use_item_fantasyrealm_guest_pass.html")));
+
+    try (cleanups) {
+      assertThat(InventoryManager.getCount(ItemPool.FR_GUEST), is(1));
+
+      var req = UseItemRequest.getInstance(ItemPool.FR_GUEST);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.FR_GUEST), is(1));
+      assertThat("_frToday", isSetTo(false));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+        "request/test_use_item_absentee_voter_ballot_already_have_access.html",
+        "request/test_use_item_absentee_voter_ballot_already_voted.html"
+      })
+  void detectsCanAlreadyAccessVoterRegistrationOrHasVotedAlready(String htmlSource) {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.VOTER_BALLOT),
+            withProperty("_voteToday", false),
+            withNextResponse(200, html(htmlSource)));
+
+    try (cleanups) {
+      assertThat(InventoryManager.getCount(ItemPool.VOTER_BALLOT), is(1));
+
+      var req = UseItemRequest.getInstance(ItemPool.VOTER_BALLOT);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.VOTER_BALLOT), is(1));
+      assertThat("_voteToday", isSetTo(false));
+    }
+  }
+
+  @Test
+  void detectsAlreadyHasAccessToNeverendingParty() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.NEVERENDING_PARTY_INVITE_DAILY),
+            withProperty("_neverendingPartyToday", false),
+            withNextResponse(200, html("request/test_use_item_neverending_party_guest_pass.html")));
+
+    try (cleanups) {
+      assertThat(InventoryManager.getCount(ItemPool.NEVERENDING_PARTY_INVITE_DAILY), is(1));
+
+      var req = UseItemRequest.getInstance(ItemPool.NEVERENDING_PARTY_INVITE_DAILY);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.NEVERENDING_PARTY_INVITE_DAILY), is(1));
+      assertThat("_neverendingPartyToday", isSetTo(false));
+    }
+  }
+
+  @Test
+  void detectsAlreadyCanAccessBoxingDaycare() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.BOXING_DAY_PASS),
+            withProperty("_daycareToday", false),
+            withNextResponse(200, html("request/test_use_item_boxing_day_pass.html")));
+
+    try (cleanups) {
+      assertThat(InventoryManager.getCount(ItemPool.BOXING_DAY_PASS), is(1));
+
+      var req = UseItemRequest.getInstance(ItemPool.BOXING_DAY_PASS);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.BOXING_DAY_PASS), is(1));
+      assertThat("_daycareToday", isSetTo(false));
+    }
+  }
+
+  @Test
+  void detectsCanAlreadyAccessPirateRealm() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.PR_GUEST),
+            withProperty("_prToday", false),
+            withNextResponse(200, html("request/test_use_item_piraterealm_guest_pass.html")));
+
+    try (cleanups) {
+      assertThat(InventoryManager.getCount(ItemPool.PR_GUEST), is(1));
+
+      var req = UseItemRequest.getInstance(ItemPool.PR_GUEST);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.PR_GUEST), is(1));
+      assertThat("_prToday", isSetTo(false));
+    }
+  }
+
+  @Nested
+  class Milestone {
+    static final AdventureResult MILESTONE = ItemPool.get(ItemPool.MILESTONE);
+
+    @Test
+    void milestoneBeforeDesertNotConsumed() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(MILESTONE),
+              withProperty("desertExploration", 0));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_milestone_pre_desert.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("inv_use.php?which=3&whichitem=11104&ajax=1");
+        request.run();
+        assertTrue(InventoryManager.hasItem(MILESTONE));
+        assertThat("desertExploration", isSetTo(0));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=11104&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void milestoneWillExploreDesert() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(MILESTONE),
+              withProperty("desertExploration", 92));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_milestone_explore_desert.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("inv_use.php?which=3&whichitem=11104&ajax=1");
+        request.run();
+        assertFalse(InventoryManager.hasItem(MILESTONE));
+        assertThat("desertExploration", isSetTo(97));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=11104&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void milestoneWillFinishDesert() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(MILESTONE),
+              withProperty("desertExploration", 97));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_milestone_finish_desert.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("inv_use.php?which=3&whichitem=11104&ajax=1");
+        request.run();
+        assertFalse(InventoryManager.hasItem(MILESTONE));
+        assertThat("desertExploration", isSetTo(100));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=11104&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void milestoneAfterDesertGivesStats() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(MILESTONE),
+              withSubStats(0, 0, 0),
+              withProperty("desertExploration", 100));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_milestone_post_desert.html"));
+        client.addResponse(200, ""); // api.php
+
+        assertEquals(0, KoLCharacter.getTotalMuscle());
+        assertEquals(0, KoLCharacter.getTotalMysticality());
+        assertEquals(0, KoLCharacter.getTotalMoxie());
+
+        var request = new GenericRequest("inv_use.php?which=3&whichitem=11104&ajax=1");
+        request.run();
+        assertFalse(InventoryManager.hasItem(MILESTONE));
+        assertThat("desertExploration", isSetTo(100));
+        assertEquals(165, KoLCharacter.getTotalMuscle());
+        assertEquals(244, KoLCharacter.getTotalMysticality());
+        assertEquals(214, KoLCharacter.getTotalMoxie());
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=11104&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
     }
   }
 }

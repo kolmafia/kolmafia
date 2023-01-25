@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -866,10 +867,10 @@ public class ResultProcessor {
         int drop = result.getCount();
         if (!ResultProcessor.possibleMeatDrop(drop, 0)) {
           StringBuilder buf = new StringBuilder("Alert - possible unknown meat bonus:");
-          if (KoLCharacter.currentNumericModifier(Modifiers.SPORADIC_MEATDROP) != 0.0f) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.SPORADIC_MEATDROP) != 0.0f) {
             buf.append(" (sporadic!)");
           }
-          if (KoLCharacter.currentNumericModifier(Modifiers.MEAT_BONUS) != 0.0f) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.MEAT_BONUS) != 0.0f) {
             buf.append(" (ant tool!)");
           }
           for (int i = 1; i <= 100 && buf.length() < 80; ++i) {

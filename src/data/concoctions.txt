@@ -371,8 +371,6 @@ strawberry pie	COOK	pie crust	strawberry
 
 Boris's key lime	COOK	Boris's key	lime
 Boris's key lime pie	COOK_FANCY	Boris's key lime	pie crust
-digital key lime	COOK	digital key	lime
-digital key lime pie	COOK_FANCY	digital key lime	pie crust
 Jarlsberg's key lime	COOK	Jarlsberg's key	lime
 Jarlsberg's key lime pie	COOK_FANCY	Jarlsberg's key lime	pie crust
 Sneaky Pete's key lime	COOK	Sneaky Pete's key	lime
@@ -1547,7 +1545,6 @@ star shirt	STAR, TORSO, ROW142	star chart	star (15)	line (15)
 # mystic after collecting enough pixels.
 
 monster bait	PIXEL, ROW31	red pixel (20)	white pixel (15)
-digital key	PIXEL, ROW36	white pixel (30)
 
 white pixel	PIXEL, ROW26	red pixel	green pixel	blue pixel
 red pixel potion	PIXEL, ROW27	black pixel (3)	red pixel (2)
@@ -1565,6 +1562,8 @@ pixel boomerang	PIXEL, ROW37	black pixel (10)	white pixel (10)	blue pixel (20)
 
 # Uses brown pixels from Vanya's Castle
 pixel whip	PIXEL, ROW38	brown pixel (10)
+pixel bread	PIXEL, ROW1307	white pixel (5)	brown pixel (5)
+pixel whiskey	PIXEL, ROW1308	white pixel (5)	brown pixel (5)
 
 # Uses yellow pixels from Puck Man or Ms. Puck Man
 pixel coin	PIXEL, ROW726	yellow pixel (10)

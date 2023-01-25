@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -379,6 +380,7 @@ public class ListCellRendererFactory {
 
       switch (item.getItemId()) {
         case ItemPool.MUNCHIES_PILL -> stringForm.append("+1-3 adv from next food");
+        case ItemPool.WHETSTONE -> stringForm.append("+1 adv from next food");
         case ItemPool.SUSHI_DOILY -> stringForm.append(
             "+3 adv from next sushi (automatically used from inventory)");
         case ItemPool.GRAINS_OF_SALT -> stringForm.append(
@@ -780,7 +782,7 @@ public class ListCellRendererFactory {
         if (equipmentType == ConsumptionType.ACCESSORY) {
           int count;
           Modifiers mods = Modifiers.getItemModifiers(ar.getItemId());
-          if (mods != null && mods.getBoolean(Modifiers.SINGLE)) {
+          if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {
             count = 1;
           } else {
             count = ar.getCount(KoLConstants.inventory);

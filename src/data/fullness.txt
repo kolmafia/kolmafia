@@ -688,6 +688,7 @@ pink slime	2	1	decent	3-4	8-10	8-10	8-10
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
 pirate fork	4	1	???	0	0	0	0	Consume one random 4-fullness food
 pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
+pixel bread	3	1	crappy	3	0	0	0	5 Desandwiched (+50% meat drops)
 pixel lemon	2	1	awesome	9-11	0	0	0
 Pizza of Legend	2	5	EPIC	19-22	0	0	0	Unspaded, 100 Endless Drool (+25 Moxie, +300% Moxie, +100% HP/MP, +50% pickpocket), PIZZA
 plain bagel	3	1	decent	5-7	0	0	0

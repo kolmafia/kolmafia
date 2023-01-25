@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -59,6 +61,8 @@ public class ApiRequest extends GenericRequest {
     return ApiRequest.updateStatus(false);
   }
 
+  private static final AdventureResult TRANSFUNCTIONER = ItemPool.get(ItemPool.TRANSFUNCTIONER);
+
   public static synchronized String updateStatus(final boolean silent) {
     // api.php doesn't work at all in Valhalla
     if (CharPaneRequest.inValhalla()) {
@@ -75,6 +79,13 @@ public class ApiRequest extends GenericRequest {
         || KoLCharacter.inDisguise()) {
       return ApiRequest.updateStatusFromCharpane();
     }
+
+    // Similarly, if you have the continuum transfunctioner equipped,
+    // the Character Pane shows you your (8-bit) Score
+    if (KoLCharacter.hasEquipped(TRANSFUNCTIONER)) {
+      return ApiRequest.updateStatusFromCharpane();
+    }
+
     ApiRequest.INSTANCE.silent = silent;
     ApiRequest.INSTANCE.run();
     return ApiRequest.INSTANCE.redirectLocation;

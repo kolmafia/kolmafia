@@ -21,10 +21,10 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -405,12 +405,12 @@ public class FamiliarDatabase {
     return FamiliarDatabase.foodFairyById.contains(id);
   }
 
-  public static boolean isFairyType(final int id, final int fairyModifier) {
+  public static boolean isFairyType(final int id, final DoubleModifier fairyModifier) {
     return switch (fairyModifier) {
-      case Modifiers.FAIRY_WEIGHT -> isFairyType(id);
-      case Modifiers.BOOZE_FAIRY_WEIGHT -> isBoozeFairyType(id);
-      case Modifiers.CANDY_FAIRY_WEIGHT -> isCandyFairyType(id);
-      case Modifiers.FOOD_FAIRY_WEIGHT -> isFoodFairyType(id);
+      case FAIRY_WEIGHT -> isFairyType(id);
+      case BOOZE_FAIRY_WEIGHT -> isBoozeFairyType(id);
+      case CANDY_FAIRY_WEIGHT -> isCandyFairyType(id);
+      case FOOD_FAIRY_WEIGHT -> isFoodFairyType(id);
       default -> false;
     };
   }

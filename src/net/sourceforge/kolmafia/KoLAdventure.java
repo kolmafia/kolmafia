@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -1653,6 +1654,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
     }
 
+    if (this.zone.equals("The 8-Bit Realm")) {
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return false;
+      }
+      return QuestDatabase.isQuestStarted(Quest.LARVA) || InventoryManager.hasItem(TRANSFUNCTIONER);
+    }
+
     if (this.zone.equals("The Drip")) {
       if (!InventoryManager.hasItem(DRIP_HARNESS)) {
         return false;
@@ -2444,7 +2452,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // some way of equipping it.  If they do not have one, then
     // acquire one then try to equip it.
 
-    if (this.adventureNumber == AdventurePool.PIXEL_REALM || this.zone.equals("Vanya's Castle")) {
+    if (this.zone.equals("The 8-Bit Realm") || this.zone.equals("Vanya's Castle")) {
       if (!InventoryManager.hasItem(TRANSFUNCTIONER)) {
         RequestThread.postRequest(new PlaceRequest("forestvillage", "fv_mystic"));
         // This redirects to choice.php&forceoption=0.
@@ -2555,14 +2563,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.rootZone.equals("The Sea")) {
-      if (!KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
         // In theory, we could choose equipment or effects.
         // It's complicated. Let the user do that.
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't breathe underwater.");
         return false;
       }
 
-      if (!KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.UNDERWATER_FAMILIAR)) {
         // In theory, we could choose equipment or effects or even another familiar.
         // It's complicated. Let the user do that.
         KoLmafia.updateDisplay(MafiaState.ERROR, "Your familiar can't breathe underwater.");
@@ -3083,7 +3091,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (this.areaSummary != null
           && action.startsWith("attack")
           && !this.areaSummary.willHitSomething()
-          && !KoLCharacter.currentBooleanModifier(Modifiers.ATTACKS_CANT_MISS)
+          && !KoLCharacter.currentBooleanModifier(BooleanModifier.ATTACKS_CANT_MISS)
           && !KoLCharacter.getFamiliar().isCombatFamiliar()) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't hit anything there.");
         return;

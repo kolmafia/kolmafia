@@ -472,6 +472,7 @@ public class Preferences {
         "vintnerWineType",
         "violetFogLayout",
         "waxMonster",
+        "whetstonesUsed",
         "wildfireBarrelCaulked",
         "wildfireDusted",
         "wildfireFracked",

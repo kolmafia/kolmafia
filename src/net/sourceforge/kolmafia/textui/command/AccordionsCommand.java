@@ -8,6 +8,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -121,7 +124,7 @@ public class AccordionsCommand extends AbstractCommand {
     private final String monster;
     private final int hands;
     private final int songDuration;
-    private final Modifiers.Lookup modsLookup;
+    private final Lookup modsLookup;
     private final String enchantments;
 
     public Accordion(final int itemId, final String monster) {
@@ -132,14 +135,14 @@ public class AccordionsCommand extends AbstractCommand {
 
       Modifiers mods = Modifiers.getItemModifiers(itemId);
       if (mods != null) {
-        this.songDuration = (int) mods.get(Modifiers.SONG_DURATION);
+        this.songDuration = (int) mods.get(DoubleModifier.SONG_DURATION);
         this.modsLookup = mods.getLookup();
 
         if (itemId == ItemPool.AUTOCALLIOPE) {
           // Special case to prevent stretching table way wide
           this.enchantments = "Prismatic Damage: [2*(1+skill(Accordion Appreciation))]";
         } else {
-          String enchantments = mods.getString("Modifiers");
+          String enchantments = mods.getString(StringModifier.MODIFIERS);
           enchantments = Modifiers.trimModifiers(enchantments, "Class");
           enchantments = Modifiers.trimModifiers(enchantments, "Song Duration");
           this.enchantments = enchantments;
@@ -147,7 +150,7 @@ public class AccordionsCommand extends AbstractCommand {
       } else {
         // Handle items missing from modifiers.txt
         this.songDuration = 0;
-        this.modsLookup = new Modifiers.Lookup(ModifierType.NONE, "");
+        this.modsLookup = new Lookup(ModifierType.NONE, "");
         this.enchantments = "";
       }
     }
@@ -172,7 +175,7 @@ public class AccordionsCommand extends AbstractCommand {
       return this.songDuration;
     }
 
-    public Modifiers.Lookup getModsLookup() {
+    public Lookup getModsLookup() {
       return this.modsLookup;
     }
 

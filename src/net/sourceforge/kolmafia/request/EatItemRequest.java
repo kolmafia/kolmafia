@@ -1049,6 +1049,18 @@ public class EatItemRequest extends UseItemRequest {
       ResultProcessor.processItem(ItemPool.SPECIAL_SEASONING, -itemsUsed);
     }
 
+    // With your sharpened appetite, that really hits the spot.
+    if (responseText.contains("With your sharpened appetite")) {
+      var chargesUsed = Math.min(count, Preferences.getInteger("whetstonesUsed"));
+      if (chargesUsed > 1) {
+        EatItemRequest.logConsumption(
+            "You used " + chargesUsed + " whetstone charges with your food");
+      } else {
+        EatItemRequest.logConsumption("You used a whetstone charge with your food");
+      }
+      Preferences.decrement("whetstonesUsed", chargesUsed);
+    }
+
     // Satisfied, you let loose a nasty magnesium-flavored belch.
     if (responseText.contains("magnesium-flavored belch")) {
       EatItemRequest.logConsumption("Your milk of magnesium kicked in");

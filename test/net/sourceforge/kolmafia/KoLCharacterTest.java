@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -339,7 +340,7 @@ public class KoLCharacterTest {
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
-        assertThat(KoLCharacter.currentNumericModifier("Experience"), is(1.0));
+        assertThat(KoLCharacter.currentNumericModifier(DoubleModifier.EXPERIENCE), is(1.0));
       }
     }
 
@@ -354,7 +355,7 @@ public class KoLCharacterTest {
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
-        assertThat(KoLCharacter.currentNumericModifier("Experience"), is(0.0));
+        assertThat(KoLCharacter.currentNumericModifier(DoubleModifier.EXPERIENCE), is(0.0));
       }
     }
   }

@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -44,7 +45,7 @@ public class WikiUtilities {
 
       Modifiers mods = Modifiers.getModifiers(modType, name);
       if (mods != null) {
-        String wikiname = mods.getString("Wiki Name");
+        String wikiname = mods.getString(StringModifier.WIKI_NAME);
         if (wikiname != null && wikiname.length() > 0) {
           name = wikiname;
           checkOtherTables = false;

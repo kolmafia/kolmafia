@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 public class ModifierExpression extends Expression {
@@ -7,16 +8,16 @@ public class ModifierExpression extends Expression {
     super(text, lookupString);
   }
 
-  public ModifierExpression(String text, Modifiers.Lookup lookup) {
+  public ModifierExpression(String text, Lookup lookup) {
     this(text, lookup.toString());
   }
 
   public ModifierExpression(String text, ModifierType type, int key) {
-    this(text, new Modifiers.Lookup(type, key));
+    this(text, new Lookup(type, key));
   }
 
   public ModifierExpression(String text, ModifierType type, String key) {
-    this(text, new Modifiers.Lookup(type, key));
+    this(text, new Lookup(type, key));
   }
 
   public static ModifierExpression getInstance(String text, String name) {
@@ -28,7 +29,7 @@ public class ModifierExpression extends Expression {
     return expr;
   }
 
-  public static ModifierExpression getInstance(String text, Modifiers.Lookup lookup) {
+  public static ModifierExpression getInstance(String text, Lookup lookup) {
     return ModifierExpression.getInstance(text, lookup.toString());
   }
 

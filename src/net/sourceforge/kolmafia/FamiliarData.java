@@ -14,6 +14,9 @@ import javax.swing.JList;
 import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -313,11 +316,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return;
     }
 
-    double experienceModifier = KoLCharacter.currentNumericModifier(Modifiers.FAMILIAR_EXP);
+    double experienceModifier = KoLCharacter.currentNumericModifier(DoubleModifier.FAMILIAR_EXP);
 
     int itemId = getItem().getItemId();
     if (itemId == ItemPool.MAYFLOWER_BOUQUET) {
-      String modifierName = Modifiers.getModifierName(Modifiers.FAMILIAR_EXP);
+      String modifierName = DoubleModifier.FAMILIAR_EXP.getName();
       double itemModifier = Modifiers.getNumericModifier(ModifierType.ITEM, itemId, modifierName);
 
       experienceModifier -= itemModifier;
@@ -825,9 +828,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
     // Get current fixed and percent weight modifiers
     Modifiers current = KoLCharacter.getCurrentModifiers();
     boolean fixodene = KoLConstants.activeEffects.contains(FIDOXENE);
-    double fixed = current.get(Modifiers.FAMILIAR_WEIGHT);
-    double hidden = current.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
-    double percent = current.get(Modifiers.FAMILIAR_WEIGHT_PCT);
+    double fixed = current.get(DoubleModifier.FAMILIAR_WEIGHT);
+    double hidden = current.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+    double percent = current.get(DoubleModifier.FAMILIAR_WEIGHT_PCT);
 
     FamiliarData familiar = KoLCharacter.getFamiliar();
 
@@ -839,9 +842,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
       if (item != EquipmentRequest.UNEQUIP) {
         Modifiers mods = Modifiers.getItemModifiers(item.getItemId());
         if (mods != null) {
-          fixed -= mods.get(Modifiers.FAMILIAR_WEIGHT);
-          hidden -= mods.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
-          percent -= mods.get(Modifiers.FAMILIAR_WEIGHT_PCT);
+          fixed -= mods.get(DoubleModifier.FAMILIAR_WEIGHT);
+          hidden -= mods.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+          percent -= mods.get(DoubleModifier.FAMILIAR_WEIGHT_PCT);
         }
       }
     }
@@ -854,9 +857,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
       if (item != EquipmentRequest.UNEQUIP) {
         Modifiers mods = Modifiers.getItemModifiers(item.getItemId());
         if (mods != null) {
-          fixed += mods.get(Modifiers.FAMILIAR_WEIGHT);
-          hidden += mods.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
-          percent += mods.get(Modifiers.FAMILIAR_WEIGHT_PCT);
+          fixed += mods.get(DoubleModifier.FAMILIAR_WEIGHT);
+          hidden += mods.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+          percent += mods.get(DoubleModifier.FAMILIAR_WEIGHT_PCT);
         }
       }
     }
@@ -885,7 +888,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     // check if the familiar has a weight cap
-    int cap = (int) current.get(Modifiers.FAMILIAR_WEIGHT_CAP);
+    int cap = (int) current.get(DoubleModifier.FAMILIAR_WEIGHT_CAP);
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
 
     return Math.max(1, cappedWeight);
@@ -893,7 +896,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public static final int itemWeightModifier(final int itemId) {
     Modifiers mods = Modifiers.getItemModifiers(itemId);
-    return mods == null ? 0 : (int) mods.get(Modifiers.FAMILIAR_WEIGHT);
+    return mods == null ? 0 : (int) mods.get(DoubleModifier.FAMILIAR_WEIGHT);
   }
 
   public final int getUncappedWeight() {
@@ -1357,12 +1360,12 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return false;
     }
 
-    if (mods.getBoolean(Modifiers.GENERIC)) {
+    if (mods.getBoolean(BooleanModifier.GENERIC)) {
       return true;
     }
 
-    String others = mods.getString(Modifiers.EQUIPS_ON);
-    if (others == null || others.isEmpty()) {
+    String others = mods.getString(StringModifier.EQUIPS_ON);
+    if (others.isEmpty()) {
       return false;
     }
 
@@ -1391,7 +1394,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     Modifiers mods = Modifiers.getItemModifiers(item.getItemId());
-    return mods != null && mods.getBoolean(Modifiers.GENERIC);
+    return mods != null && mods.getBoolean(BooleanModifier.GENERIC);
   }
 
   public boolean isCombatFamiliar() {

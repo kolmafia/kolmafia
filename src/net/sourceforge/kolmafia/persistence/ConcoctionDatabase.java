@@ -429,6 +429,7 @@ public class ConcoctionDatabase {
     switch (id) {
       case ItemPool.QUANTUM_TACO:
       case ItemPool.MUNCHIES_PILL:
+      case ItemPool.WHETSTONE:
       case ItemPool.MAGICAL_SAUSAGE:
         return true;
     }

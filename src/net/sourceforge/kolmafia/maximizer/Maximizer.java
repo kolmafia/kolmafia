@@ -19,6 +19,8 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -55,6 +57,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Maximizer {
@@ -199,7 +202,7 @@ public class Maximizer {
 
     // Include skills from absorbing items in Noobcore
     if (KoLCharacter.inNoobcore()) {
-      for (Map.Entry<Modifiers.IntOrString, String> entry :
+      for (Map.Entry<IntOrString, String> entry :
           Modifiers.getAllModifiersOfType(ModifierType.SKILL)) {
         if (!entry.getKey().isInt()) continue;
         int skillId = entry.getKey().getIntValue();
@@ -242,7 +245,7 @@ public class Maximizer {
       }
 
       // Include enchantments from absorbing equipment in Noobcore
-      for (Map.Entry<Modifiers.IntOrString, String> entry :
+      for (Map.Entry<IntOrString, String> entry :
           Modifiers.getAllModifiersOfType(ModifierType.ITEM)) {
         if (!entry.getKey().isInt()) continue;
         int itemId = entry.getKey().getIntValue();
@@ -269,16 +272,16 @@ public class Maximizer {
         }
         // Only take numeric modifiers, and not Surgeonosity, from Items in Noobcore
         StringBuilder mods = new StringBuilder();
-        for (int j = 0; j < Modifiers.DOUBLE_MODIFIERS; ++j) {
-          switch (j) {
-            case Modifiers.SURGEONOSITY:
+        for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+          switch (mod) {
+            case SURGEONOSITY:
               continue;
           }
-          if (itemMods.get(j) != 0.0) {
+          if (itemMods.get(mod) != 0.0) {
             if (mods.length() > 0) {
               mods.append(", ");
             }
-            mods.append(Modifiers.getModifierName(j) + ": " + itemMods.get(j));
+            mods.append(mod.getName() + ": " + itemMods.get(mod));
           }
         }
         if (mods.length() == 0) {
@@ -318,7 +321,7 @@ public class Maximizer {
     }
 
     if (filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
-      for (Map.Entry<Modifiers.IntOrString, String> entry :
+      for (Map.Entry<IntOrString, String> entry :
           Modifiers.getAllModifiersOfType(ModifierType.HORSERY)) {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
@@ -355,7 +358,7 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, name, delta));
       }
 
-      for (Map.Entry<Modifiers.IntOrString, String> entry :
+      for (Map.Entry<IntOrString, String> entry :
           Modifiers.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
@@ -390,7 +393,7 @@ public class Maximizer {
       }
     }
 
-    for (Map.Entry<Modifiers.IntOrString, String> entry :
+    for (Map.Entry<IntOrString, String> entry :
         Modifiers.getAllModifiersOfType(ModifierType.EFFECT)) {
       if (!entry.getKey().isInt()) continue;
       int effectId = entry.getKey().getIntValue();
@@ -409,8 +412,8 @@ public class Maximizer {
       if (!hasEffect) {
         spec.addEffect(effect);
         delta = spec.getScore() - current;
-        if ((spec.getModifiers().getRawBitmap(Modifiers.MUTEX_VIOLATIONS)
-                & ~KoLCharacter.currentRawBitmapModifier(Modifiers.MUTEX_VIOLATIONS))
+        if ((spec.getModifiers().getRawBitmap(BitmapModifier.MUTEX_VIOLATIONS)
+                & ~KoLCharacter.currentRawBitmapModifier(BitmapModifier.MUTEX_VIOLATIONS))
             != 0) { // This effect creates a mutex problem that the player
           // didn't already have.  In the future, perhaps suggest
           // uneffecting the conflicting effect, but for now just skip.
@@ -583,7 +586,7 @@ public class Maximizer {
 
             Modifiers effMod = Modifiers.getItemModifiers(item.getItemId());
             if (effMod != null) {
-              duration = (int) effMod.get(Modifiers.EFFECT_DURATION);
+              duration = (int) effMod.get(DoubleModifier.EFFECT_DURATION);
             }
           }
           // Hot Dogs don't have items
@@ -618,7 +621,7 @@ public class Maximizer {
             } else {
               Modifiers effMod = Modifiers.getModifiers(ModifierType.ITEM, iName);
               if (effMod != null) {
-                duration = (int) effMod.get(Modifiers.EFFECT_DURATION);
+                duration = (int) effMod.get(DoubleModifier.EFFECT_DURATION);
               }
               usesRemaining = 1;
             }

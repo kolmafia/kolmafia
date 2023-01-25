@@ -59,6 +59,7 @@ Cerebral Cloche	90	Mox: 30
 chalk chapeau	50	none
 cheerful antler hat	50	none
 chef's hat	30	none
+chiffon chapeau	50	none
 chrome helmet turtle	120	Mox: 45
 clingfilm cap	150	Mox: 60
 Cloaca-Cola helmet	30	none
@@ -481,6 +482,7 @@ chain-mail monokini	30	none
 chalk chinos	50	none
 cheerful pajama pants	50	none
 Chester's cutoffs	200	Mox: 200
+chiffon chaps	50	none
 clingfilm trousers	150	Mox: 60
 Cloaca-Cola fatigues	30	none
 clockwork pants	80	Mox: 25
@@ -1039,6 +1041,7 @@ cheap plastic kazoo	50	Mox: 10	1-handed kazoo
 cheer extractor	40	Mus: 0	1-handed club
 Chelonian Morningstar	90	Mus: 15	1-handed flail
 Chester's bag of candy	200	Mox: 200	2-handed bag
+chiffon chakram	50	Mox: 0	1-handed 
 chisel	10	Mus: 0	1-handed knife
 chocolate cow bone	100	Mus: 35	1-handed club
 chopsticks	75	Mys: 23	1-handed utensil
@@ -1808,11 +1811,12 @@ cardboard box turtle	70	Mus: 20	shield
 cardboard wine carrier	0	none
 carnivorous potted plant	150	none
 catskin buckler	180	Mus: 75	shield
-ceramic centurion shield	0	Mus: 40	shield
+ceramic centurion shield	120	Mus: 40	shield
 Chalice of the Malkovich Prince	0	none
 chalk chalice	50	none
 charged druidic orb	0	none
 charged magnet	30	none
+chiffon chamberpot	50	none
 chipped coffee mug	50	none
 Cloaca-Cola shield	70	none	shield
 clockwork detective skull	80	Mox: 25
@@ -2401,9 +2405,9 @@ Cat-Herding Prod	0	none
 Caveman Dan's favorite rock	100	Mus: 35
 cement sandals	50	Mus: 10
 cement shoes	0	Mys: 35
-ceramic celsiturometer	0	Mys: 40
-ceramic cerecloth belt	0	Mox: 40
-ceramic cestus	0	Mus: 40
+ceramic celsiturometer	120	Mys: 40
+ceramic cerecloth belt	120	Mox: 40
+ceramic cestus	120	Mus: 40
 chalk chain	50	none
 chalk choker	50	none
 Charleston shoes	100	Mys: 25
@@ -2413,7 +2417,7 @@ cheap sunglasses	80	Mys: 20
 Chester's Aquarius medallion	200	Mys: 200
 Chester's moustache	200	Mox: 200
 Chester's sunglasses	200	Mox: 200
-chiffon chevrons	0	none
+chiffon chevrons	50	none
 chintzy accordion pin	120	Mox: 45
 chintzy disco ball pendant	120	Mox: 45
 chintzy noodle ring	120	Mys: 45

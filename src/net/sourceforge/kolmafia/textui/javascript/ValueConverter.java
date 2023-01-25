@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
@@ -113,11 +114,11 @@ public class ValueConverter {
     Type valueType = value.getType();
     if (targetType.equals(valueType)) {
       return value;
-    } else if (targetType.equals(DataTypes.TYPE_STRING)) {
+    } else if (targetType.equals(TypeSpec.STRING)) {
       return value.toStringValue();
-    } else if (targetType.equals(DataTypes.TYPE_INT) && valueType.equals(DataTypes.TYPE_FLOAT)) {
+    } else if (targetType.equals(TypeSpec.INT) && valueType.equals(TypeSpec.FLOAT)) {
       return value.toIntValue();
-    } else if (targetType.equals(DataTypes.TYPE_FLOAT) && valueType.equals(DataTypes.TYPE_INT)) {
+    } else if (targetType.equals(TypeSpec.FLOAT) && valueType.equals(TypeSpec.INT)) {
       return value.toFloatValue();
     } else {
       return null;
@@ -139,7 +140,7 @@ public class ValueConverter {
     for (Entry<?, ?> entry : nativeObject.entrySet()) {
       dataType = fromJava(entry.getValue()).getType();
       indexType = fromJava(entry.getKey()).getType();
-      if (indexType.equals(DataTypes.TYPE_FLOAT)) {
+      if (indexType.equals(TypeSpec.FLOAT)) {
         // Convert float index to int, since it doesn't make sense in JS anyway.
         indexType = DataTypes.INT_TYPE;
       }

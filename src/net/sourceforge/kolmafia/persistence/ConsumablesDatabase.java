@@ -18,9 +18,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -889,12 +889,12 @@ public class ConsumablesDatabase {
     }
 
     String statRange = consumable.statRangeStrings[stat];
-    int modifier =
+    DoubleModifier modifier =
         switch (stat) {
-          case Consumable.MUSCLE -> Modifiers.MUS_EXPERIENCE_PCT;
-          case Consumable.MYSTICALITY -> Modifiers.MYS_EXPERIENCE_PCT;
-          case Consumable.MOXIE -> Modifiers.MOX_EXPERIENCE_PCT;
-          default -> -1;
+          case Consumable.MUSCLE -> DoubleModifier.MUS_EXPERIENCE_PCT;
+          case Consumable.MYSTICALITY -> DoubleModifier.MYS_EXPERIENCE_PCT;
+          case Consumable.MOXIE -> DoubleModifier.MOX_EXPERIENCE_PCT;
+          default -> null;
         };
     double statFactor = (KoLCharacter.currentNumericModifier(modifier) + 100.0) / 100.0;
     statFactor *= ConsumablesDatabase.conditionalStatMultiplier(consumable);

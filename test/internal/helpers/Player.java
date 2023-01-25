@@ -847,6 +847,30 @@ public class Player {
   }
 
   /**
+   * Sets player's substats to given values.
+   *
+   * @param muscle Muscle substats
+   * @param mysticality Mysticality substats
+   * @param moxie Moxie substats
+   * @return Resets substats to zero
+   */
+  public static Cleanups withSubStats(final long muscle, final long mysticality, final long moxie) {
+    KoLCharacter.setStatPoints(
+        (int) Math.floor(Math.sqrt(muscle)),
+        muscle,
+        (int) Math.floor(Math.sqrt(mysticality)),
+        mysticality,
+        (int) Math.floor(Math.sqrt(moxie)),
+        moxie);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setStatPoints(0, 0, 0, 0, 0, 0);
+          KoLCharacter.recalculateAdjustments();
+        });
+  }
+
+  /**
    * Sets player's stats to given values. Substats are set to stat squared
    *
    * @param muscle Muscle mainstat
@@ -855,19 +879,7 @@ public class Player {
    * @return Resets stats to zero
    */
   public static Cleanups withStats(final int muscle, final int mysticality, final int moxie) {
-    KoLCharacter.setStatPoints(
-        muscle,
-        (long) muscle * muscle,
-        mysticality,
-        (long) mysticality * mysticality,
-        moxie,
-        (long) moxie * moxie);
-    KoLCharacter.recalculateAdjustments();
-    return new Cleanups(
-        () -> {
-          KoLCharacter.setStatPoints(0, 0, 0, 0, 0, 0);
-          KoLCharacter.recalculateAdjustments();
-        });
+    return withSubStats(muscle * muscle, mysticality * mysticality, moxie * moxie);
   }
 
   /**

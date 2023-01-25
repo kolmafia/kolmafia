@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -982,7 +983,7 @@ public class AreaCombatData {
     double itemModifier = AreaCombatData.getDropRateModifier();
     boolean stealing = KoLCharacter.canPickpocket();
     double pocketModifier =
-        (100.0 + KoLCharacter.currentNumericModifier(Modifiers.PICKPOCKET_CHANCE)) / 100.0;
+        (100.0 + KoLCharacter.currentNumericModifier(DoubleModifier.PICKPOCKET_CHANCE)) / 100.0;
 
     for (int i = 0; i < items.size(); ++i) {
       AdventureResult item = items.get(i);
@@ -1005,25 +1006,25 @@ public class AreaCombatData {
       double itemBonus = 0.0;
 
       if (ItemDatabase.isFood(itemId)) {
-        itemBonus += KoLCharacter.currentNumericModifier(Modifiers.FOODDROP) / 100.0;
+        itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.FOODDROP) / 100.0;
       } else if (ItemDatabase.isBooze(itemId)) {
-        itemBonus += KoLCharacter.currentNumericModifier(Modifiers.BOOZEDROP) / 100.0;
+        itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.BOOZEDROP) / 100.0;
       } else if (ItemDatabase.isCandyItem(itemId)) {
-        itemBonus += KoLCharacter.currentNumericModifier(Modifiers.CANDYDROP) / 100.0;
+        itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.CANDYDROP) / 100.0;
       } else if (ItemDatabase.isEquipment(itemId)) {
-        itemBonus += KoLCharacter.currentNumericModifier(Modifiers.GEARDROP) / 100.0;
+        itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.GEARDROP) / 100.0;
         if (ItemDatabase.isHat(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.HATDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.HATDROP) / 100.0;
         } else if (ItemDatabase.isWeapon(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.WEAPONDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.WEAPONDROP) / 100.0;
         } else if (ItemDatabase.isOffHand(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.OFFHANDDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.OFFHANDDROP) / 100.0;
         } else if (ItemDatabase.isShirt(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.SHIRTDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.SHIRTDROP) / 100.0;
         } else if (ItemDatabase.isPants(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.PANTSDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.PANTSDROP) / 100.0;
         } else if (ItemDatabase.isAccessory(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.ACCESSORYDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.ACCESSORYDROP) / 100.0;
         }
       }
 
@@ -1298,7 +1299,7 @@ public class AreaCombatData {
         }
       }
       case "Oil Peak" -> {
-        int monsterLevel = (int) KoLCharacter.currentNumericModifier(Modifiers.MONSTER_LEVEL);
+        int monsterLevel = (int) KoLCharacter.currentNumericModifier(DoubleModifier.MONSTER_LEVEL);
         return switch (monster) {
           case "oil slick" -> monsterLevel < 20 ? 1 : 0;
           case "oil tycoon" -> monsterLevel >= 20 && monsterLevel < 50 ? 1 : 0;
@@ -1440,7 +1441,7 @@ public class AreaCombatData {
         };
       }
       case "The Slime Tube" -> {
-        int monsterLevel = (int) KoLCharacter.currentNumericModifier(Modifiers.MONSTER_LEVEL);
+        int monsterLevel = (int) KoLCharacter.currentNumericModifier(DoubleModifier.MONSTER_LEVEL);
         return switch (monster) {
           case "Slime" -> monsterLevel <= 100 ? 1 : 0;
           case "Slime Hand" -> monsterLevel > 100 && monsterLevel <= 300 ? 1 : 0;

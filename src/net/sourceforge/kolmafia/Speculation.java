@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -40,7 +41,7 @@ public class Speculation {
       int itemId = this.equipment[i].getItemId();
       Modifiers mods = Modifiers.getItemModifiers(itemId);
       if (mods == null) continue;
-      String name = mods.getString(Modifiers.INTRINSIC_EFFECT);
+      String name = mods.getString(StringModifier.INTRINSIC_EFFECT);
       if (name.length() == 0) continue;
       int effectId = EffectDatabase.getEffectId(name);
       this.effects.remove(EffectPool.get(effectId));

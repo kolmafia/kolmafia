@@ -170,6 +170,8 @@ global	_gitUpdated	false
 global	_svnRepoFileFetched	false
 global	_svnUpdated	false
 
+user	8BitScore	0
+user	8BitColor	
 user	addingScrolls	1
 user	affirmationCookiesEaten	0
 user	afterAdventureScript
@@ -1535,6 +1537,7 @@ user	warehouseProgress	0
 user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
+user	whetstonesUsed	0
 user	wildfireBarrelCaulked	false
 user	wildfireDusted	false
 user	wildfireFracked	false
