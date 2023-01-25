@@ -433,12 +433,6 @@ public class Modifiers {
     return available;
   }
 
-  public static final DoubleModifier findName(String name) {
-    // this is caseless because it accepts anything typed into the maximizer, which is normally
-    // lowercase
-    return DoubleModifier.byCaselessName(name);
-  }
-
   private Lookup originalLookup;
   // Assume modifiers are variable until proven otherwise.
   public boolean variable = true;
@@ -528,7 +522,7 @@ public class Modifiers {
       return this.cappedCombatRate();
     }
 
-    DoubleModifier modifier = Modifiers.findName(name);
+    DoubleModifier modifier = DoubleModifier.byCaselessName(name);
     if (modifier == null) {
       DerivedModifier derived = DerivedModifier.byCaselessName(name);
       if (derived == null) {
@@ -627,7 +621,7 @@ public class Modifiers {
 
   public double getDoublerAccumulator(final String name) {
     // doublerAccumulators uses the same keys as doubles, so the same lookup will work
-    DoubleModifier modifier = findName(name);
+    DoubleModifier modifier = DoubleModifier.byCaselessName(name);
     return getDoublerAccumulator(modifier);
   }
 

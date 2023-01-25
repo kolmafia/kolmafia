@@ -506,7 +506,7 @@ public class Evaluator {
         continue;
       }
 
-      index = Modifiers.findName(keyword);
+      index = DoubleModifier.byCaselessName(keyword);
 
       // Adjust for generic abbreviations
       if (index == null) {
@@ -519,7 +519,7 @@ public class Evaluator {
         } else if (keyword.endsWith(" exp")) {
           keyword = keyword.substring(0, keyword.length() - 3) + "experience";
         }
-        index = Modifiers.findName(keyword);
+        index = DoubleModifier.byCaselessName(keyword);
       }
 
       if (index == null) {
