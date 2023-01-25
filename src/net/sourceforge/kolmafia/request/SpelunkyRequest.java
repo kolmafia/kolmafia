@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -959,11 +960,11 @@ public class SpelunkyRequest extends GenericRequest {
     // Spelunky weapons can have bonus damage
 
     int bonusWeaponDamage =
-        (int) Modifiers.getNumericModifier(ModifierType.ITEM, weaponItemId, "Weapon Damage");
+        (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, weaponItemId, "Weapon Damage");
     int bonusOffhandDamage =
-        (int) Modifiers.getNumericModifier(ModifierType.ITEM, offhandItemId, "Weapon Damage");
+        (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, offhandItemId, "Weapon Damage");
     int bonusRangedDamage =
-        (int) Modifiers.getNumericModifier(ModifierType.ITEM, weaponItemId, "Ranged Damage");
+        (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, weaponItemId, "Ranged Damage");
     int bonusDamage =
         bonusWeaponDamage + (stat == Stat.MOXIE ? bonusRangedDamage : 0) + bonusOffhandDamage;
 

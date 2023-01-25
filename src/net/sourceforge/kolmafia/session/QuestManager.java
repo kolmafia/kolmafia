@@ -534,7 +534,7 @@ public class QuestManager {
     // time-twitching toolbelt is a free pull if the time tower is
     // available. Place it in correct storage list.
 
-    Modifiers.getModifiers(ModifierType.ITEM, "time-twitching toolbelt");
+    ModifierDatabase.getModifiers(ModifierType.ITEM, "time-twitching toolbelt");
     AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
     List<AdventureResult> source = available ? KoLConstants.storage : KoLConstants.freepulls;
     List<AdventureResult> dest = available ? KoLConstants.freepulls : KoLConstants.storage;

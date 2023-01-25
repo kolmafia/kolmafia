@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -122,7 +123,7 @@ public class MaximizerSpeculation extends Speculation
     for (int i = this.equipment.length - 1; i >= 0; --i) {
       if (this.equipment[i] == null) continue;
       int itemId = this.equipment[i].getItemId();
-      Modifiers mods = Modifiers.getItemModifiers(itemId);
+      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
       String name = mods.getString(StringModifier.ROLLOVER_EFFECT);
       if (name.length() > 0) countThisEffects++;
@@ -133,7 +134,7 @@ public class MaximizerSpeculation extends Speculation
     for (int i = other.equipment.length - 1; i >= 0; --i) {
       if (other.equipment[i] == null) continue;
       int itemId = other.equipment[i].getItemId();
-      Modifiers mods = Modifiers.getItemModifiers(itemId);
+      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
       String name = mods.getString(StringModifier.ROLLOVER_EFFECT);
       if (name.length() > 0) countOtherEffects++;
@@ -814,7 +815,7 @@ public class MaximizerSpeculation extends Speculation
   }
 
   private static int getMutex(AdventureResult item) {
-    Modifiers mods = Modifiers.getItemModifiers(item.getItemId());
+    Modifiers mods = ModifierDatabase.getItemModifiers(item.getItemId());
     if (mods == null) {
       return 0;
     }

@@ -1684,7 +1684,7 @@ public class SkillDatabase {
     // Passive skills have modifiers
     if (type == SkillType.PASSIVE) {
       // Let modifiers database do what it wishes with this skill
-      Modifiers.registerSkill(skillName, text);
+      ModifierDatabase.registerSkill(skillName, text);
     }
 
     printMe = "--------------------";

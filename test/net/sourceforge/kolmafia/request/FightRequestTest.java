@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1314,7 +1315,7 @@ public class FightRequestTest {
         String html = html("request/test_fight_ask_hobo_to_dance.html");
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
-        var fightMods = Modifiers.getModifiers(ModifierType.GENERATED, "fightMods");
+        var fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
         assertThat(fightMods.get(DoubleModifier.ITEMDROP), equalTo(100.0));
       }
     }
@@ -1328,7 +1329,7 @@ public class FightRequestTest {
         String html = html("request/test_fight_ask_hobo_to_joke.html");
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
-        var fightMods = Modifiers.getModifiers(ModifierType.GENERATED, "fightMods");
+        var fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
         assertThat(fightMods.get(DoubleModifier.MEATDROP), equalTo(100.0));
       }
     }

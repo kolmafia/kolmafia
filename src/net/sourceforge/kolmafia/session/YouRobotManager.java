@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -215,7 +216,7 @@ public abstract class YouRobotManager {
       this.part = part;
       this.effect = effect;
       this.cost = cost;
-      this.mods = Modifiers.getModifiers(ModifierType.ROBOT, name);
+      this.mods = ModifierDatabase.getModifiers(ModifierType.ROBOT, name);
       this.index = 0;
       this.keyword = "";
       this.usable = Usable.NONE;

@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -43,7 +44,7 @@ public class WikiUtilities {
             default -> ModifierType.NONE;
           };
 
-      Modifiers mods = Modifiers.getModifiers(modType, name);
+      Modifiers mods = ModifierDatabase.getModifiers(modType, name);
       if (mods != null) {
         String wikiname = mods.getString(StringModifier.WIKI_NAME);
         if (wikiname != null && wikiname.length() > 0) {

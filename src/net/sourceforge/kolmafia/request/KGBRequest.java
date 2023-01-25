@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class KGBRequest extends GenericRequest {
@@ -161,7 +162,7 @@ public class KGBRequest extends GenericRequest {
       String oldEnchantment = matcher.group(1);
       String newEnchantment = matcher.group(2);
       ModifierList modList =
-          Modifiers.getModifierList(new Lookup(ModifierType.ITEM, ItemPool.KREMLIN_BRIEFCASE));
+        ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, ItemPool.KREMLIN_BRIEFCASE));
       ModifierList oldModList = modMap.get(oldEnchantment);
       for (ModifierValue modifier : oldModList) {
         modList.removeModifier(modifier.getName());
@@ -170,7 +171,7 @@ public class KGBRequest extends GenericRequest {
       for (ModifierValue modifier : newModList) {
         modList.addModifier(modifier);
       }
-      Modifiers.overrideModifier(ModifierType.ITEM, ItemPool.KREMLIN_BRIEFCASE, modList.toString());
+      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.KREMLIN_BRIEFCASE, modList.toString());
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
     }

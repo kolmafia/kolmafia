@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
 public class ModRefCommand extends AbstractCommand {
   public ModRefCommand() {
@@ -16,7 +17,7 @@ public class ModRefCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    Modifiers mods = Modifiers.getModifiers(ModifierType.ITEM, parameters);
+    Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, parameters);
     String colSpan = mods == null ? "2" : "3";
     StringBuilder buf =
         new StringBuilder(

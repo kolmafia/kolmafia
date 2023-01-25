@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
@@ -913,7 +914,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           continue;
         }
       } else if (item.getItemId() == ItemPool.KREMLIN_BRIEFCASE) {
-        if (Modifiers.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE).get(DoubleModifier.MANA_COST)
+        if (ModifierDatabase.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE).get(DoubleModifier.MANA_COST)
             == 0) {
           continue;
         }

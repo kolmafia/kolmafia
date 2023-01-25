@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -676,7 +677,7 @@ public class ProxyRecordValue extends RecordValue {
      */
     public Value get_skill() {
       String skillName =
-          Modifiers.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Skill");
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Skill");
       return skillName.equals("")
           ? DataTypes.SKILL_INIT
           : DataTypes.makeSkillValue(SkillDatabase.getSkillId(skillName), true);
@@ -689,7 +690,7 @@ public class ProxyRecordValue extends RecordValue {
      */
     public Value get_recipe() {
       String recipeName =
-          Modifiers.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Recipe");
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Recipe");
       return recipeName.equals("") ? DataTypes.ITEM_INIT : DataTypes.makeItemValue(recipeName);
     }
   }

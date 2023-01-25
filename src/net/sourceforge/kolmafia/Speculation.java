@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -39,7 +40,7 @@ public class Speculation {
     for (int i = this.equipment.length - 1; i >= 0; --i) {
       if (this.equipment[i] == null) continue;
       int itemId = this.equipment[i].getItemId();
-      Modifiers mods = Modifiers.getItemModifiers(itemId);
+      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
       String name = mods.getString(StringModifier.INTRINSIC_EFFECT);
       if (name.length() == 0) continue;

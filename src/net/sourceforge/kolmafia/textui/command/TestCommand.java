@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -329,7 +330,7 @@ public class TestCommand extends AbstractCommand {
         return;
       }
       double itemDrop =
-          Modifiers.getNumericModifier(ModifierType.FAMILIAR, familiar.getRace(), "Item Drop");
+        ModifierDatabase.getNumericModifier(ModifierType.FAMILIAR, familiar.getRace(), "Item Drop");
       RequestLogger.printLine("Item Drop: " + itemDrop);
       return;
     }
@@ -798,7 +799,7 @@ public class TestCommand extends AbstractCommand {
         RequestLogger.printLine(name + " is a level " + level + " " + type + " wine.");
         RequestLogger.printLine("It grants 12 turns of the '" + effect + "' effect:");
         RequestLogger.printLine(
-            Modifiers.getStringModifier(ModifierType.EFFECT, effect, "Evaluated Modifiers"));
+          ModifierDatabase.getStringModifier(ModifierType.EFFECT, effect, "Evaluated Modifiers"));
       } else {
         RequestLogger.printLine("You currently have no access to a 1950 Vampire Vintner wine");
       }

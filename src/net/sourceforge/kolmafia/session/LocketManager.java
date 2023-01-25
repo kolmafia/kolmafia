@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
@@ -18,6 +17,7 @@ import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LocketRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -121,7 +121,7 @@ public class LocketManager {
 
     // ... grab the raw mod string for the locket from modifiers.txt...
     var locketModString =
-        Modifiers.getItemModifiers(ItemPool.COMBAT_LOVERS_LOCKET)
+        ModifierDatabase.getItemModifiers(ItemPool.COMBAT_LOVERS_LOCKET)
             .getString(StringModifier.MODIFIERS);
 
     String phylum = "";

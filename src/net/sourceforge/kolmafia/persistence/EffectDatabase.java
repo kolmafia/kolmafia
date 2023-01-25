@@ -545,7 +545,7 @@ public class EffectDatabase {
     RequestLogger.updateSessionLog(printMe);
 
     // Let modifiers database do what it wishes with this effect
-    Modifiers.registerEffect(name, text);
+    ModifierDatabase.registerEffect(name, text);
 
     // Done generating data
     printMe = "--------------------";
@@ -751,7 +751,7 @@ public class EffectDatabase {
 
   public static void parseVampireVintnerWineEffect(final String edesc, final int effectId) {
     String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<>());
-    Modifiers emods = Modifiers.parseModifiers(ModifierType.EFFECT, effectId, eEnchantments);
+    Modifiers emods = ModifierDatabase.parseModifiers(ModifierType.EFFECT, effectId, eEnchantments);
 
     int level =
         switch (effectId) {

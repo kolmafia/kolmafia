@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -288,11 +289,11 @@ public class PlaceRequest extends GenericRequest {
           if (matcher.find()) {
             ModifierList modList = new ModifierList();
             ModifierList addModList =
-                Modifiers.splitModifiers(Modifiers.parseModifier(matcher.group(1)));
+              ModifierDatabase.splitModifiers(ModifierDatabase.parseModifier(matcher.group(1)));
             for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }
-            addModList = Modifiers.splitModifiers(Modifiers.parseModifier(matcher.group(2)));
+            addModList = ModifierDatabase.splitModifiers(ModifierDatabase.parseModifier(matcher.group(2)));
             for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }

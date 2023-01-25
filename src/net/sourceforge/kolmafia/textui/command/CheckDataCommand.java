@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
@@ -112,7 +113,7 @@ public class CheckDataCommand extends AbstractCommand {
     }
 
     if (command.equals("checkmodifiers")) {
-      Modifiers.checkModifiers();
+      ModifierDatabase.checkModifiers();
       RequestLogger.printLine("Modifiers checked.");
       return;
     }

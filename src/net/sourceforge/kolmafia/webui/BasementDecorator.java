@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -483,7 +484,7 @@ public class BasementDecorator {
     }
 
     public int computeBoost() {
-      Modifiers m = Modifiers.getModifiers(ModifierType.EFFECT, this.name);
+      Modifiers m = ModifierDatabase.getModifiers(ModifierType.EFFECT, this.name);
       if (m == null) {
         return 0;
       }

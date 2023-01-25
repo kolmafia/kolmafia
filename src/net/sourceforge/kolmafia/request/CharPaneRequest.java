@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
@@ -1274,13 +1275,13 @@ public class CharPaneRequest extends GenericRequest {
 
     ModifierList modList = new ModifierList();
     for (Object res : result) {
-      String mod = Modifiers.parseModifier(res.toString());
+      String mod = ModifierDatabase.parseModifier(res.toString());
       if (mod == null) {
         // this shouldn't happen...
         continue;
       }
       // Split into modifiers as some, like regeneration, get two values from one mod string
-      ModifierList newModList = Modifiers.splitModifiers(mod);
+      ModifierList newModList = ModifierDatabase.splitModifiers(mod);
 
       // Iterate over modifiers
       for (ModifierValue modifier : newModList) {
@@ -1300,7 +1301,7 @@ public class CharPaneRequest extends GenericRequest {
         }
       }
     }
-    Modifiers.overrideModifier(ModifierType.GENERATED, "Enchantments Absorbed", modList.toString());
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "Enchantments Absorbed", modList.toString());
   }
 
   private static final Pattern disguisePattern = Pattern.compile("masks/mask(\\d+).png");

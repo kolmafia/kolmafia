@@ -102,6 +102,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -9081,7 +9082,7 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(Modifiers.getNumericModifier(type, name, mod));
+    return new Value(ModifierDatabase.getNumericModifier(type, name, mod));
   }
 
   public static Value numeric_modifier(
@@ -9095,7 +9096,7 @@ public abstract class RuntimeLibrary {
     int w = Math.max(1, (int) weight.intValue());
     AdventureResult it = ItemPool.get((int) item.intValue());
 
-    return new Value(Modifiers.getNumericModifier(fam, mod, w, it));
+    return new Value(ModifierDatabase.getNumericModifier(fam, mod, w, it));
   }
 
   public static Value boolean_modifier(ScriptRuntime controller, final Value modifier) {
@@ -9109,7 +9110,7 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return DataTypes.makeBooleanValue(Modifiers.getBooleanModifier(type, name, mod));
+    return DataTypes.makeBooleanValue(ModifierDatabase.getBooleanModifier(type, name, mod));
   }
 
   public static Value string_modifier(ScriptRuntime controller, final Value modifier) {
@@ -9122,7 +9123,7 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(Modifiers.getStringModifier(type, name, mod));
+    return new Value(ModifierDatabase.getStringModifier(type, name, mod));
   }
 
   public static Value effect_modifier(
@@ -9131,7 +9132,7 @@ public abstract class RuntimeLibrary {
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
     return new Value(
-        DataTypes.parseEffectValue(Modifiers.getStringModifier(type, name, mod), true));
+        DataTypes.parseEffectValue(ModifierDatabase.getStringModifier(type, name, mod), true));
   }
 
   public static Value class_modifier(
@@ -9139,7 +9140,7 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseClassValue(Modifiers.getStringModifier(type, name, mod), true));
+    return new Value(DataTypes.parseClassValue(ModifierDatabase.getStringModifier(type, name, mod), true));
   }
 
   public static Value skill_modifier(
@@ -9147,7 +9148,7 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseSkillValue(Modifiers.getStringModifier(type, name, mod), true));
+    return new Value(DataTypes.parseSkillValue(ModifierDatabase.getStringModifier(type, name, mod), true));
   }
 
   public static Value stat_modifier(
@@ -9155,7 +9156,7 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseStatValue(Modifiers.getStringModifier(type, name, mod), true));
+    return new Value(DataTypes.parseStatValue(ModifierDatabase.getStringModifier(type, name, mod), true));
   }
 
   public static Value monster_modifier(
@@ -9164,7 +9165,7 @@ public abstract class RuntimeLibrary {
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
     return new Value(
-        DataTypes.parseMonsterValue(Modifiers.getStringModifier(type, name, mod), true));
+        DataTypes.parseMonsterValue(ModifierDatabase.getStringModifier(type, name, mod), true));
   }
 
   public static Value white_citadel_available(ScriptRuntime controller) {

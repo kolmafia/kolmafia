@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -3304,7 +3305,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Cancel any combat modifiers
-    Modifiers.overrideRemoveModifier(ModifierType.GENERATED, "fightMods");
+    ModifierDatabase.overrideRemoveModifier(ModifierType.GENERATED, "fightMods");
 
     if (KoLCharacter.isSauceror()) {
       // Check for Soulsauce gain
@@ -8836,7 +8837,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void setFightModifiers(final String mods) {
-    Modifiers.overrideModifier(ModifierType.GENERATED, "fightMods", mods);
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "fightMods", mods);
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }

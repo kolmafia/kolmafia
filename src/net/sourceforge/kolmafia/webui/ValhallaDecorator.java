@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -536,7 +537,7 @@ public class ValhallaDecorator {
         String name = folder.getName();
         String enchantments;
         if (name.startsWith("folder (")) {
-          Modifiers mods = Modifiers.getItemModifiers(folder.getItemId());
+          Modifiers mods = ModifierDatabase.getItemModifiers(folder.getItemId());
           name = name.substring(8, name.indexOf(")"));
           enchantments = mods != null ? mods.getString(StringModifier.MODIFIERS) : "none";
         } else {

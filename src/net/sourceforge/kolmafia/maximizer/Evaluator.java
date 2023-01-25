@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -206,7 +207,7 @@ public class Evaluator {
   }
 
   private void addUniqueItems(String name) {
-    Set<String> itemNames = Modifiers.getUniques(name);
+    Set<String> itemNames = ModifierDatabase.getUniques(name);
     if (itemNames != null) {
       for (String itemName : itemNames) {
         this.uniques.add(ItemPool.get(itemName, 1));
@@ -1023,7 +1024,7 @@ public class Evaluator {
         continue;
       }
 
-      Modifiers mods = Modifiers.getModifiers(ModifierType.OUTFIT, outfit.getName());
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
       if (mods == null) continue;
 
       switch (this.checkConstraints(mods)) {
@@ -1040,8 +1041,8 @@ public class Evaluator {
     }
 
     int usefulSynergies = 0;
-    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.SYNERGY, entry.getKey());
+    for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SYNERGY, entry.getKey());
       int value = entry.getValue().intValue();
       if (mods == null) continue;
       double delta = this.getScore(mods) - nullScore;
@@ -1050,7 +1051,7 @@ public class Evaluator {
 
     boolean hoboPowerUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_hoboPower");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_hoboPower");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         hoboPowerUseful = true;
       }
@@ -1058,7 +1059,7 @@ public class Evaluator {
 
     boolean smithsnessUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_smithsness");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_smithsness");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         smithsnessUseful = true;
       }
@@ -1066,7 +1067,7 @@ public class Evaluator {
 
     boolean brimstoneUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_brimstone");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_brimstone");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         brimstoneUseful = true;
       }
@@ -1074,7 +1075,7 @@ public class Evaluator {
 
     boolean cloathingUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_cloathing");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_cloathing");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         cloathingUseful = true;
       }
@@ -1082,7 +1083,7 @@ public class Evaluator {
 
     boolean slimeHateUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_slimeHate");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_slimeHate");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         slimeHateUseful = true;
       }
@@ -1118,7 +1119,7 @@ public class Evaluator {
         }
         // Normal item modifiers when used by Disembodied Hand and Left-Hand
         else {
-          familiarMods = Modifiers.getItemModifiersInFamiliarSlot(id);
+          familiarMods = ModifierDatabase.getItemModifiersInFamiliarSlot(id);
 
           // Some items work differently with the Left Hand
           if (familiarId == FamiliarPool.LEFT_HAND) {
@@ -1164,7 +1165,7 @@ public class Evaluator {
           familiarMods.applyFamiliarModifiers(fam, preItem);
         } else {
           // Normal item modifiers when used by Disembodied Hand
-          familiarMods = Modifiers.getItemModifiers(id);
+          familiarMods = ModifierDatabase.getItemModifiers(id);
           if (familiarMods == null) { // no enchantments
             familiarMods = new Modifiers();
           }
@@ -1393,7 +1394,7 @@ public class Evaluator {
           item.automaticFlag = true;
         }
 
-        Modifiers mods = Modifiers.getItemModifiers(id);
+        Modifiers mods = ModifierDatabase.getItemModifiers(id);
         if (mods == null) { // no enchantments
           mods = new Modifiers();
         }
@@ -1504,7 +1505,7 @@ public class Evaluator {
         if (intrinsic.length() > 0) {
           Modifiers newMods = new Modifiers();
           newMods.add(mods);
-          newMods.add(Modifiers.getModifiers(ModifierType.EFFECT, intrinsic));
+          newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
           mods = newMods;
         }
         double delta = this.getScore(mods, new AdventureResult[] {item}) - nullScore;
@@ -1787,7 +1788,7 @@ public class Evaluator {
     // spots
 
     // Compare synergies with best items in the same spots, and remove automatic flag if not better
-    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
+    for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
       String synergy = entry.getKey();
       int mask = entry.getValue().intValue();
       int index = synergy.indexOf("/");

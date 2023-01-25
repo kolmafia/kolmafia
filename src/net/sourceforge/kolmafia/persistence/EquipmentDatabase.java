@@ -441,7 +441,7 @@ public class EquipmentDatabase {
     RequestLogger.updateSessionLog(printMe);
 
     // Let modifiers database do what it wishes with this outfit
-    Modifiers.registerOutfit(outfitName, rawText);
+    ModifierDatabase.registerOutfit(outfitName, rawText);
 
     // Done generating data
     printMe = "--------------------";
@@ -755,7 +755,7 @@ public class EquipmentDatabase {
     }
 
     int pulver = PULVERIZE_BITS | ELEM_TWINKLY;
-    Modifiers mods = Modifiers.getItemModifiers(id);
+    Modifiers mods = ModifierDatabase.getItemModifiers(id);
     if (mods == null) { // Apparently no enchantments at all, which would imply that this
       // item pulverizes to useless powder.  However, there are many items
       // with enchantments that don't correspond to a KoLmafia modifier

@@ -591,7 +591,7 @@ public class TCRSDatabase {
     }
 
     // Set modifiers
-    Modifiers.updateItem(itemId, tcrs.modifiers);
+    ModifierDatabase.updateItem(itemId, tcrs.modifiers);
 
     // *** Do this after modifiers are set so can log effect modifiers
     ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
@@ -602,7 +602,7 @@ public class TCRSDatabase {
     }
 
     // Add as effect source, if appropriate
-    String effectName = Modifiers.getStringModifier(ModifierType.ITEM, itemName, "Effect");
+    String effectName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, "Effect");
     if (effectName != null && !effectName.equals("")) {
       addEffectSource(itemName, usage, effectName);
     }
@@ -692,12 +692,12 @@ public class TCRSDatabase {
     // Consumable attributes (like SAUCY, BEER, etc) are preserved
     ConsumablesDatabase.getAttributes(consumable).stream().map(Enum::name).forEach(comment::add);
 
-    String effectName = Modifiers.getStringModifier(ModifierType.ITEM, itemName, "Effect");
+    String effectName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, "Effect");
     if (effectName != null && !effectName.isEmpty()) {
       int duration =
-          (int) Modifiers.getNumericModifier(ModifierType.ITEM, itemName, "Effect Duration");
+          (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, itemName, "Effect Duration");
       String effectModifiers =
-          Modifiers.getStringModifier(ModifierType.EFFECT, effectName, "Modifiers");
+        ModifierDatabase.getStringModifier(ModifierType.EFFECT, effectName, "Modifiers");
       comment.add(duration + " " + effectName + " (" + effectModifiers + ")");
     }
 
@@ -724,7 +724,7 @@ public class TCRSDatabase {
 
     TCRSDatabase.reset();
 
-    Modifiers.resetModifiers();
+    ModifierDatabase.resetModifiers();
     EffectDatabase.reset();
     ConsumablesDatabase.reset();
 
