@@ -19,7 +19,6 @@ import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +28,7 @@ class CalendarFrameTest {
 
   private final String USER_NAME = "CalendarFrameTestFakeUser";
 
-  // These need to be before and after each because leakage has been observed between tests
-  // in this class.
+  // These need to be before and after each because leakage has been observed with other Swing tests
   @BeforeEach
   public void initializeCharPrefs() {
     KoLCharacter.reset(USER_NAME);
@@ -76,271 +74,160 @@ class CalendarFrameTest {
   }
 
   private static final String expectedKOLDay =
-      "<html>"
-          + KoLConstants.LINE_BREAK
-          + "  <head>"
-          + KoLConstants.LINE_BREAK
-          + "    "
-          + KoLConstants.LINE_BREAK
-          + "  </head>"
-          + KoLConstants.LINE_BREAK
-          + "  <body>"
-          + KoLConstants.LINE_BREAK
-          + "    <center>"
-          + KoLConstants.LINE_BREAK
-          + "      <table>"
-          + KoLConstants.LINE_BREAK
-          + "        <tr>"
-          + KoLConstants.LINE_BREAK
-          + "          <td valign=\"top\">"
-          + KoLConstants.LINE_BREAK
-          + "            <center>"
-          + KoLConstants.LINE_BREAK
-          + "              <table border=\"1\">"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td align=\"center\">"
-          + KoLConstants.LINE_BREAK
-          + "                    drawn by <b><a href=\"http://elfwood.lysator.liu.se/loth/l/e/leigh/leigh.html\">SpaceMonkey</a></b>"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td>"
-          + KoLConstants.LINE_BREAK
-          + "                    <img src=\"https://d2uyhvukfffg5a.cloudfront.net/otherimages/bikini/nov.gif\">"
-          + KoLConstants.LINE_BREAK
-          + "                    "
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td align=\"center\">"
-          + KoLConstants.LINE_BREAK
-          + "                    September 1, 2010"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td align=\"center\">"
-          + KoLConstants.LINE_BREAK
-          + "                    <font size=\"+1\"><b>Boozember 2</b></font>"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "              </table>"
-          + KoLConstants.LINE_BREAK
-          + "            </center>"
-          + KoLConstants.LINE_BREAK
-          + "          </td>"
-          + KoLConstants.LINE_BREAK
-          + "          <td valign=\"top\">"
-          + KoLConstants.LINE_BREAK
-          + "            <center>"
-          + KoLConstants.LINE_BREAK
-          + "              <table>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td colspan=\"2\" align=\"center\">"
-          + KoLConstants.LINE_BREAK
-          + "                    "
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td colspan=\"2\">"
-          + KoLConstants.LINE_BREAK
-          + "                    "
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td colspan=\"2\" align=\"center\">"
-          + KoLConstants.LINE_BREAK
-          + "                    <img src=\"https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon2.gif\">"
-          + KoLConstants.LINE_BREAK
-          + "                    <img src=\"https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon1a.gif\">"
-          + KoLConstants.LINE_BREAK
-          + "                    "
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td colspan=\"2\">"
-          + KoLConstants.LINE_BREAK
-          + "                    "
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td align=\"right\">"
-          + KoLConstants.LINE_BREAK
-          + "                    <b>Ronald</b>:&#160;"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td>"
-          + KoLConstants.LINE_BREAK
-          + "                    waxing crescent"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td align=\"right\">"
-          + KoLConstants.LINE_BREAK
-          + "                    <b>Grimace</b>:&#160;"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td>"
-          + KoLConstants.LINE_BREAK
-          + "                    new moon"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td align=\"right\">"
-          + KoLConstants.LINE_BREAK
-          + "                    <b>Stats</b>:&#160;"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td>"
-          + KoLConstants.LINE_BREAK
-          + "                    3 days until Mysticism."
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td align=\"right\">"
-          + KoLConstants.LINE_BREAK
-          + "                    <b>Grue</b>:&#160;"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td>"
-          + KoLConstants.LINE_BREAK
-          + "                    bloodlusty"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td align=\"right\">"
-          + KoLConstants.LINE_BREAK
-          + "                    <b>Blood</b>:&#160;"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td>"
-          + KoLConstants.LINE_BREAK
-          + "                    +38%"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td align=\"right\">"
-          + KoLConstants.LINE_BREAK
-          + "                    <b>Baio</b>:&#160;"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td>"
-          + KoLConstants.LINE_BREAK
-          + "                    +20%"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "                <tr>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td align=\"right\">"
-          + KoLConstants.LINE_BREAK
-          + "                    <b>Jekyllin</b>:&#160;"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                  <td>"
-          + KoLConstants.LINE_BREAK
-          + "                    +7 stats, 25% items"
-          + KoLConstants.LINE_BREAK
-          + "                  </td>"
-          + KoLConstants.LINE_BREAK
-          + "                </tr>"
-          + KoLConstants.LINE_BREAK
-          + "              </table>"
-          + KoLConstants.LINE_BREAK
-          + "            </center>"
-          + KoLConstants.LINE_BREAK
-          + "          </td>"
-          + KoLConstants.LINE_BREAK
-          + "        </tr>"
-          + KoLConstants.LINE_BREAK
-          + "      </table>"
-          + KoLConstants.LINE_BREAK
-          + "    </center>"
-          + KoLConstants.LINE_BREAK
-          + "  </body>"
-          + KoLConstants.LINE_BREAK
-          + "</html>"
-          + KoLConstants.LINE_BREAK;
+      """
+           <html>
+             <head>
+              \s
+             </head>
+             <body>
+               <center>
+                 <table>
+                   <tr>
+                     <td valign="top">
+                       <center>
+                         <table border="1">
+                           <tr>
+                             <td align="center">
+                               drawn by <b><a href="http://elfwood.lysator.liu.se/loth/l/e/leigh/leigh.html">SpaceMonkey</a></b>
+                             </td>
+                           </tr>
+                           <tr>
+                             <td>
+                               <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/bikini/nov.gif">
+                              \s
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="center">
+                               September 1, 2010
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="center">
+                               <font size="+1"><b>Boozember 2</b></font>
+                             </td>
+                           </tr>
+                         </table>
+                       </center>
+                     </td>
+                     <td valign="top">
+                       <center>
+                         <table>
+                           <tr>
+                             <td colspan="2" align="center">
+                              \s
+                             </td>
+                           </tr>
+                           <tr>
+                             <td colspan="2">
+                              \s
+                             </td>
+                           </tr>
+                           <tr>
+                             <td colspan="2" align="center">
+                               <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon2.gif">
+                               <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon1a.gif">
+                              \s
+                             </td>
+                           </tr>
+                           <tr>
+                             <td colspan="2">
+                              \s
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="right">
+                               <b>Ronald</b>:&#160;
+                             </td>
+                             <td>
+                               waxing crescent
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="right">
+                               <b>Grimace</b>:&#160;
+                             </td>
+                             <td>
+                               new moon
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="right">
+                               <b>Stats</b>:&#160;
+                             </td>
+                             <td>
+                               3 days until Mysticism.
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="right">
+                               <b>Grue</b>:&#160;
+                             </td>
+                             <td>
+                               bloodlusty
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="right">
+                               <b>Blood</b>:&#160;
+                             </td>
+                             <td>
+                               +38%
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="right">
+                               <b>Baio</b>:&#160;
+                             </td>
+                             <td>
+                               +20%
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="right">
+                               <b>Jekyllin</b>:&#160;
+                             </td>
+                             <td>
+                               +7 stats, 25% items
+                             </td>
+                           </tr>
+                         </table>
+                       </center>
+                     </td>
+                   </tr>
+                 </table>
+               </center>
+             </body>
+           </html>
+                  """;
+
   private static final String expectedEvents =
-      "<html>"
-          + KoLConstants.LINE_BREAK
-          + "  <head>"
-          + KoLConstants.LINE_BREAK
-          + "    "
-          + KoLConstants.LINE_BREAK
-          + "  </head>"
-          + KoLConstants.LINE_BREAK
-          + "  <body>"
-          + KoLConstants.LINE_BREAK
-          + "    <b><u>September 1, 2010</u></b><br><i>Boozember 2</i><br>&#160;<br><nobr><b>Muscle Day</b>:&#160;7 days</nobr><br><nobr><b>Mysticality Day</b>:&#160;3 days</nobr><br><nobr><b>Moxie Day</b>:&#160;14 days</nobr><br>&#160;<br><nobr><b>Feast of Boris:</b>&#160; 5 days</nobr><br><nobr><b>Yuletide:</b>&#160; 10 days</nobr><br><nobr><b>Festival of Jarlsberg:</b>&#160; 15 days</nobr><br><nobr><b>Valentine's Day:</b>&#160; 26 days</nobr><br><nobr><b>St. Sneaky Pete's Day:</b>&#160; 33 days</nobr><br><nobr><b>Oyster Egg Day:</b>&#160; 40 days</nobr><br><nobr><b>El Dia De Los Muertos Borrachos:</b>&#160; 48 days</nobr><br><nobr><b>Generic Summer Holiday:</b>&#160; 57 days</nobr><br><nobr><b>Halloween:</b>&#160; 60 days</nobr><br><nobr><b>Dependence Day:</b>&#160; 66 days</nobr><br><nobr><b>Arrrbor Day:</b>&#160; 74 days</nobr><br><nobr><b>Lab&#243;r Day:</b>&#160; 84 days</nobr><br>"
-          + KoLConstants.LINE_BREAK
-          + "  </body>"
-          + KoLConstants.LINE_BREAK
-          + "</html>"
-          + KoLConstants.LINE_BREAK;
+      """
+              <html>
+                <head>
+                 \s
+                </head>
+                <body>
+                  <b><u>September 1, 2010</u></b><br><i>Boozember 2</i><br>&#160;<br><nobr><b>Muscle Day</b>:&#160;7 days</nobr><br><nobr><b>Mysticality Day</b>:&#160;3 days</nobr><br><nobr><b>Moxie Day</b>:&#160;14 days</nobr><br>&#160;<br><nobr><b>Feast of Boris:</b>&#160; 5 days</nobr><br><nobr><b>Yuletide:</b>&#160; 10 days</nobr><br><nobr><b>Festival of Jarlsberg:</b>&#160; 15 days</nobr><br><nobr><b>Valentine's Day:</b>&#160; 26 days</nobr><br><nobr><b>St. Sneaky Pete's Day:</b>&#160; 33 days</nobr><br><nobr><b>Oyster Egg Day:</b>&#160; 40 days</nobr><br><nobr><b>El Dia De Los Muertos Borrachos:</b>&#160; 48 days</nobr><br><nobr><b>Generic Summer Holiday:</b>&#160; 57 days</nobr><br><nobr><b>Halloween:</b>&#160; 60 days</nobr><br><nobr><b>Dependence Day:</b>&#160; 66 days</nobr><br><nobr><b>Arrrbor Day:</b>&#160; 74 days</nobr><br><nobr><b>Lab&#243;r Day:</b>&#160; 84 days</nobr><br>
+                </body>
+              </html>
+                  """;
+
+  private static String whiteWednesday =
+      """
+                  <html>
+                    <head>
+                     \s
+                    </head>
+                    <body>
+                      <center>
+                        <h1>
+                          White Wednesday
+                        </h1>
+                      </center>
+                    </body>
+                  </html>
+                  """;
 
   @Test
   public void calendarFrameShouldHaveBasicFunctionality() {
@@ -380,5 +267,19 @@ class CalendarFrameTest {
     Component aTab = testFrame.tabs.getComponentAt(1);
     String x = getDataFromTab(aTab);
     assertEquals(expectedEvents, x);
+  }
+
+  @Test
+  public void itShouldCalculateExpectedCalendarDataForWhiteWednesday() {
+    Calendar useTime = new GregorianCalendar();
+    useTime.set(2005, Calendar.OCTOBER, 27);
+    CalendarFrame testFrame = new CalendarFrame(useTime);
+    assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
+    testFrame.updateTabs();
+    CalendarFrame.updateDailyPage(1);
+    assertEquals(2, testFrame.tabs.getTabCount());
+    Component aTab = testFrame.tabs.getComponentAt(0);
+    String x = getDataFromTab(aTab);
+    assertEquals(whiteWednesday, x);
   }
 }
