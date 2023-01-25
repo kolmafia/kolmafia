@@ -1,4 +1,5 @@
 package net.sourceforge.kolmafia.utilities;
+
 public class Indexed<TIndex, TValue> {
 
   public TIndex index;

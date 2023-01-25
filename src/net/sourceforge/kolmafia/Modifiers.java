@@ -75,8 +75,7 @@ public class Modifiers {
   private static final TwoLevelEnumHashMap<ModifierType, IntOrString, Modifiers> modifiersByName =
       new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
-  private static final Map<String, Modifier>
-      modifierTypesByName = new HashMap<>();
+  private static final Map<String, Modifier> modifierTypesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
   private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
       new TreeMap<>();

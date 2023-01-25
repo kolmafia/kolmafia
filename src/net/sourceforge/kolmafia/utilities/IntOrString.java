@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.utilities;
 
-import net.sourceforge.kolmafia.Modifiers;
-
 public class IntOrString {
 
   private int intValue = -1;
@@ -42,8 +40,8 @@ public class IntOrString {
       return false;
     }
     return isInt() && other.isInt()
-      ? this.intValue == other.intValue
-      : this.stringValue.equals(other.stringValue);
+        ? this.intValue == other.intValue
+        : this.stringValue.equals(other.stringValue);
   }
 
   @Override

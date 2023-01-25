@@ -23,8 +23,7 @@ public class PreferenceModifiers implements Listener {
   public void update() {
     this.value = Preferences.getString(this.property);
     this.modifiers =
-        Modifiers.evaluatedModifiers(
-            new Lookup(this.modifierType, this.property), this.value);
+        Modifiers.evaluatedModifiers(new Lookup(this.modifierType, this.property), this.value);
   }
 
   public Modifiers get() {

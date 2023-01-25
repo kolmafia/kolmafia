@@ -26,14 +26,14 @@ public class Lookup {
   public Lookup(ModifierType type, String name) {
     this.type = type;
     this.key =
-      switch (type) {
-        case ITEM -> new IntOrString(ItemDatabase.getExactItemId(name));
-        case EFFECT -> new IntOrString(EffectDatabase.getEffectId(name, true));
-        case SKILL -> new IntOrString(SkillDatabase.getSkillId(name, true));
-        default -> new IntOrString(name);
-      };
+        switch (type) {
+          case ITEM -> new IntOrString(ItemDatabase.getExactItemId(name));
+          case EFFECT -> new IntOrString(EffectDatabase.getEffectId(name, true));
+          case SKILL -> new IntOrString(SkillDatabase.getSkillId(name, true));
+          default -> new IntOrString(name);
+        };
     if (EnumSet.of(ModifierType.ITEM, ModifierType.EFFECT, ModifierType.SKILL).contains(type)
-      && this.key.getIntValue() == -1) {
+        && this.key.getIntValue() == -1) {
       this.type = ModifierType.fromString("PSEUDO_" + type.name());
       this.key = new IntOrString(name);
     }
@@ -62,8 +62,8 @@ public class Lookup {
   public String getName() {
     return switch (type) {
       case ITEM -> getIntKey() < -1
-        ? ClanLoungeRequest.hotdogIdToName(getIntKey())
-        : ItemDatabase.getItemName(getIntKey());
+          ? ClanLoungeRequest.hotdogIdToName(getIntKey())
+          : ItemDatabase.getItemName(getIntKey());
       case EFFECT -> EffectDatabase.getEffectName(getIntKey());
       case SKILL -> SkillDatabase.getSkillName(getIntKey());
       default -> getStringKey();
