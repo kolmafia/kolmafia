@@ -13,8 +13,6 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,8 +23,6 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -38,6 +34,10 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifierCollection;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifierCollection;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -57,13 +57,14 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
-import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.Indexed;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.TwoLevelEnumHashMap;
@@ -74,8 +75,7 @@ public class Modifiers {
   private static final TwoLevelEnumHashMap<ModifierType, IntOrString, Modifiers> modifiersByName =
       new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
-  private static final Map<String, net.sourceforge.kolmafia.modifiers.Modifier>
-      modifierTypesByName = new HashMap<>();
+  private static final Map<String, Modifier> modifierTypesByName = new HashMap<>();
   private static boolean availableSkillsChanged = false;
   private static final Map<Boolean, List<Modifiers>> availablePassiveSkillModifiersByVariable =
       new TreeMap<>();
@@ -432,12 +432,6 @@ public class Modifiers {
     return available;
   }
 
-  public static final DoubleModifier findName(String name) {
-    // this is caseless because it accepts anything typed into the maximizer, which is normally
-    // lowercase
-    return DoubleModifier.byCaselessName(name);
-  }
-
   private Lookup originalLookup;
   // Assume modifiers are variable until proven otherwise.
   public boolean variable = true;
@@ -445,7 +439,7 @@ public class Modifiers {
   private final BooleanModifierCollection booleans = new BooleanModifierCollection();
   private final BitmapModifierCollection bitmaps = new BitmapModifierCollection();
   private final StringModifierCollection strings = new StringModifierCollection();
-  private ArrayList<Indexed<ModifierExpression>> expressions = null;
+  private ArrayList<Indexed<DoubleModifier, ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
   private final DoubleModifierCollection doublerAccumulators = new DoubleModifierCollection();
 
@@ -527,7 +521,7 @@ public class Modifiers {
       return this.cappedCombatRate();
     }
 
-    DoubleModifier modifier = Modifiers.findName(name);
+    DoubleModifier modifier = DoubleModifier.byCaselessName(name);
     if (modifier == null) {
       DerivedModifier derived = DerivedModifier.byCaselessName(name);
       if (derived == null) {
@@ -626,7 +620,7 @@ public class Modifiers {
 
   public double getDoublerAccumulator(final String name) {
     // doublerAccumulators uses the same keys as doubles, so the same lookup will work
-    DoubleModifier modifier = findName(name);
+    DoubleModifier modifier = DoubleModifier.byCaselessName(name);
     return getDoublerAccumulator(modifier);
   }
 
@@ -871,7 +865,7 @@ public class Modifiers {
     }
   }
 
-  public boolean setModifier(final Modifier mod) {
+  public boolean setModifier(final ModifierValue mod) {
     if (mod == null) {
       return false;
     }
@@ -1096,177 +1090,6 @@ public class Modifiers {
     return newMods;
   }
 
-  public static class Modifier {
-    private final String name;
-    private String value;
-
-    public Modifier(final String name, final String value) {
-      this.name = name;
-      this.value = value;
-    }
-
-    public String getName() {
-      return this.name;
-    }
-
-    public String getValue() {
-      return this.value;
-    }
-
-    public void setValue(final String value) {
-      this.value = value;
-    }
-
-    public void eval(final Lookup lookup) {
-      if (this.value == null) {
-        return;
-      }
-
-      int lb = this.value.indexOf("[");
-      if (lb == -1) {
-        return;
-      }
-
-      int rb = this.value.indexOf("]");
-      if (rb == -1) {
-        return;
-      }
-
-      ModifierExpression expr = new ModifierExpression(this.value.substring(lb + 1, rb), lookup);
-      if (expr.hasErrors()) {
-        return;
-      }
-
-      int val = (int) expr.eval();
-      this.value = (val > 0 ? "+" : "") + val;
-    }
-
-    public void toString(final StringBuilder buffer) {
-      buffer.append(name);
-      if (value != null) {
-        buffer.append(": ");
-        buffer.append(value);
-      }
-    }
-
-    @Override
-    public String toString() {
-      StringBuilder buffer = new StringBuilder();
-      this.toString(buffer);
-      return buffer.toString();
-    }
-  }
-
-  public static class ModifierList implements Iterable<Modifier> {
-    private final LinkedList<Modifier> list;
-
-    public ModifierList() {
-      this.list = new LinkedList<>();
-    }
-
-    @Override
-    public Iterator<Modifier> iterator() {
-      return this.list.iterator();
-    }
-
-    public Stream<Modifier> stream() {
-      return StreamSupport.stream(spliterator(), false);
-    }
-
-    public void clear() {
-      this.list.clear();
-    }
-
-    public int size() {
-      return this.list.size();
-    }
-
-    public void addAll(final ModifierList list) {
-      this.list.addAll(list.list);
-    }
-
-    public void addModifier(final Modifier modifier) {
-      this.list.add(modifier);
-    }
-
-    public void addModifier(final String name, final String value) {
-      this.list.add(new Modifier(name, value));
-    }
-
-    public void addToModifier(final Modifier modifier) {
-      String name = modifier.getName();
-      String current = this.getModifierValue(name);
-      if (current == null) {
-        this.list.add(modifier);
-      } else {
-        // We can only add to numeric values
-        String value = modifier.getValue();
-        if (StringUtilities.isNumeric(current) && StringUtilities.isNumeric(value)) {
-          int newValue = Integer.parseInt(current) + Integer.parseInt(value);
-          this.removeModifier(name);
-          this.list.add(new Modifier(name, String.valueOf(newValue)));
-        }
-      }
-    }
-
-    public void addToModifier(final String name, final String value) {
-      String current = this.getModifierValue(name);
-      if (current == null) {
-        this.list.add(new Modifier(name, value));
-      } else {
-        // We can only add to numeric values
-        if (StringUtilities.isNumeric(current) && StringUtilities.isNumeric(value)) {
-          int newValue = Integer.parseInt(current) + Integer.parseInt(value);
-          this.removeModifier(name);
-          this.list.add(new Modifier(name, String.valueOf(newValue)));
-        }
-      }
-    }
-
-    public boolean containsModifier(final String name) {
-      for (Modifier modifier : this.list) {
-        if (name.equals(modifier.name)) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    public String getModifierValue(final String name) {
-      for (Modifier modifier : this.list) {
-        if (name.equals(modifier.name)) {
-          return modifier.value;
-        }
-      }
-      return null;
-    }
-
-    public Modifier removeModifier(final String name) {
-      Iterator<Modifier> iterator = this.iterator();
-      while (iterator.hasNext()) {
-        Modifier modifier = iterator.next();
-        if (name.equals(modifier.name)) {
-          iterator.remove();
-          return modifier;
-        }
-      }
-      return null;
-    }
-
-    @Override
-    public String toString() {
-      StringBuilder buffer = new StringBuilder();
-      for (Modifier modifier : this.list) {
-        if (buffer.length() > 0) {
-          buffer.append(", ");
-        }
-
-        modifier.toString(buffer);
-      }
-      return buffer.toString();
-    }
-  }
-
   public static final ModifierList getModifierList(final Lookup lookup) {
     Modifiers mods = Modifiers.getModifiers(lookup);
     if (mods == null) {
@@ -1350,7 +1173,7 @@ public class Modifiers {
 
     // Otherwise, break apart the string and rebuild it with all
     // expressions evaluated.
-    for (Modifier modifier : list) {
+    for (ModifierValue modifier : list) {
       // Evaluate the modifier expression
       modifier.eval(lookup);
     }
@@ -1495,7 +1318,7 @@ public class Modifiers {
 
   private boolean override(final Lookup lookup) {
     if (this.expressions != null) {
-      for (Indexed<ModifierExpression> entry : this.expressions) {
+      for (Indexed<DoubleModifier, ModifierExpression> entry : this.expressions) {
         this.setDouble(entry.index, entry.value.eval());
       }
     }
@@ -2417,7 +2240,7 @@ public class Modifiers {
 
         ModifierList list = Modifiers.splitModifiers(modifierString);
 
-        for (Modifier modifier : list) {
+        for (ModifierValue modifier : list) {
           String mod = modifier.toString();
 
           if (DoubleModifier.byTagPattern(mod) != null) {
@@ -2968,125 +2791,6 @@ public class Modifiers {
 
       Lookup lookup = new Lookup(type, name);
       Modifiers.modifierStringsByName.putIfAbsent(lookup.type, lookup.getKey(), known);
-    }
-  }
-
-  public static class IntOrString {
-    private int intValue = -1;
-    private String stringValue = null;
-
-    public IntOrString(String stringValue) {
-      this.stringValue = stringValue;
-    }
-
-    public IntOrString(int intValue) {
-      this.intValue = intValue;
-    }
-
-    public boolean isInt() {
-      return stringValue == null;
-    }
-
-    public boolean isString() {
-      return stringValue != null;
-    }
-
-    public int getIntValue() {
-      return intValue;
-    }
-
-    public String getStringValue() {
-      return stringValue;
-    }
-
-    @Override
-    public int hashCode() {
-      return isInt() ? this.intValue : this.stringValue.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (!(o instanceof IntOrString other)) return false;
-      return isInt() && other.isInt()
-          ? this.intValue == other.intValue
-          : this.stringValue.equals(other.stringValue);
-    }
-
-    @Override
-    public String toString() {
-      return isInt() ? Integer.toString(this.intValue) : this.stringValue;
-    }
-  }
-
-  public static class Lookup {
-    public ModifierType type;
-    private IntOrString key; // int for Skill, Item, Effect; String otherwise.
-
-    public Lookup(ModifierType type, IntOrString key) {
-      this.type = type;
-      this.key = key;
-    }
-
-    public Lookup(ModifierType type, int key) {
-      this.type = type;
-      this.key = new IntOrString(key);
-    }
-
-    public Lookup(ModifierType type, String name) {
-      this.type = type;
-      this.key =
-          switch (type) {
-            case ITEM -> new IntOrString(ItemDatabase.getExactItemId(name));
-            case EFFECT -> new IntOrString(EffectDatabase.getEffectId(name, true));
-            case SKILL -> new IntOrString(SkillDatabase.getSkillId(name, true));
-            default -> new IntOrString(name);
-          };
-      if (EnumSet.of(ModifierType.ITEM, ModifierType.EFFECT, ModifierType.SKILL).contains(type)
-          && this.key.getIntValue() == -1) {
-        this.type = ModifierType.fromString("PSEUDO_" + type.name());
-        this.key = new IntOrString(name);
-      }
-    }
-
-    @Override
-    public String toString() {
-      return switch (this.type) {
-        case ITEM, EFFECT, SKILL -> this.type.pascalCaseName() + ":[" + this.key + "]";
-        default -> this.type.pascalCaseName() + ":" + this.key;
-      };
-    }
-
-    public IntOrString getKey() {
-      return this.key;
-    }
-
-    public int getIntKey() {
-      return this.key.getIntValue();
-    }
-
-    public String getStringKey() {
-      return this.key.getStringValue();
-    }
-
-    public String getName() {
-      return switch (type) {
-        case ITEM -> getIntKey() < -1
-            ? ClanLoungeRequest.hotdogIdToName(getIntKey())
-            : ItemDatabase.getItemName(getIntKey());
-        case EFFECT -> EffectDatabase.getEffectName(getIntKey());
-        case SKILL -> SkillDatabase.getSkillName(getIntKey());
-        default -> getStringKey();
-      };
-    }
-  }
-
-  private static class Indexed<T> {
-    public DoubleModifier index;
-    public T value;
-
-    public Indexed(DoubleModifier index, T value) {
-      this.index = index;
-      this.value = value;
     }
   }
 }
