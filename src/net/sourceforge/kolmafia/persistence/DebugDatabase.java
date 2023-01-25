@@ -1221,19 +1221,8 @@ public class DebugDatabase {
         Modifiers.writeModifierComment(report, null, name);
       }
     } else {
-      Modifiers.writeModifierString(report, type, name, DebugDatabase.createModifierString(known));
+      Modifiers.writeModifierString(report, type, name, known.toString());
     }
-  }
-
-  private static String createModifierString(final ModifierList modifiers) {
-    StringBuilder buffer = new StringBuilder();
-    for (Modifier modifier : modifiers) {
-      if (buffer.length() > 0) {
-        buffer.append(", ");
-      }
-      buffer.append(modifier.toString());
-    }
-    return buffer.toString();
   }
 
   private static final Pattern ITEM_ENCHANTMENT_PATTERN =
@@ -1353,14 +1342,14 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown, final ConsumptionType type) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static final String parseItemEnchantments(final String text, final ConsumptionType type) {
     ModifierList known = new ModifierList();
     ArrayList<String> unknown = new ArrayList<>();
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static void parseStandardEnchantments(
@@ -1721,7 +1710,7 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseOutfitEnchantments(text, known, unknown);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   // **********************************************************
@@ -1942,7 +1931,7 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseEffectEnchantments(text, known, unknown);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static final String parseEffectEnchantments(final String text) {
@@ -2191,7 +2180,7 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseSkillEnchantments(text, known, unknown);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static final String parseSkillEnchantments(final String text) {
