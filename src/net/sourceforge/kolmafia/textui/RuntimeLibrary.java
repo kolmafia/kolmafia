@@ -56,7 +56,7 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;

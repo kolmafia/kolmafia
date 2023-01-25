@@ -26,13 +26,14 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -1098,7 +1099,7 @@ public class DebugDatabase {
     //   of parsed modifiers in the order they appear in modifiers.txt
 
     // Get the existing modifiers for the name
-    ModifierList existing = Modifiers.getModifierList(new Modifiers.Lookup(type, name));
+    ModifierList existing = Modifiers.getModifierList(new Lookup(type, name));
 
     // Look at each modifier in known
     for (Modifier modifier : known) {

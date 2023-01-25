@@ -7,9 +7,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 
 public class DebugModifiers extends Modifiers {
   private static Map<DoubleModifier, String> wanted, adjustments;

@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -103,7 +105,7 @@ public class LocketManager {
    * @param responseText HTML for the item description to parse
    */
   public static void parseLocket(final String responseText) {
-    var mods = new Modifiers.ModifierList();
+    var mods = new ModifierList();
 
     // The plan here is to parse the locket description...
     DebugDatabase.parseItemEnchantments(
@@ -112,7 +114,7 @@ public class LocketManager {
     // ...find the first modifier that can indicate the phylum...
     var indicativeMod =
         mods.stream()
-            .map(Modifiers.Modifier::getName)
+            .map(Modifier::getName)
             .filter(Predicate.not(CONSTANT_MODS::contains))
             .findAny()
             .orElse(null);

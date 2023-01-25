@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
-import net.sourceforge.kolmafia.Modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.Modifier;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
 

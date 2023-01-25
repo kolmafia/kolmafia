@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -123,7 +124,7 @@ public class AccordionsCommand extends AbstractCommand {
     private final String monster;
     private final int hands;
     private final int songDuration;
-    private final Modifiers.Lookup modsLookup;
+    private final Lookup modsLookup;
     private final String enchantments;
 
     public Accordion(final int itemId, final String monster) {
@@ -149,7 +150,7 @@ public class AccordionsCommand extends AbstractCommand {
       } else {
         // Handle items missing from modifiers.txt
         this.songDuration = 0;
-        this.modsLookup = new Modifiers.Lookup(ModifierType.NONE, "");
+        this.modsLookup = new Lookup(ModifierType.NONE, "");
         this.enchantments = "";
       }
     }
@@ -174,7 +175,7 @@ public class AccordionsCommand extends AbstractCommand {
       return this.songDuration;
     }
 
-    public Modifiers.Lookup getModsLookup() {
+    public Lookup getModsLookup() {
       return this.modsLookup;
     }
 

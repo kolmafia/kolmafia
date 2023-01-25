@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 
 public class PreferenceModifiers implements Listener {
   private String property;
@@ -23,7 +24,7 @@ public class PreferenceModifiers implements Listener {
     this.value = Preferences.getString(this.property);
     this.modifiers =
         Modifiers.evaluatedModifiers(
-            new Modifiers.Lookup(this.modifierType, this.property), this.value);
+            new Lookup(this.modifierType, this.property), this.value);
   }
 
   public Modifiers get() {

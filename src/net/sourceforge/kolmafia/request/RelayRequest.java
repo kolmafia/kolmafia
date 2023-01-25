@@ -29,7 +29,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.HistoryEntry;
 import net.sourceforge.kolmafia.chat.SentMessageEntry;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -2417,7 +2418,7 @@ public class RelayRequest extends PasswordHashRequest {
     // Perform the same adjustments to the displayed modifiers as
     // the Gear Changer, except leave Familiar Effect if you own
     // the relevant familiar.
-    ModifierList list = Modifiers.getModifierList(new Modifiers.Lookup(ModifierType.ITEM, itemId));
+    ModifierList list = Modifiers.getModifierList(new Lookup(ModifierType.ITEM, itemId));
     list.removeModifier("Wiki Name");
     list.removeModifier("Modifiers");
     list.removeModifier("Outfit");
