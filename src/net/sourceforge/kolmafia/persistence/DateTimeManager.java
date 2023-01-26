@@ -1,9 +1,9 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.KoLmafia.kolTimeZone;
+
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-
-import static net.sourceforge.kolmafia.KoLmafia.kolTimeZone;
 
 public class DateTimeManager {
   public static final ZoneId ROLLOVER = ZoneId.of(kolTimeZone.getID());
