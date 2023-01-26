@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -484,7 +485,8 @@ public class ListCellRendererFactory {
       }
 
       Modifiers mods = ModifierDatabase.getEffectModifiers(effectId);
-      String effectModifiers = (mods == null) ? null : mods.getString("Evaluated Modifiers");
+      String effectModifiers =
+          (mods == null) ? null : mods.getString(StringModifier.EVALUATED_MODIFIERS);
 
       if (effectModifiers != null) {
         stringForm.append(" (").append(effectModifiers).append(")");

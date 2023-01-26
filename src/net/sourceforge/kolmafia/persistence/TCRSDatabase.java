@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -601,7 +602,8 @@ public class TCRSDatabase {
     }
 
     // Add as effect source, if appropriate
-    String effectName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, "Effect");
+    String effectName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
     if (effectName != null && !effectName.equals("")) {
       addEffectSource(itemName, usage, effectName);
     }
@@ -691,12 +693,14 @@ public class TCRSDatabase {
     // Consumable attributes (like SAUCY, BEER, etc) are preserved
     ConsumablesDatabase.getAttributes(consumable).stream().map(Enum::name).forEach(comment::add);
 
-    String effectName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, "Effect");
+    String effectName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
     if (effectName != null && !effectName.isEmpty()) {
       int duration =
           (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, itemName, "Effect Duration");
       String effectModifiers =
-          ModifierDatabase.getStringModifier(ModifierType.EFFECT, effectName, "Modifiers");
+          ModifierDatabase.getStringModifier(
+              ModifierType.EFFECT, effectName, StringModifier.MODIFIERS);
       comment.add(duration + " " + effectName + " (" + effectModifiers + ")");
     }
 

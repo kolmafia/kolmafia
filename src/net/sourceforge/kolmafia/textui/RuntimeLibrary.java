@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
@@ -9108,12 +9109,14 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return DataTypes.makeBooleanValue(ModifierDatabase.getBooleanModifier(type, name, mod));
+    BooleanModifier boolMod = BooleanModifier.byCaselessName(mod);
+    return DataTypes.makeBooleanValue(ModifierDatabase.getBooleanModifier(type, name, boolMod));
   }
 
   public static Value string_modifier(ScriptRuntime controller, final Value modifier) {
     String mod = modifier.toString();
-    return new Value(KoLCharacter.currentStringModifier(mod));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(KoLCharacter.currentStringModifier(strMod));
   }
 
   public static Value string_modifier(
@@ -9121,7 +9124,8 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(ModifierDatabase.getStringModifier(type, name, mod));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(ModifierDatabase.getStringModifier(type, name, strMod));
   }
 
   public static Value effect_modifier(
@@ -9129,8 +9133,9 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
+    StringModifier strMod = StringModifier.byCaselessName(mod);
     return new Value(
-        DataTypes.parseEffectValue(ModifierDatabase.getStringModifier(type, name, mod), true));
+        DataTypes.parseEffectValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value class_modifier(
@@ -9138,8 +9143,9 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
+    StringModifier strMod = StringModifier.byCaselessName(mod);
     return new Value(
-        DataTypes.parseClassValue(ModifierDatabase.getStringModifier(type, name, mod), true));
+        DataTypes.parseClassValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value skill_modifier(
@@ -9147,8 +9153,9 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
+    StringModifier strMod = StringModifier.byCaselessName(mod);
     return new Value(
-        DataTypes.parseSkillValue(ModifierDatabase.getStringModifier(type, name, mod), true));
+        DataTypes.parseSkillValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value stat_modifier(
@@ -9156,8 +9163,9 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
+    StringModifier strMod = StringModifier.byCaselessName(mod);
     return new Value(
-        DataTypes.parseStatValue(ModifierDatabase.getStringModifier(type, name, mod), true));
+        DataTypes.parseStatValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value monster_modifier(
@@ -9165,8 +9173,9 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
+    StringModifier strMod = StringModifier.byCaselessName(name);
     return new Value(
-        DataTypes.parseMonsterValue(ModifierDatabase.getStringModifier(type, name, mod), true));
+        DataTypes.parseMonsterValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value white_citadel_available(ScriptRuntime controller) {

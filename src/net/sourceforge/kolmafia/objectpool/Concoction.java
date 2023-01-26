@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Consumable;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -221,7 +222,8 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public void setEffectName() {
-    this.effectName = ModifierDatabase.getStringModifier(ModifierType.ITEM, this.name, "Effect");
+    this.effectName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, this.name, StringModifier.EFFECT);
   }
 
   public void setStatGain() {

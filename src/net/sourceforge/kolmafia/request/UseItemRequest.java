@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -6042,17 +6043,20 @@ public class UseItemRequest extends GenericRequest {
   }
 
   private static String itemToClass(final int itemId) {
-    String className = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, "Class");
+    String className =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.CLASS);
     return className.equals("") ? null : className;
   }
 
   private static String itemToSkill(final int itemId) {
-    String skillName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, "Skill");
+    String skillName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.SKILL);
     return skillName.equals("") ? null : skillName;
   }
 
   private static String itemToRecipe(final int itemId) {
-    String recipeName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, "Recipe");
+    String recipeName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.RECIPE);
     return recipeName.equals("") ? null : recipeName;
   }
 

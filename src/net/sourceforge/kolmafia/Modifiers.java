@@ -390,30 +390,20 @@ public class Modifiers {
     return bools;
   }
 
-  public boolean getBoolean(final String name) {
-    BooleanModifier modifier = BooleanModifier.byCaselessName(name);
-    return getBoolean(modifier);
-  }
-
   public String getString(final StringModifier modifier) {
     if (modifier == null) {
       return "";
     }
 
-    return this.strings.get(modifier);
-  }
-
-  public String getString(final String name) {
     // Can't cache this as expressions can be dependent on things
     // that can change within a session, like character level.
-    if (name.equals("Evaluated Modifiers")) {
+    if (modifier == StringModifier.EVALUATED_MODIFIERS) {
       return ModifierDatabase.evaluateModifiers(
               this.originalLookup, this.strings.get(StringModifier.MODIFIERS))
           .toString();
     }
 
-    StringModifier modifier = StringModifier.byCaselessName(name);
-    return getString(modifier);
+    return this.strings.get(modifier);
   }
 
   public double getDoublerAccumulator(final DoubleModifier modifier) {
@@ -422,12 +412,6 @@ public class Modifiers {
       return -9999.0;
     }
     return this.doublerAccumulators.get(modifier);
-  }
-
-  public double getDoublerAccumulator(final String name) {
-    // doublerAccumulators uses the same keys as doubles, so the same lookup will work
-    DoubleModifier modifier = DoubleModifier.byCaselessName(name);
-    return getDoublerAccumulator(modifier);
   }
 
   public boolean setDouble(final DoubleModifier mod, final double value) {

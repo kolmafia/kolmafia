@@ -418,16 +418,16 @@ public class ModifierDatabase {
   }
 
   public static final boolean getBooleanModifier(
-      final ModifierType type, final int id, final String mod) {
+      final ModifierType type, final int id, final BooleanModifier mod) {
     return getBooleanModifier(new Lookup(type, id), mod);
   }
 
   public static final boolean getBooleanModifier(
-      final ModifierType type, final String name, final String mod) {
+      final ModifierType type, final String name, final BooleanModifier mod) {
     return getBooleanModifier(new Lookup(type, name), mod);
   }
 
-  public static final boolean getBooleanModifier(final Lookup lookup, final String mod) {
+  public static final boolean getBooleanModifier(final Lookup lookup, final BooleanModifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return false;
@@ -436,16 +436,16 @@ public class ModifierDatabase {
   }
 
   public static final String getStringModifier(
-      final ModifierType type, final int id, final String mod) {
+      final ModifierType type, final int id, final StringModifier mod) {
     return getStringModifier(new Lookup(type, id), mod);
   }
 
   public static final String getStringModifier(
-      final ModifierType type, final String name, final String mod) {
+      final ModifierType type, final String name, final StringModifier mod) {
     return getStringModifier(new Lookup(type, name), mod);
   }
 
-  public static final String getStringModifier(final Lookup lookup, final String mod) {
+  public static final String getStringModifier(final Lookup lookup, final StringModifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return "";

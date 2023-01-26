@@ -1329,7 +1329,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
       case FamiliarPool.HAND:
         // Disembodied Hand can't equip Mainhand only items or Single Equip items
         if (!EquipmentDatabase.isMainhandOnly(itemId)
-            && !ModifierDatabase.getBooleanModifier(ModifierType.ITEM, name, "Single Equip")) {
+            && !ModifierDatabase.getBooleanModifier(
+                ModifierType.ITEM, name, BooleanModifier.SINGLE)) {
           return true;
         }
         break;
