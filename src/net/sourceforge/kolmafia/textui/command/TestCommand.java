@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.chat.ChatParser;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.CombatUtilities;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -331,7 +332,7 @@ public class TestCommand extends AbstractCommand {
       }
       double itemDrop =
           ModifierDatabase.getNumericModifier(
-              ModifierType.FAMILIAR, familiar.getRace(), "Item Drop");
+              ModifierType.FAMILIAR, familiar.getRace(), DoubleModifier.ITEMDROP);
       RequestLogger.printLine("Item Drop: " + itemDrop);
       return;
     }

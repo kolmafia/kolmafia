@@ -408,7 +408,7 @@ public class CompactSidePane extends JPanel implements Runnable {
         // Stat Gain
         if (FamiliarDatabase.isVolleyType(id)
             || FamiliarDatabase.isSombreroType(id)
-            || (mods != null && mods.get(DoubleModifier.VOLLEYBALL_WEIGHT) != 0.0)) {
+            || (mods != null && mods.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT) != 0.0)) {
           stat.add(new FamiliarMenuItem(fam));
           added = true;
         }

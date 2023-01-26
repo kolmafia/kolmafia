@@ -272,7 +272,7 @@ public class ModifierExpressionTest {
           containsString("mod("));
       KoLCharacter.recalculateAdjustments();
 
-      assertThat(KoLCharacter.getCurrentModifiers().get(DoubleModifier.INITIATIVE), is(40.0));
+      assertThat(KoLCharacter.getCurrentModifiers().getDouble(DoubleModifier.INITIATIVE), is(40.0));
     }
   }
 

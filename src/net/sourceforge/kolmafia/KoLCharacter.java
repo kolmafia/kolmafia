@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
@@ -1615,7 +1616,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int calculateMaximumPP() {
-    return 1 + (int) KoLCharacter.currentModifiers.get(DoubleModifier.PP);
+    return 1 + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.PP);
   }
 
   public static final void resetCurrentPP() {
@@ -2202,13 +2203,12 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers;
   }
 
-  // TODO: many calls to this (with String name) (and the others) could be calls to the mod directly
-  public static final double currentNumericModifier(final String name) {
-    return KoLCharacter.currentModifiers.get(name);
+  public static final double currentNumericModifier(final Modifier modifier) {
+    return KoLCharacter.currentModifiers.getNumeric(modifier);
   }
 
   public static final double currentNumericModifier(final DoubleModifier modifier) {
-    return KoLCharacter.currentModifiers.get(modifier);
+    return KoLCharacter.currentModifiers.getDouble(modifier);
   }
 
   public static final double currentDerivedModifier(final DerivedModifier modifier) {
@@ -2237,24 +2237,24 @@ public abstract class KoLCharacter {
       return 0;
     }
 
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.MONSTER_LEVEL)
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.MONSTER_LEVEL)
         + KoLCharacter.getWaterLevel() * 10;
   }
 
   /** Accessor method to retrieve the total current count of random monster modifiers */
   public static final int getRandomMonsterModifiers() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.RANDOM_MONSTER_MODIFIERS);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.RANDOM_MONSTER_MODIFIERS);
   }
 
   /** Accessor method to retrieve the total current familiar weight adjustment */
   public static final int getFamiliarWeightAdjustment() {
     return (int)
-        (KoLCharacter.currentModifiers.get(DoubleModifier.FAMILIAR_WEIGHT)
-            + KoLCharacter.currentModifiers.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT));
+        (KoLCharacter.currentModifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT)
+            + KoLCharacter.currentModifiers.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT));
   }
 
   public static final int getFamiliarWeightPercentAdjustment() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.FAMILIAR_WEIGHT_PCT);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT);
   }
 
   public static final int getManaCostAdjustment() {
@@ -2262,17 +2262,19 @@ public abstract class KoLCharacter {
   }
 
   public static final int getManaCostAdjustment(final boolean combat) {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.MANA_COST)
-        + (int) KoLCharacter.currentModifiers.get(DoubleModifier.STACKABLE_MANA_COST)
-        + (combat ? (int) KoLCharacter.currentModifiers.get(DoubleModifier.COMBAT_MANA_COST) : 0)
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.MANA_COST)
+        + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.STACKABLE_MANA_COST)
+        + (combat
+            ? (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.COMBAT_MANA_COST)
+            : 0)
         - KoLCharacter.holidayManaCostReduction;
   }
 
   /** Accessor method to retrieve the total current combat percent adjustment */
   public static final double getCombatRateAdjustment() {
-    double rate = KoLCharacter.currentModifiers.get(DoubleModifier.COMBAT_RATE);
+    double rate = KoLCharacter.currentModifiers.getDouble(DoubleModifier.COMBAT_RATE);
     if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
-      rate += KoLCharacter.currentModifiers.get(DoubleModifier.UNDERWATER_COMBAT_RATE);
+      rate += KoLCharacter.currentModifiers.getDouble(DoubleModifier.UNDERWATER_COMBAT_RATE);
     }
     return rate;
   }
@@ -2280,8 +2282,9 @@ public abstract class KoLCharacter {
   /** Accessor method to retrieve the total current initiative adjustment */
   public static final double getInitiativeAdjustment() {
     // Penalty is constrained to be non-positive
-    return KoLCharacter.currentModifiers.get(DoubleModifier.INITIATIVE)
-        + Math.min(KoLCharacter.currentModifiers.get(DoubleModifier.INITIATIVE_PENALTY), 0.0f);
+    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.INITIATIVE)
+        + Math.min(
+            KoLCharacter.currentModifiers.getDouble(DoubleModifier.INITIATIVE_PENALTY), 0.0f);
   }
 
   /** Accessor method to retrieve the total current fixed experience adjustment */
@@ -2293,7 +2296,7 @@ public abstract class KoLCharacter {
           case 2 -> DoubleModifier.MOX_EXPERIENCE;
           default -> null;
         };
-    return mod == null ? 0.0 : KoLCharacter.currentModifiers.get(mod);
+    return mod == null ? 0.0 : KoLCharacter.currentModifiers.getDouble(mod);
   }
 
   /**
@@ -2303,8 +2306,8 @@ public abstract class KoLCharacter {
    */
   public static final double getMeatDropPercentAdjustment() {
     // Penalty is constrained to be non-positive
-    return KoLCharacter.currentModifiers.get(DoubleModifier.MEATDROP)
-        + Math.min(KoLCharacter.currentModifiers.get(DoubleModifier.MEATDROP_PENALTY), 0.0f);
+    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.MEATDROP)
+        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.MEATDROP_PENALTY), 0.0f);
   }
 
   /**
@@ -2313,7 +2316,7 @@ public abstract class KoLCharacter {
    * @return Total Current Sprinkle Drop Percent Adjustment
    */
   public static final double getSprinkleDropPercentAdjustment() {
-    return KoLCharacter.currentModifiers.get(DoubleModifier.SPRINKLES);
+    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.SPRINKLES);
   }
 
   /**
@@ -2322,8 +2325,8 @@ public abstract class KoLCharacter {
    * @return Total Current Item Drop Percent Adjustment
    */
   public static final double getItemDropPercentAdjustment() {
-    return KoLCharacter.currentModifiers.get(DoubleModifier.ITEMDROP)
-        + Math.min(KoLCharacter.currentModifiers.get(DoubleModifier.ITEMDROP_PENALTY), 0.0f);
+    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.ITEMDROP)
+        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.ITEMDROP_PENALTY), 0.0f);
   }
 
   /**
@@ -2332,7 +2335,7 @@ public abstract class KoLCharacter {
    * @return Total Current Damage Absorption
    */
   public static final int getDamageAbsorption() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.DAMAGE_ABSORPTION);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.DAMAGE_ABSORPTION);
   }
 
   /**
@@ -2341,7 +2344,7 @@ public abstract class KoLCharacter {
    * @return Total Current Damage Reduction
    */
   public static final int getDamageReduction() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.DAMAGE_REDUCTION);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.DAMAGE_REDUCTION);
   }
 
   /**
@@ -2350,7 +2353,7 @@ public abstract class KoLCharacter {
    * @return Pool Skill
    */
   public static final int getPoolSkill() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.POOL_SKILL);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.POOL_SKILL);
   }
 
   public static int estimatedPoolSkill(boolean verbose) {
@@ -2397,7 +2400,7 @@ public abstract class KoLCharacter {
    * @return Total Hobo Power
    */
   public static final int getHoboPower() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.HOBO_POWER);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.HOBO_POWER);
   }
 
   /**
@@ -2406,7 +2409,7 @@ public abstract class KoLCharacter {
    * @return Total Smithsness
    */
   public static final int getSmithsness() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.SMITHSNESS);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.SMITHSNESS);
   }
 
   /**
@@ -2415,7 +2418,7 @@ public abstract class KoLCharacter {
    * @return Clownosity
    */
   public static final int getClownosity() {
-    return ((int) KoLCharacter.currentModifiers.get(DoubleModifier.CLOWNINESS)) / 25;
+    return ((int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.CLOWNINESS)) / 25;
   }
 
   /**
@@ -2461,21 +2464,21 @@ public abstract class KoLCharacter {
   }
 
   public static final int getRestingHP() {
-    int rv = (int) KoLCharacter.currentModifiers.get(DoubleModifier.BASE_RESTING_HP);
-    double factor = KoLCharacter.currentModifiers.get(DoubleModifier.RESTING_HP_PCT);
+    int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_HP);
+    double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_HP_PCT);
     if (factor != 0) {
       rv = (int) (rv * (factor + 100.0f) / 100.0f);
     }
-    return rv + (int) KoLCharacter.currentModifiers.get(DoubleModifier.BONUS_RESTING_HP);
+    return rv + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BONUS_RESTING_HP);
   }
 
   public static final int getRestingMP() {
-    int rv = (int) KoLCharacter.currentModifiers.get(DoubleModifier.BASE_RESTING_MP);
-    double factor = KoLCharacter.currentModifiers.get(DoubleModifier.RESTING_MP_PCT);
+    int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_MP);
+    double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_MP_PCT);
     if (factor != 0) {
       rv = (int) (rv * (factor + 100.0f) / 100.0f);
     }
-    return rv + (int) KoLCharacter.currentModifiers.get(DoubleModifier.BONUS_RESTING_MP);
+    return rv + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BONUS_RESTING_MP);
   }
 
   /**
@@ -2485,14 +2488,17 @@ public abstract class KoLCharacter {
    */
   public static final int getElementalResistanceLevels(final Element element) {
     return switch (element) {
-      case COLD -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.COLD_RESISTANCE);
-      case HOT -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.HOT_RESISTANCE);
-      case SLEAZE -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.SLEAZE_RESISTANCE);
-      case SPOOKY -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.SPOOKY_RESISTANCE);
-      case STENCH -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.STENCH_RESISTANCE);
-      case SLIME -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.SLIME_RESISTANCE);
+      case COLD -> (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.COLD_RESISTANCE);
+      case HOT -> (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.HOT_RESISTANCE);
+      case SLEAZE -> (int)
+          KoLCharacter.currentModifiers.getDouble(DoubleModifier.SLEAZE_RESISTANCE);
+      case SPOOKY -> (int)
+          KoLCharacter.currentModifiers.getDouble(DoubleModifier.SPOOKY_RESISTANCE);
+      case STENCH -> (int)
+          KoLCharacter.currentModifiers.getDouble(DoubleModifier.STENCH_RESISTANCE);
+      case SLIME -> (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.SLIME_RESISTANCE);
       case SUPERCOLD -> (int)
-          KoLCharacter.currentModifiers.get(DoubleModifier.SUPERCOLD_RESISTANCE);
+          KoLCharacter.currentModifiers.getDouble(DoubleModifier.SUPERCOLD_RESISTANCE);
       default -> 0;
     };
   }
@@ -2540,8 +2546,8 @@ public abstract class KoLCharacter {
    * @return Total Current Resistance to specified element
    */
   public static final int currentBonusDamage() {
-    int weaponDamage = (int) KoLCharacter.currentModifiers.get(DoubleModifier.WEAPON_DAMAGE);
-    int rangedDamage = (int) KoLCharacter.currentModifiers.get(DoubleModifier.RANGED_DAMAGE);
+    int weaponDamage = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.WEAPON_DAMAGE);
+    int rangedDamage = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.RANGED_DAMAGE);
     return weaponDamage
         + (EquipmentManager.getWeaponType() == WeaponType.RANGED ? rangedDamage : 0);
   }
@@ -2552,7 +2558,7 @@ public abstract class KoLCharacter {
    * @return Total Current Resistance to specified element
    */
   public static final int currentPrismaticDamage() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.PRISMATIC_DAMAGE);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.PRISMATIC_DAMAGE);
   }
 
   public static final int getWaterLevel() {
@@ -2569,7 +2575,7 @@ public abstract class KoLCharacter {
       }
     }
 
-    WL += (int) KoLCharacter.currentModifiers.get(DoubleModifier.WATER_LEVEL);
+    WL += (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.WATER_LEVEL);
 
     return WL < 1 ? 1 : Math.min(WL, 6);
   }
@@ -4257,7 +4263,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int getMinstrelLevelAdjustment() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.MINSTREL_LEVEL);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.MINSTREL_LEVEL);
   }
 
   public static final void setClancy(
@@ -5221,11 +5227,11 @@ public abstract class KoLCharacter {
     }
 
     // Store some modifiers as statics
-    Modifiers.hoboPower = newModifiers.get(DoubleModifier.HOBO_POWER);
+    Modifiers.hoboPower = newModifiers.getDouble(DoubleModifier.HOBO_POWER);
     Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
 
     if (Modifiers.currentLocation.equals("The Slime Tube")) {
-      int hatred = (int) newModifiers.get(DoubleModifier.SLIME_HATES_IT);
+      int hatred = (int) newModifiers.getDouble(DoubleModifier.SLIME_HATES_IT);
       if (hatred > 0) {
         newModifiers.addDouble(
             DoubleModifier.MONSTER_LEVEL,
@@ -5327,7 +5333,7 @@ public abstract class KoLCharacter {
         }
       }
       if (WL > 0) {
-        WL += (int) KoLCharacter.currentModifiers.get(DoubleModifier.WATER_LEVEL);
+        WL += (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.WATER_LEVEL);
         WL = WL < 1 ? 1 : Math.min(WL, 6);
         newModifiers.addDouble(
             DoubleModifier.EXPERIENCE,
@@ -5337,9 +5343,10 @@ public abstract class KoLCharacter {
       }
     }
 
-    double baseExp = KoLCharacter.estimatedBaseExp(newModifiers.get(DoubleModifier.MONSTER_LEVEL));
+    double baseExp =
+        KoLCharacter.estimatedBaseExp(newModifiers.getDouble(DoubleModifier.MONSTER_LEVEL));
 
-    double exp = newModifiers.get(DoubleModifier.EXPERIENCE);
+    double exp = newModifiers.getDouble(DoubleModifier.EXPERIENCE);
 
     if (KoLCharacter.inTheSource()) {
       // 1/3 base exp and exp when in The Source path
@@ -5373,7 +5380,7 @@ public abstract class KoLCharacter {
           };
       Function<DoubleModifier, Double> calc =
           (DoubleModifier statPct) ->
-              (finalBaseExp + finalExp) * (1 + newModifiers.get(statPct) / 100.0f);
+              (finalBaseExp + finalExp) * (1 + newModifiers.getDouble(statPct) / 100.0f);
 
       if (all) {
         var mod = mods.get(0);
@@ -5474,7 +5481,7 @@ public abstract class KoLCharacter {
       if (fightMods != null) {
         newModifiers.addDouble(
             DoubleModifier.ITEMDROP,
-            fightMods.get(DoubleModifier.ITEMDROP),
+            fightMods.getDouble(DoubleModifier.ITEMDROP),
             ModifierType.ITEM,
             EffectPool.STEELY_EYED_SQUINT);
       }
@@ -5676,7 +5683,7 @@ public abstract class KoLCharacter {
               || classType == ascensionClass
                   && (slot != EquipmentManager.FAMILIAR
                       || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
-            smithsness += imod.get(DoubleModifier.SMITHSNESS);
+            smithsness += imod.getDouble(DoubleModifier.SMITHSNESS);
           }
         }
       }
@@ -5691,7 +5698,7 @@ public abstract class KoLCharacter {
         continue;
       Modifiers emod = ModifierDatabase.getEffectModifiers(effect.getEffectId());
       if (emod != null) {
-        smithsness += emod.get(DoubleModifier.SMITHSNESS);
+        smithsness += emod.getDouble(DoubleModifier.SMITHSNESS);
       }
     }
     return smithsness;

@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.Mood;
@@ -9073,7 +9074,8 @@ public abstract class RuntimeLibrary {
 
   public static Value numeric_modifier(ScriptRuntime controller, final Value modifier) {
     String mod = modifier.toString();
-    return new Value(KoLCharacter.currentNumericModifier(mod));
+    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
+    return new Value(KoLCharacter.currentNumericModifier(realMod));
   }
 
   public static Value numeric_modifier(
@@ -9081,7 +9083,8 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(ModifierDatabase.getNumericModifier(type, name, mod));
+    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
+    return new Value(ModifierDatabase.getNumericModifier(type, name, realMod));
   }
 
   public static Value numeric_modifier(
@@ -9092,10 +9095,11 @@ public abstract class RuntimeLibrary {
       final Value item) {
     FamiliarData fam = new FamiliarData((int) familiar.intValue());
     String mod = modifier.toString();
+    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
     int w = Math.max(1, (int) weight.intValue());
     AdventureResult it = ItemPool.get((int) item.intValue());
 
-    return new Value(ModifierDatabase.getNumericModifier(fam, mod, w, it));
+    return new Value(ModifierDatabase.getNumericModifier(fam, realMod, w, it));
   }
 
   public static Value boolean_modifier(ScriptRuntime controller, final Value modifier) {

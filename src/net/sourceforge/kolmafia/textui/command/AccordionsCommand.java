@@ -136,7 +136,7 @@ public class AccordionsCommand extends AbstractCommand {
 
       Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods != null) {
-        this.songDuration = (int) mods.get(DoubleModifier.SONG_DURATION);
+        this.songDuration = (int) mods.getDouble(DoubleModifier.SONG_DURATION);
         this.modsLookup = mods.getLookup();
 
         if (itemId == ItemPool.AUTOCALLIOPE) {

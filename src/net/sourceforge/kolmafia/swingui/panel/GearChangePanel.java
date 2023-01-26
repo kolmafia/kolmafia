@@ -194,7 +194,7 @@ public class GearChangePanel extends JPanel {
     buff.append(">");
 
     for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-      double val = mods.get(mod);
+      double val = mods.getDouble(mod);
       if (val == 0.0f) continue;
       name = mod.getName();
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");

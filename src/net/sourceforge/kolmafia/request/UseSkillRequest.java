@@ -843,7 +843,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     Modifiers mods = spec.getModifiers();
     int predictedSongLimit =
         3
-            + (int) mods.get(DoubleModifier.ADDITIONAL_SONG)
+            + (int) mods.getDouble(DoubleModifier.ADDITIONAL_SONG)
             + (mods.getBoolean(BooleanModifier.FOUR_SONGS) ? 1 : 0);
     int predictedSongsNeeded =
         UseSkillRequest.songsActive() + (UseSkillRequest.newSong(skillId) ? 1 : 0);
@@ -919,7 +919,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         }
       } else if (item.getItemId() == ItemPool.KREMLIN_BRIEFCASE) {
         if (ModifierDatabase.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE)
-                .get(DoubleModifier.MANA_COST)
+                .getDouble(DoubleModifier.MANA_COST)
             == 0) {
           continue;
         }

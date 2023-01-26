@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -697,7 +698,9 @@ public class TCRSDatabase {
         ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
     if (effectName != null && !effectName.isEmpty()) {
       int duration =
-          (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, itemName, "Effect Duration");
+          (int)
+              ModifierDatabase.getNumericModifier(
+                  ModifierType.ITEM, itemName, DoubleModifier.EFFECT_DURATION);
       String effectModifiers =
           ModifierDatabase.getStringModifier(
               ModifierType.EFFECT, effectName, StringModifier.MODIFIERS);

@@ -503,9 +503,9 @@ public class CharPaneRequest extends GenericRequest {
     boolean mus_equalize = mods.getString(StringModifier.EQUALIZE_MUSCLE).length() != 0;
     boolean mys_equalize = mods.getString(StringModifier.EQUALIZE_MYST).length() != 0;
     boolean mox_equalize = mods.getString(StringModifier.EQUALIZE_MOXIE).length() != 0;
-    boolean mus_limit = (int) mods.get(DoubleModifier.MUS_LIMIT) != 0;
-    boolean mys_limit = (int) mods.get(DoubleModifier.MYS_LIMIT) != 0;
-    boolean mox_limit = (int) mods.get(DoubleModifier.MOX_LIMIT) != 0;
+    boolean mus_limit = (int) mods.getDouble(DoubleModifier.MUS_LIMIT) != 0;
+    boolean mys_limit = (int) mods.getDouble(DoubleModifier.MYS_LIMIT) != 0;
+    boolean mox_limit = (int) mods.getDouble(DoubleModifier.MOX_LIMIT) != 0;
 
     boolean checkMus = !equalize && !mus_equalize && !mus_limit;
     boolean checkMys = !equalize && !mys_equalize && !mys_limit;
