@@ -204,7 +204,7 @@ public class Maximizer {
     // Include skills from absorbing items in Noobcore
     if (KoLCharacter.inNoobcore()) {
       for (Map.Entry<IntOrString, String> entry :
-        ModifierDatabase.getAllModifiersOfType(ModifierType.SKILL)) {
+          ModifierDatabase.getAllModifiersOfType(ModifierType.SKILL)) {
         if (!entry.getKey().isInt()) continue;
         int skillId = entry.getKey().getIntValue();
         if (skillId < 23001 || skillId > 23125) {
@@ -247,7 +247,7 @@ public class Maximizer {
 
       // Include enchantments from absorbing equipment in Noobcore
       for (Map.Entry<IntOrString, String> entry :
-        ModifierDatabase.getAllModifiersOfType(ModifierType.ITEM)) {
+          ModifierDatabase.getAllModifiersOfType(ModifierType.ITEM)) {
         if (!entry.getKey().isInt()) continue;
         int itemId = entry.getKey().getIntValue();
         int absorbsLeft = KoLCharacter.getAbsorbsLimit() - KoLCharacter.getAbsorbs();
@@ -323,7 +323,7 @@ public class Maximizer {
 
     if (filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
       for (Map.Entry<IntOrString, String> entry :
-        ModifierDatabase.getAllModifiersOfType(ModifierType.HORSERY)) {
+          ModifierDatabase.getAllModifiersOfType(ModifierType.HORSERY)) {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
         // Must be available in your current path
@@ -360,7 +360,7 @@ public class Maximizer {
       }
 
       for (Map.Entry<IntOrString, String> entry :
-        ModifierDatabase.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
+          ModifierDatabase.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
         String cmd, text;
@@ -395,7 +395,7 @@ public class Maximizer {
     }
 
     for (Map.Entry<IntOrString, String> entry :
-      ModifierDatabase.getAllModifiersOfType(ModifierType.EFFECT)) {
+        ModifierDatabase.getAllModifiersOfType(ModifierType.EFFECT)) {
       if (!entry.getKey().isInt()) continue;
       int effectId = entry.getKey().getIntValue();
       if (effectId == -1) {

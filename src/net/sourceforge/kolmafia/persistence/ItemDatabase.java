@@ -2127,7 +2127,8 @@ public class ItemDatabase {
         DebugDatabase.parseItemEnchantments(idesc, new ArrayList<>(), ConsumptionType.DRINK);
     String iname = DebugDatabase.parseName(idesc);
     Modifiers imods =
-      ModifierDatabase.parseModifiers(ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, iEnchantments);
+        ModifierDatabase.parseModifiers(
+            ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, iEnchantments);
 
     // Validate this by seeing what effect this wine grants.
     String effectName = imods.getString(StringModifier.EFFECT);

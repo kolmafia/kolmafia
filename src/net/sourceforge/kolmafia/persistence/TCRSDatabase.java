@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -697,7 +696,7 @@ public class TCRSDatabase {
       int duration =
           (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, itemName, "Effect Duration");
       String effectModifiers =
-        ModifierDatabase.getStringModifier(ModifierType.EFFECT, effectName, "Modifiers");
+          ModifierDatabase.getStringModifier(ModifierType.EFFECT, effectName, "Modifiers");
       comment.add(duration + " " + effectName + " (" + effectModifiers + ")");
     }
 

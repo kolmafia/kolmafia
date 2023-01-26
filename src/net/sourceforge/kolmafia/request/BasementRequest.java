@@ -1172,18 +1172,15 @@ public class BasementRequest extends AdventureRequest {
 
     BasementRequest.getStatBoosters(BasementRequest.desirableEffects, targetList);
 
-    BasementRequest.getStatBoosters(
-        getPotentialChanges(BasementRequest.primaryBoost), targetList);
+    BasementRequest.getStatBoosters(getPotentialChanges(BasementRequest.primaryBoost), targetList);
     BasementRequest.getStatBoosters(
         getPotentialChanges(BasementRequest.secondaryBoost), targetList);
 
     if (BasementRequest.actualStatNeeded == DoubleModifier.HP) {
-      BasementRequest.getStatBoosters(
-          getPotentialChanges(DoubleModifier.HP_PCT), targetList);
+      BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.HP_PCT), targetList);
       BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.HP), targetList);
     } else if (BasementRequest.actualStatNeeded == DoubleModifier.MP) {
-      BasementRequest.getStatBoosters(
-          getPotentialChanges(DoubleModifier.MP_PCT), targetList);
+      BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.MP_PCT), targetList);
       BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.MP), targetList);
     }
 
@@ -1214,7 +1211,8 @@ public class BasementRequest extends AdventureRequest {
   private static List<AdventureResult> getPotentialChanges(final DoubleModifier modifier) {
     ArrayList<AdventureResult> available = new ArrayList<>();
 
-    for (Entry<IntOrString, String> entry : ModifierDatabase.getAllModifiersOfType(ModifierType.EFFECT)) {
+    for (Entry<IntOrString, String> entry :
+        ModifierDatabase.getAllModifiersOfType(ModifierType.EFFECT)) {
       IntOrString key = entry.getKey();
       if (!key.isString()) continue;
       String effectName = key.getStringValue();

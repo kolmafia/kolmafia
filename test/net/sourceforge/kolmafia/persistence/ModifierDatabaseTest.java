@@ -13,13 +13,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.sourceforge.kolmafia.AscensionClass;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
-import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -80,17 +77,17 @@ public class ModifierDatabaseTest {
     List<String> writeModifiersLines = ostream.toString().lines().collect(Collectors.toList());
 
     BufferedReader reader =
-      DataUtilities.getReader(KoLConstants.DATA_DIRECTORY, "modifiers.txt", true);
+        DataUtilities.getReader(KoLConstants.DATA_DIRECTORY, "modifiers.txt", true);
 
     String line;
     Iterator<String> writeModifiersIterator = writeModifiersLines.iterator();
     String writeModifiersLine = writeModifiersIterator.next();
     while ((line = reader.readLine()) != null) {
       if (writeModifiersLine.startsWith("# ")
-        ? line.startsWith(writeModifiersLine)
-        : line.equals(writeModifiersLine)) {
+          ? line.startsWith(writeModifiersLine)
+          : line.equals(writeModifiersLine)) {
         writeModifiersLine =
-          writeModifiersIterator.hasNext() ? writeModifiersIterator.next() : null;
+            writeModifiersIterator.hasNext() ? writeModifiersIterator.next() : null;
       }
     }
 

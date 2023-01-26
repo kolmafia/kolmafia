@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,11 +55,11 @@ import net.sourceforge.kolmafia.utilities.TwoLevelEnumHashMap;
 public class ModifierDatabase {
   // maps for modifiers
   private static final TwoLevelEnumHashMap<ModifierType, IntOrString, String>
-    modifierStringsByName = new TwoLevelEnumHashMap<>(ModifierType.class);
+      modifierStringsByName = new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final TwoLevelEnumHashMap<ModifierType, IntOrString, Modifiers> modifiersByName =
-    new TwoLevelEnumHashMap<>(ModifierType.class);
+      new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, net.sourceforge.kolmafia.modifiers.Modifier>
-    modifierTypesByName = new HashMap<>();
+      modifierTypesByName = new HashMap<>();
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
 
   /** Map of synergetic item name to bitmap mask of all items in set */
@@ -73,19 +72,19 @@ public class ModifierDatabase {
   private static final HashSet<String> numericModifiers = new HashSet<>();
 
   private static final Map<BitmapModifier, Integer> bitmapMasks =
-    new EnumMap<>(BitmapModifier.class);
+      new EnumMap<>(BitmapModifier.class);
 
   // constant fields
 
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
   private static final Pattern FAMILIAR_EFFECT_PATTERN =
-    Pattern.compile("Familiar Effect: \"(.*?)\"");
+      Pattern.compile("Familiar Effect: \"(.*?)\"");
   private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN =
-    Pattern.compile("([\\d.]+)\\s*x\\s*(Volley|Somb|Lep|Fairy)");
+      Pattern.compile("([\\d.]+)\\s*x\\s*(Volley|Somb|Lep|Fairy)");
   private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT = "$2: $1 ";
   private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN2 =
-    Pattern.compile("cap ([\\d.]+)");
+      Pattern.compile("cap ([\\d.]+)");
   private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 = "Familiar Weight Cap: $1 ";
 
   private static final String COLD = DoubleModifier.COLD_RESISTANCE.getTag() + ": ";
@@ -114,63 +113,63 @@ public class ModifierDatabase {
 
   private static final Pattern SKILL_PATTERN = Pattern.compile("Grants Skill:.*?<b>(.*?)</b>");
   private static final Pattern DR_PATTERN =
-    Pattern.compile("Damage Reduction: (<b>)?([+-]?\\d+)(</b>)?");
+      Pattern.compile("Damage Reduction: (<b>)?([+-]?\\d+)(</b>)?");
   private static final Pattern SINGLE_PATTERN =
-    Pattern.compile("You may not equip more than one of these at a time");
+      Pattern.compile("You may not equip more than one of these at a time");
   private static final Pattern SOFTCORE_PATTERN =
-    Pattern.compile("This item cannot be equipped while in Hardcore");
+      Pattern.compile("This item cannot be equipped while in Hardcore");
   private static final Pattern ITEM_DROPPER_PATTERN = Pattern.compile("Occasional Hilarity");
   private static final Pattern LASTS_ONE_DAY_PATTERN =
-    Pattern.compile("This item will disappear at the end of the day");
+      Pattern.compile("This item will disappear at the end of the day");
   private static final Pattern FREE_PULL_PATTERN = Pattern.compile("Free pull from Hagnk's");
   private static final Pattern EFFECT_PATTERN =
-    Pattern.compile("Effect: <b><a([^>]*)>([^<]*)</a></b>");
+      Pattern.compile("Effect: <b><a([^>]*)>([^<]*)</a></b>");
   private static final Pattern EFFECT_DURATION_PATTERN =
-    Pattern.compile("</a></b> \\(([\\d]*) Adventures?\\)");
+      Pattern.compile("</a></b> \\(([\\d]*) Adventures?\\)");
   private static final Pattern SONG_DURATION_PATTERN =
-    Pattern.compile("Song Duration: <b>([\\d]*) Adventures</b>");
+      Pattern.compile("Song Duration: <b>([\\d]*) Adventures</b>");
   private static final Pattern ALL_ATTR_PATTERN = Pattern.compile("^All Attributes ([+-]\\d+)$");
   private static final Pattern ALL_ATTR_PCT_PATTERN =
-    Pattern.compile("^All Attributes ([+-]\\d+)%$");
+      Pattern.compile("^All Attributes ([+-]\\d+)%$");
   private static final Pattern CLASS_PATTERN =
-    Pattern.compile("Bonus&nbsp;for&nbsp;(.*)&nbsp;only");
+      Pattern.compile("Bonus&nbsp;for&nbsp;(.*)&nbsp;only");
   private static final Pattern COMBAT_PATTERN =
-    Pattern.compile("Monsters (?:are|will be) (.*) attracted to you");
+      Pattern.compile("Monsters (?:are|will be) (.*) attracted to you");
   private static final Pattern HP_MP_PATTERN = Pattern.compile("^Maximum HP/MP ([+-]\\d+)$");
   private static final Pattern REGEN_PATTERN =
-    Pattern.compile("Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$");
+      Pattern.compile("Regenerate (\\d*)-?(\\d*)? ([HM]P)( and .*)? per [aA]dventure$");
   private static final Pattern RESISTANCE_PATTERN = Pattern.compile("Resistance \\(([+-]\\d+)\\)");
 
   private static final Map<String, String> COMBAT_RATE_DESCRIPTIONS =
-    Map.ofEntries(
-      Map.entry("<i>way</i> more", "+20"),
-      Map.entry("significantly more", "+15"),
-      Map.entry("much more", "+10"),
-      Map.entry("more", "+5"),
-      Map.entry("slightly less", "-3"),
-      Map.entry("less", "-5"),
-      Map.entry("more than a little less", "-7"),
-      Map.entry("quite a bit less", "-9"),
-      Map.entry("much less", "-10"),
-      Map.entry("very much less", "-11"),
-      Map.entry("significantly less", "-15"),
-      Map.entry("very very very much less", "-20"),
-      Map.entry("<i>way</i> less", "-20"));
+      Map.ofEntries(
+          Map.entry("<i>way</i> more", "+20"),
+          Map.entry("significantly more", "+15"),
+          Map.entry("much more", "+10"),
+          Map.entry("more", "+5"),
+          Map.entry("slightly less", "-3"),
+          Map.entry("less", "-5"),
+          Map.entry("more than a little less", "-7"),
+          Map.entry("quite a bit less", "-9"),
+          Map.entry("much less", "-10"),
+          Map.entry("very much less", "-11"),
+          Map.entry("significantly less", "-15"),
+          Map.entry("very very very much less", "-20"),
+          Map.entry("<i>way</i> less", "-20"));
 
   public static final Set<ModifierType> DOUBLED_BY_SQUINT_CHAMPAGNE =
-    Set.of(
-      ModifierType.BALLROOM,
-      ModifierType.BJORN,
-      ModifierType.EFFECT,
-      ModifierType.ITEM,
-      ModifierType.LOCAL_VOTE,
-      ModifierType.OUTFIT,
-      ModifierType.PATH,
-      ModifierType.SIGN,
-      ModifierType.SKILL,
-      ModifierType.SYNERGY,
-      ModifierType.THRONE,
-      ModifierType.UNBREAKABLE_UMBRELLA);
+      Set.of(
+          ModifierType.BALLROOM,
+          ModifierType.BJORN,
+          ModifierType.EFFECT,
+          ModifierType.ITEM,
+          ModifierType.LOCAL_VOTE,
+          ModifierType.OUTFIT,
+          ModifierType.PATH,
+          ModifierType.SIGN,
+          ModifierType.SKILL,
+          ModifierType.SYNERGY,
+          ModifierType.THRONE,
+          ModifierType.UNBREAKABLE_UMBRELLA);
 
   static {
     ensureModifierDatabaseInitialised();
@@ -213,7 +212,7 @@ public class ModifierDatabase {
   }
 
   public static final Collection<Entry<IntOrString, String>> getAllModifiersOfType(
-    final ModifierType type) {
+      final ModifierType type) {
     return modifierStringsByName.getAll(type).entrySet();
   }
 
@@ -360,12 +359,12 @@ public class ModifierDatabase {
   }
 
   public static final double getNumericModifier(
-    final ModifierType type, final int id, final String mod) {
+      final ModifierType type, final int id, final String mod) {
     return getNumericModifier(new Lookup(type, id), mod);
   }
 
   public static final double getNumericModifier(
-    final ModifierType type, final String name, final String mod) {
+      final ModifierType type, final String name, final String mod) {
     return getNumericModifier(new Lookup(type, name), mod);
   }
 
@@ -382,10 +381,10 @@ public class ModifierDatabase {
   }
 
   public static final double getNumericModifier(
-    final FamiliarData fam,
-    final String mod,
-    final int passedWeight,
-    final AdventureResult item) {
+      final FamiliarData fam,
+      final String mod,
+      final int passedWeight,
+      final AdventureResult item) {
     int familiarId = fam != null ? fam.getId() : -1;
     if (familiarId == -1) {
       return 0.0;
@@ -403,7 +402,7 @@ public class ModifierDatabase {
     int itemId = item.getItemId();
     ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
     if ((familiarId != FamiliarPool.HATRACK || type != ConsumptionType.HAT)
-      && (familiarId != FamiliarPool.SCARECROW || type != ConsumptionType.PANTS)) {
+        && (familiarId != FamiliarPool.SCARECROW || type != ConsumptionType.PANTS)) {
       // Add in all the modifiers bestowed by this item
       tempMods.add(getItemModifiers(itemId));
 
@@ -423,12 +422,12 @@ public class ModifierDatabase {
   }
 
   public static final boolean getBooleanModifier(
-    final ModifierType type, final int id, final String mod) {
+      final ModifierType type, final int id, final String mod) {
     return getBooleanModifier(new Lookup(type, id), mod);
   }
 
   public static final boolean getBooleanModifier(
-    final ModifierType type, final String name, final String mod) {
+      final ModifierType type, final String name, final String mod) {
     return getBooleanModifier(new Lookup(type, name), mod);
   }
 
@@ -441,12 +440,12 @@ public class ModifierDatabase {
   }
 
   public static final String getStringModifier(
-    final ModifierType type, final int id, final String mod) {
+      final ModifierType type, final int id, final String mod) {
     return getStringModifier(new Lookup(type, id), mod);
   }
 
   public static final String getStringModifier(
-    final ModifierType type, final String name, final String mod) {
+      final ModifierType type, final String name, final String mod) {
     return getStringModifier(new Lookup(type, name), mod);
   }
 
@@ -554,12 +553,12 @@ public class ModifierDatabase {
   // sub-region: parse in-game text to Modifiers
 
   public static final Modifiers parseModifiers(
-    final ModifierType type, final int key, final String string) {
+      final ModifierType type, final int key, final String string) {
     return parseModifiers(new Lookup(type, key), string);
   }
 
   public static final Modifiers parseModifiers(
-    final ModifierType type, final String key, final String string) {
+      final ModifierType type, final String key, final String string) {
     return parseModifiers(new Lookup(type, key), string);
   }
 
@@ -583,7 +582,7 @@ public class ModifierDatabase {
         newMods.setDouble(mod, Double.parseDouble(matcher.group(1)));
       } else {
         newMods.addExpression(
-          new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
+            new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
       }
     }
 
@@ -611,15 +610,15 @@ public class ModifierDatabase {
         }
         default -> {
           KoLmafia.updateDisplay(
-            "ERROR: invalid count for bitmap modifier in " + lookup.toString());
+              "ERROR: invalid count for bitmap modifier in " + lookup.toString());
           continue;
         }
       }
       if (bitmapMasks.get(mod) == 0) {
         KoLmafia.updateDisplay(
-          "ERROR: too many sources for bitmap modifier "
-            + mod.getName()
-            + ", consider using longs.");
+            "ERROR: too many sources for bitmap modifier "
+                + mod.getName()
+                + ", consider using longs.");
       }
 
       newMods.addBitmap(mod, mask);
@@ -807,27 +806,13 @@ public class ModifierDatabase {
     matcher = ALL_ATTR_PATTERN.matcher(enchantment);
     if (matcher.find()) {
       String mod = matcher.group(1);
-      return MUSCLE
-        + mod
-        + ", "
-        + MYSTICALITY
-        + mod
-        + ", "
-        + MOXIE
-        + mod;
+      return MUSCLE + mod + ", " + MYSTICALITY + mod + ", " + MOXIE + mod;
     }
 
     matcher = ALL_ATTR_PCT_PATTERN.matcher(enchantment);
     if (matcher.find()) {
       String mod = matcher.group(1);
-      return MUSCLE_PCT
-        + mod
-        + ", "
-        + MYSTICALITY_PCT
-        + mod
-        + ", "
-        + MOXIE_PCT
-        + mod;
+      return MUSCLE_PCT + mod + ", " + MYSTICALITY_PCT + mod + ", " + MOXIE_PCT + mod;
     }
 
     matcher = CLASS_PATTERN.matcher(enchantment);
@@ -843,9 +828,9 @@ public class ModifierDatabase {
     matcher = COMBAT_PATTERN.matcher(enchantment);
     if (matcher.find()) {
       String tag =
-        !enchantment.contains("Underwater only")
-          ? DoubleModifier.COMBAT_RATE.getTag()
-          : "Combat Rate (Underwater)";
+          !enchantment.contains("Underwater only")
+              ? DoubleModifier.COMBAT_RATE.getTag()
+              : "Combat Rate (Underwater)";
       String level = matcher.group(1);
       String rate = COMBAT_RATE_DESCRIPTIONS.getOrDefault(level, "+0");
       return tag + ": " + rate;
@@ -893,16 +878,16 @@ public class ModifierDatabase {
 
     if (both) {
       return HP_REGEN_MIN_TAG
-        + min
-        + ", "
-        + HP_REGEN_MAX_TAG
-        + max
-        + ", "
-        + MP_REGEN_MIN_TAG
-        + min
-        + ", "
-        + MP_REGEN_MAX_TAG
-        + max;
+          + min
+          + ", "
+          + HP_REGEN_MAX_TAG
+          + max
+          + ", "
+          + MP_REGEN_MIN_TAG
+          + min
+          + ", "
+          + MP_REGEN_MAX_TAG
+          + max;
     }
 
     if (hp) {
@@ -949,30 +934,30 @@ public class ModifierDatabase {
     if (enchantment.contains("Supercold")) mods.add(SUPERCOLD);
 
     return mods.stream()
-      .map(m -> m + level)
-      .collect(
-        Collectors.collectingAndThen(Collectors.joining(", "), m -> m.isEmpty() ? null : m));
+        .map(m -> m + level)
+        .collect(
+            Collectors.collectingAndThen(Collectors.joining(", "), m -> m.isEmpty() ? null : m));
   }
 
   // region: override / register / re-register modifiers
 
   public static final void overrideModifier(
-    final ModifierType type, final int key, final String value) {
+      final ModifierType type, final int key, final String value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
   public static final void overrideModifier(
-    final ModifierType type, final String key, final String value) {
+      final ModifierType type, final String key, final String value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
   public static final void overrideModifier(
-    final ModifierType type, final int key, final Modifiers value) {
+      final ModifierType type, final int key, final Modifiers value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
   public static final void overrideModifier(
-    final ModifierType type, final String key, final Modifiers value) {
+      final ModifierType type, final String key, final Modifiers value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
@@ -1001,7 +986,7 @@ public class ModifierDatabase {
   }
 
   public static final void registerItem(
-    final String name, final String text, final ConsumptionType type) {
+      final String name, final String text, final ConsumptionType type) {
     // Examine the item description and decide what it is.
     ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseItemEnchantments(text, unknown, type);
@@ -1031,10 +1016,10 @@ public class ModifierDatabase {
   }
 
   private static void registerObject(
-    final ModifierType type,
-    final String name,
-    final ArrayList<String> unknown,
-    final String known) {
+      final ModifierType type,
+      final String name,
+      final ArrayList<String> unknown,
+      final String known) {
     for (String value : unknown) {
       String printMe = modifierCommentString(name, value);
       RequestLogger.printLine(printMe);
@@ -1141,9 +1126,9 @@ public class ModifierDatabase {
       // an unknown item on the list of campground items.
       if (name == null) {
         KoLmafia.updateDisplay(
-          "Campground item #"
-            + itemId
-            + " not found in data file. Do 'update clear' to remove stale override!");
+            "Campground item #"
+                + itemId
+                + " not found in data file. Do 'update clear' to remove stale override!");
       }
       // Skip toilet paper, since we want that in the free
       // pull section
@@ -1230,8 +1215,8 @@ public class ModifierDatabase {
     int maximizationCount = Maximizer.maximizationCategories.length;
 
     Set<String> maximization =
-      new TreeSet<>(
-        Arrays.asList(Maximizer.maximizationCategories).subList(0, maximizationCount));
+        new TreeSet<>(
+            Arrays.asList(Maximizer.maximizationCategories).subList(0, maximizationCount));
 
     writer.println(KoLConstants.MODIFIERS_VERSION);
 
@@ -1262,8 +1247,7 @@ public class ModifierDatabase {
     writer.println();
     writeModifierCategory(writer, folders, ModifierType.ITEM, "Folder");
     writer.println();
-    writeModifierCategory(
-      writer, campground, ModifierType.CAMPGROUND, "Campground equipment");
+    writeModifierCategory(writer, campground, ModifierType.CAMPGROUND, "Campground equipment");
     writer.println();
     writeModifierCategory(writer, effects, ModifierType.EFFECT, "Status Effects");
     writer.println();
@@ -1281,14 +1265,11 @@ public class ModifierDatabase {
     writer.println();
     writeModifierCategory(writer, synergies, ModifierType.SYNERGY, "Synergies");
     writer.println();
-    writeModifierCategory(
-      writer, mutexes, ModifierType.MUTEX_I, "Mutually exclusive items");
+    writeModifierCategory(writer, mutexes, ModifierType.MUTEX_I, "Mutually exclusive items");
     writer.println();
-    writeModifierCategory(
-      writer, mutexes, ModifierType.MUTEX_E, "Mutually exclusive effects");
+    writeModifierCategory(writer, mutexes, ModifierType.MUTEX_E, "Mutually exclusive effects");
     writer.println();
-    writeModifierCategory(
-      writer, maximization, ModifierType.MAX_CAT, "Maximization categories");
+    writeModifierCategory(writer, maximization, ModifierType.MAX_CAT, "Maximization categories");
     writer.println();
     writeModifierCategory(writer, potions, ModifierType.ITEM, "Everything Else");
     writeModifierCategory(writer, freepulls, ModifierType.ITEM);
@@ -1298,13 +1279,13 @@ public class ModifierDatabase {
   }
 
   private static void writeModifierCategory(
-    final PrintStream writer, final Set<String> set, final ModifierType type, final String tag) {
+      final PrintStream writer, final Set<String> set, final ModifierType type, final String tag) {
     writer.println("# " + tag + " section of modifiers.txt");
     writeModifierCategory(writer, set, type);
   }
 
   private static void writeModifierCategory(
-    final PrintStream writer, final Set<String> set, final ModifierType type) {
+      final PrintStream writer, final Set<String> set, final ModifierType type) {
     writer.println();
 
     for (String name : set) {
@@ -1314,7 +1295,7 @@ public class ModifierDatabase {
   }
 
   public static void writeModifierItem(
-    final PrintStream writer, final ModifierType type, final String name, String modifierString) {
+      final PrintStream writer, final ModifierType type, final String name, String modifierString) {
     if (modifierString == null) {
       writeModifierComment(writer, name);
       return;
@@ -1324,15 +1305,15 @@ public class ModifierDatabase {
   }
 
   public static void writeModifierString(
-    final PrintStream writer,
-    final ModifierType type,
-    final String name,
-    final String modifiers) {
+      final PrintStream writer,
+      final ModifierType type,
+      final String name,
+      final String modifiers) {
     writer.println(modifierString(type, name, modifiers));
   }
 
   public static String modifierString(
-    final ModifierType type, final String name, final String modifiers) {
+      final ModifierType type, final String name, final String modifiers) {
     return type.pascalCaseName() + "\t" + name + "\t" + modifiers;
   }
 
@@ -1341,7 +1322,7 @@ public class ModifierDatabase {
   }
 
   public static void writeModifierComment(
-    final PrintStream writer, final String name, final String value) {
+      final PrintStream writer, final String name, final String value) {
     writer.println(modifierCommentString(name, value));
   }
 
@@ -1357,7 +1338,7 @@ public class ModifierDatabase {
 
   public static final void checkModifiers() {
     for (Entry<ModifierType, Map<IntOrString, String>> typeEntry :
-      modifierStringsByName.entrySet()) {
+        modifierStringsByName.entrySet()) {
       ModifierType type = typeEntry.getKey();
       for (Entry<IntOrString, String> entry : typeEntry.getValue().entrySet()) {
         IntOrString key = entry.getKey();
@@ -1394,7 +1375,7 @@ public class ModifierDatabase {
             continue; // these may contain freeform text
           }
           RequestLogger.printLine(
-            "Key \"" + type + ":" + key + "\" has unknown modifier: \"" + mod + "\"");
+              "Key \"" + type + ":" + key + "\" has unknown modifier: \"" + mod + "\"");
         }
       }
     }
@@ -1404,7 +1385,7 @@ public class ModifierDatabase {
 
   public static void loadAllModifiers() {
     try (BufferedReader reader =
-      FileUtilities.getVersionedReader("modifiers.txt", KoLConstants.MODIFIERS_VERSION)) {
+        FileUtilities.getVersionedReader("modifiers.txt", KoLConstants.MODIFIERS_VERSION)) {
       String[] data;
 
       loop:
@@ -1486,11 +1467,11 @@ public class ModifierDatabase {
     int bit = 1 << mutexes.size();
     for (String piece : pieces) {
       Modifiers mods =
-        switch (type) {
-          case MUTEX_I -> getModifiers(ModifierType.ITEM, piece);
-          case MUTEX_E -> getModifiers(ModifierType.EFFECT, piece);
-          default -> null;
-        };
+          switch (type) {
+            case MUTEX_I -> getModifiers(ModifierType.ITEM, piece);
+            case MUTEX_E -> getModifiers(ModifierType.EFFECT, piece);
+            default -> null;
+          };
       if (mods == null) {
         KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
         return;
@@ -1514,7 +1495,7 @@ public class ModifierDatabase {
   private static void computeUniques() {
     uniques.clear();
     for (Entry<IntOrString, String> entry :
-      modifierStringsByName.getAll(ModifierType.UNIQUE).entrySet()) {
+        modifierStringsByName.getAll(ModifierType.UNIQUE).entrySet()) {
       IntOrString key = entry.getKey();
       String modifiers = entry.getValue();
       if (!key.isString()) continue;

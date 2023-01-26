@@ -20,7 +20,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -7514,13 +7513,15 @@ public abstract class ChoiceAdventures {
         FamiliarData throned = KoLCharacter.getEnthroned();
         if (!throned.equals(FamiliarData.NO_FAMILIAR)) {
           bonus +=
-            ModifierDatabase.getNumericModifier(ModifierType.THRONE, throned.getRace(), "Item Drop");
+              ModifierDatabase.getNumericModifier(
+                  ModifierType.THRONE, throned.getRace(), "Item Drop");
         }
         // Check for Bjorn
         FamiliarData bjorned = KoLCharacter.getBjorned();
         if (!bjorned.equals(FamiliarData.NO_FAMILIAR)) {
           bonus +=
-            ModifierDatabase.getNumericModifier(ModifierType.THRONE, bjorned.getRace(), "Item Drop");
+              ModifierDatabase.getNumericModifier(
+                  ModifierType.THRONE, bjorned.getRace(), "Item Drop");
         }
         // Check for Florist
         if (FloristRequest.haveFlorist()) {
@@ -7528,7 +7529,8 @@ public abstract class ChoiceAdventures {
           if (plants != null) {
             for (Florist plant : plants) {
               bonus +=
-                ModifierDatabase.getNumericModifier(ModifierType.FLORIST, plant.toString(), "Item Drop");
+                  ModifierDatabase.getNumericModifier(
+                      ModifierType.FLORIST, plant.toString(), "Item Drop");
             }
           }
         }

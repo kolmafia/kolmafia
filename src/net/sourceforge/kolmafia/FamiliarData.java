@@ -322,7 +322,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
     int itemId = getItem().getItemId();
     if (itemId == ItemPool.MAYFLOWER_BOUQUET) {
       String modifierName = DoubleModifier.FAMILIAR_EXP.getName();
-      double itemModifier = ModifierDatabase.getNumericModifier(ModifierType.ITEM, itemId, modifierName);
+      double itemModifier =
+          ModifierDatabase.getNumericModifier(ModifierType.ITEM, itemId, modifierName);
 
       experienceModifier -= itemModifier;
 

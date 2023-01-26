@@ -106,7 +106,8 @@ public class AccordionsCommand extends AbstractCommand {
 
       output.append("<td colspan=4>");
       output.append(
-        ModifierDatabase.evaluateModifiers(accordion.getModsLookup(), accordion.getEnchantments()));
+          ModifierDatabase.evaluateModifiers(
+              accordion.getModsLookup(), accordion.getEnchantments()));
       output.append("</td>");
 
       output.append("</tr>");

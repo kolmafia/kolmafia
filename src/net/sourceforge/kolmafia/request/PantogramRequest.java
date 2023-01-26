@@ -4,7 +4,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -164,7 +163,8 @@ public class PantogramRequest extends GenericRequest {
       modList.addModifier("Lasts Until Rollover", "true");
 
       Preferences.setString("_pantogramModifier", modList.toString());
-      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.PANTOGRAM_PANTS, modList.toString());
+      ModifierDatabase.overrideModifier(
+          ModifierType.ITEM, ItemPool.PANTOGRAM_PANTS, modList.toString());
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
     }

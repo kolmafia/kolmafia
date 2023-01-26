@@ -18,18 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
@@ -46,7 +38,6 @@ import net.sourceforge.kolmafia.request.LatteRequest.Latte;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -893,7 +884,7 @@ public class ModifiersTest {
 
         // Modifiers set "override" modifiers for the latte mug
         Modifiers latteModifiers =
-          ModifierDatabase.getModifiers(ModifierType.ITEM, "[" + ItemPool.LATTE_MUG + "]");
+            ModifierDatabase.getModifiers(ModifierType.ITEM, "[" + ItemPool.LATTE_MUG + "]");
         assertEquals(5, latteModifiers.get(DoubleModifier.FAMILIAR_WEIGHT));
         assertEquals(40, latteModifiers.get(DoubleModifier.MEATDROP));
         assertEquals(1, latteModifiers.get(DoubleModifier.MOX_EXPERIENCE));
@@ -978,7 +969,8 @@ public class ModifiersTest {
     "Overdeveloped Sense of Self Preservation, false",
   })
   public void identifiesVariableModifiers(String skillName, boolean variable) {
-    assertThat(ModifierDatabase.getModifiers(ModifierType.SKILL, skillName).variable, equalTo(variable));
+    assertThat(
+        ModifierDatabase.getModifiers(ModifierType.SKILL, skillName).variable, equalTo(variable));
   }
 
   @Nested

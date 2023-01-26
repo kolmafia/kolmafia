@@ -4986,7 +4986,7 @@ public abstract class KoLCharacter {
     newModifiers.addDouble(
         DoubleModifier.MONSTER_LEVEL, MCD, ModifierType.MCD, "Monster Control Device");
     newModifiers.add(
-      ModifierDatabase.getModifiers(ModifierType.SIGN, KoLCharacter.ascensionSign.getName()));
+        ModifierDatabase.getModifiers(ModifierType.SIGN, KoLCharacter.ascensionSign.getName()));
 
     // If we are out of ronin/hardcore, look at stat day adjustments
     if (KoLCharacter.canInteract() && !KoLmafia.statDay.equals("None")) {
@@ -5243,28 +5243,28 @@ public abstract class KoLCharacter {
 
     // Add modifiers from Current Path
     newModifiers.add(
-      ModifierDatabase.getModifiers(ModifierType.PATH, KoLCharacter.ascensionPath.toString()));
+        ModifierDatabase.getModifiers(ModifierType.PATH, KoLCharacter.ascensionPath.toString()));
 
     // If Sneaky Pete, add Motorbike effects
 
     if (KoLCharacter.isSneakyPete()) {
       newModifiers.add(
-        ModifierDatabase.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeTires")));
       newModifiers.add(
-        ModifierDatabase.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeGasTank")));
       newModifiers.add(
-        ModifierDatabase.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeHeadlight")));
       newModifiers.add(
-        ModifierDatabase.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeCowling")));
       newModifiers.add(
-        ModifierDatabase.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeMuffler")));
       newModifiers.add(
-        ModifierDatabase.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeSeat")));
     }
 
@@ -5293,7 +5293,8 @@ public abstract class KoLCharacter {
     }
 
     if (KoLCharacter.inNoobcore()) {
-      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.GENERATED, "Enchantments Absorbed"));
+      newModifiers.add(
+          ModifierDatabase.getModifiers(ModifierType.GENERATED, "Enchantments Absorbed"));
     }
 
     if (KoLCharacter.inDisguise() && KoLCharacter.getMask() != null) {
@@ -5304,7 +5305,8 @@ public abstract class KoLCharacter {
       MonsterData ensorcelee = MonsterDatabase.findMonster(Preferences.getString("ensorcelee"));
       if (ensorcelee != null) {
         newModifiers.add(
-          ModifierDatabase.getModifiers(ModifierType.ENSORCEL, ensorcelee.getPhylum().toString()));
+            ModifierDatabase.getModifiers(
+                ModifierType.ENSORCEL, ensorcelee.getPhylum().toString()));
       }
     }
 
@@ -5612,7 +5614,7 @@ public abstract class KoLCharacter {
           var modeable = Modeable.find(itemId);
           if (modeable != null) {
             newModifiers.add(
-              ModifierDatabase.getModifiers(modeable.getModifierType(), modeables.get(modeable)));
+                ModifierDatabase.getModifiers(modeable.getModifierType(), modeables.get(modeable)));
           }
         }
       }

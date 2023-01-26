@@ -5,7 +5,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
@@ -289,11 +288,12 @@ public class PlaceRequest extends GenericRequest {
           if (matcher.find()) {
             ModifierList modList = new ModifierList();
             ModifierList addModList =
-              ModifierDatabase.splitModifiers(ModifierDatabase.parseModifier(matcher.group(1)));
+                ModifierDatabase.splitModifiers(ModifierDatabase.parseModifier(matcher.group(1)));
             for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }
-            addModList = ModifierDatabase.splitModifiers(ModifierDatabase.parseModifier(matcher.group(2)));
+            addModList =
+                ModifierDatabase.splitModifiers(ModifierDatabase.parseModifier(matcher.group(2)));
             for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }

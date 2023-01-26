@@ -19,7 +19,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.PastaThrallData.PastaThrallType;
@@ -677,7 +676,7 @@ public class ProxyRecordValue extends RecordValue {
      */
     public Value get_skill() {
       String skillName =
-        ModifierDatabase.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Skill");
+          ModifierDatabase.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Skill");
       return skillName.equals("")
           ? DataTypes.SKILL_INIT
           : DataTypes.makeSkillValue(SkillDatabase.getSkillId(skillName), true);
@@ -690,7 +689,7 @@ public class ProxyRecordValue extends RecordValue {
      */
     public Value get_recipe() {
       String recipeName =
-        ModifierDatabase.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Recipe");
+          ModifierDatabase.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Recipe");
       return recipeName.equals("") ? DataTypes.ITEM_INIT : DataTypes.makeItemValue(recipeName);
     }
   }

@@ -266,7 +266,8 @@ public class ModifierExpressionTest {
 
     try (cleanups) {
       assertThat(
-        ModifierDatabase.getStringModifier(ModifierType.EFFECT, "Bow-Legged Swagger", "Modifiers"),
+          ModifierDatabase.getStringModifier(
+              ModifierType.EFFECT, "Bow-Legged Swagger", "Modifiers"),
           containsString("mod("));
       KoLCharacter.recalculateAdjustments();
 

@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -962,7 +961,8 @@ public class SpelunkyRequest extends GenericRequest {
     int bonusWeaponDamage =
         (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, weaponItemId, "Weapon Damage");
     int bonusOffhandDamage =
-        (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, offhandItemId, "Weapon Damage");
+        (int)
+            ModifierDatabase.getNumericModifier(ModifierType.ITEM, offhandItemId, "Weapon Damage");
     int bonusRangedDamage =
         (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, weaponItemId, "Ranged Damage");
     int bonusDamage =

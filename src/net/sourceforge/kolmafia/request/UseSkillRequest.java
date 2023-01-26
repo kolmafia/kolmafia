@@ -914,7 +914,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           continue;
         }
       } else if (item.getItemId() == ItemPool.KREMLIN_BRIEFCASE) {
-        if (ModifierDatabase.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE).get(DoubleModifier.MANA_COST)
+        if (ModifierDatabase.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE)
+                .get(DoubleModifier.MANA_COST)
             == 0) {
           continue;
         }

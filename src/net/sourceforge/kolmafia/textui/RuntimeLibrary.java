@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -9140,7 +9139,8 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseClassValue(ModifierDatabase.getStringModifier(type, name, mod), true));
+    return new Value(
+        DataTypes.parseClassValue(ModifierDatabase.getStringModifier(type, name, mod), true));
   }
 
   public static Value skill_modifier(
@@ -9148,7 +9148,8 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseSkillValue(ModifierDatabase.getStringModifier(type, name, mod), true));
+    return new Value(
+        DataTypes.parseSkillValue(ModifierDatabase.getStringModifier(type, name, mod), true));
   }
 
   public static Value stat_modifier(
@@ -9156,7 +9157,8 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseStatValue(ModifierDatabase.getStringModifier(type, name, mod), true));
+    return new Value(
+        DataTypes.parseStatValue(ModifierDatabase.getStringModifier(type, name, mod), true));
   }
 
   public static Value monster_modifier(
