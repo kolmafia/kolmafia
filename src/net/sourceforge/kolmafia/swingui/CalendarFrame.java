@@ -10,7 +10,6 @@ import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -33,8 +32,8 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
   static {
     // all dates are presented as if the day begins at rollover
 
-    CalendarFrame.SHORT_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT-0330"));
-    CalendarFrame.LONG_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT-0330"));
+    CalendarFrame.SHORT_FORMAT.setTimeZone(KoLmafia.KOL_TIME_ZONE);
+    CalendarFrame.LONG_FORMAT.setTimeZone(KoLmafia.KOL_TIME_ZONE);
   }
 
   // static final array of file names (not including .gif extension)
@@ -65,7 +64,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
   public CalendarFrame() {
     super("Farmer's Almanac");
     try {
-      Calendar useMe = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"), Locale.US);
+      Calendar useMe = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE, Locale.US);
       buildCalendarFrame(useMe);
     } catch (Exception e) {
       // This should not happen.  Therefore, print
@@ -210,7 +209,12 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
       artDirectory = "beefcake";
     }
 
-    displayHTML.append("<a href=\"" + artistURL + "\">" + artistName + "</a></b></td></tr>");
+    displayHTML
+        .append("<a href=\"")
+        .append(artistURL)
+        .append("\">")
+        .append(artistName)
+        .append("</a></b></td></tr>");
     displayHTML.append("<tr><td><img src=\"");
     displayHTML.append(KoLmafia.imageServerPath());
     displayHTML.append("otherimages/");
@@ -399,7 +403,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     } else if (percentage < 0) {
       buffer.append(percentage);
       buffer.append('%');
-    } else if (percentage == 0) {
+    } else {
       buffer.append("no effect");
     }
   }
@@ -422,7 +426,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
       super(model);
       this.model = model;
 
-      this.dateCalculator = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"), Locale.US);
+      this.dateCalculator = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE, Locale.US);
       this.normalRenderer = new DefaultTableCellRenderer();
 
       this.todayRenderer = new DefaultTableCellRenderer();
