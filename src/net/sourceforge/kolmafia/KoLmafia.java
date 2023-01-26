@@ -162,7 +162,7 @@ public abstract class KoLmafia {
   private static boolean allowDisplayUpdate = true;
 
   // All dates are presented as if the day began at rollover.
-  public static final TimeZone kolTimeZone = TimeZone.getTimeZone("GMT-0330");
+  public static final TimeZone KOL_TIME_ZONE = TimeZone.getTimeZone("GMT-0330");
 
   public static final int[] initialStats = new int[3];
 
@@ -270,7 +270,7 @@ public abstract class KoLmafia {
       }
     }
 
-    KoLConstants.DAILY_FORMAT.setTimeZone(kolTimeZone);
+    KoLConstants.DAILY_FORMAT.setTimeZone(KOL_TIME_ZONE);
 
     // Reload your settings and determine all the different users which
     // are present in your save state list.

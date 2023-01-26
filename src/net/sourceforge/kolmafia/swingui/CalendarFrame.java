@@ -32,8 +32,8 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
   static {
     // all dates are presented as if the day begins at rollover
 
-    CalendarFrame.SHORT_FORMAT.setTimeZone(KoLmafia.kolTimeZone);
-    CalendarFrame.LONG_FORMAT.setTimeZone(KoLmafia.kolTimeZone);
+    CalendarFrame.SHORT_FORMAT.setTimeZone(KoLmafia.KOL_TIME_ZONE);
+    CalendarFrame.LONG_FORMAT.setTimeZone(KoLmafia.KOL_TIME_ZONE);
   }
 
   // static final array of file names (not including .gif extension)
@@ -64,7 +64,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
   public CalendarFrame() {
     super("Farmer's Almanac");
     try {
-      Calendar useMe = Calendar.getInstance(KoLmafia.kolTimeZone, Locale.US);
+      Calendar useMe = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE, Locale.US);
       buildCalendarFrame(useMe);
     } catch (Exception e) {
       // This should not happen.  Therefore, print
@@ -426,7 +426,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
       super(model);
       this.model = model;
 
-      this.dateCalculator = Calendar.getInstance(KoLmafia.kolTimeZone, Locale.US);
+      this.dateCalculator = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE, Locale.US);
       this.normalRenderer = new DefaultTableCellRenderer();
 
       this.todayRenderer = new DefaultTableCellRenderer();
