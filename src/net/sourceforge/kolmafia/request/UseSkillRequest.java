@@ -536,13 +536,17 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         return 1;
 
       case SkillPool.CALCULATE_THE_UNIVERSE:
-        if (KoLCharacter.getAdventuresLeft() == 0) {
-          return 0;
+        {
+          if (KoLCharacter.getAdventuresLeft() == 0) {
+            return 0;
+          }
+          int skillLevel = Preferences.getInteger("skillLevel144");
+          if (KoLCharacter.isHardcore() || KoLCharacter.inRonin()) {
+            skillLevel = Math.min(skillLevel, 3);
+          }
+          int casts = Preferences.getInteger("_universeCalculated");
+          return Math.max(skillLevel - casts, 0);
         }
-        return Preferences.getInteger("skillLevel144")
-                > Preferences.getInteger("_universeCalculated")
-            ? 1
-            : 0;
 
       case SkillPool.ANCESTRAL_RECALL:
         return Math.min(

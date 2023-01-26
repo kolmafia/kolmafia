@@ -4,14 +4,17 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRonin;
 import static internal.helpers.Player.withSkill;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -272,6 +275,70 @@ class UseSkillRequestTest {
           html("request/test_cast_drench_sweat.html"));
       // 69 - 15 = 54
       assertEquals(Preferences.getInteger("sweat"), 54);
+    }
+  }
+
+  @Nested
+  class Numberology {
+    @Test
+    void calculatingUniverseRequiresAvailableTurns() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 1),
+              withProperty("_universeCalculated", 0),
+              withHardcore(false),
+              withRonin(false),
+              withAdventuresLeft(0));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(0, skill.getMaximumCast());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"5, 0", "5, 1", "5, 2", "5, 3", "5, 4", "5, 5"})
+    void calculatingUniverseHasDailyLimit(int skillLevel, int casts) {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", skillLevel),
+              withProperty("_universeCalculated", casts),
+              withHardcore(false),
+              withRonin(false),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(skillLevel - casts, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    void calculatingUniverseLimitedInHardcore() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 5),
+              withProperty("_universeCalculated", 0),
+              withHardcore(true),
+              withRonin(false),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(3, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    void calculatingUniverseLimitedInRonin() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 5),
+              withProperty("_universeCalculated", 0),
+              withHardcore(false),
+              withRonin(true),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(3, skill.getMaximumCast());
+      }
     }
   }
 }
