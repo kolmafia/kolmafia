@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -58,8 +59,7 @@ public class ModifierDatabase {
       modifierStringsByName = new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final TwoLevelEnumHashMap<ModifierType, IntOrString, Modifiers> modifiersByName =
       new TwoLevelEnumHashMap<>(ModifierType.class);
-  private static final Map<String, net.sourceforge.kolmafia.modifiers.Modifier>
-      modifierTypesByName = new HashMap<>();
+  private static final Map<String, Modifier> modifierTypesByName = new HashMap<>();
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
 
   /** Map of synergetic item name to bitmap mask of all items in set */
@@ -228,7 +228,7 @@ public class ModifierDatabase {
     return result;
   }
 
-  public static net.sourceforge.kolmafia.modifiers.Modifier getModifierByName(String name) {
+  public static Modifier getModifierByName(String name) {
     return modifierTypesByName.get(name);
   }
 
