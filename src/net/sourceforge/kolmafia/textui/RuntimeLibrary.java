@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -3805,7 +3804,7 @@ public abstract class RuntimeLibrary {
       return value;
     }
 
-    Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+    Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
 
     for (int i = 0; i < dayCount; ++i) {
       String logContents =
@@ -3878,7 +3877,7 @@ public abstract class RuntimeLibrary {
   }
 
   private static Calendar getBaseTimeStamp(String base, int count) {
-    Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+    Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
     timestamp.clear();
     int year = Integer.parseInt(base.substring(0, 4));
     int mon = Integer.parseInt(base.substring(4, 6));

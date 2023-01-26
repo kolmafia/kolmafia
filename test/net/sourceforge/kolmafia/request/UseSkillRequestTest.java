@@ -4,6 +4,7 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
@@ -272,6 +273,52 @@ class UseSkillRequestTest {
           html("request/test_cast_drench_sweat.html"));
       // 69 - 15 = 54
       assertEquals(Preferences.getInteger("sweat"), 54);
+    }
+  }
+
+  @Nested
+  class Numberology {
+    @Test
+    void calculatingUniverseRequiresAvailableTurns() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 1),
+              withProperty("_universeCalculated", 0),
+              withInteractivity(true),
+              withAdventuresLeft(0));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(0, skill.getMaximumCast());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"5, 0", "5, 1", "5, 2", "5, 3", "5, 4", "5, 5"})
+    void calculatingUniverseHasDailyLimit(int skillLevel, int casts) {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", skillLevel),
+              withProperty("_universeCalculated", casts),
+              withInteractivity(true),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(skillLevel - casts, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    void calculatingUniverseLimitedInHardcoreOrRonin() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 5),
+              withProperty("_universeCalculated", 0),
+              withInteractivity(false),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(3, skill.getMaximumCast());
+      }
     }
   }
 }
