@@ -541,7 +541,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
             return 0;
           }
           int skillLevel = Preferences.getInteger("skillLevel144");
-          if (KoLCharacter.isHardcore() || KoLCharacter.inRonin()) {
+          if (!KoLCharacter.canInteract()) {
             skillLevel = Math.min(skillLevel, 3);
           }
           int casts = Preferences.getInteger("_universeCalculated");

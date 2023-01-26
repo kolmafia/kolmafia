@@ -8,13 +8,11 @@ import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
-import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
-import static internal.helpers.Player.withRonin;
 import static internal.helpers.Player.withSkill;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -286,8 +284,7 @@ class UseSkillRequestTest {
           new Cleanups(
               withProperty("skillLevel144", 1),
               withProperty("_universeCalculated", 0),
-              withHardcore(false),
-              withRonin(false),
+              withInteractivity(true),
               withAdventuresLeft(0));
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
@@ -302,8 +299,7 @@ class UseSkillRequestTest {
           new Cleanups(
               withProperty("skillLevel144", skillLevel),
               withProperty("_universeCalculated", casts),
-              withHardcore(false),
-              withRonin(false),
+              withInteractivity(true),
               withAdventuresLeft(1));
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
@@ -312,28 +308,12 @@ class UseSkillRequestTest {
     }
 
     @Test
-    void calculatingUniverseLimitedInHardcore() {
+    void calculatingUniverseLimitedInHardcoreOrRonin() {
       var cleanups =
           new Cleanups(
               withProperty("skillLevel144", 5),
               withProperty("_universeCalculated", 0),
-              withHardcore(true),
-              withRonin(false),
-              withAdventuresLeft(1));
-      try (cleanups) {
-        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
-        assertEquals(3, skill.getMaximumCast());
-      }
-    }
-
-    @Test
-    void calculatingUniverseLimitedInRonin() {
-      var cleanups =
-          new Cleanups(
-              withProperty("skillLevel144", 5),
-              withProperty("_universeCalculated", 0),
-              withHardcore(false),
-              withRonin(true),
+              withInteractivity(false),
               withAdventuresLeft(1));
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
