@@ -10995,15 +10995,15 @@
 10967	Yeast of Boris	872378372	bbat_yeast.gif	none, cook, mix	t,d	50	handfuls of the Yeast of Boris
 10968	St. Sneaky Pete's Whey	233475796	bbat_whey.gif	none, cook	t,d	50	tubs of St. Sneaky Pete's Whey
 10969	Vegetable of Jarlsberg	629550840	bbat_vegetable.gif	none, cook	t,d	50	Vegetables of Jarlsberg
-10970	ratatouille de Jarlsberg	238021108	bbat_casserole.gif	food	d	75
-10971	Jarlsberg's vegetable soup	552577865	bbat_soup.gif	food	d	75
-10972	roasted vegetable of Jarlsberg	236899776	bbat_roastveggie.gif	food, cook	d	100
+10970	ratatouille de Jarlsberg	238021108	bbat_casserole.gif	food	d	75	ratatouilles de Jarlsberg
+10971	Jarlsberg's vegetable soup	552577865	bbat_soup.gif	food	d	75	bowls of Jarlsberg's vegetable soup
+10972	roasted vegetable of Jarlsberg	236899776	bbat_roastveggie.gif	food, cook	d	100	roasted vegetables of Jarlsberg
 10973	St. Pete's sneaky smoothie	740448073	bbat_smoothie.gif	food	d	75
 10974	Pete's wiley whey bar	698294535	bbat_wheybar.gif	food	d	75
 10975	Pete's rich ricotta	729897026	bbat_ricotta.gif	food, cook	d	100
-10976	Boris's beer	530536491	bbat_beer.gif	drink	d	75
-10977	honey bun of Boris	564839555	bbat_honeybun.gif	food	d	75
-10978	Boris's bread	498380608	bbat_bread.gif	food, cook	d	100
+10976	Boris's beer	530536491	bbat_beer.gif	drink	d	75	steins of Boris's beer
+10977	honey bun of Boris	564839555	bbat_honeybun.gif	food	d	75	honey buns of Boris
+10978	Boris's bread	498380608	bbat_bread.gif	food, cook	d	100	loaves of Boris's bread
 10979	Recipe of Before Yore: ratatouille de Jarlsberg	682740116	bbat_recipe.gif	usable	t,d	100
 10980	Recipe of Before Yore: Jarlsberg's vegetable soup	276699943	bbat_recipe.gif	usable	t,d	100
 10981	Recipe of Before Yore: roasted vegetable of J.	782778295	bbat_recipe.gif	usable	t,d	150
@@ -11016,8 +11016,8 @@
 10988	baked veggie ricotta casserole	855715134	bbat_casserole.gif	food, cook	d	200
 10989	plain calzone	392094485	bbat_calzone1.gif	food, cook	d	200
 10990	roasted vegetable focaccia	705913927	bbat_focaccia.gif	food, cook	d	200
-10991	Pizza of Legend	327294437	bbat_pizza.gif	food	d	400
-10992	Calzone of Legend	463633597	bbat_calzone2.gif	food	d	400
+10991	Pizza of Legend	327294437	bbat_pizza.gif	food	d	400	Pizzas of Legend
+10992	Calzone of Legend	463633597	bbat_calzone2.gif	food	d	400	Calzones of Legend
 10993	Recipe of Before Yore: Calzone of Legend	897961264	bbat_recipe.gif	usable	t,d	300
 10994	Recipe of Before Yore: Pizza of Legend	149400709	bbat_recipe.gif	usable	t,d	300
 10995	Recipe of Before Yore: roasted vegetable focaccia	497528859	bbat_recipe.gif	usable	t,d	200
@@ -11025,7 +11025,7 @@
 10997	Recipe of Before Yore: baked veggie ricotta	385781133	bbat_recipe.gif	usable	t,d	200
 10998	cookbookbat book	230914563	book5.gif	familiar	t,d	75
 10999	Recipe of Before Yore: Deep Dish of Legend	924225296	bbat_recipe.gif	usable	t,d	100
-11000	Deep Dish of Legend	394854595	bbat_pizza.gif	food	d	400
+11000	Deep Dish of Legend	394854595	bbat_pizza.gif	food	d	400	Deep Dishes of Legend
 11001	deed to Oliver's Place	790291349	oliver_deed.gif	usable	t	0
 11002	drink chit	835138088	oliver_chit.gif	none	t	0
 11003	government per-diem	527999205	envelope.gif	usable	t	0
