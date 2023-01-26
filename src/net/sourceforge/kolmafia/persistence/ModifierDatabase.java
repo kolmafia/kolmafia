@@ -171,10 +171,6 @@ public class ModifierDatabase {
           ModifierType.THRONE,
           ModifierType.UNBREAKABLE_UMBRELLA);
 
-  static {
-    ensureModifierDatabaseInitialised();
-  }
-
   public static void ensureModifierDatabaseInitialised() {
     if (modifierTypesByName.isEmpty()) {
       initialiseModifierDatabase();

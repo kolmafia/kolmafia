@@ -101,6 +101,12 @@ public class Modifiers {
     mods.forEach(this::setModifier);
   }
 
+  static {
+    // this is here, instead of in `ModifierDatabase`, as tests (e.g. ConcertCommandTest) failed
+    // without the db intialised
+    ModifierDatabase.ensureModifierDatabaseInitialised();
+  }
+
   public Map<DerivedModifier, Integer> predict() {
     Map<DerivedModifier, Integer> rv = new EnumMap<>(DerivedModifier.class);
 
