@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -340,7 +341,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     this.name = "";
 
     if (this.id != 0) {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.THRALL, this.type);
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.THRALL, this.type);
       if (mods != null) {
         this.mods = mods.getString(StringModifier.MODIFIERS);
         this.modsLookup = mods.getLookup();
@@ -420,7 +421,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     PastaThrallData current = KoLCharacter.currentPastaThrall();
     try {
       KoLCharacter.setPastaThrall(this);
-      return Modifiers.evaluateModifiers(this.modsLookup, this.mods).toString();
+      return ModifierDatabase.evaluateModifiers(this.modsLookup, this.mods).toString();
     } finally {
       KoLCharacter.setPastaThrall(current);
     }

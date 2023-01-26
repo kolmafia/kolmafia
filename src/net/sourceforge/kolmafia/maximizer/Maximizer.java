@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.OneResultPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
@@ -101,7 +102,7 @@ public class Maximizer {
     }
 
     Modifiers mods = Maximizer.best.calculate();
-    Modifiers.overrideModifier(ModifierType.GENERATED, "_spec", mods);
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
     return !Maximizer.best.failed;
   }
@@ -203,7 +204,7 @@ public class Maximizer {
     // Include skills from absorbing items in Noobcore
     if (KoLCharacter.inNoobcore()) {
       for (Map.Entry<IntOrString, String> entry :
-          Modifiers.getAllModifiersOfType(ModifierType.SKILL)) {
+          ModifierDatabase.getAllModifiersOfType(ModifierType.SKILL)) {
         if (!entry.getKey().isInt()) continue;
         int skillId = entry.getKey().getIntValue();
         if (skillId < 23001 || skillId > 23125) {
@@ -246,7 +247,7 @@ public class Maximizer {
 
       // Include enchantments from absorbing equipment in Noobcore
       for (Map.Entry<IntOrString, String> entry :
-          Modifiers.getAllModifiersOfType(ModifierType.ITEM)) {
+          ModifierDatabase.getAllModifiersOfType(ModifierType.ITEM)) {
         if (!entry.getKey().isInt()) continue;
         int itemId = entry.getKey().getIntValue();
         int absorbsLeft = KoLCharacter.getAbsorbsLimit() - KoLCharacter.getAbsorbs();
@@ -266,7 +267,7 @@ public class Maximizer {
           continue;
         }
         MaximizerSpeculation spec = new MaximizerSpeculation();
-        Modifiers itemMods = Modifiers.getItemModifiers(itemId);
+        Modifiers itemMods = ModifierDatabase.getItemModifiers(itemId);
         if (itemMods == null) {
           continue;
         }
@@ -322,7 +323,7 @@ public class Maximizer {
 
     if (filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
       for (Map.Entry<IntOrString, String> entry :
-          Modifiers.getAllModifiersOfType(ModifierType.HORSERY)) {
+          ModifierDatabase.getAllModifiersOfType(ModifierType.HORSERY)) {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
         // Must be available in your current path
@@ -359,7 +360,7 @@ public class Maximizer {
       }
 
       for (Map.Entry<IntOrString, String> entry :
-          Modifiers.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
+          ModifierDatabase.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
         if (!entry.getKey().isString()) continue;
         String name = entry.getKey().getStringValue();
         String cmd, text;
@@ -394,7 +395,7 @@ public class Maximizer {
     }
 
     for (Map.Entry<IntOrString, String> entry :
-        Modifiers.getAllModifiersOfType(ModifierType.EFFECT)) {
+        ModifierDatabase.getAllModifiersOfType(ModifierType.EFFECT)) {
       if (!entry.getKey().isInt()) continue;
       int effectId = entry.getKey().getIntValue();
       if (effectId == -1) {
@@ -419,7 +420,7 @@ public class Maximizer {
           // uneffecting the conflicting effect, but for now just skip.
           continue;
         }
-        switch (Maximizer.eval.checkConstraints(Modifiers.getEffectModifiers(effectId))) {
+        switch (Maximizer.eval.checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
           case -1:
             continue;
           case 0:
@@ -440,7 +441,7 @@ public class Maximizer {
       } else {
         spec.removeEffect(effect);
         delta = spec.getScore() - current;
-        switch (Maximizer.eval.checkConstraints(Modifiers.getEffectModifiers(effectId))) {
+        switch (Maximizer.eval.checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
           case 1:
             continue;
           case 0:
@@ -584,7 +585,7 @@ public class Maximizer {
               continue;
             }
 
-            Modifiers effMod = Modifiers.getItemModifiers(item.getItemId());
+            Modifiers effMod = ModifierDatabase.getItemModifiers(item.getItemId());
             if (effMod != null) {
               duration = (int) effMod.get(DoubleModifier.EFFECT_DURATION);
             }
@@ -619,7 +620,7 @@ public class Maximizer {
                 && Preferences.getBoolean("_fancyHotDogEaten")) {
               continue;
             } else {
-              Modifiers effMod = Modifiers.getModifiers(ModifierType.ITEM, iName);
+              Modifiers effMod = ModifierDatabase.getModifiers(ModifierType.ITEM, iName);
               if (effMod != null) {
                 duration = (int) effMod.get(DoubleModifier.EFFECT_DURATION);
               }

@@ -8,12 +8,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -688,7 +688,7 @@ public class LatteRequest extends GenericRequest {
   public static void setLatteEnchantments(String[] mods) {
     ModifierList modList = new ModifierList();
     for (String mod : mods) {
-      ModifierList addModList = Modifiers.splitModifiers(mod);
+      ModifierList addModList = ModifierDatabase.splitModifiers(mod);
       for (ModifierValue modifier : addModList) {
         modList.addToModifier(modifier);
       }
@@ -696,7 +696,7 @@ public class LatteRequest extends GenericRequest {
 
     String value = modList.toString();
     Preferences.setString("latteModifier", value);
-    Modifiers.overrideModifier(ModifierType.ITEM, ItemPool.LATTE_MUG, value);
+    ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.LATTE_MUG, value);
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }

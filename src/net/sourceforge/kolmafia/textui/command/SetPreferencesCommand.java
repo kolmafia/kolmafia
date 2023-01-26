@@ -3,10 +3,10 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.moods.MoodManager;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
@@ -81,7 +81,7 @@ public class SetPreferencesCommand extends AbstractCommand {
     }
 
     if (name.equals("_userMods")) {
-      Modifiers.overrideModifier(ModifierType.GENERATED, "_userMods", value);
+      ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_userMods", value);
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
     }

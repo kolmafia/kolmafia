@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
@@ -520,7 +521,7 @@ public abstract class GreyYouManager {
 
       Modifiers mods = null;
       if (this.skillType == SkillType.PASSIVE) {
-        mods = Modifiers.getModifiers(ModifierType.SKILL, this.name);
+        mods = ModifierDatabase.getModifiers(ModifierType.SKILL, this.name);
         if (mods != null) {
           this.enchantments = mods.getString(StringModifier.MODIFIERS);
           this.modsLookup = mods.getLookup();
@@ -573,7 +574,7 @@ public abstract class GreyYouManager {
       if (this.modsLookup.equals("")) {
         return this.enchantments;
       }
-      return Modifiers.evaluateModifiers(this.modsLookup, this.enchantments).toString();
+      return ModifierDatabase.evaluateModifiers(this.modsLookup, this.enchantments).toString();
     }
 
     public PassiveEffect getPassiveEffect() {

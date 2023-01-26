@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -36,6 +35,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -3871,7 +3871,7 @@ public abstract class ChoiceControl {
           while (matcher.find()) {
             int vote = StringUtilities.parseInt(matcher.group(1)) + 1;
             String pref = Preferences.getString("_voteLocal" + vote);
-            ModifierList addModList = Modifiers.splitModifiers(pref);
+            ModifierList addModList = ModifierDatabase.splitModifiers(pref);
             for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }
@@ -7692,7 +7692,7 @@ public abstract class ChoiceControl {
           Matcher localMatcher = VOTE_PATTERN.matcher(text);
           while (localMatcher.find()) {
             int voteValue = StringUtilities.parseInt(localMatcher.group(1)) + 1;
-            String voteMod = Modifiers.parseModifier(localMatcher.group(3));
+            String voteMod = ModifierDatabase.parseModifier(localMatcher.group(3));
             if (voteMod != null) {
               Preferences.setString("_voteLocal" + voteValue, voteMod);
             }

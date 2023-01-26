@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FlaggedItems;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -1114,7 +1115,7 @@ public abstract class KoLmafia {
     }
 
     if (ItemDatabase.newItems || EquipmentDatabase.newEquipment || EffectDatabase.newEffects) {
-      Modifiers.writeModifiers(new File(KoLConstants.DATA_LOCATION, "modifiers.txt"));
+      ModifierDatabase.writeModifiers(new File(KoLConstants.DATA_LOCATION, "modifiers.txt"));
     }
 
     if (FamiliarDatabase.newFamiliars) {

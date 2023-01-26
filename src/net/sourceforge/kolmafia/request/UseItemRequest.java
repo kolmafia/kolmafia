@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
@@ -38,6 +37,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -6042,17 +6042,17 @@ public class UseItemRequest extends GenericRequest {
   }
 
   private static String itemToClass(final int itemId) {
-    String className = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Class");
+    String className = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, "Class");
     return className.equals("") ? null : className;
   }
 
   private static String itemToSkill(final int itemId) {
-    String skillName = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Skill");
+    String skillName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, "Skill");
     return skillName.equals("") ? null : skillName;
   }
 
   private static String itemToRecipe(final int itemId) {
-    String recipeName = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Recipe");
+    String recipeName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, "Recipe");
     return recipeName.equals("") ? null : recipeName;
   }
 

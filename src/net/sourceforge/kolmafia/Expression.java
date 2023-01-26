@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -221,7 +222,7 @@ public class Expression {
         case 'b' -> {
           String elem = (String) this.literals.get((int) s[--sp]);
           Element element = Element.fromString(elem);
-          v = KoLCharacter.currentNumericModifier(Modifiers.elementalResistance(element));
+          v = KoLCharacter.currentNumericModifier(ModifierDatabase.elementalResistance(element));
         }
         case 'd' -> {
           String skillName = (String) this.literals.get((int) s[--sp]);

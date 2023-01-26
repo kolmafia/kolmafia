@@ -25,7 +25,6 @@ import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -1099,7 +1098,7 @@ public class DebugDatabase {
     //   of parsed modifiers in the order they appear in modifiers.txt
 
     // Get the existing modifiers for the name
-    ModifierList existing = Modifiers.getModifierList(new Lookup(type, name));
+    ModifierList existing = ModifierDatabase.getModifierList(new Lookup(type, name));
 
     // Look at each modifier in known
     for (ModifierValue modifier : known) {
@@ -1117,7 +1116,7 @@ public class DebugDatabase {
           int lbracket = currentValue.indexOf("[");
           int rbracket = currentValue.indexOf("]");
 
-          if (Modifiers.isNumericModifier(key)) {
+          if (ModifierDatabase.isNumericModifier(key)) {
             // Evaluate the expression
             String expression = currentValue.substring(lbracket + 1, rbracket);
 
@@ -1214,15 +1213,15 @@ public class DebugDatabase {
       final ArrayList<String> unknown,
       final PrintStream report) {
     for (String s : unknown) {
-      Modifiers.writeModifierComment(report, name, s);
+      ModifierDatabase.writeModifierComment(report, name, s);
     }
 
     if (known.size() == 0) {
       if (unknown.size() == 0) {
-        Modifiers.writeModifierComment(report, null, name);
+        ModifierDatabase.writeModifierComment(report, null, name);
       }
     } else {
-      Modifiers.writeModifierString(report, type, name, known.toString());
+      ModifierDatabase.writeModifierString(report, type, name, known.toString());
     }
   }
 
@@ -1258,18 +1257,18 @@ public class DebugDatabase {
     // included shield DR as well, but for shields that have no
     // enchantments, get DR here.
     if (!known.containsModifier("Damage Reduction")) {
-      DebugDatabase.appendModifier(known, Modifiers.parseDamageReduction(text));
+      DebugDatabase.appendModifier(known, ModifierDatabase.parseDamageReduction(text));
     }
 
-    DebugDatabase.appendModifier(known, Modifiers.parseSkill(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseSingleEquip(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseSoftcoreOnly(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseLastsOneDay(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseFreePull(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseEffect(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseEffectDuration(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseSongDuration(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseDropsItems(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseSkill(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseSingleEquip(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseSoftcoreOnly(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseLastsOneDay(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseFreePull(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseEffect(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseEffectDuration(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseSongDuration(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseDropsItems(text));
 
     if (type == ConsumptionType.FAMILIAR_EQUIPMENT) {
       String familiar = DebugDatabase.parseFamiliar(text);
@@ -1478,12 +1477,12 @@ public class DebugDatabase {
         }
       }
 
-      String mod = Modifiers.parseModifier(enchantment);
+      String mod = ModifierDatabase.parseModifier(enchantment);
       if (mod != null) {
         // Rollover Effect and Rollover Effect Duration come together
         // Modifiers parses the numeric modifier first
         if (mod.startsWith("Rollover Effect Duration")) {
-          String effect = Modifiers.parseStringModifier(enchantment);
+          String effect = ModifierDatabase.parseStringModifier(enchantment);
           if (effect != null) {
             DebugDatabase.appendModifier(known, effect);
           }
@@ -1492,7 +1491,7 @@ public class DebugDatabase {
         // Damage Reduction can appear in several
         // places. Combine them all.
         else if (mod.startsWith("Damage Reduction")) {
-          mod = Modifiers.parseDamageReduction(text);
+          mod = ModifierDatabase.parseDamageReduction(text);
         } else if (mod.equals("Class: \"December\"")) {
           decemberEvent = true;
           continue;
@@ -2673,7 +2672,7 @@ public class DebugDatabase {
 
       // Potions grant an effect. Check for a new effect.
       String itemName = ItemDatabase.getItemDataName(id);
-      String effectName = Modifiers.getStringModifier(ModifierType.ITEM, itemId, "Effect");
+      String effectName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, "Effect");
       if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
         String rawText = DebugDatabase.rawItemDescriptionText(itemId);
         String effectDescid = DebugDatabase.parseEffectDescid(rawText);

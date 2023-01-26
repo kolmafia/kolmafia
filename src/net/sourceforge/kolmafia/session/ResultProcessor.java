@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -38,6 +37,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
@@ -3214,7 +3214,7 @@ public class ResultProcessor {
               DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), true);
           String mod =
               DebugDatabase.parseItemEnchantments(rawText, new ArrayList<>(), ConsumptionType.HAT);
-          Modifiers.overrideModifier(ModifierType.ITEM, itemId, mod);
+          ModifierDatabase.overrideModifier(ModifierType.ITEM, itemId, mod);
           Preferences.setString("_noHatModifier", mod);
         }
         break;
