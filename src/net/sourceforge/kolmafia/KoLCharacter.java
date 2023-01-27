@@ -2283,8 +2283,7 @@ public abstract class KoLCharacter {
   public static final double getInitiativeAdjustment() {
     // Penalty is constrained to be non-positive
     return KoLCharacter.currentModifiers.getDouble(DoubleModifier.INITIATIVE)
-        + Math.min(
-            KoLCharacter.currentModifiers.getDouble(DoubleModifier.INITIATIVE_PENALTY), 0.0f);
+        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.INITIATIVE_PENALTY), 0.0);
   }
 
   /** Accessor method to retrieve the total current fixed experience adjustment */
@@ -2307,7 +2306,7 @@ public abstract class KoLCharacter {
   public static final double getMeatDropPercentAdjustment() {
     // Penalty is constrained to be non-positive
     return KoLCharacter.currentModifiers.getDouble(DoubleModifier.MEATDROP)
-        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.MEATDROP_PENALTY), 0.0f);
+        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.MEATDROP_PENALTY), 0.0);
   }
 
   /**
@@ -2326,7 +2325,7 @@ public abstract class KoLCharacter {
    */
   public static final double getItemDropPercentAdjustment() {
     return KoLCharacter.currentModifiers.getDouble(DoubleModifier.ITEMDROP)
-        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.ITEMDROP_PENALTY), 0.0f);
+        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.ITEMDROP_PENALTY), 0.0);
   }
 
   /**
@@ -2467,7 +2466,7 @@ public abstract class KoLCharacter {
     int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_HP);
     double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_HP_PCT);
     if (factor != 0) {
-      rv = (int) (rv * (factor + 100.0f) / 100.0f);
+      rv = (int) (rv * (factor + 100.0) / 100.0);
     }
     return rv + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BONUS_RESTING_HP);
   }
@@ -2476,7 +2475,7 @@ public abstract class KoLCharacter {
     int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_MP);
     double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_MP_PCT);
     if (factor != 0) {
-      rv = (int) (rv * (factor + 100.0f) / 100.0f);
+      rv = (int) (rv * (factor + 100.0) / 100.0);
     }
     return rv + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BONUS_RESTING_MP);
   }
@@ -2534,7 +2533,7 @@ public abstract class KoLCharacter {
    */
   public static final double getElementalResistance(final Element element) {
     if (element == Element.NONE) {
-      return 0.0f;
+      return 0.0;
     }
     int levels = KoLCharacter.getElementalResistanceLevels(element);
     return KoLCharacter.elementalResistanceByLevel(levels, element != Element.SLIME);
@@ -4929,8 +4928,8 @@ public abstract class KoLCharacter {
   public static final double estimatedBaseExp(double monsterLevel) {
     // 0.25 stats per monster ML + 0.33 stats per bonus ML, rounded to 2dp
 
-    double baseStats = (Modifiers.getCurrentML() / 4.0f);
-    double bonusStats = monsterLevel / ((monsterLevel > 0) ? 3.0f : 4.0f);
+    double baseStats = (Modifiers.getCurrentML() / 4.0);
+    double bonusStats = monsterLevel / ((monsterLevel > 0) ? 3.0 : 4.0);
     return Math.round((baseStats + bonusStats) * 100d) / 100d;
   }
 
@@ -5337,7 +5336,7 @@ public abstract class KoLCharacter {
         WL = WL < 1 ? 1 : Math.min(WL, 6);
         newModifiers.addDouble(
             DoubleModifier.EXPERIENCE,
-            (double) WL * 10 / 3.0f,
+            (double) WL * 10 / 3.0,
             ModifierType.PATH,
             "Water Level*10/3");
       }
@@ -5354,7 +5353,7 @@ public abstract class KoLCharacter {
       exp = exp / 3;
     }
 
-    if (exp != 0.0f) {
+    if (exp != 0.0) {
       String tuning = newModifiers.getString(StringModifier.STAT_TUNING);
       int prime = KoLCharacter.getPrimeIndex();
       if (tuning.startsWith("Muscle")) prime = 0;
@@ -5380,7 +5379,7 @@ public abstract class KoLCharacter {
           };
       Function<DoubleModifier, Double> calc =
           (DoubleModifier statPct) ->
-              (finalBaseExp + finalExp) * (1 + newModifiers.getDouble(statPct) / 100.0f);
+              (finalBaseExp + finalExp) * (1 + newModifiers.getDouble(statPct) / 100.0);
 
       if (all) {
         var mod = mods.get(0);
@@ -5389,12 +5388,11 @@ public abstract class KoLCharacter {
         // Adjust for prime stat
         // The base +1 Exp for mainstat IS tuned
         var mod = mods.get(0);
-        newModifiers.addDouble(
-            mod.exp, 1 + calc.apply(mod.pct) / 2.0f, ModifierType.CLASS, "EXP/2");
+        newModifiers.addDouble(mod.exp, 1 + calc.apply(mod.pct) / 2.0, ModifierType.CLASS, "EXP/2");
         mod = mods.get(1);
-        newModifiers.addDouble(mod.exp, calc.apply(mod.pct) / 4.0f, ModifierType.CLASS, "EXP/4");
+        newModifiers.addDouble(mod.exp, calc.apply(mod.pct) / 4.0, ModifierType.CLASS, "EXP/4");
         mod = mods.get(2);
-        newModifiers.addDouble(mod.exp, calc.apply(mod.pct) / 4.0f, ModifierType.CLASS, "EXP/4");
+        newModifiers.addDouble(mod.exp, calc.apply(mod.pct) / 4.0, ModifierType.CLASS, "EXP/4");
       }
     }
 
@@ -5529,7 +5527,7 @@ public abstract class KoLCharacter {
       if (consume == ConsumptionType.WEAPON) {
         newModifiers.addDouble(
             DoubleModifier.WEAPON_DAMAGE,
-            EquipmentDatabase.getPower(itemId) * 0.15f,
+            EquipmentDatabase.getPower(itemId) * 0.15,
             ModifierType.EQUIPMENT_POWER,
             "15% weapon power");
       }
@@ -5633,7 +5631,7 @@ public abstract class KoLCharacter {
       case EquipmentManager.WEAPON:
         newModifiers.addDouble(
             DoubleModifier.WEAPON_DAMAGE,
-            EquipmentDatabase.getPower(itemId) * 0.15f,
+            EquipmentDatabase.getPower(itemId) * 0.15,
             ModifierType.EQUIPMENT_POWER,
             "15% weapon power");
         break;
