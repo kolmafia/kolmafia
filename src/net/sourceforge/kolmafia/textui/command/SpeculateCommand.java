@@ -99,7 +99,7 @@ public class SpeculateCommand extends AbstractCommand {
   private static void handleDouble(
       final DoubleModifier mod, final Modifiers mods, final StringBuilder buf) {
     double was = KoLCharacter.currentNumericModifier(mod);
-    double now = mods.get(mod);
+    double now = mods.getDouble(mod);
     if (now == was) {
       return;
     }

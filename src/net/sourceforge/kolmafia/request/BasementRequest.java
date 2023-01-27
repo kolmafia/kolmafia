@@ -1223,7 +1223,7 @@ public class BasementRequest extends AdventureRequest {
       }
 
       Modifiers currentTest = ModifierDatabase.getEffectModifiers(effectId);
-      double value = currentTest.get(modifier);
+      double value = currentTest.getDouble(modifier);
 
       if (value == 0.0) {
         continue;

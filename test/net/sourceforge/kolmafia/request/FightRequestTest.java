@@ -1315,7 +1315,7 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
         var fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
-        assertThat(fightMods.get(DoubleModifier.ITEMDROP), equalTo(100.0));
+        assertThat(fightMods.getDouble(DoubleModifier.ITEMDROP), equalTo(100.0));
       }
     }
 
@@ -1329,7 +1329,7 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
         var fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
-        assertThat(fightMods.get(DoubleModifier.MEATDROP), equalTo(100.0));
+        assertThat(fightMods.getDouble(DoubleModifier.MEATDROP), equalTo(100.0));
       }
     }
   }

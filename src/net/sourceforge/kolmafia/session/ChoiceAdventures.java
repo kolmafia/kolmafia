@@ -7486,8 +7486,12 @@ public abstract class ChoiceAdventures {
         double bonus = 0;
         // Check for familiars
         if (!KoLCharacter.getFamiliar().equals(FamiliarData.NO_FAMILIAR)) {
-          bonus = ModifierDatabase.getNumericModifier(KoLCharacter.getFamiliar(), "Item Drop");
-          bonus += ModifierDatabase.getNumericModifier(KoLCharacter.getFamiliar(), "Food Drop");
+          bonus =
+              ModifierDatabase.getNumericModifier(
+                  KoLCharacter.getFamiliar(), DoubleModifier.ITEMDROP);
+          bonus +=
+              ModifierDatabase.getNumericModifier(
+                  KoLCharacter.getFamiliar(), DoubleModifier.FOODDROP);
         }
         // Check for Clancy
         else if (KoLCharacter.getCurrentInstrument() != null
@@ -7514,14 +7518,14 @@ public abstract class ChoiceAdventures {
         if (!throned.equals(FamiliarData.NO_FAMILIAR)) {
           bonus +=
               ModifierDatabase.getNumericModifier(
-                  ModifierType.THRONE, throned.getRace(), "Item Drop");
+                  ModifierType.THRONE, throned.getRace(), DoubleModifier.ITEMDROP);
         }
         // Check for Bjorn
         FamiliarData bjorned = KoLCharacter.getBjorned();
         if (!bjorned.equals(FamiliarData.NO_FAMILIAR)) {
           bonus +=
               ModifierDatabase.getNumericModifier(
-                  ModifierType.THRONE, bjorned.getRace(), "Item Drop");
+                  ModifierType.THRONE, bjorned.getRace(), DoubleModifier.ITEMDROP);
         }
         // Check for Florist
         if (FloristRequest.haveFlorist()) {
@@ -7530,7 +7534,7 @@ public abstract class ChoiceAdventures {
             for (Florist plant : plants) {
               bonus +=
                   ModifierDatabase.getNumericModifier(
-                      ModifierType.FLORIST, plant.toString(), "Item Drop");
+                      ModifierType.FLORIST, plant.toString(), DoubleModifier.ITEMDROP);
             }
           }
         }

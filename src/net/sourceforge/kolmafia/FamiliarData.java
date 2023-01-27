@@ -321,9 +321,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
     int itemId = getItem().getItemId();
     if (itemId == ItemPool.MAYFLOWER_BOUQUET) {
-      String modifierName = DoubleModifier.FAMILIAR_EXP.getName();
       double itemModifier =
-          ModifierDatabase.getNumericModifier(ModifierType.ITEM, itemId, modifierName);
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, itemId, DoubleModifier.FAMILIAR_EXP);
 
       experienceModifier -= itemModifier;
 
@@ -830,9 +830,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
     // Get current fixed and percent weight modifiers
     Modifiers current = KoLCharacter.getCurrentModifiers();
     boolean fixodene = KoLConstants.activeEffects.contains(FIDOXENE);
-    double fixed = current.get(DoubleModifier.FAMILIAR_WEIGHT);
-    double hidden = current.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
-    double percent = current.get(DoubleModifier.FAMILIAR_WEIGHT_PCT);
+    double fixed = current.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
+    double hidden = current.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+    double percent = current.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT);
 
     FamiliarData familiar = KoLCharacter.getFamiliar();
 
@@ -844,9 +844,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
       if (item != EquipmentRequest.UNEQUIP) {
         Modifiers mods = ModifierDatabase.getItemModifiers(item.getItemId());
         if (mods != null) {
-          fixed -= mods.get(DoubleModifier.FAMILIAR_WEIGHT);
-          hidden -= mods.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
-          percent -= mods.get(DoubleModifier.FAMILIAR_WEIGHT_PCT);
+          fixed -= mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
+          hidden -= mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+          percent -= mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT);
         }
       }
     }
@@ -859,9 +859,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
       if (item != EquipmentRequest.UNEQUIP) {
         Modifiers mods = ModifierDatabase.getItemModifiers(item.getItemId());
         if (mods != null) {
-          fixed += mods.get(DoubleModifier.FAMILIAR_WEIGHT);
-          hidden += mods.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
-          percent += mods.get(DoubleModifier.FAMILIAR_WEIGHT_PCT);
+          fixed += mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
+          hidden += mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+          percent += mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT);
         }
       }
     }
@@ -890,7 +890,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     // check if the familiar has a weight cap
-    int cap = (int) current.get(DoubleModifier.FAMILIAR_WEIGHT_CAP);
+    int cap = (int) current.getDouble(DoubleModifier.FAMILIAR_WEIGHT_CAP);
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
 
     return Math.max(1, cappedWeight);
@@ -898,7 +898,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public static final int itemWeightModifier(final int itemId) {
     Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
-    return mods == null ? 0 : (int) mods.get(DoubleModifier.FAMILIAR_WEIGHT);
+    return mods == null ? 0 : (int) mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
   }
 
   public final int getUncappedWeight() {
@@ -1329,7 +1329,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
       case FamiliarPool.HAND:
         // Disembodied Hand can't equip Mainhand only items or Single Equip items
         if (!EquipmentDatabase.isMainhandOnly(itemId)
-            && !ModifierDatabase.getBooleanModifier(ModifierType.ITEM, name, "Single Equip")) {
+            && !ModifierDatabase.getBooleanModifier(
+                ModifierType.ITEM, name, BooleanModifier.SINGLE)) {
           return true;
         }
         break;

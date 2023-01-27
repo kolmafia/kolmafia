@@ -11059,7 +11059,7 @@
 11031	chiffon chemise	682610694	chifchemise.gif	shirt		0
 11032	chiffon chakram	919226181	chifchakram.gif	weapon		0
 11033	chiffon chaps	614635306	chifchaps.gif	pants		0	pairs of chiffon chaps
-11034
+11034	chiffon carbage	363341238	chifbits.gif	spleen, usable		0
 11035
 11036	chocomotive	925688122	chocomotoive.gif	food	t,d	10
 11037	freightcake	930577194	freightcake.gif	food	t,d	10

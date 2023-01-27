@@ -30,6 +30,8 @@ import net.sourceforge.kolmafia.chat.ChatParser;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.CombatUtilities;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -330,7 +332,7 @@ public class TestCommand extends AbstractCommand {
       }
       double itemDrop =
           ModifierDatabase.getNumericModifier(
-              ModifierType.FAMILIAR, familiar.getRace(), "Item Drop");
+              ModifierType.FAMILIAR, familiar.getRace(), DoubleModifier.ITEMDROP);
       RequestLogger.printLine("Item Drop: " + itemDrop);
       return;
     }
@@ -799,7 +801,8 @@ public class TestCommand extends AbstractCommand {
         RequestLogger.printLine(name + " is a level " + level + " " + type + " wine.");
         RequestLogger.printLine("It grants 12 turns of the '" + effect + "' effect:");
         RequestLogger.printLine(
-            ModifierDatabase.getStringModifier(ModifierType.EFFECT, effect, "Evaluated Modifiers"));
+            ModifierDatabase.getStringModifier(
+                ModifierType.EFFECT, effect, StringModifier.EVALUATED_MODIFIERS));
       } else {
         RequestLogger.printLine("You currently have no access to a 1950 Vampire Vintner wine");
       }

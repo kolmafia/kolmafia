@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
@@ -262,6 +263,19 @@ public class ModifierDatabase {
     return list.toString();
   }
 
+  /** Get a double, derived or boolean modifier by name, ignoring case */
+  public static Modifier numericByCaselessName(String name) {
+    DoubleModifier modifier = DoubleModifier.byCaselessName(name);
+    if (modifier != null) {
+      return modifier;
+    }
+    DerivedModifier derived = DerivedModifier.byCaselessName(name);
+    if (derived != null) {
+      return derived;
+    }
+    return BitmapModifier.byCaselessName(name);
+  }
+
   // region: get registered values
 
   public static final Modifiers getItemModifiers(final int id) {
@@ -355,30 +369,30 @@ public class ModifierDatabase {
   }
 
   public static final double getNumericModifier(
-      final ModifierType type, final int id, final String mod) {
+      final ModifierType type, final int id, final Modifier mod) {
     return getNumericModifier(new Lookup(type, id), mod);
   }
 
   public static final double getNumericModifier(
-      final ModifierType type, final String name, final String mod) {
+      final ModifierType type, final String name, final Modifier mod) {
     return getNumericModifier(new Lookup(type, name), mod);
   }
 
-  public static final double getNumericModifier(final Lookup lookup, final String mod) {
+  public static final double getNumericModifier(final Lookup lookup, final Modifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return 0.0;
     }
-    return mods.get(mod);
+    return mods.getNumeric(mod);
   }
 
-  public static final double getNumericModifier(final FamiliarData fam, final String mod) {
+  public static final double getNumericModifier(final FamiliarData fam, final Modifier mod) {
     return getNumericModifier(fam, mod, fam.getModifiedWeight(false), fam.getItem());
   }
 
   public static final double getNumericModifier(
       final FamiliarData fam,
-      final String mod,
+      final Modifier mod,
       final int passedWeight,
       final AdventureResult item) {
     int familiarId = fam != null ? fam.getId() : -1;
@@ -403,10 +417,10 @@ public class ModifierDatabase {
       tempMods.add(getItemModifiers(itemId));
 
       // Apply weight modifiers right now
-      weight += (int) tempMods.get(DoubleModifier.FAMILIAR_WEIGHT);
-      weight += (int) tempMods.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+      weight += (int) tempMods.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
+      weight += (int) tempMods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
       weight += (fam.getFeasted() ? 10 : 0);
-      double percent = tempMods.get(DoubleModifier.FAMILIAR_WEIGHT_PCT) / 100.0;
+      double percent = tempMods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) / 100.0;
       if (percent != 0.0) {
         weight = (int) Math.floor(weight + weight * percent);
       }
@@ -414,20 +428,20 @@ public class ModifierDatabase {
 
     tempMods.lookupFamiliarModifiers(fam, weight, item);
 
-    return tempMods.get(mod);
+    return tempMods.getNumeric(mod);
   }
 
   public static final boolean getBooleanModifier(
-      final ModifierType type, final int id, final String mod) {
+      final ModifierType type, final int id, final BooleanModifier mod) {
     return getBooleanModifier(new Lookup(type, id), mod);
   }
 
   public static final boolean getBooleanModifier(
-      final ModifierType type, final String name, final String mod) {
+      final ModifierType type, final String name, final BooleanModifier mod) {
     return getBooleanModifier(new Lookup(type, name), mod);
   }
 
-  public static final boolean getBooleanModifier(final Lookup lookup, final String mod) {
+  public static final boolean getBooleanModifier(final Lookup lookup, final BooleanModifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return false;
@@ -436,16 +450,16 @@ public class ModifierDatabase {
   }
 
   public static final String getStringModifier(
-      final ModifierType type, final int id, final String mod) {
+      final ModifierType type, final int id, final StringModifier mod) {
     return getStringModifier(new Lookup(type, id), mod);
   }
 
   public static final String getStringModifier(
-      final ModifierType type, final String name, final String mod) {
+      final ModifierType type, final String name, final StringModifier mod) {
     return getStringModifier(new Lookup(type, name), mod);
   }
 
-  public static final String getStringModifier(final Lookup lookup, final String mod) {
+  public static final String getStringModifier(final Lookup lookup, final StringModifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return "";

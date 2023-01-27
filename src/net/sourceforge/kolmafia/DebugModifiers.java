@@ -89,7 +89,7 @@ public class DebugModifiers extends Modifiers {
         "<td>"
             + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(mod)
             + "</td><td>=&nbsp;"
-            + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(this.get(modifier))
+            + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(this.getDouble(modifier))
             + "</td>");
   }
 
@@ -113,7 +113,7 @@ public class DebugModifiers extends Modifiers {
         if (mods == null) {
           continue;
         }
-        double value = mods.get(key);
+        double value = mods.getDouble(key);
         if (value != 0.0) {
           ModifierType type = lookup.type;
           String name = lookup.getName();
