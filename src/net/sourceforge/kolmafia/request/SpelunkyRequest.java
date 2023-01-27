@@ -959,12 +959,17 @@ public class SpelunkyRequest extends GenericRequest {
     // Spelunky weapons can have bonus damage
 
     int bonusWeaponDamage =
-        (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, weaponItemId, "Weapon Damage");
+        (int)
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, weaponItemId, DoubleModifier.WEAPON_DAMAGE);
     int bonusOffhandDamage =
         (int)
-            ModifierDatabase.getNumericModifier(ModifierType.ITEM, offhandItemId, "Weapon Damage");
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, offhandItemId, DoubleModifier.WEAPON_DAMAGE);
     int bonusRangedDamage =
-        (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, weaponItemId, "Ranged Damage");
+        (int)
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, weaponItemId, DoubleModifier.RANGED_DAMAGE);
     int bonusDamage =
         bonusWeaponDamage + (stat == Stat.MOXIE ? bonusRangedDamage : 0) + bonusOffhandDamage;
 

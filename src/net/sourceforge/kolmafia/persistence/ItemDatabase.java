@@ -937,14 +937,16 @@ public class ItemDatabase {
     EquipmentDatabase.registerItemOutfit(itemId, text);
 
     // Skillbooks teach you a skill
-    String skillName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, "Skill");
+    String skillName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.SKILL);
     if (!skillName.equals("") && SkillDatabase.getSkillId(skillName) == -1) {
       int skillId = DebugDatabase.parseSkillId(rawText);
       SkillDatabase.registerSkill(skillId, skillName);
     }
 
     // Potions grant an effect. Check for a new effect.
-    String effectName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, "Effect");
+    String effectName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
     if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
       String effectDescid = DebugDatabase.parseEffectDescid(rawText);
       String command =
@@ -958,7 +960,9 @@ public class ItemDatabase {
     }
 
     // Equipment can have a Rollover Effect. Check for new effect.
-    effectName = ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, "Rollover Effect");
+    effectName =
+        ModifierDatabase.getStringModifier(
+            ModifierType.ITEM, itemId, StringModifier.ROLLOVER_EFFECT);
     if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
       String effectDescid = DebugDatabase.parseEffectDescid(rawText);
       EffectDatabase.registerEffect(effectName, effectDescid, null);

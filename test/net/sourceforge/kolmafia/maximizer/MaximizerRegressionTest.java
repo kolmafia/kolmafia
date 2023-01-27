@@ -15,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,9 +45,10 @@ public class MaximizerRegressionTest {
       assertTrue(
           maximize(
               "-combat -hat -weapon -offhand -back -shirt -pants -familiar -acc1 -acc2 -acc3"));
-      assertEquals(5, -modFor("Combat Rate"), 0.01, "Base score is 5");
+      assertEquals(5, -modFor(DoubleModifier.COMBAT_RATE), 0.01, "Base score is 5");
       assertTrue(maximize("-combat"));
-      assertEquals(5, -modFor("Combat Rate"), 0.01, "Maximizing should not reduce score");
+      assertEquals(
+          5, -modFor(DoubleModifier.COMBAT_RATE), 0.01, "Maximizing should not reduce score");
     }
   }
 
@@ -56,7 +59,7 @@ public class MaximizerRegressionTest {
 
     try (cleanups) {
       assertTrue(maximize("familiar weight"));
-      assertEquals(5, modFor("Familiar Weight"), 0.01, "Base score is 5");
+      assertEquals(5, modFor(DoubleModifier.FAMILIAR_WEIGHT), 0.01, "Base score is 5");
       // monorail buff should always be available, but should not improve familiar weight.
       // so are friars, but I don't know why and that might be a bug
       assertEquals(1, Maximizer.boosts.size());
@@ -72,7 +75,7 @@ public class MaximizerRegressionTest {
 
     try (cleanups) {
       assertTrue(maximize("mys -tie"));
-      assertEquals(0, modFor("Buffed Muscle"), 0.01);
+      assertEquals(0, modFor(DerivedModifier.BUFFED_MUS), 0.01);
     }
   }
 
@@ -85,7 +88,7 @@ public class MaximizerRegressionTest {
     try (cleanups) {
       assertTrue(maximize("+25 bonus buddy bjorn -tie"));
       // Actually equipped the buddy bjorn with its current inhabitant.
-      assertEquals(25, modFor("Meat Drop"), 0.01);
+      assertEquals(25, modFor(DoubleModifier.MEATDROP), 0.01);
     }
   }
 
@@ -104,9 +107,9 @@ public class MaximizerRegressionTest {
     try (cleanups) {
       assertTrue(maximize("mus -buddy-bjorn +25 bonus buddy bjorn -tie"));
       // Unequipped the barskin cloak
-      assertEquals(0, modFor("Buffed Muscle"), 0.01);
+      assertEquals(0, modFor(DerivedModifier.BUFFED_MUS), 0.01);
       // Actually equipped the buddy bjorn
-      assertEquals(25, modFor("Meat Drop"), 0.01);
+      assertEquals(25, modFor(DoubleModifier.MEATDROP), 0.01);
     }
   }
 
@@ -127,9 +130,9 @@ public class MaximizerRegressionTest {
     try (cleanups) {
       assertTrue(maximize("mus -buddy-bjorn +25 bonus buddy bjorn -tie"));
       // Unequipped the barskin cloak, still have wreath of laurels equipped.
-      assertEquals(25, modFor("Buffed Muscle"), 0.01);
+      assertEquals(25, modFor(DerivedModifier.BUFFED_MUS), 0.01);
       // Actually equipped the buddy bjorn
-      assertEquals(25, modFor("Meat Drop"), 0.01);
+      assertEquals(25, modFor(DoubleModifier.MEATDROP), 0.01);
     }
   }
 
@@ -226,7 +229,7 @@ public class MaximizerRegressionTest {
       recommendedSlotIs(EquipmentManager.HAT, "basic meat fez");
       // No back change recommended.
       assertFalse(getSlot(EquipmentManager.CONTAINER).isPresent());
-      assertEquals(7, modFor("Buffed Muscle"), 0.01);
+      assertEquals(7, modFor(DerivedModifier.BUFFED_MUS), 0.01);
     }
   }
 }

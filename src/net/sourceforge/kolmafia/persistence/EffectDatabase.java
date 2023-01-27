@@ -755,13 +755,14 @@ public class EffectDatabase {
 
     int level =
         switch (effectId) {
-          case EffectPool.WINE_FORTIFIED -> (int) emods.get(DoubleModifier.WEAPON_DAMAGE) / 3;
-          case EffectPool.WINE_HOT -> (int) emods.get(DoubleModifier.HOT_DAMAGE) / 3;
-          case EffectPool.WINE_COLD -> (int) emods.get(DoubleModifier.COLD_DAMAGE) / 3;
-          case EffectPool.WINE_DARK -> (int) emods.get(DoubleModifier.SPOOKY_DAMAGE) / 4;
-          case EffectPool.WINE_BEFOULED -> (int) emods.get(DoubleModifier.STENCH_DAMAGE) / 3;
-          case EffectPool.WINE_FRISKY -> (int) emods.get(DoubleModifier.SLEAZE_DAMAGE) / 3;
-          case EffectPool.WINE_FRIENDLY -> (int) emods.get(DoubleModifier.FAMILIAR_DAMAGE) / 3;
+          case EffectPool.WINE_FORTIFIED -> (int) emods.getDouble(DoubleModifier.WEAPON_DAMAGE) / 3;
+          case EffectPool.WINE_HOT -> (int) emods.getDouble(DoubleModifier.HOT_DAMAGE) / 3;
+          case EffectPool.WINE_COLD -> (int) emods.getDouble(DoubleModifier.COLD_DAMAGE) / 3;
+          case EffectPool.WINE_DARK -> (int) emods.getDouble(DoubleModifier.SPOOKY_DAMAGE) / 4;
+          case EffectPool.WINE_BEFOULED -> (int) emods.getDouble(DoubleModifier.STENCH_DAMAGE) / 3;
+          case EffectPool.WINE_FRISKY -> (int) emods.getDouble(DoubleModifier.SLEAZE_DAMAGE) / 3;
+          case EffectPool.WINE_FRIENDLY -> (int) emods.getDouble(DoubleModifier.FAMILIAR_DAMAGE)
+              / 3;
           default -> -1;
         };
 

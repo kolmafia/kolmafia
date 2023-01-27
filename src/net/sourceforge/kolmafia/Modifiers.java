@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
 import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -145,15 +146,15 @@ public class Modifiers {
       mox = mys;
     }
 
-    int mus_limit = (int) this.get(DoubleModifier.MUS_LIMIT);
+    int mus_limit = (int) this.getDouble(DoubleModifier.MUS_LIMIT);
     if (mus_limit > 0 && mus > mus_limit) {
       mus = mus_limit;
     }
-    int mys_limit = (int) this.get(DoubleModifier.MYS_LIMIT);
+    int mys_limit = (int) this.getDouble(DoubleModifier.MYS_LIMIT);
     if (mys_limit > 0 && mys > mys_limit) {
       mys = mys_limit;
     }
-    int mox_limit = (int) this.get(DoubleModifier.MOX_LIMIT);
+    int mox_limit = (int) this.getDouble(DoubleModifier.MOX_LIMIT);
     if (mox_limit > 0 && mox > mox_limit) {
       mox = mox_limit;
     }
@@ -161,18 +162,18 @@ public class Modifiers {
     rv.put(
         DerivedModifier.BUFFED_MUS,
         mus
-            + (int) this.get(DoubleModifier.MUS)
-            + (int) Math.ceil(this.get(DoubleModifier.MUS_PCT) * mus / 100.0));
+            + (int) this.getDouble(DoubleModifier.MUS)
+            + (int) Math.ceil(this.getDouble(DoubleModifier.MUS_PCT) * mus / 100.0));
     rv.put(
         DerivedModifier.BUFFED_MYS,
         mys
-            + (int) this.get(DoubleModifier.MYS)
-            + (int) Math.ceil(this.get(DoubleModifier.MYS_PCT) * mys / 100.0));
+            + (int) this.getDouble(DoubleModifier.MYS)
+            + (int) Math.ceil(this.getDouble(DoubleModifier.MYS_PCT) * mys / 100.0));
     rv.put(
         DerivedModifier.BUFFED_MOX,
         mox
-            + (int) this.get(DoubleModifier.MOX)
-            + (int) Math.ceil(this.get(DoubleModifier.MOX_PCT) * mox / 100.0));
+            + (int) this.getDouble(DoubleModifier.MOX)
+            + (int) Math.ceil(this.getDouble(DoubleModifier.MOX_PCT) * mox / 100.0));
 
     String mus_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MUSCLE);
     if (mus_buffed_floor.startsWith("Mys")) {
@@ -216,23 +217,25 @@ public class Modifiers {
     int buffedHP;
     if (KoLCharacter.isVampyre()) {
       hpbase = KoLCharacter.getBaseMuscle();
-      hp = hpbase + (int) this.get(DoubleModifier.HP);
+      hp = hpbase + (int) this.getDouble(DoubleModifier.HP);
       buffedHP = Math.max(hp, mus);
     } else if (KoLCharacter.inRobocore()) {
       hpbase = 30;
-      hp = hpbase + (int) this.get(DoubleModifier.HP);
+      hp = hpbase + (int) this.getDouble(DoubleModifier.HP);
       buffedHP = hp;
     } else if (KoLCharacter.isGreyGoo()) {
       hpbase =
           (int) KoLCharacter.getBaseMaxHP()
               - (int) KoLCharacter.currentNumericModifier(DoubleModifier.HP);
-      hp = hpbase + (int) this.get(DoubleModifier.HP);
+      hp = hpbase + (int) this.getDouble(DoubleModifier.HP);
       buffedHP = hp;
     } else {
       hpbase = rv.get(DerivedModifier.BUFFED_MUS) + 3;
       double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
-      double hpPercent = this.get(DoubleModifier.HP_PCT);
-      hp = (int) Math.ceil(hpbase * (C + hpPercent / 100.0)) + (int) this.get(DoubleModifier.HP);
+      double hpPercent = this.getDouble(DoubleModifier.HP_PCT);
+      hp =
+          (int) Math.ceil(hpbase * (C + hpPercent / 100.0))
+              + (int) this.getDouble(DoubleModifier.HP);
       buffedHP = Math.max(hp, mus);
     }
     rv.put(DerivedModifier.BUFFED_HP, buffedHP);
@@ -244,7 +247,7 @@ public class Modifiers {
       mpbase =
           (int) KoLCharacter.getBaseMaxMP()
               - (int) KoLCharacter.currentNumericModifier(DoubleModifier.MP);
-      mp = mpbase + (int) this.get(DoubleModifier.MP);
+      mp = mpbase + (int) this.getDouble(DoubleModifier.MP);
       buffedMP = mp;
     } else {
       mpbase = rv.get(DerivedModifier.BUFFED_MYS);
@@ -254,8 +257,10 @@ public class Modifiers {
         mpbase = rv.get(DerivedModifier.BUFFED_MOX);
       }
       double C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
-      double mpPercent = this.get(DoubleModifier.MP_PCT);
-      mp = (int) Math.ceil(mpbase * (C + mpPercent / 100.0)) + (int) this.get(DoubleModifier.MP);
+      double mpPercent = this.getDouble(DoubleModifier.MP_PCT);
+      mp =
+          (int) Math.ceil(mpbase * (C + mpPercent / 100.0))
+              + (int) this.getDouble(DoubleModifier.MP);
       buffedMP = Math.max(mp, mys);
     }
     rv.put(DerivedModifier.BUFFED_MP, buffedMP);
@@ -277,6 +282,18 @@ public class Modifiers {
     this.booleans.reset();
     this.bitmaps.reset();
     this.expressions = null;
+  }
+
+  public double getNumeric(final Modifier modifier) {
+    if (modifier instanceof DoubleModifier db) {
+      return getDouble(db);
+    } else if (modifier instanceof DerivedModifier db) {
+      return getDerived(db);
+    } else if (modifier instanceof BitmapModifier bm) {
+      return getBitmap(bm);
+    } else {
+      return 0.0;
+    }
   }
 
   private double derivePrismaticDamage() {
@@ -304,7 +321,7 @@ public class Modifiers {
     return rate;
   }
 
-  public double get(final DoubleModifier modifier) {
+  public double getDouble(final DoubleModifier modifier) {
     if (modifier == DoubleModifier.PRISMATIC_DAMAGE) {
       return this.derivePrismaticDamage();
     }
@@ -314,26 +331,6 @@ public class Modifiers {
 
     if (modifier == null) {
       return 0.0;
-    }
-
-    return this.doubles.get(modifier);
-  }
-
-  public double get(final String name) {
-    if (name.equalsIgnoreCase("Prismatic Damage")) {
-      return this.derivePrismaticDamage();
-    }
-    if (name.equalsIgnoreCase("Combat Rate")) {
-      return this.cappedCombatRate();
-    }
-
-    DoubleModifier modifier = DoubleModifier.byCaselessName(name);
-    if (modifier == null) {
-      DerivedModifier derived = DerivedModifier.byCaselessName(name);
-      if (derived == null) {
-        return this.getBitmap(name);
-      }
-      return this.predict().get(derived);
     }
 
     return this.doubles.get(modifier);
@@ -363,10 +360,6 @@ public class Modifiers {
     return n;
   }
 
-  public int getBitmap(final String name) {
-    return this.getBitmap(BitmapModifier.byCaselessName(name));
-  }
-
   public double getDerived(final DerivedModifier modifier) {
     return this.predict().get(modifier);
   }
@@ -390,30 +383,20 @@ public class Modifiers {
     return bools;
   }
 
-  public boolean getBoolean(final String name) {
-    BooleanModifier modifier = BooleanModifier.byCaselessName(name);
-    return getBoolean(modifier);
-  }
-
   public String getString(final StringModifier modifier) {
     if (modifier == null) {
       return "";
     }
 
-    return this.strings.get(modifier);
-  }
-
-  public String getString(final String name) {
     // Can't cache this as expressions can be dependent on things
     // that can change within a session, like character level.
-    if (name.equals("Evaluated Modifiers")) {
+    if (modifier == StringModifier.EVALUATED_MODIFIERS) {
       return ModifierDatabase.evaluateModifiers(
               this.originalLookup, this.strings.get(StringModifier.MODIFIERS))
           .toString();
     }
 
-    StringModifier modifier = StringModifier.byCaselessName(name);
-    return getString(modifier);
+    return this.strings.get(modifier);
   }
 
   public double getDoublerAccumulator(final DoubleModifier modifier) {
@@ -422,12 +405,6 @@ public class Modifiers {
       return -9999.0;
     }
     return this.doublerAccumulators.get(modifier);
-  }
-
-  public double getDoublerAccumulator(final String name) {
-    // doublerAccumulators uses the same keys as doubles, so the same lookup will work
-    DoubleModifier modifier = DoubleModifier.byCaselessName(name);
-    return getDoublerAccumulator(modifier);
   }
 
   public boolean setDouble(final DoubleModifier mod, final double value) {
@@ -566,7 +543,7 @@ public class Modifiers {
         this.doubles.add(mod, value);
         break;
       case FAMILIAR_ACTION_BONUS:
-        this.doubles.set(mod, Math.min(100, this.get(mod) + value));
+        this.doubles.set(mod, Math.min(100, this.getDouble(mod) + value));
         break;
       default:
         this.doubles.add(mod, value);
@@ -944,11 +921,11 @@ public class Modifiers {
       weight = Math.max(weight, 20);
     }
 
-    weight += (int) this.get(DoubleModifier.FAMILIAR_WEIGHT);
-    weight += (int) this.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+    weight += (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
+    weight += (int) this.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
     weight += (familiar.getFeasted() ? 10 : 0);
 
-    double percent = this.get(DoubleModifier.FAMILIAR_WEIGHT_PCT) / 100.0;
+    double percent = this.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) / 100.0;
     if (percent != 0.0) {
       weight = (int) Math.floor(weight + weight * percent);
     }
@@ -980,20 +957,20 @@ public class Modifiers {
       this.add(ModifierDatabase.getModifiers(ModifierType.FAM_EQ, famItem.getName()));
     }
 
-    int cap = (int) this.get(DoubleModifier.FAMILIAR_WEIGHT_CAP);
+    int cap = (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT_CAP);
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
 
-    double effective = cappedWeight * this.get(DoubleModifier.VOLLEYBALL_WEIGHT);
+    double effective = cappedWeight * this.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT);
     if (effective == 0.0 && FamiliarDatabase.isVolleyType(familiarId)) {
       effective = weight;
     }
     if (effective != 0.0) {
-      double factor = this.get(DoubleModifier.VOLLEYBALL_EFFECTIVENESS);
+      double factor = this.getDouble(DoubleModifier.VOLLEYBALL_EFFECTIVENESS);
       // The 0->1 factor for generic familiars conflicts with the JitB
       if (factor == 0.0 && familiarId != FamiliarPool.JACK_IN_THE_BOX) factor = 1.0;
       factor = factor * (2 + effective / 5);
       double tuning;
-      if ((tuning = this.get(DoubleModifier.FAMILIAR_TUNING_MUSCLE)) > 0) {
+      if ((tuning = this.getDouble(DoubleModifier.FAMILIAR_TUNING_MUSCLE)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
         this.addDouble(
@@ -1011,7 +988,7 @@ public class Modifiers {
             factor * offstatFactor,
             ModifierType.TUNED_VOLLEYBALL,
             race);
-      } else if ((tuning = this.get(DoubleModifier.FAMILIAR_TUNING_MYSTICALITY)) > 0) {
+      } else if ((tuning = this.getDouble(DoubleModifier.FAMILIAR_TUNING_MYSTICALITY)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
         this.addDouble(
@@ -1029,7 +1006,7 @@ public class Modifiers {
             factor * offstatFactor,
             ModifierType.TUNED_VOLLEYBALL,
             race);
-      } else if ((tuning = this.get(DoubleModifier.FAMILIAR_TUNING_MOXIE)) > 0) {
+      } else if ((tuning = this.getDouble(DoubleModifier.FAMILIAR_TUNING_MOXIE)) > 0) {
         double mainstatFactor = tuning / 100;
         double offstatFactor = (1 - mainstatFactor) / 2;
         this.addDouble(
@@ -1052,13 +1029,13 @@ public class Modifiers {
       }
     }
 
-    effective = cappedWeight * this.get(DoubleModifier.SOMBRERO_WEIGHT);
+    effective = cappedWeight * this.getDouble(DoubleModifier.SOMBRERO_WEIGHT);
     if (effective == 0.0 && FamiliarDatabase.isSombreroType(familiarId)) {
       effective = weight;
     }
-    effective += this.get(DoubleModifier.SOMBRERO_BONUS);
+    effective += this.getDouble(DoubleModifier.SOMBRERO_BONUS);
     if (effective != 0.0) {
-      double factor = this.get(DoubleModifier.SOMBRERO_EFFECTIVENESS);
+      double factor = this.getDouble(DoubleModifier.SOMBRERO_EFFECTIVENESS);
       if (factor == 0.0) factor = 1.0;
       // currentML is always >= 4, so we don't need to check for negatives
       int maxStats = 230;
@@ -1071,12 +1048,12 @@ public class Modifiers {
           race);
     }
 
-    effective = cappedWeight * this.get(DoubleModifier.LEPRECHAUN_WEIGHT);
+    effective = cappedWeight * this.getDouble(DoubleModifier.LEPRECHAUN_WEIGHT);
     if (effective == 0.0 && FamiliarDatabase.isMeatDropType(familiarId)) {
       effective = weight;
     }
     if (effective != 0.0) {
-      double factor = this.get(DoubleModifier.LEPRECHAUN_EFFECTIVENESS);
+      double factor = this.getDouble(DoubleModifier.LEPRECHAUN_EFFECTIVENESS);
       if (factor == 0.0) factor = 1.0;
       this.addDouble(
           DoubleModifier.MEATDROP,
@@ -1143,7 +1120,7 @@ public class Modifiers {
       final DoubleModifier fairyModifier,
       final DoubleModifier effectivenessModifier,
       final DoubleModifier modifier) {
-    var effective = cappedWeight * this.get(fairyModifier);
+    var effective = cappedWeight * this.getDouble(fairyModifier);
 
     // If it has no explicit modifier but is the right familiar type, add effect regardless
     if (effective == 0.0 && FamiliarDatabase.isFairyType(familiar.getId(), fairyModifier)) {
@@ -1152,7 +1129,7 @@ public class Modifiers {
 
     if (effective == 0.0) return;
 
-    double factor = this.get(effectivenessModifier);
+    double factor = this.getDouble(effectivenessModifier);
     // The 0->1 factor for generic familiars conflicts with the JitB
     if (factor == 0.0 && familiar.getId() != FamiliarPool.JACK_IN_THE_BOX) factor = 1.0;
 
@@ -1168,22 +1145,26 @@ public class Modifiers {
     Lookup lookup = new Lookup(ModifierType.CLANCY, instrumentName);
     Modifiers imods = ModifierDatabase.getModifiers(lookup);
 
-    double effective = imods.get(DoubleModifier.VOLLEYBALL_WEIGHT);
+    double effective = imods.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT);
     if (effective != 0.0) {
       double factor = 2 + effective / 5;
       this.addDouble(DoubleModifier.EXPERIENCE, factor, lookup);
     }
 
-    effective = imods.get(DoubleModifier.FAIRY_WEIGHT);
+    effective = imods.getDouble(DoubleModifier.FAIRY_WEIGHT);
     if (effective != 0.0) {
       double factor = Math.sqrt(55 * effective) + effective - 3;
       this.addDouble(DoubleModifier.ITEMDROP, factor, lookup);
     }
 
-    this.addDouble(DoubleModifier.HP_REGEN_MIN, imods.get(DoubleModifier.HP_REGEN_MIN), lookup);
-    this.addDouble(DoubleModifier.HP_REGEN_MAX, imods.get(DoubleModifier.HP_REGEN_MAX), lookup);
-    this.addDouble(DoubleModifier.MP_REGEN_MIN, imods.get(DoubleModifier.MP_REGEN_MIN), lookup);
-    this.addDouble(DoubleModifier.MP_REGEN_MAX, imods.get(DoubleModifier.MP_REGEN_MAX), lookup);
+    this.addDouble(
+        DoubleModifier.HP_REGEN_MIN, imods.getDouble(DoubleModifier.HP_REGEN_MIN), lookup);
+    this.addDouble(
+        DoubleModifier.HP_REGEN_MAX, imods.getDouble(DoubleModifier.HP_REGEN_MAX), lookup);
+    this.addDouble(
+        DoubleModifier.MP_REGEN_MIN, imods.getDouble(DoubleModifier.MP_REGEN_MIN), lookup);
+    this.addDouble(
+        DoubleModifier.MP_REGEN_MAX, imods.getDouble(DoubleModifier.MP_REGEN_MAX), lookup);
   }
 
   public void applyCompanionModifiers(Companion companion) {
@@ -1251,17 +1232,17 @@ public class Modifiers {
       if (ensorcelMods != null) {
         this.addDouble(
             DoubleModifier.MEATDROP,
-            ensorcelMods.get(DoubleModifier.MEATDROP) * 0.25,
+            ensorcelMods.getDouble(DoubleModifier.MEATDROP) * 0.25,
             ModifierType.ITEM,
             ItemPool.VAMPYRIC_CLOAKE);
         this.addDouble(
             DoubleModifier.ITEMDROP,
-            ensorcelMods.get(DoubleModifier.ITEMDROP) * 0.25,
+            ensorcelMods.getDouble(DoubleModifier.ITEMDROP) * 0.25,
             ModifierType.ITEM,
             ItemPool.VAMPYRIC_CLOAKE);
         this.addDouble(
             DoubleModifier.CANDYDROP,
-            ensorcelMods.get(DoubleModifier.CANDYDROP) * 0.25,
+            ensorcelMods.getDouble(DoubleModifier.CANDYDROP) * 0.25,
             ModifierType.ITEM,
             ItemPool.VAMPYRIC_CLOAKE);
       }

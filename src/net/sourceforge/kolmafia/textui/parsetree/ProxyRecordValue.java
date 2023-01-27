@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.PastaThrallData.PastaThrallType;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
@@ -676,7 +677,8 @@ public class ProxyRecordValue extends RecordValue {
      */
     public Value get_skill() {
       String skillName =
-          ModifierDatabase.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Skill");
+          ModifierDatabase.getStringModifier(
+              ModifierType.ITEM, (int) this.contentLong, StringModifier.SKILL);
       return skillName.equals("")
           ? DataTypes.SKILL_INIT
           : DataTypes.makeSkillValue(SkillDatabase.getSkillId(skillName), true);
@@ -689,7 +691,8 @@ public class ProxyRecordValue extends RecordValue {
      */
     public Value get_recipe() {
       String recipeName =
-          ModifierDatabase.getStringModifier(ModifierType.ITEM, (int) this.contentLong, "Recipe");
+          ModifierDatabase.getStringModifier(
+              ModifierType.ITEM, (int) this.contentLong, StringModifier.RECIPE);
       return recipeName.equals("") ? DataTypes.ITEM_INIT : DataTypes.makeItemValue(recipeName);
     }
   }

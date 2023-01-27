@@ -765,7 +765,7 @@ public class EquipmentDatabase {
       pulver |= EquipmentDatabase.ELEM_TWINKLY;
     } else {
       for (var implication : IMPLICATIONS.entrySet()) {
-        if (mods.get(implication.getKey()) > 0.0f) {
+        if (mods.getDouble(implication.getKey()) > 0.0f) {
           pulver |= implication.getValue();
         }
       }

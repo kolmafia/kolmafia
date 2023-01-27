@@ -26,6 +26,7 @@ import internal.helpers.Cleanups;
 import java.time.Month;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -267,11 +268,11 @@ public class ModifierExpressionTest {
     try (cleanups) {
       assertThat(
           ModifierDatabase.getStringModifier(
-              ModifierType.EFFECT, "Bow-Legged Swagger", "Modifiers"),
+              ModifierType.EFFECT, "Bow-Legged Swagger", StringModifier.MODIFIERS),
           containsString("mod("));
       KoLCharacter.recalculateAdjustments();
 
-      assertThat(KoLCharacter.getCurrentModifiers().get(DoubleModifier.INITIATIVE), is(40.0));
+      assertThat(KoLCharacter.getCurrentModifiers().getDouble(DoubleModifier.INITIATIVE), is(40.0));
     }
   }
 

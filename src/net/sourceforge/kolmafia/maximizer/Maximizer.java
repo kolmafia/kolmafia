@@ -278,11 +278,11 @@ public class Maximizer {
             case SURGEONOSITY:
               continue;
           }
-          if (itemMods.get(mod) != 0.0) {
+          if (itemMods.getDouble(mod) != 0.0) {
             if (mods.length() > 0) {
               mods.append(", ");
             }
-            mods.append(mod.getName() + ": " + itemMods.get(mod));
+            mods.append(mod.getName() + ": " + itemMods.getDouble(mod));
           }
         }
         if (mods.length() == 0) {
@@ -587,7 +587,7 @@ public class Maximizer {
 
             Modifiers effMod = ModifierDatabase.getItemModifiers(item.getItemId());
             if (effMod != null) {
-              duration = (int) effMod.get(DoubleModifier.EFFECT_DURATION);
+              duration = (int) effMod.getDouble(DoubleModifier.EFFECT_DURATION);
             }
           }
           // Hot Dogs don't have items
@@ -622,7 +622,7 @@ public class Maximizer {
             } else {
               Modifiers effMod = ModifierDatabase.getModifiers(ModifierType.ITEM, iName);
               if (effMod != null) {
-                duration = (int) effMod.get(DoubleModifier.EFFECT_DURATION);
+                duration = (int) effMod.getDouble(DoubleModifier.EFFECT_DURATION);
               }
               usesRemaining = 1;
             }

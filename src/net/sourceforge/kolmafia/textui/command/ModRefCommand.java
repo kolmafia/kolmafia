@@ -30,7 +30,7 @@ public class ModRefCommand extends AbstractCommand {
       buf.append(KoLCharacter.currentNumericModifier(mod));
       if (mods != null) {
         buf.append("</td><td>");
-        buf.append(mods.get(mod));
+        buf.append(mods.getDouble(mod));
       }
       buf.append("</td></tr>");
     }

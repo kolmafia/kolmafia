@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -531,11 +532,13 @@ public class StorageRequest extends TransferItemRequest {
       return false;
     }
 
-    return ModifierDatabase.getBooleanModifier(ModifierType.ITEM, itemId, "Free Pull");
+    return ModifierDatabase.getBooleanModifier(
+        ModifierType.ITEM, itemId, BooleanModifier.FREE_PULL);
   }
 
   public static boolean isNoPull(final AdventureResult item) {
-    return ModifierDatabase.getBooleanModifier(ModifierType.ITEM, item.getItemId(), "No Pull");
+    return ModifierDatabase.getBooleanModifier(
+        ModifierType.ITEM, item.getItemId(), BooleanModifier.NOPULL);
   }
 
   @Override

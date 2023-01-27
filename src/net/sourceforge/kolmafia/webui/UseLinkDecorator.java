@@ -1506,7 +1506,7 @@ public abstract class UseLinkDecorator {
     if (mods == null) return label;
     String effect = mods.getString(StringModifier.EFFECT);
     if (effect.equals("")) return label;
-    int duration = (int) mods.get(DoubleModifier.EFFECT_DURATION);
+    int duration = (int) mods.getDouble(DoubleModifier.EFFECT_DURATION);
     int effectId = EffectDatabase.getEffectId(effect);
     Speculation spec = new Speculation();
     spec.addEffect(EffectPool.get(effectId, Math.max(1, duration)));

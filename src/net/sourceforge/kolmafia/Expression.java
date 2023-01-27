@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -354,7 +355,8 @@ public class Expression {
         case '\u0093' -> {
           Modifiers mods = KoLCharacter.getCurrentModifiers();
           String modName = (String) this.literals.get((int) s[--sp]);
-          v = mods.getDoublerAccumulator(modName);
+          DoubleModifier modifier = DoubleModifier.byCaselessName(modName);
+          v = mods.getDoublerAccumulator(modifier);
         }
           // Valid with ModifierExpression:
         case '\u0094' -> v = KoLCharacter.canInteract() ? 1 : 0;
