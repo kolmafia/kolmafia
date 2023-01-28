@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import org.eclipse.jgit.util.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -980,6 +981,7 @@ public class QuestManagerTest {
       }
     }
 
+    @Test
     public void turningInScrewdriverFinishesQuest() {
       var cleanups =
           new Cleanups(
@@ -2100,7 +2102,8 @@ public class QuestManagerTest {
       private static final AdventureResult CHARTREUSE_YARN = ItemPool.get(ItemPool.CHARTREUSE_YARN);
       private static final AdventureResult GRANDMAS_MAP = ItemPool.get(ItemPool.GRANDMAS_MAP);
 
-      void talkingToGrandpaStartsQuest() {
+      @Test
+      public void talkingToGrandpaStartsQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -2172,7 +2175,9 @@ public class QuestManagerTest {
         }
       }
 
-      void talkingToGrandpaWithNoteConfirmsQuest() {
+      @Test
+      @Disabled("Fails")
+      public void talkingToGrandpaWithNoteConfirmsQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -2196,7 +2201,9 @@ public class QuestManagerTest {
         }
       }
 
-      void talkingToGrandpaWithNoteAndYarnAdvancesQuest() {
+      @Test
+      @Disabled("Fails")
+      public void talkingToGrandpaWithNoteAndYarnAdvancesQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
