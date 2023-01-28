@@ -26,8 +26,10 @@ import internal.helpers.Cleanups;
 import java.time.Month;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -52,7 +54,7 @@ public class ModifierExpressionTest {
       names = {"NONE", "SHADOW", "BADSPELLING"},
       mode = EnumSource.Mode.EXCLUDE)
   public void canReadElementalResistance(MonsterDatabase.Element element) {
-    Modifiers.overrideModifier(
+    ModifierDatabase.overrideModifier(
         ModifierType.GENERATED, "_userMods", element.toTitle() + " Resistance: +10");
     KoLCharacter.recalculateAdjustments();
     var exp = new ModifierExpression("res(" + element + ")", element.toTitle());
@@ -265,11 +267,12 @@ public class ModifierExpressionTest {
 
     try (cleanups) {
       assertThat(
-          Modifiers.getStringModifier(ModifierType.EFFECT, "Bow-Legged Swagger", "Modifiers"),
+          ModifierDatabase.getStringModifier(
+              ModifierType.EFFECT, "Bow-Legged Swagger", StringModifier.MODIFIERS),
           containsString("mod("));
       KoLCharacter.recalculateAdjustments();
 
-      assertThat(KoLCharacter.getCurrentModifiers().get(DoubleModifier.INITIATIVE), is(40.0));
+      assertThat(KoLCharacter.getCurrentModifiers().getDouble(DoubleModifier.INITIATIVE), is(40.0));
     }
   }
 
@@ -358,7 +361,7 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectHoboPower() {
-    Modifiers.overrideModifier(ModifierType.GENERATED, "_userMods", "Hobo Power: +21");
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_userMods", "Hobo Power: +21");
     KoLCharacter.recalculateAdjustments();
 
     var exp = new ModifierExpression("H", "Hobo Power");

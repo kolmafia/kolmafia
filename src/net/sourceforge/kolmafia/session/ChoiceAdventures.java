@@ -20,7 +20,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -29,6 +28,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -7486,8 +7486,12 @@ public abstract class ChoiceAdventures {
         double bonus = 0;
         // Check for familiars
         if (!KoLCharacter.getFamiliar().equals(FamiliarData.NO_FAMILIAR)) {
-          bonus = Modifiers.getNumericModifier(KoLCharacter.getFamiliar(), "Item Drop");
-          bonus += Modifiers.getNumericModifier(KoLCharacter.getFamiliar(), "Food Drop");
+          bonus =
+              ModifierDatabase.getNumericModifier(
+                  KoLCharacter.getFamiliar(), DoubleModifier.ITEMDROP);
+          bonus +=
+              ModifierDatabase.getNumericModifier(
+                  KoLCharacter.getFamiliar(), DoubleModifier.FOODDROP);
         }
         // Check for Clancy
         else if (KoLCharacter.getCurrentInstrument() != null
@@ -7513,13 +7517,15 @@ public abstract class ChoiceAdventures {
         FamiliarData throned = KoLCharacter.getEnthroned();
         if (!throned.equals(FamiliarData.NO_FAMILIAR)) {
           bonus +=
-              Modifiers.getNumericModifier(ModifierType.THRONE, throned.getRace(), "Item Drop");
+              ModifierDatabase.getNumericModifier(
+                  ModifierType.THRONE, throned.getRace(), DoubleModifier.ITEMDROP);
         }
         // Check for Bjorn
         FamiliarData bjorned = KoLCharacter.getBjorned();
         if (!bjorned.equals(FamiliarData.NO_FAMILIAR)) {
           bonus +=
-              Modifiers.getNumericModifier(ModifierType.THRONE, bjorned.getRace(), "Item Drop");
+              ModifierDatabase.getNumericModifier(
+                  ModifierType.THRONE, bjorned.getRace(), DoubleModifier.ITEMDROP);
         }
         // Check for Florist
         if (FloristRequest.haveFlorist()) {
@@ -7527,7 +7533,8 @@ public abstract class ChoiceAdventures {
           if (plants != null) {
             for (Florist plant : plants) {
               bonus +=
-                  Modifiers.getNumericModifier(ModifierType.FLORIST, plant.toString(), "Item Drop");
+                  ModifierDatabase.getNumericModifier(
+                      ModifierType.FLORIST, plant.toString(), DoubleModifier.ITEMDROP);
             }
           }
         }

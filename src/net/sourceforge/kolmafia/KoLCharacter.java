@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
@@ -340,7 +341,8 @@ public abstract class KoLCharacter {
     KoLCharacter.resetTriggers();
 
     KoLCharacter.currentModifiers.reset();
-    KoLCharacter.currentModifiers.resetModifiers();
+    // TODO: do we need to do this? Can we not just reset the passive skill cache?
+    ModifierDatabase.resetModifiers();
 
     KoLConstants.inventory.clear();
     KoLConstants.closet.clear();
@@ -434,7 +436,7 @@ public abstract class KoLCharacter {
 
     RelayRequest.reset();
 
-    Modifiers.overrideModifier(
+    ModifierDatabase.overrideModifier(
         ModifierType.GENERATED, "_userMods", Preferences.getString("_userMods"));
 
     // Things that don't need to be reset when you ascend
@@ -1614,7 +1616,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int calculateMaximumPP() {
-    return 1 + (int) KoLCharacter.currentModifiers.get(DoubleModifier.PP);
+    return 1 + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.PP);
   }
 
   public static final void resetCurrentPP() {
@@ -2201,13 +2203,12 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers;
   }
 
-  // TODO: many calls to this (with String name) (and the others) could be calls to the mod directly
-  public static final double currentNumericModifier(final String name) {
-    return KoLCharacter.currentModifiers.get(name);
+  public static final double currentNumericModifier(final Modifier modifier) {
+    return KoLCharacter.currentModifiers.getNumeric(modifier);
   }
 
   public static final double currentNumericModifier(final DoubleModifier modifier) {
-    return KoLCharacter.currentModifiers.get(modifier);
+    return KoLCharacter.currentModifiers.getDouble(modifier);
   }
 
   public static final double currentDerivedModifier(final DerivedModifier modifier) {
@@ -2226,10 +2227,6 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.getBoolean(mod);
   }
 
-  public static final String currentStringModifier(final String name) {
-    return KoLCharacter.currentModifiers.getString(name);
-  }
-
   public static final String currentStringModifier(final StringModifier mod) {
     return KoLCharacter.currentModifiers.getString(mod);
   }
@@ -2240,24 +2237,24 @@ public abstract class KoLCharacter {
       return 0;
     }
 
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.MONSTER_LEVEL)
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.MONSTER_LEVEL)
         + KoLCharacter.getWaterLevel() * 10;
   }
 
   /** Accessor method to retrieve the total current count of random monster modifiers */
   public static final int getRandomMonsterModifiers() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.RANDOM_MONSTER_MODIFIERS);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.RANDOM_MONSTER_MODIFIERS);
   }
 
   /** Accessor method to retrieve the total current familiar weight adjustment */
   public static final int getFamiliarWeightAdjustment() {
     return (int)
-        (KoLCharacter.currentModifiers.get(DoubleModifier.FAMILIAR_WEIGHT)
-            + KoLCharacter.currentModifiers.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT));
+        (KoLCharacter.currentModifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT)
+            + KoLCharacter.currentModifiers.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT));
   }
 
   public static final int getFamiliarWeightPercentAdjustment() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.FAMILIAR_WEIGHT_PCT);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT);
   }
 
   public static final int getManaCostAdjustment() {
@@ -2265,17 +2262,19 @@ public abstract class KoLCharacter {
   }
 
   public static final int getManaCostAdjustment(final boolean combat) {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.MANA_COST)
-        + (int) KoLCharacter.currentModifiers.get(DoubleModifier.STACKABLE_MANA_COST)
-        + (combat ? (int) KoLCharacter.currentModifiers.get(DoubleModifier.COMBAT_MANA_COST) : 0)
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.MANA_COST)
+        + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.STACKABLE_MANA_COST)
+        + (combat
+            ? (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.COMBAT_MANA_COST)
+            : 0)
         - KoLCharacter.holidayManaCostReduction;
   }
 
   /** Accessor method to retrieve the total current combat percent adjustment */
   public static final double getCombatRateAdjustment() {
-    double rate = KoLCharacter.currentModifiers.get(DoubleModifier.COMBAT_RATE);
+    double rate = KoLCharacter.currentModifiers.getDouble(DoubleModifier.COMBAT_RATE);
     if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
-      rate += KoLCharacter.currentModifiers.get(DoubleModifier.UNDERWATER_COMBAT_RATE);
+      rate += KoLCharacter.currentModifiers.getDouble(DoubleModifier.UNDERWATER_COMBAT_RATE);
     }
     return rate;
   }
@@ -2283,8 +2282,8 @@ public abstract class KoLCharacter {
   /** Accessor method to retrieve the total current initiative adjustment */
   public static final double getInitiativeAdjustment() {
     // Penalty is constrained to be non-positive
-    return KoLCharacter.currentModifiers.get(DoubleModifier.INITIATIVE)
-        + Math.min(KoLCharacter.currentModifiers.get(DoubleModifier.INITIATIVE_PENALTY), 0.0f);
+    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.INITIATIVE)
+        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.INITIATIVE_PENALTY), 0.0);
   }
 
   /** Accessor method to retrieve the total current fixed experience adjustment */
@@ -2296,7 +2295,7 @@ public abstract class KoLCharacter {
           case 2 -> DoubleModifier.MOX_EXPERIENCE;
           default -> null;
         };
-    return mod == null ? 0.0 : KoLCharacter.currentModifiers.get(mod);
+    return mod == null ? 0.0 : KoLCharacter.currentModifiers.getDouble(mod);
   }
 
   /**
@@ -2306,8 +2305,8 @@ public abstract class KoLCharacter {
    */
   public static final double getMeatDropPercentAdjustment() {
     // Penalty is constrained to be non-positive
-    return KoLCharacter.currentModifiers.get(DoubleModifier.MEATDROP)
-        + Math.min(KoLCharacter.currentModifiers.get(DoubleModifier.MEATDROP_PENALTY), 0.0f);
+    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.MEATDROP)
+        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.MEATDROP_PENALTY), 0.0);
   }
 
   /**
@@ -2316,7 +2315,7 @@ public abstract class KoLCharacter {
    * @return Total Current Sprinkle Drop Percent Adjustment
    */
   public static final double getSprinkleDropPercentAdjustment() {
-    return KoLCharacter.currentModifiers.get(DoubleModifier.SPRINKLES);
+    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.SPRINKLES);
   }
 
   /**
@@ -2325,8 +2324,8 @@ public abstract class KoLCharacter {
    * @return Total Current Item Drop Percent Adjustment
    */
   public static final double getItemDropPercentAdjustment() {
-    return KoLCharacter.currentModifiers.get(DoubleModifier.ITEMDROP)
-        + Math.min(KoLCharacter.currentModifiers.get(DoubleModifier.ITEMDROP_PENALTY), 0.0f);
+    return KoLCharacter.currentModifiers.getDouble(DoubleModifier.ITEMDROP)
+        + Math.min(KoLCharacter.currentModifiers.getDouble(DoubleModifier.ITEMDROP_PENALTY), 0.0);
   }
 
   /**
@@ -2335,7 +2334,7 @@ public abstract class KoLCharacter {
    * @return Total Current Damage Absorption
    */
   public static final int getDamageAbsorption() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.DAMAGE_ABSORPTION);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.DAMAGE_ABSORPTION);
   }
 
   /**
@@ -2344,7 +2343,7 @@ public abstract class KoLCharacter {
    * @return Total Current Damage Reduction
    */
   public static final int getDamageReduction() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.DAMAGE_REDUCTION);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.DAMAGE_REDUCTION);
   }
 
   /**
@@ -2353,7 +2352,7 @@ public abstract class KoLCharacter {
    * @return Pool Skill
    */
   public static final int getPoolSkill() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.POOL_SKILL);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.POOL_SKILL);
   }
 
   public static int estimatedPoolSkill(boolean verbose) {
@@ -2400,7 +2399,7 @@ public abstract class KoLCharacter {
    * @return Total Hobo Power
    */
   public static final int getHoboPower() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.HOBO_POWER);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.HOBO_POWER);
   }
 
   /**
@@ -2409,7 +2408,7 @@ public abstract class KoLCharacter {
    * @return Total Smithsness
    */
   public static final int getSmithsness() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.SMITHSNESS);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.SMITHSNESS);
   }
 
   /**
@@ -2418,7 +2417,7 @@ public abstract class KoLCharacter {
    * @return Clownosity
    */
   public static final int getClownosity() {
-    return ((int) KoLCharacter.currentModifiers.get(DoubleModifier.CLOWNINESS)) / 25;
+    return ((int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.CLOWNINESS)) / 25;
   }
 
   /**
@@ -2464,21 +2463,21 @@ public abstract class KoLCharacter {
   }
 
   public static final int getRestingHP() {
-    int rv = (int) KoLCharacter.currentModifiers.get(DoubleModifier.BASE_RESTING_HP);
-    double factor = KoLCharacter.currentModifiers.get(DoubleModifier.RESTING_HP_PCT);
+    int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_HP);
+    double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_HP_PCT);
     if (factor != 0) {
-      rv = (int) (rv * (factor + 100.0f) / 100.0f);
+      rv = (int) (rv * (factor + 100.0) / 100.0);
     }
-    return rv + (int) KoLCharacter.currentModifiers.get(DoubleModifier.BONUS_RESTING_HP);
+    return rv + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BONUS_RESTING_HP);
   }
 
   public static final int getRestingMP() {
-    int rv = (int) KoLCharacter.currentModifiers.get(DoubleModifier.BASE_RESTING_MP);
-    double factor = KoLCharacter.currentModifiers.get(DoubleModifier.RESTING_MP_PCT);
+    int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_MP);
+    double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_MP_PCT);
     if (factor != 0) {
-      rv = (int) (rv * (factor + 100.0f) / 100.0f);
+      rv = (int) (rv * (factor + 100.0) / 100.0);
     }
-    return rv + (int) KoLCharacter.currentModifiers.get(DoubleModifier.BONUS_RESTING_MP);
+    return rv + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BONUS_RESTING_MP);
   }
 
   /**
@@ -2488,14 +2487,17 @@ public abstract class KoLCharacter {
    */
   public static final int getElementalResistanceLevels(final Element element) {
     return switch (element) {
-      case COLD -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.COLD_RESISTANCE);
-      case HOT -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.HOT_RESISTANCE);
-      case SLEAZE -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.SLEAZE_RESISTANCE);
-      case SPOOKY -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.SPOOKY_RESISTANCE);
-      case STENCH -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.STENCH_RESISTANCE);
-      case SLIME -> (int) KoLCharacter.currentModifiers.get(DoubleModifier.SLIME_RESISTANCE);
+      case COLD -> (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.COLD_RESISTANCE);
+      case HOT -> (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.HOT_RESISTANCE);
+      case SLEAZE -> (int)
+          KoLCharacter.currentModifiers.getDouble(DoubleModifier.SLEAZE_RESISTANCE);
+      case SPOOKY -> (int)
+          KoLCharacter.currentModifiers.getDouble(DoubleModifier.SPOOKY_RESISTANCE);
+      case STENCH -> (int)
+          KoLCharacter.currentModifiers.getDouble(DoubleModifier.STENCH_RESISTANCE);
+      case SLIME -> (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.SLIME_RESISTANCE);
       case SUPERCOLD -> (int)
-          KoLCharacter.currentModifiers.get(DoubleModifier.SUPERCOLD_RESISTANCE);
+          KoLCharacter.currentModifiers.getDouble(DoubleModifier.SUPERCOLD_RESISTANCE);
       default -> 0;
     };
   }
@@ -2531,7 +2533,7 @@ public abstract class KoLCharacter {
    */
   public static final double getElementalResistance(final Element element) {
     if (element == Element.NONE) {
-      return 0.0f;
+      return 0.0;
     }
     int levels = KoLCharacter.getElementalResistanceLevels(element);
     return KoLCharacter.elementalResistanceByLevel(levels, element != Element.SLIME);
@@ -2543,8 +2545,8 @@ public abstract class KoLCharacter {
    * @return Total Current Resistance to specified element
    */
   public static final int currentBonusDamage() {
-    int weaponDamage = (int) KoLCharacter.currentModifiers.get(DoubleModifier.WEAPON_DAMAGE);
-    int rangedDamage = (int) KoLCharacter.currentModifiers.get(DoubleModifier.RANGED_DAMAGE);
+    int weaponDamage = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.WEAPON_DAMAGE);
+    int rangedDamage = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.RANGED_DAMAGE);
     return weaponDamage
         + (EquipmentManager.getWeaponType() == WeaponType.RANGED ? rangedDamage : 0);
   }
@@ -2555,7 +2557,7 @@ public abstract class KoLCharacter {
    * @return Total Current Resistance to specified element
    */
   public static final int currentPrismaticDamage() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.PRISMATIC_DAMAGE);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.PRISMATIC_DAMAGE);
   }
 
   public static final int getWaterLevel() {
@@ -2572,7 +2574,7 @@ public abstract class KoLCharacter {
       }
     }
 
-    WL += (int) KoLCharacter.currentModifiers.get(DoubleModifier.WATER_LEVEL);
+    WL += (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.WATER_LEVEL);
 
     return WL < 1 ? 1 : Math.min(WL, 6);
   }
@@ -2936,7 +2938,8 @@ public abstract class KoLCharacter {
     Preferences.setBoolean("breakfastCompleted", false);
 
     // Reset modifiers in case we had modifiers that no longer apply
-    KoLCharacter.currentModifiers.resetModifiers();
+    // TODO: should actually be KoLCharacter.currentModifiers.reset(); + skill cache unless in TCRS?
+    ModifierDatabase.resetModifiers();
 
     // If leaving a path with a unique class, finish when player picks a new class.
     // We can't interrupt choice.php with (most) requests.
@@ -4259,7 +4262,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int getMinstrelLevelAdjustment() {
-    return (int) KoLCharacter.currentModifiers.get(DoubleModifier.MINSTREL_LEVEL);
+    return (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.MINSTREL_LEVEL);
   }
 
   public static final void setClancy(
@@ -4925,8 +4928,8 @@ public abstract class KoLCharacter {
   public static final double estimatedBaseExp(double monsterLevel) {
     // 0.25 stats per monster ML + 0.33 stats per bonus ML, rounded to 2dp
 
-    double baseStats = (Modifiers.getCurrentML() / 4.0f);
-    double bonusStats = monsterLevel / ((monsterLevel > 0) ? 3.0f : 4.0f);
+    double baseStats = (Modifiers.getCurrentML() / 4.0);
+    double bonusStats = monsterLevel / ((monsterLevel > 0) ? 3.0 : 4.0);
     return Math.round((baseStats + bonusStats) * 100d) / 100d;
   }
 
@@ -4977,18 +4980,18 @@ public abstract class KoLCharacter {
             && (offhand == null || offhand == EquipmentRequest.UNEQUIP);
 
     // Area-specific adjustments
-    newModifiers.add(Modifiers.getModifiers(ModifierType.LOC, Modifiers.currentLocation));
-    newModifiers.add(Modifiers.getModifiers(ModifierType.ZONE, Modifiers.currentZone));
+    newModifiers.add(ModifierDatabase.getModifiers(ModifierType.LOC, Modifiers.currentLocation));
+    newModifiers.add(ModifierDatabase.getModifiers(ModifierType.ZONE, Modifiers.currentZone));
 
     // Look at sign-specific adjustments
     newModifiers.addDouble(
         DoubleModifier.MONSTER_LEVEL, MCD, ModifierType.MCD, "Monster Control Device");
     newModifiers.add(
-        Modifiers.getModifiers(ModifierType.SIGN, KoLCharacter.ascensionSign.getName()));
+        ModifierDatabase.getModifiers(ModifierType.SIGN, KoLCharacter.ascensionSign.getName()));
 
     // If we are out of ronin/hardcore, look at stat day adjustments
     if (KoLCharacter.canInteract() && !KoLmafia.statDay.equals("None")) {
-      newModifiers.add(Modifiers.getModifiers(ModifierType.EVENT, KoLmafia.statDay));
+      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.EVENT, KoLmafia.statDay));
     }
 
     // Certain outfits give benefits to the character
@@ -4997,7 +5000,7 @@ public abstract class KoLCharacter {
     SpecialOutfit outfit = EquipmentManager.currentOutfit(equipment);
     if (outfit != null) {
       newModifiers.setString(StringModifier.OUTFIT, outfit.getName());
-      newModifiers.add(Modifiers.getModifiers(ModifierType.OUTFIT, outfit.getName()));
+      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName()));
       // El Vibrato Relics may have additional benefits based on
       // punchcards inserted into the helmet:
       if (outfit.getOutfitId() == OutfitPool.VIBRATO_RELICS
@@ -5116,7 +5119,7 @@ public abstract class KoLCharacter {
     // string comparisons when looking at status effects.
 
     for (AdventureResult effect : effects) {
-      newModifiers.add(Modifiers.getEffectModifiers(effect.getEffectId()));
+      newModifiers.add(ModifierDatabase.getEffectModifiers(effect.getEffectId()));
     }
 
     // Add modifiers from campground equipment.
@@ -5127,16 +5130,16 @@ public abstract class KoLCharacter {
         continue;
       }
       for (int count = item.getCount(); count > 0; --count) {
-        newModifiers.add(Modifiers.getItemModifiers(item.getItemId()));
+        newModifiers.add(ModifierDatabase.getItemModifiers(item.getItemId()));
       }
     }
 
     // Add modifiers from dwelling
     AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
-    newModifiers.add(Modifiers.getItemModifiers(dwelling.getItemId()));
+    newModifiers.add(ModifierDatabase.getItemModifiers(dwelling.getItemId()));
 
     if (InventoryManager.getCount(ItemPool.COMFY_BLANKET) > 0) {
-      newModifiers.add(Modifiers.getItemModifiers(ItemPool.COMFY_BLANKET));
+      newModifiers.add(ModifierDatabase.getItemModifiers(ItemPool.COMFY_BLANKET));
     }
 
     if (HolidayDatabase.getRonaldPhase() == 5) {
@@ -5150,11 +5153,11 @@ public abstract class KoLCharacter {
     }
 
     if (ChateauRequest.ceiling != null) {
-      newModifiers.add(Modifiers.getModifiers(ModifierType.ITEM, ChateauRequest.ceiling));
+      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.ITEM, ChateauRequest.ceiling));
     }
 
     for (String equip : ClanManager.getClanRumpus()) {
-      newModifiers.add(Modifiers.getModifiers(ModifierType.RUMPUS, equip));
+      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.RUMPUS, equip));
     }
 
     // Add other oddball interactions
@@ -5169,7 +5172,7 @@ public abstract class KoLCharacter {
     if (ascensionClass == AscensionClass.PASTAMANCER) {
       PastaThrallData thrall = KoLCharacter.currentPastaThrall;
       if (thrall != PastaThrallData.NO_THRALL) {
-        newModifiers.add(Modifiers.getModifiers(ModifierType.THRALL, thrall.getType()));
+        newModifiers.add(ModifierDatabase.getModifiers(ModifierType.THRALL, thrall.getType()));
       }
     }
 
@@ -5199,35 +5202,35 @@ public abstract class KoLCharacter {
     }
 
     // Boombox, no check for having one so it can work with Maximizer "show things you don't have"
-    newModifiers.add(Modifiers.getModifiers(ModifierType.BOOM_BOX, boomBox));
+    newModifiers.add(ModifierDatabase.getModifiers(ModifierType.BOOM_BOX, boomBox));
 
     // Apply variable location modifiers
     newModifiers.applyAutumnatonModifiers();
     newModifiers.applyFloristModifiers();
 
     // Horsery
-    newModifiers.add(Modifiers.getModifiers(ModifierType.HORSERY, horsery));
+    newModifiers.add(ModifierDatabase.getModifiers(ModifierType.HORSERY, horsery));
 
     // Voting Booth
     newModifiers.add(voteMods.get());
 
     // Miscellaneous
 
-    newModifiers.add(Modifiers.getModifiers(ModifierType.GENERATED, "_userMods"));
-    Modifiers fightMods = Modifiers.getModifiers(ModifierType.GENERATED, "fightMods");
+    newModifiers.add(ModifierDatabase.getModifiers(ModifierType.GENERATED, "_userMods"));
+    Modifiers fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
     newModifiers.add(fightMods);
 
     // Temporary custom modifier
     if (custom != null) {
-      newModifiers.add(Modifiers.parseModifiers(ModifierType.GENERATED, "custom", custom));
+      newModifiers.add(ModifierDatabase.parseModifiers(ModifierType.GENERATED, "custom", custom));
     }
 
     // Store some modifiers as statics
-    Modifiers.hoboPower = newModifiers.get(DoubleModifier.HOBO_POWER);
+    Modifiers.hoboPower = newModifiers.getDouble(DoubleModifier.HOBO_POWER);
     Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
 
     if (Modifiers.currentLocation.equals("The Slime Tube")) {
-      int hatred = (int) newModifiers.get(DoubleModifier.SLIME_HATES_IT);
+      int hatred = (int) newModifiers.getDouble(DoubleModifier.SLIME_HATES_IT);
       if (hatred > 0) {
         newModifiers.addDouble(
             DoubleModifier.MONSTER_LEVEL,
@@ -5241,28 +5244,28 @@ public abstract class KoLCharacter {
 
     // Add modifiers from Current Path
     newModifiers.add(
-        Modifiers.getModifiers(ModifierType.PATH, KoLCharacter.ascensionPath.toString()));
+        ModifierDatabase.getModifiers(ModifierType.PATH, KoLCharacter.ascensionPath.toString()));
 
     // If Sneaky Pete, add Motorbike effects
 
     if (KoLCharacter.isSneakyPete()) {
       newModifiers.add(
-          Modifiers.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeTires")));
       newModifiers.add(
-          Modifiers.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeGasTank")));
       newModifiers.add(
-          Modifiers.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeHeadlight")));
       newModifiers.add(
-          Modifiers.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeCowling")));
       newModifiers.add(
-          Modifiers.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeMuffler")));
       newModifiers.add(
-          Modifiers.getModifiers(
+          ModifierDatabase.getModifiers(
               ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeSeat")));
     }
 
@@ -5291,18 +5294,20 @@ public abstract class KoLCharacter {
     }
 
     if (KoLCharacter.inNoobcore()) {
-      newModifiers.add(Modifiers.getModifiers(ModifierType.GENERATED, "Enchantments Absorbed"));
+      newModifiers.add(
+          ModifierDatabase.getModifiers(ModifierType.GENERATED, "Enchantments Absorbed"));
     }
 
     if (KoLCharacter.inDisguise() && KoLCharacter.getMask() != null) {
-      newModifiers.add(Modifiers.getModifiers(ModifierType.MASK, KoLCharacter.getMask()));
+      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.MASK, KoLCharacter.getMask()));
     }
 
     if (KoLCharacter.isVampyre()) {
       MonsterData ensorcelee = MonsterDatabase.findMonster(Preferences.getString("ensorcelee"));
       if (ensorcelee != null) {
         newModifiers.add(
-            Modifiers.getModifiers(ModifierType.ENSORCEL, ensorcelee.getPhylum().toString()));
+            ModifierDatabase.getModifiers(
+                ModifierType.ENSORCEL, ensorcelee.getPhylum().toString()));
       }
     }
 
@@ -5327,19 +5332,20 @@ public abstract class KoLCharacter {
         }
       }
       if (WL > 0) {
-        WL += (int) KoLCharacter.currentModifiers.get(DoubleModifier.WATER_LEVEL);
+        WL += (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.WATER_LEVEL);
         WL = WL < 1 ? 1 : Math.min(WL, 6);
         newModifiers.addDouble(
             DoubleModifier.EXPERIENCE,
-            (double) WL * 10 / 3.0f,
+            (double) WL * 10 / 3.0,
             ModifierType.PATH,
             "Water Level*10/3");
       }
     }
 
-    double baseExp = KoLCharacter.estimatedBaseExp(newModifiers.get(DoubleModifier.MONSTER_LEVEL));
+    double baseExp =
+        KoLCharacter.estimatedBaseExp(newModifiers.getDouble(DoubleModifier.MONSTER_LEVEL));
 
-    double exp = newModifiers.get(DoubleModifier.EXPERIENCE);
+    double exp = newModifiers.getDouble(DoubleModifier.EXPERIENCE);
 
     if (KoLCharacter.inTheSource()) {
       // 1/3 base exp and exp when in The Source path
@@ -5347,7 +5353,7 @@ public abstract class KoLCharacter {
       exp = exp / 3;
     }
 
-    if (exp != 0.0f) {
+    if (exp != 0.0) {
       String tuning = newModifiers.getString(StringModifier.STAT_TUNING);
       int prime = KoLCharacter.getPrimeIndex();
       if (tuning.startsWith("Muscle")) prime = 0;
@@ -5373,7 +5379,7 @@ public abstract class KoLCharacter {
           };
       Function<DoubleModifier, Double> calc =
           (DoubleModifier statPct) ->
-              (finalBaseExp + finalExp) * (1 + newModifiers.get(statPct) / 100.0f);
+              (finalBaseExp + finalExp) * (1 + newModifiers.getDouble(statPct) / 100.0);
 
       if (all) {
         var mod = mods.get(0);
@@ -5382,12 +5388,11 @@ public abstract class KoLCharacter {
         // Adjust for prime stat
         // The base +1 Exp for mainstat IS tuned
         var mod = mods.get(0);
-        newModifiers.addDouble(
-            mod.exp, 1 + calc.apply(mod.pct) / 2.0f, ModifierType.CLASS, "EXP/2");
+        newModifiers.addDouble(mod.exp, 1 + calc.apply(mod.pct) / 2.0, ModifierType.CLASS, "EXP/2");
         mod = mods.get(1);
-        newModifiers.addDouble(mod.exp, calc.apply(mod.pct) / 4.0f, ModifierType.CLASS, "EXP/4");
+        newModifiers.addDouble(mod.exp, calc.apply(mod.pct) / 4.0, ModifierType.CLASS, "EXP/4");
         mod = mods.get(2);
-        newModifiers.addDouble(mod.exp, calc.apply(mod.pct) / 4.0f, ModifierType.CLASS, "EXP/4");
+        newModifiers.addDouble(mod.exp, calc.apply(mod.pct) / 4.0, ModifierType.CLASS, "EXP/4");
       }
     }
 
@@ -5474,7 +5479,7 @@ public abstract class KoLCharacter {
       if (fightMods != null) {
         newModifiers.addDouble(
             DoubleModifier.ITEMDROP,
-            fightMods.get(DoubleModifier.ITEMDROP),
+            fightMods.getDouble(DoubleModifier.ITEMDROP),
             ModifierType.ITEM,
             EffectPool.STEELY_EYED_SQUINT);
       }
@@ -5517,24 +5522,24 @@ public abstract class KoLCharacter {
 
     if (slot == EquipmentManager.FAMILIAR
         && (consume == ConsumptionType.WEAPON || consume == ConsumptionType.OFFHAND)) {
-      imod = Modifiers.getItemModifiersInFamiliarSlot(itemId);
+      imod = ModifierDatabase.getItemModifiersInFamiliarSlot(itemId);
 
       if (consume == ConsumptionType.WEAPON) {
         newModifiers.addDouble(
             DoubleModifier.WEAPON_DAMAGE,
-            EquipmentDatabase.getPower(itemId) * 0.15f,
+            EquipmentDatabase.getPower(itemId) * 0.15,
             ModifierType.EQUIPMENT_POWER,
             "15% weapon power");
       }
     } else {
-      imod = Modifiers.getItemModifiers(itemId);
+      imod = ModifierDatabase.getItemModifiers(itemId);
     }
 
     if (imod != null) {
       if (speculation) {
         String intrinsic = imod.getString(StringModifier.INTRINSIC_EFFECT);
         if (intrinsic.length() > 0) {
-          newModifiers.add(Modifiers.getModifiers(ModifierType.EFFECT, intrinsic));
+          newModifiers.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
         }
       }
 
@@ -5560,7 +5565,7 @@ public abstract class KoLCharacter {
     // Do appropriate things for specific items in Noobcore
     if (KoLCharacter.inNoobcore()) {
       switch (itemId) {
-        case ItemPool.LATTE_MUG -> newModifiers.add(Modifiers.getItemModifiers(itemId));
+        case ItemPool.LATTE_MUG -> newModifiers.add(ModifierDatabase.getItemModifiers(itemId));
       }
     }
 
@@ -5574,12 +5579,12 @@ public abstract class KoLCharacter {
             .mapToObj(i -> equipment[i])
             .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)
             .map(AdventureResult::getItemId)
-            .forEach((id) -> newModifiers.add(Modifiers.getItemModifiers(id)));
+            .forEach((id) -> newModifiers.add(ModifierDatabase.getItemModifiers(id)));
         case ItemPool.CARD_SLEEVE -> {
           // Apply card
           AdventureResult card = equipment[EquipmentManager.CARDSLEEVE];
           if (card != null && card != EquipmentRequest.UNEQUIP) {
-            newModifiers.add(Modifiers.getItemModifiers(card.getItemId()));
+            newModifiers.add(ModifierDatabase.getItemModifiers(card.getItemId()));
           }
         }
         case ItemPool.FOLDER_HOLDER ->
@@ -5588,29 +5593,29 @@ public abstract class KoLCharacter {
             .mapToObj(i -> equipment[i])
             .filter(f -> f != null && f != EquipmentRequest.UNEQUIP)
             .map(AdventureResult::getItemId)
-            .forEach((id) -> newModifiers.add(Modifiers.getItemModifiers(id)));
+            .forEach((id) -> newModifiers.add(ModifierDatabase.getItemModifiers(id)));
         case ItemPool.COWBOY_BOOTS -> {
           AdventureResult skin = equipment[EquipmentManager.BOOTSKIN];
           AdventureResult spur = equipment[EquipmentManager.BOOTSPUR];
           if (skin != null && skin != EquipmentRequest.UNEQUIP) {
-            newModifiers.add(Modifiers.getItemModifiers(skin.getItemId()));
+            newModifiers.add(ModifierDatabase.getItemModifiers(skin.getItemId()));
           }
           if (spur != null && spur != EquipmentRequest.UNEQUIP) {
-            newModifiers.add(Modifiers.getItemModifiers(spur.getItemId()));
+            newModifiers.add(ModifierDatabase.getItemModifiers(spur.getItemId()));
           }
         }
         case ItemPool.HATSEAT ->
         // Apply enthroned familiar
-        newModifiers.add(Modifiers.getModifiers(ModifierType.THRONE, enthroned.getRace()));
+        newModifiers.add(ModifierDatabase.getModifiers(ModifierType.THRONE, enthroned.getRace()));
         case ItemPool.BUDDY_BJORN ->
         // Apply bjorned familiar
-        newModifiers.add(Modifiers.getModifiers(ModifierType.BJORN, bjorned.getRace()));
+        newModifiers.add(ModifierDatabase.getModifiers(ModifierType.BJORN, bjorned.getRace()));
         case ItemPool.VAMPYRIC_CLOAKE -> newModifiers.applyVampyricCloakeModifiers();
         default -> {
           var modeable = Modeable.find(itemId);
           if (modeable != null) {
             newModifiers.add(
-                Modifiers.getModifiers(modeable.getModifierType(), modeables.get(modeable)));
+                ModifierDatabase.getModifiers(modeable.getModifierType(), modeables.get(modeable)));
           }
         }
       }
@@ -5626,7 +5631,7 @@ public abstract class KoLCharacter {
       case EquipmentManager.WEAPON:
         newModifiers.addDouble(
             DoubleModifier.WEAPON_DAMAGE,
-            EquipmentDatabase.getPower(itemId) * 0.15f,
+            EquipmentDatabase.getPower(itemId) * 0.15,
             ModifierType.EQUIPMENT_POWER,
             "15% weapon power");
         break;
@@ -5669,14 +5674,14 @@ public abstract class KoLCharacter {
         // check whether the id is between the first and last item.
         if (itemId < ItemPool.WORK_IS_A_FOUR_LETTER_SWORD
             || itemId > ItemPool.SHAKESPEARES_SISTERS_ACCORDION) continue;
-        Modifiers imod = Modifiers.getItemModifiers(itemId);
+        Modifiers imod = ModifierDatabase.getItemModifiers(itemId);
         if (imod != null) {
           AscensionClass classType = AscensionClass.find(imod.getString(StringModifier.CLASS));
           if (classType == null
               || classType == ascensionClass
                   && (slot != EquipmentManager.FAMILIAR
                       || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
-            smithsness += imod.get(DoubleModifier.SMITHSNESS);
+            smithsness += imod.getDouble(DoubleModifier.SMITHSNESS);
           }
         }
       }
@@ -5689,9 +5694,9 @@ public abstract class KoLCharacter {
       if (effectId != EffectPool.VIDEO_GAMES
           && (effectId < EffectPool.MERRY_SMITHSNESS || effectId > EffectPool.SMITHSNESS_CHEER))
         continue;
-      Modifiers emod = Modifiers.getEffectModifiers(effect.getEffectId());
+      Modifiers emod = ModifierDatabase.getEffectModifiers(effect.getEffectId());
       if (emod != null) {
-        smithsness += emod.get(DoubleModifier.SMITHSNESS);
+        smithsness += emod.getDouble(DoubleModifier.SMITHSNESS);
       }
     }
     return smithsness;

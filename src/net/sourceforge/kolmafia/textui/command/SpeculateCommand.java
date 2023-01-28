@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
 public class SpeculateCommand extends AbstractCommand {
   public SpeculateCommand() {
@@ -26,7 +27,7 @@ public class SpeculateCommand extends AbstractCommand {
     Speculation spec = new Speculation();
     boolean quiet = spec.parse(parameters);
     Modifiers mods = spec.calculate();
-    Modifiers.overrideModifier(ModifierType.GENERATED, "_spec", mods);
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
     if (quiet) {
       return;
     }
@@ -98,7 +99,7 @@ public class SpeculateCommand extends AbstractCommand {
   private static void handleDouble(
       final DoubleModifier mod, final Modifiers mods, final StringBuilder buf) {
     double was = KoLCharacter.currentNumericModifier(mod);
-    double now = mods.get(mod);
+    double now = mods.getDouble(mod);
     if (now == was) {
       return;
     }

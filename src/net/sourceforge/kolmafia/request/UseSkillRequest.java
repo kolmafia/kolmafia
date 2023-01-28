@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
@@ -536,13 +537,17 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         return 1;
 
       case SkillPool.CALCULATE_THE_UNIVERSE:
-        if (KoLCharacter.getAdventuresLeft() == 0) {
-          return 0;
+        {
+          if (KoLCharacter.getAdventuresLeft() == 0) {
+            return 0;
+          }
+          int skillLevel = Preferences.getInteger("skillLevel144");
+          if (!KoLCharacter.canInteract()) {
+            skillLevel = Math.min(skillLevel, 3);
+          }
+          int casts = Preferences.getInteger("_universeCalculated");
+          return Math.max(skillLevel - casts, 0);
         }
-        return Preferences.getInteger("skillLevel144")
-                > Preferences.getInteger("_universeCalculated")
-            ? 1
-            : 0;
 
       case SkillPool.ANCESTRAL_RECALL:
         return Math.min(
@@ -838,7 +843,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     Modifiers mods = spec.getModifiers();
     int predictedSongLimit =
         3
-            + (int) mods.get(DoubleModifier.ADDITIONAL_SONG)
+            + (int) mods.getDouble(DoubleModifier.ADDITIONAL_SONG)
             + (mods.getBoolean(BooleanModifier.FOUR_SONGS) ? 1 : 0);
     int predictedSongsNeeded =
         UseSkillRequest.songsActive() + (UseSkillRequest.newSong(skillId) ? 1 : 0);
@@ -913,7 +918,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           continue;
         }
       } else if (item.getItemId() == ItemPool.KREMLIN_BRIEFCASE) {
-        if (Modifiers.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE).get(DoubleModifier.MANA_COST)
+        if (ModifierDatabase.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE)
+                .getDouble(DoubleModifier.MANA_COST)
             == 0) {
           continue;
         }

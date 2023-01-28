@@ -9,8 +9,8 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ class PlaceRequestTest {
   void itShouldSetTheToolbeltAsAFreePullInTTT() {
     // setup environment for test...
     Preferences.setBoolean("timeTowerAvailable", false); // ttt not available.
-    Modifiers.getItemModifiers(ItemPool.TIME_TWITCHING_TOOLBELT);
+    ModifierDatabase.getItemModifiers(ItemPool.TIME_TWITCHING_TOOLBELT);
     AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
 
     List<AdventureResult> storage = KoLConstants.storage;

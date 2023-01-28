@@ -5,10 +5,11 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
 public class PreferenceModifiers implements Listener {
-  private String property;
-  private ModifierType modifierType;
+  private final String property;
+  private final ModifierType modifierType;
   private String value;
   private Modifiers modifiers;
 
@@ -23,7 +24,8 @@ public class PreferenceModifiers implements Listener {
   public void update() {
     this.value = Preferences.getString(this.property);
     this.modifiers =
-        Modifiers.evaluatedModifiers(new Lookup(this.modifierType, this.property), this.value);
+        ModifierDatabase.evaluatedModifiers(
+            new Lookup(this.modifierType, this.property), this.value);
   }
 
   public Modifiers get() {

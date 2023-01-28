@@ -55,10 +55,15 @@ public enum StringModifier implements Modifier {
       "Floor Buffed Mysticality", Pattern.compile("Floor Buffed Mysticality: \"(.*?)\"")),
   FLOOR_BUFFED_MOXIE("Floor Buffed Moxie", Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")),
   PLUMBER_STAT("Plumber Stat", Pattern.compile("Plumber Stat: \"(.*?)\"")),
-  RECIPE("Recipe", Pattern.compile("Recipe: \"(.*?)\""));
+  RECIPE("Recipe", Pattern.compile("Recipe: \"(.*?)\"")),
+  EVALUATED_MODIFIERS("Evaluated Modifiers");
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
+
+  StringModifier(String name) {
+    this(name, null);
+  }
 
   StringModifier(String name, Pattern tagPattern) {
     this(name, (Pattern[]) null, tagPattern);

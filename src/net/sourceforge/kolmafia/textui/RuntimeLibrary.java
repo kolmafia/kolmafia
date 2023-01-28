@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -55,7 +54,6 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -75,7 +73,9 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
@@ -102,6 +102,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -3805,7 +3806,7 @@ public abstract class RuntimeLibrary {
       return value;
     }
 
-    Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+    Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
 
     for (int i = 0; i < dayCount; ++i) {
       String logContents =
@@ -3878,7 +3879,7 @@ public abstract class RuntimeLibrary {
   }
 
   private static Calendar getBaseTimeStamp(String base, int count) {
-    Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+    Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
     timestamp.clear();
     int year = Integer.parseInt(base.substring(0, 4));
     int mon = Integer.parseInt(base.substring(4, 6));
@@ -9073,7 +9074,8 @@ public abstract class RuntimeLibrary {
 
   public static Value numeric_modifier(ScriptRuntime controller, final Value modifier) {
     String mod = modifier.toString();
-    return new Value(KoLCharacter.currentNumericModifier(mod));
+    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
+    return new Value(KoLCharacter.currentNumericModifier(realMod));
   }
 
   public static Value numeric_modifier(
@@ -9081,7 +9083,8 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(Modifiers.getNumericModifier(type, name, mod));
+    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
+    return new Value(ModifierDatabase.getNumericModifier(type, name, realMod));
   }
 
   public static Value numeric_modifier(
@@ -9092,10 +9095,11 @@ public abstract class RuntimeLibrary {
       final Value item) {
     FamiliarData fam = new FamiliarData((int) familiar.intValue());
     String mod = modifier.toString();
+    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
     int w = Math.max(1, (int) weight.intValue());
     AdventureResult it = ItemPool.get((int) item.intValue());
 
-    return new Value(Modifiers.getNumericModifier(fam, mod, w, it));
+    return new Value(ModifierDatabase.getNumericModifier(fam, realMod, w, it));
   }
 
   public static Value boolean_modifier(ScriptRuntime controller, final Value modifier) {
@@ -9109,12 +9113,14 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return DataTypes.makeBooleanValue(Modifiers.getBooleanModifier(type, name, mod));
+    BooleanModifier boolMod = BooleanModifier.byCaselessName(mod);
+    return DataTypes.makeBooleanValue(ModifierDatabase.getBooleanModifier(type, name, boolMod));
   }
 
   public static Value string_modifier(ScriptRuntime controller, final Value modifier) {
     String mod = modifier.toString();
-    return new Value(KoLCharacter.currentStringModifier(mod));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(KoLCharacter.currentStringModifier(strMod));
   }
 
   public static Value string_modifier(
@@ -9122,7 +9128,8 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(Modifiers.getStringModifier(type, name, mod));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(ModifierDatabase.getStringModifier(type, name, strMod));
   }
 
   public static Value effect_modifier(
@@ -9130,8 +9137,9 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
+    StringModifier strMod = StringModifier.byCaselessName(mod);
     return new Value(
-        DataTypes.parseEffectValue(Modifiers.getStringModifier(type, name, mod), true));
+        DataTypes.parseEffectValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value class_modifier(
@@ -9139,7 +9147,9 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseClassValue(Modifiers.getStringModifier(type, name, mod), true));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(
+        DataTypes.parseClassValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value skill_modifier(
@@ -9147,7 +9157,9 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseSkillValue(Modifiers.getStringModifier(type, name, mod), true));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(
+        DataTypes.parseSkillValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value stat_modifier(
@@ -9155,7 +9167,9 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseStatValue(Modifiers.getStringModifier(type, name, mod), true));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(
+        DataTypes.parseStatValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value monster_modifier(
@@ -9163,8 +9177,9 @@ public abstract class RuntimeLibrary {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
+    StringModifier strMod = StringModifier.byCaselessName(name);
     return new Value(
-        DataTypes.parseMonsterValue(Modifiers.getStringModifier(type, name, mod), true));
+        DataTypes.parseMonsterValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value white_citadel_available(ScriptRuntime controller) {

@@ -134,7 +134,8 @@ public abstract class MPRestoreItemList {
         new MPRestoreItemItem("Notes from the Elfpocalypse, Chapter V", 35, false),
         new MPRestoreItemItem("Notes from the Elfpocalypse, Chapter VI", 35, false),
         new MPRestoreItemItem("dueling turtle", 15, false),
-        new MPRestoreItemItem("unrefined Mountain Stream syrup", 55, true)
+        new MPRestoreItemItem("unrefined Mountain Stream syrup", 55, true),
+        new MPRestoreItemItem("grogpagne", 40, false)
       };
 
   public static final void setPurchaseBasedSort(final boolean purchaseBasedSort) {

@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 
@@ -88,7 +89,7 @@ public class DebugModifiers extends Modifiers {
         "<td>"
             + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(mod)
             + "</td><td>=&nbsp;"
-            + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(this.get(modifier))
+            + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(this.getDouble(modifier))
             + "</td>");
   }
 
@@ -107,12 +108,12 @@ public class DebugModifiers extends Modifiers {
       String modifier = DebugModifiers.wanted.get(key);
       DebugModifiers.buffer.append(modifier);
       ArrayList<Change> modChangers = new ArrayList<>();
-      for (Lookup lookup : Modifiers.getAllModifiers()) {
-        Modifiers mods = Modifiers.getModifiers(lookup);
+      for (Lookup lookup : ModifierDatabase.getAllModifiers()) {
+        Modifiers mods = ModifierDatabase.getModifiers(lookup);
         if (mods == null) {
           continue;
         }
-        double value = mods.get(key);
+        double value = mods.getDouble(key);
         if (value != 0.0) {
           ModifierType type = lookup.type;
           String name = lookup.getName();

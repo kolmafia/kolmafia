@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -114,7 +115,7 @@ public abstract class TowerDoorManager {
     }
 
     public String keyEnchantments() {
-      Modifiers mods = Modifiers.getItemModifiers(key.getItemId());
+      Modifiers mods = ModifierDatabase.getItemModifiers(key.getItemId());
       return mods == null ? "" : mods.getString(StringModifier.MODIFIERS);
     }
   }

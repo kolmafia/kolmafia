@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FlaggedItems;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -161,6 +162,9 @@ public abstract class KoLmafia {
   public static MafiaState displayState = MafiaState.ENABLE;
   private static boolean allowDisplayUpdate = true;
 
+  // All dates are presented as if the day began at rollover.
+  public static final TimeZone KOL_TIME_ZONE = TimeZone.getTimeZone("GMT-0330");
+
   public static final int[] initialStats = new int[3];
 
   private static FileLock SESSION_HOLDER = null;
@@ -267,11 +271,7 @@ public abstract class KoLmafia {
       }
     }
 
-    // All dates are presented as if the day began at rollover.
-
-    TimeZone koltime = TimeZone.getTimeZone("GMT-0330");
-
-    KoLConstants.DAILY_FORMAT.setTimeZone(koltime);
+    KoLConstants.DAILY_FORMAT.setTimeZone(KOL_TIME_ZONE);
 
     // Reload your settings and determine all the different users which
     // are present in your save state list.
@@ -1115,7 +1115,7 @@ public abstract class KoLmafia {
     }
 
     if (ItemDatabase.newItems || EquipmentDatabase.newEquipment || EffectDatabase.newEffects) {
-      Modifiers.writeModifiers(new File(KoLConstants.DATA_LOCATION, "modifiers.txt"));
+      ModifierDatabase.writeModifiers(new File(KoLConstants.DATA_LOCATION, "modifiers.txt"));
     }
 
     if (FamiliarDatabase.newFamiliars) {

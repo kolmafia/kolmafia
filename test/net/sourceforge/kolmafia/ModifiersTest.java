@@ -18,21 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AscensionPath.Path;
-import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -40,6 +30,7 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
@@ -47,7 +38,6 @@ import net.sourceforge.kolmafia.request.LatteRequest.Latte;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -63,25 +53,25 @@ public class ModifiersTest {
     // Wide-reaching unit test for getModifiers
     var cleanup = withClass(AscensionClass.AVATAR_OF_JARLSBERG);
     try (cleanup) {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.ITEM, ItemPool.PATRIOT_SHIELD);
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.PATRIOT_SHIELD);
 
       // Always has
-      assertEquals(3, mods.get(DoubleModifier.EXPERIENCE));
+      assertEquals(3, mods.getDouble(DoubleModifier.EXPERIENCE));
 
       // Has because of class
-      assertEquals(5.0, mods.get(DoubleModifier.MP_REGEN_MIN));
-      assertEquals(6.0, mods.get(DoubleModifier.MP_REGEN_MAX));
-      assertEquals(20.0, mods.get(DoubleModifier.SPELL_DAMAGE));
+      assertEquals(5.0, mods.getDouble(DoubleModifier.MP_REGEN_MIN));
+      assertEquals(6.0, mods.getDouble(DoubleModifier.MP_REGEN_MAX));
+      assertEquals(20.0, mods.getDouble(DoubleModifier.SPELL_DAMAGE));
 
       // Does not have because of class
-      assertEquals(0, mods.get(DoubleModifier.HP_REGEN_MAX));
-      assertEquals(0, mods.get(DoubleModifier.HP_REGEN_MIN));
-      assertEquals(0, mods.get(DoubleModifier.WEAPON_DAMAGE));
-      assertEquals(0, mods.get(DoubleModifier.DAMAGE_REDUCTION));
-      assertEquals(0, mods.get(DoubleModifier.FAMILIAR_WEIGHT));
-      assertEquals(0, mods.get(DoubleModifier.RANGED_DAMAGE));
+      assertEquals(0, mods.getDouble(DoubleModifier.HP_REGEN_MAX));
+      assertEquals(0, mods.getDouble(DoubleModifier.HP_REGEN_MIN));
+      assertEquals(0, mods.getDouble(DoubleModifier.WEAPON_DAMAGE));
+      assertEquals(0, mods.getDouble(DoubleModifier.DAMAGE_REDUCTION));
+      assertEquals(0, mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT));
+      assertEquals(0, mods.getDouble(DoubleModifier.RANGED_DAMAGE));
       assertFalse(mods.getBoolean(BooleanModifier.FOUR_SONGS));
-      assertEquals(0, mods.get(DoubleModifier.COMBAT_MANA_COST));
+      assertEquals(0, mods.getDouble(DoubleModifier.COMBAT_MANA_COST));
     }
   }
 
@@ -96,43 +86,30 @@ public class ModifiersTest {
     var dotw = DayOfWeek.of(date);
 
     try (cleanup) {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.ITEM, "Tuesday's Ruby");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, "Tuesday's Ruby");
 
-      assertThat(mods.get(DoubleModifier.MEATDROP), equalTo(dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0));
-      assertThat(mods.get(DoubleModifier.MUS_PCT), equalTo(dotw == DayOfWeek.MONDAY ? 5.0 : 0.0));
       assertThat(
-          mods.get(DoubleModifier.MP_REGEN_MIN), equalTo(dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0));
+          mods.getDouble(DoubleModifier.MEATDROP), equalTo(dotw == DayOfWeek.SUNDAY ? 5.0 : 0.0));
       assertThat(
-          mods.get(DoubleModifier.MP_REGEN_MAX), equalTo(dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0));
+          mods.getDouble(DoubleModifier.MUS_PCT), equalTo(dotw == DayOfWeek.MONDAY ? 5.0 : 0.0));
       assertThat(
-          mods.get(DoubleModifier.MYS_PCT), equalTo(dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0));
+          mods.getDouble(DoubleModifier.MP_REGEN_MIN),
+          equalTo(dotw == DayOfWeek.TUESDAY ? 3.0 : 0.0));
       assertThat(
-          mods.get(DoubleModifier.ITEMDROP), equalTo(dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0));
-      assertThat(mods.get(DoubleModifier.MOX_PCT), equalTo(dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0));
+          mods.getDouble(DoubleModifier.MP_REGEN_MAX),
+          equalTo(dotw == DayOfWeek.TUESDAY ? 7.0 : 0.0));
       assertThat(
-          mods.get(DoubleModifier.HP_REGEN_MIN), equalTo(dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0));
+          mods.getDouble(DoubleModifier.MYS_PCT), equalTo(dotw == DayOfWeek.WEDNESDAY ? 5.0 : 0.0));
       assertThat(
-          mods.get(DoubleModifier.HP_REGEN_MAX), equalTo(dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0));
-    }
-  }
-
-  @Test
-  public void testSynergies() {
-    // The "synergy" bitmap modifier is assigned dynamically, based on appearance order in
-    // Modifiers.txt
-    // The first Synergetic item seen gets 0b00001, the 2nd: 0b00010, 3rd: 0b00100, etc.
-
-    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
-      String name = entry.getKey();
-      int mask = entry.getValue();
-
-      int manualMask = 0;
-      for (String piece : name.split("/")) {
-        Modifiers mods = Modifiers.getModifiers(ModifierType.ITEM, piece);
-        manualMask |= mods.getRawBitmap(BitmapModifier.SYNERGETIC);
-      }
-
-      assertEquals(manualMask, mask, name);
+          mods.getDouble(DoubleModifier.ITEMDROP), equalTo(dotw == DayOfWeek.THURSDAY ? 5.0 : 0.0));
+      assertThat(
+          mods.getDouble(DoubleModifier.MOX_PCT), equalTo(dotw == DayOfWeek.FRIDAY ? 5.0 : 0.0));
+      assertThat(
+          mods.getDouble(DoubleModifier.HP_REGEN_MIN),
+          equalTo(dotw == DayOfWeek.SATURDAY ? 3.0 : 0.0));
+      assertThat(
+          mods.getDouble(DoubleModifier.HP_REGEN_MAX),
+          equalTo(dotw == DayOfWeek.SATURDAY ? 7.0 : 0.0));
     }
   }
 
@@ -142,32 +119,9 @@ public class ModifiersTest {
     for (int i = 1; i <= 11; i++) {
       int myst = (i == 1) ? 0 : (i - 1) * (i - 1) + 4;
       KoLCharacter.setStatPoints(0, 0, myst, (long) myst * myst, 0, 0);
-      Modifiers mods = Modifiers.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
-      assertEquals(Math.min(i, 10), mods.get(DoubleModifier.SAUCE_SPELL_DAMAGE));
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
+      assertEquals(Math.min(i, 10), mods.getDouble(DoubleModifier.SAUCE_SPELL_DAMAGE));
     }
-  }
-
-  @ParameterizedTest
-  @CsvSource({
-    "+50% Spell Damage, Spell Damage Percent: +50",
-    "Successful hit weakens opponent, Weakens Monster",
-    "Only Accordion Thieves may use this item, Class: \"Accordion Thief\"",
-    "All Attributes +5, 'Muscle: +5, Mysticality: +5, Moxie: +5'",
-    "All Attributes +30%, 'Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30'",
-    "Bonus&nbsp;for&nbsp;Saucerors&nbsp;only, Class: \"Sauceror\"",
-    "Monsters are much more attracted to you., Combat Rate: +10",
-    "Monsters will be significantly less attracted to you. (Underwater only), Combat Rate (Underwater): -15",
-    "Maximum HP/MP +200, 'Maximum HP: +200, Maximum MP: +200'",
-    "Regenerate 100 MP per adventure, 'MP Regen Min: 100, MP Regen Max: 100'",
-    "Regenerate 15-20 HP and MP per adventure, 'HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20'",
-    "Serious Cold Resistance (+3), Cold Resistance: +3",
-    "Sublime Resistance to All Elements (+9), 'Spooky Resistance: +9, Stench Resistance: +9, Hot Resistance: +9, Cold Resistance: +9, Sleaze Resistance: +9'",
-    "So-So Slime Resistance (+2), Slime Resistance: +2",
-    "Slight Supercold Resistance, Supercold Resistance: +1",
-    "Your familiar will always act in combat, Familiar Action Bonus: +100"
-  })
-  public void canParseModifier(String enchantment, String modifier) {
-    assertEquals(modifier, Modifiers.parseModifier(enchantment));
   }
 
   @Test
@@ -175,20 +129,20 @@ public class ModifiersTest {
     Modifiers mod = new Modifiers();
     mod.addDouble(DoubleModifier.COMBAT_RATE, 25, ModifierType.NONE, "");
     mod.addDouble(DoubleModifier.COMBAT_RATE, 7, ModifierType.NONE, "");
-    assertEquals(26, mod.get(DoubleModifier.COMBAT_RATE));
+    assertEquals(26, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, 9, ModifierType.NONE, "");
-    assertEquals(28, mod.get(DoubleModifier.COMBAT_RATE));
+    assertEquals(28, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, 9, ModifierType.NONE, "");
-    assertEquals(30, mod.get(DoubleModifier.COMBAT_RATE));
+    assertEquals(30, mod.getDouble(DoubleModifier.COMBAT_RATE));
 
     mod = new Modifiers();
     mod.addDouble(DoubleModifier.COMBAT_RATE, -25, ModifierType.NONE, "");
     mod.addDouble(DoubleModifier.COMBAT_RATE, -7, ModifierType.NONE, "");
-    assertEquals(-26, mod.get(DoubleModifier.COMBAT_RATE));
+    assertEquals(-26, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -9, ModifierType.NONE, "");
-    assertEquals(-28, mod.get(DoubleModifier.COMBAT_RATE));
+    assertEquals(-28, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -9, ModifierType.NONE, "");
-    assertEquals(-30, mod.get(DoubleModifier.COMBAT_RATE));
+    assertEquals(-30, mod.getDouble(DoubleModifier.COMBAT_RATE));
   }
 
   public static Stream<Arguments> getsRightModifiersNakedHatrack() {
@@ -210,7 +164,7 @@ public class ModifiersTest {
       KoLCharacter.recalculateAdjustments();
 
       assertThat(fam.getModifiedWeight(), equalTo(1));
-      assertThat(familiarMods.get(mod), closeTo(50, 0.001));
+      assertThat(familiarMods.getDouble(mod), closeTo(50, 0.001));
     }
   }
 
@@ -226,7 +180,7 @@ public class ModifiersTest {
 
         familiarMods.applyFamiliarModifiers(familiar, null);
 
-        assertThat(familiarMods.get(DoubleModifier.ITEMDROP), closeTo(50.166, 0.001));
+        assertThat(familiarMods.getDouble(DoubleModifier.ITEMDROP), closeTo(50.166, 0.001));
       }
     }
 
@@ -240,7 +194,7 @@ public class ModifiersTest {
 
         familiarMods.applyFamiliarModifiers(familiar, null);
 
-        assertThat(familiarMods.get(DoubleModifier.ITEMDROP), closeTo(50.166, 0.001));
+        assertThat(familiarMods.getDouble(DoubleModifier.ITEMDROP), closeTo(50.166, 0.001));
       }
     }
   }
@@ -262,7 +216,7 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.get(DoubleModifier.ITEMDROP), equalTo(300.0));
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(300.0));
       }
     }
 
@@ -277,7 +231,7 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.get(DoubleModifier.ITEMDROP), equalTo(300.0));
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(300.0));
       }
     }
 
@@ -291,7 +245,7 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.get(DoubleModifier.ITEMDROP), equalTo(25.0));
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(25.0));
       }
     }
 
@@ -306,7 +260,7 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        var item = mods.get(DoubleModifier.ITEMDROP);
+        var item = mods.getDouble(DoubleModifier.ITEMDROP);
         assertThat(item, equalTo(50.0));
       }
     }
@@ -323,7 +277,7 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.get(DoubleModifier.ITEMDROP), equalTo(600.0));
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(600.0));
       }
     }
 
@@ -337,7 +291,7 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.get(DoubleModifier.ITEMDROP), equalTo(400.0));
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(400.0));
       }
     }
 
@@ -352,7 +306,7 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.get(DoubleModifier.ITEMDROP), equalTo(200.0));
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(200.0));
       }
     }
 
@@ -368,7 +322,7 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.get(DoubleModifier.ITEMDROP), equalTo(400.0));
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(400.0));
       }
     }
   }
@@ -389,8 +343,8 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.get(DoubleModifier.SLEAZE_DAMAGE), equalTo(100.0));
-        assertThat(mods.get(DoubleModifier.SLEAZE_SPELL_DAMAGE), equalTo(100.0));
+        assertThat(mods.getDouble(DoubleModifier.SLEAZE_DAMAGE), equalTo(100.0));
+        assertThat(mods.getDouble(DoubleModifier.SLEAZE_SPELL_DAMAGE), equalTo(100.0));
       }
     }
 
@@ -402,8 +356,8 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.get(DoubleModifier.SLEAZE_DAMAGE), equalTo(100.0));
-        assertThat(mods.get(DoubleModifier.SLEAZE_SPELL_DAMAGE), equalTo(100.0));
+        assertThat(mods.getDouble(DoubleModifier.SLEAZE_DAMAGE), equalTo(100.0));
+        assertThat(mods.getDouble(DoubleModifier.SLEAZE_SPELL_DAMAGE), equalTo(100.0));
       }
     }
 
@@ -418,8 +372,8 @@ public class ModifiersTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.get(DoubleModifier.SLEAZE_DAMAGE), equalTo(200.0));
-        assertThat(mods.get(DoubleModifier.SLEAZE_SPELL_DAMAGE), equalTo(200.0));
+        assertThat(mods.getDouble(DoubleModifier.SLEAZE_DAMAGE), equalTo(200.0));
+        assertThat(mods.getDouble(DoubleModifier.SLEAZE_SPELL_DAMAGE), equalTo(200.0));
       }
     }
   }
@@ -443,7 +397,7 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         // 3 from garbage shirt, 30 from Feeling Lost, *2 = 66
-        assertThat(mods.get(DoubleModifier.EXPERIENCE), equalTo(66.0));
+        assertThat(mods.getDouble(DoubleModifier.EXPERIENCE), equalTo(66.0));
       }
     }
   }
@@ -668,7 +622,7 @@ public class ModifiersTest {
 
         Modifiers current = KoLCharacter.getCurrentModifiers();
         KoLCharacter.recalculateAdjustments(false);
-        assertEquals(40, current.get(DoubleModifier.HP));
+        assertEquals(40, current.getDouble(DoubleModifier.HP));
 
         var currentStats = current.predict();
         assertEquals(100, currentStats.get(DerivedModifier.BUFFED_MUS));
@@ -676,7 +630,7 @@ public class ModifiersTest {
 
         // Make some modifiers to speculate with
         Modifiers speculate = new Modifiers(current);
-        assertEquals(40, speculate.get(DoubleModifier.HP));
+        assertEquals(40, speculate.getDouble(DoubleModifier.HP));
         // Suppose we want to replace the reinforced beaded headband (+40 HP)
         // with a nurse's hat (+300 HP)
         speculate.setDouble(DoubleModifier.HP, 300.0);
@@ -834,7 +788,7 @@ public class ModifiersTest {
 
         Modifiers current = KoLCharacter.getCurrentModifiers();
         KoLCharacter.recalculateAdjustments(false);
-        assertEquals(40, current.get(DoubleModifier.MP));
+        assertEquals(40, current.getDouble(DoubleModifier.MP));
 
         var currentStats = current.predict();
         assertEquals(100, currentStats.get(DerivedModifier.BUFFED_MYS));
@@ -842,7 +796,7 @@ public class ModifiersTest {
 
         // Make some modifiers to speculate with
         Modifiers speculate = new Modifiers(current);
-        assertEquals(40, speculate.get(DoubleModifier.MP));
+        assertEquals(40, speculate.getDouble(DoubleModifier.MP));
         // Suppose we want to replace the beer helmet (+40 HP)
         // with Covers-Your-Head (+100 MP)
         speculate.setDouble(DoubleModifier.MP, 100.0);
@@ -937,20 +891,20 @@ public class ModifiersTest {
 
         // Modifiers set "override" modifiers for the latte mug
         Modifiers latteModifiers =
-            Modifiers.getModifiers(ModifierType.ITEM, "[" + ItemPool.LATTE_MUG + "]");
-        assertEquals(5, latteModifiers.get(DoubleModifier.FAMILIAR_WEIGHT));
-        assertEquals(40, latteModifiers.get(DoubleModifier.MEATDROP));
-        assertEquals(1, latteModifiers.get(DoubleModifier.MOX_EXPERIENCE));
-        assertEquals(5, latteModifiers.get(DoubleModifier.MOX_PCT));
-        assertEquals(5, latteModifiers.get(DoubleModifier.PICKPOCKET_CHANCE));
+            ModifierDatabase.getModifiers(ModifierType.ITEM, "[" + ItemPool.LATTE_MUG + "]");
+        assertEquals(5, latteModifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT));
+        assertEquals(40, latteModifiers.getDouble(DoubleModifier.MEATDROP));
+        assertEquals(1, latteModifiers.getDouble(DoubleModifier.MOX_EXPERIENCE));
+        assertEquals(5, latteModifiers.getDouble(DoubleModifier.MOX_PCT));
+        assertEquals(5, latteModifiers.getDouble(DoubleModifier.PICKPOCKET_CHANCE));
 
         // Verify that KoLCharacter applied the mods
         Modifiers currentModifiers = KoLCharacter.getCurrentModifiers();
-        assertEquals(5, currentModifiers.get(DoubleModifier.FAMILIAR_WEIGHT));
-        assertEquals(40, currentModifiers.get(DoubleModifier.MEATDROP));
-        assertEquals(1, currentModifiers.get(DoubleModifier.MOX_EXPERIENCE));
-        assertEquals(5, currentModifiers.get(DoubleModifier.MOX_PCT));
-        assertEquals(5, currentModifiers.get(DoubleModifier.PICKPOCKET_CHANCE));
+        assertEquals(5, currentModifiers.getDouble(DoubleModifier.FAMILIAR_WEIGHT));
+        assertEquals(40, currentModifiers.getDouble(DoubleModifier.MEATDROP));
+        assertEquals(1, currentModifiers.getDouble(DoubleModifier.MOX_EXPERIENCE));
+        assertEquals(5, currentModifiers.getDouble(DoubleModifier.MOX_PCT));
+        assertEquals(5, currentModifiers.getDouble(DoubleModifier.PICKPOCKET_CHANCE));
 
         // Verify the familiar is heavier
         assertEquals(25, familiar.getModifiedWeight());
@@ -970,23 +924,23 @@ public class ModifiersTest {
       String setting = "Meat Drop: +30, Experience (familiar): +2, Experience (Muscle): +4";
       Lookup lookup = new Lookup(ModifierType.LOCAL_VOTE, "");
 
-      Modifiers mods = Modifiers.parseModifiers(lookup, setting);
-      assertEquals(30, mods.get(DoubleModifier.MEATDROP));
-      assertEquals(2, mods.get(DoubleModifier.FAMILIAR_EXP));
-      assertEquals(4, mods.get(DoubleModifier.MUS_EXPERIENCE));
+      Modifiers mods = ModifierDatabase.parseModifiers(lookup, setting);
+      assertEquals(30, mods.getDouble(DoubleModifier.MEATDROP));
+      assertEquals(2, mods.getDouble(DoubleModifier.FAMILIAR_EXP));
+      assertEquals(4, mods.getDouble(DoubleModifier.MUS_EXPERIENCE));
 
-      Modifiers evaluated = Modifiers.evaluatedModifiers(lookup, setting);
-      assertEquals(30, evaluated.get(DoubleModifier.MEATDROP));
-      assertEquals(2, evaluated.get(DoubleModifier.FAMILIAR_EXP));
-      assertEquals(4, evaluated.get(DoubleModifier.MUS_EXPERIENCE));
+      Modifiers evaluated = ModifierDatabase.evaluatedModifiers(lookup, setting);
+      assertEquals(30, evaluated.getDouble(DoubleModifier.MEATDROP));
+      assertEquals(2, evaluated.getDouble(DoubleModifier.FAMILIAR_EXP));
+      assertEquals(4, evaluated.getDouble(DoubleModifier.MUS_EXPERIENCE));
 
       var cleanups = new Cleanups(withProperty("_voteModifier", setting));
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         Modifiers current = KoLCharacter.getCurrentModifiers();
-        assertEquals(30, current.get(DoubleModifier.MEATDROP));
-        assertEquals(2, current.get(DoubleModifier.FAMILIAR_EXP));
-        assertEquals(4, current.get(DoubleModifier.MUS_EXPERIENCE));
+        assertEquals(30, current.getDouble(DoubleModifier.MEATDROP));
+        assertEquals(2, current.getDouble(DoubleModifier.FAMILIAR_EXP));
+        assertEquals(4, current.getDouble(DoubleModifier.MUS_EXPERIENCE));
       }
     }
   }
@@ -1003,13 +957,13 @@ public class ModifiersTest {
       KoLCharacter.recalculateAdjustments(false);
       Modifiers current = KoLCharacter.getCurrentModifiers();
 
-      assertThat(current.get(DoubleModifier.FAMILIAR_WEIGHT), equalTo(weightModifier));
+      assertThat(current.getDouble(DoubleModifier.FAMILIAR_WEIGHT), equalTo(weightModifier));
     }
 
     KoLCharacter.recalculateAdjustments(false);
     Modifiers current = KoLCharacter.getCurrentModifiers();
 
-    assertThat(current.get(DoubleModifier.FAMILIAR_WEIGHT), equalTo(0.0));
+    assertThat(current.getDouble(DoubleModifier.FAMILIAR_WEIGHT), equalTo(0.0));
   }
 
   @ParameterizedTest
@@ -1022,43 +976,9 @@ public class ModifiersTest {
     "Overdeveloped Sense of Self Preservation, false",
   })
   public void identifiesVariableModifiers(String skillName, boolean variable) {
-    assertThat(Modifiers.getModifiers(ModifierType.SKILL, skillName).variable, equalTo(variable));
-  }
-
-  @Test
-  @Disabled("modifiers.txt would need to be modified")
-  public void writeModifiersSubsetOfModifiersTxt() throws IOException {
-    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-    PrintStream writer = new PrintStream(ostream);
-
-    Modifiers.writeModifiers(writer);
-    writer.close();
-    List<String> writeModifiersLines = ostream.toString().lines().collect(Collectors.toList());
-
-    BufferedReader reader =
-        DataUtilities.getReader(KoLConstants.DATA_DIRECTORY, "modifiers.txt", true);
-
-    String line;
-    Iterator<String> writeModifiersIterator = writeModifiersLines.iterator();
-    String writeModifiersLine = writeModifiersIterator.next();
-    while ((line = reader.readLine()) != null) {
-      if (writeModifiersLine.startsWith("# ")
-          ? line.startsWith(writeModifiersLine)
-          : line.equals(writeModifiersLine)) {
-        writeModifiersLine =
-            writeModifiersIterator.hasNext() ? writeModifiersIterator.next() : null;
-      }
-    }
-
-    StringBuilder message = new StringBuilder();
-    if (writeModifiersLine != null) {
-      int index = writeModifiersLines.indexOf(writeModifiersLine);
-      for (int i = Math.min(3, index); i >= 0; i--) {
-        message.append("previous line: [" + writeModifiersLines.get(index - i) + "]\n");
-      }
-    }
-    message.append("unmatched line: [" + writeModifiersLine + "]");
-    assertThat(message.toString(), writeModifiersIterator.hasNext(), is(false));
+    ModifierDatabase.ensureModifierDatabaseInitialised();
+    assertThat(
+        ModifierDatabase.getModifiers(ModifierType.SKILL, skillName).variable, equalTo(variable));
   }
 
   @Nested
@@ -1088,7 +1008,7 @@ public class ModifiersTest {
         var weight = 20;
         var familiarMods = getFamiliarMods(weight);
         assertThat(
-            familiarMods.get(DoubleModifier.ITEMDROP),
+            familiarMods.getDouble(DoubleModifier.ITEMDROP),
             closeTo(fairyFunction(weight * effectiveness), 0.001));
       }
     }
@@ -1112,9 +1032,10 @@ public class ModifiersTest {
         var weight = 20;
         var familiarMods = getFamiliarMods(weight);
         assertThat(
-            familiarMods.get(mod), closeTo(fairyFunction(weight) * otherFairyEffectiveness, 0.001));
+            familiarMods.getDouble(mod),
+            closeTo(fairyFunction(weight) * otherFairyEffectiveness, 0.001));
         assertThat(
-            familiarMods.get(DoubleModifier.ITEMDROP),
+            familiarMods.getDouble(DoubleModifier.ITEMDROP),
             closeTo(fairyFunction(weight) * itemFairyEffectiveness, 0.001));
       }
     }

@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.modifiers;
 
-import static net.sourceforge.kolmafia.Modifiers.EXPR;
+import static net.sourceforge.kolmafia.persistence.ModifierDatabase.EXPR;
 
 import java.util.Collections;
 import java.util.EnumSet;

@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -483,7 +484,7 @@ public class BasementDecorator {
     }
 
     public int computeBoost() {
-      Modifiers m = Modifiers.getModifiers(ModifierType.EFFECT, this.name);
+      Modifiers m = ModifierDatabase.getModifiers(ModifierType.EFFECT, this.name);
       if (m == null) {
         return 0;
       }
@@ -498,8 +499,8 @@ public class BasementDecorator {
 
       double base = StatBooster.getEqualizedStat(BasementRequest.getPrimaryBoost());
       double boost =
-          m.get(BasementRequest.getSecondaryBoost())
-              + m.get(BasementRequest.getPrimaryBoost()) * base / 100.0;
+          m.getDouble(BasementRequest.getSecondaryBoost())
+              + m.getDouble(BasementRequest.getPrimaryBoost()) * base / 100.0;
 
       return (int) Math.ceil(boost);
     }
@@ -537,9 +538,9 @@ public class BasementDecorator {
     }
 
     public static int boostMaxHP(final Modifiers m) {
-      double addedMuscleFixed = m.get(DoubleModifier.MUS);
-      double addedMusclePercent = m.get(DoubleModifier.MUS_PCT);
-      int addedHealthFixed = (int) m.get(DoubleModifier.HP);
+      double addedMuscleFixed = m.getDouble(DoubleModifier.MUS);
+      double addedMusclePercent = m.getDouble(DoubleModifier.MUS_PCT);
+      int addedHealthFixed = (int) m.getDouble(DoubleModifier.HP);
 
       if (addedMuscleFixed == 0.0 && addedMusclePercent == 0.0 && addedHealthFixed == 0) {
         return 0;
@@ -580,9 +581,9 @@ public class BasementDecorator {
         statPercentModifier = DoubleModifier.MYS_PCT;
       }
 
-      double addedStatFixed = m.get(statModifier);
-      double addedStatPercent = m.get(statPercentModifier);
-      int addedManaFixed = (int) m.get(DoubleModifier.MP);
+      double addedStatFixed = m.getDouble(statModifier);
+      double addedStatPercent = m.getDouble(statPercentModifier);
+      int addedManaFixed = (int) m.getDouble(DoubleModifier.MP);
 
       if (addedStatFixed == 0.0 && addedStatPercent == 0.0 && addedManaFixed == 0.0) {
         return 0;

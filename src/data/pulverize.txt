@@ -618,6 +618,16 @@ flagstone fleece	flagstone flagments
 flagstone fringe	flagstone flagments
 flagstone flagments	flagstone flagments
 
+# Chiffon items (2023 Standard Normal)
+chiffon chakram	chiffon carbage
+chiffon chamberpot	chiffon carbage
+chiffon chapeau	chiffon carbage
+chiffon chaps	chiffon carbage
+chiffon chemise	chiffon carbage
+chiffon chevrons	chiffon carbage
+
+# Ceramic items (2023 Standard Hardcore)
+
 # Dice items
 dice ring	powdered dice
 dice belt buckle	powdered dice

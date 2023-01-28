@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -13,6 +14,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -22,9 +24,12 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BasementDecorator.StatBooster;
 
@@ -494,12 +499,12 @@ public class BasementRequest extends AdventureRequest {
 
     if (BasementRequest.element1 != BasementRequest.goodelement || !hasGoodEffect) {
       BasementRequest.addDesirableEffects(
-          Modifiers.getPotentialChanges(Modifiers.elementalResistance(BasementRequest.element1)));
+          getPotentialChanges(ModifierDatabase.elementalResistance(BasementRequest.element1)));
     }
 
     if (BasementRequest.element2 != BasementRequest.goodelement || !hasGoodEffect) {
       BasementRequest.addDesirableEffects(
-          Modifiers.getPotentialChanges(Modifiers.elementalResistance(BasementRequest.element2)));
+          getPotentialChanges(ModifierDatabase.elementalResistance(BasementRequest.element2)));
     }
 
     // Add some effects that resist all elements
@@ -1167,19 +1172,16 @@ public class BasementRequest extends AdventureRequest {
 
     BasementRequest.getStatBoosters(BasementRequest.desirableEffects, targetList);
 
+    BasementRequest.getStatBoosters(getPotentialChanges(BasementRequest.primaryBoost), targetList);
     BasementRequest.getStatBoosters(
-        Modifiers.getPotentialChanges(BasementRequest.primaryBoost), targetList);
-    BasementRequest.getStatBoosters(
-        Modifiers.getPotentialChanges(BasementRequest.secondaryBoost), targetList);
+        getPotentialChanges(BasementRequest.secondaryBoost), targetList);
 
     if (BasementRequest.actualStatNeeded == DoubleModifier.HP) {
-      BasementRequest.getStatBoosters(
-          Modifiers.getPotentialChanges(DoubleModifier.HP_PCT), targetList);
-      BasementRequest.getStatBoosters(Modifiers.getPotentialChanges(DoubleModifier.HP), targetList);
+      BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.HP_PCT), targetList);
+      BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.HP), targetList);
     } else if (BasementRequest.actualStatNeeded == DoubleModifier.MP) {
-      BasementRequest.getStatBoosters(
-          Modifiers.getPotentialChanges(DoubleModifier.MP_PCT), targetList);
-      BasementRequest.getStatBoosters(Modifiers.getPotentialChanges(DoubleModifier.MP), targetList);
+      BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.MP_PCT), targetList);
+      BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.MP), targetList);
     }
 
     Collections.sort(targetList);
@@ -1204,5 +1206,39 @@ public class BasementRequest extends AdventureRequest {
 
   public static DoubleModifier getSecondaryBoost() {
     return BasementRequest.secondaryBoost;
+  }
+
+  private static List<AdventureResult> getPotentialChanges(final DoubleModifier modifier) {
+    ArrayList<AdventureResult> available = new ArrayList<>();
+
+    for (Entry<IntOrString, String> entry :
+        ModifierDatabase.getAllModifiersOfType(ModifierType.EFFECT)) {
+      IntOrString key = entry.getKey();
+      if (!key.isString()) continue;
+      String effectName = key.getStringValue();
+      int effectId = EffectDatabase.getEffectId(effectName);
+
+      if (effectId == -1) {
+        continue;
+      }
+
+      Modifiers currentTest = ModifierDatabase.getEffectModifiers(effectId);
+      double value = currentTest.getDouble(modifier);
+
+      if (value == 0.0) {
+        continue;
+      }
+
+      AdventureResult currentEffect = EffectPool.get(effectId);
+      boolean hasEffect = KoLConstants.activeEffects.contains(currentEffect);
+
+      if (value > 0.0 && !hasEffect) {
+        available.add(currentEffect);
+      } else if (value < 0.0 && hasEffect) {
+        available.add(currentEffect);
+      }
+    }
+
+    return available;
   }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -11,6 +12,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -221,7 +223,7 @@ public class Expression {
         case 'b' -> {
           String elem = (String) this.literals.get((int) s[--sp]);
           Element element = Element.fromString(elem);
-          v = KoLCharacter.currentNumericModifier(Modifiers.elementalResistance(element));
+          v = KoLCharacter.currentNumericModifier(ModifierDatabase.elementalResistance(element));
         }
         case 'd' -> {
           String skillName = (String) this.literals.get((int) s[--sp]);
@@ -353,7 +355,8 @@ public class Expression {
         case '\u0093' -> {
           Modifiers mods = KoLCharacter.getCurrentModifiers();
           String modName = (String) this.literals.get((int) s[--sp]);
-          v = mods.getDoublerAccumulator(modName);
+          DoubleModifier modifier = DoubleModifier.byCaselessName(modName);
+          v = mods.getDoublerAccumulator(modifier);
         }
           // Valid with ModifierExpression:
         case '\u0094' -> v = KoLCharacter.canInteract() ? 1 : 0;

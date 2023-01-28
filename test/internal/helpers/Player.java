@@ -2117,13 +2117,13 @@ public class Player {
   }
 
   public static Cleanups withOverrideModifiers(ModifierType type, String key, String value) {
-    Modifiers.overrideModifier(type, key, value);
-    return new Cleanups(() -> Modifiers.overrideRemoveModifier(type, key));
+    ModifierDatabase.overrideModifier(type, key, value);
+    return new Cleanups(() -> ModifierDatabase.overrideRemoveModifier(type, key));
   }
 
   public static Cleanups withOverrideModifiers(ModifierType type, int key, String value) {
-    Modifiers.overrideModifier(type, key, value);
-    return new Cleanups(() -> Modifiers.overrideRemoveModifier(type, key));
+    ModifierDatabase.overrideModifier(type, key, value);
+    return new Cleanups(() -> ModifierDatabase.overrideRemoveModifier(type, key));
   }
 
   public static Cleanups withHermitReset() {

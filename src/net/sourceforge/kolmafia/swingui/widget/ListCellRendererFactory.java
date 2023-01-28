@@ -19,6 +19,8 @@ import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -27,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -474,7 +477,9 @@ public class ListCellRendererFactory {
       AdventureResult effect = EffectPool.get(effectId, 0);
 
       int effectDuration =
-          (int) Modifiers.getNumericModifier(ModifierType.ITEM, name, "Effect Duration");
+          (int)
+              ModifierDatabase.getNumericModifier(
+                  ModifierType.ITEM, name, DoubleModifier.EFFECT_DURATION);
       stringForm.append(effectDuration).append(" ").append(effectName);
 
       int active = effect.getCount(KoLConstants.activeEffects);
@@ -482,8 +487,9 @@ public class ListCellRendererFactory {
         stringForm.append(" (").append(active).append(" active)");
       }
 
-      Modifiers mods = Modifiers.getEffectModifiers(effectId);
-      String effectModifiers = (mods == null) ? null : mods.getString("Evaluated Modifiers");
+      Modifiers mods = ModifierDatabase.getEffectModifiers(effectId);
+      String effectModifiers =
+          (mods == null) ? null : mods.getString(StringModifier.EVALUATED_MODIFIERS);
 
       if (effectModifiers != null) {
         stringForm.append(" (").append(effectModifiers).append(")");
@@ -768,7 +774,7 @@ public class ListCellRendererFactory {
       if (equipmentType == ConsumptionType.FAMILIAR_EQUIPMENT) {
         stringForm = ar.getName();
 
-        String effect = Modifiers.getFamiliarEffect(ar.getName());
+        String effect = ModifierDatabase.getFamiliarEffect(ar.getName());
         if (effect != null) {
           stringForm += " (" + effect + ")";
         }
@@ -781,7 +787,7 @@ public class ListCellRendererFactory {
       } else {
         if (equipmentType == ConsumptionType.ACCESSORY) {
           int count;
-          Modifiers mods = Modifiers.getItemModifiers(ar.getItemId());
+          Modifiers mods = ModifierDatabase.getItemModifiers(ar.getItemId());
           if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {
             count = 1;
           } else {

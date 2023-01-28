@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -21,6 +20,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -959,11 +959,17 @@ public class SpelunkyRequest extends GenericRequest {
     // Spelunky weapons can have bonus damage
 
     int bonusWeaponDamage =
-        (int) Modifiers.getNumericModifier(ModifierType.ITEM, weaponItemId, "Weapon Damage");
+        (int)
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, weaponItemId, DoubleModifier.WEAPON_DAMAGE);
     int bonusOffhandDamage =
-        (int) Modifiers.getNumericModifier(ModifierType.ITEM, offhandItemId, "Weapon Damage");
+        (int)
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, offhandItemId, DoubleModifier.WEAPON_DAMAGE);
     int bonusRangedDamage =
-        (int) Modifiers.getNumericModifier(ModifierType.ITEM, weaponItemId, "Ranged Damage");
+        (int)
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, weaponItemId, DoubleModifier.RANGED_DAMAGE);
     int bonusDamage =
         bonusWeaponDamage + (stat == Stat.MOXIE ? bonusRangedDamage : 0) + bonusOffhandDamage;
 

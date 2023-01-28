@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -169,9 +170,9 @@ public class GearChangePanel extends JPanel {
           true,
           taoFactor);
     } else if (value instanceof SpecialOutfit outfit) {
-      mods = Modifiers.getModifiers(ModifierType.OUTFIT, outfit.getName());
+      mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
     } else if (value instanceof FamiliarData familiar && isCustomizablePanel) {
-      mods = Modifiers.getModifiers(ModifierType.THRONE, familiar.getRace());
+      mods = ModifierDatabase.getModifiers(ModifierType.THRONE, familiar.getRace());
     } else {
       return null;
     }
@@ -184,7 +185,7 @@ public class GearChangePanel extends JPanel {
     if (name.length() > 0) {
       Modifiers newMods = new Modifiers();
       newMods.add(mods);
-      newMods.add(Modifiers.getModifiers(ModifierType.EFFECT, name));
+      newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, name));
       mods = newMods;
     }
 
@@ -193,7 +194,7 @@ public class GearChangePanel extends JPanel {
     buff.append(">");
 
     for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-      double val = mods.get(mod);
+      double val = mods.getDouble(mod);
       if (val == 0.0f) continue;
       name = mod.getName();
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");

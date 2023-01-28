@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
@@ -54,7 +55,7 @@ public class MonsterExpressionTest {
 
   @Test
   public void canDetectMonsterLevel() {
-    Modifiers.overrideModifier(ModifierType.GENERATED, "_userMods", "Monster Level: +9");
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_userMods", "Monster Level: +9");
     KoLCharacter.recalculateAdjustments();
 
     var exp = new MonsterExpression("ML", "Monster Level");

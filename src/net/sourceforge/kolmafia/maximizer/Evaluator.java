@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -206,7 +207,7 @@ public class Evaluator {
   }
 
   private void addUniqueItems(String name) {
-    Set<String> itemNames = Modifiers.getUniques(name);
+    Set<String> itemNames = ModifierDatabase.getUniques(name);
     if (itemNames != null) {
       for (String itemName : itemNames) {
         this.uniques.add(ItemPool.get(itemName, 1));
@@ -727,7 +728,7 @@ public class Evaluator {
       double weight = this.weight.get(mod);
       double min = this.min.get(mod);
       if (weight == 0.0 && min == Double.NEGATIVE_INFINITY) continue;
-      double val = mods.get(mod);
+      double val = mods.getDouble(mod);
       double max = this.max.get(mod);
       switch (mod) {
         case MUS:
@@ -740,29 +741,29 @@ public class Evaluator {
           val = predicted.get(DerivedModifier.BUFFED_MOX);
           break;
         case FAMILIAR_WEIGHT:
-          val += mods.get(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
-          if (mods.get(DoubleModifier.FAMILIAR_WEIGHT_PCT) < 0.0) {
+          val += mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+          if (mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) < 0.0) {
             val *= 0.5f;
           }
           break;
         case MANA_COST:
-          val += mods.get(DoubleModifier.STACKABLE_MANA_COST);
+          val += mods.getDouble(DoubleModifier.STACKABLE_MANA_COST);
           break;
         case INITIATIVE:
-          val += Math.min(0.0, mods.get(DoubleModifier.INITIATIVE_PENALTY));
+          val += Math.min(0.0, mods.getDouble(DoubleModifier.INITIATIVE_PENALTY));
           break;
         case MEATDROP:
           val +=
               100.0
-                  + Math.min(0.0, mods.get(DoubleModifier.MEATDROP_PENALTY))
-                  + mods.get(DoubleModifier.SPORADIC_MEATDROP)
-                  + mods.get(DoubleModifier.MEAT_BONUS) / 10000.0;
+                  + Math.min(0.0, mods.getDouble(DoubleModifier.MEATDROP_PENALTY))
+                  + mods.getDouble(DoubleModifier.SPORADIC_MEATDROP)
+                  + mods.getDouble(DoubleModifier.MEAT_BONUS) / 10000.0;
           break;
         case ITEMDROP:
           val +=
               100.0
-                  + Math.min(0.0, mods.get(DoubleModifier.ITEMDROP_PENALTY))
-                  + mods.get(DoubleModifier.SPORADIC_ITEMDROP);
+                  + Math.min(0.0, mods.getDouble(DoubleModifier.ITEMDROP_PENALTY))
+                  + mods.getDouble(DoubleModifier.SPORADIC_ITEMDROP);
           break;
         case HP:
           val = predicted.get(DerivedModifier.BUFFED_HP);
@@ -772,15 +773,15 @@ public class Evaluator {
           break;
         case WEAPON_DAMAGE:
           // Incorrect - needs to estimate base damage
-          val += mods.get(DoubleModifier.WEAPON_DAMAGE_PCT);
+          val += mods.getDouble(DoubleModifier.WEAPON_DAMAGE_PCT);
           break;
         case RANGED_DAMAGE:
           // Incorrect - needs to estimate base damage
-          val += mods.get(DoubleModifier.RANGED_DAMAGE_PCT);
+          val += mods.getDouble(DoubleModifier.RANGED_DAMAGE_PCT);
           break;
         case SPELL_DAMAGE:
           // Incorrect - base damage depends on spell used
-          val += mods.get(DoubleModifier.SPELL_DAMAGE_PCT);
+          val += mods.getDouble(DoubleModifier.SPELL_DAMAGE_PCT);
           break;
         case COLD_RESISTANCE:
           if (mods.getBoolean(BooleanModifier.COLD_IMMUNITY)) {
@@ -820,10 +821,10 @@ public class Evaluator {
         case EXPERIENCE:
           double baseExp =
               KoLCharacter.estimatedBaseExp(
-                  mods.get(DoubleModifier.MONSTER_LEVEL)
-                      * (1 + mods.get(DoubleModifier.MONSTER_LEVEL_PERCENT) / 100));
-          double expPct = mods.get(DoubleModifier.primeStatExpPercent()) / 100.0f;
-          double exp = mods.get(DoubleModifier.primeStatExp());
+                  mods.getDouble(DoubleModifier.MONSTER_LEVEL)
+                      * (1 + mods.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) / 100));
+          double expPct = mods.getDouble(DoubleModifier.primeStatExpPercent()) / 100.0f;
+          double exp = mods.getDouble(DoubleModifier.primeStatExp());
 
           val = ((baseExp + exp) * (1 + expPct)) / 2.0f;
           break;
@@ -856,7 +857,7 @@ public class Evaluator {
     // Allow partials to contribute to the score (1:1 ratio) up to the desired value.
     // Similar to setting a max.
     if (this.clownosity > 0) {
-      int osity = ((int) mods.get(DoubleModifier.CLOWNINESS)) / 25;
+      int osity = ((int) mods.getDouble(DoubleModifier.CLOWNINESS)) / 25;
       score += Math.min(osity, this.clownosity);
       if (osity < this.clownosity) this.failed = true;
     }
@@ -866,7 +867,7 @@ public class Evaluator {
       if (osity < this.raveosity) this.failed = true;
     }
     if (this.surgeonosity > 0) {
-      int osity = (int) mods.get(DoubleModifier.SURGEONOSITY);
+      int osity = (int) mods.getDouble(DoubleModifier.SURGEONOSITY);
       score += Math.min(osity, this.surgeonosity);
       if (osity < this.surgeonosity) this.failed = true;
     }
@@ -1023,7 +1024,7 @@ public class Evaluator {
         continue;
       }
 
-      Modifiers mods = Modifiers.getModifiers(ModifierType.OUTFIT, outfit.getName());
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
       if (mods == null) continue;
 
       switch (this.checkConstraints(mods)) {
@@ -1040,8 +1041,8 @@ public class Evaluator {
     }
 
     int usefulSynergies = 0;
-    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.SYNERGY, entry.getKey());
+    for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SYNERGY, entry.getKey());
       int value = entry.getValue().intValue();
       if (mods == null) continue;
       double delta = this.getScore(mods) - nullScore;
@@ -1050,7 +1051,7 @@ public class Evaluator {
 
     boolean hoboPowerUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_hoboPower");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_hoboPower");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         hoboPowerUseful = true;
       }
@@ -1058,7 +1059,7 @@ public class Evaluator {
 
     boolean smithsnessUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_smithsness");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_smithsness");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         smithsnessUseful = true;
       }
@@ -1066,7 +1067,7 @@ public class Evaluator {
 
     boolean brimstoneUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_brimstone");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_brimstone");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         brimstoneUseful = true;
       }
@@ -1074,7 +1075,7 @@ public class Evaluator {
 
     boolean cloathingUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_cloathing");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_cloathing");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         cloathingUseful = true;
       }
@@ -1082,7 +1083,7 @@ public class Evaluator {
 
     boolean slimeHateUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers(ModifierType.MAX_CAT, "_slimeHate");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_slimeHate");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         slimeHateUseful = true;
       }
@@ -1118,7 +1119,7 @@ public class Evaluator {
         }
         // Normal item modifiers when used by Disembodied Hand and Left-Hand
         else {
-          familiarMods = Modifiers.getItemModifiersInFamiliarSlot(id);
+          familiarMods = ModifierDatabase.getItemModifiersInFamiliarSlot(id);
 
           // Some items work differently with the Left Hand
           if (familiarId == FamiliarPool.LEFT_HAND) {
@@ -1164,7 +1165,7 @@ public class Evaluator {
           familiarMods.applyFamiliarModifiers(fam, preItem);
         } else {
           // Normal item modifiers when used by Disembodied Hand
-          familiarMods = Modifiers.getItemModifiers(id);
+          familiarMods = ModifierDatabase.getItemModifiers(id);
           if (familiarMods == null) { // no enchantments
             familiarMods = new Modifiers();
           }
@@ -1393,7 +1394,7 @@ public class Evaluator {
           item.automaticFlag = true;
         }
 
-        Modifiers mods = Modifiers.getItemModifiers(id);
+        Modifiers mods = ModifierDatabase.getItemModifiers(id);
         if (mods == null) { // no enchantments
           mods = new Modifiers();
         }
@@ -1467,14 +1468,14 @@ public class Evaluator {
             break gotItem;
         }
 
-        if ((hoboPowerUseful && mods.get(DoubleModifier.HOBO_POWER) > 0.0)
-            || (smithsnessUseful && !wrongClass && mods.get(DoubleModifier.SMITHSNESS) > 0.0)
+        if ((hoboPowerUseful && mods.getDouble(DoubleModifier.HOBO_POWER) > 0.0)
+            || (smithsnessUseful && !wrongClass && mods.getDouble(DoubleModifier.SMITHSNESS) > 0.0)
             || (brimstoneUseful && mods.getRawBitmap(BitmapModifier.BRIMSTONE) != 0)
             || (cloathingUseful && mods.getRawBitmap(BitmapModifier.CLOATHING) != 0)
-            || (slimeHateUseful && mods.get(DoubleModifier.SLIME_HATES_IT) > 0.0)
-            || (this.clownosity > 0 && mods.get(DoubleModifier.CLOWNINESS) != 0)
+            || (slimeHateUseful && mods.getDouble(DoubleModifier.SLIME_HATES_IT) > 0.0)
+            || (this.clownosity > 0 && mods.getDouble(DoubleModifier.CLOWNINESS) != 0)
             || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
-            || (this.surgeonosity > 0 && mods.get(DoubleModifier.SURGEONOSITY) != 0)
+            || (this.surgeonosity > 0 && mods.getDouble(DoubleModifier.SURGEONOSITY) != 0)
             || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;
@@ -1504,7 +1505,7 @@ public class Evaluator {
         if (intrinsic.length() > 0) {
           Modifiers newMods = new Modifiers();
           newMods.add(mods);
-          newMods.add(Modifiers.getModifiers(ModifierType.EFFECT, intrinsic));
+          newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
           mods = newMods;
         }
         double delta = this.getScore(mods, new AdventureResult[] {item}) - nullScore;
@@ -1787,7 +1788,7 @@ public class Evaluator {
     // spots
 
     // Compare synergies with best items in the same spots, and remove automatic flag if not better
-    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
+    for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
       String synergy = entry.getKey();
       int mask = entry.getValue().intValue();
       int index = synergy.indexOf("/");

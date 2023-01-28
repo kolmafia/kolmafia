@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
@@ -502,9 +503,9 @@ public class CharPaneRequest extends GenericRequest {
     boolean mus_equalize = mods.getString(StringModifier.EQUALIZE_MUSCLE).length() != 0;
     boolean mys_equalize = mods.getString(StringModifier.EQUALIZE_MYST).length() != 0;
     boolean mox_equalize = mods.getString(StringModifier.EQUALIZE_MOXIE).length() != 0;
-    boolean mus_limit = (int) mods.get(DoubleModifier.MUS_LIMIT) != 0;
-    boolean mys_limit = (int) mods.get(DoubleModifier.MYS_LIMIT) != 0;
-    boolean mox_limit = (int) mods.get(DoubleModifier.MOX_LIMIT) != 0;
+    boolean mus_limit = (int) mods.getDouble(DoubleModifier.MUS_LIMIT) != 0;
+    boolean mys_limit = (int) mods.getDouble(DoubleModifier.MYS_LIMIT) != 0;
+    boolean mox_limit = (int) mods.getDouble(DoubleModifier.MOX_LIMIT) != 0;
 
     boolean checkMus = !equalize && !mus_equalize && !mus_limit;
     boolean checkMys = !equalize && !mys_equalize && !mys_limit;
@@ -1274,13 +1275,13 @@ public class CharPaneRequest extends GenericRequest {
 
     ModifierList modList = new ModifierList();
     for (Object res : result) {
-      String mod = Modifiers.parseModifier(res.toString());
+      String mod = ModifierDatabase.parseModifier(res.toString());
       if (mod == null) {
         // this shouldn't happen...
         continue;
       }
       // Split into modifiers as some, like regeneration, get two values from one mod string
-      ModifierList newModList = Modifiers.splitModifiers(mod);
+      ModifierList newModList = ModifierDatabase.splitModifiers(mod);
 
       // Iterate over modifiers
       for (ModifierValue modifier : newModList) {
@@ -1300,7 +1301,8 @@ public class CharPaneRequest extends GenericRequest {
         }
       }
     }
-    Modifiers.overrideModifier(ModifierType.GENERATED, "Enchantments Absorbed", modList.toString());
+    ModifierDatabase.overrideModifier(
+        ModifierType.GENERATED, "Enchantments Absorbed", modList.toString());
   }
 
   private static final Pattern disguisePattern = Pattern.compile("masks/mask(\\d+).png");

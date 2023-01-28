@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
@@ -468,7 +469,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       case PANTS:
         return Preferences.getInteger("usablePants");
       case ACCESSORY:
-        Modifiers mods = Modifiers.getItemModifiers(id);
+        Modifiers mods = ModifierDatabase.getItemModifiers(id);
         if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {
           return Preferences.getInteger("usable1xAccs");
         } else {

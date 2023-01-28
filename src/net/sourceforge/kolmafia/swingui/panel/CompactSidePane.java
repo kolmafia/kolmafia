@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
@@ -401,13 +402,13 @@ public class CompactSidePane extends JPanel implements Runnable {
         }
 
         int id = fam.getId();
-        Modifiers mods = Modifiers.getModifiers(ModifierType.FAMILIAR, fam.getRace());
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.FAMILIAR, fam.getRace());
         boolean added = false;
 
         // Stat Gain
         if (FamiliarDatabase.isVolleyType(id)
             || FamiliarDatabase.isSombreroType(id)
-            || (mods != null && mods.get(DoubleModifier.VOLLEYBALL_WEIGHT) != 0.0)) {
+            || (mods != null && mods.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT) != 0.0)) {
           stat.add(new FamiliarMenuItem(fam));
           added = true;
         }
