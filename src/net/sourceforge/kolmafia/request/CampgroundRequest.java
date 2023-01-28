@@ -699,7 +699,8 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
-    if (KoLCharacter.isFallingDown()) {
+    if (KoLCharacter.isFallingDown()
+        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) {
       // You cannot be falling down drunk
       return;
     }

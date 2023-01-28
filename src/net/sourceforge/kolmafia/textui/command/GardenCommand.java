@@ -4,6 +4,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
@@ -22,7 +23,8 @@ public class GardenCommand extends AbstractCommand {
       KoLmafia.updateDisplay("You've already dealt with your mushroom garden today.");
       return false;
     }
-    if (KoLCharacter.isFallingDown()) {
+    if (KoLCharacter.isFallingDown()
+        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) {
       KoLmafia.updateDisplay("You are too drunk to enter your mushroom garden.");
       return false;
     }
