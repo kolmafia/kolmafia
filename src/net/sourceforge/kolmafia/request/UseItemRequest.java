@@ -5996,10 +5996,12 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.MOLEHILL_MOUNTAIN:
+        // If we were not redirected, the item was used already
         Preferences.setBoolean("_molehillMountainUsed", true);
         return;
 
       case ItemPool.STRANGE_STALAGMITE:
+        // If we were not redirected, the item was used already
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
         return;
     }
