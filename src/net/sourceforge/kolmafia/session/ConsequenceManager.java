@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class ConsequenceManager {
   private static final HashMap<String, Consequence> itemDescs = new HashMap<>();
@@ -311,7 +312,11 @@ public abstract class ConsequenceManager {
         String value = action.substring(pos + 1).trim();
         if (value.equals("ascensions")) value = String.valueOf(KoLCharacter.getAscensions());
         if (value.equals("mods")) value = mods;
-        Preferences.setString(setting, value);
+        if (StringUtilities.isNumeric(value)) {
+          Preferences.setInteger(setting, StringUtilities.parseInt(value));
+        } else {
+          Preferences.setString(setting, value);
+        }
         return null;
       }
 
