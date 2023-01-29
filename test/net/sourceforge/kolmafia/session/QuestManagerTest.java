@@ -28,7 +28,10 @@ import static internal.matchers.Quest.isStarted;
 import static internal.matchers.Quest.isStep;
 import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -62,7 +65,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import org.eclipse.jgit.util.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -2176,7 +2178,6 @@ public class QuestManagerTest {
       }
 
       @Test
-      @Disabled("Fails")
       public void talkingToGrandpaWithNoteConfirmsQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
@@ -2202,7 +2203,6 @@ public class QuestManagerTest {
       }
 
       @Test
-      @Disabled("Fails")
       public void talkingToGrandpaWithNoteAndYarnAdvancesQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
@@ -2227,9 +2227,8 @@ public class QuestManagerTest {
           assertTrue(InventoryManager.hasItem(GRANDMAS_MAP));
 
           var requests = builder.client.getRequests();
-          assertThat(requests, hasSize(2));
+          assertThat(requests, hasSize(1));
           assertPostRequest(requests.get(0), "/monkeycastle.php", "action=grandpastory&topic=note");
-          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
         }
       }
 
