@@ -2214,7 +2214,6 @@ public class QuestManagerTest {
                 withItem(CHARTREUSE_YARN));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_8.html"));
-          builder.client.addResponse(200, ""); // api.php
 
           String URL = "monkeycastle.php?action=grandpastory&topic=note";
           var request = new GenericRequest(URL);
