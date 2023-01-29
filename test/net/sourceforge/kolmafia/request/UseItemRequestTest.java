@@ -4,6 +4,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
@@ -364,6 +365,50 @@ class UseItemRequestTest {
       req.run();
 
       assertThat(InventoryManager.getCount(ItemPool.BASTILLE_LOANER_VOUCHER), is(1));
+    }
+  }
+
+  // @Test
+  void detectsMolehillMountainUse() {
+    var cleanups =
+        new Cleanups(
+            withFight(0), // Clean up the resulting fight
+            withItem(ItemPool.MOLEHILL_MOUNTAIN, 1),
+            withProperty("_molehillMountainUsed", false),
+            withNextResponse(
+                new FakeHttpResponse<>(
+                    200, html("request/test_use_item_molehill_mountain_redirect.html")),
+                new FakeHttpResponse<>(
+                    200, html("request/test_use_item_molehill_mountain_fight.html"))));
+
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.MOLEHILL_MOUNTAIN);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.MOLEHILL_MOUNTAIN), is(1));
+      assertThat("_molehillMountainUsed", isSetTo(true));
+    }
+  }
+
+  @Test
+  void detectsStrangeStalagmiteUse() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.STRANGE_STALAGMITE, 1),
+            withProperty("_strangeStalagmiteUsed", false),
+            withNextResponse(
+                new FakeHttpResponse<>(
+                    200, html("request/test_use_item_strange_stalagmite_redirect.html")),
+                new FakeHttpResponse<>(
+                    200, html("request/test_use_item_strange_stalagmite_choice.html"))),
+            withHandlingChoice(false));
+
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.STRANGE_STALAGMITE);
+      req.run();
+
+      assertThat(InventoryManager.getCount(ItemPool.STRANGE_STALAGMITE), is(1));
+      assertThat("_strangeStalagmiteUsed", isSetTo(true));
     }
   }
 
