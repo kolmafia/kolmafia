@@ -8075,6 +8075,9 @@ public abstract class ChoiceControl {
         CampgroundRequest.setCurrentWorkshedItem(ItemPool.MODEL_TRAIN_SET);
         TrainsetManager.visitChoice(text);
         break;
+      case 1491: // Strange Stalagmite(s)
+        Preferences.setBoolean("_strangeStalagmiteUsed", true);
+        break;
     }
   }
 

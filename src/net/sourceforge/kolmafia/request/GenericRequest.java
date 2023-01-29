@@ -2792,6 +2792,11 @@ public class GenericRequest implements Runnable {
         consumed = true;
         break;
 
+      case ItemPool.MOLEHILL_MOUNTAIN:
+        itemName = item.getName();
+        Preferences.setBoolean("_molehillMountainUsed", true);
+        break;
+
       default:
         return;
     }
