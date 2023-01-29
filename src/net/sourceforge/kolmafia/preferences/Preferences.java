@@ -100,6 +100,8 @@ public class Preferences {
 
   private static final String[] resetOnAscension =
       new String[] {
+        "8BitColor",
+        "8BitScore",
         "affirmationCookiesEaten",
         "aminoAcidsUsed",
         "autumnatonQuestLocation",
@@ -172,6 +174,7 @@ public class Preferences {
         "cinderellaMinutesToMidnight",
         "cinderellaScore",
         "clumsinessGroveBoss",
+        "commerceGhostCombats",
         "commerceGhostItem",
         "copperheadClubHazard",
         "cornucopiasOpened",
