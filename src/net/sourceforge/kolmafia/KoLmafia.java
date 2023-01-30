@@ -198,6 +198,13 @@ public abstract class KoLmafia {
       if (KoLmafia.SESSION_FILE.exists()) {
         KoLmafia.SESSION_CHANNEL = new RandomAccessFile(KoLmafia.SESSION_FILE, "rw").getChannel();
         KoLmafia.SESSION_HOLDER = KoLmafia.SESSION_CHANNEL.tryLock();
+        if (KoLmafia.SESSION_HOLDER == null) {
+          KoLmafia.updateDisplay(
+              MafiaState.ABORT,
+              "Could not acquire file lock for "
+                  + suffix
+                  + ". Most likely, another instance of KoLmafia is logged in.");
+        }
         return KoLmafia.SESSION_HOLDER != null;
       }
 
@@ -1885,8 +1892,6 @@ public abstract class KoLmafia {
 
       SystemTrayFrame.removeTrayIcon();
       RelayServer.stop();
-
-      releaseFileLock();
     }
   }
 
