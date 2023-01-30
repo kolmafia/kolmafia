@@ -1296,6 +1296,8 @@ public class QuestManager {
     else if (location.contains("action=grandpastory")) {
       if (responseText.contains("bet those lousy Mer-kin up and kidnapped her")) {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step6");
+      } else if (responseText.contains("that note's definitely Grandma Sea Monkee's handwriting")) {
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step7");
       } else if (responseText.contains("Gonna need one of them seahorses")) {
         Preferences.setBoolean("corralUnlocked", true);
       }
