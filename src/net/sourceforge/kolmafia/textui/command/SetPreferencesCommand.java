@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
@@ -14,7 +14,7 @@ import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 public class SetPreferencesCommand extends AbstractCommand {
   public SetPreferencesCommand() {
     this.usage = " <preference> [ = <value> ] - show/change preference settings";
-    this.flags = KoLmafiaCLI.FULL_LINE_CMD;
+    this.flags = ParameterHandling.FULL_LINE;
   }
 
   @Override

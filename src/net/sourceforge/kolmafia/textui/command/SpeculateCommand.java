@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -19,7 +19,7 @@ public class SpeculateCommand extends AbstractCommand {
     this.usage =
         " MCD <num> | equip [<slot>] <item> | unequip <slot> | familiar <type> | enthrone <type> | bjornify <type> | up <eff> | uneffect <eff> | quiet ; [<another>;...] - predict modifiers.";
 
-    this.flags = KoLmafiaCLI.FULL_LINE_CMD;
+    this.flags = ParameterHandling.FULL_LINE;
   }
 
   @Override

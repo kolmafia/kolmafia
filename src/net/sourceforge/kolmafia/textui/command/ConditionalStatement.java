@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -21,7 +21,7 @@ public abstract class ConditionalStatement extends AbstractCommand {
   private static final Pattern STATDAY_PATTERN = Pattern.compile("(today|tomorrow) is (.*?) day");
 
   {
-    this.flags = KoLmafiaCLI.FLOW_CONTROL_CMD;
+    this.flags = ParameterHandling.FLOW_CONTROL;
   }
 
   /**
