@@ -751,6 +751,12 @@ public class ItemPool {
   public static final int UPSY_DAISY = 2545;
   public static final int HALF_ORCHID = 2546;
   public static final int OUTRAGEOUS_SOMBRERO = 2548;
+  public static final int PEPPERCORNS_OF_POWER = 2550;
+  public static final int VIAL_OF_MOJO = 2551;
+  public static final int GOLDEN_REEDS = 2552;
+  public static final int TURTLE_CHAIN = 2553;
+  public static final int DISTILLED_SEAL_BLOOD = 2554;
+  public static final int HIGH_OCTANE_OLIVE_OIL = 2555;
   public static final int SHAGADELIC_DISCO_BANJO = 2556;
   public static final int SQUEEZEBOX_OF_THE_AGES = 2557;
   public static final int CHELONIAN_MORNINGSTAR = 2558;
