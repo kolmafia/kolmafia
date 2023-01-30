@@ -192,7 +192,7 @@ public abstract class KoLmafia {
   }
 
   public static boolean acquireFileLock(final String suffix) {
-    if (KoLmafia.SESSION_FILE != null) {
+    if (KoLmafia.SESSION_HOLDER != null) {
       // If we have a session file lock already, release it.
       KoLmafia.releaseFileLock();
     }
@@ -229,6 +229,7 @@ public abstract class KoLmafia {
   public static void releaseFileLock() {
     try {
       KoLmafia.SESSION_HOLDER.release();
+      KoLmafia.SESSION_HOLDER = null;
       KoLmafia.SESSION_CHANNEL.close();
       KoLmafia.SESSION_FILE.delete();
     } catch (Exception e) {
