@@ -192,6 +192,10 @@ public abstract class KoLmafia {
   }
 
   public static boolean acquireFileLock(final String suffix) {
+    if (KoLmafia.SESSION_FILE != null) {
+      // If we have a session file lock already, release it.
+      KoLmafia.releaseFileLock();
+    }
     try {
       KoLmafia.SESSION_FILE = new File(KoLConstants.SESSIONS_LOCATION, "active_session." + suffix);
 
