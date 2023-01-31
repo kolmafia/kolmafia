@@ -601,7 +601,6 @@ public abstract class UseLinkDecorator {
     }
 
     boolean combatResults = location.startsWith("fight.php") || location.startsWith("choice.php");
-    ;
 
     switch (consumeMethod) {
       case FAMILIAR_HATCHLING:
