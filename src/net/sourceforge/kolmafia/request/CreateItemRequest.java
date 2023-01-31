@@ -480,6 +480,13 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
   /** Helper routine which actually does the item combination. */
   private void combineItems() {
+    this.buildFullURL();
+    KoLmafia.updateDisplay("Creating " + this.name + " (" + this.quantityNeeded + ")...");
+    super.run();
+  }
+
+  /** Helper routine which builds the URL to create the item */
+  public void buildFullURL() {
     String path = this.getPath();
     String quantityField = "quantity";
 
@@ -510,9 +517,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
     int quantity = (this.quantityNeeded + this.yield - 1) / this.yield;
     this.addFormField(quantityField, String.valueOf(quantity));
-
-    KoLmafia.updateDisplay("Creating " + this.name + " (" + this.quantityNeeded + ")...");
-    super.run();
   }
 
   @Override
