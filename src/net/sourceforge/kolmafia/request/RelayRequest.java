@@ -128,7 +128,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_COLOSSEUM = "confirm13";
   private static final String CONFIRM_GREMLINS = "confirm14";
   private static final String CONFIRM_HARDCOREPVP = "confirm15";
-  private static final String CONFIRM_DESERT_UNHYDRATED = "confirm16";
+  public static final String CONFIRM_DESERT_UNHYDRATED = "confirm16";
   public static final String CONFIRM_MOHAWK_WIG = "confirm17";
   private static final String CONFIRM_CELLAR = "confirm18";
   private static final String CONFIRM_BOILER = "confirm19";
@@ -146,7 +146,7 @@ public class RelayRequest extends PasswordHashRequest {
   public static final String CONFIRM_DESERT_WEAPON = "confirm31";
 
   private static boolean ignoreBoringDoorsWarning = false;
-  private static boolean ignoreDesertWarning = false;
+  public static boolean ignoreDesertWarning = false;
   public static boolean ignoreDesertWeaponWarning = false;
   private static boolean ignoreDesertOffhandWarning = false;
   public static boolean ignoreMacheteWarning = false;
@@ -1431,7 +1431,7 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendUnhydratedDesertWarning() {
+  public boolean sendUnhydratedDesertWarning() {
     // Only send this warning once per session
     if (RelayRequest.ignoreDesertWarning) {
       return false;
@@ -1449,9 +1449,14 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    // Either The Oasis isn't open, or all reason to care about hydration is gone
+    // If The Oasis isn't open, exploring the first time will hydrate and open it
+    if (!Preferences.getBoolean("oasisAvailable")) {
+      return false;
+    }
+
+    // If the desert is fully explored, no reason to care about hydration
     int explored = Preferences.getInteger("desertExploration");
-    if (explored == 0 || explored == 100) {
+    if (explored == 100) {
       return false;
     }
 

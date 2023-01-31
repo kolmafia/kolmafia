@@ -702,6 +702,77 @@ public class QuestManagerTest {
   }
 
   /*
+   * Level 11 - The Oasis
+   */
+
+  @Nested
+  class Oasis {
+    @Test
+    void canDetectOasisNotOpenWithNoDesertProgress() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_unexplored.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(0));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisNotOpenWithProgress() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(10));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisNotOpenWithProgressAndGnasir() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored_gnasir.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(10));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisOpenWithProgressAndGnasir() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored_oasis_gnasir.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(12));
+        assertThat("oasisAvailable", isSetTo(true));
+      }
+    }
+  }
+
+  /*
    * Level 11 - Pyramid
    */
 

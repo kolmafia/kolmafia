@@ -1056,7 +1056,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (KoLCharacter.isKingdomOfExploathing()) {
         return switch (this.adventureNumber) {
           case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
-          case AdventurePool.OASIS -> Preferences.getInteger("desertExploration") > 0
+          case AdventurePool.OASIS -> Preferences.getBoolean("oasisAvailable")
               || QuestDatabase.isQuestFinished(Quest.DESERT);
           default -> false;
         };
@@ -1070,8 +1070,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.THE_SHORE, AdventurePool.SOUTH_OF_THE_BORDER -> true;
           // Open after diary read
         case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
-          // Open after 1 desert exploration or - legacy - desert quest is finished
-        case AdventurePool.OASIS -> Preferences.getInteger("desertExploration") > 0
+          // Opens after 1st desert exploration or - legacy - desert quest is finished
+        case AdventurePool.OASIS -> Preferences.getBoolean("oasisAvailable")
             || QuestDatabase.isQuestFinished(Quest.DESERT);
           // Open with "Tropical Contact High"
         case AdventurePool.KOKOMO_RESORT -> KoLConstants.activeEffects.contains(
