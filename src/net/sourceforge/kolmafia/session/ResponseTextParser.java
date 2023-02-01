@@ -849,6 +849,10 @@ public class ResponseTextParser {
     }
 
     UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
+    if (skill == null) {
+      SkillDatabase.registerSkill(skillId);
+      skill = UseSkillRequest.getUnmodifiedInstance(skillId);
+    }
 
     String message = "You learned a new skill: " + skill.getSkillName();
     RequestLogger.printLine(message);
