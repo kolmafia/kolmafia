@@ -2,9 +2,10 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import javax.swing.JComboBox;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -19,7 +20,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
  */
 public class ScriptMRUList implements Listener {
   protected int maxMRU = 16;
-  protected final LinkedList<String> mruList = new LinkedList<>();
+  protected final Deque<String> mruList = new ConcurrentLinkedDeque<>();
   private final String prefList;
   private final String prefLen;
   private static final String SEMICOLON = ";";
