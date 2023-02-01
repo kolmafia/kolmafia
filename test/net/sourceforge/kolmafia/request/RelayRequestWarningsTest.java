@@ -941,4 +941,99 @@ public class RelayRequestWarningsTest {
       }
     }
   }
+
+  @Nested
+  class UnhydratedDesert {
+    private static final KoLAdventure A_BOO_PEAK =
+        AdventureDatabase.getAdventureByName("A-Boo Peak");
+    private static final KoLAdventure DESERT =
+        AdventureDatabase.getAdventureByName("The Arid, Extra-Dry Desert");
+    private static final String confirm = RelayRequest.CONFIRM_DESERT_UNHYDRATED;
+
+    @BeforeEach
+    public void beforeEach() {
+      RelayRequest.ignoreDesertWarning = false;
+    }
+
+    @Test
+    public void noWarningIfNotDesert() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(A_BOO_PEAK, null), false);
+        // No warning needed if you are not in The Arid, Ultra-Dry Desert
+        assertFalse(request.sendUnhydratedDesertWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfConfirmed() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(DESERT, confirm), false);
+        // No warning needed if this a resubmission with confirmation
+        assertFalse(request.sendUnhydratedDesertWarning());
+        assertTrue(RelayRequest.ignoreDesertWarning);
+      }
+    }
+
+    @Test
+    public void noWarningIfPreviouslyConfirmed() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(DESERT, null), false);
+        // No warning needed if this was previously confirmed
+        RelayRequest.ignoreDesertWarning = true;
+        assertFalse(request.sendUnhydratedDesertWarning());
+        assertTrue(RelayRequest.ignoreDesertWarning);
+      }
+    }
+
+    @Test
+    public void noWarningIfUltrahydrated() {
+      var cleanups = withEffect(EffectPool.ULTRAHYDRATED, 10);
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(DESERT.getRequest().getURLString());
+        assertFalse(request.sendUnhydratedDesertWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfOasisNotOpenYet() {
+      var cleanups =
+          new Cleanups(
+              withProperty("oasisAvailable", false), withProperty("desertExploration", 10));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(DESERT.getRequest().getURLString());
+        assertFalse(request.sendUnhydratedDesertWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfDesertFullyExplored() {
+      var cleanups =
+          new Cleanups(
+              withProperty("oasisAvailable", true), withProperty("desertExploration", 100));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(DESERT.getRequest().getURLString());
+        assertFalse(request.sendUnhydratedDesertWarning());
+      }
+    }
+
+    @Test
+    public void warningIfOasisOpenAndDesertNotFullyExplored() {
+      var cleanups =
+          new Cleanups(withProperty("oasisAvailable", true), withProperty("desertExploration", 20));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(DESERT.getRequest().getURLString());
+        assertTrue(request.sendUnhydratedDesertWarning());
+      }
+    }
+  }
 }

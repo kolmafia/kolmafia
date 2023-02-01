@@ -1077,6 +1077,7 @@ user	nsTowerDoorKeysUsed
 user	nuclearAutumnPoints	0
 user	numericSwagger	0
 user	nunsVisits	0
+user	oasisAvailable	false
 user	oceanAction	savecontinue
 user	oceanDestination	manual
 user	odeBuffbotCheck	false

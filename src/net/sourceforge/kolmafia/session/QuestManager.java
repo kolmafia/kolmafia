@@ -1512,6 +1512,7 @@ public class QuestManager {
       int explored = StringUtilities.parseInt(matcher.group(1));
       QuestManager.setDesertExploration(explored);
     }
+    Preferences.setBoolean("oasisAvailable", responseText.contains("db_oasis"));
   }
 
   private static void setDesertExploration(final int explored) {
@@ -2156,6 +2157,12 @@ public class QuestManager {
         break;
 
       case AdventurePool.ARID_DESERT:
+        // As you're about to collapse from dehydration, you stagger
+        // over one last dune to discover a verdant oasis.
+        if (responseText.contains("discover a verdant oasis")) {
+          Preferences.setBoolean("oasisAvailable", true);
+        }
+
         // clingy monsters do not increment exploration
         if (!responseText.contains("Desert exploration")) {
           break;

@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -118,7 +119,7 @@ public interface KoLConstants extends UtilityConstants {
   // Scripting-related constants.  Used throughout KoLmafia in
   // order to ensure proper handling of scripts.
 
-  List<File> scripts = new ArrayList<>();
+  List<File> scripts = Collections.synchronizedList(new ArrayList<>());
   List<String> bookmarks = LockableListFactory.getInstance(String.class);
 
   ArrayList<String> disabledScripts = new ArrayList<>();
