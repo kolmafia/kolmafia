@@ -1781,6 +1781,7 @@ battered hubcap	220	Mus: 65	shield
 beach ball marble	209	Mys: 85
 beige clambroth marble	207	Mys: 85
 big bumboozer marble	211	Mys: 85
+big hot pepper	0	none
 black catseye marble	210	Mys: 85
 black shield	160	Mus: 65	shield
 blue LavaCo Lamp&trade;	100	Mys: 35

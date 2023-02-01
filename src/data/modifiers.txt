@@ -2102,6 +2102,7 @@ Item	battered hubcap	Muscle: +15, Maximum HP: +100, Spooky Resistance: +2, Stenc
 Item	beach ball marble	Spell Damage: +35, Hot Spell Damage: +35, Cold Spell Damage: +35
 Item	beige clambroth marble	Spell Damage: +30, Hot Spell Damage: +30
 Item	big bumboozer marble	Spell Damage: +80
+Item	big hot pepper	Spell Damage: +10, Hot Damage: +10
 Item	black catseye marble	Spooky Spell Damage: +75
 Item	black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
 Item	blue LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Blue Eyed Devil", Rollover Effect Duration: 50
@@ -5790,6 +5791,7 @@ Effect	Empathy	Familiar Weight: +5
 Effect	Employee of the Month	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	Empty Inside	Food Drop: +50, Booze Drop: +50
 Effect	Endless Drool	Pickpocket Chance: +50, Moxie: +25, Moxie Percent: +300, Maximum HP Percent: +100, Maximum MP Percent: +100
+Effect	Energized	Initiative: +100
 Effect	Engorged Weapon	Weapon Damage: +10
 Effect	Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
 # Enhanced Interrogation: Boosts psychological attack and defense in Bastille Battalion.
@@ -5927,6 +5929,7 @@ Effect	Flame-Retardant Trousers	Hot Resistance: +1
 Effect	Flamibili Tea	Hot Damage: +30
 Effect	Flaming Weapon	Hot Damage: +3
 Effect	Flamingly Floral	Hot Damage: +50
+Effect	Flapper Dancin'	Meat Drop: +100
 # Flared Nostrils: Extra-Vulnerable to Stench
 Effect	Flared Nostrils	Stench Vulnerability
 Effect	Flashing Eyes	Meat Drop: +30
@@ -6263,6 +6266,7 @@ Effect	Icy Composition	Cold Resistance: +5, Cold Damage: +25, Cold Spell Damage:
 Effect	Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
 Effect	Icy Glare	Cold Damage: +10, Cold Spell Damage: +10
 Effect	Impeccable Coiffure	Moxie Percent: +50
+Effect	Imported Strength	Weapon Damage Percent: +50, Spell Damage Percent: +50
 Effect	Impregnabili Tea	Damage Reduction: 30
 Effect	Impregnably Delicious	Damage Reduction: 30
 Effect	Improprie Tea	Sleaze Damage: +30
@@ -6463,6 +6467,7 @@ Effect	Loose Joints	Item Drop: [50*loc(The Crimbonium Mining Camp)]
 Effect	Lord of Acid	Avatar: "acid blob"
 Effect	Lovebotamy	Experience: +10
 Effect	Low on the Hog	Meat Drop: +100
+Effect	Loyal as a Rock	Familiar Weight: +5, Familiar Damage: +10
 Effect	Loyal Tea	Familiar Weight: +5
 Effect	Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Effect	Lucky Cat Is Lucky	Item Drop: +5
@@ -6547,6 +6552,7 @@ Effect	Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
 Effect	Ministrations in the Dark	Combat Rate: -10
 Effect	Mint-Condition Breath	Moxie Percent: +50
 Effect	Minty Freshness	Moxie Percent: +10
+Effect	Misplaced Rage	Monster Level: [min(36,3*L)]
 Effect	Missing Eyebrows	Moxie: -3
 Effect	Missing Fingers	Muscle: -3
 # Missing Kidney: Call 911 Immediately
@@ -7744,6 +7750,7 @@ Effect	Winklered	Meat Drop: +40
 Effect	Winning Smile	Experience: +3
 Effect	Wintergreen Warmongery	Muscle: +30
 Effect	Wintry Breath	Cold Damage: +10
+Effect	Wisdom of Others	Experience: +6
 Effect	Wisdom of the Autumn Years	Spell Damage Percent: +20, Maximum MP: +100, MP Regen Min: 15, MP Regen Max: 20
 Effect	Wisdom of the God Lobster	Maximum MP: +20, MP Regen Min: 40, MP Regen Max: 40
 Effect	Wisdom of Thoth	Mysticality: +10, Mysticality Percent: +50
@@ -9317,6 +9324,7 @@ Item	demonic paste	Effect: "Demonic Flavor", Effect Duration: 10
 Item	ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
 Item	eldritch essence	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
+Item	energized spores	Effect: "Energized", Effect Duration: 40
 # excitement pill: Get an exciting random effect!
 Item	fish sauce	Effect: "Fishy", Effect Duration: 30
 Item	fishy paste	Effect: "Fishy", Effect Duration: 10
@@ -9434,6 +9442,7 @@ Item	airborne mutagen	Effect: "Heightened Senses", Effect Duration: 20
 Item	alien drugs	Effect: "Space Cowboy", Effect Duration: 15
 Item	alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
 Item	Ancient Protector Soda	Effect: "Ancient Protected", Effect Duration: 50
+Item	angry agate	Effect: "Misplaced Rage", Effect Duration: 20
 Item	Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
 Item	Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 Item	ant agonist	Effect: "All Fired Up", Effect Duration: 10
@@ -9754,6 +9763,7 @@ Item	fake blood	Effect: "Bloody Bloody Bloody!", Effect Duration: 10
 Item	fake cocktail	Effect: "Liquor-ish", Effect Duration: 10
 Item	Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
 Item	fiberglass insulation	Effect: "Insulated", Effect Duration: 25
+Item	filled mosquito	Effect: "Wisdom of Others", Effect Duration: 20
 Item	filthworm drone scent gland	Effect: "Filthworm Drone Stench", Effect Duration: 10
 Item	filthworm hatchling scent gland	Effect: "Filthworm Larva Stench", Effect Duration: 10
 Item	filthworm royal guard scent gland	Effect: "Filthworm Guard Stench", Effect Duration: 10
@@ -9766,6 +9776,7 @@ Item	fitness wristband	Effect: "Fitter, Bitter", Effect Duration: 50
 Item	fizzy soda	Effect: "Fizzy Fizzy", Effect Duration: 20
 Item	Flag by the Foot&trade;	Effect: "One Foot Heavier", Effect Duration: 20
 Item	Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
+Item	flapper fly	Effect: "Flapper Dancin'", Effect Duration: 20
 Item	flask of baconstone juice	Effect: "Baconstoned", Effect Duration: 10
 Item	flask of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 10
 Item	flask of mining oil	Effect Duration: 10
@@ -9990,6 +10001,7 @@ Item	love song of sugary cuteness	Effect: "Sweet Heart", Effect Duration: 5
 # love song of vague ambiguity: Deals Physical Damage based on your Muscle
 Item	love song of vague ambiguity	Effect: "Broken Heart", Effect Duration: 5
 Item	Lucky Strikes holo-record	Effect: "Lucky Struck", Effect Duration: 10
+Item	lump of loyal latite	Effect: "Loyal as a Rock", Effect Duration: 20
 Item	lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
 Item	lynyrd musk	Effect: "Musky", Effect Duration: 30
 Item	M-242	Effect: "Adrenaline Rush", Effect Duration: 50
@@ -11836,6 +11848,7 @@ Item	sane hatrack	Free Pull
 # sausage bomb: Weakens Enemies Somewhat
 # sawblade fragment: Deals 100-150 Physical Damage and causes additional Bleeding over time
 # scented massage oil: Restores all HP
+Item	S.I.T. Course Voucher	Free Pull
 Item	Schmalz's First Prize Beer	Free Pull
 # School of Hard Knocks Diploma: Brings up Enraging Memories
 Item	scintillating powder	Class: "Pastamancer"

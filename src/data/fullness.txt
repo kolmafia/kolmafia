@@ -894,6 +894,7 @@ succulent marrow	3	1	decent	5-7	25-30	0	0
 suddenly salad!	5	1	EPIC	60-80	0	220-400	0
 suggestive strozzapreti	5	7	awesome	16-19	0	0	20-30
 sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
+super good fruit	1	1	awesome	0	0	0	0	Unspaded
 super ka-bob	3	11	awesome	12-15	30-38	0	0
 super salad	3	11	awesome	13-16	30-50	32-40	31-40	SALAD
 swamp haunch	3	1	good	9	10-15	10-15	10-15

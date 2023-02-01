@@ -2774,3 +2774,16 @@
 2774	Loded	rglodestone.gif	93ad03e65d7abbe0429bbe835a6dae67	neutral	none	use 1 lodestone
 2775	Desandwiched	pixelbread.gif	aaaee769a3f60f5d1434aae91cdd61eb	neutral	none	eat 1 pixel bread
 2776	Wall Rage	pixelwhiskey.gif	f9ae0605a7a7ef2a9b028716513f5ced	neutral	none	drink 1 pixel whiskey
+2777
+2778
+2779
+2780	Energized	sitpollen.gif	0f1c3e72ecf111e8fcf2ae8b2571e4e3	neutral	none	chew 1 energized spores
+2781
+2782
+2783	Flapper Dancin'	sitfly.gif	b26b77a0677973724acb9fac2546e69b	neutral	none	use 1 flapper fly
+2784	Wisdom of Others	sitskeeter.gif	56c1263bd4dd98d991d0504832e55ea3	neutral	none	use 1 filled mosquito
+2785
+2786
+2787
+2788	Misplaced Rage	sitagate.gif	15980f0a3dc21fcddba08af910174fed	neutral	none	use 1 angry agate
+2789	Loyal as a Rock	sitlatite.gif	3d5ed86ce88d2bed620bda86b9e96644	neutral	none	use 1 lump of loyal latite
