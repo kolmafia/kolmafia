@@ -245,7 +245,7 @@ class CalendarFrameTest {
   @Test
   public void itShouldCalculateExpectedCalendarDataForKnownTime() {
     Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
-    useTime.set(2010, Calendar.SEPTEMBER, 1);
+    useTime.set(2010, Calendar.SEPTEMBER, 1, 0, 0);
     CalendarFrame testFrame = new CalendarFrame(useTime);
     assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
     testFrame.updateTabs();
@@ -259,7 +259,7 @@ class CalendarFrameTest {
   @Test
   public void itShouldCalculateExpectedEventsForKnownTime() {
     Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
-    useTime.set(2010, Calendar.SEPTEMBER, 1);
+    useTime.set(2010, Calendar.SEPTEMBER, 1, 0, 0);
     CalendarFrame testFrame = new CalendarFrame(useTime);
     assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
     testFrame.updateTabs();
@@ -273,7 +273,7 @@ class CalendarFrameTest {
   @Test
   public void itShouldCalculateExpectedCalendarDataForWhiteWednesday() {
     Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
-    useTime.set(2005, Calendar.OCTOBER, 27);
+    useTime.set(2005, Calendar.OCTOBER, 27, 0, 0);
     CalendarFrame testFrame = new CalendarFrame(useTime);
     assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
     testFrame.updateTabs();

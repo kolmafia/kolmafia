@@ -5,7 +5,6 @@ import ca.bcit.geekkit.JCalendar;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,7 +84,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     CalendarFrame.selectedDate = calendarToUse;
 
     CalendarFrame.calculatePhases(
-        CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()));
+        CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId()));
 
     dailyDisplay = new RequestPane();
     JComponentUtilities.setComponentSize(dailyDisplay, 400, 335);
@@ -140,7 +139,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
                         .getValueAt(CalendarFrame.selectedRow, CalendarFrame.selectedColumn)));
 
         CalendarFrame.calculatePhases(
-            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()));
+            CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId()));
         this.updateTabs();
       } catch (Exception e1) {
         // This should not happen.  Therefore, print
@@ -223,13 +222,13 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     displayHTML.append(
         CalendarFrame.CALENDARS[
             HolidayDatabase.getCalendarMonth(
-                CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()))]);
+                CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId()))]);
     displayHTML.append(".gif\"></td></tr><tr><td align=center>");
     displayHTML.append(CalendarFrame.LONG_FORMAT.format(CalendarFrame.selectedDate.getTime()));
     displayHTML.append("</td></tr><tr><td align=center><font size=+1><b>");
     displayHTML.append(
         HolidayDatabase.getCalendarDayAsString(
-            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault())));
+            CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId())));
     displayHTML.append("</b></font></td></tr></table></center>");
 
     displayHTML.append("</td><td valign=top>");
@@ -241,7 +240,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     displayHTML.append("<tr><td colspan=2 align=center><b>");
     displayHTML.append(
         HolidayDatabase.getHoliday(
-            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault())));
+            CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId())));
     displayHTML.append("</b></td></tr><tr><td colspan=2></td></tr>");
 
     // Next display today's moon phases, including
@@ -380,12 +379,12 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     displayHTML.append("</u></b><br><i>");
     displayHTML.append(
         HolidayDatabase.getCalendarDayAsString(
-            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault())));
+            CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId())));
     displayHTML.append("</i><br>&nbsp;<br>");
 
     HolidayDatabase.addPredictionHTML(
         displayHTML,
-        CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()),
+        CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId()),
         phaseStep);
 
     CalendarFrame.predictDisplay.setText(displayHTML.toString());
@@ -469,7 +468,8 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
             this.model.getCurrentYear(),
             this.model.getCurrentMonth(),
             StringUtilities.parseInt(dayString));
-        ZonedDateTime selectedTime = this.dateCalculator.toInstant().atZone(ZoneId.systemDefault());
+        ZonedDateTime selectedTime =
+            this.dateCalculator.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId());
 
         if (CalendarFrame.SHORT_FORMAT
             .format(new Date())
