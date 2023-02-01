@@ -227,6 +227,13 @@ public abstract class KoLmafia {
     }
   }
 
+  static {
+    // Set timezones for date formats
+    KoLConstants.DAILY_FORMAT.setTimeZone(KOL_TIME_ZONE);
+    KoLConstants.WEEKLY_FORMAT.setTimeZone(KoLmafia.KOL_TIME_ZONE);
+    KoLConstants.TIME_FORMAT.setTimeZone(KoLmafia.KOL_TIME_ZONE);
+  }
+
   /**
    * The main method. Currently, it instantiates a single instance of the <code>KoLmafiaGUI</code>.
    */
@@ -270,8 +277,6 @@ public abstract class KoLmafia {
         StaticEntity.setGUIRequired(true);
       }
     }
-
-    KoLConstants.DAILY_FORMAT.setTimeZone(KOL_TIME_ZONE);
 
     // Reload your settings and determine all the different users which
     // are present in your save state list.
