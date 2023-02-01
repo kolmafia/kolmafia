@@ -1296,6 +1296,8 @@ public class QuestManager {
     else if (location.contains("action=grandpastory")) {
       if (responseText.contains("bet those lousy Mer-kin up and kidnapped her")) {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step6");
+      } else if (responseText.contains("that note's definitely Grandma Sea Monkee's handwriting")) {
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step7");
       } else if (responseText.contains("Gonna need one of them seahorses")) {
         Preferences.setBoolean("corralUnlocked", true);
       }
@@ -1510,6 +1512,7 @@ public class QuestManager {
       int explored = StringUtilities.parseInt(matcher.group(1));
       QuestManager.setDesertExploration(explored);
     }
+    Preferences.setBoolean("oasisAvailable", responseText.contains("db_oasis"));
   }
 
   private static void setDesertExploration(final int explored) {
@@ -2154,6 +2157,12 @@ public class QuestManager {
         break;
 
       case AdventurePool.ARID_DESERT:
+        // As you're about to collapse from dehydration, you stagger
+        // over one last dune to discover a verdant oasis.
+        if (responseText.contains("discover a verdant oasis")) {
+          Preferences.setBoolean("oasisAvailable", true);
+        }
+
         // clingy monsters do not increment exploration
         if (!responseText.contains("Desert exploration")) {
           break;

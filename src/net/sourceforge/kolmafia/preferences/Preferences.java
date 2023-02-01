@@ -379,6 +379,7 @@ public class Preferences {
         "nextSpookyravenStephenRoom",
         "noobDeferredPoints",
         "nosyNoseMonster",
+        "oasisAvailable",
         "optimisticCandleProgress",
         "overgrownLotAvailable",
         "parasolUsed",

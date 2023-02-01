@@ -28,7 +28,10 @@ import static internal.matchers.Quest.isStarted;
 import static internal.matchers.Quest.isStep;
 import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -699,6 +702,77 @@ public class QuestManagerTest {
   }
 
   /*
+   * Level 11 - The Oasis
+   */
+
+  @Nested
+  class Oasis {
+    @Test
+    void canDetectOasisNotOpenWithNoDesertProgress() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_unexplored.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(0));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisNotOpenWithProgress() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(10));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisNotOpenWithProgressAndGnasir() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored_gnasir.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(10));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisOpenWithProgressAndGnasir() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored_oasis_gnasir.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(12));
+        assertThat("oasisAvailable", isSetTo(true));
+      }
+    }
+  }
+
+  /*
    * Level 11 - Pyramid
    */
 
@@ -980,6 +1054,7 @@ public class QuestManagerTest {
       }
     }
 
+    @Test
     public void turningInScrewdriverFinishesQuest() {
       var cleanups =
           new Cleanups(
@@ -2100,7 +2175,8 @@ public class QuestManagerTest {
       private static final AdventureResult CHARTREUSE_YARN = ItemPool.get(ItemPool.CHARTREUSE_YARN);
       private static final AdventureResult GRANDMAS_MAP = ItemPool.get(ItemPool.GRANDMAS_MAP);
 
-      void talkingToGrandpaStartsQuest() {
+      @Test
+      public void talkingToGrandpaStartsQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -2172,7 +2248,8 @@ public class QuestManagerTest {
         }
       }
 
-      void talkingToGrandpaWithNoteConfirmsQuest() {
+      @Test
+      public void talkingToGrandpaWithNoteConfirmsQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -2196,7 +2273,8 @@ public class QuestManagerTest {
         }
       }
 
-      void talkingToGrandpaWithNoteAndYarnAdvancesQuest() {
+      @Test
+      public void talkingToGrandpaWithNoteAndYarnAdvancesQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -2207,7 +2285,6 @@ public class QuestManagerTest {
                 withItem(CHARTREUSE_YARN));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_8.html"));
-          builder.client.addResponse(200, ""); // api.php
 
           String URL = "monkeycastle.php?action=grandpastory&topic=note";
           var request = new GenericRequest(URL);
@@ -2220,9 +2297,8 @@ public class QuestManagerTest {
           assertTrue(InventoryManager.hasItem(GRANDMAS_MAP));
 
           var requests = builder.client.getRequests();
-          assertThat(requests, hasSize(2));
+          assertThat(requests, hasSize(1));
           assertPostRequest(requests.get(0), "/monkeycastle.php", "action=grandpastory&topic=note");
-          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
         }
       }
 

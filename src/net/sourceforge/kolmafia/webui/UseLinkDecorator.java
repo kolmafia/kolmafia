@@ -600,7 +600,7 @@ public abstract class UseLinkDecorator {
       return null;
     }
 
-    boolean combatResults = location.startsWith("fight.php");
+    boolean combatResults = location.startsWith("fight.php") || location.startsWith("choice.php");
 
     switch (consumeMethod) {
       case FAMILIAR_HATCHLING:
@@ -1182,6 +1182,54 @@ public abstract class UseLinkDecorator {
               return null;
             }
             break;
+
+          case ItemPool.BJORNS_HAMMER:
+          case ItemPool.MACE_OF_THE_TORTOISE:
+          case ItemPool.PASTA_SPOON_OF_PERIL:
+          case ItemPool.FIVE_ALARM_SAUCEPAN:
+          case ItemPool.DISCO_BANJO:
+          case ItemPool.ROCK_N_ROLL_LEGEND:
+            {
+              // If we "acquire" the Epic Weapon from
+              // a fight, give a link to the guild to collect
+              // the reward as well as "equip" link.
+              UseLink equipLink =
+                  new UseLink(
+                      itemId,
+                      itemCount,
+                      getEquipmentSpeculation("equip", itemId, -1),
+                      "inv_equip.php?which=2&action=equip&whichitem=");
+              if (combatResults) {
+                ArrayList<UseLink> uses = new ArrayList<>();
+                // scg = Same Class in Guild
+                uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
+                uses.add(equipLink);
+                return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+              }
+              return equipLink;
+            }
+
+          case ItemPool.HAMMER_OF_SMITING:
+          case ItemPool.CHELONIAN_MORNINGSTAR:
+          case ItemPool.GREEK_PASTA_OF_PERIL:
+          case ItemPool.SEVENTEEN_ALARM_SAUCEPAN:
+          case ItemPool.SHAGADELIC_DISCO_BANJO:
+          case ItemPool.SQUEEZEBOX_OF_THE_AGES:
+            {
+              // When we "craft" the Legendary_Epic Weapon, give a link to
+              // the guild to collect the reward as well as "equip" link.
+              UseLink equipLink =
+                  new UseLink(
+                      itemId,
+                      itemCount,
+                      getEquipmentSpeculation("equip", itemId, -1),
+                      "inv_equip.php?which=2&action=equip&whichitem=");
+              ArrayList<UseLink> uses = new ArrayList<>();
+              // scg = Same Class in Guild
+              uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
+              uses.add(equipLink);
+              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            }
 
           case ItemPool.SCALP_OF_GORGOLOK:
           case ItemPool.ELDER_TURTLE_SHELL:
@@ -2136,6 +2184,41 @@ public abstract class UseLinkDecorator {
         useType = "turn in";
         useLocation = "place.php?whichplace=dinorf&action=dinorf_owner";
         break;
+
+      case ItemPool.DISTILLED_SEAL_BLOOD:
+      case ItemPool.TURTLE_CHAIN:
+      case ItemPool.HIGH_OCTANE_OLIVE_OIL:
+      case ItemPool.PEPPERCORNS_OF_POWER:
+      case ItemPool.VIAL_OF_MOJO:
+      case ItemPool.GOLDEN_REEDS:
+        {
+          // When we "acquire" the reward from Beelzebozo, provide a
+          // link to the guild and, if we already have a hammer and can
+          // smith the Legendary Epic Weapon, a link to do that.
+          Set<AdventureResult> creations = ConcoctionDatabase.getKnownUses(itemId);
+          // There should be exactly one creation.
+          CreateItemRequest creator = null;
+          for (AdventureResult creation : creations) {
+            creator = CreateItemRequest.getInstance(creation.getItemId());
+            // This returns null if not permitted.
+            // E.g., you don't have a hammer.
+            if (creator != null) {
+              // Create the URL
+              creator.reconstructFields();
+              creator.buildFullURL();
+              break;
+            }
+          }
+
+          ArrayList<UseLink> uses = new ArrayList<>();
+          // scg = Same Class in Guild
+          uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
+          if (creator != null) {
+            UseLink createLink = new UseLink(itemId, 1, "smith", creator.getURLString());
+            uses.add(createLink);
+          }
+          return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+        }
 
       default:
     }
