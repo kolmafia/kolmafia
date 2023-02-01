@@ -11848,6 +11848,7 @@ Item	sane hatrack	Free Pull
 # sausage bomb: Weakens Enemies Somewhat
 # sawblade fragment: Deals 100-150 Physical Damage and causes additional Bleeding over time
 # scented massage oil: Restores all HP
+Item	S.I.T. Course Voucher	Free Pull
 Item	Schmalz's First Prize Beer	Free Pull
 # School of Hard Knocks Diploma: Brings up Enraging Memories
 Item	scintillating powder	Class: "Pastamancer"
