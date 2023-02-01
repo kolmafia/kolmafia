@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.Aliases;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -9,7 +9,7 @@ public class AliasCommand extends AbstractCommand {
   {
     this.usage =
         " [ <filter> ] | [ <word> => <expansion> ] - list aliases [matching <filter>] or create CLI abbreviations.";
-    this.flags = KoLmafiaCLI.FULL_LINE_CMD;
+    this.flags = ParameterHandling.FULL_LINE;
   }
 
   @Override
