@@ -13,6 +13,7 @@ import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
@@ -7012,6 +7013,63 @@ public class KoLAdventureValidationTest {
         assertGetRequest(requests.get(2), "/choice.php", "forceoption=0");
         assertPostRequest(requests.get(3), "/choice.php", "whichchoice=1064&option=1");
         assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class Oasis {
+    private static final KoLAdventure OASIS = AdventureDatabase.getAdventureByName("The Oasis");
+
+    @Test
+    void milestoneWillExploreDesertButNotOpenOasis() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.MILESTONE),
+              withItem(ItemPool.BITCHIN_MEATCAR),
+              withProperty("desertExploration", 0),
+              withProperty("oasisAvailable", false));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_milestone_explore_desert.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("inv_use.php?which=3&whichitem=11104&ajax=1");
+        request.run();
+
+        assertThat("desertExploration", isSetTo(5));
+        assertThat("oasisAvailable", isSetTo(false));
+
+        assertFalse(OASIS.canAdventure());
+      }
+    }
+
+    @Test
+    void fightInDesertWillExploreAndOpenOasis() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.BITCHIN_MEATCAR),
+              withEquipped(EquipmentManager.OFFHAND, ItemPool.UV_RESISTANT_COMPASS),
+              withProperty("desertExploration", 10),
+              withProperty("oasisAvailable", false),
+              withLastLocation("The Arid, Extra-Dry Desert"),
+              withFight());
+      try (cleanups) {
+        client.addResponse(200, html("request/test_open_oasis.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("fight.php?action=attack");
+        request.run();
+
+        assertThat("desertExploration", isSetTo(12));
+        assertThat("oasisAvailable", isSetTo(true));
+
+        assertTrue(OASIS.canAdventure());
       }
     }
   }
