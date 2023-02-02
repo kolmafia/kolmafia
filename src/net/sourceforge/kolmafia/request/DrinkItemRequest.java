@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -67,6 +68,12 @@ public class DrinkItemRequest extends UseItemRequest {
 
   public static final int maximumUses(
       final int itemId, final String itemName, final int inebriety, boolean allowOverDrink) {
+    if (KoLCharacter.isGreyGoo()) {
+      // If we ever track what items have already been absorbed this ascension, this is a great
+      // place to use those data.
+      return 1;
+    }
+
     if (KoLCharacter.isJarlsberg()
         && ConcoctionDatabase.getMixingMethod(itemId) != CraftingType.JARLS
         && !itemName.equals("steel margarita")
@@ -202,7 +209,7 @@ public class DrinkItemRequest extends UseItemRequest {
       return;
     }
 
-    if (this.consumptionType == KoLConstants.CONSUME_DRINK_HELPER) {
+    if (this.consumptionType == ConsumptionType.DRINK_HELPER) {
       int count = this.itemUsed.getCount();
 
       if (!InventoryManager.retrieveItem(this.itemUsed)) {
@@ -237,7 +244,7 @@ public class DrinkItemRequest extends UseItemRequest {
     int itemId = this.itemUsed.getItemId();
     UseItemRequest.lastUpdate = "";
 
-    int maximumUses = UseItemRequest.maximumUses(itemId);
+    int maximumUses = UseItemRequest.maximumUses(itemId, this.consumptionType);
     if (maximumUses < this.itemUsed.getCount()) {
       KoLmafia.updateDisplay(
           "(usable quantity of "
@@ -362,18 +369,18 @@ public class DrinkItemRequest extends UseItemRequest {
   }
 
   private static boolean sequentialConsume(final int itemId) {
-    switch (itemId) {
-      case ItemPool.DIRTY_MARTINI:
-      case ItemPool.GROGTINI:
-      case ItemPool.CHERRY_BOMB:
-      case ItemPool.VESPER:
-      case ItemPool.BODYSLAM:
-      case ItemPool.SANGRIA_DEL_DIABLO:
-        // Allow player who owns a single tiny plastic sword to
-        // make and drink multiple drinks in succession.
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.DIRTY_MARTINI,
+          ItemPool.GROGTINI,
+          ItemPool.CHERRY_BOMB,
+          ItemPool.VESPER,
+          ItemPool.BODYSLAM,
+          ItemPool.SANGRIA_DEL_DIABLO ->
+      // Allow player who owns a single tiny plastic sword to
+      // make and drink multiple drinks in succession.
+      true;
+      default -> false;
+    };
   }
 
   private boolean allowBoozeConsumption() {
@@ -466,7 +473,7 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     // If the item doesn't give any adventures, it won't benefit from ode
-    String advGain = ConsumablesDatabase.getAdvRangeByName(itemName);
+    String advGain = ConsumablesDatabase.getBaseAdventureRange(itemName);
     if (advGain.equals("0")) {
       String note = ConsumablesDatabase.getNotes(itemName);
       if (note == null || (note != null && !note.contains("Unspaded"))) {
@@ -514,7 +521,7 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     // Check if character can cast Ode.
-    UseSkillRequest ode = UseSkillRequest.getInstance("The Ode to Booze");
+    UseSkillRequest ode = UseSkillRequest.getInstance(SkillPool.ODE_TO_BOOZE);
     boolean canOde =
         !KoLCharacter.inGLover()
             && KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE)
@@ -737,13 +744,13 @@ public class DrinkItemRequest extends UseItemRequest {
       ResultProcessor.processResult(helper.getNegation());
     }
 
-    int consumptionType = UseItemRequest.getConsumptionType(item);
+    ConsumptionType consumptionType = UseItemRequest.getConsumptionType(item);
 
     // Assume initially that this causes the item to disappear.
     // In the event that the item is not used, then proceed to
     // undo the consumption.
 
-    if (consumptionType == KoLConstants.CONSUME_DRINK_HELPER) {
+    if (consumptionType == ConsumptionType.DRINK_HELPER) {
       // Consumption helpers are removed above when you
       // successfully eat or drink.
       return;
@@ -807,68 +814,65 @@ public class DrinkItemRequest extends UseItemRequest {
     // Perform item-specific processing
 
     switch (itemId) {
-      case ItemPool.STEEL_LIVER:
+      case ItemPool.STEEL_LIVER -> {
         if (responseText.contains("You acquire a skill")) {
           ResponseTextParser.learnSkill("Liver of Steel");
         }
         return;
-
-      case ItemPool.FERMENTED_PICKLE_JUICE:
+      }
+      case ItemPool.FERMENTED_PICKLE_JUICE -> {
         KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() - 5 * item.getCount());
         KoLCharacter.updateStatus();
         return;
-
-      case ItemPool.MINI_MARTINI:
+      }
+      case ItemPool.MINI_MARTINI -> {
         Preferences.increment("miniMartinisDrunk", item.getCount());
         return;
-
-      case ItemPool.BLOODWEISER:
+      }
+      case ItemPool.BLOODWEISER -> {
         Preferences.increment("bloodweiserDrunk", item.getCount());
         return;
-
-      case ItemPool.MISS_GRAVES_VERMOUTH:
+      }
+      case ItemPool.MISS_GRAVES_VERMOUTH -> {
         Preferences.setBoolean("_missGravesVermouthDrunk", true);
         return;
-
-      case ItemPool.MAD_LIQUOR:
+      }
+      case ItemPool.MAD_LIQUOR -> {
         Preferences.setBoolean("_madLiquorDrunk", true);
         return;
-
-      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL:
+      }
+      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL -> {
         Preferences.setBoolean("_docClocksThymeCocktailDrunk", true);
         return;
-
-      case ItemPool.DRIPPY_PILSNER:
+      }
+      case ItemPool.DRIPPY_PILSNER -> {
         Preferences.setBoolean("_drippyPilsnerUsed", true);
         Preferences.increment("drippyJuice", 5);
         return;
-
-      case ItemPool.DRIPPY_WINE:
+      }
+      case ItemPool.DRIPPY_WINE -> {
         Preferences.setBoolean("_drippyWineUsed", true);
         Preferences.increment("drippyJuice", 5);
         return;
-
-      case ItemPool.EVERFULL_GLASS:
-        {
-          // You drink the liquid in the cup.  Someone must have poured some of their horizontal
-          // tango into it.
-          if (responseText.contains("You drink the liquid in the cup")) {
-            Matcher m = EVERFULL_GLASS_PATTERN.matcher(responseText);
-            if (m.find()) {
-              String booze = m.group(1);
-              String message = "Your everfull glass contained some " + booze + "!";
-              RequestLogger.printLine(message);
-              RequestLogger.updateSessionLog(message);
-            }
+      }
+      case ItemPool.EVERFULL_GLASS -> {
+        // You drink the liquid in the cup.  Someone must have poured some of their horizontal
+        // tango into it.
+        if (responseText.contains("You drink the liquid in the cup")) {
+          Matcher m = EVERFULL_GLASS_PATTERN.matcher(responseText);
+          if (m.find()) {
+            String booze = m.group(1);
+            String message = "Your everfull glass contained some " + booze + "!";
+            RequestLogger.printLine(message);
+            RequestLogger.updateSessionLog(message);
           }
-          break;
         }
-
-      case ItemPool.VAMPIRE_VINTNER_WINE:
+      }
+      case ItemPool.VAMPIRE_VINTNER_WINE -> {
         // The charge only starts recounting when the wine is drunk
         Preferences.setInteger("vintnerCharge", 0);
         KoLCharacter.usableFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
-        break;
+      }
     }
   }
 

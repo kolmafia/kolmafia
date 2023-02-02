@@ -44,25 +44,23 @@ public class GuzzlrCommand extends AbstractCommand {
       parameters = parameters.substring(7);
       Integer option = null;
       switch (parameters) {
-        case "bronze":
-          option = 2;
-          break;
-        case "gold":
+        case "bronze" -> option = 2;
+        case "gold" -> {
           if (Preferences.getInteger("guzzlrBronzeDeliveries") < 5) {
             KoLmafia.updateDisplay(
                 MafiaState.ERROR, "You need to make 5 bronze deliveries to serve gold clients.");
             return;
           }
           option = 3;
-          break;
-        case "platinum":
+        }
+        case "platinum" -> {
           if (Preferences.getInteger("guzzlrGoldDeliveries") < 5) {
             KoLmafia.updateDisplay(
                 MafiaState.ERROR, "You need to make 5 gold deliveries to serve platinum clients.");
             return;
           }
           option = 4;
-          break;
+        }
       }
       if (option == null) {
         KoLmafia.updateDisplay(

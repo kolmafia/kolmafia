@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.modifiers.Modifier;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 
 public class Maximizer {
@@ -22,8 +24,8 @@ public class Maximizer {
     net.sourceforge.kolmafia.maximizer.Maximizer.maximize(1, 0, 0, false, 0);
   }
 
-  public static double modFor(String modifier) {
-    return Modifiers.getNumericModifier("Generated", "_spec", modifier);
+  public static double modFor(Modifier modifier) {
+    return ModifierDatabase.getNumericModifier(ModifierType.GENERATED, "_spec", modifier);
   }
 
   public static List<Boost> getBoosts() {

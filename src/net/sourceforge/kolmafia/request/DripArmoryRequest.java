@@ -1,84 +1,55 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class DripArmoryRequest extends CoinMasterRequest {
   public static final String master = "Drip Institute Armory";
+
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.DRIPLET, 1);
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Driplet");
-  public static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(DripArmoryRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(DripArmoryRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(DripArmoryRequest.master);
 
   public static final CoinmasterData DRIP_ARMORY =
-      new CoinmasterData(
-          DripArmoryRequest.master,
-          "driparmory",
-          DripArmoryRequest.class,
-          "Driplet",
-          null,
-          false,
-          DripArmoryRequest.TOKEN_PATTERN,
-          DripArmoryRequest.TOKEN,
-          null,
-          DripArmoryRequest.itemRows,
-          "shop.php?whichshop=driparmory",
-          "buyitem",
-          DripArmoryRequest.buyItems,
-          DripArmoryRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true) {
-        @Override
-        public final boolean canBuyItem(final int itemId) {
-          switch (itemId) {
-            case ItemPool.DRIPPY_SHIELD:
-              return Preferences.getBoolean("drippyShieldUnlocked")
-                  && !InventoryManager.hasItem(ItemPool.DRIPPY_SHIELD);
-          }
-          return super.canBuyItem(itemId);
-        }
-      };
+      new CoinmasterData(master, "driparmory", DripArmoryRequest.class)
+          .withToken("Driplet")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(TOKEN)
+          .withShopRowFields(master, "driparmory")
+          .withCanBuyItem(DripArmoryRequest::canBuyItem);
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    AdventureResult item = ItemPool.get(itemId);
+    return switch (itemId) {
+      case ItemPool.DRIPPY_SHIELD -> Preferences.getBoolean("drippyShieldUnlocked")
+          && !InventoryManager.hasItem(item);
+      default -> item.getCount(DRIP_ARMORY.getBuyItems()) > 0;
+    };
+  }
 
   public DripArmoryRequest() {
-    super(DripArmoryRequest.DRIP_ARMORY);
+    super(DRIP_ARMORY);
   }
 
   public DripArmoryRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(DripArmoryRequest.DRIP_ARMORY, buying, attachments);
+    super(DRIP_ARMORY, buying, attachments);
   }
 
   public DripArmoryRequest(final boolean buying, final AdventureResult attachment) {
-    super(DripArmoryRequest.DRIP_ARMORY, buying, attachment);
+    super(DRIP_ARMORY, buying, attachment);
   }
 
   public DripArmoryRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DripArmoryRequest.DRIP_ARMORY, buying, itemId, quantity);
+    super(DRIP_ARMORY, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    DripArmoryRequest.parseResponse(this.getURLString(), responseText);
+    parseResponse(this.getURLString(), responseText);
   }
 
   public static void parseResponse(final String location, final String responseText) {
@@ -91,7 +62,7 @@ public class DripArmoryRequest extends CoinMasterRequest {
       Preferences.setBoolean("drippyShieldUnlocked", true);
     }
 
-    CoinmasterData data = DripArmoryRequest.DRIP_ARMORY;
+    CoinmasterData data = DRIP_ARMORY;
     int itemId = CoinMasterRequest.extractItemId(data, location);
 
     if (itemId == -1) {
@@ -118,7 +89,7 @@ public class DripArmoryRequest extends CoinMasterRequest {
       return true;
     }
 
-    CoinmasterData data = DripArmoryRequest.DRIP_ARMORY;
+    CoinmasterData data = DRIP_ARMORY;
     int itemId = CoinMasterRequest.extractItemId(data, urlString);
 
     if (itemId == -1) {

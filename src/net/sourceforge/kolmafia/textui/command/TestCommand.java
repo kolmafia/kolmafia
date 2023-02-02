@@ -18,7 +18,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -30,6 +30,8 @@ import net.sourceforge.kolmafia.chat.ChatParser;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.CombatUtilities;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -40,6 +42,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -80,6 +83,7 @@ import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -219,10 +223,11 @@ public class TestCommand extends AbstractCommand {
         return;
       }
       int choice = StringUtilities.parseInt(split[1]);
-      Object[] spoilers = ChoiceAdventures.dynamicChoiceOptions(choice);
-      if (spoilers != null) {
-        for (int i = 0; i < spoilers.length; ++i) {
-          RequestLogger.printLine("Option " + (i + 1) + ": " + spoilers[i]);
+      var adventure = ChoiceAdventures.choiceToChoiceAdventure.get(choice);
+      if (adventure != null) {
+        var options = adventure.getOptions();
+        for (int i = 0; i < options.length; i++) {
+          RequestLogger.printLine("Option " + (i + 1) + ": " + options[i]);
         }
       }
       return;
@@ -325,7 +330,9 @@ public class TestCommand extends AbstractCommand {
       if (familiar == null || familiar == FamiliarData.NO_FAMILIAR) {
         return;
       }
-      double itemDrop = Modifiers.getNumericModifier("Familiar", familiar.getRace(), "Item Drop");
+      double itemDrop =
+          ModifierDatabase.getNumericModifier(
+              ModifierType.FAMILIAR, familiar.getRace(), DoubleModifier.ITEMDROP);
       RequestLogger.printLine("Item Drop: " + itemDrop);
       return;
     }
@@ -763,14 +770,14 @@ public class TestCommand extends AbstractCommand {
         String thing = parameters.substring(index + 1).trim();
         boolean old = false;
         switch (thing) {
-          case "hardcore":
+          case "hardcore" -> {
             old = KoLCharacter.isHardcore();
             KoLCharacter.setHardcore(!old);
-            break;
-          case "ronin":
+          }
+          case "ronin" -> {
             old = KoLCharacter.inRonin();
             KoLCharacter.setRonin(!old);
-            break;
+          }
         }
         RequestLogger.printLine(thing + ": " + old + " -> " + !old);
       }
@@ -794,7 +801,8 @@ public class TestCommand extends AbstractCommand {
         RequestLogger.printLine(name + " is a level " + level + " " + type + " wine.");
         RequestLogger.printLine("It grants 12 turns of the '" + effect + "' effect:");
         RequestLogger.printLine(
-            Modifiers.getStringModifier("Effect", effect, "Evaluated Modifiers"));
+            ModifierDatabase.getStringModifier(
+                ModifierType.EFFECT, effect, StringModifier.EVALUATED_MODIFIERS));
       } else {
         RequestLogger.printLine("You currently have no access to a 1950 Vampire Vintner wine");
       }
@@ -809,16 +817,16 @@ public class TestCommand extends AbstractCommand {
       }
 
       String typeName = split[1];
-      int type =
-          typeName.equalsIgnoreCase("any")
-              ? WikiUtilities.ANY_TYPE
-              : typeName.equalsIgnoreCase("item")
-                  ? WikiUtilities.ITEM_TYPE
-                  : typeName.equalsIgnoreCase("effect")
-                      ? WikiUtilities.EFFECT_TYPE
-                      : typeName.equalsIgnoreCase("skill") ? WikiUtilities.SKILL_TYPE : -1;
+      WikiType type =
+          switch (typeName.toLowerCase()) {
+            case "any" -> WikiType.ANY;
+            case "item" -> WikiType.ITEM;
+            case "effect" -> WikiType.EFFECT;
+            case "skill" -> WikiType.SKILL;
+            default -> null;
+          };
 
-      if (type == -1) {
+      if (type == null) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "type must be any, item, effect, or skill");
         return;
       }

@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import static internal.helpers.Maximizer.commandStartsWith;
+import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.getSlot;
 import static internal.helpers.Maximizer.maximize;
 import static internal.helpers.Maximizer.modFor;
@@ -8,6 +9,7 @@ import static internal.helpers.Maximizer.recommendedSlotIs;
 import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
 import static internal.helpers.Maximizer.recommends;
 import static internal.helpers.Maximizer.someBoostIs;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
@@ -30,12 +32,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.util.Optional;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -58,7 +65,7 @@ public class MaximizerTest {
     final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
     try (cleanups) {
       assertTrue(maximize("mus"));
-      assertEquals(1, modFor("Buffed Muscle"), 0.01);
+      assertEquals(1, modFor(DerivedModifier.BUFFED_MUS), 0.01);
     }
   }
 
@@ -68,7 +75,7 @@ public class MaximizerTest {
         new Cleanups(withEquippableItem("helmet turtle"), withItem("wreath of laurels"));
     try (cleanups) {
       assertTrue(maximize("mus"));
-      assertEquals(1, modFor("Buffed Muscle"), 0.01);
+      assertEquals(1, modFor(DerivedModifier.BUFFED_MUS), 0.01);
       recommendedSlotIs(EquipmentManager.HAT, "helmet turtle");
     }
   }
@@ -78,7 +85,21 @@ public class MaximizerTest {
     final var cleanups = new Cleanups(withEquippableItem("helmet turtle"));
     try (cleanups) {
       assertTrue(maximize("-mus"));
-      assertEquals(0, modFor("Buffed Muscle"), 0.01);
+      assertEquals(0, modFor(DerivedModifier.BUFFED_MUS), 0.01);
+    }
+  }
+
+  @Test
+  public void exactMatchFindsModifier() {
+    var cleanups =
+        new Cleanups(
+            withEquippableItem("hemlock helm"), withEquippableItem("government-issued slacks"));
+
+    try (cleanups) {
+      assertTrue(maximize("Muscle Experience Percent, -tie"));
+      recommendedSlotIsUnchanged(EquipmentManager.HAT);
+      recommendedSlotIs(EquipmentManager.PANTS, "government-issued slacks");
+      assertEquals(10, modFor(DoubleModifier.MUS_EXPERIENCE_PCT), 0.01);
     }
   }
 
@@ -94,8 +115,8 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("cold res 3 max, 0.1 item drop"));
 
-        assertEquals(3, modFor("Cold Resistance"), 0.01);
-        assertEquals(20, modFor("Item Drop"), 0.01);
+        assertEquals(3, modFor(DoubleModifier.COLD_RESISTANCE), 0.01);
+        assertEquals(20, modFor(DoubleModifier.ITEMDROP), 0.01);
 
         recommendedSlotIs(EquipmentManager.HAT, "bounty-hunting helmet");
       }
@@ -228,7 +249,7 @@ public class MaximizerTest {
         assertFalse(maximize("clownosity -tie"));
         // still provides equipment
         recommendedSlotIs(EquipmentManager.HAT, "clown wig");
-        assertEquals(50, modFor("Clowniness"), 0.01);
+        assertEquals(50, modFor(DoubleModifier.CLOWNINESS), 0.01);
       }
     }
 
@@ -240,7 +261,7 @@ public class MaximizerTest {
         assertTrue(maximize("clownosity -tie"));
         recommendedSlotIs(EquipmentManager.HAT, "clown wig");
         recommendedSlotIs(EquipmentManager.ACCESSORY1, "polka-dot bow tie");
-        assertEquals(125, modFor("Clowniness"), 0.01);
+        assertEquals(125, modFor(DoubleModifier.CLOWNINESS), 0.01);
       }
     }
   }
@@ -260,7 +281,7 @@ public class MaximizerTest {
         recommendedSlotIs(EquipmentManager.HAT, "rave visor");
         recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
         recommendedSlotIs(EquipmentManager.WEAPON, "rave whistle");
-        assertEquals(5, modFor("Raveosity"), 0.01);
+        assertEquals(5, modFor(BitmapModifier.RAVEOSITY), 0.01);
       }
     }
 
@@ -279,7 +300,7 @@ public class MaximizerTest {
         recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
         recommendedSlotIs(EquipmentManager.CONTAINER, "teddybear backpack");
         recommendedSlotIs(EquipmentManager.OFFHAND, "glowstick on a string");
-        assertEquals(7, modFor("Raveosity"), 0.01);
+        assertEquals(7, modFor(BitmapModifier.RAVEOSITY), 0.01);
       }
     }
   }
@@ -303,7 +324,7 @@ public class MaximizerTest {
         recommends("surgical mask");
         recommends("half-size scalpel");
         recommendedSlotIs(EquipmentManager.SHIRT, "surgical apron");
-        assertEquals(5, modFor("Surgeonosity"), 0.01);
+        assertEquals(5, modFor(DoubleModifier.SURGEONOSITY), 0.01);
       }
     }
   }
@@ -620,11 +641,15 @@ public class MaximizerTest {
       assertTrue(
           maximize(
               "cold res,-combat -hat -weapon -offhand -back -shirt -pants -familiar -acc1 -acc2 -acc3"));
-      assertEquals(25, modFor("Cold Resistance") - modFor("Combat Rate"), 0.01, "Base score is 25");
+      assertEquals(
+          25,
+          modFor(DoubleModifier.COLD_RESISTANCE) - modFor(DoubleModifier.COMBAT_RATE),
+          0.01,
+          "Base score is 25");
       assertTrue(maximize("cold res,-combat -acc2 -acc3"));
       assertEquals(
           27,
-          modFor("Cold Resistance") - modFor("Combat Rate"),
+          modFor(DoubleModifier.COLD_RESISTANCE) - modFor(DoubleModifier.COMBAT_RATE),
           0.01,
           "Maximizing one slot should reach 27");
 
@@ -641,7 +666,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("-combat -tie"));
-        assertEquals(0, modFor("Combat Rate"), 0.01);
+        assertEquals(0, modFor(DoubleModifier.COMBAT_RATE), 0.01);
 
         recommendedSlotIsUnchanged(EquipmentManager.HAT);
       }
@@ -672,7 +697,7 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("item -tie"));
 
-        assertEquals(50, modFor("Item Drop"), 0.01);
+        assertEquals(50, modFor(DoubleModifier.ITEMDROP), 0.01);
         recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
         recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
       }
@@ -689,7 +714,7 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("item -tie"));
 
-        assertEquals(100, modFor("Item Drop"), 0.01);
+        assertEquals(100, modFor(DoubleModifier.ITEMDROP), 0.01);
         recommendedSlotIs(EquipmentManager.HAT, "Team Avarice cap");
       }
     }
@@ -707,19 +732,19 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("item -tie"));
 
-        assertEquals(70, modFor("Item Drop"), 0.01);
+        assertEquals(70, modFor(DoubleModifier.ITEMDROP), 0.01);
         recommendedSlotIs(EquipmentManager.HAT, "bounty-hunting helmet");
         recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
         recommendedSlotIs(EquipmentManager.PANTS, "bounty-hunting pants");
 
         assertTrue(maximize("item, +outfit Eldritch Equipage -tie"));
-        assertEquals(65, modFor("Item Drop"), 0.01);
+        assertEquals(65, modFor(DoubleModifier.ITEMDROP), 0.01);
         recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
         recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
         recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
 
         assertTrue(maximize("item, -outfit Bounty-Hunting Rig -tie"));
-        assertEquals(65, modFor("Item Drop"), 0.01);
+        assertEquals(65, modFor(DoubleModifier.ITEMDROP), 0.01);
         recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
         recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
         recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
@@ -737,7 +762,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("ml -tie"));
-        assertEquals(4, modFor("Monster Level"), 0.01);
+        assertEquals(4, modFor(DoubleModifier.MONSTER_LEVEL), 0.01);
         recommendedSlotIs(EquipmentManager.HAT, "Brimstone Beret");
         recommendedSlotIs(EquipmentManager.PANTS, "Brimstone Boxers");
       }
@@ -793,7 +818,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("item -tie"));
-        assertEquals(2, modFor("Item Drop"), 0.01);
+        assertEquals(2, modFor(DoubleModifier.ITEMDROP), 0.01);
         recommendedSlotIs(EquipmentManager.HAT, "Goggles of Loathing");
         recommendedSlotIs(EquipmentManager.PANTS, "Jeans of Loathing");
       }
@@ -868,7 +893,7 @@ public class MaximizerTest {
         try (cleanups) {
           assertTrue(maximize("meat -tie"));
 
-          assertEquals(30, modFor("Meat Drop"), 0.01);
+          assertEquals(30, modFor(DoubleModifier.MEATDROP), 0.01);
           recommendedSlotIs(EquipmentManager.OFFHAND, "silver cow creamer");
           recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY1);
           recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY2);
@@ -888,7 +913,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("Monster Level Percent"));
-        someBoostIs(b -> commandStartsWith(b, "umbrella broken"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "umbrella broken")));
         recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
@@ -904,7 +929,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("exp"));
-        someBoostIs(b -> commandStartsWith(b, "umbrella broken"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "umbrella broken")));
         recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
@@ -934,7 +959,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("meat, shield"));
-        someBoostIs(b -> commandStartsWith(b, "umbrella forward-facing"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "umbrella forward-facing")));
         recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
       }
     }
@@ -950,7 +975,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("muscle, sea"));
-        someBoostIs(b -> commandStartsWith(b, "edpiece fish"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "edpiece fish")));
         recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
       }
     }
@@ -966,7 +991,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("muscle"));
-        someBoostIs(b -> commandStartsWith(b, "edpiece bear"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "edpiece bear")));
         recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
       }
     }
@@ -980,8 +1005,8 @@ public class MaximizerTest {
               withEquipped(EquipmentManager.PANTS, "old sweatpants"));
       try (cleanups) {
         assertTrue(maximize("ml, -combat, equip backup camera, equip unbreakable umbrella"));
-        someBoostIs(b -> commandStartsWith(b, "umbrella cocoon"));
-        someBoostIs(b -> commandStartsWith(b, "backupcamera ml"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "umbrella cocoon")));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "backupcamera ml")));
       }
     }
 
@@ -1150,6 +1175,294 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("-combat"));
         assertFalse(someBoostIs(x -> commandStartsWith(x, "horsery dark")));
+      }
+    }
+  }
+
+  @Nested
+  public class Familiars {
+    @Test
+    public void leftHandManEquipsItem() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquippableItem(ItemPool.WICKER_SHIELD, 2),
+              withItem(ItemPool.STUFFED_CHEST) // equipment with no enchant to test modifiers crash
+              );
+
+      try (cleanups) {
+        assertTrue(maximize("moxie"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "wicker shield");
+        recommendedSlotIs(EquipmentManager.FAMILIAR, "wicker shield");
+      }
+    }
+  }
+
+  @Nested
+  public class Uniques {
+    @Test
+    public void suggestsBestNonStackingWatchForAdventures() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Counterclockwise Watch"), // 10, watch
+              withEquippableItem("grandfather watch"), // 6, also a watch
+              withEquippableItem("plexiglass pocketwatch"), // 3, stacks
+              withEquippableItem("gold wedding ring") // 1
+              );
+
+      try (cleanups) {
+        assertTrue(maximize("adv"));
+        assertEquals(14, modFor(DoubleModifier.ADVENTURES), 0.01);
+        recommends("Counterclockwise Watch");
+        recommends("plexiglass pocketwatch");
+        recommends("gold wedding ring");
+      }
+    }
+
+    @Test
+    public void watchesDontStackOutsideAdventuresEither() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.SASQ_WATCH), // 3, watch
+              withEquippableItem("Crimbolex watch") // 5, also a watch
+              );
+
+      try (cleanups) {
+        assertTrue(maximize("fites"));
+        assertEquals(5, modFor(DoubleModifier.PVP_FIGHTS), 0.01);
+        recommends("Crimbolex watch");
+        assertFalse(
+            someBoostIs(x -> x.isEquipment() && ItemPool.SASQ_WATCH == x.getItem().getItemId()));
+      }
+    }
+
+    @Test
+    public void surgeonosityItemsStackOutsideSurgeonosity() {
+      var cleanups = withEquippableItem("surgical mask", 3);
+
+      try (cleanups) {
+        assertTrue(maximize("mp, -tie"));
+        assertEquals(120, modFor(DoubleModifier.MP), 0.01);
+        assertThat(
+            getBoosts().stream()
+                .filter(x -> x.isEquipment() && "surgical mask".equals(x.getItem().getName()))
+                .count(),
+            equalTo(3L));
+        // TODO: make duplicate surgeonosity not count in modifiers
+        // assertEquals(1, modFor(DoubleModifier.SURGEONOSITY), 0.01);
+      }
+    }
+
+    @Test
+    public void clownosityItemsStackOutsideClownosity() {
+      var cleanups = withEquippableItem("clownskin belt", 3);
+
+      try (cleanups) {
+        assertTrue(maximize("mp, -tie"));
+        assertEquals(45, modFor(DoubleModifier.MP), 0.01);
+        assertThat(
+            getBoosts().stream()
+                .filter(x -> x.isEquipment() && "clownskin belt".equals(x.getItem().getName()))
+                .count(),
+            equalTo(3L));
+        // TODO: make duplicate clowniness not count in modifiers
+        // assertEquals(50, modFor(DoubleModifier.CLOWNINESS), 0.01);
+      }
+    }
+
+    @Test
+    public void raveosityItemsStackOutsideRaveosity() {
+      var cleanups = withEquippableItem("blue glowstick", 3);
+
+      try (cleanups) {
+        assertTrue(maximize("mp, -tie"));
+        assertEquals(15, modFor(DoubleModifier.MP), 0.01);
+        assertThat(
+            getBoosts().stream()
+                .filter(x -> x.isEquipment() && "blue glowstick".equals(x.getItem().getName()))
+                .count(),
+            equalTo(3L));
+        assertEquals(1, modFor(BitmapModifier.RAVEOSITY), 0.01);
+      }
+    }
+
+    @Test
+    public void brimstoneItemsStackOutsideBrimstone() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Brimstone Bludgeon", 3),
+              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING));
+
+      try (cleanups) {
+        assertTrue(maximize("muscle, -tie"));
+        assertEquals(100, modFor(DoubleModifier.MUS_PCT), 0.01);
+        recommendedSlotIs(EquipmentManager.WEAPON, "Brimstone Bludgeon");
+        recommendedSlotIs(EquipmentManager.OFFHAND, "Brimstone Bludgeon");
+        assertEquals(1, modFor(BitmapModifier.BRIMSTONE), 0.01);
+      }
+    }
+
+    @Test
+    public void cloathingItemsStackOutsideCloathing() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Stick-Knife of Loathing", 3),
+              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, -tie"));
+        assertEquals(400, modFor(DoubleModifier.SPELL_DAMAGE_PCT), 0.01);
+        recommendedSlotIs(EquipmentManager.WEAPON, "Stick-Knife of Loathing");
+        recommendedSlotIs(EquipmentManager.OFFHAND, "Stick-Knife of Loathing");
+        assertEquals(1, modFor(BitmapModifier.CLOATHING), 0.01);
+      }
+    }
+  }
+
+  @Nested
+  public class Booleans {
+    @Nested
+    public class NeverFumble {
+      @Test
+      public void unableToNeverFumbleMarksAsFailed() {
+        assertFalse(maximize("never fumble"));
+      }
+
+      @Test
+      public void requiresConditionToSucceed() {
+        var cleanups =
+            new Cleanups(
+                withEquippableItem("aerogel anvil"),
+                withEquippableItem("Baron von Ratsworth's monocle"),
+                withEquippableItem("observational glasses"),
+                withEquippableItem("ring of the Skeleton Lord"));
+
+        try (cleanups) {
+          assertTrue(maximize("never fumble"));
+          recommends("aerogel anvil");
+          recommends("ring of the Skeleton Lord");
+          recommends("Baron von Ratsworth's monocle");
+        }
+      }
+    }
+
+    @Nested
+    public class Pirate {
+      @Test
+      public void unableToPirateMarksAsFailed() {
+        assertFalse(maximize("pirate"));
+      }
+
+      @Test
+      public void fledgesOrOutfitBothCount() {
+        var cleanups =
+            new Cleanups(
+                withEquippableItem("eyepatch"),
+                withEquippableItem("swashbuckling pants"),
+                withEquippableItem("Pantsgiving"),
+                withEquippableItem("stuffed shoulder parrot"),
+                withEquippableItem("pirate fledges"),
+                withEquippableItem("moustache sock"),
+                withEquippableItem("tube sock"),
+                withEquippableItem("mirrored aviator shades"));
+
+        try (cleanups) {
+          assertTrue(maximize("pirate, meat, -tie"));
+          recommends("pirate fledges");
+          recommends("Pantsgiving");
+
+          assertTrue(maximize("pirate, moxie, -tie"));
+          recommendedSlotIs(EquipmentManager.HAT, "eyepatch");
+          recommendedSlotIs(EquipmentManager.PANTS, "swashbuckling pants");
+          recommends("stuffed shoulder parrot");
+          recommends("moustache sock");
+          recommends("tube sock");
+        }
+      }
+    }
+
+    @Nested
+    public class Sea {
+      @Test
+      public void unableToAdventureInSeaMarksAsFailed() {
+        assertFalse(maximize("sea"));
+      }
+
+      @Test
+      public void prefersSeaGearToHigherScore() {
+        var cleanups =
+            new Cleanups(
+                withFamiliar(FamiliarPool.MOSQUITO),
+                withEquippableItem(ItemPool.DAS_BOOT),
+                withEquippableItem("Mer-kin scholar mask"),
+                withEquippableItem("Lens of Violence"),
+                withEquippableItem("old SCUBA tank"));
+
+        try (cleanups) {
+          assertTrue(maximize("item, sea"));
+          recommendedSlotIs(EquipmentManager.HAT, "Mer-kin scholar mask");
+          recommendedSlotIs(EquipmentManager.FAMILIAR, "das boot");
+          recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
+        }
+      }
+    }
+  }
+
+  @Nested
+  public class Chefstaves {
+    @Test
+    public void cantEquipCheffstaffsOnLeftHandMan() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Staff of Kitchen Royalty"),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withSkill(SkillPool.SPIRIT_OF_RIGATONI));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, -weapon"));
+        recommendedSlotIsUnchanged(EquipmentManager.FAMILIAR);
+      }
+    }
+
+    @Test
+    public void mustEquipSauceGloveForChefstaff() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Staff of Kitchen Royalty"),
+              withEquippableItem("special sauce glove"),
+              withClass(AscensionClass.SAUCEROR));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, -tie"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "Staff of Kitchen Royalty");
+        recommends("special sauce glove");
+      }
+    }
+
+    @Test
+    public void cannotUseSauceGloveIfNotSauceror() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Staff of Kitchen Royalty"),
+              withEquippableItem("special sauce glove"),
+              withClass(AscensionClass.SEAL_CLUBBER));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, -tie"));
+        recommendedSlotIsUnchanged(EquipmentManager.WEAPON);
+      }
+    }
+
+    @Test
+    public void canUseSkillToEquipChefstaves() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("Staff of Kitchen Royalty"),
+              withSkill(SkillPool.SPIRIT_OF_RIGATONI));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg, -tie"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "Staff of Kitchen Royalty");
       }
     }
   }

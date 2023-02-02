@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
+import java.util.stream.Collectors;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -14,10 +16,14 @@ public class LootTrapperMenuItem extends ThreadedMenuItem {
   }
 
   private static class LootTrapperListener extends ThreadedListener {
+    private static final LockableListModel<AdventureResult> skins =
+        TrapperRequest.TRAPPER.getBuyItems().stream()
+            .map(item -> item.getInstance(1))
+            .collect(Collectors.toCollection(LockableListModel::new));
+
     @Override
     protected void execute() {
-      AdventureResult selectedValue =
-          InputFieldUtilities.input("I want skins!", TrapperRequest.buyItems);
+      AdventureResult selectedValue = InputFieldUtilities.input("I want skins!", skins);
 
       if (selectedValue == null) {
         return;

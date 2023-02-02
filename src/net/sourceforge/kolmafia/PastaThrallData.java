@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -328,7 +331,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
   private int level;
   private String name;
   private String mods;
-  private String modsLookup;
+  private Lookup modsLookup;
 
   public PastaThrallData(final PastaThrallType data) {
     this.data = data;
@@ -338,10 +341,10 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     this.name = "";
 
     if (this.id != 0) {
-      Modifiers mods = Modifiers.getModifiers("Thrall", this.type);
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.THRALL, this.type);
       if (mods != null) {
-        this.mods = mods.getString("Modifiers");
-        this.modsLookup = mods.getName();
+        this.mods = mods.getString(StringModifier.MODIFIERS);
+        this.modsLookup = mods.getLookup();
       }
     }
   }
@@ -418,7 +421,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     PastaThrallData current = KoLCharacter.currentPastaThrall();
     try {
       KoLCharacter.setPastaThrall(this);
-      return Modifiers.evaluateModifiers(this.modsLookup, this.mods).toString();
+      return ModifierDatabase.evaluateModifiers(this.modsLookup, this.mods).toString();
     } finally {
       KoLCharacter.setPastaThrall(current);
     }
@@ -446,7 +449,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof PastaThrallData && this.id == ((PastaThrallData) o).id;
+    return o instanceof PastaThrallData data && this.id == data.id;
   }
 
   @Override

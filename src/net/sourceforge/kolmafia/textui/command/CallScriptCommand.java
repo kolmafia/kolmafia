@@ -156,8 +156,7 @@ public class CallScriptCommand extends AbstractCommand {
         }
 
         if (command.equals("profile")) {
-          if (interpreter instanceof AshRuntime) {
-            AshRuntime ashInterpreter = (AshRuntime) interpreter;
+          if (interpreter instanceof AshRuntime ashInterpreter) {
             Profiler prof = Profiler.create("toplevel");
             long t0 = System.nanoTime();
             prof.net0 = t0;

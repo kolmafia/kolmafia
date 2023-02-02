@@ -66,7 +66,135 @@ public class DailyDeedsPanel extends Box implements Listener {
   public static final AdventureResult STAFF_OF_CREAM = ItemPool.get(ItemPool.STAFF_OF_CREAM, 1);
 
   private static final String comboBoxSizeString = "Available Hatter Buffs: BLAH";
-  private static final String[] STRING_ARRAY = new String[0];
+
+  public interface BuiltinDeed {
+    String type();
+
+    String displayText();
+
+    List<Daily> daily();
+  }
+
+  record CommandDeed(
+      String displayText,
+      String pref,
+      String command,
+      int maxPref,
+      String toolTip,
+      String compMessage)
+      implements BuiltinDeed {
+    public String type() {
+      return "Command";
+    }
+
+    public List<Daily> daily() {
+      return List.of(new CommandDaily(displayText, pref, command, maxPref, toolTip, compMessage));
+    }
+  }
+
+  record ItemDeed(
+      String displayText, String pref, int itemId, int maxUses, String toolTip, String compMessage)
+      implements BuiltinDeed {
+    public String type() {
+      return "Item";
+    }
+
+    public List<Daily> daily() {
+      String itemCommand = "use " + ItemDatabase.getItemName(itemId);
+      return List.of(
+          new ItemDaily(displayText, pref, itemId, itemCommand, maxUses, toolTip, compMessage));
+    }
+  }
+
+  record SkillDeed(
+      String displayText,
+      String pref,
+      int skillId,
+      int maxCasts,
+      String toolTip,
+      String compMessage)
+      implements BuiltinDeed {
+    public String type() {
+      return "Skill";
+    }
+
+    public List<Daily> daily() {
+      String skillName = SkillDatabase.getSkillName(skillId);
+      String skillCommand = "cast " + skillName;
+      return List.of(
+          new SkillDaily(
+              displayText, pref, skillName, skillCommand, maxCasts, toolTip, compMessage));
+    }
+  }
+
+  record SpecialDeed(String displayText) implements BuiltinDeed {
+    public String type() {
+      return "Special";
+    }
+
+    public List<Daily> daily() {
+      return switch (displayText) {
+        case "Submit Spading Data" -> List.of(new SpadeDaily());
+        case "Crimbo Tree" -> List.of(new CrimboTreeDaily());
+        case "Chips" -> List.of(new ChipsDaily());
+        case "Telescope" -> List.of(new TelescopeDaily());
+        case "Ball Pit" -> List.of(new PitDaily());
+        case "Styx Pixie" -> List.of(new StyxDaily());
+        case "VIP Pool" -> List.of(new PoolDaily());
+        case "April Shower" -> List.of(new ShowerCombo());
+        case "Friars" -> List.of(new FriarsDaily());
+        case "Mom" -> List.of(new MomCombo());
+        case "Skate Park" -> List.of(
+            new SkateDaily("lutz", "ice", "_skateBuff1", "Fishy"),
+            new SkateDaily("comet", "roller", "_skateBuff2", "-30% to Sea penalties"),
+            new SkateDaily("band shell", "peace", "_skateBuff3", "+sand dollars"),
+            new SkateDaily("eels", "peace", "_skateBuff4", "+10 lbs. underwater"),
+            new SkateDaily("merry-go-round", "peace", "_skateBuff5", "+25% items underwater"));
+        case "Concert" -> List.of(new ConcertDaily());
+        case "Demon Summoning" -> List.of(new DemonCombo());
+        case "Free Rests" -> List.of(new RestsDaily());
+        case "Hot Tub" -> List.of(new HotTubDaily());
+        case "Nuns" -> List.of(new NunsDaily());
+        case "Flush Mojo" -> List.of(new MojoDaily());
+        case "Feast" -> List.of(new FeastDaily());
+        case "Pudding" -> List.of(new PuddingDaily());
+        case "Melange" -> List.of(new MelangeDaily());
+        case "Ultra Mega Sour Ball" -> List.of(new UltraMegaSourBallDaily());
+        case "Stills" -> List.of(new StillsDaily());
+        case "Tea Party" -> List.of(new TeaPartyDaily());
+        case "Photocopy" -> List.of(new PhotocopyDaily());
+        case "Putty" -> List.of(new PuttyDaily());
+        case "Camera" -> List.of(new CameraDaily());
+        case "Combat Lover's Locket" -> List.of(new CombatLocketDaily());
+        case "Envyfish Egg" -> List.of(new EnvyfishDaily());
+        case "Romantic Arrow" -> List.of(new RomanticDaily());
+        case "Bonus Adventures" -> List.of(new AdvsDaily());
+        case "Familiar Drops" -> List.of(new DropsDaily());
+        case "Free Fights" -> List.of(new FreeFightsDaily());
+        case "Free Runaways" -> List.of(new RunawaysDaily());
+        case "Hatter" -> List.of(new HatterDaily());
+        case "Banished Monsters" -> List.of(new BanishedDaily());
+        case "Swimming Pool" -> List.of(new SwimmingPoolDaily());
+        case "Jick Jar" -> List.of(new JickDaily());
+        case "Avatar of Jarlberg Staves" -> List.of(new JarlsbergStavesDaily());
+        case "Defective Token" -> List.of(new DefectiveTokenDaily());
+        case "Chateau Desk" -> List.of(new ChateauDeskDaily());
+        case "Deck of Every Card" -> List.of(new DeckOfEveryCardDaily());
+        case "Potted Tea Tree" -> List.of(new TeaTreeDaily());
+        case "Shrine to the Barrel god" -> List.of(new BarrelGodDaily());
+        case "Terminal Educate" -> List.of(new TerminalEducateDaily());
+        case "Terminal Enhance" -> List.of(new TerminalEnhanceDaily());
+        case "Terminal Enquiry" -> List.of(new TerminalEnquiryDaily());
+        case "Terminal Extrude" -> List.of(new TerminalExtrudeDaily());
+        case "Terminal Summary" -> List.of(new TerminalSummaryDaily());
+        default -> { // you added a special deed to BUILTIN_DEEDS but didn't add a method call.
+          RequestLogger.printLine(
+              "Couldn't match a deed: " + displayText + " does not have a built-in method.");
+          yield List.of();
+        }
+      };
+    }
+  }
 
   /*
    * Built-in deeds. {Type, Name, ...otherArgs}
@@ -75,243 +203,171 @@ public class DailyDeedsPanel extends Box implements Listener {
    * NOTE: when adding a new built-in deed, also add an appropriate entry for it in getVersion and increment dailyDeedsVersion
    * in defaults.txt.
    */
-  public static final String[][] BUILTIN_DEEDS = {
-    {
-      "Command",
-      "Breakfast",
-      "breakfastCompleted",
-      "breakfast",
-      "1",
-      "Perform typical daily tasks - use 1/day items, visit 1/day locations like various clan furniture, use item creation skills, etc. Configurable in preferences.",
-      "You have completed breakfast"
-    },
-    {
-      "Command",
-      "Daily Dungeon",
-      "dailyDungeonDone",
-      "adv * Daily Dungeon",
-      "1",
-      "Adventure in Daily Dungeon",
-      "You have adventured in the Daily Dungeon"
-    },
-    {
-      "Special", "Submit Spading Data",
-    },
-    {
-      "Special", "Crimbo Tree",
-    },
-    {
-      "Special", "Chips",
-    },
-    {
-      "Item",
-      "Library Card",
-      "libraryCardUsed",
-      "Library Card",
-      "1",
-      "40-50 stat gain of one of Mus/Myst/Mox, randomly chosen"
-    },
-    {
-      "Special", "Telescope",
-    },
-    {
-      "Special", "Ball Pit",
-    },
-    {
-      "Special", "Styx Pixie",
-    },
-    {
-      "Special", "VIP Pool",
-    },
-    {
-      "Special", "April Shower",
-    },
-    {
-      "Item",
-      "Bag o' Tricks",
-      "_bagOTricksUsed",
-      "Bag o' Tricks",
-      "1",
-      "5 random current effects extended by 3 turns",
-      "Bag o' Tricked used"
-    },
-    {
-      "Item",
-      "Legendary Beat",
-      "_legendaryBeat",
-      "Legendary Beat",
-      "1",
-      "+50% items, 20 turns",
-      "Legendary Beat used"
-    },
-    {
-      "Item",
-      "Outrageous Sombrero",
-      "outrageousSombreroUsed",
-      "Outrageous Sombrero",
-      "1",
-      "+3% items, 5 turns",
-      "Outrageous Sombrero used"
-    },
-    {
-      "Special", "Friars",
-    },
-    {
-      "Special", "Mom",
-    },
-    {
-      "Special", "Skate Park",
-    },
-    {
-      "Item",
-      "Fishy Pipe",
-      "_fishyPipeUsed",
-      "Fishy Pipe",
-      "1",
-      "Fishy, 10 turns",
-      "Fishy Pipe used"
-    },
-    {
-      "Special", "Concert",
-    },
-    {
-      "Special", "Demon Summoning",
-    },
-    {
-      "Skill",
-      "Rage Gland",
-      "rageGlandVented",
-      "Rage Gland",
-      "1",
-      "-10% Mus/Myst/Mox, randomly chosen, and each turn of combat do level to 2*level damage, 5 turns",
-      "Rage Gland used"
-    },
-    {
-      "Special", "Free Rests",
-    },
-    {
-      "Special", "Hot Tub",
-    },
-    {
-      "Special", "Nuns",
-    },
-    {"Item", "Oscus' Soda", "oscusSodaUsed", "Oscus' Soda", "1", "200-300 MP", "Oscus' Soda used"},
-    {
-      "Item",
-      "Express Card",
-      "expressCardUsed",
-      "Express Card",
-      "1",
-      "extends duration of all current effects by 5 turns, restores all MP, cools zapped wands",
-      "Express Card used"
-    },
-    {
-      "Item",
-      "Brass Dreadsylvanian Flask",
-      "_brassDreadFlaskUsed",
-      "Brass Dreadsylvanian flask",
-      "1",
-      "100 turns of +100% Physical Damage in Dreadsylvania",
-      "Brass flask used"
-    },
-    {
-      "Item",
-      "Silver Dreadsylvanian Flask",
-      "_silverDreadFlaskUsed",
-      "Silver Dreadsylvanian flask",
-      "1",
-      "100 turns of +200 Spell Damage in Dreadsylvania",
-      "Silver flask used"
-    },
-    {
-      "Special", "Flush Mojo",
-    },
-    {
-      "Special", "Feast",
-    },
-    {
-      "Special", "Pudding",
-    },
-    {
-      "Special", "Melange",
-    },
-    {
-      "Special", "Ultra Mega Sour Ball",
-    },
-    {
-      "Special", "Stills",
-    },
-    {
-      "Special", "Tea Party",
-    },
-    {
-      "Special", "Photocopy",
-    },
-    {
-      "Special", "Putty",
-    },
-    {
-      "Special", "Envyfish Egg",
-    },
-    {
-      "Special", "Camera",
-    },
-    {
-      "Special", "Combat Lover's Locket",
-    },
-    {
-      "Special", "Romantic Arrow",
-    },
-    {
-      "Special", "Bonus Adventures",
-    },
-    {
-      "Special", "Familiar Drops",
-    },
-    {
-      "Special", "Free Fights",
-    },
-    {
-      "Special", "Free Runaways",
-    },
-    {"Special", "Hatter"},
-    {"Special", "Banished Monsters"},
-    {"Special", "Swimming Pool"},
-    {"Special", "Jick Jar"},
-    {"Special", "Avatar of Jarlberg Staves"},
-    {"Special", "Defective Token"},
-    {"Special", "Chateau Desk"},
-    {"Special", "Deck of Every Card"},
-    {"Special", "Shrine to the Barrel god"},
-    {"Special", "Potted Tea Tree"},
-    {"Special", "Terminal Educate"},
-    {"Special", "Terminal Enhance"},
-    {"Special", "Terminal Enquiry"},
-    {"Special", "Terminal Extrude"},
-    {"Special", "Terminal Summary"}
+  public static final BuiltinDeed[] BUILTIN_DEEDS = {
+    new CommandDeed(
+        "Breakfast",
+        "breakfastCompleted",
+        "breakfast",
+        1,
+        "Perform typical daily tasks - use 1/day items, visit 1/day locations like various clan furniture, use item creation skills, etc. Configurable in preferences.",
+        "You have completed breakfast"),
+    new CommandDeed(
+        "Daily Dungeon",
+        "dailyDungeonDone",
+        "adv * Daily Dungeon",
+        1,
+        "Adventure in Daily Dungeon",
+        "You have adventured in the Daily Dungeon"),
+    new SpecialDeed("Submit Spading Data"),
+    new SpecialDeed("Crimbo Tree"),
+    new SpecialDeed("Chips"),
+    new ItemDeed(
+        "Library Card",
+        "libraryCardUsed",
+        ItemPool.LIBRARY_CARD,
+        1,
+        "40-50 stat gain of one of Mus/Myst/Mox, randomly chosen",
+        "Library Card used"),
+    new SpecialDeed("Telescope"),
+    new SpecialDeed("Ball Pit"),
+    new SpecialDeed("Styx Pixie"),
+    new SpecialDeed("VIP Pool"),
+    new SpecialDeed("April Shower"),
+    new ItemDeed(
+        "Bag o' Tricks",
+        "_bagOTricksUsed",
+        ItemPool.BAG_O_TRICKS,
+        1,
+        "5 random current effects extended by 3 turns",
+        "Bag o' Tricked used"),
+    new ItemDeed(
+        "Legendary Beat",
+        "_legendaryBeat",
+        ItemPool.LEGENDARY_BEAT,
+        1,
+        "+50% items, 20 turns",
+        "Legendary Beat used"),
+    new ItemDeed(
+        "portable steam unit",
+        "_portableSteamUnitUsed",
+        ItemPool.PORTABLE_STEAM_UNIT,
+        1,
+        "+25% items, 30 turns",
+        "portable steam unit used"),
+    new ItemDeed(
+        "Outrageous Sombrero",
+        "outrageousSombreroUsed",
+        ItemPool.OUTRAGEOUS_SOMBRERO,
+        1,
+        "+3% items, 5 turns",
+        "Outrageous Sombrero used"),
+    new SpecialDeed("Friars"),
+    new SpecialDeed("Mom"),
+    new SpecialDeed("Skate Park"),
+    new ItemDeed(
+        "Fishy Pipe",
+        "_fishyPipeUsed",
+        ItemPool.FISHY_PIPE,
+        1,
+        "Fishy, 10 turns",
+        "Fishy Pipe used"),
+    new SpecialDeed("Concert"),
+    new SpecialDeed("Demon Summoning"),
+    new SkillDeed(
+        "Rage Gland",
+        "rageGlandVented",
+        SkillPool.RAGE_GLAND,
+        1,
+        "-10% Mus/Myst/Mox, randomly chosen, and each turn of combat do level to 2*level damage, 5 turns",
+        "Rage Gland used"),
+    new SpecialDeed("Free Rests"),
+    new SpecialDeed("Hot Tub"),
+    new SpecialDeed("Nuns"),
+    new ItemDeed(
+        "Oscus' Soda",
+        "oscusSodaUsed",
+        ItemPool.NEVERENDING_SODA,
+        1,
+        "200-300 MP",
+        "Oscus' Soda used"),
+    new ItemDeed(
+        "Express Card",
+        "expressCardUsed",
+        ItemPool.EXPRESS_CARD,
+        1,
+        "extends duration of all current effects by 5 turns, restores all MP, cools zapped wands",
+        "Express Card used"),
+    new ItemDeed(
+        "Brass Dreadsylvanian Flask",
+        "_brassDreadFlaskUsed",
+        ItemPool.BRASS_DREAD_FLASK,
+        1,
+        "100 turns of +100% Physical Damage in Dreadsylvania",
+        "Brass flask used"),
+    new ItemDeed(
+        "Silver Dreadsylvanian Flask",
+        "_silverDreadFlaskUsed",
+        ItemPool.SILVER_DREAD_FLASK,
+        1,
+        "100 turns of +200 Spell Damage in Dreadsylvania",
+        "Silver flask used"),
+    new SpecialDeed("Flush Mojo"),
+    new SpecialDeed("Feast"),
+    new SpecialDeed("Pudding"),
+    new SpecialDeed("Melange"),
+    new SpecialDeed("Ultra Mega Sour Ball"),
+    new SpecialDeed("Stills"),
+    new SpecialDeed("Tea Party"),
+    new SpecialDeed("Photocopy"),
+    new SpecialDeed("Putty"),
+    new SpecialDeed("Envyfish Egg"),
+    new SpecialDeed("Camera"),
+    new SpecialDeed("Combat Lover's Locket"),
+    new SpecialDeed("Romantic Arrow"),
+    new SpecialDeed("Bonus Adventures"),
+    new SpecialDeed("Familiar Drops"),
+    new SpecialDeed("Free Fights"),
+    new SpecialDeed("Free Runaways"),
+    new SpecialDeed("Hatter"),
+    new SpecialDeed("Banished Monsters"),
+    new SpecialDeed("Swimming Pool"),
+    new SpecialDeed("Jick Jar"),
+    new SpecialDeed("Avatar of Jarlberg Staves"),
+    new SpecialDeed("Defective Token"),
+    new SpecialDeed("Chateau Desk"),
+    new SpecialDeed("Deck of Every Card"),
+    new SpecialDeed("Shrine to the Barrel god"),
+    new SpecialDeed("Potted Tea Tree"),
+    new SpecialDeed("Terminal Educate"),
+    new SpecialDeed("Terminal Enhance"),
+    new SpecialDeed("Terminal Enquiry"),
+    new SpecialDeed("Terminal Extrude"),
+    new SpecialDeed("Terminal Summary")
   };
 
   private static int getVersion(String deed) {
     // Add a method to return the proper version for the deed given.
     // i.e. if ( deed.equals( "Breakfast" ) ) return 1;
 
-    if (deed.equals("Terminal Educate")) return 13;
-    else if (deed.equals("Terminal Enhance")) return 13;
-    else if (deed.equals("Terminal Enquiry")) return 13;
-    else if (deed.equals("Terminal Extrude")) return 13;
-    else if (deed.equals("Terminal Summary")) return 13;
-    else if (deed.equals("Potted Tea Tree")) return 12;
-    else if (deed.equals("Shrine to the Barrel god")) return 11;
-    else if (deed.equals("Deck of Every Card")) return 10;
-    else if (deed.equals("Chateau Desk")) return 9;
-    else if (deed.equals("Ultra Mega Sour Ball")) return 8;
-    else if (deed.equals("Avatar of Jarlberg Staves")) return 6;
-    else if (deed.equals("Swimming Pool")) return 5;
-    else if (deed.equals("Banished Monsters")) return 4;
-    else if (deed.equals("Hatter")) return 3;
-    else if (deed.equals(("Romantic Arrow"))) return 2;
-    else if (deed.equals(("Feast"))) return 1;
-    else return 0;
+    return switch (deed) {
+      case "Terminal Educate",
+          "Terminal Summary",
+          "Terminal Enhance",
+          "Terminal Enquiry",
+          "Terminal Extrude" -> 13;
+      case "Potted Tea Tree" -> 12;
+      case "Shrine to the Barrel god" -> 11;
+      case "Deck of Every Card" -> 10;
+      case "Chateau Desk" -> 9;
+      case "Ultra Mega Sour Ball" -> 8;
+      case "Avatar of Jarlberg Staves" -> 6;
+      case "Swimming Pool" -> 5;
+      case "Banished Monsters" -> 4;
+      case "Hatter" -> 3;
+      case "Romantic Arrow" -> 2;
+      case "Feast" -> 1;
+      default -> 0;
+    };
   }
 
   public DailyDeedsPanel() {
@@ -325,8 +381,8 @@ public class DailyDeedsPanel extends Box implements Listener {
     // add deeds with newer version numbers to the end of dailyDeedsOptions.
 
     if (currentVersion < releaseVersion) {
-      for (String[] builtinDeed : BUILTIN_DEEDS) {
-        String builtinDeedName = builtinDeed[1];
+      for (BuiltinDeed builtinDeed : BUILTIN_DEEDS) {
+        String builtinDeedName = builtinDeed.displayText();
 
         if (getVersion(builtinDeedName) > currentVersion) {
           String oldString = Preferences.getString("dailyDeedsOptions");
@@ -363,37 +419,14 @@ public class DailyDeedsPanel extends Box implements Listener {
        * BooleanItem, Multipref, Skill, and Text types; all the other built-ins are marked as Special and require
        * their own function in dailyDeedsPanel to handle.
        */
-      for (String[] builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS) {
+      for (BuiltinDeed builtinDeed : DailyDeedsPanel.BUILTIN_DEEDS) {
         /*
          * Built-in handling
          */
-        if (deed.equals(builtinDeed[1])) {
-          /*
-           * Generalized handling
-           */
-          if (builtinDeed[0].equalsIgnoreCase("Command")) {
-            parseCommandDeed(builtinDeed);
-            break;
-          } else if (builtinDeed[0].equalsIgnoreCase("Item")) {
-            parseItemDeed(builtinDeed);
-            break;
-          } else if (builtinDeed[0].equalsIgnoreCase("Skill")) {
-            parseSkillDeed(builtinDeed);
-            break;
+        if (deed.equals(builtinDeed.displayText())) {
+          for (var daily : builtinDeed.daily()) {
+            this.add(daily);
           }
-
-          /*
-           * Special Handling
-           */
-          else if (builtinDeed[0].equalsIgnoreCase("Special")) {
-            parseSpecialDeed(builtinDeed);
-            break;
-          }
-
-          // we'll only get here if an unknown deed type was set in BUILTIN_DEEDS.
-          // Shouldn't happen.
-
-          RequestLogger.printLine("Unknown deed type: " + builtinDeed[0]);
           break;
         }
       }
@@ -460,7 +493,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     // pack up the rest of the deed into an ArrayList.
     // .get( element ) gives a string array containing { "$ITEM", displayText, preference, command }
 
-    ArrayList<String[]> packedDeed = new ArrayList<String[]>();
+    ArrayList<String[]> packedDeed = new ArrayList<>();
     for (int i = (isMulti ? 4 : 3); i < deedsString.length; i += 4) {
       if (!deedsString[i].equals("$ITEM")) {
         RequestLogger.printLine(
@@ -610,9 +643,11 @@ public class DailyDeedsPanel extends Box implements Listener {
 
       // Additional arbitrary commands allowed
       if (split.length > 1) {
+        StringBuilder itemCommandBuilder = new StringBuilder(itemCommand);
         for (int i = 1; i < split.length; ++i) {
-          itemCommand += ";" + split[i];
+          itemCommandBuilder.append(";").append(split[i]);
         }
+        itemCommand = itemCommandBuilder.toString();
       }
     }
 
@@ -851,114 +886,6 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
   }
 
-  private void parseSpecialDeed(String[] deedsString) {
-    if (deedsString[1].equals("Submit Spading Data")) {
-      this.add(new SpadeDaily());
-    } else if (deedsString[1].equals("Crimbo Tree")) {
-      this.add(new CrimboTreeDaily());
-    } else if (deedsString[1].equals("Chips")) {
-      this.add(new ChipsDaily());
-    } else if (deedsString[1].equals("Telescope")) {
-      this.add(new TelescopeDaily());
-    } else if (deedsString[1].equals("Ball Pit")) {
-      this.add(new PitDaily());
-    } else if (deedsString[1].equals("Styx Pixie")) {
-      this.add(new StyxDaily());
-    } else if (deedsString[1].equals("VIP Pool")) {
-      this.add(new PoolDaily());
-    } else if (deedsString[1].equals("April Shower")) {
-      this.add(new ShowerCombo());
-    } else if (deedsString[1].equals("Friars")) {
-      this.add(new FriarsDaily());
-    } else if (deedsString[1].equals("Mom")) {
-      this.add(new MomCombo());
-    } else if (deedsString[1].equals("Skate Park")) {
-      this.add(new SkateDaily("lutz", "ice", "_skateBuff1", "Fishy"));
-      this.add(new SkateDaily("comet", "roller", "_skateBuff2", "-30% to Sea penalties"));
-      this.add(new SkateDaily("band shell", "peace", "_skateBuff3", "+sand dollars"));
-      this.add(new SkateDaily("eels", "peace", "_skateBuff4", "+10 lbs. underwater"));
-      this.add(new SkateDaily("merry-go-round", "peace", "_skateBuff5", "+25% items underwater"));
-
-    } else if (deedsString[1].equals("Concert")) {
-      this.add(new ConcertDaily());
-    } else if (deedsString[1].equals("Demon Summoning")) {
-      this.add(new DemonCombo());
-    } else if (deedsString[1].equals("Free Rests")) {
-      this.add(new RestsDaily());
-    } else if (deedsString[1].equals("Hot Tub")) {
-      this.add(new HotTubDaily());
-    } else if (deedsString[1].equals("Nuns")) {
-      this.add(new NunsDaily());
-    } else if (deedsString[1].equals("Flush Mojo")) {
-      this.add(new MojoDaily());
-    } else if (deedsString[1].equals("Feast")) {
-      this.add(new FeastDaily());
-    } else if (deedsString[1].equals("Pudding")) {
-      this.add(new PuddingDaily());
-    } else if (deedsString[1].equals("Melange")) {
-      this.add(new MelangeDaily());
-    } else if (deedsString[1].equals("Ultra Mega Sour Ball")) {
-      this.add(new UltraMegaSourBallDaily());
-    } else if (deedsString[1].equals("Stills")) {
-      this.add(new StillsDaily());
-    } else if (deedsString[1].equals("Tea Party")) {
-      this.add(new TeaPartyDaily());
-    } else if (deedsString[1].equals("Photocopy")) {
-      this.add(new PhotocopyDaily());
-    } else if (deedsString[1].equals("Putty")) {
-      this.add(new PuttyDaily());
-    } else if (deedsString[1].equals("Camera")) {
-      this.add(new CameraDaily());
-    } else if (deedsString[1].equals("Combat Lover's Locket")) {
-      this.add(new CombatLocketDaily());
-    } else if (deedsString[1].equals("Envyfish Egg")) {
-      this.add(new EnvyfishDaily());
-    } else if (deedsString[1].equals("Romantic Arrow")) {
-      this.add(new RomanticDaily());
-    } else if (deedsString[1].equals("Bonus Adventures")) {
-      this.add(new AdvsDaily());
-    } else if (deedsString[1].equals("Familiar Drops")) {
-      this.add(new DropsDaily());
-    } else if (deedsString[1].equals("Free Fights")) {
-      this.add(new FreeFightsDaily());
-    } else if (deedsString[1].equals("Free Runaways")) {
-      this.add(new RunawaysDaily());
-    } else if (deedsString[1].equals("Hatter")) {
-      this.add(new HatterDaily());
-    } else if (deedsString[1].equals("Banished Monsters")) {
-      this.add(new BanishedDaily());
-    } else if (deedsString[1].equals("Swimming Pool")) {
-      this.add(new SwimmingPoolDaily());
-    } else if (deedsString[1].equals("Jick Jar")) {
-      this.add(new JickDaily());
-    } else if (deedsString[1].equals("Avatar of Jarlberg Staves")) {
-      this.add(new JarlsbergStavesDaily());
-    } else if (deedsString[1].equals("Defective Token")) {
-      this.add(new DefectiveTokenDaily());
-    } else if (deedsString[1].equals("Chateau Desk")) {
-      this.add(new ChateauDeskDaily());
-    } else if (deedsString[1].equals("Deck of Every Card")) {
-      this.add(new DeckOfEveryCardDaily());
-    } else if (deedsString[1].equals("Potted Tea Tree")) {
-      this.add(new TeaTreeDaily());
-    } else if (deedsString[1].equals("Shrine to the Barrel god")) {
-      this.add(new BarrelGodDaily());
-    } else if (deedsString[1].equals("Terminal Educate")) {
-      this.add(new TerminalEducateDaily());
-    } else if (deedsString[1].equals("Terminal Enhance")) {
-      this.add(new TerminalEnhanceDaily());
-    } else if (deedsString[1].equals("Terminal Enquiry")) {
-      this.add(new TerminalEnquiryDaily());
-    } else if (deedsString[1].equals("Terminal Extrude")) {
-      this.add(new TerminalExtrudeDaily());
-    } else if (deedsString[1].equals("Terminal Summary")) {
-      this.add(new TerminalSummaryDaily());
-    } else { // you added a special deed to BUILTIN_DEEDS but didn't add a method call.
-      RequestLogger.printLine(
-          "Couldn't match a deed: " + deedsString[1] + " does not have a built-in method.");
-    }
-  }
-
   @Override
   public void update() {
     // Called whenever the dailyDeedsOptions preference is changed.
@@ -1012,7 +939,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       button.putClientProperty("JButton.buttonType", "segmented");
 
       if (this.buttons == null) {
-        this.buttons = new ArrayList<JButton>();
+        this.buttons = new ArrayList<>();
         button.putClientProperty("JButton.segmentPosition", "only");
       } else {
         button.putClientProperty("JButton.segmentPosition", "last");
@@ -1039,7 +966,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       button.setDefaultCapable(false);
       button.putClientProperty("JButton.buttonType", "segmented");
       if (this.buttons == null) {
-        this.buttons = new ArrayList<JButton>();
+        this.buttons = new ArrayList<>();
         button.putClientProperty("JButton.segmentPosition", "only");
       } else {
         button.putClientProperty("JButton.segmentPosition", "last");
@@ -1154,7 +1081,6 @@ public class DailyDeedsPanel extends Box implements Listener {
     JButton btn;
 
     public ShowerCombo() {
-      List<String> ttips = new ArrayList<String>();
       String[] choices = {"April Shower", "Muscle", "Mysticality", "Moxie", "Ice", "MP"};
       String[] tips = {
         "Take a shower",
@@ -1165,7 +1091,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         "mp or amazing idea"
       };
 
-      ttips.addAll(Arrays.asList(tips));
+      List<String> ttips = new ArrayList<>(Arrays.asList(tips));
 
       this.addItem(ItemPool.VIP_LOUNGE_KEY);
       this.addListener("_aprilShower");
@@ -1226,7 +1152,6 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     public DemonCombo() {
       int len = KoLAdventure.DEMON_TYPES.length;
-      List<String> ttips = new ArrayList<String>();
       String[] choices = new String[len + 1];
       choices[0] = "Summoning Chamber";
       String[] tips = {
@@ -1249,7 +1174,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         choices[i] = KoLAdventure.DEMON_TYPES[i - 1][1];
       }
 
-      ttips.addAll(Arrays.asList(tips));
+      List<String> ttips = new ArrayList<>(Arrays.asList(tips));
 
       this.addListener("(character)");
       this.addListener("demonSummoned");
@@ -1313,7 +1238,6 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.preference = pref;
 
       int len = packedDeed.size();
-      List<String> ttips = new ArrayList<String>();
       String[] tips = new String[len + 1];
       String[] choices = new String[len + 1];
       choices[0] = displayText;
@@ -1331,7 +1255,7 @@ public class DailyDeedsPanel extends Box implements Listener {
           lengthString = item[1];
         }
       }
-      ttips.addAll(Arrays.asList(tips));
+      List<String> ttips = new ArrayList<>(Arrays.asList(tips));
 
       this.addListener(pref);
       this.box = this.addComboBox(choices, ttips, lengthString + " ");
@@ -1505,7 +1429,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       }
     }
 
-    private class SimpleListener implements ActionListener {
+    private static class SimpleListener implements ActionListener {
       String preference;
 
       public SimpleListener(String pref) {
@@ -1949,7 +1873,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
   }
 
-  public class TextDeed extends Daily {
+  public static class TextDeed extends Daily {
     String[] deedsString;
 
     public TextDeed(String[] deedString) {
@@ -2207,7 +2131,6 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     public MomCombo() {
       int len = MomRequest.FOOD.length;
-      List<String> ttips = new ArrayList<String>();
       String[] choices = new String[len + 1];
       choices[0] = "Mom Food";
       String[] tips = {
@@ -2225,7 +2148,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         choices[i] = MomRequest.EFFECT[i - 1];
       }
 
-      ttips.addAll(Arrays.asList(tips));
+      List<String> ttips = new ArrayList<>(Arrays.asList(tips));
 
       this.addListener("_momFoodReceived");
       this.addListener("questS02Monkees");
@@ -2489,9 +2412,9 @@ public class DailyDeedsPanel extends Box implements Listener {
     public void update() {
       this.setShown(
           (KoLCharacter.isMoxieClass()
-                  && KoLCharacter.hasSkill("Superhuman Cocktailcrafting")
+                  && KoLCharacter.hasSkill(SkillPool.SUPER_COCKTAIL)
                   && KoLCharacter.getGuildStoreOpen())
-              || KoLCharacter.hasSkill("Mixologist"));
+              || KoLCharacter.hasSkill(SkillPool.MIXOLOGIST));
       this.setText((10 - KoLCharacter.getStillsAvailable()) + "/10 stills used");
     }
   }
@@ -2576,7 +2499,7 @@ public class DailyDeedsPanel extends Box implements Listener {
           (!KoLCharacter.isHardcore()
                   && !limited
                   && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Libram of BRICKOs"))
-              || KoLCharacter.hasSkill("Summon BRICKOs");
+              || KoLCharacter.hasSkill(SkillPool.BRICKOS);
       FamiliarData hipster = KoLCharacter.usableFamiliar(FamiliarPool.HIPSTER);
       FamiliarData goth = KoLCharacter.usableFamiliar(FamiliarPool.ARTISTIC_GOTH_KID);
       FamiliarData machineElf = KoLCharacter.usableFamiliar(FamiliarPool.MACHINE_ELF);
@@ -2634,6 +2557,11 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean vm =
           StandardRequest.isAllowed(RestrictedItemType.ITEMS, "cursed magnifying glass")
               && InventoryManager.hasItem(ItemPool.CURSED_MAGNIFYING_GLASS);
+      boolean op =
+          StandardRequest.isAllowed(RestrictedItemType.ITEMS, "deed to Oliver's Place")
+              && !KoLCharacter.getLimitMode().limitZone("Town")
+              && !KoLCharacter.inBadMoon()
+              && Preferences.getBoolean("ownsSpeakeasy");
 
       StringBuilder buffer = new StringBuilder();
       count = 0;
@@ -2672,6 +2600,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       if (vm) addFightCounter(buffer, Preferences.getInteger("_voidFreeFights") + "/5 void");
       if (et) addFightCounter(buffer, "tentacle");
       if (gm) addFightCounter(buffer, "%monster%");
+      if (op)
+        addFightCounter(buffer, Preferences.getInteger("_speakeasyFreeFights") + "/3 Oliver's");
       buffer.append("</html>");
 
       this.setShown(shown);
@@ -2815,7 +2745,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
       buffer.append("<html>");
 
-      HashSet<String> dropTrackers = new HashSet<String>();
+      HashSet<String> dropTrackers = new HashSet<>();
       for (FamiliarData.DropInfo info : FamiliarData.DROP_FAMILIARS) {
         if (!dropTrackers.contains(info.dropTracker)) {
           FamiliarData fam = KoLCharacter.usableFamiliar(info.id);
@@ -3278,8 +3208,8 @@ public class DailyDeedsPanel extends Box implements Listener {
     private final Component space;
     private final JButton button;
 
-    private final List<String> effectHats = new ArrayList<String>();
-    private final List<String> modifiers = new ArrayList<String>();
+    private final List<String> effectHats = new ArrayList<>();
+    private final List<String> modifiers = new ArrayList<>();
 
     private final HatterComboListener listener = new HatterComboListener();
 
@@ -3630,24 +3560,24 @@ public class DailyDeedsPanel extends Box implements Listener {
 
       for (AdventureResult item : KoLConstants.chateau) {
         switch (item.getItemId()) {
-          case ItemPool.CHATEAU_BANK:
+          case ItemPool.CHATEAU_BANK -> {
             this.setText("1,000 meat");
             this.button.setActionCommand(
                 "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk1\",false);");
             this.button.setVisible(true);
-            break;
-          case ItemPool.CHATEAU_JUICE_BAR:
+          }
+          case ItemPool.CHATEAU_JUICE_BAR -> {
             this.setText("3 random potions");
             this.button.setActionCommand(
                 "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk2\",false);");
             this.button.setVisible(true);
-            break;
-          case ItemPool.CHATEAU_PENS:
+          }
+          case ItemPool.CHATEAU_PENS -> {
             this.setText("3 fancy calligraphy pens");
             this.button.setActionCommand(
                 "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk3\",false);");
             this.button.setVisible(true);
-            break;
+          }
         }
       }
     }
@@ -3716,9 +3646,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   };
 
   public static class DeckOfEveryCardDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
@@ -3745,7 +3675,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new DeckComboListener());
       space = this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Draw");
@@ -3798,9 +3728,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   }
 
   public static class TeaTreeDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     static {
       choices.add("Potted Tea Tree:");
@@ -3827,7 +3757,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new TeaTreeListener());
       space = this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Pick");
@@ -3925,24 +3855,13 @@ public class DailyDeedsPanel extends Box implements Listener {
       AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
       if (ascensionClass != null) {
         switch (ascensionClass) {
-          case SEAL_CLUBBER:
-            buffText = "Weapon Damage +150%";
-            break;
-          case TURTLE_TAMER:
-            buffText = "Maximum HP +90, Makes food more delicious!";
-            break;
-          case PASTAMANCER:
-            buffText = "+90% Item Drops from Monsters";
-            break;
-          case SAUCEROR:
-            buffText = "Spell Damage +150%";
-            break;
-          case DISCO_BANDIT:
-            buffText = "Ranged Damage +150%";
-            break;
-          case ACCORDION_THIEF:
-            buffText = "+45% Booze Drops from Monsters, Makes booze more effective!";
-            break;
+          case SEAL_CLUBBER -> buffText = "Weapon Damage +150%";
+          case TURTLE_TAMER -> buffText = "Maximum HP +90, Makes food more delicious!";
+          case PASTAMANCER -> buffText = "+90% Item Drops from Monsters";
+          case SAUCEROR -> buffText = "Spell Damage +150%";
+          case DISCO_BANDIT -> buffText = "Ranged Damage +150%";
+          case ACCORDION_THIEF -> buffText =
+              "+45% Booze Drops from Monsters, Makes booze more effective!";
         }
       }
 
@@ -3974,9 +3893,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   };
 
   public static class TerminalEnhanceDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
@@ -3997,7 +3916,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new TerminalEnhanceComboListener());
       space = this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Enhance");
@@ -4063,9 +3982,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   };
 
   public static class TerminalEnquiryDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     JButton btn;
@@ -4084,7 +4003,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new TerminalEnquiryComboListener());
       this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Enquiry");
@@ -4147,9 +4066,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   };
 
   public static class TerminalExtrudeDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
@@ -4169,7 +4088,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new TerminalExtrudeComboListener());
       space = this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Extrude");
@@ -4235,9 +4154,9 @@ public class DailyDeedsPanel extends Box implements Listener {
   };
 
   public static class TerminalEducateDaily extends Daily {
-    private static final List<String> choices = new ArrayList<String>();
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> tooltips = new ArrayList<String>();
+    private static final List<String> choices = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> tooltips = new ArrayList<>();
 
     DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     JButton btn;
@@ -4256,7 +4175,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("kingLiberated");
       this.addListener("(character)");
 
-      box = this.addComboBox(choices.toArray(STRING_ARRAY), tooltips, comboBoxSizeString);
+      box = this.addComboBox(choices.toArray(new String[0]), tooltips, comboBoxSizeString);
       box.addActionListener(new TerminalEducateComboListener());
       this.add(Box.createRigidArea(new Dimension(5, 1)));
       btn = this.addComboButton("", "Educate");

@@ -4,6 +4,7 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
@@ -43,6 +44,10 @@ class UseSkillRequestTest {
   @BeforeAll
   static void beforeAll() {
     KoLCharacter.reset("UseSkillRequestTest");
+  }
+
+  @BeforeEach
+  void beforeEach() {
     Preferences.reset("UseSkillRequestTest");
   }
 
@@ -153,6 +158,23 @@ class UseSkillRequestTest {
     }
   }
 
+  @Test
+  void incrementsUsageForLimitedSkills() {
+    var cleanups =
+        new Cleanups(
+            withMP(1000, 1000, 1000),
+            withSkill(SkillPool.DONHOS),
+            withProperty("_donhosCasts", 1),
+            withClass(AscensionClass.ACCORDION_THIEF),
+            withLevel(15),
+            withNextResponse(200, html("request/test_cast_donhos_bubbly_ballad.html")));
+    try (cleanups) {
+      UseSkillRequest req = UseSkillRequest.getInstance(SkillPool.DONHOS, "me", 5);
+      req.run();
+      assertThat("_donhosCasts", isSetTo(6));
+    }
+  }
+
   @Nested
   class DesignerSweatpants {
     @BeforeEach
@@ -183,7 +205,7 @@ class UseSkillRequestTest {
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Drench Yourself in Sweat", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
         req.run();
 
         var requests = getRequests();
@@ -192,6 +214,24 @@ class UseSkillRequestTest {
             requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=10929");
         assertGetRequest(
             requests.get(1), "/runskillz.php", "action=Skillz&whichskill=7419&ajax=1&quantity=1");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void dontWearDesignerSweatpantsForSweatingOutBooze() {
+      var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
+      InventoryManager.checkDesignerSweatpants();
+
+      try (cleanups) {
+        var req = UseSkillRequest.getInstance(SkillPool.SWEAT_OUT_BOOZE, 1);
+        req.run();
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertGetRequest(
+            requests.get(0), "/runskillz.php", "action=Skillz&whichskill=7414&ajax=1&quantity=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
@@ -201,7 +241,7 @@ class UseSkillRequestTest {
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Drench Yourself in Sweat", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
         req.run();
 
         var requests = getRequests();
@@ -233,6 +273,52 @@ class UseSkillRequestTest {
           html("request/test_cast_drench_sweat.html"));
       // 69 - 15 = 54
       assertEquals(Preferences.getInteger("sweat"), 54);
+    }
+  }
+
+  @Nested
+  class Numberology {
+    @Test
+    void calculatingUniverseRequiresAvailableTurns() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 1),
+              withProperty("_universeCalculated", 0),
+              withInteractivity(true),
+              withAdventuresLeft(0));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(0, skill.getMaximumCast());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"5, 0", "5, 1", "5, 2", "5, 3", "5, 4", "5, 5"})
+    void calculatingUniverseHasDailyLimit(int skillLevel, int casts) {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", skillLevel),
+              withProperty("_universeCalculated", casts),
+              withInteractivity(true),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(skillLevel - casts, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    void calculatingUniverseLimitedInHardcoreOrRonin() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 5),
+              withProperty("_universeCalculated", 0),
+              withInteractivity(false),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(3, skill.getMaximumCast());
+      }
     }
   }
 }

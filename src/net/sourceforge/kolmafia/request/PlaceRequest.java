@@ -5,12 +5,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -24,7 +24,7 @@ import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PlaceRequest extends GenericRequest {
-  public static TreeSet<String> places = new TreeSet<String>();
+  public static TreeSet<String> places = new TreeSet<>();
   public boolean followRedirects = false;
 
   private String place = null;
@@ -148,6 +148,15 @@ public class PlaceRequest extends GenericRequest {
       ChateauRequest.parseResponse(urlString, responseText);
     } else if (place.equals("crimbo16m")) {
       // A Meditation Mat
+    } else if (place.equals("crimbo22")) {
+      if (action.equals("crimbo22_engine") || action.equals("c22_locobox")) {
+        // This redirects to a fight until you have defeated the boss
+        // If we are here now, we have done that.
+        //
+        // You've already defeated the Trainbot boss. There's nothing else of interest in that
+        // locomotive. Not even an explanation for why the train is still running!
+        Preferences.setBoolean("superconductorDefeated", true);
+      }
     } else if (place.equals("desertbeach")) {
       if (action.equals("db_nukehouse")) {
         if (responseText.contains("anticheese")) {
@@ -279,12 +288,13 @@ public class PlaceRequest extends GenericRequest {
           if (matcher.find()) {
             ModifierList modList = new ModifierList();
             ModifierList addModList =
-                Modifiers.splitModifiers(Modifiers.parseModifier(matcher.group(1)));
-            for (Modifier modifier : addModList) {
+                ModifierDatabase.splitModifiers(ModifierDatabase.parseModifier(matcher.group(1)));
+            for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }
-            addModList = Modifiers.splitModifiers(Modifiers.parseModifier(matcher.group(2)));
-            for (Modifier modifier : addModList) {
+            addModList =
+                ModifierDatabase.splitModifiers(ModifierDatabase.parseModifier(matcher.group(2)));
+            for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }
             Preferences.setString("_voteModifier", modList.toString());
@@ -417,6 +427,13 @@ public class PlaceRequest extends GenericRequest {
     boolean compact = false;
 
     switch (place) {
+      case "8bit" -> {
+        message =
+            switch (action) {
+              case "8treasure" -> "Visiting The Treasure House";
+              default -> null;
+            };
+      }
       case "airport_hot" -> {
         message =
             switch (action) {
@@ -524,7 +541,6 @@ public class PlaceRequest extends GenericRequest {
             // message = "Visiting the Small Pyramid";
           }
         }
-        ;
       }
       case "dinorf" -> {
         message =
@@ -753,6 +769,19 @@ public class PlaceRequest extends GenericRequest {
       case "spacegate_portable" -> {
         message = "Visiting your portable Spacegate";
       }
+      case "speakeasy" -> {
+        message =
+            switch (action) {
+              case "olivers_pooltable" -> "Visiting the Pool Table";
+              case "olivers_sot" -> "Talking to the Milky-Eyed Sot";
+                // case "olivers_piano" -> "Examining the Piano";
+              case "olivers_sign" -> "Looking at the conspicuous plaque";
+                // case "olivers_codetable" -> "Looking at the scratched-Up Table";
+                // case "olivers_bouncer" -> "Talking to the  Bouncer";
+              case "" -> "Visiting " + Preferences.getString("speakeasyName");
+              default -> null;
+            };
+      }
       case "sea_oldman" -> {
         // place.php?whichplace=sea_oldman&action=oldman_oldman&preaction=pickreward&whichreward=6313[/code]
         if (action.equals("oldman_oldman")) {
@@ -903,32 +932,37 @@ public class PlaceRequest extends GenericRequest {
       action = "";
     }
 
-    if (place.equals("forestvillage")) {
-      // We decorate simple visits to the untinker and also
-      // accepting his quest
-      if (action.equals("fv_untinker") || urlString.contains("preaction=screwquest")) {
-        UntinkerRequest.decorate(buffer);
-      }
-    } else if (place.equals("manor1")) {
-      if (action.equals("manor1_ladys")) {
-        if (buffer.indexOf("ghost of a necklace") != -1) {
-          RequestEditorKit.addAdventureAgainSection(
-              buffer,
-              "place.php?whichplace=manor2&action=manor2_ladys",
-              "Talk to Lady Spookyraven on the Second Floor");
+    switch (place) {
+      case "forestvillage":
+        // We decorate simple visits to the untinker and also
+        // accepting his quest
+        if (action.equals("fv_untinker") || urlString.contains("preaction=screwquest")) {
+          UntinkerRequest.decorate(buffer);
         }
-      }
-    } else if (place.equals("rabbithole")) {
-      RabbitHoleManager.decorateRabbitHole(buffer);
-    } else if (place.equals("town_right")) {
-      if (action.equals("townright_vote")) {
-        String pref = Preferences.getString("_voteMonster");
-        if (pref.equals("")) {
-          pref = "unknown";
+        break;
+      case "manor1":
+        if (action.equals("manor1_ladys")) {
+          if (buffer.indexOf("ghost of a necklace") != -1) {
+            RequestEditorKit.addAdventureAgainSection(
+                buffer,
+                "place.php?whichplace=manor2&action=manor2_ladys",
+                "Talk to Lady Spookyraven on the Second Floor");
+          }
         }
-        String replace = "<br />(wanderer today is " + pref + ")</blockquote>";
-        StringUtilities.singleStringReplace(buffer, "</blockquote>", replace);
-      }
+        break;
+      case "rabbithole":
+        RabbitHoleManager.decorateRabbitHole(buffer);
+        break;
+      case "town_right":
+        if (action.equals("townright_vote")) {
+          String pref = Preferences.getString("_voteMonster");
+          if (pref.equals("")) {
+            pref = "unknown";
+          }
+          String replace = "<br />(wanderer today is " + pref + ")</blockquote>";
+          StringUtilities.singleStringReplace(buffer, "</blockquote>", replace);
+        }
+        break;
     }
   }
 }

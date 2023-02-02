@@ -1,8 +1,9 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,13 +23,21 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -36,6 +45,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -47,16 +57,17 @@ public class Evaluator {
   public boolean failed;
   boolean exceeded;
   private Evaluator tiebreaker;
-  private final double[] weight = new double[Modifiers.DOUBLE_MODIFIERS];
-  private double[] min;
-  private double[] max;
+  private final DoubleModifierCollection weight = new DoubleModifierCollection();
+  private Map<DoubleModifier, Double> min;
+  private Map<DoubleModifier, Double> max;
   private double totalMin, totalMax;
   private int dump = 0;
   private int clownosity = 0;
   private int raveosity = 0;
   private int surgeonosity = 0;
   private int beeosity = 2;
-  private int booleanMask, booleanValue;
+  private EnumSet<BooleanModifier> booleanMask = EnumSet.noneOf(BooleanModifier.class);
+  private Set<BooleanModifier> booleanValue = EnumSet.noneOf(BooleanModifier.class);
   private final List<FamiliarData> familiars = new ArrayList<>();
   private final List<FamiliarData> carriedFamiliars = new ArrayList<>();
   private int carriedFamiliarsNeeded = 0;
@@ -144,40 +155,31 @@ public class Evaluator {
   }
 
   private int maxUseful(int slot) {
-    switch (slot) {
-      case Evaluator.WEAPON_1H:
-        return 1
-            + relevantSkill("Double-Fisted Skull Smashing")
-            + this.relevantFamiliar(FamiliarPool.HAND);
-      case EquipmentManager.OFFHAND:
-        return 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
-      case EquipmentManager.ACCESSORY1:
-        return 3;
-      case EquipmentManager.FAMILIAR:
-        // Familiar items include weapons, hats and pants, make sure we have enough to consider for
-        // other slots
-        return 1
-            + this.relevantFamiliar(FamiliarPool.SCARECROW)
-            + this.relevantFamiliar(FamiliarPool.HAND)
-            + this.relevantFamiliar(FamiliarPool.HATRACK);
-    }
-    return 1;
+    return switch (slot) {
+      case Evaluator.WEAPON_1H -> 1
+          + relevantSkill("Double-Fisted Skull Smashing")
+          + this.relevantFamiliar(FamiliarPool.HAND);
+      case EquipmentManager.OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
+      case EquipmentManager.ACCESSORY1 -> 3;
+      case EquipmentManager.FAMILIAR ->
+      // Familiar items include weapons, hats and pants, make sure we have enough to consider for
+      // other slots
+      1
+          + this.relevantFamiliar(FamiliarPool.SCARECROW)
+          + this.relevantFamiliar(FamiliarPool.HAND)
+          + this.relevantFamiliar(FamiliarPool.HATRACK);
+      default -> 1;
+    };
   }
 
   private static int toUseSlot(int slot) {
-    int useSlot = slot;
-    switch (slot) {
-      case Evaluator.OFFHAND_MELEE:
-      case Evaluator.OFFHAND_RANGED:
-        useSlot = EquipmentManager.OFFHAND;
-        break;
-      case Evaluator.WATCHES:
-        useSlot = EquipmentManager.ACCESSORY1;
-        break;
-      case Evaluator.WEAPON_1H:
-        useSlot = EquipmentManager.WEAPON;
-        break;
-    }
+    int useSlot =
+        switch (slot) {
+          case Evaluator.OFFHAND_MELEE, Evaluator.OFFHAND_RANGED -> EquipmentManager.OFFHAND;
+          case Evaluator.WATCHES -> EquipmentManager.ACCESSORY1;
+          case Evaluator.WEAPON_1H -> EquipmentManager.WEAPON;
+          default -> slot;
+        };
     return useSlot;
   }
 
@@ -191,19 +193,21 @@ public class Evaluator {
 
     Evaluator tiebreaker = new Evaluator();
     this.tiebreaker = tiebreaker;
-    tiebreaker.min = new double[Modifiers.DOUBLE_MODIFIERS];
-    tiebreaker.max = new double[Modifiers.DOUBLE_MODIFIERS];
-    Arrays.fill(tiebreaker.min, Double.NEGATIVE_INFINITY);
-    Arrays.fill(tiebreaker.max, Double.POSITIVE_INFINITY);
+    tiebreaker.min = new EnumMap<>(DoubleModifier.class);
+    tiebreaker.max = new EnumMap<>(DoubleModifier.class);
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+      tiebreaker.min.put(mod, Double.NEGATIVE_INFINITY);
+      tiebreaker.max.put(mod, Double.POSITIVE_INFINITY);
+    }
     tiebreaker.parse(Evaluator.TIEBREAKER);
 
-    this.min = tiebreaker.min.clone();
-    this.max = tiebreaker.max.clone();
+    this.min = new EnumMap<>(tiebreaker.min);
+    this.max = new EnumMap<>(tiebreaker.max);
     this.parse(expr);
   }
 
   private void addUniqueItems(String name) {
-    Set<String> itemNames = Modifiers.getUniques(name);
+    Set<String> itemNames = ModifierDatabase.getUniques(name);
     if (itemNames != null) {
       for (String itemName : itemNames) {
         this.uniques.add(ItemPool.get(itemName, 1));
@@ -217,7 +221,7 @@ public class Evaluator {
     boolean hadFamiliar = false;
     boolean forceCurrent = false;
     int pos = 0;
-    int index = -1;
+    DoubleModifier index = null;
 
     int equipBeeosity = 0;
     int outfitBeeosity = 0;
@@ -237,8 +241,8 @@ public class Evaluator {
         keyword = keyword.substring(1, keyword.length() - 1).trim();
       }
       if (keyword.equals("min")) {
-        if (index >= 0) {
-          this.min[index] = weight;
+        if (index != null) {
+          this.min.put(index, weight);
         } else {
           this.totalMin = weight;
         }
@@ -246,8 +250,8 @@ public class Evaluator {
       }
 
       if (keyword.equals("max")) {
-        if (index >= 0) {
-          this.max[index] = weight;
+        if (index != null) {
+          this.max.put(index, weight);
         } else {
           this.totalMax = weight;
         }
@@ -362,11 +366,11 @@ public class Evaluator {
       }
 
       if (keyword.equals("sea")) {
-        this.booleanMask |=
-            (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
-        this.booleanValue |=
-            (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
-        index = -1;
+        var adventureUnderwater =
+            EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
+        this.booleanMask.addAll(adventureUnderwater);
+        this.booleanValue.addAll(adventureUnderwater);
+        index = null;
         // Force Crown of Ed to Fish
         forcedModeables.put(Modeable.EDPIECE, "fish");
         continue;
@@ -450,7 +454,7 @@ public class Evaluator {
       if (keyword.startsWith("outfit")) {
         keyword = keyword.substring(6).trim();
         if (keyword.equals("")) { // allow "+outfit" to mean "keep the current outfit on"
-          keyword = KoLCharacter.currentStringModifier(Modifiers.OUTFIT);
+          keyword = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
         }
         SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(keyword);
         if (outfit == null || outfit.getOutfitId() <= 0) {
@@ -503,10 +507,10 @@ public class Evaluator {
         continue;
       }
 
-      index = Modifiers.findName(keyword);
+      index = DoubleModifier.byCaselessName(keyword);
 
       // Adjust for generic abbreviations
-      if (index < 0) {
+      if (index == null) {
         if (keyword.endsWith(" res")) {
           keyword += "istance";
         } else if (keyword.endsWith(" dmg")) {
@@ -516,119 +520,109 @@ public class Evaluator {
         } else if (keyword.endsWith(" exp")) {
           keyword = keyword.substring(0, keyword.length() - 3) + "experience";
         }
-        index = Modifiers.findName(keyword);
+        index = DoubleModifier.byCaselessName(keyword);
       }
 
-      if (index < 0) {
-        int boolIndex = Modifiers.findBooleanName(keyword);
-        if (boolIndex >= 0) {
-          this.booleanMask |= 1 << boolIndex;
+      if (index == null) {
+        BooleanModifier modifier = BooleanModifier.byCaselessName(keyword);
+        if (modifier != null) {
+          this.booleanMask.add(modifier);
           if (weight > 0.0) {
-            this.booleanValue |= 1 << boolIndex;
+            this.booleanValue.add(modifier);
           }
           continue;
         }
       }
 
       // Match keyword with multiple modifiers
-      if (index < 0) {
+      if (index == null) {
         if (keyword.equals("all resistance")) {
-          this.weight[Modifiers.COLD_RESISTANCE] = weight;
-          this.weight[Modifiers.HOT_RESISTANCE] = weight;
-          this.weight[Modifiers.SLEAZE_RESISTANCE] = weight;
-          this.weight[Modifiers.SPOOKY_RESISTANCE] = weight;
-          this.weight[Modifiers.STENCH_RESISTANCE] = weight;
+          this.weight.set(DoubleModifier.COLD_RESISTANCE, weight);
+          this.weight.set(DoubleModifier.HOT_RESISTANCE, weight);
+          this.weight.set(DoubleModifier.SLEAZE_RESISTANCE, weight);
+          this.weight.set(DoubleModifier.SPOOKY_RESISTANCE, weight);
+          this.weight.set(DoubleModifier.STENCH_RESISTANCE, weight);
           continue;
         }
         if (keyword.equals("elemental damage")) {
-          this.weight[Modifiers.COLD_DAMAGE] = weight;
-          this.weight[Modifiers.HOT_DAMAGE] = weight;
-          this.weight[Modifiers.SLEAZE_DAMAGE] = weight;
-          this.weight[Modifiers.SPOOKY_DAMAGE] = weight;
-          this.weight[Modifiers.STENCH_DAMAGE] = weight;
+          this.weight.set(DoubleModifier.COLD_DAMAGE, weight);
+          this.weight.set(DoubleModifier.HOT_DAMAGE, weight);
+          this.weight.set(DoubleModifier.SLEAZE_DAMAGE, weight);
+          this.weight.set(DoubleModifier.SPOOKY_DAMAGE, weight);
+          this.weight.set(DoubleModifier.STENCH_DAMAGE, weight);
           continue;
         }
         if (keyword.equals("hp regen")) {
-          this.weight[Modifiers.HP_REGEN_MIN] = weight / 2;
-          this.weight[Modifiers.HP_REGEN_MAX] = weight / 2;
+          this.weight.set(DoubleModifier.HP_REGEN_MIN, weight / 2);
+          this.weight.set(DoubleModifier.HP_REGEN_MAX, weight / 2);
           continue;
         }
         if (keyword.equals("mp regen")) {
-          this.weight[Modifiers.MP_REGEN_MIN] = weight / 2;
-          this.weight[Modifiers.MP_REGEN_MAX] = weight / 2;
+          this.weight.set(DoubleModifier.MP_REGEN_MIN, weight / 2);
+          this.weight.set(DoubleModifier.MP_REGEN_MAX, weight / 2);
           continue;
         }
       }
 
       // Match keyword with specific abbreviations
-      if (index < 0) {
+      if (index == null) {
         if (keyword.equals("init")) {
-          index = Modifiers.INITIATIVE;
+          index = DoubleModifier.INITIATIVE;
         } else if (keyword.equals("hp")) {
-          index = Modifiers.HP;
+          index = DoubleModifier.HP;
         } else if (keyword.equals("mp")) {
-          index = Modifiers.MP;
+          index = DoubleModifier.MP;
         } else if (keyword.equals("da")) {
-          index = Modifiers.DAMAGE_ABSORPTION;
+          index = DoubleModifier.DAMAGE_ABSORPTION;
         } else if (keyword.equals("dr")) {
-          index = Modifiers.DAMAGE_REDUCTION;
+          index = DoubleModifier.DAMAGE_REDUCTION;
         } else if (keyword.equals("ml")) {
-          index = Modifiers.MONSTER_LEVEL;
+          index = DoubleModifier.MONSTER_LEVEL;
         } else if (keyword.startsWith("mus")) {
-          index = Modifiers.MUS;
+          index = DoubleModifier.MUS;
         } else if (keyword.startsWith("mys")) {
-          index = Modifiers.MYS;
+          index = DoubleModifier.MYS;
         } else if (keyword.startsWith("mox")) {
-          index = Modifiers.MOX;
+          index = DoubleModifier.MOX;
         } else if (keyword.startsWith("main")) {
-          switch (KoLCharacter.getPrimeIndex()) {
-            case 0:
-              index = Modifiers.MUS;
-              break;
-            case 1:
-              index = Modifiers.MYS;
-              break;
-            case 2:
-              index = Modifiers.MOX;
-              break;
-          }
+          index = DoubleModifier.primeStat();
         } else if (keyword.startsWith("com")) {
-          index = Modifiers.COMBAT_RATE;
+          index = DoubleModifier.COMBAT_RATE;
           if (AdventureDatabase.getEnvironment(Modifiers.currentLocation).isUnderwater()) {
-            this.weight[Modifiers.UNDERWATER_COMBAT_RATE] = weight;
+            this.weight.set(DoubleModifier.UNDERWATER_COMBAT_RATE, weight);
           }
         } else if (keyword.startsWith("item")) {
-          index = Modifiers.ITEMDROP;
+          index = DoubleModifier.ITEMDROP;
         } else if (keyword.startsWith("meat")) {
-          index = Modifiers.MEATDROP;
+          index = DoubleModifier.MEATDROP;
         } else if (keyword.startsWith("adv")) {
           this.beeosity = 999;
-          index = Modifiers.ADVENTURES;
+          index = DoubleModifier.ADVENTURES;
         } else if (keyword.startsWith("fites")) {
           this.beeosity = 999;
-          index = Modifiers.PVP_FIGHTS;
+          index = DoubleModifier.PVP_FIGHTS;
         } else if (keyword.startsWith("exp")) {
-          index = Modifiers.EXPERIENCE;
+          index = DoubleModifier.EXPERIENCE;
         } else if (keyword.startsWith("crit")) {
-          index = Modifiers.CRITICAL_PCT;
+          index = DoubleModifier.CRITICAL_PCT;
         } else if (keyword.startsWith("spell crit")) {
-          index = Modifiers.SPELL_CRITICAL_PCT;
+          index = DoubleModifier.SPELL_CRITICAL_PCT;
         } else if (keyword.startsWith("sprinkle")) {
-          index = Modifiers.SPRINKLES;
+          index = DoubleModifier.SPRINKLES;
         } else if (keyword.equals("ocrs")) {
           this.noTiebreaker = true;
           this.beeosity = 999;
-          index = Modifiers.RANDOM_MONSTER_MODIFIERS;
+          index = DoubleModifier.RANDOM_MONSTER_MODIFIERS;
         }
       }
 
-      if (index >= 0) {
+      if (index != null) {
         // We found a match. If only the first instance
         // of particular equipped items provide this
         // modifier, add them to the "uniques" list.
-        String modifierName = Modifiers.getModifierName(index);
+        String modifierName = index.getName();
         this.addUniqueItems(modifierName);
-        this.weight[index] = weight;
+        this.weight.set(index, weight);
         continue;
       }
 
@@ -644,42 +638,48 @@ public class Evaluator {
     this.beeosity = Math.max(Math.max(this.beeosity, equipBeeosity), outfitBeeosity);
 
     // Make sure indirect sources have at least a little weight;
-    double fudge = this.weight[Modifiers.EXPERIENCE] * 0.0001f;
-    this.weight[Modifiers.MONSTER_LEVEL] += fudge;
-    this.weight[Modifiers.MONSTER_LEVEL_PERCENT] += fudge;
-    this.weight[Modifiers.MUS_EXPERIENCE] += fudge;
-    this.weight[Modifiers.MYS_EXPERIENCE] += fudge;
-    this.weight[Modifiers.MOX_EXPERIENCE] += fudge;
-    this.weight[Modifiers.MUS_EXPERIENCE_PCT] += fudge;
-    this.weight[Modifiers.MYS_EXPERIENCE_PCT] += fudge;
-    this.weight[Modifiers.MOX_EXPERIENCE_PCT] += fudge;
-    this.weight[Modifiers.VOLLEYBALL_WEIGHT] += fudge;
-    this.weight[Modifiers.SOMBRERO_WEIGHT] += fudge;
-    this.weight[Modifiers.VOLLEYBALL_EFFECTIVENESS] += fudge;
-    this.weight[Modifiers.SOMBRERO_EFFECTIVENESS] += fudge;
-    this.weight[Modifiers.SOMBRERO_BONUS] += fudge;
+    final double fudgeExp = this.weight.get(DoubleModifier.EXPERIENCE) * 0.0001f;
+    if (fudgeExp > 0) {
+      this.weight.add(DoubleModifier.MONSTER_LEVEL, fudgeExp);
+      this.weight.add(DoubleModifier.MONSTER_LEVEL_PERCENT, fudgeExp);
+      this.weight.add(DoubleModifier.MUS_EXPERIENCE, fudgeExp);
+      this.weight.add(DoubleModifier.MYS_EXPERIENCE, fudgeExp);
+      this.weight.add(DoubleModifier.MOX_EXPERIENCE, fudgeExp);
+      this.weight.add(DoubleModifier.MUS_EXPERIENCE_PCT, fudgeExp);
+      this.weight.add(DoubleModifier.MYS_EXPERIENCE_PCT, fudgeExp);
+      this.weight.add(DoubleModifier.MOX_EXPERIENCE_PCT, fudgeExp);
+      this.weight.add(DoubleModifier.VOLLEYBALL_WEIGHT, fudgeExp);
+      this.weight.add(DoubleModifier.SOMBRERO_WEIGHT, fudgeExp);
+      this.weight.add(DoubleModifier.VOLLEYBALL_EFFECTIVENESS, fudgeExp);
+      this.weight.add(DoubleModifier.SOMBRERO_EFFECTIVENESS, fudgeExp);
+      this.weight.add(DoubleModifier.SOMBRERO_BONUS, fudgeExp);
+    }
 
-    fudge = this.weight[Modifiers.ITEMDROP] * 0.0001f;
-    this.weight[Modifiers.FOODDROP] += fudge;
-    this.weight[Modifiers.BOOZEDROP] += fudge;
-    this.weight[Modifiers.HATDROP] += fudge;
-    this.weight[Modifiers.WEAPONDROP] += fudge;
-    this.weight[Modifiers.OFFHANDDROP] += fudge;
-    this.weight[Modifiers.SHIRTDROP] += fudge;
-    this.weight[Modifiers.PANTSDROP] += fudge;
-    this.weight[Modifiers.ACCESSORYDROP] += fudge;
-    this.weight[Modifiers.CANDYDROP] += fudge;
-    this.weight[Modifiers.GEARDROP] += fudge;
-    this.weight[Modifiers.FAIRY_WEIGHT] += fudge;
-    this.weight[Modifiers.FAIRY_EFFECTIVENESS] += fudge;
-    this.weight[Modifiers.SPORADIC_ITEMDROP] += fudge;
-    this.weight[Modifiers.PICKPOCKET_CHANCE] += fudge;
+    final double fudgeItem = this.weight.get(DoubleModifier.ITEMDROP) * 0.0001f;
+    if (fudgeItem > 0) {
+      this.weight.add(DoubleModifier.FOODDROP, fudgeItem);
+      this.weight.add(DoubleModifier.BOOZEDROP, fudgeItem);
+      this.weight.add(DoubleModifier.HATDROP, fudgeItem);
+      this.weight.add(DoubleModifier.WEAPONDROP, fudgeItem);
+      this.weight.add(DoubleModifier.OFFHANDDROP, fudgeItem);
+      this.weight.add(DoubleModifier.SHIRTDROP, fudgeItem);
+      this.weight.add(DoubleModifier.PANTSDROP, fudgeItem);
+      this.weight.add(DoubleModifier.ACCESSORYDROP, fudgeItem);
+      this.weight.add(DoubleModifier.CANDYDROP, fudgeItem);
+      this.weight.add(DoubleModifier.GEARDROP, fudgeItem);
+      this.weight.add(DoubleModifier.FAIRY_WEIGHT, fudgeItem);
+      this.weight.add(DoubleModifier.FAIRY_EFFECTIVENESS, fudgeItem);
+      this.weight.add(DoubleModifier.SPORADIC_ITEMDROP, fudgeItem);
+      this.weight.add(DoubleModifier.PICKPOCKET_CHANCE, fudgeItem);
+    }
 
-    fudge = this.weight[Modifiers.MEATDROP] * 0.0001f;
-    this.weight[Modifiers.LEPRECHAUN_WEIGHT] += fudge;
-    this.weight[Modifiers.LEPRECHAUN_EFFECTIVENESS] += fudge;
-    this.weight[Modifiers.SPORADIC_MEATDROP] += fudge;
-    this.weight[Modifiers.MEAT_BONUS] += fudge;
+    final double fudgeMeat = this.weight.get(DoubleModifier.MEATDROP) * 0.0001f;
+    if (fudgeMeat > 0) {
+      this.weight.add(DoubleModifier.LEPRECHAUN_WEIGHT, fudgeMeat);
+      this.weight.add(DoubleModifier.LEPRECHAUN_EFFECTIVENESS, fudgeMeat);
+      this.weight.add(DoubleModifier.SPORADIC_MEATDROP, fudgeMeat);
+      this.weight.add(DoubleModifier.MEAT_BONUS, fudgeMeat);
+    }
   }
 
   private AdventureResult pickPlumberTool(int primeIndex, boolean have) {
@@ -697,112 +697,134 @@ public class Evaluator {
     boolean haveFancyBoots = InventoryManager.hasItem(fancyBoots);
 
     // Find the best plumber tool
-    switch (primeIndex) {
-      case 0: // Muscle
-        return !have ? heavyHammer : haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
-      case 1: // Mysticality
-        return !have
-            ? bonfireFlower
-            : haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
-      case 2: // Moxie
-        return !have ? fancyBoots : haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
-    }
-
-    // If you don't care about stat, pick the best item you own.
-    return haveHeavyHammer
-        ? heavyHammer
-        : haveBonfireFlower
-            ? bonfireFlower
-            : haveFancyBoots
-                ? fancyBoots
-                : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
+    return switch (primeIndex) {
+      case 0 -> // Muscle
+      !have ? heavyHammer : haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
+      case 1 -> // Mysticality
+      !have
+          ? bonfireFlower
+          : haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
+      case 2 -> // Moxie
+      !have ? fancyBoots : haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
+      default ->
+      // If you don't care about stat, pick the best item you own.
+      haveHeavyHammer
+          ? heavyHammer
+          : haveBonfireFlower
+              ? bonfireFlower
+              : haveFancyBoots
+                  ? fancyBoots
+                  : haveHammer ? hammer : haveFireFlower ? fireFlower : workBoots;
+    };
   }
 
   public double getScore(Modifiers mods, AdventureResult[] equipment) {
     this.failed = false;
     this.exceeded = false;
-    int[] predicted = mods.predict();
+    var predicted = mods.predict();
 
     double score = 0.0;
-    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
-      double weight = this.weight[i];
-      double min = this.min[i];
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+      double weight = this.weight.get(mod);
+      double min = this.min.get(mod);
       if (weight == 0.0 && min == Double.NEGATIVE_INFINITY) continue;
-      double val = mods.get(i);
-      double max = this.max[i];
-      switch (i) {
-        case Modifiers.MUS:
-          val = predicted[Modifiers.BUFFED_MUS];
+      double val = mods.getDouble(mod);
+      double max = this.max.get(mod);
+      switch (mod) {
+        case MUS:
+          val = predicted.get(DerivedModifier.BUFFED_MUS);
           break;
-        case Modifiers.MYS:
-          val = predicted[Modifiers.BUFFED_MYS];
+        case MYS:
+          val = predicted.get(DerivedModifier.BUFFED_MYS);
           break;
-        case Modifiers.MOX:
-          val = predicted[Modifiers.BUFFED_MOX];
+        case MOX:
+          val = predicted.get(DerivedModifier.BUFFED_MOX);
           break;
-        case Modifiers.FAMILIAR_WEIGHT:
-          val += mods.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
-          if (mods.get(Modifiers.FAMILIAR_WEIGHT_PCT) < 0.0) {
+        case FAMILIAR_WEIGHT:
+          val += mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+          if (mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) < 0.0) {
             val *= 0.5f;
           }
           break;
-        case Modifiers.MANA_COST:
-          val += mods.get(Modifiers.STACKABLE_MANA_COST);
+        case MANA_COST:
+          val += mods.getDouble(DoubleModifier.STACKABLE_MANA_COST);
           break;
-        case Modifiers.INITIATIVE:
-          val += Math.min(0.0, mods.get(Modifiers.INITIATIVE_PENALTY));
+        case INITIATIVE:
+          val += Math.min(0.0, mods.getDouble(DoubleModifier.INITIATIVE_PENALTY));
           break;
-        case Modifiers.MEATDROP:
+        case MEATDROP:
           val +=
               100.0
-                  + Math.min(0.0, mods.get(Modifiers.MEATDROP_PENALTY))
-                  + mods.get(Modifiers.SPORADIC_MEATDROP)
-                  + mods.get(Modifiers.MEAT_BONUS) / 10000.0;
+                  + Math.min(0.0, mods.getDouble(DoubleModifier.MEATDROP_PENALTY))
+                  + mods.getDouble(DoubleModifier.SPORADIC_MEATDROP)
+                  + mods.getDouble(DoubleModifier.MEAT_BONUS) / 10000.0;
           break;
-        case Modifiers.ITEMDROP:
+        case ITEMDROP:
           val +=
               100.0
-                  + Math.min(0.0, mods.get(Modifiers.ITEMDROP_PENALTY))
-                  + mods.get(Modifiers.SPORADIC_ITEMDROP);
+                  + Math.min(0.0, mods.getDouble(DoubleModifier.ITEMDROP_PENALTY))
+                  + mods.getDouble(DoubleModifier.SPORADIC_ITEMDROP);
           break;
-        case Modifiers.HP:
-          val = predicted[Modifiers.BUFFED_HP];
+        case HP:
+          val = predicted.get(DerivedModifier.BUFFED_HP);
           break;
-        case Modifiers.MP:
-          val = predicted[Modifiers.BUFFED_MP];
+        case MP:
+          val = predicted.get(DerivedModifier.BUFFED_MP);
           break;
-        case Modifiers.WEAPON_DAMAGE:
+        case WEAPON_DAMAGE:
           // Incorrect - needs to estimate base damage
-          val += mods.get(Modifiers.WEAPON_DAMAGE_PCT);
+          val += mods.getDouble(DoubleModifier.WEAPON_DAMAGE_PCT);
           break;
-        case Modifiers.RANGED_DAMAGE:
+        case RANGED_DAMAGE:
           // Incorrect - needs to estimate base damage
-          val += mods.get(Modifiers.RANGED_DAMAGE_PCT);
+          val += mods.getDouble(DoubleModifier.RANGED_DAMAGE_PCT);
           break;
-        case Modifiers.SPELL_DAMAGE:
+        case SPELL_DAMAGE:
           // Incorrect - base damage depends on spell used
-          val += mods.get(Modifiers.SPELL_DAMAGE_PCT);
+          val += mods.getDouble(DoubleModifier.SPELL_DAMAGE_PCT);
           break;
-        case Modifiers.COLD_RESISTANCE:
-        case Modifiers.HOT_RESISTANCE:
-        case Modifiers.SLEAZE_RESISTANCE:
-        case Modifiers.SPOOKY_RESISTANCE:
-        case Modifiers.STENCH_RESISTANCE:
-          if (mods.getBoolean(i - Modifiers.COLD_RESISTANCE + Modifiers.COLD_IMMUNITY)) {
+        case COLD_RESISTANCE:
+          if (mods.getBoolean(BooleanModifier.COLD_IMMUNITY)) {
             val = 100.0;
-          } else if (mods.getBoolean(
-              i - Modifiers.COLD_RESISTANCE + Modifiers.COLD_VULNERABILITY)) {
+          } else if (mods.getBoolean(BooleanModifier.COLD_VULNERABILITY)) {
             val -= 100.0;
           }
           break;
-        case Modifiers.EXPERIENCE:
+        case HOT_RESISTANCE:
+          if (mods.getBoolean(BooleanModifier.HOT_IMMUNITY)) {
+            val = 100.0;
+          } else if (mods.getBoolean(BooleanModifier.HOT_VULNERABILITY)) {
+            val -= 100.0;
+          }
+          break;
+        case SLEAZE_RESISTANCE:
+          if (mods.getBoolean(BooleanModifier.SLEAZE_IMMUNITY)) {
+            val = 100.0;
+          } else if (mods.getBoolean(BooleanModifier.SLEAZE_VULNERABILITY)) {
+            val -= 100.0;
+          }
+          break;
+        case SPOOKY_RESISTANCE:
+          if (mods.getBoolean(BooleanModifier.SPOOKY_IMMUNITY)) {
+            val = 100.0;
+          } else if (mods.getBoolean(BooleanModifier.SPOOKY_VULNERABILITY)) {
+            val -= 100.0;
+          }
+          break;
+        case STENCH_RESISTANCE:
+          if (mods.getBoolean(BooleanModifier.STENCH_IMMUNITY)) {
+            val = 100.0;
+          } else if (mods.getBoolean(BooleanModifier.STENCH_VULNERABILITY)) {
+            val -= 100.0;
+          }
+          break;
+        case EXPERIENCE:
           double baseExp =
               KoLCharacter.estimatedBaseExp(
-                  mods.get(Modifiers.MONSTER_LEVEL)
-                      * (1 + mods.get(Modifiers.MONSTER_LEVEL_PERCENT) / 100));
-          double expPct =
-              mods.get(Modifiers.MUS_EXPERIENCE_PCT + KoLCharacter.getPrimeIndex()) / 100.0f;
-          double exp = mods.get(Modifiers.MUS_EXPERIENCE + KoLCharacter.getPrimeIndex());
+                  mods.getDouble(DoubleModifier.MONSTER_LEVEL)
+                      * (1 + mods.getDouble(DoubleModifier.MONSTER_LEVEL_PERCENT) / 100));
+          double expPct = mods.getDouble(DoubleModifier.primeStatExpPercent()) / 100.0f;
+          double exp = mods.getDouble(DoubleModifier.primeStatExp());
 
           val = ((baseExp + exp) * (1 + expPct)) / 2.0f;
           break;
@@ -825,7 +847,7 @@ public class Evaluator {
       }
     }
     // Add fudge factor for Rollover Effect
-    if (mods.getString(Modifiers.ROLLOVER_EFFECT).length() > 0) {
+    if (mods.getString(StringModifier.ROLLOVER_EFFECT).length() > 0) {
       score += 0.01f;
     }
     if (score < this.totalMin) this.failed = true;
@@ -835,23 +857,23 @@ public class Evaluator {
     // Allow partials to contribute to the score (1:1 ratio) up to the desired value.
     // Similar to setting a max.
     if (this.clownosity > 0) {
-      int osity = ((int) mods.get(Modifiers.CLOWNINESS)) / 25;
+      int osity = ((int) mods.getDouble(DoubleModifier.CLOWNINESS)) / 25;
       score += Math.min(osity, this.clownosity);
       if (osity < this.clownosity) this.failed = true;
     }
     if (this.raveosity > 0) {
-      int osity = mods.getBitmap(Modifiers.RAVEOSITY);
+      int osity = mods.getBitmap(BitmapModifier.RAVEOSITY);
       score += Math.min(osity, this.raveosity);
       if (osity < this.raveosity) this.failed = true;
     }
     if (this.surgeonosity > 0) {
-      int osity = (int) mods.get(Modifiers.SURGEONOSITY);
+      int osity = (int) mods.getDouble(DoubleModifier.SURGEONOSITY);
       score += Math.min(osity, this.surgeonosity);
       if (osity < this.surgeonosity) this.failed = true;
     }
     if (!this.failed
-        && this.booleanMask != 0
-        && (mods.getRawBitmap(0) & this.booleanMask) != this.booleanValue) {
+        && this.booleanMask.size() != 0
+        && !mods.getBooleans(this.booleanMask).equals(this.booleanValue)) {
       this.failed = true;
     }
     return score;
@@ -874,7 +896,7 @@ public class Evaluator {
       }
     }
     if (!this.failed) {
-      String outfit = mods.getString(Modifiers.OUTFIT);
+      String outfit = mods.getString(StringModifier.OUTFIT);
       if (this.negOutfits.contains(outfit)) {
         this.failed = true;
       } else {
@@ -906,107 +928,73 @@ public class Evaluator {
     //	0: item not relevant to any constraints
     //	1: item meets a constraint, give it special handling
     if (mods == null) return 0;
-    int bools = mods.getRawBitmap(0) & this.booleanMask;
-    if ((bools & ~this.booleanValue) != 0) return -1;
-    if (bools != 0) return 1;
+    EnumSet<BooleanModifier> bools = mods.getBooleans(this.booleanMask);
+    if (!this.booleanValue.containsAll(bools)) return -1;
+    if (bools.size() != 0) return 1;
     return 0;
   }
 
   public static boolean checkEffectConstraints(int effectId) {
     // Return true if effect cannot be gained due to current other effects or class
-    switch (effectId) {
-      case EffectPool.NEARLY_SILENT_HUNTING:
-        return KoLCharacter.isSealClubber();
-
-      case EffectPool.SILENT_HUNTING:
-      case EffectPool.BARREL_CHESTED:
-        return !KoLCharacter.isSealClubber();
-
-      case EffectPool.BOON_OF_SHE_WHO_WAS:
-        return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.BOON_OF_THE_STORM_TORTOISE:
-        return KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.BOON_OF_THE_WAR_SNAPPER:
-        return KoLCharacter.getBlessingType() != KoLCharacter.WAR_BLESSING
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.AVATAR_OF_SHE_WHO_WAS:
-        return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING
-            || KoLCharacter.getBlessingLevel() != 3;
-
-      case EffectPool.AVATAR_OF_THE_STORM_TORTOISE:
-        return KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING
-            || KoLCharacter.getBlessingLevel() != 3;
-
-      case EffectPool.AVATAR_OF_THE_WAR_SNAPPER:
-        return KoLCharacter.getBlessingType() != KoLCharacter.WAR_BLESSING
-            || KoLCharacter.getBlessingLevel() != 3;
-
-      case EffectPool.BLESSING_OF_SHE_WHO_WAS:
-        return !KoLCharacter.isTurtleTamer()
-            || KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING
-            || KoLCharacter.getBlessingLevel() == -1
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.BLESSING_OF_THE_STORM_TORTOISE:
-        return !KoLCharacter.isTurtleTamer()
-            || KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING
-            || KoLCharacter.getBlessingLevel() == -1
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.BLESSING_OF_THE_WAR_SNAPPER:
-        return !KoLCharacter.isTurtleTamer()
-            || KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING
-            || KoLCharacter.getBlessingLevel() == -1
-            || KoLCharacter.getBlessingLevel() == 4;
-
-      case EffectPool.DISDAIN_OF_SHE_WHO_WAS:
-      case EffectPool.DISDAIN_OF_THE_STORM_TORTOISE:
-      case EffectPool.DISDAIN_OF_THE_WAR_SNAPPER:
-        return KoLCharacter.isTurtleTamer();
-
-      case EffectPool.BARREL_OF_LAUGHS:
-        return !KoLCharacter.isTurtleTamer();
-
-      case EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD:
-      case EffectPool.BLOODY_POTATO_BITS:
-      case EffectPool.SLINKING_NOODLE_GLOB:
-      case EffectPool.WHISPERING_STRANDS:
-      case EffectPool.MACARONI_COATING:
-      case EffectPool.PENNE_FEDORA:
-      case EffectPool.PASTA_EYEBALL:
-      case EffectPool.SPICE_HAZE:
-        return KoLCharacter.isPastamancer();
-
-      case EffectPool.SHIELD_OF_THE_PASTALORD:
-      case EffectPool.PORK_BARREL:
-        return !KoLCharacter.isPastamancer();
-
-      case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC:
-      case EffectPool.SOULERSKATES:
-      case EffectPool.WARLOCK_WARSTOCK_WARBARREL:
-        return !KoLCharacter.isSauceror();
-
-      case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE:
-        return KoLCharacter.isSauceror();
-
-      case EffectPool.DOUBLE_BARRELED:
-        return !KoLCharacter.isDiscoBandit();
-
-      case EffectPool.BEER_BARREL_POLKA:
-        return !KoLCharacter.isAccordionThief();
-
-      case EffectPool.UNMUFFLED:
-        return !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Loud Muffler");
-
-      case EffectPool.MUFFLED:
-        return !Preferences.getString("peteMotorbikeMuffler").equals("Extra-Quiet Muffler");
-    }
-    return false;
+    return switch (effectId) {
+      case EffectPool.NEARLY_SILENT_HUNTING -> KoLCharacter.isSealClubber();
+      case EffectPool.SILENT_HUNTING, EffectPool.BARREL_CHESTED -> !KoLCharacter.isSealClubber();
+      case EffectPool.BOON_OF_SHE_WHO_WAS -> KoLCharacter.getBlessingType()
+              != KoLCharacter.SHE_WHO_WAS_BLESSING
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.BOON_OF_THE_STORM_TORTOISE -> KoLCharacter.getBlessingType()
+              != KoLCharacter.STORM_BLESSING
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.BOON_OF_THE_WAR_SNAPPER -> KoLCharacter.getBlessingType()
+              != KoLCharacter.WAR_BLESSING
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.AVATAR_OF_SHE_WHO_WAS -> KoLCharacter.getBlessingType()
+              != KoLCharacter.SHE_WHO_WAS_BLESSING
+          || KoLCharacter.getBlessingLevel() != 3;
+      case EffectPool.AVATAR_OF_THE_STORM_TORTOISE -> KoLCharacter.getBlessingType()
+              != KoLCharacter.STORM_BLESSING
+          || KoLCharacter.getBlessingLevel() != 3;
+      case EffectPool.AVATAR_OF_THE_WAR_SNAPPER -> KoLCharacter.getBlessingType()
+              != KoLCharacter.WAR_BLESSING
+          || KoLCharacter.getBlessingLevel() != 3;
+      case EffectPool.BLESSING_OF_SHE_WHO_WAS -> !KoLCharacter.isTurtleTamer()
+          || KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING
+          || KoLCharacter.getBlessingLevel() == -1
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.BLESSING_OF_THE_STORM_TORTOISE -> !KoLCharacter.isTurtleTamer()
+          || KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING
+          || KoLCharacter.getBlessingLevel() == -1
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.BLESSING_OF_THE_WAR_SNAPPER -> !KoLCharacter.isTurtleTamer()
+          || KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING
+          || KoLCharacter.getBlessingLevel() == -1
+          || KoLCharacter.getBlessingLevel() == 4;
+      case EffectPool.DISDAIN_OF_SHE_WHO_WAS,
+          EffectPool.DISDAIN_OF_THE_STORM_TORTOISE,
+          EffectPool.DISDAIN_OF_THE_WAR_SNAPPER -> KoLCharacter.isTurtleTamer();
+      case EffectPool.BARREL_OF_LAUGHS -> !KoLCharacter.isTurtleTamer();
+      case EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD,
+          EffectPool.BLOODY_POTATO_BITS,
+          EffectPool.SLINKING_NOODLE_GLOB,
+          EffectPool.WHISPERING_STRANDS,
+          EffectPool.MACARONI_COATING,
+          EffectPool.PENNE_FEDORA,
+          EffectPool.PASTA_EYEBALL,
+          EffectPool.SPICE_HAZE -> KoLCharacter.isPastamancer();
+      case EffectPool.SHIELD_OF_THE_PASTALORD, EffectPool.PORK_BARREL -> !KoLCharacter
+          .isPastamancer();
+      case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC,
+          EffectPool.SOULERSKATES,
+          EffectPool.WARLOCK_WARSTOCK_WARBARREL -> !KoLCharacter.isSauceror();
+      case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE -> KoLCharacter.isSauceror();
+      case EffectPool.DOUBLE_BARRELED -> !KoLCharacter.isDiscoBandit();
+      case EffectPool.BEER_BARREL_POLKA -> !KoLCharacter.isAccordionThief();
+      case EffectPool.UNMUFFLED -> !Preferences.getString("peteMotorbikeMuffler")
+          .equals("Extra-Loud Muffler");
+      case EffectPool.MUFFLED -> !Preferences.getString("peteMotorbikeMuffler")
+          .equals("Extra-Quiet Muffler");
+      default -> false;
+    };
   }
 
   void enumerateEquipment(int equipScope, int maxPrice, int priceLevel)
@@ -1018,8 +1006,8 @@ public class Evaluator {
     // Items to be considered based on their score
     List<List<CheckedItem>> ranked = new ArrayList<>(slots);
     for (int i = 0; i < slots; ++i) {
-      automatic.add(new ArrayList<CheckedItem>());
-      ranked.add(new ArrayList<CheckedItem>());
+      automatic.add(new ArrayList<>());
+      ranked.add(new ArrayList<>());
     }
 
     double nullScore = this.getScore(new Modifiers());
@@ -1036,7 +1024,7 @@ public class Evaluator {
         continue;
       }
 
-      Modifiers mods = Modifiers.getModifiers("Outfit", outfit.getName());
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
       if (mods == null) continue;
 
       switch (this.checkConstraints(mods)) {
@@ -1053,8 +1041,8 @@ public class Evaluator {
     }
 
     int usefulSynergies = 0;
-    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
-      Modifiers mods = Modifiers.getModifiers("Synergy", entry.getKey());
+    for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SYNERGY, entry.getKey());
       int value = entry.getValue().intValue();
       if (mods == null) continue;
       double delta = this.getScore(mods) - nullScore;
@@ -1063,7 +1051,7 @@ public class Evaluator {
 
     boolean hoboPowerUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers("MaxCat", "_hoboPower");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_hoboPower");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         hoboPowerUseful = true;
       }
@@ -1071,7 +1059,7 @@ public class Evaluator {
 
     boolean smithsnessUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers("MaxCat", "_smithsness");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_smithsness");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         smithsnessUseful = true;
       }
@@ -1079,7 +1067,7 @@ public class Evaluator {
 
     boolean brimstoneUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers("MaxCat", "_brimstone");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_brimstone");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         brimstoneUseful = true;
       }
@@ -1087,7 +1075,7 @@ public class Evaluator {
 
     boolean cloathingUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers("MaxCat", "_cloathing");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_cloathing");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         cloathingUseful = true;
       }
@@ -1095,7 +1083,7 @@ public class Evaluator {
 
     boolean slimeHateUseful = false;
     {
-      Modifiers mods = Modifiers.getModifiers("MaxCat", "_slimeHate");
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_slimeHate");
       if (mods != null && this.getScore(mods) - nullScore > 0.0) {
         slimeHateUseful = true;
       }
@@ -1131,16 +1119,15 @@ public class Evaluator {
         }
         // Normal item modifiers when used by Disembodied Hand and Left-Hand
         else {
-          familiarMods = Modifiers.getItemModifiersInFamiliarSlot(id);
+          familiarMods = ModifierDatabase.getItemModifiersInFamiliarSlot(id);
 
           // Some items work differently with the Left Hand
           if (familiarId == FamiliarPool.LEFT_HAND) {
-            switch (id) {
-              case ItemPool.KOL_COL_13_SNOWGLOBE:
-              case ItemPool.GLOWING_ESCA:
-                familiarMods = null;
-                break;
-            }
+            familiarMods =
+                switch (id) {
+                  case ItemPool.KOL_COL_13_SNOWGLOBE, ItemPool.GLOWING_ESCA -> null;
+                  default -> familiarMods;
+                };
           }
         }
 
@@ -1178,7 +1165,7 @@ public class Evaluator {
           familiarMods.applyFamiliarModifiers(fam, preItem);
         } else {
           // Normal item modifiers when used by Disembodied Hand
-          familiarMods = Modifiers.getItemModifiers(id);
+          familiarMods = ModifierDatabase.getItemModifiers(id);
           if (familiarMods == null) { // no enchantments
             familiarMods = new Modifiers();
           }
@@ -1245,7 +1232,7 @@ public class Evaluator {
               if (type.equals("chefstaff")) { // Don't allow chefstaves to displace other
                 // 1H weapons from the shortlist if you can't
                 // equip them anyway.
-                if (!KoLCharacter.hasSkill("Spirit of Rigatoni")
+                if (!KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)
                     && !KoLCharacter.isJarlsberg()
                     && !(KoLCharacter.isSauceror() && gloveAvailable)) {
                   continue;
@@ -1253,15 +1240,9 @@ public class Evaluator {
                 // In any case, don't put this in an aux slot.
               } else if (!this.requireShield && !EquipmentDatabase.isMainhandOnly(id)) {
                 switch (weaponType) {
-                  case MELEE:
-                    auxSlot = Evaluator.OFFHAND_MELEE;
-                    break;
-                  case RANGED:
-                    auxSlot = Evaluator.OFFHAND_RANGED;
-                    break;
-                  case NONE:
-                  default:
-                    break;
+                  case MELEE -> auxSlot = Evaluator.OFFHAND_MELEE;
+                  case RANGED -> auxSlot = Evaluator.OFFHAND_RANGED;
+                  case NONE -> {}
                 }
               }
             }
@@ -1286,7 +1267,7 @@ public class Evaluator {
                 if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
                     && weaponType != WeaponType.RANGED
                     && (!EquipmentDatabase.isKnife(id)
-                        || !KoLCharacter.hasSkill("Tricky Knifework"))) {
+                        || !KoLCharacter.hasSkill(SkillPool.TRICKY_KNIFEWORK))) {
                   slot = auxSlot;
                 }
                 if (KoLCharacter.getAdjustedMoxie() < KoLCharacter.getAdjustedMuscle()
@@ -1296,7 +1277,7 @@ public class Evaluator {
               }
             }
             if (id == ItemPool.BROKEN_CHAMPAGNE
-                && this.weight[Modifiers.ITEMDROP] > 0
+                && this.weight.get(DoubleModifier.ITEMDROP) > 0
                 && (Preferences.getInteger("garbageChampagneCharge") > 0
                     || !Preferences.getBoolean("_garbageItemChanged"))) {
               // This is always going to be worth including if useful
@@ -1321,7 +1302,7 @@ public class Evaluator {
           case EquipmentManager.ACCESSORY1:
             if (id == ItemPool.SPECIAL_SAUCE_GLOVE
                 && KoLCharacter.isSauceror()
-                && !KoLCharacter.hasSkill("Spirit of Rigatoni")) {
+                && !KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)) {
               item.validate(maxPrice, priceLevel);
 
               if (item.getCount() == 0) {
@@ -1335,10 +1316,10 @@ public class Evaluator {
             break;
           case EquipmentManager.SHIRT:
             if (id == ItemPool.MAKESHIFT_GARBAGE_SHIRT
-                && (this.weight[Modifiers.EXPERIENCE] > 0
-                    || this.weight[Modifiers.MUS_EXPERIENCE] > 0
-                    || this.weight[Modifiers.MYS_EXPERIENCE] > 0
-                    || this.weight[Modifiers.MOX_EXPERIENCE] > 0)
+                && (this.weight.get(DoubleModifier.EXPERIENCE) > 0
+                    || this.weight.get(DoubleModifier.MUS_EXPERIENCE) > 0
+                    || this.weight.get(DoubleModifier.MYS_EXPERIENCE) > 0
+                    || this.weight.get(DoubleModifier.MOX_EXPERIENCE) > 0)
                 && Preferences.getInteger("garbageShirtCharge") > 0) {
               // This is always going to be worth including if useful
               item.requiredFlag = true;
@@ -1413,18 +1394,18 @@ public class Evaluator {
           item.automaticFlag = true;
         }
 
-        Modifiers mods = Modifiers.getItemModifiers(id);
+        Modifiers mods = ModifierDatabase.getItemModifiers(id);
         if (mods == null) { // no enchantments
           mods = new Modifiers();
         }
 
         boolean wrongClass = false;
-        String classType = mods.getString(Modifiers.CLASS);
+        String classType = mods.getString(StringModifier.CLASS);
         if (classType != "" && !classType.equals(KoLCharacter.getAscensionClassName())) {
           wrongClass = true;
         }
 
-        if (mods.getBoolean(Modifiers.SINGLE)) {
+        if (mods.getBoolean(BooleanModifier.SINGLE)) {
           item.singleFlag = true;
         }
 
@@ -1469,7 +1450,7 @@ public class Evaluator {
           modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));
         }
 
-        if (mods.getBoolean(Modifiers.NONSTACKABLE_WATCH)) {
+        if (mods.getBoolean(BooleanModifier.NONSTACKABLE_WATCH)) {
           slot = Evaluator.WATCHES;
         }
 
@@ -1487,15 +1468,15 @@ public class Evaluator {
             break gotItem;
         }
 
-        if ((hoboPowerUseful && mods.get(Modifiers.HOBO_POWER) > 0.0)
-            || (smithsnessUseful && !wrongClass && mods.get(Modifiers.SMITHSNESS) > 0.0)
-            || (brimstoneUseful && mods.getRawBitmap(Modifiers.BRIMSTONE) != 0)
-            || (cloathingUseful && mods.getRawBitmap(Modifiers.CLOATHING) != 0)
-            || (slimeHateUseful && mods.get(Modifiers.SLIME_HATES_IT) > 0.0)
-            || (this.clownosity > 0 && mods.get(Modifiers.CLOWNINESS) != 0)
-            || (this.raveosity > 0 && mods.getRawBitmap(Modifiers.RAVEOSITY) != 0)
-            || (this.surgeonosity > 0 && mods.get(Modifiers.SURGEONOSITY) != 0)
-            || ((mods.getRawBitmap(Modifiers.SYNERGETIC) & usefulSynergies) != 0)) {
+        if ((hoboPowerUseful && mods.getDouble(DoubleModifier.HOBO_POWER) > 0.0)
+            || (smithsnessUseful && !wrongClass && mods.getDouble(DoubleModifier.SMITHSNESS) > 0.0)
+            || (brimstoneUseful && mods.getRawBitmap(BitmapModifier.BRIMSTONE) != 0)
+            || (cloathingUseful && mods.getRawBitmap(BitmapModifier.CLOATHING) != 0)
+            || (slimeHateUseful && mods.getDouble(DoubleModifier.SLIME_HATES_IT) > 0.0)
+            || (this.clownosity > 0 && mods.getDouble(DoubleModifier.CLOWNINESS) != 0)
+            || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
+            || (this.surgeonosity > 0 && mods.getDouble(DoubleModifier.SURGEONOSITY) != 0)
+            || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;
         }
@@ -1520,11 +1501,11 @@ public class Evaluator {
           break gotItem;
         }
 
-        String intrinsic = mods.getString(Modifiers.INTRINSIC_EFFECT);
+        String intrinsic = mods.getString(StringModifier.INTRINSIC_EFFECT);
         if (intrinsic.length() > 0) {
           Modifiers newMods = new Modifiers();
           newMods.add(mods);
-          newMods.add(Modifiers.getModifiers("Effect", intrinsic));
+          newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
           mods = newMods;
         }
         double delta = this.getScore(mods, new AdventureResult[] {item}) - nullScore;
@@ -1535,8 +1516,8 @@ public class Evaluator {
           if (item.automaticFlag) continue;
         }
 
-        if (mods.getBoolean(Modifiers.UNARMED)
-            || mods.getRawBitmap(Modifiers.MUTEX)
+        if (mods.getBoolean(BooleanModifier.UNARMED)
+            || mods.getRawBitmap(BitmapModifier.MUTEX)
                 != 0) { // This item may turn out to be unequippable, so don't
           // count it towards the shortlist length.
           item.conditionalFlag = true;
@@ -1694,7 +1675,7 @@ public class Evaluator {
 
     List<List<MaximizerSpeculation>> speculationList = new ArrayList<>(ranked.size());
     for (int i = 0; i < ranked.size(); ++i) {
-      speculationList.add(new ArrayList<MaximizerSpeculation>());
+      speculationList.add(new ArrayList<>());
     }
 
     for (int slot = 0; slot < ranked.size(); ++slot) {
@@ -1807,7 +1788,7 @@ public class Evaluator {
     // spots
 
     // Compare synergies with best items in the same spots, and remove automatic flag if not better
-    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
+    for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
       String synergy = entry.getKey();
       int mask = entry.getValue().intValue();
       int index = synergy.indexOf("/");

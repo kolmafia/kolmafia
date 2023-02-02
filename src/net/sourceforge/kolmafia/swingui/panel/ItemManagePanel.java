@@ -14,21 +14,26 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -71,7 +76,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         || elementModel == KoLConstants.storage
         || elementModel == KoLConstants.freepulls
         || elementModel == ConcoctionDatabase.getCreatables()
-        || elementModel == ConcoctionDatabase.getUsables());
+        || ConcoctionDatabase.getUsables().values().contains(elementModel));
   }
 
   public ItemManagePanel(
@@ -126,10 +131,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       final boolean equip,
       final boolean other,
       final boolean notrade) {
-    if (this.filterField instanceof ItemManagePanel.FilterItemField) {
-      ItemManagePanel<?, ?>.FilterItemField itemFilter =
-          (ItemManagePanel<?, ?>.FilterItemField) this.filterField;
-
+    if (this.filterField instanceof ItemManagePanel<?, ?>.FilterItemField itemFilter) {
       itemFilter.food = food;
       itemFilter.booze = booze;
       itemFilter.equip = equip;
@@ -309,15 +311,14 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         continue;
       }
 
-      if (items[i] instanceof AdventureResult) {
-        AdventureResult item = (AdventureResult) items[i];
+      if (items[i] instanceof AdventureResult item) {
         itemName = item.getName();
         itemCount = isTally ? item.getCount(KoLConstants.inventory) : item.getCount();
       } else {
         Concoction concoction = (Concoction) items[i];
         itemName = concoction.getName();
         itemCount = concoction.getAvailable();
-        if (concoction.speakeasy) {
+        if (concoction.speakeasy != null) {
           itemCount -= ConcoctionDatabase.queuedSpeakeasyDrink;
         }
         // Only queue one S'more at at time
@@ -372,30 +373,21 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       final int quantityType) {
     int quantity = 0;
     switch (quantityType) {
-      case TAKE_ALL:
-        quantity = itemCount;
-        break;
-
-      case TAKE_ALL_BUT_USABLE:
-        quantity = itemCount - this.getUsableItemAmount(item, itemName);
-        break;
-
-      case TAKE_MULTIPLE:
-        {
-          Integer value =
-              InputFieldUtilities.getQuantity(message + " " + itemName + "...", itemCount);
-          if (value == null) {
-            return Integer.MIN_VALUE;
-          }
-
-          quantity = value.intValue();
-
-          break;
+      case TAKE_ALL -> quantity = itemCount;
+      case TAKE_ALL_BUT_USABLE -> quantity = itemCount - this.getUsableItemAmount(item, itemName);
+      case TAKE_MULTIPLE -> {
+        Integer value =
+            InputFieldUtilities.getQuantity(message + " " + itemName + "...", itemCount);
+        if (value == null) {
+          return Integer.MIN_VALUE;
         }
 
-      case USE_MULTIPLE:
-        int standard = itemCount;
+        quantity = value.intValue();
 
+        break;
+      }
+      case USE_MULTIPLE -> {
+        int standard = itemCount;
         if (!message.equals("Feed")) {
           if (item instanceof Concoction) {
             int previous = 0, capacity = itemCount, unit = 0, shotglass = 0;
@@ -437,7 +429,6 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
           standard = Math.min(standard, maximum);
         }
-
         quantity = standard;
         if (standard >= 2) {
           Integer value =
@@ -448,12 +439,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
           }
           quantity = value.intValue();
         }
-
-        break;
-
-      default:
-        quantity = 1;
-        break;
+      }
+      default -> quantity = 1;
     }
 
     return quantity;
@@ -467,26 +454,23 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       id = ((AdventureResult) item).getItemId();
     }
     switch (ItemDatabase.getConsumptionType(id)) {
-      case KoLConstants.EQUIP_HAT:
+      case HAT:
         return Preferences.getInteger("usableHats");
-      case KoLConstants.EQUIP_WEAPON:
-        switch (EquipmentDatabase.getHands(id)) {
-          case 3:
-            return Preferences.getInteger("usable3HWeapons");
-          case 2:
-            return Preferences.getInteger("usable2HWeapons");
-          default:
-            return Preferences.getInteger("usable1HWeapons");
-        }
-      case KoLConstants.EQUIP_OFFHAND:
+      case WEAPON:
+        return switch (EquipmentDatabase.getHands(id)) {
+          case 3 -> Preferences.getInteger("usable3HWeapons");
+          case 2 -> Preferences.getInteger("usable2HWeapons");
+          default -> Preferences.getInteger("usable1HWeapons");
+        };
+      case OFFHAND:
         return Preferences.getInteger("usableOffhands");
-      case KoLConstants.EQUIP_SHIRT:
+      case SHIRT:
         return Preferences.getInteger("usableShirts");
-      case KoLConstants.EQUIP_PANTS:
+      case PANTS:
         return Preferences.getInteger("usablePants");
-      case KoLConstants.EQUIP_ACCESSORY:
-        Modifiers mods = Modifiers.getItemModifiers(id);
-        if (mods != null && mods.getBoolean(Modifiers.SINGLE)) {
+      case ACCESSORY:
+        Modifiers mods = ModifierDatabase.getItemModifiers(id);
+        if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {
           return Preferences.getInteger("usable1xAccs");
         } else {
           return Preferences.getInteger("usableAccessories");
@@ -522,7 +506,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       }
 
       if (this.retrieveFromClosetFirst) {
-        RequestThread.postRequest(new ClosetRequest(ClosetRequest.CLOSET_TO_INVENTORY, items));
+        RequestThread.postRequest(new ClosetRequest(ClosetRequestType.CLOSET_TO_INVENTORY, items));
       }
 
       return items;
@@ -571,20 +555,18 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
       for (int i = 0; i < items.length; ++i) {
         AdventureResult item = items[i];
-        int usageType = ItemDatabase.getConsumptionType(item.getItemId());
+        ConsumptionType usageType = ItemDatabase.getConsumptionType(item.getItemId());
 
         switch (usageType) {
-          case KoLConstants.EQUIP_FAMILIAR:
-          case KoLConstants.EQUIP_ACCESSORY:
-          case KoLConstants.EQUIP_HAT:
-          case KoLConstants.EQUIP_PANTS:
-          case KoLConstants.EQUIP_CONTAINER:
-          case KoLConstants.EQUIP_SHIRT:
-          case KoLConstants.EQUIP_WEAPON:
-          case KoLConstants.EQUIP_OFFHAND:
-            RequestThread.postRequest(
-                new EquipmentRequest(
-                    item, EquipmentManager.consumeFilterToEquipmentType(usageType)));
+          case FAMILIAR_EQUIPMENT,
+              ACCESSORY,
+              HAT,
+              PANTS,
+              CONTAINER,
+              SHIRT,
+              WEAPON,
+              OFFHAND -> RequestThread.postRequest(
+              new EquipmentRequest(item, EquipmentManager.consumeFilterToEquipmentType(usageType)));
         }
       }
     }
@@ -608,7 +590,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       }
 
       if (!this.retrieveFromClosetFirst) {
-        RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, items));
+        RequestThread.postRequest(new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, items));
       }
     }
 
@@ -706,7 +688,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         return;
       }
 
-      RequestThread.postRequest(new ClanStashRequest(items, ClanStashRequest.ITEMS_TO_STASH));
+      RequestThread.postRequest(new ClanStashRequest(items, ClanStashRequestType.ITEMS_TO_STASH));
     }
 
     @Override
@@ -802,8 +784,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
     @Override
     public boolean isVisible(final Object element) {
-      if (element instanceof AdventureResult) {
-        AdventureResult ar = (AdventureResult) element;
+      if (element instanceof AdventureResult ar) {
         if (ar.getCount() < 0) {
           // return false
         }
@@ -818,47 +799,34 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
               : ItemDatabase.getItemId(name, 1, false);
 
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case KoLConstants.CONSUME_EAT:
+        case EAT:
           isVisibleWithFilter = FilterItemField.this.food;
           break;
 
-        case KoLConstants.CONSUME_DRINK:
+        case DRINK:
           isVisibleWithFilter = FilterItemField.this.booze;
           break;
 
-        case KoLConstants.EQUIP_HAT:
-        case KoLConstants.EQUIP_SHIRT:
-        case KoLConstants.EQUIP_WEAPON:
-        case KoLConstants.EQUIP_OFFHAND:
-        case KoLConstants.EQUIP_PANTS:
-        case KoLConstants.EQUIP_CONTAINER:
-        case KoLConstants.EQUIP_ACCESSORY:
-        case KoLConstants.EQUIP_FAMILIAR:
+        case HAT:
+        case SHIRT:
+        case WEAPON:
+        case OFFHAND:
+        case PANTS:
+        case CONTAINER:
+        case ACCESSORY:
+        case FAMILIAR_EQUIPMENT:
           isVisibleWithFilter = FilterItemField.this.equip;
           break;
 
         default:
           if (element instanceof CreateItemRequest) {
-            switch (ConcoctionDatabase.getMixingMethod(itemId)) {
-              case COOK:
-              case COOK_FANCY:
-                isVisibleWithFilter = FilterItemField.this.food || FilterItemField.this.other;
-                break;
-
-              case SUSHI:
-                isVisibleWithFilter = FilterItemField.this.food;
-                break;
-
-              case MIX:
-              case MIX_FANCY:
-              case STILL:
-                isVisibleWithFilter = FilterItemField.this.booze;
-                break;
-
-              default:
-                isVisibleWithFilter = FilterItemField.this.other;
-                break;
-            }
+            isVisibleWithFilter =
+                switch (ConcoctionDatabase.getMixingMethod(itemId)) {
+                  case COOK, COOK_FANCY -> FilterItemField.this.food || FilterItemField.this.other;
+                  case SUSHI -> FilterItemField.this.food;
+                  case MIX, MIX_FANCY, STILL -> FilterItemField.this.booze;
+                  default -> FilterItemField.this.other;
+                };
           } else {
             // Milk of magnesium is marked as food,
             // as are munchies pills; all others
@@ -899,7 +867,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         : (elementModel == KoLConstants.storage || elementModel == KoLConstants.freepulls)
             ? new InvocationListener(null, StorageRequest.class, "refresh")
             : (elementModel == ConcoctionDatabase.getCreatables()
-                    || elementModel == ConcoctionDatabase.getUsables())
+                    || ConcoctionDatabase.getUsables().values().contains(elementModel))
                 ? new InvocationListener(null, ConcoctionDatabase.class, "refreshConcoctions")
                 : new InvocationListener(null, InventoryManager.class, "refresh");
   }

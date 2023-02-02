@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.BreakfastManager;
-import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ManaBurnManager {
@@ -24,7 +23,7 @@ public class ManaBurnManager {
   public static final void burnExtraMana(final boolean isManualInvocation) {
     if (KoLmafia.refusesContinue()
         || KoLCharacter.inZombiecore()
-        || KoLCharacter.getLimitMode() != LimitMode.NONE) {
+        || KoLCharacter.getLimitMode().limitRecovery()) {
       return;
     }
 
@@ -107,7 +106,7 @@ public class ManaBurnManager {
     int summonThreshold = Preferences.getInteger("manaBurnSummonThreshold");
     int durationLimit = Preferences.getInteger("maxManaBurn") + KoLCharacter.getAdventuresLeft();
     ManaBurn chosen = null;
-    ArrayList<ManaBurn> burns = new ArrayList<ManaBurn>();
+    ArrayList<ManaBurn> burns = new ArrayList<>();
 
     // Rather than maintain mood-related buffs only, maintain any
     // active effect that the character can auto-cast. Examine all
@@ -118,16 +117,16 @@ public class ManaBurnManager {
       String effectName = currentEffect.getName();
       String skillName = UneffectRequest.effectToSkill(effectName);
 
+      int skillId = SkillDatabase.getSkillId(skillName);
+
       // Only cast if the player knows the skill
 
-      if (!KoLCharacter.hasSkill(skillName)) {
+      if (!KoLCharacter.hasSkill(skillId)) {
         continue;
       }
 
       // Only cast if the MP cost is non-zero, since otherwise you'd
       // be in an infinite loop
-
-      int skillId = SkillDatabase.getSkillId(skillName);
       long mpCost = SkillDatabase.getMPConsumptionById(skillId);
 
       if (mpCost <= 0) {

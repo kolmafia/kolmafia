@@ -11,14 +11,17 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -26,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
@@ -258,6 +262,8 @@ public class CharPaneRequest extends GenericRequest {
     CharPaneRequest.checkYouRobot(responseText);
 
     CharPaneRequest.checkSweatiness(responseText);
+
+    CharPaneRequest.check8BitScore(responseText);
 
     // Mana cost adjustment may have changed
 
@@ -493,13 +499,13 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     Modifiers mods = KoLCharacter.getCurrentModifiers();
-    boolean equalize = mods.getString(Modifiers.EQUALIZE).length() != 0;
-    boolean mus_equalize = mods.getString(Modifiers.EQUALIZE_MUSCLE).length() != 0;
-    boolean mys_equalize = mods.getString(Modifiers.EQUALIZE_MYST).length() != 0;
-    boolean mox_equalize = mods.getString(Modifiers.EQUALIZE_MOXIE).length() != 0;
-    boolean mus_limit = (int) mods.get(Modifiers.MUS_LIMIT) != 0;
-    boolean mys_limit = (int) mods.get(Modifiers.MYS_LIMIT) != 0;
-    boolean mox_limit = (int) mods.get(Modifiers.MOX_LIMIT) != 0;
+    boolean equalize = mods.getString(StringModifier.EQUALIZE).length() != 0;
+    boolean mus_equalize = mods.getString(StringModifier.EQUALIZE_MUSCLE).length() != 0;
+    boolean mys_equalize = mods.getString(StringModifier.EQUALIZE_MYST).length() != 0;
+    boolean mox_equalize = mods.getString(StringModifier.EQUALIZE_MOXIE).length() != 0;
+    boolean mus_limit = (int) mods.getDouble(DoubleModifier.MUS_LIMIT) != 0;
+    boolean mys_limit = (int) mods.getDouble(DoubleModifier.MYS_LIMIT) != 0;
+    boolean mox_limit = (int) mods.getDouble(DoubleModifier.MOX_LIMIT) != 0;
 
     boolean checkMus = !equalize && !mus_equalize && !mus_limit;
     boolean checkMys = !equalize && !mys_equalize && !mys_limit;
@@ -691,12 +697,10 @@ public class CharPaneRequest extends GenericRequest {
       pattern = Pattern.compile("<b>(\\d+ )?(Love|Hate|Bored)</td>");
       matcher = pattern.matcher(responseText);
       if (matcher != null && matcher.find()) {
-        if (matcher.group(2).equals("Love")) {
-          KoLCharacter.setAudience(StringUtilities.parseInt(matcher.group(1)));
-        } else if (matcher.group(2).equals("Hate")) {
-          KoLCharacter.setAudience(-StringUtilities.parseInt(matcher.group(1)));
-        } else if (matcher.group(2).equals("Bored")) {
-          KoLCharacter.setAudience(0);
+        switch (matcher.group(2)) {
+          case "Love" -> KoLCharacter.setAudience(StringUtilities.parseInt(matcher.group(1)));
+          case "Hate" -> KoLCharacter.setAudience(-StringUtilities.parseInt(matcher.group(1)));
+          case "Bored" -> KoLCharacter.setAudience(0);
         }
       } else {
         KoLCharacter.setAudience(0);
@@ -877,7 +881,7 @@ public class CharPaneRequest extends GenericRequest {
     int searchIndex = 0;
     int onClickIndex = 0;
 
-    ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> visibleEffects = new ArrayList<>();
 
     while (onClickIndex != -1) {
       onClickIndex = responseText.indexOf("onClick='eff", onClickIndex + 1);
@@ -1271,16 +1275,16 @@ public class CharPaneRequest extends GenericRequest {
 
     ModifierList modList = new ModifierList();
     for (Object res : result) {
-      String mod = Modifiers.parseModifier(res.toString());
+      String mod = ModifierDatabase.parseModifier(res.toString());
       if (mod == null) {
         // this shouldn't happen...
         continue;
       }
       // Split into modifiers as some, like regeneration, get two values from one mod string
-      ModifierList newModList = Modifiers.splitModifiers(mod);
+      ModifierList newModList = ModifierDatabase.splitModifiers(mod);
 
       // Iterate over modifiers
-      for (Modifier modifier : newModList) {
+      for (ModifierValue modifier : newModList) {
         String key = modifier.getName();
         String value = modifier.getValue();
         int modVal = StringUtilities.parseInt(value);
@@ -1297,7 +1301,8 @@ public class CharPaneRequest extends GenericRequest {
         }
       }
     }
-    Modifiers.overrideModifier("Generated:Enchantments Absorbed", modList.toString());
+    ModifierDatabase.overrideModifier(
+        ModifierType.GENERATED, "Enchantments Absorbed", modList.toString());
   }
 
   private static final Pattern disguisePattern = Pattern.compile("masks/mask(\\d+).png");
@@ -1312,117 +1317,43 @@ public class CharPaneRequest extends GenericRequest {
     Matcher matcher = pattern.matcher(responseText);
     if (matcher.find()) {
       switch (StringUtilities.parseInt(matcher.group(1))) {
-        case 1:
-          mask = "Mr. Mask";
-          break;
-        case 2:
-          mask = "devil mask";
-          break;
-        case 3:
-          mask = "protest mask";
-          break;
-        case 4:
-          mask = "batmask";
-          break;
-        case 5:
-          mask = "punk mask";
-          break;
-        case 6:
-          mask = "hockey mask";
-          break;
-        case 7:
-          mask = "bandit mask";
-          break;
-        case 8:
-          mask = "plague doctor mask";
-          break;
-        case 9:
-          mask = "robot mask";
-          break;
-        case 10:
-          mask = "skull mask";
-          break;
-        case 11:
-          mask = "monkey mask";
-          break;
-        case 12:
-          mask = "luchador mask";
-          break;
-        case 13:
-          mask = "welding mask";
-          break;
-        case 14:
-          mask = "ninja mask";
-          break;
-        case 15:
-          mask = "snowman mask";
-          break;
-        case 16:
-          mask = "gasmask";
-          break;
-        case 17:
-          mask = "fencing mask";
-          break;
-        case 18:
-          mask = "opera mask";
-          break;
-        case 19:
-          mask = "scary mask";
-          break;
-        case 20:
-          mask = "alien mask";
-          break;
-        case 21:
-          mask = "murderer mask";
-          break;
-        case 22:
-          mask = "pumpkin mask";
-          break;
-        case 23:
-          mask = "rabbit mask";
-          break;
-        case 24:
-          mask = "ski mask";
-          break;
-        case 25:
-          mask = "tiki mask";
-          break;
-        case 26:
-          mask = "motorcycle mask";
-          break;
-        case 27:
-          mask = "magical cartoon princess mask";
-          break;
-        case 28:
-          mask = "catcher's mask";
-          break;
-        case 29:
-          mask = "&quot;sexy&quot; mask";
-          break;
-        case 30:
-          mask = "werewolf mask";
-          break;
-        case 100:
-          mask = "Bonerdagon mask";
-          break;
-        case 101:
-          mask = "Naughty Sorceress mask";
-          break;
-        case 102:
-          mask = "Groar mask";
-          break;
-        case 103:
-          mask = "Ed the Undying mask";
-          break;
-        case 104:
-          mask = "Big Wisniewski mask";
-          break;
-        case 105:
-          mask = "The Man mask";
-          break;
-        case 106:
-          mask = "Boss Bat mask";
-          break;
+        case 1 -> mask = "Mr. Mask";
+        case 2 -> mask = "devil mask";
+        case 3 -> mask = "protest mask";
+        case 4 -> mask = "batmask";
+        case 5 -> mask = "punk mask";
+        case 6 -> mask = "hockey mask";
+        case 7 -> mask = "bandit mask";
+        case 8 -> mask = "plague doctor mask";
+        case 9 -> mask = "robot mask";
+        case 10 -> mask = "skull mask";
+        case 11 -> mask = "monkey mask";
+        case 12 -> mask = "luchador mask";
+        case 13 -> mask = "welding mask";
+        case 14 -> mask = "ninja mask";
+        case 15 -> mask = "snowman mask";
+        case 16 -> mask = "gasmask";
+        case 17 -> mask = "fencing mask";
+        case 18 -> mask = "opera mask";
+        case 19 -> mask = "scary mask";
+        case 20 -> mask = "alien mask";
+        case 21 -> mask = "murderer mask";
+        case 22 -> mask = "pumpkin mask";
+        case 23 -> mask = "rabbit mask";
+        case 24 -> mask = "ski mask";
+        case 25 -> mask = "tiki mask";
+        case 26 -> mask = "motorcycle mask";
+        case 27 -> mask = "magical cartoon princess mask";
+        case 28 -> mask = "catcher's mask";
+        case 29 -> mask = "&quot;sexy&quot; mask";
+        case 30 -> mask = "werewolf mask";
+        case 100 -> mask = "Bonerdagon mask";
+        case 101 -> mask = "Naughty Sorceress mask";
+        case 102 -> mask = "Groar mask";
+        case 103 -> mask = "Ed the Undying mask";
+        case 104 -> mask = "Big Wisniewski mask";
+        case 105 -> mask = "The Man mask";
+        case 106 -> mask = "Boss Bat mask";
       }
     }
     KoLCharacter.setMask(mask);
@@ -1546,6 +1477,26 @@ public class CharPaneRequest extends GenericRequest {
     Preferences.setInteger("sweat", sweatiness);
   }
 
+  // <td align=right><span class='nes' style='line-height: 14px; font-size:
+  // 12px;'>Score:</span></td><td align=left><font color=black><span class='nes' style='line-height:
+  // 14px; font-size: 12px;'>0</span></font></td>
+
+  private static final Pattern SCORE =
+      Pattern.compile("<font color=(\\w+)><span class='nes'[^>]*?>([\\d,]+)</span></font>");
+
+  public static void check8BitScore(final String responseText) {
+    if (!KoLCharacter.hasEquipped(ItemPool.TRANSFUNCTIONER)) {
+      return;
+    }
+
+    Matcher matcher = SCORE.matcher(responseText);
+
+    if (matcher.find()) {
+      Preferences.setInteger("8BitScore", StringUtilities.parseInt(matcher.group(2)));
+      Preferences.setString("8BitColor", matcher.group(1));
+    }
+  }
+
   public static final void parseStatus(final JSONObject JSON) throws JSONException {
     int turnsThisRun = JSON.getInt("turnsthisrun");
     CharPaneRequest.turnsThisRun = turnsThisRun;
@@ -1561,6 +1512,10 @@ public class CharPaneRequest extends GenericRequest {
       int mafiaTurnsThisRun = KoLCharacter.getCurrentRun();
       ResultProcessor.processAdventuresUsed(turnsThisRun - mafiaTurnsThisRun);
     }
+
+    // Refresh effects before we set LimitMode since our "pseudo" LimitModes
+    // are derived from currently active effects.
+    CharPaneRequest.refreshEffects(JSON);
 
     Object lmo = JSON.get("limitmode");
     if (lmo instanceof Integer && lmo.equals(0)) {
@@ -1629,8 +1584,6 @@ public class CharPaneRequest extends GenericRequest {
     int pvpFights = JSON.getInt("pvpfights");
     KoLCharacter.setAttacksLeft(pvpFights);
 
-    CharPaneRequest.refreshEffects(JSON);
-
     boolean hardcore = JSON.getInt("hardcore") == 1;
     KoLCharacter.setHardcore(hardcore);
 
@@ -1669,18 +1622,10 @@ public class CharPaneRequest extends GenericRequest {
       if (JSON.has("jarlcompanion")) {
         int companion = JSON.getInt("jarlcompanion");
         switch (companion) {
-          case 1:
-            KoLCharacter.setCompanion(Companion.EGGMAN);
-            break;
-          case 2:
-            KoLCharacter.setCompanion(Companion.RADISH);
-            break;
-          case 3:
-            KoLCharacter.setCompanion(Companion.HIPPO);
-            break;
-          case 4:
-            KoLCharacter.setCompanion(Companion.CREAM);
-            break;
+          case 1 -> KoLCharacter.setCompanion(Companion.EGGMAN);
+          case 2 -> KoLCharacter.setCompanion(Companion.RADISH);
+          case 3 -> KoLCharacter.setCompanion(Companion.HIPPO);
+          case 4 -> KoLCharacter.setCompanion(Companion.CREAM);
         }
       } else {
         KoLCharacter.setCompanion(null);
@@ -1737,13 +1682,11 @@ public class CharPaneRequest extends GenericRequest {
   }
 
   private static void refreshEffects(final JSONObject JSON) throws JSONException {
-    ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> visibleEffects = new ArrayList<>();
 
     Object o = JSON.get("effects");
-    if (o instanceof JSONObject) {
+    if (o instanceof JSONObject effects) {
       // KoL returns an empty JSON array if there are no effects
-      JSONObject effects = (JSONObject) o;
-
       Iterator<String> keys = effects.keys();
       while (keys.hasNext()) {
         String descId = keys.next();
@@ -1759,9 +1702,7 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     o = JSON.get("intrinsics");
-    if (o instanceof JSONObject) {
-      JSONObject intrinsics = (JSONObject) o;
-
+    if (o instanceof JSONObject intrinsics) {
       Iterator<String> keys = intrinsics.keys();
       while (keys.hasNext()) {
         String descId = keys.next();

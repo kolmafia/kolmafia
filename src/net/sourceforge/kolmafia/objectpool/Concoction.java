@@ -11,14 +11,18 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.Consumable;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BarrelShrineRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -30,13 +34,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  * actually make the item.
  */
 public class Concoction implements Comparable<Concoction> {
-  public enum Priority {
-    NONE,
-    FOOD,
-    BOOZE,
-    SPLEEN
-  }
-
   private String name;
   private final int hashCode;
 
@@ -49,7 +46,6 @@ public class Concoction implements Comparable<Concoction> {
   private final EnumSet<CraftingRequirements> mixingRequirements;
   private final EnumSet<CraftingMisc> mixingMisc;
   private final int row;
-  public Priority sortOrder;
 
   private final boolean isReagentPotion;
 
@@ -64,6 +60,7 @@ public class Concoction implements Comparable<Concoction> {
   public static int debugId = Integer.MAX_VALUE;
   public static boolean debug = false;
 
+  public ConcoctionType type;
   public int price;
   public String property;
   public int creatable;
@@ -79,15 +76,27 @@ public class Concoction implements Comparable<Concoction> {
   public boolean special;
   public boolean hotdog;
   public boolean fancydog;
-  public boolean speakeasy;
+  public SpeakeasyDrink speakeasy;
   public boolean steelOrgan;
 
-  private int fullness, inebriety, spleenhit;
+  private Consumable consumable;
   private String effectName;
   private double mainstatGain;
 
   private static final Set<String> steelOrgans =
       Set.of("steel margarita", "steel lasagna", "steel-scented air freshener");
+  private static final Set<Integer> forceFood =
+      Set.of(
+          ItemPool.QUANTUM_TACO,
+          ItemPool.MUNCHIES_PILL,
+          ItemPool.WHETSTONE,
+          ItemPool.MAGICAL_SAUSAGE,
+          ItemPool.MAYONEX,
+          ItemPool.MAYODIOL,
+          ItemPool.MAYOSTAT,
+          ItemPool.MAYOZAPINE,
+          ItemPool.MAYOFLEX);
+  private static final Set<Integer> forceBooze = Set.of(ItemPool.ICE_STEIN);
 
   public Concoction(
       final AdventureResult concoction,
@@ -108,9 +117,6 @@ public class Concoction implements Comparable<Concoction> {
       this.name = "unknown";
       this.hashCode = 0;
       this.isReagentPotion = false;
-      this.fullness = 0;
-      this.inebriety = 0;
-      this.spleenhit = 0;
       this.mainstatGain = 0.0f;
       this.effectName = "";
     } else {
@@ -183,43 +189,50 @@ public class Concoction implements Comparable<Concoction> {
     this.setEffectName();
   }
 
-  public Priority getSortOrder() {
-    int itemId = this.concoction == null ? -1 : this.concoction.getItemId();
-    if (this.fullness > 0 || itemId == ItemPool.QUANTUM_TACO) {
-      return Priority.FOOD;
-    }
-
-    if (this.inebriety > 0 || itemId == ItemPool.SCHRODINGERS_THERMOS) {
-      return Priority.BOOZE;
-    }
-
-    if (this.spleenhit > 0) {
-      return Priority.SPLEEN;
-    }
-
-    return Priority.NONE;
+  public ConcoctionType computeType() {
+    int itemId = this.getItemId();
+    if (ConsumablesDatabase.getRawFullness(name) != null) {
+      return ConcoctionType.FOOD;
+    } else if (ConsumablesDatabase.getRawInebriety(name) != null) {
+      return ConcoctionType.BOOZE;
+    } else if (ConsumablesDatabase.getRawSpleenHit(name) != null) {
+      return ConcoctionType.SPLEEN;
+    } else
+      return switch (ItemDatabase.getConsumptionType(itemId)) {
+        case FOOD_HELPER -> ConcoctionType.FOOD;
+        case DRINK_HELPER -> ConcoctionType.BOOZE;
+        case USE, USE_MULTIPLE -> forceFood.contains(itemId)
+            ? ConcoctionType.FOOD
+            : forceBooze.contains(itemId) ? ConcoctionType.BOOZE : ConcoctionType.NONE;
+        case POTION, AVATAR_POTION -> ConcoctionType.POTION;
+        default -> ConcoctionType.NONE;
+      };
   }
 
   public void setConsumptionData() {
-    this.fullness = ConsumablesDatabase.getFullness(this.name);
-    this.inebriety = ConsumablesDatabase.getInebriety(this.name);
-    this.spleenhit = ConsumablesDatabase.getSpleenHit(this.name);
+    this.setConsumptionData(ConsumablesDatabase.getConsumableByName(this.name));
+  }
 
-    this.sortOrder = getSortOrder();
+  public void setConsumptionData(Consumable consumable) {
+    this.consumable = consumable;
+
+    this.type = computeType();
 
     this.setStatGain();
   }
 
   public void setEffectName() {
-    this.effectName = Modifiers.getStringModifier("Item", this.name, "Effect");
+    this.effectName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, this.name, StringModifier.EFFECT);
   }
 
   public void setStatGain() {
     final String range =
         switch (KoLCharacter.mainStat()) {
-          case MUSCLE -> ConsumablesDatabase.getMuscleRange(this.name);
-          case MYSTICALITY -> ConsumablesDatabase.getMysticalityRange(this.name);
-          case MOXIE -> ConsumablesDatabase.getMoxieRange(this.name);
+          case MUSCLE -> ConsumablesDatabase.getStatRange(Consumable.MUSCLE, this.consumable);
+          case MYSTICALITY -> ConsumablesDatabase.getStatRange(
+              Consumable.MYSTICALITY, this.consumable);
+          case MOXIE -> ConsumablesDatabase.getStatRange(Consumable.MOXIE, this.consumable);
           default -> "+0.0";
         };
     this.mainstatGain = StringUtilities.parseDouble(range);
@@ -249,6 +262,12 @@ public class Concoction implements Comparable<Concoction> {
 
   public boolean isReagentPotion() {
     return this.isReagentPotion;
+  }
+
+  public boolean isHelper() {
+    return (this.type == ConcoctionType.FOOD && this.getRawFullness() == null)
+        || (this.type == ConcoctionType.BOOZE && this.getRawInebriety() == null)
+        || (this.type == ConcoctionType.SPLEEN && this.getRawSpleenHit() == null);
   }
 
   /*
@@ -427,12 +446,18 @@ public class Concoction implements Comparable<Concoction> {
       return -1;
     }
 
-    if (this.sortOrder != o.sortOrder) {
-      return this.sortOrder.compareTo(o.sortOrder);
+    if (this.type != o.type) {
+      return this.type.compareTo(o.type);
     }
 
-    if (this.sortOrder == Priority.NONE) {
-      return nameCheckCompare(o);
+    if (this.type == ConcoctionType.NONE) {
+      return this.nameCheckCompare(o);
+    } else if (this.type == ConcoctionType.POTION) {
+      if (Preferences.getBoolean("sortByEffect")) {
+        return this.getEffectName().compareTo(o.getEffectName());
+      } else {
+        return this.nameCheckCompare(o);
+      }
     }
 
     // Sort steel organs to the top.
@@ -442,35 +467,42 @@ public class Concoction implements Comparable<Concoction> {
       return 1;
     }
 
+    // Sort helpers to the top next.
+    if (this.isHelper()) {
+      return -1;
+    } else if (o.isHelper()) {
+      return 1;
+    }
+
     if (Preferences.getBoolean("sortByRoom")) {
       int limit;
       boolean thisCantConsume = false;
       boolean oCantConsume = false;
 
-      switch (this.sortOrder) {
+      switch (this.type) {
         case FOOD -> {
           limit =
               KoLCharacter.getFullnessLimit()
                   - KoLCharacter.getFullness()
                   - ConcoctionDatabase.getQueuedFullness();
-          thisCantConsume = this.fullness > limit;
-          oCantConsume = o.fullness > limit;
+          thisCantConsume = this.getFullness() > limit;
+          oCantConsume = o.getFullness() > limit;
         }
         case BOOZE -> {
           limit =
               KoLCharacter.getInebrietyLimit()
                   - KoLCharacter.getInebriety()
                   - ConcoctionDatabase.getQueuedInebriety();
-          thisCantConsume = this.inebriety > limit;
-          oCantConsume = o.inebriety > limit;
+          thisCantConsume = this.getInebriety() > limit;
+          oCantConsume = o.getInebriety() > limit;
         }
         case SPLEEN -> {
           limit =
               KoLCharacter.getSpleenLimit()
                   - KoLCharacter.getSpleenUse()
                   - ConcoctionDatabase.getQueuedSpleenHit();
-          thisCantConsume = this.spleenhit > limit;
-          oCantConsume = o.spleenhit > limit;
+          thisCantConsume = this.getSpleenHit() > limit;
+          oCantConsume = o.getSpleenHit() > limit;
         }
       }
 
@@ -479,29 +511,29 @@ public class Concoction implements Comparable<Concoction> {
       }
     }
 
-    double adventures1 = ConsumablesDatabase.getAdventureRange(this.name);
-    double adventures2 = ConsumablesDatabase.getAdventureRange(o.name);
+    double adventures1 = ConsumablesDatabase.getAverageAdventures(this.consumable);
+    double adventures2 = ConsumablesDatabase.getAverageAdventures(o.consumable);
 
     if (adventures1 != adventures2) {
       return adventures2 > adventures1 ? 1 : -1;
     }
 
-    int fullness1 = this.fullness;
-    int fullness2 = o.fullness;
+    int fullness1 = this.getFullness();
+    int fullness2 = o.getFullness();
 
     if (fullness1 != fullness2) {
       return fullness2 - fullness1;
     }
 
-    int inebriety1 = this.inebriety;
-    int inebriety2 = o.inebriety;
+    int inebriety1 = this.getInebriety();
+    int inebriety2 = o.getInebriety();
 
     if (inebriety1 != inebriety2) {
       return inebriety2 - inebriety1;
     }
 
-    int spleenhit1 = this.spleenhit;
-    int spleenhit2 = o.spleenhit;
+    int spleenhit1 = this.getSpleenHit();
+    int spleenhit2 = o.getSpleenHit();
 
     if (spleenhit1 != spleenhit2) {
       return spleenhit2 - spleenhit1;
@@ -549,16 +581,28 @@ public class Concoction implements Comparable<Concoction> {
     return this.price;
   }
 
+  public Integer getRawFullness() {
+    return this.consumable != null ? this.consumable.getRawFullness() : null;
+  }
+
   public int getFullness() {
-    return this.fullness;
+    return this.consumable != null ? this.consumable.getFullness() : 0;
+  }
+
+  public Integer getRawInebriety() {
+    return this.consumable != null ? this.consumable.getRawInebriety() : null;
   }
 
   public int getInebriety() {
-    return this.inebriety;
+    return this.consumable != null ? this.consumable.getInebriety() : 0;
+  }
+
+  public Integer getRawSpleenHit() {
+    return this.consumable != null ? this.consumable.getRawSpleenHit() : null;
   }
 
   public int getSpleenHit() {
-    return this.spleenhit;
+    return this.consumable != null ? this.consumable.getSpleenHit() : 0;
   }
 
   public String getEffectName() {
@@ -735,11 +779,11 @@ public class Concoction implements Comparable<Concoction> {
 
     this.allocated = 0;
 
-    if (this.speakeasy) {
-      this.initial =
-          Math.min(
-              Concoction.getAvailableMeat() / this.price,
-              3 - Preferences.getInteger("_speakeasyDrinksDrunk"));
+    if (this.speakeasy != null) {
+      boolean available = ClanLoungeRequest.availableSpeakeasyDrink(this.speakeasy);
+      int affordableNumber = Concoction.getAvailableMeat() / this.price;
+      int drinkableNumber = 3 - Preferences.getInteger("_speakeasyDrinksDrunk");
+      this.initial = available ? Math.min(affordableNumber, drinkableNumber) : 0;
       this.creatable = 0;
       this.total = this.initial;
       this.freeTotal = this.initial;
@@ -827,7 +871,7 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public void calculate2() {
-    if (this.speakeasy) {
+    if (this.speakeasy != null) {
       return;
     }
 
@@ -892,7 +936,7 @@ public class Concoction implements Comparable<Concoction> {
   // Like calculate2, but just calculates turn-free creations.
 
   public void calculate3() {
-    if (this.speakeasy) {
+    if (this.speakeasy != null) {
       return;
     }
 
@@ -1128,6 +1172,11 @@ public class Concoction implements Comparable<Concoction> {
             (turnFreeOnly
                 ? ConcoctionDatabase.turnFreeSmithingLimit
                 : ConcoctionDatabase.adventureSmithingLimit);
+      } else if (this.mixingMethod == CraftingType.COOK_FANCY) {
+        c =
+            turnFreeOnly
+                ? ConcoctionDatabase.turnFreeCookingLimit
+                : ConcoctionDatabase.cookingLimit;
       } else {
         c = (turnFreeOnly ? ConcoctionDatabase.turnFreeLimit : ConcoctionDatabase.adventureLimit);
       }
@@ -1238,7 +1287,7 @@ public class Concoction implements Comparable<Concoction> {
     return this.getAdventuresNeeded(quantityNeeded, false);
   }
 
-  public int getAdventuresNeeded(final int quantityNeeded, boolean considerInigos) {
+  public int getAdventuresNeeded(final int quantityNeeded, boolean considerFree) {
     // If we can't make this item, it costs no adventures to use
     // the quantity on hand.
     if (!ConcoctionDatabase.isPermittedMethod(this.mixingMethod, this.mixingRequirements)) {
@@ -1282,18 +1331,19 @@ public class Concoction implements Comparable<Concoction> {
       runningTotal += ingredient.getAdventuresNeeded(create);
     }
 
-    if (this.mixingMethod == CraftingType.SMITH || this.mixingMethod == CraftingType.SSMITH) {
-      return Math.max(
-          runningTotal
-              - (!considerInigos
-                  ? 0
-                  : ConcoctionDatabase.getFreeCraftingTurns()
-                      + ConcoctionDatabase.getFreeSmithingTurns()
-                      + ConcoctionDatabase.getFreeSmithJewelTurns()),
-          0);
+    if (!considerFree) {
+      return runningTotal;
     }
-    return Math.max(
-        runningTotal - (!considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns()), 0);
+
+    int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
+
+    if (this.mixingMethod == CraftingType.SMITH || this.mixingMethod == CraftingType.SSMITH) {
+      freeCrafts += ConcoctionDatabase.getFreeSmithingTurns();
+    }
+    if (this.mixingMethod == CraftingType.COOK_FANCY) {
+      freeCrafts += ConcoctionDatabase.getFreeCookingTurns();
+    }
+    return Math.max(runningTotal - freeCrafts, 0);
   }
 
   /**

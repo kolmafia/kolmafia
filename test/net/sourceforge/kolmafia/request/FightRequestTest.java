@@ -37,13 +37,15 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1312,8 +1314,8 @@ public class FightRequestTest {
         String html = html("request/test_fight_ask_hobo_to_dance.html");
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
-        var fightMods = Modifiers.getModifiers("Generated", "fightMods");
-        assertThat(fightMods.get(Modifiers.ITEMDROP), equalTo(100.0));
+        var fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
+        assertThat(fightMods.getDouble(DoubleModifier.ITEMDROP), equalTo(100.0));
       }
     }
 
@@ -1326,8 +1328,8 @@ public class FightRequestTest {
         String html = html("request/test_fight_ask_hobo_to_joke.html");
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
-        var fightMods = Modifiers.getModifiers("Generated", "fightMods");
-        assertThat(fightMods.get(Modifiers.MEATDROP), equalTo(100.0));
+        var fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
+        assertThat(fightMods.getDouble(DoubleModifier.MEATDROP), equalTo(100.0));
       }
     }
   }
@@ -1735,6 +1737,41 @@ public class FightRequestTest {
 
       try (cleanups) {
         assertTrue(FightRequest.isInvalidAttack("skill Summon Leviatuga"));
+      }
+    }
+  }
+
+  @Nested
+  class Speakeasy {
+    @BeforeEach
+    public void beforeEach() {
+      Preferences.resetToDefault("_speakeasyFreeFights");
+    }
+
+    @Test
+    public void speakeasyFreeFights() {
+      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
+      try (cleanups) {
+        parseCombatData("request/test_oliver_free.html");
+        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 1);
+      }
+    }
+
+    @Test
+    public void speakeasyHeatingUp() {
+      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
+      try (cleanups) {
+        parseCombatData("request/test_oliver_heating_up.html");
+        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
+      }
+    }
+
+    @Test
+    public void speakeasyNotFree() {
+      var cleanups = withLastLocation("An Unusually Quiet Barroom Brawl");
+      try (cleanups) {
+        parseCombatData("request/test_oliver_not_free.html");
+        assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
       }
     }
   }

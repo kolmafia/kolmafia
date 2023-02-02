@@ -8,12 +8,15 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
 
 public abstract class VioletFogManager {
+
+  private VioletFogManager() {}
+
   private static final Pattern CHOICE_PATTERN = Pattern.compile("whichchoice value=(\\d+)");
 
   // Range of choice numbers within the fog
@@ -454,11 +457,11 @@ public abstract class VioletFogManager {
     // An array of choice spoilers is the third element
     int[] choices = FogChoiceTable[choice - FIRST_CHOICE];
     var options =
-        new Option[] {
-          new Option(choiceName(choice, choices[0])),
-          new Option(choiceName(choice, choices[1])),
-          new Option(choiceName(choice, choices[2])),
-          new Option(choiceName(choice, choices[3])),
+        new ChoiceOption[] {
+          new ChoiceOption(choiceName(choice, choices[0])),
+          new ChoiceOption(choiceName(choice, choices[1])),
+          new ChoiceOption(choiceName(choice, choices[2])),
+          new ChoiceOption(choiceName(choice, choices[3])),
         };
 
     return new Spoilers(choice, name, options);
@@ -488,7 +491,7 @@ public abstract class VioletFogManager {
 
   private static String getWikiLink(int i) {
     var name = "Violet Fog" + (i == 0 ? "" : " (" + FogLocationNames[i] + ")");
-    return WikiUtilities.getWikiLocation(name, WikiUtilities.ANY_TYPE, false);
+    return WikiUtilities.getWikiLocation(name, WikiType.ANY, false);
   }
 
   private static final String[] EDGE_COLORS = {

@@ -17,6 +17,12 @@ public class PreferenceListenerRegistry extends ListenerRegistry {
     PreferenceListenerRegistry.INSTANCE.registerListener(name, listener);
   }
 
+  public static void registerPreferenceListener(final String[] names, final Listener listener) {
+    for (var name : names) {
+      registerPreferenceListener(name, listener);
+    }
+  }
+
   public static void unregisterPreferenceListener(String name, final Listener listener) {
     PreferenceListenerRegistry.INSTANCE.unregisterListener(name, listener);
   }

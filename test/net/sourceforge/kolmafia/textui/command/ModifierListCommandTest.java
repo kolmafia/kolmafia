@@ -6,9 +6,9 @@ import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.jupiter.api.Test;
 
-public class ModiferListCommandTest extends AbstractCommandTestBase {
+public class ModifierListCommandTest extends AbstractCommandTestBase {
 
-  public ModiferListCommandTest() {
+  public ModifierListCommandTest() {
     this.command = "modifies";
   }
 

@@ -7,8 +7,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -166,7 +167,7 @@ public abstract class HPRestoreItemList {
                 : KoLCharacter.getRestingHP();
     HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
     HPRestoreItemList.DISCONAP.healthPerUse =
-        KoLCharacter.hasSkill("Adventurer of Leisure") ? 40 : 20;
+        KoLCharacter.hasSkill(SkillPool.ADVENTURER_OF_LEISURE) ? 40 : 20;
     HPRestoreItemList.DOCS_UNGUENT.purchaseCost =
         QuestDatabase.isQuestFinished(Quest.DOC) ? 20 : 30;
     HPRestoreItemList.DOCS_ELIXIR.purchaseCost =
@@ -263,11 +264,9 @@ public abstract class HPRestoreItemList {
 
     @Override
     public int compareTo(final RestoreItem o) {
-      if (!(o instanceof HPRestoreItem)) {
+      if (!(o instanceof HPRestoreItem hpi)) {
         return super.compareTo(o);
       }
-
-      HPRestoreItem hpi = (HPRestoreItem) o;
 
       // Health restores are special because skills are preferred
       // over items, so test for that first.
@@ -316,8 +315,7 @@ public abstract class HPRestoreItemList {
 
       var limitMode = KoLCharacter.getLimitMode();
 
-      if (this == HPRestoreItemList.GRUB
-          && !KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_BIRD))) {
+      if (this == HPRestoreItemList.GRUB && KoLCharacter.getLimitMode() != LimitMode.BIRD) {
         return;
       }
 

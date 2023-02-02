@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -14,20 +15,32 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.Month;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class AscensionRequestTest {
   @BeforeAll
   public static void initializeCharPrefs() {
-    KoLCharacter.reset("fakePrefUser");
+    KoLCharacter.reset("AscensionRequestFakeUser");
     KoLCharacter.reset(true);
     // Fix another test not cleaning up
     FightRequest.currentRound = 0;
+    AdventureQueueDatabase.allowSerializationWrite = false;
+    AdventureSpentDatabase.allowSerializationWrite = false;
+  }
+
+  @AfterAll
+  public static void restoreWritePermissions() {
+    AdventureQueueDatabase.allowSerializationWrite = true;
+    AdventureSpentDatabase.allowSerializationWrite = true;
   }
 
   @Test
@@ -117,6 +130,7 @@ public class AscensionRequestTest {
     // Set last breakfast to -1 to mark that we've ascended as done in testAscensionsTodayTracked
     var cleanups =
         new Cleanups(
+            withDay(2023, Month.JANUARY, 2),
             withProperty("lastBreakfast", -1),
             withProperty("bankedKarma", 150),
             new Cleanups(() -> CharPaneRequest.setInValhalla(false)),
@@ -152,6 +166,7 @@ public class AscensionRequestTest {
     // Set last breakfast to -1 to mark that we've ascended as done in testAscensionsTodayTracked
     var cleanups =
         new Cleanups(
+            withDay(2023, Month.JANUARY, 2),
             withProperty("lastBreakfast", -1),
             withProperty("bankedKarma", 150),
             new Cleanups(() -> CharPaneRequest.setInValhalla(false)),

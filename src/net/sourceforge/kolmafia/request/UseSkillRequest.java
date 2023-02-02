@@ -17,6 +17,9 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -25,6 +28,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
@@ -40,8 +44,7 @@ import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UseSkillRequest extends GenericRequest implements Comparable<UseSkillRequest> {
-  private static final HashMap<Integer, UseSkillRequest> ALL_SKILLS =
-      new HashMap<Integer, UseSkillRequest>();
+  private static final HashMap<Integer, UseSkillRequest> ALL_SKILLS = new HashMap<>();
   private static final Pattern SKILLID_PATTERN = Pattern.compile("whichskill=(\\d+)");
   private static final Pattern BOOKID_PATTERN =
       Pattern.compile("preaction=(?:summon|combine)([^&]*)");
@@ -62,6 +65,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final String[] BREAKFAST_SKILLS = {
     "Advanced Cocktailcrafting",
     "Advanced Saucecrafting",
+    "Canticle of Carboloading",
     "Pastamastery",
     "Summon Crimbo Candy",
     "Lunch Break",
@@ -75,7 +79,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     "Prevent Scurvy and Sobriety",
     "Bowl Full of Jelly",
     "Eye and a Twist",
-    "Chubby and Plump",
+    "Chubby and Plump"
   };
 
   // These are skills where someone would not care if they are in-run,
@@ -309,83 +313,29 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   private void addFormFields() {
     switch (this.skillId) {
-      case SkillPool.SNOWCONE:
-        this.addFormField("preaction", "summonsnowcone");
-        break;
-
-      case SkillPool.STICKER:
-        this.addFormField("preaction", "summonstickers");
-        break;
-
-      case SkillPool.SUGAR:
-        this.addFormField("preaction", "summonsugarsheets");
-        break;
-
-      case SkillPool.CLIP_ART:
-        this.addFormField("preaction", "combinecliparts");
-        break;
-
-      case SkillPool.RAD_LIB:
-        this.addFormField("preaction", "summonradlibs");
-        break;
-
-      case SkillPool.SMITHSNESS:
-        this.addFormField("preaction", "summonsmithsness");
-        break;
-
-      case SkillPool.HILARIOUS:
-        this.addFormField("preaction", "summonhilariousitems");
-        break;
-
-      case SkillPool.TASTEFUL:
-        this.addFormField("preaction", "summonspencersitems");
-        break;
-
-      case SkillPool.CARDS:
-        this.addFormField("preaction", "summonaa");
-        break;
-
-      case SkillPool.GEEKY:
-        this.addFormField("preaction", "summonthinknerd");
-        break;
-
-      case SkillPool.CANDY_HEART:
-        this.addFormField("preaction", "summoncandyheart");
-        break;
-
-      case SkillPool.PARTY_FAVOR:
-        this.addFormField("preaction", "summonpartyfavor");
-        break;
-
-      case SkillPool.LOVE_SONG:
-        this.addFormField("preaction", "summonlovesongs");
-        break;
-
-      case SkillPool.BRICKOS:
-        this.addFormField("preaction", "summonbrickos");
-        break;
-
-      case SkillPool.DICE:
-        this.addFormField("preaction", "summongygax");
-        break;
-
-      case SkillPool.RESOLUTIONS:
-        this.addFormField("preaction", "summonresolutions");
-        break;
-
-      case SkillPool.TAFFY:
-        this.addFormField("preaction", "summontaffy");
-        break;
-
-      case SkillPool.CONFISCATOR:
-        this.addFormField("preaction", "summonconfiscators");
-        break;
-
-      default:
+      case SkillPool.SNOWCONE -> this.addFormField("preaction", "summonsnowcone");
+      case SkillPool.STICKER -> this.addFormField("preaction", "summonstickers");
+      case SkillPool.SUGAR -> this.addFormField("preaction", "summonsugarsheets");
+      case SkillPool.CLIP_ART -> this.addFormField("preaction", "combinecliparts");
+      case SkillPool.RAD_LIB -> this.addFormField("preaction", "summonradlibs");
+      case SkillPool.SMITHSNESS -> this.addFormField("preaction", "summonsmithsness");
+      case SkillPool.HILARIOUS -> this.addFormField("preaction", "summonhilariousitems");
+      case SkillPool.TASTEFUL -> this.addFormField("preaction", "summonspencersitems");
+      case SkillPool.CARDS -> this.addFormField("preaction", "summonaa");
+      case SkillPool.GEEKY -> this.addFormField("preaction", "summonthinknerd");
+      case SkillPool.CANDY_HEART -> this.addFormField("preaction", "summoncandyheart");
+      case SkillPool.PARTY_FAVOR -> this.addFormField("preaction", "summonpartyfavor");
+      case SkillPool.LOVE_SONG -> this.addFormField("preaction", "summonlovesongs");
+      case SkillPool.BRICKOS -> this.addFormField("preaction", "summonbrickos");
+      case SkillPool.DICE -> this.addFormField("preaction", "summongygax");
+      case SkillPool.RESOLUTIONS -> this.addFormField("preaction", "summonresolutions");
+      case SkillPool.TAFFY -> this.addFormField("preaction", "summontaffy");
+      case SkillPool.CONFISCATOR -> this.addFormField("preaction", "summonconfiscators");
+      default -> {
         this.addFormField("action", "Skillz");
         this.addFormField("whichskill", String.valueOf(this.skillId));
         this.addFormField("ajax", "1");
-        break;
+      }
     }
   }
 
@@ -474,8 +424,12 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   private static final AdventureResult TAINTED_LOVE_POTION =
       EffectPool.get(EffectPool.TAINTED_LOVE_POTION);
 
+  public boolean isEffective() {
+    return !KoLCharacter.inGLover() || KoLCharacter.hasGs(this.getSkillName());
+  }
+
   public long getMaximumCast() {
-    if (KoLCharacter.inGLover() && !KoLCharacter.hasGs(this.getSkillName())) {
+    if (!isEffective()) {
       return 0;
     }
 
@@ -583,13 +537,17 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         return 1;
 
       case SkillPool.CALCULATE_THE_UNIVERSE:
-        if (KoLCharacter.getAdventuresLeft() == 0) {
-          return 0;
+        {
+          if (KoLCharacter.getAdventuresLeft() == 0) {
+            return 0;
+          }
+          int skillLevel = Preferences.getInteger("skillLevel144");
+          if (!KoLCharacter.canInteract()) {
+            skillLevel = Math.min(skillLevel, 3);
+          }
+          int casts = Preferences.getInteger("_universeCalculated");
+          return Math.max(skillLevel - casts, 0);
         }
-        return Preferences.getInteger("skillLevel144")
-                > Preferences.getInteger("_universeCalculated")
-            ? 1
-            : 0;
 
       case SkillPool.ANCESTRAL_RECALL:
         return Math.min(
@@ -832,8 +790,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           }
         }
       }
-      case SkillPool.SWEAT_OUT_BOOZE,
-          SkillPool.MAKE_SWEATADE,
+      case SkillPool.MAKE_SWEATADE,
           SkillPool.DRENCH_YOURSELF_IN_SWEAT,
           SkillPool.SIP_SOME_SWEAT -> {
         AdventureResult item = UseSkillRequest.DESIGNER_SWEATPANTS;
@@ -864,28 +821,30 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     Speculation spec_old = new Speculation();
-    int[] predictions_old = spec_old.calculate().predict();
+    var predictions_old = spec_old.calculate().predict();
 
     Speculation spec = new Speculation();
     spec.equip(slotId, newItem);
-    int[] predictions = spec.calculate().predict();
+    var predictions = spec.calculate().predict();
 
     double MPgap = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
-    double deltaMP = predictions[Modifiers.BUFFED_MP] - predictions_old[Modifiers.BUFFED_MP];
+    double deltaMP =
+        predictions.get(DerivedModifier.BUFFED_MP) - predictions_old.get(DerivedModifier.BUFFED_MP);
     // Make sure we do not lose mp in the switch
     if (MPgap + deltaMP < 0) {
       return false;
     }
     // Make sure we do not reduce max hp in the switch, to avoid loops when casting a heal
-    if (predictions_old[Modifiers.BUFFED_HP] > predictions[Modifiers.BUFFED_HP]) {
+    if (predictions_old.get(DerivedModifier.BUFFED_HP)
+        > predictions.get(DerivedModifier.BUFFED_HP)) {
       return false;
     }
     // Don't allow if we'd lose a song in the switch
     Modifiers mods = spec.getModifiers();
     int predictedSongLimit =
         3
-            + (int) mods.get(Modifiers.ADDITIONAL_SONG)
-            + (mods.getBoolean(Modifiers.ADDITIONAL_SONG) ? 1 : 0);
+            + (int) mods.getDouble(DoubleModifier.ADDITIONAL_SONG)
+            + (mods.getBoolean(BooleanModifier.FOUR_SONGS) ? 1 : 0);
     int predictedSongsNeeded =
         UseSkillRequest.songsActive() + (UseSkillRequest.newSong(skillId) ? 1 : 0);
     if (predictedSongsNeeded > predictedSongLimit) {
@@ -937,7 +896,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     for (int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length - AVOID_REMOVAL_ONLY; ++i) {
       // If you can't reduce cost further, stop
-      if (mpCost == 1 || KoLCharacter.currentNumericModifier(Modifiers.MANA_COST) <= -3) {
+      if (mpCost == 1 || KoLCharacter.currentNumericModifier(DoubleModifier.MANA_COST) <= -3) {
         return;
       }
 
@@ -959,7 +918,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           continue;
         }
       } else if (item.getItemId() == ItemPool.KREMLIN_BRIEFCASE) {
-        if (Modifiers.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE).get(Modifiers.MANA_COST) == 0) {
+        if (ModifierDatabase.getItemModifiers(ItemPool.KREMLIN_BRIEFCASE)
+                .getDouble(DoubleModifier.MANA_COST)
+            == 0) {
           continue;
         }
       }
@@ -992,11 +953,11 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   public static final int songLimit() {
     int rv = 3;
-    if (KoLCharacter.currentBooleanModifier(Modifiers.FOUR_SONGS)) {
+    if (KoLCharacter.currentBooleanModifier(BooleanModifier.FOUR_SONGS)) {
       ++rv;
     }
 
-    rv += (int) KoLCharacter.currentNumericModifier(Modifiers.ADDITIONAL_SONG);
+    rv += (int) KoLCharacter.currentNumericModifier(DoubleModifier.ADDITIONAL_SONG);
 
     return rv;
   }
@@ -1110,7 +1071,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     if (this.skillId == SkillPool.SHAKE_IT_OFF
-        || (this.skillId == SkillPool.BITE_MINION && KoLCharacter.hasSkill("Devour Minions"))) {
+        || (this.skillId == SkillPool.BITE_MINION
+            && KoLCharacter.hasSkill(SkillPool.DEVOUR_MINIONS))) {
       boolean cursed =
           KoLConstants.activeEffects.contains(UseSkillRequest.ONCE_CURSED)
               || KoLConstants.activeEffects.contains(UseSkillRequest.TWICE_CURSED)
@@ -1289,19 +1251,19 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       // the skill is able to restore.
 
       switch (this.skillId) {
-        case SkillPool.WALRUS_TONGUE:
-        case SkillPool.DISCO_NAP:
-        case SkillPool.BANDAGES:
-        case SkillPool.COCOON:
-        case SkillPool.SHAKE_IT_OFF:
-        case SkillPool.GELATINOUS_RECONSTRUCTION:
+        case SkillPool.WALRUS_TONGUE,
+            SkillPool.DISCO_NAP,
+            SkillPool.BANDAGES,
+            SkillPool.COCOON,
+            SkillPool.SHAKE_IT_OFF,
+            SkillPool.GELATINOUS_RECONSTRUCTION -> {
           int healthRestored = HPRestoreItemList.getHealthRestored(this.skillName);
           long maxPossible =
               Math.max(
                   1, (KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP()) / healthRestored);
           castsRemaining = Math.min(castsRemaining, maxPossible);
           currentCast = Math.min(currentCast, castsRemaining);
-          break;
+        }
       }
 
       currentCast = Math.min(Math.min(currentCast, maximumCast), castsPerIteration);
@@ -1586,6 +1548,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     return UseSkillRequest.getInstance(skillId, null, 0);
   }
 
+  public static final UseSkillRequest getInstance(final int skillId, final int buffCount) {
+    return UseSkillRequest.getInstance(skillId, null, buffCount);
+  }
+
   public static final UseSkillRequest getInstance(
       final String skillName, final String target, final int buffCount) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
@@ -1593,6 +1559,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   }
 
   public static final UseSkillRequest getInstance(String skillName) {
+    // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
     return UseSkillRequest.getInstance(skillName, null, 0);
   }
 
@@ -1775,8 +1742,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       if (limitedMatcher.find()) {
         // parse the number of casts remaining and set the appropriate preference.
         int casts = Integer.parseInt(limitedMatcher.group(1));
-
-        limit.set(casts);
+        // We will increment this later. For now, just synch with KoL.
+        limit.set(casts - count);
       }
     }
 

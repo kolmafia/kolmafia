@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -14,14 +15,18 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -29,6 +34,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.OneResultPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
@@ -52,12 +58,13 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Maximizer {
   private static boolean firstTime = true;
 
-  public static final LockableListModel<Boost> boosts = new LockableListModel<Boost>();
+  public static final LockableListModel<Boost> boosts = new LockableListModel<>();
   public static Evaluator eval;
 
   public static String[] maximizationCategories = {
@@ -95,7 +102,7 @@ public class Maximizer {
     }
 
     Modifiers mods = Maximizer.best.calculate();
-    Modifiers.overrideModifier("Generated:_spec", mods);
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
     return !Maximizer.best.failed;
   }
@@ -194,11 +201,12 @@ public class Maximizer {
       return;
     }
 
-    for (String lookup : Modifiers.getAllModifiers()) {
-      // Include skills from absorbing items in Noobcore
-      if (KoLCharacter.inNoobcore() && lookup.startsWith("Skill:")) {
-        String name = lookup.substring(6);
-        int skillId = SkillDatabase.getSkillId(name);
+    // Include skills from absorbing items in Noobcore
+    if (KoLCharacter.inNoobcore()) {
+      for (Map.Entry<IntOrString, String> entry :
+          ModifierDatabase.getAllModifiersOfType(ModifierType.SKILL)) {
+        if (!entry.getKey().isInt()) continue;
+        int skillId = entry.getKey().getIntValue();
         if (skillId < 23001 || skillId > 23125) {
           continue;
         }
@@ -210,7 +218,7 @@ public class Maximizer {
           continue;
         }
         MaximizerSpeculation spec = new MaximizerSpeculation();
-        String mods = Modifiers.getModifierList("Skill", name).toString();
+        String mods = entry.getValue();
         spec.setCustom(mods);
         double delta = spec.getScore() - current;
         if (delta <= 0.0) {
@@ -236,10 +244,12 @@ public class Maximizer {
           count++;
         }
       }
+
       // Include enchantments from absorbing equipment in Noobcore
-      else if (KoLCharacter.inNoobcore() && lookup.startsWith("Item:")) {
-        String name = lookup.substring(5);
-        int itemId = ItemDatabase.getItemId(name);
+      for (Map.Entry<IntOrString, String> entry :
+          ModifierDatabase.getAllModifiersOfType(ModifierType.ITEM)) {
+        if (!entry.getKey().isInt()) continue;
+        int itemId = entry.getKey().getIntValue();
         int absorbsLeft = KoLCharacter.getAbsorbsLimit() - KoLCharacter.getAbsorbs();
         if (absorbsLeft < 1) {
           continue;
@@ -257,22 +267,22 @@ public class Maximizer {
           continue;
         }
         MaximizerSpeculation spec = new MaximizerSpeculation();
-        Modifiers itemMods = Modifiers.getItemModifiers(itemId);
+        Modifiers itemMods = ModifierDatabase.getItemModifiers(itemId);
         if (itemMods == null) {
           continue;
         }
         // Only take numeric modifiers, and not Surgeonosity, from Items in Noobcore
         StringBuilder mods = new StringBuilder();
-        for (int j = 0; j < Modifiers.DOUBLE_MODIFIERS; ++j) {
-          switch (j) {
-            case Modifiers.SURGEONOSITY:
+        for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+          switch (mod) {
+            case SURGEONOSITY:
               continue;
           }
-          if (itemMods.get(j) != 0.0) {
+          if (itemMods.getDouble(mod) != 0.0) {
             if (mods.length() > 0) {
               mods.append(", ");
             }
-            mods.append(Modifiers.getModifierName(j) + ": " + itemMods.get(j));
+            mods.append(mod.getName() + ": " + itemMods.getDouble(mod));
           }
         }
         if (mods.length() == 0) {
@@ -309,16 +319,19 @@ public class Maximizer {
         text = text + "]";
         Maximizer.boosts.add(new Boost(cmd, text, ItemPool.get(itemId), delta));
       }
+    }
 
-      if (lookup.startsWith("Horsery:")
-          && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+    if (filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+      for (Map.Entry<IntOrString, String> entry :
+          ModifierDatabase.getAllModifiersOfType(ModifierType.HORSERY)) {
+        if (!entry.getKey().isString()) continue;
+        String name = entry.getKey().getStringValue();
         // Must be available in your current path
         if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Horsery contract")) {
           continue;
         }
         String cmd, text;
         int price = 0;
-        String name = lookup.substring(8);
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.setHorsery(name);
         double delta = spec.getScore() - current;
@@ -346,10 +359,11 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, name, delta));
       }
 
-      if (lookup.startsWith("BoomBox:")
-          && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+      for (Map.Entry<IntOrString, String> entry :
+          ModifierDatabase.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
+        if (!entry.getKey().isString()) continue;
+        String name = entry.getKey().getStringValue();
         String cmd, text;
-        String name = lookup.substring(8);
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.setBoomBox(name);
         double delta = spec.getScore() - current;
@@ -378,12 +392,12 @@ public class Maximizer {
         }
         Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
       }
+    }
 
-      if (!lookup.startsWith("Effect:")) {
-        continue;
-      }
-      String name = lookup.substring(7);
-      int effectId = EffectDatabase.getEffectId(name);
+    for (Map.Entry<IntOrString, String> entry :
+        ModifierDatabase.getAllModifiersOfType(ModifierType.EFFECT)) {
+      if (!entry.getKey().isInt()) continue;
+      int effectId = entry.getKey().getIntValue();
       if (effectId == -1) {
         continue;
       }
@@ -392,21 +406,21 @@ public class Maximizer {
       boolean isSpecial = false;
       MaximizerSpeculation spec = new MaximizerSpeculation();
       AdventureResult effect = EffectPool.get(effectId);
-      name = effect.getName();
+      String name = effect.getName();
       boolean hasEffect = KoLConstants.activeEffects.contains(effect);
       Iterator<String> sources;
 
       if (!hasEffect) {
         spec.addEffect(effect);
         delta = spec.getScore() - current;
-        if ((spec.getModifiers().getRawBitmap(Modifiers.MUTEX_VIOLATIONS)
-                & ~KoLCharacter.currentRawBitmapModifier(Modifiers.MUTEX_VIOLATIONS))
+        if ((spec.getModifiers().getRawBitmap(BitmapModifier.MUTEX_VIOLATIONS)
+                & ~KoLCharacter.currentRawBitmapModifier(BitmapModifier.MUTEX_VIOLATIONS))
             != 0) { // This effect creates a mutex problem that the player
           // didn't already have.  In the future, perhaps suggest
           // uneffecting the conflicting effect, but for now just skip.
           continue;
         }
-        switch (Maximizer.eval.checkConstraints(Modifiers.getEffectModifiers(effectId))) {
+        switch (Maximizer.eval.checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
           case -1:
             continue;
           case 0:
@@ -427,7 +441,7 @@ public class Maximizer {
       } else {
         spec.removeEffect(effect);
         delta = spec.getScore() - current;
-        switch (Maximizer.eval.checkConstraints(Modifiers.getEffectModifiers(effectId))) {
+        switch (Maximizer.eval.checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
           case 1:
             continue;
           case 0:
@@ -571,9 +585,9 @@ public class Maximizer {
               continue;
             }
 
-            Modifiers effMod = Modifiers.getItemModifiers(item.getItemId());
+            Modifiers effMod = ModifierDatabase.getItemModifiers(item.getItemId());
             if (effMod != null) {
-              duration = (int) effMod.get(Modifiers.EFFECT_DURATION);
+              duration = (int) effMod.getDouble(DoubleModifier.EFFECT_DURATION);
             }
           }
           // Hot Dogs don't have items
@@ -606,9 +620,9 @@ public class Maximizer {
                 && Preferences.getBoolean("_fancyHotDogEaten")) {
               continue;
             } else {
-              Modifiers effMod = Modifiers.getModifiers("Item", iName);
+              Modifiers effMod = ModifierDatabase.getModifiers(ModifierType.ITEM, iName);
               if (effMod != null) {
-                duration = (int) effMod.get(Modifiers.EFFECT_DURATION);
+                duration = (int) effMod.getDouble(DoubleModifier.EFFECT_DURATION);
               }
               usesRemaining = 1;
             }
@@ -634,14 +648,14 @@ public class Maximizer {
             continue;
           }
 
-          UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillName);
           int skillId = SkillDatabase.getSkillId(skillName);
+          UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
 
           if (skill != null) {
             usesRemaining = skill.getMaximumCast();
           }
 
-          if (!KoLCharacter.hasSkill(skillName) || usesRemaining == 0) {
+          if (!KoLCharacter.hasSkill(skillId) || usesRemaining == 0) {
             if (includeAll) {
               boolean isBuff = SkillDatabase.isBuff(skillId);
               text = "(learn to " + cmd + (isBuff ? ", or get it from a buffbot)" : ")");
@@ -667,7 +681,7 @@ public class Maximizer {
             continue;
           }
           // You must know the skill
-          if (!KoLCharacter.hasSkill("Sweet Synthesis")) {
+          if (!KoLCharacter.hasSkill(SkillPool.SWEET_SYNTHESIS)) {
             if (includeAll) {
               text = "(learn the Sweet Synthesis skill)";
               cmd = "";
@@ -1001,13 +1015,13 @@ public class Maximizer {
             text = "(equip Greatest American Pants for " + name + ")";
             cmd = "";
           }
-          if (name.equals("Super Skill")) {
-            duration = 5;
-          } else if (name.equals("Super Structure") || name.equals("Super Accuracy")) {
-            duration = 10;
-          } else if (name.equals("Super Vision") || name.equals("Super Speed")) {
-            duration = 20;
-          }
+          duration =
+              switch (name) {
+                case "Super Skill" -> 5;
+                case "Super Structure", "Super Accuracy" -> 10;
+                case "Super Vision", "Super Speed" -> 20;
+                default -> duration;
+              };
           usesRemaining = 5 - Preferences.getInteger("_gapBuffs");
         } else if (cmd.startsWith("spacegate")) {
           if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")) {
@@ -1680,15 +1694,14 @@ public class Maximizer {
         if (!method.equals("have")) {
           text = method + " & " + text;
         }
-        if (method.equals("uncloset")) {
-          cmd = "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
-        } else if (method.equals("unstash")) {
-          cmd = "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
-        }
-        // Should be only hitting this after Ronin I think
-        else if (method.equals("pull")) {
-          cmd = "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
-        }
+        cmd =
+            switch (method) {
+              case "uncloset" -> "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
+              case "unstash" -> "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
+                // Should be only hitting this after Ronin I think
+              case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
+              default -> cmd;
+            };
       } else if (checkedItem.creatable + checkedItem.initial > count) {
         text = "make & " + text;
         cmd = "make \u00B6" + item.getItemId() + ";" + cmd;
@@ -1762,13 +1775,13 @@ public class Maximizer {
   }
 
   private static boolean excludedTCRSItem(int itemId) {
-    switch (itemId) {
-      case ItemPool.DIETING_PILL:
-        // Doubles adventures and stats from next food.  Also
-        // doubles fullness - which can be a surprise.
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.DIETING_PILL ->
+      // Doubles adventures and stats from next food.  Also
+      // doubles fullness - which can be a surprise.
+      true;
+      default -> false;
+    };
   }
 
   private static class Makeable {

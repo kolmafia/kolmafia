@@ -43,6 +43,10 @@ public class LoginManager {
 
   public static void login(String username) {
     try {
+      if (!KoLmafia.acquireFileLock(Preferences.baseUserName(username))) {
+        // acquireFileLock should call updateDisplay with a more detailed error message.
+        return;
+      }
       KoLmafia.forceContinue();
       LoginManager.doLogin(username);
     } catch (Exception e) {

@@ -168,8 +168,7 @@ public abstract class MallPriceManager {
     Iterator<PurchaseRequest> i = search.iterator();
     while (i.hasNext()) {
       PurchaseRequest purchase = i.next();
-      if (purchase instanceof MallPurchaseRequest) {
-        MallPurchaseRequest mallPurchase = (MallPurchaseRequest) purchase;
+      if (purchase instanceof MallPurchaseRequest mallPurchase) {
         if (shopId == mallPurchase.getShopId()) {
           i.remove();
           MallPriceManager.updateMallPrice(itemId, search);
@@ -290,7 +289,7 @@ public abstract class MallPriceManager {
 
     if (itemId <= 0) {
       // This should not happen.
-      return new ArrayList<PurchaseRequest>();
+      return new ArrayList<>();
     }
 
     Integer id = itemId;
@@ -311,6 +310,11 @@ public abstract class MallPriceManager {
 
     if (KoLmafia.permitsContinue()) {
       MallPriceManager.mallSearches.put(id, results);
+      // searchMall will have saved the mall price if we got any results back (otherwise it
+      // doesn't know the item ID). If no results, we should save it ourselves (as -1) here.
+      if (results.size() == 0) {
+        MallPriceManager.updateMallPrice(itemId, results);
+      }
     }
 
     return results;
@@ -484,8 +488,7 @@ public abstract class MallPriceManager {
 
     if (price == 0) {
       AdventureResult search = ItemPool.get(itemId, NTH_CHEAPEST_COUNT);
-      List<PurchaseRequest> results = MallPriceManager.searchMall(search);
-      MallPriceManager.updateMallPrice(itemId, results);
+      MallPriceManager.searchMall(search);
       price = MallPriceManager.mallPrices.getOrDefault(itemId, 0);
     }
 

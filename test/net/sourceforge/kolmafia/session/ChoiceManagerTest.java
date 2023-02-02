@@ -7,6 +7,7 @@ import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,11 +20,14 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -32,6 +36,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class ChoiceManagerTest {
 
@@ -219,6 +225,36 @@ public class ChoiceManagerTest {
     }
 
     @Test
+    public void canRedirectToChoiceWithoutForceOption() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("lastEncounter", "No Sects in the Potion Room"),
+              withHandlingChoice(false));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php")), "");
+        client.addResponse(200, html("request/test_leave_reincarnation.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.MT_MOLEHILL);
+        request.run();
+
+        assertThat(KoLConstants.encounterList.size(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getCount(), is(1));
+        assertThat(KoLConstants.encounterList.get(0).getName(), is("Welcome Back!"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0), "/adventure.php", "snarfblat=" + AdventurePool.MT_MOLEHILL);
+        assertGetRequest(requests.get(1), "/choice.php", null);
+      }
+    }
+
+    @Test
     public void canProcessChoiceInGenericRequest() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
@@ -338,6 +374,84 @@ public class ChoiceManagerTest {
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(3), "/place.php", "whichplace=gingerbreadcity&pwd=refresh");
         assertGetRequest(requests.get(4), "/choice.php", null);
+      }
+    }
+  }
+
+  @Nested
+  class SlaggingOff {
+    private static final AdventureResult SHARDS = ItemPool.get(ItemPool.CRIMBO_CRYSTAL_SHARDS, 1);
+    private static final AdventureResult GOBLET = ItemPool.get(ItemPool.CRYSTAL_CRIMBO_GOBLET, 1);
+    private static final AdventureResult PLATTER = ItemPool.get(ItemPool.CRYSTAL_CRIMBO_PLATTER, 1);
+
+    private static final int SLAGGING_OFF = 1489;
+    private static final String property = "choiceAdventure1489";
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void noCrystalShardsAlwaysTakesOption3(int decision) {
+      var cleanups = new Cleanups(withProperty(property, decision));
+      try (cleanups) {
+        String NO_SHARDS = html("request/test_slagging_off_no_shards.html");
+        int option = ChoiceManager.getDecision(SLAGGING_OFF, NO_SHARDS);
+        assertEquals(3, option);
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2})
+    public void crystalShardsWithSpecificGoalSelectsCorrectChoice(int decision) {
+      var cleanups = new Cleanups(withProperty(property, decision), withItem(SHARDS));
+      try (cleanups) {
+        String ONE_SHARD = html("request/test_slagging_off_one_shard.html");
+        int option = ChoiceManager.getDecision(SLAGGING_OFF, ONE_SHARD);
+        assertEquals(decision, option);
+      }
+    }
+
+    @Test
+    public void crystalShardsWillSelectGoblet() {
+      var cleanups =
+          new Cleanups(
+              withProperty(property, 3),
+              withItem(SHARDS),
+              withItem(GOBLET.getInstance(1)),
+              withItem(PLATTER.getInstance(2)));
+      try (cleanups) {
+        String ONE_SHARD = html("request/test_slagging_off_one_shard.html");
+        int option = ChoiceManager.getDecision(SLAGGING_OFF, ONE_SHARD);
+        assertEquals(1, option);
+      }
+    }
+
+    @Test
+    public void crystalShardsWillSelectPlatter() {
+      var cleanups =
+          new Cleanups(
+              withProperty(property, 3),
+              withItem(SHARDS),
+              withItem(GOBLET.getInstance(2)),
+              withItem(PLATTER.getInstance(1)));
+      try (cleanups) {
+        String ONE_SHARD = html("request/test_slagging_off_one_shard.html");
+        int option = ChoiceManager.getDecision(SLAGGING_OFF, ONE_SHARD);
+        assertEquals(2, option);
+      }
+    }
+
+    @Test
+    public void crystalShardsWillSelectEitherGobletOrPlatter() {
+      var cleanups =
+          new Cleanups(
+              withProperty(property, 3),
+              withItem(SHARDS),
+              withItem(GOBLET.getInstance(1)),
+              withItem(PLATTER.getInstance(1)));
+      try (cleanups) {
+        String ONE_SHARD = html("request/test_slagging_off_one_shard.html");
+        int option = ChoiceManager.getDecision(SLAGGING_OFF, ONE_SHARD);
+        // Always returns 1 so choice spoilers in the relay browser work.
+        assertEquals(1, option);
       }
     }
   }

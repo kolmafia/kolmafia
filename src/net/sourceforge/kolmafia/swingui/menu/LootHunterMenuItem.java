@@ -77,15 +77,9 @@ public class LootHunterMenuItem extends ThreadedMenuItem {
       }
 
       switch (wrapper.getChoice()) {
-        case 1:
-          RequestThread.postRequest(new BountyHunterHunterRequest("takelow"));
-          break;
-        case 2:
-          RequestThread.postRequest(new BountyHunterHunterRequest("takehigh"));
-          break;
-        case 3:
-          RequestThread.postRequest(new BountyHunterHunterRequest("takespecial"));
-          break;
+        case 1 -> RequestThread.postRequest(new BountyHunterHunterRequest("takelow"));
+        case 2 -> RequestThread.postRequest(new BountyHunterHunterRequest("takehigh"));
+        case 3 -> RequestThread.postRequest(new BountyHunterHunterRequest("takespecial"));
       }
     }
   }

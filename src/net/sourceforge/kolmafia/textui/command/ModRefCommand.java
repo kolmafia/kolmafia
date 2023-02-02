@@ -1,8 +1,14 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
 public class ModRefCommand extends AbstractCommand {
   public ModRefCommand() {
@@ -11,28 +17,28 @@ public class ModRefCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    Modifiers mods = Modifiers.getModifiers("Item", parameters);
+    Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, parameters);
     String colSpan = mods == null ? "2" : "3";
     StringBuilder buf =
         new StringBuilder(
             "<table border=2>" + "<tr><td colspan=" + colSpan + ">NUMERIC MODIFIERS</td></tr>");
-    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; i++) {
-      String mod = Modifiers.getModifierName(i);
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+      String modName = mod.getName();
       buf.append("<tr><td>");
-      buf.append(mod);
+      buf.append(modName);
       buf.append("</td><td>");
       buf.append(KoLCharacter.currentNumericModifier(mod));
       if (mods != null) {
         buf.append("</td><td>");
-        buf.append(mods.get(mod));
+        buf.append(mods.getDouble(mod));
       }
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">BITMAP MODIFIERS</td></tr>");
-    for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; i++) {
-      String mod = Modifiers.getBitmapModifierName(i);
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      String modName = mod.getName();
       buf.append("<tr><td>");
-      buf.append(mod);
+      buf.append(modName);
       buf.append("</td><td>0x");
       buf.append(Integer.toHexString(KoLCharacter.currentRawBitmapModifier(mod)));
       buf.append(" (");
@@ -48,28 +54,28 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">BOOLEAN MODIFIERS</td></tr>");
-    for (int i = 0; i < Modifiers.BOOLEAN_MODIFIERS; i++) {
-      String mod = Modifiers.getBooleanModifierName(i);
+    for (var modifier : BooleanModifier.BOOLEAN_MODIFIERS) {
+      String mod = modifier.getName();
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>");
-      buf.append(KoLCharacter.currentBooleanModifier(mod));
+      buf.append(KoLCharacter.currentBooleanModifier(modifier));
       if (mods != null) {
         buf.append("</td><td>");
-        buf.append(mods.getBoolean(mod));
+        buf.append(mods.getBoolean(modifier));
       }
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">STRING MODIFIERS</td></tr>");
-    for (int i = 0; i < Modifiers.STRING_MODIFIERS; i++) {
-      String mod = Modifiers.getStringModifierName(i);
+    for (var modifier : StringModifier.STRING_MODIFIERS) {
+      String mod = modifier.getName();
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>");
-      buf.append(KoLCharacter.currentStringModifier(mod).replaceAll("\t", "<br>"));
+      buf.append(KoLCharacter.currentStringModifier(modifier).replaceAll("\t", "<br>"));
       if (mods != null) {
         buf.append("</td><td>");
-        buf.append(mods.getString(mod));
+        buf.append(mods.getString(modifier));
       }
       buf.append("</td></tr>");
     }

@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -54,6 +55,7 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
@@ -651,9 +653,9 @@ public class RequestEditorKit extends HTMLEditorKit {
       if (newLevel % 3 == 0) {
         links.append(" [<a href=\"/place.php?whichplace=edbase&action=edbase_door\">servant</a>]");
       } else {
-        if (KoLCharacter.hasSkill("Bounty of Renenutet")
-            && KoLCharacter.hasSkill("Wrath of Ra")
-            && KoLCharacter.hasSkill("Curse of Stench")) {
+        if (KoLCharacter.hasSkill(SkillPool.BOUNTY_OF_RENENUTET)
+            && KoLCharacter.hasSkill(SkillPool.WRATH_OF_RA)
+            && KoLCharacter.hasSkill(SkillPool.CURSE_OF_STENCH)) {
           links.append(
               " [<a href=\"/place.php?whichplace=edbase&action=edbase_door\">servant xp</a>]");
         } else {
@@ -1149,15 +1151,10 @@ public class RequestEditorKit extends HTMLEditorKit {
       String group = omatcher.group(1);
       String options = omatcher.group(2);
       switch (group) {
-        case "Normal Outfits":
-          addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
-          break;
-        case "Custom Outfits":
-          addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
-          break;
-        case "Automatic Outfits":
-          addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
-          break;
+        case "Normal Outfits" -> addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
+        case "Custom Outfits" -> addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
+        case "Automatic Outfits" -> addOutfitGroup(
+            obuffer, "outfit3", "Automatic", "an automatic", options);
       }
     }
 
@@ -1279,28 +1276,34 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
     }
 
-    Matcher matcher = DwarfFactoryRequest.attackMessage(buffer);
-    if (matcher != null) {
-      int attack = DwarfFactoryRequest.deduceAttack(matcher);
-      buffer.insert(matcher.end(), "<p>(Attack rating = " + attack + ")</p>");
+    if (KoLCharacter.hasEquipped(ItemPool.DWARVISH_WAR_HELMET)) {
+      Matcher matcher = DwarfFactoryRequest.attackMessage(buffer);
+      if (matcher != null) {
+        int attack = DwarfFactoryRequest.deduceAttack(matcher);
+        buffer.insert(matcher.end(), "<p>(Attack rating = " + attack + ")</p>");
+      }
     }
 
-    matcher = DwarfFactoryRequest.defenseMessage(buffer);
-    if (matcher != null) {
-      int defense = DwarfFactoryRequest.deduceDefense(matcher);
-      buffer.insert(matcher.end(), "<p>(Defense rating = " + defense + ")</p>");
+    if (KoLCharacter.hasEquipped(ItemPool.DWARVISH_WAR_KILT)) {
+      Matcher matcher = DwarfFactoryRequest.defenseMessage(buffer);
+      if (matcher != null) {
+        int defense = DwarfFactoryRequest.deduceDefense(matcher);
+        buffer.insert(matcher.end(), "<p>(Defense rating = " + defense + ")</p>");
+      }
     }
 
-    matcher = DwarfFactoryRequest.hpMessage(buffer);
-    if (matcher != null) {
-      // Must iterate over a copy of the buffer, since we'll be modifying it
-      matcher = DwarfFactoryRequest.hpMessage(buffer.toString());
-      buffer.setLength(0);
-      do {
-        int hp = DwarfFactoryRequest.deduceHP(matcher);
-        matcher.appendReplacement(buffer, "$0<p>(Hit Points = " + hp + ")</p>");
-      } while (matcher.find());
-      matcher.appendTail(buffer);
+    if (KoLCharacter.hasEquipped((ItemPool.DWARVISH_WAR_MATTOCK))) {
+      Matcher matcher = DwarfFactoryRequest.hpMessage(buffer);
+      if (matcher != null) {
+        // Must iterate over a copy of the buffer, since we'll be modifying it
+        matcher = DwarfFactoryRequest.hpMessage(buffer.toString());
+        buffer.setLength(0);
+        do {
+          int hp = DwarfFactoryRequest.deduceHP(matcher);
+          matcher.appendReplacement(buffer, "$0<p>(Hit Points = " + hp + ")</p>");
+        } while (matcher.find());
+        matcher.appendTail(buffer);
+      }
     }
 
     MonsterData monster = MonsterStatusTracker.getLastMonster();
@@ -1322,13 +1325,8 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     switch (KoLAdventure.lastAdventureId()) {
-      case AdventurePool.THEMTHAR_HILLS:
-        IslandDecorator.decorateThemtharFight(buffer);
-        break;
-
-      case AdventurePool.SEASIDE_MEGALOPOLIS:
-        MemoriesDecorator.decorateMegalopolisFight(buffer);
-        break;
+      case AdventurePool.THEMTHAR_HILLS -> IslandDecorator.decorateThemtharFight(buffer);
+      case AdventurePool.SEASIDE_MEGALOPOLIS -> MemoriesDecorator.decorateMegalopolisFight(buffer);
     }
   }
 
@@ -1362,9 +1360,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     switch (KoLAdventure.lastAdventureId()) {
-      case AdventurePool.THEMTHAR_HILLS:
-        IslandDecorator.decorateThemtharFight(buffer);
-        break;
+      case AdventurePool.THEMTHAR_HILLS -> IslandDecorator.decorateThemtharFight(buffer);
     }
   }
 
@@ -1453,33 +1449,32 @@ public class RequestEditorKit extends HTMLEditorKit {
         int rate = item.getCount() >> 16;
         monsterData.append(item.getName());
         switch ((char) item.getCount() & 0xFFFF) {
-          case 'p':
+          case 'p' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" pp only)");
-            break;
-          case 'n':
+          }
+          case 'n' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" no pp)");
-            break;
-          case 'c':
+          }
+          case 'c' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" cond)");
-            break;
-          case 'f':
+          }
+          case 'f' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" no mod)");
-            break;
-          case 'a':
-            monsterData.append(" (stealable accordion)");
-            break;
-          default:
+          }
+          case 'a' -> monsterData.append(" (stealable accordion)");
+          default -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(")");
+          }
         }
       }
     }
@@ -1739,53 +1734,46 @@ public class RequestEditorKit extends HTMLEditorKit {
     String partyQuest = Preferences.getString("_questPartyFairQuest");
 
     switch (partyQuest) {
-      case "woots":
-        {
-          Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      case "woots" -> {
+        Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
+          buffer.insert(m.end(), progress);
+          return;
         }
-      case "trash":
-        {
-          Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (~"
-                    + Preferences.getString("_questPartyFairProgress")
-                    + " pieces of trash remaining)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      }
+      case "trash" -> {
+        Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (~"
+                  + Preferences.getString("_questPartyFairProgress")
+                  + " pieces of trash remaining)";
+          buffer.insert(m.end(), progress);
+          return;
         }
-      case "dj":
-        {
-          Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      }
+      case "dj" -> {
+        Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
+          buffer.insert(m.end(), progress);
+          return;
         }
+      }
+
         // No special text, just append to You win the fight if on clear the party quest
-      case "partiers":
-        {
-          Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      case "partiers" -> {
+        Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
+          buffer.insert(m.end(), progress);
+          return;
         }
+      }
     }
   }
 
@@ -1854,7 +1842,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     if (spoilers == null) {
       // Don't give up - there may be a choice even if there are no spoilers.
-      spoilers = new Spoilers(choice, "", new ChoiceAdventures.Option[0]);
+      spoilers = new Spoilers(choice, "", new ChoiceOption[0]);
     }
 
     int index1 = matcher.start();
@@ -1893,8 +1881,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       // Build spoiler text
       while (i > 0) {
         // Say what the choice will give you
-        ChoiceAdventures.Option spoiler =
-            ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
+        ChoiceOption spoiler = ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
 
         // If we have nothing to say about this option, don't say anything
         if (spoiler == null) {
@@ -2182,14 +2169,14 @@ public class RequestEditorKit extends HTMLEditorKit {
     int crannyEvil = Preferences.getInteger("cyrptCrannyEvilness");
     int alcoveEvil = Preferences.getInteger("cyrptAlcoveEvilness");
 
-    String nookColor = nookEvil > 25 ? "000000" : "FF0000";
-    String nookHint = nookEvil > 25 ? "Item Drop" : "<b>BOSS</b>";
-    String nicheColor = nicheEvil > 25 ? "000000" : "FF0000";
-    String nicheHint = nicheEvil > 25 ? "Sniff Dirty Lihc" : "<b>BOSS</b>";
-    String crannyColor = crannyEvil > 25 ? "000000" : "FF0000";
-    String crannyHint = crannyEvil > 25 ? "ML & Noncombat" : "<b>BOSS</b>";
-    String alcoveColor = alcoveEvil > 25 ? "000000" : "FF0000";
-    String alcoveHint = alcoveEvil > 25 ? "Initiative" : "<b>BOSS</b>";
+    String nookColor = nookEvil > 13 ? "000000" : "FF0000";
+    String nookHint = nookEvil > 13 ? "Item Drop" : "<b>BOSS</b>";
+    String nicheColor = nicheEvil > 13 ? "000000" : "FF0000";
+    String nicheHint = nicheEvil > 13 ? "Sniff Dirty Lihc" : "<b>BOSS</b>";
+    String crannyColor = crannyEvil > 13 ? "000000" : "FF0000";
+    String crannyHint = crannyEvil > 13 ? "ML & Noncombat" : "<b>BOSS</b>";
+    String alcoveColor = alcoveEvil > 13 ? "000000" : "FF0000";
+    String alcoveHint = alcoveEvil > 13 ? "Initiative" : "<b>BOSS</b>";
 
     StringBuilder evilometer = new StringBuilder();
 
@@ -2622,8 +2609,8 @@ public class RequestEditorKit extends HTMLEditorKit {
 
       Frame[] frames = Frame.getFrames();
       for (Frame frame : frames) {
-        if (frame instanceof RequestFrame && ((RequestFrame) frame).mainDisplay == c) {
-          return (RequestFrame) frame;
+        if (frame instanceof RequestFrame rf && rf.mainDisplay == c) {
+          return rf;
         }
       }
       return null;

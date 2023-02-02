@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -18,6 +19,12 @@ public class HatterCommand extends AbstractCommand {
   public void run(final String cmd, final String parameters) {
     if (parameters.length() < 1) {
       RabbitHoleManager.hatCommand();
+      return;
+    }
+
+    if (KoLCharacter.isCrazyRandomTwo()) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "You can't get Down the Rabbit Hole in Two Crazy Random Summer.");
       return;
     }
 

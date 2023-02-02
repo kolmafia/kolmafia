@@ -353,32 +353,28 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     }
 
     switch (Preferences.getInteger("toolbarPosition")) {
-      case 1:
+      case 1 -> {
         toolbarPanel = new JToolBar("KoLmafia Toolbar");
         this.framePanel.add(toolbarPanel, BorderLayout.NORTH);
-        break;
-
-      case 2:
+      }
+      case 2 -> {
         toolbarPanel = new JToolBar("KoLmafia Toolbar");
         this.framePanel.add(toolbarPanel, BorderLayout.SOUTH);
-        break;
-
-      case 3:
+      }
+      case 3 -> {
         toolbarPanel = new JToolBar("KoLmafia Toolbar", JToolBar.VERTICAL);
         this.framePanel.add(toolbarPanel, BorderLayout.WEST);
-        break;
-
-      case 4:
+      }
+      case 4 -> {
         toolbarPanel = new JToolBar("KoLmafia Toolbar", JToolBar.VERTICAL);
         this.framePanel.add(toolbarPanel, BorderLayout.EAST);
-        break;
-
-      default:
+      }
+      default -> {
         toolbarPanel = new JToolBar("KoLmafia Toolbar");
         if (this instanceof LoginFrame || this instanceof ChatFrame) {
           this.framePanel.add(toolbarPanel, BorderLayout.NORTH);
-          break;
         }
+      }
     }
 
     if (toolbarPanel != null) {
@@ -498,7 +494,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     this.framePanel.add(scriptBar, BorderLayout.EAST);
   }
 
-  private class ScriptBar extends JToolBar implements Listener {
+  private static class ScriptBar extends JToolBar implements Listener {
     private String scriptList = "";
     private boolean showScriptList = false;
 
@@ -574,30 +570,18 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     boolean enabled;
 
     switch (displayState) {
-      case ABORT:
-      case ERROR:
-        color =
-            (KoLmafiaGUI.isDarkTheme())
-                ? KoLGUIConstants.ERROR_COLOR_DARK
-                : KoLGUIConstants.ERROR_COLOR;
+      case ABORT, ERROR -> {
+        color = KoLmafiaGUI.getErrorColor();
         enabled = true;
-        break;
-
-      case ENABLE:
-        color =
-            (KoLmafiaGUI.isDarkTheme())
-                ? KoLGUIConstants.ENABLED_COLOR_DARK
-                : KoLGUIConstants.ENABLED_COLOR;
+      }
+      case ENABLE -> {
+        color = KoLmafiaGUI.getEnabledColor();
         enabled = true;
-        break;
-
-      default:
-        color =
-            (KoLmafiaGUI.isDarkTheme())
-                ? KoLGUIConstants.DISABLED_COLOR_DARK
-                : KoLGUIConstants.DISABLED_COLOR;
+      }
+      default -> {
+        color = KoLmafiaGUI.getDisabledColor();
         enabled = false;
-        break;
+      }
     }
 
     if (this.sidepane != null) {

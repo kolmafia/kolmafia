@@ -1,73 +1,44 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class WarbearBoxRequest extends CoinMasterRequest {
   public static final String master = "Warbear Black Box";
-  private static final LockableListModel<AdventureResult> buyItems =
-      CoinmastersDatabase.getBuyItems(WarbearBoxRequest.master);
-  private static final Map<Integer, Integer> buyPrices =
-      CoinmastersDatabase.getBuyPrices(WarbearBoxRequest.master);
-  private static final Map<Integer, Integer> itemRows =
-      CoinmastersDatabase.getRows(WarbearBoxRequest.master);
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) warbear whosit");
   public static final AdventureResult WHOSIT = ItemPool.get(ItemPool.WARBEAR_WHOSIT, 1);
   public static final AdventureResult BLACKBOX = ItemPool.get(ItemPool.WARBEAR_BLACK_BOX, 1);
+
   public static final CoinmasterData WARBEARBOX =
-      new CoinmasterData(
-          WarbearBoxRequest.master,
-          "warbear",
-          WarbearBoxRequest.class,
-          "warbear whosit",
-          null,
-          false,
-          WarbearBoxRequest.TOKEN_PATTERN,
-          WarbearBoxRequest.WHOSIT,
-          null,
-          WarbearBoxRequest.itemRows,
-          "shop.php?whichshop=warbear",
-          "buyitem",
-          WarbearBoxRequest.buyItems,
-          WarbearBoxRequest.buyPrices,
-          null,
-          null,
-          null,
-          null,
-          "whichrow",
-          GenericRequest.WHICHROW_PATTERN,
-          "quantity",
-          GenericRequest.QUANTITY_PATTERN,
-          null,
-          null,
-          true);
+      new CoinmasterData(master, "warbear", WarbearBoxRequest.class)
+          .withToken("warbear whosit")
+          .withTokenPattern(TOKEN_PATTERN)
+          .withItem(WHOSIT)
+          .withShopRowFields(master, "warbear");
 
   public WarbearBoxRequest() {
-    super(WarbearBoxRequest.WARBEARBOX);
+    super(WARBEARBOX);
   }
 
   public WarbearBoxRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(WarbearBoxRequest.WARBEARBOX, buying, attachments);
+    super(WARBEARBOX, buying, attachments);
   }
 
   public WarbearBoxRequest(final boolean buying, final AdventureResult attachment) {
-    super(WarbearBoxRequest.WARBEARBOX, buying, attachment);
+    super(WARBEARBOX, buying, attachment);
   }
 
   public WarbearBoxRequest(final boolean buying, final int itemId, final int quantity) {
-    super(WarbearBoxRequest.WARBEARBOX, buying, itemId, quantity);
+    super(WARBEARBOX, buying, itemId, quantity);
   }
 
   @Override
   public void processResults() {
-    WarbearBoxRequest.parseResponse(this.getURLString(), this.responseText);
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
@@ -75,7 +46,7 @@ public class WarbearBoxRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = WarbearBoxRequest.WARBEARBOX;
+    CoinmasterData data = WARBEARBOX;
 
     String action = GenericRequest.getAction(urlString);
     if (action != null) {
@@ -92,12 +63,11 @@ public class WarbearBoxRequest extends CoinMasterRequest {
       return false;
     }
 
-    CoinmasterData data = WarbearBoxRequest.WARBEARBOX;
-    return CoinMasterRequest.registerRequest(data, urlString, true);
+    return CoinMasterRequest.registerRequest(WARBEARBOX, urlString, true);
   }
 
   public static String accessible() {
-    int wand = WarbearBoxRequest.BLACKBOX.getCount(KoLConstants.inventory);
+    int wand = BLACKBOX.getCount(KoLConstants.inventory);
     if (wand == 0) {
       return "You don't have a warbear black box";
     }

@@ -24,10 +24,10 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -38,6 +38,8 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.HistoryEntry;
 import net.sourceforge.kolmafia.chat.SentMessageEntry;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -51,6 +53,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -119,13 +122,13 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_TOKENS = "confirm7";
   private static final String CONFIRM_SEAL = "confirm8";
   private static final String CONFIRM_ARCADE = "confirm9";
-  private static final String CONFIRM_KUNGFU = "confirm10";
+  static final String CONFIRM_KUNGFU = "confirm10";
   private static final String CONFIRM_POOL_SKILL = "confirm11";
   public static final String CONFIRM_WINEGLASS = "confirm12";
   private static final String CONFIRM_COLOSSEUM = "confirm13";
   private static final String CONFIRM_GREMLINS = "confirm14";
   private static final String CONFIRM_HARDCOREPVP = "confirm15";
-  private static final String CONFIRM_DESERT_UNHYDRATED = "confirm16";
+  public static final String CONFIRM_DESERT_UNHYDRATED = "confirm16";
   public static final String CONFIRM_MOHAWK_WIG = "confirm17";
   private static final String CONFIRM_CELLAR = "confirm18";
   private static final String CONFIRM_BOILER = "confirm19";
@@ -143,7 +146,7 @@ public class RelayRequest extends PasswordHashRequest {
   public static final String CONFIRM_DESERT_WEAPON = "confirm31";
 
   private static boolean ignoreBoringDoorsWarning = false;
-  private static boolean ignoreDesertWarning = false;
+  public static boolean ignoreDesertWarning = false;
   public static boolean ignoreDesertWeaponWarning = false;
   private static boolean ignoreDesertOffhandWarning = false;
   public static boolean ignoreMacheteWarning = false;
@@ -789,15 +792,13 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     int outfitId = outfit.getOutfitId();
-    switch (outfitId) {
-      case 32:
-        // War Hippy Fatigues
-      case 33:
-        // Frat Warrior Fatigues
-        return checkBattle(outfitId);
-    }
-
-    return false;
+    return switch (outfitId) {
+      case 32, 33 ->
+      // War Hippy Fatigues
+      // Frat Warrior Fatigues
+      checkBattle(outfitId);
+      default -> false;
+    };
   }
 
   public boolean sendBreakPrismWarning(final String urlString) {
@@ -1091,21 +1092,21 @@ public class RelayRequest extends PasswordHashRequest {
     String opponent = null;
 
     switch (lastRound % 3) {
-      case 0:
+      case 0 -> {
         weapon = ItemPool.get(ItemPool.MERKIN_DRAGNET, 1);
         image = "dragnet.gif";
         opponent = lastRound == 12 ? "Georgepaul, the Balldodger" : "a Mer-kin balldodger";
-        break;
-      case 1:
+      }
+      case 1 -> {
         weapon = ItemPool.get(ItemPool.MERKIN_SWITCHBLADE, 1);
         image = "switchblade.gif";
         opponent = lastRound == 13 ? "Johnringo, the Netdragger" : "a Mer-kin netdragger";
-        break;
-      case 2:
+      }
+      case 2 -> {
         weapon = ItemPool.get(ItemPool.MERKIN_DODGEBALL, 1);
         image = "dodgeball.gif";
         opponent = lastRound == 14 ? "Ringogeorge, the Bladeswitcher" : "a Mer-kin bladeswitcher";
-        break;
+      }
     }
 
     // If you are equipped with the correct weapon, nothing to warn about
@@ -1430,7 +1431,7 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendUnhydratedDesertWarning() {
+  public boolean sendUnhydratedDesertWarning() {
     // Only send this warning once per session
     if (RelayRequest.ignoreDesertWarning) {
       return false;
@@ -1448,9 +1449,14 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    // Either The Oasis isn't open, or all reason to care about hydration is gone
+    // If The Oasis isn't open, exploring the first time will hydrate and open it
+    if (!Preferences.getBoolean("oasisAvailable")) {
+      return false;
+    }
+
+    // If the desert is fully explored, no reason to care about hydration
     int explored = Preferences.getInteger("desertExploration");
-    if (explored == 0 || explored == 100) {
+    if (explored == 100) {
       return false;
     }
 
@@ -2250,13 +2256,14 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendKungFuWarning() {
+  boolean sendKungFuWarning() {
     if (this.getFormField(CONFIRM_KUNGFU) != null) {
       return false;
     }
 
-    // If you don't have the first Kung Fu effect active, there's nothing to warn about
-    if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.KUNG_FU_FIGHTING))) {
+    // If you don't have the first Kung Fu intrinsic active, there's nothing to warn about
+    int index = KoLConstants.activeEffects.indexOf(EffectPool.get(EffectPool.KUNG_FU_FIGHTING));
+    if (index == -1 || KoLConstants.activeEffects.get(index).getCount() < Integer.MAX_VALUE) {
       return false;
     }
 
@@ -2416,14 +2423,13 @@ public class RelayRequest extends PasswordHashRequest {
     // Perform the same adjustments to the displayed modifiers as
     // the Gear Changer, except leave Familiar Effect if you own
     // the relevant familiar.
-    ModifierList list = Modifiers.getModifierList("Item", itemId);
+    ModifierList list = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId));
     list.removeModifier("Wiki Name");
     list.removeModifier("Modifiers");
     list.removeModifier("Outfit");
-    int type = ItemDatabase.getConsumptionType(itemId);
-    if (!(type == KoLConstants.EQUIP_HAT
-            && KoLCharacter.usableFamiliar(FamiliarPool.HATRACK) != null)
-        && !(type == KoLConstants.EQUIP_PANTS
+    ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
+    if (!(type == ConsumptionType.HAT && KoLCharacter.usableFamiliar(FamiliarPool.HATRACK) != null)
+        && !(type == ConsumptionType.PANTS
             && KoLCharacter.usableFamiliar(FamiliarPool.SCARECROW) != null)) {
       list.removeModifier("Familiar Effect");
     }
@@ -3756,17 +3762,13 @@ public class RelayRequest extends PasswordHashRequest {
       }
       image = expired.getImage();
       switch (expired.getLabel()) {
-        case "Spookyraven Lights Out":
-          lights = true;
-          break;
-        case "Vote Monster":
-          voteMonster = true;
-          break;
+        case "Spookyraven Lights Out" -> lights = true;
+        case "Vote Monster" -> voteMonster = true;
       }
       msg.append("The ");
       msg.append(expired.getLabel());
       switch (remain) {
-        case 0:
+        case 0 -> {
           msg.append(" counter has expired");
           if (isSkill) {
             msg.append(". Since the ");
@@ -3775,16 +3777,14 @@ public class RelayRequest extends PasswordHashRequest {
           } else {
             msg.append(", so you may wish to adventure somewhere else at this time.");
           }
-          break;
-        case 1:
-          msg.append(
-              " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn.");
-          break;
-        default:
+        }
+        case 1 -> msg.append(
+            " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn.");
+        default -> {
           msg.append(" counter will expire after ");
           msg.append(remain);
           msg.append(" more turns, so you may wish to adventure somewhere else for those turns.");
-          break;
+        }
       }
       expired = TurnCounter.getExpiredCounter(this, false);
     }

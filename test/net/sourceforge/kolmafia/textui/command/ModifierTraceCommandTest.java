@@ -11,9 +11,9 @@ import net.sourceforge.kolmafia.StaticEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ModiferTraceCommandTest extends AbstractCommandTestBase {
+public class ModifierTraceCommandTest extends AbstractCommandTestBase {
 
-  public ModiferTraceCommandTest() {
+  public ModifierTraceCommandTest() {
     this.command = "modtrace";
   }
 

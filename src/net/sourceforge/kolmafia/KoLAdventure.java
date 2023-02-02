@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -24,6 +25,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase.DifficultyLevel;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -52,6 +54,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
@@ -451,11 +454,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult MACHINE_SNOWGLOBE = ItemPool.get(ItemPool.MACHINE_SNOWGLOBE);
   // Items that grant an effect and require configuration to give access
   private static final AdventureResult ASTRAL_MUSHROOM = ItemPool.get(ItemPool.ASTRAL_MUSHROOM);
+  private static final AdventureResult GONG = ItemPool.get(ItemPool.GONG);
+  private static final AdventureResult MILK_CAP = ItemPool.get(ItemPool.MILK_CAP);
   private static final AdventureResult OPEN_PORTABLE_SPACEGATE =
       ItemPool.get(ItemPool.OPEN_PORTABLE_SPACEGATE);
   private static final AdventureResult TRAPEZOID = ItemPool.get(ItemPool.TRAPEZOID);
   private static final AdventureResult EMPTY_AGUA_DE_VIDA_BOTTLE =
       ItemPool.get(ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE);
+  private static final AdventureResult BLACK_GLASS = ItemPool.get(ItemPool.BLACK_GLASS);
 
   private static final AdventureResult PERFUME = EffectPool.get(EffectPool.KNOB_GOBLIN_PERFUME, 1);
   private static final AdventureResult TROPICAL_CONTACT_HIGH =
@@ -468,15 +474,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final AdventureResult INSIDE_THE_SNOWGLOBE =
       EffectPool.get(EffectPool.INSIDE_THE_SNOWGLOBE, 1);
   private static final AdventureResult HALF_ASTRAL = EffectPool.get(EffectPool.HALF_ASTRAL);
-  private static final AdventureResult SHAPE_OF_MOLE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
-  private static final AdventureResult FORM_OF_BIRD = EffectPool.get(EffectPool.FORM_OF_BIRD);
   private static final AdventureResult FILTHWORM_LARVA_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_LARVA_STENCH);
   private static final AdventureResult FILTHWORM_DRONE_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_DRONE_STENCH);
   private static final AdventureResult FILTHWORM_GUARD_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_GUARD_STENCH);
-  private static final AdventureResult HARE_BRAINED = EffectPool.get(EffectPool.HARE_BRAINED);
 
   private static final Map<String, String> grimstoneZones =
       Map.ofEntries(
@@ -535,12 +538,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (alwaysPref != null && Preferences.getBoolean(alwaysPref)) {
       return true;
     }
+
+    // If there is no day pass, looking at map might induce QuestManager to
+    // detect permanent access
+    if (todayPref == null) {
+      var request = new PlaceRequest(place);
+      RequestThread.postRequest(request);
+      return Preferences.getBoolean(alwaysPref);
+    }
+
     // If we don't know we have daily access, looking at the map
     // will induce QuestManager to detect it.
     if (!Preferences.getBoolean(todayPref)) {
       var request = new PlaceRequest(place);
       RequestThread.postRequest(request);
     }
+
     return Preferences.getBoolean(todayPref);
   }
 
@@ -567,7 +580,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // Unlimited adventuring if available
         return checkZone("coldAirportAlways", "_coldAirportToday", "airport");
       case "Gingerbread City":
-        // Unlimited adventuring if available
+        // One daily visit if available
         return checkZone("gingerbreadCityAvailable", "_gingerbreadCityToday", "mountains");
       case "LT&T":
         // One quest from a day pass, geometric cost for permanent
@@ -587,35 +600,77 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // There is no permanent access to the Time Twitching Tower; it's
         // always day by day.
         return checkZone(null, "timeTowerAvailable", "town");
-      case "The Spacegate":
-        // Through the Spacegate
-
-        // It's in the mountains and Exploded Loathing does not have that zone.
-        if (KoLCharacter.isKingdomOfExploathing()) {
-          return false;
-        }
-
-        if (Preferences.getBoolean("spacegateAlways")
-            || Preferences.getBoolean("_spacegateToday")) {
+      case "Speakeasy":
+        // It's in the Wrong Side of the Tracks.
+        // You can get a quest item from an NPC in it.
+        if (InventoryManager.hasItem(MILK_CAP)) {
+          Preferences.setBoolean("ownsSpeakeasy", true);
           return true;
         }
+        // Otherwise, look at the map
+        return checkZone("ownsSpeakeasy", null, "town_wrong");
+      case "The Spacegate":
+        {
+          // Through the Spacegate
 
-        if (!Preferences.getBoolean("_spacegateToday")) {
-          if (InventoryManager.hasItem(OPEN_PORTABLE_SPACEGATE)) {
-            Preferences.setBoolean("_spacegateToday", true);
-            // There is no way to tell how many turns you have
-            // left today in an open portable spacegate.
-            // I think.
-            Preferences.setInteger("_spacegateTurnsLeft", 20);
+          // It's in the mountains and Exploded Loathing does not have that zone.
+          if (KoLCharacter.isKingdomOfExploathing()) {
+            return false;
+          }
+
+          if (Preferences.getBoolean("spacegateAlways")
+              || Preferences.getBoolean("_spacegateToday")) {
             return true;
           }
+
+          if (!Preferences.getBoolean("_spacegateToday")) {
+            if (InventoryManager.hasItem(OPEN_PORTABLE_SPACEGATE)) {
+              Preferences.setBoolean("_spacegateToday", true);
+              // There is no way to tell how many turns you have
+              // left today in an open portable spacegate.
+              // I think.
+              Preferences.setInteger("_spacegateTurnsLeft", 20);
+              return true;
+            }
+          }
+
+          // Take a look at the mountains.
+          var request = new PlaceRequest("mountains");
+          RequestThread.postRequest(request);
+
+          return Preferences.getBoolean("spacegateAlways");
         }
+      case "The Sea Floor":
+        {
+          // There are 10 adventuring areas available in this zone.
+          //
+          // Some open via quest progress, some by purchasing maps from big
+          // brother sea monkee, and some through other mechanisms.
+          //
+          // If you have done any of those things outside of the watchful eye of
+          // KoLmafia, visiting the map will update everything.
 
-        // Take a look at the mountains.
-        var request = new PlaceRequest("mountains");
-        RequestThread.postRequest(request);
+          // Unless we have talked to the old guy, we cannot enter the sea.
+          if (!QuestDatabase.isQuestStarted(Quest.SEA_OLD_GUY)) {
+            return false;
+          }
 
-        return Preferences.getBoolean("spacegateAlways");
+          // If we know the zone is available, no need to visit the map
+          if (this.seaFloorZoneAvailable()) {
+            return true;
+          }
+
+          // The Caliginous Abyss is enabled via item. No need to go to map.
+          if (this.adventureNumber == AdventurePool.CALIGINOUS_ABYSS) {
+            return false;
+          }
+
+          // Take a look at The Sea Floor .
+          var request = new GenericRequest("seafloor.php");
+          RequestThread.postRequest(request);
+
+          return this.seaFloorZoneAvailable();
+        }
     }
 
     return true;
@@ -745,6 +800,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step4");
     }
 
+    // Mer-kin Temple
+    if (this.formSource.equals("sea_merkin.php")) {
+      // If you have a seahorse, you can get to the Mer-Kin Deepcity.
+      // Whether or not you can enter the temple is a separate question.
+      return !Preferences.getString("seahorseName").equals("");
+    }
+
     // Dwarven Factory Warehouse
     if (this.formSource.equals("dwarffactory.php")) {
       return QuestDatabase.isQuestStarted(Quest.FACTORY) && hasRequiredOutfit();
@@ -769,6 +831,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // On turn 27, you must do it.
       int turnsUsed = Preferences.getInteger("wolfTurnsUsed");
       return turnsUsed < 25 || turnsUsed == 27;
+    }
+
+    // Crimbo Train (Locomotive)
+    if (this.adventureId.equals(AdventurePool.LOCOMOTIVE_ID)) {
+      return !Preferences.getBoolean("superconductorDefeated");
     }
 
     /* Removed adventures.
@@ -989,7 +1056,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (KoLCharacter.isKingdomOfExploathing()) {
         return switch (this.adventureNumber) {
           case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
-          case AdventurePool.OASIS -> Preferences.getInteger("desertExploration") > 0
+          case AdventurePool.OASIS -> Preferences.getBoolean("oasisAvailable")
               || QuestDatabase.isQuestFinished(Quest.DESERT);
           default -> false;
         };
@@ -1003,8 +1070,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.THE_SHORE, AdventurePool.SOUTH_OF_THE_BORDER -> true;
           // Open after diary read
         case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
-          // Open after 1 desert exploration or - legacy - desert quest is finished
-        case AdventurePool.OASIS -> Preferences.getInteger("desertExploration") > 0
+          // Opens after 1st desert exploration or - legacy - desert quest is finished
+        case AdventurePool.OASIS -> Preferences.getBoolean("oasisAvailable")
             || QuestDatabase.isQuestFinished(Quest.DESERT);
           // Open with "Tropical Contact High"
         case AdventurePool.KOKOMO_RESORT -> KoLConstants.activeEffects.contains(
@@ -1587,6 +1654,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
     }
 
+    if (this.zone.equals("The 8-Bit Realm")) {
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return false;
+      }
+      return QuestDatabase.isQuestStarted(Quest.LARVA) || InventoryManager.hasItem(TRANSFUNCTIONER);
+    }
+
     if (this.zone.equals("The Drip")) {
       if (!InventoryManager.hasItem(DRIP_HARNESS)) {
         return false;
@@ -1597,35 +1671,27 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       };
     }
 
-    if (this.zone.equals("The Sea")) {
+    if (this.rootZone.equals("The Sea")) {
       // The Sea opens when you speak to The Old Man
       if (!QuestDatabase.isQuestStarted(Quest.SEA_OLD_GUY)) {
         return false;
       }
 
-      // We track individual aspects of the various quests.
-      // Perhaps we could deduce what is and is not unlocked.
-      // Just assume everything is open, for now.
+      if (this.zone.equals("The Sea")) {
+        // The Briny Deeps, The Brinier Deepers, The Briniest Deepests
+        return true;
+      }
 
-      // The Briny Deeps
-      // The Brinier Deepers
-      // The Briniest Deepests
-      // An Octopus's Garden
-      // The Wreck of the Edgar Fitzsimmons
-      // Madness Reef
-      // The Mer-Kin Outpost
-      // The Skate Park
-      // The Marinara Trench
-      // Anemone Mine
-      // The Dive Bar
-      // The Coral Corral
-      // Mer-kin Elementary School
-      // Mer-kin Library
-      // Mer-kin Gymnasium
-      // Mer-kin Colosseum
-      // The Caliginous Abyss
-      // Anemone Mine (Mining)
+      if (this.zone.equals("The Sea Floor")) {
+        return this.seaFloorZoneAvailable();
+      }
 
+      if (this.zone.equals("The Mer-Kin Deepcity")) {
+        // Open when you have a seahorse
+        return !Preferences.getString("seahorseName").equals("");
+      }
+
+      // There are currently no more adventuring areas in The Sea
       return true;
     }
 
@@ -1759,11 +1825,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // An Incredibly Strange Place (Bad Trip)
       // An Incredibly Strange Place (Mediocre Trip)
       // An Incredibly Strange Place (Great Trip)
-      //
-      // *** This should be a LimitMode
 
       // prepareForAdventure will use an astral mushroom, if necessary.
-      return KoLConstants.activeEffects.contains(HALF_ASTRAL) || InventoryManager.hasItem(item);
+      return KoLCharacter.getLimitMode() == LimitMode.ASTRAL
+          || InventoryManager.hasItem(ASTRAL_MUSHROOM);
     }
 
     if (this.zone.equals("Shape of Mole")) {
@@ -1771,10 +1836,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // This grants 12 turns of Shape of...Mole!
       // You cannot use another gong if you are in Form of...Bird!
       // You cannot adventure anywhere except in Mt. Molehill while that effect is active.
-      //
-      // *** This should be a LimitMode
-      return KoLConstants.activeEffects.contains(SHAPE_OF_MOLE)
-          || (InventoryManager.hasItem(item) && !KoLConstants.activeEffects.contains(FORM_OF_BIRD));
+      return KoLCharacter.getLimitMode() == LimitMode.MOLE || InventoryManager.hasItem(GONG);
     }
 
     if (this.zone.equals("Spring Break Beach")) {
@@ -1908,10 +1970,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // See if the tale is finished
         switch (tale) {
           case "hare" -> {
-            // 30 turns of the Hare-Brained effect.
-            // The zone closes when you lose the effect.
-            // You adventure at A Deserted Stretch of I-911
-            return KoLConstants.activeEffects.contains(HARE_BRAINED);
+            // 30 turns to adventure in A Deserted Stretch of I-911.
+            // The zone closes when you finish.
+            //
+            // Note that you will be given turns of the Hare-Brained effect
+            // when you attempt to adventure in that zone.  The duration of the
+            // effect equals the number of turns remaining to adventure.
+            return Preferences.getInteger("hareTurnsUsed") < 30;
           }
           case "wolf" -> {
             // 30 turns to adventure in Skid Row.
@@ -1979,9 +2044,26 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Gingerbread City")) {
-      // *** You have limited turns available per day.
-      return Preferences.getBoolean("gingerbreadCityAvailable")
-          || Preferences.getBoolean("_gingerbreadCityToday");
+      if (!Preferences.getBoolean("gingerbreadCityAvailable")
+          && !Preferences.getBoolean("_gingerbreadCityToday")) {
+        return false;
+      }
+
+      int turnsAvailable = 20;
+      if (Preferences.getBoolean("gingerExtraAdventures")) turnsAvailable += 10;
+      if (Preferences.getBoolean("_gingerbreadClockAdvanced")) turnsAvailable -= 5;
+      int turnsUsed = Preferences.getInteger("_gingerbreadCityTurns");
+
+      if (turnsUsed >= turnsAvailable) {
+        return false;
+      }
+
+      return switch (this.adventureNumber) {
+        case AdventurePool.GINGERBREAD_SEWERS -> Preferences.getBoolean("gingerSewersUnlocked");
+        case AdventurePool.GINGERBREAD_RETAIL_DISTRICT -> Preferences.getBoolean(
+            "gingerRetailUnlocked");
+        default -> true;
+      };
     }
 
     if (this.zone.equals("FantasyRealm")) {
@@ -1995,8 +2077,44 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return Preferences.getBoolean("prAlways") || Preferences.getBoolean("_prToday");
     }
 
+    if (this.zone.equals("Speakeasy")) {
+      return (Preferences.getBoolean("ownsSpeakeasy"));
+    }
+
     // Assume that any areas we did not call out above are available
     return true;
+  }
+
+  private boolean seaFloorZoneAvailable() {
+    // We track individual aspects of the various quests.
+    return switch (this.adventureNumber) {
+        // Initially open: Little Brother
+      case AdventurePool.AN_OCTOPUS_GARDEN -> true;
+        // Big Brother
+      case AdventurePool.THE_WRECK_OF_THE_EDGAR_FITZSIMMONS -> QuestDatabase.isQuestLaterThan(
+          Quest.SEA_MONKEES, QuestDatabase.STARTED);
+        // Grandpa
+        // Free for Muscle classes. Otherwise, must buy map.
+      case AdventurePool.ANENOME_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
+        // Free for Mysticality classes Otherwise, must buy map.
+      case AdventurePool.MARINARA_TRENCH -> ItemDatabase.haveVirtualItem(
+          ItemPool.MARINARA_TRENCH_MAP);
+        // Free for Moxie classes Otherwise, must buy map.
+      case AdventurePool.DIVE_BAR -> ItemDatabase.haveVirtualItem(ItemPool.DIVE_BAR_MAP);
+        // Grandma. Open when ask grandpa about Grandma.
+      case AdventurePool.MERKIN_OUTPOST -> QuestDatabase.isQuestLaterThan(
+          Quest.SEA_MONKEES, "step5");
+        // Currents (seahorse). Open when ask Grandpa about currents.
+      case AdventurePool.THE_CORAL_CORRAL -> Preferences.getBoolean("corralUnlocked");
+        // Mom. Open when you have black glass - which you must equip
+      case AdventurePool.CALIGINOUS_ABYSS -> InventoryManager.hasItem(BLACK_GLASS);
+        // Optional maps you can purchase from Big Brother.
+      case AdventurePool.MADNESS_REEF -> ItemDatabase.haveVirtualItem(ItemPool.MADNESS_REEF_MAP);
+      case AdventurePool.THE_SKATE_PARK -> ItemDatabase.haveVirtualItem(ItemPool.SKATE_PARK_MAP)
+          && !Preferences.getString("skateParkStatus").equals("peace");
+        // That's all. If a new zone appears, assume you can get to it.
+      default -> true;
+    };
   }
 
   private boolean hasRequiredOutfit() {
@@ -2051,49 +2169,79 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Astral")) {
-      // To take a trip to the Astral Plane, you either need
-      // to be Half-Astral or have access to an astral mushroom.
+      // To take a trip to the Astral Plane, you either need to be in
+      // LimitMode.ASTRAL (Half-Astral is active) or have access to an astral
+      // mushroom. You also cannot be in a competing LimitMode.
       // canAdventure ensured that one or the other is true
 
-      String option =
-          switch (this.adventureNumber) {
-            case AdventurePool.BAD_TRIP -> "1";
-            case AdventurePool.MEDIOCRE_TRIP -> "2";
-            case AdventurePool.GREAT_TRIP -> "3";
-            default -> null;
-          };
-      if (option == null) {
-        // This should not happen
-        return false;
-      }
-      Preferences.setString("choiceAdventure71", option);
+      if (KoLCharacter.getLimitMode() != LimitMode.ASTRAL) {
+        // We will use a mushroom and take the trip you requested
+        if (!InventoryManager.retrieveItem(ASTRAL_MUSHROOM)) {
+          // This shouldn't fail.
+          return false;
+        }
 
-      // To take a trip to the Astral Plane, you either need
-      // to be Half-Astral or have access to an astral mushroom.
+        RequestThread.postRequest(UseItemRequest.getInstance(ASTRAL_MUSHROOM));
 
-      if (KoLConstants.activeEffects.contains(HALF_ASTRAL)) {
-        return true;
+        if (KoLCharacter.getLimitMode() != LimitMode.ASTRAL) {
+          // This shouldn't fail.
+          return false;
+        }
       }
 
-      if (!InventoryManager.retrieveItem(ASTRAL_MUSHROOM)) {
-        // This shouldn't fail.
-        return false;
+      // We are Half-Astral. If we have not selected a trip, now is the time.
+
+      if (Preferences.getString("currentAstralTrip").equals("")) {
+        String option =
+            switch (this.adventureNumber) {
+              case AdventurePool.BAD_TRIP -> "1";
+              case AdventurePool.MEDIOCRE_TRIP -> "2";
+              case AdventurePool.GREAT_TRIP -> "3";
+              default -> null;
+            };
+        if (option == null) {
+          // This should not happen
+          return false;
+        }
+
+        // Visit this KoLAdventure. You will not actually go there, but will be
+        // redirected to the choice where you pick your zone.
+        Preferences.setString("choiceAdventure71", option);
+        RequestThread.postRequest(this.getRequest());
+
+        if (Preferences.getString("currentAstralTrip").equals("")) {
+          // This should not happen
+          return false;
+        }
       }
 
-      RequestThread.postRequest(UseItemRequest.getInstance(ASTRAL_MUSHROOM));
-
-      // This shouldn't fail.
-      return KoLConstants.activeEffects.contains(HALF_ASTRAL);
+      return !LimitMode.ASTRAL.limitAdventure(this);
     }
 
     if (this.parentZone.equals("Grimstone")) {
-      // *** Should use grimstone mask and select correct path
+      // Could use grimstone mask and select correct path.
+      // We choose to not do that; you must already have done that.
       return true;
     }
 
     if (this.zone.equals("Shape of Mole")) {
-      // *** Should use llama lama gong and select correct form
-      return true;
+      // To take a trip to Mt. Molehill, LimitMode.MOLE (Shape of...Mole!) must
+      // be active or you have access to a llama lama gong. You also cannot be
+      // in a competing LimitMode.  canAdventure ensured those requirements.
+
+      if (KoLCharacter.getLimitMode() != LimitMode.MOLE) {
+        // We will use a gong and choose to be a mole.
+        if (!InventoryManager.retrieveItem(GONG)) {
+          // This shouldn't fail.
+          return false;
+        }
+
+        Preferences.setInteger("choiceAdventure276", 2);
+        RequestThread.postRequest(UseItemRequest.getInstance(GONG));
+        return true;
+      }
+
+      return KoLCharacter.getLimitMode() == LimitMode.MOLE;
     }
 
     if (this.zone.equals("The Spacegate")) {
@@ -2294,7 +2442,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (EquipmentManager.isWearingOutfit(OutfitPool.CLOACA_UNIFORM)
           || EquipmentManager.isWearingOutfit(OutfitPool.DYSPEPSI_UNIFORM)) {
         RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND, true));
+            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND));
       }
 
       return true;
@@ -2304,7 +2452,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // some way of equipping it.  If they do not have one, then
     // acquire one then try to equip it.
 
-    if (this.adventureNumber == AdventurePool.PIXEL_REALM || this.zone.equals("Vanya's Castle")) {
+    if (this.zone.equals("The 8-Bit Realm") || this.zone.equals("Vanya's Castle")) {
       if (!InventoryManager.hasItem(TRANSFUNCTIONER)) {
         RequestThread.postRequest(new PlaceRequest("forestvillage", "fv_mystic"));
         // This redirects to choice.php&forceoption=0.
@@ -2410,6 +2558,33 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       // This will pick an empty slot, or accessory1, if all are full
       RequestThread.postRequest(new EquipmentRequest(TALISMAN));
+
+      return true;
+    }
+
+    if (this.rootZone.equals("The Sea")) {
+      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
+        // In theory, we could choose equipment or effects.
+        // It's complicated. Let the user do that.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You can't breathe underwater.");
+        return false;
+      }
+
+      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.UNDERWATER_FAMILIAR)) {
+        // In theory, we could choose equipment or effects or even another familiar.
+        // It's complicated. Let the user do that.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Your familiar can't breathe underwater.");
+        return false;
+      }
+
+      if (this.adventureNumber == AdventurePool.CALIGINOUS_ABYSS
+          && !KoLCharacter.hasEquipped(BLACK_GLASS)) {
+        // We could equip black glass in an accessory slot.  It's complicated,
+        // since we can't unequip an item which lets us breathe underwater.
+        // Let the user do it.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Equip your black glass in order to go there.");
+        return false;
+      }
 
       return true;
     }
@@ -2916,7 +3091,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (this.areaSummary != null
           && action.startsWith("attack")
           && !this.areaSummary.willHitSomething()
-          && !KoLCharacter.currentBooleanModifier(Modifiers.ATTACKS_CANT_MISS)
+          && !KoLCharacter.currentBooleanModifier(BooleanModifier.ATTACKS_CANT_MISS)
           && !KoLCharacter.getFamiliar().isCombatFamiliar()) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't hit anything there.");
         return;
@@ -3815,6 +3990,23 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure("extreme cold makes it impossible", "You need more cold resistance."),
     new AdventureFailure(
         "This zone is too old to visit on this path.", "That zone is out of Standard."),
+
+    // Mer-kin Temple
+    // Looks like you've gotta be somebody special to get in there.
+    // Even as High Priest of the Mer-kin, they're not gonna let you in dressed like this.
+    // Even as the Champion of the Mer-kin Colosseum, they're not gonna let you in dressed like
+    // this.
+    // The temple is empty.
+    new AdventureFailure("you've gotta be somebody special", "You're not allowed to go there."),
+    new AdventureFailure(
+        "they're not gonna let you in dressed like this", "You're not dressed appropriately."),
+    new AdventureFailure("The temple is empty", "Nothing more to do here.", MafiaState.PENDING),
+
+    // You've already defeated the Trainbot boss.
+    new AdventureFailure(
+        "You've already defeated the Trainbot boss.",
+        "Nothing more to do here.",
+        MafiaState.PENDING),
   };
 
   private static final Pattern CRIMBO21_COLD_RES =

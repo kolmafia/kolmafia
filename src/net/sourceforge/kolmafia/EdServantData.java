@@ -275,7 +275,7 @@ public class EdServantData implements Comparable<EdServantData> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof EdServantData && this.id == ((EdServantData) o).id;
+    return o instanceof EdServantData data && this.id == data.id;
   }
 
   @Override
@@ -433,6 +433,25 @@ public class EdServantData implements Comparable<EdServantData> {
     servant.name = name;
     servant.level = level;
     servant.experience = experience;
+
+    return servant;
+  }
+
+  // ** only for testing
+  public static EdServantData testSetupEdServant(
+      final String type, final String name, final int experience) {
+    EdServantData servant = EdServantData.findEdServant(type);
+    if (servant == null) {
+      // Add new familiar to list
+      servant = new EdServantData(type);
+      EdServantData.edServants.add(servant);
+    }
+
+    servant.name = name;
+    servant.level = (int) Math.sqrt(experience);
+    servant.experience = experience;
+
+    EdServantData.currentEdServant = servant;
 
     return servant;
   }

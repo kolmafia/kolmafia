@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.util.StringJoiner;
 import java.util.function.BiFunction;
@@ -12,9 +13,14 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLGUIConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -23,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -31,6 +38,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ListCellRendererFactory {
   private ListCellRendererFactory() {}
@@ -375,6 +383,7 @@ public class ListCellRendererFactory {
 
       switch (item.getItemId()) {
         case ItemPool.MUNCHIES_PILL -> stringForm.append("+1-3 adv from next food");
+        case ItemPool.WHETSTONE -> stringForm.append("+1 adv from next food");
         case ItemPool.SUSHI_DOILY -> stringForm.append(
             "+3 adv from next sushi (automatically used from inventory)");
         case ItemPool.GRAINS_OF_SALT -> stringForm.append(
@@ -444,7 +453,7 @@ public class ListCellRendererFactory {
       if (spleenhit != null) joiner.add(spleenhit + " spleen");
       stringForm.append(joiner);
 
-      this.appendRange(stringForm, ConsumablesDatabase.getAdventureRange(name), "adv");
+      this.appendRange(stringForm, ConsumablesDatabase.getAverageAdventures(name), "adv");
 
       if (Preferences.getBoolean("showGainsPerUnit")) {
         if (fullness != null && fullness > 0) {
@@ -467,7 +476,10 @@ public class ListCellRendererFactory {
       int effectId = EffectDatabase.getEffectId(effectName);
       AdventureResult effect = EffectPool.get(effectId, 0);
 
-      int effectDuration = (int) Modifiers.getNumericModifier("Item", name, "Effect Duration");
+      int effectDuration =
+          (int)
+              ModifierDatabase.getNumericModifier(
+                  ModifierType.ITEM, name, DoubleModifier.EFFECT_DURATION);
       stringForm.append(effectDuration).append(" ").append(effectName);
 
       int active = effect.getCount(KoLConstants.activeEffects);
@@ -475,8 +487,9 @@ public class ListCellRendererFactory {
         stringForm.append(" (").append(active).append(" active)");
       }
 
-      Modifiers mods = Modifiers.getEffectModifiers(effectId);
-      String effectModifiers = (mods == null) ? null : mods.getString("Evaluated Modifiers");
+      Modifiers mods = ModifierDatabase.getEffectModifiers(effectId);
+      String effectModifiers =
+          (mods == null) ? null : mods.getString(StringModifier.EVALUATED_MODIFIERS);
 
       if (effectModifiers != null) {
         stringForm.append(" (").append(effectModifiers).append(")");
@@ -538,7 +551,8 @@ public class ListCellRendererFactory {
         }
       } else if (item.getPrice() > 0) {
         // The speakeasy doesn't give you a discount.
-        int price = item.speakeasy ? item.getPrice() : CafeRequest.discountedPrice(item.getPrice());
+        int price =
+            item.speakeasy != null ? item.getPrice() : CafeRequest.discountedPrice(item.getPrice());
         stringForm.append(price);
         stringForm.append(" meat");
         return false;
@@ -741,7 +755,7 @@ public class ListCellRendererFactory {
         final int index,
         final boolean isSelected,
         final boolean cellHasFocus) {
-      if (!(value instanceof AdventureResult)) {
+      if (!(value instanceof AdventureResult ar)) {
         return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
       }
 
@@ -749,30 +763,32 @@ public class ListCellRendererFactory {
         GearChangePanel.showModifiers(value, slot);
       }
 
-      AdventureResult ar = (AdventureResult) value;
-      int equipmentType = ItemDatabase.getConsumptionType(ar.getItemId());
+      JLabel defaultComponent =
+          (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+      ConsumptionType equipmentType = ItemDatabase.getConsumptionType(ar.getItemId());
 
       int power = EquipmentDatabase.getPower(ar.getItemId());
       String stringForm;
 
-      if (equipmentType == KoLConstants.EQUIP_FAMILIAR) {
+      if (equipmentType == ConsumptionType.FAMILIAR_EQUIPMENT) {
         stringForm = ar.getName();
 
-        String effect = Modifiers.getFamiliarEffect(ar.getName());
+        String effect = ModifierDatabase.getFamiliarEffect(ar.getName());
         if (effect != null) {
           stringForm += " (" + effect + ")";
         }
 
         if (KoLCharacter.getFamiliar() == null || !KoLCharacter.getFamiliar().canEquip(ar)) {
-          stringForm = "<font color=gray>" + stringForm + "</font>";
+          defaultComponent.setForeground(Color.GRAY);
         }
       } else if (ar.equals(EquipmentRequest.UNEQUIP)) {
         stringForm = ar.getName();
       } else {
-        if (equipmentType == KoLConstants.EQUIP_ACCESSORY) {
+        if (equipmentType == ConsumptionType.ACCESSORY) {
           int count;
-          Modifiers mods = Modifiers.getItemModifiers(ar.getItemId());
-          if (mods != null && mods.getBoolean(Modifiers.SINGLE)) {
+          Modifiers mods = ModifierDatabase.getItemModifiers(ar.getItemId());
+          if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {
             count = 1;
           } else {
             count = ar.getCount(KoLConstants.inventory);
@@ -797,13 +813,11 @@ public class ListCellRendererFactory {
         // inside of an equipment filter.
 
         if (!EquipmentManager.canEquip(ar.getName())) {
-          stringForm = "<font color=gray>" + stringForm + "</font>";
+          defaultComponent.setForeground(Color.GRAY);
         }
       }
 
-      JLabel defaultComponent =
-          (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-      defaultComponent.setText("<html>" + stringForm + "</html>");
+      defaultComponent.setText(StringUtilities.getEntityDecode(stringForm));
       return defaultComponent;
     }
   }

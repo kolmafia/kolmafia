@@ -11,6 +11,8 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +25,7 @@ class CharPaneRequestTest {
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("CharPaneRequestTest");
+    Preferences.reset("CharPaneRequestTest");
     KoLCharacter.setCurrentRun(0);
     CharPaneRequest.reset();
   }
@@ -104,6 +107,27 @@ class CharPaneRequestTest {
         var result = CharPaneRequest.processResults(html("request/test_charpane_basic.html"));
         assertThat(result, equalTo(true));
         assertThat("sweat", isSetTo(0));
+      }
+    }
+  }
+
+  @Nested
+  class Score {
+    @ParameterizedTest
+    @CsvSource({"black, 0", "blue, 2000", "green, 4000", "red, 6000"})
+    void parseScore(String color, int expectedScore) {
+      var cleanups =
+          new Cleanups(
+              withEquipped(ItemPool.TRANSFUNCTIONER),
+              withProperty("8BitScore", 0),
+              withProperty("8BitColor", ""));
+
+      try (cleanups) {
+        var responseText = html("request/test_charpane_8bit_" + color + "_score.html");
+        var result = CharPaneRequest.processResults(responseText);
+        assertThat(result, equalTo(true));
+        assertThat("8BitScore", isSetTo(expectedScore));
+        assertThat("8BitColor", isSetTo(color));
       }
     }
   }

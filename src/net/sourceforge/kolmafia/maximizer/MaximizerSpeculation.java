@@ -11,10 +11,15 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -65,8 +70,8 @@ public class MaximizerSpeculation extends Speculation
     }
     Maximizer.eval.checkEquipment(this.mods, this.equipment, this.beeosity);
     this.failed = Maximizer.eval.failed;
-    if ((this.mods.getRawBitmap(Modifiers.MUTEX_VIOLATIONS)
-            & ~KoLCharacter.currentRawBitmapModifier(Modifiers.MUTEX_VIOLATIONS))
+    if ((this.mods.getRawBitmap(BitmapModifier.MUTEX_VIOLATIONS)
+            & ~KoLCharacter.currentRawBitmapModifier(BitmapModifier.MUTEX_VIOLATIONS))
         != 0) { // We're speculating about something that would create a
       // mutex problem that the player didn't already have.
       this.failed = true;
@@ -118,24 +123,24 @@ public class MaximizerSpeculation extends Speculation
     for (int i = this.equipment.length - 1; i >= 0; --i) {
       if (this.equipment[i] == null) continue;
       int itemId = this.equipment[i].getItemId();
-      Modifiers mods = Modifiers.getItemModifiers(itemId);
+      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
-      String name = mods.getString(Modifiers.ROLLOVER_EFFECT);
+      String name = mods.getString(StringModifier.ROLLOVER_EFFECT);
       if (name.length() > 0) countThisEffects++;
-      if (mods.getBoolean(Modifiers.BREAKABLE)) countThisBreakables++;
-      if (mods.getBoolean(Modifiers.DROPS_ITEMS)) countThisDropsItems++;
-      if (mods.getBoolean(Modifiers.DROPS_MEAT)) countThisDropsMeat++;
+      if (mods.getBoolean(BooleanModifier.BREAKABLE)) countThisBreakables++;
+      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countThisDropsItems++;
+      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countThisDropsMeat++;
     }
     for (int i = other.equipment.length - 1; i >= 0; --i) {
       if (other.equipment[i] == null) continue;
       int itemId = other.equipment[i].getItemId();
-      Modifiers mods = Modifiers.getItemModifiers(itemId);
+      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
-      String name = mods.getString(Modifiers.ROLLOVER_EFFECT);
+      String name = mods.getString(StringModifier.ROLLOVER_EFFECT);
       if (name.length() > 0) countOtherEffects++;
-      if (mods.getBoolean(Modifiers.BREAKABLE)) countOtherBreakables++;
-      if (mods.getBoolean(Modifiers.DROPS_ITEMS)) countOtherDropsItems++;
-      if (mods.getBoolean(Modifiers.DROPS_MEAT)) countOtherDropsMeat++;
+      if (mods.getBoolean(BooleanModifier.BREAKABLE)) countOtherBreakables++;
+      if (mods.getBoolean(BooleanModifier.DROPS_ITEMS)) countOtherDropsItems++;
+      if (mods.getBoolean(BooleanModifier.DROPS_MEAT)) countOtherDropsMeat++;
     }
     // Prefer item droppers
     if (Maximizer.eval.isUsingTiebreaker() && countThisDropsItems != countOtherDropsItems) {
@@ -662,7 +667,7 @@ public class MaximizerSpeculation extends Speculation
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     boolean chefstaffable =
-        KoLCharacter.hasSkill("Spirit of Rigatoni") || KoLCharacter.isJarlsberg();
+        KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI) || KoLCharacter.isJarlsberg();
     if (!chefstaffable && KoLCharacter.isSauceror()) {
       chefstaffable =
           this.equipment[EquipmentManager.ACCESSORY1].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
@@ -731,19 +736,15 @@ public class MaximizerSpeculation extends Speculation
     if (this.equipment[EquipmentManager.OFFHAND] == null) {
       List<CheckedItem> possible;
       WeaponType weaponType = WeaponType.NONE;
-      if (KoLCharacter.hasSkill("Double-Fisted Skull Smashing")) {
+      if (KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)) {
         weaponType = EquipmentDatabase.getWeaponType(weapon);
       }
-      switch (weaponType) {
-        case MELEE:
-          possible = possibles.get(Evaluator.OFFHAND_MELEE);
-          break;
-        case RANGED:
-          possible = possibles.get(Evaluator.OFFHAND_RANGED);
-          break;
-        default:
-          possible = possibles.get(EquipmentManager.OFFHAND);
-      }
+      possible =
+          switch (weaponType) {
+            case MELEE -> possibles.get(Evaluator.OFFHAND_MELEE);
+            case RANGED -> possibles.get(Evaluator.OFFHAND_RANGED);
+            default -> possibles.get(EquipmentManager.OFFHAND);
+          };
       boolean any = false;
 
       for (int pos = 0; pos < possible.size(); ++pos) {
@@ -814,11 +815,11 @@ public class MaximizerSpeculation extends Speculation
   }
 
   private static int getMutex(AdventureResult item) {
-    Modifiers mods = Modifiers.getItemModifiers(item.getItemId());
+    Modifiers mods = ModifierDatabase.getItemModifiers(item.getItemId());
     if (mods == null) {
       return 0;
     }
-    return mods.getRawBitmap(Modifiers.MUTEX);
+    return mods.getRawBitmap(BitmapModifier.MUTEX);
   }
 
   private void trySwap(int slot1, int slot2) {

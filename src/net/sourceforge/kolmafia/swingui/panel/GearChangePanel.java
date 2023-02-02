@@ -29,18 +29,26 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -96,26 +104,26 @@ public class GearChangePanel extends JPanel {
 
       // We maintain our own lists for certain slots
       switch (i) {
-        case EquipmentManager.HAT:
-        case EquipmentManager.PANTS:
-        case EquipmentManager.SHIRT:
-        case EquipmentManager.CONTAINER:
-        case EquipmentManager.WEAPON:
-        case EquipmentManager.OFFHAND:
-        case EquipmentManager.ACCESSORY1:
-        case EquipmentManager.ACCESSORY2:
-        case EquipmentManager.ACCESSORY3:
-        case EquipmentManager.FAMILIAR:
-        case EquipmentManager.BOOTSKIN:
-        case EquipmentManager.BOOTSPUR:
-        case EquipmentManager.HOLSTER:
+        case EquipmentManager.HAT,
+            EquipmentManager.PANTS,
+            EquipmentManager.SHIRT,
+            EquipmentManager.CONTAINER,
+            EquipmentManager.WEAPON,
+            EquipmentManager.OFFHAND,
+            EquipmentManager.ACCESSORY1,
+            EquipmentManager.ACCESSORY2,
+            EquipmentManager.ACCESSORY3,
+            EquipmentManager.FAMILIAR,
+            EquipmentManager.BOOTSKIN,
+            EquipmentManager.BOOTSPUR,
+            EquipmentManager.HOLSTER -> {
           list = new SortedListModel<>();
           this.equipmentModels.add((SortedListModel<AdventureResult>) list);
-          break;
-        default:
+        }
+        default -> {
           list = (LockableListModel<AdventureResult>) lists.get(i);
           this.equipmentModels.add(null);
-          break;
+        }
       }
 
       this.equipment[i] = new EquipmentComboBox(list, i);
@@ -150,7 +158,7 @@ public class GearChangePanel extends JPanel {
 
     if (value instanceof AdventureResult item) {
       mods = new Modifiers();
-      var taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
+      var taoFactor = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 2 : 1;
       KoLCharacter.addItemAdjustment(
           mods,
           slot,
@@ -162,9 +170,9 @@ public class GearChangePanel extends JPanel {
           true,
           taoFactor);
     } else if (value instanceof SpecialOutfit outfit) {
-      mods = Modifiers.getModifiers("Outfit", outfit.getName());
+      mods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
     } else if (value instanceof FamiliarData familiar && isCustomizablePanel) {
-      mods = Modifiers.getModifiers("Throne", familiar.getRace());
+      mods = ModifierDatabase.getModifiers(ModifierType.THRONE, familiar.getRace());
     } else {
       return null;
     }
@@ -173,11 +181,11 @@ public class GearChangePanel extends JPanel {
       return buff;
     }
 
-    String name = mods.getString(Modifiers.INTRINSIC_EFFECT);
+    String name = mods.getString(StringModifier.INTRINSIC_EFFECT);
     if (name.length() > 0) {
       Modifiers newMods = new Modifiers();
       newMods.add(mods);
-      newMods.add(Modifiers.getModifiers("Effect", name));
+      newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, name));
       mods = newMods;
     }
 
@@ -185,10 +193,10 @@ public class GearChangePanel extends JPanel {
     buff.append(width);
     buff.append(">");
 
-    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
-      double val = mods.get(i);
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+      double val = mods.getDouble(mod);
       if (val == 0.0f) continue;
-      name = Modifiers.getModifierName(i);
+      name = mod.getName();
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");
       name = StringUtilities.singleStringReplace(name, "Experience", "Exp");
       name = StringUtilities.singleStringReplace(name, "Damage", "Dmg");
@@ -201,35 +209,35 @@ public class GearChangePanel extends JPanel {
     }
 
     boolean anyBool = false;
-    for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; ++i) {
-      if (mods.getRawBitmap(i) == 0) continue;
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      if (mods.getRawBitmap(mod) == 0) continue;
       if (anyBool) {
         buff.append(", ");
       }
       anyBool = true;
-      buff.append(Modifiers.getBitmapModifierName(i));
+      buff.append(mod.getName());
     }
 
-    for (int i = 1; i < Modifiers.BOOLEAN_MODIFIERS; ++i) {
-      if (!mods.getBoolean(i)) continue;
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
+      if (!mods.getBoolean(mod)) continue;
       if (anyBool) {
         buff.append(", ");
       }
       anyBool = true;
-      buff.append(Modifiers.getBooleanModifierName(i));
+      buff.append(mod.getName());
     }
 
-    for (int i = 1; i < Modifiers.STRING_MODIFIERS; ++i) {
-      if (i == Modifiers.WIKI_NAME
-          || i == Modifiers.MODIFIERS
-          || i == Modifiers.OUTFIT
-          || i == Modifiers.FAMILIAR_EFFECT) {
+    for (var mod : StringModifier.STRING_MODIFIERS) {
+      if (mod == StringModifier.WIKI_NAME
+          || mod == StringModifier.MODIFIERS
+          || mod == StringModifier.OUTFIT
+          || mod == StringModifier.FAMILIAR_EFFECT) {
         continue;
       }
 
-      String strval = mods.getString(i);
+      String strval = mods.getString(mod);
       if (strval.equals("")) continue;
-      name = Modifiers.getStringModifierName(i);
+      name = mod.getName();
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");
       if (anyBool) {
         buff.append(", ");
@@ -268,7 +276,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private abstract class EquipmentTabPanel extends GenericPanel {
+  private abstract static class EquipmentTabPanel extends GenericPanel {
     protected JLabel modifiersLabel;
     protected int modifiersWidth;
 
@@ -463,7 +471,7 @@ public class GearChangePanel extends JPanel {
 
     for (int i : EquipmentManager.ACCESSORY_SLOTS) {
       if (pieces[i] != null) {
-        RequestThread.postRequest(new EquipmentRequest(pieces[i], i, true));
+        RequestThread.postRequest(new EquipmentRequest(pieces[i], i));
         pieces[i] = null;
       }
     }
@@ -472,7 +480,7 @@ public class GearChangePanel extends JPanel {
 
     for (int i = 0; i < EquipmentManager.ACCESSORY1; ++i) {
       if (pieces[i] != null) {
-        RequestThread.postRequest(new EquipmentRequest(pieces[i], i, true));
+        RequestThread.postRequest(new EquipmentRequest(pieces[i], i));
         pieces[i] = null;
       }
     }
@@ -640,7 +648,7 @@ public class GearChangePanel extends JPanel {
     AdventureResult card =
         (AdventureResult) this.equipment[EquipmentManager.CARDSLEEVE].getSelectedItem();
     if (!EquipmentManager.getEquipment(EquipmentManager.CARDSLEEVE).equals(card)) {
-      RequestThread.postRequest(new EquipmentRequest(card, EquipmentManager.CARDSLEEVE, true));
+      RequestThread.postRequest(new EquipmentRequest(card, EquipmentManager.CARDSLEEVE));
     }
 
     // Stickers
@@ -655,7 +663,7 @@ public class GearChangePanel extends JPanel {
       AdventureResult sticker = stickers[i];
       int slot = EquipmentManager.STICKER1 + i;
       if (!EquipmentManager.getEquipment(slot).equals(sticker)) {
-        RequestThread.postRequest(new EquipmentRequest(sticker, slot, true));
+        RequestThread.postRequest(new EquipmentRequest(sticker, slot));
       }
     }
 
@@ -673,7 +681,7 @@ public class GearChangePanel extends JPanel {
       AdventureResult folder = folders[i];
       int slot = EquipmentManager.FOLDER1 + i;
       if (!EquipmentManager.getEquipment(slot).equals(folder)) {
-        RequestThread.postRequest(new EquipmentRequest(folder, slot, true));
+        RequestThread.postRequest(new EquipmentRequest(folder, slot));
       }
     }
 
@@ -688,7 +696,7 @@ public class GearChangePanel extends JPanel {
       AdventureResult decoration = bootDecorations[i];
       int slot = EquipmentManager.BOOTSKIN + i;
       if (!EquipmentManager.getEquipment(slot).equals(decoration)) {
-        RequestThread.postRequest(new EquipmentRequest(decoration, slot, true));
+        RequestThread.postRequest(new EquipmentRequest(decoration, slot));
       }
     }
 
@@ -802,7 +810,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class OutfitComboBox extends JComboBox<SpecialOutfit> {
+  private static class OutfitComboBox extends JComboBox<SpecialOutfit> {
     public OutfitComboBox(final LockableListModel<SpecialOutfit> model) {
       super(model);
 
@@ -852,7 +860,7 @@ public class GearChangePanel extends JPanel {
     GearChangePanel.INSTANCE.familiars.clear();
   }
 
-  private class CarriedFamiliarComboBox extends JComboBox<FamiliarData> {
+  private static class CarriedFamiliarComboBox extends JComboBox<FamiliarData> {
     public CarriedFamiliarComboBox(final LockableListModel<FamiliarData> model) {
       super(model);
       DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
@@ -860,7 +868,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class ThroneComboBox extends CarriedFamiliarComboBox implements Listener {
+  private static class ThroneComboBox extends CarriedFamiliarComboBox implements Listener {
     public ThroneComboBox(final LockableListModel<FamiliarData> model) {
       super(model);
       NamedListenerRegistry.registerNamedListener("(throne)", this);
@@ -877,7 +885,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class BjornComboBox extends CarriedFamiliarComboBox implements Listener {
+  private static class BjornComboBox extends CarriedFamiliarComboBox implements Listener {
     public BjornComboBox(final LockableListModel<FamiliarData> model) {
       super(model);
       NamedListenerRegistry.registerNamedListener("(bjorn)", this);
@@ -933,15 +941,13 @@ public class GearChangePanel extends JPanel {
   }
 
   private boolean slotItemCanBeNone(final int slot) {
-    switch (slot) {
-      case EquipmentManager.BOOTSKIN:
-      case EquipmentManager.BOOTSPUR:
-        // You cannot remove the item in this slot, but if
-        // nothing is equipped, need a placeholder
-        return EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP);
-      default:
-        return true;
-    }
+    return switch (slot) {
+      case EquipmentManager.BOOTSKIN, EquipmentManager.BOOTSPUR ->
+      // You cannot remove the item in this slot, but if
+      // nothing is equipped, need a placeholder
+      EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP);
+      default -> true;
+    };
   }
 
   private Optional<FamiliarData> familiarCarryingEquipment(final int slot) {
@@ -971,15 +977,15 @@ public class GearChangePanel extends JPanel {
 
     // Certain familiars can carry non-familiar-items
     FamiliarData myFamiliar = KoLCharacter.getFamiliar();
-    int specialFamiliarType = myFamiliar.specialEquipmentType();
-    boolean specialFamiliar = (specialFamiliarType != KoLConstants.NO_CONSUME);
+    ConsumptionType specialFamiliarType = myFamiliar.specialEquipmentType();
+    boolean specialFamiliar = (specialFamiliarType != ConsumptionType.NONE);
 
     // Look at every item in inventory
     for (AdventureResult item : KoLConstants.inventory) {
-      int consumption = ItemDatabase.getConsumptionType(item.getItemId());
+      ConsumptionType consumption = ItemDatabase.getConsumptionType(item.getItemId());
       int slot = EquipmentManager.consumeFilterToEquipmentType(consumption);
       switch (consumption) {
-        case KoLConstants.EQUIP_WEAPON:
+        case WEAPON:
           if (this.shouldAddItem(item, consumption, EquipmentManager.WEAPON)) {
             lists.get(EquipmentManager.WEAPON).add(item);
           }
@@ -988,7 +994,7 @@ public class GearChangePanel extends JPanel {
           }
           break;
 
-        case KoLConstants.EQUIP_ACCESSORY:
+        case ACCESSORY:
           if (this.shouldAddItem(item, consumption, slot)) {
             lists.get(EquipmentManager.ACCESSORY1).add(item);
             lists.get(EquipmentManager.ACCESSORY2).add(item);
@@ -997,7 +1003,7 @@ public class GearChangePanel extends JPanel {
           break;
 
           /*
-          case KoLConstants.CONSUME_STICKER:
+          case CONSUME_STICKER:
             if (this.shouldAddItem(item, consumption, slot)) {
               lists.get(EquipmentManager.STICKER1).add(item);
               lists.get(EquipmentManager.STICKER2).add(item);
@@ -1005,7 +1011,7 @@ public class GearChangePanel extends JPanel {
             }
             break;
 
-          case KoLConstants.CONSUME_FOLDER:
+          case CONSUME_FOLDER:
             if (this.shouldAddItem(item, consumption, slot)) {
               lists.get(EquipmentManager.FOLDER1).add(item);
               lists.get(EquipmentManager.FOLDER2).add(item);
@@ -1075,37 +1081,37 @@ public class GearChangePanel extends JPanel {
     return this.shouldAddItem(item, ItemDatabase.getConsumptionType(item.getItemId()), slot);
   }
 
-  private boolean shouldAddItem(AdventureResult item, int consumption, int slot) {
+  private boolean shouldAddItem(AdventureResult item, ConsumptionType consumption, int slot) {
     switch (consumption) {
         // The following lists are local to GearChanger
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_SHIRT:
-      case KoLConstants.EQUIP_CONTAINER:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_ACCESSORY:
-      case KoLConstants.CONSUME_BOOTSKIN:
-      case KoLConstants.CONSUME_BOOTSPUR:
-      case KoLConstants.CONSUME_SIXGUN:
+      case HAT:
+      case SHIRT:
+      case CONTAINER:
+      case PANTS:
+      case ACCESSORY:
+      case BOOTSKIN:
+      case BOOTSPUR:
+      case SIXGUN:
         break;
-      case KoLConstants.EQUIP_WEAPON:
+      case WEAPON:
         if (!this.filterWeapon(item, slot)) {
           return false;
         }
         break;
-      case KoLConstants.EQUIP_OFFHAND:
-        if (!this.filterOffhand(item, KoLConstants.EQUIP_OFFHAND)) {
+      case OFFHAND:
+        if (!this.filterOffhand(item, ConsumptionType.OFFHAND)) {
           return false;
         }
         break;
-      case KoLConstants.EQUIP_FAMILIAR:
+      case FAMILIAR_EQUIPMENT:
         if (!KoLCharacter.getFamiliar().canEquip(item)) {
           return false;
         }
         break;
         // The following lists are in EquipmentManager
-      case KoLConstants.CONSUME_STICKER:
-      case KoLConstants.CONSUME_CARD:
-      case KoLConstants.CONSUME_FOLDER:
+      case STICKER:
+      case CARD:
+      case FOLDER:
         break;
       default:
         return false;
@@ -1120,7 +1126,7 @@ public class GearChangePanel extends JPanel {
     }
 
     if (slot == EquipmentManager.OFFHAND) {
-      return this.filterOffhand(weapon, KoLConstants.EQUIP_WEAPON);
+      return this.filterOffhand(weapon, ConsumptionType.WEAPON);
     }
 
     if (KoLCharacter.inAxecore()) {
@@ -1135,17 +1141,14 @@ public class GearChangePanel extends JPanel {
       return true;
     }
 
-    switch (EquipmentDatabase.getWeaponType(weapon.getItemId())) {
-      case MELEE:
-        return this.weaponTypes[1].isSelected();
-      case RANGED:
-        return this.weaponTypes[2].isSelected();
-      default:
-        return false;
-    }
+    return switch (EquipmentDatabase.getWeaponType(weapon.getItemId())) {
+      case MELEE -> this.weaponTypes[1].isSelected();
+      case RANGED -> this.weaponTypes[2].isSelected();
+      default -> false;
+    };
   }
 
-  private boolean filterOffhand(final AdventureResult offhand, int consumption) {
+  private boolean filterOffhand(final AdventureResult offhand, ConsumptionType consumption) {
     // In Fistcore, you must have both hands free.
     // In Axecore, you can equip only Trusty, a two-handed axe
     if (KoLCharacter.inFistcore() || KoLCharacter.inAxecore()) {
@@ -1160,8 +1163,8 @@ public class GearChangePanel extends JPanel {
     }
 
     // Do not even consider weapons unless we can dual-wield
-    if (consumption == KoLConstants.EQUIP_WEAPON) {
-      if (!KoLCharacter.hasSkill("Double-Fisted Skull Smashing")) {
+    if (consumption == ConsumptionType.WEAPON) {
+      if (!KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)) {
         return false;
       }
 
@@ -1198,7 +1201,7 @@ public class GearChangePanel extends JPanel {
       return true;
     }
 
-    if (consumption == KoLConstants.EQUIP_WEAPON) {
+    if (consumption == ConsumptionType.WEAPON) {
       return this.offhandTypes[1].isSelected();
     }
 
@@ -1216,7 +1219,7 @@ public class GearChangePanel extends JPanel {
     return false;
   }
 
-  private boolean shouldAddItem(final AdventureResult item, final int type) {
+  private boolean shouldAddItem(final AdventureResult item, final ConsumptionType type) {
     // Only add items of specified type
     if (type != ItemDatabase.getConsumptionType(item.getItemId())) {
       return false;
@@ -1449,7 +1452,8 @@ public class GearChangePanel extends JPanel {
     currentFamiliars.setSelectedItem(activeFamiliar);
   }
 
-  private class FakeHandsSpinner extends AutoHighlightSpinner implements ChangeListener, Listener {
+  private static class FakeHandsSpinner extends AutoHighlightSpinner
+      implements ChangeListener, Listener {
     private int currentFakeHands = 0;
     private int availableFakeHands = 0;
 
@@ -1489,7 +1493,7 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private class FamLockCheckbox extends JCheckBox implements Listener {
+  private static class FamLockCheckbox extends JCheckBox implements Listener {
     public FamLockCheckbox() {
       super("familiar item locked");
       this.addActionListener(new LockFamiliarItemListener());
@@ -1497,7 +1501,7 @@ public class GearChangePanel extends JPanel {
       this.update();
     }
 
-    private class LockFamiliarItemListener extends ThreadedListener {
+    private static class LockFamiliarItemListener extends ThreadedListener {
       @Override
       protected void execute() {
         RequestThread.postRequest(new FamiliarRequest(true));

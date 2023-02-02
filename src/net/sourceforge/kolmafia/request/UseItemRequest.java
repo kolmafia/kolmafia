@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -11,24 +12,38 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
-import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
-import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.persistence.RestoresDatabase;
+import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
@@ -108,12 +123,9 @@ public class UseItemRequest extends GenericRequest {
               + "<tr><td align=right>Navigation:</td><td><b>(\\d)/9</b> bio-data segments collected</td></tr>"
               + "<tr><td align=right>Galley:</td><td><b>(\\d)/9</b> bio-data segments collected");
 
-  private static final HashMap<Integer, AdventureResult> LIMITED_USES =
-      new HashMap<Integer, AdventureResult>();
+  private static final HashMap<Integer, AdventureResult> LIMITED_USES = new HashMap<>();
 
   static {
-    UseItemRequest.LIMITED_USES.put(
-        ItemPool.ASTRAL_MUSHROOM, EffectPool.get(EffectPool.HALF_ASTRAL));
     UseItemRequest.LIMITED_USES.put(ItemPool.ABSINTHE, EffectPool.get(EffectPool.ABSINTHE));
     UseItemRequest.LIMITED_USES.put(ItemPool.ELEVEN_LEAF_CLOVER, EffectPool.get(EffectPool.LUCKY));
   }
@@ -122,9 +134,9 @@ public class UseItemRequest extends GenericRequest {
   public static String limiter = "";
   private static AdventureResult lastFruit = null;
   private static AdventureResult lastUntinker = null;
-  private static boolean retrying = false;
 
-  protected final int consumptionType;
+  protected boolean shouldFollowRedirect = true;
+  protected final ConsumptionType consumptionType;
   protected AdventureResult itemUsed;
 
   protected static AdventureResult lastItemUsed = null;
@@ -147,27 +159,21 @@ public class UseItemRequest extends GenericRequest {
   }
 
   public static final UseItemRequest getInstance(
-      final int consumptionType, final AdventureResult item) {
-    switch (consumptionType) {
-      case KoLConstants.CONSUME_DRINK:
-      case KoLConstants.CONSUME_DRINK_HELPER:
-        return new DrinkItemRequest(item);
-      case KoLConstants.CONSUME_EAT:
-      case KoLConstants.CONSUME_FOOD_HELPER:
-        return new EatItemRequest(item);
-      case KoLConstants.CONSUME_SPLEEN:
-        return new SpleenItemRequest(item);
-    }
-
-    return new UseItemRequest(consumptionType, item);
+      final ConsumptionType consumptionType, final AdventureResult item) {
+    return switch (consumptionType) {
+      case DRINK, DRINK_HELPER -> new DrinkItemRequest(item);
+      case EAT, FOOD_HELPER -> new EatItemRequest(item);
+      case SPLEEN -> new SpleenItemRequest(item);
+      default -> new UseItemRequest(consumptionType, item);
+    };
   }
 
-  protected UseItemRequest(final int consumptionType, final AdventureResult item) {
+  protected UseItemRequest(final ConsumptionType consumptionType, final AdventureResult item) {
     this(UseItemRequest.getConsumptionLocation(consumptionType, item), consumptionType, item);
   }
 
   private UseItemRequest(
-      final String location, final int consumptionType, final AdventureResult item) {
+      final String location, final ConsumptionType consumptionType, final AdventureResult item) {
     super(location);
 
     this.consumptionType = consumptionType;
@@ -176,66 +182,66 @@ public class UseItemRequest extends GenericRequest {
     this.addFormField("whichitem", String.valueOf(item.getItemId()));
   }
 
-  public static final int getConsumptionType(final AdventureResult item) {
+  public static final ConsumptionType getConsumptionType(final AdventureResult item) {
     int itemId = item.getItemId();
 
     // We want to display the result of using certain items
     switch (itemId) {
       case ItemPool.HOBO_CODE_BINDER:
       case ItemPool.STUFFED_BARON:
-        return KoLConstants.MESSAGE_DISPLAY;
+        return ConsumptionType.USE_MESSAGE_DISPLAY;
     }
 
-    int consumptionType = ItemDatabase.getConsumptionType(itemId);
+    ConsumptionType consumptionType = ItemDatabase.getConsumptionType(itemId);
 
     // Spleen items can be marked "usable", if you can only use one
     // at a time, but must use a SpleenItemRequest
-    if (consumptionType == KoLConstants.CONSUME_SPLEEN) {
-      return KoLConstants.CONSUME_SPLEEN;
+    if (consumptionType == ConsumptionType.SPLEEN) {
+      return ConsumptionType.SPLEEN;
     }
 
-    int attrs = ItemDatabase.getAttributes(itemId);
-    if ((attrs & ItemDatabase.ATTR_USABLE) != 0) {
-      return KoLConstants.CONSUME_USE;
+    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
+    if (attrs.contains(Attribute.USABLE)) {
+      return ConsumptionType.USE;
     }
-    if ((attrs & ItemDatabase.ATTR_MULTIPLE) != 0) {
-      return KoLConstants.CONSUME_MULTIPLE;
+    if (attrs.contains(Attribute.MULTIPLE)) {
+      return ConsumptionType.USE_MULTIPLE;
     }
-    if ((attrs & ItemDatabase.ATTR_REUSABLE) != 0) {
-      return KoLConstants.INFINITE_USES;
+    if (attrs.contains(Attribute.REUSABLE)) {
+      return ConsumptionType.USE_INFINITE;
     }
 
     return consumptionType;
   }
 
   private static String getConsumptionLocation(
-      final int consumptionType, final AdventureResult item) {
+      final ConsumptionType consumptionType, final AdventureResult item) {
     switch (consumptionType) {
-      case KoLConstants.CONSUME_EAT:
+      case EAT:
         return "inv_eat.php";
-      case KoLConstants.CONSUME_DRINK:
+      case DRINK:
         return "inv_booze.php";
-      case KoLConstants.CONSUME_SPLEEN:
+      case SPLEEN:
         return "inv_spleen.php";
-      case KoLConstants.GROW_FAMILIAR:
+      case FAMILIAR_HATCHLING:
         return "inv_familiar.php";
-      case KoLConstants.CONSUME_HOBO:
-      case KoLConstants.CONSUME_GHOST:
-      case KoLConstants.CONSUME_SLIME:
+      case SPIRIT_HOBO:
+      case GLUTTONOUS_GHOST:
+      case SLIMELING:
         return "familiarbinger.php";
-      case KoLConstants.CONSUME_ROBO:
+      case ROBORTENDER:
         return "inventory.php";
-      case KoLConstants.CONSUME_SPHERE:
+      case EL_VIBRATO_SPHERE:
         return "campground.php";
-      case KoLConstants.CONSUME_MULTIPLE:
+      case USE_MULTIPLE:
         if (item.getCount() > 1) {
           return "multiuse.php";
         }
         return "inv_use.php";
-      case KoLConstants.INFINITE_USES:
+      case USE_INFINITE:
         {
-          int type = ItemDatabase.getConsumptionType(item.getItemId());
-          return type == KoLConstants.CONSUME_MULTIPLE ? "multiuse.php" : "inv_use.php";
+          ConsumptionType type = ItemDatabase.getConsumptionType(item.getItemId());
+          return type == ConsumptionType.USE_MULTIPLE ? "multiuse.php" : "inv_use.php";
         }
       default:
         return "inv_use.php";
@@ -261,49 +267,42 @@ public class UseItemRequest extends GenericRequest {
   }
 
   private boolean isBingeRequest() {
-    switch (this.consumptionType) {
-      case KoLConstants.CONSUME_HOBO:
-      case KoLConstants.CONSUME_GHOST:
-      case KoLConstants.CONSUME_SLIME:
-      case KoLConstants.CONSUME_MIMIC:
-        return true;
-    }
-    return false;
+    return switch (this.consumptionType) {
+      case SPIRIT_HOBO, GLUTTONOUS_GHOST, SLIMELING, STOCKING_MIMIC -> true;
+      default -> false;
+    };
   }
 
   private static boolean needsConfirmation(final AdventureResult item) {
-    switch (item.getItemId()) {
-      case ItemPool.NEWBIESPORT_TENT:
-      case ItemPool.BARSKIN_TENT:
-      case ItemPool.COTTAGE:
-      case ItemPool.BRICKO_PYRAMID:
-      case ItemPool.HOUSE:
-      case ItemPool.SANDCASTLE:
-      case ItemPool.GINORMOUS_PUMPKIN:
-      case ItemPool.TWIG_HOUSE:
-      case ItemPool.GINGERBREAD_HOUSE:
-      case ItemPool.HOBO_FORTRESS:
-      case ItemPool.GIANT_FARADAY_CAGE:
-      case ItemPool.SNOW_FORT:
-      case ItemPool.ELEVENT:
-      case ItemPool.RESIDENCE_CUBE:
-      case ItemPool.GIANT_PILGRIM_HAT:
-      case ItemPool.HOUSE_SIZED_MUSHROOM:
-        return CampgroundRequest.getCurrentDwelling() != CampgroundRequest.BIG_ROCK;
-
-      case ItemPool.HOT_BEDDING:
-      case ItemPool.COLD_BEDDING:
-      case ItemPool.STENCH_BEDDING:
-      case ItemPool.SPOOKY_BEDDING:
-      case ItemPool.SLEAZE_BEDDING:
-      case ItemPool.BEANBAG_CHAIR:
-      case ItemPool.GAUZE_HAMMOCK:
-      case ItemPool.SALTWATERBED:
-      case ItemPool.SPIRIT_BED:
-        return CampgroundRequest.getCurrentBed() != null;
-    }
-
-    return false;
+    return switch (item.getItemId()) {
+      case ItemPool.NEWBIESPORT_TENT,
+          ItemPool.BARSKIN_TENT,
+          ItemPool.COTTAGE,
+          ItemPool.BRICKO_PYRAMID,
+          ItemPool.HOUSE,
+          ItemPool.SANDCASTLE,
+          ItemPool.GINORMOUS_PUMPKIN,
+          ItemPool.TWIG_HOUSE,
+          ItemPool.GINGERBREAD_HOUSE,
+          ItemPool.HOBO_FORTRESS,
+          ItemPool.GIANT_FARADAY_CAGE,
+          ItemPool.SNOW_FORT,
+          ItemPool.ELEVENT,
+          ItemPool.RESIDENCE_CUBE,
+          ItemPool.GIANT_PILGRIM_HAT,
+          ItemPool.HOUSE_SIZED_MUSHROOM -> CampgroundRequest.getCurrentDwelling()
+          != CampgroundRequest.BIG_ROCK;
+      case ItemPool.HOT_BEDDING,
+          ItemPool.COLD_BEDDING,
+          ItemPool.STENCH_BEDDING,
+          ItemPool.SPOOKY_BEDDING,
+          ItemPool.SLEAZE_BEDDING,
+          ItemPool.BEANBAG_CHAIR,
+          ItemPool.GAUZE_HAMMOCK,
+          ItemPool.SALTWATERBED,
+          ItemPool.SPIRIT_BED -> CampgroundRequest.getCurrentBed() != null;
+      default -> false;
+    };
   }
 
   public static boolean askAboutPvP(final String itemName) {
@@ -334,7 +333,7 @@ public class UseItemRequest extends GenericRequest {
     return true;
   }
 
-  public int getConsumptionType() {
+  public ConsumptionType getConsumptionType() {
     return this.consumptionType;
   }
 
@@ -343,24 +342,26 @@ public class UseItemRequest extends GenericRequest {
   }
 
   public static final int maximumUses(final int itemId) {
-    String itemName = ItemDatabase.getItemName(itemId);
-    return UseItemRequest.maximumUses(itemId, itemName, KoLConstants.NO_CONSUME, true);
+    return UseItemRequest.maximumUses(itemId, ConsumptionType.NONE);
   }
 
-  public static final int maximumUses(final int itemId, final int consumptionType) {
-    String itemName = ItemDatabase.getItemName(itemId);
+  public static final int maximumUses(final int itemId, final ConsumptionType consumptionType) {
+    String itemName = ItemDatabase.getItemDataName(itemId);
     return UseItemRequest.maximumUses(itemId, itemName, consumptionType, true);
   }
 
-  public static final int maximumUses(final String itemName) {
+  public static final int maximumUses(String itemName) {
     int itemId = ItemDatabase.getItemId(itemName);
-    return UseItemRequest.maximumUses(itemId, itemName, KoLConstants.NO_CONSUME, false);
+    if (itemId > 0) {
+      itemName = ItemDatabase.getItemDataName(itemId);
+    }
+    return UseItemRequest.maximumUses(itemId, itemName, ConsumptionType.NONE, false);
   }
 
   private static int maximumUses(
       final int itemId,
       final String itemName,
-      final int consumptionType,
+      final ConsumptionType consumptionType,
       final boolean allowOverDrink) {
     if (FightRequest.inMultiFight) {
       UseItemRequest.limiter = "multi-stage fight in progress";
@@ -374,6 +375,12 @@ public class UseItemRequest extends GenericRequest {
 
     if (ChoiceManager.handlingChoice && !ChoiceManager.canWalkAway()) {
       UseItemRequest.limiter = "choice adventure in progress";
+      return 0;
+    }
+
+    // Check LimitMode
+    if (KoLCharacter.getLimitMode().limitItem(itemId)) {
+      UseItemRequest.limiter = "limit mode";
       return 0;
     }
 
@@ -421,37 +428,39 @@ public class UseItemRequest extends GenericRequest {
 
     // Check binge requests before checking fullness or inebriety
     switch (consumptionType) {
-      case KoLConstants.CONSUME_HOBO:
-      case KoLConstants.CONSUME_GHOST:
-      case KoLConstants.CONSUME_SLIME:
+      case SPIRIT_HOBO:
+      case GLUTTONOUS_GHOST:
+      case SLIMELING:
         return Integer.MAX_VALUE;
-      case KoLConstants.CONSUME_ROBO:
+      case ROBORTENDER:
         return 1;
-      case KoLConstants.CONSUME_GUARDIAN:
+      case PASTA_GUARDIAN:
         UseItemRequest.limiter = "character class";
         return KoLCharacter.isPastamancer() ? 1 : 0;
+      case EAT:
+        return EatItemRequest.maximumUses(
+            itemId, itemName, ConsumablesDatabase.getFullness(itemName));
+      case DRINK:
+        return DrinkItemRequest.maximumUses(
+            itemId, itemName, ConsumablesDatabase.getInebriety(itemName), allowOverDrink);
+      case SPLEEN:
+        return SpleenItemRequest.maximumUses(
+            itemId, itemName, ConsumablesDatabase.getSpleenHit(itemName));
     }
 
     // Delegate to specialized classes as appropriate
 
     int inebriety = ConsumablesDatabase.getInebriety(itemName);
-    int fullness = ConsumablesDatabase.getFullness(itemName);
-    int spleenHit = ConsumablesDatabase.getSpleenHit(itemName);
-
-    if (KoLCharacter.isGreyGoo() && ((inebriety + fullness + spleenHit) > 0)) {
-      // If we ever track what items have already been absorbed this ascension, this is a great
-      // place to use those data.
-      return 1;
-    }
-
     if (inebriety > 0) {
       return DrinkItemRequest.maximumUses(itemId, itemName, inebriety, allowOverDrink);
     }
 
+    int fullness = ConsumablesDatabase.getFullness(itemName);
     if (fullness > 0 || itemId == ItemPool.MAGICAL_SAUSAGE) {
       return EatItemRequest.maximumUses(itemId, itemName, fullness);
     }
 
+    int spleenHit = ConsumablesDatabase.getSpleenHit(itemName);
     if (spleenHit > 0) {
       return SpleenItemRequest.maximumUses(itemId, itemName, spleenHit);
     }
@@ -491,6 +500,7 @@ public class UseItemRequest extends GenericRequest {
         }
         break;
 
+      case ItemPool.ASTRAL_MUSHROOM:
       case ItemPool.GONG:
       case ItemPool.KETCHUP_HOUND:
         UseItemRequest.limiter = "usability";
@@ -831,7 +841,7 @@ public class UseItemRequest extends GenericRequest {
     }
 
     switch (consumptionType) {
-      case KoLConstants.GROW_FAMILIAR:
+      case FAMILIAR_HATCHLING -> {
         if (KoLCharacter.inAxecore()) {
           UseItemRequest.limiter = "Boris's scorn for familiars";
           return 0;
@@ -839,28 +849,23 @@ public class UseItemRequest extends GenericRequest {
         UseItemRequest.limiter =
             "the fine print in your Familiar-Gro\u2122 Terrarium owner's manual";
         return 1;
-      case KoLConstants.EQUIP_WEAPON:
+      }
         // Even if you can dual-wield, if we attempt to "use" a
         // weapon, it will become an "equip", which always goes
         // in the main hand.
-      case KoLConstants.EQUIP_FAMILIAR:
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_CONTAINER:
-      case KoLConstants.EQUIP_SHIRT:
-      case KoLConstants.EQUIP_OFFHAND:
+      case WEAPON, FAMILIAR_EQUIPMENT, HAT, PANTS, CONTAINER, SHIRT, OFFHAND -> {
         UseItemRequest.limiter = "slot";
         return 1;
-      case KoLConstants.EQUIP_ACCESSORY:
+      }
+      case ACCESSORY -> {
         UseItemRequest.limiter = "slot";
         return 3;
+      }
     }
 
-    Integer key = itemId;
-
-    if (UseItemRequest.LIMITED_USES.containsKey(key)) {
+    if (UseItemRequest.LIMITED_USES.containsKey(itemId)) {
       UseItemRequest.limiter = "unstackable effect";
-      return KoLConstants.activeEffects.contains(UseItemRequest.LIMITED_USES.get(key)) ? 0 : 1;
+      return KoLConstants.activeEffects.contains(UseItemRequest.LIMITED_USES.get(itemId)) ? 0 : 1;
     }
 
     return Integer.MAX_VALUE;
@@ -919,14 +924,12 @@ public class UseItemRequest extends GenericRequest {
     }
 
     switch (itemId) {
-      case ItemPool.DECK_OF_EVERY_CARD:
+      case ItemPool.DECK_OF_EVERY_CARD -> {
         // Treat a "use" of the deck as "play random"
         (new DeckOfEveryCardRequest()).run();
         return;
-
-      case ItemPool.BRICKO_SWORD:
-      case ItemPool.BRICKO_HAT:
-      case ItemPool.BRICKO_PANTS:
+      }
+      case ItemPool.BRICKO_SWORD, ItemPool.BRICKO_HAT, ItemPool.BRICKO_PANTS -> {
         if (!InventoryManager.retrieveItem(this.itemUsed)) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have one of those.");
           return;
@@ -936,53 +939,47 @@ public class UseItemRequest extends GenericRequest {
             new GenericRequest("inventory.php?action=breakbricko&pwd&whichitem=" + itemId);
         RequestThread.postRequest(req);
         return;
-
-      case ItemPool.STICKER_SWORD:
-      case ItemPool.STICKER_CROSSBOW:
+      }
+      case ItemPool.STICKER_SWORD, ItemPool.STICKER_CROSSBOW -> {
         if (!InventoryManager.retrieveItem(this.itemUsed)) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have one of those.");
           return;
         }
         RequestThread.postRequest(new GenericRequest("bedazzle.php?action=fold&pwd"));
         return;
-
-      case ItemPool.MACGUFFIN_DIARY:
-      case ItemPool.ED_DIARY:
-        {
-          var request = new UpdateSuppressedRequest("diary.php?textversion=1");
-          request.run();
-          KoLmafia.updateDisplay("Your father's diary has been read.");
-          return;
-        }
-
-      case ItemPool.VOLCANO_MAP:
-        {
-          var request =
-              new UpdateSuppressedRequest(
-                  "inv_use.php?which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd");
-          request.run();
-          // This redirects to inventory.php?which=3&action=message (first time)
-          // or volcanoisland.php (subsequent times)
-          KoLmafia.updateDisplay("The secret tropical island volcano lair map has been read.");
-          return;
-        }
-
-      case ItemPool.NEWBIESPORT_TENT:
-      case ItemPool.BARSKIN_TENT:
-      case ItemPool.COTTAGE:
-      case ItemPool.BRICKO_PYRAMID:
-      case ItemPool.HOUSE:
-      case ItemPool.SANDCASTLE:
-      case ItemPool.GINORMOUS_PUMPKIN:
-      case ItemPool.TWIG_HOUSE:
-      case ItemPool.GINGERBREAD_HOUSE:
-      case ItemPool.HOBO_FORTRESS:
-      case ItemPool.GIANT_FARADAY_CAGE:
-      case ItemPool.SNOW_FORT:
-      case ItemPool.ELEVENT:
-      case ItemPool.RESIDENCE_CUBE:
-      case ItemPool.GIANT_PILGRIM_HAT:
-      case ItemPool.HOUSE_SIZED_MUSHROOM:
+      }
+      case ItemPool.MACGUFFIN_DIARY, ItemPool.ED_DIARY -> {
+        var request = new UpdateSuppressedRequest("diary.php?textversion=1");
+        request.run();
+        KoLmafia.updateDisplay("Your father's diary has been read.");
+        return;
+      }
+      case ItemPool.VOLCANO_MAP -> {
+        var request =
+            new UpdateSuppressedRequest(
+                "inv_use.php?which=3&whichitem=" + ItemPool.VOLCANO_MAP + "&pwd");
+        request.run();
+        // This redirects to inventory.php?which=3&action=message (first time)
+        // or volcanoisland.php (subsequent times)
+        KoLmafia.updateDisplay("The secret tropical island volcano lair map has been read.");
+        return;
+      }
+      case ItemPool.NEWBIESPORT_TENT,
+          ItemPool.BARSKIN_TENT,
+          ItemPool.COTTAGE,
+          ItemPool.BRICKO_PYRAMID,
+          ItemPool.HOUSE,
+          ItemPool.SANDCASTLE,
+          ItemPool.GINORMOUS_PUMPKIN,
+          ItemPool.TWIG_HOUSE,
+          ItemPool.GINGERBREAD_HOUSE,
+          ItemPool.HOBO_FORTRESS,
+          ItemPool.GIANT_FARADAY_CAGE,
+          ItemPool.SNOW_FORT,
+          ItemPool.ELEVENT,
+          ItemPool.RESIDENCE_CUBE,
+          ItemPool.GIANT_PILGRIM_HAT,
+          ItemPool.HOUSE_SIZED_MUSHROOM -> {
         AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
         int oldLevel = CampgroundRequest.getCurrentDwellingLevel();
         int newLevel = CampgroundRequest.dwellingLevel(itemId);
@@ -991,25 +988,22 @@ public class UseItemRequest extends GenericRequest {
             && !UseItemRequest.confirmReplacement(dwelling.getName())) {
           return;
         }
-        break;
-
-      case ItemPool.HOT_BEDDING:
-      case ItemPool.COLD_BEDDING:
-      case ItemPool.STENCH_BEDDING:
-      case ItemPool.SPOOKY_BEDDING:
-      case ItemPool.SLEAZE_BEDDING:
-      case ItemPool.SALTWATERBED:
-      case ItemPool.SPIRIT_BED:
-      case ItemPool.BEANBAG_CHAIR:
-      case ItemPool.GAUZE_HAMMOCK:
+      }
+      case ItemPool.HOT_BEDDING,
+          ItemPool.COLD_BEDDING,
+          ItemPool.STENCH_BEDDING,
+          ItemPool.SPOOKY_BEDDING,
+          ItemPool.SLEAZE_BEDDING,
+          ItemPool.SALTWATERBED,
+          ItemPool.SPIRIT_BED,
+          ItemPool.BEANBAG_CHAIR,
+          ItemPool.GAUZE_HAMMOCK -> {
         AdventureResult bed = CampgroundRequest.getCurrentBed();
         if (bed != null && !UseItemRequest.confirmReplacement(bed.getName())) {
           return;
         }
-        break;
-
-      case ItemPool.SPICE_MELANGE:
-      case ItemPool.ULTRA_MEGA_SOUR_BALL:
+      }
+      case ItemPool.SPICE_MELANGE, ItemPool.ULTRA_MEGA_SOUR_BALL -> {
         boolean unfilledStomach = false;
         boolean unfilledLiver = false;
         String organ = null;
@@ -1029,7 +1023,6 @@ public class UseItemRequest extends GenericRequest {
         } else {
           organ = "liver";
         }
-
         if (!InputFieldUtilities.confirm(
             "A "
                 + ItemDatabase.getItemName(itemId)
@@ -1038,9 +1031,8 @@ public class UseItemRequest extends GenericRequest {
                 + " and you have not filled that yet.  Are you sure you want to use it?")) {
           return;
         }
-        break;
-
-      case ItemPool.CHOCOLATE_SCULPTURE:
+      }
+      case ItemPool.CHOCOLATE_SCULPTURE -> {
         if (Preferences.getInteger("_chocolateSculpturesUsed") < 3) {
           break;
         }
@@ -1049,9 +1041,8 @@ public class UseItemRequest extends GenericRequest {
                 + " using 3. Are you sure you want to use it?")) {
           return;
         }
-        break;
-
-      case ItemPool.ALIEN_ANIMAL_MILK:
+      }
+      case ItemPool.ALIEN_ANIMAL_MILK -> {
         if (KoLCharacter.getFullness() >= 3) {
           break;
         }
@@ -1060,9 +1051,8 @@ public class UseItemRequest extends GenericRequest {
                 + " and you have not filled that yet.  Are you sure you want to use it?")) {
           return;
         }
-        break;
-
-      case ItemPool.ALIEN_PLANT_POD:
+      }
+      case ItemPool.ALIEN_PLANT_POD -> {
         if (KoLCharacter.getInebriety() >= 3) {
           break;
         }
@@ -1071,39 +1061,40 @@ public class UseItemRequest extends GenericRequest {
                 + " and you have not filled that yet.  Are you sure you want to use it?")) {
           return;
         }
-        break;
+      }
     }
 
     switch (this.consumptionType) {
-      case KoLConstants.CONSUME_STICKER:
-      case KoLConstants.CONSUME_CARD:
-      case KoLConstants.CONSUME_FOLDER:
-      case KoLConstants.CONSUME_BOOTSKIN:
-      case KoLConstants.CONSUME_BOOTSPUR:
-      case KoLConstants.CONSUME_SIXGUN:
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_WEAPON:
-      case KoLConstants.EQUIP_OFFHAND:
-      case KoLConstants.EQUIP_SHIRT:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_CONTAINER:
-      case KoLConstants.EQUIP_ACCESSORY:
-      case KoLConstants.EQUIP_FAMILIAR:
+      case STICKER,
+          CARD,
+          FOLDER,
+          BOOTSKIN,
+          BOOTSPUR,
+          SIXGUN,
+          HAT,
+          WEAPON,
+          OFFHAND,
+          SHIRT,
+          PANTS,
+          CONTAINER,
+          ACCESSORY,
+          FAMILIAR_EQUIPMENT -> {
         RequestThread.postRequest(new EquipmentRequest(this.itemUsed));
         return;
-
-      case KoLConstants.CONSUME_SPHERE:
+      }
+      case EL_VIBRATO_SPHERE -> {
         RequestThread.postRequest(new PortalRequest(this.itemUsed));
         return;
-
-      case KoLConstants.NO_CONSUME:
+      }
+      case NONE -> {
         // no primary use, but a secondary use may be applicable
-        if (ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_CURSE)) {
+        if (ItemDatabase.getAttribute(itemId, Attribute.CURSE)) {
           RequestThread.postRequest(new CurseRequest(this.itemUsed));
           return;
         }
         KoLmafia.updateDisplay(this.itemUsed.getName() + " is unusable.");
         return;
+      }
     }
 
     UseItemRequest.lastUpdate = "";
@@ -1187,7 +1178,7 @@ public class UseItemRequest extends GenericRequest {
         break;
     }
 
-    if (this.consumptionType != KoLConstants.INFINITE_USES
+    if (this.consumptionType != ConsumptionType.USE_INFINITE
         && !UseItemRequest.sequentialConsume(itemId)
         && !InventoryManager.retrieveItem(this.itemUsed)) {
       return;
@@ -1207,20 +1198,20 @@ public class UseItemRequest extends GenericRequest {
         this.itemUsed = this.itemUsed.getInstance((origCount + 10) % 11 + 1);
       } else
         switch (this.consumptionType) {
-          case KoLConstants.INFINITE_USES:
+          case USE_INFINITE:
             {
-              int type = ItemDatabase.getConsumptionType(this.itemUsed.getItemId());
-              if (type != KoLConstants.CONSUME_MULTIPLE) {
+              ConsumptionType type = ItemDatabase.getConsumptionType(this.itemUsed.getItemId());
+              if (type != ConsumptionType.USE_MULTIPLE) {
                 iterations = origCount;
                 this.itemUsed = this.itemUsed.getInstance(1);
               }
               break;
             }
-          case KoLConstants.CONSUME_MULTIPLE:
-          case KoLConstants.CONSUME_HOBO:
-          case KoLConstants.CONSUME_GHOST:
-          case KoLConstants.CONSUME_SLIME:
-          case KoLConstants.CONSUME_ROBO:
+          case USE_MULTIPLE:
+          case SPIRIT_HOBO:
+          case GLUTTONOUS_GHOST:
+          case SLIMELING:
+          case ROBORTENDER:
             break;
           default:
             iterations = origCount;
@@ -1278,16 +1269,21 @@ public class UseItemRequest extends GenericRequest {
     return InputFieldUtilities.confirm("Are you sure you want to replace your " + name + "?");
   }
 
+  public UseItemRequest followRedirect(boolean followRedirect) {
+    this.shouldFollowRedirect = followRedirect;
+    return this;
+  }
+
   @Override
   protected boolean shouldFollowRedirect() {
-    return true;
+    return this.shouldFollowRedirect;
   }
 
   public void useOnce(
       final int currentIteration, final int totalIterations, String useTypeAsString) {
     UseItemRequest.lastUpdate = "";
 
-    if (this.consumptionType == KoLConstants.CONSUME_ZAP) {
+    if (this.consumptionType == ConsumptionType.ZAP) {
       ZapCommand.zap(this.getItemUsed().getName());
       return;
     }
@@ -1309,7 +1305,7 @@ public class UseItemRequest extends GenericRequest {
     }
 
     switch (this.consumptionType) {
-      case KoLConstants.CONSUME_HOBO:
+      case SPIRIT_HOBO:
         if (KoLCharacter.getFamiliar().getId() != FamiliarPool.HOBO) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have a Spirit Hobo equipped");
           return;
@@ -1320,7 +1316,7 @@ public class UseItemRequest extends GenericRequest {
         useTypeAsString = "Boozing hobo with";
         break;
 
-      case KoLConstants.CONSUME_GHOST:
+      case GLUTTONOUS_GHOST:
         if (KoLCharacter.getFamiliar().getId() != FamiliarPool.GHOST) {
           KoLmafia.updateDisplay(
               MafiaState.ERROR, "You don't have a Gluttonous Green Ghost equipped");
@@ -1332,7 +1328,7 @@ public class UseItemRequest extends GenericRequest {
         useTypeAsString = "Feeding ghost with";
         break;
 
-      case KoLConstants.CONSUME_SLIME:
+      case SLIMELING:
         if (KoLCharacter.getFamiliar().getId() != FamiliarPool.SLIMELING) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have a Slimeling equipped");
           return;
@@ -1342,7 +1338,7 @@ public class UseItemRequest extends GenericRequest {
         useTypeAsString = "Feeding slimeling with";
         break;
 
-      case KoLConstants.CONSUME_MIMIC:
+      case STOCKING_MIMIC:
         if (KoLCharacter.getFamiliar().getId() != FamiliarPool.STOCKING_MIMIC) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have a Stocking Mimic equipped");
           return;
@@ -1351,7 +1347,7 @@ public class UseItemRequest extends GenericRequest {
         useTypeAsString = "Feeding stocking mimic with";
         break;
 
-      case KoLConstants.CONSUME_ROBO:
+      case ROBORTENDER:
         if (KoLCharacter.getFamiliar().getId() != FamiliarPool.ROBORTENDER) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have a Robortender equipped");
           return;
@@ -1361,7 +1357,7 @@ public class UseItemRequest extends GenericRequest {
         useTypeAsString = "Boozing Robortender with";
         break;
 
-      case KoLConstants.CONSUME_MULTIPLE:
+      case USE_MULTIPLE:
         if (this.itemUsed.getCount() > 1) {
           this.addFormField("action", "useitem");
           this.addFormField("quantity", String.valueOf(this.itemUsed.getCount()));
@@ -1443,19 +1439,18 @@ public class UseItemRequest extends GenericRequest {
     }
 
     switch (this.consumptionType) {
-      case KoLConstants.CONSUME_GHOST:
-      case KoLConstants.CONSUME_HOBO:
-      case KoLConstants.CONSUME_SLIME:
-      case KoLConstants.CONSUME_MIMIC:
+      case GLUTTONOUS_GHOST, SPIRIT_HOBO, SLIMELING, STOCKING_MIMIC -> {
         if (!UseItemRequest.parseBinge(this.getURLString(), this.responseText)) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Your current familiar can't use that.");
         }
         return;
-      case KoLConstants.CONSUME_ROBO:
+      }
+      case ROBORTENDER -> {
         if (!UseItemRequest.parseRobortenderBinge(this.getURLString(), this.responseText)) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Your Robortender can't drink that.");
         }
         return;
+      }
     }
 
     UseItemRequest.lastItemUsed = this.itemUsed;
@@ -1712,22 +1707,21 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
-    int consumptionType = UseItemRequest.getConsumptionType(item);
+    ConsumptionType consumptionType = UseItemRequest.getConsumptionType(item);
 
     switch (consumptionType) {
-      case KoLConstants.CONSUME_DRINK:
-      case KoLConstants.CONSUME_DRINK_HELPER:
+      case DRINK, DRINK_HELPER -> {
         DrinkItemRequest.parseConsumption(item, helper, responseText);
         return;
-
-      case KoLConstants.CONSUME_EAT:
-      case KoLConstants.CONSUME_FOOD_HELPER:
+      }
+      case EAT, FOOD_HELPER -> {
         EatItemRequest.parseConsumption(item, helper, responseText);
         return;
-
-      case KoLConstants.CONSUME_SPLEEN:
+      }
+      case SPLEEN -> {
         SpleenItemRequest.parseConsumption(item, helper, responseText);
         return;
+      }
     }
 
     String name = item.getName();
@@ -1813,7 +1807,7 @@ public class UseItemRequest extends GenericRequest {
     // Check for familiar growth - if a familiar is added,
     // make sure to update the StaticEntity.getClient().
 
-    if (consumptionType == KoLConstants.GROW_FAMILIAR) {
+    if (consumptionType == ConsumptionType.FAMILIAR_HATCHLING) {
       if (responseText.contains("You've already got a familiar of that type.")) {
         UseItemRequest.lastUpdate = "You already have that familiar.";
         KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
@@ -1858,8 +1852,8 @@ public class UseItemRequest extends GenericRequest {
     }
 
     if (responseText.contains("That item isn't usable in quantity")) {
-      int attrs = ItemDatabase.getAttributes(itemId);
-      if ((attrs & ItemDatabase.ATTR_MULTIPLE) == 0) {
+      EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
+      if (!attrs.contains(Attribute.MULTIPLE)) {
         // Multi-use was attempted and failed, but the request was not generated by KoLmafia
         // because KoLmafia already knows that it cannot be multi-used
         return;
@@ -1884,15 +1878,15 @@ public class UseItemRequest extends GenericRequest {
     }
 
     switch (consumptionType) {
-      case KoLConstants.CONSUME_FOOD_HELPER:
-      case KoLConstants.CONSUME_DRINK_HELPER:
+      case FOOD_HELPER:
+      case DRINK_HELPER:
         // Consumption helpers are removed above when you
         // successfully eat or drink.
 
-      case KoLConstants.NO_CONSUME:
+      case NONE:
         return;
 
-      case KoLConstants.MESSAGE_DISPLAY:
+      case USE_MESSAGE_DISPLAY:
         if (!Preferences.getBoolean("suppressNegativeStatusPopup")) {
           UseItemRequest.showItemUsage(showHTML, responseText);
         }
@@ -1976,6 +1970,10 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.LEGENDARY_BEAT:
         Preferences.setBoolean("_legendaryBeat", true);
+        return;
+
+      case ItemPool.PORTABLE_STEAM_UNIT:
+        Preferences.setBoolean("_portableSteamUnitUsed", true);
         return;
 
       case ItemPool.JACKING_MAP:
@@ -2136,37 +2134,9 @@ public class UseItemRequest extends GenericRequest {
         // "You're already in the middle of a journey of reincarnation."
 
         if (responseText.contains("middle of a journey of reincarnation")) {
-          if (UseItemRequest.retrying
-              || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_BIRD))
-              || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SHAPE_OF_MOLE))
-              || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_ROACH))) {
-            UseItemRequest.lastUpdate = "You're still under a gong effect.";
-            KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
-            return; // can't use another gong yet
-          }
-
-          try {
-            UseItemRequest.retrying = true; // prevent recursing more than once
-            int adv = Preferences.getInteger("welcomeBackAdv");
-            if (adv <= 0) {
-              adv = AdventurePool.NOOB_CAVE;
-            }
-            KoLAdventure req =
-                AdventureDatabase.getAdventureByURL("adventure.php?snarfblat=" + adv);
-            // Must do some trickery here to
-            // prevent the adventure location from
-            // being changed, and the conditions
-            // reset.
-            String next = Preferences.getString("nextAdventure");
-            KoLAdventure.setNextAdventure(req);
-            req.overrideAdventuresUsed(0); // don't trigger counters
-            RequestThread.postRequest(req);
-            req.overrideAdventuresUsed(-1);
-            KoLAdventure.setNextAdventure(next);
-            (UseItemRequest.getInstance(item)).run();
-          } finally {
-            UseItemRequest.retrying = false;
-          }
+          UseItemRequest.lastUpdate = "You're still under a gong effect.";
+          KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+          return; // can't use another gong yet
         }
 
         // We deduct the gong when we get the intro choice
@@ -3512,10 +3482,24 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.MOJO_FILTER:
+        // This will always do nothing
+        if (count > 3) {
+          return;
+        }
+
+        // One and one and one is three, and three is the number
+        // of filters your mojo can handle in one day.
+        if (responseText.contains("three is the number of filters")) {
+          // If mojo filters are multi-used and the result would exceed 3, this message is
+          // displayed.
+          // We can adjust the pref to something more sensible when this happens unexpectedly.
+          var current = Preferences.getInteger("currentMojoFilters");
+          Preferences.setInteger("currentMojoFilters", Math.max(4 - count, current));
+          return;
+        }
 
         // You strain some of the toxins out of your mojo, and
         // discard the now-grodulated filter.
-
         if (!responseText.contains("now-grodulated")) {
           return;
         }
@@ -4301,6 +4285,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.THANKSGARDEN_SEEDS:
       case ItemPool.TALL_GRASS_SEEDS:
       case ItemPool.MUSHROOM_SPORES:
+      case ItemPool.ROCK_SEEDS:
         if (KoLCharacter.getLimitMode().limitCampground()
             || KoLCharacter.isEd()
             || KoLCharacter.inNuclearAutumn()) {
@@ -4686,6 +4671,12 @@ public class UseItemRequest extends GenericRequest {
 
         // Otherwise, it is not consumed
         return;
+
+      case ItemPool.MERKIN_TRAILMAP:
+        // You follow the Mer-kin trailmap to an area of the sea floor where the currents are
+        // powerful enough to rip a map right out of your hands.
+        Preferences.setBoolean("intenseCurrents", true);
+        break;
 
       case ItemPool.MERKIN_STASHBOX:
         ResultProcessor.removeItem(ItemPool.MERKIN_LOCKKEY);
@@ -5260,15 +5251,12 @@ public class UseItemRequest extends GenericRequest {
             total = StringUtilities.parseInt(chipMatcher.group(1));
           }
           switch (itemId) {
-            case ItemPool.SOURCE_TERMINAL_PRAM_CHIP:
-              Preferences.setInteger("sourceTerminalPram", total);
-              break;
-            case ItemPool.SOURCE_TERMINAL_GRAM_CHIP:
-              Preferences.setInteger("sourceTerminalGram", total);
-              break;
-            case ItemPool.SOURCE_TERMINAL_SPAM_CHIP:
-              Preferences.setInteger("sourceTerminalSpam", total);
-              break;
+            case ItemPool.SOURCE_TERMINAL_PRAM_CHIP -> Preferences.setInteger(
+                "sourceTerminalPram", total);
+            case ItemPool.SOURCE_TERMINAL_GRAM_CHIP -> Preferences.setInteger(
+                "sourceTerminalGram", total);
+            case ItemPool.SOURCE_TERMINAL_SPAM_CHIP -> Preferences.setInteger(
+                "sourceTerminalSpam", total);
           }
           if (responseText.contains("You've already installed")) {
             return;
@@ -5287,33 +5275,18 @@ public class UseItemRequest extends GenericRequest {
         {
           // Source terminal chip (1 maximum)
           // You've already installed a ASHRAM chip in your Source terminal
-          String chipName = null;
-          switch (itemId) {
-            case ItemPool.SOURCE_TERMINAL_CRAM_CHIP:
-              chipName = "CRAM";
-              break;
-            case ItemPool.SOURCE_TERMINAL_DRAM_CHIP:
-              chipName = "DRAM";
-              break;
-            case ItemPool.SOURCE_TERMINAL_TRAM_CHIP:
-              chipName = "TRAM";
-              break;
-            case ItemPool.SOURCE_TERMINAL_INGRAM_CHIP:
-              chipName = "INGRAM";
-              break;
-            case ItemPool.SOURCE_TERMINAL_DIAGRAM_CHIP:
-              chipName = "DIAGRAM";
-              break;
-            case ItemPool.SOURCE_TERMINAL_ASHRAM_CHIP:
-              chipName = "ASHRAM";
-              break;
-            case ItemPool.SOURCE_TERMINAL_SCRAM_CHIP:
-              chipName = "SCRAM";
-              break;
-            case ItemPool.SOURCE_TERMINAL_TRIGRAM_CHIP:
-              chipName = "TRIGRAM";
-              break;
-          }
+          String chipName =
+              switch (itemId) {
+                case ItemPool.SOURCE_TERMINAL_CRAM_CHIP -> "CRAM";
+                case ItemPool.SOURCE_TERMINAL_DRAM_CHIP -> "DRAM";
+                case ItemPool.SOURCE_TERMINAL_TRAM_CHIP -> "TRAM";
+                case ItemPool.SOURCE_TERMINAL_INGRAM_CHIP -> "INGRAM";
+                case ItemPool.SOURCE_TERMINAL_DIAGRAM_CHIP -> "DIAGRAM";
+                case ItemPool.SOURCE_TERMINAL_ASHRAM_CHIP -> "ASHRAM";
+                case ItemPool.SOURCE_TERMINAL_SCRAM_CHIP -> "SCRAM";
+                case ItemPool.SOURCE_TERMINAL_TRIGRAM_CHIP -> "TRIGRAM";
+                default -> null;
+              };
           String known = Preferences.getString("sourceTerminalChips");
           StringBuilder knownString = new StringBuilder();
           knownString.append(known);
@@ -5484,11 +5457,10 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.FR_GUEST:
-        // if ( responseText.contains( "????????" ) )
-        // {
-        // If you already have access it is not consumed
-        //	return;
-        // }
+        if (responseText.contains("You've already got access to FantasyRealm.")) {
+          // If you already have access it is not consumed
+          return;
+        }
         Preferences.setBoolean("_frToday", true);
         break;
 
@@ -5523,6 +5495,10 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.NEVERENDING_PARTY_INVITE_DAILY:
+        if (responseText.contains("You're already invited to that party.")) {
+          // If you already have access it is not consumed
+          return;
+        }
         Preferences.setBoolean("_neverendingPartyToday", true);
         break;
 
@@ -5540,6 +5516,14 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.VOTER_BALLOT:
+        if (responseText.contains("You're already registered.")) {
+          // If you already have access it is not consumed
+          return;
+        }
+        if (responseText.contains("You can't vote again today!")) {
+          // If you already have voted it is not consumed
+          return;
+        }
         Preferences.setBoolean("_voteToday", true);
         break;
 
@@ -5548,6 +5532,10 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.BOXING_DAY_PASS:
+        if (responseText.contains("You already have access to the Boxing Daycare")) {
+          // If you already have access it is not consumed
+          return;
+        }
         Preferences.setBoolean("_daycareToday", true);
         break;
 
@@ -5572,11 +5560,10 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.PR_GUEST:
-        // if ( responseText.contains( "????????" ) )
-        // {
-        // If you already have access it is not consumed
-        //	return;
-        // }
+        if (responseText.contains("You've already got access to PirateRealm.")) {
+          // If you already have access it is not consumed
+          return;
+        }
         Preferences.setBoolean("_prToday", true);
         break;
 
@@ -5658,7 +5645,7 @@ public class UseItemRequest extends GenericRequest {
           Preferences.setBoolean("_canSeekBirds", true);
 
           // If we've not added the skill today, learn it now
-          if (!KoLCharacter.hasSkill("Seek out a Bird")) {
+          if (!KoLCharacter.hasSkill(SkillPool.SEEK_OUT_A_BIRD)) {
             ResponseTextParser.learnSkill("Seek out a Bird");
             DebugDatabase.readEffectDescriptionText(EffectPool.BLESSING_OF_THE_BIRD);
           }
@@ -5881,10 +5868,149 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.BONE_WITH_A_PRICE_TAG:
         Preferences.setBoolean("skeletonStoreAvailable", true);
         break;
+
+      case ItemPool.DEED_TO_OLIVERS_PLACE:
+        // You sign the deed, which instantly makes you the owner of the building.
+        Preferences.setBoolean("ownsSpeakeasy", true);
+        if (!responseText.contains("sign the deed")) {
+          return;
+        }
+        break;
+
+      case ItemPool.GOVERNMENT_PER_DIEM:
+        // You open the envelop and collect your pay.
+        // You can't get more than one per-diem per diem. It's right there in the name.
+        Preferences.setBoolean("_governmentPerDiemUsed", true);
+        if (!responseText.contains("collect your pay")) {
+          return;
+        }
+        break;
+
+      case ItemPool.ROBY_RATATOUILLE_DE_JARLSBERG:
+      case ItemPool.ROBY_JARLSBERGS_VEGETABLE_SOUP:
+      case ItemPool.ROBY_ROASTED_VEGETABLE_OF_J:
+      case ItemPool.ROBY_PETES_SNEAKY_SMOOTHIE:
+      case ItemPool.ROBY_PETES_WILY_WHEY_BAR:
+      case ItemPool.ROBY_PETES_RICH_RICOTTA:
+      case ItemPool.ROBY_BORIS_BEER:
+      case ItemPool.ROBY_HONEY_BUN_OF_BORIS:
+      case ItemPool.ROBY_BORIS_BREAD:
+      case ItemPool.ROBY_CALZONE_OF_LEGEND:
+      case ItemPool.ROBY_PIZZA_OF_LEGEND:
+      case ItemPool.ROBY_ROASTED_VEGETABLE_FOCACCIA:
+      case ItemPool.ROBY_PLAIN_CALZONE:
+      case ItemPool.ROBY_BAKED_VEGGIE_RICOTTA:
+      case ItemPool.ROBY_DEEP_DISH_OF_LEGEND:
+      case ItemPool.PLANS_FOR_GRIMACITE_HAMMER:
+      case ItemPool.PLANS_FOR_GRIMACITE_GRAVY_BOAT:
+      case ItemPool.PLANS_FOR_GRIMACITE_WEIGHTLIFTING_BELT:
+      case ItemPool.PLANS_FOR_GRIMACITE_GRAPPLING_HOOK:
+      case ItemPool.PLANS_FOR_GRIMACITE_NINJA_MASK:
+      case ItemPool.PLANS_FOR_GRIMACITE_SHINGUARDS:
+      case ItemPool.PLANS_FOR_GRIMACITE_ASTROLABE:
+      case ItemPool.FETTUCINI_EPINES_INCONNU_RECIPE:
+      case ItemPool.SLAP_AND_SLAP_AGAIN_RECIPE:
+      case ItemPool.FUMBLE_FORMULA:
+      case ItemPool.MOTHERS_SECRET_RECIPE:
+        if (!responseText.contains("You learn to craft a new item")) {
+          // If we didn't see you use the recipe the first time, learn it now.
+          String recipeName = UseItemRequest.itemToRecipe(itemId);
+          ResponseTextParser.learnRecipe(recipeName);
+          // Item is not consumed
+          return;
+        }
+        // ResponseTextParser learned this recipe
+        break;
+
+      case ItemPool.WRIGGLING_FLYTRAP_PELLET:
+        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.STARTED);
+        break;
+
+      case ItemPool.CRIMBO_TRAINING_MANUAL:
+        // The first time you use this, you train yourself:
+        //
+        // You read the parts of the book that aren't burnt.
+        // You acquire a skill: ...
+        if (responseText.contains("You acquire a skill")) {
+          int skillId = ResponseTextParser.learnSkillFromResponse(responseText);
+          // We do not expect a bogus skill to be learned, but sanity check.
+          if (skillId >= SkillPool.FIRST_CRIMBO_TRAINING_SKILL
+              && skillId <= SkillPool.LAST_CRIMBO_TRAINING_SKILL) {
+            int chapter = (skillId - SkillPool.FIRST_CRIMBO_TRAINING_SKILL) + 1;
+            Preferences.setInteger("crimboTrainingSkill", chapter);
+          }
+          Preferences.setBoolean("_crimboTraining", false);
+          return;
+        }
+
+        // If you have already trained somebody else:
+        //
+        // You've already trained somebody today.  Take the rest of the day off.
+        if (responseText.contains("You've already trained somebody today")) {
+          Preferences.setBoolean("_crimboTraining", true);
+          return;
+        }
+
+        // If you've not already trained somebody, KoL does a Javascript redirects to curse.php
+        Preferences.setBoolean("_crimboTraining", false);
+        return;
+
+      case ItemPool.LOST_ELF_LUGGAGE:
+        // You take the luggage to the hospital in Crimbo Town and track down its owner.
+        if (responseText.contains("track down its owner")) {
+          Preferences.increment("elfGratitude", count);
+        }
+        break;
+
+      case ItemPool.TRAINBOT_AUTOASSEMBLY_MODULE:
+        // The module emits an angry beep. It must need some raw materials in order to do...
+        // whatever it does.
+        if (responseText.contains("It must need some raw materials")) {
+          return;
+        }
+        // The module scans you, whirrs for a moment, then reassembles your pile of Trainbot slag
+        // into a small robot you can wear.
+        if (responseText.contains("reassembles your pile of Trainbot slag")) {
+          ResultProcessor.removeItem(ItemPool.TRAINBOT_SLAG);
+        }
+        break;
+
+      case ItemPool.MILESTONE:
+        // You don't know what desert this milestone is for....yet.
+        if (responseText.contains("You don't know what desert this milestone is for")) {
+          // Not consumed.
+          return;
+        }
+        // Keeping your eye on your milestone, you quickly explore part of the desert.
+        if (responseText.contains("you quickly explore part of the desert")) {
+          Preferences.increment("desertExploration", 5, 100, false);
+          // Is consumed.
+        }
+        // You've already explored all the desert there is to explore.
+        // Instead you explore inside yourself.
+        // Gives stats and is consumed.
+        break;
+
+      case ItemPool.LODESTONE:
+        Preferences.setBoolean("_lodestoneUsed", true);
+        return;
+
+      case ItemPool.MOLEHILL_MOUNTAIN:
+        // If we were not redirected, the item was used already
+        Preferences.setBoolean("_molehillMountainUsed", true);
+        return;
+
+      case ItemPool.STRANGE_STALAGMITE:
+        // If we were not redirected, the item was used already
+        Preferences.setBoolean("_strangeStalagmiteUsed", true);
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
-      Preferences.setBoolean("_workshedItemUsed", true);
+      if (CampgroundRequest.getCurrentWorkshedItem() != null) {
+        // an item placed in an empty workshed does not prevent replacing it
+        Preferences.setBoolean("_workshedItemUsed", true);
+      }
       if (responseText.contains("already rearranged your workshed")) {
         return;
       }
@@ -5900,15 +6026,15 @@ public class UseItemRequest extends GenericRequest {
     // Finally, remove the item from inventory if it was successfully used.
 
     switch (consumptionType) {
-      case KoLConstants.CONSUME_ZAP:
-      case KoLConstants.EQUIP_FAMILIAR:
-      case KoLConstants.EQUIP_ACCESSORY:
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_WEAPON:
-      case KoLConstants.EQUIP_OFFHAND:
-      case KoLConstants.EQUIP_CONTAINER:
-      case KoLConstants.INFINITE_USES:
+      case ZAP:
+      case FAMILIAR_EQUIPMENT:
+      case ACCESSORY:
+      case HAT:
+      case PANTS:
+      case WEAPON:
+      case OFFHAND:
+      case CONTAINER:
+      case USE_INFINITE:
         break;
 
       default:
@@ -5919,13 +6045,21 @@ public class UseItemRequest extends GenericRequest {
   }
 
   private static String itemToClass(final int itemId) {
-    String className = Modifiers.getStringModifier("Item", itemId, "Class");
+    String className =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.CLASS);
     return className.equals("") ? null : className;
   }
 
   private static String itemToSkill(final int itemId) {
-    String skillName = Modifiers.getStringModifier("Item", itemId, "Skill");
+    String skillName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.SKILL);
     return skillName.equals("") ? null : skillName;
+  }
+
+  private static String itemToRecipe(final int itemId) {
+    String recipeName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.RECIPE);
+    return recipeName.equals("") ? null : recipeName;
   }
 
   private static void getEvilLevels(final String responseText) {
@@ -6285,18 +6419,18 @@ public class UseItemRequest extends GenericRequest {
     }
 
     int count = item.getCount();
-    int consumptionType = ItemDatabase.getConsumptionType(itemId);
+    ConsumptionType consumptionType = ItemDatabase.getConsumptionType(itemId);
     String useString = null;
 
     switch (consumptionType) {
-      case KoLConstants.NO_CONSUME:
+      case NONE:
         if (itemId != ItemPool.LOATHING_LEGION_JACKHAMMER) {
           return false;
         }
         break;
 
-      case KoLConstants.CONSUME_USE:
-      case KoLConstants.CONSUME_MULTIPLE:
+      case USE:
+      case USE_MULTIPLE:
 
         // See if it is a concoction
         if (SingleUseRequest.registerRequest(urlString)
@@ -6305,11 +6439,11 @@ public class UseItemRequest extends GenericRequest {
         }
         break;
 
-      case KoLConstants.CONSUME_EAT:
+      case EAT:
 
         // Fortune cookies, for example
         if (urlString.startsWith("inv_use")) {
-          consumptionType = KoLConstants.CONSUME_USE;
+          consumptionType = ConsumptionType.USE;
           break;
         }
         break;
@@ -6344,6 +6478,10 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.MUNCHIES_PILL:
         Preferences.increment("munchiesPillsUsed", count);
+        break;
+
+      case ItemPool.WHETSTONE:
+        Preferences.increment("whetstonesUsed", count);
         break;
 
       case ItemPool.DRINK_ME_POTION:
@@ -6532,13 +6670,10 @@ public class UseItemRequest extends GenericRequest {
   @Override
   public int getAdventuresUsed() {
     // Some only use adventures when used as a proxy for a non adventure game location
-    switch (this.itemUsed.getItemId()) {
-      case ItemPool.CHATEAU_WATERCOLOR:
-      case ItemPool.GOD_LOBSTER:
-      case ItemPool.WITCHESS_SET:
-        return 0;
-    }
-    return UseItemRequest.getAdventuresUsedByItem(this.itemUsed);
+    return switch (this.itemUsed.getItemId()) {
+      case ItemPool.CHATEAU_WATERCOLOR, ItemPool.GOD_LOBSTER, ItemPool.WITCHESS_SET -> 0;
+      default -> UseItemRequest.getAdventuresUsedByItem(this.itemUsed);
+    };
   }
 
   public static int getAdventuresUsed(final String urlString) {
@@ -6560,66 +6695,60 @@ public class UseItemRequest extends GenericRequest {
   private static int getAdventuresUsedByItem(AdventureResult item) {
     int turns = 0;
     switch (item.getItemId()) {
-      case ItemPool.ABYSSAL_BATTLE_PLANS:
-      case ItemPool.AMORPHOUS_BLOB:
-      case ItemPool.BARREL_MAP:
-      case ItemPool.BLACK_PUDDING:
-      case ItemPool.CARONCH_MAP:
-      case ItemPool.CHATEAU_WATERCOLOR:
-      case ItemPool.CLARIFIED_BUTTER:
-      case ItemPool.CRUDE_SCULPTURE:
-      case ItemPool.CURSED_PIECE_OF_THIRTEEN:
-      case ItemPool.DECK_OF_EVERY_CARD:
-      case ItemPool.DOLPHIN_WHISTLE:
-      case ItemPool.ENVYFISH_EGG:
-      case ItemPool.FRATHOUSE_BLUEPRINTS:
-      case ItemPool.GENIE_BOTTLE:
-      case ItemPool.GIANT_AMORPHOUS_BLOB:
-      case ItemPool.GIFT_CARD:
-      case ItemPool.GOD_LOBSTER:
-      case ItemPool.ICE_SCULPTURE:
-      case ItemPool.LYNYRD_SNARE:
-      case ItemPool.MEGACOPIA:
-      case ItemPool.PHOTOCOPIED_MONSTER:
-      case ItemPool.POCKET_WISH:
-      case ItemPool.RAIN_DOH_MONSTER:
-      case ItemPool.SCREENCAPPED_MONSTER:
-      case ItemPool.SHAKING_CAMERA:
-      case ItemPool.SHAKING_CRAPPY_CAMERA:
-      case ItemPool.SHAKING_SKULL:
-      case ItemPool.SPOOKY_PUTTY_MONSTER:
-      case ItemPool.TIME_SPINNER:
-      case ItemPool.WAX_BUGBEAR:
-      case ItemPool.WHITE_PAGE:
-      case ItemPool.WITCHESS_SET:
-      case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE:
-      case ItemPool.XIBLAXIAN_POLITICAL_PRISONER:
+      case ItemPool.ABYSSAL_BATTLE_PLANS,
+          ItemPool.AMORPHOUS_BLOB,
+          ItemPool.BARREL_MAP,
+          ItemPool.BLACK_PUDDING,
+          ItemPool.CARONCH_MAP,
+          ItemPool.CHATEAU_WATERCOLOR,
+          ItemPool.CLARIFIED_BUTTER,
+          ItemPool.CRUDE_SCULPTURE,
+          ItemPool.CURSED_PIECE_OF_THIRTEEN,
+          ItemPool.DECK_OF_EVERY_CARD,
+          ItemPool.DOLPHIN_WHISTLE,
+          ItemPool.ENVYFISH_EGG,
+          ItemPool.FRATHOUSE_BLUEPRINTS,
+          ItemPool.GENIE_BOTTLE,
+          ItemPool.GIANT_AMORPHOUS_BLOB,
+          ItemPool.GIFT_CARD,
+          ItemPool.GOD_LOBSTER,
+          ItemPool.ICE_SCULPTURE,
+          ItemPool.LYNYRD_SNARE,
+          ItemPool.MEGACOPIA,
+          ItemPool.PHOTOCOPIED_MONSTER,
+          ItemPool.POCKET_WISH,
+          ItemPool.RAIN_DOH_MONSTER,
+          ItemPool.SCREENCAPPED_MONSTER,
+          ItemPool.SHAKING_CAMERA,
+          ItemPool.SHAKING_CRAPPY_CAMERA,
+          ItemPool.SHAKING_SKULL,
+          ItemPool.SPOOKY_PUTTY_MONSTER,
+          ItemPool.TIME_SPINNER,
+          ItemPool.WAX_BUGBEAR,
+          ItemPool.WHITE_PAGE,
+          ItemPool.WITCHESS_SET,
+          ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE,
+          ItemPool.XIBLAXIAN_POLITICAL_PRISONER -> {
         // Items that can redirect to a fight that costs turns
         // Although we say some things cost turns if they involve a fight as
         // this is used as a check for whether between battle scripts should
         // run, and a loss always counts as a turn anyway.
         turns = 1;
-        break;
-
-      case ItemPool.D4:
-        turns = item.getCount() == 100 ? 1 : 0;
-        break;
-
-      case ItemPool.D10:
+      }
+      case ItemPool.D4 -> turns = item.getCount() == 100 ? 1 : 0;
+      case ItemPool.D10 -> {
         // 1d10 gives you a monster
         // 2d10 gives you a random result and takes a turn
         turns = (item.getCount() == 1 || item.getCount() == 2) ? 1 : 0;
-        break;
-
-      case ItemPool.REFLECTION_OF_MAP:
-      case ItemPool.RONALD_SHELTER_MAP:
-      case ItemPool.GRIMACE_SHELTER_MAP:
-      case ItemPool.STAFF_GUIDE:
+      }
+      case ItemPool.REFLECTION_OF_MAP,
+          ItemPool.RONALD_SHELTER_MAP,
+          ItemPool.GRIMACE_SHELTER_MAP,
+          ItemPool.STAFF_GUIDE -> {
         // Items that can redirect to a choice adventure
         turns = 1;
-        break;
-
-      case ItemPool.DRUM_MACHINE:
+      }
+      case ItemPool.DRUM_MACHINE -> {
         // Drum machine doesn't take a turn if you have
         // worm-riding hooks in inventory or equipped.
         AdventureResult hooks = ItemPool.get(ItemPool.WORM_RIDING_HOOKS, 1);
@@ -6628,12 +6757,11 @@ public class UseItemRequest extends GenericRequest {
           return 0;
         }
         turns = 1;
-        break;
-
-      case ItemPool.GONG:
+      }
+      case ItemPool.GONG -> {
         // Roachform is three uninterruptible turns
         turns = Preferences.getInteger("choiceAdventure276") == 1 ? 3 : 0;
-        break;
+      }
     }
 
     return turns * item.getCount();

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.objectpool;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -14,16 +15,15 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionPool {
   // ItemID -> Concoction
-  private static final Map<Integer, Concoction> items = new TreeMap<Integer, Concoction>();
+  private static final Map<Integer, Concoction> items = new HashMap<>();
 
   // Name -> Concoction
-  private static final Map<String, Concoction> nonitems = new TreeMap<String, Concoction>();
-  private static final Map<String, Concoction> nonitemsCanonical =
-      new TreeMap<String, Concoction>();
+  private static final Map<String, Concoction> nonitems = new HashMap<>();
+  private static final Map<String, Concoction> nonitemsCanonical = new HashMap<>();
 
   // All concoctions
   private static Collection<Concoction> values = null;
-  private static final Map<Integer, Integer> rowCache = new TreeMap<Integer, Integer>();
+  private static final Map<Integer, Integer> rowCache = new TreeMap<>();
 
   static {
     // Pre-set concoctions for all items.
@@ -101,7 +101,7 @@ public class ConcoctionPool {
 
   public static Collection<Concoction> concoctions() {
     if (ConcoctionPool.values == null) {
-      ConcoctionPool.values = new ArrayList<Concoction>();
+      ConcoctionPool.values = new ArrayList<>();
       ConcoctionPool.values.addAll(ConcoctionPool.items.values());
       ConcoctionPool.values.addAll(ConcoctionPool.nonitems.values());
     }

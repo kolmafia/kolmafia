@@ -12,18 +12,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -80,11 +84,11 @@ public class TCRSDatabase {
   private static String currentClassSign; // Character class/Zodiac Sign
 
   // Sorted by itemId
-  private static final Map<Integer, TCRS> TCRSMap = new TreeMap<Integer, TCRS>();
+  private static final Map<Integer, TCRS> TCRSMap = new TreeMap<>();
   private static final Map<Integer, TCRS> TCRSBoozeMap =
-      new TreeMap<Integer, TCRS>(new CafeDatabase.InverseIntegerOrder());
+      new TreeMap<>(new CafeDatabase.InverseIntegerOrder());
   private static final Map<Integer, TCRS> TCRSFoodMap =
-      new TreeMap<Integer, TCRS>(new CafeDatabase.InverseIntegerOrder());
+      new TreeMap<>(new CafeDatabase.InverseIntegerOrder());
 
   static {
     TCRSDatabase.reset();
@@ -437,8 +441,8 @@ public class TCRSDatabase {
     String name = DebugDatabase.parseName(text);
     int size = DebugDatabase.parseConsumableSize(text);
     var quality = DebugDatabase.parseQuality(text);
-    ArrayList<String> unknown = new ArrayList<String>();
-    String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, -1);
+    ArrayList<String> unknown = new ArrayList<>();
+    String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, ConsumptionType.UNKNOWN);
 
     // Create and return the TCRS object
     return new TCRS(name, size, quality, modifiers);
@@ -533,14 +537,14 @@ public class TCRSDatabase {
       Integer id = entry.getKey();
       TCRS tcrs = entry.getValue();
       String name = CafeDatabase.getCafeBoozeName(id.intValue());
-      applyConsumableModifiers(KoLConstants.CONSUME_DRINK, name, tcrs);
+      applyConsumableModifiers(ConsumptionType.DRINK, name, tcrs);
     }
 
     for (Entry<Integer, TCRS> entry : TCRSFoodMap.entrySet()) {
       Integer id = entry.getKey();
       TCRS tcrs = entry.getValue();
       String name = CafeDatabase.getCafeFoodName(id.intValue());
-      applyConsumableModifiers(KoLConstants.CONSUME_EAT, name, tcrs);
+      applyConsumableModifiers(ConsumptionType.EAT, name, tcrs);
     }
 
     // Fix all the consumables whose adv yield varies by level
@@ -588,18 +592,19 @@ public class TCRSDatabase {
     }
 
     // Set modifiers
-    Modifiers.updateItem(itemName, tcrs.modifiers);
+    ModifierDatabase.updateItem(itemId, tcrs.modifiers);
 
     // *** Do this after modifiers are set so can log effect modifiers
-    int usage = ItemDatabase.getConsumptionType(itemId);
-    if (usage == KoLConstants.CONSUME_EAT
-        || usage == KoLConstants.CONSUME_DRINK
-        || usage == KoLConstants.CONSUME_SPLEEN) {
+    ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
+    if (usage == ConsumptionType.EAT
+        || usage == ConsumptionType.DRINK
+        || usage == ConsumptionType.SPLEEN) {
       applyConsumableModifiers(usage, itemName, tcrs);
     }
 
     // Add as effect source, if appropriate
-    String effectName = Modifiers.getStringModifier("Item", itemName, "Effect");
+    String effectName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
     if (effectName != null && !effectName.equals("")) {
       addEffectSource(itemName, usage, effectName);
     }
@@ -618,17 +623,18 @@ public class TCRSDatabase {
   }
 
   private static void addEffectSource(
-      final String itemName, final int usage, final String effectName) {
+      final String itemName, final ConsumptionType usage, final String effectName) {
     int effectId = EffectDatabase.getEffectId(effectName);
     if (effectId == -1) {
       return;
     }
     String verb =
-        (usage == KoLConstants.CONSUME_EAT)
-            ? "eat "
-            : (usage == KoLConstants.CONSUME_DRINK)
-                ? "drink "
-                : (usage == KoLConstants.CONSUME_SPLEEN) ? "chew " : "use ";
+        switch (usage) {
+          case EAT -> "eat ";
+          case DRINK -> "drink ";
+          case SPLEEN -> "chew ";
+          default -> "use ";
+        };
     String actions = EffectDatabase.getActions(effectId);
     boolean added = false;
     StringBuilder buffer = new StringBuilder();
@@ -673,26 +679,34 @@ public class TCRSDatabase {
   }
 
   private static void applyConsumableModifiers(
-      final int usage, final String itemName, final TCRS tcrs) {
-    Integer lint = ConsumablesDatabase.getLevelReqByName(itemName);
-    int level = lint == null ? 0 : lint.intValue();
+      final ConsumptionType usage, final String itemName, final TCRS tcrs) {
+    var consumable = ConsumablesDatabase.getConsumableByName(itemName);
+    Integer lint = ConsumablesDatabase.getLevelReq(consumable);
+    int level = lint == null ? 0 : lint;
     // Guess
-    int adv =
-        (usage == KoLConstants.CONSUME_SPLEEN) ? 0 : (tcrs.size * qualityMultiplier(tcrs.quality));
+    int adv = (usage == ConsumptionType.SPLEEN) ? 0 : (tcrs.size * qualityMultiplier(tcrs.quality));
     int mus = 0;
     int mys = 0;
     int mox = 0;
 
-    String comment = "Unspaded";
-    String effectName = Modifiers.getStringModifier("Item", itemName, "Effect");
-    if (effectName != null && !effectName.equals("")) {
-      int duration = (int) Modifiers.getNumericModifier("Item", itemName, "Effect Duration");
-      String effectModifiers = Modifiers.getStringModifier("Effect", effectName, "Modifiers");
-      String buf = comment + " " + duration + " " + effectName + " (" + effectModifiers + ")";
-      comment = buf;
+    var comment = new StringJoiner(", ").add("Unspaded");
+
+    // Consumable attributes (like SAUCY, BEER, etc) are preserved
+    ConsumablesDatabase.getAttributes(consumable).stream().map(Enum::name).forEach(comment::add);
+
+    String effectName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
+    if (effectName != null && !effectName.isEmpty()) {
+      int duration =
+          (int)
+              ModifierDatabase.getNumericModifier(
+                  ModifierType.ITEM, itemName, DoubleModifier.EFFECT_DURATION);
+      String effectModifiers =
+          ModifierDatabase.getStringModifier(
+              ModifierType.EFFECT, effectName, StringModifier.MODIFIERS);
+      comment.add(duration + " " + effectName + " (" + effectModifiers + ")");
     }
 
-    ConsumablesDatabase.updateConsumableSize(itemName, usage, tcrs.size);
     ConsumablesDatabase.updateConsumable(
         itemName,
         tcrs.size,
@@ -702,7 +716,7 @@ public class TCRSDatabase {
         String.valueOf(mus),
         String.valueOf(mys),
         String.valueOf(mox),
-        comment);
+        comment.toString());
   }
 
   public static void resetModifiers() {
@@ -716,7 +730,7 @@ public class TCRSDatabase {
 
     TCRSDatabase.reset();
 
-    Modifiers.resetModifiers();
+    ModifierDatabase.resetModifiers();
     EffectDatabase.reset();
     ConsumablesDatabase.reset();
 
@@ -728,7 +742,7 @@ public class TCRSDatabase {
     ConcoctionDatabase.resetEffects();
     ConcoctionDatabase.refreshConcoctions();
     ConsumablesDatabase.setVariableConsumables();
-    ConsumablesDatabase.calculateAdventureRanges();
+    ConsumablesDatabase.calculateAllAverageAdventures();
 
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
@@ -785,7 +799,7 @@ public class TCRSDatabase {
 
   // Remote files we have fetched this session
   private static final Set<String> remoteFetched =
-      new HashSet<String>(); // remote files fetched this session
+      new HashSet<>(); // remote files fetched this session
 
   // *** Fetching files from the SVN repository, in two parts, since the
   // non-cafe code was released a week before the cafe code, and some

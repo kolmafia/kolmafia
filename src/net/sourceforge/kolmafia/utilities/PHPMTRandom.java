@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Constructed referencing the pseudocode available at
- * https://en.wikipedia.org/wiki/Mersenne_Twister#Pseudocode This is mostly derived from PHP's
- * source code by Gausie.
+ * Constructed referencing the pseudocode available at <a
+ * href="https://en.wikipedia.org/wiki/Mersenne_Twister#Pseudocode">...</a> This is mostly derived
+ * from PHP's source code by Gausie.
  */
 public class PHPMTRandom extends Random {
-  public static final long serialVersionUID = 0l;
+  public static final long serialVersionUID = 0L;
 
   static int STATE_LENGTH = 624;
   static int PERIOD = 397;
@@ -17,30 +17,30 @@ public class PHPMTRandom extends Random {
   static long MAX_UNSIGNED = 0xFFFFFFFFL;
 
   // Mask all but highest bit of u
-  static final long hiBit(long u) {
+  static long hiBit(long u) {
     return u & 0x80000000L;
   }
 
   // Mask all bit lowest bit of u
-  static final long loBit(long u) {
+  static long loBit(long u) {
     return u & 0x00000001L;
   }
 
   // Mask the highest bit of u
-  static final long loBits(long u) {
+  static long loBits(long u) {
     return u & 0x7FFFFFFFL;
   }
 
   // Move hi bit of u to hi bit of v
-  static final long mixBits(long u, long v) {
+  static long mixBits(long u, long v) {
     return hiBit(u) | loBits(v);
   }
 
-  static final long twist(long m, long u, long v) {
+  static long twist(long m, long u, long v) {
     return (m ^ (mixBits(u, v) >> 1) ^ ((MAX_UNSIGNED * (loBit(u))) & MAGIC_CONSTANT));
   }
 
-  static final long temper(long value) {
+  static long temper(long value) {
     value ^= (value >> 11);
     value ^= (value << 7) & 2_636_928_640L;
     value ^= (value << 15) & 4_022_730_752L;
@@ -73,13 +73,12 @@ public class PHPMTRandom extends Random {
   @SuppressWarnings("PMD.MissingOverride")
   public int nextInt(final int min, final int max) {
     double clamped = (max - min + 1.0) * nextDouble();
-    int val = min + (int) clamped;
-    return val;
+    return min + (int) clamped;
   }
 
   void initialize(final long seed) {
     state.clear();
-    state.add(seed & Integer.MAX_VALUE);
+    state.add(seed & Long.MAX_VALUE);
 
     for (int i = 1; i < STATE_LENGTH; i++) {
       long prev = state.get(i - 1);
@@ -100,7 +99,12 @@ public class PHPMTRandom extends Random {
   @Override
   public synchronized void setSeed(long seed) {
     if (state == null) {
-      state = new ArrayList<Long>();
+      state = new ArrayList<>();
+    }
+
+    // In PHP source code the signed int is converted to an unsigned int
+    if (seed < 0) {
+      seed += 0x100000000L;
     }
 
     initialize(seed);

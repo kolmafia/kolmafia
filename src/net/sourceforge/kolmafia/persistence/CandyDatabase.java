@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +10,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -90,23 +92,22 @@ public class CandyDatabase {
     MallPriceManager.getMallPrices(CandyDatabase.otherCandies, 0.0f);
   }
 
-  public static void registerCandy(final Integer itemId, final String type) {
-    if (type.equals("candy")) {
-      // Unspaded candy
-      CandyDatabase.tier0Candy.add(itemId);
-      return;
-    }
-
-    if (type.equals("candy1")) {
-      // Simple candy
-      CandyDatabase.tier1Candy.add(itemId);
-      CandyDatabase.tier2Candy.add(itemId);
-    } else if (type.equals("candy2")) {
-      // Complex candy
-      CandyDatabase.tier3Candy.add(itemId);
-      CandyDatabase.tier2Candy.add(itemId);
-    } else {
-      return;
+  public static void registerCandy(final Integer itemId, final Attribute type) {
+    switch (type) {
+      case CANDY0 -> {
+        // Unspaded candy
+        CandyDatabase.tier0Candy.add(itemId);
+      }
+      case CANDY1 -> {
+        // Simple candy
+        CandyDatabase.tier1Candy.add(itemId);
+        CandyDatabase.tier2Candy.add(itemId);
+      }
+      case CANDY2 -> {
+        // Complex candy
+        CandyDatabase.tier3Candy.add(itemId);
+        CandyDatabase.tier2Candy.add(itemId);
+      }
     }
   }
 
@@ -144,12 +145,12 @@ public class CandyDatabase {
   public static final String getCandyType(final int itemId) {
     // We could look in our various candy sets, but more efficient
     // to just look at item attributes
-    int attributes = ItemDatabase.getAttributes(itemId);
-    return (attributes & ItemDatabase.ATTR_CANDY0) != 0
+    EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
+    return attributes.contains(Attribute.CANDY0)
         ? UNSPADED
-        : (attributes & ItemDatabase.ATTR_CANDY1) != 0
+        : attributes.contains(Attribute.CANDY1)
             ? SIMPLE
-            : (attributes & ItemDatabase.ATTR_CANDY2) != 0 ? COMPLEX : NONE;
+            : attributes.contains(Attribute.CANDY2) ? COMPLEX : NONE;
   }
 
   public static final int getEffectTier(final int itemId1, final int itemId2) {
@@ -163,67 +164,52 @@ public class CandyDatabase {
   }
 
   public static final int getEffectTier(final int effectId) {
-    switch (effectId) {
-      case EffectPool.SYNTHESIS_HOT:
-      case EffectPool.SYNTHESIS_COLD:
-      case EffectPool.SYNTHESIS_PUNGENT:
-      case EffectPool.SYNTHESIS_SCARY:
-      case EffectPool.SYNTHESIS_GREASY:
-        return 1;
-      case EffectPool.SYNTHESIS_STRONG:
-      case EffectPool.SYNTHESIS_SMART:
-      case EffectPool.SYNTHESIS_COOL:
-      case EffectPool.SYNTHESIS_HARDY:
-      case EffectPool.SYNTHESIS_ENERGY:
-        return 2;
-      case EffectPool.SYNTHESIS_GREED:
-      case EffectPool.SYNTHESIS_COLLECTION:
-      case EffectPool.SYNTHESIS_MOVEMENT:
-      case EffectPool.SYNTHESIS_LEARNING:
-      case EffectPool.SYNTHESIS_STYLE:
-        return 3;
-      default:
-        return 0;
-    }
+    return switch (effectId) {
+      case EffectPool.SYNTHESIS_HOT,
+          EffectPool.SYNTHESIS_COLD,
+          EffectPool.SYNTHESIS_PUNGENT,
+          EffectPool.SYNTHESIS_SCARY,
+          EffectPool.SYNTHESIS_GREASY -> 1;
+      case EffectPool.SYNTHESIS_STRONG,
+          EffectPool.SYNTHESIS_SMART,
+          EffectPool.SYNTHESIS_COOL,
+          EffectPool.SYNTHESIS_HARDY,
+          EffectPool.SYNTHESIS_ENERGY -> 2;
+      case EffectPool.SYNTHESIS_GREED,
+          EffectPool.SYNTHESIS_COLLECTION,
+          EffectPool.SYNTHESIS_MOVEMENT,
+          EffectPool.SYNTHESIS_LEARNING,
+          EffectPool.SYNTHESIS_STYLE -> 3;
+      default -> 0;
+    };
   }
 
   public static final int getEffectModulus(final int effectId) {
-    switch (effectId) {
-      case EffectPool.SYNTHESIS_HOT:
-      case EffectPool.SYNTHESIS_STRONG:
-      case EffectPool.SYNTHESIS_GREED:
-        return 0;
-      case EffectPool.SYNTHESIS_COLD:
-      case EffectPool.SYNTHESIS_SMART:
-      case EffectPool.SYNTHESIS_COLLECTION:
-        return 1;
-      case EffectPool.SYNTHESIS_PUNGENT:
-      case EffectPool.SYNTHESIS_COOL:
-      case EffectPool.SYNTHESIS_MOVEMENT:
-        return 2;
-      case EffectPool.SYNTHESIS_SCARY:
-      case EffectPool.SYNTHESIS_HARDY:
-      case EffectPool.SYNTHESIS_LEARNING:
-        return 3;
-      case EffectPool.SYNTHESIS_GREASY:
-      case EffectPool.SYNTHESIS_ENERGY:
-      case EffectPool.SYNTHESIS_STYLE:
-        return 4;
-      default:
-        return -1;
-    }
+    return switch (effectId) {
+      case EffectPool.SYNTHESIS_HOT, EffectPool.SYNTHESIS_STRONG, EffectPool.SYNTHESIS_GREED -> 0;
+      case EffectPool.SYNTHESIS_COLD,
+          EffectPool.SYNTHESIS_SMART,
+          EffectPool.SYNTHESIS_COLLECTION -> 1;
+      case EffectPool.SYNTHESIS_PUNGENT,
+          EffectPool.SYNTHESIS_COOL,
+          EffectPool.SYNTHESIS_MOVEMENT -> 2;
+      case EffectPool.SYNTHESIS_SCARY,
+          EffectPool.SYNTHESIS_HARDY,
+          EffectPool.SYNTHESIS_LEARNING -> 3;
+      case EffectPool.SYNTHESIS_GREASY,
+          EffectPool.SYNTHESIS_ENERGY,
+          EffectPool.SYNTHESIS_STYLE -> 4;
+      default -> -1;
+    };
   }
 
   public static final int effectTierBase(final int tier) {
-    switch (tier) {
-      case 1:
-        return EffectPool.SYNTHESIS_HOT;
-      case 2:
-        return EffectPool.SYNTHESIS_STRONG;
-      case 3:
-        return EffectPool.SYNTHESIS_GREED;
-    }
-    return -1;
+    return switch (tier) {
+      case 1 -> EffectPool.SYNTHESIS_HOT;
+      case 2 -> EffectPool.SYNTHESIS_STRONG;
+      case 3 -> EffectPool.SYNTHESIS_GREED;
+      default -> -1;
+    };
   }
 
   public static final int FLAG_AVAILABLE = 0x1;
@@ -276,7 +262,7 @@ public class CandyDatabase {
     }
 
     // Otherwise, we must filter
-    Set<Integer> result = new HashSet<Integer>();
+    Set<Integer> result = new HashSet<>();
 
     for (Integer itemId : candies) {
       if (available && InventoryManager.getAccessibleCount(itemId) == 0) {
@@ -316,7 +302,7 @@ public class CandyDatabase {
 
   public static Set<Integer> sweetSynthesisPairing(
       final int effectId, final int itemId1, final int flags) {
-    Set<Integer> result = new HashSet<Integer>();
+    Set<Integer> result = new HashSet<>();
 
     int tier = CandyDatabase.getEffectTier(effectId);
     if (tier < 1 || tier > 3) {
@@ -328,19 +314,13 @@ public class CandyDatabase {
       return result;
     }
 
-    Set<Integer> candidates = CandyDatabase.NO_CANDY;
-
-    switch (tier) {
-      case 1:
-        candidates = (candyType == SIMPLE) ? CandyDatabase.tier1Candy : CandyDatabase.NO_CANDY;
-        break;
-      case 2:
-        candidates = (candyType == SIMPLE) ? CandyDatabase.tier3Candy : CandyDatabase.tier1Candy;
-        break;
-      case 3:
-        candidates = (candyType == COMPLEX) ? CandyDatabase.tier3Candy : CandyDatabase.NO_CANDY;
-        break;
-    }
+    Set<Integer> candidates =
+        switch (tier) {
+          case 1 -> (candyType == SIMPLE) ? CandyDatabase.tier1Candy : CandyDatabase.NO_CANDY;
+          case 2 -> (candyType == SIMPLE) ? CandyDatabase.tier3Candy : CandyDatabase.tier1Candy;
+          case 3 -> (candyType == COMPLEX) ? CandyDatabase.tier3Candy : CandyDatabase.NO_CANDY;
+          default -> CandyDatabase.NO_CANDY;
+        };
 
     int desiredModulus = CandyDatabase.getEffectModulus(effectId);
     boolean available = (flags & FLAG_AVAILABLE) != 0;
@@ -405,7 +385,7 @@ public class CandyDatabase {
 
     @Override
     public boolean equals(final Object o) {
-      return (o instanceof Candy) && (this.itemId == ((Candy) o).itemId);
+      return (o instanceof Candy c) && (this.itemId == c.itemId);
     }
 
     @Override
@@ -458,7 +438,7 @@ public class CandyDatabase {
   }
 
   public static List<Candy> itemIdSetToCandyList(Set<Integer> itemIds) {
-    ArrayList<Candy> list = new ArrayList<Candy>();
+    ArrayList<Candy> list = new ArrayList<>();
 
     for (int itemId : itemIds) {
       list.add(new Candy(itemId));

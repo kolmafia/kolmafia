@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -133,6 +134,7 @@ public class CampgroundRequest extends GenericRequest {
     ItemPool.ASDON_MARTIN,
     ItemPool.DIABOLIC_PIZZA_CUBE,
     ItemPool.COLD_MEDICINE_CABINET,
+    ItemPool.MODEL_TRAIN_SET,
 
     // Outside dwelling
     ItemPool.MEAT_GOLEM,
@@ -234,17 +236,14 @@ public class CampgroundRequest extends GenericRequest {
 
     @Override
     public String toString() {
-      return count == 1
-          ? "free-range mushroom"
-          : count == 2
-              ? "plump free-range mushroom"
-              : count == 3
-                  ? "bulky free-range mushroom"
-                  : count == 4
-                      ? "giant free-range mushroom"
-                      : count >= 5 && count < 11
-                          ? "immense free-range mushroom"
-                          : "colossal free-range mushroom";
+      return switch (count) {
+        case 1 -> "free-range mushroom";
+        case 2 -> "plump free-range mushroom";
+        case 3 -> "bulky free-range mushroom";
+        case 4 -> "giant free-range mushroom";
+        case 5, 6, 7, 8, 9, 10 -> "immense free-range mushroom";
+        default -> "colossal free-range mushroom";
+      };
     }
   }
 
@@ -285,6 +284,17 @@ public class CampgroundRequest extends GenericRequest {
   public static final AdventureResult GIANT_FREE_RANGE_MUSHROOM = new Mushroom(4);
   public static final AdventureResult IMMENSE_FREE_RANGE_MUSHROOM = new Mushroom(5);
   public static final AdventureResult COLOSSAL_FREE_RANGE_MUSHROOM = new Mushroom(11);
+  public static final AdventureResult GROVELING_GRAVEL = ItemPool.get(ItemPool.GROVELING_GRAVEL, 1);
+  public static final AdventureResult FRUITY_PEBBLE = ItemPool.get(ItemPool.FRUITY_PEBBLE, 1);
+  public static final AdventureResult LODESTONE = ItemPool.get(ItemPool.LODESTONE, 1);
+  public static final AdventureResult MILESTONE = ItemPool.get(ItemPool.MILESTONE, 1);
+  public static final AdventureResult BOLDER_BOULDER = ItemPool.get(ItemPool.BOLDER_BOULDER, 1);
+  public static final AdventureResult MOLEHILL_MOUNTAIN =
+      ItemPool.get(ItemPool.MOLEHILL_MOUNTAIN, 1);
+  public static final AdventureResult WHETSTONE = ItemPool.get(ItemPool.WHETSTONE, 1);
+  public static final AdventureResult HARD_ROCK = ItemPool.get(ItemPool.HARD_ROCK, 1);
+  public static final AdventureResult STRANGE_STALAGMITE =
+      ItemPool.get(ItemPool.STRANGE_STALAGMITE, 1);
 
   // Crop seeds
   public static final AdventureResult PUMPKIN_SEEDS = ItemPool.get(ItemPool.PUMPKIN_SEEDS, 1);
@@ -297,6 +307,7 @@ public class CampgroundRequest extends GenericRequest {
       ItemPool.get(ItemPool.THANKSGARDEN_SEEDS, 1);
   public static final AdventureResult TALL_GRASS_SEEDS = ItemPool.get(ItemPool.TALL_GRASS_SEEDS, 1);
   public static final AdventureResult MUSHROOM_SPORES = ItemPool.get(ItemPool.MUSHROOM_SPORES, 1);
+  public static final AdventureResult ROCK_SEEDS = ItemPool.get(ItemPool.ROCK_SEEDS, 1);
 
   public enum CropType {
     PUMPKIN,
@@ -307,6 +318,7 @@ public class CampgroundRequest extends GenericRequest {
     THANKSGARDEN,
     GRASS,
     MUSHROOM,
+    ROCK,
     ;
 
     @Override
@@ -337,6 +349,15 @@ public class CampgroundRequest extends GenericRequest {
     CROPMAP.put(GIANT_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
     CROPMAP.put(IMMENSE_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
     CROPMAP.put(COLOSSAL_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
+    CROPMAP.put(GROVELING_GRAVEL, CropType.ROCK);
+    CROPMAP.put(FRUITY_PEBBLE, CropType.ROCK);
+    CROPMAP.put(LODESTONE, CropType.ROCK);
+    CROPMAP.put(MILESTONE, CropType.ROCK);
+    CROPMAP.put(BOLDER_BOULDER, CropType.ROCK);
+    CROPMAP.put(MOLEHILL_MOUNTAIN, CropType.ROCK);
+    CROPMAP.put(WHETSTONE, CropType.ROCK);
+    CROPMAP.put(HARD_ROCK, CropType.ROCK);
+    CROPMAP.put(STRANGE_STALAGMITE, CropType.ROCK);
   }
 
   public static final List<Integer> workshedItems =
@@ -353,7 +374,8 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.MAYO_CLINIC,
           ItemPool.ASDON_MARTIN,
           ItemPool.DIABOLIC_PIZZA_CUBE,
-          ItemPool.COLD_MEDICINE_CABINET);
+          ItemPool.COLD_MEDICINE_CABINET,
+          ItemPool.MODEL_TRAIN_SET);
 
   public static final AdventureResult[] CROPS = {
     CampgroundRequest.PUMPKIN,
@@ -389,6 +411,15 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM,
     CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM,
     CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM,
+    CampgroundRequest.GROVELING_GRAVEL,
+    CampgroundRequest.FRUITY_PEBBLE,
+    CampgroundRequest.LODESTONE,
+    CampgroundRequest.MILESTONE,
+    CampgroundRequest.BOLDER_BOULDER,
+    CampgroundRequest.MOLEHILL_MOUNTAIN,
+    CampgroundRequest.WHETSTONE,
+    CampgroundRequest.HARD_ROCK,
+    CampgroundRequest.STRANGE_STALAGMITE,
   };
 
   public static final AdventureResult[] CROP_SEEDS = {
@@ -400,6 +431,7 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.THANKSGARDEN_SEEDS,
     CampgroundRequest.TALL_GRASS_SEEDS,
     CampgroundRequest.MUSHROOM_SPORES,
+    CampgroundRequest.ROCK_SEEDS,
   };
 
   public static void reset() {
@@ -474,6 +506,17 @@ public class CampgroundRequest extends GenericRequest {
     return null;
   }
 
+  public static List<AdventureResult> getCrops() {
+    var list = new ArrayList<AdventureResult>();
+    for (AdventureResult crop : CampgroundRequest.CROPS) {
+      int index = KoLConstants.campground.indexOf(crop);
+      if (index != -1) {
+        list.add(KoLConstants.campground.get(index));
+      }
+    }
+    return list;
+  }
+
   public static CropType getCropType() {
     return CampgroundRequest.getCropType(getCrop());
   }
@@ -492,23 +535,17 @@ public class CampgroundRequest extends GenericRequest {
       count = StringUtilities.parseInt(crop.substring(paren + 2, crop.length() - 1));
     }
 
-    return name.equals("tall grass")
-        ? CampgroundRequest.TALL_GRASS.getInstance(count)
-        : name.equals("very tall grass")
-            ? CampgroundRequest.VERY_TALL_GRASS
-            : name.equals("free-range mushroom")
-                ? CampgroundRequest.FREE_RANGE_MUSHROOM
-                : name.equals("plump free-range mushroom")
-                    ? CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM
-                    : name.equals("bulky free-range mushroom")
-                        ? CampgroundRequest.BULKY_FREE_RANGE_MUSHROOM
-                        : name.equals("giant free-range mushroom")
-                            ? CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM
-                            : name.equals("immense free-range mushroom")
-                                ? CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM
-                                : name.equals("colossal free-range mushroom")
-                                    ? CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM
-                                    : new AdventureResult(name, count, false);
+    return switch (name) {
+      case "tall grass" -> CampgroundRequest.TALL_GRASS.getInstance(count);
+      case "very tall grass" -> CampgroundRequest.VERY_TALL_GRASS;
+      case "free-range mushroom" -> CampgroundRequest.FREE_RANGE_MUSHROOM;
+      case "plump free-range mushroom" -> CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM;
+      case "bulky free-range mushroom" -> CampgroundRequest.BULKY_FREE_RANGE_MUSHROOM;
+      case "giant free-range mushroom" -> CampgroundRequest.GIANT_FREE_RANGE_MUSHROOM;
+      case "immense free-range mushroom" -> CampgroundRequest.IMMENSE_FREE_RANGE_MUSHROOM;
+      case "colossal free-range mushroom" -> CampgroundRequest.COLOSSAL_FREE_RANGE_MUSHROOM;
+      default -> new AdventureResult(name, count, false);
+    };
   }
 
   public static boolean hasCropOrBetter(final String crop) {
@@ -542,7 +579,6 @@ public class CampgroundRequest extends GenericRequest {
 
     for (AdventureResult crop : CampgroundRequest.CROPS) {
       int cropID = crop.getItemId();
-      int cropCount = crop.getCount();
 
       // We found the current crop before we found the
       // desired crop. Not good enough.
@@ -579,13 +615,13 @@ public class CampgroundRequest extends GenericRequest {
   }
 
   public static void harvestCrop() {
-    AdventureResult crop = CampgroundRequest.getCrop();
-    if (crop == null) {
+    List<AdventureResult> crops = CampgroundRequest.getCrops();
+    if (crops.isEmpty()) {
       // No garden
       return;
     }
 
-    CropType cropType = CampgroundRequest.getCropType(crop);
+    CropType cropType = CampgroundRequest.getCropType(crops.get(0));
 
     // Dealing with mushroom gardens is an Adventure
     if (cropType == CropType.MUSHROOM) {
@@ -595,23 +631,47 @@ public class CampgroundRequest extends GenericRequest {
 
     // Other garden types have zero or more things to pick.
     // We learned the count by looking at the campground.
-    int count = crop.getCount();
+    int count = crops.stream().mapToInt(AdventureResult::getCount).sum();
     if (count == 0) {
       // Nothing to pick.
       return;
     }
 
-    // Grass plots are special: each cluster of tall grass is picked
-    // individually - except for Very Tall Grass (the 8th growth)
-    if (cropType == CropType.GRASS || count == 8) {
-      // Harvest the entire garden in one go
-      count = 1;
-    }
+    if (cropType == CropType.ROCK) {
+      // rock garden is actually 3 gardens
+      var itemIds =
+          crops.stream().map(AdventureResult::getItemId).collect(Collectors.toUnmodifiableSet());
+      if (itemIds.contains(ItemPool.GROVELING_GRAVEL)
+          || itemIds.contains(ItemPool.FRUITY_PEBBLE)
+          || itemIds.contains(ItemPool.LODESTONE)) {
+        CampgroundRequest request = new CampgroundRequest("rgarden1");
+        RequestThread.postRequest(request);
+      }
+      if (itemIds.contains(ItemPool.MILESTONE)
+          || itemIds.contains(ItemPool.BOLDER_BOULDER)
+          || itemIds.contains(ItemPool.MOLEHILL_MOUNTAIN)) {
+        CampgroundRequest request = new CampgroundRequest("rgarden2");
+        RequestThread.postRequest(request);
+      }
+      if (itemIds.contains(ItemPool.WHETSTONE)
+          || itemIds.contains(ItemPool.HARD_ROCK)
+          || itemIds.contains(ItemPool.STRANGE_STALAGMITE)) {
+        CampgroundRequest request = new CampgroundRequest("rgarden3");
+        RequestThread.postRequest(request);
+      }
+    } else {
+      // Grass plots are special: each cluster of tall grass is picked
+      // individually - except for Very Tall Grass (the 8th growth)
+      if (cropType != CropType.GRASS || count == 8) {
+        // Harvest the entire garden in one go
+        count = 1;
+      }
 
-    // Pick your crop (in multiple requests, if Tall Grass)
-    CampgroundRequest request = new CampgroundRequest("garden");
-    while (count-- > 0) {
-      RequestThread.postRequest(request);
+      // Pick your crop (in multiple requests, if Tall Grass)
+      CampgroundRequest request = new CampgroundRequest("garden");
+      while (count-- > 0) {
+        RequestThread.postRequest(request);
+      }
     }
   }
 
@@ -619,8 +679,6 @@ public class CampgroundRequest extends GenericRequest {
     // For now, only mushroom gardens need to be fertilized each day.
     CampgroundRequest.harvestMushrooms(false);
   }
-
-  private static final Pattern MUSHROOM_PATTERN = Pattern.compile("an? (.*? mushroom)");
 
   public static void harvestMushrooms(final boolean pick) {
     AdventureResult crop = CampgroundRequest.getCrop();
@@ -641,13 +699,14 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
-    if (KoLCharacter.isFallingDown()) {
+    if (KoLCharacter.isFallingDown()
+        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) {
       // You cannot be falling down drunk
       return;
     }
 
     // We expect redirection to either fight.php or choice.php
-    // We want to handle it ourself, so run it in a RelayRequest
+    // We want to handle it ourselves, so run it in a RelayRequest
     RelayRequest request = new RelayRequest(false);
 
     KoLAdventure.setNextAdventure("Your Mushroom Garden");
@@ -802,7 +861,7 @@ public class CampgroundRequest extends GenericRequest {
     return action != null && (action.equals("workshed") || action.equals("terminal"));
   }
 
-  public static final void parseResponse(final String urlString, final String responseText) {
+  public static void parseResponse(final String urlString, final String responseText) {
     // Workshed may redirect to shop.php
     if (urlString.startsWith("shop.php")) {
       NPCPurchaseRequest.parseShopResponse(urlString, responseText);
@@ -1056,35 +1115,17 @@ public class CampgroundRequest extends GenericRequest {
 
     CampgroundRequest.parseGarden(responseText);
 
-    boolean maidFound = false;
-    if (!maidFound) maidFound = findImage(responseText, "maid.gif", ItemPool.MAID);
-    if (!maidFound) maidFound = findImage(responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID);
-
     Matcher jungMatcher = JUNG_PATTERN.matcher(responseText);
     if (jungMatcher.find()) {
       int jungLink = StringUtilities.parseInt(jungMatcher.group(1));
       switch (jungLink) {
-        case 1:
-          CampgroundRequest.setCampgroundItem(ItemPool.SUSPICIOUS_JAR, 1);
-          break;
-        case 2:
-          CampgroundRequest.setCampgroundItem(ItemPool.GOURD_JAR, 1);
-          break;
-        case 3:
-          CampgroundRequest.setCampgroundItem(ItemPool.MYSTIC_JAR, 1);
-          break;
-        case 4:
-          CampgroundRequest.setCampgroundItem(ItemPool.OLD_MAN_JAR, 1);
-          break;
-        case 5:
-          CampgroundRequest.setCampgroundItem(ItemPool.ARTIST_JAR, 1);
-          break;
-        case 6:
-          CampgroundRequest.setCampgroundItem(ItemPool.MEATSMITH_JAR, 1);
-          break;
-        case 7:
-          CampgroundRequest.setCampgroundItem(ItemPool.JICK_JAR, 1);
-          break;
+        case 1 -> CampgroundRequest.setCampgroundItem(ItemPool.SUSPICIOUS_JAR, 1);
+        case 2 -> CampgroundRequest.setCampgroundItem(ItemPool.GOURD_JAR, 1);
+        case 3 -> CampgroundRequest.setCampgroundItem(ItemPool.MYSTIC_JAR, 1);
+        case 4 -> CampgroundRequest.setCampgroundItem(ItemPool.OLD_MAN_JAR, 1);
+        case 5 -> CampgroundRequest.setCampgroundItem(ItemPool.ARTIST_JAR, 1);
+        case 6 -> CampgroundRequest.setCampgroundItem(ItemPool.MEATSMITH_JAR, 1);
+        case 7 -> CampgroundRequest.setCampgroundItem(ItemPool.JICK_JAR, 1);
       }
     } else {
       Preferences.setBoolean("_psychoJarUsed", false);
@@ -1280,7 +1321,60 @@ public class CampgroundRequest extends GenericRequest {
         || findImage(
             responseText,
             "mushgarden.gif",
-            new Mushroom(Preferences.getInteger("mushroomGardenCropLevel")));
+            new Mushroom(Preferences.getInteger("mushroomGardenCropLevel")))
+        || findRockGarden(responseText);
+  }
+
+  private static boolean findRockGarden(final String responseText) {
+    if (!responseText.contains("/rockgarden/")) {
+      return false;
+    }
+
+    var hasSomething = false;
+
+    if (findImage(responseText, "rockgarden/a1.gif", ItemPool.GROVELING_GRAVEL, 1)
+        || findImage(responseText, "rockgarden/a2.gif", ItemPool.GROVELING_GRAVEL, 2)
+        || findImage(responseText, "rockgarden/a3.gif", ItemPool.GROVELING_GRAVEL, 3)
+        || findImage(responseText, "rockgarden/a4.gif", ItemPool.FRUITY_PEBBLE, 1)
+        || findImage(responseText, "rockgarden/a5.gif", ItemPool.FRUITY_PEBBLE, 2)
+        || findImage(responseText, "rockgarden/a6.gif", ItemPool.FRUITY_PEBBLE, 3)
+        || findImage(responseText, "rockgarden/a7.gif", ItemPool.LODESTONE, 1)) {
+      hasSomething = true;
+    } else {
+      findImage(responseText, "rockgarden/a0.gif", ItemPool.GROVELING_GRAVEL, 0);
+    }
+
+    if (findImage(responseText, "rockgarden/b1.gif", ItemPool.MILESTONE, 1)
+        || findImage(responseText, "rockgarden/b2.gif", ItemPool.MILESTONE, 2)
+        || findImage(responseText, "rockgarden/b3.gif", ItemPool.MILESTONE, 3)
+        || findImage(responseText, "rockgarden/b4.gif", ItemPool.BOLDER_BOULDER, 1)
+        || findImage(responseText, "rockgarden/b5.gif", ItemPool.BOLDER_BOULDER, 2)
+        || findImage(responseText, "rockgarden/b6.gif", ItemPool.BOLDER_BOULDER, 3)
+        || findImage(responseText, "rockgarden/b7.gif", ItemPool.MOLEHILL_MOUNTAIN, 1)) {
+      hasSomething = true;
+    } else {
+      findImage(responseText, "rockgarden/b0.gif", ItemPool.MILESTONE, 0);
+    }
+
+    if (findImage(responseText, "rockgarden/c1.gif", ItemPool.WHETSTONE, 1)
+        || findImage(responseText, "rockgarden/c2.gif", ItemPool.WHETSTONE, 2)
+        || findImage(responseText, "rockgarden/c3.gif", ItemPool.WHETSTONE, 3)
+        || findImage(responseText, "rockgarden/c4.gif", ItemPool.HARD_ROCK, 1)
+        || findImage(responseText, "rockgarden/c5.gif", ItemPool.HARD_ROCK, 2)
+        || findImage(responseText, "rockgarden/c6.gif", ItemPool.HARD_ROCK, 3)
+        || findImage(responseText, "rockgarden/c7.gif", ItemPool.STRANGE_STALAGMITE, 1)) {
+      hasSomething = true;
+    } else {
+      findImage(responseText, "rockgarden/c0.gif", ItemPool.WHETSTONE, 0);
+    }
+
+    if (hasSomething) {
+      CampgroundRequest.setCampgroundItem(ItemPool.ROCK_SEEDS, 1);
+    } else {
+      CampgroundRequest.setCampgroundItem(ItemPool.ROCK_SEEDS, 0);
+    }
+
+    return true;
   }
 
   private static void parseDwelling(final String responseText) {
@@ -1301,64 +1395,30 @@ public class CampgroundRequest extends GenericRequest {
 
     int itemId = -1;
     switch (dwelling) {
-      case 0:
+      case 0 -> {
         // placeholder for "the ground"
         CampgroundRequest.currentDwelling = BIG_ROCK;
         CampgroundRequest.currentDwellingLevel = 0;
-        break;
-      case 1:
-        itemId = ItemPool.NEWBIESPORT_TENT;
-        break;
-      case 2:
-        itemId = ItemPool.BARSKIN_TENT;
-        break;
-      case 3:
-        itemId = ItemPool.COTTAGE;
-        break;
-      case 4:
-        itemId = ItemPool.HOUSE;
-        break;
-      case 5:
-        itemId = ItemPool.SANDCASTLE;
-        break;
-      case 6:
-        itemId = ItemPool.TWIG_HOUSE;
-        break;
-      case 7:
-        itemId = ItemPool.HOBO_FORTRESS;
-        break;
-      case 8:
-        itemId = ItemPool.GINGERBREAD_HOUSE;
-        break;
-      case 9:
-        itemId = ItemPool.BRICKO_PYRAMID;
-        break;
-      case 10:
-        itemId = ItemPool.GINORMOUS_PUMPKIN;
-        break;
-      case 11:
-        itemId = ItemPool.GIANT_FARADAY_CAGE;
-        break;
-      case 12:
-        itemId = ItemPool.SNOW_FORT;
-        break;
-      case 13:
-        itemId = ItemPool.ELEVENT;
-        break;
-      case 14:
-        itemId = ItemPool.RESIDENCE_CUBE;
-        break;
-      case 15:
-        itemId = ItemPool.GIANT_PILGRIM_HAT;
-        break;
-      case 16:
-        itemId = ItemPool.HOUSE_SIZED_MUSHROOM;
-        break;
-      default:
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR,
-            "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!");
-        break;
+      }
+      case 1 -> itemId = ItemPool.NEWBIESPORT_TENT;
+      case 2 -> itemId = ItemPool.BARSKIN_TENT;
+      case 3 -> itemId = ItemPool.COTTAGE;
+      case 4 -> itemId = ItemPool.HOUSE;
+      case 5 -> itemId = ItemPool.SANDCASTLE;
+      case 6 -> itemId = ItemPool.TWIG_HOUSE;
+      case 7 -> itemId = ItemPool.HOBO_FORTRESS;
+      case 8 -> itemId = ItemPool.GINGERBREAD_HOUSE;
+      case 9 -> itemId = ItemPool.BRICKO_PYRAMID;
+      case 10 -> itemId = ItemPool.GINORMOUS_PUMPKIN;
+      case 11 -> itemId = ItemPool.GIANT_FARADAY_CAGE;
+      case 12 -> itemId = ItemPool.SNOW_FORT;
+      case 13 -> itemId = ItemPool.ELEVENT;
+      case 14 -> itemId = ItemPool.RESIDENCE_CUBE;
+      case 15 -> itemId = ItemPool.GIANT_PILGRIM_HAT;
+      case 16 -> itemId = ItemPool.HOUSE_SIZED_MUSHROOM;
+      default -> KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!");
     }
 
     if (itemId != -1) {
@@ -1374,7 +1434,12 @@ public class CampgroundRequest extends GenericRequest {
     int startIndex = responseText.indexOf("Your dwelling has the following stuff");
     int endIndex = responseText.indexOf("<b>Your Campsite</b>", startIndex + 1);
     if (startIndex > 0 && endIndex > 0) {
-      m = FURNISHING_PATTERN.matcher(responseText.substring(startIndex, endIndex));
+      var relevantResponse = responseText.substring(startIndex, endIndex);
+
+      boolean maidFound = findImage(relevantResponse, "maid.gif", ItemPool.MAID);
+      if (!maidFound) findImage(relevantResponse, "maid2.gif", ItemPool.CLOCKWORK_MAID);
+
+      m = FURNISHING_PATTERN.matcher(relevantResponse);
       while (m.find()) {
         String name = m.group(1);
 
@@ -1480,23 +1545,7 @@ public class CampgroundRequest extends GenericRequest {
 
   private static boolean findImage(
       final String responseText, final String filename, final int itemId) {
-    return CampgroundRequest.findImage(responseText, filename, itemId, false);
-  }
-
-  private static boolean findImage(
-      final String responseText, final String filename, final int itemId, boolean allowMultiple) {
-    int count = 0;
-    int i = responseText.indexOf(filename);
-    while (i != -1) {
-      ++count;
-      i = responseText.indexOf(filename, i + 1);
-    }
-
-    if (count > 0) {
-      CampgroundRequest.setCampgroundItem(itemId, allowMultiple ? count : 1);
-    }
-
-    return (count > 0);
+    return CampgroundRequest.findImage(responseText, filename, itemId, 1);
   }
 
   private static boolean findImage(
@@ -1604,83 +1653,43 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.removeCampgroundItem(CampgroundRequest.getCurrentWorkshedItem());
   }
 
-  public static boolean isDwelling(final int itemId) {
-    switch (itemId) {
-      case ItemPool.NEWBIESPORT_TENT:
-      case ItemPool.BARSKIN_TENT:
-      case ItemPool.COTTAGE:
-      case ItemPool.BRICKO_PYRAMID:
-      case ItemPool.HOUSE:
-      case ItemPool.SANDCASTLE:
-      case ItemPool.TWIG_HOUSE:
-      case ItemPool.GINGERBREAD_HOUSE:
-      case ItemPool.HOBO_FORTRESS:
-      case ItemPool.GINORMOUS_PUMPKIN:
-      case ItemPool.GIANT_FARADAY_CAGE:
-      case ItemPool.SNOW_FORT:
-      case ItemPool.ELEVENT:
-      case ItemPool.RESIDENCE_CUBE:
-      case ItemPool.GIANT_PILGRIM_HAT:
-      case ItemPool.HOUSE_SIZED_MUSHROOM:
-        return true;
-    }
-    return false;
-  }
-
   public static int dwellingLevel(final int itemId) {
-    switch (itemId) {
-      case ItemPool.NEWBIESPORT_TENT:
-        return 1;
-      case ItemPool.BARSKIN_TENT:
-        return 2;
-      case ItemPool.COTTAGE:
-        return 3;
-      case ItemPool.BRICKO_PYRAMID:
-        return 4;
-      case ItemPool.HOUSE:
-        return 5;
-      case ItemPool.SANDCASTLE:
-        return 6;
-      case ItemPool.GINORMOUS_PUMPKIN:
-        return 7;
-      case ItemPool.TWIG_HOUSE:
-        return 8;
-      case ItemPool.GINGERBREAD_HOUSE:
-        return 9;
-      case ItemPool.HOBO_FORTRESS:
-        return 10;
-      case ItemPool.GIANT_FARADAY_CAGE:
-        return 11;
-      case ItemPool.SNOW_FORT:
-        return 12;
-      case ItemPool.ELEVENT:
-        return 13;
-      case ItemPool.RESIDENCE_CUBE:
-        return 14;
-      case ItemPool.GIANT_PILGRIM_HAT:
-        return 15;
-      case ItemPool.HOUSE_SIZED_MUSHROOM:
-        return 16;
-    }
-    return 0;
+    return switch (itemId) {
+      case ItemPool.NEWBIESPORT_TENT -> 1;
+      case ItemPool.BARSKIN_TENT -> 2;
+      case ItemPool.COTTAGE -> 3;
+      case ItemPool.BRICKO_PYRAMID -> 4;
+      case ItemPool.HOUSE -> 5;
+      case ItemPool.SANDCASTLE -> 6;
+      case ItemPool.GINORMOUS_PUMPKIN -> 7;
+      case ItemPool.TWIG_HOUSE -> 8;
+      case ItemPool.GINGERBREAD_HOUSE -> 9;
+      case ItemPool.HOBO_FORTRESS -> 10;
+      case ItemPool.GIANT_FARADAY_CAGE -> 11;
+      case ItemPool.SNOW_FORT -> 12;
+      case ItemPool.ELEVENT -> 13;
+      case ItemPool.RESIDENCE_CUBE -> 14;
+      case ItemPool.GIANT_PILGRIM_HAT -> 15;
+      case ItemPool.HOUSE_SIZED_MUSHROOM -> 16;
+      default -> 0;
+    };
   }
 
   public static boolean isBedding(final int itemId) {
-    switch (itemId) {
-      case ItemPool.BEANBAG_CHAIR:
-      case ItemPool.GAUZE_HAMMOCK:
-      case ItemPool.LAZYBONES_RECLINER:
-      case ItemPool.SLEEPING_STOCKING:
-      case ItemPool.HOT_BEDDING:
-      case ItemPool.COLD_BEDDING:
-      case ItemPool.STENCH_BEDDING:
-      case ItemPool.SPOOKY_BEDDING:
-      case ItemPool.SLEAZE_BEDDING:
-      case ItemPool.SALTWATERBED:
-      case ItemPool.SPIRIT_BED:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.BEANBAG_CHAIR,
+          ItemPool.GAUZE_HAMMOCK,
+          ItemPool.LAZYBONES_RECLINER,
+          ItemPool.SLEEPING_STOCKING,
+          ItemPool.HOT_BEDDING,
+          ItemPool.COLD_BEDDING,
+          ItemPool.STENCH_BEDDING,
+          ItemPool.SPOOKY_BEDDING,
+          ItemPool.SLEAZE_BEDDING,
+          ItemPool.SALTWATERBED,
+          ItemPool.SPIRIT_BED -> true;
+      default -> false;
+    };
   }
 
   public static boolean isWorkshedItem(final int itemId) {
@@ -1699,42 +1708,34 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.asdonMartinFuel -= fuel;
   }
 
-  private static final String[][] BOOKS = {
-    {"Tome of Snowcone Summoning", "Summon Snowcones"},
-    {"Tome of Sticker Summoning", "Summon Stickers"},
-    {"Tome of Sugar Shummoning", "Summon Sugar Sheets"},
-    {"Tome of Clip Art", "Summon Clip Art"},
-    {"Tome of Rad Libs", "Summon Rad Libs"},
-    {"The Smith's Tome", "Summon Smithsness"},
-    {
-      // The bookshelf currently says:
-      // "McPhee's Grimoire of Hilarious Item Summoning"
-      // gives access to "Summon Hilarious Items".
-      //
-      // The item is currently named:
-      // "McPhee's Grimoire of Hilarious Object Summoning"
-      // and gives access to "Summon Hilarious Objects".
-      "McPhee's Grimoire", "Summon Hilarious Objects",
-    },
-    {
-      "Sp'n-Zor's Grimoire", "Summon Tasteful Items",
-    },
-    {
-      "Sorcerers of the Shore Grimoire", "Summon Alice's Army Cards",
-    },
-    {
-      "Thinknerd Grimoire", "Summon Geeky Gifts",
-    },
-    {
-      "Libram of Candy Heart Summoning", "Summon Candy Heart",
-    },
-    {"Libram of Divine Favors", "Summon Party Favor"},
-    {"Libram of Love Songs", "Summon Love Song"},
-    {"Libram of BRICKOs", "Summon BRICKOs"},
-    {"Gygaxian Libram", "Summon Dice"},
-    {"Libram of Resolutions", "Summon Resolutions"},
-    {"Libram of Pulled Taffy", "Summon Taffy"},
-    {"Confiscator's Grimoire", "Summon Confiscated Things"},
+  private record Book(String name, String skill) {}
+
+  private static final Book[] BOOKS = {
+    new Book("Tome of Snowcone Summoning", "Summon Snowcones"),
+    new Book("Tome of Sticker Summoning", "Summon Stickers"),
+    new Book("Tome of Sugar Shummoning", "Summon Sugar Sheets"),
+    new Book("Tome of Clip Art", "Summon Clip Art"),
+    new Book("Tome of Rad Libs", "Summon Rad Libs"),
+    new Book("The Smith's Tome", "Summon Smithsness"),
+    // The bookshelf currently says:
+    // "McPhee's Grimoire of Hilarious Item Summoning"
+    // gives access to "Summon Hilarious Items".
+    //
+    // The item is currently named:
+    // "McPhee's Grimoire of Hilarious Object Summoning"
+    // and gives access to "Summon Hilarious Objects".
+    new Book("McPhee's Grimoire", "Summon Hilarious Objects"),
+    new Book("Sp'n-Zor's Grimoire", "Summon Tasteful Items"),
+    new Book("Sorcerers of the Shore Grimoire", "Summon Alice's Army Cards"),
+    new Book("Thinknerd Grimoire", "Summon Geeky Gifts"),
+    new Book("Libram of Candy Heart Summoning", "Summon Candy Heart"),
+    new Book("Libram of Divine Favors", "Summon Party Favor"),
+    new Book("Libram of Love Songs", "Summon Love Song"),
+    new Book("Libram of BRICKOs", "Summon BRICKOs"),
+    new Book("Gygaxian Libram", "Summon Dice"),
+    new Book("Libram of Resolutions", "Summon Resolutions"),
+    new Book("Libram of Pulled Taffy", "Summon Taffy"),
+    new Book("Confiscator's Grimoire", "Summon Confiscated Things"),
   };
 
   private static void parseBookTitles(final String responseText) {
@@ -1752,10 +1753,10 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     String libram = null;
-    for (int i = 0; i < BOOKS.length; ++i) {
-      String book = BOOKS[i][0];
+    for (Book b : BOOKS) {
+      String book = b.name;
       if (responseText.contains(book)) {
-        String skill = BOOKS[i][1];
+        String skill = b.skill;
         KoLCharacter.addAvailableSkill(skill, true);
         if (book.contains("Libram")) {
           libram = skill;
@@ -1836,37 +1837,36 @@ public class CampgroundRequest extends GenericRequest {
 
     String message = null;
 
-    if (action.equals("garden")) {
-      message = "Harvesting your garden";
-    } else if (action.equals("spinningwheel")) {
-      message = "Spinning Meat from air";
-    } else if (action.equals("dnapotion")) {
-      message = "Making a Gene Tonic";
-    } else if (action.equals("dnainject")) {
-      message = "Hybridizing yourself";
-    } else if (action.equals("rest")) {
-      message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
-    } else if (action.equals("witchess")) {
-      KoLAdventure.lastVisitedLocation = null;
-      KoLAdventure.lastLocationName = null;
-      KoLAdventure.lastLocationURL = urlString;
-      KoLAdventure.setLastAdventure("None");
-      KoLAdventure.setNextAdventure("None");
-      message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
-    } else if (action.equals("fuelconvertor")) {
-      Matcher fuelMatcher = FUEL_PATTERN_3.matcher(urlString);
-      if (fuelMatcher.find()) {
-        int qty = StringUtilities.parseInt(fuelMatcher.group(1));
-        int itemId = StringUtilities.parseInt(fuelMatcher.group(2));
-        if (qty > 1) {
-          message = "Converting " + qty + " " + ItemDatabase.getPluralName(itemId) + " into Fuel";
-        } else {
-          message = "Converting " + ItemDatabase.getItemName(itemId) + " into Fuel";
+    switch (action) {
+      case "garden" -> message = "Harvesting your garden";
+      case "spinningwheel" -> message = "Spinning Meat from air";
+      case "dnapotion" -> message = "Making a Gene Tonic";
+      case "dnainject" -> message = "Hybridizing yourself";
+      case "rest" -> message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
+      case "witchess" -> {
+        KoLAdventure.lastVisitedLocation = null;
+        KoLAdventure.lastLocationName = null;
+        KoLAdventure.lastLocationURL = urlString;
+        KoLAdventure.setLastAdventure("None");
+        KoLAdventure.setNextAdventure("None");
+        message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
+      }
+      case "fuelconvertor" -> {
+        Matcher fuelMatcher = FUEL_PATTERN_3.matcher(urlString);
+        if (fuelMatcher.find()) {
+          int qty = StringUtilities.parseInt(fuelMatcher.group(1));
+          int itemId = StringUtilities.parseInt(fuelMatcher.group(2));
+          if (qty > 1) {
+            message = "Converting " + qty + " " + ItemDatabase.getPluralName(itemId) + " into Fuel";
+          } else {
+            message = "Converting " + ItemDatabase.getItemName(itemId) + " into Fuel";
+          }
         }
       }
-    } else {
-      // Unknown action.
-      return false;
+      default -> {
+        // Unknown action.
+        return false;
+      }
     }
 
     RequestLogger.printLine("");

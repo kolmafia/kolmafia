@@ -55,14 +55,14 @@ public class DatabaseFrame extends GenericFrame {
     public int compare(LowerCaseEntry<?, ?> o1, LowerCaseEntry<?, ?> o2) {
       Object key1 = o1.getKey();
       Object key2 = o2.getKey();
-      if (key1 instanceof Integer && key2 instanceof Integer) {
-        return ((Integer) key1).compareTo((Integer) key2);
+      if (key1 instanceof Integer k1 && key2 instanceof Integer k2) {
+        return k1.compareTo(k2);
       }
       return 0;
     }
   }
 
-  private class ItemLookupPanel<E> extends ItemTableManagePanel<LowerCaseEntry<Integer, E>> {
+  private static class ItemLookupPanel<E> extends ItemTableManagePanel<LowerCaseEntry<Integer, E>> {
     public String type;
     public String which;
 
@@ -136,7 +136,7 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ExamineItemsPanel extends ItemLookupPanel<String> {
+  private static class ExamineItemsPanel extends ItemLookupPanel<String> {
     public ExamineItemsPanel() {
       super(DatabaseFrame.allItems, "item", "whichitem");
     }
@@ -147,7 +147,7 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ExamineEffectsPanel extends ItemLookupPanel<String> {
+  private static class ExamineEffectsPanel extends ItemLookupPanel<String> {
     public ExamineEffectsPanel() {
       super(DatabaseFrame.allEffects, "effect", "whicheffect");
     }
@@ -158,7 +158,7 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ExamineMonstersPanel extends ItemLookupPanel<MonsterData> {
+  private static class ExamineMonstersPanel extends ItemLookupPanel<MonsterData> {
     public ExamineMonstersPanel() {
       super(DatabaseFrame.allMonsters, "monster", "whichmonster");
     }

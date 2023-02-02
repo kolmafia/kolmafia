@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 public class JavaScriptCommand extends AbstractCommand {
   public JavaScriptCommand() {
-    this.flags = KoLmafiaCLI.FULL_LINE_CMD;
+    this.flags = ParameterHandling.FULL_LINE;
     this.usage = " <statement> - test a line of JavaScript code without having to edit a script.";
   }
 

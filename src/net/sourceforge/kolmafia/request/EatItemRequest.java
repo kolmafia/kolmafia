@@ -1,11 +1,13 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -18,6 +20,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -83,6 +86,12 @@ public class EatItemRequest extends UseItemRequest {
   }
 
   public static final int maximumUses(final int itemId, final String itemName, final int fullness) {
+    if (KoLCharacter.isGreyGoo()) {
+      // If we ever track what items have already been absorbed this ascension, this is a great
+      // place to use those data.
+      return 1;
+    }
+
     if (KoLCharacter.isJarlsberg()
         && ConcoctionDatabase.getMixingMethod(itemId) != CraftingType.JARLS) {
       UseItemRequest.limiter = "its non-Jarlsbergian nature";
@@ -113,7 +122,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     switch (itemId) {
-      case ItemPool.SPAGHETTI_BREAKFAST:
+      case ItemPool.SPAGHETTI_BREAKFAST -> {
         // This is your breakfast, you need to eat it first thing
         if (KoLCharacter.getFullnessLimit() == 0) {
           UseItemRequest.limiter = "cannot eat";
@@ -127,44 +136,61 @@ public class EatItemRequest extends UseItemRequest {
         return Preferences.getBoolean("_spaghettiBreakfastEaten")
             ? 0
             : (1 - ConcoctionDatabase.queuedSpaghettiBreakfast);
-
-      case ItemPool.AFFIRMATION_COOKIE:
+      }
+      case ItemPool.AFFIRMATION_COOKIE -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_affirmationCookieEaten")
             ? 0
             : (1 - ConcoctionDatabase.queuedAffirmationCookies);
-
-      case ItemPool.KUDZU_SALAD:
+      }
+      case ItemPool.KUDZU_SALAD -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_kudzuSaladEaten") ? 0 : 1;
-
-      case ItemPool.PLUMBERS_MUSHROOM_STEW:
+      }
+      case ItemPool.PLUMBERS_MUSHROOM_STEW -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_plumbersMushroomStewEaten") ? 0 : 1;
-
-      case ItemPool.MR_BURNSGER:
+      }
+      case ItemPool.MR_BURNSGER -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_mrBurnsgerEaten") ? 0 : 1;
-
-      case ItemPool.DRIPPY_CAVIAR:
+      }
+      case ItemPool.DRIPPY_CAVIAR -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_drippyCaviarUsed") ? 0 : 1;
-
-      case ItemPool.DRIPPY_NUGGET:
+      }
+      case ItemPool.DRIPPY_NUGGET -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_drippyNuggetUsed") ? 0 : 1;
-
-      case ItemPool.DRIPPY_PLUM:
+      }
+      case ItemPool.DRIPPY_PLUM -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_drippyPlumUsed") ? 0 : 1;
-
-      case ItemPool.MAGICAL_SAUSAGE:
+      }
+      case ItemPool.MAGICAL_SAUSAGE -> {
         UseItemRequest.limiter = "daily limit";
         return 23 - Preferences.getInteger("_sausagesEaten");
-
-      case ItemPool.PIRATE_FORK:
+      }
+      case ItemPool.GLITCH_ITEM -> {
+        UseItemRequest.limiter = "daily limit";
+        return 1 - Preferences.getInteger("_glitchMonsterFights");
+      }
+      case ItemPool.PIRATE_FORK -> {
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_pirateForkUsed") ? 0 : 1;
+      }
+      case ItemPool.PIZZA_OF_LEGEND -> {
+        UseItemRequest.limiter = "ascension limit";
+        return Preferences.getBoolean("pizzaOfLegendEaten") ? 0 : 1;
+      }
+      case ItemPool.DEEP_DISH_OF_LEGEND -> {
+        UseItemRequest.limiter = "ascension limit";
+        return Preferences.getBoolean("deepDishOfLegendEaten") ? 0 : 1;
+      }
+      case ItemPool.CALZONE_OF_LEGEND -> {
+        UseItemRequest.limiter = "ascension limit";
+        return Preferences.getBoolean("calzoneOfLegendEaten") ? 0 : 1;
+      }
     }
 
     int limit = KoLCharacter.getFullnessLimit();
@@ -183,7 +209,7 @@ public class EatItemRequest extends UseItemRequest {
     String name = this.itemUsed.getName();
     int itemId = this.itemUsed.getItemId();
 
-    if (this.consumptionType == KoLConstants.CONSUME_FOOD_HELPER) {
+    if (this.consumptionType == ConsumptionType.FOOD_HELPER) {
       if (!InventoryManager.retrieveItem(this.itemUsed)) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Helper not available.");
         return;
@@ -210,7 +236,7 @@ public class EatItemRequest extends UseItemRequest {
 
     UseItemRequest.lastUpdate = "";
 
-    int maximumUses = UseItemRequest.maximumUses(itemId);
+    int maximumUses = UseItemRequest.maximumUses(itemId, this.consumptionType);
     if (maximumUses < count) {
       KoLmafia.updateDisplay(
           "(usable quantity of "
@@ -239,7 +265,7 @@ public class EatItemRequest extends UseItemRequest {
     // Don't get Mayoflex if the food does not give adventures
     String minderSetting = Preferences.getString("mayoMinderSetting");
     AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
-    if (consumptionType == KoLConstants.CONSUME_EAT
+    if (consumptionType == ConsumptionType.EAT
         && !ConcoctionDatabase.isMayo(itemId)
         && !minderSetting.equals("")
         && Preferences.getBoolean("autoFillMayoMinder")
@@ -247,7 +273,7 @@ public class EatItemRequest extends UseItemRequest {
         && !(minderSetting.equals("Mayodiol")
             && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety())
         && !(minderSetting.equals("Mayoflex")
-            && ConsumablesDatabase.getAdvRangeByName(name).equals("0"))
+            && ConsumablesDatabase.getBaseAdventureRange(name).equals("0"))
         && workshedItem != null
         && workshedItem.getItemId() == ItemPool.MAYO_CLINIC) {
       int mayoCount = Preferences.getString("mayoInMouth").equals("") ? 0 : 1;
@@ -302,7 +328,7 @@ public class EatItemRequest extends UseItemRequest {
       return;
     }
 
-    if (this.consumptionType == KoLConstants.CONSUME_MULTIPLE && this.itemUsed.getCount() > 1) {
+    if (this.consumptionType == ConsumptionType.USE_MULTIPLE && this.itemUsed.getCount() > 1) {
       this.addFormField("action", "useitem");
     }
 
@@ -346,28 +372,24 @@ public class EatItemRequest extends UseItemRequest {
       return true;
     }
 
-    switch (itemId) {
-      case ItemPool.SMORE:
+    return switch (itemId) {
         // Multi-eating s'mores doesn't update the smoresEaten
         // preference correctly.
-      case ItemPool.BLACK_PUDDING:
-        // Eating a black pudding can lead to a combat with no
-        // feedback about how many were successfully eaten
-        // before the combat.
-        return true;
-    }
-    return false;
+      case ItemPool.SMORE,
+          // Eating a black pudding can lead to a combat with no
+          // feedback about how many were successfully eaten
+          // before the combat.
+          ItemPool.BLACK_PUDDING -> true;
+      default -> false;
+    };
   }
 
   private static boolean sequentialConsume(final int itemId) {
-    switch (itemId) {
-      case ItemPool.BORIS_PIE:
-      case ItemPool.JARLSBERG_PIE:
-      case ItemPool.SNEAKY_PETE_PIE:
+    return switch (itemId) {
         // Allow multiple pies to be made and eaten with only one key.
-        return true;
-    }
-    return false;
+      case ItemPool.BORIS_PIE, ItemPool.JARLSBERG_PIE, ItemPool.SNEAKY_PETE_PIE -> true;
+      default -> false;
+    };
   }
 
   private boolean allowFoodConsumption() {
@@ -441,7 +463,7 @@ public class EatItemRequest extends UseItemRequest {
 
     // If the item doesn't give any adventures, it won't benefit from using milk
     String note = ConsumablesDatabase.getNotes(name);
-    String advGain = ConsumablesDatabase.getAdvRangeByName(name);
+    String advGain = ConsumablesDatabase.getBaseAdventureRange(name);
     if (advGain.equals("0")) {
       if (note == null || !note.contains("Unspaded")) {
         return true;
@@ -682,6 +704,17 @@ public class EatItemRequest extends UseItemRequest {
       return;
     }
 
+    if (responseText.contains("You may only eat one of those per lifetime")) {
+      UseItemRequest.lastUpdate = "You may only eat one of those per lifetime.";
+      KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+      switch (itemId) {
+        case ItemPool.DEEP_DISH_OF_LEGEND -> Preferences.setBoolean("deepDishOfLegendEaten", true);
+        case ItemPool.CALZONE_OF_LEGEND -> Preferences.setBoolean("calzoneOfLegendEaten", true);
+        case ItemPool.PIZZA_OF_LEGEND -> Preferences.setBoolean("pizzaOfLegendEaten", true);
+      }
+      return;
+    }
+
     // You can only use one pirate fork per day.
     if (responseText.contains("only use one pirate fork per day")) {
       UseItemRequest.lastUpdate = "You may only eat from the pirate fork once per day.";
@@ -793,8 +826,8 @@ public class EatItemRequest extends UseItemRequest {
       ResultProcessor.processResult(helper.getNegation());
     }
 
-    int consumptionType = UseItemRequest.getConsumptionType(item);
-    if (consumptionType == KoLConstants.CONSUME_FOOD_HELPER) {
+    ConsumptionType consumptionType = UseItemRequest.getConsumptionType(item);
+    if (consumptionType == ConsumptionType.FOOD_HELPER) {
       // Consumption helpers are removed above when you
       // successfully eat or drink.
       return;
@@ -812,8 +845,8 @@ public class EatItemRequest extends UseItemRequest {
       Preferences.setBoolean("universalSeasoningActive", false);
     }
 
-    int attrs = ItemDatabase.getAttributes(itemId);
-    if (!timeSpinnerUsed && ((attrs & ItemDatabase.ATTR_REUSABLE) == 0)) {
+    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
+    if (!timeSpinnerUsed && !attrs.contains(Attribute.REUSABLE)) {
       ResultProcessor.processResult(item.getNegation());
     }
     KoLCharacter.updateStatus();
@@ -826,14 +859,14 @@ public class EatItemRequest extends UseItemRequest {
     // Perform item-specific processing
 
     switch (itemId) {
-      case ItemPool.LUCIFER:
+      case ItemPool.LUCIFER -> {
 
         // Jumbo Dr. Lucifer reduces your hit points to 1.
         ResultProcessor.processResult(
             new AdventureLongCountResult(AdventureResult.HP, 1 - KoLCharacter.getCurrentHP()));
         return;
-
-      case ItemPool.BLACK_PUDDING:
+      }
+      case ItemPool.BLACK_PUDDING -> {
 
         // "You screw up your courage and eat the black pudding.
         // It turns out to be the blood sausage sort of
@@ -870,91 +903,99 @@ public class EatItemRequest extends UseItemRequest {
         else if (responseText.contains("too beaten up")) {
           UseItemRequest.lastUpdate = "Too beaten up.";
         }
-
         if (!UseItemRequest.lastUpdate.equals("")) {
           KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
         }
-
         return;
-
-      case ItemPool.STEEL_STOMACH:
+      }
+      case ItemPool.STEEL_STOMACH -> {
         if (responseText.contains("You acquire a skill")) {
           ResponseTextParser.learnSkill("Stomach of Steel");
         }
         return;
-
-      case ItemPool.DRIPPY_CAVIAR:
+      }
+      case ItemPool.DRIPPY_CAVIAR -> {
         Preferences.setBoolean("_drippyCaviarUsed", true);
         Preferences.increment("drippyJuice", 5);
         return;
-
-      case ItemPool.DRIPPY_NUGGET:
+      }
+      case ItemPool.DRIPPY_NUGGET -> {
         Preferences.setBoolean("_drippyNuggetUsed", true);
         Preferences.increment("drippyJuice", 5);
         return;
-
-      case ItemPool.DRIPPY_PLUM:
+      }
+      case ItemPool.DRIPPY_PLUM -> {
         Preferences.setBoolean("_drippyPlumUsed", true);
         Preferences.increment("drippyJuice", 5);
         return;
-
-      case ItemPool.EXTRA_GREASY_SLIDER:
+      }
+      case ItemPool.EXTRA_GREASY_SLIDER -> {
         KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() - 5 * item.getCount());
         KoLCharacter.updateStatus();
         return;
-
-      case ItemPool.SPAGHETTI_BREAKFAST:
+      }
+      case ItemPool.SPAGHETTI_BREAKFAST -> {
         Preferences.setBoolean("_spaghettiBreakfastEaten", true);
         return;
-
-      case ItemPool.SMORE:
+      }
+      case ItemPool.SMORE -> {
         Preferences.increment("smoresEaten", 1);
         ConsumablesDatabase.setSmoresData();
-        ConsumablesDatabase.calculateAdventureRanges();
+        ConsumablesDatabase.calculateAllAverageAdventures();
         return;
-
-      case ItemPool.AFFIRMATION_COOKIE:
+      }
+      case ItemPool.AFFIRMATION_COOKIE -> {
         // Not correcting based on actual consumption, as too many other things can affect it.
         Preferences.increment("affirmationCookiesEaten", 1);
         Preferences.setBoolean("_affirmationCookieEaten", true);
         ConsumablesDatabase.setAffirmationCookieData();
-        ConsumablesDatabase.calculateAdventureRanges();
+        ConsumablesDatabase.calculateAllAverageAdventures();
         return;
-
-      case ItemPool.KUDZU_SALAD:
+      }
+      case ItemPool.KUDZU_SALAD -> {
         Preferences.setBoolean("_kudzuSaladEaten", true);
         return;
-
-      case ItemPool.PLUMBERS_MUSHROOM_STEW:
+      }
+      case ItemPool.PLUMBERS_MUSHROOM_STEW -> {
         Preferences.setBoolean("_plumbersMushroomStewEaten", true);
         return;
-
-      case ItemPool.MR_BURNSGER:
+      }
+      case ItemPool.MR_BURNSGER -> {
         Preferences.setBoolean("_mrBurnsgerEaten", true);
         return;
-
-      case ItemPool.MAGICAL_SAUSAGE:
+      }
+      case ItemPool.MAGICAL_SAUSAGE -> {
         Preferences.increment("_sausagesEaten", item.getCount(), 23, false);
         return;
-
-      case ItemPool.ELECTRIC_KOOL_AID:
+      }
+      case ItemPool.ELECTRIC_KOOL_AID -> {
         Preferences.increment("electricKoolAidEaten", item.getCount());
         return;
-
-      case ItemPool.PIRATE_FORK:
-        {
-          // You reach over and grab some <food> off of a random passerby's plate. Yum!
-          if (responseText.contains("You reach over and grab")) {
-            Matcher m = PIRATE_FORK_PATTERN.matcher(responseText);
-            if (m.find()) {
-              String food = m.group(1);
-              String message = "Your pirate fork grabbed some " + food + "!";
-              RequestLogger.printLine(message);
-              RequestLogger.updateSessionLog(message);
-            }
+      }
+      case ItemPool.PIRATE_FORK -> {
+        // You reach over and grab some <food> off of a random passerby's plate. Yum!
+        if (responseText.contains("You reach over and grab")) {
+          Matcher m = PIRATE_FORK_PATTERN.matcher(responseText);
+          if (m.find()) {
+            String food = m.group(1);
+            String message = "Your pirate fork grabbed some " + food + "!";
+            RequestLogger.printLine(message);
+            RequestLogger.updateSessionLog(message);
           }
-          break;
         }
+      }
+      case ItemPool.PIZZA_OF_LEGEND -> {
+        Preferences.setBoolean("pizzaOfLegendEaten", true);
+        return;
+      }
+      case ItemPool.CALZONE_OF_LEGEND -> {
+        Preferences.setBoolean("calzoneOfLegendEaten", true);
+        return;
+      }
+      case ItemPool.DEEP_DISH_OF_LEGEND -> {
+        Preferences.setBoolean("deepDishOfLegendEaten", true);
+        return;
+      }
     }
   }
 
@@ -1006,6 +1047,18 @@ public class EatItemRequest extends UseItemRequest {
         EatItemRequest.logConsumption("You ate Special Seasoning with your food");
       }
       ResultProcessor.processItem(ItemPool.SPECIAL_SEASONING, -itemsUsed);
+    }
+
+    // With your sharpened appetite, that really hits the spot.
+    if (responseText.contains("With your sharpened appetite")) {
+      var chargesUsed = Math.min(count, Preferences.getInteger("whetstonesUsed"));
+      if (chargesUsed > 1) {
+        EatItemRequest.logConsumption(
+            "You used " + chargesUsed + " whetstone charges with your food");
+      } else {
+        EatItemRequest.logConsumption("You used a whetstone charge with your food");
+      }
+      Preferences.decrement("whetstonesUsed", chargesUsed);
     }
 
     // Satisfied, you let loose a nasty magnesium-flavored belch.

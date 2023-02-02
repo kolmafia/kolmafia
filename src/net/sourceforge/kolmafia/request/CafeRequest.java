@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -29,7 +30,7 @@ public class CafeRequest extends GenericRequest {
   private static final AdventureResult LARP = ItemPool.get(ItemPool.LARP_MEMBERSHIP_CARD, 1);
   private static final GenericRequest LARP_REQUEST =
       new StorageRequest(
-          StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] {CafeRequest.LARP});
+          StorageRequestType.STORAGE_TO_INVENTORY, new AdventureResult[] {CafeRequest.LARP});
 
   protected String name = "";
   protected String itemName = null;
@@ -163,8 +164,8 @@ public class CafeRequest extends GenericRequest {
       final List<String> menu, final String itemName, final int price) {
     menu.add(itemName);
 
-    List<Concoction> usables = ConcoctionDatabase.getUsables();
     Concoction item = new Concoction(itemName, price);
+    List<Concoction> usables = ConcoctionDatabase.getUsables().get(item.type);
     int index = usables.indexOf(item);
     if (index != -1) {
       Concoction old = usables.get(index);
@@ -178,11 +179,11 @@ public class CafeRequest extends GenericRequest {
 
   public static final void reset(final List<String> menu) {
     // Restore usable list with original concoction
-    List<Concoction> usables = ConcoctionDatabase.getUsables();
+    ConcoctionDatabase.UsableConcoctions usables = ConcoctionDatabase.getUsables();
     for (int i = 0; i < menu.size(); ++i) {
       String itemName = menu.get(i);
       Concoction junk = new Concoction(itemName, -1);
-      usables.remove(junk);
+      usables.get(junk.type).remove(junk);
       Concoction old = CafeRequest.existing.get(i);
       if (old != null) {
         usables.add(old);

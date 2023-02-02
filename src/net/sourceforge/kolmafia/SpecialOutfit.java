@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -115,7 +116,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
       }
     } else if (type == EquipmentManager.WEAPON
         || (type == EquipmentManager.OFFHAND
-            && ItemDatabase.getConsumptionType(piece.getItemId()) == KoLConstants.EQUIP_WEAPON)) {
+            && ItemDatabase.getConsumptionType(piece.getItemId()) == ConsumptionType.WEAPON)) {
       int weaponCount =
           (KoLCharacter.hasEquipped(piece, EquipmentManager.WEAPON) ? 1 : 0)
               + (KoLCharacter.hasEquipped(piece, EquipmentManager.OFFHAND) ? 1 : 0);

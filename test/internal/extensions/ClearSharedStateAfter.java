@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -48,10 +49,20 @@ public class ClearSharedStateAfter implements AfterAllCallback {
         }
       }
     }
-    // Leaked by a disabled test of DebugDatabase
-    File pulverizeFile = new File(KoLConstants.ROOT_LOCATION + "/data/pulvereport.txt");
-    if (pulverizeFile.exists()) {
-      pulverizeFile.delete();
+    // These files are leaked into data/
+    // pulvereport.txt comes from a disabled test of DebugDatabase
+    // test_stringbuffer_function_with_consstring.txt comes from the CustomScript
+    // stringbuffer_function_with_consstring.js
+    // content-types.properties comes from initialization to get around a Rhino issue noted in
+    // https://github.com/mozilla/rhino/issues/1232
+    String[] filesToDelete = {
+      "pulvereport.txt",
+      "test_stringbuffer_function_with_consstring.txt",
+      "content-types.properties"
+    };
+    for (String s : filesToDelete) {
+      Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + s);
+      dest.toFile().delete();
     }
   }
 }

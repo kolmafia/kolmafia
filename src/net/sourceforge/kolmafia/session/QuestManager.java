@@ -15,7 +15,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -99,12 +100,9 @@ public class QuestManager {
     if (redirectLocation != null) {
       if (location.startsWith("adventure")) {
         switch (locationId) {
-          case AdventurePool.PALINDOME:
-            QuestDatabase.setQuestIfBetter(Quest.PALINDOME, QuestDatabase.STARTED);
-            break;
-          case AdventurePool.EL_VIBRATO_ISLAND:
-            handleElVibratoChange(location, "");
-            break;
+          case AdventurePool.PALINDOME -> QuestDatabase.setQuestIfBetter(
+              Quest.PALINDOME, QuestDatabase.STARTED);
+          case AdventurePool.EL_VIBRATO_ISLAND -> handleElVibratoChange(location, "");
         }
       }
       return;
@@ -210,9 +208,6 @@ public class QuestManager {
         case AdventurePool.ICE_HOLE:
           handleAirportChange(location, responseText);
           break;
-        case AdventurePool.MARINARA_TRENCH:
-        case AdventurePool.ANENOME_MINE:
-        case AdventurePool.DIVE_BAR:
         case AdventurePool.MERKIN_OUTPOST:
         case AdventurePool.CALIGINOUS_ABYSS:
           handleSeaChange(location, responseText);
@@ -372,6 +367,7 @@ public class QuestManager {
           case "realm_pirate" -> handlePirateRealmChange(location, responseText);
           case "sea_oldman" -> handleSeaChange(location, responseText);
           case "spacegate" -> handleSpacegateChange(location, responseText);
+          case "speakeasy" -> handleSpeakeasyChange(responseText);
             // don't catch town_wrong, town_right, or town_market
           case "town" -> handleTownChange(location, responseText);
           case "town_right" -> handleTownRightChange(location, responseText);
@@ -387,6 +383,8 @@ public class QuestManager {
       }
     } else if (location.startsWith("questlog")) {
       QuestLogRequest.registerQuests(false, location, responseText);
+    } else if (location.startsWith("sea_merkin")) {
+      handleSeaChange(location, responseText);
     } else if (location.startsWith("seafloor")) {
       handleSeaChange(location, responseText);
     } else if (location.startsWith("tavern")) {
@@ -484,9 +482,27 @@ public class QuestManager {
           && !Preferences.getBoolean("loveTunnelAvailable")) {
         Preferences.setBoolean("_loveTunnelToday", true);
       }
+      if (responseText.contains("Speakeasy")) {
+        handleSpeakeasyName(responseText);
+        Preferences.setBoolean("ownsSpeakeasy", true);
+      }
       if (responseText.contains("Overgrown Lot")) {
         Preferences.setBoolean("overgrownLotAvailable", true);
       }
+    }
+  }
+
+  private static Pattern SPEAKEASY_NAME = Pattern.compile("whichplace=speakeasy.*?title=\"(.*?)\"");
+
+  private static void handleSpeakeasyName(final String text) {
+    var matcher = SPEAKEASY_NAME.matcher(text);
+    if (!matcher.find()) return;
+    Preferences.setString("speakeasyName", matcher.group(1));
+  }
+
+  private static void handleSpeakeasyChange(final String text) {
+    if (!text.contains("olivers_nocost")) {
+      Preferences.setInteger("_speakeasyFreeFights", 3);
     }
   }
 
@@ -517,7 +533,7 @@ public class QuestManager {
     // time-twitching toolbelt is a free pull if the time tower is
     // available. Place it in correct storage list.
 
-    Modifiers.getModifiers("Item", "time-twitching toolbelt");
+    ModifierDatabase.getModifiers(ModifierType.ITEM, "time-twitching toolbelt");
     AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
     List<AdventureResult> source = available ? KoLConstants.storage : KoLConstants.freepulls;
     List<AdventureResult> dest = available ? KoLConstants.freepulls : KoLConstants.storage;
@@ -1237,11 +1253,21 @@ public class QuestManager {
     }
   }
 
+  // Easily navigating the intense currents atop your trusty seahorse
+  // <b>Shimmerswim</b>, you crest an undersea ridge and discover, spread
+  // out beneath you, a magnificent Mer-kin City!
+  private static final Pattern SEAHORSE_PATTERN =
+      Pattern.compile("atop your trusty seahorse <b>(.*?)</b>");
+
   private static void handleSeaChange(final String location, final String responseText) {
     int area = AdventureRequest.parseArea(location);
-    if (location.contains("action=oldman_oldman")
-        && responseText.contains("have you found my boot yet?")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
+    if (location.contains("action=oldman_oldman")) {
+      if (responseText.contains("I lost my favorite boot, you see.")
+          || responseText.contains("have you found my boot yet?")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED);
+      } else if (responseText.contains("The old man snores fitfully")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.FINISHED);
+      }
     }
     // Little Brother
     else if (location.contains("who=1")) {
@@ -1249,6 +1275,13 @@ public class QuestManager {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step1");
       } else if (responseText.contains("Wanna help me find Grandpa?")) {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step4");
+        if (KoLCharacter.isMuscleClass()) {
+          Preferences.setBoolean("mapToAnemoneMinePurchased", true);
+        } else if (KoLCharacter.isMysticalityClass()) {
+          Preferences.setBoolean("mapToTheMarinaraTrenchPurchased", true);
+        } else if (KoLCharacter.isMoxieClass()) {
+          Preferences.setBoolean("mapToTheDiveBarPurchased", true);
+        }
       } else if (responseText.contains("he's been actin' awful weird lately")) {
         QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step10");
       }
@@ -1263,26 +1296,20 @@ public class QuestManager {
     else if (location.contains("action=grandpastory")) {
       if (responseText.contains("bet those lousy Mer-kin up and kidnapped her")) {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step6");
+      } else if (responseText.contains("that note's definitely Grandma Sea Monkee's handwriting")) {
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step7");
       } else if (responseText.contains("Gonna need one of them seahorses")) {
         Preferences.setBoolean("corralUnlocked", true);
       }
-    } else if (area == AdventurePool.MARINARA_TRENCH
-        && responseText.contains("Show me what you've found, Old Timer")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (area == AdventurePool.ANENOME_MINE
-        && responseText.contains("Sure, kid. I can teach you a thing or two")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (area == AdventurePool.DIVE_BAR
-        && (responseText.contains("What causes these things to form?")
-            || responseText.contains("what is that divine instrument?"))) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step5");
-    } else if (area == AdventurePool.MERKIN_OUTPOST
-        && responseText.contains("Phew, that was a close one")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step9");
-      ConcoctionDatabase.setRefreshNeeded(false);
-    } else if (area == AdventurePool.CALIGINOUS_ABYSS
-        && responseText.contains("I should get dinner on the table for the boys")) {
-      QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.FINISHED);
+    } else if (area == AdventurePool.MERKIN_OUTPOST) {
+      if (responseText.contains("Phew, that was a close one")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, "step9");
+        ConcoctionDatabase.setRefreshNeeded(false);
+      }
+    } else if (area == AdventurePool.CALIGINOUS_ABYSS) {
+      if (responseText.contains("I should get dinner on the table for the boys")) {
+        QuestDatabase.setQuestProgress(Quest.SEA_MONKEES, QuestDatabase.FINISHED);
+      }
     }
     // Learn about quest progress if visiting sea floor
     else if (location.startsWith("seafloor")) {
@@ -1290,15 +1317,45 @@ public class QuestManager {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step12");
       } else if (responseText.contains("outpost")) {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step6");
-      } else if (responseText.contains("mine") && KoLCharacter.isMuscleClass()) {
-        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
-      } else if (responseText.contains("trench") && KoLCharacter.isMysticalityClass()) {
-        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
-      } else if (responseText.contains("divebar") && KoLCharacter.isMoxieClass()) {
-        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
       } else if (responseText.contains("shipwreck")) {
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step1");
+      } else if (responseText.contains("monkeycastle")) {
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.STARTED);
       }
+
+      if (responseText.contains("mine")) {
+        if (KoLCharacter.isMuscleClass()) {
+          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
+        }
+        Preferences.setBoolean("mapToAnemoneMinePurchased", true);
+      }
+
+      if (responseText.contains("trench")) {
+        if (KoLCharacter.isMysticalityClass()) {
+          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
+        }
+        Preferences.setBoolean("mapToTheMarinaraTrenchPurchased", true);
+      }
+
+      if (responseText.contains("divebar")) {
+        if (KoLCharacter.isMoxieClass()) {
+          QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step4");
+        }
+        Preferences.setBoolean("mapToTheDiveBarPurchased", true);
+      }
+
+      if (responseText.contains("reef")) {
+        Preferences.setBoolean("mapToMadnessReefPurchased", true);
+      }
+
+      if (responseText.contains("skatepark")) {
+        Preferences.setBoolean("mapToTheSkateParkPurchased", true);
+      }
+
+      if (responseText.contains("currents")) {
+        Preferences.setBoolean("intenseCurrents", true);
+      }
+
       if (responseText.contains("corral")) {
         Preferences.setBoolean("corralUnlocked", true);
       }
@@ -1306,13 +1363,28 @@ public class QuestManager {
     // Learn about quest progress if visiting sea monkey castle
     else if (location.startsWith("monkeycastle")) {
       if (responseText.contains("who=4")) {
+        // Mom
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.FINISHED);
       } else if (responseText.contains("whichshop=grandma")) {
+        // Grandma
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step9");
       } else if (responseText.contains("who=3")) {
+        // Grandpa
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step5");
       } else if (responseText.contains("who=2")) {
+        // Big Brother
         QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, "step2");
+        Preferences.setBoolean("bigBrotherRescued", true);
+      } else if (responseText.contains("who=1")) {
+        // Little Brother
+        QuestDatabase.setQuestIfBetter(Quest.SEA_MONKEES, QuestDatabase.STARTED);
+      }
+    }
+    // Learn seahorse name by visiting Mer-Kin Deepcity
+    else if (location.startsWith("sea_merkin")) {
+      Matcher m = SEAHORSE_PATTERN.matcher(responseText);
+      if (m.find()) {
+        Preferences.setString("seahorseName", m.group(1));
       }
     }
   }
@@ -1440,6 +1512,7 @@ public class QuestManager {
       int explored = StringUtilities.parseInt(matcher.group(1));
       QuestManager.setDesertExploration(explored);
     }
+    Preferences.setBoolean("oasisAvailable", responseText.contains("db_oasis"));
   }
 
   private static void setDesertExploration(final int explored) {
@@ -1531,14 +1604,14 @@ public class QuestManager {
     if (KoLCharacter.inFistcore()) {
       // You can actually get here without knowing Worldpunch
       // in Softcore by pulling ores.
-      if (!KoLCharacter.hasSkill("Worldpunch")) {
+      if (!KoLCharacter.hasSkill(SkillPool.WORLDPUNCH)) {
         KoLmafia.updateDisplay(MafiaState.ABORT, "Try again after you learn Worldpunch.");
         return;
       }
 
       // If you don't have Earthen Fist active, get it.
       if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.EARTHEN_FIST))) {
-        UseSkillRequest request = UseSkillRequest.getInstance("Worldpunch");
+        UseSkillRequest request = UseSkillRequest.getInstance(SkillPool.WORLDPUNCH);
         request.setBuffCount(1);
         RequestThread.postRequest(request);
       }
@@ -1595,7 +1668,6 @@ public class QuestManager {
             : adventureId.equals("ns_01_crowd2")
                 ? "nsContestants2"
                 : adventureId.equals("ns_01_crowd3") ? "nsContestants3" : null;
-    boolean ghostBusted = false;
 
     if (counter != null) {
       int crowd = Preferences.getInteger(counter);
@@ -1610,404 +1682,454 @@ public class QuestManager {
       return;
     }
 
-    if (monsterName.equals("screambat")) {
-      if (!QuestDatabase.isQuestLaterThan(Quest.BAT, "step2")) {
-        QuestDatabase.advanceQuest(Quest.BAT);
-      }
-    } else if (monsterName.equals("dirty thieving brigand")) {
-      // "Well," you say, "it would really help the war effort if
-      // your convent could serve as a hospital for our wounded
-      // troops."
-      if (responseText.contains("could serve as a hospital")) {
-        Preferences.setString("sidequestNunsCompleted", "hippy");
-      } else if (responseText.contains("could serve as a massage parlor")) {
-        Preferences.setString("sidequestNunsCompleted", "fratboy");
-      }
-    }
-    // oil slick: 6.34
-    // oil tycoon: 19.02
-    // oil baron: 31.7
-    // oil cartel: 63.4
-    // dress pants: 6.34
-    // lovebug: 6.34
-    else if (OIL_MONSTER_PROGRESS.containsKey(monsterName)) {
-      double pantsBonus = InventoryManager.getEquippedCount(ItemPool.DRESS_PANTS) > 0 ? 6.34 : 0;
-      float current = Preferences.getFloat("oilPeakProgress");
-      double lovebug = responseText.contains("love oil beetle trundles up") ? 6.34 : 0;
+    boolean ghostBusted = false;
 
-      // normalize
-      String setTo =
-          String.format(
-              Locale.US,
-              "%.2f",
-              Math.max(0, current - OIL_MONSTER_PROGRESS.get(monsterName) - pantsBonus - lovebug));
+    switch (monsterName.trim()) {
+      case "screambat" -> {
+        if (!QuestDatabase.isQuestLaterThan(Quest.BAT, "step2")) {
+          QuestDatabase.advanceQuest(Quest.BAT);
+        }
+      }
+      case "dirty thieving brigand" -> {
+        // "Well," you say, "it would really help the war effort if
+        // your convent could serve as a hospital for our wounded
+        // troops."
+        if (responseText.contains("could serve as a hospital")) {
+          Preferences.setString("sidequestNunsCompleted", "hippy");
+        } else if (responseText.contains("could serve as a massage parlor")) {
+          Preferences.setString("sidequestNunsCompleted", "fratboy");
+        }
+      }
+      case "oil slick", "oil tycoon", "oil baron", "oil cartel" -> {
+        // oil slick: 6.34
+        // oil tycoon: 19.02
+        // oil baron: 31.7
+        // oil cartel: 63.4
+        // dress pants: 6.34
+        // lovebug: 6.34
+        if (OIL_MONSTER_PROGRESS.containsKey(monsterName)) {
+          double pantsBonus =
+              InventoryManager.getEquippedCount(ItemPool.DRESS_PANTS) > 0 ? 6.34 : 0;
+          float current = Preferences.getFloat("oilPeakProgress");
+          double lovebug = responseText.contains("love oil beetle trundles up") ? 6.34 : 0;
 
-      Preferences.setString("oilPeakProgress", setTo);
-    } else if (monsterName.equals("Battlie Knight Ghost")
-        || monsterName.equals("Claybender Sorcerer Ghost")
-        || monsterName.equals("Dusken Raider Ghost")
-        || monsterName.equals("Space Tourist Explorer Ghost")
-        || monsterName.equals("Whatsian Commando Ghost")) {
-      Preferences.decrement("booPeakProgress", 2);
-    } else if (monsterName.equals("panicking Knott Yeti")) {
-      QuestDatabase.setQuestIfBetter(Quest.TRAPPER, "step4");
-    } else if (monsterName.equals("pygmy witch accountant")) {
-      // If you don't have McClusky File (complete), or
-      // McClusky File 5, and accountant doesn't drop file,
-      // you must have unlocked office boss
-      if (InventoryManager.getCount(ItemPool.MCCLUSKY_FILE) == 0
-          && InventoryManager.getCount(ItemPool.MCCLUSKY_FILE_PAGE5) == 0
-          && Preferences.getInteger("hiddenOfficeProgress") < 6
-          && !responseText.contains("McClusky file")) {
-        Preferences.setInteger("hiddenOfficeProgress", 6);
-      }
-    } else if (monsterName.equals("topiary gopher")
-        || monsterName.equals("topiary chihuahua herd")
-        || monsterName.equals("topiary duck")
-        || monsterName.equals("topiary kiwi")) {
-      // We are still in the Hedge Maze
-      QuestDatabase.setQuestProgress(Quest.FINAL, "step4");
-    } else if (monsterName.equals("wall of skin")) {
-      QuestDatabase.setQuestProgress(Quest.FINAL, "step7");
-    } else if (monsterName.equals("wall of meat")
-        && responseText.contains("the stairs to the next floor are clear")) {
-      QuestDatabase.setQuestProgress(Quest.FINAL, "step8");
-    } else if (monsterName.equals("wall of bones")) {
-      QuestDatabase.setQuestProgress(Quest.FINAL, "step9");
-    } else if (monsterName.equals("Your Shadow")) {
-      QuestDatabase.setQuestProgress(Quest.FINAL, "step11");
-    } else if (monsterName.equals("Clancy")) {
-      // We do not currently have a distinct step for Clancy
-      QuestDatabase.setQuestProgress(Quest.FINAL, "step11");
-    } else if (monsterName.equals("Naughty Sorceress (3)")
-        || monsterName.equals("The Avatar of Sneaky Pete")
-        || monsterName.equals("The Avatar of Boris")
-        || monsterName.equals("Principal Mooney")
-        || monsterName.equals("Rene C. Corman")
-        || monsterName.equals("The Avatar of Jarlsberg")
-        || monsterName.equals("The Rain King")
-        || monsterName.equals("One Thousand Source Agents")
-        || monsterName.equals("\"Blofeld\"")
-        || monsterName.equals("Nautomatic Sorceress")
-        || monsterName.equals("%alucard%")
-        || (monsterName.startsWith("Jerry Bradford") && monsterName.contains("World Champion"))
-        || responseText.contains("Thwaitgold bee statuette")) {
-      QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
-    } else if (monsterName.equals("The Unknown Seal Clubber")
-        || monsterName.equals("The Unknown Turtle Tamer")
-        || monsterName.equals("The Unknown Pastamancer")
-        || monsterName.equals("The Unknown Sauceror")
-        || monsterName.equals("The Unknown Disco Bandit")
-        || monsterName.equals("The Unknown Accordion Thief")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step2");
-    } else if (monsterName.equals("The Clownlord Beelzebozo")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step6");
-    } else if (monsterName.equals("menacing thug")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step19");
-    } else if (monsterName.equals("Mob Penguin hitman")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step21");
-    } else if (monsterName.equals("hunting seal")
-        || monsterName.equals("turtle trapper")
-        || monsterName.equals("evil spaghetti cult assassin")
-        || monsterName.equals("b&eacute;arnaise zombie")
-        || monsterName.equals("flock of seagulls")
-        || monsterName.equals("mariachi bandolero")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step23");
-    } else if (monsterName.equals("Gorgolok, the Infernal Seal (Volcanic Cave)")
-        || monsterName.equals("Stella, the Turtle Poacher (Volcanic Cave)")
-        || monsterName.equals("Spaghetti Elemental (Volcanic Cave)")
-        || monsterName.equals("Lumpy, the Sinister Sauceblob (Volcanic Cave)")
-        || monsterName.equals("Spirit of New Wave (Volcanic Cave)")
-        || monsterName.equals("Somerset Lopez, Dread Mariachi (Volcanic Cave)")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step29");
-    } else if (monsterName.equals("Sloppy Seconds Burger")) {
-      if (responseText.contains("You consult the list and grab the next ingredient")) {
-        Preferences.increment("buffJimmyIngredients", 1);
-        if (Preferences.getInteger("buffJimmyIngredients") >= 15) {
-          QuestDatabase.setQuestProgress(Quest.JIMMY_CHEESEBURGER, "step1");
-        }
-      }
-    } else if (monsterName.equals("Sloppy Seconds Cocktail")) {
-      if (responseText.contains("cocktail sauce bottle")
-          || responseText.contains("defeated foe with your bottle")) {
-        Preferences.increment("tacoDanCocktailSauce", 1);
-        if (Preferences.getInteger("tacoDanCocktailSauce") >= 15) {
-          QuestDatabase.setQuestProgress(Quest.TACO_DAN_COCKTAIL, "step1");
-        }
-      }
-    } else if (monsterName.equals("Sloppy Seconds Sundae")) {
-      if (responseText.contains("sprinkles off")) {
-        Preferences.increment("brodenSprinkles", 1);
-        if (Preferences.getInteger("brodenSprinkles") >= 15) {
-          QuestDatabase.setQuestProgress(Quest.BRODEN_SPRINKLES, "step1");
-        }
-      }
-    } else if (monsterName.equals("taco fish")) {
-      Matcher FishMeatMatcher = QuestManager.TACO_FISH_PATTERN.matcher(responseText);
-      if (FishMeatMatcher.find()) {
-        Preferences.increment(
-            "tacoDanFishMeat", StringUtilities.parseInt(FishMeatMatcher.group(1)));
-        if (Preferences.getInteger("tacoDanFishMeat") >= 300) {
-          QuestDatabase.setQuestProgress(Quest.TACO_DAN_FISH, "step1");
-        }
-      }
-    } else if (monsterName.equals("Fun-Guy Playmate")) {
-      Preferences.increment("funGuyMansionKills");
-      if (responseText.contains("hot tub with some more bacteria")) {
-        Preferences.increment("brodenBacteria", 1);
-        if (Preferences.getInteger("brodenBacteria") >= 10) {
-          QuestDatabase.setQuestProgress(Quest.BRODEN_BACTERIA, "step1");
-        }
-      }
-    } else if (monsterName.equals("Wu Tang the Betrayer")) {
-      Preferences.setInteger("lastWuTangDefeated", KoLCharacter.getAscensions());
-    } else if (monsterName.equals("Baron Von Ratsworth")) {
-      TavernRequest.addTavernLocation('6');
-    } else if (monsterName.equals("Source Agent")) {
-      Preferences.increment("sourceAgentsDefeated");
-    } else if (monsterName.equals("pair of burnouts")) {
-      int increment = responseText.contains("throw the opium grenade") ? 3 : 1;
-      Preferences.increment("burnoutsDefeated", increment, 30, false);
-      if (Preferences.getInteger("burnoutsDefeated") == 30) {
-        QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step4");
-      }
-    } else if (monsterName.equals("biclops")) {
-      QuestDatabase.setQuestProgress(Quest.CITADEL, "step5");
-    } else if (monsterName.equals("surprised and annoyed witch")
-        || monsterName.equals("extremely annoyed witch")) {
-      QuestDatabase.setQuestProgress(Quest.CITADEL, "step7");
-    } else if (monsterName.equals("Elp&iacute;zo & Crosybdis")) {
-      QuestDatabase.setQuestProgress(Quest.CITADEL, "step10");
-    } else if (monsterName.equals("hulking bridge troll")) {
-      OrcChasmRequest.setChasmProgress(0);
-    } else if (monsterName.equals("warehouse guard")
-        || monsterName.equals("warehouse janitor")
-        || monsterName.equals("warehouse clerk")) {
-      Preferences.increment("warehouseProgress", 1);
-    } else if (monsterName.equals("E.V.E., the robot zombie")) {
-      QuestDatabase.setQuestProgress(Quest.EVE, "step1");
-    } else if (monsterName.equals("writing desk")) {
-      if (QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)
-          && !InventoryManager.hasItem(ItemPool.SPOOKYRAVEN_NECKLACE)
-          && !QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)) {
-        Preferences.increment("writingDesksDefeated", 1, 5, false);
-      }
-    } else if (monsterName.equals("nasty bear")) {
-      Preferences.increment("dinseyNastyBearsDefeated", 1, 8, false);
-      QuestDatabase.setQuestProgress(
-          Quest.NASTY_BEARS,
-          (Preferences.getInteger("dinseyNastyBearsDefeated") == 8 ? "step2" : "step1"));
-    } else if (monsterName.equals("Wart Dinsey")) {
-      Preferences.setInteger("lastWartDinseyDefeated", KoLCharacter.getAscensions());
-    } else if (monsterName.equals("Cake Lord")) {
-      QuestDatabase.setQuestProgress(Quest.ARMORER, "step3");
-    } else if (monsterName.equals("X-32-F Combat Training Snowman")) {
-      int snowparts = Preferences.getInteger("_snojoParts");
-      Preferences.setInteger("_snojoFreeFights", Math.min(snowparts, 10));
-      if (snowparts <= 10) {
-        String snojoSetting = Preferences.getString("snojoSetting");
-        if (snojoSetting.equals("MUSCLE")) {
-          Preferences.increment("snojoMuscleWins");
-        } else if (snojoSetting.equals("MYSTICALITY")) {
-          Preferences.increment("snojoMysticalityWins");
-        } else if (snojoSetting.equals("MOXIE")) {
-          Preferences.increment("snojoMoxieWins");
-        }
-      }
-    } else if (monsterName.equals("drunk cowpoke")
-        || monsterName.equals("surly gambler")
-        || monsterName.equals("wannabe gunslinger")
-        || monsterName.equals("cow cultist")
-        || monsterName.equals("hired gun")
-        || monsterName.equals("camp cook")
-        || monsterName.equals("skeletal gunslinger")
-        || monsterName.equals("restless ghost")
-        || monsterName.equals("buzzard")
-        || monsterName.equals("mountain lion")
-        || monsterName.equals("grizzled bear")
-        || monsterName.equals("diamondback rattler")
-        || monsterName.equals("coal snake")
-        || monsterName.equals("frontwinder")
-        || monsterName.equals("caugr")
-        || monsterName.equals("pyrobove")
-        || monsterName.equals("spidercow")
-        || monsterName.equals("moomy")) {
-      Preferences.increment("lttQuestStageCount", 1);
-    } else if (monsterName.equals("Jeff the Fancy Skeleton")
-        || monsterName.equals("Daisy the Unclean")
-        || monsterName.equals("Pecos Dave")
-        || monsterName.equals("Pharaoh Amoon-Ra Cowtep")
-        || monsterName.equals("Snake-Eyes Glenn")
-        || monsterName.equals("Former Sheriff Dan Driscoll")
-        || monsterName.equals("unusual construct")
-        || monsterName.equals("Clara")
-        || monsterName.equals("Granny Hackleton")) {
-      QuestDatabase.setQuestProgress(Quest.TELEGRAM, QuestDatabase.UNSTARTED);
-      Preferences.setInteger("lttQuestDifficulty", 0);
-      Preferences.setInteger("lttQuestStageCount", 0);
-      Preferences.setString("lttQuestName", "");
-    } else if (monsterName.equals("the ghost of Oily McBindle")
-        || monsterName.equals("boneless blobghost")
-        || monsterName.equals("the ghost of Monsieur Baguelle")
-        || monsterName.equals("The Headless Horseman")
-        || monsterName.equals("The Icewoman")
-        || monsterName.equals("The ghost of Ebenoozer Screege")
-        || monsterName.equals("The ghost of Lord Montague Spookyraven")
-        || monsterName.equals("The ghost of Vanillica \"Trashblossom\" Gorton")
-        || monsterName.equals("The ghost of Sam McGee")
-        || monsterName.equals("The ghost of Richard Cockingham")
-        || monsterName.equals("The ghost of Waldo the Carpathian")
-        || monsterName.equals("Emily Koops, a spooky lime")
-        || monsterName.equals("The ghost of Jim Unfortunato")) {
-      QuestDatabase.setQuestProgress(Quest.GHOST, QuestDatabase.UNSTARTED);
-      Preferences.setString("ghostLocation", "");
-      ghostBusted = true;
-    } else if (monsterName.equals("Drab Bard")
-        || monsterName.equals("Bob Racecar")
-        || monsterName.equals("Racecar Bob")) {
-      if (QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.STARTED)) {
-        Preferences.increment("palindomeDudesDefeated", 1, 20, false);
-      }
-    } else if (monsterName.equals("fantasy bandit")
-        || monsterName.equals("fantasy ourk")
-        || monsterName.equals("fantasy forest faerie")
-        || monsterName.equals("swamp monster")
-        || monsterName.equals("cursed villager")
-        || (monsterName.equals("spooky ghost")
-            && KoLAdventure.lastAdventureId() != AdventurePool.DREAD_VILLAGE)
-        || monsterName.equals("mining grobold")
-        || monsterName.equals("rubber bat")
-        || monsterName.equals("quadfaerie")
-        || monsterName.equals("druid plants")
-        || monsterName.equals("flock of every birds")
-        || monsterName.equals("plywood cultists")
-        || monsterName.startsWith("barrow wraith")
-        || monsterName.equals("regular thief")
-        || monsterName.equals("swamp troll")
-        || monsterName.equals("crypt creeper")
-        || monsterName.equals("\"Phoenix\"")
-        || monsterName.equals("Sewage Treatment Dragon")
-        || monsterName.equals("Duke Vampire")
-        || monsterName.equals("Spider Queen")
-        || monsterName.equals("Archwizard")
-        || monsterName.equals("Ley Incursion")
-        || monsterName.equals("Ghoul King")
-        || monsterName.equals("Ogre Chieftain")
-        || monsterName.equals("Ted Schwartz, Master Thief")
-        || monsterName.equals("Skeleton Lord")) {
+          // normalize
+          String setTo =
+              String.format(
+                  Locale.US,
+                  "%.2f",
+                  Math.max(
+                      0, current - OIL_MONSTER_PROGRESS.get(monsterName) - pantsBonus - lovebug));
 
-      QuestManager.addFantasyRealmKill(monsterName);
-    } else if (monsterName.equals("biker")
-        || monsterName.equals("\"plain\" girl")
-        || monsterName.equals("jock")
-        || monsterName.equals("party girl")
-        || monsterName.equals("burnout")) {
-      int turnsSpent = Preferences.getInteger("_neverendingPartyFreeTurns");
-      if (turnsSpent < 10) {
-        Preferences.setInteger("_neverendingPartyFreeTurns", turnsSpent + 1);
-      }
-      if (Preferences.getString("_questPartyFairQuest").equals("partiers")) {
-        int kills = KoLCharacter.hasEquipped(ItemPool.INTIMIDATING_CHAINSAW) ? 2 : 1;
-        Preferences.decrement("_questPartyFairProgress", kills, 0);
-        if (Preferences.getInteger("_questPartyFairProgress") < 1) {
-          QuestDatabase.setQuestIfBetter(Quest.PARTY_FAIR, "step2");
+          Preferences.setString("oilPeakProgress", setTo);
         }
-        String message =
-            "There are "
-                + Preferences.getInteger("_questPartyFairProgress")
-                + " partiers remaining.";
-        RequestLogger.printLine(message);
-        RequestLogger.updateSessionLog(message);
-      } else if (Preferences.getString("_questPartyFairQuest").equals("woots")) {
-        // Do not know exactly how many woots are added each time, so find out from quest log
-        (new GenericRequest("questlog.php?which=1")).run();
-        String message =
-            "The Party is at " + Preferences.getInteger("_questPartyFairProgress") + "/100 woots.";
-        RequestLogger.printLine(message);
-        RequestLogger.updateSessionLog(message);
-      } else if (Preferences.getString("_questPartyFairQuest").equals("dj")) {
-        Matcher djMatcher = DJ_MEAT_PATTERN.matcher(responseText);
-        if (djMatcher.find()) {
-          int meat = StringUtilities.parseInt(djMatcher.group(0).replaceAll(",", ""));
-          Preferences.decrement("_questPartyFairProgress", meat, 0);
+      }
+      case "Battlie Knight Ghost",
+          "Claybender Sorcerer Ghost",
+          "Dusken Raider Ghost",
+          "Space Tourist Explorer Ghost",
+          "Whatsian Commando Ghost" -> {
+        Preferences.decrement("booPeakProgress", 2);
+      }
+      case "panicking Knott Yeti" -> {
+        QuestDatabase.setQuestIfBetter(Quest.TRAPPER, "step4");
+      }
+      case "pygmy witch accountant" -> {
+        // If you don't have McClusky File (complete), or
+        // McClusky File 5, and accountant doesn't drop file,
+        // you must have unlocked office boss
+        if (InventoryManager.getCount(ItemPool.MCCLUSKY_FILE) == 0
+            && InventoryManager.getCount(ItemPool.MCCLUSKY_FILE_PAGE5) == 0
+            && Preferences.getInteger("hiddenOfficeProgress") < 6
+            && !responseText.contains("McClusky file")) {
+          Preferences.setInteger("hiddenOfficeProgress", 6);
+        }
+      }
+      case "topiary gopher", "topiary chihuahua herd", "topiary duck", "topiary kiwi" -> {
+        // We are still in the Hedge Maze
+        QuestDatabase.setQuestProgress(Quest.FINAL, "step4");
+      }
+      case "wall of skin" -> {
+        QuestDatabase.setQuestProgress(Quest.FINAL, "step7");
+      }
+      case "wall of meat" -> {
+        if (responseText.contains("the stairs to the next floor are clear")) {
+          QuestDatabase.setQuestProgress(Quest.FINAL, "step8");
+        }
+      }
+      case "wall of bones" -> {
+        QuestDatabase.setQuestProgress(Quest.FINAL, "step9");
+      }
+      case "Your Shadow" -> {
+        QuestDatabase.setQuestProgress(Quest.FINAL, "step11");
+      }
+      case "Clancy" -> {
+        // We do not currently have a distinct step for Clancy
+        QuestDatabase.setQuestProgress(Quest.FINAL, "step11");
+      }
+      case "Naughty Sorceress (3)",
+          "The Avatar of Sneaky Pete",
+          "The Avatar of Boris",
+          "Principal Mooney",
+          "Rene C. Corman",
+          "The Avatar of Jarlsberg",
+          "The Rain King",
+          "One Thousand Source Agents",
+          "Jerry Bradford, Pok&eacute;fam World Champion",
+          "\"Blofeld\"",
+          "Nautomatic Sorceress",
+          "%alucard%" -> {
+        QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
+      }
+      case "Guy Made Of Bees" -> {
+        // In addition to appearing in the Haunted Bathroom, this monster
+        // replaces the Naughty Sorceress in Bees Hate You.
+        if (responseText.contains("Thwaitgold bee statuette")) {
+          QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
+        }
+        // Interestingly enough, we track defeating the other one by
+        // detecting his item drop in ResultProcessor
+      }
+      case "The Unknown Seal Clubber",
+          "The Unknown Turtle Tamer",
+          "The Unknown Pastamancer",
+          "The Unknown Sauceror",
+          "The Unknown Disco Bandit",
+          "The Unknown Accordion Thief" -> {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step2");
+      }
+      case "The Clownlord Beelzebozo" -> {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step6");
+      }
+      case "menacing thug" -> {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step19");
+      }
+      case "Mob Penguin hitman" -> {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step21");
+      }
+      case "hunting seal",
+          "turtle trapper",
+          "evil spaghetti cult assassin",
+          "b&eacute;arnaise zombie",
+          "flock of seagulls",
+          "mariachi bandolero" -> {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step23");
+      }
+      case "Gorgolok, the Infernal Seal (Volcanic Cave)",
+          "Stella, the Turtle Poacher (Volcanic Cave)",
+          "Spaghetti Elemental (Volcanic Cave)",
+          "Lumpy, the Sinister Sauceblob (Volcanic Cave)",
+          "Spirit of New Wave (Volcanic Cave)",
+          "Somerset Lopez, Dread Mariachi (Volcanic Cave)" -> {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step29");
+      }
+      case "Sloppy Seconds Burger" -> {
+        if (responseText.contains("You consult the list and grab the next ingredient")) {
+          Preferences.increment("buffJimmyIngredients", 1);
+          if (Preferences.getInteger("buffJimmyIngredients") >= 15) {
+            QuestDatabase.setQuestProgress(Quest.JIMMY_CHEESEBURGER, "step1");
+          }
+        }
+      }
+      case "Sloppy Seconds Cocktail" -> {
+        if (responseText.contains("cocktail sauce bottle")
+            || responseText.contains("defeated foe with your bottle")) {
+          Preferences.increment("tacoDanCocktailSauce", 1);
+          if (Preferences.getInteger("tacoDanCocktailSauce") >= 15) {
+            QuestDatabase.setQuestProgress(Quest.TACO_DAN_COCKTAIL, "step1");
+          }
+        }
+      }
+      case "Sloppy Seconds Sundae" -> {
+        if (responseText.contains("sprinkles off")) {
+          Preferences.increment("brodenSprinkles", 1);
+          if (Preferences.getInteger("brodenSprinkles") >= 15) {
+            QuestDatabase.setQuestProgress(Quest.BRODEN_SPRINKLES, "step1");
+          }
+        }
+      }
+      case "taco fish" -> {
+        Matcher FishMeatMatcher = QuestManager.TACO_FISH_PATTERN.matcher(responseText);
+        if (FishMeatMatcher.find()) {
+          Preferences.increment(
+              "tacoDanFishMeat", StringUtilities.parseInt(FishMeatMatcher.group(1)));
+          if (Preferences.getInteger("tacoDanFishMeat") >= 300) {
+            QuestDatabase.setQuestProgress(Quest.TACO_DAN_FISH, "step1");
+          }
+        }
+      }
+      case "Fun-Guy Playmate" -> {
+        Preferences.increment("funGuyMansionKills");
+        if (responseText.contains("hot tub with some more bacteria")) {
+          Preferences.increment("brodenBacteria", 1);
+          if (Preferences.getInteger("brodenBacteria") >= 10) {
+            QuestDatabase.setQuestProgress(Quest.BRODEN_BACTERIA, "step1");
+          }
+        }
+      }
+      case "Wu Tang the Betrayer" -> {
+        Preferences.setInteger("lastWuTangDefeated", KoLCharacter.getAscensions());
+      }
+      case "Baron Von Ratsworth" -> {
+        TavernRequest.addTavernLocation('6');
+      }
+      case "Source Agent" -> {
+        Preferences.increment("sourceAgentsDefeated");
+      }
+      case "pair of burnouts" -> {
+        int increment = responseText.contains("throw the opium grenade") ? 3 : 1;
+        Preferences.increment("burnoutsDefeated", increment, 30, false);
+        if (Preferences.getInteger("burnoutsDefeated") == 30) {
+          QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step4");
+        }
+      }
+      case "biclops" -> {
+        QuestDatabase.setQuestProgress(Quest.CITADEL, "step5");
+      }
+      case "surprised and annoyed witch", "extremely annoyed witch" -> {
+        QuestDatabase.setQuestProgress(Quest.CITADEL, "step7");
+      }
+      case "Elp&iacute;zo & Crosybdis" -> {
+        QuestDatabase.setQuestProgress(Quest.CITADEL, "step10");
+      }
+      case "hulking bridge troll" -> {
+        OrcChasmRequest.setChasmProgress(0);
+      }
+      case "warehouse guard", "warehouse janitor", "warehouse clerk" -> {
+        Preferences.increment("warehouseProgress", 1);
+      }
+      case "E.V.E., the robot zombie" -> {
+        QuestDatabase.setQuestProgress(Quest.EVE, "step1");
+      }
+      case "writing desk" -> {
+        if (QuestDatabase.isQuestStarted(Quest.SPOOKYRAVEN_NECKLACE)
+            && !InventoryManager.hasItem(ItemPool.SPOOKYRAVEN_NECKLACE)
+            && !QuestDatabase.isQuestFinished(Quest.SPOOKYRAVEN_NECKLACE)) {
+          Preferences.increment("writingDesksDefeated", 1, 5, false);
+        }
+      }
+      case "nasty bear" -> {
+        Preferences.increment("dinseyNastyBearsDefeated", 1, 8, false);
+        QuestDatabase.setQuestProgress(
+            Quest.NASTY_BEARS,
+            (Preferences.getInteger("dinseyNastyBearsDefeated") == 8 ? "step2" : "step1"));
+      }
+      case "Wart Dinsey" -> {
+        Preferences.setInteger("lastWartDinseyDefeated", KoLCharacter.getAscensions());
+      }
+      case "Cake Lord" -> {
+        QuestDatabase.setQuestProgress(Quest.ARMORER, "step3");
+      }
+      case "X-32-F Combat Training Snowman" -> {
+        int snowparts = Preferences.getInteger("_snojoParts");
+        Preferences.setInteger("_snojoFreeFights", Math.min(snowparts, 10));
+        if (snowparts <= 10) {
+          String snojoSetting = Preferences.getString("snojoSetting");
+          switch (snojoSetting) {
+            case "MUSCLE" -> Preferences.increment("snojoMuscleWins");
+            case "MYSTICALITY" -> Preferences.increment("snojoMysticalityWins");
+            case "MOXIE" -> Preferences.increment("snojoMoxieWins");
+          }
+        }
+      }
+      case "drunk cowpoke",
+          "surly gambler",
+          "wannabe gunslinger",
+          "cow cultist",
+          "hired gun",
+          "camp cook",
+          "skeletal gunslinger",
+          "restless ghost",
+          "buzzard",
+          "mountain lion",
+          "grizzled bear",
+          "diamondback rattler",
+          "coal snake",
+          "frontwinder",
+          "caugr",
+          "pyrobove",
+          "spidercow",
+          "moomy" -> {
+        Preferences.increment("lttQuestStageCount", 1);
+      }
+      case "Jeff the Fancy Skeleton",
+          "Daisy the Unclean",
+          "Pecos Dave",
+          "Pharaoh Amoon-Ra Cowtep",
+          "Snake-Eyes Glenn",
+          "Former Sheriff Dan Driscoll",
+          "unusual construct",
+          "Clara",
+          "Granny Hackleton" -> {
+        QuestDatabase.setQuestProgress(Quest.TELEGRAM, QuestDatabase.UNSTARTED);
+        Preferences.setInteger("lttQuestDifficulty", 0);
+        Preferences.setInteger("lttQuestStageCount", 0);
+        Preferences.setString("lttQuestName", "");
+      }
+      case "the ghost of Oily McBindle",
+          "boneless blobghost",
+          "the ghost of Monsieur Baguelle",
+          "The Headless Horseman",
+          "The Icewoman",
+          "The ghost of Ebenoozer Screege",
+          "The ghost of Lord Montague Spookyraven",
+          "The ghost of Vanillica \"Trashblossom\" Gorton",
+          "The ghost of Sam McGee",
+          "The ghost of Richard Cockingham",
+          "The ghost of Waldo the Carpathian",
+          "Emily Koops, a spooky lime",
+          "The ghost of Jim Unfortunato" -> {
+        QuestDatabase.setQuestProgress(Quest.GHOST, QuestDatabase.UNSTARTED);
+        Preferences.setString("ghostLocation", "");
+        ghostBusted = true;
+      }
+      case "Drab Bard", "Bob Racecar", "Racecar Bob" -> {
+        if (QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.STARTED)) {
+          Preferences.increment("palindomeDudesDefeated", 1, 20, false);
+        }
+      }
+      case "fantasy bandit",
+          "fantasy ourk",
+          "fantasy forest faerie",
+          "swamp monster",
+          "cursed villager",
+          "mining grobold",
+          "rubber bat",
+          "quadfaerie",
+          "druid plants",
+          "flock of every birds",
+          "plywood cultists",
+          "barrow wraith",
+          "regular thief",
+          "swamp troll",
+          "crypt creeper",
+          "\"Phoenix\"",
+          "Sewage Treatment Dragon",
+          "Duke Vampire",
+          "Spider Queen",
+          "Archwizard",
+          "Ley Incursion",
+          "Ghoul King",
+          "Ogre Chieftain",
+          "Ted Schwartz, Master Thief",
+          "Skeleton Lord" -> {
+        QuestManager.addFantasyRealmKill(monsterName);
+      }
+      case "spooky ghost" -> {
+        // A monster with this name appears in both Dreadsylvania and FantasyRealm
+        if (KoLAdventure.lastAdventureId() != AdventurePool.DREAD_VILLAGE) {
+          QuestManager.addFantasyRealmKill(monsterName);
+        }
+      }
+      case "biker", "\"plain\" girl", "jock", "party girl", "burnout" -> {
+        int turnsSpent = Preferences.getInteger("_neverendingPartyFreeTurns");
+        if (turnsSpent < 10) {
+          Preferences.setInteger("_neverendingPartyFreeTurns", turnsSpent + 1);
+        }
+        if (Preferences.getString("_questPartyFairQuest").equals("partiers")) {
+          int kills = KoLCharacter.hasEquipped(ItemPool.INTIMIDATING_CHAINSAW) ? 2 : 1;
+          Preferences.decrement("_questPartyFairProgress", kills, 0);
           if (Preferences.getInteger("_questPartyFairProgress") < 1) {
             QuestDatabase.setQuestIfBetter(Quest.PARTY_FAIR, "step2");
           }
-          ResultProcessor.processMeat(-meat);
-          String message = "You collect " + meat + " Meat for the DJ.";
+          String message =
+              "There are "
+                  + Preferences.getInteger("_questPartyFairProgress")
+                  + " partiers remaining.";
           RequestLogger.printLine(message);
           RequestLogger.updateSessionLog(message);
-        }
-      } else if (Preferences.getString("_questPartyFairQuest").equals("trash")) {
-        Matcher trashMatcher = TRASH_PATTERN.matcher(responseText);
-        if (trashMatcher.find()) {
-          int trash = StringUtilities.parseInt(trashMatcher.group(1));
-          Preferences.decrement("_questPartyFairProgress", trash, 0);
-          if (Preferences.getInteger("_questPartyFairProgress") < 1) {
-            QuestDatabase.setQuestIfBetter(Quest.PARTY_FAIR, "step2");
+        } else if (Preferences.getString("_questPartyFairQuest").equals("woots")) {
+          // Do not know exactly how many woots are added each time, so find out from quest log
+          (new GenericRequest("questlog.php?which=1")).run();
+          String message =
+              "The Party is at "
+                  + Preferences.getInteger("_questPartyFairProgress")
+                  + "/100 woots.";
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
+        } else if (Preferences.getString("_questPartyFairQuest").equals("dj")) {
+          Matcher djMatcher = DJ_MEAT_PATTERN.matcher(responseText);
+          if (djMatcher.find()) {
+            int meat = StringUtilities.parseInt(djMatcher.group(0).replaceAll(",", ""));
+            Preferences.decrement("_questPartyFairProgress", meat, 0);
+            if (Preferences.getInteger("_questPartyFairProgress") < 1) {
+              QuestDatabase.setQuestIfBetter(Quest.PARTY_FAIR, "step2");
+            }
+            ResultProcessor.processMeat(-meat);
+            String message = "You collect " + meat + " Meat for the DJ.";
+            RequestLogger.printLine(message);
+            RequestLogger.updateSessionLog(message);
           }
-          String message = "You clean up " + trash + " for the environment.";
-          RequestLogger.printLine(message);
-          RequestLogger.updateSessionLog(message);
+        } else if (Preferences.getString("_questPartyFairQuest").equals("trash")) {
+          Matcher trashMatcher = TRASH_PATTERN.matcher(responseText);
+          if (trashMatcher.find()) {
+            int trash = StringUtilities.parseInt(trashMatcher.group(1));
+            Preferences.decrement("_questPartyFairProgress", trash, 0);
+            if (Preferences.getInteger("_questPartyFairProgress") < 1) {
+              QuestDatabase.setQuestIfBetter(Quest.PARTY_FAIR, "step2");
+            }
+            String message = "You clean up " + trash + " for the environment.";
+            RequestLogger.printLine(message);
+            RequestLogger.updateSessionLog(message);
+          }
         }
       }
-    } else if (monsterName.equals("Steve Belmont")
-        || monsterName.equals("Koopa Paratroopa")
-        || monsterName.equals("Boss Bot")) {
-      QuestDatabase.setQuestProgress(Quest.BAT, "step4");
-    } else if (monsterName.equals("Ricardo Belmont")
-        || monsterName.equals("Hammer Brother")
-        || monsterName.equals("Gobot King")) {
-      QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
-    } else if (monsterName.equals("Jayden Belmont")
-        || monsterName.equals("Very Dry Bones")
-        || monsterName.equals("Robonerdagon")) {
-      QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
-    } else if (monsterName.equals("Sharona")
-        || monsterName.equals("Angry Sun")
-        || monsterName.equals("Groarbot")) {
-      QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
-    } else if (monsterName.equals("smut orc jacker")
-        || monsterName.equals("smut orc nailer")
-        || monsterName.equals("smut orc pipelayer")
-        || monsterName.equals("smut orc screwer")) {
-      // Out of the corner of your eye, you see another smut orc shiver and disappear into a
-      // nasty-looking shack.
-      if (responseText.contains("another smut orc shiver")) {
-        Preferences.increment("smutOrcNoncombatProgress", 1, 15, false);
+      case "Steve Belmont", "Koopa Paratroopa", "Boss Bot" -> {
+        QuestDatabase.setQuestProgress(Quest.BAT, "step4");
       }
-      // Out of the corner of your eye, you see two smut orcs give one another a meaningful glance,
-      // shiver, and disappear into a nearby shack.
-      else if (responseText.contains("you see two smut orcs")) {
-        Preferences.increment("smutOrcNoncombatProgress", 2, 15, false);
+      case "Ricardo Belmont", "Hammer Brother", "Gobot King" -> {
+        QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
       }
-      // You see a nearby group of smut orcs huddling together for warmth. You are glad they are as
-      // far away as they are.
-      else if (responseText.contains("smut orcs huddling together")) {
-        Preferences.increment("smutOrcNoncombatProgress", 3, 15, false);
+      case "Jayden Belmont", "Very Dry Bones", "Robonerdagon" -> {
+        QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
       }
-      // You hear a bunch of windows being slammed shut against the cold.
-      else if (responseText.contains("windows being slammed shut")) {
-        Preferences.increment("smutOrcNoncombatProgress", 4, 15, false);
+      case "Sharona", "Angry Sun", "Groarbot" -> {
+        QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
       }
-      // Dozens of nearby smut orcs, shivering in the cold, rush into their shacks and slam the
-      // doors.
-      else if (responseText.contains("Dozens of nearby smut orcs")) {
-        Preferences.increment("smutOrcNoncombatProgress", 5, 15, false);
+      case "smut orc jacker", "smut orc nailer", "smut orc pipelayer", "smut orc screwer" -> {
+        // Out of the corner of your eye, you see another smut orc shiver and
+        // disappear into a nasty-looking shack.
+        if (responseText.contains("another smut orc shiver")) {
+          Preferences.increment("smutOrcNoncombatProgress", 1, 15, false);
+        }
+        // Out of the corner of your eye, you see two smut orcs give one
+        // another a meaningful glance, shiver, and disappear into a nearby
+        // shack.
+        else if (responseText.contains("you see two smut orcs")) {
+          Preferences.increment("smutOrcNoncombatProgress", 2, 15, false);
+        }
+        // You see a nearby group of smut orcs huddling together for
+        // warmth. You are glad they are as far away as they are.
+        else if (responseText.contains("smut orcs huddling together")) {
+          Preferences.increment("smutOrcNoncombatProgress", 3, 15, false);
+        }
+        // You hear a bunch of windows being slammed shut against the cold.
+        else if (responseText.contains("windows being slammed shut")) {
+          Preferences.increment("smutOrcNoncombatProgress", 4, 15, false);
+        }
+        // Dozens of nearby smut orcs, shivering in the cold, rush into their
+        // shacks and slam the doors.
+        else if (responseText.contains("Dozens of nearby smut orcs")) {
+          Preferences.increment("smutOrcNoncombatProgress", 5, 15, false);
+        }
       }
-    } else if (monsterName.equals("The Thing with No Name")) {
-      ResultProcessor.processResult(ItemPool.get(ItemPool.FURIOUS_STONE, -1));
-      ResultProcessor.processResult(ItemPool.get(ItemPool.VANITY_STONE, -1));
-      ResultProcessor.processResult(ItemPool.get(ItemPool.LECHEROUS_STONE, -1));
-      ResultProcessor.processResult(ItemPool.get(ItemPool.JEALOUSY_STONE, -1));
-      ResultProcessor.processResult(ItemPool.get(ItemPool.AVARICE_STONE, -1));
-      ResultProcessor.processResult(ItemPool.get(ItemPool.GLUTTONOUS_STONE, -1));
+      case "The Thing with No Name" -> {
+        ResultProcessor.processResult(ItemPool.get(ItemPool.FURIOUS_STONE, -1));
+        ResultProcessor.processResult(ItemPool.get(ItemPool.VANITY_STONE, -1));
+        ResultProcessor.processResult(ItemPool.get(ItemPool.LECHEROUS_STONE, -1));
+        ResultProcessor.processResult(ItemPool.get(ItemPool.JEALOUSY_STONE, -1));
+        ResultProcessor.processResult(ItemPool.get(ItemPool.AVARICE_STONE, -1));
+        ResultProcessor.processResult(ItemPool.get(ItemPool.GLUTTONOUS_STONE, -1));
 
-      QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.UNSTARTED);
-      QuestDatabase.setQuest(Quest.GLACIER, QuestDatabase.UNSTARTED);
-      QuestDatabase.setQuest(Quest.MAELSTROM, QuestDatabase.UNSTARTED);
+        QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.UNSTARTED);
+        QuestDatabase.setQuest(Quest.GLACIER, QuestDatabase.UNSTARTED);
+        QuestDatabase.setQuest(Quest.MAELSTROM, QuestDatabase.UNSTARTED);
 
-      Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
+        Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
+      }
+      case "The Superconductor" -> {
+        Preferences.setBoolean("superconductorDefeated", true);
+      }
     }
 
     int adventure = KoLAdventure.lastAdventureId();
@@ -2015,16 +2137,18 @@ public class QuestManager {
     switch (adventure) {
       case AdventurePool.MERKIN_COLOSSEUM:
         // Do not increment round for wandering monsters
-        if ((monsterName.equals("Mer-kin balldodger")
-                || monsterName.equals("Mer-kin netdragger")
-                || monsterName.equals("Mer-kin bladeswitcher")
-                || monsterName.equals("Georgepaul, the Balldodger")
-                || monsterName.equals("Johnringo, the Netdragger")
-                || monsterName.equals("Ringogeorge, the Bladeswitcher"))
-            &&
-            // Do mark path chosen unless won round 15
-            (Preferences.increment("lastColosseumRoundWon", 1) == 15)) {
-          Preferences.setString("merkinQuestPath", "gladiator");
+        switch (monsterName) {
+          case "Mer-kin balldodger",
+              "Mer-kin netdragger",
+              "Mer-kin bladeswitcher",
+              "Georgepaul, the Balldodger",
+              "Johnringo, the Netdragger",
+              "Ringogeorge, the Bladeswitcher" -> {
+            // Don't mark path chosen unless won round 15
+            if (Preferences.increment("lastColosseumRoundWon", 1) == 15) {
+              Preferences.setString("merkinQuestPath", "gladiator");
+            }
+          }
         }
         break;
 
@@ -2033,6 +2157,12 @@ public class QuestManager {
         break;
 
       case AdventurePool.ARID_DESERT:
+        // As you're about to collapse from dehydration, you stagger
+        // over one last dune to discover a verdant oasis.
+        if (responseText.contains("discover a verdant oasis")) {
+          Preferences.setBoolean("oasisAvailable", true);
+        }
+
         // clingy monsters do not increment exploration
         if (!responseText.contains("Desert exploration")) {
           break;
@@ -2277,53 +2407,35 @@ public class QuestManager {
 
   public static void updateQuestFightLost(String responseText, String monsterName) {
     switch (monsterName) {
-      case "menacing thug":
-        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step18");
-        break;
-      case "Mob Penguin hitman":
-        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step20");
-        break;
-      case "Naughty Sorceress (3)":
-        QuestDatabase.setQuestProgress(Quest.FINAL, "step12");
-        break;
-      case "hunting seal":
-      case "turtle trapper":
-      case "evil spaghetti cult assassin":
-      case "b&eacute;arnaise zombie":
-      case "flock of seagulls":
-      case "mariachi bandolero":
-        {
-          QuestDatabase.setQuestProgress(Quest.NEMESIS, "step22");
-          break;
+      case "menacing thug" -> QuestDatabase.setQuestProgress(Quest.NEMESIS, "step18");
+      case "Mob Penguin hitman" -> QuestDatabase.setQuestProgress(Quest.NEMESIS, "step20");
+      case "Naughty Sorceress (3)" -> QuestDatabase.setQuestProgress(Quest.FINAL, "step12");
+      case "hunting seal",
+          "turtle trapper",
+          "evil spaghetti cult assassin",
+          "b&eacute;arnaise zombie",
+          "flock of seagulls",
+          "mariachi bandolero" -> {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step22");
+      }
+      case "Argarggagarg the Dire Hellseal",
+          "Safari Jack, Small-Game Hunter",
+          "Yakisoba the Executioner",
+          "Heimandatz, Nacho Golem",
+          "Jocko Homo",
+          "The Mariachi With No Name" -> {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step24");
+      }
+      case "mother hellseal" -> Preferences.decrement("_sealScreeches", 1, 0);
+      case "Cyrus the Virus" -> {
+        QuestDatabase.setQuestIfBetter(Quest.PRIMORDIAL, "step2");
+        Matcher matcher = CYRUS_PATTERN.matcher(responseText);
+        if (matcher.find()) {
+          QuestManager.updateCyrusAdjective(matcher.group(1));
         }
-      case "Argarggagarg the Dire Hellseal":
-      case "Safari Jack, Small-Game Hunter":
-      case "Yakisoba the Executioner":
-      case "Heimandatz, Nacho Golem":
-      case "Jocko Homo":
-      case "The Mariachi With No Name":
-        {
-          QuestDatabase.setQuestProgress(Quest.NEMESIS, "step24");
-          break;
-        }
-      case "mother hellseal":
-        Preferences.decrement("_sealScreeches", 1, 0);
-        break;
-      case "Cyrus the Virus":
-        {
-          QuestDatabase.setQuestIfBetter(Quest.PRIMORDIAL, "step2");
-          Matcher matcher = CYRUS_PATTERN.matcher(responseText);
-          if (matcher.find()) {
-            QuestManager.updateCyrusAdjective(matcher.group(1));
-          }
-          break;
-        }
-      case "Travoltron":
-        Preferences.setBoolean("_infernoDiscoVisited", false);
-        break;
-      case "Source Agent":
-        Preferences.decrement("sourceAgentsDefeated", 1, 0);
-        break;
+      }
+      case "Travoltron" -> Preferences.setBoolean("_infernoDiscoVisited", false);
+      case "Source Agent" -> Preferences.decrement("sourceAgentsDefeated", 1, 0);
     }
   }
 
@@ -2377,38 +2489,44 @@ public class QuestManager {
       return;
     }
 
-    if (monsterName.equals("Gorgolok, the Infernal Seal (Volcanic Cave)")
-        || monsterName.equals("Stella, the Turtle Poacher (Volcanic Cave)")
-        || monsterName.equals("Spaghetti Elemental (Volcanic Cave)")
-        || monsterName.equals("Lumpy, the Sinister Sauceblob (Volcanic Cave)")
-        || monsterName.equals("Spirit of New Wave (Volcanic Cave)")
-        || monsterName.equals("Somerset Lopez, Dread Mariachi (Volcanic Cave)")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step28");
-    } else if (monsterName.equals("Cake Lord")) {
-      QuestDatabase.setQuestProgress(Quest.ARMORER, "step2");
-    } else if (monsterName.equals("GNG-3-R")) {
-      if (EquipmentManager.discardEquipment(ItemPool.get(ItemPool.GINGERSERVO))
-          == EquipmentManager.NONE) {
-        // Remove it from equipment if it is equipped, otherwise remove it from inventory
-        ResultProcessor.processResult(ItemPool.get(ItemPool.GINGERSERVO, -1));
-      }
-    } else if (monsterName.equals("X-32-F Combat Training Snowman")) {
-      int snowParts = -2;
-      Matcher snowmanMatcher = SNOWMAN_PATTERN.matcher(responseText);
-      while (snowmanMatcher.find()) {
-        snowParts++;
-      }
-      Preferences.setInteger("_snojoParts", snowParts);
-    } else if (monsterName.equals("angry ghost")
-        || monsterName.equals("annoyed snake")
-        || monsterName.equals("government bureaucrat")
-        || monsterName.equals("terrible mutant")
-        || monsterName.equals("slime blob")) {
-      Preferences.increment("_voteFreeFights", 1, 3, false);
-      Preferences.setInteger("lastVoteMonsterTurn", KoLCharacter.getTurnsPlayed());
-      Preferences.setString("_voteMonster", monsterName);
-      TurnCounter.stopCounting("Vote Monster");
-      VoteMonsterManager.checkCounter();
+    switch (monsterName) {
+      case "Gorgolok, the Infernal Seal (Volcanic Cave)":
+      case "Stella, the Turtle Poacher (Volcanic Cave)":
+      case "Spaghetti Elemental (Volcanic Cave)":
+      case "Lumpy, the Sinister Sauceblob (Volcanic Cave)":
+      case "Spirit of New Wave (Volcanic Cave)":
+      case "Somerset Lopez, Dread Mariachi (Volcanic Cave)":
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step28");
+        break;
+      case "Cake Lord":
+        QuestDatabase.setQuestProgress(Quest.ARMORER, "step2");
+        break;
+      case "GNG-3-R":
+        if (EquipmentManager.discardEquipment(ItemPool.get(ItemPool.GINGERSERVO))
+            == EquipmentManager.NONE) {
+          // Remove it from equipment if it is equipped, otherwise remove it from inventory
+          ResultProcessor.processResult(ItemPool.get(ItemPool.GINGERSERVO, -1));
+        }
+        break;
+      case "X-32-F Combat Training Snowman":
+        int snowParts = -2;
+        Matcher snowmanMatcher = SNOWMAN_PATTERN.matcher(responseText);
+        while (snowmanMatcher.find()) {
+          snowParts++;
+        }
+        Preferences.setInteger("_snojoParts", snowParts);
+        break;
+      case "angry ghost":
+      case "annoyed snake":
+      case "government bureaucrat":
+      case "terrible mutant":
+      case "slime blob":
+        Preferences.increment("_voteFreeFights", 1, 3, false);
+        Preferences.setInteger("lastVoteMonsterTurn", KoLCharacter.getTurnsPlayed());
+        Preferences.setString("_voteMonster", monsterName);
+        TurnCounter.stopCounting("Vote Monster");
+        VoteMonsterManager.checkCounter();
+        break;
     }
   }
 
@@ -2446,33 +2564,14 @@ public class QuestManager {
 
   public static void updateQuestItemEquipped(final int itemId) {
     switch (itemId) {
-      case ItemPool.GORE_BUCKET:
-        QuestDatabase.setQuestIfBetter(Quest.GORE, "step1");
-        break;
-
-      case ItemPool.MINI_CASSETTE_RECORDER:
-        QuestDatabase.setQuestIfBetter(Quest.JUNGLE_PUN, "step1");
-        break;
-
-      case ItemPool.GPS_WATCH:
-        QuestDatabase.setQuestIfBetter(Quest.OUT_OF_ORDER, "step1");
-        break;
-
-      case ItemPool.TRASH_NET:
-        QuestDatabase.setQuestIfBetter(Quest.FISH_TRASH, "step1");
-        break;
-
-      case ItemPool.LUBE_SHOES:
-        QuestDatabase.setQuestIfBetter(Quest.SUPER_LUBER, "step1");
-        break;
-
-      case ItemPool.MASCOT_MASK:
-        QuestDatabase.setQuestIfBetter(Quest.ZIPPITY_DOO_DAH, "step1");
-        break;
-
-      case ItemPool.WALFORDS_BUCKET:
-        QuestDatabase.setQuestIfBetter(Quest.BUCKET, "step1");
-        break;
+      case ItemPool.GORE_BUCKET -> QuestDatabase.setQuestIfBetter(Quest.GORE, "step1");
+      case ItemPool.MINI_CASSETTE_RECORDER -> QuestDatabase.setQuestIfBetter(
+          Quest.JUNGLE_PUN, "step1");
+      case ItemPool.GPS_WATCH -> QuestDatabase.setQuestIfBetter(Quest.OUT_OF_ORDER, "step1");
+      case ItemPool.TRASH_NET -> QuestDatabase.setQuestIfBetter(Quest.FISH_TRASH, "step1");
+      case ItemPool.LUBE_SHOES -> QuestDatabase.setQuestIfBetter(Quest.SUPER_LUBER, "step1");
+      case ItemPool.MASCOT_MASK -> QuestDatabase.setQuestIfBetter(Quest.ZIPPITY_DOO_DAH, "step1");
+      case ItemPool.WALFORDS_BUCKET -> QuestDatabase.setQuestIfBetter(Quest.BUCKET, "step1");
     }
   }
 
@@ -2524,8 +2623,8 @@ public class QuestManager {
         gear.add(hazard.gear);
       }
     }
-    Preferences.setString("_spacegateHazards", hazards.stream().collect(Collectors.joining("|")));
-    Preferences.setString("_spacegateGear", gear.stream().collect(Collectors.joining("|")));
+    Preferences.setString("_spacegateHazards", String.join("|", hazards));
+    Preferences.setString("_spacegateGear", String.join("|", gear));
   }
 
   public static void parseSpacegateTerminal(final String text, final boolean print) {

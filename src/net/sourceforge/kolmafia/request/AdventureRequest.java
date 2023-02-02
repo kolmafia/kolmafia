@@ -109,6 +109,9 @@ public class AdventureRequest extends GenericRequest {
       if (adventureId.equals("cloudypeak2")) {
         this.addFormField("whichplace", "mclargehuge");
         this.addFormField("action", adventureId);
+      } else if (adventureId.equals("crimbo22_engine")) {
+        this.addFormField("whichplace", "crimbo22");
+        this.addFormField("action", adventureId);
       } else if (adventureId.equals("pyramid_state")) {
         this.addFormField("whichplace", "pyramid");
         StringBuilder action = new StringBuilder();
@@ -121,6 +124,8 @@ public class AdventureRequest extends GenericRequest {
       } else if (adventureId.equals("manor4_chamberboss")) {
         this.addFormField("whichplace", "manor4");
         this.addFormField("action", adventureId);
+      } else if (formSource.equals("sea_merkin.php")) {
+        this.addFormField("action", "temple");
       } else if (adventureId.equals("townwrong_tunnel")) {
         this.addFormField("whichplace", "town_wrong");
         this.addFormField("action", "townwrong_tunnel");
@@ -216,11 +221,19 @@ public class AdventureRequest extends GenericRequest {
     }
 
     if (this.formSource.equals("place.php")) {
-      if (this.getURLString().contains("whichplace=nstower")) {
+      String location = this.getURLString();
+      if (location.contains("whichplace=nstower")) {
         // nstower locations redirect to a fight or choice. If
         // it didn't do that, you can't adventure there.
         KoLmafia.updateDisplay(MafiaState.PENDING, "You can't adventure there.");
         SorceressLairManager.parseTowerResponse("", this.responseText);
+        return;
+      }
+      if (location.contains("crimbo22_engine")) {
+        // The engine redirects to a fight. If it didn't do that, you have
+        // defeated the boss.
+        KoLmafia.updateDisplay(MafiaState.PENDING, "Nothing more to do here.");
+        Preferences.setBoolean("superconductorDefeated", true);
         return;
       }
     }
@@ -281,12 +294,10 @@ public class AdventureRequest extends GenericRequest {
     // machines deducts meat from your tally
 
     if (this.formSource.equals("casino.php")) {
-      if (this.adventureId.equals("1")) {
-        ResultProcessor.processMeat(-5);
-      } else if (this.adventureId.equals("2")) {
-        ResultProcessor.processMeat(-10);
-      } else if (this.adventureId.equals("11")) {
-        ResultProcessor.processMeat(-10);
+      switch (this.adventureId) {
+        case "1" -> ResultProcessor.processMeat(-5);
+        case "2" -> ResultProcessor.processMeat(-10);
+        case "11" -> ResultProcessor.processMeat(-10);
       }
     }
 
@@ -366,21 +377,17 @@ public class AdventureRequest extends GenericRequest {
     }
 
     if (KoLCharacter.inDisguise()) {
-      if (encounter.equals("The Bonerdagon")) {
-        encounter = "Boss Bat wearing a Bonerdagon mask";
-      } else if (encounter.equals("The Naughty Sorceress")) {
-        encounter = "Knob Goblin King wearing a Naughty Sorceress mask";
-      } else if (encounter.equals("Groar")) {
-        encounter = "Bonerdagon wearing a Groar mask";
-      } else if (encounter.equals("Ed the Undying")) {
-        encounter = "Groar wearing an Ed the Undying mask";
-      } else if (encounter.equals("The Big Wisniewski")) {
-        encounter = "The Man wearing a Big Wisniewski mask";
-      } else if (encounter.equals("The Man")) {
-        encounter = "The Big Wisniewski wearing a The Man mask";
-      } else if (encounter.equals("The Boss Bat")) {
-        encounter = "Naughty Sorceress wearing a Boss Bat mask";
-      }
+      encounter =
+          switch (encounter) {
+            case "The Bonerdagon" -> "Boss Bat wearing a Bonerdagon mask";
+            case "The Naughty Sorceress" -> "Knob Goblin King wearing a Naughty Sorceress mask";
+            case "Groar" -> "Bonerdagon wearing a Groar mask";
+            case "Ed the Undying" -> "Groar wearing an Ed the Undying mask";
+            case "The Big Wisniewski" -> "The Man wearing a Big Wisniewski mask";
+            case "The Man" -> "The Big Wisniewski wearing a The Man mask";
+            case "The Boss Bat" -> "Naughty Sorceress wearing a Boss Bat mask";
+            default -> encounter;
+          };
     }
 
     String prettyEncounter = StringUtilities.getEntityDecode(encounter);
@@ -597,24 +604,27 @@ public class AdventureRequest extends GenericRequest {
     int urlOption = ChoiceUtilities.extractOptionFromURL(urlString);
 
     switch (urlChoice) {
-      case 1334: // Boxing Daycare (Lobby)
+      case 1334 -> { // Boxing Daycare (Lobby)
         if (urlOption == 1) {
           // Have a Boxing Daydream
           return "Have a Boxing Daydream";
         }
         return null;
-      case 1335: // Boxing Day Spa
+      }
+      case 1335 -> { // Boxing Day Spa
         if (urlOption >= 1 && urlOption <= 4) {
           // (Get a buff)
           return "Visit the Boxing Day Spa";
         }
         return null;
-      case 1336: // Boxing Daycare
+      }
+      case 1336 -> { // Boxing Daycare
         if (urlOption >= 1 && urlOption <= 4) {
           // (recruit, scavenge, hire, spar)
           return "Enter the Boxing Daycare";
         }
         return null;
+      }
     }
 
     switch (choice) {
@@ -668,13 +678,21 @@ public class AdventureRequest extends GenericRequest {
       return null;
     }
 
+    String encounter = AdventureRequest.parseEncounter(responseText);
+
+    // If KoL redirects to exactly "choice.php", it might contain a new
+    // encounter (mostly on older choice pages) or the user could have
+    // refreshed a choice page that you cannot walk away from.
+    //
+    // If the encounter is identical to what we saved, assume it is a refresh.
     if (urlString.equals("choice.php")) {
-      // Since we cannot walk from this choice, this must have been KoL
-      // redirecting back to the choice after a page refresh
-      return null;
+      String prettyEncounter = StringUtilities.getEntityDecode(encounter);
+      if (prettyEncounter.equals(Preferences.getString("lastEncounter"))) {
+        return null;
+      }
     }
 
-    return AdventureRequest.parseEncounter(responseText);
+    return encounter;
   }
 
   private static String choiceType(final int choice) {
@@ -767,13 +785,7 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    String encounter = parseEncounter(responseText);
-
-    if (encounter != null) {
-      return encounter;
-    }
-
-    return null;
+    return parseEncounter(responseText);
   }
 
   public static String parseEncounter(final String responseText) {
@@ -1073,7 +1085,7 @@ public class AdventureRequest extends GenericRequest {
     if (redirectLocation.contains("place.php")) {
       AdventureRequest.ZONE_UNLOCK.run();
       // Don't error out if it's just a redirect to a container zone
-      // eg. Using grimstone mask, with choice adventure autoselected
+      // e.g. Using grimstone mask, with choice adventure autoselected
       return;
     }
 
@@ -1156,7 +1168,7 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    ArrayList<String> internal = new ArrayList<String>();
+    ArrayList<String> internal = new ArrayList<>();
     String[] temp = text.split("\"");
 
     for (int i = 1; i < temp.length - 1; i++) { // The first and last elements are never useful
