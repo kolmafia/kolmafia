@@ -192,12 +192,23 @@ public abstract class KoLmafia {
   }
 
   public static boolean acquireFileLock(final String suffix) {
+    if (KoLmafia.SESSION_HOLDER != null) {
+      // If we have a session file lock already, release it.
+      KoLmafia.releaseFileLock();
+    }
     try {
       KoLmafia.SESSION_FILE = new File(KoLConstants.SESSIONS_LOCATION, "active_session." + suffix);
 
       if (KoLmafia.SESSION_FILE.exists()) {
         KoLmafia.SESSION_CHANNEL = new RandomAccessFile(KoLmafia.SESSION_FILE, "rw").getChannel();
         KoLmafia.SESSION_HOLDER = KoLmafia.SESSION_CHANNEL.tryLock();
+        if (KoLmafia.SESSION_HOLDER == null) {
+          KoLmafia.updateDisplay(
+              MafiaState.ABORT,
+              "Could not acquire file lock for "
+                  + suffix
+                  + ". Most likely, another instance of KoLmafia is logged in.");
+        }
         return KoLmafia.SESSION_HOLDER != null;
       }
 
@@ -218,6 +229,7 @@ public abstract class KoLmafia {
   public static void releaseFileLock() {
     try {
       KoLmafia.SESSION_HOLDER.release();
+      KoLmafia.SESSION_HOLDER = null;
       KoLmafia.SESSION_CHANNEL.close();
       KoLmafia.SESSION_FILE.delete();
     } catch (Exception e) {
@@ -1890,8 +1902,6 @@ public abstract class KoLmafia {
 
       SystemTrayFrame.removeTrayIcon();
       RelayServer.stop();
-
-      releaseFileLock();
     }
   }
 
