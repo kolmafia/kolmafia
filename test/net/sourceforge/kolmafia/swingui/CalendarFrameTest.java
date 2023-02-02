@@ -19,6 +19,7 @@ import javax.swing.text.Document;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -243,8 +244,8 @@ class CalendarFrameTest {
 
   @Test
   public void itShouldCalculateExpectedCalendarDataForKnownTime() {
-    Calendar useTime = new GregorianCalendar();
-    useTime.set(2010, Calendar.SEPTEMBER, 1);
+    Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
+    useTime.set(2010, Calendar.SEPTEMBER, 1, 0, 0);
     CalendarFrame testFrame = new CalendarFrame(useTime);
     assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
     testFrame.updateTabs();
@@ -257,8 +258,8 @@ class CalendarFrameTest {
 
   @Test
   public void itShouldCalculateExpectedEventsForKnownTime() {
-    Calendar useTime = new GregorianCalendar();
-    useTime.set(2010, Calendar.SEPTEMBER, 1);
+    Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
+    useTime.set(2010, Calendar.SEPTEMBER, 1, 0, 0);
     CalendarFrame testFrame = new CalendarFrame(useTime);
     assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
     testFrame.updateTabs();
@@ -271,8 +272,8 @@ class CalendarFrameTest {
 
   @Test
   public void itShouldCalculateExpectedCalendarDataForWhiteWednesday() {
-    Calendar useTime = new GregorianCalendar();
-    useTime.set(2005, Calendar.OCTOBER, 27);
+    Calendar useTime = new GregorianCalendar(KoLmafia.KOL_TIME_ZONE);
+    useTime.set(2005, Calendar.OCTOBER, 27, 0, 0);
     CalendarFrame testFrame = new CalendarFrame(useTime);
     assertNotEquals(null, testFrame, "CalendarFrame expected to exist when constructed.");
     testFrame.updateTabs();

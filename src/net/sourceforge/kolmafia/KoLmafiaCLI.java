@@ -42,9 +42,23 @@ public class KoLmafiaCLI {
 
   public static boolean isExecutingCheckOnlyCommand = false;
 
-  // Flag values for Commands:
-  public static final int FULL_LINE_CMD = 1;
-  public static final int FLOW_CONTROL_CMD = 2;
+  public enum ParameterHandling {
+    /** None: the command's parameters are those up to the first semicolon. */
+    NONE,
+    /**
+     * Full line: the command's parameters are the entire remainder of the line, semicolons do not
+     * end the command.
+     */
+    FULL_LINE,
+    /**
+     * Flow control: the remainder of the command line, plus additional lines as needed to ensure
+     * that at least one command is included, and that the final command is not itself flagged as
+     * FLOW_CONTROL, are made available to this command via its 'continuation' field, rather than
+     * being executed. The command can examine and modify the continuation, and execute it zero or
+     * more times by calling CLI.executeLine(continuation).
+     */
+    FLOW_CONTROL
+  }
 
   /**
    * Constructs a new <code>KoLmafiaCLI</code> object. All data fields are initialized to their
@@ -313,15 +327,15 @@ public class KoLmafiaCLI {
       }
 
       AbstractCommand handler = AbstractCommand.lookup.get(lcommand);
-      int flags = handler == null ? 0 : handler.flags;
-      if (flags == KoLmafiaCLI.FULL_LINE_CMD && !line.isEmpty()) {
+      ParameterHandling flags = handler == null ? ParameterHandling.NONE : handler.flags;
+      if (flags == ParameterHandling.FULL_LINE && !line.isEmpty()) {
         // parameters are un-trimmed original
         // parameters + rest of line
         trimmed = parameters + ";" + line;
         line = "";
       }
 
-      if (flags == KoLmafiaCLI.FLOW_CONTROL_CMD) {
+      if (flags == ParameterHandling.FLOW_CONTROL) {
         String continuation = this.getContinuation(line);
         if (!KoLmafia.permitsContinue()) {
           return;
@@ -372,11 +386,11 @@ public class KoLmafiaCLI {
           command = command.substring(0, command.length() - 1);
         }
         AbstractCommand handler = AbstractCommand.lookup.get(command);
-        int flags = handler == null ? 0 : handler.flags;
-        if (flags == KoLmafiaCLI.FULL_LINE_CMD) {
+        ParameterHandling flags = handler == null ? ParameterHandling.NONE : handler.flags;
+        if (flags == ParameterHandling.FULL_LINE) {
           break;
         }
-        if (flags == KoLmafiaCLI.FLOW_CONTROL_CMD) {
+        if (flags == ParameterHandling.FLOW_CONTROL) {
           needAnotherCmd = true;
         }
       }

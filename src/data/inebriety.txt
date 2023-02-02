@@ -597,6 +597,7 @@ shot of pear schnapps	2	8	good	4-8	0	14-20	0
 shot of rotgut	1	1	good	2-3	10-12	10-12	10-12	lose 20-28 HP
 Shot of the Living Dead	2	8	awesome	8-9	30-40	0	0	15 Creepypasted (+50 Spooky Dam)
 shot of tomato schnapps	1	1	decent	2	1-2	1-2	1-2
+shot of wasp venom	1	1	awesome	0	0	0	0	Unspaded
 shroomtini	1	1	good	2-4	0	0	0	40 Mushroom Samba (+25 Item Drop), MARTINI
 Siberian sunrise	1	1	awesome	4-6	0	0	0	40 Sugar, Hello (+20 Mys)
 Silver Bullet beer	1	6	awesome	3-4	5-10	5-10	5-10	30 Wolf's Bane (+50 dmg vs. Werewolves), BEER, CANNED

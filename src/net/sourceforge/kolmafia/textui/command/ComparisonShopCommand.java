@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -22,7 +23,7 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
   public ComparisonShopCommand() {
     this.usage =
         "[?] [+]<item> [,[-]item]... [; <cmds>] - compare prices, do cmds with \"it\" replaced with best.";
-    this.flags = KoLmafiaCLI.FULL_LINE_CMD;
+    this.flags = ParameterHandling.FULL_LINE;
   }
 
   @Override
