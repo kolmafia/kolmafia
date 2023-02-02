@@ -25,6 +25,11 @@ public class UnequipCommand extends AbstractCommand {
 
     parameters = parameters.toLowerCase();
 
+    if (parameters.equals("none")) {
+      // unequip nothing = do nothing
+      return;
+    }
+
     // Allow player to remove all of his fake hands
     if (parameters.equals("fake hand")) {
       if (EquipmentManager.getFakeHands() == 0) {
