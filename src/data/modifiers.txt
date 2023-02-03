@@ -5141,6 +5141,8 @@ Effect	Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10,
 Effect	Ass Over Teakettle	Initiative: +50
 Effect	Assaulted with Pepper	Monster Level: +20
 Effect	Astral Shell	Damage Absorption: +80, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
+# Attractive to Fire Ants: Fire Ants will nip at you after each fight
+Effect	Attractive to Fire Ants	Hot Damage: +10
 Effect	Autopsy-turvy	Avatar: "factory-irregular skeleton"
 # Avatar of She-Who-Was: You can unleash the Voice of She-Who-Was
 Effect	Avatar of She-Who-Was	Hot Resistance: +5, Cold Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Sleaze Resistance: +5, Spell Damage Percent: +100
@@ -5826,6 +5828,7 @@ Effect	Extra Backbone	Muscle: +5, Experience (Muscle): +1
 Effect	Extra Sensory Perception	Item Drop: +50
 Effect	Extra Spongy	Damage Absorption: +30
 Effect	Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
+Effect	Extra-Green	HP Regen Min: 20, HP Regen Max: 30
 Effect	Extra-Sharp Weapon	Weapon Damage Percent: +30
 Effect	Extra-Thick Blood	HP Regen Min: 5, HP Regen Max: 10
 Effect	Extra-Wet	Hot Resistance: +3
@@ -5919,6 +5922,7 @@ Effect	Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Reg
 Effect	Fitter, Bitter	Muscle Percent: +100, Maximum HP Percent: +50, HP Regen Min: 20, HP Regen Max: 25
 Effect	Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 # Fidoxene: Makes your familiars all at least 20 pounds
+Effect	Five Sticky Fingers	Item Drop: +50
 Effect	Fixed Right Up	Experience: +3, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Effect	Fixed Up	Experience: +2, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
@@ -6083,6 +6087,7 @@ Effect	Grilled	Muscle: -10
 Effect	Grillin' Like a Villain	Avatar: "toothy pirate"
 Effect	Grimace	Monster Level: +25, Slime Resistance: +1
 Effect	Gristlesphere	Monster Level: +20
+Effect	Gritty	Spooky Resistance: +3
 Effect	Gritty Soul	Moxie: +5, Moxie Percent: +50, Spooky Resistance: +5
 Effect	Grizzly Beard	Cold Resistance: +5, MP Regen Min: 25, MP Regen Max: 50, HP Regen Min: 50, HP Regen Max: 100
 Effect	Groast Out	Avatar: "groast"
@@ -6883,6 +6888,7 @@ Effect	Puzzle Fury	Spell Damage Percent: +25
 Effect	Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 # Pygmy Drinking Buddy: He is violent and unpredictable!
 Effect	Pyramid Power	Weapon Damage Percent: +100, Spell Damage Percent: +100
+Effect	Pyrite Pride	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Effect	Pyromania	Hot Damage: +15
 Effect	Quaaaaaaa	Mysticality Percent: +50, Maximum MP: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Quadrilled	Item Drop: +20
@@ -7510,6 +7516,7 @@ Effect	There Is A Spoon	Mysticality: +20
 # There is No Spoon
 Effect	There Wolf	Weapon Damage Percent: +100
 Effect	There's No N in Love	Item Drop: +50, Food Drop: +50, Booze Drop: +50
+# They've Got Fleas: Your opponents will be annoyed and weakened.
 Effect	They Call Him Shifty Because...	Experience (Moxie): +5, Moxie Percent: +100, Initiative: +50
 Effect	They Called You Mad at the University	Avatar: "government scientist"
 Effect	Thick, Sick	Damage Reduction: 5
@@ -7550,6 +7557,7 @@ Effect	Tiki Toughness	Muscle Percent: +100, Experience Percent (Muscle): +10
 # Timer 9
 Effect	Tin, Man	Damage Reduction: 5
 Effect	Tingling Feeling	Meat Drop: +20, Item Drop: +10
+Effect	Tingling Insides	MP Regen Min: 10, MP Regen Max: 20
 Effect	Tingly Biceps	Muscle: +5
 Effect	Tingly Elbows	Moxie: +5
 Effect	Tingly Tongue	MP Regen Min: 20, MP Regen Max: 30
@@ -7565,6 +7573,7 @@ Effect	Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent
 Effect	Tomes of Opportunity	Experience Percent (Mysticality): +20
 Effect	Too Cool for (Fish) School	Hot Resistance: +1
 Effect	Too Noir For Snoir	Monster Level: +50
+Effect	Too Shamed	Sleaze Resistance: +3
 Effect	Took Eleven	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	Toothy Grin	Familiar Weight: +5
 # Top Dog: +50% Damage vs. Vampires
@@ -9725,6 +9734,7 @@ Item	Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Item	ectoplasmic orbs	Effect: "Balls of Ectoplasm", Effect Duration: 10
 Item	eel battery	Effect: "It's Electric!", Effect Duration: 15
 Item	Effermint&trade; tablets	Effect: "Winning Smile", Effect Duration: 10
+Item	electric mushroom	Effect: "Tingling Insides", Effect Duration: 20
 Item	elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 Item	eldritch alignment spray	Effect: "Eldritch Alignment", Effect Duration: 10
 Item	eldritch concentrate	Effect: "Eldritch Concentration", Effect Duration: 50
@@ -9769,10 +9779,12 @@ Item	filthworm hatchling scent gland	Effect: "Filthworm Larva Stench", Effect Du
 Item	filthworm royal guard scent gland	Effect: "Filthworm Guard Stench", Effect Duration: 10
 Item	finger exerciser	Effect: "Strong Grip", Effect Duration: 20
 Item	Finnish Fish	Effect: "Fishing For Knowledge", Effect Duration: 20
+Item	fire ant pheromones	Effect: "Attractive to Fire Ants", Effect Duration: 20
 Item	[2426]fire flower	Effect: "Flamingly Floral", Effect Duration: 10
 Item	fish juice box	Effect: "Fishy", Effect Duration: 20
 Item	fish-liver oil	Effect: "Fishy Fortification", Effect Duration: 5
 Item	fitness wristband	Effect: "Fitter, Bitter", Effect Duration: 50
+Item	five-fingered fern resin	Effect: "Five Sticky Fingers", Effect Duration: 20
 Item	fizzy soda	Effect: "Fizzy Fizzy", Effect Duration: 20
 Item	Flag by the Foot&trade;	Effect: "One Foot Heavier", Effect Duration: 20
 Item	Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
@@ -9844,6 +9856,7 @@ Item	giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 Item	glass slipper	Effect: "Don't Step to Your Stepmother", Effect Duration: 10
 Item	glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 Item	Glo-Pop	Effect: "Glo-Face", Effect Duration: 10
+Item	glob of extra-green chlorophyll	Effect: "Extra-Green", Effect Duration: 20
 Item	glob of salty molasses	Effect: "Molasses Flooded", Effect Duration: 1
 Item	glob of spoiled mayo	Effect: "Mayeaugh", Effect Duration: 10
 Item	glowing El Vibrato drone	Effect: "Inscrutable exoskeleton", Effect Duration: 10
@@ -10087,6 +10100,7 @@ Item	orcish hand lotion	Effect: "Hairy Palms", Effect Duration: 10
 Item	orcish nailing lube	Effect: "Well-Lubed", Effect Duration: 10
 Item	orcish rubber	Effect: "Using Protection", Effect Duration: 10
 Item	organic potpourri	Effect: "Potpourri Committed", Effect Duration: 20
+Item	out-of-work circus flea	Effect: "They've Got Fleas", Effect Duration: 20
 Item	Outer Wolf&trade; cologne	Effect: "Outer Wolf&trade;", Effect Duration: 20
 Item	overly-fancy hot cocoa	Effect: "Smug of Cocoa", Effect Duration: 20
 Item	Pain Dip	Effect: "The HeyDezebound Heart", Effect Duration: 1
@@ -10280,6 +10294,7 @@ Item	shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
 Item	sharkfin gumbo	Effect: "Shark-Tooth Grin", Effect Duration: 1
 Item	shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 Item	Shielding Potion	Effect: "Remaining Alive", Effect Duration: 10
+Item	shim of shame shale	Effect: "Too Shamed", Effect Duration: 20
 Item	shoe gum	Effect: "Gummed Shoes", Effect Duration: 50
 Item	short beer	Effect: "Shortly Drunk", Effect Duration: 11
 Item	short glass of water	Effect: "Shortly Hydrated", Effect Duration: 11
@@ -10599,9 +10614,11 @@ Item	oil-filled donut	Effect: "To Protect and Servo", Effect Duration: 50
 Item	one glove	Effect: "Smoothly Criminal...ing", Effect Duration: 50
 Item	Osk'r Chow	Effect: "Walking Carpet", Effect Duration: 100
 Item	page of the Necrohobocon	Effect: "Ecce Wino", Effect Duration: 50
+Item	pebble of proud pyrite	Effect: "Pyrite Pride", Effect Duration: 20
 Item	perpendicular guano	Effect: "Batted Around", Effect Duration: 30
 Item	pickpocket protector	Effect: "Ennerderated", Effect Duration: 50
 Item	piggy tattoo	Effect: "Pigulated", Effect Duration: 30
+Item	pile of gritty sand	Effect: "Gritty", Effect Duration: 20
 Item	pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 Item	plague pie	Effect: "When the Plague Hits Your Eye", Effect Duration: 50
 Item	plastic Jefferson wings	Effect: "Jeffersonian", Effect Duration: 50
