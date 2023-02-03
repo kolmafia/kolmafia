@@ -6431,6 +6431,23 @@ public abstract class ChoiceControl {
           case 1, 2 -> ResultProcessor.removeItem(ItemPool.CRIMBO_CRYSTAL_SHARDS);
         }
         break;
+
+      case 1494: // Examine S.I.T. Course Certificate
+        switch (ChoiceManager.lastDecision) {
+          case 1 -> {
+            KoLCharacter.removeAvailableSkill(SkillPool.INSECTOLOGIST);
+            KoLCharacter.removeAvailableSkill(SkillPool.CRYPTOBOTANIST);
+          }
+          case 2 -> {
+            KoLCharacter.removeAvailableSkill(SkillPool.PSYCHOGEOLOGIST);
+            KoLCharacter.removeAvailableSkill(SkillPool.CRYPTOBOTANIST);
+          }
+          case 3 -> {
+            KoLCharacter.removeAvailableSkill(SkillPool.PSYCHOGEOLOGIST);
+            KoLCharacter.removeAvailableSkill(SkillPool.INSECTOLOGIST);
+          }
+        }
+        break;
     }
   }
 
@@ -8077,6 +8094,9 @@ public abstract class ChoiceControl {
         break;
       case 1491: // Strange Stalagmite(s)
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
+        break;
+      case 1494: // Examine S.I.T. Course Certificate
+        Preferences.setBoolean("_sitCourseCompleted", true);
         break;
     }
   }

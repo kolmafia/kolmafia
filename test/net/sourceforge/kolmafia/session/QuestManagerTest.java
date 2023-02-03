@@ -708,6 +708,22 @@ public class QuestManagerTest {
   @Nested
   class Oasis {
     @Test
+    void canDetectOasisNotOpenWithNoDesert() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_no_desert.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(0));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
     void canDetectOasisNotOpenWithNoDesertProgress() {
       var cleanups =
           new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
@@ -752,6 +768,22 @@ public class QuestManagerTest {
 
         assertThat("desertExploration", isSetTo(10));
         assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisOpenWithProgress() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored_oasis.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(2));
+        assertThat("oasisAvailable", isSetTo(true));
       }
     }
 
