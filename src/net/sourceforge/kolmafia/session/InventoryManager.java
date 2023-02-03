@@ -1614,7 +1614,7 @@ public abstract class InventoryManager {
     checkPantogram();
     checkLatte();
     checkSaber();
-    checkCoatOfPaint();
+    checkCoatOfPaint(false);
     checkUmbrella();
     checkBuzzedOnDistillate();
     checkCrimboTrainingManual();
@@ -1733,14 +1733,14 @@ public abstract class InventoryManager {
     InventoryManager.checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
   }
 
-  public static void checkCoatOfPaint() {
+  public static void checkCoatOfPaint(boolean classChanged) {
     AdventureResult COAT_OF_PAINT = ItemPool.get(ItemPool.COAT_OF_PAINT, 1);
     String mod = Preferences.getString("_coatOfPaintModifier");
     if (!KoLCharacter.hasEquipped(COAT_OF_PAINT, EquipmentManager.SHIRT)
         && !KoLConstants.inventory.contains(COAT_OF_PAINT)) {
       return;
     }
-    if (!mod.equals("")) {
+    if (!classChanged && !mod.equals("")) {
       ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.COAT_OF_PAINT, mod);
       return;
     }
