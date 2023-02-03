@@ -11141,7 +11141,7 @@
 11113	pixel whiskey	262338395	pixelwhiskey.gif	drink	t,d	30
 11114	pixel rock	827961712	pixelrock.gif	grow	d	16384
 11115	S.I.T. Course Voucher	362646202	sitvoucher.gif	usable	t	0
-11116	S.I.T. Course Completion Certificate	495156664	sitcert.gif	usable		0
+11116	S.I.T. Course Completion Certificate	495156664	sitcert.gif	reusable		0
 11117	glob of extra-green chlorophyll	346723717	sitchlor.gif	potion, usable	t,d	10
 11118	electric mushroom	211690556	sitshroom.gif	potion, usable	t,d	10
 11119	five-fingered fern resin	997651431	sitresin.gif	potion, usable	t,d	10

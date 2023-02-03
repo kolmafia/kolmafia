@@ -6004,6 +6004,12 @@ public class UseItemRequest extends GenericRequest {
         // If we were not redirected, the item was used already
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
         return;
+
+      case ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE:
+        // If we were not redirected, the item was used already
+        // You already wrote a course on the certificate with totally indelible-for-a-day marker.
+        Preferences.setBoolean("_sitCourseCompleted", true);
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
