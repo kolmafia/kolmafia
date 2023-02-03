@@ -3500,6 +3500,7 @@ public class ItemPool {
   public static final int WHETSTONE = 11107;
   public static final int HARD_ROCK = 11108;
   public static final int STRANGE_STALAGMITE = 11109;
+  public static final int SIT_COURSE_COMPLETION_CERTIFICATE = 11116;
 
   private ItemPool() {}
 
