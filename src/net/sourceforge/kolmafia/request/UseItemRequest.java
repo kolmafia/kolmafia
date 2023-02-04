@@ -6002,6 +6002,7 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.STRANGE_STALAGMITE:
         // If we were not redirected, the item was used already
+        // It appears that everything is strangely in order for now.
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
         return;
 
