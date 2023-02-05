@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
@@ -394,7 +395,7 @@ public abstract class HPRestoreItemList {
           return;
         }
 
-        RequestThread.postRequest(new ClanLoungeRequest(ClanLoungeRequest.HOTTUB));
+        RequestThread.postRequest(new ClanLoungeRequest(Action.HOTTUB));
         return;
       }
 

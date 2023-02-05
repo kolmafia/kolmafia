@@ -32,22 +32,24 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanLoungeRequest extends GenericRequest {
-  private static final int SEARCH = 0;
-  private static final int SEARCH2 = 200;
+  public enum Action {
+    SEARCH,
+    SEARCH2,
 
-  public static final int KLAW = 1;
-  public static final int HOTTUB = 2;
-  public static final int POOL_TABLE = 3;
-  public static final int CRIMBO_TREE = 4;
-  public static final int LOOKING_GLASS = 5;
-  public static final int FAX_MACHINE = 6;
-  public static final int APRIL_SHOWER = 7;
-  public static final int SWIMMING_POOL = 8;
-  public static final int HOT_DOG_STAND = 9;
-  public static final int SPEAKEASY = 10;
-  public static final int FLOUNDRY = 11;
-  public static final int FORTUNE = 12;
-  public static final int FIREWORKS = 13;
+    KLAW,
+    HOTTUB,
+    POOL_TABLE,
+    CRIMBO_TREE,
+    LOOKING_GLASS,
+    FAX_MACHINE,
+    APRIL_SHOWER,
+    SWIMMING_POOL,
+    HOT_DOG_STAND,
+    SPEAKEASY,
+    FLOUNDRY,
+    FORTUNE,
+    FIREWORKS
+  }
 
   // Pool options
   public static final int AGGRESSIVE_STANCE = 1;
@@ -70,7 +72,7 @@ public class ClanLoungeRequest extends GenericRequest {
   public static final int LAPS = 2;
   public static final int SPRINTS = 3;
 
-  private final int action;
+  private final Action action;
   private int option;
 
   private static final Pattern STANCE_PATTERN = Pattern.compile("stance=(\\d*)");
@@ -703,7 +705,7 @@ public class ClanLoungeRequest extends GenericRequest {
   }
 
   private ClanLoungeRequest() {
-    this(SEARCH);
+    this(Action.SEARCH);
   }
 
   /**
@@ -711,12 +713,12 @@ public class ClanLoungeRequest extends GenericRequest {
    *
    * @param action The identifier for the action you're requesting
    */
-  public ClanLoungeRequest(final int action) {
+  public ClanLoungeRequest(final Action action) {
     super("clan_viplounge.php");
     this.action = action;
   }
 
-  public ClanLoungeRequest(final int action, final int option) {
+  public ClanLoungeRequest(final Action action, final int option) {
     super("clan_viplounge.php");
     this.action = action;
     this.option = option;
@@ -733,9 +735,7 @@ public class ClanLoungeRequest extends GenericRequest {
       return null;
     }
 
-    ClanLoungeRequest request =
-        new ClanLoungeRequest(HOT_DOG_STAND, ClanLoungeRequest.hotdogIndexToId(index));
-    return request;
+    return new ClanLoungeRequest(Action.HOT_DOG_STAND, ClanLoungeRequest.hotdogIndexToId(index));
   }
 
   public static final ClanLoungeRequest buySpeakeasyDrinkRequest(final String name) {
@@ -749,8 +749,7 @@ public class ClanLoungeRequest extends GenericRequest {
       return null;
     }
 
-    ClanLoungeRequest request = new ClanLoungeRequest(SPEAKEASY, drink.getId());
-    return request;
+    return new ClanLoungeRequest(Action.SPEAKEASY, drink.getId());
   }
 
   public static final AdventureResult VIP_KEY = ItemPool.get(ItemPool.VIP_LOUNGE_KEY, 1);
@@ -761,7 +760,7 @@ public class ClanLoungeRequest extends GenericRequest {
     return VIP_KEY.getCount(KoLConstants.inventory) > 0;
   }
 
-  public static boolean visitLounge(final int location) {
+  public static boolean visitLounge(final Action location) {
     // If we have no Clan VIP Lounge key, nothing to do
     if (VIP_KEY.getCount(KoLConstants.inventory) == 0) {
       ClanLoungeRequest.resetHotdogs();
@@ -779,11 +778,11 @@ public class ClanLoungeRequest extends GenericRequest {
   }
 
   public static boolean visitLounge() {
-    return ClanLoungeRequest.visitLounge(SEARCH);
+    return ClanLoungeRequest.visitLounge(Action.SEARCH);
   }
 
   public static boolean visitLoungeFloor2() {
-    return ClanLoungeRequest.visitLounge(SEARCH2);
+    return ClanLoungeRequest.visitLounge(Action.SEARCH2);
   }
 
   public static void updateLounge() {
@@ -793,13 +792,13 @@ public class ClanLoungeRequest extends GenericRequest {
 
     // Check hotdog stand, speakeasy, and floundry, if present
     if (ClanManager.getClanLounge().contains(ClanManager.HOT_DOG_STAND)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.HOT_DOG_STAND);
+      ClanLoungeRequest.visitLounge(Action.HOT_DOG_STAND);
     }
     if (ClanManager.getClanLounge().contains(ClanManager.SPEAKEASY)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.SPEAKEASY);
+      ClanLoungeRequest.visitLounge(Action.SPEAKEASY);
     }
     if (ClanManager.getClanLounge().contains(ClanManager.FLOUNDRY)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.FLOUNDRY);
+      ClanLoungeRequest.visitLounge(Action.FLOUNDRY);
     }
   }
 
@@ -865,20 +864,20 @@ public class ClanLoungeRequest extends GenericRequest {
   @Override
   public void run() {
     switch (this.action) {
-      case ClanLoungeRequest.SEARCH:
+      case SEARCH:
         break;
 
-      case ClanLoungeRequest.SEARCH2:
+      case SEARCH2:
         this.constructURLString("clan_viplounge.php");
         this.addFormField("whichfloor", "2");
         break;
 
-      case ClanLoungeRequest.KLAW:
+      case KLAW:
         this.constructURLString("clan_viplounge.php");
         this.addFormField("action", "klaw");
         break;
 
-      case ClanLoungeRequest.HOTTUB:
+      case HOTTUB:
         // If on the Hidden Apartment Quest, and have a Curse, ask if you are sure you want to lose
         // it ?
         boolean cursed =
@@ -894,7 +893,7 @@ public class ClanLoungeRequest extends GenericRequest {
         this.addFormField("action", "hottub");
         break;
 
-      case ClanLoungeRequest.POOL_TABLE:
+      case POOL_TABLE:
         RequestLogger.printLine(
             "Approaching pool table with " + ClanLoungeRequest.prettyStanceName(this.option) + ".");
 
@@ -908,18 +907,18 @@ public class ClanLoungeRequest extends GenericRequest {
         this.addFormField("whichfloor", "2");
         break;
 
-      case ClanLoungeRequest.CRIMBO_TREE:
+      case CRIMBO_TREE:
         this.constructURLString("clan_viplounge.php");
         this.addFormField("action", "crimbotree");
         break;
 
-      case ClanLoungeRequest.LOOKING_GLASS:
+      case LOOKING_GLASS:
         this.constructURLString("clan_viplounge.php");
         this.addFormField("action", "lookingglass");
         this.addFormField("whichfloor", "2");
         break;
 
-      case ClanLoungeRequest.FAX_MACHINE:
+      case FAX_MACHINE:
         this.constructURLString("clan_viplounge.php");
         switch (this.option) {
           case SEND_FAX -> {
@@ -935,7 +934,7 @@ public class ClanLoungeRequest extends GenericRequest {
         this.addFormField("whichfloor", "2");
         break;
 
-      case ClanLoungeRequest.APRIL_SHOWER:
+      case APRIL_SHOWER:
         RequestLogger.printLine(
             "Let's take " + ClanLoungeRequest.prettyTemperatureName(this.option) + " shower.");
 
@@ -949,7 +948,7 @@ public class ClanLoungeRequest extends GenericRequest {
         this.addFormField("whichfloor", "2");
         break;
 
-      case ClanLoungeRequest.SWIMMING_POOL:
+      case SWIMMING_POOL:
         RequestLogger.printLine(
             "Let's "
                 + ClanLoungeRequest.prettySwimmingName(this.option)
@@ -974,7 +973,7 @@ public class ClanLoungeRequest extends GenericRequest {
         this.addFormField("whichfloor", "2");
         break;
 
-      case ClanLoungeRequest.HOT_DOG_STAND:
+      case HOT_DOG_STAND:
         this.constructURLString("clan_viplounge.php");
         if (this.option != 0) {
           this.addFormField("preaction", "eathotdog");
@@ -984,7 +983,7 @@ public class ClanLoungeRequest extends GenericRequest {
         }
         break;
 
-      case ClanLoungeRequest.SPEAKEASY:
+      case SPEAKEASY:
         this.constructURLString("clan_viplounge.php");
         if (this.option != 0) {
           this.addFormField("preaction", "speakeasydrink");
@@ -995,7 +994,7 @@ public class ClanLoungeRequest extends GenericRequest {
         this.addFormField("whichfloor", "2");
         break;
 
-      case ClanLoungeRequest.FLOUNDRY:
+      case FLOUNDRY:
         this.constructURLString("clan_viplounge.php");
         if (this.option != 0) {
           this.addFormField("preaction", "buyfloundryitem");
@@ -1005,12 +1004,12 @@ public class ClanLoungeRequest extends GenericRequest {
         }
         break;
 
-      case ClanLoungeRequest.FORTUNE:
+      case FORTUNE:
         this.constructURLString("clan_viplounge.php");
         this.addFormField("preaction", "lovetester");
         break;
 
-      case ClanLoungeRequest.FIREWORKS:
+      case FIREWORKS:
         this.constructURLString("clan_viplounge.php");
         this.addFormField("action", "fwshop");
         break;
@@ -1032,7 +1031,7 @@ public class ClanLoungeRequest extends GenericRequest {
     }
 
     switch (this.action) {
-      case ClanLoungeRequest.POOL_TABLE:
+      case POOL_TABLE:
         if (responseText.contains("You skillfully defeat")) {
           RequestLogger.printLine("You won the pool game!");
         } else if (responseText.contains("You play a game of pool against yourself")) {
@@ -1052,7 +1051,7 @@ public class ClanLoungeRequest extends GenericRequest {
         }
         break;
 
-      case ClanLoungeRequest.FAX_MACHINE:
+      case FAX_MACHINE:
         if (responseText.contains("Your photocopy slowly slides into the machine")) {
           String monster = Preferences.getString("photocopyMonster");
           if (!monster.equals("")) {
@@ -1083,7 +1082,7 @@ public class ClanLoungeRequest extends GenericRequest {
         }
         break;
 
-      case ClanLoungeRequest.APRIL_SHOWER:
+      case APRIL_SHOWER:
         if (responseText.contains("this is way too hot")) {
           RequestLogger.printLine("You took a hot shower.");
         } else if (responseText.contains("relaxes your muscles")) {
@@ -1107,7 +1106,7 @@ public class ClanLoungeRequest extends GenericRequest {
         }
         break;
 
-      case ClanLoungeRequest.SWIMMING_POOL:
+      case SWIMMING_POOL:
         if (this.redirectLocation != null && this.redirectLocation.startsWith("choice.php")) {
           RequestLogger.printLine("You start screwing around in the swimming pool.");
         } else if (responseText.contains("manage to swim")) {
@@ -1126,7 +1125,7 @@ public class ClanLoungeRequest extends GenericRequest {
           RequestLogger.printLine("Huh? Unknown response.");
         }
         break;
-      case ClanLoungeRequest.FIREWORKS:
+      case FIREWORKS:
         if (this.redirectLocation != null
             && this.redirectLocation.contains("shop.php?whichshop=fwshop")) {
           Preferences.setBoolean("_fireworksShop", true);
@@ -1144,8 +1143,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
     ClanLoungeRequest.parseResponse(urlString, responseText);
 
-    if (this.action == ClanLoungeRequest.HOT_DOG_STAND
-        || this.action == ClanLoungeRequest.SPEAKEASY) {
+    if (this.action == Action.HOT_DOG_STAND || this.action == Action.SPEAKEASY) {
       ResponseTextParser.learnSkill(urlString, responseText);
     }
   }
@@ -1165,7 +1163,7 @@ public class ClanLoungeRequest extends GenericRequest {
     if (findImage(responseText, "fireworks.gif", ItemPool.CLAN_UNDERGROUND_FIREWORKS_SHOP)
         && !Preferences.getBoolean("_fireworksShop")) {
       // We haven't visited it yet today so it is not unlocked yet.
-      new ClanLoungeRequest(ClanLoungeRequest.FIREWORKS).run();
+      new ClanLoungeRequest(Action.FIREWORKS).run();
     }
 
     Matcher hottubMatcher = HOTTUB_PATTERN.matcher(responseText);
@@ -1209,7 +1207,7 @@ public class ClanLoungeRequest extends GenericRequest {
       }
     } else if (responseText.contains("crimbotree")) {
       if (!Preferences.getBoolean("_crimboTree")) {
-        ClanLoungeRequest request = new ClanLoungeRequest(ClanLoungeRequest.CRIMBO_TREE);
+        ClanLoungeRequest request = new ClanLoungeRequest(Action.CRIMBO_TREE);
         Preferences.setBoolean("_crimboTree", true);
         request.run();
       }
@@ -1500,7 +1498,7 @@ public class ClanLoungeRequest extends GenericRequest {
     Map<String, String> locations = new HashMap<>();
     if (Preferences.getString("_floundryCarpLocation").length() == 0) {
       // floundry unparsed
-      var floundryRequest = new ClanLoungeRequest(FLOUNDRY);
+      var floundryRequest = new ClanLoungeRequest(Action.FLOUNDRY);
       RequestThread.postRequest(floundryRequest);
     }
 
@@ -1921,14 +1919,14 @@ public class ClanLoungeRequest extends GenericRequest {
     // any more today -- you wouldn't want to look greedy in front
     // of the other VIPs, would you?"
 
-    ClanLoungeRequest request = new ClanLoungeRequest(KLAW);
+    ClanLoungeRequest request = new ClanLoungeRequest(Action.KLAW);
     while (Preferences.getInteger("_deluxeKlawSummons") < 3) {
       request.run();
     }
 
     if (VISIT_REQUEST.responseText.contains("fireworks.gif")
         && !Preferences.getBoolean("_fireworksShop")) {
-      request = new ClanLoungeRequest(FIREWORKS);
+      request = new ClanLoungeRequest(Action.FIREWORKS);
       request.run();
     }
 
@@ -1940,7 +1938,7 @@ public class ClanLoungeRequest extends GenericRequest {
     // Not every clan has a looking glass
     if (VISIT_REQUEST.responseText.contains("lookingglass.gif")
         && !Preferences.getBoolean("_lookingGlass")) {
-      request = new ClanLoungeRequest(LOOKING_GLASS);
+      request = new ClanLoungeRequest(Action.LOOKING_GLASS);
       request.run();
     }
 
@@ -1952,7 +1950,7 @@ public class ClanLoungeRequest extends GenericRequest {
     if (VISIT_REQUEST.responseText.contains("tree5.gif")) {
       // Get the crimbo gift now whenever breakfast is run, since there is
       // no reason not to anymore.
-      request = new ClanLoungeRequest(CRIMBO_TREE);
+      request = new ClanLoungeRequest(Action.CRIMBO_TREE);
       request.run();
     }
 
@@ -1960,7 +1958,7 @@ public class ClanLoungeRequest extends GenericRequest {
     if (VISIT_REQUEST.responseText.contains("vippool.gif")
         && !Preferences.getBoolean("_olympicSwimmingPoolItemFound")) {
       try {
-        RequestThread.postRequest(new ClanLoungeRequest(SWIMMING_POOL, CANNONBALL));
+        RequestThread.postRequest(new ClanLoungeRequest(Action.SWIMMING_POOL, CANNONBALL));
         RequestThread.postRequest(
             new ClanLoungeSwimmingPoolRequest(ClanLoungeSwimmingPoolRequest.HANDSTAND));
         RequestThread.postRequest(
