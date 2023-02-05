@@ -135,16 +135,16 @@ public class FightRequestTest {
   }
 
   // Commerce Ghost Tests
-  @Test
-  public void commerceGhostStartsAtProperValue() {
-    var cleanups = new Cleanups(withFamiliar(FamiliarPool.GHOST_COMMERCE));
-    try (cleanups) {
-      assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
-    }
-  }
-
   @Nested
   class CommerceGhost {
+    @Test
+    public void commerceGhostStartsAtProperValue() {
+      var cleanups = new Cleanups(withFamiliar(FamiliarPool.GHOST_COMMERCE));
+      try (cleanups) {
+        assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
+      }
+    }
+
     @Test
     public void commerceGhostIncrementsByOneOnFight() {
       var cleanups = new Cleanups(withFamiliar(FamiliarPool.GHOST_COMMERCE), withFight(0));
@@ -1773,6 +1773,17 @@ public class FightRequestTest {
         parseCombatData("request/test_oliver_not_free.html");
         assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
       }
+    }
+  }
+
+  @Test
+  public void loseInitiativeAndLoseLittleRoundPebble() {
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.OFFHAND, ItemPool.LITTLE_ROUND_PEBBLE), withFight());
+    try (cleanups) {
+      parseCombatData("request/test_fight_little_round_pebble.html");
+      assertFalse(KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE));
     }
   }
 }

@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -258,13 +259,13 @@ public class ValhallaManager {
 
     // Check hotdog stand, speakeasy, and floundry, if present
     if (ClanManager.getClanLounge().contains(ClanManager.HOT_DOG_STAND)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.HOT_DOG_STAND);
+      ClanLoungeRequest.visitLounge(Action.HOT_DOG_STAND);
     }
     if (ClanManager.getClanLounge().contains(ClanManager.SPEAKEASY)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.SPEAKEASY);
+      ClanLoungeRequest.visitLounge(Action.SPEAKEASY);
     }
     if (ClanManager.getClanLounge().contains(ClanManager.FLOUNDRY)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.FLOUNDRY);
+      ClanLoungeRequest.visitLounge(Action.FLOUNDRY);
     }
 
     // force rebuild of daily deeds panel

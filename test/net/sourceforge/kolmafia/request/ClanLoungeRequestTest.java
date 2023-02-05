@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
 import net.sourceforge.kolmafia.session.ClanManager;
 import org.junit.jupiter.api.AfterAll;
@@ -78,7 +79,7 @@ public class ClanLoungeRequestTest {
               withProperty("_floundryTunaLocation", ""));
 
       try (cleanups) {
-        new ClanLoungeRequest(ClanLoungeRequest.FLOUNDRY).run();
+        new ClanLoungeRequest(Action.FLOUNDRY).run();
         assertThat("_floundryCarpLocation", isSetTo("Pirates of the Garbage Barges"));
         assertThat("_floundryCodLocation", isSetTo("Thugnderdome"));
         assertThat("_floundryTroutLocation", isSetTo("The Haunted Conservatory"));
@@ -101,7 +102,7 @@ public class ClanLoungeRequestTest {
       var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty("photocopyMonster"));
 
       try (cleanups) {
-        new ClanLoungeRequest(ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX).run();
+        new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX).run();
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(3));
         assertPostRequest(
@@ -128,7 +129,7 @@ public class ClanLoungeRequestTest {
         var outputStream = new ByteArrayOutputStream();
         RequestLogger.openCustom(new PrintStream(outputStream));
 
-        new ClanLoungeRequest(ClanLoungeRequest.SWIMMING_POOL, ClanLoungeRequest.SPRINTS).run();
+        new ClanLoungeRequest(Action.SWIMMING_POOL, ClanLoungeRequest.SPRINTS).run();
         var requests = builder.client.getRequests();
         assertThat(requests, hasSize(greaterThanOrEqualTo(1)));
         assertPostRequest(
@@ -214,7 +215,7 @@ public class ClanLoungeRequestTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_clan_speakeasy.html"));
 
-        var request = new ClanLoungeRequest(ClanLoungeRequest.SPEAKEASY);
+        var request = new ClanLoungeRequest(Action.SPEAKEASY);
         request.run();
 
         // All Speakeasy concoctions are available

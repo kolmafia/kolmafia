@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.ClanLogRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
@@ -191,13 +192,13 @@ public abstract class ClanManager {
 
       // Check hotdog stand, speakeasy, and floundry, if present
       if (ClanManager.getClanLounge().contains(HOT_DOG_STAND)) {
-        ClanLoungeRequest.visitLounge(ClanLoungeRequest.HOT_DOG_STAND);
+        ClanLoungeRequest.visitLounge(Action.HOT_DOG_STAND);
       }
       if (ClanManager.getClanLounge().contains(SPEAKEASY)) {
-        ClanLoungeRequest.visitLounge(ClanLoungeRequest.SPEAKEASY);
+        ClanLoungeRequest.visitLounge(Action.SPEAKEASY);
       }
       if (ClanManager.getClanLounge().contains(FLOUNDRY)) {
-        ClanLoungeRequest.visitLounge(ClanLoungeRequest.FLOUNDRY);
+        ClanLoungeRequest.visitLounge(Action.FLOUNDRY);
       }
 
       RequestThread.postRequest(new ClanRumpusRequest(RequestType.SEARCH));

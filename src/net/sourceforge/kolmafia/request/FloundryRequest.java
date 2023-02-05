@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 
 public class FloundryRequest extends CreateItemRequest {
   public FloundryRequest(final Concoction conc) {
@@ -16,7 +17,7 @@ public class FloundryRequest extends CreateItemRequest {
     }
 
     KoLmafia.updateDisplay("Creating " + this.getName() + "...");
-    ClanLoungeRequest request = new ClanLoungeRequest(ClanLoungeRequest.FLOUNDRY, this.getItemId());
+    ClanLoungeRequest request = new ClanLoungeRequest(Action.FLOUNDRY, this.getItemId());
 
     RequestThread.postRequest(request);
   }

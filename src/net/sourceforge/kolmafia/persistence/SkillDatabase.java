@@ -1198,6 +1198,9 @@ public class SkillDatabase {
       case SkillPool.OLD_OLD_SMILE:
       case SkillPool.SMILE_OF_MR_A:
       case SkillPool.ARSE_SHOOT:
+      case SkillPool.CRYPTOBOTANIST:
+      case SkillPool.INSECTOLOGIST:
+      case SkillPool.PSYCHOGEOLOGIST:
         // Item granted skills
         return false;
 
