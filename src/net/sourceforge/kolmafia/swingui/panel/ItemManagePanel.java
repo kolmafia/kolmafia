@@ -181,8 +181,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       this.buttons = new JButton[buttonListeners.length];
 
       for (int i = 0; i < buttonListeners.length; ++i) {
-        if (buttonListeners[i] instanceof JButton) {
-          this.buttons[i] = (JButton) buttonListeners[i];
+        if (buttonListeners[i] instanceof JButton button) {
+          this.buttons[i] = button;
         } else {
           this.buttons[i] = new JButton(buttonListeners[i].toString());
           this.buttons[i].addActionListener(buttonListeners[i]);
@@ -343,8 +343,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       if (quantity <= 0) {
         items[i] = null;
         --neededSize;
-      } else if (items[i] instanceof AdventureResult) {
-        items[i] = ((AdventureResult) items[i]).getInstance(quantity);
+      } else if (items[i] instanceof AdventureResult ar) {
+        items[i] = ar.getInstance(quantity);
       } else {
         ConcoctionDatabase.push((Concoction) items[i], quantity);
         items[i] = null;
@@ -385,27 +385,25 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         }
 
         quantity = value.intValue();
-
-        break;
       }
       case USE_MULTIPLE -> {
         int standard = itemCount;
         if (!message.equals("Feed")) {
-          if (item instanceof Concoction) {
+          if (item instanceof Concoction c) {
             int previous = 0, capacity = itemCount, unit = 0, shotglass = 0;
 
-            if (((Concoction) item).getFullness() > 0) {
+            if (c.getFullness() > 0) {
               previous = KoLCharacter.getFullness() + ConcoctionDatabase.getQueuedFullness();
               capacity = KoLCharacter.getFullnessLimit();
-              unit = ((Concoction) item).getFullness();
+              unit = c.getFullness();
               standard =
                   previous >= capacity
                       ? itemCount
                       : Math.min((capacity - previous) / unit, itemCount);
-            } else if (((Concoction) item).getInebriety() > 0) {
+            } else if (c.getInebriety() > 0) {
               previous = KoLCharacter.getInebriety() + ConcoctionDatabase.getQueuedInebriety();
               capacity = KoLCharacter.getInebrietyLimit();
-              unit = ((Concoction) item).getInebriety();
+              unit = c.getInebriety();
               if (unit == 1
                   && !ConcoctionDatabase.queuedMimeShotglass
                   && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
@@ -416,10 +414,10 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
                   previous > capacity
                       ? itemCount
                       : Math.max(1, Math.min((capacity - previous) / unit + shotglass, itemCount));
-            } else if (((Concoction) item).getSpleenHit() > 0) {
+            } else if (c.getSpleenHit() > 0) {
               previous = KoLCharacter.getSpleenUse() + ConcoctionDatabase.getQueuedSpleenHit();
               capacity = KoLCharacter.getSpleenLimit();
-              unit = ((Concoction) item).getSpleenHit();
+              unit = c.getSpleenHit();
               standard =
                   previous >= capacity
                       ? itemCount
@@ -450,8 +448,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
   protected int getUsableItemAmount(final Object item, final String itemName) {
     int id;
-    if (item instanceof Concoction) {
-      id = ((Concoction) item).getItemId();
+    if (item instanceof Concoction c) {
+      id = c.getItemId();
     } else {
       id = ((AdventureResult) item).getItemId();
     }
@@ -796,8 +794,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       boolean isVisibleWithFilter = true;
 
       int itemId =
-          element instanceof AdventureResult
-              ? ((AdventureResult) element).getItemId()
+          element instanceof AdventureResult ar
+              ? ar.getItemId()
               : ItemDatabase.getItemId(name, 1, false);
 
       switch (ItemDatabase.getConsumptionType(itemId)) {
