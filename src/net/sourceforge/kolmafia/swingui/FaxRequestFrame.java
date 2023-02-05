@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
@@ -170,7 +171,7 @@ public class FaxRequestFrame extends GenericFrame {
       }
 
       ClanLoungeRequest request =
-          new ClanLoungeRequest(ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.SEND_FAX);
+          new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.SEND_FAX);
       RequestThread.postRequest(request);
     }
 
@@ -237,7 +238,7 @@ public class FaxRequestFrame extends GenericFrame {
 
     // The monster is there! retrieve it.
     ClanLoungeRequest request =
-        new ClanLoungeRequest(ClanLoungeRequest.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX);
+        new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX);
     RequestThread.postRequest(request);
     KoLmafia.enableDisplay();
     return true;
@@ -282,7 +283,7 @@ public class FaxRequestFrame extends GenericFrame {
     }
 
     // Try to visit the fax machine
-    ClanLoungeRequest request = new ClanLoungeRequest(ClanLoungeRequest.FAX_MACHINE);
+    ClanLoungeRequest request = new ClanLoungeRequest(Action.FAX_MACHINE);
     RequestThread.postRequest(request);
 
     // Are you in a clan?

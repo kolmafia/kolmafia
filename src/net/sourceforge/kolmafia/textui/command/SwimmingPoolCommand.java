@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
 
 public class SwimmingPoolCommand extends AbstractCommand {
@@ -27,7 +28,7 @@ public class SwimmingPoolCommand extends AbstractCommand {
       return;
     }
 
-    RequestThread.postRequest(new ClanLoungeRequest(ClanLoungeRequest.SWIMMING_POOL, option));
+    RequestThread.postRequest(new ClanLoungeRequest(Action.SWIMMING_POOL, option));
 
     // Do additional pool options to dive for treasure if option 1.
     if (option == 1) {
