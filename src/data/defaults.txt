@@ -484,6 +484,7 @@ user	currentPortalEnergy	0
 user	currentPVPSeason	none
 user	currentPvpVictories
 user	currentSpecialBountyItem
+user	currentSITSkill	none
 user	cursedMagnifyingGlassCount	0
 user	customCombatScript	default
 user	cyrptAlcoveEvilness	0
@@ -3060,6 +3061,8 @@ user	choiceAdventure1486	0
 user	choiceAdventure1487	1
 user	choiceAdventure1488	0
 user	choiceAdventure1489	3
+user	choiceAdventure1491	0
+user	choiceAdventure1494	0
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

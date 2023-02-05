@@ -517,6 +517,8 @@ public class SkillPool {
   public static final int SIP_SOME_SWEAT = 7420;
   public static final int SWEAT_SIP = 7421;
   public static final int LAUNCH_SPIKOLODON_SPIKES = 7424;
+  public static final int CERAMIC_PUNCH = 7426;
+  public static final int CERAMIC_CENOBITIZE = 7431;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

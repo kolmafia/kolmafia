@@ -5489,6 +5489,7 @@ public class FightRequest extends GenericRequest {
     public boolean harness;
     public boolean luggage;
     public boolean armtowel;
+    public boolean pebble;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5578,6 +5579,7 @@ public class FightRequest extends GenericRequest {
       this.harness = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_HARNESS);
       this.luggage = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_LUGGAGE_HOOK);
       this.armtowel = KoLCharacter.hasEquipped(ItemPool.WHITE_ARM_TOWEL);
+      this.pebble = KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE);
 
       this.ghost = null;
 
@@ -6252,6 +6254,10 @@ public class FightRequest extends GenericRequest {
       }
 
       String str = FightRequest.getContentNodeText(node);
+
+      if (status.pebble) {
+        FightRequest.handleLittleRoundPebble(str, status);
+      }
 
       // Crimbo2022 Trainbot features
       if (won) {
@@ -7038,6 +7044,13 @@ public class FightRequest extends GenericRequest {
     // Your familiar grabs you something from the dining car.
     if (str.contains("Your familiar grabs you something")) {
       FightRequest.logText(str, status);
+    }
+  }
+
+  private static void handleLittleRoundPebble(String str, TagStatus status) {
+    if (str.contains("He grabs the pebble from your hand.")) {
+      FightRequest.logText(str, status);
+      EquipmentManager.discardEquipment(ItemPool.LITTLE_ROUND_PEBBLE);
     }
   }
 
@@ -9070,6 +9083,11 @@ public class FightRequest extends GenericRequest {
       case SkillPool.TERRACOTTA_ARMY:
       case SkillPool.PARAFFIN_PRISM:
       case SkillPool.ACCORDION_BASH:
+        singleCastsThisFight.add(skillId);
+        return;
+
+      case SkillPool.CERAMIC_PUNCH:
+      case SkillPool.CERAMIC_CENOBITIZE:
         singleCastsThisFight.add(skillId);
         return;
 
