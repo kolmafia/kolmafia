@@ -454,29 +454,36 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       id = ((AdventureResult) item).getItemId();
     }
     switch (ItemDatabase.getConsumptionType(id)) {
-      case HAT:
+      case HAT -> {
         return Preferences.getInteger("usableHats");
-      case WEAPON:
+      }
+      case WEAPON -> {
         return switch (EquipmentDatabase.getHands(id)) {
           case 3 -> Preferences.getInteger("usable3HWeapons");
           case 2 -> Preferences.getInteger("usable2HWeapons");
           default -> Preferences.getInteger("usable1HWeapons");
         };
-      case OFFHAND:
+      }
+      case OFFHAND -> {
         return Preferences.getInteger("usableOffhands");
-      case SHIRT:
+      }
+      case SHIRT -> {
         return Preferences.getInteger("usableShirts");
-      case PANTS:
+      }
+      case PANTS -> {
         return Preferences.getInteger("usablePants");
-      case ACCESSORY:
+      }
+      case ACCESSORY -> {
         Modifiers mods = ModifierDatabase.getItemModifiers(id);
         if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {
           return Preferences.getInteger("usable1xAccs");
         } else {
           return Preferences.getInteger("usableAccessories");
         }
-      default:
+      }
+      default -> {
         return Preferences.getInteger("usableOther");
+      }
     }
   }
 
@@ -799,26 +806,17 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
               : ItemDatabase.getItemId(name, 1, false);
 
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case EAT:
-          isVisibleWithFilter = FilterItemField.this.food;
-          break;
-
-        case DRINK:
-          isVisibleWithFilter = FilterItemField.this.booze;
-          break;
-
-        case HAT:
-        case SHIRT:
-        case WEAPON:
-        case OFFHAND:
-        case PANTS:
-        case CONTAINER:
-        case ACCESSORY:
-        case FAMILIAR_EQUIPMENT:
-          isVisibleWithFilter = FilterItemField.this.equip;
-          break;
-
-        default:
+        case EAT -> isVisibleWithFilter = FilterItemField.this.food;
+        case DRINK -> isVisibleWithFilter = FilterItemField.this.booze;
+        case HAT,
+            SHIRT,
+            WEAPON,
+            OFFHAND,
+            PANTS,
+            CONTAINER,
+            ACCESSORY,
+            FAMILIAR_EQUIPMENT -> isVisibleWithFilter = FilterItemField.this.equip;
+        default -> {
           if (element instanceof CreateItemRequest) {
             isVisibleWithFilter =
                 switch (ConcoctionDatabase.getMixingMethod(itemId)) {
@@ -839,6 +837,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
               isVisibleWithFilter |= FilterItemField.this.food;
             }
           }
+        }
       }
 
       if (isVisibleWithFilter && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, name)) {
