@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.StoreManager.TableType;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutoMallRequest extends TransferItemRequest {
@@ -160,7 +161,7 @@ public class AutoMallRequest extends TransferItemRequest {
           prices.stream().mapToInt(i -> i).toArray(),
           limits.stream().mapToInt(i -> i).toArray());
     } else {
-      StoreManager.update(responseText, StoreManager.ADDER);
+      StoreManager.update(responseText, TableType.ADDER);
     }
 
     return true;

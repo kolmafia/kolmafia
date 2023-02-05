@@ -60,15 +60,19 @@ public abstract class StoreManager {
 
   // Different formats of inventory table
 
-  public static final int ADDER = 1;
-  public static final int PRICER = 2;
-  public static final int DEETS = 3;
+  public enum TableType {
+    ADDER,
+    PRICER,
+    DEETS
+  }
 
-  private static final int RECENT_FIRST = 1;
-  private static final int OLDEST_FIRST = 2;
-  private static final int GROUP_BY_NAME = 3;
+  private enum SortType {
+    RECENT_FIRST,
+    OLDEST_FIRST,
+    GROUP_BY_NAME
+  }
 
-  private static int currentLogSort = StoreManager.RECENT_FIRST;
+  private static SortType currentLogSort = SortType.RECENT_FIRST;
   private static boolean sortItemsByName = false;
 
   private static final long REALISTIC_PRICE_THRESHOLD = 50000000;
@@ -183,9 +187,9 @@ public abstract class StoreManager {
   public static final void sortStoreLog(final boolean cycleSortType) {
     if (cycleSortType) {
       switch (StoreManager.currentLogSort) {
-        case RECENT_FIRST -> StoreManager.currentLogSort = StoreManager.OLDEST_FIRST;
-        case OLDEST_FIRST -> StoreManager.currentLogSort = StoreManager.GROUP_BY_NAME;
-        case GROUP_BY_NAME -> StoreManager.currentLogSort = StoreManager.RECENT_FIRST;
+        case RECENT_FIRST -> StoreManager.currentLogSort = SortType.OLDEST_FIRST;
+        case OLDEST_FIRST -> StoreManager.currentLogSort = SortType.GROUP_BY_NAME;
+        case GROUP_BY_NAME -> StoreManager.currentLogSort = SortType.RECENT_FIRST;
       }
     }
 
@@ -196,7 +200,7 @@ public abstract class StoreManager {
     StoreManager.storeLog.sort();
   }
 
-  public static final void update(String storeText, final int type) {
+  public static final void update(String storeText, final TableType type) {
     // Strip introductory "header" from the string so that we can simplify the matcher.
     String headerEnd = "in Mall:</b></td></tr>";
     int index = storeText.indexOf(headerEnd);
