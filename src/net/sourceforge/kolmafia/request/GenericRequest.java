@@ -117,9 +117,9 @@ public class GenericRequest implements Runnable {
 
   public enum TopMenuStyle {
     UNKNOWN,
-    MENU_FANCY,
-    MENU_COMPACT,
-    MENU_NORMAL
+    FANCY,
+    COMPACT,
+    NORMAL
   }
 
   public static TopMenuStyle topMenuStyle = TopMenuStyle.UNKNOWN;

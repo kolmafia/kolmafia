@@ -17,15 +17,15 @@ public abstract class TopMenuDecorator {
     }
 
     switch (GenericRequest.topMenuStyle) {
-      case MENU_NORMAL ->
+      case NORMAL ->
       // "normal" (links) style of topmenu.php
       TopMenuDecorator.addScriptMenus(buffer, location);
-      case MENU_COMPACT -> {
+      case COMPACT -> {
         // "compact" (dropdowns) style of topmenu.php
         TopMenuDecorator.adjustCompactMenu(buffer);
         TopMenuDecorator.addScriptMenus(buffer, location);
       }
-      case MENU_FANCY ->
+      case FANCY ->
       // "fancy" (icons) style of topmenu.php
       TopMenuDecorator.addFancyScriptMenus(buffer, location);
     }
