@@ -51,12 +51,14 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public abstract class ItemManagePanel<E, S extends JComponent> extends ScrollablePanel<S> {
-  public static final int USE_MULTIPLE = 0;
+  public enum QuantityType {
+    USE_MULTIPLE,
 
-  public static final int TAKE_ALL = 1;
-  public static final int TAKE_ALL_BUT_USABLE = 2;
-  public static final int TAKE_MULTIPLE = 3;
-  public static final int TAKE_ONE = 4;
+    TAKE_ALL,
+    TAKE_ALL_BUT_USABLE,
+    TAKE_MULTIPLE,
+    TAKE_ONE
+  }
 
   public final JPanel northPanel;
   public final LockableListModel<E> elementModel;
@@ -280,20 +282,20 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       return this.getDesiredItems(
           message,
           message.equals("Queue") || message.equals("Consume") || message.equals("Feed")
-              ? ItemManagePanel.USE_MULTIPLE
-              : ItemManagePanel.TAKE_MULTIPLE);
+              ? QuantityType.USE_MULTIPLE
+              : QuantityType.TAKE_MULTIPLE);
     }
 
     return this.getDesiredItems(
         message,
         this.movers[0].isSelected()
-            ? ItemManagePanel.TAKE_ALL
+            ? QuantityType.TAKE_ALL
             : this.movers[1].isSelected()
-                ? ItemManagePanel.TAKE_ALL_BUT_USABLE
-                : ItemManagePanel.TAKE_ONE);
+                ? QuantityType.TAKE_ALL_BUT_USABLE
+                : QuantityType.TAKE_ONE);
   }
 
-  public AdventureResult[] getDesiredItems(final String message, final int quantityType) {
+  public AdventureResult[] getDesiredItems(final String message, final QuantityType quantityType) {
     Object[] items = this.getSelectedValues().toArray();
     if (items.length == 0) {
       return null;
@@ -321,7 +323,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         if (concoction.speakeasy != null) {
           itemCount -= ConcoctionDatabase.queuedSpeakeasyDrink;
         }
-        // Only queue one S'more at at time
+        // Only queue one S'more at a time
         if (concoction.getItemId() == ItemPool.SMORE) {
           itemCount = 1;
         }
@@ -370,7 +372,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       final String itemName,
       final int itemCount,
       final String message,
-      final int quantityType) {
+      final QuantityType quantityType) {
     int quantity = 0;
     switch (quantityType) {
       case TAKE_ALL -> quantity = itemCount;
@@ -494,7 +496,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       return this.retrieveItems(items);
     }
 
-    public AdventureResult[] initialSetup(final int transferType) {
+    public AdventureResult[] initialSetup(final QuantityType transferType) {
       AdventureResult[] items =
           ItemManagePanel.this.getDesiredItems(this.description, transferType);
       return this.retrieveItems(items);
