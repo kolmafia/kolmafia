@@ -41,11 +41,9 @@ public class MoonPhaseRequest extends GenericRequest {
 
     // We can no longer count on knowing the menu style from api.php
     GenericRequest.topMenuStyle =
-        text.indexOf("awesomemenu.php") != -1
-            ? GenericRequest.MENU_FANCY
-            : text.indexOf("Function:") != -1
-                ? GenericRequest.MENU_COMPACT
-                : GenericRequest.MENU_NORMAL;
+        text.contains("awesomemenu.php")
+            ? TopMenuStyle.MENU_FANCY
+            : text.contains("Function:") ? TopMenuStyle.MENU_COMPACT : TopMenuStyle.MENU_NORMAL;
 
     // Get current phase of Ronald and Grimace
     if (text.contains("minimoon")) {

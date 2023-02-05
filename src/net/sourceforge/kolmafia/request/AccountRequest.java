@@ -164,10 +164,10 @@ public class AccountRequest extends PasswordHashRequest {
     // Top Menu Style
     GenericRequest.topMenuStyle =
         responseText.contains(fancyMenuStyle)
-            ? GenericRequest.MENU_FANCY
+            ? TopMenuStyle.MENU_FANCY
             : responseText.contains(compactMenuStyle)
-                ? GenericRequest.MENU_COMPACT
-                : GenericRequest.MENU_NORMAL;
+                ? TopMenuStyle.MENU_COMPACT
+                : TopMenuStyle.MENU_NORMAL;
 
     boolean checked;
     checked = AccountRequest.getCheckbox("flag_compactchar", responseText);
@@ -275,10 +275,10 @@ public class AccountRequest extends PasswordHashRequest {
       // account.php?pwd&action=menu&value=normal&ajax=1
       GenericRequest.topMenuStyle =
           valueString.equals("fancy")
-              ? GenericRequest.MENU_FANCY
+              ? TopMenuStyle.MENU_FANCY
               : valueString.equals("compact")
-                  ? GenericRequest.MENU_COMPACT
-                  : GenericRequest.MENU_NORMAL;
+                  ? TopMenuStyle.MENU_COMPACT
+                  : TopMenuStyle.MENU_NORMAL;
       return;
     }
 
@@ -479,10 +479,10 @@ public class AccountRequest extends PasswordHashRequest {
     int topmenu = flags.getInt( "topmenu" );
     GenericRequest.topMenuStyle =
       (topmenu == 2 ) ?
-      GenericRequest.MENU_FANCY :
+      TopMenuStyle.MENU_FANCY :
       (topmenu == 1 ) ?
-      GenericRequest.MENU_COMPACT :
-      GenericRequest.MENU_NORMAL;
+      TopMenuStyle.MENU_COMPACT :
+      TopMenuStyle.MENU_NORMAL;
     */
 
     checked = flags.getInt("compactchar") == 1;
