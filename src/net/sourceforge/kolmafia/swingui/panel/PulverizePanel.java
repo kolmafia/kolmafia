@@ -261,7 +261,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
 
     @Override
     protected void execute() {
-      AdventureResult[] items = this.initialSetup(ItemManagePanel.TAKE_ALL);
+      AdventureResult[] items = this.initialSetup(QuantityType.TAKE_ALL);
       if (items == null || items.length == 0) {
         return;
       }
