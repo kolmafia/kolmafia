@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
+import net.sourceforge.kolmafia.persistence.CandyDatabase.CandyType;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -51,7 +52,7 @@ public class CheckDataCommand extends AbstractCommand {
         Match filter = Match.CANDY;
         AdventureResult[] itemList = ItemFinder.getMatchingItemList(parameters, true, null, filter);
         for (AdventureResult item : itemList) {
-          String type = CandyDatabase.getCandyType(item.getItemId());
+          CandyType type = CandyDatabase.getCandyType(item.getItemId());
           RequestLogger.printLine(item.getName() + ": " + type);
         }
       }
