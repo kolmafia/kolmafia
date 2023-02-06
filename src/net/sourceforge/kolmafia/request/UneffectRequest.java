@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -231,12 +232,12 @@ public class UneffectRequest extends GenericRequest {
     switch (skillId) {
       case SkillPool.SPIRIT_BOON:
         {
-          String blessing = KoLCharacter.getBlessingType();
-          return blessing == KoLCharacter.SHE_WHO_WAS_BLESSING
+          TurtleBlessing blessing = KoLCharacter.getBlessingType();
+          return blessing == TurtleBlessing.SHE_WHO_WAS
               ? EffectDatabase.getEffectName(EffectPool.BOON_OF_SHE_WHO_WAS)
-              : blessing == KoLCharacter.STORM_BLESSING
+              : blessing == TurtleBlessing.STORM
                   ? EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_STORM_TORTOISE)
-                  : blessing == KoLCharacter.WAR_BLESSING
+                  : blessing == TurtleBlessing.WAR
                       ? EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_WAR_SNAPPER)
                       : "none";
         }
@@ -257,12 +258,12 @@ public class UneffectRequest extends GenericRequest {
                 : EffectPool.DISDAIN_OF_THE_WAR_SNAPPER);
       case SkillPool.TURTLE_POWER:
         {
-          String blessing = KoLCharacter.getBlessingType();
-          return blessing == KoLCharacter.SHE_WHO_WAS_BLESSING
+          TurtleBlessing blessing = KoLCharacter.getBlessingType();
+          return blessing == TurtleBlessing.SHE_WHO_WAS
               ? EffectDatabase.getEffectName(EffectPool.AVATAR_OF_SHE_WHO_WAS)
-              : blessing == KoLCharacter.STORM_BLESSING
+              : blessing == TurtleBlessing.STORM
                   ? EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_STORM_TORTOISE)
-                  : blessing == KoLCharacter.WAR_BLESSING
+                  : blessing == TurtleBlessing.WAR
                       ? EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_WAR_SNAPPER)
                       : "none";
         }

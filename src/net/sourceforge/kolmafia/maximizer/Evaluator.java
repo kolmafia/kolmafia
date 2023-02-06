@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -940,33 +941,33 @@ public class Evaluator {
       case EffectPool.NEARLY_SILENT_HUNTING -> KoLCharacter.isSealClubber();
       case EffectPool.SILENT_HUNTING, EffectPool.BARREL_CHESTED -> !KoLCharacter.isSealClubber();
       case EffectPool.BOON_OF_SHE_WHO_WAS -> KoLCharacter.getBlessingType()
-              != KoLCharacter.SHE_WHO_WAS_BLESSING
+              != TurtleBlessing.SHE_WHO_WAS
           || KoLCharacter.getBlessingLevel() == 4;
       case EffectPool.BOON_OF_THE_STORM_TORTOISE -> KoLCharacter.getBlessingType()
-              != KoLCharacter.STORM_BLESSING
+              != TurtleBlessing.STORM
           || KoLCharacter.getBlessingLevel() == 4;
       case EffectPool.BOON_OF_THE_WAR_SNAPPER -> KoLCharacter.getBlessingType()
-              != KoLCharacter.WAR_BLESSING
+              != TurtleBlessing.WAR
           || KoLCharacter.getBlessingLevel() == 4;
       case EffectPool.AVATAR_OF_SHE_WHO_WAS -> KoLCharacter.getBlessingType()
-              != KoLCharacter.SHE_WHO_WAS_BLESSING
+              != TurtleBlessing.SHE_WHO_WAS
           || KoLCharacter.getBlessingLevel() != 3;
       case EffectPool.AVATAR_OF_THE_STORM_TORTOISE -> KoLCharacter.getBlessingType()
-              != KoLCharacter.STORM_BLESSING
+              != TurtleBlessing.STORM
           || KoLCharacter.getBlessingLevel() != 3;
       case EffectPool.AVATAR_OF_THE_WAR_SNAPPER -> KoLCharacter.getBlessingType()
-              != KoLCharacter.WAR_BLESSING
+              != TurtleBlessing.WAR
           || KoLCharacter.getBlessingLevel() != 3;
       case EffectPool.BLESSING_OF_SHE_WHO_WAS -> !KoLCharacter.isTurtleTamer()
-          || KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING
+          || KoLCharacter.getBlessingType() == TurtleBlessing.SHE_WHO_WAS
           || KoLCharacter.getBlessingLevel() == -1
           || KoLCharacter.getBlessingLevel() == 4;
       case EffectPool.BLESSING_OF_THE_STORM_TORTOISE -> !KoLCharacter.isTurtleTamer()
-          || KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING
+          || KoLCharacter.getBlessingType() == TurtleBlessing.STORM
           || KoLCharacter.getBlessingLevel() == -1
           || KoLCharacter.getBlessingLevel() == 4;
       case EffectPool.BLESSING_OF_THE_WAR_SNAPPER -> !KoLCharacter.isTurtleTamer()
-          || KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING
+          || KoLCharacter.getBlessingType() == TurtleBlessing.WAR
           || KoLCharacter.getBlessingLevel() == -1
           || KoLCharacter.getBlessingLevel() == 4;
       case EffectPool.DISDAIN_OF_SHE_WHO_WAS,

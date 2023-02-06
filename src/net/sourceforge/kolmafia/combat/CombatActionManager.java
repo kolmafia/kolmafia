@@ -13,6 +13,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -278,8 +279,7 @@ public abstract class CombatActionManager {
     String classStun = ascensionClass == null ? "none" : ascensionClass.getStun();
     // Sometimes classStun isn't available or doesn't stun, don't return it in those cases
     if ((classStun.equals("Club Foot") && KoLCharacter.getFury() == 0)
-        || (classStun.equals("Shell Up")
-            && KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING)
+        || (classStun.equals("Shell Up") && KoLCharacter.getBlessingType() != TurtleBlessing.STORM)
         || (classStun.equals("Soul Bubble") && KoLCharacter.getSoulsauce() < 5)
         || (classStun.equals("Accordion Bash") && !EquipmentManager.wieldingAccordion())) {
       classStun = Preferences.getBoolean("considerShadowNoodles") ? "Shadow Noodles" : "none";

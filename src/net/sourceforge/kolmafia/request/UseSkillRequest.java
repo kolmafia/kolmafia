@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -495,19 +496,19 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
       case SkillPool.WAR_BLESSING:
         return (KoLCharacter.getBlessingLevel() != -1
-                || KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING)
+                || KoLCharacter.getBlessingType() == TurtleBlessing.WAR)
             ? 1
             : 0;
 
       case SkillPool.SHE_WHO_WAS_BLESSING:
         return (KoLCharacter.getBlessingLevel() != -1
-                || KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING)
+                || KoLCharacter.getBlessingType() == TurtleBlessing.SHE_WHO_WAS)
             ? 1
             : 0;
 
       case SkillPool.STORM_BLESSING:
         return (KoLCharacter.getBlessingLevel() != -1
-                || KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING)
+                || KoLCharacter.getBlessingType() == TurtleBlessing.STORM)
             ? 1
             : 0;
 
