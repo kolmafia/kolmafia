@@ -233,13 +233,12 @@ public class UneffectRequest extends GenericRequest {
       case SkillPool.SPIRIT_BOON:
         {
           TurtleBlessing blessing = KoLCharacter.getBlessingType();
-          return blessing == TurtleBlessing.SHE_WHO_WAS
-              ? EffectDatabase.getEffectName(EffectPool.BOON_OF_SHE_WHO_WAS)
-              : blessing == TurtleBlessing.STORM
-                  ? EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_STORM_TORTOISE)
-                  : blessing == TurtleBlessing.WAR
-                      ? EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_WAR_SNAPPER)
-                      : "none";
+          if (blessing == null) return "none";
+          return switch (blessing) {
+            case SHE_WHO_WAS -> EffectDatabase.getEffectName(EffectPool.BOON_OF_SHE_WHO_WAS);
+            case STORM -> EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_STORM_TORTOISE);
+            case WAR -> EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_WAR_SNAPPER);
+          };
         }
       case SkillPool.SHE_WHO_WAS_BLESSING:
         return EffectDatabase.getEffectName(
@@ -259,13 +258,12 @@ public class UneffectRequest extends GenericRequest {
       case SkillPool.TURTLE_POWER:
         {
           TurtleBlessing blessing = KoLCharacter.getBlessingType();
-          return blessing == TurtleBlessing.SHE_WHO_WAS
-              ? EffectDatabase.getEffectName(EffectPool.AVATAR_OF_SHE_WHO_WAS)
-              : blessing == TurtleBlessing.STORM
-                  ? EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_STORM_TORTOISE)
-                  : blessing == TurtleBlessing.WAR
-                      ? EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_WAR_SNAPPER)
-                      : "none";
+          if (blessing == null) return "none";
+          return switch (blessing) {
+            case SHE_WHO_WAS -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_SHE_WHO_WAS);
+            case STORM -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_STORM_TORTOISE);
+            case WAR -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_WAR_SNAPPER);
+          };
         }
       case SkillPool.SHIELD_OF_THE_PASTALORD:
         return EffectDatabase.getEffectName(
