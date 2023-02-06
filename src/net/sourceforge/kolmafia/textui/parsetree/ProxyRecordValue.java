@@ -613,7 +613,7 @@ public class ProxyRecordValue extends RecordValue {
      * @return The candy type
      */
     public String get_candy_type() {
-      return CandyDatabase.getCandyType((int) this.contentLong);
+      return CandyDatabase.getCandyType((int) this.contentLong).name;
     }
 
     /**
