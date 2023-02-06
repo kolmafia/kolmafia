@@ -138,8 +138,8 @@ public class Evaluator {
   // Slots starting with EquipmentManager.ALL_SLOTS are equipment
   // for other familiars being considered.
 
-  private static int relevantSkill(String skill) {
-    return KoLCharacter.hasSkill(skill) ? 1 : 0;
+  private static int relevantSkill(int skillId) {
+    return KoLCharacter.hasSkill(skillId) ? 1 : 0;
   }
 
   private int relevantFamiliar(int id) {
@@ -157,7 +157,7 @@ public class Evaluator {
   private int maxUseful(int slot) {
     return switch (slot) {
       case Evaluator.WEAPON_1H -> 1
-          + relevantSkill("Double-Fisted Skull Smashing")
+          + relevantSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)
           + this.relevantFamiliar(FamiliarPool.HAND);
       case EquipmentManager.OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
       case EquipmentManager.ACCESSORY1 -> 3;
