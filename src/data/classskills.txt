@@ -966,6 +966,8 @@
 7423	Spit jurassic acid	jparka3.gif	5	0	0
 7424	Launch spikolodon spikes	jparka2.gif	5	0	0
 7425	Engage ultra-attractive parka mode	jparka7.gif	5	0	0
+7426	Ceramic Punch		0	5	0
+7431	Ceramic Cenobitize		0	5	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

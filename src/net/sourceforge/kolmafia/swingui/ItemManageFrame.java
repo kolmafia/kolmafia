@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateSpecialPanel;
 import net.sourceforge.kolmafia.swingui.panel.InventoryPanel;
-import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
 import net.sourceforge.kolmafia.swingui.panel.PulverizePanel;
@@ -478,8 +477,8 @@ public class ItemManageFrame extends GenericFrame {
         final String itemName,
         final int itemCount,
         final String message,
-        final int quantityType) {
-      if (!this.isPullingForUse || quantityType != ItemManagePanel.TAKE_MULTIPLE) {
+        final QuantityType quantityType) {
+      if (!this.isPullingForUse || quantityType != QuantityType.TAKE_MULTIPLE) {
         return super.getDesiredItemAmount(item, itemName, itemCount, message, quantityType);
       }
 
