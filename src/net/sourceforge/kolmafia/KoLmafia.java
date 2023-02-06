@@ -974,7 +974,7 @@ public abstract class KoLmafia {
     RequestThread.postRequest(new CharSheetRequest());
     InventoryManager.checkPowerfulGlove();
     InventoryManager.checkDesignerSweatpants();
-    InventoryManager.checkCoatOfPaint(true);
+    InventoryManager.checkCoatOfPaint();
 
     // Clear preferences
     Preferences.setString("banishingShoutMonsters", "");
