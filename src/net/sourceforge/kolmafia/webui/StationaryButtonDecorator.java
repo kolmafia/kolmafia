@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
@@ -486,8 +487,7 @@ public class StationaryButtonDecorator {
     String classStun = ascensionClass == null ? "none" : ascensionClass.getStun();
     // Some skills can be available in combat but aren't always stuns. Disable if so or change to
     // Shadow Noodles if appropriate.
-    if (classStun.equals("Shell Up")
-        && KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING) {
+    if (classStun.equals("Shell Up") && KoLCharacter.getBlessingType() != TurtleBlessing.STORM) {
       classStun = Preferences.getBoolean("considerShadowNoodles") ? "Shadow Noodles" : "none";
     }
 
