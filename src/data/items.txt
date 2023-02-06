@@ -11004,27 +11004,27 @@
 10976	Boris's beer	530536491	bbat_beer.gif	drink	d	75	steins of Boris's beer
 10977	honey bun of Boris	564839555	bbat_honeybun.gif	food	d	75	honey buns of Boris
 10978	Boris's bread	498380608	bbat_bread.gif	food, cook	d	100	loaves of Boris's bread
-10979	Recipe of Before Yore: ratatouille de Jarlsberg	682740116	bbat_recipe.gif	usable	t,d	100
-10980	Recipe of Before Yore: Jarlsberg's vegetable soup	276699943	bbat_recipe.gif	usable	t,d	100
-10981	Recipe of Before Yore: roasted vegetable of J.	782778295	bbat_recipe.gif	usable	t,d	150
-10982	Recipe of Before Yore: St. Pete's sneaky smoothie	825252942	bbat_recipe.gif	usable	t,d	100
-10983	Recipe of Before Yore: Pete's wily whey bar	335242148	bbat_recipe.gif	usable	t,d	100
-10984	Recipe of Before Yore: Pete's rich ricotta	186070874	bbat_recipe.gif	usable	t,d	150
-10985	Recipe of Before Yore: Boris's beer	895615926	bbat_recipe.gif	usable	t,d	100
-10986	Recipe of Before Yore: honey bun of Boris	439397272	bbat_recipe.gif	usable	t,d	100
-10987	Recipe of Before Yore: Boris's bread	535986690	bbat_recipe.gif	usable	t,d	150
+10979	Recipe of Before Yore: ratatouille de Jarlsberg	682740116	bbat_recipe.gif	usable	t,d	100	Recipes of Before Yore: ratatouille de Jarlsberg
+10980	Recipe of Before Yore: Jarlsberg's vegetable soup	276699943	bbat_recipe.gif	usable	t,d	100	Recipes of Before Yore: Jarlsberg's vegetable soup
+10981	Recipe of Before Yore: roasted vegetable of J.	782778295	bbat_recipe.gif	usable	t,d	150	Recipes of Before Yore: roasted vegetable of J.
+10982	Recipe of Before Yore: St. Pete's sneaky smoothie	825252942	bbat_recipe.gif	usable	t,d	100	Recipes of Before Yore: St. Pete's sneaky smoothie
+10983	Recipe of Before Yore: Pete's wily whey bar	335242148	bbat_recipe.gif	usable	t,d	100	Recipes of Before Yore: Pete's wily whey bar
+10984	Recipe of Before Yore: Pete's rich ricotta	186070874	bbat_recipe.gif	usable	t,d	150	Recipes of Before Yore: Pete's rich ricotta
+10985	Recipe of Before Yore: Boris's beer	895615926	bbat_recipe.gif	usable	t,d	100	Recipes of Before Yore: Boris's beer
+10986	Recipe of Before Yore: honey bun of Boris	439397272	bbat_recipe.gif	usable	t,d	100	Recipes of Before Yore: honey bun of Boris
+10987	Recipe of Before Yore: Boris's bread	535986690	bbat_recipe.gif	usable	t,d	150	Recipes of Before Yore: Boris's bread
 10988	baked veggie ricotta casserole	855715134	bbat_casserole.gif	food, cook	d	200
 10989	plain calzone	392094485	bbat_calzone1.gif	food, cook	d	200
 10990	roasted vegetable focaccia	705913927	bbat_focaccia.gif	food, cook	d	200
 10991	Pizza of Legend	327294437	bbat_pizza.gif	food	d	400	Pizzas of Legend
 10992	Calzone of Legend	463633597	bbat_calzone2.gif	food	d	400	Calzones of Legend
-10993	Recipe of Before Yore: Calzone of Legend	897961264	bbat_recipe.gif	usable	t,d	300
-10994	Recipe of Before Yore: Pizza of Legend	149400709	bbat_recipe.gif	usable	t,d	300
-10995	Recipe of Before Yore: roasted vegetable focaccia	497528859	bbat_recipe.gif	usable	t,d	200
-10996	Recipe of Before Yore: plain calzone	115946584	bbat_recipe.gif	usable	t,d	200
-10997	Recipe of Before Yore: baked veggie ricotta	385781133	bbat_recipe.gif	usable	t,d	200
+10993	Recipe of Before Yore: Calzone of Legend	897961264	bbat_recipe.gif	usable	t,d	300	Recipes of Before Yore: Calzone of Legend
+10994	Recipe of Before Yore: Pizza of Legend	149400709	bbat_recipe.gif	usable	t,d	300	Recipes of Before Yore: Pizza of Legend
+10995	Recipe of Before Yore: roasted vegetable focaccia	497528859	bbat_recipe.gif	usable	t,d	200	Recipes of Before Yore: roasted vegetable focaccia
+10996	Recipe of Before Yore: plain calzone	115946584	bbat_recipe.gif	usable	t,d	200	Recipes of Before Yore: plain calzone
+10997	Recipe of Before Yore: baked veggie ricotta	385781133	bbat_recipe.gif	usable	t,d	200	Recipe of Before Yore: baked veggie ricotta
 10998	cookbookbat book	230914563	book5.gif	familiar	t,d	75
-10999	Recipe of Before Yore: Deep Dish of Legend	924225296	bbat_recipe.gif	usable	t,d	100
+10999	Recipe of Before Yore: Deep Dish of Legend	924225296	bbat_recipe.gif	usable	t,d	100	Recipes of Before Yore: Deep Dish of Legend
 11000	Deep Dish of Legend	394854595	bbat_pizza.gif	food	d	400	Deep Dishes of Legend
 11001	deed to Oliver's Place	790291349	oliver_deed.gif	usable	t	0
 11002	drink chit	835138088	oliver_chit.gif	none	t	0
@@ -11142,21 +11142,21 @@
 11114	pixel rock	827961712	pixelrock.gif	grow	d	16384
 11115	S.I.T. Course Voucher	362646202	sitvoucher.gif	usable	t	0
 11116	S.I.T. Course Completion Certificate	495156664	sitcert.gif	reusable		0
-11117	glob of extra-green chlorophyll	346723717	sitchlor.gif	potion, multiple	t,d	10
+11117	glob of extra-green chlorophyll	346723717	sitchlor.gif	potion, multiple	t,d	10	globs of extra-green chlorophyll
 11118	electric mushroom	211690556	sitshroom.gif	potion, multiple	t,d	10
 11119	five-fingered fern resin	997651431	sitresin.gif	potion, multiple	t,d	10
 11120	super good fruit	203535525	sitfruit.gif	food	t,d	30
-11121	energized spores	322264800	sitpollen.gif	spleen, usable	t,d	30
+11121	energized spores	322264800	sitpollen.gif	spleen, usable	t,d	30	handfuls of energized spores
 11122	big hot pepper	635314684	sitpepper.gif	offhand	t,d	30
 11123	out-of-work circus flea	593697348	sitflea.gif	potion, usable	t,d	10
 11124	extra-grubby grub	678177947	sitgrub.gif	none, combat	t,d	10
 11125	fire ant pheromones	852080396	sitvial.gif	potion, usable	t,d	10
-11126	flapper fly	718706223	sitfly.gif	potion, multiple	t,d	30
-11127	shot of wasp venom	134483080	sitshot.gif	drink	t,d	30
+11126	flapper fly	718706223	sitfly.gif	potion, multiple	t,d	30	flapper flies
+11127	shot of wasp venom	134483080	sitshot.gif	drink	t,d	30	shots of wasp venom
 11128	filled mosquito	789078329	sitskeeter.gif	potion, multiple	t,d	30
-11129	shim of shame shale	676413262	sitshale.gif	potion, usable	t,d	10
-11130	pebble of proud pyrite	865914108	sitpyrite.gif	potion, usable	t,d	10
-11131	pile of gritty sand	144026897	sitsand.gif	potion, usable	t,d	10
+11129	shim of shame shale	676413262	sitshale.gif	potion, multiple	t,d	10	shims of shame shale
+11130	pebble of proud pyrite	865914108	sitpyrite.gif	potion, multiple	t,d	10	pebbles of proud pyrite
+11131	pile of gritty sand	144026897	sitsand.gif	potion, multiple	t,d	10	piles of gritty sand
 11132	hollow rock	273075878	sitrock.gif	usable	t,d	30
 11133	angry agate	197320169	sitagate.gif	potion, multiple	t,d	30
-11134	lump of loyal latite	942515335	sitlatite.gif	potion, multiple	t,d	30
+11134	lump of loyal latite	942515335	sitlatite.gif	potion, multiple	t,d	30	lumps of loyal latite
