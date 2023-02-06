@@ -104,9 +104,11 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
  * extensibility.
  */
 public abstract class KoLCharacter {
-  public static final String WAR_BLESSING = "War";
-  public static final String STORM_BLESSING = "Storm";
-  public static final String SHE_WHO_WAS_BLESSING = "She-who-was";
+  public enum TurtleBlessing {
+    WAR,
+    STORM,
+    SHE_WHO_WAS,
+  }
 
   public enum Gender {
     UNKNOWN(0),
@@ -993,7 +995,7 @@ public abstract class KoLCharacter {
     KoLCharacter.setFury(KoLCharacter.fury - decFury);
   }
 
-  public static final String getBlessingType() {
+  public static final TurtleBlessing getBlessingType() {
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.BLESSING_OF_THE_WAR_SNAPPER))
         || KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.GRAND_BLESSING_OF_THE_WAR_SNAPPER))
@@ -1001,7 +1003,7 @@ public abstract class KoLCharacter {
             EffectPool.get(EffectPool.GLORIOUS_BLESSING_OF_THE_WAR_SNAPPER))
         || KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.AVATAR_OF_THE_WAR_SNAPPER))) {
-      return KoLCharacter.WAR_BLESSING;
+      return TurtleBlessing.WAR;
     }
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.BLESSING_OF_SHE_WHO_WAS))
         || KoLConstants.activeEffects.contains(
@@ -1009,7 +1011,7 @@ public abstract class KoLCharacter {
         || KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.GLORIOUS_BLESSING_OF_SHE_WHO_WAS))
         || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.AVATAR_OF_SHE_WHO_WAS))) {
-      return KoLCharacter.SHE_WHO_WAS_BLESSING;
+      return TurtleBlessing.SHE_WHO_WAS;
     }
     if (KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.BLESSING_OF_THE_STORM_TORTOISE))
@@ -1019,7 +1021,7 @@ public abstract class KoLCharacter {
             EffectPool.get(EffectPool.GLORIOUS_BLESSING_OF_THE_STORM_TORTOISE))
         || KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.AVATAR_OF_THE_STORM_TORTOISE))) {
-      return KoLCharacter.STORM_BLESSING;
+      return TurtleBlessing.STORM;
     }
     return null;
   }

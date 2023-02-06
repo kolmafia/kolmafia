@@ -1062,6 +1062,12 @@ public class ItemPool {
   public static final int LARP_MEMBERSHIP_CARD = 3506;
   public static final int STICKER_BOOK = 3507;
   public static final int STICKER_SWORD = 3508;
+  public static final int UNICORN_STICKER = 3509;
+  public static final int APPLE_STICKER = 3510;
+  public static final int UPC_STICKER = 3511;
+  public static final int WRESTLER_STICKER = 3512;
+  public static final int DRAGON_STICKER = 3513;
+  public static final int ROCK_BAND_STICKER = 3514;
   public static final int STICKER_CROSSBOW = 3526;
   public static final int PLANS_FOR_GRIMACITE_HAMMER = 3535;
   public static final int PLANS_FOR_GRIMACITE_GRAVY_BOAT = 3536;
