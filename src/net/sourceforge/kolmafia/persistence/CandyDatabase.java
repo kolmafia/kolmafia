@@ -24,10 +24,23 @@ public class CandyDatabase {
   public static Set<Integer> tier3Candy = new HashSet<>(); // Complex
   public static Set<Integer> blacklist = new HashSet<>(); // Candies to not consider
 
-  public static final String NONE = "none";
-  public static final String UNSPADED = "unspaded";
-  public static final String SIMPLE = "simple";
-  public static final String COMPLEX = "complex";
+  public enum CandyType {
+    NONE("none"),
+    UNSPADED("unspaded"),
+    SIMPLE("simple"),
+    COMPLEX("complex");
+
+    public final String name;
+
+    CandyType(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
+    }
+  }
 
   public static AdventureResult[] potionCandies = null;
   public static AdventureResult[] foodCandies = null;
@@ -142,25 +155,25 @@ public class CandyDatabase {
     return CandyDatabase.blacklist.contains(itemId);
   }
 
-  public static final String getCandyType(final int itemId) {
+  public static final CandyType getCandyType(final int itemId) {
     // We could look in our various candy sets, but more efficient
     // to just look at item attributes
     EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
     return attributes.contains(Attribute.CANDY0)
-        ? UNSPADED
+        ? CandyType.UNSPADED
         : attributes.contains(Attribute.CANDY1)
-            ? SIMPLE
-            : attributes.contains(Attribute.CANDY2) ? COMPLEX : NONE;
+            ? CandyType.SIMPLE
+            : attributes.contains(Attribute.CANDY2) ? CandyType.COMPLEX : CandyType.NONE;
   }
 
   public static final int getEffectTier(final int itemId1, final int itemId2) {
-    String candyType1 = CandyDatabase.getCandyType(itemId1);
-    String candyType2 = CandyDatabase.getCandyType(itemId2);
-    return (candyType1 == NONE || candyType2 == NONE)
+    CandyType candyType1 = CandyDatabase.getCandyType(itemId1);
+    CandyType candyType2 = CandyDatabase.getCandyType(itemId2);
+    return (candyType1 == CandyType.NONE || candyType2 == CandyType.NONE)
         ? 0
-        : (candyType1 == SIMPLE && candyType2 == SIMPLE)
+        : (candyType1 == CandyType.SIMPLE && candyType2 == CandyType.SIMPLE)
             ? 1
-            : (candyType1 == COMPLEX && candyType2 == COMPLEX) ? 3 : 2;
+            : (candyType1 == CandyType.COMPLEX && candyType2 == CandyType.COMPLEX) ? 3 : 2;
   }
 
   public static final int getEffectTier(final int effectId) {
@@ -309,16 +322,22 @@ public class CandyDatabase {
       return result;
     }
 
-    String candyType = CandyDatabase.getCandyType(itemId1);
-    if (candyType != SIMPLE && candyType != COMPLEX) {
+    CandyType candyType = CandyDatabase.getCandyType(itemId1);
+    if (candyType != CandyType.SIMPLE && candyType != CandyType.COMPLEX) {
       return result;
     }
 
     Set<Integer> candidates =
         switch (tier) {
-          case 1 -> (candyType == SIMPLE) ? CandyDatabase.tier1Candy : CandyDatabase.NO_CANDY;
-          case 2 -> (candyType == SIMPLE) ? CandyDatabase.tier3Candy : CandyDatabase.tier1Candy;
-          case 3 -> (candyType == COMPLEX) ? CandyDatabase.tier3Candy : CandyDatabase.NO_CANDY;
+          case 1 -> (candyType == CandyType.SIMPLE)
+              ? CandyDatabase.tier1Candy
+              : CandyDatabase.NO_CANDY;
+          case 2 -> (candyType == CandyType.SIMPLE)
+              ? CandyDatabase.tier3Candy
+              : CandyDatabase.tier1Candy;
+          case 3 -> (candyType == CandyType.COMPLEX)
+              ? CandyDatabase.tier3Candy
+              : CandyDatabase.NO_CANDY;
           default -> CandyDatabase.NO_CANDY;
         };
 
