@@ -119,6 +119,9 @@ public class SkillPool {
   public static final int FIRST_CRIMBO_TRAINING_SKILL = 207;
   public static final int TRACK_SWITCHER = 210;
   public static final int LAST_CRIMBO_TRAINING_SKILL = 217;
+  public static final int CRYPTOBOTANIST = 218;
+  public static final int INSECTOLOGIST = 219;
+  public static final int PSYCHOGEOLOGIST = 220;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
