@@ -1,6 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Equipment.assertItem;
+import static internal.helpers.Equipment.assertItemUnequip;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,14 +11,13 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-/** Coverage driven collection of tests for FightRequest. */
 public class EquipmentRequestTest {
-  private final FightRequest fr = FightRequest.INSTANCE;
-
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("EquipmentRequestTest");
@@ -46,6 +48,55 @@ public class EquipmentRequestTest {
       assertEquals(equipment[EquipmentManager.ACCESSORY2], makeItem("fudgecycle"));
       assertEquals(equipment[EquipmentManager.ACCESSORY3], makeItem("Counterclockwise Watch"));
       assertEquals(equipment[EquipmentManager.FAMILIAR], makeItem("li'l unicorn costume"));
+    }
+  }
+
+  @Nested
+  class FolderHolder {
+    @Test
+    public void canParseFolderHolderPage() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.FOLDER1, ItemPool.FOLDER_01),
+              withEquipped(EquipmentManager.FOLDER2, ItemPool.FOLDER_01),
+              withEquipped(EquipmentManager.FOLDER3, ItemPool.FOLDER_01),
+              withEquipped(EquipmentManager.FOLDER4, ItemPool.FOLDER_01),
+              withEquipped(EquipmentManager.FOLDER5, ItemPool.FOLDER_01));
+
+      try (cleanups) {
+        String text = html("request/test_folder_holder.html");
+
+        EquipmentRequest.parseFolders(text);
+
+        assertItem(EquipmentManager.FOLDER1, "folder (heavy metal)");
+        assertItem(EquipmentManager.FOLDER2, "folder (tranquil landscape)");
+        assertItem(EquipmentManager.FOLDER3, "folder (owl)");
+        assertItemUnequip(EquipmentManager.FOLDER4);
+        assertItemUnequip(EquipmentManager.FOLDER5);
+      }
+    }
+
+    @Test
+    public void canParseFolderHolderPageWithNoMoreFolders() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(EquipmentManager.FOLDER1, ItemPool.FOLDER_01),
+              withEquipped(EquipmentManager.FOLDER2, ItemPool.FOLDER_01),
+              withEquipped(EquipmentManager.FOLDER3, ItemPool.FOLDER_01),
+              withEquipped(EquipmentManager.FOLDER4, ItemPool.FOLDER_01),
+              withEquipped(EquipmentManager.FOLDER5, ItemPool.FOLDER_01));
+
+      try (cleanups) {
+        String text = html("request/test_folder_holder_no_more_folders.html");
+
+        EquipmentRequest.parseFolders(text);
+
+        assertItem(EquipmentManager.FOLDER1, "folder (heavy metal)");
+        assertItem(EquipmentManager.FOLDER2, "folder (tranquil landscape)");
+        assertItem(EquipmentManager.FOLDER3, "folder (owl)");
+        assertItemUnequip(EquipmentManager.FOLDER4);
+        assertItemUnequip(EquipmentManager.FOLDER5);
+      }
     }
   }
 }
