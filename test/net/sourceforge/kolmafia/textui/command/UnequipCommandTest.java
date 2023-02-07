@@ -47,18 +47,20 @@ public class UnequipCommandTest extends AbstractCommandTestBase {
 
       var requests = getRequests();
       assertThat(requests, hasSize(1));
-      assertPostRequest(requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=offhand");
+      assertPostRequest(
+          requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=offhand");
     }
   }
 
   @Test
   public void unequipFolder() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups = new Cleanups(
-      withEquipped(EquipmentManager.FOLDER1, ItemPool.FOLDER_19),
-      withEquipped(EquipmentManager.FOLDER2, ItemPool.FOLDER_22),
-      withHandlingChoice(false) // escape the choice
-    );
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.FOLDER1, ItemPool.FOLDER_19),
+            withEquipped(EquipmentManager.FOLDER2, ItemPool.FOLDER_22),
+            withHandlingChoice(false) // escape the choice
+            );
 
     try (cleanups) {
       execute("folder2");
@@ -74,11 +76,11 @@ public class UnequipCommandTest extends AbstractCommandTestBase {
   @Test
   public void unequipByName() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups = new Cleanups(
-      withEquipped(EquipmentManager.ACCESSORY1, ItemPool.SHINY_RING),
-      withEquipped(EquipmentManager.ACCESSORY2, ItemPool.SHINY_RING),
-      withEquipped(EquipmentManager.ACCESSORY3, ItemPool.SHINY_RING)
-    );
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.ACCESSORY1, ItemPool.SHINY_RING),
+            withEquipped(EquipmentManager.ACCESSORY2, ItemPool.SHINY_RING),
+            withEquipped(EquipmentManager.ACCESSORY3, ItemPool.SHINY_RING));
 
     try (cleanups) {
       execute("shiny ring");
@@ -86,10 +88,12 @@ public class UnequipCommandTest extends AbstractCommandTestBase {
 
       var requests = getRequests();
       assertThat(requests, hasSize(3));
-      assertPostRequest(requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=acc1");
-      assertPostRequest(requests.get(1), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=acc2");
-      assertPostRequest(requests.get(2), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=acc3");
+      assertPostRequest(
+          requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=acc1");
+      assertPostRequest(
+          requests.get(1), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=acc2");
+      assertPostRequest(
+          requests.get(2), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=acc3");
     }
   }
-
 }

@@ -2,13 +2,11 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
@@ -40,19 +38,21 @@ public class EquipCommandTest extends AbstractCommandTestBase {
 
       var requests = getRequests();
       assertThat(requests, hasSize(1));
-      assertPostRequest(requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=4665");
+      assertPostRequest(
+          requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=4665");
     }
   }
 
   @Test
   public void equipFolder() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups = new Cleanups(
-      withItem(ItemPool.FOLDER_01),
-      withEquipped(EquipmentManager.FOLDER1, ItemPool.FOLDER_19),
-      withEquipped(EquipmentManager.FOLDER2, ItemPool.FOLDER_22),
-      withHandlingChoice(false) // escape the choice
-    );
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.FOLDER_01),
+            withEquipped(EquipmentManager.FOLDER1, ItemPool.FOLDER_19),
+            withEquipped(EquipmentManager.FOLDER2, ItemPool.FOLDER_22),
+            withHandlingChoice(false) // escape the choice
+            );
 
     try (cleanups) {
       execute("folder3 folder (red)");
@@ -64,5 +64,4 @@ public class EquipCommandTest extends AbstractCommandTestBase {
       assertPostRequest(requests.get(1), "/choice.php", "whichchoice=774&option=1&folder=1");
     }
   }
-
 }
