@@ -1005,16 +1005,11 @@ public class Evaluator {
 
   void enumerateEquipment(int equipScope, int maxPrice, int priceLevel)
       throws MaximizerInterruptedException {
-    int slots = EquipmentManager.ALL_SLOTS + this.familiars.size();
     // Items automatically considered regardless of their score -
     // synergies, hobo power, brimstone, etc.
-    List<List<CheckedItem>> automatic = new ArrayList<>(slots);
+    SlotList<CheckedItem> automatic = new SlotList<>(this.familiars.size());
     // Items to be considered based on their score
-    List<List<CheckedItem>> ranked = new ArrayList<>(slots);
-    for (int i = 0; i < slots; ++i) {
-      automatic.add(new ArrayList<>());
-      ranked.add(new ArrayList<>());
-    }
+    SlotList<CheckedItem> ranked = new SlotList<>(this.familiars.size());
 
     double nullScore = this.getScore(new Modifiers());
 
@@ -1679,10 +1674,7 @@ public class Evaluator {
                       return bestMode;
                     }));
 
-    List<List<MaximizerSpeculation>> speculationList = new ArrayList<>(ranked.size());
-    for (int i = 0; i < ranked.size(); ++i) {
-      speculationList.add(new ArrayList<>());
-    }
+    SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
 
     for (int slot = 0; slot < ranked.size(); ++slot) {
       List<CheckedItem> checkedItemList = ranked.get(slot);

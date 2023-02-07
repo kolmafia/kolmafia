@@ -1196,6 +1196,26 @@ public class MaximizerTest {
         recommendedSlotIs(EquipmentManager.FAMILIAR, "wicker shield");
       }
     }
+
+    @Test
+    public void switchMultipleFamiliarsConsidersMultipleItems() {
+      var cleanups = new Cleanups(withFamiliar(FamiliarPool.TRICK_TOT),
+        withFamiliar(FamiliarPool.HAND),
+        withFamiliar(FamiliarPool.MOSQUITO),
+        withItem(ItemPool.TRICK_TOT_UNICORN), // 5 adv with tot
+        withItem(ItemPool.TRICK_TOT_CANDY), // 0 adv
+        withItem(ItemPool.TIME_SWORD), // 3 adv with hand
+        withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS) // 4 adv with any familiar
+      );
+
+      try (cleanups) {
+        assertTrue(maximize("adv -weapon -offhand -tie +switch tot +switch disembodied hand +switch mosquito"));
+        recommendedSlotIs(EquipmentManager.FAMILIAR, "li'l unicorn costume");
+        assertThat(
+          someBoostIs(b -> commandStartsWith(b, "familiar Trick-or-Treating Tot")),
+          equalTo(true));
+      }
+    }
   }
 
   @Nested
