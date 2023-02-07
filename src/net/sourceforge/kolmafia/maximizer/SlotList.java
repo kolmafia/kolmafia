@@ -5,11 +5,10 @@ import java.util.List;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 /**
- * A list of lists of T. Indexed by:
- * - EquipmentManager slots
- *  - except that the slots acc2, acc3, sticker2, sticker3 are instead the Evaluator reused slots:
- *    OFFHAND_MELEE, OFFHAND_RANGED, WATCHES, WEAPON_1H
- * - extra familiar equipment being considered. One per familiar.
+ * A list of lists of T. Indexed by: - EquipmentManager slots - except that the slots acc2, acc3,
+ * sticker2, sticker3 are instead the Evaluator reused slots: OFFHAND_MELEE, OFFHAND_RANGED,
+ * WATCHES, WEAPON_1H - extra familiar equipment being considered. One per familiar.
+ *
  * @param <T> Interior list content
  */
 public class SlotList<T> {

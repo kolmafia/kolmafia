@@ -1199,52 +1199,56 @@ public class MaximizerTest {
 
     @Test
     public void switchFamiliarConsidersGenericItems() {
-      var cleanups = new Cleanups(withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-        withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS) // 4 adv with any familiar
-      );
+      var cleanups =
+          new Cleanups(
+              withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+              withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS) // 4 adv with any familiar
+              );
 
       try (cleanups) {
         assertTrue(maximize("adv -tie +switch mosquito"));
         recommendedSlotIs(EquipmentManager.FAMILIAR, "solid shifting time weirdness");
-        assertThat(
-          someBoostIs(b -> commandStartsWith(b, "familiar Mosquito")),
-          equalTo(true));
+        assertThat(someBoostIs(b -> commandStartsWith(b, "familiar Mosquito")), equalTo(true));
       }
     }
 
     @Test
     public void switchMultipleFamiliarsConsidersMultipleItems() {
-      var cleanups = new Cleanups(withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
-        withFamiliarInTerrarium(FamiliarPool.HAND),
-        withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-        withItem(ItemPool.TRICK_TOT_UNICORN), // 5 adv with tot
-        withItem(ItemPool.TRICK_TOT_CANDY), // 0 adv
-        withItem(ItemPool.TIME_SWORD), // 3 adv with hand
-        withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS) // 4 adv with any familiar
-      );
+      var cleanups =
+          new Cleanups(
+              withFamiliarInTerrarium(FamiliarPool.TRICK_TOT),
+              withFamiliarInTerrarium(FamiliarPool.HAND),
+              withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+              withItem(ItemPool.TRICK_TOT_UNICORN), // 5 adv with tot
+              withItem(ItemPool.TRICK_TOT_CANDY), // 0 adv
+              withItem(ItemPool.TIME_SWORD), // 3 adv with hand
+              withItem(ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS) // 4 adv with any familiar
+              );
 
       try (cleanups) {
-        assertTrue(maximize("adv -weapon -offhand -tie +switch tot +switch disembodied hand +switch mosquito"));
+        assertTrue(
+            maximize(
+                "adv -weapon -offhand -tie +switch tot +switch disembodied hand +switch mosquito"));
         recommendedSlotIs(EquipmentManager.FAMILIAR, "li'l unicorn costume");
         assertThat(
-          someBoostIs(b -> commandStartsWith(b, "familiar Trick-or-Treating Tot")),
-          equalTo(true));
+            someBoostIs(b -> commandStartsWith(b, "familiar Trick-or-Treating Tot")),
+            equalTo(true));
       }
     }
 
     @Test
     public void switchMultipleFamiliarsWithFoldable() {
-      var cleanups = new Cleanups(withFamiliar(FamiliarPool.MOSQUITO),
-        withFamiliarInTerrarium(FamiliarPool.BADGER),
-        withFamiliarInTerrarium(FamiliarPool.PURSE_RAT, 400),
-        withItem(ItemPool.LIARS_PANTS));
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MOSQUITO),
+              withFamiliarInTerrarium(FamiliarPool.BADGER),
+              withFamiliarInTerrarium(FamiliarPool.PURSE_RAT, 400),
+              withItem(ItemPool.LIARS_PANTS));
 
       try (cleanups) {
         assertTrue(maximize("ml +switch badger +switch purse rat"));
         recommendedSlotIs(EquipmentManager.FAMILIAR, "flaming familiar doppelgänger");
-        assertThat(
-          someBoostIs(b -> commandStartsWith(b, "familiar Purse Rat")),
-          equalTo(true));
+        assertThat(someBoostIs(b -> commandStartsWith(b, "familiar Purse Rat")), equalTo(true));
       }
     }
   }
