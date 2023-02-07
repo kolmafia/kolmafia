@@ -429,7 +429,7 @@ public class Maximizer {
           case 1:
             isSpecial = true;
         }
-        if (Evaluator.checkEffectConstraints(effectId)) {
+        if (Evaluator.cannotGainEffect(effectId)) {
           continue;
         }
         sources = EffectDatabase.getAllActions(effectId);

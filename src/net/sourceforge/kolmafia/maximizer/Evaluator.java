@@ -935,7 +935,7 @@ public class Evaluator {
     return 0;
   }
 
-  public static boolean checkEffectConstraints(int effectId) {
+  public static boolean cannotGainEffect(int effectId) {
     // Return true if effect cannot be gained due to current other effects or class
     return switch (effectId) {
       case EffectPool.NEARLY_SILENT_HUNTING -> KoLCharacter.isSealClubber();

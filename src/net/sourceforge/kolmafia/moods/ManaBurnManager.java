@@ -134,7 +134,7 @@ public class ManaBurnManager {
       }
 
       // Don't cast if you are restricted by your current class/skills
-      if (Evaluator.checkEffectConstraints(currentEffect.getEffectId())) {
+      if (Evaluator.cannotGainEffect(currentEffect.getEffectId())) {
         continue;
       }
 
