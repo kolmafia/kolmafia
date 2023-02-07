@@ -40,6 +40,9 @@ function adjustPlatforms(res) {
 			if (sq.hasClass('goal')) continue;
 			if (sq.hasClass('you')) continue;
 			var image = 'platformup'+Math.floor((Math.random() * 4) +1);
+			if (sq.hasClass('next')) {
+				image += 'x';
+			}
 			var url ='url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/'+image+'.gif?foo='+1+'")';
 			if (!sq.hasClass('next')) {
 				sq.removeClass('no').addClass('yes');
