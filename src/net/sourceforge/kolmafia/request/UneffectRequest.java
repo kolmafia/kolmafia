@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -231,14 +232,13 @@ public class UneffectRequest extends GenericRequest {
     switch (skillId) {
       case SkillPool.SPIRIT_BOON:
         {
-          String blessing = KoLCharacter.getBlessingType();
-          return blessing == KoLCharacter.SHE_WHO_WAS_BLESSING
-              ? EffectDatabase.getEffectName(EffectPool.BOON_OF_SHE_WHO_WAS)
-              : blessing == KoLCharacter.STORM_BLESSING
-                  ? EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_STORM_TORTOISE)
-                  : blessing == KoLCharacter.WAR_BLESSING
-                      ? EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_WAR_SNAPPER)
-                      : "none";
+          TurtleBlessing blessing = KoLCharacter.getBlessingType();
+          if (blessing == null) return "none";
+          return switch (blessing) {
+            case SHE_WHO_WAS -> EffectDatabase.getEffectName(EffectPool.BOON_OF_SHE_WHO_WAS);
+            case STORM -> EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_STORM_TORTOISE);
+            case WAR -> EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_WAR_SNAPPER);
+          };
         }
       case SkillPool.SHE_WHO_WAS_BLESSING:
         return EffectDatabase.getEffectName(
@@ -257,14 +257,13 @@ public class UneffectRequest extends GenericRequest {
                 : EffectPool.DISDAIN_OF_THE_WAR_SNAPPER);
       case SkillPool.TURTLE_POWER:
         {
-          String blessing = KoLCharacter.getBlessingType();
-          return blessing == KoLCharacter.SHE_WHO_WAS_BLESSING
-              ? EffectDatabase.getEffectName(EffectPool.AVATAR_OF_SHE_WHO_WAS)
-              : blessing == KoLCharacter.STORM_BLESSING
-                  ? EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_STORM_TORTOISE)
-                  : blessing == KoLCharacter.WAR_BLESSING
-                      ? EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_WAR_SNAPPER)
-                      : "none";
+          TurtleBlessing blessing = KoLCharacter.getBlessingType();
+          if (blessing == null) return "none";
+          return switch (blessing) {
+            case SHE_WHO_WAS -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_SHE_WHO_WAS);
+            case STORM -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_STORM_TORTOISE);
+            case WAR -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_WAR_SNAPPER);
+          };
         }
       case SkillPool.SHIELD_OF_THE_PASTALORD:
         return EffectDatabase.getEffectName(
