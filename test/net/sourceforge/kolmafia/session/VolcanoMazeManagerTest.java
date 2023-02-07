@@ -14,6 +14,7 @@ import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -464,6 +465,57 @@ public class VolcanoMazeManagerTest {
         i = validateVolcanoMazeRequests(builder, findMapMoves, i);
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "jump=1");
         i = validateVolcanoMazeRequests(builder, stepMapMoves, i);
+      }
+    }
+  }
+
+  @Nested
+  class Decorate {
+    @BeforeEach
+    public void beforeEach() {
+      Preferences.reset("volcano maze");
+      VolcanoMazeManager.reset();
+    }
+
+    @AfterEach
+    public void afterEach() {
+      VolcanoMazeManager.reset();
+    }
+
+    @Test
+    public void decoratesInitialVisit() {
+      var cleanups =
+          new Cleanups(
+              withProperty("volcanoMaze1", ""),
+              withProperty("volcanoMaze2", ""),
+              withProperty("volcanoMaze3", ""),
+              withProperty("volcanoMaze4", ""),
+              withProperty("volcanoMaze5", ""));
+      try (cleanups) {
+        String data = html("request/test_volcano_start_raw.html");
+        VolcanoMazeManager.parseResult(data);
+
+        StringBuffer buffer = new StringBuffer(data);
+        VolcanoMazeManager.decorate("volcanomaze.php", buffer);
+
+        // We deduced what the map set is
+        assertNotEquals("", Preferences.getString("volcanoMaze1"));
+        assertNotEquals("", Preferences.getString("volcanoMaze2"));
+        assertNotEquals("", Preferences.getString("volcanoMaze3"));
+        assertNotEquals("", Preferences.getString("volcanoMaze4"));
+        assertNotEquals("", Preferences.getString("volcanoMaze5"));
+
+        // We decorated the HTML with the "Next Platform"
+        assertTrue(buffer.indexOf("Next Platform") != -1);
+
+        // We gave it a nice image
+        assertTrue(buffer.indexOf("platform3x.gif") != -1);
+
+        // We Added a Step button
+        assertTrue(buffer.indexOf("<input class=button type=submit value=\"Step\">") != -1);
+
+        // We Added a Solve button
+        assertTrue(buffer.indexOf("<input class=button type=submit value=\"Solve!\">") != -1);
       }
     }
   }
