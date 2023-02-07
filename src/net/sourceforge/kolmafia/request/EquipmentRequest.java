@@ -1183,6 +1183,9 @@ public class EquipmentRequest extends PasswordHashRequest {
   public static void parseFolders(String responseText) {
     int startIndex = responseText.indexOf("Contents of your Folder Holder");
     int stopIndex = responseText.indexOf("Folders in your Inventory");
+    if (stopIndex == -1) {
+      stopIndex = responseText.indexOf("You don't have any folders to add.");
+    }
     if (startIndex == -1 || stopIndex == -1) {
       return;
     }
