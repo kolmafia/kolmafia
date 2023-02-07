@@ -34,6 +34,10 @@ public class SlotList<T> {
     return slotList.get(key);
   }
 
+  public List<T> getFamiliar(int key) {
+    return familiarList.get(key);
+  }
+
   public void set(int key, List<T> val) {
     if (key >= EquipmentManager.ALL_SLOTS) {
       familiarList.set(key - EquipmentManager.ALL_SLOTS, val);

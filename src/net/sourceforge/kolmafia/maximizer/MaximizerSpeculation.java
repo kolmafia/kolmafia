@@ -218,7 +218,7 @@ public class MaximizerSpeculation extends Speculation
         useBjornFamiliar);
     for (int i = 0; i < familiars.size(); ++i) {
       this.setFamiliar(familiars.get(i));
-      possibles.set(EquipmentManager.FAMILIAR, possibles.get(EquipmentManager.ALL_SLOTS + i));
+      possibles.set(EquipmentManager.FAMILIAR, possibles.getFamiliar(i));
       this.tryOutfits(
           enthronedFamiliars,
           usefulOutfits,

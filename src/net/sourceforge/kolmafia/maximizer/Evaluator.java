@@ -1188,7 +1188,7 @@ public class Evaluator {
 
         if (item.getCount() != 0
             && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag == true)) {
-          ranked.get(EquipmentManager.ALL_SLOTS + f).add(item);
+          ranked.getFamiliar(f).add(item);
         }
       }
 

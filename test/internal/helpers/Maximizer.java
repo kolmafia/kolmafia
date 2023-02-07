@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Maximizer {
 
@@ -41,7 +42,7 @@ public class Maximizer {
   public static void recommendedSlotIs(int slot, String item) {
     Optional<AdventureResult> equipment = getSlot(slot);
     assertTrue(equipment.isPresent(), "Expected " + item + " to be recommended, but it was not");
-    assertEquals(AdventureResult.tallyItem(item), equipment.get());
+    assertEquals(AdventureResult.tallyItem(StringUtilities.getEntityEncode(item)), equipment.get());
   }
 
   public static void recommendedSlotIsUnchanged(int slot) {
