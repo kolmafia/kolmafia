@@ -1020,7 +1020,7 @@ public class CharPaneDecorator {
         int effectId = currentEffect.getEffectId();
         String escapedEffectName = StringUtilities.getEntityEncode(effectName);
 
-        if (Evaluator.checkEffectConstraints(effectId)) {
+        if (Evaluator.cannotGainEffect(effectId)) {
           // Don't include effects that you cannot cast
           continue;
         }
