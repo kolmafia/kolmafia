@@ -421,12 +421,12 @@ public class Maximizer {
           continue;
         }
         switch (Maximizer.eval.checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
-          case -1:
+          case VIOLATES:
             continue;
-          case 0:
+          case IRRELEVANT:
             if (delta <= 0.0) continue;
             break;
-          case 1:
+          case MEETS:
             isSpecial = true;
         }
         if (Evaluator.cannotGainEffect(effectId)) {
@@ -442,12 +442,12 @@ public class Maximizer {
         spec.removeEffect(effect);
         delta = spec.getScore() - current;
         switch (Maximizer.eval.checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
-          case 1:
+          case MEETS:
             continue;
-          case 0:
+          case IRRELEVANT:
             if (delta <= 0.0) continue;
             break;
-          case -1:
+          case VIOLATES:
             isSpecial = true;
         }
         String cmd = MoodManager.getDefaultAction("gain_effect", name);
