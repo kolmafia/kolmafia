@@ -318,17 +318,23 @@ public class CharSheetRequest extends GenericRequest {
       }
 
       boolean shouldAddSkill = true;
+      int skillId = currentSkill.getSkillId();
 
-      if (SkillDatabase.isBookshelfSkill(currentSkill.getSkillId())) {
+      if (SkillDatabase.isBookshelfSkill(skillId)) {
         shouldAddSkill =
             (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
                 || KoLCharacter.kingLiberated();
       }
 
-      if (currentSkill.getSkillId() == SkillPool.OLFACTION) {
-        shouldAddSkill =
-            (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
-                || KoLCharacter.skillsRecalled();
+      switch (skillId) {
+        case SkillPool.OLFACTION -> {
+          shouldAddSkill =
+              (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
+                  || KoLCharacter.skillsRecalled();
+        }
+        case SkillPool.CRYPTOBOTANIST, SkillPool.INSECTOLOGIST, SkillPool.PSYCHOGEOLOGIST -> {
+          Preferences.setString("currentSITSkill", currentSkill.getSkillName());
+        }
       }
 
       if (shouldAddSkill) {

@@ -51,12 +51,14 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public abstract class ItemManagePanel<E, S extends JComponent> extends ScrollablePanel<S> {
-  public static final int USE_MULTIPLE = 0;
+  public enum QuantityType {
+    USE_MULTIPLE,
 
-  public static final int TAKE_ALL = 1;
-  public static final int TAKE_ALL_BUT_USABLE = 2;
-  public static final int TAKE_MULTIPLE = 3;
-  public static final int TAKE_ONE = 4;
+    TAKE_ALL,
+    TAKE_ALL_BUT_USABLE,
+    TAKE_MULTIPLE,
+    TAKE_ONE
+  }
 
   public final JPanel northPanel;
   public final LockableListModel<E> elementModel;
@@ -179,8 +181,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       this.buttons = new JButton[buttonListeners.length];
 
       for (int i = 0; i < buttonListeners.length; ++i) {
-        if (buttonListeners[i] instanceof JButton) {
-          this.buttons[i] = (JButton) buttonListeners[i];
+        if (buttonListeners[i] instanceof JButton button) {
+          this.buttons[i] = button;
         } else {
           this.buttons[i] = new JButton(buttonListeners[i].toString());
           this.buttons[i].addActionListener(buttonListeners[i]);
@@ -280,20 +282,20 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       return this.getDesiredItems(
           message,
           message.equals("Queue") || message.equals("Consume") || message.equals("Feed")
-              ? ItemManagePanel.USE_MULTIPLE
-              : ItemManagePanel.TAKE_MULTIPLE);
+              ? QuantityType.USE_MULTIPLE
+              : QuantityType.TAKE_MULTIPLE);
     }
 
     return this.getDesiredItems(
         message,
         this.movers[0].isSelected()
-            ? ItemManagePanel.TAKE_ALL
+            ? QuantityType.TAKE_ALL
             : this.movers[1].isSelected()
-                ? ItemManagePanel.TAKE_ALL_BUT_USABLE
-                : ItemManagePanel.TAKE_ONE);
+                ? QuantityType.TAKE_ALL_BUT_USABLE
+                : QuantityType.TAKE_ONE);
   }
 
-  public AdventureResult[] getDesiredItems(final String message, final int quantityType) {
+  public AdventureResult[] getDesiredItems(final String message, final QuantityType quantityType) {
     Object[] items = this.getSelectedValues().toArray();
     if (items.length == 0) {
       return null;
@@ -321,7 +323,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         if (concoction.speakeasy != null) {
           itemCount -= ConcoctionDatabase.queuedSpeakeasyDrink;
         }
-        // Only queue one S'more at at time
+        // Only queue one S'more at a time
         if (concoction.getItemId() == ItemPool.SMORE) {
           itemCount = 1;
         }
@@ -341,8 +343,8 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       if (quantity <= 0) {
         items[i] = null;
         --neededSize;
-      } else if (items[i] instanceof AdventureResult) {
-        items[i] = ((AdventureResult) items[i]).getInstance(quantity);
+      } else if (items[i] instanceof AdventureResult ar) {
+        items[i] = ar.getInstance(quantity);
       } else {
         ConcoctionDatabase.push((Concoction) items[i], quantity);
         items[i] = null;
@@ -370,7 +372,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       final String itemName,
       final int itemCount,
       final String message,
-      final int quantityType) {
+      final QuantityType quantityType) {
     int quantity = 0;
     switch (quantityType) {
       case TAKE_ALL -> quantity = itemCount;
@@ -383,27 +385,25 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         }
 
         quantity = value.intValue();
-
-        break;
       }
       case USE_MULTIPLE -> {
         int standard = itemCount;
         if (!message.equals("Feed")) {
-          if (item instanceof Concoction) {
+          if (item instanceof Concoction c) {
             int previous = 0, capacity = itemCount, unit = 0, shotglass = 0;
 
-            if (((Concoction) item).getFullness() > 0) {
+            if (c.getFullness() > 0) {
               previous = KoLCharacter.getFullness() + ConcoctionDatabase.getQueuedFullness();
               capacity = KoLCharacter.getFullnessLimit();
-              unit = ((Concoction) item).getFullness();
+              unit = c.getFullness();
               standard =
                   previous >= capacity
                       ? itemCount
                       : Math.min((capacity - previous) / unit, itemCount);
-            } else if (((Concoction) item).getInebriety() > 0) {
+            } else if (c.getInebriety() > 0) {
               previous = KoLCharacter.getInebriety() + ConcoctionDatabase.getQueuedInebriety();
               capacity = KoLCharacter.getInebrietyLimit();
-              unit = ((Concoction) item).getInebriety();
+              unit = c.getInebriety();
               if (unit == 1
                   && !ConcoctionDatabase.queuedMimeShotglass
                   && InventoryManager.getCount(ItemPool.MIME_SHOTGLASS) > 0
@@ -414,10 +414,10 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
                   previous > capacity
                       ? itemCount
                       : Math.max(1, Math.min((capacity - previous) / unit + shotglass, itemCount));
-            } else if (((Concoction) item).getSpleenHit() > 0) {
+            } else if (c.getSpleenHit() > 0) {
               previous = KoLCharacter.getSpleenUse() + ConcoctionDatabase.getQueuedSpleenHit();
               capacity = KoLCharacter.getSpleenLimit();
-              unit = ((Concoction) item).getSpleenHit();
+              unit = c.getSpleenHit();
               standard =
                   previous >= capacity
                       ? itemCount
@@ -448,35 +448,42 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
   protected int getUsableItemAmount(final Object item, final String itemName) {
     int id;
-    if (item instanceof Concoction) {
-      id = ((Concoction) item).getItemId();
+    if (item instanceof Concoction c) {
+      id = c.getItemId();
     } else {
       id = ((AdventureResult) item).getItemId();
     }
     switch (ItemDatabase.getConsumptionType(id)) {
-      case HAT:
+      case HAT -> {
         return Preferences.getInteger("usableHats");
-      case WEAPON:
+      }
+      case WEAPON -> {
         return switch (EquipmentDatabase.getHands(id)) {
           case 3 -> Preferences.getInteger("usable3HWeapons");
           case 2 -> Preferences.getInteger("usable2HWeapons");
           default -> Preferences.getInteger("usable1HWeapons");
         };
-      case OFFHAND:
+      }
+      case OFFHAND -> {
         return Preferences.getInteger("usableOffhands");
-      case SHIRT:
+      }
+      case SHIRT -> {
         return Preferences.getInteger("usableShirts");
-      case PANTS:
+      }
+      case PANTS -> {
         return Preferences.getInteger("usablePants");
-      case ACCESSORY:
+      }
+      case ACCESSORY -> {
         Modifiers mods = ModifierDatabase.getItemModifiers(id);
         if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {
           return Preferences.getInteger("usable1xAccs");
         } else {
           return Preferences.getInteger("usableAccessories");
         }
-      default:
+      }
+      default -> {
         return Preferences.getInteger("usableOther");
+      }
     }
   }
 
@@ -494,7 +501,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       return this.retrieveItems(items);
     }
 
-    public AdventureResult[] initialSetup(final int transferType) {
+    public AdventureResult[] initialSetup(final QuantityType transferType) {
       AdventureResult[] items =
           ItemManagePanel.this.getDesiredItems(this.description, transferType);
       return this.retrieveItems(items);
@@ -794,31 +801,22 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       boolean isVisibleWithFilter = true;
 
       int itemId =
-          element instanceof AdventureResult
-              ? ((AdventureResult) element).getItemId()
+          element instanceof AdventureResult ar
+              ? ar.getItemId()
               : ItemDatabase.getItemId(name, 1, false);
 
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case EAT:
-          isVisibleWithFilter = FilterItemField.this.food;
-          break;
-
-        case DRINK:
-          isVisibleWithFilter = FilterItemField.this.booze;
-          break;
-
-        case HAT:
-        case SHIRT:
-        case WEAPON:
-        case OFFHAND:
-        case PANTS:
-        case CONTAINER:
-        case ACCESSORY:
-        case FAMILIAR_EQUIPMENT:
-          isVisibleWithFilter = FilterItemField.this.equip;
-          break;
-
-        default:
+        case EAT -> isVisibleWithFilter = FilterItemField.this.food;
+        case DRINK -> isVisibleWithFilter = FilterItemField.this.booze;
+        case HAT,
+            SHIRT,
+            WEAPON,
+            OFFHAND,
+            PANTS,
+            CONTAINER,
+            ACCESSORY,
+            FAMILIAR_EQUIPMENT -> isVisibleWithFilter = FilterItemField.this.equip;
+        default -> {
           if (element instanceof CreateItemRequest) {
             isVisibleWithFilter =
                 switch (ConcoctionDatabase.getMixingMethod(itemId)) {
@@ -839,6 +837,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
               isVisibleWithFilter |= FilterItemField.this.food;
             }
           }
+        }
       }
 
       if (isVisibleWithFilter && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, name)) {

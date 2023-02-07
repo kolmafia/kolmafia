@@ -11142,21 +11142,21 @@
 11114	pixel rock	827961712	pixelrock.gif	grow	d	16384
 11115	S.I.T. Course Voucher	362646202	sitvoucher.gif	usable	t	0
 11116	S.I.T. Course Completion Certificate	495156664	sitcert.gif	reusable		0
-11117	glob of extra-green chlorophyll	346723717	sitchlor.gif	potion, usable	t,d	10
-11118	electric mushroom	211690556	sitshroom.gif	potion, usable	t,d	10
-11119	five-fingered fern resin	997651431	sitresin.gif	potion, usable	t,d	10
+11117	glob of extra-green chlorophyll	346723717	sitchlor.gif	potion, multiple	t,d	10
+11118	electric mushroom	211690556	sitshroom.gif	potion, multiple	t,d	10
+11119	five-fingered fern resin	997651431	sitresin.gif	potion, multiple	t,d	10
 11120	super good fruit	203535525	sitfruit.gif	food	t,d	30
 11121	energized spores	322264800	sitpollen.gif	spleen, usable	t,d	30
 11122	big hot pepper	635314684	sitpepper.gif	offhand	t,d	30
 11123	out-of-work circus flea	593697348	sitflea.gif	potion, usable	t,d	10
 11124	extra-grubby grub	678177947	sitgrub.gif	none, combat	t,d	10
 11125	fire ant pheromones	852080396	sitvial.gif	potion, usable	t,d	10
-11126	flapper fly	718706223	sitfly.gif	potion, usable	t,d	30
+11126	flapper fly	718706223	sitfly.gif	potion, multiple	t,d	30
 11127	shot of wasp venom	134483080	sitshot.gif	drink	t,d	30
 11128	filled mosquito	789078329	sitskeeter.gif	potion, multiple	t,d	30
 11129	shim of shame shale	676413262	sitshale.gif	potion, usable	t,d	10
 11130	pebble of proud pyrite	865914108	sitpyrite.gif	potion, usable	t,d	10
 11131	pile of gritty sand	144026897	sitsand.gif	potion, usable	t,d	10
 11132	hollow rock	273075878	sitrock.gif	usable	t,d	30
-11133	angry agate	197320169	sitagate.gif	potion, usable	t,d	30
-11134	lump of loyal latite	942515335	sitlatite.gif	potion, usable	t,d	30
+11133	angry agate	197320169	sitagate.gif	potion, multiple	t,d	30
+11134	lump of loyal latite	942515335	sitlatite.gif	potion, multiple	t,d	30

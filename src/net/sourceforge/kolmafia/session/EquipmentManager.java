@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
+import net.sourceforge.kolmafia.utilities.SortedList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,12 +85,16 @@ public class EquipmentManager {
 
   public static final int FAKEHAND = 24;
 
+  /** A list indexed by Slot of current equipment */
   private static final List<AdventureResult> equipment =
-      LockableListFactory.getInstance(AdventureResult.class);
+      new ArrayList<>(EquipmentManager.ALL_SLOTS);
+  /** A list of all possible accessories. Is an interior list of equipmentLists for acc1, 2, 3 */
   private static final List<AdventureResult> accessories =
       LockableListFactory.getInstance(AdventureResult.class);
+  /** A list indexed by Slot of possible equipment. Interior list is used in GearChangeFrame */
   private static final List<List<AdventureResult>> equipmentLists =
       new ArrayList<>(EquipmentManager.ALL_SLOTS);
+  /** A list indexed by Slot of equipment we have previously equipped, in order */
   private static final List<List<AdventureResult>> historyLists =
       new ArrayList<>(EquipmentManager.ALL_SLOTS);
 
@@ -1738,7 +1743,7 @@ public class EquipmentManager {
    * this character
    */
   public static void addCustomOutfit(SpecialOutfit outfit) {
-    List<SpecialOutfit> newOutfits = LockableListFactory.getSortedInstance(SpecialOutfit.class);
+    List<SpecialOutfit> newOutfits = new SortedList<>();
     String name = outfit.getName();
 
     for (SpecialOutfit current : EquipmentManager.customOutfits) {

@@ -6437,16 +6437,25 @@ public abstract class ChoiceControl {
           case 1 -> {
             KoLCharacter.removeAvailableSkill(SkillPool.INSECTOLOGIST);
             KoLCharacter.removeAvailableSkill(SkillPool.CRYPTOBOTANIST);
+            Preferences.setString("currentSITSkill", "Psychogeologist");
           }
           case 2 -> {
             KoLCharacter.removeAvailableSkill(SkillPool.PSYCHOGEOLOGIST);
             KoLCharacter.removeAvailableSkill(SkillPool.CRYPTOBOTANIST);
+            Preferences.setString("currentSITSkill", "Insectologist");
           }
           case 3 -> {
             KoLCharacter.removeAvailableSkill(SkillPool.PSYCHOGEOLOGIST);
             KoLCharacter.removeAvailableSkill(SkillPool.INSECTOLOGIST);
+            Preferences.setString("currentSITSkill", "Cryptobotanist");
+          }
+          default -> {
+            return;
           }
         }
+        // Since you can walk away from this choice, only set you
+        // actually selected a course.
+        Preferences.setBoolean("_sitCourseCompleted", true);
         break;
     }
   }
@@ -8095,9 +8104,6 @@ public abstract class ChoiceControl {
       case 1491: // Strange Stalagmite(s)
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
         break;
-      case 1494: // Examine S.I.T. Course Certificate
-        Preferences.setBoolean("_sitCourseCompleted", true);
-        break;
     }
   }
 
@@ -9211,6 +9217,7 @@ public abstract class ChoiceControl {
       case 1484: // Conspicuous Plaque
       case 1485: // Play with your train
       case 1493: // Treasure House
+      case 1494: // Examine S.I.T. Course Certificate
         return true;
 
       default:

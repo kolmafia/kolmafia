@@ -99,7 +99,7 @@ public interface KoLConstants extends UtilityConstants {
     {"Store Manager", "StoreManageFrame"},
     {"Coin Masters", "CoinmastersFrame"},
     {"Museum Display", "MuseumFrame"},
-    {"Hall of Legends", "MeatManageFrame"},
+    {"Meat Manager", "MeatManageFrame"},
     {"Skill Casting", "SkillBuffFrame"},
     {"Contact List", "ContactListFrame"},
     {"Buffbot Manager", "BuffBotFrame"},

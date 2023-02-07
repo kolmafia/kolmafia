@@ -6204,6 +6204,24 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("shard -> crystal Crimbo goblet, or none", 1),
         new ChoiceOption("shard -> crystal Crimbo platter, or none", 2),
         new ChoiceOption("shard -> goblet or platter, or none", 3));
+
+    // Strange Stalagmite(s)
+    new ChoiceAdventure(
+        1491,
+        "Item-Driven",
+        "strange stalagmite",
+        new ChoiceOption("muscle substats", 1),
+        new ChoiceOption("mysticality substats", 2),
+        new ChoiceOption("moxie substats", 3));
+
+    // Examine S.I.T. Course Certificate
+    new ChoiceAdventure(
+        1494,
+        "Item-Driven",
+        "S.I.T. Course Certificate",
+        new ChoiceOption("Psychogeologist", 1),
+        new ChoiceOption("Insectologist", 2),
+        new ChoiceOption("Cryptobotanist", 3));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.

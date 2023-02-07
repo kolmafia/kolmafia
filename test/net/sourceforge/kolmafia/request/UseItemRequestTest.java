@@ -1,20 +1,25 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withFullness;
+import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withSpleenUse;
 import static internal.helpers.Player.withSubStats;
+import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -30,9 +35,12 @@ import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
+import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -624,6 +632,155 @@ class UseItemRequestTest {
         assertThat(requests, hasSize(2));
 
         assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=11104&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class Stalagmite {
+    private UseItemRequest getStalagmiteRequest() {
+      return UseItemRequest.getInstance(ItemPool.STRANGE_STALAGMITE);
+    }
+
+    @Test
+    void successfulStalagmiteUsageSetsPreferences() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.STRANGE_STALAGMITE),
+              withProperty("_strangeStalagmiteUsed", false),
+              withProperty("choiceAdventure1491", 2),
+              // Need a password hash to automate choice adventures
+              withPasswordHash("stalagmite"),
+              // If you have a password hash, KoL looks at your vinyl boots
+              withGender(Gender.FEMALE));
+
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_stalagmite_first_use.html"));
+        client.addResponse(200, ""); // api.php
+        client.addResponse(200, html("request/test_stalagmite_select_solution.html"));
+        client.addResponse(200, ""); // api.php
+
+        var req = getStalagmiteRequest();
+        req.run();
+
+        assertThat("_strangeStalagmiteUsed", isSetTo(true));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(5));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11109&ajax=1&pwd=stalagmite");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(
+            requests.get(3), "/choice.php", "whichchoice=1491&option=2&pwd=stalagmite");
+        assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void secondCertificateFails() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.STRANGE_STALAGMITE),
+              withProperty("_strangeStalagmiteUsed", false));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_stalagmite_second_use.html"));
+        client.addResponse(200, ""); // api.php
+
+        var req = getStalagmiteRequest();
+        req.run();
+
+        assertThat("_strangeStalagmiteUsed", isSetTo(true));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11109&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class SIT {
+    private UseItemRequest getCertificateRequest() {
+      return UseItemRequest.getInstance(ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE);
+    }
+
+    @Test
+    void successfulCertificateUsageSetsPreferences() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE),
+              withProperty("_sitCourseCompleted", false),
+              withProperty("currentSITSkill", "Cryptobotanist"),
+              withSkill(SkillPool.CRYPTOBOTANIST),
+              withProperty("choiceAdventure1494", 2),
+              withoutSkill(SkillPool.INSECTOLOGIST),
+              // Need a password hash to automate choice adventures
+              withPasswordHash("SIT"),
+              // If you have a password hash, KoL looks at your vinyl boots
+              withGender(Gender.FEMALE));
+
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_sit_course_first_use.html"));
+        client.addResponse(200, html("request/test_sit_course_select_course.html"));
+        client.addResponse(200, ""); // api.php
+
+        var req = getCertificateRequest();
+        req.run();
+
+        assertThat("_sitCourseCompleted", isSetTo(true));
+        assertThat("currentSITSkill", isSetTo("Insectologist"));
+        assertFalse(KoLCharacter.hasSkill(SkillPool.CRYPTOBOTANIST));
+        assertTrue(KoLCharacter.hasSkill(SkillPool.INSECTOLOGIST));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(4));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11116&ajax=1&pwd=SIT");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1494&option=2&pwd=SIT");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void secondCertificateFails() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE),
+              withProperty("_sitCourseCompleted", false));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_sit_course_second_use.html"));
+        client.addResponse(200, ""); // api.php
+
+        var req = getCertificateRequest();
+        req.run();
+
+        assertThat("_sitCourseCompleted", isSetTo(true));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11116&ajax=1");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }

@@ -200,6 +200,7 @@ public class Preferences {
         "currentLlamaForm",
         "currentPortalEnergy",
         "currentSpecialBountyItem",
+        "currentSITSkill",
         "cursedMagnifyingGlassCount",
         "cyrusAdjectives",
         "dampOldBootPurchased",

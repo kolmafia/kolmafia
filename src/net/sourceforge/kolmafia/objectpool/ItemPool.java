@@ -969,6 +969,7 @@ public class ItemPool {
   public static final int SENSUAL_MASSAGE_FOR_CREEPS = 3245;
   public static final int BAG_OF_CANDY = 3261;
   public static final int TASTEFUL_BOOK = 3263;
+  public static final int LITTLE_ROUND_PEBBLE = 3464;
   public static final int CROTCHETY_PANTS = 3271;
   public static final int SACCHARINE_MAPLE_PENDANT = 3272;
   public static final int WILLOWY_BONNET = 3273;
