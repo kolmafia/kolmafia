@@ -311,6 +311,14 @@ public abstract class VolcanoMazeManager {
         div = StringUtilities.singleStringReplace(div, "Platform", "Next Platform");
         buffer.replace(matcher.start(), matcher.end(), div);
       }
+      String yesStyle =
+          ".yes a { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/platform3.gif'); }";
+      int index = buffer.indexOf(yesStyle);
+      if (index != -1) {
+        String nextStyle =
+            ".next a { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/platform3x.gif'); }";
+        buffer.insert(index + yesStyle.length(), nextStyle);
+      }
     }
 
     // Add a "Solve!" button to the Volcanic Cave which invokes the
