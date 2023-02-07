@@ -574,7 +574,18 @@ public class Player {
    * @return Removes familiar from the terrarium
    */
   public static Cleanups withFamiliarInTerrarium(final int familiarId) {
-    var familiar = FamiliarData.registerFamiliar(familiarId, 0);
+    return withFamiliarInTerrarium(familiarId, 0);
+  }
+
+  /**
+   * Adds familiar to player's terrarium, but does not take it out
+   *
+   * @param familiarId Familiar to add
+   * @param experience Experience for familiar to have
+   * @return Removes familiar from the terrarium
+   */
+  public static Cleanups withFamiliarInTerrarium(final int familiarId, final int experience) {
+    var familiar = FamiliarData.registerFamiliar(familiarId, experience);
     KoLCharacter.addFamiliar(familiar);
     return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
   }

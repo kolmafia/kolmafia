@@ -45,6 +45,7 @@ public class FamiliarPool {
   public static final int DRAGONFISH = 104;
   public static final int BANDER = 105;
   public static final int CLOWNFISH = 106;
+  public static final int PURSE_RAT = 109;
   public static final int SANDWORM = 111;
   public static final int SLIMELING = 112;
   public static final int HE_BOULDER = 113;
