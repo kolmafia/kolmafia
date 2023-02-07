@@ -1736,9 +1736,7 @@ public abstract class InventoryManager {
   public static void checkCoatOfPaint(boolean playerClassChanged) {
     AdventureResult COAT_OF_PAINT = ItemPool.get(ItemPool.COAT_OF_PAINT, 1);
 
-    if (!KoLCharacter.hasEquipped(COAT_OF_PAINT, EquipmentManager.SHIRT)
-        && COAT_OF_PAINT.getCount(KoLConstants.inventory) == 0
-        && COAT_OF_PAINT.getCount(KoLConstants.closet) == 0) {
+    if (InventoryManager.getAccessibleCount(COAT_OF_PAINT) == 0) {
       return;
     }
 
