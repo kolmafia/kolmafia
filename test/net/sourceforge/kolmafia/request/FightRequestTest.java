@@ -16,6 +16,7 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Player.withWorkshedItem;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
@@ -1387,6 +1388,34 @@ public class FightRequestTest {
 
   @Nested
   class CombatEnvironment {
+    @Test
+    public void doesNotTrackEnvironmentWithoutCMC() {
+      var cleanups =
+          new Cleanups(
+              withWorkshedItem(null),
+              withProperty("_coldMedicineConsults", 1),
+              withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
+              withLastLocation("Oil Peak"));
+      try (cleanups) {
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxx"));
+      }
+    }
+
+    @Test
+    public void doesNotTrackEnvironmentWithoutConsults() {
+      var cleanups =
+          new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 5),
+              withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
+              withLastLocation("Oil Peak"));
+      try (cleanups) {
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxx"));
+      }
+    }
+
     @ParameterizedTest
     @CsvSource({
       "Oil Peak, o",
@@ -1399,6 +1428,8 @@ public class FightRequestTest {
     public void canDetectEnvironment(String adventureName, String environmentSymbol) {
       var cleanups =
           new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
               withLastLocation(adventureName));
       try (cleanups) {
@@ -1412,7 +1443,11 @@ public class FightRequestTest {
     @ValueSource(strings = {"", "xxxxx", "xxxxxxxxxxxxxxxxxxx"})
     public void canRecoverUndersizedProp(String pref) {
       var cleanups =
-          new Cleanups(withProperty("lastCombatEnvironments", pref), withLastLocation("The Oasis"));
+          new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 1),
+              withProperty("lastCombatEnvironments", pref),
+              withLastLocation("The Oasis"));
       try (cleanups) {
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
@@ -1424,6 +1459,8 @@ public class FightRequestTest {
     public void doesNotCountFreeFights() {
       var cleanups =
           new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
               withLastLocation("Hobopolis Town Square"));
       try (cleanups) {
@@ -1437,6 +1474,8 @@ public class FightRequestTest {
     public void doesNotCountNonSnarfblats() {
       var cleanups =
           new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
               withLastLocation("The Typical Tavern Cellar"));
       try (cleanups) {
@@ -1451,6 +1490,8 @@ public class FightRequestTest {
       var overrideLocation = new KoLAdventure("Override", "adventure.php", "69", "Nice");
       var cleanups =
           new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
               withLastLocation(overrideLocation));
       try (cleanups) {

@@ -1412,6 +1412,17 @@ public class Player {
   }
 
   /**
+   * Sets the player's workshed
+   *
+   * @param item Item to set
+   * @return Removes workshed item
+   */
+  public static Cleanups withWorkshedItem(final AdventureResult item) {
+    CampgroundRequest.setCurrentWorkshedItem(item);
+    return new Cleanups(CampgroundRequest::resetCurrentWorkshedItem);
+  }
+
+  /**
    * Sets the user as having a range installed
    *
    * @return Removes the range
