@@ -107,6 +107,7 @@ public class ItemPool {
   public static final int MR_ACCESSORY = 194;
   public static final int DISASSEMBLED_CLOVER = 196;
   public static final int RAT_WHISKER = 197;
+  public static final int SHINY_RING = 199;
   public static final int FENG_SHUI = 210;
   public static final int FOUNTAIN = 211;
   public static final int WINDCHIMES = 212;
@@ -1493,6 +1494,7 @@ public class ItemPool {
   public static final int IRONIC_MOUSTACHE = 4651;
   public static final int BLACKBERRY_GALOSHES = 4659;
   public static final int ELLSBURY_BOOK = 4663;
+  public static final int HOT_PLATE = 4665;
   public static final int INSULT_PUPPET = 4667;
   public static final int OBSERVATIONAL_GLASSES = 4668;
   public static final int COMEDY_PROP = 4669;
