@@ -1757,8 +1757,7 @@ public class MonsterData extends AdventureResult {
 
   public double getExperience() {
     int xpMultiplier = 1;
-    if (KoLCharacter.hasEquipped(
-            ItemPool.get(ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1), Slot.SHIRT)
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1), Slot.SHIRT)
         && Preferences.getInteger("garbageShirtCharge") > 0) {
       xpMultiplier = 2;
     }

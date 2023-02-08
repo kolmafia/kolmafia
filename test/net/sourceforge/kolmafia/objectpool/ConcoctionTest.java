@@ -25,7 +25,6 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;

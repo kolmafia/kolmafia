@@ -124,11 +124,7 @@ public enum LimitMode {
     return switch (this) {
       case UNKNOWN, NONE -> false;
       case SPELUNKY -> switch (slot) {
-        case HAT,
-          WEAPON,
-          OFFHAND,
-          CONTAINER,
-          ACCESSORY1 -> false;
+        case HAT, WEAPON, OFFHAND, CONTAINER, ACCESSORY1 -> false;
         default -> true;
       };
       case ED, BATMAN -> true;

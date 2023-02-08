@@ -433,16 +433,14 @@ public class ModifiersTest {
         assertEquals(156, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
-        EquipmentManager.setEquipment(
-          Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(195, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
-        EquipmentManager.setEquipment(
-          Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
@@ -473,16 +471,14 @@ public class ModifiersTest {
         assertEquals(104, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
-        EquipmentManager.setEquipment(
-          Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(143, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
-        EquipmentManager.setEquipment(
-          Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
@@ -511,16 +507,14 @@ public class ModifiersTest {
         assertEquals(100, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
-        EquipmentManager.setEquipment(
-          Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(140, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
-        EquipmentManager.setEquipment(
-          Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
@@ -549,16 +543,14 @@ public class ModifiersTest {
         assertEquals(30, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
-        EquipmentManager.setEquipment(
-          Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(70, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
-        EquipmentManager.setEquipment(
-          Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
@@ -589,16 +581,14 @@ public class ModifiersTest {
         assertEquals(176, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
-        EquipmentManager.setEquipment(
-          Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(176, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
-        EquipmentManager.setEquipment(
-          Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
@@ -681,8 +671,7 @@ public class ModifiersTest {
         EquipmentManager.setEquipment(Slot.HAT, EquipmentRequest.UNEQUIP);
 
         // Cargo Cultist Shorts (+6 myst, +66% MP)
-        EquipmentManager.setEquipment(
-          Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
+        EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(106, stats.get(DerivedModifier.BUFFED_MYS));
@@ -722,8 +711,7 @@ public class ModifiersTest {
         EquipmentManager.setEquipment(Slot.HAT, EquipmentRequest.UNEQUIP);
 
         // Cargo Cultist Shorts (+6 myst, +66% MP)
-        EquipmentManager.setEquipment(
-          Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
+        EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(106, stats.get(DerivedModifier.BUFFED_MYS));
@@ -763,8 +751,7 @@ public class ModifiersTest {
         EquipmentManager.setEquipment(Slot.HAT, EquipmentRequest.UNEQUIP);
 
         // Cargo Cultist Shorts (+6 myst, +66% MP)
-        EquipmentManager.setEquipment(
-          Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
+        EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(106, stats.get(DerivedModifier.BUFFED_MYS));
@@ -851,8 +838,7 @@ public class ModifiersTest {
         EquipmentManager.setEquipment(Slot.HAT, EquipmentRequest.UNEQUIP);
 
         // Cargo Cultist Shorts (+6 mox, +66% MP)
-        EquipmentManager.setEquipment(
-          Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
+        EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(156, stats.get(DerivedModifier.BUFFED_MOX));

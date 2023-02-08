@@ -1675,8 +1675,7 @@ public class ResultProcessor {
               checkpoint = new Checkpoint();
               RequestThread.postRequest(
                   new EquipmentRequest(
-                      ItemPool.get(ItemPool.SPOOKYRAVEN_SPECTACLES, 1),
-                      Slot.ACCESSORY3));
+                      ItemPool.get(ItemPool.SPOOKYRAVEN_SPECTACLES, 1), Slot.ACCESSORY3));
             }
             RequestThread.postRequest(
                 UseItemRequest.getInstance(ItemPool.MORTAR_DISSOLVING_RECIPE));

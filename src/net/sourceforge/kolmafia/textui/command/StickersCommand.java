@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public class StickersCommand extends AbstractCommand {
   public StickersCommand() {

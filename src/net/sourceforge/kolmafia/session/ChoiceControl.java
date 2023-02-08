@@ -1456,8 +1456,7 @@ public abstract class ChoiceControl {
 
           if (text.contains("spreading weed seeds all over your skirt")) {
             EquipmentManager.discardEquipment(ItemPool.MUDDY_SKIRT);
-            EquipmentManager.setEquipment(
-              Slot.PANTS, ItemPool.get(ItemPool.WEEDY_SKIRT, 1));
+            EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.WEEDY_SKIRT, 1));
           }
         }
         return;

@@ -1388,12 +1388,9 @@ public abstract class UseLinkDecorator {
         }
 
         if (consumeMethod == ConsumptionType.ACCESSORY
-            && !EquipmentManager.getEquipment(Slot.ACCESSORY1)
-                .equals(EquipmentRequest.UNEQUIP)
-            && !EquipmentManager.getEquipment(Slot.ACCESSORY2)
-                .equals(EquipmentRequest.UNEQUIP)
-            && !EquipmentManager.getEquipment(Slot.ACCESSORY3)
-                .equals(EquipmentRequest.UNEQUIP)) {
+            && !EquipmentManager.getEquipment(Slot.ACCESSORY1).equals(EquipmentRequest.UNEQUIP)
+            && !EquipmentManager.getEquipment(Slot.ACCESSORY2).equals(EquipmentRequest.UNEQUIP)
+            && !EquipmentManager.getEquipment(Slot.ACCESSORY3).equals(EquipmentRequest.UNEQUIP)) {
           uses.add(
               new UseLink(
                   itemId,
@@ -1450,8 +1447,7 @@ public abstract class UseLinkDecorator {
 
         if (consumeMethod == ConsumptionType.WEAPON
             && EquipmentDatabase.getHands(itemId) == 1
-            && EquipmentDatabase.getHands(
-                    EquipmentManager.getEquipment(Slot.WEAPON).getItemId())
+            && EquipmentDatabase.getHands(EquipmentManager.getEquipment(Slot.WEAPON).getItemId())
                 == 1
             && KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)) {
           uses.add(

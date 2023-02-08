@@ -2268,8 +2268,7 @@ public class ItemDatabase {
     KoLCharacter.removeAvailableSkill(SkillPool.PRECISION_SHOT);
 
     // If the cape is not equipped, that is correct
-    if (!KoLCharacter.hasEquipped(
-        ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE, Slot.CONTAINER)) {
+    if (!KoLCharacter.hasEquipped(ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE, Slot.CONTAINER)) {
       return;
     }
 

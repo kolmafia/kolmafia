@@ -598,8 +598,7 @@ public class DrinkItemRequest extends UseItemRequest {
       }
       RequestThread.postRequest(
           new EquipmentRequest(ItemPool.get(ItemPool.TUXEDO_SHIRT, 1), Slot.SHIRT));
-      if (EquipmentManager.getEquipment(Slot.SHIRT).getItemId()
-          != ItemPool.TUXEDO_SHIRT) {
+      if (EquipmentManager.getEquipment(Slot.SHIRT).getItemId() != ItemPool.TUXEDO_SHIRT) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip Tuxedo Shirt.");
         return false;
       } else {
@@ -642,10 +641,8 @@ public class DrinkItemRequest extends UseItemRequest {
         InventoryManager.retrieveItem(ItemPool.MAFIA_PINKY_RING);
       }
       RequestThread.postRequest(
-          new EquipmentRequest(
-              ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), Slot.ACCESSORY3));
-      if (EquipmentManager.getEquipment(Slot.ACCESSORY3).getItemId()
-          != ItemPool.MAFIA_PINKY_RING) {
+          new EquipmentRequest(ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), Slot.ACCESSORY3));
+      if (EquipmentManager.getEquipment(Slot.ACCESSORY3).getItemId() != ItemPool.MAFIA_PINKY_RING) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip mafia pinky ring.");
         return false;
       } else {

@@ -5,7 +5,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.LatteRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 

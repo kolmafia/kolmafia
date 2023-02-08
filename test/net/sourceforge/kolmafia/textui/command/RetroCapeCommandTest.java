@@ -14,7 +14,6 @@ import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,8 +62,7 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
   })
   void configuresJustSuperhero(String superhero, int decision) {
     var cleanups =
-        new Cleanups(
-            withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"));
+        new Cleanups(withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"));
 
     try (cleanups) {
       String output = execute(superhero);
@@ -84,8 +82,7 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
   })
   void configuresJustWashingInstruction(String instruction, int decision) {
     var cleanups =
-        new Cleanups(
-            withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"));
+        new Cleanups(withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"));
 
     try (cleanups) {
       String output = execute(instruction);
@@ -105,8 +102,7 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
   })
   void configuresBothModes(String mode, int decision1, int decision2) {
     var cleanups =
-        new Cleanups(
-            withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"));
+        new Cleanups(withEquipped(Slot.CONTAINER, "unwrapped knock-off retro superhero cape"));
 
     try (cleanups) {
       String output = execute(mode);

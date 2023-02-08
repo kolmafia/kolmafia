@@ -93,8 +93,7 @@ public class BeerPongRequest extends GenericRequest {
   }
 
   public static final int findPirateInsult(String insult) {
-    if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId()
-        == ItemPool.SWORD_PREPOSITIONS) {
+    if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId() == ItemPool.SWORD_PREPOSITIONS) {
       insult = StringUtilities.lookupPrepositions(insult);
     }
 
@@ -107,8 +106,7 @@ public class BeerPongRequest extends GenericRequest {
   }
 
   public static final int findPirateRetort(String insult) {
-    if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId()
-        == ItemPool.SWORD_PREPOSITIONS) {
+    if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId() == ItemPool.SWORD_PREPOSITIONS) {
       insult = StringUtilities.lookupPrepositions(insult);
     }
 

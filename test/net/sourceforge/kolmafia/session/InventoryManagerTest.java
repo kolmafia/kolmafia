@@ -53,8 +53,7 @@ public class InventoryManagerTest {
 
     var cleanups =
         new Cleanups(
-            withHttpClientBuilder(builder),
-            withEquipped(Slot.OFFHAND, "hobo code binder"));
+            withHttpClientBuilder(builder), withEquipped(Slot.OFFHAND, "hobo code binder"));
 
     try (cleanups) {
       // The offhand item is equipped as desired

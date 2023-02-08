@@ -484,10 +484,7 @@ public class CharPaneDecorator {
         buffer.append(Preferences.getString("_hareCharge"));
         buffer.append("/");
         AdventureResult dormouse = ItemPool.get(ItemPool.MINIATURE_DORMOUSE, 1);
-        buffer.append(
-            EquipmentManager.getEquipment(Slot.FAMILIAR).equals(dormouse)
-                ? "12"
-                : "15");
+        buffer.append(EquipmentManager.getEquipment(Slot.FAMILIAR).equals(dormouse) ? "12" : "15");
         buffer.append(" charges");
         return buffer;
       }
@@ -700,8 +697,7 @@ public class CharPaneDecorator {
         if (spit < 100) {
           double spitPerTurn = 10 / 3.0;
           AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
-          boolean wearingHelmet =
-              EquipmentManager.getEquipment(Slot.FAMILIAR).equals(helmet);
+          boolean wearingHelmet = EquipmentManager.getEquipment(Slot.FAMILIAR).equals(helmet);
 
           if (wearingHelmet) {
             spitPerTurn += 1;

@@ -31,8 +31,7 @@ public class UnequipCommand extends AbstractCommand {
       if (EquipmentManager.getFakeHands() == 0) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You're not wearing any fake hands");
       } else {
-        RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.FAKEHAND));
+        RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.FAKEHAND));
       }
 
       return;

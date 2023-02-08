@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import org.junit.jupiter.api.BeforeAll;

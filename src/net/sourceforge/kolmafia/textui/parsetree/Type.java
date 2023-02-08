@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;

@@ -10,7 +10,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

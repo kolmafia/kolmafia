@@ -10,7 +10,6 @@ import static org.hamcrest.Matchers.hasSize;
 
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

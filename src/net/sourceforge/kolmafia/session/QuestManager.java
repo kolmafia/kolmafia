@@ -2503,8 +2503,7 @@ public class QuestManager {
         QuestDatabase.setQuestProgress(Quest.ARMORER, "step2");
         break;
       case "GNG-3-R":
-        if (EquipmentManager.discardEquipment(ItemPool.get(ItemPool.GINGERSERVO))
-            == Slot.NONE) {
+        if (EquipmentManager.discardEquipment(ItemPool.get(ItemPool.GINGERSERVO)) == Slot.NONE) {
           // Remove it from equipment if it is equipped, otherwise remove it from inventory
           ResultProcessor.processResult(ItemPool.get(ItemPool.GINGERSERVO, -1));
         }

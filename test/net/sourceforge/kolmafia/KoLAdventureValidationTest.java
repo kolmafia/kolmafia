@@ -113,7 +113,9 @@ public class KoLAdventureValidationTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = Slot.class, names = {"OFFHAND", "FAMILIAR"})
+    @EnumSource(
+        value = Slot.class,
+        names = {"OFFHAND", "FAMILIAR"})
     void beingTooDrunkWithAWineglassPassesPreValidation(final Slot slot) {
       var cleanups =
           new Cleanups(
@@ -127,7 +129,9 @@ public class KoLAdventureValidationTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = Slot.class, names = {"OFFHAND", "FAMILIAR"})
+    @EnumSource(
+        value = Slot.class,
+        names = {"OFFHAND", "FAMILIAR"})
     void beingTooDrunkWithAWineglassInNonSnarfblatFailsPreValidation(final Slot slot) {
       var cleanups =
           new Cleanups(
@@ -4123,8 +4127,7 @@ public class KoLAdventureValidationTest {
       var client = builder.client;
       var cleanups =
           new Cleanups(
-              withHttpClientBuilder(builder),
-              withEquipped(Slot.ACCESSORY1, ItemPool.TALISMAN));
+              withHttpClientBuilder(builder), withEquipped(Slot.ACCESSORY1, ItemPool.TALISMAN));
       try (cleanups) {
         assertTrue(PALINDOME.canAdventure());
         assertTrue(PALINDOME.prepareForAdventure());

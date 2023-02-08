@@ -1799,8 +1799,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       GearSet current = new GearSet();
 
       if (this.doppelganger) {
-        RequestThread.postRequest(
-            new EquipmentRequest(FamiliarData.DOPPELGANGER, Slot.FAMILIAR));
+        RequestThread.postRequest(new EquipmentRequest(FamiliarData.DOPPELGANGER, Slot.FAMILIAR));
       }
 
       // If we are already suitably equipped, stop now

@@ -177,7 +177,8 @@ public class Evaluator {
   private static Slot toUseSlot(Slot slot) {
     Slot useSlot =
         switch (slot) {
-          case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */ ACCESSORY3 -> Slot.OFFHAND;
+          case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */
+              ACCESSORY3 -> Slot.OFFHAND;
           case /* Evaluator.WATCHES */ STICKER2 -> Slot.ACCESSORY1;
           case /* Evaluator.WEAPON_1H */ STICKER3 -> Slot.WEAPON;
           default -> slot;
@@ -332,9 +333,11 @@ public class Evaluator {
 
       if (keyword.equals("empty")) {
         for (var slot : EquipmentManager.ALL_SLOTS) {
-          this.slots.merge(slot,
+          this.slots.merge(
+              slot,
               ((int) weight)
-                  * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP) ? 1 : -1), Integer::sum);
+                  * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP) ? 1 : -1),
+              Integer::sum);
         }
         continue;
       }
@@ -1446,7 +1449,8 @@ public class Evaluator {
                     this.slots.getOrDefault(Slot.ACCESSORY2, 0),
                     this.slots.getOrDefault(Slot.ACCESSORY3, 0));
                 case OFFHAND -> List.of(
-                    this.slots.getOrDefault(Slot.OFFHAND, 0), this.slots.getOrDefault(Slot.FAMILIAR, 0));
+                    this.slots.getOrDefault(Slot.OFFHAND, 0),
+                    this.slots.getOrDefault(Slot.FAMILIAR, 0));
                 default -> List.of(this.slots.getOrDefault(modeable.getSlot(), 0));
               };
           modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));
@@ -1683,7 +1687,9 @@ public class Evaluator {
       List<CheckedItem> checkedItemList = entry.value();
 
       // If we currently have nothing equipped, also consider leaving nothing equipped
-      if (!entry.isSlot() || EquipmentManager.getEquipment(Evaluator.toUseSlot(entry.slot())) == EquipmentRequest.UNEQUIP) {
+      if (!entry.isSlot()
+          || EquipmentManager.getEquipment(Evaluator.toUseSlot(entry.slot()))
+              == EquipmentRequest.UNEQUIP) {
         checkedItemList.add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
       }
 
@@ -1729,8 +1735,7 @@ public class Evaluator {
                 spec.equipment.put(Slot.CARDSLEEVE, bestCard);
                 useCard = bestCard;
               } else {
-                spec.equipment.put(Slot.CARDSLEEVE,
-                    current.equipment.get(Slot.CARDSLEEVE));
+                spec.equipment.put(Slot.CARDSLEEVE, current.equipment.get(Slot.CARDSLEEVE));
                 useCard = current.equipment.get(Slot.CARDSLEEVE);
               }
               break;
@@ -1738,25 +1743,18 @@ public class Evaluator {
           case ItemPool.FOLDER_HOLDER:
             {
               MaximizerSpeculation current = new MaximizerSpeculation();
-              spec.equipment.put(Slot.FOLDER1,
-                current.equipment.get(Slot.FOLDER1));
-              spec.equipment.put(Slot.FOLDER2,
-                current.equipment.get(Slot.FOLDER2));
-              spec.equipment.put(Slot.FOLDER3,
-                current.equipment.get(Slot.FOLDER3));
-              spec.equipment.put(Slot.FOLDER4,
-                current.equipment.get(Slot.FOLDER4));
-              spec.equipment.put(Slot.FOLDER5,
-                current.equipment.get(Slot.FOLDER5));
+              spec.equipment.put(Slot.FOLDER1, current.equipment.get(Slot.FOLDER1));
+              spec.equipment.put(Slot.FOLDER2, current.equipment.get(Slot.FOLDER2));
+              spec.equipment.put(Slot.FOLDER3, current.equipment.get(Slot.FOLDER3));
+              spec.equipment.put(Slot.FOLDER4, current.equipment.get(Slot.FOLDER4));
+              spec.equipment.put(Slot.FOLDER5, current.equipment.get(Slot.FOLDER5));
               break;
             }
           case ItemPool.COWBOY_BOOTS:
             {
               MaximizerSpeculation current = new MaximizerSpeculation();
-              spec.equipment.put(Slot.BOOTSKIN,
-                current.equipment.get(Slot.BOOTSKIN));
-              spec.equipment.put(Slot.BOOTSPUR,
-                current.equipment.get(Slot.BOOTSPUR));
+              spec.equipment.put(Slot.BOOTSKIN, current.equipment.get(Slot.BOOTSKIN));
+              spec.equipment.put(Slot.BOOTSPUR, current.equipment.get(Slot.BOOTSPUR));
               break;
             }
           default:
@@ -1764,12 +1762,9 @@ public class Evaluator {
               var modeable = Modeable.find(item);
               if (EquipmentManager.isStickerWeapon(item)) {
                 MaximizerSpeculation current = new MaximizerSpeculation();
-                spec.equipment.put(Slot.STICKER1,
-                  current.equipment.get(Slot.STICKER1));
-                spec.equipment.put(Slot.STICKER2,
-                  current.equipment.get(Slot.STICKER2));
-                spec.equipment.put(Slot.STICKER3,
-                  current.equipment.get(Slot.STICKER3));
+                spec.equipment.put(Slot.STICKER1, current.equipment.get(Slot.STICKER1));
+                spec.equipment.put(Slot.STICKER2, current.equipment.get(Slot.STICKER2));
+                spec.equipment.put(Slot.STICKER3, current.equipment.get(Slot.STICKER3));
               } else if (modeable != null) {
                 var best = bestModes.getOrDefault(modeable, "");
                 if (!best.isEmpty()) {
@@ -1863,8 +1858,8 @@ public class Evaluator {
         if (compareItem.conditionalFlag) {
           compareItemNo--;
         } else {
-          compareSpec.equipment.put(newSlot1,
-              speculationList.get(slot1SpecLookup).get(compareItemNo).attachment);
+          compareSpec.equipment.put(
+              newSlot1, speculationList.get(slot1SpecLookup).get(compareItemNo).attachment);
           break;
         }
         if (compareItemNo < 0) {
@@ -1888,8 +1883,8 @@ public class Evaluator {
             || compareItem.getName().equals(compareSpec.equipment.get(newSlot1).getName())) {
           compareItemNo--;
         } else {
-          compareSpec.equipment.put(newSlot2,
-              speculationList.get(slot2).get(compareItemNo).attachment);
+          compareSpec.equipment.put(
+              newSlot2, speculationList.get(slot2).get(compareItemNo).attachment);
           break;
         }
         if (compareItemNo < 0) {
@@ -1991,7 +1986,8 @@ public class Evaluator {
       do {
         CheckedItem compareItem = speculationList.get(slot).get(compareItemNo).attachment;
         if (!compareItem.conditionalFlag) {
-          compareSpec.equipment.put(newSlot, speculationList.get(slot).get(compareItemNo).attachment);
+          compareSpec.equipment.put(
+              newSlot, speculationList.get(slot).get(compareItemNo).attachment);
           newSlot = incrementAccessory(newSlot);
         }
         compareItemNo--;
@@ -2096,7 +2092,8 @@ public class Evaluator {
       var automaticEntry = automatic.get(entry);
 
       if (this.dump > 0) {
-        RequestLogger.printLine("SLOT " + (entry.isSlot() ? entry.slot() : "BONUS FAMILIAR #" + entry.famIndex()));
+        RequestLogger.printLine(
+            "SLOT " + (entry.isSlot() ? entry.slot() : "BONUS FAMILIAR #" + entry.famIndex()));
       }
 
       if (this.dump > 1) {
@@ -2156,11 +2153,12 @@ public class Evaluator {
             // And how many times do we expect to use them for the rest of the slots?
             if (entry.isSlot() && entry.slot() != Slot.BOOTSPUR) {
               // TODO: isn't bootspur way too much, too? no foldables out there.
-              for (var checkSlot : EnumSet.range(Slot.byOrdinal(entry.slot().ordinal() + 1), Slot.BOOTSPUR)) {
+              for (var checkSlot :
+                  EnumSet.range(Slot.byOrdinal(entry.slot().ordinal() + 1), Slot.BOOTSPUR)) {
                 ListIterator<MaximizerSpeculation> checkIterator =
-                  speculationList
-                    .get(checkSlot)
-                    .listIterator(speculationList.get(checkSlot).size());
+                    speculationList
+                        .get(checkSlot)
+                        .listIterator(speculationList.get(checkSlot).size());
                 int usefulCheckCount = this.maxUseful(checkSlot);
                 while (checkIterator.hasPrevious()) {
                   CheckedItem checkItem = checkIterator.previous().attachment;
@@ -2243,7 +2241,8 @@ public class Evaluator {
       boolean anySlots = false;
       for (var slot : EquipmentManager.SLOTS) {
         if (this.slots.getOrDefault(slot, 0) >= thresh) {
-          // TODO: check this is okay and MaximizerSpeculation doesn't need the keys present but null
+          // TODO: check this is okay and MaximizerSpeculation doesn't need the keys present but
+          // null
           spec.equipment.remove(slot);
           anySlots = true;
         }

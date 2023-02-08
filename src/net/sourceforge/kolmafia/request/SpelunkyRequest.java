@@ -390,8 +390,7 @@ public class SpelunkyRequest extends GenericRequest {
 
       switch (slot) {
         case HAT -> EquipmentManager.setEquipment(Slot.HAT, item);
-        case WEAPON -> EquipmentManager.setEquipment(
-          Slot.WEAPON, item);
+        case WEAPON -> EquipmentManager.setEquipment(Slot.WEAPON, item);
         case OFFHAND -> {
           EquipmentManager.setEquipment(Slot.OFFHAND, item);
           switch (itemId) {
@@ -427,10 +426,8 @@ public class SpelunkyRequest extends GenericRequest {
             }
           }
         }
-        case CONTAINER -> EquipmentManager.setEquipment(
-          Slot.CONTAINER, item);
-        case ACCESSORY1 -> EquipmentManager.setEquipment(
-          Slot.ACCESSORY1, item);
+        case CONTAINER -> EquipmentManager.setEquipment(Slot.CONTAINER, item);
+        case ACCESSORY1 -> EquipmentManager.setEquipment(Slot.ACCESSORY1, item);
       }
     }
 

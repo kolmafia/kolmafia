@@ -2270,8 +2270,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     // If your hands are empty, there's nothing to warn about
     if (EquipmentManager.getEquipment(Slot.WEAPON).equals(EquipmentRequest.UNEQUIP)
-        && EquipmentManager.getEquipment(Slot.OFFHAND)
-            .equals(EquipmentRequest.UNEQUIP)) {
+        && EquipmentManager.getEquipment(Slot.OFFHAND).equals(EquipmentRequest.UNEQUIP)) {
       return false;
     }
 
@@ -2710,9 +2709,7 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    int power =
-        EquipmentDatabase.getPower(
-            EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
+    int power = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     if (power <= 50
         || power >= 150
         || EquipmentManager.getEquipment(Slot.HAT) == EquipmentRequest.UNEQUIP

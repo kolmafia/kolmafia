@@ -613,12 +613,9 @@ class EncounterManagerTest {
   }
 
   @ParameterizedTest
-  @EnumSource(value = Slot.class,
-      names = {
-        "ACCESSORY1",
-        "ACCESSORY2",
-        "ACCESSORY3"
-      })
+  @EnumSource(
+      value = Slot.class,
+      names = {"ACCESSORY1", "ACCESSORY2", "ACCESSORY3"})
   void ringOfTeleportationTypeDoesNotTrackGoal(Slot slot) {
     var mocked = mockStatic(GoalManager.class, Mockito.CALLS_REAL_METHODS);
     var cleanups = withEquipped(slot, "ring of teleportation");

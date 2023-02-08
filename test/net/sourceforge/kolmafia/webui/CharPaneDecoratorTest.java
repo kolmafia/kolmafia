@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;

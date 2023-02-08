@@ -10,7 +10,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import org.junit.jupiter.api.BeforeAll;
@@ -51,8 +50,7 @@ class GearChangePanelTest {
         try (equipCleanups) {
           GearChangePanel.updateSlot(Slot.HAT);
           assertThat(
-              ((AdventureResult) GearChangePanel.getModel(Slot.HAT).getSelectedItem())
-                  .getItemId(),
+              ((AdventureResult) GearChangePanel.getModel(Slot.HAT).getSelectedItem()).getItemId(),
               equalTo(ItemPool.RAVIOLI_HAT));
         }
       }
@@ -70,8 +68,7 @@ class GearChangePanelTest {
         // withEquipped calls updateSlot again, which sets the equipped item but should defer
         // updating the whole list.
         var cleanups2 =
-            new Cleanups(
-                withEquipped(Slot.HAT, ravioliHat), withItem(ItemPool.HELMET_TURTLE));
+            new Cleanups(withEquipped(Slot.HAT, ravioliHat), withItem(ItemPool.HELMET_TURTLE));
         try (cleanups2) {
           var hatModel = GearChangePanel.getModel(Slot.HAT);
           // List should not be updated yet, so helmet turtle should not be in it.
@@ -94,8 +91,7 @@ class GearChangePanelTest {
     @Test
     void canShowBasicItemModifiers() {
       var mods =
-          GearChangePanel.getModifiers(
-              ItemPool.get(ItemPool.RAVIOLI_HAT), Slot.HAT, false, 1);
+          GearChangePanel.getModifiers(ItemPool.get(ItemPool.RAVIOLI_HAT), Slot.HAT, false, 1);
       assertThat(
           modifierText(mods.toString()),
           equalTo(
@@ -116,8 +112,7 @@ class GearChangePanelTest {
     @Test
     void weaponsInOffhandSlotGetPowerDamage() {
       var mods =
-          GearChangePanel.getModifiers(
-              ItemPool.get(ItemPool.SEAL_CLUB), Slot.WEAPON, false, 1);
+          GearChangePanel.getModifiers(ItemPool.get(ItemPool.SEAL_CLUB), Slot.WEAPON, false, 1);
       assertThat(modifierText(mods.toString()), equalTo("Weapon Dmg:<div align=right>+1.50</div>"));
     }
 

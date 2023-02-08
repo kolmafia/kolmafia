@@ -61,7 +61,6 @@ import net.sourceforge.kolmafia.request.StillSuitRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;

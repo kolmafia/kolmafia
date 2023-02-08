@@ -249,12 +249,9 @@ public class ShowDataCommand extends AbstractCommand {
 
       desiredStream.println();
 
-      desiredStream.println(
-          "Acc. 1: " + EquipmentManager.getEquipment(Slot.ACCESSORY1));
-      desiredStream.println(
-          "Acc. 2: " + EquipmentManager.getEquipment(Slot.ACCESSORY2));
-      desiredStream.println(
-          "Acc. 3: " + EquipmentManager.getEquipment(Slot.ACCESSORY3));
+      desiredStream.println("Acc. 1: " + EquipmentManager.getEquipment(Slot.ACCESSORY1));
+      desiredStream.println("Acc. 2: " + EquipmentManager.getEquipment(Slot.ACCESSORY2));
+      desiredStream.println("Acc. 3: " + EquipmentManager.getEquipment(Slot.ACCESSORY3));
 
       desiredStream.println();
 
@@ -272,16 +269,13 @@ public class ShowDataCommand extends AbstractCommand {
         desiredStream.println();
         desiredStream.println(
             "Sticker 1: "
-                + ShowDataCommand.getStickerText(
-                    st1, EquipmentManager.getTurns(Slot.STICKER1)));
+                + ShowDataCommand.getStickerText(st1, EquipmentManager.getTurns(Slot.STICKER1)));
         desiredStream.println(
             "Sticker 2: "
-                + ShowDataCommand.getStickerText(
-                    st2, EquipmentManager.getTurns(Slot.STICKER2)));
+                + ShowDataCommand.getStickerText(st2, EquipmentManager.getTurns(Slot.STICKER2)));
         desiredStream.println(
             "Sticker 3: "
-                + ShowDataCommand.getStickerText(
-                    st3, EquipmentManager.getTurns(Slot.STICKER3)));
+                + ShowDataCommand.getStickerText(st3, EquipmentManager.getTurns(Slot.STICKER3)));
       }
       return;
     }

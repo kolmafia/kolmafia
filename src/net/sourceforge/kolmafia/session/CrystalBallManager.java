@@ -223,8 +223,7 @@ public final class CrystalBallManager {
 
   public static boolean own() {
     AdventureResult ORB = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL, 1);
-    return (KoLCharacter.hasEquipped(ORB, Slot.FAMILIAR)
-        || KoLConstants.inventory.contains(ORB));
+    return (KoLCharacter.hasEquipped(ORB, Slot.FAMILIAR) || KoLConstants.inventory.contains(ORB));
   }
 
   public static void ponder() {

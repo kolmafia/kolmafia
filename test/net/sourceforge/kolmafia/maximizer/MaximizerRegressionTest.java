@@ -172,8 +172,7 @@ public class MaximizerRegressionTest {
     var cleanups =
         new Cleanups(
             // Provide a helpful alternative to the bjorn.
-            withEquippableItem("vampyric cloake"),
-            withEquipped(Slot.CONTAINER, "Buddy Bjorn"));
+            withEquippableItem("vampyric cloake"), withEquipped(Slot.CONTAINER, "Buddy Bjorn"));
 
     try (cleanups) {
       assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
@@ -239,8 +238,7 @@ public class MaximizerRegressionTest {
   public void shouldntUnequipWeaponWithSmithsnessOffhand() {
     var cleanups =
         new Cleanups(
-            withEquipped(Slot.WEAPON, "seal-clubbing club"),
-            withEquippableItem("Half a Purse"));
+            withEquipped(Slot.WEAPON, "seal-clubbing club"), withEquippableItem("Half a Purse"));
 
     try (cleanups) {
       assertTrue(maximize("meat"));

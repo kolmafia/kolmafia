@@ -71,9 +71,7 @@ public class EquipmentManagerTest {
       strings = {"", "kachungasaur", "dilophosaur", "spikolodon", "ghostasaurus", "pterodactyl"})
   public void thatJurassicParkaIsRecognized(String mode) {
     var cleanups =
-        new Cleanups(
-            withEquipped(Slot.SHIRT, "Jurassic Parka"),
-            withProperty("parkaMode", mode));
+        new Cleanups(withEquipped(Slot.SHIRT, "Jurassic Parka"), withProperty("parkaMode", mode));
 
     try (cleanups) {
       if (mode.equals("")) {
@@ -92,8 +90,7 @@ public class EquipmentManagerTest {
   public void thatBackupCameraIsRecognized(String mode) {
     var cleanups =
         new Cleanups(
-            withEquipped(Slot.ACCESSORY1, "backup camera"),
-            withProperty("backupCameraMode", mode));
+            withEquipped(Slot.ACCESSORY1, "backup camera"), withProperty("backupCameraMode", mode));
 
     try (cleanups) {
       assertEquals("backup camera (" + mode + ")", BACKUP_CAMERA.getName());
@@ -106,9 +103,7 @@ public class EquipmentManagerTest {
     assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(false));
 
     var cleanup =
-        new Cleanups(
-            withEquipped(Slot.PANTS, "designer sweatpants"),
-            withProperty("sweat", 100));
+        new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 100));
 
     try (cleanup) {
       assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(true));
@@ -118,9 +113,7 @@ public class EquipmentManagerTest {
   @Test
   public void unequippingDesignerSweatpantsRemovesCombatSkills() {
     var cleanup =
-        new Cleanups(
-            withEquipped(Slot.PANTS, "designer sweatpants"),
-            withProperty("sweat", 100));
+        new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 100));
 
     try (cleanup) {
       assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(true));

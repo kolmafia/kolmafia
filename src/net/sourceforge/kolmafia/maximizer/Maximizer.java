@@ -157,13 +157,14 @@ public class Maximizer {
         Maximizer.eval.enumerateEquipment(equipScope, maxPrice, priceLevel);
       } catch (MaximizerExceededException e) {
         Maximizer.boosts.add(
-            new Boost("", "(maximum achieved, no further combinations checked)", Slot.NONE, null, 0.0));
+            new Boost(
+                "", "(maximum achieved, no further combinations checked)", Slot.NONE, null, 0.0));
       } catch (MaximizerLimitException e) {
         Maximizer.boosts.add(
             new Boost(
                 "",
                 "<font color=red>(hit combination limit, optimality not guaranteed)</font>",
-              Slot.NONE,
+                Slot.NONE,
                 null,
                 0.0));
       } catch (MaximizerInterruptedException e) {

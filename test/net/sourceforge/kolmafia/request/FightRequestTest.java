@@ -420,8 +420,7 @@ public class FightRequestTest {
 
   @Test
   public void daylightShavingTest() {
-    EquipmentManager.setEquipment(
-      Slot.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
+    EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
     parseCombatData("request/test_fight_daylight_shavings_buff.html");
     assertEquals(2671, Preferences.getInteger("lastBeardBuff"));
   }
@@ -1931,8 +1930,7 @@ public class FightRequestTest {
   @Test
   public void loseInitiativeAndLoseLittleRoundPebble() {
     var cleanups =
-        new Cleanups(
-            withEquipped(Slot.OFFHAND, ItemPool.LITTLE_ROUND_PEBBLE), withFight());
+        new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.LITTLE_ROUND_PEBBLE), withFight());
     try (cleanups) {
       parseCombatData("request/test_fight_little_round_pebble.html");
       assertFalse(KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE));

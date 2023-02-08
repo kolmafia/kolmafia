@@ -3807,10 +3807,7 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.STEAM_CHEERLEADER:
-          int dec =
-              KoLCharacter.hasEquipped(ItemPool.SPIRIT_SOCKET_SET, Slot.FAMILIAR)
-                  ? 1
-                  : 2;
+          int dec = KoLCharacter.hasEquipped(ItemPool.SPIRIT_SOCKET_SET, Slot.FAMILIAR) ? 1 : 2;
           int currentSteam = Preferences.getInteger("_cheerleaderSteam");
           if (currentSteam - dec < 0) {
             dec = currentSteam;
@@ -3822,8 +3819,7 @@ public class FightRequest extends GenericRequest {
           int currentCharge = Preferences.getInteger("_nanorhinoCharge");
           int newCharge =
               currentCharge
-                  + (KoLCharacter.hasEquipped(
-                          ItemPool.NANORHINO_CREDIT_CARD, Slot.FAMILIAR)
+                  + (KoLCharacter.hasEquipped(ItemPool.NANORHINO_CREDIT_CARD, Slot.FAMILIAR)
                       ? 3
                       : 2);
           // Verify value if text visible
@@ -5476,8 +5472,7 @@ public class FightRequest extends GenericRequest {
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
       this.doppel =
           (familiarId == FamiliarPool.DOPPEL)
-              || KoLCharacter.hasEquipped(
-                  ItemPool.TINY_COSTUME_WARDROBE, Slot.FAMILIAR);
+              || KoLCharacter.hasEquipped(ItemPool.TINY_COSTUME_WARDROBE, Slot.FAMILIAR);
       this.crimbo = (familiarId == FamiliarPool.CRIMBO_SHRUB);
 
       this.diceMessage =
@@ -5541,8 +5536,7 @@ public class FightRequest extends GenericRequest {
       this.greyYou = KoLCharacter.inGreyYou();
 
       // If you are carrying a carnivorous potted plant
-      this.carnivorous =
-          KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT, Slot.OFFHAND);
+      this.carnivorous = KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT, Slot.OFFHAND);
 
       // If you have lovebugs
       this.lovebugs = Preferences.getBoolean("lovebugsUnlocked");
@@ -9344,8 +9338,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("tide of beans") || skillSuccess) {
           skillSuccess = true;
           BanishManager.banishMonster(monster, Banisher.BEANCANNON);
-          EquipmentManager.discardEquipment(
-              EquipmentManager.getEquipment(Slot.OFFHAND));
+          EquipmentManager.discardEquipment(EquipmentManager.getEquipment(Slot.OFFHAND));
         }
         break;
 

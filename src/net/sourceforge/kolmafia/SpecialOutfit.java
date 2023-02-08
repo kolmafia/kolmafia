@@ -105,9 +105,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   }
 
   public boolean isWearing(AdventureResult piece, Slot type) {
-    if (type == Slot.ACCESSORY1
-        || type == Slot.ACCESSORY2
-        || type == Slot.ACCESSORY3) {
+    if (type == Slot.ACCESSORY1 || type == Slot.ACCESSORY2 || type == Slot.ACCESSORY3) {
       int accessoryCount =
           (KoLCharacter.hasEquipped(piece, Slot.ACCESSORY1) ? 1 : 0)
               + (KoLCharacter.hasEquipped(piece, Slot.ACCESSORY2) ? 1 : 0)

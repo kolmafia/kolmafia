@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

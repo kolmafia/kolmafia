@@ -132,8 +132,7 @@ public class FamiliarCommand extends AbstractCommand {
 
       // If we want the new familiar to be naked, unequip the familiar item
       if (KoLmafia.permitsContinue() && unequip) {
-        RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.FAMILIAR));
+        RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.FAMILIAR));
       }
     }
   }

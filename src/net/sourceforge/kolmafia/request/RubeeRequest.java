@@ -7,7 +7,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public class RubeeRequest extends CoinMasterRequest {
@@ -79,8 +78,7 @@ public class RubeeRequest extends CoinMasterRequest {
   public void equip() {
     if (!KoLCharacter.hasEquipped(ItemPool.FANTASY_REALM_GEM)) {
       EquipmentRequest request =
-          new EquipmentRequest(
-              ItemPool.get(ItemPool.FANTASY_REALM_GEM), Slot.ACCESSORY3);
+          new EquipmentRequest(ItemPool.get(ItemPool.FANTASY_REALM_GEM), Slot.ACCESSORY3);
       RequestThread.postRequest(request);
     }
   }

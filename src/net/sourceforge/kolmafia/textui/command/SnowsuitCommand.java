@@ -101,8 +101,7 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
       return;
     }
 
-    if (EquipmentManager.getEquipment(Slot.FAMILIAR).getItemId()
-        != ItemPool.SNOW_SUIT) {
+    if (EquipmentManager.getEquipment(Slot.FAMILIAR).getItemId() != ItemPool.SNOW_SUIT) {
       AdventureResult snowsuit = ItemPool.get(ItemPool.SNOW_SUIT);
       RequestThread.postRequest(new EquipmentRequest(snowsuit, Slot.FAMILIAR));
     }

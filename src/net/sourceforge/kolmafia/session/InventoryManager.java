@@ -610,10 +610,7 @@ public abstract class InventoryManager {
         // remove the one in the offhand slot first
         // since taking from the weapon slot will drop
         // the offhand weapon.
-        Slot slot =
-            i == Slot.WEAPON
-                ? Slot.OFFHAND
-                : i == Slot.OFFHAND ? Slot.WEAPON : i;
+        Slot slot = i == Slot.WEAPON ? Slot.OFFHAND : i == Slot.OFFHAND ? Slot.WEAPON : i;
 
         if (EquipmentManager.getEquipment(slot).equals(item)) {
           if (sim) {
@@ -1627,8 +1624,7 @@ public abstract class InventoryManager {
   public static void checkNoHat() {
     AdventureResult NO_HAT = ItemPool.get(ItemPool.NO_HAT, 1);
     String mod = Preferences.getString("_noHatModifier");
-    if (!KoLCharacter.hasEquipped(NO_HAT, Slot.HAT)
-        && !KoLConstants.inventory.contains(NO_HAT)) {
+    if (!KoLCharacter.hasEquipped(NO_HAT, Slot.HAT) && !KoLConstants.inventory.contains(NO_HAT)) {
       return;
     }
     if (!mod.equals("")) {

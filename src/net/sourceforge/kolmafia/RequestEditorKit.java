@@ -59,7 +59,6 @@ import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;

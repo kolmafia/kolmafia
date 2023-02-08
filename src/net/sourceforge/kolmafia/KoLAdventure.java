@@ -2442,8 +2442,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // War Uniform.  Remove the shield.
       if (EquipmentManager.isWearingOutfit(OutfitPool.CLOACA_UNIFORM)
           || EquipmentManager.isWearingOutfit(OutfitPool.DYSPEPSI_UNIFORM)) {
-        RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.OFFHAND));
+        RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.OFFHAND));
       }
 
       return true;

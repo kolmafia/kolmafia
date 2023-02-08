@@ -776,12 +776,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           }
 
           // Find an accessory slot to equip the Powerful Glove
-          boolean slot1Allowed =
-              UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
-          boolean slot2Allowed =
-              UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
-          boolean slot3Allowed =
-              UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
+          boolean slot1Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
+          boolean slot2Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
+          boolean slot3Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
 
           Slot slot =
               UseSkillRequest.attemptSwitch(
@@ -934,12 +931,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         // MP reduction items.  This has do be done inside the loop now
         // that max HP/MP prediction is done, since two changes that are
         // individually harmless might add up to a loss of points.
-        boolean slot1Allowed =
-            UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
-        boolean slot2Allowed =
-            UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
-        boolean slot3Allowed =
-            UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
+        boolean slot1Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
+        boolean slot2Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
+        boolean slot3Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
 
         UseSkillRequest.attemptSwitch(skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
       } else {
@@ -1215,8 +1209,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       boolean needExtra =
           currentCast < maximumCast
               && currentCast < castsRemaining
-              && EquipmentManager.getEquipment(Slot.HAT).getItemId()
-                  == ItemPool.OPERA_MASK;
+              && EquipmentManager.getEquipment(Slot.HAT).getItemId() == ItemPool.OPERA_MASK;
 
       if (currentCast == 0 || needExtra) {
         currentCast = Math.min(Math.min(castsRemaining, maximumCast), castsPerIteration);

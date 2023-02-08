@@ -233,14 +233,12 @@ public class FamiliarRequest extends GenericRequest {
     } else if (this.bjornify) {
       FamiliarData bjorned = KoLCharacter.getBjorned();
 
-      if (EquipmentManager.getEquipment(Slot.CONTAINER).getItemId()
-          != ItemPool.BUDDY_BJORN) {
+      if (EquipmentManager.getEquipment(Slot.CONTAINER).getItemId() != ItemPool.BUDDY_BJORN) {
         if (this.changeTo.equals(FamiliarData.NO_FAMILIAR)
             && !bjorned.equals(FamiliarData.NO_FAMILIAR)) {
           try (Checkpoint checkpoint = new Checkpoint()) {
             RequestThread.postRequest(
-                new EquipmentRequest(
-                    ItemPool.get(ItemPool.BUDDY_BJORN, 1), Slot.CONTAINER));
+                new EquipmentRequest(ItemPool.get(ItemPool.BUDDY_BJORN, 1), Slot.CONTAINER));
             RequestThread.postRequest(FamiliarRequest.bjornifyRequest(FamiliarData.NO_FAMILIAR));
           }
         }
@@ -525,8 +523,7 @@ public class FamiliarRequest extends GenericRequest {
       familiar.ifPresent(
           f -> {
             if (current.equals(f)) {
-              EquipmentManager.removeConditionalSkills(
-                Slot.FAMILIAR, current.getItem());
+              EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, current.getItem());
               EquipmentManager.addConditionalSkills(Slot.FAMILIAR, item);
             }
 
@@ -559,8 +556,7 @@ public class FamiliarRequest extends GenericRequest {
       familiar.ifPresent(
           f -> {
             if (current.equals(f)) {
-              EquipmentManager.removeConditionalSkills(
-                Slot.FAMILIAR, current.getItem());
+              EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, current.getItem());
             }
 
             FamiliarRequest.unequipFamiliar(f);

@@ -21,7 +21,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -54,8 +53,7 @@ public class GenericRequestTest {
   public void hallowienerVolcoinoNotPickedUpByLuckyGoldRing() {
     var cleanups =
         new Cleanups(
-            withEquipped(Slot.ACCESSORY1, "lucky gold ring"),
-            withProperty("lastEncounter", ""));
+            withEquipped(Slot.ACCESSORY1, "lucky gold ring"), withProperty("lastEncounter", ""));
 
     try (cleanups) {
       assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));

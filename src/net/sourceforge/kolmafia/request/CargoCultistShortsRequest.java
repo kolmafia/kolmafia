@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;

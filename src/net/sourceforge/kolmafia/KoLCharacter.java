@@ -4564,8 +4564,7 @@ public abstract class KoLCharacter {
     }
 
     KoLCharacter.familiars.setSelectedItem(KoLCharacter.currentFamiliar);
-    EquipmentManager.setEquipment(
-      Slot.FAMILIAR, KoLCharacter.currentFamiliar.getItem());
+    EquipmentManager.setEquipment(Slot.FAMILIAR, KoLCharacter.currentFamiliar.getItem());
 
     KoLCharacter.isUsingStabBat =
         KoLCharacter.currentFamiliar.getRace().equals("Stab Bat")
@@ -4848,18 +4847,18 @@ public abstract class KoLCharacter {
   }
 
   public static boolean hasEquipped(
-    Map<Slot, AdventureResult> equipment, final AdventureResult item, final Slot equipmentSlot) {
+      Map<Slot, AdventureResult> equipment, final AdventureResult item, final Slot equipmentSlot) {
     AdventureResult current = equipment.get(equipmentSlot);
     return current != null && (current.getItemId() == item.getItemId());
   }
 
   public static boolean hasEquipped(
-    Map<Slot, AdventureResult> equipment, final AdventureResult item, Set<Slot> equipmentSlots) {
-    return equipmentSlots.stream()
-        .anyMatch(s -> KoLCharacter.hasEquipped(equipment, item, s));
+      Map<Slot, AdventureResult> equipment, final AdventureResult item, Set<Slot> equipmentSlots) {
+    return equipmentSlots.stream().anyMatch(s -> KoLCharacter.hasEquipped(equipment, item, s));
   }
 
-  public static boolean hasEquipped(Map<Slot, AdventureResult> equipment, final AdventureResult item) {
+  public static boolean hasEquipped(
+      Map<Slot, AdventureResult> equipment, final AdventureResult item) {
     return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
       case WEAPON -> KoLCharacter.hasEquipped(
           equipment, item, EnumSet.of(Slot.WEAPON, Slot.OFFHAND));
@@ -4873,8 +4872,7 @@ public abstract class KoLCharacter {
       case STICKER -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.STICKER_SLOTS);
       case CARD -> KoLCharacter.hasEquipped(equipment, item, Slot.CARDSLEEVE);
       case FOLDER -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER_SLOTS);
-      case FAMILIAR_EQUIPMENT -> KoLCharacter.hasEquipped(
-          equipment, item, Slot.FAMILIAR);
+      case FAMILIAR_EQUIPMENT -> KoLCharacter.hasEquipped(equipment, item, Slot.FAMILIAR);
       default -> false;
     };
   }
@@ -4892,10 +4890,8 @@ public abstract class KoLCharacter {
 
   public static final Slot equipmentSlot(final AdventureResult item) {
     return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
-      case WEAPON -> equipmentSlotFromSubset(
-          item, EnumSet.of(Slot.WEAPON, Slot.OFFHAND));
-      case OFFHAND -> equipmentSlotFromSubset(
-          item, EnumSet.of(Slot.OFFHAND, Slot.FAMILIAR));
+      case WEAPON -> equipmentSlotFromSubset(item, EnumSet.of(Slot.WEAPON, Slot.OFFHAND));
+      case OFFHAND -> equipmentSlotFromSubset(item, EnumSet.of(Slot.OFFHAND, Slot.FAMILIAR));
       case HAT -> equipmentSlotFromSubset(item, Slot.HAT);
       case SHIRT -> equipmentSlotFromSubset(item, Slot.SHIRT);
       case PANTS -> equipmentSlotFromSubset(item, Slot.PANTS);
