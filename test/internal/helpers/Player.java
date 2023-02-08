@@ -1418,7 +1418,12 @@ public class Player {
    * @return Removes workshed item
    */
   public static Cleanups withWorkshedItem(final AdventureResult item) {
-    CampgroundRequest.setCurrentWorkshedItem(item);
+    if (item == null) {
+      CampgroundRequest.resetCurrentWorkshedItem();
+    } else {
+      CampgroundRequest.setCurrentWorkshedItem(item);
+    }
+
     return new Cleanups(CampgroundRequest::resetCurrentWorkshedItem);
   }
 
