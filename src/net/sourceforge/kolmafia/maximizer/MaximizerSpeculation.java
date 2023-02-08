@@ -195,9 +195,8 @@ public class MaximizerSpeculation extends Speculation
     return this.equipment.clone();
   }
 
-  // TODO: danger area, confirm this is okay
   public void restore(EnumMap<Slot, AdventureResult> mark) {
-    this.equipment = mark;
+    this.equipment.putAll(mark);
   }
 
   public void tryAll(

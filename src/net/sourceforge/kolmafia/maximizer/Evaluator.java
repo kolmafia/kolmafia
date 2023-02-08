@@ -2241,9 +2241,7 @@ public class Evaluator {
       boolean anySlots = false;
       for (var slot : EquipmentManager.SLOTS) {
         if (this.slots.getOrDefault(slot, 0) >= thresh) {
-          // TODO: check this is okay and MaximizerSpeculation doesn't need the keys present but
-          // null
-          spec.equipment.remove(slot);
+          spec.equipment.put(slot, null);
           anySlots = true;
         }
       }
