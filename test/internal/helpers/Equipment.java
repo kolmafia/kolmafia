@@ -3,9 +3,9 @@ package internal.helpers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Equipment {

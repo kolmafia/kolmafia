@@ -9,6 +9,8 @@ import java.util.Objects;
 import java.util.Set;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EquipmentSlot;
+import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -55,7 +57,6 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -181,7 +182,7 @@ public class Maximizer {
 
       EnumSet<Slot> alreadyDone = EnumSet.noneOf(Slot.class);
 
-      for (Slot slot : EquipmentManager.ACCESSORY_SLOTS) {
+      for (Slot slot : EquipmentSlot.ACCESSORY_SLOTS) {
         if (Maximizer.best.equipment.get(slot).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
             && EquipmentManager.getEquipment(slot).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE) {
           equipScope = Maximizer.emitSlot(slot, equipScope, maxPrice, priceLevel, current);
@@ -189,7 +190,7 @@ public class Maximizer {
         }
       }
 
-      for (var slot : EquipmentManager.ALL_SLOTS) {
+      for (var slot : EquipmentSlot.ALL_SLOTS) {
         if (!alreadyDone.contains(slot)) {
           equipScope = Maximizer.emitSlot(slot, equipScope, maxPrice, priceLevel, current);
         }
@@ -1563,7 +1564,7 @@ public class Maximizer {
         && !(itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT
             && Preferences.getInteger("garbageShirtCharge") == 0
             && !Preferences.getBoolean("_garbageItemChanged"))) {
-      if (!EquipmentManager.SLOTS.contains(slot)
+      if (!EquipmentSlot.SLOTS.contains(slot)
           || curr.equals(EquipmentRequest.UNEQUIP)
           || equipScope == EquipScope.EQUIP_NOW) {
         return equipScope;
@@ -1619,7 +1620,7 @@ public class Maximizer {
       // so we have to count how much we've used in 'earlier' items
       // TODO: confirm this still works
       if (equipScope == EquipScope.EQUIP_NOW) {
-        for (var piece : EquipmentManager.ALL_SLOTS) {
+        for (var piece : EquipmentSlot.ALL_SLOTS) {
           if (piece.ordinal() >= slot.ordinal()) break;
           AdventureResult equipped = EquipmentManager.getEquipment(piece);
           if (equipped != null && item.getItemId() == equipped.getItemId()) {

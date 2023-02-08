@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EquipmentSlot;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -180,7 +181,7 @@ public abstract class ConditionalStatement extends AbstractCommand {
     }
 
     if (left.equals("stickers")) {
-      return EquipmentManager.STICKER_SLOTS.stream()
+      return EquipmentSlot.STICKER_SLOTS.stream()
           .map(EquipmentManager::getEquipment)
           .filter(Predicate.not(EquipmentRequest.UNEQUIP::equals))
           .count();

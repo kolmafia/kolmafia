@@ -29,6 +29,8 @@ import javax.swing.event.ChangeListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EquipmentSlot;
+import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -55,7 +57,6 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
@@ -103,7 +104,7 @@ public class GearChangePanel extends JPanel {
 
     Map<Slot, List<AdventureResult>> lists = EquipmentManager.getEquipmentLists();
 
-    for (var slot : EquipmentManager.ALL_SLOTS) {
+    for (var slot : EquipmentSlot.ALL_SLOTS) {
       LockableListModel<AdventureResult> list;
 
       // We maintain our own lists for certain slots
@@ -449,7 +450,7 @@ public class GearChangePanel extends JPanel {
 
     Map<Slot, AdventureResult> pieces = new EnumMap<>(Slot.class);
 
-    for (var slot : EquipmentManager.SLOTS) {
+    for (var slot : EquipmentSlot.SLOTS) {
       pieces.put(slot, (AdventureResult) this.equipment.get(slot).getSelectedItem());
       if (EquipmentManager.getEquipment(slot).equals(pieces.get(slot))) {
         pieces.remove(slot);
@@ -460,7 +461,7 @@ public class GearChangePanel extends JPanel {
 
     // Start with accessories
 
-    for (var slot : EquipmentManager.ACCESSORY_SLOTS) {
+    for (var slot : EquipmentSlot.ACCESSORY_SLOTS) {
       var piece = pieces.get(slot);
       if (piece != null) {
         RequestThread.postRequest(new EquipmentRequest(piece, slot));
@@ -629,7 +630,7 @@ public class GearChangePanel extends JPanel {
     }
 
     // Stickers
-    for (var slot : EquipmentManager.STICKER_SLOTS) {
+    for (var slot : EquipmentSlot.STICKER_SLOTS) {
       AdventureResult sticker = (AdventureResult) this.equipment.get(slot).getSelectedItem();
       if (!EquipmentManager.getEquipment(slot).equals(sticker)) {
         RequestThread.postRequest(new EquipmentRequest(sticker, slot));
@@ -637,7 +638,7 @@ public class GearChangePanel extends JPanel {
     }
 
     // Folders
-    for (var slot : EquipmentManager.FOLDER_SLOTS) {
+    for (var slot : EquipmentSlot.FOLDER_SLOTS) {
       AdventureResult folder = (AdventureResult) this.equipment.get(slot).getSelectedItem();
       if (!EquipmentManager.getEquipment(slot).equals(folder)) {
         RequestThread.postRequest(new EquipmentRequest(folder, slot));
@@ -704,7 +705,7 @@ public class GearChangePanel extends JPanel {
       return null;
     }
 
-    if (!EquipmentManager.ALL_SLOTS.contains(slot)) {
+    if (!EquipmentSlot.ALL_SLOTS.contains(slot)) {
       return null;
     }
 
@@ -726,7 +727,7 @@ public class GearChangePanel extends JPanel {
       return;
     }
 
-    for (var slot : EquipmentManager.ALL_SLOTS) {
+    for (var slot : EquipmentSlot.ALL_SLOTS) {
       LockableListModel<AdventureResult> model = GearChangePanel.INSTANCE.equipmentModels.get(slot);
       if (model != null) {
         model.clear();
@@ -914,7 +915,7 @@ public class GearChangePanel extends JPanel {
     EnumMap<Slot, List<AdventureResult>> lists = new EnumMap<>(Slot.class);
 
     // Create all equipment lists
-    for (var slot : EquipmentManager.ALL_SLOTS) {
+    for (var slot : EquipmentSlot.ALL_SLOTS) {
       List<AdventureResult> items = new ArrayList<>();
 
       // Almost every list gets a "(none)"
@@ -985,7 +986,7 @@ public class GearChangePanel extends JPanel {
     }
 
     // Add current equipment
-    for (var slot : EquipmentManager.ALL_SLOTS) {
+    for (var slot : EquipmentSlot.ALL_SLOTS) {
       List<AdventureResult> items = lists.get(slot);
       if (items == null) {
         continue;
@@ -1198,7 +1199,7 @@ public class GearChangePanel extends JPanel {
   private void updateEquipmentModelsInternal(
       final Map<Slot, List<AdventureResult>> equipmentLists) {
     // For all the slots that we maintain a custom list, update the model specially
-    for (var slot : EquipmentManager.ALL_SLOTS) {
+    for (var slot : EquipmentSlot.ALL_SLOTS) {
       LockableListModel<AdventureResult> model = equipmentModels.get(slot);
       if (model == null) {
         continue;

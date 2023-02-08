@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.EquipScope;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

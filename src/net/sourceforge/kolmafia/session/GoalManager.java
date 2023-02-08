@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EquipmentSlot;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -129,7 +130,7 @@ public class GoalManager {
         currentCount += goal.getCount(KoLConstants.closet);
       }
 
-      for (var slot : EquipmentManager.CORE_EQUIP_SLOTS) {
+      for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
         if (EquipmentManager.getEquipment(slot).equals(goal)) {
           ++currentCount;
         }

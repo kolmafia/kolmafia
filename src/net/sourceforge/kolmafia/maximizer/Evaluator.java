@@ -17,6 +17,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EquipmentSlot;
+import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
@@ -51,7 +53,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -137,7 +138,7 @@ public class Evaluator {
   static final Slot OFFHAND_RANGED = Slot.ACCESSORY3;
   static final Slot WATCHES = Slot.STICKER2;
   static final Slot WEAPON_1H = Slot.STICKER3;
-  // Slots starting with EquipmentManager.ALL_SLOTS are equipment
+  // Slots starting with EquipmentSlot.ALL_SLOTS are equipment
   // for other familiars being considered.
 
   private static int relevantSkill(int skillId) {
@@ -332,7 +333,7 @@ public class Evaluator {
       }
 
       if (keyword.equals("empty")) {
-        for (var slot : EquipmentManager.ALL_SLOTS) {
+        for (var slot : EquipmentSlot.ALL_SLOTS) {
           this.slots.merge(
               slot,
               ((int) weight)
@@ -507,7 +508,7 @@ public class Evaluator {
       }
 
       Slot slot = EquipmentRequest.slotNumber(keyword);
-      if (EquipmentManager.ALL_SLOTS.contains(slot)) {
+      if (EquipmentSlot.ALL_SLOTS.contains(slot)) {
         this.slots.merge(slot, (int) weight, Integer::sum);
         continue;
       }
@@ -2138,7 +2139,7 @@ public class Evaluator {
             // How many times have we already used this fold item?
             // TODO: should this and the next include the extra familiar slots? I don't think it
             // makes sense to based on what it's doing
-            for (var checkSlot : EquipmentManager.ALL_SLOTS) {
+            for (var checkSlot : EquipmentSlot.ALL_SLOTS) {
               if (entry.isSlot() && checkSlot.ordinal() >= entry.slot().ordinal()) break;
               List<CheckedItem> checkItemList = automatic.get(checkSlot);
               if (checkItemList != null) {
@@ -2239,7 +2240,7 @@ public class Evaluator {
     for (int thresh = 1; ; --thresh) {
       if (thresh < 0) return; // no slots enabled
       boolean anySlots = false;
-      for (var slot : EquipmentManager.SLOTS) {
+      for (var slot : EquipmentSlot.SLOTS) {
         if (this.slots.getOrDefault(slot, 0) >= thresh) {
           spec.equipment.put(slot, null);
           anySlots = true;

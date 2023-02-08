@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EquipmentSlot;
+import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -11,7 +13,6 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public class EquipCommand extends AbstractCommand {
   public EquipCommand() {
@@ -64,7 +65,7 @@ public class EquipCommand extends AbstractCommand {
     // If he didn't specify slot name, decide where this item goes.
     if (slot == Slot.NONE) {
       // If it's already equipped anywhere, give up
-      for (var s : EquipmentManager.SLOTS) {
+      for (var s : EquipmentSlot.SLOTS) {
         AdventureResult item = EquipmentManager.getEquipment(s);
         if (item != null && item.getName().toLowerCase().contains(parameters)) {
           return;

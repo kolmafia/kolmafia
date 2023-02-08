@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -10,7 +11,6 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public enum LimitMode {
   UNKNOWN("unknown"),

@@ -11,9 +11,9 @@ import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

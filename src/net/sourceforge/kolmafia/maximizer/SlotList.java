@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
+import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 
 /**
  * A list of lists of T. Indexed by:

@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -44,7 +45,6 @@ import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager.Slot;
 
 public class BreakfastManager {
   private static final AdventureResult[] toys =
