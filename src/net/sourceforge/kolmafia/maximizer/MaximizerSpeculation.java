@@ -202,7 +202,7 @@ public class MaximizerSpeculation extends Speculation
       List<FamiliarData> enthronedFamiliars,
       Map<Integer, Boolean> usefulOutfits,
       Map<AdventureResult, AdventureResult> outfitPieces,
-      List<List<CheckedItem>> possibles,
+      SlotList<CheckedItem> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
@@ -218,7 +218,7 @@ public class MaximizerSpeculation extends Speculation
         useBjornFamiliar);
     for (int i = 0; i < familiars.size(); ++i) {
       this.setFamiliar(familiars.get(i));
-      possibles.set(EquipmentManager.FAMILIAR, possibles.get(EquipmentManager.ALL_SLOTS + i));
+      possibles.set(EquipmentManager.FAMILIAR, possibles.getFamiliar(i));
       this.tryOutfits(
           enthronedFamiliars,
           usefulOutfits,
@@ -234,7 +234,7 @@ public class MaximizerSpeculation extends Speculation
       List<FamiliarData> enthronedFamiliars,
       Map<Integer, Boolean> usefulOutfits,
       Map<AdventureResult, AdventureResult> outfitPieces,
-      List<List<CheckedItem>> possibles,
+      SlotList<CheckedItem> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
@@ -309,7 +309,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryFamiliarItems(
       List<FamiliarData> enthronedFamiliars,
-      List<List<CheckedItem>> possibles,
+      SlotList<CheckedItem> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
@@ -363,7 +363,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryContainers(
       List<FamiliarData> enthronedFamiliars,
-      List<List<CheckedItem>> possibles,
+      SlotList<CheckedItem> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
@@ -420,7 +420,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryAccessories(
       List<FamiliarData> enthronedFamiliars,
-      List<List<CheckedItem>> possibles,
+      SlotList<CheckedItem> possibles,
       int pos,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
@@ -499,7 +499,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryHats(
       List<FamiliarData> enthronedFamiliars,
-      List<List<CheckedItem>> possibles,
+      SlotList<CheckedItem> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
       throws MaximizerInterruptedException {
@@ -559,7 +559,7 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
-  public void tryShirts(List<List<CheckedItem>> possibles, AdventureResult bestCard)
+  public void tryShirts(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     if (this.equipment[EquipmentManager.SHIRT] == null) {
@@ -600,7 +600,7 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
-  public void tryPants(List<List<CheckedItem>> possibles, AdventureResult bestCard)
+  public void tryPants(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     if (this.equipment[EquipmentManager.PANTS] == null) {
@@ -639,7 +639,7 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
-  public void trySixguns(List<List<CheckedItem>> possibles, AdventureResult bestCard)
+  public void trySixguns(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     if (this.equipment[EquipmentManager.HOLSTER] == null) {
@@ -663,7 +663,7 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
-  public void tryWeapons(List<List<CheckedItem>> possibles, AdventureResult bestCard)
+  public void tryWeapons(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     boolean chefstaffable =
@@ -725,7 +725,7 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
-  public void tryOffhands(List<List<CheckedItem>> possibles, AdventureResult bestCard)
+  public void tryOffhands(SlotList<CheckedItem> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     int weapon = this.equipment[EquipmentManager.WEAPON].getItemId();

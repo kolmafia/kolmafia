@@ -107,6 +107,7 @@ public class ItemPool {
   public static final int MR_ACCESSORY = 194;
   public static final int DISASSEMBLED_CLOVER = 196;
   public static final int RAT_WHISKER = 197;
+  public static final int SHINY_RING = 199;
   public static final int FENG_SHUI = 210;
   public static final int FOUNTAIN = 211;
   public static final int WINDCHIMES = 212;
@@ -448,6 +449,7 @@ public class ItemPool {
   public static final int COMFY_BLANKET = 1311;
   public static final int FACSIMILE_DICTIONARY = 1316;
   public static final int TIME_HELMET = 1323;
+  public static final int TIME_SWORD = 1325;
   public static final int DYSPEPSI_HELMET = 1326;
   public static final int CLOACA_SHIELD = 1327;
   public static final int CLOACA_FATIGUES = 1328;
@@ -1492,6 +1494,7 @@ public class ItemPool {
   public static final int IRONIC_MOUSTACHE = 4651;
   public static final int BLACKBERRY_GALOSHES = 4659;
   public static final int ELLSBURY_BOOK = 4663;
+  public static final int HOT_PLATE = 4665;
   public static final int INSULT_PUPPET = 4667;
   public static final int OBSERVATIONAL_GLASSES = 4668;
   public static final int COMEDY_PROP = 4669;
@@ -2381,6 +2384,7 @@ public class ItemPool {
   public static final int WHITE_WINE = 7558;
   public static final int TIME_TWITCHING_TOOLBELT = 7566;
   public static final int CHRONER = 7567;
+  public static final int SOLID_SHIFTING_TIME_WEIRDNESS = 7581;
   public static final int CLAN_SPEAKEASY = 7588;
   public static final int GLASS_OF_MILK = 7589;
   public static final int CUP_OF_TEA = 7590;
