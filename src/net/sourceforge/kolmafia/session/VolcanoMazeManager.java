@@ -274,8 +274,8 @@ public abstract class VolcanoMazeManager {
 
   // KoL's implementation of volcanomaze.html works like this:
   //
-  // The map contains 13 rows containing 13 columns.
-  // rows and columns are numbered from 0-13.
+  // The map contains 13 rows with 13 columns.
+  // rows and columns are numbered from 0-12.
   //
   // Each square is wrapped in a "div"
   //
@@ -303,21 +303,21 @@ public abstract class VolcanoMazeManager {
   //
   // Squares are rendered via a "style" directive
   //
-  // "lv1" - "lv12" -> level1.gif - level 12.gif
+  // "lv1" - "lv12" -> lava1.gif - lava12.gif
   // "yes" -> platform3.gif
   // "goal" -> platformgoal.gif
   // "you" -> platformupyou.gif
   //
   // Mouse clicks on any of these divs is handled by Javascript
-  // It has a $(document).ready function which handles mouse clicks
+  // The script has a $(document).ready function which handles mouse clicks
   // - clicking on a "no" square (lava) confirms 'Swim back to the start?'
   //   If so, it submits "?jump=1"
   // - clicking on a "sq" submits the appropriate URL ("?move=12,1") with "ajax=1"
   //   KoL responds with JSON specifying the new set of platforms which are visible
   //
-  // And here is where all the fancy animation happens:
-  //   The JS goes through all the squares, removing "yes" from everywhere
-  //   It then adds "yes" to exactly the squares which are visible
+  // This is how where all the fancy animation happens:
+  //   The Javascript function iterates through all squares, removing "yes"
+  //   It adds "yes" to exactly the squares which are visible
   //   It changes the titles, as appropriate - "Lava", "Platform", "You"
   //   It changes the images, as appropriate
   //     Lava->Platform = platformup{1,2,3,4}
@@ -331,16 +331,16 @@ public abstract class VolcanoMazeManager {
   //
   // When we see the initial HTML page, we calculate the solution.
   // - we add a "next" class to the correct square to step to.
-  // - we give that square a title "Next Platform"
+  // - we give that square a "Next Platform" title
   // - we change the style to render "next" with "platform3x.gif"
   //
   // When we get the JSON from a move, we calculate the solution.
   // - we add "next":"COL,ROW"
-  // - the JS method adds the "next" class to that square
+  // - the Javascript function adds the "next" class to that square
   //
   // 2) Provide a "Step" button to step to the correct platform.
   //
-  // The JS function recognizes that and submits "volcanomaze.php?autostep"
+  // The JS function handles that by submitting "volcanomaze.php?autostep"
   // KoLmafia calculates the solution and submits the appropriate "move" with "ajax"
   // We return the JSON and the JS handles it as normal
   //

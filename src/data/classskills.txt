@@ -968,6 +968,7 @@
 7425	Engage ultra-attractive parka mode	jparka7.gif	5	0	0
 7426	Ceramic Punch		0	5	0
 7427	Ceramic Bash		0	5	0
+7428	Ceramic Grate		0	5	0
 7431	Ceramic Cenobitize		0	5	0
 
 # Skills granted by books on your Mystical Bookshelf

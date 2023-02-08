@@ -11148,9 +11148,9 @@
 11120	super good fruit	203535525	sitfruit.gif	food	t,d	30
 11121	energized spores	322264800	sitpollen.gif	spleen, usable	t,d	30	handfuls of energized spores
 11122	big hot pepper	635314684	sitpepper.gif	offhand	t,d	30
-11123	out-of-work circus flea	593697348	sitflea.gif	potion, usable	t,d	10
+11123	out-of-work circus flea	593697348	sitflea.gif	potion, multiple	t,d	10
 11124	extra-grubby grub	678177947	sitgrub.gif	none, combat	t,d	10
-11125	fire ant pheromones	852080396	sitvial.gif	potion, usable	t,d	10
+11125	fire ant pheromones	852080396	sitvial.gif	potion, multiple	t,d	10	vials of fire ant pheromones
 11126	flapper fly	718706223	sitfly.gif	potion, multiple	t,d	30	flapper flies
 11127	shot of wasp venom	134483080	sitshot.gif	drink	t,d	30	shots of wasp venom
 11128	filled mosquito	789078329	sitskeeter.gif	potion, multiple	t,d	30
