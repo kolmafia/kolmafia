@@ -9173,7 +9173,6 @@ public abstract class ChoiceControl {
       case 1195: // Spinning Your Time-Spinner
       case 1197: // Travel back to a Delicious Meal
       case 1217: // Sweet Synthesis
-      case 1218: // Wax On
       case 1219: // Approach the Jellyfish
       case 1233: // Equipment Requisition
       case 1234: // Spacegate Vaccination Machine
