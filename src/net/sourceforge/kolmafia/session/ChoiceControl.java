@@ -6432,6 +6432,13 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 1490: // Woolin' Around
+        if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 6) {
+          // Exchanging for items
+          ResultProcessor.removeItem(ItemPool.GRUBBY_WOOL);
+        }
+        break;
+
       case 1494: // Examine S.I.T. Course Certificate
         switch (ChoiceManager.lastDecision) {
           case 1 -> {
@@ -9216,6 +9223,7 @@ public abstract class ChoiceControl {
       case 1483: // Direct Autumn-Aton
       case 1484: // Conspicuous Plaque
       case 1485: // Play with your train
+      case 1490: // Woolin' Around
       case 1493: // Treasure House
       case 1494: // Examine S.I.T. Course Certificate
         return true;

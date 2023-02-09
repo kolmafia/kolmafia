@@ -970,6 +970,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.WAX_GLOB:
           case ItemPool.GUMMY_MEMORY:
           case ItemPool.METAL_METEOROID:
+          case ItemPool.GRUBBY_WOOL:
           case ItemPool.CORKED_GENIE_BOTTLE:
           case ItemPool.GENIE_BOTTLE:
           case ItemPool.POCKET_WISH:

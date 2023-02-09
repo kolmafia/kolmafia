@@ -259,6 +259,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case SPACEGATE -> new SpacegateEquipmentRequest(conc);
       case FANTASY_REALM -> new FantasyRealmRequest(conc);
       case STILLSUIT -> new StillSuitRequest();
+      case WOOL -> new GrubbyWoolRequest(conc);
       default -> new CreateItemRequest(conc);
     };
   }
