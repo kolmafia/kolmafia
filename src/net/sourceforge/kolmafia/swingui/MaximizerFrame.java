@@ -12,8 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;

@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.Collections;
-import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -98,7 +97,7 @@ public class Maximizer {
 
     KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, 0);
+    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, EnumSet.allOf(filterType.class));
 
     if (!KoLmafia.permitsContinue()) {
       return false;
@@ -1505,34 +1504,6 @@ public class Maximizer {
     }
 
     Maximizer.boosts.sort();
-  }
-
-  // convert the old method to use the new method, in case it gets called from elsewhere...
-  public static void maximize(
-      EquipScope equipLevel, int maxPrice, int priceLevel, boolean includeAll, int filterLevel) {
-    if (!Preferences.getBoolean("maximizerUseScope")) {
-      Integer maximizerEquipmentLevel = Preferences.getInteger("maximizerEquipmentLevel");
-      if (maximizerEquipmentLevel == 0) {
-        // no longer supported...
-        maximizerEquipmentLevel = 1;
-      }
-      Preferences.setInteger("maximizerEquipmentScope", maximizerEquipmentLevel - 1);
-      Preferences.setBoolean("maximizerUseScope", true);
-    }
-
-    EnumSet<KoLConstants.filterType> filters;
-
-    KoLConstants.filterType filterName;
-
-    // known filter levels are 1-7
-    if (filterLevel >= 1 && filterLevel <= 7) {
-      filterName = KoLConstants.filterType.values()[filterLevel - 1];
-      filters = EnumSet.of(filterName);
-    } else {
-      // covers filterLevel 0 and catchall...
-      filters = EnumSet.allOf(filterType.class);
-    }
-    maximize(equipLevel, maxPrice, priceLevel, includeAll, filters);
   }
 
   private static EquipScope emitSlot(
