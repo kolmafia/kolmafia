@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -283,10 +284,53 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     ChoiceManager.processChoiceAdventure(decision, "", true);
   }
 
+  private static boolean isInstalled() {
+    var workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+    return workshedItem != null && workshedItem.getItemId() == ItemPool.COLD_MEDICINE_CABINET;
+  }
+
+  /**
+   * Track 20-turn location environment buffer for Cold Medicine Cabinet
+   *
+   * <p>While this tracking was written to be generic, it turns out that the counter with a 20-turn
+   * buffer that this is tracking stops once you hit five consultations with your cold medicine
+   * cabinet. We could keep tracking in theory, but there's no guarantee that a future environment
+   * tracker could use the same rules and have the same buffer size
+   *
+   * @param location Location to be added to the tracker
+   */
+  public static void trackEnvironment(final KoLAdventure location) {
+    String symbol;
+
+    if (!isInstalled() || getConsultsUsed() >= 5) {
+      return;
+    }
+
+    if (location == null) {
+      symbol = "?";
+    } else {
+      if (!location.getFormSource().equals("adventure.php")) return;
+
+      symbol =
+          switch (location.getEnvironment()) {
+            case OUTDOOR -> "o";
+            case INDOOR -> "i";
+            case UNDERGROUND -> "u";
+            case UNDERWATER -> "x";
+            default -> "?";
+          };
+    }
+
+    // Make sure the value is padded to handle malformed preferences
+    var environments = "x".repeat(20) + Preferences.getString("lastCombatEnvironments") + symbol;
+
+    Preferences.setString(
+        "lastCombatEnvironments", environments.substring(environments.length() - 20));
+  }
+
   @Override
   public void run(final String cmd, String parameter) {
-    var workshedItem = CampgroundRequest.getCurrentWorkshedItem();
-    if (workshedItem == null || workshedItem.getItemId() != ItemPool.COLD_MEDICINE_CABINET) {
+    if (!isInstalled()) {
       KoLmafia.updateDisplay(
           KoLConstants.MafiaState.ERROR, "You do not have a Cold Medicine Cabinet installed.");
       return;
