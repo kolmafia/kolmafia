@@ -1485,6 +1485,9 @@ public abstract class InventoryManager {
   }
 
   public static boolean canUseCoinmasters(final int itemId) {
+    if (itemId == ItemPool.ELEVEN_LEAF_CLOVER && HermitRequest.cloverCount() < 1) {
+      return false;
+    }
     return InventoryManager.canUseCoinmasters() && CoinmastersDatabase.contains(itemId);
   }
 
