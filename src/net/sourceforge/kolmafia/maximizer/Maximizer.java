@@ -87,7 +87,8 @@ public class Maximizer {
   public static boolean maximize(
       String maximizerString, int maxPrice, int priceLevel, boolean isSpeculationOnly) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
-    EquipScope equipScope = isSpeculationOnly ? EquipScope.INVENTORY : EquipScope.IMMEDIATE;
+    EquipScope equipScope =
+        isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
 
     // iECOC has to be turned off before actually maximizing as
     // it would cause all item lookups during the process to just
@@ -1276,13 +1277,13 @@ public class Maximizer {
             // Outside Ronin/Hardcore, always show all purchasable
             EquipScope showScope = equipScope;
             if (KoLCharacter.canInteract()) {
-              showScope = EquipScope.ANY;
+              showScope = EquipScope.SPECULATE_ANY;
             }
             CheckedItem checkedItem = new CheckedItem(itemId, showScope, maxPrice, priceLevel);
             if (checkedItem.inventory > 0) {
             } else if (checkedItem.initial > 0) {
               String method =
-                  InventoryManager.simRetrieveItem(item, equipScope == EquipScope.IMMEDIATE, false);
+                  InventoryManager.simRetrieveItem(item, equipScope == EquipScope.EQUIP_NOW, false);
               if (!method.equals("have")) {
                 text = method + " & " + text;
               }
@@ -1552,9 +1553,9 @@ public class Maximizer {
         text = cmd + " (" + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
 
         Boost boost = new Boost(cmd, text, fam, delta);
-        if (equipScope == EquipScope.IMMEDIATE) { // called from CLI
+        if (equipScope == EquipScope.EQUIP_NOW) { // called from CLI
           boost.execute(true);
-          if (!KoLmafia.permitsContinue()) equipScope = EquipScope.INVENTORY;
+          if (!KoLmafia.permitsContinue()) equipScope = EquipScope.SPECULATE_INVENTORY;
         } else {
           Maximizer.boosts.add(boost);
         }
@@ -1596,7 +1597,7 @@ public class Maximizer {
             && !Preferences.getBoolean("_garbageItemChanged"))) {
       if (slot >= EquipmentManager.SLOTS
           || curr.equals(EquipmentRequest.UNEQUIP)
-          || equipScope == EquipScope.IMMEDIATE) {
+          || equipScope == EquipScope.EQUIP_NOW) {
         return equipScope;
       }
       Maximizer.boosts.add(
@@ -1648,7 +1649,7 @@ public class Maximizer {
 
       // If we're running from command line then execute them straight away,
       // so we have to count how much we've used in 'earlier' items
-      if (equipScope == EquipScope.IMMEDIATE) {
+      if (equipScope == EquipScope.EQUIP_NOW) {
         for (int piece = EquipmentManager.HAT; piece < slot; piece++) {
           AdventureResult equipped = EquipmentManager.getEquipment(piece);
           if (equipped != null && item.getItemId() == equipped.getItemId()) {
@@ -1692,7 +1693,7 @@ public class Maximizer {
         String method =
             InventoryManager.simRetrieveItem(
                 ItemPool.get(item.getItemId(), count + 1),
-                equipScope == EquipScope.IMMEDIATE,
+                equipScope == EquipScope.EQUIP_NOW,
                 false);
         if (!method.equals("have")) {
           text = method + " & " + text;
@@ -1765,10 +1766,10 @@ public class Maximizer {
     }
 
     Boost boost = new Boost(cmd, text, slot, item, delta, enthroned, bjorned, modeables);
-    if (equipScope == EquipScope.IMMEDIATE) { // called from CLI
+    if (equipScope == EquipScope.EQUIP_NOW) { // called from CLI
       boost.execute(true);
       if (!KoLmafia.permitsContinue()) {
-        equipScope = EquipScope.INVENTORY;
+        equipScope = EquipScope.SPECULATE_INVENTORY;
         Maximizer.boosts.add(boost);
       }
     } else {
@@ -1815,7 +1816,7 @@ public class Maximizer {
     if (checkedItem.inventory > 0) {
     } else if (checkedItem.initial > 0) {
       String method =
-          InventoryManager.simRetrieveItem(item, equipScope == EquipScope.IMMEDIATE, false);
+          InventoryManager.simRetrieveItem(item, equipScope == EquipScope.EQUIP_NOW, false);
       if (!method.equals("have")) {
         text = method + " & " + text;
       }

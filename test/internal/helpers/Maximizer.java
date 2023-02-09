@@ -23,7 +23,8 @@ public class Maximizer {
 
   public static void maximizeCreatable(String maximizerString) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
-    net.sourceforge.kolmafia.maximizer.Maximizer.maximize(EquipScope.CREATABLE, 0, 0, false, 0);
+    net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
+        EquipScope.SPECULATE_CREATABLE, 0, 0, false, 0);
   }
 
   public static double modFor(Modifier modifier) {

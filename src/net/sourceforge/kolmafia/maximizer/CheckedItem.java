@@ -62,7 +62,7 @@ public class CheckedItem extends AdventureResult {
 
     boolean skillCreateCheck =
         Preferences.getBoolean("maximizerCreateOnHand")
-            && equipScope == EquipScope.INVENTORY
+            && equipScope == EquipScope.SPECULATE_INVENTORY
             && !ItemDatabase.isEquipment(itemId);
     if (this.initial >= 3 || (equipScope.checkInventoryOnly() && !skillCreateCheck)) {
       return;
@@ -83,7 +83,7 @@ public class CheckedItem extends AdventureResult {
       }
     }
 
-    if (this.getCount() >= 3 || equipScope != EquipScope.ANY) {
+    if (this.getCount() >= 3 || equipScope != EquipScope.SPECULATE_ANY) {
       return;
     }
 
