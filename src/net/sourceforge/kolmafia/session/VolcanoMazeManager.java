@@ -187,6 +187,14 @@ public abstract class VolcanoMazeManager {
         "lava10.gif",
         "lava11.gif",
         "lava12.gif",
+        "platformdown1.gif",
+        "platformdown2.gif",
+        "platformdown3.gif",
+        "platformdown4.gif",
+        "platformup1.gif",
+        "platformup2.gif",
+        "platformup3.gif",
+        "platformup4.gif",
       };
 
   public static void downloadImages() {
