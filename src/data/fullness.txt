@@ -129,7 +129,7 @@ bucket of honey	1	4	good	3	0	0	0	50 Sugar Rush
 bunch of square grapes	2	7	awesome	6-7	1-5	5-20	1-5
 C.H.U.M. chum	3	1	crappy	1	0	0	0	20 Majorly Poisoned
 cactus fruit	2	7	awesome	6-7	6-20	1-5	1-5	lose 8-10 HP
-Calzone of Legend	2	5	EPIC	18-22	80-200  80-200	80-200	100 In the 'zone zone! (+50 Spell Damage, +25 Mys, +300% Mys, +100% Max HP/MP), PIZZA
+Calzone of Legend	2	5	EPIC	18-22	80-200	80-200	80-200	100 In the 'zone zone! (+50 Spell Damage, +25 Mys, +300% Mys, +100% Max HP/MP), PIZZA
 campfire baked potato	1	1	awesome	4-5	15-30	0	0	60 Trial by Campfire (Damage Reduction: 10)
 campfire beans	1	1	awesome	3-4	0	10-20	0	40 The More You Eat (Stench Damage +15, Stench Spell Damage +15)
 campfire coffee	1	1	awesome	3-4	0	0	10-20	40 Coffee Achiever (+25 Init)
