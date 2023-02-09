@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.maximizer.EquipScope;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -140,7 +141,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
 
   public void maximize() {
     Maximizer.maximize(
-        this.equipmentSelect.getSelectedIndex(),
+        EquipScope.byIndex(this.equipmentSelect.getSelectedIndex()),
         InputFieldUtilities.getValue(this.maxPriceField),
         this.mallSelect.getSelectedIndex(),
         Preferences.getBoolean("maximizerIncludeAll"),

@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -3406,7 +3407,7 @@ public class FightRequest extends GenericRequest {
       RequestLogger.updateSessionLog(updateMessage);
       KoLmafia.updateDisplay(updateMessage);
     } else {
-      trackEnvironment(location);
+      ColdMedicineCabinetCommand.trackEnvironment(location);
     }
 
     Preferences.setBoolean("_lastCombatWon", won);
@@ -4231,31 +4232,6 @@ public class FightRequest extends GenericRequest {
     if (FightRequest.inMultiFight && responseText.contains("The barrier between world")) {
       KoLAdventure.lastLocationName = "Eldritch Attunement";
     }
-  }
-
-  private static void trackEnvironment(final KoLAdventure location) {
-    String symbol;
-
-    if (location == null) {
-      symbol = "?";
-    } else {
-      if (!location.getFormSource().equals("adventure.php")) return;
-
-      symbol =
-          switch (location.getEnvironment()) {
-            case OUTDOOR -> "o";
-            case INDOOR -> "i";
-            case UNDERGROUND -> "u";
-            case UNDERWATER -> "x";
-            default -> "?";
-          };
-    }
-
-    // Make sure the value is padded to handle malformed preferences
-    var environments = "x".repeat(20) + Preferences.getString("lastCombatEnvironments") + symbol;
-
-    Preferences.setString(
-        "lastCombatEnvironments", environments.substring(environments.length() - 20));
   }
 
   // <p>You see a strange cartouche painted on a nearby wall.<div style='position: relative;
