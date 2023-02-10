@@ -820,6 +820,63 @@ public class FightRequestTest {
         assertThat("gooseReprocessed", isSetTo("41,1547"));
       }
     }
+
+    @Test
+    public void canTrackCappedAdventureReprocess() {
+      // When 500+ adventures are absorbed in Grey You, monsters will no longer give adventures.
+      // In this scenario if an adventure granting monster is reprocessed, no adventures will be
+      // given.
+      // However, reprocessing is still tracked and can no longer be done on the same monster.
+      // As such we'll track it as reprocessed, but not track it as absorbed
+      var TOMB_ASP = 469;
+      var cleanups =
+          new Cleanups(
+              withFight(2),
+              withFamiliar(FamiliarPool.GREY_GOOSE, 36),
+              withPath(Path.GREY_YOU),
+              withNextMonster("tomb asp"),
+              withProperty("gooseReprocessed", "41,1547"));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7408";
+        String html = html("request/test_grey_you_capped_adventure_reabsorb.html");
+
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+
+        assertThat("gooseReprocessed", isSetTo("41,469,1547"));
+        assertThat(GreyYouManager.absorbedMonsters, not(hasItem(TOMB_ASP)));
+        assertThat(KoLCharacter.getFamiliar().getWeight(), equalTo(1));
+      }
+
+      GreyYouManager.resetAbsorptions();
+    }
+
+    @Test
+    public void canAcknowledgeCappedAdventureAbsorb() {
+      // A capped adventure absorb will always give +10 stat, even if fought before
+      // As such it should not be tracked as absorbed
+      var TOMB_ASP = 469;
+      var cleanups =
+          new Cleanups(
+              withFight(2),
+              withFamiliar(FamiliarPool.GREY_GOOSE, 36),
+              withPath(Path.GREY_YOU),
+              withNextMonster("tomb asp"));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=27044";
+        String html = html("request/test_grey_you_capped_adventure_absorb.html");
+
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+
+        assertThat(GreyYouManager.absorbedMonsters, not(hasItem(TOMB_ASP)));
+        assertThat(KoLCharacter.getFamiliar().getWeight(), equalTo(6));
+      }
+
+      GreyYouManager.resetAbsorptions();
+    }
   }
 
   @Nested
