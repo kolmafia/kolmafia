@@ -3501,6 +3501,12 @@ public class ItemPool {
   public static final int CRYSTAL_CRIMBO_GOBLET = 11082;
   public static final int CRYSTAL_CRIMBO_PLATTER = 11083;
   public static final int GRUBBY_WOOL = 11091;
+  public static final int GRUBBY_WOOL_HAT = 11092;
+  public static final int GRUBBY_WOOL_SCARF = 11093;
+  public static final int GRUBBY_WOOL_TROUSERS = 11094;
+  public static final int GRUBBY_WOOL_GLOVES = 11095;
+  public static final int GRUBBY_WOOL_BEERWARMER = 11096;
+  public static final int GRUBBY_WOOLBALL = 11098;
   public static final int ROCK_SEEDS = 11100;
   public static final int GROVELING_GRAVEL = 11101;
   public static final int FRUITY_PEBBLE = 11102;

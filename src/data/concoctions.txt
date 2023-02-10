@@ -3252,4 +3252,11 @@ Pizza of Legend	COOK	roasted vegetable focaccia	Pete's rich ricotta
 
 # Hobo Sheep
 
+grubby wool hat	WOOL	grubby wool
+grubby wool scarf	WOOL	grubby wool
+grubby wool trousers	WOOL	grubby wool
+grubby wool gloves	WOOL	grubby wool
+grubby wool beerwarmer	WOOL	grubby wool
+grubby woolball (3)	WOOL	grubby wool
+
 nice warm beer	MIX	ice-cold Sir Schlitz	grubby wool beerwarmer
