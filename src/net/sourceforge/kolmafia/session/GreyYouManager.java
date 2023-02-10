@@ -143,6 +143,10 @@ public abstract class GreyYouManager {
       return;
     }
 
+    if (absorb.getType() == AbsorptionType.ADVENTURES) {
+      Preferences.increment("_greyYouAdventures", ((GooAbsorption) absorb).value);
+    }
+
     absorbMonster(monster);
   }
 

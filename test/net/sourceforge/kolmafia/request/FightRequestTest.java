@@ -877,6 +877,59 @@ public class FightRequestTest {
 
       GreyYouManager.resetAbsorptions();
     }
+
+    @Test
+    public void canCountAbsorbedAdventures() {
+      var ALBINO_BAT = 41;
+      var cleanups =
+          new Cleanups(
+              withFight(2),
+              withFamiliar(FamiliarPool.GREY_GOOSE, 36),
+              withPath(Path.GREY_YOU),
+              withNextMonster("albino bat"),
+              withProperty("_greyYouAdventures", 5));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=27000";
+        String html = html("request/test_fight_goo_absorption_1.html");
+
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+
+        assertThat(GreyYouManager.absorbedMonsters, hasItem(ALBINO_BAT));
+        assertThat(KoLCharacter.getFamiliar().getWeight(), equalTo(6));
+        assertThat("_greyYouAdventures", isSetTo(10));
+      }
+
+      GreyYouManager.resetAbsorptions();
+    }
+
+    @Test
+    public void canCountReabsorbedAdventures() {
+      var ALBINO_BAT = 41;
+      var cleanups =
+          new Cleanups(
+              withFight(2),
+              withFamiliar(FamiliarPool.GREY_GOOSE, 36),
+              withPath(Path.GREY_YOU),
+              withNextMonster("albino bat"),
+              withProperty("gooseReprocessed", ""),
+              withProperty("_greyYouAdventures", 0));
+
+      try (cleanups) {
+        var urlString = "fight.php?action=skill&whichskill=7408";
+        var html = html("request/test_fight_goo_absorption_2.html");
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+
+        assertThat(GreyYouManager.absorbedMonsters, hasItem(ALBINO_BAT));
+        assertThat("gooseReprocessed", isSetTo(ALBINO_BAT));
+        assertThat(KoLCharacter.getFamiliar().getWeight(), equalTo(1));
+        assertThat("_greyYouAdventures", isSetTo(5));
+      }
+
+      GreyYouManager.resetAbsorptions();
+    }
   }
 
   @Nested
