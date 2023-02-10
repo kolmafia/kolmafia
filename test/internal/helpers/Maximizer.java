@@ -3,10 +3,12 @@ package internal.helpers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.EquipScope;
@@ -24,7 +26,7 @@ public class Maximizer {
   public static void maximizeCreatable(String maximizerString) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
     net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
-        EquipScope.SPECULATE_CREATABLE, 0, 0, false, 0);
+        EquipScope.SPECULATE_CREATABLE, 0, 0, false, EnumSet.allOf(filterType.class));
   }
 
   public static double modFor(Modifier modifier) {
