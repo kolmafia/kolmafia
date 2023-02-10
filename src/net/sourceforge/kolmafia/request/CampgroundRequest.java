@@ -599,18 +599,10 @@ public class CampgroundRequest extends GenericRequest {
 
   public static void clearCrop() {
     for (AdventureResult crop : CampgroundRequest.CROPS) {
-      int index = KoLConstants.campground.indexOf(crop);
-      if (index != -1) {
-        KoLConstants.campground.remove(index);
-        break;
-      }
+      KoLConstants.campground.remove(crop);
     }
     for (AdventureResult seed : CampgroundRequest.CROP_SEEDS) {
-      int index = KoLConstants.campground.indexOf(seed);
-      if (index != -1) {
-        KoLConstants.campground.remove(index);
-        break;
-      }
+      KoLConstants.campground.remove(seed);
     }
   }
 
@@ -982,8 +974,10 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
-    if (action.equals("garden")) {
-      CampgroundRequest.clearCrop();
+    if (action.equals("garden")
+        || action.equals("rgarden1")
+        || action.equals("rgarden2")
+        || action.equals("rgarden3")) {
       CampgroundRequest.parseCampground(responseText);
       return;
     }
@@ -1133,6 +1127,8 @@ public class CampgroundRequest extends GenericRequest {
   }
 
   private static boolean parseGarden(final String responseText) {
+    clearCrop();
+
     return findImage(
             responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0, ItemPool.PUMPKIN_SEEDS, 0)
         || findImage(

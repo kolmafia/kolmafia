@@ -4292,7 +4292,6 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
 
-        CampgroundRequest.clearCrop();
         RequestThread.postRequest(new CampgroundRequest());
         break;
 
