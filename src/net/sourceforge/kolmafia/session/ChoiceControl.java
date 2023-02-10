@@ -6432,6 +6432,13 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 1490: // Woolin' Around
+        if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 6) {
+          // Exchanging for items
+          ResultProcessor.removeItem(ItemPool.GRUBBY_WOOL);
+        }
+        break;
+
       case 1494: // Examine S.I.T. Course Certificate
         switch (ChoiceManager.lastDecision) {
           case 1 -> {
@@ -9166,7 +9173,6 @@ public abstract class ChoiceControl {
       case 1195: // Spinning Your Time-Spinner
       case 1197: // Travel back to a Delicious Meal
       case 1217: // Sweet Synthesis
-      case 1218: // Wax On
       case 1219: // Approach the Jellyfish
       case 1233: // Equipment Requisition
       case 1234: // Spacegate Vaccination Machine
@@ -9216,6 +9222,7 @@ public abstract class ChoiceControl {
       case 1483: // Direct Autumn-Aton
       case 1484: // Conspicuous Plaque
       case 1485: // Play with your train
+      case 1490: // Woolin' Around
       case 1493: // Treasure House
       case 1494: // Examine S.I.T. Course Certificate
         return true;

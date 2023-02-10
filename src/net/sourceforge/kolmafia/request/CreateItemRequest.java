@@ -259,6 +259,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case SPACEGATE -> new SpacegateEquipmentRequest(conc);
       case FANTASY_REALM -> new FantasyRealmRequest(conc);
       case STILLSUIT -> new StillSuitRequest();
+      case WOOL -> new GrubbyWoolRequest(conc);
       default -> new CreateItemRequest(conc);
     };
   }
@@ -291,7 +292,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       return;
     }
 
-    if (!KoLmafia.permitsContinue() || this.quantityNeeded <= 0) {
+    if (this.quantityNeeded <= 0 || !KoLmafia.permitsContinue()) {
       return;
     }
 
@@ -303,8 +304,11 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       return;
     }
 
-    // Save outfit in case we need to equip something - like a Grimacite hammer
+    this.runCreateItemLoop();
+  }
 
+  public void runCreateItemLoop() {
+    // Save outfit in case we need to equip something - like a Grimacite hammer
     try (Checkpoint checkpoint = new Checkpoint()) {
       this.createItemLoop();
     }
