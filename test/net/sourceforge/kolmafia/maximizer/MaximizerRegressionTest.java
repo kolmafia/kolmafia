@@ -232,4 +232,18 @@ public class MaximizerRegressionTest {
       assertEquals(7, modFor(DerivedModifier.BUFFED_MUS), 0.01);
     }
   }
+
+  // https://kolmafia.us/threads/maximizer-recommends-unequipping-weapon-with-smithsness-offhand.28600/
+  @Test
+  public void shouldntUnequipWeaponWithSmithsnessOffhand() {
+    var cleanups =
+        new Cleanups(
+            withEquipped(EquipmentManager.WEAPON, "seal-clubbing club"),
+            withEquippableItem("Half a Purse"));
+
+    try (cleanups) {
+      assertTrue(maximize("meat"));
+      recommendedSlotIsUnchanged(EquipmentManager.WEAPON);
+    }
+  }
 }
