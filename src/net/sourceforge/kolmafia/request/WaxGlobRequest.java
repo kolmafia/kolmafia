@@ -12,23 +12,25 @@ public class WaxGlobRequest extends CreateItemRequest {
   }
 
   private static String itemIdToOption(final int itemId) {
-    return itemId == ItemPool.MINIATURE_CANDLE
-        ? "1"
-        : itemId == ItemPool.WAX_HAND
-            ? "2"
-            : itemId == ItemPool.WAX_FACE
-                ? "3"
-                : itemId == ItemPool.WAX_PANCAKE ? "4" : itemId == ItemPool.WAX_BOOZE ? "5" : "6";
+    return switch (itemId) {
+      case ItemPool.MINIATURE_CANDLE -> "1";
+      case ItemPool.WAX_HAND -> "2";
+      case ItemPool.WAX_FACE -> "3";
+      case ItemPool.WAX_PANCAKE -> "4";
+      case ItemPool.WAX_BOOZE -> "5";
+      default -> "6";
+    };
   }
 
   private static String optionToName(final int option) {
-    return option == 1
-        ? "miniature candle"
-        : option == 2
-            ? "wax hand"
-            : option == 3
-                ? "wax face"
-                : option == 4 ? "wax pancake" : option == 4 ? "wax booze" : "unknown";
+    return switch (option) {
+      case 1 -> "miniature candle";
+      case 2 -> "wax hand";
+      case 3 -> "wax face";
+      case 4 -> "wax pancake";
+      case 5 -> "wax booze";
+      default -> "unknown";
+    };
   }
 
   @Override
@@ -38,24 +40,28 @@ public class WaxGlobRequest extends CreateItemRequest {
 
   @Override
   public void run() {
+    int count = this.getQuantityNeeded();
+    if (count == 0) {
+      return;
+    }
+
     // Attempt to retrieve the ingredients
     if (!this.makeIngredients()) {
       return;
     }
 
-    int count = this.getQuantityNeeded();
-    String name = this.getName();
+    KoLmafia.updateDisplay("Creating " + count + " " + this.getName() + "...");
 
-    KoLmafia.updateDisplay("Creating " + count + " " + name + "...");
-
+    // "using" the item redirects to a choice
     GenericRequest useRequest = new GenericRequest("inv_use.php");
     useRequest.addFormField("whichitem", String.valueOf(ItemPool.WAX_GLOB));
     useRequest.run();
 
-    for (int i = 0; i < count; ++i) {
-      super.run();
-    }
+    // You stay in the choice until you exit; you cannot walk away from it.
+    // Let CreateItemRequest handle the looping.
+    this.runCreateItemLoop();
 
+    // Finish by exiting the choice
     GenericRequest closeRequest = new GenericRequest("choice.php");
     closeRequest.addFormField("whichchoice", "1218");
     closeRequest.addFormField("option", "6");

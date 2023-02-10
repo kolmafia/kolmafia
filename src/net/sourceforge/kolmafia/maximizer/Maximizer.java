@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.Collections;
-import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modeable;
@@ -96,7 +97,7 @@ public class Maximizer {
 
     KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, 0);
+    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, EnumSet.allOf(filterType.class));
 
     if (!KoLmafia.permitsContinue()) {
       return false;
@@ -113,18 +114,18 @@ public class Maximizer {
       int maxPrice,
       int priceLevel,
       boolean includeAll,
-      EnumMap<KoLConstants.filterType, Boolean> filter) {
+      Set<filterType> filter) {
     KoLmafia.forceContinue();
     String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
     RequestLogger.printLine("Maximizer: " + maxMe);
     RequestLogger.updateSessionLog("Maximizer: " + maxMe);
     KoLConstants.maximizerMList.addItem(maxMe);
     Maximizer.eval = new Evaluator(maxMe);
-    int filterCount = Math.toIntExact(filter.values().stream().filter(v -> v).count());
+    int filterCount = filter.size();
     var limitMode = KoLCharacter.getLimitMode();
 
     // parsing error
-    if (!KoLmafia.permitsContinue() || !filter.containsValue(true)) {
+    if (!KoLmafia.permitsContinue() || filterCount == 0) {
       return;
     }
 
@@ -143,7 +144,7 @@ public class Maximizer {
     Maximizer.firstTime = false;
 
     Maximizer.boosts.clear();
-    if (filter.getOrDefault(KoLConstants.filterType.EQUIP, false)) {
+    if (filter.contains(KoLConstants.filterType.EQUIP)) {
       Maximizer.best = new MaximizerSpeculation();
       Maximizer.best.getScore();
       // In case the current outfit scores better than any tried combination,
@@ -198,7 +199,7 @@ public class Maximizer {
             KoLCharacter.getCurrentModifiers(), EquipmentManager.currentEquipment());
 
     // Show only equipment
-    if (filter.getOrDefault(KoLConstants.filterType.EQUIP, true) && filterCount == 1) {
+    if (filter.contains(filterType.EQUIP) && filterCount == 1) {
       return;
     }
 
@@ -322,7 +323,7 @@ public class Maximizer {
       }
     }
 
-    if (filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+    if (filter.contains(KoLConstants.filterType.OTHER)) {
       for (Map.Entry<IntOrString, String> entry :
           ModifierDatabase.getAllModifiersOfType(ModifierType.HORSERY)) {
         if (!entry.getKey().isString()) continue;
@@ -495,23 +496,23 @@ public class Maximizer {
 
         switch (basecommand) {
           case "cast":
-            if (!filter.getOrDefault(KoLConstants.filterType.CAST, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.CAST)) continue;
             break;
           case "synthesize":
           case "chew":
-            if (!filter.getOrDefault(KoLConstants.filterType.SPLEEN, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.SPLEEN)) continue;
             break;
           case "drink":
-            if (!filter.getOrDefault(KoLConstants.filterType.BOOZE, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.BOOZE)) continue;
             break;
           case "eat":
-            if (!filter.getOrDefault(KoLConstants.filterType.FOOD, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.FOOD)) continue;
             break;
           case "use":
-            if (!filter.getOrDefault(KoLConstants.filterType.USABLE, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.USABLE)) continue;
             break;
           default:
-            if (!filter.getOrDefault(KoLConstants.filterType.OTHER, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.OTHER)) continue;
         }
 
         if (cmd.startsWith("#")) { // usage note, no command
@@ -1503,41 +1504,6 @@ public class Maximizer {
     }
 
     Maximizer.boosts.sort();
-  }
-
-  // convert the old method to use the new method, in case it gets called from elsewhere...
-  public static void maximize(
-      EquipScope equipLevel, int maxPrice, int priceLevel, boolean includeAll, int filterLevel) {
-    if (!Preferences.getBoolean("maximizerUseScope")) {
-      Integer maximizerEquipmentLevel = Preferences.getInteger("maximizerEquipmentLevel");
-      if (maximizerEquipmentLevel == 0) {
-        // no longer supported...
-        maximizerEquipmentLevel = 1;
-      }
-      Preferences.setInteger("maximizerEquipmentScope", maximizerEquipmentLevel - 1);
-      Preferences.setBoolean("maximizerUseScope", true);
-    }
-
-    EnumMap<KoLConstants.filterType, Boolean> filters;
-    filters = new EnumMap<>(KoLConstants.filterType.class);
-
-    KoLConstants.filterType filterName;
-
-    // known filter levels are 1-7
-    if (filterLevel >= 1 && filterLevel <= 7) {
-      filterName = KoLConstants.filterType.values()[filterLevel - 1];
-      filters.put(filterName, true);
-    } else {
-      // covers filterLevel 0 and catchall...
-      filters.put(KoLConstants.filterType.EQUIP, true);
-      filters.put(KoLConstants.filterType.CAST, true);
-      filters.put(KoLConstants.filterType.USABLE, true);
-      filters.put(KoLConstants.filterType.BOOZE, true);
-      filters.put(KoLConstants.filterType.FOOD, true);
-      filters.put(KoLConstants.filterType.SPLEEN, true);
-      filters.put(KoLConstants.filterType.OTHER, true);
-    }
-    maximize(equipLevel, maxPrice, priceLevel, includeAll, filters);
   }
 
   private static EquipScope emitSlot(

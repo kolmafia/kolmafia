@@ -463,6 +463,13 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    // grubby wool creation is an instance of choice.php
+    if ((isExternal || request instanceof GrubbyWoolRequest)
+        && GrubbyWoolRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     // The Clan Lounge Swimming Pool is an instance of choice.php
     if ((isExternal || request instanceof ClanLoungeSwimmingPoolRequest)
         && ClanLoungeSwimmingPoolRequest.registerRequest(urlString)) {
