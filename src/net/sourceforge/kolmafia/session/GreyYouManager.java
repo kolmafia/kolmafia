@@ -124,6 +124,28 @@ public abstract class GreyYouManager {
     return skill;
   }
 
+  public static void absorbMonster(MonsterData monster, String absorbText) {
+    // This called from FightRequest after a win
+    if (monster == null || !KoLCharacter.inGreyYou()) {
+      return;
+    }
+
+    Absorption absorb = allAbsorptions.get(monster.getId());
+
+    if (absorb == null) {
+      return;
+    }
+
+    // If absorb is expected to give adventures, but neither message for adventure absorbs is found
+    if (absorb.getType() == AbsorptionType.ADVENTURES
+        && !absorbText.contains("a lot of potential energy!")
+        && !absorbText.contains("incorporate this energetic creature.")) {
+      return;
+    }
+
+    absorbMonster(monster);
+  }
+
   public static void absorbMonster(MonsterData monster) {
     // This called from FightRequest after a win
     if (monster == null || !KoLCharacter.inGreyYou()) {
