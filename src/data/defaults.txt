@@ -1830,6 +1830,7 @@ user	_gongDrops	0
 user	_gothKidCharge	0
 user	_gothKidFights	0
 user	_governmentPerDiemUsed	false
+user	_greyYouAdventures	0
 user	_grimBuff	false
 user	_grimBrotherCharge	0
 user	_grimFairyTaleDrops	0
