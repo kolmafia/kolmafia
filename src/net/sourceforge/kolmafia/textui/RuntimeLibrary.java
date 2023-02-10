@@ -6650,11 +6650,17 @@ public abstract class RuntimeLibrary {
         // ...which is our current familiar, just use the "familiar" slot
         destination = new Value("familiar");
       } else {
-        // ...otherwise check if we can equip it...
-        var it = ItemPool.get((int) item.intValue());
+        AdventureResult it;
+        // ...otherwise check if it's "none"
+        if (item.equals(DataTypes.ITEM_INIT)) {
+          it = EquipmentRequest.UNEQUIP;
+        } else {
+          // ...or if we can equip it...
+          it = ItemPool.get((int) item.intValue());
 
-        if (!familiar.canEquip(it)) {
-          return DataTypes.FALSE_VALUE;
+          if (!familiar.canEquip(it)) {
+            return DataTypes.FALSE_VALUE;
+          }
         }
 
         // ...and fire a request to do so.
