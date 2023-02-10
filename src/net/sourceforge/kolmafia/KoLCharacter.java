@@ -5058,6 +5058,16 @@ public abstract class KoLCharacter {
       }
     }
 
+    // We need to compute and store smithsness before equipment that use it
+
+    // Temporary custom modifier (e.g. Gel Noob absorbed equipment / skills)
+    if (custom != null) {
+      newModifiers.add(ModifierDatabase.parseModifiers(ModifierType.GENERATED, "custom", custom));
+    }
+
+    // Store some modifiers as statics
+    Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
+
     // Look at items
     for (int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot) {
       AdventureResult item = equipment[slot];
@@ -5222,14 +5232,8 @@ public abstract class KoLCharacter {
     Modifiers fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
     newModifiers.add(fightMods);
 
-    // Temporary custom modifier
-    if (custom != null) {
-      newModifiers.add(ModifierDatabase.parseModifiers(ModifierType.GENERATED, "custom", custom));
-    }
-
     // Store some modifiers as statics
     Modifiers.hoboPower = newModifiers.getDouble(DoubleModifier.HOBO_POWER);
-    Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
 
     if (Modifiers.currentLocation.equals("The Slime Tube")) {
       int hatred = (int) newModifiers.getDouble(DoubleModifier.SLIME_HATES_IT);

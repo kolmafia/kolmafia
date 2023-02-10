@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -798,7 +797,6 @@ public class MaximizerTest {
       }
 
       @Test
-      @Disabled("fails to recommend to use the flask")
       public void usesFlaskfullOfHollow() {
         final var cleanups =
             new Cleanups(withItem("Flaskfull of Hollow"), withStats(100, 100, 100));
