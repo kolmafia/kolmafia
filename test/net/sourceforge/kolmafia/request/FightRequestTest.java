@@ -16,6 +16,7 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Player.withWorkshedItem;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
@@ -819,6 +820,116 @@ public class FightRequestTest {
         assertThat("gooseReprocessed", isSetTo("41,1547"));
       }
     }
+
+    @Test
+    public void canTrackCappedAdventureReprocess() {
+      // When 500+ adventures are absorbed in Grey You, monsters will no longer give adventures.
+      // In this scenario if an adventure granting monster is reprocessed, no adventures will be
+      // given.
+      // However, reprocessing is still tracked and can no longer be done on the same monster.
+      // As such we'll track it as reprocessed, but not track it as absorbed
+      var TOMB_ASP = 469;
+      var cleanups =
+          new Cleanups(
+              withFight(2),
+              withFamiliar(FamiliarPool.GREY_GOOSE, 36),
+              withPath(Path.GREY_YOU),
+              withNextMonster("tomb asp"),
+              withProperty("gooseReprocessed", "41,1547"));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7408";
+        String html = html("request/test_grey_you_capped_adventure_reabsorb.html");
+
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+
+        assertThat("gooseReprocessed", isSetTo("41,469,1547"));
+        assertThat(GreyYouManager.absorbedMonsters, not(hasItem(TOMB_ASP)));
+        assertThat(KoLCharacter.getFamiliar().getWeight(), equalTo(1));
+      }
+
+      GreyYouManager.resetAbsorptions();
+    }
+
+    @Test
+    public void canAcknowledgeCappedAdventureAbsorb() {
+      // A capped adventure absorb will always give +10 stat, even if fought before
+      // As such it should not be tracked as absorbed
+      var TOMB_ASP = 469;
+      var cleanups =
+          new Cleanups(
+              withFight(2),
+              withFamiliar(FamiliarPool.GREY_GOOSE, 36),
+              withPath(Path.GREY_YOU),
+              withNextMonster("tomb asp"));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=27044";
+        String html = html("request/test_grey_you_capped_adventure_absorb.html");
+
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+
+        assertThat(GreyYouManager.absorbedMonsters, not(hasItem(TOMB_ASP)));
+        assertThat(KoLCharacter.getFamiliar().getWeight(), equalTo(6));
+      }
+
+      GreyYouManager.resetAbsorptions();
+    }
+
+    @Test
+    public void canCountAbsorbedAdventures() {
+      var ALBINO_BAT = 41;
+      var cleanups =
+          new Cleanups(
+              withFight(2),
+              withFamiliar(FamiliarPool.GREY_GOOSE, 36),
+              withPath(Path.GREY_YOU),
+              withNextMonster("albino bat"),
+              withProperty("_greyYouAdventures", 5));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=27000";
+        String html = html("request/test_fight_goo_absorption_1.html");
+
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+
+        assertThat(GreyYouManager.absorbedMonsters, hasItem(ALBINO_BAT));
+        assertThat(KoLCharacter.getFamiliar().getWeight(), equalTo(6));
+        assertThat("_greyYouAdventures", isSetTo(10));
+      }
+
+      GreyYouManager.resetAbsorptions();
+    }
+
+    @Test
+    public void canCountReabsorbedAdventures() {
+      var ALBINO_BAT = 41;
+      var cleanups =
+          new Cleanups(
+              withFight(2),
+              withFamiliar(FamiliarPool.GREY_GOOSE, 36),
+              withPath(Path.GREY_YOU),
+              withNextMonster("albino bat"),
+              withProperty("gooseReprocessed", ""),
+              withProperty("_greyYouAdventures", 0));
+
+      try (cleanups) {
+        var urlString = "fight.php?action=skill&whichskill=7408";
+        var html = html("request/test_fight_goo_absorption_2.html");
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+
+        assertThat(GreyYouManager.absorbedMonsters, hasItem(ALBINO_BAT));
+        assertThat("gooseReprocessed", isSetTo(ALBINO_BAT));
+        assertThat(KoLCharacter.getFamiliar().getWeight(), equalTo(1));
+        assertThat("_greyYouAdventures", isSetTo(5));
+      }
+
+      GreyYouManager.resetAbsorptions();
+    }
   }
 
   @Nested
@@ -1387,6 +1498,34 @@ public class FightRequestTest {
 
   @Nested
   class CombatEnvironment {
+    @Test
+    public void doesNotTrackEnvironmentWithoutCMC() {
+      var cleanups =
+          new Cleanups(
+              withWorkshedItem(null),
+              withProperty("_coldMedicineConsults", 1),
+              withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
+              withLastLocation("Oil Peak"));
+      try (cleanups) {
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxx"));
+      }
+    }
+
+    @Test
+    public void doesNotTrackEnvironmentWithoutConsults() {
+      var cleanups =
+          new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 5),
+              withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
+              withLastLocation("Oil Peak"));
+      try (cleanups) {
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxx"));
+      }
+    }
+
     @ParameterizedTest
     @CsvSource({
       "Oil Peak, o",
@@ -1399,6 +1538,8 @@ public class FightRequestTest {
     public void canDetectEnvironment(String adventureName, String environmentSymbol) {
       var cleanups =
           new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx"),
               withLastLocation(adventureName));
       try (cleanups) {
@@ -1412,7 +1553,11 @@ public class FightRequestTest {
     @ValueSource(strings = {"", "xxxxx", "xxxxxxxxxxxxxxxxxxx"})
     public void canRecoverUndersizedProp(String pref) {
       var cleanups =
-          new Cleanups(withProperty("lastCombatEnvironments", pref), withLastLocation("The Oasis"));
+          new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 1),
+              withProperty("lastCombatEnvironments", pref),
+              withLastLocation("The Oasis"));
       try (cleanups) {
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
@@ -1424,6 +1569,8 @@ public class FightRequestTest {
     public void doesNotCountFreeFights() {
       var cleanups =
           new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
               withLastLocation("Hobopolis Town Square"));
       try (cleanups) {
@@ -1437,6 +1584,8 @@ public class FightRequestTest {
     public void doesNotCountNonSnarfblats() {
       var cleanups =
           new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
               withLastLocation("The Typical Tavern Cellar"));
       try (cleanups) {
@@ -1451,6 +1600,8 @@ public class FightRequestTest {
       var overrideLocation = new KoLAdventure("Override", "adventure.php", "69", "Nice");
       var cleanups =
           new Cleanups(
+              withWorkshedItem(ItemPool.COLD_MEDICINE_CABINET),
+              withProperty("_coldMedicineConsults", 1),
               withProperty("lastCombatEnvironments", "ioioioioioioioioioio"),
               withLastLocation(overrideLocation));
       try (cleanups) {

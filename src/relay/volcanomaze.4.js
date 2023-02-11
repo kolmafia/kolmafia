@@ -20,7 +20,7 @@ function adjustPlatforms(res) {
 			var bg = t.find('a').css('background');
 			t.removeClass('yes');
 			if (bg && bg.match(/platformup[0-9]/) && t.attr('rel') != res.pos) {
-				t.find('a').css('background','url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/platformdown'+Math.floor((Math.random() * 4) +1)+'.gif?foo='+1+'")');
+				t.find('a').css('background','url("/images/itemimages/platformdown'+Math.floor((Math.random() * 4) +1)+'.gif'")');
 			}
 			else t.find('a').css('background','');
 			if (!t.hasClass('no')) { t.addClass('no'); setTitle(t, 'Lava'); }
@@ -28,10 +28,10 @@ function adjustPlatforms(res) {
 				t.removeClass('no').addClass('you');
 				setTitle(t, 'You');
 			}
-			t.removeClass('next');
 			if (t.attr('rel') == res.next) {
-				t.removeClass('no').addClass('yes').addClass('next');
-				setTitle(t, 'Next Platform');
+				t.addClass('next');
+			} else {
+				t.removeClass('next');
 			}
 		});
 		for (i in res.show) {
@@ -39,15 +39,17 @@ function adjustPlatforms(res) {
 			var sq = $('#sq'+res.show[i]);
 			if (sq.hasClass('goal')) continue;
 			if (sq.hasClass('you')) continue;
+			sq.removeClass('no').addClass('yes');
+			if (sq.hasClass('next')) {
+				setTitle(sq, 'Next Platform');
+			} else {
+				setTitle(sq, 'Platform');
+			}
 			var image = 'platformup'+Math.floor((Math.random() * 4) +1);
 			if (sq.hasClass('next')) {
 				image += 'x';
 			}
-			var url ='url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/'+image+'.gif?foo='+1+'")';
-			if (!sq.hasClass('next')) {
-				sq.removeClass('no').addClass('yes');
-				setTitle(sq, 'Platform');
-			}
+			var url ='url("/images/itemimages/'+image+'.gif'")';
 			sq.find('a').css('background', url);
 		}
 	}

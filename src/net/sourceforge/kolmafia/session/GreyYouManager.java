@@ -124,16 +124,30 @@ public abstract class GreyYouManager {
     return skill;
   }
 
-  public static void absorbMonster(MonsterData monster) {
+  public static void absorbMonster(MonsterData monster, String absorbText) {
     // This called from FightRequest after a win
     if (monster == null || !KoLCharacter.inGreyYou()) {
       return;
     }
-    // All absorbed monsters give a stat, but only save "special" monsters.
-    int monsterId = monster.getId();
-    if (allAbsorptions.containsKey(monsterId)) {
-      absorbedMonsters.add(monsterId);
+
+    Absorption absorb = allAbsorptions.get(monster.getId());
+
+    if (absorb == null) {
+      return;
     }
+
+    if (absorb.getType() == AbsorptionType.ADVENTURES) {
+      // If absorb is expected to give adventures, but neither message for adventure absorbs is
+      // found
+      if (!absorbText.contains("a lot of potential energy!")
+          && !absorbText.contains("incorporate this energetic creature.")) {
+        return;
+      }
+
+      Preferences.increment("_greyYouAdventures", ((GooAbsorption) absorb).value);
+    }
+
+    absorbedMonsters.add(monster.getId());
   }
 
   public static void reprocessMonster(MonsterData monster) {

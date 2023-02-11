@@ -19,7 +19,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CheckedItem extends AdventureResult {
-  public CheckedItem(int itemId, int equipScope, int maxPrice, int priceLevel) {
+  public CheckedItem(int itemId, EquipScope equipScope, int maxPrice, int priceLevel) {
     super(itemId, 1, false);
 
     this.inventory = InventoryManager.getCount(itemId);
@@ -62,9 +62,9 @@ public class CheckedItem extends AdventureResult {
 
     boolean skillCreateCheck =
         Preferences.getBoolean("maximizerCreateOnHand")
-            && equipScope == 0
+            && equipScope == EquipScope.SPECULATE_INVENTORY
             && !ItemDatabase.isEquipment(itemId);
-    if (this.initial >= 3 || (equipScope < 1 && !skillCreateCheck)) {
+    if (this.initial >= 3 || (equipScope.checkInventoryOnly() && !skillCreateCheck)) {
       return;
     }
 
@@ -83,7 +83,7 @@ public class CheckedItem extends AdventureResult {
       }
     }
 
-    if (this.getCount() >= 3 || equipScope < 2) {
+    if (this.getCount() >= 3 || equipScope != EquipScope.SPECULATE_ANY) {
       return;
     }
 

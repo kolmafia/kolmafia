@@ -246,7 +246,7 @@ public interface KoLConstants extends UtilityConstants {
   String SORTTABLE_JS = "sorttable.2.js";
   String STATIONARYBUTTONS_CSS = "stationarybuttons.2.css";
   String STATIONARYBUTTONS_JS = "stationarybuttons.2.js";
-  String VOLCANOMAZE_JS = "volcanomaze.3.js";
+  String VOLCANOMAZE_JS = "volcanomaze.4.js";
 
   String[] RELAY_FILES = {
     AFTERLIFE_ASH,
@@ -504,6 +504,7 @@ public interface KoLConstants extends UtilityConstants {
     SAUSAGE_O_MATIC, // Items made by Kramco Sausage-o-Matic
     KRINGLE, // Items made from waterlogged items
     STILLSUIT, // Distillate from the stillsuit
+    WOOL, // Items made from grubby wool
   }
 
   enum CraftingRequirements {
