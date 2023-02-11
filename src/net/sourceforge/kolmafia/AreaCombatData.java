@@ -1706,8 +1706,8 @@ public class AreaCombatData {
                 // point
               default -> true;
             }
-            ? 1
-            : 0;
+            ? weighting
+            : -4;
       }
     }
     return weighting;
