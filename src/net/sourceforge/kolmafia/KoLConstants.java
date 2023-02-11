@@ -504,6 +504,7 @@ public interface KoLConstants extends UtilityConstants {
     SAUSAGE_O_MATIC, // Items made by Kramco Sausage-o-Matic
     KRINGLE, // Items made from waterlogged items
     STILLSUIT, // Distillate from the stillsuit
+    WOOL, // Items made from grubby wool
   }
 
   enum CraftingRequirements {

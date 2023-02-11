@@ -4,6 +4,8 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withMP;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
@@ -16,11 +18,13 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class CampgroundRequestTest {
   @BeforeEach
@@ -42,6 +46,43 @@ public class CampgroundRequestTest {
     String html = html("request/test_campground_inspect_dwelling.html");
     CampgroundRequest.parseResponse("campground.php?action=inspectdwelling", html);
     assertCampgroundItemCount(ItemPool.CLOCKWORK_MAID, 1);
+  }
+
+  @Test
+  void updatesBookshelfLibramCasts() {
+    String url = "campground.php?preaction=summoncandyheart&quantity=12";
+    // We don't actually do anything with the response, other than check that it's non-empty.
+    String html = "non-empty response";
+
+    var mocked = Mockito.mockStatic(ApiRequest.class, Mockito.CALLS_REAL_METHODS);
+    mocked
+        .when(() -> ApiRequest.updateStatus())
+        .thenAnswer(
+            invocation -> {
+              // UseSkillRequest just cares that MP is updated.
+              KoLCharacter.setMP(500, 1000, 1000);
+              return null;
+            });
+
+    try (var cleanups =
+        new Cleanups(
+            withProperty("libramSummons", 0),
+            withMP(1000, 1000, 1000),
+            new Cleanups(mocked::close))) {
+      // Initial state.
+      assertEquals(UseSkillRequest.lastSkillUsed, -1);
+      assertEquals(UseSkillRequest.lastSkillCount, 0);
+      assertEquals(Preferences.getInteger("libramSummons"), 0);
+
+      CampgroundRequest.registerRequest(url);
+      assertEquals(UseSkillRequest.lastSkillUsed, SkillPool.CANDY_HEART);
+      assertEquals(UseSkillRequest.lastSkillCount, 12);
+
+      CampgroundRequest.parseResponse(url, html);
+      assertEquals(Preferences.getInteger("libramSummons"), 12);
+      assertEquals(UseSkillRequest.lastSkillUsed, -1);
+      assertEquals(UseSkillRequest.lastSkillCount, 0);
+    }
   }
 
   @Nested

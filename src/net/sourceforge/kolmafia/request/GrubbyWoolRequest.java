@@ -4,22 +4,22 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-public class MeteoroidRequest extends CreateItemRequest {
-  public MeteoroidRequest(final Concoction conc) {
+public class GrubbyWoolRequest extends CreateItemRequest {
+  public GrubbyWoolRequest(final Concoction conc) {
     super("choice.php", conc);
-    this.addFormField("whichchoice", "1264");
-    this.addFormField("option", MeteoroidRequest.itemIdToOption(conc.getItemId()));
+    this.addFormField("whichchoice", "1490");
+    this.addFormField("option", GrubbyWoolRequest.itemIdToOption(conc.getItemId()));
   }
 
   private static String itemIdToOption(final int itemId) {
     return switch (itemId) {
-      case ItemPool.METEORTARBOARD -> "1";
-      case ItemPool.METEORITE_GUARD -> "2";
-      case ItemPool.METEORB -> "3";
-      case ItemPool.ASTEROID_BELT -> "4";
-      case ItemPool.METEORTHOPEDIC_SHOES -> "5";
-      case ItemPool.SHOOTING_MORNING_STAR -> "6";
-      default -> "7";
+      case ItemPool.GRUBBY_WOOL_HAT -> "1";
+      case ItemPool.GRUBBY_WOOL_SCARF -> "2";
+      case ItemPool.GRUBBY_WOOL_TROUSERS -> "3";
+      case ItemPool.GRUBBY_WOOL_GLOVES -> "4";
+      case ItemPool.GRUBBY_WOOL_BEERWARMER -> "5";
+      case ItemPool.GRUBBY_WOOLBALL -> "6";
+      default -> "10";
     };
   }
 
@@ -40,15 +40,13 @@ public class MeteoroidRequest extends CreateItemRequest {
       return;
     }
 
-    String name = this.getName();
-
-    KoLmafia.updateDisplay("Creating " + count + " " + name + "...");
+    KoLmafia.updateDisplay("Creating " + count + " " + this.getName() + "...");
 
     int yield = this.getYield();
 
     while (count > 0 && KoLmafia.permitsContinue()) {
       GenericRequest useRequest = new GenericRequest("inv_use.php");
-      useRequest.addFormField("whichitem", String.valueOf(ItemPool.METAL_METEOROID));
+      useRequest.addFormField("whichitem", String.valueOf(ItemPool.GRUBBY_WOOL));
       useRequest.run();
       this.setQuantityNeeded(Math.min(count, yield));
       super.run();
@@ -57,7 +55,7 @@ public class MeteoroidRequest extends CreateItemRequest {
   }
 
   public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("choice.php") || !urlString.contains("whichchoice=1264")) {
+    if (!urlString.startsWith("choice.php") || !urlString.contains("whichchoice=1490")) {
       return false;
     }
 

@@ -7916,7 +7916,7 @@ public class FightRequest extends GenericRequest {
     // It only happens when you've won the combat or reprocessed the monster with your Goose
     var fam = KoLCharacter.getFamiliar();
     if (FightRequest.won || fam != null && status.familiarId == FamiliarPool.GREY_GOOSE) {
-      GreyYouManager.absorbMonster(status.monster);
+      GreyYouManager.absorbMonster(status.monster, text);
       Matcher matcher = GOO_GAIN_PATTERN.matcher(text);
       String gain = null;
       if (matcher.find()) {

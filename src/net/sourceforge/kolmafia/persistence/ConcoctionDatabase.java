@@ -2060,6 +2060,11 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SEWER, 0);
     ConcoctionDatabase.CREATION_COST.put(CraftingType.SEWER, 0);
 
+    // Making stuff with grubby wool is always allowed
+    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.WOOL);
+    ConcoctionDatabase.CREATION_COST.put(CraftingType.WOOL, 0);
+    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.WOOL, 0);
+
     // Other creatability flags
 
     if (KoLCharacter.isTorsoAware()) {
@@ -2483,6 +2488,8 @@ public class ConcoctionDatabase {
       result.append("Kringle's workshop");
     } else if (mixingMethod == CraftingType.STILLSUIT) {
       result.append("tiny stillsuit");
+    } else if (mixingMethod == CraftingType.WOOL) {
+      result.append("grubby wool");
     }
     if (result.length() == 0) {
       result.append("[unknown method of creation]");
@@ -3049,6 +3056,9 @@ public class ConcoctionDatabase {
         break;
       case "STILLSUIT":
         ConcoctionDatabase.mixingMethod = CraftingType.STILLSUIT;
+        break;
+      case "WOOL":
+        ConcoctionDatabase.mixingMethod = CraftingType.WOOL;
         break;
       default:
         if (mix.startsWith("ROW")) {

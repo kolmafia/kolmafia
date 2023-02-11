@@ -11116,7 +11116,7 @@
 11088	The Superconductor's CPU	952525089	cpu.gif	accessory		0
 11089	unoccupied sheep suit	757576526	hobosheepl.gif	grow	t	0
 11090	half-height cigar	586447977	stogie.gif	familiar	t	0
-11091	grubby wool	581491475	gwool.gif	usable	t	0
+11091	grubby wool	581491475	gwool.gif	usable	t	0	handfuls of grubby wool
 11092	grubby wool hat	449271283	gwoolhat.gif	hat	d	20
 11093	grubby wool scarf	443375114	gwoolscarf.gif	accessory	d	20
 11094	grubby wool trousers	423567117	gwoolpants.gif	pants	d	20
