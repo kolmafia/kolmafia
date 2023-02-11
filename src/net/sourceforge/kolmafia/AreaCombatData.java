@@ -1702,6 +1702,9 @@ public class AreaCombatData {
               case "shadow tree" -> ingress.equals("mclargehuge")
                   || ingress.equals("woods")
                   || ingress.equals("cemetery");
+                // If you somehow get another monster here, assume it's not affected by ingress
+                // point
+              default -> true;
             }
             ? 1
             : 0;
