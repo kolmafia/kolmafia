@@ -1778,21 +1778,11 @@ public class CampgroundRequest extends GenericRequest {
       return false;
     }
 
-    Matcher matcher = GenericRequest.ACTION_PATTERN.matcher(urlString);
-    if (!matcher.find()) {
+    String action = Objects.requireNonNullElse(GenericRequest.getAction(urlString), "");
+    String preaction = Objects.requireNonNullElse(GenericRequest.getPreaction(urlString), "");
+    if (action.isEmpty() && preaction.isEmpty()) {
       // Simple visit. Nothing to log.
       return true;
-    }
-
-    String action = matcher.group(1);
-    if (action.equals("bookshelf")) {
-      // A request can have both action=bookshelf and preaction=yyy.
-      // Check for that.
-      if (!matcher.find()) {
-        // Nothing to log.
-        return true;
-      }
-      action = matcher.group(1);
     }
 
     // Dispatch campground requests to other classes
@@ -1817,7 +1807,7 @@ public class CampgroundRequest extends GenericRequest {
     // 09 = CLOCK
     // 10 = HAMMER
 
-    if (action.startsWith("summon") || action.equals("combinecliparts")) {
+    if (preaction.startsWith("summon") || preaction.equals("combinecliparts")) {
       // Detect a redirection to campground.php from
       // skills.php. The first one was already logged.
       if (urlString.contains("skilluse=1")) {
