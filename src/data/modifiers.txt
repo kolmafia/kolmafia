@@ -1776,6 +1776,7 @@ Item	serpentine sword	Monster Level: +10, Synergetic
 Item	severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
 Item	sewage-clogged pistol	Monster Level: +10, Stench Damage: +20
 Item	sewer snake	Stench Damage: +3
+Item	shadow stick	Spooky Damage: +13, Cold Damage: +13, Weakens Monster
 Item	Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7, Class: "Disco Bandit"
 # Shakespeare's Sister's Accordion: (+% to Moxie Based on Smithsness)
 # Shakespeare's Sister's Accordion: Has a cool Cadenza
@@ -4131,6 +4132,7 @@ Item	sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [
 Item	sea mantle	Muscle Percent: +10, Maximum MP: +50, Weapon Damage Percent: [150*env(underwater)]
 Item	sea shawl	Mysticality Percent: +15, Maximum HP: +100, Spell Damage Percent: [150*env(underwater)]
 Item	sealhide cloak	Cold Resistance: +2
+Item	shadow skin	Spooky Resistance: +3, Cold Resistance: +3
 Item	shellacked shell	Maximum HP: +5, HP Regen Min: 2, HP Regen Max: 3, Class: "Turtle Tamer"
 # shocked shell: Deals physical damage every round
 Item	shocked shell	Class: "Turtle Tamer"
@@ -6295,6 +6297,7 @@ Effect	Industrially Lubricated	Initiative: +150
 Effect	Inebriate Pride	Experience: [min(4,ceil(D/5))]
 Effect	Infernal Thirst	Booze Drop: +200
 # Infinite Loop
+Effect	Inflamed With Shadows	Cold Resistance: +3, Spooky Resistance: +3
 Effect	Influence of Sphere	Pool Skill: +5
 Effect	Infused with Sssshhsssblllrrggghsssssggggrrgglssss	Spooky Resistance: +5, Spooky Damage: +50
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
@@ -8896,6 +8899,7 @@ Item	sausage without a cause	Effect: "East of Eaten", Effect Duration: 1
 Item	savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 Item	sea truffle	Effect: "Trufflin'", Effect Duration: 10
 Item	shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
+Item	shadow flame	Effect: "Inflamed With Shadows", Effect Duration: 100
 Item	shoo-fish pie	Effect: "Fishy", Effect Duration: 20
 Item	shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30
 Item	shushed potatoes	Effect: "Noise Cancelled", Effect Duration: 100
@@ -11885,6 +11889,10 @@ Item	Sensual Massage for Creeps	Skill: "Inappropriate Backrub"
 # sew-on bandage: Restores up to 300 HP
 # sewing kit: Restores up to 1,000 HP
 # sewing kit: (doesn't go away when used)
+# shadow brick: Instantly destroy an enemy
+# shadow glass: Refracts prismatic damage at your foes again and again
+# shadow ice: Stun an opponent for a very long time
+# shadow sinew: Weakens and briefly stuns an opponent
 Item	shaking skull	No Pull
 # shard of double-ice: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # shard of double-ice: (and leaves the monster permanently cold)

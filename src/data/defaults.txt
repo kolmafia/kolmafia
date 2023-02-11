@@ -1303,6 +1303,7 @@ user	seaodesFound	0
 user	SeasoningSwagger	0
 user	serverAddsCustomCombat	false
 user	sexChanges	0
+user	shadowRiftIngress
 user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0
 user	shenQuestItem
@@ -1830,6 +1831,7 @@ user	_gongDrops	0
 user	_gothKidCharge	0
 user	_gothKidFights	0
 user	_governmentPerDiemUsed	false
+user	_greyYouAdventures	0
 user	_grimBuff	false
 user	_grimBrotherCharge	0
 user	_grimFairyTaleDrops	0
@@ -2115,6 +2117,7 @@ user	_sealsSummoned	0
 user	_setOfJacksUsed	false
 user	_sewingKitUsed	false
 user	_sexChanged	false
+user	_shadowBricksUsed	0
 user	_shatteringPunchUsed	0
 user	_shortOrderCookCharge	0
 user	_shrubCharge	0
