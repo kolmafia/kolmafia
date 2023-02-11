@@ -135,11 +135,6 @@ public class PlaceRequest extends GenericRequest {
       case "campaway":
         CampAwayRequest.parseResponse(urlString, responseText);
         break;
-      case "cemetery":
-        if (action.equals("cem_shadowrift")) {
-          Preferences.setString("shadowRiftIngress", "cemetery");
-        }
-        break;
       case "chateau":
         ChateauRequest.parseResponse(urlString, responseText);
         break;
@@ -157,14 +152,9 @@ public class PlaceRequest extends GenericRequest {
         }
         break;
       case "desertbeach":
-        switch (action) {
-          case "db_nukehouse" -> {
-            if (responseText.contains("anticheese")) {
-              Preferences.setInteger("lastAnticheeseDay", KoLCharacter.getCurrentDays());
-            }
-          }
-          case "db_shadowrift" -> {
-            Preferences.setString("shadowRiftIngress", "desertbeach");
+        if ("db_nukehouse".equals(action)) {
+          if (responseText.contains("anticheese")) {
+            Preferences.setInteger("lastAnticheeseDay", KoLCharacter.getCurrentDays());
           }
         }
         break;
@@ -285,11 +275,6 @@ public class PlaceRequest extends GenericRequest {
       case "orc_chasm":
         OrcChasmRequest.parseResponse(urlString, responseText);
         break;
-      case "plains":
-        if (action.equals("plains_shadowrift")) {
-          Preferences.setString("shadowRiftIngress", "plains");
-        }
-        break;
       case "rabbithole":
         RabbitHoleRequest.parseResponse(urlString, responseText);
         break;
@@ -316,9 +301,8 @@ public class PlaceRequest extends GenericRequest {
         SpelunkyRequest.parseResponse(urlString, responseText);
         break;
       case "town_right":
-        switch (action) {
-          case "townright_vote" -> VoteMonsterManager.parseBooth(responseText);
-          case "townright_shadowrift" -> Preferences.setString("shadowRiftIngress", "town_right");
+        if ("townright_vote".equals(action)) {
+          VoteMonsterManager.parseBooth(responseText);
         }
         break;
       case "town_wrong":
@@ -341,9 +325,6 @@ public class PlaceRequest extends GenericRequest {
         break;
       case "woods":
         Preferences.setBoolean("getawayCampsiteUnlocked", responseText.contains("campaway"));
-        if (action.equals("woods_shadowrift")) {
-          Preferences.setString("shadowRiftIngress", "woods");
-        }
         break;
       case "wildfire_camp":
         WildfireCampRequest.parseResponse(urlString, responseText);
@@ -386,11 +367,15 @@ public class PlaceRequest extends GenericRequest {
 
     switch (place) {
       case "8bit" -> {
-        message =
-            switch (action) {
-              case "8treasure" -> "Visiting The Treasure House";
-              default -> null;
-            };
+        switch (action) {
+          case "8treasure" -> {
+            message = "Visiting The Treasure House";
+          }
+          case "8rift" -> {
+            message = "Entering the Shadow Rift via the 8-Bit Realm";
+            Preferences.setString("shadowRiftIngress", "8bit");
+          }
+        }
       }
       case "airport_hot" -> {
         message =
@@ -432,6 +417,12 @@ public class PlaceRequest extends GenericRequest {
               default -> null;
             };
       }
+      case "beanstalk" -> {
+        if (action.equals("stalk-rift")) {
+          message = "Entering the Shadow Rift via the The Misspelled Cemetary";
+          Preferences.setString("shadowRiftIngress", "beanstalk");
+        }
+      }
       case "bugbearship" -> {
         if (action.equals("bb_bridge")) {
           message = "Bugbear Ship Bridge";
@@ -452,8 +443,10 @@ public class PlaceRequest extends GenericRequest {
             message = "The Unknown Tomb";
             turns = true;
           }
-          case "cem_shadowrift" -> message =
-              "Visiting the Shadow Rift via the The Misspelled Cemetary";
+          case "cem_shadowrift" -> {
+            message = "Entering the Shadow Rift via the The Misspelled Cemetary";
+            Preferences.setString("shadowRiftIngress", "cemetery");
+          }
         }
       }
       case "crimbo2016" -> {
@@ -503,7 +496,8 @@ public class PlaceRequest extends GenericRequest {
             // message = "Visiting the Small Pyramid";
           }
           case "db_shadowrift" -> {
-            message = "Visiting the Shadow Rift via the Desert Beach";
+            message = "Entering the Shadow Rift via the Desert Beach";
+            Preferences.setString("shadowRiftIngress", "desertbeach");
           }
         }
       }
@@ -546,24 +540,41 @@ public class PlaceRequest extends GenericRequest {
       }
       case "exploathing_other" -> {}
       case "forestvillage" -> {
-        if (action.equals("fv_friar")) {
-          // Don't log this
-          return true;
+        switch (action) {
+          case "fv_friar":
+            // Don't log this
+            return true;
+          case "fv_untinker", "fv_untinker_quest":
+            // Let UntinkerRequest claim this
+            return false;
+          case "fv_mystic":
+            message = "Talking to the Crackpot Mystic";
+            break;
+          case "fv_scientist":
+            message = "Visiting a Science Tent";
+            break;
+          case "fv_shadowrift":
+            message = "Entering the Shadow Rift via the Forest Village";
+            Preferences.setString("shadowRiftIngress", "forestvillage");
+            break;
         }
-        if (action.startsWith("fv_untinker")) {
-          // Let UntinkerRequest claim this
-          return false;
-        }
-        if (action.equals("fv_mystic")) {
-          message = "Talking to the Crackpot Mystic";
-        } else if (action.equals("fv_scientist")) {
-          message = "Visiting a Science Tent";
+      }
+      case "giantcastle" -> {
+        if (action.equals("castle_shadowrift")) {
+          message = "Entering the Shadow Rift via The Castle in the Clouds in the Sky";
+          Preferences.setString("shadowRiftIngress", "giantcastle");
         }
       }
       case "greygoo" -> {
         if (action.equals("goo_prism")) {
           message = "Visiting a Prism of Goo";
           turns = true;
+        }
+      }
+      case "hiddencity" -> {
+        if (action.equals("hc_shadowrift")) {
+          message = "Entering the Shadow Rift via The Hidden City";
+          Preferences.setString("shadowRiftIngress", "hiddencity");
         }
       }
       case "highlands" -> {
@@ -615,8 +626,12 @@ public class PlaceRequest extends GenericRequest {
         }
       }
       case "manor3" -> {
-        if (action.equals("manor3_ladys")) {
-          message = "Talking to Lady Spookyraven";
+        switch (action) {
+          case "manor3_ladys" -> message = "Talking to Lady Spookyraven";
+          case "manor3_shadowrift" -> {
+            message = "Entering the Shadow Rift via Spookyraven Manor, Third Floor";
+            Preferences.setString("shadowRiftIngress", "manor3");
+          }
         }
       }
       case "manor4" -> {
@@ -628,12 +643,14 @@ public class PlaceRequest extends GenericRequest {
         }
       }
       case "mclargehuge" -> {
-        message =
-            switch (action) {
-              case "trappercabin" -> "Visiting the Trapper";
-              case "cloudypeak" -> "Ascending the Mist-Shrouded Peak";
-              default -> null;
-            };
+        switch (action) {
+          case "trappercabin" -> message = "Visiting the Trapper";
+          case "cloudypeak" -> message = "Ascending the Mist-Shrouded Peak";
+          case "mcl_shadowrift" -> {
+            message = "Entering the Shadow Rift via Mt. McLargeHuge";
+            Preferences.setString("shadowRiftIngress", "mclargehuge");
+          }
+        }
       }
       case "monorail" -> {
         switch (action) {
@@ -695,7 +712,10 @@ public class PlaceRequest extends GenericRequest {
           case "rift_scorch", "rift_light" -> {
             return true;
           }
-          case "plains_shadowrift" -> message = "Visiting the Shadow Rift via The Nearby Plains";
+          case "plains_shadowrift" -> {
+            message = "Entering the Shadow Rift via The Nearby Plains";
+            Preferences.setString("shadowRiftIngress", "plains");
+          }
           case "garbage_grounds" -> {
             message = "Inspecting the Giant Pile of Coffee Grounds";
           }
@@ -708,8 +728,12 @@ public class PlaceRequest extends GenericRequest {
         }
       }
       case "pyramid" -> {
-        if (action.equals("pyramid_control")) {
-          message = "Visiting the Pyramid Control Room";
+        switch (action) {
+          case "pyramid_control" -> message = "Visiting the Pyramid Control Room";
+          case "pyramid_shadowrift" -> {
+            message = "Entering the Shadow Rift via The Ancient Buried Pyramid";
+            Preferences.setString("shadowRiftIngress", "pyramid");
+          }
         }
       }
       case "rabbithole" -> {
@@ -776,8 +800,10 @@ public class PlaceRequest extends GenericRequest {
             compact = true; // Part of logging in
           }
           case "townright_vote" -> message = "Visiting The Voting Booth";
-          case "townright_shadowrift" -> message =
-              "Visiting the Shadow Rift via the Right Side of the Tracks";
+          case "townright_shadowrift" -> {
+            message = "Entering the Shadow Rift via the Right Side of the Tracks";
+            Preferences.setString("shadowRiftIngress", "town_right");
+          }
         }
       }
       case "town_wrong" -> {
@@ -818,7 +844,8 @@ public class PlaceRequest extends GenericRequest {
             message = "Talking to Dakota Fanning";
           }
           case "woods_shadowrift" -> {
-            message = "Visiting the Shadow Rift via The Distant Woods";
+            message = "Entering the Shadow Rift via The Distant Woods";
+            Preferences.setString("shadowRiftIngress", "woods");
           }
         }
       }
@@ -826,10 +853,7 @@ public class PlaceRequest extends GenericRequest {
       case "airport",
           "arcade",
           "bathole",
-          "beanstalk",
           "chateau",
-          "giantcastle",
-          "hiddencity",
           "knoll_friendly",
           "nstower",
           "scrapheap",
