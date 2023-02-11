@@ -1039,8 +1039,8 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     if (!ConcoctionDatabase.isPermittedMethod(this.mixingMethod, this.mixingRequirements)
-        || Preferences.getBoolean(
-            "unknownRecipe" + this.getItemId())) { // Impossible to create any more of this item.
+        || Preferences.getBoolean("unknownRecipe" + this.getItemId())) {
+      // Impossible to create any more of this item.
       return alreadyHave;
     }
 
