@@ -129,19 +129,19 @@ public class PlaceRequest extends GenericRequest {
     }
 
     switch (place) {
-      case "arcade":
+      case "arcade" -> {
         ArcadeRequest.parseResponse(urlString, responseText);
-        break;
-      case "campaway":
+      }
+      case "campaway" -> {
         CampAwayRequest.parseResponse(urlString, responseText);
-        break;
-      case "chateau":
+      }
+      case "chateau" -> {
         ChateauRequest.parseResponse(urlString, responseText);
-        break;
-      case "crimbo16m":
+      }
+      case "crimbo16m" -> {
         // A Meditation Mat
-        break;
-      case "crimbo22":
+      }
+      case "crimbo22" -> {
         if (action.equals("crimbo22_engine") || action.equals("c22_locobox")) {
           // This redirects to a fight until you have defeated the boss
           // If we are here now, we have done that.
@@ -150,21 +150,21 @@ public class PlaceRequest extends GenericRequest {
           // locomotive. Not even an explanation for why the train is still running!
           Preferences.setBoolean("superconductorDefeated", true);
         }
-        break;
-      case "desertbeach":
+      }
+      case "desertbeach" -> {
         if ("db_nukehouse".equals(action)) {
           if (responseText.contains("anticheese")) {
             Preferences.setInteger("lastAnticheeseDay", KoLCharacter.getCurrentDays());
           }
         }
-        break;
-      case "drip":
+      }
+      case "drip" -> {
         // You can't enter The Drip without wearing one of those harnesses Jeremy told you about.
         if (responseText.contains("otherimages/drip/hall.gif")) {
           Preferences.setBoolean("drippingHallUnlocked", true);
         }
-        break;
-      case "dripfacility":
+      }
+      case "dripfacility" -> {
         if (action.equals("drip_jeremy")) {
           // You show Jeremy the big snail shell you found.
           if (responseText.contains("You show Jeremy the big snail shell you found")) {
@@ -179,38 +179,38 @@ public class PlaceRequest extends GenericRequest {
             Preferences.setBoolean("drippingHallUnlocked", true);
           }
         }
-        break;
-      case "falloutshelter":
+      }
+      case "falloutshelter" -> {
         FalloutShelterRequest.parseResponse(urlString, responseText);
-        break;
-      case "forestvillage":
+      }
+      case "forestvillage" -> {
         if (action.startsWith("fv_untinker")) {
           UntinkerRequest.parseResponse(urlString, responseText);
         }
-        break;
+      }
       case "junggate_1",
           "junggate_2",
           "junggate_3",
           "junggate_4",
           "junggate_5",
           "junggate_6",
-          "junggate_7":
+          "junggate_7" -> {
         UseItemRequest.parseConsumption(responseText, false);
-        break;
-      case "kgb":
+      }
+      case "kgb" -> {
         KGBRequest.parseResponse(urlString, responseText);
-        break;
-      case "knoll_friendly":
+      }
+      case "knoll_friendly" -> {
         KnollRequest.parseResponse(urlString, responseText);
-        break;
-      case "manor1":
+      }
+      case "manor1" -> {
         if (action.equals("manor1_ladys")) {
           if (responseText.contains("ghost of a necklace")) {
             ResultProcessor.removeItem(ItemPool.SPOOKYRAVEN_NECKLACE);
           }
         }
-        break;
-      case "manor2":
+      }
+      case "manor2" -> {
         if (action.equals("manor2_ladys")) {
           // Lady Spookyraven's ghostly eyes light up at the sight of her dancing
           // finery. She grabs it from you and excitedly shouts "Meet me in the
@@ -222,8 +222,8 @@ public class PlaceRequest extends GenericRequest {
             ResultProcessor.removeItem(ItemPool.DANCING_SHOES);
           }
         }
-        break;
-      case "manor4":
+      }
+      case "manor4" -> {
         if (action.startsWith("manor4_chamberwall")) {
           // You mix the mortar-dissolving ingredients
           // into a nasty-smelling paste, and smear it
@@ -250,8 +250,8 @@ public class PlaceRequest extends GenericRequest {
             QuestDatabase.setQuestProgress(Quest.MANOR, "step3");
           }
         }
-        break;
-      case "mountains":
+      }
+      case "mountains" -> {
         if (responseText.contains("chateau")) {
           Preferences.setBoolean("chateauAvailable", true);
         }
@@ -265,23 +265,23 @@ public class PlaceRequest extends GenericRequest {
         if (responseText.contains("spacegate")) {
           Preferences.setBoolean("spacegateAlways", true);
         }
-        break;
-      case "nstower":
+      }
+      case "nstower" -> {
         SorceressLairManager.parseTowerResponse(action, responseText);
-        break;
-      case "nstower_door", "nstower_doorlowkey":
+      }
+      case "nstower_door", "nstower_doorlowkey" -> {
         TowerDoorManager.parseTowerDoorResponse(action, responseText);
-        break;
-      case "orc_chasm":
+      }
+      case "orc_chasm" -> {
         OrcChasmRequest.parseResponse(urlString, responseText);
-        break;
-      case "rabbithole":
+      }
+      case "rabbithole" -> {
         RabbitHoleRequest.parseResponse(urlString, responseText);
-        break;
-      case "scrapheap":
+      }
+      case "scrapheap" -> {
         ScrapheapRequest.parseResponse(urlString, responseText);
-        break;
-      case "spacegate":
+      }
+      case "spacegate" -> {
         if (action.equals("sg_tech") && responseText.contains("You turn in")) {
           ResultProcessor.removeAllItems(ItemPool.ALIEN_ROCK_SAMPLE);
           ResultProcessor.removeAllItems(ItemPool.ALIEN_GEMSTONE);
@@ -296,21 +296,21 @@ public class PlaceRequest extends GenericRequest {
           ResultProcessor.removeAllItems(ItemPool.MURDERBOT_MEMORY_CHIP);
           ResultProcessor.removeAllItems(ItemPool.SPANT_EGG_CASING);
         }
-        break;
-      case "spelunky":
+      }
+      case "spelunky" -> {
         SpelunkyRequest.parseResponse(urlString, responseText);
-        break;
-      case "town_right":
+      }
+      case "town_right" -> {
         if ("townright_vote".equals(action)) {
           VoteMonsterManager.parseBooth(responseText);
         }
-        break;
-      case "town_wrong":
+      }
+      case "town_wrong" -> {
         if (action.equals("townwrong_artist_quest") || action.equals("townwrong_artist_noquest")) {
           ArtistRequest.parseResponse(urlString, responseText);
         }
-        break;
-      case "twitch":
+      }
+      case "twitch" -> {
         // The Time-Twitching Tower has faded back into the
         // swirling mists of the temporal ether. Or maybe you
         // only thought it was there in the first place because
@@ -322,17 +322,18 @@ public class PlaceRequest extends GenericRequest {
             && responseText.contains("Thanks fer bringin' the money back")) {
           ResultProcessor.removeItem(ItemPool.BIG_BAG_OF_MONEY);
         }
-        break;
-      case "woods":
+      }
+      case "woods" -> {
         Preferences.setBoolean("getawayCampsiteUnlocked", responseText.contains("campaway"));
-        break;
-      case "wildfire_camp":
+      }
+      case "wildfire_camp" -> {
         WildfireCampRequest.parseResponse(urlString, responseText);
-        break;
-      default:
+      }
+      default -> {
         if (place.startsWith("batman")) {
           BatFellowRequest.parseResponse(urlString, responseText);
         }
+      }
     }
 
     SpadingManager.processPlace(urlString, responseText);
