@@ -11144,7 +11144,7 @@
 11116	S.I.T. Course Completion Certificate	495156664	sitcert.gif	reusable		0
 11117	glob of extra-green chlorophyll	346723717	sitchlor.gif	potion, multiple	t,d	10	globs of extra-green chlorophyll
 11118	electric mushroom	211690556	sitshroom.gif	potion, multiple	t,d	10
-11119	five-fingered fern resin	997651431	sitresin.gif	potion, multiple	t,d	10
+11119	five-fingered fern resin	997651431	sitresin.gif	potion, multiple	t,d	10	globs of five-fingered fern resin
 11120	super good fruit	203535525	sitfruit.gif	food	t,d	30
 11121	energized spores	322264800	sitpollen.gif	spleen, usable	t,d	30	handfuls of energized spores
 11122	big hot pepper	635314684	sitpepper.gif	offhand	t,d	30
