@@ -420,7 +420,7 @@ public class PlaceRequest extends GenericRequest {
       }
       case "beanstalk" -> {
         if (action.equals("stalk-rift")) {
-          message = "Entering the Shadow Rift via the The Misspelled Cemetary";
+          message = "Entering the Shadow Rift via The Beanstalk";
           Preferences.setString("shadowRiftIngress", "beanstalk");
         }
       }
@@ -445,7 +445,7 @@ public class PlaceRequest extends GenericRequest {
             turns = true;
           }
           case "cem_shadowrift" -> {
-            message = "Entering the Shadow Rift via the The Misspelled Cemetary";
+            message = "Entering the Shadow Rift via The Misspelled Cemetary";
             Preferences.setString("shadowRiftIngress", "cemetery");
           }
         }
