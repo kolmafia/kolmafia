@@ -11160,3 +11160,15 @@
 11132	hollow rock	273075878	sitrock.gif	usable	t,d	30
 11133	angry agate	197320169	sitagate.gif	potion, multiple	t,d	30
 11134	lump of loyal latite	942515335	sitlatite.gif	potion, multiple	t,d	30	lumps of loyal latite
+11135	shadow sausage	652604537	shadowsausage.gif	food	t,d	13
+11136	shadow skin	229167773	shadowskin.gif	container	t,d	13
+11137	shadow flame	384167669	shadowflame.gif	potion, usable	t,d	13
+11138	shadow bread	459420704	shadowbread.gif	food	t,d	13
+11139	shadow ice	972345634	shadowice.gif	none, combat	t,d	13
+11140	shadow fluid	685274860	shadowfluid.gif	drink	t,d	13
+11141	shadow glass	992149302	shadowprism.gif	none, combat	t,d	13
+11142	shadow brick	219021049	shadowbrick.gif	none, combat	t,d	13
+11143	shadow sinew	543197207	shadowsinew.gif	none, combat	t,d	13
+11144	shadow venom	737945530	shadowvenom.gif	drink	t,d	13
+11145	shadow nectar	676525146	shadownectar.gif	spleen, usable	t,d	13
+11146	shadow stick	609454674	shadowstick.gif	weapon	t,d	13
