@@ -405,7 +405,8 @@ public class AdventureRequest extends GenericRequest {
           };
     }
 
-    String prettyEncounter = stripDevReadout(StringUtilities.getEntityDecode(encounter));
+    String prettyEncounter = StringUtilities.getEntityDecode(encounter);
+    if (KoLmafia.usingDevServer()) prettyEncounter = stripDevReadout(prettyEncounter);
 
     Preferences.setString("lastEncounter", prettyEncounter);
     RequestLogger.printLine("Encounter: " + prettyEncounter);

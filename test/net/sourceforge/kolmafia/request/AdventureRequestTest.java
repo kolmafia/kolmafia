@@ -148,7 +148,10 @@ public class AdventureRequestTest {
   @Test
   public void devReadoutIsStripped() {
     var cleanups =
-        new Cleanups(withProperty("lastEncounter"), withLastLocation("The Spooky Forest"));
+        new Cleanups(
+            withProperty("useDevProxyServer", true),
+            withProperty("lastEncounter"),
+            withLastLocation("The Spooky Forest"));
 
     try (cleanups) {
       var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.SPOOKY_FOREST);
