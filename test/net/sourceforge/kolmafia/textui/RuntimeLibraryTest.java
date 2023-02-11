@@ -330,10 +330,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
       String name1 = "oil baron";
       MonsterData monster1 = MonsterDatabase.findMonster(name1);
-      GreyYouManager.absorbMonster(monster1);
+      GreyYouManager.absorbMonster(monster1, "a lot of potential energy!");
       String name2 = "warwelf";
       MonsterData monster2 = MonsterDatabase.findMonster(name2);
-      GreyYouManager.absorbMonster(monster2);
+      GreyYouManager.absorbMonster(monster2, "a lot of potential energy!");
 
       String output = execute("absorbed_monsters()");
       assertThat(
