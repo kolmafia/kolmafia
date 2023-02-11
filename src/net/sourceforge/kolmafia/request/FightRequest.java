@@ -10468,6 +10468,18 @@ public class FightRequest extends GenericRequest {
             QuestManager.updateCyrusAdjective(itemId2);
           }
           break;
+        case ItemPool.SHADOW_BRICK:
+          if (responseText.contains("They collide, and are annihilated")) {
+            itemSuccess = true;
+          }
+      }
+    }
+
+    if (itemSuccess || itemRunawaySuccess) {
+      var limit = DailyLimitType.USE.getDailyLimit(itemId);
+
+      if (limit != null) {
+        limit.increment();
       }
     }
 

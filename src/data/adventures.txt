@@ -405,6 +405,8 @@ Twitch	adventure=454	DiffLevel: mid Env: indoor Stat: 0	Globe Theatre Backstage
 Twitch	adventure=475	DiffLevel: mid Env: indoor Stat: 0	12 West Main
 Twitch	adventure=476	DiffLevel: mid Env: outdoor Stat: 0	KoL Con Clan Party House
 
+Events	adventure=567	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift
+
 # Special one-time Events - including Crimbo content
 
 The Candy Diorama	adventure=274	DiffLevel: unknown Env: unknown	Lollipop Forest

@@ -1502,6 +1502,7 @@ serpentine sword	115	Mus: 42	1-handed sword
 severed flipper	80	Mus: 25	1-handed club
 sewage-clogged pistol	100	Mox: 35	1-handed pistol
 sewer snake	30	Mox: 0	1-handed flail
+shadow stick	130	Mus: 50	1-handed club
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Shakespeare's Sister's Accordion	100	Mox: 0	1-handed accordion
 sharpened spoon	100	Mus: 20	1-handed knife
@@ -3495,6 +3496,7 @@ sea cape	200	Mox: 85
 sea mantle	200	Mus: 85
 sea shawl	200	Mys: 85
 sealhide cloak	160	Mys: 75
+shadow skin	0	Mys: 100
 shellacked shell	10	none
 shocked shell	100	Mus: 50
 Size XI Wizard's Robe	0	none

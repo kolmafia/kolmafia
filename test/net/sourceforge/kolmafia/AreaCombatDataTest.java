@@ -529,4 +529,38 @@ public class AreaCombatDataTest {
       }
     }
   }
+
+  @Nested
+  class ShadowRifts {
+    @Test
+    public void ingressPointAffectsAvailableMonsters() {
+      var cleanups = withProperty("shadowRiftIngress", "manor3");
+
+      try (cleanups) {
+        Map<MonsterData, Double> appearanceRates =
+            AdventureDatabase.getAreaCombatData("Shadow Rift").getMonsterData(true);
+
+        assertThat(
+            appearanceRates,
+            allOf(
+                aMapWithSize(12),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("shadow bat")), closeTo(100f / 3, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("shadow devil")), closeTo(100f / 3, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("shadow spider")),
+                    closeTo(100f / 3, 0.001)),
+                hasEntry(MonsterDatabase.findMonster("shadow cow"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow guy"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow hexagon"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow orb"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow prism"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow slab"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow snake"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow stalk"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow tree"), -4.0)));
+      }
+    }
+  }
 }

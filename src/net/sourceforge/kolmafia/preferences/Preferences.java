@@ -421,6 +421,7 @@ public class Preferences {
         "scrapbookCharges",
         "screencappedMonster",
         "seahorseName",
+        "shadowRiftIngress",
         "shenInitiationDay",
         "shockingLickCharges",
         "singleFamiliarRun",
