@@ -809,7 +809,8 @@ public abstract class KoLmafia {
       // We did this earlier before loading charsheet.
       // Do it again so we can catch passive skills
       ApiRequest.updateStatus();
-    } else if (KoLCharacter.getPath().canUseFamiliars() && !KoLCharacter.inPokefam()) {
+    } else if (!KoLCharacter.inPokefam()) {
+      // In an avatar path that can't use familiars, owned familiars still affect things
       // Retrieve the Terrarium
       RequestThread.postRequest(new FamiliarRequest());
     }
