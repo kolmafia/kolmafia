@@ -3506,6 +3506,7 @@ public class ItemPool {
   public static final int GRUBBY_WOOL_TROUSERS = 11094;
   public static final int GRUBBY_WOOL_GLOVES = 11095;
   public static final int GRUBBY_WOOL_BEERWARMER = 11096;
+  public static final int NICE_WARM_BEER = 11097;
   public static final int GRUBBY_WOOLBALL = 11098;
   public static final int ROCK_SEEDS = 11100;
   public static final int GROVELING_GRAVEL = 11101;
@@ -3518,6 +3519,7 @@ public class ItemPool {
   public static final int HARD_ROCK = 11108;
   public static final int STRANGE_STALAGMITE = 11109;
   public static final int SIT_COURSE_COMPLETION_CERTIFICATE = 11116;
+  public static final int SHADOW_BRICK = 11142;
 
   private ItemPool() {}
 

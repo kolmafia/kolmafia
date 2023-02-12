@@ -496,7 +496,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
     this.calculateYield();
     AdventureResult[] ingredients =
-        ConcoctionDatabase.getIngredients(this.concoction.getIngredients());
+        ConcoctionDatabase.getIngredients(this.concoction, this.concoction.getIngredients());
 
     if (ingredients.length == 1) {
       if (this.getAdventuresUsed() > KoLCharacter.getAdventuresLeft()) {
@@ -915,7 +915,8 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     }
 
     AdventureResult[] ingredients =
-        ConcoctionDatabase.getIngredients(this.concoction.getIngredients()).clone();
+        ConcoctionDatabase.getIngredients(this.concoction, this.concoction.getIngredients())
+            .clone();
 
     // Sort ingredients by their creatability, so that if the overall creation
     // is going to fail, it should do so immediately, without wasted effort.

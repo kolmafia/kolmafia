@@ -1172,23 +1172,19 @@ public class AreaCombatData {
         }
       }
       case "The Fungal Nethers" -> {
-        if (monster.equals("muscular mushroom guy")) {
-          return KoLCharacter.isSealClubber() ? 1 : 0;
-        }
-        if (monster.equals("armored mushroom guy")) {
-          return KoLCharacter.isTurtleTamer() ? 1 : 0;
-        }
-        if (monster.equals("wizardly mushroom guy")) {
-          return KoLCharacter.isPastamancer() ? 1 : 0;
-        }
-        if (monster.equals("fiery mushroom guy")) {
-          return KoLCharacter.isSauceror() ? 1 : 0;
-        }
-        if (monster.equals("dancing mushroom guy")) {
-          return KoLCharacter.isDiscoBandit() ? 1 : 0;
-        }
-        if (monster.equals("wailing mushroom guy")) {
-          return KoLCharacter.isAccordionThief() ? 1 : 0;
+        switch (monster) {
+          case "muscular mushroom guy":
+            return KoLCharacter.isSealClubber() ? 1 : 0;
+          case "armored mushroom guy":
+            return KoLCharacter.isTurtleTamer() ? 1 : 0;
+          case "wizardly mushroom guy":
+            return KoLCharacter.isPastamancer() ? 1 : 0;
+          case "fiery mushroom guy":
+            return KoLCharacter.isSauceror() ? 1 : 0;
+          case "dancing mushroom guy":
+            return KoLCharacter.isDiscoBandit() ? 1 : 0;
+          case "wailing mushroom guy":
+            return KoLCharacter.isAccordionThief() ? 1 : 0;
         }
       }
       case "Pirates of the Garbage Barges" -> {
@@ -1663,6 +1659,55 @@ public class AreaCombatData {
               : 0;
           default -> weighting;
         };
+      }
+      case "Shadow Rift" -> {
+        var ingress = Preferences.getString("shadowRiftIngress");
+        return switch (monster) {
+              case "shadow bat" -> ingress.equals("manor3")
+                  || ingress.equals("pyramid")
+                  || ingress.equals("plains")
+                  || ingress.equals("giantcastle");
+              case "shadow cow" -> ingress.equals("mclargehuge")
+                  || ingress.equals("plains")
+                  || ingress.equals("town_right");
+              case "shadow devil" -> ingress.equals("desertbeach")
+                  || ingress.equals("manor3")
+                  || ingress.equals("woods");
+              case "shadow guy" -> ingress.equals("forestvillage")
+                  || ingress.equals("town_right")
+                  || ingress.equals("giantcastle")
+                  || ingress.equals("cemetery");
+              case "shadow hexagon" -> ingress.equals("mclargehuge")
+                  || ingress.equals("8bit")
+                  || ingress.equals("forestvillage");
+              case "shadow orb" -> ingress.equals("desertbeach")
+                  || ingress.equals("8bit")
+                  || ingress.equals("beanstalk")
+                  || ingress.equals("giantcastle");
+              case "shadow prism" -> ingress.equals("8bit")
+                  || ingress.equals("town_right")
+                  || ingress.equals("beanstalk");
+              case "shadow slab" -> ingress.equals("pyramid")
+                  || ingress.equals("hiddencity")
+                  || ingress.equals("cemetery");
+              case "shadow spider" -> ingress.equals("manor3")
+                  || ingress.equals("forestvillage")
+                  || ingress.equals("plains");
+              case "shadow snake" -> ingress.equals("desertbeach")
+                  || ingress.equals("pyramid")
+                  || ingress.equals("hiddencity");
+              case "shadow stalk" -> ingress.equals("hiddencity")
+                  || ingress.equals("beanstalk")
+                  || ingress.equals("woods");
+              case "shadow tree" -> ingress.equals("mclargehuge")
+                  || ingress.equals("woods")
+                  || ingress.equals("cemetery");
+                // If you somehow get another monster here, assume it's not affected by ingress
+                // point
+              default -> true;
+            }
+            ? weighting
+            : -4;
       }
     }
     return weighting;

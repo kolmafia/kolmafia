@@ -9063,6 +9063,10 @@ public class FightRequest extends GenericRequest {
         return;
 
       case SkillPool.CERAMIC_PUNCH:
+      case SkillPool.CERAMIC_BASH:
+      case SkillPool.CERAMIC_GRATE:
+      case SkillPool.CERAMIC_BOIL:
+      case SkillPool.CERAMIC_SKULLGAZE:
       case SkillPool.CERAMIC_CENOBITIZE:
         singleCastsThisFight.add(skillId);
         return;
@@ -10468,6 +10472,18 @@ public class FightRequest extends GenericRequest {
             QuestManager.updateCyrusAdjective(itemId2);
           }
           break;
+        case ItemPool.SHADOW_BRICK:
+          if (responseText.contains("They collide, and are annihilated")) {
+            itemSuccess = true;
+          }
+      }
+    }
+
+    if (itemSuccess || itemRunawaySuccess) {
+      var limit = DailyLimitType.USE.getDailyLimit(itemId);
+
+      if (limit != null) {
+        limit.increment();
       }
     }
 

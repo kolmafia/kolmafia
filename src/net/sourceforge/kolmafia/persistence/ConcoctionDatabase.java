@@ -237,8 +237,8 @@ public class ConcoctionDatabase {
     int param = 0;
     if (data.length >= 2) {
       for (int i = 2; i < data.length; ++i) {
-        if (StringUtilities.isNumeric(
-            data[i])) { // Treat all-numeric element as parameter instead of item.
+        if (StringUtilities.isNumeric(data[i])) {
+          // Treat all-numeric element as parameter instead of item.
           // Up to 4 such parameters can be given if each fits in a byte.
           // Currently only used for Clip Art
           param = (param << 8) | StringUtilities.parseInt(data[i]);
@@ -267,15 +267,15 @@ public class ConcoctionDatabase {
 
       Concoction existing = ConcoctionPool.get(item);
       if (concoction.getMisc().contains(CraftingMisc.MANUAL)
-          || (existing != null
-              && existing.getMixingMethod()
-                  != CraftingType.NOCREATE)) { // Until multiple recipes are supported...
+          || (existing != null && existing.getMixingMethod() != CraftingType.NOCREATE)) {
+        // Until multiple recipes are supported...
         return;
       }
 
       if (ingredients.length > 0) {
         for (AdventureResult ingredient : ingredients) {
-          if (ingredient == null) { // Was a parameter, not an ingredient.
+          if (ingredient == null) {
+            // Was a parameter, not an ingredient.
             continue;
           }
           concoction.addIngredient(ingredient);
@@ -1284,7 +1284,7 @@ public class ConcoctionDatabase {
       // Set initial quantity of all remaining items.
 
       // Switch to the better of any interchangeable ingredients. Only mutates the first argument.
-      ConcoctionDatabase.getIngredients(item.getIngredients(), availableIngredientsList);
+      ConcoctionDatabase.getIngredients(item, item.getIngredients(), availableIngredientsList);
 
       item.initial = concoction.getCount(availableIngredients);
       item.price = 0;
@@ -2261,7 +2261,7 @@ public class ConcoctionDatabase {
         } else if (method == CraftingType.COOK_FANCY) {
           usableFreeCrafts += getFreeCookingTurns();
         }
-        if (adv > KoLCharacter.getAdventuresLeft() + usableFreeCrafts) { //
+        if (adv > KoLCharacter.getAdventuresLeft() + usableFreeCrafts) {
           ConcoctionDatabase.PERMIT_METHOD.remove(method);
           ConcoctionDatabase.EXCUSE.put(
               method, "You don't have enough adventures left to create that.");
@@ -2582,29 +2582,44 @@ public class ConcoctionDatabase {
    * ingredients, then <code>null</code> will be returned instead.
    */
   public static final AdventureResult[] getIngredients(final int itemId) {
-    return ConcoctionDatabase.getIngredients(ConcoctionDatabase.getStandardIngredients(itemId));
+    return ConcoctionDatabase.getIngredients(ConcoctionPool.get(itemId));
   }
 
-  public static final AdventureResult[] getIngredients(final int itemId, final String name) {
-    return ConcoctionDatabase.getIngredients(
-        ConcoctionDatabase.getStandardIngredients(itemId, name));
+  public static final AdventureResult[] getIngredients(final String name) {
+    return ConcoctionDatabase.getIngredients(ConcoctionPool.get(-1, name));
   }
 
-  public static final AdventureResult[] getIngredients(AdventureResult[] ingredients) {
+  public static final AdventureResult[] getIngredients(Concoction c) {
+    AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients(c);
+    return ConcoctionDatabase.getIngredients(c, ingredients);
+  }
+
+  public static final AdventureResult[] getIngredients(
+      Concoction c, AdventureResult[] ingredients) {
     List<AdventureResult> availableIngredients = ConcoctionDatabase.getAvailableIngredients();
-    return ConcoctionDatabase.getIngredients(ingredients, availableIngredients);
+    return ConcoctionDatabase.getIngredients(c, ingredients, availableIngredients);
   }
 
   private static AdventureResult[] getIngredients(
-      AdventureResult[] ingredients, List<AdventureResult> availableIngredients) {
+      Concoction concoction,
+      AdventureResult[] ingredients,
+      List<AdventureResult> availableIngredients) {
     // Ensure that you're retrieving the same ingredients that
     // were used in the calculations.  Usually this is the case,
     // but ice-cold beer and ketchup are tricky cases.
 
-    if (ingredients.length > 2) { // This is not a standard crafting recipe - and in the one case
+    if (ingredients.length > 2) {
+      // This is not a standard crafting recipe - and in the one case
       // where such a recipe uses one of these ingredients (Sir Schlitz
       // for the Staff of the Short Order Cook), it's not interchangeable.
       return ingredients;
+    }
+
+    switch (concoction.getItemId()) {
+      case ItemPool.NICE_WARM_BEER -> {
+        // nice warm beer works only with ice-cold Sir Schlitz
+        return ingredients;
+      }
     }
 
     for (int i = 0; i < ingredients.length; ++i) {

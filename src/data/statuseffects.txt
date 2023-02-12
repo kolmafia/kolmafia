@@ -2787,3 +2787,4 @@
 2787	Gritty	sitsand.gif	fad25c396e42b51ddd733a96f4bb7024	neutral	none	use 1 pile of gritty sand
 2788	Misplaced Rage	sitagate.gif	15980f0a3dc21fcddba08af910174fed	neutral	none	use 1 angry agate
 2789	Loyal as a Rock	sitlatite.gif	3d5ed86ce88d2bed620bda86b9e96644	neutral	none	use 1 lump of loyal latite
+2790	Inflamed With Shadows	shadowflame.gif	0c6776b080a2f22de525a6430c662869	neutral	none	use 1 shadow flame

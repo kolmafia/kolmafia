@@ -1,16 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.modifiers.ModifierList;
-import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -21,6 +16,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.TowerDoorManager;
+import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PlaceRequest extends GenericRequest {
@@ -121,12 +117,6 @@ public class PlaceRequest extends GenericRequest {
     PlaceRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
-  private static final Pattern VOTE_PATTERN =
-      Pattern.compile(
-          "initiatives: </b><div style='margin-left: 1em; color: blue'>(.*?)<br>(.*?)</div>");
-  private static final Pattern VOTE_SPEECH_PATTERN =
-      Pattern.compile("<b>Today's Leader: </b>(.*?)<br><blockquote>(.*?)</blockquote>");
-
   public static void parseResponse(final String urlString, final String responseText) {
     String place = GenericRequest.getPlace(urlString);
     if (place == null) {
@@ -138,262 +128,212 @@ public class PlaceRequest extends GenericRequest {
       action = "";
     }
 
-    if (place.equals("arcade")) {
-      ArcadeRequest.parseResponse(urlString, responseText);
-    } else if (place.startsWith("batman")) {
-      BatFellowRequest.parseResponse(urlString, responseText);
-    } else if (place.equals("campaway")) {
-      CampAwayRequest.parseResponse(urlString, responseText);
-    } else if (place.equals("chateau")) {
-      ChateauRequest.parseResponse(urlString, responseText);
-    } else if (place.equals("crimbo16m")) {
-      // A Meditation Mat
-    } else if (place.equals("crimbo22")) {
-      if (action.equals("crimbo22_engine") || action.equals("c22_locobox")) {
-        // This redirects to a fight until you have defeated the boss
-        // If we are here now, we have done that.
-        //
-        // You've already defeated the Trainbot boss. There's nothing else of interest in that
-        // locomotive. Not even an explanation for why the train is still running!
-        Preferences.setBoolean("superconductorDefeated", true);
+    switch (place) {
+      case "arcade" -> {
+        ArcadeRequest.parseResponse(urlString, responseText);
       }
-    } else if (place.equals("desertbeach")) {
-      if (action.equals("db_nukehouse")) {
-        if (responseText.contains("anticheese")) {
-          Preferences.setInteger("lastAnticheeseDay", KoLCharacter.getCurrentDays());
+      case "campaway" -> {
+        CampAwayRequest.parseResponse(urlString, responseText);
+      }
+      case "chateau" -> {
+        ChateauRequest.parseResponse(urlString, responseText);
+      }
+      case "crimbo16m" -> {
+        // A Meditation Mat
+      }
+      case "crimbo22" -> {
+        if (action.equals("crimbo22_engine") || action.equals("c22_locobox")) {
+          // This redirects to a fight until you have defeated the boss
+          // If we are here now, we have done that.
+          //
+          // You've already defeated the Trainbot boss. There's nothing else of interest in that
+          // locomotive. Not even an explanation for why the train is still running!
+          Preferences.setBoolean("superconductorDefeated", true);
         }
       }
-    } else if (place.equals("drip")) {
-      // You can't enter The Drip without wearing one of those harnesses Jeremy told you about.
-      if (responseText.contains("otherimages/drip/hall.gif")) {
-        Preferences.setBoolean("drippingHallUnlocked", true);
-      }
-    } else if (place.equals("dripfacility")) {
-      if (action.equals("drip_jeremy")) {
-        // You show Jeremy the big snail shell you found.
-        if (responseText.contains("You show Jeremy the big snail shell you found")) {
-          Preferences.setBoolean("drippyShieldUnlocked", true);
-          ResultProcessor.removeItem(ItemPool.DRIPPY_SNAIL_SHELL);
+      case "desertbeach" -> {
+        if ("db_nukehouse".equals(action)) {
+          if (responseText.contains("anticheese")) {
+            Preferences.setInteger("lastAnticheeseDay", KoLCharacter.getCurrentDays());
+          }
         }
-        // Oooh, that big fingernail, that's interesting.
-        // I'll send it up to the Armory right away.
-        // In the meantime, our scouts have cleared the way to another section of the Drip.
-        // There's some kind of big building there. Go check it out, would you?
-        if (responseText.contains("Oooh, that big fingernail, that's interesting")) {
+      }
+      case "drip" -> {
+        // You can't enter The Drip without wearing one of those harnesses Jeremy told you about.
+        if (responseText.contains("otherimages/drip/hall.gif")) {
           Preferences.setBoolean("drippingHallUnlocked", true);
         }
       }
-    } else if (place.equals("falloutshelter")) {
-      FalloutShelterRequest.parseResponse(urlString, responseText);
-    } else if (place.equals("forestvillage")) {
-      if (action.startsWith("fv_untinker")) {
-        UntinkerRequest.parseResponse(urlString, responseText);
-      }
-    } else if (place.startsWith("junggate")) {
-      UseItemRequest.parseConsumption(responseText, false);
-    } else if (place.equals("kgb")) {
-      KGBRequest.parseResponse(urlString, responseText);
-    } else if (place.equals("knoll_friendly")) {
-      KnollRequest.parseResponse(urlString, responseText);
-    } else if (place.equals("manor1")) {
-      if (action.equals("manor1_ladys")) {
-        if (responseText.contains("ghost of a necklace")) {
-          ResultProcessor.removeItem(ItemPool.SPOOKYRAVEN_NECKLACE);
-        }
-      }
-    } else if (place.equals("manor2")) {
-      if (action.equals("manor2_ladys")) {
-        // Lady Spookyraven's ghostly eyes light up at the sight of her dancing
-        // finery. She grabs it from you and excitedly shouts "Meet me in the
-        // ballroom in five minutes!" as she darts through the wall.
-
-        if (responseText.contains("She grabs it from you")) {
-          ResultProcessor.removeItem(ItemPool.POWDER_PUFF);
-          ResultProcessor.removeItem(ItemPool.FINEST_GOWN);
-          ResultProcessor.removeItem(ItemPool.DANCING_SHOES);
-        }
-      }
-    } else if (place.equals("manor4")) {
-      if (action.startsWith("manor4_chamberwall")) {
-        // You mix the mortar-dissolving ingredients
-        // into a nasty-smelling paste, and smear it
-        // all over the brickwork with a mortar. Smoke
-        // begins to pour from the cracks between
-        // bricks as the solution does its work. The
-        // wall collapses, revealing an eerily-lit
-        // chamber beyond.
-        if (responseText.contains("The wall collapses")) {
-          ResultProcessor.processItem(ItemPool.LOOSENING_POWDER, -1);
-          ResultProcessor.processItem(ItemPool.POWDERED_CASTOREUM, -1);
-          ResultProcessor.processItem(ItemPool.DRAIN_DISSOLVER, -1);
-          ResultProcessor.processItem(ItemPool.TRIPLE_DISTILLED_TURPENTINE, -1);
-          ResultProcessor.processItem(ItemPool.DETARTRATED_ANHYDROUS_SUBLICALC, -1);
-          ResultProcessor.processItem(ItemPool.TRIATOMACEOUS_DUST, -1);
-          QuestDatabase.setQuestProgress(Quest.MANOR, "step3");
-        }
-        // You shake up the wine bomb and hurl it at the
-        // masonry. The ensuing blast leaves a giant
-        // jagged hole in the wall, leading into an
-        // eerily lit chamber beyond.
-        else if (responseText.contains("a giant jagged hole in the wall")) {
-          ResultProcessor.processItem(ItemPool.WINE_BOMB, -1);
-          QuestDatabase.setQuestProgress(Quest.MANOR, "step3");
-        }
-      }
-    } else if (place.equals("mountains")) {
-      if (responseText.contains("chateau")) {
-        Preferences.setBoolean("chateauAvailable", true);
-      }
-      if (responseText.contains("snojo")) {
-        Preferences.setBoolean("snojoAvailable", true);
-      }
-      if (responseText.contains("gingerbreadcity")
-          && !Preferences.getBoolean("gingerbreadCityAvailable")) {
-        Preferences.setBoolean("_gingerbreadCityToday", true);
-      }
-      if (responseText.contains("spacegate")) {
-        Preferences.setBoolean("spacegateAlways", true);
-      }
-    } else if (place.equals("nstower")) {
-      SorceressLairManager.parseTowerResponse(action, responseText);
-    } else if (place.equals("nstower_door") || place.equals("nstower_doorlowkey")) {
-      TowerDoorManager.parseTowerDoorResponse(action, responseText);
-    } else if (place.equals("orc_chasm")) {
-      OrcChasmRequest.parseResponse(urlString, responseText);
-    } else if (place.equals("rabbithole")) {
-      RabbitHoleRequest.parseResponse(urlString, responseText);
-    } else if (place.equals("scrapheap")) {
-      ScrapheapRequest.parseResponse(urlString, responseText);
-    } else if (place.equals("spacegate")) {
-      if (action.equals("sg_tech") && responseText.contains("You turn in")) {
-        ResultProcessor.removeAllItems(ItemPool.ALIEN_ROCK_SAMPLE);
-        ResultProcessor.removeAllItems(ItemPool.ALIEN_GEMSTONE);
-        ResultProcessor.removeAllItems(ItemPool.ALIEN_PLANT_FIBERS);
-        ResultProcessor.removeAllItems(ItemPool.ALIEN_PLANT_SAMPLE);
-        ResultProcessor.removeAllItems(ItemPool.COMPLEX_ALIEN_PLANT_SAMPLE);
-        ResultProcessor.removeAllItems(ItemPool.FASCINATING_ALIEN_PLANT_SAMPLE);
-        ResultProcessor.removeAllItems(ItemPool.ALIEN_TOENAILS);
-        ResultProcessor.removeAllItems(ItemPool.ALIEN_ZOOLOGICAL_SAMPLE);
-        ResultProcessor.removeAllItems(ItemPool.COMPLEX_ALIEN_ZOOLOGICAL_SAMPLE);
-        ResultProcessor.removeAllItems(ItemPool.FASCINATING_ALIEN_ZOOLOGICAL_SAMPLE);
-        ResultProcessor.removeAllItems(ItemPool.MURDERBOT_MEMORY_CHIP);
-        ResultProcessor.removeAllItems(ItemPool.SPANT_EGG_CASING);
-      }
-    } else if (place.equals("spelunky")) {
-      SpelunkyRequest.parseResponse(urlString, responseText);
-    } else if (place.equals("town_right")) {
-      if (action.equals("townright_vote")) {
-        if (responseText.contains("Today's Leader")) {
-          Matcher matcher = PlaceRequest.VOTE_PATTERN.matcher(responseText);
-          if (matcher.find()) {
-            ModifierList modList = new ModifierList();
-            ModifierList addModList =
-                ModifierDatabase.splitModifiers(ModifierDatabase.parseModifier(matcher.group(1)));
-            for (ModifierValue modifier : addModList) {
-              modList.addToModifier(modifier);
-            }
-            addModList =
-                ModifierDatabase.splitModifiers(ModifierDatabase.parseModifier(matcher.group(2)));
-            for (ModifierValue modifier : addModList) {
-              modList.addToModifier(modifier);
-            }
-            Preferences.setString("_voteModifier", modList.toString());
+      case "dripfacility" -> {
+        if (action.equals("drip_jeremy")) {
+          // You show Jeremy the big snail shell you found.
+          if (responseText.contains("You show Jeremy the big snail shell you found")) {
+            Preferences.setBoolean("drippyShieldUnlocked", true);
+            ResultProcessor.removeItem(ItemPool.DRIPPY_SNAIL_SHELL);
           }
-          if (Preferences.getString("_voteMonster").equals("")) {
-            String monster = null;
-            matcher = PlaceRequest.VOTE_SPEECH_PATTERN.matcher(responseText);
-            if (matcher.find()) {
-              String party = matcher.group(1);
-              String speech = matcher.group(2);
-              if (party.contains("Pork Elf Historical Preservation Party")) {
-                if (speech.contains("strict curtailing of unnatural modern technologies")) {
-                  monster = "government bureaucrat";
-                } else if (speech.contains("reintroduce Pork Elf DNA")) {
-                  monster = "terrible mutant";
-                } else if (speech.contains("kingdom-wide seance")) {
-                  monster = "angry ghost";
-                } else if (speech.contains("very interested in snakes")) {
-                  monster = "annoyed snake";
-                } else if (speech.contains("lots of magical lard")) {
-                  monster = "slime blob";
-                }
-              } else if (party.contains("Clan Ventrilo")) {
-                if (speech.contains("bringing this blessing to the entire population")) {
-                  monster = "slime blob";
-                } else if (speech.contains("see your deceased loved ones again")) {
-                  monster = "angry ghost";
-                } else if (speech.contains("stronger and more vigorous")) {
-                  monster = "terrible mutant";
-                } else if (speech.contains("implement healthcare reforms")) {
-                  monster = "government bureaucrat";
-                } else if (speech.contains("flavored drink in a tube")) {
-                  monster = "annoyed snake";
-                }
-              } else if (party.contains("Bureau of Efficient Government")) {
-                if (speech.contains("graveyards are a terribly inefficient use of space")) {
-                  monster = "angry ghost";
-                } else if (speech.contains("strictly enforced efficiency laws")) {
-                  monster = "government bureaucrat";
-                } else if (speech.contains(
-                    "distribute all the medications for all known diseases ")) {
-                  monster = "terrible mutant";
-                } else if (speech.contains("introduce an influx of snakes")) {
-                  monster = "annoyed snake";
-                } else if (speech.contains("releasing ambulatory garbage-eating slimes")) {
-                  monster = "slime blob";
-                }
-              } else if (party.contains("Scions of Ich'Xuul'kor")) {
-                if (speech.contains("increase awareness of our really great god")) {
-                  monster = "terrible mutant";
-                } else if (speech.contains("hunt these evil people down")) {
-                  monster = "government bureaucrat";
-                } else if (speech.contains("sound of a great hissing")) {
-                  monster = "annoyed snake";
-                } else if (speech.contains("make things a little bit more like he's used to")) {
-                  monster = "slime blob";
-                } else if (speech.contains("kindness energy")) {
-                  monster = "angry ghost";
-                }
-              } else if (party.contains("Extra-Terrific Party")) {
-                if (speech.contains("wondrous chemical")) {
-                  monster = "terrible mutant";
-                } else if (speech.contains("comprehensive DNA harvesting program")) {
-                  monster = "government bureaucrat";
-                } else if (speech.contains("mining and refining processes begin")) {
-                  monster = "slime blob";
-                } else if (speech.contains("warp engines will not destabilize")) {
-                  monster = "angry ghost";
-                } else if (speech.contains("breeding pair of these delightful creatures")) {
-                  monster = "annoyed snake";
-                }
-              }
-            }
-            if (monster != null) {
-              Preferences.setString("_voteMonster", monster);
-            }
+          // Oooh, that big fingernail, that's interesting.
+          // I'll send it up to the Armory right away.
+          // In the meantime, our scouts have cleared the way to another section of the Drip.
+          // There's some kind of big building there. Go check it out, would you?
+          if (responseText.contains("Oooh, that big fingernail, that's interesting")) {
+            Preferences.setBoolean("drippingHallUnlocked", true);
           }
         }
       }
-    } else if (place.equals("town_wrong")) {
-      if (action.equals("townwrong_artist_quest") || action.equals("townwrong_artist_noquest")) {
-        ArtistRequest.parseResponse(urlString, responseText);
+      case "falloutshelter" -> {
+        FalloutShelterRequest.parseResponse(urlString, responseText);
       }
-    } else if (place.equals("twitch")) {
-      // The Time-Twitching Tower has faded back into the
-      // swirling mists of the temporal ether. Or maybe you
-      // only thought it was there in the first place because
-      // you were huffing the temporal ether.
-
-      QuestManager.handleTimeTower(!responseText.contains("temporal ether"));
-
-      if (action.equals("twitch_bank")
-          && responseText.contains("Thanks fer bringin' the money back")) {
-        ResultProcessor.removeItem(ItemPool.BIG_BAG_OF_MONEY);
+      case "forestvillage" -> {
+        if (action.startsWith("fv_untinker")) {
+          UntinkerRequest.parseResponse(urlString, responseText);
+        }
       }
-    } else if (place.equals("woods")) {
-      Preferences.setBoolean("getawayCampsiteUnlocked", responseText.contains("campaway"));
-    } else if (place.equals("wildfire_camp")) {
-      WildfireCampRequest.parseResponse(urlString, responseText);
+      case "junggate_1",
+          "junggate_2",
+          "junggate_3",
+          "junggate_4",
+          "junggate_5",
+          "junggate_6",
+          "junggate_7" -> {
+        UseItemRequest.parseConsumption(responseText, false);
+      }
+      case "kgb" -> {
+        KGBRequest.parseResponse(urlString, responseText);
+      }
+      case "knoll_friendly" -> {
+        KnollRequest.parseResponse(urlString, responseText);
+      }
+      case "manor1" -> {
+        if (action.equals("manor1_ladys")) {
+          if (responseText.contains("ghost of a necklace")) {
+            ResultProcessor.removeItem(ItemPool.SPOOKYRAVEN_NECKLACE);
+          }
+        }
+      }
+      case "manor2" -> {
+        if (action.equals("manor2_ladys")) {
+          // Lady Spookyraven's ghostly eyes light up at the sight of her dancing
+          // finery. She grabs it from you and excitedly shouts "Meet me in the
+          // ballroom in five minutes!" as she darts through the wall.
+
+          if (responseText.contains("She grabs it from you")) {
+            ResultProcessor.removeItem(ItemPool.POWDER_PUFF);
+            ResultProcessor.removeItem(ItemPool.FINEST_GOWN);
+            ResultProcessor.removeItem(ItemPool.DANCING_SHOES);
+          }
+        }
+      }
+      case "manor4" -> {
+        if (action.startsWith("manor4_chamberwall")) {
+          // You mix the mortar-dissolving ingredients
+          // into a nasty-smelling paste, and smear it
+          // all over the brickwork with a mortar. Smoke
+          // begins to pour from the cracks between
+          // bricks as the solution does its work. The
+          // wall collapses, revealing an eerily-lit
+          // chamber beyond.
+          if (responseText.contains("The wall collapses")) {
+            ResultProcessor.processItem(ItemPool.LOOSENING_POWDER, -1);
+            ResultProcessor.processItem(ItemPool.POWDERED_CASTOREUM, -1);
+            ResultProcessor.processItem(ItemPool.DRAIN_DISSOLVER, -1);
+            ResultProcessor.processItem(ItemPool.TRIPLE_DISTILLED_TURPENTINE, -1);
+            ResultProcessor.processItem(ItemPool.DETARTRATED_ANHYDROUS_SUBLICALC, -1);
+            ResultProcessor.processItem(ItemPool.TRIATOMACEOUS_DUST, -1);
+            QuestDatabase.setQuestProgress(Quest.MANOR, "step3");
+          }
+          // You shake up the wine bomb and hurl it at the
+          // masonry. The ensuing blast leaves a giant
+          // jagged hole in the wall, leading into an
+          // eerily lit chamber beyond.
+          else if (responseText.contains("a giant jagged hole in the wall")) {
+            ResultProcessor.processItem(ItemPool.WINE_BOMB, -1);
+            QuestDatabase.setQuestProgress(Quest.MANOR, "step3");
+          }
+        }
+      }
+      case "mountains" -> {
+        if (responseText.contains("chateau")) {
+          Preferences.setBoolean("chateauAvailable", true);
+        }
+        if (responseText.contains("snojo")) {
+          Preferences.setBoolean("snojoAvailable", true);
+        }
+        if (responseText.contains("gingerbreadcity")
+            && !Preferences.getBoolean("gingerbreadCityAvailable")) {
+          Preferences.setBoolean("_gingerbreadCityToday", true);
+        }
+        if (responseText.contains("spacegate")) {
+          Preferences.setBoolean("spacegateAlways", true);
+        }
+      }
+      case "nstower" -> {
+        SorceressLairManager.parseTowerResponse(action, responseText);
+      }
+      case "nstower_door", "nstower_doorlowkey" -> {
+        TowerDoorManager.parseTowerDoorResponse(action, responseText);
+      }
+      case "orc_chasm" -> {
+        OrcChasmRequest.parseResponse(urlString, responseText);
+      }
+      case "rabbithole" -> {
+        RabbitHoleRequest.parseResponse(urlString, responseText);
+      }
+      case "scrapheap" -> {
+        ScrapheapRequest.parseResponse(urlString, responseText);
+      }
+      case "spacegate" -> {
+        if (action.equals("sg_tech") && responseText.contains("You turn in")) {
+          ResultProcessor.removeAllItems(ItemPool.ALIEN_ROCK_SAMPLE);
+          ResultProcessor.removeAllItems(ItemPool.ALIEN_GEMSTONE);
+          ResultProcessor.removeAllItems(ItemPool.ALIEN_PLANT_FIBERS);
+          ResultProcessor.removeAllItems(ItemPool.ALIEN_PLANT_SAMPLE);
+          ResultProcessor.removeAllItems(ItemPool.COMPLEX_ALIEN_PLANT_SAMPLE);
+          ResultProcessor.removeAllItems(ItemPool.FASCINATING_ALIEN_PLANT_SAMPLE);
+          ResultProcessor.removeAllItems(ItemPool.ALIEN_TOENAILS);
+          ResultProcessor.removeAllItems(ItemPool.ALIEN_ZOOLOGICAL_SAMPLE);
+          ResultProcessor.removeAllItems(ItemPool.COMPLEX_ALIEN_ZOOLOGICAL_SAMPLE);
+          ResultProcessor.removeAllItems(ItemPool.FASCINATING_ALIEN_ZOOLOGICAL_SAMPLE);
+          ResultProcessor.removeAllItems(ItemPool.MURDERBOT_MEMORY_CHIP);
+          ResultProcessor.removeAllItems(ItemPool.SPANT_EGG_CASING);
+        }
+      }
+      case "spelunky" -> {
+        SpelunkyRequest.parseResponse(urlString, responseText);
+      }
+      case "town_right" -> {
+        if ("townright_vote".equals(action)) {
+          VoteMonsterManager.parseBooth(responseText);
+        }
+      }
+      case "town_wrong" -> {
+        if (action.equals("townwrong_artist_quest") || action.equals("townwrong_artist_noquest")) {
+          ArtistRequest.parseResponse(urlString, responseText);
+        }
+      }
+      case "twitch" -> {
+        // The Time-Twitching Tower has faded back into the
+        // swirling mists of the temporal ether. Or maybe you
+        // only thought it was there in the first place because
+        // you were huffing the temporal ether.
+
+        QuestManager.handleTimeTower(!responseText.contains("temporal ether"));
+
+        if (action.equals("twitch_bank")
+            && responseText.contains("Thanks fer bringin' the money back")) {
+          ResultProcessor.removeItem(ItemPool.BIG_BAG_OF_MONEY);
+        }
+      }
+      case "woods" -> {
+        Preferences.setBoolean("getawayCampsiteUnlocked", responseText.contains("campaway"));
+      }
+      case "wildfire_camp" -> {
+        WildfireCampRequest.parseResponse(urlString, responseText);
+      }
+      default -> {
+        if (place.startsWith("batman")) {
+          BatFellowRequest.parseResponse(urlString, responseText);
+        }
+      }
     }
 
     SpadingManager.processPlace(urlString, responseText);
@@ -428,11 +368,15 @@ public class PlaceRequest extends GenericRequest {
 
     switch (place) {
       case "8bit" -> {
-        message =
-            switch (action) {
-              case "8treasure" -> "Visiting The Treasure House";
-              default -> null;
-            };
+        switch (action) {
+          case "8treasure" -> {
+            message = "Visiting The Treasure House";
+          }
+          case "8rift" -> {
+            message = "Entering the Shadow Rift via the 8-Bit Realm";
+            Preferences.setString("shadowRiftIngress", "8bit");
+          }
+        }
       }
       case "airport_hot" -> {
         message =
@@ -474,6 +418,12 @@ public class PlaceRequest extends GenericRequest {
               default -> null;
             };
       }
+      case "beanstalk" -> {
+        if (action.equals("stalk-rift")) {
+          message = "Entering the Shadow Rift via The Beanstalk";
+          Preferences.setString("shadowRiftIngress", "beanstalk");
+        }
+      }
       case "bugbearship" -> {
         if (action.equals("bb_bridge")) {
           message = "Bugbear Ship Bridge";
@@ -489,9 +439,15 @@ public class PlaceRequest extends GenericRequest {
             };
       }
       case "cemetery" -> {
-        if (action.equals("cem_advtomb")) {
-          message = "The Unknown Tomb";
-          turns = true;
+        switch (action) {
+          case "cem_advtomb" -> {
+            message = "The Unknown Tomb";
+            turns = true;
+          }
+          case "cem_shadowrift" -> {
+            message = "Entering the Shadow Rift via The Misspelled Cemetary";
+            Preferences.setString("shadowRiftIngress", "cemetery");
+          }
         }
       }
       case "crimbo2016" -> {
@@ -540,6 +496,10 @@ public class PlaceRequest extends GenericRequest {
           case "db_pyramid1" -> {
             // message = "Visiting the Small Pyramid";
           }
+          case "db_shadowrift" -> {
+            message = "Entering the Shadow Rift via the Desert Beach";
+            Preferences.setString("shadowRiftIngress", "desertbeach");
+          }
         }
       }
       case "dinorf" -> {
@@ -581,24 +541,41 @@ public class PlaceRequest extends GenericRequest {
       }
       case "exploathing_other" -> {}
       case "forestvillage" -> {
-        if (action.equals("fv_friar")) {
-          // Don't log this
-          return true;
+        switch (action) {
+          case "fv_friar":
+            // Don't log this
+            return true;
+          case "fv_untinker", "fv_untinker_quest":
+            // Let UntinkerRequest claim this
+            return false;
+          case "fv_mystic":
+            message = "Talking to the Crackpot Mystic";
+            break;
+          case "fv_scientist":
+            message = "Visiting a Science Tent";
+            break;
+          case "fv_shadowrift":
+            message = "Entering the Shadow Rift via the Forest Village";
+            Preferences.setString("shadowRiftIngress", "forestvillage");
+            break;
         }
-        if (action.startsWith("fv_untinker")) {
-          // Let UntinkerRequest claim this
-          return false;
-        }
-        if (action.equals("fv_mystic")) {
-          message = "Talking to the Crackpot Mystic";
-        } else if (action.equals("fv_scientist")) {
-          message = "Visiting a Science Tent";
+      }
+      case "giantcastle" -> {
+        if (action.equals("castle_shadowrift")) {
+          message = "Entering the Shadow Rift via The Castle in the Clouds in the Sky";
+          Preferences.setString("shadowRiftIngress", "giantcastle");
         }
       }
       case "greygoo" -> {
         if (action.equals("goo_prism")) {
           message = "Visiting a Prism of Goo";
           turns = true;
+        }
+      }
+      case "hiddencity" -> {
+        if (action.equals("hc_shadowrift")) {
+          message = "Entering the Shadow Rift via The Hidden City";
+          Preferences.setString("shadowRiftIngress", "hiddencity");
         }
       }
       case "highlands" -> {
@@ -650,8 +627,12 @@ public class PlaceRequest extends GenericRequest {
         }
       }
       case "manor3" -> {
-        if (action.equals("manor3_ladys")) {
-          message = "Talking to Lady Spookyraven";
+        switch (action) {
+          case "manor3_ladys" -> message = "Talking to Lady Spookyraven";
+          case "manor3_shadowrift" -> {
+            message = "Entering the Shadow Rift via Spookyraven Manor, Third Floor";
+            Preferences.setString("shadowRiftIngress", "manor3");
+          }
         }
       }
       case "manor4" -> {
@@ -663,12 +644,14 @@ public class PlaceRequest extends GenericRequest {
         }
       }
       case "mclargehuge" -> {
-        message =
-            switch (action) {
-              case "trappercabin" -> "Visiting the Trapper";
-              case "cloudypeak" -> "Ascending the Mist-Shrouded Peak";
-              default -> null;
-            };
+        switch (action) {
+          case "trappercabin" -> message = "Visiting the Trapper";
+          case "cloudypeak" -> message = "Ascending the Mist-Shrouded Peak";
+          case "mcl_shadowrift" -> {
+            message = "Entering the Shadow Rift via Mt. McLargeHuge";
+            Preferences.setString("shadowRiftIngress", "mclargehuge");
+          }
+        }
       }
       case "monorail" -> {
         switch (action) {
@@ -730,6 +713,10 @@ public class PlaceRequest extends GenericRequest {
           case "rift_scorch", "rift_light" -> {
             return true;
           }
+          case "plains_shadowrift" -> {
+            message = "Entering the Shadow Rift via The Nearby Plains";
+            Preferences.setString("shadowRiftIngress", "plains");
+          }
           case "garbage_grounds" -> {
             message = "Inspecting the Giant Pile of Coffee Grounds";
           }
@@ -742,8 +729,12 @@ public class PlaceRequest extends GenericRequest {
         }
       }
       case "pyramid" -> {
-        if (action.equals("pyramid_control")) {
-          message = "Visiting the Pyramid Control Room";
+        switch (action) {
+          case "pyramid_control" -> message = "Visiting the Pyramid Control Room";
+          case "pyramid_shadowrift" -> {
+            message = "Entering the Shadow Rift via The Ancient Buried Pyramid";
+            Preferences.setString("shadowRiftIngress", "pyramid");
+          }
         }
       }
       case "rabbithole" -> {
@@ -810,6 +801,10 @@ public class PlaceRequest extends GenericRequest {
             compact = true; // Part of logging in
           }
           case "townright_vote" -> message = "Visiting The Voting Booth";
+          case "townright_shadowrift" -> {
+            message = "Entering the Shadow Rift via the Right Side of the Tracks";
+            Preferences.setString("shadowRiftIngress", "town_right");
+          }
         }
       }
       case "town_wrong" -> {
@@ -849,16 +844,17 @@ public class PlaceRequest extends GenericRequest {
           case "woods_dakota_anim", "woods_dakota" -> {
             message = "Talking to Dakota Fanning";
           }
+          case "woods_shadowrift" -> {
+            message = "Entering the Shadow Rift via The Distant Woods";
+            Preferences.setString("shadowRiftIngress", "woods");
+          }
         }
       }
 
       case "airport",
           "arcade",
           "bathole",
-          "beanstalk",
           "chateau",
-          "giantcastle",
-          "hiddencity",
           "knoll_friendly",
           "nstower",
           "scrapheap",
