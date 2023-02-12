@@ -249,9 +249,8 @@ public class GenericRequest implements Runnable {
       registerProxyListeners("https");
     }
 
-    boolean useDevProxyServer = Preferences.getBoolean("useDevProxyServer");
-
-    GenericRequest.setLoginServer(GenericRequest.SERVERS[useDevProxyServer ? 0 : 1]);
+    var loginServer = GenericRequest.SERVERS[KoLmafia.usingDevServer() ? 0 : 1];
+    GenericRequest.setLoginServer(loginServer);
   }
 
   private static void registerProxyListeners(String protocol) {

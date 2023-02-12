@@ -496,6 +496,10 @@ public abstract class KoLmafia {
     return KoLmafia.SESSION_ENDING;
   }
 
+  public static final boolean usingDevServer() {
+    return Preferences.getBoolean("useDevProxyServer");
+  }
+
   public static final String getLastMessage() {
     return KoLmafia.lastMessage;
   }

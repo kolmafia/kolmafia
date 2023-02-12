@@ -317,6 +317,21 @@ public class AdventureRequest extends GenericRequest {
     }
   }
 
+  private static final Pattern DEV_READOUT = Pattern.compile("(.*?) \\(#\\d+\\)$");
+
+  /**
+   * On the dev server choice adventures have their choice numbers in brackets afterwards This needs
+   * to be stripped
+   *
+   * @param encounter Raw encounter name
+   * @return Encounter name without dev readout if it exists
+   */
+  private static String stripDevReadout(final String encounter) {
+    var m = DEV_READOUT.matcher(encounter);
+
+    return m.find() ? m.group(1) : encounter;
+  }
+
   public static final String registerEncounter(final GenericRequest request) {
     // No encounters in chat!
     if (request.isChatRequest) {
@@ -391,6 +406,8 @@ public class AdventureRequest extends GenericRequest {
     }
 
     String prettyEncounter = StringUtilities.getEntityDecode(encounter);
+    if (KoLmafia.usingDevServer()) prettyEncounter = stripDevReadout(prettyEncounter);
+
     Preferences.setString("lastEncounter", prettyEncounter);
     RequestLogger.printLine("Encounter: " + prettyEncounter);
     RequestLogger.updateSessionLog("Encounter: " + prettyEncounter);
