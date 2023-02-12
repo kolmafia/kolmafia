@@ -2585,8 +2585,8 @@ public class ConcoctionDatabase {
     return ConcoctionDatabase.getIngredients(ConcoctionPool.get(itemId));
   }
 
-  public static final AdventureResult[] getIngredients(final int itemId, final String name) {
-    return ConcoctionDatabase.getIngredients(ConcoctionPool.get(itemId, name));
+  public static final AdventureResult[] getIngredients(final String name) {
+    return ConcoctionDatabase.getIngredients(ConcoctionPool.get(-1, name));
   }
 
   public static final AdventureResult[] getIngredients(Concoction c) {
