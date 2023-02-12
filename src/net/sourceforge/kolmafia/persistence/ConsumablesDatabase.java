@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -196,7 +195,7 @@ public class ConsumablesDatabase {
             note,
             aliases);
 
-    if (consumable.itemId >= 0) {
+    if (consumable.itemId > 0) {
       ConsumablesDatabase.consumableByItemId.put(consumable.itemId, consumable);
     }
     for (String alias : aliases) {
@@ -209,7 +208,7 @@ public class ConsumablesDatabase {
 
     ConsumablesDatabase.calculateAverageAdventures(consumable);
 
-    Concoction c = ConcoctionPool.get(consumable.itemId, name);
+    Concoction c = consumable.getConcoction();
     if (c != null) {
       c.setConsumptionData(consumable);
     }
@@ -349,7 +348,7 @@ public class ConsumablesDatabase {
     int end = consumable.adventureEnd;
     int size = consumable.getSize();
 
-    Concoction c = ConcoctionPool.get(itemId, name);
+    Concoction c = consumable.getConcoction();
     int advs = (c == null) ? 0 : c.getAdventuresNeeded(1, true);
 
     if (KoLCharacter.inNuclearAutumn()) {
@@ -787,7 +786,7 @@ public class ConsumablesDatabase {
   }
 
   private static boolean areAdventuresBoosted(Consumable consumable) {
-    return switch (ConcoctionDatabase.getMixingMethod(consumable.itemId, consumable.name)) {
+    return switch (ConcoctionDatabase.getMixingMethod(consumable.getConcoction())) {
       case SUSHI, STILLSUIT -> false;
       default -> true;
     };
@@ -1213,18 +1212,20 @@ public class ConsumablesDatabase {
 
     final var adventures = Math.round(Math.pow(drams, 0.4));
     final var effectTurns = Math.min(100, (int) Math.floor(drams / 5.0));
-    ConsumablesDatabase.setConsumptionData(
-        "stillsuit distillate",
-        null,
-        1,
-        null,
-        1,
-        ConsumableQuality.CHANGING,
-        String.valueOf(adventures),
-        "0",
-        "0",
-        "0",
-        effectTurns + " Buzzed on Distillate");
+    Consumable c =
+        ConsumablesDatabase.setConsumptionData(
+            "stillsuit distillate",
+            null,
+            1,
+            null,
+            1,
+            ConsumableQuality.CHANGING,
+            String.valueOf(adventures),
+            "0",
+            "0",
+            "0",
+            effectTurns + " Buzzed on Distillate");
+    c.getConcoction().resetCalculations();
   }
 
   public static void setVariableConsumables() {

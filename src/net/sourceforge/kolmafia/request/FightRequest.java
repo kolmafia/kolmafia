@@ -9066,6 +9066,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.CERAMIC_BASH:
       case SkillPool.CERAMIC_GRATE:
       case SkillPool.CERAMIC_BOIL:
+      case SkillPool.CERAMIC_SKULLGAZE:
       case SkillPool.CERAMIC_CENOBITIZE:
         singleCastsThisFight.add(skillId);
         return;
