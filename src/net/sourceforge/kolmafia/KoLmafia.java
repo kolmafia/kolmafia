@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.InternalChatRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
+import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
@@ -1690,6 +1691,16 @@ public abstract class KoLmafia {
       final int maxPurchases,
       final boolean isAutomated,
       final int priceLimit) {
+    // If we are searching for a limited item from an NPC store, the
+    // NPCPurchaseRequest may have been filtered out before being added
+    // to "purchases".
+
+    // If there are no PurchaseRequests, punt
+    if (purchases.length == 0) {
+      return;
+    }
+
+    // There is at least one PurchaseRequest.
     int firstIndex = 0;
 
     if (isAutomated) {
@@ -1700,11 +1711,16 @@ public abstract class KoLmafia {
       if (!Preferences.getBoolean("autoSatisfyWithMall")) {
         while (firstIndex < purchases.length) {
           PurchaseRequest currentRequest = purchases[firstIndex];
-          if (currentRequest.getQuantity() == PurchaseRequest.MAX_QUANTITY) {
+          if (currentRequest instanceof NPCPurchaseRequest) {
             break;
           }
 
           firstIndex++;
+        }
+
+        // If we did not find an NPC shop, punt.
+        if (firstIndex == purchases.length) {
+          return;
         }
       }
 
@@ -1716,10 +1732,6 @@ public abstract class KoLmafia {
         // this is probably due to an out-of-date defaults.txt
         Preferences.setInteger("autoBuyPriceLimit", 20000);
       }
-    }
-
-    if (firstIndex == purchases.length) {
-      return;
     }
 
     PurchaseRequest firstRequest = purchases[firstIndex];
