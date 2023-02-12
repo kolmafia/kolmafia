@@ -2137,9 +2137,7 @@ public class Evaluator {
           if (group != null && Preferences.getBoolean("maximizerFoldables")) {
             foldItemsNeeded += Math.max(item.getCount(), useful);
             // How many times have we already used this fold item?
-            // TODO: should this and the next include the extra familiar slots? I don't think it
-            // makes sense to based on what it's doing
-            for (var checkSlot : EquipmentSlot.ALL_SLOTS) {
+            for (var checkSlot : EquipmentSlot.SLOTS) {
               if (entry.isSlot() && checkSlot.ordinal() >= entry.slot().ordinal()) break;
               List<CheckedItem> checkItemList = automatic.get(checkSlot);
               if (checkItemList != null) {
@@ -2152,10 +2150,9 @@ public class Evaluator {
               }
             }
             // And how many times do we expect to use them for the rest of the slots?
-            if (entry.isSlot() && entry.slot() != Slot.BOOTSPUR) {
-              // TODO: isn't bootspur way too much, too? no foldables out there.
+            if (entry.isSlot() && entry.slot().ordinal() < Slot.FAMILIAR.ordinal()) {
               for (var checkSlot :
-                  EnumSet.range(Slot.byOrdinal(entry.slot().ordinal() + 1), Slot.BOOTSPUR)) {
+                  EnumSet.range(Slot.byOrdinal(entry.slot().ordinal() + 1), Slot.FAMILIAR)) {
                 ListIterator<MaximizerSpeculation> checkIterator =
                     speculationList
                         .get(checkSlot)

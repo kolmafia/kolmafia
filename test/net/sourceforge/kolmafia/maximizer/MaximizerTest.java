@@ -1385,6 +1385,22 @@ public class MaximizerTest {
         recommendedSlotIs(Slot.OFFHAND, "ice baby");
       }
     }
+
+    @Test
+    public void prefersFoldableInSlotWithHigherScore() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.ORIGAMI_MAGAZINE),
+              withSkill(SkillPool.TORSO),
+              withFamiliar(FamiliarPool.GHUOL_WHELP));
+
+      try (cleanups) {
+        assertTrue(maximize("meat, sleaze dmg, -tie"));
+        recommendedSlotIsUnchanged(Slot.WEAPON);
+        recommendedSlotIs(Slot.SHIRT, "origami pasties");
+        recommendedSlotIsUnchanged(Slot.FAMILIAR);
+      }
+    }
   }
 
   @Nested
