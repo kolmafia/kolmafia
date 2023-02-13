@@ -2,21 +2,28 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withNPCStoreReset;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -133,6 +140,155 @@ public class InventoryManagerTest {
 
         var requests = builder.client.getRequests();
 
+        assertThat(requests, hasSize(0));
+      }
+    }
+  }
+
+  @Nested
+  class LimitedNPCItems {
+    @Test
+    public void willRetrieveIfCanUseMall() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withNPCStoreReset(),
+              withInteractivity(true),
+              withProperty("autoSatisfyWithMall", true),
+              withProperty("autoSatisfyWithNPCs", true),
+              withMeat(1000),
+              withItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN, 0),
+              withProperty("_fireworksShop", true),
+              withProperty("_fireworksShopHatBought", false));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_firework_shop_hat_purchase.html"));
+        client.addResponse(200, ""); // api.php
+
+        InventoryManager.retrieveItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN);
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        assertTrue(InventoryManager.hasItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN));
+        assertEquals(1000 - 475, KoLCharacter.getAvailableMeat());
+        assertThat("_fireworksShopHatBought", isSetTo("true"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/shop.php",
+            "whichshop=fwshop&action=buyitem&whichrow=1247&ajax=1&quantity=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void willRetrieveIfCanUseNPCStore() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withNPCStoreReset(),
+              withInteractivity(false),
+              withProperty("autoSatisfyWithMall", false),
+              withProperty("autoSatisfyWithNPCs", true),
+              withMeat(1000),
+              withItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN, 0),
+              withProperty("_fireworksShop", true),
+              withProperty("_fireworksShopHatBought", false));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_firework_shop_hat_purchase.html"));
+        client.addResponse(200, ""); // api.php
+
+        InventoryManager.retrieveItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN);
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        assertTrue(InventoryManager.hasItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN));
+        assertEquals(1000 - 475, KoLCharacter.getAvailableMeat());
+        assertThat("_fireworksShopHatBought", isSetTo("true"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/shop.php",
+            "whichshop=fwshop&action=buyitem&whichrow=1247&ajax=1&quantity=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    public void willNotRetrieveIfCannotUseMallOrNPCStore() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withNPCStoreReset(),
+              withInteractivity(false),
+              withProperty("autoSatisfyWithMall", false),
+              withProperty("autoSatisfyWithNPCs", false),
+              withMeat(1000),
+              withItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN, 0),
+              withProperty("_fireworksShop", true),
+              withProperty("_fireworksShopHatBought", false));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_firework_shop_hat_purchase.html"));
+        client.addResponse(200, ""); // api.php
+
+        InventoryManager.retrieveItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN);
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertFalse(InventoryManager.hasItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN));
+        assertEquals(1000, KoLCharacter.getAvailableMeat());
+        assertThat("_fireworksShopHatBought", isSetTo("false"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void willNotRetrieveIfAlreadyBoughtFireworkHat() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withNPCStoreReset(),
+              withInteractivity(true),
+              withProperty("autoSatisfyWithMall", true),
+              withProperty("autoSatisfyWithNPCs", true),
+              withMeat(1000),
+              withItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN, 0),
+              withItem(ItemPool.SOMBRERO_MOUNTED_SPARKLER, 1),
+              withProperty("_fireworksShop", true),
+              withProperty("_fireworksShopHatBought", true));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_firework_shop_hat_purchase.html"));
+        client.addResponse(200, ""); // api.php
+
+        InventoryManager.retrieveItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN);
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertFalse(InventoryManager.hasItem(ItemPool.FEDORA_MOUNTED_FOUNTAIN));
+        assertEquals(1000, KoLCharacter.getAvailableMeat());
+
+        var requests = client.getRequests();
         assertThat(requests, hasSize(0));
       }
     }
