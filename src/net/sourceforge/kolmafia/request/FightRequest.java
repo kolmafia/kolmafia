@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessingLevel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
@@ -2241,8 +2242,8 @@ public class FightRequest extends GenericRequest {
       }
 
       // Increment Turtle Blessing counter
-      int blessingLevel = KoLCharacter.getBlessingLevel();
-      if (blessingLevel > 0 && blessingLevel < 4) {
+      TurtleBlessingLevel blessingLevel = KoLCharacter.getBlessingLevel();
+      if (blessingLevel.isBlessing()) {
         Preferences.increment("turtleBlessingTurns", 1);
       } else {
         Preferences.setInteger("turtleBlessingTurns", 0);

@@ -849,7 +849,7 @@ public class SkillDatabase {
     if (type != SkillType.BUFF) {
       switch (skillId) {
         case SkillPool.SPIRIT_BOON:
-          return KoLCharacter.getBlessingLevel() * 5;
+          return KoLCharacter.getBlessingLevel().boonDuration();
 
         case SkillPool.WAR_BLESSING:
         case SkillPool.SHE_WHO_WAS_BLESSING:
