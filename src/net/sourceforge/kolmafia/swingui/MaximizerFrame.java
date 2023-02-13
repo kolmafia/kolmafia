@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.EquipScope;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
+import net.sourceforge.kolmafia.maximizer.PriceLevel;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
@@ -147,7 +148,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     Maximizer.maximize(
         EquipScope.byIndex(this.equipmentSelect.getSelectedIndex()),
         InputFieldUtilities.getValue(this.maxPriceField),
-        this.mallSelect.getSelectedIndex(),
+        PriceLevel.byIndex(this.mallSelect.getSelectedIndex()),
         Preferences.getBoolean("maximizerIncludeAll"),
         this.activeFilters);
 

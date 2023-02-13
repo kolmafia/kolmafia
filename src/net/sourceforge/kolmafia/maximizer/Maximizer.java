@@ -88,7 +88,7 @@ public class Maximizer {
   private Maximizer() {}
 
   public static boolean maximize(
-      String maximizerString, int maxPrice, int priceLevel, boolean isSpeculationOnly) {
+      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
     EquipScope equipScope =
         isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
@@ -114,7 +114,7 @@ public class Maximizer {
   public static void maximize(
       EquipScope equipScope,
       int maxPrice,
-      int priceLevel,
+      PriceLevel priceLevel,
       boolean includeAll,
       Set<filterType> filter) {
     KoLmafia.forceContinue();
@@ -1312,7 +1312,7 @@ public class Maximizer {
               cmd = "pull \u00B6" + itemId + ";" + cmd;
             } else if (checkedItem.mallBuyable > 0) {
               text = "acquire & " + text;
-              if (priceLevel > 0) {
+              if (priceLevel != PriceLevel.DONT_CHECK) {
                 if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
                   continue;
                 }
@@ -1327,7 +1327,7 @@ public class Maximizer {
             } else if (checkedItem.pullBuyable > 0) {
               text = "buy & pull & " + text;
               cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-              if (priceLevel > 0) {
+              if (priceLevel != PriceLevel.DONT_CHECK) {
                 if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
                   continue;
                 }
@@ -1344,7 +1344,7 @@ public class Maximizer {
             }
 
             if (price > maxPrice || price == -1) continue;
-            if (priceLevel == 2
+            if (priceLevel == PriceLevel.ALL
                 && (checkedItem.initial > 0
                     || checkedItem.creatable > 0
                     || checkedItem.pullable > 0
@@ -1510,7 +1510,7 @@ public class Maximizer {
   }
 
   private static EquipScope emitSlot(
-      Slot slot, EquipScope equipScope, int maxPrice, int priceLevel, double current) {
+      Slot slot, EquipScope equipScope, int maxPrice, PriceLevel priceLevel, double current) {
     if (slot == Slot.FAMILIAR) { // Insert any familiar switch at this point
       FamiliarData fam = Maximizer.best.getFamiliar();
       if (!fam.equals(KoLCharacter.getFamiliar())) {
@@ -1720,12 +1720,12 @@ public class Maximizer {
       } else if (checkedItem.pullBuyable + checkedItem.initial > count) {
         text = "buy & pull & " + text;
         cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-        if (priceLevel > 0) {
+        if (priceLevel != PriceLevel.DONT_CHECK) {
           price = MallPriceManager.getMallPrice(itemId);
         }
       } else { // Mall buyable
         text = "acquire & " + text;
-        if (priceLevel > 0) {
+        if (priceLevel != PriceLevel.DONT_CHECK) {
           price = MallPriceManager.getMallPrice(itemId);
         }
       }
@@ -1774,7 +1774,7 @@ public class Maximizer {
   }
 
   private static Makeable getAbsorbable(
-      int itemId, EquipScope equipScope, int maxPrice, int priceLevel) {
+      int itemId, EquipScope equipScope, int maxPrice, PriceLevel priceLevel) {
     // Check if we have access to item
     CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
     // We won't include unavailable items, as this just gets far too large
@@ -1811,13 +1811,13 @@ public class Maximizer {
       cmd = "pull \u00B6" + itemId + ";" + cmd;
     } else if (checkedItem.mallBuyable > 0) {
       text = "acquire & " + text;
-      if (priceLevel > 0) {
+      if (priceLevel != PriceLevel.DONT_CHECK) {
         price = MallPriceManager.getMallPrice(itemId);
       }
     } else if (checkedItem.pullBuyable > 0) {
       text = "buy & pull & " + text;
       cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-      if (priceLevel > 0) {
+      if (priceLevel != PriceLevel.DONT_CHECK) {
         price = MallPriceManager.getMallPrice(itemId);
       }
     } else {
