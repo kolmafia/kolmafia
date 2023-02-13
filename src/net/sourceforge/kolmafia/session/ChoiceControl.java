@@ -20,6 +20,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -960,7 +962,7 @@ public abstract class ChoiceControl {
         // Treat this is simply discarding the pants you are
         // wearing
         if (text.contains("oddly chilly")) {
-          EquipmentManager.discardEquipment(EquipmentManager.getEquipment(EquipmentManager.PANTS));
+          EquipmentManager.discardEquipment(EquipmentManager.getEquipment(Slot.PANTS));
           QuestDatabase.setQuestProgress(Quest.MOXIE, "step1");
         }
         break;
@@ -1455,8 +1457,7 @@ public abstract class ChoiceControl {
 
           if (text.contains("spreading weed seeds all over your skirt")) {
             EquipmentManager.discardEquipment(ItemPool.MUDDY_SKIRT);
-            EquipmentManager.setEquipment(
-                EquipmentManager.PANTS, ItemPool.get(ItemPool.WEEDY_SKIRT, 1));
+            EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.WEEDY_SKIRT, 1));
           }
         }
         return;
@@ -4052,7 +4053,7 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 5 && text.contains("You gain 500 gold")) {
           // Sell them the cursed compass
           // Remove from equipment (including checkpoints)
-          if (EquipmentManager.discardEquipment(ItemPool.CURSED_COMPASS) == -1) {
+          if (EquipmentManager.discardEquipment(ItemPool.CURSED_COMPASS) == Slot.NONE) {
             // Remove from inventory
             ResultProcessor.removeItem(ItemPool.CURSED_COMPASS);
           }
@@ -6300,7 +6301,7 @@ public abstract class ChoiceControl {
         // If you change the mode with the item equipped, you need to un-equip and re-equip it to
         // get the modifiers
         if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 3) {
-          for (int i : EquipmentManager.ACCESSORY_SLOTS) {
+          for (var i : SlotSet.ACCESSORY_SLOTS) {
             AdventureResult item = EquipmentManager.getEquipment(i);
             if (item != null && item.getItemId() == ItemPool.BACKUP_CAMERA) {
               RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, i));
@@ -8650,11 +8651,11 @@ public abstract class ChoiceControl {
 
       ++explorations;
       AdventureResult item = ItemPool.get(ItemPool.GATORSKIN_UMBRELLA, 1);
-      int slot = EquipmentManager.WEAPON;
-      if (KoLCharacter.hasEquipped(item, EquipmentManager.WEAPON)) {
-        slot = EquipmentManager.WEAPON;
-      } else if (KoLCharacter.hasEquipped(item, EquipmentManager.OFFHAND)) {
-        slot = EquipmentManager.OFFHAND;
+      Slot slot = Slot.WEAPON;
+      if (KoLCharacter.hasEquipped(item, Slot.WEAPON)) {
+        slot = Slot.WEAPON;
+      } else if (KoLCharacter.hasEquipped(item, Slot.OFFHAND)) {
+        slot = Slot.OFFHAND;
       }
 
       EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);

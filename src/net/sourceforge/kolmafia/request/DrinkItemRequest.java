@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -596,9 +597,8 @@ public class DrinkItemRequest extends UseItemRequest {
         InventoryManager.retrieveItem(ItemPool.TUXEDO_SHIRT);
       }
       RequestThread.postRequest(
-          new EquipmentRequest(ItemPool.get(ItemPool.TUXEDO_SHIRT, 1), EquipmentManager.SHIRT));
-      if (EquipmentManager.getEquipment(EquipmentManager.SHIRT).getItemId()
-          != ItemPool.TUXEDO_SHIRT) {
+          new EquipmentRequest(ItemPool.get(ItemPool.TUXEDO_SHIRT, 1), Slot.SHIRT));
+      if (EquipmentManager.getEquipment(Slot.SHIRT).getItemId() != ItemPool.TUXEDO_SHIRT) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip Tuxedo Shirt.");
         return false;
       } else {
@@ -641,10 +641,8 @@ public class DrinkItemRequest extends UseItemRequest {
         InventoryManager.retrieveItem(ItemPool.MAFIA_PINKY_RING);
       }
       RequestThread.postRequest(
-          new EquipmentRequest(
-              ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), EquipmentManager.ACCESSORY3));
-      if (EquipmentManager.getEquipment(EquipmentManager.ACCESSORY3).getItemId()
-          != ItemPool.MAFIA_PINKY_RING) {
+          new EquipmentRequest(ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), Slot.ACCESSORY3));
+      if (EquipmentManager.getEquipment(Slot.ACCESSORY3).getItemId() != ItemPool.MAFIA_PINKY_RING) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip mafia pinky ring.");
         return false;
       } else {

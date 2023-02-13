@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -56,7 +57,7 @@ public class CrystalBallManagerTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
 
     try (cleanups) {
       assertTrue(CrystalBallManager.isCrystalBallZone("The Smut Orc Logging Camp"));
@@ -75,7 +76,7 @@ public class CrystalBallManagerTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       // From String
       assertEquals(
@@ -102,7 +103,7 @@ public class CrystalBallManagerTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"),
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"),
             withProperty("crystalBallPredictions", "0:The Defiled Nook:" + predictionMonster));
     try (cleanups) {
       CrystalBallManager.reset();
@@ -128,7 +129,7 @@ public class CrystalBallManagerTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       assertFalse(CrystalBallManager.isCrystalBallMonster());
 
@@ -232,7 +233,7 @@ public class CrystalBallManagerTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"),
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"),
             withCurrentRun(0),
             withProperty("crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"),
             withLastLocation("The Smut Orc Logging Camp"));
@@ -251,7 +252,7 @@ public class CrystalBallManagerTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"),
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"),
             withCurrentRun(0),
             withLastLocation("The Middle Chamber"),
             withProperty("crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"));
@@ -270,7 +271,7 @@ public class CrystalBallManagerTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"),
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"),
             withCurrentRun(0),
             withLastLocation("The Smut Orc Logging Camp"),
             withProperty("crystalBallPredictions", "0:The Smut Orc Logging Camp:smut orc nailer"));

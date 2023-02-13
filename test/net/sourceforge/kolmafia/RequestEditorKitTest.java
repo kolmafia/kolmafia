@@ -12,9 +12,9 @@ import internal.helpers.Cleanups;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -174,9 +174,9 @@ public class RequestEditorKitTest {
       // TODO: Test rune computation for attack.
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.HAT, ItemPool.DWARVISH_WAR_HELMET),
-              withEquipped(EquipmentManager.PANTS, ItemPool.DWARVISH_WAR_KILT),
-              withEquipped(EquipmentManager.WEAPON, ItemPool.DWARVISH_WAR_MATTOCK));
+              withEquipped(Slot.HAT, ItemPool.DWARVISH_WAR_HELMET),
+              withEquipped(Slot.PANTS, ItemPool.DWARVISH_WAR_KILT),
+              withEquipped(Slot.WEAPON, ItemPool.DWARVISH_WAR_MATTOCK));
 
       try (cleanups) {
         var buffer = new StringBuffer(nativeText);

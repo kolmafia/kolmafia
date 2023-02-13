@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -171,7 +172,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return false;
     }
 
-    var trousers = EquipmentManager.getEquipment(EquipmentManager.PANTS);
+    var trousers = EquipmentManager.getEquipment(Slot.PANTS);
 
     if (trousers == null) {
       return false;
@@ -312,7 +313,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     if (!usingTrousers(this.npcStoreId)) {
       var trousers = getEquippableTrousers(this.npcStoreId);
       if (trousers != null) {
-        (new EquipmentRequest(trousers, EquipmentManager.PANTS)).run();
+        (new EquipmentRequest(trousers, Slot.PANTS)).run();
       }
     }
 

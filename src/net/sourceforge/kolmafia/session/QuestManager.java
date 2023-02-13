@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -2502,8 +2503,7 @@ public class QuestManager {
         QuestDatabase.setQuestProgress(Quest.ARMORER, "step2");
         break;
       case "GNG-3-R":
-        if (EquipmentManager.discardEquipment(ItemPool.get(ItemPool.GINGERSERVO))
-            == EquipmentManager.NONE) {
+        if (EquipmentManager.discardEquipment(ItemPool.get(ItemPool.GINGERSERVO)) == Slot.NONE) {
           // Remove it from equipment if it is equipped, otherwise remove it from inventory
           ResultProcessor.processResult(ItemPool.get(ItemPool.GINGERSERVO, -1));
         }

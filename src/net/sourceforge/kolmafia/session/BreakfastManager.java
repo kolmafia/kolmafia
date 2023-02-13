@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -304,14 +305,14 @@ public class BreakfastManager {
     // Use the toys!
     for (UseItemRequest request : requests) {
       AdventureResult toy = request.getItemUsed();
-      int slot = KoLCharacter.equipmentSlot(toy);
+      Slot slot = KoLCharacter.equipmentSlot(toy);
 
       RequestThread.postRequest(request);
       BreakfastManager.ignoreErrors();
 
       // If the toy is equipment, we had it equipped, and
       // "using" it unequipped it, re-equip it
-      if (slot != EquipmentManager.NONE && !KoLCharacter.hasEquipped(toy, slot)) {
+      if (slot != Slot.NONE && !KoLCharacter.hasEquipped(toy, slot)) {
         RequestThread.postRequest(new EquipmentRequest(toy, slot));
         BreakfastManager.ignoreErrors();
       }

@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -1756,8 +1757,7 @@ public class MonsterData extends AdventureResult {
 
   public double getExperience() {
     int xpMultiplier = 1;
-    if (KoLCharacter.hasEquipped(
-            ItemPool.get(ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1), EquipmentManager.SHIRT)
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1), Slot.SHIRT)
         && Preferences.getInteger("garbageShirtCharge") > 0) {
       xpMultiplier = 2;
     }

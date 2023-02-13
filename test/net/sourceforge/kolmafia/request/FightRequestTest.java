@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -195,7 +196,7 @@ public class FightRequestTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.REAGNIMATED_GNOME),
-            withEquipped(EquipmentManager.FAMILIAR, ItemPool.GNOMISH_KNEE),
+            withEquipped(Slot.FAMILIAR, ItemPool.GNOMISH_KNEE),
             withFight());
     try (cleanups) {
       assertEquals(0, Preferences.getInteger("_gnomeAdv"));
@@ -309,7 +310,7 @@ public class FightRequestTest {
               withProperty("crystalBallPredictions"),
               withLastLocation("The Neverending Party"),
               withFamiliar(FamiliarPool.MOSQUITO),
-              withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
+              withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
 
       try (cleanups) {
         CrystalBallManager.reset();
@@ -327,7 +328,7 @@ public class FightRequestTest {
               withCurrentRun(1),
               withLastLocation("The Neverending Party"),
               withFamiliar(FamiliarPool.MOSQUITO),
-              withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
+              withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
 
       try (cleanups) {
         CrystalBallManager.reset();
@@ -345,7 +346,7 @@ public class FightRequestTest {
               withCurrentRun(1),
               withLastLocation("The Neverending Party"),
               withFamiliar(FamiliarPool.MOSQUITO),
-              withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
+              withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL));
 
       try (cleanups) {
         CrystalBallManager.reset();
@@ -361,7 +362,7 @@ public class FightRequestTest {
               withProperty("crystalBallPredictions", "0:The Neverending Party:party girl"),
               withLastLocation("The Red Zeppelin"),
               withFamiliar(FamiliarPool.MOSQUITO),
-              withEquipped(EquipmentManager.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL),
+              withEquipped(Slot.FAMILIAR, ItemPool.MINIATURE_CRYSTAL_BALL),
               withFight(0));
 
       try (cleanups) {
@@ -391,7 +392,7 @@ public class FightRequestTest {
     public void cursedMagnifyingGlassResetsOnVoidMonster() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.OFFHAND, ItemPool.CURSED_MAGNIFYING_GLASS),
+              withEquipped(Slot.OFFHAND, ItemPool.CURSED_MAGNIFYING_GLASS),
               withProperty("cursedMagnifyingGlassCount", 13),
               withNextMonster("void slab"),
               withFight(0));
@@ -406,7 +407,7 @@ public class FightRequestTest {
     public void cursedMagnifyingGlassCanUpdateAnIncorrectPref() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.OFFHAND, ItemPool.CURSED_MAGNIFYING_GLASS),
+              withEquipped(Slot.OFFHAND, ItemPool.CURSED_MAGNIFYING_GLASS),
               withProperty("cursedMagnifyingGlassCount", 0),
               withNextMonster("lavatory"));
 
@@ -419,8 +420,7 @@ public class FightRequestTest {
 
   @Test
   public void daylightShavingTest() {
-    EquipmentManager.setEquipment(
-        EquipmentManager.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
+    EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
     parseCombatData("request/test_fight_daylight_shavings_buff.html");
     assertEquals(2671, Preferences.getInteger("lastBeardBuff"));
   }
@@ -1040,7 +1040,7 @@ public class FightRequestTest {
   public void canTrackJuneCleaverPrefs(String file, String element) {
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.WEAPON, ItemPool.JUNE_CLEAVER),
+            withEquipped(Slot.WEAPON, ItemPool.JUNE_CLEAVER),
             withProperty("_juneCleaver" + element),
             withProperty("_juneCleaverFightsLeft"));
 
@@ -1071,7 +1071,7 @@ public class FightRequestTest {
   public void canTrackDesignerSweatpants(String responseHtml, int sweatChange) {
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
+            withEquipped(Slot.PANTS, "designer sweatpants"),
             withProperty("sweat", 10),
             withFight());
 
@@ -1087,7 +1087,7 @@ public class FightRequestTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.CORNBEEFADON),
-            withEquipped(EquipmentManager.FAMILIAR, "Snow Suit"),
+            withEquipped(Slot.FAMILIAR, "Snow Suit"),
             withProperty("_snowSuitCount", count));
 
     try (cleanups) {
@@ -1110,7 +1110,7 @@ public class FightRequestTest {
   @Test
   public void canDetectPottedPlantWins() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withEquipped(EquipmentManager.OFFHAND, "carnivorous potted plant"));
+    var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, "carnivorous potted plant"));
     try (cleanups) {
       parseCombatData("request/test_fight_potted_plant.html");
       var text = RequestLoggerOutput.stopStream();
@@ -1121,7 +1121,7 @@ public class FightRequestTest {
   @Test
   public void canDetectCanOfMixedEverythingDrops() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withEquipped(EquipmentManager.OFFHAND, "can of mixed everything"));
+    var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, "can of mixed everything"));
     try (cleanups) {
       parseCombatData("request/test_fight_can_of_mixed_everything.html");
       var text = RequestLoggerOutput.stopStream();
@@ -1138,7 +1138,7 @@ public class FightRequestTest {
         new Cleanups(
             withFight(),
             withProperty("_powerfulGloveBatteryPowerUsed", 0),
-            withEquipped(EquipmentManager.ACCESSORY1, "Powerful Glove"));
+            withEquipped(Slot.ACCESSORY1, "Powerful Glove"));
 
     try (cleanups) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
@@ -1156,7 +1156,7 @@ public class FightRequestTest {
         new Cleanups(
             withFight(),
             withProperty("_saberForceUses", 0),
-            withEquipped(EquipmentManager.WEAPON, "Fourth of May Cosplay Saber"));
+            withEquipped(Slot.WEAPON, "Fourth of May Cosplay Saber"));
 
     try (cleanups) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
@@ -1175,7 +1175,7 @@ public class FightRequestTest {
             withProperty("_otoscopeUsed", 10),
             withProperty("_reflexHammerUsed", 10),
             withProperty("_chestXRayUsed", 10),
-            withEquipped(EquipmentManager.ACCESSORY1, "Lil' Doctor™ bag"));
+            withEquipped(Slot.ACCESSORY1, "Lil' Doctor™ bag"));
 
     try (cleanups) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
@@ -1196,7 +1196,7 @@ public class FightRequestTest {
         new Cleanups(
             withFight(),
             withProperty("_fireExtinguisherCharge", 0),
-            withEquipped(EquipmentManager.WEAPON, "Industrial Fire Extinguisher"));
+            withEquipped(Slot.WEAPON, "Industrial Fire Extinguisher"));
 
     try (cleanups) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
@@ -1213,7 +1213,7 @@ public class FightRequestTest {
         new Cleanups(
             withFight(),
             withProperty("_vampyreCloakeFormUses", 5),
-            withEquipped(EquipmentManager.CONTAINER, "Vampyric cloake"));
+            withEquipped(Slot.CONTAINER, "Vampyric cloake"));
 
     try (cleanups) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
@@ -1251,7 +1251,7 @@ public class FightRequestTest {
         new Cleanups(
             withFight(),
             withProperty("_pantsgivingBanish", 3),
-            withEquipped(EquipmentManager.PANTS, "Pantsgiving"));
+            withEquipped(Slot.PANTS, "Pantsgiving"));
 
     try (cleanups) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
@@ -1304,7 +1304,7 @@ public class FightRequestTest {
             withPath(youRobotPath ? Path.YOU_ROBOT : Path.NONE),
             withFight(),
             withProperty("_backUpUses", 3),
-            withEquipped(EquipmentManager.ACCESSORY1, "Backup Camera"));
+            withEquipped(Slot.ACCESSORY1, "Backup Camera"));
 
     try (cleanups) {
       String html = html("request/test_fight_skill_name_uses_remaining.html");
@@ -1620,7 +1620,7 @@ public class FightRequestTest {
           new Cleanups(
               withProperty("familiarSweat", 5),
               withFamiliar(FamiliarPool.WOIM),
-              withEquipped(EquipmentManager.FAMILIAR, "tiny stillsuit"));
+              withEquipped(Slot.FAMILIAR, "tiny stillsuit"));
       try (cleanups) {
         parseCombatData("request/test_fight_stillsuit_on_familiar.html");
         assertThat("familiarSweat", isSetTo(8));
@@ -1633,7 +1633,7 @@ public class FightRequestTest {
           new Cleanups(
               withProperty("familiarSweat", 5),
               withFamiliar(FamiliarPool.WOIM),
-              withEquipped(EquipmentManager.FAMILIAR, "woimbook"),
+              withEquipped(Slot.FAMILIAR, "woimbook"),
               withFamiliarInTerrarium(FamiliarPool.PET_ROCK));
       try (cleanups) {
         var rock = KoLCharacter.usableFamiliar(FamiliarPool.PET_ROCK);
@@ -1740,7 +1740,7 @@ public class FightRequestTest {
     void spikolodonSpikesRecorded() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.SHIRT, ItemPool.JURASSIC_PARKA),
+              withEquipped(Slot.SHIRT, ItemPool.JURASSIC_PARKA),
               withProperty("_spikolodonSpikeUses", 0));
 
       try (cleanups) {
@@ -1861,7 +1861,7 @@ public class FightRequestTest {
 
     @Test
     public void shieldbuttIsValidWithShield() {
-      var cleanups = withEquipped(EquipmentManager.OFFHAND, "vinyl shield");
+      var cleanups = withEquipped(Slot.OFFHAND, "vinyl shield");
 
       try (cleanups) {
         assertFalse(FightRequest.isInvalidAttack("skill Shieldbutt"));
@@ -1930,8 +1930,7 @@ public class FightRequestTest {
   @Test
   public void loseInitiativeAndLoseLittleRoundPebble() {
     var cleanups =
-        new Cleanups(
-            withEquipped(EquipmentManager.OFFHAND, ItemPool.LITTLE_ROUND_PEBBLE), withFight());
+        new Cleanups(withEquipped(Slot.OFFHAND, ItemPool.LITTLE_ROUND_PEBBLE), withFight());
     try (cleanups) {
       parseCombatData("request/test_fight_little_round_pebble.html");
       assertFalse(KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE));

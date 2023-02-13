@@ -1,9 +1,11 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -20,13 +22,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Speculation {
   private int MCD;
-  public AdventureResult[] equipment;
+  public EnumMap<Slot, AdventureResult> equipment;
   private final ArrayList<AdventureResult> effects;
   private FamiliarData familiar, enthroned, bjorned;
   private String custom, horsery, boomBox;
   protected boolean calculated = false;
   protected Modifiers mods;
-  private Map<Modeable, String> modeables;
+  private final Map<Modeable, String> modeables;
 
   public Speculation() {
     this.MCD = KoLCharacter.getMindControlLevel();
@@ -37,9 +39,9 @@ public class Speculation {
     // be readded if appropriate via Intrinsic Effect modifiers.
     // We used to just strip out all intrinsics, back when non-equipment
     // intrinsics were all just flavor rather than possibly significant.
-    for (int i = this.equipment.length - 1; i >= 0; --i) {
-      if (this.equipment[i] == null) continue;
-      int itemId = this.equipment[i].getItemId();
+    for (var equip : this.equipment.values()) {
+      if (equip == null) continue;
+      int itemId = equip.getItemId();
       Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods == null) continue;
       String name = mods.getString(StringModifier.INTRINSIC_EFFECT);
@@ -116,11 +118,11 @@ public class Speculation {
     return this.modeables;
   }
 
-  public void equip(int slot, AdventureResult item) {
-    if (slot < 0 || slot >= EquipmentManager.ALL_SLOTS) return;
-    this.equipment[slot] = item;
-    if (slot == EquipmentManager.WEAPON && EquipmentDatabase.getHands(item.getItemId()) > 1) {
-      this.equipment[EquipmentManager.OFFHAND] = EquipmentRequest.UNEQUIP;
+  public void equip(Slot slot, AdventureResult item) {
+    if (slot == Slot.NONE) return;
+    this.equipment.put(slot, item);
+    if (slot == Slot.WEAPON && EquipmentDatabase.getHands(item.getItemId()) > 1) {
+      this.equipment.put(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
     }
   }
 
@@ -178,8 +180,8 @@ public class Speculation {
         case "mcd" -> this.setMindControlLevel(StringUtilities.parseInt(params));
         case "equip" -> {
           piece = params.split(" ", 2);
-          int slot = EquipmentRequest.slotNumber(piece[0]);
-          if (slot != -1) {
+          Slot slot = EquipmentRequest.slotNumber(piece[0]);
+          if (slot != Slot.NONE) {
             params = piece[1];
           }
 
@@ -187,11 +189,11 @@ public class Speculation {
           if (match == null) {
             return true;
           }
-          if (slot == -1) {
+          if (slot == Slot.NONE) {
             slot = EquipmentRequest.chooseEquipmentSlot(match.getItemId());
 
             // If it can't be equipped, give up
-            if (slot == -1) {
+            if (slot == Slot.NONE) {
               KoLmafia.updateDisplay(MafiaState.ERROR, "You can't equip a " + match.getName());
               return true;
             }
@@ -199,8 +201,8 @@ public class Speculation {
           this.equip(slot, match);
         }
         case "unequip" -> {
-          int slot = EquipmentRequest.slotNumber(params);
-          if (slot == -1) {
+          Slot slot = EquipmentRequest.slotNumber(params);
+          if (slot == Slot.NONE) {
             KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown slot: " + params);
             return true;
           }
@@ -226,7 +228,7 @@ public class Speculation {
           }
           FamiliarData fam = new FamiliarData(id);
           this.setEnthroned(fam);
-          this.equip(EquipmentManager.HAT, ItemPool.get(ItemPool.HATSEAT));
+          this.equip(Slot.HAT, ItemPool.get(ItemPool.HATSEAT));
         }
         case "bjornify" -> {
           int id = FamiliarDatabase.getFamiliarId(params);
@@ -236,7 +238,7 @@ public class Speculation {
           }
           FamiliarData fam = new FamiliarData(id);
           this.setBjorned(fam);
-          this.equip(EquipmentManager.CONTAINER, ItemPool.get(ItemPool.BUDDY_BJORN));
+          this.equip(Slot.CONTAINER, ItemPool.get(ItemPool.BUDDY_BJORN));
         }
         case "up" -> {
           List<String> effects = EffectDatabase.getMatchingNames(params);

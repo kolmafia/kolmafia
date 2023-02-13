@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -105,7 +106,7 @@ public enum Modeable {
     return this.item.getItemId();
   }
 
-  public int getSlot() {
+  public Slot getSlot() {
     return EquipmentManager.consumeFilterToEquipmentType(
         ItemDatabase.getConsumptionType(this.item.getItemId()));
   }

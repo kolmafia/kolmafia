@@ -5,7 +5,10 @@ import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -37,6 +40,8 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
@@ -73,8 +78,8 @@ public class GearChangePanel extends JPanel {
   private JRadioButton[] offhandTypes;
 
   private int deferredUpdateLevel = 0;
-  private final EquipmentComboBox[] equipment;
-  private final List<SortedListModel<AdventureResult>> equipmentModels;
+  private final EnumMap<Slot, EquipmentComboBox> equipment;
+  private final EnumMap<Slot, SortedListModel<AdventureResult>> equipmentModels;
 
   private final SortedListModel<FamiliarData> familiars = new SortedListModel<>();
   private final SortedListModel<FamiliarData> crownFamiliars = new SortedListModel<>();
@@ -94,39 +99,38 @@ public class GearChangePanel extends JPanel {
   public GearChangePanel() {
     super(new BorderLayout());
 
-    this.equipment = new EquipmentComboBox[EquipmentManager.ALL_SLOTS];
-    this.equipmentModels = new ArrayList<>(EquipmentManager.ALL_SLOTS);
+    this.equipment = new EnumMap<>(Slot.class);
+    this.equipmentModels = new EnumMap<>(Slot.class);
 
-    List<List<AdventureResult>> lists = EquipmentManager.getEquipmentLists();
+    Map<Slot, List<AdventureResult>> lists = EquipmentManager.getEquipmentLists();
 
-    for (int i = 0; i < this.equipment.length; ++i) {
+    for (var slot : SlotSet.ALL_SLOTS) {
       LockableListModel<AdventureResult> list;
 
       // We maintain our own lists for certain slots
-      switch (i) {
-        case EquipmentManager.HAT,
-            EquipmentManager.PANTS,
-            EquipmentManager.SHIRT,
-            EquipmentManager.CONTAINER,
-            EquipmentManager.WEAPON,
-            EquipmentManager.OFFHAND,
-            EquipmentManager.ACCESSORY1,
-            EquipmentManager.ACCESSORY2,
-            EquipmentManager.ACCESSORY3,
-            EquipmentManager.FAMILIAR,
-            EquipmentManager.BOOTSKIN,
-            EquipmentManager.BOOTSPUR,
-            EquipmentManager.HOLSTER -> {
+      switch (slot) {
+        case HAT,
+            PANTS,
+            SHIRT,
+            CONTAINER,
+            WEAPON,
+            OFFHAND,
+            ACCESSORY1,
+            ACCESSORY2,
+            ACCESSORY3,
+            FAMILIAR,
+            BOOTSKIN,
+            BOOTSPUR,
+            HOLSTER -> {
           list = new SortedListModel<>();
-          this.equipmentModels.add((SortedListModel<AdventureResult>) list);
+          this.equipmentModels.put(slot, (SortedListModel<AdventureResult>) list);
         }
         default -> {
-          list = (LockableListModel<AdventureResult>) lists.get(i);
-          this.equipmentModels.add(null);
+          list = (LockableListModel<AdventureResult>) lists.get(slot);
         }
       }
 
-      this.equipment[i] = new EquipmentComboBox(list, i);
+      this.equipment.put(slot, new EquipmentComboBox(list, slot));
     }
 
     this.familiarSelect = new FamiliarComboBox(this.familiars);
@@ -152,7 +156,7 @@ public class GearChangePanel extends JPanel {
   }
 
   public static StringBuffer getModifiers(
-      Object value, final int slot, final boolean isCustomizablePanel, final int width) {
+      Object value, final Slot slot, final boolean isCustomizablePanel, final int width) {
     StringBuffer buff = new StringBuffer();
     Modifiers mods;
 
@@ -255,11 +259,11 @@ public class GearChangePanel extends JPanel {
     var slot =
         (value instanceof AdventureResult item)
             ? EquipmentManager.consumeFilterToEquipmentType(ItemDatabase.getConsumptionType(item))
-            : -1;
+            : Slot.NONE;
     showModifiers(value, slot);
   }
 
-  public static void showModifiers(Object value, final int slot) {
+  public static void showModifiers(Object value, final Slot slot) {
     if (GearChangePanel.INSTANCE == null) {
       return;
     }
@@ -304,10 +308,8 @@ public class GearChangePanel extends JPanel {
 
       ArrayList<VerifiableElement> rows = new ArrayList<>();
 
-      rows.add(new VerifiableElement("Hat:", GearChangePanel.this.equipment[EquipmentManager.HAT]));
-      rows.add(
-          new VerifiableElement(
-              "Weapon:", GearChangePanel.this.equipment[EquipmentManager.WEAPON]));
+      rows.add(new VerifiableElement("Hat:", GearChangePanel.this.equipment.get(Slot.HAT)));
+      rows.add(new VerifiableElement("Weapon:", GearChangePanel.this.equipment.get(Slot.WEAPON)));
 
       JPanel radioPanel1 = new JPanel(new GridLayout(1, 4));
       ButtonGroup radioGroup1 = new ButtonGroup();
@@ -331,11 +333,10 @@ public class GearChangePanel extends JPanel {
 
       rows.add(
           new AWoLClassVerifiableElement(
-              "Holstered:", GearChangePanel.this.equipment[EquipmentManager.HOLSTER]));
+              "Holstered:", GearChangePanel.this.equipment.get(Slot.HOLSTER)));
 
       rows.add(
-          new VerifiableElement(
-              "Off-Hand:", GearChangePanel.this.equipment[EquipmentManager.OFFHAND]));
+          new VerifiableElement("Off-Hand:", GearChangePanel.this.equipment.get(Slot.OFFHAND)));
 
       JPanel radioPanel2 = new JPanel(new GridLayout(1, 4));
       ButtonGroup radioGroup2 = new ButtonGroup();
@@ -354,33 +355,25 @@ public class GearChangePanel extends JPanel {
 
       rows.add(new VerifiableElement("", radioPanel2));
 
-      rows.add(
-          new VerifiableElement(
-              "Back:", GearChangePanel.this.equipment[EquipmentManager.CONTAINER]));
+      rows.add(new VerifiableElement("Back:", GearChangePanel.this.equipment.get(Slot.CONTAINER)));
 
-      rows.add(
-          new VerifiableElement("Shirt:", GearChangePanel.this.equipment[EquipmentManager.SHIRT]));
-      rows.add(
-          new VerifiableElement("Pants:", GearChangePanel.this.equipment[EquipmentManager.PANTS]));
+      rows.add(new VerifiableElement("Shirt:", GearChangePanel.this.equipment.get(Slot.SHIRT)));
+      rows.add(new VerifiableElement("Pants:", GearChangePanel.this.equipment.get(Slot.PANTS)));
 
       rows.add(new VerifiableElement());
 
       rows.add(
-          new VerifiableElement(
-              "Accessory:", GearChangePanel.this.equipment[EquipmentManager.ACCESSORY1]));
+          new VerifiableElement("Accessory:", GearChangePanel.this.equipment.get(Slot.ACCESSORY1)));
       rows.add(
-          new VerifiableElement(
-              "Accessory:", GearChangePanel.this.equipment[EquipmentManager.ACCESSORY2]));
+          new VerifiableElement("Accessory:", GearChangePanel.this.equipment.get(Slot.ACCESSORY2)));
       rows.add(
-          new VerifiableElement(
-              "Accessory:", GearChangePanel.this.equipment[EquipmentManager.ACCESSORY3]));
+          new VerifiableElement("Accessory:", GearChangePanel.this.equipment.get(Slot.ACCESSORY3)));
 
       rows.add(new VerifiableElement());
 
       rows.add(new VerifiableElement("Familiar:", GearChangePanel.this.familiarSelect));
       rows.add(
-          new VerifiableElement(
-              "Fam Item:", GearChangePanel.this.equipment[EquipmentManager.FAMILIAR]));
+          new VerifiableElement("Fam Item:", GearChangePanel.this.equipment.get(Slot.FAMILIAR)));
 
       GearChangePanel.this.famLockCheckbox = new FamLockCheckbox();
       JPanel boxholder = new JPanel(new BorderLayout());
@@ -455,38 +448,39 @@ public class GearChangePanel extends JPanel {
   private void changeItems() {
     // Find out what changed
 
-    AdventureResult[] pieces = new AdventureResult[EquipmentManager.ALL_SLOTS];
+    Map<Slot, AdventureResult> pieces = new EnumMap<>(Slot.class);
 
-    for (int i = 0; i < EquipmentManager.SLOTS; ++i) {
-      pieces[i] = (AdventureResult) this.equipment[i].getSelectedItem();
-      if (EquipmentManager.getEquipment(i).equals(pieces[i])) {
-        pieces[i] = null;
+    for (var slot : SlotSet.SLOTS) {
+      pieces.put(slot, (AdventureResult) this.equipment.get(slot).getSelectedItem());
+      if (EquipmentManager.getEquipment(slot).equals(pieces.get(slot))) {
+        pieces.remove(slot);
       }
     }
 
-    AdventureResult famitem =
-        (AdventureResult) this.equipment[EquipmentManager.FAMILIAR].getSelectedItem();
+    AdventureResult famitem = (AdventureResult) this.equipment.get(Slot.FAMILIAR).getSelectedItem();
 
     // Start with accessories
 
-    for (int i : EquipmentManager.ACCESSORY_SLOTS) {
-      if (pieces[i] != null) {
-        RequestThread.postRequest(new EquipmentRequest(pieces[i], i));
-        pieces[i] = null;
+    for (var slot : SlotSet.ACCESSORY_SLOTS) {
+      var piece = pieces.get(slot);
+      if (piece != null) {
+        RequestThread.postRequest(new EquipmentRequest(piece, slot));
+        pieces.remove(slot);
       }
     }
 
     // Move on to other equipment
-
-    for (int i = 0; i < EquipmentManager.ACCESSORY1; ++i) {
-      if (pieces[i] != null) {
-        RequestThread.postRequest(new EquipmentRequest(pieces[i], i));
-        pieces[i] = null;
+    // SLOTS but not accessories or familiar
+    for (var slot : EnumSet.range(Slot.HAT, Slot.PANTS)) {
+      var piece = pieces.get(slot);
+      if (piece != null) {
+        RequestThread.postRequest(new EquipmentRequest(piece, slot));
+        pieces.remove(slot);
       }
     }
 
     if (KoLCharacter.getFamiliar().canEquip(famitem)) {
-      RequestThread.postRequest(new EquipmentRequest(famitem, EquipmentManager.FAMILIAR));
+      RequestThread.postRequest(new EquipmentRequest(famitem, Slot.FAMILIAR));
     }
   }
 
@@ -506,20 +500,17 @@ public class GearChangePanel extends JPanel {
       rows.add(new VerifiableElement());
 
       element =
-          new VerifiableElement(
-              "Sticker:", GearChangePanel.this.equipment[EquipmentManager.STICKER1]);
+          new VerifiableElement("Sticker:", GearChangePanel.this.equipment.get(Slot.STICKER1));
       GearChangePanel.this.sticker1Label = element.getLabel();
       rows.add(element);
 
       element =
-          new VerifiableElement(
-              "Sticker:", GearChangePanel.this.equipment[EquipmentManager.STICKER2]);
+          new VerifiableElement("Sticker:", GearChangePanel.this.equipment.get(Slot.STICKER2));
       GearChangePanel.this.sticker2Label = element.getLabel();
       rows.add(element);
 
       element =
-          new VerifiableElement(
-              "Sticker:", GearChangePanel.this.equipment[EquipmentManager.STICKER3]);
+          new VerifiableElement("Sticker:", GearChangePanel.this.equipment.get(Slot.STICKER3));
       GearChangePanel.this.sticker3Label = element.getLabel();
       rows.add(element);
 
@@ -538,32 +529,20 @@ public class GearChangePanel extends JPanel {
 
       rows.add(
           new VerifiableElement(
-              "Card Sleeve:", GearChangePanel.this.equipment[EquipmentManager.CARDSLEEVE]));
+              "Card Sleeve:", GearChangePanel.this.equipment.get(Slot.CARDSLEEVE)));
+
+      rows.add(new VerifiableElement());
+      rows.add(new VerifiableElement("Folder:", GearChangePanel.this.equipment.get(Slot.FOLDER1)));
+      rows.add(new VerifiableElement("Folder:", GearChangePanel.this.equipment.get(Slot.FOLDER2)));
+      rows.add(new VerifiableElement("Folder:", GearChangePanel.this.equipment.get(Slot.FOLDER3)));
+      rows.add(new VerifiableElement("Folder:", GearChangePanel.this.equipment.get(Slot.FOLDER4)));
+      rows.add(new VerifiableElement("Folder:", GearChangePanel.this.equipment.get(Slot.FOLDER5)));
 
       rows.add(new VerifiableElement());
       rows.add(
-          new VerifiableElement(
-              "Folder:", GearChangePanel.this.equipment[EquipmentManager.FOLDER1]));
+          new VerifiableElement("Boot Skin:", GearChangePanel.this.equipment.get(Slot.BOOTSKIN)));
       rows.add(
-          new VerifiableElement(
-              "Folder:", GearChangePanel.this.equipment[EquipmentManager.FOLDER2]));
-      rows.add(
-          new VerifiableElement(
-              "Folder:", GearChangePanel.this.equipment[EquipmentManager.FOLDER3]));
-      rows.add(
-          new VerifiableElement(
-              "Folder:", GearChangePanel.this.equipment[EquipmentManager.FOLDER4]));
-      rows.add(
-          new VerifiableElement(
-              "Folder:", GearChangePanel.this.equipment[EquipmentManager.FOLDER5]));
-
-      rows.add(new VerifiableElement());
-      rows.add(
-          new VerifiableElement(
-              "Boot Skin:", GearChangePanel.this.equipment[EquipmentManager.BOOTSKIN]));
-      rows.add(
-          new VerifiableElement(
-              "Boot Spur:", GearChangePanel.this.equipment[EquipmentManager.BOOTSPUR]));
+          new VerifiableElement("Boot Spur:", GearChangePanel.this.equipment.get(Slot.BOOTSPUR)));
 
       VerifiableElement[] elements = new VerifiableElement[rows.size()];
       elements = rows.toArray(elements);
@@ -592,30 +571,30 @@ public class GearChangePanel extends JPanel {
       boolean hasCardSleeve =
           EquipmentManager.CARD_SLEEVE.getCount(KoLConstants.inventory) > 0
               || KoLCharacter.hasEquipped(EquipmentManager.CARD_SLEEVE);
-      GearChangePanel.this.equipment[EquipmentManager.CARDSLEEVE].setEnabled(
-          isEnabled && hasCardSleeve);
+      GearChangePanel.this.equipment.get(Slot.CARDSLEEVE).setEnabled(isEnabled && hasCardSleeve);
 
       boolean hasFolderHolder =
           EquipmentManager.FOLDER_HOLDER.getCount(KoLConstants.inventory) > 0
               || KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER);
       boolean inHighSchool = KoLCharacter.inHighschool();
 
-      GearChangePanel.this.equipment[EquipmentManager.FOLDER1].setEnabled(
-          isEnabled && hasFolderHolder);
-      GearChangePanel.this.equipment[EquipmentManager.FOLDER2].setEnabled(
-          isEnabled && hasFolderHolder);
-      GearChangePanel.this.equipment[EquipmentManager.FOLDER3].setEnabled(
-          isEnabled && hasFolderHolder);
-      GearChangePanel.this.equipment[EquipmentManager.FOLDER4].setEnabled(
-          isEnabled && hasFolderHolder && inHighSchool);
-      GearChangePanel.this.equipment[EquipmentManager.FOLDER5].setEnabled(
-          isEnabled && hasFolderHolder && inHighSchool);
+      GearChangePanel.this.equipment.get(Slot.FOLDER1).setEnabled(isEnabled && hasFolderHolder);
+      GearChangePanel.this.equipment.get(Slot.FOLDER2).setEnabled(isEnabled && hasFolderHolder);
+      GearChangePanel.this.equipment.get(Slot.FOLDER3).setEnabled(isEnabled && hasFolderHolder);
+      GearChangePanel.this
+          .equipment
+          .get(Slot.FOLDER4)
+          .setEnabled(isEnabled && hasFolderHolder && inHighSchool);
+      GearChangePanel.this
+          .equipment
+          .get(Slot.FOLDER5)
+          .setEnabled(isEnabled && hasFolderHolder && inHighSchool);
 
       boolean hasBoots =
           EquipmentManager.COWBOY_BOOTS.getCount(KoLConstants.inventory) > 0
               || KoLCharacter.hasEquipped(EquipmentManager.COWBOY_BOOTS);
-      GearChangePanel.this.equipment[EquipmentManager.BOOTSKIN].setEnabled(isEnabled && hasBoots);
-      GearChangePanel.this.equipment[EquipmentManager.BOOTSPUR].setEnabled(isEnabled && hasBoots);
+      GearChangePanel.this.equipment.get(Slot.BOOTSKIN).setEnabled(isEnabled && hasBoots);
+      GearChangePanel.this.equipment.get(Slot.BOOTSPUR).setEnabled(isEnabled && hasBoots);
     }
 
     @Override
@@ -645,56 +624,30 @@ public class GearChangePanel extends JPanel {
     }
 
     // Card Sleeve
-    AdventureResult card =
-        (AdventureResult) this.equipment[EquipmentManager.CARDSLEEVE].getSelectedItem();
-    if (!EquipmentManager.getEquipment(EquipmentManager.CARDSLEEVE).equals(card)) {
-      RequestThread.postRequest(new EquipmentRequest(card, EquipmentManager.CARDSLEEVE));
+    AdventureResult card = (AdventureResult) this.equipment.get(Slot.CARDSLEEVE).getSelectedItem();
+    if (!EquipmentManager.getEquipment(Slot.CARDSLEEVE).equals(card)) {
+      RequestThread.postRequest(new EquipmentRequest(card, Slot.CARDSLEEVE));
     }
 
     // Stickers
-    AdventureResult[] stickers =
-        new AdventureResult[] {
-          (AdventureResult) this.equipment[EquipmentManager.STICKER1].getSelectedItem(),
-          (AdventureResult) this.equipment[EquipmentManager.STICKER2].getSelectedItem(),
-          (AdventureResult) this.equipment[EquipmentManager.STICKER3].getSelectedItem(),
-        };
-
-    for (int i = 0; i < stickers.length; ++i) {
-      AdventureResult sticker = stickers[i];
-      int slot = EquipmentManager.STICKER1 + i;
+    for (var slot : SlotSet.STICKER_SLOTS) {
+      AdventureResult sticker = (AdventureResult) this.equipment.get(slot).getSelectedItem();
       if (!EquipmentManager.getEquipment(slot).equals(sticker)) {
         RequestThread.postRequest(new EquipmentRequest(sticker, slot));
       }
     }
 
     // Folders
-    AdventureResult[] folders =
-        new AdventureResult[] {
-          (AdventureResult) this.equipment[EquipmentManager.FOLDER1].getSelectedItem(),
-          (AdventureResult) this.equipment[EquipmentManager.FOLDER2].getSelectedItem(),
-          (AdventureResult) this.equipment[EquipmentManager.FOLDER3].getSelectedItem(),
-          (AdventureResult) this.equipment[EquipmentManager.FOLDER4].getSelectedItem(),
-          (AdventureResult) this.equipment[EquipmentManager.FOLDER5].getSelectedItem(),
-        };
-
-    for (int i = 0; i < folders.length; ++i) {
-      AdventureResult folder = folders[i];
-      int slot = EquipmentManager.FOLDER1 + i;
+    for (var slot : SlotSet.FOLDER_SLOTS) {
+      AdventureResult folder = (AdventureResult) this.equipment.get(slot).getSelectedItem();
       if (!EquipmentManager.getEquipment(slot).equals(folder)) {
         RequestThread.postRequest(new EquipmentRequest(folder, slot));
       }
     }
 
     // Cowboy Boots
-    AdventureResult[] bootDecorations =
-        new AdventureResult[] {
-          (AdventureResult) this.equipment[EquipmentManager.BOOTSKIN].getSelectedItem(),
-          (AdventureResult) this.equipment[EquipmentManager.BOOTSPUR].getSelectedItem(),
-        };
-
-    for (int i = 0; i < bootDecorations.length; ++i) {
-      AdventureResult decoration = bootDecorations[i];
-      int slot = EquipmentManager.BOOTSKIN + i;
+    for (var slot : List.of(Slot.BOOTSKIN, Slot.BOOTSPUR)) {
+      AdventureResult decoration = (AdventureResult) this.equipment.get(slot).getSelectedItem();
       if (!EquipmentManager.getEquipment(slot).equals(decoration)) {
         RequestThread.postRequest(new EquipmentRequest(decoration, slot));
       }
@@ -706,16 +659,14 @@ public class GearChangePanel extends JPanel {
       // If we want fewer fake hands than we currently have, unequip one - which will unequip all of
       // them.
       if (newFakeHands < oldFakeHands) {
-        EquipmentRequest request =
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.FAKEHAND);
+        EquipmentRequest request = new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.FAKEHAND);
         RequestThread.postRequest(request);
         oldFakeHands = 0;
       }
 
       // Equip fake hands one at a time until we have enough
       while (oldFakeHands++ < newFakeHands) {
-        EquipmentRequest request =
-            new EquipmentRequest(EquipmentManager.FAKE_HAND, EquipmentManager.FAKEHAND);
+        EquipmentRequest request = new EquipmentRequest(EquipmentManager.FAKE_HAND, Slot.FAKEHAND);
         RequestThread.postRequest(request);
       }
     }
@@ -730,12 +681,12 @@ public class GearChangePanel extends JPanel {
     GearChangePanel.INSTANCE.equipmentPanel.hideOrShowElements();
   }
 
-  public static final void updateSlot(final int slot) {
+  public static final void updateSlot(final Slot slot) {
     if (GearChangePanel.INSTANCE == null) {
       return;
     }
 
-    if (slot < 0 || slot >= EquipmentManager.ALL_SLOTS) {
+    if (slot == Slot.NONE) {
       return;
     }
 
@@ -749,12 +700,12 @@ public class GearChangePanel extends JPanel {
     GearChangePanel.INSTANCE.updateAllModels();
   }
 
-  public static final LockableListModel<AdventureResult> getModel(final int slot) {
+  public static final LockableListModel<AdventureResult> getModel(final Slot slot) {
     if (GearChangePanel.INSTANCE == null) {
       return null;
     }
 
-    if (slot < 0 || slot >= EquipmentManager.ALL_SLOTS) {
+    if (!SlotSet.ALL_SLOTS.contains(slot)) {
       return null;
     }
 
@@ -776,7 +727,7 @@ public class GearChangePanel extends JPanel {
       return;
     }
 
-    for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
+    for (var slot : SlotSet.ALL_SLOTS) {
       LockableListModel<AdventureResult> model = GearChangePanel.INSTANCE.equipmentModels.get(slot);
       if (model != null) {
         model.clear();
@@ -785,7 +736,7 @@ public class GearChangePanel extends JPanel {
   }
 
   private class EquipmentComboBox extends JComboBox<AdventureResult> {
-    public EquipmentComboBox(final LockableListModel<AdventureResult> model, final int slot) {
+    public EquipmentComboBox(final LockableListModel<AdventureResult> model, final Slot slot) {
       super(model);
 
       DefaultListCellRenderer renderer = ListCellRendererFactory.getUsableEquipmentRenderer(slot);
@@ -940,9 +891,9 @@ public class GearChangePanel extends JPanel {
     }
   }
 
-  private boolean slotItemCanBeNone(final int slot) {
+  private boolean slotItemCanBeNone(final Slot slot) {
     return switch (slot) {
-      case EquipmentManager.BOOTSKIN, EquipmentManager.BOOTSPUR ->
+      case BOOTSKIN, BOOTSPUR ->
       // You cannot remove the item in this slot, but if
       // nothing is equipped, need a placeholder
       EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP);
@@ -950,21 +901,21 @@ public class GearChangePanel extends JPanel {
     };
   }
 
-  private Optional<FamiliarData> familiarCarryingEquipment(final int slot) {
+  private Optional<FamiliarData> familiarCarryingEquipment(final Slot slot) {
     return switch (slot) {
-      case EquipmentManager.HAT -> KoLCharacter.ownedFamiliar(FamiliarPool.HATRACK);
-      case EquipmentManager.PANTS -> KoLCharacter.ownedFamiliar(FamiliarPool.SCARECROW);
-      case EquipmentManager.WEAPON -> KoLCharacter.ownedFamiliar(FamiliarPool.HAND);
-      case EquipmentManager.OFFHAND -> KoLCharacter.ownedFamiliar(FamiliarPool.LEFT_HAND);
+      case HAT -> KoLCharacter.ownedFamiliar(FamiliarPool.HATRACK);
+      case PANTS -> KoLCharacter.ownedFamiliar(FamiliarPool.SCARECROW);
+      case WEAPON -> KoLCharacter.ownedFamiliar(FamiliarPool.HAND);
+      case OFFHAND -> KoLCharacter.ownedFamiliar(FamiliarPool.LEFT_HAND);
       default -> Optional.empty();
     };
   }
 
-  private List<List<AdventureResult>> populateEquipmentLists() {
-    List<List<AdventureResult>> lists = new ArrayList<>(EquipmentManager.ALL_SLOTS);
+  private EnumMap<Slot, List<AdventureResult>> populateEquipmentLists() {
+    EnumMap<Slot, List<AdventureResult>> lists = new EnumMap<>(Slot.class);
 
     // Create all equipment lists
-    for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
+    for (var slot : SlotSet.ALL_SLOTS) {
       List<AdventureResult> items = new ArrayList<>();
 
       // Almost every list gets a "(none)"
@@ -972,7 +923,7 @@ public class GearChangePanel extends JPanel {
         items.add(EquipmentRequest.UNEQUIP);
       }
 
-      lists.add(items);
+      lists.put(slot, items);
     }
 
     // Certain familiars can carry non-familiar-items
@@ -983,41 +934,41 @@ public class GearChangePanel extends JPanel {
     // Look at every item in inventory
     for (AdventureResult item : KoLConstants.inventory) {
       ConsumptionType consumption = ItemDatabase.getConsumptionType(item.getItemId());
-      int slot = EquipmentManager.consumeFilterToEquipmentType(consumption);
+      Slot slot = EquipmentManager.consumeFilterToEquipmentType(consumption);
       switch (consumption) {
         case WEAPON:
-          if (this.shouldAddItem(item, consumption, EquipmentManager.WEAPON)) {
-            lists.get(EquipmentManager.WEAPON).add(item);
+          if (this.shouldAddItem(item, consumption, Slot.WEAPON)) {
+            lists.get(Slot.WEAPON).add(item);
           }
-          if (this.shouldAddItem(item, consumption, EquipmentManager.OFFHAND)) {
-            lists.get(EquipmentManager.OFFHAND).add(item);
+          if (this.shouldAddItem(item, consumption, Slot.OFFHAND)) {
+            lists.get(Slot.OFFHAND).add(item);
           }
           break;
 
         case ACCESSORY:
           if (this.shouldAddItem(item, consumption, slot)) {
-            lists.get(EquipmentManager.ACCESSORY1).add(item);
-            lists.get(EquipmentManager.ACCESSORY2).add(item);
-            lists.get(EquipmentManager.ACCESSORY3).add(item);
+            lists.get(Slot.ACCESSORY1).add(item);
+            lists.get(Slot.ACCESSORY2).add(item);
+            lists.get(Slot.ACCESSORY3).add(item);
           }
           break;
 
           /*
           case CONSUME_STICKER:
             if (this.shouldAddItem(item, consumption, slot)) {
-              lists.get(EquipmentManager.STICKER1).add(item);
-              lists.get(EquipmentManager.STICKER2).add(item);
-              lists.get(EquipmentManager.STICKER3).add(item);
+              lists.get(Slot.STICKER1).add(item);
+              lists.get(Slot.STICKER2).add(item);
+              lists.get(Slot.STICKER3).add(item);
             }
             break;
 
           case CONSUME_FOLDER:
             if (this.shouldAddItem(item, consumption, slot)) {
-              lists.get(EquipmentManager.FOLDER1).add(item);
-              lists.get(EquipmentManager.FOLDER2).add(item);
-              lists.get(EquipmentManager.FOLDER3).add(item);
-              lists.get(EquipmentManager.FOLDER4).add(item);
-              lists.get(EquipmentManager.FOLDER5).add(item);
+              lists.get(Slot.FOLDER1).add(item);
+              lists.get(Slot.FOLDER2).add(item);
+              lists.get(Slot.FOLDER3).add(item);
+              lists.get(Slot.FOLDER4).add(item);
+              lists.get(Slot.FOLDER5).add(item);
             }
             break;
           */
@@ -1030,12 +981,12 @@ public class GearChangePanel extends JPanel {
       }
 
       if (specialFamiliar && (consumption == specialFamiliarType) && myFamiliar.canEquip(item)) {
-        lists.get(EquipmentManager.FAMILIAR).add(item);
+        lists.get(Slot.FAMILIAR).add(item);
       }
     }
 
     // Add current equipment
-    for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
+    for (var slot : SlotSet.ALL_SLOTS) {
       List<AdventureResult> items = lists.get(slot);
       if (items == null) {
         continue;
@@ -1047,7 +998,7 @@ public class GearChangePanel extends JPanel {
       }
 
       // If a non-current familiar has an appropriate item, add it.
-      if (slot != EquipmentManager.FAMILIAR) {
+      if (slot != Slot.FAMILIAR) {
         var familiar = familiarCarryingEquipment(slot);
         if (familiar.isPresent() && familiar.get() != KoLCharacter.getFamiliar()) {
           AdventureResult familiarItem = familiar.get().getItem();
@@ -1060,7 +1011,7 @@ public class GearChangePanel extends JPanel {
 
     // Add stealable familiar equipment
     if (myFamiliar != FamiliarData.NO_FAMILIAR) {
-      List<AdventureResult> items = lists.get(EquipmentManager.FAMILIAR);
+      List<AdventureResult> items = lists.get(Slot.FAMILIAR);
       for (FamiliarData familiar : KoLCharacter.ownedFamiliars()) {
         if (familiar == myFamiliar) {
           continue;
@@ -1077,11 +1028,11 @@ public class GearChangePanel extends JPanel {
     return lists;
   }
 
-  private boolean filterItem(AdventureResult item, int slot) {
+  private boolean filterItem(AdventureResult item, Slot slot) {
     return this.shouldAddItem(item, ItemDatabase.getConsumptionType(item.getItemId()), slot);
   }
 
-  private boolean shouldAddItem(AdventureResult item, ConsumptionType consumption, int slot) {
+  private boolean shouldAddItem(AdventureResult item, ConsumptionType consumption, Slot slot) {
     switch (consumption) {
         // The following lists are local to GearChanger
       case HAT:
@@ -1120,12 +1071,12 @@ public class GearChangePanel extends JPanel {
     return KoLCharacter.getLimitMode() == LimitMode.NONE || EquipmentManager.canEquip(item);
   }
 
-  private boolean filterWeapon(final AdventureResult weapon, final int slot) {
+  private boolean filterWeapon(final AdventureResult weapon, final Slot slot) {
     if (KoLCharacter.inFistcore()) {
       return false;
     }
 
-    if (slot == EquipmentManager.OFFHAND) {
+    if (slot == Slot.OFFHAND) {
       return this.filterOffhand(weapon, ConsumptionType.WEAPON);
     }
 
@@ -1174,7 +1125,7 @@ public class GearChangePanel extends JPanel {
       }
 
       // There must be a current weapon
-      AdventureResult weapon = this.currentOrSelectedItem(EquipmentManager.WEAPON);
+      AdventureResult weapon = this.currentOrSelectedItem(Slot.WEAPON);
       if (weapon == EquipmentRequest.UNEQUIP) {
         return false;
       }
@@ -1230,8 +1181,8 @@ public class GearChangePanel extends JPanel {
         || EquipmentManager.canEquip(item.getName());
   }
 
-  private AdventureResult currentOrSelectedItem(final int slot) {
-    AdventureResult item = (AdventureResult) this.equipment[slot].getSelectedItem();
+  private AdventureResult currentOrSelectedItem(final Slot slot) {
+    AdventureResult item = (AdventureResult) this.equipment.get(slot).getSelectedItem();
     return (item != null) ? item : EquipmentManager.getEquipment(slot);
   }
 
@@ -1245,17 +1196,18 @@ public class GearChangePanel extends JPanel {
     currentItems.setSelectedItem(equippedItem);
   }
 
-  private void updateEquipmentModelsInternal(final List<List<AdventureResult>> equipmentLists) {
+  private void updateEquipmentModelsInternal(
+      final Map<Slot, List<AdventureResult>> equipmentLists) {
     // For all the slots that we maintain a custom list, update the model specially
-    for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
+    for (var slot : SlotSet.ALL_SLOTS) {
       LockableListModel<AdventureResult> model = equipmentModels.get(slot);
       if (model == null) {
         continue;
       }
 
-      if (slot == EquipmentManager.WEAPON || slot == EquipmentManager.OFFHAND) {
+      if (slot == Slot.WEAPON || slot == Slot.OFFHAND) {
         if (KoLCharacter.inFistcore()) {
-          this.equipment[slot].setEnabled(false);
+          this.equipment.get(slot).setEnabled(false);
           continue;
         }
       }
@@ -1263,20 +1215,22 @@ public class GearChangePanel extends JPanel {
       List<AdventureResult> items = equipmentLists.get(slot);
       AdventureResult selectedItem = this.currentOrSelectedItem(slot);
       GearChangePanel.updateEquipmentList(model, items, selectedItem);
-      this.equipment[slot].setEnabled(
-          this.isEnabled && !KoLCharacter.getLimitMode().limitSlot(slot));
+      this.equipment
+          .get(slot)
+          .setEnabled(this.isEnabled && !KoLCharacter.getLimitMode().limitSlot(slot));
 
-      if (slot == EquipmentManager.WEAPON) {
+      if (slot == Slot.WEAPON) {
         // Equipping 2 or more handed weapon: nothing in off-hand
         if (EquipmentDatabase.getHands(selectedItem.getItemId()) > 1) {
-          this.equipment[EquipmentManager.OFFHAND].setSelectedItem(EquipmentRequest.UNEQUIP);
-          this.equipment[EquipmentManager.OFFHAND].setEnabled(false);
+          var offhand = this.equipment.get(Slot.OFFHAND);
+          offhand.setSelectedItem(EquipmentRequest.UNEQUIP);
+          offhand.setEnabled(false);
         }
       }
     }
   }
 
-  private void updateEquipmentModels(final List<List<AdventureResult>> equipmentLists) {
+  private void updateEquipmentModels(final Map<Slot, List<AdventureResult>> equipmentLists) {
     if (SwingUtilities.isEventDispatchThread() || GraphicsEnvironment.isHeadless()) {
       updateEquipmentModelsInternal(equipmentLists);
     } else {
@@ -1322,7 +1276,7 @@ public class GearChangePanel extends JPanel {
     }
 
     // Calculate all the AdventureResult lists
-    List<List<AdventureResult>> equipmentLists = this.populateEquipmentLists();
+    Map<Slot, List<AdventureResult>> equipmentLists = this.populateEquipmentLists();
 
     // Update the models in the Swing Thread
     this.updateEquipmentModels(equipmentLists);
@@ -1349,26 +1303,32 @@ public class GearChangePanel extends JPanel {
     }
 
     this.updateFamiliarList(this.familiars, this.validFamiliars(currentFamiliar), selectedFamiliar);
-    this.equipment[EquipmentManager.FAMILIAR].setEnabled(
-        this.isEnabled
-            && !KoLCharacter.getLimitMode().limitFamiliars()
-            && !KoLCharacter.inPokefam());
+    this.equipment
+        .get(Slot.FAMILIAR)
+        .setEnabled(
+            this.isEnabled
+                && !KoLCharacter.getLimitMode().limitFamiliars()
+                && !KoLCharacter.inPokefam());
     this.updateFamiliarList(
         this.crownFamiliars,
         this.carriableFamiliars(currentFamiliar, bjornedFamiliar),
         selectedThroneFamiliar);
-    this.equipment[EquipmentManager.CROWNOFTHRONES].setEnabled(
-        this.isEnabled
-            && !KoLCharacter.getLimitMode().limitFamiliars()
-            && !KoLCharacter.inPokefam());
+    this.equipment
+        .get(Slot.CROWNOFTHRONES)
+        .setEnabled(
+            this.isEnabled
+                && !KoLCharacter.getLimitMode().limitFamiliars()
+                && !KoLCharacter.inPokefam());
     this.updateFamiliarList(
         this.bjornFamiliars,
         this.carriableFamiliars(currentFamiliar, enthronedFamiliar),
         selectedBjornFamiliar);
-    this.equipment[EquipmentManager.BUDDYBJORN].setEnabled(
-        this.isEnabled
-            && !KoLCharacter.getLimitMode().limitFamiliars()
-            && !KoLCharacter.inPokefam());
+    this.equipment
+        .get(Slot.BUDDYBJORN)
+        .setEnabled(
+            this.isEnabled
+                && !KoLCharacter.getLimitMode().limitFamiliars()
+                && !KoLCharacter.inPokefam());
 
     this.outfitSelect.setEnabled(this.isEnabled && !KoLCharacter.getLimitMode().limitOutfits());
     this.customSelect.setEnabled(this.isEnabled && !KoLCharacter.getLimitMode().limitOutfits());

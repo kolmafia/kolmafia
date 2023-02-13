@@ -18,8 +18,8 @@ import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -99,7 +99,7 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
     var cleanups =
         new Cleanups(
             withProperty("edPiece", "weasel"),
-            withEquipped(EquipmentManager.HAT, "The Crown of Ed the Undying"));
+            withEquipped(Slot.HAT, "The Crown of Ed the Undying"));
 
     try (cleanups) {
       String output = execute("weasel");
@@ -135,7 +135,7 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
     var cleanups =
         new Cleanups(
             withProperty("edPiece", "weasel"),
-            withEquipped(EquipmentManager.HAT, "The Crown of Ed the Undying"));
+            withEquipped(Slot.HAT, "The Crown of Ed the Undying"));
 
     try (cleanups) {
       String output = execute("hyena");

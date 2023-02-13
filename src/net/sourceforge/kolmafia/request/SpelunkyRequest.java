@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -226,10 +227,10 @@ public class SpelunkyRequest extends GenericRequest {
       int itemId = ItemDatabase.getItemIdFromDescription(descId);
       AdventureResult item = ItemPool.get(itemId, 1);
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case HAT -> EquipmentManager.setEquipment(EquipmentManager.HAT, item);
-        case WEAPON -> EquipmentManager.setEquipment(EquipmentManager.WEAPON, item);
+        case HAT -> EquipmentManager.setEquipment(Slot.HAT, item);
+        case WEAPON -> EquipmentManager.setEquipment(Slot.WEAPON, item);
         case OFFHAND -> {
-          EquipmentManager.setEquipment(EquipmentManager.OFFHAND, item);
+          EquipmentManager.setEquipment(Slot.OFFHAND, item);
           switch (itemId) {
             case ItemPool.SPELUNKY_SKULL -> {
               KoLCharacter.addAvailableSkill(SkillPool.THROW_SKULL);
@@ -263,30 +264,30 @@ public class SpelunkyRequest extends GenericRequest {
             }
           }
         }
-        case CONTAINER -> EquipmentManager.setEquipment(EquipmentManager.CONTAINER, item);
-        case ACCESSORY -> EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, item);
+        case CONTAINER -> EquipmentManager.setEquipment(Slot.CONTAINER, item);
+        case ACCESSORY -> EquipmentManager.setEquipment(Slot.ACCESSORY1, item);
       }
     }
     if (gear.contains(">hat<")) {
-      EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.HAT, EquipmentRequest.UNEQUIP);
     }
     if (gear.contains(">off<")) {
-      EquipmentManager.setEquipment(EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
       KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
       KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
       KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
       KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
     }
     if (gear.contains(">back<")) {
-      EquipmentManager.setEquipment(EquipmentManager.CONTAINER, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.CONTAINER, EquipmentRequest.UNEQUIP);
     }
     if (gear.contains(">hand<")) {
-      EquipmentManager.setEquipment(EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.WEAPON, EquipmentRequest.UNEQUIP);
     }
     if (gear.contains(">shoes<")) {
-      EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, EquipmentRequest.UNEQUIP);
-      EquipmentManager.setEquipment(EquipmentManager.ACCESSORY2, EquipmentRequest.UNEQUIP);
-      EquipmentManager.setEquipment(EquipmentManager.ACCESSORY3, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.ACCESSORY1, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.ACCESSORY2, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.ACCESSORY3, EquipmentRequest.UNEQUIP);
     }
 
     if (responseText.contains("spelghostarms.gif")) {
@@ -379,8 +380,8 @@ public class SpelunkyRequest extends GenericRequest {
         continue;
       }
 
-      int slot = EquipmentRequest.phpSlotNumber(slotName);
-      if (slot == -1) {
+      Slot slot = Slot.byCaselessPhpName(slotName);
+      if (slot == Slot.NONE) {
         continue;
       }
 
@@ -388,11 +389,10 @@ public class SpelunkyRequest extends GenericRequest {
       AdventureResult item = EquipmentManager.equippedItem(itemId);
 
       switch (slot) {
-        case EquipmentManager.HAT -> EquipmentManager.setEquipment(EquipmentManager.HAT, item);
-        case EquipmentManager.WEAPON -> EquipmentManager.setEquipment(
-            EquipmentManager.WEAPON, item);
-        case EquipmentManager.OFFHAND -> {
-          EquipmentManager.setEquipment(EquipmentManager.OFFHAND, item);
+        case HAT -> EquipmentManager.setEquipment(Slot.HAT, item);
+        case WEAPON -> EquipmentManager.setEquipment(Slot.WEAPON, item);
+        case OFFHAND -> {
+          EquipmentManager.setEquipment(Slot.OFFHAND, item);
           switch (itemId) {
             case ItemPool.SPELUNKY_SKULL -> {
               KoLCharacter.addAvailableSkill(SkillPool.THROW_SKULL);
@@ -426,10 +426,8 @@ public class SpelunkyRequest extends GenericRequest {
             }
           }
         }
-        case EquipmentManager.CONTAINER -> EquipmentManager.setEquipment(
-            EquipmentManager.CONTAINER, item);
-        case EquipmentManager.ACCESSORY1 -> EquipmentManager.setEquipment(
-            EquipmentManager.ACCESSORY1, item);
+        case CONTAINER -> EquipmentManager.setEquipment(Slot.CONTAINER, item);
+        case ACCESSORY1 -> EquipmentManager.setEquipment(Slot.ACCESSORY1, item);
       }
     }
 
@@ -930,8 +928,8 @@ public class SpelunkyRequest extends GenericRequest {
     int physicalResistance = monster == null ? 0 : monster.getPhysicalResistance();
 
     // Calculate your expected combat damage
-    AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
-    AdventureResult offhand = EquipmentManager.getEquipment(EquipmentManager.OFFHAND);
+    AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
+    AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
     int weaponItemId = weapon.getItemId();
     int offhandItemId = offhand.getItemId();
 

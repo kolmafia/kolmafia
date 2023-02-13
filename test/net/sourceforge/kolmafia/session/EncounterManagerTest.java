@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -39,6 +40,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
@@ -611,13 +613,10 @@ class EncounterManagerTest {
   }
 
   @ParameterizedTest
-  @ValueSource(
-      ints = {
-        EquipmentManager.ACCESSORY1,
-        EquipmentManager.ACCESSORY2,
-        EquipmentManager.ACCESSORY3
-      })
-  void ringOfTeleportationTypeDoesNotTrackGoal(int slot) {
+  @EnumSource(
+      value = Slot.class,
+      names = {"ACCESSORY1", "ACCESSORY2", "ACCESSORY3"})
+  void ringOfTeleportationTypeDoesNotTrackGoal(Slot slot) {
     var mocked = mockStatic(GoalManager.class, Mockito.CALLS_REAL_METHODS);
     var cleanups = withEquipped(slot, "ring of teleportation");
     try (mocked;
