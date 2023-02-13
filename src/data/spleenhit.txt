@@ -75,7 +75,7 @@ eldritch essence	1	4	crappy	0	66	66	66
 elemental paste	4	4	good	5-10	18-22	18-22	18-22	10 Elemental Flavor (+5 prismatic dmg)
 enchanted barbell	1	2	decent	0	5-7	0	0
 enchanted leopard-print barbell	5	13	EPIC	15-25	50-100	50-100	50-100
-energized spores	1	1		0	0	0	0	Unspaded, 40 Energized (+100 initiative)
+energized spores	1	1		0	0	0	0	40 Energized (+100 initiative)
 epic cluster	1	20	EPIC	6	170-200	170-200	170-200
 epic wad	1	15	EPIC	5	140-150	140-150	140-150
 excitement pill	1	5	decent	0	0	0	0	Get random effect
