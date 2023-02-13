@@ -84,6 +84,19 @@ class PlaceRequestTest {
 
 @Nested
 class Speakeasy {
+  @BeforeEach
+  public void initializeCharPrefs() {
+    KoLCharacter.reset("PlaceRequestTestFakeSotVisit");
+    KoLCharacter.reset(true);
+  }
+
+  @AfterEach
+  public void resetCharAndPrefs() {
+    KoLCharacter.reset("");
+    KoLCharacter.reset(true);
+    KoLCharacter.setUserId(0);
+  }
+
   @Test
   public void itShouldGetParcelLocationFromVisit() {
     String prefName = "_sotParcelLocation";

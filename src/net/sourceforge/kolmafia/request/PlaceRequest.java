@@ -280,7 +280,7 @@ public class PlaceRequest extends GenericRequest {
         ResultProcessor.removeAllItems(ItemPool.SPANT_EGG_CASING);
       }
     } else if (place.equals("speakeasy")) {
-      Preferences.setString("_sotParcelLocation", "xyzzy");
+      PlaceRequest.parseSotVisit(responseText);
     } else if (place.equals("spelunky")) {
       SpelunkyRequest.parseResponse(urlString, responseText);
     } else if (place.equals("town_right")) {
@@ -399,6 +399,40 @@ public class PlaceRequest extends GenericRequest {
     }
 
     SpadingManager.processPlace(urlString, responseText);
+  }
+
+  private static void parseSotVisit(String responseText) {
+    //What he means is that he lost something over in The Haunted Storage Room and he'd like you to get it for him.
+    //Matcher msl = Pattern.compile("bring his package back from (.+?)\\.</td>",responseText);
+
+    /*
+    void get_milkcap() {
+    buffer page;
+    page = visit_url("place.php?whichplace=speakeasy&action=olivers_sot");
+    if (contains_text(page,"Fancy Dan taps you on the shoulder")) { page = visit_url("place.php?whichplace=speakeasy&action=olivers_sot"); }
+    if (contains_text(page,"The sot just stares off into space")) { return; }
+
+    location loc = $location[none];
+    matcher msl = create_matcher("bring his package back from (.+?)\\.</td>",page);
+    if (find(msl)) {
+        //print(group(msl,1),"olive");
+        loc = to_location(group(msl,1));
+    }
+
+    if (loc!=$location[none]) {
+        print("Get the Sot's parcel from "+loc,"blue");
+        while (item_amount($item[the Sot's parcel])==0) {
+            adv1(loc,-1,"");
+        }
+        page = visit_url("place.php?whichplace=speakeasy&action=olivers_sot");
+    } else {
+        print("No Sot location","red");
+    }
+
+}
+     */
+
+    }
   }
 
   public static boolean registerRequest(final String urlString) {
