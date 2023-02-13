@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.maximizer.PriceLevel;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
@@ -7593,7 +7594,9 @@ public abstract class RuntimeLibrary {
     int priceLevel = (int) priceLevelValue.intValue();
     boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
 
-    return new Value(Maximizer.maximize(maximizerString, maxPrice, priceLevel, isSpeculateOnly));
+    return new Value(
+        Maximizer.maximize(
+            maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly));
   }
 
   public static Value maximize(
@@ -7609,7 +7612,7 @@ public abstract class RuntimeLibrary {
     boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
     boolean showEquip = showEquipment.intValue() == 1;
 
-    Maximizer.maximize(maximizerString, maxPrice, priceLevel, isSpeculateOnly);
+    Maximizer.maximize(maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly);
 
     List<Boost> m = Maximizer.boosts;
 

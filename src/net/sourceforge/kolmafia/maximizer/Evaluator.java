@@ -1009,7 +1009,7 @@ public class Evaluator {
     };
   }
 
-  void enumerateEquipment(EquipScope equipScope, int maxPrice, int priceLevel)
+  void enumerateEquipment(EquipScope equipScope, int maxPrice, PriceLevel priceLevel)
       throws MaximizerInterruptedException {
     // Items automatically considered regardless of their score -
     // synergies, hobo power, brimstone, etc.
