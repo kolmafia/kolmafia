@@ -23,15 +23,15 @@ public class TrainFamiliarCommand extends AbstractCommand {
 
     String typeString = split[0].toLowerCase();
 
-    Goal type;
+    Goal type = null;
 
-    if (typeString.equals("base")) {
-      type = Goal.BASE;
-    } else if (typeString.startsWith("buff")) {
-      type = Goal.BUFFED;
-    } else if (typeString.equals("turns")) {
-      type = Goal.TURNS;
-    } else {
+    switch (typeString) {
+      case "base" -> type = Goal.BASE;
+      case "buff" -> type = Goal.BUFFED;
+      case "turns" -> type = Goal.TURNS;
+    }
+
+    if (type == null) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown training type: " + typeString);
       return;
     }

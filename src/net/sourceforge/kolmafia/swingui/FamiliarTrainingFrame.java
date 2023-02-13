@@ -1122,17 +1122,14 @@ public class FamiliarTrainingFrame extends GenericFrame {
     String name = familiar.getName();
     String race = familiar.getRace();
     int weight = familiar.getWeight();
-    String hope = "";
 
-    if (type == Goal.BASE) {
-      hope = " to " + goal + " lbs. base weight";
-    } else if (type == Goal.BUFFED) {
-      hope = " to " + goal + " lbs. buffed weight";
-    } else if (type == Goal.TURNS) {
-      hope = " for " + goal + " turns";
-    } else if (type == Goal.LEARN) {
-      hope = " for " + goal + " iterations to learn arena strengths";
-    }
+    String hope =
+        switch (type) {
+          case BASE -> " to " + goal + " lbs. base weight";
+          case BUFFED -> " to " + goal + " lbs. buffed weight";
+          case TURNS -> " for " + goal + " turns";
+          case LEARN -> " for " + goal + " iterations to learn arena strengths";
+        };
 
     FamiliarTrainingFrame.results.append(
         "Training " + name + " the " + weight + " lb. " + race + hope + ".<br>");
