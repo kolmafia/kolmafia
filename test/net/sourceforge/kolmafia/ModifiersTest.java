@@ -380,7 +380,7 @@ public class ModifiersTest {
     }
 
     @Test
-    void shadowRiftQuartersItemDrop() {
+    void shadowRiftFifthsItemDrop() {
       var cleanups = new Cleanups(withEffect(EffectPool.BLUE_TONGUE), withLocation("Shadow Rift"));
 
       try (cleanups) {
