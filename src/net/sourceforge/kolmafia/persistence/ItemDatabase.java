@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -2107,6 +2108,14 @@ public class ItemDatabase {
     } else if (desc.contains("The Glove's battery is fully depleted.")) {
       Preferences.setInteger("_powerfulGloveBatteryPowerUsed", 100);
     }
+  }
+
+  public static void parseRing(final String desc) {
+    ArrayList<String> unknown = new ArrayList<>();
+    ModifierList known = new ModifierList();
+
+    DebugDatabase.parseItemEnchantments(desc, known, unknown, ConsumptionType.ACCESSORY);
+    ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.RING, known.toString());
   }
 
   public static void resetVampireVintnerWine() {

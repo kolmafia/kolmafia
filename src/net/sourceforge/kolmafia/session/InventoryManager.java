@@ -1621,6 +1621,7 @@ public abstract class InventoryManager {
     checkUmbrella();
     checkBuzzedOnDistillate();
     checkCrimboTrainingManual();
+    checkRing();
   }
 
   public static void checkNoHat() {
@@ -1857,6 +1858,18 @@ public abstract class InventoryManager {
       KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
       KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
     }
+  }
+
+  public static void checkRing() {
+    // checks the Two Crazy Random Summer Ring, which has up to 37 little enhancements on it.
+    AdventureResult RING = ItemPool.get(ItemPool.RING, 1);
+    if (!KoLCharacter.hasEquipped(RING)
+        && RING.getCount(KoLConstants.inventory) == 0
+        && RING.getCount(KoLConstants.closet) == 0) {
+      return;
+    }
+
+    checkItemDescription(ItemPool.RING);
   }
 
   private static boolean allowTurnConsumption(final CreateItemRequest creator) {
