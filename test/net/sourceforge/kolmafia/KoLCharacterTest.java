@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -115,9 +115,9 @@ public class KoLCharacterTest {
     var cleanups =
         new Cleanups(
             withClass(AscensionClass.ACCORDION_THIEF),
-            withEquipped(EquipmentManager.HAT, "brimstone beret"), // Four Songs (mutex)
-            withEquipped(EquipmentManager.ACCESSORY1, "plexiglass pendant"), // Four Songs (mutex)
-            withEquipped(EquipmentManager.WEAPON, "zombie accordion"), // Additional Song
+            withEquipped(Slot.HAT, "brimstone beret"), // Four Songs (mutex)
+            withEquipped(Slot.ACCESSORY1, "plexiglass pendant"), // Four Songs (mutex)
+            withEquipped(Slot.WEAPON, "zombie accordion"), // Additional Song
             withSkill(SkillPool.MARIACHI_MEMORY) // Additional Song
             );
 

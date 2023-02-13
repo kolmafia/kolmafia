@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -277,7 +278,7 @@ public class QuestManagerTest {
 
       @Test
       public void canTrackOilPeakProgressWearingDressPants() {
-        withEquipped(EquipmentManager.PANTS, "dress pants");
+        withEquipped(Slot.PANTS, "dress pants");
         String responseText = html("request/test_fight_oil_tycoon.html");
         QuestManager.updateQuestData(responseText, "oil tycoon");
         assertThat("oilPeakProgress", isSetTo(285.3f));
@@ -569,7 +570,7 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
+              withEquipped(Slot.OFFHAND, "UV-resistant compass"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
         assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -585,7 +586,7 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withEquipped(EquipmentManager.WEAPON, "survival knife"),
+              withEquipped(Slot.WEAPON, "survival knife"),
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -602,8 +603,8 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withEquipped(EquipmentManager.WEAPON, "survival knife"),
-              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
+              withEquipped(Slot.WEAPON, "survival knife"),
+              withEquipped(Slot.OFFHAND, "UV-resistant compass"),
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -636,7 +637,7 @@ public class QuestManagerTest {
           new Cleanups(
               withProperty("desertExploration", 20),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
-              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
+              withEquipped(Slot.OFFHAND, "UV-resistant compass"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
         assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -653,7 +654,7 @@ public class QuestManagerTest {
           new Cleanups(
               withProperty("desertExploration", 20),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
-              withEquipped(EquipmentManager.WEAPON, "survival knife"),
+              withEquipped(Slot.WEAPON, "survival knife"),
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -671,8 +672,8 @@ public class QuestManagerTest {
           new Cleanups(
               withProperty("desertExploration", 20),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
-              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
-              withEquipped(EquipmentManager.WEAPON, "survival knife"),
+              withEquipped(Slot.OFFHAND, "UV-resistant compass"),
+              withEquipped(Slot.WEAPON, "survival knife"),
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -690,7 +691,7 @@ public class QuestManagerTest {
           new Cleanups(
               withProperty("desertExploration", 20),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
-              withEquipped(EquipmentManager.WEAPON, "survival knife"));
+              withEquipped(Slot.WEAPON, "survival knife"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
         assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);

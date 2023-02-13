@@ -20,10 +20,10 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -103,7 +103,7 @@ class FamiliarRequestTest {
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.GROUPIE),
-              withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
+              withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
               withFamiliarInTerrarium(FamiliarPool.BOWLET),
               withFamiliarInTerrarium(FamiliarPool.GREY_GOOSE),
               withProperty("stillsuitFamiliar", "Bowlet"));
@@ -133,7 +133,7 @@ class FamiliarRequestTest {
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.GROUPIE),
-              withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
+              withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
               withFamiliarInTerrarium(FamiliarPool.BOWLET),
               withProperty("stillsuitFamiliar", "Bowlet"));
 
@@ -154,7 +154,7 @@ class FamiliarRequestTest {
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.BOWLET),
-              withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
+              withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
               withFamiliarInTerrarium(FamiliarPool.GROUPIE),
               withProperty("stillsuitFamiliar", "Bowlet"));
 
@@ -175,7 +175,7 @@ class FamiliarRequestTest {
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.GROUPIE),
-              withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
+              withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
               withFamiliarInTerrarium(FamiliarPool.BOWLET),
               withProperty("stillsuitFamiliar", "Ian, the familiar of great reknown"));
 

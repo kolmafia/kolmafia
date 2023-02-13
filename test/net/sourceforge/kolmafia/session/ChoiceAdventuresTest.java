@@ -7,6 +7,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import org.junit.jupiter.api.Nested;
@@ -21,7 +22,7 @@ class ChoiceAdventuresTest {
     void itemDropTestWorks() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.ACCESSORY1, "Radio KoL Maracas"),
+              withEquipped(Slot.ACCESSORY1, "Radio KoL Maracas"),
               withEffect(EffectPool.THERES_NO_N_IN_LOVE));
 
       try (cleanups) {
@@ -36,7 +37,7 @@ class ChoiceAdventuresTest {
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400),
-              withEquipped(EquipmentManager.ACCESSORY1, "Radio KoL Maracas"));
+              withEquipped(Slot.ACCESSORY1, "Radio KoL Maracas"));
 
       try (cleanups) {
         var options = ChoiceAdventures.dynamicChoiceOptions(GREAT_OVERLOOK_LODGE);
@@ -50,7 +51,7 @@ class ChoiceAdventuresTest {
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT, 400),
-              withEquipped(EquipmentManager.ACCESSORY1, "Radio KoL Maracas"));
+              withEquipped(Slot.ACCESSORY1, "Radio KoL Maracas"));
 
       try (cleanups) {
         var options = ChoiceAdventures.dynamicChoiceOptions(GREAT_OVERLOOK_LODGE);

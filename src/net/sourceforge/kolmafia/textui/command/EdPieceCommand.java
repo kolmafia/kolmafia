@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -160,9 +161,9 @@ public class EdPieceCommand extends AbstractCommand implements ModeCommand {
       return;
     }
 
-    if (EquipmentManager.getEquipment(EquipmentManager.HAT).getItemId() != ItemPool.CROWN_OF_ED) {
+    if (EquipmentManager.getEquipment(Slot.HAT).getItemId() != ItemPool.CROWN_OF_ED) {
       AdventureResult edPiece = ItemPool.get(ItemPool.CROWN_OF_ED);
-      RequestThread.postRequest(new EquipmentRequest(edPiece, EquipmentManager.HAT));
+      RequestThread.postRequest(new EquipmentRequest(edPiece, Slot.HAT));
     }
 
     if (animal.equalsIgnoreCase(currentAnimal)) {

@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.combat.Macrofier;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -2441,8 +2442,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // War Uniform.  Remove the shield.
       if (EquipmentManager.isWearingOutfit(OutfitPool.CLOACA_UNIFORM)
           || EquipmentManager.isWearingOutfit(OutfitPool.DYSPEPSI_UNIFORM)) {
-        RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND));
+        RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.OFFHAND));
       }
 
       return true;

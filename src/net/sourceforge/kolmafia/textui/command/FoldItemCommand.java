@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -109,7 +110,7 @@ public class FoldItemCommand extends AbstractCommand {
     AdventureResult source = null;
     AdventureResult worn = null;
     int wornIndex = 0;
-    int slot = EquipmentManager.NONE;
+    Slot slot = Slot.NONE;
     boolean multiple = false;
 
     while (sourceIndex != targetIndex) {
@@ -124,8 +125,8 @@ public class FoldItemCommand extends AbstractCommand {
       }
 
       // If we have this item equipped, remember where
-      int where = KoLCharacter.equipmentSlot(item);
-      if (where != EquipmentManager.NONE) {
+      Slot where = KoLCharacter.equipmentSlot(item);
+      if (where != Slot.NONE) {
         if (worn == null) {
           worn = item;
           wornIndex = sourceIndex;
@@ -141,11 +142,11 @@ public class FoldItemCommand extends AbstractCommand {
 
     // If a Boris's Helm is equipped, twist it regardless of whether or not
     // they have one in inventory, since this is probably what the user wants.
-    if (targetName.startsWith("Boris's Helm") && slot != EquipmentManager.NONE) {
+    if (targetName.startsWith("Boris's Helm") && slot != Slot.NONE) {
 
       String buf =
           "inventory.php?action=twisthorns&slot="
-              + (slot == EquipmentManager.HAT ? "hat" : "familiarequip")
+              + (slot == Slot.HAT ? "hat" : "familiarequip")
               + "&pwd="
               + GenericRequest.passwordHash;
       GenericRequest request = new GenericRequest(buf, false);
@@ -155,7 +156,7 @@ public class FoldItemCommand extends AbstractCommand {
 
     // If a Jarlsberg's pan is equipped, shake it regardless of whether or not
     // they have one in inventory, since this is probably what the user wants.
-    if (targetName.startsWith("Jarlsberg's pan") && slot != EquipmentManager.NONE) {
+    if (targetName.startsWith("Jarlsberg's pan") && slot != Slot.NONE) {
       GenericRequest request = new GenericRequest("inventory.php?action=shakepan");
       RequestThread.postRequest(request);
       return;
@@ -163,14 +164,14 @@ public class FoldItemCommand extends AbstractCommand {
 
     // If Sneaky Pete's leather jacket is equipped, adjust it regardless of whether or not
     // they have one in inventory, since this is probably what the user wants.
-    if (targetName.startsWith("Sneaky Pete's leather jacket") && slot != EquipmentManager.NONE) {
+    if (targetName.startsWith("Sneaky Pete's leather jacket") && slot != Slot.NONE) {
       GenericRequest request = new GenericRequest("inventory.php?action=popcollar");
       RequestThread.postRequest(request);
       return;
     }
 
     // The Robortender's toggle switch can only be toggled while equipped
-    if (targetName.startsWith("toggle switch") && slot != EquipmentManager.NONE) {
+    if (targetName.startsWith("toggle switch") && slot != Slot.NONE) {
       // inventory.php?action=togglebutt&slot=familiarequip&pwd=aac208cd3ac99f274ea3822e13e5965a
 
       String buf =
@@ -185,7 +186,7 @@ public class FoldItemCommand extends AbstractCommand {
 
     // track the equipment slot if Loathing Legion gear
     // is being folded without being unequipped
-    int legionSlot = -1;
+    Slot legionSlot = Slot.NONE;
 
     // If nothing in inventory is foldable, consider equipment
     if (source == null) {
@@ -226,14 +227,14 @@ public class FoldItemCommand extends AbstractCommand {
       buf.append(source.getItemId());
       buf.append("&fold=");
       buf.append(StringUtilities.getURLEncode(targetName));
-      if (legionSlot != -1) {
+      if (legionSlot != Slot.NONE) {
         buf.append("&eq=");
-        buf.append(EquipmentRequest.phpSlotNames[legionSlot]);
+        buf.append(legionSlot.phpName);
       }
 
       GenericRequest request = new GenericRequest(buf.toString(), false);
       RequestThread.postRequest(request);
-      if (legionSlot != -1) {
+      if (legionSlot != Slot.NONE) {
         EquipmentManager.setEquipment(legionSlot, target);
         KoLCharacter.recalculateAdjustments();
         KoLCharacter.updateStatus();

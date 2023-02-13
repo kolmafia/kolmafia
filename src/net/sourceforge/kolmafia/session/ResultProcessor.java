@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -1674,8 +1675,7 @@ public class ResultProcessor {
               checkpoint = new Checkpoint();
               RequestThread.postRequest(
                   new EquipmentRequest(
-                      ItemPool.get(ItemPool.SPOOKYRAVEN_SPECTACLES, 1),
-                      EquipmentManager.ACCESSORY3));
+                      ItemPool.get(ItemPool.SPOOKYRAVEN_SPECTACLES, 1), Slot.ACCESSORY3));
             }
             RequestThread.postRequest(
                 UseItemRequest.getInstance(ItemPool.MORTAR_DISSOLVING_RECIPE));

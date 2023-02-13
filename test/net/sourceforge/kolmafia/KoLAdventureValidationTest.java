@@ -53,6 +53,7 @@ import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -112,8 +113,10 @@ public class KoLAdventureValidationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR})
-    void beingTooDrunkWithAWineglassPassesPreValidation(final int slot) {
+    @EnumSource(
+        value = Slot.class,
+        names = {"OFFHAND", "FAMILIAR"})
+    void beingTooDrunkWithAWineglassPassesPreValidation(final Slot slot) {
       var cleanups =
           new Cleanups(
               withInebriety(30),
@@ -126,8 +129,10 @@ public class KoLAdventureValidationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR})
-    void beingTooDrunkWithAWineglassInNonSnarfblatFailsPreValidation(final int slot) {
+    @EnumSource(
+        value = Slot.class,
+        names = {"OFFHAND", "FAMILIAR"})
+    void beingTooDrunkWithAWineglassInNonSnarfblatFailsPreValidation(final Slot slot) {
       var cleanups =
           new Cleanups(
               withInebriety(30),
@@ -1614,9 +1619,9 @@ public class KoLAdventureValidationTest {
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
-              withEquipped(EquipmentManager.HAT, ItemPool.CLOACA_HELMET),
-              withEquipped(EquipmentManager.OFFHAND, ItemPool.CLOACA_SHIELD),
-              withEquipped(EquipmentManager.PANTS, ItemPool.CLOACA_FATIGUES));
+              withEquipped(Slot.HAT, ItemPool.CLOACA_HELMET),
+              withEquipped(Slot.OFFHAND, ItemPool.CLOACA_SHIELD),
+              withEquipped(Slot.PANTS, ItemPool.CLOACA_FATIGUES));
       try (cleanups) {
         assertTrue(COLA_NONE.canAdventure());
         assertTrue(COLA_CLOACA.canAdventure());
@@ -1633,9 +1638,9 @@ public class KoLAdventureValidationTest {
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
-              withEquipped(EquipmentManager.HAT, ItemPool.CLOACA_HELMET),
-              withEquipped(EquipmentManager.OFFHAND, ItemPool.CLOACA_SHIELD),
-              withEquipped(EquipmentManager.PANTS, ItemPool.CLOACA_FATIGUES));
+              withEquipped(Slot.HAT, ItemPool.CLOACA_HELMET),
+              withEquipped(Slot.OFFHAND, ItemPool.CLOACA_SHIELD),
+              withEquipped(Slot.PANTS, ItemPool.CLOACA_FATIGUES));
       try (cleanups) {
         assertTrue(COLA_CLOACA.canAdventure());
         assertTrue(COLA_CLOACA.prepareForAdventure());
@@ -1694,9 +1699,9 @@ public class KoLAdventureValidationTest {
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
-              withEquipped(EquipmentManager.HAT, ItemPool.DYSPEPSI_HELMET),
-              withEquipped(EquipmentManager.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
-              withEquipped(EquipmentManager.PANTS, ItemPool.DYSPEPSI_FATIGUES));
+              withEquipped(Slot.HAT, ItemPool.DYSPEPSI_HELMET),
+              withEquipped(Slot.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
+              withEquipped(Slot.PANTS, ItemPool.DYSPEPSI_FATIGUES));
       try (cleanups) {
         assertTrue(COLA_NONE.canAdventure());
         assertFalse(COLA_CLOACA.canAdventure());
@@ -1713,9 +1718,9 @@ public class KoLAdventureValidationTest {
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
-              withEquipped(EquipmentManager.HAT, ItemPool.DYSPEPSI_HELMET),
-              withEquipped(EquipmentManager.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
-              withEquipped(EquipmentManager.PANTS, ItemPool.DYSPEPSI_FATIGUES));
+              withEquipped(Slot.HAT, ItemPool.DYSPEPSI_HELMET),
+              withEquipped(Slot.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
+              withEquipped(Slot.PANTS, ItemPool.DYSPEPSI_FATIGUES));
       try (cleanups) {
         assertTrue(COLA_DYSPEPSI.canAdventure());
         assertTrue(COLA_DYSPEPSI.prepareForAdventure());
@@ -1791,9 +1796,9 @@ public class KoLAdventureValidationTest {
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
-              withEquipped(EquipmentManager.HAT, ItemPool.CLOACA_HELMET),
-              withEquipped(EquipmentManager.OFFHAND, ItemPool.CLOACA_SHIELD),
-              withEquipped(EquipmentManager.PANTS, ItemPool.CLOACA_FATIGUES));
+              withEquipped(Slot.HAT, ItemPool.CLOACA_HELMET),
+              withEquipped(Slot.OFFHAND, ItemPool.CLOACA_SHIELD),
+              withEquipped(Slot.PANTS, ItemPool.CLOACA_FATIGUES));
       try (cleanups) {
         assertTrue(COLA_NONE.canAdventure());
         assertTrue(COLA_NONE.prepareForAdventure());
@@ -1814,9 +1819,9 @@ public class KoLAdventureValidationTest {
               withAscensions(1),
               withLevel(4),
               withQuestProgress(Quest.EGO, "step1"),
-              withEquipped(EquipmentManager.HAT, ItemPool.DYSPEPSI_HELMET),
-              withEquipped(EquipmentManager.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
-              withEquipped(EquipmentManager.PANTS, ItemPool.DYSPEPSI_FATIGUES));
+              withEquipped(Slot.HAT, ItemPool.DYSPEPSI_HELMET),
+              withEquipped(Slot.OFFHAND, ItemPool.DYSPEPSI_SHIELD),
+              withEquipped(Slot.PANTS, ItemPool.DYSPEPSI_FATIGUES));
       try (cleanups) {
         assertTrue(COLA_NONE.canAdventure());
         assertTrue(COLA_NONE.prepareForAdventure());
@@ -2637,7 +2642,7 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
-              withEquipped(EquipmentManager.ACCESSORY1, ItemPool.TRANSFUNCTIONER));
+              withEquipped(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER));
       try (cleanups) {
         assertTrue(FUNGUS_PLAINS.canAdventure());
         assertTrue(FUNGUS_PLAINS.prepareForAdventure());
@@ -2765,9 +2770,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
-              withEquipped(EquipmentManager.HAT, "miner's helmet"),
-              withEquipped(EquipmentManager.WEAPON, "7-Foot Dwarven mattock"),
-              withEquipped(EquipmentManager.PANTS, "miner's pants"));
+              withEquipped(Slot.HAT, "miner's helmet"),
+              withEquipped(Slot.WEAPON, "7-Foot Dwarven mattock"),
+              withEquipped(Slot.PANTS, "miner's pants"));
       try (cleanups) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(OFFICE.canAdventure());
@@ -2781,9 +2786,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
-              withEquipped(EquipmentManager.HAT, "miner's helmet"),
-              withEquipped(EquipmentManager.WEAPON, "7-Foot Dwarven mattock"),
-              withEquipped(EquipmentManager.PANTS, "miner's pants"));
+              withEquipped(Slot.HAT, "miner's helmet"),
+              withEquipped(Slot.WEAPON, "7-Foot Dwarven mattock"),
+              withEquipped(Slot.PANTS, "miner's pants"));
       try (cleanups) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(WAREHOUSE.prepareForAdventure());
@@ -2835,9 +2840,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
-              withEquipped(EquipmentManager.HAT, "dwarvish war helmet"),
-              withEquipped(EquipmentManager.WEAPON, "dwarvish war mattock"),
-              withEquipped(EquipmentManager.PANTS, "dwarvish war kilt"));
+              withEquipped(Slot.HAT, "dwarvish war helmet"),
+              withEquipped(Slot.WEAPON, "dwarvish war mattock"),
+              withEquipped(Slot.PANTS, "dwarvish war kilt"));
       try (cleanups) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(OFFICE.canAdventure());
@@ -2851,9 +2856,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.FACTORY, QuestDatabase.STARTED),
-              withEquipped(EquipmentManager.HAT, "dwarvish war helmet"),
-              withEquipped(EquipmentManager.WEAPON, "dwarvish war mattock"),
-              withEquipped(EquipmentManager.PANTS, "dwarvish war kilt"));
+              withEquipped(Slot.HAT, "dwarvish war helmet"),
+              withEquipped(Slot.WEAPON, "dwarvish war mattock"),
+              withEquipped(Slot.PANTS, "dwarvish war kilt"));
       try (cleanups) {
         assertTrue(WAREHOUSE.canAdventure());
         assertTrue(WAREHOUSE.prepareForAdventure());
@@ -2954,7 +2959,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.BAT, QuestDatabase.STARTED),
-              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"));
+              withEquipped(Slot.HAT, "Knob Goblin harem veil"));
       try (cleanups) {
         assertTrue(GUANO_JUNCTION.canAdventure());
         assertTrue(GUANO_JUNCTION.prepareForAdventure());
@@ -3280,8 +3285,8 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
-              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"),
-              withEquipped(EquipmentManager.PANTS, "Knob Goblin harem pants"),
+              withEquipped(Slot.HAT, "Knob Goblin harem veil"),
+              withEquipped(Slot.PANTS, "Knob Goblin harem pants"),
               withEffect(EffectPool.KNOB_GOBLIN_PERFUME));
       try (cleanups) {
         assertTrue(THRONE_ROOM.canAdventure());
@@ -3323,8 +3328,8 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
-              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"),
-              withEquipped(EquipmentManager.PANTS, "Knob Goblin harem pants"),
+              withEquipped(Slot.HAT, "Knob Goblin harem veil"),
+              withEquipped(Slot.PANTS, "Knob Goblin harem pants"),
               withItem(ItemPool.KNOB_GOBLIN_PERFUME));
       try (cleanups) {
         assertTrue(THRONE_ROOM.canAdventure());
@@ -3344,8 +3349,8 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
-              withEquipped(EquipmentManager.HAT, "Knob Goblin harem veil"),
-              withEquipped(EquipmentManager.PANTS, "Knob Goblin harem pants"),
+              withEquipped(Slot.HAT, "Knob Goblin harem veil"),
+              withEquipped(Slot.PANTS, "Knob Goblin harem pants"),
               withPath(Path.BEES_HATE_YOU));
       try (cleanups) {
         assertFalse(THRONE_ROOM.canAdventure());
@@ -3387,9 +3392,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
-              withEquipped(EquipmentManager.HAT, "Knob Goblin elite helm"),
-              withEquipped(EquipmentManager.WEAPON, "Knob Goblin elite polearm"),
-              withEquipped(EquipmentManager.PANTS, "Knob Goblin elite pants"),
+              withEquipped(Slot.HAT, "Knob Goblin elite helm"),
+              withEquipped(Slot.WEAPON, "Knob Goblin elite polearm"),
+              withEquipped(Slot.PANTS, "Knob Goblin elite pants"),
               withItem(ItemPool.KNOB_CAKE));
       try (cleanups) {
         assertTrue(THRONE_ROOM.canAdventure());
@@ -3432,9 +3437,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.GOBLIN, "step1"),
-              withEquipped(EquipmentManager.HAT, "Knob Goblin elite helm"),
-              withEquipped(EquipmentManager.WEAPON, "Knob Goblin elite polearm"),
-              withEquipped(EquipmentManager.PANTS, "Knob Goblin elite pants"),
+              withEquipped(Slot.HAT, "Knob Goblin elite helm"),
+              withEquipped(Slot.WEAPON, "Knob Goblin elite polearm"),
+              withEquipped(Slot.PANTS, "Knob Goblin elite pants"),
               withItem("unfrosted Knob cake"),
               withItem("Knob frosting"),
               withProperty("hasChef", true),
@@ -3820,7 +3825,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.TRAPPER, "step3"),
-              withEquipped(EquipmentManager.ACCESSORY1, "cozy scarf"));
+              withEquipped(Slot.ACCESSORY1, "cozy scarf"));
       try (cleanups) {
         // We do not currently allow betweenBattle script to fix
         assertTrue(SHROUDED_PEAK.canAdventure());
@@ -3833,7 +3838,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.TRAPPER, "step5"),
-              withEquipped(EquipmentManager.ACCESSORY1, "cozy scarf"));
+              withEquipped(Slot.ACCESSORY1, "cozy scarf"));
       try (cleanups) {
         assertFalse(SHROUDED_PEAK.canAdventure());
       }
@@ -3853,7 +3858,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.TRAPPER, "step5"),
-              withEquipped(EquipmentManager.ACCESSORY1, "ghost of a necklace"));
+              withEquipped(Slot.ACCESSORY1, "ghost of a necklace"));
       try (cleanups) {
         // We do not currently allow betweenBattle script to fix
         assertTrue(ICY_PEAK.canAdventure());
@@ -3866,7 +3871,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.TRAPPER, "step4"),
-              withEquipped(EquipmentManager.ACCESSORY1, "ghost of a necklace"));
+              withEquipped(Slot.ACCESSORY1, "ghost of a necklace"));
       try (cleanups) {
         assertFalse(SHROUDED_PEAK.canAdventure());
       }
@@ -4122,8 +4127,7 @@ public class KoLAdventureValidationTest {
       var client = builder.client;
       var cleanups =
           new Cleanups(
-              withHttpClientBuilder(builder),
-              withEquipped(EquipmentManager.ACCESSORY1, ItemPool.TALISMAN));
+              withHttpClientBuilder(builder), withEquipped(Slot.ACCESSORY1, ItemPool.TALISMAN));
       try (cleanups) {
         assertTrue(PALINDOME.canAdventure());
         assertTrue(PALINDOME.prepareForAdventure());
@@ -4313,9 +4317,9 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withItem("dingy dinghy"),
-              withEquipped(EquipmentManager.HAT, "eyepatch"),
-              withEquipped(EquipmentManager.PANTS, "swashbuckling pants"),
-              withEquipped(EquipmentManager.ACCESSORY1, "stuffed shoulder parrot"),
+              withEquipped(Slot.HAT, "eyepatch"),
+              withEquipped(Slot.PANTS, "swashbuckling pants"),
+              withEquipped(Slot.ACCESSORY1, "stuffed shoulder parrot"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
       try (cleanups) {
@@ -4375,7 +4379,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withItem("dingy dinghy"),
-              withEquipped(EquipmentManager.ACCESSORY1, "pirate fledges"),
+              withEquipped(Slot.ACCESSORY1, "pirate fledges"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
               withQuestProgress(Quest.PIRATE, QuestDatabase.STARTED));
       try (cleanups) {
@@ -4554,8 +4558,8 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
-              withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
+              withEquipped(Slot.HAT, "filthy knitted dread sack"),
+              withEquipped(Slot.PANTS, "filthy corduroys"));
       try (cleanups) {
         assertTrue(HIPPY_CAMP.canAdventure());
         // We check only quest status, not available equipment
@@ -4574,8 +4578,8 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
-              withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
+              withEquipped(Slot.HAT, "filthy knitted dread sack"),
+              withEquipped(Slot.PANTS, "filthy corduroys"));
       try (cleanups) {
         assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
         assertTrue(HIPPY_CAMP_DISGUISED.prepareForAdventure());
@@ -4690,9 +4694,9 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
-              withEquipped(EquipmentManager.HAT, "Orcish baseball cap"),
-              withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
-              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
+              withEquipped(Slot.HAT, "Orcish baseball cap"),
+              withEquipped(Slot.PANTS, "Orcish cargo shorts"),
+              withEquipped(Slot.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
         // KoL does not require going directly to verge-of-war zones
         assertTrue(HIPPY_CAMP.canAdventure());
@@ -4802,8 +4806,8 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "fratboys"),
-              withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
-              withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
+              withEquipped(Slot.HAT, "filthy knitted dread sack"),
+              withEquipped(Slot.PANTS, "filthy corduroys"));
       try (cleanups) {
         assertTrue(HIPPY_CAMP.canAdventure());
         assertTrue(HIPPY_CAMP_DISGUISED.canAdventure());
@@ -4937,9 +4941,9 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withEquipped(EquipmentManager.HAT, "Orcish baseball cap"),
-              withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
-              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
+              withEquipped(Slot.HAT, "Orcish baseball cap"),
+              withEquipped(Slot.PANTS, "Orcish cargo shorts"),
+              withEquipped(Slot.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
         assertTrue(FRAT_HOUSE.canAdventure());
         assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
@@ -4957,9 +4961,9 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.UNSTARTED),
-              withEquipped(EquipmentManager.HAT, "Orcish baseball cap"),
-              withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
-              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
+              withEquipped(Slot.HAT, "Orcish baseball cap"),
+              withEquipped(Slot.PANTS, "Orcish cargo shorts"),
+              withEquipped(Slot.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
         assertTrue(FRAT_HOUSE_DISGUISED.canAdventure());
         assertTrue(FRAT_HOUSE_DISGUISED.prepareForAdventure());
@@ -5078,8 +5082,8 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.STARTED),
-              withEquipped(EquipmentManager.HAT, "filthy knitted dread sack"),
-              withEquipped(EquipmentManager.PANTS, "filthy corduroys"));
+              withEquipped(Slot.HAT, "filthy knitted dread sack"),
+              withEquipped(Slot.PANTS, "filthy corduroys"));
       try (cleanups) {
         // KoL does not require going directly to verge-of-war zones
         assertTrue(FRAT_HOUSE.canAdventure());
@@ -5189,9 +5193,9 @@ public class KoLAdventureValidationTest {
               withItem("dingy dinghy"),
               withQuestProgress(Quest.ISLAND_WAR, QuestDatabase.FINISHED),
               withProperty("sideDefeated", "hippies"),
-              withEquipped(EquipmentManager.HAT, "Orcish baseball cap"),
-              withEquipped(EquipmentManager.PANTS, "Orcish cargo shorts"),
-              withEquipped(EquipmentManager.WEAPON, "Orcish frat-paddle"));
+              withEquipped(Slot.HAT, "Orcish baseball cap"),
+              withEquipped(Slot.PANTS, "Orcish cargo shorts"),
+              withEquipped(Slot.WEAPON, "Orcish frat-paddle"));
       try (cleanups) {
         assertTrue(FRAT_HOUSE.canAdventure());
         assertTrue(EquipmentManager.hasOutfit(OutfitPool.FRAT_OUTFIT));
@@ -5915,7 +5919,7 @@ public class KoLAdventureValidationTest {
               withProperty("_spacegateCoordinates", "ABCDEFG"),
               withProperty("_spacegateTurnsLeft", 2),
               withProperty("_spacegateGear", "exo-servo leg braces"),
-              withEquipped(EquipmentManager.PANTS, ItemPool.EXO_SERVO_LEG_BRACES));
+              withEquipped(Slot.PANTS, ItemPool.EXO_SERVO_LEG_BRACES));
 
       try (cleanups) {
         assertThat(SPACEGATE.canAdventure(), is(true));
@@ -6202,7 +6206,7 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
               withContinuationState(),
-              withEquipped(EquipmentManager.CONTAINER, ItemPool.OLD_SCUBA_TANK),
+              withEquipped(Slot.CONTAINER, ItemPool.OLD_SCUBA_TANK),
               withFamiliar(FamiliarPool.PARROT));
       try (cleanups) {
         assertTrue(DEEPS.canAdventure());
@@ -6501,7 +6505,7 @@ public class KoLAdventureValidationTest {
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                 withContinuationState(),
-                withEquipped(EquipmentManager.CONTAINER, ItemPool.OLD_SCUBA_TANK),
+                withEquipped(Slot.CONTAINER, ItemPool.OLD_SCUBA_TANK),
                 withItem(BLACK_GLASS));
         try (cleanups) {
           assertTrue(ABYSS.canAdventure());
@@ -6517,8 +6521,8 @@ public class KoLAdventureValidationTest {
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
                 withContinuationState(),
-                withEquipped(EquipmentManager.CONTAINER, ItemPool.OLD_SCUBA_TANK),
-                withEquipped(EquipmentManager.ACCESSORY1, BLACK_GLASS));
+                withEquipped(Slot.CONTAINER, ItemPool.OLD_SCUBA_TANK),
+                withEquipped(Slot.ACCESSORY1, BLACK_GLASS));
         try (cleanups) {
           assertTrue(ABYSS.canAdventure());
           assertTrue(ABYSS.prepareForAdventure());
@@ -6710,7 +6714,7 @@ public class KoLAdventureValidationTest {
               withProperty("_frToday", false),
               withProperty("_frHoursLeft", 5),
               withProperty("_frAreasUnlocked", "The Bandit Crossroads,"),
-              withEquipped(EquipmentManager.ACCESSORY1, ItemPool.FANTASY_REALM_GEM),
+              withEquipped(Slot.ACCESSORY1, ItemPool.FANTASY_REALM_GEM),
               withFamiliar(FamiliarPool.PARROT));
 
       try (cleanups) {
@@ -6739,7 +6743,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     void cannotAdventureUnlessDrippingHallUnlocked() {
-      var cleanups = new Cleanups(withEquipped(EquipmentManager.CONTAINER, ItemPool.DRIP_HARNESS));
+      var cleanups = new Cleanups(withEquipped(Slot.CONTAINER, ItemPool.DRIP_HARNESS));
       try (cleanups) {
         assertTrue(DRIPPING_TREES.canAdventure());
         assertFalse(DRIPPING_HALL.canAdventure());
@@ -6750,7 +6754,7 @@ public class KoLAdventureValidationTest {
     void canAdventureWithnlessDrippingHallUnlocked() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.CONTAINER, ItemPool.DRIP_HARNESS),
+              withEquipped(Slot.CONTAINER, ItemPool.DRIP_HARNESS),
               withProperty("drippingHallUnlocked", true));
       try (cleanups) {
         assertTrue(DRIPPING_TREES.canAdventure());
@@ -6762,7 +6766,7 @@ public class KoLAdventureValidationTest {
     void canPrepareForAdventureWithDripHarnessEquipped() {
       setupFakeClient();
 
-      var cleanups = new Cleanups(withEquipped(EquipmentManager.CONTAINER, ItemPool.DRIP_HARNESS));
+      var cleanups = new Cleanups(withEquipped(Slot.CONTAINER, ItemPool.DRIP_HARNESS));
       try (cleanups) {
         assertTrue(DRIPPING_TREES.canAdventure());
         assertTrue(DRIPPING_TREES.prepareForAdventure());
@@ -7054,7 +7058,7 @@ public class KoLAdventureValidationTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withItem(ItemPool.BITCHIN_MEATCAR),
-              withEquipped(EquipmentManager.OFFHAND, ItemPool.UV_RESISTANT_COMPASS),
+              withEquipped(Slot.OFFHAND, ItemPool.UV_RESISTANT_COMPASS),
               withProperty("desertExploration", 10),
               withProperty("oasisAvailable", false),
               withLastLocation("The Arid, Extra-Dry Desert"),

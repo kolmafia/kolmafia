@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.*;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -14,7 +15,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest.BuffTool;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -882,7 +882,7 @@ public class SkillDatabase {
     }
 
     if (KoLConstants.inventory.contains(UseSkillRequest.WIZARD_HAT)
-        || KoLCharacter.hasEquipped(UseSkillRequest.WIZARD_HAT, EquipmentManager.HAT)) {
+        || KoLCharacter.hasEquipped(UseSkillRequest.WIZARD_HAT, Slot.HAT)) {
       actualDuration += 5;
     }
 

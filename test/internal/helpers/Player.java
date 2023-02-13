@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.*;
@@ -108,7 +109,7 @@ public class Player {
    * @param itemName Item to equip to slot
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withEquipped(final int slot, final String itemName) {
+  public static Cleanups withEquipped(final Slot slot, final String itemName) {
     return withEquipped(slot, AdventureResult.tallyItem(itemName));
   }
 
@@ -145,7 +146,7 @@ public class Player {
    * @param itemId Item to equip to slot
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withEquipped(final int slot, final int itemId) {
+  public static Cleanups withEquipped(final Slot slot, final int itemId) {
     return withEquipped(slot, ItemPool.get(itemId));
   }
 
@@ -155,7 +156,7 @@ public class Player {
    * @param slot Slot to unequip
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withUnequipped(final int slot) {
+  public static Cleanups withUnequipped(final Slot slot) {
     return withEquipped(slot, (String) null);
   }
 
@@ -166,7 +167,7 @@ public class Player {
    * @param item Item to equip to slot
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withEquipped(final int slot, final AdventureResult item) {
+  public static Cleanups withEquipped(final Slot slot, final AdventureResult item) {
     var cleanups = new Cleanups();
     // Do this first so that Equipment lists and outfits will update appropriately
     cleanups.add(withStatsRequiredForEquipment(item));

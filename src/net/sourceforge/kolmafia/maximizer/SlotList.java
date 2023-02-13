@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
-import net.sourceforge.kolmafia.session.EquipmentManager;
+import java.util.Map;
+import net.sourceforge.kolmafia.equipment.Slot;
 
 /**
  * A list of lists of T. Indexed by:
@@ -19,39 +21,51 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
  * @param <T> Interior list content
  */
 public class SlotList<T> {
-  private final List<List<T>> slotList;
+  private final Map<Slot, List<T>> slotList;
   private final List<List<T>> familiarList;
 
   public SlotList(int famSize) {
-    slotList = new ArrayList<>(EquipmentManager.ALL_SLOTS);
-    for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
-      slotList.add(new ArrayList<>());
-    }
+    slotList = new EnumMap<>(Slot.class);
     familiarList = new ArrayList<>(famSize);
     for (int i = 0; i < famSize; ++i) {
       familiarList.add(new ArrayList<>());
     }
   }
 
-  public List<T> get(int key) {
-    if (key >= EquipmentManager.ALL_SLOTS) {
-      return familiarList.get(key - EquipmentManager.ALL_SLOTS);
-    }
-    return slotList.get(key);
+  public List<T> get(Slot key) {
+    return slotList.computeIfAbsent(key, k -> new ArrayList<>());
   }
 
   public List<T> getFamiliar(int key) {
     return familiarList.get(key);
   }
 
-  public void set(int key, List<T> val) {
-    if (key >= EquipmentManager.ALL_SLOTS) {
-      familiarList.set(key - EquipmentManager.ALL_SLOTS, val);
+  public <S> List<T> get(Entry<S> entry) {
+    if (entry.isSlot()) {
+      return this.get(entry.slot());
+    } else {
+      return this.getFamiliar(entry.famIndex());
     }
-    slotList.set(key, val);
+  }
+
+  public void set(Slot key, List<T> val) {
+    slotList.put(key, val);
   }
 
   public int size() {
     return slotList.size() + familiarList.size();
+  }
+
+  public record Entry<T>(List<T> value, Slot slot, int famIndex, boolean isSlot) {}
+
+  public List<Entry<T>> entries() {
+    var entries = new ArrayList<Entry<T>>();
+    for (var slot : slotList.entrySet()) {
+      entries.add(new Entry<>(slot.getValue(), slot.getKey(), -1, true));
+    }
+    for (int i = 0; i < familiarList.size(); i++) {
+      entries.add(new Entry<>(familiarList.get(i), Slot.NONE, i, false));
+    }
+    return entries;
   }
 }

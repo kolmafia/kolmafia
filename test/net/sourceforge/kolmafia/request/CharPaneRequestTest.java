@@ -11,9 +11,9 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -85,9 +85,7 @@ class CharPaneRequestTest {
     })
     void parseSweatiness(String responseHtml, int expectedValue) {
       var cleanups =
-          new Cleanups(
-              withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
-              withProperty("sweat", 0));
+          new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 0));
 
       try (cleanups) {
         var result = CharPaneRequest.processResults(html(responseHtml));
@@ -99,9 +97,7 @@ class CharPaneRequestTest {
     @Test
     void recogniseNoSweatinessDisplayedMeansZeroIfPantsEquipped() {
       var cleanups =
-          new Cleanups(
-              withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
-              withProperty("sweat", 11));
+          new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 11));
 
       try (cleanups) {
         var result = CharPaneRequest.processResults(html("request/test_charpane_basic.html"));

@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -83,7 +84,7 @@ public abstract class YouRobotManager {
       return this.usable;
     }
 
-    int getSlot() {
+    Slot getSlot() {
       return this.usable.getSlot();
     }
 
@@ -101,23 +102,23 @@ public abstract class YouRobotManager {
 
   public static enum Usable {
     NONE("no special effect"),
-    HAT("can equip hats", EquipmentManager.HAT),
-    WEAPON("can equip weapons", EquipmentManager.WEAPON),
-    OFFHAND("can equip offhands", EquipmentManager.OFFHAND),
-    SHIRT("can equip shirts", EquipmentManager.SHIRT),
-    PANTS("can equip pants", EquipmentManager.PANTS),
+    HAT("can equip hats", Slot.HAT),
+    WEAPON("can equip weapons", Slot.WEAPON),
+    OFFHAND("can equip offhands", Slot.OFFHAND),
+    SHIRT("can equip shirts", Slot.SHIRT),
+    PANTS("can equip pants", Slot.PANTS),
     FAMILIAR("can use familiars"),
     POTIONS("can use potions");
 
     String description;
     int consume;
-    int slot;
+    Slot slot;
 
     Usable(String description) {
-      this(description, EquipmentManager.NONE);
+      this(description, Slot.NONE);
     }
 
-    Usable(String description, int slot) {
+    Usable(String description, Slot slot) {
       this.description = description;
       this.slot = slot;
     }
@@ -126,7 +127,7 @@ public abstract class YouRobotManager {
       return this.description;
     }
 
-    public int getSlot() {
+    public Slot getSlot() {
       return this.slot;
     }
 
@@ -515,7 +516,7 @@ public abstract class YouRobotManager {
       KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
     } else if (upgrade.getEffect() == Effect.EQUIP) {
       // If replacing another equipment part, drop the equipment
-      int slot = part.getSlot();
+      Slot slot = part.getSlot();
       EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
       EquipmentManager.updateEquipmentList(slot);
       EquipmentManager.updateNormalOutfits();
@@ -543,7 +544,7 @@ public abstract class YouRobotManager {
       // This was detected on the charsheet when you log in, but tests do not
       // parse the charasheet
       KoLCharacter.addAvailableSkill(SkillPool.TORSO);
-      EquipmentManager.updateEquipmentList(EquipmentManager.SHIRT);
+      EquipmentManager.updateEquipmentList(Slot.SHIRT);
       EquipmentManager.updateNormalOutfits();
     } else {
       KoLCharacter.recalculateAdjustments();

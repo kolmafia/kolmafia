@@ -9,6 +9,7 @@ public class FamiliarPool {
   public static final int BARRRNACLE = 8;
   public static final int STAB_BAT = 10;
   public static final int BLOOD_FACED_VOLLEYBALL = 12;
+  public static final int GHUOL_WHELP = 14;
   public static final int BABY_GRAVY_FAIRY = 15;
   public static final int STARFISH = 17;
   public static final int SOMBRERO = 18;

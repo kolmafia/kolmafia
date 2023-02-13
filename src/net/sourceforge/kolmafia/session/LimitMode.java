@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -119,15 +120,11 @@ public enum LimitMode {
     };
   }
 
-  public boolean limitSlot(final int slot) {
+  public boolean limitSlot(final Slot slot) {
     return switch (this) {
       case UNKNOWN, NONE -> false;
       case SPELUNKY -> switch (slot) {
-        case EquipmentManager.HAT,
-            EquipmentManager.WEAPON,
-            EquipmentManager.OFFHAND,
-            EquipmentManager.CONTAINER,
-            EquipmentManager.ACCESSORY1 -> false;
+        case HAT, WEAPON, OFFHAND, CONTAINER, ACCESSORY1 -> false;
         default -> true;
       };
       case ED, BATMAN -> true;
