@@ -5493,7 +5493,7 @@ public abstract class KoLCharacter {
     if (Modifiers.currentLocation.equals("Shadow Rift")) {
       newModifiers.addDouble(
           DoubleModifier.ITEMDROP,
-          newModifiers.getAccumulator(DoubleModifier.ITEMDROP),
+          newModifiers.getAccumulator(DoubleModifier.ITEMDROP) * -0.75,
           ModifierType.LOC,
           "Shadow Rift");
     }

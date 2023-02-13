@@ -6,6 +6,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
@@ -374,6 +375,18 @@ public class ModifiersTest {
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.SLEAZE_DAMAGE), equalTo(200.0));
         assertThat(mods.getDouble(DoubleModifier.SLEAZE_SPELL_DAMAGE), equalTo(200.0));
+      }
+    }
+
+    @Test
+    void shadowRiftQuartersItemDrop() {
+      var cleanups = new Cleanups(withEffect(EffectPool.BLUE_TONGUE), withLocation("Shadow Rift"));
+
+      try (cleanups) {
+        DebugModifiers.setup("Item Drop".toLowerCase());
+        KoLCharacter.recalculateAdjustments(true);
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(7.5));
       }
     }
   }
