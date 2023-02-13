@@ -1863,9 +1863,8 @@ public abstract class InventoryManager {
   public static void checkRing() {
     // checks the Two Crazy Random Summer Ring, which has up to 37 little enhancements on it.
     AdventureResult RING = ItemPool.get(ItemPool.RING, 1);
-    if (!KoLCharacter.hasEquipped(RING)
-        && RING.getCount(KoLConstants.inventory) == 0
-        && RING.getCount(KoLConstants.closet) == 0) {
+
+    if (!InventoryManager.itemAvailable( RING )){
       return;
     }
 
