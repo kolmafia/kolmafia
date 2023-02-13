@@ -328,10 +328,10 @@ public class ModifiersTest {
   }
 
   @Nested
-  class ElementalDoublers {
+  class ElementalMultipliers {
     @BeforeAll
     public static void setup() {
-      Preferences.reset("ElementalDoublers");
+      Preferences.reset("ElementalMultipliers");
     }
 
     @Test
@@ -379,10 +379,10 @@ public class ModifiersTest {
   }
 
   @Nested
-  class ExperienceDoublers {
+  class ExperienceMultipliers {
     @BeforeAll
     public static void setup() {
-      Preferences.reset("ExperienceDoublers");
+      Preferences.reset("ExperienceMultipliers");
     }
 
     @Test
