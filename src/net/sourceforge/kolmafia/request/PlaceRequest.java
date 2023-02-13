@@ -419,7 +419,7 @@ public class PlaceRequest extends GenericRequest {
             };
       }
       case "beanstalk" -> {
-        if (action.equals("stalk-rift")) {
+        if (action.equals("stalk_rift")) {
           message = "Entering the Shadow Rift via The Beanstalk";
           Preferences.setString("shadowRiftIngress", "beanstalk");
         }

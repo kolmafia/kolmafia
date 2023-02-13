@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessingLevel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -495,29 +495,17 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       case SkillPool.DEEP_VISIONS:
         return KoLCharacter.getMaximumHP() >= 500 ? 1 : 0;
 
-      case SkillPool.WAR_BLESSING:
-        return (KoLCharacter.getBlessingLevel() != -1
-                || KoLCharacter.getBlessingType() == TurtleBlessing.WAR)
-            ? 1
-            : 0;
-
-      case SkillPool.SHE_WHO_WAS_BLESSING:
-        return (KoLCharacter.getBlessingLevel() != -1
-                || KoLCharacter.getBlessingType() == TurtleBlessing.SHE_WHO_WAS)
-            ? 1
-            : 0;
-
-      case SkillPool.STORM_BLESSING:
-        return (KoLCharacter.getBlessingLevel() != -1
-                || KoLCharacter.getBlessingType() == TurtleBlessing.STORM)
-            ? 1
-            : 0;
+      case SkillPool.WAR_BLESSING, SkillPool.SHE_WHO_WAS_BLESSING, SkillPool.STORM_BLESSING:
+        return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SPIRIT_PARIAH))
+            ? 0
+            : 1;
 
       case SkillPool.SPIRIT_BOON:
-        return KoLCharacter.getBlessingLevel() != 0 ? Integer.MAX_VALUE : 0;
+        return KoLCharacter.getBlessingLevel().isBlessing() ? Integer.MAX_VALUE : 0;
 
       case SkillPool.TURTLE_POWER:
-        return KoLCharacter.getBlessingLevel() == 3 && !Preferences.getBoolean("_turtlePowerCast")
+        return KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.GLORIOUS_BLESSING
+                && !Preferences.getBoolean("_turtlePowerCast")
             ? 1
             : 0;
 
