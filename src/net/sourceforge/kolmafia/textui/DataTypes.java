@@ -10,8 +10,6 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.EdServantData.Servant;
-import net.sourceforge.kolmafia.EquipmentSlot;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -19,6 +17,8 @@ import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -1032,7 +1032,7 @@ public class DataTypes {
         }
 
       case SLOT:
-        return InputFieldUtilities.input(message, EquipmentSlot.NAMES);
+        return InputFieldUtilities.input(message, SlotSet.NAMES);
 
       case ELEMENT:
         return InputFieldUtilities.input(message, MonsterDatabase.ELEMENT_ARRAY);

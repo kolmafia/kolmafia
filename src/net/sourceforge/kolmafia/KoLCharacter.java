@@ -15,13 +15,14 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AscensionPath.Path;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -2436,7 +2437,7 @@ public abstract class KoLCharacter {
   public static final int getBeeosity(Map<Slot, AdventureResult> equipment) {
     int bees = 0;
 
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       var equip = equipment.get(slot);
       if (equip == null) continue;
       String name = equip.getName();
@@ -4868,10 +4869,10 @@ public abstract class KoLCharacter {
       case SHIRT -> KoLCharacter.hasEquipped(equipment, item, Slot.SHIRT);
       case PANTS -> KoLCharacter.hasEquipped(equipment, item, Slot.PANTS);
       case CONTAINER -> KoLCharacter.hasEquipped(equipment, item, Slot.CONTAINER);
-      case ACCESSORY -> KoLCharacter.hasEquipped(equipment, item, EquipmentSlot.ACCESSORY_SLOTS);
-      case STICKER -> KoLCharacter.hasEquipped(equipment, item, EquipmentSlot.STICKER_SLOTS);
+      case ACCESSORY -> KoLCharacter.hasEquipped(equipment, item, SlotSet.ACCESSORY_SLOTS);
+      case STICKER -> KoLCharacter.hasEquipped(equipment, item, SlotSet.STICKER_SLOTS);
       case CARD -> KoLCharacter.hasEquipped(equipment, item, Slot.CARDSLEEVE);
-      case FOLDER -> KoLCharacter.hasEquipped(equipment, item, EquipmentSlot.FOLDER_SLOTS);
+      case FOLDER -> KoLCharacter.hasEquipped(equipment, item, SlotSet.FOLDER_SLOTS);
       case FAMILIAR_EQUIPMENT -> KoLCharacter.hasEquipped(equipment, item, Slot.FAMILIAR);
       default -> false;
     };
@@ -4896,10 +4897,10 @@ public abstract class KoLCharacter {
       case SHIRT -> equipmentSlotFromSubset(item, Slot.SHIRT);
       case PANTS -> equipmentSlotFromSubset(item, Slot.PANTS);
       case CONTAINER -> equipmentSlotFromSubset(item, Slot.CONTAINER);
-      case ACCESSORY -> equipmentSlotFromSubset(item, EquipmentSlot.ACCESSORY_SLOTS);
-      case STICKER -> equipmentSlotFromSubset(item, EquipmentSlot.STICKER_SLOTS);
+      case ACCESSORY -> equipmentSlotFromSubset(item, SlotSet.ACCESSORY_SLOTS);
+      case STICKER -> equipmentSlotFromSubset(item, SlotSet.STICKER_SLOTS);
       case CARD -> equipmentSlotFromSubset(item, Slot.CARDSLEEVE);
-      case FOLDER -> equipmentSlotFromSubset(item, EquipmentSlot.FOLDER_SLOTS);
+      case FOLDER -> equipmentSlotFromSubset(item, SlotSet.FOLDER_SLOTS);
       case FAMILIAR_EQUIPMENT -> equipmentSlotFromSubset(item, Slot.FAMILIAR);
       default -> Slot.NONE;
     };
@@ -5068,7 +5069,7 @@ public abstract class KoLCharacter {
     Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
 
     // Look at items
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       AdventureResult item = equipment.get(slot);
       if (item == EquipmentRequest.UNEQUIP) {
         continue;
@@ -5580,7 +5581,7 @@ public abstract class KoLCharacter {
       switch (itemId) {
         case ItemPool.STICKER_SWORD, ItemPool.STICKER_CROSSBOW ->
         // Apply stickers
-        EquipmentSlot.STICKER_SLOTS.stream()
+        SlotSet.STICKER_SLOTS.stream()
             .map(equipment::get)
             .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)
             .map(AdventureResult::getItemId)
@@ -5594,7 +5595,7 @@ public abstract class KoLCharacter {
         }
         case ItemPool.FOLDER_HOLDER ->
         // Apply folders
-        EquipmentSlot.FOLDER_SLOTS.stream()
+        SlotSet.FOLDER_SLOTS.stream()
             .map(equipment::get)
             .filter(f -> f != null && f != EquipmentRequest.UNEQUIP)
             .map(AdventureResult::getItemId)
@@ -5671,7 +5672,7 @@ public abstract class KoLCharacter {
       Map<Slot, AdventureResult> equipment, List<AdventureResult> effects) {
     double smithsness = 0;
 
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       AdventureResult item = equipment.get(slot);
       if (item != null) {
         int itemId = item.getItemId();

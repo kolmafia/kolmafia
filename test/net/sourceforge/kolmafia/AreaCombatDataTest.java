@@ -18,7 +18,7 @@ import static org.hamcrest.core.Every.everyItem;
 import internal.helpers.Cleanups;
 import java.io.File;
 import java.util.Map;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;

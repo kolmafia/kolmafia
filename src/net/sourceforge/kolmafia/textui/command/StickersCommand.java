@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.EquipmentSlot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -13,7 +13,7 @@ public class StickersCommand extends AbstractCommand {
   public void run(final String cmd, final String parameters) {
     String[] stickers = parameters.split("\\s*,\\s*");
     int i = 0;
-    for (var slot : EquipmentSlot.STICKER_SLOTS) {
+    for (var slot : SlotSet.STICKER_SLOTS) {
       if (EquipmentManager.getEquipment(slot) == EquipmentRequest.UNEQUIP) {
         if (i >= stickers.length) break;
         String item = stickers[i++].toLowerCase();

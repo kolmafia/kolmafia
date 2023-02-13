@@ -4,12 +4,12 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.EquipmentSlot;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -181,7 +181,7 @@ public abstract class ConditionalStatement extends AbstractCommand {
     }
 
     if (left.equals("stickers")) {
-      return EquipmentSlot.STICKER_SLOTS.stream()
+      return SlotSet.STICKER_SLOTS.stream()
           .map(EquipmentManager::getEquipment)
           .filter(Predicate.not(EquipmentRequest.UNEQUIP::equals))
           .count();

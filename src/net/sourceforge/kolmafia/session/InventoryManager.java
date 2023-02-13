@@ -9,8 +9,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.EquipmentSlot;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -24,6 +22,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -240,7 +240,7 @@ public abstract class InventoryManager {
 
   public static final int getEquippedCount(final AdventureResult item) {
     int count = 0;
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       AdventureResult equipment = EquipmentManager.getEquipment(slot);
       if (equipment != null && equipment.getItemId() == item.getItemId()) {
         ++count;
@@ -606,7 +606,7 @@ public abstract class InventoryManager {
     }
 
     if (!isRestricted && ItemDatabase.isEquipment(itemId) && useEquipped) {
-      for (var i : EquipmentSlot.SLOTS) {
+      for (var i : SlotSet.SLOTS) {
         // If you are dual-wielding the target item,
         // remove the one in the offhand slot first
         // since taking from the weapon slot will drop

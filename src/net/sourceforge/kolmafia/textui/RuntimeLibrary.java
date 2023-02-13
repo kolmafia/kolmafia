@@ -39,8 +39,6 @@ import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.EdServantData;
-import net.sourceforge.kolmafia.EquipmentSlot;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.Expression;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -72,6 +70,8 @@ import net.sourceforge.kolmafia.chat.WhoMessage;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
@@ -5516,7 +5516,7 @@ public abstract class RuntimeLibrary {
     AdventureResult item = ItemPool.get((int) arg.intValue(), 0);
     int runningTotal = 0;
 
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       if (EquipmentManager.getEquipment(slot).equals(item)) {
         ++runningTotal;
       }

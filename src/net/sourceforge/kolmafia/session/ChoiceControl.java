@@ -10,8 +10,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.EdServantData;
-import net.sourceforge.kolmafia.EquipmentSlot;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
@@ -22,6 +20,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -6301,7 +6301,7 @@ public abstract class ChoiceControl {
         // If you change the mode with the item equipped, you need to un-equip and re-equip it to
         // get the modifiers
         if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 3) {
-          for (var i : EquipmentSlot.ACCESSORY_SLOTS) {
+          for (var i : SlotSet.ACCESSORY_SLOTS) {
             AdventureResult item = EquipmentManager.getEquipment(i);
             if (item != null && item.getItemId() == ItemPool.BACKUP_CAMERA) {
               RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, i));

@@ -17,8 +17,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.EquipmentSlot;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
@@ -31,6 +29,8 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
@@ -333,7 +333,7 @@ public class Evaluator {
       }
 
       if (keyword.equals("empty")) {
-        for (var slot : EquipmentSlot.ALL_SLOTS) {
+        for (var slot : SlotSet.ALL_SLOTS) {
           this.slots.merge(
               slot,
               ((int) weight)
@@ -508,7 +508,7 @@ public class Evaluator {
       }
 
       Slot slot = EquipmentRequest.slotNumber(keyword);
-      if (EquipmentSlot.ALL_SLOTS.contains(slot)) {
+      if (SlotSet.ALL_SLOTS.contains(slot)) {
         this.slots.merge(slot, (int) weight, Integer::sum);
         continue;
       }
@@ -2137,7 +2137,7 @@ public class Evaluator {
           if (group != null && Preferences.getBoolean("maximizerFoldables")) {
             foldItemsNeeded += Math.max(item.getCount(), useful);
             // How many times have we already used this fold item?
-            for (var checkSlot : EquipmentSlot.SLOTS) {
+            for (var checkSlot : SlotSet.SLOTS) {
               if (entry.isSlot() && checkSlot.ordinal() >= entry.slot().ordinal()) break;
               List<CheckedItem> checkItemList = automatic.get(checkSlot);
               if (checkItemList != null) {
@@ -2237,7 +2237,7 @@ public class Evaluator {
     for (int thresh = 1; ; --thresh) {
       if (thresh < 0) return; // no slots enabled
       boolean anySlots = false;
-      for (var slot : EquipmentSlot.SLOTS) {
+      for (var slot : SlotSet.SLOTS) {
         if (this.slots.getOrDefault(slot, 0) >= thresh) {
           spec.equipment.put(slot, null);
           anySlots = true;

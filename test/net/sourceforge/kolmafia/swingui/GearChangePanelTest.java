@@ -6,9 +6,9 @@ import static org.hamcrest.Matchers.*;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;

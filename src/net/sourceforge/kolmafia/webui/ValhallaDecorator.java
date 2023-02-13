@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.EquipmentSlot;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -533,7 +533,7 @@ public class ValhallaDecorator {
     }
 
     folderHolderBuffer.append("Folder Holder: ");
-    for (var slot : EquipmentSlot.FOLDER_SLOTS_AFTERCORE) {
+    for (var slot : SlotSet.FOLDER_SLOTS_AFTERCORE) {
       AdventureResult folder = EquipmentManager.getEquipment(slot);
       if (folder != null) {
         String name = folder.getName();

@@ -9,8 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.EquipmentSlot;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -24,6 +22,8 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -79,7 +79,7 @@ public class EquipmentManager {
   public static final AdventureResult COWBOY_BOOTS = ItemPool.get(ItemPool.COWBOY_BOOTS, 1);
 
   static {
-    for (var slot : EquipmentSlot.ALL_SLOTS) {
+    for (var slot : SlotSet.ALL_SLOTS) {
       EquipmentManager.equipment.put(slot, EquipmentRequest.UNEQUIP);
       EquipmentManager.historyLists.put(slot, new ArrayList<>());
 
@@ -107,7 +107,7 @@ public class EquipmentManager {
 
     EquipmentManager.equipment.clear();
 
-    for (var slot : EquipmentSlot.ALL_SLOTS) {
+    for (var slot : SlotSet.ALL_SLOTS) {
       EquipmentManager.equipment.put(slot, EquipmentRequest.UNEQUIP);
     }
 
@@ -126,7 +126,7 @@ public class EquipmentManager {
   }
 
   public static EnumMap<Slot, AdventureResult> emptyEquipmentArray(boolean all) {
-    EnumSet<Slot> slots = all ? EquipmentSlot.ALL_SLOTS : EquipmentSlot.SLOTS;
+    EnumSet<Slot> slots = all ? SlotSet.ALL_SLOTS : SlotSet.SLOTS;
     EnumMap<Slot, AdventureResult> map = new EnumMap<>(Slot.class);
 
     for (var slot : slots) {
@@ -139,7 +139,7 @@ public class EquipmentManager {
   public static EnumMap<Slot, AdventureResult> currentEquipment() {
     EnumMap<Slot, AdventureResult> map = new EnumMap<>(Slot.class);
 
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       map.put(slot, EquipmentManager.getEquipment(slot));
     }
     return map;
@@ -189,7 +189,7 @@ public class EquipmentManager {
       // Make sure the current sticker in each slot remains in the list, even if
       // there are no more of that type in inventory.
 
-      for (Slot slot : EquipmentSlot.STICKER_SLOTS) {
+      for (Slot slot : SlotSet.STICKER_SLOTS) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
         if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
@@ -199,7 +199,7 @@ public class EquipmentManager {
     } else if (consumeType == ConsumptionType.FOLDER) {
       // Folders are similar to stickers
 
-      for (Slot slot : EquipmentSlot.FOLDER_SLOTS) {
+      for (Slot slot : SlotSet.FOLDER_SLOTS) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
         if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
@@ -1088,7 +1088,7 @@ public class EquipmentManager {
 
   public static final void transformEquipment(AdventureResult before, AdventureResult after) {
     SpecialOutfit.replaceEquipment(before, after);
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       if (KoLCharacter.hasEquipped(before, slot)) {
         EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
         // FamiliarData.setItem moved the current
@@ -1110,7 +1110,7 @@ public class EquipmentManager {
   }
 
   public static final Slot removeEquipment(final AdventureResult item) {
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       if (EquipmentManager.removeEquipment(item, slot)) {
         return slot;
       }
@@ -1135,7 +1135,7 @@ public class EquipmentManager {
   }
 
   public static final void removeAllEquipment() {
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       AdventureResult item = EquipmentManager.getEquipment(slot);
       if (!item.equals(EquipmentRequest.UNEQUIP)) {
         EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
@@ -1312,7 +1312,7 @@ public class EquipmentManager {
   public static final void setEquipment(final Map<Slot, AdventureResult> equipment) {
     // Defer updating so that we don't regenerate every GearChangeFrame list once for each slot.
     GearChangePanel.deferUpdate();
-    for (var slot : EquipmentSlot.ALL_SLOTS) {
+    for (var slot : SlotSet.ALL_SLOTS) {
       var equipped = equipment.get(slot);
       if (equipped == null) {
       } else if (equipped.equals(EquipmentRequest.UNEQUIP)) {
@@ -1451,7 +1451,7 @@ public class EquipmentManager {
   }
 
   public static final void incrementEquipmentCounters() {
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       int itemId = EquipmentManager.getEquipment(slot).getItemId();
       switch (itemId) {
         case ItemPool.SUGAR_CHAPEAU,
@@ -1469,7 +1469,7 @@ public class EquipmentManager {
 
   public static final void decrementTurns() {
     if (usingStickerWeapon()) {
-      for (var slot : EquipmentSlot.STICKER_SLOTS) {
+      for (var slot : SlotSet.STICKER_SLOTS) {
         EquipmentManager.turnsRemaining.compute(slot, (k, v) -> v == null ? -1 : v - 1);
       }
       GearChangePanel.updateStickers(
@@ -1482,7 +1482,7 @@ public class EquipmentManager {
   }
 
   public static final void stickersExpired(int count) {
-    for (var slot : EquipmentSlot.STICKER_SLOTS) {
+    for (var slot : SlotSet.STICKER_SLOTS) {
       if (EquipmentManager.turnsRemaining.getOrDefault(slot, 0) <= 0
           && getEquipment(slot) != EquipmentRequest.UNEQUIP) {
         setEquipment(slot, EquipmentRequest.UNEQUIP);
@@ -1688,7 +1688,7 @@ public class EquipmentManager {
 
   public static final void updateEquipmentLists() {
     KoLCharacter.resetTriggers();
-    for (var slot : EquipmentSlot.ALL_SLOTS) {
+    for (var slot : SlotSet.ALL_SLOTS) {
       EquipmentManager.updateEquipmentList(slot);
     }
     EquipmentManager.updateNormalOutfits();
@@ -2043,7 +2043,7 @@ public class EquipmentManager {
     // Go through any outfit that any worn item belongs to.
     int hash = SpecialOutfit.equipmentHash(equipment);
     List<Integer> checkedOutfits = new ArrayList<>();
-    for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
+    for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
       AdventureResult item = equipment.getOrDefault(slot, null);
       if (item == null) continue;
       int outfitId = EquipmentDatabase.getOutfitWithItem(item.getItemId());
@@ -2208,7 +2208,7 @@ public class EquipmentManager {
 
   public static final int equippedCount(final AdventureResult item) {
     int count = 0;
-    for (var slot : EquipmentSlot.SLOTS) {
+    for (var slot : SlotSet.SLOTS) {
       if (item.equals(EquipmentManager.getEquipment(slot))) {
         count++;
       }
@@ -2258,7 +2258,7 @@ public class EquipmentManager {
     // Read stickers
     JSONArray stickers = JSON.getJSONArray("stickers");
     int i = 0;
-    for (var slot : EquipmentSlot.STICKER_SLOTS) {
+    for (var slot : SlotSet.STICKER_SLOTS) {
       AdventureResult item = EquipmentManager.equippedItem(stickers.getInt(i++));
       equipment.put(slot, item);
     }
@@ -2266,7 +2266,7 @@ public class EquipmentManager {
     // Read folders
     JSONArray folders = JSON.getJSONArray("folder_holder");
     i = 0;
-    for (var slot : EquipmentSlot.FOLDER_SLOTS) {
+    for (var slot : SlotSet.FOLDER_SLOTS) {
       int folder = folders.getInt(i++);
       AdventureResult item =
           folder == 0 ? EquipmentRequest.UNEQUIP : ItemPool.get(ItemPool.FOLDER_01 - 1 + folder, 1);
@@ -2284,7 +2284,7 @@ public class EquipmentManager {
     // from KoL's model.
 
     if (!KoLmafia.isRefreshing()) {
-      for (var slot : EquipmentSlot.ALL_SLOTS) {
+      for (var slot : SlotSet.ALL_SLOTS) {
         // Quantum Terrarium will have a familiar item in api.php even
         // if the particular familiar can't equip it. Ignore that.
         if (slot == Slot.FAMILIAR && KoLCharacter.inQuantum()) {

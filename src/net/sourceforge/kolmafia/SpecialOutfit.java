@@ -9,9 +9,10 @@ import java.util.Stack;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -67,7 +68,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
     }
 
     int count = 0;
-    for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
+    for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
       AdventureResult outfitPiece = this.pieces.get(slot);
       if (null == outfitPiece) {
         continue;
@@ -82,7 +83,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   }
 
   public boolean hasAllPieces() {
-    for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
+    for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
       AdventureResult piece = this.pieces.get(slot);
       if (null == piece) {
         continue;
@@ -105,7 +106,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   }
 
   public boolean isWearing(AdventureResult piece, Slot type) {
-    if (EquipmentSlot.ACCESSORY_SLOTS.contains(type)) {
+    if (SlotSet.ACCESSORY_SLOTS.contains(type)) {
       int accessoryCount =
           (KoLCharacter.hasEquipped(piece, Slot.ACCESSORY1) ? 1 : 0)
               + (KoLCharacter.hasEquipped(piece, Slot.ACCESSORY2) ? 1 : 0)
@@ -134,7 +135,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   public boolean isWearing(int hash) {
     if ((hash & this.hash) != this.hash) return false;
 
-    for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
+    for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
       AdventureResult piece = this.pieces.get(slot);
       if (null == piece) {
         continue;
@@ -155,7 +156,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   public boolean isWearing(Map<Slot, AdventureResult> equipment, int hash) {
     if ((hash & this.hash) != this.hash) return false;
 
-    for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
+    for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
       AdventureResult piece = this.pieces.get(slot);
       if (null == piece) {
         continue;
@@ -170,7 +171,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   }
 
   public boolean retrieve() {
-    for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
+    for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
       AdventureResult piece = this.pieces.get(slot);
       if (null == piece) {
         continue;
@@ -216,7 +217,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   public static int equipmentHash(Map<Slot, AdventureResult> equipment) {
     int hash = 0;
     // Must consider every slot that can contain an outfit piece
-    for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
+    for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
       hash |= SpecialOutfit.pieceHash(equipment.get(slot));
     }
     return hash;
@@ -250,7 +251,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
 
   private void updateDisplayMissing() {
     ArrayList<AdventureResult> missing = new ArrayList<>();
-    for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
+    for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
       AdventureResult piece = this.pieces.get(slot);
       if (null == piece) {
         continue;
@@ -420,7 +421,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   public static void replaceEquipmentInSlot(AdventureResult item, Slot slot) {
     synchronized (SpecialOutfit.class) {
       for (Checkpoint checkpoint : SpecialOutfit.allCheckpoints) {
-        if (EquipmentSlot.SLOTS.contains(slot)) {
+        if (SlotSet.SLOTS.contains(slot)) {
           checkpoint.set(slot, item);
         }
       }
@@ -447,7 +448,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
     public Checkpoint(boolean checking) {
       this.checking = checking;
       boolean notEmpty = false;
-      for (var slot : EquipmentSlot.SLOTS) {
+      for (var slot : SlotSet.SLOTS) {
         AdventureResult item = EquipmentManager.getEquipment(slot);
         this.slots.put(slot, item);
         notEmpty |= slot != Slot.FAMILIAR && !item.equals(EquipmentRequest.UNEQUIP);
@@ -484,7 +485,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
     }
 
     public void set(final Slot slot, final AdventureResult item) {
-      if (EquipmentSlot.SLOTS.contains(slot)) {
+      if (SlotSet.SLOTS.contains(slot)) {
         this.slots.put(slot, item);
       }
     }

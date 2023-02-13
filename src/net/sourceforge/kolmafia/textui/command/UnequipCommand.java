@@ -1,11 +1,11 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.EquipmentSlot;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -41,10 +41,10 @@ public class UnequipCommand extends AbstractCommand {
     // The following loop removes all items with the
     // specified name.
 
-    for (var s : EquipmentSlot.SLOTS) {
+    for (var s : SlotSet.SLOTS) {
       unequip(s, parameters);
     }
-    for (var s : EquipmentSlot.STICKER_SLOTS) {
+    for (var s : SlotSet.STICKER_SLOTS) {
       unequip(s, parameters);
     }
   }

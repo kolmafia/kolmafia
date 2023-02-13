@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.*;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;

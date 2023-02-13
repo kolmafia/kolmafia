@@ -10,12 +10,12 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
-import net.sourceforge.kolmafia.EquipmentSlot;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -369,7 +369,7 @@ public class Type extends Symbol {
         this.addValues(list, FamiliarDatabase.entrySet());
         break;
       case SLOT:
-        this.addValues(list, EquipmentSlot.NAMES);
+        this.addValues(list, SlotSet.NAMES);
         break;
       case MONSTER:
         this.addValues(list, MonsterDatabase.valueSet());

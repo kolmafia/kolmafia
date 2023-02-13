@@ -20,7 +20,6 @@ import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.EquipmentSlot;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -124,7 +123,7 @@ class LimitModeTest {
   class Slot {
     @Test
     void nothingLimitedNormally() {
-      assertThat(LimitMode.NONE.limitSlot(EquipmentSlot.Slot.HAT), is(false));
+      assertThat(LimitMode.NONE.limitSlot(net.sourceforge.kolmafia.equipment.Slot.HAT), is(false));
     }
 
     @ParameterizedTest
@@ -132,13 +131,17 @@ class LimitModeTest {
         value = LimitMode.class,
         names = {"BATMAN", "ED"})
     void someCantWearAnything(final LimitMode lm) {
-      assertThat(lm.limitSlot(EquipmentSlot.Slot.HAT), is(true));
+      assertThat(lm.limitSlot(net.sourceforge.kolmafia.equipment.Slot.HAT), is(true));
     }
 
     @Test
     void spelunkersCanWearSomeThings() {
-      assertThat(LimitMode.SPELUNKY.limitSlot(EquipmentSlot.Slot.ACCESSORY1), is(false));
-      assertThat(LimitMode.SPELUNKY.limitSlot(EquipmentSlot.Slot.ACCESSORY2), is(true));
+      assertThat(
+          LimitMode.SPELUNKY.limitSlot(net.sourceforge.kolmafia.equipment.Slot.ACCESSORY1),
+          is(false));
+      assertThat(
+          LimitMode.SPELUNKY.limitSlot(net.sourceforge.kolmafia.equipment.Slot.ACCESSORY2),
+          is(true));
     }
   }
 

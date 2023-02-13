@@ -7,8 +7,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.EquipmentSlot;
-import net.sourceforge.kolmafia.EquipmentSlot.Slot;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -19,6 +17,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -238,17 +238,17 @@ public class EquipmentRequest extends PasswordHashRequest {
   private static String chooseEquipmentLocation(final Slot slot) {
     return slot == Slot.HOLSTER
         ? "inventory.php"
-        : EquipmentSlot.SLOTS.contains(slot)
+        : SlotSet.SLOTS.contains(slot)
             ? "inv_equip.php"
             : slot == Slot.CROWNOFTHRONES || slot == Slot.BUDDYBJORN
                 ? "bogus.php"
-                : EquipmentSlot.STICKER_SLOTS.contains(slot)
+                : SlotSet.STICKER_SLOTS.contains(slot)
                     ? "bedazzle.php"
                     : slot == Slot.CARDSLEEVE
                         ? "inv_use.php"
                         : slot == Slot.FAKEHAND
                             ? "inv_equip.php"
-                            : EquipmentSlot.FOLDER_SLOTS.contains(slot)
+                            : SlotSet.FOLDER_SLOTS.contains(slot)
                                 ? "choice.php"
                                 : (slot == Slot.BOOTSKIN || slot == Slot.BOOTSPUR)
                                     ? "inv_use.php"
@@ -396,7 +396,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    if (EquipmentSlot.FOLDER_SLOTS.stream()
+    if (SlotSet.FOLDER_SLOTS.stream()
         .filter(s -> s != slot)
         .map(EquipmentManager::getEquipment)
         .anyMatch(folder::equals)) {
@@ -649,14 +649,12 @@ public class EquipmentRequest extends PasswordHashRequest {
   }
 
   private static Slot availableSticker() {
-    return EquipmentRequest.availableSlot(EquipmentSlot.STICKER_SLOTS);
+    return EquipmentRequest.availableSlot(SlotSet.STICKER_SLOTS);
   }
 
   public static Slot availableFolder() {
     return EquipmentRequest.availableSlot(
-        KoLCharacter.inHighschool()
-            ? EquipmentSlot.FOLDER_SLOTS
-            : EquipmentSlot.FOLDER_SLOTS_AFTERCORE);
+        KoLCharacter.inHighschool() ? SlotSet.FOLDER_SLOTS : SlotSet.FOLDER_SLOTS_AFTERCORE);
   }
 
   /**
@@ -688,7 +686,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       if (this.outfit == SpecialOutfit.BIRTHDAY_SUIT) {
         // See if you are wearing anything.
         boolean found = false;
-        for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
+        for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
           if (!EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP)) {
             found = true;
             break;
@@ -806,8 +804,8 @@ public class EquipmentRequest extends PasswordHashRequest {
 
       // Must remove an existing sticker or folder before
       // installing a new one in the same slot.
-      if ((EquipmentSlot.STICKER_SLOTS.contains(this.equipmentSlot)
-              || EquipmentSlot.FOLDER_SLOTS.contains(this.equipmentSlot))
+      if ((SlotSet.STICKER_SLOTS.contains(this.equipmentSlot)
+              || SlotSet.FOLDER_SLOTS.contains(this.equipmentSlot))
           && !EquipmentManager.getEquipment(this.equipmentSlot).equals(EquipmentRequest.UNEQUIP)) {
         (new EquipmentRequest(EquipmentRequest.UNEQUIP, this.equipmentSlot)).run();
       }
@@ -819,7 +817,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       return;
     }
 
-    if (EquipmentSlot.FOLDER_SLOTS.contains(this.equipmentSlot)) {
+    if (SlotSet.FOLDER_SLOTS.contains(this.equipmentSlot)) {
       (new GenericRequest("inventory.php?action=useholder")).run();
     }
 
@@ -1020,7 +1018,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   public static void parseBedazzlements(final String responseText) {
     Matcher matcher = EquipmentRequest.STICKER_PATTERN.matcher(responseText);
-    for (Slot slot : EquipmentSlot.STICKER_SLOTS) {
+    for (Slot slot : SlotSet.STICKER_SLOTS) {
       if (!matcher.find()) {
         return; // presumably doesn't have a sticker weapon
       }
@@ -1127,7 +1125,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     Matcher folderMatcher = EquipmentRequest.FOLDER_PATTERN.matcher(text);
 
     boolean failed = false;
-    for (var slot : EquipmentSlot.FOLDER_SLOTS) {
+    for (var slot : SlotSet.FOLDER_SLOTS) {
       if (failed) {
         EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
       } else if (folderMatcher.find()) {
@@ -1314,7 +1312,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     boolean refresh = false;
 
     if (!KoLmafia.isRefreshing()) {
-      for (var slot : EquipmentSlot.SLOTS) {
+      for (var slot : SlotSet.SLOTS) {
         if (slot == Slot.HOLSTER) {
           // No inventory swapping for holstered sixguns
           continue;
@@ -1445,7 +1443,7 @@ public class EquipmentRequest extends PasswordHashRequest {
       }
 
       boolean switched = false;
-      for (var slot : EquipmentSlot.SLOTS) {
+      for (var slot : SlotSet.SLOTS) {
         // Whether the familiar item is unequipped on
         // an unequip all is an account preference.
         if (slot == Slot.FAMILIAR && !KoLCharacter.getUnequipFamiliar()) {
@@ -1560,7 +1558,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
       EnumMap<Slot, AdventureResult> equipment = EquipmentManager.currentEquipment();
       // Add our current equipment to it
-      for (var slot : EquipmentSlot.CORE_EQUIP_SLOTS) {
+      for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
         AdventureResult piece = equipment.get(slot);
         // Make a brand-new AdventureResult for each item
         if (piece != EquipmentRequest.UNEQUIP) {
@@ -1681,7 +1679,7 @@ public class EquipmentRequest extends PasswordHashRequest {
           Slot.ACCESSORY1, Slot.ACCESSORY2, Slot.ACCESSORY3,
         };
     // Consume unfilled slots from 1 to 3
-    for (Slot slot : EquipmentSlot.ACCESSORY_SLOTS) {
+    for (Slot slot : SlotSet.ACCESSORY_SLOTS) {
       if (oldEquipment.get(slot) == EquipmentRequest.UNEQUIP) {
         accessories[accessoryIndex++] = slot;
       }
