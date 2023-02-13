@@ -77,10 +77,12 @@ public class FamiliarTrainingFrame extends GenericFrame {
   private final FamiliarTrainingPanel training;
   private CharacterListener weightListener;
 
-  public static final int BASE = 1;
-  public static final int BUFFED = 2;
-  public static final int TURNS = 3;
-  public static final int LEARN = 4;
+  public enum Goal {
+    BASE,
+    BUFFED,
+    TURNS,
+    LEARN
+  }
 
   // Familiar buffing skills and effects
   public static final AdventureResult EMPATHY = EffectPool.get(EffectPool.EMPATHY);
@@ -398,7 +400,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           // Level the familiar
 
-          FamiliarTrainingFrame.levelFamiliar(goal, FamiliarTrainingFrame.BASE);
+          FamiliarTrainingFrame.levelFamiliar(goal, Goal.BASE);
         }
       }
 
@@ -417,7 +419,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           // Level the familiar
 
-          FamiliarTrainingFrame.levelFamiliar(goal, FamiliarTrainingFrame.BUFFED);
+          FamiliarTrainingFrame.levelFamiliar(goal, Goal.BUFFED);
         }
       }
 
@@ -436,7 +438,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           // Level the familiar
 
-          FamiliarTrainingFrame.levelFamiliar(goal, FamiliarTrainingFrame.TURNS);
+          FamiliarTrainingFrame.levelFamiliar(goal, Goal.TURNS);
         }
       }
 
@@ -604,7 +606,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     return null;
   }
 
-  private static boolean levelFamiliar(final int goal, final int type) {
+  private static boolean levelFamiliar(final int goal, final Goal type) {
     return FamiliarTrainingFrame.levelFamiliar(
         goal, type, Preferences.getBoolean("debugFamiliarTraining"));
   }
@@ -616,7 +618,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
    * @param type BASE, BUFF, or TURNS
    * @param debug true if we are debugging
    */
-  public static final boolean levelFamiliar(final int goal, final int type, final boolean debug) {
+  public static final boolean levelFamiliar(final int goal, final Goal type, final boolean debug) {
     // Clear the output
     FamiliarTrainingFrame.results.clear();
 
@@ -649,14 +651,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
       familiar.findAndWearItem(false);
     }
 
-    boolean result =
-        type == FamiliarTrainingFrame.BUFFED ? FamiliarTrainingFrame.buffFamiliar(goal) : true;
+    boolean result = type == Goal.BUFFED ? FamiliarTrainingFrame.buffFamiliar(goal) : true;
 
     FamiliarTrainingFrame.statusMessage(MafiaState.CONTINUE, "Training session completed.");
     return result;
   }
 
-  private static boolean trainFamiliar(final int goal, final int type, final boolean debug) {
+  private static boolean trainFamiliar(final int goal, final Goal type, final boolean debug) {
     // Get current familiar
     FamiliarData familiar = KoLCharacter.getFamiliar();
 
@@ -794,7 +795,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     FamiliarStatus status = new FamiliarStatus();
 
     // Identify the familiar we are training
-    FamiliarTrainingFrame.printFamiliar(status, trials, FamiliarTrainingFrame.LEARN);
+    FamiliarTrainingFrame.printFamiliar(status, trials, Goal.LEARN);
     FamiliarTrainingFrame.results.append("<br>");
 
     // Print available buffs and items and current buffs
@@ -1116,22 +1117,19 @@ public class FamiliarTrainingFrame extends GenericFrame {
     KoLmafia.updateDisplay(state, message);
   }
 
-  private static void printFamiliar(final FamiliarStatus status, final int goal, final int type) {
+  private static void printFamiliar(final FamiliarStatus status, final int goal, final Goal type) {
     FamiliarData familiar = status.getFamiliar();
     String name = familiar.getName();
     String race = familiar.getRace();
     int weight = familiar.getWeight();
-    String hope = "";
 
-    if (type == FamiliarTrainingFrame.BASE) {
-      hope = " to " + goal + " lbs. base weight";
-    } else if (type == FamiliarTrainingFrame.BUFFED) {
-      hope = " to " + goal + " lbs. buffed weight";
-    } else if (type == FamiliarTrainingFrame.TURNS) {
-      hope = " for " + goal + " turns";
-    } else if (type == FamiliarTrainingFrame.LEARN) {
-      hope = " for " + goal + " iterations to learn arena strengths";
-    }
+    String hope =
+        switch (type) {
+          case BASE -> " to " + goal + " lbs. base weight";
+          case BUFFED -> " to " + goal + " lbs. buffed weight";
+          case TURNS -> " for " + goal + " turns";
+          case LEARN -> " for " + goal + " iterations to learn arena strengths";
+        };
 
     FamiliarTrainingFrame.results.append(
         "Training " + name + " the " + weight + " lb. " + race + hope + ".<br>");
@@ -1149,7 +1147,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     }
   }
 
-  private static boolean goalMet(final FamiliarStatus status, final int goal, final int type) {
+  private static boolean goalMet(final FamiliarStatus status, final int goal, final Goal type) {
     return switch (type) {
       case BASE -> status.baseWeight() >= goal;
       case BUFFED -> status.maxWeight(true) >= goal;
