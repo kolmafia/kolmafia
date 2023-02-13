@@ -383,10 +383,9 @@ public class ModifiersTest {
       var cleanups = new Cleanups(withEffect(EffectPool.BLUE_TONGUE), withLocation("Shadow Rift"));
 
       try (cleanups) {
-        DebugModifiers.setup("Item Drop".toLowerCase());
-        KoLCharacter.recalculateAdjustments(true);
+        KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
-        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(7.5));
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(6.0));
       }
     }
   }
