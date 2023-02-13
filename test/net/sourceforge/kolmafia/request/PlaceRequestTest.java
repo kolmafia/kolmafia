@@ -86,10 +86,14 @@ class PlaceRequestTest {
 class Speakeasy {
   @Test
   public void itShouldGetParcelLocationFromVisit() {
+    String prefName = "_sotParcelLocation";
+    assertEquals("", Preferences.getString(prefName), "Preference already set.");
     var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
     req.responseText = html("request/test_first_visit_sot_to_get_location.html");
     PlaceRequest.parseResponse(
         "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
         req.responseText);
+    assertEquals(
+        "The Haunted Storage Room ", Preferences.getString(prefName), "Preference not set.");
   }
 }

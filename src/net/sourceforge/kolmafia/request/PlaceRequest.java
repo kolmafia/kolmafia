@@ -279,6 +279,8 @@ public class PlaceRequest extends GenericRequest {
         ResultProcessor.removeAllItems(ItemPool.MURDERBOT_MEMORY_CHIP);
         ResultProcessor.removeAllItems(ItemPool.SPANT_EGG_CASING);
       }
+    } else if (place.equals("speakeasy")) {
+      Preferences.setString("_sotParcelLocation", "xyzzy");
     } else if (place.equals("spelunky")) {
       SpelunkyRequest.parseResponse(urlString, responseText);
     } else if (place.equals("town_right")) {
