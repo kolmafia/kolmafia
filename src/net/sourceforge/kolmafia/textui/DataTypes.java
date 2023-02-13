@@ -191,7 +191,7 @@ public class DataTypes {
   public static final Value SKILL_INIT = new Value(DataTypes.SKILL_TYPE, -1, "none");
   public static final Value EFFECT_INIT = new Value(DataTypes.EFFECT_TYPE, -1, "none");
   public static final Value FAMILIAR_INIT = new Value(DataTypes.FAMILIAR_TYPE, -1, "none");
-  public static final Value SLOT_INIT = new Value(DataTypes.SLOT_TYPE, -1, "none");
+  public static final Value SLOT_INIT = new Value(DataTypes.SLOT_TYPE, 0, "none");
   public static final Value MONSTER_INIT = new Value(DataTypes.MONSTER_TYPE, 0, "none", null);
   public static final Value ELEMENT_INIT = new Value(DataTypes.ELEMENT_TYPE, "none", Element.NONE);
   public static final Value COINMASTER_INIT = new Value(DataTypes.COINMASTER_TYPE, "none", null);
