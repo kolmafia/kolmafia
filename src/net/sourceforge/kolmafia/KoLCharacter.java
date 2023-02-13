@@ -5418,7 +5418,7 @@ public abstract class KoLCharacter {
               DoubleModifier.SLEAZE_SPELL_DAMAGE)) {
         newModifiers.addDouble(
             modifier,
-            newModifiers.getDoublerAccumulator(modifier),
+            newModifiers.getAccumulator(modifier),
             ModifierType.EFFECT,
             EffectPool.BENDIN_HELL);
       }
@@ -5428,7 +5428,7 @@ public abstract class KoLCharacter {
           List.of(DoubleModifier.SLEAZE_DAMAGE, DoubleModifier.SLEAZE_SPELL_DAMAGE)) {
         newModifiers.addDouble(
             modifier,
-            newModifiers.getDoublerAccumulator(modifier),
+            newModifiers.getAccumulator(modifier),
             ModifierType.EFFECT,
             EffectPool.DIRTY_PEAR);
       }
@@ -5436,7 +5436,7 @@ public abstract class KoLCharacter {
     if (effects.contains(KoLCharacter.BOWLEGGED_SWAGGER)) {
       newModifiers.addDouble(
           DoubleModifier.INITIATIVE,
-          newModifiers.getDoublerAccumulator(DoubleModifier.INITIATIVE),
+          newModifiers.getAccumulator(DoubleModifier.INITIATIVE),
           ModifierType.EFFECT,
           EffectPool.BOWLEGGED_SWAGGER);
       // Add "Physical Damage" here, when that is properly defined
@@ -5455,7 +5455,7 @@ public abstract class KoLCharacter {
               DoubleModifier.MOX_EXPERIENCE_PCT)) {
         newModifiers.addDouble(
             modifier,
-            newModifiers.getDoublerAccumulator(modifier),
+            newModifiers.getAccumulator(modifier),
             ModifierType.ITEM,
             ItemPool.MAKESHIFT_GARBAGE_SHIRT);
       }
@@ -5471,14 +5471,14 @@ public abstract class KoLCharacter {
             || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
       newModifiers.addDouble(
           DoubleModifier.ITEMDROP,
-          newModifiers.getDoublerAccumulator(DoubleModifier.ITEMDROP),
+          newModifiers.getAccumulator(DoubleModifier.ITEMDROP),
           ModifierType.ITEM,
           ItemPool.BROKEN_CHAMPAGNE);
     }
     if (effects.contains(KoLCharacter.STEELY_EYED_SQUINT) && !KoLCharacter.inGLover()) {
       newModifiers.addDouble(
           DoubleModifier.ITEMDROP,
-          newModifiers.getDoublerAccumulator(DoubleModifier.ITEMDROP),
+          newModifiers.getAccumulator(DoubleModifier.ITEMDROP),
           ModifierType.EFFECT,
           EffectPool.STEELY_EYED_SQUINT);
       // Add in fightMods to double Otoscope, since it's not otherwise included in extras.
@@ -5489,6 +5489,13 @@ public abstract class KoLCharacter {
             ModifierType.ITEM,
             EffectPool.STEELY_EYED_SQUINT);
       }
+    }
+    if (Modifiers.currentLocation.equals("Shadow Rift")) {
+      newModifiers.addDouble(
+          DoubleModifier.ITEMDROP,
+          newModifiers.getAccumulator(DoubleModifier.ITEMDROP) * -0.8,
+          ModifierType.LOC,
+          "Shadow Rift");
     }
 
     // Determine whether or not data has changed

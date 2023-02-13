@@ -6,6 +6,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
@@ -329,10 +330,10 @@ public class ModifiersTest {
   }
 
   @Nested
-  class ElementalDoublers {
+  class ElementalMultipliers {
     @BeforeAll
     public static void setup() {
-      Preferences.reset("ElementalDoublers");
+      Preferences.reset("ElementalMultipliers");
     }
 
     @Test
@@ -377,13 +378,24 @@ public class ModifiersTest {
         assertThat(mods.getDouble(DoubleModifier.SLEAZE_SPELL_DAMAGE), equalTo(200.0));
       }
     }
+
+    @Test
+    void shadowRiftFifthsItemDrop() {
+      var cleanups = new Cleanups(withEffect(EffectPool.BLUE_TONGUE), withLocation("Shadow Rift"));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(6.0));
+      }
+    }
   }
 
   @Nested
-  class ExperienceDoublers {
+  class ExperienceMultipliers {
     @BeforeAll
     public static void setup() {
-      Preferences.reset("ExperienceDoublers");
+      Preferences.reset("ExperienceMultipliers");
     }
 
     @Test

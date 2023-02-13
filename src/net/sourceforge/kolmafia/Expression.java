@@ -356,7 +356,7 @@ public class Expression {
           Modifiers mods = KoLCharacter.getCurrentModifiers();
           String modName = (String) this.literals.get((int) s[--sp]);
           DoubleModifier modifier = DoubleModifier.byCaselessName(modName);
-          v = mods.getDoublerAccumulator(modifier);
+          v = mods.getAccumulator(modifier);
         }
           // Valid with ModifierExpression:
         case '\u0094' -> v = KoLCharacter.canInteract() ? 1 : 0;

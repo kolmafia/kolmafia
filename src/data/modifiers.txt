@@ -8572,6 +8572,8 @@ Loc	The Sunken Party Yacht	Initiative Penalty: -50, Item Drop Penalty: -50, Meat
 
 Loc	The Ice Hole	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 
+Loc	Shadow Rift	Item Drop: [-0.8*mod(Item Drop)]
+
 # Synergies section of modifiers.txt
 # Synergies are triggered when an arbitrary combination of two or more
 # equipment items, passive skills, active effects, campground items, or
