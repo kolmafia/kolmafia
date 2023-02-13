@@ -18,6 +18,7 @@ import static org.hamcrest.core.Every.everyItem;
 import internal.helpers.Cleanups;
 import java.io.File;
 import java.util.Map;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -28,7 +29,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,7 +89,7 @@ public class AreaCombatDataTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       Preferences.setString("_saberForceMonster", "smut orc screwer");
       Preferences.setInteger("_saberForceMonsterCount", 3);
@@ -120,7 +120,7 @@ public class AreaCombatDataTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       Preferences.setString(
           "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
@@ -147,7 +147,7 @@ public class AreaCombatDataTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       Preferences.setString(
           "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");

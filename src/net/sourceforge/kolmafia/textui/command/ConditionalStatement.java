@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +9,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -181,8 +181,8 @@ public abstract class ConditionalStatement extends AbstractCommand {
     }
 
     if (left.equals("stickers")) {
-      return Arrays.stream(EquipmentManager.STICKER_SLOTS)
-          .mapToObj(EquipmentManager::getEquipment)
+      return SlotSet.STICKER_SLOTS.stream()
+          .map(EquipmentManager::getEquipment)
           .filter(Predicate.not(EquipmentRequest.UNEQUIP::equals))
           .count();
     }

@@ -29,6 +29,8 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
@@ -83,7 +85,7 @@ public class Evaluator {
   private final Map<Modeable, String> forcedModeables = Modeable.getStringMap(m -> "");
 
   /** if slots[i] >= 0 then equipment of type i can be considered for maximization */
-  private final int[] slots = new int[EquipmentManager.ALL_SLOTS];
+  private final EnumMap<Slot, Integer> slots = new EnumMap<>(Slot.class);
 
   private String weaponType = null;
   private int hands = 0;
@@ -132,11 +134,11 @@ public class Evaluator {
   // possibility: all of your best weapons are 2-hand, but you've got
   // a really good off-hand, better than any weapon.  There would
   // otherwise be no suitable weapons to go with that off-hand.
-  static final int OFFHAND_MELEE = EquipmentManager.ACCESSORY2;
-  static final int OFFHAND_RANGED = EquipmentManager.ACCESSORY3;
-  static final int WATCHES = EquipmentManager.STICKER2;
-  static final int WEAPON_1H = EquipmentManager.STICKER3;
-  // Slots starting with EquipmentManager.ALL_SLOTS are equipment
+  static final Slot OFFHAND_MELEE = Slot.ACCESSORY2;
+  static final Slot OFFHAND_RANGED = Slot.ACCESSORY3;
+  static final Slot WATCHES = Slot.STICKER2;
+  static final Slot WEAPON_1H = Slot.STICKER3;
+  // Slots starting with EquipmentSlot.ALL_SLOTS are equipment
   // for other familiars being considered.
 
   private static int relevantSkill(int skillId) {
@@ -155,14 +157,14 @@ public class Evaluator {
     return 0;
   }
 
-  private int maxUseful(int slot) {
+  private int maxUseful(Slot slot) {
     return switch (slot) {
-      case Evaluator.WEAPON_1H -> 1
+      case /* Evaluator.WEAPON_1H */ STICKER3 -> 1
           + relevantSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)
           + this.relevantFamiliar(FamiliarPool.HAND);
-      case EquipmentManager.OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
-      case EquipmentManager.ACCESSORY1 -> 3;
-      case EquipmentManager.FAMILIAR ->
+      case OFFHAND -> 1 + this.relevantFamiliar(FamiliarPool.LEFT_HAND);
+      case ACCESSORY1 -> 3;
+      case FAMILIAR ->
       // Familiar items include weapons, hats and pants, make sure we have enough to consider for
       // other slots
       1
@@ -173,12 +175,13 @@ public class Evaluator {
     };
   }
 
-  private static int toUseSlot(int slot) {
-    int useSlot =
+  private static Slot toUseSlot(Slot slot) {
+    Slot useSlot =
         switch (slot) {
-          case Evaluator.OFFHAND_MELEE, Evaluator.OFFHAND_RANGED -> EquipmentManager.OFFHAND;
-          case Evaluator.WATCHES -> EquipmentManager.ACCESSORY1;
-          case Evaluator.WEAPON_1H -> EquipmentManager.WEAPON;
+          case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */
+              ACCESSORY3 -> Slot.OFFHAND;
+          case /* Evaluator.WATCHES */ STICKER2 -> Slot.ACCESSORY1;
+          case /* Evaluator.WEAPON_1H */ STICKER3 -> Slot.WEAPON;
           default -> slot;
         };
     return useSlot;
@@ -330,10 +333,12 @@ public class Evaluator {
       }
 
       if (keyword.equals("empty")) {
-        for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
-          this.slots[i] +=
+        for (var slot : SlotSet.ALL_SLOTS) {
+          this.slots.merge(
+              slot,
               ((int) weight)
-                  * (EquipmentManager.getEquipment(i).equals(EquipmentRequest.UNEQUIP) ? 1 : -1);
+                  * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP) ? 1 : -1),
+              Integer::sum);
         }
         continue;
       }
@@ -502,9 +507,9 @@ public class Evaluator {
         continue;
       }
 
-      int slot = EquipmentRequest.slotNumber(keyword);
-      if (slot >= 0 && slot < EquipmentManager.ALL_SLOTS) {
-        this.slots[slot] += (int) weight;
+      Slot slot = EquipmentRequest.slotNumber(keyword);
+      if (SlotSet.ALL_SLOTS.contains(slot)) {
+        this.slots.merge(slot, (int) weight, Integer::sum);
         continue;
       }
 
@@ -719,7 +724,7 @@ public class Evaluator {
     };
   }
 
-  public double getScore(Modifiers mods, AdventureResult[] equipment) {
+  public double getScore(Modifiers mods, Map<Slot, AdventureResult> equipment) {
     this.failed = false;
     this.exceeded = false;
     var predicted = mods.predict();
@@ -834,7 +839,7 @@ public class Evaluator {
       score += weight * Math.min(val, max);
     }
     if (!this.bonuses.isEmpty()) {
-      for (AdventureResult item : equipment) {
+      for (AdventureResult item : equipment.values()) {
         if (this.bonuses.containsKey(item)) {
           score += this.bonuses.get(item);
         }
@@ -842,7 +847,7 @@ public class Evaluator {
     }
     if (!this.bonusFunc.isEmpty()) {
       for (BonusFunction func : this.bonusFunc) {
-        for (AdventureResult item : equipment) {
+        for (AdventureResult item : equipment.values()) {
           score += func.bonusFunction.apply(item) * func.weight;
         }
       }
@@ -881,10 +886,10 @@ public class Evaluator {
   }
 
   public double getScore(Modifiers mods) {
-    return this.getScore(mods, new AdventureResult[0]);
+    return this.getScore(mods, Map.of());
   }
 
-  void checkEquipment(Modifiers mods, AdventureResult[] equipment, int beeosity) {
+  void checkEquipment(Modifiers mods, Map<Slot, AdventureResult> equipment, int beeosity) {
     boolean outfitSatisfied = this.posOutfits.isEmpty();
     boolean equipSatisfied = this.posEquip.isEmpty();
     if (!this.failed && !this.posEquip.isEmpty()) {
@@ -1096,8 +1101,8 @@ public class Evaluator {
 
     int id = 0;
     while ((id = EquipmentDatabase.nextEquipmentItemId(id)) != -1) {
-      int slot = EquipmentManager.itemIdToEquipmentType(id);
-      if (slot < 0 || slot >= EquipmentManager.ALL_SLOTS) continue;
+      Slot slot = EquipmentManager.itemIdToEquipmentType(id);
+      if (slot == Slot.NONE) continue;
       AdventureResult preItem = ItemPool.get(id, 1);
       String name = preItem.getName();
       CheckedItem item = null;
@@ -1110,12 +1115,12 @@ public class Evaluator {
       var modeable = Modeable.find(id);
 
       boolean famCanEquip = KoLCharacter.getFamiliar().canEquip(preItem);
-      if (famCanEquip && slot != EquipmentManager.FAMILIAR) {
+      if (famCanEquip && slot != Slot.FAMILIAR) {
         // Modifiers when worn by Hatrack or Scarecrow
         Modifiers familiarMods = new Modifiers();
         int familiarId = KoLCharacter.getFamiliar().getId();
-        if ((familiarId == FamiliarPool.HATRACK && slot == EquipmentManager.HAT)
-            || (familiarId == FamiliarPool.SCARECROW && slot == EquipmentManager.PANTS)) {
+        if ((familiarId == FamiliarPool.HATRACK && slot == Slot.HAT)
+            || (familiarId == FamiliarPool.SCARECROW && slot == Slot.PANTS)) {
           familiarMods.applyFamiliarModifiers(KoLCharacter.getFamiliar(), preItem);
         }
         // Normal item modifiers when used by Disembodied Hand and Left-Hand
@@ -1152,7 +1157,7 @@ public class Evaluator {
 
         if (item.getCount() != 0
             && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag == true)) {
-          ranked.get(EquipmentManager.FAMILIAR).add(item);
+          ranked.get(Slot.FAMILIAR).add(item);
         }
       }
       for (int f = this.familiars.size() - 1; f >= 0; --f) {
@@ -1161,8 +1166,8 @@ public class Evaluator {
         // Modifiers when worn by Hatrack or Scarecrow
         Modifiers familiarMods = new Modifiers();
         int familiarId = fam.getId();
-        if ((familiarId == FamiliarPool.HATRACK && slot == EquipmentManager.HAT)
-            || (familiarId == FamiliarPool.SCARECROW && slot == EquipmentManager.PANTS)) {
+        if ((familiarId == FamiliarPool.HATRACK && slot == Slot.HAT)
+            || (familiarId == FamiliarPool.SCARECROW && slot == Slot.PANTS)) {
           familiarMods.applyFamiliarModifiers(fam, preItem);
         } else {
           // Normal item modifiers when used by Disembodied Hand
@@ -1201,15 +1206,15 @@ public class Evaluator {
         continue;
       }
 
-      int auxSlot = -1;
+      Slot auxSlot = Slot.NONE;
       gotItem:
       {
         switch (slot) {
-          case EquipmentManager.FAMILIAR:
+          case FAMILIAR:
             if (!famCanEquip) continue;
             break;
 
-          case EquipmentManager.WEAPON:
+          case WEAPON:
             int hands = EquipmentDatabase.getHands(id);
             if (this.hands == 1 && hands != 1) {
               continue;
@@ -1288,7 +1293,7 @@ public class Evaluator {
             }
             break;
 
-          case EquipmentManager.OFFHAND:
+          case OFFHAND:
             if (this.requireShield
                 && !EquipmentDatabase.isShield(id)
                 && id != ItemPool.UNBREAKABLE_UMBRELLA) {
@@ -1300,7 +1305,7 @@ public class Evaluator {
             }
             break;
 
-          case EquipmentManager.ACCESSORY1:
+          case ACCESSORY1:
             if (id == ItemPool.SPECIAL_SAUCE_GLOVE
                 && KoLCharacter.isSauceror()
                 && !KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RIGATONI)) {
@@ -1315,7 +1320,7 @@ public class Evaluator {
               break gotItem;
             }
             break;
-          case EquipmentManager.SHIRT:
+          case SHIRT:
             if (id == ItemPool.MAKESHIFT_GARBAGE_SHIRT
                 && (this.weight.get(DoubleModifier.EXPERIENCE) > 0
                     || this.weight.get(DoubleModifier.MUS_EXPERIENCE) > 0
@@ -1420,15 +1425,15 @@ public class Evaluator {
         // If you have a familiar carrier, we'll need to check 1 or 2 Familiars best carried
         // unless you specified not to change them
 
-        if (((id == ItemPool.HATSEAT && this.slots[EquipmentManager.CROWNOFTHRONES] >= 0)
-                || (id == ItemPool.BUDDY_BJORN && this.slots[EquipmentManager.BUDDYBJORN] >= 0))
+        if (((id == ItemPool.HATSEAT && this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) >= 0)
+                || (id == ItemPool.BUDDY_BJORN && this.slots.getOrDefault(Slot.BUDDYBJORN, 0) >= 0))
             && !KoLCharacter.isSneakyPete()
             && !KoLCharacter.inAxecore()
             && !KoLCharacter.isJarlsberg()) {
           this.carriedFamiliarsNeeded++;
         }
 
-        if (id == ItemPool.CARD_SLEEVE && this.slots[EquipmentManager.CARDSLEEVE] >= 0) {
+        if (id == ItemPool.CARD_SLEEVE && this.slots.getOrDefault(Slot.CARDSLEEVE, 0) >= 0) {
           this.cardNeeded = true;
         }
 
@@ -1440,13 +1445,14 @@ public class Evaluator {
         if (modeable != null) {
           var slotWeightings =
               switch (modeable.getSlot()) {
-                case EquipmentManager.ACCESSORY1 -> List.of(
-                    this.slots[EquipmentManager.ACCESSORY1],
-                    this.slots[EquipmentManager.ACCESSORY2],
-                    this.slots[EquipmentManager.ACCESSORY3]);
-                case EquipmentManager.OFFHAND -> List.of(
-                    this.slots[EquipmentManager.OFFHAND], this.slots[EquipmentManager.FAMILIAR]);
-                default -> List.of(this.slots[modeable.getSlot()]);
+                case ACCESSORY1 -> List.of(
+                    this.slots.getOrDefault(Slot.ACCESSORY1, 0),
+                    this.slots.getOrDefault(Slot.ACCESSORY2, 0),
+                    this.slots.getOrDefault(Slot.ACCESSORY3, 0));
+                case OFFHAND -> List.of(
+                    this.slots.getOrDefault(Slot.OFFHAND, 0),
+                    this.slots.getOrDefault(Slot.FAMILIAR, 0));
+                default -> List.of(this.slots.getOrDefault(modeable.getSlot(), 0));
               };
           modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));
         }
@@ -1509,7 +1515,7 @@ public class Evaluator {
           newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
           mods = newMods;
         }
-        double delta = this.getScore(mods, new AdventureResult[] {item}) - nullScore;
+        double delta = this.getScore(mods, Map.of(Slot.HAT, item)) - nullScore;
         if (delta < 0.0) continue;
         if (delta == 0.0) {
           if (KoLCharacter.hasEquipped(item) && this.current) break gotItem;
@@ -1525,8 +1531,8 @@ public class Evaluator {
         }
       }
       // "break gotItem" goes here
-      if (slot != -1) ranked.get(slot).add(item);
-      if (auxSlot != -1) ranked.get(auxSlot).add(item);
+      if (slot != Slot.NONE) ranked.get(slot).add(item);
+      if (auxSlot != Slot.NONE) ranked.get(auxSlot).add(item);
     }
 
     // Get best Familiars for Crown of Thrones and Buddy Bjorn
@@ -1537,14 +1543,14 @@ public class Evaluator {
     FamiliarData useCrownFamiliar = null;
 
     // If we're not allowed to change the current familiar, lock it
-    if (this.slots[EquipmentManager.BUDDYBJORN] < 0) {
+    if (this.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0) {
       useBjornFamiliar = KoLCharacter.getBjorned();
     } else {
       bestCarriedFamiliar = KoLCharacter.getBjorned();
     }
 
     // If we're not allowed to change the current familiar, lock it
-    if (this.slots[EquipmentManager.CROWNOFTHRONES] < 0) {
+    if (this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0) {
       useCrownFamiliar = KoLCharacter.getEnthroned();
     } else {
       secondBestCarriedFamiliar = KoLCharacter.getEnthroned();
@@ -1561,7 +1567,8 @@ public class Evaluator {
       MaximizerSpeculation secondBest = new MaximizerSpeculation();
       CheckedItem item = new CheckedItem(ItemPool.HATSEAT, equipScope, maxPrice, priceLevel);
       best.attachment = secondBest.attachment = item;
-      best.equipment[EquipmentManager.HAT] = secondBest.equipment[EquipmentManager.HAT] = item;
+      best.equipment.put(Slot.HAT, item);
+      secondBest.equipment.put(Slot.HAT, item);
       best.setEnthroned(bestCarriedFamiliar);
       secondBest.setEnthroned(secondBestCarriedFamiliar);
       if (secondBest.compareTo(best) > 0) {
@@ -1576,7 +1583,8 @@ public class Evaluator {
       MaximizerSpeculation secondBest = new MaximizerSpeculation();
       CheckedItem item = new CheckedItem(ItemPool.HATSEAT, equipScope, maxPrice, priceLevel);
       best.attachment = secondBest.attachment = item;
-      best.equipment[EquipmentManager.HAT] = secondBest.equipment[EquipmentManager.HAT] = item;
+      best.equipment.put(Slot.HAT, item);
+      secondBest.equipment.put(Slot.HAT, item);
       best.setEnthroned(bestCarriedFamiliar);
       secondBest.setEnthroned(secondBestCarriedFamiliar);
 
@@ -1595,7 +1603,7 @@ public class Evaluator {
             && !(KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity(familiar.getRace()))) {
           MaximizerSpeculation spec = new MaximizerSpeculation();
           spec.attachment = item;
-          spec.equipment[EquipmentManager.HAT] = item;
+          spec.equipment.put(Slot.HAT, item);
           spec.setEnthroned(familiar);
           spec.setUnscored();
           if (spec.compareTo(best) > 0) {
@@ -1625,14 +1633,14 @@ public class Evaluator {
       // Check each card in sleeve to see if they are worthwhile
       for (int c = 4967; c <= 5007; c++) {
         CheckedItem card = new CheckedItem(c, equipScope, maxPrice, priceLevel);
-        AdventureResult equippedCard = EquipmentManager.getEquipment(EquipmentManager.CARDSLEEVE);
+        AdventureResult equippedCard = EquipmentManager.getEquipment(Slot.CARDSLEEVE);
         if (card.getCount() > 0 || (equippedCard != null && c == equippedCard.getItemId())) {
           MaximizerSpeculation spec = new MaximizerSpeculation();
           CheckedItem sleeve =
               new CheckedItem(ItemPool.CARD_SLEEVE, equipScope, maxPrice, priceLevel);
           spec.attachment = sleeve;
-          spec.equipment[EquipmentManager.OFFHAND] = sleeve;
-          spec.equipment[EquipmentManager.CARDSLEEVE] = card;
+          spec.equipment.put(Slot.OFFHAND, sleeve);
+          spec.equipment.put(Slot.CARDSLEEVE, card);
           if (spec.compareTo(best) > 0) {
             best = spec.clone();
             bestCard = card;
@@ -1663,7 +1671,7 @@ public class Evaluator {
                       for (String mode : modeable.getModes()) {
                         MaximizerSpeculation spec = new MaximizerSpeculation();
                         spec.attachment = item;
-                        spec.equipment[modeable.getSlot()] = item;
+                        spec.equipment.put(modeable.getSlot(), item);
                         spec.setModeable(modeable, mode);
                         if (spec.compareTo(best) > 0) {
                           best = spec.clone();
@@ -1676,27 +1684,33 @@ public class Evaluator {
 
     SlotList<MaximizerSpeculation> speculationList = new SlotList<>(this.familiars.size());
 
-    for (int slot = 0; slot < ranked.size(); ++slot) {
-      List<CheckedItem> checkedItemList = ranked.get(slot);
+    for (var entry : ranked.entries()) {
+      List<CheckedItem> checkedItemList = entry.value();
 
       // If we currently have nothing equipped, also consider leaving nothing equipped
-      if (EquipmentManager.getEquipment(Evaluator.toUseSlot(slot)) == EquipmentRequest.UNEQUIP) {
-        ranked.get(slot).add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
+      if (!entry.isSlot()
+          || EquipmentManager.getEquipment(Evaluator.toUseSlot(entry.slot()))
+              == EquipmentRequest.UNEQUIP) {
+        checkedItemList.add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
       }
+
+      List<MaximizerSpeculation> specs = speculationList.get(entry);
 
       for (CheckedItem item : checkedItemList) {
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.attachment = item;
-        int useSlot = Evaluator.toUseSlot(slot);
-        if (slot >= EquipmentManager.ALL_SLOTS) {
-          spec.setFamiliar(this.familiars.get(slot - EquipmentManager.ALL_SLOTS));
-          useSlot = EquipmentManager.FAMILIAR;
+        Slot useSlot;
+        if (entry.isSlot()) {
+          useSlot = Evaluator.toUseSlot(entry.slot());
+        } else {
+          spec.setFamiliar(this.familiars.get(entry.famIndex()));
+          useSlot = Slot.FAMILIAR;
         }
-        spec.equipment[useSlot] = item;
+        spec.equipment.put(useSlot, item);
 
         switch (item.getItemId()) {
           case ItemPool.HATSEAT:
-            if (this.slots[EquipmentManager.CROWNOFTHRONES] < 0) {
+            if (this.slots.getOrDefault(Slot.CROWNOFTHRONES, 0) < 0) {
               spec.setEnthroned(useCrownFamiliar);
             } else if (this.carriedFamiliarsNeeded > 1) {
               item.automaticFlag = true;
@@ -1706,7 +1720,7 @@ public class Evaluator {
             }
             break;
           case ItemPool.BUDDY_BJORN:
-            if (this.slots[EquipmentManager.BUDDYBJORN] < 0) {
+            if (this.slots.getOrDefault(Slot.BUDDYBJORN, 0) < 0) {
               spec.setBjorned(useBjornFamiliar);
             } else if (this.carriedFamiliarsNeeded > 1) {
               item.automaticFlag = true;
@@ -1719,37 +1733,29 @@ public class Evaluator {
             {
               MaximizerSpeculation current = new MaximizerSpeculation();
               if (bestCard != null) {
-                spec.equipment[EquipmentManager.CARDSLEEVE] = bestCard;
+                spec.equipment.put(Slot.CARDSLEEVE, bestCard);
                 useCard = bestCard;
               } else {
-                spec.equipment[EquipmentManager.CARDSLEEVE] =
-                    current.equipment[EquipmentManager.CARDSLEEVE];
-                useCard = current.equipment[EquipmentManager.CARDSLEEVE];
+                spec.equipment.put(Slot.CARDSLEEVE, current.equipment.get(Slot.CARDSLEEVE));
+                useCard = current.equipment.get(Slot.CARDSLEEVE);
               }
               break;
             }
           case ItemPool.FOLDER_HOLDER:
             {
               MaximizerSpeculation current = new MaximizerSpeculation();
-              spec.equipment[EquipmentManager.FOLDER1] =
-                  current.equipment[EquipmentManager.FOLDER1];
-              spec.equipment[EquipmentManager.FOLDER2] =
-                  current.equipment[EquipmentManager.FOLDER2];
-              spec.equipment[EquipmentManager.FOLDER3] =
-                  current.equipment[EquipmentManager.FOLDER3];
-              spec.equipment[EquipmentManager.FOLDER4] =
-                  current.equipment[EquipmentManager.FOLDER4];
-              spec.equipment[EquipmentManager.FOLDER5] =
-                  current.equipment[EquipmentManager.FOLDER5];
+              spec.equipment.put(Slot.FOLDER1, current.equipment.get(Slot.FOLDER1));
+              spec.equipment.put(Slot.FOLDER2, current.equipment.get(Slot.FOLDER2));
+              spec.equipment.put(Slot.FOLDER3, current.equipment.get(Slot.FOLDER3));
+              spec.equipment.put(Slot.FOLDER4, current.equipment.get(Slot.FOLDER4));
+              spec.equipment.put(Slot.FOLDER5, current.equipment.get(Slot.FOLDER5));
               break;
             }
           case ItemPool.COWBOY_BOOTS:
             {
               MaximizerSpeculation current = new MaximizerSpeculation();
-              spec.equipment[EquipmentManager.BOOTSKIN] =
-                  current.equipment[EquipmentManager.BOOTSKIN];
-              spec.equipment[EquipmentManager.BOOTSPUR] =
-                  current.equipment[EquipmentManager.BOOTSPUR];
+              spec.equipment.put(Slot.BOOTSKIN, current.equipment.get(Slot.BOOTSKIN));
+              spec.equipment.put(Slot.BOOTSPUR, current.equipment.get(Slot.BOOTSPUR));
               break;
             }
           default:
@@ -1757,12 +1763,9 @@ public class Evaluator {
               var modeable = Modeable.find(item);
               if (EquipmentManager.isStickerWeapon(item)) {
                 MaximizerSpeculation current = new MaximizerSpeculation();
-                spec.equipment[EquipmentManager.STICKER1] =
-                    current.equipment[EquipmentManager.STICKER1];
-                spec.equipment[EquipmentManager.STICKER2] =
-                    current.equipment[EquipmentManager.STICKER2];
-                spec.equipment[EquipmentManager.STICKER3] =
-                    current.equipment[EquipmentManager.STICKER3];
+                spec.equipment.put(Slot.STICKER1, current.equipment.get(Slot.STICKER1));
+                spec.equipment.put(Slot.STICKER2, current.equipment.get(Slot.STICKER2));
+                spec.equipment.put(Slot.STICKER3, current.equipment.get(Slot.STICKER3));
               } else if (modeable != null) {
                 var best = bestModes.getOrDefault(modeable, "");
                 if (!best.isEmpty()) {
@@ -1773,13 +1776,12 @@ public class Evaluator {
             }
         }
         spec.getScore(); // force evaluation
-        spec.failed = false; // individual items are not expected
-        // to fulfill all requirements
+        spec.failed = false; // individual items are not expected to fulfill all requirements
 
-        speculationList.get(slot).add(spec);
+        specs.add(spec);
       }
 
-      Collections.sort(speculationList.get(slot));
+      Collections.sort(specs);
     }
 
     // Compare sets which improve with the number of items equipped with the best items in the same
@@ -1794,8 +1796,8 @@ public class Evaluator {
       String itemName2 = synergy.substring(index + 1);
       int itemId1 = ItemDatabase.getItemId(itemName1);
       int itemId2 = ItemDatabase.getItemId(itemName2);
-      int slot1 = EquipmentManager.itemIdToEquipmentType(itemId1);
-      int slot2 = EquipmentManager.itemIdToEquipmentType(itemId2);
+      Slot slot1 = EquipmentManager.itemIdToEquipmentType(itemId1);
+      Slot slot2 = EquipmentManager.itemIdToEquipmentType(itemId2);
       CheckedItem item1 = null;
       CheckedItem item2 = null;
 
@@ -1804,12 +1806,12 @@ public class Evaluator {
       // They are always item 1
       int hands = EquipmentDatabase.getHands(itemId1);
       WeaponType weaponType = EquipmentDatabase.getWeaponType(itemId1);
-      int slot1SpecLookup = slot1;
+      Slot slot1SpecLookup = slot1;
       if (hands == 1 && weaponType == WeaponType.MELEE) {
         slot1SpecLookup = Evaluator.WEAPON_1H;
       }
 
-      if (slot1 == -1 || slot2 == -1) {
+      if (slot1 == Slot.NONE || slot2 == Slot.NONE) {
         continue;
       }
 
@@ -1846,9 +1848,9 @@ public class Evaluator {
       MaximizerSpeculation synergySpec = new MaximizerSpeculation();
       MaximizerSpeculation compareSpec = new MaximizerSpeculation();
 
-      int newSlot1 = slot1;
+      Slot newSlot1 = slot1;
       int compareItemNo =
-          slot1 == EquipmentManager.ACCESSORY1
+          slot1 == Slot.ACCESSORY1
               ? speculationList.get(slot1SpecLookup).size() - 3
               : speculationList.get(slot1SpecLookup).size() - 1;
       do {
@@ -1857,41 +1859,41 @@ public class Evaluator {
         if (compareItem.conditionalFlag) {
           compareItemNo--;
         } else {
-          compareSpec.equipment[newSlot1] =
-              speculationList.get(slot1SpecLookup).get(compareItemNo).attachment;
+          compareSpec.equipment.put(
+              newSlot1, speculationList.get(slot1SpecLookup).get(compareItemNo).attachment);
           break;
         }
         if (compareItemNo < 0) {
-          compareSpec.equipment[newSlot1] = EquipmentRequest.UNEQUIP;
+          compareSpec.equipment.put(newSlot1, EquipmentRequest.UNEQUIP);
           break;
         }
       } while (compareItemNo >= 0);
-      if (slot1 == EquipmentManager.ACCESSORY1) {
+      if (slot1 == Slot.ACCESSORY1) {
         accCompared++;
       }
-      synergySpec.equipment[newSlot1] = item1;
+      synergySpec.equipment.put(newSlot1, item1);
 
-      int newSlot2 = slot2 + (slot2 == EquipmentManager.ACCESSORY1 ? accCompared : 0);
+      Slot newSlot2 = jumpAccessories(slot2, accCompared);
       compareItemNo =
-          slot2 == EquipmentManager.ACCESSORY1
+          slot2 == Slot.ACCESSORY1
               ? speculationList.get(slot2).size() - 2
               : speculationList.get(slot2).size() - 1;
       do {
         CheckedItem compareItem = speculationList.get(slot2).get(compareItemNo).attachment;
         if (compareItem.conditionalFlag
-            || compareItem.getName().equals(compareSpec.equipment[newSlot1].getName())) {
+            || compareItem.getName().equals(compareSpec.equipment.get(newSlot1).getName())) {
           compareItemNo--;
         } else {
-          compareSpec.equipment[newSlot2] =
-              speculationList.get(slot2).get(compareItemNo).attachment;
+          compareSpec.equipment.put(
+              newSlot2, speculationList.get(slot2).get(compareItemNo).attachment);
           break;
         }
         if (compareItemNo < 0) {
-          compareSpec.equipment[newSlot2] = EquipmentRequest.UNEQUIP;
+          compareSpec.equipment.put(newSlot2, EquipmentRequest.UNEQUIP);
           break;
         }
       } while (compareItemNo >= 0);
-      synergySpec.equipment[newSlot2] = item2;
+      synergySpec.equipment.put(newSlot2, item2);
 
       if (synergySpec.compareTo(compareSpec) <= 0 || synergySpec.failed) {
         // Not useful, so remove it's automatic flag so it won't be put forward unless it's good
@@ -1936,7 +1938,7 @@ public class Evaluator {
       CheckedItem item1 = null;
       CheckedItem item2 = null;
       CheckedItem item3 = null;
-      int slot = EquipmentManager.ACCESSORY1;
+      Slot slot = Slot.ACCESSORY1;
 
       if (count == 0) {
         itemId1 = ItemPool.MONSTROUS_MONOCLE;
@@ -1978,21 +1980,22 @@ public class Evaluator {
       MaximizerSpeculation compareSpec = new MaximizerSpeculation();
 
       int compareItemNo = speculationList.get(slot).size() - 1;
-      compareSpec.equipment[slot] = EquipmentRequest.UNEQUIP;
-      compareSpec.equipment[slot + 1] = EquipmentRequest.UNEQUIP;
-      compareSpec.equipment[slot + 2] = EquipmentRequest.UNEQUIP;
-      int newSlot = slot;
+      compareSpec.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      compareSpec.equipment.put(Slot.ACCESSORY2, EquipmentRequest.UNEQUIP);
+      compareSpec.equipment.put(Slot.ACCESSORY3, EquipmentRequest.UNEQUIP);
+      Slot newSlot = slot;
       do {
         CheckedItem compareItem = speculationList.get(slot).get(compareItemNo).attachment;
         if (!compareItem.conditionalFlag) {
-          compareSpec.equipment[newSlot] = speculationList.get(slot).get(compareItemNo).attachment;
-          newSlot++;
+          compareSpec.equipment.put(
+              newSlot, speculationList.get(slot).get(compareItemNo).attachment);
+          newSlot = incrementAccessory(newSlot);
         }
         compareItemNo--;
-      } while (compareItemNo >= 0 && newSlot < slot + 3);
-      synergySpec.equipment[slot] = item1;
-      synergySpec.equipment[slot + 1] = item2;
-      synergySpec.equipment[slot + 2] = item3;
+      } while (compareItemNo >= 0 && newSlot != Slot.NONE);
+      synergySpec.equipment.put(slot, item1);
+      synergySpec.equipment.put(Slot.ACCESSORY2, item2);
+      synergySpec.equipment.put(Slot.ACCESSORY3, item3);
 
       if (synergySpec.compareTo(compareSpec) > 0 && !synergySpec.failed) {
         // Useful, so automatic flag it again
@@ -2032,7 +2035,7 @@ public class Evaluator {
         AdventureResult[] pieces = outfit.getPieces();
         for (AdventureResult piece : pieces) {
           int outfitItemId = piece.getItemId();
-          int slot = EquipmentManager.itemIdToEquipmentType(outfitItemId);
+          Slot slot = EquipmentManager.itemIdToEquipmentType(outfitItemId);
           // For some items, Evaluator uses a different slot
           // I don't think any outfits use an offhand weapon or watch though?
           int hands = EquipmentDatabase.getHands(outfitItemId);
@@ -2044,11 +2047,11 @@ public class Evaluator {
           // used
           // For accessories compare with 3rd best for first accessory, 2nd best for second
           // accessory, best for third
-          int newSlot = slot + (slot == EquipmentManager.ACCESSORY1 ? accCount : 0);
+          Slot newSlot = jumpAccessories(slot, accCount);
           // if we're comparing 1-handed weapons, assign the spec slot as weapon
-          newSlot = newSlot == Evaluator.WEAPON_1H ? EquipmentManager.WEAPON : newSlot;
+          newSlot = newSlot == Evaluator.WEAPON_1H ? Slot.WEAPON : newSlot;
           int compareItemNo = speculationList.get(slot).size() - 1;
-          int accSkip = slot == EquipmentManager.ACCESSORY1 ? 2 - accCount : 0;
+          int accSkip = slot == Slot.ACCESSORY1 ? 2 - accCount : 0;
           while (compareItemNo >= 0) {
             CheckedItem compareItem = speculationList.get(slot).get(compareItemNo).attachment;
             if (compareItem.conditionalFlag) {
@@ -2058,16 +2061,16 @@ public class Evaluator {
               compareItemNo--;
               accSkip--;
             } else {
-              compareSpec.equipment[newSlot] = compareItem;
+              compareSpec.equipment.put(newSlot, compareItem);
               break;
             }
             if (compareItemNo < 0) {
-              compareSpec.equipment[newSlot] = EquipmentRequest.UNEQUIP;
+              compareSpec.equipment.put(newSlot, EquipmentRequest.UNEQUIP);
               break;
             }
           }
           CheckedItem outfitItem = new CheckedItem(outfitItemId, equipScope, maxPrice, priceLevel);
-          outfitSpec.equipment[newSlot] = outfitItem;
+          outfitSpec.equipment.put(newSlot, outfitItem);
         }
         if (outfitSpec.compareTo(compareSpec) <= 0 && !this.posOutfits.contains(outfit.getName())) {
           usefulOutfits.put(i, false);
@@ -2085,22 +2088,24 @@ public class Evaluator {
       RequestLogger.printLine(outfitSummary.toString());
     }
 
-    for (int slot = 0; slot < ranked.size(); ++slot) {
-      List<CheckedItem> checkedItemList = ranked.get(slot);
+    for (var entry : ranked.entries()) {
+      List<CheckedItem> checkedItemList = ranked.get(entry);
+      var automaticEntry = automatic.get(entry);
 
       if (this.dump > 0) {
-        RequestLogger.printLine("SLOT " + slot);
+        RequestLogger.printLine(
+            "SLOT " + (entry.isSlot() ? entry.slot() : "BONUS FAMILIAR #" + entry.famIndex()));
       }
 
       if (this.dump > 1) {
-        RequestLogger.printLine(speculationList.get(slot).toString());
+        RequestLogger.printLine(speculationList.get(entry).toString());
       }
 
       // Do we have any required items for the slot?
       int total = 0;
       for (CheckedItem item : checkedItemList) {
         if (item.requiredFlag) {
-          automatic.get(slot).add(item);
+          automatic.get(entry).add(item);
           // Don't increase total if it's one of the required flagged foldables by Evaluator rather
           // than user
           int itemId = item.getItemId();
@@ -2110,12 +2115,12 @@ public class Evaluator {
         }
       }
 
-      int useful = this.maxUseful(slot);
+      int useful = entry.isSlot() ? this.maxUseful(entry.slot()) : 1;
 
       // If slots already handled by required items, we're done with the slot
       if (useful > total) {
         ListIterator<MaximizerSpeculation> speculationIterator =
-            speculationList.get(slot).listIterator(speculationList.get(slot).size());
+            speculationList.get(entry).listIterator(speculationList.get(entry).size());
 
         int beeotches = 0;
         int beeosity = 0;
@@ -2130,9 +2135,10 @@ public class Evaluator {
           FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
           int foldItemsNeeded = 0;
           if (group != null && Preferences.getBoolean("maximizerFoldables")) {
-            foldItemsNeeded += Math.max(item.getCount(), this.maxUseful(slot));
+            foldItemsNeeded += Math.max(item.getCount(), useful);
             // How many times have we already used this fold item?
-            for (int checkSlot = 0; checkSlot < slot; ++checkSlot) {
+            for (var checkSlot : SlotSet.SLOTS) {
+              if (entry.isSlot() && checkSlot.ordinal() >= entry.slot().ordinal()) break;
               List<CheckedItem> checkItemList = automatic.get(checkSlot);
               if (checkItemList != null) {
                 for (CheckedItem checkItem : checkItemList) {
@@ -2144,21 +2150,24 @@ public class Evaluator {
               }
             }
             // And how many times do we expect to use them for the rest of the slots?
-            for (int checkSlot = slot + 1; checkSlot < ranked.size(); checkSlot++) {
-              ListIterator<MaximizerSpeculation> checkIterator =
-                  speculationList
-                      .get(checkSlot)
-                      .listIterator(speculationList.get(checkSlot).size());
-              int usefulCheckCount = this.maxUseful(checkSlot);
-              while (checkIterator.hasPrevious()) {
-                CheckedItem checkItem = checkIterator.previous().attachment;
-                FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                if (checkGroup != null && group.names.get(0).equals(checkGroup.names.get(0))) {
-                  if (usefulCheckCount > 0 || checkItem.requiredFlag) {
-                    foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
+            if (entry.isSlot() && entry.slot().ordinal() < Slot.FAMILIAR.ordinal()) {
+              for (var checkSlot :
+                  EnumSet.range(Slot.byOrdinal(entry.slot().ordinal() + 1), Slot.FAMILIAR)) {
+                ListIterator<MaximizerSpeculation> checkIterator =
+                    speculationList
+                        .get(checkSlot)
+                        .listIterator(speculationList.get(checkSlot).size());
+                int usefulCheckCount = this.maxUseful(checkSlot);
+                while (checkIterator.hasPrevious()) {
+                  CheckedItem checkItem = checkIterator.previous().attachment;
+                  FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
+                  if (checkGroup != null && group.names.get(0).equals(checkGroup.names.get(0))) {
+                    if (usefulCheckCount > 0 || checkItem.requiredFlag) {
+                      foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
+                    }
+                  } else if (checkItem.automaticFlag || !checkItem.conditionalFlag) {
+                    usefulCheckCount--;
                   }
-                } else if (checkItem.automaticFlag || !checkItem.conditionalFlag) {
-                  usefulCheckCount--;
                 }
               }
             }
@@ -2175,28 +2184,28 @@ public class Evaluator {
             // advantageous to use up all our allowed beeosity on
             // other slots.
             if (item.automaticFlag) {
-              if (!automatic.get(slot).contains(item)) {
-                automatic.get(slot).add(item);
+              if (!automaticEntry.contains(item)) {
+                automaticEntry.add(item);
               }
               beeotches += item.getCount();
               beeosity += b * item.getCount();
             } else if (total < useful && beeotches < useful && beeosity < this.beeosity) {
-              if (!automatic.get(slot).contains(item)) {
-                automatic.get(slot).add(item);
+              if (!automaticEntry.contains(item)) {
+                automaticEntry.add(item);
               }
               beeotches += item.getCount();
               beeosity += b * item.getCount();
             }
           } else if (item.automaticFlag) {
-            if (!automatic.get(slot).contains(item)) {
-              automatic.get(slot).add(item);
+            if (!automaticEntry.contains(item)) {
+              automaticEntry.add(item);
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
             }
           } else if (total < useful) {
-            if (!automatic.get(slot).contains(item)) {
-              automatic.get(slot).add(item);
+            if (!automaticEntry.contains(item)) {
+              automaticEntry.add(item);
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
@@ -2206,20 +2215,20 @@ public class Evaluator {
       }
 
       // Blunt object fix for only having a foldable that might be needed elsewhere
-      if (automatic.get(slot).size() == 1
-          && ItemDatabase.getFoldGroup(automatic.get(slot).get(0).getName()) != null) {
-        automatic.get(slot).add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
+      if (automaticEntry.size() == 1
+          && ItemDatabase.getFoldGroup(automaticEntry.get(0).getName()) != null) {
+        automaticEntry.add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
       }
 
       if (this.dump > 0) {
-        RequestLogger.printLine(automatic.get(slot).toString());
+        RequestLogger.printLine(automaticEntry.toString());
       }
     }
 
-    automatic.get(EquipmentManager.ACCESSORY1).addAll(automatic.get(Evaluator.WATCHES));
-    automatic.get(EquipmentManager.WEAPON).addAll(automatic.get(Evaluator.WEAPON_1H));
-    automatic.get(Evaluator.OFFHAND_MELEE).addAll(automatic.get(EquipmentManager.OFFHAND));
-    automatic.get(Evaluator.OFFHAND_RANGED).addAll(automatic.get(EquipmentManager.OFFHAND));
+    automatic.get(Slot.ACCESSORY1).addAll(automatic.get(Evaluator.WATCHES));
+    automatic.get(Slot.WEAPON).addAll(automatic.get(Evaluator.WEAPON_1H));
+    automatic.get(Evaluator.OFFHAND_MELEE).addAll(automatic.get(Slot.OFFHAND));
+    automatic.get(Evaluator.OFFHAND_RANGED).addAll(automatic.get(Slot.OFFHAND));
 
     MaximizerSpeculation spec = new MaximizerSpeculation();
     // The threshold in the slots array that indicates that a slot
@@ -2228,23 +2237,23 @@ public class Evaluator {
     for (int thresh = 1; ; --thresh) {
       if (thresh < 0) return; // no slots enabled
       boolean anySlots = false;
-      for (int i = 0; i <= EquipmentManager.FAMILIAR; ++i) {
-        if (this.slots[i] >= thresh) {
-          spec.equipment[i] = null;
+      for (var slot : SlotSet.SLOTS) {
+        if (this.slots.getOrDefault(slot, 0) >= thresh) {
+          spec.equipment.put(slot, null);
           anySlots = true;
         }
       }
       if (anySlots) break;
     }
 
-    if (spec.equipment[EquipmentManager.OFFHAND] != null) {
+    if (spec.equipment.get(Slot.OFFHAND) != null) {
       this.hands = 1;
-      automatic.set(EquipmentManager.WEAPON, automatic.get(Evaluator.WEAPON_1H));
+      automatic.set(Slot.WEAPON, automatic.get(Evaluator.WEAPON_1H));
 
       Iterator<AdventureResult> i = outfitPieces.keySet().iterator();
       while (i.hasNext()) {
         id = i.next().getItemId();
-        if (EquipmentManager.itemIdToEquipmentType(id) == EquipmentManager.WEAPON
+        if (EquipmentManager.itemIdToEquipmentType(id) == Slot.WEAPON
             && EquipmentDatabase.getHands(id) > 1) {
           i.remove();
         }
@@ -2253,19 +2262,19 @@ public class Evaluator {
 
     bestModes.forEach(
         (modeable, mode) -> {
-          Set<Integer> backupSlots = new HashSet<>();
+          Set<Slot> backupSlots = EnumSet.noneOf(Slot.class);
           backupSlots.add(modeable.getSlot());
 
-          if (modeable.getSlot() == EquipmentManager.ACCESSORY1) {
-            backupSlots.add(EquipmentManager.ACCESSORY2);
-            backupSlots.add(EquipmentManager.ACCESSORY3);
+          if (modeable.getSlot() == Slot.ACCESSORY1) {
+            backupSlots.add(Slot.ACCESSORY2);
+            backupSlots.add(Slot.ACCESSORY3);
           }
 
           if (this.familiars.stream().anyMatch(f -> f.canEquip(modeable.getItem()))) {
-            backupSlots.add(EquipmentManager.FAMILIAR);
+            backupSlots.add(Slot.FAMILIAR);
           }
 
-          if (backupSlots.stream().anyMatch(s -> spec.equipment[s] == null)) {
+          if (backupSlots.stream().anyMatch(s -> spec.equipment.get(s) == null)) {
             spec.setModeable(modeable, mode);
           }
         });
@@ -2279,5 +2288,31 @@ public class Evaluator {
         useCard,
         useCrownFamiliar,
         useBjornFamiliar);
+  }
+
+  private Slot jumpAccessories(Slot base, int jumpIfFromStart) {
+    if (base == Slot.ACCESSORY1) {
+      if (jumpIfFromStart == 0) {
+        return Slot.ACCESSORY1;
+      } else if (jumpIfFromStart == 1) {
+        return Slot.ACCESSORY2;
+      } else {
+        return Slot.ACCESSORY3;
+      }
+    } else {
+      return base;
+    }
+  }
+
+  private Slot incrementAccessory(Slot base) {
+    if (base == Slot.ACCESSORY1) {
+      return Slot.ACCESSORY2;
+    } else if (base == Slot.ACCESSORY2) {
+      return Slot.ACCESSORY3;
+    } else if (base == Slot.ACCESSORY3) {
+      // sentinel value
+      return Slot.NONE;
+    }
+    throw new IllegalStateException("Unexpected value: " + base);
   }
 }

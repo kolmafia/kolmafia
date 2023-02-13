@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -2502,7 +2503,7 @@ public class FightRequest extends GenericRequest {
         KoLCharacter.resetCurrentPP();
       }
 
-      if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR)) {
+      if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, Slot.FAMILIAR)) {
         CrystalBallManager.parseCrystalBall(responseText);
       }
 
@@ -2730,7 +2731,7 @@ public class FightRequest extends GenericRequest {
     // Check for magnifying glass messages
     CursedMagnifyingGlassManager.updatePreference(responseText);
 
-    if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
+    if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, Slot.HAT)) {
       DaylightShavingsHelmetManager.updatePreference(responseText);
     }
 
@@ -2773,7 +2774,7 @@ public class FightRequest extends GenericRequest {
     // He flicks his oiled switchblade at you and wrenches your weapon out of your hand.
     // Luckily, it lands in your sack instead of on the grimy sea floor.
     if (responseText.contains("sack instead of on the grimy sea floor")) {
-      EquipmentManager.removeEquipment(EquipmentManager.getEquipment(EquipmentManager.WEAPON));
+      EquipmentManager.removeEquipment(EquipmentManager.getEquipment(Slot.WEAPON));
     }
 
     // The little hellseal gives you an aggrieved look, raises its head, and emits a high-pitched
@@ -2868,7 +2869,7 @@ public class FightRequest extends GenericRequest {
       }
     }
 
-    if (KoLCharacter.hasEquipped(ItemPool.BAG_O_TRICKS, EquipmentManager.OFFHAND)) {
+    if (KoLCharacter.hasEquipped(ItemPool.BAG_O_TRICKS, Slot.OFFHAND)) {
       if (responseText.contains("You reach into the bag and pull out ")) {
         Preferences.increment("_bagOTricksBuffs");
         Preferences.setInteger("bagOTricksCharges", 0);
@@ -3022,7 +3023,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Increment Pantsgiving counter
-    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PANTSGIVING, 1), EquipmentManager.PANTS)) {
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PANTSGIVING, 1), Slot.PANTS)) {
       Preferences.increment("_pantsgivingCount");
     }
 
@@ -3151,7 +3152,7 @@ public class FightRequest extends GenericRequest {
 
     if (responseText.contains("You wore out your weapon cozy...")) {
       // Cozy weapons are two-handed, so they are necessarily in the weapon slot
-      int cozyId = EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId();
+      int cozyId = EquipmentManager.getEquipment(Slot.WEAPON).getItemId();
       EquipmentManager.breakEquipment(cozyId, "Your cozy wore out.");
     }
 
@@ -3345,7 +3346,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Check for Latte unlocks
-    if (KoLCharacter.hasEquipped(ItemPool.LATTE_MUG, EquipmentManager.OFFHAND)) {
+    if (KoLCharacter.hasEquipped(ItemPool.LATTE_MUG, Slot.OFFHAND)) {
       LatteRequest.parseFight(locationName, responseText);
     }
 
@@ -3431,7 +3432,7 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.REAGNIMATED_GNOME:
-          if (KoLCharacter.hasEquipped(ItemPool.GNOMISH_KNEE, EquipmentManager.FAMILIAR)
+          if (KoLCharacter.hasEquipped(ItemPool.GNOMISH_KNEE, Slot.FAMILIAR)
               && GNOME_ADV_ACTIVATION.stream().anyMatch(responseText::contains)) {
             Preferences.increment("_gnomeAdv", 1);
           }
@@ -3806,10 +3807,7 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.STEAM_CHEERLEADER:
-          int dec =
-              KoLCharacter.hasEquipped(ItemPool.SPIRIT_SOCKET_SET, EquipmentManager.FAMILIAR)
-                  ? 1
-                  : 2;
+          int dec = KoLCharacter.hasEquipped(ItemPool.SPIRIT_SOCKET_SET, Slot.FAMILIAR) ? 1 : 2;
           int currentSteam = Preferences.getInteger("_cheerleaderSteam");
           if (currentSteam - dec < 0) {
             dec = currentSteam;
@@ -3821,8 +3819,7 @@ public class FightRequest extends GenericRequest {
           int currentCharge = Preferences.getInteger("_nanorhinoCharge");
           int newCharge =
               currentCharge
-                  + (KoLCharacter.hasEquipped(
-                          ItemPool.NANORHINO_CREDIT_CARD, EquipmentManager.FAMILIAR)
+                  + (KoLCharacter.hasEquipped(ItemPool.NANORHINO_CREDIT_CARD, Slot.FAMILIAR)
                       ? 3
                       : 2);
           // Verify value if text visible
@@ -3998,7 +3995,7 @@ public class FightRequest extends GenericRequest {
               || responseText.contains("shortbutter.gif")
               || responseText.contains("shortwater.gif")
               || responseText.contains("shortcoffee.gif")) {
-            if (KoLCharacter.hasEquipped(ItemPool.BLUE_PLATE, EquipmentManager.FAMILIAR)) {
+            if (KoLCharacter.hasEquipped(ItemPool.BLUE_PLATE, Slot.FAMILIAR)) {
               charge = 2;
             } else {
               charge = 0;
@@ -4068,19 +4065,19 @@ public class FightRequest extends GenericRequest {
       }
 
       // You see a strange cartouche painted on a nearby wall.
-      if (KoLCharacter.hasEquipped(ItemPool.CROWN_OF_ED, EquipmentManager.HAT)
+      if (KoLCharacter.hasEquipped(ItemPool.CROWN_OF_ED, Slot.HAT)
           && responseText.contains("You see a strange cartouche")) {
         FightRequest.handleCartouche(responseText);
       }
 
       // Booze Filler surveys the scene from atop the throne, and gains 1 Experience
-      if (KoLCharacter.hasEquipped(ItemPool.HATSEAT, EquipmentManager.HAT)
+      if (KoLCharacter.hasEquipped(ItemPool.HATSEAT, Slot.HAT)
           && responseText.contains("throne, and gains 1 Experience")) {
         KoLCharacter.getEnthroned().addNonCombatExperience(1);
       }
 
       // Llama surveys the scene from your back, and gains 1 Experience.
-      if (KoLCharacter.hasEquipped(ItemPool.BUDDY_BJORN, EquipmentManager.CONTAINER)
+      if (KoLCharacter.hasEquipped(ItemPool.BUDDY_BJORN, Slot.CONTAINER)
           && responseText.contains("back, and gains 1 Experience")) {
         KoLCharacter.getBjorned().addNonCombatExperience(1);
       }
@@ -4090,7 +4087,7 @@ public class FightRequest extends GenericRequest {
         Preferences.decrement("_spookyJellyUses");
       }
 
-      if (KoLCharacter.hasEquipped(ItemPool.SNOW_SUIT, EquipmentManager.FAMILIAR)) {
+      if (KoLCharacter.hasEquipped(ItemPool.SNOW_SUIT, Slot.FAMILIAR)) {
         if (Preferences.getInteger("_snowSuitCount") < 75
             && Preferences.increment("_snowSuitCount") % 5 == 0) {
           KoLCharacter.recalculateAdjustments();
@@ -4187,7 +4184,7 @@ public class FightRequest extends GenericRequest {
         AdventureResult.addResultToList(KoLConstants.tally, result);
       }
 
-      if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, EquipmentManager.OFFHAND)
+      if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
           && responseText.contains("You move a bone on the abacus to record your victory")) {
         Preferences.increment("boneAbacusVictories", 1);
       }
@@ -4783,7 +4780,7 @@ public class FightRequest extends GenericRequest {
 
     if (status.limitmode == LimitMode.SPELUNKY) {
       // additional logging when decrease monster's HP, attack, or defense
-      AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
+      AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
       Stat stat = EquipmentDatabase.getWeaponStat(weapon.getItemId());
       int hitStat =
           stat == Stat.MOXIE ? KoLCharacter.getAdjustedMoxie() : KoLCharacter.getAdjustedMuscle();
@@ -5475,8 +5472,7 @@ public class FightRequest extends GenericRequest {
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
       this.doppel =
           (familiarId == FamiliarPool.DOPPEL)
-              || KoLCharacter.hasEquipped(
-                  ItemPool.TINY_COSTUME_WARDROBE, EquipmentManager.FAMILIAR);
+              || KoLCharacter.hasEquipped(ItemPool.TINY_COSTUME_WARDROBE, Slot.FAMILIAR);
       this.crimbo = (familiarId == FamiliarPool.CRIMBO_SHRUB);
 
       this.diceMessage =
@@ -5540,8 +5536,7 @@ public class FightRequest extends GenericRequest {
       this.greyYou = KoLCharacter.inGreyYou();
 
       // If you are carrying a carnivorous potted plant
-      this.carnivorous =
-          KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT, EquipmentManager.OFFHAND);
+      this.carnivorous = KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT, Slot.OFFHAND);
 
       // If you have lovebugs
       this.lovebugs = Preferences.getBoolean("lovebugsUnlocked");
@@ -7362,7 +7357,7 @@ public class FightRequest extends GenericRequest {
 
     if (str.equals("Your hat gets bigger!")) {
       // Upgraded hat in Avatar of West of Loathing
-      AdventureResult oldHat = EquipmentManager.getEquipment(EquipmentManager.HAT);
+      AdventureResult oldHat = EquipmentManager.getEquipment(Slot.HAT);
       // The hats are in sequential item id order, and you can only upgrade 1 level per combat
       AdventureResult newHat = ItemPool.get(oldHat.getItemId() + 1, 1);
       EquipmentManager.transformEquipment(oldHat, newHat);
@@ -8912,7 +8907,7 @@ public class FightRequest extends GenericRequest {
               || (FightRequest.haiku && responseText.contains("jiggle a stick"))
               || (FightRequest.machineElf && responseText.contains("line of power"));
 
-      int staffId = EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId();
+      int staffId = EquipmentManager.getEquipment(Slot.WEAPON).getItemId();
       switch (staffId) {
         case ItemPool.STAFF_OF_LIFE:
           // You jiggle the staff. There is a weak coughing sound,
@@ -9343,8 +9338,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("tide of beans") || skillSuccess) {
           skillSuccess = true;
           BanishManager.banishMonster(monster, Banisher.BEANCANNON);
-          EquipmentManager.discardEquipment(
-              EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
+          EquipmentManager.discardEquipment(EquipmentManager.getEquipment(Slot.OFFHAND));
         }
         break;
 
@@ -10839,7 +10833,7 @@ public class FightRequest extends GenericRequest {
       FightRequest.nextAction = "jiggle";
       if (shouldLogAction) {
         action.append("jiggles the ");
-        action.append(EquipmentManager.getEquipment(EquipmentManager.WEAPON).getName());
+        action.append(EquipmentManager.getEquipment(Slot.WEAPON).getName());
       }
     } else if (urlString.contains("twiddle")) {
       FightRequest.nextAction = "twiddle";

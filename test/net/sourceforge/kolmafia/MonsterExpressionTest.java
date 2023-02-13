@@ -8,13 +8,13 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -154,7 +154,7 @@ public class MonsterExpressionTest {
     "turtle totem, 0",
   })
   public void canDetectEquip(String item, double expected) {
-    var cleanups = withEquipped(EquipmentManager.WEAPON, "seal-clubbing club");
+    var cleanups = withEquipped(Slot.WEAPON, "seal-clubbing club");
 
     try (cleanups) {
       var exp = new MonsterExpression("equipped(" + item + ")", "Detect equip");

@@ -20,6 +20,8 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -156,13 +158,14 @@ public class Maximizer {
         Maximizer.eval.enumerateEquipment(equipScope, maxPrice, priceLevel);
       } catch (MaximizerExceededException e) {
         Maximizer.boosts.add(
-            new Boost("", "(maximum achieved, no further combinations checked)", -1, null, 0.0));
+            new Boost(
+                "", "(maximum achieved, no further combinations checked)", Slot.NONE, null, 0.0));
       } catch (MaximizerLimitException e) {
         Maximizer.boosts.add(
             new Boost(
                 "",
                 "<font color=red>(hit combination limit, optimality not guaranteed)</font>",
-                -1,
+                Slot.NONE,
                 null,
                 0.0));
       } catch (MaximizerInterruptedException e) {
@@ -171,24 +174,24 @@ public class Maximizer {
             new Boost(
                 "",
                 "<font color=red>(interrupted, optimality not guaranteed)</font>",
-                -1,
+                Slot.NONE,
                 null,
                 0.0));
       }
       MaximizerSpeculation.showProgress();
 
-      boolean[] alreadyDone = new boolean[EquipmentManager.ALL_SLOTS];
+      EnumSet<Slot> alreadyDone = EnumSet.noneOf(Slot.class);
 
-      for (int slot : EquipmentManager.ACCESSORY_SLOTS) {
-        if (Maximizer.best.equipment[slot].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
+      for (Slot slot : SlotSet.ACCESSORY_SLOTS) {
+        if (Maximizer.best.equipment.get(slot).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
             && EquipmentManager.getEquipment(slot).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE) {
           equipScope = Maximizer.emitSlot(slot, equipScope, maxPrice, priceLevel, current);
-          alreadyDone[slot] = true;
+          alreadyDone.add(slot);
         }
       }
 
-      for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
-        if (!alreadyDone[slot]) {
+      for (var slot : SlotSet.ALL_SLOTS) {
+        if (!alreadyDone.contains(slot)) {
           equipScope = Maximizer.emitSlot(slot, equipScope, maxPrice, priceLevel, current);
         }
       }
@@ -1003,7 +1006,7 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean(buffPref) ? 0 : 1;
         } else if (cmd.startsWith("gap ")) {
-          AdventureResult pants = EquipmentManager.getEquipment(EquipmentManager.PANTS);
+          AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
           if (InventoryManager.getAccessibleCount(ItemPool.GREAT_PANTS) == 0) {
             if (includeAll) {
               text = "(acquire and equip Greatest American Pants for " + name + ")";
@@ -1500,15 +1503,15 @@ public class Maximizer {
     }
 
     if (Maximizer.boosts.size() == 0) {
-      Maximizer.boosts.add(new Boost("", "(nothing useful found)", 0, null, 0.0));
+      Maximizer.boosts.add(new Boost("", "(nothing useful found)", Slot.HAT, null, 0.0));
     }
 
     Maximizer.boosts.sort();
   }
 
   private static EquipScope emitSlot(
-      int slot, EquipScope equipScope, int maxPrice, int priceLevel, double current) {
-    if (slot == EquipmentManager.FAMILIAR) { // Insert any familiar switch at this point
+      Slot slot, EquipScope equipScope, int maxPrice, int priceLevel, double current) {
+    if (slot == Slot.FAMILIAR) { // Insert any familiar switch at this point
       FamiliarData fam = Maximizer.best.getFamiliar();
       if (!fam.equals(KoLCharacter.getFamiliar())) {
         MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -1528,8 +1531,8 @@ public class Maximizer {
       }
     }
 
-    String slotname = EquipmentRequest.slotNames[slot];
-    AdventureResult item = Maximizer.best.equipment[slot];
+    String slotname = slot.name;
+    AdventureResult item = Maximizer.best.equipment.get(slot);
     int itemId = -1;
     FamiliarData enthroned = Maximizer.best.getEnthroned();
     FamiliarData bjorned = Maximizer.best.getBjorned();
@@ -1561,13 +1564,13 @@ public class Maximizer {
         && !(itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT
             && Preferences.getInteger("garbageShirtCharge") == 0
             && !Preferences.getBoolean("_garbageItemChanged"))) {
-      if (slot >= EquipmentManager.SLOTS
+      if (!SlotSet.SLOTS.contains(slot)
           || curr.equals(EquipmentRequest.UNEQUIP)
           || equipScope == EquipScope.EQUIP_NOW) {
         return equipScope;
       }
       Maximizer.boosts.add(
-          new Boost("", "keep " + slotname + ": " + item.getName(), -1, item, 0.0));
+          new Boost("", "keep " + slotname + ": " + item.getName(), Slot.NONE, item, 0.0));
       return equipScope;
     }
     MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -1615,8 +1618,10 @@ public class Maximizer {
 
       // If we're running from command line then execute them straight away,
       // so we have to count how much we've used in 'earlier' items
+      // TODO: confirm this still works
       if (equipScope == EquipScope.EQUIP_NOW) {
-        for (int piece = EquipmentManager.HAT; piece < slot; piece++) {
+        for (var piece : SlotSet.ALL_SLOTS) {
+          if (piece.ordinal() >= slot.ordinal()) break;
           AdventureResult equipped = EquipmentManager.getEquipment(piece);
           if (equipped != null && item.getItemId() == equipped.getItemId()) {
             count++;

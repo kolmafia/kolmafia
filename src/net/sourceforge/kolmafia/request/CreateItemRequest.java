@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -768,7 +769,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
     if (requirements.contains(CraftingRequirements.GRIMACITE)) {
       AdventureResult hammer = CreateItemRequest.GRIMACITE_HAMMER;
-      int slot = EquipmentManager.WEAPON;
+      Slot slot = Slot.WEAPON;
 
       if (!KoLCharacter.hasEquipped(hammer, slot)
           && EquipmentManager.canEquip(hammer)

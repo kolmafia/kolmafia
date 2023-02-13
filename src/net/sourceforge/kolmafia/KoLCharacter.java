@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Taskbar;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,8 @@ import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -1110,8 +1113,8 @@ public abstract class KoLCharacter {
   }
 
   public static final int getAudienceLimit() {
-    return (KoLCharacter.hasEquipped(ItemPool.PETE_JACKET, EquipmentManager.SHIRT)
-            || KoLCharacter.hasEquipped(ItemPool.PETE_JACKET_COLLAR, EquipmentManager.SHIRT))
+    return (KoLCharacter.hasEquipped(ItemPool.PETE_JACKET, Slot.SHIRT)
+            || KoLCharacter.hasEquipped(ItemPool.PETE_JACKET_COLLAR, Slot.SHIRT))
         ? 50
         : 30;
   }
@@ -2431,12 +2434,13 @@ public abstract class KoLCharacter {
     return KoLCharacter.getBeeosity(EquipmentManager.currentEquipment());
   }
 
-  public static final int getBeeosity(AdventureResult[] equipment) {
+  public static final int getBeeosity(Map<Slot, AdventureResult> equipment) {
     int bees = 0;
 
-    for (int slot = 0; slot < EquipmentManager.SLOTS; ++slot) {
-      if (equipment[slot] == null) continue;
-      String name = equipment[slot].getName();
+    for (var slot : SlotSet.SLOTS) {
+      var equip = equipment.get(slot);
+      if (equip == null) continue;
+      String name = equip.getName();
       bees += KoLCharacter.getBeeosity(name);
     }
 
@@ -3395,8 +3399,8 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean isUnarmed() {
-    AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
-    AdventureResult offhand = EquipmentManager.getEquipment(EquipmentManager.OFFHAND);
+    AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
+    AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
     return weapon == EquipmentRequest.UNEQUIP && offhand == EquipmentRequest.UNEQUIP;
   }
 
@@ -4410,7 +4414,7 @@ public abstract class KoLCharacter {
             || ascensionClass == AscensionClass.AVATAR_OF_SNEAKY_PETE
             || ascensionClass == AscensionClass.GELATINOUS_NOOB
             || KoLCharacter.getLimitMode() == LimitMode.BIRD
-            || KoLCharacter.hasEquipped(ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND)
+            || KoLCharacter.hasEquipped(ItemPool.TINY_BLACK_HOLE, Slot.OFFHAND)
             || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE));
   }
 
@@ -4526,7 +4530,7 @@ public abstract class KoLCharacter {
     // returned to the player's inventory.
     if (KoLCharacter.inQuantum()) {
       FamiliarRequest.handleFamiliarChange(familiar);
-      EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
     }
 
     if (KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR) {
@@ -4561,14 +4565,13 @@ public abstract class KoLCharacter {
     }
 
     KoLCharacter.familiars.setSelectedItem(KoLCharacter.currentFamiliar);
-    EquipmentManager.setEquipment(
-        EquipmentManager.FAMILIAR, KoLCharacter.currentFamiliar.getItem());
+    EquipmentManager.setEquipment(Slot.FAMILIAR, KoLCharacter.currentFamiliar.getItem());
 
     KoLCharacter.isUsingStabBat =
         KoLCharacter.currentFamiliar.getRace().equals("Stab Bat")
             || KoLCharacter.currentFamiliar.getRace().equals("Scary Death Orb");
 
-    EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+    EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
     GearChangePanel.updateFamiliars();
 
     KoLCharacter.effectiveFamiliar = familiar;
@@ -4656,7 +4659,7 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.currentFamiliar == familiar) {
       KoLCharacter.currentFamiliar = FamiliarData.NO_FAMILIAR;
-      EquipmentManager.setEquipment(EquipmentManager.FAMILIAR, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.FAMILIAR, EquipmentRequest.UNEQUIP);
     }
 
     KoLCharacter.familiars.remove(familiar);
@@ -4828,16 +4831,16 @@ public abstract class KoLCharacter {
         .orElse(null);
   }
 
-  public static boolean hasEquipped(final AdventureResult item, final int equipmentSlot) {
+  public static boolean hasEquipped(final AdventureResult item, final Slot equipmentSlot) {
     return EquipmentManager.getEquipment(equipmentSlot).getItemId() == item.getItemId();
   }
 
-  public static boolean hasEquipped(final int itemId, final int equipmentSlot) {
+  public static boolean hasEquipped(final int itemId, final Slot equipmentSlot) {
     return EquipmentManager.getEquipment(equipmentSlot).getItemId() == itemId;
   }
 
   public static boolean hasEquipped(final AdventureResult item) {
-    return KoLCharacter.equipmentSlot(item) != EquipmentManager.NONE;
+    return KoLCharacter.equipmentSlot(item) != Slot.NONE;
   }
 
   public static boolean hasEquipped(final int itemId) {
@@ -4845,64 +4848,61 @@ public abstract class KoLCharacter {
   }
 
   public static boolean hasEquipped(
-      AdventureResult[] equipment, final AdventureResult item, final int equipmentSlot) {
-    AdventureResult current = equipment[equipmentSlot];
+      Map<Slot, AdventureResult> equipment, final AdventureResult item, final Slot equipmentSlot) {
+    AdventureResult current = equipment.get(equipmentSlot);
     return current != null && (current.getItemId() == item.getItemId());
   }
 
   public static boolean hasEquipped(
-      AdventureResult[] equipment, final AdventureResult item, int[] equipmentSlots) {
-    return Arrays.stream(equipmentSlots)
-        .anyMatch(s -> KoLCharacter.hasEquipped(equipment, item, s));
+      Map<Slot, AdventureResult> equipment, final AdventureResult item, Set<Slot> equipmentSlots) {
+    return equipmentSlots.stream().anyMatch(s -> KoLCharacter.hasEquipped(equipment, item, s));
   }
 
-  public static boolean hasEquipped(AdventureResult[] equipment, final AdventureResult item) {
+  public static boolean hasEquipped(
+      Map<Slot, AdventureResult> equipment, final AdventureResult item) {
     return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
       case WEAPON -> KoLCharacter.hasEquipped(
-          equipment, item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
+          equipment, item, EnumSet.of(Slot.WEAPON, Slot.OFFHAND));
       case OFFHAND -> KoLCharacter.hasEquipped(
-          equipment, item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
-      case HAT -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.HAT);
-      case SHIRT -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.SHIRT);
-      case PANTS -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.PANTS);
-      case CONTAINER -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.CONTAINER);
-      case ACCESSORY -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.ACCESSORY_SLOTS);
-      case STICKER -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.STICKER_SLOTS);
-      case CARD -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.CARDSLEEVE);
-      case FOLDER -> KoLCharacter.hasEquipped(equipment, item, EquipmentManager.FOLDER_SLOTS);
-      case FAMILIAR_EQUIPMENT -> KoLCharacter.hasEquipped(
-          equipment, item, EquipmentManager.FAMILIAR);
+          equipment, item, EnumSet.of(Slot.OFFHAND, Slot.FAMILIAR));
+      case HAT -> KoLCharacter.hasEquipped(equipment, item, Slot.HAT);
+      case SHIRT -> KoLCharacter.hasEquipped(equipment, item, Slot.SHIRT);
+      case PANTS -> KoLCharacter.hasEquipped(equipment, item, Slot.PANTS);
+      case CONTAINER -> KoLCharacter.hasEquipped(equipment, item, Slot.CONTAINER);
+      case ACCESSORY -> KoLCharacter.hasEquipped(equipment, item, SlotSet.ACCESSORY_SLOTS);
+      case STICKER -> KoLCharacter.hasEquipped(equipment, item, SlotSet.STICKER_SLOTS);
+      case CARD -> KoLCharacter.hasEquipped(equipment, item, Slot.CARDSLEEVE);
+      case FOLDER -> KoLCharacter.hasEquipped(equipment, item, SlotSet.FOLDER_SLOTS);
+      case FAMILIAR_EQUIPMENT -> KoLCharacter.hasEquipped(equipment, item, Slot.FAMILIAR);
       default -> false;
     };
   }
 
-  private static int equipmentSlotFromSubset(final AdventureResult item, final int[] slots) {
-    return Arrays.stream(slots)
+  private static Slot equipmentSlotFromSubset(final AdventureResult item, final Set<Slot> slots) {
+    return slots.stream()
         .filter(s -> KoLCharacter.hasEquipped(item, s))
         .findFirst()
-        .orElse(EquipmentManager.NONE);
+        .orElse(Slot.NONE);
   }
 
-  private static int equipmentSlotFromSubset(final AdventureResult item, final int slot) {
-    return KoLCharacter.hasEquipped(item, slot) ? slot : EquipmentManager.NONE;
+  private static Slot equipmentSlotFromSubset(final AdventureResult item, final Slot slot) {
+    return KoLCharacter.hasEquipped(item, slot) ? slot : Slot.NONE;
   }
 
-  public static final int equipmentSlot(final AdventureResult item) {
+  public static final Slot equipmentSlot(final AdventureResult item) {
     return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
-      case WEAPON -> equipmentSlotFromSubset(
-          item, new int[] {EquipmentManager.WEAPON, EquipmentManager.OFFHAND});
-      case OFFHAND -> equipmentSlotFromSubset(
-          item, new int[] {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR});
-      case HAT -> equipmentSlotFromSubset(item, EquipmentManager.HAT);
-      case SHIRT -> equipmentSlotFromSubset(item, EquipmentManager.SHIRT);
-      case PANTS -> equipmentSlotFromSubset(item, EquipmentManager.PANTS);
-      case CONTAINER -> equipmentSlotFromSubset(item, EquipmentManager.CONTAINER);
-      case ACCESSORY -> equipmentSlotFromSubset(item, EquipmentManager.ACCESSORY_SLOTS);
-      case STICKER -> equipmentSlotFromSubset(item, EquipmentManager.STICKER_SLOTS);
-      case CARD -> equipmentSlotFromSubset(item, EquipmentManager.CARDSLEEVE);
-      case FOLDER -> equipmentSlotFromSubset(item, EquipmentManager.FOLDER_SLOTS);
-      case FAMILIAR_EQUIPMENT -> equipmentSlotFromSubset(item, EquipmentManager.FAMILIAR);
-      default -> EquipmentManager.NONE;
+      case WEAPON -> equipmentSlotFromSubset(item, EnumSet.of(Slot.WEAPON, Slot.OFFHAND));
+      case OFFHAND -> equipmentSlotFromSubset(item, EnumSet.of(Slot.OFFHAND, Slot.FAMILIAR));
+      case HAT -> equipmentSlotFromSubset(item, Slot.HAT);
+      case SHIRT -> equipmentSlotFromSubset(item, Slot.SHIRT);
+      case PANTS -> equipmentSlotFromSubset(item, Slot.PANTS);
+      case CONTAINER -> equipmentSlotFromSubset(item, Slot.CONTAINER);
+      case ACCESSORY -> equipmentSlotFromSubset(item, SlotSet.ACCESSORY_SLOTS);
+      case STICKER -> equipmentSlotFromSubset(item, SlotSet.STICKER_SLOTS);
+      case CARD -> equipmentSlotFromSubset(item, Slot.CARDSLEEVE);
+      case FOLDER -> equipmentSlotFromSubset(item, SlotSet.FOLDER_SLOTS);
+      case FAMILIAR_EQUIPMENT -> equipmentSlotFromSubset(item, Slot.FAMILIAR);
+      default -> Slot.NONE;
     };
   }
 
@@ -4959,7 +4959,7 @@ public abstract class KoLCharacter {
   public static final Modifiers recalculateAdjustments(
       boolean debug,
       int MCD,
-      AdventureResult[] equipment,
+      Map<Slot, AdventureResult> equipment,
       List<AdventureResult> effects,
       FamiliarData familiar,
       FamiliarData enthroned,
@@ -4973,10 +4973,10 @@ public abstract class KoLCharacter {
 
     Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
     Modifiers.setFamiliar(familiar);
-    AdventureResult weapon = equipment[EquipmentManager.WEAPON];
+    AdventureResult weapon = equipment.get(Slot.WEAPON);
     Modifiers.mainhandClass =
         weapon == null ? "" : EquipmentDatabase.getItemType(weapon.getItemId());
-    AdventureResult offhand = equipment[EquipmentManager.OFFHAND];
+    AdventureResult offhand = equipment.get(Slot.OFFHAND);
     Modifiers.unarmed =
         (weapon == null || weapon == EquipmentRequest.UNEQUIP)
             && (offhand == null || offhand == EquipmentRequest.UNEQUIP);
@@ -5069,8 +5069,8 @@ public abstract class KoLCharacter {
     Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
 
     // Look at items
-    for (int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot) {
-      AdventureResult item = equipment[slot];
+    for (var slot : SlotSet.SLOTS) {
+      AdventureResult item = equipment.get(slot);
       if (item == EquipmentRequest.UNEQUIP) {
         continue;
       }
@@ -5177,7 +5177,7 @@ public abstract class KoLCharacter {
 
     // Add familiar effects based on calculated weight adjustment.
 
-    newModifiers.applyFamiliarModifiers(familiar, equipment[EquipmentManager.FAMILIAR]);
+    newModifiers.applyFamiliarModifiers(familiar, equipment.get(Slot.FAMILIAR));
 
     // Add Pasta Thrall effects
 
@@ -5441,7 +5441,7 @@ public abstract class KoLCharacter {
           EffectPool.BOWLEGGED_SWAGGER);
       // Add "Physical Damage" here, when that is properly defined
     }
-    if (equipment[EquipmentManager.SHIRT].getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT
+    if (equipment.get(Slot.SHIRT).getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT
         && (Preferences.getInteger("garbageShirtCharge") > 0
             || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
       for (DoubleModifier modifier :
@@ -5464,9 +5464,9 @@ public abstract class KoLCharacter {
     // Some things are doubled by Squint and not champagne bottle, like Otoscope. So do champagne
     // first and then add in any that aren't doubled by champagne (should just be fightMods).
     // TOOD: double-check mummery, friar plants, meteor post-combat, crystal ball post-combat.
-    if ((equipment[EquipmentManager.OFFHAND].getItemId() == ItemPool.BROKEN_CHAMPAGNE
-            || equipment[EquipmentManager.WEAPON].getItemId() == ItemPool.BROKEN_CHAMPAGNE
-            || equipment[EquipmentManager.FAMILIAR].getItemId() == ItemPool.BROKEN_CHAMPAGNE)
+    if ((equipment.get(Slot.OFFHAND).getItemId() == ItemPool.BROKEN_CHAMPAGNE
+            || equipment.get(Slot.WEAPON).getItemId() == ItemPool.BROKEN_CHAMPAGNE
+            || equipment.get(Slot.FAMILIAR).getItemId() == ItemPool.BROKEN_CHAMPAGNE)
         && (Preferences.getInteger("garbageChampagneCharge") > 0
             || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
       newModifiers.addDouble(
@@ -5502,9 +5502,9 @@ public abstract class KoLCharacter {
 
   public static void addItemAdjustment(
       Modifiers newModifiers,
-      int slot,
+      Slot slot,
       AdventureResult item,
-      AdventureResult[] equipment,
+      Map<Slot, AdventureResult> equipment,
       FamiliarData enthroned,
       FamiliarData bjorned,
       Map<Modeable, String> modeables,
@@ -5517,7 +5517,7 @@ public abstract class KoLCharacter {
     int itemId = item.getItemId();
     ConsumptionType consume = ItemDatabase.getConsumptionType(itemId);
 
-    if (slot == EquipmentManager.FAMILIAR
+    if (slot == Slot.FAMILIAR
         && (consume == ConsumptionType.HAT || consume == ConsumptionType.PANTS)) {
       // Hatrack hats don't get their normal enchantments
       // Scarecrow pants don't get their normal enchantments
@@ -5526,7 +5526,7 @@ public abstract class KoLCharacter {
 
     Modifiers imod;
 
-    if (slot == EquipmentManager.FAMILIAR
+    if (slot == Slot.FAMILIAR
         && (consume == ConsumptionType.WEAPON || consume == ConsumptionType.OFFHAND)) {
       imod = ModifierDatabase.getItemModifiersInFamiliarSlot(itemId);
 
@@ -5581,28 +5581,28 @@ public abstract class KoLCharacter {
       switch (itemId) {
         case ItemPool.STICKER_SWORD, ItemPool.STICKER_CROSSBOW ->
         // Apply stickers
-        Arrays.stream(EquipmentManager.STICKER_SLOTS)
-            .mapToObj(i -> equipment[i])
+        SlotSet.STICKER_SLOTS.stream()
+            .map(equipment::get)
             .filter(s -> s != null && s != EquipmentRequest.UNEQUIP)
             .map(AdventureResult::getItemId)
             .forEach((id) -> newModifiers.add(ModifierDatabase.getItemModifiers(id)));
         case ItemPool.CARD_SLEEVE -> {
           // Apply card
-          AdventureResult card = equipment[EquipmentManager.CARDSLEEVE];
+          AdventureResult card = equipment.get(Slot.CARDSLEEVE);
           if (card != null && card != EquipmentRequest.UNEQUIP) {
             newModifiers.add(ModifierDatabase.getItemModifiers(card.getItemId()));
           }
         }
         case ItemPool.FOLDER_HOLDER ->
         // Apply folders
-        Arrays.stream(EquipmentManager.FOLDER_SLOTS)
-            .mapToObj(i -> equipment[i])
+        SlotSet.FOLDER_SLOTS.stream()
+            .map(equipment::get)
             .filter(f -> f != null && f != EquipmentRequest.UNEQUIP)
             .map(AdventureResult::getItemId)
             .forEach((id) -> newModifiers.add(ModifierDatabase.getItemModifiers(id)));
         case ItemPool.COWBOY_BOOTS -> {
-          AdventureResult skin = equipment[EquipmentManager.BOOTSKIN];
-          AdventureResult spur = equipment[EquipmentManager.BOOTSPUR];
+          AdventureResult skin = equipment.get(Slot.BOOTSKIN);
+          AdventureResult spur = equipment.get(Slot.BOOTSPUR);
           if (skin != null && skin != EquipmentRequest.UNEQUIP) {
             newModifiers.add(ModifierDatabase.getItemModifiers(skin.getItemId()));
           }
@@ -5629,12 +5629,12 @@ public abstract class KoLCharacter {
 
     // Add modifiers that depend on equipment power
     switch (slot) {
-      case EquipmentManager.OFFHAND:
+      case OFFHAND:
         if (consume != ConsumptionType.WEAPON) {
           break;
         }
         /*FALLTHRU*/
-      case EquipmentManager.WEAPON:
+      case WEAPON:
         newModifiers.addDouble(
             DoubleModifier.WEAPON_DAMAGE,
             EquipmentDatabase.getPower(itemId) * 0.15,
@@ -5642,7 +5642,7 @@ public abstract class KoLCharacter {
             "15% weapon power");
         break;
 
-      case EquipmentManager.HAT:
+      case HAT:
         newModifiers.addDouble(
             DoubleModifier.DAMAGE_ABSORPTION,
             taoFactor * EquipmentDatabase.getPower(itemId),
@@ -5650,7 +5650,7 @@ public abstract class KoLCharacter {
             "hat power");
         break;
 
-      case EquipmentManager.PANTS:
+      case PANTS:
         newModifiers.addDouble(
             DoubleModifier.DAMAGE_ABSORPTION,
             taoFactor * EquipmentDatabase.getPower(itemId),
@@ -5658,7 +5658,7 @@ public abstract class KoLCharacter {
             "pants power");
         break;
 
-      case EquipmentManager.SHIRT:
+      case SHIRT:
         newModifiers.addDouble(
             DoubleModifier.DAMAGE_ABSORPTION,
             EquipmentDatabase.getPower(itemId),
@@ -5669,11 +5669,11 @@ public abstract class KoLCharacter {
   }
 
   public static final double getSmithsnessModifier(
-      AdventureResult[] equipment, List<AdventureResult> effects) {
+      Map<Slot, AdventureResult> equipment, List<AdventureResult> effects) {
     double smithsness = 0;
 
-    for (int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot) {
-      AdventureResult item = equipment[slot];
+    for (var slot : SlotSet.SLOTS) {
+      AdventureResult item = equipment.get(slot);
       if (item != null) {
         int itemId = item.getItemId();
         // We know all items that give smithsness, and this code needs to be performant, so just
@@ -5685,7 +5685,7 @@ public abstract class KoLCharacter {
           AscensionClass classType = AscensionClass.find(imod.getString(StringModifier.CLASS));
           if (classType == null
               || classType == ascensionClass
-                  && (slot != EquipmentManager.FAMILIAR
+                  && (slot != Slot.FAMILIAR
                       || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
             smithsness += imod.getDouble(DoubleModifier.SMITHSNESS);
           }

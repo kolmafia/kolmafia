@@ -23,6 +23,7 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -224,7 +225,7 @@ public class ModifiersTest {
     public void champagneDoublesEffect() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
               withEffect(EffectPool.SYNTHESIS_COLLECTION));
 
@@ -253,7 +254,7 @@ public class ModifiersTest {
     public void squintDoublesUmbrella() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.OFFHAND, ItemPool.UNBREAKABLE_UMBRELLA),
+              withEquipped(Slot.OFFHAND, ItemPool.UNBREAKABLE_UMBRELLA),
               withProperty("umbrellaState", "bucket style"),
               withEffect(EffectPool.STEELY_EYED_SQUINT));
 
@@ -269,7 +270,7 @@ public class ModifiersTest {
     public void squintAndChampagneStack() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
               withEffect(EffectPool.STEELY_EYED_SQUINT),
               withEffect(EffectPool.SYNTHESIS_COLLECTION));
@@ -299,7 +300,7 @@ public class ModifiersTest {
     public void champagneDoesntDoubleOtoscope() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
               withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"));
 
@@ -314,7 +315,7 @@ public class ModifiersTest {
     public void squintAndChampagneDoublesOtoscopeOnce() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
               withProperty("garbageChampagneCharge", 11),
               withEffect(EffectPool.STEELY_EYED_SQUINT),
               withOverrideModifiers(ModifierType.GENERATED, "fightMods", "Item Drop: +200"));
@@ -389,7 +390,7 @@ public class ModifiersTest {
     public void makeshiftGarbageShirtDoublesEffect() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.SHIRT, ItemPool.MAKESHIFT_GARBAGE_SHIRT),
+              withEquipped(Slot.SHIRT, ItemPool.MAKESHIFT_GARBAGE_SHIRT),
               withProperty("garbageShirtCharge", 37),
               withEffect(EffectPool.FEELING_LOST));
 
@@ -425,23 +426,21 @@ public class ModifiersTest {
         assertEquals(155, stats.get(DerivedModifier.BUFFED_HP));
 
         // viking helmet: (+1 muscle)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(101, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(156, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(195, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
@@ -465,23 +464,21 @@ public class ModifiersTest {
         assertEquals(103, stats.get(DerivedModifier.BUFFED_HP));
 
         // viking helmet: (+1 muscle)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(101, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(104, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(143, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
@@ -503,23 +500,21 @@ public class ModifiersTest {
         assertEquals(100, stats.get(DerivedModifier.BUFFED_HP));
 
         // viking helmet: (+1 muscle)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(101, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(100, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(140, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
@@ -541,23 +536,21 @@ public class ModifiersTest {
         assertEquals(30, stats.get(DerivedModifier.BUFFED_HP));
 
         // viking helmet: (+1 muscle)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(101, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(30, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(70, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
@@ -581,23 +574,21 @@ public class ModifiersTest {
         assertEquals(176, stats.get(DerivedModifier.BUFFED_HP));
 
         // viking helmet: (+1 muscle)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(101, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(176, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
         assertEquals(176, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
@@ -612,7 +603,7 @@ public class ModifiersTest {
               withClass(AscensionClass.GREY_GOO),
               withStats(100, 100, 100),
               withHP(216, 216, 216),
-              withEquipped(EquipmentManager.HAT, ItemPool.REINFORCED_BEADED_HEADBAND));
+              withEquipped(Slot.HAT, ItemPool.REINFORCED_BEADED_HEADBAND));
       try (cleanups) {
         // Base HP = (starting value + absorptions + currently worn equipment)
         // Buffed HP = Base HP - currently worn equipment + mod(HP)
@@ -664,24 +655,23 @@ public class ModifiersTest {
         assertEquals(150, stats.get(DerivedModifier.BUFFED_MP));
 
         // fuzzy earmuffs: (+11 myst)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.FUZZY_EARMUFFS));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.FUZZY_EARMUFFS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(111, stats.get(DerivedModifier.BUFFED_MYS));
         assertEquals(167, stats.get(DerivedModifier.BUFFED_MP));
 
         // beer helmet (+40 MP)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.BEER_HELMET));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.BEER_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MYS));
         assertEquals(190, stats.get(DerivedModifier.BUFFED_MP));
 
-        EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
+        EquipmentManager.setEquipment(Slot.HAT, EquipmentRequest.UNEQUIP);
 
         // Cargo Cultist Shorts (+6 myst, +66% MP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
+        EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(106, stats.get(DerivedModifier.BUFFED_MYS));
@@ -705,24 +695,23 @@ public class ModifiersTest {
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MP));
 
         // fuzzy earmuffs: (+11 myst)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.FUZZY_EARMUFFS));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.FUZZY_EARMUFFS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(111, stats.get(DerivedModifier.BUFFED_MYS));
         assertEquals(111, stats.get(DerivedModifier.BUFFED_MP));
 
         // beer helmet (+40 MP)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.BEER_HELMET));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.BEER_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MYS));
         assertEquals(140, stats.get(DerivedModifier.BUFFED_MP));
 
-        EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
+        EquipmentManager.setEquipment(Slot.HAT, EquipmentRequest.UNEQUIP);
 
         // Cargo Cultist Shorts (+6 myst, +66% MP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
+        EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(106, stats.get(DerivedModifier.BUFFED_MYS));
@@ -746,24 +735,23 @@ public class ModifiersTest {
         assertEquals(126, stats.get(DerivedModifier.BUFFED_MP));
 
         // fuzzy earmuffs: (+11 myst)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.FUZZY_EARMUFFS));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.FUZZY_EARMUFFS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(111, stats.get(DerivedModifier.BUFFED_MYS));
         assertEquals(126, stats.get(DerivedModifier.BUFFED_MP));
 
         // beer helmet (+40 MP)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.BEER_HELMET));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.BEER_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MYS));
         assertEquals(126, stats.get(DerivedModifier.BUFFED_MP));
 
-        EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
+        EquipmentManager.setEquipment(Slot.HAT, EquipmentRequest.UNEQUIP);
 
         // Cargo Cultist Shorts (+6 myst, +66% MP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
+        EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(106, stats.get(DerivedModifier.BUFFED_MYS));
@@ -778,7 +766,7 @@ public class ModifiersTest {
               withClass(AscensionClass.GREY_GOO),
               withStats(100, 100, 100),
               withMP(126, 126, 126),
-              withEquipped(EquipmentManager.HAT, ItemPool.BEER_HELMET));
+              withEquipped(Slot.HAT, ItemPool.BEER_HELMET));
       try (cleanups) {
         // Base MP = (starting value + absorptions + currently worn equipment)
         // Buffed MP = Base MP - currently worn equipment + mod(MP)
@@ -813,7 +801,7 @@ public class ModifiersTest {
           new Cleanups(
               withClass(AscensionClass.DISCO_BANDIT),
               withStats(100, 100, 150),
-              withEquipped(EquipmentManager.ACCESSORY1, "moxie magnet"));
+              withEquipped(Slot.ACCESSORY1, "moxie magnet"));
       try (cleanups) {
         // Buffed MOX = Base MOX + mod(MOX) + ceiling(Base MOX * mod(MOX_PCT)/100.0)
         // Base MP = Buffed MUS
@@ -827,31 +815,30 @@ public class ModifiersTest {
         assertEquals(150, stats.get(DerivedModifier.BUFFED_MP));
 
         // Disco 'Fro Pick (+11 mox)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.DISCO_FRO_PICK));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.DISCO_FRO_PICK));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(161, stats.get(DerivedModifier.BUFFED_MOX));
         assertEquals(161, stats.get(DerivedModifier.BUFFED_MP));
 
         // beer helmet (+40 MP)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.BEER_HELMET));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.BEER_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(150, stats.get(DerivedModifier.BUFFED_MOX));
         assertEquals(190, stats.get(DerivedModifier.BUFFED_MP));
 
         // training helmet: (+25% mox)
-        EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.TRAINING_HELMET));
+        EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.TRAINING_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(188, stats.get(DerivedModifier.BUFFED_MOX));
         assertEquals(188, stats.get(DerivedModifier.BUFFED_MP));
 
-        EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
+        EquipmentManager.setEquipment(Slot.HAT, EquipmentRequest.UNEQUIP);
 
         // Cargo Cultist Shorts (+6 mox, +66% MP)
-        EquipmentManager.setEquipment(
-            EquipmentManager.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
+        EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(156, stats.get(DerivedModifier.BUFFED_MOX));
@@ -874,7 +861,7 @@ public class ModifiersTest {
               withPath(Path.GELATINOUS_NOOB),
               withFamiliar(FamiliarPool.EMO_SQUID),
               withProperty("latteModifier", ""),
-              withEquipped(EquipmentManager.OFFHAND, "latte lovers member's mug"));
+              withEquipped(Slot.OFFHAND, "latte lovers member's mug"));
       try (cleanups) {
         FamiliarData familiar = KoLCharacter.getFamiliar();
         familiar.setExperience(400);

@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.time.Month;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -20,7 +21,6 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.AfterEach;
@@ -88,7 +88,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsEquipment() {
-    try (var cleanups = withEquipped(EquipmentManager.HAT, ItemPool.WAD_OF_TAPE)) {
+    try (var cleanups = withEquipped(Slot.HAT, ItemPool.WAD_OF_TAPE)) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
     }
     assertThat(output(), containsDebugRow("Item", "wad of used tape", 15.0, 15.0));
@@ -122,7 +122,7 @@ public class DebugModifiersTest {
   void listsSquint() {
     try (var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.HAT, ItemPool.WAD_OF_TAPE),
+            withEquipped(Slot.HAT, ItemPool.WAD_OF_TAPE),
             withEffect(EffectPool.STEELY_EYED_SQUINT))) {
       evaluateDebugModifiers(DoubleModifier.ITEMDROP);
     }

@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -92,8 +93,7 @@ public class BeerPongRequest extends GenericRequest {
   }
 
   public static final int findPirateInsult(String insult) {
-    if (EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId()
-        == ItemPool.SWORD_PREPOSITIONS) {
+    if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId() == ItemPool.SWORD_PREPOSITIONS) {
       insult = StringUtilities.lookupPrepositions(insult);
     }
 
@@ -106,8 +106,7 @@ public class BeerPongRequest extends GenericRequest {
   }
 
   public static final int findPirateRetort(String insult) {
-    if (EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId()
-        == ItemPool.SWORD_PREPOSITIONS) {
+    if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId() == ItemPool.SWORD_PREPOSITIONS) {
       insult = StringUtilities.lookupPrepositions(insult);
     }
 

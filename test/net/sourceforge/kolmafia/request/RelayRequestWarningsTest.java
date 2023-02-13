@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -41,7 +42,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
 public class RelayRequestWarningsTest {
 
@@ -113,7 +114,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void shouldNotWarnWithoutEffect() {
-      var cleanups = withEquipped(EquipmentManager.WEAPON, ItemPool.SEAL_CLUB);
+      var cleanups = withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB);
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(WARREN.getRequest().getURLString());
@@ -125,7 +126,7 @@ public class RelayRequestWarningsTest {
     public void shouldWarnWithIntrinsicAndFullHands() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.WEAPON, ItemPool.SEAL_CLUB),
+              withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB),
               withIntrinsicEffect("Kung Fu Fighting"));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
@@ -138,8 +139,8 @@ public class RelayRequestWarningsTest {
     public void shouldNotWarnWithIntrinsicAndEmptyHands() {
       var cleanups =
           new Cleanups(
-              withUnequipped(EquipmentManager.WEAPON),
-              withUnequipped(EquipmentManager.OFFHAND),
+              withUnequipped(Slot.WEAPON),
+              withUnequipped(Slot.OFFHAND),
               withIntrinsicEffect("Kung Fu Fighting"));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
@@ -152,7 +153,7 @@ public class RelayRequestWarningsTest {
     public void shouldNotWarnWithNonIntrinsicEffect() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.WEAPON, ItemPool.SEAL_CLUB),
+              withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB),
               withEffect(EffectPool.KUNG_FU_FIGHTING));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
@@ -165,7 +166,7 @@ public class RelayRequestWarningsTest {
     public void shouldNotWarnWithIntrinsicIfAlreadyConfirmed() {
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.WEAPON, ItemPool.SEAL_CLUB),
+              withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB),
               withIntrinsicEffect("Kung Fu Fighting"));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
@@ -237,8 +238,10 @@ public class RelayRequestWarningsTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR})
-    public void thatNoWarningNeededIfWineglassEquipped(final int slot) {
+    @EnumSource(
+        value = Slot.class,
+        names = {"OFFHAND", "FAMILIAR"})
+    public void thatNoWarningNeededIfWineglassEquipped(final Slot slot) {
       var cleanups =
           new Cleanups(
               withInebriety(30),
@@ -350,7 +353,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfMohawkWigEquipped() {
-      var cleanups = new Cleanups(withEquipped(EquipmentManager.HAT, MOHAWK_WIG));
+      var cleanups = new Cleanups(withEquipped(Slot.HAT, MOHAWK_WIG));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
@@ -496,7 +499,7 @@ public class RelayRequestWarningsTest {
       assertFalse(request.sendDesertWeaponWarning());
 
       // No warning if we have a survival knife equipped
-      int slot = EquipmentManager.WEAPON;
+      Slot slot = Slot.WEAPON;
       AdventureResult knife = ItemPool.get(ItemPool.SURVIVAL_KNIFE);
       EquipmentManager.setEquipment(slot, SURVIVAL_KNIFE);
       assertFalse(request.sendDesertWeaponWarning());
@@ -542,7 +545,7 @@ public class RelayRequestWarningsTest {
 
     private void testMacheteItem(RelayRequest request, int itemId) {
       // No warning if we have the machete equipped
-      int slot = EquipmentManager.WEAPON;
+      Slot slot = Slot.WEAPON;
       AdventureResult machete = ItemPool.get(itemId);
       String name = machete.getName();
       EquipmentManager.setEquipment(slot, machete);
