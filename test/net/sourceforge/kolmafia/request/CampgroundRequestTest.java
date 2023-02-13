@@ -1,11 +1,16 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withCampgroundItem;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMP;
+import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -123,6 +128,42 @@ public class CampgroundRequestTest {
       assertCampgroundItemCount(ItemPool.BOLDER_BOULDER, 2);
       assertCampgroundItemCount(ItemPool.HARD_ROCK, 2);
       assertCampgroundItemCount(ItemPool.ROCK_SEEDS, 1);
+    }
+
+    @Test
+    void canTrackRockGardenHarvest() {
+      var cleanups =
+          new Cleanups(
+              withCampgroundItem(ItemPool.MILESTONE),
+              withCampgroundItem(ItemPool.GROVELING_GRAVEL),
+              withCampgroundItem(ItemPool.WHETSTONE),
+              withNextResponse(
+                  200, html("request/test_campground_tracks_rock_garden_harvest.html")),
+              withItem(ItemPool.WHETSTONE, 0));
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=rgarden3&pwd").run();
+
+        assertThat(KoLConstants.inventory, hasItem(ItemPool.get(ItemPool.WHETSTONE)));
+        assertCampgroundItemCount(ItemPool.MILESTONE, 1);
+        assertCampgroundItemCount(ItemPool.GROVELING_GRAVEL, 1);
+        assertCampgroundItemCount(ItemPool.WHETSTONE, 0);
+      }
+    }
+
+    @Test
+    void canStopTrackingRockGarden() {
+      CampgroundRequest.parseResponse(
+          "campground.php", html("request/test_campground_rock_garden_5.html"));
+
+      assertThat(KoLConstants.campground, hasItem(ItemPool.get(ItemPool.ROCK_SEEDS)));
+      assertThat(KoLConstants.campground, hasItem(ItemPool.get(ItemPool.FRUITY_PEBBLE)));
+
+      CampgroundRequest.parseResponse(
+          "campground.php", html("request/test_campground_no_garden.html"));
+
+      assertThat(KoLConstants.campground, not(hasItem(ItemPool.get(ItemPool.ROCK_SEEDS))));
+      assertThat(KoLConstants.campground, not(hasItem(ItemPool.get(ItemPool.FRUITY_PEBBLE))));
     }
   }
 
