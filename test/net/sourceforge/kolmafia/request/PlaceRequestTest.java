@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -14,6 +15,7 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PlaceRequestTest {
@@ -78,3 +80,16 @@ class PlaceRequestTest {
 
 // Generated with love by TestMe :) Please report issues and submit feature requests at:
 // http://weirddev.com/forum#!/testme
+// Applies to some of the above code
+
+@Nested
+class Speakeasy {
+  @Test
+  public void itShouldGetParcelLocationFromVisit() {
+    var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
+    req.responseText = html("request/test_first_visit_sot_to_get_location.html");
+    PlaceRequest.parseResponse(
+        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
+        req.responseText);
+  }
+}
