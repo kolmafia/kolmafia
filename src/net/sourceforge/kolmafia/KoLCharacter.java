@@ -113,6 +113,31 @@ public abstract class KoLCharacter {
     SHE_WHO_WAS,
   }
 
+  public enum TurtleBlessingLevel {
+    PARIAH,
+    NONE,
+    BLESSING,
+    GRAND_BLESSING,
+    GLORIOUS_BLESSING,
+    AVATAR;
+
+    public boolean isBlessing() {
+      return switch (this) {
+        case BLESSING, GRAND_BLESSING, GLORIOUS_BLESSING -> true;
+        default -> false;
+      };
+    }
+
+    public int boonDuration() {
+      return switch (this) {
+        case BLESSING -> 5;
+        case GRAND_BLESSING -> 10;
+        case GLORIOUS_BLESSING -> 15;
+        default -> 0;
+      };
+    }
+  }
+
   public enum Gender {
     UNKNOWN(0),
     MALE(-1),
@@ -1029,12 +1054,12 @@ public abstract class KoLCharacter {
     return null;
   }
 
-  public static final int getBlessingLevel() {
+  public static final TurtleBlessingLevel getBlessingLevel() {
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.BLESSING_OF_THE_WAR_SNAPPER))
         || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.BLESSING_OF_SHE_WHO_WAS))
         || KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.BLESSING_OF_THE_STORM_TORTOISE))) {
-      return 1;
+      return TurtleBlessingLevel.BLESSING;
     }
     if (KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.GRAND_BLESSING_OF_THE_WAR_SNAPPER))
@@ -1042,7 +1067,7 @@ public abstract class KoLCharacter {
             EffectPool.get(EffectPool.GRAND_BLESSING_OF_SHE_WHO_WAS))
         || KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.GRAND_BLESSING_OF_THE_STORM_TORTOISE))) {
-      return 2;
+      return TurtleBlessingLevel.GRAND_BLESSING;
     }
     if (KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.GLORIOUS_BLESSING_OF_THE_WAR_SNAPPER))
@@ -1050,18 +1075,18 @@ public abstract class KoLCharacter {
             EffectPool.get(EffectPool.GLORIOUS_BLESSING_OF_SHE_WHO_WAS))
         || KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.GLORIOUS_BLESSING_OF_THE_STORM_TORTOISE))) {
-      return 3;
+      return TurtleBlessingLevel.GLORIOUS_BLESSING;
     }
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.AVATAR_OF_THE_WAR_SNAPPER))
         || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.AVATAR_OF_SHE_WHO_WAS))
         || KoLConstants.activeEffects.contains(
             EffectPool.get(EffectPool.AVATAR_OF_THE_STORM_TORTOISE))) {
-      return 4;
+      return TurtleBlessingLevel.AVATAR;
     }
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SPIRIT_PARIAH))) {
-      return -1;
+      return TurtleBlessingLevel.PARIAH;
     }
-    return 0;
+    return TurtleBlessingLevel.NONE;
   }
 
   public static final int getSoulsauce() {
