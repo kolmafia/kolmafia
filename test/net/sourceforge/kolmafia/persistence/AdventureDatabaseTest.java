@@ -132,7 +132,6 @@ public class AdventureDatabaseTest {
 
     private void runRiftAdventure(ShadowRift rift, boolean first) {
       String adventureName = rift.getAdventureName();
-      assertFalse(rift == null);
       var adventure = AdventureDatabase.getAdventure(adventureName);
       assertFalse(adventure == null);
       assertThat(adventure.getAdventureName(), is(adventureName));
