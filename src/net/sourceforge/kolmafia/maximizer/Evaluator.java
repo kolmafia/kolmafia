@@ -363,7 +363,6 @@ public class Evaluator {
       if (keyword.equals("surgeonosity")) {
         // If no weight specified, assume 5
         this.surgeonosity = (m.end(2) == m.start(2)) ? 5 : (int) weight;
-        this.addUniqueItems("Surgeonosity");
         continue;
       }
 
@@ -874,7 +873,7 @@ public class Evaluator {
       if (osity < this.raveosity) this.failed = true;
     }
     if (this.surgeonosity > 0) {
-      int osity = (int) mods.getDouble(DoubleModifier.SURGEONOSITY);
+      int osity = mods.getBitmap(BitmapModifier.SURGEONOSITY);
       score += Math.min(osity, this.surgeonosity);
       if (osity < this.surgeonosity) this.failed = true;
     }
@@ -1483,7 +1482,7 @@ public class Evaluator {
             || (slimeHateUseful && mods.getDouble(DoubleModifier.SLIME_HATES_IT) > 0.0)
             || (this.clownosity > 0 && mods.getDouble(DoubleModifier.CLOWNINESS) != 0)
             || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
-            || (this.surgeonosity > 0 && mods.getDouble(DoubleModifier.SURGEONOSITY) != 0)
+            || (this.surgeonosity > 0 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
             || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;
