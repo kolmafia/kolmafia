@@ -351,7 +351,7 @@ public class PlaceRequest extends GenericRequest {
     if (m.find()) {
       location = m.group(0);
     } else {
-      visit = Pattern.compile("(?<=back from )(.*)(?= .</td>)");
+      visit = Pattern.compile("(?<=back from )(.*)(?=.</td>)");
       m = visit.matcher(responseText);
       if (m.find()) {
         location = m.group(0);
