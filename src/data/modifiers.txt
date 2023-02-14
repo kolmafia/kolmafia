@@ -8626,7 +8626,6 @@ MutexE	Broken Heart/Fiery Heart/Cold Hearted/Sweet Heart/Withered Heart/Lustful 
 # Consider them to be Single Equip, insofar as the specified modifier is concerned.
 
 Unique	Clowniness	balloon helmet/clown wig/foolscap fool's cap/bloody clown pants/clownskin harness/balloon sword/clown whip/clownskin buckler/big red clown nose/clown shoes/clownskin belt/polka-dot bow tie
-Unique	Surgeonosity	bloodied surgical dungarees/surgical apron/half-size scalpel/head mirror/surgical mask
 
 # Maximization categories section of modifiers.txt
 # These pseudo-items list the indirect benefits of certain classes of

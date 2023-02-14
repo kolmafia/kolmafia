@@ -809,6 +809,13 @@ public class ModifierDatabase {
       return result;
     }
 
+    // Then the bitmap modifiers
+
+    result = BitmapModifier.parseModifier(enchantment);
+    if (result != null) {
+      return result;
+    }
+
     // Special handling needed
 
     Matcher matcher;

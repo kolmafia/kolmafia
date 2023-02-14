@@ -5589,7 +5589,6 @@ public abstract class KoLCharacter {
         for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
           switch (mod) {
             case SLIME_HATES_IT:
-            case SURGEONOSITY:
               continue;
           }
           iModCopy.setDouble(mod, 0.0);
