@@ -1942,7 +1942,8 @@ public class FightRequestTest {
     @Test
     public void sloshingSetsSpitToFull() {
       var cleanups =
-          new Cleanups(withFamiliar(FamiliarPool.MELODRAMEDARY), withProperty("camelSpit", 0), withFight());
+          new Cleanups(
+              withFamiliar(FamiliarPool.MELODRAMEDARY), withProperty("camelSpit", 0), withFight());
       try (cleanups) {
         parseCombatData("request/test_melodramedary_sloshing.html");
         assertThat("camelSpit", isSetTo(100));
