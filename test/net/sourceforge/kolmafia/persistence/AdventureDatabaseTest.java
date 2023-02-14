@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -7,12 +8,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class AdventureDatabaseTest {
+
+  @BeforeAll
+  public static void beforeAll() {
+    KoLCharacter.reset("AdventureDatabase");
+  }
+
+  @BeforeEach
+  public void beforeEach() {
+    Preferences.reset("AdventureDatabase");
+  }
 
   @Nested
   class GetAdventure {
@@ -69,6 +86,32 @@ public class AdventureDatabaseTest {
     @Test
     public void validatesInvalidArea() {
       assertFalse(AdventureDatabase.validateAdventureArea("Honest John's Shop"));
+    }
+  }
+
+  @Nested
+  class ShadowRift {
+    private static final String SHADOW_RIFT_URL =
+        "adventure.php?snarfblat=" + AdventurePool.SHADOW_RIFT;
+
+    @Test
+    public void canFindGenericShadowRiftAdventure() {
+      var cleanups = new Cleanups(withProperty("shadowRiftIngress", ""));
+      try (cleanups) {
+        var adventure = AdventureDatabase.getAdventureByURL(SHADOW_RIFT_URL);
+        assertFalse(adventure == null);
+        assertThat(adventure.getAdventureName(), is("Shadow Rift"));
+      }
+    }
+
+    @Test
+    public void canFindShadowRiftAdventureFromProperty() {
+      var cleanups = new Cleanups(withProperty("shadowRiftIngress", "hiddencity"));
+      try (cleanups) {
+        var adventure = AdventureDatabase.getAdventureByURL(SHADOW_RIFT_URL);
+        assertFalse(adventure == null);
+        assertThat(adventure.getAdventureName(), is("Shadow Rift (The Hidden City)"));
+      }
     }
   }
 }
