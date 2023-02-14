@@ -386,13 +386,6 @@ public enum DoubleModifier implements Modifier {
       "Pool Skill",
       Pattern.compile("([+-]\\d+) Pool Skill"),
       Pattern.compile("Pool Skill: " + EXPR)),
-  SURGEONOSITY(
-      "Surgeonosity",
-      new Pattern[] {
-        Pattern.compile("Makes you look like a doctor"),
-        Pattern.compile("Makes you look like a gross doctor"),
-      },
-      Pattern.compile("Surgeonosity: (\\+?\\d+)")),
   FAMILIAR_DAMAGE(
       "Familiar Damage",
       new Pattern[] {
@@ -624,12 +617,7 @@ public enum DoubleModifier implements Modifier {
         }
 
         if (matcher.groupCount() == 0) {
-          String tag = mod.getTag();
-          // Kludge for Surgeonosity, which always gives +1
-          if (mod == DoubleModifier.SURGEONOSITY) {
-            return tag + ": +1";
-          }
-          return tag;
+          return mod.getTag();
         }
 
         String tag = mod.getTag();

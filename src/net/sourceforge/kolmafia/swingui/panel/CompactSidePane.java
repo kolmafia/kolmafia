@@ -981,7 +981,7 @@ public class CompactSidePane extends JPanel implements Runnable {
         this.bonusValueLabel[count].setText(KoLConstants.MODIFIER_FORMAT.format(smithsness));
         count++;
       }
-      int surgeon = (int) KoLCharacter.currentNumericModifier(DoubleModifier.SURGEONOSITY);
+      int surgeon = (int) KoLCharacter.currentNumericModifier(BitmapModifier.SURGEONOSITY);
       if (surgeon != 0 && count < this.BONUS_LABELS) {
         this.bonusLabel[count].setText("Surgeon: ");
         this.bonusValueLabel[count].setText(surgeon + " / 5");

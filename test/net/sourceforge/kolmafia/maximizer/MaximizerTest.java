@@ -324,7 +324,22 @@ public class MaximizerTest {
         recommends("surgical mask");
         recommends("half-size scalpel");
         recommendedSlotIs(Slot.SHIRT, "surgical apron");
-        assertEquals(5, modFor(DoubleModifier.SURGEONOSITY), 0.01);
+        assertEquals(5, modFor(BitmapModifier.SURGEONOSITY), 0.01);
+      }
+    }
+
+    @Test
+    public void surgeonosityItemsDontStack() {
+      var cleanups = withEquippableItem("surgical mask", 3);
+
+      try (cleanups) {
+        maximize("surgeonosity, -tie");
+        assertEquals(1, modFor(BitmapModifier.SURGEONOSITY), 0.01);
+        assertThat(
+            getBoosts().stream()
+                .filter(x -> x.isEquipment() && "surgical mask".equals(x.getItem().getName()))
+                .count(),
+            equalTo(1L));
       }
     }
   }
@@ -1302,8 +1317,7 @@ public class MaximizerTest {
                 .filter(x -> x.isEquipment() && "surgical mask".equals(x.getItem().getName()))
                 .count(),
             equalTo(3L));
-        // TODO: make duplicate surgeonosity not count in modifiers
-        // assertEquals(1, modFor(DoubleModifier.SURGEONOSITY), 0.01);
+        assertEquals(1, modFor(BitmapModifier.SURGEONOSITY), 0.01);
       }
     }
 
