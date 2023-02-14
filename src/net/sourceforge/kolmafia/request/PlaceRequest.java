@@ -297,7 +297,7 @@ public class PlaceRequest extends GenericRequest {
           ResultProcessor.removeAllItems(ItemPool.SPANT_EGG_CASING);
         }
       }
-      case "speakeasy")) -> {
+      case "speakeasy" -> {
         PlaceRequest.parseSotVisit(responseText);
       }
       case "spelunky" -> {
