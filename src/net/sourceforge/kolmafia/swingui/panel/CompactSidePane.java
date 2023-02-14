@@ -996,7 +996,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       int clown = KoLCharacter.getClownosity();
       if (clown != 0 && count < this.BONUS_LABELS) {
         this.bonusLabel[count].setText("Clown: ");
-        this.bonusValueLabel[count].setText(clown + " / 4");
+        this.bonusValueLabel[count].setText(clown + "%");
         count++;
       }
     } else {

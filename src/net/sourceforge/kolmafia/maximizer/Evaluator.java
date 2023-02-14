@@ -345,8 +345,8 @@ public class Evaluator {
       }
 
       if (keyword.equals("clownosity")) {
-        // If no weight specified, assume 4
-        this.clownosity = (m.end(2) == m.start(2)) ? 4 : (int) weight;
+        // If no weight specified, assume 100%
+        this.clownosity = (m.end(2) == m.start(2)) ? 100 : (int) weight * 25;
 
         // Clownosity is built on Clowniness and has
         // same unique items requirement.
@@ -863,7 +863,7 @@ public class Evaluator {
     // Allow partials to contribute to the score (1:1 ratio) up to the desired value.
     // Similar to setting a max.
     if (this.clownosity > 0) {
-      int osity = ((int) mods.getDouble(DoubleModifier.CLOWNINESS)) / 25;
+      int osity = mods.getBitmap(BitmapModifier.CLOWNINESS);
       score += Math.min(osity, this.clownosity);
       if (osity < this.clownosity) this.failed = true;
     }
@@ -1480,7 +1480,7 @@ public class Evaluator {
             || (brimstoneUseful && mods.getRawBitmap(BitmapModifier.BRIMSTONE) != 0)
             || (cloathingUseful && mods.getRawBitmap(BitmapModifier.CLOATHING) != 0)
             || (slimeHateUseful && mods.getDouble(DoubleModifier.SLIME_HATES_IT) > 0.0)
-            || (this.clownosity > 0 && mods.getDouble(DoubleModifier.CLOWNINESS) != 0)
+            || (this.clownosity > 0 && mods.getRawBitmap(BitmapModifier.CLOWNINESS) != 0)
             || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
             || (this.surgeonosity > 0 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
             || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {

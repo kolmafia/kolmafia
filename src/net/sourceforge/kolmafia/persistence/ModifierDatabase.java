@@ -609,6 +609,9 @@ public class ModifierDatabase {
       int bitcount = 1;
       if (matcher.groupCount() > 0) {
         bitcount = StringUtilities.parseInt(matcher.group(1));
+        if (mod == BitmapModifier.CLOWNINESS) {
+          bitcount = bitcount / 25;
+        }
       }
       // bitmapMasks stores the next mask we're going to use for modifier mod
       int mask = bitmapMasks.get(mod);
@@ -616,6 +619,11 @@ public class ModifierDatabase {
         case 1 -> bitmapMasks.put(mod, mask << 1);
         case 2 -> {
           bitmapMasks.put(mod, mask << 2);
+          mask |= mask << 1;
+        }
+        case 3 -> {
+          bitmapMasks.put(mod, mask << 3);
+          mask |= mask << 1;
           mask |= mask << 1;
         }
         default -> {
