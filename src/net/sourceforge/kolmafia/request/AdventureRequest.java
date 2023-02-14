@@ -1,6 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -68,6 +71,84 @@ public class AdventureRequest extends GenericRequest {
 
   private int override = -1;
 
+  public enum ShadowRift {
+    BEACH("Desert Beach", "desertbeach", "db_shadowrift"),
+    VILLAGE("Forest Village", "forestvillage", "fv_shadowrift"),
+    MCLARGEHUGE("Mt. McLargeHuge", "mclargehuge", "mcl_shadowrift"),
+    BEANSTALK("Somewhere Over the Beanstalk", "beanstalk", "stalk_rift"),
+    MANOR("Spookyraven Manor Third Floor", "manor3", "manor3_shadowrift"),
+    REALM("The 8-Bit Realm", "8bit", "8rift"),
+    PYRAMID("The Ancient Buried Pyramid", "pyramid", "pyramid_shadowrift"),
+    CASTLE("The Castle in the Clouds in the Sky", "giantcastle", "castle_shadowrift"),
+    WOODS("The Distant Woods", "woods", "woods_shadowrift"),
+    CITY("The Hidden City", "hiddencity", "hc_shadowrift"),
+    CEMETARY("The Misspelled Cemetary", "cemetery", "cem_shadowrift"),
+    PLAINS("The Nearby Plains", "plains", "plains_shadowrift"),
+    TOWN("The Right Side of the Tracks", "town_right", "townright_shadowrift");
+
+    // Class fields
+    private final String container;
+    private final String place;
+    private final String action;
+
+    // Derived fields
+    private final String adventureName;
+    private final String URL;
+
+    // Lookups for Shadow Rifts
+    private static final Map<String, ShadowRift> adventureNameToRift = new HashMap<>();
+    private static final Map<String, ShadowRift> placeToRift = new HashMap<>();
+
+    private ShadowRift(String container, String place, String action) {
+      this.container = container;
+      this.place = place;
+      this.action = action;
+
+      // Derived fields
+      this.adventureName = "Shadow Rift (" + container + ")";
+      this.URL = "place.php?whichplace=" + place + "&action=" + action;
+    }
+
+    public String getContainer() {
+      return this.container;
+    }
+
+    public String getPlace() {
+      return this.place;
+    }
+
+    public String getAction() {
+      return this.action;
+    }
+
+    public String getAdventureName() {
+      return this.adventureName;
+    }
+
+    public String getURL() {
+      return this.URL;
+    }
+
+    public void populateMaps() {
+      ShadowRift.placeToRift.put(this.place, this);
+      ShadowRift.adventureNameToRift.put(this.adventureName, this);
+    }
+
+    public static ShadowRift findPlace(String place) {
+      return ShadowRift.placeToRift.get(place);
+    }
+
+    public static ShadowRift findAdventureName(String adventureName) {
+      return ShadowRift.adventureNameToRift.get(adventureName);
+    }
+  }
+
+  static {
+    for (var rift : EnumSet.allOf(ShadowRift.class)) {
+      rift.populateMaps();
+    }
+  }
+
   /**
    * Constructs a new <code>AdventureRequest</code> which executes the adventure designated by the
    * given Id by posting to the provided form, notifying the givenof results (or errors).
@@ -90,57 +171,95 @@ public class AdventureRequest extends GenericRequest {
     // everything for you.
     // Those that change mid session should be added to run() also.
 
-    if (formSource.equals("adventure.php")) {
-      this.addFormField("snarfblat", adventureId);
-    } else if (formSource.equals("casino.php")) {
-      this.addFormField("action", "slot");
-      this.addFormField("whichslot", adventureId);
-    } else if (formSource.equals("crimbo10.php")) {
-      this.addFormField("place", adventureId);
-    } else if (formSource.equals("cobbsknob.php")) {
-      this.addFormField("action", "throneroom");
-    } else if (formSource.equals("friars.php")) {
-      this.addFormField("action", "ritual");
-    } else if (formSource.equals("invasion.php")) {
-      this.addFormField("action", adventureId);
-    } else if (formSource.equals("mining.php")) {
-      this.addFormField("mine", adventureId);
-    } else if (formSource.equals("place.php")) {
-      if (adventureId.equals("cloudypeak2")) {
-        this.addFormField("whichplace", "mclargehuge");
-        this.addFormField("action", adventureId);
-      } else if (adventureId.equals("crimbo22_engine")) {
-        this.addFormField("whichplace", "crimbo22");
-        this.addFormField("action", adventureId);
-      } else if (adventureId.equals("pyramid_state")) {
-        this.addFormField("whichplace", "pyramid");
-        StringBuilder action = new StringBuilder();
-        action.append(adventureId);
-        action.append(Preferences.getString("pyramidPosition"));
-        if (Preferences.getBoolean("pyramidBombUsed")) {
-          action.append("a");
-        }
-        this.addFormField("action", action.toString());
-      } else if (adventureId.equals("manor4_chamberboss")) {
-        this.addFormField("whichplace", "manor4");
-        this.addFormField("action", adventureId);
-      } else if (formSource.equals("sea_merkin.php")) {
-        this.addFormField("action", "temple");
-      } else if (adventureId.equals("townwrong_tunnel")) {
-        this.addFormField("whichplace", "town_wrong");
-        this.addFormField("action", "townwrong_tunnel");
-      } else if (adventureId.startsWith("ns_")) {
-        this.addFormField("whichplace", "nstower");
-        this.addFormField("action", adventureId);
-      } else if (adventureId.equals("town_eincursion") || adventureId.equals("town_eicfight2")) {
-        this.addFormField("whichplace", "town");
-        this.addFormField("action", adventureId);
-      } else if (adventureId.equals("ioty2014_wolf")) {
-        this.addFormField("whichplace", "ioty2014_wolf");
-        this.addFormField("action", "wolf_houserun");
+    switch (formSource) {
+      case "adventure.php" -> {
+        this.addFormField("snarfblat", adventureId);
       }
-    } else if (!formSource.equals("basement.php") && !formSource.equals("cellar.php")) {
-      this.addFormField("action", adventureId);
+      case "casino.php" -> {
+        this.addFormField("action", "slot");
+        this.addFormField("whichslot", adventureId);
+      }
+      case "crimbo10.php" -> {
+        this.addFormField("place", adventureId);
+      }
+      case "cobbsknob.php" -> {
+        this.addFormField("action", "throneroom");
+      }
+      case "friars.php" -> {
+        this.addFormField("action", "ritual");
+      }
+      case "invasion.php" -> {
+        this.addFormField("action", adventureId);
+      }
+      case "mining.php" -> {
+        this.addFormField("mine", adventureId);
+      }
+      case "place.php" -> {
+        switch (adventureId) {
+          case "cloudypeak2" -> {
+            this.addFormField("whichplace", "mclargehuge");
+            this.addFormField("action", adventureId);
+          }
+          case "crimbo22_engine" -> {
+            this.addFormField("whichplace", "crimbo22");
+            this.addFormField("action", adventureId);
+          }
+          case "ioty2014_wolf" -> {
+            this.addFormField("whichplace", "ioty2014_wolf");
+            this.addFormField("action", "wolf_houserun");
+          }
+          case "manor4_chamberboss" -> {
+            this.addFormField("whichplace", "manor4");
+            this.addFormField("action", adventureId);
+          }
+          case "ns_01_crowd1",
+              "ns_01_crowd2",
+              "ns_01_crowd3",
+              "ns_03_hedgemaze",
+              "ns_05_monster1",
+              "ns_06_monster2",
+              "ns_07_monster3",
+              "ns_08_monster4",
+              "ns_09_monster5",
+              "ns_10_sorcfight" -> {
+            this.addFormField("whichplace", "nstower");
+            this.addFormField("action", adventureId);
+          }
+          case "pyramid_state" -> {
+            this.addFormField("whichplace", "pyramid");
+            StringBuilder action = new StringBuilder();
+            action.append(adventureId);
+            action.append(Preferences.getString("pyramidPosition"));
+            if (Preferences.getBoolean("pyramidBombUsed")) {
+              action.append("a");
+            }
+            this.addFormField("action", action.toString());
+          }
+          case "shadow_rift" -> {
+            // This is a pseudo-place. Lookup adventureName to get place/action
+            ShadowRift rift = ShadowRift.findAdventureName(adventureName);
+            if (rift != null) {
+              this.addFormField("whichplace", rift.getPlace());
+              this.addFormField("action", rift.getAction());
+            }
+          }
+          case "town_eincursion", "town_eicfight2" -> {
+            this.addFormField("whichplace", "town");
+            this.addFormField("action", adventureId);
+          }
+          case "townwrong_tunnel" -> {
+            this.addFormField("whichplace", "town_wrong");
+            this.addFormField("action", "townwrong_tunnel");
+          }
+        }
+      }
+      case "sea_merkin.php" -> {
+        this.addFormField("action", "temple");
+      }
+      case "basement.php", "cellar.php" -> {}
+      default -> {
+        this.addFormField("action", adventureId);
+      }
     }
   }
 
@@ -157,55 +276,96 @@ public class AdventureRequest extends GenericRequest {
   public void run() {
     // Prevent the request from happening if they attempted
     // to cancel in the delay period.
+    // *** What does that mean?
 
     if (!KoLmafia.permitsContinue()) {
       return;
-    } else if (this.formSource.equals("adventure.php")) {
-      if (this.adventureNumber == AdventurePool.THE_SHORE) {
-        // The Shore
-        int adv = KoLCharacter.inFistcore() ? 5 : 3;
-        if (KoLCharacter.getAdventuresLeft() < adv) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Ran out of adventures.");
-          return;
+    }
+
+    // Pre-validate certain adventure locations
+    switch (this.formSource) {
+      case "adventure.php" -> {
+        if (this.adventureNumber == AdventurePool.THE_SHORE) {
+          // The Shore
+          int adv = KoLCharacter.inFistcore() ? 5 : 3;
+          if (KoLCharacter.getAdventuresLeft() < adv) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Ran out of adventures.");
+            return;
+          }
         }
       }
-    } else if (this.formSource.equals("cellar.php")) {
-      if (TavernManager.shouldAutoFaucet()) {
-        this.removeFormField("whichspot");
-        this.addFormField("action", "autofaucet");
-      } else {
-        int square = TavernManager.recommendSquare();
-        if (square == 0) {
+      case "cellar.php" -> {
+        if (!TavernManager.shouldAutoFaucet() && TavernManager.recommendSquare() == 0) {
           KoLmafia.updateDisplay(
               MafiaState.ERROR, "Don't know which square to visit in the Typical Tavern Cellar.");
           return;
         }
-
-        this.addFormField("whichspot", String.valueOf(square));
-        this.addFormField("action", "explore");
       }
-    } else if (this.formSource.equals("mining.php")) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Automated mining is not currently implemented.");
-      return;
-    } else if (this.formSource.equals("place.php") && this.adventureId.equals("pyramid_state")) {
-      this.addFormField("whichplace", "pyramid");
-      StringBuilder action = new StringBuilder();
-      action.append(adventureId);
-      action.append(Preferences.getString("pyramidPosition"));
-      if (Preferences.getBoolean("pyramidBombUsed")) {
-        action.append("a");
-      }
-      this.addFormField("action", action.toString());
-    } else if (this.formSource.equals("place.php") && this.adventureId.equals("manor4_chamber")) {
-      this.addFormField("whichplace", "manor4");
-      if (!QuestDatabase.isQuestFinished(Quest.MANOR)) {
-        this.addFormField("action", "manor4_chamberboss");
-      } else {
-        this.addFormField("action", "manor4_chamber");
+      case "mining.php" -> {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Automated mining is not currently implemented.");
+        return;
       }
     }
 
+    // Update fields to submit, if necessary
+    this.reconstructFields();
+
     super.run();
+  }
+
+  @Override
+  public void reconstructFields() {
+    switch (this.formSource) {
+      case "cellar.php" -> {
+        if (TavernManager.shouldAutoFaucet()) {
+          this.removeFormField("whichspot");
+          this.addFormField("action", "autofaucet");
+        } else {
+          this.addFormField("whichspot", String.valueOf(TavernManager.recommendSquare()));
+          this.addFormField("action", "explore");
+        }
+      }
+      case "place.php" -> {
+        switch (this.adventureId) {
+          case "manor4_chamber" -> {
+            this.addFormField("whichplace", "manor4");
+            if (!QuestDatabase.isQuestFinished(Quest.MANOR)) {
+              this.addFormField("action", "manor4_chamberboss");
+            } else {
+              this.addFormField("action", "manor4_chamber");
+            }
+          }
+          case "pyramid_state" -> {
+            this.addFormField("whichplace", "pyramid");
+            StringBuilder action = new StringBuilder();
+            action.append(adventureId);
+            action.append(Preferences.getString("pyramidPosition"));
+            if (Preferences.getBoolean("pyramidBombUsed")) {
+              action.append("a");
+            }
+            this.addFormField("action", action.toString());
+          }
+          case "shadow_rift" -> {
+            // If we are going to the "current" Shadow Rift Ingress, we can go
+            // straight to adventure.php and avoid an extra redirection.
+            ShadowRift rift = ShadowRift.findAdventureName(this.adventureName);
+            if (rift != null) {
+              String current = Preferences.getString("shadowRiftIngress");
+              String desired = rift.getPlace();
+              if (current.equals(desired)) {
+                this.constructURLString("adventure.php");
+                this.addFormField("snarfblat", String.valueOf(AdventurePool.SHADOW_RIFT));
+              } else {
+                this.constructURLString("place.php");
+                this.addFormField("whichplace", rift.getPlace());
+                this.addFormField("action", rift.getAction());
+                Preferences.setString("shadowRiftIngress", desired);
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   @Override

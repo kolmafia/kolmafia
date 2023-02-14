@@ -215,6 +215,19 @@ Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Ma
 Science Lab	100	bugbear scientist	spiderbugbear
 Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	cyborg policeman	"Handyman" Jay Android	liquid metal robot	obese tourist	Space Marine	terrifying robot
 Shadow Rift	100	shadow bat	shadow cow	shadow devil	shadow guy	shadow hexagon	shadow orb	shadow prism	shadow slab	shadow spider	shadow snake	shadow stalk	shadow tree
+Shadow Rift (Desert Beach)	100	shadow devil	shadow orb	shadow snake
+Shadow Rift (Forest Village)	100	shadow guy	shadow hexagon	shadow spider
+Shadow Rift (Mt. McLargeHuge)	100	shadow cow	shadow hexagon	shadow tree
+Shadow Rift (Somewhere Over the Beanstalk)	100	shadow orb	shadow prism	shadow stalk
+Shadow Rift (Spookyraven Manor Third Floor)	100	shadow bat	shadow devil	shadow spider
+Shadow Rift (The 8-Bit Realm)	100	shadow hexagon	shadow orb	shadow prism
+Shadow Rift (The Ancient Buried Pyramid)	100	shadow bat	shadow slab	shadow snake
+Shadow Rift (The Castle in the Clouds in the Sky)	100	shadow bat	shadow guy	shadow orb
+Shadow Rift (The Distant Woods)	100	shadow devil	shadow stalk	shadow tree
+Shadow Rift (The Hidden City)	100	shadow slab	shadow snake	shadow stalk
+Shadow Rift (The Misspelled Cemetary)	100	shadow guy	shadow slab	shadow tree
+Shadow Rift (The Nearby Plains)	100	shadow bat	shadow cow	shadow spider
+Shadow Rift (The Right Side of the Tracks)	100	shadow cow	shadow guy	shadow prism
 Shivering Timbers	100	deadwood tree	fur tree	hangman's tree	pumpkin tree	toilet-papered tree	Underworld Tree: 0
 Shop Class	100	out-of-control bandsaw	deadly vise	demonic jigsaw	screw golem	X-fingered Shop Teacher: 0
 Simple Tool-Making Cave	100	flint-scraping cave elf	hunter-gatherer cave elf	rock-banging cave elf	sinew-stretching cave elf

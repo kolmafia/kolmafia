@@ -1936,4 +1936,18 @@ public class FightRequestTest {
       assertFalse(KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE));
     }
   }
+
+  @Nested
+  class Camel {
+    @Test
+    public void sloshingSetsSpitToFull() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MELODRAMEDARY), withProperty("camelSpit", 0), withFight());
+      try (cleanups) {
+        parseCombatData("request/test_melodramedary_sloshing.html");
+        assertThat("camelSpit", isSetTo(100));
+      }
+    }
+  }
 }

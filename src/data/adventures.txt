@@ -405,7 +405,20 @@ Twitch	adventure=454	DiffLevel: mid Env: indoor Stat: 0	Globe Theatre Backstage
 Twitch	adventure=475	DiffLevel: mid Env: indoor Stat: 0	12 West Main
 Twitch	adventure=476	DiffLevel: mid Env: outdoor Stat: 0	KoL Con Clan Party House
 
-Events	adventure=567	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift
+Shadow Rift	adventure=567	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (Desert Beach)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (Forest Village)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (Mt. McLargeHuge)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (Somewhere Over the Beanstalk)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (Spookyraven Manor Third Floor)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (The 8-Bit Realm)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (The Ancient Buried Pyramid)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (The Castle in the Clouds in the Sky)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (The Distant Woods)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (The Hidden City)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (The Misspelled Cemetary)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (The Nearby Plains)
+Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (The Right Side of the Tracks)
 
 # Special one-time Events - including Crimbo content
 
