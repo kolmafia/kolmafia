@@ -104,13 +104,28 @@ public class AdventureDatabaseTest {
       }
     }
 
-    @Test
-    public void canFindShadowRiftAdventureFromProperty() {
-      var cleanups = new Cleanups(withProperty("shadowRiftIngress", "hiddencity"));
+    @ParameterizedTest
+    @CsvSource({
+      "desertbeach, Shadow Rift (Desert Beach)",
+      "forestvillage, Shadow Rift (Forest Village)",
+      "mclargehuge, Shadow Rift (Mt. McLargeHuge)",
+      "beanstalk, Shadow Rift (Somewhere Over the Beanstalk)",
+      "manor3, Shadow Rift (Spookyraven Manor Third Floor)",
+      "8bit, Shadow Rift (The 8-Bit Realm)",
+      "pyramid, Shadow Rift (The Ancient Buried Pyramid)",
+      "giantcastle, Shadow Rift (The Castle in the Clouds in the Sky)",
+      "woods, Shadow Rift (The Distant Woods)",
+      "hiddencity, Shadow Rift (The Hidden City)",
+      "cemetery, Shadow Rift (The Misspelled Cemetary)",
+      "plains, Shadow Rift (The Nearby Plains)",
+      "town_right, Shadow Rift (The Right Side of the Tracks)",
+    })
+    public void canFindShadowRiftAdventureFromProperty(String property, String adventureName) {
+      var cleanups = new Cleanups(withProperty("shadowRiftIngress", property));
       try (cleanups) {
         var adventure = AdventureDatabase.getAdventureByURL(SHADOW_RIFT_URL);
         assertFalse(adventure == null);
-        assertThat(adventure.getAdventureName(), is("Shadow Rift (The Hidden City)"));
+        assertThat(adventure.getAdventureName(), is(adventureName));
       }
     }
   }
