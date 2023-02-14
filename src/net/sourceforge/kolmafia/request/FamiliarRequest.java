@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -170,7 +171,7 @@ public class FamiliarRequest extends GenericRequest {
 
     if (this.item != null) {
       if (this.changeTo.equals(KoLCharacter.getFamiliar())) {
-        EquipmentRequest request = new EquipmentRequest(this.item, EquipmentManager.FAMILIAR);
+        EquipmentRequest request = new EquipmentRequest(this.item, Slot.FAMILIAR);
         request.run();
         return;
       }
@@ -196,12 +197,12 @@ public class FamiliarRequest extends GenericRequest {
     if (this.enthrone) {
       FamiliarData enthroned = KoLCharacter.getEnthroned();
 
-      if (EquipmentManager.getEquipment(EquipmentManager.HAT).getItemId() != ItemPool.HATSEAT) {
+      if (EquipmentManager.getEquipment(Slot.HAT).getItemId() != ItemPool.HATSEAT) {
         if (this.changeTo.equals(FamiliarData.NO_FAMILIAR)
             && !enthroned.equals(FamiliarData.NO_FAMILIAR)) {
           try (Checkpoint checkpoint = new Checkpoint()) {
             RequestThread.postRequest(
-                new EquipmentRequest(ItemPool.get(ItemPool.HATSEAT, 1), EquipmentManager.HAT));
+                new EquipmentRequest(ItemPool.get(ItemPool.HATSEAT, 1), Slot.HAT));
             RequestThread.postRequest(FamiliarRequest.enthroneRequest(FamiliarData.NO_FAMILIAR));
           }
         }
@@ -232,14 +233,12 @@ public class FamiliarRequest extends GenericRequest {
     } else if (this.bjornify) {
       FamiliarData bjorned = KoLCharacter.getBjorned();
 
-      if (EquipmentManager.getEquipment(EquipmentManager.CONTAINER).getItemId()
-          != ItemPool.BUDDY_BJORN) {
+      if (EquipmentManager.getEquipment(Slot.CONTAINER).getItemId() != ItemPool.BUDDY_BJORN) {
         if (this.changeTo.equals(FamiliarData.NO_FAMILIAR)
             && !bjorned.equals(FamiliarData.NO_FAMILIAR)) {
           try (Checkpoint checkpoint = new Checkpoint()) {
             RequestThread.postRequest(
-                new EquipmentRequest(
-                    ItemPool.get(ItemPool.BUDDY_BJORN, 1), EquipmentManager.CONTAINER));
+                new EquipmentRequest(ItemPool.get(ItemPool.BUDDY_BJORN, 1), Slot.CONTAINER));
             RequestThread.postRequest(FamiliarRequest.bjornifyRequest(FamiliarData.NO_FAMILIAR));
           }
         }
@@ -354,7 +353,7 @@ public class FamiliarRequest extends GenericRequest {
     }
 
     KoLmafia.updateDisplay(use.getName() + " is better than (none).  Switching items...");
-    RequestThread.postRequest(new EquipmentRequest(use, EquipmentManager.FAMILIAR));
+    RequestThread.postRequest(new EquipmentRequest(use, Slot.FAMILIAR));
   }
 
   @Override
@@ -407,7 +406,7 @@ public class FamiliarRequest extends GenericRequest {
 
     // Remove granted skills from the familiar we put back
     FamiliarData changeFrom = KoLCharacter.getFamiliar();
-    EquipmentManager.removeConditionalSkills(EquipmentManager.FAMILIAR, changeFrom.getItem());
+    EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, changeFrom.getItem());
 
     // If we have a familiar item locked and the new familiar can
     // equip it, it was automatically transferred.
@@ -427,7 +426,7 @@ public class FamiliarRequest extends GenericRequest {
     }
 
     // Add granted skills from the familiar we took out
-    EquipmentManager.addConditionalSkills(EquipmentManager.FAMILIAR, changeTo.getItem());
+    EquipmentManager.addConditionalSkills(Slot.FAMILIAR, changeTo.getItem());
 
     return true;
   }
@@ -474,7 +473,7 @@ public class FamiliarRequest extends GenericRequest {
       }
 
       KoLCharacter.setFamiliar(changeTo);
-      EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
 
       return true;
     }
@@ -493,8 +492,8 @@ public class FamiliarRequest extends GenericRequest {
       }
 
       KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
-      EquipmentManager.setEquipment(EquipmentManager.FAMILIAR, EquipmentRequest.UNEQUIP);
-      EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+      EquipmentManager.setEquipment(Slot.FAMILIAR, EquipmentRequest.UNEQUIP);
+      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
       EquipmentManager.lockFamiliarItem(false);
 
       return true;
@@ -524,14 +523,13 @@ public class FamiliarRequest extends GenericRequest {
       familiar.ifPresent(
           f -> {
             if (current.equals(f)) {
-              EquipmentManager.removeConditionalSkills(
-                  EquipmentManager.FAMILIAR, current.getItem());
-              EquipmentManager.addConditionalSkills(EquipmentManager.FAMILIAR, item);
+              EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, current.getItem());
+              EquipmentManager.addConditionalSkills(Slot.FAMILIAR, item);
             }
 
             FamiliarRequest.equipFamiliar(f, item);
           });
-      EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
 
       return true;
     }
@@ -558,13 +556,12 @@ public class FamiliarRequest extends GenericRequest {
       familiar.ifPresent(
           f -> {
             if (current.equals(f)) {
-              EquipmentManager.removeConditionalSkills(
-                  EquipmentManager.FAMILIAR, current.getItem());
+              EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, current.getItem());
             }
 
             FamiliarRequest.unequipFamiliar(f);
           });
-      EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
 
       return true;
     }
@@ -627,7 +624,7 @@ public class FamiliarRequest extends GenericRequest {
       }
 
       KoLCharacter.setEnthroned(fam);
-      EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
 
       return true;
     }
@@ -669,7 +666,7 @@ public class FamiliarRequest extends GenericRequest {
       }
 
       KoLCharacter.setBjorned(fam);
-      EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
 
       return true;
     }
@@ -869,8 +866,8 @@ public class FamiliarRequest extends GenericRequest {
     AdventureResult item = ItemPool.get(itemId, 1);
     RequestLogger.updateSessionLog();
     RequestLogger.updateSessionLog("Equip " + fam.getRace() + " with " + item.getName());
-    EquipmentManager.removeConditionalSkills(EquipmentManager.FAMILIAR, fam.getItem());
-    EquipmentManager.addConditionalSkills(EquipmentManager.FAMILIAR, item);
+    EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, fam.getItem());
+    EquipmentManager.addConditionalSkills(Slot.FAMILIAR, item);
     FamiliarRequest.equipFamiliar(fam, ItemPool.get(itemId, 1));
   }
 
@@ -878,7 +875,7 @@ public class FamiliarRequest extends GenericRequest {
     FamiliarData fam = KoLCharacter.getFamiliar();
     RequestLogger.updateSessionLog();
     RequestLogger.updateSessionLog("Unequip " + fam.getRace());
-    EquipmentManager.removeConditionalSkills(EquipmentManager.FAMILIAR, fam.getItem());
+    EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, fam.getItem());
     FamiliarRequest.unequipFamiliar(fam);
   }
 }

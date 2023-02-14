@@ -1506,7 +1506,7 @@ public class CompactSidePane extends JPanel implements Runnable {
           case COLD_DAMAGE -> DoubleModifier.COLD_SPELL_DAMAGE;
           case STENCH_DAMAGE -> DoubleModifier.STENCH_SPELL_DAMAGE;
           case SPOOKY_DAMAGE -> DoubleModifier.SPOOKY_SPELL_DAMAGE;
-          case SLEAZE_DAMAGE -> DoubleModifier.SLEAZE_DAMAGE;
+          case SLEAZE_DAMAGE -> DoubleModifier.SLEAZE_SPELL_DAMAGE;
           default -> throw new IllegalStateException("Unexpected value: " + dmgModifier);
         };
     double sdmg = KoLCharacter.currentNumericModifier(sdmgModifier);

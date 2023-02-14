@@ -12,8 +12,8 @@ import static org.hamcrest.Matchers.hasSize;
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -49,8 +49,8 @@ public class EquipCommandTest extends AbstractCommandTestBase {
     var cleanups =
         new Cleanups(
             withItem(ItemPool.FOLDER_01),
-            withEquipped(EquipmentManager.FOLDER1, ItemPool.FOLDER_19),
-            withEquipped(EquipmentManager.FOLDER2, ItemPool.FOLDER_22),
+            withEquipped(Slot.FOLDER1, ItemPool.FOLDER_19),
+            withEquipped(Slot.FOLDER2, ItemPool.FOLDER_22),
             withHandlingChoice(false) // escape the choice
             );
 

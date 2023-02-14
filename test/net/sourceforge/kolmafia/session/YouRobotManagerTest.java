@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ConcoctionType;
@@ -514,8 +515,8 @@ public class YouRobotManagerTest {
 
       // Put one on
       AdventureResult hat = ItemPool.get(ItemPool.HELMET_TURTLE, 1);
-      EquipmentManager.setEquipment(EquipmentManager.HAT, hat);
-      assertTrue(hat.equals(EquipmentManager.getEquipment(EquipmentManager.HAT)));
+      EquipmentManager.setEquipment(Slot.HAT, hat);
+      assertTrue(hat.equals(EquipmentManager.getEquipment(Slot.HAT)));
 
       // Install Pea Shooter
       urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=1";
@@ -527,7 +528,7 @@ public class YouRobotManagerTest {
       request.processResponse();
 
       // Verify that we are no longer wearing a hat
-      assertEquals(EquipmentRequest.UNEQUIP, EquipmentManager.getEquipment(EquipmentManager.HAT));
+      assertEquals(EquipmentRequest.UNEQUIP, EquipmentManager.getEquipment(Slot.HAT));
     }
   }
 

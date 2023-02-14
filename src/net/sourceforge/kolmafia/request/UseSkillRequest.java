@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessingLevel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -494,29 +495,17 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       case SkillPool.DEEP_VISIONS:
         return KoLCharacter.getMaximumHP() >= 500 ? 1 : 0;
 
-      case SkillPool.WAR_BLESSING:
-        return (KoLCharacter.getBlessingLevel() != -1
-                || KoLCharacter.getBlessingType() == TurtleBlessing.WAR)
-            ? 1
-            : 0;
-
-      case SkillPool.SHE_WHO_WAS_BLESSING:
-        return (KoLCharacter.getBlessingLevel() != -1
-                || KoLCharacter.getBlessingType() == TurtleBlessing.SHE_WHO_WAS)
-            ? 1
-            : 0;
-
-      case SkillPool.STORM_BLESSING:
-        return (KoLCharacter.getBlessingLevel() != -1
-                || KoLCharacter.getBlessingType() == TurtleBlessing.STORM)
-            ? 1
-            : 0;
+      case SkillPool.WAR_BLESSING, SkillPool.SHE_WHO_WAS_BLESSING, SkillPool.STORM_BLESSING:
+        return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SPIRIT_PARIAH))
+            ? 0
+            : 1;
 
       case SkillPool.SPIRIT_BOON:
-        return KoLCharacter.getBlessingLevel() != 0 ? Integer.MAX_VALUE : 0;
+        return KoLCharacter.getBlessingLevel().isBlessing() ? Integer.MAX_VALUE : 0;
 
       case SkillPool.TURTLE_POWER:
-        return KoLCharacter.getBlessingLevel() == 3 && !Preferences.getBoolean("_turtlePowerCast")
+        return KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.GLORIOUS_BLESSING
+                && !Preferences.getBoolean("_turtlePowerCast")
             ? 1
             : 0;
 
@@ -775,17 +764,14 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           }
 
           // Find an accessory slot to equip the Powerful Glove
-          boolean slot1Allowed =
-              UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY1, item, skillId);
-          boolean slot2Allowed =
-              UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY2, item, skillId);
-          boolean slot3Allowed =
-              UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY3, item, skillId);
+          boolean slot1Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
+          boolean slot2Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
+          boolean slot3Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
 
-          int slot =
+          Slot slot =
               UseSkillRequest.attemptSwitch(
                   skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
-          if (slot == -1) {
+          if (slot == Slot.NONE) {
             KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot choose slot to equip Powerful Glove.");
             return;
           }
@@ -800,7 +786,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
             KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot acquire designer sweatpants.");
             return;
           }
-          (new EquipmentRequest(item, EquipmentManager.PANTS)).run();
+          (new EquipmentRequest(item, Slot.PANTS)).run();
         }
       }
     }
@@ -811,7 +797,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   }
 
   private static boolean isValidSwitch(
-      final int slotId, final AdventureResult newItem, final int skillId) {
+      final Slot slotId, final AdventureResult newItem, final int skillId) {
     AdventureResult item = EquipmentManager.getEquipment(slotId);
     if (item.equals(EquipmentRequest.UNEQUIP)) return true;
 
@@ -854,28 +840,28 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     return true;
   }
 
-  private static int attemptSwitch(
+  private static Slot attemptSwitch(
       final int skillId,
       final AdventureResult item,
       final boolean slot1Allowed,
       final boolean slot2Allowed,
       final boolean slot3Allowed) {
     if (slot3Allowed) {
-      (new EquipmentRequest(item, EquipmentManager.ACCESSORY3)).run();
-      return EquipmentManager.ACCESSORY3;
+      (new EquipmentRequest(item, Slot.ACCESSORY3)).run();
+      return Slot.ACCESSORY3;
     }
 
     if (slot2Allowed) {
-      (new EquipmentRequest(item, EquipmentManager.ACCESSORY2)).run();
-      return EquipmentManager.ACCESSORY2;
+      (new EquipmentRequest(item, Slot.ACCESSORY2)).run();
+      return Slot.ACCESSORY2;
     }
 
     if (slot1Allowed) {
-      (new EquipmentRequest(item, EquipmentManager.ACCESSORY1)).run();
-      return EquipmentManager.ACCESSORY1;
+      (new EquipmentRequest(item, Slot.ACCESSORY1)).run();
+      return Slot.ACCESSORY1;
     }
 
-    return -1;
+    return Slot.NONE;
   }
 
   private static void reduceManaConsumption(final int skillId) {
@@ -927,18 +913,15 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       }
 
       // If you won't lose max hp, current mp, or songs, use it
-      int slot = EquipmentManager.itemIdToEquipmentType(item.getItemId());
-      if (slot == EquipmentManager.ACCESSORY1) {
+      Slot slot = EquipmentManager.itemIdToEquipmentType(item.getItemId());
+      if (slot == Slot.ACCESSORY1) {
         // First determine which slots are available for switching in
         // MP reduction items.  This has do be done inside the loop now
         // that max HP/MP prediction is done, since two changes that are
         // individually harmless might add up to a loss of points.
-        boolean slot1Allowed =
-            UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY1, item, skillId);
-        boolean slot2Allowed =
-            UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY2, item, skillId);
-        boolean slot3Allowed =
-            UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY3, item, skillId);
+        boolean slot1Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
+        boolean slot2Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
+        boolean slot3Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
 
         UseSkillRequest.attemptSwitch(skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
       } else {
@@ -1214,8 +1197,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       boolean needExtra =
           currentCast < maximumCast
               && currentCast < castsRemaining
-              && EquipmentManager.getEquipment(EquipmentManager.HAT).getItemId()
-                  == ItemPool.OPERA_MASK;
+              && EquipmentManager.getEquipment(Slot.HAT).getItemId() == ItemPool.OPERA_MASK;
 
       if (currentCast == 0 || needExtra) {
         currentCast = Math.min(Math.min(castsRemaining, maximumCast), castsPerIteration);

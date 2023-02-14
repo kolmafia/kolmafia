@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -736,14 +737,14 @@ public class ListCellRendererFactory {
     }
   }
 
-  public static final DefaultListCellRenderer getUsableEquipmentRenderer(final int slot) {
+  public static final DefaultListCellRenderer getUsableEquipmentRenderer(final Slot slot) {
     return new UsableEquipmentRenderer(slot);
   }
 
   private static class UsableEquipmentRenderer extends DefaultListCellRenderer {
-    private int slot;
+    private Slot slot;
 
-    public UsableEquipmentRenderer(final int slot) {
+    public UsableEquipmentRenderer(final Slot slot) {
       this.slot = slot;
       this.setOpaque(true);
     }
@@ -792,13 +793,13 @@ public class ListCellRendererFactory {
             count = 1;
           } else {
             count = ar.getCount(KoLConstants.inventory);
-            if (ar.equals(EquipmentManager.getEquipment(EquipmentManager.ACCESSORY1))) {
+            if (ar.equals(EquipmentManager.getEquipment(Slot.ACCESSORY1))) {
               ++count;
             }
-            if (ar.equals(EquipmentManager.getEquipment(EquipmentManager.ACCESSORY2))) {
+            if (ar.equals(EquipmentManager.getEquipment(Slot.ACCESSORY2))) {
               ++count;
             }
-            if (ar.equals(EquipmentManager.getEquipment(EquipmentManager.ACCESSORY3))) {
+            if (ar.equals(EquipmentManager.getEquipment(Slot.ACCESSORY3))) {
               ++count;
             }
           }

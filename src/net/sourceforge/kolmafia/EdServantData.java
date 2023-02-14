@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -390,7 +390,7 @@ public class EdServantData implements Comparable<EdServantData> {
       // - each servant has a unique "this servant leveled up" message.
       // (which is cute, but we can derive level from experience)
       int next = this.level + 1;
-      int delta = KoLCharacter.hasEquipped(EdServantData.CROWN_OF_ED, EquipmentManager.HAT) ? 2 : 1;
+      int delta = KoLCharacter.hasEquipped(EdServantData.CROWN_OF_ED, Slot.HAT) ? 2 : 1;
       this.experience = Math.min(this.experience + delta, 441);
       if (this.experience >= (next * next)) {
         ++this.level;

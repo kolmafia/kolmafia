@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -100,10 +101,9 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
       return;
     }
 
-    if (EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).getItemId()
-        != ItemPool.SNOW_SUIT) {
+    if (EquipmentManager.getEquipment(Slot.FAMILIAR).getItemId() != ItemPool.SNOW_SUIT) {
       AdventureResult snowsuit = ItemPool.get(ItemPool.SNOW_SUIT);
-      RequestThread.postRequest(new EquipmentRequest(snowsuit, EquipmentManager.FAMILIAR));
+      RequestThread.postRequest(new EquipmentRequest(snowsuit, Slot.FAMILIAR));
     }
 
     if (parameters.equalsIgnoreCase(currentDecoration)) {

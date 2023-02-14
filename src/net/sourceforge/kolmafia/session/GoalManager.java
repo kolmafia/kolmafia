@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -129,8 +130,8 @@ public class GoalManager {
         currentCount += goal.getCount(KoLConstants.closet);
       }
 
-      for (int j = 0; j < EquipmentManager.FAMILIAR; ++j) {
-        if (EquipmentManager.getEquipment(j).equals(goal)) {
+      for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
+        if (EquipmentManager.getEquipment(slot).equals(goal)) {
           ++currentCount;
         }
       }

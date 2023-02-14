@@ -12,8 +12,8 @@ import static org.hamcrest.Matchers.hasSize;
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -80,8 +80,8 @@ public class StickersCommandTest extends AbstractCommandTestBase {
         new Cleanups(
             withItem(ItemPool.ROCK_BAND_STICKER, 3),
             withEquippableItem(ItemPool.STICKER_SWORD),
-            withEquipped(EquipmentManager.STICKER1, ItemPool.DRAGON_STICKER),
-            withEquipped(EquipmentManager.STICKER3, ItemPool.WRESTLER_STICKER));
+            withEquipped(Slot.STICKER1, ItemPool.DRAGON_STICKER),
+            withEquipped(Slot.STICKER3, ItemPool.WRESTLER_STICKER));
 
     try (cleanups) {
       this.execute("rock band, rock band, rock band");

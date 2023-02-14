@@ -1,9 +1,13 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -18,7 +22,8 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -42,83 +47,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class EquipmentManager {
-  public static final int NONE = -1;
-
-  // Mutable equipment slots
-  public static final int HAT = 0;
-  public static final int WEAPON = 1;
-  public static final int HOLSTER = 2;
-  public static final int OFFHAND = 3;
-  public static final int CONTAINER = 4;
-  public static final int SHIRT = 5;
-  public static final int PANTS = 6;
-  public static final int ACCESSORY1 = 7;
-  public static final int ACCESSORY2 = 8;
-  public static final int ACCESSORY3 = 9;
-  public static final int FAMILIAR = 10;
-
-  // Count of slots visible on equipment page: HAT to FAMILIAR
-  public static final int SLOTS = 11;
-
-  // Pseudo-equipment slots
-  public static final int CROWNOFTHRONES = 11;
-
-  public static final int STICKER1 = 12;
-  public static final int STICKER2 = 13;
-  public static final int STICKER3 = 14;
-
-  public static final int CARDSLEEVE = 15;
-
-  public static final int FOLDER1 = 16;
-  public static final int FOLDER2 = 17;
-  public static final int FOLDER3 = 18;
-  public static final int FOLDER4 = 19;
-  public static final int FOLDER5 = 20;
-
-  public static final int BUDDYBJORN = 21;
-
-  public static final int BOOTSKIN = 22;
-  public static final int BOOTSPUR = 23;
-
-  // Count of all equipment slots: HAT to BOOTSPUR
-  public static final int ALL_SLOTS = 24;
-
-  public static final int FAKEHAND = 24;
-
-  /** A list indexed by Slot of current equipment */
-  private static final List<AdventureResult> equipment =
-      new ArrayList<>(EquipmentManager.ALL_SLOTS);
   /** A list of all possible accessories. Is an interior list of equipmentLists for acc1, 2, 3 */
   private static final List<AdventureResult> accessories =
       LockableListFactory.getInstance(AdventureResult.class);
+  // these three all use HAT through BOOTSPUR (i.e. all slots)
+  /** A list indexed by Slot of current equipment */
+  private static final Map<Slot, AdventureResult> equipment = new EnumMap<>(Slot.class);
   /** A list indexed by Slot of possible equipment. Interior list is used in GearChangeFrame */
-  private static final List<List<AdventureResult>> equipmentLists =
-      new ArrayList<>(EquipmentManager.ALL_SLOTS);
+  private static final Map<Slot, List<AdventureResult>> equipmentLists = new EnumMap<>(Slot.class);
   /** A list indexed by Slot of equipment we have previously equipped, in order */
-  private static final List<List<AdventureResult>> historyLists =
-      new ArrayList<>(EquipmentManager.ALL_SLOTS);
-
-  public static final int[] FOLDER_SLOTS =
-      new int[] {
-        EquipmentManager.FOLDER1,
-        EquipmentManager.FOLDER2,
-        EquipmentManager.FOLDER3,
-        EquipmentManager.FOLDER4,
-        EquipmentManager.FOLDER5,
-      };
-
-  public static final int[] FOLDER_SLOTS_AFTERCORE =
-      new int[] {
-        EquipmentManager.FOLDER1, EquipmentManager.FOLDER2, EquipmentManager.FOLDER3,
-      };
-
-  public static final int[] ACCESSORY_SLOTS =
-      new int[] {
-        EquipmentManager.ACCESSORY1, EquipmentManager.ACCESSORY2, EquipmentManager.ACCESSORY3
-      };
-
-  public static final int[] STICKER_SLOTS =
-      new int[] {EquipmentManager.STICKER1, EquipmentManager.STICKER2, EquipmentManager.STICKER3};
+  private static final Map<Slot, List<AdventureResult>> historyLists = new EnumMap<>(Slot.class);
 
   private static int fakeHandCount = 0;
   private static int stinkyCheeseLevel = 0;
@@ -128,7 +66,8 @@ public class EquipmentManager {
   private static final List<SpecialOutfit> customOutfits =
       LockableListFactory.getInstance(SpecialOutfit.class);
 
-  private static final int[] turnsRemaining = new int[3];
+  /** Map from Sticker[1|2|3] to turns remaining. */
+  private static final EnumMap<Slot, Integer> turnsRemaining = new EnumMap<>(Slot.class);
 
   private static AdventureResult lockedFamiliarItem = EquipmentRequest.UNEQUIP;
 
@@ -140,17 +79,15 @@ public class EquipmentManager {
   public static final AdventureResult COWBOY_BOOTS = ItemPool.get(ItemPool.COWBOY_BOOTS, 1);
 
   static {
-    for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
-      EquipmentManager.equipment.add(EquipmentRequest.UNEQUIP);
-      EquipmentManager.historyLists.add(new ArrayList<>());
+    for (var slot : SlotSet.ALL_SLOTS) {
+      EquipmentManager.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      EquipmentManager.historyLists.put(slot, new ArrayList<>());
 
-      switch (i) {
-        case EquipmentManager.ACCESSORY1,
-            EquipmentManager.ACCESSORY2,
-            EquipmentManager.ACCESSORY3 -> EquipmentManager.equipmentLists.add(
-            LockableListFactory.getMirror(EquipmentManager.accessories));
-        default -> EquipmentManager.equipmentLists.add(
-            LockableListFactory.getSortedInstance(AdventureResult.class));
+      switch (slot) {
+        case ACCESSORY1, ACCESSORY2, ACCESSORY3 -> EquipmentManager.equipmentLists.put(
+            slot, LockableListFactory.getMirror(EquipmentManager.accessories));
+        default -> EquipmentManager.equipmentLists.put(
+            slot, LockableListFactory.getSortedInstance(AdventureResult.class));
       }
     }
   }
@@ -158,9 +95,11 @@ public class EquipmentManager {
   private EquipmentManager() {}
 
   public static void resetEquipment() {
-    for (int i = 0; i < EquipmentManager.equipmentLists.size(); ++i) {
-      EquipmentManager.equipmentLists.get(i).clear();
-      EquipmentManager.historyLists.get(i).clear();
+    for (var list : EquipmentManager.equipmentLists.values()) {
+      list.clear();
+    }
+    for (var list : EquipmentManager.historyLists.values()) {
+      list.clear();
     }
 
     EquipmentManager.accessories.clear();
@@ -168,8 +107,8 @@ public class EquipmentManager {
 
     EquipmentManager.equipment.clear();
 
-    for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
-      EquipmentManager.equipment.add(EquipmentRequest.UNEQUIP);
+    for (var slot : SlotSet.ALL_SLOTS) {
+      EquipmentManager.equipment.put(slot, EquipmentRequest.UNEQUIP);
     }
 
     EquipmentManager.fakeHandCount = 0;
@@ -182,39 +121,39 @@ public class EquipmentManager {
     EquipmentManager.customOutfits.clear();
   }
 
-  public static AdventureResult[] emptyEquipmentArray() {
+  public static EnumMap<Slot, AdventureResult> emptyEquipmentArray() {
     return EquipmentManager.emptyEquipmentArray(false);
   }
 
-  public static AdventureResult[] emptyEquipmentArray(boolean all) {
-    int length = all ? EquipmentManager.ALL_SLOTS : EquipmentManager.SLOTS;
-    AdventureResult[] array = new AdventureResult[length];
+  public static EnumMap<Slot, AdventureResult> emptyEquipmentArray(boolean all) {
+    EnumSet<Slot> slots = all ? SlotSet.ALL_SLOTS : SlotSet.SLOTS;
+    EnumMap<Slot, AdventureResult> map = new EnumMap<>(Slot.class);
 
-    for (int i = 0; i < length; ++i) {
-      array[i] = EquipmentRequest.UNEQUIP;
+    for (var slot : slots) {
+      map.put(slot, EquipmentRequest.UNEQUIP);
     }
 
-    return array;
+    return map;
   }
 
-  public static AdventureResult[] currentEquipment() {
-    AdventureResult[] array = new AdventureResult[EquipmentManager.SLOTS];
+  public static EnumMap<Slot, AdventureResult> currentEquipment() {
+    EnumMap<Slot, AdventureResult> map = new EnumMap<>(Slot.class);
 
-    for (int i = 0; i < EquipmentManager.SLOTS; ++i) {
-      array[i] = EquipmentManager.getEquipment(i);
+    for (var slot : SlotSet.SLOTS) {
+      map.put(slot, EquipmentManager.getEquipment(slot));
     }
-    return array;
+    return map;
   }
 
-  public static AdventureResult[] allEquipment() {
-    AdventureResult[] array = new AdventureResult[EquipmentManager.ALL_SLOTS];
-    array = EquipmentManager.equipment.toArray(array);
-    array[EquipmentManager.FAMILIAR] = EquipmentManager.getFamiliarItem();
-    return array;
+  public static EnumMap<Slot, AdventureResult> allEquipment() {
+    EnumMap<Slot, AdventureResult> map = new EnumMap<>(EquipmentManager.equipment);
+
+    map.put(Slot.FAMILIAR, EquipmentManager.getFamiliarItem());
+    return map;
   }
 
-  public static final List<AdventureResult> allEquipmentAsList() {
-    return EquipmentManager.equipment;
+  public static final Collection<AdventureResult> allEquipmentAsCollection() {
+    return EquipmentManager.equipment.values();
   }
 
   public static final void processResult(AdventureResult item) {
@@ -222,8 +161,7 @@ public class EquipmentManager {
 
     // If your current familiar can use this item, add it to familiar item list
     if (KoLCharacter.getFamiliar().canEquip(item)) {
-      AdventureResult.addResultToList(
-          EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR), item);
+      AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(Slot.FAMILIAR), item);
       if (ItemDatabase.getConsumptionType(itemId) == ConsumptionType.FAMILIAR_EQUIPMENT) {
         return;
       }
@@ -251,7 +189,7 @@ public class EquipmentManager {
       // Make sure the current sticker in each slot remains in the list, even if
       // there are no more of that type in inventory.
 
-      for (int slot : EquipmentManager.STICKER_SLOTS) {
+      for (Slot slot : SlotSet.STICKER_SLOTS) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
         if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
@@ -261,7 +199,7 @@ public class EquipmentManager {
     } else if (consumeType == ConsumptionType.FOLDER) {
       // Folders are similar to stickers
 
-      for (int slot : EquipmentManager.FOLDER_SLOTS) {
+      for (Slot slot : SlotSet.FOLDER_SLOTS) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
         if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
@@ -269,14 +207,12 @@ public class EquipmentManager {
         }
       }
     } else if (itemId == ItemPool.HATSEAT) {
-      AdventureResult.addResultToList(
-          EquipmentManager.equipmentLists.get(EquipmentManager.HAT), item);
+      AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(Slot.HAT), item);
     } else if (itemId == ItemPool.BUDDY_BJORN) {
-      AdventureResult.addResultToList(
-          EquipmentManager.equipmentLists.get(EquipmentManager.CONTAINER), item);
+      AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(Slot.CONTAINER), item);
     } else {
-      int equipmentType = EquipmentManager.consumeFilterToEquipmentType(consumeType);
-      if (equipmentType != -1) {
+      Slot equipmentType = EquipmentManager.consumeFilterToEquipmentType(consumeType);
+      if (equipmentType != Slot.NONE) {
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(equipmentType), item);
         GearChangePanel.updateSlot(equipmentType);
       }
@@ -292,8 +228,8 @@ public class EquipmentManager {
   }
 
   public static final void autoequipItem(AdventureResult newItem, boolean addToCheckpoints) {
-    int slot = EquipmentManager.itemIdToEquipmentType(newItem.getItemId());
-    if (slot < 0) {
+    Slot slot = EquipmentManager.itemIdToEquipmentType(newItem.getItemId());
+    if (slot == Slot.NONE) {
       return;
     }
 
@@ -321,9 +257,9 @@ public class EquipmentManager {
     EquipmentManager.setEquipment(slot, newItem);
   }
 
-  public static final void setEquipment(final int slot, AdventureResult item) {
+  public static final void setEquipment(final Slot slot, AdventureResult item) {
     // Variable slots do not include the fake hand
-    if (slot >= EquipmentManager.equipmentLists.size()) {
+    if (slot == Slot.FAKEHAND) {
       return;
     }
 
@@ -333,7 +269,7 @@ public class EquipmentManager {
     // in equipment lists -- they are all mirrors of accessories.
 
     switch (slot) {
-      case -1: // unknown item - ignore it
+      case NONE: // unknown item - ignore it
         return;
 
       case ACCESSORY1:
@@ -354,14 +290,14 @@ public class EquipmentManager {
         break;
     }
 
-    EquipmentManager.equipment.set(slot, item);
+    EquipmentManager.equipment.put(slot, item);
     LockableListFactory.setSelectedItem(EquipmentManager.equipmentLists.get(slot), item);
     EquipmentManager.historyLists.get(slot).remove(item);
     EquipmentManager.historyLists.get(slot).add(item);
 
     // Certain equipment slots require special update handling
     // in addition to the above code.
-    if (slot == FAMILIAR && KoLCharacter.currentFamiliar != null) {
+    if (slot == Slot.FAMILIAR && KoLCharacter.currentFamiliar != null) {
       KoLCharacter.currentFamiliar.setItem(item);
     }
     EquipmentManager.checkFamiliar(slot);
@@ -376,43 +312,43 @@ public class EquipmentManager {
       boolean removed = true;
       // Some items could be in multiple slots
       switch (slot) {
-        case EquipmentManager.HAT -> {
+        case HAT -> {
           // Mad Hatrack wears hats and grants conditional skills
-          AdventureResult hat = EquipmentManager.getEquipment(HAT);
-          AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
+          AdventureResult hat = EquipmentManager.getEquipment(Slot.HAT);
+          AdventureResult familiar = EquipmentManager.getEquipment(Slot.FAMILIAR);
           removed = hat.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
         }
-        case EquipmentManager.WEAPON -> {
+        case WEAPON -> {
           // Disembodied Hand wields weapons and grants conditional skills
-          AdventureResult offhand = EquipmentManager.getEquipment(OFFHAND);
-          AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
+          AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
+          AdventureResult familiar = EquipmentManager.getEquipment(Slot.FAMILIAR);
           removed =
               offhand.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
         }
-        case EquipmentManager.OFFHAND -> {
+        case OFFHAND -> {
           // Left-Hand Man Hand wields offhand items and grants conditional skills
-          AdventureResult weapon = EquipmentManager.getEquipment(WEAPON);
-          AdventureResult offhand = EquipmentManager.getEquipment(OFFHAND);
-          AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
+          AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
+          AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
+          AdventureResult familiar = EquipmentManager.getEquipment(Slot.FAMILIAR);
           removed =
               weapon.getItemId() != old.getItemId()
                   && offhand.getItemId() != old.getItemId()
                   && familiar.getItemId() != old.getItemId();
         }
-        case EquipmentManager.PANTS -> {
+        case PANTS -> {
           // Fancypants Scarecrow wears pants and grants conditional skills
-          AdventureResult pants = EquipmentManager.getEquipment(PANTS);
-          AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
+          AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
+          AdventureResult familiar = EquipmentManager.getEquipment(Slot.FAMILIAR);
           removed = pants.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
         }
-        case EquipmentManager.FAMILIAR -> {
+        case FAMILIAR -> {
           // Mad Hatrack wears hats and grants conditional skills
           // Disembodied Hand wields weapons and grants conditional skills
           // Fancypants Scarecrow wears pants and grants conditional skills
-          AdventureResult hat = EquipmentManager.getEquipment(HAT);
-          AdventureResult weapon = EquipmentManager.getEquipment(WEAPON);
-          AdventureResult offhand = EquipmentManager.getEquipment(OFFHAND);
-          AdventureResult pants = EquipmentManager.getEquipment(PANTS);
+          AdventureResult hat = EquipmentManager.getEquipment(Slot.HAT);
+          AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
+          AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
+          AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
           removed =
               switch (consumption) {
                 case HAT -> hat.getItemId() != old.getItemId();
@@ -422,19 +358,19 @@ public class EquipmentManager {
                 default -> removed;
               };
         }
-        case EquipmentManager.ACCESSORY1 -> {
-          AdventureResult acc2 = EquipmentManager.getEquipment(ACCESSORY2);
-          AdventureResult acc3 = EquipmentManager.getEquipment(ACCESSORY3);
+        case ACCESSORY1 -> {
+          AdventureResult acc2 = EquipmentManager.getEquipment(Slot.ACCESSORY2);
+          AdventureResult acc3 = EquipmentManager.getEquipment(Slot.ACCESSORY3);
           removed = acc2.getItemId() != old.getItemId() && acc3.getItemId() != old.getItemId();
         }
-        case EquipmentManager.ACCESSORY2 -> {
-          AdventureResult acc1 = EquipmentManager.getEquipment(ACCESSORY1);
-          AdventureResult acc3 = EquipmentManager.getEquipment(ACCESSORY3);
+        case ACCESSORY2 -> {
+          AdventureResult acc1 = EquipmentManager.getEquipment(Slot.ACCESSORY1);
+          AdventureResult acc3 = EquipmentManager.getEquipment(Slot.ACCESSORY3);
           removed = acc1.getItemId() != old.getItemId() && acc3.getItemId() != old.getItemId();
         }
-        case EquipmentManager.ACCESSORY3 -> {
-          AdventureResult acc1 = EquipmentManager.getEquipment(ACCESSORY1);
-          AdventureResult acc2 = EquipmentManager.getEquipment(ACCESSORY2);
+        case ACCESSORY3 -> {
+          AdventureResult acc1 = EquipmentManager.getEquipment(Slot.ACCESSORY1);
+          AdventureResult acc2 = EquipmentManager.getEquipment(Slot.ACCESSORY2);
           removed = acc1.getItemId() != old.getItemId() && acc2.getItemId() != old.getItemId();
         }
       }
@@ -452,13 +388,13 @@ public class EquipmentManager {
     // recalculate stinky cheese level.
     if (ItemDatabase.isStinkyCheeseItem(old.getItemId())
         || ItemDatabase.isStinkyCheeseItem(item.getItemId())) {
-      AdventureResult weapon = EquipmentManager.getEquipment(WEAPON);
-      AdventureResult offhand = EquipmentManager.getEquipment(OFFHAND);
-      AdventureResult pants = EquipmentManager.getEquipment(PANTS);
-      AdventureResult acc1 = EquipmentManager.getEquipment(ACCESSORY1);
-      AdventureResult acc2 = EquipmentManager.getEquipment(ACCESSORY2);
-      AdventureResult acc3 = EquipmentManager.getEquipment(ACCESSORY3);
-      AdventureResult fam = EquipmentManager.getEquipment(FAMILIAR);
+      AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
+      AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
+      AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
+      AdventureResult acc1 = EquipmentManager.getEquipment(Slot.ACCESSORY1);
+      AdventureResult acc2 = EquipmentManager.getEquipment(Slot.ACCESSORY2);
+      AdventureResult acc3 = EquipmentManager.getEquipment(Slot.ACCESSORY3);
+      AdventureResult fam = EquipmentManager.getEquipment(Slot.FAMILIAR);
 
       boolean sword =
           weapon.getItemId() == ItemPool.STINKY_CHEESE_SWORD
@@ -492,7 +428,7 @@ public class EquipmentManager {
     }
   }
 
-  public static final void removeConditionalSkills(final int slot, AdventureResult item) {
+  public static final void removeConditionalSkills(final Slot slot, AdventureResult item) {
     // Certain items can be equipped either in their normal slot or
     // on a familiar. Granted skills may or may not be available.
     //
@@ -810,7 +746,7 @@ public class EquipmentManager {
     }
   }
 
-  public static final void addConditionalSkills(final int slot, AdventureResult item) {
+  public static final void addConditionalSkills(final Slot slot, AdventureResult item) {
     // Certain items can be equipped either in their normal slot or
     // on a familiar. Granted skills may or may not be available.
     //
@@ -822,7 +758,7 @@ public class EquipmentManager {
     int id = item.getItemId();
 
     // If we are equipping a new sword or gun we may be changing the capabilities of the retrocape
-    if (slot == EquipmentManager.WEAPON) {
+    if (slot == Slot.WEAPON) {
       if (EquipmentDatabase.isSword(id)
           || EquipmentDatabase.isGun(id)
           || EquipmentDatabase.isPistol(id)
@@ -1152,13 +1088,13 @@ public class EquipmentManager {
 
   public static final void transformEquipment(AdventureResult before, AdventureResult after) {
     SpecialOutfit.replaceEquipment(before, after);
-    for (int slot = 0; slot <= EquipmentManager.FAMILIAR; ++slot) {
+    for (var slot : SlotSet.SLOTS) {
       if (KoLCharacter.hasEquipped(before, slot)) {
         EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
         // FamiliarData.setItem moved the current
         // familiar item to inventory when we
         // unequipped it above
-        if (slot != EquipmentManager.FAMILIAR) {
+        if (slot != Slot.FAMILIAR) {
           AdventureResult.addResultToList(KoLConstants.inventory, before);
         }
         ResultProcessor.processResult(before.getInstance(-1));
@@ -1169,20 +1105,20 @@ public class EquipmentManager {
     RequestLogger.printLine("(unable to determine slot of transformed equipment)");
   }
 
-  public static final int removeEquipment(final int itemId) {
+  public static final Slot removeEquipment(final int itemId) {
     return EquipmentManager.removeEquipment(ItemPool.get(itemId, 1));
   }
 
-  public static final int removeEquipment(final AdventureResult item) {
-    for (int slot = 0; slot <= EquipmentManager.FAMILIAR; ++slot) {
+  public static final Slot removeEquipment(final AdventureResult item) {
+    for (var slot : SlotSet.SLOTS) {
       if (EquipmentManager.removeEquipment(item, slot)) {
         return slot;
       }
     }
-    return -1;
+    return Slot.NONE;
   }
 
-  public static final boolean removeEquipment(final AdventureResult item, final int slot) {
+  public static final boolean removeEquipment(final AdventureResult item, final Slot slot) {
     if (!KoLCharacter.hasEquipped(item, slot)) {
       return false;
     }
@@ -1191,7 +1127,7 @@ public class EquipmentManager {
 
     // FamiliarData.setItem moved the current familiar item to
     // inventory when we unequipped it above
-    if (slot != EquipmentManager.FAMILIAR) {
+    if (slot != Slot.FAMILIAR) {
       AdventureResult.addResultToList(KoLConstants.inventory, item);
     }
 
@@ -1199,38 +1135,38 @@ public class EquipmentManager {
   }
 
   public static final void removeAllEquipment() {
-    for (int slot = 0; slot <= EquipmentManager.FAMILIAR; ++slot) {
+    for (var slot : SlotSet.SLOTS) {
       AdventureResult item = EquipmentManager.getEquipment(slot);
       if (!item.equals(EquipmentRequest.UNEQUIP)) {
         EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
         // FamiliarData.setItem moved the current familiar item to
         // inventory when we unequipped it above
-        if (slot != EquipmentManager.FAMILIAR) {
+        if (slot != Slot.FAMILIAR) {
           AdventureResult.addResultToList(KoLConstants.inventory, item);
         }
       }
     }
   }
 
-  public static final int discardEquipment(final int itemId) {
+  public static final Slot discardEquipment(final int itemId) {
     return EquipmentManager.discardEquipment(itemId, true);
   }
 
-  public static final int discardEquipment(final int itemId, boolean deleteFromCheckpoints) {
+  public static final Slot discardEquipment(final int itemId, boolean deleteFromCheckpoints) {
     return EquipmentManager.discardEquipment(ItemPool.get(itemId, 1), deleteFromCheckpoints);
   }
 
-  public static final int discardEquipment(final AdventureResult item) {
+  public static final Slot discardEquipment(final AdventureResult item) {
     return EquipmentManager.discardEquipment(item, true);
   }
 
-  public static final int discardEquipment(
+  public static final Slot discardEquipment(
       final AdventureResult item, boolean deleteFromCheckpoints) {
     if (deleteFromCheckpoints) {
       SpecialOutfit.forgetEquipment(item);
     }
-    int slot = EquipmentManager.removeEquipment(item);
-    if (slot != -1) {
+    Slot slot = EquipmentManager.removeEquipment(item);
+    if (slot != Slot.NONE) {
       ResultProcessor.processItem(item.getItemId(), -1);
     }
     return slot;
@@ -1250,7 +1186,7 @@ public class EquipmentManager {
 
     // Move from offhand to inventory if necessary
     if (InventoryManager.getCount(item) == 0
-        && !EquipmentManager.removeEquipment(item, EquipmentManager.OFFHAND)) {
+        && !EquipmentManager.removeEquipment(item, Slot.OFFHAND)) {
       // Not equipped. How odd.
       return;
     }
@@ -1276,8 +1212,8 @@ public class EquipmentManager {
     }
 
     // Discard the item, but do not clear it from outfit checkpoints yet.
-    int slot = EquipmentManager.discardEquipment(itemId, false);
-    if (slot == -1) {
+    Slot slot = EquipmentManager.discardEquipment(itemId, false);
+    if (slot == Slot.NONE) {
       RequestLogger.printLine("(unable to determine slot of broken equipment)");
       return;
     }
@@ -1315,7 +1251,7 @@ public class EquipmentManager {
       if (prev.equals(EquipmentRequest.UNEQUIP)
           || prev.equals(item)
           || !InventoryManager.hasItem(prev)
-          || (slot == EquipmentManager.FAMILIAR && !KoLCharacter.getFamiliar().canEquip(prev))) {
+          || (slot == Slot.FAMILIAR && !KoLCharacter.getFamiliar().canEquip(prev))) {
         continue;
       }
 
@@ -1328,38 +1264,38 @@ public class EquipmentManager {
     KoLmafia.updateDisplay(msg + "  No previous item to equip.");
   }
 
-  public static final void checkFamiliar(final int slot) {
+  public static final void checkFamiliar(final Slot slot) {
     switch (KoLCharacter.getFamiliar().getId()) {
       case FamiliarPool.HATRACK:
-        if (slot == EquipmentManager.HAT) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-        } else if (slot == EquipmentManager.FAMILIAR) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.HAT);
+        if (slot == Slot.HAT) {
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        } else if (slot == Slot.FAMILIAR) {
+          EquipmentManager.updateEquipmentList(Slot.HAT);
         }
         break;
 
       case FamiliarPool.HAND:
-        if (slot == EquipmentManager.WEAPON || slot == EquipmentManager.OFFHAND) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-        } else if (slot == EquipmentManager.FAMILIAR) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.WEAPON);
-          EquipmentManager.updateEquipmentList(EquipmentManager.OFFHAND);
+        if (slot == Slot.WEAPON || slot == Slot.OFFHAND) {
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        } else if (slot == Slot.FAMILIAR) {
+          EquipmentManager.updateEquipmentList(Slot.WEAPON);
+          EquipmentManager.updateEquipmentList(Slot.OFFHAND);
         }
         break;
 
       case FamiliarPool.LEFT_HAND:
-        if (slot == EquipmentManager.OFFHAND) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-        } else if (slot == EquipmentManager.FAMILIAR) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.OFFHAND);
+        if (slot == Slot.OFFHAND) {
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        } else if (slot == Slot.FAMILIAR) {
+          EquipmentManager.updateEquipmentList(Slot.OFFHAND);
         }
         break;
 
       case FamiliarPool.SCARECROW:
-        if (slot == EquipmentManager.PANTS) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-        } else if (slot == EquipmentManager.FAMILIAR) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.PANTS);
+        if (slot == Slot.PANTS) {
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        } else if (slot == Slot.FAMILIAR) {
+          EquipmentManager.updateEquipmentList(Slot.PANTS);
         }
         break;
     }
@@ -1371,29 +1307,18 @@ public class EquipmentManager {
    * that if no item is equipped, the value should be <code>none</code>, not <code>null</code> or
    * the empty string.
    *
-   * @param equipment All of the available equipment, stored in an array index by the constants
+   * @param equipment All of the available equipment, stored as a map
    */
-  public static final void setEquipment(final AdventureResult[] equipment) {
-    // Sanity check: must set ALL equipment slots
-
-    if (equipment.length < EquipmentManager.SLOTS) {
-      StaticEntity.printStackTrace(
-          "Equipment array slot mismatch: "
-              + EquipmentManager.SLOTS
-              + " expected, "
-              + equipment.length
-              + " provided.");
-      return;
-    }
-
+  public static final void setEquipment(final Map<Slot, AdventureResult> equipment) {
     // Defer updating so that we don't regenerate every GearChangeFrame list once for each slot.
     GearChangePanel.deferUpdate();
-    for (int i = 0; i < EquipmentManager.ALL_SLOTS && i < equipment.length; ++i) {
-      if (equipment[i] == null) {
-      } else if (equipment[i].equals(EquipmentRequest.UNEQUIP)) {
-        setEquipment(i, EquipmentRequest.UNEQUIP);
+    for (var slot : SlotSet.ALL_SLOTS) {
+      var equipped = equipment.get(slot);
+      if (equipped == null) {
+      } else if (equipped.equals(EquipmentRequest.UNEQUIP)) {
+        setEquipment(slot, EquipmentRequest.UNEQUIP);
       } else {
-        setEquipment(i, equipment[i]);
+        setEquipment(slot, equipped);
       }
     }
     GearChangePanel.resolveDeferredUpdate();
@@ -1409,8 +1334,8 @@ public class EquipmentManager {
   }
 
   public static final boolean isDualWielding() {
-    AdventureResult mainhand = EquipmentManager.equipment.get(EquipmentManager.WEAPON);
-    AdventureResult offhand = EquipmentManager.equipment.get(EquipmentManager.OFFHAND);
+    AdventureResult mainhand = EquipmentManager.equipment.get(Slot.WEAPON);
+    AdventureResult offhand = EquipmentManager.equipment.get(Slot.OFFHAND);
 
     return !mainhand.equals(EquipmentRequest.UNEQUIP)
         && ItemDatabase.getConsumptionType(offhand) == ConsumptionType.WEAPON;
@@ -1478,35 +1403,31 @@ public class EquipmentManager {
    * @param type the type of equipment
    * @return The name of the equipment, <code>none</code> if no such item exists
    */
-  public static final AdventureResult getEquipment(final int type) {
-    if (type == EquipmentManager.FAMILIAR) {
+  public static final AdventureResult getEquipment(final Slot type) {
+    if (type == Slot.FAMILIAR) {
       return getFamiliarItem();
     }
 
-    if (type >= 0 && type < equipment.size()) {
-      return equipment.get(type);
-    }
-
-    return EquipmentRequest.UNEQUIP;
+    return equipment.getOrDefault(type, EquipmentRequest.UNEQUIP);
   }
 
-  public static final int getTurns(int slot) {
-    return EquipmentManager.turnsRemaining[slot - EquipmentManager.STICKER1];
+  public static final int getTurns(Slot slot) {
+    return EquipmentManager.turnsRemaining.getOrDefault(slot, 0);
   }
 
-  public static final void setTurns(int slot, int minTurns, int maxTurns) {
-    int curr = EquipmentManager.turnsRemaining[slot - EquipmentManager.STICKER1];
+  public static final void setTurns(Slot slot, int minTurns, int maxTurns) {
+    int curr = EquipmentManager.turnsRemaining.getOrDefault(slot, 0);
     if (curr > maxTurns) {
       curr = maxTurns;
     }
     if (curr < minTurns) {
       curr = minTurns;
     }
-    EquipmentManager.turnsRemaining[slot - EquipmentManager.STICKER1] = curr;
+    EquipmentManager.turnsRemaining.put(slot, curr);
     GearChangePanel.updateStickers(
-        EquipmentManager.turnsRemaining[0],
-        EquipmentManager.turnsRemaining[1],
-        EquipmentManager.turnsRemaining[2]);
+        EquipmentManager.turnsRemaining.get(Slot.STICKER1),
+        EquipmentManager.turnsRemaining.get(Slot.STICKER2),
+        EquipmentManager.turnsRemaining.get(Slot.STICKER3));
   }
 
   public static final boolean isStickerWeapon(AdventureResult item) {
@@ -1518,15 +1439,9 @@ public class EquipmentManager {
   }
 
   public static final boolean usingStickerWeapon() {
-    return isStickerWeapon(getEquipment(EquipmentManager.WEAPON))
-        || isStickerWeapon(getEquipment(EquipmentManager.OFFHAND))
-        || isStickerWeapon(getEquipment(EquipmentManager.FAMILIAR));
-  }
-
-  public static final boolean usingStickerWeapon(AdventureResult[] equipment) {
-    return isStickerWeapon(equipment[EquipmentManager.WEAPON])
-        || isStickerWeapon(equipment[EquipmentManager.OFFHAND])
-        || isStickerWeapon(equipment[EquipmentManager.FAMILIAR]);
+    return isStickerWeapon(getEquipment(Slot.WEAPON))
+        || isStickerWeapon(getEquipment(Slot.OFFHAND))
+        || isStickerWeapon(getEquipment(Slot.FAMILIAR));
   }
 
   public static final boolean hasStickerWeapon() {
@@ -1536,8 +1451,8 @@ public class EquipmentManager {
   }
 
   public static final void incrementEquipmentCounters() {
-    for (int i = 0; i < EquipmentManager.SLOTS; ++i) {
-      int itemId = EquipmentManager.getEquipment(i).getItemId();
+    for (var slot : SlotSet.SLOTS) {
+      int itemId = EquipmentManager.getEquipment(slot).getItemId();
       switch (itemId) {
         case ItemPool.SUGAR_CHAPEAU,
             ItemPool.SUGAR_SHANK,
@@ -1554,20 +1469,23 @@ public class EquipmentManager {
 
   public static final void decrementTurns() {
     if (usingStickerWeapon()) {
+      for (var slot : SlotSet.STICKER_SLOTS) {
+        EquipmentManager.turnsRemaining.compute(slot, (k, v) -> v == null ? -1 : v - 1);
+      }
       GearChangePanel.updateStickers(
-          --EquipmentManager.turnsRemaining[0],
-          --EquipmentManager.turnsRemaining[1],
-          --EquipmentManager.turnsRemaining[2]);
+          EquipmentManager.turnsRemaining.get(Slot.STICKER1),
+          EquipmentManager.turnsRemaining.get(Slot.STICKER2),
+          EquipmentManager.turnsRemaining.get(Slot.STICKER3));
     }
 
     EquipmentManager.incrementEquipmentCounters();
   }
 
   public static final void stickersExpired(int count) {
-    for (int i = 0; i < 3; ++i) {
-      if (EquipmentManager.turnsRemaining[i] <= 0
-          && getEquipment(EquipmentManager.STICKER1 + i) != EquipmentRequest.UNEQUIP) {
-        setEquipment(EquipmentManager.STICKER1 + i, EquipmentRequest.UNEQUIP);
+    for (var slot : SlotSet.STICKER_SLOTS) {
+      if (EquipmentManager.turnsRemaining.getOrDefault(slot, 0) <= 0
+          && getEquipment(slot) != EquipmentRequest.UNEQUIP) {
+        setEquipment(slot, EquipmentRequest.UNEQUIP);
         --count;
       }
     }
@@ -1580,11 +1498,11 @@ public class EquipmentManager {
    * Accessor method to retrieve a list of all available items which can be equipped by familiars.
    * Note this lists items which the current familiar cannot equip.
    */
-  public static final List<List<AdventureResult>> getEquipmentLists() {
+  public static final Map<Slot, List<AdventureResult>> getEquipmentLists() {
     return EquipmentManager.equipmentLists;
   }
 
-  public static final void updateEquipmentList(final int listIndex) {
+  public static final void updateEquipmentList(final Slot listIndex) {
     ConsumptionType consumeFilter = EquipmentManager.equipmentTypeToConsumeFilter(listIndex);
     if (consumeFilter == ConsumptionType.UNKNOWN) {
       return;
@@ -1593,34 +1511,34 @@ public class EquipmentManager {
     AdventureResult equippedItem = EquipmentManager.getEquipment(listIndex);
 
     switch (listIndex) {
-      case EquipmentManager.ACCESSORY1:
-      case EquipmentManager.ACCESSORY2:
+      case ACCESSORY1:
+      case ACCESSORY2:
         return; // do all the work when updating ACC3
 
-      case EquipmentManager.ACCESSORY3:
+      case ACCESSORY3:
         EquipmentManager.updateEquipmentList(consumeFilter, EquipmentManager.accessories);
-        AdventureResult accessory = EquipmentManager.getEquipment(EquipmentManager.ACCESSORY1);
+        AdventureResult accessory = EquipmentManager.getEquipment(Slot.ACCESSORY1);
         if (accessory != EquipmentRequest.UNEQUIP) {
           AdventureResult.addResultToList(EquipmentManager.accessories, accessory);
         }
-        accessory = EquipmentManager.getEquipment(EquipmentManager.ACCESSORY2);
+        accessory = EquipmentManager.getEquipment(Slot.ACCESSORY2);
         if (accessory != EquipmentRequest.UNEQUIP) {
           AdventureResult.addResultToList(EquipmentManager.accessories, accessory);
         }
-        accessory = EquipmentManager.getEquipment(EquipmentManager.ACCESSORY3);
+        accessory = EquipmentManager.getEquipment(Slot.ACCESSORY3);
         if (accessory != EquipmentRequest.UNEQUIP) {
           AdventureResult.addResultToList(EquipmentManager.accessories, accessory);
         }
         break;
 
-      case EquipmentManager.FAMILIAR:
+      case FAMILIAR:
 
         // If we are looking at familiar items, include those
         // which can be universally equipped, but are currently
         // on another familiar.
 
         EquipmentManager.updateEquipmentList(
-            consumeFilter, EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR));
+            consumeFilter, EquipmentManager.equipmentLists.get(Slot.FAMILIAR));
 
         FamiliarData[] familiarList = KoLCharacter.ownedFamiliars().toArray(new FamiliarData[0]);
 
@@ -1630,7 +1548,7 @@ public class EquipmentManager {
           AdventureResult currentItem = familiarData.getItem();
           if (currentItem != EquipmentRequest.UNEQUIP && currentFamiliar.canEquip(currentItem)) {
             AdventureResult.addResultToList(
-                EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR), currentItem);
+                EquipmentManager.equipmentLists.get(Slot.FAMILIAR), currentItem);
           }
         }
 
@@ -1770,61 +1688,53 @@ public class EquipmentManager {
 
   public static final void updateEquipmentLists() {
     KoLCharacter.resetTriggers();
-    for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
-      EquipmentManager.updateEquipmentList(i);
+    for (var slot : SlotSet.ALL_SLOTS) {
+      EquipmentManager.updateEquipmentList(slot);
     }
     EquipmentManager.updateNormalOutfits();
   }
 
-  public static final ConsumptionType equipmentTypeToConsumeFilter(final int equipmentType) {
+  public static final ConsumptionType equipmentTypeToConsumeFilter(final Slot equipmentType) {
     return switch (equipmentType) {
-      case EquipmentManager.HAT -> ConsumptionType.HAT;
-      case EquipmentManager.WEAPON -> ConsumptionType.WEAPON;
-      case EquipmentManager.OFFHAND -> ConsumptionType.OFFHAND;
-      case EquipmentManager.SHIRT -> ConsumptionType.SHIRT;
-      case EquipmentManager.PANTS -> ConsumptionType.PANTS;
-      case EquipmentManager.CONTAINER -> ConsumptionType.CONTAINER;
-      case EquipmentManager.ACCESSORY1,
-          EquipmentManager.ACCESSORY2,
-          EquipmentManager.ACCESSORY3 -> ConsumptionType.ACCESSORY;
-      case EquipmentManager.FAMILIAR -> ConsumptionType.FAMILIAR_EQUIPMENT;
-      case EquipmentManager.STICKER1,
-          EquipmentManager.STICKER2,
-          EquipmentManager.STICKER3 -> ConsumptionType.STICKER;
-      case EquipmentManager.CARDSLEEVE -> ConsumptionType.CARD;
-      case EquipmentManager.FOLDER1,
-          EquipmentManager.FOLDER2,
-          EquipmentManager.FOLDER3,
-          EquipmentManager.FOLDER4,
-          EquipmentManager.FOLDER5 -> ConsumptionType.FOLDER;
-      case EquipmentManager.BOOTSKIN -> ConsumptionType.BOOTSKIN;
-      case EquipmentManager.BOOTSPUR -> ConsumptionType.BOOTSPUR;
-      case EquipmentManager.HOLSTER -> ConsumptionType.SIXGUN;
+      case HAT -> ConsumptionType.HAT;
+      case WEAPON -> ConsumptionType.WEAPON;
+      case OFFHAND -> ConsumptionType.OFFHAND;
+      case SHIRT -> ConsumptionType.SHIRT;
+      case PANTS -> ConsumptionType.PANTS;
+      case CONTAINER -> ConsumptionType.CONTAINER;
+      case ACCESSORY1, ACCESSORY2, ACCESSORY3 -> ConsumptionType.ACCESSORY;
+      case FAMILIAR -> ConsumptionType.FAMILIAR_EQUIPMENT;
+      case STICKER1, STICKER2, STICKER3 -> ConsumptionType.STICKER;
+      case CARDSLEEVE -> ConsumptionType.CARD;
+      case FOLDER1, FOLDER2, FOLDER3, FOLDER4, FOLDER5 -> ConsumptionType.FOLDER;
+      case BOOTSKIN -> ConsumptionType.BOOTSKIN;
+      case BOOTSPUR -> ConsumptionType.BOOTSPUR;
+      case HOLSTER -> ConsumptionType.SIXGUN;
       default -> ConsumptionType.UNKNOWN;
     };
   }
 
-  public static final int consumeFilterToEquipmentType(final ConsumptionType consumeFilter) {
+  public static final Slot consumeFilterToEquipmentType(final ConsumptionType consumeFilter) {
     return switch (consumeFilter) {
-      case HAT -> EquipmentManager.HAT;
-      case WEAPON -> EquipmentManager.WEAPON;
-      case OFFHAND -> EquipmentManager.OFFHAND;
-      case SHIRT -> EquipmentManager.SHIRT;
-      case PANTS -> EquipmentManager.PANTS;
-      case CONTAINER -> EquipmentManager.CONTAINER;
-      case ACCESSORY -> EquipmentManager.ACCESSORY1;
-      case FAMILIAR_EQUIPMENT -> EquipmentManager.FAMILIAR;
-      case STICKER -> EquipmentManager.STICKER1;
-      case CARD -> EquipmentManager.CARDSLEEVE;
-      case FOLDER -> EquipmentManager.FOLDER1;
-      case BOOTSKIN -> EquipmentManager.BOOTSKIN;
-      case BOOTSPUR -> EquipmentManager.BOOTSPUR;
-      case SIXGUN -> EquipmentManager.HOLSTER;
-      default -> -1;
+      case HAT -> Slot.HAT;
+      case WEAPON -> Slot.WEAPON;
+      case OFFHAND -> Slot.OFFHAND;
+      case SHIRT -> Slot.SHIRT;
+      case PANTS -> Slot.PANTS;
+      case CONTAINER -> Slot.CONTAINER;
+      case ACCESSORY -> Slot.ACCESSORY1;
+      case FAMILIAR_EQUIPMENT -> Slot.FAMILIAR;
+      case STICKER -> Slot.STICKER1;
+      case CARD -> Slot.CARDSLEEVE;
+      case FOLDER -> Slot.FOLDER1;
+      case BOOTSKIN -> Slot.BOOTSKIN;
+      case BOOTSPUR -> Slot.BOOTSPUR;
+      case SIXGUN -> Slot.HOLSTER;
+      default -> Slot.NONE;
     };
   }
 
-  public static final int itemIdToEquipmentType(final int itemId) {
+  public static final Slot itemIdToEquipmentType(final int itemId) {
     return EquipmentManager.consumeFilterToEquipmentType(ItemDatabase.getConsumptionType(itemId));
   }
 
@@ -1834,8 +1744,7 @@ public class EquipmentManager {
    * @return int number of hands needed
    */
   public static final int getWeaponHandedness() {
-    return EquipmentDatabase.getHands(
-        EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+    return EquipmentDatabase.getHands(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
   }
 
   /**
@@ -1844,9 +1753,7 @@ public class EquipmentManager {
    * @return boolean true if character has two weapons equipped
    */
   public static final boolean usingTwoWeapons() {
-    return EquipmentDatabase.getHands(
-            EquipmentManager.getEquipment(EquipmentManager.OFFHAND).getItemId())
-        == 1;
+    return EquipmentDatabase.getHands(EquipmentManager.getEquipment(Slot.OFFHAND).getItemId()) == 1;
   }
 
   /**
@@ -1855,7 +1762,7 @@ public class EquipmentManager {
    * @return boolean true if weapon is a chefstaff
    */
   public static final boolean usingChefstaff() {
-    return EquipmentDatabase.isChefStaff(EquipmentManager.getEquipment(EquipmentManager.WEAPON));
+    return EquipmentDatabase.isChefStaff(EquipmentManager.getEquipment(Slot.WEAPON));
   }
 
   /**
@@ -1864,7 +1771,7 @@ public class EquipmentManager {
    * @return boolean true if off-hand is a bean can
    */
   public static final boolean usingCanOfBeans() {
-    return EquipmentDatabase.isCanOfBeans(EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
+    return EquipmentDatabase.isCanOfBeans(EquipmentManager.getEquipment(Slot.OFFHAND));
   }
 
   /**
@@ -1873,7 +1780,7 @@ public class EquipmentManager {
    * @return boolean true if off-hand is a bean can
    */
   public static final boolean holsteredSixgun() {
-    return EquipmentManager.getEquipment(EquipmentManager.HOLSTER) != EquipmentRequest.UNEQUIP;
+    return EquipmentManager.getEquipment(Slot.HOLSTER) != EquipmentRequest.UNEQUIP;
   }
 
   /**
@@ -1912,8 +1819,7 @@ public class EquipmentManager {
 
   public static final boolean wieldingClub(final boolean includeEffect) {
     String type =
-        EquipmentDatabase.getItemType(
-            EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+        EquipmentDatabase.getItemType(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     return type.equals("club")
         || (includeEffect
             && KoLConstants.activeEffects.contains(EquipmentManager.IRON_PALMS)
@@ -1922,15 +1828,13 @@ public class EquipmentManager {
 
   public static final boolean wieldingKnife() {
     String type =
-        EquipmentDatabase.getItemType(
-            EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+        EquipmentDatabase.getItemType(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     return type.equals("knife");
   }
 
   public static final boolean wieldingAccordion() {
     String type =
-        EquipmentDatabase.getItemType(
-            EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+        EquipmentDatabase.getItemType(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     return type.equals("accordion");
   }
 
@@ -1940,14 +1844,13 @@ public class EquipmentManager {
 
   public static final boolean wieldingSword(final boolean includeEffect) {
     boolean sword =
-        EquipmentDatabase.isSword(
-            EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+        EquipmentDatabase.isSword(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     return sword
         && (!includeEffect || !KoLConstants.activeEffects.contains(EquipmentManager.IRON_PALMS));
   }
 
   public static final boolean wieldingGun() {
-    int id = EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId();
+    int id = EquipmentManager.getEquipment(Slot.WEAPON).getItemId();
     // These are the weapons retrocape considers a "gun"
     return EquipmentDatabase.isGun(id)
         || EquipmentDatabase.isPistol(id)
@@ -1960,7 +1863,7 @@ public class EquipmentManager {
    * @return boolean true if character has a shield equipped
    */
   public static final boolean usingShield() {
-    return EquipmentDatabase.getItemType(EquipmentManager.getEquipment(OFFHAND).getItemId())
+    return EquipmentDatabase.getItemType(EquipmentManager.getEquipment(Slot.OFFHAND).getItemId())
         .equals("shield");
   }
 
@@ -1970,8 +1873,7 @@ public class EquipmentManager {
    * @return int MELEE or RANGED
    */
   public static final WeaponType getWeaponType() {
-    return EquipmentDatabase.getWeaponType(
-        EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+    return EquipmentDatabase.getWeaponType(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
   }
 
   /**
@@ -1989,8 +1891,7 @@ public class EquipmentManager {
             && KoLCharacter.hasSkill(SkillPool.TRICKY_KNIFEWORK)) {
           return Stat.MOXIE;
         }
-        if (EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId()
-            == ItemPool.FOURTH_SABER) {
+        if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId() == ItemPool.FOURTH_SABER) {
           // Fourth of May Cosplay Saber uses highest buffed stat
           if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
               && KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMysticality()) {
@@ -2138,12 +2039,12 @@ public class EquipmentManager {
     return null;
   }
 
-  public static final SpecialOutfit currentOutfit(AdventureResult[] equipment) {
+  public static final SpecialOutfit currentOutfit(Map<Slot, AdventureResult> equipment) {
     // Go through any outfit that any worn item belongs to.
     int hash = SpecialOutfit.equipmentHash(equipment);
     List<Integer> checkedOutfits = new ArrayList<>();
-    for (int i = EquipmentManager.HAT; i < EquipmentManager.FAMILIAR; i++) {
-      AdventureResult item = equipment[i];
+    for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
+      AdventureResult item = equipment.getOrDefault(slot, null);
       if (item == null) continue;
       int outfitId = EquipmentDatabase.getOutfitWithItem(item.getItemId());
       if (checkedOutfits.contains(outfitId)) continue;
@@ -2307,8 +2208,8 @@ public class EquipmentManager {
 
   public static final int equippedCount(final AdventureResult item) {
     int count = 0;
-    for (int i = 0; i < EquipmentManager.SLOTS; ++i) {
-      if (item.equals(EquipmentManager.getEquipment(i))) {
+    for (var slot : SlotSet.SLOTS) {
+      if (item.equals(EquipmentManager.getEquipment(slot))) {
         count++;
       }
     }
@@ -2333,8 +2234,8 @@ public class EquipmentManager {
     // "stickers":[0,0,0],
     // "folder_holder":["01","22","12","00","00"]
 
-    AdventureResult[] current = EquipmentManager.allEquipment();
-    AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray(true);
+    EnumMap<Slot, AdventureResult> current = EquipmentManager.allEquipment();
+    EnumMap<Slot, AdventureResult> equipment = EquipmentManager.emptyEquipmentArray(true);
     int fakeHands = 0;
 
     JSONObject equip = JSON.getJSONObject("equipment");
@@ -2346,56 +2247,58 @@ public class EquipmentManager {
         continue;
       }
 
-      int slot = EquipmentRequest.phpSlotNumber(slotName);
-      if (slot == -1) {
+      Slot slot = Slot.byCaselessPhpName(slotName);
+      if (slot == Slot.NONE) {
         continue;
       }
 
-      equipment[slot] = EquipmentManager.equippedItem(equip.getInt(slotName));
+      equipment.put(slot, EquipmentManager.equippedItem(equip.getInt(slotName)));
     }
 
     // Read stickers
     JSONArray stickers = JSON.getJSONArray("stickers");
-    for (int i = 0; i < 3; ++i) {
-      AdventureResult item = EquipmentManager.equippedItem(stickers.getInt(i));
-      equipment[EquipmentManager.STICKER1 + i] = item;
+    int i = 0;
+    for (var slot : SlotSet.STICKER_SLOTS) {
+      AdventureResult item = EquipmentManager.equippedItem(stickers.getInt(i++));
+      equipment.put(slot, item);
     }
 
     // Read folders
     JSONArray folders = JSON.getJSONArray("folder_holder");
-    for (int i = 0; i < 5; ++i) {
-      int folder = folders.getInt(i);
+    i = 0;
+    for (var slot : SlotSet.FOLDER_SLOTS) {
+      int folder = folders.getInt(i++);
       AdventureResult item =
           folder == 0 ? EquipmentRequest.UNEQUIP : ItemPool.get(ItemPool.FOLDER_01 - 1 + folder, 1);
-      equipment[EquipmentManager.FOLDER1 + i] = item;
+      equipment.put(slot, item);
     }
 
     // We can't read these from api.php (yet?)
-    equipment[EquipmentManager.CROWNOFTHRONES] = current[EquipmentManager.CROWNOFTHRONES];
-    equipment[EquipmentManager.BUDDYBJORN] = current[EquipmentManager.BUDDYBJORN];
-    equipment[EquipmentManager.BOOTSKIN] = current[EquipmentManager.BOOTSKIN];
-    equipment[EquipmentManager.BOOTSPUR] = current[EquipmentManager.BOOTSPUR];
-    equipment[EquipmentManager.HOLSTER] = current[EquipmentManager.HOLSTER];
+    equipment.put(Slot.CROWNOFTHRONES, current.get(Slot.CROWNOFTHRONES));
+    equipment.put(Slot.BUDDYBJORN, current.get(Slot.BUDDYBJORN));
+    equipment.put(Slot.BOOTSKIN, current.get(Slot.BOOTSKIN));
+    equipment.put(Slot.BOOTSPUR, current.get(Slot.BOOTSPUR));
+    equipment.put(Slot.HOLSTER, current.get(Slot.HOLSTER));
 
     // For debug purposes, print wherever KoLmafia's model differs
     // from KoL's model.
 
     if (!KoLmafia.isRefreshing()) {
-      for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
+      for (var slot : SlotSet.ALL_SLOTS) {
         // Quantum Terrarium will have a familiar item in api.php even
         // if the particular familiar can't equip it. Ignore that.
-        if (i == EquipmentManager.FAMILIAR && KoLCharacter.inQuantum()) {
+        if (slot == Slot.FAMILIAR && KoLCharacter.inQuantum()) {
           continue;
         }
-        if (!current[i].equals(equipment[i])) {
-          String slotName = EquipmentRequest.slotNames[i];
+        if (!current.get(slot).equals(equipment.get(slot))) {
+          String slotName = slot.name;
           String message =
               "*** slot "
                   + slotName
                   + ": KoL has "
-                  + equipment[i]
+                  + equipment.get(slot)
                   + " but KoLmafia has "
-                  + current[i];
+                  + current.get(slot);
           RequestLogger.printLine(message);
           RequestLogger.updateSessionLog(message);
         }

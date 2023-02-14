@@ -6,10 +6,10 @@ import static internal.helpers.Player.*;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ public class MaximizerCreatableTest {
     try (cleanups) {
       ConcoctionDatabase.refreshConcoctions();
       maximizeCreatable("sleaze dmg");
-      recommendedSlotIs(EquipmentManager.HAT, "asshat");
+      recommendedSlotIs(Slot.HAT, "asshat");
     }
   }
 
@@ -43,7 +43,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
-        recommendedSlotIs(EquipmentManager.OFFHAND, "barrel lid");
+        recommendedSlotIs(Slot.OFFHAND, "barrel lid");
       }
     }
 
@@ -57,7 +57,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
-        recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
+        recommendedSlotIsUnchanged(Slot.OFFHAND);
       }
     }
 
@@ -70,7 +70,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
-        recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
+        recommendedSlotIsUnchanged(Slot.OFFHAND);
       }
     }
 
@@ -85,7 +85,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
-        recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
+        recommendedSlotIsUnchanged(Slot.OFFHAND);
       }
     }
   }
@@ -100,7 +100,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("moxie");
-        recommendedSlotIs(EquipmentManager.HAT, "FantasyRealm Rogue's Mask");
+        recommendedSlotIs(Slot.HAT, "FantasyRealm Rogue's Mask");
       }
     }
 
@@ -111,7 +111,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("moxie");
-        recommendedSlotIsUnchanged(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(Slot.HAT);
       }
     }
 
@@ -126,7 +126,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("moxie");
-        recommendedSlotIsUnchanged(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(Slot.HAT);
       }
     }
   }
@@ -142,7 +142,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("meat");
-        recommendedSlotIs(EquipmentManager.CONTAINER, "carpe");
+        recommendedSlotIs(Slot.CONTAINER, "carpe");
       }
     }
 
@@ -158,7 +158,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("meat");
-        recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
+        recommendedSlotIsUnchanged(Slot.CONTAINER);
       }
     }
   }
@@ -175,7 +175,7 @@ public class MaximizerCreatableTest {
 
       try (cleanups) {
         maximizeCreatable("spell dmg");
-        recommendedSlotIs(EquipmentManager.WEAPON, "rubber spatula");
+        recommendedSlotIs(Slot.WEAPON, "rubber spatula");
       }
     }
 
@@ -190,7 +190,7 @@ public class MaximizerCreatableTest {
 
       try (cleanups) {
         maximizeCreatable("spell dmg");
-        recommendedSlotIs(EquipmentManager.WEAPON, "obsidian nutcracker");
+        recommendedSlotIs(Slot.WEAPON, "obsidian nutcracker");
       }
     }
 
@@ -205,8 +205,8 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         maximizeCreatable("muscle");
         recommends("sphygmayomanometer");
-        recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY2);
-        recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY3);
+        recommendedSlotIsUnchanged(Slot.ACCESSORY2);
+        recommendedSlotIsUnchanged(Slot.ACCESSORY3);
       }
     }
 
@@ -221,8 +221,8 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("item drop");
-        recommendedSlotIs(EquipmentManager.WEAPON, "oversized sparkler");
-        recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
+        recommendedSlotIs(Slot.WEAPON, "oversized sparkler");
+        recommendedSlotIsUnchanged(Slot.OFFHAND);
       }
     }
 
@@ -237,7 +237,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("-combat");
-        recommendedSlotIsUnchanged(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(Slot.HAT);
       }
     }
   }
