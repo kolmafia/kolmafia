@@ -12,7 +12,6 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -137,7 +136,7 @@ public class AdventureDatabaseTest {
       var adventure = AdventureDatabase.getAdventure(adventureName);
       assertFalse(adventure == null);
       assertThat(adventure.getAdventureName(), is(adventureName));
-      var request = (AdventureRequest) (adventure.getRequest());
+      var request = adventure.getRequest();
       assertFalse(request == null);
 
       // We have a request ready to go. Rather than actually running
