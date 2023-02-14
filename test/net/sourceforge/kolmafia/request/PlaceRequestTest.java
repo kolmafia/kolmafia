@@ -107,6 +107,6 @@ class Speakeasy {
         "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
         req.responseText);
     assertEquals(
-        "The Haunted Storage Room ", Preferences.getString(prefName), "Preference not set.");
+        "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
   }
 }
