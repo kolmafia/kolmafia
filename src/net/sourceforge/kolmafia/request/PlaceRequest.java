@@ -404,6 +404,7 @@ public class PlaceRequest extends GenericRequest {
   private static void parseSotVisit(String responseText) {
     //What he means is that he lost something over in The Haunted Storage Room and he'd like you to get it for him.
     //Matcher msl = Pattern.compile("bring his package back from (.+?)\\.</td>",responseText);
+    Pattern SOT_LOCATION_FIRST = Pattern.compile("bring his package back from (.+?)\\\\.</td>");
 
     /*
     void get_milkcap() {
