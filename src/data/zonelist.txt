@@ -173,6 +173,8 @@ Override	Unsorted	Discoveries
 # The following zones are only available at the whim of KoL
 
 Events	Events	Events
+Shadow Rift	Events	Shadow Rift
+
 Twitch	Town	Time-Twitching Tower
 
 # The following zones are all retired Events or Holidays
