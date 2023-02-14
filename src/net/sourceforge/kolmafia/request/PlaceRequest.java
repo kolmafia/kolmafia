@@ -346,47 +346,24 @@ public class PlaceRequest extends GenericRequest {
 
   private static void parseSotVisit(String responseText) {
     String location = "";
+    // What he means is that he lost something over in <location> and he'd like you to get it for
+    // him.
     Pattern visit = Pattern.compile("(?<=something over in )(.*)(?= and he'd like)");
     Matcher m = visit.matcher(responseText);
     if (m.find()) {
       location = m.group(0);
     } else {
+      // He's just sitting there, waiting for you to bring his package back from <location>.
       visit = Pattern.compile("(?<=back from )(.*)(?=\\.</td>)");
       m = visit.matcher(responseText);
       if (m.find()) {
         location = m.group(0);
       }
     }
-    Preferences.setString("_sotParcelLocation", location);
-    if (responseText.contains(
-        "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
-      ResultProcessor.removeItem(ItemPool.THE_SOTS_PARCEL);
+    if (!location.equals("")) {
+      Preferences.setString("_sotParcelLocation", location);
     }
-  }
-
-  private static void old_parseSotVisit(String responseText) {
-    String part1 = "What he means is that he lost something over in ";
-    String part2 = " and he'd like you to get it for him.";
-    String part3 = "He's just sitting there, waiting for you to bring his package back from ";
-    String part4 = ".</td>";
-    // First visit
-    // What he means is that he lost something over in <location> and he'd like you to get it for
-    // him.
-    if (responseText.contains(part1)) {
-      int startPart1 = responseText.indexOf(part1);
-      int startPart2 = responseText.indexOf(part2);
-      if ((startPart1 < 0) || (startPart2 < 0)) return;
-      String location = responseText.substring(startPart1 + part1.length(), startPart2);
-      Preferences.setString("_sotParcelLocation", location);
-    } else if (responseText.contains(part3)) {
-      // Subsequent visits
-      // He's just sitting there, waiting for you to bring his package back from <location>
-      int startPart3 = responseText.indexOf(part3);
-      int startPart4 = responseText.indexOf(part4);
-      if ((startPart3 < 0) || (startPart4 < 0)) return;
-      String location = responseText.substring(startPart3 + part3.length(), startPart4);
-      Preferences.setString("_sotParcelLocation", location);
-    } else if (responseText.contains(
+    if (responseText.contains(
         "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
       ResultProcessor.removeItem(ItemPool.THE_SOTS_PARCEL);
     }
