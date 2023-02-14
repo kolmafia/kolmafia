@@ -12,6 +12,7 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -90,7 +91,7 @@ public class AdventureDatabaseTest {
   }
 
   @Nested
-  class ShadowRift {
+  class ShadowRiftAdventure {
     private static final String SHADOW_RIFT_URL =
         "adventure.php?snarfblat=" + AdventurePool.SHADOW_RIFT;
 
@@ -126,6 +127,46 @@ public class AdventureDatabaseTest {
         var adventure = AdventureDatabase.getAdventureByURL(SHADOW_RIFT_URL);
         assertFalse(adventure == null);
         assertThat(adventure.getAdventureName(), is(adventureName));
+      }
+    }
+
+    private void runRiftAdventure(ShadowRift rift, boolean first) {
+      String adventureName = rift.getAdventureName();
+      var adventure = AdventureDatabase.getAdventure(adventureName);
+      assertFalse(adventure == null);
+      assertThat(adventure.getAdventureName(), is(adventureName));
+      var request = adventure.getRequest();
+      assertFalse(request == null);
+
+      // We have a request ready to go. Rather than actually running
+      // it, we'll call reconstructFields(), which chooses the URL
+      // in run(), just before the request is submitted
+      request.reconstructFields();
+
+      // The first time we visit a rift, we expect the URL that will
+      // be submitted is the place.php with whichplace/action for the
+      // specified rift. Subsequently, we'll go straight to adventure.php
+      String expectedURL = first ? rift.getURL() : SHADOW_RIFT_URL;
+      String actualURL = request.getURLString();
+      assertEquals(expectedURL, actualURL);
+
+      // As a side effect of (preparing to) run the request, we save
+      // the container where the Rift was seen
+      assertEquals(Preferences.getString("shadowRiftIngress"), rift.getPlace());
+    }
+
+    @Test
+    public void canMinimizeRedirections() {
+      var cleanups = new Cleanups(withProperty("shadowRiftIngress", ""));
+      try (cleanups) {
+        // Enter a rift for the first time
+        runRiftAdventure(ShadowRift.CITY, true);
+        // Enter the same rift again
+        runRiftAdventure(ShadowRift.CITY, false);
+        // Enter a different rift for the first time
+        runRiftAdventure(ShadowRift.PLAINS, true);
+        // Enter a first rift again for the first time
+        runRiftAdventure(ShadowRift.CITY, true);
       }
     }
   }

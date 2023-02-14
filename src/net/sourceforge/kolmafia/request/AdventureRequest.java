@@ -93,6 +93,7 @@ public class AdventureRequest extends GenericRequest {
 
     // Derived fields
     private final String adventureName;
+    private final String URL;
 
     // Lookups for Shadow Rifts
     private static final Map<String, ShadowRift> adventureNameToRift = new HashMap<>();
@@ -105,6 +106,7 @@ public class AdventureRequest extends GenericRequest {
 
       // Derived fields
       this.adventureName = "Shadow Rift (" + container + ")";
+      this.URL = "place.php?whichplace=" + place + "&action=" + action;
     }
 
     public String getContainer() {
@@ -121,6 +123,10 @@ public class AdventureRequest extends GenericRequest {
 
     public String getAdventureName() {
       return this.adventureName;
+    }
+
+    public String getURL() {
+      return this.URL;
     }
 
     public void populateMaps() {
@@ -276,6 +282,7 @@ public class AdventureRequest extends GenericRequest {
       return;
     }
 
+    // Pre-validate certain adventure locations
     switch (this.formSource) {
       case "adventure.php" -> {
         if (this.adventureNumber == AdventurePool.THE_SHORE) {
@@ -288,24 +295,35 @@ public class AdventureRequest extends GenericRequest {
         }
       }
       case "cellar.php" -> {
-        if (TavernManager.shouldAutoFaucet()) {
-          this.removeFormField("whichspot");
-          this.addFormField("action", "autofaucet");
-        } else {
-          int square = TavernManager.recommendSquare();
-          if (square == 0) {
-            KoLmafia.updateDisplay(
-                MafiaState.ERROR, "Don't know which square to visit in the Typical Tavern Cellar.");
-            return;
-          }
-
-          this.addFormField("whichspot", String.valueOf(square));
-          this.addFormField("action", "explore");
+        if (!TavernManager.shouldAutoFaucet() && TavernManager.recommendSquare() == 0) {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR, "Don't know which square to visit in the Typical Tavern Cellar.");
+          return;
         }
       }
       case "mining.php" -> {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Automated mining is not currently implemented.");
         return;
+      }
+    }
+
+    // Update fields to submit, if necessary
+    this.reconstructFields();
+
+    super.run();
+  }
+
+  @Override
+  public void reconstructFields() {
+    switch (this.formSource) {
+      case "cellar.php" -> {
+        if (TavernManager.shouldAutoFaucet()) {
+          this.removeFormField("whichspot");
+          this.addFormField("action", "autofaucet");
+        } else {
+          this.addFormField("whichspot", String.valueOf(TavernManager.recommendSquare()));
+          this.addFormField("action", "explore");
+        }
       }
       case "place.php" -> {
         switch (this.adventureId) {
@@ -338,6 +356,9 @@ public class AdventureRequest extends GenericRequest {
                 this.constructURLString("adventure.php");
                 this.addFormField("snarfblat", String.valueOf(AdventurePool.SHADOW_RIFT));
               } else {
+                this.constructURLString("place.php");
+                this.addFormField("whichplace", rift.getPlace());
+                this.addFormField("action", rift.getAction());
                 Preferences.setString("shadowRiftIngress", desired);
               }
             }
@@ -345,8 +366,6 @@ public class AdventureRequest extends GenericRequest {
         }
       }
     }
-
-    super.run();
   }
 
   @Override
