@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -1198,7 +1199,7 @@ public abstract class UseLinkDecorator {
                   new UseLink(
                       itemId,
                       itemCount,
-                      getEquipmentSpeculation("equip", itemId, -1),
+                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
                       "inv_equip.php?which=2&action=equip&whichitem=");
               if (combatResults) {
                 ArrayList<UseLink> uses = new ArrayList<>();
@@ -1223,7 +1224,7 @@ public abstract class UseLinkDecorator {
                   new UseLink(
                       itemId,
                       itemCount,
-                      getEquipmentSpeculation("equip", itemId, -1),
+                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
                       "inv_equip.php?which=2&action=equip&whichitem=");
               ArrayList<UseLink> uses = new ArrayList<>();
               // scg = Same Class in Guild
@@ -1246,7 +1247,7 @@ public abstract class UseLinkDecorator {
                   new UseLink(
                       itemId,
                       itemCount,
-                      getEquipmentSpeculation("equip", itemId, -1),
+                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
                       "inv_equip.php?which=2&action=equip&whichitem=");
               if (combatResults) {
                 ArrayList<UseLink> uses = new ArrayList<>();
@@ -1303,7 +1304,7 @@ public abstract class UseLinkDecorator {
                   new UseLink(
                       itemId,
                       itemCount,
-                      getEquipmentSpeculation("equip", itemId, -1),
+                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
                       "inv_equip.php?which=2&action=equip&whichitem=");
               // inv_use.php?pwd&which=f-1&whichitem=xxx
               UseLink plateLink =
@@ -1320,7 +1321,7 @@ public abstract class UseLinkDecorator {
                   new UseLink(
                       itemId,
                       itemCount,
-                      getEquipmentSpeculation("equip", itemId, -1),
+                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
                       "inv_equip.php?which=2&action=equip&whichitem=");
               // inv_use.php?pwd&which=f-1&whichitem=xxx
               UseLink wringOutLink =
@@ -1337,7 +1338,7 @@ public abstract class UseLinkDecorator {
                   new UseLink(
                       itemId,
                       itemCount,
-                      getEquipmentSpeculation("equip", itemId, -1),
+                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
                       "inv_equip.php?which=2&action=equip&whichitem=");
               // inv_use.php?pwd&which=f-1&whichitem=xxx
               UseLink drainLink =
@@ -1354,7 +1355,7 @@ public abstract class UseLinkDecorator {
                   new UseLink(
                       itemId,
                       itemCount,
-                      getEquipmentSpeculation("equip", itemId, -1),
+                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
                       "inv_equip.php?which=2&action=equip&whichitem=");
               // inv_use.php?pwd&which=f-1&whichitem=xxx
               UseLink useLink =
@@ -1387,29 +1388,26 @@ public abstract class UseLinkDecorator {
         }
 
         if (consumeMethod == ConsumptionType.ACCESSORY
-            && !EquipmentManager.getEquipment(EquipmentManager.ACCESSORY1)
-                .equals(EquipmentRequest.UNEQUIP)
-            && !EquipmentManager.getEquipment(EquipmentManager.ACCESSORY2)
-                .equals(EquipmentRequest.UNEQUIP)
-            && !EquipmentManager.getEquipment(EquipmentManager.ACCESSORY3)
-                .equals(EquipmentRequest.UNEQUIP)) {
+            && !EquipmentManager.getEquipment(Slot.ACCESSORY1).equals(EquipmentRequest.UNEQUIP)
+            && !EquipmentManager.getEquipment(Slot.ACCESSORY2).equals(EquipmentRequest.UNEQUIP)
+            && !EquipmentManager.getEquipment(Slot.ACCESSORY3).equals(EquipmentRequest.UNEQUIP)) {
           uses.add(
               new UseLink(
                   itemId,
                   itemCount,
-                  getEquipmentSpeculation("acc1", itemId, EquipmentManager.ACCESSORY1),
+                  getEquipmentSpeculation("acc1", itemId, Slot.ACCESSORY1),
                   "inv_equip.php?which=2&action=equip&slot=1&whichitem="));
           uses.add(
               new UseLink(
                   itemId,
                   itemCount,
-                  getEquipmentSpeculation("acc2", itemId, EquipmentManager.ACCESSORY2),
+                  getEquipmentSpeculation("acc2", itemId, Slot.ACCESSORY2),
                   "inv_equip.php?which=2&action=equip&slot=2&whichitem="));
           uses.add(
               new UseLink(
                   itemId,
                   itemCount,
-                  getEquipmentSpeculation("acc3", itemId, EquipmentManager.ACCESSORY3),
+                  getEquipmentSpeculation("acc3", itemId, Slot.ACCESSORY3),
                   "inv_equip.php?which=2&action=equip&slot=3&whichitem="));
         } else if (consumeMethod == ConsumptionType.SIXGUN) {
           // Only as WOL class
@@ -1422,7 +1420,7 @@ public abstract class UseLinkDecorator {
               new UseLink(
                   itemId,
                   itemCount,
-                  getEquipmentSpeculation("holster", itemId, -1),
+                  getEquipmentSpeculation("holster", itemId, Slot.NONE),
                   "inventory.php?which=2&action=holster&whichitem=",
                   false));
         } else {
@@ -1430,7 +1428,7 @@ public abstract class UseLinkDecorator {
               new UseLink(
                   itemId,
                   itemCount,
-                  getEquipmentSpeculation("equip", itemId, -1),
+                  getEquipmentSpeculation("equip", itemId, Slot.NONE),
                   "inv_equip.php?which=2&action=equip&whichitem="));
 
           // Quietly, stealthily, you reach out and steal the pants from your
@@ -1449,15 +1447,14 @@ public abstract class UseLinkDecorator {
 
         if (consumeMethod == ConsumptionType.WEAPON
             && EquipmentDatabase.getHands(itemId) == 1
-            && EquipmentDatabase.getHands(
-                    EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId())
+            && EquipmentDatabase.getHands(EquipmentManager.getEquipment(Slot.WEAPON).getItemId())
                 == 1
             && KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING)) {
           uses.add(
               new UseLink(
                   itemId,
                   itemCount,
-                  getEquipmentSpeculation("offhand", itemId, EquipmentManager.OFFHAND),
+                  getEquipmentSpeculation("offhand", itemId, Slot.OFFHAND),
                   "inv_equip.php?which=2&action=dualwield&whichitem="));
         }
 
@@ -1467,7 +1464,7 @@ public abstract class UseLinkDecorator {
               new UseLink(
                   itemId,
                   itemCount,
-                  getEquipmentSpeculation("familiar", itemId, EquipmentManager.FAMILIAR),
+                  getEquipmentSpeculation("familiar", itemId, Slot.FAMILIAR),
                   "inv_equip.php?which=2&action=hatrack&whichitem="));
         }
 
@@ -1540,8 +1537,8 @@ public abstract class UseLinkDecorator {
         + "</span>";
   }
 
-  public static final String getEquipmentSpeculation(String label, int itemId, int slot) {
-    if (slot == -1) {
+  public static final String getEquipmentSpeculation(String label, int itemId, Slot slot) {
+    if (slot == Slot.NONE) {
       slot = EquipmentRequest.chooseEquipmentSlot(itemId);
     }
     Speculation spec = new Speculation();

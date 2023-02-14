@@ -123,14 +123,19 @@ public abstract class WumpusManager {
   public static final StringBuffer deductions = new StringBuffer();
 
   // Types of deductions
-  public static final int NONE = 0;
-  public static final int VISIT = 1;
-  public static final int LISTEN = 2;
-  public static final int ELIMINATION = 3;
-  public static final int DEDUCTION = 4;
+  private enum Deduction {
+    NONE("None"),
+    VISIT("Visit"),
+    LISTEN("Listen"),
+    ELIMINATION("Elimination"),
+    DEDUCTION("Deduction");
 
-  public static String[] DEDUCTION_STRINGS =
-      new String[] {"None", "Visit", "Listen", "Elimination", "Deduction"};
+    final String name;
+
+    Deduction(String name) {
+      this.name = name;
+    }
+  }
 
   public static void visitChoice(String text) {
     WumpusManager.last = WumpusManager.current;
@@ -163,12 +168,12 @@ public abstract class WumpusManager {
 
     // Wait for the bats to drop you
     if (text.contains("the bats")) {
-      WumpusManager.knownBats(room, VISIT);
+      WumpusManager.knownBats(room, Deduction.VISIT);
       return;
     }
 
     if (text.contains("Thump")) {
-      WumpusManager.knownPit(room, VISIT);
+      WumpusManager.knownPit(room, Deduction.VISIT);
       return;
     }
 
@@ -223,7 +228,7 @@ public abstract class WumpusManager {
 
     WumpusManager.printDeduction("Sounds: " + WumpusManager.current.listenString());
 
-    WumpusManager.knownSafe(VISIT);
+    WumpusManager.knownSafe(Deduction.VISIT);
 
     WumpusManager.current.setListen(warn);
 
@@ -301,11 +306,11 @@ public abstract class WumpusManager {
     return buffer.toString();
   }
 
-  private static void knownSafe(final int type) {
+  private static void knownSafe(final Deduction type) {
     WumpusManager.knownSafe(WumpusManager.current, type);
   }
 
-  private static void knownSafe(final Room room, final int type) {
+  private static void knownSafe(final Room room, final Deduction type) {
     // Set Wumpinator flags for this room
     room.bat = 9;
     room.pit = 9;
@@ -314,11 +319,11 @@ public abstract class WumpusManager {
     WumpusManager.knownHazard(room, WARN_SAFE, type);
   }
 
-  private static void knownBats(final int type) {
+  private static void knownBats(final Deduction type) {
     WumpusManager.knownBats(WumpusManager.current, type);
   }
 
-  private static void knownBats(final Room room, final int type) {
+  private static void knownBats(final Room room, final Deduction type) {
     // If we already know there are bats here, punt
     if (room.bat == 8) {
       return;
@@ -346,11 +351,11 @@ public abstract class WumpusManager {
     WumpusManager.eliminateHazard(WARN_BATS);
   }
 
-  private static void knownPit(final int type) {
+  private static void knownPit(final Deduction type) {
     WumpusManager.knownPit(WumpusManager.current, type);
   }
 
-  private static void knownPit(final Room room, final int type) {
+  private static void knownPit(final Room room, final Deduction type) {
     // If we already know there is a pit here, punt
     if (room.pit == 8) {
       return;
@@ -378,11 +383,11 @@ public abstract class WumpusManager {
     WumpusManager.eliminateHazard(WARN_PIT);
   }
 
-  private static void knownWumpus(final int type) {
+  private static void knownWumpus(final Deduction type) {
     WumpusManager.knownWumpus(WumpusManager.current, type);
   }
 
-  private static void knownWumpus(final Room room, final int type) {
+  private static void knownWumpus(final Room room, final Deduction type) {
     // If we already know the Wumpus is here, punt
     if (room.wumpus == 8) {
       return;
@@ -426,7 +431,7 @@ public abstract class WumpusManager {
         if (WumpusManager.bats1 != null && WumpusManager.bats2 != null) {
           warn &= ~WARN_BATS;
         } else if (++room.bat == 3) {
-          WumpusManager.knownBats(room, DEDUCTION);
+          WumpusManager.knownBats(room, Deduction.DEDUCTION);
           return;
         }
       } else {
@@ -441,7 +446,7 @@ public abstract class WumpusManager {
         if (WumpusManager.pit1 != null && WumpusManager.pit2 != null) {
           warn &= ~WARN_PIT;
         } else if (++room.pit == 3) {
-          WumpusManager.knownPit(room, DEDUCTION);
+          WumpusManager.knownPit(room, Deduction.DEDUCTION);
           return;
         }
       } else {
@@ -456,7 +461,7 @@ public abstract class WumpusManager {
         if (WumpusManager.wumpus != null) {
           warn &= ~WARN_WUMPUS;
         } else if (++room.wumpus == 2) {
-          WumpusManager.knownWumpus(room, DEDUCTION);
+          WumpusManager.knownWumpus(room, Deduction.DEDUCTION);
           return;
         }
       } else {
@@ -483,9 +488,9 @@ public abstract class WumpusManager {
     WumpusManager.addDeduction("Listen: " + warnString + " in " + room);
   }
 
-  private static void knownHazard(final Room room, int warn, final int type) {
+  private static void knownHazard(final Room room, int warn, final Deduction type) {
     // Remember that the room has been visited.
-    if (type == VISIT) {
+    if (type == Deduction.VISIT) {
       room.visited = true;
     }
 
@@ -496,7 +501,7 @@ public abstract class WumpusManager {
     }
 
     // New deduction
-    String idString = WumpusManager.DEDUCTION_STRINGS[type];
+    String idString = type.name;
     String warnString = WumpusManager.WARN_STRINGS[newStatus];
 
     WumpusManager.addDeduction(idString + ": " + warnString + " in " + room);
@@ -590,9 +595,9 @@ public abstract class WumpusManager {
     }
 
     switch (mask) {
-      case WARN_BATS -> WumpusManager.knownBats(exit, ELIMINATION);
-      case WARN_PIT -> WumpusManager.knownPit(exit, ELIMINATION);
-      case WARN_WUMPUS -> WumpusManager.knownWumpus(exit, ELIMINATION);
+      case WARN_BATS -> WumpusManager.knownBats(exit, Deduction.ELIMINATION);
+      case WARN_PIT -> WumpusManager.knownPit(exit, Deduction.ELIMINATION);
+      case WARN_WUMPUS -> WumpusManager.knownWumpus(exit, Deduction.ELIMINATION);
     }
   }
 
@@ -635,7 +640,7 @@ public abstract class WumpusManager {
         || text.contains("surprised the wumpus")
         || text.contains("darkness.gif")) {
       WumpusManager.last = WumpusManager.current;
-      WumpusManager.knownWumpus(room, VISIT);
+      WumpusManager.knownWumpus(room, Deduction.VISIT);
       return;
     }
   }

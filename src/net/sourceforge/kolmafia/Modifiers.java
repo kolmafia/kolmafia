@@ -75,7 +75,7 @@ public class Modifiers {
   private final StringModifierCollection strings = new StringModifierCollection();
   private ArrayList<Indexed<DoubleModifier, ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
-  private final DoubleModifierCollection doublerAccumulators = new DoubleModifierCollection();
+  private final DoubleModifierCollection accumulators = new DoubleModifierCollection();
 
   // constants
 
@@ -399,12 +399,12 @@ public class Modifiers {
     return this.strings.get(modifier);
   }
 
-  public double getDoublerAccumulator(final DoubleModifier modifier) {
+  public double getAccumulator(final DoubleModifier modifier) {
     if (modifier == null) {
       // For now, make it obvious that something went wrong
       return -9999.0;
     }
-    return this.doublerAccumulators.get(modifier);
+    return this.accumulators.get(modifier);
   }
 
   public boolean setDouble(final DoubleModifier mod, final double value) {
@@ -514,7 +514,7 @@ public class Modifiers {
         break;
       case ITEMDROP:
         if (ModifierDatabase.DOUBLED_BY_SQUINT_CHAMPAGNE.contains(type)) {
-          this.doublerAccumulators.add(mod, value);
+          this.accumulators.add(mod, value);
         }
         this.doubles.add(mod, value);
         break;
@@ -536,10 +536,11 @@ public class Modifiers {
       case MUS_EXPERIENCE_PCT:
       case MYS_EXPERIENCE_PCT:
       case MOX_EXPERIENCE_PCT:
-        // doublerAccumulators acts as an accumulator for modifiers that are possibly doubled by
-        // doublers like makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or Dirty Pear.
-        // TODO: Figure out which ones aren't doubled and exclude them. BoomBox?
-        this.doublerAccumulators.add(mod, value);
+        // accumulators acts as an accumulator for modifiers that are possibly multiplied by
+        // multipliers like makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or Dirty
+        // Pear.
+        // TODO: Figure out which ones aren't multiplied and exclude them. BoomBox?
+        this.accumulators.add(mod, value);
         this.doubles.add(mod, value);
         break;
       case FAMILIAR_ACTION_BONUS:

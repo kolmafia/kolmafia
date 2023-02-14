@@ -19,7 +19,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CheckedItem extends AdventureResult {
-  public CheckedItem(int itemId, EquipScope equipScope, int maxPrice, int priceLevel) {
+  public CheckedItem(int itemId, EquipScope equipScope, int maxPrice, PriceLevel priceLevel) {
     super(itemId, 1, false);
 
     this.inventory = InventoryManager.getCount(itemId);
@@ -100,7 +100,7 @@ public class CheckedItem extends AdventureResult {
         // We include things with historical price up to twice as high as limit, as current price
         // may be lower
         long price = Math.min(maxPrice, KoLCharacter.getAvailableMeat());
-        if (priceLevel == 0 || MallPriceDatabase.getPrice(itemId) < price * 2) {
+        if (priceLevel == PriceLevel.DONT_CHECK || MallPriceDatabase.getPrice(itemId) < price * 2) {
           this.mallBuyable = 1;
           this.buyableFlag = true;
         }
@@ -116,7 +116,8 @@ public class CheckedItem extends AdventureResult {
           // We include things with historical price up to twice as high as limit, as current price
           // may be lower
           long price = Math.min(maxPrice, KoLCharacter.getStorageMeat());
-          if (priceLevel == 0 || MallPriceDatabase.getPrice(itemId) < price * 2) {
+          if (priceLevel == PriceLevel.DONT_CHECK
+              || MallPriceDatabase.getPrice(itemId) < price * 2) {
             this.pullBuyable = 1;
             this.buyableFlag = true;
           }
@@ -187,12 +188,12 @@ public class CheckedItem extends AdventureResult {
         + this.pullBuyable;
   }
 
-  public void validate(int maxPrice, int priceLevel) throws MaximizerInterruptedException {
+  public void validate(int maxPrice, PriceLevel priceLevel) throws MaximizerInterruptedException {
     if (!KoLmafia.permitsContinue()) {
       throw new MaximizerInterruptedException();
     }
 
-    if (priceLevel <= 0) {
+    if (priceLevel == PriceLevel.DONT_CHECK) {
       return;
     }
 

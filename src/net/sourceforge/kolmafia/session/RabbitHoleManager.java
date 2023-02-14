@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -1229,8 +1230,8 @@ public abstract class RabbitHoleManager {
     }
     index += 8;
 
-    List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(EquipmentManager.HAT);
-    AdventureResult curHat = EquipmentManager.getEquipment(EquipmentManager.HAT);
+    List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(Slot.HAT);
+    AdventureResult curHat = EquipmentManager.getEquipment(Slot.HAT);
     TreeMap<Integer, String> options = new TreeMap<>();
     for (AdventureResult hat : hats) {
       if (hat.equals(EquipmentRequest.UNEQUIP)) { // no buff without a hat!
@@ -1265,7 +1266,7 @@ public abstract class RabbitHoleManager {
 
   private static TreeMap<Integer, StringBuffer> getHatMap() {
     // Make a map of all hats indexed by length
-    List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(EquipmentManager.HAT);
+    List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(Slot.HAT);
     FamiliarData current = KoLCharacter.getFamiliar();
 
     if (current.getItem() != null && EquipmentDatabase.isHat(current.getItem())) {
@@ -1355,7 +1356,7 @@ public abstract class RabbitHoleManager {
   }
 
   public static void getHatBuff(final AdventureResult hat) {
-    AdventureResult oldHat = EquipmentManager.getEquipment(EquipmentManager.HAT);
+    AdventureResult oldHat = EquipmentManager.getEquipment(Slot.HAT);
 
     if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.DOWN_THE_RABBIT_HOLE))) {
       if (!InventoryManager.hasItem(ItemPool.DRINK_ME_POTION)) {
@@ -1368,8 +1369,8 @@ public abstract class RabbitHoleManager {
           UseItemRequest.getInstance(ItemPool.get(ItemPool.DRINK_ME_POTION, 1)));
     }
 
-    RequestThread.postRequest(new EquipmentRequest(hat, EquipmentManager.HAT));
-    if (EquipmentManager.getEquipment(EquipmentManager.HAT).getItemId() != hat.getItemId()) {
+    RequestThread.postRequest(new EquipmentRequest(hat, Slot.HAT));
+    if (EquipmentManager.getEquipment(Slot.HAT).getItemId() != hat.getItemId()) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip " + hat.getName() + ".");
       return;
     }
@@ -1387,7 +1388,7 @@ public abstract class RabbitHoleManager {
 
     RequestThread.postRequest(new RabbitHoleRequest("rabbithole_teaparty"));
     RequestThread.postRequest(new GenericRequest("choice.php?pwd&whichchoice=441&option=1", true));
-    RequestThread.postRequest(new EquipmentRequest(oldHat, EquipmentManager.HAT));
+    RequestThread.postRequest(new EquipmentRequest(oldHat, Slot.HAT));
   }
 
   public static void getHatBuff(final int desiredHatLength) {

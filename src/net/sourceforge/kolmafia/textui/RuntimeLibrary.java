@@ -70,8 +70,11 @@ import net.sourceforge.kolmafia.chat.WhoMessage;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.maximizer.PriceLevel;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
@@ -5514,8 +5517,8 @@ public abstract class RuntimeLibrary {
     AdventureResult item = ItemPool.get((int) arg.intValue(), 0);
     int runningTotal = 0;
 
-    for (int i = 0; i <= EquipmentManager.FAMILIAR; ++i) {
-      if (EquipmentManager.getEquipment(i).equals(item)) {
+    for (var slot : SlotSet.SLOTS) {
+      if (EquipmentManager.getEquipment(slot).equals(item)) {
         ++runningTotal;
       }
     }
@@ -6681,7 +6684,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value equipped_item(ScriptRuntime controller, final Value slot) {
-    return DataTypes.makeItemValue(EquipmentManager.getEquipment((int) slot.intValue()));
+    return DataTypes.makeItemValue(
+        EquipmentManager.getEquipment(Slot.byOrdinal((int) slot.intValue())));
   }
 
   public static Value have_equipped(ScriptRuntime controller, final Value item) {
@@ -7590,7 +7594,9 @@ public abstract class RuntimeLibrary {
     int priceLevel = (int) priceLevelValue.intValue();
     boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
 
-    return new Value(Maximizer.maximize(maximizerString, maxPrice, priceLevel, isSpeculateOnly));
+    return new Value(
+        Maximizer.maximize(
+            maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly));
   }
 
   public static Value maximize(
@@ -7606,7 +7612,7 @@ public abstract class RuntimeLibrary {
     boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
     boolean showEquip = showEquipment.intValue() == 1;
 
-    Maximizer.maximize(maximizerString, maxPrice, priceLevel, isSpeculateOnly);
+    Maximizer.maximize(maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly);
 
     List<Boost> m = Maximizer.boosts;
 

@@ -254,6 +254,7 @@ Use	redwood rain stick	_redwoodRainStickUsed
 Use	refurbished air fryer	_airFryerUsed
 Use	set of jacks	_setOfJacksUsed
 Use	sewing kit	_sewingKitUsed
+Use	shadow brick	_shadowBricksUsed	13
 Use	silver Dreadsylvanian flask	_silverDreadFlaskUsed
 Use	snake	_fireworkUsed
 Use	sparkler	_fireworkUsed

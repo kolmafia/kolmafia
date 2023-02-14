@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -3274,7 +3275,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.modifiers.add(null);
 
       // build hat options here
-      List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(EquipmentManager.HAT);
+      List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(Slot.HAT);
       FamiliarData current = KoLCharacter.getFamiliar();
 
       if (current.getItem() != null && EquipmentDatabase.isHat(current.getItem())) {

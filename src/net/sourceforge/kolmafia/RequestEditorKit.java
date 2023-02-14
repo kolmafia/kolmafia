@@ -27,6 +27,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -59,7 +60,6 @@ import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
@@ -2423,21 +2423,21 @@ public class RequestEditorKit extends HTMLEditorKit {
             ItemPool.VENTILATION_UNIT,
             1,
             UseLinkDecorator.getEquipmentSpeculation(
-                "acc1", ItemPool.VENTILATION_UNIT, EquipmentManager.ACCESSORY1),
+                "acc1", ItemPool.VENTILATION_UNIT, Slot.ACCESSORY1),
             "inv_equip.php?which=2&action=equip&slot=1&whichitem=");
     UseLink link2 =
         new UseLink(
             ItemPool.VENTILATION_UNIT,
             1,
             UseLinkDecorator.getEquipmentSpeculation(
-                "acc2", ItemPool.VENTILATION_UNIT, EquipmentManager.ACCESSORY2),
+                "acc2", ItemPool.VENTILATION_UNIT, Slot.ACCESSORY2),
             "inv_equip.php?which=2&action=equip&slot=2&whichitem=");
     UseLink link3 =
         new UseLink(
             ItemPool.VENTILATION_UNIT,
             1,
             UseLinkDecorator.getEquipmentSpeculation(
-                "acc3", ItemPool.VENTILATION_UNIT, EquipmentManager.ACCESSORY3),
+                "acc3", ItemPool.VENTILATION_UNIT, Slot.ACCESSORY3),
             "inv_equip.php?which=2&action=equip&slot=3&whichitem=");
     buffer.insert(
         index + test.length(), link1.getItemHTML() + link2.getItemHTML() + link3.getItemHTML());

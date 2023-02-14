@@ -14,6 +14,7 @@ import javax.swing.JList;
 import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -600,7 +601,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     KoLCharacter.setFamiliar(current);
-    EquipmentManager.setEquipment(EquipmentManager.FAMILIAR, current.getItem());
+    EquipmentManager.setEquipment(Slot.FAMILIAR, current.getItem());
     FamiliarData.checkLockedItem(responseText);
   }
 
@@ -778,28 +779,28 @@ public class FamiliarData implements Comparable<FamiliarData> {
       switch (this.id) {
         case FamiliarPool.HATRACK -> {
           // Mad Hatrack
-          EquipmentManager.updateEquipmentList(EquipmentManager.HAT);
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+          EquipmentManager.updateEquipmentList(Slot.HAT);
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
         }
         case FamiliarPool.HAND -> {
           // Disembodied Hand
-          EquipmentManager.updateEquipmentList(EquipmentManager.WEAPON);
-          EquipmentManager.updateEquipmentList(EquipmentManager.OFFHAND);
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+          EquipmentManager.updateEquipmentList(Slot.WEAPON);
+          EquipmentManager.updateEquipmentList(Slot.OFFHAND);
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
         }
         case FamiliarPool.LEFT_HAND -> {
           // Left-Hand Man
-          EquipmentManager.updateEquipmentList(EquipmentManager.OFFHAND);
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+          EquipmentManager.updateEquipmentList(Slot.OFFHAND);
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
         }
         case FamiliarPool.SCARECROW -> {
           // Fancypants Scarecrow
-          EquipmentManager.updateEquipmentList(EquipmentManager.PANTS);
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+          EquipmentManager.updateEquipmentList(Slot.PANTS);
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
         }
         default ->
         // Everything else
-        EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
+        EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
       }
       EquipmentManager.lockFamiliarItem();
     }
@@ -1406,8 +1407,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     if (this.id == FamiliarPool.DANDY_LION) {
-      return EquipmentManager.getEquipment(EquipmentManager.WEAPON).getName().endsWith("whip")
-          || EquipmentManager.getEquipment(EquipmentManager.OFFHAND).getName().endsWith("whip");
+      return EquipmentManager.getEquipment(Slot.WEAPON).getName().endsWith("whip")
+          || EquipmentManager.getEquipment(Slot.OFFHAND).getName().endsWith("whip");
     }
 
     return false;
@@ -1416,7 +1417,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public final void findAndWearItem(boolean steal) {
     AdventureResult use = this.findGoodItem(steal);
     if (use != null) {
-      RequestThread.postRequest(new EquipmentRequest(use, EquipmentManager.FAMILIAR));
+      RequestThread.postRequest(new EquipmentRequest(use, Slot.FAMILIAR));
     }
   }
 

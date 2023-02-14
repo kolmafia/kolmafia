@@ -12,12 +12,12 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -67,7 +67,7 @@ public class CharPaneDecoratorTest {
         new Cleanups(
             withProperty("familiarSweat", drams),
             withFamiliar(FamiliarPool.WOIM),
-            withEquipped(EquipmentManager.FAMILIAR, "tiny stillsuit"));
+            withEquipped(Slot.FAMILIAR, "tiny stillsuit"));
 
     try (cleanups) {
       String input = html("request/test_charpane_woim_" + displayMode + ".html");

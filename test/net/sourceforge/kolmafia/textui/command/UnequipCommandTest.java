@@ -11,8 +11,8 @@ import static org.hamcrest.Matchers.hasSize;
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +39,7 @@ public class UnequipCommandTest extends AbstractCommandTestBase {
   @Test
   public void unequipOffhand() {
     HttpClientWrapper.setupFakeClient();
-    var cleanups = withEquipped(EquipmentManager.OFFHAND, ItemPool.HOT_PLATE);
+    var cleanups = withEquipped(Slot.OFFHAND, ItemPool.HOT_PLATE);
 
     try (cleanups) {
       execute("offhand");
@@ -57,8 +57,8 @@ public class UnequipCommandTest extends AbstractCommandTestBase {
     HttpClientWrapper.setupFakeClient();
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.FOLDER1, ItemPool.FOLDER_19),
-            withEquipped(EquipmentManager.FOLDER2, ItemPool.FOLDER_22),
+            withEquipped(Slot.FOLDER1, ItemPool.FOLDER_19),
+            withEquipped(Slot.FOLDER2, ItemPool.FOLDER_22),
             withHandlingChoice(false) // escape the choice
             );
 
@@ -78,9 +78,9 @@ public class UnequipCommandTest extends AbstractCommandTestBase {
     HttpClientWrapper.setupFakeClient();
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.ACCESSORY1, ItemPool.SHINY_RING),
-            withEquipped(EquipmentManager.ACCESSORY2, ItemPool.SHINY_RING),
-            withEquipped(EquipmentManager.ACCESSORY3, ItemPool.SHINY_RING));
+            withEquipped(Slot.ACCESSORY1, ItemPool.SHINY_RING),
+            withEquipped(Slot.ACCESSORY2, ItemPool.SHINY_RING),
+            withEquipped(Slot.ACCESSORY3, ItemPool.SHINY_RING));
 
     try (cleanups) {
       execute("shiny ring");

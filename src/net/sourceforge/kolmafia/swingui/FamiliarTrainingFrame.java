@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.CharacterListener;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -76,10 +77,12 @@ public class FamiliarTrainingFrame extends GenericFrame {
   private final FamiliarTrainingPanel training;
   private CharacterListener weightListener;
 
-  public static final int BASE = 1;
-  public static final int BUFFED = 2;
-  public static final int TURNS = 3;
-  public static final int LEARN = 4;
+  public enum Goal {
+    BASE,
+    BUFFED,
+    TURNS,
+    LEARN
+  }
 
   // Familiar buffing skills and effects
   public static final AdventureResult EMPATHY = EffectPool.get(EffectPool.EMPATHY);
@@ -397,7 +400,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           // Level the familiar
 
-          FamiliarTrainingFrame.levelFamiliar(goal, FamiliarTrainingFrame.BASE);
+          FamiliarTrainingFrame.levelFamiliar(goal, Goal.BASE);
         }
       }
 
@@ -416,7 +419,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           // Level the familiar
 
-          FamiliarTrainingFrame.levelFamiliar(goal, FamiliarTrainingFrame.BUFFED);
+          FamiliarTrainingFrame.levelFamiliar(goal, Goal.BUFFED);
         }
       }
 
@@ -435,7 +438,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           // Level the familiar
 
-          FamiliarTrainingFrame.levelFamiliar(goal, FamiliarTrainingFrame.TURNS);
+          FamiliarTrainingFrame.levelFamiliar(goal, Goal.TURNS);
         }
       }
 
@@ -603,7 +606,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     return null;
   }
 
-  private static boolean levelFamiliar(final int goal, final int type) {
+  private static boolean levelFamiliar(final int goal, final Goal type) {
     return FamiliarTrainingFrame.levelFamiliar(
         goal, type, Preferences.getBoolean("debugFamiliarTraining"));
   }
@@ -615,7 +618,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
    * @param type BASE, BUFF, or TURNS
    * @param debug true if we are debugging
    */
-  public static final boolean levelFamiliar(final int goal, final int type, final boolean debug) {
+  public static final boolean levelFamiliar(final int goal, final Goal type, final boolean debug) {
     // Clear the output
     FamiliarTrainingFrame.results.clear();
 
@@ -648,14 +651,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
       familiar.findAndWearItem(false);
     }
 
-    boolean result =
-        type == FamiliarTrainingFrame.BUFFED ? FamiliarTrainingFrame.buffFamiliar(goal) : true;
+    boolean result = type == Goal.BUFFED ? FamiliarTrainingFrame.buffFamiliar(goal) : true;
 
     FamiliarTrainingFrame.statusMessage(MafiaState.CONTINUE, "Training session completed.");
     return result;
   }
 
-  private static boolean trainFamiliar(final int goal, final int type, final boolean debug) {
+  private static boolean trainFamiliar(final int goal, final Goal type, final boolean debug) {
     // Get current familiar
     FamiliarData familiar = KoLCharacter.getFamiliar();
 
@@ -793,7 +795,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     FamiliarStatus status = new FamiliarStatus();
 
     // Identify the familiar we are training
-    FamiliarTrainingFrame.printFamiliar(status, trials, FamiliarTrainingFrame.LEARN);
+    FamiliarTrainingFrame.printFamiliar(status, trials, Goal.LEARN);
     FamiliarTrainingFrame.results.append("<br>");
 
     // Print available buffs and items and current buffs
@@ -1115,22 +1117,19 @@ public class FamiliarTrainingFrame extends GenericFrame {
     KoLmafia.updateDisplay(state, message);
   }
 
-  private static void printFamiliar(final FamiliarStatus status, final int goal, final int type) {
+  private static void printFamiliar(final FamiliarStatus status, final int goal, final Goal type) {
     FamiliarData familiar = status.getFamiliar();
     String name = familiar.getName();
     String race = familiar.getRace();
     int weight = familiar.getWeight();
-    String hope = "";
 
-    if (type == FamiliarTrainingFrame.BASE) {
-      hope = " to " + goal + " lbs. base weight";
-    } else if (type == FamiliarTrainingFrame.BUFFED) {
-      hope = " to " + goal + " lbs. buffed weight";
-    } else if (type == FamiliarTrainingFrame.TURNS) {
-      hope = " for " + goal + " turns";
-    } else if (type == FamiliarTrainingFrame.LEARN) {
-      hope = " for " + goal + " iterations to learn arena strengths";
-    }
+    String hope =
+        switch (type) {
+          case BASE -> " to " + goal + " lbs. base weight";
+          case BUFFED -> " to " + goal + " lbs. buffed weight";
+          case TURNS -> " for " + goal + " turns";
+          case LEARN -> " for " + goal + " iterations to learn arena strengths";
+        };
 
     FamiliarTrainingFrame.results.append(
         "Training " + name + " the " + weight + " lb. " + race + hope + ".<br>");
@@ -1148,7 +1147,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     }
   }
 
-  private static boolean goalMet(final FamiliarStatus status, final int goal, final int type) {
+  private static boolean goalMet(final FamiliarStatus status, final int goal, final Goal type) {
     return switch (type) {
       case BASE -> status.baseWeight() >= goal;
       case BUFFED -> status.maxWeight(true) >= goal;
@@ -1345,13 +1344,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
     private void checkCurrentEquipment() {
       this.checkCurrentEquipment(
-          EquipmentManager.getEquipment(EquipmentManager.WEAPON),
-          EquipmentManager.getEquipment(EquipmentManager.OFFHAND),
-          EquipmentManager.getEquipment(EquipmentManager.HAT),
-          EquipmentManager.getEquipment(EquipmentManager.FAMILIAR),
-          EquipmentManager.getEquipment(EquipmentManager.ACCESSORY1),
-          EquipmentManager.getEquipment(EquipmentManager.ACCESSORY2),
-          EquipmentManager.getEquipment(EquipmentManager.ACCESSORY3));
+          EquipmentManager.getEquipment(Slot.WEAPON),
+          EquipmentManager.getEquipment(Slot.OFFHAND),
+          EquipmentManager.getEquipment(Slot.HAT),
+          EquipmentManager.getEquipment(Slot.FAMILIAR),
+          EquipmentManager.getEquipment(Slot.ACCESSORY1),
+          EquipmentManager.getEquipment(Slot.ACCESSORY2),
+          EquipmentManager.getEquipment(Slot.ACCESSORY3));
     }
 
     private void checkCurrentEquipment(
@@ -1798,8 +1797,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       GearSet current = new GearSet();
 
       if (this.doppelganger) {
-        RequestThread.postRequest(
-            new EquipmentRequest(FamiliarData.DOPPELGANGER, EquipmentManager.FAMILIAR));
+        RequestThread.postRequest(new EquipmentRequest(FamiliarData.DOPPELGANGER, Slot.FAMILIAR));
       }
 
       // If we are already suitably equipped, stop now
@@ -1860,17 +1858,17 @@ public class FamiliarTrainingFrame extends GenericFrame {
      */
 
     public void changeGear(final GearSet current, final GearSet next) {
-      this.swapItem(current.weapon, next.weapon, EquipmentManager.WEAPON);
-      this.swapItem(current.offhand, next.offhand, EquipmentManager.OFFHAND);
-      this.swapItem(current.hat, next.hat, EquipmentManager.HAT);
-      this.swapItem(current.item, next.item, EquipmentManager.FAMILIAR);
-      this.swapItem(current.acc1, next.acc1, EquipmentManager.ACCESSORY1);
-      this.swapItem(current.acc2, next.acc2, EquipmentManager.ACCESSORY2);
-      this.swapItem(current.acc3, next.acc3, EquipmentManager.ACCESSORY3);
+      this.swapItem(current.weapon, next.weapon, Slot.WEAPON);
+      this.swapItem(current.offhand, next.offhand, Slot.OFFHAND);
+      this.swapItem(current.hat, next.hat, Slot.HAT);
+      this.swapItem(current.item, next.item, Slot.FAMILIAR);
+      this.swapItem(current.acc1, next.acc1, Slot.ACCESSORY1);
+      this.swapItem(current.acc2, next.acc2, Slot.ACCESSORY2);
+      this.swapItem(current.acc3, next.acc3, Slot.ACCESSORY3);
     }
 
     private void swapItem(
-        final AdventureResult current, final AdventureResult next, final int slot) {
+        final AdventureResult current, final AdventureResult next, final Slot slot) {
       // Nothing to do if already wearing this item
       if (current == next) {
         return;
@@ -1892,15 +1890,15 @@ public class FamiliarTrainingFrame extends GenericFrame {
       }
     }
 
-    private void setItem(final int slot, final AdventureResult item) {
+    private void setItem(final Slot slot, final AdventureResult item) {
       switch (slot) {
-        case EquipmentManager.WEAPON -> this.weapon = item;
-        case EquipmentManager.OFFHAND -> this.offhand = item;
-        case EquipmentManager.HAT -> this.hat = item;
-        case EquipmentManager.FAMILIAR -> this.item = item;
-        case EquipmentManager.ACCESSORY1 -> this.acc[0] = item;
-        case EquipmentManager.ACCESSORY2 -> this.acc[1] = item;
-        case EquipmentManager.ACCESSORY3 -> this.acc[2] = item;
+        case WEAPON -> this.weapon = item;
+        case OFFHAND -> this.offhand = item;
+        case HAT -> this.hat = item;
+        case FAMILIAR -> this.item = item;
+        case ACCESSORY1 -> this.acc[0] = item;
+        case ACCESSORY2 -> this.acc[1] = item;
+        case ACCESSORY3 -> this.acc[2] = item;
       }
     }
 

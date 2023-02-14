@@ -18,6 +18,7 @@ import static org.hamcrest.core.Every.everyItem;
 import internal.helpers.Cleanups;
 import java.io.File;
 import java.util.Map;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -28,7 +29,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,7 +89,7 @@ public class AreaCombatDataTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       Preferences.setString("_saberForceMonster", "smut orc screwer");
       Preferences.setInteger("_saberForceMonsterCount", 3);
@@ -120,7 +120,7 @@ public class AreaCombatDataTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       Preferences.setString(
           "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
@@ -147,7 +147,7 @@ public class AreaCombatDataTest {
     var cleanups =
         new Cleanups(
             withFamiliar(FamiliarPool.BADGER),
-            withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withEquipped(Slot.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       Preferences.setString(
           "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
@@ -526,6 +526,40 @@ public class AreaCombatDataTest {
                       equalTo(MonsterDatabase.findMonster("toothy sklelton")),
                       closeTo(100f / 3 * 0.85, 0.001))));
         }
+      }
+    }
+  }
+
+  @Nested
+  class ShadowRifts {
+    @Test
+    public void ingressPointAffectsAvailableMonsters() {
+      var cleanups = withProperty("shadowRiftIngress", "manor3");
+
+      try (cleanups) {
+        Map<MonsterData, Double> appearanceRates =
+            AdventureDatabase.getAreaCombatData("Shadow Rift").getMonsterData(true);
+
+        assertThat(
+            appearanceRates,
+            allOf(
+                aMapWithSize(12),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("shadow bat")), closeTo(100f / 3, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("shadow devil")), closeTo(100f / 3, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("shadow spider")),
+                    closeTo(100f / 3, 0.001)),
+                hasEntry(MonsterDatabase.findMonster("shadow cow"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow guy"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow hexagon"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow orb"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow prism"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow slab"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow snake"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow stalk"), -4.0),
+                hasEntry(MonsterDatabase.findMonster("shadow tree"), -4.0)));
       }
     }
   }

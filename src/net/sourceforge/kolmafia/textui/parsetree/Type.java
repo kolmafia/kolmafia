@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -22,7 +23,6 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
@@ -369,7 +369,7 @@ public class Type extends Symbol {
         this.addValues(list, FamiliarDatabase.entrySet());
         break;
       case SLOT:
-        this.addValues(list, EquipmentRequest.slotNames);
+        this.addValues(list, SlotSet.NAMES);
         break;
       case MONSTER:
         this.addValues(list, MonsterDatabase.valueSet());

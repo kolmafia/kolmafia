@@ -3,9 +3,9 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.LatteRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class LatteCommand extends AbstractCommand {
@@ -20,7 +20,7 @@ public class LatteCommand extends AbstractCommand {
     String command = params[0];
 
     if (!InventoryManager.hasItem(ItemPool.LATTE_MUG)
-        && !KoLCharacter.hasEquipped(ItemPool.LATTE_MUG, EquipmentManager.OFFHAND)) {
+        && !KoLCharacter.hasEquipped(ItemPool.LATTE_MUG, Slot.OFFHAND)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You need a latte lovers member's mug first.");
       return;
     }

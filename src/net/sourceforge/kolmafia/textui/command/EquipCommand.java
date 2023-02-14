@@ -6,6 +6,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
@@ -41,9 +43,9 @@ public class EquipCommand extends AbstractCommand {
 
     // Look for name of slot
     String command = parameters.split(" ")[0];
-    int slot = EquipmentRequest.slotNumber(command);
+    Slot slot = EquipmentRequest.slotNumber(command);
 
-    if (slot != -1) {
+    if (slot != Slot.NONE) {
       parameters = parameters.substring(command.length()).trim();
     }
 
@@ -57,14 +59,14 @@ public class EquipCommand extends AbstractCommand {
     switch (itemId) {
       case ItemPool.SPELUNKY_SPRING_BOOTS, ItemPool.SPELUNKY_SPIKED_BOOTS ->
       // Spelunky only has one "accessory" slot
-      slot = EquipmentManager.ACCESSORY1;
+      slot = Slot.ACCESSORY1;
     }
 
     // If he didn't specify slot name, decide where this item goes.
-    if (slot == -1) {
+    if (slot == Slot.NONE) {
       // If it's already equipped anywhere, give up
-      for (int i = 0; i <= EquipmentManager.FAMILIAR; ++i) {
-        AdventureResult item = EquipmentManager.getEquipment(i);
+      for (var s : SlotSet.SLOTS) {
+        AdventureResult item = EquipmentManager.getEquipment(s);
         if (item != null && item.getName().toLowerCase().contains(parameters)) {
           return;
         }
@@ -74,7 +76,7 @@ public class EquipCommand extends AbstractCommand {
       slot = EquipmentRequest.chooseEquipmentSlot(match.getItemId());
 
       // If it can't be equipped, give up
-      if (slot == -1) {
+      if (slot == Slot.NONE) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't equip a " + match.getName());
         return;
       }
@@ -85,7 +87,7 @@ public class EquipCommand extends AbstractCommand {
 
     // We now know which slot the equipment will go into. See if we
     // can equip the item there.
-    if (slot == EquipmentManager.FAMILIAR) {
+    if (slot == Slot.FAMILIAR) {
       FamiliarData familiar = KoLCharacter.getFamiliar();
       if (familiar == FamiliarData.NO_FAMILIAR) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You have no familiar with you.");

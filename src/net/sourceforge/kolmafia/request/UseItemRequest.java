@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -730,7 +731,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.FOLDER_22:
       case ItemPool.FOLDER_23:
         UseItemRequest.limiter = "folder holder";
-        return EquipmentRequest.availableFolder() == -1 ? 0 : 1;
+        return EquipmentRequest.availableFolder() == Slot.NONE ? 0 : 1;
 
       case ItemPool.PASTA_ADDITIVE:
         if (!KoLCharacter.isPastamancer()) {
@@ -3125,7 +3126,7 @@ public class UseItemRequest extends GenericRequest {
         // "And dammit, your hooks were still on there! Oh well."
 
         if (responseText.contains("hooks were still on")) {
-          if (KoLCharacter.hasEquipped(ItemPool.WORM_RIDING_HOOKS, EquipmentManager.WEAPON)) {
+          if (KoLCharacter.hasEquipped(ItemPool.WORM_RIDING_HOOKS, Slot.WEAPON)) {
             // You lose your weapon
             EquipmentManager.discardEquipment(ItemPool.WORM_RIDING_HOOKS);
             KoLmafia.updateDisplay("Don't forget to equip a weapon!");
@@ -4292,7 +4293,6 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
 
-        CampgroundRequest.clearCrop();
         RequestThread.postRequest(new CampgroundRequest());
         break;
 
@@ -5175,7 +5175,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.COAL_SKIN:
       case ItemPool.FRONTWINDER_SKIN:
       case ItemPool.ROTTING_SKIN:
-        EquipmentManager.setEquipment(EquipmentManager.BOOTSKIN, item);
+        EquipmentManager.setEquipment(Slot.BOOTSKIN, item);
         break;
 
       case ItemPool.QUICKSILVER_SPURS:
@@ -5185,7 +5185,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.SICKSILVER_SPURS:
       case ItemPool.NICKSILVER_SPURS:
       case ItemPool.TICKSILVER_SPURS:
-        EquipmentManager.setEquipment(EquipmentManager.BOOTSPUR, item);
+        EquipmentManager.setEquipment(Slot.BOOTSPUR, item);
         break;
 
       case ItemPool.SNAKE_OIL:
@@ -6306,13 +6306,13 @@ public class UseItemRequest extends GenericRequest {
 
     // Special handling for twisting Boris's Helm when it is equipped
     if (item == null && urlString.contains("action=twisthorns")) {
-      int slot = -1;
+      Slot slot = Slot.NONE;
       if (urlString.contains("slot=hat")) {
-        slot = EquipmentManager.HAT;
+        slot = Slot.HAT;
       } else if (urlString.contains("slot=familiarequip")) {
-        slot = EquipmentManager.FAMILIAR;
+        slot = Slot.FAMILIAR;
       }
-      if (slot != -1) {
+      if (slot != Slot.NONE) {
         AdventureResult before = EquipmentManager.getEquipment(slot);
         AdventureResult after =
             ItemPool.get(
@@ -6329,35 +6329,35 @@ public class UseItemRequest extends GenericRequest {
 
     // Special handling for shaking Jarlsberg's pan when it is equipped
     if (item == null && urlString.contains("action=shakepan")) {
-      AdventureResult before = EquipmentManager.getEquipment(EquipmentManager.OFFHAND);
+      AdventureResult before = EquipmentManager.getEquipment(Slot.OFFHAND);
       AdventureResult after =
           ItemPool.get(
               before.getItemId() == ItemPool.JARLS_PAN
                   ? ItemPool.JARLS_COSMIC_PAN
                   : ItemPool.JARLS_PAN,
               1);
-      EquipmentManager.setEquipment(EquipmentManager.OFFHAND, after);
+      EquipmentManager.setEquipment(Slot.OFFHAND, after);
       RequestLogger.printLine("Shook " + before + " into " + after);
       return true;
     }
 
     // Special handling for shaking Sneaky Pete's leather jacket when it is equipped
     if (item == null && urlString.contains("action=popcollar")) {
-      AdventureResult before = EquipmentManager.getEquipment(EquipmentManager.SHIRT);
+      AdventureResult before = EquipmentManager.getEquipment(Slot.SHIRT);
       AdventureResult after =
           ItemPool.get(
               before.getItemId() == ItemPool.PETE_JACKET
                   ? ItemPool.PETE_JACKET_COLLAR
                   : ItemPool.PETE_JACKET,
               1);
-      EquipmentManager.setEquipment(EquipmentManager.SHIRT, after);
+      EquipmentManager.setEquipment(Slot.SHIRT, after);
       RequestLogger.printLine("Popped " + before + " into " + after);
       return true;
     }
 
     // Special handling for twisting toggle switch
     if (item == null && urlString.contains("action=togglebutt")) {
-      AdventureResult before = EquipmentManager.getEquipment(EquipmentManager.FAMILIAR);
+      AdventureResult before = EquipmentManager.getEquipment(Slot.FAMILIAR);
       AdventureResult after =
           ItemPool.get(
               before.getItemId() == ItemPool.TOGGLE_SWITCH_BARTEND
@@ -6365,7 +6365,7 @@ public class UseItemRequest extends GenericRequest {
                   : ItemPool.TOGGLE_SWITCH_BARTEND,
               1);
       EquipmentManager.discardEquipment(before);
-      EquipmentManager.setEquipment(EquipmentManager.FAMILIAR, after);
+      EquipmentManager.setEquipment(Slot.FAMILIAR, after);
       RequestLogger.printLine("Toggled " + before + " into " + after);
       return true;
     }
@@ -6760,7 +6760,7 @@ public class UseItemRequest extends GenericRequest {
         // worm-riding hooks in inventory or equipped.
         AdventureResult hooks = ItemPool.get(ItemPool.WORM_RIDING_HOOKS, 1);
         if (KoLConstants.inventory.contains(hooks)
-            || KoLCharacter.hasEquipped(hooks, EquipmentManager.WEAPON)) {
+            || KoLCharacter.hasEquipped(hooks, Slot.WEAPON)) {
           return 0;
         }
         turns = 1;

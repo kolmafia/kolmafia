@@ -214,6 +214,7 @@ Professor Jacking's Small-O-Fier	-1	cruel dust mote	funk particle	jungle scabie:
 Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
 Science Lab	100	bugbear scientist	spiderbugbear
 Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	cyborg policeman	"Handyman" Jay Android	liquid metal robot	obese tourist	Space Marine	terrifying robot
+Shadow Rift	100	shadow bat	shadow cow	shadow devil	shadow guy	shadow hexagon	shadow orb	shadow prism	shadow slab	shadow spider	shadow snake	shadow stalk	shadow tree
 Shivering Timbers	100	deadwood tree	fur tree	hangman's tree	pumpkin tree	toilet-papered tree	Underworld Tree: 0
 Shop Class	100	out-of-control bandsaw	deadly vise	demonic jigsaw	screw golem	X-fingered Shop Teacher: 0
 Simple Tool-Making Cave	100	flint-scraping cave elf	hunter-gatherer cave elf	rock-banging cave elf	sinew-stretching cave elf

@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.InternalMessage;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -249,9 +250,8 @@ public class GenericRequest implements Runnable {
       registerProxyListeners("https");
     }
 
-    boolean useDevProxyServer = Preferences.getBoolean("useDevProxyServer");
-
-    GenericRequest.setLoginServer(GenericRequest.SERVERS[useDevProxyServer ? 0 : 1]);
+    var loginServer = GenericRequest.SERVERS[KoLmafia.usingDevServer() ? 0 : 1];
+    GenericRequest.setLoginServer(loginServer);
   }
 
   private static void registerProxyListeners(String protocol) {
@@ -1298,10 +1298,10 @@ public class GenericRequest implements Runnable {
         if (KoLConstants.inventory.contains(comedyItem)) {
           // Unequip any 2-handed weapon before equipping an offhand
           if (offhand) {
-            AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
+            AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
             int hands = EquipmentDatabase.getHands(weapon.getItemId());
             if (hands > 1) {
-              new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON).run();
+              new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.WEAPON).run();
             }
           }
 
