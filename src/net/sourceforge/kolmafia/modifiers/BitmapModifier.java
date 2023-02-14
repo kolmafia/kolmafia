@@ -23,9 +23,9 @@ public enum BitmapModifier implements Modifier {
       },
       Pattern.compile("Surgeonosity: (\\+?\\d+)")),
   CLOWNINESS(
-    "Clowniness",
-    Pattern.compile("Makes you look (\\d+)% clowny"),
-    Pattern.compile("Clowniness: " + EXPR)),
+      "Clowniness",
+      Pattern.compile("Makes you look (\\d+)% clowny"),
+      Pattern.compile("Clowniness: " + EXPR)),
   RAVEOSITY("Raveosity", Pattern.compile("Raveosity: (\\+?\\d+)")),
   MUTEX("Mutually Exclusive", null),
   MUTEX_VIOLATIONS("Mutex Violations", null);
@@ -34,7 +34,7 @@ public enum BitmapModifier implements Modifier {
   private final Pattern tagPattern;
 
   BitmapModifier(String name, Pattern tagPattern) {
-    this(name, (Pattern[])null, tagPattern);
+    this(name, (Pattern[]) null, tagPattern);
   }
 
   BitmapModifier(String name, Pattern descPattern, Pattern tagPattern) {

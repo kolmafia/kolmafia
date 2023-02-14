@@ -67,6 +67,7 @@ public class ModifierDatabase {
   private static final Map<String, Integer> synergies = new HashMap<>();
   /** List of slash-separated members of a mutex */
   private static final List<String> mutexes = new ArrayList<>();
+
   private static final HashSet<String> numericModifiers = new HashSet<>();
 
   private static final Map<BitmapModifier, Integer> bitmapMasks =

@@ -273,10 +273,10 @@ public class MaximizerTest {
         maximize("clownosity, -tie");
         assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
         assertThat(
-          getBoosts().stream()
-            .filter(x -> x.isEquipment() && "clownskin belt".equals(x.getItem().getName()))
-            .count(),
-          equalTo(1L));
+            getBoosts().stream()
+                .filter(x -> x.isEquipment() && "clownskin belt".equals(x.getItem().getName()))
+                .count(),
+            equalTo(1L));
       }
     }
   }
