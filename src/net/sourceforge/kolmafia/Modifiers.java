@@ -357,7 +357,8 @@ public class Modifiers {
     n = ((n & 0xF0F0F0F0) >>> 4) + (n & 0x0F0F0F0F);
     n = ((n & 0xFF00FF00) >>> 8) + (n & 0x00FF00FF);
     n = ((n & 0xFFFF0000) >>> 16) + (n & 0x0000FFFF);
-    return n;
+
+    return modifier == BitmapModifier.CLOWNINESS ? 25 * n : n;
   }
 
   public double getDerived(final DerivedModifier modifier) {

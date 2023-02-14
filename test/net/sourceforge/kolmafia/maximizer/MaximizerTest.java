@@ -249,7 +249,7 @@ public class MaximizerTest {
         assertFalse(maximize("clownosity -tie"));
         // still provides equipment
         recommendedSlotIs(Slot.HAT, "clown wig");
-        assertEquals(50, modFor(DoubleModifier.CLOWNINESS), 0.01);
+        assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
       }
     }
 
@@ -261,7 +261,22 @@ public class MaximizerTest {
         assertTrue(maximize("clownosity -tie"));
         recommendedSlotIs(Slot.HAT, "clown wig");
         recommendedSlotIs(Slot.ACCESSORY1, "polka-dot bow tie");
-        assertEquals(125, modFor(DoubleModifier.CLOWNINESS), 0.01);
+        assertEquals(125, modFor(BitmapModifier.CLOWNINESS), 0.01);
+      }
+    }
+
+    @Test
+    public void clownosityItemsDontStack() {
+      var cleanups = withEquippableItem("clownskin belt", 3);
+
+      try (cleanups) {
+        maximize("clownosity, -tie");
+        assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
+        assertThat(
+            getBoosts().stream()
+                .filter(x -> x.isEquipment() && "clownskin belt".equals(x.getItem().getName()))
+                .count(),
+            equalTo(1L));
       }
     }
   }
@@ -324,7 +339,22 @@ public class MaximizerTest {
         recommends("surgical mask");
         recommends("half-size scalpel");
         recommendedSlotIs(Slot.SHIRT, "surgical apron");
-        assertEquals(5, modFor(DoubleModifier.SURGEONOSITY), 0.01);
+        assertEquals(5, modFor(BitmapModifier.SURGEONOSITY), 0.01);
+      }
+    }
+
+    @Test
+    public void surgeonosityItemsDontStack() {
+      var cleanups = withEquippableItem("surgical mask", 3);
+
+      try (cleanups) {
+        maximize("surgeonosity, -tie");
+        assertEquals(1, modFor(BitmapModifier.SURGEONOSITY), 0.01);
+        assertThat(
+            getBoosts().stream()
+                .filter(x -> x.isEquipment() && "surgical mask".equals(x.getItem().getName()))
+                .count(),
+            equalTo(1L));
       }
     }
   }
@@ -1302,8 +1332,7 @@ public class MaximizerTest {
                 .filter(x -> x.isEquipment() && "surgical mask".equals(x.getItem().getName()))
                 .count(),
             equalTo(3L));
-        // TODO: make duplicate surgeonosity not count in modifiers
-        // assertEquals(1, modFor(DoubleModifier.SURGEONOSITY), 0.01);
+        assertEquals(1, modFor(BitmapModifier.SURGEONOSITY), 0.01);
       }
     }
 
@@ -1319,8 +1348,7 @@ public class MaximizerTest {
                 .filter(x -> x.isEquipment() && "clownskin belt".equals(x.getItem().getName()))
                 .count(),
             equalTo(3L));
-        // TODO: make duplicate clowniness not count in modifiers
-        // assertEquals(50, modFor(DoubleModifier.CLOWNINESS), 0.01);
+        assertEquals(50, modFor(BitmapModifier.CLOWNINESS), 0.01);
       }
     }
 

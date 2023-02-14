@@ -105,7 +105,6 @@ public class Evaluator {
   private final Set<String> negOutfits = new HashSet<>();
   private final Set<AdventureResult> posEquip = new HashSet<>();
   private final Set<AdventureResult> negEquip = new HashSet<>();
-  private final Set<AdventureResult> uniques = new HashSet<>();
   private final Map<AdventureResult, Double> bonuses = new HashMap<>();
   private final List<BonusFunction> bonusFunc = new ArrayList<>();
 
@@ -209,15 +208,6 @@ public class Evaluator {
     this.min = new EnumMap<>(tiebreaker.min);
     this.max = new EnumMap<>(tiebreaker.max);
     this.parse(expr);
-  }
-
-  private void addUniqueItems(String name) {
-    Set<String> itemNames = ModifierDatabase.getUniques(name);
-    if (itemNames != null) {
-      for (String itemName : itemNames) {
-        this.uniques.add(ItemPool.get(itemName, 1));
-      }
-    }
   }
 
   private void parse(String expr) {
@@ -345,12 +335,8 @@ public class Evaluator {
       }
 
       if (keyword.equals("clownosity")) {
-        // If no weight specified, assume 4
-        this.clownosity = (m.end(2) == m.start(2)) ? 4 : (int) weight;
-
-        // Clownosity is built on Clowniness and has
-        // same unique items requirement.
-        this.addUniqueItems("Clowniness");
+        // If no weight specified, assume 100%
+        this.clownosity = (m.end(2) == m.start(2)) ? 100 : (int) weight * 25;
         continue;
       }
 
@@ -363,7 +349,6 @@ public class Evaluator {
       if (keyword.equals("surgeonosity")) {
         // If no weight specified, assume 5
         this.surgeonosity = (m.end(2) == m.start(2)) ? 5 : (int) weight;
-        this.addUniqueItems("Surgeonosity");
         continue;
       }
 
@@ -624,11 +609,8 @@ public class Evaluator {
       }
 
       if (index != null) {
-        // We found a match. If only the first instance
-        // of particular equipped items provide this
-        // modifier, add them to the "uniques" list.
+        // We found a match.
         String modifierName = index.getName();
-        this.addUniqueItems(modifierName);
         this.weight.set(index, weight);
         continue;
       }
@@ -864,7 +846,7 @@ public class Evaluator {
     // Allow partials to contribute to the score (1:1 ratio) up to the desired value.
     // Similar to setting a max.
     if (this.clownosity > 0) {
-      int osity = ((int) mods.getDouble(DoubleModifier.CLOWNINESS)) / 25;
+      int osity = mods.getBitmap(BitmapModifier.CLOWNINESS);
       score += Math.min(osity, this.clownosity);
       if (osity < this.clownosity) this.failed = true;
     }
@@ -874,7 +856,7 @@ public class Evaluator {
       if (osity < this.raveosity) this.failed = true;
     }
     if (this.surgeonosity > 0) {
-      int osity = (int) mods.getDouble(DoubleModifier.SURGEONOSITY);
+      int osity = mods.getBitmap(BitmapModifier.SURGEONOSITY);
       score += Math.min(osity, this.surgeonosity);
       if (osity < this.surgeonosity) this.failed = true;
     }
@@ -1416,13 +1398,6 @@ public class Evaluator {
           item.singleFlag = true;
         }
 
-        // If we are maximizing for a modifier that
-        // only counts one of a particular item,
-        // pretend that item is single equip
-        if (this.uniques.contains(preItem)) {
-          item.singleFlag = true;
-        }
-
         // If you have a familiar carrier, we'll need to check 1 or 2 Familiars best carried
         // unless you specified not to change them
 
@@ -1481,9 +1456,9 @@ public class Evaluator {
             || (brimstoneUseful && mods.getRawBitmap(BitmapModifier.BRIMSTONE) != 0)
             || (cloathingUseful && mods.getRawBitmap(BitmapModifier.CLOATHING) != 0)
             || (slimeHateUseful && mods.getDouble(DoubleModifier.SLIME_HATES_IT) > 0.0)
-            || (this.clownosity > 0 && mods.getDouble(DoubleModifier.CLOWNINESS) != 0)
+            || (this.clownosity > 0 && mods.getRawBitmap(BitmapModifier.CLOWNINESS) != 0)
             || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
-            || (this.surgeonosity > 0 && mods.getDouble(DoubleModifier.SURGEONOSITY) != 0)
+            || (this.surgeonosity > 0 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
             || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;

@@ -67,8 +67,6 @@ public class ModifierDatabase {
   private static final Map<String, Integer> synergies = new HashMap<>();
   /** List of slash-separated members of a mutex */
   private static final List<String> mutexes = new ArrayList<>();
-  /** Map of unique item type (e.g. Clowniness) to names of items in set */
-  private static final Map<String, Set<String>> uniques = new HashMap<>();
 
   private static final HashSet<String> numericModifiers = new HashSet<>();
 
@@ -231,10 +229,6 @@ public class ModifierDatabase {
 
   public static final String getFamiliarEffect(final String itemName) {
     return familiarEffectByName.get(itemName);
-  }
-
-  public static Set<String> getUniques(String name) {
-    return uniques.get(name);
   }
 
   // Returned set yields bitmaps keyed by names
@@ -609,6 +603,9 @@ public class ModifierDatabase {
       int bitcount = 1;
       if (matcher.groupCount() > 0) {
         bitcount = StringUtilities.parseInt(matcher.group(1));
+        if (mod == BitmapModifier.CLOWNINESS) {
+          bitcount = bitcount / 25;
+        }
       }
       // bitmapMasks stores the next mask we're going to use for modifier mod
       int mask = bitmapMasks.get(mod);
@@ -616,6 +613,11 @@ public class ModifierDatabase {
         case 1 -> bitmapMasks.put(mod, mask << 1);
         case 2 -> {
           bitmapMasks.put(mod, mask << 2);
+          mask |= mask << 1;
+        }
+        case 3 -> {
+          bitmapMasks.put(mod, mask << 3);
+          mask |= mask << 1;
           mask |= mask << 1;
         }
         default -> {
@@ -805,6 +807,13 @@ public class ModifierDatabase {
     // Then the string modifiers
 
     result = StringModifier.parseModifier(enchantment);
+    if (result != null) {
+      return result;
+    }
+
+    // Then the bitmap modifiers
+
+    result = BitmapModifier.parseModifier(enchantment);
     if (result != null) {
       return result;
     }
@@ -1502,22 +1511,6 @@ public class ModifierDatabase {
     }
   }
 
-  private static void computeUniques() {
-    uniques.clear();
-    for (Entry<IntOrString, String> entry :
-        modifierStringsByName.getAll(ModifierType.UNIQUE).entrySet()) {
-      IntOrString key = entry.getKey();
-      String modifiers = entry.getValue();
-      if (!key.isString()) continue;
-      String name = key.getStringValue();
-      if (uniques.containsKey(name)) {
-        KoLmafia.updateDisplay("Unique items for " + name + " already declared.");
-        continue;
-      }
-      uniques.put(name, new HashSet<>(Arrays.asList(modifiers.split("/"))));
-    }
-  }
-
   public static void resetModifiers() {
     // Don't reset any variables that are set up by loadAllModifiers, as subsequent calls to
     // resetModifiers then won't set them back up due to the if() guarding loadAllModifiers.
@@ -1533,6 +1526,5 @@ public class ModifierDatabase {
 
     computeSynergies();
     computeMutexes();
-    computeUniques();
   }
 }
