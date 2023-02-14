@@ -105,7 +105,6 @@ public class Evaluator {
   private final Set<String> negOutfits = new HashSet<>();
   private final Set<AdventureResult> posEquip = new HashSet<>();
   private final Set<AdventureResult> negEquip = new HashSet<>();
-  private final Set<AdventureResult> uniques = new HashSet<>();
   private final Map<AdventureResult, Double> bonuses = new HashMap<>();
   private final List<BonusFunction> bonusFunc = new ArrayList<>();
 
@@ -209,15 +208,6 @@ public class Evaluator {
     this.min = new EnumMap<>(tiebreaker.min);
     this.max = new EnumMap<>(tiebreaker.max);
     this.parse(expr);
-  }
-
-  private void addUniqueItems(String name) {
-    Set<String> itemNames = ModifierDatabase.getUniques(name);
-    if (itemNames != null) {
-      for (String itemName : itemNames) {
-        this.uniques.add(ItemPool.get(itemName, 1));
-      }
-    }
   }
 
   private void parse(String expr) {
@@ -347,10 +337,6 @@ public class Evaluator {
       if (keyword.equals("clownosity")) {
         // If no weight specified, assume 100%
         this.clownosity = (m.end(2) == m.start(2)) ? 100 : (int) weight * 25;
-
-        // Clownosity is built on Clowniness and has
-        // same unique items requirement.
-        this.addUniqueItems("Clowniness");
         continue;
       }
 
@@ -623,11 +609,8 @@ public class Evaluator {
       }
 
       if (index != null) {
-        // We found a match. If only the first instance
-        // of particular equipped items provide this
-        // modifier, add them to the "uniques" list.
+        // We found a match.
         String modifierName = index.getName();
-        this.addUniqueItems(modifierName);
         this.weight.set(index, weight);
         continue;
       }
@@ -1412,13 +1395,6 @@ public class Evaluator {
         }
 
         if (mods.getBoolean(BooleanModifier.SINGLE)) {
-          item.singleFlag = true;
-        }
-
-        // If we are maximizing for a modifier that
-        // only counts one of a particular item,
-        // pretend that item is single equip
-        if (this.uniques.contains(preItem)) {
           item.singleFlag = true;
         }
 
