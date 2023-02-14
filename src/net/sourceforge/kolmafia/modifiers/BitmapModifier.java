@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.modifiers;
 
+import static net.sourceforge.kolmafia.persistence.ModifierDatabase.EXPR;
+
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Map;
@@ -20,6 +22,10 @@ public enum BitmapModifier implements Modifier {
         Pattern.compile("Makes you look like a gross doctor"),
       },
       Pattern.compile("Surgeonosity: (\\+?\\d+)")),
+  CLOWNINESS(
+      "Clowniness",
+      Pattern.compile("Makes you look (\\d+)% clowny"),
+      Pattern.compile("Clowniness: " + EXPR)),
   RAVEOSITY("Raveosity", Pattern.compile("Raveosity: (\\+?\\d+)")),
   MUTEX("Mutually Exclusive", null),
   MUTEX_VIOLATIONS("Mutex Violations", null);
@@ -28,7 +34,11 @@ public enum BitmapModifier implements Modifier {
   private final Pattern tagPattern;
 
   BitmapModifier(String name, Pattern tagPattern) {
-    this(name, null, tagPattern);
+    this(name, (Pattern[]) null, tagPattern);
+  }
+
+  BitmapModifier(String name, Pattern descPattern, Pattern tagPattern) {
+    this(name, new Pattern[] {descPattern}, tagPattern);
   }
 
   BitmapModifier(String name, Pattern[] descPatterns, Pattern tagPattern) {

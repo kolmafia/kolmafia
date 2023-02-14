@@ -468,10 +468,6 @@ public enum DoubleModifier implements Modifier {
       "WarBear Armor Penetration",
       Pattern.compile("([+-]\\d+) WarBear Armor Penetration"),
       Pattern.compile("WarBear Armor Penetration: " + EXPR)),
-  CLOWNINESS(
-      "Clowniness",
-      Pattern.compile("Makes you look (\\d+)% clowny"),
-      Pattern.compile("Clowniness: " + EXPR)),
   PP(
       "Maximum PP",
       Pattern.compile("([+-]\\d+) Max(imum)? Power Point"),
