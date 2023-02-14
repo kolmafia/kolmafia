@@ -1,11 +1,13 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withItem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -13,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -121,5 +124,19 @@ class Speakeasy {
         req.responseText);
     assertEquals(
         "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+  }
+
+  @Test
+  public void itShouldRemoveParcelWhenTurnedIn() {
+    var cleanups = new Cleanups(withItem(ItemPool.THE_SOTS_PARCEL, 1));
+    try (cleanups) {
+      assertEquals(1, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
+      var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
+      req.responseText = html("request/test_visit_sot_to_return.html");
+      PlaceRequest.parseResponse(
+          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
+          req.responseText);
+      assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
+    }
   }
 }

@@ -415,8 +415,7 @@ public class PlaceRequest extends GenericRequest {
       if ((startPart1 < 0) || (startPart2 < 0)) return;
       String location = responseText.substring(startPart1 + part1.length(), startPart2);
       Preferences.setString("_sotParcelLocation", location);
-      return;
-    } else {
+    } else if (responseText.contains(part3)) {
       // Subsequent visits
       // He's just sitting there, waiting for you to bring his package back from <location>
       int startPart3 = responseText.indexOf(part3);
@@ -424,7 +423,9 @@ public class PlaceRequest extends GenericRequest {
       if ((startPart3 < 0) || (startPart4 < 0)) return;
       String location = responseText.substring(startPart3 + part3.length(), startPart4);
       Preferences.setString("_sotParcelLocation", location);
-      return;
+    } else if (responseText.contains(
+        "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
+      ResultProcessor.removeItem(ItemPool.THE_SOTS_PARCEL);
     }
   }
 
