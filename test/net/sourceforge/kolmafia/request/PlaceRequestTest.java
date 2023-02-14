@@ -101,7 +101,7 @@ class Speakeasy {
   }
 
   @Test
-  public void itShouldGetParcelLocationFromVisit() {
+  public void itShouldGetParcelLocationFromFirstVisit() {
     String prefName = "_sotParcelLocation";
     assertEquals("", Preferences.getString(prefName), "Preference already set.");
     var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");

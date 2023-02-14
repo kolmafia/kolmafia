@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestEditorKit;
@@ -343,6 +345,26 @@ public class PlaceRequest extends GenericRequest {
   }
 
   private static void parseSotVisit(String responseText) {
+    String location = "";
+    Pattern visit = Pattern.compile("(?<=something over in )(.*)(?= and he'd like)");
+    Matcher m = visit.matcher(responseText);
+    if (m.find()) {
+      location = m.group(0);
+    } else {
+      visit = Pattern.compile("(?<=back from )(.*)(?= .</td>)");
+      m = visit.matcher(responseText);
+      if (m.find()) {
+        location = m.group(0);
+      }
+    }
+    Preferences.setString("_sotParcelLocation", location);
+    if (responseText.contains(
+        "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
+      ResultProcessor.removeItem(ItemPool.THE_SOTS_PARCEL);
+    }
+  }
+
+  private static void old_parseSotVisit(String responseText) {
     String part1 = "What he means is that he lost something over in ";
     String part2 = " and he'd like you to get it for him.";
     String part3 = "He's just sitting there, waiting for you to bring his package back from ";
