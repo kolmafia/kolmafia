@@ -96,6 +96,7 @@ public class AdventureRequest extends GenericRequest {
 
     // Lookups for Shadow Rifts
     private static final Map<String, ShadowRift> adventureNameToRift = new HashMap<>();
+    private static final Map<String, ShadowRift> placeToRift = new HashMap<>();
 
     private ShadowRift(String container, String place, String action) {
       this.container = container;
@@ -123,7 +124,12 @@ public class AdventureRequest extends GenericRequest {
     }
 
     public void populateMaps() {
+      ShadowRift.placeToRift.put(this.place, this);
       ShadowRift.adventureNameToRift.put(this.adventureName, this);
+    }
+
+    public static ShadowRift findPlace(String place) {
+      return ShadowRift.placeToRift.get(place);
     }
 
     public static ShadowRift findAdventureName(String adventureName) {
