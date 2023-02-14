@@ -407,20 +407,21 @@ public class PlaceRequest extends GenericRequest {
     String part3 = "He's just sitting there, waiting for you to bring his package back from ";
     String part4 = ".</td>";
     // First visit
-    // What he means is that he lost something over in <location> and he'd like you to get it for him.
+    // What he means is that he lost something over in <location> and he'd like you to get it for
+    // him.
     if (responseText.contains(part1)) {
       int startPart1 = responseText.indexOf(part1);
       int startPart2 = responseText.indexOf(part2);
-      if ((startPart1 < 0)  || (startPart2 < 0)) return;
+      if ((startPart1 < 0) || (startPart2 < 0)) return;
       String location = responseText.substring(startPart1 + part1.length(), startPart2);
       Preferences.setString("_sotParcelLocation", location);
       return;
     } else {
-      //Subsequent visits
-      //He's just sitting there, waiting for you to bring his package back from <location>
+      // Subsequent visits
+      // He's just sitting there, waiting for you to bring his package back from <location>
       int startPart3 = responseText.indexOf(part3);
       int startPart4 = responseText.indexOf(part4);
-      if ((startPart3 < 0)  || (startPart4 < 0)) return;
+      if ((startPart3 < 0) || (startPart4 < 0)) return;
       String location = responseText.substring(startPart3 + part3.length(), startPart4);
       Preferences.setString("_sotParcelLocation", location);
       return;

@@ -117,9 +117,9 @@ class Speakeasy {
     var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
     req.responseText = html("request/test_next_visit_sot_to_get_location.html");
     PlaceRequest.parseResponse(
-            "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
-            req.responseText);
+        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
+        req.responseText);
     assertEquals(
-            "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+        "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
   }
 }
