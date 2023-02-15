@@ -79,64 +79,64 @@ class PlaceRequestTest {
     assertEquals(
         -1, freePulls.indexOf(toolbelt), "toolbelt should not be in Free Pulls after TTT fades");
   }
+
+  @Nested
+  class Speakeasy {
+    @BeforeEach
+    public void initializeCharPrefs() {
+      KoLCharacter.reset("PlaceRequestTestFakeSotVisit");
+      KoLCharacter.reset(true);
+    }
+
+    @AfterEach
+    public void resetCharAndPrefs() {
+      KoLCharacter.reset("");
+      KoLCharacter.reset(true);
+      KoLCharacter.setUserId(0);
+    }
+
+    @Test
+    public void itShouldGetParcelLocationFromFirstVisit() {
+      String prefName = "_sotParcelLocation";
+      assertEquals("", Preferences.getString(prefName), "Preference already set.");
+      var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
+      req.responseText = html("request/test_first_visit_sot_to_get_location.html");
+      PlaceRequest.parseResponse(
+          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
+          req.responseText);
+      assertEquals(
+          "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+    }
+
+    @Test
+    public void itShouldGetParcelLocationFromSubsequentVisit() {
+      String prefName = "_sotParcelLocation";
+      assertEquals("", Preferences.getString(prefName), "Preference already set.");
+      var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
+      req.responseText = html("request/test_next_visit_sot_to_get_location.html");
+      PlaceRequest.parseResponse(
+          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
+          req.responseText);
+      assertEquals(
+          "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+    }
+
+    @Test
+    public void itShouldRemoveParcelWhenTurnedIn() {
+      var cleanups = new Cleanups(withItem(ItemPool.THE_SOTS_PARCEL, 1));
+      try (cleanups) {
+        assertEquals(1, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
+        var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
+        req.responseText = html("request/test_visit_sot_to_return.html");
+        PlaceRequest.parseResponse(
+            "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
+            req.responseText);
+        assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
+      }
+    }
+  }
 }
 
 // Generated with love by TestMe :) Please report issues and submit feature requests at:
 // http://weirddev.com/forum#!/testme
 // Applies to some of the above code
-
-@Nested
-class Speakeasy {
-  @BeforeEach
-  public void initializeCharPrefs() {
-    KoLCharacter.reset("PlaceRequestTestFakeSotVisit");
-    KoLCharacter.reset(true);
-  }
-
-  @AfterEach
-  public void resetCharAndPrefs() {
-    KoLCharacter.reset("");
-    KoLCharacter.reset(true);
-    KoLCharacter.setUserId(0);
-  }
-
-  @Test
-  public void itShouldGetParcelLocationFromFirstVisit() {
-    String prefName = "_sotParcelLocation";
-    assertEquals("", Preferences.getString(prefName), "Preference already set.");
-    var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
-    req.responseText = html("request/test_first_visit_sot_to_get_location.html");
-    PlaceRequest.parseResponse(
-        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
-        req.responseText);
-    assertEquals(
-        "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
-  }
-
-  @Test
-  public void itShouldGetParcelLocationFromSubsequentVisit() {
-    String prefName = "_sotParcelLocation";
-    assertEquals("", Preferences.getString(prefName), "Preference already set.");
-    var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
-    req.responseText = html("request/test_next_visit_sot_to_get_location.html");
-    PlaceRequest.parseResponse(
-        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
-        req.responseText);
-    assertEquals(
-        "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
-  }
-
-  @Test
-  public void itShouldRemoveParcelWhenTurnedIn() {
-    var cleanups = new Cleanups(withItem(ItemPool.THE_SOTS_PARCEL, 1));
-    try (cleanups) {
-      assertEquals(1, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
-      var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
-      req.responseText = html("request/test_visit_sot_to_return.html");
-      PlaceRequest.parseResponse(
-          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
-          req.responseText);
-      assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
-    }
-  }
-}

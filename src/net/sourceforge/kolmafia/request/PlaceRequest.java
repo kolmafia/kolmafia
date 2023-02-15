@@ -26,8 +26,8 @@ public class PlaceRequest extends GenericRequest {
   public boolean followRedirects = false;
 
   private static final Pattern firstSotVisit =
-      Pattern.compile("(?<=something over in )(.*)(?= and he'd like)");
-  private static final Pattern nextSotVisit = Pattern.compile("(?<=back from )(.*)(?=\\.</td>)");
+      Pattern.compile("something over in (.+?) and he'd like");
+  private static final Pattern nextSotVisit = Pattern.compile("back from (.+)\\.</td>");
 
   private String place = null;
   private String action = null;
@@ -352,11 +352,11 @@ public class PlaceRequest extends GenericRequest {
     String location = "";
     Matcher m = firstSotVisit.matcher(responseText);
     if (m.find()) {
-      location = m.group(0);
+      location = m.group(1);
     } else {
       m = nextSotVisit.matcher(responseText);
       if (m.find()) {
-        location = m.group(0);
+        location = m.group(1);
       }
     }
     if (!location.equals("")) {
