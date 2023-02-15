@@ -136,7 +136,7 @@ public class AdventureDatabaseTest {
       var adventure = AdventureDatabase.getAdventure(adventureName);
       assertFalse(adventure == null);
       assertThat(adventure.getAdventureName(), is(adventureName));
-      var request = (AdventureRequest)adventure.getRequest();
+      var request = (AdventureRequest) adventure.getRequest();
       assertFalse(request == null);
 
       // We have a request ready to go. Rather than actually running it,
