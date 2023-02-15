@@ -308,13 +308,12 @@ public class AdventureRequest extends GenericRequest {
     }
 
     // Update fields to submit, if necessary
-    this.reconstructFields();
+    this.updateFields();
 
     super.run();
   }
 
-  @Override
-  public void reconstructFields() {
+  public void updateFields() {
     switch (this.formSource) {
       case "cellar.php" -> {
         if (TavernManager.shouldAutoFaucet()) {
