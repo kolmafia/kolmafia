@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
@@ -7,6 +9,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
@@ -23,63 +26,64 @@ public class ModRefCommand extends AbstractCommand {
         new StringBuilder(
             "<table border=2>" + "<tr><td colspan=" + colSpan + ">NUMERIC MODIFIERS</td></tr>");
     for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-      String modName = mod.getName();
-      buf.append("<tr><td>");
-      buf.append(modName);
-      buf.append("</td><td>");
-      buf.append(KoLCharacter.currentNumericModifier(mod));
-      if (mods != null) {
-        buf.append("</td><td>");
-        buf.append(mods.getDouble(mod));
-      }
-      buf.append("</td></tr>");
+      addModRow(
+          buf,
+          mod,
+          mods,
+          (m) -> String.valueOf(KoLCharacter.currentNumericModifier(m)),
+          (n, m) -> String.valueOf(n.getDouble(m)));
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">BITMAP MODIFIERS</td></tr>");
     for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
-      String modName = mod.getName();
-      buf.append("<tr><td>");
-      buf.append(modName);
-      buf.append("</td><td>0x");
-      buf.append(Integer.toHexString(KoLCharacter.currentRawBitmapModifier(mod)));
-      buf.append(" (");
-      buf.append(KoLCharacter.currentBitmapModifier(mod));
-      buf.append(")");
-      if (mods != null) {
-        buf.append("</td><td>0x");
-        buf.append(Integer.toHexString(mods.getRawBitmap(mod)));
-        buf.append(" (");
-        buf.append(mods.getBitmap(mod));
-        buf.append(")");
-      }
-      buf.append("</td></tr>");
+      addModRow(
+          buf,
+          mod,
+          mods,
+          (m) ->
+              "0x"
+                  + Integer.toHexString(KoLCharacter.currentRawBitmapModifier(m))
+                  + " ("
+                  + KoLCharacter.currentBitmapModifier(m)
+                  + ")",
+          (n, m) -> "0x" + Integer.toHexString(n.getRawBitmap(m)) + " (" + n.getBitmap(m) + ")");
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">BOOLEAN MODIFIERS</td></tr>");
     for (var modifier : BooleanModifier.BOOLEAN_MODIFIERS) {
-      String mod = modifier.getName();
-      buf.append("<tr><td>");
-      buf.append(mod);
-      buf.append("</td><td>");
-      buf.append(KoLCharacter.currentBooleanModifier(modifier));
-      if (mods != null) {
-        buf.append("</td><td>");
-        buf.append(mods.getBoolean(modifier));
-      }
-      buf.append("</td></tr>");
+      addModRow(
+          buf,
+          modifier,
+          mods,
+          (m) -> String.valueOf(KoLCharacter.currentBooleanModifier(m)),
+          (n, m) -> String.valueOf(n.getBoolean(m)));
     }
     buf.append("<tr><td colspan=").append(colSpan).append(">STRING MODIFIERS</td></tr>");
     for (var modifier : StringModifier.STRING_MODIFIERS) {
-      String mod = modifier.getName();
-      buf.append("<tr><td>");
-      buf.append(mod);
-      buf.append("</td><td>");
-      buf.append(KoLCharacter.currentStringModifier(modifier).replaceAll("\t", "<br>"));
-      if (mods != null) {
-        buf.append("</td><td>");
-        buf.append(mods.getString(modifier));
-      }
-      buf.append("</td></tr>");
+      addModRow(
+          buf,
+          modifier,
+          mods,
+          (m) -> KoLCharacter.currentStringModifier(m).replaceAll("\t", "<br>"),
+          Modifiers::getString);
     }
     buf.append("</table><br>");
     RequestLogger.printLine(buf.toString());
+  }
+
+  private <T extends Modifier> void addModRow(
+      StringBuilder buf,
+      T modifier,
+      Modifiers mods,
+      Function<T, String> charModString,
+      BiFunction<Modifiers, T, String> modString) {
+    String mod = modifier.getName();
+    buf.append("<tr><td>");
+    buf.append(mod);
+    buf.append("</td><td>");
+    buf.append(charModString.apply(modifier));
+    if (mods != null) {
+      buf.append("</td><td>");
+      buf.append(modString.apply(mods, modifier));
+    }
+    buf.append("</td></tr>");
   }
 }
