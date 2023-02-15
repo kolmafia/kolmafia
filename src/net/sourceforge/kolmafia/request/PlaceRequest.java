@@ -25,6 +25,10 @@ public class PlaceRequest extends GenericRequest {
   public static TreeSet<String> places = new TreeSet<>();
   public boolean followRedirects = false;
 
+  private static Pattern firstSotVisit =
+      Pattern.compile("(?<=something over in )(.*)(?= and he'd like)");
+  private static Pattern nextSotVisit = Pattern.compile("(?<=back from )(.*)(?=\\.</td>)");
+
   private String place = null;
   private String action = null;
 
@@ -346,16 +350,11 @@ public class PlaceRequest extends GenericRequest {
 
   private static void parseSotVisit(String responseText) {
     String location = "";
-    // What he means is that he lost something over in <location> and he'd like you to get it for
-    // him.
-    Pattern visit = Pattern.compile("(?<=something over in )(.*)(?= and he'd like)");
-    Matcher m = visit.matcher(responseText);
+    Matcher m = firstSotVisit.matcher(responseText);
     if (m.find()) {
       location = m.group(0);
     } else {
-      // He's just sitting there, waiting for you to bring his package back from <location>.
-      visit = Pattern.compile("(?<=back from )(.*)(?=\\.</td>)");
-      m = visit.matcher(responseText);
+      m = nextSotVisit.matcher(responseText);
       if (m.find()) {
         location = m.group(0);
       }
