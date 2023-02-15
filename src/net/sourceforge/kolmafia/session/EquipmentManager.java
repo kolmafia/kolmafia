@@ -1425,9 +1425,9 @@ public class EquipmentManager {
     }
     EquipmentManager.turnsRemaining.put(slot, curr);
     GearChangePanel.updateStickers(
-        EquipmentManager.turnsRemaining.get(Slot.STICKER1),
-        EquipmentManager.turnsRemaining.get(Slot.STICKER2),
-        EquipmentManager.turnsRemaining.get(Slot.STICKER3));
+        EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER1, 0),
+        EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER2, 0),
+        EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER3, 0));
   }
 
   public static final boolean isStickerWeapon(AdventureResult item) {
@@ -1473,9 +1473,9 @@ public class EquipmentManager {
         EquipmentManager.turnsRemaining.compute(slot, (k, v) -> v == null ? -1 : v - 1);
       }
       GearChangePanel.updateStickers(
-          EquipmentManager.turnsRemaining.get(Slot.STICKER1),
-          EquipmentManager.turnsRemaining.get(Slot.STICKER2),
-          EquipmentManager.turnsRemaining.get(Slot.STICKER3));
+          EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER1, 0),
+          EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER2, 0),
+          EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER3, 0));
     }
 
     EquipmentManager.incrementEquipmentCounters();
