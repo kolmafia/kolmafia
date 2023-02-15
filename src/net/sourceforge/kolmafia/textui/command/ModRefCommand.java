@@ -15,12 +15,25 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
 public class ModRefCommand extends AbstractCommand {
   public ModRefCommand() {
-    this.usage = " [<object>] - list all modifiers, show values for player [and object].";
+    this.usage =
+        " [@<filter>] [<object>] - list all modifiers, show values for player [and object].";
   }
 
   @Override
-  public void run(final String cmd, final String parameters) {
-    Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, parameters);
+  public void run(final String cmd, String parameters) {
+    String filter = null;
+    Modifiers mods = null;
+    String[] tokens = parameters.split("\\s+", 2);
+    if (tokens.length > 0) {
+      if (tokens[0].startsWith("@")) {
+        // it's a filter
+        filter = tokens[0].substring(1).toLowerCase();
+        if (tokens.length == 2) {
+          parameters = tokens[1];
+        }
+      }
+      mods = ModifierDatabase.getModifiers(ModifierType.ITEM, parameters);
+    }
     String colSpan = mods == null ? "2" : "3";
     StringBuilder buf =
         new StringBuilder(
@@ -29,6 +42,7 @@ public class ModRefCommand extends AbstractCommand {
       addModRow(
           buf,
           mod,
+          filter,
           mods,
           (m) -> String.valueOf(KoLCharacter.currentNumericModifier(m)),
           (n, m) -> String.valueOf(n.getDouble(m)));
@@ -38,6 +52,7 @@ public class ModRefCommand extends AbstractCommand {
       addModRow(
           buf,
           mod,
+          filter,
           mods,
           (m) ->
               "0x"
@@ -52,6 +67,7 @@ public class ModRefCommand extends AbstractCommand {
       addModRow(
           buf,
           modifier,
+          filter,
           mods,
           (m) -> String.valueOf(KoLCharacter.currentBooleanModifier(m)),
           (n, m) -> String.valueOf(n.getBoolean(m)));
@@ -61,6 +77,7 @@ public class ModRefCommand extends AbstractCommand {
       addModRow(
           buf,
           modifier,
+          filter,
           mods,
           (m) -> KoLCharacter.currentStringModifier(m).replaceAll("\t", "<br>"),
           Modifiers::getString);
@@ -72,10 +89,14 @@ public class ModRefCommand extends AbstractCommand {
   private <T extends Modifier> void addModRow(
       StringBuilder buf,
       T modifier,
+      String filter,
       Modifiers mods,
       Function<T, String> charModString,
       BiFunction<Modifiers, T, String> modString) {
     String mod = modifier.getName();
+    if (filter != null && !mod.toLowerCase().contains(filter)) {
+      return;
+    }
     buf.append("<tr><td>");
     buf.append(mod);
     buf.append("</td><td>");
