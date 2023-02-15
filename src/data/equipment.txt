@@ -2459,6 +2459,7 @@ crystal belt buckle	100	Mys: 35
 crystalline seal eye	0	none
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
+cursed bat paw	0	none
 cursed swash buckle	200	Mys: 50
 cyborg stompin' boot	150	Mus: 60
 dark baconstone ring	125	Mys: 47
