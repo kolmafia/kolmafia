@@ -33,7 +33,10 @@ public enum AscensionClass {
   GELATINOUS_NOOB("Gelatinous Noob", 23, "gelatinousicon", 2, Path.GELATINOUS_NOOB),
   VAMPYRE("Vampyre", 24, "vampirefangs", 1, Path.DARK_GYFFTE, "Chill of the Tomb"),
   PLUMBER("Plumber", 25, "mario_hammer2", -1, Path.PATH_OF_THE_PLUMBER, "Spin Jump"),
-  GREY_GOO("Grey Goo", 27, "greygooring", -1, Path.GREY_YOU);
+  GREY_GOO("Grey Goo", 27, "greygooring", -1, Path.GREY_YOU),
+  PIG_SKINNER("Pig Skinner", 28, "football", 0, Path.SHADOWS_OVER_LOATHING),
+  CHEESE_WIZARD("Cheese Wizard", 29, "cheesewheel", 1, Path.SHADOWS_OVER_LOATHING),
+  JAZZ_AGENT("Jazz Agent", 30, "notes", 2, Path.SHADOWS_OVER_LOATHING);
 
   public static final List<AscensionClass> standardClasses =
       Arrays.asList(
