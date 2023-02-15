@@ -7495,6 +7495,10 @@ public class FightRequest extends GenericRequest {
       }
     }
 
+    if (str.contains("is starting to make audible sloshing noises as he walks around.")) {
+      Preferences.setInteger("camelSpit", 100);
+    }
+
     if (status.logFamiliar) {
       FightRequest.logText(str, status);
     }
