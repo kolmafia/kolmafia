@@ -1304,6 +1304,7 @@ user	SeasoningSwagger	0
 user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	shadowRiftIngress
+user	shadowsPoints	0
 user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0
 user	shenQuestItem
