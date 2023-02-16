@@ -7162,6 +7162,44 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    public void canVisitPixelRiftithTransfunctionerEquipped() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withEquipped(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER));
+      try (cleanups) {
+        assertTrue(PIXEL_REALM.canAdventure());
+        assertTrue(PIXEL_REALM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithTransfunctionerInInventory() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withEquippableItem(ItemPool.TRANSFUNCTIONER));
+      try (cleanups) {
+        assertTrue(PIXEL_REALM.canAdventure());
+        assertTrue(PIXEL_REALM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
+      }
+    }
+
+    @Test
     void canVisitSpookyravenRiftIfThirdFloorUnlocked() {
       var cleanups =
           new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
@@ -7218,6 +7256,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitBeanstalkRiftIfBeanstalkPlantable() {
+      setupFakeClient();
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED),
@@ -7225,6 +7264,12 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         // You can get above the beanstalk if quest started and you have a bean
         assertTrue(BEANSTALK.canAdventure());
+        assertTrue(BEANSTALK.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=plains&action=garbage_grounds");
       }
     }
 

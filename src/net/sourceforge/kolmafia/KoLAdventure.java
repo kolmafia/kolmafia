@@ -2206,6 +2206,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public boolean prepareForAdventure() {
     // If we get here via automation, canAdventure() returned true
 
+    // Certain Shadow Rifts can be unlocked just like certain zones.
+    ShadowRift rift = ShadowRift.findAdventureName(this.adventureName);
+
     if (this.formSource.equals("cellar.php")) {
       if (QuestDatabase.isQuestLaterThan(Quest.RAT, QuestDatabase.STARTED)) {
         return true;
@@ -2498,7 +2501,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // some way of equipping it.  If they do not have one, then
     // acquire one then try to equip it.
 
-    if (this.zone.equals("The 8-Bit Realm") || this.zone.equals("Vanya's Castle")) {
+    if (this.zone.equals("The 8-Bit Realm")
+        || this.zone.equals("Vanya's Castle")
+        || rift == ShadowRift.REALM) {
       if (!InventoryManager.hasItem(TRANSFUNCTIONER)) {
         RequestThread.postRequest(new PlaceRequest("forestvillage", "fv_mystic"));
         // This redirects to choice.php&forceoption=0.
@@ -2704,7 +2709,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return false;
     }
 
-    if (this.adventureNumber == AdventurePool.AIRSHIP) {
+    if (this.adventureNumber == AdventurePool.AIRSHIP || rift == ShadowRift.BEANSTALK) {
       if (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)) {
         return true;
       }
