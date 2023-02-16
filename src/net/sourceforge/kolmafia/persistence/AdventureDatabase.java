@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -598,10 +599,20 @@ public class AdventureDatabase {
     KoLAdventure location = AdventureDatabase.adventureByURL.get(adventureURL);
     if (location != null) {
       // *** Why exclude these?
-      return location.getRequest() instanceof ClanRumpusRequest
-              || location.getRequest() instanceof RichardRequest
-          ? null
-          : location;
+      if (location.getRequest() instanceof ClanRumpusRequest
+          || location.getRequest() instanceof RichardRequest) {
+        return null;
+      }
+      // If this is a Shadow Rift adventure, decide which one, based on
+      // which one we visited last
+      if (location.getAdventureNumber() == AdventurePool.SHADOW_RIFT) {
+        String place = Preferences.getString("shadowRiftIngress");
+        ShadowRift rift = ShadowRift.findPlace(place);
+        if (rift != null) {
+          return getAdventure(rift.getAdventureName());
+        }
+      }
+      return location;
     }
 
     if (isPirateRealmIsland(adventureURL)) {

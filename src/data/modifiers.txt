@@ -8621,13 +8621,6 @@ MutexE	Broken Heart/Fiery Heart/Cold Hearted/Sweet Heart/Withered Heart/Lustful 
 # MutexE	Song of Accompaniment/Song of Cockiness/Song of Fortune	none
 # MutexE	Spirit of Bacon Grease/Spirit of Cayenne/Spirit of Garlic/Spirit of Peppermint/Spirit of Wormwood	none
 
-# Unique items section of modifiers.txt.
-# These are items that all contribute to a modifier, but only once per unique item.
-# Consider them to be Single Equip, insofar as the specified modifier is concerned.
-
-Unique	Clowniness	balloon helmet/clown wig/foolscap fool's cap/bloody clown pants/clownskin harness/balloon sword/clown whip/clownskin buckler/big red clown nose/clown shoes/clownskin belt/polka-dot bow tie
-Unique	Surgeonosity	bloodied surgical dungarees/surgical apron/half-size scalpel/head mirror/surgical mask
-
 # Maximization categories section of modifiers.txt
 # These pseudo-items list the indirect benefits of certain classes of
 # equipment.  If the Modifier Maximizer finds that any of these classes

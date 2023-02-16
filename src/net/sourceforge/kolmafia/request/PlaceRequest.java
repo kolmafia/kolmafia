@@ -373,7 +373,7 @@ public class PlaceRequest extends GenericRequest {
             message = "Visiting The Treasure House";
           }
           case "8rift" -> {
-            message = "Entering the Shadow Rift via the 8-Bit Realm";
+            message = "Entering the Shadow Rift via The 8-Bit Realm";
             Preferences.setString("shadowRiftIngress", "8bit");
           }
         }
@@ -420,7 +420,7 @@ public class PlaceRequest extends GenericRequest {
       }
       case "beanstalk" -> {
         if (action.equals("stalk_rift")) {
-          message = "Entering the Shadow Rift via The Beanstalk";
+          message = "Entering the Shadow Rift via Somewhere Over the Beanstalk";
           Preferences.setString("shadowRiftIngress", "beanstalk");
         }
       }
@@ -497,7 +497,7 @@ public class PlaceRequest extends GenericRequest {
             // message = "Visiting the Small Pyramid";
           }
           case "db_shadowrift" -> {
-            message = "Entering the Shadow Rift via the Desert Beach";
+            message = "Entering the Shadow Rift via Desert Beach";
             Preferences.setString("shadowRiftIngress", "desertbeach");
           }
         }
@@ -555,7 +555,7 @@ public class PlaceRequest extends GenericRequest {
             message = "Visiting a Science Tent";
             break;
           case "fv_shadowrift":
-            message = "Entering the Shadow Rift via the Forest Village";
+            message = "Entering the Shadow Rift via Forest Village";
             Preferences.setString("shadowRiftIngress", "forestvillage");
             break;
         }
@@ -630,7 +630,7 @@ public class PlaceRequest extends GenericRequest {
         switch (action) {
           case "manor3_ladys" -> message = "Talking to Lady Spookyraven";
           case "manor3_shadowrift" -> {
-            message = "Entering the Shadow Rift via Spookyraven Manor, Third Floor";
+            message = "Entering the Shadow Rift via Spookyraven Manor Third Floor";
             Preferences.setString("shadowRiftIngress", "manor3");
           }
         }
@@ -802,7 +802,7 @@ public class PlaceRequest extends GenericRequest {
           }
           case "townright_vote" -> message = "Visiting The Voting Booth";
           case "townright_shadowrift" -> {
-            message = "Entering the Shadow Rift via the Right Side of the Tracks";
+            message = "Entering the Shadow Rift via The Right Side of the Tracks";
             Preferences.setString("shadowRiftIngress", "town_right");
           }
         }

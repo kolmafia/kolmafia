@@ -2447,7 +2447,7 @@ public abstract class KoLCharacter {
    * @return Clownosity
    */
   public static final int getClownosity() {
-    return ((int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.CLOWNINESS)) / 25;
+    return KoLCharacter.currentModifiers.getBitmap(BitmapModifier.CLOWNINESS);
   }
 
   /**
@@ -5589,7 +5589,6 @@ public abstract class KoLCharacter {
         for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
           switch (mod) {
             case SLIME_HATES_IT:
-            case SURGEONOSITY:
               continue;
           }
           iModCopy.setDouble(mod, 0.0);

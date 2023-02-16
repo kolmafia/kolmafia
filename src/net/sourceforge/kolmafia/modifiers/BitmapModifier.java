@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.modifiers;
 
+import static net.sourceforge.kolmafia.persistence.ModifierDatabase.EXPR;
+
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Map;
@@ -13,14 +15,35 @@ public enum BitmapModifier implements Modifier {
   BRIMSTONE("Brimstone", Pattern.compile("Brimstone")),
   CLOATHING("Cloathing", Pattern.compile("Cloathing")),
   SYNERGETIC("Synergetic", Pattern.compile("Synergetic")),
+  SURGEONOSITY(
+      "Surgeonosity",
+      new Pattern[] {
+        Pattern.compile("Makes you look like a doctor"),
+        Pattern.compile("Makes you look like a gross doctor"),
+      },
+      Pattern.compile("Surgeonosity: (\\+?\\d+)")),
+  CLOWNINESS(
+      "Clowniness",
+      Pattern.compile("Makes you look (\\d+)% clowny"),
+      Pattern.compile("Clowniness: " + EXPR)),
   RAVEOSITY("Raveosity", Pattern.compile("Raveosity: (\\+?\\d+)")),
   MUTEX("Mutually Exclusive", null),
   MUTEX_VIOLATIONS("Mutex Violations", null);
   private final String name;
+  private final Pattern[] descPatterns;
   private final Pattern tagPattern;
 
   BitmapModifier(String name, Pattern tagPattern) {
+    this(name, (Pattern[]) null, tagPattern);
+  }
+
+  BitmapModifier(String name, Pattern descPattern, Pattern tagPattern) {
+    this(name, new Pattern[] {descPattern}, tagPattern);
+  }
+
+  BitmapModifier(String name, Pattern[] descPatterns, Pattern tagPattern) {
     this.name = name;
+    this.descPatterns = descPatterns;
     this.tagPattern = tagPattern;
   }
 
@@ -31,7 +54,7 @@ public enum BitmapModifier implements Modifier {
 
   @Override
   public Pattern[] getDescPatterns() {
-    return null;
+    return descPatterns;
   }
 
   @Override
@@ -69,6 +92,41 @@ public enum BitmapModifier implements Modifier {
         return modifier;
       }
     }
+    return null;
+  }
+
+  // equivalent to `Modifiers.parseModifier`
+  public static String parseModifier(final String enchantment) {
+    for (var mod : BITMAP_MODIFIERS) {
+      Pattern[] patterns = mod.getDescPatterns();
+
+      if (patterns == null) {
+        continue;
+      }
+
+      for (Pattern pattern : patterns) {
+        Matcher matcher = pattern.matcher(enchantment);
+        if (!matcher.find()) {
+          continue;
+        }
+
+        if (matcher.groupCount() == 0) {
+          String tag = mod.getTag();
+          // Kludge for Surgeonosity, which always gives +1
+          if (mod == BitmapModifier.SURGEONOSITY) {
+            return tag + ": +1";
+          }
+          return tag;
+        }
+
+        String tag = mod.getTag();
+
+        String value = matcher.group(1);
+
+        return tag + ": " + value.trim();
+      }
+    }
+
     return null;
   }
 }
