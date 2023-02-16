@@ -7077,4 +7077,227 @@ public class KoLAdventureValidationTest {
       }
     }
   }
+
+  @Nested
+  class ShadowRift {
+    private static final KoLAdventure SHADOW_RIFT =
+        AdventureDatabase.getAdventureByName("Shadow Rift");
+    private static final KoLAdventure DESERT_BEACH =
+        AdventureDatabase.getAdventureByName("Shadow Rift (Desert Beach)");
+    private static final KoLAdventure FOREST_VILLAGE =
+        AdventureDatabase.getAdventureByName("Shadow Rift (Forest Village)");
+    private static final KoLAdventure MCLARGEHUGE =
+        AdventureDatabase.getAdventureByName("Shadow Rift (Mt. McLargeHuge)");
+    private static final KoLAdventure BEANSTALK =
+        AdventureDatabase.getAdventureByName("Shadow Rift (Somewhere Over the Beanstalk)");
+    private static final KoLAdventure SPOOKYRAVEN =
+        AdventureDatabase.getAdventureByName("Shadow Rift (Spookyraven Manor Third Floor)");
+    private static final KoLAdventure PIXEL_REALM =
+        AdventureDatabase.getAdventureByName("Shadow Rift (The 8-Bit Realm)");
+    private static final KoLAdventure PYRAMID =
+        AdventureDatabase.getAdventureByName("Shadow Rift (The Ancient Buried Pyramid)");
+    private static final KoLAdventure CASTLE =
+        AdventureDatabase.getAdventureByName("Shadow Rift (The Castle in the Clouds in the Sky)");
+    private static final KoLAdventure DISTANT_WOODS =
+        AdventureDatabase.getAdventureByName("Shadow Rift (The Distant Woods)");
+    private static final KoLAdventure HIDDEN_CITY =
+        AdventureDatabase.getAdventureByName("Shadow Rift (The Hidden City)");
+    private static final KoLAdventure CEMETERY =
+        AdventureDatabase.getAdventureByName("Shadow Rift (The Misspelled Cemetary)");
+    private static final KoLAdventure NEARBY_PLAINS =
+        AdventureDatabase.getAdventureByName("Shadow Rift (The Nearby Plains)");
+    private static final KoLAdventure TOWN_RIGHT =
+        AdventureDatabase.getAdventureByName("Shadow Rift (The Right Side of the Tracks)");
+
+    @Test
+    void onlyCertainShadowRiftsInitiallyOpen() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        // Have to have visited a Shadow Rift Ingress
+        assertFalse(SHADOW_RIFT.canAdventure());
+        // Always open
+        assertTrue(TOWN_RIGHT.canAdventure());
+        assertTrue(NEARBY_PLAINS.canAdventure());
+        // Woods must be open
+        assertFalse(DISTANT_WOODS.canAdventure());
+        assertFalse(FOREST_VILLAGE.canAdventure());
+        assertFalse(PIXEL_REALM.canAdventure());
+        // Lady Spookyraven Dancing quest must be done
+        assertFalse(SPOOKYRAVEN.canAdventure());
+        // Desert Beach must be accessible
+        assertFalse(DESERT_BEACH.canAdventure());
+        // Cyrpt quest or Wizard of Ego quest must be started
+        assertFalse(CEMETERY.canAdventure());
+        // Trapper Quest must be started
+        assertFalse(MCLARGEHUGE.canAdventure());
+        // Beanstalk must be planted (or plantable)
+        assertFalse(BEANSTALK.canAdventure());
+        // Garbage quest must be finished
+        assertFalse(CASTLE.canAdventure());
+        // Hidden City must be open
+        assertFalse(HIDDEN_CITY.canAdventure());
+        // Pyramid must be open
+        assertFalse(PYRAMID.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitGenericRiftIfWithIngress() {
+      var cleanups = new Cleanups(withProperty("shadowRiftIngress", "mclargehuge"));
+      try (cleanups) {
+        // Have to have visited a Shadow Rift Ingress
+        assertTrue(SHADOW_RIFT.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitWoodsRiftsIfLarvaQuestStarted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.LARVA, QuestDatabase.STARTED));
+      try (cleanups) {
+        // Have to have been given the LARVA quest
+        assertTrue(DISTANT_WOODS.canAdventure());
+        assertTrue(FOREST_VILLAGE.canAdventure());
+        assertTrue(PIXEL_REALM.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitPixelRiftithTransfunctionerEquipped() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withEquipped(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER));
+      try (cleanups) {
+        assertTrue(PIXEL_REALM.canAdventure());
+        assertTrue(PIXEL_REALM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void canAdventureWithTransfunctionerInInventory() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withEquippableItem(ItemPool.TRANSFUNCTIONER));
+      try (cleanups) {
+        assertTrue(PIXEL_REALM.canAdventure());
+        assertTrue(PIXEL_REALM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
+      }
+    }
+
+    @Test
+    void canVisitSpookyravenRiftIfThirdFloorUnlocked() {
+      var cleanups =
+          new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
+      try (cleanups) {
+        // Have to have been given the LARVA quest
+        assertTrue(SPOOKYRAVEN.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitDesertBeachRiftIfBeachAccessible() {
+      var cleanups = new Cleanups(withItem(ItemPool.BITCHIN_MEATCAR));
+      try (cleanups) {
+        // Have to be able to get to the beach
+        assertTrue(DESERT_BEACH.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitCemeteryRiftIfCyrptQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED));
+      try (cleanups) {
+        // You can get to the Misspelled Cemetery to get to the Cyrpt
+        assertTrue(CEMETERY.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitCemeteryRiftWithWizardOfEgoQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
+      try (cleanups) {
+        // You can get to the Misspelled Cemetery to get to the Cyrpt
+        assertTrue(CEMETERY.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitMcLargeHugeRiftIfTrapperQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED));
+      try (cleanups) {
+        // You can get to the Mt. McLargeHuge if you can visit the Trapper
+        assertTrue(MCLARGEHUGE.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitBeanstalkRiftIfBeanstalkPlanted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, "step1"));
+      try (cleanups) {
+        // You can get above the beanstalk if you have planted it
+        assertTrue(BEANSTALK.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitBeanstalkRiftIfBeanstalkPlantable() {
+      setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED),
+              withItem(ItemPool.ENCHANTED_BEAN));
+      try (cleanups) {
+        // You can get above the beanstalk if quest started and you have a bean
+        assertTrue(BEANSTALK.canAdventure());
+        assertTrue(BEANSTALK.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=plains&action=garbage_grounds");
+      }
+    }
+
+    @Test
+    void canVisitCastleRiftIfAirShipIsFinished() {
+      var cleanups = new Cleanups(withItem(ItemPool.SOCK));
+      try (cleanups) {
+        // You can get above to the Giant Castle with a S.O.C.K.
+        assertTrue(CASTLE.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitHiddenCityRiftIfTempleDone() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.WORSHIP, "step4"));
+      try (cleanups) {
+        // You can get to the Hidden City if you have finished the Hidden Temple
+        assertTrue(HIDDEN_CITY.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitPyramidRiftIfPyramidOpen() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.PYRAMID, QuestDatabase.STARTED));
+      try (cleanups) {
+        // You can get to the Pyramid once you have opened it
+        assertTrue(PYRAMID.canAdventure());
+      }
+    }
+  }
 }

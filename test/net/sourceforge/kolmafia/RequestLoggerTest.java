@@ -3,17 +3,37 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.Player.withItemMonster;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withMultiFight;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 class RequestLoggerTest {
+  @BeforeAll
+  public static void beforeAll() {
+    KoLCharacter.reset("RequestLogger");
+  }
+
+  @BeforeEach
+  public void beforeEach() {
+    Preferences.reset("RequestLogger");
+  }
+
   private String withCapturedLogs(Runnable action) {
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
 
@@ -91,5 +111,36 @@ class RequestLoggerTest {
     }
     String logged = ostream.toString().trim();
     assertEquals("Am I Blue?", logged);
+  }
+
+  @Nested
+  class ShadowRifts {
+    @ParameterizedTest
+    @EnumSource(ShadowRift.class)
+    public void canRegisterShadowRiftIngress(ShadowRift rift) {
+      var cleanups = withProperty("shadowRiftIngress", "");
+      try (cleanups) {
+        String url = rift.getURL();
+
+        // Each Shadow Rift is in a "container" accessed via place.php
+        assertTrue(url.startsWith("place.php"));
+
+        // AdventureDatabase maps each such URL to a KoLAdventure
+        var adventure = AdventureDatabase.getAdventureByURL(url);
+        assertTrue(adventure != null);
+
+        // Simply doing that lookup does not register the current Shadow Rift
+        assertEquals(Preferences.getString("shadowRiftIngress"), "");
+
+        // Registering that URL will be claimed by KoLAdventure.
+        var request = new GenericRequest(url);
+        var output = withCapturedLogs(() -> RequestLogger.registerRequest(request, url));
+        var expected = "Entering the Shadow Rift via " + rift.getContainer();
+        assertEquals(expected, output);
+
+        // This will remember the last Shadow Rift Ingress
+        assertEquals(Preferences.getString("shadowRiftIngress"), rift.getPlace());
+      }
+    }
   }
 }

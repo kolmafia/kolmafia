@@ -603,8 +603,9 @@ public class AdventureDatabase {
           || location.getRequest() instanceof RichardRequest) {
         return null;
       }
-      // If this is a Shadow Rift adventure, decide which one, based on
-      // which one we visited last
+
+      // If we are adventuring in the Shadow Rift via adventure.php,
+      // decide which one based on the last rift we entered
       if (location.getAdventureNumber() == AdventurePool.SHADOW_RIFT) {
         String place = Preferences.getString("shadowRiftIngress");
         ShadowRift rift = ShadowRift.findPlace(place);
