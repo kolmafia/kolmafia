@@ -365,10 +365,9 @@ public class PlaceRequest extends GenericRequest {
     if (responseText.contains(
         "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
       ResultProcessor.removeItem(ItemPool.THE_SOTS_PARCEL);
-      Preferences.setBoolean("user    _sotParcelReturned", true);
-    } else if (responseText.contains(
-        "The sot just stares off into space. He must not have anything else for you to do today.")) {
-      Preferences.setBoolean("user    _sotParcelReturned", true);
+      Preferences.setBoolean("_sotParcelReturned", true);
+    } else if (responseText.contains("He must not have anything else for you to do today.")) {
+      Preferences.setBoolean("_sotParcelReturned", true);
     }
   }
 

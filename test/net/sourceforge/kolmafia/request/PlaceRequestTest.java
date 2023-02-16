@@ -123,6 +123,8 @@ class PlaceRequestTest {
 
     @Test
     public void itShouldRemoveParcelWhenTurnedIn() {
+      String prefName = "_sotParcelReturned";
+      assertFalse(Preferences.getBoolean(prefName), "Preference already set.");
       var cleanups = new Cleanups(withItem(ItemPool.THE_SOTS_PARCEL, 1));
       try (cleanups) {
         assertEquals(1, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
@@ -132,11 +134,20 @@ class PlaceRequestTest {
             "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
             req.responseText);
         assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
+        assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
       }
     }
   }
-}
 
-// Generated with love by TestMe :) Please report issues and submit feature requests at:
-// http://weirddev.com/forum#!/testme
-// Applies to some of the above code
+  @Test
+  public void itShouldDetectParcelAlreadyTurnedIn() {
+    String prefName = "_sotParcelReturned";
+    assertFalse(Preferences.getBoolean(prefName), "Preference already set.");
+    var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
+    req.responseText = html("request/test_visit_sot_parcel_done.html");
+    PlaceRequest.parseResponse(
+        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
+        req.responseText);
+    assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
+  }
+}
