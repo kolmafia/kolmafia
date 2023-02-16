@@ -11172,3 +11172,24 @@
 11144	shadow venom	737945530	shadowvenom.gif	drink	t,d	13
 11145	shadow nectar	676525146	shadownectar.gif	spleen, usable	t,d	13
 11146	shadow stick	609454674	shadowstick.gif	weapon	t,d	13
+11147	cursed bat paw	656261340	batpaw.gif	accessory	q	0
+11148
+11149
+11150
+11151
+11152
+11153
+11154
+11155
+11156
+11157
+11158
+11159
+11160
+11161
+11162
+11163	Advanced Pig Skinning	916925042	book2.gif	usable	q	0
+11164
+11165
+11166
+11167	shadowy cheat sheet	170862408	pamphlet.gif	usable	t	0
