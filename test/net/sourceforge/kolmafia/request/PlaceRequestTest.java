@@ -19,7 +19,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class PlaceRequestTest {
@@ -38,7 +37,6 @@ class PlaceRequestTest {
   }
 
   @Test
-  @Disabled
   void itShouldSetTheToolbeltAsAFreePullInTTT() {
     // setup environment for test...
     Preferences.setBoolean("timeTowerAvailable", false); // ttt not available.
