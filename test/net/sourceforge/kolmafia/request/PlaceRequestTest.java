@@ -142,12 +142,11 @@ class PlaceRequestTest {
   @Test
   public void itShouldDetectParcelAlreadyTurnedIn() {
     String prefName = "_sotParcelReturned";
+    String responseText = html("request/test_visit_sot_parcel_done.html");
     assertFalse(Preferences.getBoolean(prefName), "Preference already set.");
-    var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
-    req.responseText = html("request/test_visit_sot_parcel_done.html");
     PlaceRequest.parseResponse(
         "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
-        req.responseText);
+        responseText);
     assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
   }
 }
