@@ -577,6 +577,12 @@ public class ConsumablesDatabase {
         note);
   }
 
+  public static void updateConsumableNotes(final String itemName, final String notes) {
+    // Has to already be in the database.
+    Consumable existing = ConsumablesDatabase.consumableByName.get(itemName);
+    existing.notes = notes;
+  }
+
   public static final Consumable getConsumableByName(final String name) {
     return ConsumablesDatabase.consumableByName.get(name);
   }

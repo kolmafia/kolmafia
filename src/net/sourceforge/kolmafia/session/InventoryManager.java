@@ -1619,6 +1619,7 @@ public abstract class InventoryManager {
     checkCoatOfPaint(false);
     checkUmbrella();
     checkBuzzedOnDistillate();
+    checkVampireVintnerWine();
     checkCrimboTrainingManual();
   }
 
@@ -1731,7 +1732,7 @@ public abstract class InventoryManager {
     }
 
     // ResultProcessor will parse the item description and set properties
-    InventoryManager.checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
+    checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
   }
 
   public static void checkCoatOfPaint(boolean playerClassChanged) {
