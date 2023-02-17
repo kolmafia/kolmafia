@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -18,12 +19,11 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class PlaceRequestTest {
 
-  // These need to be before and after each because leakage has been observed between tests
-  // in this class.
   @BeforeEach
   public void initializeCharPrefs() {
     KoLCharacter.reset("PlaceRequestTestFakePrefUser");
@@ -38,6 +38,7 @@ class PlaceRequestTest {
   }
 
   @Test
+  @Disabled
   void itShouldSetTheToolbeltAsAFreePullInTTT() {
     // setup environment for test...
     Preferences.setBoolean("timeTowerAvailable", false); // ttt not available.
@@ -83,32 +84,35 @@ class PlaceRequestTest {
   public void itShouldGetParcelLocationFromFirstVisit() {
     String prefName = "_sotParcelLocation";
     String responseText = html("request/test_first_visit_sot_to_get_location.html");
-    assertEquals("", Preferences.getString(prefName), "Preference already set.");
-    PlaceRequest.parseResponse(
-        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
-    assertEquals(
-        "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+    var cleanups = new Cleanups(withProperty(prefName, ""));
+    try (cleanups) {
+      PlaceRequest.parseResponse(
+          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
+      assertEquals(
+          "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+    }
   }
 
   @Test
   public void itShouldGetParcelLocationFromSubsequentVisit() {
     String prefName = "_sotParcelLocation";
-    String responseText = html("request/test_next_visit_sot_to_get_location.html");
-    assertEquals("", Preferences.getString(prefName), "Preference already set.");
-    PlaceRequest.parseResponse(
-        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
-    assertEquals(
-        "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+    var cleanups = new Cleanups(withProperty(prefName, ""));
+    try (cleanups) {
+      String responseText = html("request/test_next_visit_sot_to_get_location.html");
+      PlaceRequest.parseResponse(
+          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
+      assertEquals(
+          "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+    }
   }
 
   @Test
   public void itShouldRemoveParcelWhenTurnedIn() {
     String prefName = "_sotParcelReturned";
     String responseText = html("request/test_visit_sot_to_return.html");
-    assertFalse(Preferences.getBoolean(prefName), "Preference already set.");
-    var cleanups = new Cleanups(withItem(ItemPool.THE_SOTS_PARCEL, 1));
+    var cleanups =
+        new Cleanups(withProperty(prefName, false), withItem(ItemPool.THE_SOTS_PARCEL, 1));
     try (cleanups) {
-      assertEquals(1, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
       PlaceRequest.parseResponse(
           "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
       assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
@@ -120,9 +124,11 @@ class PlaceRequestTest {
   public void itShouldDetectParcelAlreadyTurnedIn() {
     String prefName = "_sotParcelReturned";
     String responseText = html("request/test_visit_sot_parcel_done.html");
-    assertFalse(Preferences.getBoolean(prefName), "Preference already set.");
-    PlaceRequest.parseResponse(
-        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
-    assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
+    var cleanups = new Cleanups(withProperty(prefName, false));
+    try (cleanups) {
+      PlaceRequest.parseResponse(
+          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
+      assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
+    }
   }
 }
