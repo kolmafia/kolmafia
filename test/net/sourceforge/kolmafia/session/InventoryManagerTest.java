@@ -22,12 +22,18 @@ import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -290,6 +296,31 @@ public class InventoryManagerTest {
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(0));
+      }
+    }
+  }
+
+  @Nested
+  class PerUserVariableItems {
+    @Test
+    public void RingWillSetModsForUser() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.RING, 1));
+      try (cleanups) {
+        String descId = ItemDatabase.getDescriptionId(ItemPool.RING);
+        var req = new GenericRequest("desc_item.php?whichitem=" + descId);
+        req.responseText = html("request/test_desc_item_ring_2crs.html");
+        req.processResponse();
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.RING);
+
+        // Spot checking combination properties, negative property, percent.
+        assertEquals(-3.0, mods.getDouble(DoubleModifier.MONSTER_LEVEL), "ML Failure");
+        assertEquals(+12.0, mods.getDouble(DoubleModifier.DAMAGE_ABSORPTION), "DA Failure");
+        assertEquals(+4.0, mods.getDouble(DoubleModifier.WEAPON_DAMAGE), "Weapon Damage Failure");
+        assertEquals(0, mods.getDouble(DoubleModifier.MOX), "No Moxie Change Expected");
+        assertEquals(10.0, mods.getDouble(DoubleModifier.MOX_PCT), "No Moxie Change Expected");
       }
     }
   }

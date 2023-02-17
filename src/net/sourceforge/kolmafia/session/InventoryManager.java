@@ -1859,14 +1859,9 @@ public abstract class InventoryManager {
   }
 
   public static void checkRing() {
-    // checks the Two Crazy Random Summer Ring, which has up to 37 little enhancements on it.
-    AdventureResult RING = ItemPool.get(ItemPool.RING, 1);
-
-    if (!InventoryManager.itemAvailable( RING )){
-      return;
+    if (InventoryManager.itemAvailable(ItemPool.RING)) {
+      checkItemDescription(ItemPool.RING);
     }
-
-    checkItemDescription(ItemPool.RING);
   }
 
   private static boolean allowTurnConsumption(final CreateItemRequest creator) {
