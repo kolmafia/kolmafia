@@ -297,7 +297,7 @@ public class InventoryManagerTest {
   }
 
   @Nested
-  class VampireVintnerWIne {
+  class VampireVintnerWine {
     // From items.txt
     private static String WINE_NAME = "1950 Vampire Vintner wine";
     // From inebriety.txt
