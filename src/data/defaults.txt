@@ -2142,7 +2142,7 @@ user	_snowglobeDrops	0
 user	_snowSuitCount	0
 user	_sobrieTeaUsed	false
 user	_softwareGlitchTurnReceived	false
-user	_sotParcelLocation
+user    _sotParcelLocation
 user    _sotParcelReturned  false
 user	_sourceTerminalDigitizeMonster
 user	_sourceTerminalDigitizeMonsterCount	0

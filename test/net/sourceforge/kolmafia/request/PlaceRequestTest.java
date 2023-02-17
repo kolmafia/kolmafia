@@ -6,10 +6,10 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -38,53 +38,54 @@ class PlaceRequestTest {
 
   @Test
   void itShouldSetTheToolbeltAsAFreePullInTTT() {
-    // setup environment for test...
+    // Make sure storage and freepulls empty
+    KoLConstants.storage.clear();
+    KoLConstants.freepulls.clear();
     var cleanups = new Cleanups(withProperty("timeTowerAvailable", false));
     try (cleanups) {
       ModifierDatabase.getItemModifiers(ItemPool.TIME_TWITCHING_TOOLBELT);
       AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
-
-      List<AdventureResult> storage = KoLConstants.storage;
-      List<AdventureResult> freePulls = KoLConstants.freepulls;
       AdventureResult.addResultToList(KoLConstants.storage, toolbelt);
 
       // check baseline condition
-      assertNotEquals(
-          -1, storage.indexOf(toolbelt), "toolbelt should be in storage before TTT is available");
-      assertEquals(
-          -1,
-          freePulls.indexOf(toolbelt),
-          "toolbelt should not be in Free Pulls before TTT is available");
+      assertTrue(
+          KoLConstants.storage.contains(toolbelt),
+          "toolbelt should be in storage before TTT is available");
+      assertFalse(
+          KoLConstants.freepulls.contains(toolbelt),
+          "toolbelt should not be in freepulls before TTT is available");
 
       PlaceRequest.parseResponse("place=twitch", "tower");
-
       assertThat("timeTowerAvailable", isSetTo(true));
-
-      // time-twitching toolbelt is a free pull if the time tower is available. Verify it is in
-      // correct storage list.
-      assertEquals(
-          -1, storage.indexOf(toolbelt), "toolbelt should not be in storage when TTT is available");
-      assertNotEquals(
-          -1,
-          freePulls.indexOf(toolbelt),
-          "toolbelt should be in Free Pulls when TTT is available");
+      // time-twitching toolbelt is a free pull if the time tower is available.
+      assertFalse(
+          KoLConstants.storage.contains(toolbelt),
+          "toolbelt should not be in storage when TTT is available");
+      assertTrue(
+          KoLConstants.freepulls.contains(toolbelt),
+          "toolbelt should be in freepulls when TTT is available");
 
       // reset the TTT
       PlaceRequest.parseResponse("place=twitch", "temporal ether");
-
       assertThat("timeTowerAvailable", isSetTo(false));
 
       // check after TTT disappears into the temporal ether
-      assertNotEquals(
-          -1, storage.indexOf(toolbelt), "toolbelt should not be in storage after TTT fades");
-      assertEquals(
-          -1, freePulls.indexOf(toolbelt), "toolbelt should not be in Free Pulls after TTT fades");
+      assertTrue(
+          KoLConstants.storage.contains(toolbelt),
+          "toolbelt should be back in storage after TTT fades");
+      assertFalse(
+          KoLConstants.freepulls.contains(toolbelt),
+          "toolbelt should not be in freepulls after TTT fades");
+
+      // Make sure storage and freepulls empty
+      KoLConstants.storage.clear();
+      KoLConstants.freepulls.clear();
     }
   }
 
   @Nested
   class speakeasy {
-    private String sotUrl = "place.php?whichplace=speakeasy&action=olivers_sot";
+    private final String sotUrl = "place.php?whichplace=speakeasy&action=olivers_sot";
 
     @Test
     public void itShouldGetParcelLocationFromFirstVisit() {
