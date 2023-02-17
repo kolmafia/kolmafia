@@ -6,9 +6,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.util.List;
@@ -17,7 +15,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,43 +39,47 @@ class PlaceRequestTest {
   @Test
   void itShouldSetTheToolbeltAsAFreePullInTTT() {
     // setup environment for test...
-    Preferences.setBoolean("timeTowerAvailable", false); // ttt not available.
-    ModifierDatabase.getItemModifiers(ItemPool.TIME_TWITCHING_TOOLBELT);
-    AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
+    var cleanups = new Cleanups(withProperty("timeTowerAvailable", false));
+    try (cleanups) {
+      ModifierDatabase.getItemModifiers(ItemPool.TIME_TWITCHING_TOOLBELT);
+      AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
 
-    List<AdventureResult> storage = KoLConstants.storage;
-    List<AdventureResult> freePulls = KoLConstants.freepulls;
-    AdventureResult.addResultToList(KoLConstants.storage, toolbelt);
+      List<AdventureResult> storage = KoLConstants.storage;
+      List<AdventureResult> freePulls = KoLConstants.freepulls;
+      AdventureResult.addResultToList(KoLConstants.storage, toolbelt);
 
-    // check baseline condition
-    assertNotEquals(
-        -1, storage.indexOf(toolbelt), "toolbelt should be in storage before TTT is available");
-    assertEquals(
-        -1,
-        freePulls.indexOf(toolbelt),
-        "toolbelt should not be in Free Pulls before TTT is available");
+      // check baseline condition
+      assertNotEquals(
+          -1, storage.indexOf(toolbelt), "toolbelt should be in storage before TTT is available");
+      assertEquals(
+          -1,
+          freePulls.indexOf(toolbelt),
+          "toolbelt should not be in Free Pulls before TTT is available");
 
-    PlaceRequest.parseResponse("place=twitch", "tower");
+      PlaceRequest.parseResponse("place=twitch", "tower");
 
-    assertTrue(Preferences.getBoolean("timeTowerAvailable"), "TTT is available");
+      assertThat("timeTowerAvailable", isSetTo(true));
 
-    // time-twitching toolbelt is a free pull if the time tower is available. Verify it is in
-    // correct storage list.
-    assertEquals(
-        -1, storage.indexOf(toolbelt), "toolbelt should not be in storage when TTT is available");
-    assertNotEquals(
-        -1, freePulls.indexOf(toolbelt), "toolbelt should be in Free Pulls when TTT is available");
+      // time-twitching toolbelt is a free pull if the time tower is available. Verify it is in
+      // correct storage list.
+      assertEquals(
+          -1, storage.indexOf(toolbelt), "toolbelt should not be in storage when TTT is available");
+      assertNotEquals(
+          -1,
+          freePulls.indexOf(toolbelt),
+          "toolbelt should be in Free Pulls when TTT is available");
 
-    // reset the TTT
-    PlaceRequest.parseResponse("place=twitch", "temporal ether");
+      // reset the TTT
+      PlaceRequest.parseResponse("place=twitch", "temporal ether");
 
-    assertFalse(Preferences.getBoolean("timeTowerAvailable"), "TTT should not be available");
+      assertThat("timeTowerAvailable", isSetTo(false));
 
-    // check after TTT disappears into the temporal ether
-    assertNotEquals(
-        -1, storage.indexOf(toolbelt), "toolbelt should not be in storage after TTT fades");
-    assertEquals(
-        -1, freePulls.indexOf(toolbelt), "toolbelt should not be in Free Pulls after TTT fades");
+      // check after TTT disappears into the temporal ether
+      assertNotEquals(
+          -1, storage.indexOf(toolbelt), "toolbelt should not be in storage after TTT fades");
+      assertEquals(
+          -1, freePulls.indexOf(toolbelt), "toolbelt should not be in Free Pulls after TTT fades");
+    }
   }
 
   @Nested
