@@ -55,7 +55,7 @@ class PlaceRequestTest {
         freePulls.indexOf(toolbelt),
         "toolbelt should not be in Free Pulls before TTT is available");
 
-    PlaceRequest.parseResponse("http://server.fakepath/place=twitch", "tower");
+    PlaceRequest.parseResponse("place=twitch", "tower");
 
     assertTrue(Preferences.getBoolean("timeTowerAvailable"), "TTT is available");
 
@@ -67,7 +67,7 @@ class PlaceRequestTest {
         -1, freePulls.indexOf(toolbelt), "toolbelt should be in Free Pulls when TTT is available");
 
     // reset the TTT
-    PlaceRequest.parseResponse("http://server.fakepath/place=twitch", "temporal ether");
+    PlaceRequest.parseResponse("place=twitch", "temporal ether");
 
     assertFalse(Preferences.getBoolean("timeTowerAvailable"), "TTT should not be available");
 
@@ -85,7 +85,7 @@ class PlaceRequestTest {
     var cleanups = new Cleanups(withProperty(prefName, ""));
     try (cleanups) {
       PlaceRequest.parseResponse(
-          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
+          "place.php?whichplace=speakeasy&action=olivers_sot", responseText);
       assertEquals(
           "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
     }
@@ -98,7 +98,7 @@ class PlaceRequestTest {
     try (cleanups) {
       String responseText = html("request/test_next_visit_sot_to_get_location.html");
       PlaceRequest.parseResponse(
-          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
+          "whichplace=speakeasy&action=olivers_sot", responseText);
       assertEquals(
           "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
     }
@@ -112,7 +112,7 @@ class PlaceRequestTest {
         new Cleanups(withProperty(prefName, false), withItem(ItemPool.THE_SOTS_PARCEL, 1));
     try (cleanups) {
       PlaceRequest.parseResponse(
-          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
+          "place.php?whichplace=speakeasy&action=olivers_sot", responseText);
       assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
       assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
     }
@@ -125,7 +125,7 @@ class PlaceRequestTest {
     var cleanups = new Cleanups(withProperty(prefName, false));
     try (cleanups) {
       PlaceRequest.parseResponse(
-          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
+          "place.php?whichplace=speakeasy&action=olivers_sot", responseText);
       assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
     }
   }
