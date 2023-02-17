@@ -2160,6 +2160,9 @@ public class FightRequest extends GenericRequest {
         }
         case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE -> ResultProcessor.processItem(
             ItemPool.WARBEAR_BADGE, -1);
+        case AdventurePool.SHADOW_RIFT -> {
+          Preferences.increment("_shadowRiftCombats");
+        }
       }
 
       // Wearing any piece of papier equipment really messes up the results
