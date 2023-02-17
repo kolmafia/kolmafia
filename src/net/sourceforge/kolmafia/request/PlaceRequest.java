@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestEditorKit;
@@ -22,6 +24,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class PlaceRequest extends GenericRequest {
   public static TreeSet<String> places = new TreeSet<>();
   public boolean followRedirects = false;
+
+  private static final Pattern firstSotVisit =
+      Pattern.compile("something over in (.+?) and he'd like");
+  private static final Pattern nextSotVisit = Pattern.compile("back from (.+)\\.</td>");
 
   private String place = null;
   private String action = null;
@@ -297,6 +303,9 @@ public class PlaceRequest extends GenericRequest {
           ResultProcessor.removeAllItems(ItemPool.SPANT_EGG_CASING);
         }
       }
+      case "speakeasy" -> {
+        PlaceRequest.parseSotVisit(responseText);
+      }
       case "spelunky" -> {
         SpelunkyRequest.parseResponse(urlString, responseText);
       }
@@ -337,6 +346,29 @@ public class PlaceRequest extends GenericRequest {
     }
 
     SpadingManager.processPlace(urlString, responseText);
+  }
+
+  private static void parseSotVisit(String responseText) {
+    String location = null;
+    Matcher m = firstSotVisit.matcher(responseText);
+    if (m.find()) {
+      location = m.group(1);
+    } else {
+      m = nextSotVisit.matcher(responseText);
+      if (m.find()) {
+        location = m.group(1);
+      }
+    }
+    if (location != null) {
+      Preferences.setString("_sotParcelLocation", location);
+    }
+    if (responseText.contains(
+        "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
+      ResultProcessor.removeItem(ItemPool.THE_SOTS_PARCEL);
+      Preferences.setBoolean("_sotParcelReturned", true);
+    } else if (responseText.contains("He must not have anything else for you to do today.")) {
+      Preferences.setBoolean("_sotParcelReturned", true);
+    }
   }
 
   public static boolean registerRequest(final String urlString) {

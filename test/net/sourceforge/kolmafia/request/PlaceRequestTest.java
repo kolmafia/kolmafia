@@ -1,25 +1,28 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PlaceRequestTest {
 
-  // These need to be before and after each because leakage has been observed between tests
-  // in this class.
   @BeforeEach
   public void initializeCharPrefs() {
     KoLCharacter.reset("PlaceRequestTestFakePrefUser");
@@ -35,46 +38,99 @@ class PlaceRequestTest {
 
   @Test
   void itShouldSetTheToolbeltAsAFreePullInTTT() {
-    // setup environment for test...
-    Preferences.setBoolean("timeTowerAvailable", false); // ttt not available.
-    ModifierDatabase.getItemModifiers(ItemPool.TIME_TWITCHING_TOOLBELT);
-    AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
+    // Make sure storage and freepulls empty
+    KoLConstants.storage.clear();
+    KoLConstants.freepulls.clear();
+    var cleanups = new Cleanups(withProperty("timeTowerAvailable", false));
+    try (cleanups) {
+      ModifierDatabase.getItemModifiers(ItemPool.TIME_TWITCHING_TOOLBELT);
+      AdventureResult toolbelt = ItemPool.get(ItemPool.TIME_TWITCHING_TOOLBELT, 1);
+      AdventureResult.addResultToList(KoLConstants.storage, toolbelt);
 
-    List<AdventureResult> storage = KoLConstants.storage;
-    List<AdventureResult> freePulls = KoLConstants.freepulls;
-    AdventureResult.addResultToList(KoLConstants.storage, toolbelt);
+      // check baseline condition
+      assertTrue(
+          KoLConstants.storage.contains(toolbelt),
+          "toolbelt should be in storage before TTT is available");
+      assertFalse(
+          KoLConstants.freepulls.contains(toolbelt),
+          "toolbelt should not be in freepulls before TTT is available");
 
-    // check baseline condition
-    assertNotEquals(
-        -1, storage.indexOf(toolbelt), "toolbelt should be in storage before TTT is available");
-    assertEquals(
-        -1,
-        freePulls.indexOf(toolbelt),
-        "toolbelt should not be in Free Pulls before TTT is available");
+      PlaceRequest.parseResponse("place=twitch", "tower");
+      assertThat("timeTowerAvailable", isSetTo(true));
+      // time-twitching toolbelt is a free pull if the time tower is available.
+      assertFalse(
+          KoLConstants.storage.contains(toolbelt),
+          "toolbelt should not be in storage when TTT is available");
+      assertTrue(
+          KoLConstants.freepulls.contains(toolbelt),
+          "toolbelt should be in freepulls when TTT is available");
 
-    PlaceRequest.parseResponse("http://server.fakepath/place=twitch", "tower");
+      // reset the TTT
+      PlaceRequest.parseResponse("place=twitch", "temporal ether");
+      assertThat("timeTowerAvailable", isSetTo(false));
 
-    assertTrue(Preferences.getBoolean("timeTowerAvailable"), "TTT is available");
+      // check after TTT disappears into the temporal ether
+      assertTrue(
+          KoLConstants.storage.contains(toolbelt),
+          "toolbelt should be back in storage after TTT fades");
+      assertFalse(
+          KoLConstants.freepulls.contains(toolbelt),
+          "toolbelt should not be in freepulls after TTT fades");
 
-    // time-twitching toolbelt is a free pull if the time tower is available. Verify it is in
-    // correct storage list.
-    assertEquals(
-        -1, storage.indexOf(toolbelt), "toolbelt should not be in storage when TTT is available");
-    assertNotEquals(
-        -1, freePulls.indexOf(toolbelt), "toolbelt should be in Free Pulls when TTT is available");
+      // Make sure storage and freepulls empty
+      KoLConstants.storage.clear();
+      KoLConstants.freepulls.clear();
+    }
+  }
 
-    // reset the TTT
-    PlaceRequest.parseResponse("http://server.fakepath/place=twitch", "temporal ether");
+  @Nested
+  class speakeasy {
+    private final String sotUrl = "place.php?whichplace=speakeasy&action=olivers_sot";
 
-    assertFalse(Preferences.getBoolean("timeTowerAvailable"), "TTT should not be available");
+    @Test
+    public void itShouldGetParcelLocationFromFirstVisit() {
+      String prefName = "_sotParcelLocation";
+      String responseText = html("request/test_first_visit_sot_to_get_location.html");
+      var cleanups = new Cleanups(withProperty(prefName, ""));
+      try (cleanups) {
+        PlaceRequest.parseResponse(sotUrl, responseText);
+        assertThat(prefName, isSetTo("The Haunted Storage Room"));
+      }
+    }
 
-    // check after TTT disappears into the temporal ether
-    assertNotEquals(
-        -1, storage.indexOf(toolbelt), "toolbelt should not be in storage after TTT fades");
-    assertEquals(
-        -1, freePulls.indexOf(toolbelt), "toolbelt should not be in Free Pulls after TTT fades");
+    @Test
+    public void itShouldGetParcelLocationFromSubsequentVisit() {
+      String prefName = "_sotParcelLocation";
+      var cleanups = new Cleanups(withProperty(prefName, ""));
+      try (cleanups) {
+        String responseText = html("request/test_next_visit_sot_to_get_location.html");
+        PlaceRequest.parseResponse(sotUrl, responseText);
+        assertThat(prefName, isSetTo("The Haunted Storage Room"));
+      }
+    }
+
+    @Test
+    public void itShouldRemoveParcelWhenTurnedIn() {
+      String prefName = "_sotParcelReturned";
+      String responseText = html("request/test_visit_sot_to_return.html");
+      var cleanups =
+          new Cleanups(withProperty(prefName, false), withItem(ItemPool.THE_SOTS_PARCEL, 1));
+      try (cleanups) {
+        PlaceRequest.parseResponse(sotUrl, responseText);
+        assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
+        assertThat(prefName, isSetTo(true));
+      }
+    }
+
+    @Test
+    public void itShouldDetectParcelAlreadyTurnedIn() {
+      String prefName = "_sotParcelReturned";
+      String responseText = html("request/test_visit_sot_parcel_done.html");
+      var cleanups = new Cleanups(withProperty(prefName, false));
+      try (cleanups) {
+        PlaceRequest.parseResponse(sotUrl, responseText);
+        assertThat(prefName, isSetTo(true));
+      }
+    }
   }
 }
-
-// Generated with love by TestMe :) Please report issues and submit feature requests at:
-// http://weirddev.com/forum#!/testme
