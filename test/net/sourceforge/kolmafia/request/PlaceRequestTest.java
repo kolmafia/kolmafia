@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -90,8 +92,7 @@ class PlaceRequestTest {
       var cleanups = new Cleanups(withProperty(prefName, ""));
       try (cleanups) {
         PlaceRequest.parseResponse(sotUrl, responseText);
-        assertEquals(
-            "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+        assertThat(prefName, isSetTo("The Haunted Storage Room"));
       }
     }
 
@@ -102,8 +103,7 @@ class PlaceRequestTest {
       try (cleanups) {
         String responseText = html("request/test_next_visit_sot_to_get_location.html");
         PlaceRequest.parseResponse(sotUrl, responseText);
-        assertEquals(
-            "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+        assertThat(prefName, isSetTo("The Haunted Storage Room"));
       }
     }
 
@@ -116,7 +116,7 @@ class PlaceRequestTest {
       try (cleanups) {
         PlaceRequest.parseResponse(sotUrl, responseText);
         assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
-        assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
+        assertThat(prefName, isSetTo(true));
       }
     }
 
@@ -127,7 +127,7 @@ class PlaceRequestTest {
       var cleanups = new Cleanups(withProperty(prefName, false));
       try (cleanups) {
         PlaceRequest.parseResponse(sotUrl, responseText);
-        assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
+        assertThat(prefName, isSetTo(true));
       }
     }
   }
