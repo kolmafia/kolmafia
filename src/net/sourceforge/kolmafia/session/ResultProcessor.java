@@ -319,10 +319,6 @@ public class ResultProcessor {
     DebugDatabase.readEffectDescriptionText(EffectPool.ENTAUNTAUNED);
   }
 
-  public static void updateVintner() {
-    ItemDatabase.parseVampireVintnerWine();
-  }
-
   public static Pattern EFFECT_TABLE_PATTERN =
       Pattern.compile(
           "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )?(?:\\((?:duration: )?(\\d+) Adventures?\\))?</td></tr></table>");
@@ -3314,7 +3310,7 @@ public class ResultProcessor {
 
       case ItemPool.VAMPIRE_VINTNER_WINE:
         Preferences.setInteger("vintnerCharge", 13);
-        ResultProcessor.updateVintner();
+        ItemDatabase.parseVampireVintnerWine();
         break;
 
       case ItemPool.COSMIC_BOWLING_BALL:
