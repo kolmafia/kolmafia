@@ -2910,6 +2910,7 @@ Item	crystal belt buckle	Maximum MP: +25, Spell Damage: +10
 Item	crystalline seal eye	Single Equip
 Item	cursed ring finger ring	Spell Damage Percent: +50, Spooky Spell Damage: +30, Spell Critical Percent: +10, Single Equip
 Item	cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Single Equip
+Item	cursed bat paw	Monster Level: +25, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25
 Item	cursed swash buckle	Moxie: +25, Meat Drop: +50, Item Drop: +25, Single Equip
 Item	cyborg stompin' boot	Damage Reduction: 8, Weapon Damage: +20, Initiative: +30, Single Equip
 # dark baconstone ring: Spell Criticals Deal Extra Damage
@@ -5455,7 +5456,9 @@ Effect	Charged Hair	Maximum MP Percent: +100
 Effect	Chari Tea	Meat Drop: +50
 Effect	Charrrming	Moxie Percent: +10
 Effect	Chauve-Souris Merde Fou	Stench Damage: +50
+Effect	Cheddarmored	Maximum HP: +10, Damage Absorption: +50, Damage Reduction: 3
 Effect	Cheered Up	Experience: +3
+Effect	Cheerled	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Cheezardly	Avatar: "Cheese Wizard"
 Effect	Chef Brains-are-dee	Avatar: "zombie chef"
 Effect	ChibiChanged&trade;	Familiar Weight: +5, Muscle Percent: [min(5*T,200)], Mysticality Percent: [min(5*T,200)], Moxie Percent: [min(5*T,200)]
@@ -6955,6 +6958,8 @@ Effect	Reedy Pipes	Moxie Percent: +5
 # Refined Palate: Fine wines will taste even finer
 Effect	Refuse Reflux	Stench Damage: [min(100,T)]
 Effect	Relaxed Muscles	Muscle Percent: -50
+# Reliable Backup: Your familiar will act more often
+Effect	Reliable Backup	Familiar Weight: +10
 Effect	Remaining Alive	Damage Absorption: +50, Damage Reduction: 2
 Effect	Rented Costume	Avatar: "Entire Shoplifter"
 Effect	Reptilian Fortitude	Maximum HP: +30
@@ -7054,6 +7059,7 @@ Effect	Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
 Effect	Shielded Unit	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
 Effect	Shifted Phase	Combat Rate: -10
+Effect	Shifted Reality	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Shiny and Chrome	Avatar: "T-9000"
 Effect	Shiny Happy Cupcake	Experience: +3
 Effect	Shiny Happy Gladiator	Avatar: "Gladiator"
@@ -7203,6 +7209,7 @@ Effect	Song of Starch	Maximum HP Percent: +50
 # Song of the Glorious Lunch: Food Sounds Great!
 Effect	Song of the North	Weapon Damage Percent: +100, Cold Damage: +50
 # Song of the Southern Turtle Helps you tame turtles
+Effect	Soothing Flute	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 # Soul Freeze: Brrrrrrr...
 # Soul Funk: Deal some <font color=green>Stench Damage</font> every round
 Effect	Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
@@ -7332,6 +7339,7 @@ Effect	Strawberry Alarm	Initiative: +50
 Effect	Stregngth of the Gnome	Muscle: +20
 Effect	Strength of Ten Ettins	Muscle Percent: +25
 Effect	Strength of the Gnoll	Muscle: +40
+Effect	Stretched	Initiative: +75
 Effect	Strong Grip	Muscle: +20
 Effect	Strong Resolve	Experience (Muscle): +2
 Effect	Strong Spirit	Muscle: +15
@@ -7416,6 +7424,7 @@ Effect	Tamarind Torment	Muscle: +5, Moxie: -5
 Effect	Tainted Love Potion	Muscle: [105-(pref(lovePotion)%30)*7], Mysticality: [102-(pref(lovePotion)%35)*6], Moxie: [105-(pref(lovePotion)%42)*5], Maximum HP Percent: [40-(pref(lovePotion)%8)*10], Maximum MP Percent: [30-(pref(lovePotion)%5)*10]
 Effect	Tangled Up	Moxie Percent: -20
 Effect	Tango, O Gnat	Avatar: "Tan Gnat"
+Effect	Taped Up	Maximum HP Percent: +100, Damage Absorption: +100, HP Regen Min: 8, HP Regen Max: 10
 Effect	Tapped In	Experience: +5
 # Tar-Struck: Continually take damage
 Effect	Tar-Struck	Stench Damage: +20
@@ -7604,6 +7613,7 @@ Effect	Tremella Tremens	Item Drop: +40
 Effect	Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Effect	Trial by Campfire	Damage Reduction: 10
 Effect	Triangle, Man	Muscle Percent: +10
+Effect	Tricky Timpani	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Sleaze Damage: +5, Spooky Damage: +5
 Effect	Triple-Sized	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Tropical Contact High: Grants Access to Kokomo
@@ -7850,12 +7860,14 @@ Skill	Advanced Exo-Alloy	Damage Absorption: +100
 # Adventurer of Leisure: Disco Napping is much more effective
 # Adventurer of Leisure: Rest Without Spending an Adventure
 # Adventurer of Leisure: (2x / day)
+# Air of Mystery: The first attack against you will always miss
 Skill	Algebra	Mysticality: +25
 Skill	Alien Source Code	Maximum MP: +5
 Skill	Aluminum Nerves	MP Regen Min: 8, MP Regen Max: 10
 Skill	Always Never Not Guzzling	Booze Drop: +25
 # Ambidextrous Funkslinging: You can use two combat items per round
 Skill	Amphibian Sympathy	Familiar Weight: [-10*(fam(Inflatable Dodecapede)-0.5)]
+# Anatomy Expertise: Your damaging skills have a chance of dealing double damage
 # Ancient Crimbo Lore: +3 Stats Per Fight in December
 Skill	Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
 Skill	Ankle Joints	Initiative: +20
@@ -7893,6 +7905,8 @@ Skill	Best Served Cold	Spell Damage Percent: +100
 Skill	Biceps	Muscle: +10
 Skill	Big Boned	Maximum HP Percent: +30
 Skill	Big Lungs	HP Regen Min: 8, HP Regen Max: 10
+Skill	Blasted Glutes	Maximum HP Percent: +50
+# Bleu Brilliance: Your cheese spells deal 50% more damage
 Skill	Blood Chains	Maximum HP: -15
 Skill	Blood Cloak	Maximum HP: -20
 Skill	Blood Spike	Maximum HP: -20
@@ -7910,6 +7924,7 @@ Skill	Budget Conscious	Meat Drop: +10
 Skill	Buoyancy of the Beluga	HP Regen Min: [Y], HP Regen Max: [Y]
 Skill	Business Acumen	Meat Drop: +50
 # Butts of Steel: Improves the accuracy and damage of your Butt skills
+Skill	C Sharp Eyes	Item Drop: +50, Meat Drop: +50
 Skill	Calluses	Damage Reduction: 5
 Skill	Camp Subroutines	Sleaze Damage: +5
 Skill	Cartilage	Damage Reduction: 5
@@ -7927,6 +7942,7 @@ Skill	Cold Feet	Cold Damage: +7
 Skill	Cold Heart	Cold Damage: +9
 # Cold Shoulder: Your Smack skills will deal 5 additional Cold Damage
 Skill	Cold-Blooded Fearlessness	Spooky Resistance: +2
+Skill	Competitive Instincts	Meat Drop: +100
 Skill	Conifer Polymers	Stench Resistance: +3
 Skill	Constrictable Capillaries	Cold Resistance: +1
 Skill	Cool Head	Cold Damage: +3
@@ -7993,6 +8009,8 @@ Skill	Extra Muscles	Muscle Percent: +50
 # Extra Spleen: +5 spleen capacity
 # Extra-Thick Skin: Reduces physical damage against you by 20%
 # Eye of the Stoat Improves your Smacks
+Skill	Fancy Footwork	Item Drop: +25
+Skill	Fashion Sense	Moxie: +20
 Skill	Fashionably Late	Adventures: +1
 Skill	[11002]Ferocity	Critical Hit Percent: +25
 # Ferocity (Vampyre)	Your combat skills do 50% more damage
@@ -8000,6 +8018,7 @@ Skill	[24017]Ferocity	Spell Damage Percent: +50, Maximum HP: -10
 Skill	Financial Ambition	Meat Drop: +40
 Skill	Financial Spreadsheets	Meat Drop: +40
 Skill	Fingernails	Weapon Damage: +7
+Skill	Fingers of Fontina	Item Drop: +50
 # Fireball Barrage: Level 1: Deal 200% of your Mysticality as Hot Damage
 # Fireball Barrage: Level 2: Damage increased to 300%
 # Fireball Barrage: Level 3: Obliterate foe, causing them to drop all of their items
@@ -8027,6 +8046,7 @@ Skill	Gnefarious Pickpocketing	Meat Drop: +10
 Skill	Gnomish Hardigness	Maximum HP Percent: +5
 Skill	Golgi Apparatus	Absorb Stats: +25
 # Good Singing Voice: Doubles duration of Boris songs
+Skill	Gorgonzola's Guile	Item Drop: +25
 # Gourmand: Increases adventures from food
 # Gravitational Compression: +100% Item Drops from Monsters (Scales with your Mysticality)
 Skill	Gravitational Compression	Item Drop: [min(ceil(basemys/5),100)]
@@ -8036,6 +8056,7 @@ Skill	Gravitational Compression	Item Drop: [min(ceil(basemys/5),100)]
 Skill	Hamstrings	Initiative: +10
 # Hard Drinker: +5 Liver Capacity
 Skill	Harried	Adventures: +5
+Skill	Head in the Game	Critical Hit Percent: +50
 Skill	Healing Scarabs	HP Regen Min: +2, HP Regen Max: +4
 Skill	Health Symbol	HP Regen Min: +5, HP Regen Max: +5
 Skill	Heart of Polyester	Sleaze Resistance: +2
@@ -8056,7 +8077,9 @@ Skill	Hypno-Eyes	Moxie Percent: +50
 Skill	Hypnotic Eyes	Maximum HP: -5
 Skill	Ice Water In Your Veins	Cold Damage: +11
 # Immaculate Seasoning: auto-choose hot vs. cold
+Skill	Impeccable Timing	Initiative: +100
 # Impetuous Sauciness: +5 reagent potion duration
+Skill	Improv Muscles	Maximum HP Percent: +25, Initiative: +25
 Skill	Indefatigable	HP Regen Min: +16, HP Regen Max: +20
 Skill	Index Fingers	Pickpocket Chance: +40
 Skill	Infernal Automata	Hot Damage: +10
@@ -8071,6 +8094,7 @@ Skill	Introspection	Mysticality: +20
 Skill	Ire Proof	Hot Resistance: +3
 Skill	Irrepressible Spunk	Maximum HP Percent: +5, Maximum MP Percent: +5
 # Itchy Curse Finger: Your curses take hold too quickly for your opponents to react
+Skill	Jazz Hands	MP Regen Min: 4, MP Regen Max: 5
 # Juggle Fireballs: Level 1: Briefly stun enemy and increase your stats by 100%
 # Juggle Fireballs: Level 2: Stat gain raised to 200%
 # Juggle Fireballs: Level 3: Also recover some HP
@@ -8090,6 +8114,7 @@ Skill	Legendary Bravado	Muscle: +10, Mysticality: +10, Moxie: +10
 Skill	Legendary Girth	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Legendary Impatience	Initiative: +100
 # Legendary Luck: Critical hits are even criticaler!
+Skill	Limberger Limberness	Initiative: +75
 # Liver of Steel: Lets you hold more liquor
 Skill	Localized Vacuum	Hot Resistance: +2
 # Louder Bellows: You can bellow louder
@@ -8110,11 +8135,14 @@ Skill	Mariachi Memory	Additional Song: 1
 Skill	Master Accordion Master Thief	Pickpocket Chance: +10
 Skill	Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: 10, Unarmed
 Skill	Master Saucier	Spell Damage Percent: +10
+Skill	Matter Over Mind	Maximum MP Percent: +25
+Skill	Medical Manchego	Maximum HP Percent: +20, HP Regen Min: 3, HP Regen Max: 5
 Skill	Metallic Skin	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 # Meteor Lore: You know everything about meteors
 Skill	Microburner	Hot Damage: +5
 Skill	Microweave	Cold Resistance: +2
 Skill	Middle Fingers	Pickpocket Chance: +30
+Skill	Mind Over Muenster	Maximum MP Percent: +30, MP Regen Min: 3, MP Regen Max: 4
 Skill	Mist Form	Maximum HP: -30
 Skill	Mitochondria	Absorb Stats: +10
 # Mixologist: You can make every cocktail
@@ -8148,6 +8176,7 @@ Skill	Overactive Pheromones	Familiar Weight: +10
 Skill	Overalls	Damage Reduction: 20
 Skill	Overclocked	Initiative: +200
 Skill	Overclocking	Initiative: +300
+Skill	Overconfidence	Experience (Muscle): +3
 Skill	Overdeveloped Sense of Self Preservation	Initiative: +20
 Skill	Oversized Right Kidney	Maximum HP Percent: +50
 Skill	Pallid Skin	Spooky Damage: +5
@@ -8155,8 +8184,10 @@ Skill	Palms	Weapon Damage: +9
 Skill	Parasympathetic Nervous System	Maximum MP Percent: +40
 # Patent Medicine: You can make advanced patent tonics out of oils
 Skill	Pathological Greed	Meat Drop: +70
+Skill	Peccorino Bravado	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Skill	Pectoral Muscles	Muscle: +20
 Skill	Perceive Soul	Maximum HP: -15
+# Perfect Embrouchre: Your musical skills deal 33% more damage
 Skill	Pinchable Nose	Stench Resistance: +1
 Skill	Piercing Gaze	Maximum HP: -20
 Skill	Pinky Fingers	Pickpocket Chance: +10
@@ -8175,6 +8206,7 @@ Skill	Propagation Drive	Item Drop: +20
 Skill	Provably Efficient	Adventures: +5
 # Pulverize: Lets you smash equipment
 Skill	Quantum Movement	Initiative: +20
+Skill	Quick Wit	Mysticality: +20
 Skill	Rain Delay	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 Skill	Rainbow Shield	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 # Rapid Prototyping: Craft up to 5 items per day without using an Adventure
@@ -8183,6 +8215,9 @@ Skill	Refusal to Freeze	Cold Resistance: +3
 Skill	Reloading	Adventures: +5
 # Replacement Liver: +5 liver capacity
 # Replacement Stomach: +5 stomach capacity
+Skill	Rhythm In Your Blood	Maximum HP Percent: +20
+Skill	Rhythmic Precision	Mana Cost: -3
+Skill	Ribald Memories	Sleaze Resistance: +3, Sleaze Damage: +15
 Skill	Ribosomes	Absorb Stats: +15
 Skill	Riding Tall	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +50
 Skill	Riding the Lightning	Maximum MP Percent: +100
@@ -8195,6 +8230,7 @@ Skill	Rigid Legbones	Damage Absorption: +40
 Skill	Rigid Pelvis	Damage Absorption: +50
 Skill	Rigid Rib Cage	Damage Absorption: +70
 Skill	Ring Fingers	Pickpocket Chance: +20
+# Ripped Triceps: Your damaging skills deal 25% more damage
 # Rowdy Drinker: You love booze, and get more Adventures from drinking it
 Skill	Rudimentary Alimentary Canal	Absorb Adventures: +1
 # Rugged Survivalist: Restore HP and MP after fights
@@ -8258,9 +8294,11 @@ Skill	Steam Mycelia	Hot Damage: +15
 # Still Another Extra Spleen: Still another +5 spleen capacity
 # Stomach of Steel: Lets you eat more
 Skill	Stomach-Like Thing	Absorb Adventures: +2
+Skill	Strong Back	Muscle: +20
 Skill	Subatomic Hardening	Damage Reduction: 30
 Skill	Subatomic Tango	Adventures: +15
 Skill	Subcutaneous Fat	Cold Resistance: +3
+Skill	Subcutaneous Gouda	Damage Absorption: +75, Damage Reduction: 5
 Skill	Subtle and Quick to Anger	Spell Damage Percent: +10
 Skill	Sucker Fingers	Item Drop: +15
 Skill	Sunglasses	Moxie: +25
@@ -8270,8 +8308,10 @@ Skill	Sunken Cheeks	Spooky Damage: +3
 # Superhuman Cocktailcrafting: Lets you scrounge more cocktail garnishes
 Skill	Sweat Glands	Hot Resistance: +3
 Skill	Sweaty Palms	Sleaze Damage: +3
+Skill	Swiss Cunning	Mana Cost: -3
 Skill	Sympathetic Nervous System	Maximum MP Percent: +50
 # Tao of the Terrapin: Doubles Hat/Pants power
+Skill	Taut Hamstrings	Initiative: +50
 Skill	Temporal Bent	Adventures: +5
 Skill	Temporal Hyperextension	Adventures: +10
 # Tempuramancy: Lets you cook tempura dishes
@@ -8281,6 +8321,7 @@ Skill	The Long View	Adventures: +3
 # The Most Important Meal: Gain a bunch more Adventures and stats from the first thing you eat each day
 # The Way of Sauce: Allows the use of scrumdiddlyumptious solutions
 # The Way of Sauce: Lets you summon more scrumptious reagents per day
+Skill	Thick Calluses	Damage Absorption: +50, Damage Reduction: 3
 Skill	Thick Dermis	Hot Resistance: +2
 Skill	Thick-Skinned	Maximum HP: +10, Maximum MP: +10
 Skill	Thief Among the Honorable	Item Drop: +5, Meat Drop: +10
@@ -8320,6 +8361,7 @@ Skill	Vacuoles	Absorb Stats: +20
 Skill	Veins	Maximum HP Percent: +20
 Skill	Vestibular System	Moxie: +10
 Skill	Vigor Mortis	Muscle Percent: +30
+Skill	Virtuosity	Experience (Moxie): +3
 # Virulence: Critical Hits Improve Infectious Bite
 Skill	Virulence	Critical Hit Percent: +10
 Skill	Visible Skull	Spooky Damage: +11
@@ -8331,6 +8373,7 @@ Skill	Waxy Ears	Sleaze Damage: +5
 Skill	Weak Esophageal Sphincter	Stench Damage: +9
 # Well-Oiled Guns: All skills involving your sixgun are more effective
 Skill	Wisdom of Countless Centuries	Experience: +3
+Skill	Wisdom of Jarlsberg	Experience (Mysticality): +3
 Skill	Wisdom of the Elder Tortoises	Maximum MP Percent: +50
 Skill	Wolf Form	Maximum HP: -20
 Skill	Work Ethic	Experience: +3
@@ -11888,6 +11931,8 @@ Item	Sensual Massage for Creeps	Skill: "Inappropriate Backrub"
 # shadow glass: Refracts prismatic damage at your foes again and again
 # shadow ice: Stun an opponent for a very long time
 # shadow sinew: Weakens and briefly stuns an opponent
+# shadowy cheat sheet: Grants one "skill point" for each Shadows Over Loathing Class (In future ascensions)
+Item	shadowy cheat sheet	Free Pull
 Item	shaking skull	No Pull
 # shard of double-ice: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # shard of double-ice: (and leaves the monster permanently cold)
