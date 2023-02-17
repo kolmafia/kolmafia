@@ -349,7 +349,7 @@ public class PlaceRequest extends GenericRequest {
   }
 
   private static void parseSotVisit(String responseText) {
-    String location = "";
+    String location = null;
     Matcher m = firstSotVisit.matcher(responseText);
     if (m.find()) {
       location = m.group(1);
@@ -359,7 +359,7 @@ public class PlaceRequest extends GenericRequest {
         location = m.group(1);
       }
     }
-    if (!location.equals("")) {
+    if (location != null) {
       Preferences.setString("_sotParcelLocation", location);
     }
     if (responseText.contains(
