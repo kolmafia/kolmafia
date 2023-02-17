@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PlaceRequestTest {
@@ -78,55 +79,56 @@ class PlaceRequestTest {
         -1, freePulls.indexOf(toolbelt), "toolbelt should not be in Free Pulls after TTT fades");
   }
 
-  @Test
-  public void itShouldGetParcelLocationFromFirstVisit() {
-    String prefName = "_sotParcelLocation";
-    String responseText = html("request/test_first_visit_sot_to_get_location.html");
-    var cleanups = new Cleanups(withProperty(prefName, ""));
-    try (cleanups) {
-      PlaceRequest.parseResponse(
-          "place.php?whichplace=speakeasy&action=olivers_sot", responseText);
-      assertEquals(
-          "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
-    }
-  }
+  @Nested
+  class speakeasy {
+    private String sotUrl = "place.php?whichplace=speakeasy&action=olivers_sot";
 
-  @Test
-  public void itShouldGetParcelLocationFromSubsequentVisit() {
-    String prefName = "_sotParcelLocation";
-    var cleanups = new Cleanups(withProperty(prefName, ""));
-    try (cleanups) {
-      String responseText = html("request/test_next_visit_sot_to_get_location.html");
-      PlaceRequest.parseResponse(
-          "whichplace=speakeasy&action=olivers_sot", responseText);
-      assertEquals(
-          "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+    @Test
+    public void itShouldGetParcelLocationFromFirstVisit() {
+      String prefName = "_sotParcelLocation";
+      String responseText = html("request/test_first_visit_sot_to_get_location.html");
+      var cleanups = new Cleanups(withProperty(prefName, ""));
+      try (cleanups) {
+        PlaceRequest.parseResponse(sotUrl, responseText);
+        assertEquals(
+            "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+      }
     }
-  }
 
-  @Test
-  public void itShouldRemoveParcelWhenTurnedIn() {
-    String prefName = "_sotParcelReturned";
-    String responseText = html("request/test_visit_sot_to_return.html");
-    var cleanups =
-        new Cleanups(withProperty(prefName, false), withItem(ItemPool.THE_SOTS_PARCEL, 1));
-    try (cleanups) {
-      PlaceRequest.parseResponse(
-          "place.php?whichplace=speakeasy&action=olivers_sot", responseText);
-      assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
-      assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
+    @Test
+    public void itShouldGetParcelLocationFromSubsequentVisit() {
+      String prefName = "_sotParcelLocation";
+      var cleanups = new Cleanups(withProperty(prefName, ""));
+      try (cleanups) {
+        String responseText = html("request/test_next_visit_sot_to_get_location.html");
+        PlaceRequest.parseResponse(sotUrl, responseText);
+        assertEquals(
+            "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+      }
     }
-  }
 
-  @Test
-  public void itShouldDetectParcelAlreadyTurnedIn() {
-    String prefName = "_sotParcelReturned";
-    String responseText = html("request/test_visit_sot_parcel_done.html");
-    var cleanups = new Cleanups(withProperty(prefName, false));
-    try (cleanups) {
-      PlaceRequest.parseResponse(
-          "place.php?whichplace=speakeasy&action=olivers_sot", responseText);
-      assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
+    @Test
+    public void itShouldRemoveParcelWhenTurnedIn() {
+      String prefName = "_sotParcelReturned";
+      String responseText = html("request/test_visit_sot_to_return.html");
+      var cleanups =
+          new Cleanups(withProperty(prefName, false), withItem(ItemPool.THE_SOTS_PARCEL, 1));
+      try (cleanups) {
+        PlaceRequest.parseResponse(sotUrl, responseText);
+        assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
+        assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
+      }
+    }
+
+    @Test
+    public void itShouldDetectParcelAlreadyTurnedIn() {
+      String prefName = "_sotParcelReturned";
+      String responseText = html("request/test_visit_sot_parcel_done.html");
+      var cleanups = new Cleanups(withProperty(prefName, false));
+      try (cleanups) {
+        PlaceRequest.parseResponse(sotUrl, responseText);
+        assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
+      }
     }
   }
 }
