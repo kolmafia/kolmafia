@@ -327,7 +327,52 @@ public class CampgroundRequest extends GenericRequest {
     }
   }
 
+  public enum CropPlot {
+    PLOT1("rgarden1"),
+    PLOT2("rgarden2"),
+    PLOT3("rgarden3"),
+    ;
+
+    // Class fields
+    private final String action;
+
+    // Derived fields
+    private final String lowerCaseName;
+
+    // Map field
+    private static final Map<String, CropPlot> nameToPlotMap = new HashMap<>();
+
+    private CropPlot(String action) {
+      this.action = action;
+      this.lowerCaseName = this.name().toLowerCase();
+    }
+
+    public String getAction() {
+      return this.action;
+    }
+
+    public static CropPlot nameToPlot(final String name) {
+      return nameToPlotMap.get(name.toLowerCase());
+    }
+
+    public void populateMaps() {
+      nameToPlotMap.put(this.lowerCaseName, this);
+    }
+
+    @Override
+    public String toString() {
+      return this.lowerCaseName;
+    }
+  }
+
+  static {
+    for (var plot : EnumSet.allOf(CropPlot.class)) {
+      plot.populateMaps();
+    }
+  }
+
   private static final HashMap<AdventureResult, CropType> CROPMAP = new HashMap<>();
+  private static final HashMap<AdventureResult, CropPlot> CROPPLOT = new HashMap<>();
 
   static {
     CROPMAP.put(PUMPKIN, CropType.PUMPKIN);
@@ -350,14 +395,27 @@ public class CampgroundRequest extends GenericRequest {
     CROPMAP.put(IMMENSE_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
     CROPMAP.put(COLOSSAL_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
     CROPMAP.put(GROVELING_GRAVEL, CropType.ROCK);
+    CROPPLOT.put(GROVELING_GRAVEL, CropPlot.PLOT1);
     CROPMAP.put(FRUITY_PEBBLE, CropType.ROCK);
+    CROPPLOT.put(FRUITY_PEBBLE, CropPlot.PLOT1);
     CROPMAP.put(LODESTONE, CropType.ROCK);
+    CROPPLOT.put(LODESTONE, CropPlot.PLOT1);
     CROPMAP.put(MILESTONE, CropType.ROCK);
+    CROPPLOT.put(MILESTONE, CropPlot.PLOT2);
     CROPMAP.put(BOLDER_BOULDER, CropType.ROCK);
+    CROPPLOT.put(BOLDER_BOULDER, CropPlot.PLOT2);
     CROPMAP.put(MOLEHILL_MOUNTAIN, CropType.ROCK);
+    CROPPLOT.put(MOLEHILL_MOUNTAIN, CropPlot.PLOT2);
     CROPMAP.put(WHETSTONE, CropType.ROCK);
+    CROPPLOT.put(WHETSTONE, CropPlot.PLOT3);
     CROPMAP.put(HARD_ROCK, CropType.ROCK);
+    CROPPLOT.put(HARD_ROCK, CropPlot.PLOT3);
     CROPMAP.put(STRANGE_STALAGMITE, CropType.ROCK);
+    CROPPLOT.put(STRANGE_STALAGMITE, CropPlot.PLOT3);
+  }
+
+  public static CropPlot cropToPlot(AdventureResult crop) {
+    return CROPPLOT.get(crop);
   }
 
   public static final List<Integer> workshedItems =
@@ -662,6 +720,23 @@ public class CampgroundRequest extends GenericRequest {
       // Pick your crop (in multiple requests, if Tall Grass)
       CampgroundRequest request = new CampgroundRequest("garden");
       while (count-- > 0) {
+        RequestThread.postRequest(request);
+      }
+    }
+  }
+
+  public static void harvestCrop(CropPlot plot) {
+    List<AdventureResult> crops = CampgroundRequest.getCrops();
+    if (crops.isEmpty()) {
+      // No garden
+      return;
+    }
+
+    // The Rock Garden is actually 3 plots.
+    // For now, CROPPLOT only has Rock Garden entries
+    for (var crop : crops) {
+      if (CROPPLOT.get(crop) == plot && crop.getCount() > 0) {
+        CampgroundRequest request = new CampgroundRequest(plot.getAction());
         RequestThread.postRequest(request);
       }
     }
