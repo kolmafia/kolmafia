@@ -134,7 +134,7 @@ public class GardenCommand extends AbstractCommand {
             plots.remove(plot);
           }
           for (var plot : plots) {
-            RequestLogger.printLine("There is nothing to pick in " + plot);
+            RequestLogger.printLine("There is nothing to pick in " + plot + ".");
           }
         }
 
