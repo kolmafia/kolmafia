@@ -124,15 +124,14 @@ class PlaceRequestTest {
     @Test
     public void itShouldRemoveParcelWhenTurnedIn() {
       String prefName = "_sotParcelReturned";
+      String responseText = html("request/test_visit_sot_to_return.html");
       assertFalse(Preferences.getBoolean(prefName), "Preference already set.");
       var cleanups = new Cleanups(withItem(ItemPool.THE_SOTS_PARCEL, 1));
       try (cleanups) {
         assertEquals(1, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
-        var req = new GenericRequest("place.php?whichplace=speakeasy&action=olivers_sot");
-        req.responseText = html("request/test_visit_sot_to_return.html");
         PlaceRequest.parseResponse(
             "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
-            req.responseText);
+            responseText);
         assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
         assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
       }
