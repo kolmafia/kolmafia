@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class PlaceRequestTest {
@@ -80,57 +79,40 @@ class PlaceRequestTest {
         -1, freePulls.indexOf(toolbelt), "toolbelt should not be in Free Pulls after TTT fades");
   }
 
-  @Nested
-  class Speakeasy {
-    @BeforeEach
-    public void initializeCharPrefs() {
-      KoLCharacter.reset("PlaceRequestTestFakeSotVisit");
-      KoLCharacter.reset(true);
-    }
+  @Test
+  public void itShouldGetParcelLocationFromFirstVisit() {
+    String prefName = "_sotParcelLocation";
+    String responseText = html("request/test_first_visit_sot_to_get_location.html");
+    assertEquals("", Preferences.getString(prefName), "Preference already set.");
+    PlaceRequest.parseResponse(
+        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
+    assertEquals(
+        "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+  }
 
-    @AfterEach
-    public void resetCharAndPrefs() {
-      KoLCharacter.reset("");
-      KoLCharacter.reset(true);
-      KoLCharacter.setUserId(0);
-    }
+  @Test
+  public void itShouldGetParcelLocationFromSubsequentVisit() {
+    String prefName = "_sotParcelLocation";
+    String responseText = html("request/test_next_visit_sot_to_get_location.html");
+    assertEquals("", Preferences.getString(prefName), "Preference already set.");
+    PlaceRequest.parseResponse(
+        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
+    assertEquals(
+        "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
+  }
 
-    @Test
-    public void itShouldGetParcelLocationFromFirstVisit() {
-      String prefName = "_sotParcelLocation";
-      String responseText = html("request/test_first_visit_sot_to_get_location.html");
-      assertEquals("", Preferences.getString(prefName), "Preference already set.");
+  @Test
+  public void itShouldRemoveParcelWhenTurnedIn() {
+    String prefName = "_sotParcelReturned";
+    String responseText = html("request/test_visit_sot_to_return.html");
+    assertFalse(Preferences.getBoolean(prefName), "Preference already set.");
+    var cleanups = new Cleanups(withItem(ItemPool.THE_SOTS_PARCEL, 1));
+    try (cleanups) {
+      assertEquals(1, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
       PlaceRequest.parseResponse(
           "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
-      assertEquals(
-          "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
-    }
-
-    @Test
-    public void itShouldGetParcelLocationFromSubsequentVisit() {
-      String prefName = "_sotParcelLocation";
-      String responseText = html("request/test_next_visit_sot_to_get_location.html");
-      assertEquals("", Preferences.getString(prefName), "Preference already set.");
-      PlaceRequest.parseResponse(
-          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
-      assertEquals(
-          "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
-    }
-
-    @Test
-    public void itShouldRemoveParcelWhenTurnedIn() {
-      String prefName = "_sotParcelReturned";
-      String responseText = html("request/test_visit_sot_to_return.html");
-      assertFalse(Preferences.getBoolean(prefName), "Preference already set.");
-      var cleanups = new Cleanups(withItem(ItemPool.THE_SOTS_PARCEL, 1));
-      try (cleanups) {
-        assertEquals(1, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
-        PlaceRequest.parseResponse(
-            "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
-            responseText);
-        assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
-        assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
-      }
+      assertEquals(0, InventoryManager.getCount(ItemPool.THE_SOTS_PARCEL));
+      assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
     }
   }
 
