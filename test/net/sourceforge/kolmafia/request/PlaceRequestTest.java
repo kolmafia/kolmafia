@@ -101,8 +101,7 @@ class PlaceRequestTest {
       String responseText = html("request/test_first_visit_sot_to_get_location.html");
       assertEquals("", Preferences.getString(prefName), "Preference already set.");
       PlaceRequest.parseResponse(
-          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
-          responseText);
+          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
       assertEquals(
           "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
     }
@@ -113,8 +112,7 @@ class PlaceRequestTest {
       String responseText = html("request/test_next_visit_sot_to_get_location.html");
       assertEquals("", Preferences.getString(prefName), "Preference already set.");
       PlaceRequest.parseResponse(
-          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
-          responseText);
+          "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
       assertEquals(
           "The Haunted Storage Room", Preferences.getString(prefName), "Preference not set.");
     }
@@ -142,8 +140,7 @@ class PlaceRequestTest {
     String responseText = html("request/test_visit_sot_parcel_done.html");
     assertFalse(Preferences.getBoolean(prefName), "Preference already set.");
     PlaceRequest.parseResponse(
-        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot",
-        responseText);
+        "http://server.fakepath/place.php?whichplace=speakeasy&action=olivers_sot", responseText);
     assertTrue(Preferences.getBoolean(prefName), "Preference not set.");
   }
 }
