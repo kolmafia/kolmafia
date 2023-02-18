@@ -628,6 +628,26 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       ConcoctionType type = UseItemEnqueuePanel.this.type;
       String name = creation.getName();
 
+      if (item != null) {
+        switch (type) {
+          case FOOD -> {
+            // Some foods cannot be eaten (regardless of fullness) even
+            // if they can be created. Displaying them on a consumption
+            // panel is distracting; you can see them on a create panel.
+            String property =
+                switch (item.getItemId()) {
+                  case ItemPool.PIZZA_OF_LEGEND -> "pizzaOfLegendEaten";
+                  case ItemPool.DEEP_DISH_OF_LEGEND -> "deepDishOfLegendEaten";
+                  case ItemPool.CALZONE_OF_LEGEND -> "calzoneOfLegendEaten";
+                  default -> null;
+                };
+            if (property != null && Preferences.getBoolean(property)) {
+              return false;
+            }
+          }
+        }
+      }
+
       if (ConsumablesDatabase.getRawFullness(name) == null
           && ConsumablesDatabase.getRawInebriety(name) == null
           && ConsumablesDatabase.getRawSpleenHit(name) == null) {
