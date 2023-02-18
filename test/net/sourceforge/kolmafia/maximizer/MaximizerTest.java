@@ -1578,4 +1578,45 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  public class VampireVintnerWine {
+    @Test
+    public void doesNotSuggestVintnerWineIfUnavailable() {
+      var cleanups = new Cleanups(withItem(ItemPool.VAMPIRE_VINTNER_WINE, 0));
+
+      try (cleanups) {
+        assertTrue(maximize("Item Drop"));
+        assertFalse(someBoostIs(x -> commandStartsWith(x, "drink 1 1950 Vampire Vintner wine")));
+      }
+    }
+
+    @Test
+    public void doesSuggestVintnerWineIfAvailableWithCorrectEffect() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.VAMPIRE_VINTNER_WINE, 1),
+              withProperty("vintnerWineEffect", "Wine-Hot"),
+              withProperty("vintnerWineLevel", 12));
+
+      try (cleanups) {
+        assertTrue(maximize("Item Drop"));
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "drink 1 1950 Vampire Vintner wine")));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestVintnerWineIfAvailableWithWrongEffect() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.VAMPIRE_VINTNER_WINE, 1),
+              withProperty("vintnerWineEffect", "Wine-Hot"),
+              withProperty("vintnerWineLevel", 12));
+
+      try (cleanups) {
+        assertTrue(maximize("Monster Level"));
+        assertFalse(someBoostIs(x -> commandStartsWith(x, "drink 1 1950 Vampire Vintner wine")));
+      }
+    }
+  }
 }
