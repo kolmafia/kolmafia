@@ -9226,6 +9226,7 @@ public abstract class ChoiceControl {
       case 1490: // Woolin' Around
       case 1493: // Treasure House
       case 1494: // Examine S.I.T. Course Certificate
+      case 1495: // Get Some Training
         return true;
 
       default:

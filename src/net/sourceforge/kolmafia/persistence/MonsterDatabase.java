@@ -360,13 +360,13 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(aosolMap, "Lord Spookyraven", "shadow Lord Spookyraven");
     MonsterDatabase.addMapping(aosolMap, "Protector Spectre", "corruptor shadow");
     MonsterDatabase.addMapping(aosolMap, "The Big Wisniewski", "shadow of the 1960s");
-    // MonsterDatabase.addMapping(aosolMap, "The Man", "Oligarcheopteryx");
+    // MonsterDatabase.addMapping(aosolMap, "The Man", "shadow something");
     // The following are for Jazz Agents.
     // We don't have a mechanism for a class within a path, yet
     // MonsterDatabase.addMapping(aosolMap, "Naughty Sorceress", "Terrence Poindexter");
     // MonsterDatabase.addMapping(aosolMap, "Naughty Sorceress (2)", "Terrence Poindexter (true
     // form)");
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.SHADOWS_OVER_LOATHING.getName(), dinoMap);
+    MonsterDatabase.MONSTER_PATH_MAP.put(Path.SHADOWS_OVER_LOATHING.getName(), aosolMap);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterPathMap(final String path) {
