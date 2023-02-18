@@ -2797,3 +2797,4 @@
 2797	Reliable Backup	smallheart.gif	3a5ba765e3beab4cd70f241eac2bcdf2	neutral	none	cast 1 Call For Backup
 2798	Tricky Timpani	timpani.gif	c268749a247877821a0712b02c6477ee	neutral	none	cast 1 Tricky Timpani
 2799	Soothing Flute	flute.gif	e4e106f0e6dc378539b81b818d20e157	neutral	none	cast 1 Soothing Flute
+2800	In The Darkness	darkness.gif	b1e3b0b89c3d531663f8758eab2fa327	neutral	none

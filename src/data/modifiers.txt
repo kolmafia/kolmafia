@@ -1294,6 +1294,8 @@ Item	crystalline reamer	Spell Damage: +10
 Item	curdflinger	Moxie: +3, Weakens Monster
 Item	curmudgel	Monster Level: +8, Weapon Damage: +10
 Item	cursed cutlass	Muscle: +15
+# cursed machete: You will constantly cut yourself with it
+Item	cursed machete	Meat Drop: +50
 Item	cursed pirate cutlass	Muscle: +25, Familiar Weight: +10, Adventures: +5, Single Equip
 Item	cyber-mattock	Item Drop: +5, Meat Drop: +10
 Item	deadfall branch	Mysticality Percent: +10, Weapon Damage Percent: +10, Adventures: +1, PvP Fights: +1
@@ -1981,6 +1983,7 @@ Item	twisted-up wet towel	Item Drop: [+25*zone(KOL High School)]
 # two-handed depthsword
 Item	ultimate ultimate frisbee	Moxie: +2, Ranged Damage: +4
 Item	Uncle Hobo's highest bough	Muscle Percent: +15, HP Regen Min: 15, HP Regen Max: 30, MP Regen Min: 15, MP Regen Max: 30
+Item	uncursed machete	Meat Drop: +20
 Item	Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent: +10
 Item	Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscle Percent: +10
 Item	Unionize The Elves sign	Weakens Monster
@@ -2175,9 +2178,11 @@ Item	crumbling rabbit's foot	Meat Drop: +30
 Item	cuddly teddy bear	Monster Level: +10
 # cup of infinite pencils: Never runs out of pencils
 Item	cup of infinite pencils	Meat Drop: +15
+Item	cursed arcane orb	Spooky Damage: +13, Stench Damage: +13, Hot Damage: +13, Cold Damage: +13, Sleaze Damage: +13, Item Drop: -50
 Item	cursed compass	Item Drop: [100*zone(PirateRealm)], Lasts Until Rollover
 # cursed magnifying glass: Reveals things you weren't meant to see
 Item	cursed magnifying glass	Item Drop: +13, Spooky Damage: +13, Initiative: +13
+Item	cursed stats	Experience: +5, Muscle Limit: 69, Mysticality Limit: 69, Moxie Limit: 69
 Item	cyborg doll	Muscle: +3
 Item	Dallas Dynasty Falcon Crest shield	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Damage Reduction: 15
 # deceased crimbo tree: Blocks damage while needles remain
@@ -2653,6 +2658,8 @@ Item	turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 Item	turtling rod	Class: "Turtle Tamer"
 # unbreakable umbrella: Can alter final enchantment by reconfiguring umbrella
 Item	unbreakable umbrella	Maximum HP: +25, Maximum MP: +25, Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Initiative: +25, Meat Drop: +25
+Item	uncursed arcane orb	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
+Item	uncursed stats	Experience: +1
 # Unkillable Skeleton's shield: Deals damage to attackers
 Item	Unkillable Skeleton's shield	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Maximum MP: -300, Damage Reduction: 23
 # unstable fulminate
@@ -2908,9 +2915,11 @@ Item	crying statue earrings	Muscle: +5, Maximum HP: +100, Single Equip, Lasts Un
 Item	crystal belt buckle	Maximum MP: +25, Spell Damage: +10
 # crystalline seal eye: +200% Item Drops from Seals
 Item	crystalline seal eye	Single Equip
+Item	cursed bat paw	Monster Level: +25, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25
+Item	cursed dragon wishbone	Item Drop: +50, Meat Drop: -50
+Item	cursed medallion	Initiative: +100, Weapon Damage Percent: -50, Spell Damage Percent: -50
 Item	cursed ring finger ring	Spell Damage Percent: +50, Spooky Spell Damage: +30, Spell Critical Percent: +10, Single Equip
 Item	cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Single Equip
-Item	cursed bat paw	Monster Level: +25, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25
 Item	cursed swash buckle	Moxie: +25, Meat Drop: +50, Item Drop: +25, Single Equip
 Item	cyborg stompin' boot	Damage Reduction: 8, Weapon Damage: +20, Initiative: +30, Single Equip
 # dark baconstone ring: Spell Criticals Deal Extra Damage
@@ -3943,6 +3952,9 @@ Item	Uncle Buck	Maximum HP: +15, Softcore Only
 Item	Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
 Item	Uncle Hobo's epic beard	Muscle Percent: +20, Single Equip, Adventures: [6+(3*event(December))]
 Item	Uncle Hobo's fingerless tinsel gloves	Moxie Percent: +15, PvP Fights: +5, Single Equip
+Item	uncursed bat paw	Monster Level: -25
+Item	uncursed dragon wishbone	Item Drop: +25
+Item	uncursed medallion	Initiative: +25
 Item	Unspeakable Earring	Cold Resistance: +3, Sleaze Resistance: +3, Single Equip
 Item	Unstable Pointy Ears	Experience: +3, Lasts Until Rollover
 Item	Uranium Omega of Temperance	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip
@@ -4078,6 +4090,10 @@ Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat Dro
 Item	chalk chlamys	Adventures: +2, Combat Rate: -5
 Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
+Item	cursed blanket	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3, Familiar Weight: -20
+# cursed goblin cape: Cold Vulnerability (-6)
+# cursed goblin cape: Spooky Vulnerability (-6)
+Item	cursed goblin cape	Combat Rate: -15, Cold Resistance: -6, Spooky Resistance: -6
 Item	dice-shaped backpack	Random Monster Modifiers: +1
 Item	Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "Disco Bandit"
 # Drip harness: Allows you to enter The Drip
@@ -4155,6 +4171,8 @@ Item	Time Cape	Item Drop: [25*zone(Twitch)]
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
 # Trainbot harness: Lets you rescue elves from passenger-occupied Crimbo train cars
 Item	Trainbot harness	Initiative: -200
+Item	uncursed blanket	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1
+Item	uncursed goblin cape	Combat Rate: -5
 # vampyric cloake: Improves the effectiveness of various Dark Gyffte skills
 Item	vampyric cloake	Item Drop: +15, Maximum HP: [min(10*L,1300)], Initiative: +25, Adventures: +4, Experience: +3
 Item	whatsit-covered turtle shell	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Class: "Turtle Tamer"
@@ -6282,6 +6300,7 @@ Effect	Impregnably Delicious	Damage Reduction: 30
 Effect	Improprie Tea	Sleaze Damage: +30
 Effect	Improved Candy Vision	Candy Drop: +25
 Effect	In a Lather	Hot Damage: +20, Cold Damage: +20, Stench Damage: +20, Spooky Damage: +20, Sleaze Damage: +20, Hot Spell Damage: +40, Cold Spell Damage: +40, Stench Spell Damage: +40, Spooky Spell Damage: +40, Sleaze Spell Damage: +40, Ranged Damage: +20, Weapon Damage: +20, Weapon Damage Percent: +50, Spell Damage: +40, Spell Damage Percent: +50
+Effect	In The Darkness	Combat Rate: -10
 Effect	In the Depths	Familiar Weight: +15, Muscle: +25, Muscle Percent: +300, Maximum HP Percent: +100, Maximum MP Percent: +100
 Effect	In the Limelight	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	In the Saucestream	Mysticality Percent: +15
