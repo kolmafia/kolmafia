@@ -237,6 +237,7 @@ public abstract class KoLCharacter {
   private static int turnsPlayed = 0;
   private static int currentRun = 0;
   private static long rollover = 0;
+  private static int globalDaycount = 0;
   private static boolean isFullnessIncreased = false;
   private static int holidayManaCostReduction = 0;
 
@@ -2226,6 +2227,15 @@ public abstract class KoLCharacter {
 
   public static final void setCurrentDays(final int daycount) {
     KoLCharacter.daycount = daycount;
+  }
+
+  /** Accessor method to retrieve the global daycount */
+  public static final int getGlobalDays() {
+    return KoLCharacter.globalDaycount;
+  }
+
+  public static final void setGlobalDays(final int daycount) {
+    KoLCharacter.globalDaycount = daycount;
   }
 
   /** Accessor method to retrieve the current value of a named modifier */

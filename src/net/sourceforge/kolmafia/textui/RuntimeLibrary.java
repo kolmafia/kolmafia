@@ -1369,6 +1369,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_session_results", DataTypes.STRING_TO_INT_TYPE, params));
 
     params = new Type[] {};
+    functions.add(new LibraryFunction("daycount", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {};
     functions.add(new LibraryFunction("my_daycount", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
@@ -5952,6 +5955,10 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value daycount(ScriptRuntime controller) {
+    return new Value(KoLCharacter.getGlobalDays());
   }
 
   public static Value my_daycount(ScriptRuntime controller) {
