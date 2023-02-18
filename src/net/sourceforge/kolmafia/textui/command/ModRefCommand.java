@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 public class ModRefCommand extends AbstractCommand {
   public ModRefCommand() {
     this.usage =
-        " [@<filter>] [<object>] - list all modifiers, show values for player [and object].";
+        " [*<filter>] [<object>] - list all modifiers, show values for player [and object].";
   }
 
   @Override
@@ -25,7 +25,7 @@ public class ModRefCommand extends AbstractCommand {
     Modifiers mods = null;
     String[] tokens = parameters.split("\\s+", 2);
     if (tokens.length > 0) {
-      if (tokens[0].startsWith("@")) {
+      if (tokens[0].startsWith("*")) {
         // it's a filter
         filter = tokens[0].substring(1).toLowerCase();
         if (tokens.length == 2) {
