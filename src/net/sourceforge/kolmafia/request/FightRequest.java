@@ -9062,6 +9062,13 @@ public class FightRequest extends GenericRequest {
         singleCastsThisFight.add(skillId);
         return;
 
+      case SkillPool.BALL_THROW:
+      case SkillPool.HOT_FOOT:
+      case SkillPool.SECOND_WIND:
+      case SkillPool.STOP_HITTING_YOURSELF:
+        singleCastsThisFight.add(skillId);
+        return;
+
       case SkillPool.CERAMIC_PUNCH:
       case SkillPool.CERAMIC_BASH:
       case SkillPool.CERAMIC_GRATE:
