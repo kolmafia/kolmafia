@@ -275,6 +275,11 @@ public class ValhallaDecorator {
           .append("trade in rat whiskers for meat</a></nobr><br>");
     }
 
+    if (InventoryManager.hasItem(ItemPool.MILK_CAP)) {
+      buffer.append(
+          "<nobr><a href=\"shop.php?whichshop=olivers\">spend milk cap(s)</a></nobr><br>");
+    }
+
     GenericRequest trophyCheck = new GenericRequest("trophy.php");
     trophyCheck.run();
     if (!trophyCheck.responseText.contains("You're not currently entitled to any trophies")) {
