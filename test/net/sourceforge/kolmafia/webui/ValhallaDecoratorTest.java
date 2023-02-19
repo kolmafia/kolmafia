@@ -71,7 +71,8 @@ class ValhallaDecoratorTest {
           new StringBuffer(
               "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
       ValhallaDecorator.decorateGashJump("ascend.php", buffer);
-      assertThat(buffer.toString(), containsString("whichplace=speakeasy\">spend milk cap(s)"));
+      assertThat(
+          buffer.toString(), containsString("shop.php?whichshop=olivers\">spend milk cap(s)"));
     }
   }
 
@@ -88,7 +89,7 @@ class ValhallaDecoratorTest {
               "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
       ValhallaDecorator.decorateGashJump("ascend.php", buffer);
       assertThat(
-          buffer.toString(), not(containsString("whichplace=speakeasy\">spend milk cap(s)")));
+          buffer.toString(), not(containsString("shop.php?whichshop=olivers\">spend milk cap(s)")));
     }
   }
 }

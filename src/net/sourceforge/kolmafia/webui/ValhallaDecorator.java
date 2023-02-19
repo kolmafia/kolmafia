@@ -277,7 +277,7 @@ public class ValhallaDecorator {
 
     if (InventoryManager.hasItem(ItemPool.MILK_CAP)) {
       buffer.append(
-          "<nobr><a href=\"place.php?whichplace=speakeasy\">spend milk cap(s)</a></nobr><br>");
+          "<nobr><a href=\"shop.php?whichshop=olivers\">spend milk cap(s)</a></nobr><br>");
     }
 
     GenericRequest trophyCheck = new GenericRequest("trophy.php");
