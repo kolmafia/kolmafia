@@ -8359,12 +8359,23 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeMonsterValue(MonsterStatusTracker.getLastMonster());
   }
 
-  private static MonsterData mapMonster(MonsterData mon, Map<MonsterData, MonsterData> mapping) {
-    if (mapping == null) {
-      return mon;
+  private static MonsterData mapMonster(
+      MonsterData mon,
+      Map<MonsterData, MonsterData> classMap,
+      Map<MonsterData, MonsterData> pathMap) {
+    if (pathMap != null) {
+      MonsterData mapped = pathMap.get(mon);
+      if (mapped != null) {
+        return mapped;
+      }
     }
-    MonsterData mapped = mapping.get(mon);
-    return mapped != null ? mapped : mon;
+    if (classMap != null) {
+      MonsterData mapped = classMap.get(mon);
+      if (mapped != null) {
+        return mapped;
+      }
+    }
+    return mon;
   }
 
   public static Value get_monsters(ScriptRuntime controller, final Value location) {
@@ -8378,16 +8389,18 @@ public abstract class RuntimeLibrary {
         new AggregateType(DataTypes.MONSTER_TYPE, monsterCount + superlikelyMonsterCount);
     ArrayValue value = new ArrayValue(type);
 
-    Map<MonsterData, MonsterData> mapping =
+    Map<MonsterData, MonsterData> classMap =
+        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass().getName());
+    Map<MonsterData, MonsterData> pathMap =
         MonsterDatabase.getMonsterPathMap(KoLCharacter.getPath().getName());
 
     for (int i = 0; i < monsterCount; ++i) {
-      MonsterData mon = mapMonster(data.getMonster(i), mapping);
+      MonsterData mon = mapMonster(data.getMonster(i), classMap, pathMap);
       value.aset(new Value(i), DataTypes.makeMonsterValue(mon));
     }
 
     for (int i = 0; i < superlikelyMonsterCount; ++i) {
-      MonsterData mon = mapMonster(data.getSuperlikelyMonster(i), mapping);
+      MonsterData mon = mapMonster(data.getSuperlikelyMonster(i), classMap, pathMap);
       value.aset(new Value(i + monsterCount), DataTypes.makeMonsterValue(mon));
     }
 
@@ -8401,18 +8414,20 @@ public abstract class RuntimeLibrary {
     AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE);
     MapValue value = new MapValue(type);
 
-    Map<MonsterData, MonsterData> mapping =
+    Map<MonsterData, MonsterData> classMap =
+        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass().getName());
+    Map<MonsterData, MonsterData> pathMap =
         MonsterDatabase.getMonsterPathMap(KoLCharacter.getPath().getName());
 
     int monsterCount = data == null ? 0 : data.getMonsterCount();
     for (int i = 0; i < monsterCount; ++i) {
-      MonsterData mon = mapMonster(data.getMonster(i), mapping);
+      MonsterData mon = mapMonster(data.getMonster(i), classMap, pathMap);
       value.aset(DataTypes.makeMonsterValue(mon), DataTypes.TRUE_VALUE);
     }
 
     int superlikelyMonsterCount = data == null ? 0 : data.getSuperlikelyMonsterCount();
     for (int i = 0; i < superlikelyMonsterCount; ++i) {
-      MonsterData mon = mapMonster(data.getSuperlikelyMonster(i), mapping);
+      MonsterData mon = mapMonster(data.getSuperlikelyMonster(i), classMap, pathMap);
       value.aset(DataTypes.makeMonsterValue(mon), DataTypes.TRUE_VALUE);
     }
 

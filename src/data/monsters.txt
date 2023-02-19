@@ -1395,13 +1395,14 @@ goblin king's shadow	2284	aosol_gobking.gif	BOSS NOCOPY Atk: 60 Def: 60 HP: 60 I
 shadowboner shadowdagon	2285	aosol_dagon.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 150 Init: 100 P: horror Article: the	cursed dragon wishbone (100)
 W. Odah's Shadow	2286	aosol_drawkward.gif	BOSS NOCOPY Atk: 202 Def: 212 HP: 191 Init: 303 P: horror	cursed stats (100)
 shadow Lord Spookyraven	2287	aosol_lords.gif	BOSS NOCOPY Atk: 180 Def: 180 HP: 200 Init: 1000 P: horror Article: the	cursed arcane orb (100)
-# The following image is obviously incorrect
-corruptor shadow	2288	aosol_lords.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 100 Init: 300 P: horror Article: a	cursed machete (100)
+corruptor shadow	2288	aosol_spectre.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 100 Init: 300 P: horror Article: a	cursed machete (100)
 shadow of groar	2289	aosol_groar.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 200 Init: 200 P: horror Article: the	cursed blanket (100)
 shadow of the 1960s	2290	aosol_dude.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 1000 Init: -10000 P: horror Article: the	cursed medallion (100)
-# Replacement for The Man
-# Pig Skinner replacements for Naughty Sorceress
-# Cheese Wizard replacements for Naughty Sorceress replacements
+shadow of the 1980s	2291	aosol_man.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 1000 Init: -10000 P: horror Article: the	cursed medallion (100)
+General Bruise	2292	aosol_bruise.gif	BOSS NOCOPY Atk: 150 Def: 150 HP: 200 Init: 100 P: horror
+General Bruise (true form)	2293	aosol_gug.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 100 P: horror	Instant Karma (c100)	Thwaitgold anti-moth statuette (n100)
+Dark Noël	2294	aosol_noel.gif	BOSS NOCOPY Atk: 150 Def: 150 HP: 200 Init: 100 P: horror
+Dark Noël (true form)	2295	aosol_darkyoung.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 100 P: horror	Instant Karma (c100)	Thwaitgold anti-moth statuette (n100)
 Terrence Poindexter	2296	aosol_terrence.gif	BOSS NOCOPY Atk: 150 Def: 150 HP: 200 Init: 100 P: horror
 Terrence Poindexter (true form)	2297	aosol_horror.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 100 P: horror	Instant Karma (c100)	Thwaitgold anti-moth statuette (n100)
 
