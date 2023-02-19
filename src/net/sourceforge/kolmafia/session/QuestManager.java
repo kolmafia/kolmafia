@@ -335,12 +335,16 @@ public class QuestManager {
             }
             if (responseText.contains("sr_brickhole.gif")) {
               QuestDatabase.setQuestIfBetter(Quest.MANOR, "step3");
-            } else {
+            } else if (!responseText.contains(
+                "You shouldn't be down here yet.  I mean here.  Wherever here is.")) {
               // sr_masonry.gif
               QuestDatabase.setQuestIfBetter(Quest.MANOR, "step1");
             }
             // Legacy code support
-            Preferences.setInteger("lastSecondFloorUnlock", KoLCharacter.getAscensions());
+            if (!responseText.contains(
+                "You shouldn't be down here yet.  I mean here.  Wherever here is.")) {
+              Preferences.setInteger("lastSecondFloorUnlock", KoLCharacter.getAscensions());
+            }
             if (responseText.contains("Cold as ice and twice as smooth")) {
               QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
               ResultProcessor.removeItem(ItemPool.ED_EYE);
@@ -867,7 +871,8 @@ public class QuestManager {
       // If here, must have unlocked middle chamber
       Preferences.setBoolean("middleChamberUnlock", true);
       QuestDatabase.setQuestIfBetter(Quest.PYRAMID, "step1");
-    } else if (location.contains("whichplace=pyramid")) {
+    } else if (location.contains("whichplace=pyramid")
+        && !responseText.contains("No, that isn't a place yet.")) {
       // Verify settings based on images displayed, in case above steps were missed
       QuestDatabase.setQuestIfBetter(Quest.PYRAMID, QuestDatabase.STARTED);
       if (responseText.contains("pyramid_middle.gif")) {
