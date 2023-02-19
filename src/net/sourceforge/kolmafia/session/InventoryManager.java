@@ -1621,6 +1621,7 @@ public abstract class InventoryManager {
     checkBuzzedOnDistillate();
     checkVampireVintnerWine();
     checkCrimboTrainingManual();
+    checkRing();
   }
 
   public static void checkNoHat() {
@@ -1855,6 +1856,12 @@ public abstract class InventoryManager {
       KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
       KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
       KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
+    }
+  }
+
+  public static void checkRing() {
+    if (InventoryManager.itemAvailable(ItemPool.RING)) {
+      checkItemDescription(ItemPool.RING);
     }
   }
 
