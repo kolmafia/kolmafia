@@ -360,9 +360,12 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(aosolMap, "Lord Spookyraven", "shadow Lord Spookyraven");
     MonsterDatabase.addMapping(aosolMap, "Protector Spectre", "corruptor shadow");
     MonsterDatabase.addMapping(aosolMap, "The Big Wisniewski", "shadow of the 1960s");
-    // MonsterDatabase.addMapping(aosolMap, "The Man", "shadow something");
-    // The following are for Jazz Agents.
+    MonsterDatabase.addMapping(aosolMap, "The Man", "shadow of the 1980s");
     // We don't have a mechanism for a class within a path, yet
+    // MonsterDatabase.addMapping(aosolMap, "Naughty Sorceress", "General Bruise");
+    // MonsterDatabase.addMapping(aosolMap, "Naughty Sorceress (2)", "General Bruise (true form)");
+    // MonsterDatabase.addMapping(aosolMap, "Naughty Sorceress", "Dark Noël");
+    // MonsterDatabase.addMapping(aosolMap, "Naughty Sorceress (2)", "Dark Noël (true form)");
     // MonsterDatabase.addMapping(aosolMap, "Naughty Sorceress", "Terrence Poindexter");
     // MonsterDatabase.addMapping(aosolMap, "Naughty Sorceress (2)", "Terrence Poindexter (true
     // form)");
