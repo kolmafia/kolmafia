@@ -34,7 +34,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -314,9 +313,7 @@ public class InventoryManagerTest {
         assertEquals(
             0, mods.getDouble(DoubleModifier.MONSTER_LEVEL), "Value should not be set before desc");
 
-        String descId = ItemDatabase.getDescriptionId(ItemPool.RING);
-        var req = new GenericRequest("desc_item.php?whichitem=" + descId);
-        req.run(); // pulling the description causes the checkMods function to run...
+        InventoryManager.checkRing();
         mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.RING);
 
         // Spot checking combination properties, negative property, percent.
