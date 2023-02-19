@@ -306,15 +306,18 @@ public class InventoryManagerTest {
     @Test
     public void RingWillSetModsForUser() {
       var builder = new FakeHttpClientBuilder();
-      var client = builder.client;
+      builder.client.addResponse(200, html("request/test_desc_item_ring_2crs.html"));
 
       var cleanups = new Cleanups(withHttpClientBuilder(builder), withItem(ItemPool.RING, 1));
       try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.RING);
+        assertEquals(
+            0, mods.getDouble(DoubleModifier.MONSTER_LEVEL), "Value should not be set before desc");
+
         String descId = ItemDatabase.getDescriptionId(ItemPool.RING);
         var req = new GenericRequest("desc_item.php?whichitem=" + descId);
-        req.responseText = html("request/test_desc_item_ring_2crs.html");
-        req.processResponse();
-        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.RING);
+        req.run(); // pulling the description causes the checkMods function to run...
+        mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.RING);
 
         // Spot checking combination properties, negative property, percent.
         assertEquals(-3.0, mods.getDouble(DoubleModifier.MONSTER_LEVEL), "ML Failure");
