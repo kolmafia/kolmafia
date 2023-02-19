@@ -1629,74 +1629,74 @@
 # Pig Skinner
 
 28000	Tackle	clobber.gif	5	0	0
-28001	Ribald Memories	blush.gif	0	0	0
-28002	Blasted Glutes	asshat.gif	0	0	0
-28003	Strong Back	bigdumbbell.gif	0	0	0
-28004	Overconfidence	banishingshout.gif	0	0	0
-28005	Anatomy Expertise	heart.gif	0	0	0
-28006	Fancy Footwork	dance3.gif	0	0	0
-28007	Taut Hamstrings	grimstring.gif	0	0	0
-28008	Ripped Triceps	strboost3.gif	0	0	0
-28009	Head in the Game	realbrain.gif	0	0	0
-28010	Competitive Instincts	greedface.gif	0	0	0
-28011	Matter Over Mind	molecule2.gif	0	0	0
-28012	Stretch	bigicon.gif	3	10	10
-28013	Ball Throw	tennisball.gif	5	5	0
-28014	Noogie	headache.gif	5	7	0
-28015	Hot Foot	firefoot.gif	5	5	0
-28016	Second Wind	wind.gif	5	10	0
-28017	Stop Hitting Yourself	krakfist.gif	5	7	0
-28018	Cheerlead	pompoms.gif	3	30	10
-28019	Free-For-All	explosion.gif	5	50	0
-28020	Tape Up	bandage3.gif	3	20	10
-28021	Punt	football2.gif	5	30	0
+28001	Ribald Memories	blush.gif	0	0	0	1
+28002	Blasted Glutes	asshat.gif	0	0	0	2
+28003	Strong Back	bigdumbbell.gif	0	0	0	2
+28004	Overconfidence	banishingshout.gif	0	0	0	3
+28005	Anatomy Expertise	heart.gif	0	0	0	3
+28006	Fancy Footwork	dance3.gif	0	0	0	4
+28007	Taut Hamstrings	grimstring.gif	0	0	0	4
+28008	Ripped Triceps	strboost3.gif	0	0	0	5
+28009	Head in the Game	realbrain.gif	0	0	0	5
+28010	Competitive Instincts	greedface.gif	0	0	0	6
+28011	Matter Over Mind	molecule2.gif	0	0	0	6
+28012	Stretch	bigicon.gif	3	10	10	7
+28013	Ball Throw	tennisball.gif	5	5	0	7
+28014	Noogie	headache.gif	5	7	0	8
+28015	Hot Foot	firefoot.gif	5	5	0	8
+28016	Second Wind	wind.gif	5	10	0	9
+28017	Stop Hitting Yourself	krakfist.gif	5	7	0	9
+28018	Cheerlead	pompoms.gif	3	30	10	10
+28019	Free-For-All	explosion.gif	5	50	0	10
+28020	Tape Up	bandage3.gif	3	20	10	11
+28021	Punt	football2.gif	5	30	0	11
 
 # Cheese Wizard
 
 29000	Caseus Vampirus	goatcheese.gif	5	0	0
-29001	Mind Over Muenster	realbrain.gif	0	0	0
-29002	Subcutaneous Gouda	sebashield.gif	0	0	0
-29003	Quick Wit	tongueexclam.gif	0	0	0
-29004	Limberger Limberness	anticheese.gif	0	0	0
-29005	Swiss Cunning	jarl_cheeseslice.gif	0	0	0
-29006	Peccorino Bravado	cheesewheel.gif	0	0	0
-29007	Wisdom of Jarlsberg	book3.gif	0	0	0
-29008	Bleu Brilliance	goldenlight.gif	0	0	0
-29009	Gorgonzola's Guile	wink.gif	0	0	0
-29010	Medical Manchego	mario_health.gif	0	0	0
-29011	Fingers of Fontina	sensifingers.gif	0	0	0
-29012	Cheddarmor	cheddarmor.gif	3	5	10
-29013	Parmesan Missile	parmesanmissile.gif	5	5	0
-29014	Gather Cheese-Chi	cheesechi.gif	5	10	0
-29015	Crack Knuckles	crackknuck.gif	5	3	0
-29016	Mind Melt	jarl_meltcheese.gif	5	15	0
-29017	Emmental Elemental	emmental.gif	5	15	0
-29018	Reality Shift	bseye.gif	3	25	10
-29019	Stilton Splatter	stilton.gif	5	10	0
-29020	Queso Fustulento	quesofust.gif	3	10	10
-29021	Fondeluge	fondeluge.gif	5	50	0
+29001	Mind Over Muenster	realbrain.gif	0	0	0	1
+29002	Subcutaneous Gouda	sebashield.gif	0	0	0	2
+29003	Quick Wit	tongueexclam.gif	0	0	0	2
+29004	Limberger Limberness	anticheese.gif	0	0	0	3
+29005	Swiss Cunning	jarl_cheeseslice.gif	0	0	0	3
+29006	Peccorino Bravado	cheesewheel.gif	0	0	0	4
+29007	Wisdom of Jarlsberg	book3.gif	0	0	0	4
+29008	Bleu Brilliance	goldenlight.gif	0	0	0	5
+29009	Gorgonzola's Guile	wink.gif	0	0	0	5
+29010	Medical Manchego	mario_health.gif	0	0	0	6
+29011	Fingers of Fontina	sensifingers.gif	0	0	0	6
+29012	Cheddarmor	cheddarmor.gif	3	5	10	7
+29013	Parmesan Missile	parmesanmissile.gif	5	5	0	7
+29014	Gather Cheese-Chi	cheesechi.gif	5	10	0	8
+29015	Crack Knuckles	crackknuck.gif	5	3	0	8
+29016	Mind Melt	jarl_meltcheese.gif	5	15	0	9
+29017	Emmental Elemental	emmental.gif	5	15	0	9
+29018	Reality Shift	bseye.gif	3	25	10	10
+29019	Stilton Splatter	stilton.gif	5	10	0	10
+29020	Queso Fustulento	quesofust.gif	3	10	10	11
+29021	Fondeluge	fondeluge.gif	5	50	0	11
 
 # Jazz Agent
 
 30000	Demoralizing Toot	goldtrumpet.gif	5	0	0
-30001	Thick Calluses	pod_hard.gif	0	0	0
-30002	Impeccable Timing	neckclock.gif	0	0	0
-30003	Fashion Sense	necktie.gif	0	0	0
-30004	Jazz Hands	hand.gif	0	0	0
-30005	C Sharp Eyes	bigeyes.gif	0	0	0
-30006	Air of Mystery	bigqmark.gif	0	0	0
-30007	Rhythmic Precision	drummachine.gif	0	0	0
-30008	Perfect Embrouchre	lips.gif	0	0	0
-30009	Improv Muscles	strboost2.gif	0	0	0
-30010	Virtuosity	notes.gif	0	0	0
-30011	Rhythm In Your Blood	bassdrum.gif	0	0	0
-30012	Call For Backup	smallheart.gif	3	10	10
-30013	Orchestra Strike	orchstrike.gif	5	5	0
-30014	Knife In The Darkness	bloodknife.gif	5	20	0
-30015	Venomous Riff	venomriff.gif	5	7	0
-30016	Drum Roll	drumroll.gif	5	10	0
-30017	Sax of Violence	saxophone.gif	5	5	0
-30018	Tricky Timpani	timpani.gif	3	30	10
-30019	Grit Teeth	gritteeth.gif	5	5	0
-30020	Soothing Flute	flute.gif	3	15	10
-30021	Motif	motif.gif	5	50	0
+30001	Thick Calluses	pod_hard.gif	0	0	0	1
+30002	Impeccable Timing	neckclock.gif	0	0	0	2
+30003	Fashion Sense	necktie.gif	0	0	0	2
+30004	Jazz Hands	hand.gif	0	0	0	3
+30005	C Sharp Eyes	bigeyes.gif	0	0	0	3
+30006	Air of Mystery	bigqmark.gif	0	0	0	4
+30007	Rhythmic Precision	drummachine.gif	0	0	0	4
+30008	Perfect Embrouchre	lips.gif	0	0	0	5
+30009	Improv Muscles	strboost2.gif	0	0	0	5
+30010	Virtuosity	notes.gif	0	0	0	6
+30011	Rhythm In Your Blood	bassdrum.gif	0	0	0	6
+30012	Call For Backup	smallheart.gif	3	10	10	7
+30013	Orchestra Strike	orchstrike.gif	5	5	0	7
+30014	Knife In The Darkness	bloodknife.gif	5	20	0	8
+30015	Venomous Riff	venomriff.gif	5	7	0	8
+30016	Drum Roll	drumroll.gif	5	10	0	9
+30017	Sax of Violence	saxophone.gif	5	5	0	9
+30018	Tricky Timpani	timpani.gif	3	30	10	10
+30019	Grit Teeth	gritteeth.gif	5	5	0	10
+30020	Soothing Flute	flute.gif	3	15	10	11
+30021	Motif	motif.gif	5	50	0	11

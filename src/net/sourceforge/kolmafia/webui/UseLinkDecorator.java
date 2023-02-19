@@ -987,6 +987,9 @@ public abstract class UseLinkDecorator {
           case ItemPool.GOVERNMENT_FOOD_SHIPMENT:
           case ItemPool.GOVERNMENT_BOOZE_SHIPMENT:
           case ItemPool.GOVERNMENT_CANDY_SHIPMENT:
+          case ItemPool.ADVANCED_PIG_SKINNING:
+          case ItemPool.THE_CHEESE_WIZARDS_COMPANION:
+          case ItemPool.JAZZ_AGENT_SHEET_MUSIC:
 
             // Not inline, since the redirection to a choice
             // doesn't work ajaxified.
