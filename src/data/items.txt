@@ -11173,23 +11173,23 @@
 11145	shadow nectar	676525146	shadownectar.gif	spleen, usable	t,d	13
 11146	shadow stick	609454674	shadowstick.gif	weapon	t,d	13
 11147	cursed bat paw	656261340	batpaw.gif	accessory	q	0
-11148
-11149
-11150
-11151
-11152
-11153
-11154
-11155
-11156
-11157
-11158
-11159
-11160
-11161
-11162
+11148	uncursed bat paw	516917291	batpaw.gif	accessory	q	0
+11149	cursed goblin cape	595119543	goblincape.gif	container	q	0
+11150	uncursed goblin cape	605043823	goblincape.gif	container	q	0
+11151	cursed dragon wishbone	153112262	wishbone2.gif	accessory	q	0
+11152	uncursed dragon wishbone	339099925	wishbone2.gif	accessory	q	0
+11153	cursed stats	666549749	statlist.gif	offhand	q	0
+11154	uncursed stats	929336967	statlist.gif	offhand	q	0
+11155	cursed arcane orb	122392819	arcaneorb.gif	offhand	q	0
+11156	uncursed arcane orb	835497975	arcaneorb.gif	offhand	q	0
+11157	cursed machete	974593514	machete2.gif	weapon	q	0
+11158	uncursed machete	531608735	machete2.gif	weapon	q	0
+11159	cursed blanket	370777306	blanket2.gif	container	q	0
+11160	uncursed blanket	454802248	blanket2.gif	container	q	0
+11161	cursed medallion	830894834	medallion.gif	accessory	q	0
+11162	uncursed medallion	590146618	medallion.gif	accessory	q	0
 11163	Advanced Pig Skinning	916925042	book2.gif	usable	q	0
-11164
-11165
-11166
+11164	The Cheese Wizard's Companion	269334581	book3.gif	usable	q	0
+11165	Jazz Agent sheet music	357188894	music.gif	usable	q	0
+11166	Thwaitgold anti-moth statuette	908539632	thwaitantimoth.gif	none		0
 11167	shadowy cheat sheet	170862408	pamphlet.gif	usable	t	0

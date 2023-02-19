@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -321,6 +322,90 @@ public class InventoryManagerTest {
         assertEquals(+4.0, mods.getDouble(DoubleModifier.WEAPON_DAMAGE), "Weapon Damage Failure");
         assertEquals(0, mods.getDouble(DoubleModifier.MOX), "No Moxie Change Expected");
         assertEquals(10.0, mods.getDouble(DoubleModifier.MOX_PCT), "No Moxie Change Expected");
+      }
+    }
+  }
+
+  @Nested
+  class VampireVintnerWine {
+    // From items.txt
+    private static String WINE_NAME = "1950 Vampire Vintner wine";
+    // From inebriety.txt
+    private static String WINE_NOTES = "Unspaded, WINE";
+
+    public Cleanups withWineProperties() {
+      ItemDatabase.resetVampireVintnerWine();
+      return new Cleanups(
+          withProperty("vintnerWineName", ""),
+          withProperty("vintnerWineEffect", ""),
+          withProperty("vintnerWineLevel", 0),
+          withProperty("vintnerWineType", ""),
+          new Cleanups(ItemDatabase::resetVampireVintnerWine));
+    }
+
+    @Test
+    public void willLookAtWineOnStartup() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.VAMPIRE_VINTNER_WINE, 1),
+              withWineProperties());
+      try (cleanups) {
+        client.addResponse(200, html("request/test_desc_item_vampire_vintner_wine.html"));
+        client.addResponse(200, html("request/test_desc_effect_wine_hot.html"));
+        String expectedNotes =
+            "12 turns of Wine-Hot (Hot Damage: +39, Hot Resistance: +11, Maximum HP: +130, Item Drop: +65), WINE";
+
+        assertEquals(WINE_NOTES, ConsumablesDatabase.getNotes(WINE_NAME));
+        InventoryManager.checkVampireVintnerWine();
+
+        assertEquals("1966 Paul Blister Merlot", Preferences.getString("vintnerWineName"));
+        assertEquals("Wine-Hot", Preferences.getString("vintnerWineEffect"));
+        assertEquals(13, Preferences.getInteger("vintnerWineLevel"));
+        assertEquals("hot", Preferences.getString("vintnerWineType"));
+        assertEquals(expectedNotes, ConsumablesDatabase.getNotes(WINE_NAME));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/desc_item.php", "whichitem=140977937");
+        assertPostRequest(
+            requests.get(1), "/desc_effect.php", "whicheffect=f562dd161fe50cc22b3ab10f04e1f26a");
+      }
+    }
+
+    @Test
+    public void willLookAtWineOnItemAcquisition() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.VAMPIRE_VINTNER_WINE, 0),
+              withWineProperties());
+      try (cleanups) {
+        client.addResponse(200, html("request/test_desc_item_vampire_vintner_wine.html"));
+        client.addResponse(200, html("request/test_desc_effect_wine_hot.html"));
+        String expectedNotes =
+            "12 turns of Wine-Hot (Hot Damage: +39, Hot Resistance: +11, Maximum HP: +130, Item Drop: +65), WINE";
+
+        assertEquals(WINE_NOTES, ConsumablesDatabase.getNotes(WINE_NAME));
+        ResultProcessor.processResult(true, ItemPool.get(ItemPool.VAMPIRE_VINTNER_WINE));
+
+        assertEquals("1966 Paul Blister Merlot", Preferences.getString("vintnerWineName"));
+        assertEquals("Wine-Hot", Preferences.getString("vintnerWineEffect"));
+        assertEquals(13, Preferences.getInteger("vintnerWineLevel"));
+        assertEquals("hot", Preferences.getString("vintnerWineType"));
+        assertEquals(expectedNotes, ConsumablesDatabase.getNotes(WINE_NAME));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/desc_item.php", "whichitem=140977937");
+        assertPostRequest(
+            requests.get(1), "/desc_effect.php", "whicheffect=f562dd161fe50cc22b3ab10f04e1f26a");
       }
     }
   }

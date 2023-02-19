@@ -9,10 +9,12 @@ import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -50,6 +52,44 @@ class ValhallaDecoratorTest {
       assertThat(
           buffer.toString(),
           containsString("<a href=\"/KoLmafia/redirectedCommand?cmd=acquire+1011+toast"));
+    }
+  }
+
+  @Test
+  public void itDecoratesWithMilkCapAvailable() {
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(200, "");
+
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withInteractivity(true),
+            withItem(ItemPool.MILK_CAP, 1));
+
+    try (cleanups) {
+      var buffer =
+          new StringBuffer(
+              "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
+      ValhallaDecorator.decorateGashJump("ascend.php", buffer);
+      assertThat(
+          buffer.toString(), containsString("shop.php?whichshop=olivers\">spend milk cap(s)"));
+    }
+  }
+
+  @Test
+  public void itDoesNotDecoratesWithNoMilkCapAvailable() {
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(200, "");
+
+    var cleanups = new Cleanups(withHttpClientBuilder(builder), withInteractivity(true));
+
+    try (cleanups) {
+      var buffer =
+          new StringBuffer(
+              "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
+      ValhallaDecorator.decorateGashJump("ascend.php", buffer);
+      assertThat(
+          buffer.toString(), not(containsString("shop.php?whichshop=olivers\">spend milk cap(s)")));
     }
   }
 }

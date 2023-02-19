@@ -350,6 +350,23 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(dinoMap, "The Man", "Oligarcheopteryx");
     MonsterDatabase.addMapping(dinoMap, "Naughty Sorceress", "Naughty Saursaurus");
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.DINOSAURS.getName(), dinoMap);
+
+    Map<MonsterData, MonsterData> aosolMap = new TreeMap<>();
+    MonsterDatabase.addMapping(aosolMap, "Boss Bat", "two-headed shadow bat");
+    MonsterDatabase.addMapping(aosolMap, "Knob Goblin King", "goblin king's shadow");
+    MonsterDatabase.addMapping(aosolMap, "Bonerdagon", "shadowboner shadowdagon");
+    MonsterDatabase.addMapping(aosolMap, "Groar", "shadow of groar");
+    MonsterDatabase.addMapping(aosolMap, "Dr. Awkward", "W. Odah's Shadow");
+    MonsterDatabase.addMapping(aosolMap, "Lord Spookyraven", "shadow Lord Spookyraven");
+    MonsterDatabase.addMapping(aosolMap, "Protector Spectre", "corruptor shadow");
+    MonsterDatabase.addMapping(aosolMap, "The Big Wisniewski", "shadow of the 1960s");
+    // MonsterDatabase.addMapping(aosolMap, "The Man", "shadow something");
+    // The following are for Jazz Agents.
+    // We don't have a mechanism for a class within a path, yet
+    // MonsterDatabase.addMapping(aosolMap, "Naughty Sorceress", "Terrence Poindexter");
+    // MonsterDatabase.addMapping(aosolMap, "Naughty Sorceress (2)", "Terrence Poindexter (true
+    // form)");
+    MonsterDatabase.MONSTER_PATH_MAP.put(Path.SHADOWS_OVER_LOATHING.getName(), aosolMap);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterPathMap(final String path) {
