@@ -178,6 +178,15 @@ public class AscensionHistoryRequest extends GenericRequest
         case SNAKE_OILER:
           pref = "awolPointsSnakeoiler";
           break;
+        case PIG_SKINNER:
+          pref = "asolPointsPigSkinner";
+          break;
+        case CHEESE_WIZARD:
+          pref = "asolPointsCheeseWizard";
+          break;
+        case JAZZ_AGENT:
+          pref = "asolPointsJazzAgent";
+          break;
         default:
           continue;
       }
