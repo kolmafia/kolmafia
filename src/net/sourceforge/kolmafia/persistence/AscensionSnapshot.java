@@ -222,6 +222,35 @@ public class AscensionSnapshot {
     // Finally, add in all the breakdown tables, just like
     // in the KoL leaderboard frame, for class based paths.
 
+    Runnable hideShowByClass =
+        () -> {
+          strbuf.append(
+              "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec");
+          strbuf.append(pathFilter);
+          strbuf.append(
+              "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">");
+          strbuf.append("hide/show records by class</a><div id=\"sec");
+          strbuf.append(pathFilter);
+          strbuf.append("\" style=\"display:none\"><br><br>");
+          strbuf.append(KoLConstants.LINE_BREAK);
+        };
+
+    Consumer<AscensionClass> appendClassBoard =
+        (c) -> {
+          strbuf.append(KoLConstants.LINE_BREAK);
+          strbuf.append(
+              AscensionSnapshot.getAscensionData(
+                  typeFilter,
+                  pathFilter,
+                  c,
+                  mainBoardSize,
+                  classBoardSize,
+                  maxAge,
+                  playerMoreThanOnce,
+                  localProfileLink));
+          strbuf.append(KoLConstants.LINE_BREAK);
+        };
+
     switch (pathFilter) {
       case AVATAR_OF_BORIS:
       case ZOMBIE_SLAYER:
@@ -234,144 +263,39 @@ public class AscensionSnapshot {
       case GREY_YOU:
         break;
       case AVATAR_OF_WEST_OF_LOATHING:
-        strbuf.append(
-            "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec");
-        strbuf.append(pathFilter);
-        strbuf.append(
-            "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">");
-        strbuf.append("hide/show records by class</a><div id=\"sec");
-        strbuf.append(pathFilter);
-        strbuf.append("\" style=\"display:none\"><br><br>");
-        strbuf.append(KoLConstants.LINE_BREAK);
+        hideShowByClass.run();
         strbuf.append("<table><tr><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.COWPUNCHER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.COWPUNCHER);
         strbuf.append("</td><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.BEANSLINGER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.BEANSLINGER);
         strbuf.append("</td></tr><tr><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.SNAKE_OILER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.SNAKE_OILER);
+        strbuf.append("</td></tr></table>");
+        break;
+      case SHADOWS_OVER_LOATHING:
+        hideShowByClass.run();
+        strbuf.append("<table><tr><td valign=top>");
+        appendClassBoard.accept(AscensionClass.PIG_SKINNER);
+        strbuf.append("</td><td valign=top>");
+        appendClassBoard.accept(AscensionClass.CHEESE_WIZARD);
+        strbuf.append("</td></tr><tr><td valign=top>");
+        appendClassBoard.accept(AscensionClass.JAZZ_AGENT);
         strbuf.append("</td></tr></table>");
         break;
       default:
-        strbuf.append(
-            "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec");
-        strbuf.append(pathFilter);
-        strbuf.append(
-            "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">");
-        strbuf.append("hide/show records by class</a><div id=\"sec");
-        strbuf.append(pathFilter);
-        strbuf.append("\" style=\"display:none\"><br><br>");
-        strbuf.append(KoLConstants.LINE_BREAK);
+        hideShowByClass.run();
         strbuf.append("<table><tr><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.SEAL_CLUBBER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.SEAL_CLUBBER);
         strbuf.append("</td><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.SAUCEROR,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.SAUCEROR);
         strbuf.append("</td></tr><tr><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.TURTLE_TAMER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.TURTLE_TAMER);
         strbuf.append("</td><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.DISCO_BANDIT,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.DISCO_BANDIT);
         strbuf.append("</td></tr><tr><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.PASTAMANCER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.PASTAMANCER);
         strbuf.append("</td><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.ACCORDION_THIEF,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.ACCORDION_THIEF);
         strbuf.append("</td></tr></table>");
         break;
     }
