@@ -175,42 +175,14 @@ public class AscensionSnapshot {
 
     if (typeFilter != AscensionFilter.CASUAL) {
       strbuf.append(KoLConstants.LINE_BREAK);
-      appendPathBoard.accept(Path.PATH_OF_THE_PLUMBER);
-      appendPathBoard.accept(Path.KINGDOM_OF_EXPLOATHING);
-      appendPathBoard.accept(Path.CRAZY_RANDOM_SUMMER_TWO);
-      appendPathBoard.accept(Path.DARK_GYFFTE);
-      appendPathBoard.accept(Path.DISGUISES_DELIMIT);
-      appendPathBoard.accept(Path.GLOVER);
-      appendPathBoard.accept(Path.POKEFAM);
-      appendPathBoard.accept(Path.LIVE_ASCEND_REPEAT);
-      appendPathBoard.accept(Path.LICENSE_TO_ADVENTURE);
-      appendPathBoard.accept(Path.GELATINOUS_NOOB);
-      appendPathBoard.accept(Path.NUCLEAR_AUTUMN);
-      appendPathBoard.accept(Path.THE_SOURCE);
-      appendPathBoard.accept(Path.AVATAR_OF_WEST_OF_LOATHING);
-      appendPathBoard.accept(Path.COMMUNITY_SERVICE);
-      appendPathBoard.accept(Path.CRAZY_RANDOM_SUMMER);
-      appendPathBoard.accept(Path.ACTUALLY_ED_THE_UNDYING);
-      appendPathBoard.accept(Path.STANDARD);
-      appendPathBoard.accept(Path.PICKY);
-      appendPathBoard.accept(Path.HEAVY_RAINS);
-      appendPathBoard.accept(Path.SLOW_AND_STEADY);
-      appendPathBoard.accept(Path.AVATAR_OF_SNEAKY_PETE);
-      appendPathBoard.accept(Path.CLASS_ACT_II);
-      appendPathBoard.accept(Path.KOLHS);
-      appendPathBoard.accept(Path.BIG);
-      appendPathBoard.accept(Path.AVATAR_OF_JARLSBERG);
-      appendPathBoard.accept(Path.CLASS_ACT);
-      appendPathBoard.accept(Path.ZOMBIE_SLAYER);
-      appendPathBoard.accept(Path.BUGBEAR_INVASION);
-      appendPathBoard.accept(Path.AVATAR_OF_BORIS);
-      appendPathBoard.accept(Path.TRENDY);
-      appendPathBoard.accept(Path.SURPRISING_FIST);
-      appendPathBoard.accept(Path.BEES_HATE_YOU);
-      appendPathBoard.accept(Path.BAD_MOON);
-      appendPathBoard.accept(Path.OXYGENARIAN);
-      appendPathBoard.accept(Path.TEETOTALER);
-      appendPathBoard.accept(Path.BOOZETAFARIAN);
+      for (var path : Path.values()) {
+        if (path != Path.NONE && path != Path.BAD_MOON) {
+          appendPathBoard.accept(path);
+        }
+      }
+      if (typeFilter == AscensionFilter.HARDCORE) {
+        appendPathBoard.accept(Path.BAD_MOON);
+      }
     }
     appendPathBoard.accept(Path.NONE);
 
