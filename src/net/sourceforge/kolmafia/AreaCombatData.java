@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -500,21 +501,26 @@ public class AreaCombatData {
   }
 
   private MonsterData mapMonster(MonsterData mon) {
-    Map<MonsterData, MonsterData> pathMap =
-        MonsterDatabase.getMonsterPathMap(KoLCharacter.getPath().getName());
-    if (pathMap != null) {
-      MonsterData mapped = pathMap.get(mon);
-      if (mapped != null) {
-        return mapped;
+    Path path = KoLCharacter.getPath();
+    if (path != null) {
+      Map<MonsterData, MonsterData> pathMap = MonsterDatabase.getMonsterPathMap(path.getName());
+      if (pathMap != null) {
+        MonsterData mapped = pathMap.get(mon);
+        if (mapped != null) {
+          return mapped;
+        }
       }
     }
 
-    Map<MonsterData, MonsterData> classMap =
-        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass().getName());
-    if (classMap != null) {
-      MonsterData mapped = classMap.get(mon);
-      if (mapped != null) {
-        return mapped;
+    // Your Ascension Class is null in Valhalla
+    AscensionClass clazz = KoLCharacter.getAscensionClass();
+    if (clazz != null) {
+      Map<MonsterData, MonsterData> classMap = MonsterDatabase.getMonsterClassMap(clazz.getName());
+      if (classMap != null) {
+        MonsterData mapped = classMap.get(mon);
+        if (mapped != null) {
+          return mapped;
+        }
       }
     }
 
