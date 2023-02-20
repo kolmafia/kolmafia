@@ -104,6 +104,9 @@ public class SkillDatabase {
     PLUMBER("Plumber"), // 25xxx
     TWENTY_SIX("26XXX"), // 26xxx
     GREY_YOU("Grey You"), // 27xxx
+    PIG_SKINNER("Pig Skinner"), // 28xxx
+    CHEESE_WIZARD("Cheese Wizard"), // 29xxx
+    JAZZ_AGENT("Jazz Agent"), // 30xxx
     // The following are convenience categories, not implied by skill id
     GNOME_SKILLS("gnome trainer"),
     BAD_MOON("bad moon");
