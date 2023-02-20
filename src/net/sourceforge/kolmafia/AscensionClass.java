@@ -36,7 +36,7 @@ public enum AscensionClass {
   GREY_GOO("Grey Goo", 27, "greygooring", -1, Path.GREY_YOU),
   PIG_SKINNER("Pig Skinner", 28, "football2", 0, Path.SHADOWS_OVER_LOATHING),
   CHEESE_WIZARD("Cheese Wizard", 29, "jarl_cheeseslice", 1, Path.SHADOWS_OVER_LOATHING),
-  JAZZ_AGENT("Jazz Agent", 30, "motif", 2, Path.SHADOWS_OVER_LOATHING);
+  JAZZ_AGENT("Jazz Agent", 30, "motif", 2, Path.SHADOWS_OVER_LOATHING, "Drum Roll");
 
   public static final List<AscensionClass> standardClasses =
       Arrays.asList(
