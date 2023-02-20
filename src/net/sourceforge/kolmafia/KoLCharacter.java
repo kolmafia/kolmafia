@@ -3435,6 +3435,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.DINOSAURS;
   }
 
+  public static final boolean inShadowsOverLoathing() {
+    return KoLCharacter.ascensionPath == Path.SHADOWS_OVER_LOATHING;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);

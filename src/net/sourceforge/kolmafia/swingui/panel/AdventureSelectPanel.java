@@ -609,7 +609,7 @@ public class AdventureSelectPanel extends JPanel {
       }
 
       AreaCombatData combat = request.getAreaSummary();
-      String text = combat == null ? " " : combat.toString(true);
+      String text = combat == null ? " " : combat.toString(true, true);
 
       // Avoid rendering and screen flicker if no change.
       // Compare with our own copy of what we set, since
