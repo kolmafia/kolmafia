@@ -4,6 +4,8 @@ import static internal.helpers.Player.withClass;
 import static org.junit.jupiter.api.Assertions.*;
 
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class SkillDatabaseTest {
@@ -39,6 +41,34 @@ public class SkillDatabaseTest {
     try (cleanups) {
       // Bind Lasagmbie
       assertEquals(SkillDatabase.getEffectDuration(3037), 0);
+    }
+  }
+
+  @Nested
+  class Categories {
+    @Test
+    public void identifiesClassSkill() {
+      assertEquals(SkillDatabase.getSkillCategory(SkillPool.ANTIPHON), "accordion thief");
+    }
+
+    @Test
+    public void identifiesVampyreSkill() {
+      assertEquals(SkillDatabase.getSkillCategory(SkillPool.BLOOD_CLOAK), "Vampyre");
+    }
+
+    @Test
+    public void identifiesConditionalSkill() {
+      assertEquals(SkillDatabase.getSkillCategory(SkillPool.CREEPY_GRIN), "conditional");
+    }
+
+    @Test
+    public void identifiesGnomeSkill() {
+      assertEquals(SkillDatabase.getSkillCategory(SkillPool.TORSO), "gnome trainer");
+    }
+
+    @Test
+    public void identifiesBadMoonSkill() {
+      assertEquals(SkillDatabase.getSkillCategory(SkillPool.LUST), "bad moon");
     }
   }
 }
