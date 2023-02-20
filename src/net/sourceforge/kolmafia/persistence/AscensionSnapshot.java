@@ -804,7 +804,10 @@ public class AscensionSnapshot {
           typeFilter == AscensionFilter.NORMAL
               ? "Normal "
               : typeFilter == AscensionFilter.HARDCORE ? "Hardcore " : "Casual ");
-      strbuf.append(pathFilter == null ? "" : pathFilter.getName());
+      strbuf.append(
+          pathFilter == null
+              ? ""
+              : (pathFilter == Path.NONE ? "No Path" : pathFilter.getName()) + " ");
 
       strbuf.append("Ascensions (Out of ");
       strbuf.append(resultsList.size());
