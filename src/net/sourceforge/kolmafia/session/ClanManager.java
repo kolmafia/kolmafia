@@ -29,8 +29,10 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot.AscensionFilter;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
+import net.sourceforge.kolmafia.persistence.ProfileSnapshot.ProfileFilter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.ClanLogRequest;
@@ -606,7 +608,7 @@ public abstract class ClanManager {
       ostream = LogStream.openStream(softcoreFile, true);
       ostream.println(
           AscensionSnapshot.getAscensionData(
-              AscensionSnapshot.NORMAL,
+              AscensionFilter.NORMAL,
               mostAscensionsBoardSize,
               mainBoardSize,
               classBoardSize,
@@ -618,7 +620,7 @@ public abstract class ClanManager {
       ostream = LogStream.openStream(hardcoreFile, true);
       ostream.println(
           AscensionSnapshot.getAscensionData(
-              AscensionSnapshot.HARDCORE,
+              AscensionFilter.HARDCORE,
               mostAscensionsBoardSize,
               mainBoardSize,
               classBoardSize,
@@ -630,7 +632,7 @@ public abstract class ClanManager {
       ostream = LogStream.openStream(casualFile, true);
       ostream.println(
           AscensionSnapshot.getAscensionData(
-              AscensionSnapshot.CASUAL,
+              AscensionFilter.CASUAL,
               mostAscensionsBoardSize,
               mainBoardSize,
               classBoardSize,
@@ -686,7 +688,7 @@ public abstract class ClanManager {
   }
 
   public static final void applyFilter(
-      final int matchType, final int filterType, final String filter) {
+      final int matchType, final ProfileFilter filterType, final String filter) {
     ClanManager.retrieveClanData();
 
     // Certain filter types do not require the player profiles
@@ -694,9 +696,9 @@ public abstract class ClanManager {
     // without prompting the user for confirmation.
 
     switch (filterType) {
-      case ProfileSnapshot.NAME_FILTER:
-      case ProfileSnapshot.LEVEL_FILTER:
-      case ProfileSnapshot.KARMA_FILTER:
+      case NAME:
+      case LEVEL:
+      case KARMA:
         break;
 
       default:

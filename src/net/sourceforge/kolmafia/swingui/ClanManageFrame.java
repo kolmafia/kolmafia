@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
+import net.sourceforge.kolmafia.persistence.ProfileSnapshot.ProfileFilter;
 import net.sourceforge.kolmafia.request.ClanBuffRequest;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
@@ -407,8 +408,8 @@ public class ClanManageFrame extends GenericFrame {
       super("search clan", "apply changes", new Dimension(80, 20), new Dimension(240, 20));
 
       this.parameterSelect = new JComboBox<>();
-      for (int i = 0; i < ProfileSnapshot.FILTER_NAMES.length; ++i) {
-        this.parameterSelect.addItem(ProfileSnapshot.FILTER_NAMES[i]);
+      for (var filter : ProfileFilter.names()) {
+        this.parameterSelect.addItem(filter);
       }
 
       this.matchSelect = new JComboBox<>();
@@ -430,7 +431,7 @@ public class ClanManageFrame extends GenericFrame {
     public void actionConfirmed() {
       ClanManager.applyFilter(
           this.matchSelect.getSelectedIndex() - 1,
-          this.parameterSelect.getSelectedIndex(),
+          ProfileFilter.byOrdinal(this.parameterSelect.getSelectedIndex()),
           this.valueField.getText());
       KoLmafia.updateDisplay("Search results retrieved.");
     }
