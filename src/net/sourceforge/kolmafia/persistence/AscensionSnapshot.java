@@ -16,12 +16,13 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 
 public class AscensionSnapshot {
-  public static final int NO_FILTER = 0;
-
-  public static final int UNKNOWN_TYPE = -1;
-  public static final int NORMAL = 1;
-  public static final int HARDCORE = 2;
-  public static final int CASUAL = 3;
+  public enum AscensionFilter {
+    UNKNOWN_TYPE,
+    NO_FILTER,
+    NORMAL,
+    HARDCORE,
+    CASUAL;
+  }
 
   private static final Map<String, String> ascensionMap = new TreeMap<>();
   private static final List<AscensionHistoryRequest> ascensionDataList = new ArrayList<>();
@@ -60,7 +61,7 @@ public class AscensionSnapshot {
   }
 
   public static final String getAscensionData(
-      final int typeFilter,
+      final AscensionFilter typeFilter,
       final int mostAscensionsBoardSize,
       final int mainBoardSize,
       final int classBoardSize,
@@ -76,9 +77,9 @@ public class AscensionSnapshot {
     strbuf.append("<title>");
 
     switch (typeFilter) {
-      case AscensionSnapshot.NORMAL -> strbuf.append("Normal");
-      case AscensionSnapshot.HARDCORE -> strbuf.append("Hardcore");
-      case AscensionSnapshot.CASUAL -> strbuf.append("Casual");
+      case NORMAL -> strbuf.append("Normal");
+      case HARDCORE -> strbuf.append("Hardcore");
+      case CASUAL -> strbuf.append("Casual");
     }
 
     String clanName = ClanManager.getClanName(true);
@@ -104,7 +105,7 @@ public class AscensionSnapshot {
 
     strbuf.append("<tr><td align=center><h3>Avg: ");
     strbuf.append(
-        ((typeFilter == AscensionSnapshot.NORMAL
+        ((typeFilter == AscensionFilter.NORMAL
                     ? (float) AscensionSnapshot.softcoreAscensionList.size()
                     : 0.0f)
                 + AscensionSnapshot.hardcoreAscensionList.size()
@@ -120,9 +121,9 @@ public class AscensionSnapshot {
     strbuf.append(KoLConstants.LINE_BREAK);
     strbuf.append("<tr><td style=\"color:white\" align=center bgcolor=blue><b>Most ");
     strbuf.append(
-        typeFilter == AscensionSnapshot.NORMAL
+        typeFilter == AscensionFilter.NORMAL
             ? "Normal "
-            : typeFilter == AscensionSnapshot.HARDCORE ? "Hardcore " : "Casual ");
+            : typeFilter == AscensionFilter.HARDCORE ? "Hardcore " : "Casual ");
     strbuf.append(
         "Ascensions</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table>");
     strbuf.append(KoLConstants.LINE_BREAK);
@@ -157,7 +158,7 @@ public class AscensionSnapshot {
     // Finally, the ascension leaderboards for fastest
     // ascension speed.  Do this for all paths individually.
 
-    if (typeFilter != AscensionSnapshot.CASUAL) {
+    if (typeFilter != AscensionFilter.CASUAL) {
       strbuf.append(KoLConstants.LINE_BREAK);
       strbuf.append(
           AscensionSnapshot.getPathedAscensionData(
@@ -535,7 +536,7 @@ public class AscensionSnapshot {
   }
 
   public static final String getPathedAscensionData(
-      final int typeFilter,
+      final AscensionFilter typeFilter,
       final Path pathFilter,
       final int mainBoardSize,
       final int classBoardSize,
@@ -728,7 +729,7 @@ public class AscensionSnapshot {
   }
 
   public static final String getAscensionData(
-      final int typeFilter,
+      final AscensionFilter typeFilter,
       final Path pathFilter,
       final AscensionClass classFilter,
       final int mainBoardSize,
@@ -741,15 +742,15 @@ public class AscensionSnapshot {
     AscensionDataField[] fields = null;
 
     switch (typeFilter) {
-      case AscensionSnapshot.NORMAL:
+      case NORMAL:
         fields = new AscensionDataField[AscensionSnapshot.softcoreAscensionList.size()];
         AscensionSnapshot.softcoreAscensionList.toArray(fields);
         break;
-      case AscensionSnapshot.HARDCORE:
+      case HARDCORE:
         fields = new AscensionDataField[AscensionSnapshot.hardcoreAscensionList.size()];
         AscensionSnapshot.hardcoreAscensionList.toArray(fields);
         break;
-      case AscensionSnapshot.CASUAL:
+      case CASUAL:
         fields = new AscensionDataField[AscensionSnapshot.casualAscensionList.size()];
         AscensionSnapshot.casualAscensionList.toArray(fields);
         break;
@@ -800,10 +801,13 @@ public class AscensionSnapshot {
       strbuf.append("Fastest ");
 
       strbuf.append(
-          typeFilter == AscensionSnapshot.NORMAL
+          typeFilter == AscensionFilter.NORMAL
               ? "Normal "
-              : typeFilter == AscensionSnapshot.HARDCORE ? "Hardcore " : "Casual ");
-      strbuf.append(pathFilter == null ? "" : pathFilter.getName());
+              : typeFilter == AscensionFilter.HARDCORE ? "Hardcore " : "Casual ");
+      strbuf.append(
+          pathFilter == null
+              ? ""
+              : (pathFilter == Path.NONE ? "No Path" : pathFilter.getName()) + " ");
 
       strbuf.append("Ascensions (Out of ");
       strbuf.append(resultsList.size());
@@ -866,9 +870,9 @@ public class AscensionSnapshot {
       request.getAscensionData().toArray(fields);
 
       for (AscensionDataField field : fields) {
-        if (field.matchesFilter(AscensionSnapshot.NORMAL, null, null, 0)) {
+        if (field.matchesFilter(AscensionFilter.NORMAL, null, null, 0)) {
           AscensionSnapshot.softcoreAscensionList.add(field);
-        } else if (field.matchesFilter(AscensionSnapshot.HARDCORE, null, null, 0)) {
+        } else if (field.matchesFilter(AscensionFilter.HARDCORE, null, null, 0)) {
           AscensionSnapshot.hardcoreAscensionList.add(field);
         } else {
           AscensionSnapshot.casualAscensionList.add(field);
