@@ -75,6 +75,7 @@ public class SkillDatabase {
   private static final Map<Integer, Integer> castsById = new HashMap<>();
 
   public enum Category {
+    UNKNOWN("unknown"),
     UNCATEGORIZED("uncategorized"),
     SEAL_CLUBBER("seal clubber"), // 1xxx
     TURTLE_TAMER("turtle tamer"), // 2xxx
@@ -112,6 +113,55 @@ public class SkillDatabase {
 
     Category(String name) {
       this.name = name;
+    }
+
+    public static Category bySkillId(int id) {
+      int categoryId = id / 1000 + 1; // avoid unknown at start
+      // length check, minus gnome / bad moon
+      if (categoryId >= Category.VALUES.length - 2) {
+        return Category.UNKNOWN;
+      }
+
+      return switch (id) {
+        case SkillPool.SMILE_OF_MR_A,
+            SkillPool.SNOWCONE,
+            SkillPool.STICKER,
+            SkillPool.SUGAR,
+            SkillPool.CLIP_ART,
+            SkillPool.RAD_LIB,
+            SkillPool.SMITHSNESS,
+            SkillPool.CANDY_HEART,
+            SkillPool.PARTY_FAVOR,
+            SkillPool.LOVE_SONG,
+            SkillPool.BRICKOS,
+            SkillPool.DICE,
+            SkillPool.RESOLUTIONS,
+            SkillPool.TAFFY,
+            SkillPool.HILARIOUS,
+            SkillPool.TASTEFUL,
+            SkillPool.CARDS,
+            SkillPool.GEEKY,
+            SkillPool.CONFISCATOR -> Category.MR_SKILLS;
+        case SkillPool.OBSERVATIOGN,
+            SkillPool.GNEFARIOUS_PICKPOCKETING,
+            SkillPool.TORSO,
+            SkillPool.GNOMISH_HARDINESS,
+            SkillPool.COSMIC_UNDERSTANDING -> Category.GNOME_SKILLS;
+        case SkillPool.LUST,
+            SkillPool.GLUTTONY,
+            SkillPool.GREED,
+            SkillPool.SLOTH,
+            SkillPool.WRATH,
+            SkillPool.ENVY,
+            SkillPool.PRIDE -> Category.BAD_MOON;
+        case SkillPool.MUG_FOR_THE_AUDIENCE -> Category.AVATAR_OF_SNEAKY_PETE;
+        default ->
+
+        // Moxious maneuver has a 7000 id, but
+        // it's not gained by equipment.
+
+        Category.VALUES[categoryId];
+      };
     }
   }
 
@@ -208,52 +258,10 @@ public class SkillDatabase {
       SkillDatabase.levelById.put(skillId, level);
     }
 
-    int categoryId = skillId.intValue() / 1000;
-    if (categoryId >= Category.VALUES.length) {
+    Category category = Category.bySkillId(skillId);
+    if (category == Category.UNKNOWN) {
       return;
     }
-
-    Category category =
-        switch (skillId.intValue()) {
-          case SkillPool.SMILE_OF_MR_A,
-              SkillPool.SNOWCONE,
-              SkillPool.STICKER,
-              SkillPool.SUGAR,
-              SkillPool.CLIP_ART,
-              SkillPool.RAD_LIB,
-              SkillPool.SMITHSNESS,
-              SkillPool.CANDY_HEART,
-              SkillPool.PARTY_FAVOR,
-              SkillPool.LOVE_SONG,
-              SkillPool.BRICKOS,
-              SkillPool.DICE,
-              SkillPool.RESOLUTIONS,
-              SkillPool.TAFFY,
-              SkillPool.HILARIOUS,
-              SkillPool.TASTEFUL,
-              SkillPool.CARDS,
-              SkillPool.GEEKY,
-              SkillPool.CONFISCATOR -> Category.MR_SKILLS;
-          case SkillPool.OBSERVATIOGN,
-              SkillPool.GNEFARIOUS_PICKPOCKETING,
-              SkillPool.TORSO,
-              SkillPool.GNOMISH_HARDINESS,
-              SkillPool.COSMIC_UNDERSTANDING -> Category.GNOME_SKILLS;
-          case SkillPool.LUST,
-              SkillPool.GLUTTONY,
-              SkillPool.GREED,
-              SkillPool.SLOTH,
-              SkillPool.WRATH,
-              SkillPool.ENVY,
-              SkillPool.PRIDE -> Category.BAD_MOON;
-          case SkillPool.MUG_FOR_THE_AUDIENCE -> Category.AVATAR_OF_SNEAKY_PETE;
-          default ->
-
-          // Moxious maneuver has a 7000 id, but
-          // it's not gained by equipment.
-
-          Category.VALUES[categoryId];
-        };
 
     SkillDatabase.skillCategoryById.put(skillId, category);
     SkillDatabase.skillsByCategory.get(category).add(name);
@@ -496,7 +504,7 @@ public class SkillDatabase {
 
   public static final Category getSkillCategory(final int skillId) {
     Category cat = SkillDatabase.skillCategoryById.get(skillId);
-    return cat == null ? Category.UNCATEGORIZED : cat;
+    return cat == null ? Category.UNKNOWN : cat;
   }
 
   /**
@@ -1086,7 +1094,7 @@ public class SkillDatabase {
   }
 
   public static final boolean isVampyreSkill(final int skillId) {
-    return SkillDatabase.getSkillCategory(skillId).equals(Category.VAMPYRE);
+    return SkillDatabase.getSkillCategory(skillId) == Category.VAMPYRE;
   }
 
   public static final int getHPCost(final int skillId) {

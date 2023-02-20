@@ -391,7 +391,7 @@ public class RelayRequest extends PasswordHashRequest {
       if (action != null && action.equals("skill")) {
         String skillId = this.getFormField("whichskill");
         Category category = SkillDatabase.getSkillCategory(StringUtilities.parseInt(skillId));
-        if (!category.equals(Category.CONDITIONAL)) {
+        if (category != Category.CONDITIONAL) {
           StationaryButtonDecorator.addSkillButton(skillId);
         }
       }
