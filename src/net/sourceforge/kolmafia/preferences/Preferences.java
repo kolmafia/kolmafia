@@ -104,6 +104,7 @@ public class Preferences {
         "8BitScore",
         "affirmationCookiesEaten",
         "aminoAcidsUsed",
+        "asolDeferredPoints",
         "autumnatonQuestLocation",
         "autumnatonQuestTurn",
         "autumnatonUpgrades",
@@ -1266,6 +1267,9 @@ public class Preferences {
         "awolPointsCowpuncher", Preferences.getInteger("awolDeferredPointsCowpuncher"));
     Preferences.increment(
         "awolPointsSnakeoiler", Preferences.getInteger("awolDeferredPointsSnakeoiler"));
+    Preferences.increment("asolPointsCheeseWizard", Preferences.getInteger("asolDeferredPoints"));
+    Preferences.increment("asolPointsJazzAgent", Preferences.getInteger("asolDeferredPoints"));
+    Preferences.increment("asolPointsPigSkinner", Preferences.getInteger("asolDeferredPoints"));
     Preferences.increment("noobPoints", Preferences.getInteger("noobDeferredPoints"));
 
     // Most prefs that get reset on ascension just return to their default value

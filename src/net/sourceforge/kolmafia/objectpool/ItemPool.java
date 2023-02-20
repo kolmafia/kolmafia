@@ -3523,6 +3523,7 @@ public class ItemPool {
   public static final int ADVANCED_PIG_SKINNING = 11163;
   public static final int THE_CHEESE_WIZARDS_COMPANION = 11164;
   public static final int JAZZ_AGENT_SHEET_MUSIC = 11165;
+  public static final int SHADOWY_CHEAT_SHEET = 11167;
 
   private ItemPool() {}
 

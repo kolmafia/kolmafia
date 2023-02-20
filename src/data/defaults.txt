@@ -181,6 +181,7 @@ user	antagonisticSnowmanKitCost	1000
 user	arcadeGameHints	false
 user	armoryUnlocked	false
 user	ascensionsToday	0
+user	asolDeferredPoints	0
 user	asolPointsPigSkinner	0
 user	asolPointsCheeseWizard	0
 user	asolPointsJazzAgent	0
