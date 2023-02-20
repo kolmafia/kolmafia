@@ -2619,7 +2619,8 @@ public class RelayRequest extends PasswordHashRequest {
         || KoLCharacter.isPlumber()
         || KoLCharacter.inRobocore()
         || KoLCharacter.inFirecore()
-        || KoLCharacter.inDinocore()) {
+        || KoLCharacter.inDinocore()
+        || KoLCharacter.inShadowsOverLoathing()) {
       return false;
     }
 

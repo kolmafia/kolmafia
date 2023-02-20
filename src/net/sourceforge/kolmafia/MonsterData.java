@@ -624,6 +624,8 @@ public class MonsterData extends AdventureResult {
   // The following apply to a specific (cloned) instance of a monster
   private String[] randomModifiers;
 
+  public static final MonsterData NO_MONSTER = new MonsterData("none", 0, new String[0], "");
+
   public MonsterData(String name, int id, String[] images, String attributeString) {
     super(Priority.MONSTER, name);
 
