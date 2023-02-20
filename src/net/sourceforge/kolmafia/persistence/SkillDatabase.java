@@ -69,7 +69,7 @@ public class SkillDatabase {
   private static final Map<Integer, SkillType> skillTypeById = new TreeMap<>();
   private static final Map<Integer, Integer> durationById = new HashMap<>();
   private static final Map<Integer, Integer> levelById = new HashMap<>();
-  private static final Map<Category, List<String>> skillsByCategory = new HashMap<>();
+  private static final Map<Category, List<String>> skillsByCategory = new EnumMap<>(Category.class);
   private static final Map<Integer, Category> skillCategoryById = new HashMap<>();
   // Per-user data. Needs to be reset when log in as a new user.
   private static final Map<Integer, Integer> castsById = new HashMap<>();
