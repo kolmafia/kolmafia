@@ -3375,6 +3375,7 @@ public class QuestManagerTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withQuestProgress(Quest.MANOR, QuestDatabase.UNSTARTED));
+              withProperty("lastSecondFloorUnlock", -1);
       try (cleanups) {
         builder.client.addResponse(200, html("request/test_quest_manor11_uhoh.html"));
 
@@ -3382,6 +3383,7 @@ public class QuestManagerTest {
         request.run();
 
         assertThat(Quest.MANOR, isUnstarted());
+        assertThat("lastSecondFloorUnlock", isSetTo(-1));
       }
     }
 
