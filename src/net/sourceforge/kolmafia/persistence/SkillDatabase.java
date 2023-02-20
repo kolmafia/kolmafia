@@ -69,64 +69,52 @@ public class SkillDatabase {
   private static final Map<Integer, SkillType> skillTypeById = new TreeMap<>();
   private static final Map<Integer, Integer> durationById = new HashMap<>();
   private static final Map<Integer, Integer> levelById = new HashMap<>();
-  private static final Map<String, List<String>> skillsByCategory = new HashMap<>();
-  private static final Map<Integer, String> skillCategoryById = new HashMap<>();
+  private static final Map<Category, List<String>> skillsByCategory = new HashMap<>();
+  private static final Map<Integer, Category> skillCategoryById = new HashMap<>();
   // Per-user data. Needs to be reset when log in as a new user.
   private static final Map<Integer, Integer> castsById = new HashMap<>();
-  private static final String UNCATEGORIZED = "uncategorized";
-  private static final String CONDITIONAL = "conditional";
-  private static final String MR_SKILLS = "mr. skills";
-  private static final String GNOME_SKILLS = "gnome trainer";
-  private static final String BAD_MOON = "bad moon";
-  private static final String AVATAR_OF_BORIS = "avatar of Boris";
-  private static final String ZOMBIE_MASTER = "zombie master";
-  private static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
-  private static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
-  private static final String HEAVY_RAINS = "Heavy Rains";
-  private static final String ED = "Ed the Undying";
-  private static final String COWPUNCHER = "Cow Puncher";
-  private static final String BEANSLINGER = "Beanslinger";
-  private static final String SNAKE_OILER = "Snake Oiler";
-  private static final String SOURCE = "The Source";
-  private static final String NUCLEAR_AUTUMN = "Nuclear Autumn";
-  private static final String GELATINOUS_NOOB = "Gelatinous Noob";
-  private static final String VAMPYRE = "Vampyre";
-  private static final String PLUMBER = "Plumber";
-  private static final String GREY_YOU = "Grey You";
-  private static final String[] CATEGORIES =
-      new String[] {
-        SkillDatabase.UNCATEGORIZED,
-        "seal clubber", // 1xxx
-        "turtle tamer", // 2xxx
-        "pastamancer", // 3xxx
-        "sauceror", // 4xxx
-        "disco bandit", // 5xxx
-        "accordion thief", // 6xxx
-        SkillDatabase.CONDITIONAL, // 7xxx
-        SkillDatabase.MR_SKILLS, // 8xxx
-        "9XXX", // 9xxx
-        "10XXX", // 10xxx
-        SkillDatabase.AVATAR_OF_BORIS, // 11xxx
-        SkillDatabase.ZOMBIE_MASTER, // 12xxx
-        "13XXX", // 13xxx
-        SkillDatabase.AVATAR_OF_JARLSBERG, // 14xxx
-        SkillDatabase.AVATAR_OF_SNEAKY_PETE, // 15xxx
-        SkillDatabase.HEAVY_RAINS, // 16xxx
-        SkillDatabase.ED, // 17xxx
-        SkillDatabase.COWPUNCHER, // 18xxx
-        SkillDatabase.BEANSLINGER, // 19xxx
-        SkillDatabase.SNAKE_OILER, // 20xxx
-        SkillDatabase.SOURCE, // 21xxx
-        SkillDatabase.NUCLEAR_AUTUMN, // 22xxx
-        SkillDatabase.GELATINOUS_NOOB, // 23xxx
-        SkillDatabase.VAMPYRE, // 24xxx
-        SkillDatabase.PLUMBER, // 25xxx
-        "26XXX", // 26xxx
-        SkillDatabase.GREY_YOU, // 27xxx
-        // The following are convenience categories, not implied by skill id
-        SkillDatabase.GNOME_SKILLS,
-        SkillDatabase.BAD_MOON
-      };
+
+  public enum Category {
+    UNCATEGORIZED("uncategorized"),
+    SEAL_CLUBBER("seal clubber"), // 1xxx
+    TURTLE_TAMER("turtle tamer"), // 2xxx
+    PASTAMANCER("pastamancer"), // 3xxx
+    SAUCEROR("sauceror"), // 4xxx
+    DISCO_BANDIT("disco bandit"), // 5xxx
+    ACCORDION_THIEF("accordion thief"), // 6xxx
+    CONDITIONAL("conditional"), // 7xxx
+    MR_SKILLS("mr. skills"), // 8xxx
+    NINE("9XXX"), // 9xxx
+    TEN("10XXX"), // 10xxx
+    AVATAR_OF_BORIS("avatar of Boris"), // 11xxx
+    ZOMBIE_MASTER("zombie master"), // 12xxx
+    THIRTEEN("13XXX"), // 13xxx
+    AVATAR_OF_JARLSBERG("Avatar of Jarlsberg"), // 14xxx
+    AVATAR_OF_SNEAKY_PETE("Avatar of Sneaky Pete"), // 15xxx
+    HEAVY_RAINS("Heavy Rains"), // 16xxx
+    ED("Ed the Undying"), // 17xxx
+    COWPUNCHER("Cow Puncher"), // 18xxx
+    BEANSLINGER("Beanslinger"), // 19xxx
+    SNAKE_OILER("Snake Oiler"), // 20xxx
+    SOURCE("The Source"), // 21xxx
+    NUCLEAR_AUTUMN("Nuclear Autumn"), // 22xxx
+    GELATINOUS_NOOB("Gelatinous Noob"), // 23xxx
+    VAMPYRE("Vampyre"), // 24xxx
+    PLUMBER("Plumber"), // 25xxx
+    TWENTY_SIX("26XXX"), // 26xxx
+    GREY_YOU("Grey You"), // 27xxx
+    // The following are convenience categories, not implied by skill id
+    GNOME_SKILLS("gnome trainer"),
+    BAD_MOON("bad moon");
+
+    public final String name;
+    static final Category[] VALUES = values();
+
+    Category(String name) {
+      this.name = name;
+    }
+  }
+
   private static final int[] NO_SKILL_IDS = new int[0];
   private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
   private static final ArrayList<String> skillNames = new ArrayList<>();
@@ -143,8 +131,7 @@ public class SkillDatabase {
   }
 
   public static void reset() {
-    for (int i = 0; i < SkillDatabase.CATEGORIES.length; ++i) {
-      String category = SkillDatabase.CATEGORIES[i];
+    for (var category : Category.VALUES) {
       SkillDatabase.skillsByCategory.put(category, new ArrayList<>());
     }
 
@@ -222,11 +209,11 @@ public class SkillDatabase {
     }
 
     int categoryId = skillId.intValue() / 1000;
-    if (categoryId >= SkillDatabase.CATEGORIES.length) {
+    if (categoryId >= Category.VALUES.length) {
       return;
     }
 
-    String category =
+    Category category =
         switch (skillId.intValue()) {
           case SkillPool.SMILE_OF_MR_A,
               SkillPool.SNOWCONE,
@@ -246,27 +233,26 @@ public class SkillDatabase {
               SkillPool.TASTEFUL,
               SkillPool.CARDS,
               SkillPool.GEEKY,
-              SkillPool.CONFISCATOR -> SkillDatabase.MR_SKILLS;
+              SkillPool.CONFISCATOR -> Category.MR_SKILLS;
           case SkillPool.OBSERVATIOGN,
               SkillPool.GNEFARIOUS_PICKPOCKETING,
               SkillPool.TORSO,
               SkillPool.GNOMISH_HARDINESS,
-              SkillPool.COSMIC_UNDERSTANDING -> SkillDatabase.GNOME_SKILLS; // Lust
+              SkillPool.COSMIC_UNDERSTANDING -> Category.GNOME_SKILLS;
           case SkillPool.LUST,
               SkillPool.GLUTTONY,
               SkillPool.GREED,
               SkillPool.SLOTH,
               SkillPool.WRATH,
               SkillPool.ENVY,
-              SkillPool.PRIDE -> SkillDatabase.BAD_MOON;
-          case SkillPool.MUG_FOR_THE_AUDIENCE -> // Pride
-          SkillDatabase.AVATAR_OF_SNEAKY_PETE;
+              SkillPool.PRIDE -> Category.BAD_MOON;
+          case SkillPool.MUG_FOR_THE_AUDIENCE -> Category.AVATAR_OF_SNEAKY_PETE;
           default ->
 
           // Moxious maneuver has a 7000 id, but
           // it's not gained by equipment.
 
-          SkillDatabase.CATEGORIES[categoryId];
+          Category.VALUES[categoryId];
         };
 
     SkillDatabase.skillCategoryById.put(skillId, category);
@@ -275,19 +261,10 @@ public class SkillDatabase {
     SkillDatabase.castsById.put(skillId, 0);
   }
 
-  public static final List<String> getSkillsByCategory(String category) {
+  public static final List<String> getSkillsByCategory(Category category) {
     if (category == null) {
       return new ArrayList<>();
     }
-
-    List<String> categoryMatches =
-        StringUtilities.getMatchingNames(SkillDatabase.CATEGORIES, category);
-
-    if (categoryMatches.size() != 1) {
-      return new ArrayList<>();
-    }
-
-    category = categoryMatches.get(0);
 
     List<String> skills = SkillDatabase.skillsByCategory.get(category);
 
@@ -517,9 +494,9 @@ public class SkillDatabase {
     return skillType.name;
   }
 
-  public static final String getSkillCategory(final int skillId) {
-    String cat = SkillDatabase.skillCategoryById.get(skillId);
-    return cat == null ? "" : cat;
+  public static final Category getSkillCategory(final int skillId) {
+    Category cat = SkillDatabase.skillCategoryById.get(skillId);
+    return cat == null ? Category.UNCATEGORIZED : cat;
   }
 
   /**
@@ -1109,7 +1086,7 @@ public class SkillDatabase {
   }
 
   public static final boolean isVampyreSkill(final int skillId) {
-    return SkillDatabase.getSkillCategory(skillId).equals(SkillDatabase.VAMPYRE);
+    return SkillDatabase.getSkillCategory(skillId).equals(Category.VAMPYRE);
   }
 
   public static final int getHPCost(final int skillId) {
@@ -1425,28 +1402,28 @@ public class SkillDatabase {
   }
 
   public static final void generateSkillList(final StringBuffer buffer, final boolean appendHTML) {
-    List<List<String>> categories = new ArrayList<>(SkillDatabase.CATEGORIES.length);
+    Map<Category, List<String>> categories = new EnumMap<>(Category.class);
 
     if (SkillDatabase.skillNames.isEmpty()) {
       SkillDatabase.skillNames.addAll(SkillDatabase.skillIdSetByName.keySet());
     }
 
-    for (int i = 0; i < SkillDatabase.CATEGORIES.length; ++i) {
-      categories.add(new ArrayList<>());
-      categories.get(i).addAll(SkillDatabase.skillsByCategory.get(SkillDatabase.CATEGORIES[i]));
+    for (var category : Category.VALUES) {
+      var list = new ArrayList<>(SkillDatabase.skillsByCategory.get(category));
+      categories.put(category, list);
 
-      for (int j = 0; j < categories.get(i).size(); ++j) {
+      for (int j = 0; j < categories.get(category).size(); ++j) {
         if (!KoLConstants.availableSkills.contains(
-            UseSkillRequest.getUnmodifiedInstance(categories.get(i).get(j)))) {
-          categories.get(i).remove(j--);
+            UseSkillRequest.getUnmodifiedInstance(categories.get(category).get(j)))) {
+          categories.get(category).remove(j--);
         }
       }
     }
 
     boolean printedList = false;
 
-    for (int i = 0; i < categories.size(); ++i) {
-      if (categories.get(i).isEmpty()) {
+    for (var entry : categories.entrySet()) {
+      if (entry.getValue().isEmpty()) {
         continue;
       }
 
@@ -1459,10 +1436,7 @@ public class SkillDatabase {
       }
 
       SkillDatabase.appendSkillList(
-          buffer,
-          appendHTML,
-          StringUtilities.toTitleCase(SkillDatabase.CATEGORIES[i]),
-          categories.get(i));
+          buffer, appendHTML, StringUtilities.toTitleCase(entry.getKey().name), entry.getValue());
       printedList = true;
     }
   }

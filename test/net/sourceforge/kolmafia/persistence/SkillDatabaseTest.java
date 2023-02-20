@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -48,27 +49,27 @@ public class SkillDatabaseTest {
   class Categories {
     @Test
     public void identifiesClassSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.ANTIPHON), "accordion thief");
+      assertEquals(SkillDatabase.getSkillCategory(SkillPool.ANTIPHON), Category.ACCORDION_THIEF);
     }
 
     @Test
     public void identifiesVampyreSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.BLOOD_CLOAK), "Vampyre");
+      assertEquals(SkillDatabase.getSkillCategory(SkillPool.BLOOD_CLOAK), Category.VAMPYRE);
     }
 
     @Test
     public void identifiesConditionalSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.CREEPY_GRIN), "conditional");
+      assertEquals(SkillDatabase.getSkillCategory(SkillPool.CREEPY_GRIN), Category.CONDITIONAL);
     }
 
     @Test
     public void identifiesGnomeSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.TORSO), "gnome trainer");
+      assertEquals(SkillDatabase.getSkillCategory(SkillPool.TORSO), Category.GNOME_SKILLS);
     }
 
     @Test
     public void identifiesBadMoonSkill() {
-      assertEquals(SkillDatabase.getSkillCategory(SkillPool.LUST), "bad moon");
+      assertEquals(SkillDatabase.getSkillCategory(SkillPool.LUST), Category.BAD_MOON);
     }
   }
 }
