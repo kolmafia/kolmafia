@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -27,6 +28,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StationaryButtonDecorator {
   private static final ArrayList<String> combatHotkeys = new ArrayList<>();
+
+  private static final AdventureResult EVERYTHING_LOOKS_YELLOW =
+      EffectPool.get(EffectPool.EVERYTHING_LOOKS_YELLOW);
 
   private StationaryButtonDecorator() {}
 
@@ -702,6 +706,8 @@ public class StationaryButtonDecorator {
           case SkillPool.LASH_OF_COBRA -> isEnabled = !Preferences.getBoolean("edUsedLash");
           case SkillPool.GINGERBREAD_MOB_HIT -> isEnabled =
               !Preferences.getBoolean("_gingerbreadMobHitUsed");
+          case SkillPool.FONDELUGE -> isEnabled =
+              !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_YELLOW);
         }
       }
     }

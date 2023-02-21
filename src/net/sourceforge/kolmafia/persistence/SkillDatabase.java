@@ -1306,6 +1306,9 @@ public class SkillDatabase {
       case 24: // Vampyre skills
       case 25: // Plumber skills
       case 27: // Grey Goo skills
+      case 28: // Pig Skinner skills
+      case 29: // Cheese Wizard skills
+      case 30: // Jazz Agent skills
         return false;
     }
 
