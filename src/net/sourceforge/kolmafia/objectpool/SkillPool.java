@@ -747,6 +747,7 @@ public class SkillPool {
   public static final int SECOND_WIND = 28016;
   public static final int STOP_HITTING_YOURSELF = 28017;
   public static final int FONDELUGE = 29021;
+  public static final int DRUM_ROLL = 30016;
 
   private SkillPool() {}
 }
