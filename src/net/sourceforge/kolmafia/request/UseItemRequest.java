@@ -5222,6 +5222,10 @@ public class UseItemRequest extends GenericRequest {
         Preferences.increment("awolDeferredPointsSnakeoiler");
         break;
 
+      case ItemPool.SHADOWY_CHEAT_SHEET:
+        Preferences.increment("asolDeferredPoints");
+        break;
+
       case ItemPool.CODPIECE:
       case ItemPool.BASS_CLARINET:
       case ItemPool.FISH_HATCHET:

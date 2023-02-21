@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -16,12 +17,13 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 
 public class AscensionSnapshot {
-  public static final int NO_FILTER = 0;
-
-  public static final int UNKNOWN_TYPE = -1;
-  public static final int NORMAL = 1;
-  public static final int HARDCORE = 2;
-  public static final int CASUAL = 3;
+  public enum AscensionFilter {
+    UNKNOWN_TYPE,
+    NO_FILTER,
+    NORMAL,
+    HARDCORE,
+    CASUAL;
+  }
 
   private static final Map<String, String> ascensionMap = new TreeMap<>();
   private static final List<AscensionHistoryRequest> ascensionDataList = new ArrayList<>();
@@ -60,7 +62,7 @@ public class AscensionSnapshot {
   }
 
   public static final String getAscensionData(
-      final int typeFilter,
+      final AscensionFilter typeFilter,
       final int mostAscensionsBoardSize,
       final int mainBoardSize,
       final int classBoardSize,
@@ -76,9 +78,9 @@ public class AscensionSnapshot {
     strbuf.append("<title>");
 
     switch (typeFilter) {
-      case AscensionSnapshot.NORMAL -> strbuf.append("Normal");
-      case AscensionSnapshot.HARDCORE -> strbuf.append("Hardcore");
-      case AscensionSnapshot.CASUAL -> strbuf.append("Casual");
+      case NORMAL -> strbuf.append("Normal");
+      case HARDCORE -> strbuf.append("Hardcore");
+      case CASUAL -> strbuf.append("Casual");
     }
 
     String clanName = ClanManager.getClanName(true);
@@ -104,7 +106,7 @@ public class AscensionSnapshot {
 
     strbuf.append("<tr><td align=center><h3>Avg: ");
     strbuf.append(
-        ((typeFilter == AscensionSnapshot.NORMAL
+        ((typeFilter == AscensionFilter.NORMAL
                     ? (float) AscensionSnapshot.softcoreAscensionList.size()
                     : 0.0f)
                 + AscensionSnapshot.hardcoreAscensionList.size()
@@ -120,9 +122,9 @@ public class AscensionSnapshot {
     strbuf.append(KoLConstants.LINE_BREAK);
     strbuf.append("<tr><td style=\"color:white\" align=center bgcolor=blue><b>Most ");
     strbuf.append(
-        typeFilter == AscensionSnapshot.NORMAL
+        typeFilter == AscensionFilter.NORMAL
             ? "Normal "
-            : typeFilter == AscensionSnapshot.HARDCORE ? "Hardcore " : "Casual ");
+            : typeFilter == AscensionFilter.HARDCORE ? "Hardcore " : "Casual ");
     strbuf.append(
         "Ascensions</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table>");
     strbuf.append(KoLConstants.LINE_BREAK);
@@ -157,385 +159,39 @@ public class AscensionSnapshot {
     // Finally, the ascension leaderboards for fastest
     // ascension speed.  Do this for all paths individually.
 
-    if (typeFilter != AscensionSnapshot.CASUAL) {
+    Consumer<Path> appendPathBoard =
+        (p) -> {
+          strbuf.append(
+              AscensionSnapshot.getPathedAscensionData(
+                  typeFilter,
+                  p,
+                  mainBoardSize,
+                  classBoardSize,
+                  maxAge,
+                  playerMoreThanOnce,
+                  localProfileLink));
+          strbuf.append(KoLConstants.LINE_BREAK);
+        };
+
+    if (typeFilter != AscensionFilter.CASUAL) {
       strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.PATH_OF_THE_PLUMBER,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.KINGDOM_OF_EXPLOATHING,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.CRAZY_RANDOM_SUMMER_TWO,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.DARK_GYFFTE,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.DISGUISES_DELIMIT,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.GLOVER,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.POKEFAM,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.LIVE_ASCEND_REPEAT,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.LICENSE_TO_ADVENTURE,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.GELATINOUS_NOOB,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.NUCLEAR_AUTUMN,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.THE_SOURCE,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.AVATAR_OF_WEST_OF_LOATHING,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.COMMUNITY_SERVICE,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.CRAZY_RANDOM_SUMMER,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.ACTUALLY_ED_THE_UNDYING,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.STANDARD,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.PICKY,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.HEAVY_RAINS,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.SLOW_AND_STEADY,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.AVATAR_OF_SNEAKY_PETE,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.CLASS_ACT_II,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.KOLHS,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.BIG,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.AVATAR_OF_JARLSBERG,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.CLASS_ACT,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.ZOMBIE_SLAYER,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.BUGBEAR_INVASION,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.AVATAR_OF_BORIS,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.TRENDY,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.SURPRISING_FIST,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.BEES_HATE_YOU,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.BAD_MOON,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.OXYGENARIAN,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.TEETOTALER,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
-      strbuf.append(
-          AscensionSnapshot.getPathedAscensionData(
-              typeFilter,
-              Path.BOOZETAFARIAN,
-              mainBoardSize,
-              classBoardSize,
-              maxAge,
-              playerMoreThanOnce,
-              localProfileLink));
-      strbuf.append(KoLConstants.LINE_BREAK);
+      for (var path : Path.values()) {
+        if (path != Path.NONE && path != Path.BAD_MOON) {
+          appendPathBoard.accept(path);
+        }
+      }
+      if (typeFilter == AscensionFilter.HARDCORE) {
+        appendPathBoard.accept(Path.BAD_MOON);
+      }
     }
-    strbuf.append(
-        AscensionSnapshot.getPathedAscensionData(
-            typeFilter,
-            Path.NONE,
-            mainBoardSize,
-            classBoardSize,
-            maxAge,
-            playerMoreThanOnce,
-            localProfileLink));
-    strbuf.append(KoLConstants.LINE_BREAK);
+    appendPathBoard.accept(Path.NONE);
 
     strbuf.append("</center>");
     return strbuf.toString();
   }
 
   public static final String getPathedAscensionData(
-      final int typeFilter,
+      final AscensionFilter typeFilter,
       final Path pathFilter,
       final int mainBoardSize,
       final int classBoardSize,
@@ -566,6 +222,35 @@ public class AscensionSnapshot {
     // Finally, add in all the breakdown tables, just like
     // in the KoL leaderboard frame, for class based paths.
 
+    Runnable hideShowByClass =
+        () -> {
+          strbuf.append(
+              "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec");
+          strbuf.append(pathFilter);
+          strbuf.append(
+              "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">");
+          strbuf.append("hide/show records by class</a><div id=\"sec");
+          strbuf.append(pathFilter);
+          strbuf.append("\" style=\"display:none\"><br><br>");
+          strbuf.append(KoLConstants.LINE_BREAK);
+        };
+
+    Consumer<AscensionClass> appendClassBoard =
+        (c) -> {
+          strbuf.append(KoLConstants.LINE_BREAK);
+          strbuf.append(
+              AscensionSnapshot.getAscensionData(
+                  typeFilter,
+                  pathFilter,
+                  c,
+                  mainBoardSize,
+                  classBoardSize,
+                  maxAge,
+                  playerMoreThanOnce,
+                  localProfileLink));
+          strbuf.append(KoLConstants.LINE_BREAK);
+        };
+
     switch (pathFilter) {
       case AVATAR_OF_BORIS:
       case ZOMBIE_SLAYER:
@@ -578,144 +263,39 @@ public class AscensionSnapshot {
       case GREY_YOU:
         break;
       case AVATAR_OF_WEST_OF_LOATHING:
-        strbuf.append(
-            "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec");
-        strbuf.append(pathFilter);
-        strbuf.append(
-            "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">");
-        strbuf.append("hide/show records by class</a><div id=\"sec");
-        strbuf.append(pathFilter);
-        strbuf.append("\" style=\"display:none\"><br><br>");
-        strbuf.append(KoLConstants.LINE_BREAK);
+        hideShowByClass.run();
         strbuf.append("<table><tr><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.COWPUNCHER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.COWPUNCHER);
         strbuf.append("</td><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.BEANSLINGER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.BEANSLINGER);
         strbuf.append("</td></tr><tr><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.SNAKE_OILER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.SNAKE_OILER);
+        strbuf.append("</td></tr></table>");
+        break;
+      case SHADOWS_OVER_LOATHING:
+        hideShowByClass.run();
+        strbuf.append("<table><tr><td valign=top>");
+        appendClassBoard.accept(AscensionClass.PIG_SKINNER);
+        strbuf.append("</td><td valign=top>");
+        appendClassBoard.accept(AscensionClass.CHEESE_WIZARD);
+        strbuf.append("</td></tr><tr><td valign=top>");
+        appendClassBoard.accept(AscensionClass.JAZZ_AGENT);
         strbuf.append("</td></tr></table>");
         break;
       default:
-        strbuf.append(
-            "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec");
-        strbuf.append(pathFilter);
-        strbuf.append(
-            "'); element.style.display = element.style.display == 'inline' ? 'none' : 'inline';\">");
-        strbuf.append("hide/show records by class</a><div id=\"sec");
-        strbuf.append(pathFilter);
-        strbuf.append("\" style=\"display:none\"><br><br>");
-        strbuf.append(KoLConstants.LINE_BREAK);
+        hideShowByClass.run();
         strbuf.append("<table><tr><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.SEAL_CLUBBER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.SEAL_CLUBBER);
         strbuf.append("</td><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.SAUCEROR,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.SAUCEROR);
         strbuf.append("</td></tr><tr><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.TURTLE_TAMER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.TURTLE_TAMER);
         strbuf.append("</td><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.DISCO_BANDIT,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.DISCO_BANDIT);
         strbuf.append("</td></tr><tr><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.PASTAMANCER,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.PASTAMANCER);
         strbuf.append("</td><td valign=top>");
-        strbuf.append(KoLConstants.LINE_BREAK);
-        strbuf.append(
-            AscensionSnapshot.getAscensionData(
-                typeFilter,
-                pathFilter,
-                AscensionClass.ACCORDION_THIEF,
-                mainBoardSize,
-                classBoardSize,
-                maxAge,
-                playerMoreThanOnce,
-                localProfileLink));
-        strbuf.append(KoLConstants.LINE_BREAK);
+        appendClassBoard.accept(AscensionClass.ACCORDION_THIEF);
         strbuf.append("</td></tr></table>");
         break;
     }
@@ -728,7 +308,7 @@ public class AscensionSnapshot {
   }
 
   public static final String getAscensionData(
-      final int typeFilter,
+      final AscensionFilter typeFilter,
       final Path pathFilter,
       final AscensionClass classFilter,
       final int mainBoardSize,
@@ -741,15 +321,15 @@ public class AscensionSnapshot {
     AscensionDataField[] fields = null;
 
     switch (typeFilter) {
-      case AscensionSnapshot.NORMAL:
+      case NORMAL:
         fields = new AscensionDataField[AscensionSnapshot.softcoreAscensionList.size()];
         AscensionSnapshot.softcoreAscensionList.toArray(fields);
         break;
-      case AscensionSnapshot.HARDCORE:
+      case HARDCORE:
         fields = new AscensionDataField[AscensionSnapshot.hardcoreAscensionList.size()];
         AscensionSnapshot.hardcoreAscensionList.toArray(fields);
         break;
-      case AscensionSnapshot.CASUAL:
+      case CASUAL:
         fields = new AscensionDataField[AscensionSnapshot.casualAscensionList.size()];
         AscensionSnapshot.casualAscensionList.toArray(fields);
         break;
@@ -800,10 +380,13 @@ public class AscensionSnapshot {
       strbuf.append("Fastest ");
 
       strbuf.append(
-          typeFilter == AscensionSnapshot.NORMAL
+          typeFilter == AscensionFilter.NORMAL
               ? "Normal "
-              : typeFilter == AscensionSnapshot.HARDCORE ? "Hardcore " : "Casual ");
-      strbuf.append(pathFilter == null ? "" : pathFilter.getName());
+              : typeFilter == AscensionFilter.HARDCORE ? "Hardcore " : "Casual ");
+      strbuf.append(
+          pathFilter == null
+              ? ""
+              : (pathFilter == Path.NONE ? "No Path" : pathFilter.getName()) + " ");
 
       strbuf.append("Ascensions (Out of ");
       strbuf.append(resultsList.size());
@@ -866,9 +449,9 @@ public class AscensionSnapshot {
       request.getAscensionData().toArray(fields);
 
       for (AscensionDataField field : fields) {
-        if (field.matchesFilter(AscensionSnapshot.NORMAL, null, null, 0)) {
+        if (field.matchesFilter(AscensionFilter.NORMAL, null, null, 0)) {
           AscensionSnapshot.softcoreAscensionList.add(field);
-        } else if (field.matchesFilter(AscensionSnapshot.HARDCORE, null, null, 0)) {
+        } else if (field.matchesFilter(AscensionFilter.HARDCORE, null, null, 0)) {
           AscensionSnapshot.hardcoreAscensionList.add(field);
         } else {
           AscensionSnapshot.casualAscensionList.add(field);

@@ -2365,7 +2365,8 @@ public class RelayRequest extends PasswordHashRequest {
         || KoLCharacter.isVampyre()
         || KoLCharacter.isPlumber()
         || KoLCharacter.inRobocore()
-        || KoLCharacter.inDinocore()) {
+        || KoLCharacter.inDinocore()
+        || KoLCharacter.inShadowsOverLoathing()) {
       return false;
     }
 
@@ -2620,7 +2621,8 @@ public class RelayRequest extends PasswordHashRequest {
         || KoLCharacter.isPlumber()
         || KoLCharacter.inRobocore()
         || KoLCharacter.inFirecore()
-        || KoLCharacter.inDinocore()) {
+        || KoLCharacter.inDinocore()
+        || KoLCharacter.inShadowsOverLoathing()) {
       return false;
     }
 
