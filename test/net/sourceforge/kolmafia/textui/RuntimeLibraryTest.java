@@ -38,7 +38,6 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
@@ -617,7 +616,6 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       JSONObject JSON = json(text);
 
       ApiRequest.parseStatus(JSON);
-
 
       String output = execute("daycount()");
 
