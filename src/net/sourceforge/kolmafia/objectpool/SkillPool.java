@@ -746,8 +746,13 @@ public class SkillPool {
   public static final int HOT_FOOT = 28015;
   public static final int SECOND_WIND = 28016;
   public static final int STOP_HITTING_YOURSELF = 28017;
+  public static final int EMMENTAL_ELEMENTAL = 29017;
+  public static final int STILTON_SPLATTER = 29019;
   public static final int FONDELUGE = 29021;
+  public static final int KNIFE_IN_THE_DARKNESS = 30014;
+  public static final int VENOMOUS_RIFF = 30015;
   public static final int DRUM_ROLL = 30016;
+  public static final int MOTIF = 30021;
 
   private SkillPool() {}
 }
