@@ -406,7 +406,7 @@ The Middle Chamber	100	tomb asp	tomb rat	tomb servant
 The Mines	-1	bat	cobra	snake	spider
 The Mouldering Mansion	70	bellhop	black cat	Ourang-Outang	raven	usher
 The Mystic Wood	100	fantasy forest faerie
-The Naughty Sorceress' Chamber	100	Naughty Sorceress
+The Naughty Sorceress' Chamber	100	Naughty Sorceress: 0	Naughty Sorceress (2): 0	Naughty Sorceress (3): 0
 The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanctum): 0	warehouse worker	Stella, the Turtle Poacher (Inner Sanctum): 0	evil spaghetti cult zealot	Spaghetti Elemental (Inner Sanctum): 0	security slime	Lumpy, the Sinister Sauceblob (Inner Sanctum): 0	daft punk	Spirit of New Wave (Inner Sanctum): 0	mariachi bruiser	Somerset Lopez, Dread Mariachi (Inner Sanctum): 0
 The Neverending Party	-1	biker	burnout	jock	party girl	"plain" girl
 The Nightmare Meatrealm	100	bacon snake	cold cutter	groast	pork butterfly	salaminder	The Beefhemoth: 0

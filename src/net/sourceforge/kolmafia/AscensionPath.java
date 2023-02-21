@@ -62,8 +62,7 @@ public class AscensionPath {
     GREY_YOU("Grey You", 44, true, "greygooring", "a", "greyYouPoints", 11, false),
     JOURNEYMAN("Journeyman", 45, false, "map", "a"),
     DINOSAURS("Fall of the Dinosaurs", 46, false, "dinostuffy", "a"),
-    SHADOWS_OVER_LOATHING(
-        "Avatar of Shadows Over Loathing", 47, false, "aosol", "an", "shadowsPoints", 11, true),
+    SHADOWS_OVER_LOATHING("Avatar of Shadows Over Loathing", 47, false, "aosol", "an"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;

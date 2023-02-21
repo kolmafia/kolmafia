@@ -5724,7 +5724,7 @@ Effect	Doubly Burningly Oiled	Hot Damage: +20, Sleaze Resistance: +4
 Effect	Doubly Craving Prawns	Food Drop: +100
 Effect	Doubly Shivering Spine	Spooky Damage: +20, Stench Resistance: +4
 Effect	Doubly Spookily Greasy	Sleaze Damage: +20, Spooky Resistance: +4
-Effect	Doubly Troubled Waters	Monster Level: +50
+Effect	Doubly Troubled Waters	Monster Level: [min(50,20+2*L)]
 # Down the Rabbit Hole: Lets you adventure in The Rabbit Hole in The Nearby Plains
 Effect	Down With Chow	Familiar Weight: +10
 Effect	Dragged Through the Coals	Hot Damage: +100
@@ -7636,7 +7636,7 @@ Effect	Tricky Timpani	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Sleaze
 Effect	Triple-Sized	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Tropical Contact High: Grants Access to Kokomo
-Effect	Troubled Waters	Monster Level: +25
+Effect	Troubled Waters	Monster Level: [min(25,10+L)]
 Effect	Truffle Tango	Item Drop: +50
 Effect	Trufflin'	Meat Drop: +100
 Effect	Truly Gritty	Weapon Damage: +20, Muscle: +20

@@ -3365,4 +3365,43 @@ public class QuestManagerTest {
       assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
     }
   }
+
+  @Nested
+  class UhOhs {
+    @Test
+    public void doNotProgressQuestManorOnUhOh() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.MANOR, QuestDatabase.UNSTARTED),
+              withProperty("lastSecondFloorUnlock", -1));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_quest_manor11_uhoh.html"));
+
+        var request = new GenericRequest("place.php?whichplace=manor4", false);
+        request.run();
+
+        assertThat(Quest.MANOR, isUnstarted());
+        assertThat("lastSecondFloorUnlock", isSetTo(-1));
+      }
+    }
+
+    @Test
+    public void doNotProgressQuestPyramidOnUhOh() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.PYRAMID, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_quest_pyramid_uhoh.html"));
+
+        var request = new GenericRequest("place.php?whichplace=pyramid", false);
+        request.run();
+
+        assertThat(Quest.PYRAMID, isUnstarted());
+      }
+    }
+  }
 }

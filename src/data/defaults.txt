@@ -181,6 +181,10 @@ user	antagonisticSnowmanKitCost	1000
 user	arcadeGameHints	false
 user	armoryUnlocked	false
 user	ascensionsToday	0
+user	asolDeferredPoints	0
+user	asolPointsPigSkinner	0
+user	asolPointsCheeseWizard	0
+user	asolPointsJazzAgent	0
 user	autoAbortThreshold	-0.05
 user	autoAntidote	0
 user	autoBuyPriceLimit	20000
@@ -1304,7 +1308,6 @@ user	SeasoningSwagger	0
 user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	shadowRiftIngress
-user	shadowsPoints	0
 user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0
 user	shenQuestItem
