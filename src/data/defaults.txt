@@ -181,6 +181,10 @@ user	antagonisticSnowmanKitCost	1000
 user	arcadeGameHints	false
 user	armoryUnlocked	false
 user	ascensionsToday	0
+user	asolDeferredPoints	0
+user	asolPointsPigSkinner	0
+user	asolPointsCheeseWizard	0
+user	asolPointsJazzAgent	0
 user	autoAbortThreshold	-0.05
 user	autoAntidote	0
 user	autoBuyPriceLimit	20000
@@ -2141,6 +2145,8 @@ user	_snowglobeDrops	0
 user	_snowSuitCount	0
 user	_sobrieTeaUsed	false
 user	_softwareGlitchTurnReceived	false
+user	_sotParcelLocation
+user	_sotParcelReturned  false
 user	_sourceTerminalDigitizeMonster
 user	_sourceTerminalDigitizeMonsterCount	0
 user	_sourceTerminalDigitizeUses	0

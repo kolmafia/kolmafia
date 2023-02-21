@@ -12,6 +12,7 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -135,13 +136,13 @@ public class AdventureDatabaseTest {
       var adventure = AdventureDatabase.getAdventure(adventureName);
       assertFalse(adventure == null);
       assertThat(adventure.getAdventureName(), is(adventureName));
-      var request = adventure.getRequest();
+      var request = (AdventureRequest) adventure.getRequest();
       assertFalse(request == null);
 
-      // We have a request ready to go. Rather than actually running
-      // it, we'll call reconstructFields(), which chooses the URL
-      // in run(), just before the request is submitted
-      request.reconstructFields();
+      // We have a request ready to go. Rather than actually running it,
+      // we'll call updateFields(), which chooses the URL in run(), just
+      // before the request is submitted
+      request.updateFields();
 
       // The first time we visit a rift, we expect the URL that will
       // be submitted is the place.php with whichplace/action for the

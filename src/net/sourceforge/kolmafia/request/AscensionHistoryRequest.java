@@ -21,7 +21,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot.AscensionFilter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -30,7 +30,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AscensionHistoryRequest extends GenericRequest
     implements Comparable<AscensionHistoryRequest> {
-  private static int typeComparator = AscensionSnapshot.NORMAL;
+  private static AscensionFilter typeComparator = AscensionFilter.NORMAL;
 
   private static final SimpleDateFormat ASCEND_DATE_FORMAT =
       new SimpleDateFormat("MM/dd/yy", Locale.US);
@@ -56,7 +56,7 @@ public class AscensionHistoryRequest extends GenericRequest
     this.ascensionData = new ArrayList<>();
   }
 
-  public static final void setComparator(final int typeComparator) {
+  public static final void setComparator(final AscensionFilter typeComparator) {
     AscensionHistoryRequest.typeComparator = typeComparator;
   }
 
@@ -74,9 +74,9 @@ public class AscensionHistoryRequest extends GenericRequest
     stringForm.append("</b></a></td>");
     stringForm.append("<td align=right>");
     stringForm.append(
-        typeComparator == AscensionSnapshot.NORMAL
+        typeComparator == AscensionFilter.NORMAL
             ? this.softcoreCount
-            : typeComparator == AscensionSnapshot.HARDCORE ? this.hardcoreCount : casualCount);
+            : typeComparator == AscensionFilter.HARDCORE ? this.hardcoreCount : casualCount);
     stringForm.append("</td></tr>");
     return stringForm.toString();
   }
@@ -85,9 +85,9 @@ public class AscensionHistoryRequest extends GenericRequest
   public int compareTo(final AscensionHistoryRequest o) {
     return o == null
         ? -1
-        : typeComparator == AscensionSnapshot.NORMAL
+        : typeComparator == AscensionFilter.NORMAL
             ? o.softcoreCount - this.softcoreCount
-            : typeComparator == AscensionSnapshot.HARDCORE
+            : typeComparator == AscensionFilter.HARDCORE
                 ? o.hardcoreCount - this.hardcoreCount
                 : o.casualCount - this.casualCount;
   }
@@ -147,7 +147,7 @@ public class AscensionHistoryRequest extends GenericRequest
 
       lastField = new AscensionDataField(playerName, playerId, columns);
 
-      int pointsEarned = lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+      int pointsEarned = lastField.typeId == AscensionFilter.HARDCORE ? 2 : 1;
 
       if (lastField.path == Path.AVATAR_OF_WEST_OF_LOATHING) {
         challengeClassPoints.merge(lastField.ascensionClass, pointsEarned, Integer::sum);
@@ -177,6 +177,15 @@ public class AscensionHistoryRequest extends GenericRequest
           break;
         case SNAKE_OILER:
           pref = "awolPointsSnakeoiler";
+          break;
+        case PIG_SKINNER:
+          pref = "asolPointsPigSkinner";
+          break;
+        case CHEESE_WIZARD:
+          pref = "asolPointsCheeseWizard";
+          break;
+        case JAZZ_AGENT:
+          pref = "asolPointsJazzAgent";
           break;
         default:
           continue;
@@ -317,9 +326,9 @@ public class AscensionHistoryRequest extends GenericRequest
           this.ascensionData.add(lastField);
 
           switch (lastField.typeId) {
-            case AscensionSnapshot.NORMAL -> ++this.softcoreCount;
-            case AscensionSnapshot.HARDCORE -> ++this.hardcoreCount;
-            case AscensionSnapshot.CASUAL -> ++this.casualCount;
+            case NORMAL -> ++this.softcoreCount;
+            case HARDCORE -> ++this.hardcoreCount;
+            case CASUAL -> ++this.casualCount;
           }
         } else if (columnsNew != null && columnsNew[0].equals(columnsOld[0])) {
           if (!fieldMatcher.find(lastFindIndex)) {
@@ -333,18 +342,18 @@ public class AscensionHistoryRequest extends GenericRequest
           this.ascensionData.add(lastField);
 
           switch (lastField.typeId) {
-            case AscensionSnapshot.NORMAL -> ++this.softcoreCount;
-            case AscensionSnapshot.HARDCORE -> ++this.hardcoreCount;
-            case AscensionSnapshot.CASUAL -> ++this.casualCount;
+            case NORMAL -> ++this.softcoreCount;
+            case HARDCORE -> ++this.hardcoreCount;
+            case CASUAL -> ++this.casualCount;
           }
         } else {
           lastField = new AscensionDataField(this.playerName, this.playerId, columnsOld);
           this.ascensionData.add(lastField);
 
           switch (lastField.typeId) {
-            case AscensionSnapshot.NORMAL -> ++this.softcoreCount;
-            case AscensionSnapshot.HARDCORE -> ++this.hardcoreCount;
-            case AscensionSnapshot.CASUAL -> ++this.casualCount;
+            case NORMAL -> ++this.softcoreCount;
+            case HARDCORE -> ++this.hardcoreCount;
+            case CASUAL -> ++this.casualCount;
           }
 
           try {
@@ -381,9 +390,9 @@ public class AscensionHistoryRequest extends GenericRequest
         this.ascensionData.add(lastField);
 
         switch (lastField.typeId) {
-          case AscensionSnapshot.NORMAL -> ++this.softcoreCount;
-          case AscensionSnapshot.HARDCORE -> ++this.hardcoreCount;
-          case AscensionSnapshot.CASUAL -> ++this.casualCount;
+          case NORMAL -> ++this.softcoreCount;
+          case HARDCORE -> ++this.hardcoreCount;
+          case CASUAL -> ++this.casualCount;
         }
 
         lastFindIndex = fieldMatcher.end() - 5;
@@ -403,9 +412,9 @@ public class AscensionHistoryRequest extends GenericRequest
       this.ascensionData.add(lastField);
 
       switch (lastField.typeId) {
-        case AscensionSnapshot.NORMAL -> ++this.softcoreCount;
-        case AscensionSnapshot.HARDCORE -> ++this.hardcoreCount;
-        case AscensionSnapshot.CASUAL -> ++this.casualCount;
+        case NORMAL -> ++this.softcoreCount;
+        case HARDCORE -> ++this.hardcoreCount;
+        case CASUAL -> ++this.casualCount;
       }
     }
   }
@@ -469,7 +478,8 @@ public class AscensionHistoryRequest extends GenericRequest
     private StringBuffer stringForm;
 
     private Date timestamp;
-    private int level, typeId;
+    private int level;
+    private AscensionFilter typeId = AscensionFilter.NO_FILTER;
     private int dayCount, turnCount;
     private Path path;
     private AscensionClass ascensionClass;
@@ -542,12 +552,12 @@ public class AscensionHistoryRequest extends GenericRequest
 
       this.typeId =
           path[0].equals("Normal")
-              ? AscensionSnapshot.NORMAL
+              ? AscensionFilter.NORMAL
               : path[0].equals("Hardcore")
-                  ? AscensionSnapshot.HARDCORE
+                  ? AscensionFilter.HARDCORE
                   : path[0].equals("Casual")
-                      ? AscensionSnapshot.CASUAL
-                      : AscensionSnapshot.UNKNOWN_TYPE;
+                      ? AscensionFilter.CASUAL
+                      : AscensionFilter.UNKNOWN_TYPE;
 
       String pathName = path[1];
       this.path = AscensionPath.nameToPath(pathName);
@@ -565,10 +575,8 @@ public class AscensionHistoryRequest extends GenericRequest
 
         this.typeId =
             columns[8].contains("hardcore")
-                ? AscensionSnapshot.HARDCORE
-                : columns[8].contains("beanbag")
-                    ? AscensionSnapshot.CASUAL
-                    : AscensionSnapshot.NORMAL;
+                ? AscensionFilter.HARDCORE
+                : columns[8].contains("beanbag") ? AscensionFilter.CASUAL : AscensionFilter.NORMAL;
 
         this.path =
             Arrays.stream(Path.values())
@@ -587,7 +595,7 @@ public class AscensionHistoryRequest extends GenericRequest
       return ProfileRequest.OUTPUT_FORMAT.format(this.timestamp);
     }
 
-    public int getTypeId() {
+    public AscensionFilter getTypeId() {
       return this.typeId;
     }
 
@@ -622,19 +630,19 @@ public class AscensionHistoryRequest extends GenericRequest
     }
 
     public boolean matchesFilter(
-        final int typeFilter,
+        final AscensionFilter typeFilter,
         final Path pathFilter,
         final AscensionClass classFilter,
         final int maxAge) {
-      return (typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId)
+      return (typeFilter == AscensionFilter.NO_FILTER || typeFilter == this.typeId)
           && (pathFilter == null || pathFilter == this.path)
           && (classFilter == null || classFilter == this.ascensionClass)
           && (maxAge == 0 || maxAge >= this.getAge());
     }
 
     public boolean matchesFilter(
-        final int typeFilter, final Path pathFilter, final AscensionClass classFilter) {
-      return (typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId)
+        final AscensionFilter typeFilter, final Path pathFilter, final AscensionClass classFilter) {
+      return (typeFilter == AscensionFilter.NO_FILTER || typeFilter == this.typeId)
           && (pathFilter == null || pathFilter == this.path)
           && (classFilter == null || classFilter == this.ascensionClass);
     }

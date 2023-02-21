@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
@@ -473,6 +475,10 @@ public class AreaCombatData {
   }
 
   public String toString(final boolean fullString) {
+    return this.toString(fullString, false);
+  }
+
+  public String toString(final boolean fullString, boolean mapped) {
     StringBuffer buffer = new StringBuffer();
 
     buffer.append("<html><head>");
@@ -486,15 +492,43 @@ public class AreaCombatData {
 
     buffer.append("</head><body>");
 
-    this.getSummary(buffer, fullString);
+    this.getSummary(buffer, fullString, mapped);
     this.getEncounterData(buffer);
-    this.appendMonsterData(buffer, fullString);
+    this.appendMonsterData(buffer, fullString, mapped);
 
     buffer.append("</body></html>");
     return buffer.toString();
   }
 
-  public void getSummary(final StringBuffer buffer, final boolean fullString) {
+  private MonsterData mapMonster(MonsterData mon) {
+    Path path = KoLCharacter.getPath();
+    if (path != null) {
+      Map<MonsterData, MonsterData> pathMap = MonsterDatabase.getMonsterPathMap(path.getName());
+      if (pathMap != null) {
+        MonsterData mapped = pathMap.get(mon);
+        if (mapped != null) {
+          return mapped;
+        }
+      }
+    }
+
+    // Your Ascension Class is null in Valhalla
+    AscensionClass clazz = KoLCharacter.getAscensionClass();
+    if (clazz != null) {
+      Map<MonsterData, MonsterData> classMap = MonsterDatabase.getMonsterClassMap(clazz.getName());
+      if (classMap != null) {
+        MonsterData mapped = classMap.get(mon);
+        if (mapped != null) {
+          return mapped;
+        }
+      }
+    }
+
+    return mon;
+  }
+
+  public void getSummary(
+      final StringBuffer buffer, final boolean fullString, final boolean mapped) {
     // Get up-to-date monster stats in area summary
     this.recalculate();
 
@@ -524,15 +558,20 @@ public class AreaCombatData {
 
     for (MonsterData monster : monsters) {
       int weighting = this.getWeighting(monster);
+      int rejection = this.getRejection(monster);
+      if (mapped) {
+        monster = mapMonster(monster);
+      }
+      if (monster == MonsterData.NO_MONSTER) {
+        continue;
+      }
 
       // Omit impossible (-2), ultra-rare (-1) and special/banished (0) monsters
       if (weighting < 1) {
         continue;
       }
 
-      double weight =
-          dividedByTotalWeighting(
-              (double) weighting * (1 - (double) this.getRejection(monster) / 100));
+      double weight = dividedByTotalWeighting((double) weighting * (1 - (double) rejection / 100));
       int ml = monster.ML();
       averageExperience +=
           weight * (monster.getExperience() + experienceAdjustment - ml / (ml > 0 ? 6.0 : 8.0));
@@ -541,6 +580,12 @@ public class AreaCombatData {
     double averageSuperlikelyExperience = 0.0;
     double superlikelyChance = 0.0;
     for (MonsterData monster : this.superlikelyMonsters) {
+      if (mapped) {
+        monster = mapMonster(monster);
+      }
+      if (monster == MonsterData.NO_MONSTER) {
+        continue;
+      }
       String monsterName = monster.getName();
       double chance = AreaCombatData.superlikelyChance(monsterName);
       if (chance > 0) {
@@ -586,7 +631,11 @@ public class AreaCombatData {
   }
 
   public Map<MonsterData, Double> getMonsterData(boolean stateful) {
-    Map<MonsterData, Double> monsterData = new HashMap<>();
+    return getMonsterData(stateful, false);
+  }
+
+  public Map<MonsterData, Double> getMonsterData(boolean stateful, boolean mapped) {
+    Map<MonsterData, Double> monsterData = new TreeMap<>();
 
     if (stateful) {
       recalculate();
@@ -595,6 +644,12 @@ public class AreaCombatData {
     double totalSuperlikelyChance = 0.0;
 
     for (MonsterData monster : superlikelyMonsters) {
+      if (mapped) {
+        monster = mapMonster(monster);
+      }
+      if (monster == MonsterData.NO_MONSTER) {
+        continue;
+      }
       double chance = superlikelyChance(monster);
       monsterData.put(monster, chance);
       totalSuperlikelyChance += chance;
@@ -604,6 +659,12 @@ public class AreaCombatData {
 
     for (MonsterData monster : monsters) {
       int weighting = getWeighting(monster);
+      if (mapped) {
+        monster = mapMonster(monster);
+      }
+      if (monster == MonsterData.NO_MONSTER) {
+        continue;
+      }
 
       if (weighting == -2) {
         continue;
@@ -634,18 +695,24 @@ public class AreaCombatData {
     return monsterData;
   }
 
-  public void appendMonsterData(final StringBuffer buffer, final boolean fullString) {
+  public void appendMonsterData(
+      final StringBuffer buffer, final boolean fullString, final boolean mapped) {
     int moxie = KoLCharacter.getAdjustedMoxie();
     int hitstat = EquipmentManager.getAdjustedHitStat();
 
     for (Map.Entry<MonsterData, Double> entry : getMonsterData(true).entrySet()) {
       MonsterData monster = entry.getKey();
+      int weighting = getWeighting(monster);
+      if (mapped) {
+        monster = mapMonster(monster);
+      }
+      if (monster == MonsterData.NO_MONSTER) {
+        continue;
+      }
       double chance = entry.getValue();
       buffer
           .append("<br><br>")
-          .append(
-              this.getMonsterString(
-                  monster, moxie, hitstat, getWeighting(monster), chance, fullString));
+          .append(this.getMonsterString(monster, moxie, hitstat, weighting, chance, fullString));
     }
   }
 

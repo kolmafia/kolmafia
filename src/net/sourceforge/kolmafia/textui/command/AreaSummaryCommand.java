@@ -25,7 +25,7 @@ public class AreaSummaryCommand extends AbstractCommand {
     StringBuffer buffer = new StringBuffer();
 
     buffer.append("<html>");
-    data.getSummary(buffer, false);
+    data.getSummary(buffer, false, true);
     buffer.append("</html>");
 
     KoLmafiaCLI.showHTML(buffer.toString());

@@ -121,4 +121,38 @@ public class GardenCommandTest extends AbstractCommandTestBase {
       assertPostRequest(requests.get(2), "/campground.php", "action=rgarden3");
     }
   }
+
+  @Test
+  public void skipsEmptySlotsInPartialRockGarden() {
+    var cleanups = withCampgroundItem(ItemPool.GROVELING_GRAVEL, 1);
+
+    try (cleanups) {
+      var output = execute("pick plot2 plot3");
+      assertThat(output, containsString("There is nothing to pick in plot2."));
+      assertThat(output, containsString("There is nothing to pick in plot3."));
+
+      var requests = getRequests();
+      assertThat(requests, hasSize(0));
+    }
+  }
+
+  @Test
+  public void picksSelectPlotsInFullRockGarden() {
+    var cleanups =
+        new Cleanups(
+            withCampgroundItem(ItemPool.FRUITY_PEBBLE, 2),
+            withCampgroundItem(ItemPool.BOLDER_BOULDER, 2),
+            withCampgroundItem(ItemPool.HARD_ROCK, 2));
+
+    try (cleanups) {
+      var output = execute("pick plot1 plot3");
+      assertThat(output, containsString("Harvesting plot1: fruity pebble (2)"));
+      assertThat(output, containsString("Harvesting plot3: hard rock (2)"));
+
+      var requests = getRequests();
+      assertThat(requests, hasSize(2));
+      assertPostRequest(requests.get(0), "/campground.php", "action=rgarden1");
+      assertPostRequest(requests.get(1), "/campground.php", "action=rgarden3");
+    }
+  }
 }

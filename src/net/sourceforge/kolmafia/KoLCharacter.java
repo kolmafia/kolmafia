@@ -2932,7 +2932,7 @@ public abstract class KoLCharacter {
     Preferences.setBoolean("kingLiberated", true);
 
     switch (oldPath) {
-      case AVATAR_OF_WEST_OF_LOATHING:
+      case AVATAR_OF_WEST_OF_LOATHING -> {
         final String pref =
             switch (ascensionClass) {
               case BEANSLINGER -> "awolPointsBeanslinger";
@@ -2943,14 +2943,26 @@ public abstract class KoLCharacter {
         if (pref != null) {
           Preferences.increment(pref, points, 10, false);
         }
-        break;
-      case GLOVER:
-        // Fall-through on purpose!
+      }
+      case SHADOWS_OVER_LOATHING -> {
+        final String pref =
+            switch (ascensionClass) {
+              case PIG_SKINNER -> "asolPointsPigSkinner";
+              case CHEESE_WIZARD -> "asolPointsCheeseWizard";
+              case JAZZ_AGENT -> "asolPointsJazzAgent";
+              default -> null;
+            };
+        if (pref != null) {
+          Preferences.increment(pref, points, 21, false);
+        }
+      }
+      case GLOVER -> {
         Preferences.increment("garlandUpgrades", 1, 10, false);
-        //noinspection fallthrough
-      default:
         oldPath.incrementPoints(points);
-        break;
+      }
+      default -> {
+        oldPath.incrementPoints(points);
+      }
     }
 
     // We are no longer in Hardcore
@@ -3431,6 +3443,10 @@ public abstract class KoLCharacter {
 
   public static final boolean inDinocore() {
     return KoLCharacter.ascensionPath == Path.DINOSAURS;
+  }
+
+  public static final boolean inShadowsOverLoathing() {
+    return KoLCharacter.ascensionPath == Path.SHADOWS_OVER_LOATHING;
   }
 
   public static final boolean isUnarmed() {

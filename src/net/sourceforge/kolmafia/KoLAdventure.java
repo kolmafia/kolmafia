@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -848,6 +849,51 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return Preferences.getBoolean("eldritchHorrorAvailable");
     }
     */
+
+    if (this.zone.equals("Shadow Rift")) {
+      // These are "place.php" visits.
+      ShadowRift rift = ShadowRift.findAdventureName(this.adventureName);
+      if (rift == null) {
+        // Requesting generic Shadow Rift, which will go straight to
+        // adventure.php as if through the most recent rift you entered.
+        //
+        // If we haven't yet gone through a Shadow Rift this ascension,
+        // you'll find nothing but tumbleweeds, which is unlikely to be
+        // what the user wants.
+        return !Preferences.getString("shadowRiftIngress").equals("");
+      }
+      // Otherwise, we want to adventure through a specific rift.
+      // Ensure that we can reach it.
+      return switch (rift) {
+          // Right Side of the Tracks and The Nearby Plains
+        case TOWN, PLAINS -> true;
+          // The Distant Woods, Forest Village, The 8-Bit Realm
+        case WOODS, VILLAGE, REALM -> QuestDatabase.isQuestStarted(Quest.LARVA);
+          // Spookyraven Manor Third Floor
+        case MANOR -> QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
+          // The Misspelled Cemetary
+        case CEMETARY -> QuestDatabase.isQuestStarted(Quest.CYRPT)
+            || QuestDatabase.isQuestStarted(Quest.EGO);
+          // Desert Beach
+        case BEACH -> KoLCharacter.desertBeachAccessible();
+          // Mt. McLargeHuge
+        case MCLARGEHUGE -> QuestDatabase.isQuestStarted(Quest.TRAPPER);
+          // Somewhere Over the Beanstalk
+        case BEANSTALK -> !KoLCharacter.isKingdomOfExploathing()
+            && (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)
+                || (QuestDatabase.isQuestStarted(Quest.GARBAGE)
+                    && InventoryManager.hasItem(ENCHANTED_BEAN)));
+          // The Castle in the Clouds in the Sky
+        case CASTLE -> KoLCharacter.isKingdomOfExploathing()
+            // Kingdom of Exploathing aftercore retains access. Check quest
+            || QuestDatabase.isQuestFinished(Quest.GARBAGE)
+            || InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1));
+          // The Hidden City
+        case CITY -> QuestDatabase.isQuestLaterThan(Quest.WORSHIP, "step2");
+          // The Ancient Buried Pyramid
+        case PYRAMID -> QuestDatabase.isQuestStarted(Quest.PYRAMID);
+      };
+    }
 
     // Only look at adventure.php locations below this.
     if (!this.formSource.startsWith("adventure.php")) {
@@ -2160,6 +2206,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public boolean prepareForAdventure() {
     // If we get here via automation, canAdventure() returned true
 
+    // Certain Shadow Rifts can be unlocked just like certain zones.
+    ShadowRift rift = ShadowRift.findAdventureName(this.adventureName);
+
     if (this.formSource.equals("cellar.php")) {
       if (QuestDatabase.isQuestLaterThan(Quest.RAT, QuestDatabase.STARTED)) {
         return true;
@@ -2452,7 +2501,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // some way of equipping it.  If they do not have one, then
     // acquire one then try to equip it.
 
-    if (this.zone.equals("The 8-Bit Realm") || this.zone.equals("Vanya's Castle")) {
+    if (this.zone.equals("The 8-Bit Realm")
+        || this.zone.equals("Vanya's Castle")
+        || rift == ShadowRift.REALM) {
       if (!InventoryManager.hasItem(TRANSFUNCTIONER)) {
         RequestThread.postRequest(new PlaceRequest("forestvillage", "fv_mystic"));
         // This redirects to choice.php&forceoption=0.
@@ -2658,7 +2709,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return false;
     }
 
-    if (this.adventureNumber == AdventurePool.AIRSHIP) {
+    if (this.adventureNumber == AdventurePool.AIRSHIP || rift == ShadowRift.BEANSTALK) {
       if (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)) {
         return true;
       }
@@ -3295,6 +3346,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // See if this is a standard "adventure" in adventures.txt
     KoLAdventure adventure = KoLAdventure.findAdventure(urlString);
     if (adventure != null) {
+      if (adventure.adventureId.equals("shadow_rift") && urlString.startsWith("place.php")) {
+        String place = GenericRequest.getPlace(urlString);
+        ShadowRift rift = ShadowRift.findPlace(place);
+        if (rift != null) {
+          String message = "Entering the Shadow Rift via " + rift.getContainer();
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog();
+          RequestLogger.updateSessionLog(message);
+          Preferences.setString("shadowRiftIngress", place);
+        }
+      }
+
       adventure.prepareToAdventure(urlString);
       KoLAdventure.lastVisitedLocation = adventure;
       KoLAdventure.lastLocationName = adventure.getPrettyAdventureName(urlString);

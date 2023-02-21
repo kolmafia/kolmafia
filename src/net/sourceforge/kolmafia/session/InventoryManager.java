@@ -1619,7 +1619,9 @@ public abstract class InventoryManager {
     checkCoatOfPaint(false);
     checkUmbrella();
     checkBuzzedOnDistillate();
+    checkVampireVintnerWine();
     checkCrimboTrainingManual();
+    checkRing();
   }
 
   public static void checkNoHat() {
@@ -1731,7 +1733,7 @@ public abstract class InventoryManager {
     }
 
     // ResultProcessor will parse the item description and set properties
-    InventoryManager.checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
+    checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
   }
 
   public static void checkCoatOfPaint(boolean playerClassChanged) {
@@ -1854,6 +1856,12 @@ public abstract class InventoryManager {
       KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
       KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
       KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
+    }
+  }
+
+  public static void checkRing() {
+    if (InventoryManager.itemAvailable(ItemPool.RING)) {
+      checkItemDescription(ItemPool.RING);
     }
   }
 
