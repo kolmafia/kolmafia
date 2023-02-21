@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -2110,21 +2111,26 @@ public class ItemDatabase {
     }
   }
 
+  public static void parseRing(final String desc) {
+    ArrayList<String> unknown = new ArrayList<>();
+    ModifierList known = new ModifierList();
+
+    DebugDatabase.parseItemEnchantments(desc, known, unknown, ConsumptionType.ACCESSORY);
+    ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.RING, known.toString());
+  }
+
   public static void resetVampireVintnerWine() {
     Preferences.setString("vintnerWineName", "");
     Preferences.setString("vintnerWineEffect", "");
     Preferences.setInteger("vintnerWineLevel", 0);
     Preferences.setString("vintnerWineType", "");
+    ConsumablesDatabase.updateConsumableNotes("1950 Vampire Vintner wine", "Unspaded, WINE");
   }
 
   public static void parseVampireVintnerWine() {
-    // Call desc_item.php for 1950 Vampire Vintner wine
-    String idesc = DebugDatabase.itemDescriptionText(ItemPool.VAMPIRE_VINTNER_WINE, true);
-
+    // Submit desc_item.php for 1950 Vampire Vintner wine
+    DebugDatabase.itemDescriptionText(ItemPool.VAMPIRE_VINTNER_WINE, true);
     // GenericRequest calls ResponseTextParser which makes the following call.
-    // No reason to parse the response text twice!
-
-    // ItemDatabase.parseVampireVintnerWine(idesc);
   }
 
   public static void parseVampireVintnerWine(final String idesc) {
@@ -2169,6 +2175,12 @@ public class ItemDatabase {
     // Override the modifiers for the 1950 Vampire Vintner wine to include the
     // effect that drinking this one will provide.
     ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, imods);
+
+    // Update the consumable note
+    Modifiers emods = ModifierDatabase.getEffectModifiers(effectId);
+    String modifierString = emods.getString(StringModifier.MODIFIERS);
+    String notes = "12 turns of " + effectName + " (" + modifierString + "), WINE";
+    ConsumablesDatabase.updateConsumableNotes("1950 Vampire Vintner wine", notes);
   }
 
   public static int parseYearbookCamera(final String desc) {

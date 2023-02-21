@@ -577,6 +577,21 @@ public class Maximizer {
               continue;
             }
 
+            if (itemId == ItemPool.VAMPIRE_VINTNER_WINE) {
+              // 1950 Vampire Vintner wine is a quest item.
+              // If you don't have it, you must adventure to get one.
+              if (!InventoryManager.hasItem(itemId)) {
+                continue;
+              }
+              // 1950 Vampire Vintner wine can provide any of seven
+              // effects.  Only consider using one if the wine you
+              // currently have provides this effect.
+              if (!Preferences.getString("vintnerWineEffect").equals(name)) {
+                continue;
+              }
+              duration = 12;
+            }
+
             // Resolve bang potions and slime vials
             if (itemId == -1) {
               item = item.resolveBangPotion();

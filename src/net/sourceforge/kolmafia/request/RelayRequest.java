@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -389,8 +390,8 @@ public class RelayRequest extends PasswordHashRequest {
       String action = this.getFormField("action");
       if (action != null && action.equals("skill")) {
         String skillId = this.getFormField("whichskill");
-        String category = SkillDatabase.getSkillCategory(StringUtilities.parseInt(skillId));
-        if (!category.equals("conditional")) {
+        Category category = SkillDatabase.getSkillCategory(StringUtilities.parseInt(skillId));
+        if (category != Category.CONDITIONAL) {
           StationaryButtonDecorator.addSkillButton(skillId);
         }
       }
@@ -2364,7 +2365,8 @@ public class RelayRequest extends PasswordHashRequest {
         || KoLCharacter.isVampyre()
         || KoLCharacter.isPlumber()
         || KoLCharacter.inRobocore()
-        || KoLCharacter.inDinocore()) {
+        || KoLCharacter.inDinocore()
+        || KoLCharacter.inShadowsOverLoathing()) {
       return false;
     }
 
@@ -2619,7 +2621,8 @@ public class RelayRequest extends PasswordHashRequest {
         || KoLCharacter.isPlumber()
         || KoLCharacter.inRobocore()
         || KoLCharacter.inFirecore()
-        || KoLCharacter.inDinocore()) {
+        || KoLCharacter.inDinocore()
+        || KoLCharacter.inShadowsOverLoathing()) {
       return false;
     }
 

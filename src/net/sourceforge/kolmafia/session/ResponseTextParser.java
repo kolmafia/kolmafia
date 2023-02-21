@@ -338,6 +338,7 @@ public class ResponseTextParser {
           case ItemPool.JUNE_CLEAVER -> ItemDatabase.parseCleaver(responseText);
           case ItemPool.DESIGNER_SWEATPANTS -> ItemDatabase.parseDesignerSweatpants(responseText);
           case ItemPool.POWERFUL_GLOVE -> ItemDatabase.parsePowerfulGlove(responseText);
+          case ItemPool.RING -> ItemDatabase.parseRing(responseText);
           default -> changesFromTimeToTime = false;
         }
 

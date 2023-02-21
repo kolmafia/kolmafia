@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -21,26 +22,29 @@ import net.sourceforge.kolmafia.utilities.KoLDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ProfileSnapshot {
-  public static final int EXACT_MATCH = 0;
-  public static final int BELOW_MATCH = -1;
-  public static final int ABOVE_MATCH = 1;
+  public enum ProfileFilter {
+    NAME("Player name"),
+    LEVEL("Current level"),
+    PVP("Antihippy rank"),
+    CLASS("Character class"),
+    KARMA("Accumulated karma"),
+    LOGIN("Number of days idle");
 
-  public static final int NAME_FILTER = 0;
-  public static final int LEVEL_FILTER = 1;
-  public static final int PVP_FILTER = 2;
-  public static final int CLASS_FILTER = 3;
-  public static final int KARMA_FILTER = 4;
+    final String name;
+    static final ProfileFilter[] VALUES = values();
 
-  public static final int LOGIN_FILTER = 5;
+    ProfileFilter(String name) {
+      this.name = name;
+    }
 
-  public static final String[] FILTER_NAMES = {
-    "Player name",
-    "Current level",
-    "Antihippy rank",
-    "Character class",
-    "Accumulated karma",
-    "Number of days idle"
-  };
+    public static ProfileFilter byOrdinal(int ordinal) {
+      return VALUES[ordinal];
+    }
+
+    public static String[] names() {
+      return Arrays.stream(VALUES).map(x -> x.name).toArray(String[]::new);
+    }
+  }
 
   private static final Map<String, String> levelMap = new TreeMap<>();
   private static final Map<String, String> profileMap = new TreeMap<>();
@@ -94,7 +98,7 @@ public class ProfileSnapshot {
   }
 
   public static final void applyFilter(
-      final int matchType, final int filterType, final String filter) {
+      final int matchType, final ProfileFilter filterType, final String filter) {
     // First, if you haven't retrieved a detailed
     // roster for the clan, do so.
 
@@ -138,21 +142,22 @@ public class ProfileSnapshot {
         ProfileSnapshot.rosterMap.get(name));
   }
 
-  private static int compare(final int filterType, final String name, final String filter) {
+  private static int compare(
+      final ProfileFilter filterType, final String name, final String filter) {
     int compareValue = 0;
     ProfileRequest request = ProfileSnapshot.getProfile(name);
 
     try {
       switch (filterType) {
-        case NAME_FILTER -> compareValue = request.getPlayerName().compareToIgnoreCase(filter);
-        case LEVEL_FILTER -> compareValue =
+        case NAME -> compareValue = request.getPlayerName().compareToIgnoreCase(filter);
+        case LEVEL -> compareValue =
             request.getPlayerLevel().intValue() - StringUtilities.parseInt(filter);
-        case PVP_FILTER -> compareValue =
+        case PVP -> compareValue =
             request.getPvpRank().intValue() - StringUtilities.parseInt(filter);
-        case CLASS_FILTER -> compareValue = request.getClassType().compareToIgnoreCase(filter);
-        case KARMA_FILTER -> compareValue =
+        case CLASS -> compareValue = request.getClassType().compareToIgnoreCase(filter);
+        case KARMA -> compareValue =
             request.getKarma().intValue() - StringUtilities.parseInt(filter);
-        case LOGIN_FILTER -> {
+        case LOGIN -> {
           int daysIdle = StringUtilities.parseInt(filter);
           long millisecondsIdle = 86400000L * daysIdle;
           Date cutoffDate = new Date(System.currentTimeMillis() - millisecondsIdle);

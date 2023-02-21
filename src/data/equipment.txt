@@ -1079,6 +1079,7 @@ crystalline reamer	75	Mys: 22	1-handed utensil
 curdflinger	45	Mox: 7	1-handed crossbow
 curmudgel	125	Mus: 47	1-handed club
 cursed cutlass	200	Mus: 85	1-handed sword
+cursed machete	100	Mus: 0	1-handed sword
 cursed pirate cutlass	200	Mus: 50	1-handed sword
 cyber-mattock	160	Mus: 65	2-handed axe
 deadfall branch	50	Mus: 15	1-handed club
@@ -1679,6 +1680,7 @@ twisted-up wet towel	10	Mus: 0	1-handed whip
 two-handed depthsword	120	Mus: 45	2-handed sword
 ultimate ultimate frisbee	75	Mox: 22	1-handed frisbee
 Uncle Hobo's highest bough	200	Mus: 200	1-handed club
+uncursed machete	100	Mus: 0	1-handed sword
 Underworld flail	200	Mox: 150	2-handed flail
 Underworld truncheon	200	Mus: 150	2-handed club
 Unionize The Elves sign	50	Mus: 10	1-handed club
@@ -1844,9 +1846,11 @@ crumbling rabbit's foot	50	none
 crumbling skull	0	none
 cuddly teddy bear	125	Mys: 47
 cup of infinite pencils	150	Mus: 175
+cursed arcane orb	0	none
 cursed coffee cup	0	none
 cursed compass	0	none
 cursed magnifying glass	100	none
+cursed stats	0	none
 cyborg doll	110	Mys: 40
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
 deceased crimbo tree	0	none
@@ -2250,6 +2254,8 @@ Tuesday's ruby	120	Mys: 45
 turtle wax shield	40	Mus: 5	shield
 turtling rod	10	none
 unbreakable umbrella	100	none
+uncursed arcane orb	0	none
+uncursed stats	0	none
 Unkillable Skeleton's shield	350	Mus: 100	shield
 unstable fulminate	0	none
 UV-resistant compass	0	none
@@ -2457,9 +2463,11 @@ crusty hula hoop	200	Mys: 200
 crying statue earrings	50	none
 crystal belt buckle	100	Mys: 35
 crystalline seal eye	0	none
+cursed bat paw	0	none
+cursed dragon wishbone	0	none
+cursed medallion	0	none
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
-cursed bat paw	0	none
 cursed swash buckle	200	Mys: 50
 cyborg stompin' boot	150	Mus: 60
 dark baconstone ring	125	Mys: 47
@@ -3352,6 +3360,9 @@ Uncle Buck	0	none
 Uncle Hobo's belt	200	Mys: 200
 Uncle Hobo's epic beard	200	Mys: 200
 Uncle Hobo's fingerless tinsel gloves	200	Mys: 200
+uncursed bat paw	0	none
+uncursed dragon wishbone	0	none
+uncursed medallion	0	none
 Unspeakable Earring	150	Mys: 60
 Unstable Pointy Ears	0	none
 Uranium Omega of Temperance	200	Mys: 85
@@ -3453,6 +3464,8 @@ Catherine Wheel	150	none
 chalk chlamys	50	none
 Cloak of Dire Shadows	120	none
 cod cape	225	Mox: 200
+cursed goblin cape	0	none
+cursed blanket	0	none
 dice-shaped backpack	10	none
 Drapes-You-Regally	300	Mox: 250
 Drip harness	0	Mus: 100
@@ -3516,6 +3529,8 @@ Time Cape	100	none
 Time Cloak	100	none
 toy jet pack	175	Mys: 75
 Trainbot harness	10	none
+uncursed goblin cape	0	none
+uncursed blanket	0	none
 unwrapped knock-off retro superhero cape	100	none
 vampyric cloake	100	none
 whatsit-covered turtle shell	50	Mus: 20
