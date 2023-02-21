@@ -231,8 +231,8 @@ public class MonsterDatabase {
   }
 
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, String name2) {
-    MonsterData mon1 = MONSTER_DATA.get(name1);
-    MonsterData mon2 = name2 != null ? MONSTER_DATA.get(name2) : MonsterData.NO_MONSTER;
+    MonsterData mon1 = MONSTER_DATA.get(monsterKey(name1));
+    MonsterData mon2 = name2 != null ? MONSTER_DATA.get(monsterKey(name2)) : MonsterData.NO_MONSTER;
     MonsterDatabase.addMapping(map, mon1, mon2);
   }
 
@@ -543,8 +543,12 @@ public class MonsterDatabase {
     MONSTER_ALIASES.add(alias);
   }
 
+  private static String monsterKey(String name) {
+    return CombatActionManager.encounterKey(name, false);
+  }
+
   private static void saveMonster(final String name, final MonsterData monster) {
-    String keyName = CombatActionManager.encounterKey(name, false);
+    String keyName = monsterKey(name);
     StringUtilities.registerPrepositions(keyName);
     MonsterDatabase.ALL_MONSTER_DATA.add(monster);
     MonsterDatabase.MONSTER_DATA.put(keyName, monster);
@@ -560,7 +564,7 @@ public class MonsterDatabase {
   }
 
   private static void removeAlias(final String name) {
-    String keyName = CombatActionManager.encounterKey(name, false);
+    String keyName = monsterKey(name);
     MonsterDatabase.MONSTER_DATA.remove(keyName);
     MonsterDatabase.OLD_MONSTER_DATA.remove(keyName.toLowerCase());
     if (keyName.toLowerCase().startsWith("the ")) {
@@ -620,7 +624,7 @@ public class MonsterDatabase {
   public static final MonsterData findMonster(
       final String name, boolean trySubstrings, boolean matchCase) {
     // Look for case-sensitive exact match
-    String keyName = CombatActionManager.encounterKey(name, false);
+    String keyName = monsterKey(name);
     MonsterData match = MonsterDatabase.MONSTER_DATA.get(keyName);
 
     if (match != null) {
@@ -786,8 +790,9 @@ public class MonsterDatabase {
   public static final void registerMonster(final MonsterData monster) {
     int id = monster.getId();
     String name = monster.getName();
-    MonsterDatabase.MONSTER_DATA.put(name, monster);
-    MonsterDatabase.OLD_MONSTER_DATA.put(name.toLowerCase(), monster);
+    String keyName = monsterKey(name);
+    MonsterDatabase.MONSTER_DATA.put(keyName, monster);
+    MonsterDatabase.OLD_MONSTER_DATA.put(keyName.toLowerCase(), monster);
     MonsterDatabase.LEET_MONSTER_DATA.put(StringUtilities.leetify(name), monster);
     MonsterDatabase.registerMonsterId(id, name, monster);
     MonsterDatabase.saveCanonicalNames();
@@ -797,8 +802,9 @@ public class MonsterDatabase {
   public static final void unregisterMonster(final MonsterData monster) {
     int id = monster.getId();
     String name = monster.getName();
-    MonsterDatabase.MONSTER_DATA.remove(name);
-    MonsterDatabase.OLD_MONSTER_DATA.remove(name.toLowerCase());
+    String keyName = monsterKey(name);
+    MonsterDatabase.MONSTER_DATA.remove(keyName);
+    MonsterDatabase.OLD_MONSTER_DATA.remove(keyName.toLowerCase());
     MonsterDatabase.LEET_MONSTER_DATA.remove(StringUtilities.leetify(name));
     MonsterDatabase.MONSTER_IDS.remove(id);
     MonsterDatabase.saveCanonicalNames();
