@@ -640,6 +640,17 @@ public class MaximizerTest {
     }
 
     @Test
+    public void clubModifierWorksWithTieBreaker() {
+      final var cleanups =
+          new Cleanups(withEquippableItem("lawn dart"));
+
+      try (cleanups) {
+        assertTrue(maximize("-tie, club"));
+        recommendedSlotIs(Slot.WEAPON, "lawn dart");
+      }
+    }
+
+    @Test
     public void swordModifierFavorsSword() {
       final var cleanups =
           new Cleanups(withEquippableItem("sweet ninja sword"), withEquippableItem("spiked femur"));
