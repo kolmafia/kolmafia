@@ -388,6 +388,10 @@ public class ApiRequest extends GenericRequest {
       // UNIX time of next rollover
       long rollover = JSON.getLong("rollover");
       KoLCharacter.setRollover(rollover);
+
+      // Add the global count of rollovers everyone shares
+      int daycount = JSON.getInt("daynumber");
+      KoLCharacter.setGlobalDays(daycount);
     } catch (JSONException e) {
       ApiRequest.reportParseError("status", JSON.toString(), e);
     } finally {
