@@ -668,6 +668,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {};
     functions.add(new LibraryFunction("moon_light", DataTypes.INT_TYPE, params));
 
+    params = new Type[] {DataTypes.INT_TYPE};
+    functions.add(new LibraryFunction("session_log", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.INT_TYPE};
+    functions.add(new LibraryFunction("session_log", DataTypes.STRING_TYPE, params));
+
     params = new Type[] {};
     functions.add(new LibraryFunction("stat_bonus_today", DataTypes.STAT_TYPE, params));
 
@@ -3784,6 +3790,31 @@ public abstract class RuntimeLibrary {
     }
 
     return DataTypes.STAT_INIT;
+  }
+
+  public static Value session_log(ScriptRuntime controller, final Value dayCount) {
+    return RuntimeLibrary.getSessionLog(
+        controller, KoLCharacter.getUserName(), (int) dayCount.intValue());
+  }
+
+  public static Value session_log(
+      ScriptRuntime controller, final Value player, final Value dayCount) {
+    return RuntimeLibrary.getSessionLog(controller, player.toString(), (int) dayCount.intValue());
+  }
+
+  private static Value getSessionLog(
+      ScriptRuntime controller, final String name, final int dayCount) {
+    if (dayCount < 0) {
+      throw controller.runtimeException("Can't get session log for a negative day count");
+    }
+
+    Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
+    timestamp.add(Calendar.DATE, -dayCount);
+
+    String logContents =
+        getContentsOfSessionLog(name, KoLConstants.DAILY_FORMAT.format(timestamp.getTime()));
+
+    return new Value(logContents);
   }
 
   public static Value session_logs(ScriptRuntime controller, final Value dayCount) {

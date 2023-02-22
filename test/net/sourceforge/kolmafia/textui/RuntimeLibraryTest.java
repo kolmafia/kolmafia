@@ -20,11 +20,15 @@ import static org.hamcrest.Matchers.is;
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -39,7 +43,9 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
+import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.NullStream;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -226,6 +232,41 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
       assertThat(ostream.toString(), is("> word1\n> word2\n"));
       RequestLogger.setSessionStream(NullStream.INSTANCE);
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"0", "1"})
+  void testSessionLogReturnsSession(int dayCount) {
+    var timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
+    // Add a modifier where 0 is today, 1 is yesterday, etc
+    timestamp.add(Calendar.DATE, -dayCount);
+
+    var logdate = KoLConstants.DAILY_FORMAT.format(timestamp.getTime());
+    // The name of the session log
+    String filename =
+        StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
+            + "_"
+            + logdate
+            + ".txt";
+
+    File path = new File(KoLConstants.SESSIONS_LOCATION, filename);
+
+    // Delete the file when we're done with it
+    var cleanups = new Cleanups(path::delete);
+
+    try (cleanups) {
+      // Write to the session file, we do this instead of RequestLogger as we want to write to
+      // "older" files
+      try (var printStream = LogStream.openStream(path, false)) {
+        printStream.println("Test Message, day " + dayCount);
+      }
+
+      // Retrieve the session log
+      String output = execute("session_log(" + dayCount + ")");
+
+      // Assert that the output is as expected
+      assertThat(output, is("Returned: Test Message, day " + dayCount + "\n"));
     }
   }
 
