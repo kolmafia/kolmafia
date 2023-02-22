@@ -1212,7 +1212,7 @@ public class ProxyRecordValue extends RecordValue {
 
     public Value get_class() {
       return DataTypes.parseClassValue(
-          SkillDatabase.getSkillCategory((int) this.contentLong), true);
+          SkillDatabase.getSkillCategory((int) this.contentLong).name, true);
     }
 
     public boolean get_libram() {
