@@ -9066,6 +9066,11 @@ public class FightRequest extends GenericRequest {
       case SkillPool.HOT_FOOT:
       case SkillPool.SECOND_WIND:
       case SkillPool.STOP_HITTING_YOURSELF:
+      case SkillPool.EMMENTAL_ELEMENTAL:
+      case SkillPool.STILTON_SPLATTER:
+      case SkillPool.KNIFE_IN_THE_DARKNESS:
+      case SkillPool.VENOMOUS_RIFF:
+      case SkillPool.DRUM_ROLL:
         singleCastsThisFight.add(skillId);
         return;
 
