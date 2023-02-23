@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -130,6 +132,25 @@ class PlaceRequestTest {
       try (cleanups) {
         PlaceRequest.parseResponse(sotUrl, responseText);
         assertThat(prefName, isSetTo(true));
+      }
+    }
+  }
+
+  @Nested
+  class DistantWoodsGetaway {
+    @Test
+    public void getawayRemainsUnchangedAfterVisitingLockedDistantWoods() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder), withProperty("getawayCampsiteUnlocked", true));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_place_woods_uhoh.html"));
+
+        var request = new PlaceRequest("woods");
+        request.run();
+
+        assertThat("getawayCampsiteUnlocked", isSetTo(true));
       }
     }
   }
