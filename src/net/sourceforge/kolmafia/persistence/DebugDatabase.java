@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -62,6 +63,8 @@ import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNURL;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -3798,6 +3801,20 @@ public class DebugDatabase {
         RequestLogger.printLine("***");
       } else {
         seen.put(name, p);
+      }
+      try {
+        SVNURL repo = SVNManager.workingCopyToSVNURL(p);
+        if (repo == null) {
+          RequestLogger.printLine(
+              p.getName() + " does not seem to have a valid remote repository.");
+        } else {
+          String repoHost = repo.getHost();
+          if (repoHost.equalsIgnoreCase("github.com")) {
+            RequestLogger.printLine(p.getName() + " uses SVN to update from GitHub");
+          }
+        }
+      } catch (SVNException e) {
+        throw new RuntimeException(e);
       }
     }
   }
