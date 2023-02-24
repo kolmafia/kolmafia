@@ -14,7 +14,10 @@ class CheckDataCommandTest extends AbstractCommandTestBase {
     this.command = "checkrepo";
     String output = execute("");
     String expected =
-        "Found 0 repo files." + LS + "Local SVN repos scanned for possible duplicates and GitHub host." + LS;
+        "Found 0 repo files."
+            + LS
+            + "Local SVN repos scanned for possible duplicates and GitHub host."
+            + LS;
     assertEquals(expected, output, "Unexpected output");
   }
 }

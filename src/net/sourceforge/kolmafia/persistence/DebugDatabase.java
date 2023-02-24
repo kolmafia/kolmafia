@@ -3814,7 +3814,8 @@ public class DebugDatabase {
           }
         }
       } catch (SVNException e) {
-        throw new RuntimeException(e);
+        StaticEntity.printStackTrace(e);
+        ;
       }
     }
   }

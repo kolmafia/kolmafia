@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import static internal.helpers.Networking.html;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.RequestLoggerOutput;
 import java.io.ByteArrayOutputStream;
@@ -176,6 +176,7 @@ public class DebugDatabaseTest {
     Mockito.when(retVal.getName()).thenReturn(name);
     Mockito.when(retVal.isDirectory()).thenReturn(false);
     Mockito.when(retVal.toString()).thenReturn(name);
+    Mockito.when(retVal.getAbsoluteFile()).thenReturn(retVal);
     return retVal;
   }
 
