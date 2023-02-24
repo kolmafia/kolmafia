@@ -132,6 +132,7 @@ public class DebugDatabaseTest {
   }
 
   @Test
+  @Disabled("Need to better mock SVN directory")
   public void itShouldFindSVNDuplicatesSimple() {
     RequestLoggerOutput.startStream();
     File svnRoot = mockSimpleSystem();
@@ -150,6 +151,7 @@ public class DebugDatabaseTest {
   }
 
   @Test
+  @Disabled("Need to better mock SVN directory")
   public void itShouldFindSVNDuplicatesMoreComplex() {
     RequestLoggerOutput.startStream();
     File svnRoot = mockMoreComplexSystem();
@@ -181,6 +183,7 @@ public class DebugDatabaseTest {
   }
 
   @Test
+  @Disabled("Need to better mock SVN directory")
   public void itShouldFindSVNDuplicatesWhenThereAreSome() {
     RequestLoggerOutput.startStream();
     File svnRoot = mockDupes();
