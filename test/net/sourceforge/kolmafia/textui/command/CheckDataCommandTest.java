@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +14,7 @@ class CheckDataCommandTest extends AbstractCommandTestBase {
     this.command = "checkrepo";
     String output = execute("");
     String expected =
-        "Found 0 repo files." + LS + "Local SVN repos scanned for possible duplicates." + LS;
+        "Found 0 repo files." + LS + "Local SVN repos scanned for possible duplicates and GitHub host." + LS;
     assertEquals(expected, output, "Unexpected output");
   }
 }
