@@ -3827,7 +3827,6 @@ public class DebugDatabase {
     if (contents != null) {
       for (File f : contents) {
         if (f.getName().startsWith(".")) continue;
-        if (f.getName().equalsIgnoreCase("dependencies.txt")) continue;
         if (f.isDirectory()) {
           try {
             SVNURL repo = SVNManager.workingCopyToSVNURL(f);
