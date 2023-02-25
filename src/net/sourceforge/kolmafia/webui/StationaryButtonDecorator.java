@@ -31,6 +31,8 @@ public class StationaryButtonDecorator {
 
   private static final AdventureResult EVERYTHING_LOOKS_YELLOW =
       EffectPool.get(EffectPool.EVERYTHING_LOOKS_YELLOW);
+  private static final AdventureResult EVERYTHING_LOOKS_BLUE =
+      EffectPool.get(EffectPool.EVERYTHING_LOOKS_BLUE);
 
   private StationaryButtonDecorator() {}
 
@@ -708,6 +710,8 @@ public class StationaryButtonDecorator {
               !Preferences.getBoolean("_gingerbreadMobHitUsed");
           case SkillPool.FONDELUGE -> isEnabled =
               !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_YELLOW);
+          case SkillPool.MOTIF -> isEnabled =
+              !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_BLUE);
         }
       }
     }

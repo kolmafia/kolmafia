@@ -307,4 +307,23 @@ public class GenericRequestTest {
       }
     }
   }
+
+  @Nested
+  class DistantWoodsGetaway {
+    @Test
+    public void getawayRemainsUnchangedAfterVisitingLockedDistantWoods() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder), withProperty("getawayCampsiteUnlocked", true));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_place_woods_uhoh.html"));
+
+        var request = new GenericRequest("place.php?whichplace=woods");
+        request.run();
+
+        assertThat("getawayCampsiteUnlocked", isSetTo(true));
+      }
+    }
+  }
 }

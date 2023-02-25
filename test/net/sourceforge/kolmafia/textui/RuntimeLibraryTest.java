@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withFamiliar;
@@ -33,6 +34,7 @@ import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -40,6 +42,7 @@ import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import net.sourceforge.kolmafia.utilities.NullStream;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -601,6 +604,24 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     private static void updateResults(int itemId, List<PurchaseRequest> results) {
       MallPriceManager.saveMallSearch(itemId, results);
       MallPriceManager.updateMallPrice(ItemPool.get(itemId), results);
+    }
+  }
+
+  @Test
+  void canSeeDaycount() {
+    var cleanups = withFamiliar(FamiliarPool.TRICK_TOT);
+
+    try (cleanups) {
+      String text = html("request/test_status.json");
+      JSONObject JSON = json(text);
+
+      ApiRequest.parseStatus(JSON);
+
+      String output = execute("daycount()");
+
+      assertContinueState();
+
+      assertThat(output, is("Returned: 7302\n"));
     }
   }
 }
