@@ -3838,7 +3838,7 @@ public class DebugDatabase {
               String repoHost = repo.getHost();
               if (repoHost.equalsIgnoreCase("github.com")) {
                 RequestLogger.printLine(
-                    "This installation of " + f.getName() + " uses SVN to update from GitHub");
+                    "Local installation of " + f.getName() + " uses SVN to update from GitHub.");
               }
             }
           } catch (SVNException e) {
