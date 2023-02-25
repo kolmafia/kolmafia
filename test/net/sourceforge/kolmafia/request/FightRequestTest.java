@@ -1954,7 +1954,9 @@ public class FightRequestTest {
   @Test
   void canTrackShadowRiftCombats() {
     var cleanups =
-        new Cleanups(withProperty("_shadowRiftCombats", 0), withLastLocation("Shadow Rift"));
+        new Cleanups(
+            withProperty("_shadowRiftCombats", 0),
+            withLastLocation("Shadow Rift (The Hidden City)"));
     try (cleanups) {
       // Combat text doesn't actually matter
       parseCombatData("request/test_melodramedary_sloshing.html", "adventure.php?snarfblat=567");
