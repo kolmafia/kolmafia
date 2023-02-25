@@ -300,8 +300,10 @@ public class PlaceRequest extends GenericRequest {
           ResultProcessor.removeItem(ItemPool.BIG_BAG_OF_MONEY);
         }
       }
-      case "woods" -> Preferences.setBoolean(
-          "getawayCampsiteUnlocked", responseText.contains("campaway"));
+      case "woods" -> {
+        if (!responseText.contains("You are not yet ready to be here."))
+          Preferences.setBoolean("getawayCampsiteUnlocked", responseText.contains("campaway"));
+      }
       case "wildfire_camp" -> WildfireCampRequest.parseResponse(urlString, responseText);
       default -> {
         if (place.startsWith("batman")) {
