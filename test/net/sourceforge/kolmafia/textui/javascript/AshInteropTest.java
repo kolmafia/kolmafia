@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.javascript;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Instant;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -70,5 +71,26 @@ public class AshInteropTest {
     assertNotNull(ret, "Javascript execute returns null instead of a result to be tested.");
     String retS = ret.toString();
     assertEquals("Seal Clubber", retS);
+  }
+
+  @Test
+  void nowToIntHandlesLongsCorrectly() {
+    var js = new JavascriptRuntime("nowToInt()");
+    assertNotNull(js, "JavascriptRuntime returned as null.");
+    Value ret = js.execute(null, null, true);
+    assertNotNull(ret, "Javascript execute returns null instead of a result to be tested.");
+    long retVal = Long.parseLong(ret.toString());
+    assertTrue(retVal >= 0, "Now should not be negative.");
+
+    long javaNow = Instant.now().toEpochMilli();
+    long diff = Math.abs(javaNow - retVal);
+    // there's no asertCloseTo() ...
+    assertTrue(
+        diff < 4,
+        "Java now ( "
+            + javaNow
+            + " ) and nowToInt() ( "
+            + retVal
+            + " ) should be not vary by more than a few seconds.");
   }
 }

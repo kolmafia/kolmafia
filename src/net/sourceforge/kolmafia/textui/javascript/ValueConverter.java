@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -83,7 +84,7 @@ public class ValueConverter {
     } else if (value.getType().equals(DataTypes.BOOLEAN_TYPE)) {
       return value.contentLong != 0;
     } else if (value.getType().equals(DataTypes.INT_TYPE)) {
-      return (int) value.contentLong;
+      return BigInteger.valueOf(value.contentLong);
     } else if (value.getType().equals(DataTypes.FLOAT_TYPE)) {
       return value.floatValue();
     } else if (value.getType().equals(DataTypes.STRING_TYPE)
