@@ -4803,7 +4803,7 @@ Throne	Underworld Bonsai	Spell Damage Percent: +10
 Throne	Uniclops	Experience (Mysticality): +2
 Throne	Untamed Turtle	Initiative: +20, Drops Items
 Throne	Urchin Urchin	Weapon Damage: +10
-Throne	Vampire Vintner	HP: +10, HP Regen Min: 10, HP Regen Max: 12
+Throne	Vampire Vintner	Maximum HP: +10, HP Regen Min: 10, HP Regen Max: 12
 Throne	Warbear Drone	Maximum HP: +10, Maximum MP: +10, Drops Items
 Throne	Wereturtle	Muscle Percent: +15, Drops Meat
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
@@ -6595,7 +6595,7 @@ Effect	Mixed Nutrients	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Mmmmmelon	Item Drop: +30
 Effect	Mo' Hobo	Hobo Power: +10
 # Molasses Flooded: Makes you a better diver
-Effect	Molasses Flooded	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)],
+Effect	Molasses Flooded	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Effect	Monkeymask	Avatar: "damned dirty ape"
 Effect	monsters.enq	Monster Level: +25
 Effect	Monstrosi Tea	Monster Level: -30
@@ -7014,7 +7014,7 @@ Effect	Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
 Effect	Salsa Satanica	Item Drop: +50
 Effect	Salt Rockin'	Moxie: +30
 # Salt Rush: Makes you a better diver
-Effect	Salt Rush	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)],
+Effect	Salt Rush	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 # Salty Dogs: Makes you a better diver
 Effect	Salty Dogs	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 # Salty Mouth: You really need a beer...
@@ -7331,7 +7331,7 @@ Effect	Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent
 Effect	Steroid Boost	Muscle: +2
 Effect	Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Stick Emporium Membership	Weapon Drop: +100
-Effect	Stickler for Promptness	Familiar Action Bonus: +20,
+Effect	Stickler for Promptness	Familiar Action Bonus: +20
 # Sticks and Stones: +50% Damage vs. Skeletons
 Effect	Sticky Fingers	Meat Drop: +20
 # Sticky Hands: Reduced chance of fumbling
@@ -7617,8 +7617,8 @@ Effect	Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+
 Effect	Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Toxic Vengeance	Muscle: [-T], Mysticality: [-T], Moxie: [-T], Stench Damage: [3*T], Spell Damage Percent: [3*T]
 Effect	Traditional Eating	Meat Drop: +25
-Effect	Trainbot Circuitry	MP: [T], MP Regen Min: [T/5], MP Regen Max: [T/5]
-Effect	Trainbot Tubing	HP: [T], HP Regen Min: [T/5], HP Regen Max: [T/5]
+Effect	Trainbot Circuitry	Maximum MP: [T], MP Regen Min: [T/5], MP Regen Max: [T/5]
+Effect	Trainbot Tubing	Maximum HP: [T], HP Regen Min: [T/5], HP Regen Max: [T/5]
 Effect	Trainbot Plating	Damage Reduction: [3*T]
 Effect	Trainbot Optics	Spell Damage Percent: [3*T]
 Effect	Trainbot Servomotors	Weapon Damage: [3*T]
@@ -12430,8 +12430,8 @@ RetroCape	vampire kiss	Muscle Percent: 30, Maximum HP: +50
 RetroCape	vampire kill	Muscle Percent: 30, Maximum HP: +50
 RetroCape	heck hold	Mysticality Percent: 30, Maximum MP: +50
 RetroCape	heck thrill	Mysticality Percent: 30, Maximum MP: +50, Experience (Mysticality): 3
-RetroCape	heck kiss	Mysticality Percent: 30, Maximum MP: +50,
-RetroCape	heck kill	Mysticality Percent: 30, Maximum MP: +50,
+RetroCape	heck kiss	Mysticality Percent: 30, Maximum MP: +50
+RetroCape	heck kill	Mysticality Percent: 30, Maximum MP: +50
 RetroCape	robot hold	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25
 RetroCape	robot thrill	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25, Experience (Moxie): 3
 RetroCape	robot kiss	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25
