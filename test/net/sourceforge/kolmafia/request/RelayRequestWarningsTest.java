@@ -111,7 +111,7 @@ public class RelayRequestWarningsTest {
   class KungFuFighting {
     private static final KoLAdventure WARREN =
         AdventureDatabase.getAdventureByName("The Dire Warren");
-    private static final Confirm confirm = Confirm.CONFIRM_KUNGFU;
+    private static final Confirm confirm = Confirm.KUNGFU;
 
     @Test
     public void shouldNotWarnWithoutEffect() {
@@ -183,7 +183,7 @@ public class RelayRequestWarningsTest {
         AdventureDatabase.getAdventureByName("The Dire Warren");
     private static final KoLAdventure CELLAR =
         AdventureDatabase.getAdventureByName("The Typical Tavern Cellar");
-    private static final Confirm confirm = Confirm.CONFIRM_WINEGLASS;
+    private static final Confirm confirm = Confirm.WINEGLASS;
 
     @Test
     public void thatNoWarningNeededIfNotOverDrunk() {
@@ -297,7 +297,7 @@ public class RelayRequestWarningsTest {
         AdventureDatabase.getAdventureByName("A-Boo Peak");
     private static final KoLAdventure CASTLE_TOP_FLOOR =
         AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Top Floor)");
-    private static final Confirm confirm = Confirm.CONFIRM_MOHAWK_WIG;
+    private static final Confirm confirm = Confirm.MOHAWK_WIG;
     private static final AdventureResult MOHAWK_WIG = ItemPool.get(ItemPool.MOHAWK_WIG);
 
     @BeforeEach
@@ -475,7 +475,7 @@ public class RelayRequestWarningsTest {
         AdventureDatabase.getAdventureByName("A-Boo Peak");
     private static final KoLAdventure ARID_DESERT =
         AdventureDatabase.getAdventureByName("The Arid, Extra-Dry Desert");
-    private static final Confirm confirm = Confirm.CONFIRM_DESERT_WEAPON;
+    private static final Confirm confirm = Confirm.DESERT_WEAPON;
     private static final AdventureResult SURVIVAL_KNIFE = ItemPool.get(ItemPool.SURVIVAL_KNIFE);
 
     @Test
@@ -542,7 +542,7 @@ public class RelayRequestWarningsTest {
         AdventureDatabase.getAdventureByName("An Overgrown Shrine (Southeast)");
     private static final KoLAdventure ZIGGURAT =
         AdventureDatabase.getAdventureByName("A Massive Ziggurat");
-    private static final Confirm confirm = Confirm.CONFIRM_MACHETE;
+    private static final Confirm confirm = Confirm.MACHETE;
 
     private void testMacheteItem(RelayRequest request, int itemId) {
       // No warning if we have the machete equipped
@@ -676,7 +676,7 @@ public class RelayRequestWarningsTest {
       assertFalse(request.sendMacheteWarning());
 
       // No warning needed if this a resubmission of the "go ahead" URL
-      request.constructURLString(adventureURL(NW_SHRINE, Confirm.CONFIRM_MACHETE), true);
+      request.constructURLString(adventureURL(NW_SHRINE, Confirm.MACHETE), true);
       assertFalse(request.sendMacheteWarning());
       assertTrue(RelayRequest.ignoreMacheteWarning);
 
@@ -764,7 +764,7 @@ public class RelayRequestWarningsTest {
       public void shouldNotWarnInExploathingIfAlreadyConfirmed() {
         var cleanups = withPath(Path.KINGDOM_OF_EXPLOATHING);
         try (cleanups) {
-          String URL = prismURL(Confirm.CONFIRM_RALPH);
+          String URL = prismURL(Confirm.RALPH);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(URL);
           assertFalse(request.sendBreakPrismWarning(URL));
@@ -798,7 +798,7 @@ public class RelayRequestWarningsTest {
         try (cleanups) {
           // No warning needed if already confirmed
           RelayRequest request = new RelayRequest(false);
-          String URL = prismURL(Confirm.CONFIRM_RALPH);
+          String URL = prismURL(Confirm.RALPH);
           request.constructURLString(URL, true);
           assertFalse(request.sendBreakPrismWarning(URL));
         }
@@ -937,7 +937,7 @@ public class RelayRequestWarningsTest {
       public void shouldNotWarnInDinocoreIfAlreadyConfirmed() {
         var cleanups = withPath(Path.DINOSAURS);
         try (cleanups) {
-          String URL = prismURL(Confirm.CONFIRM_RALPH);
+          String URL = prismURL(Confirm.RALPH);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(URL);
           assertFalse(request.sendBreakPrismWarning(URL));
@@ -952,7 +952,7 @@ public class RelayRequestWarningsTest {
         AdventureDatabase.getAdventureByName("A-Boo Peak");
     private static final KoLAdventure DESERT =
         AdventureDatabase.getAdventureByName("The Arid, Extra-Dry Desert");
-    private static final Confirm confirm = Confirm.CONFIRM_DESERT_UNHYDRATED;
+    private static final Confirm confirm = Confirm.DESERT_UNHYDRATED;
 
     @BeforeEach
     public void beforeEach() {

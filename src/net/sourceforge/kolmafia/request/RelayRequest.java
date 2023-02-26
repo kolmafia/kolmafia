@@ -116,37 +116,37 @@ public class RelayRequest extends PasswordHashRequest {
   public static String redirectedCommandURL = "";
 
   public enum Confirm {
-    CONFIRM_COUNTER,
-    CONFIRM_MCD,
-    CONFIRM_FAMILIAR,
-    CONFIRM_RECOVERY,
-    CONFIRM_SORCERESS,
-    CONFIRM_WOSSNAME,
-    CONFIRM_TOKENS,
-    CONFIRM_SEAL,
-    CONFIRM_ARCADE,
-    CONFIRM_KUNGFU,
-    CONFIRM_POOL_SKILL,
-    CONFIRM_WINEGLASS,
-    CONFIRM_COLOSSEUM,
-    CONFIRM_GREMLINS,
-    CONFIRM_HARDCOREPVP,
-    CONFIRM_DESERT_UNHYDRATED,
-    CONFIRM_MOHAWK_WIG,
-    CONFIRM_CELLAR,
-    CONFIRM_BOILER,
-    CONFIRM_DIARY,
-    CONFIRM_BORING_DOORS,
-    CONFIRM_SPELUNKY,
-    CONFIRM_ZEPPELIN,
-    CONFIRM_OVERDRUNK_ADVENTURE,
-    CONFIRM_STICKER,
-    CONFIRM_DESERT_OFFHAND,
-    CONFIRM_MACHETE,
-    CONFIRM_RALPH,
-    CONFIRM_RALPH1,
-    CONFIRM_RALPH2,
-    CONFIRM_DESERT_WEAPON;
+    COUNTER,
+    MCD,
+    FAMILIAR,
+    RECOVERY,
+    SORCERESS,
+    WOSSNAME,
+    TOKENS,
+    SEAL,
+    ARCADE,
+    KUNGFU,
+    POOL_SKILL,
+    WINEGLASS,
+    COLOSSEUM,
+    GREMLINS,
+    HARDCOREPVP,
+    DESERT_UNHYDRATED,
+    MOHAWK_WIG,
+    CELLAR,
+    BOILER,
+    DIARY,
+    BORING_DOORS,
+    SPELUNKY,
+    ZEPPELIN,
+    OVERDRUNK_ADVENTURE,
+    STICKER,
+    DESERT_OFFHAND,
+    MACHETE,
+    RALPH,
+    RALPH1,
+    RALPH2,
+    DESERT_WEAPON;
 
     @Override
     public String toString() {
@@ -826,7 +826,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     if (KoLCharacter.isKingdomOfExploathing()) {
       // If user has already confirmed he wants to break the prism, accept it
-      if (this.getFormField(Confirm.CONFIRM_RALPH) != null) {
+      if (this.getFormField(Confirm.RALPH) != null) {
         return false;
       }
 
@@ -841,7 +841,7 @@ public class RelayRequest extends PasswordHashRequest {
               + " If you are ready to break the prism, click on the icon on the left."
               + " If you wish to visit Cosmic Ray's Bazaar, click on icon on the right.";
       this.sendOptionalWarning(
-          Confirm.CONFIRM_RALPH,
+          Confirm.RALPH,
           warning,
           "hand.gif",
           "meatisotope.gif",
@@ -856,13 +856,13 @@ public class RelayRequest extends PasswordHashRequest {
       if (KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit()
           && !RelayRequest.ignoreFullnessWarning) {
         // If it's already confirmed, then track that for the session
-        if (this.getFormField(Confirm.CONFIRM_RALPH1) == null) {
+        if (this.getFormField(Confirm.RALPH1) == null) {
           String warning =
               "When you stop being a plumber, you will lose five maximum fullness."
                   + " Since you are not yet full, perhaps you would like to eat more now?"
                   + " (It is not harmful to be over-full.)"
                   + " If you are sure you don't want to eat more at this time, click the icon. ";
-          this.sendGeneralWarning("knifefork.gif", warning, Confirm.CONFIRM_RALPH1);
+          this.sendGeneralWarning("knifefork.gif", warning, Confirm.RALPH1);
           return true;
         }
         RelayRequest.ignoreFullnessWarning = true;
@@ -905,7 +905,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     if (KoLCharacter.inRobocore()) {
       // If user has already confirmed he wants to go there, accept it
-      if (this.getFormField(Confirm.CONFIRM_RALPH) != null) {
+      if (this.getFormField(Confirm.RALPH) != null) {
         return false;
       }
 
@@ -937,7 +937,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(" If you wish to visit the Scrapheap, click on icon on the right.");
 
       this.sendOptionalWarning(
-          Confirm.CONFIRM_RALPH,
+          Confirm.RALPH,
           buf.toString(),
           "hand.gif",
           "jigawatts.gif",
@@ -952,7 +952,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     if (KoLCharacter.inDinocore()) {
       // If user has already confirmed he wants to go there, accept it
-      if (this.getFormField(Confirm.CONFIRM_RALPH) != null) {
+      if (this.getFormField(Confirm.RALPH) != null) {
         return false;
       }
 
@@ -967,7 +967,7 @@ public class RelayRequest extends PasswordHashRequest {
               + " If you are ready to break the prism, click on the icon on the left."
               + " If you wish to visit the Dino Staur, click on icon on the right.";
       this.sendOptionalWarning(
-          Confirm.CONFIRM_RALPH,
+          Confirm.RALPH,
           warning,
           "hand.gif",
           "dinobuck.gif",
@@ -1054,7 +1054,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private boolean sendCoinMasterWarning(final CoinmasterData camp) {
     // If user has already confirmed he wants to go there, accept it
-    if (this.getFormField(Confirm.CONFIRM_TOKENS) != null) {
+    if (this.getFormField(Confirm.TOKENS) != null) {
       return false;
     }
 
@@ -1071,7 +1071,7 @@ public class RelayRequest extends PasswordHashRequest {
         message
             + " Before you do so, you might want to redeem war loot for dimes and quarters and buy equipment. Click on the image to enter battle, once you are ready.";
 
-    this.sendGeneralWarning("lucre.gif", message, Confirm.CONFIRM_TOKENS);
+    this.sendGeneralWarning("lucre.gif", message, Confirm.TOKENS);
 
     return true;
   }
@@ -1088,7 +1088,7 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    if (this.getFormField(Confirm.CONFIRM_COLOSSEUM) != null) {
+    if (this.getFormField(Confirm.COLOSSEUM) != null) {
       return false;
     }
 
@@ -1146,7 +1146,7 @@ public class RelayRequest extends PasswordHashRequest {
             + weapon.getName()
             + ", click the icon on the right to closet it.";
     this.sendOptionalWarning(
-        Confirm.CONFIRM_COLOSSEUM,
+        Confirm.COLOSSEUM,
         warning,
         "hand.gif",
         image,
@@ -1167,7 +1167,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private boolean sendInfernalSealWarning(final String urlString) {
     // If user has already confirmed he wants to do it, accept it
-    if (this.getFormField(Confirm.CONFIRM_SEAL) != null) {
+    if (this.getFormField(Confirm.SEAL) != null) {
       return false;
     }
 
@@ -1196,7 +1196,7 @@ public class RelayRequest extends PasswordHashRequest {
     message =
         "You are trying to summon an infernal seal, but you are not wielding a club. You are either incredibly puissant or incredibly foolish. If you are sure you want to do this, click on the image and proceed to your doom.";
 
-    this.sendGeneralWarning("iblubbercandle.gif", message, Confirm.CONFIRM_SEAL, "checked=1");
+    this.sendGeneralWarning("iblubbercandle.gif", message, Confirm.SEAL, "checked=1");
 
     return true;
   }
@@ -1217,7 +1217,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If user has already confirmed he wants to do it, accept it
-    if (this.getFormField(Confirm.CONFIRM_GREMLINS) != null) {
+    if (this.getFormField(Confirm.GREMLINS) != null) {
       return false;
     }
 
@@ -1236,7 +1236,7 @@ public class RelayRequest extends PasswordHashRequest {
     message =
         "You are about to fight Gremlins, but do not have the Molybdenum Magnet. If you are sure you want to do this, click on the image to proceed.";
 
-    this.sendGeneralWarning("magnet2.gif", message, Confirm.CONFIRM_GREMLINS);
+    this.sendGeneralWarning("magnet2.gif", message, Confirm.GREMLINS);
 
     return true;
   }
@@ -1251,7 +1251,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // Don't remind a second time in a session if you decide not to do it.
-    if (urlString.contains(Confirm.CONFIRM_HARDCOREPVP.toString())) {
+    if (urlString.contains(Confirm.HARDCOREPVP.toString())) {
       return false;
     }
 
@@ -1285,7 +1285,7 @@ public class RelayRequest extends PasswordHashRequest {
     message =
         "You have fights remaining and are still in Hardcore. If you are sure you don't want to use the fights in hardcore, click on the image to proceed.";
 
-    this.sendGeneralWarning("swords.gif", message, Confirm.CONFIRM_HARDCOREPVP);
+    this.sendGeneralWarning("swords.gif", message, Confirm.HARDCOREPVP);
 
     return true;
   }
@@ -1297,7 +1297,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_DESERT_WEAPON) != null) {
+    if (this.getFormField(Confirm.DESERT_WEAPON) != null) {
       RelayRequest.ignoreDesertWeaponWarning = true;
       return false;
     }
@@ -1331,7 +1331,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
               + "If you want to equip the survival knife first, click the icon on the right. ";
       this.sendOptionalWarning(
-          Confirm.CONFIRM_DESERT_WEAPON,
+          Confirm.DESERT_WEAPON,
           warning,
           "hand.gif",
           "maydayknife.gif",
@@ -1357,7 +1357,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_DESERT_OFFHAND) != null) {
+    if (this.getFormField(Confirm.DESERT_OFFHAND) != null) {
       RelayRequest.ignoreDesertOffhandWarning = true;
       return false;
     }
@@ -1397,7 +1397,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
               + "If you want to equip the ornate dowsing rod first, click the icon on the right. ";
       this.sendOptionalWarning(
-          Confirm.CONFIRM_DESERT_OFFHAND,
+          Confirm.DESERT_OFFHAND,
           warning,
           "hand.gif",
           "dowsingrod.gif",
@@ -1421,7 +1421,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
               + "If you want to equip the UV-resistant compass first, click the icon on the right. ";
       this.sendOptionalWarning(
-          Confirm.CONFIRM_DESERT_OFFHAND,
+          Confirm.DESERT_OFFHAND,
           warning,
           "hand.gif",
           "uvcompass.gif",
@@ -1438,7 +1438,7 @@ public class RelayRequest extends PasswordHashRequest {
       String message =
           "You are about to adventure without a UV-resistant compass in the desert. If you are sure you want to do this, click on the image to proceed.";
 
-      this.sendGeneralWarning("uvcompass.gif", message, Confirm.CONFIRM_DESERT_OFFHAND);
+      this.sendGeneralWarning("uvcompass.gif", message, Confirm.DESERT_OFFHAND);
     }
 
     return true;
@@ -1451,7 +1451,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_DESERT_UNHYDRATED) != null) {
+    if (this.getFormField(Confirm.DESERT_UNHYDRATED) != null) {
       RelayRequest.ignoreDesertWarning = true;
       return false;
     }
@@ -1483,7 +1483,7 @@ public class RelayRequest extends PasswordHashRequest {
             + "If you are sure you wish to adventure unhydrated, click the icon on the left to adventure. "
             + "If you want to visit the Oasis to get ultrahydrated, click the icon on the right to adventure. ";
     this.sendOptionalWarning(
-        Confirm.CONFIRM_DESERT_UNHYDRATED,
+        Confirm.DESERT_UNHYDRATED,
         warning,
         "poison.gif",
         "raindrop.gif",
@@ -1517,7 +1517,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(" first, click the icon on the right.");
 
       this.sendOptionalWarning(
-          Confirm.CONFIRM_MACHETE,
+          Confirm.MACHETE,
           buf.toString(),
           "hand.gif",
           image,
@@ -1559,7 +1559,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(ok2);
       buf.append(" If you want to visit the Scrapheap, click the icon on the right.");
       this.sendOptionalWarning(
-          Confirm.CONFIRM_MACHETE,
+          Confirm.MACHETE,
           buf.toString(),
           "hand.gif",
           resource,
@@ -1571,7 +1571,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     buf.append(ok1);
-    this.sendGeneralWarning("hand.gif", buf.toString(), Confirm.CONFIRM_MACHETE);
+    this.sendGeneralWarning("hand.gif", buf.toString(), Confirm.MACHETE);
   }
 
   public boolean sendMacheteWarning() {
@@ -1581,7 +1581,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_MACHETE) != null) {
+    if (this.getFormField(Confirm.MACHETE) != null) {
       RelayRequest.ignoreMacheteWarning = true;
       return false;
     }
@@ -1656,7 +1656,7 @@ public class RelayRequest extends PasswordHashRequest {
     // Otherwise just ask if you want to adventure
     String message =
         "You are about to adventure without a machete to fight dense lianas. If you are sure you want to do this, click on the image to proceed.";
-    this.sendGeneralWarning("machetwo.gif", message, Confirm.CONFIRM_MACHETE);
+    this.sendGeneralWarning("machetwo.gif", message, Confirm.MACHETE);
 
     return true;
   }
@@ -1668,7 +1668,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_MOHAWK_WIG) != null) {
+    if (this.getFormField(Confirm.MOHAWK_WIG) != null) {
       RelayRequest.ignoreMohawkWigWarning = true;
       return false;
     }
@@ -1709,7 +1709,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(" If you want to put the hat on first, click the icon on the right.");
 
       this.sendOptionalWarning(
-          Confirm.CONFIRM_MOHAWK_WIG,
+          Confirm.MOHAWK_WIG,
           buf.toString(),
           "hand.gif",
           "mohawk.gif",
@@ -1749,7 +1749,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(" If you want to visit the Scrapheap, click the icon on the right.");
 
       this.sendOptionalWarning(
-          Confirm.CONFIRM_MOHAWK_WIG,
+          Confirm.MOHAWK_WIG,
           buf.toString(),
           "hand.gif",
           image,
@@ -1761,7 +1761,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     buf.append(ok1);
-    this.sendGeneralWarning("hand.gif", buf.toString(), Confirm.CONFIRM_MOHAWK_WIG);
+    this.sendGeneralWarning("hand.gif", buf.toString(), Confirm.MOHAWK_WIG);
 
     return true;
   }
@@ -1773,7 +1773,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_BORING_DOORS) != null) {
+    if (this.getFormField(Confirm.BORING_DOORS) != null) {
       RelayRequest.ignoreBoringDoorsWarning = true;
       return false;
     }
@@ -1807,7 +1807,7 @@ public class RelayRequest extends PasswordHashRequest {
             + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
             + "If you want to put the ring on first, click the icon on the right. ";
     this.sendOptionalWarning(
-        Confirm.CONFIRM_BORING_DOORS,
+        Confirm.BORING_DOORS,
         warning,
         "hand.gif",
         "weddingring.gif",
@@ -1829,7 +1829,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_POOL_SKILL) != null) {
+    if (this.getFormField(Confirm.POOL_SKILL) != null) {
       RelayRequest.ignorePoolSkillWarning = true;
       return false;
     }
@@ -1981,14 +1981,14 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     this.sendOptionalWarning(
-        Confirm.CONFIRM_POOL_SKILL, warning.toString(), "glove.gif", image2, action2, image3, action3);
+        Confirm.POOL_SKILL, warning.toString(), "glove.gif", image2, action2, image3, action3);
 
     return true;
   }
 
   private boolean sendCellarWarning() {
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_CELLAR) != null) {
+    if (this.getFormField(Confirm.CELLAR) != null) {
       return false;
     }
 
@@ -2025,14 +2025,14 @@ public class RelayRequest extends PasswordHashRequest {
         "You are about to adventure without reading the Mortar dissolving recipe with glasses equipped. "
             + " If you are sure you want to do this, click on the image to proceed.";
 
-    this.sendGeneralWarning("burgerrecipe.gif", message, Confirm.CONFIRM_CELLAR);
+    this.sendGeneralWarning("burgerrecipe.gif", message, Confirm.CELLAR);
 
     return true;
   }
 
   private boolean sendZeppelinWarning() {
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_ZEPPELIN) != null) {
+    if (this.getFormField(Confirm.ZEPPELIN) != null) {
       return false;
     }
 
@@ -2062,7 +2062,7 @@ public class RelayRequest extends PasswordHashRequest {
             + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
             + "If you want to visit the Black Market, click the icon on the right. ";
     this.sendOptionalWarning(
-        Confirm.CONFIRM_ZEPPELIN,
+        Confirm.ZEPPELIN,
         warning,
         "hand.gif",
         "zepticket.gif",
@@ -2075,7 +2075,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private boolean sendBoilerWarning() {
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_BOILER) != null) {
+    if (this.getFormField(Confirm.BOILER) != null) {
       return false;
     }
 
@@ -2115,14 +2115,14 @@ public class RelayRequest extends PasswordHashRequest {
     message =
         "You are about to adventure in the Haunted Boiler Room, but do not have Unstable Fulminate equipped. If you are sure you want to do this, click on the image to proceed.";
 
-    this.sendGeneralWarning("wine2.gif", message, Confirm.CONFIRM_BOILER);
+    this.sendGeneralWarning("wine2.gif", message, Confirm.BOILER);
 
     return true;
   }
 
   private boolean sendDiaryWarning() {
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(Confirm.CONFIRM_DIARY) != null) {
+    if (this.getFormField(Confirm.DIARY) != null) {
       return false;
     }
 
@@ -2160,13 +2160,13 @@ public class RelayRequest extends PasswordHashRequest {
     message =
         "You are about to adventure but have not obtained your father's MacGuffin diary. If you are sure you want to do this, click on the image to proceed.";
 
-    this.sendGeneralWarning("book2.gif", message, Confirm.CONFIRM_DIARY);
+    this.sendGeneralWarning("book2.gif", message, Confirm.DIARY);
 
     return true;
   }
 
   private boolean sendWossnameWarning(final CoinmasterData camp) {
-    if (this.getFormField(Confirm.CONFIRM_WOSSNAME) != null) {
+    if (this.getFormField(Confirm.WOSSNAME) != null) {
       return false;
     }
 
@@ -2179,13 +2179,13 @@ public class RelayRequest extends PasswordHashRequest {
             + " and open the way to their camp. However, you have not yet finished with the "
             + side2
             + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
-    this.sendGeneralWarning("wossname.gif", message, Confirm.CONFIRM_WOSSNAME);
+    this.sendGeneralWarning("wossname.gif", message, Confirm.WOSSNAME);
 
     return true;
   }
 
   private boolean sendFamiliarWarning() {
-    if (this.getFormField(Confirm.CONFIRM_FAMILIAR) != null) {
+    if (this.getFormField(Confirm.FAMILIAR) != null) {
       return false;
     }
 
@@ -2228,7 +2228,7 @@ public class RelayRequest extends PasswordHashRequest {
         "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"");
     warning.append(url);
     warning.append(!url.contains("?") ? "?" : "&");
-    warning.append(Confirm.CONFIRM_FAMILIAR);
+    warning.append(Confirm.FAMILIAR);
     warning.append("=on\"><img src=\"/images/");
 
     if (familiar.getId() != FamiliarData.NO_FAMILIAR.getId()) {
@@ -2270,7 +2270,7 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   boolean sendKungFuWarning() {
-    if (this.getFormField(Confirm.CONFIRM_KUNGFU) != null) {
+    if (this.getFormField(Confirm.KUNGFU) != null) {
       return false;
     }
 
@@ -2306,7 +2306,7 @@ public class RelayRequest extends PasswordHashRequest {
         "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"");
     warning.append(url);
     warning.append(!url.contains("?") ? "?" : "&");
-    warning.append(Confirm.CONFIRM_KUNGFU);
+    warning.append(Confirm.KUNGFU);
     warning.append("=on\"><img src=\"/images/itemimages/kungfu.gif");
     warning.append("\" width=30 height=30 border=0>");
     warning.append("</a></div></td>");
@@ -2469,7 +2469,7 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    if (this.getFormField(Confirm.CONFIRM_MCD) != null) {
+    if (this.getFormField(Confirm.MCD) != null) {
       return false;
     }
 
@@ -2547,7 +2547,7 @@ public class RelayRequest extends PasswordHashRequest {
     warning.append("<tr align=center><td><a href=\"");
     warning.append(this.getURLString());
     warning.append("&");
-    warning.append(Confirm.CONFIRM_MCD);
+    warning.append(Confirm.MCD);
     warning.append("=on");
     warning.append("\"><img src=\"/images/adventureimages/");
     warning.append(image);
@@ -2613,7 +2613,7 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    if (urlString.contains(Confirm.CONFIRM_SORCERESS.toString())) {
+    if (urlString.contains(Confirm.SORCERESS.toString())) {
       return false;
     }
 
@@ -2664,7 +2664,7 @@ public class RelayRequest extends PasswordHashRequest {
       }
 
       warning.append(" <span title=\"Bedroom\">Antique hand mirror</span>");
-      this.sendGeneralWarning("handmirror.gif", warning.toString(), Confirm.CONFIRM_SORCERESS);
+      this.sendGeneralWarning("handmirror.gif", warning.toString(), Confirm.SORCERESS);
       return true;
     }
 
@@ -2703,13 +2703,13 @@ public class RelayRequest extends PasswordHashRequest {
       }
     }
 
-    this.sendGeneralWarning("wand.gif", warning.toString(), Confirm.CONFIRM_SORCERESS);
+    this.sendGeneralWarning("wand.gif", warning.toString(), Confirm.SORCERESS);
     return true;
   }
 
   private boolean sendArcadeWarning() {
 
-    if (this.getFormField(Confirm.CONFIRM_ARCADE) != null) {
+    if (this.getFormField(Confirm.ARCADE) != null) {
       return false;
     }
 
@@ -2731,7 +2731,7 @@ public class RelayRequest extends PasswordHashRequest {
       this.sendGeneralWarning(
           "ggtoken.gif",
           "You might not be properly equipped to play this game.<br>Click the token if you'd like to continue anyway.",
-          Confirm.CONFIRM_ARCADE);
+          Confirm.ARCADE);
       return true;
     }
 
@@ -2743,7 +2743,7 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    if (this.getFormField(Confirm.CONFIRM_WINEGLASS) != null) {
+    if (this.getFormField(Confirm.WINEGLASS) != null) {
       return false;
     }
 
@@ -2771,7 +2771,7 @@ public class RelayRequest extends PasswordHashRequest {
             + "If this was an accident, click the icon in the center to equip Drunkula's wineglass. "
             + "If you want to adventure in a Drunken Stupor and not be nagged, click the icon on the right to closet Drunkula's wineglass.";
     this.sendOptionalWarning(
-        Confirm.CONFIRM_WINEGLASS,
+        Confirm.WINEGLASS,
         warning,
         "hand.gif",
         "dr_wineglass.gif",
@@ -2796,8 +2796,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // Don't warn again if you've already said ok to Wineglass warning about overdrunk (or this one)
-    if (this.getFormField(Confirm.CONFIRM_OVERDRUNK_ADVENTURE) != null
-        || this.getFormField(Confirm.CONFIRM_WINEGLASS) != null) {
+    if (this.getFormField(Confirm.OVERDRUNK_ADVENTURE) != null
+        || this.getFormField(Confirm.WINEGLASS) != null) {
       return false;
     }
 
@@ -2820,7 +2820,7 @@ public class RelayRequest extends PasswordHashRequest {
     String warning =
         "KoLmafia has detected that you are about to adventure while overdrunk. "
             + "If you are sure you wish to adventure in a Drunken Stupor, click the icon to adventure. ";
-    this.sendGeneralWarning("martini.gif", warning, Confirm.CONFIRM_OVERDRUNK_ADVENTURE);
+    this.sendGeneralWarning("martini.gif", warning, Confirm.OVERDRUNK_ADVENTURE);
     return true;
   }
 
@@ -2841,16 +2841,16 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If the player has said he doesn't care about this warning, cool
-    if (this.getFormField(Confirm.CONFIRM_SPELUNKY) != null) {
+    if (this.getFormField(Confirm.SPELUNKY) != null) {
       return false;
     }
 
     // Depending on noncombat phase step and/or adventure location,
     // craft an appropriate warning
-    String message = SpelunkyRequest.spelunkyWarning(adventure, Confirm.CONFIRM_SPELUNKY);
+    String message = SpelunkyRequest.spelunkyWarning(adventure, Confirm.SPELUNKY);
     if (message != null) {
       String image = SpelunkyRequest.adventureImage(adventure);
-      this.sendGeneralWarning(image != null ? image : "spelwhip.gif", message, Confirm.CONFIRM_SPELUNKY);
+      this.sendGeneralWarning(image != null ? image : "spelwhip.gif", message, Confirm.SPELUNKY);
       return true;
     }
 
@@ -3630,7 +3630,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     if (nextAdventure != null
         && RecoveryManager.isRecoveryPossible()
-        && this.getFormField(Confirm.CONFIRM_RECOVERY) == null) {
+        && this.getFormField(Confirm.RECOVERY) == null) {
       boolean isScript = !isNonCombatsOnly && Preferences.getBoolean("relayRunsBeforeBattleScript");
       boolean isMood = !isNonCombatsOnly && Preferences.getBoolean("relayMaintainsEffects");
       boolean isHealth = !isNonCombatsOnly && Preferences.getBoolean("relayMaintainsHealth");
@@ -3644,7 +3644,7 @@ public class RelayRequest extends PasswordHashRequest {
         this.sendGeneralWarning(
             "beatenup.gif",
             "Between battle actions failed. Click the image if you'd like to continue anyway.",
-            Confirm.CONFIRM_RECOVERY);
+            Confirm.RECOVERY);
         return true;
       }
     }
@@ -3818,7 +3818,7 @@ public class RelayRequest extends PasswordHashRequest {
             "You do not have the \"I voted\" sticker equipped, to continue without, click the icon on the left to adventure. ");
         msg.append("If you want the sticker equipped, click the icon on the right to adventure. ");
         this.sendOptionalWarning(
-            Confirm.CONFIRM_STICKER,
+            Confirm.STICKER,
             msg.toString(),
             image,
             "ivoted.gif",
@@ -3830,7 +3830,7 @@ public class RelayRequest extends PasswordHashRequest {
             null,
             null);
       } else {
-        this.sendGeneralWarning(image, msg.toString(), Confirm.CONFIRM_COUNTER, isSkill);
+        this.sendGeneralWarning(image, msg.toString(), Confirm.COUNTER, isSkill);
       }
       return true;
     }
