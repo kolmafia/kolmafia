@@ -9,6 +9,7 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHippyStoneBroken;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
@@ -33,6 +34,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
+import internal.network.FakeHttpClientBuilder;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -43,6 +47,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1947,6 +1952,37 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_melodramedary_sloshing.html");
         assertThat("camelSpit", isSetTo(100));
+      }
+    }
+  }
+
+  @Nested
+  class ShadowRift {
+    @Test
+    void canTrackShadowRiftCombats() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("_shadowRiftCombats", 0),
+              withProperty("shadowRiftIngress", ""),
+              withLastLocation("None"));
+      try (cleanups) {
+        client.addResponse(
+            302,
+            Map.of("location", List.of("adventure.php?snarfblat=" + AdventurePool.SHADOW_RIFT)),
+            "");
+        client.addResponse(
+            302, Map.of("location", List.of("fight.php?ireallymeanit=1677340903")), "");
+        client.addResponse(200, html("request/test_shadow_rift_fight.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("place.php?whichplace=hiddencity&action=hc_shadowrift");
+        request.run();
+        assertThat("shadowRiftIngress", isSetTo("hiddencity"));
+        assertThat("lastAdventure", isSetTo("Shadow Rift (The Hidden City)"));
+        assertThat("_shadowRiftCombats", isSetTo(1));
       }
     }
   }

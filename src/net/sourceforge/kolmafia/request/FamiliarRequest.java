@@ -362,8 +362,17 @@ public class FamiliarRequest extends GenericRequest {
     // Jarlsberg didn't trust any companion that he didn't summon himself.
     // Familiars weren't cool enough for Pete.
     // Ed already has more than enough servants.
+    if (!KoLCharacter.getPath().canUseFamiliars()) {
+      // even if we can't use familiars, we still want to know what familiars we own
+      if (changeTo == null) {
+        FamiliarData.registerFamiliarData(this.responseText);
+        KoLmafia.updateDisplay("Familiar data retrieved.");
+      }
+      return;
+    }
+
     // In Quantum Terrarium, familiar sets you.
-    if (!KoLCharacter.getPath().canUseFamiliars() || KoLCharacter.inQuantum()) {
+    if (KoLCharacter.inQuantum()) {
       return;
     }
 
