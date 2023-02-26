@@ -94,7 +94,7 @@ public class ModRefCommand extends AbstractCommand {
       Function<T, String> charModString,
       BiFunction<Modifiers, T, String> modString) {
     String mod = modifier.getName();
-    if (filter != null && !mod.toLowerCase().contains(filter)) {
+    if (filter != null && !matchesFilter(mod.toLowerCase(), filter)) {
       return;
     }
     buf.append("<tr><td>");
@@ -106,5 +106,16 @@ public class ModRefCommand extends AbstractCommand {
       buf.append(modString.apply(mods, modifier));
     }
     buf.append("</td></tr>");
+  }
+
+  /**
+   * Return whether a modifier matches a filter.
+   *
+   * @param name modifier name to match on
+   * @param filter filter. Filters can contain '*' which are interpreted as 'any nonempty string'.
+   * @return whether the name matches the filter
+   */
+  private boolean matchesFilter(String name, String filter) {
+    return name.contains(filter);
   }
 }
