@@ -32,19 +32,16 @@ public class CraftRequest extends GenericRequest {
   }
 
   private void setMixingMethod(final String mode) {
-    if (mode.equals("combine")) {
-      this.mixingMethod = CraftingType.COMBINE;
-    } else if (mode.equals("cocktail")) {
-      this.mixingMethod = CraftingType.MIX;
-    } else if (mode.equals("cook")) {
-      this.mixingMethod = CraftingType.COOK;
-    } else if (mode.equals("smith")) {
-      this.mixingMethod = CraftingType.SMITH;
-    } else if (mode.equals("jewelry")) {
-      this.mixingMethod = CraftingType.JEWELRY;
-    } else {
-      this.mixingMethod = CraftingType.NOCREATE;
-      return;
+    switch (mode) {
+      case "combine" -> this.mixingMethod = CraftingType.COMBINE;
+      case "cocktail" -> this.mixingMethod = CraftingType.MIX;
+      case "cook" -> this.mixingMethod = CraftingType.COOK;
+      case "smith" -> this.mixingMethod = CraftingType.SMITH;
+      case "jewelry" -> this.mixingMethod = CraftingType.JEWELRY;
+      default -> {
+        this.mixingMethod = CraftingType.NOCREATE;
+        return;
+      }
     }
 
     this.addFormField("mode", mode);

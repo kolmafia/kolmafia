@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -9,12 +10,14 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -179,39 +182,38 @@ public class ItemFinder {
         continue;
       }
 
-      int useType = ItemDatabase.getConsumptionType(itemId);
+      ConsumptionType useType = ItemDatabase.getConsumptionType(itemId);
 
       switch (filterType) {
         case FOOD:
           ItemFinder.conditionalRemove(
               nameIterator,
-              useType != KoLConstants.CONSUME_EAT && useType != KoLConstants.CONSUME_FOOD_HELPER);
+              useType != ConsumptionType.EAT && useType != ConsumptionType.FOOD_HELPER);
           break;
         case BOOZE:
           ItemFinder.conditionalRemove(
               nameIterator,
-              useType != KoLConstants.CONSUME_DRINK
-                  && useType != KoLConstants.CONSUME_DRINK_HELPER);
+              useType != ConsumptionType.DRINK && useType != ConsumptionType.DRINK_HELPER);
           break;
         case SPLEEN:
-          ItemFinder.conditionalRemove(nameIterator, useType != KoLConstants.CONSUME_SPLEEN);
+          ItemFinder.conditionalRemove(nameIterator, useType != ConsumptionType.SPLEEN);
           break;
         case EQUIP:
           switch (useType) {
-            case KoLConstants.EQUIP_FAMILIAR:
-            case KoLConstants.EQUIP_ACCESSORY:
-            case KoLConstants.EQUIP_HAT:
-            case KoLConstants.EQUIP_PANTS:
-            case KoLConstants.EQUIP_SHIRT:
-            case KoLConstants.EQUIP_WEAPON:
-            case KoLConstants.EQUIP_OFFHAND:
-            case KoLConstants.EQUIP_CONTAINER:
-            case KoLConstants.CONSUME_STICKER:
-            case KoLConstants.CONSUME_CARD:
-            case KoLConstants.CONSUME_FOLDER:
-            case KoLConstants.CONSUME_BOOTSKIN:
-            case KoLConstants.CONSUME_BOOTSPUR:
-            case KoLConstants.CONSUME_SIXGUN:
+            case FAMILIAR_EQUIPMENT:
+            case ACCESSORY:
+            case HAT:
+            case PANTS:
+            case SHIRT:
+            case WEAPON:
+            case OFFHAND:
+            case CONTAINER:
+            case STICKER:
+            case CARD:
+            case FOLDER:
+            case BOOTSKIN:
+            case BOOTSPUR:
+            case SIXGUN:
               break;
 
             default:
@@ -274,10 +276,7 @@ public class ItemFinder {
           nameIterator,
           itemId != -1
               && !ItemDatabase.getAttribute(
-                  itemId,
-                  ItemDatabase.ATTR_TRADEABLE
-                      | ItemDatabase.ATTR_MATCHABLE
-                      | ItemDatabase.ATTR_QUEST)
+                  itemId, EnumSet.of(Attribute.TRADEABLE, Attribute.MATCHABLE, Attribute.QUEST))
               && !NPCStoreDatabase.contains(itemId));
     }
 

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 
 public class HotTubCommand extends AbstractCommand {
   public HotTubCommand() {
@@ -10,6 +11,6 @@ public class HotTubCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    RequestThread.postRequest(new ClanLoungeRequest(ClanLoungeRequest.HOTTUB));
+    RequestThread.postRequest(new ClanLoungeRequest(Action.HOTTUB));
   }
 }

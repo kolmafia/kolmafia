@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -30,14 +31,20 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
@@ -59,7 +66,8 @@ public class CompactSidePane extends JPanel implements Runnable {
   private final JLabel levelLabel, roninLabel, mcdLabel;
   private final int STAT_LABELS = 3;
   private final JLabel[] statLabel = new JLabel[STAT_LABELS];
-  private final JLabel[] statValueLabel = new JLabel[STAT_LABELS];
+  private final JLabel[] statAdjustedValueLabel = new JLabel[STAT_LABELS];
+  private final JLabel[] statBaseValueLabel = new JLabel[STAT_LABELS];
   private final int STATUS_LABELS = 8;
   private final JLabel[] statusLabel = new JLabel[STATUS_LABELS];
   private final JLabel[] statusValueLabel = new JLabel[STATUS_LABELS];
@@ -67,6 +75,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   private final JLabel[] consumptionLabel = new JLabel[CONSUMPTION_LABELS];
   private final JLabel[] consumptionValueLabel = new JLabel[CONSUMPTION_LABELS];
   private final FamiliarLabel familiarLabel;
+  private final JLabel familiarAnnotationLabel;
   private final int BONUS_LABELS = 10;
   private final JLabel[] bonusLabel = new JLabel[BONUS_LABELS];
   private final JLabel[] bonusValueLabel = new JLabel[BONUS_LABELS];
@@ -86,7 +95,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   public CompactSidePane() {
     super(new BorderLayout());
 
-    JPanel labelPanel, valuePanel;
+    JPanel labelPanel, valuePanel, adjustedValuePanel, baseValuePanel;
 
     JPanel[] panels = new JPanel[6];
     int panelCount = -1;
@@ -110,7 +119,8 @@ public class CompactSidePane extends JPanel implements Runnable {
     holderPanel.setOpaque(false);
     panels[panelCount].add(holderPanel, BorderLayout.SOUTH);
 
-    panels[++panelCount] = new JPanel(new BorderLayout());
+    panels[++panelCount] = new JPanel();
+    panels[panelCount].setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
     panels[panelCount].setOpaque(false);
 
     labelPanel = new JPanel(new GridLayout(this.STAT_LABELS, 1));
@@ -120,15 +130,19 @@ public class CompactSidePane extends JPanel implements Runnable {
       labelPanel.add(this.statLabel[i] = new JLabel(" ", JLabel.RIGHT));
     }
 
-    valuePanel = new JPanel(new GridLayout(this.STAT_LABELS, 1));
-    valuePanel.setOpaque(false);
+    adjustedValuePanel = new JPanel(new GridLayout(this.STAT_LABELS, 1));
+    adjustedValuePanel.setOpaque(false);
+    baseValuePanel = new JPanel(new GridLayout(this.STAT_LABELS, 1));
+    baseValuePanel.setOpaque(false);
 
     for (int i = 0; i < this.STAT_LABELS; i++) {
-      valuePanel.add(this.statValueLabel[i] = new JLabel(" ", JLabel.LEFT));
+      adjustedValuePanel.add(this.statAdjustedValueLabel[i] = new JLabel(" ", JLabel.RIGHT));
+      baseValuePanel.add(this.statBaseValueLabel[i] = new JLabel(" ", JLabel.LEFT));
     }
 
-    panels[panelCount].add(labelPanel, BorderLayout.WEST);
-    panels[panelCount].add(valuePanel, BorderLayout.CENTER);
+    panels[panelCount].add(labelPanel);
+    panels[panelCount].add(adjustedValuePanel);
+    panels[panelCount].add(baseValuePanel);
 
     panels[++panelCount] = new JPanel(new BorderLayout());
     panels[panelCount].setOpaque(false);
@@ -170,9 +184,15 @@ public class CompactSidePane extends JPanel implements Runnable {
     panels[panelCount].add(labelPanel, BorderLayout.WEST);
     panels[panelCount].add(valuePanel, BorderLayout.CENTER);
 
-    panels[++panelCount] = new JPanel(new GridLayout(2, 1));
+    JPanel familiarPanel = new JPanel();
+    familiarPanel.setLayout(new BoxLayout(familiarPanel, BoxLayout.Y_AXIS));
+    panels[++panelCount] = familiarPanel;
     panels[panelCount].add(this.familiarLabel = new FamiliarLabel());
+    this.familiarLabel.setAlignmentX(CENTER_ALIGNMENT);
+    panels[panelCount].add(this.familiarAnnotationLabel = new JLabel(" ", JLabel.CENTER));
+    this.familiarAnnotationLabel.setAlignmentX(CENTER_ALIGNMENT);
     panels[panelCount].add(this.quantumFamiliarPanel = new QuantumFamiliarPanel());
+    this.quantumFamiliarPanel.setAlignmentX(CENTER_ALIGNMENT);
 
     // Make a popup label for Sneaky Pete's motorcycle. Clicking on
     // the motorcycle image (which replaces the familiar icon)
@@ -382,13 +402,13 @@ public class CompactSidePane extends JPanel implements Runnable {
         }
 
         int id = fam.getId();
-        Modifiers mods = Modifiers.getModifiers("Familiar", fam.getRace());
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.FAMILIAR, fam.getRace());
         boolean added = false;
 
         // Stat Gain
         if (FamiliarDatabase.isVolleyType(id)
             || FamiliarDatabase.isSombreroType(id)
-            || (mods != null && mods.get(Modifiers.VOLLEYBALL_WEIGHT) != 0.0)) {
+            || (mods != null && mods.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT) != 0.0)) {
           stat.add(new FamiliarMenuItem(fam));
           added = true;
         }
@@ -700,35 +720,20 @@ public class CompactSidePane extends JPanel implements Runnable {
     }
   }
 
-  public String getStatText(final int adjusted, final int base) {
-    String statText;
+  public void setStatTextAndColor(final int index, final int adjusted, final int base) {
+    this.statAdjustedValueLabel[index].setText(adjusted + "\u00a0"); // non-breaking space
+    this.statBaseValueLabel[index].setText("(" + base + ")");
     if (KoLmafiaGUI.isDarkTheme()) {
-
-      statText =
+      this.statAdjustedValueLabel[index].setForeground(
           adjusted == base
-              ? "<html><font color=#dddddd>" + base + "</font>"
-              : adjusted > base
-                  ? "<html><font color=#00d4ff>"
-                      + adjusted
-                      + "</font> (<font color=#dddddd>"
-                      + base
-                      + "</font>"
-                      + ")"
-                  : "<html><font color=#ff8a93>"
-                      + adjusted
-                      + "</font> (<font color=#dddddd>"
-                      + base
-                      + "</font>"
-                      + ")";
+              ? new Color(0xdd, 0xdd, 0xdd)
+              : adjusted > base ? new Color(0x00, 0xd4, 0xff) : new Color(0xff, 0x8a, 0x93));
+      this.statBaseValueLabel[index].setForeground(new Color(0xdd, 0xdd, 0xdd));
     } else {
-      statText =
-          adjusted == base
-              ? "<html>" + base
-              : adjusted > base
-                  ? "<html><font color=blue>" + adjusted + "</font> (" + base + ")"
-                  : "<html><font color=red>" + adjusted + "</font> (" + base + ")";
+      this.statAdjustedValueLabel[index].setForeground(
+          adjusted == base ? Color.BLACK : adjusted > base ? Color.BLUE : Color.RED);
+      this.statBaseValueLabel[index].setForeground(Color.BLACK);
     }
-    return statText;
   }
 
   @Override
@@ -765,23 +770,21 @@ public class CompactSidePane extends JPanel implements Runnable {
 
     int count = 0;
     this.statLabel[count].setText("   Mus: ");
-    this.statValueLabel[count].setText(
-        this.getStatText(KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle()));
+    setStatTextAndColor(count, KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle());
     count++;
     if (limitMode != LimitMode.SPELUNKY) {
       this.statLabel[count].setText("   Mys: ");
-      this.statValueLabel[count].setText(
-          this.getStatText(
-              KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality()));
+      setStatTextAndColor(
+          count, KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality());
       count++;
     }
     this.statLabel[count].setText("   Mox: ");
-    this.statValueLabel[count].setText(
-        this.getStatText(KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie()));
+    setStatTextAndColor(count, KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie());
     count++;
     for (int i = count; i < STAT_LABELS; i++) {
       this.statLabel[i].setText("");
-      this.statValueLabel[i].setText("");
+      this.statAdjustedValueLabel[i].setText("");
+      this.statBaseValueLabel[i].setText("");
     }
 
     count = 0;
@@ -933,7 +936,7 @@ public class CompactSidePane extends JPanel implements Runnable {
             KoLConstants.MODIFIER_FORMAT.format(KoLCharacter.getMonsterLevelAdjustment())
                 + " ("
                 + KoLConstants.MODIFIER_FORMAT.format(
-                    KoLCharacter.currentNumericModifier(Modifiers.MONSTER_LEVEL))
+                    KoLCharacter.currentNumericModifier(DoubleModifier.MONSTER_LEVEL))
                 + ")");
         count++;
       } else {
@@ -978,13 +981,13 @@ public class CompactSidePane extends JPanel implements Runnable {
         this.bonusValueLabel[count].setText(KoLConstants.MODIFIER_FORMAT.format(smithsness));
         count++;
       }
-      int surgeon = (int) KoLCharacter.currentNumericModifier(Modifiers.SURGEONOSITY);
+      int surgeon = (int) KoLCharacter.currentNumericModifier(BitmapModifier.SURGEONOSITY);
       if (surgeon != 0 && count < this.BONUS_LABELS) {
         this.bonusLabel[count].setText("Surgeon: ");
         this.bonusValueLabel[count].setText(surgeon + " / 5");
         count++;
       }
-      int rave = KoLCharacter.currentBitmapModifier(Modifiers.RAVEOSITY);
+      int rave = KoLCharacter.currentBitmapModifier(BitmapModifier.RAVEOSITY);
       if (rave != 0 && count < this.BONUS_LABELS) {
         this.bonusLabel[count].setText("Rave: ");
         this.bonusValueLabel[count].setText(rave + " / 7");
@@ -993,17 +996,18 @@ public class CompactSidePane extends JPanel implements Runnable {
       int clown = KoLCharacter.getClownosity();
       if (clown != 0 && count < this.BONUS_LABELS) {
         this.bonusLabel[count].setText("Clown: ");
-        this.bonusValueLabel[count].setText(clown + " / 4");
+        this.bonusValueLabel[count].setText(clown + "%");
         count++;
       }
     } else {
       this.bonusLabel[count].setText("DR: ");
       this.bonusValueLabel[count].setText(
-          String.valueOf((int) KoLCharacter.currentNumericModifier(Modifiers.DAMAGE_REDUCTION)));
+          String.valueOf(
+              (int) KoLCharacter.currentNumericModifier(DoubleModifier.DAMAGE_REDUCTION)));
       count++;
       this.bonusLabel[count].setText("Luck: ");
       this.bonusValueLabel[count].setText(
-          String.valueOf((int) KoLCharacter.currentNumericModifier(Modifiers.LUCK)));
+          String.valueOf((int) KoLCharacter.currentNumericModifier(DoubleModifier.LUCK)));
       count++;
     }
 
@@ -1040,6 +1044,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       this.levelPanel.setToolTipText("");
     }
 
+    boolean annotated = false;
     if (limitMode == LimitMode.SPELUNKY) {
       String imageName = SpelunkyRequest.getBuddyImageName();
       if (imageName == null) {
@@ -1084,7 +1089,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       }
 
       this.familiarLabel.setIcon(servant.getImage());
-      this.familiarLabel.setText("<HTML><center>level " + servant.getLevel() + "</center></HTML>");
+      this.familiarLabel.setText("level " + servant.getLevel());
     } else if (KoLCharacter.isVampyre()) {
       MonsterData ensorcelee = MonsterDatabase.findMonster(Preferences.getString("ensorcelee"));
 
@@ -1096,15 +1101,25 @@ public class CompactSidePane extends JPanel implements Runnable {
       this.familiarLabel.setToolTipText(ensorcelee.toString());
       this.familiarLabel.setIcon(ensorcelee.getPhylum().getImage());
       this.familiarLabel.setText(
-          "<HTML><center>level "
+          "level "
               + Preferences.getInteger("ensorceleeLevel")
               + " "
-              + ensorcelee.getPhylum().toString()
-              + "</center></HTML>");
+              + ensorcelee.getPhylum().toString());
     } else {
+      StringBuffer annotation = CharPaneDecorator.getFamiliarAnnotation();
+      if (annotation != null) {
+        annotated = true;
+        String annotationString = annotation.toString();
+        this.familiarAnnotationLabel.setText(
+            annotationString.contains("<")
+                ? "<html><center>" + annotationString + "</center></html>"
+                : annotationString);
+      }
+
       this.familiarLabel.update();
     }
 
+    this.familiarAnnotationLabel.setVisible(annotated);
     quantumFamiliarPanel.setVisible(KoLCharacter.inQuantum());
   }
 
@@ -1187,14 +1202,8 @@ public class CompactSidePane extends JPanel implements Runnable {
 
       this.setIcon(KoLCharacter.getFamiliarImage());
 
-      StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
       int weight = current.getModifiedWeight();
-      this.setText(
-          "<HTML><center>"
-              + weight
-              + (weight == 1 ? " lb." : " lbs.")
-              + (anno == null ? "" : "<br>" + anno.toString())
-              + "</center></HTML>");
+      this.setText(weight + (weight == 1 ? " lb." : " lbs."));
     }
   }
 
@@ -1223,7 +1232,7 @@ public class CompactSidePane extends JPanel implements Runnable {
 
   private class QuantumFamiliarLabel extends FamiliarLabel {
     public QuantumFamiliarLabel() {
-      this.setHorizontalTextPosition(JLabel.RIGHT);
+      this.setHorizontalTextPosition(JLabel.CENTER);
       this.setVerticalTextPosition(JLabel.CENTER);
     }
 
@@ -1235,11 +1244,11 @@ public class CompactSidePane extends JPanel implements Runnable {
 
       if (turns == 0) {
         this.setIcon((Icon) null);
-        this.setText("<html><center>checking...</center></html>");
+        this.setText("checking...");
         return;
       }
 
-      this.setText("<html><center>in " + turns + " turns</center></html>");
+      this.setText("in " + turns + " turns");
 
       String nextFamiliarRace = Preferences.getString("nextQuantumFamiliar");
 
@@ -1290,10 +1299,10 @@ public class CompactSidePane extends JPanel implements Runnable {
 
   private static String modifierPopupText() {
     StringBuffer buf = new StringBuffer("<html><body><table border=1>");
-    int[] predicted = KoLCharacter.getCurrentModifiers().predict();
-    int mus = Math.max(1, predicted[Modifiers.BUFFED_MUS]);
-    int mys = Math.max(1, predicted[Modifiers.BUFFED_MYS]);
-    int mox = Math.max(1, predicted[Modifiers.BUFFED_MOX]);
+    var predicted = KoLCharacter.getCurrentModifiers().predict();
+    int mus = Math.max(1, predicted.get(DerivedModifier.BUFFED_MUS));
+    int mys = Math.max(1, predicted.get(DerivedModifier.BUFFED_MYS));
+    int mox = Math.max(1, predicted.get(DerivedModifier.BUFFED_MOX));
     int dmus = KoLCharacter.getAdjustedMuscle() - mus;
     int dmys = KoLCharacter.getAdjustedMysticality() - mys;
     int dmox = KoLCharacter.getAdjustedMoxie() - mox;
@@ -1312,8 +1321,8 @@ public class CompactSidePane extends JPanel implements Runnable {
       buf.append(KoLConstants.MODIFIER_FORMAT.format(dmox));
       buf.append(")</td></tr>");
     }
-    long hp = Math.max(1, predicted[Modifiers.BUFFED_HP]);
-    long mp = Math.max(1, predicted[Modifiers.BUFFED_MP]);
+    long hp = Math.max(1, predicted.get(DerivedModifier.BUFFED_HP));
+    long mp = Math.max(1, predicted.get(DerivedModifier.BUFFED_MP));
     long dhp = KoLCharacter.getMaximumHP() - hp;
     long dmp = KoLCharacter.getMaximumMP() - mp;
     if (dhp != 0 || dmp != 0) {
@@ -1329,29 +1338,29 @@ public class CompactSidePane extends JPanel implements Runnable {
     }
 
     buf.append("<tr><td></td><td>Damage</td><td>Spell dmg</td><td>Resistance</td></tr>");
-    CompactSidePane.addElement(buf, "Hot", Modifiers.HOT_DAMAGE);
-    CompactSidePane.addElement(buf, "Cold", Modifiers.COLD_DAMAGE);
-    CompactSidePane.addElement(buf, "Stench", Modifiers.STENCH_DAMAGE);
-    CompactSidePane.addElement(buf, "Spooky", Modifiers.SPOOKY_DAMAGE);
-    CompactSidePane.addElement(buf, "Sleaze", Modifiers.SLEAZE_DAMAGE);
+    CompactSidePane.addElement(buf, "Hot", DoubleModifier.HOT_DAMAGE);
+    CompactSidePane.addElement(buf, "Cold", DoubleModifier.COLD_DAMAGE);
+    CompactSidePane.addElement(buf, "Stench", DoubleModifier.STENCH_DAMAGE);
+    CompactSidePane.addElement(buf, "Spooky", DoubleModifier.SPOOKY_DAMAGE);
+    CompactSidePane.addElement(buf, "Sleaze", DoubleModifier.SLEAZE_DAMAGE);
     CompactSidePane.addSlime(buf);
     CompactSidePane.addSupercold(buf);
     buf.append("<tr><td>Weapon</td><td>");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(Modifiers.WEAPON_DAMAGE)));
+            KoLCharacter.currentNumericModifier(DoubleModifier.WEAPON_DAMAGE)));
     buf.append("<br>");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(Modifiers.WEAPON_DAMAGE_PCT)));
+            KoLCharacter.currentNumericModifier(DoubleModifier.WEAPON_DAMAGE_PCT)));
     buf.append("%</td><td rowspan=2>General<br>spell dmg:<br>");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(Modifiers.SPELL_DAMAGE)));
+            KoLCharacter.currentNumericModifier(DoubleModifier.SPELL_DAMAGE)));
     buf.append("<br>");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(Modifiers.SPELL_DAMAGE_PCT)));
+            KoLCharacter.currentNumericModifier(DoubleModifier.SPELL_DAMAGE_PCT)));
     buf.append("%</td><td rowspan=2>DA: ");
     buf.append(KoLConstants.COMMA_FORMAT.format(KoLCharacter.getDamageAbsorption()));
     buf.append("<br>(");
@@ -1365,21 +1374,21 @@ public class CompactSidePane extends JPanel implements Runnable {
     buf.append("</td></tr><tr><td>Ranged</td><td>");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(Modifiers.RANGED_DAMAGE)));
+            KoLCharacter.currentNumericModifier(DoubleModifier.RANGED_DAMAGE)));
     buf.append("<br>");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(Modifiers.RANGED_DAMAGE_PCT)));
+            KoLCharacter.currentNumericModifier(DoubleModifier.RANGED_DAMAGE_PCT)));
     buf.append("%</td></tr><tr><td>Critical</td><td>");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(Modifiers.CRITICAL_PCT)));
+            KoLCharacter.currentNumericModifier(DoubleModifier.CRITICAL_PCT)));
     buf.append("%</td><td rowspan=2>MP cost:<br>");
     buf.append(KoLConstants.MODIFIER_FORMAT.format(KoLCharacter.getManaCostAdjustment()));
-    int hpmin = (int) KoLCharacter.currentNumericModifier(Modifiers.HP_REGEN_MIN);
-    int hpmax = (int) KoLCharacter.currentNumericModifier(Modifiers.HP_REGEN_MAX);
-    int mpmin = (int) KoLCharacter.currentNumericModifier(Modifiers.MP_REGEN_MIN);
-    int mpmax = (int) KoLCharacter.currentNumericModifier(Modifiers.MP_REGEN_MAX);
+    int hpmin = (int) KoLCharacter.currentNumericModifier(DoubleModifier.HP_REGEN_MIN);
+    int hpmax = (int) KoLCharacter.currentNumericModifier(DoubleModifier.HP_REGEN_MAX);
+    int mpmin = (int) KoLCharacter.currentNumericModifier(DoubleModifier.MP_REGEN_MIN);
+    int mpmax = (int) KoLCharacter.currentNumericModifier(DoubleModifier.MP_REGEN_MAX);
     if (hpmax != 0 || mpmax != 0) {
       buf.append("<br>Regenerate:<br>HP ");
       buf.append(hpmin);
@@ -1397,12 +1406,12 @@ public class CompactSidePane extends JPanel implements Runnable {
     buf.append("</td><td rowspan=2>Rollover:<br>Adv ");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(Modifiers.ADVENTURES)
+            KoLCharacter.currentNumericModifier(DoubleModifier.ADVENTURES)
                 + Preferences.getInteger("extraRolloverAdventures")));
     buf.append("<br>PvP ");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(Modifiers.PVP_FIGHTS)));
+            KoLCharacter.currentNumericModifier(DoubleModifier.PVP_FIGHTS)));
     buf.append("<br>HP ~");
     buf.append(KoLCharacter.getRestingHP());
     buf.append("<br>MP ");
@@ -1410,24 +1419,24 @@ public class CompactSidePane extends JPanel implements Runnable {
     buf.append("</td></tr><tr><td>Fumble</td><td>");
     if (KoLConstants.activeEffects.contains(CompactSidePane.CLUMSY)) {
       buf.append("always");
-    } else if (KoLCharacter.currentBooleanModifier(Modifiers.NEVER_FUMBLE)) {
+    } else if (KoLCharacter.currentBooleanModifier(BooleanModifier.NEVER_FUMBLE)) {
       buf.append("never");
     } else {
       buf.append(
           KoLConstants.MODIFIER_FORMAT.format(
-              KoLCharacter.currentNumericModifier(Modifiers.FUMBLE)));
+              KoLCharacter.currentNumericModifier(DoubleModifier.FUMBLE)));
       buf.append(" X");
     }
     buf.append("</td></tr>");
-    double food = KoLCharacter.currentNumericModifier(Modifiers.FOODDROP);
-    double booze = KoLCharacter.currentNumericModifier(Modifiers.BOOZEDROP);
-    double candy = KoLCharacter.currentNumericModifier(Modifiers.CANDYDROP);
-    double hat = KoLCharacter.currentNumericModifier(Modifiers.HATDROP);
-    double weapon = KoLCharacter.currentNumericModifier(Modifiers.WEAPONDROP);
-    double offhand = KoLCharacter.currentNumericModifier(Modifiers.OFFHANDDROP);
-    double shirt = KoLCharacter.currentNumericModifier(Modifiers.SHIRTDROP);
-    double pants = KoLCharacter.currentNumericModifier(Modifiers.PANTSDROP);
-    double acc = KoLCharacter.currentNumericModifier(Modifiers.ACCESSORYDROP);
+    double food = KoLCharacter.currentNumericModifier(DoubleModifier.FOODDROP);
+    double booze = KoLCharacter.currentNumericModifier(DoubleModifier.BOOZEDROP);
+    double candy = KoLCharacter.currentNumericModifier(DoubleModifier.CANDYDROP);
+    double hat = KoLCharacter.currentNumericModifier(DoubleModifier.HATDROP);
+    double weapon = KoLCharacter.currentNumericModifier(DoubleModifier.WEAPONDROP);
+    double offhand = KoLCharacter.currentNumericModifier(DoubleModifier.OFFHANDDROP);
+    double shirt = KoLCharacter.currentNumericModifier(DoubleModifier.SHIRTDROP);
+    double pants = KoLCharacter.currentNumericModifier(DoubleModifier.PANTSDROP);
+    double acc = KoLCharacter.currentNumericModifier(DoubleModifier.ACCESSORYDROP);
     if (food != 0
         || booze != 0
         || hat != 0
@@ -1489,15 +1498,28 @@ public class CompactSidePane extends JPanel implements Runnable {
     return buf.toString();
   }
 
-  private static void addElement(StringBuffer buf, String name, int dmgModifier) {
+  private static void addElement(StringBuffer buf, String name, DoubleModifier dmgModifier) {
     double wdmg = KoLCharacter.currentNumericModifier(dmgModifier);
-    double sdmg =
-        KoLCharacter.currentNumericModifier(
-            dmgModifier - Modifiers.COLD_DAMAGE + Modifiers.COLD_SPELL_DAMAGE);
-    int resist =
-        (int)
-            KoLCharacter.currentNumericModifier(
-                dmgModifier - Modifiers.COLD_DAMAGE + Modifiers.COLD_RESISTANCE);
+    DoubleModifier sdmgModifier =
+        switch (dmgModifier) {
+          case HOT_DAMAGE -> DoubleModifier.HOT_SPELL_DAMAGE;
+          case COLD_DAMAGE -> DoubleModifier.COLD_SPELL_DAMAGE;
+          case STENCH_DAMAGE -> DoubleModifier.STENCH_SPELL_DAMAGE;
+          case SPOOKY_DAMAGE -> DoubleModifier.SPOOKY_SPELL_DAMAGE;
+          case SLEAZE_DAMAGE -> DoubleModifier.SLEAZE_SPELL_DAMAGE;
+          default -> throw new IllegalStateException("Unexpected value: " + dmgModifier);
+        };
+    double sdmg = KoLCharacter.currentNumericModifier(sdmgModifier);
+    DoubleModifier resistModifier =
+        switch (dmgModifier) {
+          case HOT_DAMAGE -> DoubleModifier.HOT_RESISTANCE;
+          case COLD_DAMAGE -> DoubleModifier.COLD_RESISTANCE;
+          case STENCH_DAMAGE -> DoubleModifier.STENCH_RESISTANCE;
+          case SPOOKY_DAMAGE -> DoubleModifier.SPOOKY_RESISTANCE;
+          case SLEAZE_DAMAGE -> DoubleModifier.SLEAZE_RESISTANCE;
+          default -> throw new IllegalStateException("Unexpected value: " + dmgModifier);
+        };
+    int resist = (int) KoLCharacter.currentNumericModifier(resistModifier);
     if (wdmg == 0.0 && sdmg == 0.0 && resist == 0) {
       return; // skip this row entirely, it's all zeros
     }
@@ -1517,7 +1539,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   }
 
   private static void addSlime(StringBuffer buf) {
-    int resist = (int) KoLCharacter.currentNumericModifier(Modifiers.SLIME_RESISTANCE);
+    int resist = (int) KoLCharacter.currentNumericModifier(DoubleModifier.SLIME_RESISTANCE);
     double percent = KoLCharacter.elementalResistanceByLevel(resist, false);
     int turns = CompactSidePane.SLIMED.getCount(KoLConstants.activeEffects);
     if (resist == 0 && turns == 0) {
@@ -1542,7 +1564,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   }
 
   private static void addSupercold(StringBuffer buf) {
-    int resist = (int) KoLCharacter.currentNumericModifier(Modifiers.SUPERCOLD_RESISTANCE);
+    int resist = (int) KoLCharacter.currentNumericModifier(DoubleModifier.SUPERCOLD_RESISTANCE);
     double percent = KoLCharacter.elementalResistanceByLevel(resist, false);
     if (resist == 0) {
       return; // skip this row entirely, it's all zeros

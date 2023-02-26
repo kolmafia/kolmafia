@@ -19,7 +19,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.LimitMode;
-import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -116,9 +116,8 @@ public class Macrofier {
 
       Value returnValue;
 
-      if (Macrofier.macroInterpreter instanceof JavascriptRuntime) {
+      if (Macrofier.macroInterpreter instanceof JavascriptRuntime interpreter) {
         // Execute a function from the JavaScript runtime maintaining the scope, thisObj etc
-        JavascriptRuntime interpreter = (JavascriptRuntime) Macrofier.macroInterpreter;
         returnValue =
             interpreter.executeFunction(
                 macroScope,
@@ -137,7 +136,7 @@ public class Macrofier {
         return "abort";
       }
 
-      if (returnValue == null || returnValue.getType().equals(DataTypes.TYPE_VOID)) {
+      if (returnValue == null || returnValue.getType().equals(TypeSpec.VOID)) {
         String message = "Macro override \"" + macroOverride + "\" returned void.";
         RequestLogger.printLine(message);
         RequestLogger.updateSessionLog(message);
@@ -190,7 +189,7 @@ public class Macrofier {
     if (monsterName.equals("hulking construct")) {
       // use ATTACK & WALL punchcards
       macro.append("if hascombatitem 3146 && hascombatitem 3155\n");
-      if (KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+      if (KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING)) {
         macro.append("  use 3146,3155\n");
       } else {
         macro.append("  use 3146; use 3155\n");
@@ -285,7 +284,7 @@ public class Macrofier {
       RequestLogger.printLine("");
     }
 
-    HashSet<String> allCalls = new HashSet<String>();
+    HashSet<String> allCalls = new HashSet<>();
     Matcher m = Macrofier.ALLCALLS_PATTERN.matcher(macro);
 
     while (m.find()) {

@@ -4,6 +4,7 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
@@ -25,11 +26,11 @@ import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -204,7 +205,7 @@ class UseSkillRequestTest {
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Drench Yourself in Sweat", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
         req.run();
 
         var requests = getRequests();
@@ -223,7 +224,7 @@ class UseSkillRequestTest {
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Sweat Out Some Booze", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.SWEAT_OUT_BOOZE, 1);
         req.run();
 
         var requests = getRequests();
@@ -236,11 +237,11 @@ class UseSkillRequestTest {
 
     @Test
     void doNotEquipDesignerSweatpantsForSkillIfAlreadyWearing() {
-      var cleanups = new Cleanups(withEquipped(EquipmentManager.PANTS, "designer sweatpants"));
+      var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Drench Yourself in Sweat", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
         req.run();
 
         var requests = getRequests();
@@ -272,6 +273,52 @@ class UseSkillRequestTest {
           html("request/test_cast_drench_sweat.html"));
       // 69 - 15 = 54
       assertEquals(Preferences.getInteger("sweat"), 54);
+    }
+  }
+
+  @Nested
+  class Numberology {
+    @Test
+    void calculatingUniverseRequiresAvailableTurns() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 1),
+              withProperty("_universeCalculated", 0),
+              withInteractivity(true),
+              withAdventuresLeft(0));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(0, skill.getMaximumCast());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"5, 0", "5, 1", "5, 2", "5, 3", "5, 4", "5, 5"})
+    void calculatingUniverseHasDailyLimit(int skillLevel, int casts) {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", skillLevel),
+              withProperty("_universeCalculated", casts),
+              withInteractivity(true),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(skillLevel - casts, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    void calculatingUniverseLimitedInHardcoreOrRonin() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 5),
+              withProperty("_universeCalculated", 0),
+              withInteractivity(false),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(3, skill.getMaximumCast());
+      }
     }
   }
 }

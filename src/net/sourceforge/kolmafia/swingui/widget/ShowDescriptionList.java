@@ -2,8 +2,6 @@ package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -43,6 +41,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
+import net.sourceforge.kolmafia.swingui.listener.PopupListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -50,7 +49,6 @@ import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class ShowDescriptionList<E> extends JList<E> {
-  public int lastSelectIndex;
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
@@ -138,7 +136,7 @@ public class ShowDescriptionList<E> extends JList<E> {
       this.addKeyListener(new RemoveTriggerListener());
     }
 
-    this.addMouseListener(new PopupListener());
+    this.addMouseListener(new PopupListener(this.contextMenu));
 
     this.originalModel = displayModel;
     this.displayModel =
@@ -174,43 +172,12 @@ public class ShowDescriptionList<E> extends JList<E> {
     return result;
   }
 
-  /**
-   * Shows and hides the applicable context menu item. Actually all it does is show it -- the VM
-   * will handle hiding it.
-   */
-  private class PopupListener extends MouseAdapter {
-    @Override
-    public void mousePressed(final MouseEvent e) {
-      this.maybeShowPopup(e);
-    }
-
-    @Override
-    public void mouseReleased(final MouseEvent e) {
-      this.maybeShowPopup(e);
-    }
-
-    private void maybeShowPopup(final MouseEvent e) {
-      if (e.isPopupTrigger()) {
-        int index = ShowDescriptionList.this.locationToIndex(e.getPoint());
-        ShowDescriptionList.this.lastSelectIndex = index;
-
-        if (!ShowDescriptionList.this.isSelectedIndex(index)) {
-          ShowDescriptionList.this.clearSelection();
-          ShowDescriptionList.this.addSelectionInterval(index, index);
-        }
-
-        ShowDescriptionList.this.contextMenu.show(e.getComponent(), e.getX(), e.getY());
-      }
-    }
-  }
-
   public static final void showGameDescription(Object item) {
     if (item instanceof Boost) {
       item = ((Boost) item).getItem();
     }
 
-    if (item instanceof AdventureResult) {
-      AdventureResult ar = (AdventureResult) item;
+    if (item instanceof AdventureResult ar) {
       if (ar.isItem()) {
         int itemId = ar.getItemId();
         String descId =
@@ -223,16 +190,14 @@ public class ShowDescriptionList<E> extends JList<E> {
         String descId = EffectDatabase.getDescriptionId(EffectDatabase.getEffectId(ar.getName()));
         StaticEntity.openDescriptionFrame("desc_effect.php?whicheffect=" + descId);
       }
-    } else if (item instanceof Concoction) {
-      Concoction c = (Concoction) item;
+    } else if (item instanceof Concoction c) {
       int itemId = c.getItemId();
       String descId =
           (itemId != -1)
               ? ItemDatabase.getDescriptionId(itemId)
               : CafeDatabase.nameToDescId(c.getName());
       StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
-    } else if (item instanceof QueuedConcoction) {
-      QueuedConcoction c = (QueuedConcoction) item;
+    } else if (item instanceof QueuedConcoction c) {
       int itemId = c.getItemId();
       String descId =
           (itemId != -1)
@@ -266,7 +231,7 @@ public class ShowDescriptionList<E> extends JList<E> {
     }
   }
 
-  private class ContextMenuItem extends ThreadedMenuItem {
+  private static class ContextMenuItem extends ThreadedMenuItem {
     public ContextMenuItem(final String title, final ThreadedListener action) {
       super(title, action);
     }
@@ -278,11 +243,7 @@ public class ShowDescriptionList<E> extends JList<E> {
 
     @Override
     protected void execute() {
-      this.index =
-          ShowDescriptionList.this.lastSelectIndex == -1
-              ? ShowDescriptionList.this.getSelectedIndex()
-              : ShowDescriptionList.this.lastSelectIndex;
-
+      this.index = ShowDescriptionList.this.getSelectedIndex();
       this.item = ShowDescriptionList.this.displayModel.getElementAt(this.index);
 
       if (this.item == null) {
@@ -491,16 +452,15 @@ public class ShowDescriptionList<E> extends JList<E> {
       for (final E item : ShowDescriptionList.this.getSelectedValuesList()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -525,16 +485,15 @@ public class ShowDescriptionList<E> extends JList<E> {
       for (final E item : ShowDescriptionList.this.getSelectedValuesList()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -562,16 +521,15 @@ public class ShowDescriptionList<E> extends JList<E> {
       for (final E item : ShowDescriptionList.this.getSelectedValuesList()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 

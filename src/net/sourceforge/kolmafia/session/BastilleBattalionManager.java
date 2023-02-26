@@ -6,11 +6,11 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -260,13 +260,13 @@ public abstract class BastilleBattalionManager {
     private final AdventureResult psychological;
 
     public Boosts() {
-      this.military = this.getBoost(SHARK_TOOTH_GRIN);
-      this.castle = this.getBoost(BOILING_DETERMINATION);
-      this.psychological = this.getBoost(ENHANCED_INTERROGATION);
+      this.military = Boosts.getBoost(SHARK_TOOTH_GRIN);
+      this.castle = Boosts.getBoost(BOILING_DETERMINATION);
+      this.psychological = Boosts.getBoost(ENHANCED_INTERROGATION);
       this.boosts = this.makeBoostString();
     }
 
-    private AdventureResult getBoost(AdventureResult effect) {
+    private static AdventureResult getBoost(AdventureResult effect) {
       int index = KoLConstants.activeEffects.indexOf(effect);
       return index >= 0 ? KoLConstants.activeEffects.get(index) : null;
     }
@@ -310,33 +310,21 @@ public abstract class BastilleBattalionManager {
     }
 
     public boolean boosted(Stat stat) {
-      switch (stat) {
-        case MA:
-        case MD:
-          return this.military != null;
-        case CA:
-        case CD:
-          return this.castle != null;
-        case PA:
-        case PD:
-          return this.psychological != null;
-      }
-      return false;
+      return switch (stat) {
+        case MA, MD -> this.military != null;
+        case CA, CD -> this.castle != null;
+        case PA, PD -> this.psychological != null;
+        default -> false;
+      };
     }
 
     public int boostedBy(Stat stat) {
-      switch (stat) {
-        case MA:
-        case MD:
-          return this.military == null ? 0 : this.military.getCount();
-        case CA:
-        case CD:
-          return this.castle == null ? 0 : this.castle.getCount();
-        case PA:
-        case PD:
-          return this.psychological == null ? 0 : this.psychological.getCount();
-      }
-      return 0;
+      return switch (stat) {
+        case MA, MD -> this.military == null ? 0 : this.military.getCount();
+        case CA, CD -> this.castle == null ? 0 : this.castle.getCount();
+        case PA, PD -> this.psychological == null ? 0 : this.psychological.getCount();
+        default -> 0;
+      };
     }
 
     @Override
@@ -542,14 +530,14 @@ public abstract class BastilleBattalionManager {
 
   public static int stylesToKey(Style... styles) {
     assert styles.length == 4;
-    return Arrays.stream(styles).mapToInt(style -> style.getScaledDigit()).sum();
+    return Arrays.stream(styles).mapToInt(Style::getScaledDigit).sum();
   }
 
   public static Collection<Style> keyToStyleSet(int key) {
     // Base 3 digits: [barbican][drawbridge][murder holes][moat]
     int[] digits = {key % 3, (key / 3) % 3 * 3, (key / 9) % 3 * 9, (key / 27) % 3 * 27};
 
-    Set<Style> styleSet = new TreeSet<>();
+    Set<Style> styleSet = EnumSet.noneOf(Style.class);
     for (Style style : Style.values()) {
       int digit = style.getUpgrade().getDigitIndex();
       if (digits[digit] == style.getScaledDigit()) {
@@ -1087,7 +1075,6 @@ public abstract class BastilleBattalionManager {
       Style style = imageToStyle.get(image);
       if (style != null) {
         style.apply();
-        continue;
       }
     }
     saveStyles(currentStyles);
@@ -1187,15 +1174,9 @@ public abstract class BastilleBattalionManager {
       aggressor = matcher.group(3).equals("attack strength");
       boolean won = matcher.group(4).equals("higher");
       switch (matcher.group(1)) {
-        case "Military":
-          military = won;
-          break;
-        case "Castle":
-          castle = won;
-          break;
-        case "Psychological":
-          psychological = won;
-          break;
+        case "Military" -> military = won;
+        case "Castle" -> castle = won;
+        case "Psychological" -> psychological = won;
       }
     }
 
@@ -1536,28 +1517,16 @@ public abstract class BastilleBattalionManager {
         break;
       case 1314: // Bastille Battalion (Master of None)
         switch (decision) {
-          case 1:
-            logAction(buf, "Improving offense.");
-            break;
-          case 2:
-            logAction(buf, "Focusing on defense.");
-            break;
-          case 3:
-            logAction(buf, "Looking for cheese.");
-            break;
+          case 1 -> logAction(buf, "Improving offense.");
+          case 2 -> logAction(buf, "Focusing on defense.");
+          case 3 -> logAction(buf, "Looking for cheese.");
         }
         break;
       case 1315: // Castle vs. Castle
         switch (decision) {
-          case 1:
-            logAction(buf, "Charge!");
-            break;
-          case 2:
-            logAction(buf, "Watch warily.");
-            break;
-          case 3:
-            logAction(buf, "Wait to be attacked.");
-            break;
+          case 1 -> logAction(buf, "Charge!");
+          case 2 -> logAction(buf, "Watch warily.");
+          case 3 -> logAction(buf, "Wait to be attacked.");
         }
         break;
       case 1316: // GAME OVER
@@ -1616,7 +1585,7 @@ public abstract class BastilleBattalionManager {
   private static final String BATTLE_FILE_NAME = "Bastille.battles.txt";
 
   private static String joinFields(String separator, String... fields) {
-    return Arrays.stream(fields).collect(Collectors.joining(separator));
+    return String.join(separator, fields);
   }
 
   private static String generateKey(int game, int number) {

@@ -9,11 +9,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -150,7 +152,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       factor = 67;
     }
     if (NPCPurchaseRequest.usingTrousers(this.npcStoreId)) factor -= 5;
-    if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
+    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
     return (int) ((this.price * factor) / 100);
   }
 
@@ -161,7 +163,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   public static int currentDiscountedPrice(String npcStoreId, int price) {
     long factor = 100;
     if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
-    if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
+    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
     return (int) ((price * factor) / 100);
   }
 
@@ -170,7 +172,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return false;
     }
 
-    var trousers = EquipmentManager.getEquipment(EquipmentManager.PANTS);
+    var trousers = EquipmentManager.getEquipment(Slot.PANTS);
 
     if (trousers == null) {
       return false;
@@ -311,7 +313,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     if (!usingTrousers(this.npcStoreId)) {
       var trousers = getEquippableTrousers(this.npcStoreId);
       if (trousers != null) {
-        (new EquipmentRequest(trousers, EquipmentManager.PANTS)).run();
+        (new EquipmentRequest(trousers, Slot.PANTS)).run();
       }
     }
 
@@ -885,6 +887,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (shopId.equals("olivers")) {
+      FancyDanRequest.parseResponse(urlString, responseText);
+      return;
+    }
+
     if (shopId.equals("spacegate")) {
       SpacegateFabricationRequest.parseResponse(urlString, responseText);
       return;
@@ -933,15 +940,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     if (shopId.equals("wildfire")) {
       if (responseText.contains("You acquire an item")) {
         switch (boughtItemId) {
-          case ItemPool.BLART:
-            Preferences.setBoolean("itemBoughtPerAscension10790", true);
-            break;
-          case ItemPool.RAINPROOF_BARREL_CAULK:
-            Preferences.setBoolean("itemBoughtPerAscension10794", true);
-            break;
-          case ItemPool.PUMP_GREASE:
-            Preferences.setBoolean("itemBoughtPerAscension10795", true);
-            break;
+          case ItemPool.BLART -> Preferences.setBoolean("itemBoughtPerAscension10790", true);
+          case ItemPool.RAINPROOF_BARREL_CAULK -> Preferences.setBoolean(
+              "itemBoughtPerAscension10794", true);
+          case ItemPool.PUMP_GREASE -> Preferences.setBoolean("itemBoughtPerAscension10795", true);
         }
       }
 
@@ -1320,6 +1322,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.equals("spacegate")) {
         return SpacegateFabricationRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("olivers")) {
+        return FancyDanRequest.registerRequest(urlString);
       }
 
       if (shopId.equals("fantasyrealm")) {

@@ -106,7 +106,7 @@ public class ManaBurnManager {
     int summonThreshold = Preferences.getInteger("manaBurnSummonThreshold");
     int durationLimit = Preferences.getInteger("maxManaBurn") + KoLCharacter.getAdventuresLeft();
     ManaBurn chosen = null;
-    ArrayList<ManaBurn> burns = new ArrayList<ManaBurn>();
+    ArrayList<ManaBurn> burns = new ArrayList<>();
 
     // Rather than maintain mood-related buffs only, maintain any
     // active effect that the character can auto-cast. Examine all
@@ -117,16 +117,16 @@ public class ManaBurnManager {
       String effectName = currentEffect.getName();
       String skillName = UneffectRequest.effectToSkill(effectName);
 
+      int skillId = SkillDatabase.getSkillId(skillName);
+
       // Only cast if the player knows the skill
 
-      if (!KoLCharacter.hasSkill(skillName)) {
+      if (!KoLCharacter.hasSkill(skillId)) {
         continue;
       }
 
       // Only cast if the MP cost is non-zero, since otherwise you'd
       // be in an infinite loop
-
-      int skillId = SkillDatabase.getSkillId(skillName);
       long mpCost = SkillDatabase.getMPConsumptionById(skillId);
 
       if (mpCost <= 0) {
@@ -134,7 +134,7 @@ public class ManaBurnManager {
       }
 
       // Don't cast if you are restricted by your current class/skills
-      if (Evaluator.checkEffectConstraints(currentEffect.getEffectId())) {
+      if (Evaluator.cannotGainEffect(currentEffect.getEffectId())) {
         continue;
       }
 

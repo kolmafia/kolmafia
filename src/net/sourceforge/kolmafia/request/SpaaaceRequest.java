@@ -242,19 +242,12 @@ public class SpaaaceRequest extends GenericRequest {
     }
     buffer.append("\">");
     switch (peg) {
-      case LEFT:
-        buffer.append("&#8601;");
-        break;
-      case RIGHT:
-        buffer.append("&#8600;");
-        break;
-      case RANDOM:
-        buffer.append(".");
-        break;
-      default:
-        // Should not come here
-        buffer.append(" ");
-        break;
+      case LEFT -> buffer.append("&#8601;");
+      case RIGHT -> buffer.append("&#8600;");
+      case RANDOM -> buffer.append(".");
+      default ->
+      // Should not come here
+      buffer.append(" ");
     }
     buffer.append("</div>");
     return buffer.toString();
@@ -428,27 +421,27 @@ public class SpaaaceRequest extends GenericRequest {
 
         // Look at the peg below this cell
         switch (peg) {
-          case RIGHT:
+          case RIGHT -> {
             minVal = min[col + 1];
             maxVal = max[col + 1];
             eVal = expected[col + 1];
-            break;
-          case LEFT:
+          }
+          case LEFT -> {
             minVal = min[col - 1];
             maxVal = max[col - 1];
             eVal = expected[col - 1];
-            break;
-          case RANDOM:
+          }
+          case RANDOM -> {
             minVal = Math.min(min[col - 1], min[col + 1]);
             maxVal = Math.max(max[col - 1], max[col + 1]);
             eVal = (expected[col - 1] + expected[col + 1]) / 2.0f;
-            break;
-          default:
+          }
+          default -> {
             // Huh?
             minVal = 0;
             maxVal = 0;
             eVal = 0.0f;
-            break;
+          }
         }
 
         // Store values of this cell for use by next row

@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -13,17 +14,22 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BasementDecorator.StatBooster;
 
@@ -38,7 +44,6 @@ public class BasementRequest extends AdventureRequest {
     MOXIE,
     MPDRAIN,
     HPDRAIN,
-    ;
   }
 
   private static int basementLevel = 0;
@@ -52,9 +57,9 @@ public class BasementRequest extends AdventureRequest {
   public static String basementMonster = "";
   private static String gauntletString = "";
 
-  private static int actualStatNeeded = 0;
-  private static int primaryBoost = 0;
-  private static int secondaryBoost = 0;
+  private static DoubleModifier actualStatNeeded = null;
+  private static DoubleModifier primaryBoost = null;
+  private static DoubleModifier secondaryBoost = null;
 
   private static double averageResistanceNeeded = 0.0;
   private static Element element1 = Element.NONE, element2 = Element.NONE;
@@ -475,9 +480,9 @@ public class BasementRequest extends AdventureRequest {
       return false;
     }
 
-    BasementRequest.actualStatNeeded = Modifiers.HP;
-    BasementRequest.primaryBoost = Modifiers.MUS_PCT;
-    BasementRequest.secondaryBoost = Modifiers.MUS;
+    BasementRequest.actualStatNeeded = DoubleModifier.HP;
+    BasementRequest.primaryBoost = DoubleModifier.MUS_PCT;
+    BasementRequest.secondaryBoost = DoubleModifier.MUS;
 
     // Add the only beneficial elemental form for this test
 
@@ -494,12 +499,12 @@ public class BasementRequest extends AdventureRequest {
 
     if (BasementRequest.element1 != BasementRequest.goodelement || !hasGoodEffect) {
       BasementRequest.addDesirableEffects(
-          Modifiers.getPotentialChanges(Modifiers.elementalResistance(BasementRequest.element1)));
+          getPotentialChanges(ModifierDatabase.elementalResistance(BasementRequest.element1)));
     }
 
     if (BasementRequest.element2 != BasementRequest.goodelement || !hasGoodEffect) {
       BasementRequest.addDesirableEffects(
-          Modifiers.getPotentialChanges(Modifiers.elementalResistance(BasementRequest.element2)));
+          getPotentialChanges(ModifierDatabase.elementalResistance(BasementRequest.element2)));
     }
 
     // Add some effects that resist all elements
@@ -686,9 +691,9 @@ public class BasementRequest extends AdventureRequest {
     BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMuscle();
     BasementRequest.basementTestValue = (long) statRequirement;
 
-    BasementRequest.actualStatNeeded = Modifiers.MUS;
-    BasementRequest.primaryBoost = Modifiers.MUS_PCT;
-    BasementRequest.secondaryBoost = Modifiers.MUS;
+    BasementRequest.actualStatNeeded = DoubleModifier.MUS;
+    BasementRequest.primaryBoost = DoubleModifier.MUS_PCT;
+    BasementRequest.secondaryBoost = DoubleModifier.MUS;
 
     return statRequirement;
   }
@@ -704,9 +709,9 @@ public class BasementRequest extends AdventureRequest {
     BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMysticality();
     BasementRequest.basementTestValue = (long) statRequirement;
 
-    BasementRequest.actualStatNeeded = Modifiers.MYS;
-    BasementRequest.primaryBoost = Modifiers.MYS_PCT;
-    BasementRequest.secondaryBoost = Modifiers.MYS;
+    BasementRequest.actualStatNeeded = DoubleModifier.MYS;
+    BasementRequest.primaryBoost = DoubleModifier.MYS_PCT;
+    BasementRequest.secondaryBoost = DoubleModifier.MYS;
 
     return statRequirement;
   }
@@ -722,9 +727,9 @@ public class BasementRequest extends AdventureRequest {
     BasementRequest.basementTestCurrent = KoLCharacter.getAdjustedMoxie();
     BasementRequest.basementTestValue = (long) statRequirement;
 
-    BasementRequest.actualStatNeeded = Modifiers.MOX;
-    BasementRequest.primaryBoost = Modifiers.MOX_PCT;
-    BasementRequest.secondaryBoost = Modifiers.MOX;
+    BasementRequest.actualStatNeeded = DoubleModifier.MOX;
+    BasementRequest.primaryBoost = DoubleModifier.MOX_PCT;
+    BasementRequest.secondaryBoost = DoubleModifier.MOX;
 
     return statRequirement;
   }
@@ -817,13 +822,13 @@ public class BasementRequest extends AdventureRequest {
     BasementRequest.basementTestCurrent = KoLCharacter.getMaximumMP();
     BasementRequest.basementTestValue = (long) drainRequirement;
 
-    BasementRequest.actualStatNeeded = Modifiers.MP;
+    BasementRequest.actualStatNeeded = DoubleModifier.MP;
     if (StatBooster.moxieControlsMP()) {
-      BasementRequest.primaryBoost = Modifiers.MOX_PCT;
-      BasementRequest.secondaryBoost = Modifiers.MOX;
+      BasementRequest.primaryBoost = DoubleModifier.MOX_PCT;
+      BasementRequest.secondaryBoost = DoubleModifier.MOX;
     } else {
-      BasementRequest.primaryBoost = Modifiers.MYS_PCT;
-      BasementRequest.secondaryBoost = Modifiers.MYS;
+      BasementRequest.primaryBoost = DoubleModifier.MYS_PCT;
+      BasementRequest.secondaryBoost = DoubleModifier.MYS;
     }
 
     return drainRequirement;
@@ -840,9 +845,9 @@ public class BasementRequest extends AdventureRequest {
     BasementRequest.basementTestString = "Maximum HP";
     BasementRequest.basementTestCurrent = KoLCharacter.getMaximumHP();
 
-    BasementRequest.actualStatNeeded = Modifiers.HP;
-    BasementRequest.primaryBoost = Modifiers.MUS_PCT;
-    BasementRequest.secondaryBoost = Modifiers.MUS;
+    BasementRequest.actualStatNeeded = DoubleModifier.HP;
+    BasementRequest.primaryBoost = DoubleModifier.MUS_PCT;
+    BasementRequest.secondaryBoost = DoubleModifier.MUS;
 
     double damageAbsorb =
         1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
@@ -1111,9 +1116,9 @@ public class BasementRequest extends AdventureRequest {
     BasementRequest.basementTestCurrent = 0;
     BasementRequest.basementTestValue = 0;
 
-    BasementRequest.actualStatNeeded = Modifiers.HP;
-    BasementRequest.primaryBoost = Modifiers.MUS_PCT;
-    BasementRequest.secondaryBoost = Modifiers.MUS;
+    BasementRequest.actualStatNeeded = DoubleModifier.HP;
+    BasementRequest.primaryBoost = DoubleModifier.MUS_PCT;
+    BasementRequest.secondaryBoost = DoubleModifier.MUS;
 
     BasementRequest.addDesiredEqualizer();
 
@@ -1167,17 +1172,16 @@ public class BasementRequest extends AdventureRequest {
 
     BasementRequest.getStatBoosters(BasementRequest.desirableEffects, targetList);
 
+    BasementRequest.getStatBoosters(getPotentialChanges(BasementRequest.primaryBoost), targetList);
     BasementRequest.getStatBoosters(
-        Modifiers.getPotentialChanges(BasementRequest.primaryBoost), targetList);
-    BasementRequest.getStatBoosters(
-        Modifiers.getPotentialChanges(BasementRequest.secondaryBoost), targetList);
+        getPotentialChanges(BasementRequest.secondaryBoost), targetList);
 
-    if (BasementRequest.actualStatNeeded == Modifiers.HP) {
-      BasementRequest.getStatBoosters(Modifiers.getPotentialChanges(Modifiers.HP_PCT), targetList);
-      BasementRequest.getStatBoosters(Modifiers.getPotentialChanges(Modifiers.HP), targetList);
-    } else if (BasementRequest.actualStatNeeded == Modifiers.MP) {
-      BasementRequest.getStatBoosters(Modifiers.getPotentialChanges(Modifiers.MP_PCT), targetList);
-      BasementRequest.getStatBoosters(Modifiers.getPotentialChanges(Modifiers.MP), targetList);
+    if (BasementRequest.actualStatNeeded == DoubleModifier.HP) {
+      BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.HP_PCT), targetList);
+      BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.HP), targetList);
+    } else if (BasementRequest.actualStatNeeded == DoubleModifier.MP) {
+      BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.MP_PCT), targetList);
+      BasementRequest.getStatBoosters(getPotentialChanges(DoubleModifier.MP), targetList);
     }
 
     Collections.sort(targetList);
@@ -1192,15 +1196,49 @@ public class BasementRequest extends AdventureRequest {
     return Double.valueOf(BasementRequest.basementTestValue).longValue();
   }
 
-  public static int getActualStatNeeded() {
+  public static DoubleModifier getActualStatNeeded() {
     return BasementRequest.actualStatNeeded;
   }
 
-  public static int getPrimaryBoost() {
+  public static DoubleModifier getPrimaryBoost() {
     return BasementRequest.primaryBoost;
   }
 
-  public static int getSecondaryBoost() {
+  public static DoubleModifier getSecondaryBoost() {
     return BasementRequest.secondaryBoost;
+  }
+
+  private static List<AdventureResult> getPotentialChanges(final DoubleModifier modifier) {
+    ArrayList<AdventureResult> available = new ArrayList<>();
+
+    for (Entry<IntOrString, String> entry :
+        ModifierDatabase.getAllModifiersOfType(ModifierType.EFFECT)) {
+      IntOrString key = entry.getKey();
+      if (!key.isString()) continue;
+      String effectName = key.getStringValue();
+      int effectId = EffectDatabase.getEffectId(effectName);
+
+      if (effectId == -1) {
+        continue;
+      }
+
+      Modifiers currentTest = ModifierDatabase.getEffectModifiers(effectId);
+      double value = currentTest.getDouble(modifier);
+
+      if (value == 0.0) {
+        continue;
+      }
+
+      AdventureResult currentEffect = EffectPool.get(effectId);
+      boolean hasEffect = KoLConstants.activeEffects.contains(currentEffect);
+
+      if (value > 0.0 && !hasEffect) {
+        available.add(currentEffect);
+      } else if (value < 0.0 && hasEffect) {
+        available.add(currentEffect);
+      }
+    }
+
+    return available;
   }
 }

@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 
 public class PoolCommand extends AbstractCommand {
   public PoolCommand() {
@@ -36,7 +37,7 @@ public class PoolCommand extends AbstractCommand {
     }
 
     for (int i = 0; i < option.length; ++i) {
-      RequestThread.postRequest(new ClanLoungeRequest(ClanLoungeRequest.POOL_TABLE, option[i]));
+      RequestThread.postRequest(new ClanLoungeRequest(Action.POOL_TABLE, option[i]));
     }
   }
 }

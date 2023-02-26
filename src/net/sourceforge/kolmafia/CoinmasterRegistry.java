@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.DripArmoryRequest;
 import net.sourceforge.kolmafia.request.EdShopRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
+import net.sourceforge.kolmafia.request.FancyDanRequest;
 import net.sourceforge.kolmafia.request.FishboneryRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
@@ -113,6 +114,7 @@ public abstract class CoinmasterRegistry {
         DollHawkerRequest.DOLLHAWKER,
         DripArmoryRequest.DRIP_ARMORY,
         EdShopRequest.EDSHOP,
+        FancyDanRequest.FANCY_DAN,
         FDKOLRequest.FDKOL,
         FishboneryRequest.FISHBONERY,
         FreeSnackRequest.FREESNACKS,

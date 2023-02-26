@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -64,31 +65,32 @@ public class GuildUnlockManager {
     AdventureResult item;
 
     switch (stat) {
-      case MUSCLE:
+      case MUSCLE -> {
         locationName = "Outskirts of The Knob";
         snarfblat = AdventurePool.OUTSKIRTS_OF_THE_KNOB;
         choice = "543";
         item = ItemPool.get(ItemPool.BIG_KNOB_SAUSAGE, 1);
-        break;
-      case MYSTICALITY:
+      }
+      case MYSTICALITY -> {
         locationName = "Haunted Pantry";
         snarfblat = AdventurePool.HAUNTED_PANTRY;
         choice = "544";
         item = ItemPool.get(ItemPool.EXORCISED_SANDWICH, 1);
-        break;
-      case MOXIE:
+      }
+      case MOXIE -> {
         locationName = "Sleazy Back Alley";
         snarfblat = AdventurePool.SLEAZY_BACK_ALLEY;
         choice = "542";
-        item = EquipmentManager.getEquipment(EquipmentManager.PANTS);
+        item = EquipmentManager.getEquipment(Slot.PANTS);
         if (item == EquipmentRequest.UNEQUIP) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Put on some pants and try again.");
           return;
         }
-        break;
-      default:
+      }
+      default -> {
         KoLmafia.updateDisplay(MafiaState.ERROR, "What class are you?");
         return;
+      }
     }
 
     // Make an adventure request

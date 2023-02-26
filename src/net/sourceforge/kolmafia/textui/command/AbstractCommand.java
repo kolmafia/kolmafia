@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -15,17 +16,17 @@ import net.sourceforge.kolmafia.utilities.PrefixMap;
 public abstract class AbstractCommand {
   // Assign 'flags' in an instance initializer if the command needs one
   // of these:
-  // KoLmafiaCLI.FULL_LINE_CMD - the command's parameters are the entire
+  // ParameterHandling.FULL_LINE_CMD - the command's parameters are the entire
   //	remainder of the line, semicolons do not end the command.
-  // KoLmafiaCLI.FLOW_CONTROL_CMD - the remainder of the command line,
+  // ParameterHandling.FLOW_CONTROL - the remainder of the command line,
   //	plus additional lines as needed to ensure that at least one
   //	command is included, and that the final command is not itself
-  //	flagged as FLOW_CONTROL_CMD, are made available to this command
+  //	flagged as FLOW_CONTROL, are made available to this command
   //	via its 'continuation' field, rather than being executed.  The
   //	command can examine and modify the continuation, and execute it
   //	zero or more times by calling CLI.executeLine(continuation).
 
-  public int flags = 0;
+  public ParameterHandling flags = ParameterHandling.NONE;
 
   // Assign 'usage' in an instance initializer to set the help usage text.
   // If usage is null, this command won't be shown in the command list.
@@ -133,11 +134,11 @@ public abstract class AbstractCommand {
   }
 
   private void registerFlags(final String name) {
-    if (this.flags == KoLmafiaCLI.FULL_LINE_CMD) {
+    if (this.flags == ParameterHandling.FULL_LINE) {
       AbstractCommand.fullLineCmds +=
           AbstractCommand.fullLineCmds.length() == 0 ? name : ", " + name;
     }
-    if (this.flags == KoLmafiaCLI.FLOW_CONTROL_CMD) {
+    if (this.flags == ParameterHandling.FLOW_CONTROL) {
       AbstractCommand.flowControlCmds +=
           AbstractCommand.flowControlCmds.length() == 0 ? name : ", " + name;
     }

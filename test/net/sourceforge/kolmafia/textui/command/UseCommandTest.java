@@ -4,6 +4,7 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.HttpClientWrapper.setupFakeClient;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
@@ -41,6 +42,25 @@ class UseCommandTest extends AbstractCommandTestBase {
         assertThat(output, containsString("Using 1 [glitch season reward name]..."));
         assertThat(requests, hasSize(1));
         assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=10207&ajax=1");
+      }
+    }
+
+    @Test
+    public void cannotUseGlitchSeasonRewardAfterImplementing() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.GLITCH_ITEM), withProperty("_glitchItemImplemented", true));
+
+      try (cleanups) {
+        String output = execute("glitch season");
+        var requests = getRequests();
+        assertThat(
+            output,
+            containsString(
+                "(usable quantity of [glitch season reward name] is limited to 0 by daily limit)"));
+        assertThat(requests, hasSize(0));
       }
     }
   }

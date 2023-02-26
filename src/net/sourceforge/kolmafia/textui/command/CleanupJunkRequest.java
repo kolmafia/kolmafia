@@ -8,12 +8,14 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -60,7 +62,7 @@ public class CleanupJunkRequest extends AbstractCommand {
     if (closetList.size() > 0) {
       RequestThread.postRequest(
           new ClosetRequest(
-              ClosetRequest.INVENTORY_TO_CLOSET, closetList.toArray(new AdventureResult[0])));
+              ClosetRequestType.INVENTORY_TO_CLOSET, closetList.toArray(new AdventureResult[0])));
     }
 
     do {
@@ -110,7 +112,7 @@ public class CleanupJunkRequest extends AbstractCommand {
 
     int itemPower;
 
-    if (KoLCharacter.hasSkill("Pulverize")) {
+    if (KoLCharacter.hasSkill(SkillPool.PULVERIZE)) {
       boolean hasMalusAccess = KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris();
 
       for (int i = 0; i < items.length; ++i) {
@@ -130,11 +132,11 @@ public class CleanupJunkRequest extends AbstractCommand {
 
         if (itemCount > 0 && !NPCStoreDatabase.contains(itemId, false)) {
           switch (ItemDatabase.getConsumptionType(itemId)) {
-            case KoLConstants.EQUIP_HAT:
-            case KoLConstants.EQUIP_PANTS:
-            case KoLConstants.EQUIP_SHIRT:
-            case KoLConstants.EQUIP_WEAPON:
-            case KoLConstants.EQUIP_OFFHAND:
+            case HAT:
+            case PANTS:
+            case SHIRT:
+            case WEAPON:
+            case OFFHAND:
               if (InventoryManager.hasItem(ItemPool.TENDER_HAMMER) && itemPower >= 100
                   || hasMalusAccess && itemPower > 10) {
                 RequestThread.postRequest(new PulverizeRequest(currentItem.getInstance(itemCount)));
@@ -142,8 +144,8 @@ public class CleanupJunkRequest extends AbstractCommand {
 
               break;
 
-            case KoLConstants.EQUIP_FAMILIAR:
-            case KoLConstants.EQUIP_ACCESSORY:
+            case FAMILIAR_EQUIPMENT:
+            case ACCESSORY:
               if (InventoryManager.hasItem(ItemPool.TENDER_HAMMER)) {
                 RequestThread.postRequest(new PulverizeRequest(currentItem.getInstance(itemCount)));
               }

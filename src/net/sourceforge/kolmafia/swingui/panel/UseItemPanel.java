@@ -1,10 +1,12 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.util.EnumSet;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.webui.RelayLoader;
@@ -54,49 +56,32 @@ public class UseItemPanel extends InventoryPanel<AdventureResult> {
         return false;
       }
 
-      boolean filter = false;
-
-      switch (ItemDatabase.getConsumptionType(itemId)) {
-        case KoLConstants.CONSUME_EAT:
-          filter = UsableItemFilterField.this.food;
-          break;
-
-        case KoLConstants.CONSUME_DRINK:
-          filter = UsableItemFilterField.this.booze;
-          break;
-
-        case KoLConstants.CONSUME_USE:
-        case KoLConstants.CONSUME_SPLEEN:
-        case KoLConstants.MESSAGE_DISPLAY:
-        case KoLConstants.INFINITE_USES:
-        case KoLConstants.CONSUME_MULTIPLE:
-        case KoLConstants.CONSUME_AVATAR:
-        case KoLConstants.GROW_FAMILIAR:
-        case KoLConstants.CONSUME_ZAP:
-          filter = UsableItemFilterField.this.other;
-          break;
-
-        case KoLConstants.EQUIP_FAMILIAR:
-        case KoLConstants.EQUIP_ACCESSORY:
-        case KoLConstants.EQUIP_HAT:
-        case KoLConstants.EQUIP_PANTS:
-        case KoLConstants.EQUIP_CONTAINER:
-        case KoLConstants.EQUIP_SHIRT:
-        case KoLConstants.EQUIP_WEAPON:
-        case KoLConstants.EQUIP_OFFHAND:
-          filter = UsableItemFilterField.this.equip;
-          break;
-
-        default:
-          filter =
-              UsableItemFilterField.this.other
-                  && ItemDatabase.getAttribute(
-                      itemId,
-                      ItemDatabase.ATTR_USABLE
-                          | ItemDatabase.ATTR_MULTIPLE
-                          | ItemDatabase.ATTR_REUSABLE
-                          | ItemDatabase.ATTR_CURSE);
-      }
+      boolean filter =
+          switch (ItemDatabase.getConsumptionType(itemId)) {
+            case EAT -> UsableItemFilterField.this.food;
+            case DRINK -> UsableItemFilterField.this.booze;
+            case USE,
+                SPLEEN,
+                USE_MESSAGE_DISPLAY,
+                USE_INFINITE,
+                USE_MULTIPLE,
+                AVATAR_POTION,
+                FAMILIAR_HATCHLING,
+                ZAP -> UsableItemFilterField.this.other;
+            case FAMILIAR_EQUIPMENT,
+                ACCESSORY,
+                HAT,
+                PANTS,
+                CONTAINER,
+                SHIRT,
+                WEAPON,
+                OFFHAND -> UsableItemFilterField.this.equip;
+            default -> UsableItemFilterField.this.other
+                && ItemDatabase.getAttribute(
+                    itemId,
+                    EnumSet.of(
+                        Attribute.USABLE, Attribute.MULTIPLE, Attribute.REUSABLE, Attribute.CURSE));
+          };
 
       return filter && super.isVisible(element);
     }

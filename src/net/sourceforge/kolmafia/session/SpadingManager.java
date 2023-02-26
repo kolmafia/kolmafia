@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.io.File;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -31,25 +31,17 @@ public class SpadingManager {
     PLACE,
     ;
 
-    public static SpadingEvent fromKoLConstant(final int constant) {
-      switch (constant) {
-        case KoLConstants.CONSUME_EAT:
-          return SpadingEvent.CONSUME_EAT;
-        case KoLConstants.CONSUME_DRINK:
-          return SpadingEvent.CONSUME_DRINK;
-        case KoLConstants.CONSUME_SPLEEN:
-          return SpadingEvent.CONSUME_SPLEEN;
-        case KoLConstants.CONSUME_USE:
-          return SpadingEvent.CONSUME_USE;
-        case KoLConstants.CONSUME_MULTIPLE:
-          return SpadingEvent.CONSUME_MULTIPLE;
-        case KoLConstants.INFINITE_USES:
-          return SpadingEvent.CONSUME_REUSABLE;
-        case KoLConstants.MESSAGE_DISPLAY:
-          return SpadingEvent.CONSUME_MESSAGE;
-        default:
-          return null;
-      }
+    public static SpadingEvent fromKoLConstant(final ConsumptionType constant) {
+      return switch (constant) {
+        case EAT -> SpadingEvent.CONSUME_EAT;
+        case DRINK -> SpadingEvent.CONSUME_DRINK;
+        case SPLEEN -> SpadingEvent.CONSUME_SPLEEN;
+        case USE -> SpadingEvent.CONSUME_USE;
+        case USE_MULTIPLE -> SpadingEvent.CONSUME_MULTIPLE;
+        case USE_INFINITE -> SpadingEvent.CONSUME_REUSABLE;
+        case USE_MESSAGE_DISPLAY -> SpadingEvent.CONSUME_MESSAGE;
+        default -> null;
+      };
     }
   }
 
@@ -84,7 +76,7 @@ public class SpadingManager {
   }
 
   public static boolean processConsume(
-      final int consumptionType, final String itemName, final String responseText) {
+      final ConsumptionType consumptionType, final String itemName, final String responseText) {
     SpadingEvent event = SpadingEvent.fromKoLConstant(consumptionType);
 
     if (event == null) {
@@ -99,7 +91,7 @@ public class SpadingManager {
       return false;
     }
 
-    int consumptionType = UseItemRequest.getConsumptionType(item);
+    ConsumptionType consumptionType = UseItemRequest.getConsumptionType(item);
 
     return SpadingManager.processConsume(
         consumptionType, item.getDisambiguatedName(), responseText);

@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -11,13 +13,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
@@ -28,12 +34,15 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.ConcoctionType;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -53,7 +62,6 @@ import net.sourceforge.kolmafia.request.StillSuitRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -61,28 +69,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionDatabase {
 
-  // Used for handling queued concoctions.
-  public static enum ConcoctionType {
-    FOOD("(food)"),
-    BOOZE("(booze)"),
-    SPLEEN("(spleen)"),
-    POTION("(potions)");
-
-    private String signal;
-
-    ConcoctionType(String signal) {
-      this.signal = signal;
-    }
-
-    public String getSignal() {
-      return this.signal;
-    }
-  }
-
   private static final Set<AdventureResult> EMPTY_SET = new HashSet<>();
   private static final LockableListModel<CreateItemRequest> creatableList =
       new LockableListModel<>();
-  private static final LockableListModel<Concoction> usableList = new LockableListModel<>();
+  private static final UsableConcoctions usableList = new UsableConcoctions();
 
   public static String excuse; // reason why creation is impossible
 
@@ -108,27 +98,23 @@ public class ConcoctionDatabase {
   public static int lastQueuedMayo = 0;
 
   private static int queuedFullness = 0;
-  public static final LockableListModel<QueuedConcoction> queuedFood =
-      new LockableListModel<QueuedConcoction>();
+  public static final LockableListModel<QueuedConcoction> queuedFood = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedFoodIngredients =
-      new SortedListModel<AdventureResult>();
+      new SortedListModel<>();
 
   private static int queuedInebriety = 0;
-  public static final LockableListModel<QueuedConcoction> queuedBooze =
-      new LockableListModel<QueuedConcoction>();
+  public static final LockableListModel<QueuedConcoction> queuedBooze = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedBoozeIngredients =
-      new SortedListModel<AdventureResult>();
+      new SortedListModel<>();
 
   private static int queuedSpleenHit = 0;
-  public static final LockableListModel<QueuedConcoction> queuedSpleen =
-      new LockableListModel<QueuedConcoction>();
+  public static final LockableListModel<QueuedConcoction> queuedSpleen = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedSpleenIngredients =
-      new SortedListModel<AdventureResult>();
+      new SortedListModel<>();
 
-  public static final LockableListModel<QueuedConcoction> queuedPotions =
-      new LockableListModel<QueuedConcoction>();
+  public static final LockableListModel<QueuedConcoction> queuedPotions = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedPotionIngredients =
-      new SortedListModel<AdventureResult>();
+      new SortedListModel<>();
 
   public static final Concoction stillsLimit = new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction clipArtLimit = new Concoction(null, CraftingType.NOCREATE);
@@ -147,11 +133,9 @@ public class ConcoctionDatabase {
 
   public static final EnumSet<CraftingType> PERMIT_METHOD = EnumSet.noneOf(CraftingType.class);
   public static final Map<CraftingType, Integer> ADVENTURE_USAGE =
-      new EnumMap<CraftingType, Integer>(CraftingType.class);
-  public static final Map<CraftingType, Integer> CREATION_COST =
-      new EnumMap<CraftingType, Integer>(CraftingType.class);
-  public static final Map<CraftingType, String> EXCUSE =
-      new EnumMap<CraftingType, String>(CraftingType.class);
+      new EnumMap<>(CraftingType.class);
+  public static final Map<CraftingType, Integer> CREATION_COST = new EnumMap<>(CraftingType.class);
+  public static final Map<CraftingType, String> EXCUSE = new EnumMap<>(CraftingType.class);
   public static final EnumSet<CraftingRequirements> REQUIREMENT_MET =
       EnumSet.noneOf(CraftingRequirements.class);
 
@@ -160,11 +144,11 @@ public class ConcoctionDatabase {
   public static final AdventureResult INIGO = EffectPool.get(EffectPool.INIGOS, 0);
   public static final AdventureResult CRAFT_TEA = EffectPool.get(EffectPool.CRAFT_TEA, 0);
 
-  private static final HashMap<Integer, Concoction> chefStaff = new HashMap<Integer, Concoction>();
-  private static final HashMap<Integer, Concoction> singleUse = new HashMap<Integer, Concoction>();
-  private static final HashMap<Integer, Concoction> multiUse = new HashMap<Integer, Concoction>();
-  private static final HashMap<Integer, Concoction> noodles = new HashMap<Integer, Concoction>();
-  private static final HashMap<Integer, Concoction> meatStack = new HashMap<Integer, Concoction>();
+  private static final HashMap<Integer, Concoction> chefStaff = new HashMap<>();
+  private static final HashMap<Integer, Concoction> singleUse = new HashMap<>();
+  private static final HashMap<Integer, Concoction> multiUse = new HashMap<>();
+  private static final HashMap<Integer, Concoction> noodles = new HashMap<>();
+  private static final HashMap<Integer, Concoction> meatStack = new HashMap<>();
 
   private static CraftingType mixingMethod = null;
   private static final EnumSet<CraftingRequirements> requirements =
@@ -193,6 +177,13 @@ public class ConcoctionDatabase {
     }
   }
 
+  public static void resetUsableList() {
+    // Construct the usable list from all known concoctions.
+    // This includes all items
+    ConcoctionDatabase.usableList.fill();
+    ConcoctionDatabase.usableList.sort(true);
+  }
+
   static {
     // This begins by opening up the data file and preparing
     // a buffered reader; once this is done, every line is
@@ -209,12 +200,6 @@ public class ConcoctionDatabase {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
-
-    // Construct the usable list from all known concoctions.
-    // This includes all items
-    ConcoctionDatabase.usableList.clear();
-    ConcoctionDatabase.usableList.addAll(ConcoctionPool.concoctions());
-    ConcoctionDatabase.usableList.sort();
   }
 
   private static void addConcoction(final String[] data) {
@@ -252,8 +237,8 @@ public class ConcoctionDatabase {
     int param = 0;
     if (data.length >= 2) {
       for (int i = 2; i < data.length; ++i) {
-        if (StringUtilities.isNumeric(
-            data[i])) { // Treat all-numeric element as parameter instead of item.
+        if (StringUtilities.isNumeric(data[i])) {
+          // Treat all-numeric element as parameter instead of item.
           // Up to 4 such parameters can be given if each fits in a byte.
           // Currently only used for Clip Art
           param = (param << 8) | StringUtilities.parseInt(data[i]);
@@ -282,15 +267,15 @@ public class ConcoctionDatabase {
 
       Concoction existing = ConcoctionPool.get(item);
       if (concoction.getMisc().contains(CraftingMisc.MANUAL)
-          || (existing != null
-              && existing.getMixingMethod()
-                  != CraftingType.NOCREATE)) { // Until multiple recipes are supported...
+          || (existing != null && existing.getMixingMethod() != CraftingType.NOCREATE)) {
+        // Until multiple recipes are supported...
         return;
       }
 
       if (ingredients.length > 0) {
         for (AdventureResult ingredient : ingredients) {
-          if (ingredient == null) { // Was a parameter, not an ingredient.
+          if (ingredient == null) {
+            // Was a parameter, not an ingredient.
             continue;
           }
           concoction.addIngredient(ingredient);
@@ -431,23 +416,20 @@ public class ConcoctionDatabase {
   }
 
   public static final LockableListModel<AdventureResult> getQueuedIngredients(ConcoctionType type) {
-    switch (type) {
-      case FOOD:
-        return ConcoctionDatabase.queuedFoodIngredients;
-      case BOOZE:
-        return ConcoctionDatabase.queuedBoozeIngredients;
-      case SPLEEN:
-        return ConcoctionDatabase.queuedSpleenIngredients;
-      case POTION:
-        return ConcoctionDatabase.queuedPotionIngredients;
-    }
-    return null;
+    return switch (type) {
+      case FOOD -> ConcoctionDatabase.queuedFoodIngredients;
+      case BOOZE -> ConcoctionDatabase.queuedBoozeIngredients;
+      case SPLEEN -> ConcoctionDatabase.queuedSpleenIngredients;
+      case POTION -> ConcoctionDatabase.queuedPotionIngredients;
+      default -> null;
+    };
   }
 
   public static final boolean canQueueFood(final int id) {
     switch (id) {
       case ItemPool.QUANTUM_TACO:
       case ItemPool.MUNCHIES_PILL:
+      case ItemPool.WHETSTONE:
       case ItemPool.MAGICAL_SAUSAGE:
         return true;
     }
@@ -465,23 +447,21 @@ public class ConcoctionDatabase {
   }
 
   public static final boolean isMayo(final int id) {
-    switch (id) {
-      case ItemPool.MAYONEX:
-      case ItemPool.MAYODIOL:
-      case ItemPool.MAYOSTAT:
-      case ItemPool.MAYOZAPINE:
-      case ItemPool.MAYOFLEX:
-        return true;
-    }
-    return false;
+    return switch (id) {
+      case ItemPool.MAYONEX,
+          ItemPool.MAYODIOL,
+          ItemPool.MAYOSTAT,
+          ItemPool.MAYOZAPINE,
+          ItemPool.MAYOFLEX -> true;
+      default -> false;
+    };
   }
 
   public static final boolean canQueueBooze(final int id) {
-    switch (id) {
-      case ItemPool.SCHRODINGERS_THERMOS:
-        return true;
-    }
-    return false;
+    return switch (id) {
+      case ItemPool.SCHRODINGERS_THERMOS -> true;
+      default -> false;
+    };
   }
 
   public static final void push(final Concoction c, final int quantity) {
@@ -489,10 +469,10 @@ public class ConcoctionDatabase {
     LockableListModel<AdventureResult> queuedIngredients;
 
     int id = c.getItemId();
-    int consumpt = ItemDatabase.getConsumptionType(id);
+    ConsumptionType consumpt = ItemDatabase.getConsumptionType(id);
 
     if (c.getFullness() > 0
-        || consumpt == KoLConstants.CONSUME_FOOD_HELPER
+        || consumpt == ConsumptionType.FOOD_HELPER
         || ConcoctionDatabase.canQueueFood(id)) {
       queue = ConcoctionDatabase.queuedFood;
       queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
@@ -501,7 +481,7 @@ public class ConcoctionDatabase {
         ConcoctionDatabase.queuedInebriety++;
       }
     } else if (c.getInebriety() > 0
-        || consumpt == KoLConstants.CONSUME_DRINK_HELPER
+        || consumpt == ConsumptionType.DRINK_HELPER
         || ConcoctionDatabase.canQueueBooze(id)) {
       queue = ConcoctionDatabase.queuedBooze;
       queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;
@@ -528,7 +508,7 @@ public class ConcoctionDatabase {
     int advs = ConcoctionDatabase.queuedAdventuresUsed;
 
     // Queue the ingredients used by this concoction
-    ArrayList<AdventureResult> ingredients = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> ingredients = new ArrayList<>();
     c.queue(queuedIngredients, ingredients, quantity);
 
     // Adjust lists to account for what just changed
@@ -578,7 +558,7 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.queuedFancyDog = true;
     }
 
-    if (c.speakeasy) {
+    if (c.speakeasy != null) {
       ConcoctionDatabase.queuedSpeakeasyDrink += quantity;
     }
 
@@ -719,7 +699,7 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.queuedFancyDog = false;
     }
 
-    if (qc.getConcoction().speakeasy) {
+    if (qc.getConcoction().speakeasy != null) {
       ConcoctionDatabase.queuedSpeakeasyDrink -= quantity;
     }
 
@@ -787,7 +767,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.usableList.sort();
   }
 
-  public static final LockableListModel<Concoction> getUsables() {
+  public static final UsableConcoctions getUsables() {
     return ConcoctionDatabase.usableList;
   }
 
@@ -796,38 +776,28 @@ public class ConcoctionDatabase {
   }
 
   public static final LockableListModel<QueuedConcoction> getQueue(ConcoctionType type) {
-    switch (type) {
-      case FOOD:
-        return ConcoctionDatabase.queuedFood;
-      case BOOZE:
-        return ConcoctionDatabase.queuedBooze;
-      case SPLEEN:
-        return ConcoctionDatabase.queuedSpleen;
-      case POTION:
-        return ConcoctionDatabase.queuedPotions;
-    }
+    return switch (type) {
+      case FOOD -> ConcoctionDatabase.queuedFood;
+      case BOOZE -> ConcoctionDatabase.queuedBooze;
+      case SPLEEN -> ConcoctionDatabase.queuedSpleen;
+      case POTION -> ConcoctionDatabase.queuedPotions;
+      default -> null;
+    };
     // Unreachable
-    return null;
   }
 
   private static AdventureResult currentConsumptionHelper(ConcoctionType type) {
-    switch (type) {
-      case FOOD:
-        return EatItemRequest.currentFoodHelper();
-      case BOOZE:
-        return DrinkItemRequest.currentDrinkHelper();
-    }
-    return null;
+    return switch (type) {
+      case FOOD -> EatItemRequest.currentFoodHelper();
+      case BOOZE -> DrinkItemRequest.currentDrinkHelper();
+      default -> null;
+    };
   }
 
   private static void clearConsumptionHelper(ConcoctionType type) {
     switch (type) {
-      case FOOD:
-        EatItemRequest.clearFoodHelper();
-        break;
-      case BOOZE:
-        DrinkItemRequest.clearBoozeHelper();
-        break;
+      case FOOD -> EatItemRequest.clearFoodHelper();
+      case BOOZE -> DrinkItemRequest.clearBoozeHelper();
     }
   }
 
@@ -838,21 +808,21 @@ public class ConcoctionDatabase {
             : type == ConcoctionType.BOOZE ? DrinkItemRequest.boozeConsumed : 0);
   }
 
-  public static final void handleQueue(ConcoctionType type, int consumptionType) {
+  public static final void handleQueue(ConcoctionType type, ConsumptionType consumptionType) {
     // consumptionType can be:
     //
-    // KoLConstants.NO_CONSUME - create or retrieve items
-    // KoLConstants.CONSUME_EAT - eat food items
-    // KoLConstants.CONSUME_DRINK - drink booze items
-    // KoLConstants.CONSUME_SPLEEN - use spleen items
-    // KoLConstants.CONSUME_GHOST - binge ghost with food
-    // KoLConstants.CONSUME_HOBO - binge hobo with booze
-    // KoLConstants.CONSUME_USE - use potions
-    // KoLConstants.CONSUME_MULTIPLE - use potions
-    // KoLConstants.CONSUME_AVATAR - use potions
+    // ConsumptionType.NONE - create or retrieve items
+    // ConsumptionType.EAT - eat food items
+    // ConsumptionType.DRINK - drink booze items
+    // ConsumptionType.SPLEEN - use spleen items
+    // ConsumptionType.GLUTTONOUS_GHOST - binge ghost with food
+    // ConsumptionType.SPIRIT_HOBO - binge hobo with booze
+    // ConsumptionType.USE - use potions
+    // ConsumptionType.USE_MULTIPLE - use potions
+    // ConsumptionType.AVATAR_POTION - use potions
 
     QueuedConcoction currentItem;
-    Stack<QueuedConcoction> toProcess = new Stack<QueuedConcoction>();
+    Stack<QueuedConcoction> toProcess = new Stack<>();
 
     // Remove items in inverse order from the queue and push them on a stack.
     while ((currentItem = ConcoctionDatabase.pop(type)) != null) {
@@ -874,7 +844,7 @@ public class ConcoctionDatabase {
   }
 
   private static void handleQueue(
-      Stack<QueuedConcoction> toProcess, ConcoctionType type, int consumptionType) {
+      Stack<QueuedConcoction> toProcess, ConcoctionType type, ConsumptionType consumptionType) {
     // Keep track of current consumption helper. These can be
     // "queued" by simply "using" them. Account for that.
     AdventureResult helper = ConcoctionDatabase.currentConsumptionHelper(type);
@@ -886,9 +856,9 @@ public class ConcoctionDatabase {
       Concoction c = currentItem.getConcoction();
       int quantity = currentItem.getCount();
 
-      if (consumptionType != KoLConstants.CONSUME_EAT
-          && consumptionType != KoLConstants.CONSUME_DRINK
-          && consumptionType != KoLConstants.CONSUME_SPLEEN) {
+      if (consumptionType != ConsumptionType.EAT
+          && consumptionType != ConsumptionType.DRINK
+          && consumptionType != ConsumptionType.SPLEEN) {
         // Binge familiar or create only
 
         // If it's not an actual item, it's a purchase from a cafe.
@@ -897,21 +867,20 @@ public class ConcoctionDatabase {
           continue;
         }
 
-        int consumpt = ItemDatabase.getConsumptionType(c.getItemId());
+        ConsumptionType consumpt = ItemDatabase.getConsumptionType(c.getItemId());
 
         // Skip consumption helpers; we cannot binge a
         // familiar with them and we don't "create" them
-        if (consumpt == KoLConstants.CONSUME_FOOD_HELPER
-            || consumpt == KoLConstants.CONSUME_DRINK_HELPER) {
+        if (consumpt == ConsumptionType.FOOD_HELPER || consumpt == ConsumptionType.DRINK_HELPER) {
           continue;
         }
 
         // Certain items are virtual consumption
         // helpers, but are "used" first. Skip if
         // bingeing familiar.
-        if ((consumptionType == KoLConstants.CONSUME_GHOST && consumpt != KoLConstants.CONSUME_EAT)
-            || (consumptionType == KoLConstants.CONSUME_HOBO
-                && consumpt != KoLConstants.CONSUME_DRINK)) {
+        if ((consumptionType == ConsumptionType.GLUTTONOUS_GHOST && consumpt != ConsumptionType.EAT)
+            || (consumptionType == ConsumptionType.SPIRIT_HOBO
+                && consumpt != ConsumptionType.DRINK)) {
           continue;
         }
 
@@ -919,14 +888,14 @@ public class ConcoctionDatabase {
         AdventureResult toConsume = c.getItem().getInstance(quantity);
         InventoryManager.retrieveItem(toConsume);
 
-        if (consumptionType == KoLConstants.CONSUME_GHOST
-            | consumptionType == KoLConstants.CONSUME_HOBO) {
+        if (consumptionType == ConsumptionType.GLUTTONOUS_GHOST
+            | consumptionType == ConsumptionType.SPIRIT_HOBO) {
           // Binge the familiar!
           RequestThread.postRequest(UseItemRequest.getInstance(consumptionType, toConsume));
           continue;
         }
 
-        if (consumptionType == KoLConstants.NO_CONSUME) {
+        if (consumptionType == ConsumptionType.NONE) {
           // Create only
           continue;
         }
@@ -990,7 +959,7 @@ public class ConcoctionDatabase {
     }
   }
 
-  private static void consumeItem(Concoction c, int quantity, int consumptionType) {
+  private static void consumeItem(Concoction c, int quantity, ConsumptionType consumptionType) {
     AdventureResult item = c.getItem();
 
     // If it's food we're consuming, we have a MayoMinder set, and we are autostocking it, do so
@@ -999,7 +968,7 @@ public class ConcoctionDatabase {
     String minderSetting = Preferences.getString("mayoMinderSetting");
     AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
     if (item != null
-        && consumptionType == KoLConstants.CONSUME_EAT
+        && consumptionType == ConsumptionType.EAT
         && !ConcoctionDatabase.isMayo(item.getItemId())
         && !minderSetting.equals("")
         && Preferences.getBoolean("autoFillMayoMinder")
@@ -1015,7 +984,7 @@ public class ConcoctionDatabase {
     }
 
     // If there's an actual item, it's not from a store
-    if (item != null && !c.speakeasy) {
+    if (item != null && c.speakeasy == null) {
       // If concoction is a normal item, use normal item acquisition methods.
       if (item.getItemId() > 0) {
         UseItemRequest request;
@@ -1099,7 +1068,7 @@ public class ConcoctionDatabase {
       return KoLConstants.inventory;
     }
 
-    SortedListModel<AdventureResult> availableIngredients = new SortedListModel<AdventureResult>();
+    SortedListModel<AdventureResult> availableIngredients = new SortedListModel<>();
     availableIngredients.addAll(KoLConstants.inventory);
 
     if (includeCloset) {
@@ -1159,15 +1128,10 @@ public class ConcoctionDatabase {
 
   public static final void setRefreshNeeded(int itemId) {
     switch (ItemDatabase.getConsumptionType(itemId)) {
-      case KoLConstants.CONSUME_EAT:
-      case KoLConstants.CONSUME_DRINK:
-      case KoLConstants.CONSUME_SPLEEN:
-      case KoLConstants.CONSUME_USE:
-      case KoLConstants.CONSUME_MULTIPLE:
-      case KoLConstants.CONSUME_FOOD_HELPER:
-      case KoLConstants.CONSUME_DRINK_HELPER:
+      case EAT, DRINK, SPLEEN, USE, USE_MULTIPLE, FOOD_HELPER, DRINK_HELPER -> {
         ConcoctionDatabase.setRefreshNeeded(false);
         return;
+      }
     }
 
     switch (itemId) {
@@ -1279,7 +1243,7 @@ public class ConcoctionDatabase {
       // Initialize all the variables
       item.resetCalculations();
 
-      if (item.speakeasy) {
+      if (item.speakeasy != null) {
         // Has an item number, but can't appear in inventory
         continue;
       }
@@ -1320,7 +1284,7 @@ public class ConcoctionDatabase {
       // Set initial quantity of all remaining items.
 
       // Switch to the better of any interchangeable ingredients. Only mutates the first argument.
-      ConcoctionDatabase.getIngredients(item.getIngredients(), availableIngredientsList);
+      ConcoctionDatabase.getIngredients(item, item.getIngredients(), availableIngredientsList);
 
       item.initial = concoction.getCount(availableIngredients);
       item.price = 0;
@@ -1374,7 +1338,7 @@ public class ConcoctionDatabase {
         item.setPullable(0);
       }
 
-      CreateItemRequest instance = CreateItemRequest.getInstance(ar, false);
+      CreateItemRequest instance = CreateItemRequest.getInstance(item, false);
 
       if (instance == null) {
         continue;
@@ -1577,7 +1541,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.clear();
     int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
 
-    if (KoLCharacter.getGender() == KoLCharacter.MALE) {
+    if (KoLCharacter.getGender() == Gender.MALE) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.MALE);
     } else {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.FEMALE);
@@ -1791,11 +1755,11 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.REAGENT);
     }
 
-    if (KoLCharacter.hasSkill("The Way of Sauce")) {
+    if (KoLCharacter.hasSkill(SkillPool.THE_WAY_OF_SAUCE)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.WAY);
     }
 
-    if (KoLCharacter.hasSkill("Deep Saucery")) {
+    if (KoLCharacter.hasSkill(SkillPool.DEEP_SAUCERY)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.DEEP_SAUCERY);
     }
 
@@ -1803,19 +1767,19 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.PASTA);
     }
 
-    if (KoLCharacter.hasSkill("Transcendental Noodlecraft")) {
+    if (KoLCharacter.hasSkill(SkillPool.TRANSCENDENTAL_NOODLECRAFTING)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.TRANSNOODLE);
     }
 
-    if (KoLCharacter.hasSkill("Tempuramancy")) {
+    if (KoLCharacter.hasSkill(SkillPool.TEMPURAMANCY)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.TEMPURAMANCY);
     }
 
-    if (KoLCharacter.hasSkill("Patent Medicine")) {
+    if (KoLCharacter.hasSkill(SkillPool.PATENT_MEDICINE)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.PATENT);
     }
 
-    if (KoLCharacter.hasSkill("Eldritch Intellect")) {
+    if (KoLCharacter.hasSkill(SkillPool.ELDRITCH_INTELLECT)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.ELDRITCH);
     }
 
@@ -1854,7 +1818,7 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.EXCUSE.put(CraftingType.MIX_FANCY, null);
     }
     // If you are Sneaky Pete with Cocktail Magic, fancy mixing is free
-    else if (KoLCharacter.hasSkill("Cocktail Magic")) {
+    else if (KoLCharacter.hasSkill(SkillPool.COCKTAIL_MAGIC)) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.MIX_FANCY);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 0);
       ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0);
@@ -1889,20 +1853,20 @@ public class ConcoctionDatabase {
 
     // Mixing may require an additional skill.
 
-    if (KoLCharacter.canSummonShore() || KoLCharacter.hasSkill("Mixologist")) {
+    if (KoLCharacter.canSummonShore() || KoLCharacter.hasSkill(SkillPool.MIXOLOGIST)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.AC);
     }
 
-    if (KoLCharacter.hasSkill("Superhuman Cocktailcrafting")
-        || KoLCharacter.hasSkill("Mixologist")) {
+    if (KoLCharacter.hasSkill(SkillPool.SUPER_COCKTAIL)
+        || KoLCharacter.hasSkill(SkillPool.MIXOLOGIST)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.SHC);
     }
 
-    if (KoLCharacter.hasSkill("Salacious Cocktailcrafting")) {
+    if (KoLCharacter.hasSkill(SkillPool.SALACIOUS_COCKTAILCRAFTING)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.SALACIOUS);
     }
 
-    if (KoLCharacter.hasSkill("Tiki Mixology")) {
+    if (KoLCharacter.hasSkill(SkillPool.TIKI_MIXOLOGY)) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.TIKI);
     }
 
@@ -1925,7 +1889,7 @@ public class ConcoctionDatabase {
     // and isn't in Bad Moon
 
     boolean hasClipArt =
-        KoLCharacter.hasSkill("Summon Clip Art")
+        KoLCharacter.hasSkill(SkillPool.CLIP_ART)
             && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
     boolean clipArtSummonsRemaining =
         hasClipArt
@@ -2034,7 +1998,7 @@ public class ConcoctionDatabase {
         CraftingType.COINMASTER, "You have not selected the option to trade with coin masters.");
 
     if (InventoryManager.getCount(ItemPool.SAUSAGE_O_MATIC) > 0
-        || KoLCharacter.hasEquipped(ItemPool.SAUSAGE_O_MATIC, EquipmentManager.OFFHAND)) {
+        || KoLCharacter.hasEquipped(ItemPool.SAUSAGE_O_MATIC, Slot.OFFHAND)) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SAUSAGE_O_MATIC);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SAUSAGE_O_MATIC, 0);
       ConcoctionDatabase.CREATION_COST.put(
@@ -2096,6 +2060,11 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SEWER, 0);
     ConcoctionDatabase.CREATION_COST.put(CraftingType.SEWER, 0);
 
+    // Making stuff with grubby wool is always allowed
+    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.WOOL);
+    ConcoctionDatabase.CREATION_COST.put(CraftingType.WOOL, 0);
+    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.WOOL, 0);
+
     // Other creatability flags
 
     if (KoLCharacter.isTorsoAware()) {
@@ -2116,31 +2085,31 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.JARLS, 0);
       ConcoctionDatabase.CREATION_COST.put(CraftingType.JARLS, 0);
 
-      if (KoLCharacter.hasSkill("Bake")) {
+      if (KoLCharacter.hasSkill(SkillPool.BAKE)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.BAKE);
       }
-      if (KoLCharacter.hasSkill("Blend")) {
+      if (KoLCharacter.hasSkill(SkillPool.BLEND)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.BLEND);
       }
-      if (KoLCharacter.hasSkill("Boil")) {
+      if (KoLCharacter.hasSkill(SkillPool.BOIL)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.BOIL);
       }
-      if (KoLCharacter.hasSkill("Chop")) {
+      if (KoLCharacter.hasSkill(SkillPool.CHOP)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.CHOP);
       }
-      if (KoLCharacter.hasSkill("Curdle")) {
+      if (KoLCharacter.hasSkill(SkillPool.CURDLE)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.CURDLE);
       }
-      if (KoLCharacter.hasSkill("Freeze")) {
+      if (KoLCharacter.hasSkill(SkillPool.FREEZE)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.FREEZE);
       }
-      if (KoLCharacter.hasSkill("Fry")) {
+      if (KoLCharacter.hasSkill(SkillPool.FRY)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.FRY);
       }
-      if (KoLCharacter.hasSkill("Grill")) {
+      if (KoLCharacter.hasSkill(SkillPool.GRILL)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.GRILL);
       }
-      if (KoLCharacter.hasSkill("Slice")) {
+      if (KoLCharacter.hasSkill(SkillPool.SLICE)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.SLICE);
       }
     }
@@ -2292,7 +2261,7 @@ public class ConcoctionDatabase {
         } else if (method == CraftingType.COOK_FANCY) {
           usableFreeCrafts += getFreeCookingTurns();
         }
-        if (adv > KoLCharacter.getAdventuresLeft() + usableFreeCrafts) { //
+        if (adv > KoLCharacter.getAdventuresLeft() + usableFreeCrafts) {
           ConcoctionDatabase.PERMIT_METHOD.remove(method);
           ConcoctionDatabase.EXCUSE.put(
               method, "You don't have enough adventures left to create that.");
@@ -2316,11 +2285,11 @@ public class ConcoctionDatabase {
 
   public static int getFreeCraftingTurns() {
     return ConcoctionDatabase.INIGO.getCount(KoLConstants.activeEffects) / 5
-        + (KoLCharacter.hasSkill("Rapid Prototyping")
+        + (KoLCharacter.hasSkill(SkillPool.RAPID_PROTOTYPING)
                 && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Rapid Prototyping")
             ? 5 - Preferences.getInteger("_rapidPrototypingUsed")
             : 0)
-        + (KoLCharacter.hasSkill("Expert Corner-Cutter")
+        + (KoLCharacter.hasSkill(SkillPool.EXPERT_CORNER_CUTTER)
                 && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Expert Corner-Cutter")
                 &&
                 // KoL bug: this is the only skill that does not work
@@ -2519,6 +2488,8 @@ public class ConcoctionDatabase {
       result.append("Kringle's workshop");
     } else if (mixingMethod == CraftingType.STILLSUIT) {
       result.append("tiny stillsuit");
+    } else if (mixingMethod == CraftingType.WOOL) {
+      result.append("grubby wool");
     }
     if (result.length() == 0) {
       result.append("[unknown method of creation]");
@@ -2611,60 +2582,60 @@ public class ConcoctionDatabase {
    * ingredients, then <code>null</code> will be returned instead.
    */
   public static final AdventureResult[] getIngredients(final int itemId) {
-    return ConcoctionDatabase.getIngredients(ConcoctionDatabase.getStandardIngredients(itemId));
+    return ConcoctionDatabase.getIngredients(ConcoctionPool.get(itemId));
   }
 
-  public static final AdventureResult[] getIngredients(final int itemId, final String name) {
-    return ConcoctionDatabase.getIngredients(
-        ConcoctionDatabase.getStandardIngredients(itemId, name));
+  public static final AdventureResult[] getIngredients(final String name) {
+    return ConcoctionDatabase.getIngredients(ConcoctionPool.get(-1, name));
   }
 
-  public static final AdventureResult[] getIngredients(AdventureResult[] ingredients) {
+  public static final AdventureResult[] getIngredients(Concoction c) {
+    AdventureResult[] ingredients = ConcoctionDatabase.getStandardIngredients(c);
+    return ConcoctionDatabase.getIngredients(c, ingredients);
+  }
+
+  public static final AdventureResult[] getIngredients(
+      Concoction c, AdventureResult[] ingredients) {
     List<AdventureResult> availableIngredients = ConcoctionDatabase.getAvailableIngredients();
-    return ConcoctionDatabase.getIngredients(ingredients, availableIngredients);
+    return ConcoctionDatabase.getIngredients(c, ingredients, availableIngredients);
   }
 
   private static AdventureResult[] getIngredients(
-      AdventureResult[] ingredients, List<AdventureResult> availableIngredients) {
+      Concoction concoction,
+      AdventureResult[] ingredients,
+      List<AdventureResult> availableIngredients) {
     // Ensure that you're retrieving the same ingredients that
     // were used in the calculations.  Usually this is the case,
     // but ice-cold beer and ketchup are tricky cases.
 
-    if (ingredients.length > 2) { // This is not a standard crafting recipe - and in the one case
+    if (ingredients.length > 2) {
+      // This is not a standard crafting recipe - and in the one case
       // where such a recipe uses one of these ingredients (Sir Schlitz
       // for the Staff of the Short Order Cook), it's not interchangeable.
       return ingredients;
     }
 
+    switch (concoction.getItemId()) {
+      case ItemPool.NICE_WARM_BEER -> {
+        // nice warm beer works only with ice-cold Sir Schlitz
+        return ingredients;
+      }
+    }
+
     for (int i = 0; i < ingredients.length; ++i) {
       switch (ingredients[i].getItemId()) {
-        case ItemPool.SCHLITZ:
-        case ItemPool.WILLER:
-          ingredients[i] =
-              ConcoctionDatabase.getBetterIngredient(
-                  ItemPool.SCHLITZ, ItemPool.WILLER, availableIngredients);
-          break;
-
-        case ItemPool.KETCHUP:
-        case ItemPool.CATSUP:
-          ingredients[i] =
-              ConcoctionDatabase.getBetterIngredient(
-                  ItemPool.KETCHUP, ItemPool.CATSUP, availableIngredients);
-          break;
-
-        case ItemPool.DYSPEPSI_COLA:
-        case ItemPool.CLOACA_COLA:
-          ingredients[i] =
-              ConcoctionDatabase.getBetterIngredient(
-                  ItemPool.DYSPEPSI_COLA, ItemPool.CLOACA_COLA, availableIngredients);
-          break;
-
-        case ItemPool.TITANIUM_UMBRELLA:
-        case ItemPool.GOATSKIN_UMBRELLA:
-          ingredients[i] =
-              ConcoctionDatabase.getBetterIngredient(
-                  ItemPool.TITANIUM_UMBRELLA, ItemPool.GOATSKIN_UMBRELLA, availableIngredients);
-          break;
+        case ItemPool.SCHLITZ, ItemPool.WILLER -> ingredients[i] =
+            ConcoctionDatabase.getBetterIngredient(
+                ItemPool.SCHLITZ, ItemPool.WILLER, availableIngredients);
+        case ItemPool.KETCHUP, ItemPool.CATSUP -> ingredients[i] =
+            ConcoctionDatabase.getBetterIngredient(
+                ItemPool.KETCHUP, ItemPool.CATSUP, availableIngredients);
+        case ItemPool.DYSPEPSI_COLA, ItemPool.CLOACA_COLA -> ingredients[i] =
+            ConcoctionDatabase.getBetterIngredient(
+                ItemPool.DYSPEPSI_COLA, ItemPool.CLOACA_COLA, availableIngredients);
+        case ItemPool.TITANIUM_UMBRELLA, ItemPool.GOATSKIN_UMBRELLA -> ingredients[i] =
+            ConcoctionDatabase.getBetterIngredient(
+                ItemPool.TITANIUM_UMBRELLA, ItemPool.GOATSKIN_UMBRELLA, availableIngredients);
       }
     }
     return ingredients;
@@ -3101,6 +3072,9 @@ public class ConcoctionDatabase {
       case "STILLSUIT":
         ConcoctionDatabase.mixingMethod = CraftingType.STILLSUIT;
         break;
+      case "WOOL":
+        ConcoctionDatabase.mixingMethod = CraftingType.WOOL;
+        break;
       default:
         if (mix.startsWith("ROW")) {
           ConcoctionDatabase.row = StringUtilities.parseInt(mix.substring(3));
@@ -3277,6 +3251,124 @@ public class ConcoctionDatabase {
       int hash = (this.concoction != null ? this.concoction.hashCode() : 0);
       hash = 31 * hash + this.count;
       return hash;
+    }
+  }
+
+  public static class UsableConcoctions {
+    private Map<ConcoctionType, LockableListModel<Concoction>> usableMap = new TreeMap<>();
+
+    public UsableConcoctions() {
+      for (ConcoctionType type : ConcoctionType.values()) {
+        usableMap.put(type, new LockableListModel<>());
+      }
+    }
+
+    public void fill() {
+      this.usableMap.clear();
+      this.usableMap.putAll(
+          ConcoctionPool.concoctions().stream()
+              .collect(
+                  Collectors.groupingBy(
+                      c -> c.type, Collectors.toCollection(LockableListModel<Concoction>::new))));
+    }
+
+    private static <T extends Comparable<T>> boolean isSorted(Iterable<T> iterable) {
+      T last = null;
+      boolean sorted = true;
+      for (T current : iterable) {
+        if (last != null && last.compareTo(current) > 0) {
+          sorted = false;
+        }
+        last = current;
+      }
+      return sorted;
+    }
+
+    public int size() {
+      return this.usableMap.values().stream().mapToInt(List::size).sum();
+    }
+
+    public boolean contains(Concoction c) {
+      return this.usableMap.get(c.type).contains(c);
+    }
+
+    public LockableListModel<Concoction> get(ConcoctionType type) {
+      return this.usableMap.get(type);
+    }
+
+    public Collection<LockableListModel<Concoction>> values() {
+      return this.usableMap.values();
+    }
+
+    public void clear() {
+      this.usableMap.values().stream().forEach(List::clear);
+    }
+
+    public void add(Concoction c) {
+      // Insert the concoction so the list remains sorted.
+      LockableListModel<Concoction> list = this.usableMap.get(c.type);
+      int index = Collections.binarySearch(list, c);
+      if (index < 0) {
+        // binarySearch returns negative if it's not in the list, and tells us where to put it.
+        index = -index - 1;
+        list.add(index, c);
+      } else {
+        list.set(index, c);
+      }
+    }
+
+    public void addAll(Collection<Concoction> toAdd) {
+      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
+          this.usableMap.entrySet()) {
+        ConcoctionType type = entry.getKey();
+        LockableListModel<Concoction> list = entry.getValue();
+
+        Collection<Concoction> toAddWithOrder =
+            toAdd.stream().filter(c -> c.type == type).collect(Collectors.toList());
+        // Choose strategy based on size m of addition list. Adding/sorting takes O(m+nlogn), and
+        // inserting repeatedly takes O(mn), so the rough breakpoint is m=logn.
+        if (toAddWithOrder.size() > Math.log(list.size()) / Math.log(2)) {
+          // long list of additions. append dumbly and then sort.
+          list.addAll(toAddWithOrder);
+          list.sort();
+        } else {
+          // short list. insert one-by-one.
+          for (Concoction c : toAddWithOrder) {
+            this.add(c);
+          }
+        }
+      }
+    }
+
+    public void removeAll(Collection<Concoction> toRemove) {
+      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
+          this.usableMap.entrySet()) {
+        ConcoctionType type = entry.getKey();
+        LockableListModel<Concoction> list = entry.getValue();
+
+        Collection<Concoction> toRemoveWithOrder =
+            toRemove.stream().filter(c -> c.type == type).collect(Collectors.toList());
+        list.removeAll(toRemoveWithOrder);
+      }
+    }
+
+    public void sort() {
+      this.sort(false);
+    }
+
+    public void sort(boolean sortNone) {
+      for (Map.Entry<ConcoctionType, LockableListModel<Concoction>> entry :
+          this.usableMap.entrySet()) {
+        ConcoctionType type = entry.getKey();
+        List<Concoction> concoctions = entry.getValue();
+        if ((type != ConcoctionType.NONE || sortNone) && !UsableConcoctions.isSorted(concoctions)) {
+          Collections.sort(concoctions);
+        }
+      }
+    }
+
+    public void updateFilter(boolean changeDetected) {
+      this.usableMap.values().stream().forEach(l -> l.updateFilter(changeDetected));
     }
   }
 }

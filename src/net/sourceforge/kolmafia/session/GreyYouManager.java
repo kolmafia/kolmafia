@@ -12,13 +12,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -119,16 +124,30 @@ public abstract class GreyYouManager {
     return skill;
   }
 
-  public static void absorbMonster(MonsterData monster) {
+  public static void absorbMonster(MonsterData monster, String absorbText) {
     // This called from FightRequest after a win
     if (monster == null || !KoLCharacter.inGreyYou()) {
       return;
     }
-    // All absorbed monsters give a stat, but only save "special" monsters.
-    int monsterId = monster.getId();
-    if (allAbsorptions.containsKey(monsterId)) {
-      absorbedMonsters.add(monsterId);
+
+    Absorption absorb = allAbsorptions.get(monster.getId());
+
+    if (absorb == null) {
+      return;
     }
+
+    if (absorb.getType() == AbsorptionType.ADVENTURES) {
+      // If absorb is expected to give adventures, but neither message for adventure absorbs is
+      // found
+      if (!absorbText.contains("a lot of potential energy!")
+          && !absorbText.contains("incorporate this energetic creature.")) {
+        return;
+      }
+
+      Preferences.increment("_greyYouAdventures", ((GooAbsorption) absorb).value);
+    }
+
+    absorbedMonsters.add(monster.getId());
   }
 
   public static void reprocessMonster(MonsterData monster) {
@@ -292,20 +311,16 @@ public abstract class GreyYouManager {
 
       StringBuilder string = new StringBuilder();
       switch (type) {
-        case ADVENTURES:
+        case ADVENTURES -> {
           string.append("+");
           string.append(value);
           string.append(" Adventures");
-          break;
-        case MUSCLE:
-        case MYSTICALITY:
-        case MOXIE:
-        case MAX_HP:
-        case MAX_MP:
+        }
+        case MUSCLE, MYSTICALITY, MOXIE, MAX_HP, MAX_MP -> {
           string.append(type);
           string.append(" +");
           string.append(value);
-          break;
+        }
       }
       this.stringValue = string.toString();
     }
@@ -483,14 +498,14 @@ public abstract class GreyYouManager {
     private final int skillId;
 
     private final String name;
-    private final int skillType;
+    private final SkillType skillType;
     private final String skillTypeName;
     private final long mpCost;
     private final PassiveEffect passiveEffect;
     private final int level;
 
     private String enchantments = "";
-    private String modsLookup = "";
+    private Lookup modsLookup = new Lookup(ModifierType.NONE, "");
 
     public GooSkill(
         final int skillId, final String monsterName, PassiveEffect passiveEffect, int level) {
@@ -519,11 +534,11 @@ public abstract class GreyYouManager {
       this.level = level;
 
       Modifiers mods = null;
-      if (this.skillType == SkillDatabase.PASSIVE) {
-        mods = Modifiers.getModifiers("Skill", this.name);
+      if (this.skillType == SkillType.PASSIVE) {
+        mods = ModifierDatabase.getModifiers(ModifierType.SKILL, this.name);
         if (mods != null) {
-          this.enchantments = mods.getString("Modifiers");
-          this.modsLookup = mods.getName();
+          this.enchantments = mods.getString(StringModifier.MODIFIERS);
+          this.modsLookup = mods.getLookup();
         } else {
           // This would be a KoLmafia bug.
           String message =
@@ -535,7 +550,6 @@ public abstract class GreyYouManager {
       } else {
         this.mpCost = SkillDatabase.getMPConsumptionById(skillId);
         this.enchantments = effects;
-        this.modsLookup = "";
       }
 
       allGooSkills.put(skillId, this);
@@ -554,7 +568,7 @@ public abstract class GreyYouManager {
       return this.name;
     }
 
-    public int getSkillType() {
+    public SkillType getSkillType() {
       return this.skillType;
     }
 
@@ -574,7 +588,7 @@ public abstract class GreyYouManager {
       if (this.modsLookup.equals("")) {
         return this.enchantments;
       }
-      return Modifiers.evaluateModifiers(this.modsLookup, this.enchantments).toString();
+      return ModifierDatabase.evaluateModifiers(this.modsLookup, this.enchantments).toString();
     }
 
     public PassiveEffect getPassiveEffect() {
@@ -774,11 +788,11 @@ public abstract class GreyYouManager {
         throw new NullPointerException();
       }
 
-      int skillType1 = o1.getSkillType();
-      int skillType2 = o2.getSkillType();
+      SkillType skillType1 = o1.getSkillType();
+      SkillType skillType2 = o2.getSkillType();
 
       if (skillType1 == skillType2) {
-        if (skillType1 == SkillDatabase.PASSIVE) {
+        if (skillType1 == SkillType.PASSIVE) {
           PassiveEffect passiveEffect1 = o1.getPassiveEffect();
           PassiveEffect passiveEffect2 = o2.getPassiveEffect();
           if (passiveEffect1 != passiveEffect2) {
@@ -793,13 +807,13 @@ public abstract class GreyYouManager {
         return super.compare(o1, o2);
       }
 
-      return (skillType1 == SkillDatabase.COMBAT)
+      return (skillType1 == SkillType.COMBAT)
           ? -1
-          : (skillType2 == SkillDatabase.COMBAT)
+          : (skillType2 == SkillType.COMBAT)
               ? 1
-              : (skillType1 == SkillDatabase.SELF_ONLY)
+              : (skillType1 == SkillType.SELF_ONLY)
                   ? -1
-                  : (skillType2 == SkillDatabase.SELF_ONLY)
+                  : (skillType2 == SkillType.SELF_ONLY)
                       ? 1
                       :
                       // This should not happen
@@ -839,7 +853,7 @@ public abstract class GreyYouManager {
       }
       Set<Absorption> set = zoneAbsorptions.get(zone);
       if (set == null) {
-        set = new HashSet<Absorption>();
+        set = new HashSet<>();
         zoneAbsorptions.put(zone, set);
       }
       set.add(absorption);

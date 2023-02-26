@@ -19,9 +19,9 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -53,8 +53,7 @@ public class GenericRequestTest {
   public void hallowienerVolcoinoNotPickedUpByLuckyGoldRing() {
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.ACCESSORY1, "lucky gold ring"),
-            withProperty("lastEncounter", ""));
+            withEquipped(Slot.ACCESSORY1, "lucky gold ring"), withProperty("lastEncounter", ""));
 
     try (cleanups) {
       assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
@@ -77,7 +76,7 @@ public class GenericRequestTest {
   public void hallowienerVolcoinoPickedUp() {
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.ACCESSORY1, "lucky gold ring"),
+            withEquipped(Slot.ACCESSORY1, "lucky gold ring"),
             withProperty("lastEncounter", ""),
             withProperty("hallowienerVolcoino", "false"));
 
@@ -305,6 +304,25 @@ public class GenericRequestTest {
 
         assertEquals(encounterName, Preferences.getString("lastEncounter"));
         assertThat(property, isSetTo(expected));
+      }
+    }
+  }
+
+  @Nested
+  class DistantWoodsGetaway {
+    @Test
+    public void getawayRemainsUnchangedAfterVisitingLockedDistantWoods() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder), withProperty("getawayCampsiteUnlocked", true));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_place_woods_uhoh.html"));
+
+        var request = new GenericRequest("place.php?whichplace=woods");
+        request.run();
+
+        assertThat("getawayCampsiteUnlocked", isSetTo(true));
       }
     }
   }

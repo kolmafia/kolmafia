@@ -2,29 +2,28 @@ package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 
 public class VampOutManager {
-  public static final Option[] VampOutGoals = {
+  public static final ChoiceOption[] VampOutGoals = {
     // Visit Vlad's Boutique
-    new Option("Mistified"),
-    new Option("Bat Attitude"),
-    new Option("There Wolf"),
+    new ChoiceOption("Mistified"),
+    new ChoiceOption("Bat Attitude"),
+    new ChoiceOption("There Wolf"),
 
     // Visit Isabella's
-    new Option("Muscle"),
-    new Option("Mysticality"),
-    new Option("Moxie"),
-    new Option("111 Meat, lose 1-2 hp"),
+    new ChoiceOption("Muscle"),
+    new ChoiceOption("Mysticality"),
+    new ChoiceOption("Moxie"),
+    new ChoiceOption("111 Meat, lose 1-2 hp"),
 
     // Visit The Masquerade
-    new Option("Prince of Seaside Town and Sword of the Brouhaha Prince"),
-    new Option("Prince of Seaside Town and Sceptre of the Torremolinos Prince"),
-    new Option("Prince of Seaside Town and Medallion of the Ventrilo Prince"),
-    new Option("Prince of Seaside Town and Chalice of the Malkovich Prince"),
-    new Option("Pride of the Vampire and Interview With You (a Vampire)"),
-    new Option("your own black heart")
+    new ChoiceOption("Prince of Seaside Town and Sword of the Brouhaha Prince"),
+    new ChoiceOption("Prince of Seaside Town and Sceptre of the Torremolinos Prince"),
+    new ChoiceOption("Prince of Seaside Town and Medallion of the Ventrilo Prince"),
+    new ChoiceOption("Prince of Seaside Town and Chalice of the Malkovich Prince"),
+    new ChoiceOption("Pride of the Vampire and Interview With You (a Vampire)"),
+    new ChoiceOption("your own black heart")
   };
 
   private static final String[] VampOutScript = {
@@ -89,43 +88,21 @@ public class VampOutManager {
       logText("Encounter: Interview With You - Goal " + VampOutGoals[vampOutGoal].getName());
 
       switch (vampOutGoal) {
-        case 0:
-        case 1:
-        case 2:
-          decision = Integer.toString(vladChoice);
-          break;
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-          decision = Integer.toString(isabellaChoice);
-          break;
-        case 7:
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-          decision = Integer.toString(masqueradeChoice);
-          break;
+        case 0, 1, 2 -> decision = Integer.toString(vladChoice);
+        case 3, 4, 5, 6 -> decision = Integer.toString(isabellaChoice);
+        case 7, 8, 9, 10, 11, 12 -> decision = Integer.toString(masqueradeChoice);
       }
     } else {
       decision = VampOutScript[vampOutGoal].substring(stepCount, stepCount + 1);
 
-      switch (decision.charAt(0)) {
-        case 'b':
-          decision = ChoiceUtilities.findChoiceDecisionIndex(BROUHAHA, responseText);
-          break;
-        case 'm':
-          decision = ChoiceUtilities.findChoiceDecisionIndex(MALKOVICH, responseText);
-          break;
-        case 't':
-          decision = ChoiceUtilities.findChoiceDecisionIndex(TORREMOLINOS, responseText);
-          break;
-        case 'v':
-          decision = ChoiceUtilities.findChoiceDecisionIndex(VENTRILO, responseText);
-          break;
-      }
+      decision =
+          switch (decision.charAt(0)) {
+            case 'b' -> ChoiceUtilities.findChoiceDecisionIndex(BROUHAHA, responseText);
+            case 'm' -> ChoiceUtilities.findChoiceDecisionIndex(MALKOVICH, responseText);
+            case 't' -> ChoiceUtilities.findChoiceDecisionIndex(TORREMOLINOS, responseText);
+            case 'v' -> ChoiceUtilities.findChoiceDecisionIndex(VENTRILO, responseText);
+            default -> decision;
+          };
     }
 
     String action =

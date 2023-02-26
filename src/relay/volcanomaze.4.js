@@ -20,7 +20,7 @@ function adjustPlatforms(res) {
 			var bg = t.find('a').css('background');
 			t.removeClass('yes');
 			if (bg && bg.match(/platformup[0-9]/) && t.attr('rel') != res.pos) {
-				t.find('a').css('background','url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/platformdown'+Math.floor((Math.random() * 4) +1)+'.gif?foo='+1+'")');
+				t.find('a').css('background','url("/images/itemimages/platformdown'+Math.floor((Math.random() * 4) +1)+'.gif'")');
 			}
 			else t.find('a').css('background','');
 			if (!t.hasClass('no')) { t.addClass('no'); setTitle(t, 'Lava'); }
@@ -28,16 +28,29 @@ function adjustPlatforms(res) {
 				t.removeClass('no').addClass('you');
 				setTitle(t, 'You');
 			}
+			if (t.attr('rel') == res.next) {
+				t.addClass('next');
+			} else {
+				t.removeClass('next');
+			}
 		});
 		for (i in res.show) {
 			if (!res.show.hasOwnProperty(i)) continue;
 			var sq = $('#sq'+res.show[i]);
 			if (sq.hasClass('goal')) continue;
-			sq.removeClass('no')
-			if (!sq.hasClass('you')) {	
-				sq.addClass('yes').find('a').css('background','url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/platformup'+Math.floor((Math.random() * 4) +1)+'.gif?foo='+1+'")');
+			if (sq.hasClass('you')) continue;
+			sq.removeClass('no').addClass('yes');
+			if (sq.hasClass('next')) {
+				setTitle(sq, 'Next Platform');
+			} else {
 				setTitle(sq, 'Platform');
 			}
+			var image = 'platformup'+Math.floor((Math.random() * 4) +1);
+			if (sq.hasClass('next')) {
+				image += 'x';
+			}
+			var url ='url("/images/itemimages/'+image+'.gif'")';
+			sq.find('a').css('background', url);
 		}
 	}
 	else {

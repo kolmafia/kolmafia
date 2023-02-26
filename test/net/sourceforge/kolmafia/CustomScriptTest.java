@@ -151,6 +151,8 @@ public class CustomScriptTest {
     ContactManager.registerPlayerId("heeheehee", "354981");
     StaticEntity.overrideRevision(10000);
     TurnCounter.clearCounters();
+    // This is needed to make sure js test scripts work on Ubuntu when data/ is cleaned
+    KoLmafia.ensureContentTypes();
   }
 
   @AfterEach

@@ -43,11 +43,10 @@ public class SafeRequire extends Require {
 
   @Override
   public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
-    if (args == null || args.length < 1 || !(args[0] instanceof String)) {
+    if (args == null || args.length < 1 || !(args[0] instanceof String path)) {
       throw new ScriptException("require() needs one argument, a string");
     }
 
-    String path = (String) args[0];
     if (path.equals("kolmafia")) {
       return stdLib;
     } else if (path.endsWith(".ash")) {

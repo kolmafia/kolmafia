@@ -94,128 +94,118 @@ public class CargoCultCommand extends AbstractCommand {
       }
       String subset = split[1];
       switch (subset) {
-        case "type":
-        case "unpicked":
-          {
-            String tag = split[2];
-            PocketType type = parsePocketType(tag);
-            if (type == null) {
-              // Error message already issued
-              return;
-            }
-            Map<Integer, Pocket> pockets = PocketDatabase.getPockets(type);
-            if (pockets == null) {
-              // Error message already issued
-              return;
-            }
-            String modifier = " ";
-            if (subset.equals("unpicked")) {
-              pockets = PocketDatabase.removePickedPockets(pockets);
-              modifier = " unpicked ";
-            }
-            RequestLogger.printLine("There are " + pockets.size() + modifier + tag + " pockets.");
-            if (command.equals("list")) {
-              List<Pocket> sorted = PocketDatabase.sortPockets(type, pockets);
-              printPockets(sorted);
-            }
-            break;
+        case "type", "unpicked" -> {
+          String tag = split[2];
+          PocketType type = parsePocketType(tag);
+          if (type == null) {
+            // Error message already issued
+            return;
           }
-        case "monster":
-          {
-            String monster = parseMonster(parameters);
-            MonsterPocket pocket = getMonsterPocket(monster);
-            if (pocket == null) {
-              // Error message already issued
-              return;
-            }
-            if (command.equals("count")) {
-              RequestLogger.printLine("There is one pocket that contains a '" + monster + "'.");
-            } else {
-              printPocket(pocket);
-            }
-            break;
+          Map<Integer, Pocket> pockets = PocketDatabase.getPockets(type);
+          if (pockets == null) {
+            // Error message already issued
+            return;
           }
-        case "effect":
-          {
-            String effect = parseEffect(parameters);
-            Set<OneResultPocket> pockets = getEffectPockets(effect);
-            if (pockets == null) {
-              // Error message already issued
-              return;
-            }
-            boolean plural = pockets.size() != 1;
-            RequestLogger.printLine(
-                "There "
-                    + (plural ? "are " : "is ")
-                    + pockets.size()
-                    + " pocket"
-                    + (plural ? "s" : "")
-                    + " that grant"
-                    + (plural ? "" : "s")
-                    + " the '"
-                    + effect
-                    + "' effect.");
-            if (command.equals("list")) {
-              List<Pocket> sorted = PocketDatabase.sortResults(effect, pockets);
-              printPockets(sorted);
-            }
-            break;
+          String modifier = " ";
+          if (subset.equals("unpicked")) {
+            pockets = PocketDatabase.removePickedPockets(pockets);
+            modifier = " unpicked ";
           }
-        case "item":
-          {
-            String item = parseItem(parameters);
-            Set<OneResultPocket> pockets = getItemPockets(item);
-            if (pockets == null) {
-              // Error message already issued
-              return;
-            }
-            boolean plural = pockets.size() != 1;
-            RequestLogger.printLine(
-                "There "
-                    + (plural ? "are " : "is ")
-                    + pockets.size()
-                    + " pocket"
-                    + (plural ? "s" : "")
-                    + " that contain"
-                    + (plural ? "" : "s")
-                    + " a '"
-                    + item
-                    + "'.");
-            if (command.equals("list")) {
-              List<Pocket> sorted = PocketDatabase.sortResults(item, pockets);
-              printPockets(sorted);
-            }
-            break;
+          RequestLogger.printLine("There are " + pockets.size() + modifier + tag + " pockets.");
+          if (command.equals("list")) {
+            List<Pocket> sorted = PocketDatabase.sortPockets(type, pockets);
+            printPockets(sorted);
           }
-        case "stat":
-          {
-            String stat = parseStat(parameters);
-            Set<StatsPocket> pockets = getStatsPockets(stat);
-            if (pockets == null) {
-              // Error message already issued
-              return;
-            }
-            boolean plural = pockets.size() != 1;
-            RequestLogger.printLine(
-                "There "
-                    + (plural ? "are " : "is ")
-                    + pockets.size()
-                    + " pocket"
-                    + (plural ? "s" : "")
-                    + " that contain"
-                    + (plural ? "" : "s")
-                    + " '"
-                    + stat
-                    + "' stats.");
-            if (command.equals("list")) {
-              List<Pocket> sorted = PocketDatabase.sortStats(stat, pockets);
-              printPockets(sorted);
-            }
-            break;
+        }
+        case "monster" -> {
+          String monster = parseMonster(parameters);
+          MonsterPocket pocket = getMonsterPocket(monster);
+          if (pocket == null) {
+            // Error message already issued
+            return;
           }
-        default:
+          if (command.equals("count")) {
+            RequestLogger.printLine("There is one pocket that contains a '" + monster + "'.");
+          } else {
+            printPocket(pocket);
+          }
+        }
+        case "effect" -> {
+          String effect = parseEffect(parameters);
+          Set<OneResultPocket> pockets = getEffectPockets(effect);
+          if (pockets == null) {
+            // Error message already issued
+            return;
+          }
+          boolean plural = pockets.size() != 1;
+          RequestLogger.printLine(
+              "There "
+                  + (plural ? "are " : "is ")
+                  + pockets.size()
+                  + " pocket"
+                  + (plural ? "s" : "")
+                  + " that grant"
+                  + (plural ? "" : "s")
+                  + " the '"
+                  + effect
+                  + "' effect.");
+          if (command.equals("list")) {
+            List<Pocket> sorted = PocketDatabase.sortResults(effect, pockets);
+            printPockets(sorted);
+          }
+        }
+        case "item" -> {
+          String item = parseItem(parameters);
+          Set<OneResultPocket> pockets = getItemPockets(item);
+          if (pockets == null) {
+            // Error message already issued
+            return;
+          }
+          boolean plural = pockets.size() != 1;
+          RequestLogger.printLine(
+              "There "
+                  + (plural ? "are " : "is ")
+                  + pockets.size()
+                  + " pocket"
+                  + (plural ? "s" : "")
+                  + " that contain"
+                  + (plural ? "" : "s")
+                  + " a '"
+                  + item
+                  + "'.");
+          if (command.equals("list")) {
+            List<Pocket> sorted = PocketDatabase.sortResults(item, pockets);
+            printPockets(sorted);
+          }
+        }
+        case "stat" -> {
+          String stat = parseStat(parameters);
+          Set<StatsPocket> pockets = getStatsPockets(stat);
+          if (pockets == null) {
+            // Error message already issued
+            return;
+          }
+          boolean plural = pockets.size() != 1;
+          RequestLogger.printLine(
+              "There "
+                  + (plural ? "are " : "is ")
+                  + pockets.size()
+                  + " pocket"
+                  + (plural ? "s" : "")
+                  + " that contain"
+                  + (plural ? "" : "s")
+                  + " '"
+                  + stat
+                  + "' stats.");
+          if (command.equals("list")) {
+            List<Pocket> sorted = PocketDatabase.sortStats(stat, pockets);
+            printPockets(sorted);
+          }
+        }
+        default -> {
           KoLmafia.updateDisplay(MafiaState.ERROR, usage);
           return;
+        }
       }
       return;
     }

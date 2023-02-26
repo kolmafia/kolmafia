@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.Parser;
 
 public class Operation extends Expression {
@@ -36,7 +37,7 @@ public class Operation extends Expression {
 
     // String concatenation always yields a string
     if (this.oper.equals("+")
-        && (leftType.equals(DataTypes.TYPE_STRING) || rightType.equals(DataTypes.TYPE_STRING))) {
+        && (leftType.equals(TypeSpec.STRING) || rightType.equals(TypeSpec.STRING))) {
       return DataTypes.STRING_TYPE;
     }
 
@@ -57,7 +58,7 @@ public class Operation extends Expression {
     }
 
     // Coerce int to float
-    if (leftType.equals(DataTypes.TYPE_FLOAT)) {
+    if (leftType.equals(TypeSpec.FLOAT)) {
       return DataTypes.FLOAT_TYPE;
     }
 

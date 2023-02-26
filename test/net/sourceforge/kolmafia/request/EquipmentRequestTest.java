@@ -1,21 +1,25 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Equipment.assertItem;
+import static internal.helpers.Equipment.assertItemUnequip;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
+import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-/** Coverage driven collection of tests for FightRequest. */
 public class EquipmentRequestTest {
-  private final FightRequest fr = FightRequest.INSTANCE;
-
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("EquipmentRequestTest");
@@ -34,18 +38,67 @@ public class EquipmentRequestTest {
 
     try (cleanups) {
       EquipmentRequest.parseEquipment(location, responseText);
-      AdventureResult[] equipment = EquipmentManager.currentEquipment();
+      Map<Slot, AdventureResult> equipment = EquipmentManager.currentEquipment();
 
-      assertEquals(equipment[EquipmentManager.HAT], makeItem("Daylight Shavings Helmet"));
-      assertEquals(equipment[EquipmentManager.WEAPON], makeItem("June cleaver"));
-      assertEquals(equipment[EquipmentManager.OFFHAND], makeItem("Drunkula's wineglass"));
-      assertEquals(equipment[EquipmentManager.CONTAINER], makeItem("vampyric cloake"));
-      assertEquals(equipment[EquipmentManager.SHIRT], makeItem("poncho de azucar"));
-      assertEquals(equipment[EquipmentManager.PANTS], makeItem("purpleheart &quot;pants&quot;"));
-      assertEquals(equipment[EquipmentManager.ACCESSORY1], makeItem("Draftsman's driving gloves"));
-      assertEquals(equipment[EquipmentManager.ACCESSORY2], makeItem("fudgecycle"));
-      assertEquals(equipment[EquipmentManager.ACCESSORY3], makeItem("Counterclockwise Watch"));
-      assertEquals(equipment[EquipmentManager.FAMILIAR], makeItem("li'l unicorn costume"));
+      assertEquals(equipment.get(Slot.HAT), makeItem("Daylight Shavings Helmet"));
+      assertEquals(equipment.get(Slot.WEAPON), makeItem("June cleaver"));
+      assertEquals(equipment.get(Slot.OFFHAND), makeItem("Drunkula's wineglass"));
+      assertEquals(equipment.get(Slot.CONTAINER), makeItem("vampyric cloake"));
+      assertEquals(equipment.get(Slot.SHIRT), makeItem("poncho de azucar"));
+      assertEquals(equipment.get(Slot.PANTS), makeItem("purpleheart &quot;pants&quot;"));
+      assertEquals(equipment.get(Slot.ACCESSORY1), makeItem("Draftsman's driving gloves"));
+      assertEquals(equipment.get(Slot.ACCESSORY2), makeItem("fudgecycle"));
+      assertEquals(equipment.get(Slot.ACCESSORY3), makeItem("Counterclockwise Watch"));
+      assertEquals(equipment.get(Slot.FAMILIAR), makeItem("li'l unicorn costume"));
+    }
+  }
+
+  @Nested
+  class FolderHolder {
+    @Test
+    public void canParseFolderHolderPage() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.FOLDER1, ItemPool.FOLDER_01),
+              withEquipped(Slot.FOLDER2, ItemPool.FOLDER_01),
+              withEquipped(Slot.FOLDER3, ItemPool.FOLDER_01),
+              withEquipped(Slot.FOLDER4, ItemPool.FOLDER_01),
+              withEquipped(Slot.FOLDER5, ItemPool.FOLDER_01));
+
+      try (cleanups) {
+        String text = html("request/test_folder_holder.html");
+
+        EquipmentRequest.parseFolders(text);
+
+        assertItem(Slot.FOLDER1, "folder (heavy metal)");
+        assertItem(Slot.FOLDER2, "folder (tranquil landscape)");
+        assertItem(Slot.FOLDER3, "folder (owl)");
+        assertItemUnequip(Slot.FOLDER4);
+        assertItemUnequip(Slot.FOLDER5);
+      }
+    }
+
+    @Test
+    public void canParseFolderHolderPageWithNoMoreFolders() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.FOLDER1, ItemPool.FOLDER_01),
+              withEquipped(Slot.FOLDER2, ItemPool.FOLDER_01),
+              withEquipped(Slot.FOLDER3, ItemPool.FOLDER_01),
+              withEquipped(Slot.FOLDER4, ItemPool.FOLDER_01),
+              withEquipped(Slot.FOLDER5, ItemPool.FOLDER_01));
+
+      try (cleanups) {
+        String text = html("request/test_folder_holder_no_more_folders.html");
+
+        EquipmentRequest.parseFolders(text);
+
+        assertItem(Slot.FOLDER1, "folder (heavy metal)");
+        assertItem(Slot.FOLDER2, "folder (tranquil landscape)");
+        assertItem(Slot.FOLDER3, "folder (owl)");
+        assertItemUnequip(Slot.FOLDER4);
+        assertItemUnequip(Slot.FOLDER5);
+      }
     }
   }
 }

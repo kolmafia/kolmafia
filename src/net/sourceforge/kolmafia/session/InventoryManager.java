@@ -17,11 +17,13 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -34,12 +36,15 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -50,6 +55,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -106,7 +112,7 @@ public abstract class InventoryManager {
           switch (itemId) {
             case ItemPool.BOOMBOX:
               if (!Preferences.getString("boomBoxSong").equals("")) {
-                KoLCharacter.addAvailableSkill("Sing Along");
+                KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
               }
               break;
           }
@@ -160,10 +166,19 @@ public abstract class InventoryManager {
   }
 
   public static final int getAccessibleCount(final int itemId) {
-    return InventoryManager.getAccessibleCount(ItemPool.get(itemId, 1));
+    return getAccessibleCount(itemId, true);
+  }
+
+  public static final int getAccessibleCount(final int itemId, final boolean includeStash) {
+    return InventoryManager.getAccessibleCount(ItemPool.get(itemId, 1), includeStash);
   }
 
   public static final int getAccessibleCount(final AdventureResult item) {
+    return getAccessibleCount(item, true);
+  }
+
+  public static final int getAccessibleCount(
+      final AdventureResult item, final boolean includeStash) {
     if (item == null) {
       return 0;
     }
@@ -202,7 +217,7 @@ public abstract class InventoryManager {
       count += item.getCount(KoLConstants.storage);
     }
 
-    if (InventoryManager.canUseClanStash()) {
+    if (InventoryManager.canUseClanStash() && includeStash) {
       count += item.getCount(ClanManager.getStash());
     }
 
@@ -225,8 +240,8 @@ public abstract class InventoryManager {
 
   public static final int getEquippedCount(final AdventureResult item) {
     int count = 0;
-    for (int i = 0; i <= EquipmentManager.FAMILIAR; ++i) {
-      AdventureResult equipment = EquipmentManager.getEquipment(i);
+    for (var slot : SlotSet.SLOTS) {
+      AdventureResult equipment = EquipmentManager.getEquipment(slot);
       if (equipment != null && equipment.getItemId() == item.getItemId()) {
         ++count;
       }
@@ -591,15 +606,12 @@ public abstract class InventoryManager {
     }
 
     if (!isRestricted && ItemDatabase.isEquipment(itemId) && useEquipped) {
-      for (int i = EquipmentManager.HAT; i <= EquipmentManager.FAMILIAR; ++i) {
+      for (var i : SlotSet.SLOTS) {
         // If you are dual-wielding the target item,
         // remove the one in the offhand slot first
         // since taking from the weapon slot will drop
         // the offhand weapon.
-        int slot =
-            i == EquipmentManager.WEAPON
-                ? EquipmentManager.OFFHAND
-                : i == EquipmentManager.OFFHAND ? EquipmentManager.WEAPON : i;
+        Slot slot = i == Slot.WEAPON ? Slot.OFFHAND : i == Slot.OFFHAND ? Slot.WEAPON : i;
 
         if (EquipmentManager.getEquipment(slot).equals(item)) {
           if (sim) {
@@ -626,7 +638,8 @@ public abstract class InventoryManager {
 
         int retrieveCount = Math.min(itemCount, missingCount);
         RequestThread.postRequest(
-            new ClosetRequest(ClosetRequest.CLOSET_TO_INVENTORY, item.getInstance(retrieveCount)));
+            new ClosetRequest(
+                ClosetRequestType.CLOSET_TO_INVENTORY, item.getInstance(retrieveCount)));
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
         if (missingCount <= 0) {
@@ -647,7 +660,7 @@ public abstract class InventoryManager {
         int retrieveCount = Math.min(itemCount, missingCount);
         RequestThread.postRequest(
             new StorageRequest(
-                StorageRequest.STORAGE_TO_INVENTORY, item.getInstance(retrieveCount)));
+                StorageRequestType.STORAGE_TO_INVENTORY, item.getInstance(retrieveCount)));
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
         if (missingCount <= 0) {
@@ -670,7 +683,7 @@ public abstract class InventoryManager {
         int retrieveCount = Math.min(itemCount, missingCount);
         RequestThread.postRequest(
             new StorageRequest(
-                StorageRequest.STORAGE_TO_INVENTORY, item.getInstance(retrieveCount)));
+                StorageRequestType.STORAGE_TO_INVENTORY, item.getInstance(retrieveCount)));
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
         if (missingCount <= 0) {
@@ -693,7 +706,8 @@ public abstract class InventoryManager {
         int retrieveCount =
             Math.min(itemCount, InventoryManager.getPurchaseCount(itemId, missingCount));
         RequestThread.postRequest(
-            new ClanStashRequest(item.getInstance(retrieveCount), ClanStashRequest.STASH_TO_ITEMS));
+            new ClanStashRequest(
+                item.getInstance(retrieveCount), ClanStashRequestType.STASH_TO_ITEMS));
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
         if (missingCount <= 0) {
@@ -882,7 +896,8 @@ public abstract class InventoryManager {
         int newbudget = ConcoctionDatabase.getPullsBudgeted() - pullCount;
 
         RequestThread.postRequest(
-            new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, item.getInstance(pullCount)));
+            new StorageRequest(
+                StorageRequestType.STORAGE_TO_INVENTORY, item.getInstance(pullCount)));
         ConcoctionDatabase.setPullsBudgeted(newbudget);
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
@@ -893,16 +908,11 @@ public abstract class InventoryManager {
     }
 
     if (creator != null && mixingMethod != CraftingType.NOCREATE) {
-      switch (itemId) {
-        case ItemPool.DOUGH:
-        case ItemPool.DISASSEMBLED_CLOVER:
-        case ItemPool.JOLLY_BRACELET:
-          scriptSaysBuy = true;
-          break;
-        default:
-          scriptSaysBuy = false;
-          break;
-      }
+      scriptSaysBuy =
+          switch (itemId) {
+            case ItemPool.DOUGH, ItemPool.DISASSEMBLED_CLOVER, ItemPool.JOLLY_BRACELET -> true;
+            default -> false;
+          };
 
       AdventureResult instance = item.getInstance(missingCount);
       boolean defaultBuy =
@@ -1356,7 +1366,7 @@ public abstract class InventoryManager {
     Integer key = itemId;
 
     if (seen == null) {
-      seen = new HashSet<Integer>();
+      seen = new HashSet<>();
     } else if (seen.contains(key)) {
       return false;
     }
@@ -1474,6 +1484,9 @@ public abstract class InventoryManager {
   }
 
   public static boolean canUseCoinmasters(final int itemId) {
+    if (itemId == ItemPool.ELEVEN_LEAF_CLOVER && HermitRequest.cloverCount() < 1) {
+      return false;
+    }
     return InventoryManager.canUseCoinmasters() && CoinmastersDatabase.contains(itemId);
   }
 
@@ -1552,7 +1565,7 @@ public abstract class InventoryManager {
   public static final void checkCrownOfThrones() {
     // If we are wearing the Crown of Thrones, we've already seen
     // which familiar is riding in it
-    if (KoLCharacter.hasEquipped(InventoryManager.CROWN_OF_THRONES, EquipmentManager.HAT)) {
+    if (KoLCharacter.hasEquipped(InventoryManager.CROWN_OF_THRONES, Slot.HAT)) {
       return;
     }
 
@@ -1577,7 +1590,7 @@ public abstract class InventoryManager {
   public static final void checkBuddyBjorn() {
     // If we are wearing the Bjorn Buddy, we've already seen
     // which familiar is riding in it
-    if (KoLCharacter.hasEquipped(InventoryManager.BUDDY_BJORN, EquipmentManager.CONTAINER)) {
+    if (KoLCharacter.hasEquipped(InventoryManager.BUDDY_BJORN, Slot.CONTAINER)) {
       return;
     }
 
@@ -1603,20 +1616,22 @@ public abstract class InventoryManager {
     checkPantogram();
     checkLatte();
     checkSaber();
-    checkCoatOfPaint();
+    checkCoatOfPaint(false);
     checkUmbrella();
     checkBuzzedOnDistillate();
+    checkVampireVintnerWine();
+    checkCrimboTrainingManual();
+    checkRing();
   }
 
   public static void checkNoHat() {
     AdventureResult NO_HAT = ItemPool.get(ItemPool.NO_HAT, 1);
     String mod = Preferences.getString("_noHatModifier");
-    if (!KoLCharacter.hasEquipped(NO_HAT, EquipmentManager.HAT)
-        && !KoLConstants.inventory.contains(NO_HAT)) {
+    if (!KoLCharacter.hasEquipped(NO_HAT, Slot.HAT) && !KoLConstants.inventory.contains(NO_HAT)) {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.NO_HAT + "]", mod);
+      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.NO_HAT, mod);
       return;
     }
 
@@ -1627,10 +1642,10 @@ public abstract class InventoryManager {
     AdventureResult JICK_SWORD = ItemPool.get(ItemPool.JICK_SWORD, 1);
     String mod = Preferences.getString("jickSwordModifier");
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.JICK_SWORD + "]", mod);
+      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.JICK_SWORD, mod);
       return;
     }
-    if (!KoLCharacter.hasEquipped(JICK_SWORD, EquipmentManager.WEAPON)
+    if (!KoLCharacter.hasEquipped(JICK_SWORD, Slot.WEAPON)
         && !KoLConstants.inventory.contains(JICK_SWORD)) {
       // There are other places it could be, but it only needs to be
       // checked once ever, and if the sword isn't being used then
@@ -1644,12 +1659,12 @@ public abstract class InventoryManager {
   public static void checkPantogram() {
     AdventureResult PANTOGRAM_PANTS = ItemPool.get(ItemPool.PANTOGRAM_PANTS, 1);
     String mod = Preferences.getString("_pantogramModifier");
-    if (!KoLCharacter.hasEquipped(PANTOGRAM_PANTS, EquipmentManager.PANTS)
+    if (!KoLCharacter.hasEquipped(PANTOGRAM_PANTS, Slot.PANTS)
         && !KoLConstants.inventory.contains(PANTOGRAM_PANTS)) {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.PANTOGRAM_PANTS + "]", mod);
+      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.PANTOGRAM_PANTS, mod);
       return;
     }
 
@@ -1659,12 +1674,12 @@ public abstract class InventoryManager {
   public static void checkLatte() {
     AdventureResult LATTE_MUG = ItemPool.get(ItemPool.LATTE_MUG, 1);
     String mod = Preferences.getString("latteModifier");
-    if (!KoLCharacter.hasEquipped(LATTE_MUG, EquipmentManager.OFFHAND)
+    if (!KoLCharacter.hasEquipped(LATTE_MUG, Slot.OFFHAND)
         && !KoLConstants.inventory.contains(LATTE_MUG)) {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.LATTE_MUG + "]", mod);
+      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.LATTE_MUG, mod);
       return;
     }
 
@@ -1718,18 +1733,20 @@ public abstract class InventoryManager {
     }
 
     // ResultProcessor will parse the item description and set properties
-    InventoryManager.checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
+    checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
   }
 
-  public static void checkCoatOfPaint() {
+  public static void checkCoatOfPaint(boolean playerClassChanged) {
     AdventureResult COAT_OF_PAINT = ItemPool.get(ItemPool.COAT_OF_PAINT, 1);
-    String mod = Preferences.getString("_coatOfPaintModifier");
-    if (!KoLCharacter.hasEquipped(COAT_OF_PAINT, EquipmentManager.SHIRT)
-        && !KoLConstants.inventory.contains(COAT_OF_PAINT)) {
+
+    if (InventoryManager.getAccessibleCount(COAT_OF_PAINT) == 0) {
       return;
     }
-    if (!mod.equals("")) {
-      Modifiers.overrideModifier("Item:[" + ItemPool.COAT_OF_PAINT + "]", mod);
+
+    String mod = Preferences.getString("_coatOfPaintModifier");
+
+    if (!playerClassChanged && !mod.equals("")) {
+      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.COAT_OF_PAINT, mod);
       return;
     }
 
@@ -1743,11 +1760,27 @@ public abstract class InventoryManager {
       return;
     }
     if (!mod.equals("")) {
-      Modifiers.overrideModifier("Effect:[" + EffectPool.BUZZED_ON_DISTILLATE + "]", mod);
+      ModifierDatabase.overrideModifier(ModifierType.EFFECT, EffectPool.BUZZED_ON_DISTILLATE, mod);
       return;
     }
 
     DebugDatabase.readEffectDescriptionText(EffectPool.BUZZED_ON_DISTILLATE);
+  }
+
+  public static void checkCrimboTrainingManual() {
+    AdventureResult CRIMBO_TRAINING_MANUAL = ItemPool.get(ItemPool.CRIMBO_TRAINING_MANUAL, 1);
+    int skill = Preferences.getInteger("crimboTrainingSkill");
+    if (skill >= 1 && skill <= 11) {
+      // We have already recorded which skill we can train
+      return;
+    }
+
+    if (InventoryManager.getAccessibleCount(CRIMBO_TRAINING_MANUAL, false) == 0) {
+      // We don't have a Crimbo training manual
+      return;
+    }
+
+    checkItemDescription(ItemPool.CRIMBO_TRAINING_MANUAL);
   }
 
   public static Pattern BIRD_PATTERN = Pattern.compile("Seek out an? (.*)");
@@ -1810,8 +1843,8 @@ public abstract class InventoryManager {
     if (KoLCharacter.hasEquipped(UseSkillRequest.POWERFUL_GLOVE)
         || InventoryManager.hasItem(UseSkillRequest.POWERFUL_GLOVE, false)) {
       // *** Special case: the buffs are always available
-      KoLCharacter.addAvailableSkill("CHEAT CODE: Invisible Avatar");
-      KoLCharacter.addAvailableSkill("CHEAT CODE: Triple Size");
+      KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
+      KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
     }
   }
 
@@ -1819,10 +1852,16 @@ public abstract class InventoryManager {
     if (KoLCharacter.hasEquipped(UseSkillRequest.DESIGNER_SWEATPANTS)
         || InventoryManager.hasItem(UseSkillRequest.DESIGNER_SWEATPANTS, false)) {
       // *** Special case: the buffs are always available
-      KoLCharacter.addAvailableSkill("Make Sweat-Ade");
-      KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
-      KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
-      KoLCharacter.addAvailableSkill("Sip Some Sweat");
+      KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
+      KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
+      KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
+      KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
+    }
+  }
+
+  public static void checkRing() {
+    if (InventoryManager.itemAvailable(ItemPool.RING)) {
+      checkItemDescription(ItemPool.RING);
     }
   }
 

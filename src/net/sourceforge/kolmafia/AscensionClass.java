@@ -1,8 +1,11 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
@@ -30,7 +33,10 @@ public enum AscensionClass {
   GELATINOUS_NOOB("Gelatinous Noob", 23, "gelatinousicon", 2, Path.GELATINOUS_NOOB),
   VAMPYRE("Vampyre", 24, "vampirefangs", 1, Path.DARK_GYFFTE, "Chill of the Tomb"),
   PLUMBER("Plumber", 25, "mario_hammer2", -1, Path.PATH_OF_THE_PLUMBER, "Spin Jump"),
-  GREY_GOO("Grey Goo", 27, "greygooring", -1, Path.GREY_YOU);
+  GREY_GOO("Grey Goo", 27, "greygooring", -1, Path.GREY_YOU),
+  PIG_SKINNER("Pig Skinner", 28, "football2", 0, Path.SHADOWS_OVER_LOATHING),
+  CHEESE_WIZARD("Cheese Wizard", 29, "jarl_cheeseslice", 1, Path.SHADOWS_OVER_LOATHING),
+  JAZZ_AGENT("Jazz Agent", 30, "motif", 2, Path.SHADOWS_OVER_LOATHING, "Drum Roll");
 
   public static final List<AscensionClass> standardClasses =
       Arrays.asList(
@@ -40,6 +46,11 @@ public enum AscensionClass {
           AscensionClass.SAUCEROR,
           AscensionClass.DISCO_BANDIT,
           AscensionClass.ACCORDION_THIEF);
+
+  private static final Map<String, AscensionClass> classesByName =
+      new HashMap<>(
+          Arrays.stream(values())
+              .collect(Collectors.toMap(AscensionClass::getName, Function.identity())));
 
   private final String name;
   private final int id;
@@ -51,6 +62,10 @@ public enum AscensionClass {
 
   public static Set<AscensionClass> allClasses() {
     return Arrays.stream(values()).filter(a -> a.getId() > -1).collect(Collectors.toSet());
+  }
+
+  public static AscensionClass findByExactName(final String name) {
+    return classesByName.get(name);
   }
 
   public static AscensionClass findByPlural(final String plural) {

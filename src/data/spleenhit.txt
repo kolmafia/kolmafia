@@ -28,9 +28,9 @@ antimatter wad	2	3	awesome	5-7	-20-30	-20-30	-20-30
 antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
 armored prawn	1	1	EPIC	0	30-50	30-50	30-50	50 Rushtacean' (+50 Init)
 [5140]astral energy drink	8	1	awesome	29-35	0	0	0
-[10882]astral energy drink	5	1		0	0	0	0	Lucky!
+[10883]astral energy drink	5	1		0	0	0	0	Lucky!
 astronaut ice-cream	1	7	EPIC	8-10	0	0	0
-autumn breeze	1	1		0	0	0	0	50 Delighted by Autumn (+100% all stats), Unspaded
+autumn breeze	1	1		0	30-50	30-50	30-50	50 Delighted by Autumn (+100% all stats)
 bakelite bits	3	12	awesome	0	1000-2000	1000-2000	1000-2000
 beastly paste	4	4	good	5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)
 beefy pill	1	4	decent	0	0	0	0	30 Beefy (+10 DR, +1 all res)
@@ -54,7 +54,9 @@ bug paste	4	4	good	5-10	18-22	18-22	18-22	10 Buggy Flavor (25% chance of poisoni
 can of Red Minotaur	3	1	crappy	0	0	0	0	+1 PvP fight, 5 Wings
 can-can-in-a-can	1	1	good	0	0	0	10-12
 carrot juice	3	1	good	4-5	0	0	0	10 Pla-see-bo (+10% item drop)
+ceramic scree	3	12		0	0	0	0	Unspaded
 chalk chunks	2	1	good	0	0	0	0	Unspaded
+chiffon carbage	3	12		0	0	0	0	Unspaded
 chlorophyll paste	4	4	good	5-10	18-22	18-22	18-22	10 Chlorophyll Flavor (mp regen)
 coffee pixie stick	4	4	good	5-10	0	0	0
 cold jelly	1	1	crappy	0	0	50-60	0	50 Cold Jellied (+3 mys stats/fight, +5 cold damage, +30% mys), gain base booze when drinking
@@ -73,6 +75,7 @@ eldritch essence	1	4	crappy	0	66	66	66
 elemental paste	4	4	good	5-10	18-22	18-22	18-22	10 Elemental Flavor (+5 prismatic dmg)
 enchanted barbell	1	2	decent	0	5-7	0	0
 enchanted leopard-print barbell	5	13	EPIC	15-25	50-100	50-100	50-100
+energized spores	1	1		0	0	0	0	40 Energized (+100 initiative)
 epic cluster	1	20	EPIC	6	170-200	170-200	170-200
 epic wad	1	15	EPIC	5	140-150	140-150	140-150
 excitement pill	1	5	decent	0	0	0	0	Get random effect
@@ -86,6 +89,7 @@ Five Second Energy&trade;	3	1	crappy	0	0	0	0	+3 PvP fights
 flagstone flagments	3	12		0	0	0	0	Unspaded
 Fleshazole&trade;	2	1	crappy	0	0	0	0	Gain around level * 1000 meat (max 11500)
 fried air	1	1		0	0	0	0	30 Well-Ventilated (+15 mus, +15 mys, +15 mox)
+fruity pebble	1	1		0	0	0	0	30 All Rainbow-y (+10 prismatic damage and spell damage, +2 prismatic resistance)
 furry pill	1	3	decent	0	0	0	0	Remove negative effect, Restores 40-50 HP
 gabardine smithereens	2	12	good	0	0	0	0	Unspaded
 gaseous gravy	1	1	EPIC	0	0	0	0	50 Gettin' the Goods (+100% Item drop)
@@ -187,6 +191,7 @@ residual zeal	5	20	EPIC	0	25000-35000	25000-35000	25000-35000
 sachet of strange powder	1	4	good	0	30-50	30-50	30-50	40 Powder Power (+5 prismatic damage)
 scintillating oyster egg	1	5	EPIC	0	0	0	0	20 Eggscitingly Colorful (+3 all res)
 sea jelly	1	1	crappy	0	30-40	30-40	30-40	10 Fishy
+shadow nectar	13	13		0	0	0	0	Unspaded
 Shantix&trade;	1	1	awesome	0	0	0	0	30 Thou Shant Not Sing (+50% mox experience)
 single atom	1	1	decent	1	0	0	0
 sleaze jelly	1	1	crappy	0	0	0	50-60	50 Sleazy Jellied (+3 mox stats/fight, +5 sleaze damage, +30% mox), 10% off next NPC purchase (not Gift shop)

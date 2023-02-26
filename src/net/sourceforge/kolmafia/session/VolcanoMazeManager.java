@@ -187,6 +187,14 @@ public abstract class VolcanoMazeManager {
         "lava10.gif",
         "lava11.gif",
         "lava12.gif",
+        "platformdown1.gif",
+        "platformdown2.gif",
+        "platformdown3.gif",
+        "platformdown4.gif",
+        "platformup1.gif",
+        "platformup2.gif",
+        "platformup3.gif",
+        "platformup4.gif",
       };
 
   public static void downloadImages() {
@@ -272,13 +280,132 @@ public abstract class VolcanoMazeManager {
     return true;
   }
 
+  // KoL's implementation of volcanomaze.html works like this:
+  //
+  // The map contains 13 rows with 13 columns.
+  // rows and columns are numbered from 0-12.
+  //
+  // Each square is wrapped in a "div"
+  //
+  // <div id="sq84" class="sq no  goal lv2" rel="6,6">
+  //    <a href="?move=6,6" title="(6,6 - Goal)">&nbsp;</a>
+  // <div id="sq162" class="sq no you lv2" rel="6,12">
+  //    <a href="?move=6,12" title="(6,12 - You)">&nbsp;</a>
+  // <div id="sq25" class="sq no  lv8" rel="12,1">
+  //    <a href="?move=12,1" title="(12,1 - Lava)">&nbsp;</a>
+  // <div id="sq27" class="sq yes  lv3" rel="1,2">
+  //    <a href="?move=1,2" title="(1,2 - Platform)">&nbsp;</a>
+  //
+  // "id" is "sqXXX", where XXX is (ROW * 13 + COL)
+  // "rel" is "COL,ROW"
+  //
+  // "class" controls how the square is rendered
+  //
+  // "you" - where you currently stand. You start at (6,12)
+  // "goal" - the center square (6,6)
+  // "yes" - a platform
+  // "no" - lava
+  // "lv1" - "lv12" - which (animated) lava image to use
+  //
+  // Since platforms rise and sink, all squares have a "lv" class
+  //
+  // Squares are rendered via a "style" directive
+  //
+  // "lv1" - "lv12" -> lava1.gif - lava12.gif
+  // "yes" -> platform3.gif
+  // "goal" -> platformgoal.gif
+  // "you" -> platformupyou.gif
+  //
+  // Mouse clicks on any of these divs is handled by Javascript
+  // The script has a $(document).ready function which handles mouse clicks
+  // - clicking on a "no" square (lava) confirms 'Swim back to the start?'
+  //   If so, it submits "?jump=1"
+  // - clicking on a "sq" submits the appropriate URL ("?move=12,1") with "ajax=1"
+  //   KoL responds with JSON specifying the new set of platforms which are visible
+  //
+  // This is how where all the fancy animation happens:
+  //   The Javascript function iterates through all squares, removing "yes"
+  //   It adds "yes" to exactly the squares which are visible
+  //   It changes the titles, as appropriate - "Lava", "Platform", "You"
+  //   It changes the images, as appropriate
+  //     Lava->Platform = platformup{1,2,3,4}
+  //     Platform->Lava = platformdown{1,2,3,4}
+  // When it is finished, the browser re-renders all the squares using their new classes
+
+  // KoLmafia augments the above as follows:
+  //
+  // 1) Decorate the map to show you where the next step is, should you
+  //    choose to do it manually
+  //
+  // When we see the initial HTML page, we calculate the solution.
+  // - we add a "next" class to the correct square to step to.
+  // - we give that square a "Next Platform" title
+  // - we change the style to render "next" with "platform3x.gif"
+  //
+  // When we get the JSON from a move, we calculate the solution.
+  // - we add "next":"COL,ROW"
+  // - the Javascript function adds the "next" class to that square
+  //
+  // 2) Provide a "Step" button to step to the correct platform.
+  //
+  // The JS function handles that by submitting "volcanomaze.php?autostep"
+  // KoLmafia calculates the solution and submits the appropriate "move" with "ajax"
+  // We return the JSON and the JS handles it as normal
+  //
+  // 3) Provide a "Solve" button to step through the whole solution.
+  //
+  // That submits "/KoLmafia/polledredirectedCommand?cmd=volcano+solve&pwd"
+  // "volcano solve" calculates the solution and steps through it, returning
+  // the final JSON with you standing next to the goal.
+
   public static final void decorate(final String location, final StringBuffer buffer) {
     if (!location.contains("volcanomaze.php")) {
       return;
     }
 
+    // Calculate "next" location - where we will step to
+    int nextLocation = -1;
+
+    // Stop before stepping onto the goal
+    if (!atGoal()) {
+      // Calculate the path from here to the goal
+      Path solution = solve(currentLocation, currentMap);
+      nextLocation = (solution == null) ? -1 : solution.get(0);
+    }
+
+    if (buffer.charAt(0) == '{') {
+      decorateJSON(buffer, nextLocation);
+      return;
+    }
+
+    decorateHTML(buffer, nextLocation);
+  }
+
+  private static final void decorateHTML(final StringBuffer buffer, int nextLocation) {
     // Replace the inline Javascript for handling the maze with our local copy.
     replaceVolcanoMazeJavaScript(buffer);
+
+    // <div id="sq163" class="sq yes  lv3" rel="7,12"><a href="?move=7,12" title="(7,12 -
+    // Platform)">&nbsp;</a></div>
+    if (nextLocation != -1) {
+      Pattern pattern =
+          Pattern.compile("<div id=\"sq" + nextLocation + "\".*?</div>", Pattern.DOTALL);
+      Matcher matcher = pattern.matcher(buffer);
+      if (matcher.find()) {
+        String div = matcher.group(0);
+        div = StringUtilities.singleStringReplace(div, "yes", "yes next");
+        div = StringUtilities.singleStringReplace(div, "Platform", "Next Platform");
+        buffer.replace(matcher.start(), matcher.end(), div);
+      }
+      String yesStyle =
+          ".yes a { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/platform3.gif'); }";
+      int index = buffer.indexOf(yesStyle);
+      if (index != -1) {
+        String nextStyle =
+            ".next a { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/platform3x.gif'); }";
+        buffer.insert(index + yesStyle.length(), nextStyle);
+      }
+    }
 
     // Add a "Solve!" button to the Volcanic Cave which invokes the
     // "volcano solve" command.
@@ -322,6 +449,18 @@ public abstract class VolcanoMazeManager {
 
     // Insert it into the page
     buffer.insert(index, span);
+  }
+
+  private static final void decorateJSON(final StringBuffer buffer, int nextLocation) {
+    // {"won":false,"pos":"5,12","show":[3,6,10,14,18,23,26,30,32,41,43,50,52,57,59,60,64,82,84,94,97,102,106,109,111,114,115,117,119,129,136,145,148,153,154,157,164]}
+    if (nextLocation == -1) {
+      return;
+    }
+    int index = buffer.indexOf(",\"show\"");
+    if (index != -1) {
+      String nextCoords = ",\"next\":\"" + coordinateString(nextLocation) + "\"";
+      buffer.insert(index, nextCoords);
+    }
   }
 
   public static final void replaceVolcanoMazeJavaScript(StringBuffer buffer) {
@@ -918,6 +1057,11 @@ public abstract class VolcanoMazeManager {
   // pathsExamined - paths examined
 
   public static Path solve(final int location, final int map) {
+    // Can't solve unless we know all the maps
+    if (found < CELLS) {
+      return null;
+    }
+
     // Generate neighbors for every cell
     generateNeighbors();
 
@@ -1206,7 +1350,7 @@ public abstract class VolcanoMazeManager {
     private final List<Integer> list;
 
     public Path(final Integer square) {
-      this.list = new ArrayList<Integer>();
+      this.list = new ArrayList<>();
       this.list.add(square);
     }
 

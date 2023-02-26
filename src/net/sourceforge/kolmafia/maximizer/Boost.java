@@ -5,12 +5,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.equipment.Slot;
 
 public class Boost implements Comparable<Boost> {
   private boolean isEquipment, isShrug, priority;
   private final String cmd;
   private String text;
-  private int slot;
+  private Slot slot;
   private final double boost;
   private final AdventureResult item;
   private AdventureResult effect;
@@ -43,7 +44,7 @@ public class Boost implements Comparable<Boost> {
     this.priority = priority;
   }
 
-  public Boost(String cmd, String text, int slot, AdventureResult item, double boost) {
+  public Boost(String cmd, String text, Slot slot, AdventureResult item, double boost) {
     this(cmd, text, item, boost);
     this.isEquipment = true;
     this.slot = slot;
@@ -58,7 +59,7 @@ public class Boost implements Comparable<Boost> {
   public Boost(
       String cmd,
       String text,
-      int slot,
+      Slot slot,
       AdventureResult item,
       double boost,
       FamiliarData enthroned,
@@ -76,7 +77,7 @@ public class Boost implements Comparable<Boost> {
     this(cmd, text, (AdventureResult) null, boost);
     this.isEquipment = true;
     this.fam = fam;
-    this.slot = -1;
+    this.slot = Slot.NONE;
   }
 
   @Override
@@ -109,7 +110,7 @@ public class Boost implements Comparable<Boost> {
     if (this.isEquipment) {
       if (this.fam != null) {
         spec.setFamiliar(fam);
-      } else if (this.slot >= 0 && this.item != null) {
+      } else if (this.slot != Slot.NONE && this.item != null) {
         spec.equip(slot, this.item);
         if (this.enthroned != null) {
           spec.setEnthroned(this.enthroned);
@@ -150,7 +151,7 @@ public class Boost implements Comparable<Boost> {
     return this.cmd;
   }
 
-  public int getSlot() {
+  public Slot getSlot() {
     return this.slot;
   }
 

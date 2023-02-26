@@ -8,6 +8,7 @@ public class AdventurePool {
   public static final String SHROUDED_PEAK_ID = "cloudypeak2";
   public static final String TUNNEL_OF_LOVE_ID = "townwrong_tunnel";
   public static final String INNER_WOLF_ID = "ioty2014_wolf";
+  public static final String LOCOMOTIVE_ID = "crimbo22_engine";
 
   public static final int SPOOKY_FOREST = 15;
   public static final int DEGRASSI_KNOLL = 18;
@@ -100,11 +101,24 @@ public class AdventurePool {
   public static final int JUNKYARD_REFRIGERATOR = 183;
   public static final int JUNKYARD_TIRES = 184;
   public static final int JUNKYARD_CAR = 185;
+  public static final int THE_BRINY_DEEPS = 186;
+  public static final int THE_BRINIER_DEEPERS = 187;
+  public static final int THE_SKATE_PARK = 188;
+  public static final int THE_BRINIEST_DEEPESTS = 189;
+  public static final int AN_OCTOPUS_GARDEN = 190;
+  public static final int THE_WRECK_OF_THE_EDGAR_FITZSIMMONS = 191;
+  public static final int MADNESS_REEF = 194;
   public static final int MARINARA_TRENCH = 195;
   public static final int ANENOME_MINE = 196;
   public static final int DIVE_BAR = 197;
   public static final int MERKIN_OUTPOST = 198;
+  public static final int THE_CORAL_CORRAL = 199;
+  public static final int THE_PRIMORDIAL_SOUP = 204;
+  public static final int THE_JUNGLES_OF_ANCIENT_LOATHING = 205;
   public static final int SEASIDE_MEGALOPOLIS = 206;
+  public static final int MERKIN_ELEMENTARY_SCHOOL = 207;
+  public static final int MERKIN_LIBRARY = 208;
+  public static final int MERKIN_GYMNASIUM = 209;
   public static final int MERKIN_COLOSSEUM = 210;
   public static final int BROODLING_GROUNDS = 214;
   public static final int OUTER_COMPOUND = 215;
@@ -275,6 +289,8 @@ public class AdventurePool {
   public static final int THE_DRIPPING_HALL = 544;
   public static final int SITE_ALPHA_DORMITORY = 554;
   public static final int SITE_ALPHA_GREENHOUSE = 555;
+  public static final int OLIVERS_SPEAKEASY_BRAWL = 558;
+  public static final int SHADOW_RIFT = 567;
 
   private AdventurePool() {}
 }

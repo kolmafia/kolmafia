@@ -13,8 +13,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -38,6 +38,8 @@ public class MonsterDatabase {
   private static String[] MONSTER_STRINGS = null;
   private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<>();
   private static final Map<String, Map<MonsterData, MonsterData>> MONSTER_PATH_MAP =
+      new TreeMap<>();
+  private static final Map<String, Map<MonsterData, MonsterData>> MONSTER_CLASS_MAP =
       new TreeMap<>();
 
   // For handling duplicate monster and substring match of monster names
@@ -218,31 +220,25 @@ public class MonsterDatabase {
 
   public static final boolean elementalVulnerability(
       final Element element1, final Element element2) {
-    switch (element1) {
-      case COLD:
-        return element2 == Element.HOT || element2 == Element.SPOOKY;
-      case HOT:
-        return element2 == Element.SLEAZE || element2 == Element.STENCH;
-      case SLEAZE:
-        return element2 == Element.COLD || element2 == Element.SPOOKY;
-      case SPOOKY:
-        return element2 == Element.HOT || element2 == Element.STENCH;
-      case STENCH:
-        return element2 == Element.SLEAZE || element2 == Element.COLD;
-      default:
-        return false;
-    }
+    return switch (element1) {
+      case COLD -> element2 == Element.HOT || element2 == Element.SPOOKY;
+      case HOT -> element2 == Element.SLEAZE || element2 == Element.STENCH;
+      case SLEAZE -> element2 == Element.COLD || element2 == Element.SPOOKY;
+      case SPOOKY -> element2 == Element.HOT || element2 == Element.STENCH;
+      case STENCH -> element2 == Element.SLEAZE || element2 == Element.COLD;
+      default -> false;
+    };
   }
 
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, String name2) {
-    MonsterData mon1 = MONSTER_DATA.get(name1);
-    MonsterData mon2 = MONSTER_DATA.get(name2);
+    MonsterData mon1 = MONSTER_DATA.get(monsterKey(name1));
+    MonsterData mon2 = name2 != null ? MONSTER_DATA.get(monsterKey(name2)) : MonsterData.NO_MONSTER;
     MonsterDatabase.addMapping(map, mon1, mon2);
   }
 
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, int id2) {
     MonsterData mon1 = MONSTER_DATA.get(name1);
-    MonsterData mon2 = MONSTER_IDS.get(id2);
+    MonsterData mon2 = id2 != 0 ? MONSTER_IDS.get(id2) : MonsterData.NO_MONSTER;
     MonsterDatabase.addMapping(map, mon1, mon2);
   }
 
@@ -267,6 +263,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(youRobotMap, "The Big Wisniewski", "The Artificial Wisniewski");
     MonsterDatabase.addMapping(youRobotMap, "The Man", "The Android");
     MonsterDatabase.addMapping(youRobotMap, "Naughty Sorceress", "Nautomatic Sorceress");
+    MonsterDatabase.addMapping(youRobotMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(youRobotMap, "Naughty Sorceress (3)", null);
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.YOU_ROBOT.getName(), youRobotMap);
 
     Map<MonsterData, MonsterData> plumberMap = new TreeMap<>();
@@ -280,6 +278,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(plumberMap, "The Big Wisniewski", 2172);
     MonsterDatabase.addMapping(plumberMap, "The Man", 2173);
     MonsterDatabase.addMapping(plumberMap, "Naughty Sorceress", "Wa%playername/lowercase%");
+    MonsterDatabase.addMapping(plumberMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(plumberMap, "Naughty Sorceress (3)", null);
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.PATH_OF_THE_PLUMBER.getName(), plumberMap);
 
     Map<MonsterData, MonsterData> darkGyffteMap = new TreeMap<>();
@@ -294,6 +294,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(darkGyffteMap, "The Man", "Chad Alacarte");
     MonsterDatabase.addMapping(darkGyffteMap, "Your Shadow", "Your Lack of Reflection");
     MonsterDatabase.addMapping(darkGyffteMap, "Naughty Sorceress", "%alucard%");
+    MonsterDatabase.addMapping(darkGyffteMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(darkGyffteMap, "Naughty Sorceress (3)", null);
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.DARK_GYFFTE.getName(), darkGyffteMap);
 
     Map<MonsterData, MonsterData> pocketFamiliarsMap = new TreeMap<>();
@@ -308,6 +310,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(pocketFamiliarsMap, "The Big Wisniewski", 2057);
     MonsterDatabase.addMapping(pocketFamiliarsMap, "The Man", 2058);
     MonsterDatabase.addMapping(pocketFamiliarsMap, "Naughty Sorceress", 2059);
+    MonsterDatabase.addMapping(pocketFamiliarsMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(pocketFamiliarsMap, "Naughty Sorceress (3)", null);
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.POKEFAM.getName(), pocketFamiliarsMap);
 
     Map<MonsterData, MonsterData> heavyRainsMap = new TreeMap<>();
@@ -321,6 +325,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(heavyRainsMap, "The Big Wisniewski", "Big Wisnaqua");
     MonsterDatabase.addMapping(heavyRainsMap, "The Man", "The Aquaman");
     MonsterDatabase.addMapping(heavyRainsMap, "Naughty Sorceress", "The Rain King");
+    MonsterDatabase.addMapping(heavyRainsMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(heavyRainsMap, "Naughty Sorceress (3)", null);
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.HEAVY_RAINS.getName(), heavyRainsMap);
 
     Map<MonsterData, MonsterData> actuallyEdMap = new TreeMap<>();
@@ -329,6 +335,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(actuallyEdMap, "Bonerdagon", "Donerbagon");
     MonsterDatabase.addMapping(actuallyEdMap, "Groar", "Your winged yeti");
     MonsterDatabase.addMapping(actuallyEdMap, "Naughty Sorceress", "You the Adventurer");
+    MonsterDatabase.addMapping(actuallyEdMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(actuallyEdMap, "Naughty Sorceress (3)", null);
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.ACTUALLY_ED_THE_UNDYING.getName(), actuallyEdMap);
 
     Map<MonsterData, MonsterData> wildfireMap = new TreeMap<>();
@@ -342,6 +350,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(wildfireMap, "The Big Wisniewski", "The Big Ignatowicz");
     MonsterDatabase.addMapping(wildfireMap, "The Man", "The Man on Fire");
     MonsterDatabase.addMapping(wildfireMap, "Naughty Sorceress", "The Naughty Scorcheress");
+    MonsterDatabase.addMapping(wildfireMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(wildfireMap, "Naughty Sorceress (3)", null);
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.WILDFIRE.getName(), wildfireMap);
 
     Map<MonsterData, MonsterData> dinoMap = new TreeMap<>();
@@ -356,11 +366,49 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(dinoMap, "The Big Wisniewski", "Slackiosaurus");
     MonsterDatabase.addMapping(dinoMap, "The Man", "Oligarcheopteryx");
     MonsterDatabase.addMapping(dinoMap, "Naughty Sorceress", "Naughty Saursaurus");
+    MonsterDatabase.addMapping(dinoMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(dinoMap, "Naughty Sorceress (3)", null);
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.DINOSAURS.getName(), dinoMap);
+
+    Map<MonsterData, MonsterData> aosolMap = new TreeMap<>();
+    MonsterDatabase.addMapping(aosolMap, "Boss Bat", "two-headed shadow bat");
+    MonsterDatabase.addMapping(aosolMap, "Knob Goblin King", "goblin king's shadow");
+    MonsterDatabase.addMapping(aosolMap, "Bonerdagon", "shadowboner shadowdagon");
+    MonsterDatabase.addMapping(aosolMap, "Groar", "shadow of groar");
+    MonsterDatabase.addMapping(aosolMap, "Dr. Awkward", "W. Odah's Shadow");
+    MonsterDatabase.addMapping(aosolMap, "Lord Spookyraven", "shadow Lord Spookyraven");
+    MonsterDatabase.addMapping(aosolMap, "Protector Spectre", "corruptor shadow");
+    MonsterDatabase.addMapping(aosolMap, "The Big Wisniewski", "shadow of the 1960s");
+    MonsterDatabase.addMapping(aosolMap, "The Man", "shadow of the 1980s");
+    MonsterDatabase.MONSTER_PATH_MAP.put(Path.SHADOWS_OVER_LOATHING.getName(), aosolMap);
+
+    Map<MonsterData, MonsterData> pigSkinnerMap = new TreeMap<>();
+    MonsterDatabase.addMapping(pigSkinnerMap, "Naughty Sorceress", "General Bruise");
+    MonsterDatabase.addMapping(
+        pigSkinnerMap, "Naughty Sorceress (2)", "General Bruise (true form)");
+    MonsterDatabase.addMapping(pigSkinnerMap, "Naughty Sorceress (3)", null);
+    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.PIG_SKINNER.getName(), pigSkinnerMap);
+
+    Map<MonsterData, MonsterData> cheeseWizardMap = new TreeMap<>();
+    MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress", "Dark Noël");
+    MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress (2)", "Dark Noël (true form)");
+    MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress (3)", null);
+    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.CHEESE_WIZARD.getName(), cheeseWizardMap);
+
+    Map<MonsterData, MonsterData> jazzAgentMap = new TreeMap<>();
+    MonsterDatabase.addMapping(jazzAgentMap, "Naughty Sorceress", "Terrence Poindexter");
+    MonsterDatabase.addMapping(
+        jazzAgentMap, "Naughty Sorceress (2)", "Terrence Poindexter (true form)");
+    MonsterDatabase.addMapping(jazzAgentMap, "Naughty Sorceress (3)", null);
+    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.JAZZ_AGENT.getName(), jazzAgentMap);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterPathMap(final String path) {
     return MonsterDatabase.MONSTER_PATH_MAP.get(path);
+  }
+
+  public static Map<MonsterData, MonsterData> getMonsterClassMap(final String clazz) {
+    return MonsterDatabase.MONSTER_CLASS_MAP.get(clazz);
   }
 
   public static final void refreshMonsterTable() {
@@ -495,8 +543,12 @@ public class MonsterDatabase {
     MONSTER_ALIASES.add(alias);
   }
 
+  private static String monsterKey(String name) {
+    return CombatActionManager.encounterKey(name, false);
+  }
+
   private static void saveMonster(final String name, final MonsterData monster) {
-    String keyName = CombatActionManager.encounterKey(name, false);
+    String keyName = monsterKey(name);
     StringUtilities.registerPrepositions(keyName);
     MonsterDatabase.ALL_MONSTER_DATA.add(monster);
     MonsterDatabase.MONSTER_DATA.put(keyName, monster);
@@ -512,7 +564,7 @@ public class MonsterDatabase {
   }
 
   private static void removeAlias(final String name) {
-    String keyName = CombatActionManager.encounterKey(name, false);
+    String keyName = monsterKey(name);
     MonsterDatabase.MONSTER_DATA.remove(keyName);
     MonsterDatabase.OLD_MONSTER_DATA.remove(keyName.toLowerCase());
     if (keyName.toLowerCase().startsWith("the ")) {
@@ -572,7 +624,7 @@ public class MonsterDatabase {
   public static final MonsterData findMonster(
       final String name, boolean trySubstrings, boolean matchCase) {
     // Look for case-sensitive exact match
-    String keyName = CombatActionManager.encounterKey(name, false);
+    String keyName = monsterKey(name);
     MonsterData match = MonsterDatabase.MONSTER_DATA.get(keyName);
 
     if (match != null) {
@@ -738,8 +790,9 @@ public class MonsterDatabase {
   public static final void registerMonster(final MonsterData monster) {
     int id = monster.getId();
     String name = monster.getName();
-    MonsterDatabase.MONSTER_DATA.put(name, monster);
-    MonsterDatabase.OLD_MONSTER_DATA.put(name.toLowerCase(), monster);
+    String keyName = monsterKey(name);
+    MonsterDatabase.MONSTER_DATA.put(keyName, monster);
+    MonsterDatabase.OLD_MONSTER_DATA.put(keyName.toLowerCase(), monster);
     MonsterDatabase.LEET_MONSTER_DATA.put(StringUtilities.leetify(name), monster);
     MonsterDatabase.registerMonsterId(id, name, monster);
     MonsterDatabase.saveCanonicalNames();
@@ -749,8 +802,9 @@ public class MonsterDatabase {
   public static final void unregisterMonster(final MonsterData monster) {
     int id = monster.getId();
     String name = monster.getName();
-    MonsterDatabase.MONSTER_DATA.remove(name);
-    MonsterDatabase.OLD_MONSTER_DATA.remove(name.toLowerCase());
+    String keyName = monsterKey(name);
+    MonsterDatabase.MONSTER_DATA.remove(keyName);
+    MonsterDatabase.OLD_MONSTER_DATA.remove(keyName.toLowerCase());
     MonsterDatabase.LEET_MONSTER_DATA.remove(StringUtilities.leetify(name));
     MonsterDatabase.MONSTER_IDS.remove(id);
     MonsterDatabase.saveCanonicalNames();
@@ -894,7 +948,7 @@ public class MonsterDatabase {
         data[3] = attributeString;
         count++;
 
-        writer.println(Arrays.stream(data).collect(Collectors.joining("\t")));
+        writer.println(String.join("\t", data));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);

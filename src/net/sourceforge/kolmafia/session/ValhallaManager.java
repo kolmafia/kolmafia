@@ -28,12 +28,14 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -257,13 +259,13 @@ public class ValhallaManager {
 
     // Check hotdog stand, speakeasy, and floundry, if present
     if (ClanManager.getClanLounge().contains(ClanManager.HOT_DOG_STAND)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.HOT_DOG_STAND);
+      ClanLoungeRequest.visitLounge(Action.HOT_DOG_STAND);
     }
     if (ClanManager.getClanLounge().contains(ClanManager.SPEAKEASY)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.SPEAKEASY);
+      ClanLoungeRequest.visitLounge(Action.SPEAKEASY);
     }
     if (ClanManager.getClanLounge().contains(ClanManager.FLOUNDRY)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.FLOUNDRY);
+      ClanLoungeRequest.visitLounge(Action.FLOUNDRY);
     }
 
     // force rebuild of daily deeds panel
@@ -279,7 +281,8 @@ public class ValhallaManager {
       }
 
       if (item.getCount(KoLConstants.freepulls) > 0) {
-        RequestThread.postRequest(new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, item));
+        RequestThread.postRequest(
+            new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, item));
       }
     }
   }

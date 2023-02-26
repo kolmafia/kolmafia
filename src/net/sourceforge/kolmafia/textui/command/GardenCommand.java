@@ -1,10 +1,17 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest.CropPlot;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 
 public class GardenCommand extends AbstractCommand {
@@ -21,7 +28,8 @@ public class GardenCommand extends AbstractCommand {
       KoLmafia.updateDisplay("You've already dealt with your mushroom garden today.");
       return false;
     }
-    if (KoLCharacter.isFallingDown()) {
+    if (KoLCharacter.isFallingDown()
+        && !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) {
       KoLmafia.updateDisplay("You are too drunk to enter your mushroom garden.");
       return false;
     }
@@ -41,24 +49,50 @@ public class GardenCommand extends AbstractCommand {
       return;
     }
 
-    AdventureResult crop = CampgroundRequest.getCrop();
-    CropType cropType = CampgroundRequest.getCropType(crop);
+    List<AdventureResult> crops = CampgroundRequest.getCrops();
 
-    if (crop == null) {
+    if (crops.isEmpty()) {
       KoLmafia.updateDisplay("You don't have a garden.");
       return;
     }
 
-    if (parameters.equals("")) {
-      int count = crop.getPluralCount();
-      String name = crop.getPluralName();
+    String[] split = parameters.split(" +");
+    String command = split[0];
+
+    CropType cropType = CampgroundRequest.getCropType(crops.get(0));
+
+    if (command.equals("")) {
       String gardenType = cropType.toString();
-      KoLmafia.updateDisplay(
-          "Your " + gardenType + " garden has " + count + " " + name + " in it.");
+      StringBuilder display = new StringBuilder();
+      display.append("Your ").append(gardenType).append(" garden has ");
+      if (cropType == CropType.ROCK) {
+        boolean first = true;
+        for (var crop : crops) {
+          if (crop.getCount() > 0) {
+            if (!first) {
+              display.append(", and ");
+            }
+            int count = crop.getPluralCount();
+            String name = crop.getPluralName();
+            display.append(count).append(" ").append(name);
+            first = false;
+          }
+        }
+        if (first) {
+          display.append("nothing");
+        }
+      } else {
+        var onlyCrop = crops.get(0);
+        int count = onlyCrop.getPluralCount();
+        String name = onlyCrop.getPluralName();
+        display.append(count).append(" ").append(name);
+      }
+      display.append(" in it.");
+      KoLmafia.updateDisplay(display.toString());
       return;
     }
 
-    if (parameters.equals("fertilize")) {
+    if (command.equals("fertilize")) {
       // Mushroom garden only
       if (checkMushroomGarden(cropType)) {
         CampgroundRequest.harvestMushrooms(false);
@@ -66,14 +100,48 @@ public class GardenCommand extends AbstractCommand {
       return;
     }
 
-    if (parameters.equals("pick")) {
+    if (command.equals("pick")) {
       // Mushroom garden only
-      if (cropType == CropType.MUSHROOM && checkMushroomGarden(cropType)) {
-        CampgroundRequest.harvestMushrooms(true);
+      if (cropType == CropType.MUSHROOM) {
+        if (checkMushroomGarden(cropType)) {
+          CampgroundRequest.harvestMushrooms(true);
+        }
         return;
       }
 
-      int count = crop.getCount();
+      // Rock garden only
+      if (cropType == CropType.ROCK && split.length > 1) {
+        Set<CropPlot> plots =
+            Arrays.stream(split, 1, split.length)
+                .map(CropPlot::nameToPlot)
+                .filter(x -> x != null)
+                .collect(Collectors.toSet());
+        if (plots.size() > 0) {
+          for (var crop : crops) {
+            if (crop.getCount() == 0) {
+              continue;
+            }
+            CropPlot plot = CampgroundRequest.cropToPlot(crop);
+            if (plot == null) {
+              // Not expected
+              continue;
+            }
+            if (!plots.contains(plot)) {
+              continue;
+            }
+            RequestLogger.printLine("Harvesting " + plot + ": " + crop);
+            CampgroundRequest.harvestCrop(plot);
+            plots.remove(plot);
+          }
+          for (var plot : plots) {
+            RequestLogger.printLine("There is nothing to pick in " + plot + ".");
+          }
+        }
+
+        return;
+      }
+
+      int count = crops.stream().mapToInt(AdventureResult::getCount).sum();
       if (count == 0) {
         KoLmafia.updateDisplay("There is nothing ready to pick in your garden.");
         return;

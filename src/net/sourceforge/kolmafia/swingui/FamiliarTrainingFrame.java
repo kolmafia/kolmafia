@@ -38,11 +38,13 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.CharacterListener;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
@@ -75,10 +77,12 @@ public class FamiliarTrainingFrame extends GenericFrame {
   private final FamiliarTrainingPanel training;
   private CharacterListener weightListener;
 
-  public static final int BASE = 1;
-  public static final int BUFFED = 2;
-  public static final int TURNS = 3;
-  public static final int LEARN = 4;
+  public enum Goal {
+    BASE,
+    BUFFED,
+    TURNS,
+    LEARN
+  }
 
   // Familiar buffing skills and effects
   public static final AdventureResult EMPATHY = EffectPool.get(EffectPool.EMPATHY);
@@ -396,7 +400,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           // Level the familiar
 
-          FamiliarTrainingFrame.levelFamiliar(goal, FamiliarTrainingFrame.BASE);
+          FamiliarTrainingFrame.levelFamiliar(goal, Goal.BASE);
         }
       }
 
@@ -415,7 +419,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           // Level the familiar
 
-          FamiliarTrainingFrame.levelFamiliar(goal, FamiliarTrainingFrame.BUFFED);
+          FamiliarTrainingFrame.levelFamiliar(goal, Goal.BUFFED);
         }
       }
 
@@ -434,7 +438,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
           // Level the familiar
 
-          FamiliarTrainingFrame.levelFamiliar(goal, FamiliarTrainingFrame.TURNS);
+          FamiliarTrainingFrame.levelFamiliar(goal, Goal.TURNS);
         }
       }
 
@@ -602,7 +606,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     return null;
   }
 
-  private static boolean levelFamiliar(final int goal, final int type) {
+  private static boolean levelFamiliar(final int goal, final Goal type) {
     return FamiliarTrainingFrame.levelFamiliar(
         goal, type, Preferences.getBoolean("debugFamiliarTraining"));
   }
@@ -614,7 +618,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
    * @param type BASE, BUFF, or TURNS
    * @param debug true if we are debugging
    */
-  public static final boolean levelFamiliar(final int goal, final int type, final boolean debug) {
+  public static final boolean levelFamiliar(final int goal, final Goal type, final boolean debug) {
     // Clear the output
     FamiliarTrainingFrame.results.clear();
 
@@ -647,14 +651,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
       familiar.findAndWearItem(false);
     }
 
-    boolean result =
-        type == FamiliarTrainingFrame.BUFFED ? FamiliarTrainingFrame.buffFamiliar(goal) : true;
+    boolean result = type == Goal.BUFFED ? FamiliarTrainingFrame.buffFamiliar(goal) : true;
 
     FamiliarTrainingFrame.statusMessage(MafiaState.CONTINUE, "Training session completed.");
     return result;
   }
 
-  private static boolean trainFamiliar(final int goal, final int type, final boolean debug) {
+  private static boolean trainFamiliar(final int goal, final Goal type, final boolean debug) {
     // Get current familiar
     FamiliarData familiar = KoLCharacter.getFamiliar();
 
@@ -667,7 +670,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
     // Print available buffs and items and current buffs
     FamiliarTrainingFrame.results.append(status.printCurrentBuffs());
-    FamiliarTrainingFrame.results.append(status.printAvailableBuffs());
+    FamiliarTrainingFrame.results.append(FamiliarStatus.printAvailableBuffs());
     FamiliarTrainingFrame.results.append(status.printCurrentEquipment());
     FamiliarTrainingFrame.results.append(status.printAvailableEquipment());
     FamiliarTrainingFrame.results.append("<br>");
@@ -792,12 +795,12 @@ public class FamiliarTrainingFrame extends GenericFrame {
     FamiliarStatus status = new FamiliarStatus();
 
     // Identify the familiar we are training
-    FamiliarTrainingFrame.printFamiliar(status, trials, FamiliarTrainingFrame.LEARN);
+    FamiliarTrainingFrame.printFamiliar(status, trials, Goal.LEARN);
     FamiliarTrainingFrame.results.append("<br>");
 
     // Print available buffs and items and current buffs
     FamiliarTrainingFrame.results.append(status.printCurrentBuffs());
-    FamiliarTrainingFrame.results.append(status.printAvailableBuffs());
+    FamiliarTrainingFrame.results.append(FamiliarStatus.printAvailableBuffs());
     FamiliarTrainingFrame.results.append(status.printCurrentEquipment());
     FamiliarTrainingFrame.results.append(status.printAvailableEquipment());
     FamiliarTrainingFrame.results.append("<br>");
@@ -1017,6 +1020,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     if (!InventoryManager.hasItem(FamiliarData.PUMPKIN_BUCKET)
         && !InventoryManager.hasItem(FamiliarData.FLOWER_BOUQUET)
         && !InventoryManager.hasItem(FamiliarData.FIREWORKS)
+        && !InventoryManager.hasItem(FamiliarData.PET_SWEATER)
         && !InventoryManager.hasItem(FamiliarData.SUGAR_SHIELD)
         && status.familiarItemWeight != 0
         && !InventoryManager.hasItem(status.familiarItem)
@@ -1030,14 +1034,14 @@ public class FamiliarTrainingFrame extends GenericFrame {
     }
 
     if (FamiliarTrainingFrame.leashAvailable && FamiliarTrainingFrame.leashActive == 0) {
-      RequestThread.postRequest(UseSkillRequest.getInstance("leash of linguini", 1));
+      RequestThread.postRequest(UseSkillRequest.getInstance(SkillPool.LEASH_OF_LINGUINI, 1));
       if (familiar.getModifiedWeight() >= weight) {
         return true;
       }
     }
 
     if (FamiliarTrainingFrame.empathyAvailable && FamiliarTrainingFrame.empathyActive == 0) {
-      RequestThread.postRequest(UseSkillRequest.getInstance("empathy of the newt", 1));
+      RequestThread.postRequest(UseSkillRequest.getInstance(SkillPool.EMPATHY_OF_THE_NEWT, 1));
       if (familiar.getModifiedWeight() >= weight) {
         return true;
       }
@@ -1113,22 +1117,19 @@ public class FamiliarTrainingFrame extends GenericFrame {
     KoLmafia.updateDisplay(state, message);
   }
 
-  private static void printFamiliar(final FamiliarStatus status, final int goal, final int type) {
+  private static void printFamiliar(final FamiliarStatus status, final int goal, final Goal type) {
     FamiliarData familiar = status.getFamiliar();
     String name = familiar.getName();
     String race = familiar.getRace();
     int weight = familiar.getWeight();
-    String hope = "";
 
-    if (type == FamiliarTrainingFrame.BASE) {
-      hope = " to " + goal + " lbs. base weight";
-    } else if (type == FamiliarTrainingFrame.BUFFED) {
-      hope = " to " + goal + " lbs. buffed weight";
-    } else if (type == FamiliarTrainingFrame.TURNS) {
-      hope = " for " + goal + " turns";
-    } else if (type == FamiliarTrainingFrame.LEARN) {
-      hope = " for " + goal + " iterations to learn arena strengths";
-    }
+    String hope =
+        switch (type) {
+          case BASE -> " to " + goal + " lbs. base weight";
+          case BUFFED -> " to " + goal + " lbs. buffed weight";
+          case TURNS -> " for " + goal + " turns";
+          case LEARN -> " for " + goal + " iterations to learn arena strengths";
+        };
 
     FamiliarTrainingFrame.results.append(
         "Training " + name + " the " + weight + " lb. " + race + hope + ".<br>");
@@ -1146,19 +1147,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
     }
   }
 
-  private static boolean goalMet(final FamiliarStatus status, final int goal, final int type) {
-    switch (type) {
-      case BASE:
-        return status.baseWeight() >= goal;
-
-      case BUFFED:
-        return status.maxWeight(true) >= goal;
-
-      case TURNS:
-        return status.turnsUsed() >= goal;
-    }
-
-    return false;
+  private static boolean goalMet(final FamiliarStatus status, final int goal, final Goal type) {
+    return switch (type) {
+      case BASE -> status.baseWeight() >= goal;
+      case BUFFED -> status.maxWeight(true) >= goal;
+      case TURNS -> status.turnsUsed() >= goal;
+      default -> false;
+    };
   }
 
   private static void printMatch(
@@ -1259,6 +1254,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     boolean pumpkinBucket;
     boolean flowerBouquet;
     boolean boxFireworks;
+    boolean petSweater;
     boolean sugarShield;
     boolean doppelganger;
 
@@ -1285,10 +1281,10 @@ public class FamiliarTrainingFrame extends GenericFrame {
       this.turns = 0;
 
       // Initialize set of weights
-      this.weights = new TreeSet<Integer>();
+      this.weights = new TreeSet<>();
 
       // Initialize the list of GearSets
-      this.gearSets = new ArrayList<GearSet>();
+      this.gearSets = new ArrayList<>();
 
       // Check skills and equipment
       this.updateStatus();
@@ -1296,7 +1292,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
     public void updateStatus() {
       // Check available skills
-      this.checkSkills();
+      FamiliarStatus.checkSkills();
 
       // Check current equipment
       this.checkCurrentEquipment();
@@ -1305,12 +1301,12 @@ public class FamiliarTrainingFrame extends GenericFrame {
       this.checkAvailableEquipment((SortedListModel<AdventureResult>) KoLConstants.inventory);
     }
 
-    private void checkSkills() {
+    private static void checkSkills() {
       // Look at skills to decide which ones are possible
       FamiliarTrainingFrame.sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
       FamiliarTrainingFrame.empathyAvailable =
-          KoLCharacter.hasSkill("Empathy of the Newt") && UseSkillRequest.hasTotem();
-      FamiliarTrainingFrame.leashAvailable = KoLCharacter.hasSkill("Leash of Linguini");
+          KoLCharacter.hasSkill(SkillPool.EMPATHY_OF_THE_NEWT) && UseSkillRequest.hasTotem();
+      FamiliarTrainingFrame.leashAvailable = KoLCharacter.hasSkill(SkillPool.LEASH_OF_LINGUINI);
 
       FamiliarTrainingFrame.bestialAvailable =
           InventoryManager.itemAvailable(FamiliarTrainingFrame.HALF_ORCHID);
@@ -1348,13 +1344,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
     private void checkCurrentEquipment() {
       this.checkCurrentEquipment(
-          EquipmentManager.getEquipment(EquipmentManager.WEAPON),
-          EquipmentManager.getEquipment(EquipmentManager.OFFHAND),
-          EquipmentManager.getEquipment(EquipmentManager.HAT),
-          EquipmentManager.getEquipment(EquipmentManager.FAMILIAR),
-          EquipmentManager.getEquipment(EquipmentManager.ACCESSORY1),
-          EquipmentManager.getEquipment(EquipmentManager.ACCESSORY2),
-          EquipmentManager.getEquipment(EquipmentManager.ACCESSORY3));
+          EquipmentManager.getEquipment(Slot.WEAPON),
+          EquipmentManager.getEquipment(Slot.OFFHAND),
+          EquipmentManager.getEquipment(Slot.HAT),
+          EquipmentManager.getEquipment(Slot.FAMILIAR),
+          EquipmentManager.getEquipment(Slot.ACCESSORY1),
+          EquipmentManager.getEquipment(Slot.ACCESSORY2),
+          EquipmentManager.getEquipment(Slot.ACCESSORY3));
     }
 
     private void checkCurrentEquipment(
@@ -1383,6 +1379,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       this.pumpkinBucket = false;
       this.flowerBouquet = false;
       this.boxFireworks = false;
+      this.petSweater = false;
       this.sugarShield = false;
       this.doppelganger = false;
 
@@ -1434,6 +1431,11 @@ public class FamiliarTrainingFrame extends GenericFrame {
           this.item = FamiliarData.FIREWORKS;
         }
 
+        if (itemId == FamiliarData.PET_SWEATER.getItemId()) {
+          this.petSweater = true;
+          this.item = FamiliarData.PET_SWEATER;
+        }
+
         if (itemId == FamiliarData.SUGAR_SHIELD.getItemId()) {
           this.sugarShield = true;
           this.item = FamiliarData.SUGAR_SHIELD;
@@ -1473,13 +1475,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
     }
 
     private void checkAccessory(final int index, final AdventureResult accessory) {
-      if (this.isTinyPlasticItem(accessory)) {
+      if (FamiliarStatus.isTinyPlasticItem(accessory)) {
         this.acc[index] = accessory;
         this.tp[this.tpCount++] = accessory;
       }
     }
 
-    public boolean isTinyPlasticItem(final AdventureResult ar) {
+    public static boolean isTinyPlasticItem(final AdventureResult ar) {
       if (ar == null) {
         return false;
       }
@@ -1534,6 +1536,10 @@ public class FamiliarTrainingFrame extends GenericFrame {
         this.boxFireworks |= FamiliarData.FIREWORKS.getCount(inventory) > 0;
       }
 
+      // If current familiar is not wearing an astral pet sweater
+      // search inventory
+      this.petSweater |= FamiliarData.PET_SWEATER.getCount(inventory) > 0;
+
       // If current familiar is not wearing a sugar shield,
       // search inventory
       this.sugarShield |= FamiliarData.SUGAR_SHIELD.getCount(inventory) > 0;
@@ -1560,7 +1566,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       this.whipCount =
           Math.min(
-              KoLCharacter.hasSkill("Double-Fisted Skull Smashing") ? 2 : 1,
+              KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING) ? 2 : 1,
               this.whipCount + FamiliarTrainingFrame.BAR_WHIP.getCount(inventory));
 
       // If equipped with fewer than three tiny plastic items
@@ -1584,6 +1590,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
               && this.pumpkinBucket
               && this.flowerBouquet
               && this.boxFireworks
+              && this.petSweater
               && this.sugarShield
               && this.bathysphere
               && this.dasBoot) {
@@ -1608,6 +1615,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
         this.flowerBouquet |= item.getItemId() == FamiliarData.FLOWER_BOUQUET.getItemId();
         this.doppelganger |= item.getItemId() == FamiliarData.DOPPELGANGER.getItemId();
         this.boxFireworks |= item.getItemId() == FamiliarData.FIREWORKS.getItemId();
+        this.petSweater |= item.getItemId() == FamiliarData.PET_SWEATER.getItemId();
         this.sugarShield |= item.getItemId() == FamiliarData.SUGAR_SHIELD.getItemId();
       }
     }
@@ -1704,6 +1712,11 @@ public class FamiliarTrainingFrame extends GenericFrame {
         this.getAccessoryWeights(weight + this.specWeight);
       }
 
+      // If we have an astral pet sweater, use it
+      if (this.petSweater) {
+        this.getAccessoryWeights(weight + 10);
+      }
+
       // If we have a sugar shield, use it
       if (this.sugarShield) {
         this.getAccessoryWeights(weight + 10);
@@ -1784,8 +1797,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       GearSet current = new GearSet();
 
       if (this.doppelganger) {
-        RequestThread.postRequest(
-            new EquipmentRequest(FamiliarData.DOPPELGANGER, EquipmentManager.FAMILIAR));
+        RequestThread.postRequest(new EquipmentRequest(FamiliarData.DOPPELGANGER, Slot.FAMILIAR));
       }
 
       // If we are already suitably equipped, stop now
@@ -1846,17 +1858,17 @@ public class FamiliarTrainingFrame extends GenericFrame {
      */
 
     public void changeGear(final GearSet current, final GearSet next) {
-      this.swapItem(current.weapon, next.weapon, EquipmentManager.WEAPON);
-      this.swapItem(current.offhand, next.offhand, EquipmentManager.OFFHAND);
-      this.swapItem(current.hat, next.hat, EquipmentManager.HAT);
-      this.swapItem(current.item, next.item, EquipmentManager.FAMILIAR);
-      this.swapItem(current.acc1, next.acc1, EquipmentManager.ACCESSORY1);
-      this.swapItem(current.acc2, next.acc2, EquipmentManager.ACCESSORY2);
-      this.swapItem(current.acc3, next.acc3, EquipmentManager.ACCESSORY3);
+      this.swapItem(current.weapon, next.weapon, Slot.WEAPON);
+      this.swapItem(current.offhand, next.offhand, Slot.OFFHAND);
+      this.swapItem(current.hat, next.hat, Slot.HAT);
+      this.swapItem(current.item, next.item, Slot.FAMILIAR);
+      this.swapItem(current.acc1, next.acc1, Slot.ACCESSORY1);
+      this.swapItem(current.acc2, next.acc2, Slot.ACCESSORY2);
+      this.swapItem(current.acc3, next.acc3, Slot.ACCESSORY3);
     }
 
     private void swapItem(
-        final AdventureResult current, final AdventureResult next, final int slot) {
+        final AdventureResult current, final AdventureResult next, final Slot slot) {
       // Nothing to do if already wearing this item
       if (current == next) {
         return;
@@ -1878,29 +1890,15 @@ public class FamiliarTrainingFrame extends GenericFrame {
       }
     }
 
-    private void setItem(final int slot, final AdventureResult item) {
+    private void setItem(final Slot slot, final AdventureResult item) {
       switch (slot) {
-        case EquipmentManager.WEAPON:
-          this.weapon = item;
-          break;
-        case EquipmentManager.OFFHAND:
-          this.offhand = item;
-          break;
-        case EquipmentManager.HAT:
-          this.hat = item;
-          break;
-        case EquipmentManager.FAMILIAR:
-          this.item = item;
-          break;
-        case EquipmentManager.ACCESSORY1:
-          this.acc[0] = item;
-          break;
-        case EquipmentManager.ACCESSORY2:
-          this.acc[1] = item;
-          break;
-        case EquipmentManager.ACCESSORY3:
-          this.acc[2] = item;
-          break;
+        case WEAPON -> this.weapon = item;
+        case OFFHAND -> this.offhand = item;
+        case HAT -> this.hat = item;
+        case FAMILIAR -> this.item = item;
+        case ACCESSORY1 -> this.acc[0] = item;
+        case ACCESSORY2 -> this.acc[1] = item;
+        case ACCESSORY3 -> this.acc[2] = item;
       }
     }
 
@@ -1958,6 +1956,9 @@ public class FamiliarTrainingFrame extends GenericFrame {
       }
       if (this.boxFireworks) {
         this.getAccessoryGearSets(weight, FamiliarData.FIREWORKS, hat);
+      }
+      if (this.petSweater) {
+        this.getAccessoryGearSets(weight, FamiliarData.PET_SWEATER, hat);
       }
       if (this.sugarShield) {
         this.getAccessoryGearSets(weight, FamiliarData.SUGAR_SHIELD, hat);
@@ -2125,6 +2126,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
       if (item == FamiliarData.DOPPELGANGER) {
       } else if (item == this.specItem) {
         weight += this.specWeight;
+      } else if (item == FamiliarData.PET_SWEATER) {
+        weight += 10;
       } else if (item == FamiliarData.SUGAR_SHIELD) {
         weight += 10;
       } else if (item == FamiliarData.PUMPKIN_BUCKET) {
@@ -2150,13 +2153,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
         weight += 2;
       }
 
-      if (this.isTinyPlasticItem(acc1)) {
+      if (FamiliarStatus.isTinyPlasticItem(acc1)) {
         weight += 1;
       }
-      if (this.isTinyPlasticItem(acc2)) {
+      if (FamiliarStatus.isTinyPlasticItem(acc2)) {
         weight += 1;
       }
-      if (this.isTinyPlasticItem(acc3)) {
+      if (FamiliarStatus.isTinyPlasticItem(acc3)) {
         weight += 1;
       }
 
@@ -2332,6 +2335,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
         weight += 5;
       } else if (this.boxFireworks) {
         weight += 5;
+      } else if (this.petSweater) {
+        weight += 10;
       } else if (this.sugarShield) {
         weight += 10;
       } else if (this.specWeight > 3) {
@@ -2354,7 +2359,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       return Math.max(weight, 1);
     }
 
-    public String printAvailableBuffs() {
+    public static String printAvailableBuffs() {
       StringBuilder text = new StringBuilder();
 
       text.append("Castable buffs:");
@@ -2460,6 +2465,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
         text.append(" " + FamiliarData.FLOWER_BOUQUET.getName() + " (+5)");
       } else if (this.item == FamiliarData.FIREWORKS) {
         text.append(" " + FamiliarData.FIREWORKS.getName() + " (+5)");
+      } else if (this.item == FamiliarData.PET_SWEATER) {
+        text.append(" " + FamiliarData.PET_SWEATER.getName() + " (+10)");
       } else if (this.item == FamiliarData.SUGAR_SHIELD) {
         text.append(" " + FamiliarData.SUGAR_SHIELD.getName() + " (+10)");
       } else if (this.item == FamiliarData.LEAD_NECKLACE) {
@@ -2489,9 +2496,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       text.append("Available equipment:");
 
-      for (int i = 0; i < this.whipCount; ++i) {
-        text.append(" bar whip (+2)");
-      }
+      text.append(" bar whip (+2)".repeat(Math.max(0, this.whipCount)));
 
       if (this.hat == FamiliarTrainingFrame.CRUMPLED_FEDORA) {
         text.append(" crumpled felt fedora (+10)");
@@ -2512,6 +2517,9 @@ public class FamiliarTrainingFrame extends GenericFrame {
         }
         if (this.specItem != null) {
           text.append(" " + this.specItem.getName() + " (+" + this.specWeight + ")");
+        }
+        if (this.petSweater) {
+          text.append(" astral pet sweater (+10)");
         }
         if (this.sugarShield) {
           text.append(" sugar shield (+10)");
@@ -2696,7 +2704,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
    * An internal class used to handle requests which resets a property for the duration of the
    * current session.
    */
-  public class LocalSettingChanger extends JButton implements ActionListener {
+  public static class LocalSettingChanger extends JButton implements ActionListener {
     private final String title;
     private final String property;
 

@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import static net.sourceforge.kolmafia.KoLConstants.ConsumptionType.FAMILIAR_EQUIPMENT;
+
 import java.awt.Color;
 import java.io.File;
 import java.text.DecimalFormat;
@@ -7,10 +9,14 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -93,7 +99,7 @@ public interface KoLConstants extends UtilityConstants {
     {"Store Manager", "StoreManageFrame"},
     {"Coin Masters", "CoinmastersFrame"},
     {"Museum Display", "MuseumFrame"},
-    {"Hall of Legends", "MeatManageFrame"},
+    {"Meat Manager", "MeatManageFrame"},
     {"Skill Casting", "SkillBuffFrame"},
     {"Contact List", "ContactListFrame"},
     {"Buffbot Manager", "BuffBotFrame"},
@@ -113,7 +119,7 @@ public interface KoLConstants extends UtilityConstants {
   // Scripting-related constants.  Used throughout KoLmafia in
   // order to ensure proper handling of scripts.
 
-  List<File> scripts = new ArrayList<>();
+  List<File> scripts = Collections.synchronizedList(new ArrayList<>());
   List<String> bookmarks = LockableListFactory.getInstance(String.class);
 
   ArrayList<String> disabledScripts = new ArrayList<>();
@@ -240,7 +246,7 @@ public interface KoLConstants extends UtilityConstants {
   String SORTTABLE_JS = "sorttable.2.js";
   String STATIONARYBUTTONS_CSS = "stationarybuttons.2.css";
   String STATIONARYBUTTONS_JS = "stationarybuttons.2.js";
-  String VOLCANOMAZE_JS = "volcanomaze.1.js";
+  String VOLCANOMAZE_JS = "volcanomaze.4.js";
 
   String[] RELAY_FILES = {
     AFTERLIFE_ASH,
@@ -267,16 +273,11 @@ public interface KoLConstants extends UtilityConstants {
    * @param type Consumption type constant
    * @return True if the type relates to equipment
    */
-  static boolean isEquipmentType(final int type, final boolean includeFamiliarEquipment) {
+  static boolean isEquipmentType(
+      final ConsumptionType type, final boolean includeFamiliarEquipment) {
     return switch (type) {
-      case EQUIP_ACCESSORY,
-          EQUIP_CONTAINER,
-          EQUIP_HAT,
-          EQUIP_SHIRT,
-          EQUIP_PANTS,
-          EQUIP_WEAPON,
-          EQUIP_OFFHAND -> true;
-      default -> includeFamiliarEquipment && type == EQUIP_FAMILIAR;
+      case ACCESSORY, CONTAINER, HAT, SHIRT, PANTS, WEAPON, OFFHAND -> true;
+      default -> includeFamiliarEquipment && type == FAMILIAR_EQUIPMENT;
     };
   }
 
@@ -349,59 +350,95 @@ public interface KoLConstants extends UtilityConstants {
     OTHER
   }
 
-  // Cannot be "used" in any way by itself
-  int NO_CONSUME = 0;
+  /**
+   * Ways to use items.
+   *
+   * <p>A conflation of a few concepts. Most are "primary uses" as appear in items.txt
+   *
+   * <p>Primary uses determine how you can interact with an item. Some items are "usable" in
+   * addition to their primary use (for example, the fortune cookie or glitch season reward).
+   *
+   * <p>ConsumptionType is also used for how the user /intends/ to interact with an item. This is
+   * what the "Familiar 'uses'" are used for: when the user uses a command specifically for feeding
+   * a familiar.
+   *
+   * <p>Most of this is handled in UseItemRequest.
+   */
+  enum ConsumptionType {
+    UNKNOWN("unknown"),
+    // Cannot be "used" in any way by itself
+    NONE("none"),
 
-  // Consumables
-  int CONSUME_EAT = 1;
-  int CONSUME_DRINK = 2;
-  int CONSUME_SPLEEN = 3;
+    // Consumables
+    EAT("food"),
+    DRINK("drink"),
+    SPLEEN("spleen"),
 
-  // Usables
-  int CONSUME_USE = 4;
-  int CONSUME_MULTIPLE = 5;
-  int INFINITE_USES = 6;
-  int MESSAGE_DISPLAY = 7;
+    // Usables
+    USE("usable"),
+    USE_MULTIPLE("multiple"),
+    USE_INFINITE("reusable"),
+    USE_MESSAGE_DISPLAY("message"),
 
-  // Familiar hatchlings
-  int GROW_FAMILIAR = 8;
+    // Familiar hatchlings
+    FAMILIAR_HATCHLING("grow"),
 
-  // Equipment
-  int EQUIP_HAT = 9;
-  int EQUIP_WEAPON = 10;
-  int EQUIP_OFFHAND = 11;
-  int EQUIP_CONTAINER = 12;
-  int EQUIP_SHIRT = 13;
-  int EQUIP_PANTS = 14;
-  int EQUIP_ACCESSORY = 15;
-  int EQUIP_FAMILIAR = 16;
+    // Equipment
+    HAT("hat"),
+    WEAPON("weapon"),
+    OFFHAND("offhand"),
+    CONTAINER("container"),
+    SHIRT("shirt"),
+    PANTS("pants"),
+    ACCESSORY("accessory"),
+    FAMILIAR_EQUIPMENT("familiar"),
 
-  // Customizable "equipment"
-  int CONSUME_STICKER = 17;
-  int CONSUME_CARD = 18;
-  int CONSUME_FOLDER = 19;
-  int CONSUME_BOOTSKIN = 20;
-  int CONSUME_BOOTSPUR = 21;
-  int CONSUME_SIXGUN = 22;
+    // Customizable "equipment"
+    STICKER("sticker"),
+    CARD("card"),
+    FOLDER("folder"),
+    BOOTSKIN("bootskin"),
+    BOOTSPUR("bootspur"),
+    SIXGUN("sixgun"),
 
-  // Special "uses"
-  int CONSUME_FOOD_HELPER = 30;
-  int CONSUME_DRINK_HELPER = 31;
-  int CONSUME_ZAP = 32;
-  int CONSUME_SPHERE = 33;
-  int CONSUME_GUARDIAN = 34;
-  int CONSUME_POKEPILL = 35;
+    // Special "uses"
+    FOOD_HELPER("food helper"),
+    DRINK_HELPER("drink helper"),
+    ZAP("zap"),
+    EL_VIBRATO_SPHERE("sphere"),
+    PASTA_GUARDIAN("guardian"),
+    POKEPILL("pokepill"),
 
-  // Potions
-  int CONSUME_POTION = 40;
-  int CONSUME_AVATAR = 41;
+    // Potions
+    POTION("potion"),
+    AVATAR_POTION("avatar"),
 
-  // Familiar "uses"
-  int CONSUME_ROBO = 95;
-  int CONSUME_MIMIC = 96;
-  int CONSUME_SLIME = 97;
-  int CONSUME_HOBO = 98;
-  int CONSUME_GHOST = 99;
+    // Familiar "uses"
+    ROBORTENDER("robortender"),
+    STOCKING_MIMIC("stocking mimic"),
+    SLIMELING("slimeling"),
+    SPIRIT_HOBO("spirit hobo"),
+    GLUTTONOUS_GHOST("gluttonous ghost");
+
+    public final String description;
+    private static final Map<String, ConsumptionType> consumptionTypeByDescription =
+        new HashMap<>();
+
+    ConsumptionType(String description) {
+      this.description = description;
+    }
+
+    public static ConsumptionType byDescription(String description) {
+      var lookup = consumptionTypeByDescription.get(description);
+      if (lookup != null) return lookup;
+      var search =
+          Arrays.stream(ConsumptionType.values())
+              .filter(x -> x.description.equals(description))
+              .findAny();
+      search.ifPresent(x -> consumptionTypeByDescription.put(description, x));
+      return search.orElse(null);
+    }
+  }
 
   enum CraftingType {
     SUBCLASS, // ???
@@ -467,6 +504,7 @@ public interface KoLConstants extends UtilityConstants {
     SAUSAGE_O_MATIC, // Items made by Kramco Sausage-o-Matic
     KRINGLE, // Items made from waterlogged items
     STILLSUIT, // Distillate from the stillsuit
+    WOOL, // Items made from grubby wool
   }
 
   enum CraftingRequirements {

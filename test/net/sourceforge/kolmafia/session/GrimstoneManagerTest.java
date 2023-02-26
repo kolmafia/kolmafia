@@ -18,6 +18,7 @@ import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -64,7 +65,7 @@ public class GrimstoneManagerTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("grimstone"),
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               withFight(0),
               withProperty("wolfTurnsUsed", 27));
       try (cleanups) {
@@ -126,7 +127,7 @@ public class GrimstoneManagerTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPasswordHash("grimstone"),
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               withProperty("candyWitchCandyTotal", initial));
       try (cleanups) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");

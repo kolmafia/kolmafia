@@ -1,13 +1,13 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FullEchoCommand extends AbstractCommand {
   {
     this.usage = " <text> - include text in the session log.";
-    this.flags = KoLmafiaCLI.FULL_LINE_CMD;
+    this.flags = ParameterHandling.FULL_LINE;
   }
 
   @Override

@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -25,12 +26,15 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.maximizer.EquipScope;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
+import net.sourceforge.kolmafia.maximizer.PriceLevel;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
@@ -55,7 +59,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
   private SmartButtonGroup equipmentSelect, mallSelect;
   private AutoHighlightTextField maxPriceField;
   private final ShowDescriptionList<Boost> boostList;
-  private final EnumMap<KoLConstants.filterType, Boolean> activeFilters;
+  private final EnumSet<filterType> activeFilters;
   private EnumMap<KoLConstants.filterType, JCheckBox> filterButtons;
   private JLabel listTitle = null;
 
@@ -76,7 +80,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
 
     this.boostList = new ShowDescriptionList<>(Maximizer.boosts, 12);
     this.boostList.addListSelectionListener(this);
-    this.activeFilters = new EnumMap<>(KoLConstants.filterType.class);
+    this.activeFilters = EnumSet.noneOf(KoLConstants.filterType.class);
 
     wrapperPanel.add(new BoostsPanel(this.boostList), BorderLayout.CENTER);
 
@@ -90,7 +94,9 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       }
     }
     for (KoLConstants.filterType f : KoLConstants.filterType.values()) {
-      activeFilters.put(f, filterButtons.get(f).isSelected());
+      if (filterButtons.get(f).isSelected()) {
+        activeFilters.add(f);
+      }
     }
   }
 
@@ -140,9 +146,9 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
 
   public void maximize() {
     Maximizer.maximize(
-        this.equipmentSelect.getSelectedIndex(),
+        EquipScope.byIndex(this.equipmentSelect.getSelectedIndex()),
         InputFieldUtilities.getValue(this.maxPriceField),
-        this.mallSelect.getSelectedIndex(),
+        PriceLevel.byIndex(this.mallSelect.getSelectedIndex()),
         Preferences.getBoolean("maximizerIncludeAll"),
         this.activeFilters);
 
@@ -214,23 +220,15 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       }
       boolean usageUnderLimit;
       for (KoLConstants.filterType fType : KoLConstants.filterType.values()) {
-        switch (fType) {
-          case BOOZE:
-            usageUnderLimit =
-                (KoLCharacter.canDrink()
-                    && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit());
-            break;
-          case FOOD:
-            usageUnderLimit =
-                (KoLCharacter.canEat()
-                    && KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit());
-            break;
-          case SPLEEN:
-            usageUnderLimit = (KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit());
-            break;
-          default:
-            usageUnderLimit = true;
-        }
+        usageUnderLimit =
+            switch (fType) {
+              case BOOZE -> (KoLCharacter.canDrink()
+                  && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit());
+              case FOOD -> (KoLCharacter.canEat()
+                  && KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit());
+              case SPLEEN -> (KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit());
+              default -> true;
+            };
         boolean isLastUsedFilter =
             Preferences.getString("maximizerLastSingleFilter").equalsIgnoreCase(fType.name());
         if (Preferences.getBoolean("maximizerSingleFilter")) {
@@ -286,10 +284,10 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
 
           filterButtons.get(fType).setSelected(singleSelect);
 
-          if (activeFilters.containsKey(thisFilter)) {
-            activeFilters.replace(fType, singleSelect);
+          if (singleSelect) {
+            activeFilters.add(fType);
           } else {
-            activeFilters.put(fType, singleSelect);
+            activeFilters.remove(fType);
           }
         }
         Preferences.setString("maximizerLastSingleFilter", changedBox.getText());
@@ -329,12 +327,12 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     }
   }
 
-  protected void updateFilter(KoLConstants.filterType f, Boolean value) {
+  protected void updateFilter(KoLConstants.filterType f, boolean value) {
     try {
-      if (activeFilters.containsKey(f)) {
-        activeFilters.replace(f, value);
+      if (value) {
+        activeFilters.add(f);
       } else {
-        activeFilters.put(f, value);
+        activeFilters.remove(f);
       }
     } catch (Exception Ex) {
       // This should probably log the error...

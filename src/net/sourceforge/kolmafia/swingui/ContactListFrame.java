@@ -132,7 +132,7 @@ public class ContactListFrame extends GenericFrame {
     GenericFrame.createDisplay(SendMessageFrame.class, parameters);
   }
 
-  private class ContactListPanel extends JPanel {
+  private static class ContactListPanel extends JPanel {
     public ContactListPanel(JList contactsDisplay) {
       this.setLayout(new GridLayout(1, 1));
       this.add(new GenericScrollPane(contactsDisplay));

@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.DefaultListCellRenderer;
@@ -32,6 +31,7 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.*;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -43,16 +43,6 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmastersFrame extends GenericFrame implements ChangeListener {
-  private static final StorageRequest PULL_MR_A_REQUEST =
-      new StorageRequest(
-          StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] {MrStoreRequest.MR_A});
-  private static final StorageRequest PULL_UNCLE_B_REQUEST =
-      new StorageRequest(
-          StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] {MrStoreRequest.UNCLE_B});
-
-  private static final List<AdventureResult> conditionalItems =
-      CoinmastersDatabase.getItems("Conditional");
-
   private CardLayoutSelectorPanel selectorPanel = null;
 
   private CoinmasterPanel BURTPanel = null;
@@ -90,6 +80,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel dollhawkerPanel = null;
   private CoinmasterPanel dripArmoryPanel = null;
   private CoinmasterPanel edshopPanel = null;
+  private CoinmasterPanel fancyDanPanel = null;
   private CoinmasterPanel fdkolPanel = null;
   private CoinmasterPanel fishboneryPanel = null;
   private CoinmasterPanel freeSnackPanel = null;
@@ -428,6 +419,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(spinMasterLathePanel);
     this.selectorPanel.addPanel(spinMasterLathePanel.getPanelSelector(), panel);
 
+    panel = new JPanel(new BorderLayout());
+    fancyDanPanel = new FancyDanPanel();
+    panel.add(fancyDanPanel);
+    this.selectorPanel.addPanel(fancyDanPanel.getPanelSelector(), panel);
+
     // Events coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Special Events");
@@ -487,26 +483,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(warbearBoxPanel);
     this.selectorPanel.addPanel(warbearBoxPanel.getPanelSelector(), panel);
 
-    panel = new JPanel(new BorderLayout());
-    crimbo17Panel = new Crimbo17Panel();
-    panel.add(crimbo17Panel);
-    this.selectorPanel.addPanel(crimbo17Panel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo20boozePanel = new Crimbo20BoozePanel();
-    panel.add(crimbo20boozePanel);
-    this.selectorPanel.addPanel(crimbo20boozePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo20candyPanel = new Crimbo20CandyPanel();
-    panel.add(crimbo20candyPanel);
-    this.selectorPanel.addPanel(crimbo20candyPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo20foodPanel = new Crimbo20FoodPanel();
-    panel.add(crimbo20foodPanel);
-    this.selectorPanel.addPanel(crimbo20foodPanel.getPanelSelector(), panel);
-
     // Removed coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Removed");
@@ -535,6 +511,26 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     crimbo14Panel = new Crimbo14Panel();
     panel.add(crimbo14Panel);
     this.selectorPanel.addPanel(crimbo14Panel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo17Panel = new Crimbo17Panel();
+    panel.add(crimbo17Panel);
+    this.selectorPanel.addPanel(crimbo17Panel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo20boozePanel = new Crimbo20BoozePanel();
+    panel.add(crimbo20boozePanel);
+    this.selectorPanel.addPanel(crimbo20boozePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo20candyPanel = new Crimbo20CandyPanel();
+    panel.add(crimbo20candyPanel);
+    this.selectorPanel.addPanel(crimbo20candyPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo20foodPanel = new Crimbo20FoodPanel();
+    panel.add(crimbo20foodPanel);
+    this.selectorPanel.addPanel(crimbo20foodPanel.getPanelSelector(), panel);
 
     this.selectorPanel.addChangeListener(this);
     this.selectorPanel.setSelectedIndex(Preferences.getInteger("coinMasterIndex"));
@@ -583,6 +579,14 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   }
 
   public class MrStorePanel extends CoinmasterPanel {
+    private static final StorageRequest PULL_MR_A_REQUEST =
+        new StorageRequest(
+            StorageRequestType.STORAGE_TO_INVENTORY, new AdventureResult[] {MrStoreRequest.MR_A});
+    private static final StorageRequest PULL_UNCLE_B_REQUEST =
+        new StorageRequest(
+            StorageRequestType.STORAGE_TO_INVENTORY,
+            new AdventureResult[] {MrStoreRequest.UNCLE_B});
+
     private final JButton pullA = new InvocationButton("pull Mr. A", this, "pullA");
     private final JButton pullB = new InvocationButton("pull Uncle B", this, "pullB");
     private final JButton AToB = new InvocationButton("1 A -> 10 B", this, "AToB");
@@ -644,17 +648,13 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     public void pullA() {
       GenericRequest request =
-          KoLCharacter.isHardcore()
-              ? new MrStoreRequest("pullmras")
-              : CoinmastersFrame.PULL_MR_A_REQUEST;
+          KoLCharacter.isHardcore() ? new MrStoreRequest("pullmras") : PULL_MR_A_REQUEST;
       RequestThread.postRequest(request);
     }
 
     public void pullB() {
       GenericRequest request =
-          KoLCharacter.isHardcore()
-              ? new MrStoreRequest("pullunclebs")
-              : CoinmastersFrame.PULL_UNCLE_B_REQUEST;
+          KoLCharacter.isHardcore() ? new MrStoreRequest("pullunclebs") : PULL_UNCLE_B_REQUEST;
       RequestThread.postRequest(request);
     }
 
@@ -1271,13 +1271,10 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     @Override
     public int buyMax(final AdventureResult item, final int max) {
-      switch (item.getItemId()) {
-        case ItemPool.TALES_OF_DREAD:
-        case ItemPool.BRASS_DREAD_FLASK:
-        case ItemPool.SILVER_DREAD_FLASK:
-          return 1;
-      }
-      return max;
+      return switch (item.getItemId()) {
+        case ItemPool.TALES_OF_DREAD, ItemPool.BRASS_DREAD_FLASK, ItemPool.SILVER_DREAD_FLASK -> 1;
+        default -> max;
+      };
     }
   }
 
@@ -1307,15 +1304,14 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     @Override
     public int buyMax(final AdventureResult item, final int max) {
-      switch (item.getItemId()) {
-        case ItemPool.VIRAL_VIDEO:
-        case ItemPool.PLUS_ONE:
-        case ItemPool.GALLON_OF_MILK:
-        case ItemPool.PRINT_SCREEN:
-        case ItemPool.DAILY_DUNGEON_MALWARE:
-          return 1;
-      }
-      return max;
+      return switch (item.getItemId()) {
+        case ItemPool.VIRAL_VIDEO,
+            ItemPool.PLUS_ONE,
+            ItemPool.GALLON_OF_MILK,
+            ItemPool.PRINT_SCREEN,
+            ItemPool.DAILY_DUNGEON_MALWARE -> 1;
+        default -> max;
+      };
     }
   }
 
@@ -1395,6 +1391,32 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       for (AdventureResult currency : this.data.currencies()) {
         int count =
             currency.isMeat() ? Concoction.getAvailableMeat() : InventoryManager.getCount(currency);
+        buffer.append(" (");
+        buffer.append(count);
+        buffer.append(" ");
+        buffer.append(currency.getPluralName(count));
+        buffer.append(")");
+      }
+    }
+  }
+
+  private class FancyDanPanel extends CoinmasterPanel {
+    public FancyDanPanel() {
+      super(FancyDanRequest.FANCY_DAN);
+      this.update();
+    }
+
+    @Override
+    public final void update() {
+      super.update();
+      this.setEnabled(this.data.isAccessible());
+    }
+
+    @Override
+    public void setTitle(final StringBuffer buffer) {
+      this.standardTitle(buffer);
+      for (AdventureResult currency : this.data.currencies()) {
+        int count = InventoryManager.getCount(currency);
         buffer.append(" (");
         buffer.append(count);
         buffer.append(" ");
@@ -1589,8 +1611,8 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       }
 
       CoinmasterData data = this.data;
-      Map<Integer, Integer> originalBalances = new TreeMap<Integer, Integer>();
-      Map<Integer, Integer> balances = new TreeMap<Integer, Integer>();
+      Map<Integer, Integer> originalBalances = new TreeMap<>();
+      Map<Integer, Integer> balances = new TreeMap<>();
       int neededSize = items.length;
 
       for (int i = 0; i < items.length; ++i) {
@@ -1755,10 +1777,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       private class SellableFilterField extends FilterItemField {
         @Override
         public boolean isVisible(final Object element) {
-          if (!(element instanceof AdventureResult)) {
+          if (!(element instanceof AdventureResult ar)) {
             return false;
           }
-          AdventureResult ar = (AdventureResult) element;
           int price =
               CoinmastersDatabase.getPrice(
                   ar.getItemId(), CoinmasterPanel.this.data.getSellPrices());
@@ -1879,10 +1900,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       private class BuyableFilterField extends FilterItemField {
         @Override
         public boolean isVisible(final Object element) {
-          if (!(element instanceof AdventureResult)) {
+          if (!(element instanceof AdventureResult ar)) {
             return false;
           }
-          AdventureResult ar = (AdventureResult) element;
           return CoinmasterPanel.this.canBuyItem(ar) && super.isVisible(element);
         }
       }

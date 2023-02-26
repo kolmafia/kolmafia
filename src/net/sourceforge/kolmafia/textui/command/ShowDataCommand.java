@@ -13,10 +13,12 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -222,22 +224,22 @@ public class ShowDataCommand extends AbstractCommand {
     }
 
     if (desiredData.startsWith("equip")) {
-      AdventureResult hat = EquipmentManager.getEquipment(EquipmentManager.HAT);
+      AdventureResult hat = EquipmentManager.getEquipment(Slot.HAT);
       desiredStream.println("Hat: " + hat);
       if (hat.getItemId() == ItemPool.HATSEAT) {
         desiredStream.println("Carrying: " + KoLCharacter.getEnthroned());
       }
-      desiredStream.println("Weapon: " + EquipmentManager.getEquipment(EquipmentManager.WEAPON));
+      desiredStream.println("Weapon: " + EquipmentManager.getEquipment(Slot.WEAPON));
 
       if (EquipmentManager.getFakeHands() > 0) {
         desiredStream.println("Fake Hands: " + EquipmentManager.getFakeHands());
       }
 
-      desiredStream.println("Off-hand: " + EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
-      desiredStream.println("Shirt: " + EquipmentManager.getEquipment(EquipmentManager.SHIRT));
-      desiredStream.println("Pants: " + EquipmentManager.getEquipment(EquipmentManager.PANTS));
+      desiredStream.println("Off-hand: " + EquipmentManager.getEquipment(Slot.OFFHAND));
+      desiredStream.println("Shirt: " + EquipmentManager.getEquipment(Slot.SHIRT));
+      desiredStream.println("Pants: " + EquipmentManager.getEquipment(Slot.PANTS));
 
-      AdventureResult container = EquipmentManager.getEquipment(EquipmentManager.CONTAINER);
+      AdventureResult container = EquipmentManager.getEquipment(Slot.CONTAINER);
       if (container != EquipmentRequest.UNEQUIP) {
         desiredStream.println("Back: " + container);
         if (container.getItemId() == ItemPool.BUDDY_BJORN) {
@@ -247,12 +249,9 @@ public class ShowDataCommand extends AbstractCommand {
 
       desiredStream.println();
 
-      desiredStream.println(
-          "Acc. 1: " + EquipmentManager.getEquipment(EquipmentManager.ACCESSORY1));
-      desiredStream.println(
-          "Acc. 2: " + EquipmentManager.getEquipment(EquipmentManager.ACCESSORY2));
-      desiredStream.println(
-          "Acc. 3: " + EquipmentManager.getEquipment(EquipmentManager.ACCESSORY3));
+      desiredStream.println("Acc. 1: " + EquipmentManager.getEquipment(Slot.ACCESSORY1));
+      desiredStream.println("Acc. 2: " + EquipmentManager.getEquipment(Slot.ACCESSORY2));
+      desiredStream.println("Acc. 3: " + EquipmentManager.getEquipment(Slot.ACCESSORY3));
 
       desiredStream.println();
 
@@ -261,25 +260,22 @@ public class ShowDataCommand extends AbstractCommand {
           "Item: "
               + EquipmentManager.getFamiliarItem()
               + (EquipmentManager.familiarItemLocked() ? " (locked)" : ""));
-      AdventureResult st1 = EquipmentManager.getEquipment(EquipmentManager.STICKER1);
-      AdventureResult st2 = EquipmentManager.getEquipment(EquipmentManager.STICKER2);
-      AdventureResult st3 = EquipmentManager.getEquipment(EquipmentManager.STICKER3);
+      AdventureResult st1 = EquipmentManager.getEquipment(Slot.STICKER1);
+      AdventureResult st2 = EquipmentManager.getEquipment(Slot.STICKER2);
+      AdventureResult st3 = EquipmentManager.getEquipment(Slot.STICKER3);
       if (st1 != EquipmentRequest.UNEQUIP
           || st2 != EquipmentRequest.UNEQUIP
           || st3 != EquipmentRequest.UNEQUIP) {
         desiredStream.println();
         desiredStream.println(
             "Sticker 1: "
-                + ShowDataCommand.getStickerText(
-                    st1, EquipmentManager.getTurns(EquipmentManager.STICKER1)));
+                + ShowDataCommand.getStickerText(st1, EquipmentManager.getTurns(Slot.STICKER1)));
         desiredStream.println(
             "Sticker 2: "
-                + ShowDataCommand.getStickerText(
-                    st2, EquipmentManager.getTurns(EquipmentManager.STICKER2)));
+                + ShowDataCommand.getStickerText(st2, EquipmentManager.getTurns(Slot.STICKER2)));
         desiredStream.println(
             "Sticker 3: "
-                + ShowDataCommand.getStickerText(
-                    st3, EquipmentManager.getTurns(EquipmentManager.STICKER3)));
+                + ShowDataCommand.getStickerText(st3, EquipmentManager.getTurns(Slot.STICKER3)));
       }
       return;
     }
@@ -352,49 +348,49 @@ public class ShowDataCommand extends AbstractCommand {
       filter = filter.toLowerCase();
 
       if (filter.startsWith("cast")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.CASTABLE);
+        List<UseSkillRequest> intersect = SkillDatabase.getCastableSkills();
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("pass")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.PASSIVE);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.PASSIVE);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("self")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.SELF_ONLY);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.SELF_ONLY);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("buff")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.BUFF);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.BUFF);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("combat")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.COMBAT);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.COMBAT);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("song")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.SONG);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.SONG);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("expression")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.EXPRESSION);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.EXPRESSION);
         skillsList.retainAll(intersect);
         filter = "";
       }
 
       if (filter.startsWith("walk")) {
-        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillDatabase.WALK);
+        List<UseSkillRequest> intersect = SkillDatabase.getSkillsByType(SkillType.WALK);
         skillsList.retainAll(intersect);
         filter = "";
       }
