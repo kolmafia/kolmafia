@@ -24,7 +24,7 @@ public class ModRefCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void showsFilteredModifiers() {
-    var mods = execute("*Drop");
+    var mods = execute("Drop");
 
     // a selection
     assertThat(mods, not(containsString("Monster Level Percent")));
@@ -41,7 +41,7 @@ public class ModRefCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void showsModifiersForFilteredItem() {
-    var mods = execute("*Initiative Cargo Cultist Shorts");
+    var mods = execute("Initiative Cargo Cultist Shorts");
 
     assertThat(mods, containsString(">66.0<"));
     assertThat(mods, not(containsString(">6.0<")));

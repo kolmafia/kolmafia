@@ -15,8 +15,7 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 
 public class ModRefCommand extends AbstractCommand {
   public ModRefCommand() {
-    this.usage =
-        " [*<filter>] [<object>] - list all modifiers, show values for player [and object].";
+    this.usage = " [filter>] [<object>] - list all modifiers, show values for player [and object].";
   }
 
   @Override
@@ -25,14 +24,15 @@ public class ModRefCommand extends AbstractCommand {
     Modifiers mods = null;
     String[] tokens = parameters.split("\\s+", 2);
     if (tokens.length > 0) {
-      if (tokens[0].startsWith("*")) {
-        // it's a filter
-        filter = tokens[0].substring(1).toLowerCase();
+      mods = ModifierDatabase.getModifiers(ModifierType.ITEM, parameters);
+      if (mods == null) {
+        // assume first word is a filter
+        filter = tokens[0].toLowerCase();
         if (tokens.length == 2) {
           parameters = tokens[1];
         }
+        mods = ModifierDatabase.getModifiers(ModifierType.ITEM, parameters);
       }
-      mods = ModifierDatabase.getModifiers(ModifierType.ITEM, parameters);
     }
     String colSpan = mods == null ? "2" : "3";
     StringBuilder buf =
