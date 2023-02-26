@@ -2862,7 +2862,10 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public void sendGeneralWarning(
-      final String image, final String message, final Confirm confirm, final boolean usePostMethod) {
+      final String image,
+      final String message,
+      final Confirm confirm,
+      final boolean usePostMethod) {
     this.sendGeneralWarning(image, message, confirm.toString(), null, usePostMethod);
   }
 
