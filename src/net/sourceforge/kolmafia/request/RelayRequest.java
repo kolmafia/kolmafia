@@ -2858,7 +2858,7 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public void sendGeneralWarning(final String image, final String message, final Confirm confirm) {
-    this.sendGeneralWarning(image, message, confirm.toString(), null, false);
+    this.sendGeneralWarning(image, message, confirm, null, false);
   }
 
   public void sendGeneralWarning(
@@ -2866,18 +2866,18 @@ public class RelayRequest extends PasswordHashRequest {
       final String message,
       final Confirm confirm,
       final boolean usePostMethod) {
-    this.sendGeneralWarning(image, message, confirm.toString(), null, usePostMethod);
+    this.sendGeneralWarning(image, message, confirm, null, usePostMethod);
   }
 
   public void sendGeneralWarning(
       final String image, final String message, final Confirm confirm, final String extra) {
-    this.sendGeneralWarning(image, message, confirm.toString(), extra, false);
+    this.sendGeneralWarning(image, message, confirm, extra, false);
   }
 
   public void sendGeneralWarning(
       final String image,
       final String message,
-      final String confirm,
+      final Confirm confirm,
       final String extra,
       final boolean usePostMethod) {
     // Save for testing
