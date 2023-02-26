@@ -26,7 +26,7 @@ public class CharSheetRequestTest {
   public void parseSkills() {
     String html = html("request/test_charsheet_normal.html");
     ParsedSkillInfo[] skillInfos =
-        CharSheetRequest.parseSkills(html).toArray(new ParsedSkillInfo[0]);
+        CharSheetRequest.parseSkills(html, true).toArray(new ParsedSkillInfo[0]);
 
     ParsedSkillInfo[] expected = {
       new ParsedSkillInfo(5, "Stomach of Steel", PermStatus.NONE),
@@ -116,7 +116,7 @@ public class CharSheetRequestTest {
   public void parseOldSkills() {
     String html = html("request/test_charsheet_SHO_17.html");
     ParsedSkillInfo[] skillInfos =
-        CharSheetRequest.parseSkills(html).toArray(new ParsedSkillInfo[0]);
+        CharSheetRequest.parseSkills(html, true).toArray(new ParsedSkillInfo[0]);
 
     ParsedSkillInfo[] expected = {
       new ParsedSkillInfo(12, "Torso Awareness", PermStatus.NONE),

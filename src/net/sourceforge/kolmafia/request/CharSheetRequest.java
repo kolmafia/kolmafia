@@ -394,10 +394,6 @@ public class CharSheetRequest extends GenericRequest {
     CharSheetRequest.parseAvatar(responseText);
   }
 
-  public static List<ParsedSkillInfo> parseSkills(final String responseText) {
-    return parseSkills(responseText, true);
-  }
-
   public static List<ParsedSkillInfo> parseSkills(final String responseText, boolean available) {
     try {
       Document doc = domSerializer.createDOM(cleaner.clean(responseText));
@@ -539,9 +535,6 @@ public class CharSheetRequest extends GenericRequest {
    *
    * @param doc Parsed-and-cleaned HTML document
    */
-  public static List<ParsedSkillInfo> parseSkills(Document doc) {
-    return parseSkills(doc, true);
-  }
 
   // Assumption:
   // In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the
@@ -566,6 +559,7 @@ public class CharSheetRequest extends GenericRequest {
 
   private static final String AVAILABLE_SKILL_XPATH =
       "//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]";
+
   private static final String UNAVAILABLE_SKILL_XPATH =
       "//a[contains(@onclick,'skill') and (ancestor::*[@id='permskills'])]";
 
