@@ -6,20 +6,15 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
-import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo.PermStatus;
-import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
-import org.htmlcleaner.DomSerializer;
-import org.htmlcleaner.HtmlCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.w3c.dom.Document;
 
 public class CharSheetRequestTest {
   @BeforeEach
@@ -28,15 +23,10 @@ public class CharSheetRequestTest {
   }
 
   @Test
-  public void parseSkills() throws ParserConfigurationException {
+  public void parseSkills() {
     String html = html("request/test_charsheet_normal.html");
-
-    HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
-    DomSerializer domSerializer = new DomSerializer(cleaner.getProperties());
-    Document doc = domSerializer.createDOM(cleaner.clean(html));
-
     ParsedSkillInfo[] skillInfos =
-        CharSheetRequest.parseSkills(doc).toArray(new ParsedSkillInfo[0]);
+        CharSheetRequest.parseSkills(html).toArray(new ParsedSkillInfo[0]);
 
     ParsedSkillInfo[] expected = {
       new ParsedSkillInfo(5, "Stomach of Steel", PermStatus.NONE),
@@ -123,15 +113,10 @@ public class CharSheetRequestTest {
   }
 
   @Test
-  public void parseOldSkills() throws ParserConfigurationException {
+  public void parseOldSkills() {
     String html = html("request/test_charsheet_SHO_17.html");
-
-    HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
-    DomSerializer domSerializer = new DomSerializer(cleaner.getProperties());
-    Document doc = domSerializer.createDOM(cleaner.clean(html));
-
     ParsedSkillInfo[] skillInfos =
-        CharSheetRequest.parseSkills(doc).toArray(new ParsedSkillInfo[0]);
+        CharSheetRequest.parseSkills(html).toArray(new ParsedSkillInfo[0]);
 
     ParsedSkillInfo[] expected = {
       new ParsedSkillInfo(12, "Torso Awareness", PermStatus.NONE),
@@ -140,6 +125,36 @@ public class CharSheetRequestTest {
     assertEquals(99, skillInfos.length);
     assertTrue(Arrays.asList(skillInfos).contains(expected[0]));
     assertTrue(Arrays.asList(skillInfos).contains(expected[1]));
+  }
+
+  @Test
+  public void parseAvailablePermedSkills() {
+    String html = html("request/test_charsheet_permed_skills.html");
+    ParsedSkillInfo[] skillInfos =
+        CharSheetRequest.parseSkills(html, true).toArray(new ParsedSkillInfo[0]);
+
+    ParsedSkillInfo[] expected = {
+      new ParsedSkillInfo(3012, "Cannelloni Cocoon", PermStatus.SOFTCORE),
+    };
+    assertEquals(120, skillInfos.length);
+    assertTrue(Arrays.asList(skillInfos).contains(expected[0]));
+  }
+
+  @Test
+  public void parseUnavailablePermedSkills() {
+    String html = html("request/test_charsheet_permed_skills.html");
+    ParsedSkillInfo[] skillInfos =
+        CharSheetRequest.parseSkills(html, false).toArray(new ParsedSkillInfo[0]);
+
+    ParsedSkillInfo[] expected = {
+      new ParsedSkillInfo(12, "Torso Awareness", PermStatus.SOFTCORE),
+      new ParsedSkillInfo(5014, "Advanced Cocktailcrafting", PermStatus.SOFTCORE),
+      new ParsedSkillInfo(5018, "Superhuman Cocktailcrafting", PermStatus.SOFTCORE)
+    };
+    assertEquals(3, skillInfos.length);
+    assertTrue(Arrays.asList(skillInfos).contains(expected[0]));
+    assertTrue(Arrays.asList(skillInfos).contains(expected[1]));
+    assertTrue(Arrays.asList(skillInfos).contains(expected[2]));
   }
 
   @ParameterizedTest

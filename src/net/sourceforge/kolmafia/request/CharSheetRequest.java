@@ -295,7 +295,7 @@ public class CharSheetRequest extends GenericRequest {
     List<UseSkillRequest> permedSkillSet = new ArrayList<>();
     Set<Integer> hardcorePermedSkillSet = new HashSet<>();
 
-    List<ParsedSkillInfo> parsedSkillInfos = parseSkills(doc);
+    List<ParsedSkillInfo> parsedSkillInfos = parseSkills(doc, true);
     for (ParsedSkillInfo skillInfo : parsedSkillInfos) {
       UseSkillRequest currentSkill = null;
       if (skillInfo.isBadId()) {
@@ -395,8 +395,13 @@ public class CharSheetRequest extends GenericRequest {
   }
 
   public static List<ParsedSkillInfo> parseSkills(final String responseText) {
+    return parseSkills(responseText, true);
+  }
+
+  public static List<ParsedSkillInfo> parseSkills(final String responseText, boolean available) {
     try {
-      return parseSkills(domSerializer.createDOM(cleaner.clean(responseText)));
+      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
+      return parseSkills(doc, available);
     } catch (ParserConfigurationException e) {
       e.printStackTrace();
       return new ArrayList<ParsedSkillInfo>();
@@ -535,36 +540,42 @@ public class CharSheetRequest extends GenericRequest {
    * @param doc Parsed-and-cleaned HTML document
    */
   public static List<ParsedSkillInfo> parseSkills(Document doc) {
-    // Assumption:
-    // In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the
-    // following:
-    //
-    //	(Most of the time)
-    //	<a
-    // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a><br>
-    //	<a
-    // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (P)<br>
-    //	<a
-    // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (<b>HP</b>)<br>
-    //	(Rarely)
-    //	<a onclick="skill(SKILL_ID)">Skill Name</a>
-    //
-    // ...where SKILL_ID is an integer, and P/HP indicate perm status.
-    //
-    // Skills that you cannot use right now (e.g. due to path restrictions) are wrapped in a <span>
-    // tag:
-    //
-    //	<span id="permskills" ...>...</span>
+    return parseSkills(doc, true);
+  }
+
+  // Assumption:
+  // In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the
+  // following:
+  //
+  //	(Most of the time)
+  //	<a
+  // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a><br>
+  //	<a
+  // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (P)<br>
+  //	<a
+  // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (<b>HP</b>)<br>
+  //	(Rarely)
+  //	<a onclick="skill(SKILL_ID)">Skill Name</a>
+  //
+  // ...where SKILL_ID is an integer, and P/HP indicate perm status.
+  //
+  // Skills that you cannot use right now (e.g. due to path restrictions) are wrapped in a <span>
+  // tag:
+  //
+  //	<span id="permskills" ...>...</span>
+
+  private static final String AVAILABLE_SKILL_XPATH =
+      "//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]";
+  private static final String UNAVAILABLE_SKILL_XPATH =
+      "//a[contains(@onclick,'skill') and (ancestor::*[@id='permskills'])]";
+
+  private static List<ParsedSkillInfo> parseSkills(Document doc, boolean available) {
+    String xpath = available ? AVAILABLE_SKILL_XPATH : UNAVAILABLE_SKILL_XPATH;
     NodeList skillNodes;
     try {
       skillNodes =
           (NodeList)
-              XPathFactory.newInstance()
-                  .newXPath()
-                  .evaluate(
-                      "//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]",
-                      doc,
-                      XPathConstants.NODESET);
+              XPathFactory.newInstance().newXPath().evaluate(xpath, doc, XPathConstants.NODESET);
     } catch (XPathExpressionException e) {
       // Our xpath selector is bad; this build shouldn't be released at all
       e.printStackTrace();
