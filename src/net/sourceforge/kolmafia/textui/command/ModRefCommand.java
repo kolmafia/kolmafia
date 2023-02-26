@@ -16,7 +16,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ModRefCommand extends AbstractCommand {
   public ModRefCommand() {
-    this.usage = " [filter>] [<object>] - list all modifiers, show values for player [and object].";
+    this.usage =
+        " [<filter>] [<object>] - list all modifiers, show values for player [and object].";
   }
 
   @Override
