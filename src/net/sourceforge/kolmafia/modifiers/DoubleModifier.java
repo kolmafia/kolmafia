@@ -129,7 +129,7 @@ public enum DoubleModifier implements Modifier {
       new Pattern[] {
         Pattern.compile("Spell Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Spell Damage"),
       },
-      Pattern.compile("(?:^|, )Spell Damage: " + EXPR)),
+      Pattern.compile("Spell Damage: " + EXPR)),
   SPELL_DAMAGE_PCT(
       "Spell Damage Percent",
       new Pattern[] {
@@ -225,7 +225,7 @@ public enum DoubleModifier implements Modifier {
   VOLLEYBALL_WEIGHT("Volleyball", Pattern.compile("Volley(?:ball)?: " + EXPR)),
   SOMBRERO_WEIGHT("Sombrero", Pattern.compile("Somb(?:rero)?: " + EXPR)),
   LEPRECHAUN_WEIGHT("Leprechaun", Pattern.compile("Lep(?:rechaun)?: " + EXPR)),
-  FAIRY_WEIGHT("Fairy", Pattern.compile("(?:^|, )Fairy: " + EXPR)),
+  FAIRY_WEIGHT("Fairy", Pattern.compile("Fairy: " + EXPR)),
   MEATDROP_PENALTY("Meat Drop Penalty", Pattern.compile("Meat Drop Penalty: " + EXPR)),
   HIDDEN_FAMILIAR_WEIGHT(
       "Hidden Familiar Weight", Pattern.compile("Familiar Weight \\(hidden\\): " + EXPR)),
@@ -295,7 +295,7 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("([+-]\\d+) Moxie Stat.*Per Fight"),
       Pattern.compile("Experience \\(Moxie\\): " + EXPR),
       "Experience (Moxie)"),
-  EFFECT_DURATION("Effect Duration", Pattern.compile("(?:^|, )Effect Duration: " + EXPR)),
+  EFFECT_DURATION("Effect Duration", Pattern.compile("Effect Duration: " + EXPR)),
   CANDYDROP(
       "Candy Drop",
       Pattern.compile("([+-]\\d+)% Candy Drops? [Ff]rom Monsters$"),
@@ -502,7 +502,7 @@ public enum DoubleModifier implements Modifier {
         Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"),
         Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
       },
-      Pattern.compile("(?:^|, )Sauce Spell Damage: " + EXPR)),
+      Pattern.compile("Sauce Spell Damage: " + EXPR)),
   MONSTER_LEVEL_PERCENT(
       "Monster Level Percent",
       Pattern.compile("([+-]\\d+)% Monster Level"),
@@ -590,7 +590,7 @@ public enum DoubleModifier implements Modifier {
       }
 
       Matcher matcher = pattern.matcher(tag);
-      if (matcher.find()) {
+      if (matcher.matches()) {
         return modifier;
       }
     }

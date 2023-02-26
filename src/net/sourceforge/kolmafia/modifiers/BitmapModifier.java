@@ -88,7 +88,7 @@ public enum BitmapModifier implements Modifier {
       }
 
       Matcher matcher = pattern.matcher(tag);
-      if (matcher.find()) {
+      if (matcher.matches()) {
         return modifier;
       }
     }
