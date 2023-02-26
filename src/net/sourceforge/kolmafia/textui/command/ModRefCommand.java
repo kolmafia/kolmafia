@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ModRefCommand extends AbstractCommand {
   public ModRefCommand() {
@@ -23,7 +24,7 @@ public class ModRefCommand extends AbstractCommand {
     String filter = null;
     Modifiers mods = null;
     String[] tokens = parameters.split("\\s+", 2);
-    if (tokens.length > 0) {
+    if (tokens.length > 0 && !tokens[0].equals("")) {
       mods = ModifierDatabase.getModifiers(ModifierType.ITEM, parameters);
       if (mods == null) {
         // assume first word is a filter
@@ -94,7 +95,7 @@ public class ModRefCommand extends AbstractCommand {
       Function<T, String> charModString,
       BiFunction<Modifiers, T, String> modString) {
     String mod = modifier.getName();
-    if (filter != null && !matchesFilter(mod.toLowerCase(), filter)) {
+    if (filter != null && !StringUtilities.matchesFilter(mod.toLowerCase(), filter)) {
       return;
     }
     buf.append("<tr><td>");
@@ -106,16 +107,5 @@ public class ModRefCommand extends AbstractCommand {
       buf.append(modString.apply(mods, modifier));
     }
     buf.append("</td></tr>");
-  }
-
-  /**
-   * Return whether a modifier matches a filter.
-   *
-   * @param name modifier name to match on
-   * @param filter filter. Filters can contain '*' which are interpreted as 'any nonempty string'.
-   * @return whether the name matches the filter
-   */
-  private boolean matchesFilter(String name, String filter) {
-    return name.contains(filter);
   }
 }
