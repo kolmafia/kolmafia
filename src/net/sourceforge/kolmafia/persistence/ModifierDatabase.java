@@ -680,9 +680,8 @@ public class ModifierDatabase {
         newMods.setString(mod, value);
         break;
       }
-
-      newMods.setString(StringModifier.MODIFIERS, string);
     }
+    newMods.setString(StringModifier.MODIFIERS, list.toString());
 
     return newMods;
   }
