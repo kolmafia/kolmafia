@@ -934,4 +934,40 @@ public class StringUtilities {
         .map(c -> capitalize(c.toLowerCase()))
         .collect(Collectors.joining(" "));
   }
+
+  /**
+   * Return whether a string matches a filter.
+   *
+   * @param str string to attempt match on
+   * @param filter filter. Filters can contain '*' which are interpreted as 'any string'.
+   * @return whether the string matches the filter
+   */
+  public static boolean matchesFilter(String str, String filter) {
+    if ("".equals(filter)) return "".equals(str);
+
+    if (!filter.contains("*")) return filter.equals(str);
+
+    // guarantee subFilters will have positive length
+    if (filter.equals("*")) return true;
+
+    String[] subFilters = filter.split("[*]");
+
+    if (!filter.startsWith("*")) {
+      var firstFilter = subFilters[0];
+      if (!str.startsWith(firstFilter)) return false;
+    }
+
+    if (!filter.endsWith("*")) {
+      var lastFilter = subFilters[subFilters.length - 1];
+      if (!str.endsWith(lastFilter)) return false;
+    }
+
+    int searchIndex = 0;
+    for (var s : subFilters) {
+      var index = str.indexOf(s, searchIndex);
+      if (index == -1) return false;
+      searchIndex = index + s.length();
+    }
+    return true;
+  }
 }

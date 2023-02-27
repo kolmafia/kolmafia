@@ -3,7 +3,11 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.*;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.CandyType;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -189,6 +193,12 @@ public class CheckDataCommand extends AbstractCommand {
       int itemId = StringUtilities.parseInt(parameters);
       DebugDatabase.checkSkills(itemId);
       RequestLogger.printLine("Internal skill data checked.");
+      return;
+    }
+
+    if (command.equals("checksvngit")) {
+      DebugDatabase.checkLocalSVNRepositoryForGitHub(KoLConstants.SVN_LOCATION);
+      RequestLogger.printLine("Local SVN repos scanned for possible GitHub access via SVN.");
       return;
     }
 

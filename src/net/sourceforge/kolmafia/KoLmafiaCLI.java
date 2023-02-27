@@ -577,6 +577,7 @@ public class KoLmafiaCLI {
         .register("checkrepo")
         .register("checkshields")
         .register("checkskills")
+        .register("checksvngit")
         .register("checkwikimonsters")
         .register("checkwikimonsterelementalattacks")
         .register("checkzapgroups");

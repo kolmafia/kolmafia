@@ -263,6 +263,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   public int getSnarfblat() {
+    if (this.adventureId.equals("shadow_rift")) {
+      // Going through a Shadow Rift redirects to
+      // adventure.php?snarfblat=567
+      return AdventurePool.SHADOW_RIFT;
+    }
+
     if (!hasSnarfblat()) {
       return -1;
     }
@@ -3322,10 +3328,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public static int lastAdventureId() {
     KoLAdventure location = KoLAdventure.lastVisitedLocation;
-
-    return location == null || !StringUtilities.isNumeric(location.adventureId)
-        ? 0
-        : StringUtilities.parseInt(location.adventureId);
+    if (location == null) {
+      return 0;
+    }
+    // adventure.php locations
+    if (location.adventureNumber != -1) {
+      return location.adventureNumber;
+    }
+    // Mines, for example
+    if (StringUtilities.isNumeric(location.adventureId)) {
+      return StringUtilities.parseInt(location.adventureId);
+    }
+    // Anything else
+    return 0;
   }
 
   public static String lastAdventureIdString() {

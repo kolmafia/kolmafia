@@ -2122,6 +2122,7 @@ user	_setOfJacksUsed	false
 user	_sewingKitUsed	false
 user	_sexChanged	false
 user	_shadowBricksUsed	0
+user	_shadowRiftCombats	0
 user	_shatteringPunchUsed	0
 user	_shortOrderCookCharge	0
 user	_shrubCharge	0
