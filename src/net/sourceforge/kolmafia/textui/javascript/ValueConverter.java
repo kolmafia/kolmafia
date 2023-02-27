@@ -84,11 +84,11 @@ public class ValueConverter {
     } else if (value.getType().equals(DataTypes.BOOLEAN_TYPE)) {
       return value.contentLong != 0;
     } else if (value.getType().equals(DataTypes.INT_TYPE)) {
-      if ( Math.abs(value.contentLong) > Integer.MAX_VALUE) {
-        return BigInteger.valueOf( value.contentLong );
+      if (Math.abs(value.contentLong) > Integer.MAX_VALUE) {
+        return BigInteger.valueOf(value.contentLong);
       }
       return value.contentLong;
-    } else if (value.getType().equals( DataTypes.FLOAT_TYPE)) {
+    } else if (value.getType().equals(DataTypes.FLOAT_TYPE)) {
       return value.floatValue();
     } else if (value.getType().equals(DataTypes.STRING_TYPE)
         || value.getType().equals(DataTypes.STRICT_STRING_TYPE)) {
