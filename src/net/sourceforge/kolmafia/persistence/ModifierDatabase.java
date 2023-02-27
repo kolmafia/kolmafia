@@ -575,6 +575,7 @@ public class ModifierDatabase {
 
     newMods.setLookup(lookup);
 
+    modLoop:
     for (var modValue : list) {
       var string = modValue.toString();
 
@@ -595,7 +596,7 @@ public class ModifierDatabase {
           newMods.addExpression(
               new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
         }
-        break;
+        continue modLoop;
       }
 
       for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
@@ -629,20 +630,22 @@ public class ModifierDatabase {
             mask |= mask << 1;
           }
           default -> {
-            KoLmafia.updateDisplay(
-                "ERROR: invalid count for bitmap modifier in " + lookup.toString());
-            continue;
+            String message = "ERROR: invalid count for bitmap modifier in " + lookup.toString();
+            KoLmafia.updateDisplay(message);
+            throw new IllegalStateException(message);
           }
         }
         if (bitmapMasks.get(mod) == 0) {
-          KoLmafia.updateDisplay(
+          String message =
               "ERROR: too many sources for bitmap modifier "
                   + mod.getName()
-                  + ", consider using longs.");
+                  + ", consider using longs.";
+          KoLmafia.updateDisplay(message);
+          throw new IllegalStateException(message);
         }
 
         newMods.addBitmap(mod, mask);
-        break;
+        continue modLoop;
       }
 
       for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
@@ -657,7 +660,7 @@ public class ModifierDatabase {
         }
 
         newMods.setBoolean(mod, true);
-        break;
+        continue modLoop;
       }
 
       for (var mod : StringModifier.STRING_MODIFIERS) {
@@ -678,7 +681,7 @@ public class ModifierDatabase {
         }
 
         newMods.setString(mod, value);
-        break;
+        continue modLoop;
       }
     }
     newMods.setString(StringModifier.MODIFIERS, list.toString());
