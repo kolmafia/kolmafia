@@ -301,8 +301,10 @@ public class PlaceRequest extends GenericRequest {
         }
       }
       case "woods" -> {
-        if (!responseText.contains("You are not yet ready to be here."))
-          Preferences.setBoolean("getawayCampsiteUnlocked", responseText.contains("campaway"));
+        if (!responseText.contains("You are not yet ready to be here.")
+            && responseText.contains("campaway")) {
+          Preferences.setBoolean("getawayCampsiteUnlocked", true);
+        }
       }
       case "wildfire_camp" -> WildfireCampRequest.parseResponse(urlString, responseText);
       default -> {
