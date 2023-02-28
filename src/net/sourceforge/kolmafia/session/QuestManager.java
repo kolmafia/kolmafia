@@ -537,6 +537,7 @@ public class QuestManager {
       if (responseText.contains("I saw this awesome T-shirt")
           || responseText.contains("I saw this awesome T-shirt")) {
         QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.STARTED);
+        ResultProcessor.removeItem(ItemPool.LETTER_FOR_MELVIGN);
       }
       // I dogn't have a torso.
       else if (responseText.contains("I dogn't have a torso.")) {

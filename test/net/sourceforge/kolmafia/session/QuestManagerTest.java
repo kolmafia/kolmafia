@@ -1314,8 +1314,7 @@ public class QuestManagerTest {
         var urlString = "inv_use.php?which=3&whichitem=" + ItemPool.LETTER_FOR_MELVIGN + "&ajax=1";
         var request = new GenericRequest(urlString);
         request.run();
-        // Since inv_use redirected, UseItemRequest did not remove it from inventory
-        assertTrue(InventoryManager.hasItem(ItemPool.LETTER_FOR_MELVIGN));
+        assertFalse(InventoryManager.hasItem(ItemPool.LETTER_FOR_MELVIGN));
         assertThat(Quest.SHIRT, isStarted());
       }
     }
