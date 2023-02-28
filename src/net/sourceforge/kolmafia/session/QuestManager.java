@@ -545,12 +545,10 @@ public class QuestManager {
         ResultProcessor.removeItem(ItemPool.PROFESSOR_WHAT_GARMENT);
       }
     }
-    if (responseText.contains("The Thinknerd Warehouse")) {
-      if (responseText.contains("Melvin's Comic Shop")) {
-        QuestDatabase.setQuestIfBetter(Quest.SHIRT, QuestDatabase.STARTED);
-      } else {
-        QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.FINISHED);
-      }
+    if (responseText.contains("Melvin's Comic Shop")) {
+      QuestDatabase.setQuestIfBetter(Quest.SHIRT, QuestDatabase.STARTED);
+    } else if (responseText.contains("The Thinknerd Warehouse")) {
+      QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.FINISHED);
     }
   }
 

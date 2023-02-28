@@ -2756,10 +2756,6 @@ public class ResultProcessor {
         }
         break;
 
-      case ItemPool.LETTER_FOR_MELVIGN:
-        QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.STARTED);
-        break;
-
       case ItemPool.PROFESSOR_WHAT_GARMENT:
         QuestDatabase.setQuestProgress(Quest.SHIRT, "step1");
         break;

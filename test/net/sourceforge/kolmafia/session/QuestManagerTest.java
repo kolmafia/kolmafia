@@ -1275,7 +1275,7 @@ public class QuestManagerTest {
   @Nested
   class Melvign {
     @Test
-    public void equippingShirtWithoutTorsoAwarenessStartsQuest() {
+    public void equippingShirtWithoutTorsoAwarenessGivesLetter() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
       var cleanups =
@@ -1291,7 +1291,7 @@ public class QuestManagerTest {
         var request = new GenericRequest(urlString);
         request.run();
         assertTrue(InventoryManager.hasItem(ItemPool.LETTER_FOR_MELVIGN));
-        assertThat(Quest.SHIRT, isStarted());
+        assertThat(Quest.SHIRT, isUnstarted());
       }
     }
 
