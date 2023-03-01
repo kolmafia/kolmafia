@@ -221,15 +221,7 @@ public abstract class InventoryManager {
       count += item.getCount(ClanManager.getStash());
     }
 
-    count += InventoryManager.getEquippedCount(item);
-
-    for (FamiliarData current : KoLCharacter.ownedFamiliars()) {
-      if (!current.equals(KoLCharacter.getFamiliar())
-          && current.getItem() != null
-          && current.getItem().equals(item)) {
-        ++count;
-      }
-    }
+    count += InventoryManager.getEquippedCount(item, true);
 
     return count;
   }
@@ -239,11 +231,25 @@ public abstract class InventoryManager {
   }
 
   public static final int getEquippedCount(final AdventureResult item) {
+    return getEquippedCount(item, false);
+  }
+
+  public static final int getEquippedCount(
+      final AdventureResult item, boolean includeAllFamiliars) {
     int count = 0;
     for (var slot : SlotSet.SLOTS) {
       AdventureResult equipment = EquipmentManager.getEquipment(slot);
       if (equipment != null && equipment.getItemId() == item.getItemId()) {
         ++count;
+      }
+    }
+    if (includeAllFamiliars) {
+      for (FamiliarData current : KoLCharacter.ownedFamiliars()) {
+        if (!current.equals(KoLCharacter.getFamiliar())
+            && current.getItem() != null
+            && current.getItem().equals(item)) {
+          ++count;
+        }
       }
     }
     return count;

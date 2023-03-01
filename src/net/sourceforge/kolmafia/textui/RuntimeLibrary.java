@@ -71,7 +71,6 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
-import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.PriceLevel;
@@ -1174,6 +1173,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("closet_amount", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("equipped_amount", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.BOOLEAN_TYPE};
     functions.add(new LibraryFunction("equipped_amount", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.ITEM_TYPE};
@@ -5518,15 +5520,18 @@ public abstract class RuntimeLibrary {
 
   public static Value equipped_amount(ScriptRuntime controller, final Value arg) {
     AdventureResult item = ItemPool.get((int) arg.intValue(), 0);
-    int runningTotal = 0;
+    int amount = InventoryManager.getEquippedCount(item);
 
-    for (var slot : SlotSet.SLOTS) {
-      if (EquipmentManager.getEquipment(slot).equals(item)) {
-        ++runningTotal;
-      }
-    }
+    return new Value(amount);
+  }
 
-    return new Value(runningTotal);
+  public static Value equipped_amount(
+      ScriptRuntime controller, final Value arg0, final Value arg1) {
+    AdventureResult item = ItemPool.get((int) arg0.intValue(), 0);
+    boolean includeAllFamiliars = arg1.intValue() == 1;
+    int amount = InventoryManager.getEquippedCount(item, includeAllFamiliars);
+
+    return new Value(amount);
   }
 
   public static Value creatable_amount(ScriptRuntime controller, final Value arg) {
