@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1264,6 +1265,151 @@ public class QuestManagerTest {
       request.responseText = "anything";
       QuestManager.handleQuestChange(request);
       assertThat(Quest.AZAZEL, isStep(1));
+    }
+  }
+
+  /*
+   * Melvign's Garment
+   */
+
+  @Nested
+  class Melvign {
+    @Test
+    public void equippingShirtWithoutTorsoAwarenessGivesLetter() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.JURASSIC_PARKA),
+              withItem(ItemPool.LETTER_FOR_MELVIGN, 0),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_get_letter.html"));
+        var urlString =
+            "inv_equip.php?which=2&action=equip&whichitem=" + ItemPool.JURASSIC_PARKA + "&ajax=1";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertTrue(InventoryManager.hasItem(ItemPool.LETTER_FOR_MELVIGN));
+        assertThat(Quest.SHIRT, isUnstarted());
+      }
+    }
+
+    @Test
+    public void readingLetterStartsQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.LETTER_FOR_MELVIGN, 1),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(
+            302,
+            Map.of("location", List.of("place.php?whichplace=mountains&action=mts_melvin")),
+            "");
+        client.addResponse(200, html("request/test_melvign_read_letter.html"));
+        client.addResponse(200, ""); // api.php
+        var urlString = "inv_use.php?which=3&whichitem=" + ItemPool.LETTER_FOR_MELVIGN + "&ajax=1";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertFalse(InventoryManager.hasItem(ItemPool.LETTER_FOR_MELVIGN));
+        assertThat(Quest.SHIRT, isStarted());
+      }
+    }
+
+    @Test
+    public void visitShopWithoutGarmentStartsQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_visit_shop.html"));
+        var urlString = "place.php?whichplace=mountains&action=mts_melvin";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertThat(Quest.SHIRT, isStarted());
+      }
+    }
+
+    @Test
+    public void seeingComicShopStartsQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_visit_mountains_shop.html"));
+        var urlString = "place.php?whichplace=mountains";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertThat(Quest.SHIRT, isStarted());
+      }
+    }
+
+    @Test
+    public void findingGarmentAdvancesQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.PROFESSOR_WHAT_GARMENT, 0),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_get_garment.html"));
+        client.addResponse(200, ""); // api.php
+        var urlString = "adventure.php?snarfblat=387";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertTrue(InventoryManager.hasItem(ItemPool.PROFESSOR_WHAT_GARMENT));
+        assertThat(Quest.SHIRT, isStep("step1"));
+      }
+    }
+
+    @Test
+    public void returningGarmentFinishesQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.PROFESSOR_WHAT_GARMENT, 1),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_return_shirt.html"));
+        client.addResponse(200, ""); // api.php
+        var urlString = "place.php?whichplace=mountains&action=mts_melvin";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertFalse(InventoryManager.hasItem(ItemPool.PROFESSOR_WHAT_GARMENT));
+        assertTrue(InventoryManager.hasItem(ItemPool.PROFESSOR_WHAT_TSHIRT));
+        assertTrue(KoLCharacter.hasSkill(SkillPool.TORSO));
+        assertThat(Quest.SHIRT, isFinished());
+      }
+    }
+
+    @Test
+    public void seeingNoComicShopFinishesQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_visit_mountains_no_shop.html"));
+        var urlString = "place.php?whichplace=mountains";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertThat(Quest.SHIRT, isFinished());
+      }
     }
   }
 

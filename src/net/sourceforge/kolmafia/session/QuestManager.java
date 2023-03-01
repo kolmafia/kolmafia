@@ -364,6 +364,7 @@ public class QuestManager {
             }
           }
           case "monorail" -> handleMonorailChange(location, responseText);
+          case "mountains" -> handleMountainsChange(location, action, responseText);
           case "orc_chasm" -> handleChasmChange(responseText);
           case "palindome" -> handlePalindomeChange(location, responseText);
           case "plains" -> handlePlainsChange(responseText);
@@ -525,6 +526,29 @@ public class QuestManager {
     }
     if (responseText.contains("PirateRealm") && !Preferences.getBoolean("prAlways")) {
       Preferences.setBoolean("_prToday", true);
+    }
+  }
+
+  private static void handleMountainsChange(
+      final String location, String action, String responseText) {
+    if (action != null && action.equals("mts_melvin")) {
+      // I saw this awesome T-shirt
+      // haven't you fougnd my T-shirt yet?
+      if (responseText.contains("I saw this awesome T-shirt")
+          || responseText.contains("haven't you fougnd my T-shirt yet")) {
+        QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.STARTED);
+        ResultProcessor.removeItem(ItemPool.LETTER_FOR_MELVIGN);
+      }
+      // I dogn't have a torso.
+      else if (responseText.contains("I dogn't have a torso.")) {
+        QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.FINISHED);
+        ResultProcessor.removeItem(ItemPool.PROFESSOR_WHAT_GARMENT);
+      }
+    }
+    if (responseText.contains("Melvin's Comic Shop")) {
+      QuestDatabase.setQuestIfBetter(Quest.SHIRT, QuestDatabase.STARTED);
+    } else if (responseText.contains("The Thinknerd Warehouse")) {
+      QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.FINISHED);
     }
   }
 
