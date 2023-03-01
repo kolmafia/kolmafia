@@ -641,7 +641,6 @@ public class ModifierDatabase {
                   + mod.getName()
                   + ", consider using longs.";
           KoLmafia.updateDisplay(message);
-          throw new IllegalStateException(message);
         }
 
         newMods.addBitmap(mod, mask);
