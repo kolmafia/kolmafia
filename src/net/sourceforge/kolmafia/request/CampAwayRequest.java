@@ -270,11 +270,15 @@ public class CampAwayRequest extends PlaceRequest {
     return true;
   }
 
-  public static boolean campAwayTentRestUsable() {
-    return Preferences.getBoolean("restUsingCampAwayTent")
-        && Preferences.getBoolean("getawayCampsiteUnlocked")
+  public static boolean campAwayTentAvailable() {
+    return Preferences.getBoolean("getawayCampsiteUnlocked")
         && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
         && !KoLCharacter.getLimitMode().limitZone("Woods")
         && !KoLCharacter.inBadMoon();
+  }
+
+  public static boolean campAwayTentRestUsable() {
+    return Preferences.getBoolean("restUsingCampAwayTent")
+        && CampAwayRequest.campAwayTentAvailable();
   }
 }

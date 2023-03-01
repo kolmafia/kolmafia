@@ -2760,19 +2760,6 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.SHIRT, "step1");
         break;
 
-      case ItemPool.PROFESSOR_WHAT_TSHIRT:
-        {
-          String lastURL = RequestLogger.getLastURLString();
-          if (lastURL.startsWith("place.php")
-              && lastURL.contains("whichplace=mountains")
-              && lastURL.contains("action=mts_melvin")) {
-            QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.FINISHED);
-            ResultProcessor.removeItem(ItemPool.PROFESSOR_WHAT_GARMENT);
-            ResponseTextParser.learnSkill("Torso Awareness");
-          }
-          break;
-        }
-
       case ItemPool.THINKNERD_PACKAGE:
         if (adventureResults) {
           Preferences.increment("_thinknerdPackageDrops");

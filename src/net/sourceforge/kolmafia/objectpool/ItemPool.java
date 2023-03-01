@@ -2278,7 +2278,7 @@ public class ItemPool {
   public static final int PHOTOGRAPH_OF_OSTRICH_EGG = 7265;
   public static final int DISPOSABLE_CAMERA = 7266;
   public static final int PETE_JACKET_COLLAR = 7267;
-  public static final int LETTER_FROM_MELVIGN = 7268;
+  public static final int LETTER_FOR_MELVIGN = 7268;
   public static final int PROFESSOR_WHAT_GARMENT = 7269;
   public static final int PALINDROME_BOOK_2 = 7270;
   public static final int THINKNERD_PACKAGE = 7278;

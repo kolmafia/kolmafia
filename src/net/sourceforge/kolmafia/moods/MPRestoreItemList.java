@@ -150,12 +150,9 @@ public abstract class MPRestoreItemList {
   public static void updateManaRestored() {
     MPRestoreItemList.CAMPGROUND.manaPerUse = KoLCharacter.getRestingMP();
     MPRestoreItemList.FREEREST.manaPerUse =
-        ChateauRequest.chateauRestUsable()
+        (ChateauRequest.chateauRestUsable() || CampAwayRequest.campAwayTentRestUsable())
             ? 125
-            : (Preferences.getBoolean("restUsingCampAwayTent")
-                    && Preferences.getBoolean("getawayCampsiteUnlocked"))
-                ? 125
-                : KoLCharacter.getRestingMP();
+            : KoLCharacter.getRestingMP();
     MPRestoreItemList.SOFA.manaPerUse = KoLCharacter.getLevel() * 5 + 1;
     MPRestoreItemList.MYSTERY_JUICE.manaPerUse = (int) (KoLCharacter.getLevel() * 1.5f) + 5;
     MPRestoreItemList.GENERIC_MANA.manaPerUse = (int) (KoLCharacter.getLevel() * 2.5f);

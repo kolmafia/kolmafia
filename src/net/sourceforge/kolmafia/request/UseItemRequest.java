@@ -4954,10 +4954,6 @@ public class UseItemRequest extends GenericRequest {
         }
         return;
 
-      case ItemPool.LETTER_FROM_MELVIGN:
-        QuestDatabase.setQuestIfBetter(Quest.SHIRT, QuestDatabase.STARTED);
-        break;
-
       case ItemPool.XIBLAXIAN_SCHEMATIC_COWL:
       case ItemPool.XIBLAXIAN_SCHEMATIC_TROUSERS:
       case ItemPool.XIBLAXIAN_SCHEMATIC_VEST:
