@@ -433,7 +433,12 @@ public class TCRSDatabase {
   }
 
   public static void deriveApplyItem(final int id) {
-    applyModifiers(id, deriveItem(DebugDatabase.itemDescriptionText(id, false)));
+    String text = DebugDatabase.itemDescriptionText(id, false);
+
+    // should only be null in tests, but setting up the builder is hard
+    if (text != null) {
+      applyModifiers(id, deriveItem(text));
+    }
   }
 
   private static TCRS deriveItem(final String text) {
