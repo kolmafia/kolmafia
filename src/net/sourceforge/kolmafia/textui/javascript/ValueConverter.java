@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -84,9 +83,6 @@ public class ValueConverter {
     } else if (value.getType().equals(DataTypes.BOOLEAN_TYPE)) {
       return value.contentLong != 0;
     } else if (value.getType().equals(DataTypes.INT_TYPE)) {
-      if (Math.abs(value.contentLong) > Integer.MAX_VALUE) {
-        return BigInteger.valueOf(value.contentLong);
-      }
       return value.contentLong;
     } else if (value.getType().equals(DataTypes.FLOAT_TYPE)) {
       return value.floatValue();
@@ -202,7 +198,7 @@ public class ValueConverter {
         || object instanceof Short
         || object instanceof Integer
         || object instanceof Long) {
-      return DataTypes.makeIntValue(((Number) object).intValue());
+      return DataTypes.makeIntValue(((Number) object).longValue());
     } else if (object instanceof String) {
       return DataTypes.makeStringValue((String) object);
     } else if (object instanceof StringBuffer || object instanceof ConsString) {

@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
-import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -83,14 +82,30 @@ public class ValueConverterTest {
       };
 
   @Test
-  void itHandlesBigIntegersCorrectly() {
-    Value longVal = new Value(Integer.MAX_VALUE - 1);
+  void asJavaFromJavaConvertWithoutDataLoss() {
+    Value longMaxInt = new Value(Integer.MAX_VALUE - 1);
     Calendar timestamp = new GregorianCalendar();
-    Value bigVal = new Value(timestamp.getTimeInMillis());
+    Value nowTime = new Value(timestamp.getTimeInMillis());
+    Value longMaxLong = new Value(Long.MAX_VALUE);
+    Value boolTrue = new Value(true);
+    Value floatValue = new Value(Float.MAX_VALUE);
 
     ValueConverter vc = new ValueConverter(cx, scope);
-    Assertions.assertInstanceOf(Long.class, vc.asJava(longVal), longVal + " should be a Long");
-    Assertions.assertInstanceOf(
-        BigInteger.class, vc.asJava(bigVal), longVal + " should be a BigInteger");
+    Assertions.assertEquals(
+        vc.fromJava(vc.asJava(longMaxInt)),
+        longMaxInt,
+        longMaxInt + " did not convert to/from Java");
+    Assertions.assertEquals(
+        vc.fromJava(vc.asJava(longMaxLong)),
+        longMaxLong,
+        longMaxLong + " did not convert to/from Java");
+    Assertions.assertEquals(
+        vc.fromJava(vc.asJava(nowTime)), nowTime, nowTime + " did not convert to/from Java");
+    Assertions.assertEquals(
+        vc.fromJava(vc.asJava(boolTrue)), boolTrue, boolTrue + " did not convert to/from Java");
+    Assertions.assertEquals(
+        vc.fromJava(vc.asJava(floatValue)),
+        floatValue,
+        floatValue + " did not convert to/from Java");
   }
 }
