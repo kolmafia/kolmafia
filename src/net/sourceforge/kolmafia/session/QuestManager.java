@@ -535,7 +535,7 @@ public class QuestManager {
       // I saw this awesome T-shirt
       // haven't you fougnd my T-shirt yet?
       if (responseText.contains("I saw this awesome T-shirt")
-          || responseText.contains("I saw this awesome T-shirt")) {
+          || responseText.contains("haven't you fougnd my T-shirt yet")) {
         QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.STARTED);
         ResultProcessor.removeItem(ItemPool.LETTER_FOR_MELVIGN);
       }
