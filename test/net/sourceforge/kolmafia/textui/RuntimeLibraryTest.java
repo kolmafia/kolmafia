@@ -4,8 +4,10 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withFamiliarInTerrariumWithItem;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
@@ -28,6 +30,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -452,76 +455,92 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
     }
 
-    @Nested
-    class PathFunctions {
-      @ParameterizedTest
-      @ValueSource(
-          strings = {
-            "boolean test(string p) { return p == \"Trendy\"; } test($path[Trendy])",
-            "string p = my_path(); (p == \"Trendy\")",
-            "(my_path() == \"Trendy\")",
-            "my_path().starts_with(\"Tre\")",
-            "boolean test() { switch (my_path()) { case \"Trendy\": return true; default: return false; } } test()",
-            "boolean test(string path_name) { switch (path_name) { case $path[Trendy]: return true; default: return false; } } test(\"Trendy\")",
-            "($strings[Trendy] contains my_path())",
-            "($paths[Trendy] contains \"Trendy\")"
-          })
-      void myPathCoercesToString(String command) {
-        // my_path() used to return a string, we want to make sure that we don't break old scripts
-        // where possible
-        var cleanups = new Cleanups(withPath(Path.TRENDY));
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void equippedAmountIncludesFamiliarsIfSpecified(final boolean include) {
+      var cleanups =
+          new Cleanups(
+              withFamiliarInTerrariumWithItem(FamiliarPool.MOSQUITO, ItemPool.LEAD_NECKLACE),
+              withFamiliarInTerrariumWithItem(FamiliarPool.POTATO, ItemPool.LEAD_NECKLACE),
+              withFamiliar(FamiliarPool.GOAT),
+              withEquipped(Slot.FAMILIAR, ItemPool.LEAD_NECKLACE));
 
-        try (cleanups) {
-          String output = execute(command);
-          assertThat(output, endsWith("Returned: true\n"));
-        }
+      try (cleanups) {
+        String output = execute("equipped_amount($item[lead necklace], " + include + ")");
+        assertThat(output, endsWith("Returned: " + (include ? 3 : 1) + "\n"));
       }
+    }
+  }
 
-      @ParameterizedTest
-      @ValueSource(
-          strings = {
-            "(my_path() == \"None\")",
-            "boolean test() { switch (my_path()) { case \"None\": return true; default: return false; } } test()",
-          })
-      void nonePathIsTitleCases(String command) {
-        // Unrestricted used to be "None" but now it's technically "none". These tests make sure
-        // coercion is handling this
-        // We know it won't work in one case: "None" == my_path(). So if you wrote that, you're SOL
-        // :)
-        var cleanups = new Cleanups(withPath(Path.NONE));
+  @Nested
+  class PathFunctions {
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "boolean test(string p) { return p == \"Trendy\"; } test($path[Trendy])",
+          "string p = my_path(); (p == \"Trendy\")",
+          "(my_path() == \"Trendy\")",
+          "my_path().starts_with(\"Tre\")",
+          "boolean test() { switch (my_path()) { case \"Trendy\": return true; default: return false; } } test()",
+          "boolean test(string path_name) { switch (path_name) { case $path[Trendy]: return true; default: return false; } } test(\"Trendy\")",
+          "($strings[Trendy] contains my_path())",
+          "($paths[Trendy] contains \"Trendy\")"
+        })
+    void myPathCoercesToString(String command) {
+      // my_path() used to return a string, we want to make sure that we don't break old scripts
+      // where possible
+      var cleanups = new Cleanups(withPath(Path.TRENDY));
 
-        try (cleanups) {
-          String output = execute(command);
-          assertThat(output, endsWith("Returned: true\n"));
-        }
+      try (cleanups) {
+        String output = execute(command);
+        assertThat(output, endsWith("Returned: true\n"));
       }
+    }
 
-      @Test
-      void myPathCoercionWorksInJs() {
-        getInstance().command = "js";
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "(my_path() == \"None\")",
+          "boolean test() { switch (my_path()) { case \"None\": return true; default: return false; } } test()",
+        })
+    void nonePathIsTitleCases(String command) {
+      // Unrestricted used to be "None" but now it's technically "none". These tests make sure
+      // coercion is handling this
+      // We know it won't work in one case: "None" == my_path(). So if you wrote that, you're SOL
+      // :)
+      var cleanups = new Cleanups(withPath(Path.NONE));
 
-        var cleanups = new Cleanups(withPath(Path.TRENDY));
-
-        try (cleanups) {
-          String output = execute("myPath() == \"Trendy\"");
-          assertThat(output, endsWith("Returned: true\n"));
-        }
-
-        getInstance().command = "ash";
+      try (cleanups) {
+        String output = execute(command);
+        assertThat(output, endsWith("Returned: true\n"));
       }
     }
 
     @Test
-    void environmentIsLowercase() {
-      String output = execute("($location[Noob Cave].environment == 'underground')");
-      assertThat(output, endsWith("Returned: true\n"));
-    }
+    void myPathCoercionWorksInJs() {
+      getInstance().command = "js";
 
-    @Test
-    void diffLevelIsLowercase() {
-      String output = execute("($location[Noob Cave].difficulty_level == 'low')");
-      assertThat(output, endsWith("Returned: true\n"));
+      var cleanups = new Cleanups(withPath(Path.TRENDY));
+
+      try (cleanups) {
+        String output = execute("myPath() == \"Trendy\"");
+        assertThat(output, endsWith("Returned: true\n"));
+      }
+
+      getInstance().command = "ash";
     }
+  }
+
+  @Test
+  void environmentIsLowercase() {
+    String output = execute("($location[Noob Cave].environment == 'underground')");
+    assertThat(output, endsWith("Returned: true\n"));
+  }
+
+  @Test
+  void diffLevelIsLowercase() {
+    String output = execute("($location[Noob Cave].difficulty_level == 'low')");
+    assertThat(output, endsWith("Returned: true\n"));
   }
 
   @Nested
