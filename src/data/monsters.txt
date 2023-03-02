@@ -401,7 +401,7 @@ lowercase K	938	lower_k.gif	Atk: 57 Def: 49 HP: 60 Init: 45 P: humanoid Article:
 lumberjack supervisor	236	lumbersup.gif	Atk: 40 Def: 36 HP: 40 Init: 60 Meat: 30 P: dude Article: a	balaclava (5)	balaclava baklava (25)
 lumberjill	234	lumberjill.gif	Atk: 36 Def: 32 HP: 36 Init: 60 Meat: 20 P: dude Article: a	Blatantly Canadian (30)	maple syrup (30)	supportive bra (c20)
 lumberjuan	235	lumberjuan.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 20 P: dude Article: a	los chinos (5)	leaflet (15)	wooden axe (5)
-lynyrd	1533	FREE lynyrd.gif	Atk: 150 Def: 150 HP: 155 Init: 10000 P: beast Article: a	lynyrd skin (100)
+lynyrd	1533	lynyrd.gif	FREE Atk: 150 Def: 150 HP: 155 Init: 10000 P: beast Article: a	lynyrd skin (100)
 lynyrd skinner	1526	skinner.gif	Atk: 140 Def: 130 HP: 135 Init: 50 Meat: 125 P: dude Article: a	sweet roll Alabama (25)	Saturday Night Special (5)	lynyrd snare (15)	lynyrd musk (25)	lynyrd skinner toothblack (c0)
 mad bugbears	257	madbugbear.gif	Atk: 16 Def: 15 HP: 13 Init: 50 Group: 3 P: beast
 mad wino	1563	madwino.gif	Atk: 148 Def: 141 HP: 150 Init: 50 Meat: 50 P: hobo EA: spooky Article: a	pie man was not meant to eat (10)	crazy hobo notebook (10)	Psychotic Train wine (10)	page of the Necrohobocon (c15)
@@ -2583,9 +2583,9 @@ stiff disco dancer	1444	disco_stiff.gif	Scale: 0 Cap: 3000 Init: -10000 P: const
 The Sagittarian	1447	sagittarian.gif	NOCOPY NOMANUEL Atk: 100 Def: 100 HP: 500 Init: 1000 P: dude EA: cold EA: hot EA: sleaze	The Sagittarian's leisure pants (100)
 
 # Wandering Accordionists (October 2013)
-depressing French accordionist	1452	wanderacc1.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude EA: hot EA: stench Article: a	Bal-musette accordion (a0)
-lively Cajun accordionist	1453	wanderacc2.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude EA: hot Article: a	Cajun accordion (a0)
-quirky indie-rock accordionist	1454	wanderacc3.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude Article: a	quirky accordion (a0)
+depressing French accordionist	1452	wanderacc1.gif	FREE WANDERER Scale: -3 Floor: ? Init: -10000 P: dude EA: hot EA: stench Article: a	Bal-musette accordion (a0)
+lively Cajun accordionist	1453	wanderacc2.gif	FREE WANDERER Scale: -3 Floor: ? Init: -10000 P: dude EA: hot Article: a	Cajun accordion (a0)
+quirky indie-rock accordionist	1454	wanderacc3.gif	FREE WANDERER Scale: -3 Floor: ? Init: -10000 P: dude Article: a	quirky accordion (a0)
 Frank &quot;Skipper&quot; Dan, the Accordion Lord	1455	accboss.gif	NOCOPY NOMANUEL WANDERER Scale: 7 Init: -10000 P: dude	Skipper's accordion (n100)
 
 # The Spirit World (November 2013)
@@ -2595,11 +2595,11 @@ spirit faucet	1458	spiritfaucet.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P:
 spirit pea	1457	spiritpea.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead EA: spooky Article: a	spirit gum (5)
 
 # Peripatetic Pasta (November 2013)
-Possessed Can of Linguine-Os	1461	mystwander1.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: hot Article: a	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
-Possessed Can of Creepy Pasta	1465	mystwander2.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: spooky Article: a	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
-Frozen Bag of Tortellini	1462	mystwander3.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: cold Article: a	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
-Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: stench Article: a Manuel: "Possessed Jar of Alphredo™"	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
-Box of Crafty Dinner	1464	mystwander5.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: sleaze Article: a	handful of crafty noodles (c0)	handful of crafty noodles (c0)
+Possessed Can of Linguine-Os	1461	mystwander1.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: hot Article: a	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
+Possessed Can of Creepy Pasta	1465	mystwander2.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: spooky Article: a	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
+Frozen Bag of Tortellini	1462	mystwander3.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: cold Article: a	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
+Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: stench Article: a Manuel: "Possessed Jar of Alphredo™"	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
+Box of Crafty Dinner	1464	mystwander5.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: sleaze Article: a	handful of crafty noodles (c0)	handful of crafty noodles (c0)
 Chef Boy, R&amp;D	1466	chefboy.gif	NOCOPY NOMANUEL WANDERER Scale: 5 Init: -10000 P: dude Phys: 100 Elem: 50 EA: hot
 
 # The WarBear Fortress (Crimbo 2013)
