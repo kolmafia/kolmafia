@@ -1095,11 +1095,6 @@ public class QuestManager {
     if (responseText.contains("action=emptybm")) {
       Preferences.setInteger("lastWuTangDefeated", KoLCharacter.getAscensions());
     }
-
-    if (!responseText.contains("You are not yet ready to be here.")
-        && responseText.contains("campaway")) {
-      Preferences.setBoolean("getawayCampsiteUnlocked", true);
-    }
   }
 
   private static void handleBatholeChange(final String responseText) {
