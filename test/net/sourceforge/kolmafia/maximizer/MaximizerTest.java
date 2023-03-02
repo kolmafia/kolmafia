@@ -933,6 +933,28 @@ public class MaximizerTest {
   }
 
   @Nested
+  class Mutex {
+    @Test
+    public void equipAtMostOneHalo() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.SHINING_HALO),
+              withEquippableItem(ItemPool.TIME_HALO),
+              withEquippableItem(ItemPool.TIME_SWORD));
+
+      try (cleanups) {
+        assertTrue(maximize("adv, exp"));
+
+        assertEquals(5, modFor(DoubleModifier.ADVENTURES), 0.01);
+        recommendedSlotIsUnchanged(Slot.WEAPON);
+        recommendedSlotIs(Slot.ACCESSORY1, "time halo");
+        recommendedSlotIsUnchanged(Slot.ACCESSORY2);
+        recommendedSlotIsUnchanged(Slot.ACCESSORY3);
+      }
+    }
+  }
+
+  @Nested
   class Modeables {
     @Test
     public void canFoldUmbrella() {
