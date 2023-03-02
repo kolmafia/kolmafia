@@ -1626,8 +1626,8 @@
 27061	Seven Foot Feelings	goocon32.gif	0	0	0
 27062	Self-Actualized	goocon49.gif	0	0	0
 
-# Pig Skinner						
-						
+# Pig Skinner
+
 28000	Tackle	clobber.gif	5	0	0	
 28001	Ribald Memories	blush.gif	0	0	0	1
 28002	Blasted Glutes	asshat.gif	0	0	0	2
@@ -1650,9 +1650,9 @@
 28019	Free-For-All	explosion.gif	5	50	0	9
 28020	Tape Up	bandage3.gif	3	20	10	10
 28021	Punt	football2.gif	5	30	0	11
-						
-# Cheese Wizard						
-						
+
+# Cheese Wizard
+
 29000	Caseus Vampirus	goatcheese.gif	5	0	0	
 29001	Mind Over Muenster	realbrain.gif	0	0	0	1
 29002	Subcutaneous Gouda	sebashield.gif	0	0	0	2
@@ -1675,9 +1675,9 @@
 29019	Stilton Splatter	stilton.gif	5	10	0	9
 29020	Queso Fustulento	quesofust.gif	3	10	10	10
 29021	Fondeluge	fondeluge.gif	5	50	0	11
-						
-# Jazz Agent						
-						
+
+# Jazz Agent
+
 30000	Demoralizing Toot	goldtrumpet.gif	5	0	0	
 30001	Thick Calluses	pod_hard.gif	0	0	0	1
 30002	Impeccable Timing	neckclock.gif	0	0	0	10
