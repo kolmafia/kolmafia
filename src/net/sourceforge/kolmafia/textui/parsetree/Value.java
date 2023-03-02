@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.List;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -12,6 +13,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 import org.eclipse.lsp4j.Location;
@@ -93,25 +95,29 @@ public class Value implements TypedNode, Comparable<Value> {
     this.content = original.content;
   }
 
+  public Value(final Path path) {
+    this(DataTypes.PATH_TYPE, path.getId(), path.getName(), path);
+  }
+
   public Value toFloatValue() {
-    if (this.getType().equals(DataTypes.TYPE_FLOAT)) {
+    if (this.getType().equals(TypeSpec.FLOAT)) {
       return this;
     }
     return DataTypes.makeFloatValue((double) this.contentLong);
   }
 
   public Value toIntValue() {
-    if (this.getType().equals(DataTypes.TYPE_INT)) {
+    if (this.getType().equals(TypeSpec.INT)) {
       return this;
     }
-    if (this.getType().equals(DataTypes.TYPE_BOOLEAN)) {
+    if (this.getType().equals(TypeSpec.BOOLEAN)) {
       return DataTypes.makeIntValue(this.contentLong != 0);
     }
     return DataTypes.makeIntValue((long) this.floatValue());
   }
 
   public Value toBooleanValue() {
-    if (this.getType().equals(DataTypes.TYPE_BOOLEAN)) {
+    if (this.getType().equals(TypeSpec.BOOLEAN)) {
       return this;
     }
     return DataTypes.makeBooleanValue(this.contentLong != 0);
@@ -133,7 +139,14 @@ public class Value implements TypedNode, Comparable<Value> {
       return ((StringBuffer) this.content).toString();
     }
 
-    if (this.getType().equals(DataTypes.TYPE_VOID)) {
+    if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
+      if ("none".equals(this.contentString)) {
+        return "none";
+      }
+      return this.content.toString();
+    }
+
+    if (this.getType().equals(TypeSpec.VOID)) {
       return "void";
     }
 
@@ -141,11 +154,11 @@ public class Value implements TypedNode, Comparable<Value> {
       return this.contentString;
     }
 
-    if (this.getType().equals(DataTypes.TYPE_BOOLEAN)) {
+    if (this.getType().equals(TypeSpec.BOOLEAN)) {
       return String.valueOf(this.contentLong != 0);
     }
 
-    if (this.getType().equals(DataTypes.TYPE_FLOAT)) {
+    if (this.getType().equals(TypeSpec.FLOAT)) {
       return KoLConstants.NONSCIENTIFIC_FORMAT.format(this.floatValue());
     }
 
@@ -168,14 +181,14 @@ public class Value implements TypedNode, Comparable<Value> {
   }
 
   public long intValue() {
-    if (this.getType().equals(DataTypes.TYPE_FLOAT)) {
+    if (this.getType().equals(TypeSpec.FLOAT)) {
       return (long) Double.longBitsToDouble(this.contentLong);
     }
     return this.contentLong;
   }
 
   public double floatValue() {
-    if (!this.getType().equals(DataTypes.TYPE_FLOAT)) {
+    if (!this.getType().equals(TypeSpec.FLOAT)) {
       return (double) this.contentLong;
     }
     return Double.longBitsToDouble(this.contentLong);
@@ -187,55 +200,26 @@ public class Value implements TypedNode, Comparable<Value> {
   }
 
   public Value asProxy() {
-    if (this.getType().equals(DataTypes.CLASS_TYPE)) {
-      return new ProxyRecordValue.ClassProxy(this);
-    }
-    if (this.getType().equals(DataTypes.ITEM_TYPE)) {
-      return new ProxyRecordValue.ItemProxy(this);
-    }
-    if (this.getType().equals(DataTypes.FAMILIAR_TYPE)) {
-      return new ProxyRecordValue.FamiliarProxy(this);
-    }
-    if (this.getType().equals(DataTypes.SKILL_TYPE)) {
-      return new ProxyRecordValue.SkillProxy(this);
-    }
-    if (this.getType().equals(DataTypes.EFFECT_TYPE)) {
-      return new ProxyRecordValue.EffectProxy(this);
-    }
-    if (this.getType().equals(DataTypes.LOCATION_TYPE)) {
-      return new ProxyRecordValue.LocationProxy(this);
-    }
-    if (this.getType().equals(DataTypes.MONSTER_TYPE)) {
-      return new ProxyRecordValue.MonsterProxy(this);
-    }
-    if (this.getType().equals(DataTypes.COINMASTER_TYPE)) {
-      return new ProxyRecordValue.CoinmasterProxy(this);
-    }
-    if (this.getType().equals(DataTypes.BOUNTY_TYPE)) {
-      return new ProxyRecordValue.BountyProxy(this);
-    }
-    if (this.getType().equals(DataTypes.THRALL_TYPE)) {
-      return new ProxyRecordValue.ThrallProxy(this);
-    }
-    if (this.getType().equals(DataTypes.SERVANT_TYPE)) {
-      return new ProxyRecordValue.ServantProxy(this);
-    }
-    if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
-      return new ProxyRecordValue.VykeaProxy(this);
-    }
-    if (this.getType().equals(DataTypes.ELEMENT_TYPE)) {
-      return new ProxyRecordValue.ElementProxy(this);
-    }
-    if (this.getType().equals(DataTypes.PHYLUM_TYPE)) {
-      return new ProxyRecordValue.PhylumProxy(this);
-    }
-    if (this.getType().equals(DataTypes.STAT_TYPE)) {
-      return new ProxyRecordValue.StatProxy(this);
-    }
-    if (this.getType().equals(DataTypes.SLOT_TYPE)) {
-      return new ProxyRecordValue.SlotProxy(this);
-    }
-    return this;
+    return switch (this.getType().getType()) {
+      case CLASS -> new ProxyRecordValue.ClassProxy(this);
+      case ITEM -> new ProxyRecordValue.ItemProxy(this);
+      case FAMILIAR -> new ProxyRecordValue.FamiliarProxy(this);
+      case SKILL -> new ProxyRecordValue.SkillProxy(this);
+      case EFFECT -> new ProxyRecordValue.EffectProxy(this);
+      case LOCATION -> new ProxyRecordValue.LocationProxy(this);
+      case MONSTER -> new ProxyRecordValue.MonsterProxy(this);
+      case COINMASTER -> new ProxyRecordValue.CoinmasterProxy(this);
+      case BOUNTY -> new ProxyRecordValue.BountyProxy(this);
+      case THRALL -> new ProxyRecordValue.ThrallProxy(this);
+      case SERVANT -> new ProxyRecordValue.ServantProxy(this);
+      case VYKEA -> new ProxyRecordValue.VykeaProxy(this);
+      case PATH -> new ProxyRecordValue.PathProxy(this);
+      case ELEMENT -> new ProxyRecordValue.ElementProxy(this);
+      case PHYLUM -> new ProxyRecordValue.PhylumProxy(this);
+      case STAT -> new ProxyRecordValue.StatProxy(this);
+      case SLOT -> new ProxyRecordValue.SlotProxy(this);
+      default -> this;
+    };
   }
 
   /* null-safe version of the above */
@@ -246,8 +230,19 @@ public class Value implements TypedNode, Comparable<Value> {
     return value.asProxy();
   }
 
+  public boolean isStringLike() {
+    var type = this.getType();
+
+    if (type == DataTypes.MONSTER_TYPE) {
+      // Ed the Undying has special handling in persistence/MonsterDatabase...
+      return this.contentLong == 0 || this.contentLong == 473;
+    }
+
+    return type.isStringLike();
+  }
+
   public static final Comparator<Value> ignoreCaseComparator =
-      new Comparator<Value>() {
+      new Comparator<>() {
         @Override
         public int compare(Value v1, Value v2) {
           return v1.compareToIgnoreCase(v2);
@@ -264,50 +259,37 @@ public class Value implements TypedNode, Comparable<Value> {
   }
 
   private int compareTo(final Value o, final boolean ignoreCase) {
-    if (!(o instanceof Value)) {
+    if (o == null) {
       throw new ClassCastException();
     }
 
-    if (this.getType().equals(DataTypes.BOOLEAN_TYPE)
-        || this.getType().equals(DataTypes.INT_TYPE)
-        || this.getType().equals(DataTypes.ITEM_TYPE)
-        || this.getType().equals(DataTypes.EFFECT_TYPE)
-        || this.getType().equals(DataTypes.CLASS_TYPE)
-        || this.getType().equals(DataTypes.SKILL_TYPE)
-        || this.getType().equals(DataTypes.FAMILIAR_TYPE)
-        || this.getType().equals(DataTypes.SLOT_TYPE)
-        || this.getType().equals(DataTypes.THRALL_TYPE)
-        || this.getType().equals(DataTypes.SERVANT_TYPE)) {
-      return Long.compare(this.contentLong, o.contentLong);
-    }
-
-    if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
-      // Let the underlying data type itself decide
+    // If both Vykeas, defer to Vykea compareTo. Otherwise, compare as normal
+    if (this.getType().equals(DataTypes.VYKEA_TYPE) && o.getType().equals(DataTypes.VYKEA_TYPE)) {
       VYKEACompanionData v1 = (VYKEACompanionData) (this.content);
       VYKEACompanionData v2 = (VYKEACompanionData) (o.content);
       return v1.compareTo(v2);
     }
 
-    if (this.getType().equals(DataTypes.FLOAT_TYPE)) {
-      return Double.compare(
-          Double.longBitsToDouble(this.contentLong), Double.longBitsToDouble(o.contentLong));
-    }
-
-    if (this.getType().equals(DataTypes.MONSTER_TYPE)) {
-      // If we know a monster ID, compare it
-      if (this.contentLong != 0 || o.contentLong != 0) {
-        return Long.compare(this.contentLong, o.contentLong);
+    // Prefer to order monsters by ID. If they both have id 0, then fall back to string comparison.
+    if (this.getType().equals(DataTypes.MONSTER_TYPE)
+        && o.getType().equals(DataTypes.MONSTER_TYPE)) {
+      int cmp = Long.compare(this.contentLong, o.contentLong);
+      if (cmp != 0 || !this.isStringLike()) {
+        return cmp;
       }
-      // Otherwise, must compare names
     }
 
-    if (this.contentString != null && o.contentString != null) {
+    if (this.isStringLike() || o.isStringLike()) {
       return ignoreCase
-          ? this.contentString.compareToIgnoreCase(o.contentString)
-          : this.contentString.compareTo(o.contentString);
+          ? this.toString().compareToIgnoreCase(o.toString())
+          : this.toString().compareTo(o.toString());
     }
 
-    return -1;
+    if (this.getType().equals(DataTypes.FLOAT_TYPE) || o.getType().equals(DataTypes.FLOAT_TYPE)) {
+      return Double.compare(this.toFloatValue().floatValue(), o.toFloatValue().floatValue());
+    }
+
+    return Long.compare(this.contentLong, o.contentLong);
   }
 
   public int count() {
@@ -322,7 +304,7 @@ public class Value implements TypedNode, Comparable<Value> {
 
   @Override
   public boolean equals(final Object o) {
-    return !(o instanceof Value) ? false : this.compareTo((Value) o) == 0;
+    return o instanceof Value v && this.compareTo(v) == 0;
   }
 
   @Override
@@ -347,18 +329,10 @@ public class Value implements TypedNode, Comparable<Value> {
     for (int i = 0; i < length; i++) {
       char c = string.charAt(i);
       switch (c) {
-        case '\n':
-          buffer.append("\\n");
-          break;
-        case '\t':
-          buffer.append("\\t");
-          break;
-        case '\\':
-          buffer.append("\\\\");
-          break;
-        default:
-          buffer.append(c);
-          break;
+        case '\n' -> buffer.append("\\n");
+        case '\t' -> buffer.append("\\t");
+        case '\\' -> buffer.append("\\\\");
+        default -> buffer.append(c);
       }
     }
     return buffer.toString();
@@ -381,15 +355,9 @@ public class Value implements TypedNode, Comparable<Value> {
       }
 
       switch (c) {
-        case 'n':
-          buffer.append('\n');
-          break;
-        case 't':
-          buffer.append('\t');
-          break;
-        default:
-          buffer.append(c);
-          break;
+        case 'n' -> buffer.append('\n');
+        case 't' -> buffer.append('\t');
+        default -> buffer.append(c);
       }
 
       saw_backslash = false;
@@ -404,8 +372,8 @@ public class Value implements TypedNode, Comparable<Value> {
 
   public static Value readValue(
       final Type type, final String string, final String filename, final int line) {
-    int tnum = type.getType();
-    if (tnum == DataTypes.TYPE_STRING) {
+    TypeSpec tnum = type.getType();
+    if (tnum == TypeSpec.STRING) {
       return new Value(Value.unEscapeString(string));
     }
 
@@ -432,22 +400,22 @@ public class Value implements TypedNode, Comparable<Value> {
   }
 
   public String dumpValue() {
-    int type = this.getType().getType();
-    return type == DataTypes.TYPE_STRING
+    TypeSpec type = this.getType().getType();
+    return type == TypeSpec.STRING
         ? Value.escapeString(this.contentString)
-        : type == DataTypes.TYPE_ITEM
+        : type == TypeSpec.ITEM
             ? "[" + this.contentLong + "]" + ItemDatabase.getDataName((int) this.contentLong)
-            : type == DataTypes.TYPE_EFFECT
+            : type == TypeSpec.EFFECT
                 ? "["
                     + this.contentLong
                     + "]"
                     + EffectDatabase.getEffectName((int) this.contentLong)
-                : type == DataTypes.TYPE_MONSTER && this.contentLong != 0
+                : type == TypeSpec.MONSTER && !this.isStringLike()
                     ? "["
                         + this.contentLong
                         + "]"
                         + MonsterDatabase.getMonsterName((int) this.contentLong)
-                    : type == DataTypes.TYPE_SKILL
+                    : type == TypeSpec.SKILL
                         ? "["
                             + this.contentLong
                             + "]"
@@ -466,15 +434,15 @@ public class Value implements TypedNode, Comparable<Value> {
   @Override
   public void print(final PrintStream stream, final int indent) {
     AshRuntime.indentLine(stream, indent);
-    stream.println("<VALUE " + this.getType() + " [" + this.toString() + "]>");
+    stream.println("<VALUE " + this.getType() + " [" + this + "]>");
   }
 
   public Object toJSON() throws JSONException {
-    if (this.getType().equals(DataTypes.TYPE_BOOLEAN)) {
+    if (this.getType().equals(TypeSpec.BOOLEAN)) {
       return Boolean.valueOf(this.contentLong > 0);
-    } else if (this.getType().equals(DataTypes.TYPE_INT)) {
+    } else if (this.getType().equals(TypeSpec.INT)) {
       return Long.valueOf(this.contentLong);
-    } else if (this.getType().equals(DataTypes.TYPE_FLOAT)) {
+    } else if (this.getType().equals(TypeSpec.FLOAT)) {
       return Double.valueOf(Double.longBitsToDouble(this.contentLong));
     } else {
       return this.toString();

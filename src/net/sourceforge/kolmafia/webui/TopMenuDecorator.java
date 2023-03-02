@@ -7,31 +7,27 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class TopMenuDecorator {
   public static final void decorate(final StringBuffer buffer, final String location) {
-    if (KoLCharacter.getLimitmode() == Limitmode.BATMAN) {
+    if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {
       return;
     }
 
     switch (GenericRequest.topMenuStyle) {
-      case GenericRequest.MENU_NORMAL:
-        // "normal" (links) style of topmenu.php
-        TopMenuDecorator.addScriptMenus(buffer, location);
-        break;
-
-      case GenericRequest.MENU_COMPACT:
+      case NORMAL ->
+      // "normal" (links) style of topmenu.php
+      TopMenuDecorator.addScriptMenus(buffer, location);
+      case COMPACT -> {
         // "compact" (dropdowns) style of topmenu.php
         TopMenuDecorator.adjustCompactMenu(buffer);
         TopMenuDecorator.addScriptMenus(buffer, location);
-        break;
-
-      case GenericRequest.MENU_FANCY:
-        // "fancy" (icons) style of topmenu.php
-        TopMenuDecorator.addFancyScriptMenus(buffer, location);
-        break;
+      }
+      case FANCY ->
+      // "fancy" (icons) style of topmenu.php
+      TopMenuDecorator.addFancyScriptMenus(buffer, location);
     }
 
     // Send any logout link through KoLmafia's logout command so we clean up the GUI

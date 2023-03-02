@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.BastilleBattalionManager.Stat;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,21 +22,15 @@ import org.junit.jupiter.api.Test;
 public class BastilleBattalionManagerTest {
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     GenericRequest.passwordHash = "";
     KoLCharacter.reset("");
     KoLCharacter.reset("bastille battalion user");
-    Preferences.saveSettingsToFile = false;
-  }
-
-  @AfterAll
-  private static void afterAll() {
-    Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     BastilleBattalionManager.reset();
     Preferences.setBoolean("logBastilleBattalionBattles", false);
     KoLConstants.activeEffects.clear();

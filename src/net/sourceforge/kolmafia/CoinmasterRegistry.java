@@ -27,12 +27,14 @@ import net.sourceforge.kolmafia.request.Crimbo20CandyRequest;
 import net.sourceforge.kolmafia.request.Crimbo20FoodRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
+import net.sourceforge.kolmafia.request.DinostaurRequest;
 import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
 import net.sourceforge.kolmafia.request.DiscoGiftCoRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.DripArmoryRequest;
 import net.sourceforge.kolmafia.request.EdShopRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
+import net.sourceforge.kolmafia.request.FancyDanRequest;
 import net.sourceforge.kolmafia.request.FishboneryRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
@@ -106,11 +108,13 @@ public abstract class CoinmasterRegistry {
         Crimbo20FoodRequest.CRIMBO20FOOD,
         CrimboCartelRequest.CRIMBO_CARTEL,
         DimemasterRequest.HIPPY,
+        DinostaurRequest.DINOSTAUR,
         DinseyCompanyStoreRequest.DINSEY_COMPANY_STORE,
         DiscoGiftCoRequest.DISCO_GIFTCO,
         DollHawkerRequest.DOLLHAWKER,
         DripArmoryRequest.DRIP_ARMORY,
         EdShopRequest.EDSHOP,
+        FancyDanRequest.FANCY_DAN,
         FDKOLRequest.FDKOL,
         FishboneryRequest.FISHBONERY,
         FreeSnackRequest.FREESNACKS,

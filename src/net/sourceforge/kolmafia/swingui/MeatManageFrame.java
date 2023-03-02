@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ShrineRequest;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.MeatTransferPanel;
+import net.sourceforge.kolmafia.swingui.panel.MeatTransferPanel.TransferType;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -19,9 +20,9 @@ public class MeatManageFrame extends GenericFrame {
 
     JPanel container = new JPanel(new GridLayout(4, 1));
     container.add(new HeroDonationPanel());
-    container.add(new MeatTransferPanel(MeatTransferPanel.MEAT_TO_CLOSET));
-    container.add(new MeatTransferPanel(MeatTransferPanel.MEAT_TO_INVENTORY));
-    container.add(new MeatTransferPanel(MeatTransferPanel.PULL_MEAT_FROM_STORAGE));
+    container.add(new MeatTransferPanel(TransferType.MEAT_TO_CLOSET));
+    container.add(new MeatTransferPanel(TransferType.MEAT_TO_INVENTORY));
+    container.add(new MeatTransferPanel(TransferType.PULL_MEAT_FROM_STORAGE));
 
     this.setCenterComponent(container);
   }
@@ -34,7 +35,7 @@ public class MeatManageFrame extends GenericFrame {
   /**
    * An internal class which represents the panel used for donations to the statues in the shrine.
    */
-  private class HeroDonationPanel extends LabeledPanel {
+  private static class HeroDonationPanel extends LabeledPanel {
     private final JComboBox<String> heroField;
     private final AutoHighlightTextField amountField;
 
@@ -46,7 +47,7 @@ public class MeatManageFrame extends GenericFrame {
           new Dimension(80, 20),
           new Dimension(240, 20));
 
-      LockableListModel<String> heroes = new LockableListModel<String>();
+      LockableListModel<String> heroes = new LockableListModel<>();
       heroes.add("Statue of Boris");
       heroes.add("Statue of Jarlsberg");
       heroes.add("Statue of Sneaky Pete");

@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame.Goal;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TrainFamiliarCommand extends AbstractCommand {
@@ -22,15 +23,15 @@ public class TrainFamiliarCommand extends AbstractCommand {
 
     String typeString = split[0].toLowerCase();
 
-    int type;
+    Goal type = null;
 
-    if (typeString.equals("base")) {
-      type = FamiliarTrainingFrame.BASE;
-    } else if (typeString.startsWith("buff")) {
-      type = FamiliarTrainingFrame.BUFFED;
-    } else if (typeString.equals("turns")) {
-      type = FamiliarTrainingFrame.TURNS;
-    } else {
+    switch (typeString) {
+      case "base" -> type = Goal.BASE;
+      case "buff" -> type = Goal.BUFFED;
+      case "turns" -> type = Goal.TURNS;
+    }
+
+    if (type == null) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown training type: " + typeString);
       return;
     }

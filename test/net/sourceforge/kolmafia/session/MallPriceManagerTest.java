@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -60,7 +59,7 @@ public class MallPriceManagerTest {
   // We need to be able to set its responseText and call processResults()
   // on it to convert the search results into a list of PurchaseRequests
 
-  private class MockMallSearchRequest extends MallSearchRequest {
+  private static class MockMallSearchRequest extends MallSearchRequest {
 
     private String[] responseTexts = null;
 
@@ -122,6 +121,7 @@ public class MallPriceManagerTest {
               request.setSearchString(searchString);
               request.setCheapestCount(cheapestCount);
               request.setResults(results);
+              request.maybeUpdateMallPrice();
               return request;
             });
     mocked
@@ -139,23 +139,21 @@ public class MallPriceManagerTest {
   }
 
   @BeforeAll
-  private static void beforeAll() {
+  public static void beforeAll() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("mall price manager user");
     CharPaneRequest.setCanInteract(true);
     MallPriceDatabase.savePricesToFile = false;
-    Preferences.saveSettingsToFile = false;
   }
 
   @AfterAll
-  private static void afterAll() {
+  public static void afterAll() {
     MallPriceDatabase.savePricesToFile = true;
-    Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
-  private void beforeEach() {
+  public void beforeEach() {
     // Stop requests from actually running
     GenericRequest.sessionId = null;
     KoLCharacter.setAvailableMeat(1_000_000);
@@ -187,6 +185,12 @@ public class MallPriceManagerTest {
 
   private PurchaseRequest makeMallItem(int itemId, int quantity, int price, int limit, int shopId) {
     String shopName = "shop " + String.valueOf(shopId);
+
+    return makeMallItem(itemId, quantity, price, limit, shopId, shopName);
+  }
+
+  private PurchaseRequest makeMallItem(
+      int itemId, int quantity, int price, int limit, int shopId, String shopName) {
     PurchaseRequest item =
         new MallPurchaseRequest(itemId, quantity, shopId, shopName, price, limit, true);
     return item;
@@ -609,5 +613,56 @@ public class MallPriceManagerTest {
       List<PurchaseRequest> results = request.getResults();
       assertEquals(4521, results.size());
     }
+  }
+
+  @Test
+  public void doesNotSortStoresByName() {
+    List<PurchaseRequest> results = new ArrayList<>();
+
+    // Any old item will do
+    int itemId = ItemPool.REAGENT;
+    int shopId = 0;
+
+    // Results are sorted by their price, then limit, then quantity.
+    // Their store name should not be factored in.
+    results.add(makeMallItem(itemId, 10, 250, 10, ++shopId, "Shop A"));
+    results.add(makeMallItem(itemId, 10, 250, 10, ++shopId, "Shop C"));
+    results.add(makeMallItem(itemId, 10, 250, 10, ++shopId, "Shop B"));
+
+    results.sort(PurchaseRequest.priceComparator);
+
+    assertEquals("Shop A", results.get(0).getShopName());
+    assertEquals("Shop C", results.get(1).getShopName());
+    assertEquals("Shop B", results.get(2).getShopName());
+  }
+
+  @Test
+  public void testStoreSortedByQuantityPurchasable() {
+    List<PurchaseRequest> results = new ArrayList<>();
+
+    // Any old item will do
+    int itemId = ItemPool.REAGENT;
+    int shopId = 0;
+
+    // Results are sorted by their price, then limit, then quantity.
+    // We expect the stores in order of how many we can purchase after the prices has been compared
+    results.add(makeMallItem(itemId, 1000, 300, 1000, ++shopId, "High Prices"));
+    results.add(makeMallItem(itemId, 10, 250, 100, ++shopId, "Badly Stocked"));
+    results.add(makeMallItem(itemId, 100, 250, 100, ++shopId, "Well Stocked"));
+    results.add(makeMallItem(itemId, 50, 250, 100, ++shopId, "Decent Stock"));
+    results.add(makeMallItem(itemId, 100, 250, 25, ++shopId, "Low Limits"));
+
+    results.sort(PurchaseRequest.priceComparator);
+
+    // This store has 100 available for purchase
+    assertEquals("Well Stocked", results.get(0).getShopName());
+    // This store has 50 available for purchase
+    assertEquals("Decent Stock", results.get(1).getShopName());
+    // This store has 100 in stock, but only 25 available for purchase
+    assertEquals("Low Limits", results.get(2).getShopName());
+    // This store has 10 available for purchase
+    assertEquals("Badly Stocked", results.get(3).getShopName());
+    // This store has the most stock, but is the most expensive
+    assertEquals("High Prices", results.get(4).getShopName());
   }
 }

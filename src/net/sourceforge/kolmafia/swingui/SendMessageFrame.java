@@ -207,11 +207,9 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
 
   @Override
   public boolean isVisible(Object o) {
-    if (!(o instanceof AdventureResult)) {
+    if (!(o instanceof AdventureResult ar)) {
       return false;
     }
-
-    AdventureResult ar = (AdventureResult) o;
 
     if (!(ar.isItem())) {
       return false;

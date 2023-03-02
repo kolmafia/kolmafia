@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
+import static net.sourceforge.kolmafia.textui.DataTypes.PATH_TYPE;
 import static net.sourceforge.kolmafia.textui.parsetree.AggregateType.badAggregateType;
 import static net.sourceforge.kolmafia.textui.parsetree.VariableReference.badVariableReference;
 
@@ -23,6 +24,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.Line.Token;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayLiteral;
@@ -48,6 +50,7 @@ import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
 import net.sourceforge.kolmafia.textui.parsetree.If;
 import net.sourceforge.kolmafia.textui.parsetree.IncDec;
 import net.sourceforge.kolmafia.textui.parsetree.JavaForLoop;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Loop;
 import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
 import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
@@ -340,6 +343,12 @@ public class Parser {
     reservedWords.add("monster");
     reservedWords.add("element");
     reservedWords.add("coinmaster");
+    reservedWords.add("phylum");
+    reservedWords.add("thrall");
+    reservedWords.add("bounty");
+    reservedWords.add("servant");
+    reservedWords.add("vykea");
+    reservedWords.add("path");
 
     reservedWords.add("record");
     reservedWords.add("typedef");
@@ -564,7 +573,7 @@ public class Parser {
       }
 
       // If this is a new record definition, enter it
-      if (t.getType() == DataTypes.TYPE_RECORD && this.currentToken().equals(";")) {
+      if (t.getType() == TypeSpec.RECORD && this.currentToken().equals(";")) {
         this.readToken(); // read ;
         continue;
       }
@@ -911,7 +920,7 @@ public class Parser {
         this.parseBlockOrSingleCommand(functionType, paramList, parentScope, false, false, false);
 
     result.setScope(scope);
-    if (!scope.assertBarrier() && !functionType.equals(DataTypes.TYPE_VOID)) {
+    if (!scope.assertBarrier() && !functionType.equals(TypeSpec.VOID)) {
       functionErrors.submitError(this.error(functionLocation, "Missing return value"));
     }
 
@@ -1033,7 +1042,7 @@ public class Parser {
   }
 
   private Evaluable autoCoerceValue(final Type ltype, final Evaluable rhs, final BasicScope scope) {
-    // DataTypes.TYPE_ANY has no name
+    // TypeSpec.ANY has no name
     if (ltype == null || ltype.getName() == null) {
       return rhs;
     }
@@ -1062,12 +1071,26 @@ public class Parser {
       }
     }
 
+    if (ltype.equals(PATH_TYPE)) {
+      Function target = scope.findFunction(name, params, MatchType.COERCE);
+      if (target != null && target.getType().equals(ltype)) {
+        return new FunctionCall(rhs.getLocation(), target, params, this);
+      }
+    }
+
     if (ltype instanceof AggregateType) {
       return rhs;
     }
 
     if (rtype instanceof TypeDef || rtype instanceof RecordType) {
       Function target = scope.findFunction(name, params, MatchType.EXACT);
+      if (target != null && target.getType().equals(ltype)) {
+        return new FunctionCall(rhs.getLocation(), target, params, this);
+      }
+    }
+
+    if (rtype.equals(PATH_TYPE)) {
+      Function target = scope.findFunction(name, params, MatchType.COERCE);
       if (target != null && target.getType().equals(ltype)) {
         return new FunctionCall(rhs.getLocation(), target, params, this);
       }
@@ -1643,7 +1666,7 @@ public class Parser {
     }
 
     if (this.currentToken().equals(";")) {
-      if (expectedType != null && !expectedType.equals(DataTypes.TYPE_VOID)) {
+      if (expectedType != null && !expectedType.equals(TypeSpec.VOID)) {
         returnErrors.submitError(
             this.error(returnStartToken, "Return needs " + expectedType + " value"));
       }
@@ -1651,7 +1674,7 @@ public class Parser {
       return new FunctionReturn(this.makeLocation(returnStartToken), null, DataTypes.VOID_TYPE);
     }
 
-    if (expectedType != null && expectedType.equals(DataTypes.TYPE_VOID)) {
+    if (expectedType != null && expectedType.equals(TypeSpec.VOID)) {
       returnErrors.submitError(
           this.error(this.currentToken(), "Cannot return a value from a void function"));
     }
@@ -1663,7 +1686,7 @@ public class Parser {
     } else {
       Location errorLocation = this.makeLocation(this.currentToken());
 
-      if (expectedType != null && !expectedType.equals(DataTypes.TYPE_VOID)) {
+      if (expectedType != null && !expectedType.equals(TypeSpec.VOID)) {
         returnErrors.submitSyntaxError(this.error(errorLocation, "Expression expected"));
       }
 
@@ -2132,6 +2155,8 @@ public class Parser {
           caseErrors.submitSyntaxError(this.unexpectedTokenError(":", this.currentToken()));
         }
 
+        test = autoCoerceValue(type, test, scope);
+
         if (!test.getType().equals(type) && !type.isBad() && !test.getType().isBad()) {
           caseErrors.submitError(
               this.error(
@@ -2148,11 +2173,11 @@ public class Parser {
           currentInteger = currentIndex;
         }
 
-        if (test instanceof Constant && ((Constant) test).value.getClass() == Value.class) {
-          if (labels.get(((Constant) test).value) != null) {
+        if (test instanceof Constant c && c.value.getClass() == Value.class) {
+          if (labels.get(c.value) != null) {
             caseErrors.submitError(this.error(test.getLocation(), "Duplicate case label: " + test));
           } else if (!test.evaluatesTo(Value.BAD_VALUE)) {
-            labels.put(((Constant) test).value, currentInteger);
+            labels.put(c.value, currentInteger);
           }
         } else {
           constantLabels = false;
@@ -3121,6 +3146,7 @@ public class Parser {
     final ErrorManager callErrors = new ErrorManager();
 
     Token name = this.currentToken();
+    var nameStart = this.getCurrentPosition();
     this.readToken(); // name
 
     List<Evaluable> params = this.parseParameters(scope, firstParam);
@@ -3146,6 +3172,14 @@ public class Parser {
       }
 
       target = new BadFunction(name.content);
+    }
+
+    if (target instanceof LibraryFunction) {
+      var deprecationWarning = ((LibraryFunction) target).deprecationWarning;
+      if (deprecationWarning.length > 0) {
+        var location = this.makeLocation(nameStart, this.getCurrentPosition());
+        this.warning(location, "Function \"" + name + "\" is deprecated", deprecationWarning);
+      }
     }
 
     FunctionCall call = new FunctionCall(functionCallLocation, target, params, this);
@@ -3429,8 +3463,8 @@ public class Parser {
       lhs = badVariableReference(errorLocation);
     }
 
-    int ltype = lhs.getType().getType();
-    if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT && !lhs.getType().isBad()) {
+    TypeSpec ltype = lhs.getType().getType();
+    if (ltype != TypeSpec.INT && ltype != TypeSpec.FLOAT && !lhs.getType().isBad()) {
       preIncDecErrors.submitError(
           this.error(lhs.getLocation(), operStr + " requires a numeric variable reference"));
     }
@@ -3454,8 +3488,8 @@ public class Parser {
     Token operToken = this.currentToken();
     String operStr = operToken.equals("++") ? Parser.POST_INCREMENT : Parser.POST_DECREMENT;
 
-    int ltype = lhs.getType().getType();
-    if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT && !lhs.getType().isBad()) {
+    TypeSpec ltype = lhs.getType().getType();
+    if (ltype != TypeSpec.INT && ltype != TypeSpec.FLOAT && !lhs.getType().isBad()) {
       postIncDecErrors.submitError(
           this.error(lhs.getLocation(), operStr + " requires a numeric variable reference"));
     }
@@ -3650,13 +3684,12 @@ public class Parser {
         Type ltype = lhs.getType();
         Type rtype = rhs.getType();
 
-        if (oper.equals("+")
-            && (ltype.equals(DataTypes.TYPE_STRING) || rtype.equals(DataTypes.TYPE_STRING))) {
+        if (oper.equals("+") && (ltype.equals(TypeSpec.STRING) || rtype.equals(TypeSpec.STRING))) {
           // String concatenation
-          if (!ltype.equals(DataTypes.TYPE_STRING)) {
+          if (!ltype.equals(TypeSpec.STRING)) {
             lhs = this.autoCoerceValue(DataTypes.STRING_TYPE, lhs, scope);
           }
-          if (!rtype.equals(DataTypes.TYPE_STRING)) {
+          if (!rtype.equals(TypeSpec.STRING)) {
             rhs = this.autoCoerceValue(DataTypes.STRING_TYPE, rhs, scope);
           }
           if (lhs instanceof Concatenate) {
@@ -3667,7 +3700,12 @@ public class Parser {
         } else {
           Location operationLocation = Parser.mergeLocations(lhs.getLocation(), rhs.getLocation());
 
-          rhs = this.autoCoerceValue(ltype, rhs, scope);
+          var lhsCoerceType =
+              (oper.equals("contains") && ltype.equals(TypeSpec.AGGREGATE))
+                  ? ((AggregateType) ltype).getIndexType().getBaseType()
+                  : ltype;
+
+          rhs = this.autoCoerceValue(lhsCoerceType, rhs, scope);
           if (!oper.validCoercion(ltype, rhs.getType())) {
             expressionErrors.submitError(
                 this.error(
@@ -3774,8 +3812,7 @@ public class Parser {
           this.parseVariableReference(scope, new VariableReference(result.getLocation(), current));
     }
 
-    if (result instanceof VariableReference) {
-      VariableReference ref = (VariableReference) result;
+    if (result instanceof VariableReference ref) {
       result = this.parseAssignment(scope, ref);
       if (result == null) {
         result = this.parsePostIncDec(ref);
@@ -5027,41 +5064,40 @@ public class Parser {
   }
 
   private boolean tokenChar(final char ch) {
-    switch (ch) {
-      case ' ':
-      case '\t':
-      case '.':
-      case ',':
-      case '{':
-      case '}':
-      case '(':
-      case ')':
-      case '$':
-      case '!':
-      case '~':
-      case '+':
-      case '-':
-      case '=':
-      case '"':
-      case '`':
-      case '\'':
-      case '*':
-      case '/':
-      case '%':
-      case '|':
-      case '^':
-      case '&':
-      case '[':
-      case ']':
-      case ';':
-      case '<':
-      case '>':
-      case '?':
-      case ':':
-      case '\u2248':
-        return true;
-    }
-    return false;
+    return switch (ch) {
+      case ' ',
+          '\t',
+          '.',
+          ',',
+          '{',
+          '}',
+          '(',
+          ')',
+          '$',
+          '!',
+          '~',
+          '+',
+          '-',
+          '=',
+          '"',
+          '`',
+          '\'',
+          '*',
+          '/',
+          '%',
+          '|',
+          '^',
+          '&',
+          '[',
+          ']',
+          ';',
+          '<',
+          '>',
+          '?',
+          ':',
+          '\u2248' -> true;
+      default -> false;
+    };
   }
 
   private boolean tokenString(final String s) {

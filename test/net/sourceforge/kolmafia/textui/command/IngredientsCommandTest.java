@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
@@ -24,7 +24,7 @@ public class IngredientsCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void presentIngredientsHaveNoItalics() {
-    var cleanups = new Cleanups(addItem("batblade"), addItem("bat wing"));
+    var cleanups = new Cleanups(withItem("batblade"), withItem("bat wing"));
     try (cleanups) {
       String output = execute("one-winged stab bat");
 

@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 
 public abstract class PurchaseRequest extends GenericRequest
     implements Comparable<PurchaseRequest> {
@@ -119,14 +120,6 @@ public abstract class PurchaseRequest extends GenericRequest
   @Override
   public String toString() {
     StringBuilder buffer = new StringBuilder();
-    String color = this.color();
-
-    buffer.append("<html><nobr>");
-    if (color != null) {
-      buffer.append("<font color=\"");
-      buffer.append(color);
-      buffer.append("\">");
-    }
 
     buffer.append(this.item.getName());
     buffer.append(" (");
@@ -148,12 +141,6 @@ public abstract class PurchaseRequest extends GenericRequest
     buffer.append(this.getPriceString());
     buffer.append("): ");
     buffer.append(this.shopName);
-
-    if (color != null) {
-      buffer.append("</font>");
-    }
-
-    buffer.append("</nobr></html>");
 
     return buffer.toString();
   }
@@ -223,10 +210,14 @@ public abstract class PurchaseRequest extends GenericRequest
 
     // Make sure we are wearing the appropriate outfit, if necessary
 
-    if (!this.ensureProperAttire()) {
-      return;
+    try (Checkpoint checkpoint = new Checkpoint()) {
+      if (this.ensureProperAttire()) {
+        this.makePurchase();
+      }
     }
+  }
 
+  private void makePurchase() {
     String shopName = getFormField("whichstore");
 
     // If shop exists, and it's not an empty string
@@ -289,8 +280,8 @@ public abstract class PurchaseRequest extends GenericRequest
         return o1.quantity - o2.quantity;
       }
 
-      // All else being equal, order by shop name. *shrug*
-      return o1.shopName.compareToIgnoreCase(o2.shopName);
+      // Return 0 as they are equal
+      return 0;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -8,11 +9,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -22,12 +25,15 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCPurchaseRequest extends PurchaseRequest {
-  private static final AdventureResult TROUSERS = ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS, 1);
-  private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES, 1);
+  private static final List<AdventureResult> DISCOUNT_TROUSERS =
+      List.of(
+          ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS), ItemPool.get(ItemPool.DESIGNER_SWEATPANTS));
+  private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
   private static final AdventureResult SUPER_STRUCTURE = EffectPool.get(EffectPool.SUPER_STRUCTURE);
   private static final AdventureResult SUPER_VISION = EffectPool.get(EffectPool.SUPER_VISION);
@@ -145,21 +151,61 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       // the desired result.
       factor = 67;
     }
-    if (NPCPurchaseRequest.usingTrousers()) factor -= 5;
-    if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
+    if (NPCPurchaseRequest.usingTrousers(this.npcStoreId)) factor -= 5;
+    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
     return (int) ((this.price * factor) / 100);
   }
 
   public static int currentDiscountedPrice(int price) {
+    return currentDiscountedPrice(null, price);
+  }
+
+  public static int currentDiscountedPrice(String npcStoreId, int price) {
     long factor = 100;
-    if (NPCPurchaseRequest.usingTrousers()) factor -= 5;
-    if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
+    if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
+    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
     return (int) ((price * factor) / 100);
   }
 
-  private static boolean usingTrousers() {
-    return EquipmentManager.getEquipment(EquipmentManager.PANTS)
-        .equals(NPCPurchaseRequest.TROUSERS);
+  private static boolean usingTrousers(String npcStoreId) {
+    if ("fdkol".equals(npcStoreId)) {
+      return false;
+    }
+
+    var trousers = EquipmentManager.getEquipment(Slot.PANTS);
+
+    if (trousers == null) {
+      return false;
+    }
+
+    // Designer sweatpants discount does not apply to the gift shop
+    if ("town_giftshop.php".equals(npcStoreId)
+        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+      return false;
+    }
+
+    return DISCOUNT_TROUSERS.contains(trousers);
+  }
+
+  private static AdventureResult getEquippableTrousers(String npcStoreId) {
+    AdventureResult trousers =
+        DISCOUNT_TROUSERS.stream()
+            .filter(InventoryManager::hasItem)
+            .filter(EquipmentManager::canEquip)
+            .findFirst()
+            .orElse(null);
+
+    if (trousers == null) {
+      return null;
+    }
+
+    // Designer sweatpants discount does not apply to the gift shop
+    if ("town_giftshop.php".equals(npcStoreId)
+        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+      return null;
+    }
+
+    return trousers;
   }
 
   @Override
@@ -261,12 +307,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return true;
     }
 
-    // Otherwise, maybe you can put on some Travoltan Trousers to decrease the cost of the
+    // Otherwise, maybe you can put on some discount-providing trousers to decrease the cost of the
     // purchase, but only if auto-recovery isn't running.
 
-    if (!NPCPurchaseRequest.usingTrousers()
-        && KoLConstants.inventory.contains(NPCPurchaseRequest.TROUSERS)) {
-      (new EquipmentRequest(NPCPurchaseRequest.TROUSERS, EquipmentManager.PANTS)).run();
+    if (!usingTrousers(this.npcStoreId)) {
+      var trousers = getEquippableTrousers(this.npcStoreId);
+      if (trousers != null) {
+        (new EquipmentRequest(trousers, Slot.PANTS)).run();
+      }
     }
 
     return true;
@@ -369,10 +417,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
   }
 
-  private static final Pattern ITEM_PATTERN =
-      Pattern.compile(
-          "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)(?:<font.*)?</b>.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)",
-          Pattern.DOTALL);
   private static final Pattern SHOP_NAME_PATTERN =
       Pattern.compile("bgcolor=blue><b>(.*?)</b>", Pattern.DOTALL);
   private static final Pattern BLOOD_MAYO_PATTERN =
@@ -381,7 +425,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   public static final void learnNPCStoreItem(
       final String shopName,
       final String shopId,
-      final String name,
+      final AdventureResult item,
       final String cost,
       final String row) {
     String printMe;
@@ -389,7 +433,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     printMe = "--------------------";
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
-    printMe = shopName + "\t" + shopId + "\t" + name + "\t" + cost + "\tROW" + row;
+    printMe = shopName + "\t" + shopId + "\t" + item + "\t" + cost + "\tROW" + row;
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
     printMe = "--------------------";
@@ -398,13 +442,13 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   }
 
   public static final void learnCoinmasterItem(
-      final String shopName, final String name, final String cost, final String row) {
+      final String shopName, final AdventureResult item, final String cost, final String row) {
     String printMe;
     // Print what goes in coinmasters.txt
     printMe = "--------------------";
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
-    printMe = shopName + "\tbuy\t" + cost + "\t" + name + "\tROW" + row;
+    printMe = shopName + "\tbuy\t" + cost + "\t" + item + "\tROW" + row;
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
     printMe = "--------------------";
@@ -417,6 +461,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         || shopId.equals("beergarden")
         || shopId.equals("crimbo16")
         || shopId.equals("crimbo19toys")
+        || shopId.equals("flowertradein")
         || shopId.equals("grandma")
         || shopId.equals("junkmagazine")
         || shopId.startsWith("kolhs_")
@@ -427,6 +472,18 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         || shopId.equals("starchart")
         || shopId.equals("xo");
   }
+
+  // <tr rel="7567"><td valign=center></td><td><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/chroner.gif" class="hand pop"
+  // rel="desc_item.php?whichitem=783338147" onClick='javascript:descitem(783338147)'></td><td
+  // valign=center><a
+  // onClick='javascript:descitem(783338147)'><b>Chroner</b>&nbsp;<b>(15)</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/twitchtulip.gif width=30 height=30 onClick='javascript:descitem(973996072)' alt="red tulip" title="red tulip"></td><td><b>1</b></td><td valign=center class=tiny>red tulip</td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=flowertradein&action=buyitem&quantity=1&whichrow=760&pwd=173b4446c2dd92d83eb3ce2af0de1289' value='Trade In'></td></tr>
+  //
+  // <b>Chroner</b>&nbsp;<b>(15)</b>&nbsp;
+  private static final Pattern ITEM_PATTERN =
+      Pattern.compile(
+          "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)(?:<font.*)?</b>(&nbsp;<b>\\((\\d+)\\)</b>&nbsp;)?.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)",
+          Pattern.DOTALL);
 
   public static final void parseShopResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("shop.php")) {
@@ -445,18 +502,23 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     while (matcher.find()) {
       int id = StringUtilities.parseInt(matcher.group(1));
       String desc = matcher.group(2);
-      String name = matcher.group(3);
+      String name = matcher.group(3).trim();
       String data = ItemDatabase.getItemDataName(id);
+      String countString = matcher.group(4);
+      int count = countString == null ? 1 : StringUtilities.parseInt(matcher.group(5));
+      AdventureResult item = new AdventureResult(name, count);
 
       if (data == null || !data.equals(name)) {
         // Unknown item
         ItemDatabase.registerItem(id, name, desc);
       }
 
-      String currency = matcher.group(4);
+      String currency = matcher.group(6);
       boolean takesMeat = currency.equals("Meat");
 
-      if ((takesMeat && NPCStoreDatabase.getPurchaseRequest(id) == null)
+      if ((takesMeat
+              && NPCStoreDatabase.getPurchaseRequest(id) == null
+              && CoinmastersDatabase.getPurchaseRequest(id) == null)
           || (
           // Doesnt take meat...
           !takesMeat
@@ -468,8 +530,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
               // instead of NPC items)
               && !ConcoctionDatabase.hasMixingMethod(id))) {
         // Didn't know this was buyable
-        String cost = matcher.group(5).replaceAll(",", "");
-        String row = matcher.group(6);
+        String cost = matcher.group(7).replaceAll(",", "");
+        String row = matcher.group(8);
         String shopName = "";
         Matcher nameMatcher = SHOP_NAME_PATTERN.matcher(responseText);
         if (nameMatcher.find()) {
@@ -479,9 +541,9 @@ public class NPCPurchaseRequest extends PurchaseRequest {
           shopName = nameMatcher.group(1);
         }
         if (takesMeat) {
-          NPCPurchaseRequest.learnNPCStoreItem(shopName, shopId, name, cost, row);
+          NPCPurchaseRequest.learnNPCStoreItem(shopName, shopId, item, cost, row);
         } else {
-          NPCPurchaseRequest.learnCoinmasterItem(shopName, name, cost, row);
+          NPCPurchaseRequest.learnCoinmasterItem(shopName, item, cost, row);
         }
       }
     }
@@ -825,6 +887,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (shopId.equals("olivers")) {
+      FancyDanRequest.parseResponse(urlString, responseText);
+      return;
+    }
+
     if (shopId.equals("spacegate")) {
       SpacegateFabricationRequest.parseResponse(urlString, responseText);
       return;
@@ -873,15 +940,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     if (shopId.equals("wildfire")) {
       if (responseText.contains("You acquire an item")) {
         switch (boughtItemId) {
-          case ItemPool.BLART:
-            Preferences.setBoolean("itemBoughtPerAscension10790", true);
-            break;
-          case ItemPool.RAINPROOF_BARREL_CAULK:
-            Preferences.setBoolean("itemBoughtPerAscension10794", true);
-            break;
-          case ItemPool.PUMP_GREASE:
-            Preferences.setBoolean("itemBoughtPerAscension10795", true);
-            break;
+          case ItemPool.BLART -> Preferences.setBoolean("itemBoughtPerAscension10790", true);
+          case ItemPool.RAINPROOF_BARREL_CAULK -> Preferences.setBoolean(
+              "itemBoughtPerAscension10794", true);
+          case ItemPool.PUMP_GREASE -> Preferences.setBoolean("itemBoughtPerAscension10795", true);
         }
       }
 
@@ -897,6 +959,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
             "itemBoughtPerAscension10795", !responseText.contains("<tr rel=\"10795\">"));
         return;
       }
+    }
+
+    if (shopId.equals("dino")) {
+      DinostaurRequest.parseResponse(urlString, responseText);
+      return;
     }
 
     // When we purchase items from NPC stores using ajax, the
@@ -1257,12 +1324,20 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         return SpacegateFabricationRequest.registerRequest(urlString);
       }
 
+      if (shopId.equals("olivers")) {
+        return FancyDanRequest.registerRequest(urlString);
+      }
+
       if (shopId.equals("fantasyrealm")) {
         return RubeeRequest.registerRequest(urlString);
       }
 
       if (shopId.equals("glover")) {
         return GMartRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("dino")) {
+        return DinostaurRequest.registerRequest(urlString);
       }
 
       return false;

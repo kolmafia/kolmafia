@@ -189,23 +189,21 @@ public class DwarfFactoryRequest extends GenericRequest {
     String equipment = null;
 
     switch (itemId) {
-      case ItemPool.LINOLEUM_ORE:
-      case ItemPool.ASBESTOS_ORE:
-      case ItemPool.CHROME_ORE:
-      case ItemPool.LUMP_OF_COAL:
+      case ItemPool.LINOLEUM_ORE,
+          ItemPool.ASBESTOS_ORE,
+          ItemPool.CHROME_ORE,
+          ItemPool.LUMP_OF_COAL -> {
         ores = Preferences.getString("lastDwarfOreRunes");
         if (ores.length() == 4) {
           typeRunes = ores;
         }
-        break;
-      case ItemPool.MINERS_HELMET:
-      case ItemPool.MINERS_PANTS:
-      case ItemPool.MATTOCK:
+      }
+      case ItemPool.MINERS_HELMET, ItemPool.MINERS_PANTS, ItemPool.MATTOCK -> {
         equipment = Preferences.getString("lastDwarfEquipmentRunes");
         if (equipment.length() == 3) {
           typeRunes = equipment;
         }
-        break;
+      }
     }
 
     String setting = "lastDwarfFactoryItem" + itemId;
@@ -292,24 +290,22 @@ public class DwarfFactoryRequest extends GenericRequest {
     // See if we've identified the penultimate item and can thus
     // deduce the final item.
     switch (itemId) {
-      case ItemPool.LINOLEUM_ORE:
-      case ItemPool.ASBESTOS_ORE:
-      case ItemPool.CHROME_ORE:
-      case ItemPool.LUMP_OF_COAL:
+      case ItemPool.LINOLEUM_ORE,
+          ItemPool.ASBESTOS_ORE,
+          ItemPool.CHROME_ORE,
+          ItemPool.LUMP_OF_COAL -> {
         String ores = Preferences.getString("lastDwarfOreRunes");
         if (ores.length() == 4) {
           DwarfFactoryRequest.checkForLastRune(ores, DwarfFactoryRequest.ORES, "ores");
         }
-        break;
-      case ItemPool.MINERS_HELMET:
-      case ItemPool.MINERS_PANTS:
-      case ItemPool.MATTOCK:
+      }
+      case ItemPool.MINERS_HELMET, ItemPool.MINERS_PANTS, ItemPool.MATTOCK -> {
         String equipment = Preferences.getString("lastDwarfEquipmentRunes");
         if (equipment.length() == 3) {
           DwarfFactoryRequest.checkForLastRune(
               equipment, DwarfFactoryRequest.EQUIPMENT, "pieces of equipment");
         }
-        break;
+      }
     }
 
     // If the length is 1, that rune has been matched with an
@@ -689,22 +685,30 @@ public class DwarfFactoryRequest extends GenericRequest {
     while (matcher.find()) {
       String color = matcher.group(1);
       int digit = -1;
-      if (color.equals("red")) {
-        digit = 0;
-      } else if (color.equals("orange")) {
-        digit = 1;
-      } else if (color.equals("yellow")) {
-        digit = 2;
-      } else if (color.equals("green")) {
-        digit = 3;
-      } else if (color.equals("blue")) {
-        digit = 4;
-      } else if (color.equals("indigo")) {
-        digit = 5;
-      } else if (color.equals("violet")) {
-        digit = 6;
-      } else {
-        return -1;
+      switch (color) {
+        case "red":
+          digit = 0;
+          break;
+        case "orange":
+          digit = 1;
+          break;
+        case "yellow":
+          digit = 2;
+          break;
+        case "green":
+          digit = 3;
+          break;
+        case "blue":
+          digit = 4;
+          break;
+        case "indigo":
+          digit = 5;
+          break;
+        case "violet":
+          digit = 6;
+          break;
+        default:
+          return -1;
       }
       number = (number * 7) + digit;
     }

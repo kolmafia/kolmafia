@@ -345,7 +345,7 @@ public class LoginFrame extends GenericFrame {
     }
   }
 
-  private class ProxySetPanel extends OptionsPanel {
+  private static class ProxySetPanel extends OptionsPanel {
     private final String[][] options = {
       {"proxySet", "KoLmafia needs to connect through a proxy server"},
     };
@@ -398,7 +398,7 @@ public class LoginFrame extends GenericFrame {
   }
 
   /** This panel handles all of the things related to proxy options (if applicable). */
-  private class ProxyOptionsPanel extends LabeledPanel {
+  private static class ProxyOptionsPanel extends LabeledPanel {
     private final String protocol;
 
     private final AutoHighlightTextField proxyHost;

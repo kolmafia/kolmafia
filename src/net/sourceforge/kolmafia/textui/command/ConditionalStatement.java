@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -7,7 +8,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -19,7 +21,7 @@ public abstract class ConditionalStatement extends AbstractCommand {
   private static final Pattern STATDAY_PATTERN = Pattern.compile("(today|tomorrow) is (.*?) day");
 
   {
-    this.flags = KoLmafiaCLI.FLOW_CONTROL_CMD;
+    this.flags = ParameterHandling.FLOW_CONTROL;
   }
 
   /**
@@ -179,14 +181,10 @@ public abstract class ConditionalStatement extends AbstractCommand {
     }
 
     if (left.equals("stickers")) {
-      int count = 0;
-      for (int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i) {
-        AdventureResult item = EquipmentManager.getEquipment(i);
-        if (!EquipmentRequest.UNEQUIP.equals(item)) {
-          ++count;
-        }
-      }
-      return count;
+      return SlotSet.STICKER_SLOTS.stream()
+          .map(EquipmentManager::getEquipment)
+          .filter(Predicate.not(EquipmentRequest.UNEQUIP::equals))
+          .count();
     }
 
     AdventureResult item = AbstractCommand.itemParameter(left);

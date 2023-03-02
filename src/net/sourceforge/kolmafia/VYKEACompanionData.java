@@ -132,14 +132,16 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     "level 5 lightning lamp",
   };
 
-  public static final int NONE = 0;
+  public enum VYKEACompanionType {
+    NONE,
 
-  public static final int BOOKSHELF = 1;
-  public static final int DRESSER = 2;
-  public static final int CEILING_FAN = 3;
-  public static final int COUCH = 4;
-  public static final int LAMP = 5;
-  public static final int DISHRACK = 6;
+    BOOKSHELF,
+    DRESSER,
+    CEILING_FAN,
+    COUCH,
+    LAMP,
+    DISHRACK
+  }
 
   public static final AdventureResult NO_RUNE = ItemPool.get("(none)", 1);
   public static final AdventureResult FRENZY_RUNE = ItemPool.get(ItemPool.VYKEA_FRENZY_RUNE, 1);
@@ -147,7 +149,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   public static final AdventureResult LIGHTNING_RUNE =
       ItemPool.get(ItemPool.VYKEA_LIGHTNING_RUNE, 1);
 
-  private final int type;
+  private final VYKEACompanionType type;
   private final int level;
   private final AdventureResult rune;
   private final String name;
@@ -173,7 +175,6 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     VYKEACompanionData.currentCompanion = companion;
 
     if (setSettings) {
-
       Preferences.setString("_VYKEACompanionName", companion.name);
       Preferences.setInteger("_VYKEACompanionLevel", companion.level);
       Preferences.setString("_VYKEACompanionType", companion.typeToString());
@@ -181,59 +182,71 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     }
   }
 
-  public static final VYKEACompanionData currentCompanion() {
+  public static VYKEACompanionData currentCompanion() {
     return VYKEACompanionData.currentCompanion;
   }
 
   public VYKEACompanionData() {
-    this(NONE, 0, NO_RUNE, "");
+    this(VYKEACompanionType.NONE, 0, NO_RUNE, "");
   }
 
   public VYKEACompanionData(
-      final int type, final int level, final AdventureResult rune, final String name) {
+      final VYKEACompanionType type,
+      final int level,
+      final AdventureResult rune,
+      final String name) {
     this.type = type;
     this.level = level;
     this.rune = rune;
     this.name = name == null ? "" : name;
 
     // Derived fields
-    this.image = (type < 1 || type > 6) ? "" : ("vykfurn" + type + ".gif");
+    this.image =
+        switch (type) {
+          case NONE -> "";
+          case BOOKSHELF -> "vykfurn1.gif";
+          case DRESSER -> "vykfurn2.gif";
+          case CEILING_FAN -> "vykfurn3.gif";
+          case COUCH -> "vykfurn4.gif";
+          case LAMP -> "vykfurn5.gif";
+          case DISHRACK -> "vykfurn6.gif";
+        };
     switch (this.type) {
-      case BOOKSHELF:
+      case BOOKSHELF -> {
         this.attackElement = Element.SPOOKY;
         this.modifiers = "";
-        break;
-      case DRESSER:
+      }
+      case DRESSER -> {
         this.attackElement = Element.SLEAZE;
         this.modifiers = "";
-        break;
-      case CEILING_FAN:
+      }
+      case CEILING_FAN -> {
         this.attackElement = Element.COLD;
         this.modifiers = "";
-        break;
-      case COUCH:
+      }
+      case COUCH -> {
         this.attackElement = Element.NONE;
         this.modifiers = "Meat Drop: +" + this.level * 10;
-        break;
-      case LAMP:
+      }
+      case LAMP -> {
         this.attackElement = Element.HOT;
         this.modifiers = "Item Drop: +" + this.level * 10;
-        break;
-      case DISHRACK:
+      }
+      case DISHRACK -> {
         this.attackElement = Element.STENCH;
         this.modifiers = "";
-        break;
-      default:
+      }
+      default -> {
         this.attackElement = Element.NONE;
         this.modifiers = "";
-        break;
+      }
     }
 
     // Build this on demand
     this.stringForm = null;
   }
 
-  public int getType() {
+  public VYKEACompanionType getType() {
     return this.type;
   }
 
@@ -261,52 +274,42 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     return this.attackElement;
   }
 
-  public static String typeToString(final int type) {
-    switch (type) {
-      case BOOKSHELF:
-        return "bookshelf";
-      case CEILING_FAN:
-        return "ceiling fan";
-      case COUCH:
-        return "couch";
-      case DISHRACK:
-        return "dishrack";
-      case DRESSER:
-        return "dresser";
-      case LAMP:
-        return "lamp";
-    }
-    return "unknown";
+  public static String typeToString(final VYKEACompanionType type) {
+    return switch (type) {
+      case BOOKSHELF -> "bookshelf";
+      case CEILING_FAN -> "ceiling fan";
+      case COUCH -> "couch";
+      case DISHRACK -> "dishrack";
+      case DRESSER -> "dresser";
+      case LAMP -> "lamp";
+      default -> "unknown";
+    };
   }
 
   public String typeToString() {
     return VYKEACompanionData.typeToString(this.type);
   }
 
-  public static int stringToType(final String type) {
-    return type == null
-        ? NONE
-        : type.equals("bookshelf")
-            ? BOOKSHELF
-            : type.equals("ceiling fan")
-                ? CEILING_FAN
-                : type.equals("couch")
-                    ? COUCH
-                    : type.equals("dishrack")
-                        ? DISHRACK
-                        : type.equals("dresser") ? DRESSER : type.equals("lamp") ? LAMP : NONE;
+  public static VYKEACompanionType stringToType(final String type) {
+    if (type == null) return VYKEACompanionType.NONE;
+    return switch (type) {
+      case "bookshelf" -> VYKEACompanionType.BOOKSHELF;
+      case "ceiling fan" -> VYKEACompanionType.CEILING_FAN;
+      case "couch" -> VYKEACompanionType.COUCH;
+      case "dishrack" -> VYKEACompanionType.DISHRACK;
+      case "dresser" -> VYKEACompanionType.DRESSER;
+      case "lamp" -> VYKEACompanionType.LAMP;
+      default -> VYKEACompanionType.NONE;
+    };
   }
 
   public static String runeToString(final AdventureResult rune) {
-    switch (rune.getItemId()) {
-      case ItemPool.VYKEA_FRENZY_RUNE:
-        return "frenzy";
-      case ItemPool.VYKEA_BLOOD_RUNE:
-        return "blood";
-      case ItemPool.VYKEA_LIGHTNING_RUNE:
-        return "lightning";
-    }
-    return "";
+    return switch (rune.getItemId()) {
+      case ItemPool.VYKEA_FRENZY_RUNE -> "frenzy";
+      case ItemPool.VYKEA_BLOOD_RUNE -> "blood";
+      case ItemPool.VYKEA_LIGHTNING_RUNE -> "lightning";
+      default -> "";
+    };
   }
 
   public String runeToString() {
@@ -314,13 +317,13 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   }
 
   public static AdventureResult stringToRune(final String rune) {
-    return rune == null
-        ? NO_RUNE
-        : rune.equals("frenzy")
-            ? FRENZY_RUNE
-            : rune.equals("blood")
-                ? BLOOD_RUNE
-                : rune.equals("lightning") ? LIGHTNING_RUNE : NO_RUNE;
+    if (rune == null) return NO_RUNE;
+    return switch (rune) {
+      case "frenzy" -> FRENZY_RUNE;
+      case "blood" -> BLOOD_RUNE;
+      case "lightning" -> LIGHTNING_RUNE;
+      default -> NO_RUNE;
+    };
   }
 
   // CHEBLI the level 5 lamp
@@ -340,7 +343,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
       String name = matcher.group(1);
       int level = StringUtilities.parseInt(matcher.group(2));
       String typeString = matcher.group(3);
-      int type = VYKEACompanionData.stringToType(typeString);
+      VYKEACompanionType type = VYKEACompanionData.stringToType(typeString);
       // Use last saved rune
       AdventureResult rune =
           VYKEACompanionData.stringToRune(Preferences.getString("_VYKEACompanionRune"));
@@ -353,12 +356,15 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   public static void settingsToVYKEACompanion() {
     String name = Preferences.getString("_VYKEACompanionName");
     int level = Preferences.getInteger("_VYKEACompanionLevel");
-    int type = VYKEACompanionData.stringToType(Preferences.getString("_VYKEACompanionType"));
+    VYKEACompanionType type =
+        VYKEACompanionData.stringToType(Preferences.getString("_VYKEACompanionType"));
     AdventureResult rune =
         VYKEACompanionData.stringToRune(Preferences.getString("_VYKEACompanionRune"));
 
     VYKEACompanionData companion =
-        type == NONE ? NO_COMPANION : new VYKEACompanionData(type, level, rune, name);
+        type == VYKEACompanionType.NONE
+            ? NO_COMPANION
+            : new VYKEACompanionData(type, level, rune, name);
     VYKEACompanionData.setVYKEACompanion(companion, false);
   }
 
@@ -396,7 +402,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
       String runeString = matcher.group(3);
       AdventureResult rune = VYKEACompanionData.stringToRune(runeString);
       String typeString = matcher.group(4);
-      int type = VYKEACompanionData.stringToType(typeString);
+      VYKEACompanionType type = VYKEACompanionData.stringToType(typeString);
 
       return new VYKEACompanionData(type, level, rune, name);
     }
@@ -418,20 +424,16 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     // 6 - don't build anything
     if (choice == 1120) {
       switch (decision) {
-        case 1:
-          // Start with 5 planks -> bookshelf, ceiling fan, dresser
-          ResultProcessor.processItem(ItemPool.VYKEA_PLANK, -5);
-          break;
-        case 2:
-          // Start with 5 rails -> couch, dishrack, lamp
-          ResultProcessor.processItem(ItemPool.VYKEA_RAIL, -5);
-          break;
-        case 6:
-          // Do nothing
+        case 1 ->
+        // Start with 5 planks -> bookshelf, ceiling fan, dresser
+        ResultProcessor.processItem(ItemPool.VYKEA_PLANK, -5);
+        case 2 ->
+        // Start with 5 rails -> couch, dishrack, lamp
+        ResultProcessor.processItem(ItemPool.VYKEA_RAIL, -5);
+        default -> {
+          // Do nothing or invalid decision (presumably from URL manipulation).
           return;
-        default:
-          // Invalid decision, presumably from URL manipulation.
-          return;
+        }
       }
 
       // You've started construction and cannot abort from
@@ -454,24 +456,18 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     // 6 - Don't add any runes -> choice 1122 (if you have at least 1 dowel) or 1123 (if you don't)
 
     if (choice == 1121) {
-      AdventureResult rune = NO_RUNE;
+      AdventureResult rune =
+          switch (decision) {
+            case 1 -> FRENZY_RUNE;
+            case 2 -> BLOOD_RUNE;
+            case 3 -> LIGHTNING_RUNE;
+            case 6 -> NO_RUNE;
+              // Don't add any runes
+            default -> null;
+          };
 
-      switch (decision) {
-        case 1:
-          rune = FRENZY_RUNE;
-          break;
-        case 2:
-          rune = BLOOD_RUNE;
-          break;
-        case 3:
-          rune = LIGHTNING_RUNE;
-          break;
-        case 6:
-          // Don't add any runes
-          break;
-        default:
-          // Invalid decision, presumably from URL manipulation.
-          return;
+      if (rune == null) {
+        return;
       }
 
       // Save the rune in the preference
@@ -537,21 +533,19 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     // 3 - Add 5 brackets
     if (choice == 1123) {
       switch (decision) {
-        case 1:
-          // Add 5 planks -> bookshelf, couch
-          ResultProcessor.processItem(ItemPool.VYKEA_PLANK, -5);
-          break;
-        case 2:
-          // Add 5 rails -> dresser, lamp
-          ResultProcessor.processItem(ItemPool.VYKEA_RAIL, -5);
-          break;
-        case 3:
-          // Add 5 brackets -> ceiling fan, dishrack
-          ResultProcessor.processItem(ItemPool.VYKEA_BRACKET, -5);
-          break;
-        default:
+        case 1 ->
+        // Add 5 planks -> bookshelf, couch
+        ResultProcessor.processItem(ItemPool.VYKEA_PLANK, -5);
+        case 2 ->
+        // Add 5 rails -> dresser, lamp
+        ResultProcessor.processItem(ItemPool.VYKEA_RAIL, -5);
+        case 3 ->
+        // Add 5 brackets -> ceiling fan, dishrack
+        ResultProcessor.processItem(ItemPool.VYKEA_BRACKET, -5);
+        default -> {
           // Invalid decision, presumably from URL manipulation.
           return;
+        }
       }
 
       // Parse companion name and type from the result text
@@ -563,7 +557,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
 
       String name = matcher.group(2);
       String typeString = matcher.group(1);
-      int type = VYKEACompanionData.stringToType(typeString);
+      VYKEACompanionType type = VYKEACompanionData.stringToType(typeString);
 
       // Set them into preferences
       Preferences.setString("_VYKEACompanionName", name);
@@ -594,7 +588,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     }
 
     if (this.type != o.type) {
-      return this.type - o.type;
+      return this.type.compareTo(o.type);
     }
 
     if (this.rune != o.rune) {

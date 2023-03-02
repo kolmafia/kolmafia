@@ -33,6 +33,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -49,6 +50,7 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.InternalMessage;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -60,6 +62,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -81,13 +84,13 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.ResettingHttpClient;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.RelayAgent;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
 public class GenericRequest implements Runnable {
   // Used in many requests. Here for convenience and non-duplication
-  public static final Pattern ACTION_PATTERN = Pattern.compile("action=([^&]*)");
+  public static final Pattern PREACTION_PATTERN = Pattern.compile("preaction=([^&]*)");
+  public static final Pattern ACTION_PATTERN = Pattern.compile("(?<!pre|sub)action=([^&]*)");
   public static final Pattern PLACE_PATTERN = Pattern.compile("place=([^&]*)");
   public static final Pattern WHICHITEM_PATTERN = Pattern.compile("whichitem=(\\d+)");
   public static final Pattern HOWMANY_PATTERN = Pattern.compile("howmany=(\\d+)");
@@ -108,13 +111,19 @@ public class GenericRequest implements Runnable {
       Pattern.compile("([^/]*)/(login\\.php.*)", Pattern.DOTALL);
   public static final Pattern JS_REDIRECT_PATTERN =
       Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";");
+  private static final Pattern ADVENTURE_AGAIN =
+      Pattern.compile("\">Adventure Again \\(([^<]+)\\)</a>");
 
   protected String encounter = "";
 
-  public static final int MENU_FANCY = 1;
-  public static final int MENU_COMPACT = 2;
-  public static final int MENU_NORMAL = 3;
-  public static int topMenuStyle = 0;
+  public enum TopMenuStyle {
+    UNKNOWN,
+    FANCY,
+    COMPACT,
+    NORMAL
+  }
+
+  public static TopMenuStyle topMenuStyle = TopMenuStyle.UNKNOWN;
 
   public static final String[] SERVERS = {
     "devproxy.kingdomofloathing.com", "www.kingdomofloathing.com"
@@ -161,7 +170,6 @@ public class GenericRequest implements Runnable {
 
   // *** static class variables are always suspect
   public static boolean isRatQuest = false;
-  public static boolean isBarrelSmash = false;
   public static boolean ascending = false;
   public static String itemMonster = null;
   private static boolean suppressUpdate = false;
@@ -220,7 +228,11 @@ public class GenericRequest implements Runnable {
 
   public static void setPasswordHash(final String hash) {
     GenericRequest.passwordHash = hash;
-    GenericRequest.passwordHashValue = "=" + hash;
+    if ("".equals(hash)) {
+      GenericRequest.passwordHashValue = "";
+    } else {
+      GenericRequest.passwordHashValue = "=" + hash;
+    }
   }
 
   /**
@@ -238,9 +250,8 @@ public class GenericRequest implements Runnable {
       registerProxyListeners("https");
     }
 
-    boolean useDevProxyServer = Preferences.getBoolean("useDevProxyServer");
-
-    GenericRequest.setLoginServer(GenericRequest.SERVERS[useDevProxyServer ? 0 : 1]);
+    var loginServer = GenericRequest.SERVERS[KoLmafia.usingDevServer() ? 0 : 1];
+    GenericRequest.setLoginServer(loginServer);
   }
 
   private static void registerProxyListeners(String protocol) {
@@ -364,6 +375,10 @@ public class GenericRequest implements Runnable {
   }
 
   public static boolean updateSuppressed() {
+    return GenericRequest.suppressUpdate;
+  }
+
+  protected boolean shouldSuppressUpdate() {
     return GenericRequest.suppressUpdate;
   }
 
@@ -1000,6 +1015,11 @@ public class GenericRequest implements Runnable {
     return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
   }
 
+  public static String getPreaction(final String urlString) {
+    Matcher matcher = GenericRequest.PREACTION_PATTERN.matcher(urlString);
+    return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
+  }
+
   public static String getPlace(final String urlString) {
     Matcher matcher = GenericRequest.PLACE_PATTERN.matcher(urlString);
     return matcher.find() ? GenericRequest.decodeField(matcher.group(1)) : null;
@@ -1176,6 +1196,7 @@ public class GenericRequest implements Runnable {
             && !this.redirectLocation.equals("witchess.php")
             && !this.redirectLocation.equals("place.php?whichplace=monorail")
             && !this.redirectLocation.equals("place.php?whichplace=edunder")
+            && !this.redirectLocation.equals("place.php?whichplace=ioty2014_cindy")
             && !this.redirectLocation.equals("/shop.php?whichshop=fwshop")) {
           // Informational debug message
           KoLmafia.updateDisplay("Unhandled redirect to " + this.redirectLocation);
@@ -1254,21 +1275,18 @@ public class GenericRequest implements Runnable {
       String comedy;
       boolean offhand = false;
       switch (comedyItemID) {
-        case ItemPool.INSULT_PUPPET:
+        case ItemPool.INSULT_PUPPET -> {
           comedy = "insult";
           offhand = true;
-          break;
-        case ItemPool.OBSERVATIONAL_GLASSES:
-          comedy = "observe";
-          break;
-        case ItemPool.COMEDY_PROP:
-          comedy = "prop";
-          break;
-        default:
+        }
+        case ItemPool.OBSERVATIONAL_GLASSES -> comedy = "observe";
+        case ItemPool.COMEDY_PROP -> comedy = "prop";
+        default -> {
           KoLmafia.updateDisplay(
               MafiaState.ABORT,
               "\"" + comedyItemID + "\" is not a comedy item number that Mafia recognizes.");
           return false;
+        }
       }
 
       AdventureResult comedyItem = ItemPool.get(comedyItemID, 1);
@@ -1280,10 +1298,10 @@ public class GenericRequest implements Runnable {
         if (KoLConstants.inventory.contains(comedyItem)) {
           // Unequip any 2-handed weapon before equipping an offhand
           if (offhand) {
-            AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
+            AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
             int hands = EquipmentDatabase.getHands(weapon.getItemId());
             if (hands > 1) {
-              new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON).run();
+              new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.WEAPON).run();
             }
           }
 
@@ -1328,18 +1346,6 @@ public class GenericRequest implements Runnable {
 
     if (GenericRequest.isRatQuest) {
       TavernRequest.preTavernVisit(this);
-    }
-
-    if (this.hasResult && GenericRequest.isBarrelSmash) {
-      // Smash has resulted in a mimic.
-      // Continue tracking throughout the combat
-      GenericRequest.isBarrelSmash =
-          urlString.startsWith("fight.php") || urlString.startsWith("fambattle.php");
-    }
-
-    if (urlString.startsWith("barrel.php?")) {
-      GenericRequest.isBarrelSmash = true;
-      BarrelDecorator.beginSmash(urlString);
     }
 
     // Do this before registering the request now that we have a
@@ -1907,7 +1913,7 @@ public class GenericRequest implements Runnable {
             continue;
           }
           if (FightRequest.choiceFollowsFight) {
-            RequestThread.postRequest(new GenericRequest("choice.php"));
+            RequestThread.postRequest(new GenericRequest("choice.php", false));
             // Fall through
           }
           if (ChoiceManager.handlingChoice) {
@@ -2013,11 +2019,15 @@ public class GenericRequest implements Runnable {
       }
 
       this.redirectHandled = true;
-      ChoiceManager.processRedirectedChoiceAdventure(this.redirectLocation);
+      String redirectLocation = this.redirectLocation;
+      boolean usePostMethod = this.redirectMethod.equals("POST");
+      ChoiceManager.processRedirectedChoiceAdventure(redirectLocation, usePostMethod);
+      this.responseText = ChoiceManager.CHOICE_HANDLER.responseText;
       return true;
     }
 
     if (this.redirectLocation.startsWith("ocean.php")) {
+      this.redirectHandled = true;
       OceanManager.processOceanAdventure();
       return true;
     }
@@ -2038,7 +2048,9 @@ public class GenericRequest implements Runnable {
     }
 
     if (this instanceof AdventureRequest || this.formURLString.startsWith("choice.php")) {
-      AdventureRequest.handleServerRedirect(this.redirectLocation);
+      String redirectLocation = this.redirectLocation;
+      boolean usePostMethod = this.redirectMethod.equals("POST");
+      AdventureRequest.handleServerRedirect(redirectLocation, usePostMethod);
       return true;
     }
 
@@ -2158,6 +2170,11 @@ public class GenericRequest implements Runnable {
       GenericRequest.isRatQuest = false;
     }
 
+    // Check that we are actually handling a choice
+    if (ChoiceManager.bogusChoice(urlString, this)) {
+      return;
+    }
+
     if (ChoiceManager.handlingChoice) {
       // Handle choices BEFORE registering Encounter
       ChoiceManager.postChoice0(urlString, this);
@@ -2202,11 +2219,7 @@ public class GenericRequest implements Runnable {
     // Once everything is complete, decide whether or not
     // you should refresh your status.
 
-    if (!this.hasResult || GenericRequest.suppressUpdate) {
-      return;
-    }
-
-    if (this instanceof RelayRequest) {
+    if (!this.hasResult || this.shouldSuppressUpdate()) {
       return;
     }
 
@@ -2215,23 +2228,50 @@ public class GenericRequest implements Runnable {
     // happening change anything, even though KoL asks for a
     // charpane refresh for many of them.
 
-    if (this.responseText.contains("charpane.php") && !KoLmafia.isRefreshing()) {
-      ApiRequest.updateStatus(true);
-      RelayServer.updateStatus();
+    if (!KoLmafia.isRefreshing()) {
+      if (this.responseText.contains("charpane.php")) {
+        ApiRequest.updateStatus(true);
+        RelayServer.updateStatus();
+      } else {
+        // As the crystall ball depends on the [last adventure] being tracked, check if we can
+        // determine the zone from the provided text
+        Matcher matcher = ADVENTURE_AGAIN.matcher(this.responseText);
+
+        if (matcher.find()) {
+          KoLAdventure.lastZoneName = matcher.group(1);
+          CrystalBallManager.updateCrystalBallPredictions();
+        }
+      }
     }
   }
 
   public void formatResponse() {}
 
   /**
-   * An alternative method to doing adventure calculation is determining how many adventures are
-   * used by the given request, and subtract them after the request is done. This number defaults to
-   * <code>zero</code>; overriding classes should change this value to the appropriate amount.
+   * Sometimes we need to estimate how many turns a request will take; determining whether counters
+   * are due to fire, for example.
    *
    * @return The number of adventures used by this request.
    */
   public int getAdventuresUsed() {
-    return 0;
+    String urlString = this.getURLString();
+
+    return switch (this.baseURLString) {
+      case "adventure.php", "basement.php", "cellar.php", "mining.php" -> AdventureRequest
+          .getAdventuresUsed(urlString);
+      case "choice.php" -> ChoiceManager.getAdventuresUsed(urlString);
+      case "place.php" -> PlaceRequest.getAdventuresUsed(urlString);
+      case "campground.php" -> CampgroundRequest.getAdventuresUsed(urlString);
+      case "arena.php" -> CakeArenaRequest.getAdventuresUsed(urlString);
+      case "inv_use.php", "inv_eat.php" -> UseItemRequest.getAdventuresUsed(urlString);
+      case "runskillz.php" -> UseSkillRequest.getAdventuresUsed(urlString);
+      case "craft.php" -> CreateItemRequest.getAdventuresUsed(this);
+      case "volcanoisland.php" -> VolcanoIslandRequest.getAdventuresUsed(urlString);
+      case "clan_hobopolis.php" -> RichardRequest.getAdventuresUsed(urlString);
+      case "suburbandis.php" -> SuburbanDisRequest.getAdventuresUsed(urlString);
+      case "crimbo09.php" -> Crimbo09Request.getTurnsUsed(this);
+      default -> 0;
+    };
   }
 
   private void parseResults() {
@@ -2751,8 +2791,14 @@ public class GenericRequest implements Runnable {
       case ItemPool.UNCANNY_DESK_BELL:
       case ItemPool.NASTY_DESK_BELL:
       case ItemPool.GREASY_DESK_BELL:
+      case ItemPool.BASTILLE_LOANER_VOUCHER:
         itemName = item.getName();
         consumed = true;
+        break;
+
+      case ItemPool.MOLEHILL_MOUNTAIN:
+        itemName = item.getName();
+        Preferences.setBoolean("_molehillMountainUsed", true);
         break;
 
       default:
@@ -2773,12 +2819,7 @@ public class GenericRequest implements Runnable {
       EncounterManager.registerAdventure(adventure);
     }
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + itemName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(itemName);
 
     GenericRequest.itemMonster = itemName;
   }
@@ -2814,18 +2855,14 @@ public class GenericRequest implements Runnable {
         return;
     }
 
+    GenericRequest.itemMonster = name;
     KoLAdventure.lastVisitedLocation = null;
     KoLAdventure.lastLocationName = null;
     KoLAdventure.lastLocationURL = location;
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(name);
   }
 
   private static void checkSkillRedirection(final String location) {
@@ -2856,12 +2893,7 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + skillName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(skillName);
   }
 
   private static void checkOtherRedirection(final String location) {
@@ -2890,34 +2922,24 @@ public class GenericRequest implements Runnable {
     KoLAdventure.setLastAdventure("None");
     KoLAdventure.setNextAdventure("None");
 
-    String message = "[" + KoLAdventure.getAdventureCount() + "] " + otherName;
-    RequestLogger.printLine();
-    RequestLogger.printLine(message);
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(message);
+    RequestLogger.registerLocation(otherName);
   }
 
   private static AdventureResult sealRitualCandles(final int itemId) {
-    switch (itemId) {
-      case ItemPool.WRETCHED_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -1);
-      case ItemPool.CUTE_BABY_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -5);
-      case ItemPool.ARMORED_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -10);
-      case ItemPool.ANCIENT_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -3);
-      case ItemPool.SLEEK_SEAL:
-      case ItemPool.SHADOWY_SEAL:
-      case ItemPool.STINKING_SEAL:
-      case ItemPool.CHARRED_SEAL:
-      case ItemPool.COLD_SEAL:
-      case ItemPool.SLIPPERY_SEAL:
-      case ItemPool.DEPLETED_URANIUM_SEAL:
-        return ItemPool.get(ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1);
-    }
-    return null;
+    return switch (itemId) {
+      case ItemPool.WRETCHED_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -1);
+      case ItemPool.CUTE_BABY_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -5);
+      case ItemPool.ARMORED_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -10);
+      case ItemPool.ANCIENT_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -3);
+      case ItemPool.SLEEK_SEAL,
+          ItemPool.SHADOWY_SEAL,
+          ItemPool.STINKING_SEAL,
+          ItemPool.CHARRED_SEAL,
+          ItemPool.COLD_SEAL,
+          ItemPool.SLIPPERY_SEAL,
+          ItemPool.DEPLETED_URANIUM_SEAL -> ItemPool.get(ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1);
+      default -> null;
+    };
   }
 
   public final void loadResponseFromFile(final String filename) {
@@ -3011,10 +3033,26 @@ public class GenericRequest implements Runnable {
     RequestLogger.updateDebugLog(requestProperties.size() + " request properties");
 
     for (Entry<String, List<String>> entry : requestProperties.entrySet()) {
-      RequestLogger.updateDebugLog("Field: " + entry.getKey() + " = " + entry.getValue());
+      List<String> value;
+      if ("Cookie".equalsIgnoreCase(entry.getKey())) {
+        value = filterCookieList(entry.getValue());
+      } else {
+        value = entry.getValue();
+      }
+      RequestLogger.updateDebugLog("Field: " + entry.getKey() + " = " + value);
     }
 
     RequestLogger.updateDebugLog();
+  }
+
+  private static List<String> filterCookieList(List<String> values) {
+    return values.stream()
+        .map(
+            s ->
+                Arrays.stream(s.split("\s*;\s*"))
+                    .map(t -> t.startsWith("PHPSESSID=") ? "PHPSESSID=OMITTED" : t)
+                    .collect(Collectors.joining("; ")))
+        .toList();
   }
 
   public void printHeaderFields() {

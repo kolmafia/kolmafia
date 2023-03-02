@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 public class ClipArtRequest extends CreateItemRequest {
   public ClipArtRequest(final Concoction conc) {
@@ -17,7 +18,7 @@ public class ClipArtRequest extends CreateItemRequest {
     }
 
     KoLmafia.updateDisplay("Creating " + this.getQuantityNeeded() + " " + this.getName() + "...");
-    UseSkillRequest request = UseSkillRequest.getInstance("Summon Clip Art", null, 1);
+    UseSkillRequest request = UseSkillRequest.getInstance(SkillPool.CLIP_ART, null, 1);
 
     int param = this.concoction.getParam();
     int clip1 = (param >> 16) & 0xFF;

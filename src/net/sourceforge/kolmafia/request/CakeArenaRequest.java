@@ -54,7 +54,15 @@ public class CakeArenaRequest extends GenericRequest {
 
   @Override
   public int getAdventuresUsed() {
-    return this.isCompetition ? 1 : 0;
+    return getAdventuresUsed(this.isCompetition);
+  }
+
+  public static int getAdventuresUsed(final String urlString) {
+    return getAdventuresUsed(urlString.contains("action=go"));
+  }
+
+  private static int getAdventuresUsed(boolean isCompetition) {
+    return isCompetition ? 1 : 0;
   }
 
   private static final Pattern EVENT_PATTERN = Pattern.compile("event=(\\d*)");
@@ -256,23 +264,23 @@ public class CakeArenaRequest extends GenericRequest {
       Pattern.compile("You enter (.*?) against (.*?) in (?:a game of|an|a) (.*?)(?: race)?\\.");
 
   private static boolean isContestResult(final int eventId, final String line) {
-    switch (eventId) {
-      case 1:
-        // Gorg struggles for 18 rounds, but is eventually knocked out.
-        // Gorg knocks Pork Soda out after 18 rounds.
-        return (line.contains("is eventually knocked out")
-            || (line.contains("knocks") && line.contains("out after")));
-      case 2:
-        // Gonald finds 12 items from the list.
-        return (line.contains("items from the list"));
-      case 3:
-        // Ton makes it through the obstacle course in 199 seconds.
-        return (line.contains("makes it through the obstacle course"));
-      case 4:
-        // Trort manages to stay hidden for 30 seconds.
-        return (line.contains("manages to stay hidden for"));
-    }
-    return false;
+    return switch (eventId) {
+      case 1 ->
+      // Gorg struggles for 18 rounds, but is eventually knocked out.
+      // Gorg knocks Pork Soda out after 18 rounds.
+      (line.contains("is eventually knocked out")
+          || (line.contains("knocks") && line.contains("out after")));
+      case 2 ->
+      // Gonald finds 12 items from the list.
+      (line.contains("items from the list"));
+      case 3 ->
+      // Ton makes it through the obstacle course in 199 seconds.
+      (line.contains("makes it through the obstacle course"));
+      case 4 ->
+      // Trort manages to stay hidden for 30 seconds.
+      (line.contains("manages to stay hidden for"));
+      default -> false;
+    };
   }
 
   private static String parseSuckage(String[] lines) {

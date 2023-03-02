@@ -11,8 +11,11 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -27,6 +30,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -37,6 +41,7 @@ import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
@@ -82,11 +87,31 @@ public class BreakfastManager {
 
   private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get(ItemPool.VIP_LOUNGE_KEY, 1);
 
+  private static List<Runnable> ACTIONS =
+      List.of(
+          BreakfastManager::checkRumpusRoom,
+          BreakfastManager::checkVIPLounge,
+          BreakfastManager::readGuildManual,
+          BreakfastManager::getHermitClovers,
+          BreakfastManager::harvestGarden,
+          BreakfastManager::collectHardwood,
+          BreakfastManager::useSpinningWheel,
+          BreakfastManager::visitBigIsland,
+          BreakfastManager::visitVolcanoIsland,
+          BreakfastManager::checkJackass,
+          BreakfastManager::makePocketWishes,
+          BreakfastManager::haveBoxingDaydream,
+          BreakfastManager::useToys,
+          BreakfastManager::collectAnticheese,
+          BreakfastManager::collectSeaJelly,
+          BreakfastManager::harvestBatteries,
+          BreakfastManager::useBookOfEverySkill);
+
   private BreakfastManager() {}
 
   public static void getBreakfast(final boolean runComplete) {
-    String limitmode = KoLCharacter.getLimitmode();
-    if (limitmode != null) {
+    var limitmode = KoLCharacter.getLimitMode();
+    if (limitmode != LimitMode.NONE) {
       // Current limitmodes are transient states you can
       // enter and leave during a run. If KoL ever implements
       // a limitmode for an entire run, we may have to
@@ -100,29 +125,19 @@ public class BreakfastManager {
 
     try (Checkpoint checkpoint = new Checkpoint()) {
       if (runComplete) {
-        checkRumpusRoom();
-        checkVIPLounge();
-        readGuildManual();
-        getHermitClovers();
-        harvestGarden();
-        if (GenericRequest.abortIfInFightOrChoice()) {
-          KoLmafia.updateDisplay(MafiaState.ABORT, "Breakfast aborted.");
-          return;
+        for (Runnable action : BreakfastManager.ACTIONS) {
+          action.run();
+          if (GenericRequest.abortIfInFightOrChoice()) {
+            KoLmafia.updateDisplay(
+                MafiaState.ABORT, "Breakfast aborted; stuck in fight or choice.");
+            return;
+          }
+          if (StaticEntity.userAborted) {
+            KoLmafia.updateDisplay(MafiaState.ABORT, "Breakfast aborted by user.");
+            return;
+          }
+          BreakfastManager.ignoreErrors();
         }
-        collectHardwood();
-        useSpinningWheel();
-        visitBigIsland();
-        visitVolcanoIsland();
-        checkJackass();
-        makePocketWishes();
-        haveBoxingDaydream();
-        if (Preferences.getBoolean(
-            "useCrimboToys" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
-          useToys();
-        }
-        collectAnticheese();
-        collectSeaJelly();
-        harvestBatteries();
       }
 
       boolean recoverMana =
@@ -136,25 +151,27 @@ public class BreakfastManager {
 
       Preferences.setBoolean("breakfastCompleted", done);
     }
-    KoLmafia.forceContinue();
+    BreakfastManager.ignoreErrors();
+  }
+
+  private static void ignoreErrors() {
+    StaticEntity.setContinuationState(MafiaState.CONTINUE);
   }
 
   public static void checkRumpusRoom() {
-    if (!Limitmode.limitClan()
+    if (!KoLCharacter.getLimitMode().limitClan()
         && Preferences.getBoolean(
             "visitRumpus" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
       ClanRumpusRequest.getBreakfast();
-      KoLmafia.forceContinue();
     }
   }
 
   public static void checkVIPLounge() {
-    if (!Limitmode.limitClan()
+    if (!KoLCharacter.getLimitMode().limitClan()
         && InventoryManager.hasItem(VIP_LOUNGE_KEY)
         && Preferences.getBoolean(
             "visitLounge" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
       ClanLoungeRequest.getBreakfast();
-      KoLmafia.forceContinue();
     }
   }
 
@@ -187,11 +204,15 @@ public class BreakfastManager {
 
     if (InventoryManager.hasItem(manual)) {
       RequestThread.postRequest(UseItemRequest.getInstance(manual));
-      KoLmafia.forceContinue();
     }
   }
 
   private static void useToys() {
+    if (!Preferences.getBoolean(
+        "useCrimboToys" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
+      return;
+    }
+
     boolean useCloset = true;
     boolean useStorage = KoLCharacter.canInteract();
 
@@ -269,7 +290,7 @@ public class BreakfastManager {
     if (useStorage && storageItems.size() > 0) {
       RequestThread.postRequest(
           new StorageRequest(
-              StorageRequest.STORAGE_TO_INVENTORY,
+              StorageRequestType.STORAGE_TO_INVENTORY,
               storageItems.toArray(new AdventureResult[0]),
               false));
     }
@@ -278,22 +299,22 @@ public class BreakfastManager {
     if (useCloset && closetItems.size() > 0) {
       RequestThread.postRequest(
           new ClosetRequest(
-              ClosetRequest.CLOSET_TO_INVENTORY, closetItems.toArray(new AdventureResult[0])));
+              ClosetRequestType.CLOSET_TO_INVENTORY, closetItems.toArray(new AdventureResult[0])));
     }
 
     // Use the toys!
     for (UseItemRequest request : requests) {
       AdventureResult toy = request.getItemUsed();
-      int slot = KoLCharacter.equipmentSlot(toy);
+      Slot slot = KoLCharacter.equipmentSlot(toy);
 
       RequestThread.postRequest(request);
-      KoLmafia.forceContinue();
+      BreakfastManager.ignoreErrors();
 
       // If the toy is equipment, we had it equipped, and
       // "using" it unequipped it, re-equip it
-      if (slot != EquipmentManager.NONE && !KoLCharacter.hasEquipped(toy, slot)) {
+      if (slot != Slot.NONE && !KoLCharacter.hasEquipped(toy, slot)) {
         RequestThread.postRequest(new EquipmentRequest(toy, slot));
-        KoLmafia.forceContinue();
+        BreakfastManager.ignoreErrors();
       }
     }
   }
@@ -302,7 +323,7 @@ public class BreakfastManager {
     if (KoLCharacter.inBadMoon()
         || KoLCharacter.inNuclearAutumn()
         || KoLCharacter.isKingdomOfExploathing()
-        || Limitmode.limitZone("Mountain")) {
+        || KoLCharacter.getLimitMode().limitZone("Mountain")) {
       return;
     }
 
@@ -312,13 +333,13 @@ public class BreakfastManager {
       if (count > 0) {
         KoLmafiaCLI.DEFAULT_SHELL.executeLine("hermit " + count + " 11-leaf clover");
       }
-
-      KoLmafia.forceContinue();
     }
   }
 
   public static void harvestGarden() {
-    if (KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() || Limitmode.limitCampground()) {
+    if (KoLCharacter.isEd()
+        || KoLCharacter.inNuclearAutumn()
+        || KoLCharacter.getLimitMode().limitCampground()) {
       return;
     }
 
@@ -350,13 +371,17 @@ public class BreakfastManager {
 
   public static void collectHardwood() {
     if (InventoryManager.hasItem(SpinMasterLatheRequest.SPINMASTER)
+        // For some unknown reason, redirects to place.php?whichshop=0
+        && !KoLCharacter.isKingdomOfExploathing()
         && !Preferences.getBoolean("_spinmasterLatheVisited")) {
       CoinMasterRequest.visit(SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE);
     }
   }
 
   public static void useSpinningWheel() {
-    if (KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() || Limitmode.limitCampground()) {
+    if (KoLCharacter.isEd()
+        || KoLCharacter.inNuclearAutumn()
+        || KoLCharacter.getLimitMode().limitCampground()) {
       return;
     }
 
@@ -531,27 +556,23 @@ public class BreakfastManager {
     // Determine total number of times we will try to use skills of
     // this type.
 
-    long totalCasts = 0;
-
-    switch (type) {
-      case TOME:
-        // In Ronin or Hardcore, Tomes can be used three times a day,
-        // spread among all available tomes.
-        // In other cases, all available tomes can be cast three times a day.
-        totalCasts = KoLCharacter.canInteract() ? skillCount * 3L : 3;
-        break;
-      case GRIMOIRE:
-        // Grimoires can be used once a day, each.
-        totalCasts = skillCount;
-        break;
-      case LIBRAM:
-        // Librams can be used as many times per day as you
-        // have mana available.
-        totalCasts = SkillDatabase.libramSkillCasts(KoLCharacter.getCurrentMP() - manaRemaining);
-        // Note that if we allow MP to be restored, we could
-        // potentially summon a lot more. Maybe someday...
-        break;
-    }
+    long totalCasts =
+        switch (type) {
+          case TOME ->
+          // In Ronin or Hardcore, Tomes can be used three times a day,
+          // spread among all available tomes.
+          // In other cases, all available tomes can be cast three times a day.
+          KoLCharacter.canInteract() ? skillCount * 3L : 3;
+          case GRIMOIRE ->
+          // Grimoires can be used once a day, each.
+          skillCount;
+          case LIBRAM ->
+          // Librams can be used as many times per day as you
+          // have mana available.
+          // Note that if we allow MP to be restored, we could
+          // potentially summon a lot more. Maybe someday...
+          SkillDatabase.libramSkillCasts(KoLCharacter.getCurrentMP() - manaRemaining);
+        };
 
     if (skillCount == 1) {
       // We are casting exactly one skill from this list.
@@ -581,14 +602,14 @@ public class BreakfastManager {
   }
 
   private static void checkJackass() {
-    if (Preferences.getBoolean("_defectiveTokenChecked") || Limitmode.limitZone("Town")) {
+    if (Preferences.getBoolean("_defectiveTokenChecked")
+        || KoLCharacter.getLimitMode().limitZone("Town")) {
       return;
     }
 
     if (Preferences.getBoolean(
         "checkJackass" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
       ArcadeRequest.checkJackassPlumber();
-      KoLmafia.forceContinue();
     }
   }
 
@@ -607,7 +628,6 @@ public class BreakfastManager {
       int num = 3 - Preferences.getInteger("_genieWishesUsed");
       for (int i = 0; i < num; i++) {
         RequestThread.postRequest(new GenieRequest("for more wishes"));
-        KoLmafia.forceContinue();
       }
     }
   }
@@ -621,7 +641,7 @@ public class BreakfastManager {
       return;
     }
 
-    if (!StandardRequest.isAllowed("Items", "Boxing Day care package")) {
+    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Boxing Day care package")) {
       return;
     }
 
@@ -634,13 +654,14 @@ public class BreakfastManager {
   }
 
   public static void visitVolcanoIsland() {
-    if (!Limitmode.limitZone("Volcano")) {
+    if (!KoLCharacter.getLimitMode().limitZone("Volcano")) {
       VolcanoIslandRequest.getBreakfast();
     }
   }
 
   public static void visitBigIsland() {
-    if (Limitmode.limitZone("Island") || Limitmode.limitZone("IsleWar")) {
+    if (KoLCharacter.getLimitMode().limitZone("Island")
+        || KoLCharacter.getLimitMode().limitZone("IsleWar")) {
       return;
     }
 
@@ -730,14 +751,14 @@ public class BreakfastManager {
     }
     KoLmafia.updateDisplay("Collecting cut of hippy profits...");
     RequestThread.postRequest(new GenericRequest("shop.php?whichshop=hippy"));
-    KoLmafia.forceContinue();
+    BreakfastManager.ignoreErrors();
   }
 
   private static void visitFarmer() {
     IslandRequest request = IslandRequest.getFarmerRequest();
     if (request != null) {
       RequestThread.postRequest(request);
-      KoLmafia.forceContinue();
+      BreakfastManager.ignoreErrors();
     }
   }
 
@@ -745,7 +766,7 @@ public class BreakfastManager {
     IslandRequest request = IslandRequest.getPyroRequest();
     if (request != null) {
       RequestThread.postRequest(request);
-      KoLmafia.forceContinue();
+      BreakfastManager.ignoreErrors();
     }
   }
 
@@ -779,7 +800,8 @@ public class BreakfastManager {
   }
 
   private static void collectSeaJelly() {
-    if (Limitmode.limitZone("The Sea") || Limitmode.limitFamiliars()) {
+    if (KoLCharacter.getLimitMode().limitZone("The Sea")
+        || KoLCharacter.getLimitMode().limitFamiliars()) {
       return;
     }
 
@@ -791,7 +813,7 @@ public class BreakfastManager {
       return;
     }
 
-    FamiliarData jellyfish = KoLCharacter.findFamiliar(FamiliarPool.SPACE_JELLYFISH);
+    FamiliarData jellyfish = KoLCharacter.usableFamiliar(FamiliarPool.SPACE_JELLYFISH);
     if (jellyfish == null) {
       return;
     }
@@ -801,18 +823,19 @@ public class BreakfastManager {
     FamiliarData currentFam = KoLCharacter.getFamiliar();
 
     FamiliarManager.changeFamiliar(jellyfish, false);
+    // Force automation to take option 1
+    Preferences.setInteger("choiceAdventure1219", 1);
+    // This will redirect to choice.php?forceoption=0 which will make
+    // ChoiceManager automate the choice through option 1
     RequestThread.postRequest(new PlaceRequest("thesea", "thesea_left2", false));
-    RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1219&option=1"));
     FamiliarManager.changeFamiliar(currentFam);
-
-    KoLmafia.forceContinue();
   }
 
   private static void harvestBatteries() {
     AdventureResult plant = ItemPool.get("potted power plant", 1);
 
     if (!InventoryManager.hasItem(plant)
-        || !StandardRequest.isAllowed("Items", plant.getName())
+        || !StandardRequest.isAllowed(RestrictedItemType.ITEMS, plant.getName())
         || KoLCharacter.inGLover()) {
       return;
     }
@@ -828,7 +851,7 @@ public class BreakfastManager {
       RequestThread.postRequest(
           new GenericRequest("inv_use.php?pwd&whichitem=" + plant.getItemId()));
 
-      String status[] = Preferences.getString("_pottedPowerPlant").split(",");
+      String[] status = Preferences.getString("_pottedPowerPlant").split(",");
 
       for (int pp = 0; pp < status.length; pp++) {
         if (!status[pp].equals("0")) {
@@ -836,8 +859,27 @@ public class BreakfastManager {
               new GenericRequest("choice.php?pwd&whichchoice=1448&option=1&pp=" + (pp + 1)));
         }
       }
+    }
+  }
 
-      KoLmafia.forceContinue();
+  private static void useBookOfEverySkill() {
+    if (Preferences.getBoolean("_bookOfEverySkillUsed")) {
+      return;
+    }
+
+    AdventureResult book = ItemPool.get(ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL, 1);
+
+    if (!InventoryManager.hasItem(book)
+        || !StandardRequest.isAllowed(RestrictedItemType.ITEMS, book.getName())
+        || KoLCharacter.inBeecore()) {
+      return;
+    }
+
+    if (Preferences.getBoolean(
+        "useBookOfEverySkill" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
+      KoLmafia.updateDisplay("Reading for a guild skill...");
+
+      RequestThread.postRequest(UseItemRequest.getInstance(book));
     }
   }
 }

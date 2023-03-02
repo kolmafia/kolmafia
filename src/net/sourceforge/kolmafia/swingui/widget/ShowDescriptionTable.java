@@ -9,8 +9,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,10 +56,11 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
+import net.sourceforge.kolmafia.swingui.listener.PopupListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -80,7 +79,6 @@ and all the "List-specific" methods will be provided in adapter methods.
 */
 
 public class ShowDescriptionTable<E> extends JXTable {
-  public int lastSelectIndex;
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
@@ -92,7 +90,7 @@ public class ShowDescriptionTable<E> extends JXTable {
   private static final Pattern PLAYERID_MATCHER = Pattern.compile("\\(#(\\d+)\\)");
 
   private final Comparator<String[]> arrayComparator =
-      new Comparator<String[]>() {
+      new Comparator<>() {
         @Override
         public int compare(String[] o1, String[] o2) {
           if (o1.length != 2 || o2.length != 2) {
@@ -201,7 +199,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       this.addKeyListener(new RemoveTriggerListener());
     }
 
-    this.addMouseListener(new PopupListener());
+    this.addMouseListener(new PopupListener(this.contextMenu));
 
     // Add functionality for scrolling to an entry when the user types in a partial name.
     // This is provided natively by JList, but needs to be added here because tables do not natively
@@ -422,36 +420,7 @@ public class ShowDescriptionTable<E> extends JXTable {
     }
   }
 
-  private class PopupListener extends MouseAdapter {
-    @Override
-    public void mousePressed(final MouseEvent e) {
-      this.maybeShowPopup(e);
-    }
-
-    @Override
-    public void mouseReleased(final MouseEvent e) {
-      this.maybeShowPopup(e);
-    }
-
-    private void maybeShowPopup(final MouseEvent e) {
-      if (e.isPopupTrigger()) {
-        int index = ShowDescriptionTable.this.rowAtPoint((e.getPoint()));
-        if (index == -1) {
-          return;
-        }
-        ShowDescriptionTable.this.lastSelectIndex = index;
-
-        if (!ShowDescriptionTable.this.isRowSelected((index))) {
-          ShowDescriptionTable.this.clearSelection();
-          ShowDescriptionTable.this.setRowSelectionInterval(index, index);
-        }
-
-        ShowDescriptionTable.this.contextMenu.show(e.getComponent(), e.getX(), e.getY());
-      }
-    }
-  }
-
-  public class ClipboardHandler extends TransferHandler {
+  public static class ClipboardHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(JComponent c) {
       JTable t = (JTable) c;
@@ -463,9 +432,9 @@ public class ShowDescriptionTable<E> extends JXTable {
       return COPY;
     }
 
-    class Selection implements Transferable {
+    static class Selection implements Transferable {
       private final JTable delegate;
-      private final List<DataFlavor> flavors = new ArrayList<DataFlavor>();
+      private final List<DataFlavor> flavors = new ArrayList<>();
 
       public Selection(JTable t) {
         this.flavors.add(DataFlavor.stringFlavor);
@@ -536,7 +505,7 @@ public class ShowDescriptionTable<E> extends JXTable {
     }
   }
 
-  private class ContextMenuItem extends ThreadedMenuItem {
+  private static class ContextMenuItem extends ThreadedMenuItem {
     public ContextMenuItem(final String title, final ThreadedListener action) {
       super(title, action);
     }
@@ -548,20 +517,12 @@ public class ShowDescriptionTable<E> extends JXTable {
 
     @Override
     protected void execute() {
-      this.index =
-          ShowDescriptionTable.this.lastSelectIndex == -1
-              ? ShowDescriptionTable.this.getSelectedRow()
-              : ShowDescriptionTable.this.lastSelectIndex;
-
-      this.item =
-          ShowDescriptionTable.this.displayModel.getElementAt(
-              ShowDescriptionTable.this.convertRowIndexToModel(this.index));
+      this.index = ShowDescriptionTable.this.getSelectedIndex();
+      this.item = ShowDescriptionTable.this.displayModel.getElementAt(this.index);
 
       if (this.item == null) {
         return;
       }
-
-      // ShowDescriptionTable.this.ensureIndexIsVisible( this.index );
 
       this.executeAction();
     }
@@ -785,16 +746,15 @@ public class ShowDescriptionTable<E> extends JXTable {
       for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -819,16 +779,15 @@ public class ShowDescriptionTable<E> extends JXTable {
       for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -856,16 +815,15 @@ public class ShowDescriptionTable<E> extends JXTable {
       for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -1144,7 +1102,7 @@ public class ShowDescriptionTable<E> extends JXTable {
 
   public void setHeaderStates(String rawPref) {
     List<TableColumn> cols = this.getColumns(true);
-    ArrayList<String[]> sortCols = new ArrayList<String[]>();
+    ArrayList<String[]> sortCols = new ArrayList<>();
 
     // rawPref is a pipe-delimited list of (header name):(view index)
     String[] split1 = rawPref.split("\\|");

@@ -40,21 +40,15 @@ public class BeachCombRequest extends GenericRequest {
   }
 
   private static BeachCombCommand optionToCommand(final int option) {
-    switch (option) {
-      case 1:
-        return BeachCombCommand.WANDER;
-      case 2:
-        return BeachCombCommand.RANDOM;
-      case 3:
-        return BeachCombCommand.HEAD;
-      case 4:
-        return BeachCombCommand.COMB;
-      case 5:
-        return BeachCombCommand.EXIT;
-      case 6:
-        return BeachCombCommand.COMMON;
-    }
-    return BeachCombCommand.VISIT;
+    return switch (option) {
+      case 1 -> BeachCombCommand.WANDER;
+      case 2 -> BeachCombCommand.RANDOM;
+      case 3 -> BeachCombCommand.HEAD;
+      case 4 -> BeachCombCommand.COMB;
+      case 5 -> BeachCombCommand.EXIT;
+      case 6 -> BeachCombCommand.COMMON;
+      default -> BeachCombCommand.VISIT;
+    };
   }
 
   public static BeachCombCommand extractCommandFromURL(final String urlString) {
@@ -435,40 +429,33 @@ public class BeachCombRequest extends GenericRequest {
 
   @Override
   public int getAdventuresUsed() {
-    switch (this.command) {
-      case VISIT:
-      case EXIT:
-      case COMMON:
-        return 0;
-      case WANDER:
-      case RANDOM:
-      case HEAD:
-      case COMB:
-        return Preferences.getInteger("_freeBeachWalksUsed") < 11 ? 0 : 1;
-    }
-    return 0;
+    return getAdventuresUsed(this.command);
+  }
+
+  public static int getAdventuresUsed(String urlString) {
+    BeachCombCommand command = extractCommandFromURL(urlString);
+    return getAdventuresUsed(command);
+  }
+
+  private static int getAdventuresUsed(BeachCombCommand command) {
+    return switch (command) {
+      case VISIT, EXIT, COMMON -> 0;
+      case WANDER, RANDOM, HEAD, COMB -> Preferences.getInteger("_freeBeachWalksUsed") < 11 ? 0 : 1;
+    };
   }
 
   public static final boolean containsEncounter(final String urlString) {
-    // Only wand to log "Encounter:" in interesting cases
-    BeachCombCommand command = BeachCombRequest.extractCommandFromURL(urlString);
-    switch (command) {
-      case VISIT:
-      case EXIT:
+    // Only want to log "Encounter:" in interesting cases
+    BeachCombCommand command = extractCommandFromURL(urlString);
+    return switch (command) {
         // Picking up or putting down the comb are uninteresting
-        return false;
-      case COMMON:
-      case HEAD:
-      case COMB:
+      case VISIT, EXIT -> false;
         // These are the result of combing a square. Not interesting encounter
-        return false;
-      case WANDER:
-      case RANDOM:
+      case COMMON, HEAD, COMB -> false;
         // These bring us to a particular section of beach. The
         // encounter tells us which section.
-        return true;
-    }
-    return false;
+      case WANDER, RANDOM -> true;
+    };
   }
 
   public static final boolean registerRequest(final String urlString) {

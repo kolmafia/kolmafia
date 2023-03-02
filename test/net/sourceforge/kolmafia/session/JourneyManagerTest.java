@@ -1,8 +1,7 @@
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.session;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import net.sourceforge.kolmafia.session.JourneyManager;
 import org.junit.jupiter.api.Test;
 
 public class JourneyManagerTest {

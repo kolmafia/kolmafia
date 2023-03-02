@@ -1,7 +1,10 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class AscensionPath {
@@ -9,12 +12,12 @@ public class AscensionPath {
 
   public enum Path {
     // Path Name, Path ID, is Avatar?, image in ascension history, article
-    NONE("None", 0, false, "blank", null),
+    NONE("none", 0, false, "blank", null),
     BOOZETAFARIAN("Boozetafarian", 1, false, "martini", "a"),
     TEETOTALER("Teetotaler", 2, false, "bowl", "a"),
     OXYGENARIAN("Oxygenarian", 3, false, "oxy", "an"),
     BEES_HATE_YOU("Bees Hate You", 4, false, "beeicon", "a"),
-    SURPRISING_FIST("Way of the Surprising Fist", 6, false, "wasp_fist", "a"),
+    SURPRISING_FIST("Way of the Surprising Fist", 6, false, "wosp_fist", "a"),
     TRENDY("Trendy", 7, false, "trendyicon", "a"),
     AVATAR_OF_BORIS("Avatar of Boris", 8, true, "trusty", "an", "borisPoints", 0, false),
     BUGBEAR_INVASION("Bugbear Invasion", 9, false, "familiar39", "a"),
@@ -37,7 +40,7 @@ public class AscensionPath {
     COMMUNITY_SERVICE("Community Service", 25, false, "csplaquesmall", "a"),
     AVATAR_OF_WEST_OF_LOATHING("Avatar of West of Loathing", 26, false, "badge", "an"),
     THE_SOURCE("The Source", 27, false, "ss_datasiphon", "a", "sourcePoints", 0, false),
-    NUCLEAR_AUTUMN("Nuclear Autumn", 28, false, "radiation", "a"),
+    NUCLEAR_AUTUMN("Nuclear Autumn", 28, false, "radiation", "a", "nuclearAutumnPoints", 23, false),
     GELATINOUS_NOOB("Gelatinous Noob", 29, true, "gcube", "a", "noobPoints", 20, true),
     LICENSE_TO_ADVENTURE(
         "License to Adventure", 30, false, "briefcase", "a", "bondPoints", 24, true),
@@ -46,7 +49,8 @@ public class AscensionPath {
     GLOVER("G-Lover", 33, false, "g-loveheart", "a", "gloverPoints", 10, false),
     DISGUISES_DELIMIT("Disguises Delimit", 34, false, "dd_icon", "a", "masksUnlocked", 25, false),
     DARK_GYFFTE("Dark Gyffte", 35, true, "darkgift", "a", "darkGyfftePoints", 23, true),
-    CRAZY_RANDOM_SUMMER_TWO("Two Crazy Random Summer", 36, false, "twocrazydice", "a"),
+    CRAZY_RANDOM_SUMMER_TWO(
+        "Two Crazy Random Summer", 36, false, "twocrazydice", "a", "twoCRSPoints", 37, false),
     KINGDOM_OF_EXPLOATHING("Kingdom of Exploathing", 37, false, "puff", "a"),
     PATH_OF_THE_PLUMBER(
         "Path of the Plumber", 38, true, "mario_mushroom1", "a", "plumberPoints", 22, false),
@@ -54,9 +58,11 @@ public class AscensionPath {
     GREY_GOO("Grey Goo", 40, false, "greygooball", "a"),
     YOU_ROBOT("You, Robot", 41, false, "robobattery", "a", "youRobotPoints", 37, false),
     QUANTUM("Quantum Terrarium", 42, false, "quantum", "a", "quantumPoints", 11, false),
-    WILDFIRE("Wildfire", 43, false, "brushfire", "a"),
+    WILDFIRE("Wildfire", 43, false, "fire", "a"),
     GREY_YOU("Grey You", 44, true, "greygooring", "a", "greyYouPoints", 11, false),
     JOURNEYMAN("Journeyman", 45, false, "map", "a"),
+    DINOSAURS("Fall of the Dinosaurs", 46, false, "dinostuffy", "a"),
+    SHADOWS_OVER_LOATHING("Avatar of Shadows Over Loathing", 47, false, "aosol", "an"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
@@ -87,6 +93,10 @@ public class AscensionPath {
       this.pointsPreference = pointsPreference;
       this.maximumPoints = maximumPoints;
       this.bucket = bucket;
+    }
+
+    public static Set<Path> allPaths() {
+      return Arrays.stream(values()).filter(a -> a.getId() > 0).collect(Collectors.toSet());
     }
 
     Path(String name, int id, boolean isAvatar, String image, String article) {
@@ -136,17 +146,15 @@ public class AscensionPath {
     }
 
     public boolean canUseFamiliars() {
-      switch (this) {
-        case AVATAR_OF_BORIS:
-        case AVATAR_OF_JARLSBERG:
-        case AVATAR_OF_SNEAKY_PETE:
-        case ACTUALLY_ED_THE_UNDYING:
-        case LICENSE_TO_ADVENTURE:
-        case DARK_GYFFTE:
-          return false;
-        default:
-          return true;
-      }
+      return switch (this) {
+        case AVATAR_OF_BORIS,
+            AVATAR_OF_JARLSBERG,
+            AVATAR_OF_SNEAKY_PETE,
+            ACTUALLY_ED_THE_UNDYING,
+            LICENSE_TO_ADVENTURE,
+            DARK_GYFFTE -> false;
+        default -> true;
+      };
     }
 
     @Override
@@ -161,7 +169,7 @@ public class AscensionPath {
 
   static {
     for (Path path : Path.values()) {
-      pathByName.put(path.name, path);
+      pathByName.put(path.name.toLowerCase(), path);
       pathById.put(path.id, path);
       if (path.image != null) {
         pathByImage.put(path.image, path);
@@ -170,12 +178,11 @@ public class AscensionPath {
   }
 
   public static Path nameToPath(String name) {
-    return pathByName.get(name);
+    return pathByName.getOrDefault(name.toLowerCase(), Path.NONE);
   }
 
   public static Path idToPath(int id) {
-    Path retval = pathById.get(id);
-    return retval == null ? Path.NONE : retval;
+    return pathById.getOrDefault(id, Path.NONE);
   }
 
   public static Path imageToPath(String image) {

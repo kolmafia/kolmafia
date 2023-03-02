@@ -20,7 +20,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -242,7 +241,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (Limitmode.limitMall()) {
+    if (KoLCharacter.getLimitMode().limitMall()) {
       return;
     }
 

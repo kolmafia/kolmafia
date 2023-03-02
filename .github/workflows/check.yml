@@ -21,12 +21,19 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
+      - name: Setup xvfb
+        if: matrix.os == 'ubuntu-latest'
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: xvfb
+          version: 1.0
+
       - name: Setup Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: "temurin"
           java-version: ${{ matrix.java }}
@@ -39,21 +46,28 @@ jobs:
         run: mkdir -p ./build
 
       - name: Run Java checks (including tests)
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          ORG_GRADLE_PROJECT_javaSourceCompatibility: ${{ matrix.java }}
+          ORG_GRADLE_PROJECT_javaTargetCompatibility: ${{ matrix.java }}
+        run: xvfb-run ./gradlew --no-daemon check jacocoTestReport
+
+      - name: Run Java checks (including tests)
+        if: matrix.os != 'ubuntu-latest'
         env:
           ORG_GRADLE_PROJECT_javaSourceCompatibility: ${{ matrix.java }}
           ORG_GRADLE_PROJECT_javaTargetCompatibility: ${{ matrix.java }}
         run: ./gradlew --no-daemon check jacocoTestReport
 
       - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v2
+        uses: mikepenz/action-junit-report@v3
         if: always()
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: "Test Report (${{ matrix.os }})"
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
       - name: Publish Coverage Report
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         if: always()
         with:
           env_vars: OS,JAVA

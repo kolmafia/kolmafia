@@ -23,7 +23,7 @@ public class VialsCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void identifiesKnownPotions() {
-    Cleanups cleanups = setProperty("lastSlimeVial3885", "strong");
+    Cleanups cleanups = withProperty("lastSlimeVial3885", "strong");
     try (cleanups) {
       String output = execute("");
       assertThat(output, containsString("red: strong"));
@@ -32,7 +32,7 @@ public class VialsCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void countsPotionsInInventory() {
-    Cleanups cleanups = addItem("vial of red slime");
+    Cleanups cleanups = withItem("vial of red slime");
     try (cleanups) {
       String output = execute("");
       assertThat(output, containsString("red:  (have 1)"));
@@ -43,10 +43,10 @@ public class VialsCommandTest extends AbstractCommandTestBase {
   public void countsCreatablePotions() {
     Cleanups cleanups =
         new Cleanups(
-            addItem("vial of red slime"),
-            addItem("vial of yellow slime"),
-            addSkill("Advanced Saucecrafting"),
-            hasRange());
+            withItem("vial of red slime"),
+            withItem("vial of yellow slime"),
+            withSkill("Advanced Saucecrafting"),
+            withRange());
     try (cleanups) {
       String output = execute("");
       assertThat(output, containsString("orange:  (have 0, can make 1)"));

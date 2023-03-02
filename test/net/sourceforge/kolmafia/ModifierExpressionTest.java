@@ -1,26 +1,38 @@
 package net.sourceforge.kolmafia;
 
-import static internal.helpers.Player.addEffect;
-import static internal.helpers.Player.addIntrinsic;
-import static internal.helpers.Player.addSkill;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.inLocation;
-import static internal.helpers.Player.inPath;
-import static internal.helpers.Player.isClass;
-import static internal.helpers.Player.isDay;
+import static internal.helpers.Player.withAscensions;
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withDay;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withFullness;
+import static internal.helpers.Player.withInebriety;
+import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withIntrinsicEffect;
+import static internal.helpers.Player.withLocation;
+import static internal.helpers.Player.withMoxie;
+import static internal.helpers.Player.withMuscle;
+import static internal.helpers.Player.withMysticality;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.GregorianCalendar;
+import internal.helpers.Cleanups;
+import java.time.Month;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.CharPaneRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -42,7 +54,8 @@ public class ModifierExpressionTest {
       names = {"NONE", "SHADOW", "BADSPELLING"},
       mode = EnumSource.Mode.EXCLUDE)
   public void canReadElementalResistance(MonsterDatabase.Element element) {
-    Modifiers.overrideModifier("Generated:_userMods", element.toTitle() + " Resistance: +10");
+    ModifierDatabase.overrideModifier(
+        ModifierType.GENERATED, "_userMods", element.toTitle() + " Resistance: +10");
     KoLCharacter.recalculateAdjustments();
     var exp = new ModifierExpression("res(" + element + ")", element.toTitle());
     assertEquals(10, exp.eval());
@@ -56,9 +69,12 @@ public class ModifierExpressionTest {
     "39, 0",
   })
   public void canDetectSkill(String skill, String expected) {
-    addSkill("Natural Born Scrabbler");
-    var exp = new ModifierExpression("skill(" + skill + ")", "Detect skill");
-    assertEquals(Double.parseDouble(expected), exp.eval());
+    var cleanups = withSkill("Natural Born Scrabbler");
+
+    try (cleanups) {
+      var exp = new ModifierExpression("skill(" + skill + ")", "Detect skill");
+      assertEquals(Double.parseDouble(expected), exp.eval());
+    }
   }
 
   @ParameterizedTest
@@ -69,9 +85,12 @@ public class ModifierExpressionTest {
     "4, 0",
   })
   public void canDetectEffect(String effect, String expected) {
-    addEffect("Confused");
-    var exp = new ModifierExpression("effect(" + effect + ")", "Detect effect");
-    assertEquals(Double.parseDouble(expected), exp.eval());
+    var cleanups = withEffect("Confused");
+
+    try (cleanups) {
+      var exp = new ModifierExpression("effect(" + effect + ")", "Detect effect");
+      assertEquals(Double.parseDouble(expected), exp.eval());
+    }
   }
 
   @ParameterizedTest
@@ -80,9 +99,12 @@ public class ModifierExpressionTest {
     "turtle totem, 0",
   })
   public void canDetectEquip(String item, String expected) {
-    equip(EquipmentManager.WEAPON, "seal-clubbing club");
-    var exp = new ModifierExpression("equipped(" + item + ")", "Detect equip");
-    assertEquals(Double.parseDouble(expected), exp.eval());
+    var cleanups = withEquipped(Slot.WEAPON, "seal-clubbing club");
+
+    try (cleanups) {
+      var exp = new ModifierExpression("equipped(" + item + ")", "Detect equip");
+      assertEquals(Double.parseDouble(expected), exp.eval());
+    }
   }
 
   @ParameterizedTest
@@ -91,10 +113,13 @@ public class ModifierExpressionTest {
     "totem, 0",
   })
   public void canDetectMainhandClass(String itemType, String expected) {
-    equip(EquipmentManager.WEAPON, "seal-clubbing club");
-    KoLCharacter.recalculateAdjustments();
-    var exp = new ModifierExpression("mainhand(" + itemType + ")", "Detect mainhand class");
-    assertThat(itemType, exp.eval(), is(Double.parseDouble(expected)));
+    var cleanups = withEquipped(Slot.WEAPON, "seal-clubbing club");
+
+    try (cleanups) {
+      KoLCharacter.recalculateAdjustments();
+      var exp = new ModifierExpression("mainhand(" + itemType + ")", "Detect mainhand class");
+      assertThat(itemType, exp.eval(), is(Double.parseDouble(expected)));
+    }
   }
 
   @ParameterizedTest
@@ -105,10 +130,12 @@ public class ModifierExpressionTest {
     "95, 0",
   })
   public void canDetectFamiliar(String familiar, String expected) {
-    KoLCharacter.setFamiliar(FamiliarData.registerFamiliar(FamiliarPool.ADORABLE_SEAL_LARVA, 1));
+    var cleanups = withFamiliar(FamiliarPool.ADORABLE_SEAL_LARVA);
 
-    var exp = new ModifierExpression("fam(" + familiar + ")", "Detect familiar attribute");
-    assertThat(familiar, exp.eval(), is(Double.parseDouble(expected)));
+    try (cleanups) {
+      var exp = new ModifierExpression("fam(" + familiar + ")", "Detect familiar attribute");
+      assertThat(familiar, exp.eval(), is(Double.parseDouble(expected)));
+    }
   }
 
   @ParameterizedTest
@@ -118,11 +145,12 @@ public class ModifierExpressionTest {
     "flying, 0",
   })
   public void canDetectFamiliarAttribute(String attr, String expected) {
-    var familiar = FamiliarData.registerFamiliar(FamiliarPool.ADORABLE_SEAL_LARVA, 1);
-    KoLCharacter.setFamiliar(familiar);
+    var cleanups = withFamiliar(FamiliarPool.ADORABLE_SEAL_LARVA);
 
-    var exp = new ModifierExpression("famattr(" + attr + ")", "Detect familiar attribute");
-    assertThat(attr, exp.eval(), is(Double.parseDouble(expected)));
+    try (cleanups) {
+      var exp = new ModifierExpression("famattr(" + attr + ")", "Detect familiar attribute");
+      assertThat(attr, exp.eval(), is(Double.parseDouble(expected)));
+    }
   }
 
   @ParameterizedTest
@@ -132,10 +160,12 @@ public class ModifierExpressionTest {
     "The Hidden Bowling Alley, 0",
   })
   public void canDetectLocation(String location, String expected) {
-    inLocation("Noob Cave");
+    var cleanups = withLocation("Noob Cave");
 
-    var exp = new ModifierExpression("loc(" + location + ")", "Detect location");
-    assertThat(location, exp.eval(), is(Double.parseDouble(expected)));
+    try (cleanups) {
+      var exp = new ModifierExpression("loc(" + location + ")", "Detect location");
+      assertThat(location, exp.eval(), is(Double.parseDouble(expected)));
+    }
   }
 
   @ParameterizedTest
@@ -149,11 +179,13 @@ public class ModifierExpressionTest {
     "The Briny Deeps, underwater, 1",
     "The Briny Deeps, outdoor, 0",
   })
-  public void canDetectEnvironment(String location, String env, String expected) {
-    inLocation(location);
+  public void canDetectEnvironment(String location, String env, double expected) {
+    var cleanups = withLocation(location);
 
-    var exp = new ModifierExpression("env(" + env + ")", "Detect env");
-    assertThat(location, exp.eval(), is(Double.parseDouble(expected)));
+    try (cleanups) {
+      var exp = new ModifierExpression("env(" + env + ")", "Detect env");
+      assertThat(location, exp.eval(), is(expected));
+    }
   }
 
   @ParameterizedTest
@@ -167,39 +199,47 @@ public class ModifierExpressionTest {
     "The Briny Deeps, The Sea, 1",
     "The Briny Deeps, Mountain, 0",
   })
-  public void canDetectZone(String location, String zone, String expected) {
-    inLocation(location);
+  public void canDetectZone(String location, String zone, double expected) {
+    var cleanups = withLocation(location);
 
-    var exp = new ModifierExpression("zone(" + zone + ")", "Detect zone");
-    assertThat(location, exp.eval(), is(Double.parseDouble(expected)));
+    try (cleanups) {
+      var exp = new ModifierExpression("zone(" + zone + ")", "Detect zone");
+      assertThat(location, exp.eval(), is(expected));
+    }
   }
 
   @ParameterizedTest
   @EnumSource(AscensionClass.class)
   public void canDetectClass(AscensionClass ascensionClass) {
-    isClass(AscensionClass.ACCORDION_THIEF);
+    var cleanups = withClass(AscensionClass.ACCORDION_THIEF);
 
-    double expected = ascensionClass == AscensionClass.ACCORDION_THIEF ? 1.0 : 0.0;
+    try (cleanups) {
+      double expected = ascensionClass == AscensionClass.ACCORDION_THIEF ? 1.0 : 0.0;
 
-    var exp = new ModifierExpression("class(" + ascensionClass.toString() + ")", "Detect class");
-    assertThat(ascensionClass.toString(), exp.eval(), is(expected));
+      var exp = new ModifierExpression("class(" + ascensionClass.toString() + ")", "Detect class");
+      assertThat(ascensionClass.toString(), exp.eval(), is(expected));
+    }
   }
 
   @Test
   public void canDetectHoliday() {
     HolidayDatabase.guessPhaseStep();
-    final var cleanups = isDay(new GregorianCalendar(2008, 1, 17, 12, 0));
+    final var cleanups = withDay(2008, Month.FEBRUARY, 17, 12, 0);
+
     try (cleanups) {
-      var exp = new ModifierExpression("event(Sneaky Pete's Day)", "Event: Sneaky Pete's day");
+      var exp =
+          new ModifierExpression(
+              "event(Sneaky Pete's Day)", ModifierType.EVENT, "Sneaky Pete's day");
       assertThat(exp.eval(), is(1.0));
     }
   }
 
   @Test
   public void canDetectDecember() {
-    final var cleanups = isDay(new GregorianCalendar(2021, 11, 3));
+    final var cleanups = withDay(2021, Month.DECEMBER, 3);
+
     try (cleanups) {
-      var exp = new ModifierExpression("event(December)", "Event: December");
+      var exp = new ModifierExpression("event(December)", ModifierType.EVENT, "December");
       assertThat(exp.eval(), is(1.0));
     }
   }
@@ -207,12 +247,14 @@ public class ModifierExpressionTest {
   @ParameterizedTest
   @EnumSource(AscensionPath.Path.class)
   public void canDetectPath(AscensionPath.Path path) {
-    inPath(AscensionPath.Path.YOU_ROBOT);
+    var cleanups = withPath(AscensionPath.Path.YOU_ROBOT);
 
-    double expected = path == AscensionPath.Path.YOU_ROBOT ? 1.0 : 0.0;
+    try (cleanups) {
+      double expected = path == AscensionPath.Path.YOU_ROBOT ? 1.0 : 0.0;
 
-    var exp = new ModifierExpression("path(" + path.toString() + ")", "Detect class");
-    assertThat(path.toString(), exp.eval(), is(expected));
+      var exp = new ModifierExpression("path(" + path.toString() + ")", "Detect class");
+      assertThat(path.toString(), exp.eval(), is(expected));
+    }
   }
 
   @Test
@@ -221,23 +263,28 @@ public class ModifierExpressionTest {
     // recalculateAdjustments so to test it we need to look at an effect that actually uses the
     // mod().
 
-    addEffect("Bone Springs");
-    addEffect("Bow-Legged Swagger");
-    assertThat(
-        Modifiers.getStringModifier("Effect", "Bow-Legged Swagger", "Modifiers"),
-        containsString("mod("));
-    KoLCharacter.recalculateAdjustments();
+    var cleanups = new Cleanups(withEffect("Bone Springs"), withEffect("Bow-Legged Swagger"));
 
-    assertThat(KoLCharacter.getCurrentModifiers().get(Modifiers.INITIATIVE), is(40.0));
+    try (cleanups) {
+      assertThat(
+          ModifierDatabase.getStringModifier(
+              ModifierType.EFFECT, "Bow-Legged Swagger", StringModifier.MODIFIERS),
+          containsString("mod("));
+      KoLCharacter.recalculateAdjustments();
+
+      assertThat(KoLCharacter.getCurrentModifiers().getDouble(DoubleModifier.INITIATIVE), is(40.0));
+    }
   }
 
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   public void canDetectInteractive(boolean interact) {
-    CharPaneRequest.setInteraction(interact);
+    var cleanups = withInteractivity(interact);
 
-    var exp = new ModifierExpression("interact()", "Interact");
-    assertThat(exp.eval(), is(interact ? 1.0 : 0.0));
+    try (cleanups) {
+      var exp = new ModifierExpression("interact()", "Interact");
+      assertThat(exp.eval(), is(interact ? 1.0 : 0.0));
+    }
   }
 
   @Test
@@ -248,9 +295,12 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectAscensions() {
-    KoLCharacter.setAscensions(23);
-    var exp = new ModifierExpression("A", "Ascensions");
-    assertThat(exp.eval(), is(23.0));
+    var cleanups = withAscensions(23);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("A", "Ascensions");
+      assertThat(exp.eval(), is(23.0));
+    }
   }
 
   @Test
@@ -269,28 +319,37 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectDrunkenness() {
-    KoLCharacter.setInebriety(101);
-    var exp = new ModifierExpression("D", "Drunkenness");
-    assertThat(exp.eval(), is(101.0));
+    var cleanups = withInebriety(101);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("D", "Drunkenness");
+      assertThat(exp.eval(), is(101.0));
+    }
   }
 
   @Test
   public void canDetectActiveEffectCount() {
-    addEffect("Leash of Linguini");
-    addEffect("Saucemastery");
-    addEffect("Green Tongue");
-    addIntrinsic("Spirit of Peppermint");
+    var cleanups =
+        new Cleanups(
+            withEffect("Leash of Linguini"),
+            withEffect("Saucemastery"),
+            withEffect("Green Tongue"),
+            withIntrinsicEffect("Spirit of Peppermint"));
 
-    KoLCharacter.setInebriety(3);
-    var exp = new ModifierExpression("E", "Effect Count");
-    assertThat(exp.eval(), is(3.0));
+    try (cleanups) {
+      var exp = new ModifierExpression("E", "Effect Count");
+      assertThat(exp.eval(), is(3.0));
+    }
   }
 
   @Test
   public void canDetectFullness() {
-    KoLCharacter.setFullness(202);
-    var exp = new ModifierExpression("F", "Fullness");
-    assertThat(exp.eval(), is(202.0));
+    var cleanups = withFullness(202);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("F", "Fullness");
+      assertThat(exp.eval(), is(202.0));
+    }
   }
 
   @Test
@@ -302,7 +361,7 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectHoboPower() {
-    Modifiers.overrideModifier("Generated:_userMods", "Hobo Power: +21");
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_userMods", "Hobo Power: +21");
     KoLCharacter.recalculateAdjustments();
 
     var exp = new ModifierExpression("H", "Hobo Power");
@@ -318,7 +377,7 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectFestivalOfJarlsberg() {
-    final var cleanups = isDay(new GregorianCalendar(2020, 0, 1));
+    final var cleanups = withDay(2020, Month.JANUARY, 1);
     try (cleanups) {
       var exp = new ModifierExpression("J", "Festival of Jarlsberg");
       assertThat(exp.eval(), is(1.0));
@@ -327,19 +386,23 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectSmithness() {
-    addEffect("Smithsness Presence");
-    KoLCharacter.recalculateAdjustments();
+    var cleanups = withEffect("Smithsness Presence");
 
-    var exp = new ModifierExpression("K", "Smithsness");
-    assertThat(exp.eval(), is(10.0));
+    try (cleanups) {
+      KoLCharacter.recalculateAdjustments();
+
+      var exp = new ModifierExpression("K", "Smithsness");
+      assertThat(exp.eval(), is(10.0));
+    }
   }
 
   @Test
   public void canDetectLevel() {
-    isClass(AscensionClass.SEAL_CLUBBER);
-    KoLCharacter.setStatPoints(100, 100, 0, 0, 0, 0);
-    var exp = new ModifierExpression("L", "Level");
-    assertThat(exp.eval(), is(3.0));
+    var cleanups = new Cleanups(withMuscle(10, 100), withClass(AscensionClass.SEAL_CLUBBER));
+    try (cleanups) {
+      var exp = new ModifierExpression("L", "Level");
+      assertThat(exp.eval(), is(3.0));
+    }
   }
 
   @Test
@@ -373,11 +436,12 @@ public class ModifierExpressionTest {
     "Drinking to Drink, Accordion Thief, 5",
   })
   public void canDetectReagentPotionDuration(String skill, String cls, String expected) {
-    isClass(AscensionClass.find(cls));
-    addSkill(skill);
+    var cleanups = new Cleanups(withClass(AscensionClass.find(cls)), withSkill(skill));
 
-    var exp = new ModifierExpression("R", "Reagent potion duration");
-    assertThat(exp.eval(), is(Double.parseDouble(expected)));
+    try (cleanups) {
+      var exp = new ModifierExpression("R", "Reagent potion duration");
+      assertThat(exp.eval(), is(Double.parseDouble(expected)));
+    }
   }
 
   @Test
@@ -389,16 +453,22 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectEffectDuration() {
-    addEffect("Bad Luck", 123);
-    var exp = new ModifierExpression("T", "Effect:Bad Luck");
-    assertThat(exp.eval(), is(123.0));
+    var cleanups = withEffect("Bad Luck", 123);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("T", ModifierType.EFFECT, "Bad Luck");
+      assertThat(exp.eval(), is(123.0));
+    }
   }
 
   @Test
   public void invalidEffectHasNoDuration() {
-    addEffect("Bad Luck", 123);
-    var exp = new ModifierExpression("T", "No effect described here");
-    assertThat(exp.eval(), is(0.0));
+    var cleanups = withEffect("Bad Luck", 123);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("T", "No effect described here");
+      assertThat(exp.eval(), is(0.0));
+    }
   }
 
   @Test
@@ -410,14 +480,17 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectFamiliarWeight() {
-    KoLCharacter.setFamiliar(FamiliarData.registerFamiliar(FamiliarPool.ADORABLE_SEAL_LARVA, 100));
-    var exp = new ModifierExpression("W", "Familiar Weight");
-    assertThat(exp.eval(), is(10.0));
+    var cleanups = withFamiliar(FamiliarPool.ADORABLE_SEAL_LARVA, 100);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("W", "Familiar Weight");
+      assertThat(exp.eval(), is(10.0));
+    }
   }
 
   @Test
   public void canDetectGender() {
-    KoLCharacter.setGender(KoLCharacter.MALE);
+    KoLCharacter.setGender(Gender.MALE);
     var exp = new ModifierExpression("X", "Gender");
     assertThat(exp.eval(), is(-1.0));
   }
@@ -439,25 +512,28 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectBaseMuscle() {
-    KoLCharacter.setStatPoints(60, 20, 0, 0, 0, 0);
-
-    var exp = new ModifierExpression("basemus", "Base muscle");
-    assertThat(exp.eval(), is(4.0));
+    var cleanups = new Cleanups(withMuscle(4, 60));
+    try (cleanups) {
+      var exp = new ModifierExpression("basemus", "Base muscle");
+      assertThat(exp.eval(), is(4.0));
+    }
   }
 
   @Test
   public void canDetectBaseMysticality() {
-    KoLCharacter.setStatPoints(0, 0, 50, 10, 0, 0);
-
-    var exp = new ModifierExpression("basemys", "Base mysticality");
-    assertThat(exp.eval(), is(3.0));
+    var cleanups = new Cleanups(withMysticality(3, 50));
+    try (cleanups) {
+      var exp = new ModifierExpression("basemys", "Base mysticality");
+      assertThat(exp.eval(), is(3.0));
+    }
   }
 
   @Test
   public void canDetectBaseMoxie() {
-    KoLCharacter.setStatPoints(0, 0, 0, 0, 40, 5);
-
-    var exp = new ModifierExpression("basemox", "Base moxie");
-    assertThat(exp.eval(), is(2.0));
+    var cleanups = new Cleanups(withMoxie(2, 40));
+    try (cleanups) {
+      var exp = new ModifierExpression("basemox", "Base moxie");
+      assertThat(exp.eval(), is(2.0));
+    }
   }
 }

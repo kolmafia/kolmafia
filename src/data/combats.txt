@@ -37,11 +37,10 @@
 # The weight can be followed by an "r" to indicate a rejection condition,
 # and then the % chance of rejection following
 
-12 West Main	100	board games elemental	nerd rapper	stumbling-drunk congoer (female)	stumbling-drunk congoer (male)
+12 West Main	100	board games elemental: 1r50	nerd rapper: 1r50	stumbling-drunk congoer (female)	stumbling-drunk congoer (male)
 1st Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 2nd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 3rd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
-8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle: 1e	Goomba: 1o	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A Barroom Brawl	100	drunken 7-foot dwarf	plastered frat orc	skeleton with a mop	unemployed knob goblin	werecougar
 A Crater Full of Space Beasts	100	space beast	space beast matriarch: 0
 A Crowd of (Element) Adventurers	100
@@ -72,6 +71,7 @@ An Overgrown Shrine (Northwest)	100	dense liana
 An Overgrown Shrine (Southeast)	100	dense liana
 An Overgrown Shrine (Southwest)	100	dense liana
 An Unsettling Abyssal Portal	100	bulwark bull seal
+An Unusually Quiet Barroom Brawl	100	gator-human hybrid	gangster's moll	goblin flapper	traveling hobo	undercover prohibition agent
 Anemone Mine	-1	Anemone combatant	killer clownfish	Mer-kin miner
 Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture	Fran&ccedil;ois Verte, Art Teacher: 0
@@ -104,6 +104,11 @@ Crimbo Town Toy Factory (2005)	100	Striking Factory-Worker Elf	Striking Gift-Wra
 Crimbo Town Toy Factory (2007)	100	Arc-Welding Elfborg	Decal-Applying Elfborg	Ribbon-Cutting Elfborg	Weapons-Assembly Elfborg
 Crimbo Town Toy Factory (2009)	100	amateur elf	auteur elf	bolt-cuttin' elf	monkey wrenchin' elf	propaganda-spewin' elf	provocateur elf	raconteur elf	saboteur elf	wire-crossin' elf
 Crimbo Town Toy Factory (2012)	100	circuit-soldering animelf	plastic-extruding animelf	quality control animelf	tiny-screwing animelf	toy assembling animelf
+Crimbo Train (Caboose)	100	Brake-Operating Trainbot	Ping-Pong-Playing Trainbot	Track-Switching Trainbot
+Crimbo Train (Passenger Car)	100	Drink-Delivery Trainbot	Luggage-Handling Trainbot	Ticket-Checking Trainbot
+Crimbo Train (Dining Car)	100	Table-Bussing Trainbot	Table-Waiting Trainbot	Wine-Pairing Trainbot
+Crimbo Train (Coal Car)	100	Coal-Shoveling Trainbot	Slag-Processing Trainbot	Steam-Routing Trainbot
+Crimbo Train (Locomotive)	100	The Superconductor
 Crimbo's Beard	100	the Crimborg	penguin mafioso	angry viking warriors
 Crimbo's Boots	100	endless winter	bottle of cheap whiskey	the Crimborg
 Crimbo's Hat	100	simple hobo	bottle of cheap whiskey	angry viking warriors	The Krampus: 0
@@ -150,6 +155,7 @@ Gumdrop Forest	-1	candied pecan tree	licorice snake	tricksy pixie
 Haert of the Cyrpt	100	Bonerdagon
 Hamburglaris Shield Generator	100	alien hamsterpus	mutated alielephant	mutated alielf
 Hell	-1	devil	vampire
+Hero's Field	100	Keese	Octorok	Tektite	Zol
 Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	dirty hippy	dirty hippy jewelry maker	dirty hippy Vegan chef	filthy hippy	filthy hippy jewelry maker	filthy hippy Vegan chef
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 Hottest Adventurer Contest	100	Fire Fighter	Cereal Arsonist	Burnglar	The Lavalier: 0
@@ -177,6 +183,7 @@ McMillicancuddy's Other Back 40	100	greasy duck
 McMillicancuddy's Pond	100	figure-skating duck	frozen duck
 McMillicancuddy's Shady Thicket	100	drunk duck	mean drunk duck
 Medbay	100	hypodermic bugbear	anesthesiologist bugbear	bugbear robo-surgeon
+Megalo-City	100	Blader	Met	Tackle Fire
 Mer-kin Colosseum	100	Mer-kin balldodger	Mer-kin bladeswitcher	Mer-kin netdragger	Georgepaul, the Balldodger: 0	Johnringo, the Netdragger: 0	Ringogeorge, the Bladeswitcher: 0
 Mer-kin Elementary School	-1	Mer-kin monitor	Mer-kin punisher	Mer-kin teacher
 Mer-kin Gymnasium	-1	Mer-kin juicer	Mer-kin poseur	Mer-kin trainer
@@ -201,12 +208,26 @@ Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin	erudite gremlin 
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	Hypnotist of Hey Deze: -1
 Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate
 Porkham Asylum	100	mid-level mook	former inmate	former guard	The Author: 0
-Post-War Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
+The Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
 Professor Jacking's Huge-A-Ma-tron	-1	Castle in the Clouds in the Sky	Fearsome Wacken: 0	loose coalition of yetis, snowmen, and goats	Spookyraven Manor	The Whole Kingdom: 0
 Professor Jacking's Small-O-Fier	-1	cruel dust mote	funk particle	jungle scabie: 0	malevolent magnetic field	smooth jazz scabie: 0
 Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
 Science Lab	100	bugbear scientist	spiderbugbear
 Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	cyborg policeman	"Handyman" Jay Android	liquid metal robot	obese tourist	Space Marine	terrifying robot
+Shadow Rift	100	shadow bat	shadow cow	shadow devil	shadow guy	shadow hexagon	shadow orb	shadow prism	shadow slab	shadow spider	shadow snake	shadow stalk	shadow tree
+Shadow Rift (Desert Beach)	100	shadow devil	shadow orb	shadow snake
+Shadow Rift (Forest Village)	100	shadow guy	shadow hexagon	shadow spider
+Shadow Rift (Mt. McLargeHuge)	100	shadow cow	shadow hexagon	shadow tree
+Shadow Rift (Somewhere Over the Beanstalk)	100	shadow orb	shadow prism	shadow stalk
+Shadow Rift (Spookyraven Manor Third Floor)	100	shadow bat	shadow devil	shadow spider
+Shadow Rift (The 8-Bit Realm)	100	shadow hexagon	shadow orb	shadow prism
+Shadow Rift (The Ancient Buried Pyramid)	100	shadow bat	shadow slab	shadow snake
+Shadow Rift (The Castle in the Clouds in the Sky)	100	shadow bat	shadow guy	shadow orb
+Shadow Rift (The Distant Woods)	100	shadow devil	shadow stalk	shadow tree
+Shadow Rift (The Hidden City)	100	shadow slab	shadow snake	shadow stalk
+Shadow Rift (The Misspelled Cemetary)	100	shadow guy	shadow slab	shadow tree
+Shadow Rift (The Nearby Plains)	100	shadow bat	shadow cow	shadow spider
+Shadow Rift (The Right Side of the Tracks)	100	shadow cow	shadow guy	shadow prism
 Shivering Timbers	100	deadwood tree	fur tree	hangman's tree	pumpkin tree	toilet-papered tree	Underworld Tree: 0
 Shop Class	100	out-of-control bandsaw	deadly vise	demonic jigsaw	screw golem	X-fingered Shop Teacher: 0
 Simple Tool-Making Cave	100	flint-scraping cave elf	hunter-gatherer cave elf	rock-banging cave elf	sinew-stretching cave elf
@@ -238,7 +259,6 @@ The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
 The Archwizard's Tower	0	Archwizard: 0
 The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
 The Bandit Crossroads	100	fantasy bandit
-The Barrel Full of Barrels	-1	tiny barrel mimic	small barrel mimic	medium-sized barrel mimic	huge barrel mimic
 The Barrow Mounds	100	barrow wraith?
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
 The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0	Batsnake: 0
@@ -302,6 +322,7 @@ The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet cast member	Susie Soyburger	Susie Soyburger cast member	Timmy Tofurkey	Timmy Tofurkey cast member
 The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	uppercase Q
 The Evil Cathedral	100	plywood cultists
+The Fungus Plains	100	Blooper	Bullet Bill	Buzzy Beetle: 1e	Goomba: 1o	Koopa Troopa
 The Spectral Pickle Factory	75	carnivorous dill plant	ghostly pickle factory worker	vine gar
 
 // If you are wearing the War Frat uniform, you get all hippies.
@@ -385,7 +406,7 @@ The Middle Chamber	100	tomb asp	tomb rat	tomb servant
 The Mines	-1	bat	cobra	snake	spider
 The Mouldering Mansion	70	bellhop	black cat	Ourang-Outang	raven	usher
 The Mystic Wood	100	fantasy forest faerie
-The Naughty Sorceress' Chamber	100	Naughty Sorceress
+The Naughty Sorceress' Chamber	100	Naughty Sorceress: 0	Naughty Sorceress (2): 0	Naughty Sorceress (3): 0
 The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanctum): 0	warehouse worker	Stella, the Turtle Poacher (Inner Sanctum): 0	evil spaghetti cult zealot	Spaghetti Elemental (Inner Sanctum): 0	security slime	Lumpy, the Sinister Sauceblob (Inner Sanctum): 0	daft punk	Spirit of New Wave (Inner Sanctum): 0	mariachi bruiser	Somerset Lopez, Dread Mariachi (Inner Sanctum): 0
 The Neverending Party	-1	biker	burnout	jock	party girl	"plain" girl
 The Nightmare Meatrealm	100	bacon snake	cold cutter	groast	pork butterfly	salaminder	The Beefhemoth: 0
@@ -468,6 +489,7 @@ Trivial Pursuits, LLC	100	high-level mook	inquisitee	trivia researcher	The Inqui
 Twin Peak	80	bearpig topiary animal	Big Wheelin' Twins	Bubblemint Twins	Creepy Ginger Twin	elephant (meatcar?) topiary animal	Mismatched Twins	spider (duck?) topiary animal	Troll Twins
 Uncle Gator's Country Fun-Time Liquid Waste Sluice	100	C<i>bzzt</i>er the Grisly Bear	Gurgle the Turgle	Skeezy the Jug Rat	nasty bear: 0
 Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	brick icehouse	brick kiln	brick mausoleum	brick outhouse	cold ironwood house	Dutch Angle straw house	frosty straw house	glowing ash house	oily straw house	pitch pine house	quaking aspen house	slippery elm house	steaming straw house
+Vanya's Castle	100	fleaman	ghost	medusa
 Vanya's Castle Foyer	100	fleaman	ghost	medusa
 Video Game Level 1	-1	Video Game Minion (weak)
 Video Game Level 2	-1	Video Game Minion (moderate)	Video Game Miniboss: 0
@@ -525,10 +547,10 @@ Wrong Side of the Tracks, 28 Days Later	-1	scary pirate	Zombie eXtreme Snowboard
 # Areas with no combats
 
 Anemone Mine (Mining)	0
-Frat House In Disguise	0
+Frat House (Frat Disguise)	0
 Friar Ceremony Location	0
 Goat Party	0
-Hippy Camp In Disguise	0
+Hippy Camp (Hippy Disguise)	0
 Itznotyerzitz Mine (in Disguise)	0
 Lemon Party	0
 The Mine Foremens' Office	0

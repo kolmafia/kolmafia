@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -12,12 +13,14 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -32,7 +35,7 @@ public abstract class CombatActionManager {
   public static final Pattern TRY_TO_RUN_AWAY_PATTERN =
       Pattern.compile("run away if (\\d+)% chance of being free");
 
-  private static final LockableListModel<String> availableLookups = new LockableListModel<String>();
+  private static final LockableListModel<String> availableLookups = new LockableListModel<>();
   private static final CustomCombatLookup strategyLookup = new CustomCombatLookup();
 
   public static final void updateFromPreferences() {
@@ -276,8 +279,7 @@ public abstract class CombatActionManager {
     String classStun = ascensionClass == null ? "none" : ascensionClass.getStun();
     // Sometimes classStun isn't available or doesn't stun, don't return it in those cases
     if ((classStun.equals("Club Foot") && KoLCharacter.getFury() == 0)
-        || (classStun.equals("Shell Up")
-            && KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING)
+        || (classStun.equals("Shell Up") && KoLCharacter.getBlessingType() != TurtleBlessing.STORM)
         || (classStun.equals("Soul Bubble") && KoLCharacter.getSoulsauce() < 5)
         || (classStun.equals("Accordion Bash") && !EquipmentManager.wieldingAccordion())) {
       classStun = Preferences.getBoolean("considerShadowNoodles") ? "Shadow Noodles" : "none";
@@ -626,8 +628,7 @@ public abstract class CombatActionManager {
     for (int i = 0; i < count; ++i) {
       String name = matchingNames.get(i);
       int id = ItemDatabase.getItemId(name);
-      if (ItemDatabase.getAttribute(
-          id, ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE)) {
+      if (ItemDatabase.getAttribute(id, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE))) {
         return id;
       }
     }

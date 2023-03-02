@@ -11,6 +11,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager;
+import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.NullStream;
@@ -47,7 +49,7 @@ public class RequestLogger extends NullStream {
     RequestLogger.printLine(line);
   }
 
-  public static final void printList(final List<?> printing, final PrintStream ostream) {
+  public static void printList(final List<?> printing, final PrintStream ostream) {
     if (printing == null || ostream == null) {
       return;
     }
@@ -56,7 +58,7 @@ public class RequestLogger extends NullStream {
       ostream.println(
           printing.stream()
               .filter(Objects::nonNull)
-              .map(o -> o.toString())
+              .map(Object::toString)
               .collect(Collectors.joining(KoLConstants.LINE_BREAK)));
       return;
     }
@@ -76,27 +78,27 @@ public class RequestLogger extends NullStream {
     KoLConstants.commandBuffer.append(buffer.toString());
   }
 
-  public static final void printList(final List<?> printing) {
+  public static void printList(final List<?> printing) {
     RequestLogger.printList(printing, INSTANCE);
   }
 
-  public static final void printLine() {
+  public static void printLine() {
     RequestLogger.printLine(MafiaState.CONTINUE, "", true);
   }
 
-  public static final void printLine(final String message) {
+  public static void printLine(final String message) {
     RequestLogger.printLine(MafiaState.CONTINUE, message, true);
   }
 
-  public static final void printLine(final String message, final boolean addToBuffer) {
+  public static void printLine(final String message, final boolean addToBuffer) {
     RequestLogger.printLine(MafiaState.CONTINUE, message, addToBuffer);
   }
 
-  public static final void printLine(final MafiaState state, final String message) {
+  public static void printLine(final MafiaState state, final String message) {
     RequestLogger.printLine(state, message, true);
   }
 
-  public static final void printLine(final MafiaState state, String message, boolean addToBuffer) {
+  public static void printLine(final MafiaState state, String message, boolean addToBuffer) {
     if (message == null) {
       return;
     }
@@ -110,7 +112,6 @@ public class RequestLogger extends NullStream {
     RequestLogger.previousUpdateString = message;
 
     RequestLogger.outputStream.println(message);
-    RequestLogger.mirrorStream.println(message);
     RequestLogger.debugStream.println(message);
 
     if (StaticEntity.backtraceTrigger != null && message.contains(StaticEntity.backtraceTrigger)) {
@@ -118,6 +119,7 @@ public class RequestLogger extends NullStream {
     }
 
     if (!addToBuffer) {
+      RequestLogger.mirrorStream.println(message);
       return;
     }
 
@@ -171,10 +173,11 @@ public class RequestLogger extends NullStream {
 
     colorBuffer.append(KoLConstants.LINE_BREAK);
     KoLConstants.commandBuffer.append(colorBuffer.toString());
+    RequestLogger.mirrorStream.println(colorBuffer);
     RelayServer.addStatusMessage(colorBuffer.toString());
   }
 
-  public static final PrintStream openStream(
+  public static PrintStream openStream(
       final String filename, final PrintStream originalStream, boolean hasLocation) {
     if (!hasLocation && KoLCharacter.getUserName().isEmpty()) {
       return NullStream.INSTANCE;
@@ -194,37 +197,41 @@ public class RequestLogger extends NullStream {
     return LogStream.openStream(filename, false);
   }
 
-  public static final void closeStream(final PrintStream stream) {
+  public static void closeStream(final PrintStream stream) {
     try {
       stream.close();
     } catch (Exception e) {
     }
   }
 
-  public static final void openCustom(PrintStream out) {
+  public static void openCustom(PrintStream out) {
     RequestLogger.outputStream = out;
   }
 
-  public static final void closeCustom() {
+  public static void closeCustom() {
     RequestLogger.closeStream(RequestLogger.outputStream);
     RequestLogger.outputStream = KoLmafiaTUI.outputStream;
   }
 
-  public static final void openMirror(final String location) {
+  public static void openMirror(final String location) {
     RequestLogger.mirrorStream =
         RequestLogger.openStream(location, RequestLogger.mirrorStream, true);
   }
 
-  public static final void closeMirror() {
+  public static void closeMirror() {
     RequestLogger.closeStream(RequestLogger.mirrorStream);
     RequestLogger.mirrorStream = NullStream.INSTANCE;
   }
 
-  public static final PrintStream getSessionStream() {
+  public static void setSessionStream(PrintStream stream) {
+    RequestLogger.sessionStream = stream;
+  }
+
+  public static PrintStream getSessionStream() {
     return RequestLogger.sessionStream;
   }
 
-  public static final void openSessionLog() {
+  public static void openSessionLog() {
     RequestLogger.sessionStream =
         RequestLogger.openStream(
             KoLConstants.SESSIONS_DIRECTORY
@@ -236,16 +243,16 @@ public class RequestLogger extends NullStream {
             false);
   }
 
-  public static final void closeSessionLog() {
+  public static void closeSessionLog() {
     RequestLogger.closeStream(RequestLogger.sessionStream);
     RequestLogger.sessionStream = NullStream.INSTANCE;
   }
 
-  public static final void updateSessionLog() {
+  public static void updateSessionLog() {
     RequestLogger.sessionStream.println();
   }
 
-  public static final void updateSessionLog(final String line) {
+  public static void updateSessionLog(final String line) {
     if (StaticEntity.backtraceTrigger != null && line.contains(StaticEntity.backtraceTrigger)) {
       StaticEntity.printStackTrace("Backtrace triggered by session log message");
     }
@@ -253,15 +260,15 @@ public class RequestLogger extends NullStream {
     RequestLogger.sessionStream.println(line);
   }
 
-  public static final boolean isDebugging() {
+  public static boolean isDebugging() {
     return RequestLogger.debugStream != NullStream.INSTANCE;
   }
 
-  public static final PrintStream getDebugStream() {
+  public static PrintStream getDebugStream() {
     return RequestLogger.debugStream;
   }
 
-  public static final void openDebugLog() {
+  public static void openDebugLog() {
     RequestLogger.debugStream =
         RequestLogger.openStream(
             "DEBUG_" + KoLConstants.DAILY_FORMAT.format(new Date()) + ".txt",
@@ -270,17 +277,17 @@ public class RequestLogger extends NullStream {
     NamedListenerRegistry.fireChange("(debug)");
   }
 
-  public static final void closeDebugLog() {
+  public static void closeDebugLog() {
     RequestLogger.closeStream(RequestLogger.debugStream);
     RequestLogger.debugStream = NullStream.INSTANCE;
     NamedListenerRegistry.fireChange("(debug)");
   }
 
-  public static final void updateDebugLog() {
+  public static void updateDebugLog() {
     RequestLogger.debugStream.println();
   }
 
-  public static final void updateDebugLog(final String line) {
+  public static void updateDebugLog(final String line) {
     if (StaticEntity.backtraceTrigger != null && line.contains(StaticEntity.backtraceTrigger)) {
       StaticEntity.printStackTrace("Backtrace triggered by debug log message");
     }
@@ -288,23 +295,23 @@ public class RequestLogger extends NullStream {
     RequestLogger.debugStream.println(line);
   }
 
-  public static final void updateDebugLog(final Throwable t) {
+  public static void updateDebugLog(final Throwable t) {
     t.printStackTrace(RequestLogger.debugStream);
   }
 
-  public static final void updateDebugLog(final Object o) {
+  public static void updateDebugLog(final Object o) {
     RequestLogger.debugStream.println(o.toString());
   }
 
-  public static final boolean isTracing() {
+  public static boolean isTracing() {
     return RequestLogger.traceStream != NullStream.INSTANCE;
   }
 
-  public static final PrintStream getTraceStream() {
+  public static PrintStream getTraceStream() {
     return RequestLogger.traceStream;
   }
 
-  public static final void openTraceStream() {
+  public static void openTraceStream() {
     RequestLogger.traceStream =
         RequestLogger.openStream(
             "TRACE_" + KoLConstants.DAILY_FORMAT.format(new Date()) + ".txt",
@@ -312,24 +319,24 @@ public class RequestLogger extends NullStream {
             true);
   }
 
-  public static final void closeTraceStream() {
+  public static void closeTraceStream() {
     RequestLogger.closeStream(RequestLogger.traceStream);
     RequestLogger.traceStream = NullStream.INSTANCE;
   }
 
   private static final StringBuilder traceBuffer = new StringBuilder();
 
-  public static final synchronized void trace(String message) {
+  public static synchronized void trace(String message) {
     if (RequestLogger.isTracing()) {
       traceBuffer.setLength(0);
       traceBuffer.append((new Date()).getTime());
       traceBuffer.append(": ");
       traceBuffer.append(message);
-      RequestLogger.traceStream.println(traceBuffer.toString());
+      RequestLogger.traceStream.println(traceBuffer);
     }
   }
 
-  public static final void registerRequest(final GenericRequest request, final String urlString) {
+  public static void registerRequest(final GenericRequest request, final String urlString) {
     try {
       RequestLogger.doRegister(request, urlString);
     } catch (Exception e) {
@@ -364,9 +371,6 @@ public class RequestLogger extends NullStream {
       return;
     }
 
-    // Some adventures do not post any form fields,
-    // so handle them first.
-
     if (KoLAdventure.recordToSession(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
@@ -379,21 +383,24 @@ public class RequestLogger extends NullStream {
             || request instanceof RelayRequest
             || request instanceof PlaceRequest;
 
-    if ((request instanceof FightRequest || isExternal)
+    if ((isExternal || request instanceof FightRequest)
         && FightRequest.registerRequest(isExternal, urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
+    // Some adventures do not post any form fields,
+    // so handle them first.
+
     // We want to register simple visits to the Altar of Literacy
-    if ((request instanceof AltarOfLiteracyRequest || isExternal)
+    if ((isExternal || request instanceof AltarOfLiteracyRequest)
         && AltarOfLiteracyRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // We want to register simple visits to the Bounty Hunter Hunter
-    if ((request instanceof BountyHunterHunterRequest || isExternal)
+    if ((isExternal || request instanceof BountyHunterHunterRequest)
         && BountyHunterHunterRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
@@ -401,126 +408,133 @@ public class RequestLogger extends NullStream {
 
     // We want to register visits to the You're the Fudge Wizard Now, Dog choice adventure before
     // ChoiceManager.
-    if ((request instanceof FudgeWandRequest || isExternal)
+    if ((isExternal || request instanceof FudgeWandRequest)
         && FudgeWandRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // We want to register visits to the Summoning Chamber choice adventure before ChoiceManager.
-    if ((request instanceof SummoningChamberRequest || isExternal)
+    if ((isExternal || request instanceof SummoningChamberRequest)
         && SummoningChamberRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // We want to register simple visits to HeyDeze
-    if ((request instanceof HeyDezeRequest || isExternal)
+    if ((isExternal || request instanceof HeyDezeRequest)
         && HeyDezeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // We want to register simple visits to Mr. Store
-    if ((request instanceof MrStoreRequest || isExternal)
+    if ((isExternal || request instanceof MrStoreRequest)
         && MrStoreRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // We want to register simple visits to Spaaace
-    if ((request instanceof SpaaaceRequest || isExternal)
+    if ((isExternal || request instanceof SpaaaceRequest)
         && SpaaaceRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // We want to register simple visits to the Volcano Maze
-    if ((request instanceof VolcanoMazeRequest || isExternal)
+    if ((isExternal || request instanceof VolcanoMazeRequest)
         && VolcanoMazeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // Burning Newspaper creation is an instance of choice.php
-    if ((request instanceof BurningNewspaperRequest || isExternal)
+    if ((isExternal || request instanceof BurningNewspaperRequest)
         && BurningNewspaperRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // metal meteoroid creation is an instance of choice.php
-    if ((request instanceof MeteoroidRequest || isExternal)
+    if ((isExternal || request instanceof MeteoroidRequest)
         && MeteoroidRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
+    // grubby wool creation is an instance of choice.php
+    if ((isExternal || request instanceof GrubbyWoolRequest)
+        && GrubbyWoolRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     // The Clan Lounge Swimming Pool is an instance of choice.php
-    if ((request instanceof ClanLoungeSwimmingPoolRequest || isExternal)
+    if ((isExternal || request instanceof ClanLoungeSwimmingPoolRequest)
         && ClanLoungeSwimmingPoolRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // The Cargo Cultist Shorts is an instance of choice.php
-    if ((request instanceof CargoCultistShortsRequest || isExternal)
+    if ((isExternal || request instanceof CargoCultistShortsRequest)
         && CargoCultistShortsRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // The Deck of Every Card is an instance of choice.php
-    if ((request instanceof DeckOfEveryCardRequest || isExternal)
+    if ((isExternal || request instanceof DeckOfEveryCardRequest)
         && DeckOfEveryCardRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // Sweet Synthesis is an instance of choice.php
-    if ((request instanceof SweetSynthesisRequest || isExternal)
+    if ((isExternal || request instanceof SweetSynthesisRequest)
         && SweetSynthesisRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // The Florist is an instance of choice.php
-    if ((request instanceof FloristRequest || isExternal)
+    if ((isExternal || request instanceof FloristRequest)
         && FloristRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // Numberology is an instance of choice.php
-    if ((request instanceof NumberologyRequest || isExternal)
+    if ((isExternal || request instanceof NumberologyRequest)
         && NumberologyRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // The Potted Tea Tree is an instance of choice.php
-    if ((request instanceof PottedTeaTreeRequest || isExternal)
+    if ((isExternal || request instanceof PottedTeaTreeRequest)
         && PottedTeaTreeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // Sausage Grinder creation is an instance of choice.php
-    if ((request instanceof SausageOMaticRequest || isExternal)
+    if ((isExternal || request instanceof SausageOMaticRequest)
         && SausageOMaticRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // The Source Terminal is an instance of choice.php
-    if ((request instanceof TerminalRequest || isExternal)
+    if ((isExternal || request instanceof TerminalRequest)
         && TerminalRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // Wax Glob creation is an instance of choice.php
-    if ((request instanceof WaxGlobRequest || isExternal)
+    if ((isExternal || request instanceof WaxGlobRequest)
         && WaxGlobRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
@@ -540,6 +554,18 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    // We want to register a simple visit to ocean.php
+    if (OceanManager.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    // We want to register a simple visit to elvmachine.php
+    if (ElVibratoManager.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     // Anything else that doesn't submit an actual form
     // should not be registered.
 
@@ -548,35 +574,35 @@ public class RequestLogger extends NullStream {
     }
 
     // We want to register some visits to the Campground
-    if ((request instanceof CampgroundRequest || isExternal)
+    if ((isExternal || request instanceof CampgroundRequest)
         && CampgroundRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // This is a campground request and so must go here.
-    if ((request instanceof PizzaCubeRequest || isExternal)
+    if ((isExternal || request instanceof PizzaCubeRequest)
         && PizzaCubeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // This is a campground request and so must go here.
-    if ((request instanceof PortalRequest || isExternal)
+    if ((isExternal || request instanceof PortalRequest)
         && PortalRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // This is a campground request and so must go here.
-    if ((request instanceof TelescopeRequest || isExternal)
+    if ((isExternal || request instanceof TelescopeRequest)
         && TelescopeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // This might be a campground request and so must go here.
-    if ((request instanceof UseSkillRequest || isExternal)
+    if ((isExternal || request instanceof UseSkillRequest)
         && UseSkillRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
@@ -584,7 +610,7 @@ public class RequestLogger extends NullStream {
 
     // This might be on inventory.php
 
-    if ((request instanceof EquipmentRequest || isExternal)
+    if ((isExternal || request instanceof EquipmentRequest)
         && EquipmentRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
@@ -600,19 +626,19 @@ public class RequestLogger extends NullStream {
     }
 
     // Check individual cafes
-    if ((request instanceof MicroBreweryRequest || isExternal)
+    if ((isExternal || request instanceof MicroBreweryRequest)
         && MicroBreweryRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ChezSnooteeRequest || isExternal)
+    if ((isExternal || request instanceof ChezSnooteeRequest)
         && ChezSnooteeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof CrimboCafeRequest || isExternal)
+    if ((isExternal || request instanceof CrimboCafeRequest)
         && CrimboCafeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
@@ -632,14 +658,14 @@ public class RequestLogger extends NullStream {
     }
 
     // Are we finally ready to call UseItemRequest?
-    if ((request instanceof UseItemRequest || isExternal)
+    if ((isExternal || request instanceof UseItemRequest)
         && UseItemRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
     // The following is in place.php
-    if ((request instanceof FalloutShelterRequest || isExternal)
+    if ((isExternal || request instanceof FalloutShelterRequest)
         && FalloutShelterRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
@@ -656,902 +682,914 @@ public class RequestLogger extends NullStream {
     // The following lists all the remaining requests in
     // alphabetical order.
 
-    if ((request instanceof AfterLifeRequest || isExternal)
+    if ((isExternal || request instanceof AfterLifeRequest)
         && AfterLifeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof AirportRequest || isExternal)
+    if ((isExternal || request instanceof AirportRequest)
         && AirportRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof AltarOfBonesRequest || isExternal)
+    if ((isExternal || request instanceof AltarOfBonesRequest)
         && AltarOfBonesRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ArmoryRequest || isExternal)
+    if ((isExternal || request instanceof ArmoryRequest)
         && ArmoryRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ArmoryAndLeggeryRequest || isExternal)
+    if ((isExternal || request instanceof ArmoryAndLeggeryRequest)
         && ArmoryAndLeggeryRequest.registerRequest(urlString, false)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof AppleStoreRequest || isExternal)
+    if ((isExternal || request instanceof AppleStoreRequest)
         && AppleStoreRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ArcadeRequest || request instanceof TicketCounterRequest || isExternal)
+    if ((isExternal || request instanceof ArcadeRequest || request instanceof TicketCounterRequest)
         && ArcadeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ArtistRequest || isExternal)
+    if ((isExternal || request instanceof ArtistRequest)
         && ArtistRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof AutoMallRequest || isExternal)
+    if ((isExternal || request instanceof AutoMallRequest)
         && AutoMallRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof AutoSellRequest || isExternal)
+    if ((isExternal || request instanceof AutoSellRequest)
         && AutoSellRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof AWOLQuartermasterRequest || isExternal)
+    if ((isExternal || request instanceof AWOLQuartermasterRequest)
         && AWOLQuartermasterRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof BatFabricatorRequest || isExternal)
+    if ((isExternal || request instanceof BatFabricatorRequest)
         && BatFabricatorRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof BeerGardenRequest || isExternal)
+    if ((isExternal || request instanceof BeerGardenRequest)
         && BeerGardenRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof BeerPongRequest || isExternal)
+    if ((isExternal || request instanceof BeerPongRequest)
         && BeerPongRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof BigBrotherRequest || isExternal)
+    if ((isExternal || request instanceof BigBrotherRequest)
         && BigBrotherRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof BlackMarketRequest || isExternal)
+    if ((isExternal || request instanceof BlackMarketRequest)
         && BlackMarketRequest.registerRequest(urlString, false)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof BoutiqueRequest || isExternal)
+    if ((isExternal || request instanceof BoutiqueRequest)
         && BoutiqueRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof BrogurtRequest || isExternal)
+    if ((isExternal || request instanceof BrogurtRequest)
         && BrogurtRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof BuffJimmyRequest || isExternal)
+    if ((isExternal || request instanceof BuffJimmyRequest)
         && BuffJimmyRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof BURTRequest || isExternal) && BURTRequest.registerRequest(urlString)) {
+    if ((isExternal || request instanceof BURTRequest) && BURTRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof CafeRequest || isExternal) && CafeRequest.registerRequest(urlString)) {
+    if ((isExternal || request instanceof CafeRequest) && CafeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof CakeArenaRequest || isExternal)
+    if ((isExternal || request instanceof CakeArenaRequest)
         && CakeArenaRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof CampAwayRequest || isExternal)
+    if ((isExternal || request instanceof CampAwayRequest)
         && CampAwayRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof CanteenRequest || isExternal)
+    if ((isExternal || request instanceof CanteenRequest)
         && CanteenRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ChateauRequest || isExternal)
+    if ((isExternal || request instanceof ChateauRequest)
         && ChateauRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ChemiCorpRequest || isExternal)
+    if ((isExternal || request instanceof ChemiCorpRequest)
         && ChemiCorpRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ClanLoungeRequest || isExternal)
+    if ((isExternal || request instanceof ClanLoungeRequest)
         && ClanLoungeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ClanRumpusRequest || isExternal)
+    if ((isExternal || request instanceof ClanRumpusRequest)
         && ClanRumpusRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ClanStashRequest || isExternal)
+    if ((isExternal || request instanceof ClanStashRequest)
         && ClanStashRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ClosetRequest || isExternal)
+    if ((isExternal || request instanceof ClosetRequest)
         && ClosetRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof CosmicRaysBazaarRequest || isExternal)
+    if ((isExternal || request instanceof CosmicRaysBazaarRequest)
         && CosmicRaysBazaarRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof CRIMBCOGiftShopRequest || isExternal)
+    if ((isExternal || request instanceof CRIMBCOGiftShopRequest)
         && CRIMBCOGiftShopRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo07Request || isExternal)
+    if ((isExternal || request instanceof Crimbo07Request)
         && Crimbo07Request.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo09Request || isExternal)
+    if ((isExternal || request instanceof Crimbo09Request)
         && Crimbo09Request.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo10Request || isExternal)
+    if ((isExternal || request instanceof Crimbo10Request)
         && Crimbo10Request.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo11Request || isExternal)
+    if ((isExternal || request instanceof Crimbo11Request)
         && Crimbo11Request.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo12Request || isExternal)
+    if ((isExternal || request instanceof Crimbo12Request)
         && Crimbo12Request.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo14Request || isExternal)
+    if ((isExternal || request instanceof Crimbo14Request)
         && Crimbo14Request.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo16Request || isExternal)
+    if ((isExternal || request instanceof Crimbo16Request)
         && Crimbo16Request.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo17Request || isExternal)
+    if ((isExternal || request instanceof Crimbo17Request)
         && Crimbo17Request.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo20BoozeRequest || isExternal)
+    if ((isExternal || request instanceof Crimbo20BoozeRequest)
         && Crimbo20BoozeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo20CandyRequest || isExternal)
+    if ((isExternal || request instanceof Crimbo20CandyRequest)
         && Crimbo20CandyRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo20FoodRequest || isExternal)
+    if ((isExternal || request instanceof Crimbo20FoodRequest)
         && Crimbo20FoodRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof Crimbo21TreeRequest || isExternal)
+    if ((isExternal || request instanceof Crimbo21TreeRequest)
         && Crimbo21TreeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof CrimboCartelRequest || isExternal)
+    if ((isExternal || request instanceof CrimboCartelRequest)
         && CrimboCartelRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof CurseRequest || isExternal)
+    if ((isExternal || request instanceof CurseRequest)
         && CurseRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof DigRequest || isExternal) && DigRequest.registerRequest(urlString)) {
+    if ((isExternal || request instanceof DigRequest) && DigRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof DimemasterRequest || isExternal)
+    if ((isExternal || request instanceof DimemasterRequest)
         && DimemasterRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof DinseyCompanyStoreRequest || isExternal)
+    if ((isExternal || request instanceof DinostaurRequest)
+        && DinostaurRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof DinseyCompanyStoreRequest)
         && DinseyCompanyStoreRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof DiscoGiftCoRequest || isExternal)
+    if ((isExternal || request instanceof DiscoGiftCoRequest)
         && DiscoGiftCoRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof DisplayCaseRequest || isExternal)
+    if ((isExternal || request instanceof DisplayCaseRequest)
         && DisplayCaseRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof DollHawkerRequest || isExternal)
+    if ((isExternal || request instanceof DollHawkerRequest)
         && DollHawkerRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof DreadsylvaniaRequest || isExternal)
+    if ((isExternal || request instanceof DreadsylvaniaRequest)
         && DreadsylvaniaRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof DwarfContraptionRequest || isExternal)
+    if ((isExternal || request instanceof DwarfContraptionRequest)
         && DwarfContraptionRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof DwarfFactoryRequest || isExternal)
+    if ((isExternal || request instanceof DwarfFactoryRequest)
         && DwarfFactoryRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof EdBaseRequest || isExternal)
+    if ((isExternal || request instanceof EdBaseRequest)
         && EdBaseRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof EdShopRequest || isExternal)
+    if ((isExternal || request instanceof EdShopRequest)
         && EdShopRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof FamiliarRequest || isExternal)
+    if ((isExternal || request instanceof FamiliarRequest)
         && FamiliarRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof FamTeamRequest || isExternal)
+    if ((isExternal || request instanceof FamTeamRequest)
         && FamTeamRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof FantasyRealmRequest || isExternal)
+    if ((isExternal || request instanceof FancyDanRequest)
+        && FancyDanRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof FantasyRealmRequest)
         && FantasyRealmRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof FDKOLRequest || isExternal)
+    if ((isExternal || request instanceof FDKOLRequest)
         && FDKOLRequest.registerRequest(urlString, false)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof FishboneryRequest || isExternal)
+    if ((isExternal || request instanceof FishboneryRequest)
         && FishboneryRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof FiveDPrinterRequest || isExternal)
+    if ((isExternal || request instanceof FiveDPrinterRequest)
         && FiveDPrinterRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof FreeSnackRequest || isExternal)
+    if ((isExternal || request instanceof FreeSnackRequest)
         && FreeSnackRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof FriarRequest || isExternal)
+    if ((isExternal || request instanceof FriarRequest)
         && FriarRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof FunALogRequest || isExternal)
+    if ((isExternal || request instanceof FunALogRequest)
         && FunALogRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof GameShoppeRequest || isExternal)
+    if ((isExternal || request instanceof GameShoppeRequest)
         && GameShoppeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof GMartRequest || isExternal)
+    if ((isExternal || request instanceof GMartRequest)
         && GMartRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof GourdRequest || isExternal)
+    if ((isExternal || request instanceof GourdRequest)
         && GourdRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof GotporkOrphanageRequest || isExternal)
+    if ((isExternal || request instanceof GotporkOrphanageRequest)
         && GotporkOrphanageRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof GotporkPDRequest || isExternal)
+    if ((isExternal || request instanceof GotporkPDRequest)
         && GotporkPDRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof GrandmaRequest || isExternal)
+    if ((isExternal || request instanceof GrandmaRequest)
         && GrandmaRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof GrandpaRequest || isExternal)
+    if ((isExternal || request instanceof GrandpaRequest)
         && GrandpaRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof GuildRequest || isExternal)
+    if ((isExternal || request instanceof GuildRequest)
         && GuildRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof HermitRequest || isExternal)
+    if ((isExternal || request instanceof HermitRequest)
         && HermitRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof IslandRequest || isExternal)
+    if ((isExternal || request instanceof IslandRequest)
         && IslandRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof IsotopeSmitheryRequest || isExternal)
+    if ((isExternal || request instanceof IsotopeSmitheryRequest)
         && IsotopeSmitheryRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof JarlsbergRequest || isExternal)
+    if ((isExternal || request instanceof JarlsbergRequest)
         && JarlsbergRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof JunkMagazineRequest || isExternal)
+    if ((isExternal || request instanceof JunkMagazineRequest)
         && JunkMagazineRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof KnollRequest || isExternal)
+    if ((isExternal || request instanceof KnollRequest)
         && KnollRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof KOLHSRequest || isExternal)
+    if ((isExternal || request instanceof KOLHSRequest)
         && KOLHSRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof KringleRequest || isExternal)
+    if ((isExternal || request instanceof KringleRequest)
         && KringleRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof LeafletRequest || isExternal)
+    if ((isExternal || request instanceof LeafletRequest)
         && LeafletRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof LTTRequest || isExternal) && LTTRequest.registerRequest(urlString)) {
+    if ((isExternal || request instanceof LTTRequest) && LTTRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof LunarLunchRequest || isExternal)
+    if ((isExternal || request instanceof LunarLunchRequest)
         && LunarLunchRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof MallSearchRequest || isExternal)
+    if ((isExternal || request instanceof MallSearchRequest)
         && MallSearchRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ManageStoreRequest || isExternal)
+    if ((isExternal || request instanceof ManageStoreRequest)
         && ManageStoreRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof MemeShopRequest || isExternal)
+    if ((isExternal || request instanceof MemeShopRequest)
         && MemeShopRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof MerchTableRequest || isExternal)
+    if ((isExternal || request instanceof MerchTableRequest)
         && MerchTableRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof MindControlRequest || isExternal)
+    if ((isExternal || request instanceof MindControlRequest)
         && MindControlRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof MomRequest || isExternal) && MomRequest.registerRequest(urlString)) {
+    if ((isExternal || request instanceof MomRequest) && MomRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof MonsterManuelRequest || isExternal)
+    if ((isExternal || request instanceof MonsterManuelRequest)
         && MonsterManuelRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof MushroomRequest || isExternal)
+    if ((isExternal || request instanceof MushroomRequest)
         && MushroomRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof NeandermallRequest || isExternal)
+    if ((isExternal || request instanceof NeandermallRequest)
         && NeandermallRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof NemesisRequest || isExternal)
+    if ((isExternal || request instanceof NemesisRequest)
         && NemesisRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof NinjaStoreRequest || isExternal)
+    if ((isExternal || request instanceof NinjaStoreRequest)
         && NinjaStoreRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof NuggletCraftingRequest || isExternal)
+    if ((isExternal || request instanceof NuggletCraftingRequest)
         && NuggletCraftingRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof PandamoniumRequest || isExternal)
+    if ((isExternal || request instanceof PandamoniumRequest)
         && PandamoniumRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof PeeVPeeRequest || isExternal)
+    if ((isExternal || request instanceof PeeVPeeRequest)
         && PeeVPeeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof PixelRequest || isExternal)
+    if ((isExternal || request instanceof PixelRequest)
         && PixelRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof PokemporiumRequest || isExternal)
+    if ((isExternal || request instanceof PokemporiumRequest)
         && PokemporiumRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof PrecinctRequest || isExternal)
+    if ((isExternal || request instanceof PrecinctRequest)
         && PrecinctRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ProfileRequest || isExternal)
+    if ((isExternal || request instanceof ProfileRequest)
         && ProfileRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof PulverizeRequest || isExternal)
+    if ((isExternal || request instanceof PulverizeRequest)
         && PulverizeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof QuartersmasterRequest || isExternal)
+    if ((isExternal || request instanceof QuartersmasterRequest)
         && QuartersmasterRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof RaffleRequest || isExternal)
+    if ((isExternal || request instanceof RaffleRequest)
         && RaffleRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof RichardRequest || isExternal)
+    if ((isExternal || request instanceof RichardRequest)
         && RichardRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof RubeeRequest || isExternal)
+    if ((isExternal || request instanceof RubeeRequest)
         && RubeeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof RumpleRequest || isExternal)
+    if ((isExternal || request instanceof RumpleRequest)
         && RumpleRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ScrapheapRequest || isExternal)
+    if ((isExternal || request instanceof ScrapheapRequest)
         && ScrapheapRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SeaMerkinRequest || isExternal)
+    if ((isExternal || request instanceof SeaMerkinRequest)
         && SeaMerkinRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SendGiftRequest || isExternal)
+    if ((isExternal || request instanceof SendGiftRequest)
         && SendGiftRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SendMailRequest || isExternal)
+    if ((isExternal || request instanceof SendMailRequest)
         && SendMailRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ShoeRepairRequest || isExternal)
+    if ((isExternal || request instanceof ShoeRepairRequest)
         && ShoeRepairRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SHAWARMARequest || isExternal)
+    if ((isExternal || request instanceof SHAWARMARequest)
         && SHAWARMARequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ShoreGiftShopRequest || isExternal)
+    if ((isExternal || request instanceof ShoreGiftShopRequest)
         && ShoreGiftShopRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ShrineRequest || isExternal)
+    if ((isExternal || request instanceof ShrineRequest)
         && ShrineRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SkateParkRequest || isExternal)
+    if ((isExternal || request instanceof SkateParkRequest)
         && SkateParkRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SliemceRequest || isExternal)
+    if ((isExternal || request instanceof SliemceRequest)
         && SliemceRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SpacegateFabricationRequest || isExternal)
+    if ((isExternal || request instanceof SpacegateFabricationRequest)
         && SpacegateFabricationRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SpantRequest || isExternal)
+    if ((isExternal || request instanceof SpantRequest)
         && SpantRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SpinMasterLatheRequest || isExternal)
+    if ((isExternal || request instanceof SpinMasterLatheRequest)
         && SpinMasterLatheRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof StarChartRequest || isExternal)
+    if ((isExternal || request instanceof StarChartRequest)
         && StarChartRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof StandardRequest || isExternal)
+    if ((isExternal || request instanceof StandardRequest)
         && StandardRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof StillRequest || isExternal)
+    if ((isExternal || request instanceof StillRequest)
         && StillRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof StorageRequest || isExternal)
+    if ((isExternal || request instanceof StorageRequest)
         && StorageRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SuburbanDisRequest || isExternal)
+    if ((isExternal || request instanceof SuburbanDisRequest)
         && SuburbanDisRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SugarSheetRequest || isExternal)
+    if ((isExternal || request instanceof SugarSheetRequest)
         && SugarSheetRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof SwaggerShopRequest || isExternal)
+    if ((isExternal || request instanceof SwaggerShopRequest)
         && SwaggerShopRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof TacoDanRequest || isExternal)
+    if ((isExternal || request instanceof TacoDanRequest)
         && TacoDanRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof TavernRequest || isExternal)
+    if ((isExternal || request instanceof TavernRequest)
         && TavernRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof TerrifiedEagleInnRequest || isExternal)
+    if ((isExternal || request instanceof TerrifiedEagleInnRequest)
         && TerrifiedEagleInnRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ThankShopRequest || isExternal)
+    if ((isExternal || request instanceof ThankShopRequest)
         && ThankShopRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof TicketCounterRequest || isExternal)
+    if ((isExternal || request instanceof TicketCounterRequest)
         && TicketCounterRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ToxicChemistryRequest || isExternal)
+    if ((isExternal || request instanceof ToxicChemistryRequest)
         && ToxicChemistryRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof TrapperRequest || isExternal)
+    if ((isExternal || request instanceof TrapperRequest)
         && TrapperRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof TravelingTraderRequest || isExternal)
+    if ((isExternal || request instanceof TravelingTraderRequest)
         && TravelingTraderRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof TrophyHutRequest || isExternal)
+    if ((isExternal || request instanceof TrophyHutRequest)
         && TrophyHutRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof TutorialRequest || isExternal)
+    if ((isExternal || request instanceof TutorialRequest)
         && TutorialRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof UneffectRequest || isExternal)
+    if ((isExternal || request instanceof UneffectRequest)
         && UneffectRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof UntinkerRequest || isExternal)
+    if ((isExternal || request instanceof UntinkerRequest)
         && UntinkerRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof VendingMachineRequest || isExternal)
+    if ((isExternal || request instanceof VendingMachineRequest)
         && VendingMachineRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof VolcanoIslandRequest || isExternal)
+    if ((isExternal || request instanceof VolcanoIslandRequest)
         && VolcanoIslandRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof WalMartRequest || isExternal)
+    if ((isExternal || request instanceof WalMartRequest)
         && WalMartRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof WarbearBoxRequest || isExternal)
+    if ((isExternal || request instanceof WarbearBoxRequest)
         && WarbearBoxRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof WildfireCampRequest || isExternal)
+    if ((isExternal || request instanceof WildfireCampRequest)
         && WildfireCampRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof WinterGardenRequest || isExternal)
+    if ((isExternal || request instanceof WinterGardenRequest)
         && WinterGardenRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof XOShopRequest || isExternal)
+    if ((isExternal || request instanceof XOShopRequest)
         && XOShopRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof YeNeweSouvenirShoppeRequest || isExternal)
+    if ((isExternal || request instanceof YeNeweSouvenirShoppeRequest)
         && YeNeweSouvenirShoppeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof YourCampfireRequest || isExternal)
+    if ((isExternal || request instanceof YourCampfireRequest)
         && YourCampfireRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
 
-    if ((request instanceof ZapRequest || isExternal) && ZapRequest.registerRequest(urlString)) {
+    if ((isExternal || request instanceof ZapRequest) && ZapRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
@@ -1559,7 +1597,7 @@ public class RequestLogger extends NullStream {
     // Do PurchaseRequest after all Coinmaster shops so they can
     // register simple visits, if they so choose.
 
-    if ((request instanceof PurchaseRequest || isExternal)
+    if ((isExternal || request instanceof PurchaseRequest)
         && PurchaseRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
@@ -1584,7 +1622,7 @@ public class RequestLogger extends NullStream {
     RequestLogger.updateSessionLog(urlString);
   }
 
-  public static final void registerLocation(final String location) {
+  public static void registerLocation(final String location) {
     String message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
 
     RequestLogger.printLine();
@@ -1594,7 +1632,14 @@ public class RequestLogger extends NullStream {
     RequestLogger.updateSessionLog(message);
   }
 
-  public static final void registerLastLocation() {
-    RequestLogger.registerLocation(KoLAdventure.lastLocationName);
+  public static void registerLastLocation() {
+    String location = KoLAdventure.lastLocationName;
+
+    if (location == null) {
+      location =
+          (GenericRequest.itemMonster != null) ? GenericRequest.itemMonster : "Unknown Location";
+    }
+
+    RequestLogger.registerLocation(location);
   }
 }

@@ -3,13 +3,15 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.HttpClientWrapper.getLastRequest;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInStash;
+import static internal.helpers.Player.withMeat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -53,7 +55,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
   class Put {
     @Test
     public void storesSealToothInStash() {
-      var cleanups = Player.addItem("seal tooth");
+      var cleanups = withItem("seal tooth");
 
       try (cleanups) {
         execute("put 1 seal tooth");
@@ -68,7 +70,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void storesManyItemsInStash() {
-      var cleanups = new Cleanups(Player.addItem("seal tooth"), Player.addItem("helmet turtle"));
+      var cleanups = new Cleanups(withItem("seal tooth"), withItem("helmet turtle"));
 
       try (cleanups) {
         execute("put 1 seal tooth, 1 helmet turtle");
@@ -94,7 +96,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void doesNotStoreZeroItemsInStash() {
-      var cleanups = Player.addItem("seal tooth");
+      var cleanups = withItem("seal tooth");
 
       try (cleanups) {
         execute("put 0 seal tooth");
@@ -107,7 +109,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void storesMeatInStash() {
-      var cleanups = Player.setMeat(100);
+      var cleanups = withMeat(100);
 
       try (cleanups) {
         execute("put 100 meat");
@@ -122,7 +124,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void storesMoreThanIntMaxMeatInStash() {
-      var cleanups = Player.setMeat(3_000_000_000L);
+      var cleanups = withMeat(3_000_000_000L);
 
       try (cleanups) {
         execute("put 3000000000 meat");
@@ -137,7 +139,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void doesNotStoreZeroMeatInStash() {
-      var cleanups = Player.setMeat(100);
+      var cleanups = withMeat(100);
 
       try (cleanups) {
         execute("put 0 meat");
@@ -153,7 +155,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
   class Take {
     @Test
     public void takesSealToothFromStash() {
-      var cleanups = Player.addItemToStash("seal tooth");
+      var cleanups = withItemInStash("seal tooth");
 
       try (cleanups) {
         execute("take 1 seal tooth");
@@ -168,7 +170,7 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void doesNotTakeZeroItemsFromStash() {
-      var cleanups = Player.addItemToStash("seal tooth");
+      var cleanups = withItemInStash("seal tooth");
 
       try (cleanups) {
         execute("take 0 seal tooth");

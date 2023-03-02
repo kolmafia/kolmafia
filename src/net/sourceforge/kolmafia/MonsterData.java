@@ -10,7 +10,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -25,9 +30,6 @@ import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterData extends AdventureResult {
-
-  public static Map<String, Attribute> optionToAttribute = new HashMap<>();
-
   public enum Attribute {
     // Non-scaling monsters
     ATTACK("Atk:"),
@@ -75,20 +77,23 @@ public class MonsterData extends AdventureResult {
     MANUEL_NAME("Manuel:"),
     WIKI_NAME("Wiki:");
 
+    public static final Map<String, Attribute> optionToAttribute =
+        Arrays.stream(Attribute.values())
+            .collect(Collectors.toUnmodifiableMap(a -> a.option, Function.identity()));
+
+    public static Attribute find(final String option) {
+      return optionToAttribute.get(option);
+    }
+
     private final String option;
 
     Attribute(String option) {
       this.option = option;
-      optionToAttribute.put(option, this);
     }
 
     public String getOption() {
       return this.option;
     }
-  }
-
-  static {
-    Attribute[] attributes = Attribute.values();
   }
 
   // ***********************************************************
@@ -111,7 +116,7 @@ public class MonsterData extends AdventureResult {
       String option = tokens.nextToken();
       Object value;
 
-      Attribute attribute = MonsterData.optionToAttribute.get(option);
+      Attribute attribute = Attribute.find(option);
 
       if (attribute == null) {
         // Special cases:
@@ -146,35 +151,27 @@ public class MonsterData extends AdventureResult {
 
       try {
         switch (attribute) {
-          case ATTACK:
-          case DEFENSE:
-          case HP:
-          case INITIATIVE:
-          case EXPERIENCE:
-          case MLMULT:
-          case ITEM:
-          case SKILL:
-          case SPELLS:
-          case SPRINKLE_MIN:
-          case SPRINKLE_MAX:
-          case ELEM:
-          case PHYS:
+          case ATTACK,
+              DEFENSE,
+              HP,
+              INITIATIVE,
+              EXPERIENCE,
+              MLMULT,
+              ITEM,
+              SKILL,
+              SPELLS,
+              SPRINKLE_MIN,
+              SPRINKLE_MAX,
+              ELEM,
+              PHYS -> {
             value = parseNumeric(tokens);
             attributeMap.put(attribute, value);
-            continue;
-          case SCALE:
+          }
+          case SCALE, CAP, FLOOR -> {
             value = parseDefaultedNumeric(tokens);
             attributeMap.put(attribute, value);
-            continue;
-          case CAP:
-            value = parseDefaultedNumeric(tokens);
-            attributeMap.put(attribute, value);
-            continue;
-          case FLOOR:
-            value = parseDefaultedNumeric(tokens);
-            attributeMap.put(attribute, value);
-            continue;
-          case EA:
+          }
+          case EA -> {
             if (tokens.hasMoreTokens()) {
               String next = parseString(tokens.nextToken(), tokens);
               Element element = parseElement(next);
@@ -184,15 +181,14 @@ public class MonsterData extends AdventureResult {
               Object current = attributeMap.get(attribute);
               if (current == null) {
                 attributeMap.put(attribute, element);
-              } else if (current instanceof Element) {
-                Element first = (Element) current;
+              } else if (current instanceof Element first) {
                 attributeMap.put(attribute, EnumSet.of(first, element));
               } else if (current instanceof EnumSet) {
                 ((EnumSet<Element>) current).add(element);
               }
             }
-            continue;
-          case ED:
+          }
+          case ED -> {
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
               Element element = parseElement(next);
@@ -200,14 +196,14 @@ public class MonsterData extends AdventureResult {
                 attributeMap.put(attribute, element);
               }
             }
-            continue;
-          case GROUP:
+          }
+          case GROUP -> {
             if (tokens.hasMoreTokens()) {
               value = StringUtilities.parseInt(tokens.nextToken());
               attributeMap.put(attribute, value);
             }
-            continue;
-          case PHYLUM:
+          }
+          case PHYLUM -> {
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
               Phylum num = parsePhylum(next);
@@ -215,11 +211,11 @@ public class MonsterData extends AdventureResult {
                 attributeMap.put(attribute, num);
               }
             }
-            continue;
-          case MEAT:
+          }
+          case MEAT -> {
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
-              if (next.indexOf("-") >= 0) {
+              if (next.contains("-")) {
                 // RequestLogger.printLine("Monster: \"" + name + "\" has meat range " + next);
                 // Let user calculate average
                 value = next;
@@ -228,24 +224,20 @@ public class MonsterData extends AdventureResult {
               }
               attributeMap.put(attribute, value);
             }
-            continue;
-
-          case ARTICLE:
+          }
+          case ARTICLE -> {
             if (tokens.hasMoreTokens()) {
               value = tokens.nextToken();
               attributeMap.put(attribute, value);
             }
-            continue;
-
-          case MANUEL_NAME:
-          case WIKI_NAME:
+          }
+          case MANUEL_NAME, WIKI_NAME -> {
             if (tokens.hasMoreTokens()) {
               value = parseString(tokens.nextToken(), tokens);
               attributeMap.put(attribute, value);
             }
-            continue;
-
-          case POISON:
+          }
+          case POISON -> {
             if (tokens.hasMoreTokens()) {
               String poisonType = parseString(tokens.nextToken(), tokens);
               int poison = EffectDatabase.getPoisonLevel(poisonType);
@@ -255,29 +247,20 @@ public class MonsterData extends AdventureResult {
               }
               attributeMap.put(attribute, poison);
             }
-            continue;
-
-          case BOSS:
-          case NOBANISH:
-          case NOCOPY:
-          case NOMANUEL:
-            attributeMap.put(attribute, true);
-            continue;
-
-          case WANDERER:
-          case ULTRARARE:
-          case LUCKY:
-          case SUPERLIKELY:
-          case FREE:
-          case NOWANDER:
-            attributeMap.put(attribute, true);
-            continue;
-
-          case GHOST:
-          case SNAKE:
-          case DRIPPY:
-            attributeMap.put(attribute, true);
-            continue;
+          }
+          case BOSS,
+              NOBANISH,
+              NOCOPY,
+              NOMANUEL,
+              WANDERER,
+              ULTRARARE,
+              LUCKY,
+              SUPERLIKELY,
+              FREE,
+              NOWANDER,
+              GHOST,
+              SNAKE,
+              DRIPPY -> attributeMap.put(attribute, true);
         }
       } catch (Exception e) {
         // This should not happen.  Therefore, print
@@ -342,7 +325,7 @@ public class MonsterData extends AdventureResult {
     return temp.toString();
   }
 
-  public static final Element parseElement(final String s) {
+  public static Element parseElement(final String s) {
     for (Element elem : Element.values()) {
       if (elem.toString().equals(s)) {
         return elem;
@@ -351,7 +334,7 @@ public class MonsterData extends AdventureResult {
     return Element.NONE;
   }
 
-  public static final Phylum parsePhylum(final String s) {
+  public static Phylum parsePhylum(final String s) {
     for (Phylum phylum : Phylum.values()) {
       if (phylum.toString().equals(s)) {
         return phylum;
@@ -413,7 +396,7 @@ public class MonsterData extends AdventureResult {
 
     Object EA = attributeMap.get(Attribute.EA);
     Object ED = attributeMap.get(Attribute.ED);
-    if (EA != null && ED != null && EA == ED) {
+    if (EA != null && EA == ED) {
       buf.append("E: ");
       buf.append(ED);
       buf.append(" ");
@@ -466,8 +449,7 @@ public class MonsterData extends AdventureResult {
       buf.append(attribute.getOption());
       buf.append(" ");
       Object value = attributeMap.get(attribute);
-      if (value instanceof String) {
-        String string = (String) value;
+      if (value instanceof String string) {
         if (string.equals("?")) {
           buf.append(value);
         } else {
@@ -616,8 +598,8 @@ public class MonsterData extends AdventureResult {
   private Object physicalResistance;
   private Object elementalResistance;
   private int meat;
-  private Object minSprinkles;
-  private Object maxSprinkles;
+  private final Object minSprinkles;
+  private final Object maxSprinkles;
   private final int group;
   private final Phylum phylum;
   private final int poison;
@@ -629,9 +611,9 @@ public class MonsterData extends AdventureResult {
   private final EnumSet<EncounterType> type;
   private final String image;
   private final String[] images;
-  private String manuelName = null;
-  private String wikiName = null;
-  private String article = null;
+  private String manuelName;
+  private final String wikiName;
+  private String article;
   private final Set<String> subTypes;
   private final String attributes;
   private final int beeCount;
@@ -642,8 +624,10 @@ public class MonsterData extends AdventureResult {
   // The following apply to a specific (cloned) instance of a monster
   private String[] randomModifiers;
 
+  public static final MonsterData NO_MONSTER = new MonsterData("none", 0, new String[0], "");
+
   public MonsterData(String name, int id, String[] images, String attributeString) {
-    super(AdventureResult.MONSTER_PRIORITY, name);
+    super(Priority.MONSTER, name);
 
     Map<Attribute, Object> attributes = attributeStringToMap(name, attributeString);
     EnumSet<EncounterType> type = attributeMapToEncounterTypes(attributes);
@@ -709,10 +693,9 @@ public class MonsterData extends AdventureResult {
 
   private Object getDefaultedNumber(Object value, int def) {
     if (value instanceof Integer) {
-      return (Integer) value;
+      return value;
     }
-    if (value instanceof String) {
-      String string = (String) value;
+    if (value instanceof String string) {
       if (string.equals("?")) {
         return def;
       }
@@ -724,8 +707,7 @@ public class MonsterData extends AdventureResult {
     if (value instanceof Integer) {
       return (Integer) value;
     }
-    if (value instanceof String) {
-      String range = (String) value;
+    if (value instanceof String range) {
       int dash = range.indexOf("-");
       int minMeat = StringUtilities.parseInt(range.substring(0, dash));
       int maxMeat = StringUtilities.parseInt(range.substring(dash + 1));
@@ -754,12 +736,13 @@ public class MonsterData extends AdventureResult {
   }
 
   public MonsterData(final MonsterData monster) {
-    super(AdventureResult.MONSTER_PRIORITY, monster.getName());
+    super(Priority.MONSTER, monster.getName());
 
     this.id = monster.id;
     this.health = monster.health;
     this.attack = monster.attack;
     this.defense = monster.defense;
+    this.article = monster.article;
     this.initiative = monster.initiative;
     this.experience = monster.experience;
     this.scale = monster.scale;
@@ -811,7 +794,7 @@ public class MonsterData extends AdventureResult {
     // based on the integral provided by Buttons on the HCO forums.
     // http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396
 
-    double probability = 0.0;
+    double probability;
     double[] coefficients = new double[this.items.size()];
 
     for (int i = 0; i < this.items.size(); ++i) {
@@ -1055,10 +1038,6 @@ public class MonsterData extends AdventureResult {
     String[] modifiers = new String[MonsterData.lastRandomModifiers.size()];
     MonsterData.lastRandomModifiers.toArray(modifiers);
 
-    if (modifiers == null || modifiers.length == 0) {
-      return this;
-    }
-
     // Clone the monster so we don't munge the template
     MonsterData monster;
     try {
@@ -1073,106 +1052,181 @@ public class MonsterData extends AdventureResult {
 
     // Iterate over them and modify the base values
     for (String modifier : modifiers) {
-      if (modifier.equals("askew")) {
-        monster.attack = monster.getRawAttack() * 11 / 10;
-      } else if (modifier.equals("bouncing")) {
-        monster.attack = monster.getRawAttack() * 3 / 2;
-      } else if (modifier.equals("broke")) {
-        monster.meat = 5;
-      } else if (modifier.equals("cloned")) {
-        monster.health = monster.getRawHP() * 2;
-        monster.attack = monster.getRawAttack() * 2;
-        monster.defense = monster.getRawDefense() * 2;
-      } else if (modifier.equals("dancin'")) {
-        monster.defense = monster.getRawDefense() * 3 / 2;
-      } else if (modifier.equals("filthy")) {
-        // Stench Aura
-      } else if (modifier.equals("floating")) {
-        monster.defense = monster.getRawDefense() * 3 / 2;
-      } else if (modifier.equals("foul-mouthed")) {
-        // Sleaze Aura
-      } else if (modifier.equals("fragile")) {
-        monster.health = 1;
-      } else if (modifier.equals("frozen")) {
-        monster.setElement(Element.COLD);
-      } else if (modifier.equals("ghostly")) {
-        if (monster.getPhysicalResistance() == 0) {
-          monster.physicalResistance = 90;
-        }
-      } else if (modifier.equals("haunted")) {
-        // Spooky Aura
-      } else if (modifier.equals("hot")) {
-        // Hot Aura
-      } else if (modifier.equals("huge")) {
-        monster.health = monster.getRawHP() * 2;
-        monster.attack = monster.getRawAttack() * 2;
-        monster.defense = monster.getRawDefense() * 2;
-      } else if (modifier.equals("ice-cold")) {
-        monster.setElement(Element.COLD);
-      } else if (modifier.equals("left-handed")) {
-        Object originalAttack = monster.attack;
-        Object originalDefense = monster.defense;
-        monster.attack = originalDefense;
-        monster.defense = originalAttack;
-      } else if (modifier.equals("red-hot")) {
-        monster.setElement(Element.HOT);
-      } else if (modifier.equals("short")) {
-        monster.health = monster.getRawHP() / 2;
-        monster.defense = monster.getRawDefense() * 2;
-      } else if (modifier.equals("skinny")) {
-        monster.health = monster.getRawHP() / 2;
-        monster.defense = monster.getRawDefense() / 2;
-      } else if (modifier.equals("sleazy")) {
-        monster.setElement(Element.SLEAZE);
-      } else if (modifier.equals("solid gold")) {
-        monster.meat = 1000;
-      } else if (modifier.equals("spooky")) {
-        monster.setElement(Element.SPOOKY);
-      } else if (modifier.equals("stinky")) {
-        monster.setElement(Element.STENCH);
-      } else if (modifier.equals("throbbing")) {
-        monster.health = monster.getRawHP() * 2;
-      } else if (modifier.equals("tiny")) {
-        monster.health = monster.getRawHP() / 10;
-        monster.attack = monster.getRawAttack() / 10;
-        monster.defense = monster.getRawDefense() / 10;
-      } else if (modifier.equals("turgid")) {
-        monster.health = monster.getRawHP() * 5;
-      } else if (modifier.equals("unlucky")) {
-        monster.health = 13;
-        monster.attack = 13;
-        monster.defense = 13;
-      } else if (modifier.equals("wet")) {
-        // Cold Aura
-      }
+      switch (modifier) {
+        case "askew":
+          monster.attack = monster.getRawAttack() * 11 / 10;
+          break;
+        case "bouncing":
+          monster.attack = monster.getRawAttack() * 3 / 2;
+          break;
+        case "broke":
+          monster.meat = 5;
+          break;
+        case "cloned":
+        case "huge":
+          monster.health = monster.getRawHP() * 2;
+          monster.attack = monster.getRawAttack() * 2;
+          monster.defense = monster.getRawDefense() * 2;
+          break;
+        case "dancin'":
+        case "floating":
+          monster.defense = monster.getRawDefense() * 3 / 2;
+          break;
+        case "filthy":
+          // Stench Aura
+          break;
+        case "foul-mouthed":
+          // Sleaze Aura
+          break;
+        case "fragile":
+          monster.health = 1;
+          break;
+        case "frozen":
+        case "ice-cold":
+        case "cold-blooded":
+        case "chilling":
+          monster.setElement(Element.COLD);
+          break;
+        case "ghostly":
+          if (monster.getPhysicalResistance() == 0) {
+            monster.physicalResistance = 90;
+          }
+          break;
+        case "haunted":
+          // Spooky Aura
+          break;
+        case "hot":
+          // Hot Aura
+          break;
+        case "left-handed":
+          var temp = monster.attack;
+          monster.attack = monster.defense;
+          monster.defense = temp;
+          break;
+        case "red-hot":
+        case "hot-blooded":
+        case "steamy":
+          monster.setElement(Element.HOT);
+          break;
+        case "short":
+          monster.health = monster.getRawHP() / 2;
+          monster.defense = monster.getRawDefense() * 2;
+          break;
+        case "skinny":
+          monster.health = monster.getRawHP() / 2;
+          monster.defense = monster.getRawDefense() / 2;
+          break;
+        case "sleazy":
+        case "slimy":
+        case "sweaty":
+          monster.setElement(Element.SLEAZE);
+          break;
+        case "solid gold":
+          monster.meat = 1000;
+          break;
+        case "spooky":
+        case "carrion-eating":
+        case "mist-shrouded":
+          monster.setElement(Element.SPOOKY);
+          break;
+        case "stinky":
+        case "swamp":
+        case "foul-smelling":
+          monster.setElement(Element.STENCH);
+          break;
+        case "throbbing":
+          monster.health = monster.getRawHP() * 2;
+          break;
+        case "tiny":
+          monster.health = monster.getRawHP() / 10;
+          monster.attack = monster.getRawAttack() / 10;
+          monster.defense = monster.getRawDefense() / 10;
+          break;
+        case "turgid":
+          monster.health = monster.getRawHP() * 5;
+          break;
+        case "unlucky":
+          monster.health = 13;
+          monster.attack = 13;
+          monster.defense = 13;
+          break;
+        case "wet":
+          // Cold Aura
+          break;
 
-      // Non-OCRS modifiers
-      else if (modifier.equals("mutant")) {
-        monster.health = monster.getRawHP() * 6 / 5;
-        monster.attack = monster.getRawAttack() * 6 / 5;
-        monster.defense = monster.getRawDefense() * 6 / 5;
-      } else if (this.scale == null
-          && (modifier.equals("Mr. mask") || modifier.equals("Bonerdagon mask"))) {
-        monster.health = monster.getRawHP() * 2;
-        monster.attack = monster.getRawAttack() * 2;
-        monster.defense = monster.getRawDefense() * 2;
-      } else if (modifier.equals("ninja mask")) {
-        monster.initiative = 10000;
-      } else if (this.scale == null && modifier.equals("opera mask")) {
-        monster.attack = monster.getRawAttack() * 2;
-      } else if (this.scale == null && modifier.equals("bandit mask")) {
-        monster.defense = monster.getRawDefense() * 4;
-      } else if (modifier.equals("fencing mask")) {
-        if (monster.getPhysicalResistance() == 0) {
-          monster.physicalResistance = 90;
-        }
-        if (monster.getElementalResistance() == 0) {
-          monster.elementalResistance = 90;
-        }
-      } else if (this.scale == null && modifier.equals("Naughty Sorceress mask")) {
-        monster.health = monster.getRawHP() * 3;
-        monster.attack = monster.getRawAttack() * 3;
-        monster.defense = monster.getRawDefense() * 3;
+          // Nuclear Autumn
+        case "mutant":
+          monster.health = monster.getRawHP() * 6 / 5;
+          monster.attack = monster.getRawAttack() * 6 / 5;
+          monster.defense = monster.getRawDefense() * 6 / 5;
+          break;
+
+          // Masks
+        case "Mr. mask":
+        case "Bonerdagon mask":
+          if (this.scale == null) {
+            monster.health = monster.getRawHP() * 2;
+            monster.attack = monster.getRawAttack() * 2;
+            monster.defense = monster.getRawDefense() * 2;
+          }
+          break;
+        case "ninja mask":
+          monster.initiative = 10000;
+          break;
+        case "opera mask":
+          if (this.scale == null) {
+            monster.attack = monster.getRawAttack() * 2;
+          }
+          break;
+        case "bandit mask":
+          if (this.scale == null) {
+            monster.defense = monster.getRawDefense() * 4;
+          }
+          break;
+        case "fencing mask":
+          if (monster.getPhysicalResistance() == 0) {
+            monster.physicalResistance = 90;
+          }
+          if (monster.getElementalResistance() == 0) {
+            monster.elementalResistance = 90;
+          }
+          break;
+        case "Naughty Sorceress mask":
+          if (this.scale == null) {
+            monster.health = monster.getRawHP() * 3;
+            monster.attack = monster.getRawAttack() * 3;
+            monster.defense = monster.getRawDefense() * 3;
+          }
+          break;
+
+          // Fall of the Dinosaurs
+        case "archelon":
+          // Reflects spells
+          break;
+        case "chicken":
+          monster.health = 1;
+          monster.attack = 1;
+          monster.defense = 1;
+          break;
+        case "dilophosaur":
+        case "flatusaurus":
+          // Elemental damage each round?
+          break;
+        case "ghostasaurus":
+          monster.physicalResistance = 100;
+          break;
+        case "kachungasaur":
+          // Big slam attack, triple Meat drop
+          break;
+        case "pterodactyl":
+          // Melee damage always misses
+          break;
+        case "spikolodon":
+          // Thorn damage when melee
+          break;
+        case "velociraptor":
+          // Runs away if lose initiative, lots of +item when killed
+          break;
       }
     }
 
@@ -1275,9 +1329,7 @@ public class MonsterData extends AdventureResult {
     if (this.health instanceof Integer) {
       int hp = (Integer) this.health;
 
-      if (hp == 0
-          && (this.attack == null
-              || (this.attack instanceof Integer && (Integer) this.attack == 0))) {
+      if (hp == 0 && (this.attack == null || (this.attack instanceof Integer i && i == 0))) {
         // The monster is unknown, so do not apply modifiers
         return 0;
       }
@@ -1374,7 +1426,7 @@ public class MonsterData extends AdventureResult {
 
   public int getDefense() {
     double reduceMonsterDefense =
-        KoLCharacter.currentNumericModifier(Modifiers.REDUCE_ENEMY_DEFENSE) / 100;
+        KoLCharacter.currentNumericModifier(DoubleModifier.REDUCE_ENEMY_DEFENSE) / 100;
     if (this.scale != null && this.defense == null) {
       int scale = evaluate(this.scale, MonsterData.DEFAULT_SCALE);
       int defense = KoLCharacter.getAdjustedMuscle() + scale;
@@ -1482,7 +1534,7 @@ public class MonsterData extends AdventureResult {
     }
     int charInit = initBonus;
     // Overclocked helps against Source Monsters
-    if (this.name.contains("Source Agent") && KoLCharacter.hasSkill("Overclocked")) {
+    if (this.name.contains("Source Agent") && KoLCharacter.hasSkill(SkillPool.OVERCLOCKED)) {
       charInit += 200;
     }
     int jumpChance =
@@ -1493,7 +1545,7 @@ public class MonsterData extends AdventureResult {
     return jumpChance > 100 ? 100 : Math.max(jumpChance, 0);
   }
 
-  public static final int initPenalty(final int monsterLevel) {
+  public static int initPenalty(final int monsterLevel) {
     return monsterLevel <= 20
         ? 0
         : monsterLevel <= 40
@@ -1580,13 +1632,22 @@ public class MonsterData extends AdventureResult {
   }
 
   public EnumSet<EncounterType> getType() {
-    // Only the first 10 Snowmen are free
-    if (this.name.equals("X-32-F Combat Training Snowman")
-        && Preferences.getInteger("_snojoFreeFights") < 10) {
-      EnumSet<EncounterType> temp = this.type.clone();
+    // Some monsters are conditionally free
+    var forceFree =
+        switch (this.name) {
+          case "X-32-F Combat Training Snowman" -> Preferences.getInteger("_snojoFreeFights") < 10;
+          case "biker", "\"plain\" girl", "jock", "party girl", "burnout" -> Preferences.getInteger(
+                  "_neverendingPartyFreeTurns")
+              < 10;
+          default -> false;
+        };
+
+    if (forceFree) {
+      var temp = this.type.clone();
       temp.add(EncounterType.FREE_COMBAT);
       return temp;
     }
+
     return this.type;
   }
 
@@ -1669,17 +1730,11 @@ public class MonsterData extends AdventureResult {
 
     if (itemIndex != -1) {
       item = this.items.get(itemIndex);
-      switch ((char) item.getCount() & 0xFFFF) {
-        case 'p':
-          return true;
-        case 'n':
-        case 'c':
-        case 'f':
-        case 'b':
-          return false;
-        default:
-          return (item.getCount() >> 16) * dropModifier < 100.0;
-      }
+      return switch ((char) item.getCount() & 0xFFFF) {
+        case 'p' -> true;
+        case 'n', 'c', 'f', 'b' -> false;
+        default -> (item.getCount() >> 16) * dropModifier < 100.0;
+      };
     }
 
     // If the item does not drop, check to see if maybe
@@ -1704,8 +1759,7 @@ public class MonsterData extends AdventureResult {
 
   public double getExperience() {
     int xpMultiplier = 1;
-    if (KoLCharacter.hasEquipped(
-            ItemPool.get(ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1), EquipmentManager.SHIRT)
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1), Slot.SHIRT)
         && Preferences.getInteger("garbageShirtCharge") > 0) {
       xpMultiplier = 2;
     }
@@ -1742,51 +1796,33 @@ public class MonsterData extends AdventureResult {
   }
 
   public void appendItemDrops(StringBuilder buffer) {
-    boolean first = true;
-
-    for (AdventureResult item : this.items) {
-      buffer.append(first ? "<br />Item Drops: " : ", ");
-      first = false;
-
-      int rate = item.getCount() >> 16;
-      buffer.append(item.getName());
-      switch ((char) item.getCount() & 0xFFFF) {
-        case 'p':
-          buffer.append(" (");
-          buffer.append(rate);
-          buffer.append(" pp only)");
-          break;
-        case 'n':
-          buffer.append(" (");
-          buffer.append(rate);
-          buffer.append(" no pp)");
-          break;
-        case 'c':
-          buffer.append(" (");
-          buffer.append(rate);
-          buffer.append(" cond)");
-          break;
-        case 'f':
-          buffer.append(" (");
-          buffer.append(rate);
-          buffer.append(" no mod)");
-          break;
-        case 'a':
-          buffer.append(" (stealable accordion)");
-          break;
-        default:
-          buffer.append(" (");
-          buffer.append(rate);
-          buffer.append(")");
-      }
-    }
+    var items =
+        new ArrayList<>(
+            this.items.stream()
+                .map(
+                    item -> {
+                      int rate = item.getCount() >> 16;
+                      return item.getName()
+                          + " ("
+                          + switch ((char) item.getCount() & 0xFFFF) {
+                            case 'p' -> rate + " pp only";
+                            case 'n' -> rate + " no pp";
+                            case 'c' -> rate + " cond";
+                            case 'f' -> rate + " no mod";
+                            case 'a' -> "stealable accordion";
+                            default -> rate;
+                          }
+                          + ")";
+                    })
+                .toList());
 
     String bounty = BountyDatabase.getNameByMonster(this.getName());
     if (bounty != null) {
-      buffer.append(first ? "<br />Item Drops: " : ", ");
-      first = false;
-      buffer.append(bounty);
-      buffer.append(" (bounty)");
+      items.add(bounty + " (bounty)");
+    }
+
+    if (items.size() > 0) {
+      buffer.append("<br />Item Drops: ").append(String.join(", ", items));
     }
   }
 
@@ -1885,9 +1921,8 @@ public class MonsterData extends AdventureResult {
         int cap = evaluate(stats.cap, MonsterData.DEFAULT_CAP);
         int floor = evaluate(stats.floor, MonsterData.DEFAULT_FLOOR);
 
-        String attb =
+        description =
             "Attack Power scale: (Moxie +" + scale + ", floor " + floor + ", cap " + cap + ")";
-        description = attb;
       } else if (stats.attack instanceof Integer) {
         description = "Attack Power (approximate)";
       } else {
@@ -1974,9 +2009,8 @@ public class MonsterData extends AdventureResult {
         int cap = evaluate(stats.cap, MonsterData.DEFAULT_CAP);
         int floor = evaluate(stats.floor, MonsterData.DEFAULT_FLOOR);
 
-        String defb =
+        description =
             "Defense scale: (Muscle +" + scale + ", floor " + floor + ", cap " + cap + ")";
-        description = defb;
       } else if (stats.defense instanceof Integer) {
         description = "Defense (approximate)";
       } else {
@@ -2030,7 +2064,7 @@ public class MonsterData extends AdventureResult {
         int cap = evaluate(stats.cap, MonsterData.DEFAULT_CAP);
         int floor = evaluate(stats.floor, MonsterData.DEFAULT_FLOOR);
 
-        String hpb =
+        description =
             "Hit Points scale: 0.75 * (Muscle +"
                 + scale
                 + ", floor "
@@ -2038,7 +2072,6 @@ public class MonsterData extends AdventureResult {
                 + ", cap "
                 + cap
                 + ")";
-        description = hpb;
       } else if (stats.health instanceof Integer) {
         description = "Hit Points (approximate)";
       } else {

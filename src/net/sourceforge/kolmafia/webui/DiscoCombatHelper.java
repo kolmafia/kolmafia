@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DiscoCombatHelper {
@@ -171,13 +172,9 @@ public class DiscoCombatHelper {
       return false;
     }
     String encounter = monster.getName();
-    if (encounter.equals("Breakdancing Raver")
+    return encounter.equals("Breakdancing Raver")
         || encounter.equals("Pop-and-Lock Raver")
-        || encounter.equals("Running Man")) {
-      return true;
-    }
-
-    return false;
+        || encounter.equals("Running Man");
   }
 
   public static String disambiguateCombo(String name) {
@@ -726,12 +723,12 @@ public class DiscoCombatHelper {
     }
 
     // If you are in Birdform, uh-uh
-    if (KoLConstants.activeEffects.contains(FightRequest.BIRDFORM)) {
+    if (KoLCharacter.getLimitMode() == LimitMode.BIRD) {
       return;
     }
 
     // If you are in Limitmode, no way
-    if (KoLCharacter.getLimitmode() != null) {
+    if (KoLCharacter.getLimitMode() != LimitMode.NONE) {
       return;
     }
 
@@ -743,8 +740,8 @@ public class DiscoCombatHelper {
     int index = buffer.lastIndexOf("</table></center></td>");
     if (index != -1) {
       StringBuffer table = DiscoCombatHelper.generateTable();
-      table.insert(0, "<tr>");
-      table.append("</tr>");
+      table.insert(0, "<tr><td><center>");
+      table.append("</center></td></tr>");
       buffer.insert(index, table);
     }
   }

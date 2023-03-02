@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
@@ -81,10 +82,28 @@ public class EnumeratedWrapper extends ScriptableObject {
         new ProxyRecordValue.ItemProxy(DataTypes.makeIntValue(1)));
   }
 
+  private static EnumeratedWrapper getValue(Scriptable scope, Type type, Value value) {
+    Class<?> proxyRecordValueClass = null;
+
+    for (Class<?> testRecordValueClass : ProxyRecordValue.class.getDeclaredClasses()) {
+      if (testRecordValueClass.getSimpleName().toLowerCase().startsWith(type.getName())) {
+        proxyRecordValueClass = testRecordValueClass;
+        break;
+      }
+    }
+
+    return EnumeratedWrapper.wrap(scope, proxyRecordValueClass, value);
+  }
+
+  public static EnumeratedWrapper getNone(Scriptable scope, Type type) {
+    Value rawValue = type.parseValue(null, true);
+    return getValue(scope, type, rawValue);
+  }
+
   private static EnumeratedWrapper getOne(Scriptable scope, Type type, Object key) {
     Value rawValue = type.initialValue();
-    if (key instanceof String) {
-      rawValue = type.parseValue((String) key, false);
+    if (key instanceof String || key instanceof ConsString) {
+      rawValue = type.parseValue(key.toString(), false);
     } else if (key instanceof Float || key instanceof Double) {
       rawValue = type.makeValue((int) Math.round((Double) key), false);
     } else if (key instanceof Number) {
@@ -95,14 +114,7 @@ public class EnumeratedWrapper extends ScriptableObject {
       throw new ScriptException("Bad " + type.getName() + " value: " + key.toString());
     }
 
-    Class<?> proxyRecordValueClass = null;
-    for (Class<?> testRecordValueClass : ProxyRecordValue.class.getDeclaredClasses()) {
-      if (testRecordValueClass.getSimpleName().toLowerCase().startsWith(type.getName())) {
-        proxyRecordValueClass = testRecordValueClass;
-      }
-    }
-
-    return EnumeratedWrapper.wrap(scope, proxyRecordValueClass, rawValue);
+    return getValue(scope, type, rawValue);
   }
 
   public static Object genericGet(
@@ -142,7 +154,6 @@ public class EnumeratedWrapper extends ScriptableObject {
     ValueConverter coercer = new ValueConverter(cx, scope);
 
     return cx.newArray(
-        scope,
-        Arrays.asList((Value[]) type.allValues().content).stream().map(coercer::asJava).toArray());
+        scope, Arrays.stream((Value[]) type.allValues().content).map(coercer::asJava).toArray());
   }
 }

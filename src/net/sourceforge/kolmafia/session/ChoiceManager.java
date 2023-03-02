@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceAdventure;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceSpoiler;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -41,6 +40,13 @@ public abstract class ChoiceManager {
   public static int lastDecision = 0;
   public static String lastResponseText = "";
   public static String lastDecoratedResponseText = "";
+
+  public static void reset() {
+    ChoiceManager.lastChoice = 0;
+    ChoiceManager.lastDecision = 0;
+    ChoiceManager.lastResponseText = null;
+    ChoiceManager.lastDecoratedResponseText = null;
+  }
 
   private static int skillUses = 0;
 
@@ -102,7 +108,7 @@ public abstract class ChoiceManager {
    *
    * And by user actions:
    *
-   * - RelayRequest when the user hits the "auto" button on a choice page.
+   * - RelayAgent when the user hits the "auto" button on a choice page.
    * - The "choice" command from the gCLI
    * - The run_choice() function of ASH
    */
@@ -115,12 +121,15 @@ public abstract class ChoiceManager {
         }
       };
 
-  public static final void processRedirectedChoiceAdventure(final String redirectLocation) {
-    ChoiceManager.processChoiceAdventure(ChoiceManager.CHOICE_HANDLER, redirectLocation, null);
+  public static final void processRedirectedChoiceAdventure(
+      final String redirectLocation, final boolean usePostMethod) {
+    ChoiceManager.processChoiceAdventure(
+        ChoiceManager.CHOICE_HANDLER, redirectLocation, usePostMethod, null);
   }
 
   public static final void processChoiceAdventure(final String responseText) {
-    ChoiceManager.processChoiceAdventure(ChoiceManager.CHOICE_HANDLER, "choice.php", responseText);
+    ChoiceManager.processChoiceAdventure(
+        ChoiceManager.CHOICE_HANDLER, "choice.php", false, responseText);
   }
 
   public static final String processChoiceAdventure(
@@ -149,7 +158,7 @@ public abstract class ChoiceManager {
     request.run();
 
     if (tryToAutomate) {
-      ChoiceManager.processChoiceAdventure(request, "choice.php", request.responseText);
+      ChoiceManager.processChoiceAdventure(request, "choice.php", false, request.responseText);
       return "";
     }
 
@@ -179,13 +188,16 @@ public abstract class ChoiceManager {
   }
 
   public static final void processChoiceAdventure(
-      final GenericRequest request, final String initialURL, String responseText) {
+      final GenericRequest request,
+      final String initialURL,
+      boolean usePostMethod,
+      String responseText) {
     // You can no longer simply ignore a choice adventure.  One of
     // the options may have that effect, but we must at least run
     // choice.php to find out which choice it is.
 
     // Get rid of extra fields - like "action=auto"
-    request.constructURLString(initialURL);
+    request.constructURLString(initialURL, usePostMethod);
 
     if (responseText == null) {
       GoalManager.updateProgress(GoalManager.GOAL_CHOICE);
@@ -208,10 +220,36 @@ public abstract class ChoiceManager {
         !KoLmafia.refusesContinue() && ChoiceManager.stillInChoice(responseText);
         ++stepCount) {
       int choice = ChoiceUtilities.extractChoice(responseText);
+
       if (choice == 0) {
         // choice.php did not offer us any choices.
-        // This would be a bug in KoL itself.
-        // Bail now and let the user finish by hand.
+        // This is sometimes legitimate.
+        // In particular, not dying at the first puzzle in the Hidden Temple.
+
+        // You wave your hands nonchalantly over your head, and your fingertips
+        // brush a stone bar that had lowered from the ceiling, unnoticed. You
+        // grab it, frantically, and it pulls you up through a trapdoor just as
+        // the walls slam together beneath your feet. That was too close -- you
+        // were almost a Veracity sandwich!
+        //
+        // <b>Now What?</b>
+        // <a href=choice.php>Continue down the corridor...</a>
+        if (responseText.contains("<b>Now What?</b>")) {
+          request.constructURLString("choice.php");
+          request.run();
+          String redirectLocation = request.redirectLocation;
+          String redirectMethod = request.redirectMethod;
+          if ("tiles.php".equals(redirectLocation)) {
+            // Follow the redirect, call DvorakManager to solve it, and return
+            request.constructURLString(redirectLocation, redirectMethod.equals("POST"));
+            request.run();
+            DvorakManager.solve();
+            request.constructURLString("choice.php");
+            request.responseText = responseText = ChoiceManager.lastResponseText;
+            continue;
+          }
+          return;
+        }
 
         KoLmafia.updateDisplay(MafiaState.ABORT, "Encountered choice adventure with no choices.");
         request.showInBrowser(true);
@@ -244,8 +282,7 @@ public abstract class ChoiceManager {
         return;
       }
 
-      // We automated one choice. If it redirected to a
-      // fight, quit automating the choice.
+      // We automated one choice. If it redirected, quit automating the choice.
       if (request.redirectLocation != null) {
         return;
       }
@@ -361,7 +398,7 @@ public abstract class ChoiceManager {
       return false;
     }
 
-    request.clearDataFields();
+    request.constructURLString("choice.php");
     request.addFormField("whichchoice", String.valueOf(choice));
     request.addFormField("option", decision);
     if (!extraFields.equals("")) {
@@ -743,42 +780,50 @@ public abstract class ChoiceManager {
     }
     switch (choice) {
       case 890:
+        //  Lights Out in the Storage Room
         if (automation == 1 && responseText.contains("Look Out the Window")) {
           return "3";
         }
         return "1";
       case 891:
+        //  Lights Out in the Laundry Room
         if (automation == 1 && responseText.contains("Check a Pile of Stained Sheets")) {
           return "3";
         }
         return "1";
       case 892:
+        //  Lights Out in the Bathroom
         if (automation == 1 && responseText.contains("Inspect the Bathtub")) {
           return "3";
         }
         return "1";
       case 893:
+        //  Lights Out in the Kitchen
         if (automation == 1 && responseText.contains("Make a Snack")) {
           return "4";
         }
         return "1";
       case 894:
+        //  Lights Out in the Library
         if (automation == 1 && responseText.contains("Go to the Children's Section")) {
           return "2";
         }
         return "1";
       case 895:
+        //  Lights Out in the Ballroom
         if (automation == 1 && responseText.contains("Dance with Yourself")) {
           return "2";
         }
         return "1";
       case 896:
+        //  Lights Out in the Gallery
         if (automation == 1
             && responseText.contains("Check out the Tormented Damned Souls Painting")) {
           return "4";
         }
         return "1";
       case 897:
+        //  Lights Out in the Bedroom
         if (responseText.contains("Search for a light")) {
           return automation == 1 ? "1" : "2";
         }
@@ -790,6 +835,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 898:
+        //  Lights Out in the Nursery
         if (responseText.contains("Search for a lamp")) {
           return automation == 1 ? "1" : "2";
         }
@@ -807,6 +853,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 899:
+        //  Lights Out in the Conservatory
         if (responseText.contains("Make a torch")) {
           return automation == 1 ? "1" : "2";
         }
@@ -818,6 +865,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 900:
+        //  Lights Out in the Billiards Room
         if (responseText.contains("Search for a light")) {
           return automation == 1 ? "1" : "2";
         }
@@ -829,6 +877,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 901:
+        //  Lights Out in the Wine Cellar
         if (responseText.contains("Try to find a light")) {
           return automation == 1 ? "1" : "2";
         }
@@ -843,6 +892,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 902:
+        //  Lights Out in the Boiler Room
         if (responseText.contains("Look for a light")) {
           return automation == 1 ? "1" : "2";
         }
@@ -854,6 +904,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 903:
+        //  Lights Out in the Laboratory
         if (responseText.contains("Search for a light")) {
           return automation == 1 ? "1" : "2";
         }
@@ -881,6 +932,12 @@ public abstract class ChoiceManager {
   private static final AdventureResult MCCLUSKY_FILE_PAGE5 =
       ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE5, 1);
   private static final AdventureResult STONE_TRIANGLE = ItemPool.get(ItemPool.STONE_TRIANGLE, 1);
+  private static final AdventureResult CRIMBO_CRYSTAL_SHARDS =
+      ItemPool.get(ItemPool.CRIMBO_CRYSTAL_SHARDS, 1);
+  private static final AdventureResult CRYSTAL_CRIMBO_GOBLET =
+      ItemPool.get(ItemPool.CRYSTAL_CRIMBO_GOBLET, 1);
+  private static final AdventureResult CRYSTAL_CRIMBO_PLATTER =
+      ItemPool.get(ItemPool.CRYSTAL_CRIMBO_PLATTER, 1);
 
   private static final AdventureResult CURSE3_EFFECT = EffectPool.get(EffectPool.THRICE_CURSED);
   private static final AdventureResult JOCK_EFFECT =
@@ -1868,6 +1925,35 @@ public abstract class ChoiceManager {
           return "5";
         }
         return decision;
+
+      case 1489:
+        // Slagging Off
+        //
+        // If you have Crimbo crystal shards, you must take option 1 or 2
+        if (InventoryManager.getCount(CRIMBO_CRYSTAL_SHARDS) > 0) {
+          // If want specifically a goblet or platter, you got it.
+          if (decision.equals("1") || decision.equals("2")) {
+            return decision;
+          }
+
+          // You want whichever you have the fewest of
+          int goblets = InventoryManager.getCount(CRYSTAL_CRIMBO_GOBLET);
+          int platters = InventoryManager.getCount(CRYSTAL_CRIMBO_PLATTER);
+          if (goblets == platters) {
+            // When we display choice spoilers in the Relay Browser, a right
+            // arrow points to the option we will take if you automate.
+            //
+            // If you tell it to automate, this method will be called again to
+            // decide which option to take.
+            //
+            // I wanted to make a random choice, but that is very confusing if
+            // the two calls don't agree.
+            return "1";
+          }
+          return (goblets < platters) ? "1" : "2";
+        }
+        // If you have none, you must take option 3
+        return "3";
     }
     return decision;
   }
@@ -1880,7 +1966,7 @@ public abstract class ChoiceManager {
 
     // Find the options for the choice we've encountered
 
-    Option[] options = null;
+    ChoiceOption[] options = null;
 
     // See if this choice is controlled by user option
     if (options == null) {
@@ -1908,8 +1994,8 @@ public abstract class ChoiceManager {
 
     boolean items = false;
     for (int i = 0; i < options.length; ++i) {
-      Option opt = options[i];
-      AdventureResult item[] = opt.getItems();
+      ChoiceOption opt = options[i];
+      AdventureResult[] item = opt.getItems();
       if (item.length == 0) {
         continue;
       }
@@ -1928,7 +2014,7 @@ public abstract class ChoiceManager {
     }
 
     // Find the spoiler corresponding to the chosen decision
-    Option chosen = ChoiceAdventures.findOption(options, StringUtilities.parseInt(decision));
+    ChoiceOption chosen = ChoiceAdventures.findOption(options, StringUtilities.parseInt(decision));
 
     // If the player doesn't want to "complete the outfit", nothing to do
     if (chosen == null || !chosen.toString().equals("complete the outfit")) {
@@ -1937,8 +2023,8 @@ public abstract class ChoiceManager {
 
     // Pick an item that the player doesn't have yet
     for (int i = 0; i < options.length; ++i) {
-      Option opt = options[i];
-      AdventureResult item[] = opt.getItems();
+      ChoiceOption opt = options[i];
+      AdventureResult[] item = opt.getItems();
       if (item.length == 0) {
         continue;
       }
@@ -2035,7 +2121,7 @@ public abstract class ChoiceManager {
   public static final String gotoGoal() {
     String responseText = ChoiceManager.lastResponseText;
     GenericRequest request = ChoiceManager.CHOICE_HANDLER;
-    ChoiceManager.processChoiceAdventure(request, "choice.php", responseText);
+    ChoiceManager.processChoiceAdventure(request, "choice.php", false, responseText);
     RelayRequest.specialCommandResponse = ChoiceManager.lastDecoratedResponseText;
     RelayRequest.specialCommandIsAdventure = true;
     return request.responseText;
@@ -2045,7 +2131,8 @@ public abstract class ChoiceManager {
     // If we have spoilers for this choice, use that
     Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, null);
     if (spoilers != null) {
-      Option spoiler = ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
+      ChoiceOption spoiler =
+          ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
       if (spoiler != null) {
         return spoiler.toString();
       }
@@ -2075,6 +2162,14 @@ public abstract class ChoiceManager {
    */
 
   public static final void preChoice(final GenericRequest request) {
+    if (ChoiceManager.handlingChoice) {
+      if (request.getURLString().equals("choice.php")) {
+        // Page refresh
+        return;
+      }
+      // Choice chain
+    }
+
     FightRequest.choiceFollowsFight = false;
     ChoiceManager.handlingChoice = true;
     FightRequest.currentRound = 0;
@@ -2084,11 +2179,7 @@ public abstract class ChoiceManager {
 
     if (choice == null || option == null) {
       // Visiting a choice page but not yet making a decision
-      ChoiceManager.lastChoice = 0;
-      ChoiceManager.lastDecision = 0;
-      ChoiceManager.lastResponseText = null;
-      ChoiceManager.lastDecoratedResponseText = null;
-      return;
+      ChoiceManager.reset();
     }
 
     // We are about to take a choice option
@@ -2118,6 +2209,38 @@ public abstract class ChoiceManager {
     }
 
     ChoiceControl.postChoice0(choice, urlString, request);
+  }
+
+  /**
+   * Determine if a request to choice.php showed that we weren't actually in a choice adventure
+   *
+   * @param request Completed request to check
+   * @return If the player was trying to respond to a choice but was not in a choice adventure
+   */
+  public static boolean bogusChoice(final String urlString, final GenericRequest request) {
+    if (!ChoiceManager.handlingChoice
+        || !urlString.startsWith("choice.php")
+        || request.responseText == null) {
+      return false;
+    }
+
+    if (request.responseText.contains("Whoops!  You're not actually in a choice adventure.")) {
+      // Allow a script to simply attempt to visit choice.php.
+      if (!urlString.equals("choice.php")) {
+        if (Preferences.getBoolean("abortOnChoiceWhenNotInChoice")) {
+          KoLmafia.updateDisplay(
+              MafiaState.ABORT, "Whoops! You're not actually in a choice adventure");
+        } else {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              "Script submitted " + urlString + " when KoL was not in a choice adventure");
+        }
+      }
+      ChoiceManager.handlingChoice = false;
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -2153,7 +2276,8 @@ public abstract class ChoiceManager {
     // If you walked away from the choice, this is not the result of a choice.
     if (ChoiceManager.canWalkAway
         && !urlString.startsWith("choice.php")
-        && !urlString.startsWith("fight.php")) {
+        && !urlString.startsWith("fight.php")
+        && !urlString.startsWith("ocean.php")) {
       return;
     }
 
@@ -2296,6 +2420,10 @@ public abstract class ChoiceManager {
     // chance to update state in their visitChoice methods.
     ChoiceManager.lastDecoratedResponseText =
         RequestEditorKit.getFeatureRichHTML(request.getURLString(), text);
+  }
+
+  public static int getAdventuresUsed(final String urlString) {
+    return ChoiceControl.getAdventuresUsed(urlString);
   }
 
   private static void setCanWalkAway(final int choice) {

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,13 +21,19 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -38,12 +45,12 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
-import net.sourceforge.kolmafia.request.UmbrellaRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
+import net.sourceforge.kolmafia.session.ElVibratoManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.LogStream;
-import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,78 +59,32 @@ public class ItemDatabase {
   private static int maxItemId = 0;
 
   private static String[] canonicalNames = new String[0];
-  private static final IntegerArray useTypeById = new IntegerArray();
-  private static final IntegerArray attributesById = new IntegerArray();
-  private static final IntegerArray priceById = new IntegerArray();
-  private static final IntegerArray nameLength = new IntegerArray();
-  private static final StringArray pluralById = new StringArray();
-  private static final StringArray imageById = new StringArray();
+  private static final Map<Integer, ConsumptionType> useTypeById = new HashMap<>();
+  private static final Map<Integer, EnumSet<Attribute>> attributesById = new HashMap<>();
+  private static final Map<Integer, Integer> priceById = new HashMap<>();
+  private static final Map<Integer, Integer> nameLength = new HashMap<>();
+  private static final Map<Integer, String> pluralById = new HashMap<>();
+  private static final Map<Integer, String> imageById = new HashMap<>();
 
-  private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
-  private static final Map<Integer, String> dataNameById = new HashMap<Integer, String>();
-  private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
-  private static final Map<String, int[]> itemIdSetByName = new HashMap<String, int[]>();
-  private static final ArrayList<String> itemAliases = new ArrayList<String>();
-  private static final ArrayList<String> pluralAliases = new ArrayList<String>();
-  private static final Map<String, Integer> itemIdByPlural = new HashMap<String, Integer>();
+  private static final Map<Integer, String> nameById = new TreeMap<>();
+  private static final Map<Integer, String> dataNameById = new HashMap<>();
+  private static final Map<Integer, String> descriptionById = new TreeMap<>();
+  private static final Map<String, int[]> itemIdSetByName = new HashMap<>();
+  private static final ArrayList<String> itemAliases = new ArrayList<>();
+  private static final ArrayList<String> pluralAliases = new ArrayList<>();
+  private static final Map<String, Integer> itemIdByPlural = new HashMap<>();
 
-  private static final Map<String, Integer> itemIdByDescription = new HashMap<String, Integer>();
+  private static final Map<String, Integer> itemIdByDescription = new HashMap<>();
   private static final Map<String, FoldGroup> foldGroupsByName = new HashMap<>();
 
-  private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<Integer, int[]>();
-  private static final IntegerArray noobSkillIdByItemSource = new IntegerArray();
+  private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<>();
+  private static final Map<Integer, Integer> noobSkillIdByItemSource = new HashMap<>();
 
   public static final String QUEST_FLAG = "q";
   public static final String GIFT_FLAG = "g";
   public static final String TRADE_FLAG = "t";
   public static final String DISCARD_FLAG = "d";
   public static final String BOGUS_FLAG = "z";
-
-  public record Punchcard(int id, String name, String alias) {}
-
-  public static Punchcard[] PUNCHCARDS = {
-    // Verbs
-    new Punchcard(
-        ItemPool.PUNCHCARD_ATTACK,
-        "El Vibrato punchcard (115 holes)",
-        "El Vibrato punchcard (ATTACK)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_REPAIR,
-        "El Vibrato punchcard (97 holes)",
-        "El Vibrato punchcard (REPAIR)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_BUFF, "El Vibrato punchcard (129 holes)", "El Vibrato punchcard (BUFF)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_MODIFY,
-        "El Vibrato punchcard (213 holes)",
-        "El Vibrato punchcard (MODIFY)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_BUILD,
-        "El Vibrato punchcard (165 holes)",
-        "El Vibrato punchcard (BUILD)"),
-
-    // Objects
-    new Punchcard(
-        ItemPool.PUNCHCARD_TARGET,
-        "El Vibrato punchcard (142 holes)",
-        "El Vibrato punchcard (TARGET)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_SELF, "El Vibrato punchcard (216 holes)", "El Vibrato punchcard (SELF)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_FLOOR,
-        "El Vibrato punchcard (88 holes)",
-        "El Vibrato punchcard (FLOOR)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_DRONE,
-        "El Vibrato punchcard (182 holes)",
-        "El Vibrato punchcard (DRONE)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_WALL, "El Vibrato punchcard (176 holes)", "El Vibrato punchcard (WALL)"),
-    new Punchcard(
-        ItemPool.PUNCHCARD_SPHERE,
-        "El Vibrato punchcard (104 holes)",
-        "El Vibrato punchcard (SPHERE)")
-  };
 
   private record Alias(int id, String name) {}
 
@@ -139,6 +100,14 @@ public class ItemDatabase {
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (pitchfork style)"),
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (constantly twirling)"),
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (cocoon)"),
+    new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (kachungasaur mode)"),
+    new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (dilophosaur mode)"),
+    new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (spikolodon mode)"),
+    new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (ghostasaurus mode)"),
+    new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (pterodactyl mode)"),
+    new Alias(ItemPool.BACKUP_CAMERA, "backup camera (meat)"),
+    new Alias(ItemPool.BACKUP_CAMERA, "backup camera (init)"),
+    new Alias(ItemPool.BACKUP_CAMERA, "backup camera (ml)"),
     new Alias(-1, "potion of inebriety"),
     new Alias(-1, "potion of healing"),
     new Alias(-1, "potion of confusion"),
@@ -181,117 +150,55 @@ public class ItemDatabase {
     return data;
   }
 
-  private static final Map<Integer, String> accessById = new HashMap<Integer, String>();
+  private static final Map<Integer, String> accessById = new HashMap<>();
 
-  public static final int ATTR_QUEST = 0x00000001;
-  public static final int ATTR_GIFT = 0x00000002;
-  public static final int ATTR_TRADEABLE = 0x00000004;
-  public static final int ATTR_DISCARDABLE = 0x00000008;
-  public static final int ATTR_COMBAT = 0x00000010;
-  public static final int ATTR_COMBAT_REUSABLE = 0x00000020;
-  public static final int ATTR_USABLE = 0x00000040;
-  public static final int ATTR_MULTIPLE = 0x00000080;
-  public static final int ATTR_REUSABLE = 0x00000100;
-  public static final int ATTR_SINGLE = 0x00000200;
-  public static final int ATTR_SOLO = 0x00000400;
-  public static final int ATTR_CURSE = 0x00000800;
-  public static final int ATTR_BOUNTY = 0x00001000;
-  public static final int ATTR_CANDY0 = 0x00002000;
-  public static final int ATTR_CANDY1 = 0x00004000;
-  public static final int ATTR_CANDY2 = 0x00008000;
-  public static final int ATTR_MATCHABLE = 0x00010000;
-  public static final int ATTR_FANCY = 0x00020000;
-  public static final int ATTR_CHOCOLATE = 0x00040000;
-  public static final int ATTR_PASTE = 0x00080000;
-  public static final int ATTR_SMITH = 0x00100000;
-  public static final int ATTR_COOK = 0x00200000;
-  public static final int ATTR_MIX = 0x00400000;
+  public enum Attribute {
+    QUEST("q"),
+    GIFT("g"),
+    TRADEABLE("t"),
+    DISCARDABLE("d"),
 
-  private static final HashMap<String, Integer> PRIMARY_USE = new HashMap<String, Integer>();
-  private static final HashMap<Integer, String> INVERSE_PRIMARY_USE =
-      new HashMap<Integer, String>();
-  private static final HashMap<String, Integer> SECONDARY_USE = new HashMap<String, Integer>();
-  private static final TreeMap<Integer, String> INVERSE_SECONDARY_USE =
-      new TreeMap<Integer, String>();
+    COMBAT("combat"),
+    COMBAT_REUSABLE("combat reusable"),
 
-  private static void definePrimaryUse(final String key, final int usage) {
-    Integer val = usage;
-    PRIMARY_USE.put(key, val);
-    INVERSE_PRIMARY_USE.put(val, key);
+    USABLE("usable"),
+    MULTIPLE("multiple"),
+    REUSABLE("reusable"),
+
+    SINGLE("single"),
+    SOLO("solo"),
+
+    CURSE("curse"),
+    BOUNTY("bounty"),
+    CANDY0("candy"),
+    CANDY1("candy1"),
+    CANDY2("candy2"),
+    MATCHABLE("matchable"),
+    FANCY("fancy"),
+    CHOCOLATE("chocolate"),
+    PASTE("paste"),
+    SMITH("smith"),
+    COOK("cook"),
+    MIX("mix");
+
+    public final String description;
+    private static final Map<String, Attribute> attributeByDescription = new HashMap<>();
+
+    Attribute(String description) {
+      this.description = description;
+    }
+
+    public static Attribute byDescription(String description) {
+      var lookup = attributeByDescription.get(description);
+      if (lookup != null) return lookup;
+      var search =
+          Arrays.stream(Attribute.values())
+              .filter(x -> x.description.equals(description))
+              .findAny();
+      search.ifPresent(x -> attributeByDescription.put(description, x));
+      return search.orElse(null);
+    }
   }
-
-  private static void defineSecondaryUse(final String key, final int usage) {
-    Integer val = usage;
-    SECONDARY_USE.put(key, val);
-    INVERSE_SECONDARY_USE.put(val, key);
-  }
-
-  static {
-    ItemDatabase.definePrimaryUse("none", KoLConstants.NO_CONSUME);
-
-    ItemDatabase.definePrimaryUse("food", KoLConstants.CONSUME_EAT);
-    ItemDatabase.definePrimaryUse("drink", KoLConstants.CONSUME_DRINK);
-    ItemDatabase.definePrimaryUse("spleen", KoLConstants.CONSUME_SPLEEN);
-
-    ItemDatabase.definePrimaryUse("usable", KoLConstants.CONSUME_USE);
-    ItemDatabase.definePrimaryUse("multiple", KoLConstants.CONSUME_MULTIPLE);
-    ItemDatabase.definePrimaryUse("reusable", KoLConstants.INFINITE_USES);
-    ItemDatabase.definePrimaryUse("message", KoLConstants.MESSAGE_DISPLAY);
-
-    ItemDatabase.definePrimaryUse("grow", KoLConstants.GROW_FAMILIAR);
-
-    ItemDatabase.definePrimaryUse("hat", KoLConstants.EQUIP_HAT);
-    ItemDatabase.definePrimaryUse("weapon", KoLConstants.EQUIP_WEAPON);
-    ItemDatabase.definePrimaryUse("offhand", KoLConstants.EQUIP_OFFHAND);
-    ItemDatabase.definePrimaryUse("container", KoLConstants.EQUIP_CONTAINER);
-    ItemDatabase.definePrimaryUse("shirt", KoLConstants.EQUIP_SHIRT);
-    ItemDatabase.definePrimaryUse("pants", KoLConstants.EQUIP_PANTS);
-    ItemDatabase.definePrimaryUse("accessory", KoLConstants.EQUIP_ACCESSORY);
-    ItemDatabase.definePrimaryUse("familiar", KoLConstants.EQUIP_FAMILIAR);
-
-    ItemDatabase.definePrimaryUse("sticker", KoLConstants.CONSUME_STICKER);
-    ItemDatabase.definePrimaryUse("card", KoLConstants.CONSUME_CARD);
-    ItemDatabase.definePrimaryUse("folder", KoLConstants.CONSUME_FOLDER);
-    ItemDatabase.definePrimaryUse("bootskin", KoLConstants.CONSUME_BOOTSKIN);
-    ItemDatabase.definePrimaryUse("bootspur", KoLConstants.CONSUME_BOOTSPUR);
-    ItemDatabase.definePrimaryUse("sixgun", KoLConstants.CONSUME_SIXGUN);
-
-    ItemDatabase.definePrimaryUse("food helper", KoLConstants.CONSUME_FOOD_HELPER);
-    ItemDatabase.definePrimaryUse("drink helper", KoLConstants.CONSUME_DRINK_HELPER);
-    ItemDatabase.definePrimaryUse("zap", KoLConstants.CONSUME_ZAP);
-    ItemDatabase.definePrimaryUse("sphere", KoLConstants.CONSUME_SPHERE);
-    ItemDatabase.definePrimaryUse("guardian", KoLConstants.CONSUME_GUARDIAN);
-    ItemDatabase.definePrimaryUse("pokepill", KoLConstants.CONSUME_POKEPILL);
-
-    ItemDatabase.definePrimaryUse("potion", KoLConstants.CONSUME_POTION);
-    ItemDatabase.definePrimaryUse("avatar", KoLConstants.CONSUME_AVATAR);
-
-    ItemDatabase.defineSecondaryUse("usable", ItemDatabase.ATTR_USABLE);
-    ItemDatabase.defineSecondaryUse("multiple", ItemDatabase.ATTR_MULTIPLE);
-    ItemDatabase.defineSecondaryUse("reusable", ItemDatabase.ATTR_REUSABLE);
-
-    ItemDatabase.defineSecondaryUse("combat", ItemDatabase.ATTR_COMBAT);
-    ItemDatabase.defineSecondaryUse("combat reusable", ItemDatabase.ATTR_COMBAT_REUSABLE);
-
-    ItemDatabase.defineSecondaryUse("single", ItemDatabase.ATTR_SINGLE);
-    ItemDatabase.defineSecondaryUse("solo", ItemDatabase.ATTR_SOLO);
-
-    ItemDatabase.defineSecondaryUse("curse", ItemDatabase.ATTR_CURSE);
-    ItemDatabase.defineSecondaryUse("bounty", ItemDatabase.ATTR_BOUNTY);
-    ItemDatabase.defineSecondaryUse("candy", ItemDatabase.ATTR_CANDY0);
-    ItemDatabase.defineSecondaryUse("candy1", ItemDatabase.ATTR_CANDY1);
-    ItemDatabase.defineSecondaryUse("candy2", ItemDatabase.ATTR_CANDY2);
-    ItemDatabase.defineSecondaryUse("matchable", ItemDatabase.ATTR_MATCHABLE);
-    ItemDatabase.defineSecondaryUse("fancy", ItemDatabase.ATTR_FANCY);
-    ItemDatabase.defineSecondaryUse("chocolate", ItemDatabase.ATTR_CHOCOLATE);
-    ItemDatabase.defineSecondaryUse("paste", ItemDatabase.ATTR_PASTE);
-    ItemDatabase.defineSecondaryUse("smith", ItemDatabase.ATTR_SMITH);
-    ItemDatabase.defineSecondaryUse("cook", ItemDatabase.ATTR_COOK);
-    ItemDatabase.defineSecondaryUse("mix", ItemDatabase.ATTR_MIX);
-  }
-
-  private static final Set<Entry<Integer, String>> secondaryUsageEntrySet =
-      INVERSE_SECONDARY_USE.entrySet();
 
   public static boolean newItems = false;
 
@@ -307,7 +214,6 @@ public class ItemDatabase {
       return;
     }
 
-    ItemDatabase.itemIdSetByName.clear();
     ItemDatabase.itemSourceByNoobSkillId.clear();
 
     ItemDatabase.readItems();
@@ -419,42 +325,43 @@ public class ItemDatabase {
         }
 
         String image = data[3];
-        ItemDatabase.imageById.set(itemId, image);
+        ItemDatabase.imageById.put(itemId, image);
 
         String[] usages = data[4].split("\\s*,\\s*");
         String access = ItemDatabase.parseAccess(data[5]);
         int price = StringUtilities.parseInt(data[6]);
 
         String usage = usages[0];
-        Integer useType = ItemDatabase.PRIMARY_USE.get(usage);
+        ConsumptionType useType = ConsumptionType.byDescription(usage);
         if (useType == null) {
           RequestLogger.printLine("Unknown primary usage for " + name + ": " + usage);
         } else {
-          ItemDatabase.useTypeById.set(itemId, useType.intValue());
+          ItemDatabase.useTypeById.put(itemId, useType);
         }
 
-        int attrs = 0;
+        EnumSet<Attribute> attrs = EnumSet.noneOf(Attribute.class);
         for (int i = 1; i < usages.length; ++i) {
           usage = usages[i];
-          useType = ItemDatabase.SECONDARY_USE.get(usage);
-          if (useType == null) {
+          Attribute secUse = Attribute.byDescription(usage);
+          if (secUse == null) {
             RequestLogger.printLine("Unknown secondary usage for " + name + ": " + usage);
           } else {
-            attrs |= useType.intValue();
-            CandyDatabase.registerCandy(id, usage);
+            attrs.add(secUse);
+            CandyDatabase.registerCandy(id, secUse);
           }
         }
 
-        ItemDatabase.priceById.set(itemId, price);
+        ItemDatabase.priceById.put(itemId, price);
         ItemDatabase.dataNameById.put(id, name);
         ItemDatabase.nameById.put(id, displayName);
 
         ItemDatabase.accessById.put(id, access);
-        attrs |= access.contains(TRADE_FLAG) ? ItemDatabase.ATTR_TRADEABLE : 0;
-        attrs |= access.contains(GIFT_FLAG) ? ItemDatabase.ATTR_GIFT : 0;
-        attrs |= access.contains(QUEST_FLAG) ? ItemDatabase.ATTR_QUEST : 0;
-        attrs |= access.contains(DISCARD_FLAG) ? ItemDatabase.ATTR_DISCARDABLE : 0;
-        ItemDatabase.attributesById.set(itemId, attrs);
+        if (access.contains(TRADE_FLAG)) attrs.add(Attribute.TRADEABLE);
+        if (access.contains(GIFT_FLAG)) attrs.add(Attribute.GIFT);
+        if (access.contains(QUEST_FLAG)) attrs.add(Attribute.QUEST);
+        if (access.contains(DISCARD_FLAG)) attrs.add(Attribute.DISCARDABLE);
+
+        ItemDatabase.attributesById.put(itemId, attrs);
 
         if (itemId > ItemDatabase.maxItemId) {
           ItemDatabase.maxItemId = itemId;
@@ -462,11 +369,11 @@ public class ItemDatabase {
 
         ItemDatabase.addIdToName(canonicalName, itemId);
 
-        ItemDatabase.nameLength.set(itemId, displayName.length());
+        ItemDatabase.nameLength.put(itemId, displayName.length());
 
         if (data.length == 8) {
           String plural = data[7];
-          ItemDatabase.pluralById.set(itemId, plural);
+          ItemDatabase.pluralById.put(itemId, plural);
           ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), id);
         }
         // Build Noobcore skill source list
@@ -478,30 +385,19 @@ public class ItemDatabase {
                 || itemId == ItemPool.DIRTY_BOTTLECAP
                 || itemId == ItemPool.DISCARDED_BUTTON)) {
           int intDescId = StringUtilities.parseInt(descId);
-          int skillId = (intDescId % 125) + 23001;
-          // Override Robortender items
-          switch (itemId) {
-            case ItemPool.NOVELTY_HOT_SAUCE:
-              skillId = SkillPool.FROWN_MUSCLES;
-              break;
-            case ItemPool.COCKTAIL_MUSHROOM:
-              skillId = SkillPool.RETRACTABLE_TOES;
-              break;
-            case ItemPool.GRANOLA_LIQUEUR:
-              skillId = SkillPool.INK_GLAND;
-              break;
-            case ItemPool.GREGNADIGNE:
-              skillId = SkillPool.BENDABLE_KNEES;
-              break;
-            case ItemPool.BABY_OIL_SHOOTER:
-              skillId = SkillPool.POWERFUL_VOCAL_CHORDS;
-              break;
-            case ItemPool.LIMEPATCH:
-              skillId = SkillPool.ANGER_GLANDS;
-              break;
-          }
+          int skillId =
+              switch (itemId) {
+                  // Override Robortender items
+                case ItemPool.NOVELTY_HOT_SAUCE -> SkillPool.FROWN_MUSCLES;
+                case ItemPool.COCKTAIL_MUSHROOM -> SkillPool.RETRACTABLE_TOES;
+                case ItemPool.GRANOLA_LIQUEUR -> SkillPool.INK_GLAND;
+                case ItemPool.GREGNADIGNE -> SkillPool.BENDABLE_KNEES;
+                case ItemPool.BABY_OIL_SHOOTER -> SkillPool.POWERFUL_VOCAL_CHORDS;
+                case ItemPool.LIMEPATCH -> SkillPool.ANGER_GLANDS;
+                default -> (intDescId % 125) + 23001;
+              };
           ItemDatabase.addIdToNoobSkill(skillId, itemId);
-          ItemDatabase.noobSkillIdByItemSource.set(itemId, skillId);
+          ItemDatabase.noobSkillIdByItemSource.put(itemId, skillId);
         }
       }
     } catch (IOException e) {
@@ -537,8 +433,8 @@ public class ItemDatabase {
       String image = ItemDatabase.getImage(itemId);
       // Intentionally get a null if there is not an explicit plural in the database
       String plural = ItemDatabase.getPluralById(itemId);
-      int type = ItemDatabase.getConsumptionType(itemId);
-      int attrs = ItemDatabase.getAttributes(itemId);
+      ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
+      EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
       String access = ItemDatabase.getAccessById(nextInteger);
       int price = ItemDatabase.getPriceById(itemId);
       writer.println(
@@ -555,8 +451,8 @@ public class ItemDatabase {
       final String name,
       final String descId,
       final String image,
-      final int type,
-      final int attrs,
+      final ConsumptionType type,
+      final EnumSet<Attribute> attrs,
       final String access,
       final int autosell,
       final String plural) {
@@ -635,9 +531,9 @@ public class ItemDatabase {
     }
 
     // Set aliases for the El Vibrato punch cards
-    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
-      id = punchcard.id;
-      String alias = StringUtilities.getCanonicalName(punchcard.alias);
+    for (Punchcard punchcard : ElVibratoManager.PUNCHCARDS) {
+      id = punchcard.id();
+      String alias = StringUtilities.getCanonicalName(punchcard.alias());
       String plural = StringUtilities.singleStringReplace(alias, "punchcard", "punchcards");
       ItemDatabase.addIdToName(alias, id);
       ItemDatabase.itemIdByPlural.put(plural, id);
@@ -765,10 +661,8 @@ public class ItemDatabase {
   public static final boolean parseNewItems(final String responseText) {
     Matcher m = DESC_PATTERN.matcher(responseText);
     while (m.find()) {
-      String descId = m.group(1);
-      if (ItemDatabase.getItemIdFromDescription(descId) == -1) {
-        ItemDatabase.registerItem(descId);
-      }
+      // This will register new items if they are unknown
+      ItemDatabase.lookupItemIdFromDescription(m.group(1));
     }
     return true;
   }
@@ -814,12 +708,12 @@ public class ItemDatabase {
     }
   }
 
-  public static void registerItem(String descId) {
-    // Pull the itemName from the item description, which will be cached
+  public static int registerItem(String descId) {
+    // Pull the itemId and itemName from the item description, which will be cached
     String text =
         DebugDatabase.itemDescriptionText(DebugDatabase.rawItemDescriptionText(descId, true));
     if (text == null) {
-      return;
+      return -1;
     }
 
     int itemId = DebugDatabase.parseItemId(text);
@@ -832,6 +726,8 @@ public class ItemDatabase {
     String itemName = DebugDatabase.parseName(text);
 
     ItemDatabase.registerItem(itemId, itemName, descId, null, 0, false);
+
+    return itemId;
   }
 
   public static final void registerItem(final int itemId, String itemName, String descId) {
@@ -850,12 +746,10 @@ public class ItemDatabase {
     while (matcher.find()) {
       String tag = matcher.group(1);
       String value = matcher.group(2);
-      if (tag.equals("id")) {
-        itemId = StringUtilities.parseInt(value);
-      } else if (tag.equals("n")) {
-        count = StringUtilities.parseInt(value);
-      } else if (tag.equals("m")) {
-        multi = value.equals("1");
+      switch (tag) {
+        case "id" -> itemId = StringUtilities.parseInt(value);
+        case "n" -> count = StringUtilities.parseInt(value);
+        case "m" -> multi = value.equals("1");
       }
     }
 
@@ -918,7 +812,7 @@ public class ItemDatabase {
       int intDescId = StringUtilities.parseInt(descId);
       int skillId = (intDescId % 125) + 23001;
       ItemDatabase.addIdToNoobSkill(skillId, itemId);
-      ItemDatabase.noobSkillIdByItemSource.set(itemId, skillId);
+      ItemDatabase.noobSkillIdByItemSource.put(itemId, skillId);
     }
 
     // If it is equipment, derive pulverization
@@ -932,27 +826,29 @@ public class ItemDatabase {
   }
 
   public static final void registerPlural(final int itemId, final String plural) {
-    ItemDatabase.pluralById.set(itemId, plural);
+    ItemDatabase.pluralById.put(itemId, plural);
     ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), itemId);
   }
 
   public static final void registerMultiUsability(final int itemId, final boolean multi) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    int attributes = ItemDatabase.getAttributes(itemId);
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
 
     if (multi) {
       // We think the item is single usable but it really is multiusable
-      if (useType == KoLConstants.CONSUME_USE) {
-        ItemDatabase.useTypeById.set(itemId, KoLConstants.CONSUME_MULTIPLE);
+      if (useType == ConsumptionType.USE) {
+        ItemDatabase.useTypeById.put(itemId, ConsumptionType.USE_MULTIPLE);
       } else {
-        ItemDatabase.attributesById.set(itemId, attributes | ItemDatabase.ATTR_MULTIPLE);
+        attributes.add(Attribute.MULTIPLE);
+        ItemDatabase.attributesById.put(itemId, attributes);
       }
     } else {
       // We think the item is multi usable but it really is single usable
-      if (useType == KoLConstants.CONSUME_MULTIPLE) {
-        ItemDatabase.useTypeById.set(itemId, KoLConstants.CONSUME_USE);
+      if (useType == ConsumptionType.USE_MULTIPLE) {
+        ItemDatabase.useTypeById.put(itemId, ConsumptionType.USE);
       } else {
-        ItemDatabase.attributesById.set(itemId, attributes | ItemDatabase.ATTR_USABLE);
+        attributes.add(Attribute.USABLE);
+        ItemDatabase.attributesById.put(itemId, attributes);
       }
     }
   }
@@ -965,41 +861,41 @@ public class ItemDatabase {
     String text = DebugDatabase.itemDescriptionText(rawText);
     if (text == null) {
       // Assume defaults
-      ItemDatabase.useTypeById.set(itemId, KoLConstants.NO_CONSUME);
-      ItemDatabase.attributesById.set(itemId, 0);
+      ItemDatabase.useTypeById.put(itemId, ConsumptionType.NONE);
+      ItemDatabase.attributesById.put(itemId, EnumSet.noneOf(Attribute.class));
       ItemDatabase.accessById.put(id, TRADE_FLAG + "," + DISCARD_FLAG);
-      ItemDatabase.priceById.set(itemId, 0);
+      ItemDatabase.priceById.put(itemId, 0);
       return;
     }
 
     String itemName = DebugDatabase.parseName(text);
 
     String image = DebugDatabase.parseImage(rawText);
-    ItemDatabase.imageById.set(itemId, image);
+    ItemDatabase.imageById.put(itemId, image);
 
     // Parse use type, access, and price from description
     String type = DebugDatabase.parseType(text);
-    int usage = DebugDatabase.typeToPrimary(type, multi);
+    ConsumptionType usage = DebugDatabase.typeToPrimary(type, multi);
     if (text.contains("blue\">Makes you look like")) {
-      usage = KoLConstants.CONSUME_AVATAR;
+      usage = ConsumptionType.AVATAR_POTION;
     }
-    ItemDatabase.useTypeById.set(itemId, usage);
+    ItemDatabase.useTypeById.put(itemId, usage);
 
     String access = DebugDatabase.parseAccess(text);
     ItemDatabase.accessById.put(id, access);
 
-    int attrs = DebugDatabase.typeToSecondary(type, usage, text, multi);
-    attrs |= access.contains(TRADE_FLAG) ? ItemDatabase.ATTR_TRADEABLE : 0;
-    attrs |= access.contains(GIFT_FLAG) ? ItemDatabase.ATTR_GIFT : 0;
-    attrs |= access.contains(QUEST_FLAG) ? ItemDatabase.ATTR_QUEST : 0;
-    attrs |= access.contains(DISCARD_FLAG) ? ItemDatabase.ATTR_DISCARDABLE : 0;
-    if (multi && usage != KoLConstants.CONSUME_MULTIPLE) {
-      attrs |= ItemDatabase.ATTR_MULTIPLE;
+    EnumSet<Attribute> attrs = DebugDatabase.typeToSecondary(type, usage, text, multi);
+    if (access.contains(TRADE_FLAG)) attrs.add(Attribute.TRADEABLE);
+    if (access.contains(GIFT_FLAG)) attrs.add(Attribute.GIFT);
+    if (access.contains(QUEST_FLAG)) attrs.add(Attribute.QUEST);
+    if (access.contains(DISCARD_FLAG)) attrs.add(Attribute.DISCARDABLE);
+    if (multi && usage != ConsumptionType.USE_MULTIPLE) {
+      attrs.add(Attribute.MULTIPLE);
     }
-    ItemDatabase.attributesById.set(itemId, attrs);
+    ItemDatabase.attributesById.put(itemId, attrs);
 
     int price = DebugDatabase.parsePrice(text);
-    ItemDatabase.priceById.set(itemId, price);
+    ItemDatabase.priceById.put(itemId, price);
     // Intentionally get a null if there is not an explicit plural in the database
     String plural = ItemDatabase.getPluralById(itemId);
 
@@ -1015,7 +911,7 @@ public class ItemDatabase {
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
 
-    if (EquipmentDatabase.isEquipment(usage)) {
+    if (KoLConstants.isEquipmentType(usage, false)) {
       EquipmentDatabase.newEquipment = true;
 
       // Get power from description, if otherwise unknown
@@ -1025,14 +921,14 @@ public class ItemDatabase {
 
       // Let equipment database do what it wishes with this item
       EquipmentDatabase.registerItem(itemId, itemName, text, power);
-    } else if (usage == KoLConstants.CONSUME_EAT
-        || usage == KoLConstants.CONSUME_DRINK
-        || usage == KoLConstants.CONSUME_SPLEEN) {
+    } else if (usage == ConsumptionType.EAT
+        || usage == ConsumptionType.DRINK
+        || usage == ConsumptionType.SPLEEN) {
       ConsumablesDatabase.registerConsumable(itemName, usage, text);
     }
 
     // Let modifiers database do what it wishes with this item
-    Modifiers.registerItem(itemName, text, usage);
+    ModifierDatabase.registerItem(itemName, text, usage);
 
     // Done generating data
     printMe = "--------------------";
@@ -1043,27 +939,32 @@ public class ItemDatabase {
     EquipmentDatabase.registerItemOutfit(itemId, text);
 
     // Skillbooks teach you a skill
-    String skillName = Modifiers.getStringModifier("Item", itemId, "Skill");
+    String skillName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.SKILL);
     if (!skillName.equals("") && SkillDatabase.getSkillId(skillName) == -1) {
       int skillId = DebugDatabase.parseSkillId(rawText);
       SkillDatabase.registerSkill(skillId, skillName);
     }
 
     // Potions grant an effect. Check for a new effect.
-    String effectName = Modifiers.getStringModifier("Item", itemId, "Effect");
+    String effectName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
     if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
       String effectDescid = DebugDatabase.parseEffectDescid(rawText);
       String command =
-          usage == KoLConstants.CONSUME_EAT
-              ? "eat 1 "
-              : usage == KoLConstants.CONSUME_DRINK
-                  ? "drink 1 "
-                  : usage == KoLConstants.CONSUME_SPLEEN ? "chew 1 " : "use 1 ";
+          switch (usage) {
+            case EAT -> "eat 1 ";
+            case DRINK -> "drink 1 ";
+            case SPLEEN -> "chew 1 ";
+            default -> "use 1 ";
+          };
       EffectDatabase.registerEffect(effectName, effectDescid, command + itemName);
     }
 
     // Equipment can have a Rollover Effect. Check for new effect.
-    effectName = Modifiers.getStringModifier("Item", itemId, "Rollover Effect");
+    effectName =
+        ModifierDatabase.getStringModifier(
+            ModifierType.ITEM, itemId, StringModifier.ROLLOVER_EFFECT);
     if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
       String effectDescid = DebugDatabase.parseEffectDescid(rawText);
       EffectDatabase.registerEffect(effectName, effectDescid, null);
@@ -1463,7 +1364,7 @@ public class ItemDatabase {
   }
 
   public static final int getNameLength(final int itemId) {
-    return ItemDatabase.nameLength.get(itemId);
+    return ItemDatabase.nameLength.getOrDefault(itemId, 0);
   }
 
   public static final String getPluralName(final String name) {
@@ -1494,52 +1395,45 @@ public class ItemDatabase {
   }
 
   public static final String getPluralById(final int itemId) {
-    return pluralById.get(itemId);
+    return pluralById.getOrDefault(itemId, "");
   }
 
   public static final String getImage(final int itemId) {
-    return imageById.get(itemId);
+    return imageById.getOrDefault(itemId, "");
   }
 
   public static final String getSmallImage(final int itemId) {
-    switch (itemId) {
-      case ItemPool.FOLDER_01:
-      case ItemPool.FOLDER_02:
-      case ItemPool.FOLDER_03:
-      case ItemPool.FOLDER_04:
-      case ItemPool.FOLDER_05:
-      case ItemPool.FOLDER_07:
-      case ItemPool.FOLDER_09:
-      case ItemPool.FOLDER_10:
-      case ItemPool.FOLDER_12:
-      case ItemPool.FOLDER_13:
-      case ItemPool.FOLDER_24:
-      case ItemPool.FOLDER_26:
-        return "folder2.gif";
-      case ItemPool.FOLDER_06:
-      case ItemPool.FOLDER_08:
-      case ItemPool.FOLDER_11:
-      case ItemPool.FOLDER_14:
-      case ItemPool.FOLDER_15:
-      case ItemPool.FOLDER_16:
-      case ItemPool.FOLDER_17:
-      case ItemPool.FOLDER_18:
-      case ItemPool.FOLDER_19:
-      case ItemPool.FOLDER_20:
-      case ItemPool.FOLDER_21:
-      case ItemPool.FOLDER_22:
-      case ItemPool.FOLDER_23:
-      case ItemPool.FOLDER_25:
-      case ItemPool.FOLDER_27:
-      case ItemPool.FOLDER_28:
-        return "folder1.gif";
-      default:
-        return imageById.get(itemId);
-    }
-  }
-
-  public static final void setImage(final int itemId, final String image) {
-    imageById.set(itemId, image);
+    return switch (itemId) {
+      case ItemPool.FOLDER_01,
+          ItemPool.FOLDER_02,
+          ItemPool.FOLDER_03,
+          ItemPool.FOLDER_04,
+          ItemPool.FOLDER_05,
+          ItemPool.FOLDER_07,
+          ItemPool.FOLDER_09,
+          ItemPool.FOLDER_10,
+          ItemPool.FOLDER_12,
+          ItemPool.FOLDER_13,
+          ItemPool.FOLDER_24,
+          ItemPool.FOLDER_26 -> "folder2.gif";
+      case ItemPool.FOLDER_06,
+          ItemPool.FOLDER_08,
+          ItemPool.FOLDER_11,
+          ItemPool.FOLDER_14,
+          ItemPool.FOLDER_15,
+          ItemPool.FOLDER_16,
+          ItemPool.FOLDER_17,
+          ItemPool.FOLDER_18,
+          ItemPool.FOLDER_19,
+          ItemPool.FOLDER_20,
+          ItemPool.FOLDER_21,
+          ItemPool.FOLDER_22,
+          ItemPool.FOLDER_23,
+          ItemPool.FOLDER_25,
+          ItemPool.FOLDER_27,
+          ItemPool.FOLDER_28 -> "folder1.gif";
+      default -> imageById.getOrDefault(itemId, "");
+    };
   }
 
   public static final String getItemImageLocation(final int itemId) {
@@ -1581,7 +1475,7 @@ public class ItemDatabase {
    * @return The price associated with the item
    */
   public static final int getPriceById(final int itemId) {
-    return ItemDatabase.priceById.get(itemId);
+    return ItemDatabase.priceById.getOrDefault(itemId, 0);
   }
 
   /**
@@ -1593,38 +1487,41 @@ public class ItemDatabase {
     return ItemDatabase.accessById.get(itemId);
   }
 
-  public static final int getAttributes(int itemId) {
-    return ItemDatabase.attributesById.get(itemId);
+  public static final EnumSet<Attribute> getAttributes(int itemId) {
+    return EnumSet.copyOf(
+        ItemDatabase.attributesById.getOrDefault(itemId, EnumSet.noneOf(Attribute.class)));
   }
 
-  public static final String attrsToSecondaryUsage(int attrs) {
-    // Mask out attributes which are part of access
-    attrs &= ~(ATTR_TRADEABLE | ATTR_GIFT | ATTR_QUEST | ATTR_DISCARDABLE);
-
-    // If there are no other attributes, return empty string
-    if (attrs == 0) {
-      return "";
-    }
-
-    // Otherwise, iterate over bits
+  public static final String attrsToSecondaryUsage(EnumSet<Attribute> attrs) {
     StringBuilder result = new StringBuilder();
-    Iterator<Entry<Integer, String>> it = ItemDatabase.secondaryUsageEntrySet.iterator();
 
-    while (it.hasNext()) {
-      Entry<Integer, String> entry = it.next();
-      Integer bit = entry.getKey();
-
-      if ((attrs & bit.intValue()) != 0) {
-        result.append(", ");
-        result.append(entry.getValue());
+    for (var attr : attrs) {
+      switch (attr) {
+        case TRADEABLE:
+        case GIFT:
+        case QUEST:
+        case DISCARDABLE:
+          continue;
+        default:
+          result.append(", ");
+          result.append(attr.description);
       }
     }
 
     return result.toString();
   }
 
-  public static final boolean getAttribute(int itemId, int mask) {
-    return (ItemDatabase.attributesById.get(itemId) & mask) != 0;
+  public static boolean getAttribute(int itemId, Attribute mask) {
+    var attrs = ItemDatabase.attributesById.getOrDefault(itemId, EnumSet.noneOf(Attribute.class));
+    return attrs.contains(mask);
+  }
+
+  public static boolean getAttribute(int itemId, EnumSet<Attribute> mask) {
+    var attrs = ItemDatabase.attributesById.getOrDefault(itemId, EnumSet.noneOf(Attribute.class));
+    for (var attr : mask) {
+      if (attrs.contains(attr)) return true;
+    }
+    return false;
   }
 
   /**
@@ -1633,7 +1530,7 @@ public class ItemDatabase {
    * @return true if item is a quest item
    */
   public static final boolean isQuestItem(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_QUEST);
+    return ItemDatabase.getAttribute(itemId, Attribute.QUEST);
   }
 
   /**
@@ -1642,7 +1539,7 @@ public class ItemDatabase {
    * @return true if item is a gift item
    */
   public static final boolean isGiftItem(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_GIFT);
+    return ItemDatabase.getAttribute(itemId, Attribute.GIFT);
   }
 
   /**
@@ -1657,42 +1554,37 @@ public class ItemDatabase {
     // * "used" immediately.  Presently the only place the attribute is used is the
     // * ash function, is_displayable().  By definition, if it can't exist
     // * in inventory then it cannot be moved to a Display Case.
-    switch (itemId) {
-      case ItemPool.MADNESS_REEF_MAP:
-      case ItemPool.MARINARA_TRENCH_MAP:
-      case ItemPool.ANEMONE_MINE_MAP:
-      case ItemPool.DIVE_BAR_MAP:
-      case ItemPool.SKATE_PARK_MAP:
-      case ItemPool.GLASS_OF_MILK:
-      case ItemPool.CUP_OF_TEA:
-      case ItemPool.THERMOS_OF_WHISKEY:
-      case ItemPool.LUCKY_LINDY:
-      case ItemPool.BEES_KNEES:
-      case ItemPool.SOCKDOLLAGER:
-      case ItemPool.ISH_KABIBBLE:
-      case ItemPool.HOT_SOCKS:
-      case ItemPool.PHONUS_BALONUS:
-      case ItemPool.FLIVVER:
-      case ItemPool.SLOPPY_JALOPY:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.MADNESS_REEF_MAP,
+          ItemPool.MARINARA_TRENCH_MAP,
+          ItemPool.ANEMONE_MINE_MAP,
+          ItemPool.DIVE_BAR_MAP,
+          ItemPool.SKATE_PARK_MAP,
+          ItemPool.GLASS_OF_MILK,
+          ItemPool.CUP_OF_TEA,
+          ItemPool.THERMOS_OF_WHISKEY,
+          ItemPool.LUCKY_LINDY,
+          ItemPool.BEES_KNEES,
+          ItemPool.SOCKDOLLAGER,
+          ItemPool.ISH_KABIBBLE,
+          ItemPool.HOT_SOCKS,
+          ItemPool.PHONUS_BALONUS,
+          ItemPool.FLIVVER,
+          ItemPool.SLOPPY_JALOPY -> true;
+      default -> false;
+    };
   }
 
   public static final boolean haveVirtualItem(final int itemId) {
-    switch (itemId) {
-      case ItemPool.MADNESS_REEF_MAP:
-        return Preferences.getBoolean("mapToMadnessReefPurchased");
-      case ItemPool.MARINARA_TRENCH_MAP:
-        return Preferences.getBoolean("mapToTheMarinaraTrenchPurchased");
-      case ItemPool.ANEMONE_MINE_MAP:
-        return Preferences.getBoolean("mapToAnemoneMinePurchased");
-      case ItemPool.DIVE_BAR_MAP:
-        return Preferences.getBoolean("mapToTheDiveBarPurchased");
-      case ItemPool.SKATE_PARK_MAP:
-        return Preferences.getBoolean("mapToTheSkateParkPurchased");
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.MADNESS_REEF_MAP -> Preferences.getBoolean("mapToMadnessReefPurchased");
+      case ItemPool.MARINARA_TRENCH_MAP -> Preferences.getBoolean(
+          "mapToTheMarinaraTrenchPurchased");
+      case ItemPool.ANEMONE_MINE_MAP -> Preferences.getBoolean("mapToAnemoneMinePurchased");
+      case ItemPool.DIVE_BAR_MAP -> Preferences.getBoolean("mapToTheDiveBarPurchased");
+      case ItemPool.SKATE_PARK_MAP -> Preferences.getBoolean("mapToTheSkateParkPurchased");
+      default -> false;
+    };
   }
 
   /**
@@ -1701,7 +1593,7 @@ public class ItemDatabase {
    * @return true if item is tradeable
    */
   public static final boolean isTradeable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_TRADEABLE);
+    return ItemDatabase.getAttribute(itemId, Attribute.TRADEABLE);
   }
 
   /**
@@ -1710,8 +1602,7 @@ public class ItemDatabase {
    * @return true if item is giftable
    */
   public static final boolean isGiftable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_TRADEABLE)
-        || ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_GIFT);
+    return ItemDatabase.getAttribute(itemId, EnumSet.of(Attribute.TRADEABLE, Attribute.GIFT));
   }
 
   /**
@@ -1720,7 +1611,7 @@ public class ItemDatabase {
    * @return true if item is discardable
    */
   public static final boolean isDiscardable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_DISCARDABLE);
+    return ItemDatabase.getAttribute(itemId, Attribute.DISCARDABLE);
   }
 
   /**
@@ -1729,7 +1620,7 @@ public class ItemDatabase {
    * @return true if item is a bounty
    */
   public static final boolean isBountyItem(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_BOUNTY);
+    return ItemDatabase.getAttribute(itemId, Attribute.BOUNTY);
   }
 
   /**
@@ -1738,7 +1629,7 @@ public class ItemDatabase {
    * @return true if item is a Meat Pasting Component
    */
   public static final boolean isPasteable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_PASTE);
+    return ItemDatabase.getAttribute(itemId, Attribute.PASTE);
   }
 
   /**
@@ -1747,7 +1638,7 @@ public class ItemDatabase {
    * @return true if item is a Meatsmithing Component
    */
   public static final boolean isSmithable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_SMITH);
+    return ItemDatabase.getAttribute(itemId, Attribute.SMITH);
   }
 
   /**
@@ -1756,7 +1647,7 @@ public class ItemDatabase {
    * @return true if item is a Cooking Ingredient
    */
   public static final boolean isCookable(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_COOK);
+    return ItemDatabase.getAttribute(itemId, Attribute.COOK);
   }
 
   /**
@@ -1765,7 +1656,7 @@ public class ItemDatabase {
    * @return true if item is a Cocktailcrafting ingredient
    */
   public static final boolean isMixable(int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_MIX);
+    return ItemDatabase.getAttribute(itemId, Attribute.MIX);
   }
 
   /**
@@ -1774,7 +1665,7 @@ public class ItemDatabase {
    * @return true if item is a fancy ingredient
    */
   public static final boolean isFancyItem(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_FANCY);
+    return ItemDatabase.getAttribute(itemId, Attribute.FANCY);
   }
 
   /**
@@ -1784,7 +1675,7 @@ public class ItemDatabase {
    */
   public static final boolean isCandyItem(final int itemId) {
     return ItemDatabase.getAttribute(
-        itemId, (ItemDatabase.ATTR_CANDY0 | ItemDatabase.ATTR_CANDY1 | ItemDatabase.ATTR_CANDY2));
+        itemId, EnumSet.of(Attribute.CANDY0, Attribute.CANDY1, Attribute.CANDY2));
   }
 
   /**
@@ -1793,7 +1684,7 @@ public class ItemDatabase {
    * @return true if item is a chocolate
    */
   public static final boolean isChocolateItem(final int itemId) {
-    return ItemDatabase.getAttribute(itemId, ItemDatabase.ATTR_CHOCOLATE);
+    return ItemDatabase.getAttribute(itemId, Attribute.CHOCOLATE);
   }
 
   /**
@@ -1850,6 +1741,26 @@ public class ItemDatabase {
   }
 
   /**
+   * Returns the id for an item, given its description id. If the item is unknown, register a new
+   * item from the description text
+   *
+   * @param descId The description id of the item to lookup
+   * @return The item id of the corresponding item
+   */
+  public static final int lookupItemIdFromDescription(final String descId) {
+    if (descId.equals("")) {
+      return -1;
+    }
+    // See if we know the id already
+    Integer itemId = ItemDatabase.itemIdByDescription.get(descId);
+    if (itemId == null) {
+      // No. register a new item.
+      return ItemDatabase.registerItem(descId);
+    }
+    return itemId;
+  }
+
+  /**
    * Returns a list of all items which contain the given substring. This is useful for people who
    * are doing lookups on items.
    */
@@ -1876,32 +1787,29 @@ public class ItemDatabase {
    *
    * @return <code>true</code> if the item is usable
    */
-  public static final boolean isUsable(final int itemId) {
+  public static boolean isUsable(final int itemId) {
     // Anything that you can manipulate with inv_use.php
 
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    int attributes = ItemDatabase.getAttributes(itemId);
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
 
-    switch (useType) {
-        // Explicit "use"
-      case KoLConstants.CONSUME_USE:
-      case KoLConstants.MESSAGE_DISPLAY:
-      case KoLConstants.INFINITE_USES:
-        // Multi-use
-      case KoLConstants.CONSUME_MULTIPLE:
-        // Grow is a type of use
-      case KoLConstants.GROW_FAMILIAR:
-        // Any potion
-      case KoLConstants.CONSUME_POTION:
-      case KoLConstants.CONSUME_AVATAR:
-        return true;
-      default:
-        return (attributes
-                & (ItemDatabase.ATTR_USABLE
-                    | ItemDatabase.ATTR_MULTIPLE
-                    | ItemDatabase.ATTR_REUSABLE))
-            != 0;
-    }
+    return switch (useType) {
+      case
+          // Explicit "use"
+          USE,
+          USE_MESSAGE_DISPLAY,
+          USE_INFINITE,
+          // Multi-use
+          USE_MULTIPLE,
+          // Grow is a type of use
+          FAMILIAR_HATCHLING,
+          // Any potion
+          POTION,
+          AVATAR_POTION -> true;
+      default -> attributes.contains(Attribute.USABLE)
+          || attributes.contains(Attribute.MULTIPLE)
+          || attributes.contains(Attribute.REUSABLE);
+    };
   }
 
   public static final boolean isPotion(final AdventureResult item) {
@@ -1912,93 +1820,78 @@ public class ItemDatabase {
   }
 
   public static final boolean isPotion(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    return (useType == KoLConstants.CONSUME_POTION || useType == KoLConstants.CONSUME_AVATAR);
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return (useType == ConsumptionType.POTION || useType == ConsumptionType.AVATAR_POTION);
   }
 
   public static final boolean isEquipment(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    switch (useType) {
-      case KoLConstants.EQUIP_ACCESSORY:
-      case KoLConstants.EQUIP_CONTAINER:
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_SHIRT:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_WEAPON:
-      case KoLConstants.EQUIP_OFFHAND:
-      case KoLConstants.EQUIP_FAMILIAR:
-        return true;
-    }
-    return false;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return KoLConstants.isEquipmentType(useType, true);
   }
 
   public static final boolean isFood(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    return useType == KoLConstants.CONSUME_EAT;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.EAT;
   }
 
   public static final boolean isBooze(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    return useType == KoLConstants.CONSUME_DRINK;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.DRINK;
   }
 
   public static final boolean isHat(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    return useType == KoLConstants.EQUIP_HAT;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.HAT;
   }
 
   public static final boolean isWeapon(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    return useType == KoLConstants.EQUIP_WEAPON;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.WEAPON;
   }
 
   public static final boolean isOffHand(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    return useType == KoLConstants.EQUIP_OFFHAND;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.OFFHAND;
   }
 
   public static final boolean isShirt(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    return useType == KoLConstants.EQUIP_SHIRT;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.SHIRT;
   }
 
   public static final boolean isPants(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    return useType == KoLConstants.EQUIP_PANTS;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.PANTS;
   }
 
   public static final boolean isAccessory(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    return useType == KoLConstants.EQUIP_ACCESSORY;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.ACCESSORY;
   }
 
   public static final boolean isFamiliarEquipment(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    return useType == KoLConstants.EQUIP_FAMILIAR;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.FAMILIAR_EQUIPMENT;
   }
 
   public static final boolean isMultiUsable(final int itemId) {
     // Anything that you can manipulate with multiuse.php
 
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    int attributes = ItemDatabase.getAttributes(itemId);
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
 
-    switch (useType) {
-      case KoLConstants.CONSUME_MULTIPLE:
-        return true;
-      case KoLConstants.CONSUME_POTION:
-      case KoLConstants.CONSUME_AVATAR:
-      case KoLConstants.CONSUME_SPLEEN:
-        return (attributes & ItemDatabase.ATTR_USABLE) == 0;
-      default:
-        return (attributes & ItemDatabase.ATTR_MULTIPLE) != 0;
-    }
+    return switch (useType) {
+      case USE_MULTIPLE -> true;
+      case POTION, AVATAR_POTION, SPLEEN -> !attributes.contains(Attribute.USABLE);
+      default -> attributes.contains(Attribute.MULTIPLE);
+    };
   }
 
   public static final boolean isReusable(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
-    int attributes = ItemDatabase.getAttributes(itemId);
-    return useType == KoLConstants.INFINITE_USES || (attributes & ItemDatabase.ATTR_REUSABLE) != 0;
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    if (useType == ConsumptionType.USE_INFINITE) return true;
+    EnumSet<Attribute> attributes = ItemDatabase.getAttributes(itemId);
+    return attributes.contains(Attribute.REUSABLE);
   }
 
   /**
@@ -2008,84 +1901,79 @@ public class ItemDatabase {
    * @return <code>true</code> if the item is grimacite
    */
   public static final boolean isGrimacite(int itemId) {
-    switch (itemId) {
+    return switch (itemId) {
         // Grimacite Generation 1
-      case ItemPool.GRIMACITE_GALOSHES:
-      case ItemPool.GRIMACITE_GARTER:
-      case ItemPool.GRIMACITE_GORGET:
-      case ItemPool.GRIMACITE_GREAVES:
-      case ItemPool.GRIMACITE_GUAYABERA:
-      case ItemPool.GRIMACITE_GOGGLES:
-      case ItemPool.GRIMACITE_GLAIVE:
-        // Grimacite Generation 2
-      case ItemPool.GRIMACITE_GASMASK:
-      case ItemPool.GRIMACITE_GAT:
-      case ItemPool.GRIMACITE_GIRDLE:
-      case ItemPool.GRIMACITE_GO_GO_BOOTS:
-      case ItemPool.GRIMACITE_GAUNTLETS:
-      case ItemPool.GRIMACITE_GAITERS:
-      case ItemPool.GRIMACITE_GOWN:
-        // Depleted Grimacite
-      case ItemPool.GRIMACITE_HAMMER:
-      case ItemPool.GRIMACITE_GRAVY_BOAT:
-      case ItemPool.GRIMACITE_WEIGHTLIFTING_BELT:
-      case ItemPool.GRIMACITE_GRAPPLING_HOOK:
-      case ItemPool.GRIMACITE_NINJA_MASK:
-      case ItemPool.GRIMACITE_SHINGUARDS:
-      case ItemPool.GRIMACITE_ASTROLABE:
-      case ItemPool.GRIMACITE_KNEECAPPING_STICK:
-        return true;
-    }
-
-    return false;
+      case ItemPool.GRIMACITE_GOGGLES,
+          ItemPool.GRIMACITE_GLAIVE,
+          ItemPool.GRIMACITE_GREAVES,
+          ItemPool.GRIMACITE_GARTER,
+          ItemPool.GRIMACITE_GALOSHES,
+          ItemPool.GRIMACITE_GORGET,
+          ItemPool.GRIMACITE_GUAYABERA,
+          // Grimacite Generation 2
+          ItemPool.GRIMACITE_GASMASK,
+          ItemPool.GRIMACITE_GAT,
+          ItemPool.GRIMACITE_GAITERS,
+          ItemPool.GRIMACITE_GAUNTLETS,
+          ItemPool.GRIMACITE_GO_GO_BOOTS,
+          ItemPool.GRIMACITE_GIRDLE,
+          ItemPool.GRIMACITE_GOWN,
+          // Depleted Grimacite
+          ItemPool.GRIMACITE_HAMMER,
+          ItemPool.GRIMACITE_GRAVY_BOAT,
+          ItemPool.GRIMACITE_WEIGHTLIFTING_BELT,
+          ItemPool.GRIMACITE_GRAPPLING_HOOK,
+          ItemPool.GRIMACITE_NINJA_MASK,
+          ItemPool.GRIMACITE_SHINGUARDS,
+          ItemPool.GRIMACITE_ASTROLABE,
+          ItemPool.GRIMACITE_KNEECAPPING_STICK -> true;
+      default -> false;
+    };
   }
 
   public static final boolean isSealFigurine(final int itemId) {
-    switch (itemId) {
-      case ItemPool.WRETCHED_SEAL:
-      case ItemPool.CUTE_BABY_SEAL:
-      case ItemPool.ARMORED_SEAL:
-      case ItemPool.ANCIENT_SEAL:
-      case ItemPool.SLEEK_SEAL:
-      case ItemPool.SHADOWY_SEAL:
-      case ItemPool.STINKING_SEAL:
-      case ItemPool.CHARRED_SEAL:
-      case ItemPool.COLD_SEAL:
-      case ItemPool.SLIPPERY_SEAL:
-      case ItemPool.DEPLETED_URANIUM_SEAL:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.WRETCHED_SEAL,
+          ItemPool.CUTE_BABY_SEAL,
+          ItemPool.ARMORED_SEAL,
+          ItemPool.ANCIENT_SEAL,
+          ItemPool.SLEEK_SEAL,
+          ItemPool.SHADOWY_SEAL,
+          ItemPool.STINKING_SEAL,
+          ItemPool.CHARRED_SEAL,
+          ItemPool.COLD_SEAL,
+          ItemPool.SLIPPERY_SEAL,
+          ItemPool.DEPLETED_URANIUM_SEAL -> true;
+      default -> false;
+    };
   }
 
   public static final boolean isBRICKOMonster(final int itemId) {
-    switch (itemId) {
-      case ItemPool.BRICKO_OOZE:
-      case ItemPool.BRICKO_BAT:
-      case ItemPool.BRICKO_OYSTER:
-      case ItemPool.BRICKO_TURTLE:
-      case ItemPool.BRICKO_ELEPHANT:
-      case ItemPool.BRICKO_OCTOPUS:
-      case ItemPool.BRICKO_PYTHON:
-      case ItemPool.BRICKO_VACUUM_CLEANER:
-      case ItemPool.BRICKO_AIRSHIP:
-      case ItemPool.BRICKO_CATHEDRAL:
-      case ItemPool.BRICKO_CHICKEN:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.BRICKO_OOZE,
+          ItemPool.BRICKO_BAT,
+          ItemPool.BRICKO_OYSTER,
+          ItemPool.BRICKO_TURTLE,
+          ItemPool.BRICKO_ELEPHANT,
+          ItemPool.BRICKO_OCTOPUS,
+          ItemPool.BRICKO_PYTHON,
+          ItemPool.BRICKO_VACUUM_CLEANER,
+          ItemPool.BRICKO_AIRSHIP,
+          ItemPool.BRICKO_CATHEDRAL,
+          ItemPool.BRICKO_CHICKEN -> true;
+      default -> false;
+    };
   }
 
   public static final boolean isStinkyCheeseItem(final int itemId) {
-    switch (itemId) {
-      case ItemPool.STINKY_CHEESE_SWORD:
-      case ItemPool.STINKY_CHEESE_DIAPER:
-      case ItemPool.STINKY_CHEESE_WHEEL:
-      case ItemPool.STINKY_CHEESE_EYE:
-      case ItemPool.STINKY_CHEESE_STAFF:
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.STINKY_CHEESE_SWORD,
+          ItemPool.STINKY_CHEESE_DIAPER,
+          ItemPool.STINKY_CHEESE_WHEEL,
+          ItemPool.STINKY_CHEESE_EYE,
+          ItemPool.STINKY_CHEESE_STAFF -> true;
+      default -> false;
+    };
   }
 
   /**
@@ -2093,16 +1981,18 @@ public class ItemDatabase {
    *
    * @return The consumption associated with the item
    */
-  public static final int getConsumptionType(final int itemId) {
-    return itemId <= 0 ? KoLConstants.NO_CONSUME : ItemDatabase.useTypeById.get(itemId);
+  public static final ConsumptionType getConsumptionType(final int itemId) {
+    return itemId <= 0
+        ? ConsumptionType.NONE
+        : ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
   }
 
-  public static final int getConsumptionType(final AdventureResult item) {
+  public static final ConsumptionType getConsumptionType(final AdventureResult item) {
     return ItemDatabase.getConsumptionType(item.getItemId());
   }
 
-  public static final String typeToPrimaryUsage(final int type) {
-    return ItemDatabase.INVERSE_PRIMARY_USE.get(type);
+  public static final String typeToPrimaryUsage(final ConsumptionType type) {
+    return type.description;
   }
 
   /**
@@ -2151,7 +2041,7 @@ public class ItemDatabase {
     Matcher matcher = ItemDatabase.COT_PATTERN.matcher(desc);
     if (matcher.find()) {
       String race = matcher.group(1);
-      KoLCharacter.setEnthroned(KoLCharacter.findFamiliar(race));
+      KoLCharacter.setEnthroned(KoLCharacter.usableFamiliar(race));
     }
   }
 
@@ -2160,7 +2050,7 @@ public class ItemDatabase {
     Matcher matcher = ItemDatabase.COT_PATTERN.matcher(desc);
     if (matcher.find()) {
       String race = matcher.group(1);
-      KoLCharacter.setBjorned(KoLCharacter.findFamiliar(race));
+      KoLCharacter.setBjorned(KoLCharacter.usableFamiliar(race));
     }
   }
 
@@ -2178,17 +2068,17 @@ public class ItemDatabase {
 
   public static void parseUmbrella(final String desc) {
     if (desc.contains("Monster Level")) {
-      UmbrellaRequest.Form.BROKEN.set();
+      UmbrellaMode.BROKEN.set();
     } else if (desc.contains("Damage Reduction")) {
-      UmbrellaRequest.Form.FORWARD.set();
+      UmbrellaMode.FORWARD.set();
     } else if (desc.contains("Item Drops")) {
-      UmbrellaRequest.Form.BUCKET.set();
+      UmbrellaMode.BUCKET.set();
     } else if (desc.contains("Weapon Damage")) {
-      UmbrellaRequest.Form.PITCHFORK.set();
+      UmbrellaMode.PITCHFORK.set();
     } else if (desc.contains("Spell Damage")) {
-      UmbrellaRequest.Form.TWIRL.set();
+      UmbrellaMode.TWIRL.set();
     } else if (desc.contains("much less attracted")) {
-      UmbrellaRequest.Form.COCOON.set();
+      UmbrellaMode.COCOON.set();
     }
   }
 
@@ -2205,32 +2095,54 @@ public class ItemDatabase {
     }
   }
 
+  public static void parseDesignerSweatpants(final String desc) {
+    if (desc.contains("Your sweatpants are currently")) {
+      return;
+    }
+
+    Preferences.setInteger("sweat", 0);
+  }
+
+  public static void parsePowerfulGlove(final String desc) {
+    if (desc.contains("The Glove's battery is currently fully charged.")) {
+      Preferences.setInteger("_powerfulGloveBatteryPowerUsed", 0);
+    } else if (desc.contains("The Glove's battery is fully depleted.")) {
+      Preferences.setInteger("_powerfulGloveBatteryPowerUsed", 100);
+    }
+  }
+
+  public static void parseRing(final String desc) {
+    ArrayList<String> unknown = new ArrayList<>();
+    ModifierList known = new ModifierList();
+
+    DebugDatabase.parseItemEnchantments(desc, known, unknown, ConsumptionType.ACCESSORY);
+    ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.RING, known.toString());
+  }
+
   public static void resetVampireVintnerWine() {
     Preferences.setString("vintnerWineName", "");
     Preferences.setString("vintnerWineEffect", "");
     Preferences.setInteger("vintnerWineLevel", 0);
     Preferences.setString("vintnerWineType", "");
+    ConsumablesDatabase.updateConsumableNotes("1950 Vampire Vintner wine", "Unspaded, WINE");
   }
 
   public static void parseVampireVintnerWine() {
-    // Call desc_item.php for 1950 Vampire Vintner wine
-    String idesc = DebugDatabase.itemDescriptionText(ItemPool.VAMPIRE_VINTNER_WINE, true);
-
+    // Submit desc_item.php for 1950 Vampire Vintner wine
+    DebugDatabase.itemDescriptionText(ItemPool.VAMPIRE_VINTNER_WINE, true);
     // GenericRequest calls ResponseTextParser which makes the following call.
-    // No reason to parse the response text twice!
-
-    // ItemDatabase.parseVampireVintnerWine(idesc);
   }
 
   public static void parseVampireVintnerWine(final String idesc) {
     String iEnchantments =
-        DebugDatabase.parseItemEnchantments(
-            idesc, new ArrayList<String>(), KoLConstants.CONSUME_DRINK);
+        DebugDatabase.parseItemEnchantments(idesc, new ArrayList<>(), ConsumptionType.DRINK);
     String iname = DebugDatabase.parseName(idesc);
-    Modifiers imods = Modifiers.parseModifiers(iname, iEnchantments);
+    Modifiers imods =
+        ModifierDatabase.parseModifiers(
+            ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, iEnchantments);
 
     // Validate this by seeing what effect this wine grants.
-    String effectName = imods.getString("Effect");
+    String effectName = imods.getString(StringModifier.EFFECT);
     int effectId = EffectDatabase.getEffectId(effectName);
 
     // If it doesn't grant one, this is the generic 1950 Vampire Vintner wine
@@ -2240,31 +2152,17 @@ public class ItemDatabase {
     }
 
     // The damage type that created this wine is implied by the effect the wine grants.
-    String type = "";
-
-    switch (effectId) {
-      case EffectPool.WINE_FORTIFIED:
-        type = "physical";
-        break;
-      case EffectPool.WINE_HOT:
-        type = "hot";
-        break;
-      case EffectPool.WINE_COLD:
-        type = "cold";
-        break;
-      case EffectPool.WINE_DARK:
-        type = "spooky";
-        break;
-      case EffectPool.WINE_BEFOULED:
-        type = "stench";
-        break;
-      case EffectPool.WINE_FRISKY:
-        type = "sleaze";
-        break;
-      case EffectPool.WINE_FRIENDLY:
-        type = "familiar";
-        break;
-    }
+    String type =
+        switch (effectId) {
+          case EffectPool.WINE_FORTIFIED -> "physical";
+          case EffectPool.WINE_HOT -> "hot";
+          case EffectPool.WINE_COLD -> "cold";
+          case EffectPool.WINE_DARK -> "spooky";
+          case EffectPool.WINE_BEFOULED -> "stench";
+          case EffectPool.WINE_FRISKY -> "sleaze";
+          case EffectPool.WINE_FRIENDLY -> "familiar";
+          default -> "";
+        };
 
     Preferences.setString("vintnerWineName", iname);
     Preferences.setString("vintnerWineEffect", effectName);
@@ -2276,7 +2174,13 @@ public class ItemDatabase {
 
     // Override the modifiers for the 1950 Vampire Vintner wine to include the
     // effect that drinking this one will provide.
-    Modifiers.overrideModifier(Modifiers.getLookupName("Item", "1950 Vampire Vintner wine"), imods);
+    ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, imods);
+
+    // Update the consumable note
+    Modifiers emods = ModifierDatabase.getEffectModifiers(effectId);
+    String modifierString = emods.getString(StringModifier.MODIFIERS);
+    String notes = "12 turns of " + effectName + " (" + modifierString + "), WINE";
+    ConsumablesDatabase.updateConsumableNotes("1950 Vampire Vintner wine", notes);
   }
 
   public static int parseYearbookCamera(final String desc) {
@@ -2368,16 +2272,15 @@ public class ItemDatabase {
 
   public static void setCapeSkills() {
     // Assume no skills are available
-    KoLCharacter.removeAvailableSkill("Smooch of the Daywalker");
-    KoLCharacter.removeAvailableSkill("Slay the Dead");
-    KoLCharacter.removeAvailableSkill("Unleash the Devil's Kiss");
-    KoLCharacter.removeAvailableSkill("Deploy Robo-Handcuffs");
-    KoLCharacter.removeAvailableSkill("Blow a Robo-Kiss");
-    KoLCharacter.removeAvailableSkill("Precision Shot");
+    KoLCharacter.removeAvailableSkill(SkillPool.SMOOCH_OF_THE_DAYWALKER);
+    KoLCharacter.removeAvailableSkill(SkillPool.SLAY_THE_DEAD);
+    KoLCharacter.removeAvailableSkill(SkillPool.UNLEASH_THE_DEVILS_KISS);
+    KoLCharacter.removeAvailableSkill(SkillPool.DEPLOY_ROBO_HANDCUFFS);
+    KoLCharacter.removeAvailableSkill(SkillPool.BLOW_A_ROBO_KISS);
+    KoLCharacter.removeAvailableSkill(SkillPool.PRECISION_SHOT);
 
     // If the cape is not equipped, that is correct
-    if (!KoLCharacter.hasEquipped(
-        ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE, EquipmentManager.CONTAINER)) {
+    if (!KoLCharacter.hasEquipped(ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE, Slot.CONTAINER)) {
       return;
     }
 
@@ -2389,56 +2292,56 @@ public class ItemDatabase {
       case "vampire":
         // Add Vampire Slicer skills
         if (instructions.equals("kiss")) {
-          KoLCharacter.addAvailableSkill("Smooch of the Daywalker");
+          KoLCharacter.addAvailableSkill(SkillPool.SMOOCH_OF_THE_DAYWALKER);
         }
 
         if (instructions.equals("kill") && EquipmentManager.wieldingSword()) {
-          KoLCharacter.addAvailableSkill("Slay the Dead");
+          KoLCharacter.addAvailableSkill(SkillPool.SLAY_THE_DEAD);
         }
         break;
       case "heck":
         // Add Heck General skills
         if (instructions.equals("kiss")) {
-          KoLCharacter.addAvailableSkill("Unleash the Devil's Kiss");
+          KoLCharacter.addAvailableSkill(SkillPool.UNLEASH_THE_DEVILS_KISS);
         }
         break;
       case "robot":
         // Add Robot Police skills
         if (instructions.equals("hold")) {
-          KoLCharacter.addAvailableSkill("Deploy Robo-Handcuffs");
+          KoLCharacter.addAvailableSkill(SkillPool.DEPLOY_ROBO_HANDCUFFS);
         }
         if (instructions.equals("kiss")) {
-          KoLCharacter.addAvailableSkill("Blow a Robo-Kiss");
+          KoLCharacter.addAvailableSkill(SkillPool.BLOW_A_ROBO_KISS);
         }
         if (instructions.equals("kill") && EquipmentManager.wieldingGun()) {
-          KoLCharacter.addAvailableSkill("Precision Shot");
+          KoLCharacter.addAvailableSkill(SkillPool.PRECISION_SHOT);
         }
         break;
     }
   }
 
   public static boolean unusableInBeecore(final int itemId) {
-    switch (itemId) {
-      case ItemPool.BALL_POLISH:
-      case ItemPool.FRATHOUSE_BLUEPRINTS:
-      case ItemPool.COBBS_KNOB_MAP:
-      case ItemPool.BINDER_CLIP:
-        // These "B" items ARE usable in Beecore.
-      case ItemPool.ICE_BABY:
-      case ItemPool.JUGGLERS_BALLS:
-      case ItemPool.EYEBALL_PENDANT:
-      case ItemPool.SPOOKY_PUTTY_BALL:
-      case ItemPool.LOATHING_LEGION_ABACUS:
-      case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
-      case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
-      case ItemPool.LOATHING_LEGION_ROLLERBLADES:
-        // And so are these IOTM foldables
-      case ItemPool.ENCHANTED_BEAN:
-        // "using" this is really planting
-        return false;
-    }
+    return switch (itemId) {
+      case
+          // These "B" items ARE usable in Beecore.
+          ItemPool.BALL_POLISH,
+          ItemPool.FRATHOUSE_BLUEPRINTS,
+          ItemPool.COBBS_KNOB_MAP,
+          ItemPool.BINDER_CLIP,
+          // And so are these IOTM foldables
+          ItemPool.ICE_BABY,
+          ItemPool.JUGGLERS_BALLS,
+          ItemPool.EYEBALL_PENDANT,
+          ItemPool.SPOOKY_PUTTY_BALL,
+          ItemPool.LOATHING_LEGION_ABACUS,
+          ItemPool.LOATHING_LEGION_DEFIBRILLATOR,
+          ItemPool.LOATHING_LEGION_DOUBLE_PRISM,
+          ItemPool.LOATHING_LEGION_ROLLERBLADES,
+          // "using" this is really planting
 
-    return KoLCharacter.hasBeeosity(ItemDatabase.getItemName(itemId));
+          ItemPool.ENCHANTED_BEAN -> false;
+      default -> KoLCharacter.hasBeeosity(ItemDatabase.getItemName(itemId));
+    };
   }
 
   public static boolean unusableInGLover(final int itemId) {
@@ -2463,26 +2366,23 @@ public class ItemDatabase {
   }
 
   public static boolean usableOnlyAsPlumber(final int itemId) {
-    switch (itemId) {
-      case ItemPool.MUSHROOM:
-      case ItemPool.DELUXE_MUSHROOM:
-      case ItemPool.SUPER_DELUXE_MUSHROOM:
-        return true;
-      default:
-        return false;
-    }
+    return switch (itemId) {
+      case ItemPool.MUSHROOM, ItemPool.DELUXE_MUSHROOM, ItemPool.SUPER_DELUXE_MUSHROOM -> true;
+      default -> false;
+    };
   }
 
   public static boolean isAllowed(final int itemId) {
-    return StandardRequest.isAllowed("Items", ItemDatabase.getDataName(itemId));
+    return StandardRequest.isAllowed(RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
   }
 
   public static boolean isAllowedInStandard(final int itemId) {
-    return StandardRequest.isAllowedInStandard("Items", ItemDatabase.getDataName(itemId));
+    return StandardRequest.isAllowedInStandard(
+        RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
   }
 
   public static int getNoobSkillId(final int itemId) {
-    return ItemDatabase.noobSkillIdByItemSource.get(itemId);
+    return ItemDatabase.noobSkillIdByItemSource.getOrDefault(itemId, 0);
   }
 
   public static int[] getItemListByNoobSkillId(final int skillId) {

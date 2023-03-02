@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -26,12 +25,15 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ZapRequest extends GenericRequest {
   private static final Pattern ZAP_PATTERN = Pattern.compile("whichitem=(\\d+)");
+  private static final Pattern ACQUIRE_PATTERN =
+      Pattern.compile("You acquire an item: <b>(.*?)</b>");
   private static final Pattern OPTION_PATTERN =
       Pattern.compile("<option value=(\\d+) descid='.*?'>.*?</option>");
 
   private static final Map<Integer, List<String>> zapGroups = new HashMap<>();
 
   private AdventureResult item;
+  private AdventureResult acquired;
 
   public ZapRequest(final AdventureResult item) {
     super("wand.php");
@@ -82,7 +84,7 @@ public class ZapRequest extends GenericRequest {
       matchingItems.addAll(
           KoLConstants.inventory.stream()
               .filter(i -> ZapRequest.zapGroups.containsKey(i.getItemId()))
-              .collect(Collectors.toList()));
+              .toList());
     } else {
       matchingItems.addAll(KoLConstants.inventory);
     }
@@ -131,8 +133,18 @@ public class ZapRequest extends GenericRequest {
       return;
     }
 
+    Matcher acquiresMatcher = ZapRequest.ACQUIRE_PATTERN.matcher(responseText);
+    String acquired = acquiresMatcher.find() ? acquiresMatcher.group(1) : null;
+    if (acquired != null) {
+      this.acquired = ItemPool.get(acquired, 1);
+    }
+
     // Notify the user of success.
-    KoLmafia.updateDisplay(this.item.getName() + " has been transformed.");
+    KoLmafia.updateDisplay(
+        this.item.getName()
+            + " has been transformed into "
+            + (acquired != null ? acquired : "an unknown item")
+            + ".");
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
@@ -215,5 +227,9 @@ public class ZapRequest extends GenericRequest {
     RequestLogger.updateSessionLog("zap " + item.getName());
 
     return true;
+  }
+
+  public AdventureResult getAcquired() {
+    return acquired;
   }
 }

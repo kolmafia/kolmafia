@@ -230,13 +230,18 @@ public class MallSearchRequest extends GenericRequest {
       page++;
     }
 
+    this.maybeUpdateMallPrice();
+
+    KoLmafia.updateDisplay("Search complete.");
+  }
+
+  // Public for access from tests.
+  public void maybeUpdateMallPrice() {
     // If an exact match, we can think about updating mall_price().
     if (this.searchString.startsWith("\"") && this.results.size() > 0) {
       AdventureResult item = this.results.get(0).getItem();
       MallPriceManager.updateMallPrice(item, new ArrayList<>(this.results));
     }
-
-    KoLmafia.updateDisplay("Search complete.");
   }
 
   private boolean updateSearchString() {
@@ -404,7 +409,7 @@ public class MallSearchRequest extends GenericRequest {
     Matcher itemMatcher = MallSearchRequest.ITEMDETAIL_PATTERN.matcher(storeListResult);
     while (itemMatcher.find()) {
       int itemId = StringUtilities.parseInt(itemMatcher.group(1));
-      String itemName = itemMatcher.group(3);
+      String itemName = itemMatcher.group(3).trim();
       if (!itemName.equals(ItemDatabase.getItemDataName(itemId))) {
         String descId = itemMatcher.group(2);
         ItemDatabase.registerItem(itemId, itemName, descId);
@@ -524,8 +529,14 @@ public class MallSearchRequest extends GenericRequest {
 
   private static final Pattern NOBUYERS_PATTERN =
       Pattern.compile("<td valign=\"center\" class=\"buyers\">&nbsp;</td>");
+  private static final Pattern BUYERS_PATTERN = Pattern.compile(" class=\"buyers\"");
 
   public static void decorateMallSearch(StringBuffer buffer) {
+    decorateMallSearchAddBuyButtons(buffer);
+    decorateMallSearchDecorateForbidden(buffer);
+  }
+
+  public static void decorateMallSearchAddBuyButtons(StringBuffer buffer) {
     Matcher matcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher(buffer);
     while (matcher.find()) {
       String store = matcher.group(0);
@@ -581,21 +592,47 @@ public class MallSearchRequest extends GenericRequest {
     }
   }
 
-  private static String tierName(int tier) {
-    switch (tier) {
-      case 1:
-        return "crappy";
-      case 2:
-        return "decent";
-      case 3:
-        return "good";
-      case 4:
-        return "awesome";
-      case 5:
-        return "EPIC";
-      default:
-        return "???";
+  public static void decorateMallSearchDecorateForbidden(StringBuffer buffer) {
+    Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
+
+    Matcher matcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher(buffer);
+
+    while (matcher.find()) {
+      String store = matcher.group(0);
+
+      Matcher detailsMatcher = MallSearchRequest.LISTDETAIL_PATTERN.matcher(store);
+      if (!detailsMatcher.find()) {
+        continue;
+      }
+
+      String whichstore = detailsMatcher.group(1);
+      int storeId = StringUtilities.parseInt(whichstore);
+
+      // If the store is not in the forbidden list
+      if (!forbidden.contains(storeId)) {
+        continue;
+      }
+
+      // Add a gradiant background and a title attribute to explain.
+      store =
+          store.replaceFirst(
+              ">",
+              " style=\"background-image:linear-gradient(to right, rgba(255,0,0,0), pink);\" title=\"The preference 'forbiddenStores' "
+                  + "contains this store.\">");
+
+      buffer.replace(matcher.start(), matcher.end(), store);
     }
+  }
+
+  private static String tierName(int tier) {
+    return switch (tier) {
+      case 1 -> "crappy";
+      case 2 -> "decent";
+      case 3 -> "good";
+      case 4 -> "awesome";
+      case 5 -> "EPIC";
+      default -> "???";
+    };
   }
 
   private static String extractTiers(String urlString) {

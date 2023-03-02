@@ -47,54 +47,43 @@ public class ClanLoungeSwimmingPoolRequest extends GenericRequest {
   @Override
   public void run() {
     switch (this.action) {
-      case ClanLoungeSwimmingPoolRequest.HANDSTAND:
+      case ClanLoungeSwimmingPoolRequest.HANDSTAND -> {
         RequestLogger.printLine("In the pool, flipping over.");
-
         this.constructURLString("choice.php");
         this.addFormField("whichchoice", "585");
         this.addFormField("option", "1");
         this.addFormField("action", "flip");
-        break;
-
-      case ClanLoungeSwimmingPoolRequest.GET_OUT:
+      }
+      case ClanLoungeSwimmingPoolRequest.GET_OUT -> {
         RequestLogger.printLine("Getting out of the pool.");
-
         this.constructURLString("choice.php");
         this.addFormField("whichchoice", "585");
         this.addFormField("option", "1");
         this.addFormField("action", "leave");
-        break;
-
-      case ClanLoungeSwimmingPoolRequest.SAY:
+      }
+      case ClanLoungeSwimmingPoolRequest.SAY -> {
         RequestLogger.printLine("In the pool, saying...");
-
         this.constructURLString("choice.php");
         this.addFormField("whichchoice", "585");
         this.addFormField("option", "1");
         this.addFormField("action", "say");
+      }
         // this.addFormField( "say", "" );
-        break;
-
-      case ClanLoungeSwimmingPoolRequest.CLOSE_EYES:
+      case ClanLoungeSwimmingPoolRequest.CLOSE_EYES -> {
         RequestLogger.printLine("In the pool, closing your eyes.");
-
         this.constructURLString("choice.php");
         this.addFormField("whichchoice", "585");
         this.addFormField("option", "1");
         this.addFormField("action", "blink");
-        break;
-
-      case ClanLoungeSwimmingPoolRequest.TREASURE:
+      }
+      case ClanLoungeSwimmingPoolRequest.TREASURE -> {
         RequestLogger.printLine("In the pool, diving for treasure.");
-
         this.constructURLString("choice.php");
         this.addFormField("whichchoice", "585");
         this.addFormField("option", "1");
         this.addFormField("action", "treasure");
-        break;
-
-      default:
-        break;
+      }
+      default -> {}
     }
 
     super.run();

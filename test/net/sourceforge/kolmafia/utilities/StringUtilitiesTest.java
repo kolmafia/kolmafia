@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.utilities;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Instant;
@@ -10,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -699,5 +702,63 @@ class StringUtilitiesTest {
     assertEquals(expected, StringUtilities.getURLDecode(input));
     // For coverage - first call caches it, second finds it there
     assertEquals(expected, StringUtilities.getURLDecode(input));
+  }
+
+  @Test
+  void oneValuelistToHumanString() {
+    assertThat(StringUtilities.listToHumanString(List.of("a")), equalTo("a"));
+  }
+
+  @Test
+  void twoValuelistToHumanString() {
+    assertThat(StringUtilities.listToHumanString(List.of("a", "b")), equalTo("a and b"));
+  }
+
+  @Test
+  void multipleValuelistToHumanString() {
+    assertThat(StringUtilities.listToHumanString(List.of("a", "b", "c")), equalTo("a, b and c"));
+  }
+
+  @Nested
+  class Filter {
+    @ParameterizedTest
+    @CsvSource(
+        value = {
+          "'',''",
+          "'',*",
+          "a,a",
+          "ab,ab",
+          "a,*",
+          "b,*",
+          "ab,*",
+          "ab,a*",
+          "ab,*b",
+          "ab,*a*",
+          "ab,*b*",
+          "abc,a*c",
+          "abcd,a*d",
+          "abcde,a*b*c*e",
+        })
+    public void matches(String str, String filter) {
+      assertTrue(StringUtilities.matchesFilter(str, filter));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "a,''",
+      "a,b",
+      "ab,a",
+      "ab,aa",
+      "a,*b",
+      "a,b*",
+      "ab,*a",
+      "ab,b*",
+      "ab,*b*a*",
+      "ab,*a*a*b*",
+      "abcd,*ab*bc*cd*",
+    })
+    public void nonMatches(String str, String filter) {
+      assertFalse(StringUtilities.matchesFilter(str, filter));
+    }
   }
 }

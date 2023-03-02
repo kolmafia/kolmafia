@@ -12,15 +12,14 @@ public class BurningNewspaperRequest extends CreateItemRequest {
   }
 
   private static String itemIdToOption(final int itemId) {
-    return itemId == ItemPool.BURNING_HAT
-        ? "1"
-        : itemId == ItemPool.BURNING_CAPE
-            ? "2"
-            : itemId == ItemPool.BURNING_SLIPPERS
-                ? "3"
-                : itemId == ItemPool.BURNING_JORTS
-                    ? "4"
-                    : itemId == ItemPool.BURNING_CRANE ? "5" : "6";
+    return switch (itemId) {
+      case ItemPool.BURNING_HAT -> "1";
+      case ItemPool.BURNING_CAPE -> "2";
+      case ItemPool.BURNING_SLIPPERS -> "3";
+      case ItemPool.BURNING_JORTS -> "4";
+      case ItemPool.BURNING_CRANE -> "5";
+      default -> "6";
+    };
   }
 
   @Override
@@ -30,28 +29,28 @@ public class BurningNewspaperRequest extends CreateItemRequest {
 
   @Override
   public void run() {
+    int count = this.getQuantityNeeded();
+    if (count == 0) {
+      return;
+    }
+
     // Attempt to retrieve the ingredients
     if (!this.makeIngredients()) {
       return;
     }
 
-    int count = this.getQuantityNeeded();
-    String name = this.getName();
+    KoLmafia.updateDisplay("Creating " + count + " " + this.getName() + "...");
 
-    KoLmafia.updateDisplay("Creating " + count + " " + name + "...");
+    int yield = this.getYield();
 
-    GenericRequest useRequest = new GenericRequest("inv_use.php");
-    useRequest.addFormField("whichitem", String.valueOf(ItemPool.BURNING_NEWSPAPER));
-    useRequest.run();
-
-    for (int i = 0; i < count; ++i) {
+    while (count > 0 && KoLmafia.permitsContinue()) {
+      GenericRequest useRequest = new GenericRequest("inv_use.php");
+      useRequest.addFormField("whichitem", String.valueOf(ItemPool.BURNING_NEWSPAPER));
+      useRequest.run();
+      this.setQuantityNeeded(Math.min(count, yield));
       super.run();
+      count -= yield;
     }
-
-    GenericRequest closeRequest = new GenericRequest("choice.php");
-    closeRequest.addFormField("whichchoice", "1277");
-    closeRequest.addFormField("option", "6");
-    closeRequest.run();
   }
 
   public static final boolean registerRequest(final String urlString) {

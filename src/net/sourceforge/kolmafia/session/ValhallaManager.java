@@ -28,12 +28,14 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -173,6 +175,10 @@ public class ValhallaManager {
     try {
       PreferenceListenerRegistry.deferPreferenceListeners(true);
       Preferences.increment("knownAscensions", 1);
+      // Increment the amount of times we've ascended today
+      // We can jump the gash only 2 times a day, but can pick more than 2 paths a day.
+      // (When the player start in valhalla, they can pick 2 casuals and a path)
+      Preferences.increment("ascensionsToday", 1);
       Preferences.setInteger("lastBreakfast", -1);
       KoLCharacter.setCurrentRun(0);
 
@@ -197,10 +203,8 @@ public class ValhallaManager {
     EquipmentManager.updateEquipmentLists();
     ValhallaManager.resetMoonsignCafes();
     ConcoctionDatabase.refreshConcoctions();
-    ConsumablesDatabase.setSmoresData();
-    ConsumablesDatabase.setAffirmationCookieData();
     ConsumablesDatabase.setVariableConsumables();
-    ConsumablesDatabase.calculateAdventureRanges();
+    ConsumablesDatabase.calculateAllAverageAdventures();
     HermitRequest.initialize();
 
     // Reset certain settings that the player almost certainly will
@@ -255,13 +259,13 @@ public class ValhallaManager {
 
     // Check hotdog stand, speakeasy, and floundry, if present
     if (ClanManager.getClanLounge().contains(ClanManager.HOT_DOG_STAND)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.HOT_DOG_STAND);
+      ClanLoungeRequest.visitLounge(Action.HOT_DOG_STAND);
     }
     if (ClanManager.getClanLounge().contains(ClanManager.SPEAKEASY)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.SPEAKEASY);
+      ClanLoungeRequest.visitLounge(Action.SPEAKEASY);
     }
     if (ClanManager.getClanLounge().contains(ClanManager.FLOUNDRY)) {
-      ClanLoungeRequest.visitLounge(ClanLoungeRequest.FLOUNDRY);
+      ClanLoungeRequest.visitLounge(Action.FLOUNDRY);
     }
 
     // force rebuild of daily deeds panel
@@ -277,7 +281,8 @@ public class ValhallaManager {
       }
 
       if (item.getCount(KoLConstants.freepulls) > 0) {
-        RequestThread.postRequest(new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, item));
+        RequestThread.postRequest(
+            new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, item));
       }
     }
   }
@@ -331,7 +336,7 @@ public class ValhallaManager {
 
     sessionStream.println(KoLCharacter.getAscensionClassName());
 
-    sessionStream.println(KoLCharacter.getSign());
+    sessionStream.println(KoLCharacter.getSign().getName());
     sessionStream.println();
     sessionStream.println();
 

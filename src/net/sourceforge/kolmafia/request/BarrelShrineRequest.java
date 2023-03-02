@@ -13,20 +13,15 @@ public class BarrelShrineRequest extends CreateItemRequest {
   }
 
   public static boolean availableBarrelItem(final String itemName) {
-    if (Preferences.getBoolean("barrelShrineUnlocked")) {
-      if (itemName.equals("barrel lid")
-          && !Preferences.getBoolean("_barrelPrayer")
-          && !Preferences.getBoolean("prayedForProtection")) {
+    if (Preferences.getBoolean("barrelShrineUnlocked")
+        && !Preferences.getBoolean("_barrelPrayer")) {
+      if (itemName.equals("barrel lid") && !Preferences.getBoolean("prayedForProtection")) {
         return true;
       }
-      if (itemName.equals("barrel hoop earring")
-          && !Preferences.getBoolean("_barrelPrayer")
-          && !Preferences.getBoolean("prayedForGlamour")) {
+      if (itemName.equals("barrel hoop earring") && !Preferences.getBoolean("prayedForGlamour")) {
         return true;
       }
-      if (itemName.equals("bankruptcy barrel")
-          && !Preferences.getBoolean("_barrelPrayer")
-          && !Preferences.getBoolean("prayedForVigor")) {
+      if (itemName.equals("bankruptcy barrel") && !Preferences.getBoolean("prayedForVigor")) {
         return true;
       }
     }
@@ -42,14 +37,11 @@ public class BarrelShrineRequest extends CreateItemRequest {
     String creation = this.getName();
     String output = null;
 
-    if (creation.equals("barrel lid")) {
-      output = "choice.php?whichchoice=1100&option=1";
-    } else if (creation.equals("barrel hoop earring")) {
-      output = "choice.php?whichchoice=1100&option=2";
-    } else if (creation.equals("bankruptcy barrel")) {
-      output = "choice.php?whichchoice=1100&option=3";
-    } else {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot create " + creation);
+    switch (creation) {
+      case "barrel lid" -> output = "choice.php?whichchoice=1100&option=1";
+      case "barrel hoop earring" -> output = "choice.php?whichchoice=1100&option=2";
+      case "bankruptcy barrel" -> output = "choice.php?whichchoice=1100&option=3";
+      default -> KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot create " + creation);
     }
 
     KoLmafia.updateDisplay("Creating " + this.getQuantityNeeded() + " " + creation + "...");

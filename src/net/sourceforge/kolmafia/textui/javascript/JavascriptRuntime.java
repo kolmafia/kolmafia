@@ -32,6 +32,8 @@ import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.JavaScriptException;
+import org.mozilla.javascript.NativeObject;
+import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
@@ -192,8 +194,18 @@ public class JavascriptRuntime extends AbstractRuntime {
       initEnumeratedTypes(cx, scope, currentStdLib);
 
       setState(State.NORMAL);
-
-      return executeRun(functionName, arguments, true);
+      if (ScriptRuntime.hasTopCall(cx)) {
+        return executeRun(functionName, arguments, true);
+      } else {
+        return (Value)
+            ScriptRuntime.doTopCall(
+                (cx1, scope1, thisObj, args) -> executeRun(functionName, arguments, true),
+                cx,
+                scope,
+                null,
+                new Object[] {},
+                false);
+      }
     } finally {
       EnumeratedWrapper.cleanup(scope);
       currentTopScope = null;
@@ -212,16 +224,21 @@ public class JavascriptRuntime extends AbstractRuntime {
       returnValue = callback.get();
     } catch (WrappedException e) {
       Throwable unwrapped = e.getWrappedException();
-      if (stackOnAbort) {
-        StringBuilder message = new StringBuilder("Internal exception");
-        if (unwrapped.getMessage() != null) {
-          message.append(": ").append(e.getMessage());
-        }
-        message.append("\n").append(e.getScriptStackTrace());
-        String escapedMessage = escapeHtmlInMessage(message.toString());
+      if (unwrapped instanceof ScriptException) {
+        String escapedMessage = escapeHtmlInMessage("Script exception: " + unwrapped.getMessage());
         KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
+      } else {
+        if (stackOnAbort) {
+          StringBuilder message = new StringBuilder("Internal exception");
+          if (unwrapped.getMessage() != null) {
+            message.append(": ").append(e.getMessage());
+          }
+          message.append("\n").append(e.getScriptStackTrace());
+          String escapedMessage = escapeHtmlInMessage(message.toString());
+          KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
+        }
+        StaticEntity.printStackTrace(unwrapped);
       }
-      StaticEntity.printStackTrace(unwrapped);
     } catch (EvaluatorException e) {
       String escapedMessage =
           escapeHtmlInMessage(
@@ -276,9 +293,13 @@ public class JavascriptRuntime extends AbstractRuntime {
               return cx.evaluateString(scope, scriptString, "command line", 1, null);
             }
           }
-          if (functionName != null) {
+          if (functionName != null && exports != null) {
+            Object defaultExport = getValidDefaultExport(exports);
             Object mainFunction =
-                ScriptableObject.getProperty(exports != null ? exports : scope, functionName);
+                (defaultExport != Scriptable.NOT_FOUND)
+                    ? defaultExport
+                    : ScriptableObject.getProperty(exports, functionName);
+
             if (mainFunction instanceof Function) {
               return ((Function) mainFunction)
                   .call(cx, scope, cx.newObject(currentTopScope), runArguments);
@@ -287,6 +308,19 @@ public class JavascriptRuntime extends AbstractRuntime {
 
           return null;
         });
+  }
+
+  public static Object getValidDefaultExport(Object exports) {
+    if (!(exports instanceof NativeObject e)) return null;
+    if (e.containsKey("default") && e.containsKey("__esModule")) {
+      Object esm = e.get("__esModule");
+
+      if (esm instanceof Boolean b && b) {
+        return ScriptableObject.getProperty(e, "default");
+      }
+    }
+
+    return Scriptable.NOT_FOUND;
   }
 
   public static void interruptAll() {

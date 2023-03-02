@@ -7,10 +7,12 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -20,12 +22,17 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StationaryButtonDecorator {
-  private static final ArrayList<String> combatHotkeys = new ArrayList<String>();
+  private static final ArrayList<String> combatHotkeys = new ArrayList<>();
+
+  private static final AdventureResult EVERYTHING_LOOKS_YELLOW =
+      EffectPool.get(EffectPool.EVERYTHING_LOOKS_YELLOW);
+  private static final AdventureResult EVERYTHING_LOOKS_BLUE =
+      EffectPool.get(EffectPool.EVERYTHING_LOOKS_BLUE);
 
   private StationaryButtonDecorator() {}
 
@@ -49,14 +56,10 @@ public class StationaryButtonDecorator {
       return true;
     }
 
-    switch (skillNumber) {
-      case SkillPool.OLFACTION:
-      case SkillPool.CANHANDLE:
-      case SkillPool.SHOOT:
-        return true;
-    }
-
-    return false;
+    return switch (skillNumber) {
+      case SkillPool.OLFACTION, SkillPool.CANHANDLE, SkillPool.SHOOT -> true;
+      default -> false;
+    };
   }
 
   public static final void addSkillButton(final String skillId) {
@@ -156,7 +159,7 @@ public class StationaryButtonDecorator {
                 + location
                 + "'><img src='"
                 + KoLmafia.imageServerPath()
-                + "itemimages/plexpock.gif'></td><td class=spacer></td>";
+                + "itemimages/plexpock.gif'></a></td><td class=spacer></td>";
         buffer.insert(imageIndex, script);
 
         // Give it either the "script" or "again" label
@@ -228,9 +231,7 @@ public class StationaryButtonDecorator {
         //     Column 1
         CAB.append("<td>&nbsp;</td>");
         //     Column 2-19
-        for (int i = 2; i <= 19; ++i) {
-          CAB.append("<td></td>");
-        }
+        CAB.append("<td></td>".repeat(18));
         CAB.append("</tr>");
 
         // *** Row 2 of table: class=blueback cols=19
@@ -240,7 +241,7 @@ public class StationaryButtonDecorator {
         CAB.append(choice ? "choice.php?action=auto" : getAdventureAgainLocation(buffer));
         CAB.append("'><img src='");
         CAB.append(KoLmafia.imageServerPath());
-        CAB.append("itemimages/plexpock.gif'></td>");
+        CAB.append("itemimages/plexpock.gif'></a></td>");
         //     Column 2
         CAB.append("<td class=spacer></td>");
         //     Column 3
@@ -272,9 +273,7 @@ public class StationaryButtonDecorator {
         CAB.append(choice ? "auto" : "again");
         CAB.append("</td>");
         //	Column 2-19
-        for (int i = 2; i < 19; ++i) {
-          CAB.append("<td></td>");
-        }
+        CAB.append("<td></td>".repeat(17));
         CAB.append("</tr>");
         CAB.append("</tbody></table></center>");
 
@@ -352,7 +351,7 @@ public class StationaryButtonDecorator {
     boolean useHotKeys = !Preferences.getBoolean("macroLens");
 
     if (inCombat) {
-      StationaryButtonDecorator.addCombatButtons(urlString, actionBuffer);
+      StationaryButtonDecorator.addCombatButtons(urlString, buffer, actionBuffer);
     } else if (inChoice) {
       StationaryButtonDecorator.addChoiceButtons(actionBuffer);
     } else {
@@ -419,7 +418,7 @@ public class StationaryButtonDecorator {
   }
 
   public static final void addCombatButtons(
-      final String urlString, final StringBuffer actionBuffer) {
+      final String urlString, final StringBuffer buffer, final StringBuffer actionBuffer) {
     // If we fighting a source agent, create buttons for exactly
     // those skills which are usable against them.
     if (KoLCharacter.inTheSource() && FightRequest.isSourceAgent()) {
@@ -434,7 +433,7 @@ public class StationaryButtonDecorator {
 
     // If you are Batfellow, you cannot "attack". Instead, you have
     // skills based on items you might have.
-    if (KoLCharacter.getLimitmode() == Limitmode.BATMAN) {
+    if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {
       StationaryButtonDecorator.addScriptButton(urlString, actionBuffer, true);
       StationaryButtonDecorator.addBatButton(actionBuffer, "Bat-Punch", 0);
       StationaryButtonDecorator.addBatButton(actionBuffer, "Bat-Kick", 0);
@@ -463,7 +462,7 @@ public class StationaryButtonDecorator {
       StationaryButtonDecorator.addScriptButton(urlString, actionBuffer, false);
     }
 
-    boolean inBirdForm = KoLConstants.activeEffects.contains(FightRequest.BIRDFORM);
+    boolean inBirdForm = KoLCharacter.getLimitMode() == LimitMode.BIRD;
     if (KoLCharacter.isSneakyPete()) {
       // If you are Sneaky Pete and can steal, you can also mug
       StationaryButtonDecorator.addFightButton(actionBuffer, "7201", FightRequest.canStillSteal());
@@ -471,6 +470,10 @@ public class StationaryButtonDecorator {
 
     if (KoLCharacter.canPickpocket()) {
       StationaryButtonDecorator.addFightButton(actionBuffer, "steal", FightRequest.canStillSteal());
+    }
+
+    if (KoLCharacter.isAccordionThief() && buffer.indexOf("Steal Accordion") != -1) {
+      StationaryButtonDecorator.addFightButton(actionBuffer, "steal accordion", true);
     }
 
     if (EquipmentManager.usingChefstaff()) {
@@ -490,8 +493,7 @@ public class StationaryButtonDecorator {
     String classStun = ascensionClass == null ? "none" : ascensionClass.getStun();
     // Some skills can be available in combat but aren't always stuns. Disable if so or change to
     // Shadow Noodles if appropriate.
-    if (classStun.equals("Shell Up")
-        && KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING) {
+    if (classStun.equals("Shell Up") && KoLCharacter.getBlessingType() != TurtleBlessing.STORM) {
       classStun = Preferences.getBoolean("considerShadowNoodles") ? "Shadow Noodles" : "none";
     }
 
@@ -508,7 +510,7 @@ public class StationaryButtonDecorator {
       StationaryButtonDecorator.addFightButton(actionBuffer, String.valueOf(classStunId), enabled);
     }
 
-    if (!inBirdForm && KoLCharacter.hasSkill("Transcendent Olfaction")) {
+    if (!inBirdForm && KoLCharacter.hasSkill(SkillPool.OLFACTION)) {
       boolean enabled = FightRequest.getCurrentRound() > 0 && FightRequest.canOlfact();
       StationaryButtonDecorator.addFightButton(actionBuffer, "19", enabled);
     }
@@ -673,44 +675,44 @@ public class StationaryButtonDecorator {
 
     StringBuilder actionBuffer = new StringBuilder("fight.php?action=");
 
-    if (action.equals("attack") || action.equals("steal")) {
-      actionBuffer.append(action);
-    } else if (action.equals("jiggle")) {
-      actionBuffer.append("chefstaff");
-      isEnabled &= !FightRequest.alreadyJiggled();
-    } else if (action.equals("shake")) {
-      actionBuffer.append("skill&whichskill=");
-      actionBuffer.append(SkillPool.CANHANDLE);
-    } else if (action.equals("shoot")) {
-      actionBuffer.append("skill&whichskill=");
-      actionBuffer.append(SkillPool.SHOOT);
-    } else if (action.equals("insult")) {
-      int itemId =
-          KoLCharacter.inBeecore() ? ItemPool.MARAUDER_MOCKERY_MANUAL : ItemPool.PIRATE_INSULT_BOOK;
-
-      if (InventoryManager.getCount(itemId) > 0) {
-        actionBuffer.append("useitem&whichitem=");
-        actionBuffer.append(itemId);
-      } else {
-        isEnabled = false;
+    switch (action) {
+      case "attack", "steal" -> actionBuffer.append(action);
+      case "steal accordion" -> actionBuffer
+          .append("skill&whichskill=")
+          .append(SkillPool.STEAL_ACCORDION);
+      case "jiggle" -> {
+        actionBuffer.append("chefstaff");
+        isEnabled &= !FightRequest.alreadyJiggled();
       }
-    } else if (action.equals("jam flyer")) {
-      actionBuffer.append("useitem&whichitem=2404");
-    } else if (action.equals("rock flyer")) {
-      actionBuffer.append("useitem&whichitem=2405");
-    } else {
-      actionBuffer.append("skill&whichskill=");
-      actionBuffer.append(action);
-      int skillID = StringUtilities.parseInt(action);
-      isEnabled &= KoLCharacter.hasCombatSkill(skillID);
-      // Some skills cannot be used but KoL does not remove them
-      switch (skillID) {
-        case SkillPool.LASH_OF_COBRA:
-          isEnabled = !Preferences.getBoolean("edUsedLash");
-          break;
-        case SkillPool.GINGERBREAD_MOB_HIT:
-          isEnabled = !Preferences.getBoolean("_gingerbreadMobHitUsed");
-          break;
+      case "shake" -> actionBuffer.append("skill&whichskill=").append(SkillPool.CANHANDLE);
+      case "shoot" -> actionBuffer.append("skill&whichskill=").append(SkillPool.SHOOT);
+      case "insult" -> {
+        int itemId =
+            KoLCharacter.inBeecore()
+                ? ItemPool.MARAUDER_MOCKERY_MANUAL
+                : ItemPool.PIRATE_INSULT_BOOK;
+        if (InventoryManager.getCount(itemId) > 0) {
+          actionBuffer.append("useitem&whichitem=").append(itemId);
+        } else {
+          isEnabled = false;
+        }
+      }
+      case "jam flyer" -> actionBuffer.append("useitem&whichitem=2404");
+      case "rock flyer" -> actionBuffer.append("useitem&whichitem=2405");
+      default -> {
+        actionBuffer.append("skill&whichskill=").append(action);
+        int skillID = StringUtilities.parseInt(action);
+        isEnabled &= KoLCharacter.hasCombatSkill(skillID);
+        // Some skills cannot be used but KoL does not remove them
+        switch (skillID) {
+          case SkillPool.LASH_OF_COBRA -> isEnabled = !Preferences.getBoolean("edUsedLash");
+          case SkillPool.GINGERBREAD_MOB_HIT -> isEnabled =
+              !Preferences.getBoolean("_gingerbreadMobHitUsed");
+          case SkillPool.FONDELUGE -> isEnabled =
+              !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_YELLOW);
+          case SkillPool.MOTIF -> isEnabled =
+              !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_BLUE);
+        }
       }
     }
 
@@ -821,6 +823,7 @@ public class StationaryButtonDecorator {
     }
 
     if (action.equals("steal")
+        || action.equals("steal accordion")
         || action.equals("jiggle")
         || action.equals("shake")
         || action.equals("shoot")

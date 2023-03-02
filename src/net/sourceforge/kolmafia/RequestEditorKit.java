@@ -27,14 +27,15 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase.Punchcard;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -55,12 +56,14 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.session.DvorakManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager;
+import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -71,7 +74,6 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
@@ -296,8 +298,9 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.addBugReportWarning(buffer);
     } else if (location.startsWith("adventure.php")) {
       RequestEditorKit.fixTavernCellar(buffer);
-      // RequestEditorKit.fixBallroom1( buffer );
+      RequestEditorKit.fixBallroom1(buffer);
       RequestEditorKit.fixDucks(buffer);
+      RequestEditorKit.fixPortal(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
       RequestEditorKit.fixBallroom2(buffer);
       RequestEditorKit.fixGovernmentLab(buffer);
@@ -319,8 +322,6 @@ public class RequestEditorKit extends HTMLEditorKit {
             "<tr><td colspan=9",
             "<tr class=\"sortbottom\" style=\"display:none\"><td colspan=9");
       }
-    } else if (location.startsWith("barrel.php")) {
-      BarrelDecorator.decorate(buffer);
     } else if (location.startsWith("basement.php")) {
       BasementDecorator.decorate(buffer);
     } else if (location.startsWith("bathole.php")) {
@@ -341,7 +342,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("choice.php")) {
       RequestEditorKit.fixTavernCellar(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
-      RequestEditorKit.addChoiceSpoilers(location, buffer);
+      RequestEditorKit.addChoiceSpoilers(location, buffer, addComplexFeatures);
       RequestEditorKit.addBarrelSounds(buffer);
     } else if (location.startsWith("clan_hobopolis.php")) {
       HobopolisDecorator.decorate(location, buffer);
@@ -366,12 +367,14 @@ public class RequestEditorKit extends HTMLEditorKit {
 
       StationaryButtonDecorator.decorate(location, buffer);
 
+      ElVibratoManager.decorate(buffer);
       DiscoCombatHelper.decorate(buffer);
       RequestEditorKit.addFightModifiers(buffer);
       RequestEditorKit.addTaleOfDread(buffer);
       RequestEditorKit.addDesertProgress(buffer);
       RequestEditorKit.addBlackForestProgress(buffer);
       RequestEditorKit.addPartyFairProgress(buffer);
+      RequestEditorKit.addChaostheticianLink(buffer);
 
       // Do any monster-specific decoration
       FightDecorator.decorateMonster(buffer);
@@ -455,7 +458,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
     } else if (location.startsWith("tiles.php")) {
       DvorakManager.decorate(buffer);
-    } else if (location.startsWith("volcanomaze.php")) {
+    } else if (location.contains("volcanomaze.php")) {
       VolcanoMazeManager.decorate(location, buffer);
     } else if (location.startsWith("wand.php") && !location.contains("notrim=1")) {
       ZapRequest.decorate(buffer);
@@ -628,8 +631,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     // If we are Level 13 or less, the Council might have quests for us
     if (newLevel <= 13) {
       // If we're Ed, and have already found we're talking to Amun instead, link to Amun
-      if (KoLCharacter.isEd()
-          && QuestDatabase.isQuestLaterThan(Quest.LARVA, QuestDatabase.UNSTARTED)) {
+      if (KoLCharacter.isEd() && QuestDatabase.isQuestStarted(Quest.LARVA)) {
         links.append(" [<a href=\"council.php\">Amun</a>]");
       } else {
         links.append(" [<a href=\"council.php\">council</a>]");
@@ -651,9 +653,9 @@ public class RequestEditorKit extends HTMLEditorKit {
       if (newLevel % 3 == 0) {
         links.append(" [<a href=\"/place.php?whichplace=edbase&action=edbase_door\">servant</a>]");
       } else {
-        if (KoLCharacter.hasSkill("Bounty of Renenutet")
-            && KoLCharacter.hasSkill("Wrath of Ra")
-            && KoLCharacter.hasSkill("Curse of Stench")) {
+        if (KoLCharacter.hasSkill(SkillPool.BOUNTY_OF_RENENUTET)
+            && KoLCharacter.hasSkill(SkillPool.WRATH_OF_RA)
+            && KoLCharacter.hasSkill(SkillPool.CURSE_OF_STENCH)) {
           links.append(
               " [<a href=\"/place.php?whichplace=edbase&action=edbase_door\">servant xp</a>]");
         } else {
@@ -1149,15 +1151,10 @@ public class RequestEditorKit extends HTMLEditorKit {
       String group = omatcher.group(1);
       String options = omatcher.group(2);
       switch (group) {
-        case "Normal Outfits":
-          addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
-          break;
-        case "Custom Outfits":
-          addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
-          break;
-        case "Automatic Outfits":
-          addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
-          break;
+        case "Normal Outfits" -> addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
+        case "Custom Outfits" -> addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
+        case "Automatic Outfits" -> addOutfitGroup(
+            obuffer, "outfit3", "Automatic", "an automatic", options);
       }
     }
 
@@ -1279,28 +1276,34 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
     }
 
-    Matcher matcher = DwarfFactoryRequest.attackMessage(buffer);
-    if (matcher != null) {
-      int attack = DwarfFactoryRequest.deduceAttack(matcher);
-      buffer.insert(matcher.end(), "<p>(Attack rating = " + attack + ")</p>");
+    if (KoLCharacter.hasEquipped(ItemPool.DWARVISH_WAR_HELMET)) {
+      Matcher matcher = DwarfFactoryRequest.attackMessage(buffer);
+      if (matcher != null) {
+        int attack = DwarfFactoryRequest.deduceAttack(matcher);
+        buffer.insert(matcher.end(), "<p>(Attack rating = " + attack + ")</p>");
+      }
     }
 
-    matcher = DwarfFactoryRequest.defenseMessage(buffer);
-    if (matcher != null) {
-      int defense = DwarfFactoryRequest.deduceDefense(matcher);
-      buffer.insert(matcher.end(), "<p>(Defense rating = " + defense + ")</p>");
+    if (KoLCharacter.hasEquipped(ItemPool.DWARVISH_WAR_KILT)) {
+      Matcher matcher = DwarfFactoryRequest.defenseMessage(buffer);
+      if (matcher != null) {
+        int defense = DwarfFactoryRequest.deduceDefense(matcher);
+        buffer.insert(matcher.end(), "<p>(Defense rating = " + defense + ")</p>");
+      }
     }
 
-    matcher = DwarfFactoryRequest.hpMessage(buffer);
-    if (matcher != null) {
-      // Must iterate over a copy of the buffer, since we'll be modifying it
-      matcher = DwarfFactoryRequest.hpMessage(buffer.toString());
-      buffer.setLength(0);
-      do {
-        int hp = DwarfFactoryRequest.deduceHP(matcher);
-        matcher.appendReplacement(buffer, "$0<p>(Hit Points = " + hp + ")</p>");
-      } while (matcher.find());
-      matcher.appendTail(buffer);
+    if (KoLCharacter.hasEquipped((ItemPool.DWARVISH_WAR_MATTOCK))) {
+      Matcher matcher = DwarfFactoryRequest.hpMessage(buffer);
+      if (matcher != null) {
+        // Must iterate over a copy of the buffer, since we'll be modifying it
+        matcher = DwarfFactoryRequest.hpMessage(buffer.toString());
+        buffer.setLength(0);
+        do {
+          int hp = DwarfFactoryRequest.deduceHP(matcher);
+          matcher.appendReplacement(buffer, "$0<p>(Hit Points = " + hp + ")</p>");
+        } while (matcher.find());
+        matcher.appendTail(buffer);
+      }
     }
 
     MonsterData monster = MonsterStatusTracker.getLastMonster();
@@ -1322,13 +1325,8 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     switch (KoLAdventure.lastAdventureId()) {
-      case AdventurePool.THEMTHAR_HILLS:
-        IslandDecorator.decorateThemtharFight(buffer);
-        break;
-
-      case AdventurePool.SEASIDE_MEGALOPOLIS:
-        MemoriesDecorator.decorateMegalopolisFight(buffer);
-        break;
+      case AdventurePool.THEMTHAR_HILLS -> IslandDecorator.decorateThemtharFight(buffer);
+      case AdventurePool.SEASIDE_MEGALOPOLIS -> MemoriesDecorator.decorateMegalopolisFight(buffer);
     }
   }
 
@@ -1362,9 +1360,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     switch (KoLAdventure.lastAdventureId()) {
-      case AdventurePool.THEMTHAR_HILLS:
-        IslandDecorator.decorateThemtharFight(buffer);
-        break;
+      case AdventurePool.THEMTHAR_HILLS -> IslandDecorator.decorateThemtharFight(buffer);
     }
   }
 
@@ -1453,33 +1449,32 @@ public class RequestEditorKit extends HTMLEditorKit {
         int rate = item.getCount() >> 16;
         monsterData.append(item.getName());
         switch ((char) item.getCount() & 0xFFFF) {
-          case 'p':
+          case 'p' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" pp only)");
-            break;
-          case 'n':
+          }
+          case 'n' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" no pp)");
-            break;
-          case 'c':
+          }
+          case 'c' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" cond)");
-            break;
-          case 'f':
+          }
+          case 'f' -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" no mod)");
-            break;
-          case 'a':
-            monsterData.append(" (stealable accordion)");
-            break;
-          default:
+          }
+          case 'a' -> monsterData.append(" (stealable accordion)");
+          default -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(")");
+          }
         }
       }
     }
@@ -1517,7 +1512,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     IslandDecorator.appendMissingGremlinTool(monster, monsterData);
 
-    if (KoLCharacter.getLimitmode() == Limitmode.SPELUNKY) {
+    if (KoLCharacter.getLimitMode() == LimitMode.SPELUNKY) {
       SpelunkyRequest.decorateSpelunkyMonster(monsterData);
     }
 
@@ -1622,7 +1617,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
+    for (Punchcard punchcard : ElVibratoManager.PUNCHCARDS) {
       String name = punchcard.name();
       if (buffer.indexOf(name) != -1) {
         StringUtilities.globalStringReplace(buffer, name, punchcard.alias());
@@ -1739,53 +1734,46 @@ public class RequestEditorKit extends HTMLEditorKit {
     String partyQuest = Preferences.getString("_questPartyFairQuest");
 
     switch (partyQuest) {
-      case "woots":
-        {
-          Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      case "woots" -> {
+        Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
+          buffer.insert(m.end(), progress);
+          return;
         }
-      case "trash":
-        {
-          Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (~"
-                    + Preferences.getString("_questPartyFairProgress")
-                    + " pieces of trash remaining)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      }
+      case "trash" -> {
+        Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (~"
+                  + Preferences.getString("_questPartyFairProgress")
+                  + " pieces of trash remaining)";
+          buffer.insert(m.end(), progress);
+          return;
         }
-      case "dj":
-        {
-          Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      }
+      case "dj" -> {
+        Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
+          buffer.insert(m.end(), progress);
+          return;
         }
+      }
+
         // No special text, just append to You win the fight if on clear the party quest
-      case "partiers":
-        {
-          Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
-          if (m.find()) {
-            String progress =
-                " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
-            buffer.insert(m.end(), progress);
-            return;
-          }
-          break;
+      case "partiers" -> {
+        Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
+        if (m.find()) {
+          String progress =
+              " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
+          buffer.insert(m.end(), progress);
+          return;
         }
+      }
     }
   }
 
@@ -1820,7 +1808,8 @@ public class RequestEditorKit extends HTMLEditorKit {
     m.appendTail(buffer);
   }
 
-  private static void addChoiceSpoilers(final String location, final StringBuffer buffer) {
+  private static void addChoiceSpoilers(
+      final String location, final StringBuffer buffer, final boolean addComplexFeatures) {
     if (!Preferences.getBoolean("relayShowSpoilers")) {
       return;
     }
@@ -1835,7 +1824,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Do any choice-specific decorations
-    ChoiceAdventures.decorateChoice(choice, buffer);
+    ChoiceAdventures.decorateChoice(choice, buffer, addComplexFeatures);
 
     String text = buffer.toString();
     Matcher matcher = FORM_PATTERN.matcher(text);
@@ -1853,7 +1842,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     if (spoilers == null) {
       // Don't give up - there may be a choice even if there are no spoilers.
-      spoilers = new Spoilers(choice, "", new ChoiceAdventures.Option[0]);
+      spoilers = new Spoilers(choice, "", new ChoiceOption[0]);
     }
 
     int index1 = matcher.start();
@@ -1892,8 +1881,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       // Build spoiler text
       while (i > 0) {
         // Say what the choice will give you
-        ChoiceAdventures.Option spoiler =
-            ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
+        ChoiceOption spoiler = ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
 
         // If we have nothing to say about this option, don't say anything
         if (spoiler == null) {
@@ -2031,7 +2019,6 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 579:
         // Such Great Heights
         if (option == 3) {
-          // xyzzy
           int index =
               buffer.indexOf(
                   "<p><a href=\"adventure.php?snarfblat=280\">Adventure Again (The Hidden Temple)</a>");
@@ -2182,14 +2169,14 @@ public class RequestEditorKit extends HTMLEditorKit {
     int crannyEvil = Preferences.getInteger("cyrptCrannyEvilness");
     int alcoveEvil = Preferences.getInteger("cyrptAlcoveEvilness");
 
-    String nookColor = nookEvil > 25 ? "000000" : "FF0000";
-    String nookHint = nookEvil > 25 ? "Item Drop" : "<b>BOSS</b>";
-    String nicheColor = nicheEvil > 25 ? "000000" : "FF0000";
-    String nicheHint = nicheEvil > 25 ? "Sniff Dirty Lihc" : "<b>BOSS</b>";
-    String crannyColor = crannyEvil > 25 ? "000000" : "FF0000";
-    String crannyHint = crannyEvil > 25 ? "ML & Noncombat" : "<b>BOSS</b>";
-    String alcoveColor = alcoveEvil > 25 ? "000000" : "FF0000";
-    String alcoveHint = alcoveEvil > 25 ? "Initiative" : "<b>BOSS</b>";
+    String nookColor = nookEvil > 13 ? "000000" : "FF0000";
+    String nookHint = nookEvil > 13 ? "Item Drop" : "<b>BOSS</b>";
+    String nicheColor = nicheEvil > 13 ? "000000" : "FF0000";
+    String nicheHint = nicheEvil > 13 ? "Sniff Dirty Lihc" : "<b>BOSS</b>";
+    String crannyColor = crannyEvil > 13 ? "000000" : "FF0000";
+    String crannyHint = crannyEvil > 13 ? "ML & Noncombat" : "<b>BOSS</b>";
+    String alcoveColor = alcoveEvil > 13 ? "000000" : "FF0000";
+    String alcoveHint = alcoveEvil > 13 ? "Initiative" : "<b>BOSS</b>";
 
     StringBuilder evilometer = new StringBuilder();
 
@@ -2324,6 +2311,29 @@ public class RequestEditorKit extends HTMLEditorKit {
         buffer, url, "Go back to The Mysterious Island of Mystery");
   }
 
+  private static void fixPortal(final StringBuffer buffer) {
+    // Your El Vibrato portal has run out of power.  You should go back to
+    // <a href="campground.php">your campsite</a> and charge it back up.
+
+    if (buffer.indexOf("Your El Vibrato portal has run out of power") == -1) {
+      return;
+    }
+
+    if (InventoryManager.getCount(ItemPool.OVERCHARGED_POWER_SPHERE) > 0) {
+      String url = "campground.php?action=overpowerelvibratoportal";
+      RequestEditorKit.addAdventureAgainSection(
+          buffer, url, "Insert an overcharged El Vibrato power sphere");
+    }
+
+    if (InventoryManager.getCount(ItemPool.POWER_SPHERE) > 0) {
+      String url = "campground.php?action=powerelvibratoportal";
+      RequestEditorKit.addAdventureAgainSection(buffer, url, "Insert an El Vibrato power sphere");
+    }
+
+    String url = "campground.php?action=evibratoportal";
+    RequestEditorKit.addAdventureAgainSection(buffer, url, "Go to your El Vibrato portal");
+  }
+
   public static final void addAdventureAgainSection(
       final StringBuffer buffer, final String link, final String tag) {
     int index = buffer.indexOf("</center></td></tr><tr><td height=4></td></tr></table>");
@@ -2338,34 +2348,25 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void fixBallroom1(final StringBuffer buffer) {
     // Things that go BEFORE Stationary Buttons have been generated
 
-    String link = null;
-
-    if (buffer.indexOf("Having a Ball in the Ballroom") != -1) {
-      // Give the player a link to talk to Lady Spookyraven again (on the third floor)
-      //
-      // Unfortunately, place.php?whichplace=manor3&action=manor3_ladys does not work until you
-      // visit the third floor map
-      // link = "<p><a href=\"place.php?whichplace=manor3&action=manor3_ladys\">Talk to Lady
-      // Spookyraven on the Third Floor</a>";
-      //
-      // Unfortunately, place.php?whichplace=manor3 doesn't work until you visit the second floor
-      // map again.
-      // link = "<p><a href=\"place.php?whichplace=manor3\">Go to the Third Floor</a>";
-      //
-      // Which makes this whole function useless, unless we
-      // can figure out a way - via a sidepane command, say -
-      // to unlock the third floor and then talk to Lady S on
-      // the third floor
-    }
-
-    if (link == null) {
+    if (buffer.indexOf("Having a Ball in the Ballroom") == -1) {
       return;
     }
 
-    int index = buffer.indexOf("<p><a href=\"adventure.php?snarfblat=395\">");
-    if (index != -1) {
-      buffer.insert(index, link);
+    String adventureAgain =
+        "<p><a href=\"adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM + "\">";
+    int index = buffer.indexOf(adventureAgain);
+    if (index == -1) {
+      return;
     }
+
+    String link1 =
+        "<p><a href=\"place.php?whichplace=manor3&action=manor3_ladys\">Talk to Lady Spookyraven on the Third Floor</a>";
+    buffer.insert(index, link1);
+
+    // Have to recheck since we've inserted HTML in front of index
+    index = buffer.indexOf(adventureAgain);
+    String link2 = "<p><a href=\"place.php?whichplace=manor3\">Go to the Third Floor</a>";
+    buffer.insert(index, link2);
   }
 
   private static final AdventureResult DANCE_CARD = ItemPool.get(ItemPool.DANCE_CARD, 1);
@@ -2373,27 +2374,25 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void fixBallroom2(final StringBuffer buffer) {
     // Things that go AFTER Stationary Buttons have been generated
 
-    String link = null;
-
-    if (buffer.indexOf("Rotting Matilda") != -1) {
-      // Give player a link to use another dance card
-      if (DANCE_CARD.getCount(KoLConstants.inventory) <= 0) {
-        return;
-      }
-      link =
-          "<p><a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=1963&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\">Use another dance card</a>";
+    if (buffer.indexOf("Rotting Matilda") == -1) {
+      return;
     }
 
-    if (link == null) {
+    // Give player a link to use another dance card
+    if (DANCE_CARD.getCount(KoLConstants.inventory) <= 0) {
       return;
     }
 
     int index = buffer.indexOf("<p><a href=\"adventure.php?snarfblat=395\">");
-    if (index != -1) {
-      buffer.insert(index, link);
+    if (index == -1) {
+      return;
     }
+
+    String link =
+        "<p><a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=1963&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);\">Use another dance card</a>";
+    buffer.insert(index, link);
   }
 
   private static void fixGovernmentLab(final StringBuffer buffer) {
@@ -2424,24 +2423,38 @@ public class RequestEditorKit extends HTMLEditorKit {
             ItemPool.VENTILATION_UNIT,
             1,
             UseLinkDecorator.getEquipmentSpeculation(
-                "acc1", ItemPool.VENTILATION_UNIT, EquipmentManager.ACCESSORY1),
+                "acc1", ItemPool.VENTILATION_UNIT, Slot.ACCESSORY1),
             "inv_equip.php?which=2&action=equip&slot=1&whichitem=");
     UseLink link2 =
         new UseLink(
             ItemPool.VENTILATION_UNIT,
             1,
             UseLinkDecorator.getEquipmentSpeculation(
-                "acc2", ItemPool.VENTILATION_UNIT, EquipmentManager.ACCESSORY2),
+                "acc2", ItemPool.VENTILATION_UNIT, Slot.ACCESSORY2),
             "inv_equip.php?which=2&action=equip&slot=2&whichitem=");
     UseLink link3 =
         new UseLink(
             ItemPool.VENTILATION_UNIT,
             1,
             UseLinkDecorator.getEquipmentSpeculation(
-                "acc3", ItemPool.VENTILATION_UNIT, EquipmentManager.ACCESSORY3),
+                "acc3", ItemPool.VENTILATION_UNIT, Slot.ACCESSORY3),
             "inv_equip.php?which=2&action=equip&slot=3&whichitem=");
     buffer.insert(
         index + test.length(), link1.getItemHTML() + link2.getItemHTML() + link3.getItemHTML());
+  }
+
+  private static void addChaostheticianLink(final StringBuffer buffer) {
+    String test = "You should head back to the Chaosthetician at Dino World for your reward";
+    int index = buffer.indexOf(test);
+
+    if (index == -1) {
+      return;
+    }
+
+    StringUtilities.singleStringReplace(
+        buffer,
+        "Chaosthetician at Dino World",
+        "<a href=\"place.php?whichplace=dinorf&action=dinorf_chaos\">Chaosthetician at Dino World</a>");
   }
 
   private static class KoLSubmitView extends FormView {
@@ -2596,8 +2609,8 @@ public class RequestEditorKit extends HTMLEditorKit {
 
       Frame[] frames = Frame.getFrames();
       for (Frame frame : frames) {
-        if (frame instanceof RequestFrame && ((RequestFrame) frame).mainDisplay == c) {
-          return (RequestFrame) frame;
+        if (frame instanceof RequestFrame rf && rf.mainDisplay == c) {
+          return rf;
         }
       }
       return null;

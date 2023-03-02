@@ -12,11 +12,14 @@ import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.mozilla.javascript.BaseFunction;
+import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 public class LibraryFunctionStub extends AshStub {
   private static final long serialVersionUID = 1L;
+
+  private final List<String> bufferFunctions = List.of("buffer_to_file", "write_ccs");
 
   public LibraryFunctionStub(
       Scriptable scope, Scriptable prototype, ScriptRuntime controller, String ashFunctionName) {
@@ -41,7 +44,12 @@ public class LibraryFunctionStub extends AshStub {
     ashArgsWithInterpreter.add(controller);
     ashArgsWithInterpreter.addAll(ashArgs);
 
-    return ashFunction.executeWithoutInterpreter(controller, ashArgsWithInterpreter.toArray());
+    try {
+      return ashFunction.executeWithoutInterpreter(controller, ashArgsWithInterpreter.toArray());
+    } catch (Throwable e) {
+      // ensure the exception can be caught in Javascript
+      throw Context.throwAsScriptRuntimeEx(e);
+    }
   }
 
   private int findFunctionReference(Object[] args) {
@@ -69,12 +77,14 @@ public class LibraryFunctionStub extends AshStub {
       return "[runtime library]";
     }
 
-    if (ashFunctionName.equals("buffer_to_file") && args.length > 0 && args[0] instanceof String) {
+    if (bufferFunctions.stream().anyMatch(ashFunctionName::equals)
+        && args.length > 0
+        && (args[0] instanceof String || args[0] instanceof ConsString)) {
       // Manually convert string to buffer, since AshStub.call() cannot match a string argument to a
       // buffer parameter.
+      CharSequence cs = (CharSequence) args[0];
       args = args.clone();
-      String str = (String) args[0];
-      args[0] = new Value(DataTypes.BUFFER_TYPE, str, new StringBuffer(str));
+      args[0] = new Value(DataTypes.BUFFER_TYPE, cs.toString(), new StringBuffer(cs));
     }
 
     // Named function references don't really make sense in JavaScript, so for any function that is

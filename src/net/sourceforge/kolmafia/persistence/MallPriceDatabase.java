@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -12,11 +13,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -25,17 +29,18 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
-import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPriceDatabase {
   // If false, blocks saving of mall prices. Do not modify outside of tests.
   public static boolean savePricesToFile = true;
 
-  private static final PriceArray prices = new PriceArray();
-  private static final HashSet<String> updated = new HashSet<String>();
-  private static final HashSet<String> submitted = new HashSet<String>();
+  private static final SortedMap<Integer, Price> prices = new TreeMap<>();
+  private static final HashSet<String> updated = new HashSet<>();
+  private static final HashSet<String> submitted = new HashSet<>();
   private static int modCount = 0;
+
+  public static final File PRICE_FILE = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
 
   private static final int CONNECT_TIMEOUT = 15 * 1000;
 
@@ -83,12 +88,11 @@ public class MallPriceDatabase {
         if (!ItemDatabase.isTradeable(id)) continue;
         Price p = MallPriceDatabase.prices.get(id);
         if (p == null) {
-          MallPriceDatabase.prices.set(id, new Price(price, timestamp));
+          MallPriceDatabase.prices.put(id, new Price(id, price, timestamp));
           ++count;
           ++MallPriceDatabase.modCount;
         } else if (timestamp > p.timestamp) {
-          p.price = price;
-          p.timestamp = timestamp;
+          p.update(price, timestamp);
           ++count;
           ++MallPriceDatabase.modCount;
         }
@@ -138,18 +142,13 @@ public class MallPriceDatabase {
     }
   }
 
-  public static void recordPrice(int itemId, int price) {
-    MallPriceDatabase.recordPrice(itemId, price, false);
-  }
-
   public static void recordPrice(int itemId, int price, boolean deferred) {
     long timestamp = MallPriceManager.currentTimeMillis() / 1000L;
     Price p = MallPriceDatabase.prices.get(itemId);
     if (p == null) {
-      MallPriceDatabase.prices.set(itemId, new Price(price, timestamp));
+      MallPriceDatabase.prices.put(itemId, new Price(itemId, price, timestamp));
     } else {
-      p.price = price;
-      p.timestamp = timestamp;
+      p.update(price, timestamp);
     }
     ++MallPriceDatabase.modCount;
     if (!deferred) {
@@ -162,17 +161,24 @@ public class MallPriceDatabase {
       return;
     }
 
-    File output = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
-    PrintStream writer = LogStream.openStream(output, true);
+    try (PrintStream writer =
+        new PrintStream(
+            new BufferedOutputStream(DataUtilities.getOutputStream(PRICE_FILE)), false)) {
+      writePrices(writer);
+    }
+  }
+
+  static void writePrices(PrintStream writer) {
     writer.println(KoLConstants.MALLPRICES_VERSION);
 
-    for (int i = 1; i < MallPriceDatabase.prices.size(); ++i) {
-      Price p = MallPriceDatabase.prices.get(i);
-      if (p == null) continue;
-      writer.println(i + "\t" + p.timestamp + "\t" + p.price);
-    }
-
-    writer.close();
+    MallPriceDatabase.prices.entrySet().stream()
+        .forEach(
+            entry -> {
+              Price p = entry.getValue();
+              if (p != null) {
+                writer.writeBytes(p.encoded);
+              }
+            });
   }
 
   public static void submitPrices(String url) {
@@ -259,37 +265,22 @@ public class MallPriceDatabase {
   }
 
   private static class Price {
+    int id;
     int price;
     long timestamp;
+    byte[] encoded;
 
-    public Price(int price, long timestamp) {
+    public Price(int id, int price, long timestamp) {
+      this.id = id;
+      this.update(price, timestamp);
+    }
+
+    public void update(int price, long timestamp) {
       this.price = price;
       this.timestamp = timestamp;
-    }
-  }
-
-  /**
-   * Internal class which functions exactly an array of Prices, except it uses "sets" and "gets"
-   * like a list. This could be done with generics (Java 1.5) but is done like this so that we get
-   * backwards compatibility.
-   */
-  public static class PriceArray {
-    private final ArrayList<Price> internalList = new ArrayList<>();
-
-    public Price get(final int index) {
-      return index < 0 || index >= this.internalList.size() ? null : this.internalList.get(index);
-    }
-
-    public void set(final int index, final Price value) {
-      for (int i = this.internalList.size(); i <= index; ++i) {
-        this.internalList.add(null);
-      }
-
-      this.internalList.set(index, value);
-    }
-
-    public int size() {
-      return this.internalList.size();
+      this.encoded =
+          (this.id + "\t" + this.timestamp + "\t" + this.price + KoLConstants.LINE_BREAK)
+              .getBytes(StandardCharsets.UTF_8);
     }
   }
 }

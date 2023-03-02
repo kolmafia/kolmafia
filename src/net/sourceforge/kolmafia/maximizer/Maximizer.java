@@ -1,32 +1,43 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import java.util.Collections;
-import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.Modeable;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.OneResultPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
@@ -47,16 +58,16 @@ import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Maximizer {
   private static boolean firstTime = true;
 
-  public static final LockableListModel<Boost> boosts = new LockableListModel<Boost>();
+  public static final LockableListModel<Boost> boosts = new LockableListModel<>();
   public static Evaluator eval;
 
   public static String[] maximizationCategories = {
@@ -77,9 +88,10 @@ public class Maximizer {
   private Maximizer() {}
 
   public static boolean maximize(
-      String maximizerString, int maxPrice, int priceLevel, boolean isSpeculationOnly) {
+      String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
-    int equipScope = isSpeculationOnly ? 0 : -1;
+    EquipScope equipScope =
+        isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
 
     // iECOC has to be turned off before actually maximizing as
     // it would cause all item lookups during the process to just
@@ -87,34 +99,35 @@ public class Maximizer {
 
     KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, 0);
+    Maximizer.maximize(equipScope, maxPrice, priceLevel, false, EnumSet.allOf(filterType.class));
 
     if (!KoLmafia.permitsContinue()) {
       return false;
     }
 
     Modifiers mods = Maximizer.best.calculate();
-    Modifiers.overrideModifier("Generated:_spec", mods);
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_spec", mods);
 
     return !Maximizer.best.failed;
   }
 
   public static void maximize(
-      int equipScope,
+      EquipScope equipScope,
       int maxPrice,
-      int priceLevel,
+      PriceLevel priceLevel,
       boolean includeAll,
-      EnumMap<KoLConstants.filterType, Boolean> filter) {
+      Set<filterType> filter) {
     KoLmafia.forceContinue();
     String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
     RequestLogger.printLine("Maximizer: " + maxMe);
     RequestLogger.updateSessionLog("Maximizer: " + maxMe);
     KoLConstants.maximizerMList.addItem(maxMe);
     Maximizer.eval = new Evaluator(maxMe);
-    Integer filterCount = Math.toIntExact(filter.values().stream().filter(v -> v).count());
+    int filterCount = filter.size();
+    var limitMode = KoLCharacter.getLimitMode();
 
     // parsing error
-    if (!KoLmafia.permitsContinue() || !filter.containsValue(true)) {
+    if (!KoLmafia.permitsContinue() || filterCount == 0) {
       return;
     }
 
@@ -133,7 +146,7 @@ public class Maximizer {
     Maximizer.firstTime = false;
 
     Maximizer.boosts.clear();
-    if (filter.getOrDefault(KoLConstants.filterType.EQUIP, false)) {
+    if (filter.contains(KoLConstants.filterType.EQUIP)) {
       Maximizer.best = new MaximizerSpeculation();
       Maximizer.best.getScore();
       // In case the current outfit scores better than any tried combination,
@@ -145,13 +158,14 @@ public class Maximizer {
         Maximizer.eval.enumerateEquipment(equipScope, maxPrice, priceLevel);
       } catch (MaximizerExceededException e) {
         Maximizer.boosts.add(
-            new Boost("", "(maximum achieved, no further combinations checked)", -1, null, 0.0));
+            new Boost(
+                "", "(maximum achieved, no further combinations checked)", Slot.NONE, null, 0.0));
       } catch (MaximizerLimitException e) {
         Maximizer.boosts.add(
             new Boost(
                 "",
                 "<font color=red>(hit combination limit, optimality not guaranteed)</font>",
-                -1,
+                Slot.NONE,
                 null,
                 0.0));
       } catch (MaximizerInterruptedException e) {
@@ -160,24 +174,24 @@ public class Maximizer {
             new Boost(
                 "",
                 "<font color=red>(interrupted, optimality not guaranteed)</font>",
-                -1,
+                Slot.NONE,
                 null,
                 0.0));
       }
       MaximizerSpeculation.showProgress();
 
-      boolean[] alreadyDone = new boolean[EquipmentManager.ALL_SLOTS];
+      EnumSet<Slot> alreadyDone = EnumSet.noneOf(Slot.class);
 
-      for (int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; ++slot) {
-        if (Maximizer.best.equipment[slot].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
+      for (Slot slot : SlotSet.ACCESSORY_SLOTS) {
+        if (Maximizer.best.equipment.get(slot).getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE
             && EquipmentManager.getEquipment(slot).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE) {
           equipScope = Maximizer.emitSlot(slot, equipScope, maxPrice, priceLevel, current);
-          alreadyDone[slot] = true;
+          alreadyDone.add(slot);
         }
       }
 
-      for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
-        if (!alreadyDone[slot]) {
+      for (var slot : SlotSet.ALL_SLOTS) {
+        if (!alreadyDone.contains(slot)) {
           equipScope = Maximizer.emitSlot(slot, equipScope, maxPrice, priceLevel, current);
         }
       }
@@ -188,18 +202,16 @@ public class Maximizer {
             KoLCharacter.getCurrentModifiers(), EquipmentManager.currentEquipment());
 
     // Show only equipment
-    if (filter.getOrDefault(KoLConstants.filterType.EQUIP, true) && filterCount == 1) {
+    if (filter.contains(filterType.EQUIP) && filterCount == 1) {
       return;
     }
 
-    Iterator<String> i = Modifiers.getAllModifiers();
-    while (i.hasNext()) {
-      String lookup = i.next();
-
-      // Include skills from absorbing items in Noobcore
-      if (KoLCharacter.inNoobcore() && lookup.startsWith("Skill:")) {
-        String name = lookup.substring(6);
-        int skillId = SkillDatabase.getSkillId(name);
+    // Include skills from absorbing items in Noobcore
+    if (KoLCharacter.inNoobcore()) {
+      for (Map.Entry<IntOrString, String> entry :
+          ModifierDatabase.getAllModifiersOfType(ModifierType.SKILL)) {
+        if (!entry.getKey().isInt()) continue;
+        int skillId = entry.getKey().getIntValue();
         if (skillId < 23001 || skillId > 23125) {
           continue;
         }
@@ -211,7 +223,7 @@ public class Maximizer {
           continue;
         }
         MaximizerSpeculation spec = new MaximizerSpeculation();
-        String mods = Modifiers.getModifierList("Skill", name).toString();
+        String mods = entry.getValue();
         spec.setCustom(mods);
         double delta = spec.getScore() - current;
         if (delta <= 0.0) {
@@ -237,10 +249,12 @@ public class Maximizer {
           count++;
         }
       }
+
       // Include enchantments from absorbing equipment in Noobcore
-      else if (KoLCharacter.inNoobcore() && lookup.startsWith("Item:")) {
-        String name = lookup.substring(5);
-        int itemId = ItemDatabase.getItemId(name);
+      for (Map.Entry<IntOrString, String> entry :
+          ModifierDatabase.getAllModifiersOfType(ModifierType.ITEM)) {
+        if (!entry.getKey().isInt()) continue;
+        int itemId = entry.getKey().getIntValue();
         int absorbsLeft = KoLCharacter.getAbsorbsLimit() - KoLCharacter.getAbsorbs();
         if (absorbsLeft < 1) {
           continue;
@@ -253,27 +267,23 @@ public class Maximizer {
         if (!ItemDatabase.isTradeable(itemId) && !ItemDatabase.isGiftItem(itemId)) {
           continue;
         }
-        // Can only get it from Equipment
-        if (!EquipmentDatabase.isEquipment(itemId)) {
+        // Can only get it from Equipment (not including familiar equipment)
+        if (!ItemDatabase.isEquipment(itemId) || ItemDatabase.isFamiliarEquipment(itemId)) {
           continue;
         }
         MaximizerSpeculation spec = new MaximizerSpeculation();
-        Modifiers itemMods = Modifiers.getItemModifiers(itemId);
+        Modifiers itemMods = ModifierDatabase.getItemModifiers(itemId);
         if (itemMods == null) {
           continue;
         }
         // Only take numeric modifiers, and not Surgeonosity, from Items in Noobcore
         StringBuilder mods = new StringBuilder();
-        for (int j = 0; j < Modifiers.DOUBLE_MODIFIERS; ++j) {
-          switch (j) {
-            case Modifiers.SURGEONOSITY:
-              continue;
-          }
-          if (itemMods.get(j) != 0.0) {
+        for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+          if (itemMods.getDouble(mod) != 0.0) {
             if (mods.length() > 0) {
               mods.append(", ");
             }
-            mods.append(Modifiers.getModifierName(j) + ": " + itemMods.get(j));
+            mods.append(mod.getName() + ": " + itemMods.getDouble(mod));
           }
         }
         if (mods.length() == 0) {
@@ -310,12 +320,19 @@ public class Maximizer {
         text = text + "]";
         Maximizer.boosts.add(new Boost(cmd, text, ItemPool.get(itemId), delta));
       }
+    }
 
-      if (lookup.startsWith("Horsery:")
-          && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+    if (filter.contains(KoLConstants.filterType.OTHER)) {
+      for (Map.Entry<IntOrString, String> entry :
+          ModifierDatabase.getAllModifiersOfType(ModifierType.HORSERY)) {
+        if (!entry.getKey().isString()) continue;
+        String name = entry.getKey().getStringValue();
+        // Must be available in your current path
+        if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Horsery contract")) {
+          continue;
+        }
         String cmd, text;
         int price = 0;
-        String name = lookup.substring(8);
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.setHorsery(name);
         double delta = spec.getScore() - current;
@@ -343,10 +360,11 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, name, delta));
       }
 
-      if (lookup.startsWith("BoomBox:")
-          && filter.getOrDefault(KoLConstants.filterType.OTHER, false)) {
+      for (Map.Entry<IntOrString, String> entry :
+          ModifierDatabase.getAllModifiersOfType(ModifierType.BOOM_BOX)) {
+        if (!entry.getKey().isString()) continue;
+        String name = entry.getKey().getStringValue();
         String cmd, text;
-        String name = lookup.substring(8);
         MaximizerSpeculation spec = new MaximizerSpeculation();
         spec.setBoomBox(name);
         double delta = spec.getScore() - current;
@@ -375,12 +393,12 @@ public class Maximizer {
         }
         Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
       }
+    }
 
-      if (!lookup.startsWith("Effect:")) {
-        continue;
-      }
-      String name = lookup.substring(7);
-      int effectId = EffectDatabase.getEffectId(name);
+    for (Map.Entry<IntOrString, String> entry :
+        ModifierDatabase.getAllModifiersOfType(ModifierType.EFFECT)) {
+      if (!entry.getKey().isInt()) continue;
+      int effectId = entry.getKey().getIntValue();
       if (effectId == -1) {
         continue;
       }
@@ -389,30 +407,30 @@ public class Maximizer {
       boolean isSpecial = false;
       MaximizerSpeculation spec = new MaximizerSpeculation();
       AdventureResult effect = EffectPool.get(effectId);
-      name = effect.getName();
+      String name = effect.getName();
       boolean hasEffect = KoLConstants.activeEffects.contains(effect);
       Iterator<String> sources;
 
       if (!hasEffect) {
         spec.addEffect(effect);
         delta = spec.getScore() - current;
-        if ((spec.getModifiers().getRawBitmap(Modifiers.MUTEX_VIOLATIONS)
-                & ~KoLCharacter.currentRawBitmapModifier(Modifiers.MUTEX_VIOLATIONS))
+        if ((spec.getModifiers().getRawBitmap(BitmapModifier.MUTEX_VIOLATIONS)
+                & ~KoLCharacter.currentRawBitmapModifier(BitmapModifier.MUTEX_VIOLATIONS))
             != 0) { // This effect creates a mutex problem that the player
           // didn't already have.  In the future, perhaps suggest
           // uneffecting the conflicting effect, but for now just skip.
           continue;
         }
-        switch (Maximizer.eval.checkConstraints(Modifiers.getEffectModifiers(effectId))) {
-          case -1:
+        switch (Maximizer.eval.checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
+          case VIOLATES:
             continue;
-          case 0:
+          case IRRELEVANT:
             if (delta <= 0.0) continue;
             break;
-          case 1:
+          case MEETS:
             isSpecial = true;
         }
-        if (Evaluator.checkEffectConstraints(effectId)) {
+        if (Evaluator.cannotGainEffect(effectId)) {
           continue;
         }
         sources = EffectDatabase.getAllActions(effectId);
@@ -424,13 +442,13 @@ public class Maximizer {
       } else {
         spec.removeEffect(effect);
         delta = spec.getScore() - current;
-        switch (Maximizer.eval.checkConstraints(Modifiers.getEffectModifiers(effectId))) {
-          case 1:
+        switch (Maximizer.eval.checkConstraints(ModifierDatabase.getEffectModifiers(effectId))) {
+          case MEETS:
             continue;
-          case 0:
+          case IRRELEVANT:
             if (delta <= 0.0) continue;
             break;
-          case -1:
+          case VIOLATES:
             isSpecial = true;
         }
         String cmd = MoodManager.getDefaultAction("gain_effect", name);
@@ -477,23 +495,23 @@ public class Maximizer {
 
         switch (basecommand) {
           case "cast":
-            if (!filter.getOrDefault(KoLConstants.filterType.CAST, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.CAST)) continue;
             break;
           case "synthesize":
           case "chew":
-            if (!filter.getOrDefault(KoLConstants.filterType.SPLEEN, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.SPLEEN)) continue;
             break;
           case "drink":
-            if (!filter.getOrDefault(KoLConstants.filterType.BOOZE, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.BOOZE)) continue;
             break;
           case "eat":
-            if (!filter.getOrDefault(KoLConstants.filterType.FOOD, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.FOOD)) continue;
             break;
           case "use":
-            if (!filter.getOrDefault(KoLConstants.filterType.USABLE, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.USABLE)) continue;
             break;
           default:
-            if (!filter.getOrDefault(KoLConstants.filterType.OTHER, false)) continue;
+            if (!filter.contains(KoLConstants.filterType.OTHER)) continue;
         }
 
         if (cmd.startsWith("#")) { // usage note, no command
@@ -559,6 +577,21 @@ public class Maximizer {
               continue;
             }
 
+            if (itemId == ItemPool.VAMPIRE_VINTNER_WINE) {
+              // 1950 Vampire Vintner wine is a quest item.
+              // If you don't have it, you must adventure to get one.
+              if (!InventoryManager.hasItem(itemId)) {
+                continue;
+              }
+              // 1950 Vampire Vintner wine can provide any of seven
+              // effects.  Only consider using one if the wine you
+              // currently have provides this effect.
+              if (!Preferences.getString("vintnerWineEffect").equals(name)) {
+                continue;
+              }
+              duration = 12;
+            }
+
             // Resolve bang potions and slime vials
             if (itemId == -1) {
               item = item.resolveBangPotion();
@@ -568,22 +601,23 @@ public class Maximizer {
               continue;
             }
 
-            Modifiers effMod = Modifiers.getItemModifiers(item.getItemId());
+            Modifiers effMod = ModifierDatabase.getItemModifiers(item.getItemId());
             if (effMod != null) {
-              duration = (int) effMod.get(Modifiers.EFFECT_DURATION);
+              duration = (int) effMod.getDouble(DoubleModifier.EFFECT_DURATION);
             }
           }
           // Hot Dogs don't have items
           if (item == null && ClanLoungeRequest.isHotDog(iName)) {
             if (KoLCharacter.inBadMoon()) {
               continue;
-            } else if (!StandardRequest.isAllowed("Clan Item", "Clan Hot Dog Stand")) {
+            } else if (!StandardRequest.isAllowed(
+                RestrictedItemType.CLAN_ITEMS, "Clan Hot Dog Stand")) {
               continue;
             }
             // Jarlsberg and Zombie characters can't eat hot dogs
             else if (KoLCharacter.isJarlsberg() || KoLCharacter.isZombieMaster()) {
               continue;
-            } else if (Limitmode.limitClan()) {
+            } else if (limitMode.limitClan()) {
               continue;
             } else if (!haveVipKey) {
               if (includeAll) {
@@ -602,9 +636,9 @@ public class Maximizer {
                 && Preferences.getBoolean("_fancyHotDogEaten")) {
               continue;
             } else {
-              Modifiers effMod = Modifiers.getModifiers("Item", iName);
+              Modifiers effMod = ModifierDatabase.getModifiers(ModifierType.ITEM, iName);
               if (effMod != null) {
-                duration = (int) effMod.get(Modifiers.EFFECT_DURATION);
+                duration = (int) effMod.getDouble(DoubleModifier.EFFECT_DURATION);
               }
               usesRemaining = 1;
             }
@@ -626,18 +660,18 @@ public class Maximizer {
           duration = 20;
         } else if (cmd.startsWith("cast ")) {
           String skillName = UneffectRequest.effectToSkill(name);
-          if (!StandardRequest.isAllowed("Skills", skillName)) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.SKILLS, skillName)) {
             continue;
           }
 
-          UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillName);
           int skillId = SkillDatabase.getSkillId(skillName);
+          UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
 
           if (skill != null) {
             usesRemaining = skill.getMaximumCast();
           }
 
-          if (!KoLCharacter.hasSkill(skillName) || usesRemaining == 0) {
+          if (!KoLCharacter.hasSkill(skillId) || usesRemaining == 0) {
             if (includeAll) {
               boolean isBuff = SkillDatabase.isBuff(skillId);
               text = "(learn to " + cmd + (isBuff ? ", or get it from a buffbot)" : ")");
@@ -659,11 +693,11 @@ public class Maximizer {
             continue;
           }
           // Must be available in your current path
-          if (!StandardRequest.isAllowed("Skills", "Sweet Synthesis")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Sweet Synthesis")) {
             continue;
           }
           // You must know the skill
-          if (!KoLCharacter.hasSkill("Sweet Synthesis")) {
+          if (!KoLCharacter.hasSkill(SkillPool.SWEET_SYNTHESIS)) {
             if (includeAll) {
               text = "(learn the Sweet Synthesis skill)";
               cmd = "";
@@ -682,7 +716,8 @@ public class Maximizer {
           spleenCost = 1;
         } else if (cmd.startsWith("pillkeeper")) {
           // Must be available in your current path
-          if (!StandardRequest.isAllowed("Items", "Eight Days a Week Pill Keeper")) {
+          if (!StandardRequest.isAllowed(
+              RestrictedItemType.ITEMS, "Eight Days a Week Pill Keeper")) {
             continue;
           }
           // You must have the pill keeper
@@ -703,7 +738,7 @@ public class Maximizer {
           duration = 30;
         } else if (cmd.startsWith("cargo effect ")) {
           // Must be available in your current path
-          if (!StandardRequest.isAllowed("Items", "Cargo Cultist Shorts")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cargo Cultist Shorts")) {
             continue;
           }
           // You must have the cargo shorts
@@ -731,7 +766,7 @@ public class Maximizer {
         } else if (cmd.startsWith("friars ")) {
           int lfc = Preferences.getInteger("lastFriarCeremonyAscension");
           int ka = Preferences.getInteger("knownAscensions");
-          if (lfc < ka || Limitmode.limitZone("Friars")) {
+          if (lfc < ka || limitMode.limitZone("Friars")) {
             continue;
           } else if (Preferences.getBoolean("friarsBlessingReceived")) {
             cmd = "";
@@ -747,7 +782,7 @@ public class Maximizer {
           } else if (!RabbitHoleManager.hatLengthAvailable(
               StringUtilities.parseInt(cmd.substring(7)))) {
             continue;
-          } else if (Limitmode.limitZone("RabbitHole")) {
+          } else if (limitMode.limitZone("Rabbit Hole")) {
             continue;
           } else if (Preferences.getBoolean("_madTeaParty")) {
             cmd = "";
@@ -757,7 +792,7 @@ public class Maximizer {
         } else if (cmd.startsWith("mom ")) {
           if (!QuestDatabase.isQuestFinished(Quest.SEA_MONKEES)) {
             continue;
-          } else if (Limitmode.limitZone("The Sea")) {
+          } else if (limitMode.limitZone("The Sea")) {
             continue;
           } else if (Preferences.getBoolean("_momFoodReceived")) {
             cmd = "";
@@ -774,7 +809,7 @@ public class Maximizer {
 
           if (!KoLCharacter.canInteract() && ((onHand + creatable) < 1 || candles < 3)) {
             continue;
-          } else if (Limitmode.limitZone("Manor0")) {
+          } else if (limitMode.limitZone("Manor0")) {
             continue;
           } else if (Preferences.getBoolean("demonSummoned")) {
             cmd = "";
@@ -796,7 +831,7 @@ public class Maximizer {
 
           if (side.equals("none")) {
             continue;
-          } else if (Limitmode.limitZone("Island") || Limitmode.limitZone("IsleWar")) {
+          } else if (limitMode.limitZone("Island") || limitMode.limitZone("IsleWar")) {
             continue;
           } else if (side.equals("fratboy")) {
             available =
@@ -815,7 +850,7 @@ public class Maximizer {
           duration = 20;
           usesRemaining = Preferences.getBoolean("concertVisited") ? 0 : 1;
         } else if (cmd.startsWith("telescope ")) {
-          if (Limitmode.limitCampground()) {
+          if (limitMode.limitCampground()) {
             continue;
           } else if (Preferences.getInteger("telescopeUpgrades") == 0) {
             if (includeAll) {
@@ -832,7 +867,7 @@ public class Maximizer {
         } else if (cmd.startsWith("ballpit")) {
           if (!KoLCharacter.canInteract()) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (Preferences.getBoolean("_ballpit")) {
             cmd = "";
@@ -842,7 +877,7 @@ public class Maximizer {
         } else if (cmd.startsWith("jukebox")) {
           if (!KoLCharacter.canInteract()) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (Preferences.getBoolean("_jukebox")) {
             cmd = "";
@@ -852,9 +887,9 @@ public class Maximizer {
         } else if (cmd.startsWith("pool ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "Pool Table")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Pool Table")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -869,9 +904,9 @@ public class Maximizer {
         } else if (cmd.startsWith("shower ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "April Shower")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "April Shower")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -886,9 +921,10 @@ public class Maximizer {
         } else if (cmd.startsWith("swim ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "Clan Swimming Pool")) {
+          } else if (!StandardRequest.isAllowed(
+              RestrictedItemType.CLAN_ITEMS, "Clan Swimming Pool")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -903,9 +939,10 @@ public class Maximizer {
         } else if (cmd.startsWith("fortune ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Clan Item", "Clan Love Tester")) {
+          } else if (!StandardRequest.isAllowed(
+              RestrictedItemType.CLAN_ITEMS, "Clan Love Tester")) {
             continue;
-          } else if (Limitmode.limitClan()) {
+          } else if (limitMode.limitClan()) {
             continue;
           } else if (!haveVipKey) {
             if (includeAll) {
@@ -921,9 +958,9 @@ public class Maximizer {
           AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Items", "portable Mayo Clinic")) {
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "portable Mayo Clinic")) {
             continue;
-          } else if (Limitmode.limitCampground()) {
+          } else if (limitMode.limitCampground()) {
             continue;
           } else if (workshed == null || workshed.getItemId() != ItemPool.MAYO_CLINIC) {
             if (includeAll) {
@@ -938,9 +975,10 @@ public class Maximizer {
         } else if (cmd.startsWith("barrelprayer")) {
           if (KoLCharacter.inBadMoon()) {
             continue;
-          } else if (!StandardRequest.isAllowed("Items", "shrine to the Barrel god")) {
+          } else if (!StandardRequest.isAllowed(
+              RestrictedItemType.ITEMS, "shrine to the Barrel god")) {
             continue;
-          } else if (Limitmode.limitZone("Dungeon Full of Dungeons")) {
+          } else if (limitMode.limitZone("Dungeon Full of Dungeons")) {
             continue;
           } else if (!Preferences.getBoolean("barrelShrineUnlocked")) {
             if (includeAll) {
@@ -955,7 +993,7 @@ public class Maximizer {
         } else if (cmd.startsWith("styx ")) {
           if (!KoLCharacter.inBadMoon()) {
             continue;
-          } else if (Limitmode.limitZone("BadMoon")) {
+          } else if (limitMode.limitZone("BadMoon")) {
             continue;
           } else if (Preferences.getBoolean("styxPixieVisited")) {
             cmd = "";
@@ -971,7 +1009,7 @@ public class Maximizer {
 
           if (!status.equals(buffStatus)) {
             continue;
-          } else if (Limitmode.limitZone("The Sea")) {
+          } else if (limitMode.limitZone("The Sea")) {
             continue;
           } else if (Preferences.getBoolean(buffPref)) {
             cmd = "";
@@ -979,7 +1017,7 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean(buffPref) ? 0 : 1;
         } else if (cmd.startsWith("gap ")) {
-          AdventureResult pants = EquipmentManager.getEquipment(EquipmentManager.PANTS);
+          AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
           if (InventoryManager.getAccessibleCount(ItemPool.GREAT_PANTS) == 0) {
             if (includeAll) {
               text = "(acquire and equip Greatest American Pants for " + name + ")";
@@ -993,16 +1031,16 @@ public class Maximizer {
             text = "(equip Greatest American Pants for " + name + ")";
             cmd = "";
           }
-          if (name.equals("Super Skill")) {
-            duration = 5;
-          } else if (name.equals("Super Structure") || name.equals("Super Accuracy")) {
-            duration = 10;
-          } else if (name.equals("Super Vision") || name.equals("Super Speed")) {
-            duration = 20;
-          }
+          duration =
+              switch (name) {
+                case "Super Skill" -> 5;
+                case "Super Structure", "Super Accuracy" -> 10;
+                case "Super Vision", "Super Speed" -> 20;
+                default -> duration;
+              };
           usesRemaining = 5 - Preferences.getInteger("_gapBuffs");
         } else if (cmd.startsWith("spacegate")) {
-          if (!StandardRequest.isAllowed("Items", "Spacegate access badge")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")) {
             continue;
           }
           if (KoLCharacter.isKingdomOfExploathing()) {
@@ -1027,7 +1065,7 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean("_spacegateVaccine") ? 0 : 1;
         } else if (cmd.startsWith("beach head ")) {
-          if (!StandardRequest.isAllowed("Items", "Beach Comb")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Beach Comb")) {
             continue;
           }
           boolean available =
@@ -1049,7 +1087,7 @@ public class Maximizer {
           duration = 50;
           usesRemaining = headAvailable ? 1 : 0;
         } else if (cmd.startsWith("daycare")) {
-          if (!StandardRequest.isAllowed("Items", "Boxing Day care package")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Boxing Day care package")) {
             continue;
           }
           boolean available =
@@ -1080,9 +1118,9 @@ public class Maximizer {
           duration = 20;
           usesRemaining = (15 - Preferences.getInteger("_deckCardsDrawn")) / 5;
         } else if (cmd.startsWith("grim")) {
-          FamiliarData fam = KoLCharacter.findFamiliar(FamiliarPool.GRIM_BROTHER);
-          if (fam == null) {
-            if (Limitmode.limitFamiliars()) {
+          var fam = KoLCharacter.ownedFamiliar(FamiliarPool.GRIM_BROTHER);
+          if (fam.isEmpty()) {
+            if (limitMode.limitFamiliars()) {
               continue;
             } else if (includeAll) {
               text = "(get a Grim Brother familiar for " + name + ")";
@@ -1096,7 +1134,7 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean("_grimBuff") ? 0 : 1;
         } else if (cmd.equals("witchess")) {
-          if (!StandardRequest.isAllowed("Items", "Witchess Set")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
             continue;
           }
           if (!KoLConstants.campground.contains(ItemPool.get(ItemPool.WITCHESS_SET, 1))) {
@@ -1188,7 +1226,7 @@ public class Maximizer {
           }
           if (Preferences.getInteger("falloutShelterLevel") < 3) {
             continue;
-          } else if (Limitmode.limitCampground()) {
+          } else if (limitMode.limitCampground()) {
             continue;
           } else if (Preferences.getBoolean("_falloutShelterSpaUsed")) {
             cmd = "";
@@ -1219,7 +1257,7 @@ public class Maximizer {
             continue;
           }
 
-          if (!StandardRequest.isAllowed("Items", iname)) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, iname)) {
             continue;
           }
 
@@ -1252,14 +1290,15 @@ public class Maximizer {
           if (cmd.length() > 0) {
             int itemId = item.getItemId();
             // Outside Ronin/Hardcore, always show all purchasable
-            int showScope = equipScope;
+            EquipScope showScope = equipScope;
             if (KoLCharacter.canInteract()) {
-              showScope = 2;
+              showScope = EquipScope.SPECULATE_ANY;
             }
             CheckedItem checkedItem = new CheckedItem(itemId, showScope, maxPrice, priceLevel);
             if (checkedItem.inventory > 0) {
             } else if (checkedItem.initial > 0) {
-              String method = InventoryManager.simRetrieveItem(item, equipScope == -1, false);
+              String method =
+                  InventoryManager.simRetrieveItem(item, equipScope == EquipScope.EQUIP_NOW, false);
               if (!method.equals("have")) {
                 text = method + " & " + text;
               }
@@ -1284,7 +1323,7 @@ public class Maximizer {
               cmd = "pull \u00B6" + itemId + ";" + cmd;
             } else if (checkedItem.mallBuyable > 0) {
               text = "acquire & " + text;
-              if (priceLevel > 0) {
+              if (priceLevel != PriceLevel.DONT_CHECK) {
                 if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
                   continue;
                 }
@@ -1299,7 +1338,7 @@ public class Maximizer {
             } else if (checkedItem.pullBuyable > 0) {
               text = "buy & pull & " + text;
               cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-              if (priceLevel > 0) {
+              if (priceLevel != PriceLevel.DONT_CHECK) {
                 if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
                   continue;
                 }
@@ -1316,7 +1355,7 @@ public class Maximizer {
             }
 
             if (price > maxPrice || price == -1) continue;
-            if (priceLevel == 2
+            if (priceLevel == PriceLevel.ALL
                 && (checkedItem.initial > 0
                     || checkedItem.creatable > 0
                     || checkedItem.pullable > 0
@@ -1475,50 +1514,15 @@ public class Maximizer {
     }
 
     if (Maximizer.boosts.size() == 0) {
-      Maximizer.boosts.add(new Boost("", "(nothing useful found)", 0, null, 0.0));
+      Maximizer.boosts.add(new Boost("", "(nothing useful found)", Slot.HAT, null, 0.0));
     }
 
     Maximizer.boosts.sort();
   }
 
-  // convert the old method to use the new method, in case it gets called from elsewhere...
-  public static void maximize(
-      int equipLevel, int maxPrice, int priceLevel, boolean includeAll, int filterLevel) {
-    if (!Preferences.getBoolean("maximizerUseScope")) {
-      Integer maximizerEquipmentLevel = Preferences.getInteger("maximizerEquipmentLevel");
-      if (maximizerEquipmentLevel == 0) {
-        // no longer supported...
-        maximizerEquipmentLevel = 1;
-      }
-      Preferences.setInteger("maximizerEquipmentScope", maximizerEquipmentLevel - 1);
-      Preferences.setBoolean("maximizerUseScope", true);
-    }
-
-    EnumMap<KoLConstants.filterType, Boolean> filters;
-    filters = new EnumMap<>(KoLConstants.filterType.class);
-
-    KoLConstants.filterType filterName;
-
-    // known filter levels are 1-7
-    if (filterLevel >= 1 && filterLevel <= 7) {
-      filterName = KoLConstants.filterType.values()[filterLevel - 1];
-      filters.put(filterName, true);
-    } else {
-      // covers filterLevel 0 and catchall...
-      filters.put(KoLConstants.filterType.EQUIP, true);
-      filters.put(KoLConstants.filterType.CAST, true);
-      filters.put(KoLConstants.filterType.USABLE, true);
-      filters.put(KoLConstants.filterType.BOOZE, true);
-      filters.put(KoLConstants.filterType.FOOD, true);
-      filters.put(KoLConstants.filterType.SPLEEN, true);
-      filters.put(KoLConstants.filterType.OTHER, true);
-    }
-    maximize(equipLevel, maxPrice, priceLevel, includeAll, filters);
-  }
-
-  private static int emitSlot(
-      int slot, int equipScope, int maxPrice, int priceLevel, double current) {
-    if (slot == EquipmentManager.FAMILIAR) { // Insert any familiar switch at this point
+  private static EquipScope emitSlot(
+      Slot slot, EquipScope equipScope, int maxPrice, PriceLevel priceLevel, double current) {
+    if (slot == Slot.FAMILIAR) { // Insert any familiar switch at this point
       FamiliarData fam = Maximizer.best.getFamiliar();
       if (!fam.equals(KoLCharacter.getFamiliar())) {
         MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -1529,41 +1533,24 @@ public class Maximizer {
         text = cmd + " (" + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
 
         Boost boost = new Boost(cmd, text, fam, delta);
-        if (equipScope == -1) { // called from CLI
+        if (equipScope == EquipScope.EQUIP_NOW) { // called from CLI
           boost.execute(true);
-          if (!KoLmafia.permitsContinue()) equipScope = 0;
+          if (!KoLmafia.permitsContinue()) equipScope = EquipScope.SPECULATE_INVENTORY;
         } else {
           Maximizer.boosts.add(boost);
         }
       }
     }
 
-    String slotname = EquipmentRequest.slotNames[slot];
-    AdventureResult item = Maximizer.best.equipment[slot];
+    String slotname = slot.name;
+    AdventureResult item = Maximizer.best.equipment.get(slot);
     int itemId = -1;
     FamiliarData enthroned = Maximizer.best.getEnthroned();
     FamiliarData bjorned = Maximizer.best.getBjorned();
-    String edPiece = Maximizer.best.getEdPiece();
-    String snowsuit = Maximizer.best.getSnowsuit();
-    String retroCape = Maximizer.best.getRetroCape();
-    String backupCamera = Maximizer.best.getBackupCamera();
-    String unbreakableUmbrella = Maximizer.best.getUnbreakableUmbrella();
+    var modeables = Maximizer.best.getModeables();
     AdventureResult curr = EquipmentManager.getEquipment(slot);
     FamiliarData currEnthroned = KoLCharacter.getEnthroned();
     FamiliarData currBjorned = KoLCharacter.getBjorned();
-    String currEdPiece = Preferences.getString("edPiece");
-    Boolean setEdPiece = false;
-    String currSnowsuit = Preferences.getString("snowsuit");
-    Boolean setSnowsuit = false;
-    String currRetroCape =
-        Preferences.getString("retroCapeSuperhero")
-            + " "
-            + Preferences.getString("retroCapeWashingInstructions");
-    Boolean setRetroCape = false;
-    String currBackupCamera = Preferences.getString("backupCameraMode");
-    Boolean setBackupCamera = false;
-    String currUmbrella = Preferences.getString("umbrellaState");
-    Boolean setUmbrella = false;
 
     if (item == null || item.getItemId() == 0) {
       item = EquipmentRequest.UNEQUIP;
@@ -1573,44 +1560,28 @@ public class Maximizer {
 
     boolean changeEnthroned = itemId == ItemPool.HATSEAT && enthroned != currEnthroned;
     boolean changeBjorned = itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned;
-    boolean changeRetroCape =
-        itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE
-            && retroCape != null
-            && !retroCape.equals(currRetroCape);
-    boolean changeBackupCamera =
-        itemId == ItemPool.BACKUP_CAMERA
-            && backupCamera != null
-            && !backupCamera.equals(currBackupCamera);
-    boolean changeUmbrella =
-        itemId == ItemPool.UNBREAKABLE_UMBRELLA
-            && unbreakableUmbrella != null
-            && !unbreakableUmbrella.equals(currUmbrella);
-    boolean changeEdPiece =
-        itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals(currEdPiece);
-    boolean changeSnowSuit =
-        itemId == ItemPool.SNOW_SUIT && snowsuit != null && !snowsuit.equals(currSnowsuit);
+
+    var modeable = Modeable.find(itemId);
+    var changeModeable =
+        modeable != null && !Objects.equals(modeables.get(modeable), modeable.getState());
 
     if (curr.equals(item)
         && !changeEnthroned
         && !changeBjorned
-        && !changeEdPiece
-        && !changeSnowSuit
-        && !(changeRetroCape)
-        && !(changeBackupCamera)
-        && !(changeUmbrella)
+        && !changeModeable
         && !(itemId == ItemPool.BROKEN_CHAMPAGNE
             && Preferences.getInteger("garbageChampagneCharge") == 0
             && !Preferences.getBoolean("_garbageItemChanged"))
         && !(itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT
             && Preferences.getInteger("garbageShirtCharge") == 0
             && !Preferences.getBoolean("_garbageItemChanged"))) {
-      if (slot >= EquipmentManager.SLOTS
+      if (!SlotSet.SLOTS.contains(slot)
           || curr.equals(EquipmentRequest.UNEQUIP)
-          || equipScope == -1) {
+          || equipScope == EquipScope.EQUIP_NOW) {
         return equipScope;
       }
       Maximizer.boosts.add(
-          new Boost("", "keep " + slotname + ": " + item.getName(), -1, item, 0.0));
+          new Boost("", "keep " + slotname + ": " + item.getName(), Slot.NONE, item, 0.0));
       return equipScope;
     }
     MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -1619,16 +1590,8 @@ public class Maximizer {
       spec.setEnthroned(enthroned);
     } else if (itemId == ItemPool.BUDDY_BJORN) {
       spec.setBjorned(bjorned);
-    } else if (itemId == ItemPool.CROWN_OF_ED) {
-      spec.setEdPiece(edPiece);
-    } else if (itemId == ItemPool.SNOW_SUIT) {
-      spec.setSnowsuit(snowsuit);
-    } else if (itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE) {
-      spec.setRetroCape(retroCape);
-    } else if (itemId == ItemPool.BACKUP_CAMERA) {
-      spec.setBackupCamera(backupCamera);
-    } else if (itemId == ItemPool.UNBREAKABLE_UMBRELLA) {
-      spec.setUnbreakableUmbrella(unbreakableUmbrella);
+    } else if (modeable != null) {
+      spec.setModeable(modeable, modeables.get(modeable));
     }
 
     double delta = spec.getScore() - current;
@@ -1645,32 +1608,11 @@ public class Maximizer {
       } else if (changeBjorned) {
         cmd = "bjornify " + bjorned.getRace();
         text = cmd;
-      } else if (changeEdPiece) {
-        cmd = "edpiece " + edPiece;
-        text = cmd;
-        setEdPiece = true;
-      } else if (changeSnowSuit) {
-        cmd = "snowsuit " + snowsuit;
-        text = cmd;
-        setSnowsuit = true;
-      } else if (changeRetroCape) {
-        cmd = "retrocape " + retroCape;
-        text = cmd;
-        setRetroCape = true;
-      } else if (changeBackupCamera) {
-        cmd = "backupcamera " + backupCamera + "; equip " + slotname + " \u00B6" + item.getItemId();
-        text = "backupcamera " + backupCamera;
-        setBackupCamera = true;
-      } else if (changeUmbrella) {
-        cmd =
-            "umbrella "
-                + unbreakableUmbrella
-                + "; equip "
-                + slotname
-                + " \u00B6"
-                + item.getItemId();
-        text = "umbrella " + unbreakableUmbrella;
-        setUmbrella = true;
+      } else if (changeModeable) {
+        text = modeable.getCommand() + " " + modeables.get(modeable);
+        cmd = text;
+        if (modeable.mustEquipAfterChange())
+          cmd += "; equip " + slotname + " \u00B6" + item.getItemId();
       } else {
         cmd = "equip " + slotname + " \u00B6" + item.getItemId();
         text = "equip " + slotname + " " + item.getName();
@@ -1687,8 +1629,10 @@ public class Maximizer {
 
       // If we're running from command line then execute them straight away,
       // so we have to count how much we've used in 'earlier' items
-      if (equipScope == -1) {
-        for (int piece = EquipmentManager.HAT; piece < slot; piece++) {
+      // TODO: confirm this still works
+      if (equipScope == EquipScope.EQUIP_NOW) {
+        for (var piece : SlotSet.ALL_SLOTS) {
+          if (piece.ordinal() >= slot.ordinal()) break;
           AdventureResult equipped = EquipmentManager.getEquipment(piece);
           if (equipped != null && item.getItemId() == equipped.getItemId()) {
             count++;
@@ -1696,9 +1640,7 @@ public class Maximizer {
         }
       } else {
         // Otherwise we iterate through the maximization set so far
-        Iterator<Boost> i = Maximizer.boosts.iterator();
-        while (i.hasNext()) {
-          Boost boost = i.next();
+        for (Boost boost : Maximizer.boosts) {
           if (item.equals(boost.getItem())) {
             count++;
           }
@@ -1732,19 +1674,20 @@ public class Maximizer {
         // The count of a checked item includes creatable, buyable, pullable etc.
         String method =
             InventoryManager.simRetrieveItem(
-                ItemPool.get(item.getItemId(), count + 1), equipScope == -1, false);
+                ItemPool.get(item.getItemId(), count + 1),
+                equipScope == EquipScope.EQUIP_NOW,
+                false);
         if (!method.equals("have")) {
           text = method + " & " + text;
         }
-        if (method.equals("uncloset")) {
-          cmd = "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
-        } else if (method.equals("unstash")) {
-          cmd = "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
-        }
-        // Should be only hitting this after Ronin I think
-        else if (method.equals("pull")) {
-          cmd = "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
-        }
+        cmd =
+            switch (method) {
+              case "uncloset" -> "closet take 1 \u00B6" + item.getItemId() + ";" + cmd;
+              case "unstash" -> "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
+                // Should be only hitting this after Ronin I think
+              case "pull" -> "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
+              default -> cmd;
+            };
       } else if (checkedItem.creatable + checkedItem.initial > count) {
         text = "make & " + text;
         cmd = "make \u00B6" + item.getItemId() + ";" + cmd;
@@ -1788,12 +1731,12 @@ public class Maximizer {
       } else if (checkedItem.pullBuyable + checkedItem.initial > count) {
         text = "buy & pull & " + text;
         cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-        if (priceLevel > 0) {
+        if (priceLevel != PriceLevel.DONT_CHECK) {
           price = MallPriceManager.getMallPrice(itemId);
         }
       } else { // Mall buyable
         text = "acquire & " + text;
-        if (priceLevel > 0) {
+        if (priceLevel != PriceLevel.DONT_CHECK) {
           price = MallPriceManager.getMallPrice(itemId);
         }
       }
@@ -1804,44 +1747,11 @@ public class Maximizer {
       text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
     }
 
-    if (!setEdPiece) {
-      edPiece = null;
-    }
-
-    if (!setSnowsuit) {
-      snowsuit = null;
-    }
-
-    if (!setRetroCape) {
-      retroCape = null;
-    }
-
-    if (!setBackupCamera) {
-      backupCamera = null;
-    }
-
-    if (!setUmbrella) {
-      unbreakableUmbrella = null;
-    }
-
-    Boost boost =
-        new Boost(
-            cmd,
-            text,
-            slot,
-            item,
-            delta,
-            enthroned,
-            bjorned,
-            edPiece,
-            snowsuit,
-            retroCape,
-            backupCamera,
-            unbreakableUmbrella);
-    if (equipScope == -1) { // called from CLI
+    Boost boost = new Boost(cmd, text, slot, item, delta, enthroned, bjorned, modeables);
+    if (equipScope == EquipScope.EQUIP_NOW) { // called from CLI
       boost.execute(true);
       if (!KoLmafia.permitsContinue()) {
-        equipScope = 0;
+        equipScope = EquipScope.SPECULATE_INVENTORY;
         Maximizer.boosts.add(boost);
       }
     } else {
@@ -1851,13 +1761,13 @@ public class Maximizer {
   }
 
   private static boolean excludedTCRSItem(int itemId) {
-    switch (itemId) {
-      case ItemPool.DIETING_PILL:
-        // Doubles adventures and stats from next food.  Also
-        // doubles fullness - which can be a surprise.
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.DIETING_PILL ->
+      // Doubles adventures and stats from next food.  Also
+      // doubles fullness - which can be a surprise.
+      true;
+      default -> false;
+    };
   }
 
   private static class Makeable {
@@ -1874,7 +1784,8 @@ public class Maximizer {
     }
   }
 
-  private static Makeable getAbsorbable(int itemId, int equipScope, int maxPrice, int priceLevel) {
+  private static Makeable getAbsorbable(
+      int itemId, EquipScope equipScope, int maxPrice, PriceLevel priceLevel) {
     // Check if we have access to item
     CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
     // We won't include unavailable items, as this just gets far too large
@@ -1886,7 +1797,8 @@ public class Maximizer {
     text = "absorb " + item.getName() + " (";
     if (checkedItem.inventory > 0) {
     } else if (checkedItem.initial > 0) {
-      String method = InventoryManager.simRetrieveItem(item, equipScope == -1, false);
+      String method =
+          InventoryManager.simRetrieveItem(item, equipScope == EquipScope.EQUIP_NOW, false);
       if (!method.equals("have")) {
         text = method + " & " + text;
       }
@@ -1910,13 +1822,13 @@ public class Maximizer {
       cmd = "pull \u00B6" + itemId + ";" + cmd;
     } else if (checkedItem.mallBuyable > 0) {
       text = "acquire & " + text;
-      if (priceLevel > 0) {
+      if (priceLevel != PriceLevel.DONT_CHECK) {
         price = MallPriceManager.getMallPrice(itemId);
       }
     } else if (checkedItem.pullBuyable > 0) {
       text = "buy & pull & " + text;
       cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-      if (priceLevel > 0) {
+      if (priceLevel != PriceLevel.DONT_CHECK) {
         price = MallPriceManager.getMallPrice(itemId);
       }
     } else {

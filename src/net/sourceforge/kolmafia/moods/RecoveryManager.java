@@ -53,7 +53,7 @@ public class RecoveryManager {
         && !FightRequest.choiceFollowsFight
         && (!ChoiceManager.handlingChoice || ChoiceManager.canWalkAway())
         && !CharPaneRequest.inValhalla()
-        && KoLCharacter.getLimitmode() == null;
+        && !KoLCharacter.getLimitMode().limitRecovery();
   }
 
   public static boolean runThresholdChecks() {

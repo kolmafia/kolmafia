@@ -19,12 +19,12 @@ public class SeaMerkinRequest extends GenericRequest {
   }
 
   public static final void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("action.php")) {
+    if (!urlString.startsWith("sea_merkin.php")) {
       return;
     }
 
     String action = GenericRequest.getAction(urlString);
-    if (action.equals("temple")) {
+    if (action != null && action.equals("temple")) {
       // Normally, this redirects to choice.php?forceoption=0
       // If you have already won, you will come here.
 
@@ -34,7 +34,7 @@ public class SeaMerkinRequest extends GenericRequest {
     }
   }
 
-  private static final String COLOSSEUM = "snarfblat=" + AdventurePool.MERKIN_COLOSSEUM_ID;
+  private static final String COLOSSEUM = "snarfblat=" + AdventurePool.MERKIN_COLOSSEUM;
 
   public static final void parseColosseumResponse(
       final String urlString, final String responseText) {

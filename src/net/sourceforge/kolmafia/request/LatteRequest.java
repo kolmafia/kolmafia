@@ -7,12 +7,13 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -48,6 +49,10 @@ public class LatteRequest extends GenericRequest {
       this.third = third;
       this.modifier = modifier;
       this.discovery = discovery;
+    }
+
+    public String getModifier() {
+      return this.modifier;
     }
   }
 
@@ -503,7 +508,8 @@ public class LatteRequest extends GenericRequest {
     super("choice.php");
   }
 
-  public static void refill(final String first, final String second, final String third) {
+  public static Latte[] parseIngredients(
+      final String first, final String second, final String third) {
     Latte[] ingredients = new Latte[3];
 
     for (Latte latte : LATTE) {
@@ -517,30 +523,27 @@ public class LatteRequest extends GenericRequest {
         ingredients[2] = latte;
       }
     }
+    return ingredients;
+  }
+
+  public static void refill(final String first, final String second, final String third) {
+    Latte[] ingredients = parseIngredients(first, second, third);
 
     for (int i = 0; i < 3; ++i) {
       if (ingredients[i] == null) {
-        String message = null;
-        switch (i) {
-          case 0:
-            message =
-                "Cannot find ingredient "
-                    + first
-                    + ". Use 'latte unlocked' to see available ingredients.";
-            break;
-          case 1:
-            message =
-                "Cannot find ingredient "
-                    + second
-                    + ". Use 'latte unlocked' to see available ingredients.";
-            break;
-          case 2:
-            message =
-                "Cannot find ingredient "
-                    + third
-                    + ". Use 'latte unlocked' to see available ingredients.";
-            break;
-        }
+        String message =
+            switch (i) {
+              case 0 -> "Cannot find ingredient "
+                  + first
+                  + ". Use 'latte unlocked' to see available ingredients.";
+              case 1 -> "Cannot find ingredient "
+                  + second
+                  + ". Use 'latte unlocked' to see available ingredients.";
+              case 2 -> "Cannot find ingredient "
+                  + third
+                  + ". Use 'latte unlocked' to see available ingredients.";
+              default -> null;
+            };
         KoLmafia.updateDisplay(MafiaState.ERROR, message);
         continue;
       }
@@ -674,24 +677,28 @@ public class LatteRequest extends GenericRequest {
       String message = "Filled your mug with " + first + " " + second + " Latte " + third + ".";
       RequestLogger.printLine(message);
       RequestLogger.updateSessionLog(message);
-
-      ModifierList modList = new ModifierList();
-      for (int i = 0; i < 3; ++i) {
-        ModifierList addModList = Modifiers.splitModifiers(mods[i]);
-        for (Modifier modifier : addModList) {
-          modList.addToModifier(modifier);
-        }
-      }
-
-      Preferences.setString("latteModifier", modList.toString());
-      Modifiers.overrideModifier("Item:[" + ItemPool.LATTE_MUG + "]", modList.toString());
-      KoLCharacter.recalculateAdjustments();
-      KoLCharacter.updateStatus();
+      setLatteEnchantments(mods);
       Preferences.increment("_latteRefillsUsed", 1, 3, false);
       Preferences.setBoolean("_latteBanishUsed", false);
       Preferences.setBoolean("_latteCopyUsed", false);
       Preferences.setBoolean("_latteDrinkUsed", false);
     }
+  }
+
+  public static void setLatteEnchantments(String[] mods) {
+    ModifierList modList = new ModifierList();
+    for (String mod : mods) {
+      ModifierList addModList = ModifierDatabase.splitModifiers(mod);
+      for (ModifierValue modifier : addModList) {
+        modList.addToModifier(modifier);
+      }
+    }
+
+    String value = modList.toString();
+    Preferences.setString("latteModifier", value);
+    ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.LATTE_MUG, value);
+    KoLCharacter.recalculateAdjustments();
+    KoLCharacter.updateStatus();
   }
 
   public static final void parseFight(final String location, final String responseText) {

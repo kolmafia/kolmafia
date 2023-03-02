@@ -75,9 +75,9 @@ public class CharSheetRequest extends GenericRequest {
     CharSheetRequest.parseStatus(this.responseText);
   }
 
-  public static final void parseStatus(final String responseText) {
+  public static void parseStatus(final String responseText) {
     // Currently, this is used only for parsing the list of skills
-    Document doc = null;
+    Document doc;
     try {
       doc = domSerializer.createDOM(cleaner.clean(responseText));
     } catch (ParserConfigurationException e) {
@@ -318,17 +318,23 @@ public class CharSheetRequest extends GenericRequest {
       }
 
       boolean shouldAddSkill = true;
+      int skillId = currentSkill.getSkillId();
 
-      if (SkillDatabase.isBookshelfSkill(currentSkill.getSkillId())) {
+      if (SkillDatabase.isBookshelfSkill(skillId)) {
         shouldAddSkill =
             (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
                 || KoLCharacter.kingLiberated();
       }
 
-      if (currentSkill.getSkillId() == SkillPool.OLFACTION) {
-        shouldAddSkill =
-            (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
-                || KoLCharacter.skillsRecalled();
+      switch (skillId) {
+        case SkillPool.OLFACTION -> {
+          shouldAddSkill =
+              (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
+                  || KoLCharacter.skillsRecalled();
+        }
+        case SkillPool.CRYPTOBOTANIST, SkillPool.INSECTOLOGIST, SkillPool.PSYCHOGEOLOGIST -> {
+          Preferences.setString("currentSITSkill", currentSkill.getSkillName());
+        }
       }
 
       if (shouldAddSkill) {
@@ -346,27 +352,27 @@ public class CharSheetRequest extends GenericRequest {
 
     // The Smile of Mr. A no longer appears on the char sheet
     if (Preferences.getInteger("goldenMrAccessories") > 0) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("The Smile of Mr. A.");
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(SkillPool.SMILE_OF_MR_A);
       newSkillSet.add(skill);
     }
 
     // Toggle Optimality does not appear on the char sheet
     if (Preferences.getInteger("skillLevel7254") > 0) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Toggle Optimality");
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(SkillPool.TOGGLE_OPTIMALITY);
       newSkillSet.add(skill);
     }
 
     // If you have the Cowrruption effect, you can Absorb Cowrruption if a Cow Puncher
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.COWRRUPTION))
         && KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Absorb Cowrruption");
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(SkillPool.ABSORB_COWRRUPTION);
       newSkillSet.add(skill);
     }
 
     // If you have looked at your Bird-a-Day calendar today, you can use
     // "Seek out a Bird".
     if (Preferences.getBoolean("_canSeekBirds")) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Seek out a Bird");
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(SkillPool.SEEK_OUT_A_BIRD);
       newSkillSet.add(skill);
     }
 
@@ -392,7 +398,7 @@ public class CharSheetRequest extends GenericRequest {
       Pattern.compile(
           "<img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
 
-  public static final void parseAvatar(final String responseText) {
+  public static void parseAvatar(final String responseText) {
     // You, Robot has an Avatar consisting of five overlaid .png files
     if (KoLCharacter.inRobocore()) {
       YouRobotManager.parseAvatar(responseText);
@@ -487,7 +493,9 @@ public class CharSheetRequest extends GenericRequest {
       this(-1, name, permStatus);
     }
 
-    /** @return Whether the skill ID is bad (could not be parsed) and shouldn't be used. */
+    /**
+     * @return Whether the skill ID is bad (could not be parsed) and shouldn't be used.
+     */
     boolean isBadId() {
       return this.id < 0;
     }
@@ -498,11 +506,10 @@ public class CharSheetRequest extends GenericRequest {
         return true;
       }
 
-      if (!(o instanceof ParsedSkillInfo)) {
+      if (!(o instanceof ParsedSkillInfo other)) {
         return false;
       }
 
-      ParsedSkillInfo other = (ParsedSkillInfo) o;
       return id == other.id && name.equals(other.name) && permStatus == other.permStatus;
     }
 
@@ -518,7 +525,7 @@ public class CharSheetRequest extends GenericRequest {
    *
    * @param doc Parsed-and-cleaned HTML document
    */
-  public static final List<ParsedSkillInfo> parseSkills(Document doc) {
+  public static List<ParsedSkillInfo> parseSkills(Document doc) {
     // Assumption:
     // In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the
     // following:
@@ -539,7 +546,7 @@ public class CharSheetRequest extends GenericRequest {
     // tag:
     //
     //	<span id="permskills" ...>...</span>
-    NodeList skillNodes = null;
+    NodeList skillNodes;
     try {
       skillNodes =
           (NodeList)
@@ -608,6 +615,10 @@ public class CharSheetRequest extends GenericRequest {
         if (skillIdMatcher.find()) {
           isSkillIdFound = true;
           skillId = StringUtilities.parseInt(skillIdMatcher.group(1));
+          // KoL bug - Summon Hilarious Objects has skillId 17 in charsheet
+          if ((skillId == 17) && skillName.equals("Summon Hilarious Objects")) {
+            skillId = 7226;
+          }
           break;
         }
       }
@@ -622,13 +633,13 @@ public class CharSheetRequest extends GenericRequest {
     return parsedSkillInfos;
   }
 
-  public static final void parseStatus(final JSONObject JSON) throws JSONException {
+  public static void parseStatus(final JSONObject JSON) throws JSONException {
     int muscle = JSON.getInt("muscle");
     int mysticality = JSON.getInt("mysticality");
     int moxie = JSON.getInt("moxie");
-    long rawmuscle = 0;
-    long rawmysticality = 0;
-    long rawmoxie = 0;
+    long rawmuscle;
+    long rawmysticality;
+    long rawmoxie;
     if (KoLCharacter.inGreyYou()) {
       // Raw values are more precise, but they don't exist in Grey You
       long basemuscle = JSON.getLong("basemuscle");

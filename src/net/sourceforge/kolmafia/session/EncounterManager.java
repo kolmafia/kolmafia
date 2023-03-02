@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -97,7 +98,7 @@ public abstract class EncounterManager {
   }
 
   private static void resetEncounters() {
-    ArrayList<Encounter> encounters = new ArrayList<Encounter>();
+    ArrayList<Encounter> encounters = new ArrayList<>();
 
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("encounters.txt", KoLConstants.ENCOUNTERS_VERSION)) {
@@ -182,7 +183,7 @@ public abstract class EncounterManager {
       final String locationName, final EncounterType type) {
     return Arrays.stream(specialEncounters)
         .filter(e -> e.getLocation().equalsIgnoreCase(locationName))
-        .filter(e -> e.getEncounterType().equals(type))
+        .filter(e -> e.getEncounterType() == type)
         .findAny()
         .orElse(null);
   }
@@ -260,7 +261,7 @@ public abstract class EncounterManager {
 
   public static final boolean isSaberForceZone(String monsterName, String zone) {
     MonsterData monster = MonsterDatabase.findMonster(monsterName);
-    return AdventureDatabase.getAreasWithMonster(monster).contains(zone);
+    return AdventureDatabase.getAreaCombatData(zone).hasMonster(monster);
   }
 
   public static final boolean isSaberForceZone(String zone) {
@@ -374,9 +375,9 @@ public abstract class EncounterManager {
 
     if (encounterType.isAutostop()) {
       // Don't autostop if you have teleportisis
-      if (KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY1)
-          || KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY2)
-          || KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY3)
+      if (KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, Slot.ACCESSORY1)
+          || KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, Slot.ACCESSORY2)
+          || KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, Slot.ACCESSORY3)
           || KoLConstants.activeEffects.contains(TELEPORTITIS)
           || KoLConstants.activeEffects.contains(FEELING_LOST)) {
         return;
@@ -414,48 +415,51 @@ public abstract class EncounterManager {
 
   public static void handleSpecialEncounter(final String encounterName, final String responseText) {
     switch (encounterName.toLowerCase()) {
-      case "step up to the table, put the ball in play":
+      case "step up to the table, put the ball in play" -> {
         if (InventoryManager.hasItem(ItemPool.CARONCH_DENTURES)) {
           ResultProcessor.processItem(ItemPool.CARONCH_DENTURES, -1);
           QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step4");
         }
-
         if (InventoryManager.hasItem(ItemPool.FRATHOUSE_BLUEPRINTS)) {
           ResultProcessor.processItem(ItemPool.FRATHOUSE_BLUEPRINTS, -1);
         }
         return;
-      case "granny, does your dogfish bite?":
+      }
+      case "granny, does your dogfish bite?" -> {
         if (InventoryManager.hasItem(ItemPool.GRANDMAS_MAP)) {
           ResultProcessor.processItem(ItemPool.GRANDMAS_MAP, -1);
         }
         return;
-      case "meat for nothing and the harem for free":
+      }
+      case "meat for nothing and the harem for free" -> {
         Preferences.setBoolean("_treasuryEliteMeatCollected", true);
         return;
-      case "finally, the payoff":
+      }
+      case "finally, the payoff" -> {
         Preferences.setBoolean("_treasuryHaremMeatCollected", true);
         return;
-      case "faction traction = inaction":
+      }
+      case "faction traction = inaction" -> {
         Preferences.setInteger("booPeakProgress", 98);
         return;
-      case "daily done, john.":
+      }
+      case "daily done, john." -> {
         // Daily Dungeon Complete
         Preferences.setBoolean("dailyDungeonDone", true);
         Preferences.setInteger("_lastDailyDungeonRoom", 15);
         return;
-      case "a hidden surprise!":
+      }
+      case "a hidden surprise!" -> {
         // Since this content is short-lived, create the patterns here every time
         // the encounter is found instead of globally
         Pattern GIFT_SENDER_PATTERN = Pattern.compile("nounder><b>(.*?)</b></a>");
         Pattern NOTE_PATTERN = Pattern.compile("1px solid black;'>(.*?)</td></tr>", Pattern.DOTALL);
-
         Matcher senderMatcher = GIFT_SENDER_PATTERN.matcher(responseText);
         if (senderMatcher.find()) {
           String sender = senderMatcher.group(1);
           RequestLogger.printLine("Gift sender: " + sender);
           RequestLogger.updateSessionLog("Gift sender: " + sender);
         }
-
         Matcher noteMatcher = NOTE_PATTERN.matcher(responseText);
         if (noteMatcher.find()) {
           String note = noteMatcher.group(1);
@@ -463,6 +467,55 @@ public abstract class EncounterManager {
           RequestLogger.updateSessionLog("Gift note: " + note);
         }
         return;
+      }
+      case "labrador conspirator" -> {
+        Preferences.increment("hallowienerCoinspiracy");
+        return;
+      }
+      case "lava dogs" -> {
+        Preferences.setBoolean("hallowienerVolcoino", true);
+        return;
+      }
+      case "fruuuuuuuit" -> {
+        Preferences.setBoolean("hallowienerSkeletonStore", true);
+        return;
+      }
+      case "boooooze hound" -> {
+        Preferences.setBoolean("hallowienerOvergrownLot", true);
+        return;
+      }
+      case "baker's dogzen" -> {
+        Preferences.setBoolean("hallowienerMadnessBakery", true);
+        return;
+      }
+      case "dog needs food badly" -> {
+        Preferences.increment("hallowiener8BitRealm");
+        return;
+      }
+      case "ratchet-catcher" -> {
+        Preferences.setBoolean("hallowienerMiddleChamber", true);
+        return;
+      }
+      case "seeing-eyes dog" -> {
+        Preferences.setBoolean("hallowienerDefiledNook", true);
+        return;
+      }
+      case "carpenter dog" -> {
+        Preferences.setBoolean("hallowienerSmutOrcs", true);
+        return;
+      }
+      case "are they made of real dogs?" -> {
+        Preferences.setBoolean("hallowienerGuanoJunction", true);
+        return;
+      }
+      case "gunbowwowder" -> {
+        Preferences.setBoolean("hallowienerSonofaBeach", true);
+        return;
+      }
+      case "it isn't a poodle" -> {
+        Preferences.setBoolean("hallowienerKnollGym", true);
+        return;
+      }
     }
   }
 
@@ -489,6 +542,14 @@ public abstract class EncounterManager {
 
     public void increment() {
       this.encounterCount++;
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public int getCount() {
+      return this.encounterCount;
     }
 
     @Override

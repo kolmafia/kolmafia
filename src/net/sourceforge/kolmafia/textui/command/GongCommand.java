@@ -1,15 +1,22 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LimitMode;
 
 public class GongCommand extends AbstractCommand {
   public GongCommand() {
@@ -207,11 +214,14 @@ public class GongCommand extends AbstractCommand {
     if (set) {
       return;
     }
+    if (!finishLlamaForm()) {
+      return;
+    }
     AdventureResult gong = ItemPool.get(ItemPool.GONG, 1);
     if (buy && !InventoryManager.hasItem(gong)) {
       BuyCommand.buy("1 llama lama gong");
     }
-    RequestThread.postRequest(UseItemRequest.getInstance(gong));
+    RequestThread.postRequest(UseItemRequest.getInstance(gong).followRedirect(false));
   }
 
   private static int parse(final String[] parameters, final int pos, final String optionString) {
@@ -241,5 +251,61 @@ public class GongCommand extends AbstractCommand {
       Preferences.setString("choiceAdventure" + i, String.valueOf(path & 0x03));
       path >>= 2;
     }
+  }
+
+  private static final AdventureResult BIRDFORM = EffectPool.get(EffectPool.FORM_OF_BIRD);
+  private static final AdventureResult MOLESHAPE = EffectPool.get(EffectPool.SHAPE_OF_MOLE);
+  private static final AdventureResult ROACHFORM = EffectPool.get(EffectPool.FORM_OF_ROACH);
+
+  public static boolean finishLlamaForm() {
+    LimitMode limitmode = KoLCharacter.getLimitMode();
+    boolean limited =
+        switch (limitmode) {
+          case BIRD -> KoLConstants.activeEffects.contains(BIRDFORM);
+          case MOLE -> KoLConstants.activeEffects.contains(MOLESHAPE);
+          case ROACH -> KoLConstants.activeEffects.contains(ROACHFORM);
+          default -> limitmode.limitItem(ItemPool.GONG);
+        };
+
+    // If we are actively in a reincarnated form, can't use another gong now.
+    if (limited) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You can't use a gong right now.");
+      return false;
+    }
+
+    // If we are done with the form but waiting for Welcome Back!
+    // then adventuring once will gve us the choice.
+
+    if (limitmode == LimitMode.BIRD || limitmode == LimitMode.MOLE) {
+      // Choose the location to adventure in. Default is Noob Cave.
+      // For some reason, an undocumented setting lets you override.
+
+      int adv = Preferences.getInteger("welcomeBackAdv");
+      if (adv <= 0) {
+        adv = AdventurePool.NOOB_CAVE;
+      }
+      // Trickery to prevent adventure location from being changed
+
+      String next = Preferences.getString("nextAdventure");
+      try {
+        String URL = "adventure.php?snarfblat=" + adv;
+        var req = new GenericRequest(URL);
+        RequestThread.postRequest(req);
+
+        if (ChoiceManager.handlingChoice && ChoiceManager.lastChoice == 277) {
+          var choice = new GenericRequest("choice.php?whichchoice=277&option=1");
+          RequestThread.postRequest(choice);
+        }
+      } finally {
+        KoLAdventure.setNextAdventure(next);
+      }
+
+      if (KoLCharacter.getLimitMode() != LimitMode.NONE) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Unable to finish journey of reincarnation.");
+        return false;
+      }
+    }
+
+    return true;
   }
 }

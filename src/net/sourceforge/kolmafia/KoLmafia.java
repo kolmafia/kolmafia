@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -42,6 +43,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FlaggedItems;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -71,6 +73,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.InternalChatRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
+import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
@@ -95,21 +98,21 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
+import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
-import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
+import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -142,7 +145,8 @@ public abstract class KoLmafia {
     System.setProperty("apple.laf.useScreenMenuBar", "true");
   }
 
-  private static void ensureContentTypes() {
+  // Visible for testing
+  public static void ensureContentTypes() {
     var contentTypesFile = KoLConstants.DATA_LOCATION.toPath().resolve("content-types.properties");
     if (!Files.exists(contentTypesFile)) {
       FileUtilities.loadLibrary(
@@ -158,6 +162,9 @@ public abstract class KoLmafia {
   public static boolean isMakingRequest = false;
   public static MafiaState displayState = MafiaState.ENABLE;
   private static boolean allowDisplayUpdate = true;
+
+  // All dates are presented as if the day began at rollover.
+  public static final TimeZone KOL_TIME_ZONE = TimeZone.getTimeZone("GMT-0330");
 
   public static final int[] initialStats = new int[3];
 
@@ -185,13 +192,24 @@ public abstract class KoLmafia {
     return PREFERRED_IMAGE_SERVER_PATH;
   }
 
-  private static boolean acquireFileLock(final String suffix) {
+  public static boolean acquireFileLock(final String suffix) {
+    if (KoLmafia.SESSION_HOLDER != null) {
+      // If we have a session file lock already, release it.
+      KoLmafia.releaseFileLock();
+    }
     try {
       KoLmafia.SESSION_FILE = new File(KoLConstants.SESSIONS_LOCATION, "active_session." + suffix);
 
       if (KoLmafia.SESSION_FILE.exists()) {
         KoLmafia.SESSION_CHANNEL = new RandomAccessFile(KoLmafia.SESSION_FILE, "rw").getChannel();
         KoLmafia.SESSION_HOLDER = KoLmafia.SESSION_CHANNEL.tryLock();
+        if (KoLmafia.SESSION_HOLDER == null) {
+          KoLmafia.updateDisplay(
+              MafiaState.ABORT,
+              "Could not acquire file lock for "
+                  + suffix
+                  + ". Most likely, another instance of KoLmafia is logged in.");
+        }
         return KoLmafia.SESSION_HOLDER != null;
       }
 
@@ -203,8 +221,30 @@ public abstract class KoLmafia {
       KoLmafia.SESSION_HOLDER = KoLmafia.SESSION_CHANNEL.lock();
       return true;
     } catch (Exception e) {
+      KoLmafia.updateDisplay(
+          MafiaState.ABORT, "Could not acquire file lock for " + suffix + ": " + e);
       return false;
     }
+  }
+
+  public static void releaseFileLock() {
+    try {
+      KoLmafia.SESSION_HOLDER.release();
+      KoLmafia.SESSION_HOLDER = null;
+      KoLmafia.SESSION_CHANNEL.close();
+      KoLmafia.SESSION_FILE.delete();
+    } catch (Exception e) {
+      // That means the file either doesn't exist or
+      // the session holder was somehow closed.
+      // Ignore and fall through.
+    }
+  }
+
+  static {
+    // Set timezones for date formats
+    KoLConstants.DAILY_FORMAT.setTimeZone(KOL_TIME_ZONE);
+    KoLConstants.WEEKLY_FORMAT.setTimeZone(KoLmafia.KOL_TIME_ZONE);
+    KoLConstants.TIME_FORMAT.setTimeZone(KoLmafia.KOL_TIME_ZONE);
   }
 
   /**
@@ -251,12 +291,6 @@ public abstract class KoLmafia {
       }
     }
 
-    // All dates are presented as if the day began at rollover.
-
-    TimeZone koltime = TimeZone.getTimeZone("GMT-0330");
-
-    KoLConstants.DAILY_FORMAT.setTimeZone(koltime);
-
     // Reload your settings and determine all the different users which
     // are present in your save state list.
 
@@ -295,12 +329,9 @@ public abstract class KoLmafia {
     if (SwinglessUIUtils.isSwingAvailable()) {
       KoLmafia.initLookAndFeel();
     }
-    if (!KoLmafia.acquireFileLock("1") && !KoLmafia.acquireFileLock("2")) {
-      System.out.println("Could not acquire file lock");
-      System.exit(-1);
-    }
 
     FlaggedItems.initializeLists();
+    VolcanoMazeManager.downloadImages();
 
     // Now run the main routines for each, so that
     // you have an interface.
@@ -464,6 +495,10 @@ public abstract class KoLmafia {
 
   public static final boolean isSessionEnding() {
     return KoLmafia.SESSION_ENDING;
+  }
+
+  public static final boolean usingDevServer() {
+    return Preferences.getBoolean("useDevProxyServer");
   }
 
   public static final String getLastMessage() {
@@ -634,6 +669,10 @@ public abstract class KoLmafia {
     int ascensions = KoLCharacter.getAscensions();
     int knownAscensions = Preferences.getInteger("knownAscensions");
 
+    if (shouldResetCounters) {
+      Preferences.resetPerRollover();
+    }
+
     if (ascensions != 0 && knownAscensions != -1 && knownAscensions != ascensions) {
       Preferences.setInteger("knownAscensions", ascensions);
       ValhallaManager.resetPerAscensionCounters();
@@ -728,7 +767,7 @@ public abstract class KoLmafia {
     BanishManager.loadBanishedMonsters();
 
     // Retrieve Custom Outfit list
-    if (!Limitmode.limitOutfits()) {
+    if (!KoLCharacter.getLimitMode().limitOutfits()) {
       RequestThread.postRequest(new CustomOutfitRequest());
     }
 
@@ -749,8 +788,6 @@ public abstract class KoLmafia {
       RequestThread.postRequest(new EdBaseRequest("edbase_door", true));
     } else if (KoLCharacter.inPokefam()) {
       RequestThread.postRequest(new FamTeamRequest());
-    } else if (KoLCharacter.inQuantum()) {
-      RequestThread.postRequest(new QuantumTerrariumRequest());
     } else if (KoLCharacter.isPlumber()) {
       KoLCharacter.resetCurrentPP();
     } else if (KoLCharacter.inRobocore()) {
@@ -759,14 +796,21 @@ public abstract class KoLmafia {
       RequestThread.postRequest(new CharPaneRequest());
       RequestThread.postRequest(new ScrapheapRequest("sh_configure"));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1445&show=cpus"));
+    } else if (KoLCharacter.inNoobcore()) {
+      // Charpane contains the only absorb count tracking, thus we read it there
+      RequestThread.postRequest(new CharPaneRequest());
     }
 
     // Refresh fire levels
     WildfireCampRequest.refresh();
 
-    if (KoLCharacter.getPath().canUseFamiliars()
-        && !KoLCharacter.inPokefam()
-        && !KoLCharacter.inQuantum()) {
+    if (KoLCharacter.inQuantum()) {
+      RequestThread.postRequest(new QuantumTerrariumRequest());
+      // We did this earlier before loading charsheet.
+      // Do it again so we can catch passive skills
+      ApiRequest.updateStatus();
+    } else if (!KoLCharacter.inPokefam()) {
+      // In an avatar path that can't use familiars, owned familiars still affect things
       // Retrieve the Terrarium
       RequestThread.postRequest(new FamiliarRequest());
     }
@@ -780,7 +824,7 @@ public abstract class KoLmafia {
 
     // If the path allows, retrieve campground data to see if the user has box
     // servants or a bookshelf
-    if (!Limitmode.limitCampground()
+    if (!KoLCharacter.getLimitMode().limitCampground()
         && !KoLCharacter.isEd()
         && !KoLCharacter.inNuclearAutumn()
         && !KoLCharacter.inRobocore()) {
@@ -797,7 +841,7 @@ public abstract class KoLmafia {
     // These affect available concoctions
     ConcoctionDatabase.retrieveCafeMenus();
 
-    if (!Limitmode.limitCampground() && KoLCharacter.inNuclearAutumn()) {
+    if (!KoLCharacter.getLimitMode().limitCampground() && KoLCharacter.inNuclearAutumn()) {
       KoLmafia.updateDisplay("Retrieving fallout shelter data...");
       FalloutShelterRequest.reset();
       RequestThread.postRequest(new FalloutShelterRequest());
@@ -830,19 +874,18 @@ public abstract class KoLmafia {
     ResultProcessor.updateEntauntauned();
     CargoCultistShortsRequest.loadPockets();
 
+    // This needs to be checked once, to set the property.
+    // Once it is set, no further requests will be issued.
+    InventoryManager.checkCrimboTrainingManual();
+
     // Check items that vary per person
     // These won't actually generate a server hit if the item
     // has been seen at its current modifiers
-    InventoryManager.checkNoHat();
-    InventoryManager.checkJickSword();
-    InventoryManager.checkPantogram();
-    InventoryManager.checkLatte();
-    InventoryManager.checkSaber();
-    InventoryManager.checkCoatOfPaint();
-    InventoryManager.checkUmbrella();
+    InventoryManager.checkMods();
 
     // Items that conditionally grant skills
     InventoryManager.checkPowerfulGlove();
+    InventoryManager.checkDesignerSweatpants();
 
     // Check Horsery if we haven't today
     if (Preferences.getBoolean("horseryAvailable")
@@ -903,7 +946,7 @@ public abstract class KoLmafia {
       String message = "Your potato alarm clock gave you 5 extra adventures";
       KoLmafia.updateDisplay(message);
       RequestLogger.updateSessionLog(message);
-      Preferences.setBoolean("_potatoAlarmClockUsed", true);
+      Preferences.setBoolean("potatoAlarmClockUsed", true);
     }
   }
 
@@ -936,6 +979,8 @@ public abstract class KoLmafia {
     KoLCharacter.resetSkills();
     RequestThread.postRequest(new CharSheetRequest());
     InventoryManager.checkPowerfulGlove();
+    InventoryManager.checkDesignerSweatpants();
+    InventoryManager.checkCoatOfPaint(true);
 
     // Clear preferences
     Preferences.setString("banishingShoutMonsters", "");
@@ -955,7 +1000,7 @@ public abstract class KoLmafia {
 
     // Retrieve the Terrarium
     RequestThread.postRequest(new FamiliarRequest());
-    GearChangeFrame.updateFamiliars();
+    GearChangePanel.updateFamiliars();
 
     // Available stuff in Clan may have changed, so check clan
     ClanLoungeRequest.updateLounge();
@@ -1016,6 +1061,7 @@ public abstract class KoLmafia {
     KoLCharacter.resetSkills();
     RequestThread.postRequest(new CharSheetRequest());
     InventoryManager.checkPowerfulGlove();
+    InventoryManager.checkDesignerSweatpants();
 
     // Retrieve inventory contents, since quest items may disappear.
     InventoryManager.refresh();
@@ -1045,7 +1091,7 @@ public abstract class KoLmafia {
     KoLmafia.setIsRefreshing(false);
 
     // Ensure Gear Changer accurate
-    GearChangeFrame.validateSelections();
+    GearChangePanel.validateSelections();
   }
 
   /** Used to reset the session tally to its original values. */
@@ -1092,7 +1138,7 @@ public abstract class KoLmafia {
     }
 
     if (ItemDatabase.newItems || EquipmentDatabase.newEquipment || EffectDatabase.newEffects) {
-      Modifiers.writeModifiers(new File(KoLConstants.DATA_LOCATION, "modifiers.txt"));
+      ModifierDatabase.writeModifiers(new File(KoLConstants.DATA_LOCATION, "modifiers.txt"));
     }
 
     if (FamiliarDatabase.newFamiliars) {
@@ -1122,9 +1168,9 @@ public abstract class KoLmafia {
       } else if (effectId == EffectPool.COWRRUPTION) {
         if (KoLConstants.activeEffects.contains(effect)
             && KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER) {
-          KoLCharacter.addAvailableSkill("Absorb Cowrruption");
+          KoLCharacter.addAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
         } else {
-          KoLCharacter.removeAvailableSkill("Absorb Cowrruption");
+          KoLCharacter.removeAvailableSkill(SkillPool.ABSORB_COWRRUPTION);
         }
       }
     }
@@ -1174,9 +1220,8 @@ public abstract class KoLmafia {
           return;
         }
 
-        if (KoLmafia.currentAdventure.getRequest() instanceof RichardRequest) {
-          RequestThread.postRequest(
-              ((RichardRequest) KoLmafia.currentAdventure.getRequest()).setTurnCount(iterations));
+        if (KoLmafia.currentAdventure.getRequest() instanceof RichardRequest richard) {
+          RequestThread.postRequest(richard.setTurnCount(iterations));
           return;
         }
 
@@ -1350,31 +1395,6 @@ public abstract class KoLmafia {
       KoLmafia.updateDisplay(
           MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures.");
       return;
-    }
-
-    if (KoLCharacter.isFallingDown()) {
-      String holiday = HolidayDatabase.getHoliday();
-      String adventureName = adventure.getAdventureName();
-
-      if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS, 1))) {
-        // The wine glass allows you to adventure while falling down drunk
-      } else if (KoLCharacter.getLimitmode() == Limitmode.SPELUNKY) {
-        // You're allowed to Spelunk even while falling down drunk
-      } else if (KoLCharacter.getLimitmode() == Limitmode.BATMAN) {
-        // You're allowed to Batfellow even while falling down drunk
-      } else if (adventureName.equals("An Eldritch Fissure")
-          || adventureName.equals("An Eldritch Horror")
-          || adventureName.equals("Trick-or-Treating")
-          || adventureName.equals("The Tunnel of L.O.V.E.")) {
-        // There are a few adventures you can do even while falling
-        // down drunk
-      } else if (!holiday.contains("St. Sneaky Pete's Day") && !holiday.contains("Drunksgiving")) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "You are too drunk to continue.");
-        return;
-      } else if (KoLCharacter.getInebriety() <= 25) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "You are not drunk enough to continue.");
-        return;
-      }
     }
 
     if (KoLmafia.abortAfter != null) {
@@ -1568,30 +1588,16 @@ public abstract class KoLmafia {
     for (int i = 0; i < utfString.length(); ++i) {
       currentCharacter = utfString.charAt(i);
       switch (currentCharacter) {
-        case '-':
-          encodedString.append("2D");
-          break;
-        case '.':
-          encodedString.append("2E");
-          break;
-        case '*':
-          encodedString.append("2A");
-          break;
-        case '_':
-          encodedString.append("5F");
-          break;
-        case '+':
-          encodedString.append("20");
-          break;
-
-        case '%':
+        case '-' -> encodedString.append("2D");
+        case '.' -> encodedString.append("2E");
+        case '*' -> encodedString.append("2A");
+        case '_' -> encodedString.append("5F");
+        case '+' -> encodedString.append("20");
+        case '%' -> {
           encodedString.append(utfString.charAt(++i));
           encodedString.append(utfString.charAt(++i));
-          break;
-
-        default:
-          encodedString.append(Integer.toHexString(currentCharacter).toUpperCase());
-          break;
+        }
+        default -> encodedString.append(Integer.toHexString(currentCharacter).toUpperCase());
       }
     }
 
@@ -1686,6 +1692,16 @@ public abstract class KoLmafia {
       final int maxPurchases,
       final boolean isAutomated,
       final int priceLimit) {
+    // If we are searching for a limited item from an NPC store, the
+    // NPCPurchaseRequest may have been filtered out before being added
+    // to "purchases".
+
+    // If there are no PurchaseRequests, punt
+    if (purchases.length == 0) {
+      return;
+    }
+
+    // There is at least one PurchaseRequest.
     int firstIndex = 0;
 
     if (isAutomated) {
@@ -1696,11 +1712,16 @@ public abstract class KoLmafia {
       if (!Preferences.getBoolean("autoSatisfyWithMall")) {
         while (firstIndex < purchases.length) {
           PurchaseRequest currentRequest = purchases[firstIndex];
-          if (currentRequest.getQuantity() == PurchaseRequest.MAX_QUANTITY) {
+          if (currentRequest instanceof NPCPurchaseRequest) {
             break;
           }
 
           firstIndex++;
+        }
+
+        // If we did not find an NPC shop, punt.
+        if (firstIndex == purchases.length) {
+          return;
         }
       }
 
@@ -1714,15 +1735,10 @@ public abstract class KoLmafia {
       }
     }
 
-    if (firstIndex == purchases.length) {
-      return;
-    }
-
     PurchaseRequest firstRequest = purchases[firstIndex];
 
     List<AdventureResult> destination =
-        // Only NPC stores have an infinite supply
-        (KoLCharacter.canInteract() || firstRequest.getQuantity() == PurchaseRequest.MAX_QUANTITY)
+        (KoLCharacter.canInteract() || !firstRequest.isMallStore)
             ? KoLConstants.inventory
             : StorageRequest.isFreePull(firstRequest.getItem())
                 ? KoLConstants.freepulls
@@ -1786,7 +1802,7 @@ public abstract class KoLmafia {
           }
         }
 
-        // If this is not an NPC store, remove purchased items
+        // If this is not unlimited, remove purchased items
         if (currentRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY) {
           currentRequest.setQuantity(currentRequest.getQuantity() - purchased);
         }
@@ -1903,16 +1919,6 @@ public abstract class KoLmafia {
 
       SystemTrayFrame.removeTrayIcon();
       RelayServer.stop();
-
-      try {
-        KoLmafia.SESSION_HOLDER.release();
-        KoLmafia.SESSION_CHANNEL.close();
-        KoLmafia.SESSION_FILE.delete();
-      } catch (Exception e) {
-        // That means the file either doesn't exist or
-        // the session holder was somehow closed.
-        // Ignore and fall through.
-      }
     }
   }
 

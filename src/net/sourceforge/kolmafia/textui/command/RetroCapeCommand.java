@@ -1,22 +1,45 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class RetroCapeCommand extends AbstractCommand {
+public class RetroCapeCommand extends AbstractCommand implements ModeCommand {
   public static final String[] SUPERHEROS = {"vampire", "heck", "robot"};
   public static final String[] WASHING_INSTRUCTIONS = {"hold", "thrill", "kiss", "kill"};
 
   public RetroCapeCommand() {
     this.usage =
         " [muscle | mysticality | moxie | vampire | heck | robot] [hold | thrill | kiss | kill]";
+  }
+
+  @Override
+  public boolean validate(final String command, final String parameters) {
+    String[] parts = parameters.split(" ");
+    return Arrays.asList(SUPERHEROS).contains(parts[0])
+        && Arrays.asList(WASHING_INSTRUCTIONS).contains(parts[1]);
+  }
+
+  @Override
+  public String normalize(String parameters) {
+    return parameters;
+  }
+
+  @Override
+  public Set<String> getModes() {
+    return Arrays.stream(SUPERHEROS)
+        .flatMap(s -> Arrays.stream(WASHING_INSTRUCTIONS).map(w -> s + " " + w))
+        .collect(Collectors.toSet());
   }
 
   @Override
@@ -51,10 +74,10 @@ public class RetroCapeCommand extends AbstractCommand {
       }
     }
 
-    if (EquipmentManager.getEquipment(EquipmentManager.CONTAINER).getItemId()
+    if (EquipmentManager.getEquipment(Slot.CONTAINER).getItemId()
         != ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE) {
       AdventureResult retroCape = ItemPool.get(ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE);
-      RequestThread.postRequest(new EquipmentRequest(retroCape, EquipmentManager.CONTAINER));
+      RequestThread.postRequest(new EquipmentRequest(retroCape, Slot.CONTAINER));
     }
 
     KoLmafia.updateDisplay("Reconfiguring retro cape");

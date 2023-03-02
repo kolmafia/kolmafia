@@ -24,11 +24,12 @@ pipeline {
             sh './gradlew -v'
             sh './gradlew --no-daemon clean shadowJar'
           }
+          }
         }
-      }
     }
     stage('Testing') {
       steps {
+        wrap([$class: 'Xvfb']) {
         script {
           withEnv(["JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64"]) {
             sh './gradlew --no-daemon --stacktrace jacocoTestReport'
@@ -36,6 +37,7 @@ pipeline {
             publishCoverage adapters: [jacocoAdapter(mergeToOneReport: true, path: 'build/reports/jacoco/test/jacocoTestReport.xml')], sourceFileResolver: sourceFiles('NEVER_STORE')
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'build/reports/jacoco/test/html/', reportFiles: 'index.html', reportName: 'JaCoCo Test Report', reportTitles: ''])
           }
+        }
         }
       }
     }

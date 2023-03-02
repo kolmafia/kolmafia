@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -97,13 +98,13 @@ public class PulverizeRequest extends GenericRequest {
     }
 
     switch (ItemDatabase.getConsumptionType(this.item.getItemId())) {
-      case KoLConstants.EQUIP_ACCESSORY:
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_SHIRT:
-      case KoLConstants.EQUIP_WEAPON:
-      case KoLConstants.EQUIP_OFFHAND:
-      case KoLConstants.EQUIP_CONTAINER:
+      case ACCESSORY:
+      case HAT:
+      case PANTS:
+      case SHIRT:
+      case WEAPON:
+      case OFFHAND:
+      case CONTAINER:
         break;
 
       default:
@@ -118,7 +119,7 @@ public class PulverizeRequest extends GenericRequest {
         return;
     }
 
-    if (!KoLCharacter.hasSkill("Pulverize")) {
+    if (!KoLCharacter.hasSkill(SkillPool.PULVERIZE)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't know how to pulverize objects.");
       return;
     }

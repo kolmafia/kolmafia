@@ -16,8 +16,11 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -28,12 +31,18 @@ import javax.net.ssl.SSLParameters;
 public class FakeHttpClient extends HttpClient {
 
   private final List<HttpRequest> requests = new ArrayList<>();
-  private int responseCode = 0;
-  private String response = "";
+  private final Queue<FakeHttpResponse<String>> responses = new LinkedList<>();
 
-  public void setResponse(int responseCode, String response) {
-    this.responseCode = responseCode;
-    this.response = response;
+  public void addResponse(int responseCode, String response) {
+    addResponse(responseCode, new HashMap<>(), response);
+  }
+
+  public void addResponse(int responseCode, Map<String, List<String>> headers, String response) {
+    responses.add(new FakeHttpResponse<>(responseCode, headers, response));
+  }
+
+  public void addResponse(FakeHttpResponse<String> response) {
+    responses.add(response);
   }
 
   public List<HttpRequest> getRequests() {
@@ -41,15 +50,16 @@ public class FakeHttpClient extends HttpClient {
   }
 
   public HttpRequest getLastRequest() {
-    if (requests.size() == 0) return null;
+    if (requests.size() == 0) {
+      return null;
+    }
 
     return requests.get(requests.size() - 1);
   }
 
   public void clear() {
     this.requests.clear();
-    this.responseCode = 0;
-    this.response = "";
+    this.responses.clear();
   }
 
   @Override
@@ -101,20 +111,25 @@ public class FakeHttpClient extends HttpClient {
   public <T> HttpResponse<T> send(HttpRequest request, BodyHandler<T> responseBodyHandler)
       throws IOException, InterruptedException {
     this.requests.add(request);
+    var response = responses.poll();
+
+    var responseCode = response != null ? response.statusCode() : 0;
+    var headers = response != null ? response.rawHeaders() : new HashMap<String, List<String>>();
+    var responseBody = response != null ? response.body() : "";
 
     T body;
 
-    var subscriber = responseBodyHandler.apply(new ResponseInfoImpl(responseCode));
+    var subscriber = responseBodyHandler.apply(new ResponseInfoImpl(responseCode, headers));
     var publisher = new SubmissionPublisher<List<ByteBuffer>>();
     publisher.subscribe(subscriber);
-    publisher.submit(List.of(ByteBuffer.wrap(response.getBytes(StandardCharsets.UTF_8))));
+    publisher.submit(List.of(ByteBuffer.wrap(responseBody.getBytes(StandardCharsets.UTF_8))));
     publisher.close();
     try {
       body = subscriber.getBody().toCompletableFuture().get();
     } catch (InterruptedException | ExecutionException e) {
       body = null;
     }
-    return new FakeHttpResponse<>(responseCode, body);
+    return new FakeHttpResponse<>(responseCode, headers, body);
   }
 
   @Override
@@ -134,9 +149,11 @@ public class FakeHttpClient extends HttpClient {
   static class ResponseInfoImpl implements ResponseInfo {
 
     int statusCode;
+    Map<String, List<String>> headers;
 
-    public ResponseInfoImpl(int statusCode) {
+    public ResponseInfoImpl(int statusCode, Map<String, List<String>> headers) {
       this.statusCode = statusCode;
+      this.headers = headers;
     }
 
     @Override
@@ -146,7 +163,7 @@ public class FakeHttpClient extends HttpClient {
 
     @Override
     public HttpHeaders headers() {
-      return HttpHeaders.of(new HashMap<>(), (x, y) -> true);
+      return HttpHeaders.of(this.headers, (x, y) -> true);
     }
 
     @Override

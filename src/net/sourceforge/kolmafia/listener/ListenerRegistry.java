@@ -15,6 +15,11 @@ public class ListenerRegistry {
   // A registry of listeners:
   private final HashMap<Object, ArrayList<WeakReference<Listener>>> listenerMap = new HashMap<>();
 
+  // For testing
+  protected void clear() {
+    this.listenerMap.clear();
+  }
+
   // Logging. For now, this applies to all types of listeners
   private static boolean logging = false;
 

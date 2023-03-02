@@ -10,6 +10,9 @@ import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 
 public class Networking {
@@ -19,6 +22,27 @@ public class Networking {
     } catch (IOException e) {
       Assertions.fail("Failed to load HTML file: " + path);
       throw new AssertionError(e);
+    }
+  }
+
+  public static JSONObject json(String str) {
+    try {
+      return new JSONObject(str);
+    } catch (JSONException e) {
+      Assertions.fail("Failed to parse JSON");
+      throw new AssertionError(e);
+    }
+  }
+
+  public static void printRequests(List<HttpRequest> requests) {
+    for (HttpRequest req : requests) {
+      String method = req.method();
+      var uri = req.uri();
+      String path = uri.getPath();
+      switch (method) {
+        case "GET" -> System.out.println("GET " + path + " -> " + uri.getQuery());
+        case "POST" -> System.out.println("POST " + path + " -> " + getPostRequestBody(req));
+      }
     }
   }
 
@@ -33,11 +57,16 @@ public class Networking {
     assertThat(uri.getQuery(), equalTo(query));
   }
 
+  public static String getPostRequestBody(HttpRequest request) {
+    assertThat(request.method(), equalTo("POST"));
+    var reqBody = new RequestBodyReader().bodyAsString(request);
+    return URLDecoder.decode(reqBody, StandardCharsets.UTF_8);
+  }
+
   public static void assertPostRequest(HttpRequest request, String path, String body) {
     assertThat(request.method(), equalTo("POST"));
     var uri = request.uri();
     assertThat(uri.getPath(), equalTo(path));
-    var reqBody = new RequestBodyReader().bodyAsString(request);
-    assertThat(URLDecoder.decode(reqBody, StandardCharsets.UTF_8), equalTo(body));
+    assertThat(getPostRequestBody(request), equalTo(body));
   }
 }

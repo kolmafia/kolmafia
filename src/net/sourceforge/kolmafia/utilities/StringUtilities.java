@@ -15,6 +15,8 @@ import java.util.TimeZone;
 import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
 public class StringUtilities {
@@ -38,6 +40,9 @@ public class StringUtilities {
               + "below|beneath|beside|between|beyond|by|down|during|except|for|from|in|inside|"
               + "into|like|near|of|off|on|onto|out|outside|over|past|through|throughout|to|"
               + "under|up|upon|with|within|without)\\b");
+
+  private static final Pattern WHITESPACE = Pattern.compile("\n\\s*");
+  private static final Pattern LINE_BREAK = Pattern.compile("<br/?>", Pattern.CASE_INSENSITIVE);
 
   private static final SimpleDateFormat DATE_FORMAT =
       new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
@@ -800,50 +805,23 @@ public class StringUtilities {
     for (int i = 0; i < decoded.length(); ++i) {
       char c = decoded.charAt(i);
       switch (c) {
-        case 'O':
-        case 'o':
-          b.append("0");
-          break;
-        case 'I':
-        case 'i':
-        case 'L':
-        case 'l':
-          b.append("1");
-          break;
-        case 'E':
-        case 'e':
-          b.append("3");
-          break;
-        case 'A':
-        case 'a':
-          b.append("4");
-          break;
-        case 'S':
-        case 's':
-          b.append("5");
-          break;
-        case 'T':
-        case 't':
-          b.append("7");
-          break;
-        default:
-          b.append(c);
+        case 'O', 'o' -> b.append("0");
+        case 'I', 'i', 'L', 'l' -> b.append("1");
+        case 'E', 'e' -> b.append("3");
+        case 'A', 'a' -> b.append("4");
+        case 'S', 's' -> b.append("5");
+        case 'T', 't' -> b.append("7");
+        default -> b.append(c);
       }
     }
     return b.toString();
   }
 
   public static boolean isVowel(char letter) {
-    switch (Character.toLowerCase(letter)) {
-      case 'a':
-      case 'e':
-      case 'i':
-      case 'o':
-      case 'u':
-        return true;
-      default:
-        return false;
-    }
+    return switch (Character.toLowerCase(letter)) {
+      case 'a', 'e', 'i', 'o', 'u' -> true;
+      default -> false;
+    };
   }
 
   public static int getBracketedId(final String name) {
@@ -913,5 +891,83 @@ public class StringUtilities {
 
   public static List<String> tokenizeString(String s) throws Exception {
     return tokenizeString(s, ',');
+  }
+
+  public static String listToHumanString(List<String> l) {
+    int last = l.size() - 1;
+    if (last == 0) return l.get(last);
+    return String.join(" and ", String.join(", ", l.subList(0, last)), l.get(last));
+  }
+
+  public static String stripHtml(String s) {
+    // Now we begin trimming out some of the whitespace,
+    // because that causes some strange rendering problems.
+
+    s = StringUtilities.WHITESPACE.matcher(s).replaceAll("\n");
+
+    s = StringUtilities.globalStringDelete(s, "\r");
+    s = StringUtilities.globalStringDelete(s, "\n");
+    s = StringUtilities.globalStringDelete(s, "\t");
+
+    // Finally, we start replacing the various HTML tags
+    // with emptiness, except for the <br> tag which is
+    // rendered as a new line.
+
+    s = StringUtilities.LINE_BREAK.matcher(s).replaceAll("\n").trim();
+    s = KoLConstants.ANYTAG_PATTERN.matcher(s).replaceAll("");
+
+    return StringUtilities.getEntityDecode(s, false).trim();
+  }
+
+  public static String capitalize(final String s) {
+    return s.substring(0, 1).toUpperCase() + s.substring(1);
+  }
+
+  public static String upperSnakeToPascalCase(final String s) {
+    return Arrays.stream(s.split("_"))
+        .map(c -> capitalize(c.toLowerCase()))
+        .collect(Collectors.joining(""));
+  }
+
+  public static String upperSnakeToWords(final String s) {
+    return Arrays.stream(s.split("_"))
+        .map(c -> capitalize(c.toLowerCase()))
+        .collect(Collectors.joining(" "));
+  }
+
+  /**
+   * Return whether a string matches a filter.
+   *
+   * @param str string to attempt match on
+   * @param filter filter. Filters can contain '*' which are interpreted as 'any string'.
+   * @return whether the string matches the filter
+   */
+  public static boolean matchesFilter(String str, String filter) {
+    if ("".equals(filter)) return "".equals(str);
+
+    if (!filter.contains("*")) return filter.equals(str);
+
+    // guarantee subFilters will have positive length
+    if (filter.equals("*")) return true;
+
+    String[] subFilters = filter.split("[*]");
+
+    if (!filter.startsWith("*")) {
+      var firstFilter = subFilters[0];
+      if (!str.startsWith(firstFilter)) return false;
+    }
+
+    if (!filter.endsWith("*")) {
+      var lastFilter = subFilters[subFilters.length - 1];
+      if (!str.endsWith(lastFilter)) return false;
+    }
+
+    int searchIndex = 0;
+    for (var s : subFilters) {
+      var index = str.indexOf(s, searchIndex);
+      if (index == -1) return false;
+      searchIndex = index + s.length();
+    }
+    return true;
   }
 }

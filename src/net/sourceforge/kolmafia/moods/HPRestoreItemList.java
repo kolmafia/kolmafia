@@ -7,8 +7,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -19,13 +19,14 @@ import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -159,15 +160,12 @@ public abstract class HPRestoreItemList {
   public static void updateHealthRestored() {
     HPRestoreItemList.CAMPGROUND.healthPerUse = KoLCharacter.getRestingHP();
     HPRestoreItemList.FREEREST.healthPerUse =
-        ChateauRequest.chateauRestUsable()
+        (ChateauRequest.chateauRestUsable() || CampAwayRequest.campAwayTentRestUsable())
             ? 250
-            : (Preferences.getBoolean("restUsingCampAwayTent")
-                    && Preferences.getBoolean("getawayCampsiteUnlocked"))
-                ? 250
-                : KoLCharacter.getRestingHP();
+            : KoLCharacter.getRestingHP();
     HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
     HPRestoreItemList.DISCONAP.healthPerUse =
-        KoLCharacter.hasSkill("Adventurer of Leisure") ? 40 : 20;
+        KoLCharacter.hasSkill(SkillPool.ADVENTURER_OF_LEISURE) ? 40 : 20;
     HPRestoreItemList.DOCS_UNGUENT.purchaseCost =
         QuestDatabase.isQuestFinished(Quest.DOC) ? 20 : 30;
     HPRestoreItemList.DOCS_ELIXIR.purchaseCost =
@@ -264,11 +262,9 @@ public abstract class HPRestoreItemList {
 
     @Override
     public int compareTo(final RestoreItem o) {
-      if (!(o instanceof HPRestoreItem)) {
+      if (!(o instanceof HPRestoreItem hpi)) {
         return super.compareTo(o);
       }
-
-      HPRestoreItem hpi = (HPRestoreItem) o;
 
       // Health restores are special because skills are preferred
       // over items, so test for that first.
@@ -315,14 +311,15 @@ public abstract class HPRestoreItemList {
         return;
       }
 
-      if (this == HPRestoreItemList.GRUB
-          && !KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FORM_OF_BIRD))) {
+      var limitMode = KoLCharacter.getLimitMode();
+
+      if (this == HPRestoreItemList.GRUB && KoLCharacter.getLimitMode() != LimitMode.BIRD) {
         return;
       }
 
       if (this == HPRestoreItemList.CHATEAU) {
         if (ChateauRequest.chateauRestUsable()) {
-          RequestThread.postRequest(new ChateauRequest("chateau_restbox"));
+          RequestThread.postRequest(new ChateauRequest(ChateauRequest.BED));
         }
         return;
       }
@@ -335,7 +332,7 @@ public abstract class HPRestoreItemList {
       }
 
       if (this == HPRestoreItemList.CAMPGROUND) {
-        if (Limitmode.limitCampground() || KoLCharacter.isEd()) {
+        if (limitMode.limitCampground() || KoLCharacter.isEd()) {
           return;
         }
         if (!KoLCharacter.inNuclearAutumn()) {
@@ -349,14 +346,14 @@ public abstract class HPRestoreItemList {
       if (this == HPRestoreItemList.FREEREST) {
         if (Preferences.getInteger("timesRested") < KoLCharacter.freeRestsAvailable()) {
           if (ChateauRequest.chateauRestUsable()) {
-            RequestThread.postRequest(new ChateauRequest("chateau_restbox"));
+            RequestThread.postRequest(new ChateauRequest(ChateauRequest.BED));
             return;
           }
           if (CampAwayRequest.campAwayTentRestUsable()) {
             RequestThread.postRequest(new CampAwayRequest(CampAwayRequest.TENT));
             return;
           }
-          if (!Limitmode.limitCampground()
+          if (!limitMode.limitCampground()
               && !KoLCharacter.isEd()
               && !KoLCharacter.inNuclearAutumn()) {
             RequestThread.postRequest(new CampgroundRequest("rest"));
@@ -395,7 +392,7 @@ public abstract class HPRestoreItemList {
           return;
         }
 
-        RequestThread.postRequest(new ClanLoungeRequest(ClanLoungeRequest.HOTTUB));
+        RequestThread.postRequest(new ClanLoungeRequest(Action.HOTTUB));
         return;
       }
 

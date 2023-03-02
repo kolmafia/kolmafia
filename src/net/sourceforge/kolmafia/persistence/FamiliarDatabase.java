@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -48,6 +49,9 @@ public class FamiliarDatabase {
   private static final Set<Integer> sombreroById = new HashSet<>();
   private static final Set<Integer> meatDropById = new HashSet<>();
   private static final Set<Integer> fairyById = new HashSet<>();
+  private static final Set<Integer> boozeFairyById = new HashSet<>();
+  private static final Set<Integer> candyFairyById = new HashSet<>();
+  private static final Set<Integer> foodFairyById = new HashSet<>();
 
   private static final Set<Integer> combat0ById = new HashSet<>();
   private static final Set<Integer> combat1ById = new HashSet<>();
@@ -93,7 +97,7 @@ public class FamiliarDatabase {
     FamiliarDatabase.eventSkillByName = new ArrayList<>(4);
 
     for (int i = 0; i < 4; ++i) {
-      FamiliarDatabase.eventSkillByName.add(new HashMap<String, Integer>());
+      FamiliarDatabase.eventSkillByName.add(new HashMap<>());
     }
     FamiliarDatabase.readFamiliars();
     FamiliarDatabase.saveCanonicalNames();
@@ -177,6 +181,9 @@ public class FamiliarDatabase {
     FamiliarDatabase.updateType(type, "stat0", id, volleyById);
     FamiliarDatabase.updateType(type, "stat1", id, sombreroById);
     FamiliarDatabase.updateType(type, "item0", id, fairyById);
+    FamiliarDatabase.updateType(type, "item1", id, foodFairyById);
+    FamiliarDatabase.updateType(type, "item2", id, boozeFairyById);
+    FamiliarDatabase.updateType(type, "item3", id, candyFairyById);
     FamiliarDatabase.updateType(type, "meat0", id, meatDropById);
 
     // The following are "combat" abilities
@@ -274,7 +281,8 @@ public class FamiliarDatabase {
   // height=30><br><b>Bloovian Groose</b></a></td></tr></table>
 
   private static final Pattern FAMILIAR_PATTERN =
-      Pattern.compile("Hatches into:.*?<table.*?which=(\\d*).*?itemimages/(.*?) .*?<b>(.*?)</b>");
+      Pattern.compile(
+          "Hatches into:.*?<table.*?which=(\\d*).*?itemimages/([^\"]*?)\"? .*?<b>(.*?)</b>");
 
   public static final void registerFamiliar(final Integer larvaId, final String text) {
     Matcher matcher = FAMILIAR_PATTERN.matcher(text);
@@ -381,8 +389,30 @@ public class FamiliarDatabase {
     return FamiliarDatabase.sombreroById.contains(familiarId);
   }
 
-  public static final boolean isFairyType(final Integer familiarId) {
-    return FamiliarDatabase.fairyById.contains(familiarId);
+  public static boolean isFairyType(final int id) {
+    return FamiliarDatabase.fairyById.contains(id);
+  }
+
+  public static boolean isBoozeFairyType(final int id) {
+    return FamiliarDatabase.boozeFairyById.contains(id);
+  }
+
+  public static boolean isCandyFairyType(final int id) {
+    return FamiliarDatabase.candyFairyById.contains(id);
+  }
+
+  public static boolean isFoodFairyType(final int id) {
+    return FamiliarDatabase.foodFairyById.contains(id);
+  }
+
+  public static boolean isFairyType(final int id, final DoubleModifier fairyModifier) {
+    return switch (fairyModifier) {
+      case FAIRY_WEIGHT -> isFairyType(id);
+      case BOOZE_FAIRY_WEIGHT -> isBoozeFairyType(id);
+      case CANDY_FAIRY_WEIGHT -> isCandyFairyType(id);
+      case FOOD_FAIRY_WEIGHT -> isFoodFairyType(id);
+      default -> false;
+    };
   }
 
   public static final boolean isMeatDropType(final Integer familiarId) {

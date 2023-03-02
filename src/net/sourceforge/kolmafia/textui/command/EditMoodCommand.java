@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaCLI.ParameterHandling;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.moods.MoodTrigger;
 public class EditMoodCommand extends AbstractCommand {
   public EditMoodCommand() {
     this.usage = " list | clear | autofill | [<type>,] <effect> [, <action>] - edit current mood";
-    this.flags = KoLmafiaCLI.FULL_LINE_CMD;
+    this.flags = ParameterHandling.FULL_LINE;
   }
 
   @Override

@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.preferences;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -38,27 +39,30 @@ public class Preferences {
 
   private static final Object lock = new Object(); // used to synch io
 
-  private static final byte[] LINE_BREAK_AS_BYTES =
-      KoLConstants.LINE_BREAK.getBytes(StandardCharsets.UTF_8);
-
   private static final String[] characterMap = new String[65536];
 
   private static final HashMap<String, String> globalNames = new HashMap<>();
-  private static final SortedMap<String, Object> globalValues =
+  private static final Map<String, Object> globalValues = new ConcurrentHashMap<>();
+  // user/globalEncodedValues cache the byte sequence corresponding to the on-disk representation
+  // of a line in the preferences file, so that writing out preferences is simply a matter of
+  // concatenating all the cached values.
+  private static final SortedMap<String, byte[]> globalEncodedValues =
       Collections.synchronizedSortedMap(new TreeMap<>());
   private static File globalPropertiesFile = null;
 
   private static final HashMap<String, String> userNames = new HashMap<>();
-  private static final SortedMap<String, Object> userValues =
+  private static final Map<String, Object> userValues = new ConcurrentHashMap<>();
+  private static final SortedMap<String, byte[]> userEncodedValues =
       Collections.synchronizedSortedMap(new TreeMap<>());
   private static File userPropertiesFile = null;
 
   private static final Set<String> defaultsSet = new HashSet<>();
   private static final Set<String> perUserGlobalSet = new HashSet<>();
+  private static final Set<String> onlyResetOnRollover =
+      new TreeSet<>(List.of("ascensionsToday", "potatoAlarmClockUsed"));
   private static final Set<String> legacyDailies =
       new TreeSet<>(
           List.of(
-              "barrelLayout",
               "bootsCharged",
               "breakfastCompleted",
               "burrowgrubHiveUsed",
@@ -75,7 +79,6 @@ public class Preferences {
               "grimoire1Summons",
               "grimoire2Summons",
               "grimoire3Summons",
-              "lastBarrelSmashed",
               "libramSummons",
               "libraryCardUsed",
               "noodleSummons",
@@ -97,8 +100,14 @@ public class Preferences {
 
   private static final String[] resetOnAscension =
       new String[] {
+        "8BitColor",
+        "8BitScore",
         "affirmationCookiesEaten",
         "aminoAcidsUsed",
+        "asolDeferredPoints",
+        "autumnatonQuestLocation",
+        "autumnatonQuestTurn",
+        "autumnatonUpgrades",
         "awolDeferredPointsBeanslinger",
         "awolDeferredPointsCowpuncher",
         "awolDeferredPointsSnakeoiler",
@@ -151,9 +160,12 @@ public class Preferences {
         "bondWpn",
         "boomBoxSong",
         "breathitinCharges",
+        "calzoneOfLegendEaten",
         "camelSpit",
         "cameraMonster",
         "campAwayDecoration",
+        "candyWitchCandyTotal",
+        "candyWitchTurnsUsed",
         "carboLoading",
         "cargoPocketScraps",
         "cargoPocketsEmptied",
@@ -163,6 +175,7 @@ public class Preferences {
         "cinderellaMinutesToMidnight",
         "cinderellaScore",
         "clumsinessGroveBoss",
+        "commerceGhostCombats",
         "commerceGhostItem",
         "copperheadClubHazard",
         "cornucopiasOpened",
@@ -179,17 +192,23 @@ public class Preferences {
         "crystalBallPredictions",
         "csServicesPerformed",
         "cubelingProgress",
+        "currentAstralTrip",
+        "currentDistillateMods",
         "currentEasyBountyItem",
         "currentHardBountyItem",
         "currentHedgeMazeRoom",
         "currentHippyStore",
+        "currentLlamaForm",
+        "currentPortalEnergy",
         "currentSpecialBountyItem",
+        "currentSITSkill",
         "cursedMagnifyingGlassCount",
         "cyrusAdjectives",
         "dampOldBootPurchased",
         "daycareEquipment",
         "daycareInstructors",
         "daycareToddlers",
+        "deepDishOfLegendEaten",
         "demonName12",
         "demonName13",
         "dnaSyringe",
@@ -206,6 +225,8 @@ public class Preferences {
         "drippingHallAdventuresSinceAscension",
         "drippingTreesAdventuresSinceAscension",
         "drippyJuice",
+        "duckAreasCleared",
+        "duckAreasSelected",
         "edPiece",
         "eldritchTentaclesFought",
         "encountersUntilDMTChoice",
@@ -216,6 +237,7 @@ public class Preferences {
         "envyfishMonster",
         "falloutShelterChronoUsed",
         "falloutShelterCoolingTankUsed",
+        "familiarSweat",
         "fireExtinguisherBatHoleUsed",
         "fireExtinguisherChasmUsed",
         "fireExtinguisherCyrptUsed",
@@ -233,6 +255,7 @@ public class Preferences {
         "fistTeachingsPokerRoom",
         "fistTeachingsRoad",
         "fistTeachingsSlums",
+        "funGuyMansionKills",
         "frenchGuardTurtlesFreed",
         "garbageChampagneCharge",
         "garbageFireProgress",
@@ -257,6 +280,20 @@ public class Preferences {
         "guyMadeOfBeesCount",
         "guyMadeOfBeesDefeated",
         "guzzlrDeliveryProgress",
+        "hallowiener8BitRealm",
+        "hallowienerCoinspiracy",
+        "hallowienerDefiledNook",
+        "hallowienerGuanoJunction",
+        "hallowienerKnollGym",
+        "hallowienerMadnessBakery",
+        "hallowienerMiddleChamber",
+        "hallowienerOvergrownLot",
+        "hallowienerSkeletonStore",
+        "hallowienerSmutOrcs",
+        "hallowienerSonofaBeach",
+        "hallowienerVolcoino",
+        "hareMillisecondsSaved",
+        "hareTurnsUsed",
         "hasBartender",
         "hasChef",
         "hasCocktailKit",
@@ -268,6 +305,7 @@ public class Preferences {
         "highTopPumped",
         "homebodylCharges",
         "iceSculptureMonster",
+        "intenseCurrents",
         "itemBoughtPerAscension10790",
         "itemBoughtPerAscension10794",
         "itemBoughtPerAscension10795",
@@ -279,8 +317,13 @@ public class Preferences {
         "lastAnticheeseDay",
         "lastBeardBuff",
         "lastColosseumRoundWon",
+        "lastCombatEnvironments",
         "lastCopyableMonster",
         "lastCouncilVisit",
+        "lastFriarElbowNC",
+        "lastFriarHeartNC",
+        "lastFriarNeckNC",
+        "lastTrainsetConfiguration",
         "lastZapperWandExplosionDay",
         "latteModifier",
         "latteUnlocks",
@@ -288,7 +331,27 @@ public class Preferences {
         "locketPhylum",
         "lockPicked",
         "louvreLayout",
+        "lovebugsAridDesert",
+        "lovebugsBeachBuck",
+        "lovebugsBooze",
+        "lovebugsChroner",
+        "lovebugsCoinspiracy",
+        "lovebugsCyrpt",
+        "lovebugsFreddy",
+        "lovebugsFunFunds",
+        "lovebugsHoboNickel",
+        "lovebugsItemDrop",
+        "lovebugsMeat",
+        "lovebugsMeatDrop",
+        "lovebugsMoxie",
+        "lovebugsMuscle",
+        "lovebugsMysticality",
+        "lovebugsOilPeak",
+        "lovebugsOrcChasm",
+        "lovebugsPowder",
+        "lovebugsWalmart",
         "maelstromOfLoversBoss",
+        "madnessBakeryAvailable",
         "mappingMonsters",
         "mapToAnemoneMinePurchased",
         "mapToMadnessReefPurchased",
@@ -307,15 +370,22 @@ public class Preferences {
         "miniAdvClass",
         "moonTuned",
         "mushroomGardenCropLevel",
+        "nextDistillateMods",
         "nextParanormalActivity",
         "nextQuantumFamiliar",
+        "nextQuantumFamiliarName",
+        "nextQuantumFamiliarOwner",
+        "nextQuantumFamiliarOwnerId",
         "nextQuantumFamiliarTurn",
         "nextSpookyravenElizabethRoom",
         "nextSpookyravenStephenRoom",
         "noobDeferredPoints",
         "nosyNoseMonster",
+        "oasisAvailable",
         "optimisticCandleProgress",
+        "overgrownLotAvailable",
         "parasolUsed",
+        "parkaMode",
         "pastaThrall1",
         "pastaThrall2",
         "pastaThrall3",
@@ -326,6 +396,8 @@ public class Preferences {
         "pastaThrall8",
         "pendingMapReflections",
         "photocopyMonster",
+        "pingpongSkill",
+        "pizzaOfLegendEaten",
         "plantingDate",
         "plantingDay",
         "plumberBadgeCost",
@@ -350,9 +422,11 @@ public class Preferences {
         "scrapbookCharges",
         "screencappedMonster",
         "seahorseName",
+        "shadowRiftIngress",
         "shenInitiationDay",
         "shockingLickCharges",
         "singleFamiliarRun",
+        "skeletonStoreAvailable",
         "slimelingFullness",
         "slimelingStacksDropped",
         "slimelingStacksDue",
@@ -383,6 +457,7 @@ public class Preferences {
         "sugarCounter4183",
         "sugarCounter4191",
         "superficiallyInterestedMonster",
+        "sweat",
         "telescope1",
         "telescope2",
         "telescope3",
@@ -391,21 +466,27 @@ public class Preferences {
         "telescope6",
         "telescope7",
         "testudinalTeachings",
+        "trainsetConfiguration",
+        "trainsetPosition",
         "trapperOre",
         "turtleBlessingTurns",
         "twinPeakProgress",
         "unicornHornInflation",
+        "vintnerCharge",
         "vintnerWineEffect",
         "vintnerWineLevel",
         "vintnerWineName",
         "vintnerWineType",
         "violetFogLayout",
         "waxMonster",
+        "whetstonesUsed",
         "wildfireBarrelCaulked",
         "wildfireDusted",
         "wildfireFracked",
         "wildfirePumpGreased",
         "wildfireSprinkled",
+        "wolfPigsEvicted",
+        "wolfTurnsUsed",
         "workteaClue",
         "xoSkeleltonOProgress",
         "xoSkeleltonXProgress",
@@ -476,7 +557,6 @@ public class Preferences {
 
     boolean isUsingMac = System.getProperty("os.name").startsWith("Mac");
 
-    Preferences.globalNames.put("useDecoratedTabs", String.valueOf(!isUsingMac));
     Preferences.globalNames.put("chatFontSize", isUsingMac ? "medium" : "small");
 
     try {
@@ -490,15 +570,18 @@ public class Preferences {
 
   /** Resets all settings so that the given user is represented whenever settings are modified. */
   public static synchronized void reset(String username) {
-    Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalValues);
+    // We might not have been tracking encoded values here before this save. Fix that.
+    Preferences.reinitializeEncodedValues();
+    Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
     // Prevent anybody from manipulating the user map until we are
     // done bulk-loading it.
     synchronized (Preferences.userValues) {
       if (username == null || username.equals("")) {
         if (Preferences.userPropertiesFile != null) {
-          Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userValues);
+          Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
           Preferences.userPropertiesFile = null;
           Preferences.userValues.clear();
+          Preferences.userEncodedValues.clear();
         }
 
         return;
@@ -527,6 +610,7 @@ public class Preferences {
 
     Properties p = Preferences.loadPreferences(file);
     Preferences.globalValues.clear();
+    Preferences.globalEncodedValues.clear();
 
     // GLOBAL_prefs.txt can contain obsolete settings which
     // migrated from global to user. Leave them, since the
@@ -539,7 +623,7 @@ public class Preferences {
       // continue;
 
       String value = (String) entry.getValue();
-      Preferences.globalValues.put(key, value);
+      Preferences.putGlobal(key, value);
     }
 
     // For all global properties in defaults.txt which were not in
@@ -549,7 +633,7 @@ public class Preferences {
       if (!Preferences.globalValues.containsKey(key)) {
         // System.out.println( "Adding new built-in global setting: " + key );
         String value = entry.getValue();
-        Preferences.globalValues.put(key, value);
+        Preferences.putGlobal(key, value);
       }
     }
   }
@@ -561,12 +645,13 @@ public class Preferences {
 
     Properties p = Preferences.loadPreferences(file);
     Preferences.userValues.clear();
+    Preferences.userEncodedValues.clear();
 
     for (Entry<Object, Object> currentEntry : p.entrySet()) {
       String key = (String) currentEntry.getKey();
       String value = (String) currentEntry.getValue();
 
-      Preferences.userValues.put(key, value);
+      Preferences.putUser(key, value);
     }
 
     for (Entry<String, String> entry : Preferences.userNames.entrySet()) {
@@ -587,7 +672,7 @@ public class Preferences {
               : entry.getValue();
 
       // System.out.println( "Adding new built-in user setting: " + key );
-      Preferences.userValues.put(key, value);
+      Preferences.putUser(key, value);
     }
   }
 
@@ -619,8 +704,37 @@ public class Preferences {
       buffer.append("=");
       Preferences.encodeString(buffer, value);
     }
+    buffer.append(KoLConstants.LINE_BREAK);
 
     return buffer.toString();
+  }
+
+  private static boolean mustTrackEncodedValues() {
+    return Preferences.getBoolean("saveSettingsOnSet") && Preferences.saveSettingsToFile;
+  }
+
+  private static void reinitializeEncodedValuesOn(
+      Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
+    synchronized (valuesMap) {
+      for (Entry<String, Object> entry : valuesMap.entrySet()) {
+        encodedMap.put(
+            entry.getKey(),
+            encodeProperty(entry.getKey(), entry.getValue().toString())
+                .getBytes(StandardCharsets.UTF_8));
+      }
+    }
+  }
+
+  /** Recompute all cached encoded values from the value maps. */
+  private static void reinitializeEncodedValues() {
+    // No need to do this at all if not writing to a file.
+    if (!Preferences.saveSettingsToFile) {
+      return;
+    }
+
+    Preferences.reinitializeEncodedValuesOn(
+        Preferences.globalValues, Preferences.globalEncodedValues);
+    Preferences.reinitializeEncodedValuesOn(Preferences.userValues, Preferences.userEncodedValues);
   }
 
   private static void encodeString(StringBuffer buffer, String string) {
@@ -639,25 +753,26 @@ public class Preferences {
     }
 
     switch (ch) {
-      case '\t':
+      case '\t' -> {
         characterMap[ch] = "\\t";
         return;
-      case '\n':
+      }
+      case '\n' -> {
         characterMap[ch] = "\\n";
         return;
-      case '\f':
+      }
+      case '\f' -> {
         characterMap[ch] = "\\f";
         return;
-      case '\r':
+      }
+      case '\r' -> {
         characterMap[ch] = "\\r";
         return;
-      case '\\':
-      case '=':
-      case ':':
-      case '#':
-      case '!':
+      }
+      case '\\', '=', ':', '#', '!' -> {
         characterMap[ch] = "\\" + ch;
         return;
+      }
     }
 
     characterMap[ch] =
@@ -670,6 +785,10 @@ public class Preferences {
                     : (ch < 0x1000)
                         ? "\\u0" + Integer.toHexString(ch)
                         : "\\u" + Integer.toHexString(ch);
+  }
+
+  public static boolean propertyExists(final String name) {
+    return propertyExists(name, true) || propertyExists(name, false);
   }
 
   public static boolean propertyExists(final String name, final boolean global) {
@@ -707,6 +826,7 @@ public class Preferences {
   }
 
   public static void removeProperty(final String name, final boolean global) {
+    boolean trackEncoded = Preferences.mustTrackEncodedValues();
     // Remove only properties which do not have defaults
     if (global) {
       if (!Preferences.globalNames.containsKey(name)) {
@@ -714,9 +834,7 @@ public class Preferences {
         // globalValues is a synchronized map.
 
         Preferences.globalValues.remove(name);
-        if (Preferences.getBoolean("saveSettingsOnSet")) {
-          Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalValues);
-        }
+        if (trackEncoded) Preferences.globalEncodedValues.remove(name);
       }
     } else {
       if (!Preferences.userNames.containsKey(name)) {
@@ -724,11 +842,11 @@ public class Preferences {
         // userValues is a synchronized map.
 
         Preferences.userValues.remove(name);
-        if (Preferences.getBoolean("saveSettingsOnSet")) {
-          Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userValues);
-        }
+        if (trackEncoded) Preferences.userEncodedValues.remove(name);
       }
     }
+    Preferences.maybeSaveToFileAfterUpdating(trackEncoded, name);
+    PreferenceListenerRegistry.firePreferenceChanged(name);
   }
 
   public static boolean isGlobalProperty(final String name) {
@@ -954,6 +1072,7 @@ public class Preferences {
     return map.get(key);
   }
 
+  // Used only in ASH get_all_properties.
   public static TreeMap<String, String> getMap(boolean defaults, boolean user) {
     if (defaults) {
       return new TreeMap<>(user ? userNames : globalNames);
@@ -1023,25 +1142,18 @@ public class Preferences {
       }
     }
 
-    if (Preferences.isGlobalProperty(name)) {
-      String actualName = Preferences.propertyName(user, name);
+    boolean trackEncoded = Preferences.mustTrackEncodedValues();
 
-      // We might be changing the structure of the map.
-      // globalValues is a synchronized map.
-
-      Preferences.globalValues.put(actualName, object);
-      if (Preferences.getBoolean("saveSettingsOnSet")) {
-        Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalValues);
-      }
-    } else if (Preferences.userPropertiesFile != null) {
-      // We might be changing the structure of the map.
-      // userValues is a synchronized map.
-
-      Preferences.userValues.put(name, object);
-      if (Preferences.getBoolean("saveSettingsOnSet")) {
-        Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userValues);
-      }
+    // We stop tracking encoded values when saveSettingsOnSet is off. When it is turned back on,
+    // many encoded values will be out of date, and we don't know which ones, so we have to
+    // recompute all of them.
+    if (name == "saveSettingsOnSet" && (boolean) object) {
+      Preferences.reinitializeEncodedValues();
+      trackEncoded |= Preferences.saveSettingsToFile;
     }
+
+    Preferences.put(user, name, object, trackEncoded);
+    Preferences.maybeSaveToFileAfterUpdating(trackEncoded, name);
 
     PreferenceListenerRegistry.firePreferenceChanged(name);
 
@@ -1050,11 +1162,55 @@ public class Preferences {
     }
   }
 
+  private static void putGlobal(final String name, final Object value) {
+    putGlobal(name, value, true);
+  }
+
+  private static void putGlobal(final String name, final Object value, boolean updateEncoded) {
+    Preferences.globalValues.put(name, value);
+    if (updateEncoded) {
+      Preferences.globalEncodedValues.put(
+          name, encodeProperty(name, value.toString()).getBytes(StandardCharsets.UTF_8));
+    }
+  }
+
+  private static void putUser(final String name, final Object value) {
+    Preferences.putUser(name, value, true);
+  }
+
+  private static void putUser(final String name, final Object value, boolean updateEncoded) {
+    Preferences.userValues.put(name, value);
+    if (updateEncoded) {
+      Preferences.userEncodedValues.put(
+          name, encodeProperty(name, value.toString()).getBytes(StandardCharsets.UTF_8));
+    }
+  }
+
+  private static void put(
+      final String user, final String name, final Object value, boolean updateEncoded) {
+    if (Preferences.isGlobalProperty(name)) {
+      String actualName = Preferences.propertyName(user, name);
+      Preferences.putGlobal(actualName, value, updateEncoded);
+    } else if (Preferences.userPropertiesFile != null) {
+      putUser(name, value, updateEncoded);
+    }
+  }
+
+  private static void maybeSaveToFileAfterUpdating(boolean enable, String updatedProperty) {
+    if (enable) {
+      if (Preferences.isGlobalProperty(updatedProperty)) {
+        Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
+      } else if (Preferences.userPropertiesFile != null) {
+        Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
+      }
+    }
+  }
+
   private static String propertyName(final String user, final String name) {
     return user == null ? name : name + "." + Preferences.baseUserName(user);
   }
 
-  private static void saveToFile(File file, Map<String, Object> data) {
+  private static void saveToFile(File file, Map<String, byte[]> encodedData) {
     if (!Preferences.saveSettingsToFile) {
       return;
     }
@@ -1069,25 +1225,16 @@ public class Preferences {
       // Determine the contents of the file by
       // actually printing them.
 
-      ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+      OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
 
       try {
-        for (Entry<String, Object> current : data.entrySet()) {
-          ostream.write(
-              Preferences.encodeProperty(current.getKey(), current.getValue().toString())
-                  .getBytes(StandardCharsets.UTF_8));
-          ostream.write(LINE_BREAK_AS_BYTES);
+        synchronized (encodedData) {
+          for (Entry<String, byte[]> current : encodedData.entrySet()) {
+            fstream.write(current.getValue());
+          }
         }
       } catch (IOException e) {
         System.out.println(e.getMessage() + " trying to write preferences as byte array.");
-      }
-
-      OutputStream fstream = DataUtilities.getOutputStream(file);
-
-      try {
-        ostream.writeTo(fstream);
-      } catch (IOException e) {
-        System.out.println(e.getMessage() + " trying to write preferences as stream.");
       }
 
       try {
@@ -1120,6 +1267,9 @@ public class Preferences {
         "awolPointsCowpuncher", Preferences.getInteger("awolDeferredPointsCowpuncher"));
     Preferences.increment(
         "awolPointsSnakeoiler", Preferences.getInteger("awolDeferredPointsSnakeoiler"));
+    Preferences.increment("asolPointsCheeseWizard", Preferences.getInteger("asolDeferredPoints"));
+    Preferences.increment("asolPointsJazzAgent", Preferences.getInteger("asolDeferredPoints"));
+    Preferences.increment("asolPointsPigSkinner", Preferences.getInteger("asolDeferredPoints"));
     Preferences.increment("noobPoints", Preferences.getInteger("noobDeferredPoints"));
 
     // Most prefs that get reset on ascension just return to their default value
@@ -1129,6 +1279,13 @@ public class Preferences {
 
     // Some need special treatment
     MonorailManager.resetMuffinOrder();
+  }
+
+  public static void resetPerRollover() {
+    // Some preferences are only reset on rollover
+    for (String pref : onlyResetOnRollover) {
+      resetToDefault(pref);
+    }
   }
 
   public static void resetDailies() {
@@ -1145,16 +1302,13 @@ public class Preferences {
           if (!Preferences.containsDefault(name)) {
             // fully delete preferences that start with _ and aren't in defaults.txt
             it.remove();
+            userEncodedValues.remove(name);
             continue;
           }
           String val = Preferences.userNames.get(name);
           if (val == null) val = "";
           Preferences.setString(name, val);
         }
-      }
-
-      if (Preferences.getBoolean("saveSettingsOnSet")) {
-        Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userValues);
       }
     }
   }
@@ -1175,10 +1329,6 @@ public class Preferences {
       }
 
       Preferences.setLong("lastGlobalCounterDay", KoLCharacter.getRollover());
-
-      if (Preferences.getBoolean("saveSettingsOnSet")) {
-        Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalValues);
-      }
     }
   }
 

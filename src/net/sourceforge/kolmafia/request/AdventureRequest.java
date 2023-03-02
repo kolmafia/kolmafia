@@ -1,6 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -33,7 +36,7 @@ import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
-import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -44,7 +47,6 @@ import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
@@ -65,8 +67,87 @@ public class AdventureRequest extends GenericRequest {
   private final String adventureName;
   private final String formSource;
   private final String adventureId;
+  private final int adventureNumber;
 
   private int override = -1;
+
+  public enum ShadowRift {
+    BEACH("Desert Beach", "desertbeach", "db_shadowrift"),
+    VILLAGE("Forest Village", "forestvillage", "fv_shadowrift"),
+    MCLARGEHUGE("Mt. McLargeHuge", "mclargehuge", "mcl_shadowrift"),
+    BEANSTALK("Somewhere Over the Beanstalk", "beanstalk", "stalk_rift"),
+    MANOR("Spookyraven Manor Third Floor", "manor3", "manor3_shadowrift"),
+    REALM("The 8-Bit Realm", "8bit", "8rift"),
+    PYRAMID("The Ancient Buried Pyramid", "pyramid", "pyramid_shadowrift"),
+    CASTLE("The Castle in the Clouds in the Sky", "giantcastle", "castle_shadowrift"),
+    WOODS("The Distant Woods", "woods", "woods_shadowrift"),
+    CITY("The Hidden City", "hiddencity", "hc_shadowrift"),
+    CEMETARY("The Misspelled Cemetary", "cemetery", "cem_shadowrift"),
+    PLAINS("The Nearby Plains", "plains", "plains_shadowrift"),
+    TOWN("The Right Side of the Tracks", "town_right", "townright_shadowrift");
+
+    // Class fields
+    private final String container;
+    private final String place;
+    private final String action;
+
+    // Derived fields
+    private final String adventureName;
+    private final String URL;
+
+    // Lookups for Shadow Rifts
+    private static final Map<String, ShadowRift> adventureNameToRift = new HashMap<>();
+    private static final Map<String, ShadowRift> placeToRift = new HashMap<>();
+
+    private ShadowRift(String container, String place, String action) {
+      this.container = container;
+      this.place = place;
+      this.action = action;
+
+      // Derived fields
+      this.adventureName = "Shadow Rift (" + container + ")";
+      this.URL = "place.php?whichplace=" + place + "&action=" + action;
+    }
+
+    public String getContainer() {
+      return this.container;
+    }
+
+    public String getPlace() {
+      return this.place;
+    }
+
+    public String getAction() {
+      return this.action;
+    }
+
+    public String getAdventureName() {
+      return this.adventureName;
+    }
+
+    public String getURL() {
+      return this.URL;
+    }
+
+    public void populateMaps() {
+      ShadowRift.placeToRift.put(this.place, this);
+      ShadowRift.adventureNameToRift.put(this.adventureName, this);
+    }
+
+    public static ShadowRift findPlace(String place) {
+      return ShadowRift.placeToRift.get(place);
+    }
+
+    public static ShadowRift findAdventureName(String adventureName) {
+      return ShadowRift.adventureNameToRift.get(adventureName);
+    }
+  }
+
+  static {
+    for (var rift : EnumSet.allOf(ShadowRift.class)) {
+      rift.populateMaps();
+    }
+  }
 
   /**
    * Constructs a new <code>AdventureRequest</code> which executes the adventure designated by the
@@ -82,62 +163,108 @@ public class AdventureRequest extends GenericRequest {
     this.adventureName = adventureName;
     this.formSource = formSource;
     this.adventureId = adventureId;
+    this.adventureNumber =
+        StringUtilities.isNumeric(adventureId) ? StringUtilities.parseInt(adventureId) : 0;
 
     // The adventure Id is all you need to identify the adventure;
     // posting it in the form sent to adventure.php will handle
     // everything for you.
     // Those that change mid session should be added to run() also.
 
-    if (formSource.equals("adventure.php")) {
-      this.addFormField("snarfblat", adventureId);
-    } else if (formSource.equals("casino.php")) {
-      this.addFormField("action", "slot");
-      this.addFormField("whichslot", adventureId);
-    } else if (formSource.equals("crimbo10.php")) {
-      this.addFormField("place", adventureId);
-    } else if (formSource.equals("cobbsknob.php")) {
-      this.addFormField("action", "throneroom");
-    } else if (formSource.equals("friars.php")) {
-      this.addFormField("action", "ritual");
-    } else if (formSource.equals("invasion.php")) {
-      this.addFormField("action", adventureId);
-    } else if (formSource.equals("mining.php")) {
-      this.addFormField("mine", adventureId);
-    } else if (formSource.equals("place.php")) {
-      if (adventureId.equals("cloudypeak2")) {
-        this.addFormField("whichplace", "mclargehuge");
-        this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("pyramid_state")) {
-        this.addFormField("whichplace", "pyramid");
-        StringBuilder action = new StringBuilder();
-        action.append(adventureId);
-        action.append(Preferences.getString("pyramidPosition"));
-        if (Preferences.getBoolean("pyramidBombUsed")) {
-          action.append("a");
-        }
-        this.addFormField("action", action.toString());
-      } else if (this.adventureId.equals("manor4_chamberboss")) {
-        this.addFormField("whichplace", "manor4");
-        this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("townwrong_tunnel")) {
-        this.addFormField("whichplace", "town_wrong");
-        this.addFormField("action", "townwrong_tunnel");
-      } else if (this.adventureId.startsWith("ns_")) {
-        this.addFormField("whichplace", "nstower");
-        this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("town_eincursion")
-          || this.adventureId.equals("town_eicfight2")) {
-        this.addFormField("whichplace", "town");
-        this.addFormField("action", adventureId);
-      } else if (this.adventureId.equals("ioty2014_wolf")) {
-        this.addFormField("whichplace", "manor4");
-        this.addFormField("action", "wolf_houserun");
+    switch (formSource) {
+      case "adventure.php" -> {
+        this.addFormField("snarfblat", adventureId);
       }
-    } else if (!formSource.equals("basement.php")
-        && !formSource.equals("cellar.php")
-        && !formSource.equals("barrel.php")) {
-      this.addFormField("action", adventureId);
+      case "casino.php" -> {
+        this.addFormField("action", "slot");
+        this.addFormField("whichslot", adventureId);
+      }
+      case "crimbo10.php" -> {
+        this.addFormField("place", adventureId);
+      }
+      case "cobbsknob.php" -> {
+        this.addFormField("action", "throneroom");
+      }
+      case "friars.php" -> {
+        this.addFormField("action", "ritual");
+      }
+      case "invasion.php" -> {
+        this.addFormField("action", adventureId);
+      }
+      case "mining.php" -> {
+        this.addFormField("mine", adventureId);
+      }
+      case "place.php" -> {
+        switch (adventureId) {
+          case "cloudypeak2" -> {
+            this.addFormField("whichplace", "mclargehuge");
+            this.addFormField("action", adventureId);
+          }
+          case "crimbo22_engine" -> {
+            this.addFormField("whichplace", "crimbo22");
+            this.addFormField("action", adventureId);
+          }
+          case "ioty2014_wolf" -> {
+            this.addFormField("whichplace", "ioty2014_wolf");
+            this.addFormField("action", "wolf_houserun");
+          }
+          case "manor4_chamberboss" -> {
+            this.addFormField("whichplace", "manor4");
+            this.addFormField("action", adventureId);
+          }
+          case "ns_01_crowd1",
+              "ns_01_crowd2",
+              "ns_01_crowd3",
+              "ns_03_hedgemaze",
+              "ns_05_monster1",
+              "ns_06_monster2",
+              "ns_07_monster3",
+              "ns_08_monster4",
+              "ns_09_monster5",
+              "ns_10_sorcfight" -> {
+            this.addFormField("whichplace", "nstower");
+            this.addFormField("action", adventureId);
+          }
+          case "pyramid_state" -> {
+            this.addFormField("whichplace", "pyramid");
+            StringBuilder action = new StringBuilder();
+            action.append(adventureId);
+            action.append(Preferences.getString("pyramidPosition"));
+            if (Preferences.getBoolean("pyramidBombUsed")) {
+              action.append("a");
+            }
+            this.addFormField("action", action.toString());
+          }
+          case "shadow_rift" -> {
+            // This is a pseudo-place. Lookup adventureName to get place/action
+            ShadowRift rift = ShadowRift.findAdventureName(adventureName);
+            if (rift != null) {
+              this.addFormField("whichplace", rift.getPlace());
+              this.addFormField("action", rift.getAction());
+            }
+          }
+          case "town_eincursion", "town_eicfight2" -> {
+            this.addFormField("whichplace", "town");
+            this.addFormField("action", adventureId);
+          }
+          case "townwrong_tunnel" -> {
+            this.addFormField("whichplace", "town_wrong");
+            this.addFormField("action", "townwrong_tunnel");
+          }
+        }
+      }
+      case "sea_merkin.php" -> {
+        this.addFormField("action", "temple");
+      }
+      case "basement.php", "cellar.php" -> {}
+      default -> {
+        this.addFormField("action", adventureId);
+      }
     }
+  }
+
+  public AdventureRequest(final String adventureName, final int snarfblat) {
+    this(adventureName, "adventure.php", String.valueOf(snarfblat));
   }
 
   @Override
@@ -149,63 +276,95 @@ public class AdventureRequest extends GenericRequest {
   public void run() {
     // Prevent the request from happening if they attempted
     // to cancel in the delay period.
+    // *** What does that mean?
 
     if (!KoLmafia.permitsContinue()) {
       return;
-    } else if (this.formSource.equals("adventure.php")) {
-      if (this.adventureId.equals(AdventurePool.THE_SHORE_ID)) {
-        // The Shore
-        int adv = KoLCharacter.inFistcore() ? 5 : 3;
-        if (KoLCharacter.getAdventuresLeft() < adv) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Ran out of adventures.");
-          return;
+    }
+
+    // Pre-validate certain adventure locations
+    switch (this.formSource) {
+      case "adventure.php" -> {
+        if (this.adventureNumber == AdventurePool.THE_SHORE) {
+          // The Shore
+          int adv = KoLCharacter.inFistcore() ? 5 : 3;
+          if (KoLCharacter.getAdventuresLeft() < adv) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Ran out of adventures.");
+            return;
+          }
         }
       }
-    } else if (this.formSource.equals("barrel.php")) {
-      int square = BarrelDecorator.recommendSquare();
-      if (square == 0) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR, "All booze in the specified rows has been collected.");
-        return;
-      }
-      this.addFormField("smash", String.valueOf(square));
-    } else if (this.formSource.equals("cellar.php")) {
-      if (TavernManager.shouldAutoFaucet()) {
-        this.removeFormField("whichspot");
-        this.addFormField("action", "autofaucet");
-      } else {
-        int square = TavernManager.recommendSquare();
-        if (square == 0) {
+      case "cellar.php" -> {
+        if (!TavernManager.shouldAutoFaucet() && TavernManager.recommendSquare() == 0) {
           KoLmafia.updateDisplay(
               MafiaState.ERROR, "Don't know which square to visit in the Typical Tavern Cellar.");
           return;
         }
-
-        this.addFormField("whichspot", String.valueOf(square));
-        this.addFormField("action", "explore");
       }
-    } else if (this.formSource.equals("mining.php")) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Automated mining is not currently implemented.");
-      return;
-    } else if (this.formSource.equals("place.php") && this.adventureId.equals("pyramid_state")) {
-      this.addFormField("whichplace", "pyramid");
-      StringBuilder action = new StringBuilder();
-      action.append(adventureId);
-      action.append(Preferences.getString("pyramidPosition"));
-      if (Preferences.getBoolean("pyramidBombUsed")) {
-        action.append("a");
-      }
-      this.addFormField("action", action.toString());
-    } else if (this.formSource.equals("place.php") && this.adventureId.equals("manor4_chamber")) {
-      this.addFormField("whichplace", "manor4");
-      if (!QuestDatabase.isQuestFinished(Quest.MANOR)) {
-        this.addFormField("action", "manor4_chamberboss");
-      } else {
-        this.addFormField("action", "manor4_chamber");
+      case "mining.php" -> {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Automated mining is not currently implemented.");
+        return;
       }
     }
 
+    // Update fields to submit, if necessary
+    this.updateFields();
+
     super.run();
+  }
+
+  public void updateFields() {
+    switch (this.formSource) {
+      case "cellar.php" -> {
+        if (TavernManager.shouldAutoFaucet()) {
+          this.removeFormField("whichspot");
+          this.addFormField("action", "autofaucet");
+        } else {
+          this.addFormField("whichspot", String.valueOf(TavernManager.recommendSquare()));
+          this.addFormField("action", "explore");
+        }
+      }
+      case "place.php" -> {
+        switch (this.adventureId) {
+          case "manor4_chamber" -> {
+            this.addFormField("whichplace", "manor4");
+            if (!QuestDatabase.isQuestFinished(Quest.MANOR)) {
+              this.addFormField("action", "manor4_chamberboss");
+            } else {
+              this.addFormField("action", "manor4_chamber");
+            }
+          }
+          case "pyramid_state" -> {
+            this.addFormField("whichplace", "pyramid");
+            StringBuilder action = new StringBuilder();
+            action.append(adventureId);
+            action.append(Preferences.getString("pyramidPosition"));
+            if (Preferences.getBoolean("pyramidBombUsed")) {
+              action.append("a");
+            }
+            this.addFormField("action", action.toString());
+          }
+          case "shadow_rift" -> {
+            // If we are going to the "current" Shadow Rift Ingress, we can go
+            // straight to adventure.php and avoid an extra redirection.
+            ShadowRift rift = ShadowRift.findAdventureName(this.adventureName);
+            if (rift != null) {
+              String current = Preferences.getString("shadowRiftIngress");
+              String desired = rift.getPlace();
+              if (current.equals(desired)) {
+                this.constructURLString("adventure.php");
+                this.addFormField("snarfblat", String.valueOf(AdventurePool.SHADOW_RIFT));
+              } else {
+                this.constructURLString("place.php");
+                this.addFormField("whichplace", rift.getPlace());
+                this.addFormField("action", rift.getAction());
+                Preferences.setString("shadowRiftIngress", desired);
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   @Override
@@ -221,11 +380,19 @@ public class AdventureRequest extends GenericRequest {
     }
 
     if (this.formSource.equals("place.php")) {
-      if (this.getURLString().contains("whichplace=nstower")) {
+      String location = this.getURLString();
+      if (location.contains("whichplace=nstower")) {
         // nstower locations redirect to a fight or choice. If
         // it didn't do that, you can't adventure there.
         KoLmafia.updateDisplay(MafiaState.PENDING, "You can't adventure there.");
         SorceressLairManager.parseTowerResponse("", this.responseText);
+        return;
+      }
+      if (location.contains("crimbo22_engine")) {
+        // The engine redirects to a fight. If it didn't do that, you have
+        // defeated the boss.
+        KoLmafia.updateDisplay(MafiaState.PENDING, "Nothing more to do here.");
+        Preferences.setBoolean("superconductorDefeated", true);
         return;
       }
     }
@@ -268,7 +435,7 @@ public class AdventureRequest extends GenericRequest {
     // Nothing more to do in this area
 
     if (this.formSource.equals("adventure.php")) {
-      if (this.adventureId.equals(AdventurePool.MERKIN_COLOSSEUM_ID)) {
+      if (this.adventureNumber == AdventurePool.MERKIN_COLOSSEUM) {
         SeaMerkinRequest.parseColosseumResponse(this.getURLString(), this.responseText);
       }
 
@@ -286,16 +453,14 @@ public class AdventureRequest extends GenericRequest {
     // machines deducts meat from your tally
 
     if (this.formSource.equals("casino.php")) {
-      if (this.adventureId.equals("1")) {
-        ResultProcessor.processMeat(-5);
-      } else if (this.adventureId.equals("2")) {
-        ResultProcessor.processMeat(-10);
-      } else if (this.adventureId.equals("11")) {
-        ResultProcessor.processMeat(-10);
+      switch (this.adventureId) {
+        case "1" -> ResultProcessor.processMeat(-5);
+        case "2" -> ResultProcessor.processMeat(-10);
+        case "11" -> ResultProcessor.processMeat(-10);
       }
     }
 
-    if (this.adventureId.equals(AdventurePool.ROULETTE_TABLES_ID)) {
+    if (this.adventureNumber == AdventurePool.ROULETTE_TABLES) {
       ResultProcessor.processMeat(-10);
     } else if (this.adventureId.equals(String.valueOf(AdventurePool.POKER_ROOM))) {
       ResultProcessor.processMeat(-30);
@@ -309,6 +474,21 @@ public class AdventureRequest extends GenericRequest {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You must wear a costume.");
       return;
     }
+  }
+
+  private static final Pattern DEV_READOUT = Pattern.compile("(.*?) \\(#\\d+\\)$");
+
+  /**
+   * On the dev server choice adventures have their choice numbers in brackets afterwards This needs
+   * to be stripped
+   *
+   * @param encounter Raw encounter name
+   * @return Encounter name without dev readout if it exists
+   */
+  private static String stripDevReadout(final String encounter) {
+    var m = DEV_READOUT.matcher(encounter);
+
+    return m.find() ? m.group(1) : encounter;
   }
 
   public static final String registerEncounter(final GenericRequest request) {
@@ -371,26 +551,25 @@ public class AdventureRequest extends GenericRequest {
     }
 
     if (KoLCharacter.inDisguise()) {
-      if (encounter.equals("The Bonerdagon")) {
-        encounter = "Boss Bat wearing a Bonerdagon mask";
-      } else if (encounter.equals("The Naughty Sorceress")) {
-        encounter = "Knob Goblin King wearing a Naughty Sorceress mask";
-      } else if (encounter.equals("Groar")) {
-        encounter = "Bonerdagon wearing a Groar mask";
-      } else if (encounter.equals("Ed the Undying")) {
-        encounter = "Groar wearing an Ed the Undying mask";
-      } else if (encounter.equals("The Big Wisniewski")) {
-        encounter = "The Man wearing a Big Wisniewski mask";
-      } else if (encounter.equals("The Man")) {
-        encounter = "The Big Wisniewski wearing a The Man mask";
-      } else if (encounter.equals("The Boss Bat")) {
-        encounter = "Naughty Sorceress wearing a Boss Bat mask";
-      }
+      encounter =
+          switch (encounter) {
+            case "The Bonerdagon" -> "Boss Bat wearing a Bonerdagon mask";
+            case "The Naughty Sorceress" -> "Knob Goblin King wearing a Naughty Sorceress mask";
+            case "Groar" -> "Bonerdagon wearing a Groar mask";
+            case "Ed the Undying" -> "Groar wearing an Ed the Undying mask";
+            case "The Big Wisniewski" -> "The Man wearing a Big Wisniewski mask";
+            case "The Man" -> "The Big Wisniewski wearing a The Man mask";
+            case "The Boss Bat" -> "Naughty Sorceress wearing a Boss Bat mask";
+            default -> encounter;
+          };
     }
 
-    Preferences.setString("lastEncounter", encounter);
-    RequestLogger.printLine("Encounter: " + encounter);
-    RequestLogger.updateSessionLog("Encounter: " + encounter);
+    String prettyEncounter = StringUtilities.getEntityDecode(encounter);
+    if (KoLmafia.usingDevServer()) prettyEncounter = stripDevReadout(prettyEncounter);
+
+    Preferences.setString("lastEncounter", prettyEncounter);
+    RequestLogger.printLine("Encounter: " + prettyEncounter);
+    RequestLogger.updateSessionLog("Encounter: " + prettyEncounter);
     AdventureRequest.registerDemonName(encounter, responseText);
 
     // We are done registering the item's encounter.
@@ -432,10 +611,6 @@ public class AdventureRequest extends GenericRequest {
     }
 
     TurnCounter.handleTemporaryCounters(type, encounter);
-
-    if (!Preferences.getString("crystalBallPredictions").isEmpty()) {
-      CrystalBallManager.updateCrystalBallPredictions();
-    }
 
     return encounter;
   }
@@ -525,6 +700,7 @@ public class AdventureRequest extends GenericRequest {
     encounter = AdventureRequest.handleIntergnat(encounter);
     encounter = AdventureRequest.handleNuclearAutumn(encounter);
     encounter = AdventureRequest.handleMask(encounter);
+    encounter = AdventureRequest.handleDinosaurs(encounter);
 
     // KoL now provides MONSTERID in fight responseText.
     Matcher m = MONSTERID_PATTERN.matcher(responseText);
@@ -604,24 +780,27 @@ public class AdventureRequest extends GenericRequest {
     int urlOption = ChoiceUtilities.extractOptionFromURL(urlString);
 
     switch (urlChoice) {
-      case 1334: // Boxing Daycare (Lobby)
+      case 1334 -> { // Boxing Daycare (Lobby)
         if (urlOption == 1) {
           // Have a Boxing Daydream
           return "Have a Boxing Daydream";
         }
         return null;
-      case 1335: // Boxing Day Spa
+      }
+      case 1335 -> { // Boxing Day Spa
         if (urlOption >= 1 && urlOption <= 4) {
           // (Get a buff)
           return "Visit the Boxing Day Spa";
         }
         return null;
-      case 1336: // Boxing Daycare
+      }
+      case 1336 -> { // Boxing Daycare
         if (urlOption >= 1 && urlOption <= 4) {
           // (recruit, scavenge, hire, spar)
           return "Enter the Boxing Daycare";
         }
         return null;
+      }
     }
 
     switch (choice) {
@@ -642,6 +821,7 @@ public class AdventureRequest extends GenericRequest {
       case 807: // Breaker Breaker!
       case 1003: // Test Your Might And Also Test Other Things
       case 1086: // Pick a Card
+      case 1218: // Wax On
       case 1463: // Reminiscing About Those Monsters You Fought
         return null;
 
@@ -675,7 +855,21 @@ public class AdventureRequest extends GenericRequest {
       return null;
     }
 
-    return AdventureRequest.parseEncounter(responseText);
+    String encounter = AdventureRequest.parseEncounter(responseText);
+
+    // If KoL redirects to exactly "choice.php", it might contain a new
+    // encounter (mostly on older choice pages) or the user could have
+    // refreshed a choice page that you cannot walk away from.
+    //
+    // If the encounter is identical to what we saved, assume it is a refresh.
+    if (urlString.equals("choice.php")) {
+      String prettyEncounter = StringUtilities.getEntityDecode(encounter);
+      if (prettyEncounter.equals(Preferences.getString("lastEncounter"))) {
+        return null;
+      }
+    }
+
+    return encounter;
   }
 
   private static String choiceType(final int choice) {
@@ -722,8 +916,7 @@ public class AdventureRequest extends GenericRequest {
     if (urlString.startsWith("adventure.php")) {
       int area = parseArea(urlString);
       switch (area) {
-        case 17:
-          // Hidden Temple
+        case AdventurePool.HIDDEN_TEMPLE:
           // Dvorak's revenge
           // You jump to the last letter, and put your pom-poms down with a sign of relief --
           // thank goodness that's over. Worst. Spelling bee. Ever.
@@ -732,8 +925,7 @@ public class AdventureRequest extends GenericRequest {
           }
           break;
 
-        case 19:
-          // Limerick Dungeon
+        case AdventurePool.LIMERICK_DUNGEON:
           for (int i = 0; i < LIMERICKS.length; ++i) {
             if (responseText.contains(LIMERICKS[i][1])) {
               return LIMERICKS[i][0];
@@ -741,7 +933,23 @@ public class AdventureRequest extends GenericRequest {
           }
           return "Unrecognized Limerick";
 
-        case 114: // Outskirts of The Knob
+        case AdventurePool.SPOOKY_GRAVY_BURROW:
+          // The Spooky Wheelbarrow no longer shows an encounter.
+          // Bug reported, but we can work around it.
+          //
+          // As you explore the Spooky Underground Caverns, you stop short when
+          // you hear a noise. You duck behind a pillar of rock, and peek out
+          // to see a Spooky Gravy Fairy pushing a small wheelbarrow, whistling
+          // a gloomy dirge. As he goes past, you sneak out and thump him on
+          // the head. He squeaks and falls over unconscious.
+          //
+          // His wheelbarrow has two little buckets in it. Score! (Maybe.)
+          if (responseText.contains("pushing a small wheelbarrow")) {
+            return "Spooky Wheelbarrow";
+          }
+          break;
+
+        case AdventurePool.OUTSKIRTS_OF_THE_KNOB:
           // Unstubbed
           // You go back to the tree where the wounded Knob Goblin guard was resting,
           // and find him just where you left him, continuing to whine about his stubbed toe.
@@ -752,22 +960,12 @@ public class AdventureRequest extends GenericRequest {
           }
           break;
       }
-    } else if (urlString.startsWith("barrel.php")) {
-      // Without this special case, encounter names in the Barrels would
-      // be things like "bottle of rum"
-      return "Barrel Smash";
     }
 
-    String encounter = parseEncounter(responseText);
-
-    if (encounter != null) {
-      return encounter;
-    }
-
-    return null;
+    return parseEncounter(responseText);
   }
 
-  private static String parseEncounter(final String responseText) {
+  public static String parseEncounter(final String responseText) {
     // Look only in HTML body; the header can have scripts with
     // bold text.
     int index = responseText.indexOf("<body>");
@@ -800,7 +998,7 @@ public class AdventureRequest extends GenericRequest {
     return responseText.substring(boldIndex + 3, endBoldIndex);
   }
 
-  private static int parseArea(final String urlString) {
+  public static int parseArea(final String urlString) {
     Matcher matcher = AREA_PATTERN.matcher(urlString);
     if (matcher.find()) {
       return StringUtilities.parseInt(matcher.group(2));
@@ -973,12 +1171,12 @@ public class AdventureRequest extends GenericRequest {
       return !formSource.equals("cellar.php");
     } else if (formSource.startsWith("suburbandis.php")) {
       return formSource.contains("action=dothis");
+    } else if (formSource.equals("elvmachine.php")) {
+      return true;
     } else if (formSource.startsWith("tiles.php")) {
       // Only register initial encounter of Dvorak's Revenge
       DvorakManager.saveResponse(responseText);
       return responseText.contains("I before E, except after C");
-    } else if (formSource.startsWith("barrel.php?smash")) {
-      return true;
     } else if (formSource.startsWith("mining.php")) {
       if (formSource.contains("which=")) {
         if (!formSource.contains("mine=6")) {
@@ -991,10 +1189,15 @@ public class AdventureRequest extends GenericRequest {
       return false;
     }
 
-    // It is not a known adventure.	 Therefore,
-    // do not log the encounter yet.
+    // It is not a known adventure.
+    // Therefore, do not log the encounter yet.
 
     return false;
+  }
+
+  public static int getAdventuresUsed(final String urlString) {
+    KoLAdventure adventure = AdventureDatabase.getAdventureByURL(urlString);
+    return adventure == null ? 0 : adventure.getRequest().getAdventuresUsed();
   }
 
   @Override
@@ -1002,14 +1205,20 @@ public class AdventureRequest extends GenericRequest {
     if (this.override >= 0) {
       return this.override;
     }
-    String limitmode = KoLCharacter.getLimitmode();
-    if (limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN) {
+    var limitmode = KoLCharacter.getLimitMode();
+    if (limitmode == LimitMode.SPELUNKY || limitmode == LimitMode.BATMAN) {
       return 0;
     }
-    if (this.adventureId.equals(AdventurePool.THE_SHORE_ID)) {
+    if (this.adventureNumber == AdventurePool.THE_SHORE) {
       return KoLCharacter.inFistcore() ? 5 : 3;
     }
-    if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {
+    if (this.adventureName.equals("The Lower Chambers")) {
+      return PyramidRequest.lowerChamberTurnsUsed();
+    }
+    if (this.adventureName.equals("The Typical Tavern Cellar")) {
+      return this.getURLString().contains("action=explore") ? 1 : 0;
+    }
+    if (AdventureDatabase.getEnvironment(this.adventureName).isUnderwater()) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;
     }
     return 1;
@@ -1024,7 +1233,7 @@ public class AdventureRequest extends GenericRequest {
     return this.adventureName;
   }
 
-  public static final void handleServerRedirect(String redirectLocation) {
+  public static final void handleServerRedirect(String redirectLocation, boolean usePostMethod) {
     if (redirectLocation.contains("main.php")) {
       return;
     }
@@ -1034,7 +1243,7 @@ public class AdventureRequest extends GenericRequest {
       redirectLocation = "campground.php";
     }
 
-    AdventureRequest.ZONE_UNLOCK.constructURLString(redirectLocation);
+    AdventureRequest.ZONE_UNLOCK.constructURLString(redirectLocation, usePostMethod);
 
     if (redirectLocation.contains("palinshelves.php")) {
       AdventureRequest.ZONE_UNLOCK.run();
@@ -1053,7 +1262,7 @@ public class AdventureRequest extends GenericRequest {
     if (redirectLocation.contains("place.php")) {
       AdventureRequest.ZONE_UNLOCK.run();
       // Don't error out if it's just a redirect to a container zone
-      // eg. Using grimstone mask, with choice adventure autoselected
+      // e.g. Using grimstone mask, with choice adventure autoselected
       return;
     }
 
@@ -1083,6 +1292,18 @@ public class AdventureRequest extends GenericRequest {
       return;
     }
 
+    if (redirectLocation.startsWith("elvmachine.php")) {
+      // El Vibrato Island Machinations
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
+    if (redirectLocation.startsWith("inventory.php")) {
+      // Autumnaton's "Back to Inventory"
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
     RequestSynchFrame.showRequest(AdventureRequest.ZONE_UNLOCK);
     RequestLogger.printLine("Unrecognized choice.php redirect: " + redirectLocation);
     RequestLogger.updateSessionLog("Unrecognized choice.php redirect: " + redirectLocation);
@@ -1095,13 +1316,7 @@ public class AdventureRequest extends GenericRequest {
     RequestLogger.updateSessionLog("Encounter: Dvorak's Revenge");
 
     request.run();
-    request.constructURLString("tiles.php?action=jump&whichtile=4").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=6").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=3").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=5").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=7").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=6").run();
-    request.constructURLString("tiles.php?action=jump&whichtile=3").run();
+    DvorakManager.solve();
   }
 
   private static String handleRandomModifiers(String monsterName, final String responseText) {
@@ -1130,7 +1345,7 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    ArrayList<String> internal = new ArrayList<String>();
+    ArrayList<String> internal = new ArrayList<>();
     String[] temp = text.split("\"");
 
     for (int i = 1; i < temp.length - 1; i++) { // The first and last elements are never useful
@@ -1231,6 +1446,72 @@ public class AdventureRequest extends GenericRequest {
       return StringUtilities.globalStringDelete(monsterName, " AND TESLA!");
     }
     return monsterName;
+  }
+
+  private static final String[] dinoTypes = {
+    // Dinosaurs
+    "archelon",
+    "chicken",
+    "dilophosaur",
+    "flatusaurus",
+    "ghostasaurus",
+    "kachungasaur",
+    "pterodactyl",
+    "spikolodon",
+    "velociraptor"
+  };
+
+  private static final String[] dinoMods = {
+    // Modifiers
+    "carrion-eating",
+    "chilling",
+    "cold-blooded",
+    "foul-smelling",
+    "glass-shelled",
+    "high-altitude",
+    "hot-blooded",
+    "mist-shrouded",
+    "primitive",
+    "slimy",
+    "steamy",
+    "supersonic",
+    "swamp",
+    "sweaty"
+  };
+
+  public static final String[] dinoGluttony = {
+    "that consumed", "that just ate", "that recently devoured ", "that swallowed the soul of"
+  };
+
+  private static String handleDinosaurs(String monsterName) {
+    if (!KoLCharacter.inDinocore()) {
+      return monsterName;
+    }
+
+    for (String modifier : dinoTypes) {
+      if (monsterName.contains(modifier)) {
+        MonsterData.lastRandomModifiers.add(modifier);
+        monsterName = StringUtilities.singleStringDelete(monsterName, modifier);
+        break;
+      }
+    }
+
+    for (String modifier : dinoMods) {
+      if (monsterName.contains(modifier)) {
+        MonsterData.lastRandomModifiers.add(modifier);
+        monsterName = StringUtilities.singleStringDelete(monsterName, modifier);
+        break;
+      }
+    }
+
+    for (String devour : dinoGluttony) {
+      if (monsterName.contains(devour)) {
+        monsterName = StringUtilities.singleStringDelete(monsterName, devour);
+        break;
+      }
+    }
+
+    return monsterName.trim();
   }
 
   private static String handleNuclearAutumn(String monsterName) {

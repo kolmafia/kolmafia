@@ -41,6 +41,7 @@ package net.java.dev.spellcast.utilities;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -73,11 +74,11 @@ public class ChatBuffer
 	private final String title;
 
 	private final StringBuffer content = new StringBuffer();
-	private final LinkedList<JEditorPane> displayPanes = new LinkedList<JEditorPane>();
+	private final LinkedList<JEditorPane> displayPanes = new LinkedList<>();
 
-	private final Set<JEditorPane> stickyPanes = new LinkedHashSet<JEditorPane>();
-	private final LinkedList<JEditorPane> addStickyPanes = new LinkedList<JEditorPane>();
-	private final LinkedList<JEditorPane> removeStickyPanes = new LinkedList<JEditorPane>();
+	private final Set<JEditorPane> stickyPanes = new LinkedHashSet<>();
+	private final LinkedList<JEditorPane> addStickyPanes = new LinkedList<>();
+	private final LinkedList<JEditorPane> removeStickyPanes = new LinkedList<>();
 
 	private volatile int resetSequence = 0;
 
@@ -85,9 +86,10 @@ public class ChatBuffer
 	// which is incremented only on updates that completely rewrite the display.  Any update
 	// with an outdated sequence number is simply ignored.
 
+	private File logFile;
 	private PrintWriter logWriter;
 
-	protected static final HashMap<String, PrintWriter> ACTIVE_LOG_FILES = new HashMap<String, PrintWriter>();
+	protected static final HashMap<String, PrintWriter> ACTIVE_LOG_FILES = new HashMap<>();
 
 	private static final int MAXIMUM_LENGTH = 50000;
 	private static final int TRIM_TO_LENGTH = 45000;
@@ -150,12 +152,14 @@ public class ChatBuffer
 
 		if ( ChatBuffer.ACTIVE_LOG_FILES.containsKey( filename ) )
 		{
+			this.logFile = f;
 			this.logWriter = ChatBuffer.ACTIVE_LOG_FILES.get( filename );
 		}
 		else
 		{
 			boolean shouldAppend = f.exists();
-			this.logWriter = new PrintWriter( DataUtilities.getOutputStream( f, shouldAppend ), true );
+			this.logFile = f;
+			this.logWriter = new PrintWriter( DataUtilities.getOutputStream( f, shouldAppend ), true , StandardCharsets.UTF_8 );
 
 			ChatBuffer.ACTIVE_LOG_FILES.put( filename, this.logWriter );
 
@@ -216,6 +220,10 @@ public class ChatBuffer
 		this.content.setLength( 0 );
 
 		SwingUtilities.invokeLater( new ResetHandler( this.getHTMLContent() ) );
+	}
+
+	public File getLogFile() {
+		return this.logFile;
 	}
 
 	/**
@@ -307,11 +315,11 @@ public class ChatBuffer
 
 		htmlContent.append( "<html><head><style>" );
 		htmlContent.append( this.getStyle() );
-		htmlContent.append( "</style></head><body>" );
+		htmlContent.append( "</style></head><body><main>" );
 
 		htmlContent.append( this.content.toString() );
 
-		htmlContent.append( "</body></html>" );
+		htmlContent.append( "</main></body></html>" );
 
 		return htmlContent.toString();
 	}
@@ -379,8 +387,8 @@ public class ChatBuffer
 		{
 			// Check for imbalanced HTML here
 
-			Stack<String> openTags = new Stack<String>();
-			Set<String> skippedTags = new HashSet<String>();
+			Stack<String> openTags = new Stack<>();
+			Set<String> skippedTags = new HashSet<>();
 			StringBuffer buffer = new StringBuffer();
 
 			String noCommentsContent = COMMENT_PATTERN.matcher( newContent ).replaceAll( "" );

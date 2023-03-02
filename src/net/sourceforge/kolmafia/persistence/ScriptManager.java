@@ -9,7 +9,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.svn.SVNManager;
+import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.json.JSONArray;
@@ -64,12 +64,10 @@ public class ScriptManager {
 
       for (int i = 0; i < jArray.length(); i++) {
         Object next = jArray.get(i);
-        if (!(next instanceof JSONObject)) {
+        if (!(next instanceof JSONObject jNext)) {
           throw new JSONException(
               "The JSON input file was not properly formatted: " + next.toString());
         }
-
-        JSONObject jNext = (JSONObject) next;
 
         SVNURL fromRepo = SVNURL.parseURIEncoded(jNext.getString("repo"));
 
@@ -81,16 +79,11 @@ public class ScriptManager {
     }
   }
 
-  private static final LockableListModel<Script> installedScripts = new LockableListModel<Script>();
-  private static final LockableListModel<Script> repoScripts = new LockableListModel<Script>();
+  private static final LockableListModel<Script> installedScripts = new LockableListModel<>();
+  private static final LockableListModel<Script> repoScripts = new LockableListModel<>();
   private static final String REPO_FILE_LOCATION =
       // this will change
       "https://raw.githubusercontent.com/kolmafia/kolmafia/main/data/SVN/svnrepo.json";
-
-  static {
-    ScriptManager.updateRepoScripts(false);
-    ScriptManager.updateInstalledScripts();
-  }
 
   public static void updateRepoScripts(boolean force) {
     File repoFile = KoLConstants.SVN_REPO_FILE;
@@ -132,8 +125,8 @@ public class ScriptManager {
   private static void updateRepoState(JSONArray jArray) {
     if (jArray == null) return;
 
-    ArrayList<Script> scripts = new ArrayList<Script>();
-    Set<SVNURL> alreadyInstalled = new HashSet<SVNURL>();
+    ArrayList<Script> scripts = new ArrayList<>();
+    Set<SVNURL> alreadyInstalled = new HashSet<>();
 
     File[] currentWCs = KoLConstants.SVN_LOCATION.listFiles();
 
@@ -152,12 +145,10 @@ public class ScriptManager {
     try {
       for (int i = 0; i < jArray.length(); i++) {
         Object next = jArray.get(i);
-        if (!(next instanceof JSONObject)) {
+        if (!(next instanceof JSONObject jNext)) {
           throw new JSONException(
               "The JSON input file was not properly formatted: " + next.toString());
         }
-
-        JSONObject jNext = (JSONObject) next;
 
         Script script = ScriptFactory.fromJSON(jNext);
 

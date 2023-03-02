@@ -2,17 +2,22 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.addEffect;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.setWorkshed;
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEmptyCampground;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withWorkshedItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -42,7 +47,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void failsifNotAsdonMartin() {
-    var cleanups = setWorkshed(ItemPool.DNA_LAB);
+    var cleanups = withWorkshedItem(ItemPool.DNA_LAB);
 
     try (cleanups) {
       String output = execute("");
@@ -53,7 +58,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void providesUsageIfNoParameters() {
-    var cleanups = setWorkshed(ItemPool.ASDON_MARTIN);
+    var cleanups = withWorkshedItem(ItemPool.ASDON_MARTIN);
 
     try (cleanups) {
       String output = execute("");
@@ -66,7 +71,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void providesUsageIfDriveWithNoEffect() {
-    var cleanups = setWorkshed(ItemPool.ASDON_MARTIN);
+    var cleanups = withWorkshedItem(ItemPool.ASDON_MARTIN);
 
     try (cleanups) {
       String output = execute("drive");
@@ -79,7 +84,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void driveClearErrorsIfNoStyle() {
-    var cleanups = setWorkshed(ItemPool.ASDON_MARTIN);
+    var cleanups = withWorkshedItem(ItemPool.ASDON_MARTIN);
 
     try (cleanups) {
       String output = execute("drive clear");
@@ -91,7 +96,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
   @Test
   void driveClearClearsStyle() {
     var cleanups =
-        new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"));
+        new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), withEffect("Driving Obnoxiously"));
 
     try (cleanups) {
       execute("drive clear");
@@ -106,7 +111,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void driveUnrecognisedErrors() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN));
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN));
 
     try (cleanups) {
       String output = execute("drive dangerously");
@@ -117,7 +122,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void driveNoFuelErrors() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN));
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN));
 
     try (cleanups) {
       String output = execute("drive obnoxiously");
@@ -127,23 +132,34 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void driveNoEffectsAdds() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), setFuel());
+    var builder = new FakeHttpClientBuilder();
+
+    builder.client.addResponse(200, html("request/test_campground_drive_observantly.html"));
+
+    var cleanups =
+        new Cleanups(
+            withWorkshedItem(ItemPool.ASDON_MARTIN),
+            withFuel(1558),
+            withHttpClientBuilder(builder));
 
     try (cleanups) {
-      execute("drive obnoxiously");
+      execute("drive observantly");
 
-      var requests = getRequests();
+      var requests = builder.client.getRequests();
 
       assertThat(requests, not(empty()));
-      assertPostRequest(requests.get(0), "/campground.php", "preaction=drive&whichdrive=0");
+      assertPostRequest(requests.get(0), "/campground.php", "preaction=drive&whichdrive=7");
+      assertThat(CampgroundRequest.getFuel(), is(1521));
     }
+
+    KoLConstants.activeEffects.clear();
   }
 
   @Test
   void driveSameEffectExtends() {
     var cleanups =
         new Cleanups(
-            setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"), setFuel());
+            withWorkshedItem(ItemPool.ASDON_MARTIN), withEffect("Driving Obnoxiously"), withFuel());
 
     try (cleanups) {
       execute("drive obnoxiously");
@@ -162,7 +178,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
   void driveNewEffectRemovesAndAdds() {
     var cleanups =
         new Cleanups(
-            setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"), setFuel());
+            withWorkshedItem(ItemPool.ASDON_MARTIN), withEffect("Driving Obnoxiously"), withFuel());
 
     try (cleanups) {
       execute("drive observantly");
@@ -178,7 +194,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void fuelInvalidErrors() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN));
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN));
 
     try (cleanups) {
       String output = execute("fuel foobar");
@@ -189,7 +205,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void fuelAbsentErrors() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN));
+    var cleanups = new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN));
 
     try (cleanups) {
       String output = execute("fuel 10 soda bread");
@@ -200,23 +216,34 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void fuelValidSendsRequest() {
+    var builder = new FakeHttpClientBuilder();
+
+    builder.client.addResponse(200, html("request/test_campground_fuel_asdon.html"));
+
     var cleanups =
-        new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addItem("loaf of soda bread", 10));
+        new Cleanups(
+            withEmptyCampground(),
+            withHttpClientBuilder(builder),
+            withWorkshedItem(ItemPool.ASDON_MARTIN),
+            withFuel(136),
+            withItem("pie man was not meant to eat", 1));
 
     try (cleanups) {
-      execute("fuel 10 soda bread");
+      execute("fuel 1 pie man was not meant to eat");
 
-      var requests = getRequests();
+      var requests = builder.client.getRequests();
 
       assertThat(requests, not(empty()));
-      assertPostRequest(requests.get(0), "/campground.php", "action=fuelconvertor&qty=10&iid=8195");
+      assertPostRequest(requests.get(0), "/campground.php", "action=fuelconvertor&qty=1&iid=7372");
+
+      assertThat(CampgroundRequest.getFuel(), is(275));
     }
   }
 
   @Test
   void fuelZeroDoesNotSendRequest() {
     var cleanups =
-        new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addItem("loaf of soda bread", 10));
+        new Cleanups(withWorkshedItem(ItemPool.ASDON_MARTIN), withItem("loaf of soda bread", 10));
 
     try (cleanups) {
       execute("fuel 0 soda bread");
@@ -227,8 +254,13 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
     }
   }
 
-  private Cleanups setFuel() {
-    CampgroundRequest.setFuel(37);
-    return new Cleanups(() -> CampgroundRequest.setFuel(0));
+  private Cleanups withFuel() {
+    return withFuel(37);
+  }
+
+  private Cleanups withFuel(final int fuel) {
+    var old = CampgroundRequest.getFuel();
+    CampgroundRequest.setFuel(fuel);
+    return new Cleanups(() -> CampgroundRequest.setFuel(old));
   }
 }

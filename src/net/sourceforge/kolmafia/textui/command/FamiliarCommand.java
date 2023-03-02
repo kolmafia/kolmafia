@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -82,13 +83,12 @@ public class FamiliarCommand extends AbstractCommand {
       parameters = parameters.substring(6).trim();
     }
 
-    List<FamiliarData> familiarList = KoLCharacter.getFamiliarList();
+    List<FamiliarData> familiarList = KoLCharacter.usableFamiliars();
 
-    String[] familiars = new String[familiarList.size()];
-    for (int i = 0; i < familiarList.size(); ++i) {
-      FamiliarData familiar = familiarList.get(i);
-      familiars[i] = StringUtilities.getCanonicalName(familiar.getRace());
-    }
+    String[] familiars =
+        familiarList.stream()
+            .map(f -> StringUtilities.getCanonicalName(f.getRace()))
+            .toArray(String[]::new);
 
     List<String> matchList = StringUtilities.getMatchingNames(familiars, parameters);
 
@@ -132,8 +132,7 @@ public class FamiliarCommand extends AbstractCommand {
 
       // If we want the new familiar to be naked, unequip the familiar item
       if (KoLmafia.permitsContinue() && unequip) {
-        RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR));
+        RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.FAMILIAR));
       }
     }
   }

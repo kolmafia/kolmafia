@@ -34,6 +34,7 @@ import javax.swing.tree.DefaultTreeModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -184,7 +185,7 @@ public class CustomCombatPanel extends JPanel {
       AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
       String stunSkill = ascensionClass == null ? "none" : ascensionClass.getStun();
       if (stunSkill.equals("Shell Up")) {
-        if (KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING) {
+        if (KoLCharacter.getBlessingType() != TurtleBlessing.STORM) {
           stunSkill = Preferences.getBoolean("considerShadowNoodles") ? "Shadow Noodles" : "none";
         }
       }

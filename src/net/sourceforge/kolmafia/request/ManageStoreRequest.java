@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.StoreManager.TableType;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ManageStoreRequest extends GenericRequest {
@@ -125,25 +126,11 @@ public class ManageStoreRequest extends GenericRequest {
   @Override
   public void run() {
     switch (this.requestType) {
-      case ITEM_ADDITION:
-        this.addItems();
-        break;
-
-      case ITEM_REMOVAL:
-        this.removeItem();
-        break;
-
-      case PRICE_UPDATE:
-        this.priceUpdate();
-        break;
-
-      case REFRESH:
-        this.managePrices();
-        break;
-
-      case VIEW_STORE_LOG:
-        this.viewStoreLogs();
-        break;
+      case ITEM_ADDITION -> this.addItems();
+      case ITEM_REMOVAL -> this.removeItem();
+      case PRICE_UPDATE -> this.priceUpdate();
+      case REFRESH -> this.managePrices();
+      case VIEW_STORE_LOG -> this.viewStoreLogs();
     }
   }
 
@@ -177,7 +164,7 @@ public class ManageStoreRequest extends GenericRequest {
     super.run();
 
     if (this.responseText != null) {
-      StoreManager.update(this.responseText, StoreManager.PRICER);
+      StoreManager.update(this.responseText, TableType.PRICER);
     }
 
     KoLmafia.updateDisplay("Store inventory request complete.");
@@ -220,7 +207,7 @@ public class ManageStoreRequest extends GenericRequest {
 
     String action = GenericRequest.getAction(urlString);
     if (action == null) {
-      StoreManager.update(responseText, StoreManager.DEETS);
+      StoreManager.update(responseText, TableType.DEETS);
       StoreManager.calculatePotentialEarnings();
       return;
     }
@@ -293,7 +280,7 @@ public class ManageStoreRequest extends GenericRequest {
       // Without ajax, we can also get the quantity
 
       if (!urlString.contains("ajax=1")) {
-        StoreManager.update(responseText, StoreManager.DEETS);
+        StoreManager.update(responseText, TableType.DEETS);
       } else {
         StoreManager.updateSomePrices(responseText);
       }

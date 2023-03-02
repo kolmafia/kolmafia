@@ -54,34 +54,24 @@ public class JourneyCommand extends AbstractCommand {
   }
 
   private AscensionClass parseClass(String[] params) {
-    switch (params[1].toLowerCase().trim()) {
-      case "sc":
-        return AscensionClass.SEAL_CLUBBER;
-      case "tt":
-        return AscensionClass.TURTLE_TAMER;
-      case "pm":
-        return AscensionClass.PASTAMANCER;
-      case "s":
-        return AscensionClass.SAUCEROR;
-      case "db":
-        return AscensionClass.DISCO_BANDIT;
-      case "at":
-        return AscensionClass.ACCORDION_THIEF;
-    }
-
-    return null;
+    return switch (params[1].toLowerCase().trim()) {
+      case "sc" -> AscensionClass.SEAL_CLUBBER;
+      case "tt" -> AscensionClass.TURTLE_TAMER;
+      case "pm" -> AscensionClass.PASTAMANCER;
+      case "s" -> AscensionClass.SAUCEROR;
+      case "db" -> AscensionClass.DISCO_BANDIT;
+      case "at" -> AscensionClass.ACCORDION_THIEF;
+      default -> null;
+    };
   }
 
   private boolean unreachableZone(KoLAdventure zone) {
-    switch (zone.getZone()) {
-      case "MoxSign":
-        return KoLCharacter.getSignZone() != ZodiacZone.GNOMADS;
-      case "MusSign":
-        return KoLCharacter.getSignZone() != ZodiacZone.KNOLL;
-      case "Little Canadia":
-        return KoLCharacter.getSignZone() != ZodiacZone.CANADIA;
-    }
-    return false;
+    return switch (zone.getZone()) {
+      case "MoxSign" -> KoLCharacter.getSignZone() != ZodiacZone.GNOMADS;
+      case "MusSign" -> KoLCharacter.getSignZone() != ZodiacZone.KNOLL;
+      case "Little Canadia" -> KoLCharacter.getSignZone() != ZodiacZone.CANADIA;
+      default -> false;
+    };
   }
 
   private void zonesCommand(String[] params) {
@@ -126,7 +116,7 @@ public class JourneyCommand extends AbstractCommand {
 
       output.append("<tr>");
 
-      boolean accessible = !me || zone.isCurrentlyAccessible();
+      boolean accessible = !me || zone.canAdventure();
 
       output.append("<td rowspan=2>");
       if (!accessible) {
@@ -141,8 +131,12 @@ public class JourneyCommand extends AbstractCommand {
       String[] skills = JourneyManager.journeymanData.get(zone).get(aclass);
       for (int i = 0; i < 6; ++i) {
         String skillName = skills[i];
-        boolean known = me && KoLCharacter.hasSkill(skillName);
+        int skillId = SkillDatabase.getSkillId(skillName);
+        boolean known = me && KoLCharacter.hasSkill(skillId);
         output.append("<td>");
+        // output.append("<a href=\"desc_skill.php?whichskill=");
+        // output.append(skillId);
+        // output.append("&self=true\">");
         if (known) {
           output.append("<s>");
         }
@@ -150,6 +144,7 @@ public class JourneyCommand extends AbstractCommand {
         if (known) {
           output.append("</s>");
         }
+        // output.append("</a>");
         output.append("</td>");
         if (i == 2) {
           output.append("</tr><tr>");
@@ -256,7 +251,7 @@ public class JourneyCommand extends AbstractCommand {
     if (me) {
       if (unreachableZone(zone)) {
         output.append(" (which is permanently inaccessible to you)");
-      } else if (!zone.isCurrentlyAccessible()) {
+      } else if (!zone.canAdventure()) {
         output.append(" (which is not currently accessible to you)");
       }
     }

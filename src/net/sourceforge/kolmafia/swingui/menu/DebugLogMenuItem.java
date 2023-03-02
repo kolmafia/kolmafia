@@ -7,8 +7,8 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 public class DebugLogMenuItem extends ThreadedMenuItem implements Listener {
   public DebugLogMenuItem() {
-    super(RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log", null);
-    this.setAction(new DebugLogListener());
+    super(RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log");
+    this.addActionListener(new DebugLogListener());
     NamedListenerRegistry.registerNamedListener("(debug)", this);
   }
 
@@ -18,7 +18,7 @@ public class DebugLogMenuItem extends ThreadedMenuItem implements Listener {
         RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log");
   }
 
-  private class DebugLogListener extends ThreadedListener {
+  private static class DebugLogListener extends ThreadedListener {
     @Override
     protected void execute() {
       if (RequestLogger.isDebugging()) {

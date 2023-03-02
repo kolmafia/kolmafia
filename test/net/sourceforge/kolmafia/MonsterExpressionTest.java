@@ -1,19 +1,20 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.inPath;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -54,7 +55,7 @@ public class MonsterExpressionTest {
 
   @Test
   public void canDetectMonsterLevel() {
-    Modifiers.overrideModifier("Generated:_userMods", "Monster Level: +9");
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "_userMods", "Monster Level: +9");
     KoLCharacter.recalculateAdjustments();
 
     var exp = new MonsterExpression("ML", "Monster Level");
@@ -137,12 +138,14 @@ public class MonsterExpressionTest {
   @ParameterizedTest
   @EnumSource(AscensionPath.Path.class)
   public void canDetectPath(AscensionPath.Path path) {
-    inPath(AscensionPath.Path.YOU_ROBOT);
+    var cleanups = withPath(AscensionPath.Path.YOU_ROBOT);
 
-    double expected = path == AscensionPath.Path.YOU_ROBOT ? 1.0 : 0.0;
-    var exp = new MonsterExpression("path(" + path.toString() + ")", "Detect class");
+    try (cleanups) {
+      double expected = path == AscensionPath.Path.YOU_ROBOT ? 1.0 : 0.0;
+      var exp = new MonsterExpression("path(" + path.toString() + ")", "Detect class");
 
-    assertThat(path.toString(), exp.eval(), is(expected));
+      assertThat(path.toString(), exp.eval(), is(expected));
+    }
   }
 
   @ParameterizedTest
@@ -150,10 +153,13 @@ public class MonsterExpressionTest {
     "seal-clubbing club, 1",
     "turtle totem, 0",
   })
-  public void canDetectEquip(String item, String expected) {
-    equip(EquipmentManager.WEAPON, "seal-clubbing club");
-    var exp = new MonsterExpression("equipped(" + item + ")", "Detect equip");
+  public void canDetectEquip(String item, double expected) {
+    var cleanups = withEquipped(Slot.WEAPON, "seal-clubbing club");
 
-    assertEquals(Double.parseDouble(expected), exp.eval());
+    try (cleanups) {
+      var exp = new MonsterExpression("equipped(" + item + ")", "Detect equip");
+
+      assertEquals(expected, exp.eval());
+    }
   }
 }

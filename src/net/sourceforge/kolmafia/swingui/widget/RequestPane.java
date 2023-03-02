@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.swingui.widget;
 import java.awt.*;
 import java.io.StringWriter;
 import java.util.Enumeration;
-import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.text.html.HTML;
@@ -11,7 +10,6 @@ import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLWriter;
 import javax.swing.text.html.InlineView;
 import net.sourceforge.kolmafia.ImageCachingEditorKit;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -19,6 +17,12 @@ public class RequestPane extends JEditorPane {
   static class WrappedHtmlEditorKit extends ImageCachingEditorKit {
     private final ViewFactory viewFactory;
 
+    /*
+     Code originally from https://stackoverflow.com/questions/17533451/jeditorpane-linewrap-in-java7/26583365#26583365
+     by Ludovic Pecquot (https://stackoverflow.com/users/4185005/ludovic-pecquot)
+     available under CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)
+     Some code changes made from original, changes at https://github.com/kolmafia/kolmafia/commits
+    */
     public WrappedHtmlEditorKit() {
       super();
       this.viewFactory = new WrappedHtmlFactory();
@@ -59,9 +63,7 @@ public class RequestPane extends JEditorPane {
             Object attribute = iterator.nextElement();
             Object value = elem.getAttributes().getAttribute(attribute);
 
-            if (value instanceof SimpleAttributeSet) {
-              SimpleAttributeSet attributeSet = (SimpleAttributeSet) value;
-
+            if (value instanceof SimpleAttributeSet attributeSet) {
               String text = (String) attributeSet.getAttribute(HTML.Attribute.TITLE);
 
               if (text == null) {
@@ -77,21 +79,18 @@ public class RequestPane extends JEditorPane {
         @Override
         public float getMinimumSpan(int axis) {
           switch (axis) {
-            case View.X_AXIS:
-              {
-                if (!Preferences.getBoolean("wrapLongLines")) {
-                  return super.getMinimumSpan(axis);
-                }
-                return 0;
-              }
-            case View.Y_AXIS:
-              {
+            case View.X_AXIS -> {
+              if (!Preferences.getBoolean("wrapLongLines")) {
                 return super.getMinimumSpan(axis);
               }
-            default:
-              {
-                throw new IllegalArgumentException("Invalid axis: " + axis);
-              }
+              return 0;
+            }
+            case View.Y_AXIS -> {
+              return super.getMinimumSpan(axis);
+            }
+            default -> {
+              throw new IllegalArgumentException("Invalid axis: " + axis);
+            }
           }
         }
 
@@ -102,9 +101,6 @@ public class RequestPane extends JEditorPane {
       }
     }
   }
-
-  private static final Pattern WHITESPACE = Pattern.compile("\n\\s*");
-  private static final Pattern LINE_BREAK = Pattern.compile("<br/?>", Pattern.CASE_INSENSITIVE);
 
   public RequestPane() {
     this.setEditorKit(new WrappedHtmlEditorKit());
@@ -176,22 +172,6 @@ public class RequestPane extends JEditorPane {
       return selectedText;
     }
 
-    // Now we begin trimming out some of the whitespace,
-    // because that causes some strange rendering problems.
-
-    selectedText = RequestPane.WHITESPACE.matcher(selectedText).replaceAll("\n");
-
-    selectedText = StringUtilities.globalStringDelete(selectedText, "\r");
-    selectedText = StringUtilities.globalStringDelete(selectedText, "\n");
-    selectedText = StringUtilities.globalStringDelete(selectedText, "\t");
-
-    // Finally, we start replacing the various HTML tags
-    // with emptiness, except for the <br> tag which is
-    // rendered as a new line.
-
-    selectedText = RequestPane.LINE_BREAK.matcher(selectedText).replaceAll("\n").trim();
-    selectedText = KoLConstants.ANYTAG_PATTERN.matcher(selectedText).replaceAll("");
-
-    return StringUtilities.getEntityDecode(selectedText, false);
+    return StringUtilities.stripHtml(selectedText);
   }
 }

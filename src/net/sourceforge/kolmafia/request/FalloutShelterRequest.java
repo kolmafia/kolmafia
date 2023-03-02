@@ -26,10 +26,9 @@ public class FalloutShelterRequest extends GenericRequest {
 
   private final String action;
 
+  public static final String CRYO_SLEEP_CHAMBER = "vault1";
+
   /** Constructs a new <code>FalloutShelterRequest</code> with the specified action in mind. */
-
-  // place.php?whichplace=falloutshelter&action=vault1
-
   public FalloutShelterRequest(final String action) {
     super("place.php");
     this.addFormField("whichplace", "falloutshelter");
@@ -46,7 +45,7 @@ public class FalloutShelterRequest extends GenericRequest {
 
   @Override
   public int getAdventuresUsed() {
-    return this.action.equals("vault1") ? 1 : 0;
+    return this.action.equals(CRYO_SLEEP_CHAMBER) ? 1 : 0;
   }
 
   public static void setFalloutShelterItem(final int itemId, int count) {
@@ -75,7 +74,7 @@ public class FalloutShelterRequest extends GenericRequest {
   @Override
   public void run() {
     // Cryo-Sleep Chamber
-    if (this.action.equals("vault1")
+    if (this.action.equals(CRYO_SLEEP_CHAMBER)
         && KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP()
         && KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP()
         && !KoLConstants.activeEffects.contains(KoLAdventure.BEATEN_UP)) {
@@ -203,29 +202,38 @@ public class FalloutShelterRequest extends GenericRequest {
     String action = matcher.group(1);
     String message = null;
 
-    if (action.equals("vault1")) {
-      message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your Cryo-Sleep Chamber";
-    } else if (action.equals("vault2")) {
-      // shop.php?whichshop=vault1
-      // message = "Visiting your Fallout Shelter Medical Supply";
-    } else if (action.equals("vault3")) {
-      message = "Visiting your Spa Simulation Chamber";
-    } else if (action.equals("vault4")) {
-      // shop.php?whichshop=vault2
-      // message = "Visiting your Fallout Shelter Electronics Supply";
-    } else if (action.equals("vault5")) {
-      message = "Visiting your Chronodynamics Laboratory";
-    } else if (action.equals("vault6")) {
-      // shop.php?whichshop=mutate
-      // message = "Visiting your Gene-Sequencing Laboratory";
-    } else if (action.equals("vault7")) {
-      // shop.php?whichshop=vault3
-      // message = "Visiting your Underground Record Store";
-    } else if (action.equals("vault8")) {
-      message = "Visiting your Main Reactor";
-    } else {
-      // Unknown action.
-      return false;
+    switch (action) {
+      case CRYO_SLEEP_CHAMBER:
+        message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your Cryo-Sleep Chamber";
+        break;
+      case "vault2":
+        // shop.php?whichshop=vault1
+        // message = "Visiting your Fallout Shelter Medical Supply";
+        break;
+      case "vault3":
+        message = "Visiting your Spa Simulation Chamber";
+        break;
+      case "vault4":
+        // shop.php?whichshop=vault2
+        // message = "Visiting your Fallout Shelter Electronics Supply";
+        break;
+      case "vault5":
+        message = "Visiting your Chronodynamics Laboratory";
+        break;
+      case "vault6":
+        // shop.php?whichshop=mutate
+        // message = "Visiting your Gene-Sequencing Laboratory";
+        break;
+      case "vault7":
+        // shop.php?whichshop=vault3
+        // message = "Visiting your Underground Record Store";
+        break;
+      case "vault8":
+        message = "Visiting your Main Reactor";
+        break;
+      default:
+        // Unknown action.
+        return false;
     }
 
     if (message != null) {

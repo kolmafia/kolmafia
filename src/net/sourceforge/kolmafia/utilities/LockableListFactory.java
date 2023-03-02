@@ -24,9 +24,9 @@ public class LockableListFactory {
    */
   public static <E> List<E> getInstance(Class<E> E) {
     if (SwinglessUIUtils.isSwingAvailable) {
-      return new LockableListModel<E>();
+      return new LockableListModel<>();
     }
-    return new ArrayList<E>();
+    return new ArrayList<>();
   }
 
   /**

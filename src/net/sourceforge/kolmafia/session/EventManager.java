@@ -14,8 +14,8 @@ import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 public class EventManager {
-  private static final LockableListModel<String> eventTexts = new LockableListModel<String>();
-  private static final LockableListModel<String> eventHyperTexts = new LockableListModel<String>();
+  private static final LockableListModel<String> eventTexts = new LockableListModel<>();
+  private static final LockableListModel<String> eventHyperTexts = new LockableListModel<>();
 
   public static final Pattern EVENT_PATTERN1 =
       Pattern.compile(
@@ -73,7 +73,7 @@ public class EventManager {
       return false;
     }
 
-    if (eventHTML.indexOf("logged") != -1 || eventHTML.indexOf("has left the building") != -1) {
+    if (eventHTML.contains("logged") || eventHTML.contains("has left the building")) {
       return false;
     }
 

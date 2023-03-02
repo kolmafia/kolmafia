@@ -75,6 +75,7 @@ public class QuestDatabase {
     DOC("questM24Doc"),
     ARMORER("questM25Armorer"),
     PRIMORDIAL("questF01Primordial"),
+    FUTURE("questF03Future"),
     GENERATOR("questF04Elves"),
     CLANCY("questF05Clancy"),
     SEA_OLD_GUY("questS01OldGuy"),
@@ -189,7 +190,7 @@ public class QuestDatabase {
   public static void reset() {
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("questslog.txt", KoLConstants.QUESTSLOG_VERSION)) {
-      ArrayList<String[]> quests = new ArrayList<String[]>();
+      ArrayList<String[]> quests = new ArrayList<>();
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
@@ -204,7 +205,7 @@ public class QuestDatabase {
 
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("questscouncil.txt", KoLConstants.QUESTSCOUNCIL_VERSION)) {
-      ArrayList<String[]> quests = new ArrayList<String[]>();
+      ArrayList<String[]> quests = new ArrayList<>();
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
@@ -1164,6 +1165,10 @@ public class QuestDatabase {
     }
 
     return false;
+  }
+
+  public static boolean isQuestStarted(Quest quest) {
+    return QuestDatabase.isQuestLaterThan(quest, QuestDatabase.UNSTARTED);
   }
 
   public static boolean isQuestFinished(Quest quest) {

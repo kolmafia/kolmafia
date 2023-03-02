@@ -2,7 +2,9 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.addItem;
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withNextResponse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -52,7 +54,7 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void requireWandToZap() {
-    var cleanups = addItem("bugbear beanie");
+    var cleanups = withItem("bugbear beanie");
 
     try (cleanups) {
       execute("bugbear beanie");
@@ -64,7 +66,7 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void zapSimpleItem() {
-    var cleanups = new Cleanups(addItem("hexagonal wand"), addItem("bugbear beanie"));
+    var cleanups = new Cleanups(withItem("hexagonal wand"), withItem("bugbear beanie"));
 
     try (cleanups) {
       execute("bugbear beanie");
@@ -77,7 +79,7 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void zapNoItems() {
-    var cleanups = new Cleanups(addItem("hexagonal wand"), addItem("bugbear beanie"));
+    var cleanups = new Cleanups(withItem("hexagonal wand"), withItem("bugbear beanie"));
 
     try (cleanups) {
       execute("0 bugbear beanie");
@@ -91,9 +93,9 @@ public class ZapCommandTest extends AbstractCommandTestBase {
   public void zapManyItems() {
     var cleanups =
         new Cleanups(
-            addItem("hexagonal wand"),
-            addItem("bugbear beanie"),
-            addItem("cursed swash buckle", 2));
+            withItem("hexagonal wand"),
+            withItem("bugbear beanie"),
+            withItem("cursed swash buckle", 2));
 
     try (cleanups) {
       execute("1 bugbear beanie, 2 cursed swash buckle");
@@ -101,5 +103,22 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
     var requests = getRequests();
     assertThat(requests.size(), equalTo(3));
+  }
+
+  @Test
+  public void showAcquiredItem() {
+    String output;
+    var cleanups =
+        new Cleanups(
+            withItem("hexagonal wand"),
+            withItem("Dreadsylvanian spooky pocket"),
+            withNextResponse(200, html("request/test_zap_pockets.html")));
+
+    try (cleanups) {
+      output = execute("Dreadsylvanian spooky pocket");
+    }
+
+    assertThat(output, containsString("Dreadsylvanian spooky pocket has been transformed"));
+    assertThat(output, containsString("transformed into Dreadsylvanian hot pocket"));
   }
 }

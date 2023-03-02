@@ -24,10 +24,10 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -38,6 +38,9 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.HistoryEntry;
 import net.sourceforge.kolmafia.chat.SentMessageEntry;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -51,19 +54,19 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -95,7 +98,10 @@ public class RelayRequest extends PasswordHashRequest {
 
   private static KoLAdventure lastSafety = null;
 
-  private final boolean allowOverride;
+  // If allowOverride is true, when we run this request, we will execute a
+  // relay script, if present, to handle the request to KoL.
+  private boolean allowOverride;
+
   public List<String> headers = new ArrayList<>();
   public Set<ServerCookie> serverCookies = null;
   public String cookies = null;
@@ -109,39 +115,48 @@ public class RelayRequest extends PasswordHashRequest {
   public static String specialCommandStatus = "";
   public static String redirectedCommandURL = "";
 
-  private static final String CONFIRM_COUNTER = "confirm0";
-  private static final String CONFIRM_MCD = "confirm2";
-  private static final String CONFIRM_FAMILIAR = "confirm3";
-  private static final String CONFIRM_RECOVERY = "confirm4";
-  private static final String CONFIRM_SORCERESS = "confirm5";
-  private static final String CONFIRM_WOSSNAME = "confirm6";
-  private static final String CONFIRM_TOKENS = "confirm7";
-  private static final String CONFIRM_SEAL = "confirm8";
-  private static final String CONFIRM_ARCADE = "confirm9";
-  private static final String CONFIRM_KUNGFU = "confirm10";
-  private static final String CONFIRM_POOL_SKILL = "confirm11";
-  private static final String CONFIRM_WINEGLASS = "confirm12";
-  private static final String CONFIRM_COLOSSEUM = "confirm13";
-  private static final String CONFIRM_GREMLINS = "confirm14";
-  private static final String CONFIRM_HARDCOREPVP = "confirm15";
-  private static final String CONFIRM_DESERT_UNHYDRATED = "confirm16";
-  public static final String CONFIRM_MOHAWK_WIG = "confirm17";
-  private static final String CONFIRM_CELLAR = "confirm18";
-  private static final String CONFIRM_BOILER = "confirm19";
-  private static final String CONFIRM_DIARY = "confirm20";
-  private static final String CONFIRM_BORING_DOORS = "confirm21";
-  private static final String CONFIRM_SPELUNKY = "confirm22";
-  private static final String CONFIRM_ZEPPELIN = "confirm23";
-  private static final String CONFIRM_OVERDRUNK_ADVENTURE = "confirm24";
-  private static final String CONFIRM_STICKER = "confirm25";
-  private static final String CONFIRM_DESERT_OFFHAND = "confirm26";
-  public static final String CONFIRM_MACHETE = "confirm27";
-  private static final String CONFIRM_RALPH = "confirm28";
-  private static final String CONFIRM_RALPH1 = "confirm29";
-  private static final String CONFIRM_RALPH2 = "confirm30";
+  public enum Confirm {
+    COUNTER,
+    MCD,
+    FAMILIAR,
+    RECOVERY,
+    SORCERESS,
+    WOSSNAME,
+    TOKENS,
+    SEAL,
+    ARCADE,
+    KUNGFU,
+    POOL_SKILL,
+    WINEGLASS,
+    COLOSSEUM,
+    GREMLINS,
+    HARDCOREPVP,
+    DESERT_UNHYDRATED,
+    MOHAWK_WIG,
+    CELLAR,
+    BOILER,
+    DIARY,
+    BORING_DOORS,
+    SPELUNKY,
+    ZEPPELIN,
+    OVERDRUNK_ADVENTURE,
+    STICKER,
+    DESERT_OFFHAND,
+    MACHETE,
+    RALPH,
+    RALPH1,
+    RALPH2,
+    DESERT_WEAPON;
+
+    @Override
+    public String toString() {
+      return "confirm" + ordinal();
+    }
+  }
 
   private static boolean ignoreBoringDoorsWarning = false;
-  private static boolean ignoreDesertWarning = false;
+  public static boolean ignoreDesertWarning = false;
+  public static boolean ignoreDesertWeaponWarning = false;
   private static boolean ignoreDesertOffhandWarning = false;
   public static boolean ignoreMacheteWarning = false;
   public static boolean ignoreMohawkWigWarning = false;
@@ -152,8 +167,13 @@ public class RelayRequest extends PasswordHashRequest {
   public String lastWarning = "";
 
   public static final void reset() {
+    RelayRequest.specialCommandIsAdventure = false;
+    RelayRequest.specialCommandResponse = "";
+    RelayRequest.specialCommandStatus = "";
+    RelayRequest.redirectedCommandURL = "";
     RelayRequest.ignoreBoringDoorsWarning = false;
     RelayRequest.ignoreDesertWarning = false;
+    RelayRequest.ignoreDesertWeaponWarning = false;
     RelayRequest.ignoreDesertOffhandWarning = false;
     RelayRequest.ignoreMacheteWarning = false;
     RelayRequest.ignoreMohawkWigWarning = false;
@@ -163,6 +183,10 @@ public class RelayRequest extends PasswordHashRequest {
 
   public RelayRequest(final boolean allowOverride) {
     super("");
+    this.allowOverride = allowOverride;
+  }
+
+  public void setAllowOverride(final boolean allowOverride) {
     this.allowOverride = allowOverride;
   }
 
@@ -243,6 +267,11 @@ public class RelayRequest extends PasswordHashRequest {
   @Override
   protected boolean retryOnTimeout() {
     return false;
+  }
+
+  @Override
+  protected boolean shouldSuppressUpdate() {
+    return true;
   }
 
   private void parseCookies() {
@@ -368,8 +397,8 @@ public class RelayRequest extends PasswordHashRequest {
       String action = this.getFormField("action");
       if (action != null && action.equals("skill")) {
         String skillId = this.getFormField("whichskill");
-        String category = SkillDatabase.getSkillCategory(StringUtilities.parseInt(skillId));
-        if (!category.equals("conditional")) {
+        Category category = SkillDatabase.getSkillCategory(StringUtilities.parseInt(skillId));
+        if (category != Category.CONDITIONAL) {
           StationaryButtonDecorator.addSkillButton(skillId);
         }
       }
@@ -427,9 +456,8 @@ public class RelayRequest extends PasswordHashRequest {
         // Just in case, use this key even when using equals
         String ukey = key.toUpperCase();
 
-        // We generate our own Content-Type, Content-Length,
-        // Cache-Control, and Pragma headers.
-        if (ukey.startsWith("CONTENT") || ukey.startsWith("CACHE") || ukey.equals("PRAGMA")) {
+        // We redo the Content-Type and Content-Length encodings, and ignore Content-Encoding.
+        if (ukey.startsWith("CONTENT")) {
           continue;
         }
 
@@ -443,6 +471,11 @@ public class RelayRequest extends PasswordHashRequest {
           if (ukey.equals("SET-COOKIE")) {
             value = GenericRequest.mungeCookieDomain(value);
           }
+          if (ukey.equals("CACHE-CONTROL")) {
+            if (Preferences.getBoolean("relayCacheUncacheable")) {
+              value = value.replaceFirst("no-store(, )?", "");
+            }
+          }
 
           ostream.print(key);
           ostream.print(": ");
@@ -452,9 +485,11 @@ public class RelayRequest extends PasswordHashRequest {
 
       if (this.responseCode == 200 && this.rawByteBuffer != null) {
         ostream.print("Content-Type: ");
-        ostream.print(this.contentType);
+        var contentType =
+            this.response.headers().firstValue("Content-Type").orElse(this.contentType);
+        ostream.print(contentType);
 
-        if (this.contentType.startsWith("text")) {
+        if (contentType.startsWith("text") && !contentType.contains(";")) {
           ostream.print("; charset=UTF-8");
         }
 
@@ -463,9 +498,6 @@ public class RelayRequest extends PasswordHashRequest {
         ostream.print("Content-Length: ");
         ostream.print(this.rawByteBuffer.length);
         ostream.println();
-
-        ostream.println("Cache-Control: no-cache, must-revalidate");
-        ostream.println("Pragma: no-cache");
       }
     }
   }
@@ -749,11 +781,11 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String location = adventure.getAdventureId();
+    int location = adventure.getAdventureNumber();
 
     // If he's not going on to the battlefield, no problem
-    if (!location.equals(AdventurePool.FRAT_UNIFORM_BATTLEFIELD_ID)
-        && !location.equals(AdventurePool.HIPPY_UNIFORM_BATTLEFIELD_ID)) {
+    if (location != AdventurePool.FRAT_UNIFORM_BATTLEFIELD
+        && location != AdventurePool.HIPPY_UNIFORM_BATTLEFIELD) {
       return false;
     }
 
@@ -769,20 +801,17 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     int outfitId = outfit.getOutfitId();
-    switch (outfitId) {
-      case 32:
-        // War Hippy Fatigues
-      case 33:
-        // Frat Warrior Fatigues
-        return checkBattle(outfitId);
-    }
-
-    return false;
+    return switch (outfitId) {
+      case 32, 33 ->
+      // War Hippy Fatigues
+      // Frat Warrior Fatigues
+      checkBattle(outfitId);
+      default -> false;
+    };
   }
 
   public boolean sendBreakPrismWarning(final String urlString) {
     // place.php?whichplace=nstower&action=ns_11_prism
-
     if (!urlString.startsWith("place.php")
         || !urlString.contains("whichplace=nstower")
         || !urlString.contains("action=ns_11_prism")) {
@@ -796,6 +825,11 @@ public class RelayRequest extends PasswordHashRequest {
     // Isotopes
 
     if (KoLCharacter.isKingdomOfExploathing()) {
+      // If user has already confirmed he wants to break the prism, accept it
+      if (this.getFormField(Confirm.RALPH) != null) {
+        return false;
+      }
+
       if (InventoryManager.getCount(ItemPool.RARE_MEAT_ISOTOPE) <= 0) {
         return false;
       }
@@ -807,7 +841,7 @@ public class RelayRequest extends PasswordHashRequest {
               + " If you are ready to break the prism, click on the icon on the left."
               + " If you wish to visit Cosmic Ray's Bazaar, click on icon on the right.";
       this.sendOptionalWarning(
-          CONFIRM_RALPH,
+          Confirm.RALPH,
           warning,
           "hand.gif",
           "meatisotope.gif",
@@ -822,13 +856,13 @@ public class RelayRequest extends PasswordHashRequest {
       if (KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit()
           && !RelayRequest.ignoreFullnessWarning) {
         // If it's already confirmed, then track that for the session
-        if (this.getFormField(CONFIRM_RALPH1) == null) {
+        if (this.getFormField(Confirm.RALPH1) == null) {
           String warning =
               "When you stop being a plumber, you will lose five maximum fullness."
                   + " Since you are not yet full, perhaps you would like to eat more now?"
                   + " (It is not harmful to be over-full.)"
                   + " If you are sure you don't want to eat more at this time, click the icon. ";
-          this.sendGeneralWarning("knifefork.gif", warning, CONFIRM_RALPH1);
+          this.sendGeneralWarning("knifefork.gif", warning, Confirm.RALPH1);
           return true;
         }
         RelayRequest.ignoreFullnessWarning = true;
@@ -842,7 +876,7 @@ public class RelayRequest extends PasswordHashRequest {
       // If you don't have any coins, nothing to spend
       if ( InventoryManager.getCount( ItemPool.COIN ) > 0 )
       {
-        if ( this.getFormField( CONFIRM_RALPH2 ) == null )
+        if ( this.getFormField( Confirm.RALPH2 ) == null )
         {
           StringBuilder warning = new StringBuilder();
           warning.append( "When you stop being a plumber, you will lose access to the Mushroom District." );
@@ -850,7 +884,7 @@ public class RelayRequest extends PasswordHashRequest {
           warning.append( " If you are sure you don't want to spend your coins, click the icon on the left. " );
           warning.append( " If you wish to visit the Mushroom District, click on icon on the right." );
           this.sendOptionalWarning(
-            CONFIRM_RALPH2,
+            Confirm.RALPH2,
             warning.toString(),
             "mario_coin.gif",
             "mario_mushroom1.gif",
@@ -870,6 +904,11 @@ public class RelayRequest extends PasswordHashRequest {
     // You might want to spend Energy on Adventures or Stats.
 
     if (KoLCharacter.inRobocore()) {
+      // If user has already confirmed he wants to go there, accept it
+      if (this.getFormField(Confirm.RALPH) != null) {
+        return false;
+      }
+
       int energy = KoLCharacter.getYouRobotEnergy();
       int chronolithCost = Preferences.getInteger("_chronolithNextCost");
       int statbotCost = Preferences.getInteger("statbotUses") + 10;
@@ -898,7 +937,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(" If you wish to visit the Scrapheap, click on icon on the right.");
 
       this.sendOptionalWarning(
-          CONFIRM_RALPH,
+          Confirm.RALPH,
           buf.toString(),
           "hand.gif",
           "jigawatts.gif",
@@ -908,7 +947,41 @@ public class RelayRequest extends PasswordHashRequest {
       return true;
     }
 
+    // In Fall of the Dinosaurs, you will lose access to the Dinostaur and can therefore not spend
+    // your dinodollars
+
+    if (KoLCharacter.inDinocore()) {
+      // If user has already confirmed he wants to go there, accept it
+      if (this.getFormField(Confirm.RALPH) != null) {
+        return false;
+      }
+
+      if (InventoryManager.getCount(ItemPool.DINODOLLAR) <= 0) {
+        return false;
+      }
+
+      String warning =
+          "You are about to free King Ralph and end your Fall of the Dinosaurs run."
+              + " Before you do so, you might want to spend your Dinodollars at the Dino Staur,"
+              + " since you will not be able to do so after you free the king."
+              + " If you are ready to break the prism, click on the icon on the left."
+              + " If you wish to visit the Dino Staur, click on icon on the right.";
+      this.sendOptionalWarning(
+          Confirm.RALPH,
+          warning,
+          "hand.gif",
+          "dinobuck.gif",
+          "\"shop.php?whichshop=dino\"",
+          null,
+          null);
+      return true;
+    }
+
     return false;
+  }
+
+  private String getFormField(Confirm confirm) {
+    return super.getFormField(confirm.toString());
   }
 
   private boolean checkCampVisit(final String urlString) {
@@ -981,7 +1054,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private boolean sendCoinMasterWarning(final CoinmasterData camp) {
     // If user has already confirmed he wants to go there, accept it
-    if (this.getFormField(CONFIRM_TOKENS) != null) {
+    if (this.getFormField(Confirm.TOKENS) != null) {
       return false;
     }
 
@@ -998,7 +1071,7 @@ public class RelayRequest extends PasswordHashRequest {
         message
             + " Before you do so, you might want to redeem war loot for dimes and quarters and buy equipment. Click on the image to enter battle, once you are ready.";
 
-    this.sendGeneralWarning("lucre.gif", message, CONFIRM_TOKENS);
+    this.sendGeneralWarning("lucre.gif", message, Confirm.TOKENS);
 
     return true;
   }
@@ -1008,14 +1081,14 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String location = adventure.getAdventureId();
+    int location = adventure.getAdventureNumber();
 
     // If he's not going to the Mer-Kin Colosseum, no problem
-    if (!location.equals(AdventurePool.MERKIN_COLOSSEUM_ID)) {
+    if (location != AdventurePool.MERKIN_COLOSSEUM) {
       return false;
     }
 
-    if (this.getFormField(CONFIRM_COLOSSEUM) != null) {
+    if (this.getFormField(Confirm.COLOSSEUM) != null) {
       return false;
     }
 
@@ -1032,25 +1105,25 @@ public class RelayRequest extends PasswordHashRequest {
     String opponent = null;
 
     switch (lastRound % 3) {
-      case 0:
+      case 0 -> {
         weapon = ItemPool.get(ItemPool.MERKIN_DRAGNET, 1);
         image = "dragnet.gif";
         opponent = lastRound == 12 ? "Georgepaul, the Balldodger" : "a Mer-kin balldodger";
-        break;
-      case 1:
+      }
+      case 1 -> {
         weapon = ItemPool.get(ItemPool.MERKIN_SWITCHBLADE, 1);
         image = "switchblade.gif";
         opponent = lastRound == 13 ? "Johnringo, the Netdragger" : "a Mer-kin netdragger";
-        break;
-      case 2:
+      }
+      case 2 -> {
         weapon = ItemPool.get(ItemPool.MERKIN_DODGEBALL, 1);
         image = "dodgeball.gif";
         opponent = lastRound == 14 ? "Ringogeorge, the Bladeswitcher" : "a Mer-kin bladeswitcher";
-        break;
+      }
     }
 
     // If you are equipped with the correct weapon, nothing to warn about
-    if (KoLCharacter.hasEquipped(weapon.getItemId(), EquipmentManager.WEAPON)) {
+    if (KoLCharacter.hasEquipped(weapon.getItemId(), Slot.WEAPON)) {
       return false;
     }
 
@@ -1073,7 +1146,7 @@ public class RelayRequest extends PasswordHashRequest {
             + weapon.getName()
             + ", click the icon on the right to closet it.";
     this.sendOptionalWarning(
-        CONFIRM_COLOSSEUM,
+        Confirm.COLOSSEUM,
         warning,
         "hand.gif",
         image,
@@ -1094,7 +1167,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private boolean sendInfernalSealWarning(final String urlString) {
     // If user has already confirmed he wants to do it, accept it
-    if (this.getFormField(CONFIRM_SEAL) != null) {
+    if (this.getFormField(Confirm.SEAL) != null) {
       return false;
     }
 
@@ -1123,7 +1196,7 @@ public class RelayRequest extends PasswordHashRequest {
     message =
         "You are trying to summon an infernal seal, but you are not wielding a club. You are either incredibly puissant or incredibly foolish. If you are sure you want to do this, click on the image and proceed to your doom.";
 
-    this.sendGeneralWarning("iblubbercandle.gif", message, CONFIRM_SEAL, "checked=1");
+    this.sendGeneralWarning("iblubbercandle.gif", message, Confirm.SEAL, "checked=1");
 
     return true;
   }
@@ -1133,18 +1206,18 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String location = adventure.getAdventureId();
+    int location = adventure.getAdventureNumber();
 
     // If they aren't going to the War Gremlin zones, no problem
-    if (!location.equals(AdventurePool.JUNKYARD_BARREL_ID)
-        && !location.equals(AdventurePool.JUNKYARD_REFRIGERATOR_ID)
-        && !location.equals(AdventurePool.JUNKYARD_TIRES_ID)
-        && !location.equals(AdventurePool.JUNKYARD_CAR_ID)) {
+    if (location != AdventurePool.JUNKYARD_BARREL
+        && location != AdventurePool.JUNKYARD_REFRIGERATOR
+        && location != AdventurePool.JUNKYARD_TIRES
+        && location != AdventurePool.JUNKYARD_CAR) {
       return false;
     }
 
     // If user has already confirmed he wants to do it, accept it
-    if (this.getFormField(CONFIRM_GREMLINS) != null) {
+    if (this.getFormField(Confirm.GREMLINS) != null) {
       return false;
     }
 
@@ -1163,7 +1236,7 @@ public class RelayRequest extends PasswordHashRequest {
     message =
         "You are about to fight Gremlins, but do not have the Molybdenum Magnet. If you are sure you want to do this, click on the image to proceed.";
 
-    this.sendGeneralWarning("magnet2.gif", message, CONFIRM_GREMLINS);
+    this.sendGeneralWarning("magnet2.gif", message, Confirm.GREMLINS);
 
     return true;
   }
@@ -1178,7 +1251,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // Don't remind a second time in a session if you decide not to do it.
-    if (urlString.contains(CONFIRM_HARDCOREPVP)) {
+    if (urlString.contains(Confirm.HARDCOREPVP.toString())) {
       return false;
     }
 
@@ -1212,7 +1285,67 @@ public class RelayRequest extends PasswordHashRequest {
     message =
         "You have fights remaining and are still in Hardcore. If you are sure you don't want to use the fights in hardcore, click on the image to proceed.";
 
-    this.sendGeneralWarning("swords.gif", message, CONFIRM_HARDCOREPVP);
+    this.sendGeneralWarning("swords.gif", message, Confirm.HARDCOREPVP);
+
+    return true;
+  }
+
+  public boolean sendDesertWeaponWarning() {
+    // Only send this warning once per session
+    if (RelayRequest.ignoreDesertWeaponWarning) {
+      return false;
+    }
+
+    // If it's already confirmed, then track that for the session
+    if (this.getFormField(Confirm.DESERT_WEAPON) != null) {
+      RelayRequest.ignoreDesertWeaponWarning = true;
+      return false;
+    }
+
+    // If they aren't in the desert, no problem
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.ARID_DESERT != location) {
+      return false;
+    }
+
+    // All reason to care about extra exploration is gone, no problem
+    int explored = Preferences.getInteger("desertExploration");
+    if (explored >= 99) {
+      return false;
+    }
+
+    // If they have survival knife equipped, no problem
+    if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)) {
+      return false;
+    }
+
+    // You can't equip it in Avatar of Boris or Suprising Fist, so no problem
+    if (KoLCharacter.inFistcore() || KoLCharacter.inAxecore()) {
+      return false;
+    }
+
+    // If you have survival knife, suggest it
+    if (InventoryManager.getCount(ItemPool.SURVIVAL_KNIFE) > 0) {
+      String warning =
+          "You are about to adventure without your survival knife in the desert. "
+              + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
+              + "If you want to equip the survival knife first, click the icon on the right. ";
+      this.sendOptionalWarning(
+          Confirm.DESERT_WEAPON,
+          warning,
+          "hand.gif",
+          "maydayknife.gif",
+          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+              + ItemPool.SURVIVAL_KNIFE
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+    } else {
+      // If you don't have a knife, you can't get one.
+      return false;
+    }
 
     return true;
   }
@@ -1224,13 +1357,14 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(CONFIRM_DESERT_OFFHAND) != null) {
+    if (this.getFormField(Confirm.DESERT_OFFHAND) != null) {
       RelayRequest.ignoreDesertOffhandWarning = true;
       return false;
     }
 
     // If they aren't in the desert, no problem
-    if (!AdventurePool.ARID_DESERT_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.ARID_DESERT != location) {
       return false;
     }
 
@@ -1263,7 +1397,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
               + "If you want to equip the ornate dowsing rod first, click the icon on the right. ";
       this.sendOptionalWarning(
-          CONFIRM_DESERT_OFFHAND,
+          Confirm.DESERT_OFFHAND,
           warning,
           "hand.gif",
           "dowsingrod.gif",
@@ -1287,7 +1421,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
               + "If you want to equip the UV-resistant compass first, click the icon on the right. ";
       this.sendOptionalWarning(
-          CONFIRM_DESERT_OFFHAND,
+          Confirm.DESERT_OFFHAND,
           warning,
           "hand.gif",
           "uvcompass.gif",
@@ -1304,32 +1438,38 @@ public class RelayRequest extends PasswordHashRequest {
       String message =
           "You are about to adventure without a UV-resistant compass in the desert. If you are sure you want to do this, click on the image to proceed.";
 
-      this.sendGeneralWarning("uvcompass.gif", message, CONFIRM_DESERT_OFFHAND);
+      this.sendGeneralWarning("uvcompass.gif", message, Confirm.DESERT_OFFHAND);
     }
 
     return true;
   }
 
-  private boolean sendUnhydratedDesertWarning() {
+  public boolean sendUnhydratedDesertWarning() {
     // Only send this warning once per session
     if (RelayRequest.ignoreDesertWarning) {
       return false;
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(CONFIRM_DESERT_UNHYDRATED) != null) {
+    if (this.getFormField(Confirm.DESERT_UNHYDRATED) != null) {
       RelayRequest.ignoreDesertWarning = true;
       return false;
     }
 
     // If they aren't in the desert, no problem
-    if (!AdventurePool.ARID_DESERT_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.ARID_DESERT != location) {
       return false;
     }
 
-    // Either The Oasis isn't open, or all reason to care about hydration is gone
+    // If The Oasis isn't open, exploring the first time will hydrate and open it
+    if (!Preferences.getBoolean("oasisAvailable")) {
+      return false;
+    }
+
+    // If the desert is fully explored, no reason to care about hydration
     int explored = Preferences.getInteger("desertExploration");
-    if (explored == 0 || explored == 100) {
+    if (explored == 100) {
       return false;
     }
 
@@ -1343,7 +1483,7 @@ public class RelayRequest extends PasswordHashRequest {
             + "If you are sure you wish to adventure unhydrated, click the icon on the left to adventure. "
             + "If you want to visit the Oasis to get ultrahydrated, click the icon on the right to adventure. ";
     this.sendOptionalWarning(
-        CONFIRM_DESERT_UNHYDRATED,
+        Confirm.DESERT_UNHYDRATED,
         warning,
         "poison.gif",
         "raindrop.gif",
@@ -1377,7 +1517,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(" first, click the icon on the right.");
 
       this.sendOptionalWarning(
-          CONFIRM_MACHETE,
+          Confirm.MACHETE,
           buf.toString(),
           "hand.gif",
           image,
@@ -1419,7 +1559,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(ok2);
       buf.append(" If you want to visit the Scrapheap, click the icon on the right.");
       this.sendOptionalWarning(
-          CONFIRM_MACHETE,
+          Confirm.MACHETE,
           buf.toString(),
           "hand.gif",
           resource,
@@ -1431,7 +1571,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     buf.append(ok1);
-    this.sendGeneralWarning("hand.gif", buf.toString(), CONFIRM_MACHETE);
+    this.sendGeneralWarning("hand.gif", buf.toString(), Confirm.MACHETE);
   }
 
   public boolean sendMacheteWarning() {
@@ -1441,7 +1581,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(CONFIRM_MACHETE) != null) {
+    if (this.getFormField(Confirm.MACHETE) != null) {
       RelayRequest.ignoreMacheteWarning = true;
       return false;
     }
@@ -1459,25 +1599,24 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they aren't in a liana location, or the lianas are defeated, no problem
-    String location = this.getFormField("snarfblat");
-    if (!((AdventurePool.NE_SHRINE_ID.equals(location)
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (!((AdventurePool.NE_SHRINE == location
             && Preferences.getInteger("hiddenOfficeProgress") == 0)
-        || (AdventurePool.SE_SHRINE_ID.equals(location)
+        || (AdventurePool.SE_SHRINE == location
             && Preferences.getInteger("hiddenBowlingAlleyProgress") == 0)
-        || (AdventurePool.NW_SHRINE_ID.equals(location)
+        || (AdventurePool.NW_SHRINE == location
             && Preferences.getInteger("hiddenApartmentProgress") == 0)
-        || (AdventurePool.SW_SHRINE_ID.equals(location)
+        || (AdventurePool.SW_SHRINE == location
             && Preferences.getInteger("hiddenHospitalProgress") == 0)
-        || (AdventurePool.ZIGGURAT_ID.equals(location)
-            && Preferences.getInteger("zigguratLianas") == 0))) {
+        || (AdventurePool.ZIGGURAT == location && Preferences.getInteger("zigguratLianas") == 0))) {
       return false;
     }
 
     // If they have a machete equipped, no problem
-    if (KoLCharacter.hasEquipped(ItemPool.PAPIER_MACHETE, EquipmentManager.WEAPON)
-        || KoLCharacter.hasEquipped(ItemPool.MUCULENT_MACHETE, EquipmentManager.WEAPON)
-        || KoLCharacter.hasEquipped(ItemPool.MACHETITO, EquipmentManager.WEAPON)
-        || KoLCharacter.hasEquipped(ItemPool.ANTIQUE_MACHETE, EquipmentManager.WEAPON)) {
+    if (KoLCharacter.hasEquipped(ItemPool.PAPIER_MACHETE, Slot.WEAPON)
+        || KoLCharacter.hasEquipped(ItemPool.MUCULENT_MACHETE, Slot.WEAPON)
+        || KoLCharacter.hasEquipped(ItemPool.MACHETITO, Slot.WEAPON)
+        || KoLCharacter.hasEquipped(ItemPool.ANTIQUE_MACHETE, Slot.WEAPON)) {
       return false;
     }
 
@@ -1517,7 +1656,7 @@ public class RelayRequest extends PasswordHashRequest {
     // Otherwise just ask if you want to adventure
     String message =
         "You are about to adventure without a machete to fight dense lianas. If you are sure you want to do this, click on the image to proceed.";
-    this.sendGeneralWarning("machetwo.gif", message, CONFIRM_MACHETE);
+    this.sendGeneralWarning("machetwo.gif", message, Confirm.MACHETE);
 
     return true;
   }
@@ -1529,13 +1668,14 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(CONFIRM_MOHAWK_WIG) != null) {
+    if (this.getFormField(Confirm.MOHAWK_WIG) != null) {
       RelayRequest.ignoreMohawkWigWarning = true;
       return false;
     }
 
     // If they aren't in the Castle Top, no problem
-    if (!AdventurePool.CASTLE_TOP_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.CASTLE_TOP != location) {
       return false;
     }
 
@@ -1545,7 +1685,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they are already wearing the Wig, no problem
-    if (KoLCharacter.hasEquipped(ItemPool.MOHAWK_WIG, EquipmentManager.HAT)) {
+    if (KoLCharacter.hasEquipped(ItemPool.MOHAWK_WIG, Slot.HAT)) {
       return false;
     }
 
@@ -1569,7 +1709,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(" If you want to put the hat on first, click the icon on the right.");
 
       this.sendOptionalWarning(
-          CONFIRM_MOHAWK_WIG,
+          Confirm.MOHAWK_WIG,
           buf.toString(),
           "hand.gif",
           "mohawk.gif",
@@ -1609,7 +1749,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(" If you want to visit the Scrapheap, click the icon on the right.");
 
       this.sendOptionalWarning(
-          CONFIRM_MOHAWK_WIG,
+          Confirm.MOHAWK_WIG,
           buf.toString(),
           "hand.gif",
           image,
@@ -1621,7 +1761,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     buf.append(ok1);
-    this.sendGeneralWarning("hand.gif", buf.toString(), CONFIRM_MOHAWK_WIG);
+    this.sendGeneralWarning("hand.gif", buf.toString(), Confirm.MOHAWK_WIG);
 
     return true;
   }
@@ -1633,13 +1773,14 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(CONFIRM_BORING_DOORS) != null) {
+    if (this.getFormField(Confirm.BORING_DOORS) != null) {
       RelayRequest.ignoreBoringDoorsWarning = true;
       return false;
     }
 
     // If they aren't in the Daily Dungeon, no problem
-    if (!AdventurePool.THE_DAILY_DUNGEON_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.THE_DAILY_DUNGEON != location) {
       return false;
     }
 
@@ -1666,7 +1807,7 @@ public class RelayRequest extends PasswordHashRequest {
             + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
             + "If you want to put the ring on first, click the icon on the right. ";
     this.sendOptionalWarning(
-        CONFIRM_BORING_DOORS,
+        Confirm.BORING_DOORS,
         warning,
         "hand.gif",
         "weddingring.gif",
@@ -1688,13 +1829,14 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(CONFIRM_POOL_SKILL) != null) {
+    if (this.getFormField(Confirm.POOL_SKILL) != null) {
       RelayRequest.ignorePoolSkillWarning = true;
       return false;
     }
 
     // If they aren't in the Billiards Room, no problem
-    if (!AdventurePool.HAUNTED_BILLIARDS_ROOM_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.HAUNTED_BILLIARDS_ROOM != location) {
       return false;
     }
 
@@ -1724,7 +1866,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     // If they don't have Staff of Ed (as Ed), Staff of Fats or Pool Cue equipped, but do have them,
     // present the best as an option
-    if (!KoLCharacter.hasEquipped(ItemPool.STAFF_OF_FATS, EquipmentManager.WEAPON)
+    if (!KoLCharacter.hasEquipped(ItemPool.STAFF_OF_FATS, Slot.WEAPON)
         && InventoryManager.hasItem(ItemPool.STAFF_OF_FATS)) {
       image2 = "poolcuef.gif";
       action2 =
@@ -1733,7 +1875,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "&pwd="
               + GenericRequest.passwordHash
               + "&ajax=1');void(0);\"";
-    } else if (!KoLCharacter.hasEquipped(ItemPool.ED_STAFF, EquipmentManager.WEAPON)
+    } else if (!KoLCharacter.hasEquipped(ItemPool.ED_STAFF, Slot.WEAPON)
         && InventoryManager.hasItem(ItemPool.ED_STAFF)) {
       image2 = "staffofed.gif";
       action2 =
@@ -1742,7 +1884,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "&pwd="
               + GenericRequest.passwordHash
               + "&ajax=1');void(0);\"";
-    } else if (!KoLCharacter.hasEquipped(ItemPool.ED_FATS_STAFF, EquipmentManager.WEAPON)
+    } else if (!KoLCharacter.hasEquipped(ItemPool.ED_FATS_STAFF, Slot.WEAPON)
         && InventoryManager.hasItem(ItemPool.ED_FATS_STAFF)) {
       image2 = "poolcuef.gif";
       action2 =
@@ -1751,7 +1893,7 @@ public class RelayRequest extends PasswordHashRequest {
               + "&pwd="
               + GenericRequest.passwordHash
               + "&ajax=1');void(0);\"";
-    } else if (!KoLCharacter.hasEquipped(ItemPool.POOL_CUE, EquipmentManager.WEAPON)
+    } else if (!KoLCharacter.hasEquipped(ItemPool.POOL_CUE, Slot.WEAPON)
         && InventoryManager.hasItem(ItemPool.POOL_CUE)) {
       image2 = "poolcue.gif";
       action2 =
@@ -1839,20 +1981,21 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     this.sendOptionalWarning(
-        CONFIRM_POOL_SKILL, warning.toString(), "glove.gif", image2, action2, image3, action3);
+        Confirm.POOL_SKILL, warning.toString(), "glove.gif", image2, action2, image3, action3);
 
     return true;
   }
 
   private boolean sendCellarWarning() {
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(CONFIRM_CELLAR) != null) {
+    if (this.getFormField(Confirm.CELLAR) != null) {
       return false;
     }
 
     // If they aren't in the Laundry Room or Wine Cellar, no problem
-    if (!AdventurePool.HAUNTED_WINE_CELLAR_ID.equals(this.getFormField("snarfblat"))
-        && !AdventurePool.HAUNTED_LAUNDRY_ROOM_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.HAUNTED_WINE_CELLAR != location
+        && AdventurePool.HAUNTED_LAUNDRY_ROOM != location) {
       return false;
     }
 
@@ -1882,19 +2025,20 @@ public class RelayRequest extends PasswordHashRequest {
         "You are about to adventure without reading the Mortar dissolving recipe with glasses equipped. "
             + " If you are sure you want to do this, click on the image to proceed.";
 
-    this.sendGeneralWarning("burgerrecipe.gif", message, CONFIRM_CELLAR);
+    this.sendGeneralWarning("burgerrecipe.gif", message, Confirm.CELLAR);
 
     return true;
   }
 
   private boolean sendZeppelinWarning() {
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(CONFIRM_ZEPPELIN) != null) {
+    if (this.getFormField(Confirm.ZEPPELIN) != null) {
       return false;
     }
 
     // If they aren't in the Zeppelin, no problem
-    if (!AdventurePool.RED_ZEPPELIN_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.RED_ZEPPELIN != location) {
       return false;
     }
 
@@ -1918,7 +2062,7 @@ public class RelayRequest extends PasswordHashRequest {
             + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
             + "If you want to visit the Black Market, click the icon on the right. ";
     this.sendOptionalWarning(
-        CONFIRM_ZEPPELIN,
+        Confirm.ZEPPELIN,
         warning,
         "hand.gif",
         "zepticket.gif",
@@ -1931,12 +2075,13 @@ public class RelayRequest extends PasswordHashRequest {
 
   private boolean sendBoilerWarning() {
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(CONFIRM_BOILER) != null) {
+    if (this.getFormField(Confirm.BOILER) != null) {
       return false;
     }
 
     // If they aren't in the Boiler Room, no problem
-    if (!AdventurePool.HAUNTED_BOILER_ROOM_ID.equals(this.getFormField("snarfblat"))) {
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (AdventurePool.HAUNTED_BOILER_ROOM != location) {
       return false;
     }
 
@@ -1961,7 +2106,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they are already wielding the fulminate, no problem
-    if (KoLCharacter.hasEquipped(ItemPool.UNSTABLE_FULMINATE, EquipmentManager.OFFHAND)) {
+    if (KoLCharacter.hasEquipped(ItemPool.UNSTABLE_FULMINATE, Slot.OFFHAND)) {
       return false;
     }
 
@@ -1970,25 +2115,25 @@ public class RelayRequest extends PasswordHashRequest {
     message =
         "You are about to adventure in the Haunted Boiler Room, but do not have Unstable Fulminate equipped. If you are sure you want to do this, click on the image to proceed.";
 
-    this.sendGeneralWarning("wine2.gif", message, CONFIRM_BOILER);
+    this.sendGeneralWarning("wine2.gif", message, Confirm.BOILER);
 
     return true;
   }
 
   private boolean sendDiaryWarning() {
     // If it's already confirmed, then track that for the session
-    if (this.getFormField(CONFIRM_DIARY) != null) {
+    if (this.getFormField(Confirm.DIARY) != null) {
       return false;
     }
 
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
     // If they aren't in the Poop Deck or Hidden Temple, no problem
-    if (!AdventurePool.POOP_DECK_ID.equals(this.getFormField("snarfblat"))
-        && !AdventurePool.HIDDEN_TEMPLE_ID.equals(this.getFormField("snarfblat"))) {
+    if (AdventurePool.POOP_DECK != location && AdventurePool.HIDDEN_TEMPLE != location) {
       return false;
     }
 
     // If they aren't in the Ballroom, or are in Ballroom with Lights Out due, no problem
-    if (!AdventurePool.HAUNTED_BALLROOM_ID.equals(this.getFormField("snarfblat"))
+    if (AdventurePool.HAUNTED_BALLROOM != location
         || LightsOutManager.lightsOutNow()
         || VoteMonsterManager.voteMonsterNow()) {
       return false;
@@ -2015,13 +2160,13 @@ public class RelayRequest extends PasswordHashRequest {
     message =
         "You are about to adventure but have not obtained your father's MacGuffin diary. If you are sure you want to do this, click on the image to proceed.";
 
-    this.sendGeneralWarning("book2.gif", message, CONFIRM_DIARY);
+    this.sendGeneralWarning("book2.gif", message, Confirm.DIARY);
 
     return true;
   }
 
   private boolean sendWossnameWarning(final CoinmasterData camp) {
-    if (this.getFormField(CONFIRM_WOSSNAME) != null) {
+    if (this.getFormField(Confirm.WOSSNAME) != null) {
       return false;
     }
 
@@ -2034,13 +2179,13 @@ public class RelayRequest extends PasswordHashRequest {
             + " and open the way to their camp. However, you have not yet finished with the "
             + side2
             + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
-    this.sendGeneralWarning("wossname.gif", message, CONFIRM_WOSSNAME);
+    this.sendGeneralWarning("wossname.gif", message, Confirm.WOSSNAME);
 
     return true;
   }
 
   private boolean sendFamiliarWarning() {
-    if (this.getFormField(CONFIRM_FAMILIAR) != null) {
+    if (this.getFormField(Confirm.FAMILIAR) != null) {
       return false;
     }
 
@@ -2083,7 +2228,7 @@ public class RelayRequest extends PasswordHashRequest {
         "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"");
     warning.append(url);
     warning.append(!url.contains("?") ? "?" : "&");
-    warning.append(CONFIRM_FAMILIAR);
+    warning.append(Confirm.FAMILIAR);
     warning.append("=on\"><img src=\"/images/");
 
     if (familiar.getId() != FamiliarData.NO_FAMILIAR.getId()) {
@@ -2124,20 +2269,20 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendKungFuWarning() {
-    if (this.getFormField(CONFIRM_KUNGFU) != null) {
+  boolean sendKungFuWarning() {
+    if (this.getFormField(Confirm.KUNGFU) != null) {
       return false;
     }
 
-    // If you don't have the first Kung Fu effect active, there's nothing to warn about
-    if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.KUNG_FU_FIGHTING))) {
+    // If you don't have the first Kung Fu intrinsic active, there's nothing to warn about
+    int index = KoLConstants.activeEffects.indexOf(EffectPool.get(EffectPool.KUNG_FU_FIGHTING));
+    if (index == -1 || KoLConstants.activeEffects.get(index).getCount() < Integer.MAX_VALUE) {
       return false;
     }
 
     // If your hands are empty, there's nothing to warn about
-    if (EquipmentManager.getEquipment(EquipmentManager.WEAPON).equals(EquipmentRequest.UNEQUIP)
-        && EquipmentManager.getEquipment(EquipmentManager.OFFHAND)
-            .equals(EquipmentRequest.UNEQUIP)) {
+    if (EquipmentManager.getEquipment(Slot.WEAPON).equals(EquipmentRequest.UNEQUIP)
+        && EquipmentManager.getEquipment(Slot.OFFHAND).equals(EquipmentRequest.UNEQUIP)) {
       return false;
     }
 
@@ -2161,7 +2306,7 @@ public class RelayRequest extends PasswordHashRequest {
         "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"");
     warning.append(url);
     warning.append(!url.contains("?") ? "?" : "&");
-    warning.append(CONFIRM_KUNGFU);
+    warning.append(Confirm.KUNGFU);
     warning.append("=on\"><img src=\"/images/itemimages/kungfu.gif");
     warning.append("\" width=30 height=30 border=0>");
     warning.append("</a></div></td>");
@@ -2230,17 +2375,17 @@ public class RelayRequest extends PasswordHashRequest {
     if (KoLCharacter.inRaincore()
         || KoLCharacter.isVampyre()
         || KoLCharacter.isPlumber()
-        || KoLCharacter.inRobocore()) {
+        || KoLCharacter.inRobocore()
+        || KoLCharacter.inDinocore()
+        || KoLCharacter.inShadowsOverLoathing()) {
       return false;
     }
 
     // This one's for the Boss Bat, who has special items at 4 and 8.
     if (path.startsWith("adventure.php")) {
-      String location = adventure == null ? null : adventure.getAdventureId();
+      int location = adventure == null ? 0 : adventure.getAdventureNumber();
 
-      if (location != null
-          && location.equals(AdventurePool.BOSSBAT_ID)
-          && KoLCharacter.mcdAvailable()) {
+      if (location == AdventurePool.BOSSBAT && KoLCharacter.mcdAvailable()) {
         int turns = AdventureSpentDatabase.getTurns("The Boss Bat's Lair");
         if (turns < 4) {
           // Do not prompt about adjusting the MCD if the Boss Bat cannot show up
@@ -2291,14 +2436,14 @@ public class RelayRequest extends PasswordHashRequest {
     // Perform the same adjustments to the displayed modifiers as
     // the Gear Changer, except leave Familiar Effect if you own
     // the relevant familiar.
-    ModifierList list = Modifiers.getModifierList("Item", itemId);
+    ModifierList list = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId));
     list.removeModifier("Wiki Name");
     list.removeModifier("Modifiers");
     list.removeModifier("Outfit");
-    int type = ItemDatabase.getConsumptionType(itemId);
-    if (!(type == KoLConstants.EQUIP_HAT && KoLCharacter.findFamiliar(FamiliarPool.HATRACK) != null)
-        && !(type == KoLConstants.EQUIP_PANTS
-            && KoLCharacter.findFamiliar(FamiliarPool.SCARECROW) != null)) {
+    ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
+    if (!(type == ConsumptionType.HAT && KoLCharacter.usableFamiliar(FamiliarPool.HATRACK) != null)
+        && !(type == ConsumptionType.PANTS
+            && KoLCharacter.usableFamiliar(FamiliarPool.SCARECROW) != null)) {
       list.removeModifier("Familiar Effect");
     }
     String stringform = list.toString();
@@ -2324,7 +2469,7 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    if (this.getFormField(CONFIRM_MCD) != null) {
+    if (this.getFormField(Confirm.MCD) != null) {
       return false;
     }
 
@@ -2402,7 +2547,7 @@ public class RelayRequest extends PasswordHashRequest {
     warning.append("<tr align=center><td><a href=\"");
     warning.append(this.getURLString());
     warning.append("&");
-    warning.append(CONFIRM_MCD);
+    warning.append(Confirm.MCD);
     warning.append("=on");
     warning.append("\"><img src=\"/images/adventureimages/");
     warning.append(image);
@@ -2468,7 +2613,7 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    if (urlString.contains(CONFIRM_SORCERESS)) {
+    if (urlString.contains(Confirm.SORCERESS.toString())) {
       return false;
     }
 
@@ -2486,7 +2631,9 @@ public class RelayRequest extends PasswordHashRequest {
         || KoLCharacter.isVampyre()
         || KoLCharacter.isPlumber()
         || KoLCharacter.inRobocore()
-        || KoLCharacter.inFirecore()) {
+        || KoLCharacter.inFirecore()
+        || KoLCharacter.inDinocore()
+        || KoLCharacter.inShadowsOverLoathing()) {
       return false;
     }
 
@@ -2517,7 +2664,7 @@ public class RelayRequest extends PasswordHashRequest {
       }
 
       warning.append(" <span title=\"Bedroom\">Antique hand mirror</span>");
-      this.sendGeneralWarning("handmirror.gif", warning.toString(), CONFIRM_SORCERESS);
+      this.sendGeneralWarning("handmirror.gif", warning.toString(), Confirm.SORCERESS);
       return true;
     }
 
@@ -2556,13 +2703,13 @@ public class RelayRequest extends PasswordHashRequest {
       }
     }
 
-    this.sendGeneralWarning("wand.gif", warning.toString(), CONFIRM_SORCERESS);
+    this.sendGeneralWarning("wand.gif", warning.toString(), Confirm.SORCERESS);
     return true;
   }
 
   private boolean sendArcadeWarning() {
 
-    if (this.getFormField(CONFIRM_ARCADE) != null) {
+    if (this.getFormField(Confirm.ARCADE) != null) {
       return false;
     }
 
@@ -2576,49 +2723,45 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    int power =
-        EquipmentDatabase.getPower(
-            EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+    int power = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     if (power <= 50
         || power >= 150
-        || EquipmentManager.getEquipment(EquipmentManager.HAT) == EquipmentRequest.UNEQUIP
-        || EquipmentManager.getEquipment(EquipmentManager.PANTS) == EquipmentRequest.UNEQUIP) {
+        || EquipmentManager.getEquipment(Slot.HAT) == EquipmentRequest.UNEQUIP
+        || EquipmentManager.getEquipment(Slot.PANTS) == EquipmentRequest.UNEQUIP) {
       this.sendGeneralWarning(
           "ggtoken.gif",
           "You might not be properly equipped to play this game.<br>Click the token if you'd like to continue anyway.",
-          CONFIRM_ARCADE);
+          Confirm.ARCADE);
       return true;
     }
 
     return false;
   }
 
-  private boolean sendWineglassWarning(final KoLAdventure adventure) {
+  public boolean sendWineglassWarning(final KoLAdventure adventure) {
     if (adventure == null) {
       return false;
     }
 
-    if (this.getFormField(CONFIRM_WINEGLASS) != null) {
+    if (this.getFormField(Confirm.WINEGLASS) != null) {
       return false;
     }
 
-    // If you are not overdrunk, nothing to warn about
-    if (!KoLCharacter.isFallingDown()) {
+    if (!adventure.tooDrunkToAdventure()) {
       return false;
     }
 
-    // Only adventure.php will shunt you into a Drunken Stupor
-    if (!adventure.getFormSource().equals("adventure.php")) {
+    // These don't need warning as they don't send you to a Drunken Stupor
+    if (!adventure.hasSnarfblat()) {
       return false;
     }
 
-    // If you are equipped with Drunkula's wineglass, nothing to warn about
-    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)) {
-      return false;
-    }
-
-    // If you don't own Drunkula's wineglass, nothing to warn about
+    // If it is is not in inventory, nothing we can do
     if (InventoryManager.getCount(ItemPool.DRUNKULA_WINEGLASS) == 0) {
+      return false;
+    }
+
+    if (!EquipmentManager.canEquip(ItemPool.DRUNKULA_WINEGLASS)) {
       return false;
     }
 
@@ -2628,7 +2771,7 @@ public class RelayRequest extends PasswordHashRequest {
             + "If this was an accident, click the icon in the center to equip Drunkula's wineglass. "
             + "If you want to adventure in a Drunken Stupor and not be nagged, click the icon on the right to closet Drunkula's wineglass.";
     this.sendOptionalWarning(
-        CONFIRM_WINEGLASS,
+        Confirm.WINEGLASS,
         warning,
         "hand.gif",
         "dr_wineglass.gif",
@@ -2653,8 +2796,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // Don't warn again if you've already said ok to Wineglass warning about overdrunk (or this one)
-    if (this.getFormField(CONFIRM_OVERDRUNK_ADVENTURE) != null
-        || this.getFormField(CONFIRM_WINEGLASS) != null) {
+    if (this.getFormField(Confirm.OVERDRUNK_ADVENTURE) != null
+        || this.getFormField(Confirm.WINEGLASS) != null) {
       return false;
     }
 
@@ -2664,7 +2807,8 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If you are equipped with Drunkula's wineglass, nothing to warn about
-    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND)) {
+    if (KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, Slot.OFFHAND)
+        || KoLCharacter.hasEquipped(ItemPool.DRUNKULA_WINEGLASS, Slot.FAMILIAR)) {
       return false;
     }
 
@@ -2676,7 +2820,7 @@ public class RelayRequest extends PasswordHashRequest {
     String warning =
         "KoLmafia has detected that you are about to adventure while overdrunk. "
             + "If you are sure you wish to adventure in a Drunken Stupor, click the icon to adventure. ";
-    this.sendGeneralWarning("martini.gif", warning, CONFIRM_OVERDRUNK_ADVENTURE);
+    this.sendGeneralWarning("martini.gif", warning, Confirm.OVERDRUNK_ADVENTURE);
     return true;
   }
 
@@ -2697,40 +2841,43 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If the player has said he doesn't care about this warning, cool
-    if (this.getFormField(CONFIRM_SPELUNKY) != null) {
+    if (this.getFormField(Confirm.SPELUNKY) != null) {
       return false;
     }
 
     // Depending on noncombat phase step and/or adventure location,
     // craft an appropriate warning
-    String message = SpelunkyRequest.spelunkyWarning(adventure, CONFIRM_SPELUNKY);
+    String message = SpelunkyRequest.spelunkyWarning(adventure, Confirm.SPELUNKY);
     if (message != null) {
       String image = SpelunkyRequest.adventureImage(adventure);
-      this.sendGeneralWarning(image != null ? image : "spelwhip.gif", message, CONFIRM_SPELUNKY);
+      this.sendGeneralWarning(image != null ? image : "spelwhip.gif", message, Confirm.SPELUNKY);
       return true;
     }
 
     return false;
   }
 
-  public void sendGeneralWarning(final String image, final String message, final String confirm) {
+  public void sendGeneralWarning(final String image, final String message, final Confirm confirm) {
     this.sendGeneralWarning(image, message, confirm, null, false);
   }
 
   public void sendGeneralWarning(
-      final String image, final String message, final String confirm, final boolean usePostMethod) {
+      final String image,
+      final String message,
+      final Confirm confirm,
+      final boolean usePostMethod) {
     this.sendGeneralWarning(image, message, confirm, null, usePostMethod);
   }
 
   public void sendGeneralWarning(
-      final String image, final String message, final String confirm, final String extra) {
+      final String image, final String message, final Confirm confirm, final String extra) {
     this.sendGeneralWarning(image, message, confirm, extra, false);
   }
 
   public void sendGeneralWarning(
       final String image,
       final String message,
-      final String confirm,
+      final Confirm confirm,
       final String extra,
       final boolean usePostMethod) {
     // Save for testing
@@ -2817,7 +2964,7 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public void sendOptionalWarning(
-      final String confirm,
+      final Confirm confirm,
       final String message,
       final String image1,
       final String image2,
@@ -2957,12 +3104,21 @@ public class RelayRequest extends PasswordHashRequest {
       submitCommand(this.getFormField("cmd", false));
       this.pseudoResponse("HTTP/1.1 200 OK", "");
     } else if (path.endsWith("redirectedCommand")) {
-      submitCommand(this.getFormField("cmd"));
-      this.pseudoResponse("HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL);
+      boolean polled = path.endsWith("polledredirectedCommand");
+      String cmd = this.getFormField("cmd");
+      if (!polled || !cmd.equals("wait")) {
+        RelayRequest.specialCommandStatus = "";
+        submitCommand(cmd, false, !polled);
+      }
+      if (!polled || !pollForCompletion("polledredirectedCommand")) {
+        this.pseudoResponse("HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL);
+      }
     } else if (path.endsWith("sideCommand")) {
       submitCommand(this.getFormField("cmd", false), true);
       this.pseudoResponse("HTTP/1.1 302 Found", "/charpane.php");
-    } else if (path.endsWith("specialCommand") || path.endsWith("parameterizedCommand")) {
+    } else if (path.endsWith("specialCommand")
+        || path.endsWith("waitSpecialCommand")
+        || path.endsWith("parameterizedCommand")) {
       String cmd = this.getFormField("cmd");
       if (!cmd.equals("wait")) {
         RelayRequest.specialCommandIsAdventure = false;
@@ -2977,28 +3133,13 @@ public class RelayRequest extends PasswordHashRequest {
           String parameters = pwdEnd == -1 ? "" : commandURL.substring(pwdEnd + 1);
           submitCommand(cmd + " " + parameters);
         } else {
-          submitCommand(cmd, false, false);
+          boolean wait = path.endsWith("waitSpecialCommand");
+          submitCommand(cmd, false, wait);
         }
       }
 
       this.contentType = "text/html";
-      if (CommandDisplayFrame.hasQueuedCommands()) {
-        String refreshURL = "/KoLmafia/specialCommand?cmd=wait&pwd=" + GenericRequest.passwordHash;
-
-        String buffer =
-            "<html><head>"
-                + "<meta http-equiv=\"refresh\" content=\"1; URL="
-                + refreshURL
-                + "\">"
-                + "</head><body>"
-                + "<a href=\""
-                + refreshURL
-                + "\">"
-                + "Automating (see CLI for details, click to refresh)..."
-                + "</a><p>"
-                + RelayRequest.specialCommandStatus
-                + "</p></body></html>";
-        this.pseudoResponse("HTTP/1.1 200 OK", buffer);
+      if (pollForCompletion("specialCommand")) {
       } else if (RelayRequest.specialCommandResponse.length() > 0) {
         StringBuilder buffer = new StringBuilder();
 
@@ -3053,6 +3194,31 @@ public class RelayRequest extends PasswordHashRequest {
     }
   }
 
+  public boolean pollForCompletion(String type) {
+    if (!CommandDisplayFrame.hasQueuedCommands()) {
+      return false;
+    }
+
+    String refreshURL = "/KoLmafia/" + type + "?cmd=wait&pwd=" + GenericRequest.passwordHash;
+    String buffer =
+        "<html><head>"
+            + "<meta http-equiv=\"refresh\" content=\"1; URL="
+            + refreshURL
+            + "\">"
+            + "</head><body>"
+            + "<a href=\""
+            + refreshURL
+            + "\">"
+            + "Automating (see CLI for details, click to refresh)..."
+            + "</a><p>"
+            + RelayRequest.specialCommandStatus
+            + "</p></body></html>";
+
+    this.contentType = "text/html";
+    this.pseudoResponse("HTTP/1.1 200 OK", buffer);
+    return true;
+  }
+
   private void submitCommand(String command) {
     submitCommand(command, false, true);
   }
@@ -3072,12 +3238,16 @@ public class RelayRequest extends PasswordHashRequest {
       CommandDisplayFrame.executeCommand(GenericRequest.decodeField(command));
 
       if (waitForCompletion) {
-        while (CommandDisplayFrame.hasQueuedCommands()) {
-          this.pauser.pause(500);
-        }
+        this.waitForCommandCompletion();
       }
     } finally {
       GenericRequest.suppressUpdate(false);
+    }
+  }
+
+  public void waitForCommandCompletion() {
+    while (CommandDisplayFrame.hasQueuedCommands()) {
+      this.pauser.pause(50);
     }
   }
 
@@ -3409,16 +3579,16 @@ public class RelayRequest extends PasswordHashRequest {
    *     run()-ing.
    */
   private boolean sendWarnings(KoLAdventure adventure, String adventureName, String nextAdventure) {
-    String limitmode = KoLCharacter.getLimitmode();
-
-    // If we are playing Spelunky, a specialized set of warnings are relevant
-    if ((limitmode != null) && limitmode.equals(Limitmode.SPELUNKY)) {
-      return this.sendSpelunkyWarning(adventure);
-    }
-
-    // If we are in some other limitmode, no warnings are relevant
-    if (limitmode != null) {
-      return false;
+    switch (KoLCharacter.getLimitMode()) {
+      case NONE -> {}
+      case SPELUNKY -> {
+        // If we are playing Spelunky, a specialized set of warnings are relevant
+        return this.sendSpelunkyWarning(adventure);
+      }
+      default -> {
+        // If we are in some other limitmode, no warnings are relevant
+        return false;
+      }
     }
 
     String path = this.getBasePath();
@@ -3463,7 +3633,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     if (nextAdventure != null
         && RecoveryManager.isRecoveryPossible()
-        && this.getFormField(CONFIRM_RECOVERY) == null) {
+        && this.getFormField(Confirm.RECOVERY) == null) {
       boolean isScript = !isNonCombatsOnly && Preferences.getBoolean("relayRunsBeforeBattleScript");
       boolean isMood = !isNonCombatsOnly && Preferences.getBoolean("relayMaintainsEffects");
       boolean isHealth = !isNonCombatsOnly && Preferences.getBoolean("relayMaintainsHealth");
@@ -3477,7 +3647,7 @@ public class RelayRequest extends PasswordHashRequest {
         this.sendGeneralWarning(
             "beatenup.gif",
             "Between battle actions failed. Click the image if you'd like to continue anyway.",
-            CONFIRM_RECOVERY);
+            Confirm.RECOVERY);
         return true;
       }
     }
@@ -3518,6 +3688,10 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     if (this.sendBossWarning(path, adventure)) {
+      return true;
+    }
+
+    if (this.sendDesertWeaponWarning()) {
       return true;
     }
 
@@ -3572,7 +3746,7 @@ public class RelayRequest extends PasswordHashRequest {
     return path.contains("whichplace=arcade") && this.sendArcadeWarning();
   }
 
-  private boolean sendCounterWarning() {
+  public boolean sendCounterWarning() {
     TurnCounter expired = TurnCounter.getExpiredCounter(this, true);
     while (expired != null) {
       // Read and discard expired informational counters
@@ -3603,17 +3777,13 @@ public class RelayRequest extends PasswordHashRequest {
       }
       image = expired.getImage();
       switch (expired.getLabel()) {
-        case "Spookyraven Lights Out":
-          lights = true;
-          break;
-        case "Vote Monster":
-          voteMonster = true;
-          break;
+        case "Spookyraven Lights Out" -> lights = true;
+        case "Vote Monster" -> voteMonster = true;
       }
       msg.append("The ");
       msg.append(expired.getLabel());
       switch (remain) {
-        case 0:
+        case 0 -> {
           msg.append(" counter has expired");
           if (isSkill) {
             msg.append(". Since the ");
@@ -3622,16 +3792,14 @@ public class RelayRequest extends PasswordHashRequest {
           } else {
             msg.append(", so you may wish to adventure somewhere else at this time.");
           }
-          break;
-        case 1:
-          msg.append(
-              " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn.");
-          break;
-        default:
+        }
+        case 1 -> msg.append(
+            " counter will expire after 1 more turn, so you may wish to adventure somewhere else that takes 1 turn.");
+        default -> {
           msg.append(" counter will expire after ");
           msg.append(remain);
           msg.append(" more turns, so you may wish to adventure somewhere else for those turns.");
-          break;
+        }
       }
       expired = TurnCounter.getExpiredCounter(this, false);
     }
@@ -3653,7 +3821,7 @@ public class RelayRequest extends PasswordHashRequest {
             "You do not have the \"I voted\" sticker equipped, to continue without, click the icon on the left to adventure. ");
         msg.append("If you want the sticker equipped, click the icon on the right to adventure. ");
         this.sendOptionalWarning(
-            CONFIRM_STICKER,
+            Confirm.STICKER,
             msg.toString(),
             image,
             "ivoted.gif",
@@ -3665,7 +3833,7 @@ public class RelayRequest extends PasswordHashRequest {
             null,
             null);
       } else {
-        this.sendGeneralWarning(image, msg.toString(), CONFIRM_COUNTER, isSkill);
+        this.sendGeneralWarning(image, msg.toString(), Confirm.COUNTER, isSkill);
       }
       return true;
     }

@@ -25,38 +25,38 @@ public class BatFellowRequest extends GenericRequest {
 
     // whichplace=batman_cave
 
-    if (action.equals("batman_cave_rnd")) {
-      location = "Bat-Research and Bat-Development";
-    } else if (action.equals("batman_cave_car")) {
-      location = "The Bat-Sedan";
-    }
+    switch (action) {
+      case "batman_cave_rnd":
+        location = "Bat-Research and Bat-Development";
+        break;
+      case "batman_cave_car":
+        location = "The Bat-Sedan";
+        break;
 
-    // whichplace=batman_downtown
+        // whichplace=batman_downtown
+      case "batman_downtown_hospital":
+        location = "Gotpork Memorial Hospital";
+        break;
+      case "batman_downtown_car":
+        location = "The Bat-Sedan";
+        break;
 
-    else if (action.equals("batman_downtown_hospital")) {
-      location = "Gotpork Memorial Hospital";
-    } else if (action.equals("batman_downtown_car")) {
-      location = "The Bat-Sedan";
-    }
+        // whichplace=batman_park
+      case "batman_park_car":
+        location = "The Bat-Sedan";
+        break;
 
-    // whichplace=batman_park
+        // whichplace=batman_slums
+      case "batman_slums_car":
+        location = "The Bat-Sedan";
+        break;
 
-    else if (action.equals("batman_park_car")) {
-      location = "The Bat-Sedan";
-    }
-
-    // whichplace=batman_slums
-
-    else if (action.equals("batman_slums_car")) {
-      location = "The Bat-Sedan";
-    }
-
-    // whichplace=batman_industrial
-
-    else if (action.equals("batman_industrial_car")) {
-      location = "The Bat-Sedan";
-    } else {
-      return false;
+        // whichplace=batman_industrial
+      case "batman_industrial_car":
+        location = "The Bat-Sedan";
+        break;
+      default:
+        return false;
     }
 
     String message = "{" + BatManager.getTimeLeftString() + "} " + location;

@@ -38,28 +38,38 @@ public class VolcanoIslandRequest extends GenericRequest {
     this.addFormField("subaction", subaction);
   }
 
+  @Override
+  public int getAdventuresUsed() {
+    return getAdventuresUsed(this.getURLString());
+  }
+
+  public static int getAdventuresUsed(String urlString) {
+    String action = GenericRequest.getAction(urlString);
+    if (action == null) {
+      return 0;
+    }
+    return switch (action) {
+      case "tniat" -> 0;
+      case "tuba" -> 1;
+      default -> 0;
+    };
+  }
+
   public static void getSlime() {
     VolcanoIslandRequest request = new VolcanoIslandRequest(NPC, SLIME);
     RequestThread.postRequest(request);
   }
 
   public static String npcName() {
-    switch (KoLCharacter.getAscensionClass()) {
-      case SEAL_CLUBBER:
-        return "a Palm Tree Shelter";
-      case TURTLE_TAMER:
-        return "a Guy in the Bushes";
-      case DISCO_BANDIT:
-        return "a Girl in a Black Dress";
-      case ACCORDION_THIEF:
-        return "the Fishing Village";
-      case PASTAMANCER:
-        return "a Protestor";
-      case SAUCEROR:
-        return "a Boat";
-      default:
-        return null;
-    }
+    return switch (KoLCharacter.getAscensionClass()) {
+      case SEAL_CLUBBER -> "a Palm Tree Shelter";
+      case TURTLE_TAMER -> "a Guy in the Bushes";
+      case DISCO_BANDIT -> "a Girl in a Black Dress";
+      case ACCORDION_THIEF -> "the Fishing Village";
+      case PASTAMANCER -> "a Protestor";
+      case SAUCEROR -> "a Boat";
+      default -> null;
+    };
   }
 
   private static String visitNPC(final String urlString) {
@@ -103,7 +113,7 @@ public class VolcanoIslandRequest extends GenericRequest {
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("volcanoisland.php") || urlString.indexOf("action=tniat") == -1) {
+    if (!urlString.startsWith("volcanoisland.php") || !urlString.contains("action=tniat")) {
       return;
     }
 
@@ -114,7 +124,7 @@ public class VolcanoIslandRequest extends GenericRequest {
     // your hood and then ripping the robe from your shoulders."
 
     if (KoLCharacter.isPastamancer()
-        && responseText.indexOf("ripping the robe from your shoulders") != -1) {
+        && responseText.contains("ripping the robe from your shoulders")) {
       EquipmentManager.discardEquipment(ItemPool.SPAGHETTI_CULT_ROBE);
     }
   }

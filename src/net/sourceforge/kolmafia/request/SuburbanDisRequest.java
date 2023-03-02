@@ -4,11 +4,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -37,7 +39,15 @@ public class SuburbanDisRequest extends GenericRequest {
 
   @Override
   public int getAdventuresUsed() {
-    return this.action.equals("dothis") ? 1 : 0;
+    return getAdventuresUsed("dothis".equals(this.action));
+  }
+
+  public static int getAdventuresUsed(String urlString) {
+    return getAdventuresUsed("dothis".equals(GenericRequest.getAction(urlString)));
+  }
+
+  private static int getAdventuresUsed(boolean dothis) {
+    return dothis ? 1 : 0;
   }
 
   @Override
@@ -52,6 +62,10 @@ public class SuburbanDisRequest extends GenericRequest {
 
     String action = GenericRequest.getAction(location);
     if (action == null) {
+      if (responseText.contains("Since you carved up the Thing With no Name")) {
+        Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
+      }
+
       return;
     }
 
@@ -66,6 +80,8 @@ public class SuburbanDisRequest extends GenericRequest {
       if (!responseText.contains("You acquire an effect")) {
         return;
       }
+
+      Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
 
       Matcher matcher = SuburbanDisRequest.STONE1_PATTERN.matcher(location);
       if (matcher.find()) {

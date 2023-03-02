@@ -16,9 +16,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CustomCombatLookup extends DefaultMutableTreeNode {
-  private final List<CombatEncounterKey> childKeys = new LinkedList<CombatEncounterKey>();
-  private final Map<String, CustomCombatStrategy> childLookup =
-      new TreeMap<String, CustomCombatStrategy>();
+  private final List<CombatEncounterKey> childKeys = new LinkedList<>();
+  private final Map<String, CustomCombatStrategy> childLookup = new TreeMap<>();
 
   public CustomCombatLookup() {
     super("", true);

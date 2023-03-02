@@ -1,29 +1,47 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.*;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withLastLocation;
+import static internal.helpers.Player.withNextMonster;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import java.util.ArrayList;
-import net.sourceforge.kolmafia.KoLAdventure;
+import java.util.Set;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class AdventureRequestTest {
   @BeforeEach
   public void init() {
-    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("AdventureRequestTest");
     Preferences.reset("AdventureRequestTest");
+    AdventureQueueDatabase.allowSerializationWrite = false;
+  }
+
+  @AfterAll
+  static void restore() {
+    AdventureQueueDatabase.allowSerializationWrite = true;
   }
 
   @Test
@@ -40,24 +58,44 @@ public class AdventureRequestTest {
 
   @Test
   public void underwaterZonesCostOneAdventureWithFishy() {
-    AdventureRequest request = new AdventureRequest("The Ice Hole", "adventure.php", "457");
-    addEffect("Fishy");
-    KoLCharacter.recalculateAdjustments();
-    assertEquals(1, request.getAdventuresUsed());
+    var cleanups = withEffect("Fishy");
+
+    try (cleanups) {
+      AdventureRequest request = new AdventureRequest("The Ice Hole", "adventure.php", "457");
+      KoLCharacter.recalculateAdjustments();
+      assertEquals(1, request.getAdventuresUsed());
+    }
+  }
+
+  @Test
+  public void recognizesSpookyWheelbarrow() {
+    var cleanups =
+        new Cleanups(withProperty("lastEncounter"), withLastLocation("The Spooky Gravy Burrow"));
+
+    try (cleanups) {
+      var request =
+          new GenericRequest("adventure.php?snarfblat=" + AdventurePool.SPOOKY_GRAVY_BURROW);
+      request.responseText = html("request/find_spooky_fairy_gravy.html");
+      AdventureRequest.registerEncounter(request);
+      assertEquals("Spooky Wheelbarrow", Preferences.getString("lastEncounter"));
+    }
   }
 
   @Test
   public void gregariousMonstersAreQueued() {
-    KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("Barf Mountain"));
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Knob Goblin Embezzler"));
+    var cleanups =
+        new Cleanups(withLastLocation("Barf Mountain"), withNextMonster("Knob Goblin Embezzler"));
 
-    var req = new GenericRequest("fight.php");
-    req.setHasResult(true);
-    req.responseText = html("request/test_fight_gregarious_monster.html");
-    req.processResponse();
+    try (cleanups) {
+      AdventureQueueDatabase.resetQueue();
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText = html("request/test_fight_gregarious_monster.html");
+      req.processResponse();
 
-    assertThat(
-        AdventureQueueDatabase.getZoneQueue("Barf Mountain"), contains("Knob Goblin Embezzler"));
+      assertThat(
+          AdventureQueueDatabase.getZoneQueue("Barf Mountain"), contains("Knob Goblin Embezzler"));
+    }
   }
 
   @Test
@@ -91,7 +129,7 @@ public class AdventureRequestTest {
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
 
     // Can load queue
-    JuneCleaverManager.queue = new ArrayList();
+    JuneCleaverManager.queue = new ArrayList<>();
     Preferences.setString("juneCleaverQueue", "1467,1468,1469,1470,1471");
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1472&option=3");
     assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,1469,1470,1471,1472");
@@ -105,5 +143,70 @@ public class AdventureRequestTest {
     assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 3);
     assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 12);
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+  }
+
+  @Test
+  public void devReadoutIsStripped() {
+    var cleanups =
+        new Cleanups(
+            withProperty("useDevProxyServer", true),
+            withProperty("lastEncounter"),
+            withLastLocation("The Spooky Forest"));
+
+    try (cleanups) {
+      var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.SPOOKY_FOREST);
+      request.responseText = html("request/test_choice_on_dev_server.html");
+      AdventureRequest.registerEncounter(request);
+      assertThat("lastEncounter", isSetTo("Arboreal Respite"));
+    }
+  }
+
+  @Nested
+  class Dinosaurs {
+    @ParameterizedTest
+    @CsvSource({
+      "glass-shelled, archelon, animated ornate nightstand",
+      "hot-blooded, dilophosaur, cosmetics wraith",
+      "cold-blooded, dilophosaur, cosmetics wraith",
+      "swamp, dilophosaur, cosmetics wraith",
+      "carrion-eating, dilophosaur, cosmetics wraith",
+      "slimy, dilophosaur, cosmetics wraith",
+      "steamy, flatusaurus, Hellion",
+      "chilling, flatusaurus, Hellion",
+      "foul-smelling, flatusaurus, Hellion",
+      "mist-shrouded, flatusaurus, Hellion",
+      "sweaty, flatusaurus, Hellion",
+      "none, ghostasaurus, cubist bull",
+      "none, kachungasaur, malevolent hair clog",
+      "primitive, chicken, amateur ninja",
+      "high-altitude, pterodactyl, W imp",
+      "none, spikolodon, empty suit of armor",
+      "supersonic, velociraptor, cubist bull",
+    })
+    public void canExtractDinosaurFromFight(String modifier, String dinosaur, String prey) {
+      var cleanups = new Cleanups(withPath(Path.DINOSAURS), withNextMonster((MonsterData) null));
+      try (cleanups) {
+        // <modifier> <dinosaur> " recently devoured " <prey>
+        // <modifier> <dinosaur> " just ate " <prey>
+        // <modifier> <dinosaur> " consumed " <prey>
+        // <modifier> <dinosaur> " swallowed the soul of " <prey>
+        for (String gluttony : AdventureRequest.dinoGluttony) {
+          String encounter = "a " + modifier + " " + dinosaur + " " + gluttony + " " + prey;
+          MonsterData swallowed = MonsterDatabase.findMonster(prey);
+          int monsterId = swallowed.getId();
+          String responseText = "<!-- MONSTERID: " + monsterId + " -->";
+          MonsterData extracted = AdventureRequest.extractMonster(encounter, responseText);
+          MonsterStatusTracker.setNextMonster(extracted);
+
+          MonsterData monster = MonsterStatusTracker.getLastMonster();
+          assertEquals(monster.getName(), prey);
+          var modifiers = Set.of(monster.getRandomModifiers());
+          if (!modifier.equals("none")) {
+            assertTrue(modifiers.contains(modifier));
+          }
+          assertTrue(modifiers.contains(dinosaur));
+        }
+      }
+    }
   }
 }

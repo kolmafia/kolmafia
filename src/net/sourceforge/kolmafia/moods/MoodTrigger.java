@@ -24,7 +24,7 @@ import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MoodTrigger implements Comparable<MoodTrigger> {
-  private static final Map<String, Set<String>> knownSources = new HashMap<String, Set<String>>();
+  private static final Map<String, Set<String>> knownSources = new HashMap<>();
 
   private int skillId = -1;
   private final AdventureResult effect;
@@ -224,11 +224,10 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
 
   @Override
   public boolean equals(final Object o) {
-    if (!(o instanceof MoodTrigger)) {
+    if (!(o instanceof MoodTrigger mt)) {
       return false;
     }
 
-    MoodTrigger mt = (MoodTrigger) o;
     if (!this.type.equals(mt.type)) {
       return false;
     }
@@ -299,7 +298,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
     }
 
     // Don't cast if you are restricted by your current class/skills
-    if (this.effect != null && Evaluator.checkEffectConstraints(this.effect.getEffectId())) {
+    if (this.effect != null && Evaluator.cannotGainEffect(this.effect.getEffectId())) {
       return false;
     }
 

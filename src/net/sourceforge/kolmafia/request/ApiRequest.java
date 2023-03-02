@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,9 +52,16 @@ public class ApiRequest extends GenericRequest {
     this(what, String.valueOf(id));
   }
 
+  @Override
+  public String getHashField() {
+    return null;
+  }
+
   public static String updateStatus() {
     return ApiRequest.updateStatus(false);
   }
+
+  private static final AdventureResult TRANSFUNCTIONER = ItemPool.get(ItemPool.TRANSFUNCTIONER);
 
   public static synchronized String updateStatus(final boolean silent) {
     // api.php doesn't work at all in Valhalla
@@ -62,15 +70,22 @@ public class ApiRequest extends GenericRequest {
       return "afterlife.php";
     }
 
-    // If in limitmode, Noobcore, PokeFam, and Disguises Delimit,
-    // API status doesn't contain the full information, so use
-    // Character Pane instead.
-    if (KoLCharacter.getLimitmode() != null
+    // If in certain LimitModes, Noobcore, PokeFam, and Disguises Delimit, API
+    // status is incomplete, so use Character Pane instead.
+
+    if (KoLCharacter.getLimitMode().requiresCharPane()
         || KoLCharacter.inNoobcore()
         || KoLCharacter.inPokefam()
         || KoLCharacter.inDisguise()) {
       return ApiRequest.updateStatusFromCharpane();
     }
+
+    // Similarly, if you have the continuum transfunctioner equipped,
+    // the Character Pane shows you your (8-bit) Score
+    if (KoLCharacter.hasEquipped(TRANSFUNCTIONER)) {
+      return ApiRequest.updateStatusFromCharpane();
+    }
+
     ApiRequest.INSTANCE.silent = silent;
     ApiRequest.INSTANCE.run();
     return ApiRequest.INSTANCE.redirectLocation;
@@ -164,14 +179,11 @@ public class ApiRequest extends GenericRequest {
 
     String what = whatMatcher.group(1);
 
-    if (what.equals("status")) {
-      ApiRequest.parseStatus(responseText);
-    } else if (what.equals("inventory")) {
-      ApiRequest.parseInventory(responseText);
-    } else if (what.equals("closet")) {
-      ApiRequest.parseCloset(responseText);
-    } else if (what.equals("storage")) {
-      ApiRequest.parseStorage(responseText);
+    switch (what) {
+      case "status" -> ApiRequest.parseStatus(responseText);
+      case "inventory" -> ApiRequest.parseInventory(responseText);
+      case "closet" -> ApiRequest.parseCloset(responseText);
+      case "storage" -> ApiRequest.parseStorage(responseText);
     }
   }
 
@@ -345,9 +357,6 @@ public class ApiRequest extends GenericRequest {
       // Many config options are available
       AccountRequest.parseStatus(JSON);
 
-      // Many things from the Char Pane are available
-      CharPaneRequest.parseStatus(JSON);
-
       // Many things from the Char Sheet are available
       CharSheetRequest.parseStatus(JSON);
 
@@ -355,20 +364,34 @@ public class ApiRequest extends GenericRequest {
       // the player's account or if they've used a one-day ticket without coolitems
       parseCoolItems(JSON.getString("coolitems"));
 
-      String limitmode = KoLCharacter.getLimitmode();
-      if (limitmode == Limitmode.SPELUNKY) {
-        // Parse Spelunky equipment
-        SpelunkyRequest.parseStatus(JSON);
-      } else if (limitmode == Limitmode.BATMAN) {
-        // Don't mess with equipment
-      } else {
-        // Parse currently worn equipment
-        EquipmentManager.parseStatus(JSON);
+      // Many things from the Char Pane are available
+      CharPaneRequest.parseStatus(JSON);
+
+      var limitmode = KoLCharacter.getLimitMode();
+      switch (limitmode) {
+        case SPELUNKY:
+          // Parse Spelunky equipment
+          SpelunkyRequest.parseStatus(JSON);
+          break;
+        case BATMAN:
+          // Don't mess with equipment
+          break;
+        default:
+          // Parse currently worn equipment
+          EquipmentManager.parseStatus(JSON);
+          break;
       }
+
+      // Must be AFTER current familiar is set and equipment is processed
+      CharPaneRequest.checkFamiliarWeight(JSON);
 
       // UNIX time of next rollover
       long rollover = JSON.getLong("rollover");
       KoLCharacter.setRollover(rollover);
+
+      // Add the global count of rollovers everyone shares
+      int daycount = JSON.getInt("daynumber");
+      KoLCharacter.setGlobalDays(daycount);
     } catch (JSONException e) {
       ApiRequest.reportParseError("status", JSON.toString(), e);
     } finally {
@@ -381,7 +404,7 @@ public class ApiRequest extends GenericRequest {
     }
   }
 
-  private static Map<String, Map.Entry<String, String>> PREF_TO_COOL_ITEM =
+  private static final Map<String, Map.Entry<String, String>> PREF_TO_COOL_ITEM =
       Map.ofEntries(
           Map.entry("airport1", Map.entry("sleazeAirportAlways", "_sleazeAirportToday")),
           Map.entry("airport2", Map.entry("spookyAirportAlways", "_spookyAirportToday")),
@@ -398,9 +421,10 @@ public class ApiRequest extends GenericRequest {
           Map.entry("voterregistered", Map.entry("voteAlways", "_voteToday")),
           Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")),
           Map.entry("hascosmicball", Map.entry("hasCosmicBowlingBall", "")),
-          Map.entry("maydaykit", Map.entry("hasMaydayContract", "")));
+          Map.entry("maydaykit", Map.entry("hasMaydayContract", "")),
+          Map.entry("autumnaton", Map.entry("hasAutumnaton", "")));
 
-  private static final void parseCoolItems(final String coolItems) {
+  private static void parseCoolItems(final String coolItems) {
     if (coolItems == null) {
       return;
     }

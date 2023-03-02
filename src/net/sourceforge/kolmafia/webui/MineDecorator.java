@@ -4,7 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -68,8 +70,8 @@ public abstract class MineDecorator {
   }
 
   public static final void parseResponse(final String location, final String responseText) {
-    if (KoLCharacter.hasSkill("Unaccompanied Miner")
-        && StandardRequest.isAllowed("Skills", "Unaccompanied Miner")
+    if (KoLCharacter.hasSkill(SkillPool.UNACCOMPANIED_MINER)
+        && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Unaccompanied Miner")
         && Preferences.getInteger("_unaccompaniedMinerUsed") < 5) {
       if (responseText.contains("Mining a chunk of the cavern wall takes")) {
         Preferences.setInteger("_unaccompaniedMinerUsed", 5);

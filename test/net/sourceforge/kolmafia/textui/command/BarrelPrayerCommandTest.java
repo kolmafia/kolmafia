@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,7 +59,7 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveShrine() {
-    var cleanups = setProperty("barrelShrineUnlocked", false);
+    var cleanups = withProperty("barrelShrineUnlocked", false);
 
     try (cleanups) {
       String output = execute("buff");
@@ -71,7 +72,8 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
   @Test
   void mustNotHavePrayed() {
     var cleanups =
-        new Cleanups(setProperty("barrelShrineUnlocked", true), setProperty("_barrelPrayer", true));
+        new Cleanups(
+            withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", true));
 
     try (cleanups) {
       String output = execute("buff");
@@ -93,9 +95,9 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
   void mustNotHavePrayedForItemThisAscension(String preference, String prayer) {
     var cleanups =
         new Cleanups(
-            setProperty("barrelShrineUnlocked", true),
-            setProperty("_barrelPrayer", false),
-            setProperty(preference, true));
+            withProperty("barrelShrineUnlocked", true),
+            withProperty("_barrelPrayer", false),
+            withProperty(preference, true));
 
     try (cleanups) {
       String output = execute(prayer);
@@ -109,7 +111,7 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
   void canPray() {
     var cleanups =
         new Cleanups(
-            setProperty("barrelShrineUnlocked", true), setProperty("_barrelPrayer", false));
+            withProperty("barrelShrineUnlocked", true), withProperty("_barrelPrayer", false));
 
     try (cleanups) {
       execute("buff");
@@ -120,5 +122,7 @@ public class BarrelPrayerCommandTest extends AbstractCommandTestBase {
       assertPostRequest(requests.get(0), "/da.php", "barrelshrine=1");
       assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1100&option=4");
     }
+
+    ChoiceManager.reset();
   }
 }

@@ -13,15 +13,23 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
@@ -189,6 +197,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private boolean favorite;
   private int charges;
   private int pokeLevel;
+  // For Quantum Terrarium
+  private String owner;
+  private int ownerId;
   private boolean active = false;
 
   public FamiliarData(final int id) {
@@ -199,6 +210,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       final int id, final String name, final int weight, final AdventureResult item) {
     this.id = id;
     this.name = name;
+    this.setOwner(KoLCharacter.getUserName(), KoLCharacter.getUserId());
     String race = FamiliarDatabase.getFamiliarName(id);
     this.race = (id == -1 || race == null) ? "(none)" : race;
     this.beeware = this.race.contains("b") || this.race.contains("B");
@@ -225,6 +237,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     FamiliarDatabase.registerFamiliar(this.id, this.race, image);
 
     this.update(dataMatcher);
+    this.setOwner(KoLCharacter.getUserName(), KoLCharacter.getUserId());
   }
 
   public FamiliarData(final int id, final String name, final int pokeLevel) {
@@ -237,7 +250,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private void update(final Matcher dataMatcher) {
     this.name = dataMatcher.group(3);
     this.setExperience(StringUtilities.parseInt(dataMatcher.group(5)));
-    this.setWeight();
     // dataMatcher.group( 6 ) => kills
     String itemData = dataMatcher.group(7);
     this.item = FamiliarData.parseFamiliarItem(this.id, itemData);
@@ -264,12 +276,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     // Familiars cannot be equipped by most Avatar classes
-    if (KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.isSneakyPete()
-        || KoLCharacter.isEd()
-        || KoLCharacter.inBondcore()
-        || KoLCharacter.isVampyre()) {
+    if (!KoLCharacter.getPath().canUseFamiliars()) {
       return false;
     }
 
@@ -283,13 +290,18 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return false;
     }
 
+    // Only undead familiars can be equipped in Zombiecore
+    if (KoLCharacter.inZombiecore() && !this.isUndead()) {
+      return false;
+    }
+
     // Familiars are only allowed with the right hat in You, Robot
     if (KoLCharacter.inRobocore() && !YouRobotManager.canUseFamiliars()) {
       return false;
     }
 
     // Unallowed familiars cannot be equipped
-    if (!StandardRequest.isAllowed("Familiars", this.race)) {
+    if (!StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, this.race)) {
       return false;
     }
 
@@ -306,12 +318,13 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return;
     }
 
-    double experienceModifier = KoLCharacter.currentNumericModifier(Modifiers.FAMILIAR_EXP);
+    double experienceModifier = KoLCharacter.currentNumericModifier(DoubleModifier.FAMILIAR_EXP);
 
     int itemId = getItem().getItemId();
     if (itemId == ItemPool.MAYFLOWER_BOUQUET) {
-      String modifierName = Modifiers.getModifierName(Modifiers.FAMILIAR_EXP);
-      double itemModifier = Modifiers.getNumericModifier("Item", itemId, modifierName);
+      double itemModifier =
+          ModifierDatabase.getNumericModifier(
+              ModifierType.ITEM, itemId, DoubleModifier.FAMILIAR_EXP);
 
       experienceModifier -= itemModifier;
 
@@ -323,7 +336,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
     int exp =
         (1
             + (int) experienceModifier
-            + (KoLCharacter.hasSkill("Testudinal Teachings") ? determineTestTeachExperience() : 0));
+            + (KoLCharacter.hasSkill(SkillPool.TESTUDINAL_TEACHINGS)
+                ? determineTestTeachExperience()
+                : 0));
 
     setExperience(this.experience + exp);
   }
@@ -335,7 +350,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public final void setExperience(int exp) {
     Stream<FamiliarData> famsToSet =
         CRIMBO_GHOSTS.contains(this.getId())
-            ? CRIMBO_GHOSTS.stream().map(KoLCharacter::findFamiliar).filter(Objects::nonNull)
+            ? CRIMBO_GHOSTS.stream().map(KoLCharacter::usableFamiliar).filter(Objects::nonNull)
             : Stream.of(this);
 
     famsToSet.forEach(
@@ -412,7 +427,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     int singleFamiliarRun = Preferences.getInteger("singleFamiliarRun");
 
     if (singleFamiliarRun == 0) {
-      for (FamiliarData familiar : KoLCharacter.getFamiliarList()) {
+      for (FamiliarData familiar : KoLCharacter.usableFamiliars()) {
         if (familiar.getTotalExperience() != 0) {
           if (singleFamiliarRun != 0) {
             singleFamiliarRun = -1;
@@ -430,25 +445,28 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public final int getMaxBaseWeight() {
-    if (this.id == FamiliarPool.STOCKING_MIMIC || this.id == FamiliarPool.HOMEMADE_ROBOT) {
-      return 100;
-    }
-
-    if (CRIMBO_GHOSTS.contains(this.id)) {
-      return 40;
-    }
-
-    return 20;
+    return switch (this.id) {
+      case FamiliarPool.STOCKING_MIMIC, FamiliarPool.HOMEMADE_ROBOT -> 100;
+      case FamiliarPool.GHOST_CAROLS, FamiliarPool.GHOST_CHEER, FamiliarPool.GHOST_COMMERCE -> 40;
+      default -> 20;
+    };
   }
 
-  private void setWeight() {
-    this.setWeight(
-        Math.max(Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1));
+  public void setWeight() {
+    int weight =
+        switch (this.id) {
+            // Homemade Robot ignores experience entirely
+          case FamiliarPool.HOMEMADE_ROBOT -> 1
+              + Math.min(Preferences.getInteger("homemadeRobotUpgrades") * 11, 99);
+          default -> Math.max(
+              Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1);
+        };
+
+    this.setWeight(weight);
   }
 
-  public final void checkWeight(final int weight, final boolean feasted) {
-    // Called from CharPaneRequest with KoL's idea of current familiar's weight and "well-fed"
-    // status.
+  public final void checkWeight(final int weight) {
+    // Called from CharPaneRequest with KoL's idea of current familiar's weight.
     // This does NOT include "hidden" weight modifiers
 
     // Sanity check: don't adjust NO_FAMILIAR
@@ -456,20 +474,61 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return;
     }
 
-    this.feasted = feasted;
+    // If we are logging in, api.php is called very early. Before reading
+    // charsheet.php
+    if (LoginRequest.isInstanceRunning()) {
+      return;
+    }
 
     // Get modified weight excluding hidden weight modifiers
-    int delta = weight - this.getModifiedWeight(false, true);
-    if (delta != 0) {
-      // The following is informational, not an error, but it confuses people, so don't print it.
-      // RequestLogger.printLine( "Adjusting familiar weight by " + delta + " pound" + ( delta == 1
-      // ? "" : "s" ) );
-      this.weight += delta;
+    int modified = this.getModifiedWeight(false, true);
+    if (weight == modified) {
+      return;
     }
+
+    // The three Crimbo Ghosts share a familiar experience counter.  api.php
+    // supposedly tells you what the experience is, but it is not accurate.
+    //
+    // Looking at my Terrarium, I see that I have a "10-pound Ghost of Crimbo
+    // Cheer (110 experience, 0 kills). api.php says "familiarexp":"0"
+    //
+    // It also says "famlevel":35 - and shows that in the charpane - which
+    // accounts for Familiar Weight +25 from various items, skills, and effects
+    //
+    // For Crimbo ghosts, we can get accurate experience from the terrarium,
+    // but not from api.php or charpane.php - which call this method.
+
+    // I have also noticed that in Quantum Terrarium, other familiars don't
+    // necessarily have an experience value (as reported by api.php) that
+    // agrees with what KoL reports for modified weight.
+
+    switch (this.id) {
+      default:
+        if (!KoLCharacter.inQuantum()) {
+          break;
+        }
+        // fall through
+      case FamiliarPool.GHOST_CAROLS:
+      case FamiliarPool.GHOST_CHEER:
+      case FamiliarPool.GHOST_COMMERCE:
+        int delta = weight - modified;
+        this.weight += delta;
+        // We can't tell, but this is the minimum
+        this.experience = this.weight * this.weight;
+        return;
+    }
+
+    // Log the discrepancy in calculated modified weight vs. what KoL reports.
+    RequestLogger.printLine("Familiar weight: KoL = " + weight + " KoLmafia = " + modified);
   }
 
   public final void setName(final String name) {
     this.name = name;
+  }
+
+  public final void setOwner(final String owner, final int ownerId) {
+    this.owner = owner;
+    this.ownerId = ownerId;
   }
 
   private static AdventureResult parseFamiliarItem(final int id, final String text) {
@@ -511,9 +570,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
     Matcher frowMatcher = FamiliarData.FROW_PATTERN.matcher(responseText);
     while (frowMatcher.find()) {
       String frow = frowMatcher.group();
-      if (frow.contains("\"frow expired\"")) {
-        continue;
-      }
 
       Matcher familiarMatcher = FamiliarData.FAMILIAR_PATTERN.matcher(frow);
       if (familiarMatcher.find()) {
@@ -545,13 +601,13 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     KoLCharacter.setFamiliar(current);
-    EquipmentManager.setEquipment(EquipmentManager.FAMILIAR, current.getItem());
+    EquipmentManager.setEquipment(Slot.FAMILIAR, current.getItem());
     FamiliarData.checkLockedItem(responseText);
   }
 
   private static FamiliarData registerFamiliar(final Matcher matcher, boolean idFirst) {
     String race = matcher.group(4);
-    FamiliarData familiar = KoLCharacter.findFamiliar(race);
+    FamiliarData familiar = KoLCharacter.ownedFamiliar(race).orElse(null);
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(matcher, idFirst);
@@ -568,15 +624,27 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return FamiliarData.NO_FAMILIAR;
     }
 
-    FamiliarData familiar = KoLCharacter.findFamiliar(id);
+    FamiliarData familiar = KoLCharacter.ownedFamiliar(id).orElse(null);
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(id);
       KoLCharacter.addFamiliar(familiar);
     }
 
-    familiar.experience = experience;
-    familiar.setWeight();
+    // KoL can change the experience of a familiar out from under us.  For
+    // example, a Shorter-Order Cook will grant 100 experience to a familiar
+    // who leaves the terrarium for the first time. Therefore, we should
+    // believe - and update - the experience KoL reports for your familiar.
+    //
+    // The exception is Crimbo Ghosts (which share experience) which api.php
+    // reports as zero, even though the accurate amount is in the terrarium.
+    //
+    // This method is called with info from api.php for your current familiar.
+
+    if (experience > 0) {
+      familiar.setExperience(experience);
+    }
+
     return familiar;
   }
 
@@ -586,7 +654,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return FamiliarData.NO_FAMILIAR;
     }
 
-    FamiliarData familiar = KoLCharacter.findFamiliar(id);
+    FamiliarData familiar = KoLCharacter.ownedFamiliar(id).orElse(null);
     if (familiar == null) {
       // Add new familiar to list
       familiar = new FamiliarData(id);
@@ -619,13 +687,15 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return this.feasted;
   }
 
+  public void setFeasted(boolean feasted) {
+    this.feasted = feasted;
+  }
+
   public void deactivate() {
     // Do anything necessary when this familiar is banished to the Terrarium
     this.active = false;
     switch (this.id) {
-      case FamiliarPool.GREY_GOOSE:
-        removeGreyGooseSkills();
-        break;
+      case FamiliarPool.GREY_GOOSE -> removeGreyGooseSkills();
     }
   }
 
@@ -633,18 +703,18 @@ public class FamiliarData implements Comparable<FamiliarData> {
     // Do anything necessary when this familiar is removed from the Terrarium
     this.active = true;
     switch (this.id) {
-      case FamiliarPool.GREY_GOOSE:
+      case FamiliarPool.GREY_GOOSE -> {
         if (this.weight >= 6) {
           addGreyGooseSkills();
         }
-        break;
+      }
     }
   }
 
   public void setWeight(final int weight) {
     this.weight = weight;
     switch (this.id) {
-      case FamiliarPool.GREY_GOOSE:
+      case FamiliarPool.GREY_GOOSE -> {
         if (this.active) {
           if (weight >= 6) {
             addGreyGooseSkills();
@@ -652,11 +722,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
             removeGreyGooseSkills();
           }
         }
-        break;
+      }
     }
   }
 
-  private void addGreyGooseSkills() {
+  private static void addGreyGooseSkills() {
     if (KoLCharacter.inGreyYou()) {
       KoLCharacter.addAvailableCombatSkill(SkillPool.RE_PROCESS_MATTER);
     }
@@ -669,7 +739,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     KoLCharacter.addAvailableCombatSkill(SkillPool.CONVERT_MATTER_TO_POMADE);
   }
 
-  private void removeGreyGooseSkills() {
+  private static void removeGreyGooseSkills() {
     KoLCharacter.removeAvailableCombatSkill(SkillPool.RE_PROCESS_MATTER);
     KoLCharacter.removeAvailableCombatSkill(SkillPool.MEATIFY_MATTER);
     KoLCharacter.removeAvailableCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES);
@@ -684,6 +754,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     if (this.item != null && item != null && this.item.getItemId() == item.getItemId()) {
+      return;
+    }
+
+    if (!this.canEquip(item)) {
       return;
     }
 
@@ -703,35 +777,30 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
     if (!KoLmafia.isRefreshing()) {
       switch (this.id) {
-        case FamiliarPool.HATRACK:
+        case FamiliarPool.HATRACK -> {
           // Mad Hatrack
-          EquipmentManager.updateEquipmentList(EquipmentManager.HAT);
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-          break;
-
-        case FamiliarPool.HAND:
+          EquipmentManager.updateEquipmentList(Slot.HAT);
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        }
+        case FamiliarPool.HAND -> {
           // Disembodied Hand
-          EquipmentManager.updateEquipmentList(EquipmentManager.WEAPON);
-          EquipmentManager.updateEquipmentList(EquipmentManager.OFFHAND);
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-          break;
-
-        case FamiliarPool.LEFT_HAND:
+          EquipmentManager.updateEquipmentList(Slot.WEAPON);
+          EquipmentManager.updateEquipmentList(Slot.OFFHAND);
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        }
+        case FamiliarPool.LEFT_HAND -> {
           // Left-Hand Man
-          EquipmentManager.updateEquipmentList(EquipmentManager.OFFHAND);
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-          break;
-
-        case FamiliarPool.SCARECROW:
+          EquipmentManager.updateEquipmentList(Slot.OFFHAND);
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        }
+        case FamiliarPool.SCARECROW -> {
           // Fancypants Scarecrow
-          EquipmentManager.updateEquipmentList(EquipmentManager.PANTS);
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-          break;
-
-        default:
-          // Everything else
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-          break;
+          EquipmentManager.updateEquipmentList(Slot.PANTS);
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        }
+        default ->
+        // Everything else
+        EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
       }
       EquipmentManager.lockFamiliarItem();
     }
@@ -753,15 +822,18 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return this.getModifiedWeight(true, includeEquipment);
   }
 
+  private static final AdventureResult FIDOXENE = EffectPool.get(EffectPool.FIDOXENE);
+
   private int getModifiedWeight(final boolean includeHidden, final boolean includeEquipment) {
     // Start with base weight of familiar
     int weight = this.weight;
 
     // Get current fixed and percent weight modifiers
     Modifiers current = KoLCharacter.getCurrentModifiers();
-    double fixed = current.get(Modifiers.FAMILIAR_WEIGHT);
-    double hidden = current.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
-    double percent = current.get(Modifiers.FAMILIAR_WEIGHT_PCT);
+    boolean fixodene = KoLConstants.activeEffects.contains(FIDOXENE);
+    double fixed = current.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
+    double hidden = current.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+    double percent = current.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT);
 
     FamiliarData familiar = KoLCharacter.getFamiliar();
 
@@ -771,11 +843,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
       // Subtract modifiers for current familiar's equipment
       AdventureResult item = familiar.getItem();
       if (item != EquipmentRequest.UNEQUIP) {
-        Modifiers mods = Modifiers.getItemModifiers(item.getItemId());
+        Modifiers mods = ModifierDatabase.getItemModifiers(item.getItemId());
         if (mods != null) {
-          fixed -= mods.get(Modifiers.FAMILIAR_WEIGHT);
-          hidden -= mods.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
-          percent -= mods.get(Modifiers.FAMILIAR_WEIGHT_PCT);
+          fixed -= mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
+          hidden -= mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+          percent -= mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT);
         }
       }
     }
@@ -786,13 +858,18 @@ public class FamiliarData implements Comparable<FamiliarData> {
       // Add modifiers for this familiar's equipment
       item = this.getItem();
       if (item != EquipmentRequest.UNEQUIP) {
-        Modifiers mods = Modifiers.getItemModifiers(item.getItemId());
+        Modifiers mods = ModifierDatabase.getItemModifiers(item.getItemId());
         if (mods != null) {
-          fixed += mods.get(Modifiers.FAMILIAR_WEIGHT);
-          hidden += mods.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
-          percent += mods.get(Modifiers.FAMILIAR_WEIGHT_PCT);
+          fixed += mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
+          hidden += mods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
+          percent += mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT);
         }
       }
+    }
+
+    // Set a base if Fidoxene is active
+    if (fixodene) {
+      weight = Math.max(weight, 20);
     }
 
     // Add in fixed modifiers
@@ -814,15 +891,15 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     // check if the familiar has a weight cap
-    int cap = (int) current.get(Modifiers.FAMILIAR_WEIGHT_CAP);
+    int cap = (int) current.getDouble(DoubleModifier.FAMILIAR_WEIGHT_CAP);
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
 
     return Math.max(1, cappedWeight);
   }
 
   public static final int itemWeightModifier(final int itemId) {
-    Modifiers mods = Modifiers.getItemModifiers(itemId);
-    return mods == null ? 0 : (int) mods.get(Modifiers.FAMILIAR_WEIGHT);
+    Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
+    return mods == null ? 0 : (int) mods.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
   }
 
   public final int getUncappedWeight() {
@@ -834,6 +911,14 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public String getName() {
     return this.name;
+  }
+
+  public String getOwner() {
+    return this.owner;
+  }
+
+  public int getOwnerId() {
+    return this.ownerId;
   }
 
   public String getRace() {
@@ -894,22 +979,21 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public boolean canCarry() {
-    switch (this.id) {
-      case FamiliarPool.DOPPEL:
-      case FamiliarPool.CHAMELEON:
-      case FamiliarPool.HATRACK:
-      case FamiliarPool.HAND:
-      case FamiliarPool.LEFT_HAND:
-      case FamiliarPool.SCARECROW:
-      case FamiliarPool.UNSPEAKACHU:
-      case FamiliarPool.STOOPER:
-      case FamiliarPool.DISGEIST:
-      case FamiliarPool.BOWLET:
-      case FamiliarPool.CORNBEEFADON:
-      case FamiliarPool.MU:
-        return false;
-    }
-    return true;
+    return switch (this.id) {
+      case FamiliarPool.DOPPEL,
+          FamiliarPool.CHAMELEON,
+          FamiliarPool.HATRACK,
+          FamiliarPool.HAND,
+          FamiliarPool.LEFT_HAND,
+          FamiliarPool.SCARECROW,
+          FamiliarPool.UNSPEAKACHU,
+          FamiliarPool.STOOPER,
+          FamiliarPool.DISGEIST,
+          FamiliarPool.BOWLET,
+          FamiliarPool.CORNBEEFADON,
+          FamiliarPool.MU -> false;
+      default -> true;
+    };
   }
 
   public static class DropInfo {
@@ -928,6 +1012,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     public int dropsToday() {
+      if (Preferences.getDefault(this.dropTracker).equals("false")) {
+        return Preferences.getBoolean(this.dropTracker) ? 1 : 0;
+      }
+
       return Preferences.getInteger(this.dropTracker);
     }
 
@@ -1063,6 +1151,23 @@ public class FamiliarData implements Comparable<FamiliarData> {
             "snowglobe",
             "_snowglobeDrops",
             1));
+    DROP_FAMILIARS.add(
+        new DropInfo(
+            FamiliarPool.ROCKIN_ROBIN, ItemPool.ROBIN_EGG, "robin's egg", "_robinEggDrops", -1));
+    DROP_FAMILIARS.add(
+        new DropInfo(FamiliarPool.CANDLE, ItemPool.WAX_GLOB, "wax glob", "_waxGlobDrops", -1));
+    DROP_FAMILIARS.add(
+        new DropInfo(FamiliarPool.GARBAGE_FIRE, -1, "burning item", "_garbageFireDrops", -1));
+    DROP_FAMILIARS.add(
+        new DropInfo(
+            FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1));
+    DROP_FAMILIARS.add(
+        new DropInfo(
+            FamiliarPool.HOBO_IN_SHEEPS_CLOTHING,
+            ItemPool.GRUBBY_WOOL,
+            "grubby wool",
+            "_grubbyWoolDrops",
+            -1));
   }
 
   public static DropInfo getDropInfo(int id) {
@@ -1165,7 +1270,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof FamiliarData && this.id == ((FamiliarData) o).id;
+    return o instanceof FamiliarData data && this.id == data.id;
   }
 
   @Override
@@ -1180,15 +1285,13 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   /** Returns whether or not the familiar can equip any familiar items. */
   public boolean canEquipAny() {
-    switch (this.id) {
-      case FamiliarPool.CHAMELEON:
-      case FamiliarPool.GHOST_CAROLS:
-      case FamiliarPool.GHOST_CHEER:
-      case FamiliarPool.GHOST_COMMERCE:
-        return false;
-    }
-
-    return true;
+    return switch (this.id) {
+      case FamiliarPool.CHAMELEON,
+          FamiliarPool.GHOST_CAROLS,
+          FamiliarPool.GHOST_CHEER,
+          FamiliarPool.GHOST_COMMERCE -> false;
+      default -> true;
+    };
   }
 
   /** Returns whether or not the familiar can equip the given familiar item. */
@@ -1219,7 +1322,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       case FamiliarPool.HATRACK:
         // Hatrack can wear Hats as well as familiar items, but not Crown of Thrones
         if (itemId != ItemPool.HATSEAT
-            && ItemDatabase.getConsumptionType(itemId) == KoLConstants.EQUIP_HAT) {
+            && ItemDatabase.getConsumptionType(itemId) == ConsumptionType.HAT) {
           return true;
         }
         break;
@@ -1227,21 +1330,22 @@ public class FamiliarData implements Comparable<FamiliarData> {
       case FamiliarPool.HAND:
         // Disembodied Hand can't equip Mainhand only items or Single Equip items
         if (!EquipmentDatabase.isMainhandOnly(itemId)
-            && !Modifiers.getBooleanModifier("Item", name, "Single Equip")) {
+            && !ModifierDatabase.getBooleanModifier(
+                ModifierType.ITEM, name, BooleanModifier.SINGLE)) {
           return true;
         }
         break;
 
       case FamiliarPool.LEFT_HAND:
         // Left-Hand Man can wear Offhand items as well as familiar items
-        if (ItemDatabase.getConsumptionType(itemId) == KoLConstants.EQUIP_OFFHAND) {
+        if (ItemDatabase.getConsumptionType(itemId) == ConsumptionType.OFFHAND) {
           return true;
         }
         break;
 
       case FamiliarPool.SCARECROW:
         // Scarecrow can wear Pants as well as familiar items
-        if (ItemDatabase.getConsumptionType(itemId) == KoLConstants.EQUIP_PANTS) {
+        if (ItemDatabase.getConsumptionType(itemId) == ConsumptionType.PANTS) {
           return true;
         }
         break;
@@ -1255,17 +1359,17 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return false;
     }
 
-    Modifiers mods = Modifiers.getItemModifiers(itemId);
+    Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
     if (mods == null) {
       return false;
     }
 
-    if (mods.getBoolean(Modifiers.GENERIC)) {
+    if (mods.getBoolean(BooleanModifier.GENERIC)) {
       return true;
     }
 
-    String others = mods.getString(Modifiers.EQUIPS_ON);
-    if (others == null || others.isEmpty()) {
+    String others = mods.getString(StringModifier.EQUIPS_ON);
+    if (others.isEmpty()) {
       return false;
     }
 
@@ -1278,19 +1382,14 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return false;
   }
 
-  public int specialEquipmentType() {
-    switch (this.id) {
-      case FamiliarPool.HATRACK:
-        return KoLConstants.EQUIP_HAT;
-      case FamiliarPool.HAND:
-        return KoLConstants.EQUIP_WEAPON;
-      case FamiliarPool.LEFT_HAND:
-        return KoLConstants.EQUIP_OFFHAND;
-      case FamiliarPool.SCARECROW:
-        return KoLConstants.EQUIP_PANTS;
-      default:
-        return KoLConstants.NO_CONSUME;
-    }
+  public ConsumptionType specialEquipmentType() {
+    return switch (this.id) {
+      case FamiliarPool.HATRACK -> ConsumptionType.HAT;
+      case FamiliarPool.HAND -> ConsumptionType.WEAPON;
+      case FamiliarPool.LEFT_HAND -> ConsumptionType.OFFHAND;
+      case FamiliarPool.SCARECROW -> ConsumptionType.PANTS;
+      default -> ConsumptionType.NONE;
+    };
   }
 
   public static boolean lockableItem(final AdventureResult item) {
@@ -1298,8 +1397,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return false;
     }
 
-    Modifiers mods = Modifiers.getItemModifiers(item.getItemId());
-    return mods != null && mods.getBoolean(Modifiers.GENERIC);
+    Modifiers mods = ModifierDatabase.getItemModifiers(item.getItemId());
+    return mods != null && mods.getBoolean(BooleanModifier.GENERIC);
   }
 
   public boolean isCombatFamiliar() {
@@ -1308,8 +1407,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     if (this.id == FamiliarPool.DANDY_LION) {
-      return EquipmentManager.getEquipment(EquipmentManager.WEAPON).getName().endsWith("whip")
-          || EquipmentManager.getEquipment(EquipmentManager.OFFHAND).getName().endsWith("whip");
+      return EquipmentManager.getEquipment(Slot.WEAPON).getName().endsWith("whip")
+          || EquipmentManager.getEquipment(Slot.OFFHAND).getName().endsWith("whip");
     }
 
     return false;
@@ -1318,7 +1417,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public final void findAndWearItem(boolean steal) {
     AdventureResult use = this.findGoodItem(steal);
     if (use != null) {
-      RequestThread.postRequest(new EquipmentRequest(use, EquipmentManager.FAMILIAR));
+      RequestThread.postRequest(new EquipmentRequest(use, Slot.FAMILIAR));
     }
   }
 
@@ -1408,7 +1507,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     FamiliarData current = KoLCharacter.getFamiliar();
-    for (FamiliarData familiar : KoLCharacter.getFamiliarList()) {
+    for (FamiliarData familiar : KoLCharacter.ownedFamiliars()) {
       if (!familiar.equals(current)) {
         AdventureResult equipped = familiar.getItem();
         if (equipped != null && equipped.equals(item)) {
@@ -1436,7 +1535,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public static final void checkShrub() {
-    if (KoLCharacter.findFamiliar(FamiliarPool.CRIMBO_SHRUB) == null) {
+    if (KoLCharacter.usableFamiliar(FamiliarPool.CRIMBO_SHRUB) == null) {
       return;
     }
 
@@ -1490,7 +1589,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       JLabel defaultComponent =
           (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-      if (!(value instanceof FamiliarData) || ((FamiliarData) value).id == -1) {
+      if (!(value instanceof FamiliarData familiar) || familiar.id == -1) {
         defaultComponent.setIcon(JComponentUtilities.getImage("debug.gif"));
         defaultComponent.setText(
             StaticEntity.getVersion() + ", the 0 lb. \"No Familiar Plz\" Placeholder");
@@ -1500,7 +1599,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
         return defaultComponent;
       }
 
-      FamiliarData familiar = (FamiliarData) value;
       defaultComponent.setIcon(FamiliarDatabase.getFamiliarImage(familiar.id));
       defaultComponent.setText(
           familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace());

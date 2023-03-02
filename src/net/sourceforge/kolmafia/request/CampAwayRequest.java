@@ -8,9 +8,9 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class CampAwayRequest extends PlaceRequest {
@@ -125,7 +125,7 @@ public class CampAwayRequest extends PlaceRequest {
   private static final Pattern CLOUD_TALK_PATTERN =
       Pattern.compile("<img .*?otherimages/smoke2/([^\"]*)\"", Pattern.DOTALL);
 
-  private static final Map<String, Character> cloudLetters = new HashMap<String, Character>();
+  private static final Map<String, Character> cloudLetters = new HashMap<>();
 
   static {
     cloudLetters.put("a.png", 'A');
@@ -270,11 +270,15 @@ public class CampAwayRequest extends PlaceRequest {
     return true;
   }
 
+  public static boolean campAwayTentAvailable() {
+    return Preferences.getBoolean("getawayCampsiteUnlocked")
+        && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
+        && !KoLCharacter.getLimitMode().limitZone("Woods")
+        && !KoLCharacter.inBadMoon();
+  }
+
   public static boolean campAwayTentRestUsable() {
     return Preferences.getBoolean("restUsingCampAwayTent")
-        && Preferences.getBoolean("getawayCampsiteUnlocked")
-        && StandardRequest.isAllowed("Items", "Distant Woods Getaway Brochure")
-        && !Limitmode.limitZone("Woods")
-        && !KoLCharacter.inBadMoon();
+        && CampAwayRequest.campAwayTentAvailable();
   }
 }

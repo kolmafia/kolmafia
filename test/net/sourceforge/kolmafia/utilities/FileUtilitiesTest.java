@@ -1,14 +1,23 @@
 package net.sourceforge.kolmafia.utilities;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class FileUtilitiesTest {
 
@@ -103,5 +112,30 @@ class FileUtilitiesTest {
   public void itShouldNotDoAnythingWithANullInput() {
     assertNull(FileUtilities.readData(null));
     assertNull(FileUtilities.readLine(null));
+  }
+
+  @Nested
+  class EmptyDirectory {
+    @BeforeAll
+    public static void setupEmpty() throws IOException {
+      Files.createDirectory(KoLConstants.ROOT_LOCATION.toPath().resolve("empty"));
+    }
+
+    @AfterAll
+    public static void removeEmpty() throws IOException {
+      Files.deleteIfExists(KoLConstants.ROOT_LOCATION.toPath().resolve("empty"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "ccs, false",
+      "README, false",
+      "empty, true",
+    })
+    public void shouldDetectEmptyDirectory(String directory, boolean isEmptyDirectory)
+        throws IOException {
+      var path = KoLConstants.ROOT_LOCATION.toPath().resolve(directory);
+      assertThat(FileUtilities.isEmptyDirectory(path), equalTo(isEmptyDirectory));
+    }
   }
 }
