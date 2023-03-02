@@ -138,7 +138,7 @@ public class ItemDatabase {
     String[] accessTypes = data.split("\\s*,\\s*");
     for (String accessType : accessTypes) {
       if (!ACCESS.contains(Attribute.byDescription(accessType))) {
-        return "";
+        throw new IllegalStateException("Data file contained unrecognised flag");
       }
     }
     return data;
