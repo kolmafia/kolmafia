@@ -524,7 +524,7 @@ public class DebugDatabase {
     return StringUtilities.parseInt(matcher.group(1));
   }
 
-  private static StringBuilder appendAccessTypes(StringBuilder accessTypes, String accessType) {
+  private static StringBuilder appendAccessTypes(StringBuilder accessTypes, Attribute accessType) {
     if (accessTypes.length() > 0) {
       return accessTypes.append(",").append(accessType);
     }
@@ -537,23 +537,23 @@ public class DebugDatabase {
     if (text.contains("Quest Item")
         || text.contains("This item will disappear at the end of the day.")
         || text.contains("May not be moved out of inventory")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.QUEST_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.QUEST);
     }
 
     // Quest items cannot be gifted or traded
     else if (text.contains("Gift Item") && !text.contains("gift package")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.GIFT_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.GIFT);
     }
 
     // Gift items cannot be (normally) traded
     else if (!text.contains("Cannot be traded")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.TRADE_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.TRADEABLE);
     }
 
     // We shouldn't just check for "discarded", in case "discarded" appears somewhere else in the
     // description.
     if (!text.contains("Cannot be discarded") && !text.contains("Cannot be traded or discarded")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.DISCARD_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.DISCARDABLE);
     }
 
     return accessTypes.toString();
@@ -2338,7 +2338,7 @@ public class DebugDatabase {
     // Don't bother checking quest items
     String access = ItemDatabase.getAccessById(id);
     boolean logit = false;
-    if (access != null && !access.contains(ItemDatabase.QUEST_FLAG)) {
+    if (access != null && !access.contains(Attribute.QUEST.description)) {
       String otherPlural;
       boolean checkApi = InventoryManager.getCount(itemId) > 1;
       if (checkApi) {
