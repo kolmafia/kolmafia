@@ -3550,4 +3550,30 @@ public class QuestManagerTest {
       }
     }
   }
+
+  @Nested
+  class PixelRealm {
+    public static Stream<Arguments> pixelMonsters() {
+      return Stream.of(
+              Arguments.of("medusa", "medusa", "Vanya's Castle", 5),
+              Arguments.of("Met", "met", "Megalo-City", 4),
+              Arguments.of("Koopa Troopa", "koopa_troopa", "The Fungus Plains", 3),
+              Arguments.of("Keese", "keese", "Hero's Field", 2));
+    }
+
+    @ParameterizedTest
+    @MethodSource("pixelMonsters")
+    public void canTrack8BitBonusTurns(String monsterName, String html, String location, int bonusTurns) {
+      var cleanups =
+              new Cleanups(
+                      withProperty("8BitBonusTurns", bonusTurns));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure(location);
+        String path = "request/test_fight_" + html + ".html";
+        String responseText = html(path);
+        QuestManager.updateQuestData(responseText, monsterName);
+        assertThat("8BitBonusTurns", isSetTo(bonusTurns - 1));
+      }
+    }
+  }
 }
