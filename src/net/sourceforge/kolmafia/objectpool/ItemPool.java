@@ -613,6 +613,7 @@ public class ItemPool {
   public static final int ANTIQUE_HAND_MIRROR = 2092;
   public static final int TOWEL = 2095;
   public static final int GMOB_POLLEN = 2096;
+  public static final int SEVENTEEN_BALL = 2097;
   public static final int LUCRE = 2098;
   public static final int ASCII_SHIRT = 2121;
   public static final int TOY_MERCENARY = 2139;
