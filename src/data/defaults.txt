@@ -170,6 +170,7 @@ global	_gitUpdated	false
 global	_svnRepoFileFetched	false
 global	_svnUpdated	false
 
+user	8BitBonusTurns	5
 user	8BitScore	0
 user	8BitColor	
 user	addingScrolls	1

@@ -100,6 +100,7 @@ public class Preferences {
 
   private static final String[] resetOnAscension =
       new String[] {
+        "8BitBonusTurns",
         "8BitColor",
         "8BitScore",
         "affirmationCookiesEaten",
