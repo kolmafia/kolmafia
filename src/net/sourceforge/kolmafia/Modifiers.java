@@ -1273,4 +1273,9 @@ public class Modifiers {
   public static void setFamiliar(FamiliarData fam) {
     Modifiers.currentFamiliar = fam == null ? "" : fam.getRace();
   }
+
+  @Override
+  public String toString() {
+    return this.getString(StringModifier.MODIFIERS);
+  }
 }
