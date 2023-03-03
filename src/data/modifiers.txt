@@ -5291,6 +5291,7 @@ Effect	Blessing of Serqet	Monster Level: +20
 Effect	Blessing of She-Who-Was	Mysticality: +5, Spooky Damage: +5
 # Blessing of Squirtlcthulli: Recover HP and MP after battle
 Effect	Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
+Effect	Blessing of the Bird	none
 Effect	Blessing of the Creepy Pasta	Spooky Spell Damage: +20, Sleaze Resistance: +2
 Effect	Blessing of the Frozen Tortellini	Cold Spell Damage: +20, Stench Resistance: +2
 Effect	Blessing of the Hot Linguine	Hot Spell Damage: +20, Cold Resistance: +2
@@ -5299,6 +5300,7 @@ Effect	Blessing of the Spaghetto	Spell Damage: +40, Hot Resistance: +2, Cold Res
 Effect	Blessing of the Stinking Alphredo&trade;	Stench Spell Damage: +20, Spooky Resistance: +2
 Effect	Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Effect	Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
+Effect	Blessing of your favorite Bird	none
 Effect	Blinking Belly	Combat Rate: +10
 Effect	Block-Rockin' Beet	Damage Reduction: 15
 # Blood Bond: Lose 8-10 HP per Adventure

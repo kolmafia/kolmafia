@@ -985,6 +985,11 @@ public class ModifierDatabase {
   }
 
   private static final void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
+    if (!modifierStringsByName.containsKey(lookup.type, lookup.getKey())
+        && !(lookup.type == ModifierType.GENERATED)) {
+      RequestLogger.updateSessionLog("WARNING: updated modifier not in modifiers.txt");
+      modifierStringsByName.put(lookup.type, lookup.getKey(), value.toString());
+    }
     modifiersByName.put(lookup.type, lookup.getKey(), value);
   }
 
