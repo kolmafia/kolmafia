@@ -1,6 +1,6 @@
 4
 # Syntax is:
-# id	Name	image	Type	MP Cost	Duration	[Level]
+# id	Name	image	Type	MP Cost	Duration[	Level]
 # Type can be:
 #     0 (Passive)
 #     1 (Noncombat item summon)
@@ -1628,7 +1628,7 @@
 
 # Pig Skinner
 
-28000	Tackle	clobber.gif	5	0	0	
+28000	Tackle	clobber.gif	5	0	0
 28001	Ribald Memories	blush.gif	0	0	0	1
 28002	Blasted Glutes	asshat.gif	0	0	0	2
 28003	Strong Back	bigdumbbell.gif	0	0	0	3
@@ -1653,7 +1653,7 @@
 
 # Cheese Wizard
 
-29000	Caseus Vampirus	goatcheese.gif	5	0	0	
+29000	Caseus Vampirus	goatcheese.gif	5	0	0
 29001	Mind Over Muenster	realbrain.gif	0	0	0	1
 29002	Subcutaneous Gouda	sebashield.gif	0	0	0	2
 29003	Quick Wit	tongueexclam.gif	0	0	0	3
@@ -1678,7 +1678,7 @@
 
 # Jazz Agent
 
-30000	Demoralizing Toot	goldtrumpet.gif	5	0	0	
+30000	Demoralizing Toot	goldtrumpet.gif	5	0	0
 30001	Thick Calluses	pod_hard.gif	0	0	0	1
 30002	Impeccable Timing	neckclock.gif	0	0	0	10
 30003	Fashion Sense	necktie.gif	0	0	0	3
