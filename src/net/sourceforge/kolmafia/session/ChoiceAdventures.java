@@ -2709,8 +2709,14 @@ public abstract class ChoiceAdventures {
     // Choice 494 is unknown
     // Choice 495 is unknown
 
-    // Choice 496 is Crate Expectations
-    // -> can skip if have +20 hot damage
+    // Crate Expectations
+    new ChoiceAdventure(
+        496,
+        "Woods",
+        "Typical Tavern",
+        // Option...
+        new ChoiceOption("3 bottles of basic booze"),
+        new ChoiceOption("Get rid of crate without spending an adventure"));
 
     // Choice 497 is SHAFT!
     // Choice 498 is unknown
@@ -2797,12 +2803,32 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("fight"),
         SKIP_ADVENTURE);
 
-    // Choice 513 is Staring Down the Barrel
-    // -> can skip if have +20 cold damage
-    // Choice 514 is 1984 Had Nothing on This Cellar
-    // -> can skip if have +20 stench damage
-    // Choice 515 is A Rat's Home...
-    // -> can skip if have +20 spooky damage
+    // Staring Down the Barrel
+    new ChoiceAdventure(
+        513,
+        "Woods",
+        "Typical Tavern",
+        // Option...
+        new ChoiceOption("3-5 ice-cold Willers"),
+        new ChoiceOption("Get rid of crate without spending an adventure"));
+
+    // 1984 Had Nothing on This Cellar
+    new ChoiceAdventure(
+        514,
+        "Woods",
+        "Typical Tavern",
+        // Option...
+        new ChoiceOption("3-5 rat whiskers and smiling rat (sometimes)"),
+        new ChoiceOption("Get rid of crate without spending an adventure"));
+
+    // A Rat's Home...
+    new ChoiceAdventure(
+        515,
+        "Woods",
+        "Typical Tavern",
+        // Option...
+        new ChoiceOption("3 bottles of tequila"),
+        new ChoiceOption("Get rid of crate without spending an adventure"));
 
     // Choice 516 is unknown
     // Choice 517 is Mr. Alarm, I Presarm
