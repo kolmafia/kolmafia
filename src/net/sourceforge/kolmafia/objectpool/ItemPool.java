@@ -613,6 +613,7 @@ public class ItemPool {
   public static final int ANTIQUE_HAND_MIRROR = 2092;
   public static final int TOWEL = 2095;
   public static final int GMOB_POLLEN = 2096;
+  public static final int SEVENTEEN_BALL = 2097;
   public static final int LUCRE = 2098;
   public static final int ASCII_SHIRT = 2121;
   public static final int TOY_MERCENARY = 2139;
@@ -1691,6 +1692,8 @@ public class ItemPool {
   public static final int CRYSTAL_SKULL = 5231;
   public static final int BORROWED_TIME = 5232;
   public static final int BOX_OF_HAMMERS = 5233;
+  public static final int SHINING_HALO = 5234;
+  public static final int TIME_HALO = 5237;
   public static final int LUMINEUX_LIMNIO = 5238;
   public static final int MORTO_MORETO = 5239;
   public static final int TEMPS_TEMPRANILLO = 5240;

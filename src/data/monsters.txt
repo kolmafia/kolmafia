@@ -401,7 +401,7 @@ lowercase K	938	lower_k.gif	Atk: 57 Def: 49 HP: 60 Init: 45 P: humanoid Article:
 lumberjack supervisor	236	lumbersup.gif	Atk: 40 Def: 36 HP: 40 Init: 60 Meat: 30 P: dude Article: a	balaclava (5)	balaclava baklava (25)
 lumberjill	234	lumberjill.gif	Atk: 36 Def: 32 HP: 36 Init: 60 Meat: 20 P: dude Article: a	Blatantly Canadian (30)	maple syrup (30)	supportive bra (c20)
 lumberjuan	235	lumberjuan.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 20 P: dude Article: a	los chinos (5)	leaflet (15)	wooden axe (5)
-lynyrd	1533	lynyrd.gif	Atk: 150 Def: 150 HP: 155 Init: 10000 P: beast Article: a	lynyrd skin (100)
+lynyrd	1533	lynyrd.gif	FREE Atk: 150 Def: 150 HP: 155 Init: 10000 P: beast Article: a	lynyrd skin (100)
 lynyrd skinner	1526	skinner.gif	Atk: 140 Def: 130 HP: 135 Init: 50 Meat: 125 P: dude Article: a	sweet roll Alabama (25)	Saturday Night Special (5)	lynyrd snare (15)	lynyrd musk (25)	lynyrd skinner toothblack (c0)
 mad bugbears	257	madbugbear.gif	Atk: 16 Def: 15 HP: 13 Init: 50 Group: 3 P: beast
 mad wino	1563	madwino.gif	Atk: 148 Def: 141 HP: 150 Init: 50 Meat: 50 P: hobo EA: spooky Article: a	pie man was not meant to eat (10)	crazy hobo notebook (10)	Psychotic Train wine (10)	page of the Necrohobocon (c15)
@@ -1306,7 +1306,7 @@ skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Ini
 the invader	2138	invader.gif	BOSS NOCOPY Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct EA: cold EA: hot EA: sleaze EA: spooky EA: stench
 
 # Glitch Season
-%monster%	2140	nopic.gif	NOCOPY Atk: [pref(glitchItemImplementationCount)*5+1] Def: [pref(glitchItemImplementationCount)*5] HP: [pref(glitchItemImplementationCount)*5+1] Init: 1 P: construct Article: a
+%monster%	2140	nopic.gif	FREE NOCOPY Atk: [pref(glitchItemImplementationCount)*5+1] Def: [pref(glitchItemImplementationCount)*5] HP: [pref(glitchItemImplementationCount)*5+1] Init: 1 P: construct Article: a
 
 # Path of the Plumber
 Koopa Paratroopa	2165	paratroopa.gif	BOSS NOCOPY Atk: 40 Def: 40 HP: 40 Init: 50 P: beast Elem: 50 Article: a
@@ -2003,9 +2003,9 @@ Judge Fudge	1991	gbjudge.gif	BOSS NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100
 GNG-3-R	1992	gng3r.gif	BOSS NOCOPY Scale: ? Cap: ? Floor: ? Init: 300 P: construct	industrial frosting (n100)
 
 # Tunnel of L.O.V.E. (February 2017)
-LOV Enforcer	2009	lovenforcer.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 75 Elem: 25 Article: a	LOV Elixir #3 (c0)
-LOV Engineer	2010	lovengineer.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 25 Elem: 75 Article: a	LOV Elixir #6 (c0)
-LOV Equivocator	2011	lovequivocator.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: 500 P: dude Phys: 50 Elem: 50 Article: a	LOV Elixir #9 (p0)
+LOV Enforcer	2009	lovenforcer.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 75 Elem: 25 Article: a	LOV Elixir #3 (c0)
+LOV Engineer	2010	lovengineer.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 25 Elem: 75 Article: a	LOV Elixir #6 (c0)
+LOV Equivocator	2011	lovequivocator.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: 500 P: dude Phys: 50 Elem: 50 Article: a	LOV Elixir #9 (p0)
 
 # Spacegate (April 2017)
 hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: a	edible alien plant bit	alien plant fibers	alien plant goo
@@ -2100,11 +2100,11 @@ Red Roger	2134	pr_redroger.gif	NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: 
 Glass Jack Hummel	2135	pr_glassjack.gif	NOCOPY Atk: 100 Def: 100 HP: 200 Init: 50 P: construct EA: spooky
 
 # Cargo Cultist Shorts (Sep 2020)
-Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	NOCOPY Scale: 15 Init: -10000 P: constellation Phys: 100 E: sleaze Article: an	star chart (n100)	star (n30)	star (n10)	line (n30)	line (n10)
-Burning Daughter	2196	ccs_daughter.gif	NOCOPY Scale: 15 Init: -10000 P: elemental Phys: 100 E: hot Article: a	fire (n100)	fire (n100)	flame orb (n100)
-Chosen of Yog-Urt	2199	ccs_disciple.gif	NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: stench Article: a	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
-Herald of Fridgr	2197	ccs_herald.gif	NOCOPY Scale: 15 Init: -10000 P: dude Phys: 100 E: cold Article: a	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
-Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: spooky Article: a	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
+Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	FREE NOCOPY Scale: 15 Init: -10000 P: constellation Phys: 100 E: sleaze Article: an	star chart (n100)	star (n30)	star (n10)	line (n30)	line (n10)
+Burning Daughter	2196	ccs_daughter.gif	FREE NOCOPY Scale: 15 Init: -10000 P: elemental Phys: 100 E: hot Article: a	fire (n100)	fire (n100)	flame orb (n100)
+Chosen of Yog-Urt	2199	ccs_disciple.gif	FREE NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: stench Article: a	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
+Herald of Fridgr	2197	ccs_herald.gif	FREE NOCOPY Scale: 15 Init: -10000 P: dude Phys: 100 E: cold Article: a	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
+Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	FREE NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: spooky Article: a	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
 
 # Oliver's Place (Nov 2022)
 gator-human hybrid	2249	olivers_gator.gif	Atk: 70 Def: 50 HP: 60 Init: 80 P: beast Article: a	drink chit (15)	swamp haunch (20)	gator shades (5)
@@ -2583,9 +2583,9 @@ stiff disco dancer	1444	disco_stiff.gif	Scale: 0 Cap: 3000 Init: -10000 P: const
 The Sagittarian	1447	sagittarian.gif	NOCOPY NOMANUEL Atk: 100 Def: 100 HP: 500 Init: 1000 P: dude EA: cold EA: hot EA: sleaze	The Sagittarian's leisure pants (100)
 
 # Wandering Accordionists (October 2013)
-depressing French accordionist	1452	wanderacc1.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude EA: hot EA: stench Article: a	Bal-musette accordion (a0)
-lively Cajun accordionist	1453	wanderacc2.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude EA: hot Article: a	Cajun accordion (a0)
-quirky indie-rock accordionist	1454	wanderacc3.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude Article: a	quirky accordion (a0)
+depressing French accordionist	1452	wanderacc1.gif	FREE WANDERER Scale: -3 Floor: ? Init: -10000 P: dude EA: hot EA: stench Article: a	Bal-musette accordion (a0)
+lively Cajun accordionist	1453	wanderacc2.gif	FREE WANDERER Scale: -3 Floor: ? Init: -10000 P: dude EA: hot Article: a	Cajun accordion (a0)
+quirky indie-rock accordionist	1454	wanderacc3.gif	FREE WANDERER Scale: -3 Floor: ? Init: -10000 P: dude Article: a	quirky accordion (a0)
 Frank &quot;Skipper&quot; Dan, the Accordion Lord	1455	accboss.gif	NOCOPY NOMANUEL WANDERER Scale: 7 Init: -10000 P: dude	Skipper's accordion (n100)
 
 # The Spirit World (November 2013)
@@ -2595,11 +2595,11 @@ spirit faucet	1458	spiritfaucet.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P:
 spirit pea	1457	spiritpea.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead EA: spooky Article: a	spirit gum (5)
 
 # Peripatetic Pasta (November 2013)
-Possessed Can of Linguine-Os	1461	mystwander1.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: hot Article: a	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
-Possessed Can of Creepy Pasta	1465	mystwander2.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: spooky Article: a	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
-Frozen Bag of Tortellini	1462	mystwander3.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: cold Article: a	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
-Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: stench Article: a Manuel: "Possessed Jar of Alphredo™"	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
-Box of Crafty Dinner	1464	mystwander5.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: sleaze Article: a	handful of crafty noodles (c0)	handful of crafty noodles (c0)
+Possessed Can of Linguine-Os	1461	mystwander1.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: hot Article: a	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
+Possessed Can of Creepy Pasta	1465	mystwander2.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: spooky Article: a	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
+Frozen Bag of Tortellini	1462	mystwander3.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: cold Article: a	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
+Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: stench Article: a Manuel: "Possessed Jar of Alphredo™"	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
+Box of Crafty Dinner	1464	mystwander5.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: sleaze Article: a	handful of crafty noodles (c0)	handful of crafty noodles (c0)
 Chef Boy, R&amp;D	1466	chefboy.gif	NOCOPY NOMANUEL WANDERER Scale: 5 Init: -10000 P: dude Phys: 100 Elem: 50 EA: hot
 
 # The WarBear Fortress (Crimbo 2013)
@@ -2631,8 +2631,8 @@ Cinco de Mayo reveler	1943	reveler1.gif,reveler2.gif	Scale: 5 Init: -10000 Meat:
 
 # Eldritch Incursion (October 2016)
 
-Eldritch Tentacle	1974	eldtentacle.gif	Scale: 7 Cap: 400 Floor: 20 Init: -10000 P: horror Phys: 50 Elem: 50 E: spooky Article: an	eldritch effluvium (0)	eldritch effluvium (0)	eldritch effluvium (0)
-Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2012	eldboss.gif	NOCOPY NOMANUEL Atk: 300 Def: 300 Init: -10000 P: horror Phys: 50 Elem: 50 ED: spooky	eldritch effluvium (0)	eldritch effluvium (0)	eldritch mushroom (0)
+Eldritch Tentacle	1974	eldtentacle.gif	FREE Scale: 7 Cap: 400 Floor: 20 Init: -10000 P: horror Phys: 50 Elem: 50 E: spooky Article: an	eldritch effluvium (0)	eldritch effluvium (0)	eldritch effluvium (0)
+Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2012	eldboss.gif	FREE NOCOPY NOMANUEL Atk: 300 Def: 300 Init: -10000 P: horror Phys: 50 Elem: 50 ED: spooky	eldritch effluvium (0)	eldritch effluvium (0)	eldritch mushroom (0)
 
 # Crimbo 2016 (December 2016)
 

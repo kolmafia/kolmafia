@@ -19,6 +19,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNotAllowedInStandard;
+import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRestricted;
@@ -35,6 +36,7 @@ import java.util.Optional;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -933,6 +935,28 @@ public class MaximizerTest {
   }
 
   @Nested
+  class Mutex {
+    @Test
+    public void equipAtMostOneHalo() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.SHINING_HALO),
+              withEquippableItem(ItemPool.TIME_HALO),
+              withEquippableItem(ItemPool.TIME_SWORD));
+
+      try (cleanups) {
+        assertTrue(maximize("adv, exp"));
+
+        assertEquals(5, modFor(DoubleModifier.ADVENTURES), 0.01);
+        recommendedSlotIsUnchanged(Slot.WEAPON);
+        recommendedSlotIs(Slot.ACCESSORY1, "time halo");
+        recommendedSlotIsUnchanged(Slot.ACCESSORY2);
+        recommendedSlotIsUnchanged(Slot.ACCESSORY3);
+      }
+    }
+  }
+
+  @Nested
   class Modeables {
     @Test
     public void canFoldUmbrella() {
@@ -1616,6 +1640,53 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("Monster Level"));
         assertFalse(someBoostIs(x -> commandStartsWith(x, "drink 1 1950 Vampire Vintner wine")));
+      }
+    }
+  }
+
+  @Nested
+  class Skills {
+    @Test
+    public void suggestsSkillsIfRelevant() {
+      var cleanups = new Cleanups(withSkill(SkillPool.SCARYSAUCE));
+
+      try (cleanups) {
+        assertTrue(maximize("cold res"));
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "cast 1 Scarysauce")));
+      }
+    }
+
+    @Nested
+    class BirdOfTheDay {
+      @Test
+      public void suggestsBirdIfRelevant() {
+        var cleanups =
+            new Cleanups(
+                withProperty("_canSeekBirds", true),
+                withProperty("_birdOfTheDay", "Filthy Smiling Pine Parrot"),
+                withProperty(
+                    "_birdOfTheDayMods",
+                    "Mysticality Percent: +75, Stench Resistance: +2, Experience: +2, MP Regen Min: 10, MP Regen Max: 20"),
+                withProperty("yourFavoriteBird", "Southern Clandestine Fig Chachalaca"),
+                withProperty(
+                    "yourFavoriteBirdMods",
+                    "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"),
+                withSkill(SkillPool.SEEK_OUT_A_BIRD),
+                withSkill(SkillPool.VISIT_YOUR_FAVORITE_BIRD),
+                withOverrideModifiers(
+                    ModifierType.EFFECT,
+                    2551,
+                    "Mysticality Percent: +75, Stench Resistance: +2, Experience: +2, MP Regen Min: 10, MP Regen Max: 20"),
+                withOverrideModifiers(
+                    ModifierType.EFFECT,
+                    2552,
+                    "Stench Resistance: +2, Combat Rate: -9, MP Regen Min: 10, MP Regen Max: 20"));
+
+        try (cleanups) {
+          assertTrue(maximize("mp regen"));
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "cast 1 Seek out a Bird")));
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "cast 1 Visit your Favorite Bird")));
+        }
       }
     }
   }

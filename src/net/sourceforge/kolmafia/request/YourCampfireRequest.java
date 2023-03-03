@@ -4,7 +4,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class YourCampfireRequest extends CoinMasterRequest {
   public static final String master = "Your Campfire";
@@ -61,9 +60,7 @@ public class YourCampfireRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    return Preferences.getBoolean("getawayCampsiteUnlocked")
-        ? null
-        : "Need access to your Getaway Campsite";
+    return CampAwayRequest.campAwayTentAvailable() ? null : "Need access to your Getaway Campsite";
   }
 
   public static final boolean registerRequest(final String urlString) {

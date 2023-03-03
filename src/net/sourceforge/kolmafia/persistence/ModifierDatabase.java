@@ -618,22 +618,9 @@ public class ModifierDatabase {
         }
         // bitmapMasks stores the next mask we're going to use for modifier mod
         int mask = bitmapMasks.get(mod);
-        switch (bitcount) {
-          case 1 -> bitmapMasks.put(mod, mask << 1);
-          case 2 -> {
-            bitmapMasks.put(mod, mask << 2);
-            mask |= mask << 1;
-          }
-          case 3 -> {
-            bitmapMasks.put(mod, mask << 3);
-            mask |= mask << 1;
-            mask |= mask << 1;
-          }
-          default -> {
-            String message = "ERROR: invalid count for bitmap modifier in " + lookup.toString();
-            KoLmafia.updateDisplay(message);
-            throw new IllegalStateException(message);
-          }
+        bitmapMasks.put(mod, mask << bitcount);
+        for (int i = 0; i < bitcount - 1; i++) {
+          mask |= mask << 1;
         }
         if (bitmapMasks.get(mod) == 0) {
           String message =
@@ -998,6 +985,11 @@ public class ModifierDatabase {
   }
 
   private static final void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
+    if (!modifierStringsByName.containsKey(lookup.type, lookup.getKey())
+        && !(lookup.type == ModifierType.GENERATED)) {
+      RequestLogger.updateSessionLog("WARNING: updated modifier not in modifiers.txt");
+      modifierStringsByName.put(lookup.type, lookup.getKey(), value.toString());
+    }
     modifiersByName.put(lookup.type, lookup.getKey(), value);
   }
 
