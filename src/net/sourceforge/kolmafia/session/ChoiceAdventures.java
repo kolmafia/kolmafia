@@ -2716,7 +2716,7 @@ public abstract class ChoiceAdventures {
         "Typical Tavern",
         // Option...
         new ChoiceOption("3 bottles of basic booze"),
-        new ChoiceOption("Get rid of crate without spending and adventure"));
+        new ChoiceOption("Get rid of crate without spending an adventure"));
 
     // Choice 497 is SHAFT!
     // Choice 498 is unknown
@@ -2810,7 +2810,7 @@ public abstract class ChoiceAdventures {
         "Typical Tavern",
         // Option...
         new ChoiceOption("3-5 ice-cold Willers"),
-        new ChoiceOption("Get rid of crate without spending and adventure"));
+        new ChoiceOption("Get rid of crate without spending an adventure"));
 
     // 1984 Had Nothing on This Cellar
     new ChoiceAdventure(
@@ -2818,8 +2818,8 @@ public abstract class ChoiceAdventures {
         "Woods",
         "Typical Tavern",
         // Option...
-        new ChoiceOption("3-5 rat whiskers and smiling rat (once)"),
-        new ChoiceOption("Get rid of crate without spending and adventure"));
+        new ChoiceOption("3-5 rat whiskers and smiling rat (sometimes)"),
+        new ChoiceOption("Get rid of crate without spending an adventure"));
 
     // A Rat's Home...
     new ChoiceAdventure(
@@ -2828,7 +2828,7 @@ public abstract class ChoiceAdventures {
         "Typical Tavern",
         // Option...
         new ChoiceOption("3 bottles of tequila"),
-        new ChoiceOption("Get rid of crate without spending and adventure"));
+        new ChoiceOption("Get rid of crate without spending an adventure"));
 
     // Choice 516 is unknown
     // Choice 517 is Mr. Alarm, I Presarm
