@@ -91,6 +91,5 @@ class ChoiceAdventuresTest {
       assertEquals(theme, ShadowTheme.BLOOD);
       assertEquals("Shadow's Heart: Maximum HP +300% or shadow heart", spoiler.toString());
     }
-
   }
 }
