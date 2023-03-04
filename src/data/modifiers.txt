@@ -7070,6 +7070,8 @@ Effect	Sewer-Drenched	Stench Damage: +100
 # Shadow Affinity: Adventuring in Shadow Rifts will consume turns of this instead of Adventures
 Effect	Shadow Medicine	Maximum HP Percent: +200, Maximum MP Percent: +200
 Effect	Shadow Waters	Initiative: +100, Item Drop: +100, Meat Drop: +200, Combat Rate: -10
+Effect	Shadow's Chill	Maximum MP Percent: +300
+Effect	Shadow's Heart	Maximum HP Percent: +300
 Effect	Shadow's Thickness	Spooky Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5
 Effect	Shahamaniacal	Avatar: "Ham Shaman"
 Effect	Shamboozled	Moxie Percent: +50
