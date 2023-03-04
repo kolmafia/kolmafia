@@ -173,3 +173,4 @@
 161	Trainbot Trappings	tbottat.gif	head-mounted Trainbot, leg-mounted Trainbots, shoulder-mounted Trainbot	chocolate covered ping-pong ball
 162	Ceramic Clothing	ceramtat.gif	ceramic celery grater, ceramic centurion shield, ceramic cenobite's robe, ceramic cestus, ceramic cerecloth belt, ceramic celsiturometer
 163	Chiffon Chiffinery	chiffontat.gif	chiffon chapeau, chiffon chakram, chiffon chamberpot, chiffon chemise, chiffon chaps, chiffon chevrons
+164	Shadow Shuit	shadouttat.gif	shadow chef's hat, shadow trousers
