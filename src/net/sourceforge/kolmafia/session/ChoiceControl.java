@@ -5897,6 +5897,11 @@ public abstract class ChoiceControl {
         Preferences.setInteger("lttQuestStageCount", 0);
         break;
 
+      case 1180:
+        // Back to the East
+        handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
+
       case 1188: // The Call is Coming from Outside the Simulation
         if (ChoiceManager.lastDecision == 1) {
           // Skill learned
@@ -6464,6 +6469,11 @@ public abstract class ChoiceControl {
         // Since you can walk away from this choice, only set you
         // actually selected a course.
         Preferences.setBoolean("_sitCourseCompleted", true);
+        break;
+
+      case 1496:
+        // Out of the Shadows
+        handleAfterAvatar(ChoiceManager.lastDecision);
         break;
     }
   }
