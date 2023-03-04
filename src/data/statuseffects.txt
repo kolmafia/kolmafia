@@ -2798,3 +2798,10 @@
 2798	Tricky Timpani	timpani.gif	c268749a247877821a0712b02c6477ee	neutral	none	cast 1 Tricky Timpani
 2799	Soothing Flute	flute.gif	e4e106f0e6dc378539b81b818d20e157	neutral	none	cast 1 Soothing Flute
 2800	In The Darkness	darkness.gif	b1e3b0b89c3d531663f8758eab2fa327	neutral	none
+2801
+2802	Shadow Affinity	shadowaffin.gif	09e8803c9c99fcfeb524a3f31e415f60	neutral	none
+2803	Shadow's Chill	shadowflake.gif	7164c53309fdee5c3e7367e22d0ba9be	neutral	none
+2804	Shadow's Heart	shadowheart.gif	ae985c01dcfdcbdcdd0c324716ff2c6d	neutral	none
+2805	Shadow's Thickness	shadowwave.gif	cec0a45b03817e4e0b9a4fa6833c556a	neutral	none
+2806	Shadow Waters	shadowvenom.gif	638c1fadfcec6c52ff921d5c1e7da66b	neutral	none
+2807	Shadow Medicine	shadowpill.gif	c382e7e061a9449d2052f45eb188247c	neutral	none	chew 1 shadow pill
