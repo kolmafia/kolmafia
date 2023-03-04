@@ -8969,8 +8969,207 @@ public abstract class ChoiceAdventures {
           result[2] = new ChoiceOption("Walk away in disappointment");
           return result;
         }
+
+      case 1499:
+        {
+          // A Labyrinth of Shadows
+
+          String responseText = ChoiceManager.lastResponseText;
+          Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
+          int options = choices.size();
+
+          // 1 = "Press on"
+          // 2 = (random theme)
+          // 3 = (random theme)
+          // 4 = (random theme)
+          // 5 = "Turn in a circle"
+          // 6? = "Leave this place"
+
+          result = new ChoiceOption[options];
+          result[0] = new ChoiceOption("Randomize themes");
+          for (int i = 1; i <= 3; ++i) {
+            result[i] = shadowLabyrinthSpoiler(choices.get(i));
+          }
+          result[4] = new ChoiceOption("Randomize themes");
+          result[5] = new ChoiceOption("Waste a turn");
+
+          return result;
+        }
     }
     return null;
+  }
+
+  public enum ShadowTheme {
+    FIRE("90-100 Muscle substats"),
+    MATH("90-100 Mysticality substats", "shadow heptahedron"),
+    WATER("90-100 Moxie substats", "shadow bucket"),
+    TIME("+3 turns to 3 random effects"),
+    BLOOD("Shadow's Heart: Maximum HP +300%", "shadow heart"),
+    COLD("Shadow's Chill: Maximum MP +300%"),
+    GHOST("Superhuman (+5) Spooky, Hot, Sleaze resistance", "shadow wave");
+
+    final String normal;
+    final String artifact;
+
+    ShadowTheme(String normal) {
+      this.normal = normal;
+      this.artifact = "none";
+    }
+
+    ShadowTheme(String normal, String artifact) {
+      this.normal = normal;
+      this.artifact = artifact;
+    }
+
+    public String getNormal() {
+      return this.normal;
+    }
+
+    public String getArtifact() {
+      return this.artifact;
+    }
+  }
+
+  // Adjectives for ShadowThemes
+  private static final Map<String, ShadowTheme> adjectiveToTheme = new HashMap<>();
+
+  private static void addAdjectives(ShadowTheme theme, String... adjectives) {
+    for (String adjective : adjectives) {
+      adjectiveToTheme.put(adjective, theme);
+    }
+  }
+
+  static {
+    addAdjectives(
+        ShadowTheme.FIRE,
+        "steaming",
+        "scalded",
+        "scalding",
+        "flame-choked",
+        "blazing",
+        "ember-lit",
+        "scorching",
+        "blistering",
+        "sizzling",
+        "charred",
+        "white-hot");
+    addAdjectives(
+        ShadowTheme.MATH,
+        "Pythagorean",
+        "exponential",
+        "fractional",
+        "parabolic",
+        "sinusoidal",
+        "monomial",
+        "boolean",
+        "integer",
+        "hyperbolic",
+        "Riemannian",
+        "irrational",
+        "geometric",
+        "fractal",
+        "ordinal",
+        "logarithmic",
+        "angular",
+        "Cartesian",
+        "prime",
+        "multiplicative",
+        "Fibonacci",
+        "self-referential",
+        "trigonometric",
+        "cubic",
+        "vector");
+    addAdjectives(
+        ShadowTheme.WATER,
+        "humid",
+        "dripping",
+        "water-logged",
+        "runny",
+        "soaked",
+        "drowning",
+        "watery",
+        "aqueous",
+        "sodden",
+        "moist",
+        "foggy",
+        "damp");
+    addAdjectives(
+        ShadowTheme.TIME,
+        "rickety",
+        "ramshackle",
+        "old",
+        "broken-down",
+        "ancient",
+        "derelict",
+        "shabby",
+        "crumbling",
+        "ruined",
+        "decaying",
+        "antique",
+        "dilapidated",
+        "unkempt");
+    addAdjectives(
+        ShadowTheme.BLOOD,
+        "bloodstained",
+        "vein-shot",
+        "blood-soaked",
+        "blood-drenched",
+        "crimson",
+        "pulsing",
+        "sanguine",
+        "veiny",
+        "bloody",
+        "hematic",
+        "bleeding");
+    addAdjectives(
+        ShadowTheme.COLD,
+        "frost-rimed",
+        "icy",
+        "iced-over",
+        "frozen",
+        "freezing",
+        "frosty",
+        "spectral",
+        "cold-numbed",
+        "snow-covered",
+        "chilly",
+        "hyperborean",
+        "wintry",
+        "arctic",
+        "frigid");
+    addAdjectives(
+        ShadowTheme.GHOST,
+        "ghostly",
+        "insubstantial",
+        "diaphanous",
+        "translucent",
+        "see-through",
+        "gossamer",
+        "half-there",
+        "nearly invisible",
+        "wispy",
+        "ephemeral");
+  }
+
+  private static final Pattern ADJECTIVE_PATTERN = Pattern.compile(" the ([^ ]+) ");
+
+  public static ShadowTheme shadowLabyrinthTheme(String text) {
+    Matcher m = ADJECTIVE_PATTERN.matcher(text);
+    return m.find() ? adjectiveToTheme.get(m.group(1)) : null;
+  }
+
+  public static ChoiceOption shadowLabyrinthSpoiler(String text) {
+    ShadowTheme theme = shadowLabyrinthTheme(text);
+    String spoiler = "unknown theme";
+    if (theme != null) {
+      String normal = theme.getNormal();
+      spoiler = normal;
+      String artifact = theme.getArtifact();
+      if (artifact != null) {
+        spoiler += " or " + artifact;
+      }
+    }
+    return new ChoiceOption(spoiler);
   }
 
   private static ChoiceOption booPeakDamage() {
