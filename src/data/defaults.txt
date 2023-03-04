@@ -911,6 +911,7 @@ user	lastPorkoExpected
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
+user	lastShadowForgeUnlockAdventure	-1
 user	lastSkateParkReset	-1
 user	lastSlimeVial3885
 user	lastSlimeVial3886

@@ -2065,9 +2065,9 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.CREATION_COST.put(CraftingType.WOOL, 0);
     ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.WOOL, 0);
 
-    // Making stuff at The Shadow Forge is only allowed if you are actually there
-    // How can we detect that?
-    if (false) {
+    // Making stuff at The Shadow Forge is only allowed if you have not
+    // spent any adventures since you last encountered it.
+    if (Preferences.getInteger("lastShadowForgeUnlockAdventure") == KoLCharacter.getCurrentRun()) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SHADOW_FORGE);
       ConcoctionDatabase.CREATION_COST.put(CraftingType.SHADOW_FORGE, 0);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SHADOW_FORGE, 0);

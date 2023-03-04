@@ -1,9 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class ShadowForgeRequest extends CreateItemRequest {
   public ShadowForgeRequest(final Concoction conc) {
@@ -17,20 +19,13 @@ public class ShadowForgeRequest extends CreateItemRequest {
 
   @Override
   public void run() {
-    // Does this work for this shop?  I bet not, since you can only get
-    // to it by via an adventure redirecting to a choice
-    //
-    // We should - somehow - detect that we are in the shop and fail
-    // otherwise.
-    //
-    // Alternatively, if you have Rufus's shadow lodestone (a quest
-    // item) in inventory, we could adventure in a Shadow Rift and get
-    // redirected to the shop.
-    //
-    // Presumably you need turns available and sobriety?
-    // adventure.php -> choice.php -> shop.php does not take a turn.
+    if (Preferences.getInteger("lastShadowForgeUnlockAdventure") != KoLCharacter.getCurrentRun()) {
+      KoLmafia.updateDisplay(
+          KoLConstants.MafiaState.ERROR, "You have adventured since visiting The Shadow Forge.");
+      return;
+    }
 
-    // Attempt to retrieve the ingredients
+    // As long as we don't adventure, we can fetch ingredients.
     if (!this.makeIngredients()) {
       return;
     }

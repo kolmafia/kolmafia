@@ -3522,12 +3522,15 @@ public class ItemPool {
   public static final int HARD_ROCK = 11108;
   public static final int STRANGE_STALAGMITE = 11109;
   public static final int SIT_COURSE_COMPLETION_CERTIFICATE = 11116;
+  public static final int SHADOW_FLAME = 11137;
+  public static final int SHADOW_FLUID = 11140;
   public static final int SHADOW_BRICK = 11142;
   public static final int ADVANCED_PIG_SKINNING = 11163;
   public static final int THE_CHEESE_WIZARDS_COMPANION = 11164;
   public static final int JAZZ_AGENT_SHEET_MUSIC = 11165;
   public static final int SHADOWY_CHEAT_SHEET = 11167;
   public static final int CLOSED_CIRCUIT_PAY_PHONE = 11169;
+  public static final int RUFUS_SHADOW_LODESTONE = 11176;
   public static final int SHADOW_CHEFS_HAT = 11177;
   public static final int SHADOW_TROUSERS = 11178;
   public static final int SHADOW_HAMMER = 11179;
