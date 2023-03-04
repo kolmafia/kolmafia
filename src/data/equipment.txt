@@ -329,6 +329,7 @@ sealhide hood	160	Mox: 65
 Seasonal Beret	100	Mys: 35
 sequined fez	80	Mox: 25
 seven-gallon hat	140	none
+shadow chef's hat	100	none
 shapeless wide-brimmed hat	200	Mox: 200
 shining star cap	100	none
 silent beret	13	none
@@ -651,6 +652,7 @@ scale-mail underwear	200	Mox: 85
 sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
 servo-assisted exo-pants	50	none
+shadow trousers	100	none
 slime waders	150	Mys: 30
 slime-covered greaves	200	Mox: 200
 SMOOCH codpiece	80	Mox: 25
@@ -1503,6 +1505,7 @@ serpentine sword	115	Mus: 42	1-handed sword
 severed flipper	80	Mus: 25	1-handed club
 sewage-clogged pistol	100	Mox: 35	1-handed pistol
 sewer snake	30	Mox: 0	1-handed flail
+shadow hammer	100	Mus: 0	2-handed club
 shadow stick	130	Mus: 50	1-handed club
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Shakespeare's Sister's Accordion	100	Mox: 0	1-handed accordion
@@ -2137,6 +2140,7 @@ security flashlight	50	Mys: 10
 set of jacks	20	none
 Seven Loco	0	none
 sewer turtle	20	none	shield
+shadow candle	0	none
 shadowy seal eye	100	Mus: 35
 Shield of Icy Fate	120	none	shield
 shield of the Skeleton Lord	300	Mus: 50	shield
@@ -2978,6 +2982,7 @@ second-hand knockoff engagement ring	0	none
 self-repairing earmuffs	50	none
 Senior LAAAAME merit badge	0	none
 severed rocking horse head	50	Mys: 10
+shadow monocle	0	none
 shamanic beads	125	Mys: 47
 shark tooth necklace	200	Mys: 85
 shin gourds	100	none

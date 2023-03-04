@@ -192,6 +192,7 @@ sachet of strange powder	1	4	good	0	30-50	30-50	30-50	40 Powder Power (+5 prisma
 scintillating oyster egg	1	5	EPIC	0	0	0	0	20 Eggscitingly Colorful (+3 all res)
 sea jelly	1	1	crappy	0	30-40	30-40	30-40	10 Fishy
 shadow nectar	13	13		0	0	0	0	Unspaded
+shadow pill	1	1		0	0	0	0	Unspaded
 Shantix&trade;	1	1	awesome	0	0	0	0	30 Thou Shant Not Sing (+50% mox experience)
 single atom	1	1	decent	1	0	0	0
 sleaze jelly	1	1	crappy	0	0	0	50-60	50 Sleazy Jellied (+3 mox stats/fight, +5 sleaze damage, +30% mox), 10% off next NPC purchase (not Gift shop)
