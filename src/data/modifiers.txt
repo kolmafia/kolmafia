@@ -4375,7 +4375,7 @@ Item	miniature antlers	Familiar Weight: [1+ceil(M/2)], Generic
 Item	miniature carton of clove cigarettes	Familiar Weight: +5
 Item	miniature castagnets	Familiar Weight: +5
 # miniature crystal ball: Randomly gives you either +50% Item Drops or +5 Stats After Combat
-Item	miniature crystal ball	Initiative: +50, Generic
+Item	miniature crystal ball	Initiative: +50, Item Drop (sporadic): +25, Experience: +2.5, Generic
 # miniature dormouse: Makes March Hare More Better
 Item	miniature espresso maker	Familiar Weight: +5
 Item	miniature goose mask	Familiar Weight: +5, Experience (Moxie): +3, Generic
