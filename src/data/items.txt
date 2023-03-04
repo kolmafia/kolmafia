@@ -11193,8 +11193,8 @@
 11165	Jazz Agent sheet music	357188894	music.gif	usable	q	0
 11166	Thwaitgold anti-moth statuette	908539632	thwaitantimoth.gif	none		0
 11167	shadowy cheat sheet	170862408	pamphlet.gif	usable	t	0
-11168	closed-circuit phone system	996607601	rufusbox.gif	reusable	t	0
-11169	closed-circuit pay phone	933709581	rufusphone.gif	usable		0
+11168	closed-circuit phone system	996607601	rufusbox.gif	usable	t	0
+11169	closed-circuit pay phone	933709581	rufusphone.gif	reusable		0
 11170
 11171	shadow heptahedron	424131957	shadowhedron.gif	none	q	0
 11172
