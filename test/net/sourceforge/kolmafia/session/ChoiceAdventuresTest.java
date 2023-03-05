@@ -129,7 +129,8 @@ class ChoiceAdventuresTest {
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.GHOST);
       assertEquals(
-          "Superhuman (+5) Spooky, Hot, Sleaze resistance or shadow wave", spoiler.toString());
+          "30 Shadow's Thickness: Superhuman (+5) Spooky, Hot, Sleaze resistance or shadow wave",
+          spoiler.toString());
     }
 
     @Test
