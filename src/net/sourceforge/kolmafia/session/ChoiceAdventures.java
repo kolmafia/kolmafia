@@ -9003,7 +9003,7 @@ public abstract class ChoiceAdventures {
     TIME("+3 turns to 3 random effects"),
     BLOOD("30 Shadow's Heart: Maximum HP +300%", "shadow heart"),
     COLD("30 Shadow's Chill: Maximum MP +300%", "shadow snowflake"),
-    GHOST("Superhuman (+5) Spooky, Hot, Sleaze resistance", "shadow wave");
+    GHOST("30 Shadow's Thickness: Superhuman (+5) Spooky, Hot, Sleaze resistance", "shadow wave");
 
     final String normal;
     final String artifact;
@@ -9065,7 +9065,8 @@ public abstract class ChoiceAdventures {
         "Cartesian",
         "cubic",
         "decimal",
-        "Euclidian",
+        "divided",
+        "Euclidean",
         "exponential",
         "Fibonacci",
         "fractal",
