@@ -7057,6 +7057,10 @@ public abstract class ChoiceAdventures {
       case 1489:
         // Slagging Off
         return dynamicChoiceSpoilers(choice, "Slagging Off");
+
+      case 1499:
+        // A Labyrinth of Shadows
+        return dynamicChoiceSpoilers(choice, "A Labyrinth of Shadows");
     }
 
     return null;
@@ -8978,20 +8982,13 @@ public abstract class ChoiceAdventures {
           Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
           int options = choices.size();
 
-          // 1 = "Press on"
-          // 2 = (random theme)
-          // 3 = (random theme)
-          // 4 = (random theme)
-          // 5 = "Turn in a circle"
-          // 6? = "Leave this place"
-
           result = new ChoiceOption[options];
           result[0] = new ChoiceOption("Randomize themes");
           for (int i = 1; i <= 3; ++i) {
-            result[i] = shadowLabyrinthSpoiler(choices.get(i));
+            result[i] = shadowLabyrinthSpoiler(choices.get(i + 1));
           }
           result[4] = new ChoiceOption("Randomize themes");
-          result[5] = new ChoiceOption("Waste a turn");
+          result[5] = new ChoiceOption("Leave with nothing");
 
           return result;
         }
@@ -9013,7 +9010,7 @@ public abstract class ChoiceAdventures {
 
     ShadowTheme(String normal) {
       this.normal = normal;
-      this.artifact = "none";
+      this.artifact = null;
     }
 
     ShadowTheme(String normal, String artifact) {
@@ -9042,113 +9039,116 @@ public abstract class ChoiceAdventures {
   static {
     addAdjectives(
         ShadowTheme.FIRE,
-        "steaming",
+        "blazing",
+        "blistering",
+        "charred",
+        "ember-lit",
+        "flame-choked",
         "scalded",
         "scalding",
-        "flame-choked",
-        "blazing",
-        "ember-lit",
         "scorching",
-        "blistering",
+        "singed",
         "sizzling",
-        "charred",
+        "steaming",
         "white-hot");
     addAdjectives(
         ShadowTheme.MATH,
-        "Pythagorean",
-        "exponential",
-        "fractional",
-        "parabolic",
-        "sinusoidal",
-        "monomial",
-        "boolean",
-        "integer",
-        "hyperbolic",
-        "Riemannian",
-        "irrational",
-        "geometric",
-        "fractal",
-        "ordinal",
-        "logarithmic",
-        "angular",
+        "algebraic",
         "Cartesian",
-        "prime",
-        "multiplicative",
         "Fibonacci",
-        "self-referential",
-        "trigonometric",
+        "Pythagorean",
+        "Riemannian",
+        "angular",
+        "boolean",
         "cubic",
+        "exponential",
+        "fractal",
+        "fractional",
+        "geometric",
+        "hyperbolic",
+        "integer",
+        "irrational",
+        "logarithmic",
+        "monomial",
+        "multiplicative",
+        "ordinal",
+        "parabolic",
+        "prime",
+        "self-referential",
+        "sinusoidal",
+        "trigonometric",
         "vector");
     addAdjectives(
         ShadowTheme.WATER,
-        "humid",
+        "aqueous",
+        "damp",
         "dripping",
-        "water-logged",
+        "drowning",
+        "foggy",
+        "humid",
+        "moist",
         "runny",
         "soaked",
-        "drowning",
-        "watery",
-        "aqueous",
         "sodden",
-        "moist",
-        "foggy",
-        "damp");
+        "water-logged",
+        "watery");
     addAdjectives(
         ShadowTheme.TIME,
-        "rickety",
-        "ramshackle",
-        "old",
-        "broken-down",
         "ancient",
-        "derelict",
-        "shabby",
-        "crumbling",
-        "ruined",
-        "decaying",
         "antique",
+        "broken-down",
+        "crumbling",
+        "decaying",
+        "derelict",
         "dilapidated",
+        "old",
+        "ramshackle",
+        "rickety",
+        "ruined",
+        "shabby",
         "unkempt");
     addAdjectives(
         ShadowTheme.BLOOD,
-        "bloodstained",
-        "vein-shot",
-        "blood-soaked",
+        "bleeding",
         "blood-drenched",
+        "blood-soaked",
+        "bloodstained",
+        "bloody",
         "crimson",
+        "hematic",
         "pulsing",
         "sanguine",
-        "veiny",
-        "bloody",
-        "hematic",
-        "bleeding");
+        "vein-shot",
+        "veiny");
     addAdjectives(
         ShadowTheme.COLD,
-        "frost-rimed",
-        "icy",
-        "iced-over",
-        "frozen",
-        "freezing",
-        "frosty",
-        "spectral",
-        "cold-numbed",
-        "snow-covered",
-        "chilly",
-        "hyperborean",
-        "wintry",
         "arctic",
-        "frigid");
+        "chilly",
+        "cold-numbed",
+        "freezing",
+        "frigid",
+        "frost-rimed",
+        "frosty",
+        "frozen",
+        "hyperborean",
+        "iced-over",
+        "icy",
+        "snow-covered",
+        "spectral",
+        "wintry");
     addAdjectives(
         ShadowTheme.GHOST,
-        "ghostly",
-        "insubstantial",
         "diaphanous",
-        "translucent",
-        "see-through",
+        "ephemeral",
+        "ghostly",
         "gossamer",
         "half-there",
+        "insubstantial",
         "nearly invisible",
-        "wispy",
-        "ephemeral");
+        "see-through",
+        "translucent",
+        "transparent",
+        "wispy");
   }
 
   private static final Pattern ADJECTIVE_PATTERN = Pattern.compile(" the ([^ ]+) ");

@@ -1,16 +1,20 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ShadowTheme;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -66,6 +70,14 @@ class ChoiceAdventuresTest {
   @Nested
   class ShadowLabyrinth {
     @Test
+    void canDetectHotAdjective() {
+      var text = "Opt for the white-hot cleft";
+      ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.FIRE);
+      assertEquals("90-100 Muscle substats", spoiler.toString());
+    }
+
     void canDetectWaterAdjective() {
       var text = "Leap into the sodden hole";
       ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
@@ -84,12 +96,43 @@ class ChoiceAdventuresTest {
     }
 
     @Test
+    void canDetectTimeAdjective() {
+      var text = "Try to reach the old opening";
+      ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.TIME);
+      assertEquals("+3 turns to 3 random effects", spoiler.toString());
+    }
+
+    @Test
     void canDetectBloodAdjective() {
       var text = "Walk to the vein-shot lane";
       ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.BLOOD);
       assertEquals("Shadow's Heart: Maximum HP +300% or shadow heart", spoiler.toString());
+    }
+
+    @Test
+    void canParseLabyrinthOfShadows() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder));
+      try (cleanups) {
+        String html = html("request/test_visit_labyrinth_of_shadows.html");
+        client.addResponse(200, html);
+        var request = new GenericRequest("choice.php?forceoption=0");
+        request.run();
+
+        var spoilers = ChoiceAdventures.choiceSpoilers(1499, new StringBuffer(html));
+        var options = spoilers.getOptions();
+        assertEquals("Randomize themes", options[0].toString());
+        assertEquals("90-100 Muscle substats", options[1].toString());
+        assertEquals("+3 turns to 3 random effects", options[2].toString());
+        assertEquals("Shadow's Heart: Maximum HP +300% or shadow heart", options[3].toString());
+        assertEquals("Randomize themes", options[4].toString());
+        assertEquals("Leave with nothing", options[5].toString());
+      }
     }
   }
 }
