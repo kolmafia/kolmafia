@@ -83,7 +83,7 @@ public class ValueConverter {
     } else if (value.getType().equals(DataTypes.BOOLEAN_TYPE)) {
       return value.contentLong != 0;
     } else if (value.getType().equals(DataTypes.INT_TYPE)) {
-      return (int) value.contentLong;
+      return value.contentLong;
     } else if (value.getType().equals(DataTypes.FLOAT_TYPE)) {
       return value.floatValue();
     } else if (value.getType().equals(DataTypes.STRING_TYPE)
@@ -198,7 +198,7 @@ public class ValueConverter {
         || object instanceof Short
         || object instanceof Integer
         || object instanceof Long) {
-      return DataTypes.makeIntValue(((Number) object).intValue());
+      return DataTypes.makeIntValue(((Number) object).longValue());
     } else if (object instanceof String) {
       return DataTypes.makeStringValue((String) object);
     } else if (object instanceof StringBuffer || object instanceof ConsString) {
