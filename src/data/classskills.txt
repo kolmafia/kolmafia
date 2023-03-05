@@ -1,4 +1,4 @@
-4
+sa4
 # Syntax is:
 # id	Name	image	Type	MP Cost	Duration[	Level]
 # Type can be:
@@ -972,6 +972,7 @@
 7429	Ceramic Boil		0	5	0
 7429	Ceramic Skullgaze		0	5	0
 7431	Ceramic Cenobitize		0	5	0
+7432	Shadow Flame		0	5	5
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
