@@ -74,8 +74,8 @@ public class AshInteropTest {
 
   @Test
   void dataConversionHandles64bitNumbersCorrectly() {
-    String testDate = "2023-03-03";
-    String dateFormat = "yyyy-MM-dd";
+    String testDate = "2023-03-03 00:00:00 -0600";
+    String dateFormat = "yyyy-MM-dd HH:mm:ss Z";
     long timeStamp = 1677823200000L;
     double approx = 1677823180800.0;
     var js =
