@@ -8997,12 +8997,12 @@ public abstract class ChoiceAdventures {
   }
 
   public enum ShadowTheme {
-    FIRE("90-100 Muscle substats"),
+    FIRE("90-100 Muscle substats", "shadow lighter"),
     MATH("90-100 Mysticality substats", "shadow heptahedron"),
     WATER("90-100 Moxie substats", "shadow bucket"),
     TIME("+3 turns to 3 random effects"),
-    BLOOD("Shadow's Heart: Maximum HP +300%", "shadow heart"),
-    COLD("Shadow's Chill: Maximum MP +300%"),
+    BLOOD("30 Shadow's Heart: Maximum HP +300%", "shadow heart"),
+    COLD("30 Shadow's Chill: Maximum MP +300%", "shadow snowflake"),
     GHOST("Superhuman (+5) Spooky, Hot, Sleaze resistance", "shadow wave");
 
     final String normal;
@@ -9041,14 +9041,17 @@ public abstract class ChoiceAdventures {
         ShadowTheme.FIRE,
         "blazing",
         "blistering",
+        "burning",
         "charred",
         "ember-lit",
         "flame-choked",
         "scalded",
         "scalding",
+        "scorched",
         "scorching",
         "singed",
         "sizzling",
+        "smoldering",
         "steaming",
         "white-hot");
     addAdjectives(

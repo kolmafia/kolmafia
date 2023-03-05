@@ -2121,6 +2121,7 @@ shadow spire	2298	shadowspire.gif	Atk: 300 Def: 300 HP: 500 Init: -10000 P: horr
 shadow orrery	2299	shadoworrery.gif	Atk: 300 Def: 300 HP: 250 Init: -10000 P: horror Article: a
 shadow tongue	2300	shadowtongue.gif	Atk: 300 Def: 300 HP: 500 Init: 200 P: horror Article: a
 shadow scythe	2301	shadowscythe.gif	Atk: 300 Def: 300 HP: 50 Init: 10000 P: horror Article: a
+shadow cauldron	2302	shadowcauldron.gif	Atk: 300 Def: 300 HP: 1000 Init: -10000 P: horror Article: a
 shadow matrix	2303	shadowmatrix.gif	Atk: 300 Def: 300 HP: 500 Init: 1000 P: horror Article: a
 
 # KoL Con

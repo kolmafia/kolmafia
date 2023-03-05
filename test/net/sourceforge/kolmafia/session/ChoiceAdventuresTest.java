@@ -75,7 +75,16 @@ class ChoiceAdventuresTest {
       ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.FIRE);
-      assertEquals("90-100 Muscle substats", spoiler.toString());
+      assertEquals("90-100 Muscle substats or shadow lighter", spoiler.toString());
+    }
+
+    @Test
+    void canDetectColdAdjective() {
+      var text = "Opt for the iced-over passage";
+      ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.COLD);
+      assertEquals("30 Shadow's Chill: Maximum MP +300% or shadow snowflake", spoiler.toString());
     }
 
     void canDetectWaterAdjective() {
@@ -110,7 +119,17 @@ class ChoiceAdventuresTest {
       ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.BLOOD);
-      assertEquals("Shadow's Heart: Maximum HP +300% or shadow heart", spoiler.toString());
+      assertEquals("30 Shadow's Heart: Maximum HP +300% or shadow heart", spoiler.toString());
+    }
+
+    @Test
+    void canDetectGhostAdjective() {
+      var text = "Try to reach the ephemeral hole";
+      ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.GHOST);
+      assertEquals(
+          "Superhuman (+5) Spooky, Hot, Sleaze resistance or shadow wave", spoiler.toString());
     }
 
     @Test
@@ -127,9 +146,9 @@ class ChoiceAdventuresTest {
         var spoilers = ChoiceAdventures.choiceSpoilers(1499, new StringBuffer(html));
         var options = spoilers.getOptions();
         assertEquals("Randomize themes", options[0].toString());
-        assertEquals("90-100 Muscle substats", options[1].toString());
+        assertEquals("90-100 Muscle substats or shadow lighter", options[1].toString());
         assertEquals("+3 turns to 3 random effects", options[2].toString());
-        assertEquals("Shadow's Heart: Maximum HP +300% or shadow heart", options[3].toString());
+        assertEquals("30 Shadow's Heart: Maximum HP +300% or shadow heart", options[3].toString());
         assertEquals("Randomize themes", options[4].toString());
         assertEquals("Leave with nothing", options[5].toString());
       }
