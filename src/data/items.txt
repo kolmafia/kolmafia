@@ -11194,12 +11194,12 @@
 11166	Thwaitgold anti-moth statuette	908539632	thwaitantimoth.gif	none		0
 11167	shadowy cheat sheet	170862408	pamphlet.gif	usable	t	0
 11168	closed-circuit phone system	996607601	rufusbox.gif	usable	t	0
-11169	closed-circuit pay phone	933709581	rufusphone.gif	usable		0
-11170
-11171
-11172
-11173
-11174
+11169	closed-circuit pay phone	933709581	rufusphone.gif	reusable		0
+11170	shadow lighter	375149080	shadowlighter.gif	none	q	0
+11171	shadow heptahedron	424131957	shadowhedron.gif	none	q	0
+11172	shadow snowflake	804907977	shadowflake.gif	none	q	0
+11173	shadow heart	968447777	shadowheart.gif	none	q	0
+11174	shadow bucket	678312464	shadowbucket.gif	none	q	0
 11175	shadow wave	401666444	shadowwave.gif	none	q	0
 11176	Rufus's shadow lodestone	481324184	shadowlode.gif	none	q	0
 11177	shadow chef's hat	479343174	shadowhat.gif	hat		0

@@ -2116,6 +2116,14 @@ undercover prohibition agent	2253	olivers_prohie.gif	Atk: 60 Def: 60 HP: 70 Init
 # Rock Garden (Jan 2023)
 Moleman	2267	moleman.gif	NOCOPY Scale: 15 Cap: ? Floor: ? Init: -10000 P: humanoid Article: a
 
+# closed-circuit pay phone (Mar 2023)
+shadow spire	2298	shadowspire.gif	Atk: 300 Def: 300 HP: 500 Init: -10000 P: horror Article: a
+shadow orrery	2299	shadoworrery.gif	Atk: 300 Def: 300 HP: 250 Init: -10000 P: horror Article: a
+shadow tongue	2300	shadowtongue.gif	Atk: 300 Def: 300 HP: 500 Init: 200 P: horror Article: a
+shadow scythe	2301	shadowscythe.gif	Atk: 300 Def: 300 HP: 50 Init: 10000 P: horror Article: a
+shadow cauldron	2302	shadowcauldron.gif	Atk: 300 Def: 300 HP: 1000 Init: -10000 P: horror Article: a
+shadow matrix	2303	shadowmatrix.gif	Atk: 300 Def: 300 HP: 500 Init: 1000 P: horror Article: a
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)

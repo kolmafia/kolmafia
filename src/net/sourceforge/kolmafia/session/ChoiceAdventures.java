@@ -7057,6 +7057,10 @@ public abstract class ChoiceAdventures {
       case 1489:
         // Slagging Off
         return dynamicChoiceSpoilers(choice, "Slagging Off");
+
+      case 1499:
+        // A Labyrinth of Shadows
+        return dynamicChoiceSpoilers(choice, "A Labyrinth of Shadows");
     }
 
     return null;
@@ -8969,8 +8973,231 @@ public abstract class ChoiceAdventures {
           result[2] = new ChoiceOption("Walk away in disappointment");
           return result;
         }
+
+      case 1499:
+        {
+          // A Labyrinth of Shadows
+
+          String responseText = ChoiceManager.lastResponseText;
+          Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
+          int options = choices.size();
+
+          result = new ChoiceOption[options];
+          result[0] = new ChoiceOption("Randomize themes");
+          for (int i = 1; i <= 3; ++i) {
+            result[i] = shadowLabyrinthSpoiler(choices.get(i + 1));
+          }
+          result[4] = new ChoiceOption("Randomize themes");
+          result[5] = new ChoiceOption("Leave with nothing");
+
+          return result;
+        }
     }
     return null;
+  }
+
+  public enum ShadowTheme {
+    FIRE("90-100 Muscle substats", "shadow lighter"),
+    MATH("90-100 Mysticality substats", "shadow heptahedron"),
+    WATER("90-100 Moxie substats", "shadow bucket"),
+    TIME("+3 turns to 3 random effects"),
+    BLOOD("30 Shadow's Heart: Maximum HP +300%", "shadow heart"),
+    COLD("30 Shadow's Chill: Maximum MP +300%", "shadow snowflake"),
+    GHOST("Superhuman (+5) Spooky, Hot, Sleaze resistance", "shadow wave");
+
+    final String normal;
+    final String artifact;
+
+    ShadowTheme(String normal) {
+      this.normal = normal;
+      this.artifact = null;
+    }
+
+    ShadowTheme(String normal, String artifact) {
+      this.normal = normal;
+      this.artifact = artifact;
+    }
+
+    public String getNormal() {
+      return this.normal;
+    }
+
+    public String getArtifact() {
+      return this.artifact;
+    }
+  }
+
+  // Adjectives for ShadowThemes
+  private static final Map<String, ShadowTheme> adjectiveToTheme = new HashMap<>();
+
+  private static void addAdjectives(ShadowTheme theme, String... adjectives) {
+    for (String adjective : adjectives) {
+      adjectiveToTheme.put(adjective, theme);
+    }
+  }
+
+  static {
+    addAdjectives(
+        ShadowTheme.FIRE,
+        "blazing",
+        "blistering",
+        "burning",
+        "burnt",
+        "charred",
+        "ember-lit",
+        "flame-choked",
+        "scalded",
+        "scalding",
+        "scorched",
+        "scorching",
+        "seared",
+        "singed",
+        "sizzling",
+        "smoldering",
+        "steaming",
+        "white-hot");
+    addAdjectives(
+        ShadowTheme.MATH,
+        "algebraic",
+        "angular",
+        "binomial",
+        "boolean",
+        "Cartesian",
+        "cubic",
+        "decimal",
+        "Euclidian",
+        "exponential",
+        "Fibonacci",
+        "fractal",
+        "fractional",
+        "geometric",
+        "hyperbolic",
+        "integer",
+        "irrational",
+        "logarithmic",
+        "monomial",
+        "multiplicative",
+        "ordinal",
+        "parabolic",
+        "periodic",
+        "prime",
+        "Pythagorean",
+        "quadratic",
+        "Riemannian",
+        "self-referential",
+        "sinusoidal",
+        "trigonometric",
+        "vector");
+    addAdjectives(
+        ShadowTheme.WATER,
+        "aqueous",
+        "damp",
+        "drenched",
+        "dripping",
+        "drowned",
+        "drowning",
+        "foggy",
+        "humid",
+        "moist",
+        "runny",
+        "soaked",
+        "sodden",
+        "underwater",
+        "wet",
+        "water-logged",
+        "watery");
+    addAdjectives(
+        ShadowTheme.TIME,
+        "ancient",
+        "antique",
+        "broken-down",
+        "crumbling",
+        "decaying",
+        "derelict",
+        "dilapidated",
+        "old",
+        "ramshackle",
+        "rickety",
+        "ruined",
+        "shabby",
+        "unkempt");
+    addAdjectives(
+        ShadowTheme.BLOOD,
+        "bleeding",
+        "blood-drenched",
+        "blood-soaked",
+        "bloodstained",
+        "bloody",
+        "crimson",
+        "hematic",
+        "pulsing",
+        "sanguine",
+        "vein-shot",
+        "veiny");
+    addAdjectives(
+        ShadowTheme.COLD,
+        "arctic",
+        "chilly",
+        "cold-numbed",
+        "freezing",
+        "frigid",
+        "frost-rimed",
+        "frosty",
+        "frozen",
+        "hyperborean",
+        "iced-over",
+        "icy",
+        "snow-covered",
+        "spectral",
+        "wintry");
+    addAdjectives(
+        ShadowTheme.GHOST,
+        "diaphanous",
+        "ephemeral",
+        "ghostly",
+        "gossamer",
+        "half-there",
+        "insubstantial",
+        // The only "two word" adjective
+        "nearly invisible",
+        "see-through",
+        "translucent",
+        "transparent",
+        "wispy");
+  }
+
+  public static ShadowTheme shadowLabyrinthTheme(String text) {
+    // VERB the ADJECTIVE NOUN
+    //
+    // VERB is an action phrase
+    // ADJECTIVE is a single word - with one known exception
+    // NOUN is a single-word destination
+
+    int the = text.indexOf(" the ");
+    int place = text.lastIndexOf(" ");
+    if (the == -1 || place == -1) {
+      return null;
+    }
+
+    // String verb = text.substring(0, the);
+    String adjective = text.substring(the + 5, place);
+    // String noun = text.substring(place + 1);
+
+    return adjectiveToTheme.get(adjective);
+  }
+
+  public static ChoiceOption shadowLabyrinthSpoiler(String text) {
+    ShadowTheme theme = shadowLabyrinthTheme(text);
+    String spoiler = "unknown theme";
+    if (theme != null) {
+      String normal = theme.getNormal();
+      spoiler = normal;
+      String artifact = theme.getArtifact();
+      if (artifact != null) {
+        spoiler += " or " + artifact;
+      }
+    }
+    return new ChoiceOption(spoiler);
   }
 
   private static ChoiceOption booPeakDamage() {

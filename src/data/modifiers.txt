@@ -11029,6 +11029,7 @@ Item	class five ecto-larva	Free Pull
 # Cloaca grenade: Deals 50-60 Physical Damage
 # Cloaca-Cola: Restores 10-14 MP
 Item	closed-circuit phone system	Free Pull
+# closed-circuit pay phone: Grants permanent access to Shadow Rift zones
 # clumsiness bark: Deals 10-20 Physical Damage and briefly stuns your foe
 # clutch of dodecapede eggs: Weakens enemies somewhat as it poisons them
 # coal snakeskin: Adds Spooky Damage to kicks with your cowboy boots
@@ -11927,6 +11928,7 @@ Item	ROM of Optimality	Skill: "Toggle Optimality"
 # rotting cowskin: Adds Demonic Bovine Taint to your cowboy boots
 # rough stone sphere: Mysterious, Deprecated
 # round blue bomb: Deals 90-110 <font color=red>Hot Damage</font>
+# Rufus's shadow lodestone: Reveals hidden things in Shadow Rifts
 Item	rune-strewn spoon cocoon	Free Pull
 # rusty bonesaw: Saws bones
 # S.O.C.K.: Allows access to the Castle in the Clouds in the Sky
@@ -11965,6 +11967,7 @@ Item	Sensual Massage for Creeps	Skill: "Inappropriate Backrub"
 # shadow brick: Instantly destroy an enemy
 # shadow glass: Refracts prismatic damage at your foes again and again
 # shadow ice: Stun an opponent for a very long time
+# shadow needle: Gives you a shadow tattoo
 # shadow sinew: Weakens and briefly stuns an opponent
 # shadowy cheat sheet: Grants one "skill point" for each Shadows Over Loathing Class (In future ascensions)
 Item	shadowy cheat sheet	Free Pull

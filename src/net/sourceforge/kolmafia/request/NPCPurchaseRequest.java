@@ -467,6 +467,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         || shopId.startsWith("kolhs_")
         || shopId.equals("mystic")
         || shopId.equals("rumple")
+        || shopId.equals("shadowforge")
         || shopId.equals("snowgarden")
         || shopId.equals("spant")
         || shopId.equals("starchart")
@@ -1105,6 +1106,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
           || shopId.startsWith("kolhs_")
           || shopId.equals("mystic")
           || shopId.equals("rumple")
+          || shopId.equals("shadowforge")
           || shopId.equals("snowgarden")
           || shopId.equals("spant")
           || shopId.equals("xo")) {

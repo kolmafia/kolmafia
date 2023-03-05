@@ -2065,6 +2065,16 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.CREATION_COST.put(CraftingType.WOOL, 0);
     ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.WOOL, 0);
 
+    // Making stuff at The Shadow Forge is only allowed if you have not
+    // spent any adventures since you last encountered it.
+    if (Preferences.getInteger("lastShadowForgeUnlockAdventure") == KoLCharacter.getCurrentRun()) {
+      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SHADOW_FORGE);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.SHADOW_FORGE, 0);
+      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SHADOW_FORGE, 0);
+    }
+    ConcoctionDatabase.EXCUSE.put(
+        CraftingType.SHADOW_FORGE, "You need to be at The Shadow Forge to make that.");
+
     // Other creatability flags
 
     if (KoLCharacter.isTorsoAware()) {
@@ -2490,6 +2500,8 @@ public class ConcoctionDatabase {
       result.append("tiny stillsuit");
     } else if (mixingMethod == CraftingType.WOOL) {
       result.append("grubby wool");
+    } else if (mixingMethod == CraftingType.SHADOW_FORGE) {
+      result.append("The Shadow Forge");
     }
     if (result.length() == 0) {
       result.append("[unknown method of creation]");
@@ -3074,6 +3086,9 @@ public class ConcoctionDatabase {
         break;
       case "WOOL":
         ConcoctionDatabase.mixingMethod = CraftingType.WOOL;
+        break;
+      case "SHADOW_FORGE":
+        ConcoctionDatabase.mixingMethod = CraftingType.SHADOW_FORGE;
         break;
       default:
         if (mix.startsWith("ROW")) {
