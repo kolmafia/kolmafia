@@ -2444,6 +2444,9 @@ public abstract class RuntimeLibrary {
         };
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
+    params = new Type[] {DataTypes.THRALL_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
