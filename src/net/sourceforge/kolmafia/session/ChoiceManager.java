@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -1156,6 +1157,54 @@ public abstract class ChoiceManager {
 
         if (decision.equals("1") && Preferences.getInteger("seaodesFound") == 3) {
           return "2";
+        }
+        return decision;
+
+        // These choices always have option 1, which takes a turn and
+        // gives you some items.
+        //
+        // If you have at least 20 of a particular kind of elemental
+        // damage, option 2 is available, which passes the choice
+        // without taking a turn.
+        //
+        // We could parse the page to make sure the option is actually
+        // available, but we'll be doing that later, anyway.
+        //
+        // Lets check the specific elemental weapon damage.
+
+        // Crate Expectations
+      case 496:
+        if (decision.equals("2")) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.HOT_DAMAGE) < 20) {
+            return "1";
+          }
+        }
+        return decision;
+
+      case 513:
+        // Staring Down the Barrel
+        if (decision.equals("2")) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.COLD_DAMAGE) < 20) {
+            return "1";
+          }
+        }
+        return decision;
+
+      case 514:
+        // 1984 Had Nothing on This Cellar
+        if (decision.equals("2")) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.STENCH_DAMAGE) < 20) {
+            return "1";
+          }
+        }
+        return decision;
+
+      case 515:
+        // A Rat's Home...
+        if (decision.equals("2")) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.SPOOKY_DAMAGE) < 20) {
+            return "1";
+          }
         }
         return decision;
 
