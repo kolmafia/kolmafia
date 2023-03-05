@@ -124,7 +124,7 @@ class ChoiceAdventuresTest {
 
     @Test
     void canDetectGhostAdjective() {
-      var text = "Try to reach the ephemeral hole";
+      var text = "Try to reach the nearly invisible hole";
       ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.GHOST);

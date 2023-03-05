@@ -9042,6 +9042,7 @@ public abstract class ChoiceAdventures {
         "blazing",
         "blistering",
         "burning",
+        "burnt",
         "charred",
         "ember-lit",
         "flame-choked",
@@ -9049,6 +9050,7 @@ public abstract class ChoiceAdventures {
         "scalding",
         "scorched",
         "scorching",
+        "seared",
         "singed",
         "sizzling",
         "smoldering",
@@ -9057,14 +9059,15 @@ public abstract class ChoiceAdventures {
     addAdjectives(
         ShadowTheme.MATH,
         "algebraic",
-        "Cartesian",
-        "Fibonacci",
-        "Pythagorean",
-        "Riemannian",
         "angular",
+        "binomial",
         "boolean",
+        "Cartesian",
         "cubic",
+        "decimal",
+        "Euclidian",
         "exponential",
+        "Fibonacci",
         "fractal",
         "fractional",
         "geometric",
@@ -9076,7 +9079,11 @@ public abstract class ChoiceAdventures {
         "multiplicative",
         "ordinal",
         "parabolic",
+        "periodic",
         "prime",
+        "Pythagorean",
+        "quadratic",
+        "Riemannian",
         "self-referential",
         "sinusoidal",
         "trigonometric",
@@ -9085,7 +9092,9 @@ public abstract class ChoiceAdventures {
         ShadowTheme.WATER,
         "aqueous",
         "damp",
+        "drenched",
         "dripping",
+        "drowned",
         "drowning",
         "foggy",
         "humid",
@@ -9093,6 +9102,8 @@ public abstract class ChoiceAdventures {
         "runny",
         "soaked",
         "sodden",
+        "underwater",
+        "wet",
         "water-logged",
         "watery");
     addAdjectives(
@@ -9147,6 +9158,7 @@ public abstract class ChoiceAdventures {
         "gossamer",
         "half-there",
         "insubstantial",
+        // The only "two word" adjective
         "nearly invisible",
         "see-through",
         "translucent",
@@ -9154,11 +9166,24 @@ public abstract class ChoiceAdventures {
         "wispy");
   }
 
-  private static final Pattern ADJECTIVE_PATTERN = Pattern.compile(" the ([^ ]+) ");
-
   public static ShadowTheme shadowLabyrinthTheme(String text) {
-    Matcher m = ADJECTIVE_PATTERN.matcher(text);
-    return m.find() ? adjectiveToTheme.get(m.group(1)) : null;
+    // VERB the ADJECTIVE NOUN
+    //
+    // VERB is an action phrase
+    // ADJECTIVE is a single word - with one known exception
+    // NOUN is a single-word destination
+
+    int the = text.indexOf(" the ");
+    int place = text.lastIndexOf(" ");
+    if (the == -1 || place == -1) {
+      return null;
+    }
+
+    // String verb = text.substring(0, the);
+    String adjective = text.substring(the + 5, place);
+    // String noun = text.substring(place + 1);
+
+    return adjectiveToTheme.get(adjective);
   }
 
   public static ChoiceOption shadowLabyrinthSpoiler(String text) {
