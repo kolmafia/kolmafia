@@ -3550,4 +3550,72 @@ public class QuestManagerTest {
       }
     }
   }
+
+  @Nested
+  class WizardOfEgo {
+    @ParameterizedTest
+    @CsvSource({"staring_into_nothing, 4", "into_the_maw_of_deepness, 5", "take_a_dusty_look, 6"})
+    public void canParseTowerRuinsChoices(String html, int expectedResult) {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.EGO, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_adventure_tower_ruins_" + html + ".html"));
+        var request = new GenericRequest("adventure.php?snarfblat=22");
+        request.run();
+        assertThat(Quest.EGO, isStep(expectedResult));
+      }
+    }
+
+    @Test
+    public void doNotUnfinishQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder), withQuestProgress(Quest.EGO, QuestDatabase.FINISHED));
+      try (cleanups) {
+        client.addResponse(
+            200, html("request/test_adventure_tower_ruins_staring_into_nothing.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=22");
+        request.run();
+        assertThat(Quest.EGO, isStep(QuestDatabase.FINISHED));
+      }
+    }
+
+    @Test
+    public void canSetQuestProgressMinimum() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.EGO, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_fight_bread_golem.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=22");
+        request.run();
+        assertThat(Quest.EGO, isStep(3));
+      }
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"started", "step1", "step2", "step3", "step4"})
+  public void canHandleBatholeChange(String step) {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder), withQuestProgress(Quest.BAT, QuestDatabase.UNSTARTED));
+    try (cleanups) {
+      client.addResponse(200, html("request/test_bathole_" + step + ".html"));
+      var request = new GenericRequest("place.php?whichplace=bathole");
+      request.run();
+      assertThat(Quest.BAT, isStep(step));
+    }
+  }
 }
