@@ -11160,17 +11160,17 @@
 11132	hollow rock	273075878	sitrock.gif	usable	t,d	30
 11133	angry agate	197320169	sitagate.gif	potion, multiple	t,d	30
 11134	lump of loyal latite	942515335	sitlatite.gif	potion, multiple	t,d	30	lumps of loyal latite
-11135	shadow sausage	652604537	shadowsausage.gif	food	t,d	13
+11135	shadow sausage	652604537	shadowsausage.gif	food	t,d	13	handfuls of shadow sausage
 11136	shadow skin	229167773	shadowskin.gif	container	t,d	13
-11137	shadow flame	384167669	shadowflame.gif	potion, usable	t,d	13
-11138	shadow bread	459420704	shadowbread.gif	food	t,d	13
-11139	shadow ice	972345634	shadowice.gif	none, combat	t,d	13
-11140	shadow fluid	685274860	shadowfluid.gif	drink	t,d	13
-11141	shadow glass	992149302	shadowprism.gif	none, combat	t,d	13
+11137	shadow flame	384167669	shadowflame.gif	potion, usable	t,d	13	wisps of shadow flame
+11138	shadow bread	459420704	shadowbread.gif	food	t,d	13	loaves of shadow bread
+11139	shadow ice	972345634	shadowice.gif	none, combat	t,d	13	cubes of shadow ice
+11140	shadow fluid	685274860	shadowfluid.gif	drink	t,d	13	blobs of shadow fluid
+11141	shadow glass	992149302	shadowprism.gif	none, combat	t,d	13	shadow glasses
 11142	shadow brick	219021049	shadowbrick.gif	none, combat	t,d	13
-11143	shadow sinew	543197207	shadowsinew.gif	none, combat	t,d	13
-11144	shadow venom	737945530	shadowvenom.gif	drink	t,d	13
-11145	shadow nectar	676525146	shadownectar.gif	spleen, usable	t,d	13
+11143	shadow sinew	543197207	shadowsinew.gif	none, combat	t,d	13	lengths of shadow sinew
+11144	shadow venom	737945530	shadowvenom.gif	drink	t,d	13	handfuls of shadow venom
+11145	shadow nectar	676525146	shadownectar.gif	spleen, usable	t,d	13	blobs of shadow nectar
 11146	shadow stick	609454674	shadowstick.gif	weapon	t,d	13
 11147	cursed bat paw	656261340	batpaw.gif	accessory	q	0
 11148	uncursed bat paw	516917291	batpaw.gif	accessory	q	0
@@ -11193,3 +11193,21 @@
 11165	Jazz Agent sheet music	357188894	music.gif	usable	q	0
 11166	Thwaitgold anti-moth statuette	908539632	thwaitantimoth.gif	none		0
 11167	shadowy cheat sheet	170862408	pamphlet.gif	usable	t	0
+11168	closed-circuit phone system	996607601	rufusbox.gif	usable	t	0
+11169	closed-circuit pay phone	933709581	rufusphone.gif	reusable		0
+11170	shadow lighter	375149080	shadowlighter.gif	none	q	0
+11171	shadow heptahedron	424131957	shadowhedron.gif	none	q	0
+11172	shadow snowflake	804907977	shadowflake.gif	none	q	0
+11173	shadow heart	968447777	shadowheart.gif	none	q	0
+11174	shadow bucket	678312464	shadowbucket.gif	none	q	0
+11175	shadow wave	401666444	shadowwave.gif	none	q	0
+11176	Rufus's shadow lodestone	481324184	shadowlode.gif	none	q	0
+11177	shadow chef's hat	479343174	shadowhat.gif	hat		0
+11178	shadow trousers	877971267	shadowpants.gif	pants		0
+11179	shadow hammer	417443488	shadowhammer.gif	weapon		0
+11180	shadow monocle	466853644	shadowmonocle.gif	accessory		0
+11181	shadow candle	196050671	shadowcandle.gif	offhand		0
+11182	shadow hot dog	211790786	shadowhotdog.gif	food		0
+11183	shadow martini	330264671	shadowmartini.gif	drink		0
+11184	shadow pill	535411734	shadowpill.gif	spleen, usable		0
+11185	shadow needle	852125044	shadowneedle.gif	usable		0

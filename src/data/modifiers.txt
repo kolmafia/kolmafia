@@ -453,6 +453,7 @@ Item	sealhide hood	Initiative: +20, Familiar Effect: "atk, 1xBarrr, cap 40"
 Item	Seasonal Beret	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Familiar Effect: "1xPotato, 1xFairy, cap 25"
 Item	sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 Item	seven-gallon hat	Muscle: +7, Mysticality: +7, Moxie: +7, Experience: +3
+Item	shadow chef's hat	Spooky Damage: +13, Muscle: +13, Mysticality: +13, Moxie: +13, Maximum MP: +13
 Item	shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
 Item	shining star cap	Familiar Weight: [+10*event(December)]
 Item	silent beret	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Initiative: -50, Combat Rate: -5, Familiar Effect: "1xVolley, cap 3"
@@ -818,6 +819,7 @@ Item	scale-mail underwear	MP Regen Min: 8, MP Regen Max: 12, Spooky Resistance: 
 Item	sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "atk, 2xBarrr"
 Item	sealhide leggings	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "1xVolley, cap 40"
 Item	servo-assisted exo-pants	Initiative: -30, Familiar Effect: "cold atk, 1xPotato, cap 12"
+Item	shadow trousers	Monster Level: +13, Meat Drop: +13, Maximum HP: +13
 Item	slime waders	Mysticality Percent: +25, Experience (Mysticality): +3, Sleaze Resistance: +3
 Item	slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, Initiative: -10, Familiar Effect: "sleaze atk, 0.5xBarrr"
 # SMOOCH codpiece: Damages Attacking Opponent
@@ -1778,6 +1780,7 @@ Item	serpentine sword	Monster Level: +10, Synergetic
 Item	severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
 Item	sewage-clogged pistol	Monster Level: +10, Stench Damage: +20
 Item	sewer snake	Stench Damage: +3
+Item	shadow hammer	Combat Rate: +5, Experience: +3
 Item	shadow stick	Spooky Damage: +13, Cold Damage: +13, Weakens Monster
 Item	Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7, Class: "Disco Bandit"
 # Shakespeare's Sister's Accordion: (+% to Moxie Based on Smithsness)
@@ -2530,6 +2533,7 @@ Item	security flashlight	Monster Level: -10
 Item	set of jacks	Experience (Moxie): +2
 Item	Seven Loco	Booze Drop: +5, Candy Drop: +5
 Item	sewer turtle	Stench Damage: +1, Damage Reduction: 1
+# shadow candle: Bathe your foes in cleansing flame
 Item	shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubber"
 Item	Shield of Icy Fate	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Weapon Damage Percent: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Reduction: 7
 Item	shield of the Skeleton Lord	Muscle Percent: +50, Monster Level: +50, Familiar Weight: +5, Damage Reduction: 19
@@ -3537,6 +3541,7 @@ Item	second-hand knockoff engagement ring	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	self-repairing earmuffs	HP Regen Min: 10, HP Regen Max: 20
 Item	Senior LAAAAME merit badge	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	severed rocking horse head	Muscle: +3, Mysticality: +3, Moxie: +3
+Item	shadow monocle	Spell Damage: +13, Item Drop: +13, Initiative: +13, Single Equip
 Item	shamanic beads	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1, Spell Damage: +10
 Item	shark tooth necklace	Moxie Percent: +5, Initiative: +35, Single Equip
 Item	shin gourds	Damage Reduction: 5, Weapon Damage: +10, Single Equip
@@ -4370,7 +4375,7 @@ Item	miniature antlers	Familiar Weight: [1+ceil(M/2)], Generic
 Item	miniature carton of clove cigarettes	Familiar Weight: +5
 Item	miniature castagnets	Familiar Weight: +5
 # miniature crystal ball: Randomly gives you either +50% Item Drops or +5 Stats After Combat
-Item	miniature crystal ball	Initiative: +50, Generic
+Item	miniature crystal ball	Initiative: +50, Item Drop (sporadic): +25, Experience: +2.5, Generic
 # miniature dormouse: Makes March Hare More Better
 Item	miniature espresso maker	Familiar Weight: +5
 Item	miniature goose mask	Familiar Weight: +5, Experience (Moxie): +3, Generic
@@ -7062,6 +7067,12 @@ Effect	Serendipi Tea	Item Drop: +25
 Effect	Serenity	Moxie Percent: +15
 Effect	Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Sewer-Drenched	Stench Damage: +100
+# Shadow Affinity: Adventuring in Shadow Rifts will consume turns of this instead of Adventures
+Effect	Shadow Medicine	Maximum HP Percent: +200, Maximum MP Percent: +200
+Effect	Shadow Waters	Initiative: +100, Item Drop: +100, Meat Drop: +200, Combat Rate: -10
+Effect	Shadow's Chill	Maximum MP Percent: +300
+Effect	Shadow's Heart	Maximum HP Percent: +300
+Effect	Shadow's Thickness	Spooky Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5
 Effect	Shahamaniacal	Avatar: "Ham Shaman"
 Effect	Shamboozled	Moxie Percent: +50
 Effect	Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
@@ -8536,6 +8547,7 @@ Outfit	Radio Free Regalia	Never Fumble
 Outfit	Raiments of the Final Boss	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Outfit	Roy Orbison Disguise	Moxie: +15
 Outfit	Seafaring Suit	Initiative: +100
+Outfit	Shadow Shuit	Cold Resistance: +3, Hot Resistance: +3
 Outfit	Shallow Sea Fishing Outfit	Fishing Skill: +5
 Outfit	Slime Enslamble	Mysticality Percent: +100
 Outfit	Slimesuit	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
@@ -9463,6 +9475,7 @@ Item	prototype stimulant	Effect: "Proto-Stimulated", Effect Duration: 50
 Item	sachet of strange powder	Effect: "Powder Power", Effect Duration: 40
 Item	scintillating oyster egg	Effect: "Eggscitingly Colorful", Effect Duration: 20
 Item	sea jelly	Effect: "Fishy", Effect Duration: 10
+Item	shadow pill	Effect: "Shadow Medicine", Effect Duration: 30
 Item	Shantix&trade;	Effect: "Thou Shant Not Sing", Effect Duration: 30
 # sleaze jelly: Enables Sleazy Bickering
 Item	sleaze jelly	Effect: "Sleazy Jellied", Effect Duration: 50
@@ -11015,6 +11028,8 @@ Item	class five ecto-larva	Free Pull
 # clingfilm tangle: Stuns your opponent for a few rounds
 # Cloaca grenade: Deals 50-60 Physical Damage
 # Cloaca-Cola: Restores 10-14 MP
+Item	closed-circuit phone system	Free Pull
+# closed-circuit pay phone: Grants permanent access to Shadow Rift zones
 # clumsiness bark: Deals 10-20 Physical Damage and briefly stuns your foe
 # clutch of dodecapede eggs: Weakens enemies somewhat as it poisons them
 # coal snakeskin: Adds Spooky Damage to kicks with your cowboy boots
@@ -11913,6 +11928,7 @@ Item	ROM of Optimality	Skill: "Toggle Optimality"
 # rotting cowskin: Adds Demonic Bovine Taint to your cowboy boots
 # rough stone sphere: Mysterious, Deprecated
 # round blue bomb: Deals 90-110 <font color=red>Hot Damage</font>
+# Rufus's shadow lodestone: Reveals hidden things in Shadow Rifts
 Item	rune-strewn spoon cocoon	Free Pull
 # rusty bonesaw: Saws bones
 # S.O.C.K.: Allows access to the Castle in the Clouds in the Sky
@@ -11951,6 +11967,7 @@ Item	Sensual Massage for Creeps	Skill: "Inappropriate Backrub"
 # shadow brick: Instantly destroy an enemy
 # shadow glass: Refracts prismatic damage at your foes again and again
 # shadow ice: Stun an opponent for a very long time
+# shadow needle: Gives you a shadow tattoo
 # shadow sinew: Weakens and briefly stuns an opponent
 # shadowy cheat sheet: Grants one "skill point" for each Shadows Over Loathing Class (In future ascensions)
 Item	shadowy cheat sheet	Free Pull
