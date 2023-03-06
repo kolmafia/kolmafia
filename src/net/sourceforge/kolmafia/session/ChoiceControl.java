@@ -325,6 +325,14 @@ public abstract class ChoiceControl {
         // Blech House
         Preferences.setInteger("smutOrcNoncombatProgress", 0);
         break;
+
+      case 1500:
+        // Like a Loded Stone
+        if (ChoiceManager.lastDecision == 1) {
+          Preferences.setInteger("lastShadowForgeUnlockAdventure", KoLCharacter.getCurrentRun());
+          ConcoctionDatabase.refreshConcoctions();
+        }
+        break;
     }
   }
 
@@ -8121,6 +8129,11 @@ public abstract class ChoiceControl {
         break;
       case 1491: // Strange Stalagmite(s)
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
+        break;
+
+      case 1500:
+        // Like a Loded Stone
+        ResultProcessor.removeItem(ItemPool.RUFUS_SHADOW_LODESTONE);
         break;
     }
   }

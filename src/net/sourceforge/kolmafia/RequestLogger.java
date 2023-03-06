@@ -1367,6 +1367,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof ShadowForgeRequest)
+        && ShadowForgeRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof ShoeRepairRequest)
         && ShoeRepairRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;

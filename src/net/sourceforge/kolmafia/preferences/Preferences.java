@@ -324,6 +324,7 @@ public class Preferences {
         "lastFriarElbowNC",
         "lastFriarHeartNC",
         "lastFriarNeckNC",
+        "lastShadowForgeUnlockAdventure",
         "lastTrainsetConfiguration",
         "lastZapperWandExplosionDay",
         "latteModifier",

@@ -990,6 +990,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.ADVANCED_PIG_SKINNING:
           case ItemPool.THE_CHEESE_WIZARDS_COMPANION:
           case ItemPool.JAZZ_AGENT_SHEET_MUSIC:
+          case ItemPool.CLOSED_CIRCUIT_PAY_PHONE:
 
             // Not inline, since the redirection to a choice
             // doesn't work ajaxified.
