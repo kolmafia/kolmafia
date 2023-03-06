@@ -2370,7 +2370,10 @@ public class QuestManager {
       case AdventurePool.HEROS_FIELD:
       case AdventurePool.VANYAS_CASTLE:
       case AdventurePool.MEGALO_CITY:
-        Preferences.decrement("8BitBonusTurns");
+        Preferences.increment("8BitBonusTurns");
+        if (Preferences.getInteger("8BitBonusTurns") > 5) {
+          Preferences.setInteger("8BitBonusTurns", 0);
+        }
         break;
     }
 
