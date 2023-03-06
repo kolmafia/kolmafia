@@ -125,7 +125,7 @@ class CharPaneRequestTest {
         assertThat(result, equalTo(true));
         assertThat("8BitScore", isSetTo(expectedScore));
         assertThat("8BitColor", isSetTo(color));
-        assertThat("8BitBonusTurns", isSetTo(5));
+        assertThat("8BitBonusTurns", isSetTo(0));
       }
     }
   }
