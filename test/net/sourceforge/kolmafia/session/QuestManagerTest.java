@@ -3623,10 +3623,10 @@ public class QuestManagerTest {
   class PixelRealm {
     public static Stream<Arguments> pixelMonsters() {
       return Stream.of(
-          Arguments.of("medusa", "medusa", "Vanya's Castle", 5, 0),
-          Arguments.of("Met", "met", "Megalo-City", 4, 5),
-          Arguments.of("Koopa Troopa", "koopa_troopa", "The Fungus Plains", 3, 4),
-          Arguments.of("Keese", "keese", "Hero's Field", 2, 3));
+          Arguments.of("medusa", "medusa", "Vanya's Castle", 4, 5),
+          Arguments.of("Met", "met", "Megalo-City", 3, 4),
+          Arguments.of("Koopa Troopa", "koopa_troopa", "The Fungus Plains", 2, 3),
+          Arguments.of("Keese", "keese", "Hero's Field", 1, 2));
     }
 
     @ParameterizedTest
