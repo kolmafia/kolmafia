@@ -193,4 +193,51 @@ public class RufusManagerTest {
       assertTrue(InventoryManager.hasItem(ItemPool.RUFUS_SHADOW_LODESTONE));
     }
   }
+
+  @Test
+  public void lootingShadowForestSetsProperty() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withProperty("_shadowForestLooted", false),
+            withItem(ItemPool.SHADOW_FLAME, 0),
+            withItem(ItemPool.SHADOW_NECTAR, 0),
+            withItem(ItemPool.SHADOW_STICK, 0),
+            withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 1));
+    try (cleanups) {
+      client.addResponse(302, Map.of("location", List.of("adventure.php?snarfblat=567")), "");
+      client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+      client.addResponse(200, html("request/test_follow_rufus_lodestone.html"));
+      client.addResponse(200, ""); // api.php
+      client.addResponse(200, html("request/test_loot_shadow_forest.html"));
+      client.addResponse(200, ""); // api.php
+
+      var riftURL = "place.php?whichplace=woods&action=woods_shadowrift";
+      var riftRequest = new GenericRequest(riftURL);
+      riftRequest.run();
+
+      // We are in a choice that you cannot walk away from.
+      assertTrue(ChoiceManager.handlingChoice);
+      assertEquals(1500, ChoiceManager.lastChoice);
+
+      // Choose option 3 - The forest
+      var choiceURL = "choice.php?pwd&whichchoice=1500&option=3";
+      var choiceRequest = new GenericRequest(choiceURL);
+      choiceRequest.run();
+
+      // We are no longer in a choice
+      assertFalse(ChoiceManager.handlingChoice);
+
+      // We no longer have Rufus's shadow lodestone
+      assertFalse(InventoryManager.hasItem(ItemPool.RUFUS_SHADOW_LODESTONE));
+
+      // We have looted the forest today
+      assertThat("_shadowForestLooted", isSetTo(true));
+      assertEquals(2, InventoryManager.getCount(ItemPool.SHADOW_FLAME));
+      assertEquals(3, InventoryManager.getCount(ItemPool.SHADOW_NECTAR));
+      assertEquals(3, InventoryManager.getCount(ItemPool.SHADOW_STICK));
+    }
+  }
 }

@@ -6493,6 +6493,13 @@ public abstract class ChoiceControl {
         // Calling Rufus Back
         RufusManager.parseCallBackResponse(text, ChoiceManager.lastDecision);
         break;
+
+      case 1500:
+        // Like a Loded Stone
+        if (ChoiceManager.lastDecision == 3) {
+          Preferences.setBoolean("_shadowForestLooted", true);
+        }
+        break;
     }
   }
 
