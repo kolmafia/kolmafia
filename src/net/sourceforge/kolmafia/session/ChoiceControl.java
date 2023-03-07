@@ -6483,6 +6483,16 @@ public abstract class ChoiceControl {
         // Out of the Shadows
         handleAfterAvatar(ChoiceManager.lastDecision);
         break;
+
+      case 1497:
+        // Calling Rufus
+        RufusManager.parseCallResponse(text, ChoiceManager.lastDecision);
+        break;
+
+      case 1498:
+        // Calling Rufus Back
+        RufusManager.parseCallBackResponse(text, ChoiceManager.lastDecision);
+        break;
     }
   }
 
@@ -8129,6 +8139,16 @@ public abstract class ChoiceControl {
         break;
       case 1491: // Strange Stalagmite(s)
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
+        break;
+
+      case 1497:
+        // Calling Rufus
+        RufusManager.parseCall(text);
+        break;
+
+      case 1498:
+        // Calling Rufus Back
+        RufusManager.parseCallBack(text);
         break;
 
       case 1500:

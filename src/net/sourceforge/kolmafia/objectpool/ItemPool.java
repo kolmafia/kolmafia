@@ -3530,6 +3530,12 @@ public class ItemPool {
   public static final int JAZZ_AGENT_SHEET_MUSIC = 11165;
   public static final int SHADOWY_CHEAT_SHEET = 11167;
   public static final int CLOSED_CIRCUIT_PAY_PHONE = 11169;
+  public static final int SHADOW_LIGHTER = 11170;
+  public static final int SHADOW_HEPTAHEDRON = 11171;
+  public static final int SHADOW_SNOWFLAKE = 11172;
+  public static final int SHADOW_HEART = 11173;
+  public static final int SHADOW_BUCKET = 11174;
+  public static final int SHADOW_WAVE = 11175;
   public static final int RUFUS_SHADOW_LODESTONE = 11176;
   public static final int SHADOW_CHEFS_HAT = 11177;
   public static final int SHADOW_TROUSERS = 11178;

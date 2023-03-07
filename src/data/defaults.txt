@@ -1290,6 +1290,12 @@ user	requireBoxServants	false
 user	requireSewerTestItems	false
 user	romanticTarget
 user	royalty
+user	rufusDesiredArtifact
+user	rufusDesiredEntity
+user	rufusDesiredItems
+user	rufusQuestState	none
+user	rufusQuestTarget
+user	rufusQuestType
 user	rumpelstiltskinTurnsUsed	0
 user	rumpelstiltskinKidsRescued	0
 user	safariSwagger	0

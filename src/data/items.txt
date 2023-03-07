@@ -11203,7 +11203,7 @@
 11175	shadow wave	401666444	shadowwave.gif	none	q	0
 11176	Rufus's shadow lodestone	481324184	shadowlode.gif	none	q	0
 11177	shadow chef's hat	479343174	shadowhat.gif	hat		0
-11178	shadow trousers	877971267	shadowpants.gif	pants		0
+11178	shadow trousers	877971267	shadowpants.gif	pants		0	pairs of shadow trousers
 11179	shadow hammer	417443488	shadowhammer.gif	weapon		0
 11180	shadow monocle	466853644	shadowmonocle.gif	accessory		0
 11181	shadow candle	196050671	shadowcandle.gif	offhand		0

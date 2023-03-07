@@ -9191,11 +9191,16 @@ public abstract class ChoiceAdventures {
     ShadowTheme theme = shadowLabyrinthTheme(text);
     String spoiler = "unknown theme";
     if (theme != null) {
+      String questType = Preferences.getString("rufusQuestType");
       String normal = theme.getNormal();
       spoiler = normal;
-      String artifact = theme.getArtifact();
-      if (artifact != null) {
-        spoiler += " or " + artifact;
+      if (questType.equals("artifact")
+          && !Preferences.getString("rufusQuestState").equals("done")) {
+        String target = Preferences.getString("rufusQuestTarget");
+        String artifact = theme.getArtifact();
+        if (target.equals(artifact)) {
+          spoiler = artifact;
+        }
       }
     }
     return new ChoiceOption(spoiler);

@@ -1,0 +1,99 @@
+package net.sourceforge.kolmafia.session;
+
+import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+public class RufusManager {
+  private RufusManager() {}
+
+  // First thing.  There's a big shadow entity.  In the place those rifts connect to.
+  //
+  // It's a... matrix.  A manifold.  It's kind of a... grid?  You'll know it when you see it.
+  // It's something like a scythe.  Maybe just... a scythe.  But a big one.
+  //
+  // I've also detected an artifact I need somebody to recover for me.
+  //
+  // A shadow heart,
+  // A shadow snowflake,
+  //
+  // I can also always use samples of more mundane items from the rifts.
+  //
+  // Right now, 3 handfuls of shadow venom would be valuable.
+  // Right now, 3 shadow bricks would be valuable.
+
+  private static final Pattern ENTITY = Pattern.compile("It's a... (.*?)\\.");
+  private static final Pattern ARTIFACT = Pattern.compile("A shadow (.*?),");
+  private static final Pattern ITEMS = Pattern.compile("3 .*? of (.*?) would be valuable");
+
+  public static void parseCall(final String text) {
+    var entityMatcher = ENTITY.matcher(text);
+    if (entityMatcher.find()) {
+      String entity = "shadow " + entityMatcher.group(1);
+      Preferences.setString("rufusDesiredEntity", entity);
+    }
+    var artifactMatcher = ARTIFACT.matcher(text);
+    if (artifactMatcher.find()) {
+      String artifact = "shadow " + artifactMatcher.group(1);
+      Preferences.setString("rufusDesiredArtifact", artifact);
+    }
+    var itemMatcher = ITEMS.matcher(text);
+    if (itemMatcher.find()) {
+      String items = itemMatcher.group(1);
+      Preferences.setString("rufusDesiredItems", items);
+    }
+  }
+
+  public static void parseCallBack(final String text) {}
+
+  public static void parseCallResponse(final String text, int option) {
+    switch (option) {
+      case 6 -> {
+        // Hang up
+        return;
+      }
+      case 1 -> {
+        Preferences.setString("rufusQuestType", "entity");
+        Preferences.setString("rufusQuestTarget", Preferences.getString("rufusDesiredEntity"));
+      }
+      case 2 -> {
+        // You tell Rufus you'll retrieve the artifact for him.
+        Preferences.setString("rufusQuestType", "artifact");
+        Preferences.setString("rufusQuestTarget", Preferences.getString("rufusDesiredArtifact"));
+      }
+      case 3 -> {
+        Preferences.setString("rufusQuestType", "items");
+        Preferences.setString("rufusQuestTarget", Preferences.getString("rufusDesiredItems"));
+      }
+    }
+    Preferences.setString("rufusQuestState", "started");
+    Preferences.setString("rufusDesiredEntity", "");
+    Preferences.setString("rufusDesiredArtifact", "");
+    Preferences.setString("rufusDesiredItems", "");
+  }
+
+  public static void parseCallBackResponse(final String text, int option) {
+    switch (option) {
+      case 1 -> {
+        // "Yeah, I got it."
+        if (text.contains("Rufus's shadow lodestone")) {
+          if (Preferences.getString("rufusQuestType").equals("artifact")) {
+            String artifact = Preferences.getString("rufusQuestTarget");
+            int itemId = ItemDatabase.getExactItemId(artifact);
+            ResultProcessor.removeItem(itemId);
+          }
+          Preferences.setString("rufusQuestState", "none");
+          Preferences.setString("rufusQuestType", "");
+          Preferences.setString("rufusQuestTarget", "");
+        }
+      }
+      case 5 -> {
+        // "I have not got it."
+      }
+      case 6 -> {
+        // Hang up
+        return;
+      }
+    }
+  }
+}
