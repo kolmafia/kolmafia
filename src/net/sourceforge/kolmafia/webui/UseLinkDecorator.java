@@ -536,7 +536,7 @@ public abstract class UseLinkDecorator {
     return true;
   }
 
-  public static UseLink generateUseLink(int itemId, int itemCount, String location, String text) {
+  protected static UseLink generateUseLink(int itemId, int itemCount, String location, String text) {
     // This might be a target of the Party Fair quest - if so we overwrite normal use link to
     // prevent accidents and show progress
     if (QuestDatabase.isQuestStep(Quest.PARTY_FAIR, "step1")
