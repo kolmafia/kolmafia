@@ -9,22 +9,32 @@ public class RufusManager {
 
   // First thing.  There's a big shadow entity.  In the place those rifts connect to.
   //
-  // It's a... matrix.  A manifold.  It's kind of a... grid?  You'll know it when you see it.
+  // It's a big spire.  Kinda like a radio tower.
+  // It's an orrery.  It probably looks like a model of a solar system, only gigantic.
+  // It's a tongue.  Just... a big tongue, as far as I can tell.
   // It's something like a scythe.  Maybe just... a scythe.  But a big one.
+  // It's a cauldron.  Big.  Shaped like an iron one, but not made of iron.
+  // It's a... matrix.  A manifold.  It's kind of a... grid?  You'll know it when you see it.
   //
   // I've also detected an artifact I need somebody to recover for me.
   //
-  // A shadow heart,
+  // A shadow lighter,
+  // A shadow heptahedron,
   // A shadow snowflake,
+  // A shadow heart,
+  // A shadow bucket,
+  // A shadow wave,
   //
   // I can also always use samples of more mundane items from the rifts.
   //
   // Right now, 3 handfuls of shadow venom would be valuable.
   // Right now, 3 shadow bricks would be valuable.
 
-  private static final Pattern ENTITY = Pattern.compile("It's a... (.*?)\\.");
-  private static final Pattern ARTIFACT = Pattern.compile("A shadow (.*?),");
-  private static final Pattern ITEMS = Pattern.compile("3 .*? of (.*?) would be valuable");
+  private static final Pattern ENTITY =
+      Pattern.compile("(spire|orrery|tongue|scythe|cauldron|matrix)");
+  private static final Pattern ARTIFACT =
+      Pattern.compile("(lighter|heptahedron|snowflake|heart|bucket|wave)");
+  private static final Pattern ITEMS = Pattern.compile("3.*?(shadow .*?) would be valuable");
 
   public static void parseCall(final String text) {
     var entityMatcher = ENTITY.matcher(text);
