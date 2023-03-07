@@ -536,7 +536,8 @@ public abstract class UseLinkDecorator {
     return true;
   }
 
-  private static UseLink generateUseLink(int itemId, int itemCount, String location, String text) {
+  protected static UseLink generateUseLink(
+      int itemId, int itemCount, String location, String text) {
     // This might be a target of the Party Fair quest - if so we overwrite normal use link to
     // prevent accidents and show progress
     if (QuestDatabase.isQuestStep(Quest.PARTY_FAIR, "step1")
@@ -601,7 +602,10 @@ public abstract class UseLinkDecorator {
       return null;
     }
 
-    boolean combatResults = location.startsWith("fight.php") || location.startsWith("choice.php");
+    boolean adventureResults =
+        location.startsWith("adventure.php")
+            || location.startsWith("fight.php")
+            || location.startsWith("choice.php");
 
     switch (consumeMethod) {
       case FAMILIAR_HATCHLING:
@@ -1162,7 +1166,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.BONERDAGON_SKULL:
             // If we found it in a battle, take it to the
             // council to complete the quest.
-            if (combatResults) {
+            if (adventureResults) {
               return getCouncilLink(itemId);
             }
             break;
@@ -1205,7 +1209,7 @@ public abstract class UseLinkDecorator {
                       itemCount,
                       getEquipmentSpeculation("equip", itemId, Slot.NONE),
                       "inv_equip.php?which=2&action=equip&whichitem=");
-              if (combatResults) {
+              if (adventureResults) {
                 ArrayList<UseLink> uses = new ArrayList<>();
                 // scg = Same Class in Guild
                 uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
@@ -1253,7 +1257,7 @@ public abstract class UseLinkDecorator {
                       itemCount,
                       getEquipmentSpeculation("equip", itemId, Slot.NONE),
                       "inv_equip.php?which=2&action=equip&whichitem=");
-              if (combatResults) {
+              if (adventureResults) {
                 ArrayList<UseLink> uses = new ArrayList<>();
                 // scg = Same Class in Guild
                 uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
@@ -1272,7 +1276,7 @@ public abstract class UseLinkDecorator {
             // If we "acquire" the Nemesis accessories from
             // a fight, give a link to the guild to collect
             // the reward as well as "outfit" link.
-            if (combatResults) {
+            if (adventureResults) {
               ArrayList<UseLink> uses = new ArrayList<>();
               int outfit = EquipmentDatabase.getOutfitWithItem(itemId);
               // scg = Same Class in Guild
@@ -1593,7 +1597,7 @@ public abstract class UseLinkDecorator {
   private static UseLink getNavigationLink(int itemId, String location) {
     String useType = null;
     String useLocation = null;
-    boolean combatResults = location.startsWith("fight.php");
+    boolean adventureResults = location.startsWith("fight.php");
 
     switch (itemId) {
         // Shops
@@ -1904,7 +1908,7 @@ public abstract class UseLinkDecorator {
       case ItemPool.GOLD_BOWLING_BALL:
       case ItemPool.REALLY_DENSE_MEAT_STACK:
       case ItemPool.SCARAB_BEETLE_STATUETTE:
-        if (!combatResults) break;
+        if (!adventureResults) break;
         /*FALLTHRU*/
       case ItemPool.HOLY_MACGUFFIN:
       case ItemPool.ED_HOLY_MACGUFFIN:
@@ -2222,7 +2226,11 @@ public abstract class UseLinkDecorator {
           return new UsesLink(uses.toArray(new UseLink[uses.size()]));
         }
 
-      default:
+      case ItemPool.PROFESSOR_WHAT_GARMENT:
+        {
+          return new UseLink(
+              itemId, "visit Melvign", "place.php?whichplace=mountains&action=mts_melvin");
+        }
     }
 
     if (useType == null || useLocation == null) {
