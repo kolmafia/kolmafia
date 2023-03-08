@@ -162,7 +162,7 @@ class ChoiceAdventuresTest {
     public void checkShadowArtifacts(String text, String artifact) {
       var cleanups =
           new Cleanups(
-              withProperty("rufusQuestState", "started"),
+              withProperty("questRufus", "started"),
               withProperty("rufusQuestType", "artifact"),
               withProperty("rufusQuestTarget", artifact));
       try (cleanups) {
