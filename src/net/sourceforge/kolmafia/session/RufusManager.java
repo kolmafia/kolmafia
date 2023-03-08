@@ -34,7 +34,7 @@ public class RufusManager {
       Pattern.compile("(spire|orrery|tongue|scythe|cauldron|matrix)");
   private static final Pattern ARTIFACT =
       Pattern.compile("(lighter|heptahedron|snowflake|heart|bucket|wave)");
-  private static final Pattern ITEMS = Pattern.compile("3.*?(shadow .*?) would be valuable");
+  private static final Pattern ITEMS = Pattern.compile("3 (.*?shadow .*?) would be valuable");
 
   public static void parseCall(final String text) {
     var entityMatcher = ENTITY.matcher(text);
@@ -49,8 +49,12 @@ public class RufusManager {
     }
     var itemMatcher = ITEMS.matcher(text);
     if (itemMatcher.find()) {
+      // This will be a plural name
       String items = itemMatcher.group(1);
-      Preferences.setString("rufusDesiredItems", items);
+      // Convert to itemId and back to non-plural ItemName
+      int itemId = ItemDatabase.getItemId(items, 3);
+      String itemName = ItemDatabase.getItemName(itemId);
+      Preferences.setString("rufusDesiredItems", itemName);
     }
   }
 

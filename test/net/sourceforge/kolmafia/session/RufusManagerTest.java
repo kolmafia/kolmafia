@@ -25,6 +25,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class RufusManagerTest {
   @BeforeAll
@@ -38,6 +40,63 @@ public class RufusManagerTest {
   }
 
   private static AdventureResult SHADOW_AFFINITY = EffectPool.get(EffectPool.SHADOW_AFFINITY);
+
+  @ParameterizedTest
+  @CsvSource({
+    "test_call_rufus, shadow matrix, shadow heart, shadow venom",
+    "test_calling_rufus, shadow scythe, shadow snowflake, shadow brick"
+  })
+  public void callingRufusLearnsQuests(String file, String entity, String artifact, String item) {
+    // Test that we can detect entity, artifact, and item quests
+    //
+    // Items are tricky, since they are presented as "3 PLURAL_NAME" and
+    // we want to save rufusTestTarget as the non-plural argument
+
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withProperty("rufusDesiredArtifact"),
+            withProperty("rufusDesiredEntity"),
+            withProperty("rufusDesiredItems"),
+            withProperty("rufusQuestState"),
+            withProperty("rufusQuestTarget"),
+            withProperty("rufusQuestType"));
+    try (cleanups) {
+      client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+      client.addResponse(200, html("request/" + file + ".html"));
+      client.addResponse(200, ""); // api.php
+      client.addResponse(200, html("request/test_hang_up_on_rufus.html"));
+
+      var useItemURL =
+          "inv_use.php?which=3&whichitem=" + ItemPool.CLOSED_CIRCUIT_PAY_PHONE + "&ajax=1";
+      var useRequest = new GenericRequest(useItemURL);
+      useRequest.run();
+
+      // He told us what he needs
+      assertThat("rufusDesiredArtifact", isSetTo(artifact));
+      assertThat("rufusDesiredEntity", isSetTo(entity));
+      assertThat("rufusDesiredItems", isSetTo(item));
+
+      // We are in a choice that you cannot walk away from.
+      assertTrue(ChoiceManager.handlingChoice);
+      assertEquals(1497, ChoiceManager.lastChoice);
+
+      // Choose option 6 - Hang up
+      var choiceURL = "choice.php?pwd&whichchoice=1497&option=6";
+      var choiceRequest = new GenericRequest(choiceURL);
+      choiceRequest.run();
+
+      // We are no longer in a choice
+      assertFalse(ChoiceManager.handlingChoice);
+
+      // We still know what Rufus needs
+      assertThat("rufusDesiredArtifact", isSetTo(artifact));
+      assertThat("rufusDesiredEntity", isSetTo(entity));
+      assertThat("rufusDesiredItems", isSetTo(item));
+    }
+  }
 
   @Test
   public void callingRufusLearnsQuests() {
