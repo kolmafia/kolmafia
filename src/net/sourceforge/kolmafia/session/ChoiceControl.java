@@ -6483,6 +6483,23 @@ public abstract class ChoiceControl {
         // Out of the Shadows
         handleAfterAvatar(ChoiceManager.lastDecision);
         break;
+
+      case 1497:
+        // Calling Rufus
+        RufusManager.parseCallResponse(text, ChoiceManager.lastDecision);
+        break;
+
+      case 1498:
+        // Calling Rufus Back
+        RufusManager.parseCallBackResponse(text, ChoiceManager.lastDecision);
+        break;
+
+      case 1500:
+        // Like a Loded Stone
+        if (ChoiceManager.lastDecision == 3) {
+          Preferences.setBoolean("_shadowForestLooted", true);
+        }
+        break;
     }
   }
 
@@ -8131,9 +8148,20 @@ public abstract class ChoiceControl {
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
         break;
 
+      case 1497:
+        // Calling Rufus
+        RufusManager.parseCall(text);
+        break;
+
+      case 1498:
+        // Calling Rufus Back
+        RufusManager.parseCallBack(text);
+        break;
+
       case 1500:
         // Like a Loded Stone
         ResultProcessor.removeItem(ItemPool.RUFUS_SHADOW_LODESTONE);
+        QuestDatabase.setQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED);
         break;
     }
   }

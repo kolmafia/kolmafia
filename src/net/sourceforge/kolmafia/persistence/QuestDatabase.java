@@ -116,6 +116,7 @@ public class QuestDatabase {
     CLUMSINESS("questClumsinessGrove"),
     MAELSTROM("questMaelstromOfLovers"),
     GLACIER("questGlacierOfJerks"),
+    RUFUS("questRufus"),
     ;
 
     private final String pref;

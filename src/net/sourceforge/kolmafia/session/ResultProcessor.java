@@ -3347,6 +3347,15 @@ public class ResultProcessor {
           Preferences.increment("_grubbyWoolDrops", 1);
         }
         break;
+
+      case ItemPool.SHADOW_LIGHTER:
+      case ItemPool.SHADOW_HEPTAHEDRON:
+      case ItemPool.SHADOW_SNOWFLAKE:
+      case ItemPool.SHADOW_HEART:
+      case ItemPool.SHADOW_BUCKET:
+      case ItemPool.SHADOW_WAVE:
+        QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
+        break;
     }
 
     // Gaining items can achieve goals.
