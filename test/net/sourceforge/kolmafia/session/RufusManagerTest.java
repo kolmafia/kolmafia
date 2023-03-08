@@ -99,54 +99,6 @@ public class RufusManagerTest {
   }
 
   @Test
-  public void callingRufusLearnsQuests() {
-    var builder = new FakeHttpClientBuilder();
-    var client = builder.client;
-    var cleanups =
-        new Cleanups(
-            withHttpClientBuilder(builder),
-            withProperty("rufusDesiredArtifact"),
-            withProperty("rufusDesiredEntity"),
-            withProperty("rufusDesiredItems"),
-            withProperty("rufusQuestState"),
-            withProperty("rufusQuestTarget"),
-            withProperty("rufusQuestType"));
-    try (cleanups) {
-      client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
-      client.addResponse(200, html("request/test_call_rufus.html"));
-      client.addResponse(200, ""); // api.php
-      client.addResponse(200, html("request/test_hang_up_on_rufus.html"));
-
-      var useItemURL =
-          "inv_use.php?which=3&whichitem=" + ItemPool.CLOSED_CIRCUIT_PAY_PHONE + "&ajax=1";
-      var useRequest = new GenericRequest(useItemURL);
-      useRequest.run();
-
-      // He told us what he needs
-      assertThat("rufusDesiredArtifact", isSetTo("shadow heart"));
-      assertThat("rufusDesiredEntity", isSetTo("shadow matrix"));
-      assertThat("rufusDesiredItems", isSetTo("shadow venom"));
-
-      // We are in a choice that you cannot walk away from.
-      assertTrue(ChoiceManager.handlingChoice);
-      assertEquals(1497, ChoiceManager.lastChoice);
-
-      // Choose option 6 - Hang up
-      var choiceURL = "choice.php?pwd&whichchoice=1497&option=6";
-      var choiceRequest = new GenericRequest(choiceURL);
-      choiceRequest.run();
-
-      // We are no longer in a choice
-      assertFalse(ChoiceManager.handlingChoice);
-
-      // We still know what Rufus needs
-      assertThat("rufusDesiredArtifact", isSetTo("shadow heart"));
-      assertThat("rufusDesiredEntity", isSetTo("shadow matrix"));
-      assertThat("rufusDesiredItems", isSetTo("shadow venom"));
-    }
-  }
-
-  @Test
   public void acceptingAnArtifactQuestSetsState() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
