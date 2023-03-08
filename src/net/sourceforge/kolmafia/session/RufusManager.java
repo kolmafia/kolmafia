@@ -96,7 +96,7 @@ public class RufusManager {
             int itemId = ItemDatabase.getExactItemId(artifact);
             ResultProcessor.removeItem(itemId);
           }
-          Preferences.setString("rufusQuestState", "none");
+          Preferences.setString("rufusQuestState", "finished");
           Preferences.setString("rufusQuestType", "");
           Preferences.setString("rufusQuestTarget", "");
         }

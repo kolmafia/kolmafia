@@ -1293,7 +1293,7 @@ user	royalty
 user	rufusDesiredArtifact
 user	rufusDesiredEntity
 user	rufusDesiredItems
-user	rufusQuestState	none
+user	rufusQuestState	unstarted
 user	rufusQuestTarget
 user	rufusQuestType
 user	rumpelstiltskinTurnsUsed	0

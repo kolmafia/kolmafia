@@ -210,7 +210,7 @@ public class RufusManagerTest {
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
-            withProperty("rufusQuestState", "done"),
+            withProperty("rufusQuestState", "step1"),
             withProperty("rufusQuestTarget", "shadow heart"),
             withProperty("rufusQuestType", "artifact"),
             withItem(ItemPool.SHADOW_HEART),
@@ -241,7 +241,7 @@ public class RufusManagerTest {
       assertFalse(ChoiceManager.handlingChoice);
 
       // The quest properties are reset
-      assertThat("rufusQuestState", isSetTo("none"));
+      assertThat("rufusQuestState", isSetTo("finished"));
       assertThat("rufusQuestType", isSetTo(""));
       assertThat("rufusQuestTarget", isSetTo(""));
 

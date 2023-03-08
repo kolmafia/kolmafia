@@ -9195,7 +9195,7 @@ public abstract class ChoiceAdventures {
       String normal = theme.getNormal();
       spoiler = normal;
       if (questType.equals("artifact")
-          && !Preferences.getString("rufusQuestState").equals("done")) {
+          && Preferences.getString("rufusQuestState").equals("started")) {
         String target = Preferences.getString("rufusQuestTarget");
         String artifact = theme.getArtifact();
         if (target.equals(artifact)) {
