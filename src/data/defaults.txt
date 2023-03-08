@@ -1515,7 +1515,7 @@ user	usable2HWeapons	1
 user	usable3HWeapons	1
 user	usableAccessories	3
 user	usableHats	2
-user	usableOffhands	1
+user	usableOffhands	2
 user	usableOther	1
 user	usablePants	2
 user	usableShirts	1
