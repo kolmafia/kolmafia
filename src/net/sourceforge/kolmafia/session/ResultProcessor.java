@@ -3354,7 +3354,7 @@ public class ResultProcessor {
       case ItemPool.SHADOW_HEART:
       case ItemPool.SHADOW_BUCKET:
       case ItemPool.SHADOW_WAVE:
-        Preferences.setString("rufusQuestState", "step1");
+        QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
         break;
     }
 

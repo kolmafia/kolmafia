@@ -3522,6 +3522,7 @@ public class ItemPool {
   public static final int HARD_ROCK = 11108;
   public static final int STRANGE_STALAGMITE = 11109;
   public static final int SIT_COURSE_COMPLETION_CERTIFICATE = 11116;
+  public static final int SHADOW_SKIN = 11136;
   public static final int SHADOW_FLAME = 11137;
   public static final int SHADOW_FLUID = 11140;
   public static final int SHADOW_BRICK = 11142;

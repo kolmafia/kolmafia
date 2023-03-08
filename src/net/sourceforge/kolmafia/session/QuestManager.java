@@ -2163,7 +2163,7 @@ public class QuestManager {
           "shadow scythe",
           "shadow cauldron",
           "shadow matrix" -> {
-        Preferences.setString("`rufusQuestState", "step1");
+        QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
       }
     }
 

@@ -5,7 +5,10 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Preference.isSetTo;
+import static internal.matchers.Quest.isStarted;
+import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -20,6 +23,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
@@ -60,7 +65,7 @@ public class RufusManagerTest {
             withProperty("rufusDesiredArtifact"),
             withProperty("rufusDesiredEntity"),
             withProperty("rufusDesiredItems"),
-            withProperty("rufusQuestState"),
+            withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
             withProperty("rufusQuestTarget"),
             withProperty("rufusQuestType"));
     try (cleanups) {
@@ -95,6 +100,9 @@ public class RufusManagerTest {
       assertThat("rufusDesiredArtifact", isSetTo(artifact));
       assertThat("rufusDesiredEntity", isSetTo(entity));
       assertThat("rufusDesiredItems", isSetTo(item));
+
+      // We did not start the quest
+      assertThat(Quest.RUFUS, isUnstarted());
     }
   }
 
@@ -108,7 +116,7 @@ public class RufusManagerTest {
             withProperty("rufusDesiredArtifact"),
             withProperty("rufusDesiredEntity"),
             withProperty("rufusDesiredItems"),
-            withProperty("rufusQuestState"),
+            withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
             withProperty("rufusQuestTarget"),
             withProperty("rufusQuestType"),
             withNoEffects());
@@ -146,7 +154,7 @@ public class RufusManagerTest {
       assertThat("rufusDesiredItems", isSetTo(""));
 
       // Instead, quest properties are set
-      assertThat("rufusQuestState", isSetTo("started"));
+      assertThat(Quest.RUFUS, isStarted());
       assertThat("rufusQuestType", isSetTo("artifact"));
       assertThat("rufusQuestTarget", isSetTo("shadow heart"));
 
@@ -162,7 +170,7 @@ public class RufusManagerTest {
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
-            withProperty("rufusQuestState", "step1"),
+            withQuestProgress(Quest.RUFUS, "step1"),
             withProperty("rufusQuestTarget", "shadow heart"),
             withProperty("rufusQuestType", "artifact"),
             withItem(ItemPool.SHADOW_HEART),
@@ -193,12 +201,62 @@ public class RufusManagerTest {
       assertFalse(ChoiceManager.handlingChoice);
 
       // The quest properties are reset
-      assertThat("rufusQuestState", isSetTo("finished"));
+      assertThat(Quest.RUFUS, isUnstarted());
       assertThat("rufusQuestType", isSetTo(""));
       assertThat("rufusQuestTarget", isSetTo(""));
 
       // We no longer have the artifact
       assertFalse(InventoryManager.hasItem(ItemPool.SHADOW_HEART));
+
+      // We have Rufus's shadow lodestone
+      assertTrue(InventoryManager.hasItem(ItemPool.RUFUS_SHADOW_LODESTONE));
+    }
+  }
+
+  @Test
+  public void returningItemsSetsState() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withQuestProgress(Quest.RUFUS, "step1"),
+            withProperty("rufusQuestTarget", "shadow skin"),
+            withProperty("rufusQuestType", "items"),
+            withItem(ItemPool.SHADOW_SKIN, 3),
+            withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 0),
+            withNoEffects());
+    try (cleanups) {
+      client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+      client.addResponse(200, html("request/test_call_rufus_back_items.html"));
+      client.addResponse(200, html("request/test_return_items_to_rufus.html"));
+      client.addResponse(200, ""); // api.php
+
+      var useItemURL =
+          "inv_use.php?which=3&whichitem=" + ItemPool.CLOSED_CIRCUIT_PAY_PHONE + "&ajax=1";
+      var useRequest = new GenericRequest(useItemURL);
+      useRequest.run();
+
+      // We are in a choice that you cannot walk away from.
+      assertTrue(ChoiceManager.handlingChoice);
+      assertEquals(1498, ChoiceManager.lastChoice);
+
+      // He wants to know if we succeeded
+      // Choose option 1 - Yes, I have them right here.
+      var choiceURL = "choice.php?pwd&whichchoice=1498&option=1";
+      var choiceRequest = new GenericRequest(choiceURL);
+      choiceRequest.run();
+
+      // We are no longer in a choice
+      assertFalse(ChoiceManager.handlingChoice);
+
+      // The quest properties are reset
+      assertThat(Quest.RUFUS, isUnstarted());
+      assertThat("rufusQuestType", isSetTo(""));
+      assertThat("rufusQuestTarget", isSetTo(""));
+
+      // We have three fewer items
+      assertEquals(0, InventoryManager.getCount(ItemPool.SHADOW_SKIN));
 
       // We have Rufus's shadow lodestone
       assertTrue(InventoryManager.hasItem(ItemPool.RUFUS_SHADOW_LODESTONE));

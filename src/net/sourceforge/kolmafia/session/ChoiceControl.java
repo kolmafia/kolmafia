@@ -8161,7 +8161,7 @@ public abstract class ChoiceControl {
       case 1500:
         // Like a Loded Stone
         ResultProcessor.removeItem(ItemPool.RUFUS_SHADOW_LODESTONE);
-        Preferences.setString("rufusQuestState", "unstarted");
+        QuestDatabase.setQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED);
         break;
     }
   }

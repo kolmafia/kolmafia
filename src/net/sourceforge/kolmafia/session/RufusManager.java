@@ -1,7 +1,10 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class RufusManager {
@@ -64,6 +67,7 @@ public class RufusManager {
     switch (option) {
       case 6 -> {
         // Hang up
+        QuestDatabase.setQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED);
         return;
       }
       case 1 -> {
@@ -80,7 +84,7 @@ public class RufusManager {
         Preferences.setString("rufusQuestTarget", Preferences.getString("rufusDesiredItems"));
       }
     }
-    Preferences.setString("rufusQuestState", "started");
+    QuestDatabase.setQuestProgress(Quest.RUFUS, QuestDatabase.STARTED);
     Preferences.setString("rufusDesiredEntity", "");
     Preferences.setString("rufusDesiredArtifact", "");
     Preferences.setString("rufusDesiredItems", "");
@@ -91,12 +95,19 @@ public class RufusManager {
       case 1 -> {
         // "Yeah, I got it."
         if (text.contains("Rufus's shadow lodestone")) {
-          if (Preferences.getString("rufusQuestType").equals("artifact")) {
-            String artifact = Preferences.getString("rufusQuestTarget");
-            int itemId = ItemDatabase.getExactItemId(artifact);
-            ResultProcessor.removeItem(itemId);
+          switch (Preferences.getString("rufusQuestType")) {
+            case "artifact" -> {
+              String artifact = Preferences.getString("rufusQuestTarget");
+              int itemId = ItemDatabase.getExactItemId(artifact);
+              ResultProcessor.removeItem(itemId);
+            }
+            case "items" -> {
+              String item = Preferences.getString("rufusQuestTarget");
+              int itemId = ItemDatabase.getExactItemId(item);
+              ResultProcessor.processResult(ItemPool.get(itemId, -3));
+            }
           }
-          Preferences.setString("rufusQuestState", "finished");
+          QuestDatabase.setQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED);
           Preferences.setString("rufusQuestType", "");
           Preferences.setString("rufusQuestTarget", "");
         }

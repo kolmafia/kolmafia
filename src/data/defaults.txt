@@ -1255,6 +1255,7 @@ user	questM25Armorer	unstarted
 user	questM26Oracle	unstarted
 user	questMaelstromOfLovers	unstarted
 user	questPAGhost	unstarted
+user	questRufus	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false
@@ -1293,7 +1294,6 @@ user	royalty
 user	rufusDesiredArtifact
 user	rufusDesiredEntity
 user	rufusDesiredItems
-user	rufusQuestState	unstarted
 user	rufusQuestTarget
 user	rufusQuestType
 user	rumpelstiltskinTurnsUsed	0

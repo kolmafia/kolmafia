@@ -420,7 +420,6 @@ public class Preferences {
         "rufusDesiredArtifact",
         "rufusDesiredEntity",
         "rufusDesiredItems",
-        "rufusQuestState",
         "rufusQuestTarget",
         "rufusQuestType",
         "rumpelstiltskinKidsRescued",

@@ -31,6 +31,8 @@ import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
@@ -9191,11 +9193,9 @@ public abstract class ChoiceAdventures {
     ShadowTheme theme = shadowLabyrinthTheme(text);
     String spoiler = "unknown theme";
     if (theme != null) {
-      String questType = Preferences.getString("rufusQuestType");
-      String normal = theme.getNormal();
-      spoiler = normal;
-      if (questType.equals("artifact")
-          && Preferences.getString("rufusQuestState").equals("started")) {
+      spoiler = theme.getNormal();
+      if (Preferences.getString("rufusQuestType").equals("artifact")
+          && QuestDatabase.isQuestStep(Quest.RUFUS, QuestDatabase.STARTED)) {
         String target = Preferences.getString("rufusQuestTarget");
         String artifact = theme.getArtifact();
         if (target.equals(artifact)) {
