@@ -88,6 +88,7 @@ public class ItemDatabase {
     new Alias(ItemPool.BUGGED_POTION, "bugged Knob Goblin love potion"),
     new Alias(ItemPool.BUGGED_KNICKERBOCKERS, "bugged old school Mafia knickerbockers"),
     new Alias(ItemPool.BUGGED_BAIO, "bugged Talisman of Baio"),
+    new Alias(ItemPool.LOVE_POTION_XYZ, "Love Potion #0"),
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (broken)"),
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (forward-facing)"),
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (bucket style)"),
