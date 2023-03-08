@@ -570,6 +570,7 @@ public class KoLmafiaCLI {
         .register("checkmodifiers")
         .register("checkoutfits")
         .register("checkplurals")
+        .register("checkmuseumplurals")
         .register("checkpotions")
         .register("checkpowers")
         .register("checkprofile")
