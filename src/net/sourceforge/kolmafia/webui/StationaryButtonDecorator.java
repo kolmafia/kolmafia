@@ -29,6 +29,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class StationaryButtonDecorator {
   private static final ArrayList<String> combatHotkeys = new ArrayList<>();
 
+  private static final AdventureResult EVERYTHING_LOOKS_RED =
+      EffectPool.get(EffectPool.EVERYTHING_LOOKS_RED);
   private static final AdventureResult EVERYTHING_LOOKS_YELLOW =
       EffectPool.get(EffectPool.EVERYTHING_LOOKS_YELLOW);
   private static final AdventureResult EVERYTHING_LOOKS_BLUE =
@@ -708,6 +710,8 @@ public class StationaryButtonDecorator {
           case SkillPool.LASH_OF_COBRA -> isEnabled = !Preferences.getBoolean("edUsedLash");
           case SkillPool.GINGERBREAD_MOB_HIT -> isEnabled =
               !Preferences.getBoolean("_gingerbreadMobHitUsed");
+          case SkillPool.FREE_FOR_ALL -> isEnabled =
+              !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_RED);
           case SkillPool.FONDELUGE -> isEnabled =
               !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_YELLOW);
           case SkillPool.MOTIF -> isEnabled =
