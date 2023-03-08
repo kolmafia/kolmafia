@@ -160,6 +160,7 @@ public class AreaCombatData {
       if (Preferences.getString("longConMonster").equals(monsterName)) {
         currentWeighting += 3 * baseWeighting;
       }
+      // TODO: add motif copies after amount spaded
 
       if (BanishManager.isBanished(monsterName)) {
         // Banishing reduces number of copies

@@ -746,6 +746,8 @@ public class SkillPool {
   public static final int HOT_FOOT = 28015;
   public static final int SECOND_WIND = 28016;
   public static final int STOP_HITTING_YOURSELF = 28017;
+  public static final int FREE_FOR_ALL = 28019;
+  public static final int PUNT = 28021;
   public static final int EMMENTAL_ELEMENTAL = 29017;
   public static final int STILTON_SPLATTER = 29019;
   public static final int FONDELUGE = 29021;
