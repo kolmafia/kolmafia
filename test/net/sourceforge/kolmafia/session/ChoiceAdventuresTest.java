@@ -5,21 +5,38 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ShadowTheme;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class ChoiceAdventuresTest {
+  @BeforeAll
+  public static void beforeAll() {
+    KoLCharacter.reset("ChoiceAdventures");
+  }
+
+  @BeforeEach
+  public void beforeEach() {
+    Preferences.reset("ChoiceAdventures");
+  }
+
   @Nested
   class GreatOverlookLodge {
     private static final int GREAT_OVERLOOK_LODGE = 606;
@@ -75,7 +92,7 @@ class ChoiceAdventuresTest {
       ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.FIRE);
-      assertEquals("90-100 Muscle substats or shadow lighter", spoiler.toString());
+      assertEquals("90-100 Muscle substats", spoiler.toString());
     }
 
     @Test
@@ -84,7 +101,7 @@ class ChoiceAdventuresTest {
       ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.COLD);
-      assertEquals("30 Shadow's Chill: Maximum MP +300% or shadow snowflake", spoiler.toString());
+      assertEquals("30 Shadow's Chill: Maximum MP +300%", spoiler.toString());
     }
 
     void canDetectWaterAdjective() {
@@ -92,7 +109,7 @@ class ChoiceAdventuresTest {
       ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.WATER);
-      assertEquals("90-100 Moxie substats or shadow bucket", spoiler.toString());
+      assertEquals("90-100 Moxie substats", spoiler.toString());
     }
 
     @Test
@@ -101,7 +118,7 @@ class ChoiceAdventuresTest {
       ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.MATH);
-      assertEquals("90-100 Mysticality substats or shadow heptahedron", spoiler.toString());
+      assertEquals("90-100 Mysticality substats", spoiler.toString());
     }
 
     @Test
@@ -119,7 +136,7 @@ class ChoiceAdventuresTest {
       ShadowTheme theme = ChoiceAdventures.shadowLabyrinthTheme(text);
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.BLOOD);
-      assertEquals("30 Shadow's Heart: Maximum HP +300% or shadow heart", spoiler.toString());
+      assertEquals("30 Shadow's Heart: Maximum HP +300%", spoiler.toString());
     }
 
     @Test
@@ -129,8 +146,29 @@ class ChoiceAdventuresTest {
       ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
       assertEquals(theme, ShadowTheme.GHOST);
       assertEquals(
-          "30 Shadow's Thickness: Superhuman (+5) Spooky, Hot, Sleaze resistance or shadow wave",
+          "30 Shadow's Thickness: Superhuman (+5) Spooky, Hot, Sleaze resistance",
           spoiler.toString());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "Opt for the white-hot cleft, shadow lighter",
+      "Opt for the iced-over passage, shadow snowflake",
+      "Leap into the sodden hole, shadow bucket",
+      "Try to reach the irrational portal, shadow heptahedron",
+      "Walk to the vein-shot lane, shadow heart",
+      "Try to reach the nearly invisible hole, shadow wave"
+    })
+    public void checkShadowArtifacts(String text, String artifact) {
+      var cleanups =
+          new Cleanups(
+              withProperty("questRufus", "started"),
+              withProperty("rufusQuestType", "artifact"),
+              withProperty("rufusQuestTarget", artifact));
+      try (cleanups) {
+        ChoiceOption spoiler = ChoiceAdventures.shadowLabyrinthSpoiler(text);
+        assertEquals(artifact, spoiler.toString());
+      }
     }
 
     @Test
@@ -147,9 +185,9 @@ class ChoiceAdventuresTest {
         var spoilers = ChoiceAdventures.choiceSpoilers(1499, new StringBuffer(html));
         var options = spoilers.getOptions();
         assertEquals("Randomize themes", options[0].toString());
-        assertEquals("90-100 Muscle substats or shadow lighter", options[1].toString());
+        assertEquals("90-100 Muscle substats", options[1].toString());
         assertEquals("+3 turns to 3 random effects", options[2].toString());
-        assertEquals("30 Shadow's Heart: Maximum HP +300% or shadow heart", options[3].toString());
+        assertEquals("30 Shadow's Heart: Maximum HP +300%", options[3].toString());
         assertEquals("Randomize themes", options[4].toString());
         assertEquals("Leave with nothing", options[5].toString());
       }

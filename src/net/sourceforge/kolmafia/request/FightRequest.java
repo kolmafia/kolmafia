@@ -9224,6 +9224,13 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case SkillPool.MOTIF:
+        if (responseText.contains("You whip out an instrument and play a quick motif")) {
+          Preferences.setString("motifMonster", monsterName);
+          skillSuccess = true;
+        }
+        break;
+
         // Banishing Shout has lots of success messages.  Check for the failure message instead
       case SkillPool.BANISHING_SHOUT:
         if (!responseText.contains("but this foe refuses")) {
@@ -9267,6 +9274,12 @@ public class FightRequest extends GenericRequest {
       case SkillPool.BATTER_UP:
         if (responseText.contains("knocked out of the park") || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.BATTER_UP);
+        }
+        break;
+
+      case SkillPool.PUNT:
+        if (responseText.contains("You punt your foe into next week") || skillRunawaySuccess) {
+          BanishManager.banishMonster(monster, Banisher.PUNT);
         }
         break;
 
