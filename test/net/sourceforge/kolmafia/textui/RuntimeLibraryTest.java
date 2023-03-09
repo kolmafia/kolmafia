@@ -643,4 +643,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(output, is("Returned: 7302\n"));
     }
   }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"16000", "zero placeholder", "[zero placeholder]", "[16000]"})
+  void canIdentifySkill(final String skillIdentifier) {
+    String output = execute("$skill[" + skillIdentifier + "].name");
+    assertThat(output, endsWith("Returned: [zero placeholder]\n"));
+  }
 }
