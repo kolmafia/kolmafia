@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -37,7 +38,7 @@ public class RufusManager {
       Pattern.compile("(spire|orrery|tongue|scythe|cauldron|matrix)");
   private static final Pattern ARTIFACT =
       Pattern.compile("(lighter|heptahedron|snowflake|heart|bucket|wave)");
-  private static final Pattern ITEMS = Pattern.compile("3 (.*?shadow .*?) would be valuable");
+  private static final Pattern ITEMS = Pattern.compile("Right now, 3 (.*?) would be valuable");
 
   public static void parseCall(final String text) {
     var entityMatcher = ENTITY.matcher(text);
@@ -54,7 +55,7 @@ public class RufusManager {
     if (itemMatcher.find()) {
       // This will be a plural name
       String items = itemMatcher.group(1);
-      // Convert to itemId and back to non-plural ItemName
+      // Convert to itemId and back to non-plural item name
       int itemId = ItemDatabase.getItemId(items, 3);
       String itemName = ItemDatabase.getItemName(itemId);
       Preferences.setString("rufusDesiredItems", itemName);
@@ -120,5 +121,55 @@ public class RufusManager {
         return;
       }
     }
+  }
+
+  //  Rufus wants you to go into a Shadow Rift and defeat a shadow scythe.
+  //  Call Rufus and let him know you defeated that monster.
+  public static final Pattern RUFUS_ENTITY_PATTERN = Pattern.compile("defeat a (.*?)\\.");
+
+  //  Rufus wants you to go into a Shadow Rift and find a shadow bucket.
+  //  Call Rufus and tell him you found his shadow bucket.
+  public static final Pattern RUFUS_ARTIFACT_PATTERN = Pattern.compile("find a (.*?)\\.");
+
+  //  Rufus wants you to find him 3 wisps of shadow flame from Shadow Rifts.
+  //  Call Rufus and tell him you've got the 3 wisps of shadow flame he wanted.
+  public static final Pattern RUFUS_ITEMS_PATTERN =
+      Pattern.compile("find him 3 (.*?) from Shadow Rifts\\.");
+
+  public static String handleQuestLog(String details) {
+    details = details.trim();
+    if (details.startsWith("Rufus wants you")) {
+      // The quest has been started
+      Matcher entityMatcher = RUFUS_ENTITY_PATTERN.matcher(details);
+      if (entityMatcher.find()) {
+        Preferences.setString("rufusQuestType", "entity");
+        Preferences.setString("rufusQuestTarget", entityMatcher.group(1));
+        return QuestDatabase.STARTED;
+      }
+      Matcher artifactMatcher = RUFUS_ARTIFACT_PATTERN.matcher(details);
+      if (artifactMatcher.find()) {
+        Preferences.setString("rufusQuestType", "artifact");
+        Preferences.setString("rufusQuestTarget", artifactMatcher.group(1));
+        return QuestDatabase.STARTED;
+      }
+      Matcher itemsMatcher = RUFUS_ITEMS_PATTERN.matcher(details);
+      if (itemsMatcher.find()) {
+        Preferences.setString("rufusQuestType", "items");
+        String items = itemsMatcher.group(1);
+        // Convert to itemId and back to non-plural item name
+        int itemId = ItemDatabase.getItemId(items, 3);
+        String itemName = ItemDatabase.getItemName(itemId);
+        Preferences.setString("rufusQuestTarget", itemName);
+        return QuestDatabase.STARTED;
+      }
+      // This should not be possible
+      return QuestDatabase.STARTED;
+    }
+    if (details.startsWith("Call Rufus")) {
+      // You have done what Rufus wanted
+      return "step1";
+    }
+    // This should not be possible
+    return QuestDatabase.UNSTARTED;
   }
 }
