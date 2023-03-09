@@ -331,12 +331,9 @@ public class SkillDatabase {
       int index = skillName.indexOf("]");
       if (index > 0) {
         String idString = skillName.substring(1, index);
-        int skillId = -1;
-        try {
-          skillId = StringUtilities.parseInt(idString);
-        } catch (NumberFormatException e) {
+        if (StringUtilities.isNumeric(idString)) {
+          return StringUtilities.parseInt(idString);
         }
-        return skillId;
       }
     }
 
@@ -391,14 +388,12 @@ public class SkillDatabase {
       int index = skillName.indexOf("]");
       if (index > 0) {
         String idString = skillName.substring(1, index);
-        int skillId = -1;
-        try {
-          skillId = StringUtilities.parseInt(idString);
-        } catch (NumberFormatException e) {
+        if (StringUtilities.isNumeric(idString)) {
+          int skillId = StringUtilities.parseInt(idString);
+          int[] ids = new int[1];
+          ids[0] = skillId;
+          return ids;
         }
-        int[] ids = new int[1];
-        ids[0] = skillId;
-        return ids;
       }
     }
 
@@ -432,13 +427,10 @@ public class SkillDatabase {
       int index = substring.indexOf("]");
       if (index > 0) {
         String idString = substring.substring(1, index);
-        try {
-          int skillId = StringUtilities.parseInt(idString);
-          // It parsed to a number so is valid
+        if (StringUtilities.isNumeric(idString)) {
           List<String> list = new ArrayList<>();
           list.add(substring);
           return list;
-        } catch (NumberFormatException e) {
         }
       }
     }
