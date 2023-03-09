@@ -8,6 +8,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStarted;
+import static internal.matchers.Quest.isStep;
 import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,6 +30,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -307,6 +309,129 @@ public class RufusManagerTest {
       assertEquals(2, InventoryManager.getCount(ItemPool.SHADOW_FLAME));
       assertEquals(3, InventoryManager.getCount(ItemPool.SHADOW_NECTAR));
       assertEquals(3, InventoryManager.getCount(ItemPool.SHADOW_STICK));
+    }
+  }
+
+  @Nested
+  class QuestLog {
+    @Test
+    void canParseEntityStartedInQuestLog() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
+              withProperty("rufusQuestTarget", ""),
+              withProperty("rufusQuestType", ""));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_rufus_questlog_entity.html"));
+        var request = new GenericRequest("questlog.php");
+        request.run();
+
+        assertThat(Quest.RUFUS, isStarted());
+        assertThat("rufusQuestType", isSetTo("entity"));
+        assertThat("rufusQuestTarget", isSetTo("shadow scythe"));
+      }
+    }
+
+    @Test
+    void canParseEntityDoneInQuestLog() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
+              withProperty("rufusQuestTarget", ""),
+              withProperty("rufusQuestType", ""));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_rufus_questlog_entity_done.html"));
+        var request = new GenericRequest("questlog.php");
+        request.run();
+
+        assertThat(Quest.RUFUS, isStep("step1"));
+      }
+    }
+
+    @Test
+    void canParseArtifactStartedInQuestLog() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
+              withProperty("rufusQuestTarget", ""),
+              withProperty("rufusQuestType", ""));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_rufus_questlog_artifact.html"));
+        var request = new GenericRequest("questlog.php");
+        request.run();
+
+        assertThat(Quest.RUFUS, isStarted());
+        assertThat("rufusQuestType", isSetTo("artifact"));
+        assertThat("rufusQuestTarget", isSetTo("shadow bucket"));
+      }
+    }
+
+    @Test
+    void canParseArtifactDoneInQuestLog() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
+              withProperty("rufusQuestTarget", ""),
+              withProperty("rufusQuestType", ""));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_rufus_questlog_artifact_done.html"));
+        var request = new GenericRequest("questlog.php");
+        request.run();
+
+        assertThat(Quest.RUFUS, isStep("step1"));
+      }
+    }
+
+    @Test
+    void canParseItemsStartedInQuestLog() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
+              withProperty("rufusQuestTarget", ""),
+              withProperty("rufusQuestType", ""));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_rufus_questlog_items.html"));
+        var request = new GenericRequest("questlog.php");
+        request.run();
+
+        assertThat(Quest.RUFUS, isStarted());
+        assertThat("rufusQuestType", isSetTo("items"));
+        assertThat("rufusQuestTarget", isSetTo("shadow flame"));
+      }
+    }
+
+    @Test
+    void canParseItemsDoneInQuestLog() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
+              withProperty("rufusQuestTarget", ""),
+              withProperty("rufusQuestType", ""));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_rufus_questlog_items_done.html"));
+        var request = new GenericRequest("questlog.php");
+        request.run();
+
+        assertThat(Quest.RUFUS, isStep("step1"));
+      }
     }
   }
 }
