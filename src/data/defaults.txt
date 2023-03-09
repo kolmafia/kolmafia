@@ -1049,6 +1049,7 @@ user	miniAdvClass	0
 user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
 user	moonTuned	false
+user	motifMonster	
 user	mothershipProgress	0
 user	mpAutoRecovery	-0.5
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
@@ -1255,6 +1256,7 @@ user	questM25Armorer	unstarted
 user	questM26Oracle	unstarted
 user	questMaelstromOfLovers	unstarted
 user	questPAGhost	unstarted
+user	questRufus	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false
@@ -1290,6 +1292,11 @@ user	requireBoxServants	false
 user	requireSewerTestItems	false
 user	romanticTarget
 user	royalty
+user	rufusDesiredArtifact
+user	rufusDesiredEntity
+user	rufusDesiredItems
+user	rufusQuestTarget
+user	rufusQuestType
 user	rumpelstiltskinTurnsUsed	0
 user	rumpelstiltskinKidsRescued	0
 user	safariSwagger	0
@@ -1508,7 +1515,7 @@ user	usable2HWeapons	1
 user	usable3HWeapons	1
 user	usableAccessories	3
 user	usableHats	2
-user	usableOffhands	1
+user	usableOffhands	2
 user	usableOther	1
 user	usablePants	2
 user	usableShirts	1
@@ -2031,7 +2038,6 @@ user	_noobSkillCount	0
 user	_nuclearStockpileUsed	0
 user	_oilExtracted	0
 user	_olfactionsUsed	0
-user	_speakeasyFreeFights	0
 user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
 user	_optimisticCandleDropsCrown	0
@@ -2123,6 +2129,7 @@ user	_setOfJacksUsed	false
 user	_sewingKitUsed	false
 user	_sexChanged	false
 user	_shadowBricksUsed	0
+user	_shadowForestLooted	false
 user	_shadowRiftCombats	0
 user	_shatteringPunchUsed	0
 user	_shortOrderCookCharge	0
@@ -2175,6 +2182,7 @@ user	_spaceJellyfishDrops	0
 user	_spaghettiBreakfast	false
 user	_spaghettiBreakfastEaten	false
 user	_speakeasyDrinksDrunk	0
+user	_speakeasyFreeFights	0
 user	_spelunkerCharges	0
 user	_spelunkingTalesDrops	0
 user	_spikolodonSpikeUses	0

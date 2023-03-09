@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tmatesoft.svn.core.SVNException;
@@ -2408,6 +2409,94 @@ public class DebugDatabase {
       report.println(itemId + "\t" + name);
     } else {
       report.println(itemId + "\t" + name + "\t" + plural);
+    }
+  }
+
+  // **********************************************************
+
+  public static final void checkMuseumPlurals(final String parameters) {
+
+    PrintStream report =
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
+
+    try (report) {
+      var array = getMuseumPluralArray();
+      var length = array.length();
+      for (int i = 0; i < length; i++) {
+        var entry = array.getJSONObject(i);
+        var id = entry.getInt("id");
+        var name = entry.getString("name");
+        var plural = entry.optString("plural", "");
+
+        if (plural.equals(name + "s")) {
+          // make default
+          plural = "";
+        }
+
+        String mafiaName = ItemDatabase.getItemDataName(id);
+        if (mafiaName == null) {
+          report.println("Unrecognised item " + id + ": \"" + name + "\"");
+          continue;
+        }
+        if (!mafiaName.equals(name)) {
+          report.println(
+              "item " + id + " has name \"" + name + "\" but Mafia says \"" + mafiaName + "\"");
+        }
+        String mafiaPlural = ItemDatabase.getPluralById(id);
+        if (plural.isEmpty() && !mafiaPlural.isEmpty()) {
+          report.println(
+              "Item "
+                  + id
+                  + ": \""
+                  + name
+                  + "\" has default plural, but Mafia says \""
+                  + mafiaPlural
+                  + "\"");
+        } else if (mafiaPlural.isEmpty() && !plural.isEmpty()) {
+          report.println(
+              "Item " + id + ": \"" + name + "\" has plural unknown to Mafia: \"" + plural + "\"");
+        } else if (!plural.equals(mafiaPlural)) {
+          report.println(
+              "Item "
+                  + id
+                  + ": \""
+                  + name
+                  + "\" has plural \""
+                  + plural
+                  + "\" but Mafia says \""
+                  + mafiaPlural
+                  + "\"");
+        }
+      }
+    }
+  }
+
+  private static JSONArray getMuseumPluralArray() {
+    var client = HttpUtilities.getClientBuilder().build();
+    String url = "https://museum.loathers.net/api/plurals";
+
+    URI uri;
+    try {
+      uri = new URI(url);
+    } catch (URISyntaxException e) {
+      return new JSONArray();
+    }
+
+    var request =
+        HttpRequest.newBuilder(uri).header("User-Agent", GenericRequest.getUserAgent()).build();
+
+    HttpResponse<String> response;
+    try {
+      response = client.send(request, BodyHandlers.ofString(StandardCharsets.UTF_8));
+    } catch (IOException | InterruptedException e) {
+      return new JSONArray();
+    }
+
+    if (response.statusCode() == 200) {
+      String body = response.body();
+      return new JSONArray(body);
+    } else {
+      return new JSONArray();
     }
   }
 
