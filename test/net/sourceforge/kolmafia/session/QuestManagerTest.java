@@ -3621,25 +3621,56 @@ public class QuestManagerTest {
 
   @Nested
   class PixelRealm {
-    public static Stream<Arguments> pixelMonsters() {
+    public static Stream<Arguments> pixelMonsterIncrements() {
       return Stream.of(
-          Arguments.of("medusa", "medusa", "Vanya's Castle", 4, 5),
-          Arguments.of("Met", "met", "Megalo-City", 3, 4),
-          Arguments.of("Koopa Troopa", "koopa_troopa", "The Fungus Plains", 2, 3),
-          Arguments.of("Keese", "keese", "Hero's Field", 1, 2));
+          Arguments.of("fleaman", "fleaman", "Vanya's Castle", 4, 5),
+          Arguments.of("Blader", "blader", "Megalo-City", 3, 4),
+          Arguments.of("Buzzy Beetle", "buzzy_beetle", "The Fungus Plains", 2, 3),
+          Arguments.of("Zol", "zol", "Hero's Field", 1, 2));
+    }
+
+    public static Stream<Arguments> pixelMonsterNoIncrements() {
+      return Stream.of(
+          Arguments.of(
+              "Tektite",
+              "request/test_loss_tektite.html",
+              "Hero's Field",
+              "skill&whichskill=17047",
+              1),
+          Arguments.of("Keese", "request/test_freerun_keese.html", "Hero's Field", "runaway", 2));
     }
 
     @ParameterizedTest
-    @MethodSource("pixelMonsters")
+    @MethodSource("pixelMonsterIncrements")
     public void canTrack8BitBonusTurns(
-        String monsterName, String html, String location, int startingValue, int expectedResult) {
-      var cleanups = new Cleanups(withProperty("8BitBonusTurns", startingValue));
+        String monsterName,
+        String response,
+        String location,
+        int startingValue,
+        int expectedResult) {
+      var cleanups =
+          new Cleanups(withLastLocation(location), withProperty("8BitBonusTurns", startingValue));
       try (cleanups) {
-        KoLAdventure.setLastAdventure(location);
-        String path = "request/test_fight_" + html + ".html";
-        String responseText = html(path);
-        QuestManager.updateQuestData(responseText, monsterName);
+        String URL = "fight.php?action=attack";
+        String html = html("request/test_fight_" + response + ".html");
+        FightRequest.registerRequest(true, URL);
+        FightRequest.updateCombatData(URL, monsterName, html);
         assertThat("8BitBonusTurns", isSetTo(expectedResult));
+      }
+    }
+
+    @ParameterizedTest
+    @MethodSource("pixelMonsterNoIncrements")
+    public void doNotTrack8BitBonusTurns(
+        String monsterName, String response, String location, String action, int startingValue) {
+      var cleanups =
+          new Cleanups(withLastLocation(location), withProperty("8BitBonusTurns", startingValue));
+      try (cleanups) {
+        String URL = "fight.php?action=" + action;
+        String html = html(response);
+        FightRequest.registerRequest(true, URL);
+        FightRequest.updateCombatData(URL, monsterName, html);
+        assertThat("8BitBonusTurns", isSetTo(startingValue));
       }
     }
   }
