@@ -116,7 +116,8 @@ class CharPaneRequestTest {
           new Cleanups(
               withEquipped(ItemPool.TRANSFUNCTIONER),
               withProperty("8BitScore", 0),
-              withProperty("8BitColor", ""));
+              withProperty("8BitColor", ""),
+              withProperty("8BitBonusTurns", 0));
 
       try (cleanups) {
         var responseText = html("request/test_charpane_8bit_" + color + "_score.html");
@@ -124,6 +125,7 @@ class CharPaneRequestTest {
         assertThat(result, equalTo(true));
         assertThat("8BitScore", isSetTo(expectedScore));
         assertThat("8BitColor", isSetTo(color));
+        assertThat("8BitBonusTurns", isSetTo(0));
       }
     }
   }

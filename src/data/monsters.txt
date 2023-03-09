@@ -1390,15 +1390,15 @@ Naughty Saursaurus	2248	dino_sorc.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Ini
 
 # Avatar of Shadows Over Loathing
 
-two-headed shadow bat	2283	aosol_bossbat.gif	BOSS NOCOPY Atk: 50 Def: 50 HP: 50 Init: -10000 P: horror Article: a	cursed bat paw (100)
-goblin king's shadow	2284	aosol_gobking.gif	BOSS NOCOPY Atk: 60 Def: 60 HP: 60 Init: 100 P: horror Article: the	cursed goblin cape (100)
-shadowboner shadowdagon	2285	aosol_dagon.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 150 Init: 100 P: horror Article: the	cursed dragon wishbone (100)
-W. Odah's Shadow	2286	aosol_drawkward.gif	BOSS NOCOPY Atk: 202 Def: 212 HP: 191 Init: 303 P: horror	Staff of Fats (n100)	cursed stats (100)
-shadow Lord Spookyraven	2287	aosol_lords.gif	BOSS NOCOPY Atk: 180 Def: 180 HP: 200 Init: 1000 P: horror Article: the	Eye of Ed (n100)	cursed arcane orb (100)
-corruptor shadow	2288	aosol_spectre.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 100 Init: 300 P: horror Article: a	ancient amulet (n100)	cursed machete (100)
-shadow of groar	2289	aosol_groar.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 200 Init: 200 P: horror Article: the	Groar's fur (n100)	cursed blanket (100)
-shadow of the 1960s	2290	aosol_dude.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 1000 Init: -10000 P: horror Article: the	cursed medallion (100)
-shadow of the 1980s	2291	aosol_man.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 1000 Init: -10000 P: horror Article: the	cursed medallion (100)
+two-headed shadow bat	2283	aosol_bossbat.gif	BOSS NOCOPY Atk: 50 Def: 50 HP: 50 Init: -10000 P: horror Phys: 100 Article: a	cursed bat paw (100)
+goblin king's shadow	2284	aosol_gobking.gif	BOSS NOCOPY Atk: 60 Def: 60 HP: 60 Init: 100 P: horror Phys: 50 Article: the	cursed goblin cape (100)
+shadowboner shadowdagon	2285	aosol_dagon.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 150 Init: 100 P: horror Phys: 80 Article: the	cursed dragon wishbone (100)
+W. Odah's Shadow	2286	aosol_drawkward.gif	BOSS NOCOPY Atk: 202 Def: 212 HP: 191 Init: 303 P: horror Phys: 80	Staff of Fats (n100)	cursed stats (100)
+shadow Lord Spookyraven	2287	aosol_lords.gif	BOSS NOCOPY Atk: 180 Def: 180 HP: 200 Init: 1000 P: horror Phys: 80 Article: the	Eye of Ed (n100)	cursed arcane orb (100)
+corruptor shadow	2288	aosol_spectre.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 100 Init: 300 P: horror Phys: 100 Article: a	ancient amulet (n100)	cursed machete (100)
+shadow of groar	2289	aosol_groar.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 200 Init: 200 P: horror Phys: 100 Article: the	Groar's fur (n100)	cursed blanket (100)
+shadow of the 1960s	2290	aosol_dude.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 1000 Init: -10000 P: horror Phys: 100 Article: the	cursed medallion (100)
+shadow of the 1980s	2291	aosol_man.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 1000 Init: -10000 P: horror Phys: 100 Article: the	cursed medallion (100)
 General Bruise	2292	aosol_bruise.gif	BOSS NOCOPY Atk: 150 Def: 150 HP: 200 Init: 100 P: horror
 General Bruise (true form)	2293	aosol_gug.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 100 P: horror	Instant Karma (c100)	Thwaitgold anti-moth statuette (n100)
 Dark Noël	2294	aosol_noel.gif	BOSS NOCOPY Atk: 150 Def: 150 HP: 200 Init: 100 P: horror
@@ -2117,12 +2117,12 @@ undercover prohibition agent	2253	olivers_prohie.gif	Atk: 60 Def: 60 HP: 70 Init
 Moleman	2267	moleman.gif	NOCOPY Scale: 15 Cap: ? Floor: ? Init: -10000 P: humanoid Article: a
 
 # closed-circuit pay phone (Mar 2023)
-shadow spire	2298	shadowspire.gif	Atk: 300 Def: 300 HP: 500 Init: -10000 P: horror Article: a	shadow brick (100)	shadow stick (100)
-shadow orrery	2299	shadoworrery.gif	Atk: 300 Def: 300 HP: 250 Init: -10000 P: horror Article: a	shadow glass (100)	shadow ice (100)
-shadow tongue	2300	shadowtongue.gif	Atk: 300 Def: 300 HP: 500 Init: 200 P: horror Article: a	shadow sinew (100)	shadow sausage (100)
-shadow scythe	2301	shadowscythe.gif	Atk: 300 Def: 300 HP: 50 Init: 10000 P: horror Article: a	shadow bread (100)	shadow venom (100)
-shadow cauldron	2302	shadowcauldron.gif	Atk: 300 Def: 300 HP: 1000 Init: -10000 P: horror Article: a	shadow fluid (100)	shadow nectar (100)
-shadow matrix	2303	shadowmatrix.gif	Atk: 300 Def: 300 HP: 500 Init: 1000 P: horror Article: a	shadow flame (100)	shadow skin (100)
+shadow spire	2298	shadowspire.gif	Atk: 300 Def: 300 HP: 500 Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow brick (100)	shadow stick (100)
+shadow orrery	2299	shadoworrery.gif	Atk: 300 Def: 300 HP: 250 Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow glass (100)	shadow ice (100)
+shadow tongue	2300	shadowtongue.gif	Atk: 300 Def: 300 HP: 500 Init: 200 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow sinew (100)	shadow sausage (100)
+shadow scythe	2301	shadowscythe.gif	Atk: 300 Def: 300 HP: 50 Init: 10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow bread (100)	shadow venom (100)
+shadow cauldron	2302	shadowcauldron.gif	Atk: 300 Def: 300 HP: 1000 Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow fluid (100)	shadow nectar (100)
+shadow matrix	2303	shadowmatrix.gif	Atk: 300 Def: 300 HP: 500 Init: 1000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow flame (100)	shadow skin (100)
 
 # KoL Con
 
