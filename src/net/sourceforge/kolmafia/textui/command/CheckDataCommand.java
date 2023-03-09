@@ -135,6 +135,12 @@ public class CheckDataCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("checkmuseumplurals")) {
+      DebugDatabase.checkMuseumPlurals(parameters);
+      RequestLogger.printLine("Plurals checked.");
+      return;
+    }
+
     if (command.equals("checkpotions")) {
       DebugDatabase.checkPotions();
       RequestLogger.printLine("Potions checked.");

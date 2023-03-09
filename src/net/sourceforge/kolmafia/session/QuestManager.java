@@ -2157,6 +2157,14 @@ public class QuestManager {
       case "The Superconductor" -> {
         Preferences.setBoolean("superconductorDefeated", true);
       }
+      case "shadow spire",
+          "shadow orrery",
+          "shadow tongue",
+          "shadow scythe",
+          "shadow cauldron",
+          "shadow matrix" -> {
+        QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
+      }
     }
 
     int adventure = KoLAdventure.lastAdventureId();

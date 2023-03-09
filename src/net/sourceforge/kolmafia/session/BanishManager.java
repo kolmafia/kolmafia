@@ -90,6 +90,7 @@ public class BanishManager {
     PANTSGIVING("pantsgiving", 30, 1, false, Reset.TURN_ROLLOVER_RESET),
     PEEL_OUT("peel out", -1, 1, true, Reset.AVATAR_RESET),
     PULLED_INDIGO_TAFFY("pulled indigo taffy", 40, 1, true, Reset.TURN_RESET),
+    PUNT("Punt", -1, 1, false, Reset.ROLLOVER_RESET),
     REFLEX_HAMMER("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     SABER_FORCE("Saber Force", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     SHOW_YOUR_BORING_FAMILIAR_PICTURES(
