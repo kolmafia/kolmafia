@@ -1493,7 +1493,10 @@ public class CharPaneRequest extends GenericRequest {
 
     if (matcher.find()) {
       Preferences.setInteger("8BitScore", StringUtilities.parseInt(matcher.group(2)));
-      Preferences.setString("8BitColor", matcher.group(1));
+      if (!matcher.group(1).equals(Preferences.getString("8BitColor"))) {
+        Preferences.setString("8BitColor", matcher.group(1));
+        Preferences.resetToDefault("8BitBonusTurns");
+      }
     }
   }
 

@@ -2373,6 +2373,13 @@ public class QuestManager {
           Preferences.increment("bondVillainsDefeated");
         }
         break;
+
+      case AdventurePool.FUNGUS_PLAINS:
+      case AdventurePool.HEROS_FIELD:
+      case AdventurePool.VANYAS_CASTLE:
+      case AdventurePool.MEGALO_CITY:
+        Preferences.increment("8BitBonusTurns");
+        break;
     }
 
     // Can get a message about a ghost if wearing a Proton Accelerator Pack,
