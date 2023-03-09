@@ -1,0 +1,46 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/core.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function font(which)
+{
+   document.f.font.value = which;
+   document.f.submit();
+}
+function maxlen(textarea)
+{
+	var max = 5000;
+	var len = textarea.value.length;
+	var counter = getObj('counter');
+	if (!counter)
+		return;
+
+	if (len > max)
+		counter.className = "redbold";
+	else
+		counter.className = "";
+	counter.innerHTML = len;
+}
+</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<centeR><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Your Quest Log</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><Center>[current quests]&nbsp;&nbsp;&nbsp;[<a href="questlog.php?which=2">completed quests</a>]&nbsp;&nbsp;&nbsp;[<a href="questlog.php?which=3">other accomplishments</a>]&nbsp;&nbsp;&nbsp;[<a href="questlog.php?which=4">notes</a>]&nbsp;&nbsp;&nbsp;[<a href="questlog.php?which=5">hobo code binder</a>]&nbsp;&nbsp;&nbsp;[<a href="questlog.php?which=6">Monster Manuel</a>]</center><p><center><b>Current Quests:</b></center><b>Other Quests:</b><blockquote><b>What's Up, Doc?</b><br> <a class=nounder target=mainpane href=place.php?whichplace=town_market><b>Doc Galaktik</b></a> needs some medicinal flowers from the <b><a class=nounder target=mainpane href=place.php?whichplace=town_wrong>Overgrown Lot</a></b>:<br>&nbsp;&nbsp;&nbsp;*  swindleblossoms (1/3)<br>&nbsp;&nbsp;&nbsp;*  fraudwort (0/3)<br>&nbsp;&nbsp;&nbsp;*  shysterweed (0/3)<p><b>Super Luber</b><br> Equip the <a class=nounder target=mainpane href=inventory.php?which=2><b>lube shoes</b></a> and ride the <a class=nounder target=mainpane href=place.php?whichplace=airport_stench><b>Barf Mountain</b></a> rollercoaster in order to lubricate the tracks.<p><b>Rufus's Goofin'</b><br> Rufus wants you to go into a Shadow Rift and find a shadow bucket.<p><b>A Quest, LOL</b><br>The Highland Lord told you that the Baron Rof L'm Fao, in his valley in the Big Mountains, has been overrun by monsters.  Maybe you should try to fight your way through them to the gates of the Baron's fortress.<p></blockquote><p><p><center><a href="campground.php">Back to your Campsite</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center></body></html>
