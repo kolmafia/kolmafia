@@ -711,6 +711,47 @@ class UseItemRequestTest {
   }
 
   @Nested
+  class ChocolateCoveredPingPongBall {
+    @Test
+    void incrementsCounterOnSuccess() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_chocolateCoveredPingPongBallsUsed", 1),
+              withItem(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL),
+              withItem(ItemPool.PING_PONG_BALL, 0),
+              withNextResponse(
+                  200,
+                  html("request/test_use_item_chocolate_covered_ping_pong_ball_success.html")));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL);
+        req.run();
+
+        assertThat("_chocolateCoveredPingPongBallsUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    void maxesCounterOnFailure() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_chocolateCoveredPingPongBallsUsed", 1),
+              withItem(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL),
+              withItem(ItemPool.PING_PONG_BALL, 0),
+              withNextResponse(
+                  200,
+                  html("request/test_use_item_chocolate_covered_ping_pong_ball_failure.html")));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL);
+        req.run();
+
+        assertThat("_chocolateCoveredPingPongBallsUsed", isSetTo(3));
+      }
+    }
+  }
+
+  @Nested
   class SIT {
     private UseItemRequest getCertificateRequest() {
       return UseItemRequest.getInstance(ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE);

@@ -1677,6 +1677,7 @@ user	_cheerleaderSteam	200
 user	_chestXRayUsed	0
 user	_chipBags	0
 user	_chocolateCigarsUsed	0
+user	_chocolateCoveredPingPongBallsUsed	0
 user	_chocolateSculpturesUsed	0
 user	_chocolatesUsed	0
 user	_chronerCrossUsed	false
