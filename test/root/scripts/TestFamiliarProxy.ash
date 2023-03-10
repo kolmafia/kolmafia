@@ -24,6 +24,7 @@ familiar f = $familiar[blood-faced volleyball];
             print(f.owner);
             print(f.owner_id);
             print(f.passive);
+            print(f.feasted);
             print(f.physical_damage);
             print(f.poke_attribute);
             print(f.poke_level);
