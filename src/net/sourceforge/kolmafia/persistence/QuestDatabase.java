@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.QuestManager;
+import net.sourceforge.kolmafia.session.RufusManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -349,6 +350,11 @@ public class QuestDatabase {
     // Get Guzzlr quest target
     if (pref.equals(Quest.GUZZLR.getPref())) {
       return handleGuzzlr(details);
+    }
+
+    // Get Rufus quest target
+    if (pref.equals(Quest.RUFUS.getPref())) {
+      return RufusManager.handleQuestLog(details);
     }
 
     // Special handling, as there are versions with one, two, or three paragraphs
