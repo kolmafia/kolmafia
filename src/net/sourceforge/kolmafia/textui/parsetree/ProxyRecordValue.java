@@ -727,6 +727,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("passive", DataTypes.BOOLEAN_TYPE)
             .add("underwater", DataTypes.BOOLEAN_TYPE)
             .add("variable", DataTypes.BOOLEAN_TYPE)
+            .add("feasted", DataTypes.BOOLEAN_TYPE)
             .add("attributes", DataTypes.STRING_TYPE)
             .add("poke_level", DataTypes.INT_TYPE)
             .add("poke_level_2_power", DataTypes.INT_TYPE)
@@ -859,6 +860,11 @@ public class ProxyRecordValue extends RecordValue {
 
     public boolean get_variable() {
       return FamiliarDatabase.isVariableType((int) this.contentLong);
+    }
+
+    public boolean get_feasted() {
+      FamiliarData fam = KoLCharacter.usableFamiliar(this.contentString);
+      return fam == null ? false : fam.getFeasted();
     }
 
     public String get_attributes() {
