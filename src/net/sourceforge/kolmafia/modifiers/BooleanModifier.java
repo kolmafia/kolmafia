@@ -64,19 +64,7 @@ public enum BooleanModifier implements Modifier {
   LOOK_LIKE_A_PIRATE("Pirate", Pattern.compile("Look like a Pirate")),
   BREAKABLE("Breakable", Pattern.compile("Breakable")),
   DROPS_ITEMS("Drops Items", Pattern.compile("Drops Items")),
-  DROPS_MEAT("Drops Meat", Pattern.compile("Drops Meat")),
-  DAMAGE_AURA(
-      "Damage Aura",
-      Pattern.compile("Deals (.*) (each|every) round"),
-      Pattern.compile("Damage Aura")),
-  SPORADIC_DAMAGE_AURA("Sporadic Damage Aura", Pattern.compile("Sporadic Damage Aura")),
-  THORNS(
-      "Thorns",
-      new Pattern[] {
-        Pattern.compile("Damages Attacking Opponents?"), Pattern.compile("Deals (.*) to attackers")
-      },
-      Pattern.compile("Thorns")),
-  SPORADIC_THORNS("Sporadic Thorns", Pattern.compile("Sporadic Thorns"));
+  DROPS_MEAT("Drops Meat", Pattern.compile("Drops Meat"));
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
