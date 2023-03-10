@@ -73,6 +73,12 @@ public class MonsterStatusTracker {
     }
   }
 
+  public static void recalculateOriginalStats() {
+    MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
+    MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
+    MonsterStatusTracker.originalDefense = MonsterStatusTracker.monsterData.getDefense();
+  }
+
   public static final boolean dropsItem(int itemId) {
     if (itemId == 0 || MonsterStatusTracker.monsterData == null) {
       return false;

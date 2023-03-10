@@ -2162,6 +2162,7 @@ public class FightRequest extends GenericRequest {
             ItemPool.WARBEAR_BADGE, -1);
         case AdventurePool.SHADOW_RIFT -> {
           Preferences.increment("_shadowRiftCombats");
+          MonsterStatusTracker.recalculateOriginalStats();
         }
       }
 
