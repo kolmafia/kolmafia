@@ -12385,7 +12385,7 @@ Path	Quantum Terrarium	Familiar Weight: [min(2*L,20)]
 Horsery	normal horse	Initiative: +10, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 Horsery	dark horse	Combat Rate: -5, Drops Meat
 Horsery	crazy horse	Muscle Percent: [pref(_horseryCrazyMus)], Mysticality Percent: [pref(_horseryCrazyMys)], Moxie Percent: [pref(_horseryCrazyMox)]
-Horsery	pale horse	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+Horsery	pale horse	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sporadic Damage Aura: 0.5
 
 # BoomBox
 BoomBox	Eye of the Giger	Spooky Damage: [L]

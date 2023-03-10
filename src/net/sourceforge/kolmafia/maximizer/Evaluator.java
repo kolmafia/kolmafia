@@ -554,6 +554,11 @@ public class Evaluator {
           this.weight.set(DoubleModifier.MP_REGEN_MAX, weight / 2);
           continue;
         }
+        if (keyword.equals("passive damage")) {
+          this.weight.set(DoubleModifier.DAMAGE_AURA, weight);
+          this.weight.set(DoubleModifier.THORNS, weight);
+          continue;
+        }
       }
 
       // Match keyword with specific abbreviations

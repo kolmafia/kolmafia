@@ -300,6 +300,7 @@ public class ItemPool {
   public static final int REALLY_EVIL_RHYTHM = 738;
   public static final int TAMBOURINE = 740;
   public static final int BROKEN_SKULL = 741;
+  public static final int SERRATED_PROBOSCIS_EXTENSION = 745;
   public static final int KNOB_FIRECRACKER = 747;
   public static final int FLAMING_MUSHROOM = 755;
   public static final int FROZEN_MUSHROOM = 756;
@@ -591,6 +592,7 @@ public class ItemPool {
   public static final int STUFFED_COCOABO = 1974;
   public static final int RUBBER_WWTNSD_BRACELET = 1994;
   public static final int SPADE_NECKLACE = 2017;
+  public static final int HIPPY_PROTEST_BUTTON = 2029;
   public static final int WICKER_SHIELD = 2034;
   public static final int PATCHOULI_OIL_BOMB = 2040;
   public static final int EXPLODING_HACKY_SACK = 2042;
@@ -697,6 +699,7 @@ public class ItemPool {
   public static final int COMMUNICATIONS_WINDCHIMES = 2354;
   public static final int ZIM_MERMANS_GUITAR = 2364;
   public static final int FILTHY_POULTICE = 2369;
+  public static final int BOTTLE_OPENER_BELT_BUCKLE = 2385;
   public static final int MOLOTOV_COCKTAIL_COCKTAIL = 2400;
   public static final int GAUZE_GARTER = 2402;
   public static final int GUNPOWDER = 2403;
@@ -1139,6 +1142,7 @@ public class ItemPool {
   public static final int ANEMONE_MINE_MAP = 3701;
   public static final int VINYL_BOOTS = 3716;
   public static final int GNOLL_EYE = 3731;
+  public static final int CHEAP_CIGAR_BUTT = 3732;
   public static final int BOOZEHOUND_TOKEN = 3739;
   public static final int UNSTABLE_QUARK = 3743;
   public static final int FUMBLE_FORMULA = 3745;
@@ -2410,6 +2414,7 @@ public class ItemPool {
   public static final int NEOPRENE_SKULLCAP = 7659;
   public static final int GOBLIN_WATER = 7660;
   public static final int LIQUID_ICE = 7665;
+  public static final int GROLL_DOLL = 7694;
   public static final int CAP_GUN = 7695;
   public static final int CONFISCATOR_BOOK = 7706;
   public static final int THORS_PLIERS = 7709;
