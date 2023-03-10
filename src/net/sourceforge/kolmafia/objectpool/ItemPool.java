@@ -3492,6 +3492,7 @@ public class ItemPool {
   public static final int MODEL_TRAIN_SET = 11045;
   public static final int CRIMBO_TRAINING_MANUAL = 11046;
   public static final int PING_PONG_PADDLE = 11056;
+  public static final int PING_PONG_BALL = 11057;
   public static final int TRAINBOT_HARNESS = 11058;
   public static final int PING_PONG_TABLE = 11059;
   public static final int TRAINBOT_AUTOASSEMBLY_MODULE = 11061;
@@ -3521,6 +3522,7 @@ public class ItemPool {
   public static final int WHETSTONE = 11107;
   public static final int HARD_ROCK = 11108;
   public static final int STRANGE_STALAGMITE = 11109;
+  public static final int CHOCOLATE_COVERED_PING_PONG_BALL = 11110;
   public static final int SIT_COURSE_COMPLETION_CERTIFICATE = 11116;
   public static final int SHADOW_SKIN = 11136;
   public static final int SHADOW_FLAME = 11137;

@@ -6006,6 +6006,16 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
         return;
 
+      case ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL:
+        if (responseText.contains("You've tempted fate")) {
+          // You've tempted fate enough for one day.
+          Preferences.setInteger("_chocolateCoveredPingPongBallsUsed", 3);
+        } else {
+          // You carefully lick the thin shell of chocolate off of the ping pong ball.
+          Preferences.increment("_chocolateCoveredPingPongBallsUsed", 1, 3, false);
+        }
+        break;
+
       case ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE:
         // If we were not redirected, the item was used already
         // You already wrote a course on the certificate with totally indelible-for-a-day marker.
