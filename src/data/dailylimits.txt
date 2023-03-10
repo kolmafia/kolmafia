@@ -193,6 +193,7 @@ Use	burrowgrub hive	burrowgrubHiveUsed
 Use	cabbage-flavored Mr. Mediocrebar	_chocolatesUsed	3
 Use	choco-Crimbot	_chocolatesUsed	3
 Use	chocolate cigar	_chocolateCigarsUsed	3
+Use	chocolate covered ping-pong ball	_chocolateCoveredPingPongBallsUsed	3
 Use	chocolate disco ball	_chocolatesUsed	3
 Use	chocolate pasta spoon	_chocolatesUsed	3
 Use	chocolate saucepan	_chocolatesUsed	3
