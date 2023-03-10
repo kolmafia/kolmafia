@@ -666,6 +666,9 @@ public class Evaluator {
         DoubleModifier.LEPRECHAUN_EFFECTIVENESS,
         DoubleModifier.SPORADIC_MEATDROP,
         DoubleModifier.MEAT_BONUS);
+
+    addFudge(DoubleModifier.DAMAGE_AURA, DoubleModifier.SPORADIC_DAMAGE_AURA);
+    addFudge(DoubleModifier.THORNS, DoubleModifier.SPORADIC_THORNS);
   }
 
   private void addFudge(DoubleModifier source, DoubleModifier... extras) {
@@ -822,6 +825,12 @@ public class Evaluator {
           double exp = mods.getDouble(DoubleModifier.primeStatExp());
 
           val = ((baseExp + exp) * (1 + expPct)) / 2.0f;
+          break;
+        case DAMAGE_AURA:
+          val += mods.getDouble(DoubleModifier.SPORADIC_DAMAGE_AURA);
+          break;
+        case THORNS:
+          val += mods.getDouble(DoubleModifier.SPORADIC_THORNS);
           break;
       }
       if (val < min) this.failed = true;
