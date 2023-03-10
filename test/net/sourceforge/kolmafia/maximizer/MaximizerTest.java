@@ -1690,4 +1690,35 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  class PassiveDamage {
+    @Test
+    public void suggestsPassiveDamage() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.HIPPY_PROTEST_BUTTON),
+              withEquippableItem(ItemPool.BOTTLE_OPENER_BELT_BUCKLE),
+              withEquippableItem(ItemPool.HOT_PLATE),
+              withEquippableItem(ItemPool.SHINY_RING),
+              withEquippableItem(ItemPool.BEJEWELED_PLEDGE_PIN),
+              withEquippableItem(ItemPool.GROLL_DOLL),
+              withEquippableItem(ItemPool.ANT_RAKE),
+              withEquippableItem(ItemPool.SERRATED_PROBOSCIS_EXTENSION),
+              withSkill(SkillPool.JALAPENO_SAUCESPHERE),
+              withItem(ItemPool.CHEAP_CIGAR_BUTT),
+              withFamiliar(FamiliarPool.MOSQUITO));
+
+      try (cleanups) {
+        assertTrue(maximize("passive dmg"));
+        recommendedSlotIs(Slot.OFFHAND, "hot plate");
+        recommendedSlotIs(Slot.FAMILIAR, "ant rake");
+        recommends(ItemPool.HIPPY_PROTEST_BUTTON);
+        recommends(ItemPool.BOTTLE_OPENER_BELT_BUCKLE);
+        recommendedSlotIs(Slot.ACCESSORY3, "Groll doll");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "cast 1 Jalapeño Saucesphere")));
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "use 1 cheap cigar butt")));
+      }
+    }
+  }
 }
