@@ -1720,5 +1720,39 @@ public class MaximizerTest {
         assertTrue(someBoostIs(x -> commandStartsWith(x, "use 1 cheap cigar butt")));
       }
     }
+
+    @Test
+    public void suggestsUnderwaterPassiveDamageUnderwater() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.EELSKIN_HAT),
+              withEquippableItem(ItemPool.EELSKIN_PANTS),
+              withEquippableItem(ItemPool.EELSKIN_SHIELD),
+              withLocation("The Ice Hole"));
+
+      try (cleanups) {
+        assertTrue(maximize("passive dmg -tie"));
+        recommendedSlotIs(Slot.HAT, "eelskin hat");
+        recommendedSlotIs(Slot.PANTS, "eelskin pants");
+        recommendedSlotIs(Slot.OFFHAND, "eelskin shield");
+      }
+    }
+
+    @Test
+    public void doesNotSuggestUnderwaterPassiveDamageIfNotUnderwater() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.EELSKIN_HAT),
+              withEquippableItem(ItemPool.EELSKIN_PANTS),
+              withEquippableItem(ItemPool.EELSKIN_SHIELD),
+              withLocation("Noob Cave"));
+
+      try (cleanups) {
+        assertTrue(maximize("passive dmg -tie"));
+        recommendedSlotIsUnchanged(Slot.HAT);
+        recommendedSlotIsUnchanged(Slot.PANTS);
+        recommendedSlotIsUnchanged(Slot.OFFHAND);
+      }
+    }
   }
 }

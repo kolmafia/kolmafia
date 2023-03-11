@@ -188,8 +188,7 @@ Item	duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBar
 # dwarvish war helmet: Heads Up!
 Item	dwarvish war helmet	Familiar Effect: "atk, 1xFairy, cap 41"
 Item	Dyspepsi-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
-# eelskin hat: Damages Attacking Opponent (Underwater Only)
-Item	eelskin hat	Spell Damage Percent: +15, Familiar Effect: "atk"
+Item	eelskin hat	Spell Damage Percent: +15, Familiar Effect: "atk", Thorns: [env(underwater)]
 Item	eight-gallon hat	Muscle: +8, Mysticality: +8, Moxie: +8, Experience: +3
 Item	El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief", Familiar Effect: "3xGhuol, cap 25"
 Item	El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
@@ -655,8 +654,7 @@ Item	dungeoneer's dungarees	Spooky Resistance: +1, Stench Resistance: +1, Hot Re
 # dwarvish war kilt: Blinky Lights
 Item	dwarvish war kilt	Familiar Effect: "1xBarrr, 1xFairy, cap 41"
 Item	Dyspepsi-Cola fatigues	Mysticality: +3, Familiar Effect: "3.5xPotato, 3xVolley, cap 7"
-# eelskin pants: Damages Attacking Opponent (Underwater Only)
-Item	eelskin pants	Mysticality Percent: +5, Familiar Effect: "1xPotato, MP regen"
+Item	eelskin pants	Mysticality Percent: +5, Familiar Effect: "1xPotato, MP regen", Thorns: [env(underwater)]
 Item	El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
 Item	eldritch pants	Mysticality Percent: +20, Maximum MP: +40, MP Regen Min: 6, MP Regen Max: 10
 Item	electric pants	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
@@ -2199,8 +2197,7 @@ Item	duct tape buckler	Maximum HP: +65, Maximum MP: +65, Damage Reduction: 12
 Item	Dungeon Fist gauntlet	Weapon Damage: +25, Combat Rate: +5, Food Drop: -100
 Item	Dyspepsi-Cola shield	Mysticality: +1, Damage Reduction: 4
 Item	easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
-# eelskin shield: Damages Attacking Opponent (Underwater Only)
-Item	eelskin shield	Maximum HP: +55, Maximum MP: +55, Damage Reduction: 13
+Item	eelskin shield	Maximum HP: +55, Maximum MP: +55, Damage Reduction: 13, Thorns: [env(underwater)]
 Item	Elizabeth's Dollie	Cold Resistance: +4, Spooky Spell Damage: +25
 Item	Ellsbury's skull	Meat Drop: +10, Item Drop: +10
 Item	enchanted brass knuckles	Critical Hit Percent: +5
@@ -4223,7 +4220,7 @@ Item	filthy child leash	Familiar Weight: +5, Generic, Damage Aura: 1
 Item	fin-bit wax	Familiar Weight: +5
 Item	fireproof skip lid	Familiar Weight: +5
 # fishy wand: Lets your familiar cast fishy spells
-Item	fishy wand	Generic, Familiar Effect: "fishy spells"
+Item	fishy wand	Generic, Familiar Effect: "fishy spells", Sporadic Damage Aura: [0.2475*env(underwater)]
 Item	fixed-gear bicycle	Experience: +3, Effect: "stats", Equips On: "Mini-Hipster"
 # flaming familiar doppelg&auml;nger: Familiar gains 1-2 extra experience per Adventure
 Item	flaming familiar doppelg&auml;nger	Monster Level: +5, Softcore Only, Generic, Experience (familiar): +1.5
