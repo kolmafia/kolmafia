@@ -2130,6 +2130,7 @@ user	_sealsSummoned	0
 user	_setOfJacksUsed	false
 user	_sewingKitUsed	false
 user	_sexChanged	false
+user	_shadowAffinityToday	false
 user	_shadowBricksUsed	0
 user	_shadowForestLooted	false
 user	_shadowRiftCombats	0
