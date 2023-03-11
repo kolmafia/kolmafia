@@ -1074,6 +1074,9 @@ public class ItemPool {
   public static final int WRESTLER_STICKER = 3512;
   public static final int DRAGON_STICKER = 3513;
   public static final int ROCK_BAND_STICKER = 3514;
+  public static final int EELSKIN_HAT = 3517;
+  public static final int EELSKIN_PANTS = 3518;
+  public static final int EELSKIN_SHIELD = 3519;
   public static final int STICKER_CROSSBOW = 3526;
   public static final int PLANS_FOR_GRIMACITE_HAMMER = 3535;
   public static final int PLANS_FOR_GRIMACITE_GRAVY_BOAT = 3536;
