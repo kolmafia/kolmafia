@@ -1439,6 +1439,21 @@ public class ResultProcessor {
           Preferences.increment("_oysterEggsFound");
         }
         break;
+
+      case ItemPool.SHADOW_SAUSAGE:
+      case ItemPool.SHADOW_SKIN:
+      case ItemPool.SHADOW_FLAME:
+      case ItemPool.SHADOW_BREAD:
+      case ItemPool.SHADOW_ICE:
+      case ItemPool.SHADOW_FLUID:
+      case ItemPool.SHADOW_GLASS:
+      case ItemPool.SHADOW_BRICK:
+      case ItemPool.SHADOW_SINEW:
+      case ItemPool.SHADOW_VENOM:
+      case ItemPool.SHADOW_NECTAR:
+      case ItemPool.SHADOW_STICK:
+        RufusManager.handleShadowItems(result.getName());
+        break;
     }
 
     if (ItemDatabase.isCandyItem(itemId)) {

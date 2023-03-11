@@ -74,18 +74,24 @@ public class RufusManager {
       case 1 -> {
         Preferences.setString("rufusQuestType", "entity");
         Preferences.setString("rufusQuestTarget", Preferences.getString("rufusDesiredEntity"));
+        QuestDatabase.setQuestProgress(Quest.RUFUS, QuestDatabase.STARTED);
       }
       case 2 -> {
         // You tell Rufus you'll retrieve the artifact for him.
         Preferences.setString("rufusQuestType", "artifact");
         Preferences.setString("rufusQuestTarget", Preferences.getString("rufusDesiredArtifact"));
+        QuestDatabase.setQuestProgress(Quest.RUFUS, QuestDatabase.STARTED);
       }
       case 3 -> {
         Preferences.setString("rufusQuestType", "items");
-        Preferences.setString("rufusQuestTarget", Preferences.getString("rufusDesiredItems"));
+        String itemName = Preferences.getString("rufusDesiredItems");
+        Preferences.setString("rufusQuestTarget", itemName);
+        handleShadowItems(ItemDatabase.getExactItemId(itemName));
       }
     }
-    QuestDatabase.setQuestProgress(Quest.RUFUS, QuestDatabase.STARTED);
+    if (text.contains("Shadow Affinity")) {
+      Preferences.setBoolean("_shadowAffinityToday", true);
+    }
     Preferences.setString("rufusDesiredEntity", "");
     Preferences.setString("rufusDesiredArtifact", "");
     Preferences.setString("rufusDesiredItems", "");
@@ -121,6 +127,19 @@ public class RufusManager {
         return;
       }
     }
+  }
+
+  public static void handleShadowItems(String itemName) {
+    if (QuestDatabase.isQuestStarted(Quest.RUFUS)
+        && Preferences.getString("rufusQuestType").equals("items")
+        && Preferences.getString("rufusQuestTarget").equals(itemName)) {
+      handleShadowItems(ItemDatabase.getExactItemId(itemName));
+    }
+  }
+
+  private static void handleShadowItems(int itemId) {
+    int count = InventoryManager.getCount(itemId);
+    QuestDatabase.setQuestProgress(Quest.RUFUS, (count >= 3) ? "step1" : QuestDatabase.STARTED);
   }
 
   //  Rufus wants you to go into a Shadow Rift and defeat a shadow scythe.

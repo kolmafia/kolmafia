@@ -121,12 +121,13 @@ public class RufusManagerTest {
             withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
             withProperty("rufusQuestTarget"),
             withProperty("rufusQuestType"),
+            withProperty("_shadowAffinityToday", false),
             withNoEffects());
     try (cleanups) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_call_rufus.html"));
       client.addResponse(200, ""); // api.php
-      client.addResponse(200, html("request/test_accept_rufus_artifact_quest.html"));
+      client.addResponse(200, html("request/test_accept_rufus_quest_artifact.html"));
 
       var useItemURL =
           "inv_use.php?which=3&whichitem=" + ItemPool.CLOSED_CIRCUIT_PAY_PHONE + "&ajax=1";
@@ -162,6 +163,7 @@ public class RufusManagerTest {
 
       // Since this was the first quest of the day, we have Shadow Affinity
       assertEquals(11, SHADOW_AFFINITY.getCount(KoLConstants.activeEffects));
+      assertThat("_shadowAffinityToday", isSetTo(true));
     }
   }
 
@@ -309,6 +311,159 @@ public class RufusManagerTest {
       assertEquals(2, InventoryManager.getCount(ItemPool.SHADOW_FLAME));
       assertEquals(3, InventoryManager.getCount(ItemPool.SHADOW_NECTAR));
       assertEquals(3, InventoryManager.getCount(ItemPool.SHADOW_STICK));
+    }
+  }
+
+  @Nested
+  class ItemsQuest {
+    @Test
+    void acceptItemsQuestWithoutItemsIsStarted() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("rufusDesiredItems", "shadow sinew"),
+              withItem(ItemPool.SHADOW_SINEW, 0),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
+              withProperty("rufusQuestTarget", ""),
+              withProperty("rufusQuestType", ""),
+              withProperty("_shadowAffinityToday", false),
+              withNoEffects());
+      try (cleanups) {
+        client.addResponse(200, html("request/test_accept_rufus_quest_items.html"));
+        var request = new GenericRequest("choice.php?pwd&whichchoice=1497&option=3");
+        request.run();
+
+        assertThat(Quest.RUFUS, isStarted());
+        assertThat("rufusQuestType", isSetTo("items"));
+        assertThat("rufusQuestTarget", isSetTo("shadow sinew"));
+
+        // Since this was the first quest of the day, we have Shadow Affinity
+        assertEquals(11, SHADOW_AFFINITY.getCount(KoLConstants.activeEffects));
+        assertThat("_shadowAffinityToday", isSetTo(true));
+      }
+    }
+
+    @Test
+    void acceptItemsQuestWithEnoughItemsIsStep1() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("rufusDesiredItems", "shadow sinew"),
+              withItem(ItemPool.SHADOW_SINEW, 3),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
+              withProperty("rufusQuestTarget", ""),
+              withProperty("rufusQuestType", ""),
+              withProperty("_shadowAffinityToday", false),
+              withNoEffects());
+      try (cleanups) {
+        client.addResponse(200, html("request/test_accept_rufus_quest_items.html"));
+        var request = new GenericRequest("choice.php?pwd&whichchoice=1497&option=3");
+        request.run();
+
+        assertThat(Quest.RUFUS, isStep("step1"));
+        assertThat("rufusQuestType", isSetTo("items"));
+        assertThat("rufusQuestTarget", isSetTo("shadow sinew"));
+
+        // Since this was the first quest of the day, we have Shadow Affinity
+        assertEquals(11, SHADOW_AFFINITY.getCount(KoLConstants.activeEffects));
+        assertThat("_shadowAffinityToday", isSetTo(true));
+      }
+    }
+
+    @Test
+    void gainingItemMightLeaveQuestStarted() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("rufusDesiredItems", "shadow sinew"),
+              withItem(ItemPool.SHADOW_SINEW, 1),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.STARTED),
+              withProperty("rufusQuestType", "items"),
+              withProperty("rufusQuestTarget", "shadow sinew"));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_closet_pull_shadow_item.html"));
+        var request =
+            new GenericRequest("inventory.php?action=closetpull&ajax=1&whichitem=11143&qty=1&pwd");
+        request.run();
+
+        assertEquals(2, InventoryManager.getCount(ItemPool.SHADOW_SINEW));
+        assertThat(Quest.RUFUS, isStep("started"));
+      }
+    }
+
+    @Test
+    void gainingItemMightAdvanceQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("rufusDesiredItems", "shadow sinew"),
+              withItem(ItemPool.SHADOW_SINEW, 2),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.STARTED),
+              withProperty("rufusQuestType", "items"),
+              withProperty("rufusQuestTarget", "shadow sinew"));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_closet_pull_shadow_item.html"));
+        var request =
+            new GenericRequest("inventory.php?action=closetpull&ajax=1&whichitem=11143&qty=1&pwd");
+        request.run();
+
+        assertEquals(3, InventoryManager.getCount(ItemPool.SHADOW_SINEW));
+        assertThat(Quest.RUFUS, isStep("step1"));
+      }
+    }
+
+    @Test
+    void losingItemMightLeaveQuestAdvanced() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("rufusDesiredItems", "shadow sinew"),
+              withItem(ItemPool.SHADOW_SINEW, 4),
+              withQuestProgress(Quest.RUFUS, "step1"),
+              withProperty("rufusQuestType", "items"),
+              withProperty("rufusQuestTarget", "shadow sinew"));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_closet_push_shadow_item.html"));
+        var request =
+            new GenericRequest("inventory.php?action=closetpush&ajax=1&whichitem=11143&qty=1&pwd");
+        request.run();
+
+        assertEquals(3, InventoryManager.getCount(ItemPool.SHADOW_SINEW));
+        assertThat(Quest.RUFUS, isStep("step1"));
+      }
+    }
+
+    @Test
+    void losingItemMightUnadvanceQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("rufusDesiredItems", "shadow sinew"),
+              withItem(ItemPool.SHADOW_SINEW, 3),
+              withQuestProgress(Quest.RUFUS, "step1"),
+              withProperty("rufusQuestType", "items"),
+              withProperty("rufusQuestTarget", "shadow sinew"));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_closet_push_shadow_item.html"));
+        var request =
+            new GenericRequest("inventory.php?action=closetpush&ajax=1&whichitem=11143&qty=1&pwd");
+        request.run();
+
+        assertEquals(2, InventoryManager.getCount(ItemPool.SHADOW_SINEW));
+        assertThat(Quest.RUFUS, isStep("started"));
+      }
     }
   }
 

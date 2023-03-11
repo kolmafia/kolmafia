@@ -3529,10 +3529,16 @@ public class ItemPool {
   public static final int STRANGE_STALAGMITE = 11109;
   public static final int CHOCOLATE_COVERED_PING_PONG_BALL = 11110;
   public static final int SIT_COURSE_COMPLETION_CERTIFICATE = 11116;
+  public static final int SHADOW_SAUSAGE = 11135;
   public static final int SHADOW_SKIN = 11136;
   public static final int SHADOW_FLAME = 11137;
+  public static final int SHADOW_BREAD = 11138;
+  public static final int SHADOW_ICE = 11139;
   public static final int SHADOW_FLUID = 11140;
+  public static final int SHADOW_GLASS = 11141;
   public static final int SHADOW_BRICK = 11142;
+  public static final int SHADOW_SINEW = 11143;
+  public static final int SHADOW_VENOM = 11144;
   public static final int SHADOW_NECTAR = 11145;
   public static final int SHADOW_STICK = 11146;
   public static final int ADVANCED_PIG_SKINNING = 11163;
