@@ -7162,7 +7162,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canVisitPixelRiftithTransfunctionerEquipped() {
+    public void canVisitPixelRiftWithTransfunctionerEquipped() {
       setupFakeClient();
 
       var cleanups =
@@ -7179,7 +7179,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canAdventureWithTransfunctionerInInventory() {
+    public void canVisitPixelRiftWithTransfunctionerInInventory() {
       setupFakeClient();
 
       var cleanups =
@@ -7196,6 +7196,24 @@ public class KoLAdventureValidationTest {
             requests.get(0),
             "/inv_equip.php",
             "which=2&ajax=1&slot=1&action=equip&whichitem=" + ItemPool.TRANSFUNCTIONER);
+      }
+    }
+
+    @Test
+    public void canVisitPixelRiftIfCurrentRift() {
+      setupFakeClient();
+
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
+              withProperty("shadowRiftIngress", "8bit"));
+      try (cleanups) {
+
+        assertTrue(PIXEL_REALM.canAdventure());
+        assertTrue(PIXEL_REALM.prepareForAdventure());
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(0));
       }
     }
 

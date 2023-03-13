@@ -2117,12 +2117,12 @@ undercover prohibition agent	2253	olivers_prohie.gif	Atk: 60 Def: 60 HP: 70 Init
 Moleman	2267	moleman.gif	NOCOPY Scale: 15 Cap: ? Floor: ? Init: -10000 P: humanoid Article: a
 
 # closed-circuit pay phone (Mar 2023)
-shadow spire	2298	shadowspire.gif	Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow brick (100)	shadow stick (100)
-shadow orrery	2299	shadoworrery.gif	Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [250+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow glass (100)	shadow ice (100)
-shadow tongue	2300	shadowtongue.gif	Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: 200 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow sinew (100)	shadow sausage (100)
-shadow scythe	2301	shadowscythe.gif	Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [50+10*pref(_shadowRiftCombats)] Init: 10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow bread (100)	shadow venom (100)
-shadow cauldron	2302	shadowcauldron.gif	Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [1000+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow fluid (100)	shadow nectar (100)
-shadow matrix	2303	shadowmatrix.gif	Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: 1000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow flame (100)	shadow skin (100)
+shadow spire	2298	shadowspire.gif	BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow brick (100)	shadow stick (100)
+shadow orrery	2299	shadoworrery.gif	BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [250+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow glass (100)	shadow ice (100)
+shadow tongue	2300	shadowtongue.gif	BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: 200 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow sinew (100)	shadow sausage (100)
+shadow scythe	2301	shadowscythe.gif	BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [50+10*pref(_shadowRiftCombats)] Init: 10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow bread (100)	shadow venom (100)
+shadow cauldron	2302	shadowcauldron.gif	BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [1000+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow fluid (100)	shadow nectar (100)
+shadow matrix	2303	shadowmatrix.gif	BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: 1000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow flame (100)	shadow skin (100)
 
 # KoL Con
 
