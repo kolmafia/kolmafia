@@ -10,15 +10,11 @@ public class JuneCleaverManager {
 
   private JuneCleaverManager() {}
 
-  public static ArrayList<Integer> queue = new ArrayList<>();
-
-  public static void reset() {
-    queue.clear();
-  }
-
   private static void updateQueue(int id) {
+    ArrayList<Integer> queue = new ArrayList<>();
+
     String savedQueue = Preferences.getString("juneCleaverQueue");
-    if (queue.isEmpty() && savedQueue.length() > 0) {
+    if (savedQueue.length() > 0) {
       for (String x : savedQueue.split(",")) {
         queue.add(Integer.parseInt(x));
       }
