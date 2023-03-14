@@ -8574,7 +8574,7 @@ Event	Mysticality Day	Experience Percent (Mysticality): +25
 # -100% is the most common penalty in The Sea; use it as the default
 
 Zone	The Sea	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-Zone    Shadow Rift	Item Drop: [-0.8*mod(Item Drop))
+Zone	Shadow Rift	Item Drop: [-0.8*mod(Item Drop))
 
 # Location-specific section of modifiers.txt
 
