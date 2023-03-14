@@ -859,6 +859,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Shadow Rift")) {
       // These are "place.php" visits.
       ShadowRift rift = ShadowRift.findAdventureName(this.adventureName);
+      String ingress = Preferences.getString("shadowRiftIngress");
       if (rift == null) {
         // Requesting generic Shadow Rift, which will go straight to
         // adventure.php as if through the most recent rift you entered.
@@ -866,7 +867,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // If we haven't yet gone through a Shadow Rift this ascension,
         // you'll find nothing but tumbleweeds, which is unlikely to be
         // what the user wants.
-        return !Preferences.getString("shadowRiftIngress").equals("");
+        return !ingress.equals("");
+      }
+      // If the desired rift is through the current ingress, cool.
+      if (rift.getPlace().equals(ingress)) {
+        return true;
       }
       // Otherwise, we want to adventure through a specific rift.
       // Ensure that we can reach it.
@@ -2510,6 +2515,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("The 8-Bit Realm")
         || this.zone.equals("Vanya's Castle")
         || rift == ShadowRift.REALM) {
+      // You don't need a transfunctioner to go to the Shadow Rift in
+      // The 8-bit Realm if that is the current ingress.
+      if (rift == ShadowRift.REALM && Preferences.getString("shadowRiftIngress").equals("8bit")) {
+        return true;
+      }
+
       if (!InventoryManager.hasItem(TRANSFUNCTIONER)) {
         RequestThread.postRequest(new PlaceRequest("forestvillage", "fv_mystic"));
         // This redirects to choice.php&forceoption=0.
