@@ -186,6 +186,7 @@ import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleXmlSerializer;
@@ -598,6 +599,21 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("to_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.EFFECT_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.SKILL_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("desc_to_effect", DataTypes.EFFECT_TYPE, params));
@@ -3652,6 +3668,20 @@ public abstract class RuntimeLibrary {
     return (adventure == null)
         ? DataTypes.STRING_INIT
         : new Value(adventure.getRequest().getURLString());
+  }
+
+  public static Value to_wiki_url(ScriptRuntime controller, final Value value) {
+    var type =
+        switch (value.getType().getType()) {
+          case EFFECT -> WikiUtilities.WikiType.EFFECT;
+          case ITEM -> WikiUtilities.WikiType.ITEM;
+          case MONSTER -> WikiUtilities.WikiType.MONSTER;
+          case SKILL -> WikiUtilities.WikiType.SKILL;
+          default -> WikiUtilities.WikiType.ANY;
+        };
+
+    var link = WikiUtilities.getWikiLocation(value.toString(), type, false);
+    return new Value(link);
   }
 
   // Functions related to daily information which get
