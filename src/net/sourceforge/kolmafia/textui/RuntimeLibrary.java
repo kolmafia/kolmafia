@@ -4057,7 +4057,7 @@ public abstract class RuntimeLibrary {
     var zone = EIGHT_BIT_ZONES.getOrDefault(location.getSnarfblat(), null);
 
     if (zone == null) {
-      return DataTypes.VOID_VALUE;
+      return DataTypes.ZERO_VALUE;
     }
 
     var multiplier = zone.color().equals(Preferences.getString("8BitColor")) ? 1 : 0.5;
