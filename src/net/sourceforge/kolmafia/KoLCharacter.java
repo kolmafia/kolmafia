@@ -5544,10 +5544,8 @@ public abstract class KoLCharacter {
     if (Modifiers.currentZone.equals("Shadow Rift")) {
       newModifiers.addDouble(
           DoubleModifier.ITEMDROP,
-          // If does include current familiar:
-          // newModifiers.getDouble(DoubleModifier.ITEMDROP) * -0.8,
-          // If does not include current familiar:
-          newModifiers.getAccumulator(DoubleModifier.ITEMDROP) * -0.8,
+          // It includes your current familiar
+          newModifiers.getDouble(DoubleModifier.ITEMDROP) * -0.8,
           ModifierType.ZONE,
           "Shadow Rift");
     }
