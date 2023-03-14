@@ -464,7 +464,6 @@ public class RufusManager {
 
     // See what options are on offer in the responseText
     Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
-    int options = choices.size();
 
     for (int i = 2; i <= 4; ++i) {
       ShadowTheme offered = shadowLabyrinthTheme(choices.get(i));
