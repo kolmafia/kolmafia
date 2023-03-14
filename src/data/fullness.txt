@@ -809,7 +809,7 @@ sea truffle	1	1	awesome	3-5	11-13	11-13	11-13	10 Trufflin' (+100% meat drop)
 seared dino steak	2	3	good	4-5	30-60	0	0
 shadow bread	3	1	awesome	13	0	0	0
 shadow hot dog	1	1	EPIC	5-6	13-15	13-15	13-15
-shadow sausage	3	1	awesome	0	0	0	0	Unspaded
+shadow sausage	3	1	awesome	9-11	13	13	13
 shadowy cat claw	1	4	awesome	3-5	0	45-75	0	30 Feline Ferocity (+100% weapon dmg)
 sheet cake	15	6	decent	24-28	100-200	100-200	100-200
 shells a la shellfish	5	8	awesome	17-20	25-30	0	0	SAUCY

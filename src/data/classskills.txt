@@ -966,13 +966,13 @@
 7423	Spit jurassic acid	jparka3.gif	5	0	0
 7424	Launch spikolodon spikes	jparka2.gif	5	0	0
 7425	Engage ultra-attractive parka mode	jparka7.gif	5	0	0
-7426	Ceramic Punch		0	5	0
-7427	Ceramic Bash		0	5	0
-7428	Ceramic Grate		0	5	0
-7429	Ceramic Boil		0	5	0
-7430	Ceramic Skullgaze		0	5	0
-7431	Ceramic Cenobitize		0	5	0
-7432	Shadow Flame		0	5	5
+7426	Ceramic Punch	ceracestus.gif	0	5	0
+7427	Ceramic Bash	cerashield.gif	0	5	0
+7428	Ceramic Grate	ceragrater.gif	0	5	0
+7429	Ceramic Boil	cerameter.gif	0	5	0
+7430	Ceramic Skullgaze	cerabelt.gif	0	5	0
+7431	Ceramic Cenobitize	cerarobe.gif	0	5	0
+7432	Shadow Flame	shadowcandle.gif	0	5	5
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

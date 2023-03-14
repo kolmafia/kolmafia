@@ -113,7 +113,7 @@ bottle of tequila	3	1	crappy	3	0	0	0
 bottle of vodka	3	1	crappy	3	0	0	0
 bottle of whiskey	3	1	crappy	3	0	0	0
 bottle of wine	2	5	awesome	8	18-22	18-22	18-22	WINE
-Boulevardier cocktail	1	1	awesome	3-4	0	0	0	Unspaded, 40 Ready to Roll
+Boulevardier cocktail	1	1	awesome	3-4	0	0	20-40	40 Ready to Roll
 Bowl of Scorpions	8	6	crappy	5-6	-30	-15	-30	10 Really Quite Poisoned
 boxed champagne	3	2	decent	4-8	0	0	0	WINE
 boxed wine	3	1	crappy	3	0	0	0
