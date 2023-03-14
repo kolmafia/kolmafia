@@ -3672,11 +3672,11 @@ public abstract class RuntimeLibrary {
 
   public static Value to_wiki_url(ScriptRuntime controller, final Value value) {
     var type =
-        switch (value.getType().getName()) {
-          case "effect" -> WikiUtilities.WikiType.EFFECT;
-          case "item" -> WikiUtilities.WikiType.ITEM;
-          case "monster" -> WikiUtilities.WikiType.MONSTER;
-          case "skill" -> WikiUtilities.WikiType.SKILL;
+        switch (value.getType().getType()) {
+          case EFFECT -> WikiUtilities.WikiType.EFFECT;
+          case ITEM -> WikiUtilities.WikiType.ITEM;
+          case MONSTER -> WikiUtilities.WikiType.MONSTER;
+          case SKILL -> WikiUtilities.WikiType.SKILL;
           default -> WikiUtilities.WikiType.ANY;
         };
 
