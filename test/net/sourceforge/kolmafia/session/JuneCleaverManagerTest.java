@@ -36,7 +36,6 @@ public class JuneCleaverManagerTest {
   @BeforeEach
   public void beforeEach() {
     Preferences.reset("June Cleaver");
-    JuneCleaverManager.reset();
   }
 
   @Nested

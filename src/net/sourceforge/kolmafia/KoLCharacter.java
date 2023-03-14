@@ -5541,11 +5541,12 @@ public abstract class KoLCharacter {
             EffectPool.STEELY_EYED_SQUINT);
       }
     }
-    if (Modifiers.currentLocation.equals("Shadow Rift")) {
+    if (Modifiers.currentZone.equals("Shadow Rift")) {
       newModifiers.addDouble(
           DoubleModifier.ITEMDROP,
-          newModifiers.getAccumulator(DoubleModifier.ITEMDROP) * -0.8,
-          ModifierType.LOC,
+          // It includes your current familiar
+          newModifiers.getDouble(DoubleModifier.ITEMDROP) * -0.8,
+          ModifierType.ZONE,
           "Shadow Rift");
     }
 

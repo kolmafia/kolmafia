@@ -8574,6 +8574,7 @@ Event	Mysticality Day	Experience Percent (Mysticality): +25
 # -100% is the most common penalty in The Sea; use it as the default
 
 Zone	The Sea	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Zone	Shadow Rift	Item Drop: [-0.8*mod(Item Drop))
 
 # Location-specific section of modifiers.txt
 
@@ -8596,8 +8597,6 @@ Loc	The Impenetrable Kelp-Holly Forest	Initiative Penalty: -100, Item Drop Penal
 Loc	The Sunken Party Yacht	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
 
 Loc	The Ice Hole	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-
-Loc	Shadow Rift	Item Drop: [-0.8*mod(Item Drop)]
 
 # Synergies section of modifiers.txt
 # Synergies are triggered when an arbitrary combination of two or more
