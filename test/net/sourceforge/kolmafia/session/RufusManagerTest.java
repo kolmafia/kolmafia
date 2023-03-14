@@ -701,17 +701,18 @@ public class RufusManagerTest {
     }
 
     private void checkLabyrinthOfShadowsAutomation(
-        String decision, String responseText, boolean quest, String artifact, String expected) {
+        int configured, String responseText, boolean quest, String artifact, int expected) {
       var cleanups =
           new Cleanups(
+              withProperty("choiceAdventure1499", configured),
               withQuestProgress(
                   Quest.RUFUS, quest ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED),
               withProperty("rufusQuestType", quest ? "artifact" : ""),
               withProperty("rufusQuestTarget", quest ? artifact : ""));
       try (cleanups) {
-        // ChoiceManagerspecialChoiceDecision2 calls RufusManager.specialChoiceDecision
+        // ChoiceManager.getDecision ultimately calls RufusManager.specialChoiceDecision
         // Choice 1499 is Labyrinth of Shadows
-        String result = ChoiceManager.specialChoiceDecision2(1499, decision, 1, responseText);
+        int result = ChoiceManager.getDecision(1499, responseText);
         assertEquals(expected, result);
       }
     }
@@ -751,30 +752,30 @@ public class RufusManagerTest {
       // GHOST -> shadow wave
 
       // With no artifact quest: FIRE -> 2, TIME -> 3, BLOOD -> 4
-      checkLabyrinthOfShadowsAutomation("1", html, false, "", "2");
-      checkLabyrinthOfShadowsAutomation("2", html, false, "", "1");
-      checkLabyrinthOfShadowsAutomation("3", html, false, "", "1");
-      checkLabyrinthOfShadowsAutomation("4", html, false, "", "3");
-      checkLabyrinthOfShadowsAutomation("5", html, false, "", "4");
-      checkLabyrinthOfShadowsAutomation("6", html, false, "", "1");
-      checkLabyrinthOfShadowsAutomation("7", html, false, "", "1");
+      checkLabyrinthOfShadowsAutomation(1, html, false, "", 2);
+      checkLabyrinthOfShadowsAutomation(2, html, false, "", 1);
+      checkLabyrinthOfShadowsAutomation(3, html, false, "", 1);
+      checkLabyrinthOfShadowsAutomation(4, html, false, "", 3);
+      checkLabyrinthOfShadowsAutomation(5, html, false, "", 4);
+      checkLabyrinthOfShadowsAutomation(6, html, false, "", 1);
+      checkLabyrinthOfShadowsAutomation(7, html, false, "", 1);
 
       // With artifact quest: shadow lighter -> 2, shadow heart -> 4
-      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow lighter", "2");
-      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow heptahedron", "1");
-      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow bucket", "1");
-      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow heart", "4");
-      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow snowflake", "1");
-      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow wave", "1");
+      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow lighter", 2);
+      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow heptahedron", 1);
+      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow bucket", 1);
+      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow snowflake", 1);
+      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow wave", 1);
 
       // With artifact quest: user's configured choice is ignored
-      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow heart", "4");
-      checkLabyrinthOfShadowsAutomation("2", html, true, "shadow heart", "4");
-      checkLabyrinthOfShadowsAutomation("3", html, true, "shadow heart", "4");
-      checkLabyrinthOfShadowsAutomation("4", html, true, "shadow heart", "4");
-      checkLabyrinthOfShadowsAutomation("5", html, true, "shadow heart", "4");
-      checkLabyrinthOfShadowsAutomation("6", html, true, "shadow heart", "4");
-      checkLabyrinthOfShadowsAutomation("7", html, true, "shadow heart", "4");
+      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation(2, html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation(3, html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation(4, html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation(5, html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation(6, html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation(7, html, true, "shadow heart", 4);
     }
   }
 }
