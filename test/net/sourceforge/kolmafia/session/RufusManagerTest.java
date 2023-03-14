@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.RufusManager.ShadowTheme;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -587,6 +588,193 @@ public class RufusManagerTest {
 
         assertThat(Quest.RUFUS, isStep("step1"));
       }
+    }
+  }
+
+  @Nested
+  class ShadowLabyrinth {
+    @Test
+    void canDetectHotAdjective() {
+      var text = "Opt for the white-hot cleft";
+      ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.FIRE);
+      assertEquals("90-100 Muscle substats", spoiler.toString());
+    }
+
+    @Test
+    void canDetectColdAdjective() {
+      var text = "Opt for the iced-over passage";
+      ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.COLD);
+      assertEquals("30 Shadow's Chill: Maximum MP +300%", spoiler.toString());
+    }
+
+    void canDetectWaterAdjective() {
+      var text = "Leap into the sodden hole";
+      ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.WATER);
+      assertEquals("90-100 Moxie substats", spoiler.toString());
+    }
+
+    @Test
+    void canDetectMathAdjective() {
+      var text = "Try to reach the irrational portal";
+      ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.MATH);
+      assertEquals("90-100 Mysticality substats", spoiler.toString());
+    }
+
+    @Test
+    void canDetectTimeAdjective() {
+      var text = "Try to reach the old opening";
+      ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.TIME);
+      assertEquals("+3 turns to 3 random effects", spoiler.toString());
+    }
+
+    @Test
+    void canDetectBloodAdjective() {
+      var text = "Walk to the vein-shot lane";
+      ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.BLOOD);
+      assertEquals("30 Shadow's Heart: Maximum HP +300%", spoiler.toString());
+    }
+
+    @Test
+    void canDetectGhostAdjective() {
+      var text = "Try to reach the nearly invisible hole";
+      ShadowTheme theme = RufusManager.shadowLabyrinthTheme(text);
+      ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
+      assertEquals(theme, ShadowTheme.GHOST);
+      assertEquals(
+          "30 Shadow's Thickness: Superhuman (+5) Spooky, Hot, Sleaze resistance",
+          spoiler.toString());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "Opt for the white-hot cleft, shadow lighter",
+      "Opt for the iced-over passage, shadow snowflake",
+      "Leap into the sodden hole, shadow bucket",
+      "Try to reach the irrational portal, shadow heptahedron",
+      "Walk to the vein-shot lane, shadow heart",
+      "Try to reach the nearly invisible hole, shadow wave"
+    })
+    public void checkShadowArtifacts(String text, String artifact) {
+      var cleanups =
+          new Cleanups(
+              withProperty("questRufus", "started"),
+              withProperty("rufusQuestType", "artifact"),
+              withProperty("rufusQuestTarget", artifact));
+      try (cleanups) {
+        ChoiceOption spoiler = RufusManager.shadowLabyrinthSpoiler(text);
+        assertEquals(artifact, spoiler.toString());
+      }
+    }
+
+    @Test
+    void canParseLabyrinthOfShadows() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder));
+      try (cleanups) {
+        String html = html("request/test_visit_labyrinth_of_shadows.html");
+        client.addResponse(200, html);
+        var request = new GenericRequest("choice.php?forceoption=0");
+        request.run();
+
+        var spoilers = ChoiceAdventures.choiceSpoilers(1499, new StringBuffer(html));
+        var options = spoilers.getOptions();
+        assertEquals("Randomize themes", options[0].toString());
+        assertEquals("90-100 Muscle substats", options[1].toString());
+        assertEquals("+3 turns to 3 random effects", options[2].toString());
+        assertEquals("30 Shadow's Heart: Maximum HP +300%", options[3].toString());
+        assertEquals("Randomize themes", options[4].toString());
+        assertEquals("Leave with nothing", options[5].toString());
+      }
+    }
+
+    private void checkLabyrinthOfShadowsAutomation(
+        String decision, String responseText, boolean quest, String artifact, String expected) {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(
+                  Quest.RUFUS, quest ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED),
+              withProperty("rufusQuestType", quest ? "artifact" : ""),
+              withProperty("rufusQuestTarget", quest ? artifact : ""));
+      try (cleanups) {
+        // ChoiceManagerspecialChoiceDecision2 calls RufusManager.specialChoiceDecision
+        // Choice 1499 is Labyrinth of Shadows
+        String result = ChoiceManager.specialChoiceDecision2(1499, decision, 1, responseText);
+        assertEquals(expected, result);
+      }
+    }
+
+    @Test
+    void canAutomateLabyrinthOfShadows() {
+      String html = html("request/test_visit_labyrinth_of_shadows.html");
+
+      // Options provided by responseText:
+      //
+      // 1 -> "Move blindly ahead"
+      // 2 -> "Opt for the white-hot cleft" -> FIRE
+      // 3 -> "Try to reach the old opening" -> TIME
+      // 4 -> "Select the blood-soaked void" -> BLOOD
+      // 5 -> "Turn in a circle"
+      // 6 -> "Walk away from all of this"
+      //
+      // User configured choice options:
+      //
+      // 0 -> show in browser (already eliminated)
+      // 1 -> FIRE
+      // 2 -> MATH
+      // 3 -> WATER
+      // 4 -> TIME
+      // 5 -> BLOOD
+      // 6 -> COLD
+      // 7 -> GHOST
+      //
+      // Artifact themes:
+      //
+      // FIRE -> shadow lighter
+      // MATH -> shadow heptahedron
+      // WATER -> shadow bucket
+      // TIME
+      // BLOOD -> shadow hart
+      // COLD -> shadow snowflake
+      // GHOST -> shadow wave
+
+      // With no artifact quest: FIRE -> 2, TIME -> 3, BLOOD -> 4
+      checkLabyrinthOfShadowsAutomation("1", html, false, "", "2");
+      checkLabyrinthOfShadowsAutomation("2", html, false, "", "1");
+      checkLabyrinthOfShadowsAutomation("3", html, false, "", "1");
+      checkLabyrinthOfShadowsAutomation("4", html, false, "", "3");
+      checkLabyrinthOfShadowsAutomation("5", html, false, "", "4");
+      checkLabyrinthOfShadowsAutomation("6", html, false, "", "1");
+      checkLabyrinthOfShadowsAutomation("7", html, false, "", "1");
+
+      // With artifact quest: shadow lighter -> 2, shadow heart -> 4
+      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow lighter", "2");
+      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow heptahedron", "1");
+      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow bucket", "1");
+      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow heart", "4");
+      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow snowflake", "1");
+      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow wave", "1");
+
+      // With artifact quest: user's configured choice is ignored
+      checkLabyrinthOfShadowsAutomation("1", html, true, "shadow heart", "4");
+      checkLabyrinthOfShadowsAutomation("2", html, true, "shadow heart", "4");
+      checkLabyrinthOfShadowsAutomation("3", html, true, "shadow heart", "4");
+      checkLabyrinthOfShadowsAutomation("4", html, true, "shadow heart", "4");
+      checkLabyrinthOfShadowsAutomation("5", html, true, "shadow heart", "4");
+      checkLabyrinthOfShadowsAutomation("6", html, true, "shadow heart", "4");
+      checkLabyrinthOfShadowsAutomation("7", html, true, "shadow heart", "4");
     }
   }
 }

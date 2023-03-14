@@ -2003,6 +2003,10 @@ public abstract class ChoiceManager {
         }
         // If you have none, you must take option 3
         return "3";
+
+      case 1499:
+        // A Labyrinth of Shadows
+        return RufusManager.specialChoiceDecision(decision, responseText);
     }
     return decision;
   }

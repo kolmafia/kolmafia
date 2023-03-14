@@ -87,6 +87,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
   private final JComboBox<String> addingSelect;
   private final JComboBox<String> paranormalLabSelect;
   private final JComboBox<String> containmentSelect;
+  private final JComboBox<String> shadowLabyrinthSelect;
 
   /** Constructs a new <code>ChoiceOptionsPanel</code>. */
   public ChoiceOptionsPanel() {
@@ -346,6 +347,16 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.containmentSelect.addItem("show in browser");
     this.containmentSelect.addItem("automate");
 
+    this.shadowLabyrinthSelect = new JComboBox<>();
+    this.shadowLabyrinthSelect.addItem("show in browser");
+    this.shadowLabyrinthSelect.addItem("90-100 Muscle substats");
+    this.shadowLabyrinthSelect.addItem("90-100 Mysticality substats");
+    this.shadowLabyrinthSelect.addItem("90-100 Moxie substats");
+    this.shadowLabyrinthSelect.addItem("+3 turns to 3 random effects");
+    this.shadowLabyrinthSelect.addItem("Maximum HP +300%");
+    this.shadowLabyrinthSelect.addItem("Maximum MP +300%");
+    this.shadowLabyrinthSelect.addItem("+5 Spooky, Hot, Sleaze resistance");
+
     this.addChoiceSelect("Item-Driven", "Llama Gong", this.gongSelect);
     this.addChoiceSelect("Item-Driven", "Breakable Equipment", this.breakableSelect);
     this.addChoiceSelect("Plains", "Papaya War", this.palindomePapayaSelect);
@@ -383,6 +394,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.addChoiceSelect("Dungeon", "Daily Dungeon: Doors", this.dailyDungeonDoorSelect);
     this.addChoiceSelect("Conspiracy Island", "Paranormal Test Lab", this.paranormalLabSelect);
     this.addChoiceSelect("Conspiracy Island", "Containment Unit", this.containmentSelect);
+    this.addChoiceSelect("Shadow Rift", "Labyrinth of Shadows", this.shadowLabyrinthSelect);
 
     for (int i = 0; i < this.optionSelects.size(); ++i) {
       this.addChoiceSelect(
@@ -827,6 +839,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         "choiceAdventure989", String.valueOf(this.paranormalLabSelect.getSelectedIndex()));
     Preferences.setString(
         "choiceAdventure988", String.valueOf(this.containmentSelect.getSelectedIndex()));
+    Preferences.setString(
+        "choiceAdventure1499", String.valueOf(this.shadowLabyrinthSelect.getSelectedIndex()));
 
     Preferences.setInteger("basementMallPrices", this.basementMallSelect.getSelectedIndex());
     Preferences.setInteger("breakableHandling", this.breakableSelect.getSelectedIndex() + 1);
@@ -1100,6 +1114,13 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       this.containmentSelect.setSelectedIndex(containmentIndex);
     } else {
       System.out.println("Invalid setting " + containmentIndex + " for choiceAdventure988.");
+    }
+
+    int shadowLabyrinthIndex = Preferences.getInteger("choiceAdventure1499");
+    if (shadowLabyrinthIndex <= 7 && shadowLabyrinthIndex >= 0) {
+      this.shadowLabyrinthSelect.setSelectedIndex(shadowLabyrinthIndex);
+    } else {
+      System.out.println("Invalid setting " + shadowLabyrinthIndex + " for choiceAdventure1499.");
     }
 
     this.basementMallSelect.setSelectedIndex(Preferences.getInteger("basementMallPrices"));
