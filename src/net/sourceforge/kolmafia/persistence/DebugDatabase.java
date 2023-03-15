@@ -36,7 +36,6 @@ import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -2010,29 +2009,6 @@ public class DebugDatabase {
     String name = SkillDatabase.getSkillName(skillId);
     if (name == null) {
       return;
-    }
-
-    // Kludge: KoL returns 500 (Internal Server Error) for campground summoning skills
-    switch (skillId) {
-      case SkillPool.SNOWCONE:
-      case SkillPool.STICKER:
-      case SkillPool.SUGAR:
-      case SkillPool.CLIP_ART:
-      case SkillPool.RAD_LIB:
-      case SkillPool.SMITHSNESS:
-      case SkillPool.CANDY_HEART:
-      case SkillPool.PARTY_FAVOR:
-      case SkillPool.LOVE_SONG:
-      case SkillPool.BRICKOS:
-      case SkillPool.DICE:
-      case SkillPool.RESOLUTIONS:
-      case SkillPool.TAFFY:
-      case SkillPool.HILARIOUS:
-      case SkillPool.TASTEFUL:
-      case SkillPool.CARDS:
-      case SkillPool.GEEKY:
-      case SkillPool.CONFISCATOR:
-        return;
     }
 
     String rawText = DebugDatabase.rawSkillDescriptionText(skillId);

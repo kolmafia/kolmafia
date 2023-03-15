@@ -7850,7 +7850,7 @@ Skill	Always Never Not Guzzling	Booze Drop: +25
 # Ambidextrous Funkslinging: You can use two combat items per round
 Skill	Amphibian Sympathy	Familiar Weight: [-10*(fam(Inflatable Dodecapede)-0.5)]
 # Anatomy Expertise: Your damaging skills have a chance of dealing double damage
-# Ancient Crimbo Lore: +3 Stats Per Fight in December
+Skill	Ancient Crimbo Lore	Experience: [3*event(December)]
 Skill	Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
 Skill	Ankle Joints	Initiative: +20
 # Another Extra Spleen: Another +5 spleen capacity
@@ -8013,7 +8013,7 @@ Skill	Flop Sweat	Sleaze Damage: +9
 # Food Coma: Rest Without Spending an Adventure (10x / day)
 # Food Coma: Resting Restores All MP
 Skill	Food Coma	Base Resting MP: 9999
-Skill	Fortitude of the Muskox	HP Regen Min: +1, HP Regen Max: +2
+Skill	Fortitude of the Muskox	HP Regen Min: 1, HP Regen Max: 2
 # Frantic Gyrations: Disco Momentum makes you harder to hit
 Skill	Gift of the Assassin	Weapon Damage: +10, Critical Hit Percent: +30
 Skill	Gift of the Bodyguard	Damage Absorption: +200
@@ -8061,7 +8061,7 @@ Skill	Ice Water In Your Veins	Cold Damage: +11
 Skill	Impeccable Timing	Initiative: +100
 # Impetuous Sauciness: +5 reagent potion duration
 Skill	Improv Muscles	Maximum HP Percent: +25, Initiative: +25
-Skill	Indefatigable	HP Regen Min: +16, HP Regen Max: +20
+Skill	Indefatigable	HP Regen Min: 16, HP Regen Max: 20
 Skill	Index Fingers	Pickpocket Chance: +40
 Skill	Infernal Automata	Hot Damage: +10
 Skill	Inner Sauce	MP Regen Min: [1+2*class(Sauceror)], MP Regen Max: [1+3*class(Sauceror)]
