@@ -211,29 +211,29 @@ public class RufusManager {
   // in the massive ChoiceAdventures package.
 
   public enum ShadowTheme {
-    FIRE("90-100 Muscle substats", "shadow lighter"),
-    MATH("90-100 Mysticality substats", "shadow heptahedron"),
-    WATER("90-100 Moxie substats", "shadow bucket"),
-    TIME("+3 turns to 3 random effects"),
-    BLOOD("30 Shadow's Heart: Maximum HP +300%", "shadow heart"),
-    COLD("30 Shadow's Chill: Maximum MP +300%", "shadow snowflake"),
-    GHOST("30 Shadow's Thickness: Superhuman (+5) Spooky, Hot, Sleaze resistance", "shadow wave");
+    FIRE("90-100 Muscle substats", "muscle", "shadow lighter"),
+    MATH("90-100 Mysticality substats", "mysticality", "shadow heptahedron"),
+    WATER("90-100 Moxie substats", "moxie", "shadow bucket"),
+    TIME("+3 turns to 3 random effects", "effects", null),
+    BLOOD("30 Shadow's Heart: Maximum HP +300%", "maxHP", "shadow heart"),
+    COLD("30 Shadow's Chill: Maximum MP +300%", "maxMP", "shadow snowflake"),
+    GHOST(
+        "30 Shadow's Thickness: Superhuman (+5) Spooky, Hot, Sleaze resistance",
+        "resistance",
+        "shadow wave");
 
     // Class fields
     final String normal;
+    final String goal;
     final String artifact;
 
     // Lookups for Shadow Themes
-    private static final Map<String, ShadowTheme> decisionToTheme = new HashMap<>();
+    private static final Map<String, ShadowTheme> goalToTheme = new HashMap<>();
     private static final Map<String, ShadowTheme> artifactToTheme = new HashMap<>();
 
-    ShadowTheme(String normal) {
+    ShadowTheme(String normal, String goal, String artifact) {
       this.normal = normal;
-      this.artifact = null;
-    }
-
-    ShadowTheme(String normal, String artifact) {
-      this.normal = normal;
+      this.goal = goal;
       this.artifact = artifact;
     }
 
@@ -246,14 +246,14 @@ public class RufusManager {
     }
 
     public void populateMaps() {
-      ShadowTheme.decisionToTheme.put(String.valueOf(this.ordinal() + 1), this);
+      ShadowTheme.goalToTheme.put(this.goal, this);
       if (artifact != null) {
         ShadowTheme.artifactToTheme.put(this.artifact, this);
       }
     }
 
-    public static ShadowTheme findDecision(String decision) {
-      return ShadowTheme.decisionToTheme.get(decision);
+    public static ShadowTheme findGoal(String goal) {
+      return ShadowTheme.goalToTheme.get(goal);
     }
 
     public static ShadowTheme findArtifact(String artifact) {
@@ -445,20 +445,16 @@ public class RufusManager {
   }
 
   // Automation of the Labyrinth of Shadows
-  public static String specialChoiceDecision(String decision, String responseText) {
-    // decisions for choiceAdventure1499:
-    // 0 - show in browser
-    // 1-7 - correspond to ShadowTheme 0-6
-
+  public static String specialChoiceDecision(String responseText) {
     boolean artifact =
         QuestDatabase.isQuestStep(Quest.RUFUS, QuestDatabase.STARTED)
             && Preferences.getString("rufusQuestType").equals("artifact");
     ShadowTheme needed =
         artifact
             ? ShadowTheme.findArtifact(Preferences.getString("rufusQuestTarget"))
-            : ShadowTheme.findDecision(decision);
+            : ShadowTheme.findGoal(Preferences.getString("shadowLabyrinthGoal"));
     if (needed == null) {
-      // This should not happen. Show in browser
+      // Show in browser
       return "0";
     }
 

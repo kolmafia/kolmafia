@@ -419,6 +419,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     PreferenceListenerRegistry.registerPreferenceListener("basementMallPrices", this);
     PreferenceListenerRegistry.registerPreferenceListener("breakableHandling", this);
     PreferenceListenerRegistry.registerPreferenceListener("addingScrolls", this);
+    PreferenceListenerRegistry.registerPreferenceListener("shadowLabyrinthGoal", this);
 
     this.loadSettings();
 
@@ -840,7 +841,19 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     Preferences.setString(
         "choiceAdventure988", String.valueOf(this.containmentSelect.getSelectedIndex()));
     Preferences.setString(
-        "choiceAdventure1499", String.valueOf(this.shadowLabyrinthSelect.getSelectedIndex()));
+        "shadowLabyrinthGoal",
+        switch (this.shadowLabyrinthSelect.getSelectedIndex()) {
+          case 0 -> "browser";
+          case 1 -> "muscle";
+          case 2 -> "mysticality";
+          case 3 -> "moxie";
+          case 4 -> "effects";
+          case 5 -> "maxHP";
+          case 6 -> "maxMP";
+          case 7 -> "resistance";
+            // Not possible
+          default -> "browser";
+        });
 
     Preferences.setInteger("basementMallPrices", this.basementMallSelect.getSelectedIndex());
     Preferences.setInteger("breakableHandling", this.breakableSelect.getSelectedIndex() + 1);
@@ -1116,12 +1129,23 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       System.out.println("Invalid setting " + containmentIndex + " for choiceAdventure988.");
     }
 
-    int shadowLabyrinthIndex = Preferences.getInteger("choiceAdventure1499");
-    if (shadowLabyrinthIndex <= 7 && shadowLabyrinthIndex >= 0) {
-      this.shadowLabyrinthSelect.setSelectedIndex(shadowLabyrinthIndex);
-    } else {
-      System.out.println("Invalid setting " + shadowLabyrinthIndex + " for choiceAdventure1499.");
-    }
+    String shadowLabyrinthSetting = Preferences.getString("shadowLabyrinthGoal");
+    this.shadowLabyrinthSelect.setSelectedIndex(
+        switch (shadowLabyrinthSetting) {
+          case "browser" -> 0;
+          case "muscle" -> 1;
+          case "mysticality" -> 2;
+          case "moxie" -> 3;
+          case "effects" -> 4;
+          case "maxHP" -> 5;
+          case "maxMP" -> 6;
+          case "resistance" -> 7;
+          default -> {
+            System.out.println(
+                "Invalid setting " + shadowLabyrinthSetting + " for shadowLabyrinthGoal.");
+            yield 0;
+          }
+        });
 
     this.basementMallSelect.setSelectedIndex(Preferences.getInteger("basementMallPrices"));
     this.breakableSelect.setSelectedIndex(

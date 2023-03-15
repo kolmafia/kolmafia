@@ -1316,6 +1316,7 @@ user	seaodesFound	0
 user	SeasoningSwagger	0
 user	serverAddsCustomCombat	false
 user	sexChanges	0
+user	shadowLabyrinthGoal	browser
 user	shadowRiftIngress
 user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0
@@ -3085,7 +3086,6 @@ user	choiceAdventure1488	0
 user	choiceAdventure1489	3
 user	choiceAdventure1491	0
 user	choiceAdventure1494	0
-user	choiceAdventure1499	0
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

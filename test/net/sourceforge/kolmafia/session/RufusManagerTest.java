@@ -701,10 +701,10 @@ public class RufusManagerTest {
     }
 
     private void checkLabyrinthOfShadowsAutomation(
-        int configured, String responseText, boolean quest, String artifact, int expected) {
+        String configured, String responseText, boolean quest, String artifact, int expected) {
       var cleanups =
           new Cleanups(
-              withProperty("choiceAdventure1499", configured),
+              withProperty("shadowLabyrinthGoal", configured),
               withQuestProgress(
                   Quest.RUFUS, quest ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED),
               withProperty("rufusQuestType", quest ? "artifact" : ""),
@@ -732,14 +732,14 @@ public class RufusManagerTest {
       //
       // User configured choice options:
       //
-      // 0 -> show in browser (already eliminated)
-      // 1 -> FIRE
-      // 2 -> MATH
-      // 3 -> WATER
-      // 4 -> TIME
-      // 5 -> BLOOD
-      // 6 -> COLD
-      // 7 -> GHOST
+      // browser -> show in browser
+      // muscle -> FIRE
+      // mysticality -> MATH
+      // moxie -> WATER
+      // effects -> TIME
+      // maxHP -> BLOOD
+      // maxMP -> COLD
+      // resistance -> GHOST
       //
       // Artifact themes:
       //
@@ -752,30 +752,32 @@ public class RufusManagerTest {
       // GHOST -> shadow wave
 
       // With no artifact quest: FIRE -> 2, TIME -> 3, BLOOD -> 4
-      checkLabyrinthOfShadowsAutomation(1, html, false, "", 2);
-      checkLabyrinthOfShadowsAutomation(2, html, false, "", 1);
-      checkLabyrinthOfShadowsAutomation(3, html, false, "", 1);
-      checkLabyrinthOfShadowsAutomation(4, html, false, "", 3);
-      checkLabyrinthOfShadowsAutomation(5, html, false, "", 4);
-      checkLabyrinthOfShadowsAutomation(6, html, false, "", 1);
-      checkLabyrinthOfShadowsAutomation(7, html, false, "", 1);
+      checkLabyrinthOfShadowsAutomation("browser", html, false, "", 0);
+      checkLabyrinthOfShadowsAutomation("muscle", html, false, "", 2);
+      checkLabyrinthOfShadowsAutomation("mysticality", html, false, "", 1);
+      checkLabyrinthOfShadowsAutomation("moxie", html, false, "", 1);
+      checkLabyrinthOfShadowsAutomation("effects", html, false, "", 3);
+      checkLabyrinthOfShadowsAutomation("maxHP", html, false, "", 4);
+      checkLabyrinthOfShadowsAutomation("maxMP", html, false, "", 1);
+      checkLabyrinthOfShadowsAutomation("resistance", html, false, "", 1);
 
       // With artifact quest: shadow lighter -> 2, shadow heart -> 4
-      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow lighter", 2);
-      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow heptahedron", 1);
-      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow bucket", 1);
-      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow heart", 4);
-      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow snowflake", 1);
-      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow wave", 1);
+      checkLabyrinthOfShadowsAutomation("browser", html, true, "shadow lighter", 2);
+      checkLabyrinthOfShadowsAutomation("browser", html, true, "shadow heptahedron", 1);
+      checkLabyrinthOfShadowsAutomation("browser", html, true, "shadow bucket", 1);
+      checkLabyrinthOfShadowsAutomation("browser", html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation("browser", html, true, "shadow snowflake", 1);
+      checkLabyrinthOfShadowsAutomation("browser", html, true, "shadow wave", 1);
 
       // With artifact quest: user's configured choice is ignored
-      checkLabyrinthOfShadowsAutomation(1, html, true, "shadow heart", 4);
-      checkLabyrinthOfShadowsAutomation(2, html, true, "shadow heart", 4);
-      checkLabyrinthOfShadowsAutomation(3, html, true, "shadow heart", 4);
-      checkLabyrinthOfShadowsAutomation(4, html, true, "shadow heart", 4);
-      checkLabyrinthOfShadowsAutomation(5, html, true, "shadow heart", 4);
-      checkLabyrinthOfShadowsAutomation(6, html, true, "shadow heart", 4);
-      checkLabyrinthOfShadowsAutomation(7, html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation("browser", html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation("muscle", html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation("mysticality", html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation("moxie", html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation("effects", html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation("maxHP", html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation("maxMP", html, true, "shadow heart", 4);
+      checkLabyrinthOfShadowsAutomation("resistance", html, true, "shadow heart", 4);
     }
   }
 }
