@@ -387,7 +387,8 @@ public class AdventureDatabase {
   public static final void addAdventure(final KoLAdventure location) {
     AdventureDatabase.adventures.add(location);
     AdventureDatabase.allAdventures.add(location);
-    AdventureDatabase.adventureByName.put(location.getAdventureName(), location);
+    String adventureName = location.getAdventureName();
+    AdventureDatabase.adventureByName.put(adventureName, location);
 
     if (location.hasSnarfblat()) {
       AdventureDatabase.adventureById.put(location.getSnarfblat(), location);
@@ -408,6 +409,12 @@ public class AdventureDatabase {
     }
 
     AdventureDatabase.adventureByURL.put(url, location);
+
+    // Each Shadow Rift ingress has two potential URLs.
+    ShadowRift rift = ShadowRift.findAdventureName(adventureName);
+    if (rift != null) {
+      AdventureDatabase.adventureByURL.put(rift.getFreeURL(), location);
+    }
 
     if (url.contains("snarfblat=")) {
       // The map of the Bat Hole has a bogus URL for the Boss Bat's lair

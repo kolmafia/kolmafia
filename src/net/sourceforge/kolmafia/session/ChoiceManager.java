@@ -759,7 +759,7 @@ public abstract class ChoiceManager {
 
       case 1499:
         // A Labyrinth of Shadows
-        return RufusManager.specialChoiceDecision(responseText);
+        return RufusManager.specialChoiceDecision(1499, responseText);
     }
 
     return decision;
@@ -2021,6 +2021,10 @@ public abstract class ChoiceManager {
         }
         // If you have none, you must take option 3
         return "3";
+
+      case 1498:
+        // Calling Rufus Back
+        return RufusManager.specialChoiceDecision(1498, responseText);
     }
     return decision;
   }
