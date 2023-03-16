@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -94,10 +95,15 @@ public class AdventureRequest extends GenericRequest {
     // Derived fields
     private final String adventureName;
     private final String URL;
+    private final String freeAction;
+    private final String freeURL;
 
     // Lookups for Shadow Rifts
     private static final Map<String, ShadowRift> adventureNameToRift = new HashMap<>();
     private static final Map<String, ShadowRift> placeToRift = new HashMap<>();
+
+    private static final AdventureResult SHADOW_AFFINITY =
+        EffectPool.get(EffectPool.SHADOW_AFFINITY);
 
     private ShadowRift(String container, String place, String action) {
       this.container = container;
@@ -107,6 +113,8 @@ public class AdventureRequest extends GenericRequest {
       // Derived fields
       this.adventureName = "Shadow Rift (" + container + ")";
       this.URL = "place.php?whichplace=" + place + "&action=" + action;
+      this.freeAction = action + "_free";
+      this.freeURL = "place.php?whichplace=" + place + "&action=" + this.freeAction;
     }
 
     public String getContainer() {
@@ -121,12 +129,30 @@ public class AdventureRequest extends GenericRequest {
       return this.action;
     }
 
+    public String getFreeAction() {
+      return this.freeAction;
+    }
+
+    public String getCurrentAction() {
+      boolean free = KoLConstants.activeEffects.contains(SHADOW_AFFINITY);
+      return free ? this.freeAction : this.action;
+    }
+
     public String getAdventureName() {
       return this.adventureName;
     }
 
     public String getURL() {
       return this.URL;
+    }
+
+    public String getFreeURL() {
+      return this.freeURL;
+    }
+
+    public String getCurrentURL() {
+      boolean free = KoLConstants.activeEffects.contains(SHADOW_AFFINITY);
+      return free ? this.freeURL : this.URL;
     }
 
     public void populateMaps() {
@@ -357,7 +383,7 @@ public class AdventureRequest extends GenericRequest {
               } else {
                 this.constructURLString("place.php");
                 this.addFormField("whichplace", rift.getPlace());
-                this.addFormField("action", rift.getAction());
+                this.addFormField("action", rift.getCurrentAction());
                 Preferences.setString("shadowRiftIngress", desired);
               }
             }
