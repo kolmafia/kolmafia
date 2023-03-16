@@ -268,6 +268,35 @@ public class RufusManagerTest {
     }
   }
 
+  @Nested
+  class RufusCallBack {
+    // This tests the "default" response to calling Back Rufus
+    // Even if you have the goal, the user is allowed to hang up.
+    @Test
+    private void callingBackRufusWithoutGoalHangsUp() {
+      String responseText = html("request/test_call_rufus_back_no_artifact.html");
+      var cleanups = new Cleanups(withQuestProgress(Quest.RUFUS, "started"));
+      try (cleanups) {
+        // ChoiceManager.getDecision ultimately calls RufusManager.specialChoiceDecision
+        // Choice 1498 is CallingRufus Back
+        int result = ChoiceManager.getDecision(1498, responseText);
+        assertEquals(6, result);
+      }
+    }
+
+    @Test
+    private void callingBackRufusWithGoalFinishes() {
+      String responseText = html("request/test_call_rufus_back_artifact.html");
+      var cleanups = new Cleanups(withQuestProgress(Quest.RUFUS, "step1"));
+      try (cleanups) {
+        // ChoiceManager.getDecision ultimately calls RufusManager.specialChoiceDecision
+        // Choice 1498 is CallingRufus Back
+        int result = ChoiceManager.getDecision(1498, responseText);
+        assertEquals(1, result);
+      }
+    }
+  }
+
   @Test
   public void lootingShadowForestSetsProperty() {
     var builder = new FakeHttpClientBuilder();

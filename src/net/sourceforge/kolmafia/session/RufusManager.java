@@ -389,7 +389,6 @@ public class RufusManager {
         "iced-over",
         "icy",
         "snow-covered",
-        "spectral",
         "wintry");
     addAdjectives(
         ShadowTheme.GHOST,
@@ -402,6 +401,7 @@ public class RufusManager {
         // The only "two word" adjective
         "nearly invisible",
         "see-through",
+        "spectral",
         "translucent",
         "transparent",
         "wispy");
@@ -444,8 +444,25 @@ public class RufusManager {
     return new ChoiceOption(spoiler);
   }
 
+  public static String specialChoiceDecision(int choice, String responseText) {
+    switch (choice) {
+      case 1498 -> {
+        // Calling Rufus Back
+        boolean finished = QuestDatabase.isQuestStep(Quest.RUFUS, "step1");
+        // If you have accomplished the goal, finish quest.
+        // Otherwise, rudely hang up on Rufus
+        return finished ? "1" : "6";
+      }
+      case 1499 -> {
+        // A Labyrinth of Shadows
+        return shadowLabyrinthChoiceDecision(responseText);
+      }
+    }
+    return "0";
+  }
+
   // Automation of the Labyrinth of Shadows
-  public static String specialChoiceDecision(String responseText) {
+  private static String shadowLabyrinthChoiceDecision(String responseText) {
     boolean artifact =
         QuestDatabase.isQuestStep(Quest.RUFUS, QuestDatabase.STARTED)
             && Preferences.getString("rufusQuestType").equals("artifact");
