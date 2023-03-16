@@ -4041,15 +4041,15 @@ public abstract class RuntimeLibrary {
   private static final Map<Integer, EightBitZone> EIGHT_BIT_ZONES =
       Map.ofEntries(
           Map.entry(
-              AdventurePool.FUNGUS_PLAINS, new EightBitZone(DoubleModifier.MEATDROP, 150, "blue")),
+              AdventurePool.FUNGUS_PLAINS, new EightBitZone(DoubleModifier.MEATDROP, 50, "blue")),
           Map.entry(
-              AdventurePool.HEROS_FIELD, new EightBitZone(DoubleModifier.ITEMDROP, 100, "green")),
+              AdventurePool.HEROS_FIELD, new EightBitZone(DoubleModifier.ITEMDROP, 0, "green")),
           Map.entry(
               AdventurePool.VANYAS_CASTLE,
-              new EightBitZone(DoubleModifier.INITIATIVE, 300, "black")),
+              new EightBitZone(DoubleModifier.INITIATIVE, 200, "black")),
           Map.entry(
               AdventurePool.MEGALO_CITY,
-              new EightBitZone(DoubleModifier.DAMAGE_ABSORPTION, 300, "red")));
+              new EightBitZone(DoubleModifier.DAMAGE_ABSORPTION, 200, "red")));
 
   public static Value eight_bit_points(ScriptRuntime controller, final Value locationValue) {
     var location = (KoLAdventure) locationValue.rawValue();
@@ -4062,7 +4062,7 @@ public abstract class RuntimeLibrary {
 
     var multiplier = zone.color().equals(Preferences.getString("8BitColor")) ? 1 : 0.5;
     var modValue = KoLCharacter.currentNumericModifier(zone.mod());
-    var points = 100 + modValue - zone.offset();
+    var points = modValue - zone.offset();
 
     return new Value(Math.max(0, Math.min(points, 400)) * multiplier);
   }
