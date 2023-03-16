@@ -1316,6 +1316,7 @@ user	seaodesFound	0
 user	SeasoningSwagger	0
 user	serverAddsCustomCombat	false
 user	sexChanges	0
+user	shadowLabyrinthGoal	browser
 user	shadowRiftIngress
 user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0
