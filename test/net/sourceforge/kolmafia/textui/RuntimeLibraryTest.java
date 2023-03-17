@@ -662,32 +662,34 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @ParameterizedTest
-    @CsvSource({"blue, 60", "black, 30"})
+    @CsvSource({"red, 200", "black, 100"})
     void fungusPlains(String color, int points) {
       var cleanups =
           new Cleanups(
+              withEffect(EffectPool.SYNTHESIS_GREED), // 300% meat drop
               withEquipped(ItemPool.CARPE), // 50% meat drop
-              withEquipped(ItemPool.ORIGAMI_PASTIES), // 30% meat drop
-              withEquipped(ItemPool.PANTSGIVING), // 30% meat drop
               withProperty("8BitColor", color));
 
       try (cleanups) {
-        String output = execute("eight_bit_points($location[Fungus Plains])");
-        assertThat(output, endsWith("Returned: " + points + ".0\n"));
+        String output = execute("eight_bit_points($location[The Fungus Plains])");
+        assertThat(output, endsWith("Returned: " + points + "\n"));
       }
     }
 
     @ParameterizedTest
-    @CsvSource({"green, 30", "black, 15"})
+    @CsvSource({"green, 340", "black, 170"})
     void herosField(String color, int points) {
       var cleanups =
           new Cleanups(
+              withEffect("Frosty"), // 100% item drop
+              withEffect("Certainty"), // 100% item drop
+              withEffect(EffectPool.SYNTHESIS_COLLECTION), // 150% item drop
               withEquipped(ItemPool.GRIMACITE_GO_GO_BOOTS), // 30% item drop
               withProperty("8BitColor", color));
 
       try (cleanups) {
         String output = execute("eight_bit_points($location[Hero's Field])");
-        assertThat(output, endsWith("Returned: " + points + ".0\n"));
+        assertThat(output, endsWith("Returned: " + points + "\n"));
       }
     }
 
@@ -704,12 +706,12 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
       try (cleanups) {
         String output = execute("eight_bit_points($location[Vanya's Castle])");
-        assertThat(output, endsWith("Returned: " + points + ".0\n"));
+        assertThat(output, endsWith("Returned: " + points + "\n"));
       }
     }
 
     @ParameterizedTest
-    @CsvSource({"red, 300", "black, 150"})
+    @CsvSource({"blue, 300", "black, 150"})
     void megaloCity(String color, int points) {
       var cleanups =
           new Cleanups(
@@ -718,7 +720,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
       try (cleanups) {
         String output = execute("eight_bit_points($location[Megalo-City])");
-        assertThat(output, endsWith("Returned: " + points + ".0\n"));
+        assertThat(output, endsWith("Returned: " + points + "\n"));
       }
     }
   }
