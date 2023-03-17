@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.PriceLevel;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -82,6 +83,7 @@ import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -735,6 +737,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.LOCATION_TYPE};
+    functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.INT_TYPE};
     functions.add(new LibraryFunction("get_ccs_action", DataTypes.STRING_TYPE, params));
@@ -4029,6 +4034,36 @@ public abstract class RuntimeLibrary {
     }
 
     return RuntimeLibrary.continueValue();
+  }
+
+  private record EightBitZone(DoubleModifier mod, int points, String color) {}
+
+  private static final Map<Integer, EightBitZone> EIGHT_BIT_ZONES =
+      Map.ofEntries(
+          Map.entry(
+              AdventurePool.FUNGUS_PLAINS, new EightBitZone(DoubleModifier.MEATDROP, 2, "red")),
+          Map.entry(
+              AdventurePool.HEROS_FIELD, new EightBitZone(DoubleModifier.ITEMDROP, 3, "green")),
+          Map.entry(
+              AdventurePool.VANYAS_CASTLE, new EightBitZone(DoubleModifier.INITIATIVE, 1, "black")),
+          Map.entry(
+              AdventurePool.MEGALO_CITY,
+              new EightBitZone(DoubleModifier.DAMAGE_ABSORPTION, 1, "blue")));
+
+  public static Value eight_bit_points(ScriptRuntime controller, final Value locationValue) {
+    var location = (KoLAdventure) locationValue.rawValue();
+
+    var zone = EIGHT_BIT_ZONES.getOrDefault(location.getSnarfblat(), null);
+
+    if (zone == null) {
+      return DataTypes.ZERO_VALUE;
+    }
+
+    var multiplier = zone.color().equals(Preferences.getString("8BitColor")) ? 1 : 0.5;
+    var modValue = KoLCharacter.currentNumericModifier(zone.mod());
+    var bonus = (modValue - 300) * zone.points();
+
+    return new Value((int) (multiplier * (100 + Math.min(300, Math.max(0, bonus)))));
   }
 
   public static Value get_ccs_action(ScriptRuntime controller, final Value index) {
