@@ -8158,9 +8158,14 @@ public abstract class ChoiceControl {
         RufusManager.parseCallBack(text);
         break;
 
+      case 1499:
+        // The Shadow Labyrinth
+        RufusManager.handleShadowRiftNC(1499, text);
+        break;
+
       case 1500:
         // Like a Loded Stone
-        ResultProcessor.removeItem(ItemPool.RUFUS_SHADOW_LODESTONE);
+        RufusManager.handleShadowRiftNC(1500, text);
         break;
     }
   }

@@ -581,6 +581,7 @@ user	electricKoolAidEaten	0
 user	elfGratitude	0
 user	encountersUntilDMTChoice	5
 user	encountersUntilNEPChoice	7
+user	encountersUntilSRChoice	11
 user	enamorangMonster
 user	enamorangMonsterTurn
 user	ensorcelee
@@ -1318,6 +1319,8 @@ user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	shadowLabyrinthGoal	browser
 user	shadowRiftIngress
+user	shadowRiftLastNC	0
+user	shadowRiftTotalTurns	0
 user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0
 user	shenQuestItem
