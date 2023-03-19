@@ -955,6 +955,8 @@ public class RufusManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
+              // Parsing the fight page will add available combat items to inventory
+              withNoItems(),
               withProperty("shadowRiftTotalTurns", 11),
               withProperty("shadowRiftLastNC", 11),
               withProperty("encountersUntilSRChoice", 11));
@@ -995,8 +997,8 @@ public class RufusManagerTest {
         request.run();
 
         assertThat("shadowRiftTotalTurns", isSetTo(12));
-        assertThat("shadowRiftLastNC", isSetTo(12));
-        assertThat("encountersUntilSRChoice", isSetTo(11));
+        assertThat("shadowRiftLastNC", isSetTo(11));
+        assertThat("encountersUntilSRChoice", isSetTo(10));
       }
     }
 
@@ -1023,7 +1025,7 @@ public class RufusManagerTest {
     }
 
     @Test
-    void followingLodestoneCountsAsTurn() {
+    void followingLodestoneDoesNotCountsAsTurn() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
       var cleanups =
@@ -1043,9 +1045,9 @@ public class RufusManagerTest {
         var riftRequest = new GenericRequest(riftURL);
         riftRequest.run();
 
-        assertThat("shadowRiftTotalTurns", isSetTo(12));
+        assertThat("shadowRiftTotalTurns", isSetTo(11));
         assertThat("shadowRiftLastNC", isSetTo(11));
-        assertThat("encountersUntilSRChoice", isSetTo(10));
+        assertThat("encountersUntilSRChoice", isSetTo(11));
       }
     }
   }
