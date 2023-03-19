@@ -90,6 +90,10 @@ public class Script implements Comparable<Script> {
     return repo;
   }
 
+  public String getBranch() {
+    return branch == null ? "" : branch;
+  }
+
   public String getLongDesc() {
     return longDesc;
   }
