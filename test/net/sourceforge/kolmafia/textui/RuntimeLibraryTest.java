@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
@@ -31,6 +32,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -649,5 +651,77 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   void canIdentifySkill(final String skillIdentifier) {
     String output = execute("$skill[" + skillIdentifier + "].name");
     assertThat(output, endsWith("Returned: [zero placeholder]\n"));
+  }
+
+  @Nested
+  class EightBitPoints {
+    @Test
+    void zeroPointsInNon8BitZone() {
+      String output = execute("eight_bit_points($location[The Dire Warren])");
+      assertThat(output, endsWith("Returned: 0\n"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"red, 200", "black, 100"})
+    void fungusPlains(String color, int points) {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.SYNTHESIS_GREED), // 300% meat drop
+              withEquipped(ItemPool.CARPE), // 50% meat drop
+              withProperty("8BitColor", color));
+
+      try (cleanups) {
+        String output = execute("eight_bit_points($location[The Fungus Plains])");
+        assertThat(output, endsWith("Returned: " + points + "\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"green, 340", "black, 170"})
+    void herosField(String color, int points) {
+      var cleanups =
+          new Cleanups(
+              withEffect("Frosty"), // 100% item drop
+              withEffect("Certainty"), // 100% item drop
+              withEffect(EffectPool.SYNTHESIS_COLLECTION), // 150% item drop
+              withEquipped(ItemPool.GRIMACITE_GO_GO_BOOTS), // 30% item drop
+              withProperty("8BitColor", color));
+
+      try (cleanups) {
+        String output = execute("eight_bit_points($location[Hero's Field])");
+        assertThat(output, endsWith("Returned: " + points + "\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"black, 400", "red, 200"})
+    void vanyasCastle(String color, int points) {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.RACING), // 200% init
+              withEffect("Memory of Speed"), // 200% init
+              withEffect("Industrially Lubricated"), // 150% init
+              withEquipped(ItemPool.ROCKET_BOOTS), // 100% init
+              withProperty("8BitColor", color));
+
+      try (cleanups) {
+        String output = execute("eight_bit_points($location[Vanya's Castle])");
+        assertThat(output, endsWith("Returned: " + points + "\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"blue, 300", "black, 150"})
+    void megaloCity(String color, int points) {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.SUPER_STRUCTURE), // 500 DA
+              withProperty("8BitColor", color));
+
+      try (cleanups) {
+        String output = execute("eight_bit_points($location[Megalo-City])");
+        assertThat(output, endsWith("Returned: " + points + "\n"));
+      }
+    }
   }
 }
