@@ -46,15 +46,15 @@ public class ScriptManager {
       }
 
       Script s = fromJSON(ob);
-      return new InstalledScript(s, scriptFolder);
+      s.setScriptFolder(scriptFolder);
+      return s;
     }
 
     private static Script fromUnknown(SVNURL repo, File scriptFolder) {
       // we can still fetch info on the repo...
       String uuid = SVNManager.getFolderUUIDNoRemote(repo);
 
-      return new InstalledScript(
-          new Script(uuid, null, null, repo.toString(), null, null, null), scriptFolder);
+      return new Script(uuid, repo.toString(), scriptFolder);
     }
 
     private static JSONObject repoToJSONObject(SVNURL repo) throws JSONException, SVNException {

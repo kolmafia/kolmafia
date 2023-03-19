@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.persistence;
 
-public class Script implements Comparable<Object> {
+import java.io.File;
+
+public class Script implements Comparable<Script> {
   protected String scriptName;
   protected String authors;
   protected String shortDesc;
@@ -8,6 +10,7 @@ public class Script implements Comparable<Object> {
   protected String repo;
   protected String longDesc;
   protected String forumThread;
+  protected File scriptFolder = null;
 
   public Script() {}
 
@@ -28,13 +31,15 @@ public class Script implements Comparable<Object> {
     this.forumThread = forumThread;
   }
 
-  @Override
-  public int compareTo(Object o) {
-    if (!(o instanceof Script)) {
-      return -1;
-    }
+  public Script(String name, String repo, File scriptFolder) {
+    this.scriptName = name;
+    this.repo = repo;
+    this.scriptFolder = scriptFolder;
+  }
 
-    return this.scriptName.compareTo(((Script) o).getScriptName());
+  @Override
+  public int compareTo(Script o) {
+    return this.scriptName.compareTo(o.getScriptName());
   }
 
   public String getScriptName() {
@@ -63,5 +68,17 @@ public class Script implements Comparable<Object> {
 
   public String getForumThread() {
     return forumThread;
+  }
+
+  public boolean isInstalled() {
+    return scriptFolder != null;
+  }
+
+  public void setScriptFolder(File scriptFolder) {
+    this.scriptFolder = scriptFolder;
+  }
+
+  public File getScriptFolder() {
+    return scriptFolder;
   }
 }

@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.InstalledScript;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
@@ -943,12 +942,12 @@ public class ShowDescriptionTable<E> extends JXTable {
       int row = this.table.getSelectedRow();
       final Object ob = this.table.getValueAt(row, 0);
 
-      if (ob instanceof InstalledScript) {
+      if (ob instanceof Script s && s.isInstalled()) {
         RequestThread.postRequest(
             new Runnable() {
               @Override
               public void run() {
-                File deleteMe = ((InstalledScript) ob).getScriptFolder();
+                File deleteMe = s.getScriptFolder();
                 SVNManager.deleteInstalledProject(deleteMe);
                 if (!deleteMe.exists()) {
                   ScriptManager.getInstalledScripts().remove(ob);
