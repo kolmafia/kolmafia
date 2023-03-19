@@ -1,8 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
-import java.util.Vector;
-
-public class Script extends Vector<String> implements Comparable<Object> {
+public class Script implements Comparable<Object> {
   protected String scriptName;
   protected String authors;
   protected String shortDesc;
@@ -28,13 +26,6 @@ public class Script extends Vector<String> implements Comparable<Object> {
     this.repo = repo;
     this.longDesc = longDesc;
     this.forumThread = forumThread;
-
-    super.add(scriptName);
-    super.add(authors);
-    super.add(shortDesc);
-    super.add(category);
-    super.add(repo);
-    super.add(longDesc);
   }
 
   @Override
