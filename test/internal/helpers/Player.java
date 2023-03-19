@@ -217,6 +217,16 @@ public class Player {
   }
 
   /**
+   * Clears Inventory
+   *
+   * @return Clears inventory
+   */
+  public static Cleanups withNoItems() {
+    KoLConstants.inventory.clear();
+    return new Cleanups(KoLConstants.inventory::clear);
+  }
+
+  /**
    * Puts the given item into the player's inventory
    *
    * @param itemName Item to give

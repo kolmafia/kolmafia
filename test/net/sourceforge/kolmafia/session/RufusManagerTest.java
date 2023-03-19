@@ -4,6 +4,7 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Preference.isSetTo;
@@ -110,7 +111,112 @@ public class RufusManagerTest {
   }
 
   @Test
-  public void acceptingAnArtifactQuestSetsState() {
+  public void acceptingEntityQuestSetsState() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withProperty("rufusDesiredArtifact"),
+            withProperty("rufusDesiredEntity"),
+            withProperty("rufusDesiredItems"),
+            withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
+            withProperty("rufusQuestTarget"),
+            withProperty("rufusQuestType"),
+            withProperty("_shadowAffinityToday", false),
+            withNoEffects());
+    try (cleanups) {
+      client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+      client.addResponse(200, html("request/test_call_rufus.html"));
+      client.addResponse(200, ""); // api.php
+      client.addResponse(200, html("request/test_accept_rufus_quest_entity.html"));
+
+      var useItemURL =
+          "inv_use.php?which=3&whichitem=" + ItemPool.CLOSED_CIRCUIT_PAY_PHONE + "&ajax=1";
+      var useRequest = new GenericRequest(useItemURL);
+      useRequest.run();
+
+      // He told us what he needs
+      assertThat("rufusDesiredArtifact", isSetTo("shadow heart"));
+      assertThat("rufusDesiredEntity", isSetTo("shadow matrix"));
+      assertThat("rufusDesiredItems", isSetTo("shadow venom"));
+
+      // We are in a choice that you cannot walk away from.
+      assertTrue(ChoiceManager.handlingChoice);
+      assertEquals(1497, ChoiceManager.lastChoice);
+
+      // Choose option 1 - I'll fight the entity
+      var choiceURL = "choice.php?pwd&whichchoice=1497&option=1";
+      var choiceRequest = new GenericRequest(choiceURL);
+      choiceRequest.run();
+
+      // We are no longer in a choice
+      assertFalse(ChoiceManager.handlingChoice);
+
+      // We no longer record what the last options were
+      assertThat("rufusDesiredArtifact", isSetTo(""));
+      assertThat("rufusDesiredEntity", isSetTo(""));
+      assertThat("rufusDesiredItems", isSetTo(""));
+
+      // Instead, quest properties are set
+      assertThat(Quest.RUFUS, isStarted());
+      assertThat("rufusQuestType", isSetTo("entity"));
+      assertThat("rufusQuestTarget", isSetTo("shadow matrix"));
+
+      // Since this was the first quest of the day, we have Shadow Affinity
+      assertEquals(11, SHADOW_AFFINITY.getCount(KoLConstants.activeEffects));
+      assertThat("_shadowAffinityToday", isSetTo(true));
+    }
+  }
+
+  @Test
+  public void returningAfterEntitySetsState() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withQuestProgress(Quest.RUFUS, "step1"),
+            withProperty("rufusQuestTarget", "shadow matrix"),
+            withProperty("rufusQuestType", "entity"),
+            withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 0),
+            withNoEffects());
+    try (cleanups) {
+      client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+      client.addResponse(200, html("request/test_call_rufus_back_entity.html"));
+      client.addResponse(200, html("request/test_return_entity_to_rufus.html"));
+      client.addResponse(200, ""); // api.php
+
+      var useItemURL =
+          "inv_use.php?which=3&whichitem=" + ItemPool.CLOSED_CIRCUIT_PAY_PHONE + "&ajax=1";
+      var useRequest = new GenericRequest(useItemURL);
+      useRequest.run();
+
+      // We are in a choice that you cannot walk away from.
+      assertTrue(ChoiceManager.handlingChoice);
+      assertEquals(1498, ChoiceManager.lastChoice);
+
+      // He wants to know if we succeeded
+      // Choose option 1 - Yes!
+      var choiceURL = "choice.php?pwd&whichchoice=1498&option=1";
+      var choiceRequest = new GenericRequest(choiceURL);
+      choiceRequest.run();
+
+      // We are no longer in a choice
+      assertFalse(ChoiceManager.handlingChoice);
+
+      // The quest properties are reset
+      assertThat(Quest.RUFUS, isUnstarted());
+      assertThat("rufusQuestType", isSetTo(""));
+      assertThat("rufusQuestTarget", isSetTo(""));
+
+      // We have Rufus's shadow lodestone
+      assertTrue(InventoryManager.hasItem(ItemPool.RUFUS_SHADOW_LODESTONE));
+    }
+  }
+
+  @Test
+  public void acceptingArtifactQuestSetsState() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
     var cleanups =
@@ -169,7 +275,7 @@ public class RufusManagerTest {
   }
 
   @Test
-  public void returningAnArtifactSetsState() {
+  public void returningArtifactSetsState() {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
     var cleanups =
@@ -837,6 +943,110 @@ public class RufusManagerTest {
       checkLabyrinthOfShadowsAutomation("maxHP", html, "step1", "artifact", "shadow heart", 4);
       checkLabyrinthOfShadowsAutomation("maxMP", html, "step1", "artifact", "shadow heart", 1);
       checkLabyrinthOfShadowsAutomation("resistance", html, "step1", "artifact", "shadow heart", 1);
+    }
+  }
+
+  @Nested
+  class NonCombatScheduling {
+    @Test
+    void fightingShadowMonsterCountsAsTurn() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("shadowRiftTotalTurns", 11),
+              withProperty("shadowRiftLastNC", 11),
+              withProperty("encountersUntilSRChoice", 11));
+      try (cleanups) {
+        client.addResponse(
+            302, Map.of("location", List.of("fight.php?ireallymeanit=1678807165")), "");
+        client.addResponse(200, html("request/test_fight_shadow_monster.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("adventure.php?snarfblat=567");
+        request.run();
+
+        assertThat("shadowRiftTotalTurns", isSetTo(12));
+        assertThat("shadowRiftLastNC", isSetTo(11));
+        assertThat("encountersUntilSRChoice", isSetTo(10));
+      }
+    }
+
+    @Test
+    void fightingShadowBossCountsAsTurn() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              // Parsing the fight page will add available combat items to inventory
+              withNoItems(),
+              withProperty("shadowRiftTotalTurns", 11),
+              withProperty("shadowRiftLastNC", 0),
+              withProperty("encountersUntilSRChoice", 0));
+      try (cleanups) {
+        client.addResponse(
+            302, Map.of("location", List.of("fight.php?ireallymeanit=1679168291")), "");
+        client.addResponse(200, html("request/test_fight_shadow_boss.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("adventure.php?snarfblat=567");
+        request.run();
+
+        assertThat("shadowRiftTotalTurns", isSetTo(12));
+        assertThat("shadowRiftLastNC", isSetTo(12));
+        assertThat("encountersUntilSRChoice", isSetTo(11));
+      }
+    }
+
+    @Test
+    void visitingShadowLabyrinthDoesNotCountAsTurn() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("shadowRiftTotalTurns", 11),
+              withProperty("shadowRiftLastNC", 0),
+              withProperty("encountersUntilSRChoice", 0));
+      try (cleanups) {
+        String html = html("request/test_visit_labyrinth_of_shadows.html");
+        client.addResponse(200, html);
+        var request = new GenericRequest("choice.php?forceoption=0");
+        request.run();
+
+        assertThat("shadowRiftTotalTurns", isSetTo(11));
+        assertThat("shadowRiftLastNC", isSetTo(11));
+        assertThat("encountersUntilSRChoice", isSetTo(11));
+      }
+    }
+
+    @Test
+    void followingLodestoneCountsAsTurn() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("shadowRiftTotalTurns", 11),
+              withProperty("shadowRiftLastNC", 11),
+              withProperty("encountersUntilSRChoice", 11),
+              withItem(ItemPool.RUFUS_SHADOW_LODESTONE, 1));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("adventure.php?snarfblat=567")), "");
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_follow_rufus_lodestone.html"));
+        client.addResponse(200, ""); // api.php
+
+        var riftURL = "place.php?whichplace=woods&action=woods_shadowrift";
+        var riftRequest = new GenericRequest(riftURL);
+        riftRequest.run();
+
+        assertThat("shadowRiftTotalTurns", isSetTo(12));
+        assertThat("shadowRiftLastNC", isSetTo(11));
+        assertThat("encountersUntilSRChoice", isSetTo(10));
+      }
     }
   }
 }

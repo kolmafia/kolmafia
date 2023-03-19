@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -487,5 +488,49 @@ public class RufusManager {
 
     // The desired theme is not available. Tell KoL to randomize again
     return "1";
+  }
+
+  // Tracking turns until next NC, which include:
+  // - The Shadow Labyrinth
+  // - shadow bosses
+  // Like a Loded Stone is a superlikely, per cannonfire
+
+  public static void handleShadowRiftFight(MonsterData monster) {
+    // All fights - including bosses - advance turns in zone
+    int currentTurns = Preferences.increment("shadowRiftTotalTurns", 1);
+    int lastNC = Preferences.getInteger("shadowRiftLastNC");
+    switch (monster.getName()) {
+      case "shadow spire",
+          "shadow orrery",
+          "shadow tongue",
+          "shadow scythe",
+          "shadow cauldron",
+          "shadow matrix" -> {
+        // Bosses are NCs
+        Preferences.setInteger("shadowRiftLastNC", currentTurns);
+        lastNC = currentTurns;
+      }
+    }
+    // Next NC comes if (turns in zone - last nc) >= 11
+    Preferences.setInteger("encountersUntilSRChoice", 11 - Math.max(currentTurns - lastNC, 0));
+  }
+
+  public static void handleShadowRiftNC(int choice, String responseText) {
+    // The Shadow Labyrinth does not advance turns in zone
+    int currentTurns = Preferences.getInteger("shadowRiftTotalTurns");
+    int lastNC = Preferences.getInteger("shadowRiftLastNC");
+    switch (choice) {
+      case 1499 -> {
+        // The Shadow Labyrinth
+        Preferences.setInteger("shadowRiftLastNC", currentTurns);
+        lastNC = currentTurns;
+      }
+      case 1500 -> {
+        // Like a Loded Stone
+        ResultProcessor.removeItem(ItemPool.RUFUS_SHADOW_LODESTONE);
+        currentTurns = Preferences.increment("shadowRiftTotalTurns", 1);
+      }
+    }
+    Preferences.setInteger("encountersUntilSRChoice", 11 - Math.max(currentTurns - lastNC, 0));
   }
 }

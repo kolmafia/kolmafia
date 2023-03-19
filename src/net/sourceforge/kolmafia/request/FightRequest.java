@@ -94,6 +94,7 @@ import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.RufusManager;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.StillSuitManager;
 import net.sourceforge.kolmafia.session.TrainsetManager;
@@ -2163,6 +2164,7 @@ public class FightRequest extends GenericRequest {
         case AdventurePool.SHADOW_RIFT -> {
           Preferences.increment("_shadowRiftCombats");
           MonsterStatusTracker.recalculateOriginalStats();
+          RufusManager.handleShadowRiftFight(monster);
         }
       }
 
