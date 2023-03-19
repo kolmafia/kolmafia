@@ -22,18 +22,6 @@ public class ScriptManager {
   private ScriptManager() {}
 
   private static class ScriptFactory {
-    public static Script fromJSON(JSONObject jObj) throws JSONException {
-      String name = jObj.getString("name");
-      String repo = jObj.getString("repo");
-      String author = jObj.getString("author");
-      String category = jObj.getString("category");
-      String shortDesc = jObj.getString("shortDesc");
-      String longDesc = jObj.getString("longDesc");
-      String forumThread = jObj.getString("forumThread");
-
-      return new Script(name, author, shortDesc, repo, longDesc, category, forumThread);
-    }
-
     public static Script fromFile(File scriptFolder) throws SVNException, JSONException {
       // convert the folder name to a repo.  Then see if there's a matching entry in the repo file.
 
@@ -45,9 +33,7 @@ public class ScriptManager {
         return fromUnknown(repo, scriptFolder);
       }
 
-      Script s = fromJSON(ob);
-      s.setScriptFolder(scriptFolder);
-      return s;
+      return new Script(ob, scriptFolder);
     }
 
     private static Script fromUnknown(SVNURL repo, File scriptFolder) {
@@ -150,7 +136,7 @@ public class ScriptManager {
               "The JSON input file was not properly formatted: " + next.toString());
         }
 
-        Script script = ScriptFactory.fromJSON(jNext);
+        Script script = new Script(jNext);
 
         // check uniqueness - if we've already installed the script, leave it out.
         SVNURL jRepo = SVNURL.parseURIEncoded(script.getRepo());

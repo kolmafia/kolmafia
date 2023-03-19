@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.File;
+import org.json.JSONObject;
 
 public class Script implements Comparable<Script> {
   protected String scriptName;
@@ -12,23 +13,19 @@ public class Script implements Comparable<Script> {
   protected String forumThread;
   protected File scriptFolder = null;
 
-  public Script() {}
+  public Script(JSONObject jObj) {
+    this.scriptName = jObj.optString("name");
+    this.repo = jObj.optString("repo");
+    this.authors = jObj.optString("author");
+    this.category = jObj.optString("category");
+    this.shortDesc = jObj.optString("shortDesc");
+    this.longDesc = jObj.optString("longDesc");
+    this.forumThread = jObj.optString("forumThread");
+  }
 
-  public Script(
-      String name,
-      String authors,
-      String shortDesc,
-      String repo,
-      String longDesc,
-      String category,
-      String forumThread) {
-    this.scriptName = name;
-    this.authors = authors;
-    this.shortDesc = shortDesc;
-    this.category = category;
-    this.repo = repo;
-    this.longDesc = longDesc;
-    this.forumThread = forumThread;
+  public Script(JSONObject jObj, File scriptFolder) {
+    this(jObj);
+    this.scriptFolder = scriptFolder;
   }
 
   public Script(String name, String repo, File scriptFolder) {
@@ -72,10 +69,6 @@ public class Script implements Comparable<Script> {
 
   public boolean isInstalled() {
     return scriptFolder != null;
-  }
-
-  public void setScriptFolder(File scriptFolder) {
-    this.scriptFolder = scriptFolder;
   }
 
   public File getScriptFolder() {
