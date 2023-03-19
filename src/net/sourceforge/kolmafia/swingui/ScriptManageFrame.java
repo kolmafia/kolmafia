@@ -33,7 +33,6 @@ public class ScriptManageFrame extends GenericPanelFrame {
 
   static {
     ScriptManager.updateRepoScripts(false);
-    ScriptManager.updateInstalledScripts();
   }
 
   private static class ScriptManageTable extends ShowDescriptionTable<Script> {
@@ -249,7 +248,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
 
     @Override
     public void actionConfirmed() {
-      ScriptManager.updateInstalledScripts();
+      ScriptManager.updateRepoScripts(false);
     }
 
     @Override

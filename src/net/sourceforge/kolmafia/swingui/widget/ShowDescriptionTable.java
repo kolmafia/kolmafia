@@ -923,7 +923,6 @@ public class ShowDescriptionTable<E> extends JXTable {
                   return;
                 }
                 ScriptManager.updateRepoScripts(false);
-                ScriptManager.updateInstalledScripts();
               }
             });
       }
@@ -947,7 +946,7 @@ public class ShowDescriptionTable<E> extends JXTable {
             new Runnable() {
               @Override
               public void run() {
-                File deleteMe = s.getScriptFolder();
+                File deleteMe = s.getScriptFolder().toFile();
                 SVNManager.deleteInstalledProject(deleteMe);
                 if (!deleteMe.exists()) {
                   ScriptManager.getInstalledScripts().remove(ob);
@@ -993,7 +992,7 @@ public class ShowDescriptionTable<E> extends JXTable {
           new Runnable() {
             @Override
             public void run() {
-              ScriptManager.updateInstalledScripts();
+              ScriptManager.updateRepoScripts(false);
             }
           });
     }
@@ -1016,7 +1015,7 @@ public class ShowDescriptionTable<E> extends JXTable {
               @Override
               public void run() {
                 SVNManager.doUpdate();
-                ScriptManager.updateInstalledScripts();
+                ScriptManager.updateRepoScripts(false);
               }
             });
       } else {
@@ -1026,14 +1025,14 @@ public class ShowDescriptionTable<E> extends JXTable {
               public void run() {
                 Object ob = UpdateScriptRunnable.this.table.getValueAt(table.getSelectedRow(), 0);
 
-                if (ob instanceof Script) {
+                if (ob instanceof Script s) {
                   try {
-                    SVNManager.doUpdate(SVNURL.parseURIEncoded(((Script) ob).getRepo()));
+                    SVNManager.doUpdate(SVNURL.parseURIEncoded(s.getRepo()));
                   } catch (SVNException e) {
                     StaticEntity.printStackTrace(e);
                     return;
                   }
-                  ScriptManager.updateInstalledScripts();
+                  ScriptManager.updateRepoScripts(false);
                 }
               }
             });

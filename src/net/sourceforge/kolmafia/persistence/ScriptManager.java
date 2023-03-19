@@ -1,10 +1,12 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -12,6 +14,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import org.eclipse.jgit.api.Git;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,50 +23,6 @@ import org.tmatesoft.svn.core.SVNURL;
 
 public class ScriptManager {
   private ScriptManager() {}
-
-  private static class ScriptFactory {
-    public static Script fromFile(File scriptFolder) throws SVNException, JSONException {
-      // convert the folder name to a repo.  Then see if there's a matching entry in the repo file.
-
-      SVNURL repo = SVNManager.workingCopyToSVNURL(scriptFolder);
-
-      JSONObject ob = repoToJSONObject(repo);
-
-      if (ob == null) {
-        return fromUnknown(repo, scriptFolder);
-      }
-
-      return new Script(ob, scriptFolder);
-    }
-
-    private static Script fromUnknown(SVNURL repo, File scriptFolder) {
-      // we can still fetch info on the repo...
-      String uuid = SVNManager.getFolderUUIDNoRemote(repo);
-
-      return new Script(uuid, repo.toString(), scriptFolder);
-    }
-
-    private static JSONObject repoToJSONObject(SVNURL repo) throws JSONException, SVNException {
-      JSONArray jArray = getJSONArray();
-
-      if (jArray == null) return null;
-
-      for (int i = 0; i < jArray.length(); i++) {
-        Object next = jArray.get(i);
-        if (!(next instanceof JSONObject jNext)) {
-          throw new JSONException(
-              "The JSON input file was not properly formatted: " + next.toString());
-        }
-
-        SVNURL fromRepo = SVNURL.parseURIEncoded(jNext.getString("repo"));
-
-        if (repo.equals(fromRepo)) {
-          return jNext;
-        }
-      }
-      return null;
-    }
-  }
 
   private static final LockableListModel<Script> installedScripts = new LockableListModel<>();
   private static final LockableListModel<Script> repoScripts = new LockableListModel<>();
@@ -74,7 +33,6 @@ public class ScriptManager {
   public static void updateRepoScripts(boolean force) {
     File repoFile = KoLConstants.SVN_REPO_FILE;
     if (force || !repoFile.exists() || !Preferences.getBoolean("_svnRepoFileFetched")) {
-      repoScripts.clear();
       FileUtilities.downloadFile(REPO_FILE_LOCATION, KoLConstants.SVN_REPO_FILE, true);
       Preferences.setBoolean("_svnRepoFileFetched", true);
     }
@@ -109,67 +67,76 @@ public class ScriptManager {
   }
 
   private static void updateRepoState(JSONArray jArray) {
+    repoScripts.clear();
+    installedScripts.clear();
     if (jArray == null) return;
 
-    ArrayList<Script> scripts = new ArrayList<>();
-    Set<SVNURL> alreadyInstalled = new HashSet<>();
+    HashSet<Path> knownScripts = new HashSet<>();
 
-    File[] currentWCs = KoLConstants.SVN_LOCATION.listFiles();
+    for (var obj : jArray) {
+      if (!(obj instanceof JSONObject jNext)) {
+        throw new JSONException(
+            "The JSON input file was not properly formatted: " + obj.toString());
+      }
 
-    if (currentWCs != null) {
-      for (File f : currentWCs) {
-        if (f.getName().startsWith(".")) continue;
-
-        try {
-          alreadyInstalled.add(SVNManager.workingCopyToSVNURL(f));
-        } catch (SVNException e) {
-          StaticEntity.printStackTrace(e);
-        }
+      Script script = new Script(jNext);
+      script.checkInstalled();
+      if (script.isInstalled()) {
+        installedScripts.add(script);
+        knownScripts.add(script.getScriptFolder());
+      } else {
+        repoScripts.add(script);
       }
     }
 
-    try {
-      for (int i = 0; i < jArray.length(); i++) {
-        Object next = jArray.get(i);
-        if (!(next instanceof JSONObject jNext)) {
-          throw new JSONException(
-              "The JSON input file was not properly formatted: " + next.toString());
-        }
-
-        Script script = new Script(jNext);
-
-        // check uniqueness - if we've already installed the script, leave it out.
-        SVNURL jRepo = SVNURL.parseURIEncoded(script.getRepo());
-        if (!alreadyInstalled.contains(jRepo)) scripts.add(script);
-      }
-    } catch (Exception e) {
-      StaticEntity.printStackTrace(e);
-      return;
+    try (Stream<Path> paths = Files.list(KoLConstants.SVN_LOCATION.toPath())) {
+      paths
+          .filter(Files::isDirectory)
+          .filter(p -> !knownScripts.contains(p))
+          .forEach(
+              p -> {
+                SVNURL repo;
+                try {
+                  repo = SVNManager.workingCopyToSVNURL(p.toFile());
+                } catch (SVNException e) {
+                  // not an SVN repo, continue
+                  return;
+                }
+                installedScripts.add(new Script(p.getFileName().toString(), repo.toString(), p));
+              });
+    } catch (IOException e) {
+      // failed to list folders, just continue
     }
 
-    repoScripts.clear();
-    repoScripts.addAll(scripts);
+    try (Stream<Path> paths = Files.list(KoLConstants.GIT_LOCATION.toPath())) {
+      paths
+          .filter(Files::isDirectory)
+          .filter(p -> !knownScripts.contains(p))
+          .forEach(
+              p -> {
+                try (Git git = Git.open(p.toFile())) {
+                  var repo = git.getRepository();
+                  installedScripts.add(
+                      new Script(
+                          p.getFileName().toString(),
+                          repo.getConfig().getString("remote", "origin", "url"),
+                          repo.getBranch(),
+                          p));
+                } catch (IOException e) {
+                  // not a git repo, continue
+                  return;
+                }
+              });
+    } catch (IOException e) {
+      // failed to list folders, just continue
+    }
+
+    repoScripts.sort();
+    installedScripts.sort();
   }
 
   public static LockableListModel<Script> getInstalledScripts() {
     return installedScripts;
-  }
-
-  public static void updateInstalledScripts() {
-    installedScripts.clear();
-    File[] scripts = KoLConstants.SVN_LOCATION.listFiles();
-
-    if (scripts == null) return;
-
-    for (File script : scripts) {
-      if (script.getName().startsWith(".")) continue;
-
-      try {
-        installedScripts.add(ScriptFactory.fromFile(script));
-      } catch (Exception e) {
-        StaticEntity.printStackTrace(e);
-      }
-    }
   }
 
   public static LockableListModel<Script> getRepoScripts() {
