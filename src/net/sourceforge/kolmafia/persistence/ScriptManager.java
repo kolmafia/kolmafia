@@ -11,10 +11,10 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import org.eclipse.jgit.api.Git;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,18 +114,14 @@ public class ScriptManager {
           .filter(p -> !knownScripts.contains(p))
           .forEach(
               p -> {
-                try (Git git = Git.open(p.toFile())) {
-                  var repo = git.getRepository();
-                  installedScripts.add(
-                      new Script(
-                          p.getFileName().toString(),
-                          repo.getConfig().getString("remote", "origin", "url"),
-                          repo.getBranch(),
-                          p));
-                } catch (IOException e) {
+                var details = GitManager.getRepoDetails(p);
+                if (details == null) {
                   // not a git repo, continue
                   return;
                 }
+                installedScripts.add(
+                    new Script(
+                        p.getFileName().toString(), details.repoUrl(), details.branchName(), p));
               });
     } catch (IOException e) {
       // failed to list folders, just continue

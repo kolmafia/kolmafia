@@ -618,4 +618,17 @@ public class GitManager extends ScriptManager {
       return false;
     }
   }
+
+  public record RepoDetails(String repoUrl, String branchName) {}
+
+  public static RepoDetails getRepoDetails(Path p) {
+    try (Git git = Git.open(p.toFile())) {
+      var repo = git.getRepository();
+      return new RepoDetails(
+          repo.getConfig().getString("remote", "origin", "url"), repo.getBranch());
+    } catch (IOException e) {
+      // not a git repo
+      return null;
+    }
+  }
 }
