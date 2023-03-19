@@ -1,12 +1,15 @@
 package net.sourceforge.kolmafia.persistence;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import org.json.JSONObject;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNURL;
 
 public class Script implements Comparable<Script> {
   public enum Type {
@@ -23,7 +26,7 @@ public class Script implements Comparable<Script> {
   protected String branch;
   protected String longDesc;
   protected String forumThread;
-  protected Path scriptFolder;
+  protected Path scriptFolder = null;
 
   public Script(JSONObject jObj) {
     this.scriptName = jObj.getString("name");
@@ -127,6 +130,48 @@ public class Script implements Comparable<Script> {
         }
         this.scriptFolder = potentialPath;
       }
+    }
+  }
+
+  public boolean install() {
+    if (this.type == Type.GIT) {
+      return GitManager.clone(repo, branch);
+    } else {
+      String installMe = getRepo();
+      try {
+        SVNManager.doCheckout(SVNURL.parseURIEncoded(installMe));
+        return true;
+      } catch (SVNException e) {
+        StaticEntity.printStackTrace(e);
+        return false;
+      }
+    }
+  }
+
+  public boolean update() {
+    if (this.type == Type.GIT) {
+      return GitManager.update(getScriptName());
+    } else {
+      try {
+        SVNManager.doUpdate(SVNURL.parseURIEncoded(getRepo()));
+        return true;
+      } catch (SVNException e) {
+        StaticEntity.printStackTrace(e);
+        return false;
+      }
+    }
+  }
+
+  public boolean delete() {
+    if (!isInstalled()) {
+      return false;
+    }
+    if (this.type == Type.GIT) {
+      return GitManager.delete(getScriptName());
+    } else {
+      File deleteMe = getScriptFolder().toFile();
+      SVNManager.deleteInstalledProject(deleteMe);
+      return !deleteMe.exists();
     }
   }
 }

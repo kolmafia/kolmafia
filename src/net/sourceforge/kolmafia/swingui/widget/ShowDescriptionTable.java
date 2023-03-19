@@ -9,7 +9,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -55,6 +54,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -68,8 +68,6 @@ import net.sourceforge.kolmafia.webui.RelayLoader;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.ColumnControlButton;
 import org.jdesktop.swingx.table.TableColumnExt;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
 
 /*
 ShowDescriptionTable is a variant of ShowDescriptionList that extends a JXTable instead of a JList.
@@ -910,19 +908,14 @@ public class ShowDescriptionTable<E> extends JXTable {
       int row = this.table.getSelectedRow();
       final Object ob = this.table.getValueAt(row, 0);
 
-      if (ob instanceof Script) {
+      if (ob instanceof Script s) {
         RequestThread.postRequest(
             new Runnable() {
               @Override
               public void run() {
-                String installMe = ((Script) ob).getRepo();
-                try {
-                  SVNManager.doCheckout(SVNURL.parseURIEncoded(installMe));
-                } catch (SVNException e) {
-                  StaticEntity.printStackTrace(e);
-                  return;
+                if (s.install()) {
+                  ScriptManager.updateRepoScripts(false);
                 }
-                ScriptManager.updateRepoScripts(false);
               }
             });
       }
@@ -946,9 +939,7 @@ public class ShowDescriptionTable<E> extends JXTable {
             new Runnable() {
               @Override
               public void run() {
-                File deleteMe = s.getScriptFolder().toFile();
-                SVNManager.deleteInstalledProject(deleteMe);
-                if (!deleteMe.exists()) {
+                if (s.delete()) {
                   ScriptManager.getInstalledScripts().remove(ob);
                   ScriptManager.updateRepoScripts(false);
                 }
@@ -970,12 +961,12 @@ public class ShowDescriptionTable<E> extends JXTable {
       int row = this.table.getSelectedRow();
       final Object ob = this.table.getValueAt(row, 0);
 
-      if (ob instanceof Script) {
+      if (ob instanceof Script s) {
         RequestThread.postRequest(
             new Runnable() {
               @Override
               public void run() {
-                String ft = ((Script) ob).getForumThread();
+                String ft = s.getForumThread();
                 if (ft != null && !ft.equals("")) RelayLoader.openSystemBrowser(ft);
               }
             });
@@ -1015,6 +1006,7 @@ public class ShowDescriptionTable<E> extends JXTable {
               @Override
               public void run() {
                 SVNManager.doUpdate();
+                GitManager.updateAll();
                 ScriptManager.updateRepoScripts(false);
               }
             });
@@ -1026,13 +1018,9 @@ public class ShowDescriptionTable<E> extends JXTable {
                 Object ob = UpdateScriptRunnable.this.table.getValueAt(table.getSelectedRow(), 0);
 
                 if (ob instanceof Script s) {
-                  try {
-                    SVNManager.doUpdate(SVNURL.parseURIEncoded(s.getRepo()));
-                  } catch (SVNException e) {
-                    StaticEntity.printStackTrace(e);
-                    return;
+                  if (s.update()) {
+                    ScriptManager.updateRepoScripts(false);
                   }
-                  ScriptManager.updateRepoScripts(false);
                 }
               }
             });

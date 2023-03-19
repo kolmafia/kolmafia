@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -24,8 +25,8 @@ import org.tmatesoft.svn.core.SVNURL;
 public class ScriptManager {
   private ScriptManager() {}
 
-  private static final LockableListModel<Script> installedScripts = new LockableListModel<>();
-  private static final LockableListModel<Script> repoScripts = new LockableListModel<>();
+  private static final SortedListModel<Script> installedScripts = new SortedListModel<>();
+  private static final SortedListModel<Script> repoScripts = new SortedListModel<>();
   private static final String REPO_FILE_LOCATION =
       // this will change
       "https://raw.githubusercontent.com/kolmafia/kolmafia/main/data/SVN/svnrepo.json";
@@ -126,9 +127,6 @@ public class ScriptManager {
     } catch (IOException e) {
       // failed to list folders, just continue
     }
-
-    repoScripts.sort();
-    installedScripts.sort();
   }
 
   public static LockableListModel<Script> getInstalledScripts() {
