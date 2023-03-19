@@ -154,7 +154,8 @@ public class Script implements Comparable<Script> {
 
   public boolean update() {
     if (this.type == Type.GIT) {
-      return GitManager.update(getScriptName());
+      var id = GitManager.getRepoId(repo, branch);
+      return GitManager.update(id);
     } else {
       try {
         SVNManager.doUpdate(SVNURL.parseURIEncoded(getRepo()));
@@ -171,7 +172,8 @@ public class Script implements Comparable<Script> {
       return false;
     }
     if (this.type == Type.GIT) {
-      return GitManager.delete(getScriptName());
+      var id = GitManager.getRepoId(repo, branch);
+      return GitManager.delete(id);
     } else {
       File deleteMe = getScriptFolder().toFile();
       SVNManager.deleteInstalledProject(deleteMe);
