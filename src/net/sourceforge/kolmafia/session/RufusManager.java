@@ -496,8 +496,7 @@ public class RufusManager {
   // Like a Loded Stone is a superlikely, per cannonfire
 
   public static void handleShadowRiftFight(MonsterData monster) {
-    // All fights - including bosses - advance turns in zone
-    int currentTurns = Preferences.increment("shadowRiftTotalTurns", 1);
+    int currentTurns = Preferences.getInteger("shadowRiftTotalTurns");
     int lastNC = Preferences.getInteger("shadowRiftLastNC");
     switch (monster.getName()) {
       case "shadow spire",
@@ -511,6 +510,9 @@ public class RufusManager {
         lastNC = currentTurns;
       }
     }
+
+    // All fights - including bosses - advance turns in zone
+    currentTurns = Preferences.increment("shadowRiftTotalTurns", 1);
     // Next NC comes if (turns in zone - last nc) >= 11
     Preferences.setInteger("encountersUntilSRChoice", 11 - Math.max(currentTurns - lastNC, 0));
   }
@@ -528,7 +530,6 @@ public class RufusManager {
       case 1500 -> {
         // Like a Loded Stone
         ResultProcessor.removeItem(ItemPool.RUFUS_SHADOW_LODESTONE);
-        currentTurns = Preferences.increment("shadowRiftTotalTurns", 1);
       }
     }
     Preferences.setInteger("encountersUntilSRChoice", 11 - Math.max(currentTurns - lastNC, 0));
