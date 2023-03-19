@@ -388,7 +388,9 @@ public class TableCellFactory {
       };
     } else if (originalModel == ScriptManager.getInstalledScripts()
         || originalModel == ScriptManager.getRepoScripts()) {
-      return new String[] {"Script Name", "Authors", "Description", "Category", "Repo", "Branch", "Type"};
+      return new String[] {
+        "Script Name", "Authors", "Description", "Category", "Repo", "Branch", "Type"
+      };
     }
     return new String[] {"not implemented"};
   }
