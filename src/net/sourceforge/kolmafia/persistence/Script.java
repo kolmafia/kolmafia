@@ -63,7 +63,7 @@ public class Script implements Comparable<Script> {
 
   @Override
   public int compareTo(Script o) {
-    return this.scriptName.compareTo(o.getScriptName());
+    return this.scriptName.compareToIgnoreCase(o.getScriptName());
   }
 
   public Type getType() {
