@@ -42,8 +42,8 @@ void loop8(location loc, string color)
 
     void print_range(int low, int high, int y)
     {
-	int lowx = low == 0 ? 0 : low - base;
-	int highx = high - base;
+	string lowx = low == 0 ? "000" : to_string(low);
+	string highx = to_string(high);
 	print(lowx + "-" + highx + " -> " + y);
     }
 
