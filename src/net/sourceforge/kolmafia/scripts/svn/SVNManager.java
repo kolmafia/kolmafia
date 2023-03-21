@@ -1455,4 +1455,9 @@ public class SVNManager extends ScriptManager {
 
   // some functions taken/adapted from http://wiki.svnkit.com/Managing_A_Working_Copy
   // there are a number of other examples there.
+
+  public static String getRepoId(String repoUrl) throws SVNException {
+    SVNURL repo = SVNURL.parseURIEncoded(repoUrl);
+    return SVNManager.getFolderUUID(repo);
+  }
 }
