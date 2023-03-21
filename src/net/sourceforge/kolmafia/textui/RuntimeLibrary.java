@@ -741,7 +741,6 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
 
-    // DEBUG
     params = new Type[] {DataTypes.LOCATION_TYPE, DataTypes.STRING_TYPE, DataTypes.FLOAT_TYPE};
     functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
 
@@ -4076,7 +4075,6 @@ public abstract class RuntimeLibrary {
     return new Value(base + bonus);
   }
 
-  // DEBUG
   public static Value eight_bit_points(
       ScriptRuntime controller,
       final Value locationValue,
