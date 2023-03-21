@@ -662,7 +662,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @ParameterizedTest
-    @CsvSource({"red, 200", "black, 100"})
+    @CsvSource({"red, 300", "black, 150"})
     void fungusPlains(String color, int points) {
       var cleanups =
           new Cleanups(
@@ -677,7 +677,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @ParameterizedTest
-    @CsvSource({"green, 340", "black, 170"})
+    @CsvSource({"green, 380", "black, 190"})
     void herosField(String color, int points) {
       var cleanups =
           new Cleanups(

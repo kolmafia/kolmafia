@@ -741,6 +741,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
 
+    params = new Type[] {DataTypes.LOCATION_TYPE, DataTypes.STRING_TYPE, DataTypes.FLOAT_TYPE};
+    functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
+
     params = new Type[] {DataTypes.INT_TYPE};
     functions.add(new LibraryFunction("get_ccs_action", DataTypes.STRING_TYPE, params));
 
@@ -4036,34 +4039,57 @@ public abstract class RuntimeLibrary {
     return RuntimeLibrary.continueValue();
   }
 
-  private record EightBitZone(DoubleModifier mod, int points, String color) {}
+  private record EightBitZone(DoubleModifier mod, int base, String color) {}
 
   private static final Map<Integer, EightBitZone> EIGHT_BIT_ZONES =
       Map.ofEntries(
           Map.entry(
-              AdventurePool.FUNGUS_PLAINS, new EightBitZone(DoubleModifier.MEATDROP, 2, "red")),
+              AdventurePool.FUNGUS_PLAINS, new EightBitZone(DoubleModifier.MEATDROP, 150, "red")),
           Map.entry(
-              AdventurePool.HEROS_FIELD, new EightBitZone(DoubleModifier.ITEMDROP, 3, "green")),
+              AdventurePool.HEROS_FIELD, new EightBitZone(DoubleModifier.ITEMDROP, 100, "green")),
           Map.entry(
-              AdventurePool.VANYAS_CASTLE, new EightBitZone(DoubleModifier.INITIATIVE, 1, "black")),
+              AdventurePool.VANYAS_CASTLE,
+              new EightBitZone(DoubleModifier.INITIATIVE, 300, "black")),
           Map.entry(
               AdventurePool.MEGALO_CITY,
-              new EightBitZone(DoubleModifier.DAMAGE_ABSORPTION, 1, "blue")));
+              new EightBitZone(DoubleModifier.DAMAGE_ABSORPTION, 300, "blue")));
 
   public static Value eight_bit_points(ScriptRuntime controller, final Value locationValue) {
     var location = (KoLAdventure) locationValue.rawValue();
-
-    var zone = EIGHT_BIT_ZONES.getOrDefault(location.getSnarfblat(), null);
-
+    EightBitZone zone = EIGHT_BIT_ZONES.getOrDefault(location.getSnarfblat(), null);
     if (zone == null) {
       return DataTypes.ZERO_VALUE;
     }
 
-    var multiplier = zone.color().equals(Preferences.getString("8BitColor")) ? 1 : 0.5;
-    var modValue = KoLCharacter.currentNumericModifier(zone.mod());
-    var bonus = (modValue - 300) * zone.points();
+    String color = Preferences.getString("8BitColor");
+    double modValue = KoLCharacter.currentNumericModifier(zone.mod());
 
-    return new Value((int) (multiplier * (100 + Math.min(300, Math.max(0, bonus)))));
+    return eight_bit_points(zone, color, modValue);
+  }
+
+  public static Value eight_bit_points(EightBitZone zone, String color, double modValue) {
+    boolean isBonus = zone.color().equals(color);
+    int base = isBonus ? 100 : 50;
+    int divisor = isBonus ? 10 : 20;
+    long bonus = Math.round(Math.min(300, Math.max(0, modValue - zone.base)) / divisor) * 10;
+    return new Value(base + bonus);
+  }
+
+  public static Value eight_bit_points(
+      ScriptRuntime controller,
+      final Value locationValue,
+      final Value colorValue,
+      final Value modValue) {
+    var location = (KoLAdventure) locationValue.rawValue();
+    EightBitZone zone = EIGHT_BIT_ZONES.getOrDefault(location.getSnarfblat(), null);
+    if (zone == null) {
+      return DataTypes.ZERO_VALUE;
+    }
+
+    String color = RuntimeLibrary.cleanString(colorValue);
+    double mod = modValue.floatValue();
+
+    return eight_bit_points(zone, color, mod);
   }
 
   public static Value get_ccs_action(ScriptRuntime controller, final Value index) {
