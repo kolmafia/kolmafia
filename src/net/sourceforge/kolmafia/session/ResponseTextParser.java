@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
+import net.sourceforge.kolmafia.request.LatteRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -339,6 +340,7 @@ public class ResponseTextParser {
           case ItemPool.DESIGNER_SWEATPANTS -> ItemDatabase.parseDesignerSweatpants(responseText);
           case ItemPool.POWERFUL_GLOVE -> ItemDatabase.parsePowerfulGlove(responseText);
           case ItemPool.RING -> ItemDatabase.parseRing(responseText);
+          case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
           default -> changesFromTimeToTime = false;
         }
 

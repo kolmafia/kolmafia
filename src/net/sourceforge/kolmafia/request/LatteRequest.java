@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -800,7 +801,7 @@ public class LatteRequest extends GenericRequest {
     Preferences.setString("latteUnlocks", unlocks.toString());
   }
 
-  public static final void parseName(final String name) {
+  private static final void parseName(final String name) {
     String first = null;
     String second = null;
     String third = null;
@@ -831,5 +832,10 @@ public class LatteRequest extends GenericRequest {
 
       Preferences.setString("latteIngredients", first + ", " + second + ", " + third);
     }
+  }
+
+  public static void parseDescription(final String responseText) {
+    String name = DebugDatabase.parseName(responseText);
+    parseName(name);
   }
 }
