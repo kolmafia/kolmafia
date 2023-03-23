@@ -1687,7 +1687,7 @@
 30005	C Sharp Eyes	bigeyes.gif	0	0	0	5
 30006	Air of Mystery	bigqmark.gif	0	0	0	6
 30007	Rhythmic Precision	drummachine.gif	0	0	0	7
-30008	Perfect Embrouchre	lips.gif	0	0	0	8
+30008	Perfect Embouchure	lips.gif	0	0	0	8
 30009	Improv Muscles	strboost2.gif	0	0	0	9
 30010	Virtuosity	notes.gif	0	0	0	2
 30011	Rhythm In Your Blood	bassdrum.gif	0	0	0	11
