@@ -8168,7 +8168,7 @@ Skill	Pathological Greed	Meat Drop: +70
 Skill	Peccorino Bravado	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Skill	Pectoral Muscles	Muscle: +20
 Skill	Perceive Soul	Maximum HP: -15
-# Perfect Embrouchre: Your musical skills deal 33% more damage
+# Perfect Embouchure: Your musical skills deal 33% more damage
 Skill	Pinchable Nose	Stench Resistance: +1
 Skill	Piercing Gaze	Maximum HP: -20
 Skill	Pinky Fingers	Pickpocket Chance: +10
