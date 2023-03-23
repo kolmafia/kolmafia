@@ -801,7 +801,7 @@ public class LatteRequest extends GenericRequest {
     Preferences.setString("latteUnlocks", unlocks.toString());
   }
 
-  private static final void parseName(final String name) {
+  public static final void parseName(final String name) {
     String first = null;
     String second = null;
     String third = null;
@@ -830,11 +830,11 @@ public class LatteRequest extends GenericRequest {
         continue;
       }
 
-      Preferences.setString("latteIngredients", first + ", " + second + ", " + third);
+      Preferences.setString("latteIngredients", first + "," + second + "," + third);
     }
   }
 
-  public static void parseDescription(final String responseText) {
+  public static final void parseDescription(final String responseText) {
     String name = DebugDatabase.parseName(responseText);
     parseName(name);
   }
