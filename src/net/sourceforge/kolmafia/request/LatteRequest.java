@@ -829,9 +829,8 @@ public class LatteRequest extends GenericRequest {
         if (first != null && second != null && third != null) break;
         continue;
       }
-
-      Preferences.setString("latteIngredients", first + "," + second + "," + third);
     }
+    Preferences.setString("latteIngredients", first + "," + second + "," + third);
   }
 
   public static final void parseDescription(final String responseText) {
