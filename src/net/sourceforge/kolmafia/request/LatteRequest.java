@@ -682,6 +682,7 @@ public class LatteRequest extends GenericRequest {
       Preferences.setBoolean("_latteBanishUsed", false);
       Preferences.setBoolean("_latteCopyUsed", false);
       Preferences.setBoolean("_latteDrinkUsed", false);
+      Preferences.setString("latteIngredients", first + "," + second + "," + third);
     }
   }
 
