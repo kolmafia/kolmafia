@@ -328,6 +328,7 @@ public class Preferences {
         "lastShadowForgeUnlockAdventure",
         "lastTrainsetConfiguration",
         "lastZapperWandExplosionDay",
+        "latteIngredients",
         "latteModifier",
         "latteUnlocks",
         "leafletCompleted",
