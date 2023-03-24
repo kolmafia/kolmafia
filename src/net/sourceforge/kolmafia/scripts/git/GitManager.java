@@ -435,14 +435,21 @@ public class GitManager extends ScriptManager {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to sync project " + folder + ": " + e);
       return false;
     }
+    IOException lastError = null;
     for (var absPath : toAdd) {
       try {
         var toRel = root.relativize(absPath);
         copyPath(absPath, toRel);
       } catch (IOException e) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to sync project " + folder + ": " + e);
-        return false;
+        // other files might succeed, so keep going
+        lastError = e;
+        continue;
       }
+    }
+    if (lastError != null) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "Failed to sync project " + folder + ": " + lastError);
+      return false;
     }
     var deps = root.resolve(DEPENDENCIES);
     if (Files.exists(deps)) {
