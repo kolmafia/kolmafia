@@ -15,6 +15,7 @@
 package net.sourceforge.kolmafia.scripts.svn;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -839,7 +840,7 @@ public class SVNManager extends ScriptManager {
 
     if (rebase == null) return;
 
-    if (rebase.exists()) {
+    if (rebase.exists() && !Files.isSymbolicLink(rebase.toPath())) {
       String rerebase = FileUtilities.getRelativePath(KoLConstants.ROOT_LOCATION, rebase);
       if (rebase.delete()) {
         RequestLogger.printLine(rerebase + " => DELETED");
@@ -1218,7 +1219,7 @@ public class SVNManager extends ScriptManager {
         // do not try to delete the rebase of hidden folders such as .svn!
         File rebase = getRebase(relpath);
 
-        if (rebase != null) {
+        if (rebase != null && !Files.isSymbolicLink(rebase.toPath())) {
           String rerebase = FileUtilities.getRelativePath(KoLConstants.ROOT_LOCATION, rebase);
           if (rebase.delete()) {
             RequestLogger.printLine(rerebase + " => DELETED");
