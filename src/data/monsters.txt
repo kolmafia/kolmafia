@@ -454,7 +454,7 @@ monstrous boiler	1556	boiler.gif	Atk: 134 Def: 144 HP: 160 Init: -10000 P: const
 Monty Basingstoke-Pratt, IV	517	monty.gif	NOCOPY Atk: 195 Def: 175 HP: 240 Init: 40 Meat: 200 P: orc E: sleaze	natty blue ascot (100)	white class ring (30)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 mud turtle	1351	swampturtle.gif	Atk: 48 Def: 56 HP: 56 Init: 20 Meat: 30 P: beast Article: a	fine aged cheddarwurst (0)	muddy pirate hat (0)	turtle mud (c0)
 Muff	536	muff.gif	Atk: 153 Def: 137 HP: 150 Init: 70 P: constellation ED: sleaze EA: hot EA: sleaze Article: The	line (30)	line (30)	star (30)
-musical fruit bat	2155	fruitbat2.gif	Atk: 19 Def: 20 HP: 18 Init: 60 Meat: 30 P: beast Article: a	sonar-in-a-biscuit (10)	grapefruit (20)	grapes (20)	lemon
+musical fruit bat	2155	fruitbat2.gif	Atk: 19 Def: 20 HP: 18 Init: 60 Meat: 30 P: beast Article: a	sonar-in-a-biscuit (10)	grapefruit (20)	grapes (20)	lemon (0)
 muscular mushroom guy	1802	mush_beefy.gif	Atk: 30 Def: 30 HP: 20 Init: 25 P: plant Article: a	veiny spore pod (50)	stinky mushroom (20)
 Naughty Sorceress	243	sorcform1.gif	BOSS NOCOPY Atk: 190 Def: 171 HP: 400 Exp: 0 Init: 10000 P: dude Item: 25 Skill: 50 Article: The
 Naughty Sorceress (2)	244	sorcblob.gif	BOSS NOCOPY Atk: 205 Def: 184 HP: 600 Exp: 0 Init: 10000 P: dude Item: 25 Skill: 50 Article: The
@@ -495,7 +495,7 @@ pair of burnouts	1578	stonebros.gif	Atk: 34 Def: 30 HP: 25 Init: -10000 Meat: 15
 panicking Knott Yeti	1228	yeti.gif	NOCOPY Atk: 105 Def: 92 HP: 90 Init: 60 Meat: 200 P: beast ED: cold EA: cold EA: stench Article: a	yeti fur (30)
 Panty Raider Frat Boy	421	warfratpr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 P: orc E: sleaze Article: a	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 paper towelgeist	374	ptowels.gif	Atk: 21 Def: 18 HP: 22 Init: 30 P: undead Article: a	cardboard katana (5)
-party skelteon	2154	partyskeleton.gif	Atk: 52 Def: 49 HP: 55 Init: 50 P: undead ED: spooky EA: cold EA: hot EA: sleaze EA: spooky Article: a	skeleton bone	loose teeth	margarita	martini	monkey wrench	salty dog	screwdriver	strawberry daiquiri	strawberry wine	tequila sunrise	vodka martini	whiskey and soda	whiskey sour	wine spritzer
+party skelteon	2154	partyskeleton.gif	Atk: 52 Def: 49 HP: 55 Init: 50 P: undead ED: spooky EA: cold EA: hot EA: sleaze EA: spooky Article: a	skeleton bone (0)	loose teeth (0)	margarita (c100)	martini (c100)	monkey wrench (c100)	salty dog (c100)	screwdriver (c100)	strawberry daiquiri (c100)	strawberry wine (c100)	tequila sunrise (c100)	vodka martini (c100)	whiskey and soda (c100)	whiskey sour (c100)	wine spritzer (c100)
 Peanut	1376	peanut.gif	NOCOPY Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror Elem: 25	peanut sauce (40)
 pernicious puddle of pesto	659	pestopuddle.gif	NOCOPY Atk: 21 Def: 18 HP: 18 Init: 20 P: slime Article: a	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 perpendicular bat	47	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 30 P: beast Article: a	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)	perpendicular guano (c0)	guancertina (a0)
@@ -2008,17 +2008,17 @@ LOV Engineer	2010	lovengineer.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10
 LOV Equivocator	2011	lovequivocator.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: 500 P: dude Phys: 50 Elem: 50 Article: a	LOV Elixir #9 (p0)
 
 # Spacegate (April 2017)
-hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: a	edible alien plant bit	alien plant fibers	alien plant goo
-large hostile plant	2014	sgplantb1.gif,sgplantb2.gif,sgplantb3.gif,sgplantb4.gif,sgplantb5.gif,sgplantb6.gif,sgplantb7.gif,sgplantb8.gif,sgplantb9.gif,sgplantb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: a	edible alien plant bit	edible alien plant bit	alien plant fibers	alien plant fibers	alien plant goo
-exotic hostile plant	2015	sgplantc1.gif,sgplantc2.gif,sgplantc3.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: an	edible alien plant bit	edible alien plant bit	edible alien plant bit	alien plant fibers	alien plant fibers	alien plant fibers	alien plant goo	alien plant pod
-small hostile animal	2016	sganimala1.gif,sganimala2.gif,sganimala3.gif,sganimala4.gif,sganimala5.gif,sganimala6.gif,sganimala7.gif,sganimala8.gif,sganimala9.gif,sganimala10.gif,sganimala11.gif,sganimala12.gif,sganimala13.gif,sganimala14.gif,sganimala15.gif,sganimala16.gif,sganimala17.gif,sganimala18.gif,sganimala19.gif,sganimala20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast Article: a	alien meat	alien toenails	alien animal goo
-large hostile animal	2017	sganimalb1.gif,sganimalb2.gif,sganimalb3.gif,sganimalb4.gif,sganimalb5.gif,sganimalb6.gif,sganimalb7.gif,sganimalb8.gif,sganimalb9.gif,sganimalb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast EA: stench Article: a	alien meat	alien meat	alien toenails	alien toenails	alien animal goo
-exotic hostile animal	2018	sganimalc1.gif,sganimalc2.gif,sganimalc3.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast EA: stench Article: an	alien meat	alien meat	alien meat	alien toenails	alien toenails	alien toenails	alien animal goo	alien animal milk
-Spant drone	2019	sgspantdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug EA: hot Article: a	spant chitin	spant chitin	spant tendon	spant tendon
-Spant soldier	2020	sgspantwarrior.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug EA: stench Article: a	spant chitin	spant chitin	spant tendon	spant tendon	spant spear
-Murderbot drone	2021	sgmbdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct EA: cold EA: hot Article: a	murderbot component casing	murderbot monofilament	murderbot monofilament	murderbot power cell	murderbot power cell	murderbot memory chip
-Murderbot soldier	2022	sgmb.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct EA: stench Article: a	murderbot component casing	murderbot component casing	murderbot monofilament	murderbot monofilament	murderbot power cell	murderbot power cell	murderbot memory chip	murderbot memory chip	murderbot memory chip	murderbot plasma rifle
-hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: humanoid Article: a
+hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: a	edible alien plant bit (0)	alien plant fibers (0)	alien plant goo (0)
+large hostile plant	2014	sgplantb1.gif,sgplantb2.gif,sgplantb3.gif,sgplantb4.gif,sgplantb5.gif,sgplantb6.gif,sgplantb7.gif,sgplantb8.gif,sgplantb9.gif,sgplantb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: a	edible alien plant bit (0)	edible alien plant bit (0)	alien plant fibers (0)	alien plant fibers (0)	alien plant goo (0)
+exotic hostile plant	2015	sgplantc1.gif,sgplantc2.gif,sgplantc3.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: an	edible alien plant bit (0)	edible alien plant bit (0)	edible alien plant bit (0)	alien plant fibers (0)	alien plant fibers (0)	alien plant fibers (0)	alien plant goo (0)	alien plant pod (c0)
+small hostile animal	2016	sganimala1.gif,sganimala2.gif,sganimala3.gif,sganimala4.gif,sganimala5.gif,sganimala6.gif,sganimala7.gif,sganimala8.gif,sganimala9.gif,sganimala10.gif,sganimala11.gif,sganimala12.gif,sganimala13.gif,sganimala14.gif,sganimala15.gif,sganimala16.gif,sganimala17.gif,sganimala18.gif,sganimala19.gif,sganimala20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast Article: a	alien meat (0)	alien toenails (0)	alien animal goo (0)
+large hostile animal	2017	sganimalb1.gif,sganimalb2.gif,sganimalb3.gif,sganimalb4.gif,sganimalb5.gif,sganimalb6.gif,sganimalb7.gif,sganimalb8.gif,sganimalb9.gif,sganimalb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast EA: stench Article: a	alien meat (0)	alien meat (0)	alien toenails (0)	alien toenails (0)	alien animal goo (0)
+exotic hostile animal	2018	sganimalc1.gif,sganimalc2.gif,sganimalc3.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast EA: stench Article: an	alien meat (0)	alien meat (0)	alien meat (0)	alien toenails (0)	alien toenails (0)	alien toenails (0)	alien animal goo (0)	alien animal milk (c0)
+Spant drone	2019	sgspantdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug EA: hot Article: a	spant chitin (0)	spant chitin (0)	spant tendon (0)	spant tendon (0)
+Spant soldier	2020	sgspantwarrior.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug EA: stench Article: a	spant chitin (0)	spant chitin (0)	spant tendon (0)	spant tendon (0)	spant spear (0)
+Murderbot drone	2021	sgmbdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct EA: cold EA: hot Article: a	murderbot component casing (c100)	murderbot monofilament (c100)	murderbot monofilament (c100)	murderbot power cell (c100)	murderbot power cell (c100)	murderbot memory chip (100)
+Murderbot soldier	2022	sgmb.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct EA: stench Article: a	murderbot component casing (c100)	murderbot component casing (c100)	murderbot monofilament (c100)	murderbot monofilament (c100)	murderbot power cell (c100)	murderbot power cell (c100)	murderbot memory chip (100)	murderbot memory chip (100)	murderbot memory chip (c100)	murderbot plasma rifle (0)
+hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: humanoid Article: a	primitive alien spear (c0)	primitive alien blowgun (c0)	primitive alien loincloth (c0)	primitive alien totem (c0)	primitive alien necklace (c0)
 
 # The following may not actually be a monster, but there is a cycle of images for it
 intelligent alien	-31	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sgaliena5.gif,sgaliena6.gif,sgaliena7.gif,sgaliena8.gif,sgaliena9.gif,sgaliena10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
@@ -2080,7 +2080,7 @@ sausage goblin	2104	sausagegoblin.gif	FREE Scale: [1+2*pref(_sausageFights)] Cap
 
 # PirateRealm (Apr 2019)
 giant crab	2116	pr_crab.gif	Atk: 25 Def: 25 HP: 30 Init: 50 Meat: 150 P: beast EA: sleaze Article: a
-melty army man	2117	pr_armyman.gif	Atk: 30 Def: 20 HP: 30 Init: 50 P: dude ED: stench EA: hot EA: stench Article: a	melty plastic grenade
+melty army man	2117	pr_armyman.gif	Atk: 30 Def: 20 HP: 30 Init: 50 P: dude ED: stench EA: hot EA: stench Article: a	melty plastic grenade (15)
 plastic skeleton	2118	pr_skeleton.gif	Atk: 30 Def: 30 HP: 40 Init: 50 P: undead EA: spooky Article: a
 plastic pirate	2119	pr_piratefigure.gif	Atk: 35 Def: 30 HP: 30 Init: 75 P: construct Article: a
 translucent monkey	2120	pr_monkey.gif	Atk: 30 Def: 30 HP: 40 Init: 75 P: beast EA: hot EA: stench Article: a
@@ -2088,14 +2088,14 @@ giant giant crab	2121	pr_bosscrab.gif	NOCOPY Atk: 80 Def: 80 HP: 200 Init: 50 Me
 toy dinosaur	2123	pr_dinosaur.gif	Atk: 50 Def: 50 HP: 60 Init: 75 P: beast Article: a
 cockroach	2124	pr_cockroach.gif	Atk: 40 Def: 80 HP: 60 Init: 50 Meat: 500 P: bug EA: sleaze Article: a
 vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead Phys: 100 EA: cold EA: hot EA: sleaze EA: spooky EA: stench Article: a
-signal	2126	pr_signal.gif	Atk: 90 Def: 90 HP: 100 Init: 200 P: weird Phys: 50 Elem: 50 Article: a	signal fragment
-tiki idol	2127	pr_tiki.gif	Atk: 90 Def: 110 HP: 100 Init: 50 P: construct ED: sleaze EA: sleaze EA: spooky Article: a	hibiscus petal	huge mint leaf	pineapple slab
-pewter torsohunter	2128	pr_headhunter.gif	Atk: 120 Def: 80 HP: 100 Init: 80 P: construct Article: a	pewter shavings
+signal	2126	pr_signal.gif	Atk: 90 Def: 90 HP: 100 Init: 200 P: weird Phys: 50 Elem: 50 Article: a	signal fragment (0)
+tiki idol	2127	pr_tiki.gif	Atk: 90 Def: 110 HP: 100 Init: 50 P: construct ED: sleaze EA: sleaze EA: spooky Article: a	hibiscus petal (0)	huge mint leaf (0)	pineapple slab (0)
+pewter torsohunter	2128	pr_headhunter.gif	Atk: 120 Def: 80 HP: 100 Init: 80 P: construct Article: a	pewter shavings (5)
 carnivorous plant	2129	pr_plant.gif	Atk: 100 Def: 80 HP: 80 Init: -10000 P: plant Article: a
-strong wind	2130	pr_wind.gif	Atk: 100 Def: 100 HP: 10 Init: 999 P: weird Phys: 100 Elem: 100 Article: a	windicle
+strong wind	2130	pr_wind.gif	Atk: 100 Def: 100 HP: 10 Init: 999 P: weird Phys: 100 Elem: 100 Article: a	windicle (0)
 jungle titan	2131	pr_titan.gif	NOCOPY Atk: 90 Def: 90 HP: 1000 Init: 50 P: dude Article: a
 pirate radio	2132	pr_radio.gif	NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct EA: hot Article: a
-melty freezeface	2133	pr_freezeface.gif	Atk: 80 Def: 80 HP: 100 Init: 100 P: construct ED: cold EA: cold EA: stench Article: a	oversized ice molecule
+melty freezeface	2133	pr_freezeface.gif	Atk: 80 Def: 80 HP: 100 Init: 100 P: construct ED: cold EA: cold EA: stench Article: a	oversized ice molecule (0)
 Red Roger	2134	pr_redroger.gif	NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct	Red Roger's reliquary (n100)
 Glass Jack Hummel	2135	pr_glassjack.gif	NOCOPY Atk: 100 Def: 100 HP: 200 Init: 50 P: construct EA: spooky
 
@@ -2465,11 +2465,11 @@ Edwing Abbidriel	903	edwing.gif	NOCOPY NOMANUEL P: elf	elf resistance button (10
 Black-and-White-Ops Penguin	911	pengblackop.gif	Scale: 3 Init: -10000 P: penguin Article: a	Crimbuck (0)	grappling hook (c100)	night-vision goggles (0)
 Cement Cobbler Penguin	912	pengcement.gif	Scale: 4 Init: -10000 P: penguin Article: a	cement sandals (0)	chunk of cement (c100)	Crimbuck (0)
 Mesmerizing Penguin	909	pengmesmer.gif	Scale: 2 Init: -10000 P: penguin Article: a	Crimbuck (0)	pocketwatch on a chain (0)	spiraling shape (c100)
-Mob Penguin Arsonist	905	pengarson.gif	Scale: 0 Init: -10000 P: penguin EA: hot Article: a	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Caporegime	907	pengcapo.gif	Scale: 0 Init: -10000 P: penguin Article: a	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Demolitionist	908	pengdemo.gif	Scale: 0 Init: -10000 P: penguin Article: a	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Goon (2009)	906	penggoon.gif	Scale: 0 Init: -10000 P: penguin Article: a Manuel: "Mob Penguin Goon" Wiki: "Mob Penguin Goon"	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Kneecapper	904	pengthug.gif	Scale: 0 Init: -10000 P: penguin Article: a	Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Arsonist	905	pengarson.gif	Scale: 0 Init: -10000 P: penguin EA: hot Article: a	Crimbuck (0)	herringcello (0)	penguin focaccia bread (0)
+Mob Penguin Caporegime	907	pengcapo.gif	Scale: 0 Init: -10000 P: penguin Article: a	Crimbuck (0)	herringcello (0)	penguin focaccia bread (0)
+Mob Penguin Demolitionist	908	pengdemo.gif	Scale: 0 Init: -10000 P: penguin Article: a	Crimbuck (0)	herringcello (0)	penguin focaccia bread (0)
+Mob Penguin Goon (2009)	906	penggoon.gif	Scale: 0 Init: -10000 P: penguin Article: a Manuel: "Mob Penguin Goon" Wiki: "Mob Penguin Goon"	Crimbuck (0)	herringcello (0)	penguin focaccia bread (0)
+Mob Penguin Kneecapper	904	pengthug.gif	Scale: 0 Init: -10000 P: penguin Article: a	Crimbuck (0)	herringcello (0)	penguin focaccia bread (0)
 Undercover Penguin	910	pengundercover.gif	Scale: 1 Init: -10000 P: penguin Article: an	cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
 Don Crimbo	913	doncrimbo.gif	NOCOPY NOMANUEL Atk: 99999 Def: 89999 HP: 1000000 Init: 100 Phys: 100
 
@@ -2691,11 +2691,11 @@ tree hugging hippy protestor	2066	limphippy1.gif	NOCOPY Scale: 6 Cap: 1000 Floor
 tree loving hippy protestor	2086	limphippy2.gif	NOCOPY Scale: 6 Cap: 1000 Floor: 10 Init: 50 Meat: 1 P: hippy ED: stench EA: hot Article: a	deadfall branch (0)
 
 # Crimbo 2019 (December 2019)
-gingerbread maw	2141	gingermaw.gif	Atk: 200 Def: 200 HP: 300 Init: 100 P: horror EA: spooky Article: a	salty gumdrop	soggy gingerbread chunk	ribbon candy ascot
-nutmeg anemone	2142	nutmeganemone.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 Meat: 100 P: plant EA: stench Article: a	intact anemone spike	moist Crimbo spices	anemoney clip
-icingfish	2143	icingfish.gif	Atk: 200 Def: 200 HP: 100 Init: 300 P: fish Article: an	runny icing	super-sweet fish goo (spoiled)	icing poncho
-Mer-kin baker	2144	merkinbaker.gif	Atk: 200 Def: 200 HP: 400 Init: 200 Meat: 200 P: mer-kin Article: a	glob of salty molasses	Mer-kin cookiestove	Mer-kin rollpin
-dolphin "orphan"	2145	dolphin2.gif	NOCOPY Atk: 300 Def: 300 HP: 500 Init: 200 Meat: 300 P: fish Article: a	waterlogged wood	waterlogged cloth	waterlogged stuffing	waterlogged leather	waterlogged metal
+gingerbread maw	2141	gingermaw.gif	Atk: 200 Def: 200 HP: 300 Init: 100 P: horror EA: spooky Article: a	salty gumdrop (0)	soggy gingerbread chunk (0)	ribbon candy ascot (c0)
+nutmeg anemone	2142	nutmeganemone.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 Meat: 100 P: plant EA: stench Article: a	intact anemone spike (0)	moist Crimbo spices (0)	anemoney clip (c0)
+icingfish	2143	icingfish.gif	Atk: 200 Def: 200 HP: 100 Init: 300 P: fish Article: an	runny icing (0)	super-sweet fish goo (spoiled) (0)	icing poncho (c0)
+Mer-kin baker	2144	merkinbaker.gif	Atk: 200 Def: 200 HP: 400 Init: 200 Meat: 200 P: mer-kin Article: a	glob of salty molasses (0)	Mer-kin cookiestove (0)	Mer-kin rollpin (c0)
+dolphin "orphan"	2145	dolphin2.gif	NOCOPY Atk: 300 Def: 300 HP: 500 Init: 200 Meat: 300 P: fish Article: a	waterlogged wood (c100)	waterlogged cloth (c100)	waterlogged stuffing (c100)	waterlogged leather (c100)	waterlogged metal (c100)
 kelpie (horse form)	2146	kelpiehorse.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 300 P: beast EA: cold EA: hot EA: stench Article: a	kelp-holly drape (0)
 kelpie (lady form)	2147	kelpielady.gif	Atk: 300 Def: 300 HP: 400 Init: 300 Meat: 200 P: dude EA: stench Article: a	kelp-holly gun (0)
 Crimbylow	2148	crimbylow.gif	Atk: 500 Def: 400 HP: 50 Init: 300 Meat: 100 P: demon Article: a	green and red bean (0)	Crimbylow-rise jeans (0)
