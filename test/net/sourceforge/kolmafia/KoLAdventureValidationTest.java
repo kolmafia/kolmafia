@@ -161,7 +161,7 @@ public class KoLAdventureValidationTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"Trick-or-Treating", "Drunken Stupor"})
-    void beignTooDrunkInSomeLocationsPassesPreValidation(final String adventureName) {
+    void beingTooDrunkInSomeLocationsPassesPreValidation(final String adventureName) {
       var cleanups = new Cleanups(withInebriety(30));
 
       try (cleanups) {
@@ -1352,6 +1352,26 @@ public class KoLAdventureValidationTest {
         assertThat(requests, hasSize(1));
         assertGetRequest(
             requests.get(0), "/inventory.php", "action=closetpull&ajax=1&whichitem=4130&qty=1");
+      }
+    }
+  }
+
+  @Nested
+  class PirateRealm {
+    private static final KoLAdventure RED_ROGERS_FORTRESS =
+        AdventureDatabase.getAdventureByName("Red Roger's Fortress");
+    private static final KoLAdventure BATTLE_ISLAND =
+        AdventureDatabase.getAdventureByName("Battle Island");
+
+    @Test
+    public void properlyChecksLastIsland() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_lastPirateRealmIsland", "Battle Island"),
+              withProperty("prAlways", true));
+      try (cleanups) {
+        assertFalse(RED_ROGERS_FORTRESS.canAdventure());
+        assertTrue(BATTLE_ISLAND.canAdventure());
       }
     }
   }

@@ -380,7 +380,7 @@ public class AdventureDatabase {
   }
 
   public static final String pirateRealmIslandName() {
-    String island = Preferences.getString("_LastPirateRealmIsland");
+    String island = Preferences.getString("_lastPirateRealmIsland");
     return island.isEmpty() ? "PirateRealm Island" : island;
   }
 
