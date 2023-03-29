@@ -1367,7 +1367,7 @@ public class KoLAdventureValidationTest {
     public void properlyChecksLastIsland() {
       var cleanups =
           new Cleanups(
-              withProperty("_LastPirateRealmIsland", "Battle Island"),
+              withProperty("_lastPirateRealmIsland", "Battle Island"),
               withProperty("prAlways", true));
       try (cleanups) {
         assertFalse(RED_ROGERS_FORTRESS.canAdventure());

@@ -9000,7 +9000,7 @@ public abstract class ChoiceControl {
             String desc = ChoiceManager.choiceDescription(choice, decision);
             RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
             if (desc != null && !desc.equals("Decide Later")) {
-              Preferences.setString("_LastPirateRealmIsland", desc);
+              Preferences.setString("_lastPirateRealmIsland", desc);
             }
             return true;
           }
