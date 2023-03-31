@@ -501,7 +501,7 @@ pernicious puddle of pesto	659	pestopuddle.gif	NOCOPY Atk: 21 Def: 18 HP: 18 Ini
 perpendicular bat	47	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 30 P: beast Article: a	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)	perpendicular guano (c0)	guancertina (a0)
 pig	1591	somepig.gif	NOCOPY Atk: [6] Def: [7] HP: [8] Init: -10000 Meat: 5 P: beast Article: a	ham steak (100)	piggy tattoo (c0)
 pine bat	149	pinebat.gif	Atk: 14 Def: 10 HP: 8 Init: 60 Meat: 22 P: beast EA: stench Article: a	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
-piranha plant	2175	piranhaplant.gif	NOCOPY Scale: 20 Cap: 1000 Floor: 30 Init: -10000 P: plant Article: a	piranha pollen (0)
+piranha plant	2175	piranhaplant.gif	NOCOPY Scale: 20 Cap: 1000 Floor: 30 Init: -10000 P: plant Article: a	piranha pollen (100)	pristine piranha seed (c0)
 plaid ghost	1560	plaidghost.gif	Atk: 137 Def: 136 HP: 160 Init: 50 P: undead GHOST EA: sleaze Article: a	plaid swatch (20)
 plaque of locusts	457	plaque.gif	Atk: 134 Def: 124 HP: 140 Init: 30 Meat: 25 P: bug Article: a	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
 plastered frat orc	994	drunkfrat.gif	Atk: 10 Def: 7 HP: 7 Init: 40 Meat: 25 P: orc EA: sleaze Article: a	ice-cold fotie (20)	ice-cold Sir Schlitz (20)	ice-cold Willer (20)	flask flops (0)
@@ -1833,10 +1833,10 @@ Travoltron	1816	travoltron.gif	BOSS NOCOPY Atk: 240 Def: 180 HP: 500 Init: 75 P:
 
 # The Ice Hotel (The Glaciest November 2015)
 ice bartender	1850	icetender.gif	Atk: 100 Def: 90 HP: 110 Init: 40 Meat: 50 P: dude E: cold Article: an	perfect ice cube (30)
-ice clerk	1854	iceclerk.gif	Atk: 100 Def: 80 HP: 120 Init: 40 P: dude ED: cold Article: an	ice hotel bell (0)
-ice concierge	1852	iceconcierge.gif	Atk: 110 Def: 90 HP: 150 Init: 50 Meat: 40 P: dude ED: cold Article: an	exotic travel brochure (0)	bag of foreign bribes (0)
-ice housekeeper	1853	icemaid.gif	Atk: 90 Def: 100 HP: 120 Init: 20 P: dude E: cold Article: an	frozen shampoo-conditioner (0)	hotel minibar key (0)
-ice porter	1851	iceporter.gif	Atk: 90 Def: 100 HP: 160 Init: 10 Meat: 25 P: dude ED: cold Article: an	ice porter (0)	bellhop's hat (0)
+ice clerk	1854	iceclerk.gif	Atk: 100 Def: 80 HP: 120 Init: 40 P: dude ED: cold Article: an	ice hotel bell (5)
+ice concierge	1852	iceconcierge.gif	Atk: 110 Def: 90 HP: 150 Init: 50 Meat: 40 P: dude ED: cold Article: an	exotic travel brochure (20)	bag of foreign bribes (c0)
+ice housekeeper	1853	icemaid.gif	Atk: 90 Def: 100 HP: 120 Init: 20 P: dude E: cold Article: an	frozen shampoo-conditioner (20)	hotel minibar key (20)
+ice porter	1851	iceporter.gif	Atk: 90 Def: 100 HP: 160 Init: 10 Meat: 25 P: dude ED: cold Article: an	ice porter (20)	bellhop's hat (5)
 
 # VYKEA (The Glaciest November 2015)
 VYKEA viking (female)	1849	vykfemale1.gif,vykfemale2.gif,vykfemale3.gif	NOCOPY Scale: 10 Cap: 12500 Floor: 85 Init: -10000 P: dude ED: cold	VYKEA instructions (0)	VYKEA woadpaint (0)	VYKEA hex key (0)
@@ -2088,14 +2088,14 @@ giant giant crab	2121	pr_bosscrab.gif	NOCOPY Atk: 80 Def: 80 HP: 200 Init: 50 Me
 toy dinosaur	2123	pr_dinosaur.gif	Atk: 50 Def: 50 HP: 60 Init: 75 P: beast Article: a
 cockroach	2124	pr_cockroach.gif	Atk: 40 Def: 80 HP: 60 Init: 50 Meat: 500 P: bug EA: sleaze Article: a
 vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead Phys: 100 EA: cold EA: hot EA: sleaze EA: spooky EA: stench Article: a
-signal	2126	pr_signal.gif	Atk: 90 Def: 90 HP: 100 Init: 200 P: weird Phys: 50 Elem: 50 Article: a	signal fragment (0)
-tiki idol	2127	pr_tiki.gif	Atk: 90 Def: 110 HP: 100 Init: 50 P: construct ED: sleaze EA: sleaze EA: spooky Article: a	hibiscus petal (0)	huge mint leaf (0)	pineapple slab (0)
+signal	2126	pr_signal.gif	Atk: 90 Def: 90 HP: 100 Init: 200 P: weird Phys: 50 Elem: 50 Article: a	signal fragment (25)
+tiki idol	2127	pr_tiki.gif	Atk: 90 Def: 110 HP: 100 Init: 50 P: construct ED: sleaze EA: sleaze EA: spooky Article: a	hibiscus petal (c100)	huge mint leaf (c100)	pineapple slab (c100)
 pewter torsohunter	2128	pr_headhunter.gif	Atk: 120 Def: 80 HP: 100 Init: 80 P: construct Article: a	pewter shavings (5)
 carnivorous plant	2129	pr_plant.gif	Atk: 100 Def: 80 HP: 80 Init: -10000 P: plant Article: a
-strong wind	2130	pr_wind.gif	Atk: 100 Def: 100 HP: 10 Init: 999 P: weird Phys: 100 Elem: 100 Article: a	windicle (0)
+strong wind	2130	pr_wind.gif	Atk: 100 Def: 100 HP: 10 Init: 999 P: weird Phys: 100 Elem: 100 Article: a	windicle (15)
 jungle titan	2131	pr_titan.gif	NOCOPY Atk: 90 Def: 90 HP: 1000 Init: 50 P: dude Article: a
 pirate radio	2132	pr_radio.gif	NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct EA: hot Article: a
-melty freezeface	2133	pr_freezeface.gif	Atk: 80 Def: 80 HP: 100 Init: 100 P: construct ED: cold EA: cold EA: stench Article: a	oversized ice molecule (0)
+melty freezeface	2133	pr_freezeface.gif	Atk: 80 Def: 80 HP: 100 Init: 100 P: construct ED: cold EA: cold EA: stench Article: a	oversized ice molecule (15)
 Red Roger	2134	pr_redroger.gif	NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct	Red Roger's reliquary (n100)
 Glass Jack Hummel	2135	pr_glassjack.gif	NOCOPY Atk: 100 Def: 100 HP: 200 Init: 50 P: construct EA: spooky
 
@@ -2117,12 +2117,12 @@ undercover prohibition agent	2253	olivers_prohie.gif	Atk: 60 Def: 60 HP: 70 Init
 Moleman	2267	moleman.gif	NOCOPY Scale: 15 Cap: ? Floor: ? Init: -10000 P: humanoid Article: a
 
 # closed-circuit pay phone (Mar 2023)
-shadow spire	2298	shadowspire.gif	FREE BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow brick (100)	shadow stick (100)
-shadow orrery	2299	shadoworrery.gif	FREE BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [250+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow glass (100)	shadow ice (100)
-shadow tongue	2300	shadowtongue.gif	FREE BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: 200 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow sinew (100)	shadow sausage (100)
-shadow scythe	2301	shadowscythe.gif	FREE BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [50+10*pref(_shadowRiftCombats)] Init: 10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow bread (100)	shadow venom (100)
-shadow cauldron	2302	shadowcauldron.gif	FREE BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [1000+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow fluid (100)	shadow nectar (100)
-shadow matrix	2303	shadowmatrix.gif	FREE BOSS Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: 1000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow flame (100)	shadow skin (100)
+shadow spire	2298	shadowspire.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow brick (100)	shadow stick (100)
+shadow orrery	2299	shadoworrery.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [250+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow glass (100)	shadow ice (100)
+shadow tongue	2300	shadowtongue.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: 200 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow sinew (100)	shadow sausage (100)
+shadow scythe	2301	shadowscythe.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [50+10*pref(_shadowRiftCombats)] Init: 10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow bread (100)	shadow venom (100)
+shadow cauldron	2302	shadowcauldron.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [1000+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow fluid (100)	shadow nectar (100)
+shadow matrix	2303	shadowmatrix.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: 1000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow flame (100)	shadow skin (100)
 
 # KoL Con
 
