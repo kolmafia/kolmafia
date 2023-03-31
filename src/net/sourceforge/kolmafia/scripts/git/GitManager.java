@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.scripts.ScriptManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -221,7 +222,8 @@ public class GitManager extends ScriptManager {
 
   private static boolean rebase(String folder, Git git) throws GitAPIException {
     var result = git.pull().setProgressMonitor(new MafiaProgressMonitor()).setRebase(true).call();
-    if (!result.getRebaseResult().getStatus().isSuccessful()) {
+    var success = result.getRebaseResult().getStatus().isSuccessful();
+    if (!success) {
       // the rebase failed. Does the user have any local changes?
       var hasLocal = git.diff().call().size() != 0;
       if (!hasLocal) return false;
@@ -232,9 +234,13 @@ public class GitManager extends ScriptManager {
       git.commit().setMessage("local changes").setAuthor("KoLMafia", "KoLMafia@localhost").call();
       // try to rebase again
       result = git.pull().setProgressMonitor(new MafiaProgressMonitor()).setRebase(true).call();
-      return result.getRebaseResult().getStatus().isSuccessful();
+      success = result.getRebaseResult().getStatus().isSuccessful();
     }
-    return true;
+    if (git.getRepository().getRepositoryState().isRebasing()) {
+      // cleanup
+      git.rebase().setOperation(Operation.ABORT).call();
+    }
+    return success;
   }
 
   /** Delete a newly removed file in the correct permissible folder. */
