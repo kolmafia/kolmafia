@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -538,6 +539,14 @@ public abstract class UseLinkDecorator {
 
   protected static UseLink generateUseLink(
       int itemId, int itemCount, String location, String text) {
+
+    // If this is a workshed item, and you've already replaced your
+    // workshed item today, it is pointless to provide a "use" link,
+    // since you can do that once per day.
+    if (CampgroundRequest.isWorkshedItem(itemId) && Preferences.getBoolean("_workshedItemUsed")) {
+      return null;
+    }
+
     // This might be a target of the Party Fair quest - if so we overwrite normal use link to
     // prevent accidents and show progress
     if (QuestDatabase.isQuestStep(Quest.PARTY_FAIR, "step1")
