@@ -507,13 +507,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           Map.entry("Drunken Stupor", ""));
 
   public boolean tooDrunkToAdventure() {
-    if (!KoLCharacter.isFallingDown()) return false;
+    if (!KoLCharacter.isFallingDown()) {
+      return false;
+    }
 
     // The wine glass allows you to adventure in snarfblat zones while falling down drunk
     // There may be some non-snarfblat zones coded to respect the wineglass, but I've not
     // been able to find any.
-    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS)) && hasSnarfblat())
-      return false;
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) {
+      if (this.hasSnarfblat()) {
+        return false;
+      }
+      // Shadow Rift locations are place.php redirecting to adventure.php?snarfblat=567
+      if (this.zone.equals("Shadow Rift")) {
+        return false;
+      }
+    }
 
     // There are some limit modes that allow adventuring even while falling down drunk
     switch (KoLCharacter.getLimitMode()) {

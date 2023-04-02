@@ -93,6 +93,8 @@ public class KoLAdventureValidationTest {
   class Overdrunk {
     private static final KoLAdventure WARREN =
         AdventureDatabase.getAdventureByName("The Dire Warren");
+    private static final KoLAdventure SHADOW_RIFT =
+        AdventureDatabase.getAdventureByName("Shadow Rift (Desert Beach)");
 
     @Test
     void beingSoberPassesPreValidation() {
@@ -100,6 +102,7 @@ public class KoLAdventureValidationTest {
 
       try (cleanups) {
         assertThat(WARREN.preValidateAdventure(), is(true));
+        assertThat(SHADOW_RIFT.preValidateAdventure(), is(true));
       }
     }
 
@@ -109,6 +112,7 @@ public class KoLAdventureValidationTest {
 
       try (cleanups) {
         assertThat(WARREN.preValidateAdventure(), is(false));
+        assertThat(SHADOW_RIFT.preValidateAdventure(), is(false));
       }
     }
 
@@ -125,6 +129,7 @@ public class KoLAdventureValidationTest {
 
       try (cleanups) {
         assertThat(WARREN.preValidateAdventure(), is(true));
+        assertThat(SHADOW_RIFT.preValidateAdventure(), is(true));
       }
     }
 
