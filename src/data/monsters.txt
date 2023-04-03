@@ -1839,13 +1839,13 @@ ice housekeeper	1853	icemaid.gif	Atk: 90 Def: 100 HP: 120 Init: 20 P: dude E: co
 ice porter	1851	iceporter.gif	Atk: 90 Def: 100 HP: 160 Init: 10 Meat: 25 P: dude ED: cold Article: an	ice porter (20)	bellhop's hat (5)
 
 # VYKEA (The Glaciest November 2015)
-VYKEA viking (female)	1849	vykfemale1.gif,vykfemale2.gif,vykfemale3.gif	NOCOPY Scale: 10 Cap: 12500 Floor: 85 Init: -10000 P: dude ED: cold	VYKEA instructions (0)	VYKEA woadpaint (0)	VYKEA hex key (0)
+VYKEA viking (female)	1849	vykfemale1.gif,vykfemale2.gif,vykfemale3.gif	NOCOPY Scale: 10 Cap: 12500 Floor: 85 Init: -10000 P: dude ED: cold	VYKEA instructions (0)	VYKEA woadpaint (10)	VYKEA hex key (0)
 VYKEA viking (male)	1848	vykmale1.gif,vykmale2.gif,vykmale3.gif	NOCOPY Scale: 6 Cap: 12000 Floor: 85 Init: -10000 P: dude E: cold	VYKEA instructions (0)	VYKEA woadpaint (0)	VYKEA hex key (0)
 
 # The Ice Hole (The Glaciest November 2015)
 Norwhal	1856	norwhal.gif	Atk: 250 Def: 200 HP: 225 Init: 25 P: fish ED: cold Article: a	bottle of norwhiskey (0)	norwhal helmet (c0)
 Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 Init: 25 P: fish ED: cold Article: an	octolus oculus (0)	octolus-skin cloak (c0)
-Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 Init: 25 P: fish ED: cold Article: a	tin of submardines (0)	sardine can key (c0)
+Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 Init: 25 P: fish ED: cold Article: a	tin of submardines (25)	sardine can key (c0)
 
 # Deep Machine Tunnels (Machine Elf Capsule December 2015)
 Performer of Actions	1859	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: action (0)	abstraction: purpose (0)
