@@ -642,6 +642,8 @@ public class RufusManagerTest {
         request.run();
 
         assertThat(Quest.RUFUS, isStep("step1"));
+        assertThat("rufusQuestType", isSetTo("entity"));
+        assertThat("rufusQuestTarget", isSetTo(""));
       }
     }
 
@@ -682,6 +684,8 @@ public class RufusManagerTest {
         request.run();
 
         assertThat(Quest.RUFUS, isStep("step1"));
+        assertThat("rufusQuestType", isSetTo("artifact"));
+        assertThat("rufusQuestTarget", isSetTo("shadow bucket"));
       }
     }
 
@@ -722,6 +726,8 @@ public class RufusManagerTest {
         request.run();
 
         assertThat(Quest.RUFUS, isStep("step1"));
+        assertThat("rufusQuestType", isSetTo("items"));
+        assertThat("rufusQuestTarget", isSetTo("shadow flame"));
       }
     }
   }
