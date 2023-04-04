@@ -11,6 +11,7 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFamiliarInTerrariumWithItem;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -722,6 +723,91 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         String output = execute("eight_bit_points($location[Megalo-City])");
         assertThat(output, endsWith("Returned: " + points + "\n"));
       }
+    }
+  }
+
+  @Nested
+  class ItemDrops {
+    @Test
+    void itemDrops() {
+      var cleanups = withNextMonster("stench zombie");
+
+      try (cleanups) {
+        String output = execute("item_drops()");
+        assertThat(
+            output,
+            is(
+                """
+                      Returned: aggregate float [item]
+                      Freddy Kruegerand => 0.0
+                      muddy skirt => 0.1
+                      Dreadsylvanian Almanac page => 0.0
+                      """));
+      }
+    }
+
+    @Test
+    void itemDropsMonster() {
+      String output = execute("item_drops($monster[spooky zombie])");
+      assertThat(
+          output,
+          is(
+              """
+                    Returned: aggregate float [item]
+                    Freddy Kruegerand => 0.0
+                    grandfather watch => 0.1
+                    Dreadsylvanian Almanac page => 0.0
+                    """));
+    }
+
+    @Test
+    void itemDropsArray() {
+      var cleanups = withNextMonster("stench zombie");
+
+      try (cleanups) {
+        String output = execute("item_drops_array()");
+        assertThat(
+            output,
+            is(
+                """
+                      Returned: aggregate {item drop; float rate; string type;} [3]
+                      0 => record {item drop; float rate; string type;}
+                        drop => Dreadsylvanian Almanac page
+                        rate => 0.0
+                        type => f
+                      1 => record {item drop; float rate; string type;}
+                        drop => Freddy Kruegerand
+                        rate => 0.0
+                        type => f
+                      2 => record {item drop; float rate; string type;}
+                        drop => muddy skirt
+                        rate => 0.1
+                        type => c
+                      """));
+      }
+    }
+
+    @Test
+    void itemDropsArrayMonster() {
+      String output = execute("item_drops_array($monster[spooky zombie])");
+      assertThat(
+          output,
+          is(
+              """
+                    Returned: aggregate {item drop; float rate; string type;} [3]
+                    0 => record {item drop; float rate; string type;}
+                      drop => Dreadsylvanian Almanac page
+                      rate => 0.0
+                      type => f
+                    1 => record {item drop; float rate; string type;}
+                      drop => Freddy Kruegerand
+                      rate => 0.0
+                      type => f
+                    2 => record {item drop; float rate; string type;}
+                      drop => grandfather watch
+                      rate => 0.1
+                      type => c
+                    """));
     }
   }
 }
