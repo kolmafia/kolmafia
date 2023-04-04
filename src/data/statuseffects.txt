@@ -2805,3 +2805,4 @@
 2805	Shadow's Thickness	shadowwave.gif	cec0a45b03817e4e0b9a4fa6833c556a	neutral	none
 2806	Shadow Waters	shadowvenom.gif	638c1fadfcec6c52ff921d5c1e7da66b	neutral	none
 2807	Shadow Medicine	shadowpill.gif	c382e7e061a9449d2052f45eb188247c	neutral	none	chew 1 shadow pill
+2808	Cursed by a Monkey	monkeypaw0.gif	9038c5de7acbe308ec962059bac040ab	neutral	none

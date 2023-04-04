@@ -2470,6 +2470,7 @@ crystalline seal eye	0	none
 cursed bat paw	0	none
 cursed dragon wishbone	0	none
 cursed medallion	0	none
+cursed monkey's paw	100	none
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
 cursed swash buckle	200	Mys: 50

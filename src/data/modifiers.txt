@@ -2893,6 +2893,8 @@ Item	crystalline seal eye	Single Equip
 Item	cursed bat paw	Monster Level: +25, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25
 Item	cursed dragon wishbone	Item Drop: +50, Meat Drop: -50
 Item	cursed medallion	Initiative: +100, Weapon Damage Percent: -50, Spell Damage Percent: -50
+# cursed monkey's paw: Grants Wishes!
+Item	cursed monkey's paw	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Damage: +10, Spooky Spell Damage: +10, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
 Item	cursed ring finger ring	Spell Damage Percent: +50, Spooky Spell Damage: +30, Spell Critical Percent: +10, Single Equip
 Item	cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Single Equip
 Item	cursed swash buckle	Moxie: +25, Meat Drop: +50, Item Drop: +25, Single Equip
@@ -11060,6 +11062,7 @@ Item	curious anemometer	Lasts Until Rollover
 # cursed cannonball: Deals <font color=gray>Spooky Damage</font> based on your Muscle
 # cursed dirty joke scroll: Deals <font color=blueviolet>Sleaze Damage</font> and <font color=gray>Spooky Damage</font> based on your Moxie
 Item	cursed microwave	Free Pull
+Item	cursed monkey glove	Free Pull
 Item	cursed pony keg	Free Pull
 # cursed voodoo skull: Deals <font color=red>Hot Damage</font> and <font color=gray>Spooky Damage</font> based on your Mysticality
 Item	custom avatar form	Free Pull

@@ -973,6 +973,12 @@
 7430	Ceramic Skullgaze	cerabelt.gif	0	5	0
 7431	Ceramic Cenobitize	cerarobe.gif	0	5	0
 7432	Shadow Flame	shadowcandle.gif	0	5	5
+7433	Monkey Slap	monkeypaw0.gif	5	0	0
+7434	Monkey Tickle	monkeypaw1.gif	5	0	0
+7435	Evil Monkey Eye	monkeypaw2.gif	5	0	0
+7436	Monkey Peace Sign	monkeypaw3.gif	5	0	0
+7437	Monkey Point	monkeypaw4.gif	5	0	0
+7438	Monkey Punch	monkeypaw5.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

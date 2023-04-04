@@ -11211,3 +11211,5 @@
 11183	shadow martini	330264671	shadowmartini.gif	drink		0
 11184	shadow pill	535411734	shadowpill.gif	spleen, usable		0
 11185	shadow needle	852125044	shadowneedle.gif	usable		0
+11186	cursed monkey's paw	617234158	monkeypaw0.gif	accessory		0
+11187	cursed monkey glove	144539345	monkeyglove.gif	usable	t	0
