@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -39,8 +40,8 @@ public class MonsterDatabase {
   private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<>();
   private static final Map<String, Map<MonsterData, MonsterData>> MONSTER_PATH_MAP =
       new TreeMap<>();
-  private static final Map<String, Map<MonsterData, MonsterData>> MONSTER_CLASS_MAP =
-      new TreeMap<>();
+  private static final Map<AscensionClass, Map<MonsterData, MonsterData>> MONSTER_CLASS_MAP =
+      new EnumMap<>(AscensionClass.class);
 
   // For handling duplicate monster and substring match of monster names
   private static final Map<String, MonsterData[]> MONSTER_ID_SET = new HashMap<>();
@@ -387,27 +388,27 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(
         pigSkinnerMap, "Naughty Sorceress (2)", "General Bruise (true form)");
     MonsterDatabase.addMapping(pigSkinnerMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.PIG_SKINNER.getName(), pigSkinnerMap);
+    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.PIG_SKINNER, pigSkinnerMap);
 
     Map<MonsterData, MonsterData> cheeseWizardMap = new TreeMap<>();
     MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress", "Dark Noël");
     MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress (2)", "Dark Noël (true form)");
     MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.CHEESE_WIZARD.getName(), cheeseWizardMap);
+    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.CHEESE_WIZARD, cheeseWizardMap);
 
     Map<MonsterData, MonsterData> jazzAgentMap = new TreeMap<>();
     MonsterDatabase.addMapping(jazzAgentMap, "Naughty Sorceress", "Terrence Poindexter");
     MonsterDatabase.addMapping(
         jazzAgentMap, "Naughty Sorceress (2)", "Terrence Poindexter (true form)");
     MonsterDatabase.addMapping(jazzAgentMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.JAZZ_AGENT.getName(), jazzAgentMap);
+    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.JAZZ_AGENT, jazzAgentMap);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterPathMap(final String path) {
     return MonsterDatabase.MONSTER_PATH_MAP.get(path);
   }
 
-  public static Map<MonsterData, MonsterData> getMonsterClassMap(final String clazz) {
+  public static Map<MonsterData, MonsterData> getMonsterClassMap(final AscensionClass clazz) {
     return MonsterDatabase.MONSTER_CLASS_MAP.get(clazz);
   }
 

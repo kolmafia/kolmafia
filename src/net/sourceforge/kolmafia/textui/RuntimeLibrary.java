@@ -8496,7 +8496,7 @@ public abstract class RuntimeLibrary {
     ArrayValue value = new ArrayValue(type);
 
     Map<MonsterData, MonsterData> classMap =
-        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass().getName());
+        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass());
     Map<MonsterData, MonsterData> pathMap =
         MonsterDatabase.getMonsterPathMap(KoLCharacter.getPath().getName());
 
@@ -8521,7 +8521,7 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(type);
 
     Map<MonsterData, MonsterData> classMap =
-        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass().getName());
+        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass());
     Map<MonsterData, MonsterData> pathMap =
         MonsterDatabase.getMonsterPathMap(KoLCharacter.getPath().getName());
 
