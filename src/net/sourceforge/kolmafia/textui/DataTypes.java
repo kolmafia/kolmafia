@@ -110,6 +110,10 @@ public class DataTypes {
   public static final AggregateType ITEM_TO_INT_TYPE =
       new AggregateType(DataTypes.INT_TYPE, DataTypes.ITEM_TYPE);
 
+  // Map from ITEM -> FLOAT
+  public static final AggregateType ITEM_TO_FLOAT_TYPE =
+      new AggregateType(DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE);
+
   // Map from INT -> ITEM
   public static final AggregateType INT_TO_ITEM_TYPE =
       new AggregateType(DataTypes.ITEM_TYPE, DataTypes.INT_TYPE);

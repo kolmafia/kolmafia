@@ -14,6 +14,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -231,6 +235,38 @@ public class MonsterDatabase {
     };
   }
 
+  private static final Pattern DROP = Pattern.compile("(.+) \\(([pncfa])?([0-9.]+)\\)");
+
+  public enum DropFlag {
+    NONE(""),
+    UNKNOWN_RATE("0"),
+    PICKPOCKET_ONLY("p"),
+    NO_PICKPOCKET("n"),
+    CONDITIONAL("c"),
+    FIXED("f"),
+    STEAL_ACCORDION("a");
+
+    final String id;
+    private static final DropFlag[] VALUES = values();
+    private static final Map<String, DropFlag> flagMap =
+        Arrays.stream(VALUES).collect(Collectors.toMap(type -> type.id, Function.identity()));
+
+    DropFlag(String id) {
+      this.id = id;
+    }
+
+    static DropFlag fromFlag(String id) {
+      return flagMap.getOrDefault(id, DropFlag.NONE);
+    }
+
+    @Override
+    public String toString() {
+      return this.id;
+    }
+  }
+
+  public record Drop(AdventureResult item, double chance, DropFlag flag) {}
+
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, String name2) {
     MonsterData mon1 = MONSTER_DATA.get(monsterKey(name1));
     MonsterData mon2 = name2 != null ? MONSTER_DATA.get(monsterKey(name2)) : MonsterData.NO_MONSTER;
@@ -445,14 +481,17 @@ public class MonsterDatabase {
 
         for (int i = 4; i < data.length; ++i) {
           String itemString = data[i];
-          AdventureResult item = MonsterDatabase.parseItem(itemString);
-          if (item == null || item.getItemId() == -1 || item.getName() == null) {
+          Drop drop = MonsterDatabase.parseItem(itemString);
+          if (drop == null
+              || drop.item == null
+              || drop.item.getItemId() == -1
+              || drop.item.getName() == null) {
             RequestLogger.printLine("Bad item for monster \"" + name + "\": " + itemString);
             bogus = true;
             continue;
           }
 
-          monster.addItem(item);
+          monster.addItem(drop);
         }
 
         if (!bogus) {
@@ -574,37 +613,30 @@ public class MonsterDatabase {
     }
   }
 
-  private static AdventureResult parseItem(final String data) {
-    String name = data;
-    int count = 0;
-    String countString;
-    char prefix = '0';
-
-    // Remove quantity and flag
-    if (name.endsWith(")")) {
-      int left = name.lastIndexOf(" (");
-
-      if (left == -1) {
-        return null;
-      }
-
-      countString = name.substring(left + 2, name.length() - 1);
-
-      if (!Character.isDigit(countString.charAt(0))) {
-        countString = countString.substring(1);
-      }
-
-      count = StringUtilities.parseInt(countString);
-      prefix = name.charAt(left + 2);
-      name = name.substring(0, left);
+  private static Drop parseItem(final String data) {
+    Matcher dropMatcher = DROP.matcher(data);
+    if (!dropMatcher.matches()) {
+      throw new IllegalStateException(data + " did not match expected layout");
     }
 
-    int itemId = ItemDatabase.getItemId(name);
+    var itemName = dropMatcher.group(1);
+    var flag = DropFlag.fromFlag(dropMatcher.group(2));
+    var chance = StringUtilities.parseDouble(dropMatcher.group(3));
+
+    AdventureResult item;
+
+    int itemId = ItemDatabase.getItemId(itemName);
     if (itemId == -1) {
-      return ItemPool.get(data, '0');
+      item = ItemPool.get(data, 1);
+    } else {
+      item = ItemPool.get(itemId);
     }
 
-    return ItemPool.get(itemId, (count << 16) | prefix);
+    if (flag == DropFlag.NONE && chance == 0) {
+      flag = DropFlag.UNKNOWN_RATE;
+    }
+
+    return new Drop(item, chance, flag);
   }
 
   private static synchronized void initializeMonsterStrings() {
