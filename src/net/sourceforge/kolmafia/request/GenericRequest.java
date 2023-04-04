@@ -60,8 +60,8 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Drop;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.DropFlag;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
@@ -2460,7 +2460,7 @@ public class GenericRequest implements Runnable {
           m.clearItems();
           String stolen = Preferences.getString("dolphinItem");
           if (stolen.length() > 0) {
-            m.addItem(new Drop(ItemPool.get(stolen, 1), 100, DropFlag.NO_PICKPOCKET));
+            m.addItem(new MonsterDrop(ItemPool.get(stolen, 1), 100, DropFlag.NO_PICKPOCKET));
           }
           m.doneWithItems();
         }

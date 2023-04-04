@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Drop;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 
 public class CombatEncounterKey {
   private static final Pattern ELEMENT_PATTERN = Pattern.compile("\\s*\\$element\\[([^\\]]+)\\]");
@@ -74,10 +74,10 @@ public class CombatEncounterKey {
       if (this.itemId != -1) {
         boolean foundItem = false;
 
-        Iterator<Drop> itemIterator = monsterData.getItems().iterator();
+        Iterator<MonsterDrop> itemIterator = monsterData.getItems().iterator();
 
         while (!foundItem && itemIterator.hasNext()) {
-          Drop drop = itemIterator.next();
+          MonsterDrop drop = itemIterator.next();
 
           if (drop.item().getItemId() == this.itemId) {
             foundItem = true;

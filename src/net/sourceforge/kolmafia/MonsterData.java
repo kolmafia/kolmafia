@@ -20,9 +20,9 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Drop;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -619,7 +619,7 @@ public class MonsterData extends AdventureResult {
   private final String attributes;
   private final int beeCount;
 
-  private final ArrayList<Drop> items;
+  private final ArrayList<MonsterDrop> items;
   private final List<Double> pocketRates;
 
   // The following apply to a specific (cloned) instance of a monster
@@ -784,7 +784,7 @@ public class MonsterData extends AdventureResult {
     this.items.clear();
   }
 
-  public void addItem(final Drop item) {
+  public void addItem(final MonsterDrop item) {
     this.items.add(item);
   }
 
@@ -805,7 +805,7 @@ public class MonsterData extends AdventureResult {
       }
 
       for (int j = 0; j < this.items.size(); ++j) {
-        Drop drop = this.items.get(j);
+        MonsterDrop drop = this.items.get(j);
         probability = drop.chance() / 100.0;
         switch (drop.flag()) {
           case PICKPOCKET_ONLY:
@@ -1684,7 +1684,7 @@ public class MonsterData extends AdventureResult {
     return this.randomModifiers == null ? new String[0] : this.randomModifiers;
   }
 
-  public List<Drop> getItems() {
+  public List<MonsterDrop> getItems() {
     return this.items;
   }
 
@@ -1697,7 +1697,8 @@ public class MonsterData extends AdventureResult {
     // then steal anything.
 
     if (this.willUsuallyDodge(0)) {
-      return this.shouldSteal(this.items.stream().map(Drop::item).collect(Collectors.toList()));
+      return this.shouldSteal(
+          this.items.stream().map(MonsterDrop::item).collect(Collectors.toList()));
     }
 
     // Otherwise, only steal from monsters that drop
@@ -1723,7 +1724,7 @@ public class MonsterData extends AdventureResult {
       return false;
     }
 
-    Drop drop = null;
+    MonsterDrop drop = null;
     for (var itemDrop : this.items) {
       if (item.equals(itemDrop.item())) {
         drop = itemDrop;
@@ -1806,7 +1807,10 @@ public class MonsterData extends AdventureResult {
                 .map(
                     drop -> {
                       double rawRate = drop.chance();
-                      String rate = (rawRate > 1 || rawRate == 0) ? String.valueOf((int) rawRate) : String.valueOf(rawRate);
+                      String rate =
+                          (rawRate > 1 || rawRate == 0)
+                              ? String.valueOf((int) rawRate)
+                              : String.valueOf(rawRate);
                       return drop.item().getName()
                           + " ("
                           + switch (drop.flag()) {

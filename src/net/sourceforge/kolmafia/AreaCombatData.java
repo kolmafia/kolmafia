@@ -21,9 +21,9 @@ import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Drop;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1042,7 +1042,7 @@ public class AreaCombatData {
 
   private void appendItemList(
       final StringBuffer buffer,
-      final List<Drop> items,
+      final List<MonsterDrop> items,
       final List<Double> pocketRates,
       boolean fullString) {
     if (items.size() == 0) {
@@ -1055,7 +1055,7 @@ public class AreaCombatData {
         (100.0 + KoLCharacter.currentNumericModifier(DoubleModifier.PICKPOCKET_CHANCE)) / 100.0;
 
     for (int i = 0; i < items.size(); ++i) {
-      Drop drop = items.get(i);
+      MonsterDrop drop = items.get(i);
 
       if (!fullString) {
         if (i == 0) {

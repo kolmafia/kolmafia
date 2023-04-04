@@ -108,10 +108,10 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Drop;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.DropFlag;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.JokePocket;
@@ -8925,11 +8925,11 @@ public abstract class RuntimeLibrary {
   }
 
   private static Value item_drops(MonsterData monster) {
-    List<Drop> data = monster == null ? new ArrayList<>() : monster.getItems();
+    List<MonsterDrop> data = monster == null ? new ArrayList<>() : monster.getItems();
 
     MapValue value = new MapValue(DataTypes.ITEM_TO_FLOAT_TYPE);
 
-    for (Drop result : data) {
+    for (MonsterDrop result : data) {
       value.aset(
           DataTypes.makeItemValue(result.item().getItemId(), true), new Value(result.chance()));
     }
@@ -8946,12 +8946,12 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value item_drops_array(ScriptRuntime controller, MonsterData monster) {
-    List<Drop> data = monster == null ? new ArrayList<>() : monster.getItems();
+    List<MonsterDrop> data = monster == null ? new ArrayList<>() : monster.getItems();
     int dropCount = data.size();
     AggregateType type = new AggregateType(RuntimeLibrary.itemDropRec, dropCount);
     ArrayValue value = new ArrayValue(type);
     for (int i = 0; i < dropCount; ++i) {
-      Drop result = data.get(i);
+      MonsterDrop result = data.get(i);
       DropFlag dropType = result.flag();
       RecordValue rec = (RecordValue) value.aref(new Value(i));
 

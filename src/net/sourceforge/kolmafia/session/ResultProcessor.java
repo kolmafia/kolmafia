@@ -39,7 +39,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase.Drop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
@@ -169,7 +169,7 @@ public class ResultProcessor {
       // Log it if we pickpocket something "impossible"
       if (RequestLogger.getLastURLString().contains("action=steal")) {
         MonsterData monster = MonsterStatusTracker.getLastMonster();
-        for (Drop monsterDrop : monster.getItems()) {
+        for (MonsterDrop monsterDrop : monster.getItems()) {
           if (monsterDrop.item().getItemId() == itemId) {
             String message =
                 switch (monsterDrop.flag()) {

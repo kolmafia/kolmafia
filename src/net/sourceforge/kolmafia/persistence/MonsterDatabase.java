@@ -14,10 +14,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.function.Function;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -29,6 +26,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -234,38 +232,6 @@ public class MonsterDatabase {
       default -> false;
     };
   }
-
-  private static final Pattern DROP = Pattern.compile("(.+) \\(([pncfa])?([0-9.]+)\\)");
-
-  public enum DropFlag {
-    NONE(""),
-    UNKNOWN_RATE("0"),
-    PICKPOCKET_ONLY("p"),
-    NO_PICKPOCKET("n"),
-    CONDITIONAL("c"),
-    FIXED("f"),
-    STEAL_ACCORDION("a");
-
-    final String id;
-    private static final DropFlag[] VALUES = values();
-    private static final Map<String, DropFlag> flagMap =
-        Arrays.stream(VALUES).collect(Collectors.toMap(type -> type.id, Function.identity()));
-
-    DropFlag(String id) {
-      this.id = id;
-    }
-
-    static DropFlag fromFlag(String id) {
-      return flagMap.getOrDefault(id, DropFlag.NONE);
-    }
-
-    @Override
-    public String toString() {
-      return this.id;
-    }
-  }
-
-  public record Drop(AdventureResult item, double chance, DropFlag flag) {}
 
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, String name2) {
     MonsterData mon1 = MONSTER_DATA.get(monsterKey(name1));
@@ -481,11 +447,9 @@ public class MonsterDatabase {
 
         for (int i = 4; i < data.length; ++i) {
           String itemString = data[i];
-          Drop drop = MonsterDatabase.parseItem(itemString);
-          if (drop == null
-              || drop.item == null
-              || drop.item.getItemId() == -1
-              || drop.item.getName() == null) {
+          MonsterDrop drop = MonsterDatabase.parseItem(itemString);
+          var item = drop.item();
+          if (item == null || item.getItemId() == -1 || item.getName() == null) {
             RequestLogger.printLine("Bad item for monster \"" + name + "\": " + itemString);
             bogus = true;
             continue;
@@ -613,8 +577,8 @@ public class MonsterDatabase {
     }
   }
 
-  private static Drop parseItem(final String data) {
-    Matcher dropMatcher = DROP.matcher(data);
+  private static MonsterDrop parseItem(final String data) {
+    Matcher dropMatcher = MonsterDrop.DROP.matcher(data);
     if (!dropMatcher.matches()) {
       throw new IllegalStateException(data + " did not match expected layout");
     }
@@ -636,7 +600,7 @@ public class MonsterDatabase {
       flag = DropFlag.UNKNOWN_RATE;
     }
 
-    return new Drop(item, chance, flag);
+    return new MonsterDrop(item, chance, flag);
   }
 
   private static synchronized void initializeMonsterStrings() {
