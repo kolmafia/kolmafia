@@ -1,11 +1,14 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -355,6 +358,32 @@ public class MonsterDataTest {
       monster.appendItemDrops(builder);
 
       assertThat(builder.toString(), equalTo("<br />Item Drops: " + itemDropString));
+    }
+  }
+
+  @Nested
+  class ShouldSteal {
+    @Test
+    public void shouldntStealIfNoItems() {
+      var monster = MonsterDatabase.findMonster("crate");
+      assertFalse(monster.shouldSteal());
+    }
+
+    @Test
+    public void shouldntStealIfAllItemsAreNoPP() {
+      var monster = MonsterDatabase.findMonster("Arizona bark scorpion");
+      assertFalse(monster.shouldSteal());
+    }
+
+    @ParameterizedTest
+    @CsvSource({"100,true", "1,false"})
+    public void shouldStealGoallessIfOutMoxieing(int moxie, boolean shouldSteal) {
+      var cleanups = withMoxie(moxie);
+
+      try (cleanups) {
+        var monster = MonsterDatabase.findMonster("scary clown");
+        assertThat(monster.shouldSteal(), is(shouldSteal));
+      }
     }
   }
 }
