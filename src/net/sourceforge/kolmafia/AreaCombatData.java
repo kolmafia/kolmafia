@@ -516,7 +516,7 @@ public class AreaCombatData {
     // Your Ascension Class is null in Valhalla
     AscensionClass clazz = KoLCharacter.getAscensionClass();
     if (clazz != null) {
-      Map<MonsterData, MonsterData> classMap = MonsterDatabase.getMonsterClassMap(clazz.getName());
+      Map<MonsterData, MonsterData> classMap = MonsterDatabase.getMonsterClassMap(clazz);
       if (classMap != null) {
         MonsterData mapped = classMap.get(mon);
         if (mapped != null) {
