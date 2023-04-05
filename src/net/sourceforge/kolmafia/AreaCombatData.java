@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1041,7 +1042,7 @@ public class AreaCombatData {
 
   private void appendItemList(
       final StringBuffer buffer,
-      final List<AdventureResult> items,
+      final List<MonsterDrop> items,
       final List<Double> pocketRates,
       boolean fullString) {
     if (items.size() == 0) {
@@ -1054,7 +1055,7 @@ public class AreaCombatData {
         (100.0 + KoLCharacter.currentNumericModifier(DoubleModifier.PICKPOCKET_CHANCE)) / 100.0;
 
     for (int i = 0; i < items.size(); ++i) {
-      AdventureResult item = items.get(i);
+      MonsterDrop drop = items.get(i);
 
       if (!fullString) {
         if (i == 0) {
@@ -1063,14 +1064,14 @@ public class AreaCombatData {
           buffer.append(", ");
         }
 
-        buffer.append(item.getName());
+        buffer.append(drop.item().getName());
         continue;
       }
 
       buffer.append("<br>");
 
       // Certain items can be increased by other bonuses than just item drop
-      int itemId = item.getItemId();
+      int itemId = drop.item().getItemId();
       double itemBonus = 0.0;
 
       if (ItemDatabase.isFood(itemId)) {
@@ -1097,7 +1098,7 @@ public class AreaCombatData {
       }
 
       double stealRate = Math.min(pocketRates.get(i) * pocketModifier, 1.0);
-      int rawDropRate = item.getCount() >> 16;
+      double rawDropRate = drop.chance();
       double dropRate = Math.min(rawDropRate * (itemModifier + itemBonus), 100.0);
       double effectiveDropRate = stealRate * 100.0 + (1.0 - stealRate) * dropRate;
 
@@ -1105,10 +1106,10 @@ public class AreaCombatData {
       String rate1 = this.format(dropRate);
       String rate2 = this.format(effectiveDropRate);
 
-      buffer.append(item.getName());
-      switch ((char) item.getCount() & 0xFFFF) {
-        case '0' -> buffer.append(" (unknown drop rate)");
-        case 'n' -> {
+      buffer.append(drop.item().getName());
+      switch (drop.flag()) {
+        case UNKNOWN_RATE -> buffer.append(" (unknown drop rate)");
+        case NO_PICKPOCKET -> {
           if (rawDropRate > 0) {
             buffer.append(" ");
             buffer.append(rate1);
@@ -1117,7 +1118,7 @@ public class AreaCombatData {
             buffer.append(" (no pickpocket, unknown drop rate)");
           }
         }
-        case 'c' -> {
+        case CONDITIONAL -> {
           if (rawDropRate > 0) {
             buffer.append(" ");
             buffer.append(rate1);
@@ -1126,21 +1127,23 @@ public class AreaCombatData {
             buffer.append(" (conditional, unknown drop rate)");
           }
         }
-        case 'f' -> {
+        case FIXED -> {
           buffer.append(" ");
           buffer.append(rateRaw);
           buffer.append("% (no modifiers)");
         }
-        case 'p' -> {
-          if (stealing && rawDropRate > 0) {
+        case PICKPOCKET_ONLY -> {
+          if (rawDropRate == 0) {
+            buffer.append(" (pickpocket only, unknown rate)");
+          } else if (stealing) {
             buffer.append(" ");
             buffer.append(Math.min(rawDropRate * pocketModifier, 100.0));
             buffer.append("% (pickpocket only)");
           } else {
-            buffer.append(" (pickpocket only, unknown rate)");
+            buffer.append(" (pickpocket only, cannot steal)");
           }
         }
-        case 'a' -> buffer.append(" (stealable accordion)");
+        case STEAL_ACCORDION -> buffer.append(" (stealable accordion)");
         default -> {
           if (stealing) {
             buffer.append(" ");

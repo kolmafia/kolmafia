@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
@@ -7,6 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -560,6 +562,33 @@ public class AreaCombatDataTest {
                 hasEntry(MonsterDatabase.findMonster("shadow snake"), -4.0),
                 hasEntry(MonsterDatabase.findMonster("shadow stalk"), -4.0),
                 hasEntry(MonsterDatabase.findMonster("shadow tree"), -4.0)));
+      }
+    }
+  }
+
+  @Nested
+  class itemDrops {
+    @Test
+    void shouldShowItemDrops() {
+      var funHouse = AdventureDatabase.getAreaCombatData("The \"Fun\" House");
+
+      var data = funHouse.toString(true);
+      assertThat(data, containsString("bloody clown pants 10%"));
+      assertThat(data, containsString("polka-dot bow tie (pickpocket only, cannot steal)"));
+      assertThat(data, containsString("empty greasepaint tube (bounty)"));
+    }
+
+    @Test
+    void shouldShowPickpocketRatesIfCanPickpocket() {
+      var cleanups = withClass(AscensionClass.ACCORDION_THIEF);
+
+      try (cleanups) {
+        var funHouse = AdventureDatabase.getAreaCombatData("The \"Fun\" House");
+
+        var data = funHouse.toString(true);
+        assertThat(data, containsString("bloody clown pants 16% (7% steal, 10% drop)"));
+        assertThat(data, containsString("polka-dot bow tie 5.0% (pickpocket only)"));
+        assertThat(data, containsString("empty greasepaint tube (bounty)"));
       }
     }
   }

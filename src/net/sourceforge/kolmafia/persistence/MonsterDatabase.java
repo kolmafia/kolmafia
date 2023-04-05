@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -25,6 +26,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -445,14 +447,15 @@ public class MonsterDatabase {
 
         for (int i = 4; i < data.length; ++i) {
           String itemString = data[i];
-          AdventureResult item = MonsterDatabase.parseItem(itemString);
+          MonsterDrop drop = MonsterDatabase.parseItem(itemString);
+          var item = drop.item();
           if (item == null || item.getItemId() == -1 || item.getName() == null) {
             RequestLogger.printLine("Bad item for monster \"" + name + "\": " + itemString);
             bogus = true;
             continue;
           }
 
-          monster.addItem(item);
+          monster.addItem(drop);
         }
 
         if (!bogus) {
@@ -574,37 +577,30 @@ public class MonsterDatabase {
     }
   }
 
-  private static AdventureResult parseItem(final String data) {
-    String name = data;
-    int count = 0;
-    String countString;
-    char prefix = '0';
-
-    // Remove quantity and flag
-    if (name.endsWith(")")) {
-      int left = name.lastIndexOf(" (");
-
-      if (left == -1) {
-        return null;
-      }
-
-      countString = name.substring(left + 2, name.length() - 1);
-
-      if (!Character.isDigit(countString.charAt(0))) {
-        countString = countString.substring(1);
-      }
-
-      count = StringUtilities.parseInt(countString);
-      prefix = name.charAt(left + 2);
-      name = name.substring(0, left);
+  private static MonsterDrop parseItem(final String data) {
+    Matcher dropMatcher = MonsterDrop.DROP.matcher(data);
+    if (!dropMatcher.matches()) {
+      throw new IllegalStateException(data + " did not match expected layout");
     }
 
-    int itemId = ItemDatabase.getItemId(name);
+    var itemName = dropMatcher.group(1);
+    var flag = DropFlag.fromFlag(dropMatcher.group(2));
+    var chance = StringUtilities.parseDouble(dropMatcher.group(3));
+
+    AdventureResult item;
+
+    int itemId = ItemDatabase.getItemId(itemName);
     if (itemId == -1) {
-      return ItemPool.get(data, '0');
+      item = ItemPool.get(data, 1);
+    } else {
+      item = ItemPool.get(itemId);
     }
 
-    return ItemPool.get(itemId, (count << 16) | prefix);
+    if (flag == DropFlag.NONE && chance == 0) {
+      flag = DropFlag.UNKNOWN_RATE;
+    }
+
+    return new MonsterDrop(item, chance, flag);
   }
 
   private static synchronized void initializeMonsterStrings() {

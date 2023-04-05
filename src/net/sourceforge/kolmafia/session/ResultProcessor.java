@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
@@ -168,16 +169,20 @@ public class ResultProcessor {
       // Log it if we pickpocket something "impossible"
       if (RequestLogger.getLastURLString().contains("action=steal")) {
         MonsterData monster = MonsterStatusTracker.getLastMonster();
-        for (AdventureResult monsterItem : monster.getItems()) {
-          if (monsterItem.getItemId() == itemId) {
+        for (MonsterDrop monsterDrop : monster.getItems()) {
+          if (monsterDrop.item().getItemId() == itemId) {
             String message =
-                switch ((char) monsterItem.getCount() & 0xFFFF) {
-                  case 'n' -> "Pickpocketed item "
+                switch (monsterDrop.flag()) {
+                  case NO_PICKPOCKET -> "Pickpocketed item "
                       + name
                       + " which is marked as non pickpocketable.";
-                  case 'c' -> "Pickpocketed item " + name + " which is marked as conditional.";
-                  case 'f' -> "Pickpocketed item " + name + " which is marked as fixed chance.";
-                  case 'a' -> "Pickpocketed item " + name + " which is marked as accordion steal.";
+                  case CONDITIONAL -> "Pickpocketed item "
+                      + name
+                      + " which is marked as conditional.";
+                  case FIXED -> "Pickpocketed item " + name + " which is marked as fixed chance.";
+                  case STEAL_ACCORDION -> "Pickpocketed item "
+                      + name
+                      + " which is marked as accordion steal.";
                   default -> null;
                 };
             if (message != null) {

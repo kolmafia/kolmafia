@@ -1,11 +1,13 @@
 package net.sourceforge.kolmafia.combat;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class MonsterStatusTracker {
@@ -86,7 +88,13 @@ public class MonsterStatusTracker {
 
     AdventureResult item = ItemPool.get(itemId, 1);
 
-    return MonsterStatusTracker.monsterData.getItems().contains(item);
+    for (var drop : MonsterStatusTracker.monsterData.getItems()) {
+      if (item.equals(drop.item())) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public static final boolean dropsItems(List<AdventureResult> items) {
@@ -94,7 +102,12 @@ public class MonsterStatusTracker {
       return false;
     }
 
-    return MonsterStatusTracker.monsterData.getItems().containsAll(items);
+    var drops =
+        MonsterStatusTracker.monsterData.getItems().stream()
+            .map(MonsterDrop::item)
+            .collect(Collectors.toSet());
+
+    return drops.containsAll(items);
   }
 
   public static final boolean shouldSteal() {

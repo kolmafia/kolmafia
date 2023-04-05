@@ -110,6 +110,8 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.JokePocket;
@@ -204,9 +206,9 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 public abstract class RuntimeLibrary {
   private static final RecordType itemDropRec =
       new RecordType(
-          "{item drop; int rate; string type;}",
+          "{item drop; float rate; string type;}",
           new String[] {"drop", "rate", "type"},
-          new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE});
+          new Type[] {DataTypes.ITEM_TYPE, DataTypes.FLOAT_TYPE, DataTypes.STRING_TYPE});
 
   private static final RecordType maximizerResults =
       new RecordType(
@@ -2397,10 +2399,10 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_INT_TYPE, params));
+    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_FLOAT_TYPE, params));
 
     params = new Type[] {DataTypes.MONSTER_TYPE};
-    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_INT_TYPE, params));
+    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_FLOAT_TYPE, params));
 
     Type itemDropRecArray = new AggregateType(itemDropRec, 0);
 
@@ -8914,29 +8916,22 @@ public abstract class RuntimeLibrary {
 
   public static Value item_drops(ScriptRuntime controller) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
-    List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
-
-    MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
-
-    for (AdventureResult result : data) {
-      value.aset(
-          DataTypes.makeItemValue(result.getItemId(), true),
-          DataTypes.parseIntValue(String.valueOf(result.getCount() >> 16), true));
-    }
-
-    return value;
+    return item_drops(monster);
   }
 
   public static Value item_drops(ScriptRuntime controller, final Value arg) {
     MonsterData monster = (MonsterData) arg.rawValue();
-    List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
+    return item_drops(monster);
+  }
 
-    MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
+  private static Value item_drops(MonsterData monster) {
+    List<MonsterDrop> data = monster == null ? new ArrayList<>() : monster.getItems();
 
-    for (AdventureResult result : data) {
+    MapValue value = new MapValue(DataTypes.ITEM_TO_FLOAT_TYPE);
+
+    for (MonsterDrop result : data) {
       value.aset(
-          DataTypes.makeItemValue(result.getItemId(), true),
-          DataTypes.parseIntValue(String.valueOf(result.getCount() >> 16), true));
+          DataTypes.makeItemValue(result.item().getItemId(), true), new Value(result.chance()));
     }
 
     return value;
@@ -8951,21 +8946,19 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value item_drops_array(ScriptRuntime controller, MonsterData monster) {
-    List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
+    List<MonsterDrop> data = monster == null ? new ArrayList<>() : monster.getItems();
     int dropCount = data.size();
     AggregateType type = new AggregateType(RuntimeLibrary.itemDropRec, dropCount);
     ArrayValue value = new ArrayValue(type);
     for (int i = 0; i < dropCount; ++i) {
-      AdventureResult result = data.get(i);
-      int count = result.getCount();
-      char dropType = (char) (count & 0xFFFF);
+      MonsterDrop result = data.get(i);
+      DropFlag dropType = result.flag();
       RecordValue rec = (RecordValue) value.aref(new Value(i));
 
-      rec.aset(0, DataTypes.makeItemValue(result.getItemId(), true), null);
-      rec.aset(1, new Value(count >> 16), null);
-      if (dropType < '1'
-          || dropType > '9') { // leave as an empty string if no special type was given
-        rec.aset(2, new Value(String.valueOf(dropType)), null);
+      rec.aset(0, DataTypes.makeItemValue(result.item().getItemId(), true), null);
+      rec.aset(1, new Value(result.chance()), null);
+      if (dropType != DropFlag.NONE) { // leave as an empty string if no special type was given
+        rec.aset(2, new Value(dropType.toString()), null);
       }
     }
 

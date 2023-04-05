@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1438,38 +1439,40 @@ public class RequestEditorKit extends HTMLEditorKit {
       monsterData.append(danceMoveStatus);
     }
 
-    List<AdventureResult> items = monster.getItems();
+    List<MonsterDrop> items = monster.getItems();
     if (!items.isEmpty()) {
       monsterData.append("<br />Drops: ");
       for (int i = 0; i < items.size(); ++i) {
         if (i != 0) {
           monsterData.append(", ");
         }
-        AdventureResult item = items.get(i);
-        int rate = item.getCount() >> 16;
-        monsterData.append(item.getName());
-        switch ((char) item.getCount() & 0xFFFF) {
-          case 'p' -> {
+        MonsterDrop drop = items.get(i);
+        double rawRate = drop.chance();
+        String rate =
+            (rawRate > 1 || rawRate == 0) ? String.valueOf((int) rawRate) : String.valueOf(rawRate);
+        monsterData.append(drop.item().getName());
+        switch (drop.flag()) {
+          case PICKPOCKET_ONLY -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" pp only)");
           }
-          case 'n' -> {
+          case NO_PICKPOCKET -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" no pp)");
           }
-          case 'c' -> {
+          case CONDITIONAL -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" cond)");
           }
-          case 'f' -> {
+          case FIXED -> {
             monsterData.append(" (");
             monsterData.append(rate);
             monsterData.append(" no mod)");
           }
-          case 'a' -> monsterData.append(" (stealable accordion)");
+          case STEAL_ACCORDION -> monsterData.append(" (stealable accordion)");
           default -> {
             monsterData.append(" (");
             monsterData.append(rate);
