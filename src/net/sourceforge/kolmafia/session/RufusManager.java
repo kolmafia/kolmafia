@@ -150,15 +150,21 @@ public class RufusManager {
   //  Rufus wants you to go into a Shadow Rift and defeat a shadow scythe.
   //  Call Rufus and let him know you defeated that monster.
   public static final Pattern RUFUS_ENTITY_PATTERN = Pattern.compile("defeat a (.*?)\\.");
+  public static final Pattern RUFUS_ENTITY_DONE_PATTERN =
+      Pattern.compile("you defeated that monster\\.");
 
   //  Rufus wants you to go into a Shadow Rift and find a shadow bucket.
   //  Call Rufus and tell him you found his shadow bucket.
   public static final Pattern RUFUS_ARTIFACT_PATTERN = Pattern.compile("find a (.*?)\\.");
+  public static final Pattern RUFUS_ARTIFACT_DONE_PATTERN =
+      Pattern.compile("you found his (.*?)\\.");
 
   //  Rufus wants you to find him 3 wisps of shadow flame from Shadow Rifts.
   //  Call Rufus and tell him you've got the 3 wisps of shadow flame he wanted.
   public static final Pattern RUFUS_ITEMS_PATTERN =
       Pattern.compile("find him 3 (.*?) from Shadow Rifts\\.");
+  public static final Pattern RUFUS_ITEMS_DONE_PATTERN =
+      Pattern.compile("you've got the 3 (.*?) he wanted\\.");
 
   public static String handleQuestLog(String details) {
     details = details.trim();
@@ -191,6 +197,28 @@ public class RufusManager {
     }
     if (details.startsWith("Call Rufus")) {
       // You have done what Rufus wanted
+      Matcher entityMatcher = RUFUS_ENTITY_DONE_PATTERN.matcher(details);
+      if (entityMatcher.find()) {
+        Preferences.setString("rufusQuestType", "entity");
+        return "step1";
+      }
+      Matcher artifactMatcher = RUFUS_ARTIFACT_DONE_PATTERN.matcher(details);
+      if (artifactMatcher.find()) {
+        Preferences.setString("rufusQuestType", "artifact");
+        Preferences.setString("rufusQuestTarget", artifactMatcher.group(1));
+        return "step1";
+      }
+      Matcher itemsMatcher = RUFUS_ITEMS_DONE_PATTERN.matcher(details);
+      if (itemsMatcher.find()) {
+        Preferences.setString("rufusQuestType", "items");
+        String items = itemsMatcher.group(1);
+        // Convert to itemId and back to non-plural item name
+        int itemId = ItemDatabase.getItemId(items, 3);
+        String itemName = ItemDatabase.getItemName(itemId);
+        Preferences.setString("rufusQuestTarget", itemName);
+        return "step1";
+      }
+      // This should not be possible
       return "step1";
     }
     // This should not be possible
