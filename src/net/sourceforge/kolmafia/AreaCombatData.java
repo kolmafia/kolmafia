@@ -1133,12 +1133,14 @@ public class AreaCombatData {
           buffer.append("% (no modifiers)");
         }
         case PICKPOCKET_ONLY -> {
-          if (stealing && rawDropRate > 0) {
+          if (rawDropRate == 0) {
+            buffer.append(" (pickpocket only, unknown rate)");
+          } else if (stealing) {
             buffer.append(" ");
             buffer.append(Math.min(rawDropRate * pocketModifier, 100.0));
             buffer.append("% (pickpocket only)");
           } else {
-            buffer.append(" (pickpocket only, unknown rate)");
+            buffer.append(" (pickpocket only, cannot steal)");
           }
         }
         case STEAL_ACCORDION -> buffer.append(" (stealable accordion)");
