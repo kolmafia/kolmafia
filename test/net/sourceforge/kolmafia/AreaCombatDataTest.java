@@ -583,9 +583,9 @@ public class AreaCombatDataTest {
       var cleanups = withClass(AscensionClass.ACCORDION_THIEF);
 
       try (cleanups) {
-        var iceHotel = AdventureDatabase.getAreaCombatData("The \"Fun\" House");
+        var funHouse = AdventureDatabase.getAreaCombatData("The \"Fun\" House");
 
-        var data = iceHotel.toString(true);
+        var data = funHouse.toString(true);
         assertThat(data, containsString("bloody clown pants 16% (7% steal, 10% drop)"));
         assertThat(data, containsString("polka-dot bow tie 5.0% (pickpocket only)"));
         assertThat(data, containsString("empty greasepaint tube (bounty)"));
