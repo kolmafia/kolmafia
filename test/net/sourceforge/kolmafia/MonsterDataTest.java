@@ -365,14 +365,32 @@ public class MonsterDataTest {
   class ShouldSteal {
     @Test
     public void shouldntStealIfNoItems() {
-      var monster = MonsterDatabase.findMonster("crate");
-      assertFalse(monster.shouldSteal());
+      var cleanups = withMoxie(10000);
+
+      try (cleanups) {
+        var monster = MonsterDatabase.findMonster("crate");
+        assertFalse(monster.shouldSteal());
+      }
     }
 
     @Test
     public void shouldntStealIfAllItemsAreNoPP() {
-      var monster = MonsterDatabase.findMonster("Arizona bark scorpion");
-      assertFalse(monster.shouldSteal());
+      var cleanups = withMoxie(10000);
+
+      try (cleanups) {
+        var monster = MonsterDatabase.findMonster("Arizona bark scorpion");
+        assertFalse(monster.shouldSteal());
+      }
+    }
+
+    @Test
+    public void shouldntStealIfItemsWillSurelyDrop() {
+      var cleanups = withMoxie(10000);
+
+      try (cleanups) {
+        var monster = MonsterDatabase.findMonster("Astronomer");
+        assertFalse(monster.shouldSteal());
+      }
     }
 
     @ParameterizedTest
