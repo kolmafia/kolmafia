@@ -287,8 +287,8 @@ giant swarm of ghuol whelps	1074	whelps3.gif	Atk: 50 Def: 45 HP: 250 Init: 300 G
 gingerbread murderer	1750	gingerbreadman.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: construct Article: a	glob of enchanted icing (40)	ginger snaps (30)
 Glass of Orange Juice	515	juiceglass.gif	NOCOPY Atk: 220 Def: 198 HP: 350 Init: 100 Meat: 400 P: hippy ED: stench EA: hot EA: sleaze EA: stench Article: a	green clay bead (30)	orange peel hat (100)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)	round purple sunglasses (0)
 gluttonous ghuol	189	ghuol_fat.gif	Atk: 55 Def: 50 HP: 50 Init: 50 Meat: 60 P: undead E: spooky Article: a	ghuol ears (10)	ghuol egg (10)	ghuol guolash (20)	huge spoon (5)
-gnarly gnome	249	gnarlgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid Article: a	clockwork key (n5)	clockwork key (n5)	flange (5)
-gnasty gnome	248	gnasgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid Article: a	clockwork key (n5)	clockwork key (n5)	flange (5)
+gnarly gnome	249	gnarlgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid Article: a	clockwork key (c5)	clockwork key (c5)	flange (5)
+gnasty gnome	248	gnasgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid Article: a	clockwork key (c5)	clockwork key (c5)	flange (5)
 gnefarious gnome	252	gnefgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid Article: a	sprocket (15)	cog (15)	flange (5)
 Gnollish Bodybuilder	13	dk_builder.gif	Atk: 10 Def: 9 HP: 5 Init: 60 Meat: 20 P: humanoid EA: sleaze Article: a	gnoll teeth (5)	gnoll lips (5)	enchanted barbell (0)
 Gnollish Crossdresser	19	dk_cross.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humanoid E: sleaze Article: a	gnoll teeth (5)	frilly skirt (25)	maiden wig (25)	frilly shirt (c5)	Gnollish Crossdress (c0)
@@ -570,7 +570,7 @@ sabre-toothed goat	84	toothgoat.gif	Atk: 68 Def: 61 HP: 50 Init: 80 Meat: 55 P: 
 salamander	334	salamander.gif	NOCOPY Atk: [3] Def: [2] HP: [3] Init: -10000 Meat: 10 P: beast Article: a	salamander spleen (100)
 sassy pirate	104	pirate1.gif	Atk: 61 Def: 54 HP: 51 Init: 60 Meat: 20 P: pirate Article: a	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
 scary clown	111	clown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 Meat: 25 P: horror E: spooky Article: a	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	big bass drum (4)	clown skin (10)	polka-dot bow tie (p5)
-scary pirate	307	zompirate.gif	Atk: 150 Def: 135 HP: 200 Init: 10000 Meat: 45 P: pirate E: spooky Article: a Wiki: "scary pirate (cursed)"	cursed breeches (n0)	cursed cutlass (n0)	cursed eyepatch (n0)	folder (skull and crossbones) (c0)
+scary pirate	307	zompirate.gif	Atk: 150 Def: 135 HP: 200 Init: 10000 Meat: 45 P: pirate E: spooky Article: a Wiki: "scary pirate (cursed)"	cursed breeches (c0.2)	cursed cutlass (c0.2)	cursed eyepatch (c0.2)	folder (skull and crossbones) (c0)
 school of many	1374	schoolofmany.gif	Atk: 625 Def: 600 HP: 20000 Init: 100 Group: 20 P: horror Article: a	rough fish scale (n20)	rough fish scale (n10)	dull fish scale (n40)	dull fish scale (n20)	jagged tooth (n15)	jagged tooth (n5)
 school of wizardfish	717	wizardfish.gif	Atk: 300 Def: 270 HP: 400 Init: 100 Meat: 200 Group: 4 P: fish Article: a	dull fish scale (n15)	fishy wand (c0)	glistening fish meat (n5)	folder (Seawolf) (c0)
 scimitarfish	723	scimitarfish.gif	Atk: 400 Def: 292 HP: 550 Init: 200 Meat: 220 P: fish Article: a	dull fish scale (n15)	fish scimitar (n2)
@@ -1677,17 +1677,17 @@ Medieval potter	1506	med_potter.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Mea
 Medieval strawman debator	1504	med_strawman.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Meat: 25 P: dude Article: a	straw (0)	straw (0)	straw (0)	straw (0)	straw pole (c0)
 Medieval stucco artisan	1508	med_stucco.gif	Scale: 3 Cap: 250 Floor: 25 Init: -10000 Meat: 10 P: dude Article: a	clay (0)	clay (0)	straw (0)	straw (0)
 
-gummi plesiosaur	1491	plesio.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	small gummi fin (0)	gummi sword (0)
-lemonhead minnow	1492	lemonfish.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: fish Article: a	lemonhead caviar (0)	lemony scales (0)	lemony scales (0)
-school of gummi piranhas	1490	gummifish.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: fish Article: a	gummi fang (0)	chocolate cow bone (0)
+gummi plesiosaur	1491	plesio.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	small gummi fin (10)	gummi sword (1)
+lemonhead minnow	1492	lemonfish.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: fish Article: a	lemonhead caviar (1)	lemony scales (15)	lemony scales (10)	lemony scales (10)
+school of gummi piranhas	1490	gummifish.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: fish Article: a	gummi fang (10)	chocolate cow bone (1)
 
-chocolate hare	1494	chocohare.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	chocolate rabbit's foot (0)	candy carrot (0)
-chocolate-cherry prairie dog	1495	ccprairie.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	candy mountain oyster (0)	chocolate-stained collar (0)
-Rock Pop weasel	1493	popweasel.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	mulberry (0)	weasel stomping pants (0)
+chocolate hare	1494	chocohare.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	chocolate rabbit's foot (1)	candy carrot (10)
+chocolate-cherry prairie dog	1495	ccprairie.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	candy mountain oyster (10)	chocolate-stained collar (1)
+Rock Pop weasel	1493	popweasel.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a	mulberry (10)	weasel stomping pants (1)
 
-candied pecan tree	1496	pecantree.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: plant Article: a	candied pecan (0)	candy stick (0)
-licorice snake	1497	licosnake.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast SNAKE Article: a	anise-flavored venom (0)	licorice whip (0)
-tricksy pixie	1498	trixiepixie.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: humanoid Article: a	sour powder (0)	pixie axie (0)
+candied pecan tree	1496	pecantree.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: plant Article: a	candied pecan (10)	candy stick (1)
+licorice snake	1497	licosnake.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast SNAKE Article: a	anise-flavored venom (10)	licorice whip (1)
+tricksy pixie	1498	trixiepixie.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: humanoid Article: a	sour powder (10)	pixie axie (1)
 
 fire truck	1499	firetruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct EA: hot Article: a	fireman's lunch (0)	fire hose (0)
 ice cream truck	1500	icecreamtruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct Article: an	ice cream sandwich (0)	plain paper hat (0)
@@ -2108,10 +2108,10 @@ Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gi
 
 # Oliver's Place (Nov 2022)
 gator-human hybrid	2249	olivers_gator.gif	Atk: 70 Def: 50 HP: 60 Init: 80 P: beast Article: a	drink chit (15)	swamp haunch (20)	gator shades (5)
-gangster's moll	2250	olivers_moll.gif	Atk: 70 Def: 60 HP: 40 Init: 100 P: dude Article: a EA: spooky	drink chit (15)	drink chit (15)	bullet necklace (n0.2)
-traveling hobo	2251	olivers_hobo.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: hobo Article: a	drink chit (15)	booze bindle (20)	rare oboe (n0.2)
-goblin flapper	2252	olivers_gob.gif	Atk: 40 Def: 40 HP: 100 Init: 40 P: goblin EA: sleaze	drink chit (15)	imported taffy (20)	Charleston shoes (n0.2)
-undercover prohibition agent	2253	olivers_prohie.gif	Atk: 60 Def: 60 HP: 70 Init: 50 P: dude Article: an	government per-diem (20)	prohie's hat (n0.2)
+gangster's moll	2250	olivers_moll.gif	Atk: 70 Def: 60 HP: 40 Init: 100 P: dude Article: a EA: spooky	drink chit (15)	drink chit (15)	bullet necklace (c0.2)
+traveling hobo	2251	olivers_hobo.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: hobo Article: a	drink chit (15)	booze bindle (20)	rare oboe (c0.2)
+goblin flapper	2252	olivers_gob.gif	Atk: 40 Def: 40 HP: 100 Init: 40 P: goblin EA: sleaze	drink chit (15)	imported taffy (20)	Charleston shoes (c0.2)
+undercover prohibition agent	2253	olivers_prohie.gif	Atk: 60 Def: 60 HP: 70 Init: 50 P: dude Article: an	government per-diem (20)	prohie's hat (c0.2)
 
 # Rock Garden (Jan 2023)
 Moleman	2267	moleman.gif	NOCOPY Scale: 15 Cap: ? Floor: ? Init: -10000 P: humanoid Article: a
@@ -2144,7 +2144,7 @@ The Landscaper	917	landscaper.gif	BOSS NOCOPY Atk: 100 Def: 90 HP: 100000 Init: 
 
 # Professor Jacking's laboratory (antique record album March-April 2010)
 Professor Jacking	939	profjacking.gif	NOCOPY Atk: 85 Def: 76 HP: 200 Init: 85 Meat: 200 P: dude
-Castle in the Clouds in the Sky	943	thecastle.gif	Atk: 75 Def: 81 HP: 200 Init: 10 P: construct EA: sleaze Article: the	tiny goth giant (0)
+Castle in the Clouds in the Sky	943	thecastle.gif	Atk: 75 Def: 81 HP: 200 Init: 10 P: construct EA: sleaze Article: the	tiny goth giant (1)
 cruel dust mote	940	dustmote.gif	Atk: 75 Def: 67 HP: 100 Init: 40 P: weird EA: sleaze Article: a	boulder (0)
 Fearsome Wacken	946	wacken.gif	NOCOPY Atk: 90 Def: 81 HP: 200 Init: 60 P: beast EA: spooky Article: the	Crazyleg's razor (100)
 funk particle	942	funkparticle.gif	Atk: 85 Def: 67 HP: 80 Init: 30 P: weird EA: stench Article: a	fat bottom quark (0)
