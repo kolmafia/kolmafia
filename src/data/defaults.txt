@@ -2020,6 +2020,7 @@ user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
 user	_molehillMountainUsed	false
 user	_momFoodReceived	false
+user	_monkeyPawWishesUsed	0
 user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false

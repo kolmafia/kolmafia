@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
 import net.sourceforge.kolmafia.request.LocketRequest;
+import net.sourceforge.kolmafia.request.MonkeyPawRequest;
 import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -6236,10 +6237,13 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 1267: // Rubbed it the Right Way
-        String wish = request.getFormField("wish");
-        GenieRequest.postChoice(text, wish);
-        break;
+      case 1267:
+        // Rubbed it the Right Way
+        {
+          String wish = request.getFormField("wish");
+          GenieRequest.postChoice(text, wish);
+          break;
+        }
 
       case 1272:
         // R&D
@@ -6500,6 +6504,14 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("_shadowForestLooted", true);
         }
         break;
+
+      case 1501:
+        // Make a Wish
+        {
+          String wish = request.getFormField("wish");
+          MonkeyPawRequest.postChoice(text, wish);
+          break;
+        }
     }
   }
 
@@ -8167,6 +8179,11 @@ public abstract class ChoiceControl {
         // Like a Loded Stone
         RufusManager.handleShadowRiftNC(1500, text);
         break;
+
+      case 1501:
+        // Make a Wish
+        MonkeyPawRequest.visitChoice(text);
+        break;
     }
   }
 
@@ -9282,6 +9299,7 @@ public abstract class ChoiceControl {
       case 1493: // Treasure House
       case 1494: // Examine S.I.T. Course Certificate
       case 1495: // Get Some Training
+      case 1501: // Make a Wish
         return true;
 
       default:
