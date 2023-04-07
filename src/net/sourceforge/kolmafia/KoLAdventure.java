@@ -2141,8 +2141,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.startsWith("PirateRealm")) {
       // *** You have limited turns available per day.
-      return (Preferences.getBoolean("prAlways") || Preferences.getBoolean("_prToday"))
-          && Preferences.getString("_lastPirateRealmIsland").equals(this.adventureName);
+      if (!Preferences.getBoolean("prAlways") && !Preferences.getBoolean("_prToday")) {
+        return false;
+      }
+      if (this.adventureName.equals("PirateRealm Island")
+          || this.adventureName.equals("Sailing the PirateRealm Seas")) {
+        return true;
+      }
+      return Preferences.getString("_lastPirateRealmIsland").equals(this.adventureName);
     }
 
     if (this.zone.equals("Speakeasy")) {
