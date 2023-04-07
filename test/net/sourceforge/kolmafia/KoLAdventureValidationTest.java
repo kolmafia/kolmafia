@@ -1367,6 +1367,10 @@ public class KoLAdventureValidationTest {
         AdventureDatabase.getAdventureByName("Red Roger's Fortress");
     private static final KoLAdventure BATTLE_ISLAND =
         AdventureDatabase.getAdventureByName("Battle Island");
+    private static final KoLAdventure PIRATEREALM_ISLAND =
+        AdventureDatabase.getAdventureByName("PirateRealm Island");
+    private static final KoLAdventure SAILING =
+        AdventureDatabase.getAdventureByName("Sailing the PirateRealm Seas");
 
     @Test
     public void properlyChecksLastIsland() {
@@ -1377,6 +1381,18 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         assertFalse(RED_ROGERS_FORTRESS.canAdventure());
         assertTrue(BATTLE_ISLAND.canAdventure());
+        assertTrue(PIRATEREALM_ISLAND.canAdventure());
+      }
+    }
+
+    @Test
+    public void canAlwaysSail() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_lastPirateRealmIsland", "Glass Island"),
+              withProperty("prAlways", true));
+      try (cleanups) {
+        assertTrue(SAILING.canAdventure());
       }
     }
   }
