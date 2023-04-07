@@ -498,7 +498,8 @@ public class QuestManager {
     }
   }
 
-  private static Pattern SPEAKEASY_NAME = Pattern.compile("whichplace=speakeasy.*?title=\"(.*?)\"");
+  private static Pattern SPEAKEASY_NAME =
+      Pattern.compile("div id=town_speakeasyname.*?title=\"(.*?)\"");
 
   private static void handleSpeakeasyName(final String text) {
     var matcher = SPEAKEASY_NAME.matcher(text);

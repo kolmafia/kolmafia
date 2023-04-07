@@ -3432,7 +3432,7 @@ public class QuestManagerTest {
         request.responseText = html("request/test_visit_town_wrong.html");
         QuestManager.handleQuestChange(request);
 
-        assertThat("speakeasyName", isSetTo("BLORP"));
+        assertThat("speakeasyName", isSetTo("Veracity's Place"));
       }
     }
 
