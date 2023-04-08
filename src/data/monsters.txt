@@ -1834,7 +1834,7 @@ Travoltron	1816	travoltron.gif	BOSS NOCOPY Atk: 240 Def: 180 HP: 500 Init: 75 P:
 # The Ice Hotel (The Glaciest November 2015)
 ice bartender	1850	icetender.gif	Atk: 100 Def: 90 HP: 110 Init: 40 Meat: 50 P: dude E: cold Article: an	perfect ice cube (30)
 ice clerk	1854	iceclerk.gif	Atk: 100 Def: 80 HP: 120 Init: 40 P: dude ED: cold Article: an	ice hotel bell (5)
-ice concierge	1852	iceconcierge.gif	Atk: 110 Def: 90 HP: 150 Init: 50 Meat: 40 P: dude ED: cold Article: an	exotic travel brochure (20)	bag of foreign bribes (c0)
+ice concierge	1852	iceconcierge.gif	Atk: 110 Def: 90 HP: 150 Init: 50 Meat: 40 P: dude ED: cold Article: an	exotic travel brochure (20)	bag of foreign bribes (c3)
 ice housekeeper	1853	icemaid.gif	Atk: 90 Def: 100 HP: 120 Init: 20 P: dude E: cold Article: an	frozen shampoo-conditioner (20)	hotel minibar key (20)
 ice porter	1851	iceporter.gif	Atk: 90 Def: 100 HP: 160 Init: 10 Meat: 25 P: dude ED: cold Article: an	ice porter (20)	bellhop's hat (5)
 
