@@ -113,7 +113,6 @@ public class MonkeyPawRequestTest {
       }
       assertPostRequest(
           requests.get(i++), "/choice.php", "whichchoice=1501&wish=bag of foreign bribes&option=1");
-      assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
     }
   }
 }

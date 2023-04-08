@@ -77,7 +77,7 @@ public class MonkeyPawRequest extends GenericRequest {
 
   // You acquire an effect: <b>Cursed by a Monkey</b><br>(duration: 7 Adventures)
   private static final Pattern CURSE_PATTERN =
-      Pattern.compile("<b>Cursed by a MOnkey</b>.*?(duration: (\\d+) Adventures)");
+      Pattern.compile("<b>Cursed by a Monkey</b>.*?(duration: (\\d+) Adventures)");
 
   public static void postChoice(final String responseText, final String wish) {
     if (!responseText.contains("Wish granted.")) {
