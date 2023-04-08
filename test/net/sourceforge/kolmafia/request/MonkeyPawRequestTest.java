@@ -42,11 +42,20 @@ public class MonkeyPawRequestTest {
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
     var cleanups =
-        new Cleanups(withHttpClientBuilder(builder), withProperty("_monkeyPawWishesUsed", 0));
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withItem(ItemPool.BAG_OF_FOREIGN_BRIBES, 0),
+            withProperty("_monkeyPawWishesUsed", 0));
     try (cleanups) {
       client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
       client.addResponse(200, html("request/test_monkey_paw_wish_" + wishesUsed + ".html"));
-      client.addResponse(200, ""); // api.php
+      if (wishesUsed > 0) {
+        client.addResponse(200, ""); // api.php
+      }
+      if (wishesUsed < 5) {
+        client.addResponse(200, html("request/test_monkey_paw_wish_" + (wishesUsed + 1) + ".html"));
+        client.addResponse(200, ""); // api.php
+      }
 
       var pawRequest = new GenericRequest("main.php?action=cmonk", false);
       pawRequest.run();
@@ -54,13 +63,29 @@ public class MonkeyPawRequestTest {
       // KoL redirects to choice.php even if there are no choice options.
       // We know how to work around that.
 
-      // We know how many wishes have been used
+      // Since we parsed the state of the paw (how many fingers are
+      // raised), we know how many wishes have been used.
       assertThat("_monkeyPawWishesUsed", isSetTo(wishesUsed));
 
       if (wishesUsed < 5) {
         // We are in a choice.
         assertTrue(ChoiceManager.handlingChoice);
         assertEquals(1501, ChoiceManager.lastChoice);
+
+        // Reset the number of wishes used.
+        Preferences.setInteger("_monkeyPawWishesUsed", 0);
+
+        // Submit a wish.
+        var wishRequest =
+            new GenericRequest("choice.php?whichchoice=1501&option=1&wish=bag+of+foreign+bribes");
+        wishRequest.run();
+
+        // Our wish was granted
+        assertTrue(InventoryManager.hasItem(ItemPool.BAG_OF_FOREIGN_BRIBES));
+
+        // Since we parsed the duration of the curse, we know how many
+        // wishes have been used.
+        assertThat("_monkeyPawWishesUsed", isSetTo(wishesUsed + 1));
       }
 
       var requests = client.getRequests();
@@ -70,6 +95,12 @@ public class MonkeyPawRequestTest {
       assertGetRequest(requests.get(i++), "/choice.php", "forceoption=0");
       if (wishesUsed > 0) {
         assertPostRequest(requests.get(i++), "/api.php", "what=status&for=KoLmafia");
+      }
+      if (wishesUsed < 5) {
+        assertPostRequest(
+            requests.get(i++),
+            "/choice.php",
+            "whichchoice=1501&option=1&wish=bag+of+foreign+bribes");
       }
     }
   }
