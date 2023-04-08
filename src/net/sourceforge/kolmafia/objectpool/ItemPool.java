@@ -2743,6 +2743,7 @@ public class ItemPool {
   public static final int COLD_FANG = 8684;
   public static final int PERFECT_ICE_CUBE = 8686;
   public static final int COLD_WEATHER_BARTENDER_GUIDE = 8687;
+  public static final int BAG_OF_FOREIGN_BRIBES = 8691;
   public static final int ICE_HOTEL_BELL = 8694;
   public static final int ANCIENT_MEDICINAL_HERBS = 8696;
   public static final int ICE_RICE = 8697;
@@ -3565,6 +3566,7 @@ public class ItemPool {
   public static final int SHADOW_MARTINI = 11183;
   public static final int SHADOW_PILL = 11184;
   public static final int SHADOW_NEEDLE = 11185;
+  public static final int CURSED_MONKEY_PAW = 11186;
 
   private ItemPool() {}
 
