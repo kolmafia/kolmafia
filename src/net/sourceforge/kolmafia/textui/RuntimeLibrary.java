@@ -171,6 +171,7 @@ import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand;
+import net.sourceforge.kolmafia.textui.command.MonkeyPawCommand;
 import net.sourceforge.kolmafia.textui.command.SetPreferencesCommand;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateValue;
@@ -2804,6 +2805,15 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction(
             "get_autumnaton_locations", new AggregateType(DataTypes.LOCATION_TYPE, 0), params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.EFFECT_TYPE};
+    functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -10026,5 +10036,33 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  // boolean monkey_paw( string s );
+  // boolean monkey_paw( item i );
+  // boolean monkey_paw( effect e );
+  public static Value monkey_paw(ScriptRuntime controller, final Value arg) {
+    String wish = null;
+    Type type = arg.getType();
+    if (type.equals(TypeSpec.ITEM)) {
+      AdventureResult item = ItemPool.get((int) arg.intValue());
+      wish = MonkeyPawCommand.getValidItemSubstring(item.getName());
+    } else if (type.equals(TypeSpec.EFFECT)) {
+      AdventureResult effect = EffectPool.get((int) arg.intValue());
+      wish = MonkeyPawCommand.getValidEffectSubstring(effect.getName());
+    } else {
+      wish = arg.toString();
+    }
+    if (wish == null) {
+      return DataTypes.FALSE_VALUE;
+    } else {
+      return DataTypes.makeBooleanValue(monkey_paw(wish));
+    }
+  }
+
+  private static boolean monkey_paw(String wish) {
+    var req = new MonkeyPawRequest(wish);
+    RequestThread.postRequest(req);
+    return !req.responseText.contains("impossible");
   }
 }
