@@ -46,7 +46,7 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
       String output = execute("");
       assertThat(
           output,
-          containsString("Usage: monkeypaw effect <effectname> | item <itemname> | wish <wish>"));
+          containsString("Usage: monkeypaw effect [effectname] | item [itemname] | wish [wish]"));
     }
   }
 
