@@ -58,9 +58,11 @@ public class MonkeyPawCommand extends AbstractCommand {
     if (wish != null) {
       var req = new MonkeyPawRequest(wish);
       RequestThread.postRequest(req);
-      var matcher = RESPONSE.matcher(req.responseText);
-      if (matcher.find()) {
-        KoLmafia.updateDisplay(matcher.group(1));
+      if (req.responseText != null) {
+        var matcher = RESPONSE.matcher(req.responseText);
+        if (matcher.find()) {
+          KoLmafia.updateDisplay(matcher.group(1));
+        }
       }
     }
   }
