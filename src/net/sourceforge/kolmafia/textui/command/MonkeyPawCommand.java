@@ -11,10 +11,12 @@ import net.sourceforge.kolmafia.request.MonkeyPawRequest;
 
 public class MonkeyPawCommand extends AbstractCommand {
   public MonkeyPawCommand() {
-    this.usage = " effect <effectname> | item <itemname> | wish <wish>";
+    this.usage = " effect [effectname] | item [itemname] | wish [wish]";
   }
 
   private static final Pattern DISALLOWED_CHARACTER = Pattern.compile("[^a-z0-9A-Z ]");
+
+  private static final Pattern RESPONSE = Pattern.compile("<span class='guts'>([^<]+)?</span>");
 
   @Override
   public void run(final String cmd, String parameters) {
@@ -54,7 +56,12 @@ public class MonkeyPawCommand extends AbstractCommand {
     }
 
     if (wish != null) {
-      RequestThread.postRequest(new MonkeyPawRequest(wish));
+      var req = new MonkeyPawRequest(wish);
+      RequestThread.postRequest(req);
+      var matcher = RESPONSE.matcher(req.responseText);
+      if (matcher.find()) {
+        KoLmafia.updateDisplay(matcher.group(1));
+      }
     }
   }
 
