@@ -108,6 +108,18 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  void itemIsPassedThroughAsValidSubstring() {
+    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
+
+    try (cleanups) {
+      execute("item El Vibrato Punchcard (165 holes)");
+
+      assertContinueState();
+      assertWish("165 holes");
+    }
+  }
+
+  @Test
   void effectErrorsIfNoMatch() {
     var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
 
@@ -128,6 +140,30 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
 
       assertContinueState();
       assertWish("wings");
+    }
+  }
+
+  @Test
+  void effectIsPassedThroughAsValidSubstring() {
+    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
+
+    try (cleanups) {
+      execute("effect Let's Go Shopping");
+
+      assertContinueState();
+      assertWish("s go shopping");
+    }
+  }
+
+  @Test
+  void effectIsDeniedIfCannotFindUniqueValidSubstring() {
+    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
+
+    try (cleanups) {
+      String output = execute("effect meat.enh");
+
+      assertErrorState();
+      assertThat(output, containsString("cannot find unique valid substring to wish for meat.enh"));
     }
   }
 

@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -12,6 +14,8 @@ public class MonkeyPawCommand extends AbstractCommand {
   public MonkeyPawCommand() {
     this.usage = " effect <effectname> | item <itemname> | wish <wish>";
   }
+
+  public Pattern DISALLOWED_CHARACTER = Pattern.compile("[^a-z0-9A-Z ]");
 
   @Override
   public void run(final String cmd, String parameters) {
@@ -56,10 +60,28 @@ public class MonkeyPawCommand extends AbstractCommand {
   }
 
   private String getValidEffectSubstring(String name) {
-    return name;
+    String[] split = DISALLOWED_CHARACTER.split(name);
+    if (split.length == 1) return name;
+    for (var entry : split) {
+      var possibles = EffectDatabase.getMatchingNames(entry);
+      if (possibles.size() == 1) {
+        return entry;
+      }
+    }
+
+    return null;
   }
 
   private String getValidItemSubstring(String name) {
-    return name;
+    String[] split = DISALLOWED_CHARACTER.split(name);
+    if (split.length == 1) return name;
+    for (var entry : split) {
+      var possibles = ItemDatabase.getMatchingNames(entry);
+      if (possibles.size() == 1) {
+        return entry;
+      }
+    }
+
+    return null;
   }
 }
