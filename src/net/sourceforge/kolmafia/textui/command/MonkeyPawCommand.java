@@ -14,7 +14,7 @@ public class MonkeyPawCommand extends AbstractCommand {
     this.usage = " effect [effectname] | item [itemname] | wish [wish]";
   }
 
-  private static final Pattern DISALLOWED_CHARACTER = Pattern.compile("[^a-z\\dA-Z \\-]");
+  private static final Pattern DISALLOWED_CHARACTER = Pattern.compile("[^a-z\\d \\-]", Pattern.CASE_INSENSITIVE);
 
   private static final Pattern RESPONSE = Pattern.compile("<span class='guts'>([^<]+)?</span>");
 
