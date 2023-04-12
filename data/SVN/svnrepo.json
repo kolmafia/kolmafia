@@ -189,9 +189,10 @@
    "longDesc": "This is the supported version of Bale's original.  This script will change kolMafia's default healing functions to make the most of your available items in hardcore/ronin or make the most of your meat if you have access to the mall. That makes this a great restoration improvement for both ascenders <i>and</i> farmers.<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set recoveryScript = Universal_recovery.ash</span></p>"
  },
  {
-   "repo": "https://svn.code.sf.net/p/veracity0/code/garden/",
+   "type": "git",
+   "repo": "https://github.com/Veracity0/garden",
    "author": "Veracity",
-   "name": "Veracity's Garden Harvester",
+   "name": "Garden Harvester",
    "forumThread": "https://kolmafia.us/showthread.php?21651",
    "shortDesc": "Harvest any kind of garden",
    "category": "action",
@@ -207,7 +208,8 @@
    "longDesc": "Automates Fernswarthy's Basement: <ul><li>Creates and switches oufits</li><li>Uses cheapest buffs needed for necessary buffing</li><li>User perference to use Dr. Lucifer or other food/drink/spleen items.</li></ul>See thread for full list of options."
  },
  {
-   "repo": "https://svn.code.sf.net/p/veracity0/code/arrrbor-day/",
+   "type": "git",
+   "repo": "https://github.com/Veracity0/arrrbor-day",
    "author": "Veracity",
    "name": "Arrrbor Day",
    "forumThread": "https://kolmafia.us/showthread.php?24900",
@@ -234,10 +236,12 @@
    "longDesc": "The collaborative continuation of sl_ascend/cc_ascend"
  },
  {
-   "repo": "https://github.com/Loathing-Associates-Scripting-Society/combo/branches/release/",
+   "type": "git",
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/combo",
+   "branch": "release",
    "author": "Loathing Associates Scripting Society",
    "name": "combo",
-   "forumThread": "http://forums.kingdomofloathing.com/vb/showthread.php?t=248196",
+   "forumThread": "https://kolmafia.us/threads/combo-a-script-for-combing-rare-beach-tiles.28770/",
    "shortDesc": "Comb Beach prioritizing rare tiles",
    "category": "adventure",
    "longDesc": "Use your beach comb to visit sections of the Beach that are known to contain rare tiles."
@@ -414,36 +418,50 @@
    "longDesc": "Unlocks Dreadsylvania zones one at a time, or multiple at once, Banishes Monsters, Offers help on how to setup bosses, and explains roughly how kisses work."
  },
  {
-   "repo": "https://svn.code.sf.net/p/veracity0/code/beach/",
+   "type": "git",
+   "repo": "https://github.com/Veracity0/beach",
    "author": "Veracity",
-   "name": "Veracity's BeachComber",
+   "name": "BeachComber",
    "forumThread": "https://kolmafia.us/showthread.php?23993",
    "shortDesc": "Automate Combing the Beach with your Beach Comb",
    "category": "adventure",
    "longDesc": "Configurable script to visit random sections of the Beach to comb your desired patches of sand with your Beach Comb."
  },
  {
-   "repo": "https://svn.code.sf.net/p/veracity0/code/gingerbread/",
+   "type": "git",
+   "repo": "https://github.com/Veracity0/gingerbread",
    "author": "Veracity",
-   "name": "Veracity's Gingerbread City",
+   "name": "Gingerbread City",
    "forumThread": "https://kolmafia.us/showthread.php?21609",
    "shortDesc": "Automate the Gingerbread City",
    "category": "adventure",
    "longDesc": "Highly configurable script to allow automation of turns in the Gingerbread City, specifying the morning, afternoon, and night adventuring locations and the noon and midnight non-combats."
  },
  {
-   "repo": "https://svn.code.sf.net/p/veracity0/code/meat-farm/",
+   "type": "git",
+   "repo": "https://github.com/Veracity0/meat-farm",
    "author": "Veracity",
-   "name": "Veracity's Meat Farming",
+   "name": "VeracityMeatFarm",
    "forumThread": "https://kolmafia.us/showthread.php?20933",
    "shortDesc": "Farm Meat and perform daily tasks",
    "category": "adventure",
    "longDesc": "Farm Meat and do daily tasks as enabled by numerous IoTMS."
  },
  {
-   "repo": "https://svn.code.sf.net/p/veracity0/code/spacegate/",
+   "type": "git",
+   "repo": "https://github.com/Veracity0/shadow-rift",
    "author": "Veracity",
-   "name": "Veracity's Spacegate",
+   "name": "ShadowRift",
+   "forumThread": "https://kolmafia.us/threads/shadowrift.28812",
+   "shortDesc": "Automate Rufus quests in the Shadow Rift",
+   "category": "adventure",
+   "longDesc": "Accept artifact, entity, or artifact quests from Rufus, adventure through the Shadow Rift to fulfill them, and collect fancy rewards."
+ },
+ {
+   "type": "git",
+   "repo": "https://github.com/Veracity0/spacegate",
+   "author": "Veracity",
+   "name": "VeracitySpacegate",
    "forumThread": "https://kolmafia.us/showthread.php?23335",
    "shortDesc": "Automate Spacegate",
    "category": "adventure",
@@ -603,6 +621,16 @@
    "longDesc": "This is a tool for finding the best (i.e. cheapest) way to boost Slimetube ML for a specific turncount.<p>The CLI command <span style='font-weight:bold;font-family:monospace;color:blue'>slimecalc [number of turns]</span> will display a shopping list of items to produce that turncount. Use <span style='font-weight:bold;font-family:monospace;color:blue'>slimecalc run [turns]</span> to have the script buy and use those items for you.<p>Additional functionality is explained in the forum thread."
  },
  {
+   "type": "git",
+   "repo": "https://github.com/m-e-meyer/av-snapshot",
+   "author": "Aventuristo",
+   "name": "Snapshot Maker",
+   "forumThread": "https://kolmafia.us/threads/aventuristos-snapshot-maker.28783",
+   "shortDesc": "Take a snapshot of your character to display",
+   "category": "information",
+   "longDesc": "Makes a snapshot of your character and display it on a website where everyone can see it.<p>This updates Cheescookie's and Bumcheekcity's Sanapshot Makers, which are no longer supported."
+ },
+ {
    "repo": "https://svn.code.sf.net/p/ccascend/code/snapshot",
    "author": "cheesecookie, bumcheekcity",
    "name": "Snapshot Maker",
@@ -702,7 +730,8 @@
    "longDesc": "Manages other gazoodles of between battle stuff via a mood.  Plays nicely with BestBetweenBattle"
  },
  {
-   "repo": "https://svn.code.sf.net/p/veracity0/code/vcon/",
+   "type": "git",
+   "repo": "https://github.com/Veracity0/vcon",
    "author": "Veracity",
    "name": "vcon",
    "forumThread": "https://kolmafia.us/showthread.php?23145",
@@ -720,7 +749,8 @@
    "longDesc": ""
  },
  {
-   "repo": "https://svn.code.sf.net/p/veracity0/code/vprops/",
+   "type": "git",
+   "repo": "https://github.com/Veracity0/vprops",
    "author": "Veracity",
    "name": "vprops",
    "forumThread": "https://kolmafia.us/showthread.php?21593",
@@ -763,6 +793,16 @@
    "shortDesc": "Scripting the birth of a new ascension",
    "category": "other",
    "longDesc": "Scripting the birth of a new ascension. This sets optimal choice adventure defaults for your class and ascension path. It also does a few repetitive housekeeping chores such as visiting the Toot Oriole, opening your pork sack, using your Newbie Tent, equipping your starting gear...<p style='border:1px solid red;text-indent:-20px;padding:5px 10px 5px 30px;margin-left:40px;margin-right:40px;'>To make this work automatically, you need to copy/paste the following line into the CLI:<br /><span style='font-weight:bold;font-family:monospace'>set postAscensionScript = newLife.ash</span></p>"
+ },
+ {
+   "type": "git",
+   "repo": "https://github.com/loathers/8bit-relay",
+   "author": "beldur",
+   "name": "8bit-relay",
+   "forumThread": "https://kolmafia.us/threads/8bit-relay.28676/",
+   "shortDesc": "Enhances The 8-bit Realm Colors with colors and b onus info.",
+   "category": "relay",
+   "longDesc": "Colors each area in The 8-bit Realm with the color whereby they give double points and adds an information panel detailing your expected bonus"
  },
  {
    "repo": "https://svn.code.sf.net/p/kol-airport-colors/code",
@@ -1017,10 +1057,11 @@
    "longDesc": "Choose desired skills, enhancements, extrusions, and enquiries."
  },
  {
-   "repo": "https://svn.code.sf.net/p/veracity0/code/spacegate-sounds/",
+   "type": "git",
+   "repo": "https://github.com/Veracity0/spacegate-sounds",
    "author": "Veracity",
    "name": "Spacegate Sounds",
-   "forumThread": "https://kolmafia.us/showthread.php?24197",
+   "forumThread": "https://kolmafia.us/threads/spacegate-sounds.24197/",
    "shortDesc": "Plays KAWOOSH when you activate the Spacegate",
    "category": "relay",
    "longDesc": "If relayAddsSounds is true, when you activate the Spacegate, you'll get a Stargate KAWOOSH."
