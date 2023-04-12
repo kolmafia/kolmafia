@@ -167,6 +167,18 @@ public class MonkeyPawCommandTest extends AbstractCommandTestBase {
     }
   }
 
+  @Test
+  public void dashesAreFineInItemAndEffectNames() {
+    var cleanups = withItem(ItemPool.CURSED_MONKEY_PAW);
+
+    try (cleanups) {
+      execute("item sonar-in-a-biscuit");
+
+      assertContinueState();
+      assertWish("sonar-in-a-biscuit");
+    }
+  }
+
   private void assertWish(String encodedWish) {
     var requests = getRequests();
     int i = 0;
