@@ -15,7 +15,7 @@ public class MonkeyPawCommand extends AbstractCommand {
   }
 
   private static final Pattern DISALLOWED_CHARACTER =
-      Pattern.compile("[^a-z\\d \\-]", Pattern.CASE_INSENSITIVE);
+      Pattern.compile("[^a-zA-Z\\d \\-]");
 
   private static final Pattern RESPONSE = Pattern.compile("<span class='guts'>([^<]+)?</span>");
 
