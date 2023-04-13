@@ -124,7 +124,7 @@ public class AreaCombatData {
           && KoLCharacter.getFamiliar().getId() == FamiliarPool.RED_SNAPPER) {
         currentWeighting += 2 * baseWeighting;
       }
-      // If any relevant Daily Candle familiar-tracking potions are active, add two(?) to the
+      // If any relevant Daily Candle familiar-tracking potions are active, add two to the
       // encounter pool
       if ((monsterPhylum == Phylum.HUMANOID && KoLConstants.activeEffects.contains(EW_THE_HUMANITY))
           || (monsterPhylum == Phylum.BEAST
@@ -161,7 +161,10 @@ public class AreaCombatData {
       if (Preferences.getString("longConMonster").equals(monsterName)) {
         currentWeighting += 3 * baseWeighting;
       }
-      // TODO: add motif copies after amount spaded
+      // If Motif used, add two to encounter pool
+      if (Preferences.getString("motifMonster").equals(monsterName)) {
+        currentWeighting += 2 * baseWeighting;
+      }
 
       if (BanishManager.isBanished(monsterName)) {
         // Banishing reduces number of copies
