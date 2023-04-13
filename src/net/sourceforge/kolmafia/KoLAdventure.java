@@ -888,7 +888,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           // Right Side of the Tracks and The Nearby Plains
         case TOWN, PLAINS -> true;
           // The Distant Woods, Forest Village, The 8-Bit Realm
-        case WOODS, VILLAGE, REALM -> QuestDatabase.isQuestStarted(Quest.LARVA);
+        case WOODS, VILLAGE, REALM -> QuestDatabase.isQuestStarted(Quest.LARVA)
+            || QuestDatabase.isQuestStarted(Quest.CITADEL);
           // Spookyraven Manor Third Floor
         case MANOR -> QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
           // The Misspelled Cemetary
