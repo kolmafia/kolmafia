@@ -1102,6 +1102,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.BARROOM_BRAWL -> QuestDatabase.isQuestStarted(Quest.RAT);
           // prepareForAdventure will visit the Crackpot Mystic to get one, if needed
         case AdventurePool.PIXEL_REALM -> QuestDatabase.isQuestStarted(Quest.LARVA)
+            || QuestDatabase.isQuestStarted(Quest.CITADEL)
             || InventoryManager.hasItem(TRANSFUNCTIONER);
         case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.getTempleUnlocked()
             // Kingdom of Exploathing aftercore retains access. Check quest
@@ -1114,7 +1115,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             Quest.CITADEL, QuestDatabase.STARTED);
         case AdventurePool.OLD_LANDFILL -> QuestDatabase.isQuestStarted(Quest.HIPPY);
           // Allow future "Woods" zones
-        default -> QuestDatabase.isQuestStarted(Quest.LARVA);
+        default -> QuestDatabase.isQuestStarted(Quest.LARVA)
+            || QuestDatabase.isQuestStarted(Quest.CITADEL);
       };
     }
 
@@ -1725,7 +1727,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (KoLCharacter.isKingdomOfExploathing()) {
         return false;
       }
-      return QuestDatabase.isQuestStarted(Quest.LARVA) || InventoryManager.hasItem(TRANSFUNCTIONER);
+      return QuestDatabase.isQuestStarted(Quest.LARVA)
+          || QuestDatabase.isQuestStarted(Quest.CITADEL)
+          || InventoryManager.hasItem(TRANSFUNCTIONER);
     }
 
     if (this.zone.equals("The Drip")) {
@@ -2363,7 +2367,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       // We can accept the Untinker's quest if the woods are open.
-      if (QuestDatabase.isQuestStarted(Quest.LARVA)) {
+      if (QuestDatabase.isQuestStarted(Quest.LARVA)
+          || QuestDatabase.isQuestStarted(Quest.CITADEL)) {
         var request = new PlaceRequest("forestvillage", "fv_untinker_quest", true);
         request.addFormField("preaction", "screwquest");
         request.run();
