@@ -278,7 +278,7 @@ public class AdventureQueueDatabase implements Serializable {
     // Ignore monsters in the queue that aren't actually part of the zone's normal monster list
     // This includes monsters that have special conditions to find and wandering monsters
     // that are not part of the location at all
-    // Ignore olfacted, long conned or motifed monsters, as these are never rejected
+    // Ignore olfacted, long conned, or motifed monsters, as these are never rejected
     int queueWeight = 0;
     for (String mon : zoneSet) {
       MonsterData queueMonster = MonsterDatabase.findMonster(mon);
