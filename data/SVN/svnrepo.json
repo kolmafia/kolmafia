@@ -63,7 +63,8 @@
    "longDesc": "EatDrink.ash will attempt to fill you up with the finest vittles, firewater, and spleenables that the kingdom has to offer - and that you can afford. It considers things like prices, the relative value of adventures and stats, whether you have to pull or purchase the item, and so on. It even ends your day with a bang by overdrinking (if you tell it to)."
  },
  {
-   "repo": "https://github.com/gausie/excavator/trunk/RELEASE/",
+   "repo": "https://github.com/gausie/excavator/",
+   "type": "git",
    "author": "gausie",
    "name": "Excavator",
    "forumThread": "https://kolmafia.us/showthread.php?25076",
@@ -133,6 +134,16 @@
    "shortDesc": "Complete inventory control system",
    "category": "action",
    "longDesc": "This script will allow you to choose the proper dispensation for absolutely every item that may be in your inventory. You can tell it exactly how many to keep of any given item, or tell it to keep all of them. It can put items in the mall, send items as gifts, mix keys into pies, use gift certificates, stock your display case or autosell trash items. <i>And more!</i><p>Okay, this script is honestly a little bit insane. It's somewhat nuts to list a method of dealing with every single item I may own. I use this because I want to cleanse my inventory before every hardcore ascension. It takes a bit of effort to make the list of everything, but now my inventory can be malled in a flash. If anyone else wants to take the trouble of making their own list it would do the same for them."
+ },
+ {
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/philter",
+   "type": "git",
+   "author": "philmasterplus",
+   "name": "Philter",
+   "forumThread": "https://kolmafia.us/threads/philter-the-inventory-cleanup-script.26027/",
+   "shortDesc": "Complete inventory control system",
+   "category": "action",
+   "longDesc": "Philter purges (i.e. \"filters\") junk in your inventory. Mallsell, autosell, pulverize, you name it. It's great for cleaning up items you accumulated during ascension, a dungeon run, or a day of farming."
  },
  {
    "repo": "https://svn.code.sf.net/p/rollover-management/code/",
@@ -227,7 +238,8 @@
    "longDesc": "The purpose of this script is to automatically go to the Bounty Hunter Hunter, accept bounties, hunt them and turn in the completed bounties for lucre."
  },
  {
-   "repo": "https://github.com/Loathing-Associates-Scripting-Society/autoscend/branches/master/RELEASE/",
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/autoscend/",
+   "type": "git",
    "author": "Loathing Associates Scripting Society",
    "name": "autoscend",
    "forumThread": "https://kolmafia.us/showthread.php?25070",
@@ -895,8 +907,9 @@
    "longDesc": "On your charsheet it will sort your skills by character class."
  },
  {
-   "repo": "https://svn.code.sf.net/p/mafiachit/code/",
-   "author": "Bale, Chez",
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/ChIT/",
+   "type": "git",
+   "author": "Bale, Chez, Soolar",
    "name": "ChIT",
    "forumThread": "https://kolmafia.us/showthread.php?7594-Character-Info-Toolbox",
    "shortDesc": "Character Pane Replacement",
@@ -1030,7 +1043,9 @@
    "longDesc": "You know how the new NS Tower is this ridiculously long page that you have to keep scrolling down to reach the bottom? Install this script to scroll that for you."
  },
  {
-   "repo": "https://github.com/ggvgiu/PizzaCubeGUI/branches/Release",
+   "repo": "https://github.com/ggvgiu/PizzaCubeGUI/",
+   "type": "git",
+   "branch": "Release",
    "author": "Lacey Jones",
    "name": "Pizza Cube GUI",
    "forumThread": "https://kolmafia.us/showthread.php?24487",
@@ -1155,5 +1170,46 @@
    "shortDesc": "Script to value the worth of your account",
    "category": "information",
    "longDesc": "This JS script lets you find the worth of your account, you can have it only show items that are still tradeable, or everything including the iotms you've already bound to your account. This is a rewrite of soolar's accountval.ash script and is heavily inspired by their work."
+ },
+ {
+   "repo": "https://github.com/covert-code/KoL-MineVolcano",
+   "type": "git",
+   "author": "professorjellybean",
+   "name": "MineVolcano",
+   "forumThread": "https://kolmafia.us/threads/new-lightweight-volcano-mining-script-no-object-detection-3-45k-turn.19643/#post-131332",
+   "shortDesc": "Volcano Mining",
+   "category": "adventure",
+   "longDesc": "Automatically mine the Velvet / Gold Mine in That 70s Volcano, and sell the 1,970 carat gold for meat"
+ },
+ {
+   "repo": "https://github.com/loathers/freecandydotexe",
+   "type": "git",
+   "branch": "release",
+   "author": "loathers",
+   "name": "freecandydotexe",
+   "forumThread": "https://kolmafia.us/threads/freecandydotexe-a-script-for-tricking-treating-and-everything-in-between.28817/",
+   "shortDesc": "Automated Trick-or-Treating",
+   "category": "adventure",
+   "longDesc": "Farm Trick-or-Treat on Halloween, getting the best candies / value from fights / wanderers / etc"
+ },
+ {
+   "repo": "https://github.com/phulin/shorts-ui",
+   "type": "git",
+   "author": "phulin",
+   "name": "Cargo Shorts GUI",
+   "forumThread": "https://kolmafia.us/threads/cargo-shorts-gui.25416/",
+   "shortDesc": "Cargo Short Relay helper",
+   "category": "information",
+   "longDesc": "Show commonly used / recommended pockets in the Cargo Shorts in the Relay Browser"
+ },
+ {
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/locket-ui",
+   "type": "git",
+   "author": "BurningBman",
+   "name": "Combat Lover's Locket GUI",
+   "forumThread": "https://kolmafia.us/threads/combat-lovers-locket-gui.27362/",
+   "shortDesc": "Locket Relay helper",
+   "category": "information",
+   "longDesc": "Show commonly used / recommended combats for the Combat Lover's Locket in the Relay Browser"
  }
 ]
