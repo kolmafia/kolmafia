@@ -523,6 +523,8 @@ public class SkillPool {
   public static final int CERAMIC_BOIL = 7429;
   public static final int CERAMIC_SKULLGAZE = 7430;
   public static final int CERAMIC_CENOBITIZE = 7431;
+  public static final int MONKEY_SLAP = 7433;
+  public static final int MONKEY_POINT = 7437;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

@@ -373,6 +373,8 @@ public class Preferences {
         "milkOfMagnesiumActive",
         "miniAdvClass",
         "moonTuned",
+        "motifMonster",
+        "monkeyPointMonster",
         "mushroomGardenCropLevel",
         "nextDistillateMods",
         "nextParanormalActivity",
