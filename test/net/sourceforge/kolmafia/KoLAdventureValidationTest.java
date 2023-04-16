@@ -6836,6 +6836,20 @@ public class KoLAdventureValidationTest {
     }
   }
 
+  private static final KoLAdventure SPOOKY_FOREST =
+      AdventureDatabase.getAdventureByName("The Spooky Forest");
+
+  @Test
+  void canVisitSpookyForestIfCitadelQuestIsStarted() {
+    var cleanups =
+        new Cleanups(
+            withQuestProgress(Quest.CITADEL, QuestDatabase.STARTED),
+            withQuestProgress(Quest.LARVA, QuestDatabase.UNSTARTED));
+    try (cleanups) {
+      assertTrue(SPOOKY_FOREST.canAdventure());
+    }
+  }
+
   @Nested
   class MarketQuests {
     private static final KoLAdventure SKELETON_STORE =

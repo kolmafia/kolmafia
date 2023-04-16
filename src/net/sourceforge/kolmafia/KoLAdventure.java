@@ -539,6 +539,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return true;
   }
 
+  private static boolean woodsOpen() {
+    return QuestDatabase.isQuestStarted(Quest.LARVA) || QuestDatabase.isQuestStarted(Quest.CITADEL);
+  }
+
   private static Set<String> invalidExploathingPlaces =
       Set.of("town", "airport", "plains", "woods", "mountains", "desertbeach");
 
@@ -888,7 +892,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           // Right Side of the Tracks and The Nearby Plains
         case TOWN, PLAINS -> true;
           // The Distant Woods, Forest Village, The 8-Bit Realm
-        case WOODS, VILLAGE, REALM -> QuestDatabase.isQuestStarted(Quest.LARVA);
+        case WOODS, VILLAGE, REALM -> KoLAdventure.woodsOpen();
           // Spookyraven Manor Third Floor
         case MANOR -> QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
           // The Misspelled Cemetary
@@ -1098,10 +1102,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       // With the exception of a few challenge paths, the Woods open when
       // the Council asks for a mosquito larva at level two.
+      // In Community Service and Grey Goo (or at any other time, I suppose)
+      // the Woods open when Whitey's Grove is opened by the Citadel quest.
+      // This logic is handled in KoLAdventure.woodsOpen()
       return switch (this.adventureNumber) {
         case AdventurePool.BARROOM_BRAWL -> QuestDatabase.isQuestStarted(Quest.RAT);
           // prepareForAdventure will visit the Crackpot Mystic to get one, if needed
-        case AdventurePool.PIXEL_REALM -> QuestDatabase.isQuestStarted(Quest.LARVA)
+        case AdventurePool.PIXEL_REALM -> KoLAdventure.woodsOpen()
             || InventoryManager.hasItem(TRANSFUNCTIONER);
         case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.getTempleUnlocked()
             // Kingdom of Exploathing aftercore retains access. Check quest
@@ -1114,7 +1121,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             Quest.CITADEL, QuestDatabase.STARTED);
         case AdventurePool.OLD_LANDFILL -> QuestDatabase.isQuestStarted(Quest.HIPPY);
           // Allow future "Woods" zones
-        default -> QuestDatabase.isQuestStarted(Quest.LARVA);
+        default -> KoLAdventure.woodsOpen();
       };
     }
 
@@ -1725,7 +1732,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (KoLCharacter.isKingdomOfExploathing()) {
         return false;
       }
-      return QuestDatabase.isQuestStarted(Quest.LARVA) || InventoryManager.hasItem(TRANSFUNCTIONER);
+      return KoLAdventure.woodsOpen() || InventoryManager.hasItem(TRANSFUNCTIONER);
     }
 
     if (this.zone.equals("The Drip")) {
@@ -2363,7 +2370,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       // We can accept the Untinker's quest if the woods are open.
-      if (QuestDatabase.isQuestStarted(Quest.LARVA)) {
+      if (KoLAdventure.woodsOpen()) {
         var request = new PlaceRequest("forestvillage", "fv_untinker_quest", true);
         request.addFormField("preaction", "screwquest");
         request.run();
