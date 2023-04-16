@@ -165,6 +165,10 @@ public class AreaCombatData {
       if (Preferences.getString("motifMonster").equals(monsterName)) {
         currentWeighting += 2 * baseWeighting;
       }
+      // If Monkey Point used, add two to encounter pool
+      if (Preferences.getString("monkeyPointMonster").equals(monsterName)) {
+        currentWeighting += 2 * baseWeighting;
+      }
 
       if (BanishManager.isBanished(monsterName)) {
         // Banishing reduces number of copies

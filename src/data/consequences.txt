@@ -86,6 +86,7 @@ DESC_ITEM	industrial fire extinguisher	The extinguisher's tank is currently <b>(
 DESC_ITEM	designer sweatpants	Your sweatpants are currently (\d+)% sweat-logged.	sweat=$1
 DESC_ITEM	Powerful Glove	The Glove's battery is (\d+)% charged.	_powerfulGloveBatteryPowerUsed=[100-$1]
 DESC_ITEM	Crimbo training manual	all that's left is Chapter (\d+).	crimboTrainingSkill=$1
+DESC_ITEM	cursed monkey's paw	monkey's paw recently pointed at a ([^<]+).<!-- itemid	monkeyPointMonster=$1
 
 # Item modifiers
 DESC_ITEM	no hat		_noHatModifier=mods
