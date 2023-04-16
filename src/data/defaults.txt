@@ -1052,6 +1052,7 @@ user	miniAdvClass	0
 user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
 user	moonTuned	false
+user	monkeyPointMonster	
 user	motifMonster	
 user	mothershipProgress	0
 user	mpAutoRecovery	-0.5
