@@ -525,7 +525,6 @@ public class RufusManager {
 
   public static void handleShadowRiftFight(MonsterData monster) {
     int currentTurns = Preferences.getInteger("shadowRiftTotalTurns");
-    int lastNC = Preferences.getInteger("shadowRiftLastNC");
     switch (monster.getName()) {
       case "shadow spire",
           "shadow orrery",
@@ -535,14 +534,12 @@ public class RufusManager {
           "shadow matrix" -> {
         // Bosses are NCs
         Preferences.setInteger("shadowRiftLastNC", currentTurns);
-        lastNC = currentTurns;
+        Preferences.resetToDefault("encountersUntilSRChoice");
       }
     }
 
     // All fights - including bosses - advance turns in zone
     currentTurns = Preferences.increment("shadowRiftTotalTurns", 1);
-    // Next NC comes if (turns in zone - last nc) >= 11
-    Preferences.setInteger("encountersUntilSRChoice", 11 - Math.max(currentTurns - lastNC, 0));
   }
 
   public static void handleShadowRiftNC(int choice, String responseText) {
@@ -553,13 +550,12 @@ public class RufusManager {
       case 1499 -> {
         // The Shadow Labyrinth
         Preferences.setInteger("shadowRiftLastNC", currentTurns);
-        lastNC = currentTurns;
+        Preferences.resetToDefault("encountersUntilSRChoice");
       }
       case 1500 -> {
         // Like a Loded Stone
         ResultProcessor.removeItem(ItemPool.RUFUS_SHADOW_LODESTONE);
       }
     }
-    Preferences.setInteger("encountersUntilSRChoice", 11 - Math.max(currentTurns - lastNC, 0));
   }
 }
