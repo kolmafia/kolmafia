@@ -1546,7 +1546,7 @@ Bettie Barulio	1130	wraith2.gif	Scale: 2 Cap: 150 Init: 50 P: undead GHOST EA: s
 Marcus Macurgeon	1133	wraith5.gif	Scale: 2 Cap: 150 Init: 50 P: undead GHOST EA: sleaze	jar full of wind (0)	jar full of wind (0)	purple prose pen (0)
 Marvin J. Sunny	1131	wraith3.gif	Scale: 2 Cap: 150 Init: 50 P: undead GHOST	jar full of wind (0)	Marvin's marvelous pill (0)
 Mortimer Strauss	1129	wraith1.gif	Scale: 2 Cap: 150 Init: 50 P: undead GHOST EA: sleaze	jar full of wind (0)	jar full of wind (0)	Mortimer's nostrum (0)
-Wonderful Winifred Wongle	1132	wraith4.gif	Scale: 2 Cap: 150 Init: 50 P: undead GHOST EA: sleaze	jar full of wind (0)	jar full of wind (0)	Winifred's whistle (0c)
+Wonderful Winifred Wongle	1132	wraith4.gif	Scale: 2 Cap: 150 Init: 50 P: undead GHOST EA: sleaze	jar full of wind (0)	jar full of wind (0)	Winifred's whistle (c0)
 The Terrible Pinch	1134	thepinch.gif	BOSS NOCOPY Atk: 150 Def: 135 HP: 1000 Init: 100 P: humanoid	lecherous stone (100)
 Thug 1 and Thug 2	1135	thug1thug2.gif	BOSS NOCOPY Atk: 150 Def: 135 HP: 1000 Init: 500 P: humanoid	jealousy stone (100)
 
