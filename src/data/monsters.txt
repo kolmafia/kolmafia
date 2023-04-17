@@ -1038,7 +1038,7 @@ X-dimensional horror	592	dimhorror.gif	NOCOPY Atk: [2*ceil(BL^1.4)+ML] Def: [2*c
 
 # Hobopolis
 
-C. H. U. M.	682	chum1.gif,chum2.gif,chum3.gif,chum4.gif,chum5.gif	Atk: 260 Def: 229 HP: 200 Init: -10000 P: humanoid EA: stench Article: a	bottle of sewage schnapps (15)	C.H.U.M. lantern (1)	C.H.U.M. knife (1)	sewer nuggets (20)	C.H.U.M. chum (p40)
+C. H. U. M.	682	chum1.gif,chum2.gif,chum3.gif,chum4.gif,chum5.gif	Atk: 260 Def: 229 HP: 200 Init: -10000 P: humanoid EA: stench Article: a	bottle of sewage schnapps (c15)	C.H.U.M. lantern (c0.2)	C.H.U.M. knife (c0.6)	sewer nuggets (c20)	C.H.U.M. chum (p40)
 C. H. U. M. chieftain	715	chumchief.gif	LUCKY Atk: 330 Def: 270 HP: 400 Init: 40 P: humanoid EA: stench Article: a	C.H.U.M. knife (2)	bottle of sewage schnapps (30)	bottle of sewage schnapps (30)	sewer nuggets (40)	sewer nuggets (40)	C.H.U.M. chum (p40)
 giant zombie goldfish	681	zomfish.gif	Atk: 250 Def: 229 HP: 250 Init: 60 P: undead EA: stench Article: a	decaying goldfish liver (15)	sewer nuggets (20)	sewer nuggets (20)
 sewer gator	679	sewergator.gif	Atk: 245 Def: 225 HP: 300 Init: 60 Meat: 75 P: beast Article: a	gator skin (15)	sewer nuggets (20)	sewer nuggets (20)
