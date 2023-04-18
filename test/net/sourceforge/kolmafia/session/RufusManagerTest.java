@@ -971,10 +971,21 @@ public class RufusManagerTest {
             302, Map.of("location", List.of("fight.php?ireallymeanit=1678807165")), "");
         client.addResponse(200, html("request/test_fight_shadow_monster.html"));
         client.addResponse(200, ""); // api.php
+        client.addResponse(200, html("request/test_defeat_shadow_monster.html"));
+        client.addResponse(200, ""); // api.php
 
         var request = new GenericRequest("adventure.php?snarfblat=567");
         request.run();
 
+        // Starting a fight does not count as a turn
+        assertThat("shadowRiftTotalTurns", isSetTo(11));
+        assertThat("shadowRiftLastNC", isSetTo(11));
+        assertThat("encountersUntilSRChoice", isSetTo(11));
+
+        request = new GenericRequest("fight.php?action=skill&whichskill=4012");
+        request.run();
+
+        // Ending a fight does count as a turn
         assertThat("shadowRiftTotalTurns", isSetTo(12));
         assertThat("shadowRiftLastNC", isSetTo(11));
         assertThat("encountersUntilSRChoice", isSetTo(10));
@@ -998,10 +1009,21 @@ public class RufusManagerTest {
             302, Map.of("location", List.of("fight.php?ireallymeanit=1679168291")), "");
         client.addResponse(200, html("request/test_fight_shadow_boss.html"));
         client.addResponse(200, ""); // api.php
+        client.addResponse(200, html("request/test_defeat_shadow_boss.html"));
+        client.addResponse(200, ""); // api.php
 
         var request = new GenericRequest("adventure.php?snarfblat=567");
         request.run();
 
+        // Starting a fight does not count as a turn
+        assertThat("shadowRiftTotalTurns", isSetTo(11));
+        assertThat("shadowRiftLastNC", isSetTo(0));
+        assertThat("encountersUntilSRChoice", isSetTo(0));
+
+        request = new GenericRequest("fight.php?action=skill&whichskill=4012");
+        request.run();
+
+        // Ending a fight does count as a turn
         assertThat("shadowRiftTotalTurns", isSetTo(12));
         assertThat("shadowRiftLastNC", isSetTo(11));
         assertThat("encountersUntilSRChoice", isSetTo(10));
