@@ -810,4 +810,16 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                     """));
     }
   }
+
+  @Test
+  void setLocation() {
+    String output = execute("set_location($location[Barf Mountain])");
+    assertThat(output, containsString("Returned: void"));
+    output = execute("my_location()");
+    assertThat(output, containsString("Returned: Barf Mountain"));
+    output = execute("set_location($location[none])");
+    assertThat(output, containsString("Returned: void"));
+    output = execute("my_location()");
+    assertThat(output, containsString("Returned: none"));
+  }
 }
