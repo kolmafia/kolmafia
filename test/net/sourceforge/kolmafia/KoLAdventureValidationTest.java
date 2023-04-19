@@ -7320,8 +7320,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    void
-    canVisitCemeteryRiftWithNemesisQuest() {
+    void canVisitCemeteryRiftWithNemesisQuest() {
       var cleanups = new Cleanups(withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
       try (cleanups) {
         // You can get to the Misspelled Cemetery to get to the find your legendary weapon
