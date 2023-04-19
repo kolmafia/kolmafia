@@ -2164,7 +2164,6 @@ public class FightRequest extends GenericRequest {
         case AdventurePool.SHADOW_RIFT -> {
           Preferences.increment("_shadowRiftCombats");
           MonsterStatusTracker.recalculateOriginalStats();
-          RufusManager.handleShadowRiftFight(monster);
         }
       }
 
@@ -3369,6 +3368,10 @@ public class FightRequest extends GenericRequest {
 
     if (adventure == AdventurePool.DEEP_MACHINE_TUNNELS) {
       Preferences.decrement("encountersUntilDMTChoice");
+    }
+
+    if (adventure == AdventurePool.SHADOW_RIFT) {
+      RufusManager.handleShadowRiftFight(monster);
     }
 
     if (adventure == AdventurePool.NEVERENDING_PARTY) {
