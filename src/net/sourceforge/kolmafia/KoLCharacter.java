@@ -2953,7 +2953,7 @@ public abstract class KoLCharacter {
               default -> null;
             };
         if (pref != null) {
-          Preferences.increment(pref, points, 21, false);
+          Preferences.increment(pref, points, 11, false);
         }
       }
       case GLOVER -> {
