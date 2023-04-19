@@ -1270,20 +1270,24 @@ public class Preferences {
     return name.startsWith("_") || legacyDailies.contains(name);
   }
 
+  private static void deferredPoints(String prop, String defprop, int max) {
+    int deferred = Preferences.getInteger(defprop);
+    if (deferred > 0) {
+      Preferences.increment(prop, deferred, max, false);
+    }
+  }
+
   public static void resetPerAscension() {
     // Deferred ascension rewards
     Preferences.setInteger(
         "yearbookCameraUpgrades", Preferences.getInteger("yearbookCameraAscensions"));
-    Preferences.increment(
-        "awolPointsBeanslinger", Preferences.getInteger("awolDeferredPointsBeanslinger"));
-    Preferences.increment(
-        "awolPointsCowpuncher", Preferences.getInteger("awolDeferredPointsCowpuncher"));
-    Preferences.increment(
-        "awolPointsSnakeoiler", Preferences.getInteger("awolDeferredPointsSnakeoiler"));
-    Preferences.increment("asolPointsCheeseWizard", Preferences.getInteger("asolDeferredPoints"));
-    Preferences.increment("asolPointsJazzAgent", Preferences.getInteger("asolDeferredPoints"));
-    Preferences.increment("asolPointsPigSkinner", Preferences.getInteger("asolDeferredPoints"));
-    Preferences.increment("noobPoints", Preferences.getInteger("noobDeferredPoints"));
+    Preferences.deferredPoints("awolPointsBeanslinger", "awolDeferredPointsBeanslinger", 10);
+    Preferences.deferredPoints("awolPointsCowpuncher", "awolDeferredPointsCowpuncher", 10);
+    Preferences.deferredPoints("awolPointsSnakeoiler", "awolDeferredPointsSnakeoiler", 10);
+    Preferences.deferredPoints("asolPointsCheeseWizard", "asolDeferredPoints", 11);
+    Preferences.deferredPoints("asolPointsJazzAgent", "asolDeferredPoints", 11);
+    Preferences.deferredPoints("asolPointsPigSkinner", "asolDeferredPoints", 11);
+    Preferences.deferredPoints("noobPoints", "noobDeferredPoints", 20);
 
     // Most prefs that get reset on ascension just return to their default value
     for (String pref : resetOnAscension) {
