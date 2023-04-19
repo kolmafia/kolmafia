@@ -1023,9 +1023,7 @@ public class RufusManagerTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
       var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder),
-              withProperty("encountersUntilSRChoice", 0));
+          new Cleanups(withHttpClientBuilder(builder), withProperty("encountersUntilSRChoice", 0));
       try (cleanups) {
         String html = html("request/test_visit_labyrinth_of_shadows.html");
         client.addResponse(200, html);
