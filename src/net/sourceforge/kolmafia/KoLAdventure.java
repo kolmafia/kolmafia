@@ -543,6 +543,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return QuestDatabase.isQuestStarted(Quest.LARVA) || QuestDatabase.isQuestStarted(Quest.CITADEL);
   }
 
+  private static boolean cemetaryOpen() {
+    return QuestDatabase.isQuestStarted(Quest.CYRPT)
+        || QuestDatabase.isQuestStarted(Quest.EGO)
+        || QuestDatabase.isQuestStarted(Quest.NEMESIS);
+  }
+
   private static Set<String> invalidExploathingPlaces =
       Set.of("town", "airport", "plains", "woods", "mountains", "desertbeach");
 
@@ -896,8 +902,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           // Spookyraven Manor Third Floor
         case MANOR -> QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
           // The Misspelled Cemetary
-        case CEMETARY -> QuestDatabase.isQuestStarted(Quest.CYRPT)
-            || QuestDatabase.isQuestStarted(Quest.EGO);
+        case CEMETARY -> KoLAdventure.cemetaryOpen();
           // Desert Beach
         case BEACH -> KoLCharacter.desertBeachAccessible();
           // Mt. McLargeHuge
@@ -1080,8 +1085,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       return switch (this.adventureNumber) {
         case AdventurePool.FUN_HOUSE -> QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step4");
-        case AdventurePool.UNQUIET_GARVES -> QuestDatabase.isQuestStarted(Quest.CYRPT)
-            || QuestDatabase.isQuestStarted(Quest.EGO);
+        case AdventurePool.UNQUIET_GARVES -> KoLAdventure.cemetaryOpen();
         case AdventurePool.VERY_UNQUIET_GARVES -> QuestDatabase.isQuestFinished(Quest.CYRPT);
           // Allow future "Plains" zones
         default -> true;
