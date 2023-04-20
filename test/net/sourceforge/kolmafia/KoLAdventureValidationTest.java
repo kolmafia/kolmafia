@@ -7217,6 +7217,16 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
+    void canVisitWoodsRiftsIfCitadelQuestStarted() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.CITADEL, QuestDatabase.STARTED));
+      try (cleanups) {
+        assertTrue(DISTANT_WOODS.canAdventure());
+        assertTrue(FOREST_VILLAGE.canAdventure());
+        assertTrue(PIXEL_REALM.canAdventure());
+      }
+    }
+
+    @Test
     public void canVisitPixelRiftWithTransfunctionerEquipped() {
       setupFakeClient();
 
@@ -7304,7 +7314,16 @@ public class KoLAdventureValidationTest {
     void canVisitCemeteryRiftWithWizardOfEgoQuest() {
       var cleanups = new Cleanups(withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
       try (cleanups) {
-        // You can get to the Misspelled Cemetery to get to the Cyrpt
+        // You can get to the Misspelled Cemetery to search Fernswarthy's grave
+        assertTrue(CEMETERY.canAdventure());
+      }
+    }
+
+    @Test
+    void canVisitCemeteryRiftWithNemesisQuest() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
+      try (cleanups) {
+        // You can get to the Misspelled Cemetery to get to the find your legendary weapon
         assertTrue(CEMETERY.canAdventure());
       }
     }
