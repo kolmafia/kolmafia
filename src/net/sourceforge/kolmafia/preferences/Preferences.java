@@ -434,8 +434,6 @@ public class Preferences {
         "screencappedMonster",
         "seahorseName",
         "shadowRiftIngress",
-        "shadowRiftLastNC",
-        "shadowRiftTotalTurns",
         "shenInitiationDay",
         "shockingLickCharges",
         "singleFamiliarRun",
@@ -512,6 +510,12 @@ public class Preferences {
         "youRobotRight",
         "youRobotScavenged",
         "youRobotTop",
+      };
+
+  // Obsolete properties.
+  private static final String[] obsoleteProperties =
+      new String[] {
+        "shadowRiftLastNC", "shadowRiftTotalTurns",
       };
 
   static {

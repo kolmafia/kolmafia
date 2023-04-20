@@ -1321,8 +1321,6 @@ user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	shadowLabyrinthGoal	browser
 user	shadowRiftIngress
-user	shadowRiftLastNC	0
-user	shadowRiftTotalTurns	0
 user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0
 user	shenQuestItem

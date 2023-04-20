@@ -963,8 +963,6 @@ public class RufusManagerTest {
               withHttpClientBuilder(builder),
               // Parsing the fight page will add available combat items to inventory
               withNoItems(),
-              withProperty("shadowRiftTotalTurns", 11),
-              withProperty("shadowRiftLastNC", 11),
               withProperty("encountersUntilSRChoice", 11));
       try (cleanups) {
         client.addResponse(
@@ -978,16 +976,12 @@ public class RufusManagerTest {
         request.run();
 
         // Starting a fight does not count as a turn
-        assertThat("shadowRiftTotalTurns", isSetTo(11));
-        assertThat("shadowRiftLastNC", isSetTo(11));
         assertThat("encountersUntilSRChoice", isSetTo(11));
 
         request = new GenericRequest("fight.php?action=skill&whichskill=4012");
         request.run();
 
         // Ending a fight does count as a turn
-        assertThat("shadowRiftTotalTurns", isSetTo(12));
-        assertThat("shadowRiftLastNC", isSetTo(11));
         assertThat("encountersUntilSRChoice", isSetTo(10));
       }
     }
@@ -1001,8 +995,6 @@ public class RufusManagerTest {
               withHttpClientBuilder(builder),
               // Parsing the fight page will add available combat items to inventory
               withNoItems(),
-              withProperty("shadowRiftTotalTurns", 11),
-              withProperty("shadowRiftLastNC", 0),
               withProperty("encountersUntilSRChoice", 0));
       try (cleanups) {
         client.addResponse(
@@ -1016,16 +1008,12 @@ public class RufusManagerTest {
         request.run();
 
         // Starting a fight does not count as a turn
-        assertThat("shadowRiftTotalTurns", isSetTo(11));
-        assertThat("shadowRiftLastNC", isSetTo(0));
         assertThat("encountersUntilSRChoice", isSetTo(0));
 
         request = new GenericRequest("fight.php?action=skill&whichskill=4012");
         request.run();
 
         // Ending a fight does count as a turn
-        assertThat("shadowRiftTotalTurns", isSetTo(12));
-        assertThat("shadowRiftLastNC", isSetTo(11));
         assertThat("encountersUntilSRChoice", isSetTo(10));
       }
     }
@@ -1035,19 +1023,13 @@ public class RufusManagerTest {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
       var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder),
-              withProperty("shadowRiftTotalTurns", 11),
-              withProperty("shadowRiftLastNC", 0),
-              withProperty("encountersUntilSRChoice", 0));
+          new Cleanups(withHttpClientBuilder(builder), withProperty("encountersUntilSRChoice", 0));
       try (cleanups) {
         String html = html("request/test_visit_labyrinth_of_shadows.html");
         client.addResponse(200, html);
         var request = new GenericRequest("choice.php?forceoption=0");
         request.run();
 
-        assertThat("shadowRiftTotalTurns", isSetTo(11));
-        assertThat("shadowRiftLastNC", isSetTo(11));
         assertThat("encountersUntilSRChoice", isSetTo(11));
       }
     }
