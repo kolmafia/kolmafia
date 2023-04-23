@@ -122,6 +122,11 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     switch (itemId) {
+      case ItemPool.GHOST_PEPPER -> {
+        if (Preferences.getInteger("ghostPepperTurnsLeft") > 0) {
+          return 0;
+        }
+      }
       case ItemPool.SPAGHETTI_BREAKFAST -> {
         // This is your breakfast, you need to eat it first thing
         if (KoLCharacter.getFullnessLimit() == 0) {
@@ -667,17 +672,34 @@ public class EatItemRequest extends UseItemRequest {
 
     int itemId = item.getItemId();
 
-    // Special handling for fortune cookies, since you can smash
-    // them, as well as eat them
-    if (itemId == ItemPool.FORTUNE_COOKIE
-        && responseText.contains("You brutally smash the fortune cookie")) {
-      ResultProcessor.processResult(item.getNegation());
-      return;
-    }
+    switch (itemId) {
+      case ItemPool.FORTUNE_COOKIE -> {
+        // Special handling for fortune cookies, since you can smash
+        // them, as well as eat them
+        if (responseText.contains("You brutally smash the fortune cookie")) {
+          ResultProcessor.processResult(item.getNegation());
+          return;
+        }
+      }
+      case ItemPool.CARTON_OF_SNAKE_MILK -> {
+        if (responseText.contains("cream cheese")) {
+          ResultProcessor.processResult(item.getNegation());
+          return;
+        }
+      }
+      case ItemPool.GHOST_PEPPER -> {
+        if (responseText.contains("You might get too scared")) {
+          // If we weren't already tracking this, update the pref defensively
+          if (Preferences.getInteger("ghostPepperTurnsLeft") == 0) {
+            Preferences.setInteger("ghostPepperTurnsLeft", 4);
+          }
+          UseItemRequest.lastUpdate = "You've already got a ghost pepper terrifying your innards.";
+          KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+          return;
+        }
 
-    if (itemId == ItemPool.CARTON_OF_SNAKE_MILK && responseText.contains("cream cheese")) {
-      ResultProcessor.processResult(item.getNegation());
-      return;
+        Preferences.setInteger("ghostPepperTurnsLeft", 4);
+      }
     }
 
     // You're really, really hungry, but that isn't what you're hungry for.
