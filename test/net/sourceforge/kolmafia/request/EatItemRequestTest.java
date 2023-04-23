@@ -1,7 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -66,52 +69,91 @@ class EatItemRequestTest {
     }
   }
 
-  @ParameterizedTest
-  @CsvSource({
-    "10991, pizzaOfLegendEaten",
-    "10992, calzoneOfLegendEaten",
-    "11000, deepDishOfLegendEaten"
-  })
-  public void canTrackCookbookbatFoodsSuccess(Integer itemId, String prefname) {
-    var cleanups = withProperty(prefname, false);
-    try (cleanups) {
-      assertFalse(Preferences.getBoolean(prefname));
-      var req = new EatItemRequest(ItemPool.get(itemId));
-      req.responseText = "";
-      req.processResults();
-      assertTrue(Preferences.getBoolean(prefname));
+  @Nested
+  class Cookbookbat {
+    @ParameterizedTest
+    @CsvSource({
+      "10991, pizzaOfLegendEaten",
+      "10992, calzoneOfLegendEaten",
+      "11000, deepDishOfLegendEaten"
+    })
+    public void canTrackCookbookbatFoodsSuccess(Integer itemId, String prefname) {
+      var cleanups = withProperty(prefname, false);
+      try (cleanups) {
+        assertFalse(Preferences.getBoolean(prefname));
+        var req = new EatItemRequest(ItemPool.get(itemId));
+        req.responseText = "";
+        req.processResults();
+        assertTrue(Preferences.getBoolean(prefname));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "10991, pizzaOfLegendEaten",
+      "10992, calzoneOfLegendEaten",
+      "11000, deepDishOfLegendEaten"
+    })
+    public void canTrackCookbookbatFoodsFailure(Integer itemId, String prefname) {
+      var cleanups = withProperty(prefname, false);
+      try (cleanups) {
+        assertFalse(Preferences.getBoolean(prefname));
+        var req = new EatItemRequest(ItemPool.get(itemId));
+        req.responseText = "You may only eat one of those per lifetime";
+        req.processResults();
+        assertTrue(Preferences.getBoolean(prefname));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "10991, pizzaOfLegendEaten",
+      "10992, calzoneOfLegendEaten",
+      "11000, deepDishOfLegendEaten"
+    })
+    public void canPredictCookbookbatFoodsLimit(Integer itemId, String prefname) {
+      var cleanups = withProperty(prefname, false);
+      try (cleanups) {
+        assertEquals(1, EatItemRequest.maximumUses(itemId));
+        Preferences.setBoolean(prefname, true);
+        assertEquals(0, EatItemRequest.maximumUses(itemId));
+      }
     }
   }
 
-  @ParameterizedTest
-  @CsvSource({
-    "10991, pizzaOfLegendEaten",
-    "10992, calzoneOfLegendEaten",
-    "11000, deepDishOfLegendEaten"
-  })
-  public void canTrackCookbookbatFoodsFailure(Integer itemId, String prefname) {
-    var cleanups = withProperty(prefname, false);
-    try (cleanups) {
-      assertFalse(Preferences.getBoolean(prefname));
-      var req = new EatItemRequest(ItemPool.get(itemId));
-      req.responseText = "You may only eat one of those per lifetime";
-      req.processResults();
-      assertTrue(Preferences.getBoolean(prefname));
+  @Nested
+  class GhostPepper {
+    @Test
+    public void startsTimer() {
+      var cleanups = withProperty("ghostPepperTurnsLeft");
+      try (cleanups) {
+        var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
+        req.responseText = html("request/test_eat_ghost_pepper_success.html");
+        req.processResults();
+        assertThat("ghostPepperTurnsLeft", isSetTo(4));
+      }
     }
-  }
 
-  @ParameterizedTest
-  @CsvSource({
-    "10991, pizzaOfLegendEaten",
-    "10992, calzoneOfLegendEaten",
-    "11000, deepDishOfLegendEaten"
-  })
-  public void canPredictCookbookbatFoodsLimit(Integer itemId, String prefname) {
-    var cleanups = withProperty(prefname, false);
-    try (cleanups) {
-      assertEquals(1, EatItemRequest.maximumUses(itemId));
-      Preferences.setBoolean(prefname, true);
-      assertEquals(0, EatItemRequest.maximumUses(itemId));
+    @Test
+    public void maintainsOldTimer() {
+      var cleanups = withProperty("ghostPepperTurnsLeft", 3);
+      try (cleanups) {
+        var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
+        req.responseText = html("request/test_eat_ghost_pepper_failure.html");
+        req.processResults();
+        assertThat("ghostPepperTurnsLeft", isSetTo(3));
+      }
+    }
+
+    @Test
+    public void guessesOldTimer() {
+      var cleanups = withProperty("ghostPepperTurnsLeft", 0);
+      try (cleanups) {
+        var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
+        req.responseText = html("request/test_eat_ghost_pepper_failure.html");
+        req.processResults();
+        assertThat("ghostPepperTurnsLeft", isSetTo(4));
+      }
     }
   }
 }
