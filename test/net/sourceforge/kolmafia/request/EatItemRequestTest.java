@@ -5,6 +5,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -153,6 +154,15 @@ class EatItemRequestTest {
         req.responseText = html("request/test_eat_ghost_pepper_failure.html");
         req.processResults();
         assertThat("ghostPepperTurnsLeft", isSetTo(4));
+      }
+    }
+
+    @Test
+    public void maximumUsesZeroWhenTimerGoing() {
+      var cleanups = withProperty("ghostPepperTurnsLeft", 1);
+      try (cleanups) {
+        var uses = EatItemRequest.maximumUses(ItemPool.GHOST_PEPPER);
+        assertThat(uses, is(0));
       }
     }
   }
