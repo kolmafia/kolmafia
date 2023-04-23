@@ -2006,12 +2006,14 @@ public class ItemPool {
   public static final int MARK_OF_THE_VAMPIRE = 6438;
   public static final int MARK_OF_THE_SKELETON = 6439;
   public static final int HELPS_YOU_SLEEP = 6443;
+  public static final int GETS_YOU_DRUNK = 6446;
   public static final int GREAT_WOLFS_LEFT_PAW = 6448;
   public static final int GREAT_WOLFS_RIGHT_PAW = 6449;
   public static final int GREAT_WOLFS_ROCKET_LAUNCHER = 6450;
   public static final int HUNGER_SAUCE = 6453;
   public static final int ZOMBIE_ACCORDION = 6455;
   public static final int MAYOR_GHOSTS_GAVEL = 6465;
+  public static final int GHOST_PEPPER = 6468;
   public static final int DRUNKULA_WINEGLASS = 6474;
   public static final int BLOODWEISER = 6475;
   public static final int ELECTRIC_KOOL_AID = 6483;

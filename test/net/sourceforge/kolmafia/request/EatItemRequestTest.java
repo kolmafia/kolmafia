@@ -1,7 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -10,6 +14,7 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -66,52 +71,113 @@ class EatItemRequestTest {
     }
   }
 
-  @ParameterizedTest
-  @CsvSource({
-    "10991, pizzaOfLegendEaten",
-    "10992, calzoneOfLegendEaten",
-    "11000, deepDishOfLegendEaten"
-  })
-  public void canTrackCookbookbatFoodsSuccess(Integer itemId, String prefname) {
-    var cleanups = withProperty(prefname, false);
-    try (cleanups) {
-      assertFalse(Preferences.getBoolean(prefname));
-      var req = new EatItemRequest(ItemPool.get(itemId));
-      req.responseText = "";
-      req.processResults();
-      assertTrue(Preferences.getBoolean(prefname));
+  @Nested
+  class Cookbookbat {
+    @ParameterizedTest
+    @CsvSource({
+      "10991, pizzaOfLegendEaten",
+      "10992, calzoneOfLegendEaten",
+      "11000, deepDishOfLegendEaten"
+    })
+    public void canTrackCookbookbatFoodsSuccess(Integer itemId, String prefname) {
+      var cleanups = withProperty(prefname, false);
+      try (cleanups) {
+        assertFalse(Preferences.getBoolean(prefname));
+        var req = new EatItemRequest(ItemPool.get(itemId));
+        req.responseText = "";
+        req.processResults();
+        assertTrue(Preferences.getBoolean(prefname));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "10991, pizzaOfLegendEaten",
+      "10992, calzoneOfLegendEaten",
+      "11000, deepDishOfLegendEaten"
+    })
+    public void canTrackCookbookbatFoodsFailure(Integer itemId, String prefname) {
+      var cleanups = withProperty(prefname, false);
+      try (cleanups) {
+        assertFalse(Preferences.getBoolean(prefname));
+        var req = new EatItemRequest(ItemPool.get(itemId));
+        req.responseText = "You may only eat one of those per lifetime";
+        req.processResults();
+        assertTrue(Preferences.getBoolean(prefname));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "10991, pizzaOfLegendEaten",
+      "10992, calzoneOfLegendEaten",
+      "11000, deepDishOfLegendEaten"
+    })
+    public void canPredictCookbookbatFoodsLimit(Integer itemId, String prefname) {
+      var cleanups = withProperty(prefname, false);
+      try (cleanups) {
+        assertEquals(1, EatItemRequest.maximumUses(itemId));
+        Preferences.setBoolean(prefname, true);
+        assertEquals(0, EatItemRequest.maximumUses(itemId));
+      }
     }
   }
 
-  @ParameterizedTest
-  @CsvSource({
-    "10991, pizzaOfLegendEaten",
-    "10992, calzoneOfLegendEaten",
-    "11000, deepDishOfLegendEaten"
-  })
-  public void canTrackCookbookbatFoodsFailure(Integer itemId, String prefname) {
-    var cleanups = withProperty(prefname, false);
-    try (cleanups) {
-      assertFalse(Preferences.getBoolean(prefname));
-      var req = new EatItemRequest(ItemPool.get(itemId));
-      req.responseText = "You may only eat one of those per lifetime";
-      req.processResults();
-      assertTrue(Preferences.getBoolean(prefname));
+  @Nested
+  class GhostPepper {
+    @Test
+    public void tracksSuccessfulConsumption() {
+      var cleanups =
+          new Cleanups(withProperty("ghostPepperTurnsLeft"), withItem(ItemPool.GHOST_PEPPER));
+      try (cleanups) {
+        var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
+        req.responseText = html("request/test_eat_ghost_pepper_success.html");
+        req.processResults();
+        assertThat("ghostPepperTurnsLeft", isSetTo(4));
+        assertThat(InventoryManager.getCount(ItemPool.GHOST_PEPPER), is(0));
+      }
     }
-  }
 
-  @ParameterizedTest
-  @CsvSource({
-    "10991, pizzaOfLegendEaten",
-    "10992, calzoneOfLegendEaten",
-    "11000, deepDishOfLegendEaten"
-  })
-  public void canPredictCookbookbatFoodsLimit(Integer itemId, String prefname) {
-    var cleanups = withProperty(prefname, false);
-    try (cleanups) {
-      assertEquals(1, EatItemRequest.maximumUses(itemId));
-      Preferences.setBoolean(prefname, true);
-      assertEquals(0, EatItemRequest.maximumUses(itemId));
+    @Test
+    public void tracksUnsuccessfulConsumption() {
+      var cleanups =
+          new Cleanups(withProperty("ghostPepperTurnsLeft", 3), withItem(ItemPool.GHOST_PEPPER));
+      try (cleanups) {
+        var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
+        req.responseText = html("request/test_eat_ghost_pepper_failure.html");
+        req.processResults();
+        assertThat("ghostPepperTurnsLeft", isSetTo(3));
+        assertThat(InventoryManager.getCount(ItemPool.GHOST_PEPPER), is(1));
+      }
+    }
+
+    @Test
+    public void guessesOldTimer() {
+      var cleanups = withProperty("ghostPepperTurnsLeft", 0);
+      try (cleanups) {
+        var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
+        req.responseText = html("request/test_eat_ghost_pepper_failure.html");
+        req.processResults();
+        assertThat("ghostPepperTurnsLeft", isSetTo(4));
+      }
+    }
+
+    @Test
+    public void maximumUsesOneNormally() {
+      var cleanups = withProperty("ghostPepperTurnsLeft", 0);
+      try (cleanups) {
+        var uses = EatItemRequest.maximumUses(ItemPool.GHOST_PEPPER);
+        assertThat(uses, is(1));
+      }
+    }
+
+    @Test
+    public void maximumUsesZeroWhenTimerGoing() {
+      var cleanups = withProperty("ghostPepperTurnsLeft", 1);
+      try (cleanups) {
+        var uses = EatItemRequest.maximumUses(ItemPool.GHOST_PEPPER);
+        assertThat(uses, is(0));
+      }
     }
   }
 }

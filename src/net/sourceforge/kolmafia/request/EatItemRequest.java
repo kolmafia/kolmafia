@@ -122,6 +122,13 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     switch (itemId) {
+      case ItemPool.GHOST_PEPPER -> {
+        if (Preferences.getInteger("ghostPepperTurnsLeft") > 0) {
+          UseItemRequest.limiter = "still working on the last one";
+          return 0;
+        }
+        return 1;
+      }
       case ItemPool.SPAGHETTI_BREAKFAST -> {
         // This is your breakfast, you need to eat it first thing
         if (KoLCharacter.getFullnessLimit() == 0) {
@@ -667,17 +674,31 @@ public class EatItemRequest extends UseItemRequest {
 
     int itemId = item.getItemId();
 
-    // Special handling for fortune cookies, since you can smash
-    // them, as well as eat them
-    if (itemId == ItemPool.FORTUNE_COOKIE
-        && responseText.contains("You brutally smash the fortune cookie")) {
-      ResultProcessor.processResult(item.getNegation());
-      return;
-    }
-
-    if (itemId == ItemPool.CARTON_OF_SNAKE_MILK && responseText.contains("cream cheese")) {
-      ResultProcessor.processResult(item.getNegation());
-      return;
+    // Handle item-specific consumption failure
+    switch (itemId) {
+      case ItemPool.FORTUNE_COOKIE -> {
+        if (responseText.contains("You brutally smash the fortune cookie")) {
+          ResultProcessor.processResult(item.getNegation());
+          return;
+        }
+      }
+      case ItemPool.CARTON_OF_SNAKE_MILK -> {
+        if (responseText.contains("cream cheese")) {
+          ResultProcessor.processResult(item.getNegation());
+          return;
+        }
+      }
+      case ItemPool.GHOST_PEPPER -> {
+        if (responseText.contains("You shouldn't eat one of those")) {
+          // If we weren't already tracking this, update the pref defensively
+          if (Preferences.getInteger("ghostPepperTurnsLeft") == 0) {
+            Preferences.setInteger("ghostPepperTurnsLeft", 4);
+          }
+          UseItemRequest.lastUpdate = "You already have a ghost pepper terrifying your innards.";
+          KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+          return;
+        }
+      }
     }
 
     // You're really, really hungry, but that isn't what you're hungry for.
@@ -860,14 +881,11 @@ public class EatItemRequest extends UseItemRequest {
 
     switch (itemId) {
       case ItemPool.LUCIFER -> {
-
         // Jumbo Dr. Lucifer reduces your hit points to 1.
         ResultProcessor.processResult(
             new AdventureLongCountResult(AdventureResult.HP, 1 - KoLCharacter.getCurrentHP()));
-        return;
       }
       case ItemPool.BLACK_PUDDING -> {
-
         // "You screw up your courage and eat the black pudding.
         // It turns out to be the blood sausage sort of
         // pudding. You're not positive that that's a good
@@ -906,43 +924,34 @@ public class EatItemRequest extends UseItemRequest {
         if (!UseItemRequest.lastUpdate.equals("")) {
           KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
         }
-        return;
       }
       case ItemPool.STEEL_STOMACH -> {
         if (responseText.contains("You acquire a skill")) {
           ResponseTextParser.learnSkill("Stomach of Steel");
         }
-        return;
       }
+      case ItemPool.GHOST_PEPPER -> Preferences.setInteger("ghostPepperTurnsLeft", 4);
       case ItemPool.DRIPPY_CAVIAR -> {
         Preferences.setBoolean("_drippyCaviarUsed", true);
         Preferences.increment("drippyJuice", 5);
-        return;
       }
       case ItemPool.DRIPPY_NUGGET -> {
         Preferences.setBoolean("_drippyNuggetUsed", true);
         Preferences.increment("drippyJuice", 5);
-        return;
       }
       case ItemPool.DRIPPY_PLUM -> {
         Preferences.setBoolean("_drippyPlumUsed", true);
         Preferences.increment("drippyJuice", 5);
-        return;
       }
       case ItemPool.EXTRA_GREASY_SLIDER -> {
         KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() - 5 * item.getCount());
         KoLCharacter.updateStatus();
-        return;
       }
-      case ItemPool.SPAGHETTI_BREAKFAST -> {
-        Preferences.setBoolean("_spaghettiBreakfastEaten", true);
-        return;
-      }
+      case ItemPool.SPAGHETTI_BREAKFAST -> Preferences.setBoolean("_spaghettiBreakfastEaten", true);
       case ItemPool.SMORE -> {
         Preferences.increment("smoresEaten", 1);
         ConsumablesDatabase.setSmoresData();
         ConsumablesDatabase.calculateAllAverageAdventures();
-        return;
       }
       case ItemPool.AFFIRMATION_COOKIE -> {
         // Not correcting based on actual consumption, as too many other things can affect it.
@@ -950,28 +959,15 @@ public class EatItemRequest extends UseItemRequest {
         Preferences.setBoolean("_affirmationCookieEaten", true);
         ConsumablesDatabase.setAffirmationCookieData();
         ConsumablesDatabase.calculateAllAverageAdventures();
-        return;
       }
-      case ItemPool.KUDZU_SALAD -> {
-        Preferences.setBoolean("_kudzuSaladEaten", true);
-        return;
-      }
-      case ItemPool.PLUMBERS_MUSHROOM_STEW -> {
-        Preferences.setBoolean("_plumbersMushroomStewEaten", true);
-        return;
-      }
-      case ItemPool.MR_BURNSGER -> {
-        Preferences.setBoolean("_mrBurnsgerEaten", true);
-        return;
-      }
-      case ItemPool.MAGICAL_SAUSAGE -> {
-        Preferences.increment("_sausagesEaten", item.getCount(), 23, false);
-        return;
-      }
-      case ItemPool.ELECTRIC_KOOL_AID -> {
-        Preferences.increment("electricKoolAidEaten", item.getCount());
-        return;
-      }
+      case ItemPool.KUDZU_SALAD -> Preferences.setBoolean("_kudzuSaladEaten", true);
+      case ItemPool.PLUMBERS_MUSHROOM_STEW -> Preferences.setBoolean(
+          "_plumbersMushroomStewEaten", true);
+      case ItemPool.MR_BURNSGER -> Preferences.setBoolean("_mrBurnsgerEaten", true);
+      case ItemPool.MAGICAL_SAUSAGE -> Preferences.increment(
+          "_sausagesEaten", item.getCount(), 23, false);
+      case ItemPool.ELECTRIC_KOOL_AID -> Preferences.increment(
+          "electricKoolAidEaten", item.getCount());
       case ItemPool.PIRATE_FORK -> {
         // You reach over and grab some <food> off of a random passerby's plate. Yum!
         if (responseText.contains("You reach over and grab")) {
@@ -984,18 +980,9 @@ public class EatItemRequest extends UseItemRequest {
           }
         }
       }
-      case ItemPool.PIZZA_OF_LEGEND -> {
-        Preferences.setBoolean("pizzaOfLegendEaten", true);
-        return;
-      }
-      case ItemPool.CALZONE_OF_LEGEND -> {
-        Preferences.setBoolean("calzoneOfLegendEaten", true);
-        return;
-      }
-      case ItemPool.DEEP_DISH_OF_LEGEND -> {
-        Preferences.setBoolean("deepDishOfLegendEaten", true);
-        return;
-      }
+      case ItemPool.PIZZA_OF_LEGEND -> Preferences.setBoolean("pizzaOfLegendEaten", true);
+      case ItemPool.CALZONE_OF_LEGEND -> Preferences.setBoolean("calzoneOfLegendEaten", true);
+      case ItemPool.DEEP_DISH_OF_LEGEND -> Preferences.setBoolean("deepDishOfLegendEaten", true);
     }
   }
 
