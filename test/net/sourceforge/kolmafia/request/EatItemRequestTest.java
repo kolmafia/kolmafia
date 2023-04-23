@@ -14,6 +14,7 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -125,24 +126,28 @@ class EatItemRequestTest {
   @Nested
   class GhostPepper {
     @Test
-    public void startsTimer() {
-      var cleanups = withProperty("ghostPepperTurnsLeft");
+    public void tracksSuccessfulConsumption() {
+      var cleanups =
+          new Cleanups(withProperty("ghostPepperTurnsLeft"), withItem(ItemPool.GHOST_PEPPER));
       try (cleanups) {
         var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
         req.responseText = html("request/test_eat_ghost_pepper_success.html");
         req.processResults();
         assertThat("ghostPepperTurnsLeft", isSetTo(4));
+        assertThat(InventoryManager.getCount(ItemPool.GHOST_PEPPER), is(0));
       }
     }
 
     @Test
-    public void maintainsOldTimer() {
-      var cleanups = withProperty("ghostPepperTurnsLeft", 3);
+    public void tracksUnsuccessfulConsumption() {
+      var cleanups =
+          new Cleanups(withProperty("ghostPepperTurnsLeft", 3), withItem(ItemPool.GHOST_PEPPER));
       try (cleanups) {
         var req = new EatItemRequest(ItemPool.get(ItemPool.GHOST_PEPPER));
         req.responseText = html("request/test_eat_ghost_pepper_failure.html");
         req.processResults();
         assertThat("ghostPepperTurnsLeft", isSetTo(3));
+        assertThat(InventoryManager.getCount(ItemPool.GHOST_PEPPER), is(1));
       }
     }
 
