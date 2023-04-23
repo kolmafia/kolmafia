@@ -8,6 +8,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHippyStoneBroken;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
@@ -1983,6 +1984,37 @@ public class FightRequestTest {
         assertThat("shadowRiftIngress", isSetTo("hiddencity"));
         assertThat("lastAdventure", isSetTo("Shadow Rift (The Hidden City)"));
         assertThat("_shadowRiftCombats", isSetTo(1));
+      }
+    }
+  }
+
+  @Nested
+  class DreadConsumables {
+    @ParameterizedTest
+    @CsvSource({
+      "getsYouDrunkTurnsLeft, gets_you_drunk",
+      "ghostPepperTurnsLeft, ghost_pepper",
+    })
+    public void survivingDecrementsCounter(String pref, String fixture) {
+      var cleanups = new Cleanups(withProperty(pref, 4), withHP(5000, 5000, 5000));
+      try (cleanups) {
+        parseCombatData("request/test_fight_" + fixture + "_survive.html");
+        assertThat(pref, isSetTo(3));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "getsYouDrunkTurnsLeft, gets_you_drunk_elemental_form",
+      "ghostPepperTurnsLeft, ghost_pepper_elemental_form",
+      "getsYouDrunkTurnsLeft, gets_you_drunk_complete",
+      "ghostPepperTurnsLeft, ghost_pepper_complete",
+    })
+    public void otherSituationsEndCounter(String pref, String fixture) {
+      var cleanups = new Cleanups(withProperty(pref, 4));
+      try (cleanups) {
+        parseCombatData("request/test_fight_" + fixture + ".html");
+        assertThat(pref, isSetTo(0));
       }
     }
   }
