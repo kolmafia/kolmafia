@@ -263,6 +263,8 @@ public class Preferences {
         "garbageFireProgress",
         "garbageShirtCharge",
         "garbageTreeCharge",
+        "getsYouDrunkTurnsLeft",
+        "ghostPepperTurnsLeft",
         "gingerBlackmailAccomplished",
         "gingerDigCount",
         "gingerLawChoice",

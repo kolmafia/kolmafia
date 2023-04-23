@@ -163,6 +163,15 @@ class EatItemRequestTest {
     }
 
     @Test
+    public void maximumUsesOneNormally() {
+      var cleanups = withProperty("ghostPepperTurnsLeft", 0);
+      try (cleanups) {
+        var uses = EatItemRequest.maximumUses(ItemPool.GHOST_PEPPER);
+        assertThat(uses, is(1));
+      }
+    }
+
+    @Test
     public void maximumUsesZeroWhenTimerGoing() {
       var cleanups = withProperty("ghostPepperTurnsLeft", 1);
       try (cleanups) {
