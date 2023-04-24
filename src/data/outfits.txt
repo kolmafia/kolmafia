@@ -171,6 +171,6 @@
 159	Guzzlr Uniform	guzzlrtat.gif	Guzzlr hat, Guzzlr shoes, Guzzlr pants
 160	Lathed Livery	lathetat.gif	hemlock helm, balsam barrel, purpleheart &quot;pants&quot;, wormwood wedding ring	fistful of wood shavings
 161	Trainbot Trappings	tbottat.gif	head-mounted Trainbot, leg-mounted Trainbots, shoulder-mounted Trainbot	chocolate covered ping-pong ball
-162	Ceramic Clothing	ceramtat.gif	ceramic celery grater, ceramic centurion shield, ceramic cenobite's robe, ceramic cestus, ceramic cerecloth belt, ceramic celsiturometer
-163	Chiffon Chiffinery	chiffontat.gif	chiffon chapeau, chiffon chakram, chiffon chamberpot, chiffon chemise, chiffon chaps, chiffon chevrons
-164	Shadow Shuit	shadouttat.gif	shadow chef's hat, shadow trousers
+162	Ceramic Clothing	ceramtat.gif	ceramic celery grater, ceramic centurion shield, ceramic cenobite's robe, ceramic cestus, ceramic cerecloth belt, ceramic celsiturometer	extra-hard jawbreaker
+163	Chiffon Chiffinery	chiffontat.gif	chiffon chapeau, chiffon chakram, chiffon chamberpot, chiffon chemise, chiffon chaps, chiffon chevrons	chiffon lemon
+164	Shadow Shuit	shadouttat.gif	shadow chef's hat, shadow trousers	shadow candy
