@@ -3022,6 +3022,26 @@ public class FightRequest extends GenericRequest {
 
     FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 
+    var garbledCombat = FightRequest.machineElf || FightRequest.anapest || FightRequest.haiku;
+
+    // Track ghost pepper
+    if (responseText.contains("The ghost pepper you ate") && KoLCharacter.getCurrentHP() > 0) {
+      Preferences.decrement("ghostPepperTurnsLeft", 1, 1);
+    } else if (garbledCombat) {
+      Preferences.decrement("ghostPepperTurnsLeft", 1, 0);
+    } else {
+      Preferences.setInteger("ghostPepperTurnsLeft", 0);
+    }
+
+    // Track Gets-You-Drunk
+    if (responseText.contains("The mulled wine you drank") && KoLCharacter.getCurrentHP() > 0) {
+      Preferences.decrement("getsYouDrunkTurnsLeft", 1, 1);
+    } else if (garbledCombat) {
+      Preferences.decrement("ghostPepperTurnsLeft", 1, 0);
+    } else {
+      Preferences.setInteger("getsYouDrunkTurnsLeft", 0);
+    }
+
     // Increment stinky cheese counter
     int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
     if (stinkyCount > 0) {

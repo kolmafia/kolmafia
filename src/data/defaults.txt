@@ -652,6 +652,7 @@ user	garbageShirtCharge	0
 user	garbageTreeCharge	0
 user	garlandUpgrades	0
 user	getawayCampsiteUnlocked	false
+user	getsYouDrunkTurnsLeft	0
 user	ghostLocation	
 user	ghostPencil1	false
 user	ghostPencil2	false
@@ -662,6 +663,7 @@ user	ghostPencil6	false
 user	ghostPencil7	false
 user	ghostPencil8	false
 user	ghostPencil9	false
+user	ghostPepperTurnsLeft	0
 user	gingerAdvanceClockUnlocked	false
 user	gingerBlackmailAccomplished	false
 user	gingerbreadCityAvailable	false
