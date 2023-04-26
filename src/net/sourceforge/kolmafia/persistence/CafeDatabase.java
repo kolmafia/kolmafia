@@ -99,4 +99,8 @@ public class CafeDatabase {
     String descId = (map == cafeBooze) ? boozeDescId(itemId) : foodDescId(itemId);
     nameToDescId.put(name, descId);
   }
+
+  public static boolean isCafeConsumable(String name) {
+    return nameToDescId.containsKey(name);
+  }
 }
