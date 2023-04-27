@@ -4935,7 +4935,7 @@ Item	gauze hammock	Bonus Resting HP: +60
 Item	gingerbread house	Base Resting HP: +69, Base Resting MP: +70
 Item	giant Faraday cage	Base Resting HP: +50, Base Resting MP: +50
 Item	giant pilgrim hat	Base Resting HP: +39, Base Resting MP: +40
-Item    house-sized mushroom	Base Resting HP: +69, Base Resting MP: +70
+Item	house-sized mushroom	Base Resting HP: +69, Base Resting MP: +70
 Item	ginormous pumpkin	Base Resting HP: +49, Base Resting MP: +50
 # haunted doghouse: Houses your very own Hallowiener Dog!
 Item	haunted doghouse	Free Pull
@@ -5139,7 +5139,7 @@ Effect	Bailando, Fernando	Item Drop: +10
 Effect	Balls of Ectoplasm	Spooky Resistance: +1
 Effect	Baited Hook	Fishing Skill: +5
 # Baja, Humbug: +50% to Item Drops from Monsters (Underwater only)
-Effect Baja, Humbug	Item Drop: [50*env(underwater)]
+Effect	Baja, Humbug	Item Drop: [50*env(underwater)]
 Effect	Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Effect	Bandananit	Avatar: "dirty thieving brigand"
 Effect	Bandersnatched	Moxie: +5, Ranged Damage: +10 
@@ -5864,7 +5864,7 @@ Effect	Feet of Grapefruit	Experience (Mysticality): +3
 Effect	Feet of Strawberry	Experience (Moxie): +3
 Effect	Feet of Watermelon	Experience (Muscle): +3
 # Festively Brined: Makes you a better diver
-Effect Festively Brined	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Effect	Festively Brined	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Effect	Festively Experimented-Upon	Maximum HP Percent: +200, Maximum MP Percent: +200
 Effect	Feline Ferocity	Weapon Damage Percent: +100
 Effect	Feroci Tea	Muscle: +50
@@ -7852,7 +7852,7 @@ Skill	Always Never Not Guzzling	Booze Drop: +25
 # Ambidextrous Funkslinging: You can use two combat items per round
 Skill	Amphibian Sympathy	Familiar Weight: [-10*(fam(Inflatable Dodecapede)-0.5)]
 # Anatomy Expertise: Your damaging skills have a chance of dealing double damage
-Skill	Ancient Crimbo Lore	Experience: [3*event(December)]
+Skill	Ancient Crymbo Lore	Experience: [3*event(December)]
 Skill	Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
 Skill	Ankle Joints	Initiative: +20
 # Another Extra Spleen: Another +5 spleen capacity
@@ -8588,7 +8588,7 @@ Loc	Mer-kin Library	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop
 Loc	Mer-kin Gymnasium	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc	Mer-kin Colosseum	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc	Anemone Mine	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-Loc	Caliginous Abyss	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc	The Caliginous Abyss	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc	The Dive Bar	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc	The Marinara Trench	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 
