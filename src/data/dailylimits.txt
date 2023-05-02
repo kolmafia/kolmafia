@@ -26,6 +26,12 @@ Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
 Cast	Chest X-Ray	_chestXRayUsed	3
 Cast	Chorale of Companionship	_companionshipCasts	10
 Cast	Chubby and Plump	_chubbyAndPlumpUsed
+Cast	Cincho: Dispense Salt and Lime	_cinchUsed	100
+Cast	Cincho: Party Soundtrack	_cinchUsed	100
+Cast	Cincho: Fiesta Exit	_cinchUsed	100
+Cast	Cincho: Projectile Piñata	_cinchUsed	100
+Cast	Cincho: Party Foul	_cinchUsed	100
+Cast	Cincho: Confetti Extravaganza	_cinchUsed	100
 Cast	Communism!	_communismUsed
 Cast	Conjure Cheese	_jarlsCheeseSummoned
 Cast	Conjure Cream	_jarlsCreamSummoned

@@ -3569,6 +3569,7 @@ public class ItemPool {
   public static final int SHADOW_PILL = 11184;
   public static final int SHADOW_NEEDLE = 11185;
   public static final int CURSED_MONKEY_PAW = 11186;
+  public static final int CINCHO_DE_MAYO = 11223;
 
   private ItemPool() {}
 

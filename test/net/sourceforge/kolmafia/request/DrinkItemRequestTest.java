@@ -101,4 +101,17 @@ class DrinkItemRequestTest {
       }
     }
   }
+
+  @Test
+  public void trackUseOfCinchoSaltAndLime() {
+    var cleanups =
+        new Cleanups(withProperty("cinchoSaltAndLime", 2), withItem(ItemPool.VODKA_MARTINI));
+    try (cleanups) {
+      var req = new DrinkItemRequest(ItemPool.get(ItemPool.VODKA_MARTINI));
+      req.responseText = html("request/test_drink_with_salt_and_lime.html");
+      req.processResults();
+      assertThat("cinchoSaltAndLime", isSetTo(1));
+      assertThat(InventoryManager.getCount(ItemPool.VODKA_MARTINI), is(0));
+    }
+  }
 }

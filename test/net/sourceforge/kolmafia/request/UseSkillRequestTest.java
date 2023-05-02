@@ -321,4 +321,88 @@ class UseSkillRequestTest {
       }
     }
   }
+
+  @Nested
+  class CinchoDeMayo {
+    @BeforeEach
+    public void initializeState() {
+      HttpClientWrapper.setupFakeClient();
+      KoLCharacter.reset("CinchoDeMayo");
+      Preferences.reset("CinchoDeMayo");
+    }
+
+    @AfterAll
+    public static void afterAll() {
+      UseSkillRequest.lastSkillUsed = -1;
+      UseSkillRequest.lastSkillCount = 0;
+      InventoryManager.checkCinchoDeMayo();
+    }
+
+    @Test
+    void wearCinchoForCastingCinchSkills() {
+      var cleanups =
+          new Cleanups(withEquippableItem("Cincho de Mayo"), withProperty("_cinchUsed", 0));
+      InventoryManager.checkCinchoDeMayo();
+
+      try (cleanups) {
+        var req = UseSkillRequest.getInstance(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME, 1);
+        req.run();
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=3&action=equip&whichitem=11223");
+        assertGetRequest(
+            requests.get(1), "/runskillz.php", "action=Skillz&whichskill=7439&ajax=1&quantity=1");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void doNotEquipCinchoDeMayoForSkillIfAlreadyWearing() {
+      var cleanups = new Cleanups(withEquipped(Slot.ACCESSORY2, "Cincho de Mayo"));
+      InventoryManager.checkCinchoDeMayo();
+
+      try (cleanups) {
+        var req = UseSkillRequest.getInstance(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME, 1);
+        req.run();
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertGetRequest(
+            requests.get(0), "/runskillz.php", "action=Skillz&whichskill=7439&ajax=1&quantity=1");
+      }
+    }
+
+    @Test
+    void increaseCinchWhenCastingSkill() {
+      var cleanups = new Cleanups(withProperty("_cinchUsed", 10));
+
+      try (cleanups) {
+        UseSkillRequest.lastSkillUsed = SkillPool.CINCHO_FIESTA_EXIT;
+        UseSkillRequest.lastSkillCount = 1;
+        UseSkillRequest.parseResponse(
+            "runskillz.php?action=Skillz&whichskill=7441&ajax=1&quantity=1",
+            html("request/test_cast_cincho_fiesta_exit.html"));
+        // 10 + 60 = 70
+        assertThat("_cinchUsed", isSetTo(70));
+      }
+    }
+
+    @Test
+    void dispensingSaltAndLimeIsTracked() {
+      var cleanups = new Cleanups(withProperty("cinchoSaltAndLime", 2));
+
+      try (cleanups) {
+        UseSkillRequest.lastSkillUsed = SkillPool.CINCHO_DISPENSE_SALT_AND_LIME;
+        UseSkillRequest.lastSkillCount = 1;
+        UseSkillRequest.parseResponse(
+            "runskillz.php?action=Skillz&whichskill=74439&ajax=1&quantity=1",
+            html("request/test_cast_cincho_dispense_salt_and_lime.html"));
+        assertThat("cinchoSaltAndLime", isSetTo(3));
+      }
+    }
+  }
 }

@@ -3027,8 +3027,7 @@ public abstract class KoLCharacter {
         || oldPath == Path.YOU_ROBOT
         || oldPath == Path.JOURNEYMAN) {
       RequestThread.postRequest(new CharSheetRequest());
-      InventoryManager.checkPowerfulGlove();
-      InventoryManager.checkDesignerSweatpants();
+      InventoryManager.checkSkillGrantingEquipment();
     }
 
     if (restricted
