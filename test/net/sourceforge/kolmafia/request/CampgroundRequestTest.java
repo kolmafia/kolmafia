@@ -6,6 +6,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
@@ -172,5 +173,21 @@ public class CampgroundRequestTest {
     assertThat(resOpt.isPresent(), equalTo(true));
     var res = resOpt.get();
     assertThat(res.getCount(), equalTo(count));
+  }
+
+  @Test
+  void trackCinchoLoosening() {
+    var cleanups =
+        new Cleanups(
+            withNextResponse(200, html("request/test_rest_cincho_loosens.html")),
+            withProperty("_cinchUsed", 75),
+            withProperty("_cinchoRests", 2));
+
+    try (cleanups) {
+      new GenericRequest("campground.php?action=rest").run();
+
+      assertThat("_cinchUsed", isSetTo(45));
+      assertThat("_cinchoRests", isSetTo(3));
+    }
   }
 }

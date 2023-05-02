@@ -1693,6 +1693,7 @@ user	_chronolithActivations	0
 user	_chronolithNextCost	10
 user	_chubbyAndPlumpUsed	false
 user	_cinchUsed	0
+user	_cinchoRests	0
 user	_circleDrumUsed	false
 user	_clanFortuneBuffUsed	false
 user	_clanFortuneConsultUses	0
