@@ -930,6 +930,14 @@ public class CampgroundRequest extends GenericRequest {
     return action != null && (action.equals("workshed") || action.equals("terminal"));
   }
 
+  public static void handleCinchoRest(final String responseText) {
+    var m = CINCHO_LOOSEN_PATTERN.matcher(responseText);
+    if (m.find()) {
+      Preferences.decrement("_cinchUsed", StringUtilities.parseInt(m.group(1)), 0);
+      Preferences.increment("_cinchoRests");
+    }
+  }
+
   public static void parseResponse(final String urlString, final String responseText) {
     // Workshed may redirect to shop.php
     if (urlString.startsWith("shop.php")) {
@@ -1043,14 +1051,9 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.decrement("_nightmareFuelCharges");
       }
 
-      // Cincho de Mayo
-      var m = CINCHO_LOOSEN_PATTERN.matcher(responseText);
-      if (m.find()) {
-        Preferences.decrement("_cinchUsed", StringUtilities.parseInt(m.group(1)), 0);
-        Preferences.increment("_cinchoRests");
-      }
+      handleCinchoRest(responseText);
 
-      m = HOUSING_PATTERN.matcher(responseText);
+      var m = HOUSING_PATTERN.matcher(responseText);
       if (m.find()) {
         KoLCharacter.updateFreeRests(m.group(3) != null);
       }

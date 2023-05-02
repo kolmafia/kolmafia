@@ -93,6 +93,7 @@ public class CampAwayRequest extends PlaceRequest {
       } else {
         Preferences.setInteger("campAwayDecoration", 0);
       }
+      CampgroundRequest.handleCinchoRest(responseText);
       Preferences.increment("timesRested");
     } else if (action.equals("campaway_sky")) {
       Matcher m = EFFECT_PATTERN.matcher(responseText);

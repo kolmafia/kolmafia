@@ -111,6 +111,7 @@ public class ChateauRequest extends PlaceRequest {
     // or action=cheateau_restlabel
     // or action=chateau_restbox
     if (action.startsWith("chateau_rest") || action.startsWith("cheateau_rest")) {
+      CampgroundRequest.handleCinchoRest(responseText);
       Preferences.increment("timesRested");
       KoLCharacter.updateFreeRests(responseText.contains("chateau_restlabelfree"));
       KoLCharacter.updateStatus();
