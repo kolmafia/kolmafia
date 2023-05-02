@@ -979,6 +979,12 @@
 7436	Monkey Peace Sign	monkeypaw3.gif	5	0	0
 7437	Monkey Point	monkeypaw4.gif	5	0	0
 7438	Monkey Punch	monkeypaw5.gif	5	0	0
+7439	Cincho: Dispense Salt and Lime		3	0	0
+7440	Cincho: Party Soundtrack		3	0	0
+7441	Cincho: Fiesta Exit		3	0	0
+7442	Cincho: Projectile Piñata		5	0	0
+7443	Cincho: Party Foul		5	0	0
+7444	Cincho: Confetti Extravaganza		5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

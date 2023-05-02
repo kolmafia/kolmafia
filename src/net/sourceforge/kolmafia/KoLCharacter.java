@@ -1757,6 +1757,8 @@ public abstract class KoLCharacter {
     if (KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
         || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
+    if (InventoryManager.getCount(ItemPool.CINCHO_DE_MAYO) > 0
+        || KoLCharacter.hasEquipped(ItemPool.CINCHO_DE_MAYO)) freerests += 3;
     return freerests;
   }
 
@@ -3027,8 +3029,7 @@ public abstract class KoLCharacter {
         || oldPath == Path.YOU_ROBOT
         || oldPath == Path.JOURNEYMAN) {
       RequestThread.postRequest(new CharSheetRequest());
-      InventoryManager.checkPowerfulGlove();
-      InventoryManager.checkDesignerSweatpants();
+      InventoryManager.checkSkillGrantingEquipment();
     }
 
     if (restricted

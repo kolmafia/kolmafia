@@ -2855,6 +2855,8 @@ Item	chintzy turtle brooch	Muscle: +12, Mysticality: +6, Class: "Turtle Tamer", 
 Item	chocolate pocketwatch	Maximum MP: +20, Spell Damage: +15, Spell Critical Percent: +10, Single Equip
 Item	chocolate rabbit's foot	Item Drop: +5, Meat Drop: +5, Candy Drop: +20
 Item	Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Damage: +40, Single Equip
+# Cincho de Mayo: Rest at your campsite, 3 times per day without using an Adventure
+Item	Cincho de Mayo	Moxie Percent: +25, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Booze Drop: +30, Item Drop: +15
 # Claw of the Infernal Seal: 5 Additional Seal Summons Per Day<super>*</super>
 # * This enchantment works even when this item is not equipped
 Item	Claw of the Infernal Seal	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Seal Clubber", Single Equip
@@ -6730,6 +6732,7 @@ Effect	Para-lyzed Jaw	Monster Level: +25
 # Partially Ghosted: Reduces physical damage taken by 30%
 Effect	Partially Paralyzed	Moxie Percent: -50
 Effect	Party on Your Skin	Maximum HP Percent: +50, Maximum MP Percent: +50, Familiar Weight: +5, Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
+Effect	Party Soundtrack	Familiar Weight: +5
 Effect	Pasta Eyeball	Meat Drop: +10
 Effect	Pasta Oneness	Mysticality: +2
 Effect	Pasty	Muscle Percent: +50

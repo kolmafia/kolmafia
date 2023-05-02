@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -229,6 +230,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final AdventureResult POWERFUL_GLOVE = ItemPool.get(ItemPool.POWERFUL_GLOVE, 1);
   public static final AdventureResult DESIGNER_SWEATPANTS =
       ItemPool.get(ItemPool.DESIGNER_SWEATPANTS, 1);
+  public static final AdventureResult CINCHO_DE_MAYO = ItemPool.get(ItemPool.CINCHO_DE_MAYO, 1);
 
   private static final AdventureResult[] AVOID_REMOVAL =
       new AdventureResult[] {
@@ -583,19 +585,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           int birds = Preferences.getInteger("_birdsSoughtToday");
           return (birds < 7 && option != 1) ? 6 - birds : Long.MAX_VALUE;
         }
-
-      case SkillPool.INVISIBLE_AVATAR:
-      case SkillPool.TRIPLE_SIZE:
-      case SkillPool.SHRINK_ENEMY:
-      case SkillPool.REPLACE_ENEMY:
-        {
-          // Powerful Glove skills use Battery Power, not MP
-          // The two buffs each use 5% of the battery power
-          // The combat skills cost 5 or 10%
-          int cost = (this.skillId == SkillPool.REPLACE_ENEMY) ? 10 : 5;
-          int powerAvailable = EquipmentManager.powerfulGloveAvailableBatteryPower();
-          return powerAvailable / cost;
-        }
     }
 
     var dailyLimit = DailyLimitType.CAST.getDailyLimit(this.skillId);
@@ -741,6 +730,37 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         && InventoryManager.hasItem(item, false);
   }
 
+  private static void equipForSkill(final AdventureResult item, final int skillId) {
+    if (!KoLCharacter.hasEquipped(item)) {
+      if (!InventoryManager.retrieveItem(item)) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot acquire " + item.getName() + ".");
+        return;
+      }
+
+      var slotType =
+          EquipmentManager.consumeFilterToEquipmentType(
+              ItemDatabase.getConsumptionType(item.getItemId()));
+
+      if (slotType != Slot.ACCESSORY1) {
+        (new EquipmentRequest(item, slotType)).run();
+        return;
+      }
+
+      // Find an accessory slot to equip the accessory
+      boolean slot1Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
+      boolean slot2Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
+      boolean slot3Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
+
+      Slot slot =
+          UseSkillRequest.attemptSwitch(skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
+
+      if (slot == Slot.NONE) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Cannot choose slot to equip " + item.getName() + ".");
+      }
+    }
+  }
+
   public static final void optimizeEquipment(final int skillId) {
     boolean isBuff = SkillDatabase.isBuff(skillId);
 
@@ -755,40 +775,14 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     switch (skillId) {
-      case SkillPool.INVISIBLE_AVATAR, SkillPool.TRIPLE_SIZE -> {
-        AdventureResult item = UseSkillRequest.POWERFUL_GLOVE;
-        if (!KoLCharacter.hasEquipped(item)) {
-          if (!InventoryManager.retrieveItem(item)) {
-            KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot acquire Powerful Glove.");
-            return;
-          }
-
-          // Find an accessory slot to equip the Powerful Glove
-          boolean slot1Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
-          boolean slot2Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
-          boolean slot3Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
-
-          Slot slot =
-              UseSkillRequest.attemptSwitch(
-                  skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
-          if (slot == Slot.NONE) {
-            KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot choose slot to equip Powerful Glove.");
-            return;
-          }
-        }
-      }
+      case SkillPool.INVISIBLE_AVATAR, SkillPool.TRIPLE_SIZE -> equipForSkill(
+          UseSkillRequest.POWERFUL_GLOVE, skillId);
       case SkillPool.MAKE_SWEATADE,
           SkillPool.DRENCH_YOURSELF_IN_SWEAT,
-          SkillPool.SIP_SOME_SWEAT -> {
-        AdventureResult item = UseSkillRequest.DESIGNER_SWEATPANTS;
-        if (!KoLCharacter.hasEquipped(item)) {
-          if (!InventoryManager.retrieveItem(item)) {
-            KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot acquire designer sweatpants.");
-            return;
-          }
-          (new EquipmentRequest(item, Slot.PANTS)).run();
-        }
-      }
+          SkillPool.SIP_SOME_SWEAT -> equipForSkill(UseSkillRequest.DESIGNER_SWEATPANTS, skillId);
+      case SkillPool.CINCHO_DISPENSE_SALT_AND_LIME,
+          SkillPool.CINCHO_PARTY_SOUNDTRACK,
+          SkillPool.CINCHO_FIESTA_EXIT -> equipForSkill(UseSkillRequest.CINCHO_DE_MAYO, skillId);
     }
 
     if (Preferences.getBoolean("switchEquipmentForBuffs")) {
@@ -1315,7 +1309,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           SkillPool.INVISIBLE_AVATAR,
           SkillPool.TRIPLE_SIZE,
           SkillPool.SEEK_OUT_A_BIRD,
-          SkillPool.SWEAT_OUT_BOOZE -> true;
+          SkillPool.SWEAT_OUT_BOOZE,
+          SkillPool.CINCHO_DISPENSE_SALT_AND_LIME,
+          SkillPool.CINCHO_PARTY_SOUNDTRACK,
+          SkillPool.CINCHO_FIESTA_EXIT -> true;
       default -> false;
     };
   }
@@ -1908,19 +1905,15 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       case SkillPool.SWEAT_OUT_BOOZE:
         Preferences.decrement("sweat", count * 25);
         break;
+
+      case SkillPool.CINCHO_DISPENSE_SALT_AND_LIME:
+        Preferences.increment("cinchoSaltAndLime");
+        break;
     }
 
     // Now apply daily limits
     if (limit != null) {
-      var increment = count;
-
-      switch (skillId) {
-        case SkillPool.INVISIBLE_AVATAR, SkillPool.TRIPLE_SIZE ->
-        // These skills increment the count 5 by not 1
-        increment *= 5;
-      }
-
-      limit.increment(increment);
+      limit.incrementByCost(count);
     }
 
     if (SkillDatabase.isLibramSkill(skillId)) {

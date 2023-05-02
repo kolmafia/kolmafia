@@ -2439,6 +2439,7 @@ chintzy turtle brooch	120	Mus: 45
 chocolate pocketwatch	100	Mys: 20
 chocolate rabbit's foot	40	Mys: 5
 Choker of the Ultragoth	150	Mys: 60
+Cincho de Mayo	100	none
 Claw of the Infernal Seal	150	Mus: 45
 Claybender glasses	100	Mys: 35
 clingfilm slippers	150	Mys: 60

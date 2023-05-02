@@ -173,6 +173,7 @@ public class Preferences {
         "catBurglarBankHeists",
         "chaosButterflyThrown",
         "charitableDonations",
+        "cinchoSaltAndLime",
         "cinderellaMinutesToMidnight",
         "cinderellaScore",
         "clumsinessGroveBoss",

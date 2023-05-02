@@ -824,6 +824,13 @@ public class DrinkItemRequest extends UseItemRequest {
           ItemPool.get(ItemPool.BLACK_LABEL, Math.max(-item.getCount(), -labelCount)));
     }
 
+    // If you've dispensed salt and lime from your Cincho de Mayo, stats are increased.
+    // "Some of the salt and lime stuck to your hands gets on your drink, which kicks off a real
+    // party in your mouth!"
+    if (responseText.contains("Some of the salt and lime")) {
+      Preferences.decrement("cinchoSaltAndLime", 1, 0);
+    }
+
     KoLCharacter.updateStatus();
 
     // Re-sort consumables list if needed

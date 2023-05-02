@@ -525,6 +525,12 @@ public class SkillPool {
   public static final int CERAMIC_CENOBITIZE = 7431;
   public static final int MONKEY_SLAP = 7433;
   public static final int MONKEY_POINT = 7437;
+  public static final int CINCHO_DISPENSE_SALT_AND_LIME = 7439;
+  public static final int CINCHO_PARTY_SOUNDTRACK = 7440;
+  public static final int CINCHO_FIESTA_EXIT = 7441;
+  public static final int CINCHO_PROJECTILE_PINATA = 7442;
+  public static final int CINCHO_PARTY_FOUL = 7443;
+  public static final int CINCHO_CONFETTI_EXTRAVAGANZA = 7444;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

@@ -411,6 +411,7 @@ user	chessboardsCleared	0
 user	chilledToTheBone	0
 user	choiceAdventureScript
 user	chosenTrip
+user	cinchoSaltAndLime	0
 user	cinderellaMinutesToMidnight	0
 user	cinderellaScore	0
 user	clanFortuneReply1	beer
@@ -1691,6 +1692,8 @@ user	_chronerTriggerUsed	false
 user	_chronolithActivations	0
 user	_chronolithNextCost	10
 user	_chubbyAndPlumpUsed	false
+user	_cinchUsed	0
+user	_cinchoRests	0
 user	_circleDrumUsed	false
 user	_clanFortuneBuffUsed	false
 user	_clanFortuneConsultUses	0
