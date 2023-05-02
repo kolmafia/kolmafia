@@ -340,7 +340,8 @@ class UseSkillRequestTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = { SkillPool.CINCHO_PARTY_SOUNDTRACK, SkillPool.CINCHO_DISPENSE_SALT_AND_LIME })
+    @ValueSource(
+        ints = {SkillPool.CINCHO_PARTY_SOUNDTRACK, SkillPool.CINCHO_DISPENSE_SALT_AND_LIME})
     void wearCinchoForCastingCinchSkills(final int skill) {
       var cleanups =
           new Cleanups(withEquippableItem("Cincho de Mayo"), withProperty("_cinchUsed", 0));
@@ -357,7 +358,9 @@ class UseSkillRequestTest {
             "/inv_equip.php",
             "which=2&ajax=1&slot=3&action=equip&whichitem=11223");
         assertGetRequest(
-            requests.get(1), "/runskillz.php", "action=Skillz&whichskill=" + skill + "&ajax=1&quantity=1");
+            requests.get(1),
+            "/runskillz.php",
+            "action=Skillz&whichskill=" + skill + "&ajax=1&quantity=1");
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       }
     }
