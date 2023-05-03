@@ -145,6 +145,7 @@ COMBAT_SKILL	Otoscope	Otoscope \((\d+) charges left\)	_otoscopeUsed=[3-$1]
 COMBAT_SKILL	Reflex Hammer	Reflex Hammer \((\d+) charges left\)	_reflexHammerUsed=[3-$1]
 COMBAT_SKILL	Chest X-Ray	Chest X-Ray \((\d+) charges left\)	_chestXRayUsed=[3-$1]
 COMBAT_SKILL	Back-Up to your Last Enemy	Back-Up to your Last Enemy \((\d+) uses? today\)	_backUpUses=[(11+path(You, Robot)*5)-$1]
+COMBAT_SKILL	Cincho: Confetti Extravaganza	Cincho: Confetti Extravaganza \(5 cinch, (\d+)% remaining\)	_cinchUsed=[100-$1]
 
 # Monster disambiguation:
 
