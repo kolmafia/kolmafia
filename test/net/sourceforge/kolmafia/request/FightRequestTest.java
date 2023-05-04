@@ -1214,6 +1214,22 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canDetectCinchRemaining() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_cinchUsed", 0),
+            withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_cincho_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertThat("_cinchUsed", isSetTo(30));
+    }
+  }
+
+  @Test
   public void canDetectVampyreCloakeFormUses() {
     var cleanups =
         new Cleanups(
