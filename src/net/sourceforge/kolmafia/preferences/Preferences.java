@@ -177,6 +177,7 @@ public class Preferences {
         "cinderellaMinutesToMidnight",
         "cinderellaScore",
         "clumsinessGroveBoss",
+        "commaFamiliar",
         "commerceGhostCombats",
         "commerceGhostItem",
         "copperheadClubHazard",
