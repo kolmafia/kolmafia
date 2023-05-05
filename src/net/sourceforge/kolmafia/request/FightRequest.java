@@ -10171,7 +10171,8 @@ public class FightRequest extends GenericRequest {
         break;
 
       case SkillPool.CINCHO_PROJECTILE_PINATA:
-        if (responseText.contains("You press the Projectile Pi&ntilde;ata button on your Cincho.")) {
+        if (responseText.contains(
+            "You press the Projectile Pi&ntilde;ata button on your Cincho.")) {
           Preferences.increment("_cinchUsed", 5, 100, false);
           skillSuccess = true;
         }
