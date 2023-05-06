@@ -1383,20 +1383,67 @@ public class AreaCombatData {
         };
       }
       case "The Battlefield (Frat Uniform)" -> {
+        int hippiesDefeated = Preferences.getInteger("hippiesDefeated");
+
+        // If the battlefield is cleared, only the boss can appear unless the quest is finished
+        if (hippiesDefeated == 1000) {
+          return switch (monster) {
+            case "The Big Wisniewski" -> !QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) ? 1 : 0;
+            default -> 0;
+          };
+        }
         return switch (monster) {
+            // Junkyard quest completed as hippy
           case "Bailey's Beetle" -> Preferences.getString("sidequestJunkyardCompleted")
                   .equals("hippy")
               ? 1
               : 0;
+            // After specific number of hippies defeated
+          case "Mobile Armored Sweat Lodge" -> hippiesDefeated > 150 ? 1 : 0;
+          case "Green Ops Soldier" -> hippiesDefeated > 400 ? 1 : 0;
+            // Hippy Heroes only appear in specific range. Very low encounter chance
+          case "Slow Talkin' Elliot" -> hippiesDefeated >= 501 && hippiesDefeated <= 600 ? -1 : 0;
+          case "Neil" -> hippiesDefeated >= 601 && hippiesDefeated <= 700 ? -1 : 0;
+          case "Zim Merman" -> hippiesDefeated >= 701 && hippiesDefeated <= 800 ? -1 : 0;
+          case "C.A.R.N.I.V.O.R.E. Operative" -> hippiesDefeated >= 801 && hippiesDefeated <= 900
+              ? -1
+              : 0;
+          case "Glass of Orange Juice" -> hippiesDefeated >= 901 && hippiesDefeated <= 999 ? -1 : 0;
           default -> weighting;
         };
       }
       case "The Battlefield (Hippy Uniform)" -> {
+        int fratboysDefeated = Preferences.getInteger("fratboysDefeated");
+
+        // If the battlefield is cleared, only the boss can appear unless the quest is finished
+        if (fratboysDefeated == 1000) {
+          return switch (monster) {
+            case "The Man" -> !QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) ? 1 : 0;
+            default -> 0;
+          };
+        }
+
         return switch (monster) {
+            // Junkyard quest completed as fratboy
           case "War Frat Mobile Grill Unit" -> Preferences.getString("sidequestJunkyardCompleted")
                   .equals("fratboy")
               ? 1
               : 0;
+            // After specific number of fratboys defeated
+          case "Sorority Operator" -> fratboysDefeated > 150 ? 1 : 0;
+          case "Panty Raider Frat Boy" -> fratboysDefeated > 400 ? 1 : 0;
+            // Fratboy Heroes only appear in specific range. Very low encounter chance
+          case "Next-generation Frat Boy" -> fratboysDefeated >= 501 && fratboysDefeated <= 600
+              ? -1
+              : 0;
+          case "Monty Basingstoke-Pratt, IV" -> fratboysDefeated >= 601 && fratboysDefeated <= 700
+              ? -1
+              : 0;
+          case "Brutus, the toga-clad lout" -> fratboysDefeated >= 701 && fratboysDefeated <= 800
+              ? -1
+              : 0;
+          case "Danglin' Chad" -> fratboysDefeated >= 801 && fratboysDefeated <= 900 ? -1 : 0;
+          case "War Frat Streaker" -> fratboysDefeated >= 901 && fratboysDefeated <= 999 ? -1 : 0;
           default -> weighting;
         };
       }
