@@ -49,6 +49,8 @@ public class AreaCombatDataTest {
   static final MonsterData PERVERT = MonsterDatabase.findMonster("smut orc pervert");
   static final MonsterData SNAKE = MonsterDatabase.findMonster("The Frattlesnake");
   static final MonsterData GHOST = MonsterDatabase.findMonster("The ghost of Richard Cockingham");
+  static final MonsterData HIPPY_YOSS = MonsterDatabase.findMonster("Bailey's Beetle");
+  static final MonsterData FRAT_YOSS = MonsterDatabase.findMonster("War Frat Mobile Grill Unit");
   static final MonsterData EVIL_CULTIST = MonsterDatabase.findMonster("evil cultist");
   static final MonsterData CYBORG_POLICEMAN = MonsterDatabase.findMonster("cyborg policeman");
   static final MonsterData OBESE_TOURIST = MonsterDatabase.findMonster("obese tourist");
@@ -191,6 +193,35 @@ public class AreaCombatDataTest {
             hasEntry(PERVERT, 0.0),
             hasEntry(SNAKE, 0.0),
             hasEntry(GHOST, 0.0)));
+  }
+
+  @Test
+  public void battlefieldFratYoss() {
+    AdventureQueueDatabase.resetQueue();
+    Preferences.setString("sidequestJunkyardCompleted", "fratboy");
+    Map<MonsterData, Double> appearanceRates =
+        AdventureDatabase.getAreaCombatData("The Battlefield (Hippy Uniform)").getMonsterData(true);
+
+    assertThat(appearanceRates.get(FRAT_YOSS), greaterThan(0.0));
+
+    Preferences.setString("sidequestJunkyardCompleted", "hippy");
+    appearanceRates =
+        AdventureDatabase.getAreaCombatData("The Battlefield (Hippy Uniform)").getMonsterData(true);
+    assertThat(appearanceRates.get(FRAT_YOSS), equalTo(0.0));
+  }
+
+  @Test
+  public void battlefieldHippyYoss() {
+    AdventureQueueDatabase.resetQueue();
+    Preferences.setString("sidequestJunkyardCompleted", "hippy");
+    Map<MonsterData, Double> appearanceRates =
+        AdventureDatabase.getAreaCombatData("The Battlefield (Frat Uniform)").getMonsterData(true);
+    assertThat(appearanceRates.get(HIPPY_YOSS), greaterThan(0.0));
+
+    Preferences.setString("sidequestJunkyardCompleted", "fratboy");
+    appearanceRates =
+        AdventureDatabase.getAreaCombatData("The Battlefield (Frat Uniform)").getMonsterData(true);
+    assertThat(appearanceRates.get(HIPPY_YOSS), equalTo(0.0));
   }
 
   @Test

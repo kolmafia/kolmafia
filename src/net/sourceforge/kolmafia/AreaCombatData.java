@@ -1382,6 +1382,24 @@ public class AreaCombatData {
           default -> weighting;
         };
       }
+      case "The Battlefield (Frat Uniform)" -> {
+        return switch (monster) {
+          case "Bailey's Beetle" -> Preferences.getString("sidequestJunkyardCompleted")
+                  .equals("hippy")
+              ? 1
+              : 0;
+          default -> weighting;
+        };
+      }
+      case "The Battlefield (Hippy Uniform)" -> {
+        return switch (monster) {
+          case "War Frat Mobile Grill Unit" -> Preferences.getString("sidequestJunkyardCompleted")
+                  .equals("fratboy")
+              ? 1
+              : 0;
+          default -> weighting;
+        };
+      }
       case "Fastest Adventurer Contest" -> {
         int opponentsLeft = Preferences.getInteger("nsContestants1");
         if (monster.equals("Tasmanian Dervish")) {
