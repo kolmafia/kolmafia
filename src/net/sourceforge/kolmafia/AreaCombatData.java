@@ -1399,8 +1399,8 @@ public class AreaCombatData {
               ? 1
               : 0;
             // After specific number of hippies defeated
-          case "Mobile Armored Sweat Lodge" -> hippiesDefeated > 150 ? 1 : 0;
-          case "Green Ops Soldier" -> hippiesDefeated > 400 ? 1 : 0;
+          case "Mobile Armored Sweat Lodge" -> hippiesDefeated >= 151 ? 1 : 0;
+          case "Green Ops Soldier" -> hippiesDefeated >= 401 ? 1 : 0;
             // Hippy Heroes only appear in specific range. Very low encounter chance
           case "Slow Talkin' Elliot" -> hippiesDefeated >= 501 && hippiesDefeated <= 600 ? -1 : 0;
           case "Neil" -> hippiesDefeated >= 601 && hippiesDefeated <= 700 ? -1 : 0;
@@ -1430,8 +1430,8 @@ public class AreaCombatData {
               ? 1
               : 0;
             // After specific number of fratboys defeated
-          case "Sorority Operator" -> fratboysDefeated > 150 ? 1 : 0;
-          case "Panty Raider Frat Boy" -> fratboysDefeated > 400 ? 1 : 0;
+          case "Sorority Operator" -> fratboysDefeated >= 151 ? 1 : 0;
+          case "Panty Raider Frat Boy" -> fratboysDefeated >= 401 ? 1 : 0;
             // Fratboy Heroes only appear in specific range. Very low encounter chance
           case "Next-generation Frat Boy" -> fratboysDefeated >= 501 && fratboysDefeated <= 600
               ? -1
