@@ -1385,12 +1385,9 @@ public class AreaCombatData {
       case "The Battlefield (Frat Uniform)" -> {
         int hippiesDefeated = Preferences.getInteger("hippiesDefeated");
 
-        // If the battlefield is cleared, only the boss can appear unless the quest is finished
+        // If the battlefield is cleared, only the boss can appear
         if (hippiesDefeated == 1000) {
-          return switch (monster) {
-            case "The Big Wisniewski" -> 1;
-            default -> 0;
-          };
+          return monster.equals("The Big Wisniewski") ? 1 : 0;
         }
         return switch (monster) {
             // Junkyard quest completed as hippy
@@ -1415,12 +1412,9 @@ public class AreaCombatData {
       case "The Battlefield (Hippy Uniform)" -> {
         int fratboysDefeated = Preferences.getInteger("fratboysDefeated");
 
-        // If the battlefield is cleared, only the boss can appear unless the quest is finished
+        // If the battlefield is cleared, only the boss can appear
         if (fratboysDefeated == 1000) {
-          return switch (monster) {
-            case "The Man" -> 1;
-            default -> 0;
-          };
+          return monster.equals("The Man") ? 1 : 0;
         }
 
         return switch (monster) {
