@@ -19,7 +19,6 @@ import static org.hamcrest.core.Every.everyItem;
 
 import internal.helpers.Cleanups;
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -64,29 +63,23 @@ public class AreaCombatDataTest {
       MonsterDatabase.findMonster("War Frat Mobile Grill Unit");
   static final MonsterData HIPPY_JUNKYARD = MonsterDatabase.findMonster("Bailey's Beetle");
   static final Map<MonsterData, Integer> HIPPY_DEFEATED =
-      new HashMap<>() {
-        {
-          put(MonsterDatabase.findMonster("Mobile Armored Sweat Lodge"), 151);
-          put(MonsterDatabase.findMonster("Green Ops Soldier"), 401);
-          put(MonsterDatabase.findMonster("Slow Talkin' Elliot"), 501);
-          put(MonsterDatabase.findMonster("Neil"), 601);
-          put(MonsterDatabase.findMonster("Zim Merman"), 701);
-          put(MonsterDatabase.findMonster("C.A.R.N.I.V.O.R.E. Operative"), 801);
-          put(MonsterDatabase.findMonster("Glass of Orange Juice"), 901);
-        }
-      };
+      Map.ofEntries(
+          Map.entry(MonsterDatabase.findMonster("Mobile Armored Sweat Lodge"), 151),
+          Map.entry(MonsterDatabase.findMonster("Green Ops Soldier"), 401),
+          Map.entry(MonsterDatabase.findMonster("Slow Talkin' Elliot"), 501),
+          Map.entry(MonsterDatabase.findMonster("Neil"), 601),
+          Map.entry(MonsterDatabase.findMonster("Zim Merman"), 701),
+          Map.entry(MonsterDatabase.findMonster("C.A.R.N.I.V.O.R.E. Operative"), 801),
+          Map.entry(MonsterDatabase.findMonster("Glass of Orange Juice"), 901));
   static final Map<MonsterData, Integer> FRATBOY_DEFEATED =
-      new HashMap<>() {
-        {
-          put(MonsterDatabase.findMonster("Sorority Operator"), 151);
-          put(MonsterDatabase.findMonster("Panty Raider Frat Boy"), 401);
-          put(MonsterDatabase.findMonster("Next-generation Frat Boy"), 501);
-          put(MonsterDatabase.findMonster("Monty Basingstoke-Pratt, IV"), 601);
-          put(MonsterDatabase.findMonster("Brutus, the toga-clad lout"), 701);
-          put(MonsterDatabase.findMonster("Danglin' Chad"), 801);
-          put(MonsterDatabase.findMonster("War Frat Streaker"), 901);
-        }
-      };
+      Map.ofEntries(
+          Map.entry(MonsterDatabase.findMonster("Sorority Operator"), 151),
+          Map.entry(MonsterDatabase.findMonster("Panty Raider Frat Boy"), 401),
+          Map.entry(MonsterDatabase.findMonster("Next-generation Frat Boy"), 501),
+          Map.entry(MonsterDatabase.findMonster("Monty Basingstoke-Pratt, IV"), 601),
+          Map.entry(MonsterDatabase.findMonster("Brutus, the toga-clad lout"), 701),
+          Map.entry(MonsterDatabase.findMonster("Danglin' Chad"), 801),
+          Map.entry(MonsterDatabase.findMonster("War Frat Streaker"), 901));
 
   @BeforeEach
   public void beforeEach() {
