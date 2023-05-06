@@ -1388,7 +1388,7 @@ public class AreaCombatData {
         // If the battlefield is cleared, only the boss can appear unless the quest is finished
         if (hippiesDefeated == 1000) {
           return switch (monster) {
-            case "The Big Wisniewski" -> !QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) ? 1 : 0;
+            case "The Big Wisniewski" -> 1;
             default -> 0;
           };
         }
@@ -1418,7 +1418,7 @@ public class AreaCombatData {
         // If the battlefield is cleared, only the boss can appear unless the quest is finished
         if (fratboysDefeated == 1000) {
           return switch (monster) {
-            case "The Man" -> !QuestDatabase.isQuestFinished(Quest.ISLAND_WAR) ? 1 : 0;
+            case "The Man" -> 1;
             default -> 0;
           };
         }
