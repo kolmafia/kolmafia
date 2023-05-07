@@ -9204,11 +9204,13 @@ public abstract class RuntimeLibrary {
     Type type = arg.getType();
     String name = arg.toString();
     int id = (int) arg.intValue();
-    if (type.equals(DataTypes.ITEM_TYPE) || type.equals(DataTypes.EFFECT_TYPE)) {
+    if (type.equals(DataTypes.ITEM_TYPE)
+        || type.equals(DataTypes.SKILL_TYPE)
+        || type.equals(DataTypes.EFFECT_TYPE)) {
       return "[" + id + "]";
     }
     int index = name.indexOf(":");
-    if (!name.startsWith("Crimbo Training") && index != -1) {
+    if (index != -1) {
       return name.substring(index + 1);
     }
     return name;
