@@ -825,8 +825,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Test
   void numericModifierHandlesCrimboTrainingSkills() {
-    String output = execute ("numeric_modifier($skill[Crimbo Training: Bartender], \"booze drop\")");
-    assertThat(output,containsString( "15.0" ));
+    String output = execute("numeric_modifier($skill[Crimbo Training: Bartender], \"booze drop\")");
+    assertThat(output, containsString("15.0"));
   }
-
 }
