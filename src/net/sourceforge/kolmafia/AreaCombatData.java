@@ -1396,8 +1396,26 @@ public class AreaCombatData {
               ? 1
               : 0;
             // After specific number of hippies defeated
-          case "Mobile Armored Sweat Lodge" -> hippiesDefeated >= 151 ? 1 : 0;
           case "Green Ops Soldier" -> hippiesDefeated >= 401 ? 1 : 0;
+          case "Mobile Armored Sweat Lodge" -> hippiesDefeated >= 151 ? 1 : 0;
+          case "War Hippy Airborne Commander" -> hippiesDefeated >= 351 ? 1 : 0;
+          case "War Hippy Baker" -> hippiesDefeated <= 600 ? 2 : 0;
+          case "War Hippy Dread Squad" -> hippiesDefeated <= 850 ? 1 : 0;
+          case "War Hippy Elder Shaman" -> hippiesDefeated >= 251 ? 1 : 0;
+          case "War Hippy Elite Fire Spinner" -> hippiesDefeated >= 501 ? 1 : 0;
+          case "War Hippy Elite Rigger" -> hippiesDefeated >= 301 ? 2 : 0;
+          case "War Hippy F.R.O.G." -> hippiesDefeated >= 51 && hippiesDefeated <= 500 ? 2 : 0;
+          case "War Hippy Fire Spinner" -> hippiesDefeated >= 301 && hippiesDefeated <= 650 ? 1 : 0;
+          case "War Hippy Green Gourmet" -> hippiesDefeated >= 201 && hippiesDefeated <= 750
+              ? 2
+              : 0;
+          case "War Hippy Homeopath" -> hippiesDefeated <= 900 ? 1 : 0;
+          case "War Hippy Infantryman" -> hippiesDefeated <= 400 ? 2 : 0;
+          case "War Hippy Naturopathic Homeopath" -> hippiesDefeated >= 451 ? 1 : 0;
+          case "War Hippy Rigger" -> hippiesDefeated <= 800 ? 2 : 0;
+          case "War Hippy Shaman" -> hippiesDefeated >= 26 && hippiesDefeated <= 700 ? 1 : 0;
+          case "War Hippy Sky Captain" -> hippiesDefeated >= 76 && hippiesDefeated <= 550 ? 1 : 0;
+          case "War Hippy Windtalker" -> hippiesDefeated > 0 ? 1 : 0;
             // Hippy Heroes only appear in specific range. Very low encounter chance
           case "Slow Talkin' Elliot" -> hippiesDefeated >= 501 && hippiesDefeated <= 600 ? -1 : 0;
           case "Neil" -> hippiesDefeated >= 601 && hippiesDefeated <= 700 ? -1 : 0;
@@ -1423,7 +1441,7 @@ public class AreaCombatData {
                   .equals("fratboy")
               ? 1
               : 0;
-            // After specific number of fratboys defeated
+            // After specific number of fratboys defeated (todo: has not been spaded)
           case "Sorority Operator" -> fratboysDefeated >= 151 ? 1 : 0;
           case "Panty Raider Frat Boy" -> fratboysDefeated >= 401 ? 1 : 0;
             // Fratboy Heroes only appear in specific range. Very low encounter chance
