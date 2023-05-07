@@ -9208,7 +9208,7 @@ public abstract class RuntimeLibrary {
       return "[" + id + "]";
     }
     int index = name.indexOf(":");
-    if (index != -1) {
+    if (!name.startsWith("Crimbo Training") && index != -1) {
       return name.substring(index + 1);
     }
     return name;
