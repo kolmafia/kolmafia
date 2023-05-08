@@ -1854,33 +1854,45 @@ public abstract class InventoryManager {
   public static void checkPowerfulGlove() {
     if (KoLCharacter.hasEquipped(UseSkillRequest.POWERFUL_GLOVE)
         || InventoryManager.hasItem(UseSkillRequest.POWERFUL_GLOVE, false)) {
-      // *** Special case: the buffs are always available
-      KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
-      KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
+      addPowerfulGloveSkills();
     }
+  }
+
+  public static void addPowerfulGloveSkills() {
+    // *** Special case: the buffs are always available
+    KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
+    KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
   }
 
   public static void checkDesignerSweatpants() {
     if (KoLCharacter.hasEquipped(UseSkillRequest.DESIGNER_SWEATPANTS)
         || InventoryManager.hasItem(UseSkillRequest.DESIGNER_SWEATPANTS, false)) {
-      // *** Special case: the buffs are always available
-      KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
-      KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
-      KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
-      KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
+      addDesignerSweatpantsSkills();
     }
+  }
+
+  public static void addDesignerSweatpantsSkills() {
+    // *** Special case: the buffs are always available
+    KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
+    KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
+    KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
+    KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
   }
 
   public static void checkCinchoDeMayo() {
     if (KoLCharacter.hasEquipped(UseSkillRequest.CINCHO_DE_MAYO)
         || InventoryManager.hasItem(UseSkillRequest.CINCHO_DE_MAYO, false)) {
-      KoLCharacter.addAvailableSkill(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME);
-      KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_SOUNDTRACK);
-      KoLCharacter.addAvailableSkill(SkillPool.CINCHO_FIESTA_EXIT);
-      KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PROJECTILE_PINATA);
-      KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_FOUL);
-      KoLCharacter.addAvailableSkill(SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA);
+      addCinchoDeMayoSkills();
     }
+  }
+
+  public static void addCinchoDeMayoSkills() {
+    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME);
+    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_SOUNDTRACK);
+    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_FIESTA_EXIT);
+    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PROJECTILE_PINATA);
+    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_FOUL);
+    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA);
   }
 
   public static void checkRing() {
