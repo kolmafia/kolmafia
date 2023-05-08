@@ -63,7 +63,7 @@
    "longDesc": "EatDrink.ash will attempt to fill you up with the finest vittles, firewater, and spleenables that the kingdom has to offer - and that you can afford. It considers things like prices, the relative value of adventures and stats, whether you have to pull or purchase the item, and so on. It even ends your day with a bang by overdrinking (if you tell it to)."
  },
  {
-   "repo": "https://github.com/gausie/excavator/",
+   "repo": "https://github.com/gausie/excavator",
    "type": "git",
    "author": "gausie",
    "name": "Excavator",
@@ -238,7 +238,7 @@
    "longDesc": "The purpose of this script is to automatically go to the Bounty Hunter Hunter, accept bounties, hunt them and turn in the completed bounties for lucre."
  },
  {
-   "repo": "https://github.com/Loathing-Associates-Scripting-Society/autoscend/",
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/autoscend",
    "type": "git",
    "author": "Loathing Associates Scripting Society",
    "name": "autoscend",
@@ -907,7 +907,7 @@
    "longDesc": "On your charsheet it will sort your skills by character class."
  },
  {
-   "repo": "https://github.com/Loathing-Associates-Scripting-Society/ChIT/",
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/ChIT",
    "type": "git",
    "author": "Bale, Chez, Soolar",
    "name": "ChIT",
@@ -1043,7 +1043,7 @@
    "longDesc": "You know how the new NS Tower is this ridiculously long page that you have to keep scrolling down to reach the bottom? Install this script to scroll that for you."
  },
  {
-   "repo": "https://github.com/ggvgiu/PizzaCubeGUI/",
+   "repo": "https://github.com/ggvgiu/PizzaCubeGUI",
    "type": "git",
    "branch": "Release",
    "author": "Lacey Jones",
