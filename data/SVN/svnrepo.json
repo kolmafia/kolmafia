@@ -1,6 +1,7 @@
 [
  {
-   "repo": "https://github.com/Rinn/kolmafia-scripts/trunk/AcquireBuff/",
+   "repo": "https://github.com/Rinn/kol-acquirebuff",
+   "type": "git",
    "author": "Rinn",
    "name": "acquireBuff",
    "forumThread": "https://kolmafia.us/showthread.php?4048-acquireBuff-Get-a-buff-from-a-buffbot",
@@ -36,7 +37,9 @@
    "longDesc": "Eats, drinks, and spleens to maximize adventures using most cost-effective items given specified Meat per Adventure."
  },
  {
-   "repo": "https://github.com/Ezandora/Detective-Solver/branches/Release/",
+   "repo": "https://github.com/Ezandora/Detective-Solver",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Detective Solver",
    "forumThread": "https://kolmafia.us/showthread.php?20406",
@@ -73,7 +76,9 @@
    "longDesc": "Set this as your spadingScript to collect and transmit data for use in current spading projects."
  },
  {
-   "repo": "https://github.com/Ezandora/Far-Future/branches/Release/",
+   "repo": "https://github.com/Ezandora/Far-Future",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Far Future",
    "forumThread": "https://kolmafia.us/showthread.php?20575",
@@ -91,7 +96,9 @@
    "longDesc": "Allows you to learn a skill directly from the CLI."
  },
  {
-   "repo": "https://github.com/Ezandora/Briefcase/branches/Release/",
+   "repo": "https://github.com/Ezandora/Briefcase",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "KGBriefcase",
    "forumThread": "https://kolmafia.us/showthread.php?21892",
@@ -109,7 +116,8 @@
    "longDesc": "ManageStore looks at all the items in your store. It then offers the opportunity to autosell or sell on kBay all the items that are priced at the mall minimum, have a low (see below) sales volume or a ColdFront average price that is greater than the mall minimum."
  },
  {
-   "repo": "https://github.com/coandco/mafia-NewYou/trunk/",
+   "repo": "https://github.com/coandco/mafia-NewYou",
+   "type": "git",
    "author": "coandco",
    "name": "NewYou",
    "forumThread": "https://kolmafia.us/showthread.php?21918-New-You-2-0-(New-New-You-)",
@@ -164,7 +172,9 @@
    "longDesc": "This script is for whipping up Superhuman drinks. This is intended to be run as part of a beforeBattleScript. If you have your own, or use BestBetweenBattle, you can basically add this:<p style='border:1px solid red;padding:5px 10px 5px 10px;margin-left:40px;margin-right:40px;font-family:monospace;'>import \"superdrinks.ash\";<br />if(stills_available()>0) make_superdrinks();</p>"
  },
  {
-   "repo": "https://github.com/Ezandora/Sweet-Synthesis/branches/Release/",
+   "repo": "https://github.com/Ezandora/Sweet-Synthesis",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Sweet Synthesis",
    "forumThread": "https://kolmafia.us/showthread.php?21174",
@@ -394,7 +404,9 @@
    "longDesc": "Beats Space Trip for you, aiming for a high score for maximum tickets... and more importantly, unlocks the Space Trip Safety Headphones (-100 ML and -combat accessory). Get a token, run the script, and it will play the entire game on its own, opening the relay browser to the final screen when it's finished. May lose or get stuck occasionally due to RNG screw."
  },
  {
-   "repo": "https://github.com/Ezandora/Spacegate/branches/Release/",
+   "repo": "https://github.com/Ezandora/Spacegate",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Spacegate",
    "forumThread": "https://kolmafia.us/showthread.php?21685",
@@ -570,7 +582,9 @@
    "longDesc": "DCQuest is an information gathering script for the Display Case completest. It looks at every displayable item that your version of Kolmafia knows about and writes tab delimited files with some annotation in the data subdirectory."
  },
  {
-   "repo": "https://github.com/Ezandora/Guide/branches/Release/",
+   "repo": "https://github.com/Ezandora/Guide",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Guide",
    "forumThread": "https://kolmafia.us/showthread.php?14784-Guide",
@@ -697,7 +711,9 @@
    "longDesc": "A central nervous system for consult scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
  },
  {
-   "repo": "https://github.com/Ezandora/Choice-Override/branches/Release/",
+   "repo": "https://github.com/Ezandora/Choice-Override",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Choice Override",
    "forumThread": "https://kolmafia.us/showthread.php?22722",
@@ -724,7 +740,9 @@
    "longDesc": "Code library to add input forms for relay scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
  },
  {
-   "repo": "https://github.com/Ezandora/Gain/branches/Release/",
+   "repo": "https://github.com/Ezandora/Gain",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Gain",
    "forumThread": "",
@@ -826,7 +844,9 @@
    "longDesc": "Colors each plane in the Elemental Aiport with the appropriate elemental color"
  },
  {
-   "repo": "https://github.com/Ezandora/Asdon-Martin-GUI/branches/Release/",
+   "repo": "https://github.com/Ezandora/Asdon-Martin-GUI",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Asdon Martin GUI",
    "forumThread": "https://kolmafia.us/showthread.php?22188",
@@ -898,7 +918,8 @@
    "longDesc": "A buttontastic improvement to the interface of mall-stores and (most) NPC stores."
  },
  {
-   "repo": "https://github.com/Rinn/kolmafia-scripts/trunk/RelaySkills/",
+   "repo": "https://github.com/Rinn/kol-relayskills",
+   "type": "git",
    "author": "Heeheehee, Theraze, Rinn",
    "name": "Charsheet: Skills by Class",
    "forumThread": "https://kolmafia.us/showthread.php?1578-charsheet-php-Group-Skills-by-Character-Class",
@@ -926,7 +947,8 @@
    "longDesc": "Changes KoL's link style top menu into something similar to KoL's iconic top menu, but an original creation.<p>Icons are smaller than KoLs menu, and so this is more compact, and it does not have the large description popup (alt text only), and I added some color highlighting to more easily find what you want. The basic structure is utility on line 1, locations on line 2."
  },
  {
-   "repo": "https://github.com/balefull/raidlog-parser/branches/master",
+   "repo": "https://github.com/balefull/raidlog-parser",
+   "type": "git",
    "author": "Bale, bordemstirs",
    "name": "Clan Raidlog Parser",
    "forumThread": "https://kolmafia.us/showthread.php?8052-raidlog-override-a-la-Dr-Evi1",
@@ -971,7 +993,9 @@
    "longDesc": "Choose monsters to fight, effects, stats, ponies, etc."
  },
  {
-   "repo": "https://github.com/Ezandora/Helix-Fossil/branches/Release/",
+   "repo": "https://github.com/Ezandora/Helix-Fossil",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Helix Fossil",
    "forumThread": "https://kolmafia.us/showthread.php?22521",
@@ -1163,7 +1187,9 @@
    "longDesc": "Hot dogs and Speakeasy Drinks from the VIP lounge are totally sweet -- awesome food, great in HC, and they give some totally sweet effects, but I can't remember what any of them do. To find out, first you have to click the item to open up an info box, which has a link to the effect, which you then click to give its description.<p>Or you can skip that process by using this script so you won't have to click <i>anything</i>."
  },
  {
-   "repo": "https://github.com/libraryaddict/KolAccountVal/branches/release/",
+   "repo": "https://github.com/libraryaddict/KolAccountVal",
+   "type": "git",
+   "branch": "release",
    "author": "Irrat",
    "name": "AccountVal",
    "forumThread": "https://kolmafia.us/threads/26934/",
