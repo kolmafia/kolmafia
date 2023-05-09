@@ -3284,9 +3284,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.POWERFUL_GLOVE:
-        // *** Special case: the buffs are always available
-        KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
-        KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
+        InventoryManager.addPowerfulGloveSkills();
         break;
 
       case ItemPool.POWDER_PUFF:
@@ -3334,11 +3332,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.DESIGNER_SWEATPANTS:
-        // *** Special case: the buffs are always available
-        KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
-        KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
-        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
-        KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
+        InventoryManager.addDesignerSweatpantsSkills();
         break;
 
       case ItemPool.ROBY_BORIS_BEER:
@@ -3375,6 +3369,10 @@ public class ResultProcessor {
       case ItemPool.SHADOW_BUCKET:
       case ItemPool.SHADOW_WAVE:
         QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
+        break;
+
+      case ItemPool.CINCHO_DE_MAYO:
+        InventoryManager.addCinchoDeMayoSkills();
         break;
     }
 

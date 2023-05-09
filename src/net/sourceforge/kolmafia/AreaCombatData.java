@@ -1382,6 +1382,83 @@ public class AreaCombatData {
           default -> weighting;
         };
       }
+      case "The Battlefield (Frat Uniform)" -> {
+        int hippiesDefeated = Preferences.getInteger("hippiesDefeated");
+
+        // If the battlefield is cleared, only the boss can appear
+        if (hippiesDefeated == 1000) {
+          return monster.equals("The Big Wisniewski") ? 1 : 0;
+        }
+        return switch (monster) {
+            // Junkyard quest completed as hippy
+          case "Bailey's Beetle" -> Preferences.getString("sidequestJunkyardCompleted")
+                  .equals("hippy")
+              ? 1
+              : 0;
+            // After specific number of hippies defeated
+          case "Green Ops Soldier" -> hippiesDefeated >= 401 ? 1 : 0;
+          case "Mobile Armored Sweat Lodge" -> hippiesDefeated >= 151 ? 1 : 0;
+          case "War Hippy Airborne Commander" -> hippiesDefeated >= 351 ? 1 : 0;
+          case "War Hippy Baker" -> hippiesDefeated <= 600 ? 2 : 0;
+          case "War Hippy Dread Squad" -> hippiesDefeated <= 850 ? 1 : 0;
+          case "War Hippy Elder Shaman" -> hippiesDefeated >= 251 ? 1 : 0;
+          case "War Hippy Elite Fire Spinner" -> hippiesDefeated >= 501 ? 1 : 0;
+          case "War Hippy Elite Rigger" -> hippiesDefeated >= 301 ? 2 : 0;
+          case "War Hippy F.R.O.G." -> hippiesDefeated >= 51 && hippiesDefeated <= 500 ? 2 : 0;
+          case "War Hippy Fire Spinner" -> hippiesDefeated >= 301 && hippiesDefeated <= 650 ? 1 : 0;
+          case "War Hippy Green Gourmet" -> hippiesDefeated >= 201 && hippiesDefeated <= 750
+              ? 2
+              : 0;
+          case "War Hippy Homeopath" -> hippiesDefeated <= 900 ? 1 : 0;
+          case "War Hippy Infantryman" -> hippiesDefeated <= 400 ? 2 : 0;
+          case "War Hippy Naturopathic Homeopath" -> hippiesDefeated >= 451 ? 1 : 0;
+          case "War Hippy Rigger" -> hippiesDefeated <= 800 ? 2 : 0;
+          case "War Hippy Shaman" -> hippiesDefeated >= 26 && hippiesDefeated <= 700 ? 1 : 0;
+          case "War Hippy Sky Captain" -> hippiesDefeated >= 76 && hippiesDefeated <= 550 ? 1 : 0;
+          case "War Hippy Windtalker" -> hippiesDefeated > 0 ? 1 : 0;
+            // Hippy Heroes only appear in specific range. Very low encounter chance
+          case "Slow Talkin' Elliot" -> hippiesDefeated >= 501 && hippiesDefeated <= 600 ? -1 : 0;
+          case "Neil" -> hippiesDefeated >= 601 && hippiesDefeated <= 700 ? -1 : 0;
+          case "Zim Merman" -> hippiesDefeated >= 701 && hippiesDefeated <= 800 ? -1 : 0;
+          case "C.A.R.N.I.V.O.R.E. Operative" -> hippiesDefeated >= 801 && hippiesDefeated <= 900
+              ? -1
+              : 0;
+          case "Glass of Orange Juice" -> hippiesDefeated >= 901 && hippiesDefeated <= 999 ? -1 : 0;
+          default -> weighting;
+        };
+      }
+      case "The Battlefield (Hippy Uniform)" -> {
+        int fratboysDefeated = Preferences.getInteger("fratboysDefeated");
+
+        // If the battlefield is cleared, only the boss can appear
+        if (fratboysDefeated == 1000) {
+          return monster.equals("The Man") ? 1 : 0;
+        }
+
+        return switch (monster) {
+            // Junkyard quest completed as fratboy
+          case "War Frat Mobile Grill Unit" -> Preferences.getString("sidequestJunkyardCompleted")
+                  .equals("fratboy")
+              ? 1
+              : 0;
+            // After specific number of fratboys defeated (todo: has not been spaded)
+          case "Sorority Operator" -> fratboysDefeated >= 151 ? 1 : 0;
+          case "Panty Raider Frat Boy" -> fratboysDefeated >= 401 ? 1 : 0;
+            // Fratboy Heroes only appear in specific range. Very low encounter chance
+          case "Next-generation Frat Boy" -> fratboysDefeated >= 501 && fratboysDefeated <= 600
+              ? -1
+              : 0;
+          case "Monty Basingstoke-Pratt, IV" -> fratboysDefeated >= 601 && fratboysDefeated <= 700
+              ? -1
+              : 0;
+          case "Brutus, the toga-clad lout" -> fratboysDefeated >= 701 && fratboysDefeated <= 800
+              ? -1
+              : 0;
+          case "Danglin' Chad" -> fratboysDefeated >= 801 && fratboysDefeated <= 900 ? -1 : 0;
+          case "War Frat Streaker" -> fratboysDefeated >= 901 && fratboysDefeated <= 999 ? -1 : 0;
+          default -> weighting;
+        };
+      }
       case "Fastest Adventurer Contest" -> {
         int opponentsLeft = Preferences.getInteger("nsContestants1");
         if (monster.equals("Tasmanian Dervish")) {

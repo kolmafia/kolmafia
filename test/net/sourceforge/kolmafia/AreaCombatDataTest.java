@@ -55,6 +55,32 @@ public class AreaCombatDataTest {
   static final MonsterData TERRIFYING_ROBOT = MonsterDatabase.findMonster("terrifying robot");
   static final AdventureResult MULTI_PASS = ItemPool.get(ItemPool.MULTI_PASS);
 
+  static final String BATTLEFIELD_FRATUNIFORM = "The Battlefield (Frat Uniform)";
+  static final String BATTLEFIELD_HIPPYUNIFORM = "The Battlefield (Hippy Uniform)";
+  static final MonsterData FRATBOY_BOSS = MonsterDatabase.findMonster("The Man");
+  static final MonsterData HIPPY_BOSS = MonsterDatabase.findMonster("The Big Wisniewski");
+  static final MonsterData FRATBOY_JUNKYARD =
+      MonsterDatabase.findMonster("War Frat Mobile Grill Unit");
+  static final MonsterData HIPPY_JUNKYARD = MonsterDatabase.findMonster("Bailey's Beetle");
+  static final Map<MonsterData, Integer> HIPPY_DEFEATED =
+      Map.ofEntries(
+          Map.entry(MonsterDatabase.findMonster("Mobile Armored Sweat Lodge"), 151),
+          Map.entry(MonsterDatabase.findMonster("Green Ops Soldier"), 401),
+          Map.entry(MonsterDatabase.findMonster("Slow Talkin' Elliot"), 501),
+          Map.entry(MonsterDatabase.findMonster("Neil"), 601),
+          Map.entry(MonsterDatabase.findMonster("Zim Merman"), 701),
+          Map.entry(MonsterDatabase.findMonster("C.A.R.N.I.V.O.R.E. Operative"), 801),
+          Map.entry(MonsterDatabase.findMonster("Glass of Orange Juice"), 901));
+  static final Map<MonsterData, Integer> FRATBOY_DEFEATED =
+      Map.ofEntries(
+          Map.entry(MonsterDatabase.findMonster("Sorority Operator"), 151),
+          Map.entry(MonsterDatabase.findMonster("Panty Raider Frat Boy"), 401),
+          Map.entry(MonsterDatabase.findMonster("Next-generation Frat Boy"), 501),
+          Map.entry(MonsterDatabase.findMonster("Monty Basingstoke-Pratt, IV"), 601),
+          Map.entry(MonsterDatabase.findMonster("Brutus, the toga-clad lout"), 701),
+          Map.entry(MonsterDatabase.findMonster("Danglin' Chad"), 801),
+          Map.entry(MonsterDatabase.findMonster("War Frat Streaker"), 901));
+
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("fakeUserName");
@@ -191,6 +217,108 @@ public class AreaCombatDataTest {
             hasEntry(PERVERT, 0.0),
             hasEntry(SNAKE, 0.0),
             hasEntry(GHOST, 0.0)));
+  }
+
+  @Test
+  public void battlefieldHippyUniform() {
+    AdventureQueueDatabase.resetQueue();
+
+    // Defeated count
+    for (var entry : FRATBOY_DEFEATED.entrySet()) {
+      Preferences.setInteger("fratboysDefeated", 0);
+      assertThat(
+          AdventureDatabase.getAreaCombatData(BATTLEFIELD_HIPPYUNIFORM)
+              .getMonsterData(true)
+              .get(entry.getKey()),
+          equalTo(0.0));
+      Preferences.setInteger("fratboysDefeated", entry.getValue());
+      assertThat(
+          AdventureDatabase.getAreaCombatData(BATTLEFIELD_HIPPYUNIFORM)
+              .getMonsterData(true)
+              .get(entry.getKey()),
+          not(0.0));
+    }
+
+    // Boss
+    Preferences.setInteger("fratboysDefeated", 999);
+    assertThat(
+        AdventureDatabase.getAreaCombatData(BATTLEFIELD_HIPPYUNIFORM)
+            .getMonsterData(true)
+            .get(FRATBOY_BOSS),
+        equalTo(0.0));
+    Preferences.setInteger("fratboysDefeated", 1000);
+    assertThat(
+        AdventureDatabase.getAreaCombatData(BATTLEFIELD_HIPPYUNIFORM)
+            .getMonsterData(true)
+            .get(FRATBOY_BOSS),
+        equalTo(100.0));
+
+    // Junkyard sidequest state
+    Preferences.setInteger("fratboysDefeated", 0);
+    Preferences.setString("sidequestJunkyardCompleted", "fratboy");
+    assertThat(
+        AdventureDatabase.getAreaCombatData(BATTLEFIELD_HIPPYUNIFORM)
+            .getMonsterData(true)
+            .get(FRATBOY_JUNKYARD),
+        greaterThan(0.0));
+
+    Preferences.setString("sidequestJunkyardCompleted", "hippy");
+    assertThat(
+        AdventureDatabase.getAreaCombatData(BATTLEFIELD_HIPPYUNIFORM)
+            .getMonsterData(true)
+            .get(FRATBOY_JUNKYARD),
+        equalTo(0.0));
+  }
+
+  @Test
+  public void battlefieldFratUniform() {
+    AdventureQueueDatabase.resetQueue();
+
+    // Defeated count
+    for (var entry : HIPPY_DEFEATED.entrySet()) {
+      Preferences.setInteger("hippiesDefeated", 0);
+      assertThat(
+          AdventureDatabase.getAreaCombatData(BATTLEFIELD_FRATUNIFORM)
+              .getMonsterData(true)
+              .get(entry.getKey()),
+          equalTo(0.0));
+      Preferences.setInteger("hippiesDefeated", entry.getValue());
+      assertThat(
+          AdventureDatabase.getAreaCombatData(BATTLEFIELD_FRATUNIFORM)
+              .getMonsterData(true)
+              .get(entry.getKey()),
+          not(0.0));
+    }
+
+    // Boss
+    Preferences.setInteger("hippiesDefeated", 999);
+    assertThat(
+        AdventureDatabase.getAreaCombatData(BATTLEFIELD_FRATUNIFORM)
+            .getMonsterData(true)
+            .get(HIPPY_BOSS),
+        equalTo(0.0));
+    Preferences.setInteger("hippiesDefeated", 1000);
+    assertThat(
+        AdventureDatabase.getAreaCombatData(BATTLEFIELD_FRATUNIFORM)
+            .getMonsterData(true)
+            .get(HIPPY_BOSS),
+        equalTo(100.0));
+
+    // Junkyard sidequest state
+    Preferences.setInteger("hippiesDefeated", 0);
+    Preferences.setString("sidequestJunkyardCompleted", "hippy");
+    assertThat(
+        AdventureDatabase.getAreaCombatData(BATTLEFIELD_FRATUNIFORM)
+            .getMonsterData(true)
+            .get(HIPPY_JUNKYARD),
+        greaterThan(0.0));
+
+    Preferences.setString("sidequestJunkyardCompleted", "fratboy");
+    assertThat(
+        AdventureDatabase.getAreaCombatData(BATTLEFIELD_FRATUNIFORM)
+            .getMonsterData(true)
+            .get(HIPPY_JUNKYARD),
+        equalTo(0.0));
   }
 
   @Test

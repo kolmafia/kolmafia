@@ -1,6 +1,7 @@
 [
  {
-   "repo": "https://github.com/Rinn/kolmafia-scripts/trunk/AcquireBuff/",
+   "repo": "https://github.com/Rinn/kol-acquirebuff",
+   "type": "git",
    "author": "Rinn",
    "name": "acquireBuff",
    "forumThread": "https://kolmafia.us/showthread.php?4048-acquireBuff-Get-a-buff-from-a-buffbot",
@@ -36,7 +37,9 @@
    "longDesc": "Eats, drinks, and spleens to maximize adventures using most cost-effective items given specified Meat per Adventure."
  },
  {
-   "repo": "https://github.com/Ezandora/Detective-Solver/branches/Release/",
+   "repo": "https://github.com/Ezandora/Detective-Solver",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Detective Solver",
    "forumThread": "https://kolmafia.us/showthread.php?20406",
@@ -63,7 +66,8 @@
    "longDesc": "EatDrink.ash will attempt to fill you up with the finest vittles, firewater, and spleenables that the kingdom has to offer - and that you can afford. It considers things like prices, the relative value of adventures and stats, whether you have to pull or purchase the item, and so on. It even ends your day with a bang by overdrinking (if you tell it to)."
  },
  {
-   "repo": "https://github.com/gausie/excavator/trunk/RELEASE/",
+   "repo": "https://github.com/gausie/excavator",
+   "type": "git",
    "author": "gausie",
    "name": "Excavator",
    "forumThread": "https://kolmafia.us/showthread.php?25076",
@@ -72,7 +76,9 @@
    "longDesc": "Set this as your spadingScript to collect and transmit data for use in current spading projects."
  },
  {
-   "repo": "https://github.com/Ezandora/Far-Future/branches/Release/",
+   "repo": "https://github.com/Ezandora/Far-Future",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Far Future",
    "forumThread": "https://kolmafia.us/showthread.php?20575",
@@ -90,7 +96,9 @@
    "longDesc": "Allows you to learn a skill directly from the CLI."
  },
  {
-   "repo": "https://github.com/Ezandora/Briefcase/branches/Release/",
+   "repo": "https://github.com/Ezandora/Briefcase",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "KGBriefcase",
    "forumThread": "https://kolmafia.us/showthread.php?21892",
@@ -108,7 +116,8 @@
    "longDesc": "ManageStore looks at all the items in your store. It then offers the opportunity to autosell or sell on kBay all the items that are priced at the mall minimum, have a low (see below) sales volume or a ColdFront average price that is greater than the mall minimum."
  },
  {
-   "repo": "https://github.com/coandco/mafia-NewYou/trunk/",
+   "repo": "https://github.com/coandco/mafia-NewYou",
+   "type": "git",
    "author": "coandco",
    "name": "NewYou",
    "forumThread": "https://kolmafia.us/showthread.php?21918-New-You-2-0-(New-New-You-)",
@@ -135,6 +144,16 @@
    "longDesc": "This script will allow you to choose the proper dispensation for absolutely every item that may be in your inventory. You can tell it exactly how many to keep of any given item, or tell it to keep all of them. It can put items in the mall, send items as gifts, mix keys into pies, use gift certificates, stock your display case or autosell trash items. <i>And more!</i><p>Okay, this script is honestly a little bit insane. It's somewhat nuts to list a method of dealing with every single item I may own. I use this because I want to cleanse my inventory before every hardcore ascension. It takes a bit of effort to make the list of everything, but now my inventory can be malled in a flash. If anyone else wants to take the trouble of making their own list it would do the same for them."
  },
  {
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/philter",
+   "type": "git",
+   "author": "philmasterplus",
+   "name": "Philter",
+   "forumThread": "https://kolmafia.us/threads/philter-the-inventory-cleanup-script.26027/",
+   "shortDesc": "Complete inventory control system",
+   "category": "action",
+   "longDesc": "Philter purges (i.e. \"filters\") junk in your inventory. Mallsell, autosell, pulverize, you name it. It's great for cleaning up items you accumulated during ascension, a dungeon run, or a day of farming."
+ },
+ {
    "repo": "https://svn.code.sf.net/p/rollover-management/code/",
    "author": "PazSox, bumcheekcity, hippoking & Th3y",
    "name": "Rollover Management",
@@ -153,7 +172,9 @@
    "longDesc": "This script is for whipping up Superhuman drinks. This is intended to be run as part of a beforeBattleScript. If you have your own, or use BestBetweenBattle, you can basically add this:<p style='border:1px solid red;padding:5px 10px 5px 10px;margin-left:40px;margin-right:40px;font-family:monospace;'>import \"superdrinks.ash\";<br />if(stills_available()>0) make_superdrinks();</p>"
  },
  {
-   "repo": "https://github.com/Ezandora/Sweet-Synthesis/branches/Release/",
+   "repo": "https://github.com/Ezandora/Sweet-Synthesis",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Sweet Synthesis",
    "forumThread": "https://kolmafia.us/showthread.php?21174",
@@ -227,7 +248,8 @@
    "longDesc": "The purpose of this script is to automatically go to the Bounty Hunter Hunter, accept bounties, hunt them and turn in the completed bounties for lucre."
  },
  {
-   "repo": "https://github.com/Loathing-Associates-Scripting-Society/autoscend/branches/master/RELEASE/",
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/autoscend",
+   "type": "git",
    "author": "Loathing Associates Scripting Society",
    "name": "autoscend",
    "forumThread": "https://kolmafia.us/showthread.php?25070",
@@ -382,7 +404,9 @@
    "longDesc": "Beats Space Trip for you, aiming for a high score for maximum tickets... and more importantly, unlocks the Space Trip Safety Headphones (-100 ML and -combat accessory). Get a token, run the script, and it will play the entire game on its own, opening the relay browser to the final screen when it's finished. May lose or get stuck occasionally due to RNG screw."
  },
  {
-   "repo": "https://github.com/Ezandora/Spacegate/branches/Release/",
+   "repo": "https://github.com/Ezandora/Spacegate",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Spacegate",
    "forumThread": "https://kolmafia.us/showthread.php?21685",
@@ -558,7 +582,9 @@
    "longDesc": "DCQuest is an information gathering script for the Display Case completest. It looks at every displayable item that your version of Kolmafia knows about and writes tab delimited files with some annotation in the data subdirectory."
  },
  {
-   "repo": "https://github.com/Ezandora/Guide/branches/Release/",
+   "repo": "https://github.com/Ezandora/Guide",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Guide",
    "forumThread": "https://kolmafia.us/showthread.php?14784-Guide",
@@ -685,7 +711,9 @@
    "longDesc": "A central nervous system for consult scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
  },
  {
-   "repo": "https://github.com/Ezandora/Choice-Override/branches/Release/",
+   "repo": "https://github.com/Ezandora/Choice-Override",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Choice Override",
    "forumThread": "https://kolmafia.us/showthread.php?22722",
@@ -712,7 +740,9 @@
    "longDesc": "Code library to add input forms for relay scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
  },
  {
-   "repo": "https://github.com/Ezandora/Gain/branches/Release/",
+   "repo": "https://github.com/Ezandora/Gain",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Gain",
    "forumThread": "",
@@ -814,7 +844,9 @@
    "longDesc": "Colors each plane in the Elemental Aiport with the appropriate elemental color"
  },
  {
-   "repo": "https://github.com/Ezandora/Asdon-Martin-GUI/branches/Release/",
+   "repo": "https://github.com/Ezandora/Asdon-Martin-GUI",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Asdon Martin GUI",
    "forumThread": "https://kolmafia.us/showthread.php?22188",
@@ -886,7 +918,8 @@
    "longDesc": "A buttontastic improvement to the interface of mall-stores and (most) NPC stores."
  },
  {
-   "repo": "https://github.com/Rinn/kolmafia-scripts/trunk/RelaySkills/",
+   "repo": "https://github.com/Rinn/kol-relayskills",
+   "type": "git",
    "author": "Heeheehee, Theraze, Rinn",
    "name": "Charsheet: Skills by Class",
    "forumThread": "https://kolmafia.us/showthread.php?1578-charsheet-php-Group-Skills-by-Character-Class",
@@ -895,8 +928,9 @@
    "longDesc": "On your charsheet it will sort your skills by character class."
  },
  {
-   "repo": "https://svn.code.sf.net/p/mafiachit/code/",
-   "author": "Bale, Chez",
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/ChIT",
+   "type": "git",
+   "author": "Bale, Chez, Soolar",
    "name": "ChIT",
    "forumThread": "https://kolmafia.us/showthread.php?7594-Character-Info-Toolbox",
    "shortDesc": "Character Pane Replacement",
@@ -913,7 +947,8 @@
    "longDesc": "Changes KoL's link style top menu into something similar to KoL's iconic top menu, but an original creation.<p>Icons are smaller than KoLs menu, and so this is more compact, and it does not have the large description popup (alt text only), and I added some color highlighting to more easily find what you want. The basic structure is utility on line 1, locations on line 2."
  },
  {
-   "repo": "https://github.com/balefull/raidlog-parser/branches/master",
+   "repo": "https://github.com/balefull/raidlog-parser",
+   "type": "git",
    "author": "Bale, bordemstirs",
    "name": "Clan Raidlog Parser",
    "forumThread": "https://kolmafia.us/showthread.php?8052-raidlog-override-a-la-Dr-Evi1",
@@ -958,7 +993,9 @@
    "longDesc": "Choose monsters to fight, effects, stats, ponies, etc."
  },
  {
-   "repo": "https://github.com/Ezandora/Helix-Fossil/branches/Release/",
+   "repo": "https://github.com/Ezandora/Helix-Fossil",
+   "type": "git",
+   "branch": "Release",
    "author": "Ezandora",
    "name": "Helix Fossil",
    "forumThread": "https://kolmafia.us/showthread.php?22521",
@@ -1030,7 +1067,9 @@
    "longDesc": "You know how the new NS Tower is this ridiculously long page that you have to keep scrolling down to reach the bottom? Install this script to scroll that for you."
  },
  {
-   "repo": "https://github.com/ggvgiu/PizzaCubeGUI/branches/Release",
+   "repo": "https://github.com/ggvgiu/PizzaCubeGUI",
+   "type": "git",
+   "branch": "Release",
    "author": "Lacey Jones",
    "name": "Pizza Cube GUI",
    "forumThread": "https://kolmafia.us/showthread.php?24487",
@@ -1148,12 +1187,55 @@
    "longDesc": "Hot dogs and Speakeasy Drinks from the VIP lounge are totally sweet -- awesome food, great in HC, and they give some totally sweet effects, but I can't remember what any of them do. To find out, first you have to click the item to open up an info box, which has a link to the effect, which you then click to give its description.<p>Or you can skip that process by using this script so you won't have to click <i>anything</i>."
  },
  {
-   "repo": "https://github.com/libraryaddict/KolAccountVal/branches/release/",
+   "repo": "https://github.com/libraryaddict/KolAccountVal",
+   "type": "git",
+   "branch": "release",
    "author": "Irrat",
    "name": "AccountVal",
    "forumThread": "https://kolmafia.us/threads/26934/",
    "shortDesc": "Script to value the worth of your account",
    "category": "information",
    "longDesc": "This JS script lets you find the worth of your account, you can have it only show items that are still tradeable, or everything including the iotms you've already bound to your account. This is a rewrite of soolar's accountval.ash script and is heavily inspired by their work."
+ },
+ {
+   "repo": "https://github.com/covert-code/KoL-MineVolcano",
+   "type": "git",
+   "author": "professorjellybean",
+   "name": "MineVolcano",
+   "forumThread": "https://kolmafia.us/threads/new-lightweight-volcano-mining-script-no-object-detection-3-45k-turn.19643/#post-131332",
+   "shortDesc": "Volcano Mining",
+   "category": "adventure",
+   "longDesc": "Automatically mine the Velvet / Gold Mine in That 70s Volcano, and sell the 1,970 carat gold for meat"
+ },
+ {
+   "repo": "https://github.com/loathers/freecandydotexe",
+   "type": "git",
+   "branch": "release",
+   "author": "loathers",
+   "name": "freecandydotexe",
+   "forumThread": "https://kolmafia.us/threads/freecandydotexe-a-script-for-tricking-treating-and-everything-in-between.28817/",
+   "shortDesc": "Automated Trick-or-Treating",
+   "category": "adventure",
+   "longDesc": "Farm Trick-or-Treat on Halloween, getting the best candies / value from fights / wanderers / etc"
+ },
+ {
+   "repo": "https://github.com/phulin/shorts-ui",
+   "type": "git",
+   "author": "phulin",
+   "name": "Cargo Shorts GUI",
+   "forumThread": "https://kolmafia.us/threads/cargo-shorts-gui.25416/",
+   "shortDesc": "Cargo Short Relay helper",
+   "category": "information",
+   "longDesc": "Show commonly used / recommended pockets in the Cargo Shorts in the Relay Browser"
+ },
+ {
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/locket-ui",
+   "type": "git",
+   "author": "BurningBman",
+   "name": "Combat Lover's Locket GUI",
+   "forumThread": "https://kolmafia.us/threads/combat-lovers-locket-gui.27362/",
+   "shortDesc": "Locket Relay helper",
+   "category": "information",
+   "longDesc": "Show commonly used / recommended combats for the Combat Lover's Locket in the Relay Browser"
  }
 ]

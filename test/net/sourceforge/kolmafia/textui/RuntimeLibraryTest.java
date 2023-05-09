@@ -822,4 +822,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     output = execute("my_location()");
     assertThat(output, containsString("Returned: none"));
   }
+
+  @Test
+  void numericModifierHandlesCrimboTrainingSkills() {
+    String output = execute("numeric_modifier($skill[Crimbo Training: Bartender], \"booze drop\")");
+    assertThat(output, containsString("15.0"));
+  }
 }
