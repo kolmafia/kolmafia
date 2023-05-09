@@ -84,7 +84,7 @@ blackberry bush	418	blackbush.gif	Atk: 126 Def: 114 HP: 136 Init: 30 P: plant Ar
 Blader	2270	blader.gif	Scale: -5 Cap: 100 Floor: 20 Init: 100 P: construct Article: a	blue pixel (0)	brown pixel (0)	brown pixel (0)
 blind snake	2122	pr_snake.gif	Atk: 35 Def: 40 HP: 50 Init: 50 Meat: 250 P: beast EA: sleaze EA: stench Article: a
 Blooper	118	squid.gif	Atk: 25 Def: 22 HP: 15 Init: 60 Meat: 10 P: beast Article: a	white pixel (80)	white pixel (70)	white pixel (60)
-Blue Oyster cultist	1528	bluecultist.gif	Atk: 135 Def: 135 HP: 130 Init: 50 Meat: 100 P: dude Elem: 75 EA: hot Article: a	fire of unknown origin (15)	black blade (5)	cigarette lighter (15)	blue oyster badge (c0)
+Blue Oyster cultist	1528	bluecultist.gif	Atk: 135 Def: 135 HP: 130 Init: 50 Meat: 100 P: dude Elem: 75 EA: hot Article: a	fire of unknown origin (15)	black blade (5)	cigarette lighter (15)	blue oyster badge (c15)
 blur	460	blur.gif	Atk: 136 Def: 126 HP: 141 Init: 40 Meat: 120 P: dude Article: a	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)	Hugo's Weaving Manual (c100)
 boaraffe	568	boaraffe.gif	Atk: 145 Def: 130 HP: 145 Init: 50 Meat: 100 P: beast Article: a	long pork (30)
 Bob Racecar	132	naskar2.gif	Atk: 138 Def: 129 HP: 139 Init: 80 Meat: 120 P: dude	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)	folder (D-Team) (c0)
@@ -256,7 +256,7 @@ floating platter of hors d'oeuvres	404	horstray.gif	Atk: 65 Def: 55 HP: 70 Init:
 Flock of Stab-bats	133	stabbats.gif	Atk: 155 Def: 133 HP: 155 Init: 90 Meat: 160 Group: 4 P: beast Article: a	bat wing (30)	batblade (25)	batgut (30)
 fluffy bunny	313	bunny.gif	Atk: 1 Def: 0 HP: 1 Init: 50 Meat: 8 P: beast Article: a	bunny liver (75)
 Foodie Giant	1334	giant_foodie.gif	Atk: 130 Def: 120 HP: 150 Init: 40 Meat: 100 P: humanoid Article: a	chipotle wasabi cilantro aioli (25)	giant artisanal rice peeler (10)	giant heirloom grape tomato (15)	artisanal hand-squeezed wheatgrass juice (c15)
-forest spirit	228	forspirit.gif	Atk: 2 Def: 1 HP: 3 Init: 40 P: undead E: spooky Article: a	forest tears (30)	forest spirit rattle (c0)
+forest spirit	228	forspirit.gif	Atk: 2 Def: 1 HP: 3 Init: 40 P: undead E: spooky Article: a	forest tears (30)	forest spirit rattle (c25)
 Frat Warrior drill sergeant	528	warfrata.gif	Atk: 175 Def: 157 HP: 200 Init: 60 P: orc E: sleaze Article: a	distressed denim pants (10)	bejeweled pledge pin (10)	beer helmet (10)	flask flops (0)
 freaked-out mushroom guy	1801	mush_freaked.gif	Atk: 25 Def: 25 HP: 20 Init: 75 P: plant Article: a	paisley spore pod (70)	Knoll mushroom (20)
 frog	332	frog.gif	NOCOPY Atk: [3] Def: [2] HP: [3] Init: -10000 Meat: 10 P: beast Article: a	squashed frog (100)	frog lip-print (c0)
@@ -1641,7 +1641,7 @@ grinning pork bun	1305	porkbun.gif	Atk: 65 Def: 65 HP: 75 Init: 50 Meat: 30 P: c
 roasted duck golem	1303	duckgolem.gif	Atk: 68 Def: 62 HP: 75 Init: 50 Meat: 30 P: construct Article: a	roasted duck (0)
 lucky cat statue	1304	catstatue.gif	Atk: 62 Def: 68 HP: 75 Init: 50 P: construct Article: a	lucky cat collar (0)	lucky cat's paw (c0)
 yakuza courier	1310	yakcourier.gif	NOCOPY Atk: 70 Def: 70 HP: 85 Init: 65 P: humanoid Article: a	butterfly knife (0)	tube of herbal ointment (0)	zaibatsu lobby card (100)
-triad code wizard	1306	triadwizard.gif	Atk: 73 Def: 67 HP: 85 Init: 50 Meat: 20 P: dude Article: a	triad summoning scroll (0)	ASCII fu manchu (c0)
+triad code wizard	1306	triadwizard.gif	Atk: 73 Def: 67 HP: 85 Init: 50 Meat: 20 P: dude Article: a	triad summoning scroll (30)	ASCII fu manchu (c25)
 clean-room daemon	1307	cleanroomdemon.gif	Atk: 70 Def: 70 HP: 85 Init: 50 P: demon Article: a	rubber gloves (0)	demonic surgical gloves (c0)
 fabricator gu&agrave;i	1308	guai.gif	Atk: 67 Def: 73 HP: 90 Init: 40 Meat: 20 P: demon Article: a Manuel: "fabricator guài"	Chinese curse words (0)
 The Sierpinski brothers	1309	sierpinski.gif	NOCOPY Atk: 77 Def: 74 HP: 95 Init: 70 P: dude EA: hot	triad summoning scroll (0)	triad summoning scroll (0)	triad summoning scroll (0)	cheap Chinese beer (0)	cheap Chinese beer (0)	dead meat bun (0)	magical battery (c1)
@@ -1993,7 +1993,7 @@ animal cracker	1981	gbcracker.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150
 gingerbread wino	1982	gbwino.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: dude EA: stench Article: a	gingerbread wine (0)
 gingerbread mugger	1983	gbmugger.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 16 SprinkleMax: 22 P: dude Article: a	gingerbread mug (0)	gingerbread mask (0)
 gingerbread welder robot	1984	gbwelder.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 200 SprinkleMin: 8 SprinkleMax: 11 P: construct Article: a	gingerservo (0)
-gingerbread mutant	1985	gbmutant.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 8 SprinkleMax: 11 P: dude Article: a	tainted icing (0)
+gingerbread mutant	1985	gbmutant.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 8 SprinkleMax: 11 P: dude Article: a	tainted icing (15)
 gingerbread gentrifier	1986	gbgentry.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 200 SprinkleMin: 18 SprinkleMax: 22 P: dude EA: hot Article: a	gingerbread smartphone (0)	gingerbeard (0)
 gingerbread finance bro	1987	gbfinancebro.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 28 SprinkleMax: 32 P: dude Article: a	gingerbread smartphone (0)	candy necktie (0)
 gingerbread tech bro	1988	gbtechbro.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: -10000 SprinkleMin: 23 SprinkleMax: 27 P: dude Article: a	gingerbread smartphone (0)	gingerbread hoodie (0)
@@ -2137,9 +2137,9 @@ Xiblaxian political prisoner	1630	polprisoner.gif	NOCOPY Scale: 40 Floor: ? Init
 # Antique Maps
 
 # Landscaper's Lair (antique painting of a landscape March-April 2010)
-menacing lawn gnome	914	lawngnome1.gif	Atk: 50 Def: 45 HP: 75 Init: 50 P: humanoid Article: a	machetito (0)	pointy red hat (0)	stick-on gnome beard (c0)
-mounted lawn gnome	916	lawngnome3.gif	Atk: 60 Def: 54 HP: 95 Init: 85 P: humanoid EA: hot Article: a	pointy red hat (0)	lawnmower blade (0)	grass clippings (0)
-mowing lawn gnome	915	lawngnome2.gif	Atk: 55 Def: 49 HP: 85 Init: 50 P: humanoid Article: a	lawnmower blade (0)	grass clippings (0)	pointy red hat (0)
+menacing lawn gnome	914	lawngnome1.gif	Atk: 50 Def: 45 HP: 75 Init: 50 P: humanoid Article: a	machetito (5)	pointy red hat (5)	stick-on gnome beard (c75)
+mounted lawn gnome	916	lawngnome3.gif	Atk: 60 Def: 54 HP: 95 Init: 85 P: humanoid EA: hot Article: a	pointy red hat (5)	lawnmower blade (5)	grass clippings (35)
+mowing lawn gnome	915	lawngnome2.gif	Atk: 55 Def: 49 HP: 85 Init: 50 P: humanoid Article: a	lawnmower blade (5)	grass clippings (20)	pointy red hat (5)
 The Landscaper	917	landscaper.gif	BOSS NOCOPY Atk: 100 Def: 90 HP: 100000 Init: -10000 P: demon Phys: 100 Elem: 100 EA: hot	The Landscaper's leafblower (100)
 
 # Professor Jacking's laboratory (antique record album March-April 2010)
