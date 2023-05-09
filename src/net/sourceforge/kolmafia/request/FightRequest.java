@@ -10169,6 +10169,27 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
         break;
+
+      case SkillPool.CINCHO_PROJECTILE_PINATA:
+        if (responseText.contains(
+            "You press the Projectile Pi&ntilde;ata button on your Cincho.")) {
+          Preferences.increment("_cinchUsed", 5, 100, false);
+          skillSuccess = true;
+        }
+        break;
+      case SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA:
+        if (responseText.contains("You activate your Cincho's Confetti Extravaganza function.")) {
+          Preferences.increment("_cinchUsed", 5, 100, false);
+          skillSuccess = true;
+        }
+        break;
+      case SkillPool.CINCHO_PARTY_FOUL:
+        if (responseText.contains(
+            "You press the button on your Cincho that unleashes a torrent of ghastly obscenities.")) {
+          Preferences.increment("_cinchUsed", 5, 100, false);
+          skillSuccess = true;
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
