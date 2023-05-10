@@ -101,6 +101,17 @@ class PlaceRequestTest {
     }
 
     @Test
+    public void itShouldGetParcelLocationFromFirstVisitFuzzyMatch() {
+      String prefName = "_sotParcelLocation";
+      String responseText = html("request/test_first_visit_sot_to_get_location - doctored.html");
+      var cleanups = new Cleanups(withProperty(prefName, ""));
+      try (cleanups) {
+        PlaceRequest.parseResponse(sotUrl, responseText);
+        assertThat(prefName, isSetTo("The Hippy Camp (Bombed Back to the Stone Age)"));
+      }
+    }
+
+    @Test
     public void itShouldGetParcelLocationFromSubsequentVisit() {
       String prefName = "_sotParcelLocation";
       var cleanups = new Cleanups(withProperty(prefName, ""));
