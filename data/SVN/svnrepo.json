@@ -28,7 +28,8 @@
    "longDesc": "This script will help you optimize your gear for the PvP mini-games: Laconic Dresser, Verbosity Demonstration, Showing Initiative, The Egg Hunt, Meat Lover, Broad Resistance Contest, Lightest Load and Letter of the Moment. The script will check which mini-games are active and will retrieve the letter of the moment on each run.<p>There are options to buy cheap mall gear (default is 1k or less) superior to what you possess and provide a comprehensive list of the best gear in-game with wiki links to research how you may acquire it."
  },
  {
-   "repo": "https://github.com/soolar/CONSUME.ash/trunk/RELEASE/",
+   "repo": "https://github.com/soolar/CONSUME.ash",
+   "type": "git",
    "author": "soolar",
    "name": "CONSUME",
    "forumThread": "https://kolmafia.us/showthread.php?20406",
