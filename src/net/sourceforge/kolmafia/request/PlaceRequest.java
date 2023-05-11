@@ -334,7 +334,12 @@ public class PlaceRequest extends GenericRequest {
     if (location != null) {
       KoLAdventure candidate = AdventureDatabase.getAdventure(location);
       if (candidate != null) {
-        Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
+        if (candidate.canAdventure()) {
+          Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
+        } else {
+          KoLmafia.updateDisplay(
+              KoLConstants.MafiaState.CONTINUE, "Cannot adventure in " + location);
+        }
       } else {
         KoLmafia.updateDisplay(
             KoLConstants.MafiaState.CONTINUE,
