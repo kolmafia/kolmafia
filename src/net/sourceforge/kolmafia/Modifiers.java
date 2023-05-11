@@ -938,20 +938,12 @@ public class Modifiers {
 
   public void lookupFamiliarModifiers(
       final FamiliarData familiar, int weight, final AdventureResult famItem) {
-    int familiarId = familiar.getId();
+    int familiarId = familiar.getEffectiveId();
     weight = Math.max(1, weight);
     Modifiers.currentWeight = weight;
 
-    String race = familiar.getRace();
+    String race = familiar.getEffectiveRace();
 
-    // Comma Chameleon acts as if it was something else
-    if (familiarId == FamiliarPool.CHAMELEON) {
-      String newRace = Preferences.getString("commaFamiliar");
-      if (newRace != null && !newRace.isEmpty()) {
-        race = newRace;
-        familiarId = FamiliarDatabase.getFamiliarId(race);
-      }
-    }
     this.add(ModifierDatabase.getModifiers(ModifierType.FAMILIAR, race));
     if (famItem != null) {
       // "fameq" modifiers are generated when "Familiar Effect" is parsed
