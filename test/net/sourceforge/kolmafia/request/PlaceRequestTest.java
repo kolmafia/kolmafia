@@ -180,9 +180,11 @@ class PlaceRequestTest {
 
     @ParameterizedTest
     @CsvSource({
-      "The Hippy Camp, Hippy Camp", "Hippy Camp, Hippy Camp",
+      "The Hippy Camp, Hippy Camp",
+      "Hippy Camp, Hippy Camp",
       "The Hippy Camp (Bombed Back to the Stone Age), The Hippy Camp (Bombed Back to the Stone Age)",
-          "The Copperhead Club, The Copperhead Club"
+      "The Copperhead Club, The Copperhead Club",
+      "The The Copperhead Club, The Copperhead Club"
     })
     public void canMatchStringsToAdventures(String location, String adventureName) {
       var adventure = PlaceRequest.getLocationFromSotString(location);
@@ -191,7 +193,7 @@ class PlaceRequestTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"The Happy Camp", "Happy Camp", "The The Copperhead Club"})
+    @CsvSource({"The Happy Camp", "Happy Camp", "The The The Copperhead Club"})
     public void shouldNotMatchStringsToAdventures(String location) {
       var adventure = PlaceRequest.getLocationFromSotString(location);
       assertNull(adventure);
