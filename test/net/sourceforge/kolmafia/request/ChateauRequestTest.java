@@ -4,14 +4,18 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -69,6 +73,23 @@ public class ChateauRequestTest {
         request.processResponse();
         assertThat("timesRested", isSetTo(KoLCharacter.freeRestsAvailable()));
       }
+    }
+  }
+
+  @Nested
+  class Modifiers {
+    @Test
+    void appliesModifiersFromChateau() {
+      KoLConstants.chateau.clear();
+
+      KoLConstants.chateau.add(ItemPool.get(ItemPool.CHATEAU_SKYLIGHT));
+      KoLConstants.chateau.add(ItemPool.get(ItemPool.CHATEAU_CHANDELIER));
+
+      KoLCharacter.recalculateAdjustments();
+      assertThat(KoLCharacter.currentNumericModifier(DoubleModifier.ADVENTURES), is(3.0));
+      assertThat(KoLCharacter.currentNumericModifier(DoubleModifier.PVP_FIGHTS), is(3.0));
+
+      KoLConstants.chateau.clear();
     }
   }
 }
