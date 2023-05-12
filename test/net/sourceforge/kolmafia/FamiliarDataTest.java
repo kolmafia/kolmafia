@@ -423,8 +423,8 @@ public class FamiliarDataTest {
     @Test
     public void correctEffectiveRaceWhenCommaImitating() {
       var cleanups =
-              new Cleanups(
-                      withProperty("commaFamiliar", "Mosquito"), withFamiliar(FamiliarPool.CHAMELEON));
+          new Cleanups(
+              withProperty("commaFamiliar", "Mosquito"), withFamiliar(FamiliarPool.CHAMELEON));
 
       try (cleanups) {
         assertThat(KoLCharacter.currentFamiliar.getEffectiveRace(), is("Mosquito"));
@@ -444,7 +444,7 @@ public class FamiliarDataTest {
     @Test
     public void correctEffectiveRaceWhenCommaEmpty() {
       var cleanups =
-              new Cleanups(withProperty("commaFamiliar", ""), withFamiliar(FamiliarPool.CHAMELEON));
+          new Cleanups(withProperty("commaFamiliar", ""), withFamiliar(FamiliarPool.CHAMELEON));
 
       try (cleanups) {
         assertThat(KoLCharacter.currentFamiliar.getEffectiveRace(), is("Comma Chameleon"));
