@@ -986,11 +986,13 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public boolean isUndead() {
+    // Familiar tags are *not* inherited by Comma Chameleon
     return FamiliarDatabase.hasAttribute(this.id, "undead");
   }
 
   public boolean waterBreathing() {
-    return FamiliarDatabase.isUnderwaterType(this.id);
+    // Water breathing is inherited by Comma Chameleon imitating
+    return FamiliarDatabase.isUnderwaterType(this.getEffectiveId());
   }
 
   public boolean canCarry() {
