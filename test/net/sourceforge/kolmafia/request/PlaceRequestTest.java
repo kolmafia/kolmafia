@@ -8,8 +8,11 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -25,6 +28,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class PlaceRequestTest {
 
@@ -171,6 +176,25 @@ class PlaceRequestTest {
         PlaceRequest.parseResponse(sotUrl, responseText);
         assertThat(prefName, isSetTo(true));
       }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "The Hippy Camp, Hippy Camp", "Hippy Camp, Hippy Camp",
+      "The Hippy Camp (Bombed Back to the Stone Age), The Hippy Camp (Bombed Back to the Stone Age)",
+          "The Copperhead Club, The Copperhead Club"
+    })
+    public void canMatchStringsToAdventures(String location, String adventureName) {
+      var adventure = PlaceRequest.getLocationFromSotString(location);
+      assertNotNull(adventure);
+      assertThat(adventure.getAdventureName(), is(adventureName));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"The Happy Camp", "Happy Camp", "The The Copperhead Club"})
+    public void shouldNotMatchStringsToAdventures(String location) {
+      var adventure = PlaceRequest.getLocationFromSotString(location);
+      assertNull(adventure);
     }
   }
 
