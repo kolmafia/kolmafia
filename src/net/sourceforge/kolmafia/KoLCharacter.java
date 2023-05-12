@@ -5187,8 +5187,7 @@ public abstract class KoLCharacter {
     }
 
     // Add modifiers from campground equipment.
-    for (int i = 0; i < KoLConstants.campground.size(); ++i) {
-      AdventureResult item = KoLConstants.campground.get(i);
+    for (AdventureResult item : KoLConstants.campground) {
       // Skip ginormous pumpkin growing in garden
       if (item.getItemId() == ItemPool.GINORMOUS_PUMPKIN) {
         continue;
@@ -5196,6 +5195,11 @@ public abstract class KoLCharacter {
       for (int count = item.getCount(); count > 0; --count) {
         newModifiers.add(ModifierDatabase.getItemModifiers(item.getItemId()));
       }
+    }
+
+    // Add modifiers from Chateau
+    for (AdventureResult item : KoLConstants.chateau) {
+      newModifiers.add(ModifierDatabase.getItemModifiers(item.getItemId()));
     }
 
     // Add modifiers from dwelling
