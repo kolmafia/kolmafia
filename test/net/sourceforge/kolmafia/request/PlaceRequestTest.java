@@ -23,7 +23,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -120,7 +119,6 @@ class PlaceRequestTest {
     }
 
     @Test
-    @Disabled("Fails because The Hippy Camp does not fuzzy match Hippy Camp, I think")
     public void itShouldGetParcelLocationIfNoMissingConditions() {
       String prefName = "_sotParcelLocation";
       String responseText = html("request/test_first_visit_sot_to_get_location - doctored.html");

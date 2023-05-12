@@ -331,20 +331,17 @@ public class PlaceRequest extends GenericRequest {
         location = m.group(1);
       }
     }
-    if (location != null) {
-      KoLAdventure candidate = AdventureDatabase.getAdventure(location);
-      if (candidate != null) {
-        if (candidate.canAdventure()) {
-          Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
-        } else {
-          KoLmafia.updateDisplay(
-              KoLConstants.MafiaState.CONTINUE, "Cannot adventure in " + location);
-        }
+    KoLAdventure candidate = getLocationFromSotString(location);
+    if (candidate != null) {
+      if (candidate.canAdventure()) {
+        Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
       } else {
-        KoLmafia.updateDisplay(
-            KoLConstants.MafiaState.CONTINUE,
-            location + " does not uniquely match an adventure location.");
+        KoLmafia.updateDisplay(KoLConstants.MafiaState.CONTINUE, "Cannot adventure in " + location);
       }
+    } else {
+      KoLmafia.updateDisplay(
+          KoLConstants.MafiaState.CONTINUE,
+          location + " does not uniquely match an adventure location.");
     }
     if (responseText.contains(
         "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
@@ -353,6 +350,23 @@ public class PlaceRequest extends GenericRequest {
     } else if (responseText.contains("He must not have anything else for you to do today.")) {
       Preferences.setBoolean("_sotParcelReturned", true);
     }
+  }
+
+  // Visible for testing
+  public static KoLAdventure getLocationFromSotString(String location) {
+    if (location == null) return null;
+    // Check for exact match and return it
+    location = location.trim();
+    KoLAdventure candidate = AdventureDatabase.getAdventureByName(location);
+    if (candidate != null) return candidate;
+    // If begins with "The" then strip it and try for an exact match
+    boolean there = location.toLowerCase().startsWith("the");
+    if (there) {
+      location = location.substring(4);
+      candidate = AdventureDatabase.getAdventureByName(location);
+      return candidate;
+    }
+    return null;
   }
 
   public static boolean registerRequest(final String urlString) {
