@@ -321,37 +321,40 @@ public class PlaceRequest extends GenericRequest {
   }
 
   private static void parseSotVisit(String responseText) {
-    String location = null;
-    Matcher m = firstSotVisit.matcher(responseText);
-    if (m.find()) {
-      location = m.group(1);
-    } else {
-      m = nextSotVisit.matcher(responseText);
-      if (m.find()) {
-        location = m.group(1);
-      }
-    }
-    if (location != null) {
-      KoLAdventure candidate = getLocationFromSotString(location);
-      if (candidate != null) {
-        if (candidate.canAdventure()) {
-          Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
-        } else {
-          KoLmafia.updateDisplay(
-              KoLConstants.MafiaState.CONTINUE, "Cannot adventure in " + location);
-        }
-      } else {
-        KoLmafia.updateDisplay(
-            KoLConstants.MafiaState.CONTINUE,
-            location + " does not uniquely match an adventure location.");
-      }
-    }
     if (responseText.contains(
         "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
       ResultProcessor.removeItem(ItemPool.THE_SOTS_PARCEL);
       Preferences.setBoolean("_sotParcelReturned", true);
     } else if (responseText.contains("He must not have anything else for you to do today.")) {
       Preferences.setBoolean("_sotParcelReturned", true);
+    } else {
+      String location = null;
+      Matcher m = firstSotVisit.matcher(responseText);
+      if (m.find()) {
+        location = m.group(1);
+      } else {
+        m = nextSotVisit.matcher(responseText);
+        if (m.find()) {
+          location = m.group(1);
+        }
+      }
+      if (location != null) {
+        KoLAdventure candidate = getLocationFromSotString(location);
+        if (candidate != null) {
+          if (candidate.canAdventure()) {
+            Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
+          } else {
+            KoLmafia.updateDisplay(
+                KoLConstants.MafiaState.CONTINUE, "Cannot adventure in " + location);
+          }
+        } else {
+          KoLmafia.updateDisplay(
+              KoLConstants.MafiaState.CONTINUE,
+              location + " does not uniquely match an adventure location.");
+        }
+      } else {
+        KoLmafia.updateDisplay(KoLConstants.MafiaState.CONTINUE, "Cannot extract location.");
+      }
     }
   }
 
