@@ -331,17 +331,20 @@ public class PlaceRequest extends GenericRequest {
         location = m.group(1);
       }
     }
-    KoLAdventure candidate = getLocationFromSotString(location);
-    if (candidate != null) {
-      if (candidate.canAdventure()) {
-        Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
+    if (location != null) {
+      KoLAdventure candidate = getLocationFromSotString(location);
+      if (candidate != null) {
+        if (candidate.canAdventure()) {
+          Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
+        } else {
+          KoLmafia.updateDisplay(
+              KoLConstants.MafiaState.CONTINUE, "Cannot adventure in " + location);
+        }
       } else {
-        KoLmafia.updateDisplay(KoLConstants.MafiaState.CONTINUE, "Cannot adventure in " + location);
+        KoLmafia.updateDisplay(
+            KoLConstants.MafiaState.CONTINUE,
+            location + " does not uniquely match an adventure location.");
       }
-    } else {
-      KoLmafia.updateDisplay(
-          KoLConstants.MafiaState.CONTINUE,
-          location + " does not uniquely match an adventure location.");
     }
     if (responseText.contains(
         "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
