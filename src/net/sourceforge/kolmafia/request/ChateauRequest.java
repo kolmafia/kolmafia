@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -31,6 +32,19 @@ public class ChateauRequest extends PlaceRequest {
 
   public static final AdventureResult CHATEAU_PAINTING =
       ItemPool.get(ItemPool.CHATEAU_WATERCOLOR, 1);
+
+  public static final Set<Integer> chateauItems =
+      Set.of(
+          ItemPool.CHATEAU_MUSCLE,
+          ItemPool.CHATEAU_MYST,
+          ItemPool.CHATEAU_MOXIE,
+          ItemPool.CHATEAU_FAN,
+          ItemPool.CHATEAU_CHANDELIER,
+          ItemPool.CHATEAU_SKYLIGHT,
+          ItemPool.CHATEAU_BANK,
+          ItemPool.CHATEAU_JUICE_BAR,
+          ItemPool.CHATEAU_PENS,
+          ItemPool.CHATEAU_WATERCOLOR);
 
   public static final String BED = "chateau_restbox";
 
