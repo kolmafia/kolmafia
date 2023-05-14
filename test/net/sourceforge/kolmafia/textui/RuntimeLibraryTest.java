@@ -828,4 +828,23 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     String output = execute("numeric_modifier($skill[Crimbo Training: Bartender], \"booze drop\")");
     assertThat(output, containsString("15.0"));
   }
+
+  @Nested
+  class Ids {
+    @ParameterizedTest
+    @CsvSource({
+      "$item[pirate radio ring].id, 10210",
+      "$skill[Unleash Terra Cotta Army].id, 7321",
+      "$effect[Wings].id, 6",
+      "$familiar[Cat Burglar].id, 267",
+      "$monster[Knob Goblin Embezzler].id, 530",
+      "$location[The Dire Warren].id, 92",
+      "$path[Trendy].id, 7",
+      "$class[Pig Skinner].id, 28"
+    })
+    void exposesIds(String exec, String value) {
+      String output = execute(exec);
+      assertThat(output, containsString("Returned: " + value));
+    }
+  }
 }
