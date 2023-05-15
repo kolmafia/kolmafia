@@ -57,100 +57,100 @@ public class CampgroundRequest extends GenericRequest {
   public static final AdventureResult LED_CLOCK = ItemPool.get(ItemPool.LED_CLOCK, 1);
 
   // The following are items that (can) have modifiers in modifiers.txt
-  public static final int[] campgroundItems = {
-    // Housing
-    ItemPool.BIG_ROCK,
-    ItemPool.NEWBIESPORT_TENT,
-    ItemPool.BARSKIN_TENT,
-    ItemPool.COTTAGE,
-    ItemPool.HOUSE,
-    ItemPool.SANDCASTLE,
-    ItemPool.TWIG_HOUSE,
-    ItemPool.HOBO_FORTRESS,
-    ItemPool.GINGERBREAD_HOUSE,
-    ItemPool.BRICKO_PYRAMID,
-    ItemPool.GINORMOUS_PUMPKIN,
-    ItemPool.GIANT_FARADAY_CAGE,
-    ItemPool.SNOW_FORT,
-    ItemPool.ELEVENT,
-    ItemPool.RESIDENCE_CUBE,
-    ItemPool.GIANT_PILGRIM_HAT,
-    ItemPool.HOUSE_SIZED_MUSHROOM,
+  public static final Set<Integer> campgroundItems =
+      Set.of(
+          // Housing
+          ItemPool.BIG_ROCK,
+          ItemPool.NEWBIESPORT_TENT,
+          ItemPool.BARSKIN_TENT,
+          ItemPool.COTTAGE,
+          ItemPool.HOUSE,
+          ItemPool.SANDCASTLE,
+          ItemPool.TWIG_HOUSE,
+          ItemPool.HOBO_FORTRESS,
+          ItemPool.GINGERBREAD_HOUSE,
+          ItemPool.BRICKO_PYRAMID,
+          ItemPool.GINORMOUS_PUMPKIN,
+          ItemPool.GIANT_FARADAY_CAGE,
+          ItemPool.SNOW_FORT,
+          ItemPool.ELEVENT,
+          ItemPool.RESIDENCE_CUBE,
+          ItemPool.GIANT_PILGRIM_HAT,
+          ItemPool.HOUSE_SIZED_MUSHROOM,
 
-    // Bedding
-    ItemPool.BEANBAG_CHAIR,
-    ItemPool.COLD_BEDDING,
-    ItemPool.GAUZE_HAMMOCK,
-    ItemPool.HOT_BEDDING,
-    ItemPool.LAZYBONES_RECLINER,
-    ItemPool.SLEAZE_BEDDING,
-    ItemPool.SPOOKY_BEDDING,
-    ItemPool.STENCH_BEDDING,
-    ItemPool.SLEEPING_STOCKING,
-    ItemPool.SALTWATERBED,
-    ItemPool.SPIRIT_BED,
+          // Bedding
+          ItemPool.BEANBAG_CHAIR,
+          ItemPool.COLD_BEDDING,
+          ItemPool.GAUZE_HAMMOCK,
+          ItemPool.HOT_BEDDING,
+          ItemPool.LAZYBONES_RECLINER,
+          ItemPool.SLEAZE_BEDDING,
+          ItemPool.SPOOKY_BEDDING,
+          ItemPool.STENCH_BEDDING,
+          ItemPool.SLEEPING_STOCKING,
+          ItemPool.SALTWATERBED,
+          ItemPool.SPIRIT_BED,
 
-    // Inside dwelling: maids
-    ItemPool.MAID,
-    ItemPool.CLOCKWORK_MAID,
+          // Inside dwelling: maids
+          ItemPool.MAID,
+          ItemPool.CLOCKWORK_MAID,
 
-    // Inside dwelling: miscellaneous
-    // (Certificate of Participation)
-    // (Shiny Certificate of Participation)
-    ItemPool.BONSAI_TREE,
-    ItemPool.CUCKOO_CLOCK,
-    ItemPool.FENG_SHUI,
-    ItemPool.LED_CLOCK,
-    ItemPool.LUCKY_CAT_STATUE,
-    ItemPool.MEAT_GLOBE,
-    ItemPool.PICTURE_OF_YOU,
-    ItemPool.TIN_ROOF,
-    ItemPool.CRIMBO_CANDLE,
+          // Inside dwelling: miscellaneous
+          // (Certificate of Participation)
+          // (Shiny Certificate of Participation)
+          ItemPool.BONSAI_TREE,
+          ItemPool.CUCKOO_CLOCK,
+          ItemPool.FENG_SHUI,
+          ItemPool.LED_CLOCK,
+          ItemPool.LUCKY_CAT_STATUE,
+          ItemPool.MEAT_GLOBE,
+          ItemPool.PICTURE_OF_YOU,
+          ItemPool.TIN_ROOF,
+          ItemPool.CRIMBO_CANDLE,
 
-    // Inside dwelling: "Tasteful" items
-    ItemPool.BLACK_BLUE_LIGHT,
-    ItemPool.LOUDMOUTH_LARRY,
-    ItemPool.PLASMA_BALL,
+          // Inside dwelling: "Tasteful" items
+          ItemPool.BLACK_BLUE_LIGHT,
+          ItemPool.LOUDMOUTH_LARRY,
+          ItemPool.PLASMA_BALL,
 
-    // Kitchen
-    ItemPool.SHAKER,
-    ItemPool.COCKTAIL_KIT,
-    ItemPool.BARTENDER,
-    ItemPool.CLOCKWORK_BARTENDER,
-    ItemPool.OVEN,
-    ItemPool.RANGE,
-    ItemPool.CHEF,
-    ItemPool.CLOCKWORK_CHEF,
+          // Kitchen
+          ItemPool.SHAKER,
+          ItemPool.COCKTAIL_KIT,
+          ItemPool.BARTENDER,
+          ItemPool.CLOCKWORK_BARTENDER,
+          ItemPool.OVEN,
+          ItemPool.RANGE,
+          ItemPool.CHEF,
+          ItemPool.CLOCKWORK_CHEF,
 
-    // Workshed
-    ItemPool.CHEMISTRY_LAB,
-    ItemPool.INDUCTION_OVEN,
-    ItemPool.LP_ROM_BURNER,
-    ItemPool.HIGH_EFFICIENCY_STILL,
-    ItemPool.AUTO_ANVIL,
-    ItemPool.JACKHAMMER_DRILL_PRESS,
-    ItemPool.SNOW_MACHINE,
-    ItemPool.SPINNING_WHEEL,
-    ItemPool.DNA_LAB,
-    ItemPool.MAYO_CLINIC,
-    ItemPool.ASDON_MARTIN,
-    ItemPool.DIABOLIC_PIZZA_CUBE,
-    ItemPool.COLD_MEDICINE_CABINET,
-    ItemPool.MODEL_TRAIN_SET,
+          // Workshed
+          ItemPool.CHEMISTRY_LAB,
+          ItemPool.INDUCTION_OVEN,
+          ItemPool.LP_ROM_BURNER,
+          ItemPool.HIGH_EFFICIENCY_STILL,
+          ItemPool.AUTO_ANVIL,
+          ItemPool.JACKHAMMER_DRILL_PRESS,
+          ItemPool.SNOW_MACHINE,
+          ItemPool.SPINNING_WHEEL,
+          ItemPool.DNA_LAB,
+          ItemPool.MAYO_CLINIC,
+          ItemPool.ASDON_MARTIN,
+          ItemPool.DIABOLIC_PIZZA_CUBE,
+          ItemPool.COLD_MEDICINE_CABINET,
+          ItemPool.MODEL_TRAIN_SET,
 
-    // Outside dwelling
-    ItemPool.MEAT_GOLEM,
-    ItemPool.PAGODA_PLANS,
-    ItemPool.SCARECROW,
-    ItemPool.TOILET_PAPER,
-    ItemPool.HAUNTED_DOGHOUSE,
-    ItemPool.WITCHESS_SET,
-    ItemPool.SOURCE_TERMINAL,
-    ItemPool.TRAPEZOID,
+          // Outside dwelling
+          ItemPool.MEAT_GOLEM,
+          ItemPool.PAGODA_PLANS,
+          ItemPool.SCARECROW,
+          ItemPool.TOILET_PAPER,
+          ItemPool.HAUNTED_DOGHOUSE,
+          ItemPool.WITCHESS_SET,
+          ItemPool.SOURCE_TERMINAL,
+          ItemPool.TRAPEZOID,
 
-    // Special item that aids resting
-    ItemPool.COMFY_BLANKET,
-  };
+          // Special item that aids resting
+          ItemPool.COMFY_BLANKET);
 
   public static final int[] transientFurnishings = {
     // Bedding
