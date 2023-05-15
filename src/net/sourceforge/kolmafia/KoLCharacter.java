@@ -1751,8 +1751,7 @@ public abstract class KoLCharacter {
       freerests += 3;
     if (KoLCharacter.hasSkill(SkillPool.FOOD_COMA)) freerests += 10;
     if (KoLCharacter.hasSkill(SkillPool.DOG_TIRED)) freerests += 5;
-    if (ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals("ceiling fan"))
-      freerests += 5;
+    if (KoLConstants.chateau.contains(ChateauRequest.CHATEAU_FAN)) freerests += 5;
     if (Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
     if (KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
@@ -5218,10 +5217,6 @@ public abstract class KoLCharacter {
     if (HolidayDatabase.getGrimacePhase() == 5) {
       newModifiers.addDouble(
           DoubleModifier.RESTING_HP_PCT, 100, ModifierType.EVENT, "Moons (Grimace full)");
-    }
-
-    if (ChateauRequest.ceiling != null) {
-      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.ITEM, ChateauRequest.ceiling));
     }
 
     for (String equip : ClanManager.getClanRumpus()) {
