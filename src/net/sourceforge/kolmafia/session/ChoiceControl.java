@@ -6749,7 +6749,12 @@ public abstract class ChoiceControl {
         break;
 
       case 627:
-        ChibiBuddyManager.visitMainScreen(text);
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+      case 633:
+        ChibiBuddyManager.visit(ChoiceManager.lastChoice, text);
         break;
 
       case 641:

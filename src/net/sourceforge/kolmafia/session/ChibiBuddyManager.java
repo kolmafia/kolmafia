@@ -10,8 +10,12 @@ public class ChibiBuddyManager {
 
   private ChibiBuddyManager() {}
 
-  public static void visitMainScreen(final String text) {
-    Preferences.setBoolean("_chibiChanged", !text.contains("Have a ChibiChat"));
+  public static void visit(final int choice, final String text) {
+    switch (choice) {
+      case 627:
+        Preferences.setBoolean("_chibiChanged", !text.contains("Have a ChibiChat"));
+        break;
+    }
   }
 
   public static void postChoice2(final int choice, final int decision, final String text) {
