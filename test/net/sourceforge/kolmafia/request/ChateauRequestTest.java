@@ -1,12 +1,15 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withChateau;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
@@ -68,6 +71,24 @@ public class ChateauRequestTest {
         request.setHasResult(true);
         request.processResponse();
         assertThat("timesRested", isSetTo(KoLCharacter.freeRestsAvailable()));
+      }
+    }
+  }
+
+  @Nested
+  class Modifiers {
+    @ParameterizedTest
+    @CsvSource({
+      ItemPool.CHATEAU_SKYLIGHT + ", Adventures",
+      ItemPool.CHATEAU_CHANDELIER + ", PvP Fights",
+    })
+    void appliesModifiersFromChateau(final int itemId, final String modifierName) {
+      var cleanups = withChateau(itemId);
+
+      try (cleanups) {
+        assertThat(
+            KoLCharacter.currentNumericModifier(DoubleModifier.byCaselessName(modifierName)),
+            is(3.0));
       }
     }
   }

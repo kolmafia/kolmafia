@@ -1775,11 +1775,11 @@ public class FightRequestTest {
   @ParameterizedTest
   @ValueSource(strings = {"projectile", "confetti", "party"})
   void cinchoCastRecorded(String fileName) {
-    var cleanups = new Cleanups(withProperty("_cinchUsed", 95));
+    var cleanups = new Cleanups(withProperty("_cinchUsed", 90));
 
     try (cleanups) {
       parseCombatData("request/test_fight_parse_casting_cinch_" + fileName + ".html");
-      assertThat("_cinchUsed", isSetTo(100));
+      assertThat("_cinchUsed", isSetTo(95));
     }
   }
 

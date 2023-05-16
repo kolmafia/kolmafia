@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -19,7 +20,7 @@ public class ChateauRequest extends PlaceRequest {
   private static final AdventureResult CHATEAU_MUSCLE = ItemPool.get(ItemPool.CHATEAU_MUSCLE, 1);
   private static final AdventureResult CHATEAU_MYST = ItemPool.get(ItemPool.CHATEAU_MYST, 1);
   private static final AdventureResult CHATEAU_MOXIE = ItemPool.get(ItemPool.CHATEAU_MOXIE, 1);
-  private static final AdventureResult CHATEAU_FAN = ItemPool.get(ItemPool.CHATEAU_FAN, 1);
+  public static final AdventureResult CHATEAU_FAN = ItemPool.get(ItemPool.CHATEAU_FAN, 1);
   private static final AdventureResult CHATEAU_CHANDELIER =
       ItemPool.get(ItemPool.CHATEAU_CHANDELIER, 1);
   private static final AdventureResult CHATEAU_SKYLIGHT =
@@ -32,9 +33,20 @@ public class ChateauRequest extends PlaceRequest {
   public static final AdventureResult CHATEAU_PAINTING =
       ItemPool.get(ItemPool.CHATEAU_WATERCOLOR, 1);
 
-  public static final String BED = "chateau_restbox";
+  public static final Set<Integer> chateauItems =
+      Set.of(
+          ItemPool.CHATEAU_MUSCLE,
+          ItemPool.CHATEAU_MYST,
+          ItemPool.CHATEAU_MOXIE,
+          ItemPool.CHATEAU_FAN,
+          ItemPool.CHATEAU_CHANDELIER,
+          ItemPool.CHATEAU_SKYLIGHT,
+          ItemPool.CHATEAU_BANK,
+          ItemPool.CHATEAU_JUICE_BAR,
+          ItemPool.CHATEAU_PENS,
+          ItemPool.CHATEAU_WATERCOLOR);
 
-  public static String ceiling = null;
+  public static final String BED = "chateau_restbox";
 
   public ChateauRequest() {
     super("chateau");
@@ -46,7 +58,6 @@ public class ChateauRequest extends PlaceRequest {
 
   public static void reset() {
     KoLConstants.chateau.clear();
-    ChateauRequest.ceiling = null;
   }
 
   public static void refresh() {
@@ -81,13 +92,10 @@ public class ChateauRequest extends PlaceRequest {
     // ceiling
     if (responseText.contains("ceilingfan.gif")) {
       KoLConstants.chateau.add(ChateauRequest.CHATEAU_FAN);
-      ChateauRequest.ceiling = "ceiling fan";
     } else if (responseText.contains("chandelier.gif")) {
       KoLConstants.chateau.add(ChateauRequest.CHATEAU_CHANDELIER);
-      ChateauRequest.ceiling = "antler chandelier";
     } else if (responseText.contains("skylight.gif")) {
       KoLConstants.chateau.add(ChateauRequest.CHATEAU_SKYLIGHT);
-      ChateauRequest.ceiling = "artificial skylight";
     }
 
     // desk
@@ -141,19 +149,16 @@ public class ChateauRequest extends PlaceRequest {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_FAN);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_CHANDELIER);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_SKYLIGHT);
-        ChateauRequest.ceiling = "ceiling fan";
       }
       case ItemPool.CHATEAU_CHANDELIER -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_CHANDELIER);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_FAN);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_SKYLIGHT);
-        ChateauRequest.ceiling = "antler chandelier";
       }
       case ItemPool.CHATEAU_SKYLIGHT -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_SKYLIGHT);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_FAN);
         KoLConstants.chateau.remove(ChateauRequest.CHATEAU_CHANDELIER);
-        ChateauRequest.ceiling = "artificial skylight";
       }
       case ItemPool.CHATEAU_BANK -> {
         KoLConstants.chateau.add(ChateauRequest.CHATEAU_BANK);

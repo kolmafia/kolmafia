@@ -1499,20 +1499,23 @@ public class Player {
   /**
    * Sets the user as having this item installed in their Chateau Mantegna
    *
-   * @param itemId Id of item to have installed
+   * @param itemIds Id of items to have installed
    * @return Restores the old chateau state
    */
-  public static Cleanups withChateau(int itemId) {
-    final String oldCeiling = ChateauRequest.ceiling;
+  public static Cleanups withChateau(int... itemIds) {
     final List<AdventureResult> oldChateau = new ArrayList<>(KoLConstants.chateau);
 
-    ChateauRequest.ceiling = ItemDatabase.getItemName(itemId);
-    AdventureResult.addResultToList(KoLConstants.chateau, ItemPool.get(itemId, 1));
+    for (var itemId : itemIds) {
+      ChateauRequest.gainItem(ItemPool.get(itemId));
+    }
+
+    KoLCharacter.recalculateAdjustments();
+
     return new Cleanups(
         () -> {
-          ChateauRequest.ceiling = oldCeiling;
           KoLConstants.chateau.clear();
           KoLConstants.chateau.addAll(oldChateau);
+          KoLCharacter.recalculateAdjustments();
         });
   }
 

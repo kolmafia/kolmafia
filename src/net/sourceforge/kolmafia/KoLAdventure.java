@@ -2018,18 +2018,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return InventoryManager.hasItem(item);
     }
 
-    // You can only have one jar of psychoses open at once.
-    // Each type of jar gives you access to a zone
-    // There is a quest associated with each.
-    // After you finish, you can no longer adventure there.
-    // We do not track those quests.
     if (this.parentZone.equals("Psychoses")) {
-      // AdventureResult item - the item needed to activate this zone
-      // That item is in the Campground if it is currently active
+      // You can only have one jar of psychoses open at once.
+      // Each type of jar gives you access to a zone
       // _psychoJarUsed - if a psycho jar is in use
-      // prepareForAdventure will NOT use a jar of psychoses if necessary.
-      // *** Should it? They are very expensive
-      return KoLConstants.campground.contains(item) || InventoryManager.hasItem(item);
+      // item - the item needed to activate this zone
+      // That item is in the Campground if it is currently active
+      if (KoLConstants.campground.contains(item)) {
+        // There is a quest associated with each jar
+        // After you finish, you can no longer adventure there.
+        // We do not track those quests.
+        // *** Add quest tracking and return false if quest is complete.
+        return true;
+      }
+
+      // prepareForAdventure will NOT use a jar of psychoses.
+      return false;
     }
 
     // You can only have one grimstone mask in use at a time.
