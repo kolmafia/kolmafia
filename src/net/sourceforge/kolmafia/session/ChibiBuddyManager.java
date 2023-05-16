@@ -21,6 +21,14 @@ public class ChibiBuddyManager {
           Preferences.setBoolean("_chibiChanged", true);
         }
         break;
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+        if (!text.contains("Results:")) return;
+        if (decision == 1 || decision == 2) {
+          Preferences.increment("_chibiAdventures", 1, 5, false);
+        }
       case 633:
         if (decision == 1) {
           ResultProcessor.processItem(ItemPool.CHIBIBUDDY_OFF, -1);

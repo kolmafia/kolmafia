@@ -1683,6 +1683,7 @@ user	_chateauDeskHarvested	false
 user	_chateauMonsterFought	false
 user	_cheerleaderSteam	200
 user	_chestXRayUsed	0
+user	_chibiAdventures	0
 user	_chibiChanged	false
 user	_chipBags	0
 user	_chocolateCigarsUsed	0

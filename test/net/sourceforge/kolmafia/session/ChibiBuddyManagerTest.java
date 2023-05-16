@@ -73,4 +73,16 @@ class ChibiBuddyManagerTest {
       assertThat("_chibiChanged", isSetTo(alreadyChanged));
     }
   }
+
+  @Test
+  void canTrackChibiAdventures() {
+    var cleanups =
+            new Cleanups(
+                    withProperty("_chibiAdventures", 1),
+                    withProperty("_chibiChanged"),
+                    withChoice(629, 1, html("request/test_chibibuddy_spend_adventure_entertaining.html")));
+    try (cleanups) {
+      assertThat("_chibiAdventures", isSetTo(2));
+    }
+  }
 }
