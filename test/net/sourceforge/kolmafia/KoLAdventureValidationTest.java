@@ -98,7 +98,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     void beingSoberPassesPreValidation() {
-      var cleanups = new Cleanups(withInebriety(5));
+      var cleanups = new Cleanups(withInebriety(5), withPath(Path.SHADOWS_OVER_LOATHING));
 
       try (cleanups) {
         assertThat(WARREN.preValidateAdventure(), is(true));
@@ -108,7 +108,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     void beingTooDrunkFailsPreValidation() {
-      var cleanups = new Cleanups(withInebriety(30));
+      var cleanups = new Cleanups(withInebriety(30), withPath(Path.SHADOWS_OVER_LOATHING));
 
       try (cleanups) {
         assertThat(WARREN.preValidateAdventure(), is(false));
@@ -124,6 +124,7 @@ public class KoLAdventureValidationTest {
       var cleanups =
           new Cleanups(
               withInebriety(30),
+              withPath(Path.SHADOWS_OVER_LOATHING),
               withFamiliar(FamiliarPool.LEFT_HAND),
               withEquipped(slot, ItemPool.DRUNKULA_WINEGLASS));
 
@@ -7165,8 +7166,37 @@ public class KoLAdventureValidationTest {
         AdventureDatabase.getAdventureByName("Shadow Rift (The Right Side of the Tracks)");
 
     @Test
+    void cannotAdventureWithoutPayphoneOrPath() {
+      assertFalse(TOWN_RIGHT.canAdventure());
+    }
+
+    @Test
+    void canAdventureInASoL() {
+      var cleanups = withPath(Path.SHADOWS_OVER_LOATHING);
+      try (cleanups) {
+        assertTrue(TOWN_RIGHT.canAdventure());
+      }
+    }
+
+    @Test
+    void canAdventureWithPayphoneInInventory() {
+      var cleanups = withItem(ItemPool.CLOSED_CIRCUIT_PAY_PHONE);
+      try (cleanups) {
+        assertTrue(TOWN_RIGHT.canAdventure());
+      }
+    }
+
+    @Test
+    void cannotAdventureWithPayphoneInCloset() {
+      var cleanups = withItemInCloset(ItemPool.CLOSED_CIRCUIT_PAY_PHONE);
+      try (cleanups) {
+        assertFalse(TOWN_RIGHT.canAdventure());
+      }
+    }
+
+    @Test
     void onlyCertainShadowRiftsInitiallyOpen() {
-      var cleanups = new Cleanups();
+      var cleanups = withPath(Path.SHADOWS_OVER_LOATHING);
       try (cleanups) {
         // Have to have visited a Shadow Rift Ingress
         assertFalse(SHADOW_RIFT.canAdventure());
@@ -7198,7 +7228,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitGenericRiftIfWithIngress() {
-      var cleanups = new Cleanups(withProperty("shadowRiftIngress", "mclargehuge"));
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
+              withProperty("shadowRiftIngress", "mclargehuge"));
       try (cleanups) {
         // Have to have visited a Shadow Rift Ingress
         assertTrue(SHADOW_RIFT.canAdventure());
@@ -7207,7 +7240,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitWoodsRiftsIfLarvaQuestStarted() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.LARVA, QuestDatabase.STARTED));
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
+              withQuestProgress(Quest.LARVA, QuestDatabase.STARTED));
       try (cleanups) {
         // Have to have been given the LARVA quest
         assertTrue(DISTANT_WOODS.canAdventure());
@@ -7218,7 +7254,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitWoodsRiftsIfCitadelQuestStarted() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.CITADEL, QuestDatabase.STARTED));
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
+              withQuestProgress(Quest.CITADEL, QuestDatabase.STARTED));
       try (cleanups) {
         assertTrue(DISTANT_WOODS.canAdventure());
         assertTrue(FOREST_VILLAGE.canAdventure());
@@ -7232,6 +7271,7 @@ public class KoLAdventureValidationTest {
 
       var cleanups =
           new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
               withEquipped(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER));
       try (cleanups) {
@@ -7249,6 +7289,7 @@ public class KoLAdventureValidationTest {
 
       var cleanups =
           new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
               withEquippableItem(ItemPool.TRANSFUNCTIONER));
       try (cleanups) {
@@ -7270,6 +7311,7 @@ public class KoLAdventureValidationTest {
 
       var cleanups =
           new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
               withQuestProgress(Quest.LARVA, QuestDatabase.STARTED),
               withProperty("shadowRiftIngress", "8bit"));
       try (cleanups) {
@@ -7285,7 +7327,9 @@ public class KoLAdventureValidationTest {
     @Test
     void canVisitSpookyravenRiftIfThirdFloorUnlocked() {
       var cleanups =
-          new Cleanups(withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
+              withQuestProgress(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED));
       try (cleanups) {
         // Have to have been given the LARVA quest
         assertTrue(SPOOKYRAVEN.canAdventure());
@@ -7294,7 +7338,8 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitDesertBeachRiftIfBeachAccessible() {
-      var cleanups = new Cleanups(withItem(ItemPool.BITCHIN_MEATCAR));
+      var cleanups =
+          new Cleanups(withPath(Path.SHADOWS_OVER_LOATHING), withItem(ItemPool.BITCHIN_MEATCAR));
       try (cleanups) {
         // Have to be able to get to the beach
         assertTrue(DESERT_BEACH.canAdventure());
@@ -7303,7 +7348,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitCemeteryRiftIfCyrptQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED));
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED));
       try (cleanups) {
         // You can get to the Misspelled Cemetery to get to the Cyrpt
         assertTrue(CEMETERY.canAdventure());
@@ -7312,7 +7360,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitCemeteryRiftWithWizardOfEgoQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
+              withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
       try (cleanups) {
         // You can get to the Misspelled Cemetery to search Fernswarthy's grave
         assertTrue(CEMETERY.canAdventure());
@@ -7321,7 +7372,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitCemeteryRiftWithNemesisQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
+              withQuestProgress(Quest.EGO, QuestDatabase.STARTED));
       try (cleanups) {
         // You can get to the Misspelled Cemetery to get to the find your legendary weapon
         assertTrue(CEMETERY.canAdventure());
@@ -7330,7 +7384,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitMcLargeHugeRiftIfTrapperQuest() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED));
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
+              withQuestProgress(Quest.TRAPPER, QuestDatabase.STARTED));
       try (cleanups) {
         // You can get to the Mt. McLargeHuge if you can visit the Trapper
         assertTrue(MCLARGEHUGE.canAdventure());
@@ -7339,7 +7396,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitBeanstalkRiftIfBeanstalkPlanted() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.GARBAGE, "step1"));
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING), withQuestProgress(Quest.GARBAGE, "step1"));
       try (cleanups) {
         // You can get above the beanstalk if you have planted it
         assertTrue(BEANSTALK.canAdventure());
@@ -7351,6 +7410,7 @@ public class KoLAdventureValidationTest {
       setupFakeClient();
       var cleanups =
           new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
               withQuestProgress(Quest.GARBAGE, QuestDatabase.STARTED),
               withItem(ItemPool.ENCHANTED_BEAN));
       try (cleanups) {
@@ -7367,7 +7427,7 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitCastleRiftIfAirShipIsFinished() {
-      var cleanups = new Cleanups(withItem(ItemPool.SOCK));
+      var cleanups = new Cleanups(withPath(Path.SHADOWS_OVER_LOATHING), withItem(ItemPool.SOCK));
       try (cleanups) {
         // You can get above to the Giant Castle with a S.O.C.K.
         assertTrue(CASTLE.canAdventure());
@@ -7376,7 +7436,9 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitHiddenCityRiftIfTempleDone() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.WORSHIP, "step4"));
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING), withQuestProgress(Quest.WORSHIP, "step4"));
       try (cleanups) {
         // You can get to the Hidden City if you have finished the Hidden Temple
         assertTrue(HIDDEN_CITY.canAdventure());
@@ -7385,7 +7447,10 @@ public class KoLAdventureValidationTest {
 
     @Test
     void canVisitPyramidRiftIfPyramidOpen() {
-      var cleanups = new Cleanups(withQuestProgress(Quest.PYRAMID, QuestDatabase.STARTED));
+      var cleanups =
+          new Cleanups(
+              withPath(Path.SHADOWS_OVER_LOATHING),
+              withQuestProgress(Quest.PYRAMID, QuestDatabase.STARTED));
       try (cleanups) {
         // You can get to the Pyramid once you have opened it
         assertTrue(PYRAMID.canAdventure());
