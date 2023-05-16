@@ -641,7 +641,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     //
     // This method is called with info from api.php for your current familiar.
 
-    if (experience > 0) {
+    if (!CRIMBO_GHOSTS.contains(id)) {
       familiar.setExperience(experience);
     }
 

@@ -450,5 +450,32 @@ public class FamiliarDataTest {
         assertThat(KoLCharacter.currentFamiliar.getEffectiveRace(), is("Comma Chameleon"));
       }
     }
+
+    @Test
+    public void commaHasCorrectWeightWhenHomemadeRobot() {
+      var cleanups = new Cleanups(withProperty("commaFamiliar", "Homemade Robot"), withProperty("homemadeRobotUpgrades", 3), withFamiliar(FamiliarPool.CHAMELEON));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.currentFamiliar.getWeight(), is(34));
+      }
+    }
+
+    @Test
+    public void commaDoesNotInheritAttributes() {
+      var cleanups = new Cleanups(withProperty("commaFamiliar", "Hovering Sombrero"), withFamiliar(FamiliarPool.CHAMELEON));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.currentFamiliar.isUndead(), is(false));
+      }
+    }
+
+    @Test
+    public void commaDoesInheritWaterBreathing() {
+      var cleanups = new Cleanups(withProperty("commaFamiliar", "Urchin Urchin"), withFamiliar(FamiliarPool.CHAMELEON));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.currentFamiliar.waterBreathing(), is(true));
+      }
+    }
   }
 }
