@@ -2768,8 +2768,8 @@
 2768	Ping-Pong Prowess	pingpongbuff.gif	efafe9f6fb5b0d34900c796a8b042da2	good	nohookah
 2769	Ping-Pong Persistence	pingpongbuff.gif	c82861d9ae3605762926e613c660a273	good	nohookah
 2770	Steamed Sinuses	stench.gif	03fb99fbeb925d2ddfda99a2b2f92845	neutral	none	use 1 portable steam unit
-2771
-2772
+2771	Delayed Gratification	ceracandy.gif	2faeaf79c4b716a2d9fd7ac2e8fffdc7	neutral	none	use 1 extra-hard jawbreaker
+2772	Bulging Jaw Muscles	chiflemon.gif	cd5ee49e0f2be8eae700a2ef1fddee0a	neutral	none	use 1 chiffon lemon
 2773	All Rainbow-y	rgpebble.gif	b668fa6d3f5934bcbcbee56d17fa2b4e	neutral	none	chew 1 fruity pebble
 2774	Loded	rglodestone.gif	93ad03e65d7abbe0429bbe835a6dae67	neutral	none	use 1 lodestone
 2775	Desandwiched	pixelbread.gif	aaaee769a3f60f5d1434aae91cdd61eb	neutral	none	eat 1 pixel bread
