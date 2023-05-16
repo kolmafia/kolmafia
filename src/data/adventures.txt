@@ -578,13 +578,13 @@ Spaaace	adventure=265	DiffLevel: mid Env: indoor Stat: 0	Domed City of Ronaldus	
 Spaaace	adventure=266	DiffLevel: mid Env: indoor Stat: 0	Domed City of Grimacia	2 Map to Safety Shelter Grimace Prime|1 E.M.U. Unit
 Spaaace	adventure=267	DiffLevel: mid Env: indoor Stat: 0	Hamburglaris Shield Generator
 
-Landscaper	adventure=224	DiffLevel: unknown Env: outdoor	The Landscaper's Lair	3 grass clippings
+Landscaper	adventure=224	DiffLevel: mid Env: outdoor	The Landscaper's Lair	3 grass clippings
 Jacking	adventure=227	DiffLevel: unknown Env: indoor	Professor Jacking's Small-O-Fier	1 world's most unappetizing beverage|1 can-you-dig-it?
 Jacking	adventure=228	DiffLevel: unknown Env: indoor	Professor Jacking's Huge-A-Ma-tron	1 Crazyleg's razor, 1 squirmy violent party snack
 Vanya's Castle	adventure=229	DiffLevel: unknown Env: indoor	Vanya's Castle Foyer
 Vanya's Castle	adventure=230	DiffLevel: unknown Env: indoor	Vanya's Castle Chapel
 Kegger	adventure=231	DiffLevel: unknown Env: outdoor	Kegger in the Woods
-Magic Commune	adventure=232	DiffLevel: unknown Env: outdoor	The Electric Lemonade Acid Parade
+Magic Commune	adventure=232	DiffLevel: mid Env: outdoor	The Electric Lemonade Acid Parade
 Ellsbury's Claim	adventure=236	DiffLevel: unknown Env: outdoor	Neckback Crick
 
 The Crackpot Mystic's Psychoses	adventure=301	DiffLevel: unknown Env: outdoor	Anger Man's Level
