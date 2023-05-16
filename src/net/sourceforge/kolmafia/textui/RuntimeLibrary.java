@@ -10071,6 +10071,6 @@ public abstract class RuntimeLibrary {
   private static boolean monkey_paw(String wish) {
     var req = new MonkeyPawRequest(wish);
     RequestThread.postRequest(req);
-    return !req.responseText.contains("impossible");
+    return req.responseText != null && !req.responseText.contains("impossible");
   }
 }
