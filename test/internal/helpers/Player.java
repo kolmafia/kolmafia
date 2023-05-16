@@ -328,6 +328,16 @@ public class Player {
    * Puts an amount of the given item into the player's closet
    *
    * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInCloset(final int itemId) {
+    return withItemInCloset(ItemPool.get(itemId, 1));
+  }
+
+  /**
+   * Puts an amount of the given item into the player's closet
+   *
+   * @param itemId Item to give
    * @param count Quantity of item to give
    * @return Restores the number of this item to the old value
    */
