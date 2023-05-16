@@ -1408,8 +1408,8 @@ Terrence Poindexter (true form)	2297	aosol_horror.gif	BOSS NOCOPY Atk: 300 Def: 
 
 # Legacy of Loathing
 
-Classic Boss Bat	2316	bossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)
-Weirdly Scrawny Knob Goblin King	2317	BOSS NOCOPY goblinking.gif	Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin Article: The
+Classic Boss Bat	2316	bossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)	replica Mr. Accessory (c100)
+Weirdly Scrawny Knob Goblin King	2317	BOSS NOCOPY goblinking.gif	Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin Article: The	replica Mr. Accessory (c100)
 
 # Items of the Month
 
