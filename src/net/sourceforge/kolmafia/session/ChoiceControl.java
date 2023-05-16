@@ -1165,6 +1165,15 @@ public abstract class ChoiceControl {
         }
         return;
 
+      case 627:
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+      case 633:
+        ChibiBuddyManager.postChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
+        break;
+
       case 669:
       case 670:
       case 671:
@@ -5151,15 +5160,6 @@ public abstract class ChoiceControl {
             RequestLogger.updateSessionLog(message);
           }
         }
-        break;
-
-      case 627:
-      case 628:
-      case 629:
-      case 630:
-      case 631:
-      case 633:
-        ChibiBuddyManager.postChoice2(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
         break;
 
       case 640:

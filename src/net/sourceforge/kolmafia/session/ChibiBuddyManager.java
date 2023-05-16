@@ -66,7 +66,7 @@ public class ChibiBuddyManager {
     }
   }
 
-  public static void postChoice2(final int choice, final int decision, final String text) {
+  public static void postChoice(final int choice, final int decision, final String text) {
     switch (choice) {
       case 627:
         if (decision == 5) {
@@ -87,6 +87,8 @@ public class ChibiBuddyManager {
                   + KoLAdventure.getAdventureCount()
                   + "] "
                   + Preferences.getString("lastEncounter");
+          RequestLogger.printLine();
+          RequestLogger.updateSessionLog();
           RequestLogger.printLine(message);
           RequestLogger.updateSessionLog(message);
           Preferences.increment("_chibiAdventures", 1, 5, false);
