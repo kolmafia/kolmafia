@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,7 +13,9 @@ import static org.hamcrest.Matchers.notNullValue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -126,6 +129,26 @@ class CharPaneRequestTest {
         assertThat("8BitScore", isSetTo(expectedScore));
         assertThat("8BitColor", isSetTo(color));
         assertThat("8BitBonusTurns", isSetTo(0));
+      }
+    }
+  }
+
+  @Nested
+  class Comma {
+    @Test
+    void commaGrantsGreyGooseSkills() {
+      var cleanups =
+          new Cleanups(withFamiliar(FamiliarPool.CHAMELEON, 200), withProperty("commaFamiliar"));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_comma_as_goose.html"));
+        assertThat("commaFamiliar", isSetTo("Grey Goose"));
+        assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(true));
+
+        // Removed after change
+        CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
+        assertThat("commaFamiliar", isSetTo("Homemade Robot"));
+        assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(false));
       }
     }
   }
