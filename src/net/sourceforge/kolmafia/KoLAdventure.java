@@ -876,6 +876,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     */
 
     if (this.zone.equals("Shadow Rift")) {
+      if (!InventoryManager.hasItem(ItemPool.CLOSED_CIRCUIT_PAY_PHONE)
+          && !KoLCharacter.inShadowsOverLoathing()) {
+        // need payphone in inventory or to be in ASoL
+        return false;
+      }
+
       // These are "place.php" visits.
       ShadowRift rift = ShadowRift.findAdventureName(this.adventureName);
       String ingress = Preferences.getString("shadowRiftIngress");
