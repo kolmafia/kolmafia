@@ -5362,6 +5362,7 @@ Effect	Buff as a Baobab	Experience Percent (Muscle): +20
 Effect	Bugbear in Tooth and Claw	Weapon Damage: +40, Spell Damage: +40
 # Buggy Flavor: 25% chance of poisoning opponent
 Effect	Built Body	Avatar: "Mr. Loathing"
+Effect	Bulging Jaw Muscles	Muscle: +25
 Effect	Bureaucratized	Familiar Weight: +10
 Effect	Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
 Effect	Burning Hands	Hot Damage: +33, Hot Spell Damage: +33, Cold Resistance: +3
@@ -5628,6 +5629,7 @@ Effect	Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
 # Deep-Seated Rage: +100% Damage vs. Mer-kin
 Effect	Deep-Tainted Mind	Mysticality Percent: -50
 Effect	Deeply Ironic	Damage Reduction: 5, HP Regen Min: 5, HP Regen Max: 8
+Effect	Delayed Gratification	Mysticality: +25
 Effect	Delighted by Autumn	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Effect	Demonic Taint	Stench Damage: +30
@@ -9609,6 +9611,7 @@ Item	cheap cigar butt	Effect: "Smokin'", Effect Duration: 10
 Item	cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
 Item	Cheer-Up soda	Effect: "Cheered Up", Effect Duration: 20
 Item	chicle de salchicha	Effect: "Here to Kick Ass", Effect Duration: 20
+Item	chiffon lemon	Effect: "Bulging Jaw Muscles", Effect Duration: 20
 Item	children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
 Item	chocolate bath ball	Effect: "[800]Chocolate Reign", Effect Duration: 10
 Item	chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
@@ -9790,6 +9793,7 @@ Item	exotic travel brochure	Effect: "Expert Vacationer", Effect Duration: 20
 Item	experimental serum G-9	Effect: "Experimental Effect G-9", Effect Duration: 40
 Item	experimental serum P-00	Effect: "Schroedinger's Butt", Effect Duration: 20
 Item	explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
+Item	extra-hard jawbreaker	Effect: "Delayed Gratification", Effect Duration: 20
 Item	extra-potent gremlin mutagen	Effect: "Seriously Mutated", Effect Duration: 1
 Item	extra-strength goo	Effect: "Gooed Enough For Government Work", Effect Duration: 20
 Item	Eye and a Twist	Effect: "Twist and an Eye", Effect Duration: 30
