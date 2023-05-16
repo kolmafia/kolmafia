@@ -296,7 +296,7 @@ public class Player {
    * Ensures that a given item is not in the player's inventory
    *
    * @param itemId Item to not have
-   * @return Restores the number of this item to zero
+   * @return Restores the number of this item to the old value
    */
   public static Cleanups withoutItem(final int itemId) {
     return withItem(itemId, 0);
