@@ -14,22 +14,25 @@ public class ChibiBuddyManager {
     Preferences.setBoolean("_chibiChanged", !text.contains("Have a ChibiChat"));
   }
 
-  public static void useUnpowered(final String text) {
-    if (ChoiceManager.lastDecision == 1) {
-      ResultProcessor.processItem(ItemPool.CHIBIBUDDY_OFF, -1);
-      ResultProcessor.processItem(ItemPool.CHIBIBUDDY_ON, 1);
+  public static void postChoice2(final int choice, final int decision, final String text) {
+    switch (choice) {
+      case 627:
+        if (decision == 5) {
+          Preferences.setBoolean("_chibiChanged", true);
+        }
+        break;
+      case 633:
+        if (decision == 1) {
+          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_OFF, -1);
+          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_ON, 1);
 
-      var matcher = CHIBI_NAME.matcher(text);
+          var matcher = CHIBI_NAME.matcher(text);
 
-      if (matcher.find()) {
-        Preferences.setString("chibiName", matcher.group(1));
-      }
-    }
-  }
-
-  public static void chibiChat(final String text) {
-    if (ChoiceManager.lastDecision == 5) {
-      Preferences.setBoolean("_chibiChanged", true);
+          if (matcher.find()) {
+            Preferences.setString("chibiName", matcher.group(1));
+          }
+        }
+        break;
     }
   }
 }

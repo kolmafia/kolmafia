@@ -5154,11 +5154,12 @@ public abstract class ChoiceControl {
         break;
 
       case 627:
-        ChibiBuddyManager.chibiChat(text);
-        break;
-
+      case 628:
+      case 629:
+      case 630:
+      case 631:
       case 633:
-        ChibiBuddyManager.useUnpowered(text);
+        ChibiBuddyManager.postChoice2(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
         break;
 
       case 640:
