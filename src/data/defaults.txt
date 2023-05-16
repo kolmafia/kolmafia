@@ -408,6 +408,13 @@ user	checkJackassHardcore	true
 user	checkJackassSoftcore	true
 user	chefTurnsUsed	0
 user	chessboardsCleared	0
+user	chibiAlignment	0
+user	chibiBirthday	-1
+user	chibiFitness	0
+user	chibiIntelligence	0
+user	chibiLastVisit	-1
+user	chibiName
+user	chibiSocialization	0
 user	chilledToTheBone	0
 user	choiceAdventureScript
 user	chosenTrip
@@ -1682,6 +1689,8 @@ user	_chateauDeskHarvested	false
 user	_chateauMonsterFought	false
 user	_cheerleaderSteam	200
 user	_chestXRayUsed	0
+user	_chibiAdventures	0
+user	_chibiChanged	false
 user	_chipBags	0
 user	_chocolateCigarsUsed	0
 user	_chocolateCoveredPingPongBallsUsed	0

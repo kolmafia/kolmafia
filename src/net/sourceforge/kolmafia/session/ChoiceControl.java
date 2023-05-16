@@ -1165,6 +1165,15 @@ public abstract class ChoiceControl {
         }
         return;
 
+      case 627:
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+      case 633:
+        ChibiBuddyManager.postChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
+        break;
+
       case 669:
       case 670:
       case 671:
@@ -5153,14 +5162,6 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 633:
-        // ChibiBuddy&trade;
-        if (ChoiceManager.lastDecision == 1) {
-          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_OFF, -1);
-          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_ON, 1);
-        }
-        break;
-
       case 640:
         // Tailor the Snow Suit
         SnowsuitCommand.setStateFromDecision(ChoiceManager.lastDecision);
@@ -6745,6 +6746,15 @@ public abstract class ChoiceControl {
 
       case 570:
         GameproManager.parseGameproMagazine(text);
+        break;
+
+      case 627:
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+      case 633:
+        ChibiBuddyManager.visit(ChoiceManager.lastChoice, text);
         break;
 
       case 641:

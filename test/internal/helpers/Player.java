@@ -293,6 +293,16 @@ public class Player {
   }
 
   /**
+   * Ensures that a given item is not in the player's inventory
+   *
+   * @param itemId Item to not have
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withoutItem(final int itemId) {
+    return withItem(itemId, 0);
+  }
+
+  /**
    * Puts the given item into the player's closet
    *
    * @param itemName Item to give
@@ -2195,5 +2205,17 @@ public class Player {
     HermitRequest.initialize();
 
     return new Cleanups(HermitRequest::initialize);
+  }
+
+  /**
+   * Sets the current daycount
+   *
+   * @param currentDays The current daycount to use
+   * @return Returns value to previous value
+   */
+  public static Cleanups withDaycount(final int currentDays) {
+    var oldDays = KoLCharacter.getCurrentDays();
+    KoLCharacter.setCurrentDays(currentDays);
+    return new Cleanups(() -> KoLCharacter.setCurrentDays(oldDays));
   }
 }

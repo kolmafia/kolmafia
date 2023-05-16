@@ -173,6 +173,13 @@ public class Preferences {
         "catBurglarBankHeists",
         "chaosButterflyThrown",
         "charitableDonations",
+        "chibiAlignment",
+        "chibiBirthday",
+        "chibiEntertain",
+        "chibiFitness",
+        "chibiLastVisit",
+        "chibiName",
+        "chibiSocialization",
         "cinchoSaltAndLime",
         "cinderellaMinutesToMidnight",
         "cinderellaScore",
@@ -1266,11 +1273,13 @@ public class Preferences {
     }
   }
 
-  public static void resetToDefault(String name) {
-    if (Preferences.userNames.containsKey(name)) {
-      Preferences.setString(name, Preferences.userNames.get(name));
-    } else if (Preferences.globalNames.containsKey(name)) {
-      Preferences.setString(name, Preferences.globalNames.get(name));
+  public static void resetToDefault(String... names) {
+    for (var name : names) {
+      if (Preferences.userNames.containsKey(name)) {
+        Preferences.setString(name, Preferences.userNames.get(name));
+      } else if (Preferences.globalNames.containsKey(name)) {
+        Preferences.setString(name, Preferences.globalNames.get(name));
+      }
     }
   }
 
