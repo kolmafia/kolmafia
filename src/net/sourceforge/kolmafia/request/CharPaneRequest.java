@@ -1364,24 +1364,15 @@ public class CharPaneRequest extends GenericRequest {
 
   private static void checkComma(final String responseText) {
     Matcher commaMatcher = CharPaneRequest.commaPattern.matcher(responseText);
-    var current = Preferences.getString("commaFamiliar");
-    if (commaMatcher.find()) {
-      String newRace = commaMatcher.group(1);
-      if (!newRace.equals(current)) {
-        Preferences.setString("commaFamiliar", commaMatcher.group(1));
-        KoLCharacter.currentFamiliar.activate();
-        // Some familiars can have different weight calculations.
-        KoLCharacter.currentFamiliar.setWeight();
-        KoLCharacter.recalculateAdjustments();
-      }
-    } else {
-      if (!current.equals("")) {
-        KoLCharacter.currentFamiliar.deactivate();
-        Preferences.setString("commaFamiliar", "");
-        // Some familiars can have different weight calculations.
-        KoLCharacter.currentFamiliar.setWeight();
-        KoLCharacter.recalculateAdjustments();
-      }
+    var newRace = commaMatcher.find() ? commaMatcher.group(1) : "";
+
+    if (!Preferences.getString("commaFamiliar").equals(newRace)) {
+      KoLCharacter.currentFamiliar.deactivate();
+      Preferences.setString("commaFamiliar", newRace);
+      KoLCharacter.currentFamiliar.activate();
+      // Some familiars can have different weight calculations.
+      KoLCharacter.currentFamiliar.setWeight();
+      KoLCharacter.recalculateAdjustments();
     }
   }
 
