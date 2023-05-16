@@ -85,4 +85,21 @@ class ChibiBuddyManagerTest {
       assertThat("_chibiAdventures", isSetTo(2));
     }
   }
+
+  @Test
+  void canTrackStats() {
+    var cleanups =
+        new Cleanups(
+            withProperty("chibiAlignment"),
+            withProperty("chibiFitness"),
+            withProperty("chibiIntelligence"),
+            withProperty("chibiSocialization"),
+            withChoice(628, html("request/test_chibibuddy_wine.html")));
+    try (cleanups) {
+      assertThat("chibiAlignment", isSetTo(4));
+      assertThat("chibiIntelligence", isSetTo(5));
+      assertThat("chibiFitness", isSetTo(6));
+      assertThat("chibiSocialization", isSetTo(4));
+    }
+  }
 }
