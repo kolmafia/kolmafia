@@ -437,6 +437,10 @@ Item	ravioli hat	Spell Damage: +1, Familiar Effect: "atk, cap 2"
 Item	real cowboy hat	PvP Fights: +3
 Item	red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
 Item	reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
+# replica jewel-eyed wizard hat: Regenerate MP Based on Level
+# replica jewel-eyed wizard hat: +5 Duration to Buffs You Cast
+# replica jewel-eyed wizard hat: Allows casting of Magic Missile
+Item	replica jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3]
 Item	rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50, Familiar Effect: "0.5xPotato"
 # safarrri hat: +10 Damage vs. Lions
 Item	safarrri hat	Maximum HP: +15, Familiar Effect: "2xVolley, cap 22"
@@ -1723,6 +1727,10 @@ Item	reindeer hammer	Muscle: +10, Mysticality: +10, Moxie: +10
 Item	remaindered axe	Muscle: +2, Weapon Damage: +2
 # remorseless knife: Successful hit causes bleeding.
 Item	repeating crossbow	Moxie: +2, Critical Hit Percent: +15
+# replica bottle-rocket crossbow: Shoots Bottle-Rockets!
+Item	replica bottle-rocket crossbow	Moxie Percent: +15, Meat Drop: +15, Item Drop: +10
+# replica haiku katana: Allows use of seasonal attacks
+Item	replica haiku katana	Muscle Percent: +15, Critical Hit Percent: +5, Weapon Damage Percent: +50
 Item	revolver	Experience (Moxie): +2, Initiative: +50, Lasts Until Rollover
 Item	rib of the Bonerdagon	Muscle: +5, Mysticality: +5, Spell Damage: +15
 Item	ridiculously huge sword	Weapon Damage: +12, Muscle: +4
@@ -3454,6 +3462,15 @@ Item	reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
 # Retrospecs: Reveals foes' weaknesses
 # Retrospecs: Gives you another chance on item drops you missed out on
 Item	Retrospecs	Muscle: +15, Mysticality: +15, Moxie: +15, Maximum HP: +25, Maximum MP: +25, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Single Equip, Free Pull
+Item	replica Cincho de Mayo	Moxie Percent: +25, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Booze Drop: +30, Item Drop: +15
+# replica Elvish sunglasses: Lets you Rock Out
+Item	replica Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Pickpocket Chance: +25, Single Equip
+Item	replica navel ring of navel gazing	Damage Reduction: [L], Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Item Drop (sporadic): 4.25, Meat Drop (sporadic): 4.25, Experience: 0.6375, MP Regen Min: 2.125, MP Regen Max: 4.25
+# replica V for Vivala mask: Critical Hits are extra-explosive
+# replica V for Vivala mask: Combat items do more damage
+# replica V for Vivala mask: +1-3 Stat(s) per Fight
+# replica V for Vivala mask: Allows use of Creepy Grin (once per day)
+Item	replica V for Vivala mask	Muscle Percent: +30, Critical Hit Percent: +10, Single Equip
 Item	ribbon candy ascot	Candy Drop: +100, HP Regen Min: 6, HP Regen Max: 10, MP Regen Min: 6, MP Regen Max: 10, Single Equip
 Item	rickety old unicycle	Moxie Percent: +15, Initiative: +50, MP Regen Min: 10, MP Regen Max: 25, Single Equip
 Item	ridiculous belt	Muscle: +11
@@ -4394,6 +4411,10 @@ Item	razor fang	Familiar Weight: +10, Lasts Until Rollover, Generic
 Item	really tiny cocktail shaker	Familiar Weight: +5
 # red-and-green microcamera: Increases operational effectiveness
 Item	red-and-green microcamera	Familiar Weight: +5
+Item	replica little box of fireworks	Familiar Weight: +5, Generic, Experience: +1.5, Item Drop (sporadic): +12.5
+Item	replica miniature gravy-covered maypole	Item Drop: +25, Generic
+Item	replica plastic pumpkin bucket	Familiar Weight: +5, Item Drop: +13, Generic, Sporadic Damage Aura: 0.35
+Item	replica wax lips	Experience: +3, Generic
 Item	rhesus monkey	Familiar Weight: +5
 Item	rhinestone cowhorn	Familiar Weight: +5
 Item	ribcage rollcage	Familiar Weight: +5

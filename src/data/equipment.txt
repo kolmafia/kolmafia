@@ -318,6 +318,7 @@ rave visor	150	Mox: 60
 ravioli hat	10	none
 red traffic cone	60	Mox: 15
 reinforced beaded headband	170	Mox: 70
+replica jewel-eyed wizard hat	10	none
 rusty diving helmet	200	Mox: 85
 safarrri hat	90	Mox: 30
 samurai turtle helmet	25	none
@@ -1467,6 +1468,8 @@ reindeer sickle	100	Mus: 0	1-handed claw
 remaindered axe	20	Mus: 0	1-handed club
 remorseless knife	225	Mus: 200	1-handed knife
 repeating crossbow	65	Mox: 17	2-handed crossbow
+replica bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
+replica haiku katana	100	Mus: 0	1-handed sword
 revolver	100	Mox: 0	1-handed pistol
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
@@ -2933,6 +2936,10 @@ red shoe	150	Mys: 40
 red-hot medallion	50	none
 reinforced furry underpants	30	none
 Retrospecs	100	none
+replica Cincho de Mayo	100	none
+replica Elvish sunglasses	0	none
+replica navel ring of navel gazing	0	none
+replica V for Vivala mask	0	none
 ribbon candy ascot	80	Mys: 20
 rickety old unicycle	200	Mox: 200
 ridiculous belt	0	none
