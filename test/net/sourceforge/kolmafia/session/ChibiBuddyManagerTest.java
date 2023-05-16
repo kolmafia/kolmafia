@@ -120,4 +120,34 @@ class ChibiBuddyManagerTest {
       assertThat("chibiLastVisit", isSetTo(day));
     }
   }
+
+  @Test
+  void canDie() {
+    var day = 10;
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.CHIBIBUDDY_ON),
+            withoutItem(ItemPool.CHIBIBUDDY_OFF),
+            withProperty("chibiBirthday", day - 2),
+            withProperty("chibiLastVisit", day),
+            withProperty("chibiName", "maurice"),
+            withProperty("chibiAlignment", 6),
+            withProperty("chibiFitness", 4),
+            withProperty("chibiIntelligence", 6),
+            withProperty("chibiSocialization", 4),
+            withDaycount(day),
+            withChoice(628, html("request/test_chibibuddy_start_of_day_death.html")));
+    try (cleanups) {
+      assertThat("chibiBirthday", isSetTo(-1));
+      assertThat("chibiLastVisit", isSetTo(-1));
+      assertThat("chibiName", isSetTo(""));
+      assertThat("chibiAlignment", isSetTo(0));
+      assertThat("chibiFitness", isSetTo(0));
+      assertThat("chibiIntelligence", isSetTo(0));
+      assertThat("chibiSocialization", isSetTo(0));
+
+      assertThat(ItemPool.CHIBIBUDDY_ON, isInInventory(0));
+      assertThat(ItemPool.CHIBIBUDDY_OFF, isInInventory());
+    }
+  }
 }
