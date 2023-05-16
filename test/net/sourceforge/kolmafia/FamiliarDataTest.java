@@ -5,6 +5,7 @@ import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -13,6 +14,7 @@ import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -401,6 +403,87 @@ public class FamiliarDataTest {
         assertEquals(EquipmentRequest.UNEQUIP, current.getItem());
         // Modified Weight
         assertEquals(famLevel, current.getModifiedWeight());
+      }
+    }
+  }
+
+  @Nested
+  class Comma {
+    @Test
+    public void correctEffectiveIdWhenCommaImitating() {
+      var cleanups =
+          new Cleanups(
+              withProperty("commaFamiliar", "Mosquito"), withFamiliar(FamiliarPool.CHAMELEON));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.currentFamiliar.getEffectiveId(), is(FamiliarPool.MOSQUITO));
+      }
+    }
+
+    @Test
+    public void correctEffectiveRaceWhenCommaImitating() {
+      var cleanups =
+          new Cleanups(
+              withProperty("commaFamiliar", "Mosquito"), withFamiliar(FamiliarPool.CHAMELEON));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.currentFamiliar.getEffectiveRace(), is("Mosquito"));
+      }
+    }
+
+    @Test
+    public void correctEffectiveIdWhenCommaEmpty() {
+      var cleanups =
+          new Cleanups(withProperty("commaFamiliar", ""), withFamiliar(FamiliarPool.CHAMELEON));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.currentFamiliar.getEffectiveId(), is(FamiliarPool.CHAMELEON));
+      }
+    }
+
+    @Test
+    public void correctEffectiveRaceWhenCommaEmpty() {
+      var cleanups =
+          new Cleanups(withProperty("commaFamiliar", ""), withFamiliar(FamiliarPool.CHAMELEON));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.currentFamiliar.getEffectiveRace(), is("Comma Chameleon"));
+      }
+    }
+
+    @Test
+    public void commaHasCorrectWeightWhenHomemadeRobot() {
+      var cleanups =
+          new Cleanups(
+              withProperty("commaFamiliar", "Homemade Robot"),
+              withProperty("homemadeRobotUpgrades", 3),
+              withFamiliar(FamiliarPool.CHAMELEON));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.currentFamiliar.getWeight(), is(34));
+      }
+    }
+
+    @Test
+    public void commaDoesNotInheritAttributes() {
+      var cleanups =
+          new Cleanups(
+              withProperty("commaFamiliar", "Hovering Sombrero"),
+              withFamiliar(FamiliarPool.CHAMELEON));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.currentFamiliar.isUndead(), is(false));
+      }
+    }
+
+    @Test
+    public void commaDoesInheritWaterBreathing() {
+      var cleanups =
+          new Cleanups(
+              withProperty("commaFamiliar", "Urchin Urchin"), withFamiliar(FamiliarPool.CHAMELEON));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.currentFamiliar.waterBreathing(), is(true));
       }
     }
   }
