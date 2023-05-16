@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -19,6 +21,14 @@ public class ChibiBuddyManager {
 
   public static void visit(final int choice, final String text) {
     if (text.contains("<b>Oh no!</b>")) {
+      var message =
+          "Oh no! Your ChibiBuddy&trade; "
+              + Preferences.getString("chibiName")
+              + " died aged "
+              + (KoLCharacter.getCurrentDays() - Preferences.getInteger("chibiBirthday"));
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
+
       // Adventures are reset but ChibiChanged is not
       Preferences.resetToDefault(
           "_chibiAdventures",
@@ -60,6 +70,9 @@ public class ChibiBuddyManager {
     switch (choice) {
       case 627:
         if (decision == 5) {
+          var message = "Having a ChibiChat&trade;";
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
           Preferences.setBoolean("_chibiChanged", true);
         }
         break;
@@ -69,6 +82,13 @@ public class ChibiBuddyManager {
       case 631:
         if (!text.contains("Results:")) return;
         if (decision == 1 || decision == 2) {
+          var message =
+              "["
+                  + KoLAdventure.getAdventureCount()
+                  + "] "
+                  + Preferences.getString("lastEncounter");
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
           Preferences.increment("_chibiAdventures", 1, 5, false);
         }
       case 633:
@@ -78,11 +98,19 @@ public class ChibiBuddyManager {
 
           var matcher = CHIBI_NAME.matcher(text);
           if (matcher.find()) {
-            Preferences.setString("chibiName", matcher.group(1));
+            var name = matcher.group(1);
+            Preferences.setString("chibiName", name);
+
+            var message =
+                "Welcome to the world "
+                    + name
+                    + ", your new ChibiBuddy&trade; who will surely never die";
+            RequestLogger.printLine(message);
+            RequestLogger.updateSessionLog(message);
           }
 
-          Preferences.setInteger("chibiBirthday", KoLCharacter.getGlobalDays());
-          Preferences.setInteger("chibiLastVisit", KoLCharacter.getGlobalDays());
+          Preferences.setInteger("chibiBirthday", KoLCharacter.getCurrentDays());
+          Preferences.setInteger("chibiLastVisit", KoLCharacter.getCurrentDays());
         }
         break;
     }
