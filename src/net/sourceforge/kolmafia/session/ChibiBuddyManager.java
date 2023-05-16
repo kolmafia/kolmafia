@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -12,6 +13,8 @@ public class ChibiBuddyManager {
   private static final Pattern CHIBI_STATS =
       Pattern.compile("<td height=25>(.*?): </td><td><img.*?title=\"(\\d+) dots\"></td>");
 
+  private static final Pattern CHIBI_AGE = Pattern.compile("</s><center>.*? is (\\d) days old.<p>");
+
   private ChibiBuddyManager() {}
 
   public static void visit(final int choice, final String text) {
@@ -20,8 +23,10 @@ public class ChibiBuddyManager {
       Preferences.resetToDefault(
           "_chibiAdventures",
           "chibiAlignment",
+          "chibiBirthday",
           "chibiFitness",
           "chibiIntelligence",
+          "chibiLastVisit",
           "chibiName",
           "chibiSocialization");
       ResultProcessor.processItem(ItemPool.CHIBIBUDDY_ON, -1);
@@ -29,15 +34,24 @@ public class ChibiBuddyManager {
       return;
     }
 
+    var daycount = KoLCharacter.getCurrentDays();
+    Preferences.setInteger("chibiLastVisit", daycount);
+
+    var ageMatcher = CHIBI_AGE.matcher(text);
+    if (ageMatcher.find()) {
+      Preferences.setInteger(
+          "chibiBirthday", daycount - StringUtilities.parseInt(ageMatcher.group(1)));
+    }
+
     if (text.contains("value=\"Put your ChibiBuddy&trade; away\"")) {
       Preferences.setBoolean("_chibiChanged", !text.contains("value=\"Have a ChibiChat&trade;\">"));
     }
 
-    var matcher = CHIBI_STATS.matcher(text);
+    var statMatcher = CHIBI_STATS.matcher(text);
 
-    while (matcher.find()) {
-      var stat = matcher.group(1);
-      var value = StringUtilities.parseInt(matcher.group(2));
+    while (statMatcher.find()) {
+      var stat = statMatcher.group(1);
+      var value = StringUtilities.parseInt(statMatcher.group(2));
       Preferences.setInteger("chibi" + stat, value);
     }
   }
@@ -63,10 +77,12 @@ public class ChibiBuddyManager {
           ResultProcessor.processItem(ItemPool.CHIBIBUDDY_ON, 1);
 
           var matcher = CHIBI_NAME.matcher(text);
-
           if (matcher.find()) {
             Preferences.setString("chibiName", matcher.group(1));
           }
+
+          Preferences.setInteger("chibiBirthday", KoLCharacter.getGlobalDays());
+          Preferences.setInteger("chibiLastVisit", KoLCharacter.getGlobalDays());
         }
         break;
     }

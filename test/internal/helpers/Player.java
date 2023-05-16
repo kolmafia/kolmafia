@@ -2206,4 +2206,16 @@ public class Player {
 
     return new Cleanups(HermitRequest::initialize);
   }
+
+  /**
+   * Sets the current daycount
+   *
+   * @param currentDays The current daycount to use
+   * @return Returns value to previous value
+   */
+  public static Cleanups withDaycount(final int currentDays) {
+    var oldDays = KoLCharacter.getCurrentDays();
+    KoLCharacter.setCurrentDays(currentDays);
+    return new Cleanups(() -> KoLCharacter.setCurrentDays(oldDays));
+  }
 }

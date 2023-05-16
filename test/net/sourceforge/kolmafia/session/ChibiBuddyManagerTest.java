@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withChoice;
+import static internal.helpers.Player.withDaycount;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ChibiBuddyManagerTest {
   @BeforeAll
@@ -100,6 +102,22 @@ class ChibiBuddyManagerTest {
       assertThat("chibiIntelligence", isSetTo(5));
       assertThat("chibiFitness", isSetTo(6));
       assertThat("chibiSocialization", isSetTo(4));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {2, 3})
+  void canUpdateBirthday(final int age) {
+    var day = 10;
+    var cleanups =
+        new Cleanups(
+            withProperty("chibiBirthday", -1),
+            withProperty("chibiLastVisit", -1),
+            withDaycount(day),
+            withChoice(628, html("request/test_chibibuddy_" + age + "_days_old.html")));
+    try (cleanups) {
+      assertThat("chibiBirthday", isSetTo(day - age));
+      assertThat("chibiLastVisit", isSetTo(day));
     }
   }
 }

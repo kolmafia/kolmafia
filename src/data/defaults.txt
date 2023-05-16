@@ -409,8 +409,10 @@ user	checkJackassSoftcore	true
 user	chefTurnsUsed	0
 user	chessboardsCleared	0
 user	chibiAlignment	0
+user	chibiBirthday	-1
 user	chibiFitness	0
 user	chibiIntelligence	0
+user	chibiLastVisit	-1
 user	chibiName
 user	chibiSocialization	0
 user	chilledToTheBone	0
