@@ -293,6 +293,16 @@ public class Player {
   }
 
   /**
+   * Ensures that a given item is not in the player's inventory
+   *
+   * @param itemId Item to not have
+   * @return Restores the number of this item to zero
+   */
+  public static Cleanups withoutItem(final int itemId) {
+    return withItem(itemId, 0);
+  }
+
+  /**
    * Puts the given item into the player's closet
    *
    * @param itemName Item to give

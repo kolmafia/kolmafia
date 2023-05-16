@@ -5153,12 +5153,12 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 627:
+        ChibiBuddyManager.chibiChat(text);
+        break;
+
       case 633:
-        // ChibiBuddy&trade;
-        if (ChoiceManager.lastDecision == 1) {
-          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_OFF, -1);
-          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_ON, 1);
-        }
+        ChibiBuddyManager.useUnpowered(text);
         break;
 
       case 640:
@@ -6745,6 +6745,10 @@ public abstract class ChoiceControl {
 
       case 570:
         GameproManager.parseGameproMagazine(text);
+        break;
+
+      case 627:
+        ChibiBuddyManager.visitMainScreen(text);
         break;
 
       case 641:
