@@ -454,7 +454,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public void setWeight() {
     int weight =
-        switch (this.id) {
+        switch (this.getEffectiveId()) {
             // Homemade Robot ignores experience entirely
           case FamiliarPool.HOMEMADE_ROBOT -> 1
               + Math.min(Preferences.getInteger("homemadeRobotUpgrades") * 11, 99);
@@ -641,7 +641,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     //
     // This method is called with info from api.php for your current familiar.
 
-    if (experience > 0) {
+    if (!CRIMBO_GHOSTS.contains(id)) {
       familiar.setExperience(experience);
     }
 
@@ -683,6 +683,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return this.id;
   }
 
+  public int getEffectiveId() {
+    return FamiliarDatabase.getFamiliarId(this.getEffectiveRace());
+  }
+
   public boolean getFeasted() {
     return this.feasted;
   }
@@ -694,7 +698,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public void deactivate() {
     // Do anything necessary when this familiar is banished to the Terrarium
     this.active = false;
-    switch (this.id) {
+    switch (this.getEffectiveId()) {
       case FamiliarPool.GREY_GOOSE -> removeGreyGooseSkills();
     }
   }
@@ -702,7 +706,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public void activate() {
     // Do anything necessary when this familiar is removed from the Terrarium
     this.active = true;
-    switch (this.id) {
+    switch (this.getEffectiveId()) {
       case FamiliarPool.GREY_GOOSE -> {
         if (this.weight >= 6) {
           addGreyGooseSkills();
@@ -713,7 +717,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public void setWeight(final int weight) {
     this.weight = weight;
-    switch (this.id) {
+    switch (this.getEffectiveId()) {
       case FamiliarPool.GREY_GOOSE -> {
         if (this.active) {
           if (weight >= 6) {
@@ -925,6 +929,17 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return this.race;
   }
 
+  public String getEffectiveRace() {
+    if (this.id == FamiliarPool.CHAMELEON) {
+      String newRace = Preferences.getString("commaFamiliar");
+      if (!newRace.isEmpty()) {
+        return newRace;
+      }
+    }
+
+    return this.race;
+  }
+
   public boolean isActive() {
     return this.active;
   }
@@ -971,11 +986,13 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public boolean isUndead() {
+    // Familiar tags are *not* inherited by Comma Chameleon
     return FamiliarDatabase.hasAttribute(this.id, "undead");
   }
 
   public boolean waterBreathing() {
-    return FamiliarDatabase.isUnderwaterType(this.id);
+    // Water breathing is inherited by Comma Chameleon imitating
+    return FamiliarDatabase.isUnderwaterType(this.getEffectiveId());
   }
 
   public boolean canCarry() {
