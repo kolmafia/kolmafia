@@ -3372,6 +3372,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.CINCHO_DE_MAYO:
+      case ItemPool.REPLICA_CINCHO_DE_MAYO:
         InventoryManager.addCinchoDeMayoSkills();
         break;
     }

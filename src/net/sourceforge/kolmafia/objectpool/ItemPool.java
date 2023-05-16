@@ -3571,6 +3571,7 @@ public class ItemPool {
   public static final int CURSED_MONKEY_PAW = 11186;
   public static final int CINCHO_DE_MAYO = 11223;
   public static final int REPLICA_TEN_DOLLARS = 11253;
+  public static final int REPLICA_CINCHO_DE_MAYO = 11254;
 
   private ItemPool() {}
 
