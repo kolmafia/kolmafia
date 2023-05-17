@@ -6,6 +6,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withoutItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -96,21 +97,43 @@ public class ChibiBuddyCommandTest extends AbstractCommandTestBase {
           output,
           containsString(
               "<tr><td>Fitness</td><td>"
-                  + ChibiBuddyCommand.DOT_SYMBOL.repeat(3)
+                  + ChibiBuddyCommand.DOT_SYMBOL.repeat(4)
                   + "</td><td>[4/10]</td></tr>"));
       assertThat(
           output,
           containsString(
               "<tr><td>Intelligence</td><td>"
-                  + ChibiBuddyCommand.DOT_SYMBOL.repeat(3)
+                  + ChibiBuddyCommand.DOT_SYMBOL.repeat(5)
                   + "</td><td>[5/10]</td></tr>"));
       assertThat(
           output,
           containsString(
               "<tr><td>Socialization</td><td>"
-                  + ChibiBuddyCommand.DOT_SYMBOL.repeat(3)
+                  + ChibiBuddyCommand.DOT_SYMBOL.repeat(6)
                   + "</td><td>[6/10]</td></tr>"));
       assertContinueState();
+    }
+  }
+
+  @Test
+  void canHaveChibiChatIfNotChanged() {
+    var cleanups =
+        new Cleanups(withProperty("_chibiChanged", false), withItem(ItemPool.CHIBIBUDDY_ON));
+    try (cleanups) {
+      var output = execute("chat");
+      assertThat(
+          output, not(containsString("You've already chatted with your ChibiBuddy&trade; today")));
+    }
+  }
+
+  @Test
+  void cannotHaveChibiChatIfChanged() {
+    var cleanups =
+        new Cleanups(withProperty("_chibiChanged", true), withItem(ItemPool.CHIBIBUDDY_ON));
+    try (cleanups) {
+      var output = execute("chat");
+      assertThat(
+          output, containsString("You've already chatted with your ChibiBuddy&trade; today"));
     }
   }
 }

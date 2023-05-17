@@ -12,12 +12,15 @@ import static internal.helpers.Player.withoutItem;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeAll;
@@ -294,6 +297,44 @@ class ChibiBuddyManagerTest {
 
         assertThat("chibiBirthday", isSetTo(65));
         assertThat("chibiLastVisit", isSetTo(69));
+      }
+    }
+
+    @Test
+    void chatsWithChibi() {
+      var builder = new FakeHttpClientBuilder();
+
+      builder.client.addResponse(302, Map.of("location", List.of("choice.php")), "");
+      builder.client.addResponse(200, html("request/test_chibibuddy_main_screen.html"));
+      builder.client.addResponse(200, ""); // API
+      builder.client.addResponse(200, html("request/test_chibibuddy_acquire_changed.html"));
+      builder.client.addResponse(200, ""); // API
+      builder.client.addResponse(200, "request/test_chibibuddy_put_away.html");
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withDaycount(10),
+              withProperty("_chibiChanged", false),
+              withProperty("chibiName"),
+              withProperty("chibiBirthday", 10),
+              withProperty("chibiLastVisit", 10),
+              withProperty("chibiAlignment"),
+              withProperty("chibiFitness"),
+              withProperty("chibiIntelligence"),
+              withProperty("chibiSocialization"),
+              withItem(ItemPool.CHIBIBUDDY_ON),
+              withoutItem(ItemPool.CHIBIBUDDY_OFF));
+
+      try (cleanups) {
+        ChibiBuddyManager.chat();
+
+        assertThat(ItemPool.CHIBIBUDDY_ON, isInInventory());
+        assertThat(ItemPool.CHIBIBUDDY_OFF, isInInventory(0));
+
+        assertThat("_chibiChanged", isSetTo(true));
+        assertThat(
+            KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.CHIBICHANGED)), is(true));
       }
     }
   }
