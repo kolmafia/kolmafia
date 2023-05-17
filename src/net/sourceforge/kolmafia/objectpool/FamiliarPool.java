@@ -13,8 +13,10 @@ public class FamiliarPool {
   public static final int BABY_GRAVY_FAIRY = 15;
   public static final int STARFISH = 17;
   public static final int SOMBRERO = 18;
+  public static final int CRIMBO_ELF = 26;
   public static final int EMO_SQUID = 30;
   public static final int DODECAPEDE = 38;
+  public static final int PYGMY_BUGBEAR_SHAMAN = 39;
   public static final int DOPPEL = 40;
   public static final int RIFTLET = 43;
   public static final int PET_ROCK = 45;
