@@ -86,12 +86,12 @@ public class ChibiBuddyCommandTest extends AbstractCommandTestBase {
               "Your ChibiBuddy&trade; <b>Ronald</b> is 3 days old and you last visited them "
                   + daysAgoString
                   + "."));
-      assertThat(output, containsString("<tr><td>Alignment</td><td>■■■</td><td>[3/10]</td></tr>"));
-      assertThat(output, containsString("<tr><td>Fitness</td><td>■■■■</td><td>[4/10]</td></tr>"));
+      assertThat(output, containsString("<tr><td>Alignment</td><td>♦♦♦</td><td>[3/10]</td></tr>"));
+      assertThat(output, containsString("<tr><td>Fitness</td><td>♦♦♦♦</td><td>[4/10]</td></tr>"));
       assertThat(
-          output, containsString("<tr><td>Intelligence</td><td>■■■■■</td><td>[5/10]</td></tr>"));
+          output, containsString("<tr><td>Intelligence</td><td>♦♦♦♦♦</td><td>[5/10]</td></tr>"));
       assertThat(
-          output, containsString("<tr><td>Socialization</td><td>■■■■■■</td><td>[6/10]</td></tr>"));
+          output, containsString("<tr><td>Socialization</td><td>♦♦♦♦♦♦</td><td>[6/10]</td></tr>"));
       assertContinueState();
     }
   }
