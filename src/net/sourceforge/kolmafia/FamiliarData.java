@@ -300,6 +300,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return false;
     }
 
+    // In Legacy of Loathing, standard restrictions don't apply to replica familiars
+    if (KoLCharacter.inLegacyOfLoathing()) {
+      return true;
+    }
+
     // Unallowed familiars cannot be equipped
     if (!StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, this.race)) {
       return false;
