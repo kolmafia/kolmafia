@@ -82,7 +82,7 @@ public class ChibiBuddyCommand extends AbstractCommand {
         "Your ChibiBuddy&trade; <b>"
             + Preferences.getString("chibiName")
             + "</b> is "
-            + (age)
+            + age
             + " day"
             + (age == 1 ? "" : "s")
             + " old and you last visited them "
