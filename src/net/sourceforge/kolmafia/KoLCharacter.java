@@ -3451,6 +3451,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.SHADOWS_OVER_LOATHING;
   }
 
+  public static final boolean inLegacyOfLoathing() {
+    return KoLCharacter.ascensionPath == Path.LEGACY_OF_LOATHING;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
