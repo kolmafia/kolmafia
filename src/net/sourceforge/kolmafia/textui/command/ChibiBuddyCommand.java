@@ -57,7 +57,7 @@ public class ChibiBuddyCommand extends AbstractCommand {
     return "<tr><td>"
         + stat
         + "</td><td>"
-        + "♦".repeat(value)
+        + "X".repeat(value)
         + "</td><td>["
         + value
         + "/10]</td></tr>";
