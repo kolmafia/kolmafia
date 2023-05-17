@@ -258,8 +258,43 @@ class ChibiBuddyManagerTest {
         assertThat("chibiBirthday", isSetTo(69));
         assertThat("chibiLastVisit", isSetTo(69));
       }
+    }
 
-      ContactManager.reset();
+    @Test
+    void handlesLivingChibi() {
+      var builder = new FakeHttpClientBuilder();
+
+      builder.client.addResponse(302, Map.of("location", List.of("choice.php")), "");
+      builder.client.addResponse(200, html("request/test_chibibuddy_main_screen.html"));
+      builder.client.addResponse(200, ""); // API
+      builder.client.addResponse(200, "request/test_chibibuddy_put_away.html");
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withDaycount(69),
+              withProperty("_chibiChanged"),
+              withProperty("chibiName", "maurice"),
+              withProperty("chibiBirthday", 65),
+              withProperty("chibiLastVisit", 68),
+              withProperty("chibiAlignment"),
+              withProperty("chibiFitness"),
+              withProperty("chibiIntelligence"),
+              withProperty("chibiSocialization"),
+              withItem(ItemPool.CHIBIBUDDY_ON),
+              withoutItem(ItemPool.CHIBIBUDDY_OFF));
+
+      try (cleanups) {
+        ChibiBuddyManager.ensureLiveChibi();
+
+        var requests = builder.client.getRequests();
+
+        assertThat(ItemPool.CHIBIBUDDY_ON, isInInventory());
+        assertThat(ItemPool.CHIBIBUDDY_OFF, isInInventory(0));
+
+        assertThat("chibiBirthday", isSetTo(65));
+        assertThat("chibiLastVisit", isSetTo(69));
+      }
     }
   }
 }
