@@ -12,6 +12,8 @@ public class ChibiBuddyCommand extends AbstractCommand {
     this.usage = "| chat";
   }
 
+  public static final String DOT_SYMBOL = "&#9632;";
+
   @Override
   public void run(final String cmd, String parameters) {
     if (!ChibiBuddyManager.haveChibiBuddy()) {
@@ -57,7 +59,7 @@ public class ChibiBuddyCommand extends AbstractCommand {
     return "<tr><td>"
         + stat
         + "</td><td>"
-        + "X".repeat(value)
+        + DOT_SYMBOL.repeat(value)
         + "</td><td>["
         + value
         + "/10]</td></tr>";
