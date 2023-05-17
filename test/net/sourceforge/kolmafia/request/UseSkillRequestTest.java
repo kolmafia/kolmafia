@@ -12,6 +12,7 @@ import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.matchers.Preference.isSetTo;
@@ -24,9 +25,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -52,7 +55,7 @@ class UseSkillRequestTest {
     Preferences.reset("UseSkillRequestTest");
   }
 
-  private static int EXPERIENCE_SAFARI = SkillDatabase.getSkillId("Experience Safari");
+  private static final int EXPERIENCE_SAFARI = SkillDatabase.getSkillId("Experience Safari");
 
   @Test
   void errorDoesNotIncrementSkillUses() {
@@ -366,8 +369,35 @@ class UseSkillRequestTest {
     }
 
     @Test
-    void doNotEquipCinchoDeMayoForSkillIfAlreadyWearing() {
-      var cleanups = new Cleanups(withEquipped(Slot.ACCESSORY2, "Cincho de Mayo"));
+    void wearReplicaCinchoForCastingCinchSkillsInLol() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.LEGACY_OF_LOATHING),
+              withEquippableItem(ItemPool.REPLICA_CINCHO_DE_MAYO),
+              withProperty("_cinchUsed", 0));
+      InventoryManager.checkCinchoDeMayo();
+
+      try (cleanups) {
+        var req = UseSkillRequest.getInstance(SkillPool.CINCHO_PARTY_SOUNDTRACK, 1);
+        req.run();
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=3&action=equip&whichitem=11254");
+        assertGetRequest(
+            requests.get(1), "/runskillz.php", "action=Skillz&whichskill=7440&ajax=1&quantity=1");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {ItemPool.CINCHO_DE_MAYO, ItemPool.REPLICA_CINCHO_DE_MAYO})
+    void doNotEquipCinchoDeMayoForSkillIfAlreadyWearing(final int itemId) {
+      var cleanups =
+          new Cleanups(withPath(Path.LEGACY_OF_LOATHING), withEquipped(Slot.ACCESSORY2, itemId));
       InventoryManager.checkCinchoDeMayo();
 
       try (cleanups) {
