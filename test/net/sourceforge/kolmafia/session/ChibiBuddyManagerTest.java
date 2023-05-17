@@ -162,8 +162,9 @@ class ChibiBuddyManagerTest {
 
   @Nested
   class Control {
-    @Test
-    void handlesFindingDeadChibi() {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void handlesFindingDeadChibi(final boolean hasContacts) {
       var builder = new FakeHttpClientBuilder();
 
       builder.client.addResponse(302, Map.of("location", List.of("choice.php")), "");
@@ -177,7 +178,9 @@ class ChibiBuddyManagerTest {
       builder.client.addResponse(200, ""); // API
       builder.client.addResponse(200, "request/test_chibibuddy_put_away.html");
 
-      ContactManager.addMailContact("gausie", "1197090");
+      if (hasContacts) {
+        ContactManager.addMailContact("gausie", "1197090");
+      }
 
       var cleanups =
           new Cleanups(
@@ -199,8 +202,10 @@ class ChibiBuddyManagerTest {
 
         var requests = builder.client.getRequests();
 
+        var expectedName = "Li'l " + (hasContacts ? "gausie" : "ChibiBuddyManagerTest");
+
         assertPostRequest(
-            requests.get(7), "/choice.php", "whichchoice=633&option=1&chibiname=Li'l gausie");
+            requests.get(7), "/choice.php", "whichchoice=633&option=1&chibiname=" + expectedName);
 
         assertThat(ItemPool.CHIBIBUDDY_ON, isInInventory());
         assertThat(ItemPool.CHIBIBUDDY_OFF, isInInventory(0));
