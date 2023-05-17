@@ -4869,7 +4869,7 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.REPLICA_TEN_DOLLARS:
         // Get success text
-        Preferences.increment("legacyPoints");
+        Preferences.increment("legacyPoints", 1, 19, false);
         break;
 
       case ItemPool.ESSENCE_OF_ANNOYANCE:
