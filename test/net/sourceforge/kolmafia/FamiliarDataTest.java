@@ -261,7 +261,7 @@ public class FamiliarDataTest {
           new Cleanups(
               withPath(Path.LEGACY_OF_LOATHING),
               withRestricted(true),
-              withNotAllowedInStandard(RestrictedItemType.FAMILIARS, "Crimbo Elf"));
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "pygmy bugbear shaman"));
 
       try (cleanups) {
         FamiliarData.registerFamiliarData(html("request/test_terrarium_legacy_of_loathing.html"));

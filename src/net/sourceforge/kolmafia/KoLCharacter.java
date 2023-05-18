@@ -4532,11 +4532,6 @@ public abstract class KoLCharacter {
   private static boolean isUsable(FamiliarData f) {
     if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
 
-    if (KoLCharacter.inLegacyOfLoathing()) {
-      // if a familiar makes it into your terrarium, you can use it
-      return true;
-    }
-
     return StandardRequest.isAllowed(f)
         && (!KoLCharacter.inZombiecore() || f.isUndead())
         && (!KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
