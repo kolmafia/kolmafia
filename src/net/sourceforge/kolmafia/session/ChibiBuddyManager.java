@@ -35,13 +35,19 @@ public class ChibiBuddyManager {
   }
 
   public static void ensureLiveChibi() {
+    if (!haveChibiBuddy()) {
+      return;
+    }
+
     if (haveChibiBuddyOn()) {
+      InventoryManager.retrieveItem(ItemPool.CHIBIBUDDY_ON);
       RequestThread.postRequest(
           new GenericRequest("inv_use.php?whichitem=" + ItemPool.CHIBIBUDDY_ON));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=627&option=7"));
     }
 
     if (!haveChibiBuddyOn()) {
+      InventoryManager.retrieveItem(ItemPool.CHIBIBUDDY_OFF);
       var req = new GenericRequest("inv_use.php?whichitem=" + ItemPool.CHIBIBUDDY_OFF);
       RequestThread.postRequest(req);
       if (ChoiceManager.currentChoice() == 633) {
