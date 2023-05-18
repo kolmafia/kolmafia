@@ -862,7 +862,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
 
     try (cleanups) {
-      String output = execute("to_location(\"Hippy Camp\");");
+      String output = execute("to_location(\"The Hippy Camp\");");
       assertContinueState();
       assertThat(
           output,
@@ -889,6 +889,24 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                               water_level => 0
                               wanderers => true
                               """));
+    }
+  }
+
+  @Test
+  void mapAmbiguousLocationToAdventuringLocation() {
+    // The Hippy Camp is the KoL name for an area.  It can be one of several different locations
+    // based on character and game state.  For a character that has completed the war as a hippy
+    // The Hippy Camp should just be Hippy Camp and should be adventurable
+    var cleanups =
+        new Cleanups(
+            withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
+            withProperty("sideDefeated", "fratboys"),
+            withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
+
+    try (cleanups) {
+      String output = execute("can_adventure(to_location(\"The Hippy Camp\"));");
+      assertContinueState();
+      assertThat(output, containsString("Returned: true"));
     }
   }
 }
