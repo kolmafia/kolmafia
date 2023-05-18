@@ -3585,7 +3585,9 @@ public class ItemPool {
   public static final int REPLICA_ROBORTENDER = 11236;
   public static final int REPLICA_GOD_LOBSTER = 11239;
   public static final int REPLICA_CAMELCALF = 11243;
+  public static final int REPLICA_POWERFUL_GLOVE = 11244;
   public static final int REPLICA_GREY_GOSLING = 11250;
+  public static final int REPLICA_DESIGNER_SWEATPANTS = 11251;
   public static final int REPLICA_TEN_DOLLARS = 11253;
   public static final int REPLICA_CINCHO_DE_MAYO = 11254;
 

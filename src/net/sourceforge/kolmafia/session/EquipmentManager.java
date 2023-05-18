@@ -714,6 +714,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.BEACH_COMBO);
         break;
       case ItemPool.POWERFUL_GLOVE:
+      case ItemPool.REPLICA_POWERFUL_GLOVE:
         // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.removeAvailableSkill(SkillPool.REPLACE_ENEMY);
         KoLCharacter.removeAvailableSkill(SkillPool.SHRINK_ENEMY);
@@ -737,6 +738,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC);
         break;
       case ItemPool.DESIGNER_SWEATPANTS:
+      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
         // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_FLICK);
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_FLOOD);
@@ -1052,6 +1054,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.BEACH_COMBO);
         break;
       case ItemPool.POWERFUL_GLOVE:
+      case ItemPool.REPLICA_POWERFUL_GLOVE:
         // *** Special case: the buffs are always available
         // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.addAvailableSkill(SkillPool.REPLACE_ENEMY);
@@ -1076,6 +1079,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC);
         break;
       case ItemPool.DESIGNER_SWEATPANTS:
+      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
         // *** Special case: the buffs are always available
         // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_FLICK);
@@ -1789,7 +1793,9 @@ public class EquipmentManager {
    * @return int 0 if not wearing Powerful Glove, otherwise remaining battery power
    */
   public static final int powerfulGloveUsableBatteryPower() {
-    return KoLCharacter.hasEquipped(ItemPool.get(ItemPool.POWERFUL_GLOVE, 1))
+    return (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.POWERFUL_GLOVE, 1))
+            || (KoLCharacter.inLegacyOfLoathing()
+                && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.REPLICA_POWERFUL_GLOVE, 1))))
         ? EquipmentManager.powerfulGloveAvailableBatteryPower()
         : 0;
   }

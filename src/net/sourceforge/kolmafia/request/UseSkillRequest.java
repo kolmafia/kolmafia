@@ -231,8 +231,12 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final AdventureResult JUJU_MOJO_MASK = ItemPool.get(ItemPool.JUJU_MOJO_MASK, 1);
 
   public static final AdventureResult POWERFUL_GLOVE = ItemPool.get(ItemPool.POWERFUL_GLOVE, 1);
+  public static final AdventureResult REPLICA_POWERFUL_GLOVE =
+      ItemPool.get(ItemPool.REPLICA_POWERFUL_GLOVE, 1);
   public static final AdventureResult DESIGNER_SWEATPANTS =
       ItemPool.get(ItemPool.DESIGNER_SWEATPANTS, 1);
+  public static final AdventureResult REPLICA_DESIGNER_SWEATPANTS =
+      ItemPool.get(ItemPool.REPLICA_DESIGNER_SWEATPANTS, 1);
   public static final AdventureResult CINCHO_DE_MAYO = ItemPool.get(ItemPool.CINCHO_DE_MAYO, 1);
   public static final AdventureResult REPLICA_CINCHO_DE_MAYO =
       ItemPool.get(ItemPool.REPLICA_CINCHO_DE_MAYO, 1);
@@ -258,7 +262,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         UseSkillRequest.JUJU_MOJO_MASK,
         // Removing the following may make some skills impossible to case
         UseSkillRequest.POWERFUL_GLOVE,
+        UseSkillRequest.REPLICA_POWERFUL_GLOVE,
         UseSkillRequest.DESIGNER_SWEATPANTS,
+        UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS,
       };
 
   // The number of items at the end of AVOID_REMOVAL that are simply
@@ -809,11 +815,13 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     switch (skillId) {
       case SkillPool.INVISIBLE_AVATAR, SkillPool.TRIPLE_SIZE -> equipForSkill(
-          skillId, UseSkillRequest.POWERFUL_GLOVE, null);
+          skillId, UseSkillRequest.POWERFUL_GLOVE, UseSkillRequest.REPLICA_POWERFUL_GLOVE);
       case SkillPool.MAKE_SWEATADE,
           SkillPool.DRENCH_YOURSELF_IN_SWEAT,
           SkillPool.SIP_SOME_SWEAT -> equipForSkill(
-          skillId, UseSkillRequest.DESIGNER_SWEATPANTS, null);
+          skillId,
+          UseSkillRequest.DESIGNER_SWEATPANTS,
+          UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS);
       case SkillPool.CINCHO_DISPENSE_SALT_AND_LIME,
           SkillPool.CINCHO_PARTY_SOUNDTRACK,
           SkillPool.CINCHO_FIESTA_EXIT -> equipForSkill(

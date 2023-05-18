@@ -1853,7 +1853,10 @@ public abstract class InventoryManager {
 
   public static void checkPowerfulGlove() {
     if (KoLCharacter.hasEquipped(UseSkillRequest.POWERFUL_GLOVE)
-        || InventoryManager.hasItem(UseSkillRequest.POWERFUL_GLOVE, false)) {
+        || InventoryManager.hasItem(UseSkillRequest.POWERFUL_GLOVE, false)
+        || (KoLCharacter.inLegacyOfLoathing()
+            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_POWERFUL_GLOVE)
+                || InventoryManager.hasItem(UseSkillRequest.REPLICA_POWERFUL_GLOVE, false)))) {
       addPowerfulGloveSkills();
     }
   }
@@ -1866,7 +1869,10 @@ public abstract class InventoryManager {
 
   public static void checkDesignerSweatpants() {
     if (KoLCharacter.hasEquipped(UseSkillRequest.DESIGNER_SWEATPANTS)
-        || InventoryManager.hasItem(UseSkillRequest.DESIGNER_SWEATPANTS, false)) {
+        || InventoryManager.hasItem(UseSkillRequest.DESIGNER_SWEATPANTS, false)
+        || (KoLCharacter.inLegacyOfLoathing()
+            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS)
+                || InventoryManager.hasItem(UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS, false)))) {
       addDesignerSweatpantsSkills();
     }
   }

@@ -2745,7 +2745,8 @@ public class FightRequest extends GenericRequest {
       JuneCleaverManager.updatePreferences(responseText);
     }
 
-    if (KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)) {
+    if (KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)
+        || KoLCharacter.hasEquipped(ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       Matcher lessSweatMatcher = FightRequest.DESIGNER_SWEATPANTS_LESS_SWEATY.matcher(responseText);
       if (lessSweatMatcher.find()) {
         Preferences.decrement("sweat", StringUtilities.parseInt(lessSweatMatcher.group(1)));

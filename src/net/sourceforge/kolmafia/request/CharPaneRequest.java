@@ -1463,7 +1463,8 @@ public class CharPaneRequest extends GenericRequest {
       Pattern.compile("Sweatiness:</td><td.*?><b><font.*?><span.*?>([\\d]+)%</span></font></td>");
 
   public static void checkSweatiness(final String responseText) {
-    if (!KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)) {
+    if (!KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)
+        && !KoLCharacter.hasEquipped(ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       return;
     }
 
