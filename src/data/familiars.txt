@@ -73,7 +73,7 @@
 41	Attention-Deficit Demon	familiar41.gif	item0,meat0	calm attention-deficit demon	attention spanner	1	1	3	2	hands,eyes,wings,quick,evil,hot,flying
 42	Cymbal-Playing Monkey	familiar42.gif	stat0,meat0	unwound cymbal-playing monkey	funky brass fez	1	2	3	1	hands,clothes,mechanical,animal,eyes,robot
 43	Temporal Riftlet	familiar43.gif	block,delevel,other1	miniscule temporal rip	1.21 jigawatts	1	3	1	2
-44	Sweet Nutcracker	familiar44.gif	combat0,other0	sweet nutcracker	metal mandible	2	3	0	2	clothes,eyes
+44	Sweet Nutcracker	familiar44.gif	combat0,other0	sweet nutcracker	metal mandible	2	3	0	2	clothes,eyes,robot
 45	Pet Rock	familiar45.gif	none	pet rock	pet rock &quot;Snooty&quot; disguise	0	0	0	0	eyes
 46	Snowy Owl	familiar46.gif	combat0	sleeping snowy owl	Pretty Predator Clawicure Kit	3	3	3	3	animal,eyes,wings,biting
 47	Teddy Bear	familiar47.gif	other0	teddy bear	teddy bear sewing kit	3	2	0	1	animal,eyes
@@ -303,7 +303,7 @@
 271	Elf Operative	elfopelf.gif	stat0,item0,drop	elf sleeper agent	red-and-green microcamera	3	3	2	2	clothes,eyes
 272	Plastic Pirate Skull	pr_rogerskull.gif	delevel,hp1,mp1	Red Roger's skull	plastic pirate hat	0	0	0	0	eyes
 273	Pet Coral	petcoral.gif	none,underwater	piece of coral		0	0	0	0	eyes
-274	Pocket Professor	lilprofessoron.gif	item0,mp1	packaged Pocket Professor	Pocket Professor memory chip	0	2	2	3	mechanical
+274	Pocket Professor	lilprofessoron.gif	item0,mp1	packaged Pocket Professor	Pocket Professor memory chip	0	2	2	3	mechanical,robot
 275	Red-Nosed Snapper	redsnapper.gif	item0,underwater	red-spotted snapper roe	tinsel fin	3	3	3	3	animal,eyes
 276	Antique Nutcracker	nutcfigure.gif	stat0,drop	antique nutcracker figurine	nutcracking pliers	1	2	3	2	clothes,biting
 277	Piranha Plant	piranhaplant.gif	combat,stat0	pristine piranha seed	plastic piranha pot	3	3	3	3	biting
