@@ -15,6 +15,7 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withValueOfAdventure;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -39,6 +40,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -845,6 +847,48 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void exposesIds(String exec, String value) {
       String output = execute(exec);
       assertThat(output, containsString("Returned: " + value));
+    }
+  }
+
+  @Test
+  void mapAmbiguousLocation() {
+    // The Hippy Camp is the KoL name for an area.  It can be one of several different locations
+    // based on character and game state.  For a character that has completed the war as a hippy
+    // The Hippy Camp should just be Hippy Camp
+    var cleanups =
+        new Cleanups(
+            withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
+            withProperty("sideDefeated", "fratboys"),
+            withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
+
+    try (cleanups) {
+      String output = execute("to_location(\"Hippy Camp\");");
+      assertContinueState();
+      assertThat(
+          output,
+          is(
+              """
+                              Returned: Hippy Camp
+                              id => 26
+                              nocombats => false
+                              combat_percent => 100.0
+                              zone => Island
+                              parent => Island
+                              parentdesc => Mysterious Island
+                              root => Island
+                              difficulty_level => mid
+                              environment => outdoor
+                              fire_level => 0
+                              bounty => none
+                              combat_queue =>
+                              noncombat_queue =>
+                              turns_spent => -1
+                              kisses => 0
+                              recommended_stat => 30
+                              poison => 2147483647
+                              water_level => 0
+                              wanderers => true
+                              """));
     }
   }
 }
