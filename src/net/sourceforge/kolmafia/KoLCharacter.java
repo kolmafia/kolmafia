@@ -1758,6 +1758,8 @@ public abstract class KoLCharacter {
         || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.CINCHO_DE_MAYO) > 0
         || KoLCharacter.hasEquipped(ItemPool.CINCHO_DE_MAYO)) freerests += 3;
+    if (InventoryManager.getCount(ItemPool.REPLICA_CINCHO_DE_MAYO) > 0
+        || KoLCharacter.hasEquipped(ItemPool.REPLICA_CINCHO_DE_MAYO)) freerests += 3;
     return freerests;
   }
 
@@ -3449,6 +3451,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.SHADOWS_OVER_LOATHING;
   }
 
+  public static final boolean inLegacyOfLoathing() {
+    return KoLCharacter.ascensionPath == Path.LEGACY_OF_LOATHING;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
@@ -4525,6 +4531,11 @@ public abstract class KoLCharacter {
 
   private static boolean isUsable(FamiliarData f) {
     if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
+
+    if (KoLCharacter.inLegacyOfLoathing()) {
+      // if a familiar makes it into your terrarium, you can use it
+      return true;
+    }
 
     return StandardRequest.isAllowed(f)
         && (!KoLCharacter.inZombiecore() || f.isUndead())

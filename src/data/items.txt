@@ -11214,25 +11214,25 @@
 11186	cursed monkey's paw	617234158	monkeypaw0.gif	accessory		0
 11187	cursed monkey glove	144539345	monkeyglove.gif	usable	t	0
 11188	shadow candy	408964450	nopic.gif	none		0
-11189
-11190
-11191
-11192
-11193
+11189	replica Mr. Accessory	341989211	replicamra.gif	none	q	0
+11190	replica Dark Jill-O-Lantern	844290698	jilldark.gif	grow	q	0
+11191	replica hand turkey outline	643478560	hand.gif	grow	q	0
+11192	replica crimbo elfling	258450480	elfling.gif	grow	q	0
+11193	replica pygmy bugbear shaman	899612550	familiar39.gif	grow	q	0
 11194
-11195
-11196
-11197
+11195	replica miniature gravy-covered maypole	436493832	maypole.gif	familiar	q	0
+11196	replica wax lips	673520346	waxlips.gif	familiar	q	0
+11197	replica Tome of Snowcone Summoning	329232343	book.gif	usable	q	0
 11198
-11199
-11200
-11201
-11202
-11203
-11204
-11205
-11206
-11207
+11199	replica jewel-eyed wizard hat	244839212	wizhat.gif	hat	q	0
+11200	replica bottle-rocket crossbow	503354088	brcrossbow.gif	weapon	q	0
+11201	replica navel ring of navel gazing	974079701	navelring.gif	accessory	q	0
+11202	replica V for Vivala mask	850740075	vivala.gif	accessory	q	0
+11203	replica haiku katana	356680670	hkatana.gif	weapon	q	0
+11204	replica little box of fireworks	686386052	fireworksbox.gif	familiar	q	0
+11205	replica cotton candy cocoon	405092970	cccoccoon.gif	grow	q	0
+11206	replica Elvish sunglasses	238031926	elvisshades.gif	accessory	q	0
+11207	replica squamous polyp	554034719	polyp.gif	grow	q	0
 11208
 11209
 11210
@@ -11243,9 +11243,43 @@
 11215
 11216
 11217
-11218
+11218	replica Apathargic Bandersnatch	551749177	banderlarva.gif	grow	q	0
 11219
 11220
 11221
 11222	shrink-wrapped Cincho de Mayo	539769549	cinchobox.gif	usable	t	0
 11223	Cincho de Mayo	408302806	cincho.gif	accessory		0
+11221
+11222
+11223
+11224
+11225
+11226
+11227
+11228
+11229
+11230
+11231
+11232
+11233
+11234
+11235
+11236
+11237
+11238
+11239
+11240
+11241
+11242
+11243
+11244
+11245
+11246
+11247
+11248
+11249
+11250
+11251
+11252	replica plastic pumpkin bucket	127836800	punkin.gif	familiar	q	0
+11253	replica Ten Dollars	751729776	dinobuck.gif	usable	t	0
+11254	replica Cincho de Mayo	512079504	cincho.gif	accessory	q	0

@@ -15,6 +15,7 @@ import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -251,6 +252,24 @@ public class FamiliarDataTest {
 
         assertTrue(KoLCharacter.ownedFamiliar(FamiliarPool.PET_ROCK).isPresent());
         assertThat(KoLCharacter.usableFamiliar(FamiliarPool.PET_ROCK), nullValue());
+      }
+    }
+
+    @Test
+    public void registersFamiliarsInLegacyOfLoathing() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.LEGACY_OF_LOATHING),
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.FAMILIARS, "Crimbo Elf"));
+
+      try (cleanups) {
+        FamiliarData.registerFamiliarData(html("request/test_terrarium_legacy_of_loathing.html"));
+
+        assertTrue(KoLCharacter.ownedFamiliar(FamiliarPool.CRIMBO_ELF).isPresent());
+        assertTrue(KoLCharacter.ownedFamiliar(FamiliarPool.PYGMY_BUGBEAR_SHAMAN).isPresent());
+        assertThat(KoLCharacter.usableFamiliar(FamiliarPool.CRIMBO_ELF), notNullValue());
+        assertThat(KoLCharacter.usableFamiliar(FamiliarPool.PYGMY_BUGBEAR_SHAMAN), notNullValue());
       }
     }
   }

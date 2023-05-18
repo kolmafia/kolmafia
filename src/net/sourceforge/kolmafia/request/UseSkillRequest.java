@@ -1,8 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -231,6 +234,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final AdventureResult DESIGNER_SWEATPANTS =
       ItemPool.get(ItemPool.DESIGNER_SWEATPANTS, 1);
   public static final AdventureResult CINCHO_DE_MAYO = ItemPool.get(ItemPool.CINCHO_DE_MAYO, 1);
+  public static final AdventureResult REPLICA_CINCHO_DE_MAYO =
+      ItemPool.get(ItemPool.REPLICA_CINCHO_DE_MAYO, 1);
 
   private static final AdventureResult[] AVOID_REMOVAL =
       new AdventureResult[] {
@@ -730,34 +735,62 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         && InventoryManager.hasItem(item, false);
   }
 
-  private static void equipForSkill(final AdventureResult item, final int skillId) {
-    if (!KoLCharacter.hasEquipped(item)) {
-      if (!InventoryManager.retrieveItem(item)) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot acquire " + item.getName() + ".");
-        return;
+  private static void equipForSkill(
+      final int skillId, final AdventureResult regularItem, final AdventureResult replicaItem) {
+    if (KoLCharacter.hasEquipped(regularItem)) {
+      return;
+    }
+
+    var inLegacy = KoLCharacter.inLegacyOfLoathing() && replicaItem != null;
+
+    if (inLegacy && KoLCharacter.hasEquipped(replicaItem)) {
+      return;
+    }
+
+    AdventureResult item = null;
+
+    if (InventoryManager.retrieveItem(regularItem)) {
+      item = regularItem;
+    } else {
+      if (inLegacy && InventoryManager.retrieveItem(replicaItem)) {
+        item = replicaItem;
       }
+    }
 
-      var slotType =
-          EquipmentManager.consumeFilterToEquipmentType(
-              ItemDatabase.getConsumptionType(item.getItemId()));
-
-      if (slotType != Slot.ACCESSORY1) {
-        (new EquipmentRequest(item, slotType)).run();
-        return;
+    if (item == null) {
+      List<AdventureResult> items = new ArrayList<>();
+      items.add(regularItem);
+      if (inLegacy) {
+        items.add(replicaItem);
       }
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Cannot acquire any of: "
+              + items.stream().map(AdventureResult::getName).collect(Collectors.joining(", "))
+              + ".");
+      return;
+    }
 
-      // Find an accessory slot to equip the accessory
-      boolean slot1Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
-      boolean slot2Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
-      boolean slot3Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
+    var slotType =
+        EquipmentManager.consumeFilterToEquipmentType(
+            ItemDatabase.getConsumptionType(item.getItemId()));
 
-      Slot slot =
-          UseSkillRequest.attemptSwitch(skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
+    if (slotType != Slot.ACCESSORY1) {
+      (new EquipmentRequest(item, slotType)).run();
+      return;
+    }
 
-      if (slot == Slot.NONE) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR, "Cannot choose slot to equip " + item.getName() + ".");
-      }
+    // Find an accessory slot to equip the accessory
+    boolean slot1Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
+    boolean slot2Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
+    boolean slot3Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
+
+    Slot slot =
+        UseSkillRequest.attemptSwitch(skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
+
+    if (slot == Slot.NONE) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "Cannot choose slot to equip " + item.getName() + ".");
     }
   }
 
@@ -776,13 +809,15 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     switch (skillId) {
       case SkillPool.INVISIBLE_AVATAR, SkillPool.TRIPLE_SIZE -> equipForSkill(
-          UseSkillRequest.POWERFUL_GLOVE, skillId);
+          skillId, UseSkillRequest.POWERFUL_GLOVE, null);
       case SkillPool.MAKE_SWEATADE,
           SkillPool.DRENCH_YOURSELF_IN_SWEAT,
-          SkillPool.SIP_SOME_SWEAT -> equipForSkill(UseSkillRequest.DESIGNER_SWEATPANTS, skillId);
+          SkillPool.SIP_SOME_SWEAT -> equipForSkill(
+          skillId, UseSkillRequest.DESIGNER_SWEATPANTS, null);
       case SkillPool.CINCHO_DISPENSE_SALT_AND_LIME,
           SkillPool.CINCHO_PARTY_SOUNDTRACK,
-          SkillPool.CINCHO_FIESTA_EXIT -> equipForSkill(UseSkillRequest.CINCHO_DE_MAYO, skillId);
+          SkillPool.CINCHO_FIESTA_EXIT -> equipForSkill(
+          skillId, UseSkillRequest.CINCHO_DE_MAYO, UseSkillRequest.REPLICA_CINCHO_DE_MAYO);
     }
 
     if (Preferences.getBoolean("switchEquipmentForBuffs")) {

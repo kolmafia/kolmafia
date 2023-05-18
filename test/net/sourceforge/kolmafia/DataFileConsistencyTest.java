@@ -115,11 +115,14 @@ public class DataFileConsistencyTest {
     for (var id : items) {
       if (ItemDatabase.getConsumptionType(id) == ConsumptionType.FAMILIAR_HATCHLING) {
         var name = ItemDatabase.getItemDataName(id);
-        assertThat(
-            String.format("%s is in items.txt but not in familiars.txt", name),
-            hatchlings,
-            hasItem(name));
-        hatchlings.remove(name);
+        // replica familiars from Legacy of Loathing are special
+        if (!name.startsWith("replica ")) {
+          assertThat(
+              String.format("%s is in items.txt but not in familiars.txt", name),
+              hatchlings,
+              hasItem(name));
+          hatchlings.remove(name);
+        }
       }
     }
 

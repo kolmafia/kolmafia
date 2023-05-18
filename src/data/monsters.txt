@@ -1406,6 +1406,11 @@ Dark Noël (true form)	2295	aosol_darkyoung.gif	BOSS NOCOPY Atk: 300 Def: 300 HP
 Terrence Poindexter	2296	aosol_terrence.gif	BOSS NOCOPY Atk: 150 Def: 150 HP: 200 Init: 100 P: horror
 Terrence Poindexter (true form)	2297	aosol_horror.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 100 P: horror	Instant Karma (c100)	Thwaitgold anti-moth statuette (n100)
 
+# Legacy of Loathing
+
+Classic Boss Bat	2316	bossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)	replica Mr. Accessory (c100)
+Weirdly Scrawny Knob Goblin King	2317	BOSS NOCOPY goblinking.gif	Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin Article: The	replica Mr. Accessory (c100)
+
 # Items of the Month
 
 # Bad Trip (Astral Badger June 2006)

@@ -1881,7 +1881,10 @@ public abstract class InventoryManager {
 
   public static void checkCinchoDeMayo() {
     if (KoLCharacter.hasEquipped(UseSkillRequest.CINCHO_DE_MAYO)
-        || InventoryManager.hasItem(UseSkillRequest.CINCHO_DE_MAYO, false)) {
+        || InventoryManager.hasItem(UseSkillRequest.CINCHO_DE_MAYO, false)
+        || (KoLCharacter.inLegacyOfLoathing()
+            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_CINCHO_DE_MAYO)
+                || InventoryManager.hasItem(UseSkillRequest.REPLICA_CINCHO_DE_MAYO, false)))) {
       addCinchoDeMayoSkills();
     }
   }
