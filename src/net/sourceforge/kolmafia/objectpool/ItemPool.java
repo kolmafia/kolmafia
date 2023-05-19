@@ -3576,6 +3576,8 @@ public class ItemPool {
   public static final int REPLICA_COTTON_CANDY_COCOON = 11205;
   public static final int REPLICA_SQUAMOUS_POLYP = 11207;
   public static final int REPLICA_ORGAN_GRINDER = 11210;
+  public static final int REPLICA_PATRIOT_SHIELD = 11212;
+  public static final int REPLICA_PLASTIC_VAMPIRE_FANGS = 11214;
   public static final int REPLICA_CUTE_ANGEL = 11215;
   public static final int REPLICA_DEACTIVATED_NANOBOTS = 11217;
   public static final int REPLICA_BANDERSNATCH = 11218;

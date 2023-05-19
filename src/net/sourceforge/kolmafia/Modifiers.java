@@ -681,7 +681,7 @@ public class Modifiers {
             BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
         return true;
       }
-      case ItemPool.PATRIOT_SHIELD -> {
+      case ItemPool.PATRIOT_SHIELD, ItemPool.REPLICA_PATRIOT_SHIELD -> {
         // Muscle classes
         this.setDouble(DoubleModifier.HP_REGEN_MIN, 0.0);
         this.setDouble(DoubleModifier.HP_REGEN_MAX, 0.0);

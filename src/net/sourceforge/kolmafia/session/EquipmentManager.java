@@ -538,9 +538,11 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.SQUEEZE_STRESS_BALL);
         break;
       case ItemPool.PATRIOT_SHIELD:
+      case ItemPool.REPLICA_PATRIOT_SHIELD:
         KoLCharacter.removeAvailableSkill(SkillPool.THROW_SHIELD);
         break;
       case ItemPool.PLASTIC_VAMPIRE_FANGS:
+      case ItemPool.REPLICA_PLASTIC_VAMPIRE_FANGS:
         KoLCharacter.removeAvailableSkill(SkillPool.FEED);
         break;
       case ItemPool.LORD_FLAMEFACES_CLOAK:
@@ -874,9 +876,11 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.SQUEEZE_STRESS_BALL);
         break;
       case ItemPool.PATRIOT_SHIELD:
+      case ItemPool.REPLICA_PATRIOT_SHIELD:
         KoLCharacter.addAvailableSkill(SkillPool.THROW_SHIELD);
         break;
       case ItemPool.PLASTIC_VAMPIRE_FANGS:
+      case ItemPool.REPLICA_PLASTIC_VAMPIRE_FANGS:
         KoLCharacter.addAvailableSkill(SkillPool.FEED);
         break;
       case ItemPool.LORD_FLAMEFACES_CLOAK:
