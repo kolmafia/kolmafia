@@ -446,6 +446,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_BLACK_BOTTLE_ROCKET);
         break;
       case ItemPool.JEWEL_EYED_WIZARD_HAT:
+      case ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT:
         KoLCharacter.removeAvailableSkill(SkillPool.MAGIC_MISSILE);
         break;
       case ItemPool.BAKULA:
@@ -780,6 +781,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_BLACK_BOTTLE_ROCKET);
         break;
       case ItemPool.JEWEL_EYED_WIZARD_HAT:
+      case ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT:
         KoLCharacter.addAvailableSkill(SkillPool.MAGIC_MISSILE);
         break;
       case ItemPool.BAKULA:

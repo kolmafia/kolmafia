@@ -202,6 +202,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       };
 
   public static final AdventureResult WIZARD_HAT = ItemPool.get(ItemPool.JEWEL_EYED_WIZARD_HAT, 1);
+  public static final AdventureResult REPLICA_WIZARD_HAT =
+      ItemPool.get(ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT, 1);
 
   public static final AdventureResult SHAKESPEARES_SISTERS_ACCORDION =
       ItemPool.get(ItemPool.SHAKESPEARES_SISTERS_ACCORDION, 1);
@@ -252,6 +254,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         UseSkillRequest.SOLITAIRE, // -2
         UseSkillRequest.SHAKESPEARES_SISTERS_ACCORDION, // -1 or -2
         UseSkillRequest.WIZARD_HAT, // -1
+        UseSkillRequest.REPLICA_WIZARD_HAT, // -1
         UseSkillRequest.NAVEL_RING, // -1
         UseSkillRequest.WIRE_BRACELET, // -1
         UseSkillRequest.BACON_BRACELET, // -1, discontinued item
