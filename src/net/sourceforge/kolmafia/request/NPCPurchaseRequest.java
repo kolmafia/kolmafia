@@ -32,7 +32,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class NPCPurchaseRequest extends PurchaseRequest {
   private static final List<AdventureResult> DISCOUNT_TROUSERS =
       List.of(
-          ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS), ItemPool.get(ItemPool.DESIGNER_SWEATPANTS));
+          ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS),
+          ItemPool.get(ItemPool.DESIGNER_SWEATPANTS),
+          ItemPool.get(ItemPool.REPLICA_DESIGNER_SWEATPANTS));
   private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
   private static final AdventureResult SUPER_STRUCTURE = EffectPool.get(EffectPool.SUPER_STRUCTURE);
@@ -180,7 +182,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     // Designer sweatpants discount does not apply to the gift shop
     if ("town_giftshop.php".equals(npcStoreId)
-        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+        && (trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS
+            || trousers.getItemId() == ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       return false;
     }
 
@@ -201,7 +204,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     // Designer sweatpants discount does not apply to the gift shop
     if ("town_giftshop.php".equals(npcStoreId)
-        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+        && (trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS
+            || trousers.getItemId() == ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       return null;
     }
 

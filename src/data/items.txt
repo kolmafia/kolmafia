@@ -11234,52 +11234,49 @@
 11206	replica Elvish sunglasses	238031926	elvisshades.gif	accessory	q	0
 11207	replica squamous polyp	554034719	polyp.gif	grow	q	0
 11208
-11209
-11210
-11211
+11209	replica Greatest American Pants	676766688	gapants.gif	pants	q	0
+11210	replica organ grinder	799236688	grinder.gif	grow	q	0
+11211	replica Juju Mojo Mask	154667577	jujumask.gif	accessory	q	0
 11212
-11213
-11214
-11215
-11216
-11217
+11213	replica Libram of Resolutions	238681591	book3.gif	usable	q	0
+11214	replica plastic vampire fangs	635116368	vampirefangs.gif	accessory	q	0
+11215	replica cute angel	237494338	acuteangel.gif	grow	q	0
+11216	replica Camp Scout backpack	444292916	csbackpack.gif	container	q	0
+11217	replica deactivated nanobots	926023282	nanobox.gif	grow	q	0
 11218	replica Apathargic Bandersnatch	551749177	banderlarva.gif	grow	q	0
 11219
 11220
 11221
 11222	shrink-wrapped Cincho de Mayo	539769549	cinchobox.gif	usable	t	0
 11223	Cincho de Mayo	408302806	cincho.gif	accessory		0
-11221
-11222
-11223
 11224
-11225
-11226
-11227
-11228
-11229
-11230
-11231
-11232
-11233
-11234
-11235
-11236
-11237
-11238
-11239
-11240
-11241
-11242
-11243
-11244
-11245
-11246
-11247
-11248
-11249
-11250
-11251
+11225	replica Little Geneticist DNA-Splicing Lab	634830887	genelab.gif	usable	q	0
+11226	replica still grill	476730920	stillgrill.gif	grow	q	0
+11227	replica Crimbo sapling	841170076	crimbosapling.gif	grow	q	0
+11228	replica yellow puck	471956216	yellapuck.gif	grow	q	0
+11229	replica Chateau Mantegna room key	872034228	cmkey.gif	usable	q	0
+11230	replica Deck of Every Card	787594947	deckdeck.gif	usable	q	0
+11231	replica Source terminal	708286296	sourceterminal.gif	usable	q	0
+11232	replica disconnected intergnat	984107064	discognat.gif	grow	q	0
+11233	replica Witchess Set	543568188	chessset.gif	usable	q	0
+11234	replica genie bottle	566475601	gbottle_open.gif	usable	q	0
+11235	replica space planula	586920289	planula.gif	grow	q	0
+11236	replica unpowered Robortender	847270068	robotenderlarva.gif	grow	q	0
+11237	replica Neverending Party invitation envelope	769015106	npartyinv.gif	usable	q	0
+11238	replica January's Garbage Tote	583590420	tote_open.gif	usable	q	0
+11239	replica God Lobster Egg	216572663	godlob_egg.gif	grow	q	0
+11240	replica Fourth of May Cosplay Saber	298790202	may4sword.gif	weapon	q	0
+11241	replica Kramco Sausage-o-Matic&trade;	206349840	saugrinder.gif	offhand	q	0
+11242	replica hewn moon-rune spoon	328774654	runespoon.gif	accessory	q	0
+11243	replica baby camelCalf	321211109	camelcalf.gif	grow	q	0
+11244	replica Powerful Glove	827018705	pglove.gif	accessory	q	0
+11245	replica Cargo Cultist Shorts	745224420	cultistshorts.gif	pants	q	0
+11246	replica industrial fire extinguisher	329547639	exting2.gif	weapon	q	0
+11247	replica miniature crystal ball	234868225	famball.gif	familiar	q	0
+11248	replica emotion chip	119606318	emochip_clean.gif	usable	q	0
+11249	replica Jurassic Parka	268200397	jparka7.gif	shirt	q	0
+11250	replica grey gosling	716923546	greygosling.gif	grow	q	0
+11251	replica designer sweatpants	152213403	sweats.gif	pants	q	0
 11252	replica plastic pumpkin bucket	127836800	punkin.gif	familiar	q	0
 11253	replica Ten Dollars	751729776	dinobuck.gif	usable	t	0
 11254	replica Cincho de Mayo	512079504	cincho.gif	accessory	q	0

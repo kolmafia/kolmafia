@@ -3569,7 +3569,27 @@ public class ItemPool {
   public static final int SHADOW_PILL = 11184;
   public static final int SHADOW_NEEDLE = 11185;
   public static final int CURSED_MONKEY_PAW = 11186;
+  public static final int REPLICA_DARK_JILL = 11190;
+  public static final int REPLICA_HAND_TURKEY = 11191;
+  public static final int REPLICA_CRIMBO_ELF = 11192;
+  public static final int REPLICA_BUGBEAR_SHAMAN = 11193;
+  public static final int REPLICA_COTTON_CANDY_COCOON = 11205;
+  public static final int REPLICA_SQUAMOUS_POLYP = 11207;
+  public static final int REPLICA_ORGAN_GRINDER = 11210;
+  public static final int REPLICA_CUTE_ANGEL = 11215;
+  public static final int REPLICA_DEACTIVATED_NANOBOTS = 11217;
+  public static final int REPLICA_BANDERSNATCH = 11218;
   public static final int CINCHO_DE_MAYO = 11223;
+  public static final int REPLICA_STILL_GRILL = 11226;
+  public static final int REPLICA_YELLOW_PUCK = 11228;
+  public static final int REPLICA_INTERGNAT = 11232;
+  public static final int REPLICA_SPACE_PLANULA = 11235;
+  public static final int REPLICA_ROBORTENDER = 11236;
+  public static final int REPLICA_GOD_LOBSTER = 11239;
+  public static final int REPLICA_CAMELCALF = 11243;
+  public static final int REPLICA_POWERFUL_GLOVE = 11244;
+  public static final int REPLICA_GREY_GOSLING = 11250;
+  public static final int REPLICA_DESIGNER_SWEATPANTS = 11251;
   public static final int REPLICA_TEN_DOLLARS = 11253;
   public static final int REPLICA_CINCHO_DE_MAYO = 11254;
 

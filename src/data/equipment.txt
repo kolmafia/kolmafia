@@ -647,6 +647,9 @@ Radio Free Pants	150	Mox: 60
 ratskin pajama pants	150	Mox: 50
 red silk skirt	155	Mox: 62
 repaid diaper	200	Mox: 20
+replica Cargo Cultist Shorts	100	none
+replica designer sweatpants	100	none
+replica Greatest American Pants	100	none
 rusty metal greaves	150	Mus: 60
 saffron antaravasaka	100	Mox: 35
 scale-mail underwear	200	Mox: 85
@@ -1469,7 +1472,10 @@ remaindered axe	20	Mus: 0	1-handed club
 remorseless knife	225	Mus: 200	1-handed knife
 repeating crossbow	65	Mox: 17	2-handed crossbow
 replica bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
+replica Fourth of May Cosplay Saber	100	Mus: 0	1-handed saber
 replica haiku katana	100	Mus: 0	1-handed sword
+replica industrial fire extinguisher	100	Mus: 0	1-handed extinguisher
+replica Jurassic Parka	100	none
 revolver	100	Mox: 0	1-handed pistol
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
@@ -2938,7 +2944,12 @@ reinforced furry underpants	30	none
 Retrospecs	100	none
 replica Cincho de Mayo	100	none
 replica Elvish sunglasses	0	none
+replica hewn moon-rune spoon	200	none
+replica Juju Mojo Mask	0	none
+replica Kramco Sausage-o-Matic&trade;	100	none
 replica navel ring of navel gazing	0	none
+replica plastic vampire fangs	0	none
+replica Powerful Glove	0	none
 replica V for Vivala mask	0	none
 ribbon candy ascot	80	Mys: 20
 rickety old unicycle	200	Mox: 200
@@ -3518,6 +3529,7 @@ porcelain pelerine	120	Mus: 40
 protonic accelerator pack	100	none
 rad cloak	10	none
 Rain-Doh red wings	100	none
+replica Camp Scout backpack	0	none
 rubber cape	200	Mys: 85
 saffron uttarasanga	100	Mus: 35
 sea cape	200	Mox: 85

@@ -3284,6 +3284,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.POWERFUL_GLOVE:
+      case ItemPool.REPLICA_POWERFUL_GLOVE:
         InventoryManager.addPowerfulGloveSkills();
         break;
 
@@ -3332,6 +3333,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.DESIGNER_SWEATPANTS:
+      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
         InventoryManager.addDesignerSweatpantsSkills();
         break;
 

@@ -337,8 +337,10 @@ public class ResponseTextParser {
           case ItemPool.COMBAT_LOVERS_LOCKET -> LocketManager.parseLocket(responseText);
           case ItemPool.UNBREAKABLE_UMBRELLA -> ItemDatabase.parseUmbrella(responseText);
           case ItemPool.JUNE_CLEAVER -> ItemDatabase.parseCleaver(responseText);
-          case ItemPool.DESIGNER_SWEATPANTS -> ItemDatabase.parseDesignerSweatpants(responseText);
-          case ItemPool.POWERFUL_GLOVE -> ItemDatabase.parsePowerfulGlove(responseText);
+          case ItemPool.DESIGNER_SWEATPANTS, ItemPool.REPLICA_DESIGNER_SWEATPANTS -> ItemDatabase
+              .parseDesignerSweatpants(responseText);
+          case ItemPool.POWERFUL_GLOVE, ItemPool.REPLICA_POWERFUL_GLOVE -> ItemDatabase
+              .parsePowerfulGlove(responseText);
           case ItemPool.RING -> ItemDatabase.parseRing(responseText);
           case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
           default -> changesFromTimeToTime = false;
