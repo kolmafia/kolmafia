@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -667,11 +668,39 @@ public class Preferences {
   }
 
   private static void loadUserPreferences(String username) {
-    File file =
+    File userPrefsFile =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
-    Preferences.userPropertiesFile = file;
+    File backupFile =
+        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
+    Preferences.userPropertiesFile = userPrefsFile;
 
-    Properties p = Preferences.loadPreferences(file);
+    Properties p = Preferences.loadPreferences(userPrefsFile);
+
+    if (p.size() == 0) {
+      // Something went wrong reading the preferences.
+      if (backupFile.exists()) {
+        System.out.println("Prefs could not be read and backup exists, trying backup...");
+
+        p = Preferences.loadPreferences(backupFile);
+
+        if (p.size() > 0) {
+          try {
+            java.nio.file.Files.copy(
+                backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+          } catch (IOException ex) {
+            System.err.format("I/O Error when copying file");
+          }
+        }
+      }
+    } else {
+      try {
+        java.nio.file.Files.copy(
+            userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException ex) {
+        System.err.format("I/O Error when copying file");
+      }
+    }
     Preferences.userValues.clear();
     Preferences.userEncodedValues.clear();
 
