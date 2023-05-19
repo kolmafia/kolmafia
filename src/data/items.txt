@@ -11280,3 +11280,4 @@
 11252	replica plastic pumpkin bucket	127836800	punkin.gif	familiar	q	0
 11253	replica Ten Dollars	751729776	dinobuck.gif	usable	t	0
 11254	replica Cincho de Mayo	512079504	cincho.gif	accessory	q	0
+11255	Thwaitgold splendor beetle statuette	854195085	thwaitsplendor.gif	none		0
