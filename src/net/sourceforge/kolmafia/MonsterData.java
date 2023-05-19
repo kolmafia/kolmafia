@@ -1808,7 +1808,7 @@ public class MonsterData extends AdventureResult {
                     drop -> {
                       double rawRate = drop.chance();
                       String rate =
-                          (rawRate > 1 || rawRate == 0)
+                          (rawRate >= 1 || rawRate == 0)
                               ? String.valueOf((int) rawRate)
                               : String.valueOf(rawRate);
                       return drop.item().getName()
