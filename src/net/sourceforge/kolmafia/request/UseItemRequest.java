@@ -6034,6 +6034,8 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.REPLICA_COTTON_CANDY_COCOON:
       case ItemPool.REPLICA_SQUAMOUS_POLYP:
       case ItemPool.REPLICA_ORGAN_GRINDER:
+      case ItemPool.REPLICA_CUTE_ANGEL:
+      case ItemPool.REPLICA_DEACTIVATED_NANOBOTS:
       case ItemPool.REPLICA_BANDERSNATCH:
       case ItemPool.REPLICA_STILL_GRILL:
       case ItemPool.REPLICA_YELLOW_PUCK:

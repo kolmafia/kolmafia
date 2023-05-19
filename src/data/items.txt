@@ -11238,11 +11238,11 @@
 11210	replica organ grinder	799236688	grinder.gif	grow	q	0
 11211	replica Juju Mojo Mask	154667577	jujumask.gif	accessory	q	0
 11212
-11213
+11213	replica Libram of Resolutions	238681591	book3.gif	usable	q	0
 11214	replica plastic vampire fangs	635116368	vampirefangs.gif	accessory	q	0
-11215
+11215	replica cute angel	237494338	acuteangel.gif	grow	q	0
 11216	replica Camp Scout backpack	444292916	csbackpack.gif	container	q	0
-11217
+11217	replica deactivated nanobots	926023282	nanobox.gif	grow	q	0
 11218	replica Apathargic Bandersnatch	551749177	banderlarva.gif	grow	q	0
 11219
 11220
