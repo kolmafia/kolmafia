@@ -141,8 +141,8 @@ public class ModifierExpressionTest {
   @ParameterizedTest
   @CsvSource({
     "animal, 1",
-    "eyes, 1",
-    "flying, 0",
+    "haseyes, 1",
+    "flies, 0",
   })
   public void canDetectFamiliarAttribute(String attr, String expected) {
     var cleanups = withFamiliar(FamiliarPool.ADORABLE_SEAL_LARVA);
