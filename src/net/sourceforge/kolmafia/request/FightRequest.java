@@ -10647,7 +10647,7 @@ public class FightRequest extends GenericRequest {
         || KoLCharacter.hasEquipped(ItemPool.GREAT_PANTS)
         || (KoLCharacter.inLegacyOfLoathing()
             && (KoLCharacter.hasEquipped(ItemPool.REPLICA_NAVEL_RING)
-                || KoLCharacter.hasEquipped(ItemPool.GREAT_PANTS)))) {
+                || KoLCharacter.hasEquipped(ItemPool.REPLICA_GREAT_PANTS)))) {
       int navelRunaways = Preferences.getInteger("_navelRunaways");
 
       return navelRunaways < 3 ? 100 : navelRunaways < 6 ? 80 : navelRunaways < 9 ? 50 : 20;
