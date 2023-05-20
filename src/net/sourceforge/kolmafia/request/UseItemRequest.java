@@ -6026,28 +6026,6 @@ public class UseItemRequest extends GenericRequest {
         // You already wrote a course on the certificate with totally indelible-for-a-day marker.
         Preferences.setBoolean("_sitCourseCompleted", true);
         return;
-
-      case ItemPool.REPLICA_DARK_JILL:
-      case ItemPool.REPLICA_HAND_TURKEY:
-      case ItemPool.REPLICA_CRIMBO_ELF:
-      case ItemPool.REPLICA_BUGBEAR_SHAMAN:
-      case ItemPool.REPLICA_COTTON_CANDY_COCOON:
-      case ItemPool.REPLICA_SQUAMOUS_POLYP:
-      case ItemPool.REPLICA_ORGAN_GRINDER:
-      case ItemPool.REPLICA_CUTE_ANGEL:
-      case ItemPool.REPLICA_DEACTIVATED_NANOBOTS:
-      case ItemPool.REPLICA_BANDERSNATCH:
-      case ItemPool.REPLICA_STILL_GRILL:
-      case ItemPool.REPLICA_YELLOW_PUCK:
-      case ItemPool.REPLICA_INTERGNAT:
-      case ItemPool.REPLICA_SPACE_PLANULA:
-      case ItemPool.REPLICA_ROBORTENDER:
-      case ItemPool.REPLICA_GOD_LOBSTER:
-      case ItemPool.REPLICA_CAMELCALF:
-      case ItemPool.REPLICA_GREY_GOSLING:
-        // we've got a new familiar, but it wasn't added the normal way
-        RequestThread.postRequest(new FamiliarRequest());
-        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
