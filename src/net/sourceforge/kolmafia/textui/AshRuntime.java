@@ -17,12 +17,14 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.Evaluable;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.parsetree.VarArgType;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -272,6 +274,13 @@ public class AshRuntime extends AbstractRuntime {
     for (VariableReference param : targetFunction.getVariableReferences()) {
       type = param.getType();
 
+      // ASH allows a function to have a single vararg parameter as the
+      // last one. If we have found such a parameter, the user wants to
+      // accumulate all remaining arguments into an array.
+      if (type instanceof VarArgType) {
+        break;
+      }
+
       String name = param.getName();
       Value value = null;
 
@@ -305,6 +314,30 @@ public class AshRuntime extends AbstractRuntime {
       }
 
       values[++index] = value;
+    }
+
+    if (type instanceof VarArgType vat) {
+      // The type of the array is the datatype of the vararg
+      Type paramType = vat.getDataType();
+
+      // Collect the values
+      List<Value> varValues = new ArrayList<>();
+
+      for (int i = index; parameters != null && i < parameters.length; ++i) {
+        Object input = parameters[i];
+        try {
+          varValues.add(DataTypes.coerceValue(paramType, input, false));
+        } catch (Exception e) {
+          RequestLogger.printLine("Bad " + paramType.toString() + " value: \"" + input + "\"");
+          return false;
+        }
+      }
+
+      // Put them into an Array value
+      Value value = new ArrayValue(vat, varValues);
+
+      values[++index] = value;
+      return true;
     }
 
     if (index < args && type != null) {
