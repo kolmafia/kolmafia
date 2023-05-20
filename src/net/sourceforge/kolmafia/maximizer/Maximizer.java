@@ -1018,7 +1018,9 @@ public class Maximizer {
           usesRemaining = Preferences.getBoolean(buffPref) ? 0 : 1;
         } else if (cmd.startsWith("gap ")) {
           AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
-          if (InventoryManager.getAccessibleCount(ItemPool.GREAT_PANTS) == 0) {
+          if (InventoryManager.getAccessibleCount(ItemPool.GREAT_PANTS) == 0
+              && (!KoLCharacter.inLegacyOfLoathing()
+                  || InventoryManager.getAccessibleCount(ItemPool.REPLICA_GREAT_PANTS) == 0)) {
             if (includeAll) {
               text = "(acquire and equip Greatest American Pants for " + name + ")";
               cmd = "";

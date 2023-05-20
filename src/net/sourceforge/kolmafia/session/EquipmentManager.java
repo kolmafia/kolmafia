@@ -439,6 +439,7 @@ public class EquipmentManager {
 
     switch (item.getItemId()) {
       case ItemPool.BOTTLE_ROCKET:
+      case ItemPool.REPLICA_BOTTLE_ROCKET:
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_RED_BOTTLE_ROCKET);
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_BLUE_BOTTLE_ROCKET);
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_ORANGE_BOTTLE_ROCKET);
@@ -446,6 +447,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_BLACK_BOTTLE_ROCKET);
         break;
       case ItemPool.JEWEL_EYED_WIZARD_HAT:
+      case ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT:
         KoLCharacter.removeAvailableSkill(SkillPool.MAGIC_MISSILE);
         break;
       case ItemPool.BAKULA:
@@ -455,6 +457,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.SHAKE_HANDS);
         break;
       case ItemPool.V_MASK:
+      case ItemPool.REPLICA_V_MASK:
         KoLCharacter.removeAvailableSkill(SkillPool.CREEPY_GRIN);
         break;
       case ItemPool.MAYFLY_BAIT_NECKLACE:
@@ -475,9 +478,11 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.PUT_DOWN_ROOTS);
         break;
       case ItemPool.FIREWORKS:
+      case ItemPool.REPLICA_FIREWORKS:
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_OFF_A_ROMAN_CANDLE);
         break;
       case ItemPool.HAIKU_KATANA:
+      case ItemPool.REPLICA_HAIKU_KATANA:
         KoLCharacter.removeAvailableSkill(SkillPool.SPRING_RAINDROP_ATTACK);
         KoLCharacter.removeAvailableSkill(SkillPool.SUMMER_SIESTA);
         KoLCharacter.removeAvailableSkill(SkillPool.FALLING_LEAF_WHIRLWIND);
@@ -493,6 +498,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.STRANGLE);
         break;
       case ItemPool.ELVISH_SUNGLASSES:
+      case ItemPool.REPLICA_ELVISH_SUNGLASSES:
         KoLCharacter.removeAvailableSkill(SkillPool.PLAY_AN_ACCORDION_SOLO);
         KoLCharacter.removeAvailableSkill(SkillPool.PLAY_A_GUITAR_SOLO);
         KoLCharacter.removeAvailableSkill(SkillPool.PLAY_A_DRUM_SOLO);
@@ -538,9 +544,11 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.SQUEEZE_STRESS_BALL);
         break;
       case ItemPool.PATRIOT_SHIELD:
+      case ItemPool.REPLICA_PATRIOT_SHIELD:
         KoLCharacter.removeAvailableSkill(SkillPool.THROW_SHIELD);
         break;
       case ItemPool.PLASTIC_VAMPIRE_FANGS:
+      case ItemPool.REPLICA_PLASTIC_VAMPIRE_FANGS:
         KoLCharacter.removeAvailableSkill(SkillPool.FEED);
         break;
       case ItemPool.LORD_FLAMEFACES_CLOAK:
@@ -771,6 +779,7 @@ public class EquipmentManager {
 
     switch (id) {
       case ItemPool.BOTTLE_ROCKET:
+      case ItemPool.REPLICA_BOTTLE_ROCKET:
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_RED_BOTTLE_ROCKET);
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_BLUE_BOTTLE_ROCKET);
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_ORANGE_BOTTLE_ROCKET);
@@ -778,6 +787,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_BLACK_BOTTLE_ROCKET);
         break;
       case ItemPool.JEWEL_EYED_WIZARD_HAT:
+      case ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT:
         KoLCharacter.addAvailableSkill(SkillPool.MAGIC_MISSILE);
         break;
       case ItemPool.BAKULA:
@@ -787,6 +797,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.SHAKE_HANDS);
         break;
       case ItemPool.V_MASK:
+      case ItemPool.REPLICA_V_MASK:
         KoLCharacter.addAvailableSkill(SkillPool.CREEPY_GRIN);
         break;
       case ItemPool.MAYFLY_BAIT_NECKLACE:
@@ -809,9 +820,11 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.PUT_DOWN_ROOTS);
         break;
       case ItemPool.FIREWORKS:
+      case ItemPool.REPLICA_FIREWORKS:
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_OFF_A_ROMAN_CANDLE);
         break;
       case ItemPool.HAIKU_KATANA:
+      case ItemPool.REPLICA_HAIKU_KATANA:
         KoLCharacter.addAvailableSkill(SkillPool.SPRING_RAINDROP_ATTACK);
         KoLCharacter.addAvailableSkill(SkillPool.SUMMER_SIESTA);
         KoLCharacter.addAvailableSkill(SkillPool.FALLING_LEAF_WHIRLWIND);
@@ -829,6 +842,7 @@ public class EquipmentManager {
         }
         break;
       case ItemPool.ELVISH_SUNGLASSES:
+      case ItemPool.REPLICA_ELVISH_SUNGLASSES:
         KoLCharacter.addAvailableSkill(SkillPool.PLAY_AN_ACCORDION_SOLO);
         KoLCharacter.addAvailableSkill(SkillPool.PLAY_A_GUITAR_SOLO);
         KoLCharacter.addAvailableSkill(SkillPool.PLAY_A_DRUM_SOLO);
@@ -874,9 +888,11 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.SQUEEZE_STRESS_BALL);
         break;
       case ItemPool.PATRIOT_SHIELD:
+      case ItemPool.REPLICA_PATRIOT_SHIELD:
         KoLCharacter.addAvailableSkill(SkillPool.THROW_SHIELD);
         break;
       case ItemPool.PLASTIC_VAMPIRE_FANGS:
+      case ItemPool.REPLICA_PLASTIC_VAMPIRE_FANGS:
         KoLCharacter.addAvailableSkill(SkillPool.FEED);
         break;
       case ItemPool.LORD_FLAMEFACES_CLOAK:

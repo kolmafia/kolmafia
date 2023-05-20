@@ -202,6 +202,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       };
 
   public static final AdventureResult WIZARD_HAT = ItemPool.get(ItemPool.JEWEL_EYED_WIZARD_HAT, 1);
+  public static final AdventureResult REPLICA_WIZARD_HAT =
+      ItemPool.get(ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT, 1);
 
   public static final AdventureResult SHAKESPEARES_SISTERS_ACCORDION =
       ItemPool.get(ItemPool.SHAKESPEARES_SISTERS_ACCORDION, 1);
@@ -218,6 +220,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       ItemPool.get(ItemPool.STAINLESS_STEEL_SOLITAIRE, 1);
 
   public static final AdventureResult NAVEL_RING = ItemPool.get(ItemPool.NAVEL_RING, 1);
+  public static final AdventureResult REPLICA_NAVEL_RING =
+      ItemPool.get(ItemPool.REPLICA_NAVEL_RING, 1);
   public static final AdventureResult WIRE_BRACELET =
       ItemPool.get(ItemPool.WOVEN_BALING_WIRE_BRACELETS, 1);
   public static final AdventureResult BACON_BRACELET =
@@ -229,6 +233,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   public static final AdventureResult SAUCEBLOB_BELT = ItemPool.get(ItemPool.SAUCEBLOB_BELT, 1);
   public static final AdventureResult JUJU_MOJO_MASK = ItemPool.get(ItemPool.JUJU_MOJO_MASK, 1);
+  public static final AdventureResult REPLICA_JUJU_MOJO_MASK =
+      ItemPool.get(ItemPool.REPLICA_JUJU_MOJO_MASK, 1);
 
   public static final AdventureResult POWERFUL_GLOVE = ItemPool.get(ItemPool.POWERFUL_GLOVE, 1);
   public static final AdventureResult REPLICA_POWERFUL_GLOVE =
@@ -252,7 +258,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         UseSkillRequest.SOLITAIRE, // -2
         UseSkillRequest.SHAKESPEARES_SISTERS_ACCORDION, // -1 or -2
         UseSkillRequest.WIZARD_HAT, // -1
+        UseSkillRequest.REPLICA_WIZARD_HAT, // -1
         UseSkillRequest.NAVEL_RING, // -1
+        UseSkillRequest.REPLICA_NAVEL_RING, // -1
         UseSkillRequest.WIRE_BRACELET, // -1
         UseSkillRequest.BACON_BRACELET, // -1, discontinued item
         UseSkillRequest.BACON_EARRING, // -1
@@ -260,6 +268,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         UseSkillRequest.EMBLEM_AKGYXOTH, // -1
         // Removing the following may lose a buff
         UseSkillRequest.JUJU_MOJO_MASK,
+        UseSkillRequest.REPLICA_JUJU_MOJO_MASK,
         // Removing the following may make some skills impossible to case
         UseSkillRequest.POWERFUL_GLOVE,
         UseSkillRequest.REPLICA_POWERFUL_GLOVE,

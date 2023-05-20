@@ -862,7 +862,10 @@ public class SkillDatabase {
     }
 
     if (KoLConstants.inventory.contains(UseSkillRequest.WIZARD_HAT)
-        || KoLCharacter.hasEquipped(UseSkillRequest.WIZARD_HAT, Slot.HAT)) {
+        || KoLCharacter.hasEquipped(UseSkillRequest.WIZARD_HAT, Slot.HAT)
+        || (KoLCharacter.inLegacyOfLoathing()
+            && (KoLConstants.inventory.contains(UseSkillRequest.REPLICA_WIZARD_HAT)
+                || KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_WIZARD_HAT, Slot.HAT)))) {
       actualDuration += 5;
     }
 

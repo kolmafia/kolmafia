@@ -1408,8 +1408,14 @@ Terrence Poindexter (true form)	2297	aosol_horror.gif	BOSS NOCOPY Atk: 300 Def: 
 
 # Legacy of Loathing
 
-Classic Boss Bat	2316	bossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)	replica Mr. Accessory (c100)
-Weirdly Scrawny Knob Goblin King	2317	BOSS NOCOPY goblinking.gif	Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin Article: The	replica Mr. Accessory (c100)
+Classic Boss Bat	2316	bossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)	replica Mr. Accessory (n100)
+Weirdly Scrawny Knob Goblin King	2317	goblinking.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin Article: The	replica Mr. Accessory (n100)
+Orignial Bonerdagon	2318	bonedragon.gif	BOSS NOCOPY Atk: 90 Def: 81 HP: 120 Init: 90 P: undead ED: spooky Article: The	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)	replica Mr. Accessory (n100)
+Jr. Awkwarj	2319	lilawkward.gif	BOSS NOCOPY Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude	Drowsy Sword (n100)	Staff of Fats (n100)	replica Mr. Accessory (n100)
+Little Lord Spookyraven	2320	lilspooky.gif	BOSS NOCOPY Atk: 165 Def: 148 HP: 200 Init: 10000 P: undead ED: spooky	Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)	replica Mr. Accessory (n100)
+Protector Spectre Candidate	2321	hoboghost.gif	BOSS NOCOPY Atk: 164 Def: 151 HP: 100 Init: 30 P: undead Article: a	ancient amulet (n100)	spectre scepter (n100)	replica Mr. Accessory (n100)
+Flock of Groars?	2322	ayetiswarm.gif	BOSS NOCOPY Atk: 120 Def: 108 HP: 250 Init: 50 P: beast E: cold Article: a	Groar's fur (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	replica Mr. Accessory (n100)
+The Boy	2324	liltheman.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude ED: sleaze EA: hot EA: cold	really dense meat stack (100)	replica Mr. Accessory (n100)
 
 # Items of the Month
 
