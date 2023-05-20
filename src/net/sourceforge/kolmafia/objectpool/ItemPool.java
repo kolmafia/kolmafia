@@ -3574,9 +3574,17 @@ public class ItemPool {
   public static final int REPLICA_CRIMBO_ELF = 11192;
   public static final int REPLICA_BUGBEAR_SHAMAN = 11193;
   public static final int REPLICA_JEWEL_EYED_WIZARD_HAT = 11199;
+  public static final int REPLICA_BOTTLE_ROCKET = 11200;
+  public static final int REPLICA_NAVEL_RING = 11201;
+  public static final int REPLICA_V_MASK = 11202;
+  public static final int REPLICA_HAIKU_KATANA = 11203;
+  public static final int REPLICA_FIREWORKS = 11204;
   public static final int REPLICA_COTTON_CANDY_COCOON = 11205;
+  public static final int REPLICA_ELVISH_SUNGLASSES = 11206;
   public static final int REPLICA_SQUAMOUS_POLYP = 11207;
+  public static final int REPLICA_GREAT_PANTS = 11209;
   public static final int REPLICA_ORGAN_GRINDER = 11210;
+  public static final int REPLICA_JUJU_MOJO_MASK = 11211;
   public static final int REPLICA_PATRIOT_SHIELD = 11212;
   public static final int REPLICA_PLASTIC_VAMPIRE_FANGS = 11214;
   public static final int REPLICA_CUTE_ANGEL = 11215;
