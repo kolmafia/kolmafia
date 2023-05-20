@@ -3584,6 +3584,7 @@ public class ItemPool {
   public static final int REPLICA_BANDERSNATCH = 11218;
   public static final int CINCHO_DE_MAYO = 11223;
   public static final int REPLICA_STILL_GRILL = 11226;
+  public static final int REPLICA_CRIMBO_SAPLING = 11227;
   public static final int REPLICA_YELLOW_PUCK = 11228;
   public static final int REPLICA_INTERGNAT = 11232;
   public static final int REPLICA_SPACE_PLANULA = 11235;

@@ -357,6 +357,7 @@ public class FamiliarDatabase {
         case ItemPool.REPLICA_DEACTIVATED_NANOBOTS -> familiarId = FamiliarPool.NANORHINO;
         case ItemPool.REPLICA_BANDERSNATCH -> familiarId = FamiliarPool.BANDER;
         case ItemPool.REPLICA_STILL_GRILL -> familiarId = FamiliarPool.GALLOPING_GRILL;
+        case ItemPool.REPLICA_CRIMBO_SAPLING -> familiarId = FamiliarPool.CRIMBO_SHRUB;
         case ItemPool.REPLICA_YELLOW_PUCK -> familiarId = FamiliarPool.PUCK_MAN;
         case ItemPool.REPLICA_INTERGNAT -> familiarId = FamiliarPool.INTERGNAT;
         case ItemPool.REPLICA_SPACE_PLANULA -> familiarId = FamiliarPool.SPACE_JELLYFISH;
