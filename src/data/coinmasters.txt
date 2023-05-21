@@ -1081,3 +1081,64 @@ Fancy Dan the Cocktail Man	buy	1	Marltini	ROW1291
 Fancy Dan the Cocktail Man	buy	1	Mysterious Stranger	ROW1293
 Fancy Dan the Cocktail Man	buy	1	Strong, Silent Type	ROW1292
 Fancy Dan the Cocktail Man	buy	1	Velvet Veil	ROW1290
+
+# Replica Mr. Store
+
+Replica Mr. Store	buy	1	replica crimbo elfling	ROW1321
+Replica Mr. Store	buy	1	replica Dark Jill-O-Lantern	ROW1319
+Replica Mr. Store	buy	1	replica hand turkey outline	ROW1320
+Replica Mr. Store	buy	1	replica miniature gravy-covered maypole	ROW1323
+Replica Mr. Store	buy	1	replica pygmy bugbear shaman	ROW1322
+Replica Mr. Store	buy	1	replica wax lips	ROW1324
+Replica Mr. Store	buy	1	replica jewel-eyed wizard hat	ROW1328
+Replica Mr. Store	buy	1	replica plastic pumpkin bucket	ROW1326
+Replica Mr. Store	buy	1	replica Tome of Snowcone Summoning	ROW1325
+Replica Mr. Store	buy	1	replica bottle-rocket crossbow	ROW1329
+Replica Mr. Store	buy	1	replica navel ring of navel gazing	ROW1330
+Replica Mr. Store	buy	1	replica V for Vivala mask	ROW1331
+Replica Mr. Store	buy	1	replica cotton candy cocoon	ROW1334
+Replica Mr. Store	buy	1	replica haiku katana	ROW1342
+Replica Mr. Store	buy	1	replica little box of fireworks	ROW1332
+Replica Mr. Store	buy	1	replica Apathargic Bandersnatch	ROW1343
+Replica Mr. Store	buy	1	replica Elvish sunglasses	ROW1335
+Replica Mr. Store	buy	1	replica squamous polyp	ROW1344
+Replica Mr. Store	buy	1	replica Greatest American Pants	ROW1336
+Replica Mr. Store	buy	1	replica Juju Mojo Mask	ROW1338
+Replica Mr. Store	buy	1	replica organ grinder	ROW1337
+Replica Mr. Store	buy	1	replica cute angel	ROW1339
+Replica Mr. Store	buy	1	replica Operation Patriot Shield	ROW1345
+Replica Mr. Store	buy	1	replica plastic vampire fangs	ROW1346
+Replica Mr. Store	buy	1	replica Camp Scout backpack	ROW1340
+Replica Mr. Store	buy	1	replica deactivated nanobots	ROW1341
+Replica Mr. Store	buy	1	replica Libram of Resolutions	ROW1333
+Replica Mr. Store	buy	1	replica Order of the Green Thumb Order Form	ROW1349
+Replica Mr. Store	buy	1	replica over-the-shoulder Folder Holder	ROW1348
+Replica Mr. Store	buy	1	replica Smith's Tome	ROW1347
+Replica Mr. Store	buy	1	replica Crimbo sapling	ROW1352
+Replica Mr. Store	buy	1	replica Little Geneticist DNA-Splicing Lab	ROW1350
+Replica Mr. Store	buy	1	replica still grill	ROW1351
+Replica Mr. Store	buy	1	replica Chateau Mantegna room key	ROW1354
+Replica Mr. Store	buy	1	replica Deck of Every Card	ROW1355
+Replica Mr. Store	buy	1	replica yellow puck	ROW1353
+Replica Mr. Store	buy	1	replica disconnected intergnat	ROW1357
+Replica Mr. Store	buy	1	replica Source terminal	ROW1356
+Replica Mr. Store	buy	1	replica Witchess Set	ROW1358
+Replica Mr. Store	buy	1	replica genie bottle	ROW1359
+Replica Mr. Store	buy	1	replica space planula	ROW1360
+Replica Mr. Store	buy	1	replica unpowered Robortender	ROW1361
+Replica Mr. Store	buy	1	replica God Lobster Egg	ROW1364
+Replica Mr. Store	buy	1	replica January's Garbage Tote	ROW1363
+Replica Mr. Store	buy	1	replica Neverending Party invitation envelope	ROW1362
+Replica Mr. Store	buy	1	replica Fourth of May Cosplay Saber	ROW1366
+Replica Mr. Store	buy	1	replica hewn moon-rune spoon	ROW1367
+Replica Mr. Store	buy	1	replica Kramco Sausage-o-Matic&trade;	ROW1365
+Replica Mr. Store	buy	1	replica baby camelCalf	ROW1368
+Replica Mr. Store	buy	1	replica Cargo Cultist Shorts	ROW1370
+Replica Mr. Store	buy	1	replica Powerful Glove	ROW1369
+Replica Mr. Store	buy	1	replica emotion chip	ROW1371
+Replica Mr. Store	buy	1	replica industrial fire extinguisher	ROW1373
+Replica Mr. Store	buy	1	replica miniature crystal ball	ROW1372
+Replica Mr. Store	buy	1	replica designer sweatpants	ROW1376
+Replica Mr. Store	buy	1	replica grey gosling	ROW1375
+Replica Mr. Store	buy	1	replica Jurassic Parka	ROW1374
+Replica Mr. Store	buy	1	replica Cincho de Mayo	ROW1377

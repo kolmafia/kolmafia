@@ -1432,6 +1432,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  private class ReplicaMrStorePanel extends CoinmasterPanel {
+    public ReplicaMrStorePanel() {
+      super(ReplicaMrStoreRequest.REPLICA_MR_STORE);
+    }
+  }
+
   public abstract class CoinmasterPanel extends JPanel implements Listener {
     protected CoinmasterData data;
     protected boolean storageInTitle = false;
