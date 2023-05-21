@@ -105,6 +105,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel pokemporiumPanel = null;
   private CoinmasterPanel precinctPanel = null;
   private CoinmasterPanel quartersmasterPanel = null;
+  private CoinmasterPanel replicaMrStorePanel = null;
   private CoinmasterPanel rubeePanel = null;
   private CoinmasterPanel shakeShopPanel = null;
   private CoinmasterPanel shoeRepairPanel = null;
