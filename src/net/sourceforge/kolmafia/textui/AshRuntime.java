@@ -265,7 +265,7 @@ public class AshRuntime extends AbstractRuntime {
     return result;
   }
 
-  private boolean requestUserParams(
+  boolean requestUserParams(
       final Function targetFunction, final Object[] parameters, Object[] values) {
     int args = parameters == null ? 0 : parameters.length;
     Type type = null;
