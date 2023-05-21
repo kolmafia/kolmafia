@@ -246,6 +246,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(dinostaurPanel);
     this.selectorPanel.addPanel(dinostaurPanel.getPanelSelector(), panel);
 
+    panel = new JPanel(new BorderLayout());
+    replicaMrStorePanel = new ReplicaMrStorePanel();
+    panel.add(replicaMrStorePanel);
+    this.selectorPanel.addPanel(replicaMrStorePanel.getPanelSelector(), panel);
+
     // Aftercore coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Aftercore");
