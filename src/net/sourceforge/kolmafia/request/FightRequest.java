@@ -10643,8 +10643,11 @@ public class FightRequest extends GenericRequest {
           > Preferences.getInteger("_banderRunaways")) {
         return 100;
       }
-    } else if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.NAVEL_RING, 1))
-        || KoLCharacter.hasEquipped(ItemPool.get(ItemPool.GREAT_PANTS, 1))) {
+    } else if (KoLCharacter.hasEquipped(ItemPool.NAVEL_RING)
+        || KoLCharacter.hasEquipped(ItemPool.GREAT_PANTS)
+        || (KoLCharacter.inLegacyOfLoathing()
+            && (KoLCharacter.hasEquipped(ItemPool.REPLICA_NAVEL_RING)
+                || KoLCharacter.hasEquipped(ItemPool.REPLICA_GREAT_PANTS)))) {
       int navelRunaways = Preferences.getInteger("_navelRunaways");
 
       return navelRunaways < 3 ? 100 : navelRunaways < 6 ? 80 : navelRunaways < 9 ? 50 : 20;

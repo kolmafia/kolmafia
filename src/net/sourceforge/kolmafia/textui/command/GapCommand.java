@@ -23,7 +23,8 @@ public class GapCommand extends AbstractCommand {
       return;
     }
 
-    if (!KoLCharacter.hasEquipped(ItemPool.get(ItemPool.GREAT_PANTS, 1))) {
+    if (!KoLCharacter.hasEquipped(ItemPool.GREAT_PANTS)
+        && !KoLCharacter.hasEquipped(ItemPool.REPLICA_GREAT_PANTS)) {
       KoLmafia.updateDisplay("You need to equip your superpants first.");
       return;
     }

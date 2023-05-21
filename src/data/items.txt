@@ -8583,11 +8583,11 @@
 8555	a ten-percent bonus	869271245	percent.gif	usable	q	0	some ten-percent boni
 8556	Thwaitgold termite statuette	301131366	thwaittermite.gif	none		0
 8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	5
-8558	Wickers bar	951050553	wickerbar.gif	potion, multiple	t	0
+8558	Wickers bar	951050553	wickerbar.gif	potion, multiple, candy2	t	0
 8559	bakelite-covered bacon	113363781	bakebacon.gif	potion, multiple	t	0	pieces of bakelite-covered bacon
-8560	Aerheads	911385583	aerhead.gif	potion, multiple	t	0	bags of Aerheads
-8561	Wrotz	259155467	wrotz.gif	potion, multiple	t	0	Wrotz candies
-8562	Gabarbar	620139553	gabarbar.gif	potion, multiple	t	0
+8560	Aerheads	911385583	aerhead.gif	potion, multiple, candy2	t	0	bags of Aerheads
+8561	Wrotz	259155467	wrotz.gif	potion, multiple, candy2	t	0	Wrotz candies
+8562	Gabarbar	620139553	gabarbar.gif	potion, multiple, candy2	t	0
 8563	fiberglass insulation	592342530	fibercandy.gif	potion, multiple	t	0	pieces of fiberglass insulation
 8564	shrine to the Barrel god	671094436	crate.gif	usable	t	0	shrines to the Barrel god
 8565	barrel lid	134230040	barrelshield.gif	offhand	q	0
@@ -11237,7 +11237,7 @@
 11209	replica Greatest American Pants	676766688	gapants.gif	pants	q	0
 11210	replica organ grinder	799236688	grinder.gif	grow	q	0
 11211	replica Juju Mojo Mask	154667577	jujumask.gif	accessory	q	0
-11212
+11212	replica Operation Patriot Shield	373189880	opshield.gif	offhand	q	0
 11213	replica Libram of Resolutions	238681591	book3.gif	usable	q	0
 11214	replica plastic vampire fangs	635116368	vampirefangs.gif	accessory	q	0
 11215	replica cute angel	237494338	acuteangel.gif	grow	q	0
@@ -11280,3 +11280,4 @@
 11252	replica plastic pumpkin bucket	127836800	punkin.gif	familiar	q	0
 11253	replica Ten Dollars	751729776	dinobuck.gif	usable	t	0
 11254	replica Cincho de Mayo	512079504	cincho.gif	accessory	q	0
+11255	Thwaitgold splendor beetle statuette	854195085	thwaitsplendor.gif	none		0

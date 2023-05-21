@@ -57,9 +57,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DailyDeedsPanel extends Box implements Listener {
   public static final AdventureResult GREAT_PANTS = ItemPool.get(ItemPool.GREAT_PANTS, 1);
+  public static final AdventureResult REPLICA_GREAT_PANTS =
+      ItemPool.get(ItemPool.REPLICA_GREAT_PANTS, 1);
   public static final AdventureResult INFERNAL_SEAL_CLAW =
       ItemPool.get(ItemPool.INFERNAL_SEAL_CLAW, 1);
   public static final AdventureResult NAVEL_RING = ItemPool.get(ItemPool.NAVEL_RING, 1);
+  public static final AdventureResult REPLICA_NAVEL_RING =
+      ItemPool.get(ItemPool.REPLICA_NAVEL_RING, 1);
   public static final AdventureResult SNOW_SUIT = ItemPool.get(ItemPool.SNOW_SUIT, 1);
   public static final AdventureResult STAFF_OF_LIFE = ItemPool.get(ItemPool.STAFF_OF_LIFE, 1);
   public static final AdventureResult STAFF_OF_CHEESE = ItemPool.get(ItemPool.STAFF_OF_CHEESE, 1);
@@ -2627,11 +2631,17 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean hbo = boots != null && boots.canEquip();
       boolean run = Preferences.getInteger("_navelRunaways") > 0;
       boolean gp =
-          InventoryManager.getCount(ItemPool.GREAT_PANTS) > 0
-              || KoLCharacter.hasEquipped(DailyDeedsPanel.GREAT_PANTS);
+          KoLCharacter.hasEquipped(ItemPool.GREAT_PANTS)
+              || InventoryManager.getCount(ItemPool.GREAT_PANTS) > 0
+              || (KoLCharacter.inLegacyOfLoathing()
+                  && (KoLCharacter.hasEquipped(ItemPool.REPLICA_GREAT_PANTS)
+                      || InventoryManager.getCount(ItemPool.REPLICA_GREAT_PANTS) > 0));
       boolean nr =
-          InventoryManager.getCount(ItemPool.NAVEL_RING) > 0
-              || KoLCharacter.hasEquipped(DailyDeedsPanel.NAVEL_RING);
+          KoLCharacter.hasEquipped(ItemPool.NAVEL_RING)
+              || InventoryManager.getCount(ItemPool.NAVEL_RING) > 0
+              || (KoLCharacter.inLegacyOfLoathing()
+                  && (KoLCharacter.hasEquipped(ItemPool.REPLICA_NAVEL_RING)
+                      || InventoryManager.getCount(ItemPool.REPLICA_NAVEL_RING) > 0));
       boolean pp = InventoryManager.getCount(ItemPool.PEPPERMINT_PARASOL) > 0;
       boolean pl = KoLCharacter.hasSkill(SkillPool.PEEL_OUT);
       boolean big = KoLCharacter.inBigcore();
@@ -2852,19 +2862,22 @@ public class DailyDeedsPanel extends Box implements Listener {
       FamiliarData riftlet = KoLCharacter.usableFamiliar(FamiliarPool.RIFTLET);
       boolean hf3 = riftlet != null && riftlet.canEquip();
       boolean hf4 =
-          InventoryManager.getCount(ItemPool.TIME_HELMET) > 0
-              || Preferences.getInteger("_timeHelmetAdv") > 0
-              || KoLCharacter.hasEquipped(ItemPool.TIME_HELMET);
+          Preferences.getInteger("_timeHelmetAdv") > 0
+              || KoLCharacter.hasEquipped(ItemPool.TIME_HELMET)
+              || InventoryManager.getCount(ItemPool.TIME_HELMET) > 0;
       boolean hf5 =
-          InventoryManager.getCount(ItemPool.V_MASK) > 0
-              || Preferences.getInteger("_vmaskAdv") > 0
-              || KoLCharacter.hasEquipped(ItemPool.V_MASK);
+          Preferences.getInteger("_vmaskAdv") > 0
+              || KoLCharacter.hasEquipped(ItemPool.V_MASK)
+              || InventoryManager.getCount(ItemPool.V_MASK) > 0
+              || (KoLCharacter.inLegacyOfLoathing()
+                  && (KoLCharacter.hasEquipped(ItemPool.REPLICA_V_MASK)
+                      || InventoryManager.getCount(ItemPool.REPLICA_V_MASK) > 0));
       FamiliarData gnome = KoLCharacter.usableFamiliar(FamiliarPool.REAGNIMATED_GNOME);
       boolean hf6 = gnome != null && gnome.canEquip();
       boolean hf7 =
-          InventoryManager.getCount(ItemPool.MAFIA_THUMB_RING) > 0
-              || Preferences.getInteger("_mafiaThumbRingAdvs") > 0
-              || KoLCharacter.hasEquipped(ItemPool.MAFIA_THUMB_RING);
+          Preferences.getInteger("_mafiaThumbRingAdvs") > 0
+              || KoLCharacter.hasEquipped(ItemPool.MAFIA_THUMB_RING)
+              || InventoryManager.getCount(ItemPool.MAFIA_THUMB_RING) > 0;
       String text = "Advs: ";
       if (hf1) text = text + Preferences.getInteger("_gibbererAdv") + " gibberer";
       if (hf1 && (hf2 || hf3 || hf4 || hf5 || hf6 || hf7)) text = text + ", ";

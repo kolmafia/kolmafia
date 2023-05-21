@@ -1449,7 +1449,9 @@ public class RequestEditorKit extends HTMLEditorKit {
         MonsterDrop drop = items.get(i);
         double rawRate = drop.chance();
         String rate =
-            (rawRate > 1 || rawRate == 0) ? String.valueOf((int) rawRate) : String.valueOf(rawRate);
+            (rawRate >= 1 || rawRate == 0)
+                ? String.valueOf((int) rawRate)
+                : String.valueOf(rawRate);
         monsterData.append(drop.item().getName());
         switch (drop.flag()) {
           case PICKPOCKET_ONLY -> {

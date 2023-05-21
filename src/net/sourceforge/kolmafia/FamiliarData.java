@@ -157,6 +157,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public static final AdventureResult DOPPELGANGER =
       ItemPool.get(ItemPool.FAMILIAR_DOPPELGANGER, 1);
   public static final AdventureResult FIREWORKS = ItemPool.get(ItemPool.FIREWORKS, 1);
+  public static final AdventureResult REPLICA_FIREWORKS =
+      ItemPool.get(ItemPool.REPLICA_FIREWORKS, 1);
   public static final AdventureResult FLOWER_BOUQUET = ItemPool.get(ItemPool.MAYFLOWER_BOUQUET, 1);
   public static final AdventureResult ITTAH_BITTAH_HOOKAH =
       ItemPool.get(ItemPool.ITTAH_BITTAH_HOOKAH, 1);
@@ -1479,6 +1481,12 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
     if (FamiliarData.availableItem(FamiliarData.FIREWORKS, steal)) {
       return FamiliarData.FIREWORKS;
+    }
+
+    if (KoLCharacter.inLegacyOfLoathing()) {
+      if (FamiliarData.availableItem(FamiliarData.REPLICA_FIREWORKS, steal)) {
+        return FamiliarData.REPLICA_FIREWORKS;
+      }
     }
 
     if (FamiliarData.availableItem(FamiliarData.FLOWER_BOUQUET, steal)) {

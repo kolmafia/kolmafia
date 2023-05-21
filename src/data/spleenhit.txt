@@ -22,7 +22,7 @@ alien animal goo	1	1	crappy	0	0	0	0	40 Celestial Body (+100% weapon damage, +20%
 alien plant goo	1	1	crappy	0	0	0	0	40 Celestial Mind (+100% spell damage, +20% spell critical hit chance)
 alien protein powder	3	4	awesome	8-10	0	0	0
 ancient medicinal herbs	1	1	awesome	0	0	0	0	50 Ancient Fortitude (+100% HP, +90-100 HP Regen, Impervious to negative effects)
-ancient pills	1	2	crappy	0	0	0	0	Restore 30-40 MP
+ancient pills	1	2	crappy	0	8-10	18-20	8-10	Restore 30-40 MP
 ancient protein powder	1	1	good	0	12-14	0	0
 antimatter wad	2	3	awesome	5-7	-20-30	-20-30	-20-30
 antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
@@ -33,7 +33,7 @@ astronaut ice-cream	1	7	EPIC	8-10	0	0	0
 autumn breeze	1	1		0	30-50	30-50	30-50	50 Delighted by Autumn (+100% all stats)
 bakelite bits	3	12	awesome	0	1000-2000	1000-2000	1000-2000
 beastly paste	4	4	good	5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)
-beefy pill	1	4	decent	0	0	0	0	30 Beefy (+10 DR, +1 all res)
+beefy pill	1	4	decent	0	22-24	12-14	12-14	30 Beefy (+10 DR, +1 all res)
 beggin' cologne	1	1	good	0	0	0	0	60 Eau d' Clochard (+100% meat drop)
 bit-o-cactus	1	1	good	0	0	10-12	0
 black paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-stortionary Tactics (+50% meat drop)
@@ -78,7 +78,7 @@ enchanted leopard-print barbell	5	13	EPIC	15-25	50-100	50-100	50-100
 energized spores	1	1		0	0	0	0	40 Energized (+100 initiative)
 epic cluster	1	20	EPIC	6	170-200	170-200	170-200
 epic wad	1	15	EPIC	5	140-150	140-150	140-150
-excitement pill	1	5	decent	0	0	0	0	Get random effect
+excitement pill	1	5	decent	0	11-13	11-13	24-26	Get random effect
 expensive cigar	1	7	decent	0	40-50	0	0
 extra-strength strongness elixir	1	3	good	0	8-10	0	0
 Extrovermectin&trade;	2	1	crappy	0	0	0	0	Gain skill that gives 3 copies of a monster
@@ -90,7 +90,7 @@ flagstone flagments	3	12		0	0	0	0	Unspaded
 Fleshazole&trade;	2	1	crappy	0	0	0	0	Gain around level * 1000 meat (max 11500)
 fried air	1	1		0	0	0	0	30 Well-Ventilated (+15 mus, +15 mys, +15 mox)
 fruity pebble	1	1		0	0	0	0	30 All Rainbow-y (+10 prismatic damage and spell damage, +2 prismatic resistance)
-furry pill	1	3	decent	0	0	0	0	Remove negative effect, Restores 40-50 HP
+furry pill	1	3	decent	0	22-24	9-11	9-11	Remove negative effect, Restores 40-50 HP
 gabardine smithereens	2	12	good	0	0	0	0	Unspaded
 gaseous gravy	1	1	EPIC	0	0	0	0	50 Gettin' the Goods (+100% Item drop)
 giant moxie weed	1	2	decent	0	0	0	5-7
@@ -225,8 +225,8 @@ ultimate wad	15	13	EPIC	0	0	0	0	+1 level
 Unconscious Collective Dream Jar	4	1	good	5-10	20-30	20-30	20-30
 velour veneer	2	12	EPIC	0	0	0	0	Unspaded
 vial of humanoid growth hormone	1	1	awesome	0	0	0	0	30 HGH-charged (+50% mus experience)
-vibrating mushroom	2	4	decent	0	0	0	0	30 Weird Vibrations (+25 init)
-vitamin G pill	1	6	good	0	0	0	0	5 Riboflavin' (Pickin' Pockets like a G)
+vibrating mushroom	2	4	decent	3-4	0	0	0	30 Weird Vibrations (+25 init)
+vitamin G pill	1	6	good	0	20-25	20-25	20-25	5 Riboflavin' (Pickin' Pockets like a G)
 voodoo snuff	3	13	good	8-10	0	100-150	0
 watered-down Red Minotaur	2	1	crappy	0	0	0	0	+1 PvP fight, 5 Water Wings
 wickerbits	2	12	good	0	0	0	0	Unspaded
