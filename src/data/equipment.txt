@@ -2949,6 +2949,7 @@ replica hewn moon-rune spoon	200	none
 replica Juju Mojo Mask	0	none
 replica Kramco Sausage-o-Matic&trade;	100	none
 replica navel ring of navel gazing	0	none
+replica over-the-shoulder Folder Holder	0	none
 replica plastic vampire fangs	0	none
 replica Powerful Glove	0	none
 replica V for Vivala mask	0	none
