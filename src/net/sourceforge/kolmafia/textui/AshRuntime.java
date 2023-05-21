@@ -325,12 +325,16 @@ public class AshRuntime extends AbstractRuntime {
 
       for (int i = index; parameters != null && i < parameters.length; ++i) {
         Object input = parameters[i];
+        Value value = null;
         try {
-          varValues.add(DataTypes.coerceValue(paramType, input, false));
+          value = DataTypes.coerceValue(paramType, input, false);
         } catch (Exception e) {
+        }
+        if (value == null) {
           RequestLogger.printLine("Bad " + paramType.toString() + " value: \"" + input + "\"");
           return false;
         }
+        varValues.add(value);
       }
 
       // Put them into an Array value

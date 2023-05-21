@@ -1,9 +1,13 @@
 package net.sourceforge.kolmafia.textui;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.List;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
@@ -143,6 +147,30 @@ public class AshRuntimeTest {
         assertEquals("foo", content[0].contentString);
         assertEquals("bar", content[1].contentString);
         assertEquals("baz", content[2].contentString);
+      }
+
+      // void main(int... args)
+      Function main3 =
+          new UserDefinedFunction(
+              "main",
+              DataTypes.VOID_TYPE,
+              List.of(makeVariableReference(new VarArgType(DataTypes.ITEM_TYPE), "args")),
+              null);
+
+      @Test
+      void noParameterAndBogusOptionalParameter() {
+        Object[] parameters = {"bogus"};
+        Object[] values = new Object[2];
+        values[0] = runtime;
+        ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+        try (PrintStream out = new PrintStream(ostream, true)) {
+          RequestLogger.openCustom(out);
+          boolean result = runtime.requestUserParams(main3, parameters, values);
+          String output = ostream.toString().trim();
+          RequestLogger.closeCustom();
+          assertFalse(result);
+          assertEquals("Bad item value: \"bogus\"", output);
+        }
       }
     }
   }
