@@ -1378,6 +1378,7 @@ public class ResultProcessor {
         // Speakeasy currencies
       case ItemPool.MILK_CAP:
       case ItemPool.DRINK_CHIT:
+      case ItemPool.REPLICA_MR_ACCESSORY:
         NamedListenerRegistry.fireChange("(coinmaster)");
         break;
 

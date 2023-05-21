@@ -105,6 +105,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel pokemporiumPanel = null;
   private CoinmasterPanel precinctPanel = null;
   private CoinmasterPanel quartersmasterPanel = null;
+  private CoinmasterPanel replicaMrStorePanel = null;
   private CoinmasterPanel rubeePanel = null;
   private CoinmasterPanel shakeShopPanel = null;
   private CoinmasterPanel shoeRepairPanel = null;
@@ -245,6 +246,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     dinostaurPanel = new DinostaurPanel();
     panel.add(dinostaurPanel);
     this.selectorPanel.addPanel(dinostaurPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    replicaMrStorePanel = new ReplicaMrStorePanel();
+    panel.add(replicaMrStorePanel);
+    this.selectorPanel.addPanel(replicaMrStorePanel.getPanelSelector(), panel);
 
     // Aftercore coinmasters
     this.selectorPanel.addSeparator();
@@ -1429,6 +1435,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class DinostaurPanel extends CoinmasterPanel {
     public DinostaurPanel() {
       super(DinostaurRequest.DINOSTAUR);
+    }
+  }
+
+  private class ReplicaMrStorePanel extends CoinmasterPanel {
+    public ReplicaMrStorePanel() {
+      super(ReplicaMrStoreRequest.REPLICA_MR_STORE);
     }
   }
 

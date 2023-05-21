@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.PlumberItemRequest;
 import net.sourceforge.kolmafia.request.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.PrecinctRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.RubeeRequest;
 import net.sourceforge.kolmafia.request.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
@@ -140,6 +141,7 @@ public abstract class CoinmasterRegistry {
         PokemporiumRequest.POKEMPORIUM,
         PrecinctRequest.PRECINCT,
         QuartersmasterRequest.FRATBOY,
+        ReplicaMrStoreRequest.REPLICA_MR_STORE,
         RubeeRequest.RUBEE,
         SHAWARMARequest.SHAWARMA,
         ShoeRepairRequest.SHOE_REPAIR,
