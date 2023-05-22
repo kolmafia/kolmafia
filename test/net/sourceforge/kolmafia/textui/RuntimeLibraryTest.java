@@ -847,4 +847,64 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(output, containsString("Returned: " + value));
     }
   }
+
+  @Nested
+  class SplitJoinStrings {
+    String input1 = "line1\\nline2\\nline3";
+    String input2 = "foo bar baz";
+
+    @Test
+    void canSplitOnNewLine() {
+      String input = "string str = \"" + input1 + "\"; split_string(str)";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+              Returned: aggregate string [3]
+              0 => line1
+              1 => line2
+              2 => line3
+              """));
+    }
+
+    @Test
+    void canSplitOnSpace() {
+      String input = "string str = \"" + input2 + "\"; split_string(str, \" \")";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+              Returned: aggregate string [3]
+              0 => foo
+              1 => bar
+              2 => baz
+              """));
+    }
+
+    @Test
+    void canSplitJoinOnNewLine() {
+      String input = "string str = \"" + input1 + "\"; split_string(str).join_strings()";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+              Returned: line1
+              line2
+              line3
+              """));
+    }
+
+    @Test
+    void canSplitJoinOnSpace() {
+      String input =
+          "string str = \"" + input2 + "\"; split_string(str, \" \").join_strings(\" \")";
+      String output = execute(input);
+      assertThat(output, is("""
+              Returned: foo bar baz
+              """));
+    }
+  }
 }
