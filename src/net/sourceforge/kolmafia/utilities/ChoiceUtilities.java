@@ -30,6 +30,8 @@ public class ChoiceUtilities {
     Pattern.compile("value=['\"]?(\\d+)['\"]? name=['\"]?whichchoice['\"]?"),
     Pattern.compile("whichchoice=(\\d+)"),
   };
+  private static final String CHOICE_PHP = "choice.php";
+  public static final String SECRET_CHOICE = "(secret choice)";
 
   private ChoiceUtilities() {}
 
@@ -119,7 +121,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
+      if (!form.contains(CHOICE_PHP)) {
         continue;
       }
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
@@ -134,19 +136,19 @@ public class ChoiceUtilities {
       Matcher textMatcher = TEXT_PATTERN1.matcher(form);
       String text =
           !textMatcher.find()
-              ? "(secret choice)"
+              ? SECRET_CHOICE
               : textMatcher.group(1) != null
                   ? textMatcher.group(1)
                   : textMatcher.group(2) != null
                       ? textMatcher.group(2)
-                      : textMatcher.group(3) != null ? textMatcher.group(3) : "(secret choice)";
+                      : textMatcher.group(3) != null ? textMatcher.group(3) : SECRET_CHOICE;
       rv.put(key, text);
     }
 
     m = LINK_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
+      if (!form.contains(CHOICE_PHP)) {
         continue;
       }
       Matcher optMatcher = OPTION_PATTERN2.matcher(form);
@@ -161,12 +163,12 @@ public class ChoiceUtilities {
       Matcher textMatcher = TEXT_PATTERN2.matcher(form);
       String text =
           !textMatcher.find()
-              ? "(secret choice)"
+              ? SECRET_CHOICE
               : textMatcher.group(1) != null
                   ? textMatcher.group(1)
                   : textMatcher.group(2) != null
                       ? textMatcher.group(2)
-                      : textMatcher.group(3) != null ? textMatcher.group(3) : "(secret choice)";
+                      : textMatcher.group(3) != null ? textMatcher.group(3) : SECRET_CHOICE;
       rv.put(key, text);
     }
 
@@ -243,7 +245,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
+      if (!form.contains(CHOICE_PHP)) {
         continue;
       }
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
@@ -291,7 +293,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
+      if (!form.contains(CHOICE_PHP)) {
         continue;
       }
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
@@ -345,7 +347,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
+      if (!form.contains(CHOICE_PHP)) {
         continue;
       }
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
