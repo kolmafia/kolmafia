@@ -973,6 +973,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof ReplicaMrStoreRequest)
+        && ReplicaMrStoreRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof DinseyCompanyStoreRequest)
         && DinseyCompanyStoreRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;

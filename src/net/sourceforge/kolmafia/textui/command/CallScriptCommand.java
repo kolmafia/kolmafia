@@ -38,12 +38,12 @@ public class CallScriptCommand extends AbstractCommand {
       String[] arguments = null;
 
       parameters = parameters.trim();
+
+      // See if 'parameters' match a script file name in any of the allowed directories.
       List<File> scriptMatches = KoLmafiaCLI.findScriptFile(parameters);
 
-      // If still no script was found, perhaps it's the
-      // secret invocation of the "#x script" that allows a
-      // script to be run multiple times.
-
+      // If no script was found, see if it starts with #x, which specifies a run count.
+      // *** I hate the following code.
       if (scriptMatches.size() == 0) {
         String runCountString = parameters.split(" ")[0];
         boolean hasMultipleRuns = runCountString.endsWith("x");
@@ -65,20 +65,22 @@ public class CallScriptCommand extends AbstractCommand {
         }
       }
 
-      // Maybe the more ambiguous invocation of an ASH script
-      // which does not use parentheses?
-
+      // If still no script was found, see if the script has arguments.
+      // *** File names can have spaces. The following code assumes that
+      // *** the first space separates the filename from the arguments.
       if (scriptMatches.size() == 0) {
         int spaceIndex = parameters.indexOf(" ");
         if (spaceIndex != -1) {
           String argumentString = parameters.substring(spaceIndex + 1).trim();
           if (argumentString.startsWith("(") && argumentString.endsWith(")")) {
+            // Split (arg, arg, ...) into a list of arguments
             argumentString = argumentString.substring(1, argumentString.length() - 1);
             arguments = argumentString.split(",");
             for (int i = 0; i < arguments.length; i++) {
               arguments[i] = arguments[i].trim();
             }
           } else {
+            // Without parentheses, the parameters are a single string
             arguments = new String[] {argumentString};
           }
 
@@ -202,7 +204,7 @@ public class CallScriptCommand extends AbstractCommand {
       } else {
         if (arguments != null) {
           KoLmafia.updateDisplay(
-              MafiaState.ERROR, "You can only specify arguments for an ASH script");
+              MafiaState.ERROR, "You can only specify arguments for an ASH or JS script");
           return;
         }
 

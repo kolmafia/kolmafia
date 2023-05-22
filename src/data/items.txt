@@ -11244,9 +11244,9 @@
 11216	replica Camp Scout backpack	444292916	csbackpack.gif	container	q	0
 11217	replica deactivated nanobots	926023282	nanobox.gif	grow	q	0
 11218	replica Apathargic Bandersnatch	551749177	banderlarva.gif	grow	q	0
-11219
-11220
-11221
+11219	replica Smith's Tome	485569257	book4.gif	usable	q	0
+11220	replica over-the-shoulder Folder Holder	427735258	folderholder2.gif	accessory	q	0
+11221	replica Order of the Green Thumb Order Form	957859985	floristform.gif	usable	q	0
 11222	shrink-wrapped Cincho de Mayo	539769549	cinchobox.gif	usable	t	0
 11223	Cincho de Mayo	408302806	cincho.gif	accessory		0
 11224

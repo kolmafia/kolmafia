@@ -549,7 +549,7 @@ public class KoLmafiaCLI {
         .register("call")
         .register("run")
         .register("exec")
-        .register("exececute")
+        .register("execute")
         .register("load")
         .register("start")
         .register("profile");

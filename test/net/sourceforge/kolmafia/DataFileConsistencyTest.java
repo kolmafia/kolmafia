@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -139,6 +140,24 @@ public class DataFileConsistencyTest {
     for (var name : familiarSpecificEquipment) {
       assertThat(
           String.format("%s is in familiars.txt but not in items.txt", name),
+          ItemDatabase.getItemId(name),
+          greaterThan(0));
+    }
+  }
+
+  @Test
+  public void testCoinmasterBuyables() throws IOException {
+    var buyables = datafileItems("coinmasters.txt", 2, 3);
+
+    Pattern withNum = Pattern.compile("(.*) \\(\\d+\\)");
+
+    for (var name : buyables) {
+      var match = withNum.matcher(name);
+      if (match.find()) {
+        name = match.group(1);
+      }
+      assertThat(
+          String.format("%s is in coinmasters.txt but not in items.txt", name),
           ItemDatabase.getItemId(name),
           greaterThan(0));
     }
