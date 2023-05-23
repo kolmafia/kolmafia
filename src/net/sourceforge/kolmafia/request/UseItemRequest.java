@@ -5148,6 +5148,9 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.CLARA_BELL:
+        if (!Preferences.getBoolean("_claraBellUsed")) {
+          Preferences.setBoolean("noncombatForcerActive", true);
+        }
         Preferences.setBoolean("_claraBellUsed", true);
         return;
 

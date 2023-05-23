@@ -80,6 +80,23 @@ class CharPaneRequestTest {
   }
 
   @Nested
+  class NonCombatForcers {
+    @Test
+    void anyNoncombatForcerSetsFlag() {
+      var cleanups = new Cleanups(withProperty("noncombatForcerActive", false));
+      try (cleanups) {
+        var json =
+            ApiRequest.getJSON(html("request/test_api_status_noncomforcers.json"), "testing");
+        assertThat(json, notNullValue());
+
+        CharPaneRequest.parseStatus(json);
+
+        assertThat("noncombatForcerActive", isSetTo(true));
+      }
+    }
+  }
+
+  @Nested
   class Sweaty {
     @ParameterizedTest
     @CsvSource({

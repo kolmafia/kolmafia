@@ -1961,6 +1961,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       case SkillPool.CINCHO_DISPENSE_SALT_AND_LIME:
         Preferences.increment("cinchoSaltAndLime");
         break;
+
+      case SkillPool.CINCHO_FIESTA_EXIT:
+        Preferences.setBoolean("noncombatForcerActive", true);
+        break;
     }
 
     // Now apply daily limits

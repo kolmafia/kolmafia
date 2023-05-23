@@ -53,6 +53,7 @@ public class PillKeeperCommand extends AbstractCommand {
     } else if (parameters.contains("ele")) {
       choice = 4;
       pilltext = "Thursday - Rainbowolin";
+      Preferences.setBoolean("noncombatForcerActive", true);
     } else if (parameters.contains("sta")) {
       choice = 5;
       pilltext = "Friday - Hulkien";

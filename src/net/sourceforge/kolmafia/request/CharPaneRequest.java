@@ -1591,6 +1591,9 @@ public class CharPaneRequest extends GenericRequest {
     boolean casual = JSON.getInt("casual") == 1;
     KoLCharacter.setCasual(casual);
 
+    var noncombatForcers = JSON.getJSONArray("noncomforcers");
+    Preferences.setBoolean("noncombatForcerActive", noncombatForcers.length() > 0);
+
     // boolean casual = JSON.getInt( "casual" ) == 1;
     int roninLeft = JSON.getInt("roninleft");
 
