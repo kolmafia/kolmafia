@@ -82,7 +82,7 @@ class CharPaneRequestTest {
   @Nested
   class NonCombatForcers {
     @Test
-    void anyNoncombatForcerSetsFlag() {
+    void anyNoncombatForcerSetsFlagInApi() {
       var cleanups = new Cleanups(withProperty("noncombatForcerActive", false));
       try (cleanups) {
         var json =
@@ -92,6 +92,40 @@ class CharPaneRequestTest {
         CharPaneRequest.parseStatus(json);
 
         assertThat("noncombatForcerActive", isSetTo(true));
+      }
+    }
+
+    @Test
+    void absenceOfNoncombatForcerUnsetsFlagInApi() {
+      var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+      try (cleanups) {
+        var json =
+            ApiRequest.getJSON(
+                html("request/test_adventure_crystal_ball_handles_noncombat_api_preadventure.json"),
+                "testing");
+        assertThat(json, notNullValue());
+
+        CharPaneRequest.parseStatus(json);
+
+        assertThat("noncombatForcerActive", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canParseNoncombatModifiersInCharpane() {
+      CharPaneRequest.processResults(
+          html("request/test_parse_charpane_for_noncombat_forcers.html"));
+      assertThat("noncombatForcerActive", isSetTo(true));
+    }
+
+    @Test
+    void canParseAbsenceOfNoncombatModifiersInCharpane() {
+      var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+
+      try (cleanups) {
+        // This one doesn't hav eany noncombat modifiers
+        CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
+        assertThat("noncombatForcerActive", isSetTo(false));
       }
     }
   }
@@ -167,23 +201,6 @@ class CharPaneRequestTest {
         assertThat("commaFamiliar", isSetTo("Homemade Robot"));
         assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(false));
       }
-    }
-  }
-
-  @Test
-  void canParseNoncombatModifiers() {
-    CharPaneRequest.processResults(html("request/test_parse_charpane_for_noncombat_forcers.html"));
-    assertThat("noncombatForcerActive", isSetTo(true));
-  }
-
-  @Test
-  void canParseAbsenceOfNoncombatModifiers() {
-    var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
-
-    try (cleanups) {
-      // This one doesn't hav eany noncombat modifiers
-      CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
-      assertThat("noncombatForcerActive", isSetTo(false));
     }
   }
 }
