@@ -278,7 +278,7 @@ public class CharPaneRequest extends GenericRequest {
 
   public static void checkNoncombatForcers(final String responseText) {
     boolean noncombatForcerActive =
-        responseText.includes("<b><font size=2>Adventure Modifiers:</font></b>");
+        responseText.contains("<b><font size=2>Adventure Modifiers:</font></b>");
     Preferences.setBoolean("noncombatForcerActive", noncombatForcerActive);
   }
 

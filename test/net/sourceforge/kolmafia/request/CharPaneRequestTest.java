@@ -169,4 +169,21 @@ class CharPaneRequestTest {
       }
     }
   }
+
+  @Test
+  void canParseNoncombatModifiers() {
+    CharPaneRequest.processResults(html("request/test_parse_charpane_for_noncombat_forcers.html"));
+    assertThat("noncombatForcerActive", isSetTo(true));
+  }
+
+  @Test
+  void canParseAbsenceOfNoncombatModifiers() {
+    var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+
+    try (cleanups) {
+      // This one doesn't hav eany noncombat modifiers
+      CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
+      assertThat("noncombatForcerActive", isSetTo(false));
+    }
+  }
 }
