@@ -13,9 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
@@ -133,6 +135,12 @@ class PlaceRequestTest {
         PlaceRequest.parseResponse(sotUrl, responseText);
         assertThat(prefName, isSetTo(true));
       }
+    }
+
+    @Test
+    public void validateStrings() {
+      KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
+      assertEquals(AdventureDatabase.getAdventureByName("Hippy Camp"), retVal);
     }
   }
 

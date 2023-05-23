@@ -1,5 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -7,7 +11,9 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -24,6 +30,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class PlaceRequest extends GenericRequest {
   public static final TreeSet<String> places = new TreeSet<>();
   public boolean followRedirects = false;
+
+  private static Map<String, List<Integer>> aliasData = null;
 
   private static final Pattern firstSotVisit =
       Pattern.compile("something over in (.+?) and he'd like");
@@ -329,7 +337,10 @@ public class PlaceRequest extends GenericRequest {
       }
     }
     if (location != null) {
-      Preferences.setString("_sotParcelLocation", location);
+      KoLAdventure candidate = validateLocation(location);
+      if (candidate != null) {
+        Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
+      }
     }
     if (responseText.contains(
         "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
@@ -338,6 +349,49 @@ public class PlaceRequest extends GenericRequest {
     } else if (responseText.contains("He must not have anything else for you to do today.")) {
       Preferences.setBoolean("_sotParcelReturned", true);
     }
+  }
+
+  // visible for testing
+  public static KoLAdventure validateLocation(String location) {
+    KoLAdventure candidate = AdventureDatabase.getAdventureByName(location);
+    if (candidate != null) return candidate;
+    List<Integer> possible = aliasCandidates(location);
+    int count = 0;
+    for (Integer i : possible) {
+      candidate = AdventureDatabase.getAdventure(i);
+      if (candidate.canAdventure()) count++;
+    }
+    if (count != 1) return null;
+    for (Integer i : possible) {
+      candidate = AdventureDatabase.getAdventure(i);
+      if (candidate.canAdventure()) return candidate;
+    }
+    return null;
+  }
+
+  private static List<Integer> aliasCandidates(String locationToCheck) {
+    List<Integer> retVal = new ArrayList<>();
+    if (aliasData == null) {
+      aliasData = new HashMap<>();
+      List<Integer> tempList = new ArrayList<>();
+      tempList.add(AdventurePool.HIPPY_CAMP);
+      tempList.add(AdventurePool.HIPPY_CAMP_DISGUISED);
+      tempList.add(AdventurePool.WARTIME_HIPPY_CAMP);
+      tempList.add(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED);
+      tempList.add(AdventurePool.BOMBED_HIPPY_CAMP);
+      aliasData.put("The Hippy Camp", tempList);
+      tempList = new ArrayList<>();
+      tempList.add(AdventurePool.FRAT_HOUSE);
+      tempList.add(AdventurePool.FRAT_HOUSE_DISGUISED);
+      tempList.add(AdventurePool.WARTIME_FRAT_HOUSE);
+      tempList.add(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED);
+      tempList.add(AdventurePool.BOMBED_FRAT_HOUSE);
+      aliasData.put("The Frat House", tempList);
+    }
+    if (aliasData.containsKey(locationToCheck)) {
+      retVal = aliasData.get(locationToCheck);
+    }
+    return retVal;
   }
 
   public static boolean registerRequest(final String urlString) {
