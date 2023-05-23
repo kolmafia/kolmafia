@@ -76,6 +76,8 @@ public class EquipmentManager {
   public static final AdventureResult CROWN_OF_THRONES = ItemPool.get(ItemPool.HATSEAT, 1);
   public static final AdventureResult BUDDY_BJORN = ItemPool.get(ItemPool.BUDDY_BJORN, 1);
   public static final AdventureResult FOLDER_HOLDER = ItemPool.get(ItemPool.FOLDER_HOLDER, 1);
+  public static final AdventureResult REPLICA_FOLDER_HOLDER =
+      ItemPool.get(ItemPool.REPLICA_FOLDER_HOLDER, 1);
   public static final AdventureResult COWBOY_BOOTS = ItemPool.get(ItemPool.COWBOY_BOOTS, 1);
 
   static {

@@ -29,7 +29,8 @@ public class TicketCounterRequest extends CoinMasterRequest {
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
-      case ItemPool.FOLDER_14 -> KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER);
+      case ItemPool.FOLDER_14 -> KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER)
+          || KoLCharacter.hasEquipped(EquipmentManager.REPLICA_FOLDER_HOLDER);
       case ItemPool.SINISTER_DEMON_MASK,
           ItemPool.CHAMPION_BELT,
           ItemPool.SPACE_TRIP_HEADPHONES,

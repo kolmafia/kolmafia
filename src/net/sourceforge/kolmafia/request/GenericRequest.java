@@ -2755,6 +2755,7 @@ public class GenericRequest implements Runnable {
 
       case ItemPool.GENIE_BOTTLE:
       case ItemPool.POCKET_WISH:
+      case ItemPool.REPLICA_GENIE_BOTTLE:
         // Do not ignore special monsters here. That is handled
         // elsewhere, just for the cases that will be a combat.
 

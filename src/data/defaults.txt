@@ -1165,6 +1165,8 @@ user	promptAboutCrafting	1
 user	puzzleChampBonus	5
 user	pyramidPosition	1
 user	pyramidBombUsed	false
+user	replicaChateauAvailable	false
+user	replicaNeverendingPartyAlways	false
 user	retroCapeSuperhero	vampire
 user	retroCapeWashingInstructions	hold
 user	rockinRobinProgress	25
@@ -1986,6 +1988,9 @@ user	_latteDrinkUsed	false
 user	_latteMonster
 user	_latteRefillsUsed	0
 user	_leafblowerML	1
+user	_legacySnowconeTomeUsed	false
+user	_legacyResolutionLibramUsed	false
+user	_legacySmithsTomeUsed	false
 user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
 user	_licenseToChillUsed	false

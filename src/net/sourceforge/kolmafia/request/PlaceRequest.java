@@ -240,7 +240,9 @@ public class PlaceRequest extends GenericRequest {
       }
       case "mountains" -> {
         if (responseText.contains("chateau")) {
-          Preferences.setBoolean("chateauAvailable", true);
+          if (!KoLCharacter.inLegacyOfLoathing()) {
+            Preferences.setBoolean("chateauAvailable", true);
+          }
         }
         if (responseText.contains("snojo")) {
           Preferences.setBoolean("snojoAvailable", true);
