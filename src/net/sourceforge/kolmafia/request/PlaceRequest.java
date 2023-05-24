@@ -353,20 +353,23 @@ public class PlaceRequest extends GenericRequest {
 
   // visible for testing
   public static KoLAdventure validateLocation(String location) {
+    KoLAdventure aMatch = null;
     KoLAdventure candidate = AdventureDatabase.getAdventureByName(location);
     if (candidate != null) return candidate;
     List<Integer> possible = aliasCandidates(location);
     int count = 0;
     for (Integer i : possible) {
       candidate = AdventureDatabase.getAdventure(i);
-      if (candidate.canAdventure()) count++;
+      if (candidate.canAdventure()) {
+        aMatch = candidate;
+        count++;
+      }
     }
-    if (count != 1) return null;
-    for (Integer i : possible) {
-      candidate = AdventureDatabase.getAdventure(i);
-      if (candidate.canAdventure()) return candidate;
+    if (count != 1) {
+      return null;
+    } else {
+      return aMatch;
     }
-    return null;
   }
 
   /**

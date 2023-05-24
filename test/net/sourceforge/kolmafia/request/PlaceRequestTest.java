@@ -142,10 +142,8 @@ class PlaceRequestTest {
     }
 
     // There are KoL strings that represent a unique location.  The strings can be mapped into a
-    // location
-    // using character status data.   Collectively these tests establish conditions so that each
-    // possible location is
-    // found.
+    // location using character status data.   Collectively these tests establish conditions so
+    // that each possible location is found.
     @Test
     public void itDoesNotMapWithMinimalCharacterData() {
       KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
@@ -153,7 +151,7 @@ class PlaceRequestTest {
     }
 
     @Test
-    public void itDoesMapWithRightConditionsA() {
+    public void checkForMatchWithConditionsA() {
       var cleanups = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()));
       try (cleanups) {
         KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
@@ -162,11 +160,12 @@ class PlaceRequestTest {
     }
 
     @Test
-    public void itDoesMapWithRightConditionB() {
+    public void checkForMatchWithConditionsB() {
       var cleanups =
           new Cleanups(
               withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
-              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, "step1"));
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.STARTED));
+      // Not unique - Hippy Camp or Wartime Hippy Camp
       try (cleanups) {
         KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.WARTIME_HIPPY_CAMP), retVal);
@@ -174,7 +173,20 @@ class PlaceRequestTest {
     }
 
     @Test
-    public void itDoesMapWithRightConditionsC() {
+    public void checkForMatchWithConditionsC() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, "step1"));
+      // Not unique - Hippy Camp or Wartime Hippy Camp I don't understand Quest Steps
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.WARTIME_HIPPY_CAMP), retVal);
+      }
+    }
+
+    @Test
+    public void checkForMatchWithConditionsD() {
       var cleanups =
           new Cleanups(
               withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
@@ -183,6 +195,19 @@ class PlaceRequestTest {
       try (cleanups) {
         KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.HIPPY_CAMP), retVal);
+      }
+    }
+
+    @Test
+    public void checkForMatchWithConditionsE() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
+              withProperty("sideDefeated", "hippies"),
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.BOMBED_HIPPY_CAMP), retVal);
       }
     }
   }
