@@ -365,4 +365,16 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @ParameterizedTest
+  @CsvSource({"3, true", "5, false"})
+  void sneakisolForcesNC(String decision, String propertyValue) {
+    var cleanups =
+        new Cleanups(
+            withProperty("noncombatForcerActive", false),
+            withPostChoice2(1395, Integer.parseInt(decision), "day's worth of pills"));
+    try (cleanups) {
+      assertThat("noncombatForcerActive", isSetTo(Boolean.parseBoolean(propertyValue)));
+    }
+  }
 }
