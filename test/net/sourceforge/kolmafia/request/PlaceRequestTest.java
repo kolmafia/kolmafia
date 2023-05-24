@@ -4,10 +4,12 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -16,9 +18,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -137,10 +141,49 @@ class PlaceRequestTest {
       }
     }
 
+    // There are KoL strings that represent a unique location.  The strings can be mapped into a
+    // location
+    // using character status data.   Collectively these tests establish conditions so that each
+    // possible location is
+    // found.
     @Test
-    public void validateStrings() {
+    public void itDoesNotMapWithMinimalCharacterData() {
       KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
-      assertEquals(AdventureDatabase.getAdventureByName("Hippy Camp"), retVal);
+      assertNull(retVal);
+    }
+
+    @Test
+    public void itDoesMapWithRightConditionsA() {
+      var cleanups = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()));
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.HIPPY_CAMP), retVal);
+      }
+    }
+
+    @Test
+    public void itDoesMapWithRightConditionB() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, "step1"));
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.WARTIME_HIPPY_CAMP), retVal);
+      }
+    }
+
+    @Test
+    public void itDoesMapWithRightConditionsC() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
+              withProperty("sideDefeated", "fratboys"),
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.HIPPY_CAMP), retVal);
+      }
     }
   }
 

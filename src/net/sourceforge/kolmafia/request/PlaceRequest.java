@@ -369,6 +369,13 @@ public class PlaceRequest extends GenericRequest {
     return null;
   }
 
+  /**
+   * Maps a location from KoL to a list of KoLmafia locations that might be the same place. At
+   * present the mapping is hardwired in this code which is not optimal but does work.
+   *
+   * @param locationToCheck - string from KoL that is expected to be a valid location
+   * @return null or a list of KoLmafia locations which might be the KolMafia name of the input.
+   */
   private static List<Integer> aliasCandidates(String locationToCheck) {
     List<Integer> retVal = new ArrayList<>();
     if (aliasData == null) {
