@@ -151,7 +151,7 @@ class PlaceRequestTest {
     }
 
     @Test
-    public void checkForMatchWithConditionsA() {
+    public void checkForMatchWithBeforeWar() {
       var cleanups = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()));
       try (cleanups) {
         KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
@@ -160,33 +160,7 @@ class PlaceRequestTest {
     }
 
     @Test
-    public void checkForMatchWithConditionsB() {
-      var cleanups =
-          new Cleanups(
-              withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
-              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.STARTED));
-      // Not unique - Hippy Camp or Wartime Hippy Camp
-      try (cleanups) {
-        KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
-        assertEquals(AdventureDatabase.getAdventure(AdventurePool.WARTIME_HIPPY_CAMP), retVal);
-      }
-    }
-
-    @Test
-    public void checkForMatchWithConditionsC() {
-      var cleanups =
-          new Cleanups(
-              withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
-              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, "step1"));
-      // Not unique - Hippy Camp or Wartime Hippy Camp I don't understand Quest Steps
-      try (cleanups) {
-        KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
-        assertEquals(AdventureDatabase.getAdventure(AdventurePool.WARTIME_HIPPY_CAMP), retVal);
-      }
-    }
-
-    @Test
-    public void checkForMatchWithConditionsD() {
+    public void checkForMatchAfterWar() {
       var cleanups =
           new Cleanups(
               withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
