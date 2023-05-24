@@ -141,9 +141,6 @@ class PlaceRequestTest {
       }
     }
 
-    // There are KoL strings that represent a unique location.  The strings can be mapped into a
-    // location using character status data.   Collectively these tests establish conditions so
-    // that each possible location is found.
     @Test
     public void itDoesNotMapWithMinimalCharacterData() {
       KoLAdventure retVal = PlaceRequest.validateLocation("The Hippy Camp");
