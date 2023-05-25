@@ -368,7 +368,7 @@ public class PlaceRequest extends GenericRequest {
   }
 
   // visible for testing
-  public static KoLAdventure validateLocation(String location) {
+  protected static KoLAdventure validateLocation(String location) {
     KoLAdventure aMatch = null;
     KoLAdventure candidate = AdventureDatabase.getAdventureByName(location);
     if (candidate != null) return candidate;
@@ -381,26 +381,13 @@ public class PlaceRequest extends GenericRequest {
         count++;
       }
     }
-    if (count != 1) {
-      return null;
-    } else {
-      return aMatch;
-    }
+    return (count == 1) ? aMatch : null;
   }
 
-  /**
-   * Maps a location from KoL to a list of KoLmafia locations that might be the same place. At
-   * present the mapping is hardwired in this code which is not optimal but does work.
-   *
-   * @param locationToCheck - string from KoL that is expected to be a valid location
-   * @return null or a list of KoLmafia locations which might be the KolMafia name of the input.
-   */
   private static List<Integer> aliasCandidates(String locationToCheck) {
-    List<Integer> retVal = new ArrayList<>();
-    if (nameAliases.containsKey(locationToCheck)) {
-      retVal = nameAliases.get(locationToCheck);
-    }
-    return retVal;
+    return nameAliases.containsKey(locationToCheck)
+        ? nameAliases.get(locationToCheck)
+        : new ArrayList<>();
   }
 
   public static boolean registerRequest(final String urlString) {
