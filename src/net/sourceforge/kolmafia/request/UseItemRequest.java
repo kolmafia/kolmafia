@@ -5148,6 +5148,11 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.CLARA_BELL:
+        // To make tests easier, this is the longest contiguous block without commas
+        if (responseText.contains(
+            "your stomach drops and your ears pop as you are suddenly plunged into a horrifyingly dark and blurry version of the world you once knew")) {
+          Preferences.setBoolean("noncombatForcerActive", true);
+        }
         Preferences.setBoolean("_claraBellUsed", true);
         return;
 
