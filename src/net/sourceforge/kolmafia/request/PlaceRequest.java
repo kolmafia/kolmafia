@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -31,7 +30,7 @@ public class PlaceRequest extends GenericRequest {
   public static final TreeSet<String> places = new TreeSet<>();
   public boolean followRedirects = false;
 
-  private static Map<String, List<Integer>> aliasData = null;
+  private static Map<String, List<Integer>> nameAliases = null;
 
   private static final Pattern firstSotVisit =
       Pattern.compile("something over in (.+?) and he'd like");
@@ -381,25 +380,28 @@ public class PlaceRequest extends GenericRequest {
    */
   private static List<Integer> aliasCandidates(String locationToCheck) {
     List<Integer> retVal = new ArrayList<>();
-    if (aliasData == null) {
-      aliasData = new HashMap<>();
-      List<Integer> tempList = new ArrayList<>();
-      tempList.add(AdventurePool.HIPPY_CAMP);
-      tempList.add(AdventurePool.HIPPY_CAMP_DISGUISED);
-      tempList.add(AdventurePool.WARTIME_HIPPY_CAMP);
-      tempList.add(AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED);
-      tempList.add(AdventurePool.BOMBED_HIPPY_CAMP);
-      aliasData.put("The Hippy Camp", tempList);
-      tempList = new ArrayList<>();
-      tempList.add(AdventurePool.FRAT_HOUSE);
-      tempList.add(AdventurePool.FRAT_HOUSE_DISGUISED);
-      tempList.add(AdventurePool.WARTIME_FRAT_HOUSE);
-      tempList.add(AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED);
-      tempList.add(AdventurePool.BOMBED_FRAT_HOUSE);
-      aliasData.put("The Frat House", tempList);
+    if (nameAliases == null) {
+      nameAliases =
+          Map.ofEntries(
+              Map.entry(
+                  "The Hippy Camp",
+                  List.of(
+                      AdventurePool.HIPPY_CAMP,
+                      AdventurePool.HIPPY_CAMP_DISGUISED,
+                      AdventurePool.WARTIME_HIPPY_CAMP,
+                      AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED,
+                      AdventurePool.BOMBED_HIPPY_CAMP)),
+              Map.entry(
+                  "The Frat House",
+                  List.of(
+                      AdventurePool.FRAT_HOUSE,
+                      AdventurePool.FRAT_HOUSE_DISGUISED,
+                      AdventurePool.WARTIME_FRAT_HOUSE,
+                      AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED,
+                      AdventurePool.BOMBED_FRAT_HOUSE)));
     }
-    if (aliasData.containsKey(locationToCheck)) {
-      retVal = aliasData.get(locationToCheck);
+    if (nameAliases.containsKey(locationToCheck)) {
+      retVal = nameAliases.get(locationToCheck);
     }
     return retVal;
   }
