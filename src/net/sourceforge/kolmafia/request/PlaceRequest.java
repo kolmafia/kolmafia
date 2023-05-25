@@ -372,22 +372,17 @@ public class PlaceRequest extends GenericRequest {
     KoLAdventure aMatch = null;
     KoLAdventure candidate = AdventureDatabase.getAdventureByName(location);
     if (candidate != null) return candidate;
-    List<Integer> possible = aliasCandidates(location);
+    List<Integer> possible = nameAliases.getOrDefault(location, new ArrayList<>());
     int count = 0;
     for (Integer i : possible) {
       candidate = AdventureDatabase.getAdventure(i);
       if (candidate.canAdventure()) {
         aMatch = candidate;
         count++;
+        if (count > 1) return null;
       }
     }
     return (count == 1) ? aMatch : null;
-  }
-
-  private static List<Integer> aliasCandidates(String locationToCheck) {
-    return nameAliases.containsKey(locationToCheck)
-        ? nameAliases.get(locationToCheck)
-        : new ArrayList<>();
   }
 
   public static boolean registerRequest(final String urlString) {
