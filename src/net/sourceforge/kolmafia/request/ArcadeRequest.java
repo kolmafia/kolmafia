@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ArcadeRequest extends GenericRequest {
@@ -98,9 +97,6 @@ public class ArcadeRequest extends GenericRequest {
     if (action.equals("arcade_plumber")) {
       // We visited Jackass Plumber for the day
       Preferences.setBoolean("_defectiveTokenChecked", true);
-      if (responseText.contains("defective Game Grid token")) {
-        InputFieldUtilities.alert("You found a defective Game Grid token!");
-      }
       return;
     }
   }
