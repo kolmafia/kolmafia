@@ -983,6 +983,9 @@ public class EatItemRequest extends UseItemRequest {
       case ItemPool.PIZZA_OF_LEGEND -> Preferences.setBoolean("pizzaOfLegendEaten", true);
       case ItemPool.CALZONE_OF_LEGEND -> Preferences.setBoolean("calzoneOfLegendEaten", true);
       case ItemPool.DEEP_DISH_OF_LEGEND -> Preferences.setBoolean("deepDishOfLegendEaten", true);
+      case ItemPool.STENCH_TOAST -> Preferences.setBoolean("noncombatForcerActive", true);
+      case ItemPool.HOT_TOAST -> Preferences.increment("_hotJellyUses");
+      case ItemPool.SPOOKY_TOAST -> Preferences.increment("_spookyJellyUses");
     }
   }
 

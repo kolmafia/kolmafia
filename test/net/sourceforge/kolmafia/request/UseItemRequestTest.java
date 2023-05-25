@@ -826,4 +826,19 @@ class UseItemRequestTest {
       }
     }
   }
+
+  @ParameterizedTest
+  @CsvSource({
+    "your stomach drops and your ears pop as you are suddenly plunged into a horrifyingly dark and blurry version of the world you once knew, true",
+    "You're gonna need a full night's sleep before you ring that thing again., false"
+  })
+  void clarasBellSetsNCForcerFlag(String responseText, String result) {
+    var cleanups = withProperty("noncombatForcerActive", false);
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.CLARA_BELL);
+      req.responseText = responseText;
+      req.processResponse();
+      assertThat("noncombatForcerActive", isSetTo(Boolean.parseBoolean(result)));
+    }
+  }
 }

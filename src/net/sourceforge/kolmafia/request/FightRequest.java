@@ -10167,6 +10167,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.LAUNCH_SPIKOLODON_SPIKES:
         if (responseText.contains("The spikolodon spikes both")) {
+          Preferences.setBoolean("noncombatForcerActive", true);
           skillSuccess = true;
         }
         break;
