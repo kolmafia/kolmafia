@@ -1988,9 +1988,6 @@ user	_latteDrinkUsed	false
 user	_latteMonster
 user	_latteRefillsUsed	0
 user	_leafblowerML	1
-user	_legacySnowconeTomeUsed	false
-user	_legacyResolutionLibramUsed	false
-user	_legacySmithsTomeUsed	false
 user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
 user	_licenseToChillUsed	false
@@ -2128,6 +2125,9 @@ user	_raveStealCount	0
 user	_redwoodRainStickUsed	false
 user	_reflexHammerUsed	0
 user	_relativityMonster	false
+user	_replicaSnowconeTomeUsed	false
+user	_replicaResolutionLibramUsed	false
+user	_replicaSmithsTomeUsed	false
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
 user	_resolutionRareSummons	0

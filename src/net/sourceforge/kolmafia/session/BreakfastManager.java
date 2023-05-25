@@ -106,7 +106,7 @@ public class BreakfastManager {
           BreakfastManager::collectSeaJelly,
           BreakfastManager::harvestBatteries,
           BreakfastManager::useBookOfEverySkill,
-          BreakfastManager::useLegacyBooks);
+          BreakfastManager::useReplicaBooks);
 
   private BreakfastManager() {}
 
@@ -886,26 +886,26 @@ public class BreakfastManager {
     }
   }
 
-  private static void useLegacyBooks() {
+  private static void useReplicaBooks() {
     if (!KoLCharacter.inLegacyOfLoathing()) {
       return;
     }
 
     AdventureResult book = ItemPool.get(ItemPool.REPLICA_SNOWCONE_BOOK, 1);
 
-    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_legacySnowconeTomeUsed")) {
+    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaSnowconeTomeUsed")) {
       KoLmafia.updateDisplay("Summoning snowcones...");
       RequestThread.postRequest(UseItemRequest.getInstance(book));
     }
 
     book = ItemPool.get(ItemPool.REPLICA_RESOLUTION_BOOK, 1);
-    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_legacyResolutionLibramUsed")) {
+    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaResolutionLibramUsed")) {
       KoLmafia.updateDisplay("Summoning resolutions...");
       RequestThread.postRequest(UseItemRequest.getInstance(book));
     }
 
     book = ItemPool.get(ItemPool.REPLICA_SMITH_BOOK, 1);
-    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_legacySmithsTomeUsed")) {
+    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaSmithsTomeUsed")) {
       KoLmafia.updateDisplay("Summoning smithables...");
       RequestThread.postRequest(UseItemRequest.getInstance(book));
     }

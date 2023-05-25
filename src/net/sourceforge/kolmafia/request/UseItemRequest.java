@@ -6043,21 +6043,21 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.REPLICA_SNOWCONE_BOOK:
         if (responseText.contains("You open the Tome")
             || responseText.contains("already read this book")) {
-          Preferences.setBoolean("_legacySnowconeTomeUsed", true);
+          Preferences.setBoolean("_replicaSnowconeTomeUsed", true);
         }
         return;
 
       case ItemPool.REPLICA_RESOLUTION_BOOK:
         if (responseText.contains("You make a bunch of resolutions")
             || responseText.contains("already made enough resolutions")) {
-          Preferences.setBoolean("_legacyResolutionLibramUsed", true);
+          Preferences.setBoolean("_replicaResolutionLibramUsed", true);
         }
         return;
 
       case ItemPool.REPLICA_SMITH_BOOK:
         if (responseText.contains("You read from The Smith")
             || responseText.contains("smithed enough for today")) {
-          Preferences.setBoolean("_legacySmithsTomeUsed", true);
+          Preferences.setBoolean("_replicaSmithsTomeUsed", true);
         }
         return;
     }
