@@ -353,7 +353,7 @@ public class PlaceRequest extends GenericRequest {
       }
     }
     if (location != null) {
-      KoLAdventure candidate = validateLocation(location);
+      KoLAdventure candidate = getAdventerableLocation(location);
       if (candidate != null) {
         Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
       }
@@ -368,7 +368,17 @@ public class PlaceRequest extends GenericRequest {
   }
 
   // visible for testing
-  protected static KoLAdventure validateLocation(String location) {
+  /**
+   * This takes a string from KoL that represents an available location where the character can
+   * adventure. If the input uniquely matches a KoLmafia location then the matching location is
+   * returned. Otherwise it is checked against a static mapping of KoL strings that could be mapped
+   * into one of several KoLmafia locations. If the character status allows exactly one of these
+   * locations to be adventured in then that location is returned.
+   *
+   * @param location - A string from KoL that represents a unique and available adventure location.
+   * @return - A KoLAdventure matching the unique and available location or null
+   */
+  protected static KoLAdventure getAdventerableLocation(String location) {
     KoLAdventure aMatch = null;
     KoLAdventure candidate = AdventureDatabase.getAdventureByName(location);
     if (candidate != null) return candidate;
