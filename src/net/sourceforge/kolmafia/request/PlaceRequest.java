@@ -30,7 +30,24 @@ public class PlaceRequest extends GenericRequest {
   public static final TreeSet<String> places = new TreeSet<>();
   public boolean followRedirects = false;
 
-  private static Map<String, List<Integer>> nameAliases = null;
+  private static final Map<String, List<Integer>> nameAliases =
+      Map.ofEntries(
+          Map.entry(
+              "The Hippy Camp",
+              List.of(
+                  AdventurePool.HIPPY_CAMP,
+                  AdventurePool.HIPPY_CAMP_DISGUISED,
+                  AdventurePool.WARTIME_HIPPY_CAMP,
+                  AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED,
+                  AdventurePool.BOMBED_HIPPY_CAMP)),
+          Map.entry(
+              "The Frat House",
+              List.of(
+                  AdventurePool.FRAT_HOUSE,
+                  AdventurePool.FRAT_HOUSE_DISGUISED,
+                  AdventurePool.WARTIME_FRAT_HOUSE,
+                  AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED,
+                  AdventurePool.BOMBED_FRAT_HOUSE)));
 
   private static final Pattern firstSotVisit =
       Pattern.compile("something over in (.+?) and he'd like");
@@ -380,26 +397,6 @@ public class PlaceRequest extends GenericRequest {
    */
   private static List<Integer> aliasCandidates(String locationToCheck) {
     List<Integer> retVal = new ArrayList<>();
-    if (nameAliases == null) {
-      nameAliases =
-          Map.ofEntries(
-              Map.entry(
-                  "The Hippy Camp",
-                  List.of(
-                      AdventurePool.HIPPY_CAMP,
-                      AdventurePool.HIPPY_CAMP_DISGUISED,
-                      AdventurePool.WARTIME_HIPPY_CAMP,
-                      AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED,
-                      AdventurePool.BOMBED_HIPPY_CAMP)),
-              Map.entry(
-                  "The Frat House",
-                  List.of(
-                      AdventurePool.FRAT_HOUSE,
-                      AdventurePool.FRAT_HOUSE_DISGUISED,
-                      AdventurePool.WARTIME_FRAT_HOUSE,
-                      AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED,
-                      AdventurePool.BOMBED_FRAT_HOUSE)));
-    }
     if (nameAliases.containsKey(locationToCheck)) {
       retVal = nameAliases.get(locationToCheck);
     }
