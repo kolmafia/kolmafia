@@ -150,6 +150,7 @@ class PlaceRequestTest {
       assertNull(retVal);
     }
 
+    @Test
     public void itDoesNotMapWithMinimalCharacterDataFrat() {
       KoLAdventure retVal = PlaceRequest.getAdventerableLocation("The Frat House");
       assertNull(retVal);
