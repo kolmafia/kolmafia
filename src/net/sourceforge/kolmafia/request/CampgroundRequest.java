@@ -1453,6 +1453,7 @@ public class CampgroundRequest extends GenericRequest {
   private static void parseDwelling(final String responseText) {
     Matcher m = HOUSING_PATTERN.matcher(responseText);
     if (!m.find()) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Unable to parse housing!");
       return;
     }
 
