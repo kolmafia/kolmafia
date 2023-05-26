@@ -555,6 +555,10 @@ public class GearChangePanel extends JPanel {
       this.setEnabled(true);
     }
 
+    private boolean equippedOrInInventory(AdventureResult equip) {
+      return equip.getCount(KoLConstants.inventory) > 0 || KoLCharacter.hasEquipped(equip);
+    }
+
     @Override
     public void setEnabled(final boolean isEnabled) {
       super.setEnabled(isEnabled);
@@ -568,14 +572,13 @@ public class GearChangePanel extends JPanel {
       boolean hasFakeHands = GearChangePanel.this.fakeHands.getAvailableFakeHands() > 0;
       GearChangePanel.this.fakeHands.setEnabled(isEnabled && hasFakeHands);
 
-      boolean hasCardSleeve =
-          EquipmentManager.CARD_SLEEVE.getCount(KoLConstants.inventory) > 0
-              || KoLCharacter.hasEquipped(EquipmentManager.CARD_SLEEVE);
+      boolean hasCardSleeve = equippedOrInInventory(EquipmentManager.CARD_SLEEVE);
       GearChangePanel.this.equipment.get(Slot.CARDSLEEVE).setEnabled(isEnabled && hasCardSleeve);
 
       boolean hasFolderHolder =
-          EquipmentManager.FOLDER_HOLDER.getCount(KoLConstants.inventory) > 0
-              || KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER);
+          equippedOrInInventory(EquipmentManager.FOLDER_HOLDER)
+              || (KoLCharacter.inLegacyOfLoathing()
+                  && equippedOrInInventory(EquipmentManager.REPLICA_FOLDER_HOLDER));
       boolean inHighSchool = KoLCharacter.inHighschool();
 
       GearChangePanel.this.equipment.get(Slot.FOLDER1).setEnabled(isEnabled && hasFolderHolder);
@@ -590,9 +593,7 @@ public class GearChangePanel extends JPanel {
           .get(Slot.FOLDER5)
           .setEnabled(isEnabled && hasFolderHolder && inHighSchool);
 
-      boolean hasBoots =
-          EquipmentManager.COWBOY_BOOTS.getCount(KoLConstants.inventory) > 0
-              || KoLCharacter.hasEquipped(EquipmentManager.COWBOY_BOOTS);
+      boolean hasBoots = equippedOrInInventory(EquipmentManager.COWBOY_BOOTS);
       GearChangePanel.this.equipment.get(Slot.BOOTSKIN).setEnabled(isEnabled && hasBoots);
       GearChangePanel.this.equipment.get(Slot.BOOTSPUR).setEnabled(isEnabled && hasBoots);
     }

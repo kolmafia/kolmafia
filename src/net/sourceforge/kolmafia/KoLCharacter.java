@@ -3018,6 +3018,15 @@ public abstract class KoLCharacter {
       KoLCharacter.resetSkills();
     }
 
+    // Reset Legacy of Loathing stuff
+    if (oldPath == Path.LEGACY_OF_LOATHING) {
+      Preferences.resetToDefault("replicaChateauAvailable");
+      Preferences.resetToDefault("replicaNeverendingPartyAlways");
+
+      // if replica emotion chipped
+      KoLCharacter.resetSkills();
+    }
+
     // If we were in Hardcore or a path that alters skills, automatically recall skills
     if (restricted
         || wasInHardcore
@@ -5658,7 +5667,7 @@ public abstract class KoLCharacter {
             newModifiers.add(ModifierDatabase.getItemModifiers(card.getItemId()));
           }
         }
-        case ItemPool.FOLDER_HOLDER ->
+        case ItemPool.FOLDER_HOLDER, ItemPool.REPLICA_FOLDER_HOLDER ->
         // Apply folders
         SlotSet.FOLDER_SLOTS.stream()
             .map(equipment::get)

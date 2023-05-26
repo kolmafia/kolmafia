@@ -988,6 +988,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.CORKED_GENIE_BOTTLE:
           case ItemPool.GENIE_BOTTLE:
           case ItemPool.POCKET_WISH:
+          case ItemPool.REPLICA_GENIE_BOTTLE:
           case ItemPool.WAREHOUSE_KEY:
           case ItemPool.BOOMBOX:
           case ItemPool.BURNING_NEWSPAPER:

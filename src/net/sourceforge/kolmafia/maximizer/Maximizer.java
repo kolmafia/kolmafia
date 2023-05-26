@@ -1107,7 +1107,10 @@ public class Maximizer {
           duration = 100;
           usesRemaining = Preferences.getBoolean("_daycareSpa") ? 0 : 1;
         } else if (cmd.startsWith("play")) {
-          if (InventoryManager.getAccessibleCount(ItemPool.DECK_OF_EVERY_CARD) == 0) {
+          if (InventoryManager.getAccessibleCount(ItemPool.DECK_OF_EVERY_CARD) == 0
+              && (!KoLCharacter.inLegacyOfLoathing()
+                  || InventoryManager.getAccessibleCount(ItemPool.REPLICA_DECK_OF_EVERY_CARD)
+                      == 0)) {
             if (includeAll) {
               text = "(acquire Deck of Every Card for " + name + ")";
               cmd = "";

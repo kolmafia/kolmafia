@@ -243,6 +243,8 @@
 218	Cryptobotanist	sitshroom.gif	0	0	0
 219	Insectologist	sitfly.gif	0	0	0
 220	Psychogeologist	sitlatite.gif	0	0	0
+221
+222	Replica Emotionally Chipped	emochip_clean.gif	0	0	0
 
 # Skills available to Clubbers
 
