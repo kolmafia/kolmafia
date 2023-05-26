@@ -1083,6 +1083,7 @@ user	nextQuantumFamiliarName
 user	nextQuantumFamiliarOwner
 user	nextQuantumFamiliarOwnerId	0
 user	nextQuantumFamiliarTurn	0
+user	noncombatForcerActive	false
 user	noobPoints	0
 user	noobDeferredPoints	0
 user	noodleSummons	0

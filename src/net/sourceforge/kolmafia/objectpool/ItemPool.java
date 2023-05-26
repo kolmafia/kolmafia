@@ -2994,6 +2994,11 @@ public class ItemPool {
   public static final int SPOOKY_JELLY = 9293;
   public static final int SLEAZE_JELLY = 9294;
   public static final int STENCH_JELLY = 9295;
+  public static final int HOT_TOAST = 9297;
+  public static final int COLD_TOAST = 9298;
+  public static final int SPOOKY_TOAST = 9299;
+  public static final int SLEAZE_TOAST = 9300;
+  public static final int STENCH_TOAST = 9301;
   public static final int WAX_HAND = 9305;
   public static final int MINIATURE_CANDLE = 9306;
   public static final int WAX_PANCAKE = 9307;

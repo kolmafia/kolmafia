@@ -1752,7 +1752,8 @@ public abstract class KoLCharacter {
     if (KoLCharacter.hasSkill(SkillPool.FOOD_COMA)) freerests += 10;
     if (KoLCharacter.hasSkill(SkillPool.DOG_TIRED)) freerests += 5;
     if (KoLConstants.chateau.contains(ChateauRequest.CHATEAU_FAN)) freerests += 5;
-    if (Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
+    if (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
+        && Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
     if (KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
         || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;

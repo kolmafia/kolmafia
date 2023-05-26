@@ -82,6 +82,7 @@ public class Preferences {
               "grimoire3Summons",
               "libramSummons",
               "libraryCardUsed",
+              "noncombatForcerActive",
               "noodleSummons",
               "nunsVisits",
               "oscusSodaUsed",

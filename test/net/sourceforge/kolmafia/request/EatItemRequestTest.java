@@ -180,4 +180,19 @@ class EatItemRequestTest {
       }
     }
   }
+
+  @ParameterizedTest
+  @CsvSource({
+    "You're too full to eat that., false",
+    "You slather the jelly all over your skin. You feel all stinky and bothered and you're sure nobody is coming near you. , true"
+  })
+  public void stenchJellySetsNCForcerFlag(String responseText, String result) {
+    var cleanups = withProperty("noncombatForcerActive", false);
+    try (cleanups) {
+      var req = new EatItemRequest(ItemPool.get(ItemPool.STENCH_TOAST));
+      req.responseText = responseText;
+      req.processResults();
+      assertThat("noncombatForcerActive", isSetTo(Boolean.parseBoolean(result)));
+    }
+  }
 }

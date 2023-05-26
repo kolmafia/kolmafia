@@ -1770,6 +1770,20 @@ public class FightRequestTest {
         assertThat("_spikolodonSpikeUses", isSetTo(1));
       }
     }
+
+    @Test
+    void spikodonSpikesSetNCForcerFlag() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.SHIRT, ItemPool.JURASSIC_PARKA),
+              withProperty("_spikolodonSpikeUses", 0),
+              withProperty("noncombatForcerActive", false));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_spikolodon_spikes.html");
+        assertThat("noncombatForcerActive", isSetTo(true));
+      }
+    }
   }
 
   @ParameterizedTest
