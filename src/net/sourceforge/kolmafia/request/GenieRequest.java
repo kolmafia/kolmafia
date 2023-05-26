@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -113,6 +114,9 @@ public class GenieRequest extends GenericRequest {
       itemId = ItemPool.GENIE_BOTTLE;
     } else if (InventoryManager.hasItem(ItemPool.POCKET_WISH)) {
       itemId = ItemPool.POCKET_WISH;
+    } else if (KoLCharacter.inLegacyOfLoathing()
+        && InventoryManager.hasItem(ItemPool.REPLICA_GENIE_BOTTLE)) {
+      itemId = ItemPool.REPLICA_GENIE_BOTTLE;
     } else {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "You do not have a genie bottle or pocket wish to use.");
