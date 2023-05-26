@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -248,8 +249,15 @@ public class DeckOfEveryCardRequest extends GenericRequest {
       return;
     }
 
-    // If you can't get a deck into inventory, punt
-    if (!InventoryManager.retrieveItem(ItemPool.DECK_OF_EVERY_CARD, 1, true)) {
+    int deckUsed;
+
+    if (InventoryManager.retrieveItem(ItemPool.DECK_OF_EVERY_CARD, 1, true)) {
+      deckUsed = ItemPool.DECK_OF_EVERY_CARD;
+    } else if (KoLCharacter.inLegacyOfLoathing()
+        && InventoryManager.retrieveItem(ItemPool.REPLICA_DECK_OF_EVERY_CARD, 1, true)) {
+      deckUsed = ItemPool.REPLICA_DECK_OF_EVERY_CARD;
+    } else {
+      // If you can't get a deck into inventory, punt
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have a Deck of Every Card available");
       return;
     }
@@ -264,7 +272,7 @@ public class DeckOfEveryCardRequest extends GenericRequest {
     }
 
     GenericRequest useRequest = new GenericRequest("inv_use.php");
-    useRequest.addFormField("whichitem", String.valueOf(ItemPool.DECK_OF_EVERY_CARD));
+    useRequest.addFormField("whichitem", String.valueOf(deckUsed));
     if (this.card == null) {
       useRequest.addFormField("which", "3");
     } else {

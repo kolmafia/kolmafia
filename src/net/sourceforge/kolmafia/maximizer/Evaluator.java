@@ -1738,6 +1738,7 @@ public class Evaluator {
               break;
             }
           case ItemPool.FOLDER_HOLDER:
+          case ItemPool.REPLICA_FOLDER_HOLDER:
             {
               MaximizerSpeculation current = new MaximizerSpeculation();
               spec.equipment.put(Slot.FOLDER1, current.equipment.get(Slot.FOLDER1));
