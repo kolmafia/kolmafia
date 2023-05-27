@@ -298,30 +298,27 @@ public class CampgroundRequest extends GenericRequest {
   public static final AdventureResult STRANGE_STALAGMITE =
       ItemPool.get(ItemPool.STRANGE_STALAGMITE, 1);
 
-  // Crop seeds
-  public static final AdventureResult PUMPKIN_SEEDS = ItemPool.get(ItemPool.PUMPKIN_SEEDS, 1);
-  public static final AdventureResult PEPPERMINT_PACKETS =
-      ItemPool.get(ItemPool.PEPPERMINT_PACKET, 1);
-  public static final AdventureResult DRAGON_TEETH = ItemPool.get(ItemPool.DRAGON_TEETH, 1);
-  public static final AdventureResult BEER_SEEDS = ItemPool.get(ItemPool.BEER_SEEDS, 1);
-  public static final AdventureResult WINTER_SEEDS = ItemPool.get(ItemPool.WINTER_SEEDS, 1);
-  public static final AdventureResult THANKSGARDEN_SEEDS =
-      ItemPool.get(ItemPool.THANKSGARDEN_SEEDS, 1);
-  public static final AdventureResult TALL_GRASS_SEEDS = ItemPool.get(ItemPool.TALL_GRASS_SEEDS, 1);
-  public static final AdventureResult MUSHROOM_SPORES = ItemPool.get(ItemPool.MUSHROOM_SPORES, 1);
-  public static final AdventureResult ROCK_SEEDS = ItemPool.get(ItemPool.ROCK_SEEDS, 1);
-
   public enum CropType {
-    PUMPKIN,
-    PEPPERMINT,
-    SKELETON,
-    BEER,
-    WINTER,
-    THANKSGARDEN,
-    GRASS,
-    MUSHROOM,
-    ROCK,
+    PUMPKIN(ItemPool.PUMPKIN_SEEDS),
+    PEPPERMINT(ItemPool.PEPPERMINT_PACKET),
+    SKELETON(ItemPool.DRAGON_TEETH),
+    BEER(ItemPool.BEER_SEEDS),
+    WINTER(ItemPool.WINTER_SEEDS),
+    THANKSGARDEN(ItemPool.THANKSGARDEN_SEEDS),
+    GRASS(ItemPool.TALL_GRASS_SEEDS),
+    MUSHROOM(ItemPool.MUSHROOM_SPORES),
+    ROCK(ItemPool.ROCK_SEEDS),
     ;
+
+    private final AdventureResult seeds;
+
+    CropType(int seeds) {
+      this.seeds = ItemPool.get(seeds, 1);
+    }
+
+    public AdventureResult getSeeds() {
+      return this.seeds;
+    }
 
     @Override
     public String toString() {
@@ -480,18 +477,6 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.WHETSTONE,
     CampgroundRequest.HARD_ROCK,
     CampgroundRequest.STRANGE_STALAGMITE,
-  };
-
-  public static final AdventureResult[] CROP_SEEDS = {
-    CampgroundRequest.PUMPKIN_SEEDS,
-    CampgroundRequest.PEPPERMINT_PACKETS,
-    CampgroundRequest.DRAGON_TEETH,
-    CampgroundRequest.BEER_SEEDS,
-    CampgroundRequest.WINTER_SEEDS,
-    CampgroundRequest.THANKSGARDEN_SEEDS,
-    CampgroundRequest.TALL_GRASS_SEEDS,
-    CampgroundRequest.MUSHROOM_SPORES,
-    CampgroundRequest.ROCK_SEEDS,
   };
 
   public static void reset() {
@@ -661,7 +646,10 @@ public class CampgroundRequest extends GenericRequest {
     for (AdventureResult crop : CampgroundRequest.CROPS) {
       KoLConstants.campground.remove(crop);
     }
-    for (AdventureResult seed : CampgroundRequest.CROP_SEEDS) {
+    for (AdventureResult seed :
+        Arrays.stream(CropType.values())
+            .map(CropType::getSeeds)
+            .collect(Collectors.toUnmodifiableSet())) {
       KoLConstants.campground.remove(seed);
     }
   }
@@ -1071,7 +1059,7 @@ public class CampgroundRequest extends GenericRequest {
 
     if (action.equals("inspectdwelling")) {
       CampgroundRequest.parseCampground(responseText);
-      CampgroundRequest.parseDwelling(responseText);
+      CampgroundRequest.inspectDwelling(responseText);
       return;
     }
 
@@ -1211,6 +1199,8 @@ public class CampgroundRequest extends GenericRequest {
     } else {
       Preferences.setBoolean("_psychoJarUsed", false);
     }
+
+    CampgroundRequest.parseDwelling(responseText);
   }
 
   private static boolean parseGarden(final String responseText) {
@@ -1513,7 +1503,9 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     KoLCharacter.updateFreeRests(m.group(3) != null);
+  }
 
+  private static void inspectDwelling(final String responseText) {
     int startIndex = responseText.indexOf("Your dwelling has the following stuff");
     int endIndex = responseText.indexOf("<b>Your Campsite</b>", startIndex + 1);
     if (startIndex > 0 && endIndex > 0) {
@@ -1522,7 +1514,7 @@ public class CampgroundRequest extends GenericRequest {
       boolean maidFound = findImage(relevantResponse, "maid.gif", ItemPool.MAID);
       if (!maidFound) findImage(relevantResponse, "maid2.gif", ItemPool.CLOCKWORK_MAID);
 
-      m = FURNISHING_PATTERN.matcher(relevantResponse);
+      Matcher m = FURNISHING_PATTERN.matcher(relevantResponse);
       while (m.find()) {
         String name = m.group(1);
 
