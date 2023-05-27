@@ -738,7 +738,8 @@ public class Maximizer {
           duration = 30;
         } else if (cmd.startsWith("cargo effect ")) {
           // Must be available in your current path
-          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cargo Cultist Shorts")) {
+          if (!KoLCharacter.inLegacyOfLoathing()
+              && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cargo Cultist Shorts")) {
             continue;
           }
           // You must have the cargo shorts
@@ -1139,7 +1140,8 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean("_grimBuff") ? 0 : 1;
         } else if (cmd.equals("witchess")) {
-          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
+          if (!KoLCharacter.inLegacyOfLoathing()
+              && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
             continue;
           }
           if (!KoLConstants.campground.contains(ItemPool.get(ItemPool.WITCHESS_SET, 1))) {
