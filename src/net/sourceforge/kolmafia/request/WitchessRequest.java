@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -14,7 +15,8 @@ public class WitchessRequest extends GenericRequest {
 
   @Override
   public void run() {
-    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
+    if (!KoLCharacter.inLegacyOfLoathing()
+        && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
       KoLmafia.updateDisplay("Witchess is too old to use in your current path.");
       return;
     }
