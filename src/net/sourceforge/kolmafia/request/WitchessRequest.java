@@ -15,7 +15,8 @@ public class WitchessRequest extends GenericRequest {
 
   @Override
   public void run() {
-    if (!KoLCharacter.inLegacyOfLoathing()
+    if (!(KoLCharacter.inLegacyOfLoathing()
+            && Preferences.getBoolean("replicaWitchessSetAvailable"))
         && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
       KoLmafia.updateDisplay("Witchess is too old to use in your current path.");
       return;

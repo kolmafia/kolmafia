@@ -6060,6 +6060,10 @@ public class UseItemRequest extends GenericRequest {
           Preferences.setBoolean("_replicaSmithsTomeUsed", true);
         }
         return;
+
+      case ItemPool.REPLICA_WITCHESS_SET:
+        Preferences.setBoolean("replicaWitchessSetAvailable", true);
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

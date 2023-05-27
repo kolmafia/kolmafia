@@ -1140,7 +1140,8 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean("_grimBuff") ? 0 : 1;
         } else if (cmd.equals("witchess")) {
-          if (!KoLCharacter.inLegacyOfLoathing()
+          if (!(KoLCharacter.inLegacyOfLoathing()
+                  && Preferences.getBoolean("replicaWitchessSetAvailable"))
               && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
             continue;
           }

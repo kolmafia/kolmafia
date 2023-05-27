@@ -2527,7 +2527,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean wc =
           KoLConstants.campground.contains(ItemPool.get(ItemPool.WITCHESS_SET, 1))
               && (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")
-                  || KoLCharacter.inLegacyOfLoathing())
+                  || KoLCharacter.inLegacyOfLoathing()
+                      && Preferences.getBoolean("replicaWitchessSetAvailable"))
               && !KoLCharacter.getLimitMode().limitCampground()
               && !KoLCharacter.inBadMoon();
       boolean et = !(Preferences.getBoolean("_eldritchTentacleFought"));
