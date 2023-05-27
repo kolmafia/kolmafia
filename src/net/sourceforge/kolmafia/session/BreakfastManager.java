@@ -105,7 +105,8 @@ public class BreakfastManager {
           BreakfastManager::collectAnticheese,
           BreakfastManager::collectSeaJelly,
           BreakfastManager::harvestBatteries,
-          BreakfastManager::useBookOfEverySkill);
+          BreakfastManager::useBookOfEverySkill,
+          BreakfastManager::useReplicaBooks);
 
   private BreakfastManager() {}
 
@@ -614,7 +615,9 @@ public class BreakfastManager {
   }
 
   private static void makePocketWishes() {
-    if (!InventoryManager.hasItem(ItemPool.GENIE_BOTTLE)) {
+    if (!InventoryManager.hasItem(ItemPool.GENIE_BOTTLE)
+        && (!KoLCharacter.inLegacyOfLoathing()
+            || !InventoryManager.hasItem(ItemPool.REPLICA_GENIE_BOTTLE))) {
       return;
     }
 
@@ -879,6 +882,31 @@ public class BreakfastManager {
         "useBookOfEverySkill" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
       KoLmafia.updateDisplay("Reading for a guild skill...");
 
+      RequestThread.postRequest(UseItemRequest.getInstance(book));
+    }
+  }
+
+  private static void useReplicaBooks() {
+    if (!KoLCharacter.inLegacyOfLoathing()) {
+      return;
+    }
+
+    AdventureResult book = ItemPool.get(ItemPool.REPLICA_SNOWCONE_BOOK, 1);
+
+    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaSnowconeTomeUsed")) {
+      KoLmafia.updateDisplay("Summoning snowcones...");
+      RequestThread.postRequest(UseItemRequest.getInstance(book));
+    }
+
+    book = ItemPool.get(ItemPool.REPLICA_RESOLUTION_BOOK, 1);
+    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaResolutionLibramUsed")) {
+      KoLmafia.updateDisplay("Summoning resolutions...");
+      RequestThread.postRequest(UseItemRequest.getInstance(book));
+    }
+
+    book = ItemPool.get(ItemPool.REPLICA_SMITH_BOOK, 1);
+    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaSmithsTomeUsed")) {
+      KoLmafia.updateDisplay("Summoning smithables...");
       RequestThread.postRequest(UseItemRequest.getInstance(book));
     }
   }

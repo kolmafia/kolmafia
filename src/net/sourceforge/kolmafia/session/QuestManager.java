@@ -474,7 +474,8 @@ public class QuestManager {
     if (!location.contains("action") && !KoLCharacter.inBadMoon()) {
       Preferences.setBoolean("hasDetectiveSchool", responseText.contains("Precinct"));
       if (responseText.contains("The Neverending Party")
-          && !Preferences.getBoolean("neverendingPartyAlways")) {
+          && !Preferences.getBoolean("neverendingPartyAlways")
+          && !Preferences.getBoolean("replicaNeverendingPartyAlways")) {
         Preferences.setBoolean("_neverendingPartyToday", true);
       }
       if (Preferences.getInteger("_neverendingPartyFreeTurns") < 10

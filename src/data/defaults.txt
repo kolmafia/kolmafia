@@ -1165,6 +1165,8 @@ user	promptAboutCrafting	1
 user	puzzleChampBonus	5
 user	pyramidPosition	1
 user	pyramidBombUsed	false
+user	replicaChateauAvailable	false
+user	replicaNeverendingPartyAlways	false
 user	retroCapeSuperhero	vampire
 user	retroCapeWashingInstructions	hold
 user	rockinRobinProgress	25
@@ -2123,6 +2125,9 @@ user	_raveStealCount	0
 user	_redwoodRainStickUsed	false
 user	_reflexHammerUsed	0
 user	_relativityMonster	false
+user	_replicaSnowconeTomeUsed	false
+user	_replicaResolutionLibramUsed	false
+user	_replicaSmithsTomeUsed	false
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
 user	_resolutionRareSummons	0
