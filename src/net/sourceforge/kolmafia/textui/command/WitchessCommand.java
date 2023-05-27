@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -14,7 +15,8 @@ public class WitchessCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
+    if (!KoLCharacter.inLegacyOfLoathing()
+        && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
       return;
     }
     if (Preferences.getBoolean("_witchessBuff")) {
