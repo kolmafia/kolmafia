@@ -404,6 +404,18 @@ public class MonsterDatabase {
         jazzAgentMap, "Naughty Sorceress (2)", "Terrence Poindexter (true form)");
     MonsterDatabase.addMapping(jazzAgentMap, "Naughty Sorceress (3)", null);
     MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.JAZZ_AGENT, jazzAgentMap);
+
+    Map<MonsterData, MonsterData> lolMap = new TreeMap<>();
+    MonsterDatabase.addMapping(lolMap, "Boss Bat", "Classic Boss Bat");
+    MonsterDatabase.addMapping(lolMap, "Knob Goblin King", "Weirdly Scrawny Knob Goblin King");
+    MonsterDatabase.addMapping(lolMap, "Bonerdagon", "Orignial Bonerdagon");
+    MonsterDatabase.addMapping(lolMap, "Groar", "Flock of Groars?");
+    MonsterDatabase.addMapping(lolMap, "Dr. Awkward", "Jr. Awkwarj");
+    MonsterDatabase.addMapping(lolMap, "Lord Spookyraven", "Little Lord Spookyraven");
+    MonsterDatabase.addMapping(lolMap, "Protector Spectre", "Protector Spectre Candidate");
+    MonsterDatabase.addMapping(lolMap, "The Big Wisniewski", "The Little Wisniewski");
+    MonsterDatabase.addMapping(lolMap, "The Man", "The Boy");
+    MonsterDatabase.MONSTER_PATH_MAP.put(Path.LEGACY_OF_LOATHING.getName(), lolMap);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterPathMap(final String path) {
