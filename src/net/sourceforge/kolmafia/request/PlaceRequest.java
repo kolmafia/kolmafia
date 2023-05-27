@@ -8,6 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -359,6 +361,9 @@ public class PlaceRequest extends GenericRequest {
       KoLAdventure candidate = getAdventerableLocation(location);
       if (candidate != null) {
         Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
+      } else {
+        KoLmafia.updateDisplay(
+            KoLConstants.MafiaState.CONTINUE, "Cannot resolve Sot's parcel location: " + location);
       }
     }
     if (responseText.contains(
