@@ -2536,10 +2536,12 @@ public class DailyDeedsPanel extends Box implements Listener {
               && !KoLCharacter.getLimitMode().limitZone("Town")
               && !KoLCharacter.inBadMoon();
       boolean np =
-          (Preferences.getBoolean("_neverendingPartyToday")
-                  || Preferences.getBoolean("neverendingPartyAlways"))
-              && StandardRequest.isAllowed(
-                  RestrictedItemType.ITEMS, "Neverending Party invitation envelope")
+          ((Preferences.getBoolean("_neverendingPartyToday")
+                      || Preferences.getBoolean("neverendingPartyAlways")
+                          && StandardRequest.isAllowed(
+                              RestrictedItemType.ITEMS, "Neverending Party invitation envelope"))
+                  || (KoLCharacter.inLegacyOfLoathing()
+                      && Preferences.getBoolean("replicaNeverendingPartyAlways")))
               && !KoLCharacter.getLimitMode().limitZone("Town")
               && !KoLCharacter.inBadMoon();
       boolean vb =
@@ -2623,6 +2625,10 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addLabel("");
     }
 
+    private boolean equippedOrInInventory(int itemId) {
+      return KoLCharacter.hasEquipped(itemId) || InventoryManager.getCount(itemId) > 0;
+    }
+
     @Override
     public void update() {
       FamiliarData bander = KoLCharacter.usableFamiliar(FamiliarPool.BANDER);
@@ -2631,17 +2637,13 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean hbo = boots != null && boots.canEquip();
       boolean run = Preferences.getInteger("_navelRunaways") > 0;
       boolean gp =
-          KoLCharacter.hasEquipped(ItemPool.GREAT_PANTS)
-              || InventoryManager.getCount(ItemPool.GREAT_PANTS) > 0
+          equippedOrInInventory(ItemPool.GREAT_PANTS)
               || (KoLCharacter.inLegacyOfLoathing()
-                  && (KoLCharacter.hasEquipped(ItemPool.REPLICA_GREAT_PANTS)
-                      || InventoryManager.getCount(ItemPool.REPLICA_GREAT_PANTS) > 0));
+                  && equippedOrInInventory(ItemPool.REPLICA_GREAT_PANTS));
       boolean nr =
-          KoLCharacter.hasEquipped(ItemPool.NAVEL_RING)
-              || InventoryManager.getCount(ItemPool.NAVEL_RING) > 0
+          equippedOrInInventory(ItemPool.NAVEL_RING)
               || (KoLCharacter.inLegacyOfLoathing()
-                  && (KoLCharacter.hasEquipped(ItemPool.REPLICA_NAVEL_RING)
-                      || InventoryManager.getCount(ItemPool.REPLICA_NAVEL_RING) > 0));
+                  && equippedOrInInventory(ItemPool.REPLICA_NAVEL_RING));
       boolean pp = InventoryManager.getCount(ItemPool.PEPPERMINT_PARASOL) > 0;
       boolean pl = KoLCharacter.hasSkill(SkillPool.PEEL_OUT);
       boolean big = KoLCharacter.inBigcore();
@@ -3685,6 +3687,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     public DeckOfEveryCardDaily() {
       this.addItem(ItemPool.DECK_OF_EVERY_CARD);
+      this.addItem(ItemPool.REPLICA_DECK_OF_EVERY_CARD);
       this.addListener("_deckCardsDrawn");
       this.addListener("kingLiberated");
       this.addListener("(character)");
@@ -3701,7 +3704,10 @@ public class DailyDeedsPanel extends Box implements Listener {
     public void update() {
       boolean bm = KoLCharacter.inBadMoon();
       boolean kf = KoLCharacter.kingLiberated();
-      boolean have = InventoryManager.getCount(ItemPool.DECK_OF_EVERY_CARD) > 0;
+      boolean have =
+          InventoryManager.getCount(ItemPool.DECK_OF_EVERY_CARD) > 0
+              || (KoLCharacter.inLegacyOfLoathing()
+                  && InventoryManager.getCount(ItemPool.REPLICA_DECK_OF_EVERY_CARD) > 0);
       boolean nocards = Preferences.getInteger("_deckCardsDrawn") >= 15;
       boolean allowed = StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Deck of Every Card");
       boolean limited = KoLCharacter.getLimitMode().limitItem(ItemPool.DECK_OF_EVERY_CARD);

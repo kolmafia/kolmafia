@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -32,6 +33,23 @@ public class CampgroundRequestTest {
   public void beforeEach() {
     KoLCharacter.reset("CampgroundRequest");
     Preferences.reset("CampgroundRequest");
+  }
+
+  @AfterEach
+  public void afterEach() {
+    CampgroundRequest.reset();
+  }
+
+  private void assertCampgroundItemAbsent(int itemId) {
+    var resOpt = KoLConstants.campground.stream().filter(x -> x.getItemId() == itemId).findAny();
+    assertThat(resOpt.isPresent(), equalTo(false));
+  }
+
+  private void assertCampgroundItemCount(int itemId, int count) {
+    var resOpt = KoLConstants.campground.stream().filter(x -> x.getItemId() == itemId).findAny();
+    assertThat(resOpt.isPresent(), equalTo(true));
+    var res = resOpt.get();
+    assertThat(res.getCount(), equalTo(count));
   }
 
   @Test
@@ -87,16 +105,66 @@ public class CampgroundRequestTest {
   }
 
   @Nested
-  class RockGarden {
-    @AfterEach
-    public void afterEach() {
-      CampgroundRequest.reset();
+  class Pumpkins {
+    @Test
+    void canDetectGinormousPumpkinHouse() {
+      // Campground has a pumpkin house as a dwelling and no garden.
+      String html = html("request/test_ginormous_pumpkin_house.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      // Correct dwelling
+      assertEquals(CampgroundRequest.GINORMOUS_PUMPKIN, CampgroundRequest.getCurrentDwelling());
+      // No garden
+      assertEquals(null, CampgroundRequest.getCropType());
+      // No crop
+      assertEquals(null, CampgroundRequest.getCrop());
+      // Dwelling does not appear in Campground item list
+      assertCampgroundItemAbsent(ItemPool.GINORMOUS_PUMPKIN);
     }
 
+    @Test
+    void canDetectGinormousPumpkinCrop() {
+      // Campground has a house as a dwelling and a pumpkin garden with
+      // a ginormous pumpkin in it.
+      String html = html("request/test_ginormous_pumpkin_crop.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      // Correct dwelling
+      assertEquals(ItemPool.get(ItemPool.HOUSE), CampgroundRequest.getCurrentDwelling());
+      // Correct garden
+      assertEquals(CropType.PUMPKIN, CampgroundRequest.getCropType());
+      // Correct crop
+      assertEquals(CampgroundRequest.GINORMOUS_PUMPKIN, CampgroundRequest.getCrop());
+      // Correct crop level
+      assertCampgroundItemCount(ItemPool.PUMPKIN_SEEDS, 11);
+      // Crop appears in Campground item list
+      assertCampgroundItemCount(ItemPool.GINORMOUS_PUMPKIN, 1);
+    }
+
+    @Test
+    void canDetectGinormousPumpkinHouseAndCrop() {
+      // Campground has both a pumpkin house as a dwelling and a pumpkin
+      // garden with a ginormous pumpkin in it.
+      String html = html("request/test_ginormous_pumpkin_house_and_crop.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      // Correct dwelling
+      assertEquals(CampgroundRequest.GINORMOUS_PUMPKIN, CampgroundRequest.getCurrentDwelling());
+      // Correct garden
+      assertEquals(CropType.PUMPKIN, CampgroundRequest.getCropType());
+      // Correct crop
+      assertEquals(CampgroundRequest.GINORMOUS_PUMPKIN, CampgroundRequest.getCrop());
+      // Correct crop level
+      assertCampgroundItemCount(ItemPool.PUMPKIN_SEEDS, 11);
+      // Crop appears in Campground item list
+      assertCampgroundItemCount(ItemPool.GINORMOUS_PUMPKIN, 1);
+    }
+  }
+
+  @Nested
+  class RockGarden {
     @Test
     void canDetectNoGarden() {
       String html = html("request/test_campground_no_garden.html");
       CampgroundRequest.parseResponse("campground.php", html);
+      assertThat(CampgroundRequest.getCropType(), nullValue());
       assertThat(CampgroundRequest.getCrop(), nullValue());
       assertThat(CampgroundRequest.getCrops(), empty());
     }
@@ -166,13 +234,6 @@ public class CampgroundRequestTest {
       assertThat(KoLConstants.campground, not(hasItem(ItemPool.get(ItemPool.ROCK_SEEDS))));
       assertThat(KoLConstants.campground, not(hasItem(ItemPool.get(ItemPool.FRUITY_PEBBLE))));
     }
-  }
-
-  private void assertCampgroundItemCount(int itemId, int count) {
-    var resOpt = KoLConstants.campground.stream().filter(x -> x.getItemId() == itemId).findAny();
-    assertThat(resOpt.isPresent(), equalTo(true));
-    var res = resOpt.get();
-    assertThat(res.getCount(), equalTo(count));
   }
 
   @Test
