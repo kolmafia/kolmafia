@@ -113,32 +113,61 @@ public abstract class ConditionalStatement extends AbstractCommand {
       return false;
     }
 
-    boolean result;
-
-    switch (operator) {
-      case "==":
-        result = (leftValue == rightValue);
+    boolean result = false;
+    for (ComparisonOperator op : ComparisonOperator.values()) {
+      if (op.toString().equals(operator)) {
+        result = op.apply(leftValue, rightValue);
         break;
-      case "!=":
-        result = (leftValue != rightValue);
-        break;
-      case ">=":
-        result = (leftValue >= rightValue);
-        break;
-      case ">":
-        result = (leftValue > rightValue);
-        break;
-      case "<=":
-        result = (leftValue <= rightValue);
-        break;
-      case "<":
-        result = (leftValue < rightValue);
-        break;
-      default:
-        result = false;
-        break;
+      }
     }
+
     return result;
+  }
+
+  private enum ComparisonOperator {
+    EQUALS("==") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue == rightValue;
+      }
+    },
+    NOT_EQUALS("!=") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue != rightValue;
+      }
+    },
+    GREATER_THAN_OR_EQUAL(">=") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue >= rightValue;
+      }
+    },
+    GREATER_THAN(">") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue > rightValue;
+      }
+    },
+    LESS_THAN_OR_EQUAL("<=") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue <= rightValue;
+      }
+    },
+    LESS_THAN("<") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue < rightValue;
+      }
+    };
+
+    private final String symbol;
+
+    ComparisonOperator(String symbol) {
+      this.symbol = symbol;
+    }
+
+    public abstract boolean apply(long leftValue, long rightValue);
+
+    @Override
+    public String toString() {
+      return symbol;
+    }
   }
 
   static final long lvalue(final String left) {
