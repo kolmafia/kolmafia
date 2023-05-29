@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -2008,6 +2009,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(
         new LibraryFunction("split_string", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = new Type[] {new AggregateType(DataTypes.STRING_TYPE, 0)};
+    functions.add(new LibraryFunction("join_strings", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {new AggregateType(DataTypes.STRING_TYPE, 0), DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("join_strings", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("group_string", DataTypes.REGEX_GROUP_TYPE, params));
@@ -7555,16 +7562,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value split_string(ScriptRuntime controller, final Value string) {
-    String[] pieces = string.toString().split(KoLConstants.LINE_BREAK);
-
-    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, pieces.length);
-    ArrayValue value = new ArrayValue(type);
-
-    for (int i = 0; i < pieces.length; ++i) {
-      value.aset(new Value(i), new Value(pieces[i]));
-    }
-
-    return value;
+    return split_string(string.toString().split(KoLConstants.LINE_BREAK));
   }
 
   public static Value split_string(
@@ -7582,8 +7580,11 @@ public abstract class RuntimeLibrary {
         throw controller.runtimeException("Invalid pattern syntax");
       }
     }
-    String[] pieces = p.split(string.toString());
 
+    return split_string(p.split(string.toString()));
+  }
+
+  private static Value split_string(String[] pieces) {
     AggregateType type = new AggregateType(DataTypes.STRING_TYPE, pieces.length);
     ArrayValue value = new ArrayValue(type);
 
@@ -7592,6 +7593,20 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value join_strings(ScriptRuntime controller, final Value strings) {
+    return join_strings(strings, KoLConstants.LINE_BREAK);
+  }
+
+  public static Value join_strings(
+      ScriptRuntime controller, final Value strings, final Value joiner) {
+    return join_strings(strings, joiner.toString());
+  }
+
+  private static Value join_strings(final Value strings, final String joiner) {
+    Value[] array = (Value[]) strings.content;
+    return new Value(Arrays.stream(array).map(Value::toString).collect(Collectors.joining(joiner)));
   }
 
   public static Value group_string(
