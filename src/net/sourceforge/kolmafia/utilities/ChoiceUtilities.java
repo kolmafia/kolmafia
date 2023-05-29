@@ -6,6 +6,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
@@ -33,6 +35,14 @@ public class ChoiceUtilities {
   private static final String CHOICE_PHP = "choice.php";
   public static final String SECRET_CHOICE = "(secret choice)";
 
+  public static final Map<String, Integer> responseTextMap = new HashMap<>() {{
+    put("<b>Hippy Talkin'</b>", 798);
+    put("<b>Another Errand I Mean Quest</b>", 930);
+    put("<b>The WLF Bunker</b>", 1093);
+    put("<b>Lyle, LyleCo CEO</b>", 1309);
+    put("<b>What the Future Holds</b>", 1462);
+    put("<b>Make a Wish</b>", 1501);
+  }};
   private ChoiceUtilities() {}
 
   // Extract choice number from URL
@@ -64,21 +74,11 @@ public class ChoiceUtilities {
     }
 
     // Rarely, a choice isn't given, but try to identify it anyway:
-    if (responseText.contains("<b>Hippy Talkin'</b>")) {
-      // Is this really missing? My logs look normal
-      return 798;
-    } else if (responseText.contains("<b>Another Errand I Mean Quest</b>")) {
-      return 930;
-    } else if (responseText.contains("<b>The WLF Bunker</b>")) {
-      return 1093;
-    } else if (responseText.contains("<b>Lyle, LyleCo CEO</b>")) {
-      return 1309;
-    } else if (responseText.contains("<b>What the Future Holds</b>")) {
-      return 1462;
-    } else if (responseText.contains("<b>Make a Wish</b>")) {
-      return 1501;
+    for (Map.Entry<String, Integer> entry : responseTextMap.entrySet()) {
+      if (responseText.contains(entry.getKey())) {
+        return entry.getValue();
+      }
     }
-
     return 0;
   }
 
