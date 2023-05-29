@@ -7220,6 +7220,37 @@ public class FightRequest extends GenericRequest {
 
   public static final Pattern CHAKRA_PATTERN = Pattern.compile("This Chakra is now (\\d+)% clean.");
 
+  public enum ChakraLocation {
+    BUNG_CHAKRA("Your Bung Chakra", "crimbo16BungChakraCleanliness"),
+    GUTS_CHAKRA("Your Guts Chakra", "crimbo16GutsChakraCleanliness"),
+    LIVER_CHAKRA("Your Liver Chakra", "crimbo16LiverChakraCleanliness"),
+    NIPPLE_CHAKRA("Your Nipple Chakra", "crimbo16NippleChakraCleanliness"),
+    NOSE_CHAKRA("Your Nose Chakra", "crimbo16NoseChakraCleanliness"),
+    HAT_CHAKRA("Your Hat Chakra", "crimbo16HatChakraCleanliness"),
+    SACK("Crimbo's Sack", "crimbo16SackChakraCleanliness"),
+    BOOTS("Crimbo's Boots", "crimbo16BootsChakraCleanliness"),
+    JELLY("Crimbo's Jelly", "crimbo16JellyChakraCleanliness"),
+    REINDEER("Crimbo's Reindeer", "crimbo16ReindeerChakraCleanliness"),
+    BEARD("Crimbo's Beard", "crimbo16BeardChakraCleanliness"),
+    HAT("Crimbo's Hat", "crimbo16CrimboHatChakraCleanliness");
+
+    private final String location;
+    private final String setting;
+
+    ChakraLocation(String location, String setting) {
+      this.location = location;
+      this.setting = setting;
+    }
+
+    public String getLocation() {
+      return location;
+    }
+
+    public String getSetting() {
+      return setting;
+    }
+  }
+
   private static boolean handleChakra(TagNode node, TagStatus status) {
     String str = node.getText().toString();
 
@@ -7230,47 +7261,12 @@ public class FightRequest extends GenericRequest {
 
     int cleanliness = StringUtilities.parseInt(matcher.group(1));
 
-    String setting;
-    switch (status.location) {
-      case "Your Bung Chakra":
-        setting = "crimbo16BungChakraCleanliness";
+    String setting = null;
+    for (ChakraLocation chakraLocation : ChakraLocation.values()) {
+      if (status.location.equals(chakraLocation.getLocation())) {
+        setting = chakraLocation.getSetting();
         break;
-      case "Your Guts Chakra":
-        setting = "crimbo16GutsChakraCleanliness";
-        break;
-      case "Your Liver Chakra":
-        setting = "crimbo16LiverChakraCleanliness";
-        break;
-      case "Your Nipple Chakra":
-        setting = "crimbo16NippleChakraCleanliness";
-        break;
-      case "Your Nose Chakra":
-        setting = "crimbo16NoseChakraCleanliness";
-        break;
-      case "Your Hat Chakra":
-        setting = "crimbo16HatChakraCleanliness";
-        break;
-      case "Crimbo's Sack":
-        setting = "crimbo16SackChakraCleanliness";
-        break;
-      case "Crimbo's Boots":
-        setting = "crimbo16BootsChakraCleanliness";
-        break;
-      case "Crimbo's Jelly":
-        setting = "crimbo16JellyChakraCleanliness";
-        break;
-      case "Crimbo's Reindeer":
-        setting = "crimbo16ReindeerChakraCleanliness";
-        break;
-      case "Crimbo's Beard":
-        setting = "crimbo16BeardChakraCleanliness";
-        break;
-      case "Crimbo's Hat":
-        setting = "crimbo16CrimboHatChakraCleanliness";
-        break;
-      default:
-        setting = null;
-        break;
+      }
     }
 
     if (setting != null) {
