@@ -277,6 +277,125 @@ public class Operator extends Command {
     return result;
   }
 
+  private enum DoubleTypeOperator {
+    FLOAT_ADD("+") {
+      public double apply(double leftValue, double rightValue) {
+        return leftValue + rightValue;
+      }
+    },
+    FLOAT_SUBTRACT("-") {
+      public double apply(double leftValue, double rightValue) {
+        return leftValue - rightValue;
+      }
+    },
+    FLOAT_MULTIPLY("*") {
+      public double apply(double leftValue, double rightValue) {
+        return leftValue * rightValue;
+      }
+    },
+    FLOAT_DIVIDE("/") {
+      public double apply(double leftValue, double rightValue) {
+        return leftValue / rightValue;
+      }
+    },
+    FLOAT_MODULUS("%") {
+      public double apply(double leftValue, double rightValue) {
+        return leftValue % rightValue;
+      }
+    };
+
+    private final String operator;
+
+    DoubleTypeOperator(String operator) {
+      this.operator = operator;
+    }
+
+    public abstract double apply(double leftValue, double rightValue);
+
+    @Override
+    public String toString() {
+      return operator;
+    }
+  }
+
+  enum LongTypeOperator {
+    LONG_BITWISE_AND("&") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue & rightValue;
+      }
+    },
+    LONG_BITWISE_XOR("^") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue ^ rightValue;
+      }
+    },
+    LONG_BITWISE_OR("|") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue | rightValue;
+      }
+    },
+    LONG_ADD("+") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue + rightValue;
+      }
+    },
+    LONG_SUBTRACT("-") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue - rightValue;
+      }
+    },
+    LONG_MULTIPLY("*") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue * rightValue;
+      }
+    },
+    LONG_DIVIDE("/") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue / rightValue;
+      }
+    },
+    LONG_MODULUS("%") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue % rightValue;
+      }
+    },
+    LONG_POWER("**") {
+      public long apply(long leftValue, long rightValue) {
+        return (long) Math.pow(leftValue, rightValue);
+      }
+    },
+    LONG_LEFT_SHIFT("<<") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue << rightValue;
+      }
+    },
+    LONG_RIGHT_SHIFT(">>") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue >> rightValue;
+      }
+    },
+    LONG_UNSIGNED_RIGHT_SHIFT(">>>") {
+      public long apply(long leftValue, long rightValue) {
+        return leftValue >>> rightValue;
+      }
+    };
+
+    private final String operator;
+
+    LongTypeOperator(String operator) {
+      this.operator = operator;
+    }
+
+    public abstract long apply(long leftValue, long rightValue);
+
+    @Override
+    public String toString() {
+      return operator;
+    }
+  }
+
+
+
   private Value performArithmetic(final AshRuntime interpreter, Value leftValue, Value rightValue) {
     Type ltype = leftValue.getType();
     Type rtype = rightValue.getType();
@@ -318,25 +437,12 @@ public class Operator extends Command {
               this.lineNumber);
         }
       } else {
-        switch (this.operator) {
-          case "+":
-            val = lfloat + rfloat;
+        val = 0.0;
+        for (DoubleTypeOperator op : DoubleTypeOperator.values()) {
+          if (op.toString().equals(this.operator)) {
+            val = op.apply(lfloat, rfloat);
             break;
-          case "-":
-            val = lfloat - rfloat;
-            break;
-          case "*":
-            val = lfloat * rfloat;
-            break;
-          case "/":
-            val = lfloat / rfloat;
-            break;
-          case "%":
-            val = lfloat % rfloat;
-            break;
-          default:
-            val = 0.0;
-            break;
+          }
         }
       }
 
@@ -347,20 +453,13 @@ public class Operator extends Command {
     else if (this.isLogical()) {
       long lint = leftValue.intValue();
       long rint = rightValue.intValue();
-      long val;
-      switch (this.operator) {
-        case "&":
-          val = lint & rint;
+      long val = 0;
+
+      for (LongTypeOperator op : LongTypeOperator.values()) {
+        if (op.toString().equals(this.operator)) {
+          val = op.apply(lint, rint);
           break;
-        case "^":
-          val = lint ^ rint;
-          break;
-        case "|":
-          val = lint | rint;
-          break;
-        default:
-          val = 0;
-          break;
+        }
       }
       result =
           ltype.equals(TypeSpec.BOOLEAN)
@@ -377,38 +476,12 @@ public class Operator extends Command {
       }
 
       long lint = leftValue.intValue();
-      long val;
-      switch (this.operator) {
-        case "+":
-          val = lint + rint;
+      long val = 0;
+      for (LongTypeOperator op : LongTypeOperator.values()) {
+        if (op.toString().equals(this.operator)) {
+          val = op.apply(lint, rint);
           break;
-        case "-":
-          val = lint - rint;
-          break;
-        case "*":
-          val = lint * rint;
-          break;
-        case "/":
-          val = lint / rint;
-          break;
-        case "%":
-          val = lint % rint;
-          break;
-        case "**":
-          val = (long) Math.pow(lint, rint);
-          break;
-        case "<<":
-          val = lint << rint;
-          break;
-        case ">>":
-          val = lint >> rint;
-          break;
-        case ">>>":
-          val = lint >>> rint;
-          break;
-        default:
-          val = 0;
-          break;
+        }
       }
       result = DataTypes.makeIntValue(val);
     }
