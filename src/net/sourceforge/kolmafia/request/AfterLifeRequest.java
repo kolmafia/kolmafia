@@ -81,52 +81,7 @@ public class AfterLifeRequest extends GenericRequest {
       return true;
     }
 
-    int delta = 0;
-    switch (action) {
-      case "scperm":
-        // afterlife.php?action=scperm&whichskill=6027
-        // <td valign=center>You spend 100 Karma</td>
-        if (responseText.contains("don't have enough Karma for that")) {
-          RequestLogger.updateSessionLog("You don't have enough Karma to perm that skill");
-        } else {
-          delta = -100;
-        }
-        break;
-      case "hcperm":
-        // afterlife.php?action=hcperm&whichskill=6027
-        // <td valign=center>You spend 200 Karma</td>
-        if (responseText.contains("don't have enough Karma for that")) {
-          RequestLogger.updateSessionLog("You don't have enough Karma to perm that skill");
-        } else {
-          delta = -200;
-        }
-        break;
-      case "returnskill":
-        // afterlife.php?action=returnskill&classid=6&skillid=27&hc=1
-        // <td>Skill permanence returned.</td>
-        delta = !urlString.contains("hc=1") ? 100 : 200;
-        break;
-      case "buydeli":
-        // afterlife.php?action=buydeli&whichitem=5045
-        // <td valign=center>You spend 1 Karma</td>
-        delta = -1;
-        break;
-      case "delireturn":
-        // afterlife.php?action=delireturn&whichitem=5045
-        // <td valign=center>You gain 1 Karma</td>
-        delta = 1;
-        break;
-      case "buyarmory":
-        // afterlife.php?action=buyarmory&whichitem=5041
-        // <td valign=center>You spend 10 Karma</td>
-        delta = -10;
-        break;
-      case "armoryreturn":
-        // afterlife.php?action=armoryreturn&whichitem=5041
-        // <td valign=center>You gain 10 Karma</td>
-        delta = 10;
-        break;
-    }
+    int delta = setDeltaWithAction(action, urlString, responseText);
 
     if (delta != 0) {
       Preferences.increment("bankedKarma", delta);
@@ -136,6 +91,56 @@ public class AfterLifeRequest extends GenericRequest {
     }
 
     return true;
+  }
+
+  private static int setDeltaWithAction(final String action, final String urlString, final String responseText) {
+    switch (action) {
+      case "scperm" -> {
+        // afterlife.php?action=scperm&whichskill=6027
+        // <td valign=center>You spend 100 Karma</td>
+        if (responseText.contains("don't have enough Karma for that")) {
+          RequestLogger.updateSessionLog("You don't have enough Karma to perm that skill");
+        } else {
+          return -100;
+        }
+      }
+      case "hcperm" -> {
+        // afterlife.php?action=hcperm&whichskill=6027
+        // <td valign=center>You spend 200 Karma</td>
+        if (responseText.contains("don't have enough Karma for that")) {
+          RequestLogger.updateSessionLog("You don't have enough Karma to perm that skill");
+        } else {
+          return -200;
+        }
+      }
+      case "returnskill" -> {
+        // afterlife.php?action=returnskill&classid=6&skillid=27&hc=1
+        // <td>Skill permanence returned.</td>
+        return !urlString.contains("hc=1") ? 100 : 200;
+      }
+      case "buydeli" -> {
+        // afterlife.php?action=buydeli&whichitem=5045
+        // <td valign=center>You spend 1 Karma</td>
+        return -1;
+      }
+      case "delireturn" -> {
+        // afterlife.php?action=delireturn&whichitem=5045
+        // <td valign=center>You gain 1 Karma</td>
+        return 1;
+      }
+      case "buyarmory" -> {
+        // afterlife.php?action=buyarmory&whichitem=5041
+        // <td valign=center>You spend 10 Karma</td>
+        return -10;
+      }
+      case "armoryreturn" -> {
+        // afterlife.php?action=armoryreturn&whichitem=5041
+        // <td valign=center>You gain 10 Karma</td>
+        return 10;
+      }
+    }
+
+    return 0;
   }
 
   public static final Pattern SKILL_PATTERN = Pattern.compile("whichskill=([^&]*)");
@@ -181,66 +186,29 @@ public class AfterLifeRequest extends GenericRequest {
         // afterlife.php?action=scperm&whichskill=6027
         // afterlife.php?action=hcperm&whichskill=6027
       case "scperm", "hcperm" -> {
-        Matcher m = SKILL_PATTERN.matcher(urlString);
-        if (!m.find()) {
+        Integer skillId = matchUrlPatternAndParseInteger(SKILL_PATTERN, urlString);
+
+        if (skillId == null) {
           return true;
         }
 
-        int skillId = StringUtilities.parseInt(m.group(1));
-        boolean hc = action.startsWith("hc");
-        String skill = SkillDatabase.getSkillName(skillId);
-
-        String type = hc ? "Hard" : "Soft";
-        String cost = hc ? "200" : "100";
-        String name = (skill != null) ? skill : ("Skill #" + skillId);
-        message =
-            type
-                + "core perm "
-                + name
-                + " for "
-                + cost
-                + " Karma (initial balance = "
-                + karma
-                + ")";
+        message = permSkillsMessage(skillId, action, karma);
       }
 
         // Returning a skill
         // afterlife.php?action=returnskill&classid=6&skillid=27&hc=1
       case "returnskill" -> {
-        Matcher m = CLASSID_PATTERN.matcher(urlString);
-        if (!m.find()) {
+        Integer classId = matchUrlPatternAndParseInteger(CLASSID_PATTERN, urlString);
+        Integer skillId = matchUrlPatternAndParseInteger(SKILLID_PATTERN, urlString);
+        Integer hcInteger = matchUrlPatternAndParseInteger(HC_PATTERN, urlString);
+
+        if (classId == null || skillId == null || hcInteger == null) {
           return true;
         }
-        int classId = StringUtilities.parseInt(m.group(1));
 
-        m = SKILLID_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return true;
-        }
-        int skillId = StringUtilities.parseInt(m.group(1));
+        boolean hc = hcInteger == 1;
 
-        m = HC_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return true;
-        }
-        boolean hc = m.group(1).equals("1");
-
-        int id = (classId * 1000) + skillId;
-        String skill = SkillDatabase.getSkillName(id);
-
-        String type = hc ? "Hard" : "Soft";
-        String cost = hc ? "200" : "100";
-        String name = (skill != null) ? skill : ("Skill #" + id);
-        message =
-            "Return "
-                + type
-                + "core Skill "
-                + name
-                + " for "
-                + cost
-                + " Karma (initial balance = "
-                + karma
-                + ")";
+        message = returnSkillMessage(classId, skillId, hc, karma);
       }
 
         // Buying from the Deli
@@ -248,14 +216,13 @@ public class AfterLifeRequest extends GenericRequest {
         // Buying an item
         // afterlife.php?action=buyarmory&whichitem=5041
       case "buydeli", "buyarmory" -> {
-        Matcher m = GenericRequest.WHICHITEM_PATTERN.matcher(urlString);
-        if (!m.find()) {
+        Integer itemId = matchUrlPatternAndParseInteger(GenericRequest.WHICHITEM_PATTERN, urlString);
+
+        if (itemId == null) {
           return true;
         }
-        int itemId = StringUtilities.parseInt(m.group(1));
-        String itemName = ItemDatabase.getItemName(itemId);
-        String cost = action.equals("buydeli") ? "1" : "10";
-        message = "Buy " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
+
+        message = buyItemMessage(itemId, action, karma);
       }
 
         // Returning an item to the Deli
@@ -263,15 +230,13 @@ public class AfterLifeRequest extends GenericRequest {
         // Returning an item
         // afterlife.php?action=armoryreturn&whichitem=5041
       case "delireturn", "armoryreturn" -> {
-        Matcher m = GenericRequest.WHICHITEM_PATTERN.matcher(urlString);
-        if (!m.find()) {
+        Integer itemId = matchUrlPatternAndParseInteger(GenericRequest.WHICHITEM_PATTERN, urlString);
+
+        if (itemId == null) {
           return true;
         }
-        int itemId = StringUtilities.parseInt(m.group(1));
-        String itemName = ItemDatabase.getItemName(itemId);
-        String cost = action.startsWith("deli") ? "1" : "10";
-        message =
-            "Return " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
+
+        message = returnItemMessage(itemId, action, karma);
       }
 
         // Ascending
@@ -283,114 +248,17 @@ public class AfterLifeRequest extends GenericRequest {
           return true;
         }
 
-        Matcher m = TYPE_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return true;
-        }
-        int type = StringUtilities.parseInt(m.group(1));
+        Integer type = matchUrlPatternAndParseInteger(TYPE_PATTERN, urlString);
+        Integer gender = matchUrlPatternAndParseInteger(GENDER_PATTERN, urlString);
+        Integer pclass = matchUrlPatternAndParseInteger(CLASS_PATTERN, urlString);
+        Integer sign = matchUrlPatternAndParseInteger(SIGN_PATTERN, urlString);
+        Integer pathId = matchUrlPatternAndParseInteger(PATH_PATTERN, urlString);
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("Ascend as a ");
-
-        switch (type) {
-          case 1 -> builder.append("Casual");
-          case 2 -> builder.append("Normal");
-          case 3 -> builder.append("Hardcore");
-          default -> {
-            builder.append("(Type ");
-            builder.append(type);
-            builder.append(")");
-          }
-        }
-
-        m = GENDER_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return true;
-        }
-        int gender = StringUtilities.parseInt(m.group(1));
-
-        builder.append(" ");
-
-        switch (gender) {
-          case 1 -> builder.append("Male");
-          case 2 -> builder.append("Female");
-          default -> {
-            builder.append("(Gender ");
-            builder.append(gender);
-            builder.append(")");
-          }
-        }
-
-        m = CLASS_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return true;
-        }
-        int pclass = StringUtilities.parseInt(m.group(1));
-
-        builder.append(" ");
-
-        switch (pclass) {
-          case 1 -> builder.append("Seal Clubber");
-          case 2 -> builder.append("Turtle Tamer");
-          case 3 -> builder.append("Pastamancer");
-          case 4 -> builder.append("Sauceror");
-          case 5 -> builder.append("Disco Bandit");
-          case 6 -> builder.append("Accordion Thief");
-          case 11 -> builder.append("Avatar of Boris");
-          case 12 -> builder.append("Zombie Master");
-          case 14 -> builder.append("Avatar of Jarlsberg");
-          case 15 -> builder.append("Avatar of Sneaky Pete");
-          case 17 -> builder.append("Ed the Undying");
-          case 18 -> builder.append("Cow Puncher");
-          case 19 -> builder.append("Beanslinger");
-          case 20 -> builder.append("Snake Oiler");
-          case 23 -> builder.append("Gelatinous Noob");
-          case 24 -> builder.append("Vampyre");
-          case 25 -> builder.append("Plumber");
-          case 27 -> builder.append("Grey Goo");
-          default -> {
-            builder.append("(Class ");
-            builder.append(pclass);
-            builder.append(")");
-          }
-        }
-
-        m = SIGN_PATTERN.matcher(urlString);
-        if (!m.find()) {
+        if (type == null || gender == null || pclass == null || sign == null || pathId == null) {
           return true;
         }
 
-        builder.append(" under the ");
-
-        int sign = StringUtilities.parseInt(m.group(1));
-        ZodiacSign zSign = ZodiacSign.find(sign);
-        if (zSign != ZodiacSign.NONE) {
-          builder.append(zSign);
-        } else {
-          builder.append("(Sign ");
-          builder.append(sign);
-          builder.append(")");
-        }
-
-        builder.append(" sign");
-
-        m = PATH_PATTERN.matcher(urlString);
-        if (!m.find()) {
-          return true;
-        }
-
-        int pathId = StringUtilities.parseInt(m.group(1));
-        Path path = AscensionPath.idToPath(pathId);
-
-        builder.append(" on ");
-        builder.append(path.description());
-        builder.append(",");
-
-        builder.append(" banking ");
-        builder.append(karma);
-        builder.append(" Karma.");
-
-        message = builder.toString();
+        message = ascendMessage(type, gender, pclass, sign, pathId, karma);
       }
     }
 
@@ -406,5 +274,146 @@ public class AfterLifeRequest extends GenericRequest {
     RequestLogger.updateSessionLog(message);
 
     return true;
+  }
+
+  private static Integer matchUrlPatternAndParseInteger(Pattern pattern, String urlString) {
+    Matcher m = pattern.matcher(urlString);
+    if (!m.find()) {
+      return null;
+    }
+
+    return StringUtilities.parseInt(m.group(1));
+  }
+
+  private static String permSkillsMessage(int skillId, String action, int karma) {
+    boolean hc = action.startsWith("hc");
+    String skill = SkillDatabase.getSkillName(skillId);
+
+    String type = hc ? "Hard" : "Soft";
+    String cost = hc ? "200" : "100";
+    String name = (skill != null) ? skill : ("Skill #" + skillId);
+
+    return type
+            + "core perm "
+            + name
+            + " for "
+            + cost
+            + " Karma (initial balance = "
+            + karma
+            + ")";
+  }
+
+  private static String returnSkillMessage(int classId, int skillId, boolean hc, int karma) {
+    int id = (classId * 1000) + skillId;
+    String skill = SkillDatabase.getSkillName(id);
+
+    String type = hc ? "Hard" : "Soft";
+    String cost = hc ? "200" : "100";
+    String name = (skill != null) ? skill : ("Skill #" + id);
+
+    return "Return "
+            + type
+            + "core Skill "
+            + name
+            + " for "
+            + cost
+            + " Karma (initial balance = "
+            + karma
+            + ")";
+  }
+
+  private static String buyItemMessage(int itemId, String action, int karma) {
+    String itemName = ItemDatabase.getItemName(itemId);
+    String cost = action.equals("buydeli") ? "1" : "10";
+
+    return "Buy " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
+  }
+
+  private static String returnItemMessage(int itemId, String action, int karma) {
+    String itemName = ItemDatabase.getItemName(itemId);
+    String cost = action.startsWith("deli") ? "1" : "10";
+
+    return "Return " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
+  }
+
+  private static String ascendMessage(int type, int gender, int pclass, int sign, int pathId, int karma) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("Ascend as a ");
+
+    switch (type) {
+      case 1 -> builder.append("Casual");
+      case 2 -> builder.append("Normal");
+      case 3 -> builder.append("Hardcore");
+      default -> {
+        builder.append("(Type ");
+        builder.append(type);
+        builder.append(")");
+      }
+    }
+
+    builder.append(" ");
+
+    switch (gender) {
+      case 1 -> builder.append("Male");
+      case 2 -> builder.append("Female");
+      default -> {
+        builder.append("(Gender ");
+        builder.append(gender);
+        builder.append(")");
+      }
+    }
+
+    builder.append(" ");
+
+    switch (pclass) {
+      case 1 -> builder.append("Seal Clubber");
+      case 2 -> builder.append("Turtle Tamer");
+      case 3 -> builder.append("Pastamancer");
+      case 4 -> builder.append("Sauceror");
+      case 5 -> builder.append("Disco Bandit");
+      case 6 -> builder.append("Accordion Thief");
+      case 11 -> builder.append("Avatar of Boris");
+      case 12 -> builder.append("Zombie Master");
+      case 14 -> builder.append("Avatar of Jarlsberg");
+      case 15 -> builder.append("Avatar of Sneaky Pete");
+      case 17 -> builder.append("Ed the Undying");
+      case 18 -> builder.append("Cow Puncher");
+      case 19 -> builder.append("Beanslinger");
+      case 20 -> builder.append("Snake Oiler");
+      case 23 -> builder.append("Gelatinous Noob");
+      case 24 -> builder.append("Vampyre");
+      case 25 -> builder.append("Plumber");
+      case 27 -> builder.append("Grey Goo");
+      default -> {
+        builder.append("(Class ");
+        builder.append(pclass);
+        builder.append(")");
+      }
+    }
+
+    builder.append(" under the ");
+
+    ZodiacSign zSign = ZodiacSign.find(sign);
+    if (zSign != ZodiacSign.NONE) {
+      builder.append(zSign);
+    } else {
+      builder.append("(Sign ");
+      builder.append(sign);
+      builder.append(")");
+    }
+
+    builder.append(" sign");
+
+    Path path = AscensionPath.idToPath(pathId);
+
+    builder.append(" on ");
+    builder.append(path.description());
+    builder.append(",");
+
+    builder.append(" banking ");
+    builder.append(karma);
+    builder.append(" Karma.");
+
+    return builder.toString();
   }
 }
