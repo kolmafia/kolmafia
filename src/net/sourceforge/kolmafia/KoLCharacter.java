@@ -149,7 +149,7 @@ public abstract class KoLCharacter {
       this.modifierValue = modifierValue;
     }
   }
-
+  
   // Create this early before subsequent initializers want to look at it.
   private static final Modifiers currentModifiers = new Modifiers();
 
@@ -1389,20 +1389,9 @@ public abstract class KoLCharacter {
         // some of your options - adventuring zones or combat skills - are
         // restricted
 
-        switch (Preferences.getString("currentLlamaForm")) {
-          case "Bird" -> {
-            KoLCharacter.limitMode = LimitMode.BIRD;
-            return;
-          }
-          case "Roach" -> {
-            KoLCharacter.limitMode = LimitMode.ROACH;
-            return;
-          }
-          case "Mole" -> {
-            KoLCharacter.limitMode = LimitMode.MOLE;
-            return;
-          }
-        }
+        KoLCharacter.limitMode = LimitMode.find(Preferences.getString("currentLlamaForm"));
+        if (isPseudoLimitMode())
+          return;
 
         if (KoLConstants.activeEffects.contains(ASTRAL)) {
           KoLCharacter.limitMode = LimitMode.ASTRAL;
@@ -1422,6 +1411,12 @@ public abstract class KoLCharacter {
     }
 
     KoLCharacter.limitMode = limitmode;
+  }
+
+  private static boolean isPseudoLimitMode() {
+    return KoLCharacter.limitMode == LimitMode.BIRD
+            || KoLCharacter.limitMode == LimitMode.ROACH
+            || KoLCharacter.limitMode == LimitMode.MOLE;
   }
 
   public static void setLimitMode(final String name) {
