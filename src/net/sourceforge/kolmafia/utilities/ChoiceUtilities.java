@@ -32,6 +32,12 @@ public class ChoiceUtilities {
     Pattern.compile("value=['\"]?(\\d+)['\"]? name=['\"]?whichchoice['\"]?"),
     Pattern.compile("whichchoice=(\\d+)"),
   };
+
+  private static final Pattern[] PARSE_PATTERNS = {
+          FORM_PATTERN, LINK_PATTERN
+  };
+
+
   private static final String CHOICE_PHP = "choice.php";
   public static final String SECRET_CHOICE = "(secret choice)";
 
@@ -117,8 +123,15 @@ public class ChoiceUtilities {
     if (responseText == null) {
       return rv;
     }
+    for (Pattern pattern : PARSE_PATTERNS) {
+      Matcher m = pattern.matcher(responseText);
+      addToMap(rv, m);
+    }
 
-    Matcher m = FORM_PATTERN.matcher(responseText);
+    return rv;
+  }
+
+  private static void addToMap(Map<Integer, String> rv, Matcher m) {
     while (m.find()) {
       String form = m.group();
       if (!form.contains(CHOICE_PHP)) {
@@ -144,35 +157,6 @@ public class ChoiceUtilities {
                       : textMatcher.group(3) != null ? textMatcher.group(3) : SECRET_CHOICE;
       rv.put(key, text);
     }
-
-    m = LINK_PATTERN.matcher(responseText);
-    while (m.find()) {
-      String form = m.group();
-      if (!form.contains(CHOICE_PHP)) {
-        continue;
-      }
-      Matcher optMatcher = OPTION_PATTERN2.matcher(form);
-      if (!optMatcher.find()) {
-        continue;
-      }
-      int decision = Integer.parseInt(optMatcher.group(1));
-      Integer key = decision;
-      if (rv.get(key) != null) {
-        continue;
-      }
-      Matcher textMatcher = TEXT_PATTERN2.matcher(form);
-      String text =
-          !textMatcher.find()
-              ? SECRET_CHOICE
-              : textMatcher.group(1) != null
-                  ? textMatcher.group(1)
-                  : textMatcher.group(2) != null
-                      ? textMatcher.group(2)
-                      : textMatcher.group(3) != null ? textMatcher.group(3) : SECRET_CHOICE;
-      rv.put(key, text);
-    }
-
-    return rv;
   }
 
   public static Map<Integer, String> parseChoicesWithSpoilers(final String responseText) {
