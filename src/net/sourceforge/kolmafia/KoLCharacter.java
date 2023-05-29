@@ -1389,9 +1389,20 @@ public abstract class KoLCharacter {
         // some of your options - adventuring zones or combat skills - are
         // restricted
 
-        KoLCharacter.limitMode = LimitMode.find(Preferences.getString("currentLlamaForm"));
-        if (isPseudoLimitMode())
-          return;
+        switch (Preferences.getString("currentLlamaForm")) {
+          case "Bird" -> {
+            KoLCharacter.limitMode = LimitMode.BIRD;
+            return;
+          }
+          case "Roach" -> {
+            KoLCharacter.limitMode = LimitMode.ROACH;
+            return;
+          }
+          case "Mole" -> {
+            KoLCharacter.limitMode = LimitMode.MOLE;
+            return;
+          }
+        }
 
         if (KoLConstants.activeEffects.contains(ASTRAL)) {
           KoLCharacter.limitMode = LimitMode.ASTRAL;
@@ -1411,12 +1422,6 @@ public abstract class KoLCharacter {
     }
 
     KoLCharacter.limitMode = limitmode;
-  }
-
-  private static boolean isPseudoLimitMode() {
-    return KoLCharacter.limitMode == LimitMode.BIRD
-            || KoLCharacter.limitMode == LimitMode.ROACH
-            || KoLCharacter.limitMode == LimitMode.MOLE;
   }
 
   public static void setLimitMode(final String name) {

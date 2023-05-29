@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,9 +12,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.PrintStream;
 import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -30,15 +26,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessing;
-import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -49,17 +42,13 @@ import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class CustomCombatPanel extends JPanel {
-  private JComboBox<String> actionSelect;
-  protected JTree combatTree;
-  protected JTextArea combatEditor;
-  protected DefaultTreeModel combatModel;
+  protected FacadeCustomCombatPanel facadeCustomCombatPanel = new FacadeCustomCombatPanel();
 
-  protected JPanel combatCardPanel;
-  protected CardLayout combatCards;
+  private JComboBox<String> actionSelect;
+
   public JComboBox<String> availableScripts;
 
   private static ImageIcon stealImg, stunImg;
@@ -78,21 +67,15 @@ public class CustomCombatPanel extends JPanel {
   }
 
   public CustomCombatPanel() {
-    this.combatTree = new JTree();
-    this.combatModel = (DefaultTreeModel) this.combatTree.getModel();
-
-    this.combatCards = new CardLayout();
-    this.combatCardPanel = new JPanel(this.combatCards);
+    this.facadeCustomCombatPanel.initCombatPanelUI(
+        new CustomCombatTreePanel(), new CustomCombatEditorPanel());
 
     this.availableScripts = new CombatComboBox();
-
-    this.combatCardPanel.add("tree", new CustomCombatTreePanel());
-    this.combatCardPanel.add("editor", new CustomCombatEditorPanel());
 
     this.setLayout(new BorderLayout(5, 5));
 
     this.add(new SpecialActionsPanel(), BorderLayout.NORTH);
-    this.add(this.combatCardPanel, BorderLayout.CENTER);
+    this.add(this.facadeCustomCombatPanel.getCombatCardPanel(), BorderLayout.CENTER);
 
     this.updateFromPreferences();
   }
@@ -109,43 +92,9 @@ public class CustomCombatPanel extends JPanel {
   }
 
   public void refreshCombatEditor() {
-    try {
-      String script = (String) this.availableScripts.getSelectedItem();
-      try (BufferedReader reader =
-          FileUtilities.getReader(CombatActionManager.getStrategyLookupFile(script))) {
+    String script = (String) this.availableScripts.getSelectedItem();
 
-        if (reader == null) {
-          return;
-        }
-
-        StringBuffer buffer = new StringBuffer();
-        String line;
-
-        while ((line = reader.readLine()) != null) {
-          buffer.append(line);
-          buffer.append('\n');
-        }
-
-        this.combatEditor.setText(buffer.toString());
-      }
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
-      StaticEntity.printStackTrace(e);
-    }
-
-    this.refreshCombatTree();
-  }
-
-  /** Internal class used to handle everything related to displaying custom combat. */
-  public void refreshCombatTree() {
-    this.combatModel.setRoot(CombatActionManager.getStrategyLookup());
-    this.combatTree.setRootVisible(false);
-
-    for (int i = 0; i < this.combatTree.getRowCount(); ++i) {
-      this.combatTree.expandRow(i);
-    }
+    this.facadeCustomCombatPanel.refreshCombatEditor(script);
   }
 
   private static ImageIcon getImage(final String filename) {
@@ -496,7 +445,7 @@ public class CustomCombatPanel extends JPanel {
 
     @Override
     public void update() {
-      CustomCombatPanel.this.combatCards.show(CustomCombatPanel.this.combatCardPanel, "tree");
+      CustomCombatPanel.this.facadeCustomCombatPanel.showCombatCardPanel("tree");
       this.setSelectedItem(Preferences.getString("customCombatScript"));
     }
 
@@ -505,17 +454,16 @@ public class CustomCombatPanel extends JPanel {
       String script = (String) this.getSelectedItem();
       if (script != null) {
         CombatActionManager.loadStrategyLookup(script);
-        CustomCombatPanel.this.refreshCombatTree();
+        CustomCombatPanel.this.facadeCustomCombatPanel.refreshCombatTree();
       }
     }
   }
 
-  private class CustomCombatEditorPanel extends ScrollablePanel<JTextArea> {
+  public class CustomCombatEditorPanel extends ScrollablePanel<JTextArea> {
     public CustomCombatEditorPanel() {
       super("Editor", "save", "cancel", new JTextArea());
-      CustomCombatPanel.this.combatEditor = this.scrollComponent;
-      CustomCombatPanel.this.combatEditor.setFont(KoLGUIConstants.DEFAULT_FONT);
-      CustomCombatPanel.this.refreshCombatTree();
+      CustomCombatPanel.this.facadeCustomCombatPanel.initCustomCombatEditorPanel(
+          this.scrollComponent);
 
       this.eastPanel.add(
           new RelayBrowserButton("help", "https://wiki.kolmafia.us/index.php/Custom_Combat_Script"),
@@ -525,32 +473,15 @@ public class CustomCombatPanel extends JPanel {
     @Override
     public void actionConfirmed() {
       String script = (String) CustomCombatPanel.this.availableScripts.getSelectedItem();
-      String saveText = CustomCombatPanel.this.combatEditor.getText();
 
-      File location = CombatActionManager.getStrategyLookupFile(script);
-      PrintStream writer = LogStream.openStream(location, true);
-
-      writer.print(saveText);
-      writer.close();
-      writer = null;
-
-      KoLCharacter.battleSkillNames.setSelectedItem("custom combat script");
-      Preferences.setString("battleAction", "custom combat script");
-
-      // After storing all the data on disk, go ahead
-      // and reload the data inside of the tree.
-
-      CombatActionManager.loadStrategyLookup(script);
-      CombatActionManager.saveStrategyLookup(script);
-
-      CustomCombatPanel.this.refreshCombatTree();
-      CustomCombatPanel.this.combatCards.show(CustomCombatPanel.this.combatCardPanel, "tree");
+      CustomCombatPanel.this.facadeCustomCombatPanel.actionConfirmed(script);
     }
 
     @Override
     public void actionCancelled() {
       CustomCombatPanel.this.refreshCombatEditor();
-      CustomCombatPanel.this.combatCards.show(CustomCombatPanel.this.combatCardPanel, "tree");
+
+      CustomCombatPanel.this.facadeCustomCombatPanel.showCombatCardPanel("tree");
     }
 
     @Override
@@ -559,8 +490,8 @@ public class CustomCombatPanel extends JPanel {
 
   public class CustomCombatTreePanel extends ScrollablePanel<JTree> {
     public CustomCombatTreePanel() {
-      super("", "edit", "help", CustomCombatPanel.this.combatTree);
-      CustomCombatPanel.this.combatTree.setVisibleRowCount(8);
+      super("", "edit", "help", CustomCombatPanel.this.facadeCustomCombatPanel.getCombatTree());
+      CustomCombatPanel.this.facadeCustomCombatPanel.getCombatTree().setVisibleRowCount(8);
 
       this.centerPanel.add(CustomCombatPanel.this.availableScripts, BorderLayout.NORTH);
 
@@ -579,7 +510,9 @@ public class CustomCombatPanel extends JPanel {
     @Override
     public void actionConfirmed() {
       CustomCombatPanel.this.refreshCombatEditor();
-      CustomCombatPanel.this.combatCards.show(CustomCombatPanel.this.combatCardPanel, "editor");
+
+      CustomCombatPanel.this.facadeCustomCombatPanel.showCombatCardPanel("tree");
+      CustomCombatPanel.this.facadeCustomCombatPanel.showCombatCardPanel("editor");
     }
 
     @Override
@@ -599,7 +532,7 @@ public class CustomCombatPanel extends JPanel {
         }
 
         CombatActionManager.loadStrategyLookup(name);
-        CustomCombatPanel.this.refreshCombatTree();
+        CustomCombatPanel.this.facadeCustomCombatPanel.refreshCombatTree();
       }
     }
 
@@ -613,7 +546,7 @@ public class CustomCombatPanel extends JPanel {
 
         CombatActionManager.copyStrategyLookup(name);
         CombatActionManager.loadStrategyLookup(name);
-        CustomCombatPanel.this.refreshCombatTree();
+        CustomCombatPanel.this.facadeCustomCombatPanel.refreshCombatTree();
       }
     }
 
@@ -628,7 +561,7 @@ public class CustomCombatPanel extends JPanel {
 
         CombatActionManager.deleteCurrentStrategyLookup();
         CombatActionManager.loadStrategyLookup("default");
-        CustomCombatPanel.this.refreshCombatTree();
+        CustomCombatPanel.this.facadeCustomCombatPanel.refreshCombatTree();
       }
     }
   }
