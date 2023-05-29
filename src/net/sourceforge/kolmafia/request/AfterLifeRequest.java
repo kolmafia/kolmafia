@@ -93,7 +93,8 @@ public class AfterLifeRequest extends GenericRequest {
     return true;
   }
 
-  private static int setDeltaWithAction(final String action, final String urlString, final String responseText) {
+  private static int setDeltaWithAction(
+      final String action, final String urlString, final String responseText) {
     switch (action) {
       case "scperm" -> {
         // afterlife.php?action=scperm&whichskill=6027
@@ -216,7 +217,8 @@ public class AfterLifeRequest extends GenericRequest {
         // Buying an item
         // afterlife.php?action=buyarmory&whichitem=5041
       case "buydeli", "buyarmory" -> {
-        Integer itemId = matchUrlPatternAndParseInteger(GenericRequest.WHICHITEM_PATTERN, urlString);
+        Integer itemId =
+            matchUrlPatternAndParseInteger(GenericRequest.WHICHITEM_PATTERN, urlString);
 
         if (itemId == null) {
           return true;
@@ -230,7 +232,8 @@ public class AfterLifeRequest extends GenericRequest {
         // Returning an item
         // afterlife.php?action=armoryreturn&whichitem=5041
       case "delireturn", "armoryreturn" -> {
-        Integer itemId = matchUrlPatternAndParseInteger(GenericRequest.WHICHITEM_PATTERN, urlString);
+        Integer itemId =
+            matchUrlPatternAndParseInteger(GenericRequest.WHICHITEM_PATTERN, urlString);
 
         if (itemId == null) {
           return true;
@@ -293,14 +296,7 @@ public class AfterLifeRequest extends GenericRequest {
     String cost = hc ? "200" : "100";
     String name = (skill != null) ? skill : ("Skill #" + skillId);
 
-    return type
-            + "core perm "
-            + name
-            + " for "
-            + cost
-            + " Karma (initial balance = "
-            + karma
-            + ")";
+    return type + "core perm " + name + " for " + cost + " Karma (initial balance = " + karma + ")";
   }
 
   private static String returnSkillMessage(int classId, int skillId, boolean hc, int karma) {
@@ -312,14 +308,14 @@ public class AfterLifeRequest extends GenericRequest {
     String name = (skill != null) ? skill : ("Skill #" + id);
 
     return "Return "
-            + type
-            + "core Skill "
-            + name
-            + " for "
-            + cost
-            + " Karma (initial balance = "
-            + karma
-            + ")";
+        + type
+        + "core Skill "
+        + name
+        + " for "
+        + cost
+        + " Karma (initial balance = "
+        + karma
+        + ")";
   }
 
   private static String buyItemMessage(int itemId, String action, int karma) {
@@ -336,7 +332,8 @@ public class AfterLifeRequest extends GenericRequest {
     return "Return " + itemName + " for " + cost + " Karma (initial balance = " + karma + ")";
   }
 
-  private static String ascendMessage(int type, int gender, int pclass, int sign, int pathId, int karma) {
+  private static String ascendMessage(
+      int type, int gender, int pclass, int sign, int pathId, int karma) {
     StringBuilder builder = new StringBuilder();
     builder.append("Ascend as a ");
 

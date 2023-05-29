@@ -26,7 +26,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
-
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -68,7 +67,8 @@ public class CustomCombatPanel extends JPanel {
   }
 
   public CustomCombatPanel() {
-    this.facadeCustomCombatPanel.initCombatPanelUI(new CustomCombatTreePanel(), new CustomCombatEditorPanel());
+    this.facadeCustomCombatPanel.initCombatPanelUI(
+        new CustomCombatTreePanel(), new CustomCombatEditorPanel());
 
     this.availableScripts = new CombatComboBox();
 
@@ -96,8 +96,6 @@ public class CustomCombatPanel extends JPanel {
 
     this.facadeCustomCombatPanel.refreshCombatEditor(script);
   }
-
-
 
   private static ImageIcon getImage(final String filename) {
     String path = "itemimages/" + filename;
@@ -464,7 +462,8 @@ public class CustomCombatPanel extends JPanel {
   public class CustomCombatEditorPanel extends ScrollablePanel<JTextArea> {
     public CustomCombatEditorPanel() {
       super("Editor", "save", "cancel", new JTextArea());
-      CustomCombatPanel.this.facadeCustomCombatPanel.initCustomCombatEditorPanel(this.scrollComponent);
+      CustomCombatPanel.this.facadeCustomCombatPanel.initCustomCombatEditorPanel(
+          this.scrollComponent);
 
       this.eastPanel.add(
           new RelayBrowserButton("help", "https://wiki.kolmafia.us/index.php/Custom_Combat_Script"),
