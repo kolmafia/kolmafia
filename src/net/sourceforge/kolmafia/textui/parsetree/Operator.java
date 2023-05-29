@@ -318,16 +318,26 @@ public class Operator extends Command {
               this.lineNumber);
         }
       } else {
-        val =
-            this.operator.equals("+")
-                ? lfloat + rfloat
-                : this.operator.equals("-")
-                    ? lfloat - rfloat
-                    : this.operator.equals("*")
-                        ? lfloat * rfloat
-                        : this.operator.equals("/")
-                            ? lfloat / rfloat
-                            : this.operator.equals("%") ? lfloat % rfloat : 0.0;
+        switch (this.operator) {
+          case "+":
+            val = lfloat + rfloat;
+            break;
+          case "-":
+            val = lfloat - rfloat;
+            break;
+          case "*":
+            val = lfloat * rfloat;
+            break;
+          case "/":
+            val = lfloat / rfloat;
+            break;
+          case "%":
+            val = lfloat % rfloat;
+            break;
+          default:
+            val = 0.0;
+            break;
+        }
       }
 
       result = DataTypes.makeFloatValue(val);
@@ -337,12 +347,21 @@ public class Operator extends Command {
     else if (this.isLogical()) {
       long lint = leftValue.intValue();
       long rint = rightValue.intValue();
-      long val =
-          this.operator.equals("&")
-              ? lint & rint
-              : this.operator.equals("^")
-                  ? lint ^ rint
-                  : this.operator.equals("|") ? lint | rint : 0;
+      long val;
+      switch (this.operator) {
+        case "&":
+          val = lint & rint;
+          break;
+        case "^":
+          val = lint ^ rint;
+          break;
+        case "|":
+          val = lint | rint;
+          break;
+        default:
+          val = 0;
+          break;
+      }
       result =
           ltype.equals(TypeSpec.BOOLEAN)
               ? DataTypes.makeBooleanValue(val != 0)
@@ -358,24 +377,39 @@ public class Operator extends Command {
       }
 
       long lint = leftValue.intValue();
-      long val =
-          this.operator.equals("+")
-              ? lint + rint
-              : this.operator.equals("-")
-                  ? lint - rint
-                  : this.operator.equals("*")
-                      ? lint * rint
-                      : this.operator.equals("/")
-                          ? lint / rint
-                          : this.operator.equals("%")
-                              ? lint % rint
-                              : this.operator.equals("**")
-                                  ? (long) Math.pow(lint, rint)
-                                  : this.operator.equals("<<")
-                                      ? lint << rint
-                                      : this.operator.equals(">>")
-                                          ? lint >> rint
-                                          : this.operator.equals(">>>") ? lint >>> rint : 0;
+      long val;
+      switch (this.operator) {
+        case "+":
+          val = lint + rint;
+          break;
+        case "-":
+          val = lint - rint;
+          break;
+        case "*":
+          val = lint * rint;
+          break;
+        case "/":
+          val = lint / rint;
+          break;
+        case "%":
+          val = lint % rint;
+          break;
+        case "**":
+          val = (long) Math.pow(lint, rint);
+          break;
+        case "<<":
+          val = lint << rint;
+          break;
+        case ">>":
+          val = lint >> rint;
+          break;
+        case ">>>":
+          val = lint >>> rint;
+          break;
+        default:
+          val = 0;
+          break;
+      }
       result = DataTypes.makeIntValue(val);
     }
 
