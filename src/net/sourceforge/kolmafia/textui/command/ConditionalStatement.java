@@ -113,17 +113,32 @@ public abstract class ConditionalStatement extends AbstractCommand {
       return false;
     }
 
-    return operator.equals("==")
-        ? leftValue == rightValue
-        : operator.equals("!=")
-            ? leftValue != rightValue
-            : operator.equals(">=")
-                ? leftValue >= rightValue
-                : operator.equals(">")
-                    ? leftValue > rightValue
-                    : operator.equals("<=")
-                        ? leftValue <= rightValue
-                        : operator.equals("<") ? leftValue < rightValue : false;
+    boolean result;
+
+    switch (operator) {
+      case "==":
+        result = (leftValue == rightValue);
+        break;
+      case "!=":
+        result = (leftValue != rightValue);
+        break;
+      case ">=":
+        result = (leftValue >= rightValue);
+        break;
+      case ">":
+        result = (leftValue > rightValue);
+        break;
+      case "<=":
+        result = (leftValue <= rightValue);
+        break;
+      case "<":
+        result = (leftValue < rightValue);
+        break;
+      default:
+        result = false;
+        break;
+    }
+    return result;
   }
 
   static final long lvalue(final String left) {
