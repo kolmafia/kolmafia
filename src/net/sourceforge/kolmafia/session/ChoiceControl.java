@@ -6307,6 +6307,9 @@ public abstract class ChoiceControl {
           if (ChoiceManager.lastDecision == 7) {
             // *** No longer forces a semirare
           }
+          if (ChoiceManager.lastDecision == 3) {
+            Preferences.setBoolean("noncombatForcerActive", true);
+          }
         }
         break;
 

@@ -291,6 +291,10 @@ public class SpleenItemRequest extends UseItemRequest {
         Preferences.increment("_spookyJellyUses", count);
         break;
 
+      case ItemPool.STENCH_JELLY:
+        Preferences.setBoolean("noncombatForcerActive", true);
+        break;
+
       case ItemPool.NIGHTMARE_FUEL:
         Preferences.increment("_nightmareFuelCharges", count);
         break;

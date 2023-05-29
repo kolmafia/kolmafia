@@ -10,6 +10,8 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFamiliarInTerrariumWithItem;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
@@ -24,9 +26,11 @@ import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -247,10 +251,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void canVisitCabinet() {
-      var cleanups =
-          new Cleanups(withNextResponse(200, html("request/test_choice_cmc_frozen_jeans.html")));
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withHandlingChoice(false));
 
       try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_choice_cmc_frozen_jeans.html"));
         String output = execute("expected_cold_medicine_cabinet()");
         assertThat(
             output,
@@ -268,9 +275,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void canHandleUnexpectedCabinetResponse() {
-      var cleanups = new Cleanups(withNextResponse(200, "huh?"));
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withHandlingChoice(false));
 
       try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, "huh?");
         String output = execute("expected_cold_medicine_cabinet()");
         assertThat(
             output,

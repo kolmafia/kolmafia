@@ -240,7 +240,10 @@ public class PlaceRequest extends GenericRequest {
       }
       case "mountains" -> {
         if (responseText.contains("chateau")) {
-          Preferences.setBoolean("chateauAvailable", true);
+          // in LoL we can't distinguish between "has real chateau" and "used replica"
+          if (!KoLCharacter.inLegacyOfLoathing()) {
+            Preferences.setBoolean("chateauAvailable", true);
+          }
         }
         if (responseText.contains("snojo")) {
           Preferences.setBoolean("snojoAvailable", true);

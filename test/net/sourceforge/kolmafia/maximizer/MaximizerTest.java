@@ -9,6 +9,7 @@ import static internal.helpers.Maximizer.recommendedSlotIs;
 import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
 import static internal.helpers.Maximizer.recommends;
 import static internal.helpers.Maximizer.someBoostIs;
+import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
@@ -1752,6 +1753,53 @@ public class MaximizerTest {
         recommendedSlotIsUnchanged(Slot.HAT);
         recommendedSlotIsUnchanged(Slot.PANTS);
         recommendedSlotIsUnchanged(Slot.OFFHAND);
+      }
+    }
+  }
+
+  @Nested
+  class Standard {
+    private final Cleanups withWitchess =
+        new Cleanups(
+            withCampgroundItem(ItemPool.WITCHESS_SET), withProperty("puzzleChampBonus", 20));
+
+    @Test
+    public void suggestsWitchessIfOwned() {
+      var cleanups = new Cleanups(withWitchess);
+
+      try (cleanups) {
+        assertTrue(maximize("familiar weight"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "witchess")));
+      }
+    }
+
+    @Test
+    public void doesNotSuggestWitchessWhenOutOfStandard() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.STANDARD),
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Witchess Set"),
+              withWitchess);
+
+      try (cleanups) {
+        assertTrue(maximize("familiar weight"));
+        assertFalse(someBoostIs(b -> commandStartsWith(b, "witchess")));
+      }
+    }
+
+    @Test
+    public void suggestsWitchessWhenOutOfStandardForLegacyOfLoathing() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.LEGACY_OF_LOATHING),
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "Witchess Set"),
+              withWitchess);
+
+      try (cleanups) {
+        assertTrue(maximize("familiar weight"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "witchess")));
       }
     }
   }

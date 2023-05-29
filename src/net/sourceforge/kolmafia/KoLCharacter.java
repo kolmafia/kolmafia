@@ -1747,7 +1747,8 @@ public abstract class KoLCharacter {
     if (KoLCharacter.hasSkill(SkillPool.FOOD_COMA)) freerests += 10;
     if (KoLCharacter.hasSkill(SkillPool.DOG_TIRED)) freerests += 5;
     if (KoLConstants.chateau.contains(ChateauRequest.CHATEAU_FAN)) freerests += 5;
-    if (Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
+    if (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
+        && Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
     if (KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
         || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
@@ -3009,6 +3010,15 @@ public abstract class KoLCharacter {
     if (oldPath == Path.HEAVY_RAINS
         || oldPath == Path.NUCLEAR_AUTUMN
         || oldPath == Path.YOU_ROBOT) {
+      KoLCharacter.resetSkills();
+    }
+
+    // Reset Legacy of Loathing stuff
+    if (oldPath == Path.LEGACY_OF_LOATHING) {
+      Preferences.resetToDefault("replicaChateauAvailable");
+      Preferences.resetToDefault("replicaNeverendingPartyAlways");
+
+      // if replica emotion chipped
       KoLCharacter.resetSkills();
     }
 
@@ -5652,7 +5662,7 @@ public abstract class KoLCharacter {
             newModifiers.add(ModifierDatabase.getItemModifiers(card.getItemId()));
           }
         }
-        case ItemPool.FOLDER_HOLDER ->
+        case ItemPool.FOLDER_HOLDER, ItemPool.REPLICA_FOLDER_HOLDER ->
         // Apply folders
         SlotSet.FOLDER_SLOTS.stream()
             .map(equipment::get)
