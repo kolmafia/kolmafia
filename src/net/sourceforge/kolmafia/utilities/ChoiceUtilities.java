@@ -32,7 +32,7 @@ public class ChoiceUtilities {
     Pattern.compile("whichchoice=(\\d+)"),
   };
 
-  private static final Pattern[] PARSE_PATTERNS = {FORM_PATTERN, LINK_PATTERN};
+
 
   public static final String CHOICE_PHP = "choice.php";
   public static final String SECRET_CHOICE = "(secret choice)";
