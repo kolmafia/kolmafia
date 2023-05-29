@@ -1,13 +1,12 @@
 package net.sourceforge.kolmafia.utilities;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.HashMap;
-import java.util.Map;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
@@ -33,22 +32,23 @@ public class ChoiceUtilities {
     Pattern.compile("whichchoice=(\\d+)"),
   };
 
-  private static final Pattern[] PARSE_PATTERNS = {
-          FORM_PATTERN, LINK_PATTERN
-  };
-
+  private static final Pattern[] PARSE_PATTERNS = {FORM_PATTERN, LINK_PATTERN};
 
   private static final String CHOICE_PHP = "choice.php";
   public static final String SECRET_CHOICE = "(secret choice)";
 
-  public static final Map<String, Integer> responseTextMap = new HashMap<>() {{
-    put("<b>Hippy Talkin'</b>", 798);
-    put("<b>Another Errand I Mean Quest</b>", 930);
-    put("<b>The WLF Bunker</b>", 1093);
-    put("<b>Lyle, LyleCo CEO</b>", 1309);
-    put("<b>What the Future Holds</b>", 1462);
-    put("<b>Make a Wish</b>", 1501);
-  }};
+  public static final Map<String, Integer> responseTextMap =
+      new HashMap<>() {
+        {
+          put("<b>Hippy Talkin'</b>", 798);
+          put("<b>Another Errand I Mean Quest</b>", 930);
+          put("<b>The WLF Bunker</b>", 1093);
+          put("<b>Lyle, LyleCo CEO</b>", 1309);
+          put("<b>What the Future Holds</b>", 1462);
+          put("<b>Make a Wish</b>", 1501);
+        }
+      };
+
   private ChoiceUtilities() {}
 
   // Extract choice number from URL
