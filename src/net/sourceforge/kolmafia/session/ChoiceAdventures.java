@@ -7971,7 +7971,8 @@ public abstract class ChoiceAdventures {
           buffer.setLength(0);
           buffer.append("blood kiwi (from above)");
           buffer.append(", Dreadsylvanian seed pod");
-          if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.FOLDER_HOLDER, 1))) {
+          if (KoLCharacter.hasEquipped(ItemPool.FOLDER_HOLDER)
+              || KoLCharacter.hasEquipped(ItemPool.REPLICA_FOLDER_HOLDER)) {
             buffer.append(", folder (owl)");
           }
 

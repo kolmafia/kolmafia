@@ -237,8 +237,10 @@ public class ChateauRequest extends PlaceRequest {
   }
 
   public static boolean chateauAvailable() {
-    return Preferences.getBoolean("chateauAvailable")
-        && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Chateau Mantegna room key")
+    return (Preferences.getBoolean("chateauAvailable")
+                && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Chateau Mantegna room key")
+            || KoLCharacter.inLegacyOfLoathing()
+                && Preferences.getBoolean("replicaChateauAvailable"))
         && !KoLCharacter.getLimitMode().limitZone("Mountain")
         && !KoLCharacter.inBadMoon()
         && !KoLCharacter.isKingdomOfExploathing();

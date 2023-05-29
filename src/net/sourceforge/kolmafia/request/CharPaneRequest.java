@@ -265,6 +265,8 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.check8BitScore(responseText);
 
+    CharPaneRequest.checkNoncombatForcers(responseText);
+
     // Mana cost adjustment may have changed
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
@@ -272,6 +274,12 @@ public class CharPaneRequest extends GenericRequest {
     RequestFrame.refreshStatus();
 
     return true;
+  }
+
+  public static void checkNoncombatForcers(final String responseText) {
+    boolean noncombatForcerActive =
+        responseText.contains("<b><font size=2>Adventure Modifiers:</font></b>");
+    Preferences.setBoolean("noncombatForcerActive", noncombatForcerActive);
   }
 
   public static final String getLastResponse() {
@@ -1590,6 +1598,9 @@ public class CharPaneRequest extends GenericRequest {
 
     boolean casual = JSON.getInt("casual") == 1;
     KoLCharacter.setCasual(casual);
+
+    var noncombatForcers = JSON.getJSONArray("noncomforcers");
+    Preferences.setBoolean("noncombatForcerActive", noncombatForcers.length() > 0);
 
     // boolean casual = JSON.getInt( "casual" ) == 1;
     int roninLeft = JSON.getInt("roninleft");
