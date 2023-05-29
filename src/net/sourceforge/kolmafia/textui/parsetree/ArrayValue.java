@@ -38,7 +38,7 @@ public class ArrayValue extends AggregateValue {
   private void checkArrayBounds(Value[] array, int index, AshRuntime interpreter) {
     if (index < 0 || index >= array.length) {
       throw interpreter.runtimeException(
-              "Array index [" + index + "] out of bounds (" + array.length + ")");
+          "Array index [" + index + "] out of bounds (" + array.length + ")");
     }
   }
 
