@@ -81,22 +81,13 @@ public abstract class ConditionalStatement extends AbstractCommand {
     // Generic tests for numerical comparisons
     // involving left and right values.
 
-    String operator =
-        parameters.indexOf("==") != -1
-            ? "=="
-            : parameters.indexOf("!=") != -1
-                ? "!="
-                : parameters.indexOf(">=") != -1
-                    ? ">="
-                    : parameters.indexOf("<=") != -1
-                        ? "<="
-                        : parameters.indexOf("=") != -1
-                            ? "=="
-                            : parameters.indexOf("<>") != -1
-                                ? "!="
-                                : parameters.indexOf(">") != -1
-                                    ? ">"
-                                    : parameters.indexOf("<") != -1 ? "<" : null;
+    String operator = null;
+    Pattern pattern = Pattern.compile("==|!=|>=|<=|<|>|=");
+
+    Matcher matcher = pattern.matcher(parameters);
+    if (matcher.find()) {
+      operator = matcher.group();
+    }
 
     if (operator == null) {
       KoLmafia.updateDisplay(MafiaState.ERROR, parameters + " contains no comparison operator.");
@@ -122,17 +113,61 @@ public abstract class ConditionalStatement extends AbstractCommand {
       return false;
     }
 
-    return operator.equals("==")
-        ? leftValue == rightValue
-        : operator.equals("!=")
-            ? leftValue != rightValue
-            : operator.equals(">=")
-                ? leftValue >= rightValue
-                : operator.equals(">")
-                    ? leftValue > rightValue
-                    : operator.equals("<=")
-                        ? leftValue <= rightValue
-                        : operator.equals("<") ? leftValue < rightValue : false;
+    boolean result = false;
+    for (ComparisonOperator op : ComparisonOperator.values()) {
+      if (op.toString().equals(operator)) {
+        result = op.apply(leftValue, rightValue);
+        break;
+      }
+    }
+
+    return result;
+  }
+
+  private enum ComparisonOperator {
+    EQUALS("==") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue == rightValue;
+      }
+    },
+    NOT_EQUALS("!=") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue != rightValue;
+      }
+    },
+    GREATER_THAN_OR_EQUAL(">=") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue >= rightValue;
+      }
+    },
+    GREATER_THAN(">") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue > rightValue;
+      }
+    },
+    LESS_THAN_OR_EQUAL("<=") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue <= rightValue;
+      }
+    },
+    LESS_THAN("<") {
+      public boolean apply(long leftValue, long rightValue) {
+        return leftValue < rightValue;
+      }
+    };
+
+    private final String symbol;
+
+    ComparisonOperator(String symbol) {
+      this.symbol = symbol;
+    }
+
+    public abstract boolean apply(long leftValue, long rightValue);
+
+    @Override
+    public String toString() {
+      return symbol;
+    }
   }
 
   static final long lvalue(final String left) {

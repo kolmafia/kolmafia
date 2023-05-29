@@ -35,14 +35,18 @@ public class ArrayValue extends AggregateValue {
     this.content = content;
   }
 
-  @Override
-  public Value aref(final Value key, final AshRuntime interpreter) {
-    Value[] array = (Value[]) this.content;
-    int index = (int) key.intValue();
+  private void checkArrayBounds(Value[] array, int index, AshRuntime interpreter) {
     if (index < 0 || index >= array.length) {
       throw interpreter.runtimeException(
           "Array index [" + index + "] out of bounds (" + array.length + ")");
     }
+  }
+
+  @Override
+  public Value aref(final Value key, final AshRuntime interpreter) {
+    Value[] array = (Value[]) this.content;
+    int index = (int) key.intValue();
+    checkArrayBounds(array, index, interpreter);
     return array[index];
   }
 
@@ -50,10 +54,7 @@ public class ArrayValue extends AggregateValue {
   public void aset(final Value key, final Value val, final AshRuntime interpreter) {
     Value[] array = (Value[]) this.content;
     int index = (int) key.intValue();
-    if (index < 0 || index >= array.length) {
-      throw interpreter.runtimeException(
-          "Array index [" + index + "] out of bounds (" + array.length + ")");
-    }
+    checkArrayBounds(array, index, interpreter);
 
     Type dataType = array[index].getType();
     Type baseType = dataType.getBaseType();
@@ -77,10 +78,7 @@ public class ArrayValue extends AggregateValue {
   public Value remove(final Value key, final AshRuntime interpreter) {
     Value[] array = (Value[]) this.content;
     int index = (int) key.intValue();
-    if (index < 0 || index >= array.length) {
-      throw interpreter.runtimeException(
-          "Array index [" + index + "] out of bounds (" + array.length + ")");
-    }
+    checkArrayBounds(array, index, interpreter);
     Value result = array[index];
     array[index] = this.getDataType().initialValue();
     return result;
