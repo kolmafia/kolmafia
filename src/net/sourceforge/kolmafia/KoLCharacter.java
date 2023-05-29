@@ -149,7 +149,7 @@ public abstract class KoLCharacter {
       this.modifierValue = modifierValue;
     }
   }
-  
+
   // Create this early before subsequent initializers want to look at it.
   private static final Modifiers currentModifiers = new Modifiers();
 
