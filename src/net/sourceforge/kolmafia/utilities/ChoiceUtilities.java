@@ -34,7 +34,7 @@ public class ChoiceUtilities {
 
   private static final Pattern[] PARSE_PATTERNS = {FORM_PATTERN, LINK_PATTERN};
 
-  private static final String CHOICE_PHP = "choice.php";
+  public static final String CHOICE_PHP = "choice.php";
   public static final String SECRET_CHOICE = "(secret choice)";
 
   public static final Map<String, Integer> responseTextMap =
