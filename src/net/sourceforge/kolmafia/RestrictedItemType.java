@@ -1,24 +1,31 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum RestrictedItemType {
-  ITEMS,
-  CAMPGROUND,
-  BOOKSHELF_BOOKS,
-  SKILLS,
-  FAMILIARS,
-  CLAN_ITEMS,
-  MISCELLANEOUS;
+  ITEMS("Items"),
+  CAMPGROUND("Campground"),
+  BOOKSHELF_BOOKS("Bookshelf", "Bookshelf Books"),
+  SKILLS("Skills"),
+  FAMILIARS("Familiars"),
+  CLAN_ITEMS("Clan Item", "Clan Items"),
+  MISCELLANEOUS("Miscellaneous");
+
+  private final List<String> types;
+
+  RestrictedItemType(String... types) {
+    this.types = Arrays.asList(types);
+  }
+
+  public List<String> getTypes() {
+    return types;
+  }
 
   public static RestrictedItemType fromString(final String type) {
-    return switch (type) {
-      case "Items" -> RestrictedItemType.ITEMS;
-      case "Campground" -> RestrictedItemType.CAMPGROUND;
-      case "Bookshelf", "Bookshelf Books" -> RestrictedItemType.BOOKSHELF_BOOKS;
-      case "Skills" -> RestrictedItemType.SKILLS;
-      case "Familiars" -> RestrictedItemType.FAMILIARS;
-      case "Clan Item", "Clan Items" -> RestrictedItemType.CLAN_ITEMS;
-      case "Miscellaneous" -> RestrictedItemType.MISCELLANEOUS;
-      default -> null;
-    };
+    return Arrays.stream(values())
+        .filter(itemType -> itemType.getTypes().stream().anyMatch(t -> t.equals(type)))
+        .findFirst()
+        .orElse(null);
   }
 }
