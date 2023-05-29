@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -133,14 +134,31 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   };
 
   public enum VYKEACompanionType {
-    NONE,
+    NONE(""),
+    BOOKSHELF("vykfurn1.gif"),
+    DRESSER("vykfurn2.gif"),
+    CEILING_FAN("vykfurn3.gif"),
+    COUCH("vykfurn4.gif"),
+    LAMP("vykfurn5.gif"),
+    DISHRACK("vykfurn6.gif");
 
-    BOOKSHELF,
-    DRESSER,
-    CEILING_FAN,
-    COUCH,
-    LAMP,
-    DISHRACK
+    private final String filename;
+
+    VYKEACompanionType(String filename) {
+      this.filename = filename;
+    }
+
+    public String getFilename() {
+      return filename;
+    }
+
+    public static String from(VYKEACompanionType type) {
+      return Arrays.stream(values())
+          .filter(i -> i.equals(type))
+          .map(VYKEACompanionType::getFilename)
+          .findFirst()
+          .orElse(VYKEACompanionType.NONE.getFilename());
+    }
   }
 
   public static final AdventureResult NO_RUNE = ItemPool.get("(none)", 1);
@@ -201,16 +219,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     this.name = name == null ? "" : name;
 
     // Derived fields
-    this.image =
-        switch (type) {
-          case NONE -> "";
-          case BOOKSHELF -> "vykfurn1.gif";
-          case DRESSER -> "vykfurn2.gif";
-          case CEILING_FAN -> "vykfurn3.gif";
-          case COUCH -> "vykfurn4.gif";
-          case LAMP -> "vykfurn5.gif";
-          case DISHRACK -> "vykfurn6.gif";
-        };
+    this.image = VYKEACompanionType.from(type);
     switch (this.type) {
       case BOOKSHELF -> {
         this.attackElement = Element.SPOOKY;
