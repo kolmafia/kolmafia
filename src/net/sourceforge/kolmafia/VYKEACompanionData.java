@@ -134,25 +134,31 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   };
 
   public enum VYKEACompanionType {
-    NONE(""),
-    BOOKSHELF("vykfurn1.gif"),
-    DRESSER("vykfurn2.gif"),
-    CEILING_FAN("vykfurn3.gif"),
-    COUCH("vykfurn4.gif"),
-    LAMP("vykfurn5.gif"),
-    DISHRACK("vykfurn6.gif");
+    NONE("unknown", ""),
+    BOOKSHELF("bookshelf", "vykfurn1.gif"),
+    DRESSER("dresser", "vykfurn2.gif"),
+    CEILING_FAN("ceiling fan", "vykfurn3.gif"),
+    COUCH("couch", "vykfurn4.gif"),
+    LAMP("lamp", "vykfurn5.gif"),
+    DISHRACK("dishrack", "vykfurn6.gif");
 
+    private final String typename;
     private final String filename;
 
-    VYKEACompanionType(String filename) {
+    VYKEACompanionType(String typename, String filename) {
+      this.typename = typename;
       this.filename = filename;
+    }
+
+    public String getTypename() {
+      return typename;
     }
 
     public String getFilename() {
       return filename;
     }
 
-    public static String from(VYKEACompanionType type) {
+    public static String fromFilename(VYKEACompanionType type) {
       return Arrays.stream(values())
           .filter(i -> i.equals(type))
           .map(VYKEACompanionType::getFilename)
@@ -219,7 +225,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     this.name = name == null ? "" : name;
 
     // Derived fields
-    this.image = VYKEACompanionType.from(type);
+    this.image = VYKEACompanionType.fromFilename(type);
     switch (this.type) {
       case BOOKSHELF -> {
         this.attackElement = Element.SPOOKY;
@@ -284,15 +290,11 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   }
 
   public static String typeToString(final VYKEACompanionType type) {
-    return switch (type) {
-      case BOOKSHELF -> "bookshelf";
-      case CEILING_FAN -> "ceiling fan";
-      case COUCH -> "couch";
-      case DISHRACK -> "dishrack";
-      case DRESSER -> "dresser";
-      case LAMP -> "lamp";
-      default -> "unknown";
-    };
+    return Arrays.stream(VYKEACompanionType.values())
+        .filter(i -> i.equals(type))
+        .map(VYKEACompanionType::getTypename)
+        .findFirst()
+        .orElse(VYKEACompanionType.NONE.getTypename());
   }
 
   public String typeToString() {
@@ -301,15 +303,11 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
 
   public static VYKEACompanionType stringToType(final String type) {
     if (type == null) return VYKEACompanionType.NONE;
-    return switch (type) {
-      case "bookshelf" -> VYKEACompanionType.BOOKSHELF;
-      case "ceiling fan" -> VYKEACompanionType.CEILING_FAN;
-      case "couch" -> VYKEACompanionType.COUCH;
-      case "dishrack" -> VYKEACompanionType.DISHRACK;
-      case "dresser" -> VYKEACompanionType.DRESSER;
-      case "lamp" -> VYKEACompanionType.LAMP;
-      default -> VYKEACompanionType.NONE;
-    };
+
+    return Arrays.stream(VYKEACompanionType.values())
+        .filter(i -> i.getTypename().equals(type))
+        .findFirst()
+        .orElse(VYKEACompanionType.NONE);
   }
 
   public static String runeToString(final AdventureResult rune) {
