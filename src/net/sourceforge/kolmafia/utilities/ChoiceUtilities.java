@@ -123,21 +123,25 @@ public class ChoiceUtilities {
     if (responseText == null) {
       return rv;
     }
-    for (Pattern pattern : PARSE_PATTERNS) {
-      Matcher m = pattern.matcher(responseText);
-      addToMap(rv, m);
-    }
+
+    Matcher m = FORM_PATTERN.matcher(responseText);
+    addToMap(rv, m, OPTION_PATTERN1, TEXT_PATTERN1);
+
+    m = LINK_PATTERN.matcher(responseText);
+    addToMap(rv, m, OPTION_PATTERN2, TEXT_PATTERN2);
+
+
 
     return rv;
   }
 
-  private static void addToMap(Map<Integer, String> rv, Matcher m) {
+  private static void addToMap(Map<Integer, String> rv, Matcher m, Pattern optionPattern, Pattern textPattern) {
     while (m.find()) {
       String form = m.group();
       if (!form.contains(CHOICE_PHP)) {
         continue;
       }
-      Matcher optMatcher = OPTION_PATTERN1.matcher(form);
+      Matcher optMatcher = optionPattern.matcher(form);
       if (!optMatcher.find()) {
         continue;
       }
@@ -146,7 +150,7 @@ public class ChoiceUtilities {
       if (rv.get(key) != null) {
         continue;
       }
-      Matcher textMatcher = TEXT_PATTERN1.matcher(form);
+      Matcher textMatcher = textPattern.matcher(form);
       String text =
           !textMatcher.find()
               ? SECRET_CHOICE
