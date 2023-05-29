@@ -394,8 +394,6 @@ public class Operator extends Command {
     }
   }
 
-
-
   private Value performArithmetic(final AshRuntime interpreter, Value leftValue, Value rightValue) {
     Type ltype = leftValue.getType();
     Type rtype = rightValue.getType();
