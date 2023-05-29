@@ -81,22 +81,13 @@ public abstract class ConditionalStatement extends AbstractCommand {
     // Generic tests for numerical comparisons
     // involving left and right values.
 
-    String operator =
-        parameters.indexOf("==") != -1
-            ? "=="
-            : parameters.indexOf("!=") != -1
-                ? "!="
-                : parameters.indexOf(">=") != -1
-                    ? ">="
-                    : parameters.indexOf("<=") != -1
-                        ? "<="
-                        : parameters.indexOf("=") != -1
-                            ? "=="
-                            : parameters.indexOf("<>") != -1
-                                ? "!="
-                                : parameters.indexOf(">") != -1
-                                    ? ">"
-                                    : parameters.indexOf("<") != -1 ? "<" : null;
+    String operator = null;
+    Pattern pattern = Pattern.compile("==|!=|>=|<=|<|>|=");
+
+    Matcher matcher = pattern.matcher(parameters);
+    if (matcher.find()) {
+      operator = matcher.group();
+    }
 
     if (operator == null) {
       KoLmafia.updateDisplay(MafiaState.ERROR, parameters + " contains no comparison operator.");
