@@ -130,12 +130,11 @@ public class ChoiceUtilities {
     m = LINK_PATTERN.matcher(responseText);
     addToMap(rv, m, OPTION_PATTERN2, TEXT_PATTERN2);
 
-
-
     return rv;
   }
 
-  private static void addToMap(Map<Integer, String> rv, Matcher m, Pattern optionPattern, Pattern textPattern) {
+  private static void addToMap(
+      Map<Integer, String> rv, Matcher m, Pattern optionPattern, Pattern textPattern) {
     while (m.find()) {
       String form = m.group();
       if (!form.contains(CHOICE_PHP)) {
