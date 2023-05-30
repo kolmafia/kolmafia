@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
@@ -3032,6 +3033,7 @@ public abstract class KoLCharacter {
       // we reset familiars a bit later
       InventoryManager.refresh();
       EquipmentManager.resetEquipment();
+      RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.EQUIPMENT));
       KoLCharacter.currentModifiers.reset();
 
       // we lose DNA lab and maybe source terminal / witchess
