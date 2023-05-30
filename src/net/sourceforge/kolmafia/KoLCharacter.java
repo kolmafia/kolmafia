@@ -3022,9 +3022,21 @@ public abstract class KoLCharacter {
     if (oldPath == Path.LEGACY_OF_LOATHING) {
       Preferences.resetToDefault("replicaChateauAvailable");
       Preferences.resetToDefault("replicaNeverendingPartyAlways");
+      Preferences.resetToDefault("replicaWitchessSetAvailable");
 
       // if replica emotion chipped
       KoLCharacter.resetSkills();
+
+      // we lose replica familiars and items, but keep non-replica items equipped on those familiars
+      // resetting everything is easier
+      // we reset familiars a bit later
+      InventoryManager.refresh();
+      EquipmentManager.resetEquipment();
+      KoLCharacter.currentModifiers.reset();
+
+      // we lose DNA lab and maybe source terminal / witchess
+      CampgroundRequest.reset();
+      RequestThread.postRequest(new CampgroundRequest("workshed"));
     }
 
     // If we were in Hardcore or a path that alters skills, automatically recall skills
@@ -3054,7 +3066,8 @@ public abstract class KoLCharacter {
     if (restricted
         || oldPath == Path.LICENSE_TO_ADVENTURE
         || oldPath == Path.YOU_ROBOT
-        || oldPath == Path.QUANTUM) {
+        || oldPath == Path.QUANTUM
+        || oldPath == Path.LEGACY_OF_LOATHING) {
       // Clear out any erroneous familiars (e.g. Quantum Terrarium adds any familiars you see)
       familiars.clear();
 
