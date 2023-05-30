@@ -15,7 +15,8 @@ public class WitchessCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    if (!KoLCharacter.inLegacyOfLoathing()
+    if (!(KoLCharacter.inLegacyOfLoathing()
+            && Preferences.getBoolean("replicaWitchessSetAvailable"))
         && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
       return;
     }

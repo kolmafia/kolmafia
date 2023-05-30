@@ -1794,6 +1794,7 @@ public class MaximizerTest {
           new Cleanups(
               withPath(Path.LEGACY_OF_LOATHING),
               withRestricted(true),
+              withProperty("replicaWitchessSetAvailable", true),
               withNotAllowedInStandard(RestrictedItemType.ITEMS, "Witchess Set"),
               withWitchess);
 
