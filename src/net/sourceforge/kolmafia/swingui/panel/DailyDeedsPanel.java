@@ -3716,8 +3716,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean allowedNormal =
           StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Deck of Every Card");
       boolean limited = KoLCharacter.getLimitMode().limitItem(ItemPool.DECK_OF_EVERY_CARD);
-      this.setShown(
-          (!bm || kf) && (((haveNormal || nocards) && allowedNormal) || haveReplica) && !limited);
+      this.setShown((!bm || kf) && ((haveNormal && allowedNormal) || haveReplica) && !limited);
       if (nocards) {
         this.setText("You have drawn all your cards today");
         box.setVisible(false);
