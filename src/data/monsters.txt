@@ -133,7 +133,7 @@ chatty pirate	624	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 63 P: pirat
 Chowder Golem	39	soupgolem.gif	Atk: 18 Def: 16 HP: 9 Init: 60 Meat: 36 P: construct EA: hot Article: a
 clan of cave bars	1162	cavebars.gif	NOCOPY Scale: 20 Cap: 200 Floor: 30 MLMult: 5 Init: -10000 Meat: 400 Group: 10 P: beast Article: a
 claw-foot bathtub	400	bathtub.gif	Atk: 57 Def: 47 HP: 55 Init: 30 P: construct Article: a	bottle of Monsieur Bubble (25)	fancy bath salts (35)
-Claybender Sorcerer Ghost	1254	aboo_wiz.gif	Atk: 70 Def: 70 HP: 40 Init: -10000 P: undead GHOST Phys: 100 E: spooky Article: a	A-Boo clue (c15)	Polysniff Perfume (15)	Claybender glasses (5)	folder (wizard) (c0)
+Claybender Sorcerer Ghost	1254	aboo_wiz.gif	Atk: 70 Def: 70 HP: 40 Init: -10000 P: undead GHOST Phys: 100 E: spooky Article: a	A-Boo clue (c15)	Polysniff Perfume (15)	Claybender glasses (5)	folder (wizard) (c0)	ectoplasmic orbs (10)
 cleanly pirate	621	cleanpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 60 P: pirate Article: a	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (c30)
 clingy pirate (female)	626	girlpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 65 P: pirate Article: a Manuel: "clingy pirate"	bit of clingfilm (11)
 clingy pirate (male)	627	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 65 P: pirate EA: cold Article: a Manuel: "clingy pirate"	bit of clingfilm (11)
@@ -199,7 +199,7 @@ drunk goat	82	drunkgoat.gif	Atk: 68 Def: 61 HP: 50 Init: 70 Meat: 45 P: beast Ar
 drunk pygmy	1431	pyg_drunk.gif	Atk: 150 Def: 130 HP: 160 Init: 20 Meat: 100 P: dude EA: hot EA: sleaze Article: a	cold water bottle (15)	gold Boozehounds Anonymous token (5)	pygmy phone number (20)	pygmy concertinette (a0)
 drunken 7-foot dwarf	998	drunkminer.gif	Atk: 8 Def: 9 HP: 7 Init: 40 Meat: 20 P: humanoid EA: hot Article: a	bottle of whiskey (20)	bottle of whiskey (20)
 drunken half-orc hobo	158	hobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 P: hobo E: stench Article: a	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)	beer-battered accordion (a0)
-drunken rat	51	rat.gif	Atk: 10 Def: 9 HP: 8 Init: 60 Meat: 10 P: beast Article: a	rat whisker (100)	rat appendix (20)	furry pill (0)
+drunken rat	51	rat.gif	Atk: 10 Def: 9 HP: 8 Init: 60 Meat: 10 P: beast Article: a	rat whisker (100)	rat appendix (20)	furry pill (10)
 drunken rat king	996	ratking.gif	NOCOPY Atk: 40 Def: 36 HP: 32 Init: 100 Meat: 40 P: beast EA: sleaze Article: a	rat whisker (100)	rat whisker (100)	rat whisker (100)	rat whisker (100)	rat appendix (20)	rat appendix (20)	rat appendix (20)	tangle of rat tails (100)
 Dusken Raider Ghost	1255	aboo_dipshit.gif	Atk: 72 Def: 68 HP: 40 Init: -10000 P: undead GHOST Phys: 100 ED: spooky EA: sleaze Article: a	A-Boo clue (c15)	Duskwalker syringe (15)	Duskwalker fangs (5)	ectoplasmic orbs (10)
 Dyspepsi-Cola General	293	colaoff2.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: dude Article: a	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
@@ -367,7 +367,7 @@ Knob Goblin Elite Guard	1057	kg_guard.gif	Atk: 25 Def: 27 HP: 30 Init: -10000 Me
 Knob Goblin Elite Guard Captain	263	kg_guardcaptain.gif	LUCKY Atk: 30 Def: 27 HP: 35 Init: -10000 Meat: 300 P: goblin Article: a	Knob Goblin elite helm (100)	Knob Goblin elite pants (100)	Knob Goblin elite polearm (100)
 Knob Goblin Embezzler	530	kg_embezzler.gif	LUCKY Atk: 24 Def: 21 HP: 20 Init: 80 Meat: 1000 P: goblin Article: a	Knob Goblin visor (0)	meat stack (30)	meat stack (30)	meat stack (30)	meat stack (30)	embezzler's oil (c30)
 Knob Goblin Harem Girl	78	kg_haremgirl.gif	Atk: 25 Def: 22 HP: 20 Init: 80 P: goblin ED: sleaze EA: hot EA: sleaze Article: a	disease (10)	Knob Goblin harem veil (20)	Knob Goblin harem pants (20)	finger cymbals (5)	harem girl t-shirt (c2)
-Knob Goblin Harem Guard	1061	kg_haremguard.gif	Atk: 25 Def: 22 HP: 20 Init: 50 P: goblin Article: a	Knob Goblin deluxe scimitar (10)	Knob nuts (15)	excitement pill (0)
+Knob Goblin Harem Guard	1061	kg_haremguard.gif	Atk: 25 Def: 22 HP: 20 Init: 50 P: goblin Article: a	Knob Goblin deluxe scimitar (10)	Knob nuts (15)	excitement pill (10)
 Knob Goblin King	81	kg_king.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin Article: The
 Knob Goblin Mad Scientist	85	kg_madsci.gif	Atk: 40 Def: 36 HP: 25 Init: 70 Meat: 40 P: goblin Article: a	Knob Goblin love potion (10)	Knob Goblin seltzer (15)	Knob Goblin steroids (10)
 Knob Goblin Madam	1062	kg_madam.gif	Atk: 30 Def: 22 HP: 30 Init: 50 P: goblin EA: sleaze Article: a	Knob Goblin perfume (25)	whalebone corset (15)
@@ -644,7 +644,7 @@ sponge	739	sponge.gif	Atk: 350 Def: 405 HP: 1000 Init: 50 P: fish Article: a	san
 spooky gravy fairy guard	260	sgguard.gif	Atk: 55 Def: 49 HP: 45 Init: 60 P: plant E: spooky Article: a	spooky mushroom (40)	halfberd (5)	small leather glove (10)
 spooky gravy fairy ninja	262	sgninja.gif	Atk: 65 Def: 58 HP: 55 Init: 100 P: plant E: spooky Article: a	spooky mushroom (40)	teeny-tiny ninja stars (5)	tiny ninja sword (5)
 spooky gravy fairy warlock	261	sgwarlock.gif	Atk: 60 Def: 54 HP: 50 Init: 60 P: plant E: spooky Article: a	spooky mushroom (40)	enchanted toothpick (5)	spooky gravy fairy warlock hat (c0)
-spooky mummy	201	mummy.gif	Atk: 4 Def: 3 HP: 3 Init: 50 Meat: 10 P: undead ED: spooky EA: spooky EA: stench Article: a	dried face (10)	spooky shrunken head (20)	ancient pills (0)
+spooky mummy	201	mummy.gif	Atk: 4 Def: 3 HP: 3 Init: 50 Meat: 10 P: undead ED: spooky EA: spooky EA: stench Article: a	dried face (10)	spooky shrunken head (20)	ancient pills (20)
 spooky music box	1551	musicbox.gif	Atk: 79 Def: 81 HP: 80 Init: 25 P: construct E: spooky Article: a	spooky music box mechanism (5)	tiny dancer (15)
 spooky vampire	1	vampire.gif	Atk: 3 Def: 3 HP: 2 Init: 50 Meat: 5 P: undead E: spooky Article: a Wiki: "spooky vampire (Spooky Forest)"	vampire heart (c100)	vampire collar (c4)
 Spunky Princess	165	princess.gif	Atk: 90 Def: 81 HP: 75 Init: 90 Meat: 110 P: dude Article: a	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
@@ -1860,9 +1860,9 @@ Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 Init: 25 P: fish ED: c
 Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 Init: 25 P: fish ED: cold Article: a	tin of submardines (25)	sardine can key (c0)
 
 # Deep Machine Tunnels (Machine Elf Capsule December 2015)
-Performer of Actions	1859	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: action (0)	abstraction: purpose (0)
-Thinker of Thoughts	1860	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: thought (0)	abstraction: category (0)
-Perceiver of Sensations	1861	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: perception (0)	abstraction: sensation (0)
+Performer of Actions	1859	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: action (10)	abstraction: purpose (0)
+Thinker of Thoughts	1860	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: thought (10)	abstraction: category (0)
+Perceiver of Sensations	1861	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: perception (10)	abstraction: sensation (0)
 
 # The X-32-F Combat Training Snowman (X-32-F snowman crate January 2016)
 X-32-F Combat Training Snowman	1858	blank.gif	NOCOPY NOMANUEL NOWANDER Atk: 1 Def: 1 HP: 1 P: construct ED: cold EA: cold EA: hot EA: sleaze EA: spooky EA: stench
@@ -2338,7 +2338,7 @@ The Superconductor	2266	superconductor.gif	BOSS NOCOPY NOMANUEL Scale: 30 Cap: ?
 emaciated Knott Yeti	219	skinyeti.gif	Atk: 60 Def: 72 HP: 50 Init: 60 Meat: 75 P: beast E: cold Article: an	yeti fur (0)
 Mob Penguin Pasta Chef	216	pengchef.gif	Atk: 90 Def: 81 HP: 80 Init: 70 Meat: 25 P: penguin Article: A	scroll of pasta summoning (0)	delicious noodles (0)	iron pasta spoon (0)
 Mob Penguin Soprano	218	pengprano.gif	Atk: 95 Def: 85 HP: 90 Init: 80 Meat: 25 P: penguin Article: A	support cummerbund (0)	Mob Penguin cellular phone (0)	mafia aria (0)
-Mob Penguin Thug	217	pengthug.gif	Atk: 95 Def: 85 HP: 80 Init: 80 Meat: 50 P: penguin Article: A	kneecapping stick (0)	penguin skin (0)
+Mob Penguin Thug	217	pengthug.gif	Atk: 95 Def: 85 HP: 80 Init: 80 Meat: 50 P: penguin Article: A	kneecapping stick (10)	penguin skin (30)
 
 # Market Square, 28 Days Later (November 2005)
 drunken zombie half-orc hobo	296	zomhobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 P: undead ED: spooky Article: a	Mad Train wine (0)	dirty hobo gloves (0)	moxie weed (0)	zombie pineal gland (0)
