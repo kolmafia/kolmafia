@@ -141,6 +141,7 @@ public interface KoLConstants extends UtilityConstants {
   String RELAY_DIRECTORY = "relay/";
   String SCRIPT_DIRECTORY = "scripts/";
   String SESSIONS_DIRECTORY = "sessions/";
+  String DEBUG_DIRECTORY = "debug/";
   String SVN_DIRECTORY = "svn/";
   String GIT_DIRECTORY = "git/";
 

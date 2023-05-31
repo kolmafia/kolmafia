@@ -271,7 +271,10 @@ public class RequestLogger extends NullStream {
   public static void openDebugLog() {
     RequestLogger.debugStream =
         RequestLogger.openStream(
-            "DEBUG_" + KoLConstants.DAILY_FORMAT.format(new Date()) + ".txt",
+            KoLConstants.DEBUG_DIRECTORY
+                + "DEBUG_"
+                + KoLConstants.DAILY_FORMAT.format(new Date())
+                + ".txt",
             RequestLogger.debugStream,
             true);
     NamedListenerRegistry.fireChange("(debug)");
