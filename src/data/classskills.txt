@@ -990,6 +990,10 @@
 7442	Cincho: Projectile Piñata		5	0	0
 7443	Cincho: Party Foul		5	0	0
 7444	Cincho: Confetti Extravaganza		5	0	0
+7445	Do a Kickflip	loop.gif	5	0	0
+7446	Do a Method!	2002skateboard.gif	5	0	0
+7447	Do an epic McTwist!	vortex.gif	5	0	0
+7448	Douse Foe	2002fludd.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
