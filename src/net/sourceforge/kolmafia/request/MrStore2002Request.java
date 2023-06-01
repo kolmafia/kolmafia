@@ -16,7 +16,6 @@ public class MrStore2002Request extends CoinMasterRequest {
   public static final CoinmasterData MR_STORE_2002 =
       new CoinmasterData(master, "Replica Mr. Store", MrStore2002Request.class)
           .withToken("Mr. Store 2002 Credit")
-          .withTokenTest("You don't have any Mr. Store 2002 credits")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableMrStore2002Credits")
           .withShopRowFields(master, "mrstore2002");
