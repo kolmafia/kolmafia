@@ -11289,7 +11289,7 @@
 11261	Mr. Accessaturday	981379568	2002mra.gif	accessory	t,d	50
 11262	Meat Butler	998336913	2002butler.gif	usable	t,d	50
 11263	Loathing Idol Microphone	650153685	2002mic.gif	usable	t,d	50
-11264	Charter: Nellyville	828185932	2002charter.gif	usable	t,d	100
+11264	Charter: Nellyville	828185932	2002charter.gif	multiple	t,d	100
 11265	Manual of Secret Door Detection	461689426	book4.gif	usable	t,d	50
 11266	Flash Liquidizer Ultra Dousing Accessory	400486179	2002fludd.gif	accessory	t,d	100
 11267	Amulet of Perpetual Darkness	851661209	2002amulet.gif	accessory	t,d	50

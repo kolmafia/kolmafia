@@ -973,12 +973,6 @@ public class RequestLogger extends NullStream {
       return;
     }
 
-    if ((isExternal || request instanceof ReplicaMrStoreRequest)
-        && ReplicaMrStoreRequest.registerRequest(urlString)) {
-      RequestLogger.wasLastRequestSimple = false;
-      return;
-    }
-
     if ((isExternal || request instanceof DinseyCompanyStoreRequest)
         && DinseyCompanyStoreRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
@@ -1247,6 +1241,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof MrStore2002Request)
+        && MrStore2002Request.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof MushroomRequest)
         && MushroomRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
@@ -1327,6 +1327,12 @@ public class RequestLogger extends NullStream {
 
     if ((isExternal || request instanceof RaffleRequest)
         && RaffleRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof ReplicaMrStoreRequest)
+        && ReplicaMrStoreRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
