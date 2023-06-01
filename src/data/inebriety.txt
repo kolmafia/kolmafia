@@ -583,6 +583,7 @@ scotch on the rocks	3	11	EPIC	15-18	10-20	10-20	10-20	30 Hair on Your Chest (+50
 Scrawny Stout	3	6	decent	3-6	0	0	0
 screwdiver	3	4	decent	5-6	34-80	0	0	20 Brined Liver
 screwdriver	3	1	decent	5-6	8-10	0	0
+Sexy Cosmo	3	1	awesome	0	0	0	0	Unspaded
 shadow fluid	3	1	awesome	9-11	13	13	13
 shadow martini	1	1	EPIC	5-6	13-15	13-15	13-15
 shadow venom	3	1	awesome	13	0	0	0
