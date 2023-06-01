@@ -11565,6 +11565,7 @@ Item	machine elf capsule	Free Pull
 # magnolia blossom: Restores 15-30 HP and MP
 Item	Manual of Lock Picking	Skill: "Lock Picking"
 Item	Manual of Numberology	Skill: "Calculate the Universe"
+Item	Manual of Secret Door Detection	Skill: "Secret Door Awareness"
 Item	Manual of Transcendent Olfaction	Skill: "Transcendent Olfaction"
 Item	map to Dolph Bossin's hideout	Free Pull
 Item	Map to Kokomo	Free Pull, Skill: "Summon Kokomo Resort Pass"
