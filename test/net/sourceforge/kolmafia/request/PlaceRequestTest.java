@@ -146,13 +146,13 @@ class PlaceRequestTest {
   class speakeasymapping {
     @Test
     public void itDoesNotMapWithMinimalCharacterDataHippy() {
-      KoLAdventure retVal = PlaceRequest.getAdventerableLocation("The Hippy Camp");
+      KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Hippy Camp");
       assertNull(retVal);
     }
 
     @Test
     public void itDoesNotMapWithMinimalCharacterDataFrat() {
-      KoLAdventure retVal = PlaceRequest.getAdventerableLocation("The Frat House");
+      KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Frat House");
       assertNull(retVal);
     }
 
@@ -160,7 +160,7 @@ class PlaceRequestTest {
     public void itShouldMatchBeforeWarHippy() {
       var cleanups = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()));
       try (cleanups) {
-        KoLAdventure retVal = PlaceRequest.getAdventerableLocation("The Hippy Camp");
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Hippy Camp");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.HIPPY_CAMP), retVal);
       }
     }
@@ -169,7 +169,7 @@ class PlaceRequestTest {
     public void itShouldMatchBeforeWarFrat() {
       var cleanups = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()));
       try (cleanups) {
-        KoLAdventure retVal = PlaceRequest.getAdventerableLocation("The Frat House");
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Frat House");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.FRAT_HOUSE), retVal);
       }
     }
@@ -182,7 +182,7 @@ class PlaceRequestTest {
               withProperty("sideDefeated", "fratboys"),
               withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
       try (cleanups) {
-        KoLAdventure retVal = PlaceRequest.getAdventerableLocation("The Hippy Camp");
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Hippy Camp");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.HIPPY_CAMP), retVal);
       }
     }
@@ -195,7 +195,7 @@ class PlaceRequestTest {
               withProperty("sideDefeated", "hippies"),
               withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
       try (cleanups) {
-        KoLAdventure retVal = PlaceRequest.getAdventerableLocation("The Frat House");
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Frat House");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.FRAT_HOUSE), retVal);
       }
     }
@@ -208,7 +208,7 @@ class PlaceRequestTest {
               withProperty("sideDefeated", "hippies"),
               withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
       try (cleanups) {
-        KoLAdventure retVal = PlaceRequest.getAdventerableLocation("The Hippy Camp");
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Hippy Camp");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.BOMBED_HIPPY_CAMP), retVal);
       }
     }
@@ -221,7 +221,7 @@ class PlaceRequestTest {
               withProperty("sideDefeated", "fratboys"),
               withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
       try (cleanups) {
-        KoLAdventure retVal = PlaceRequest.getAdventerableLocation("The Frat House");
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Frat House");
         assertEquals(AdventureDatabase.getAdventure(AdventurePool.BOMBED_FRAT_HOUSE), retVal);
       }
     }

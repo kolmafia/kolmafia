@@ -358,7 +358,7 @@ public class PlaceRequest extends GenericRequest {
       }
     }
     if (location != null) {
-      KoLAdventure candidate = getAdventerableLocation(location);
+      KoLAdventure candidate = getAdventurableLocation(location);
       if (candidate != null) {
         Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
       } else {
@@ -386,7 +386,7 @@ public class PlaceRequest extends GenericRequest {
    * @param location - A string from KoL that represents a unique and available adventure location.
    * @return - A KoLAdventure matching the unique and available location or null
    */
-  protected static KoLAdventure getAdventerableLocation(String location) {
+  protected static KoLAdventure getAdventurableLocation(String location) {
     KoLAdventure aMatch = null;
     KoLAdventure candidate = AdventureDatabase.getAdventureByName(location);
     if (candidate != null) return candidate;
