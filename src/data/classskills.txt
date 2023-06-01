@@ -245,6 +245,9 @@
 220	Psychogeologist	sitlatite.gif	0	0	0
 221
 222	Replica Emotionally Chipped	emochip_clean.gif	0	0	0
+223
+224
+225	Secret Door Awareness	secretdoor.gif	0	0	0
 
 # Skills available to Clubbers
 
