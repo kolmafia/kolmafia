@@ -4,19 +4,25 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -132,6 +138,91 @@ class PlaceRequestTest {
       try (cleanups) {
         PlaceRequest.parseResponse(sotUrl, responseText);
         assertThat(prefName, isSetTo(true));
+      }
+    }
+  }
+
+  @Nested
+  class speakeasymapping {
+    @Test
+    public void itDoesNotMapWithMinimalCharacterDataHippy() {
+      KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Hippy Camp");
+      assertNull(retVal);
+    }
+
+    @Test
+    public void itDoesNotMapWithMinimalCharacterDataFrat() {
+      KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Frat House");
+      assertNull(retVal);
+    }
+
+    @Test
+    public void itShouldMatchBeforeWarHippy() {
+      var cleanups = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()));
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Hippy Camp");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.HIPPY_CAMP), retVal);
+      }
+    }
+
+    @Test
+    public void itShouldMatchBeforeWarFrat() {
+      var cleanups = new Cleanups(withProperty("lastIslandUnlock", KoLCharacter.getAscensions()));
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Frat House");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.FRAT_HOUSE), retVal);
+      }
+    }
+
+    @Test
+    public void itShouldMatchAfterWarHippyWin() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
+              withProperty("sideDefeated", "fratboys"),
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Hippy Camp");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.HIPPY_CAMP), retVal);
+      }
+    }
+
+    @Test
+    public void itShouldMatchAfterWarFratWin() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
+              withProperty("sideDefeated", "hippies"),
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Frat House");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.FRAT_HOUSE), retVal);
+      }
+    }
+
+    @Test
+    public void itShouldMatchAfterWarHippyLose() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
+              withProperty("sideDefeated", "hippies"),
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Hippy Camp");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.BOMBED_HIPPY_CAMP), retVal);
+      }
+    }
+
+    @Test
+    public void itShouldMatchAfterWarFratLose() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastIslandUnlock", KoLCharacter.getAscensions()),
+              withProperty("sideDefeated", "fratboys"),
+              withQuestProgress(QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED));
+      try (cleanups) {
+        KoLAdventure retVal = PlaceRequest.getAdventurableLocation("The Frat House");
+        assertEquals(AdventureDatabase.getAdventure(AdventurePool.BOMBED_FRAT_HOUSE), retVal);
       }
     }
   }
