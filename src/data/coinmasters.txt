@@ -1142,3 +1142,20 @@ Replica Mr. Store	buy	1	replica designer sweatpants	ROW1376
 Replica Mr. Store	buy	1	replica grey gosling	ROW1375
 Replica Mr. Store	buy	1	replica Jurassic Parka	ROW1374
 Replica Mr. Store	buy	1	replica Cincho de Mayo	ROW1377
+
+# Mr. Store 2002
+
+Mr. Store 2002	buy	1	Spooky VHS Tape	ROW1379
+Mr. Store 2002	buy	1	&quot;I survived Y2K&quot; T-Shirt	ROW1378
+Mr. Store 2002	buy	1	Letter from Carrie Bradshaw	ROW1380
+Mr. Store 2002	buy	1	pro skateboard	ROW1381
+Mr. Store 2002	buy	1	Mr. Accessaturday	ROW1382
+Mr. Store 2002	buy	1	Meat Butler	ROW1383
+Mr. Store 2002	buy	1	Loathing Idol Microphone	ROW1384
+Mr. Store 2002	buy	1	Charter: Nellyville	ROW1385
+Mr. Store 2002	buy	1	Manual of Secret Door Detection	ROW1386
+Mr. Store 2002	buy	1	Flash Liquidizer Ultra Dousing Accessory	ROW1387
+Mr. Store 2002	buy	1	Amulet of Perpetual Darkness	ROW1388
+Mr. Store 2002	buy	1	Giant black monolith	ROW1389
+Mr. Store 2002	buy	1	Crimbo cookie sheet	ROW1390
+

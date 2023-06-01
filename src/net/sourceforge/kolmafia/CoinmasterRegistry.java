@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.request.LTTRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MemeShopRequest;
 import net.sourceforge.kolmafia.request.MerchTableRequest;
+import net.sourceforge.kolmafia.request.MrStore2002Request;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
@@ -133,6 +134,7 @@ public abstract class CoinmasterRegistry {
         MemeShopRequest.BACON_STORE,
         MerchTableRequest.MERCH_TABLE,
         MrStoreRequest.MR_STORE,
+        MrStore2002Request.MR_STORE_2002,
         NeandermallRequest.NEANDERMALL,
         NinjaStoreRequest.NINJA_STORE,
         NuggletCraftingRequest.NUGGLETCRAFTING,
