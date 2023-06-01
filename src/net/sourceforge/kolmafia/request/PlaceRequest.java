@@ -375,7 +375,6 @@ public class PlaceRequest extends GenericRequest {
     }
   }
 
-  // visible for testing
   /**
    * This takes a string from KoL that represents an available location where the character can
    * adventure. If the input uniquely matches a KoLmafia location then the matching location is
