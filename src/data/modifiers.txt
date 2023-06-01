@@ -2692,6 +2692,7 @@ Item	zoological sample kit	Lasts Until Rollover
 
 # Accessories section of modifiers.txt
 
+Item	&quot;I survived Y2K&quot; T-Shirt	Maximum HP: +2, Maximum MP: +2, Adventures: +2, Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2, Single Equip
 Item	acid-squirting flower	Single Equip, Thorns: 1
 # actual reality goggles: Reveals peoples' true nature
 Item	actual reality goggles	Single Equip, Free Pull
@@ -2706,6 +2707,8 @@ Item	albatross necklace	Mysticality Percent: +10, Single Equip
 Item	Aluminum Epsilon of Humility	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Item	amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
 Item	amulet of extreme plot significance	Maximum MP: +30
+# Amulet of Perpetual Darkness: Also, it's always dark.
+Item	Amulet of Perpetual Darkness	Monster Level: +15, Spooky Damage: +10, Spooky Spell Damage: +10, Weakens Monster
 # Amulet of Yendor: Prevents Level Teleporting
 Item	Amulet of Yendor	Mana Cost: +3, Initiative: -10, Single Equip
 Item	anchovy can key	Food Drop: +100
@@ -3012,6 +3015,7 @@ Item	fishbone kneepads	Initiative: [60*path(Heavy Rains)], Single Equip
 Item	flagstone flip-flops	Experience (Mysticality): +3, Initiative: +40, Single Equip
 Item	flagstone fringe	Moxie Percent: +20, PvP Fights: +4, Single Equip
 Item	flapper floppers	Mysticality Percent: +25, Experience (Mysticality): +2, Single Equip
+Item	Flash Liquidizer Ultra Dousing Accessory	Item Drop: +20
 Item	flashing novelty button	Maximum HP: +5, Moxie: -2
 Item	flask flops	Booze Drop: +20, Maximum Hooch: +3, Single Equip
 Item	floaty rock necklace	Spell Critical Percent: +10, Single Equip
@@ -3291,6 +3295,7 @@ Item	monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Synergetic
 Item	moon-amber necklace	Spell Damage Percent: +50, Maximum MP: +200, Mysticality Percent: [5*G], Single Equip
 Item	mother's necklace	Adventures: +3, Never Fumble
 Item	moustache sock	Moxie: +20, Muscle: -5, Mysticality: -5, Initiative: +20, Single Equip
+Item	Mr. Accessaturday	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
 # Mr. Cheeng's spectacles: Find... like...  far out stuff, like everywhere... man...
@@ -3427,6 +3432,8 @@ Item	power sock	Muscle: +20, Mysticality: -5, Moxie: -5, Weapon Damage Percent: 
 # Powerful Glove: Lets you use various glitchy cheat codes
 Item	Powerful Glove	Maximum MP: +10, Maximum HP: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Single Equip
 Item	primitive alien necklace	Experience: +5, Cold Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
+# pro skateboard: Do some awesome moves in combat!
+Item	pro skateboard	Weapon Damage: +10, Moxie Percent: +10
 # Protects-Your-Junk: 75% Chance of Preventing Negative Status Attacks
 # Protects-Your-Junk: Grants Protection from Dreadsylvanian Curses
 Item	Protects-Your-Junk	Damage Reduction: 20, Single Equip
@@ -3454,6 +3461,7 @@ Item	rainbow pearl necklace	Muscle: +15, Mysticality: +15, Moxie: +15, Spell Dam
 Item	rainbow pearl ring	Muscle: +15, Mysticality: +15, Moxie: +15, Spooky Damage: +40, Stench Damage: +40, Hot Damage: +40, Cold Damage: +40, Sleaze Damage: +40, Single Equip
 Item	ratskin belt	Moxie: +8, Meat Drop: +10, Single Equip
 Item	recovered cufflinks	Familiar Weight: +6, Single Equip
+Item	red-soled high heels	Moxie Percent: +10, Experience (Moxie): +3, Booze Drop: +50
 Item	red armband	Adventures: [1+10*event(Crimbo2015)], Single Equip
 Item	red badge	Damage Reduction: 5, Monster Level: -25, Single Equip
 Item	Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip
@@ -6249,6 +6257,7 @@ Effect	Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent:
 # Hot Breath: Can breathe fire in combat
 Effect	Hot Buttoned	Hot Damage: +10, Hot Spell Damage: +10
 Effect	Hot Hands	Hot Damage: +10, Hot Spell Damage: +20, Cold Resistance: +2, Spooky Resistance: +2
+Effect	Hot in Herre	Hot Damage: +20, Hot Spell Damage: +20, Spooky Resistance: +5, Cold Resistance: +5, Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 Effect	Hot Jellied	Experience (Muscle): +3, Hot Damage: +5, Muscle Percent: +30
 Effect	Hot Soupy Garbage	Stench Damage: +10, Cold Resistance: +2
 Effect	Hot Sweat	Hot Resistance: +7
@@ -6586,6 +6595,7 @@ Effect	Mind Vision	Mysticality Percent: +50
 Effect	Minerva's Zen	Mysticality Percent: +100
 Effect	Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
 Effect	Ministrations in the Dark	Combat Rate: -10
+Effect	Minor Invulnerability	Damage Absorption: +100, Damage Reduction: 25, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3
 Effect	Mint-Condition Breath	Moxie Percent: +50
 Effect	Minty Freshness	Moxie Percent: +10
 Effect	Misplaced Rage	Monster Level: [min(36,3*L)]
@@ -6726,6 +6736,7 @@ Effect	Old School Pompadour	Moxie Percent: +30, Initiative: +30
 Effect	Old Time Hydration	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Oleaginous Soles	Initiative: +40
 Effect	OMG WTF	Mysticality: +10, Spell Damage: +10, Spell Critical Percent: +10
+Effect	Ominous Wisdom	Experience (Moxie): +2
 Effect	Omphaloskepsis	Damage Reduction: [L], Meat Drop (sporadic): +4.25, Item Drop (sporadic): +4.25, Experience: +0.6375
 Effect	Omphalotus Omnipresence	Mysticality: +40
 Effect	On a Roll	Food Drop: +25
@@ -6859,6 +6870,7 @@ Effect	Pompadour	Experience: +3
 Effect	Ponderous Potency	Weapon Damage: +20
 Effect	Pop-eyed	Weapon Damage: +30
 # Popping Stomach: Tee-hee!
+Effect	Poppy Performance	Initiative: +100, Moxie Percent: +50
 Effect	Pork Barrel	Item Drop: +90
 Effect	Pork Power	Muscle: +10
 Effect	Porkpocketed	Avatar: "Porkpocket"
@@ -6892,6 +6904,7 @@ Effect	Pros Only	Avatar: "sensitive poet-type"
 Effect	parfum d'herbes	Mysticality: +5, Mysticality Percent: +50, Stench Resistance: +5
 Effect	protect.enq	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Protection from Bad Stuff	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+# Protection from Lycanthropes:	Damage Reduction: 30 vs Were-Creatures
 Effect	Proto-Stimulated	Muscle: +20, Mysticality: +20, Moxie: +20
 Effect	Provocative Perkiness	Initiative: +20
 Effect	Psalm of Pointiness	Thorns: 1
@@ -7005,6 +7018,7 @@ Effect	Robbin' Like a Goblin	Avatar: "Knob Goblin Embezzler"
 Effect	Robot Friends	Familiar Weight: +20
 Effect	Rolando's Rondo of Resisto	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Supercold Resistance: +5
 Effect	Roly Poly	Initiative: [min(500,T)]
+Effect	Romantically Roused	Combat Rate: +5
 Effect	Rootin' Around	Candy Drop: +25
 Effect	Rosewater Mark	Mysticality: +10, Spell Damage: +10, Experience (Mysticality): +2
 Effect	Rotten Memories	Stench Damage: +15
@@ -7300,6 +7314,7 @@ Effect	Spiritually Aware	MP Regen Min: 5, MP Regen Max: 7
 Effect	Spiritually Awash	MP Regen Min: 8, MP Regen Max: 10
 Effect	Spiro Gyro	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Spit Upon	Weapon Damage Percent: +100, Spell Damage Percent: +100, Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Spitting Rhymes	Never Fumble, Item Drop: +50
 Effect	Spookily Greasy	Sleaze Damage: +10, Spooky Resistance: +2
 Effect	Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
@@ -7664,6 +7679,7 @@ Effect	Turn On, Tune In, Play Ball!	Muscle Percent: +50, Maximum HP: +50, Weapon
 Effect	Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Effect	Turtle Power	MP Regen Min: 4, MP Regen Max: 5
 Effect	Turtle Titters	Experience: +3
+Effect	Twangy	Stench Resistance: +4, Sleaze Resistance: +4, Experience: +3
 Effect	Twen Tea	Muscle: +20, Mysticality: +20, Moxie: +20, Maximum HP: +20, Maximum MP: +20, Initiative: +20, Weapon Damage: +20, Spell Damage: +20, Ranged Damage: +20, Familiar Damage: +20
 Effect	Twenty-three Squid, Ew	Mysticality: +30
 Effect	Twice-Cursed	Muscle: -20, Mysticality: -20, Moxie: -20
@@ -10354,7 +10370,9 @@ Item	Scent of a Human&trade; candle	Effect: "Ew, The Humanity", Effect Duration:
 Item	scrap metal	Effect: "Armor-Plated", Effect Duration: 20
 Item	scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
 Item	scroll case	Effect: "Medieval Mage Mayhem", Effect Duration: 30
+Item	scroll of minor invulnerability	Effect: "Minor Invulnerability", Effect Duration: 20
 Item	scroll of Protection from Bad Stuff	Effect: "Protection from Bad Stuff", Effect Duration: 20
+Item	scroll of protection from lycanthropes	Effect: "Protection from Lycanthropes", Effect Duration: 50
 Item	scroll of Puddingskin	Effect: "Puddingskin", Effect Duration: 80
 Item	sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 Item	sea salt crystal	Effect: "Salty Dogs", Effect Duration: 5
@@ -11547,6 +11565,7 @@ Item	machine elf capsule	Free Pull
 # magnolia blossom: Restores 15-30 HP and MP
 Item	Manual of Lock Picking	Skill: "Lock Picking"
 Item	Manual of Numberology	Skill: "Calculate the Universe"
+Item	Manual of Secret Door Detection	Skill: "Secret Door Awareness"
 Item	Manual of Transcendent Olfaction	Skill: "Transcendent Olfaction"
 Item	map to Dolph Bossin's hideout	Free Pull
 Item	Map to Kokomo	Free Pull, Skill: "Summon Kokomo Resort Pass"
