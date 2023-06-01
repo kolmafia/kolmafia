@@ -2302,6 +2302,7 @@ zoological sample kit	10	none
 
 # Accessories section of equipment.txt
 
+&quot;I survived Y2K&quot; T-Shirt	0	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
@@ -2312,6 +2313,7 @@ albatross necklace	90	Mys: 15
 Aluminum Epsilon of Humility	200	Mys: 85
 amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
+Amulet of Perpetual Darkness	0	none
 Amulet of Yendor	10	none
 anchovy can key	10	none
 anemoney clip	80	Mys: 15
@@ -2563,6 +2565,7 @@ fishbone kneepads	20	none
 flagstone flip-flops	120	Mys: 40
 flagstone fringe	120	Mox: 40
 flapper floppers	100	Mys: 35
+Flash Liquidizer Ultra Dousing Accessory	0	none
 flashing novelty button	20	none
 flask flops	10	none
 floaty rock necklace	100	Mys: 35
@@ -2790,6 +2793,7 @@ monstrous monocle	160	Mus: 65
 mood ring	10	none
 moon-amber necklace	250	Mys: 200
 moustache sock	100	Mus: 10
+Mr. Accessaturday	0	none
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
 Mr. Cheeng's spectacles	150	Mys: 35
@@ -2905,6 +2909,7 @@ portable cassette player	20	none
 power sock	100	Mys: 10
 Powerful Glove	100	none
 primitive alien necklace	50	Mys: 10
+pro skateboard	0	none
 Protects-Your-Junk	350	Mox: 100
 psychic's amulet	100	Mys: 35
 pulled porquoise earring	110	Mys: 40
@@ -2930,6 +2935,7 @@ rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
 ratskin belt	180	Mys: 75
 recovered cufflinks	0	none
+red-soled high heels	0	none
 red armband	10	none
 red badge	150	Mys: 60
 Red Balloon of Valor	200	Mys: 85
