@@ -1,13 +1,20 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -24,6 +31,25 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class PlaceRequest extends GenericRequest {
   public static final TreeSet<String> places = new TreeSet<>();
   public boolean followRedirects = false;
+
+  private static final Map<String, List<Integer>> nameAliases =
+      Map.ofEntries(
+          Map.entry(
+              "The Hippy Camp",
+              List.of(
+                  AdventurePool.HIPPY_CAMP,
+                  AdventurePool.HIPPY_CAMP_DISGUISED,
+                  AdventurePool.WARTIME_HIPPY_CAMP,
+                  AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED,
+                  AdventurePool.BOMBED_HIPPY_CAMP)),
+          Map.entry(
+              "The Frat House",
+              List.of(
+                  AdventurePool.FRAT_HOUSE,
+                  AdventurePool.FRAT_HOUSE_DISGUISED,
+                  AdventurePool.WARTIME_FRAT_HOUSE,
+                  AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED,
+                  AdventurePool.BOMBED_FRAT_HOUSE)));
 
   private static final Pattern firstSotVisit =
       Pattern.compile("something over in (.+?) and he'd like");
@@ -332,7 +358,13 @@ public class PlaceRequest extends GenericRequest {
       }
     }
     if (location != null) {
-      Preferences.setString("_sotParcelLocation", location);
+      KoLAdventure candidate = getAdventurableLocation(location);
+      if (candidate != null) {
+        Preferences.setString("_sotParcelLocation", candidate.getAdventureName());
+      } else {
+        KoLmafia.updateDisplay(
+            KoLConstants.MafiaState.CONTINUE, "Cannot resolve Sot's parcel location: " + location);
+      }
     }
     if (responseText.contains(
         "The sot takes the package, nods, and flips a little coin-like thing to you as thanks.")) {
@@ -341,6 +373,33 @@ public class PlaceRequest extends GenericRequest {
     } else if (responseText.contains("He must not have anything else for you to do today.")) {
       Preferences.setBoolean("_sotParcelReturned", true);
     }
+  }
+
+  /**
+   * This takes a string from KoL that represents an available location where the character can
+   * adventure. If the input uniquely matches a KoLmafia location then the matching location is
+   * returned. Otherwise it is checked against a static mapping of KoL strings that could be mapped
+   * into one of several KoLmafia locations. If the character status allows exactly one of these
+   * locations to be adventured in then that location is returned.
+   *
+   * @param location - A string from KoL that represents a unique and available adventure location.
+   * @return - A KoLAdventure matching the unique and available location or null
+   */
+  protected static KoLAdventure getAdventurableLocation(String location) {
+    KoLAdventure aMatch = null;
+    KoLAdventure candidate = AdventureDatabase.getAdventureByName(location);
+    if (candidate != null) return candidate;
+    List<Integer> possible = nameAliases.getOrDefault(location, new ArrayList<>());
+    int count = 0;
+    for (Integer i : possible) {
+      candidate = AdventureDatabase.getAdventure(i);
+      if (candidate.canAdventure()) {
+        aMatch = candidate;
+        count++;
+        if (count > 1) return null;
+      }
+    }
+    return (count == 1) ? aMatch : null;
   }
 
   public static boolean registerRequest(final String urlString) {

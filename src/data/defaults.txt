@@ -218,6 +218,7 @@ user	autumnatonUpgrades
 user	availableCandyCredits	0
 user	availableDimes	0
 user	availableFunPoints	0
+user	availableMrStore2002Credits	0
 user	availableQuarters	0
 user	availableStoreCredits	0
 user	availableSwagger	0

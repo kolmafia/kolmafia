@@ -111,6 +111,7 @@ public class Preferences {
         "autumnatonQuestLocation",
         "autumnatonQuestTurn",
         "autumnatonUpgrades",
+        "availableMrStore2002Credits",
         "awolDeferredPointsBeanslinger",
         "awolDeferredPointsCowpuncher",
         "awolDeferredPointsSnakeoiler",
