@@ -3622,6 +3622,7 @@ public class ItemPool {
   public static final int REPLICA_CINCHO_DE_MAYO = 11254;
   public static final int MR_STORE_2002_CATALOG = 11257;
   public static final int LOATHING_IDOL_MICROPHONE = 11263;
+  public static final int CHARTER_NELLYVILLE = 11264;
   public static final int GIANT_BLACK_MONOLITH = 11268;
   public static final int LOATHING_IDOL_MICROPHONE_75 = 11277;
   public static final int LOATHING_IDOL_MICROPHONE_50 = 11278;

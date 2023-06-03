@@ -15,14 +15,15 @@ public class LoathingIdolCommand extends AbstractCommand {
         " [pop | moxie | init | ballad | combat | rhyme | item | country | exp | res] - get the indicated buff";
   }
 
-  private int getUsableMicrophone() {
-    var potentials =
-        List.of(
-            ItemPool.LOATHING_IDOL_MICROPHONE_25,
-            ItemPool.LOATHING_IDOL_MICROPHONE_50,
-            ItemPool.LOATHING_IDOL_MICROPHONE_75,
-            ItemPool.LOATHING_IDOL_MICROPHONE);
-    for (var microphone : potentials) {
+  public static final List<Integer> MICROPHONES =
+      List.of(
+          ItemPool.LOATHING_IDOL_MICROPHONE_25,
+          ItemPool.LOATHING_IDOL_MICROPHONE_50,
+          ItemPool.LOATHING_IDOL_MICROPHONE_75,
+          ItemPool.LOATHING_IDOL_MICROPHONE);
+
+  public static int getUsableMicrophone() {
+    for (var microphone : MICROPHONES) {
       if (InventoryManager.hasItem(microphone)) {
         return microphone;
       }
