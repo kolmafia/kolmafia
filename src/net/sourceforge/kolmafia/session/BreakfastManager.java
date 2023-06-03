@@ -87,7 +87,7 @@ public class BreakfastManager {
 
   private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get(ItemPool.VIP_LOUNGE_KEY, 1);
 
-  private static List<Runnable> ACTIONS =
+  private static final List<Runnable> ACTIONS =
       List.of(
           BreakfastManager::checkRumpusRoom,
           BreakfastManager::checkVIPLounge,
@@ -95,6 +95,7 @@ public class BreakfastManager {
           BreakfastManager::getHermitClovers,
           BreakfastManager::harvestGarden,
           BreakfastManager::collectHardwood,
+          BreakfastManager::collect2002MrStoreCredits,
           BreakfastManager::useSpinningWheel,
           BreakfastManager::visitBigIsland,
           BreakfastManager::visitVolcanoIsland,
@@ -377,6 +378,25 @@ public class BreakfastManager {
         && !Preferences.getBoolean("_spinmasterLatheVisited")) {
       CoinMasterRequest.visit(SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE);
     }
+  }
+
+  public static void collect2002MrStoreCredits() {
+    AdventureResult catalogue;
+    if (InventoryManager.hasItem(ItemPool.MR_STORE_2002_CATALOG)) {
+      catalogue = ItemPool.get(ItemPool.MR_STORE_2002_CATALOG, 1);
+    } else if (KoLCharacter.inLegacyOfLoathing()
+        && InventoryManager.hasItem(ItemPool.REPLICA_MR_STORE_2002_CATALOG)) {
+      catalogue = ItemPool.get(ItemPool.REPLICA_MR_STORE_2002_CATALOG, 1);
+    } else {
+      return;
+    }
+
+    if (Preferences.getBoolean("_2002MrStoreCreditsCollected")) {
+      return;
+    }
+
+    KoLmafia.updateDisplay("Getting 2002 Mr Store Credits...");
+    RequestThread.postRequest(UseItemRequest.getInstance(catalogue));
   }
 
   public static void useSpinningWheel() {

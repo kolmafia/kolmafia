@@ -297,6 +297,8 @@ public class ValhallaDecorator {
 
     ValhallaDecorator.checkCatHeists(buffer);
 
+    ValhallaDecorator.check2002MrStoreCredit(buffer);
+
     ValhallaDecorator.switchSeeds(buffer);
 
     ValhallaDecorator.switchCorrespondent(buffer);
@@ -607,6 +609,21 @@ public class ValhallaDecorator {
           .append(heistsRemaining)
           .append(")</a></nobr><br>");
       buffer.append(catHeistBuffer);
+    }
+  }
+
+  private static void check2002MrStoreCredit(StringBuffer buffer) {
+    StringBuilder storeCreditBuffer = new StringBuilder();
+
+    int credits = Preferences.getInteger("availableMrStore2002Credits");
+
+    if (credits > 0) {
+      storeCreditBuffer
+          .append(
+              "<nobr><a href=\"shop.php?whichshop=mrstore2002\">Spend remaining 2002 Mr. Store Credits (")
+          .append(credits)
+          .append(")</a></nobr><br>");
+      buffer.append(storeCreditBuffer);
     }
   }
 
