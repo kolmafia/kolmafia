@@ -4,6 +4,7 @@ import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -40,6 +41,7 @@ public class MrStore2002RequestTest {
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(Path.STANDARD),
+            withItem(ItemPool.MR_STORE_2002_CATALOG),
             withProperty("availableMrStore2002Credits", 0),
             withProperty("_2002MrStoreCreditsCollected", false));
     try (cleanups) {
@@ -54,7 +56,10 @@ public class MrStore2002RequestTest {
 
       var requests = client.getRequests();
       assertThat(requests, hasSize(2));
-      assertPostRequest(requests.get(0), "/inv_use.php", "which=3&ajax=1&whichitem=11257");
+      assertPostRequest(
+          requests.get(0),
+          "/inv_use.php",
+          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
       assertGetRequest(requests.get(1), "/shop.php", "whichshop=mrstore2002");
     }
   }
@@ -68,6 +73,7 @@ public class MrStore2002RequestTest {
         new Cleanups(
             withHttpClientBuilder(builder),
             withPath(Path.LEGACY_OF_LOATHING),
+            withItem(ItemPool.REPLICA_MR_STORE_2002_CATALOG),
             withProperty("availableMrStore2002Credits", 0),
             withProperty("_2002MrStoreCreditsCollected", false));
     try (cleanups) {
@@ -87,6 +93,68 @@ public class MrStore2002RequestTest {
           "/inv_use.php",
           "which=3&ajax=1&whichitem=" + ItemPool.REPLICA_MR_STORE_2002_CATALOG);
       assertGetRequest(requests.get(1), "/shop.php", "whichshop=mrstore2002");
+    }
+  }
+
+  @Test
+  void visitingMrStore2020InLoLCanUseCatalog() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withPath(Path.LEGACY_OF_LOATHING),
+            withItem(ItemPool.MR_STORE_2002_CATALOG),
+            withProperty("availableMrStore2002Credits", 0),
+            withProperty("_2002MrStoreCreditsCollected", false));
+    try (cleanups) {
+      client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
+      client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
+
+      var request = new MrStore2002Request();
+      request.run();
+
+      assertThat("_2002MrStoreCreditsCollected", isSetTo(true));
+      assertThat("availableMrStore2002Credits", isSetTo(3));
+
+      var requests = client.getRequests();
+      assertThat(requests, hasSize(2));
+      assertPostRequest(
+          requests.get(0),
+          "/inv_use.php",
+          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
+      assertGetRequest(requests.get(1), "/shop.php", "whichshop=mrstore2002");
+    }
+  }
+
+  @Test
+  void visitingMrStore2020WithNoCatalogFails() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withProperty("availableMrStore2002Credits", 0),
+            withProperty("_2002MrStoreCreditsCollected", false));
+    try (cleanups) {
+      client.addResponse(200, html("request/test_use_mr_store_2002_catalog_fails.html"));
+      client.addResponse(200, "");
+
+      var request = new MrStore2002Request();
+      request.run();
+
+      assertThat("_2002MrStoreCreditsCollected", isSetTo(false));
+      assertThat("availableMrStore2002Credits", isSetTo(0));
+
+      var requests = client.getRequests();
+      assertThat(requests, hasSize(2));
+      assertPostRequest(
+          requests.get(0),
+          "/inv_use.php",
+          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
+      assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
     }
   }
 

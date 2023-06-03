@@ -34,9 +34,14 @@ public class MrStore2002Request extends CoinMasterRequest {
     // to the shop directly, since the latter will not collect credits.
     if (!Preferences.getBoolean("_2002MrStoreCreditsCollected")) {
       int itemId =
-          KoLCharacter.inLegacyOfLoathing()
-              ? ItemPool.REPLICA_MR_STORE_2002_CATALOG
-              : ItemPool.MR_STORE_2002_CATALOG;
+          InventoryManager.hasItem(ItemPool.MR_STORE_2002_CATALOG)
+              ? ItemPool.MR_STORE_2002_CATALOG
+              : InventoryManager.hasItem(ItemPool.REPLICA_MR_STORE_2002_CATALOG)
+                  ? ItemPool.REPLICA_MR_STORE_2002_CATALOG
+                  // Don't have either catalog? Huh. run() will fail.
+                  : KoLCharacter.inLegacyOfLoathing()
+                      ? ItemPool.REPLICA_MR_STORE_2002_CATALOG
+                      : ItemPool.MR_STORE_2002_CATALOG;
       this.constructURLString("inv_use.php?which=3&ajax=1&whichitem=" + itemId);
       this.using = true;
     }
@@ -56,15 +61,24 @@ public class MrStore2002Request extends CoinMasterRequest {
 
   @Override
   protected boolean shouldFollowRedirect() {
-    return true;
+    return this.using;
   }
 
   @Override
   public void processResults() {
+    String urlString = this.getURLString();
+    // If we do not have a result from the shop, fail
+    if (!urlString.contains("whichshop=mrstore2002")) {
+      return;
+    }
+
+    // If we used the item - and redirected to the shop - we collected credits
     if (this.using) {
       Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
     }
-    parseResponse(this.getURLString(), this.responseText);
+
+    // Perform standard show.php Coinmaster processing
+    parseResponse(urlString, this.responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
