@@ -11282,7 +11282,7 @@
 11254	replica Cincho de Mayo	512079504	cincho.gif	accessory	q	0
 11255	Thwaitgold splendor beetle statuette	854195085	thwaitsplendor.gif	none		0
 11256	shrink-wrapped 2002 Mr. Store Catalog	520858825	2002catalog.gif	usable	t	0
-11257	2002 Mr. Store Catalog	480259225	2002catalog.gif	usable		0
+11257	2002 Mr. Store Catalog	480259225	2002catalog.gif	reusable		0
 11258	&quot;I survived Y2K&quot; T-Shirt	706294128	2002shirt.gif	accessory	t,d	50
 11259	Letter from Carrie Bradshaw	279042305	2002letters.gif	usable	t,d	50
 11260	pro skateboard	338212179	2002skateboard.gif	accessory	t,d	50
@@ -11305,7 +11305,7 @@
 11277	Loathing Idol Microphone (75% charged)	606528143	2002mic.gif	usable	t,d	50
 11278	Loathing Idol Microphone (50% charged)	538550263	2002mic.gif	usable	t,d	50
 11279	Loathing Idol Microphone (25% charged)	931703699	2002mic.gif	usable	t,d	50
-11280	Replica 2002 Mr. Store Catalog	661333312	2002catalog.gif	usable	q	0
+11280	Replica 2002 Mr. Store Catalog	661333312	2002catalog.gif	reusable	q	0
 11281	Mr. Big's Wallet	827833135	wallet.gif	usable	t	0
 11282	Sexy Cosmo	445044642	perf_cosmo.gif	drink	t,d	11
 11283	Souvenir Chopsticks	821052146	chopsticks2.gif	none	t,d	10
