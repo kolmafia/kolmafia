@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -681,6 +682,9 @@ public class Preferences {
     if (p.size() == 0) {
       // Something went wrong reading the preferences.
       if (backupFile.exists()) {
+        KoLmafia.updateDisplay(
+            userPrefsFile + " oould not be read and backup exists, trying backup...");
+        // also tell system out, in case things are really fubar
         System.out.println("Prefs could not be read and backup exists, trying backup...");
 
         p = Preferences.loadPreferences(backupFile);
@@ -694,6 +698,10 @@ public class Preferences {
             System.err.format("I/O Error when copying file");
           }
         }
+      } else {
+        KoLmafia.updateDisplay(
+            userPrefsFile
+                + " could not be read and no backup exists!  Please exit KoLmafia and check your preference files.");
       }
     } else {
       try {

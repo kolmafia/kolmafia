@@ -941,7 +941,7 @@ public class CampgroundRequest extends GenericRequest {
     var preaction = GenericRequest.getPreaction(urlString);
 
     if (action == null) {
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       action = "";
     }
 
@@ -1053,24 +1053,24 @@ public class CampgroundRequest extends GenericRequest {
         || action.equals("rgarden1")
         || action.equals("rgarden2")
         || action.equals("rgarden3")) {
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       return;
     }
 
     if (action.equals("inspectdwelling")) {
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.inspectDwelling(responseText);
       return;
     }
 
     if (action.equals("inspectkitchen")) {
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseKitchen(responseText);
       return;
     }
 
     if (action.equals("workshed")) {
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseWorkshed(responseText);
       return;
     }
@@ -1079,7 +1079,7 @@ public class CampgroundRequest extends GenericRequest {
       if (responseText.contains("little bottle of gene tonic")) {
         Preferences.increment("_dnaPotionsMade", 1);
       }
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseWorkshed(responseText);
       return;
     }
@@ -1089,7 +1089,7 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.setBoolean("_dnaHybrid", true);
         Preferences.setString("_dnaSyringe", "");
       }
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseWorkshed(responseText);
       return;
     }
@@ -1100,7 +1100,7 @@ public class CampgroundRequest extends GenericRequest {
       if (responseText.contains("air into Meat")) {
         Preferences.setBoolean("_spinningWheel", true);
       }
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseWorkshed(responseText);
       return;
     }
@@ -1116,7 +1116,7 @@ public class CampgroundRequest extends GenericRequest {
         int itemId = StringUtilities.parseInt(fuelMatcher.group(2));
         ResultProcessor.processResult(ItemPool.get(itemId, -qty));
       }
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseWorkshed(responseText);
       return;
     }
@@ -1130,7 +1130,11 @@ public class CampgroundRequest extends GenericRequest {
     }
   }
 
-  private static void parseCampground(final String responseText) {
+  private static void parseCampground(final String urlString, final String responseText) {
+    if (urlString.contains("ajax=1")) {
+      return;
+    }
+
     boolean haveTelescope = findImage(responseText, "telescope.gif", ItemPool.TELESCOPE);
     if (haveTelescope) {
       KoLCharacter.setTelescope(true);
