@@ -1663,6 +1663,7 @@ user	_birdOfTheDay
 user	_birdOfTheDayMods
 user	_birdsSoughtToday	0
 user	_bittycar
+user	_blackMonolithUsed	false
 user	_blankoutUsed	false
 user	_bonersSummoned	false
 user	_bookOfEverySkillUsed	false

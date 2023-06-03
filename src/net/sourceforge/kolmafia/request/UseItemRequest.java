@@ -6069,6 +6069,12 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
         Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
         return;
+
+      case ItemPool.GIANT_BLACK_MONOLITH:
+        // You lug the giant black monolith to your campground and set it down.
+        // There's a deafening Bwoom-woob-woob-woob and then an ominous hum fills the air.
+        CampgroundRequest.setCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH, 1);
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
