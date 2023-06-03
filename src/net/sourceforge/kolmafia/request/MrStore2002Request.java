@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -65,9 +66,13 @@ public class MrStore2002Request extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    if (!InventoryManager.hasItem(ItemPool.MR_STORE_2002_CATALOG)) {
-      return "You need a 2002 Mr. Store Catalog in order to shop here.";
+    if (InventoryManager.hasItem(ItemPool.MR_STORE_2002_CATALOG)) {
+      return null;
     }
-    return null;
+    if (KoLCharacter.inLegacyOfLoathing()
+        && InventoryManager.hasItem(ItemPool.REPLICA_MR_STORE_2002_CATALOG)) {
+      return null;
+    }
+    return "You need a 2002 Mr. Store Catalog in order to shop here.";
   }
 }
