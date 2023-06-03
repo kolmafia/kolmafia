@@ -2028,7 +2028,7 @@ public class QuestManager {
           "druid plants",
           "flock of every birds",
           "plywood cultists",
-          "barrow wraith",
+          "barrow wraith?",
           "regular thief",
           "swamp troll",
           "crypt creeper",
