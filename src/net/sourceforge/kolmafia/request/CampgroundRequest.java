@@ -148,6 +148,7 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.WITCHESS_SET,
           ItemPool.SOURCE_TERMINAL,
           ItemPool.TRAPEZOID,
+          ItemPool.GIANT_BLACK_MONOLITH,
 
           // Special item that aids resting
           ItemPool.COMFY_BLANKET);
@@ -1128,6 +1129,11 @@ public class CampgroundRequest extends GenericRequest {
       }
       return;
     }
+
+    if (action.equals("monolith")) {
+      Preferences.setBoolean("_blackMonolithUsed", true);
+      return;
+    }
   }
 
   private static void parseCampground(final String urlString, final String responseText) {
@@ -1151,6 +1157,7 @@ public class CampgroundRequest extends GenericRequest {
     findImage(responseText, "doghouse.gif", ItemPool.HAUNTED_DOGHOUSE);
     findImage(responseText, "chesstable.gif", ItemPool.WITCHESS_SET);
     findImage(responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL);
+    findImage(responseText, "monolith.gif", ItemPool.GIANT_BLACK_MONOLITH);
 
     if (responseText.contains("portal1.gif")) {
       // Charged portal.

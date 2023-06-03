@@ -5,19 +5,23 @@ import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -233,6 +237,45 @@ public class CampgroundRequestTest {
 
       assertThat(KoLConstants.campground, not(hasItem(ItemPool.get(ItemPool.ROCK_SEEDS))));
       assertThat(KoLConstants.campground, not(hasItem(ItemPool.get(ItemPool.FRUITY_PEBBLE))));
+    }
+  }
+
+  @Nested
+  class BlackMonolith {
+    private static AdventureResult OMINOUS_WISDOM = EffectPool.get(EffectPool.OMINOUS_WISDOM);
+
+    @Test
+    void canTrackBlackMonolithFirstUse() {
+      var cleanups =
+          new Cleanups(
+              withCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH),
+              withNextResponse(
+                  200, html("request/test_campground_tracks_black_monolith_first_use.html")),
+              withProperty("_blackMonolithUsed", false),
+              withNoEffects());
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=monolith").run();
+        assertThat("_blackMonolithUsed", isSetTo(true));
+        assertThat(OMINOUS_WISDOM.getCount(KoLConstants.activeEffects), is(50));
+      }
+    }
+
+    @Test
+    void canTrackBlackMonolithSecondUse() {
+      var cleanups =
+          new Cleanups(
+              withCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH),
+              withNextResponse(
+                  200, html("request/test_campground_tracks_black_monolith_second_use.html")),
+              withProperty("_blackMonolithUsed", false),
+              withNoEffects());
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=monolith").run();
+        assertThat("_blackMonolithUsed", isSetTo(true));
+        assertThat(OMINOUS_WISDOM.getCount(KoLConstants.activeEffects), is(0));
+      }
     }
   }
 
