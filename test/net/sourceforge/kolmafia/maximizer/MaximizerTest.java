@@ -1826,4 +1826,30 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  class GreatestAmericanPants {
+    @Test
+    public void suggestsGap() {
+      var cleanups = withEquipped(Slot.PANTS, ItemPool.GREAT_PANTS);
+
+      try (cleanups) {
+        assertTrue(maximize("item"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "gap vision")));
+      }
+    }
+
+    @Test
+    public void suggestsReplicaGap() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.LEGACY_OF_LOATHING),
+              withEquipped(Slot.PANTS, ItemPool.REPLICA_GREAT_PANTS));
+
+      try (cleanups) {
+        assertTrue(maximize("hot res"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "gap structure")));
+      }
+    }
+  }
 }

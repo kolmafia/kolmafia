@@ -1031,7 +1031,9 @@ public class Maximizer {
             }
           } else if (Preferences.getInteger("_gapBuffs") >= 5) {
             cmd = "";
-          } else if (pants == null || (pants.getItemId() != ItemPool.GREAT_PANTS)) {
+          } else if (pants == null
+              || (pants.getItemId() != ItemPool.GREAT_PANTS
+                  && pants.getItemId() != ItemPool.REPLICA_GREAT_PANTS)) {
             text = "(equip Greatest American Pants for " + name + ")";
             cmd = "";
           }
