@@ -3679,10 +3679,11 @@ public class QuestManagerTest {
   class FantasyRealm {
     @Test
     public void cantrackBarrwWraith() {
-      var cleanups = new Cleanups(withProperty("_frMonstersKilled", ""));
+      var cleanups =
+          new Cleanups(
+              withLastLocation("The Barrow Mounds"), withProperty("_frMonstersKilled", ""));
       try (cleanups) {
         String responseText = html("request/test_barrow_wraith_win.html");
-        KoLAdventure.setLastAdventure("The Barrow Mounds");
         QuestManager.updateQuestData(responseText, "barrow wraith?");
         assertEquals(Preferences.getString("_frMonstersKilled"), "barrow wraith?:1,");
       }
