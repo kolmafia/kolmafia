@@ -65,7 +65,7 @@ bazookafish	724	bazookafish.gif	Atk: 375 Def: 292 HP: 500 Init: 100 Meat: 220 P:
 beanbat	48	beanbat.gif	Atk: 21 Def: 18 HP: 18 Init: 60 Meat: 34 P: beast Article: a	enchanted bean (50)	sonar-in-a-biscuit (10)
 bearpig topiary animal	1246	topi2.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast EA: sleaze Article: a	rusty hedge trimmers (15)	pestopiary (15)
 Beaver	539	beaver.gif	Atk: 162 Def: 145 HP: 150 Init: 70 P: constellation ED: sleaze EA: hot Article: The	line (30)	star (30)	star (30)
-beefy bodyguard bat	571	beefybat.gif	NOBANISH Atk: 25 Def: 22 HP: 25 Init: 50 Meat: 250 P: beast Article: a	beefy pill (0)
+beefy bodyguard bat	571	beefybat.gif	NOBANISH Atk: 25 Def: 22 HP: 25 Init: 50 Meat: 250 P: beast Article: a	beefy pill (10)
 Beer Bongadier	422	warfratbg.gif	Atk: 180 Def: 175 HP: 210 Init: 50 P: orc E: sleaze Article: a	beer bong (20)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (3)
 biclops	1579	biclops.gif	NOCOPY Atk: 38 Def: 33 HP: 30 Init: 25 Meat: 30 P: humanoid Article: a	duonoculars (c100)
 big creepy spider	156	spider1.gif	Atk: 1 Def: 0 HP: 1 Init: 40 Meat: 5 P: bug Article: a Poison: "Hardly Poisoned at All"	spider web (25)	spider web (25)
@@ -265,7 +265,7 @@ Fruit Golem	89	fruitgolem.gif	Atk: 56 Def: 50 HP: 46 Init: 80 P: construct Artic
 full-length mirror	1553	bigmirror.gif	NOCOPY LUCKY Scale: 0 Cap: ? Init: 50 P: construct EA: hot EA: spooky Article: a
 funk sole brother	719	solebrother.gif	Atk: 300 Def: 315 HP: 400 Init: 150 Meat: 200 P: fish Article: a	dull fish scale (n15)	slick fish meat (n5)
 Furry Giant	172	giant_furry.gif	Atk: 135 Def: 121 HP: 150 Init: 40 Meat: 150 P: humanoid EA: sleaze Article: a	furry fur (35)	disturbing fanfic (25)	wolf mask (10)
-G imp	125	gimp.gif	Atk: 46 Def: 41 HP: 46 Init: 60 Meat: 30 P: demon E: hot Article: a	hot wing (30)	Imp Ale (30)	leather mask (5)	vitamin G pill (0)
+G imp	125	gimp.gif	Atk: 46 Def: 41 HP: 46 Init: 60 Meat: 30 P: demon E: hot Article: a	hot wing (30)	Imp Ale (30)	leather mask (5)	vitamin G pill (10)
 ganger	737	ganger.gif	Atk: 375 Def: 360 HP: 800 Init: 100 Meat: 240 P: fish Article: a	dull fish scale (n15)	ganger bandana (n3)	temporary teardrop tattoo (c9)
 gargantulihc	194	gargantulihc.gif	BOSS NOCOPY Atk: 71 Def: 65 HP: 120 Exp: [53+ML/3] Init: 60 P: undead E: spooky Article: a	lihc eye (0)	lihc eye (0)	lihc face (0)
 gaudy pirate	633	cleanpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 Meat: 108 P: pirate Article: a	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)
