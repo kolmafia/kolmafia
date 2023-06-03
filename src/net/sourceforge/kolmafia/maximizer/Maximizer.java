@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.textui.command.LoathingIdolCommand;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1258,6 +1259,14 @@ public class Maximizer {
                   EffectPool.get(EffectPool.SUPERFICIALLY_INTERESTED))) {
             continue;
           }
+        } else if (cmd.startsWith("loathingidol ")) {
+          var usableMicrophone = LoathingIdolCommand.getUsableMicrophone();
+          if (usableMicrophone == -1) {
+            item = ItemPool.get(ItemPool.LOATHING_IDOL_MICROPHONE, 1);
+          } else {
+            item = ItemPool.get(usableMicrophone, 1);
+          }
+          duration = 30;
         }
 
         if (item != null) {

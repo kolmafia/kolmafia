@@ -456,6 +456,28 @@ public class MaximizerTest {
           assertFalse(someBoostIs(x -> commandStartsWith(x, "use 1 baggie of powdered sugar")));
         }
       }
+
+      @Test
+      public void recommendsUsableNonPotion() {
+        var cleanups = withItem(ItemPool.CHARTER_NELLYVILLE);
+
+        try (cleanups) {
+          maximize("hot dmg");
+
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "use 1 Charter: Nellyville")));
+        }
+      }
+
+      @Test
+      public void recommendsLoathingIdol() {
+        var cleanups = withItem(ItemPool.LOATHING_IDOL_MICROPHONE_50);
+
+        try (cleanups) {
+          maximize("init");
+
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "loathingidol pop")));
+        }
+      }
     }
   }
 
