@@ -39,9 +39,7 @@ public class MrStore2002Request extends CoinMasterRequest {
               : InventoryManager.hasItem(ItemPool.REPLICA_MR_STORE_2002_CATALOG)
                   ? ItemPool.REPLICA_MR_STORE_2002_CATALOG
                   // Don't have either catalog? Huh. run() will fail.
-                  : KoLCharacter.inLegacyOfLoathing()
-                      ? ItemPool.REPLICA_MR_STORE_2002_CATALOG
-                      : ItemPool.MR_STORE_2002_CATALOG;
+                  : ItemPool.MR_STORE_2002_CATALOG;
       this.constructURLString("inv_use.php?which=3&ajax=1&whichitem=" + itemId);
       this.using = true;
     }
