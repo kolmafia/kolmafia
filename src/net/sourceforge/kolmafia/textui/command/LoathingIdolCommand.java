@@ -58,8 +58,8 @@ public class LoathingIdolCommand extends AbstractCommand {
 
     int previousChoice = Preferences.getInteger("choiceAdventure1505");
     Preferences.setInteger("choiceAdventure1505", choice);
-    UseItemRequest useBoomBox = UseItemRequest.getInstance(item);
-    RequestThread.postRequest(useBoomBox);
+    UseItemRequest useMicrophone = UseItemRequest.getInstance(item);
+    RequestThread.postRequest(useMicrophone);
     Preferences.setInteger("choiceAdventure1505", previousChoice);
   }
 }
