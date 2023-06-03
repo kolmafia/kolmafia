@@ -6064,6 +6064,11 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.REPLICA_WITCHESS_SET:
         Preferences.setBoolean("replicaWitchessSetAvailable", true);
         break;
+
+      case ItemPool.MR_STORE_2002_CATALOG:
+      case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
+        Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
