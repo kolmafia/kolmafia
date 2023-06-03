@@ -6248,6 +6248,16 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("Psychogeologist", 1),
         new ChoiceOption("Insectologist", 2),
         new ChoiceOption("Cryptobotanist", 3));
+
+    // Sing!
+    new ChoiceAdventure(
+        1505,
+        "Item-Driven",
+        "Loathing Idol Microphone",
+        new ChoiceOption("30 turns of +100% init, +50% moxie", 1),
+        new ChoiceOption("30 turns of +5% combat chance", 2),
+        new ChoiceOption("30 turns of +50% item drop", 3),
+        new ChoiceOption("30 turns of +3 exp, +4 stench/sleaze res", 4));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.

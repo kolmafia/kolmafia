@@ -2811,7 +2811,7 @@
 2811	Hot in Herre	sweaty.gif	e1018384b4e5ad0292ea9d39312505bd	neutral	none	use 1 Charter: Nellyville
 2812	Minor Invulnerability	halfshield.gif	d9f4cca5aab51cbbc1086df82f201d39	neutral	none	use 1 scroll of minor invulnerability
 2813	Protection from Lycanthropes	3claws.gif	033a0c81d61c39b7f8a061f91b2f7786	neutral	none	use 1 scroll of protection from lycanthropes
-2814	Poppy Performance	notes.gif	0687f12bc5415bd2bb9001bd0730fb60	neutral	none
-2815	Romantically Roused	singlenote.gif	53288d446261bea13b62567b694c65ec	neutral	none
-2816	Spitting Rhymes	rhyme.gif	79b45774d3b494108eefa1475ea3d61b	neutral	none
-2817	Twangy	seegerbanjo.gif	62262f6ca05f7a7cb0ac53f808efda9b	neutral	none
+2814	Poppy Performance	notes.gif	0687f12bc5415bd2bb9001bd0730fb60	neutral	none	loathingidol pop
+2815	Romantically Roused	singlenote.gif	53288d446261bea13b62567b694c65ec	neutral	none	loathingidol ballad
+2816	Spitting Rhymes	rhyme.gif	79b45774d3b494108eefa1475ea3d61b	neutral	none	loathingidol rhyme
+2817	Twangy	seegerbanjo.gif	62262f6ca05f7a7cb0ac53f808efda9b	neutral	none	loathingidol country
