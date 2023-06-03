@@ -11012,6 +11012,7 @@ Item	Celsius 233	Skill: "Eternal Flame"
 Item	Celsius 233 (singed)	Skill: "Eternal Flame"
 # chainsaw chain: Deals 60-80 Physical Damage and weakens enemies a lot
 # chaos butterfly: Is Unpredictable
+Item	Charter: Nellyville	Effect: "Hot in Herre", Effect Duration: 30
 # Chateau Mantegna room key: Permanently unlocks a new residence in the Big Mountains
 Item	Chateau Mantegna room key	Free Pull
 # cheer-o-gram: Send somebody a short but explosively cheerful message
