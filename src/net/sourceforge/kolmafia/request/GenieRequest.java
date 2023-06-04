@@ -112,11 +112,11 @@ public class GenieRequest extends GenericRequest {
     if (InventoryManager.hasItem(ItemPool.GENIE_BOTTLE)
         && Preferences.getInteger("_genieWishesUsed") < 3) {
       itemId = ItemPool.GENIE_BOTTLE;
-    } else if (InventoryManager.hasItem(ItemPool.POCKET_WISH)) {
-      itemId = ItemPool.POCKET_WISH;
     } else if (KoLCharacter.inLegacyOfLoathing()
         && InventoryManager.hasItem(ItemPool.REPLICA_GENIE_BOTTLE)) {
       itemId = ItemPool.REPLICA_GENIE_BOTTLE;
+    } else if (InventoryManager.hasItem(ItemPool.POCKET_WISH)) {
+      itemId = ItemPool.POCKET_WISH;
     } else {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "You do not have a genie bottle or pocket wish to use.");
