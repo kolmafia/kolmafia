@@ -19,12 +19,15 @@ public class GenieRequest extends GenericRequest {
   private static boolean usingPocketWish = false;
   private static final Pattern WISH_PATTERN = Pattern.compile("You have (\\d) wish");
 
-  private static final int COMBAT = 0;
-  private static final int EFFECT = 1;
-  private static final int ITEM = 2;
-  private static final int MEAT = 3;
-  private static final int STATS = 4;
-  private static final int TROPHY = 5;
+  private enum GenieWishType {
+    UNKNOWN,
+    COMBAT,
+    EFFECT,
+    ITEM,
+    MEAT,
+    STATS,
+    TROPHY
+  }
 
   private final String wish;
 
@@ -42,20 +45,20 @@ public class GenieRequest extends GenericRequest {
     return true;
   }
 
-  public static int parseWish(final String wish) {
+  public static GenieWishType parseWish(final String wish) {
     if (wish == null) {
-      return -1;
+      return GenieWishType.UNKNOWN;
     }
     switch (wish) {
       case "you were free":
-        return GenieRequest.COMBAT;
+        return GenieWishType.COMBAT;
       case "for a blessed rustproof +2 gray dragon scale mail":
       case "for a pony":
       case "for more wishes":
-        return GenieRequest.ITEM;
+        return GenieWishType.ITEM;
       case "i was rich":
       case "i were rich":
-        return GenieRequest.MEAT;
+        return GenieWishType.MEAT;
       case "i was a little bit taller":
       case "i were a little bit taller":
       case "i was a baller":
@@ -64,18 +67,18 @@ public class GenieRequest extends GenericRequest {
       case "i were a rabbit in a hat with a bat":
       case "i was big":
       case "i were big":
-        return GenieRequest.STATS;
+        return GenieWishType.STATS;
     }
 
     if (wish.startsWith("to fight") || wish.startsWith("to be fighting a")) {
-      return GenieRequest.COMBAT;
+      return GenieWishType.COMBAT;
     } else if (wish.startsWith("to be") || wish.startsWith("i was")) {
-      return GenieRequest.EFFECT;
+      return GenieWishType.EFFECT;
     } else if (wish.startsWith("for trophy")) {
-      return GenieRequest.TROPHY;
+      return GenieWishType.TROPHY;
     }
 
-    return -1;
+    return GenieWishType.UNKNOWN;
   }
 
   public static String getDesiredEffectName(final String wish) {
@@ -95,11 +98,11 @@ public class GenieRequest extends GenericRequest {
   }
 
   public static boolean wishedForEffect(final String wish) {
-    return GenieRequest.parseWish(wish) == GenieRequest.EFFECT;
+    return GenieRequest.parseWish(wish) == GenieWishType.EFFECT;
   }
 
   public static boolean wishedForCombat(final String wish) {
-    return GenieRequest.parseWish(wish) == GenieRequest.COMBAT;
+    return GenieRequest.parseWish(wish) == GenieWishType.COMBAT;
   }
 
   @Override
@@ -112,11 +115,11 @@ public class GenieRequest extends GenericRequest {
     if (InventoryManager.hasItem(ItemPool.GENIE_BOTTLE)
         && Preferences.getInteger("_genieWishesUsed") < 3) {
       itemId = ItemPool.GENIE_BOTTLE;
-    } else if (InventoryManager.hasItem(ItemPool.POCKET_WISH)) {
-      itemId = ItemPool.POCKET_WISH;
     } else if (KoLCharacter.inLegacyOfLoathing()
         && InventoryManager.hasItem(ItemPool.REPLICA_GENIE_BOTTLE)) {
       itemId = ItemPool.REPLICA_GENIE_BOTTLE;
+    } else if (InventoryManager.hasItem(ItemPool.POCKET_WISH)) {
+      itemId = ItemPool.POCKET_WISH;
     } else {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "You do not have a genie bottle or pocket wish to use.");
