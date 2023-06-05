@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
+import net.sourceforge.kolmafia.request.MrStore2002Request;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -381,13 +382,8 @@ public class BreakfastManager {
   }
 
   public static void collect2002MrStoreCredits() {
-    AdventureResult catalogue;
-    if (InventoryManager.hasItem(ItemPool.MR_STORE_2002_CATALOG)) {
-      catalogue = ItemPool.get(ItemPool.MR_STORE_2002_CATALOG, 1);
-    } else if (KoLCharacter.inLegacyOfLoathing()
-        && InventoryManager.hasItem(ItemPool.REPLICA_MR_STORE_2002_CATALOG)) {
-      catalogue = ItemPool.get(ItemPool.REPLICA_MR_STORE_2002_CATALOG, 1);
-    } else {
+    int catalogue = MrStore2002Request.catalogToUse();
+    if (catalogue == 0) {
       return;
     }
 
@@ -396,7 +392,7 @@ public class BreakfastManager {
     }
 
     KoLmafia.updateDisplay("Getting 2002 Mr Store Credits...");
-    RequestThread.postRequest(UseItemRequest.getInstance(catalogue));
+    RequestThread.postRequest(new MrStore2002Request());
   }
 
   public static void useSpinningWheel() {
