@@ -63,7 +63,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(0),
           "/inv_use.php",
-          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
+          "whichitem=" + ItemPool.MR_STORE_2002_CATALOG + "&ajax=1");
       assertPostRequest(requests.get(1), "/shop.php", "whichshop=mrstore2002");
     }
   }
@@ -100,7 +100,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(0),
           "/inv_use.php",
-          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
+          "whichitem=" + ItemPool.MR_STORE_2002_CATALOG + "&ajax=1");
       assertPostRequest(
           requests.get(1),
           "/shop.php",
@@ -142,7 +142,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(1),
           "/inv_use.php",
-          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
+          "whichitem=" + ItemPool.MR_STORE_2002_CATALOG + "&ajax=1");
       assertPostRequest(requests.get(2), "/shop.php", "whichshop=mrstore2002");
     }
   }
@@ -174,7 +174,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(0),
           "/inv_use.php",
-          "which=3&ajax=1&whichitem=" + ItemPool.REPLICA_MR_STORE_2002_CATALOG);
+          "whichitem=" + ItemPool.REPLICA_MR_STORE_2002_CATALOG + "&ajax=1");
       assertPostRequest(requests.get(1), "/shop.php", "whichshop=mrstore2002");
     }
   }
@@ -206,7 +206,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(0),
           "/inv_use.php",
-          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
+          "whichitem=" + ItemPool.MR_STORE_2002_CATALOG + "&ajax=1");
       assertPostRequest(requests.get(1), "/shop.php", "whichshop=mrstore2002");
     }
   }
