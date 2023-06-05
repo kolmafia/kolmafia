@@ -112,7 +112,7 @@ public class GenericRequest implements Runnable {
   public static final Pattern REDIRECT_PATTERN =
       Pattern.compile("([^/]*)/(login\\.php.*)", Pattern.DOTALL);
   public static final Pattern JS_REDIRECT_PATTERN =
-      Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";");
+      Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*['\"](.*?)['\"];");
   private static final Pattern ADVENTURE_AGAIN =
       Pattern.compile("\">Adventure Again \\(([^<]+)\\)</a>");
 

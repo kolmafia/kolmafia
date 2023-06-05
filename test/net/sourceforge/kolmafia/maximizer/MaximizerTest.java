@@ -456,6 +456,28 @@ public class MaximizerTest {
           assertFalse(someBoostIs(x -> commandStartsWith(x, "use 1 baggie of powdered sugar")));
         }
       }
+
+      @Test
+      public void recommendsUsableNonPotion() {
+        var cleanups = withItem(ItemPool.CHARTER_NELLYVILLE);
+
+        try (cleanups) {
+          maximize("hot dmg");
+
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "use 1 Charter: Nellyville")));
+        }
+      }
+
+      @Test
+      public void recommendsLoathingIdol() {
+        var cleanups = withItem(ItemPool.LOATHING_IDOL_MICROPHONE_50);
+
+        try (cleanups) {
+          maximize("init");
+
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "loathingidol pop")));
+        }
+      }
     }
   }
 
@@ -1801,6 +1823,32 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("familiar weight"));
         assertTrue(someBoostIs(b -> commandStartsWith(b, "witchess")));
+      }
+    }
+  }
+
+  @Nested
+  class GreatestAmericanPants {
+    @Test
+    public void suggestsGap() {
+      var cleanups = withEquipped(Slot.PANTS, ItemPool.GREAT_PANTS);
+
+      try (cleanups) {
+        assertTrue(maximize("item"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "gap vision")));
+      }
+    }
+
+    @Test
+    public void suggestsReplicaGap() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.LEGACY_OF_LOATHING),
+              withEquipped(Slot.PANTS, ItemPool.REPLICA_GREAT_PANTS));
+
+      try (cleanups) {
+        assertTrue(maximize("hot res"));
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "gap structure")));
       }
     }
   }
