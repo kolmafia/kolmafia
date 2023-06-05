@@ -105,8 +105,6 @@ public class MrStore2002Request extends CoinMasterRequest {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to redirect to shop.php.");
         return;
       }
-      // Remember that we've collected credits today.
-      Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
     }
 
     // Now run the shop.php request
