@@ -6071,7 +6071,6 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.MR_STORE_2002_CATALOG:
       case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
-        Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
         // Using the catalog redirects to "whichshop=mrstore2002".
         // If we followed the redirect, let MrStore2002Request handle it.
         MrStore2002Request.parseResponse(currentURL, responseText);
@@ -6733,7 +6732,14 @@ public class UseItemRequest extends GenericRequest {
           if (sign != ZodiacSign.NONE && urlString.contains("doit=96")) {
             useString = "tuning moon to The " + sign;
           }
+          break;
         }
+
+      case ItemPool.MR_STORE_2002_CATALOG:
+      case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
+        // This redirects to shop.php
+        Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
+        break;
     }
 
     if (useString == null) {
