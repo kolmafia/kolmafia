@@ -3612,6 +3612,7 @@ public class ItemPool {
   public static final int REPLICA_SPACE_PLANULA = 11235;
   public static final int REPLICA_ROBORTENDER = 11236;
   public static final int REPLICA_NEVERENDING_PARTY_INVITE = 11237;
+  public static final int REPLICA_GARBAGE_TOTE = 11238;
   public static final int REPLICA_GOD_LOBSTER = 11239;
   public static final int REPLICA_SAUSAGE_O_MATIC = 11241;
   public static final int REPLICA_CAMELCALF = 11243;
