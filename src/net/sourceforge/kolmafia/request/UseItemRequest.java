@@ -142,6 +142,7 @@ public class UseItemRequest extends GenericRequest {
 
   protected static AdventureResult lastItemUsed = null;
   protected static AdventureResult lastHelperUsed = null;
+  protected static String currentURL = "";
   private static int currentItemId = -1;
   private static String lastUrlString = null;
 
@@ -1431,7 +1432,10 @@ public class UseItemRequest extends GenericRequest {
 
   @Override
   public void processResults() {
-    if (this.getPath().startsWith("choice.php")) {
+    // We might have been redirected.
+    UseItemRequest.currentURL = this.getPath();
+
+    if (UseItemRequest.currentURL.startsWith("choice.php")) {
       // We have been redirected. Unlike a redirection to fight.php,
       // which GenericRequest automates in FightRequest.INSTANCE, we
       // automate this ourself in runOneIteration. Item consumption
@@ -6067,7 +6071,9 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.MR_STORE_2002_CATALOG:
       case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
-        Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
+        // Using the catalog redirects to "whichshop=mrstore2002".
+        // If we followed the redirect, let MrStore2002Request handle it.
+        MrStore2002Request.parseResponse(currentURL, responseText);
         return;
 
       case ItemPool.GIANT_BLACK_MONOLITH:
@@ -6726,7 +6732,14 @@ public class UseItemRequest extends GenericRequest {
           if (sign != ZodiacSign.NONE && urlString.contains("doit=96")) {
             useString = "tuning moon to The " + sign;
           }
+          break;
         }
+
+      case ItemPool.MR_STORE_2002_CATALOG:
+      case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
+        // This redirects to shop.php
+        Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
+        break;
     }
 
     if (useString == null) {

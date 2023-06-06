@@ -40,7 +40,7 @@ public class MrStore2002Request extends CoinMasterRequest {
     super(MR_STORE_2002, buying, itemId, quantity);
   }
 
-  private static int catalogToUse() {
+  public static int catalogToUse() {
     if (InventoryManager.hasItem(ItemPool.MR_STORE_2002_CATALOG)) {
       return ItemPool.MR_STORE_2002_CATALOG;
     }
@@ -59,21 +59,19 @@ public class MrStore2002Request extends CoinMasterRequest {
   //
   // There are two options:
   //
-  // 1) We could create a UseItemRequest. That does not follow
-  //    redirects.  However, it comes with a bunch of additional
-  //    overhead which we don't need or want.
+  // 1) We could create a UseItemRequest. That can be configured to not
+  //    follow redirects.  It comes with overhead which we don't need,
+  //    but it does log the "use" nicely
   //
   // 2) We could create a GenericRequest, which has no extraneous
   //    overhead. However, as coded, it automatically follows redirects.
-  //    We can override that behavior.
+  //    We can override that behavior, but doing so makes it something
+  //    other than GenericRequest.class, which does not log nicely.
 
   private static GenericRequest useItemRequest(int itemId) {
-    return new GenericRequest("inv_use.php?which=3&ajax=1&whichitem=" + itemId) {
-      @Override
-      protected boolean shouldFollowRedirect() {
-        return false;
-      }
-    };
+    UseItemRequest request = UseItemRequest.getInstance(itemId);
+    request.followRedirect(false);
+    return request;
   }
 
   @Override
@@ -107,12 +105,15 @@ public class MrStore2002Request extends CoinMasterRequest {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to redirect to shop.php.");
         return;
       }
-      // Remember that we've collected credits today.
-      Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
     }
 
     // Now run the shop.php request
     super.run();
+  }
+
+  @Override
+  public void processResults() {
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
