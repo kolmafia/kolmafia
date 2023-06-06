@@ -198,7 +198,7 @@ public class FoldItemCommand extends AbstractCommand {
       if (worn == null) {
         if (groupHead.equals("january's garbage tote")
             && KoLCharacter.inLegacyOfLoathing()
-            && ItemPool.get(ItemPool.REPLICA_GARBAGE_TOTE).getCount(KoLConstants.inventory) > 0) {
+            && InventoryManager.getCount(ItemPool.REPLICA_GARBAGE_TOTE) > 0) {
           source = ItemPool.get(ItemPool.REPLICA_GARBAGE_TOTE);
           sourceIndex = 0;
         } else {
