@@ -1228,6 +1228,8 @@ public class ItemPool {
   public static final int SLIPPERY_SEAL = 3911;
   public static final int IMBUED_SEAL_BLUBBER_CANDLE = 3912;
   public static final int TURTLE_WAX = 3914;
+  public static final int TURTLE_WAX_HELMET = 3916;
+  public static final int TURTLE_WAX_GREAVES = 3917;
   public static final int TURTLEMAIL_BITS = 3919;
   public static final int TURTLING_ROD = 3927;
   public static final int SEAL_IRON_INGOT = 3932;
