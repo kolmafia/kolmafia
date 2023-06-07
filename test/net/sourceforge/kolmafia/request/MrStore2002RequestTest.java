@@ -63,7 +63,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(0),
           "/inv_use.php",
-          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
+          "whichitem=" + ItemPool.MR_STORE_2002_CATALOG + "&ajax=1");
       assertPostRequest(requests.get(1), "/shop.php", "whichshop=mrstore2002");
     }
   }
@@ -100,7 +100,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(0),
           "/inv_use.php",
-          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
+          "whichitem=" + ItemPool.MR_STORE_2002_CATALOG + "&ajax=1");
       assertPostRequest(
           requests.get(1),
           "/shop.php",
@@ -142,7 +142,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(1),
           "/inv_use.php",
-          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
+          "whichitem=" + ItemPool.MR_STORE_2002_CATALOG + "&ajax=1");
       assertPostRequest(requests.get(2), "/shop.php", "whichshop=mrstore2002");
     }
   }
@@ -174,7 +174,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(0),
           "/inv_use.php",
-          "which=3&ajax=1&whichitem=" + ItemPool.REPLICA_MR_STORE_2002_CATALOG);
+          "whichitem=" + ItemPool.REPLICA_MR_STORE_2002_CATALOG + "&ajax=1");
       assertPostRequest(requests.get(1), "/shop.php", "whichshop=mrstore2002");
     }
   }
@@ -206,7 +206,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(0),
           "/inv_use.php",
-          "which=3&ajax=1&whichitem=" + ItemPool.MR_STORE_2002_CATALOG);
+          "whichitem=" + ItemPool.MR_STORE_2002_CATALOG + "&ajax=1");
       assertPostRequest(requests.get(1), "/shop.php", "whichshop=mrstore2002");
     }
   }
@@ -233,6 +233,37 @@ public class MrStore2002RequestTest {
 
       var requests = client.getRequests();
       assertThat(requests, hasSize(0));
+    }
+  }
+
+  @Test
+  void usingCatalogParsesStore() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withItem(ItemPool.MR_STORE_2002_CATALOG),
+            withProperty("availableMrStore2002Credits", 0),
+            withProperty("_2002MrStoreCreditsCollected", false));
+    try (cleanups) {
+      client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
+      client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
+
+      var request = UseItemRequest.getInstance(ItemPool.MR_STORE_2002_CATALOG);
+      request.run();
+
+      assertThat("_2002MrStoreCreditsCollected", isSetTo(true));
+      assertThat("availableMrStore2002Credits", isSetTo(3));
+
+      var requests = client.getRequests();
+      assertThat(requests, hasSize(2));
+      assertPostRequest(
+          requests.get(0),
+          "/inv_use.php",
+          "whichitem=" + ItemPool.MR_STORE_2002_CATALOG + "&ajax=1");
+      assertGetRequest(requests.get(1), "/shop.php", "whichshop=mrstore2002");
     }
   }
 }
