@@ -196,29 +196,21 @@ public class FoldItemCommand extends AbstractCommand {
         return;
       }
       if (worn == null) {
-        if (groupHead.equals("january's garbage tote")
-            && KoLCharacter.inLegacyOfLoathing()
-            && InventoryManager.getCount(ItemPool.REPLICA_GARBAGE_TOTE) > 0) {
-          source = ItemPool.get(ItemPool.REPLICA_GARBAGE_TOTE);
-          sourceIndex = 0;
-        } else {
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR, "You don't have anything transformable into that item!");
-          return;
-        }
-      } else {
-        // If we are switching a Loathing Legion item into another item that goes in the same slot
-        // then we don't need to unequip it first
-        if (targetName.startsWith("Loathing Legion")
-            && (ItemDatabase.getConsumptionType(target.getItemId())
-                == ItemDatabase.getConsumptionType(worn.getItemId()))) {
-          legionSlot = KoLCharacter.equipmentSlot(worn);
-        } else {
-          RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, slot));
-        }
-        source = worn;
-        sourceIndex = wornIndex;
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "You don't have anything transformable into that item!");
+        return;
       }
+      // If we are switching a Loathing Legion item into another item that goes in the same slot
+      // then we don't need to unequip it first
+      if (targetName.startsWith("Loathing Legion")
+          && (ItemDatabase.getConsumptionType(target.getItemId())
+              == ItemDatabase.getConsumptionType(worn.getItemId()))) {
+        legionSlot = KoLCharacter.equipmentSlot(worn);
+      } else {
+        RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, slot));
+      }
+      source = worn;
+      sourceIndex = wornIndex;
     }
 
     if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {
