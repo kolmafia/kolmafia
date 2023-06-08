@@ -2064,6 +2064,29 @@ public class FightRequestTest {
   @Nested
   class SpookyVHSTape {
     @Test
+    public void canRecogniseSpookyVHSTapeMonster() {
+      var cleanups =
+              new Cleanups(
+                      withProperty("spookyVHSTapeMonster", "ghost"),
+                      withProperty("spookyVHSTapeMonsterTurn", "119"),
+                      withTurnsPlayed(111),
+                      withFight(0));
+
+      TurnCounter.startCounting(8, "Spooky VHS Tape Monster type=wander", "watch.gif");
+      TurnCounter.startCounting(0, "Spooky VHS Tape unknown monster window begin loc=* type=wander", "lparen.gif");
+      TurnCounter.startCounting(8, "Spooky VHS Tape unknown monster window end loc=* type=wander", "rparen.gif");
+
+      try (cleanups) {
+        String html = html("request/test_fight_spooky_vhs_tape_monster.html");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("spookyVHSTapeMonster", isSetTo(""));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape Monster"), is(false));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape unknown monster window begin"), is(false));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape unknown monster window end"), is(false));
+      }
+    }
+
+    @Test
     public void canTrackSpookyVHSTapeSuccess() {
       var cleanups =
           new Cleanups(
