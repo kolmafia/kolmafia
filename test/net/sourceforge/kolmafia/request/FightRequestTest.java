@@ -19,6 +19,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withWorkshedItem;
+import static internal.helpers.Player.withoutCounters;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
@@ -2093,6 +2094,7 @@ public class FightRequestTest {
     public void canTrackSpookyVHSTapeSuccess() {
       var cleanups =
           new Cleanups(
+              withoutCounters(),
               withProperty("spookyVHSTapeMonster"),
               withProperty("spookyVHSTapeMonsterTurn"),
               withTurnsPlayed(111),
@@ -2108,14 +2110,13 @@ public class FightRequestTest {
         assertThat("spookyVHSTapeMonsterTurn", isSetTo(111));
         assertThat(TurnCounter.isCounting("Spooky VHS Tape Monster"), is(true));
       }
-
-      TurnCounter.stopCounting("Spooky VHS Tape Monster");
     }
 
     @Test
     public void canTrackSpookyVHSTapeFailure() {
       var cleanups =
           new Cleanups(
+              withoutCounters(),
               withProperty("spookyVHSTapeMonster"),
               withProperty("spookyVHSTapeMonsterTurn"),
               withTurnsPlayed(111),
@@ -2133,9 +2134,6 @@ public class FightRequestTest {
             TurnCounter.isCounting("Spooky VHS Tape unknown monster window begin"), is(true));
         assertThat(TurnCounter.isCounting("Spooky VHS Tape unknown monster window end"), is(true));
       }
-
-      TurnCounter.stopCounting("Spooky VHS Tape unknown monster window begin");
-      TurnCounter.stopCounting("Spooky VHS Tape unknown monster window end");
     }
   }
 }

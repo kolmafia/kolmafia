@@ -276,23 +276,28 @@ public class TurnCounter implements Comparable<TurnCounter> {
     return counters.toString();
   }
 
-  public static final void startCounting(final int value, final String label, final String image) {
+  public static TurnCounter startCounting(final int value, final String label, final String image) {
     synchronized (TurnCounter.relayCounters) {
-      TurnCounter.startCountingInternal(value, label, image);
+      var counter = TurnCounter.startCountingInternal(value, label, image);
       TurnCounter.saveCounters();
+      return counter;
     }
   }
 
-  private static void startCountingInternal(
+  private static TurnCounter startCountingInternal(
       final int value, final String label, final String image) {
     // We don't synchronize here because caller has already done so.
-    if (value >= 0) {
-      TurnCounter counter = new TurnCounter(value, label, image);
-
-      if (!TurnCounter.relayCounters.contains(counter)) {
-        TurnCounter.relayCounters.add(counter);
-      }
+    if (value < 0) {
+      return null;
     }
+
+    TurnCounter counter = new TurnCounter(value, label, image);
+
+    if (!TurnCounter.relayCounters.contains(counter)) {
+      TurnCounter.relayCounters.add(counter);
+    }
+
+    return counter;
   }
 
   public static final void stopCounting(final String label) {
@@ -301,6 +306,10 @@ public class TurnCounter implements Comparable<TurnCounter> {
 
       TurnCounter.saveCounters();
     }
+  }
+
+  public static final void stopCounting(final TurnCounter counter) {
+    stopCounting(counter.getLabel());
   }
 
   public static final boolean isCounting(final String label, final int value) {

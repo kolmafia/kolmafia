@@ -1,10 +1,15 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withCounter;
+import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withNextAdventure;
+import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSign;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
@@ -13,6 +18,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
@@ -222,15 +228,18 @@ class EncounterManagerTest {
 
     @Test
     void isRomanticEncounterBasedOnMonster() {
-      TurnCounter.startCounting(10, "Romantic Monster window end loc=* type=wander", "rparen.gif");
-      KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
-      Preferences.setString("romanticTarget", "Witchess Knight");
-      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-      String html = html("request/test_fight_witchess_knight_in_dmt.html");
+      var cleanups =
+          new Cleanups(
+              withCounter(10, "Romantic Monster window end loc=* type=wander", "rparen.gif"),
+              withNextAdventure("The Deep Machine Tunnels"),
+              withProperty("romanticTarget", "Witchess Knight"),
+              withNextMonster("Witchess Knight"));
 
-      boolean actual = EncounterManager.isRomanticEncounter(html, true);
-
-      assertThat(actual, equalTo(true));
+      try (cleanups) {
+        String html = html("request/test_fight_witchess_knight_in_dmt.html");
+        boolean actual = EncounterManager.isRomanticEncounter(html, true);
+        assertThat(actual, is(true));
+      }
     }
 
     @ParameterizedTest
@@ -258,17 +267,20 @@ class EncounterManagerTest {
 
     @Test
     void isEnamorangEncounterBasedOnMonster() {
-      KoLCharacter.setCurrentRun(0);
-      TurnCounter.startCounting(1, "Enamorang Monster loc=* type=wander", "watch.gif");
-      KoLCharacter.setCurrentRun(1);
-      KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
-      Preferences.setString("enamorangMonster", "Witchess Knight");
-      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-      String html = html("request/test_fight_witchess_knight_in_dmt.html");
+      var cleanups =
+          new Cleanups(
+              withCurrentRun(0),
+              withCounter(1, "Enamorang Monster loc=* type=wander", "rparen.gif"),
+              withCurrentRun(1),
+              withNextAdventure("The Deep Machine Tunnels"),
+              withProperty("enamorangMonster", "Witchess Knight"),
+              withNextMonster("Witchess Knight"));
 
-      boolean actual = EncounterManager.isEnamorangEncounter(html, true);
-
-      assertThat(actual, equalTo(true));
+      try (cleanups) {
+        String html = html("request/test_fight_witchess_knight_in_dmt.html");
+        boolean actual = EncounterManager.isEnamorangEncounter(html, true);
+        assertThat(actual, is(true));
+      }
     }
 
     @ParameterizedTest
@@ -295,17 +307,20 @@ class EncounterManagerTest {
 
     @Test
     void isDigitizedEncounterBasedOnMonster() {
-      KoLCharacter.setCurrentRun(0);
-      TurnCounter.startCounting(1, "Digitize Monster loc=* type=wander", "watch.gif");
-      KoLCharacter.setCurrentRun(1);
-      KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
-      Preferences.setString("_sourceTerminalDigitizeMonster", "Witchess Knight");
-      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-      String html = html("request/test_fight_witchess_knight_in_dmt.html");
+      var cleanups =
+          new Cleanups(
+              withCurrentRun(0),
+              withCounter(1, "Digitize Monster loc=* type=wander", "watch.gif"),
+              withCurrentRun(1),
+              withNextAdventure("The Deep Machine Tunnels"),
+              withProperty("_sourceTerminalDigitizeMonster", "Witchess Knight"),
+              withNextMonster("Witchess Knight"));
 
-      boolean actual = EncounterManager.isDigitizedEncounter(html, true);
-
-      assertThat(actual, equalTo(true));
+      try (cleanups) {
+        String html = html("request/test_fight_witchess_knight_in_dmt.html");
+        boolean actual = EncounterManager.isDigitizedEncounter(html, true);
+        assertThat(actual, is(true));
+      }
     }
 
     @ParameterizedTest
@@ -427,18 +442,21 @@ class EncounterManagerTest {
     }
 
     @Test
-    void isSpookyVHSTapeEncoutnerBasedOnMonster() {
-      KoLCharacter.setCurrentRun(0);
-      TurnCounter.startCounting(1, "Spooky VHS Tape Monster loc=* type=wander", "watch.gif");
-      KoLCharacter.setCurrentRun(1);
-      KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
-      Preferences.setString("spookyVHSTapeMonster", "Witchess Knight");
-      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-      String html = html("request/test_fight_witchess_knight_in_dmt.html");
+    void isSpookyVHSTapeEncounterBasedOnMonster() {
+      var cleanups =
+          new Cleanups(
+              withCurrentRun(0),
+              withCounter(1, "Spooky VHS Tape Monster loc=* type=wander", "watch.gif"),
+              withCurrentRun(1),
+              withNextAdventure("The Deep Machine Tunnels"),
+              withProperty("spookyVHSTapeMonster", "Witchess Knight"),
+              withNextMonster("Witchess Knight"));
 
-      boolean actual = EncounterManager.isSpookyVHSTapeMonster(html, true);
-
-      assertThat(actual, equalTo(true));
+      try (cleanups) {
+        String html = html("request/test_fight_witchess_knight_in_dmt.html");
+        boolean actual = EncounterManager.isSpookyVHSTapeMonster(html, true);
+        assertThat(actual, is(true));
+      }
     }
 
     @ParameterizedTest
