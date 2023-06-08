@@ -2244,6 +2244,12 @@ public class FightRequest extends GenericRequest {
       } else if (CrystalBallManager.isCrystalBallMonster()) {
         // This similarly has no message so can be checked at the end
         CrystalBallManager.clear();
+      } else if (EncounterManager.isSpookyVHSTapeMonster(responseText, true)) {
+        EncounterManager.ignoreSpecialMonsters();
+        TurnCounter.stopCounting("Spooky VHS Tape Monster");
+        TurnCounter.stopCounting("Spooky VHS Tape unknown monster window begin");
+        TurnCounter.stopCounting("Spooky VHS Tape unknown monster window end");
+        Preferences.setString("spookyVHSTapeMonster", "");
       }
 
       // Increment Turtle Blessing counter
@@ -8828,6 +8834,30 @@ public class FightRequest extends GenericRequest {
           Preferences.setInteger("parasolUsed", 0);
           return true;
         }
+        return false;
+
+      case ItemPool.SPOOKY_VHS_TAPE:
+        if (responseText.contains("grow wide as they view the contents") || itemSuccess) {
+          TurnCounter.stopCounting("Spooky VHS Tape Monster");
+          if (Preferences.getBoolean("stopForFixedWanderer")) {
+            TurnCounter.startCounting(8, "Spooky VHS Tape Monster type=wander", "watch.gif");
+          } else {
+            TurnCounter.startCounting(8, "Spooky VHS Tape Monster loc=* type=wander", "watch.gif");
+          }
+          Preferences.setString("spookyVHSTapeMonster", monsterName);
+          Preferences.setInteger("spookyVHSTapeMonsterTurn", KoLCharacter.getTurnsPlayed());
+          return true;
+        }
+
+        if (responseText.contains("one of your spooky tapes")
+            && !TurnCounter.isCounting("Spooky VHS Tape Monster")) {
+          TurnCounter.startCounting(
+              0, "Spooky VHS Tape unknown monster window begin loc=* type=wander", "lparen.gif");
+          TurnCounter.startCounting(
+              8, "Spooky VHS Tape unknown monster window end loc=* type=wander", "rparen.gif");
+          return false;
+        }
+
         return false;
 
       default:

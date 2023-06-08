@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -208,198 +209,247 @@ class EncounterManagerTest {
     assertThat(actual, equalTo(!skipping));
   }
 
-  @Test
-  void isRomanticEncounterBasedOnResponseText() {
-    String html = html("request/test_fight_romantic_monster.html");
+  @Nested
+  class RomanticArrow {
+    @Test
+    void isRomanticEncounterBasedOnResponseText() {
+      String html = html("request/test_fight_romantic_monster.html");
 
-    boolean actual = EncounterManager.isRomanticEncounter(html, false);
+      boolean actual = EncounterManager.isRomanticEncounter(html, false);
 
-    assertThat(actual, equalTo(true));
+      assertThat(actual, equalTo(true));
+    }
+
+    @Test
+    void isRomanticEncounterBasedOnMonster() {
+      TurnCounter.startCounting(10, "Romantic Monster window end loc=* type=wander", "rparen.gif");
+      KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
+      Preferences.setString("romanticTarget", "Witchess Knight");
+      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
+      String html = html("request/test_fight_witchess_knight_in_dmt.html");
+
+      boolean actual = EncounterManager.isRomanticEncounter(html, true);
+
+      assertThat(actual, equalTo(true));
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void noRomanticEncounterFalsePositive(boolean checkMonster) {
+      String html = html("request/test_fight_oil_baron.html");
+
+      boolean actual = EncounterManager.isRomanticEncounter(html, checkMonster);
+
+      assertThat(actual, equalTo(false));
+    }
   }
 
-  @Test
-  void isRomanticEncounterBasedOnMonster() {
-    TurnCounter.startCounting(10, "Romantic Monster window end loc=* type=wander", "rparen.gif");
-    KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
-    Preferences.setString("romanticTarget", "Witchess Knight");
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-    String html = html("request/test_fight_witchess_knight_in_dmt.html");
+  @Nested
+  class Enamorang {
+    @Disabled("Need some HTML")
+    @Test
+    void isEnamorangEncounterBasedOnResponseText() {
+      String html = html("request/test_fight_enamorang_monster.html");
 
-    boolean actual = EncounterManager.isRomanticEncounter(html, true);
+      boolean actual = EncounterManager.isEnamorangEncounter(html, false);
 
-    assertThat(actual, equalTo(true));
+      assertThat(actual, equalTo(true));
+    }
+
+    @Test
+    void isEnamorangEncounterBasedOnMonster() {
+      KoLCharacter.setCurrentRun(0);
+      TurnCounter.startCounting(1, "Enamorang Monster loc=* type=wander", "watch.gif");
+      KoLCharacter.setCurrentRun(1);
+      KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
+      Preferences.setString("enamorangMonster", "Witchess Knight");
+      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
+      String html = html("request/test_fight_witchess_knight_in_dmt.html");
+
+      boolean actual = EncounterManager.isEnamorangEncounter(html, true);
+
+      assertThat(actual, equalTo(true));
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void noEnamorangEncounterFalsePositive(boolean checkMonster) {
+      String html = html("request/test_fight_oil_baron.html");
+
+      boolean actual = EncounterManager.isEnamorangEncounter(html, checkMonster);
+
+      assertThat(actual, equalTo(false));
+    }
   }
 
-  @ParameterizedTest
-  @ValueSource(booleans = {true, false})
-  void noRomanticEncounterFalsePositive(boolean checkMonster) {
-    String html = html("request/test_fight_oil_baron.html");
+  @Nested
+  class Digitize {
+    @Test
+    void isDigitizedEncounterBasedOnResponseText() {
+      String html = html("request/test_fight_digitized_monster.html");
 
-    boolean actual = EncounterManager.isRomanticEncounter(html, checkMonster);
+      boolean actual = EncounterManager.isDigitizedEncounter(html, false);
 
-    assertThat(actual, equalTo(false));
+      assertThat(actual, equalTo(true));
+    }
+
+    @Test
+    void isDigitizedEncounterBasedOnMonster() {
+      KoLCharacter.setCurrentRun(0);
+      TurnCounter.startCounting(1, "Digitize Monster loc=* type=wander", "watch.gif");
+      KoLCharacter.setCurrentRun(1);
+      KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
+      Preferences.setString("_sourceTerminalDigitizeMonster", "Witchess Knight");
+      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
+      String html = html("request/test_fight_witchess_knight_in_dmt.html");
+
+      boolean actual = EncounterManager.isDigitizedEncounter(html, true);
+
+      assertThat(actual, equalTo(true));
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void noDigitizedEncounterFalsePositive(boolean checkMonster) {
+      String html = html("request/test_fight_oil_baron.html");
+
+      boolean actual = EncounterManager.isDigitizedEncounter(html, checkMonster);
+
+      assertThat(actual, equalTo(false));
+    }
   }
 
-  @Disabled("Need some HTML")
-  @Test
-  void isEnamorangEncounterBasedOnResponseText() {
-    String html = html("request/test_fight_enamorang_monster.html");
+  @Nested
+  class SaberForce {
+    @Test
+    void isSaberForceMonsterBasedOnMonster() {
+      Preferences.setInteger("_saberForceMonsterCount", 3);
+      Preferences.setString("_saberForceMonster", "oil slick");
 
-    boolean actual = EncounterManager.isEnamorangEncounter(html, false);
+      boolean actual = EncounterManager.isSaberForceMonster("oil slick");
 
-    assertThat(actual, equalTo(true));
+      assertThat(actual, equalTo(true));
+    }
+
+    @Test
+    void isNotSaberForceMonsterIfNoMonstersLeft() {
+      Preferences.setInteger("_saberForceMonsterCount", 0);
+      Preferences.setString("_saberForceMonster", "oil slick");
+
+      boolean actual = EncounterManager.isSaberForceMonster("oil slick");
+
+      assertThat(actual, equalTo(false));
+    }
+
+    @Test
+    void isSaberForceMonsterBasedOnMonsterAndZone() {
+      Preferences.setInteger("_saberForceMonsterCount", 3);
+      Preferences.setString("_saberForceMonster", "oil slick");
+
+      boolean actual = EncounterManager.isSaberForceMonster("oil slick", "Oil Peak");
+
+      assertThat(actual, equalTo(true));
+    }
+
+    @Test
+    void isNotSaberForceMonsterBasedOnMonsterAndWrongZone() {
+      Preferences.setInteger("_saberForceMonsterCount", 3);
+      Preferences.setString("_saberForceMonster", "oil slick");
+
+      boolean actual = EncounterManager.isSaberForceMonster("oil slick", "A-Boo Peak");
+
+      assertThat(actual, equalTo(false));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"Demoninja, true", "generic duck, false"})
+    void isSaberForceZone(String monsterName, String expected) {
+      boolean actual = EncounterManager.isSaberForceZone(monsterName, "Pandamonium Slums");
+
+      assertThat(actual, equalTo(Boolean.parseBoolean(expected)));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"Demoninja, true", "generic duck, false"})
+    void isSaberForceZoneFromProperty(String monsterName, String expected) {
+      Preferences.setString("_saberForceMonster", monsterName);
+
+      boolean actual = EncounterManager.isSaberForceZone("Pandamonium Slums");
+
+      assertThat(actual, equalTo(Boolean.parseBoolean(expected)));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"Demoninja, true", "generic duck, false"})
+    void isSaberForceMonsterFromName(String monsterName, String expected) {
+      Preferences.setInteger("_saberForceMonsterCount", 3);
+      Preferences.setString("_saberForceMonster", monsterName);
+
+      boolean actual = EncounterManager.isSaberForceMonster(monsterName, "Pandamonium Slums");
+
+      assertThat(actual, equalTo(Boolean.parseBoolean(expected)));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"Demoninja, true", "generic duck, false"})
+    void isSaberForceMonsterFromData(String monsterName, String expected) {
+      Preferences.setInteger("_saberForceMonsterCount", 3);
+      Preferences.setString("_saberForceMonster", monsterName);
+
+      var monster = MonsterDatabase.findMonster(monsterName);
+      boolean actual = EncounterManager.isSaberForceMonster(monster, "Pandamonium Slums");
+
+      assertThat(actual, equalTo(Boolean.parseBoolean(expected)));
+    }
+
+    @Test
+    void isSaberForceMonsterFromNextMonster() {
+      Preferences.setInteger("_saberForceMonsterCount", 3);
+      Preferences.setString("_saberForceMonster", "Demoninja");
+      var monster = MonsterDatabase.findMonster("Demoninja");
+      MonsterStatusTracker.setNextMonster(monster);
+
+      boolean actual = EncounterManager.isSaberForceMonster();
+
+      assertThat(actual, equalTo(true));
+    }
   }
 
-  @Test
-  void isEnamorangEncounterBasedOnMonster() {
-    KoLCharacter.setCurrentRun(0);
-    TurnCounter.startCounting(1, "Enamorang Monster loc=* type=wander", "watch.gif");
-    KoLCharacter.setCurrentRun(1);
-    KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
-    Preferences.setString("enamorangMonster", "Witchess Knight");
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-    String html = html("request/test_fight_witchess_knight_in_dmt.html");
+  @Nested
+  class SpookyVHSTape {
+    @Test
+    void isSpookyVHSTapeEncounterBasedOnResponseText() {
+      String html = html("request/test_fight_spooky_vhs_tape_monster.html");
 
-    boolean actual = EncounterManager.isEnamorangEncounter(html, true);
+      boolean actual = EncounterManager.isSpookyVHSTapeMonster(html, false);
 
-    assertThat(actual, equalTo(true));
-  }
+      assertThat(actual, equalTo(true));
+    }
 
-  @ParameterizedTest
-  @ValueSource(booleans = {true, false})
-  void noEnamorangEncounterFalsePositive(boolean checkMonster) {
-    String html = html("request/test_fight_oil_baron.html");
+    @Test
+    void isSpookyVHSTapeEncoutnerBasedOnMonster() {
+      KoLCharacter.setCurrentRun(0);
+      TurnCounter.startCounting(1, "Spooky VHS Tape Monster loc=* type=wander", "watch.gif");
+      KoLCharacter.setCurrentRun(1);
+      KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
+      Preferences.setString("spookyVHSTapeMonster", "Witchess Knight");
+      MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
+      String html = html("request/test_fight_witchess_knight_in_dmt.html");
 
-    boolean actual = EncounterManager.isEnamorangEncounter(html, checkMonster);
+      boolean actual = EncounterManager.isSpookyVHSTapeMonster(html, true);
 
-    assertThat(actual, equalTo(false));
-  }
+      assertThat(actual, equalTo(true));
+    }
 
-  @Test
-  void isDigitizedEncounterBasedOnResponseText() {
-    String html = html("request/test_fight_digitized_monster.html");
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void noSpookyVHSTapeEncounterFalsePositive(boolean checkMonster) {
+      String html = html("request/test_fight_oil_baron.html");
 
-    boolean actual = EncounterManager.isDigitizedEncounter(html, false);
+      boolean actual = EncounterManager.isSpookyVHSTapeMonster(html, checkMonster);
 
-    assertThat(actual, equalTo(true));
-  }
-
-  @Test
-  void isDigitizedEncounterBasedOnMonster() {
-    KoLCharacter.setCurrentRun(0);
-    TurnCounter.startCounting(1, "Digitize Monster loc=* type=wander", "watch.gif");
-    KoLCharacter.setCurrentRun(1);
-    KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
-    Preferences.setString("_sourceTerminalDigitizeMonster", "Witchess Knight");
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-    String html = html("request/test_fight_witchess_knight_in_dmt.html");
-
-    boolean actual = EncounterManager.isDigitizedEncounter(html, true);
-
-    assertThat(actual, equalTo(true));
-  }
-
-  @ParameterizedTest
-  @ValueSource(booleans = {true, false})
-  void noDigitizedEncounterFalsePositive(boolean checkMonster) {
-    String html = html("request/test_fight_oil_baron.html");
-
-    boolean actual = EncounterManager.isDigitizedEncounter(html, checkMonster);
-
-    assertThat(actual, equalTo(false));
-  }
-
-  @Test
-  void isSaberForceMonsterBasedOnMonster() {
-    Preferences.setInteger("_saberForceMonsterCount", 3);
-    Preferences.setString("_saberForceMonster", "oil slick");
-
-    boolean actual = EncounterManager.isSaberForceMonster("oil slick");
-
-    assertThat(actual, equalTo(true));
-  }
-
-  @Test
-  void isNotSaberForceMonsterIfNoMonstersLeft() {
-    Preferences.setInteger("_saberForceMonsterCount", 0);
-    Preferences.setString("_saberForceMonster", "oil slick");
-
-    boolean actual = EncounterManager.isSaberForceMonster("oil slick");
-
-    assertThat(actual, equalTo(false));
-  }
-
-  @Test
-  void isSaberForceMonsterBasedOnMonsterAndZone() {
-    Preferences.setInteger("_saberForceMonsterCount", 3);
-    Preferences.setString("_saberForceMonster", "oil slick");
-
-    boolean actual = EncounterManager.isSaberForceMonster("oil slick", "Oil Peak");
-
-    assertThat(actual, equalTo(true));
-  }
-
-  @Test
-  void isNotSaberForceMonsterBasedOnMonsterAndWrongZone() {
-    Preferences.setInteger("_saberForceMonsterCount", 3);
-    Preferences.setString("_saberForceMonster", "oil slick");
-
-    boolean actual = EncounterManager.isSaberForceMonster("oil slick", "A-Boo Peak");
-
-    assertThat(actual, equalTo(false));
-  }
-
-  @ParameterizedTest
-  @CsvSource({"Demoninja, true", "generic duck, false"})
-  void isSaberForceZone(String monsterName, String expected) {
-    boolean actual = EncounterManager.isSaberForceZone(monsterName, "Pandamonium Slums");
-
-    assertThat(actual, equalTo(Boolean.parseBoolean(expected)));
-  }
-
-  @ParameterizedTest
-  @CsvSource({"Demoninja, true", "generic duck, false"})
-  void isSaberForceZoneFromProperty(String monsterName, String expected) {
-    Preferences.setString("_saberForceMonster", monsterName);
-
-    boolean actual = EncounterManager.isSaberForceZone("Pandamonium Slums");
-
-    assertThat(actual, equalTo(Boolean.parseBoolean(expected)));
-  }
-
-  @ParameterizedTest
-  @CsvSource({"Demoninja, true", "generic duck, false"})
-  void isSaberForceMonsterFromName(String monsterName, String expected) {
-    Preferences.setInteger("_saberForceMonsterCount", 3);
-    Preferences.setString("_saberForceMonster", monsterName);
-
-    boolean actual = EncounterManager.isSaberForceMonster(monsterName, "Pandamonium Slums");
-
-    assertThat(actual, equalTo(Boolean.parseBoolean(expected)));
-  }
-
-  @ParameterizedTest
-  @CsvSource({"Demoninja, true", "generic duck, false"})
-  void isSaberForceMonsterFromData(String monsterName, String expected) {
-    Preferences.setInteger("_saberForceMonsterCount", 3);
-    Preferences.setString("_saberForceMonster", monsterName);
-
-    var monster = MonsterDatabase.findMonster(monsterName);
-    boolean actual = EncounterManager.isSaberForceMonster(monster, "Pandamonium Slums");
-
-    assertThat(actual, equalTo(Boolean.parseBoolean(expected)));
-  }
-
-  @Test
-  void isSaberForceMonsterFromNextMonster() {
-    Preferences.setInteger("_saberForceMonsterCount", 3);
-    Preferences.setString("_saberForceMonster", "Demoninja");
-    var monster = MonsterDatabase.findMonster("Demoninja");
-    MonsterStatusTracker.setNextMonster(monster);
-
-    boolean actual = EncounterManager.isSaberForceMonster();
-
-    assertThat(actual, equalTo(true));
+      assertThat(actual, equalTo(false));
+    }
   }
 
   @ParameterizedTest
