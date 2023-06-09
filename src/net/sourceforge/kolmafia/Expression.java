@@ -262,6 +262,12 @@ public class Expression {
             Modifiers.currentEnvironment.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
                 ? 1
                 : 0;
+        case 'k' -> v =
+            KoLCharacter.mainStat()
+                    .name()
+                    .equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
+                ? 1
+                : 0;
         case 'l' -> v =
             Modifiers.currentLocation.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
                 ? 1

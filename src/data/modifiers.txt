@@ -6736,7 +6736,7 @@ Effect	Old School Pompadour	Moxie Percent: +30, Initiative: +30
 Effect	Old Time Hydration	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Oleaginous Soles	Initiative: +40
 Effect	OMG WTF	Mysticality: +10, Spell Damage: +10, Spell Critical Percent: +10
-Effect	Ominous Wisdom	Experience (Moxie): +2
+Effect	Ominous Wisdom	Experience (Muscle): [2*mainstat(muscle)], Experience (Mysticality): [2*mainstat(mysticality)], Experience (Moxie): [2*mainstat(moxie)]
 Effect	Omphaloskepsis	Damage Reduction: [L], Meat Drop (sporadic): +4.25, Item Drop (sporadic): +4.25, Experience: +0.6375
 Effect	Omphalotus Omnipresence	Mysticality: +40
 Effect	On a Roll	Food Drop: +25

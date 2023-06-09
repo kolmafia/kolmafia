@@ -254,6 +254,18 @@ public class ModifierExpressionTest {
     }
   }
 
+  @Test
+  public void canDetectMainstat() {
+    var cleanups = withClass(AscensionClass.SEAL_CLUBBER);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("mainstat(muscle)", "Muscle");
+      assertThat(exp.eval(), is(1.0));
+      exp = new ModifierExpression("mainstat(moxie)", "Moxie");
+      assertThat(exp.eval(), is(0.0));
+    }
+  }
+
   @ParameterizedTest
   @EnumSource(AscensionPath.Path.class)
   public void canDetectPath(AscensionPath.Path path) {
