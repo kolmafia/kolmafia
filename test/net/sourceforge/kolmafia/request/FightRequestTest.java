@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
@@ -2071,13 +2072,14 @@ public class FightRequestTest {
               withProperty("spookyVHSTapeMonster", "ghost"),
               withProperty("spookyVHSTapeMonsterTurn", "119"),
               withTurnsPlayed(111),
-              withFight(0));
-
-      TurnCounter.startCounting(8, "Spooky VHS Tape Monster type=wander", "watch.gif");
-      TurnCounter.startCounting(
-          0, "Spooky VHS Tape unknown monster window begin loc=* type=wander", "lparen.gif");
-      TurnCounter.startCounting(
-          8, "Spooky VHS Tape unknown monster window end loc=* type=wander", "rparen.gif");
+              withFight(0),
+              withCounter(8, "Spooky VHS Tape Monster type=wander", "watch.gif"),
+              withCounter(
+                  0,
+                  "Spooky VHS Tape unknown monster window begin loc=* type=wander",
+                  "lparen.gif"),
+              withCounter(
+                  8, "Spooky VHS Tape unknown monster window end loc=* type=wander", "rparen.gif"));
 
       try (cleanups) {
         String html = html("request/test_fight_spooky_vhs_tape_monster.html");
