@@ -3295,7 +3295,7 @@ Item	monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Synergetic
 Item	moon-amber necklace	Spell Damage Percent: +50, Maximum MP: +200, Mysticality Percent: [5*G], Single Equip
 Item	mother's necklace	Adventures: +3, Never Fumble
 Item	moustache sock	Moxie: +20, Muscle: -5, Mysticality: -5, Initiative: +20, Single Equip
-Item	Mr. Accessaturday	Muscle: +1, Mysticality: +1, Moxie: +1
+Item	Mr. Accessaturday	Muscle: [1+104*event(Saturday)], Mysticality: [1+104*event(Saturday)], Moxie: [1+104*event(Saturday)]
 Item	Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
 # Mr. Cheeng's spectacles: Find... like...  far out stuff, like everywhere... man...

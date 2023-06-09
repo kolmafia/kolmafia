@@ -298,14 +298,13 @@ public class Expression {
         case 'v' -> {
           String event = (String) this.literals.get((int) s[--sp]);
           switch (event) {
-            case "December":
-              v = HolidayDatabase.isDecember() ? 1 : 0;
-              break;
-            default:
+            case "December" -> v = HolidayDatabase.isDecember() ? 1 : 0;
+            case "Saturday" -> v = HolidayDatabase.isSaturday() ? 1 : 0;
+            default -> {
               if (HolidayDatabase.getHoliday().contains(event)) {
                 v = 1;
               }
-              break;
+            }
           }
         }
 

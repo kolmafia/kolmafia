@@ -1042,10 +1042,28 @@ public class HolidayDatabase {
   /**
    * Is the given date and time in December in Arizona
    *
-   * @return Returns true if it the given date and time is in December in Arizona
+   * @return Returns true if the given date and time is in December in Arizona
    */
   public static boolean isDecember(ZonedDateTime dateTime) {
     return dateTime.getMonth() == Month.DECEMBER;
+  }
+
+  /**
+   * Is it Saturday in Arizona
+   *
+   * @return Returns true if it is currently Saturday in Arizona
+   */
+  public static boolean isSaturday() {
+    return isSaturday(DateTimeManager.getArizonaDateTime());
+  }
+
+  /**
+   * Is it Saturday in Arizona
+   *
+   * @return Returns true if the given date and time is on Saturday in Arizona
+   */
+  public static boolean isSaturday(ZonedDateTime dateTime) {
+    return dateTime.getDayOfWeek() == DayOfWeek.SATURDAY;
   }
 
   public static void addPredictionHTML(
