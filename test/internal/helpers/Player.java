@@ -2114,8 +2114,20 @@ public class Player {
    */
   public static Cleanups withCounter(int turns, String label, String image) {
     var cleanups = new Cleanups(withProperty("relayCounters"));
-    TurnCounter.startCounting(turns, label, image);
-    cleanups.add(() -> TurnCounter.stopCounting(label));
+    var counter = TurnCounter.startCounting(turns, label, image);
+    cleanups.add(() -> TurnCounter.stopCounting(counter));
+    return cleanups;
+  }
+
+  /**
+   * Removes all counters
+   *
+   * @return Returns whatever counters were present before
+   */
+  public static Cleanups withoutCounters() {
+    var cleanups = new Cleanups(withProperty("relayCounters", ""));
+    TurnCounter.clearCounters();
+    cleanups.add(TurnCounter::loadCounters);
     return cleanups;
   }
 
@@ -2217,5 +2229,17 @@ public class Player {
     var oldDays = KoLCharacter.getCurrentDays();
     KoLCharacter.setCurrentDays(currentDays);
     return new Cleanups(() -> KoLCharacter.setCurrentDays(oldDays));
+  }
+
+  /**
+   * Sets the next adventure location
+   *
+   * @param adventure The location to consider as the next adventure
+   * @return Returns value to previous value
+   */
+  public static Cleanups withNextAdventure(final String adventure) {
+    var cleanups = new Cleanups(withProperty("nextAdventure"));
+    KoLAdventure.setNextAdventure(adventure);
+    return cleanups;
   }
 }

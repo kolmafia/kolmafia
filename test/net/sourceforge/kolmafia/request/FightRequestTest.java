@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
@@ -19,6 +20,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withWorkshedItem;
+import static internal.helpers.Player.withoutCounters;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
@@ -62,6 +64,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -2056,6 +2059,82 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_" + fixture + ".html");
         assertThat(pref, isSetTo(0));
+      }
+    }
+  }
+
+  @Nested
+  class SpookyVHSTape {
+    @Test
+    public void canRecogniseSpookyVHSTapeMonster() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spookyVHSTapeMonster", "ghost"),
+              withProperty("spookyVHSTapeMonsterTurn", "119"),
+              withTurnsPlayed(111),
+              withFight(0),
+              withCounter(8, "Spooky VHS Tape Monster type=wander", "watch.gif"),
+              withCounter(
+                  0,
+                  "Spooky VHS Tape unknown monster window begin loc=* type=wander",
+                  "lparen.gif"),
+              withCounter(
+                  8, "Spooky VHS Tape unknown monster window end loc=* type=wander", "rparen.gif"));
+
+      try (cleanups) {
+        String html = html("request/test_fight_spooky_vhs_tape_monster.html");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("spookyVHSTapeMonster", isSetTo(""));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape Monster"), is(false));
+        assertThat(
+            TurnCounter.isCounting("Spooky VHS Tape unknown monster window begin"), is(false));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape unknown monster window end"), is(false));
+      }
+    }
+
+    @Test
+    public void canTrackSpookyVHSTapeSuccess() {
+      var cleanups =
+          new Cleanups(
+              withoutCounters(),
+              withProperty("spookyVHSTapeMonster"),
+              withProperty("spookyVHSTapeMonsterTurn"),
+              withTurnsPlayed(111),
+              withItem(ItemPool.SPOOKY_VHS_TAPE),
+              withFight(1));
+
+      try (cleanups) {
+        String html = html("request/test_fight_spooky_vhs_tape_success.html");
+        FightRequest.registerRequest(true, "fight.php?action=useitem&whichitem=11270");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("Spooky VHS Tape", not(isInInventory()));
+        assertThat("spookyVHSTapeMonster", isSetTo("ghost"));
+        assertThat("spookyVHSTapeMonsterTurn", isSetTo(111));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape Monster"), is(true));
+      }
+    }
+
+    @Test
+    public void canTrackSpookyVHSTapeFailure() {
+      var cleanups =
+          new Cleanups(
+              withoutCounters(),
+              withProperty("spookyVHSTapeMonster"),
+              withProperty("spookyVHSTapeMonsterTurn"),
+              withTurnsPlayed(111),
+              withItem(ItemPool.SPOOKY_VHS_TAPE),
+              withFight(1));
+
+      try (cleanups) {
+        String html = html("request/test_fight_spooky_vhs_tape_failure.html");
+        FightRequest.registerRequest(true, "fight.php?action=useitem&whichitem=11270");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("Spooky VHS Tape", isInInventory());
+        assertThat("spookyVHSTapeMonster", isSetTo(""));
+        assertThat("spookyVHSTapeMonsterTurn", isSetTo(-1));
+        assertThat(
+            TurnCounter.isCounting("Spooky VHS Tape unknown monster window begin"), is(true));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape unknown monster window end"), is(true));
       }
     }
   }

@@ -231,6 +231,22 @@ public abstract class EncounterManager {
     return false;
   }
 
+  public static boolean isSpookyVHSTapeMonster(
+      final String responseText, final boolean checkMonster) {
+    if (responseText.contains("suddenly roll back and they fall... dead")) {
+      return true;
+    }
+
+    if (checkMonster
+        && TurnCounter.isCounting("Spooky VHS Tape Monster", 0)
+        && Preferences.getString("nextAdventure").equals("The Deep Machine Tunnels")) {
+      String name = MonsterStatusTracker.getLastMonsterName();
+      return name.equalsIgnoreCase(Preferences.getString("spookyVHSTapeMonster"));
+    }
+
+    return false;
+  }
+
   public static final boolean isDigitizedEncounter(
       final String responseText, final boolean checkMonster) {
     if (responseText.contains("must have hit CTRL+V")) {
