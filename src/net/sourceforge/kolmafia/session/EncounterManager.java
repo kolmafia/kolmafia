@@ -233,7 +233,7 @@ public abstract class EncounterManager {
 
   public static boolean isSpookyVHSTapeMonster(
       final String responseText, final boolean checkMonster) {
-    if (responseText.contains("flickering cloud of ectoplasm")) {
+    if (responseText.contains("suddenly roll back and they fall... dead")) {
       return true;
     }
 
