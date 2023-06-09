@@ -472,6 +472,8 @@ public class Preferences {
         "spaceInvaderDefeated",
         "spacePirateLanguageFluency",
         "spookyPuttyMonster",
+        "spookyVHSTapeMonster",
+        "spookyVHSTapeMonsterTurn",
         "statbotUses",
         "sugarCounter4178",
         "sugarCounter4179",
