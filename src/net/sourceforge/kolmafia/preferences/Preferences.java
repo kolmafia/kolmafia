@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.HashMap;
@@ -685,32 +686,47 @@ public class Preferences {
       // Something went wrong reading the preferences.
       if (backupFile.exists()) {
         KoLmafia.updateDisplay(
-            userPrefsFile + " could not be read and backup exists, trying backup...");
+            userPrefsFile
+                + " could not be read and backup exists, loading backup preferences. "
+                + "This will restore the last successfully opened preferences");
         // also tell system out, in case things are really fubar
-        System.out.println("Prefs could not be read and backup exists, trying backup...");
+        System.out.println("Prefs could not be read and backup exists, trying backup. ");
 
         p = Preferences.loadPreferences(backupFile);
 
         if (p.size() > 0) {
           try {
-            java.nio.file.Files.copy(
+            Files.copy(
                 backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
           } catch (IOException ex) {
-            System.err.format("I/O Error when copying file");
+            System.out.println(
+                "I/O Error when restoring preferences file from backup: " + ex.getMessage());
+            KoLmafia.updateDisplay(
+                KoLConstants.MafiaState.ERROR,
+                userPrefsFile
+                    + " could not be read and backup was used.  The system was unable to copy your backup file to "
+                    + "your preferences file.  If this is unexpected, please manually inspect "
+                    + "your preferences file and backup and repair any problems.  If you have a damaged preferences file, "
+                    + "please consider creating a bug report on the forum, noting any special circumstances around "
+                    + "the failure, and attaching the preferences.");
           }
         }
       } else {
         KoLmafia.updateDisplay(
+            KoLConstants.MafiaState.ERROR,
             userPrefsFile
-                + " could not be read and no backup exists!  Please exit KoLmafia and check your preference files.");
+                + " could not be read and no backup exists!  If this is unexpected, please manually inspect "
+                + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+                + "please consider creating a bug report on the forum, noting any special circumstances around "
+                + "the failure, and attaching the preferences.");
       }
     } else {
       try {
-        java.nio.file.Files.copy(
+        Files.copy(
             userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
       } catch (IOException ex) {
-        System.err.format("I/O Error when copying file");
+        System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
       }
     }
     Preferences.userValues.clear();
