@@ -703,7 +703,6 @@ public class Preferences {
             System.out.println(
                 "I/O Error when restoring preferences file from backup: " + ex.getMessage());
             KoLmafia.updateDisplay(
-                KoLConstants.MafiaState.ERROR,
                 userPrefsFile
                     + " could not be read and backup was used.  The system was unable to copy your backup file to "
                     + "your preferences file.  If this is unexpected, please manually inspect "
@@ -714,7 +713,6 @@ public class Preferences {
         }
       } else {
         KoLmafia.updateDisplay(
-            KoLConstants.MafiaState.ERROR,
             userPrefsFile
                 + " could not be read and no backup exists!  If this is unexpected, please manually inspect "
                 + "your preferences file and repair any problems.  If you have a damaged preferences file, "
