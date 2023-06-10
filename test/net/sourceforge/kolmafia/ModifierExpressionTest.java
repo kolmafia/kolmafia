@@ -244,6 +244,28 @@ public class ModifierExpressionTest {
     }
   }
 
+  @Test
+  public void canDetectSaturday() {
+    final var cleanups = withDay(2023, Month.JUNE, 10);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("event(Saturday)", ModifierType.EVENT, "Saturday");
+      assertThat(exp.eval(), is(1.0));
+    }
+  }
+
+  @Test
+  public void canDetectMainstat() {
+    var cleanups = withClass(AscensionClass.SEAL_CLUBBER);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("mainstat(muscle)", "Muscle");
+      assertThat(exp.eval(), is(1.0));
+      exp = new ModifierExpression("mainstat(moxie)", "Moxie");
+      assertThat(exp.eval(), is(0.0));
+    }
+  }
+
   @ParameterizedTest
   @EnumSource(AscensionPath.Path.class)
   public void canDetectPath(AscensionPath.Path path) {
