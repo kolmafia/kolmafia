@@ -6,6 +6,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -23,6 +25,10 @@ public class MrStore2002Request extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableMrStore2002Credits")
           .withShopRowFields(master, "mrstore2002");
+
+  static {
+    ConcoctionPool.set(new Concoction("Mr. Store 2002 Credit", "availableMrStore2002Credits"));
+  }
 
   public MrStore2002Request() {
     super(MR_STORE_2002);
