@@ -173,7 +173,8 @@ public abstract class CoinmasterRegistry {
       CoinmasterData cm = COINMASTERS[i];
       MASTERS[i] = StringUtilities.getCanonicalName(cm.getMaster());
       NICKNAMES[i] = StringUtilities.getCanonicalName(cm.getNickname());
-      COINMASTERS[i].registerPurchaseRequests();
+      cm.registerPurchaseRequests();
+      cm.registerPropertyToken();
     }
   }
 

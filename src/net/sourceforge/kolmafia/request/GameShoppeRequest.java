@@ -6,8 +6,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -35,10 +33,6 @@ public class GameShoppeRequest extends CoinMasterRequest {
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN);
-
-  static {
-    ConcoctionPool.set(new Concoction("store credit", "availableStoreCredits"));
-  }
 
   public GameShoppeRequest() {
     super(GAMESHOPPE);
