@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.utilities;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+
 
 class SortedListTest {
     /** purpose: test add method with input null
@@ -18,6 +20,86 @@ class SortedListTest {
         assertFalse(list.add(null));
 
     }
+
+    /**
+     * purpose: test add method with duplicate input
+     * Input: add "a" -> "a" -> "a"
+     * Expected:
+     *     return true
+     */
+    @Test
+    void addDuplicate() {
+        SortedList<String> list = new SortedList<String>();
+        //create new ArrayList that has three element "a"
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add("a");
+        temp.add("a");
+        temp.add("a");
+
+
+        // list.add will return true if the element is duplicate
+        // make test that add duplicate
+        assertTrue(list.add("a"));
+        assertTrue(list.add("a"));
+        assertTrue(list.add("a"));
+        // check element in list is ["a","a","a"]
+        assertEquals(temp, list);
+    }
+
+    /**
+     * purpose: test add method with ascending order
+     * Input: add "a" -> "b" -> "c"
+     * Expected:
+     *     return true
+     *     return true
+     *     return true
+     *     list will be ["a","b","c"]
+     */
+    @Test
+    void addAscendingOrder() {
+        SortedList<String> list = new SortedList<String>();
+        //create new ArrayList that has three element "a","b","c"
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add("a");
+        temp.add("b");
+        temp.add("c");
+
+        // list.add will return true if the element is added
+        // make test that add "a" -> "b" -> "c"
+        assertTrue(list.add("a"));
+        assertTrue(list.add("b"));
+        assertTrue(list.add("c"));
+        // check element in list is ["a","b","c"]
+        assertEquals(temp, list);
+    }
+    /**
+     * purpose: test add method with descending order
+     * Input: add "c" -> "b" -> "a"
+     * Expected:
+     *     return true
+     *     return true
+     *     return true
+     *     list will be ["a","b","c"]
+     */
+    @Test
+    void addDescendingOrder() {
+        SortedList<String> list = new SortedList<String>();
+        //create new ArrayList that has three element "a","b","c"
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add("a");
+        temp.add("b");
+        temp.add("c");
+
+        // list.add will return true if the element is added
+        // make test that add "c" -> "b" -> "a"
+        assertTrue(list.add("c"));
+        assertTrue(list.add("b"));
+        assertTrue(list.add("a"));
+        // check element in list is ["a","b","c"]
+        assertEquals(temp, list);
+    }
+
+
     /** purpose: test indexOf method with empty list
      *  Input: indexOf "a"
      *  Expected:
