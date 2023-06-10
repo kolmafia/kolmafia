@@ -308,7 +308,7 @@ class UseItemRequestTest {
     @CsvSource({"5140", "10883"})
     void itShouldNotDivideByZeroWhenConsumingAstralEnergyDrink(int itemID) {
       int spleenUsed = 0;
-      int maxUses = 1;
+      int maxUses = Integer.MAX_VALUE;
       var cleanups = withSpleenUse(spleenUsed);
 
       try (cleanups) {
@@ -319,7 +319,7 @@ class UseItemRequestTest {
     @Test
     void itShouldNotDivideByZeroWhenConsumingQuantumTaco() {
       int fullness = 0;
-      int maxUses = 1;
+      int maxUses = Integer.MAX_VALUE;
       var cleanups = withFullness(fullness);
 
       try (cleanups) {
