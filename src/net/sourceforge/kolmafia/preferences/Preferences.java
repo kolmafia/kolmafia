@@ -685,7 +685,7 @@ public class Preferences {
       // Something went wrong reading the preferences.
       if (backupFile.exists()) {
         KoLmafia.updateDisplay(
-            userPrefsFile + " oould not be read and backup exists, trying backup...");
+            userPrefsFile + " could not be read and backup exists, trying backup...");
         // also tell system out, in case things are really fubar
         System.out.println("Prefs could not be read and backup exists, trying backup...");
 
