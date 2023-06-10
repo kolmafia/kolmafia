@@ -300,6 +300,30 @@ class UseItemRequestTest {
             is(maxUses));
       }
     }
+
+    @ParameterizedTest
+    @CsvSource({"5140", "10883"})
+    void itShouldNotDivideByZeroWhenConsumingAstralEnergyDrink(int itemID) {
+      int spleenUsed = 0;
+      int maxUses = 1;
+      var cleanups = withSpleenUse(spleenUsed);
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.SPLEEN), is(maxUses));
+      }
+    }
+
+    @Test
+    void itShouldNotDivideByZeroWhenConsumingQuantumTaco() {
+      int fullness = 0;
+      int maxUses = 1;
+      var cleanups = withFullness(fullness);
+
+      try (cleanups) {
+        assertThat(
+            UseItemRequest.maximumUses(ItemPool.QUANTUM_TACO, ConsumptionType.EAT), is(maxUses));
+      }
+    }
   }
 
   @Nested
