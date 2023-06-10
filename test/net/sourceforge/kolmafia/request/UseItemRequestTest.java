@@ -300,7 +300,10 @@ class UseItemRequestTest {
             is(maxUses));
       }
     }
+  }
 
+  @Nested
+  class zeroFullness {
     @ParameterizedTest
     @CsvSource({"5140", "10883"})
     void itShouldNotDivideByZeroWhenConsumingAstralEnergyDrink(int itemID) {
