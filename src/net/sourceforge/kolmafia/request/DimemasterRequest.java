@@ -5,8 +5,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -46,10 +44,6 @@ public class DimemasterRequest extends CoinMasterRequest {
           .equals("hippy");
       default -> ItemPool.get(itemId).getCount(HIPPY.getBuyItems()) > 0;
     };
-  }
-
-  static {
-    ConcoctionPool.set(new Concoction("dime", "availableDimes"));
   }
 
   public DimemasterRequest() {

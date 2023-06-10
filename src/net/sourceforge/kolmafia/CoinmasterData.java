@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -962,6 +963,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       AdventureResult price = this.itemBuyPrice(item.getItemId());
       CoinmastersDatabase.registerPurchaseRequest(this, item, price);
     }
+  }
+
+  public void registerPropertyToken() {
+    if (this.property == null) {
+      return;
+    }
+    ConcoctionPool.set(new Concoction(this.token, this.property));
   }
 
   @Override
