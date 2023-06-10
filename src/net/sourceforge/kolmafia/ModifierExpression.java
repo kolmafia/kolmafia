@@ -71,6 +71,9 @@ public class ModifierExpression extends Expression {
     if (this.optional("mainhand(")) {
       return this.literal(this.until(")"), 'h');
     }
+    if (this.optional("mainstat(")) {
+      return this.literal(this.until(")"), 'k');
+    }
     if (this.optional("equipped(")) {
       return this.literal(this.until(")").toLowerCase(), 'g');
     }
