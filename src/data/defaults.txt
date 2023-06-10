@@ -1456,6 +1456,8 @@ user	spookyAirportAlways	false
 user	spookyravenRecipeUsed	none
 user	spookyPuttyCopiesMade	0
 user	spookyPuttyMonster
+user	spookyVHSTapeMonster
+user	spookyVHSTapeMonsterTurn	-1
 user	statbotUses	0
 user	stationaryButton1
 user	stationaryButton2
