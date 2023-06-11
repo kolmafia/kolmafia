@@ -597,6 +597,7 @@ user	ensorcelee
 user	ensorceleeLevel	0
 user	entauntaunedColdRes	0
 user	envyfishMonster
+user	errorOnAmbiguousFold	true
 user	essenceOfAnnoyanceAvailable	true
 user	essenceOfAnnoyanceCost	5000
 user	essenceOfBearAvailable	true
