@@ -687,7 +687,7 @@ public class Preferences {
       if (backupFile.exists()) {
         KoLmafia.updateDisplay(
             userPrefsFile
-                + " could not be read and backup exists, loading backup preferences. "
+                + " could not be read, loading backup. "
                 + "This will restore the last successfully opened preferences");
         // also tell system out, in case things are really fubar
         System.out.println("Prefs could not be read and backup exists, trying backup. ");
@@ -700,24 +700,28 @@ public class Preferences {
                 backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
           } catch (IOException ex) {
-            System.out.println(
-                "I/O Error when restoring preferences file from backup: " + ex.getMessage());
+
             KoLmafia.updateDisplay(
+                 "Error when restoring preferences from backup,  see session log for details");
+            RequestLogger.updateSessionLog(
                 userPrefsFile
-                    + " could not be read and backup was used.  The system was unable to copy your backup file to "
-                    + "your preferences file.  If this is unexpected, please manually inspect "
-                    + "your preferences file and backup and repair any problems.  If you have a damaged preferences file, "
-                    + "please consider creating a bug report on the forum, noting any special circumstances around "
-                    + "the failure, and attaching the preferences.");
+                     + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
+                     + "your preferences file and received error message:" + ex.getMessage()
+                     +"\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
+                     +" If you have a damaged preferences file, "
+                     + "please consider creating a bug report on the forum, noting any special circumstances around "
+                     + "the failure, and attaching the preferences.");
           }
         }
       } else {
-        KoLmafia.updateDisplay(
-            userPrefsFile
-                + " could not be read and no backup exists!  If this is unexpected, please manually inspect "
-                + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
+        KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+        RequestLogger.updateSessionLog(
+             userPrefsFile
+                  + " could not be read and backup there is no backup file found. "
+                  +"If this is unexpected, please manually inspect "
+                  + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+                  + "please consider creating a bug report on the forum, noting any special circumstances around "
+                  + "the failure, and attaching the preferences.");
       }
     } else {
       try {
@@ -725,6 +729,12 @@ public class Preferences {
             userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
       } catch (IOException ex) {
         System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
+        RequestLogger.updateSessionLog(
+             userPrefsFile
+                  + " backup creation failed. Please manually inspect "
+                  + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                  + "please consider creating a bug report on the forum, noting any special circumstances around "
+                  + "the failure, and attaching the preferences.");
       }
     }
     Preferences.userValues.clear();
