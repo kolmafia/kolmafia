@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
   private final String USER_NAME = "PreferencesTestFakeUser";
+  private final String EMPTY_USER = "Empty";
 
   // These need to be before and after each because leakage has been observed between tests
   // in this class.
@@ -39,6 +40,33 @@ class PreferencesTest {
     File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
     if (userFile.exists()) {
       userFile.delete();
+    }
+  }
+
+  @Test
+  void TestBackupFileWrite() {
+    KoLCharacter.reset(EMPTY_USER);
+    KoLCharacter.reset(true);
+    KoLCharacter.setUserId(0);
+    File userFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.txt");
+    File backupUserFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.bak");
+    if (userFile.exists()) {
+      userFile.delete();
+    }
+    if (backupUserFile.exists()) {
+      backupUserFile.delete();
+    }
+    Preferences.reset(EMPTY_USER);
+    var cleanups =
+        new Cleanups(
+            withSavePreferencesToFile(),
+            withProperty("saveSettingsOnSet", true),
+            withProperty("xyz", "abc"));
+    try (cleanups) {
+      Preferences.setString("tabby", "*\t*");
+      Preferences.reset(EMPTY_USER);
+      assertThat("userFile Not Found: " + userFile, userFile.exists());
+      assertThat("backupUserFile not found: " + backupUserFile, backupUserFile.exists());
     }
   }
 

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -671,11 +674,70 @@ public class Preferences {
   }
 
   private static void loadUserPreferences(String username) {
-    File file =
+    File userPrefsFile =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
-    Preferences.userPropertiesFile = file;
+    File backupFile =
+        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
+    Preferences.userPropertiesFile = userPrefsFile;
 
-    Properties p = Preferences.loadPreferences(file);
+    Properties p = Preferences.loadPreferences(userPrefsFile);
+
+    if (p.size() == 0) {
+      // Something went wrong reading the preferences.
+      if (backupFile.exists()) {
+        KoLmafia.updateDisplay(
+            userPrefsFile
+                + " could not be read, loading backup. "
+                + "This will restore the last successfully opened preferences");
+        // also tell system out, in case things are really fubar
+        System.out.println("Prefs could not be read and backup exists, trying backup. ");
+
+        p = Preferences.loadPreferences(backupFile);
+
+        if (p.size() > 0) {
+          try {
+            Files.copy(
+                backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+          } catch (IOException ex) {
+
+            KoLmafia.updateDisplay(
+                "Error when restoring preferences from backup,  see session log for details");
+            RequestLogger.updateSessionLog(
+                userPrefsFile
+                    + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
+                    + "your preferences file and received error message:"
+                    + ex.getMessage()
+                    + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
+                    + " If you have a damaged preferences file, "
+                    + "please consider creating a bug report on the forum, noting any special circumstances around "
+                    + "the failure, and attaching the preferences.");
+          }
+        }
+      } else {
+        KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+        RequestLogger.updateSessionLog(
+            userPrefsFile
+                + " could not be read and backup there is no backup file found. "
+                + "If this is unexpected, please manually inspect "
+                + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+                + "please consider creating a bug report on the forum, noting any special circumstances around "
+                + "the failure, and attaching the preferences.");
+      }
+    } else {
+      try {
+        Files.copy(
+            userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException ex) {
+        System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
+        RequestLogger.updateSessionLog(
+            userPrefsFile
+                + " backup creation failed. Please manually inspect "
+                + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                + "please consider creating a bug report on the forum, noting any special circumstances around "
+                + "the failure, and attaching the preferences.");
+      }
+    }
     Preferences.userValues.clear();
     Preferences.userEncodedValues.clear();
 
