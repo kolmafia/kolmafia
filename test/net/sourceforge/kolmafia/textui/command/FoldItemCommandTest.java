@@ -2,18 +2,22 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import org.junit.jupiter.api.BeforeAll;
@@ -80,6 +84,23 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     }
   }
 
+  @Test
+  public void unequipsFoldable() {
+    HttpClientWrapper.setupFakeClient();
+    var cleanups = new Cleanups(withEquipped(Slot.WEAPON, ItemPool.SPOOKY_PUTTY_SNAKE));
+
+    try (cleanups) {
+      execute("Spooky Putty mitre");
+      assertContinueState();
+
+      var requests = getRequests();
+      // it doesn't carry out the folds due to unequipping not actually populating the inventory
+      assertThat(requests, hasSize(greaterThanOrEqualTo(1)));
+      assertPostRequest(
+          requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=weapon");
+    }
+  }
+
   @Nested
   class GarbageTote {
     @Test
@@ -135,6 +156,58 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
         assertThat(requests, hasSize(2));
         assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11238");
         assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1275&option=3");
+      }
+    }
+  }
+
+  @Nested
+  class AmbiguousFold {
+    @Test
+    public void errorOnAmbiguousFold() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, ItemPool.STINKY_CHEESE_SWORD),
+              withEquipped(Slot.PANTS, ItemPool.STINKY_CHEESE_DIAPER));
+
+      try (cleanups) {
+        String output = execute("stinky cheese eye");
+        assertErrorState();
+        assertThat(output, containsString("Unequip the item you want to fold into that."));
+      }
+    }
+
+    @Test
+    public void itemInInventoryIsNotAmbiguous() {
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, ItemPool.STINKY_CHEESE_SWORD),
+              withEquipped(Slot.PANTS, ItemPool.STINKY_CHEESE_DIAPER),
+              withItem(ItemPool.STINKY_CHEESE_WHEEL));
+
+      try (cleanups) {
+        execute("stinky cheese eye");
+        assertContinueState();
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=4401&ajax=1");
+      }
+    }
+
+    @Test
+    public void doNotErrorOnAmbiguousFoldWithPreference() {
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, ItemPool.STINKY_CHEESE_SWORD),
+              withEquipped(Slot.PANTS, ItemPool.STINKY_CHEESE_DIAPER),
+              withProperty("errorOnAmbiguousFold", false));
+
+      try (cleanups) {
+        String output = execute("stinky cheese eye", true);
+        assertContinueState();
+        assertThat(output, containsString("stinky cheese diaper => stinky cheese eye"));
       }
     }
   }
