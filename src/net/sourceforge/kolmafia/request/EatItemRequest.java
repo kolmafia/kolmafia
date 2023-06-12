@@ -203,7 +203,7 @@ public class EatItemRequest extends UseItemRequest {
     int limit = KoLCharacter.getFullnessLimit();
     int fullnessLeft = limit - KoLCharacter.getFullness();
     UseItemRequest.limiter = "fullness";
-    return fullnessLeft / fullness;
+    return fullness == 0 ? Integer.MAX_VALUE : fullnessLeft / fullness;
   }
 
   @Override

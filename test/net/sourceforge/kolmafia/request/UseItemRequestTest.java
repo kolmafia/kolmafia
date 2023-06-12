@@ -8,13 +8,16 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withGender;
+import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLimitMode;
+import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withSpleenUse;
@@ -39,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -309,7 +313,12 @@ class UseItemRequestTest {
     void itShouldNotDivideByZeroWhenConsumingAstralEnergyDrink(int itemID) {
       int spleenUsed = 0;
       int maxUses = Integer.MAX_VALUE;
-      var cleanups = withSpleenUse(spleenUsed);
+      var cleanups =
+          new Cleanups(
+              withSpleenUse(spleenUsed),
+              withHP(0, 10, 10),
+              withMP(0, 10, 10),
+              withPath(AscensionPath.Path.STANDARD));
 
       try (cleanups) {
         assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.SPLEEN), is(maxUses));
