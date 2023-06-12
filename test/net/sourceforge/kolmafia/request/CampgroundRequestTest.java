@@ -220,6 +220,14 @@ public class CampgroundRequestTest {
       assertCampgroundItemCount(ItemPool.MILESTONE, 0);
       assertCampgroundItemCount(ItemPool.WHETSTONE, 0);
       assertCampgroundItemCount(ItemPool.ROCK_SEEDS, 0);
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(3, crops.size());
+      assertEquals(ItemPool.GROVELING_GRAVEL, crops.get(0).getItemId());
+      assertEquals(0, crops.get(0).getCount());
+      assertEquals(ItemPool.MILESTONE, crops.get(1).getItemId());
+      assertEquals(0, crops.get(1).getCount());
+      assertEquals(ItemPool.WHETSTONE, crops.get(2).getItemId());
+      assertEquals(0, crops.get(2).getCount());
     }
 
     @Test
@@ -230,6 +238,14 @@ public class CampgroundRequestTest {
       assertCampgroundItemCount(ItemPool.MILESTONE, 0);
       assertCampgroundItemCount(ItemPool.WHETSTONE, 0);
       assertCampgroundItemCount(ItemPool.ROCK_SEEDS, 1);
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(3, crops.size());
+      assertEquals(ItemPool.GROVELING_GRAVEL, crops.get(0).getItemId());
+      assertEquals(1, crops.get(0).getCount());
+      assertEquals(ItemPool.MILESTONE, crops.get(1).getItemId());
+      assertEquals(0, crops.get(1).getCount());
+      assertEquals(ItemPool.WHETSTONE, crops.get(2).getItemId());
+      assertEquals(0, crops.get(2).getCount());
     }
 
     @Test
@@ -240,6 +256,14 @@ public class CampgroundRequestTest {
       assertCampgroundItemCount(ItemPool.BOLDER_BOULDER, 2);
       assertCampgroundItemCount(ItemPool.HARD_ROCK, 2);
       assertCampgroundItemCount(ItemPool.ROCK_SEEDS, 1);
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(3, crops.size());
+      assertEquals(ItemPool.FRUITY_PEBBLE, crops.get(0).getItemId());
+      assertEquals(2, crops.get(0).getCount());
+      assertEquals(ItemPool.BOLDER_BOULDER, crops.get(1).getItemId());
+      assertEquals(2, crops.get(1).getCount());
+      assertEquals(ItemPool.HARD_ROCK, crops.get(2).getItemId());
+      assertEquals(2, crops.get(2).getCount());
     }
 
     @Test
