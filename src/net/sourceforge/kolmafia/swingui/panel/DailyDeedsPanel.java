@@ -2629,10 +2629,6 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addLabel("");
     }
 
-    private boolean equippedOrInInventory(int itemId) {
-      return KoLCharacter.hasEquipped(itemId) || InventoryManager.getCount(itemId) > 0;
-    }
-
     @Override
     public void update() {
       FamiliarData bander = KoLCharacter.usableFamiliar(FamiliarPool.BANDER);
@@ -2641,13 +2637,13 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean hbo = boots != null && boots.canEquip();
       boolean run = Preferences.getInteger("_navelRunaways") > 0;
       boolean gp =
-          equippedOrInInventory(ItemPool.GREAT_PANTS)
+          InventoryManager.equippedOrInInventory(ItemPool.GREAT_PANTS)
               || (KoLCharacter.inLegacyOfLoathing()
-                  && equippedOrInInventory(ItemPool.REPLICA_GREAT_PANTS));
+                  && InventoryManager.equippedOrInInventory(ItemPool.REPLICA_GREAT_PANTS));
       boolean nr =
-          equippedOrInInventory(ItemPool.NAVEL_RING)
+          InventoryManager.equippedOrInInventory(ItemPool.NAVEL_RING)
               || (KoLCharacter.inLegacyOfLoathing()
-                  && equippedOrInInventory(ItemPool.REPLICA_NAVEL_RING));
+                  && InventoryManager.equippedOrInInventory(ItemPool.REPLICA_NAVEL_RING));
       boolean pp = InventoryManager.getCount(ItemPool.PEPPERMINT_PARASOL) > 0;
       boolean pl = KoLCharacter.hasSkill(SkillPool.PEEL_OUT);
       boolean big = KoLCharacter.inBigcore();

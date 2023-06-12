@@ -332,7 +332,8 @@ public class ResponseTextParser {
           case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.parseRetroCape(responseText);
           case ItemPool.HATSEAT -> ItemDatabase.parseCrownOfThrones(responseText);
           case ItemPool.BUDDY_BJORN -> ItemDatabase.parseBuddyBjorn(responseText);
-          case ItemPool.FOURTH_SABER -> ItemDatabase.parseSaber(responseText);
+          case ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER -> ItemDatabase.parseSaber(
+              responseText);
           case ItemPool.VAMPIRE_VINTNER_WINE -> ItemDatabase.parseVampireVintnerWine(responseText);
           case ItemPool.COMBAT_LOVERS_LOCKET -> LocketManager.parseLocket(responseText);
           case ItemPool.UNBREAKABLE_UMBRELLA -> ItemDatabase.parseUmbrella(responseText);

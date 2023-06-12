@@ -1212,6 +1212,19 @@ public class MaximizerTest {
         assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
       }
     }
+
+    @Test
+    public void shouldSuggestReplicaParka() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.REPLICA_JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertTrue(maximize("dr"));
+        recommendedSlotIs(Slot.SHIRT, "replica Jurassic Parka");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "parka ghostasaurus")));
+      }
+    }
   }
 
   @Nested

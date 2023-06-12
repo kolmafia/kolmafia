@@ -21,7 +21,8 @@ public class SpoonCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, String parameter) {
     if (!InventoryManager.hasItem(ItemPool.HEWN_MOON_RUNE_SPOON)
-        && !KoLCharacter.hasEquipped(ItemPool.HEWN_MOON_RUNE_SPOON)) {
+        && !(KoLCharacter.inLegacyOfLoathing()
+            && InventoryManager.hasItem(ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON))) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You need a hewn moon-rune spoon first.");
       return;
     }

@@ -2823,6 +2823,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.THE_SPIRIT_OF_GIVING:
       case ItemPool.MANUAL_OF_LOCK_PICKING:
       case ItemPool.SPINAL_FLUID_COVERED_EMOTION_CHIP:
+      case ItemPool.REPLICA_EMOTION_CHIP:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you
@@ -5625,6 +5626,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.HEWN_MOON_RUNE_SPOON:
+      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
         // You twist the spoon around until the reflection of the moon in the bowl looks just like
         // you intended.
         if (responseText.contains("You twist the spoon around")) {
@@ -6754,6 +6756,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.HEWN_MOON_RUNE_SPOON:
+      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
         {
           ZodiacSign sign = parseAscensionSign(urlString);
           if (sign != ZodiacSign.NONE && urlString.contains("doit=96")) {

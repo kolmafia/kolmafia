@@ -1522,7 +1522,7 @@ public abstract class UseLinkDecorator {
             // doesn't work ajaxified.
             uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
           }
-          case ItemPool.CARGO_CULTIST_SHORTS -> {
+          case ItemPool.CARGO_CULTIST_SHORTS, ItemPool.REPLICA_CARGO_CULTIST_SHORTS -> {
             // Not inline, since the redirection to a choice
             // doesn't work ajaxified.
             uses.add(new UseLink(itemId, 1, "pockets", "inventory.php?action=pocket", false));
