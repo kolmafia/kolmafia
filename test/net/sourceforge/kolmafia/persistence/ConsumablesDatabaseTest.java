@@ -86,6 +86,13 @@ class ConsumablesDatabaseTest {
     }
 
     @Test
+    void itShouldHandleAstralEnergyDrinkAppropriately() {
+      assertThat(ConsumablesDatabase.getRawSpleenHit("[5140]astral energy drink"), is(8));
+      assertThat(ConsumablesDatabase.getRawSpleenHit("[10883]astral energy drink"), is(5));
+      assertThat(ConsumablesDatabase.getRawSpleenHit("astral energy drink"), is(5));
+    }
+
+    @Test
     void drunkibears() {
       assertThat(ConsumablesDatabase.getRawFullness("green drunki-bear"), is(4));
       assertThat(ConsumablesDatabase.getRawInebriety("green drunki-bear"), is(4));
