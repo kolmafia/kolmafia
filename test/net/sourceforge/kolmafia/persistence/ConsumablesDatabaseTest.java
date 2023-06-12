@@ -89,7 +89,7 @@ class ConsumablesDatabaseTest {
     void itShouldHandleAstralEnergyDrinkAppropriately() {
       assertThat(ConsumablesDatabase.getRawSpleenHit("[5140]astral energy drink"), is(8));
       assertThat(ConsumablesDatabase.getRawSpleenHit("[10883]astral energy drink"), is(5));
-      assertThat(ConsumablesDatabase.getRawSpleenHit("astral energy drink"), is(5));
+      assertThat(ConsumablesDatabase.getRawSpleenHit("astral energy drink"), is(0));
     }
 
     @Test
