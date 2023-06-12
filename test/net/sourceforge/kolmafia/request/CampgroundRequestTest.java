@@ -163,6 +163,45 @@ public class CampgroundRequestTest {
   }
 
   @Nested
+  class Grass {
+    @Test
+    void canDetectNoTallGrass() {
+      String html = html("request/test_grass_garden_0.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      assertCampgroundItemCount(ItemPool.TALL_GRASS_SEEDS, 0);
+      assertEquals(CropType.GRASS, CampgroundRequest.getCropType());
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(1, crops.size());
+      assertEquals(ItemPool.TALL_GRASS_SEEDS, crops.get(0).getItemId());
+      assertEquals(0, crops.get(0).getCount());
+    }
+
+    @Test
+    void canDetectTallGrass() {
+      String html = html("request/test_grass_garden_2.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      assertCampgroundItemCount(ItemPool.TALL_GRASS_SEEDS, 2);
+      assertEquals(CropType.GRASS, CampgroundRequest.getCropType());
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(1, crops.size());
+      assertEquals(ItemPool.TALL_GRASS_SEEDS, crops.get(0).getItemId());
+      assertEquals(2, crops.get(0).getCount());
+    }
+
+    @Test
+    void canDetectVeryTallGrass() {
+      String html = html("request/test_grass_garden_8.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      assertCampgroundItemCount(ItemPool.TALL_GRASS_SEEDS, 8);
+      assertEquals(CropType.GRASS, CampgroundRequest.getCropType());
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(1, crops.size());
+      assertEquals(ItemPool.TALL_GRASS_SEEDS, crops.get(0).getItemId());
+      assertEquals(8, crops.get(0).getCount());
+    }
+  }
+
+  @Nested
   class RockGarden {
     @Test
     void canDetectNoGarden() {
