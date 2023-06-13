@@ -11214,7 +11214,7 @@
 11186	cursed monkey's paw	617234158	monkeypaw0.gif	accessory		0
 11187	cursed monkey glove	144539345	monkeyglove.gif	usable	t	0
 11188	shadow candy	408964450	nopic.gif	none		0
-11189	replica Mr. Accessory	341989211	replicamra.gif	none	q	0
+11189	replica Mr. Accessory	341989211	replicamra.gif	none	q	0	replica Mr. Accessories
 11190	replica Dark Jill-O-Lantern	844290698	jilldark.gif	grow	q	0
 11191	replica hand turkey outline	643478560	hand.gif	grow	q	0
 11192	replica crimbo elfling	258450480	elfling.gif	grow	q	0
@@ -11278,7 +11278,7 @@
 11250	replica grey gosling	716923546	greygosling.gif	grow	q	0
 11251	replica designer sweatpants	152213403	sweats.gif	pants	q	0
 11252	replica plastic pumpkin bucket	127836800	punkin.gif	familiar	q	0
-11253	replica Ten Dollars	751729776	dinobuck.gif	usable	t	0
+11253	replica Ten Dollars	751729776	dinobuck.gif	multiple	t	0
 11254	replica Cincho de Mayo	512079504	cincho.gif	accessory	q	0
 11255	Thwaitgold splendor beetle statuette	854195085	thwaitsplendor.gif	none		0
 11256	shrink-wrapped 2002 Mr. Store Catalog	520858825	2002catalog.gif	usable	t	0
@@ -11297,9 +11297,9 @@
 11269	Crimbo cookie sheet	520625195	2002cookies.gif	usable	t,d	50
 11270	Spooky VHS Tape	754348768	2002vhs.gif	none, combat	t,d	50
 11271	scroll of minor invulnerability	873755113	scroll2.gif	potion, usable	t,d	10
-11272	Lapis Lazuli	460775590	lapis.gif	usable	t,d	100
-11273	Eye Agate	556792213	agate.gif	usable	t,d	100
-11274	Azurite	560374993	azurite.gif	usable	t,d	100
+11272	Lapis Lazuli	460775590	lapis.gif	multiple	t,d	100
+11273	Eye Agate	556792213	agate.gif	multiple	t,d	100
+11274	Azurite	560374993	azurite.gif	multiple	t,d	100
 11275	Arrow (+1)	391510123	arrow_normal.gif	none, combat	t,d	10
 11276	scroll of protection from lycanthropes	545555359	scroll3.gif	potion, usable	t,d	10
 11277	Loathing Idol Microphone (75% charged)	606528143	2002mic.gif	usable	t,d	50

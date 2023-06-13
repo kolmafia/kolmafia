@@ -1046,6 +1046,7 @@ public abstract class UseLinkDecorator {
             return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=", false);
 
           case ItemPool.MR_STORE_2002_CATALOG:
+          case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
 
             // Not inline, since the redirection to a
             // shop doesn't work ajaxified.

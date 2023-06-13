@@ -570,6 +570,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.CLOCKWORK_BARTENDER:
       case ItemPool.MAID:
       case ItemPool.CLOCKWORK_MAID:
+      case ItemPool.MEAT_BUTLER:
       case ItemPool.SCARECROW:
       case ItemPool.MEAT_GOLEM:
       case ItemPool.MEAT_GLOBE:
@@ -3666,7 +3667,6 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.SCARECROW:
       case ItemPool.MEAT_GOLEM:
-      case ItemPool.MAID:
       case ItemPool.BLACK_BLUE_LIGHT:
       case ItemPool.LOUDMOUTH_LARRY:
       case ItemPool.PLASMA_BALL:
@@ -3680,13 +3680,34 @@ public class UseItemRequest extends GenericRequest {
         CampgroundRequest.setCampgroundItem(itemId, 1);
         break;
 
+      case ItemPool.MAID:
+        if (responseText.contains("You've already got")) {
+          return;
+        }
+
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
+        CampgroundRequest.setCampgroundItem(ItemPool.MAID, 1);
+        break;
+
       case ItemPool.CLOCKWORK_MAID:
         if (responseText.contains("You've already got")) {
           return;
         }
 
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
         CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
         CampgroundRequest.setCampgroundItem(ItemPool.CLOCKWORK_MAID, 1);
+        break;
+
+      case ItemPool.MEAT_BUTLER:
+        if (responseText.contains("You've already got")) {
+          return;
+        }
+
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
+        CampgroundRequest.setCampgroundItem(ItemPool.MEAT_BUTLER, 1);
         break;
 
       case ItemPool.BEANBAG_CHAIR:
@@ -4876,8 +4897,14 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.REPLICA_TEN_DOLLARS:
-        // Get success text
-        Preferences.increment("legacyPoints", 1, 19, false);
+        // You hand your replica ten dollars to some guy who tells you to &quot;pay, pal&quot; and
+        // are now entitled to an extra replica Mr. Accessory in future Legacy of Loathing runs.
+        // You hand your replica ten dollars to some guy who tells you to &quot;pay, pal&quot; and
+        // are now entitled to some extra replica Mr. Accessory in future Legacy of Loathing runs.
+        if (!responseText.contains("extra replica Mr. Accessor")) {
+          return;
+        }
+        Preferences.increment("legacyPoints", count, 19, false);
         break;
 
       case ItemPool.ESSENCE_OF_ANNOYANCE:
