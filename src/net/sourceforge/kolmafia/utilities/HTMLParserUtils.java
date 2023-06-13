@@ -49,8 +49,7 @@ public class HTMLParserUtils {
     while (it.hasNext()) {
       BaseToken child = it.next();
 
-      if (child instanceof CommentNode) {
-        CommentNode object = (CommentNode) child;
+      if (child instanceof CommentNode object) {
         String content = object.getContent();
         HTMLParserUtils.indent(buffer, level + 1);
         buffer.append("<!--");
@@ -60,8 +59,7 @@ public class HTMLParserUtils {
         continue;
       }
 
-      if (child instanceof ContentNode) {
-        ContentNode object = (ContentNode) child;
+      if (child instanceof ContentNode object) {
         String content = object.getContent().trim();
         if (content.equals("")) {
           continue;
@@ -73,8 +71,7 @@ public class HTMLParserUtils {
         continue;
       }
 
-      if (child instanceof TagNode) {
-        TagNode object = (TagNode) child;
+      if (child instanceof TagNode object) {
         HTMLParserUtils.logHTML(object, buffer, level + 1);
       }
     }

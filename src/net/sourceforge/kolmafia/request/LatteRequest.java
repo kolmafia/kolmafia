@@ -7,12 +7,14 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -530,27 +532,19 @@ public class LatteRequest extends GenericRequest {
 
     for (int i = 0; i < 3; ++i) {
       if (ingredients[i] == null) {
-        String message = null;
-        switch (i) {
-          case 0:
-            message =
-                "Cannot find ingredient "
-                    + first
-                    + ". Use 'latte unlocked' to see available ingredients.";
-            break;
-          case 1:
-            message =
-                "Cannot find ingredient "
-                    + second
-                    + ". Use 'latte unlocked' to see available ingredients.";
-            break;
-          case 2:
-            message =
-                "Cannot find ingredient "
-                    + third
-                    + ". Use 'latte unlocked' to see available ingredients.";
-            break;
-        }
+        String message =
+            switch (i) {
+              case 0 -> "Cannot find ingredient "
+                  + first
+                  + ". Use 'latte unlocked' to see available ingredients.";
+              case 1 -> "Cannot find ingredient "
+                  + second
+                  + ". Use 'latte unlocked' to see available ingredients.";
+              case 2 -> "Cannot find ingredient "
+                  + third
+                  + ". Use 'latte unlocked' to see available ingredients.";
+              default -> null;
+            };
         KoLmafia.updateDisplay(MafiaState.ERROR, message);
         continue;
       }
@@ -689,21 +683,22 @@ public class LatteRequest extends GenericRequest {
       Preferences.setBoolean("_latteBanishUsed", false);
       Preferences.setBoolean("_latteCopyUsed", false);
       Preferences.setBoolean("_latteDrinkUsed", false);
+      Preferences.setString("latteIngredients", first + "," + second + "," + third);
     }
   }
 
   public static void setLatteEnchantments(String[] mods) {
     ModifierList modList = new ModifierList();
     for (String mod : mods) {
-      ModifierList addModList = Modifiers.splitModifiers(mod);
-      for (Modifier modifier : addModList) {
+      ModifierList addModList = ModifierDatabase.splitModifiers(mod);
+      for (ModifierValue modifier : addModList) {
         modList.addToModifier(modifier);
       }
     }
 
     String value = modList.toString();
     Preferences.setString("latteModifier", value);
-    Modifiers.overrideModifier("Item:[" + ItemPool.LATTE_MUG + "]", value);
+    ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.LATTE_MUG, value);
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }
@@ -804,5 +799,42 @@ public class LatteRequest extends GenericRequest {
       }
     }
     Preferences.setString("latteUnlocks", unlocks.toString());
+  }
+
+  public static final void parseName(final String name) {
+    String first = null;
+    String second = null;
+    String third = null;
+    for (Latte latte : LATTE) {
+      Pattern firstPattern = Pattern.compile("Latte: " + latte.first);
+      Matcher firstMatcher = firstPattern.matcher(name);
+      if (firstMatcher.find()) {
+        first = latte.ingredient;
+        if (first != null && second != null && third != null) break;
+        continue;
+      }
+
+      Pattern secondPattern = Pattern.compile(latte.second + " Latte");
+      Matcher secondMatcher = secondPattern.matcher(name);
+      if (secondMatcher.find()) {
+        second = latte.ingredient;
+        if (first != null && second != null && third != null) break;
+        continue;
+      }
+
+      Pattern thirdPattern = Pattern.compile(latte.third);
+      Matcher thirdMatcher = thirdPattern.matcher(name);
+      if (thirdMatcher.find()) {
+        third = latte.ingredient;
+        if (first != null && second != null && third != null) break;
+        continue;
+      }
+    }
+    Preferences.setString("latteIngredients", first + "," + second + "," + third);
+  }
+
+  public static final void parseDescription(final String responseText) {
+    String name = DebugDatabase.parseName(responseText);
+    parseName(name);
   }
 }

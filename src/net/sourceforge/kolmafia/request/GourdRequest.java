@@ -82,14 +82,11 @@ public class GourdRequest extends GenericRequest {
   }
 
   public static final AdventureResult gourdItem(final int count) {
-    switch (KoLCharacter.getPrimeIndex()) {
-      case 0:
-        return ItemPool.get(ItemPool.KNOB_FIRECRACKER, count);
-      case 1:
-        return ItemPool.get(ItemPool.CAN_LID, count);
-      default:
-        return ItemPool.get(ItemPool.SPIDER_WEB, count);
-    }
+    return switch (KoLCharacter.getPrimeIndex()) {
+      case 0 -> ItemPool.get(ItemPool.KNOB_FIRECRACKER, count);
+      case 1 -> ItemPool.get(ItemPool.CAN_LID, count);
+      default -> ItemPool.get(ItemPool.SPIDER_WEB, count);
+    };
   }
 
   public static final boolean registerRequest(final String urlString) {

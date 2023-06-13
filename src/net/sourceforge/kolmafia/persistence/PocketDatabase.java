@@ -446,220 +446,191 @@ public class PocketDatabase {
 
   private static Pocket parsePocketData(int pocketId, PocketType type, String[] data) {
     switch (type) {
-      case STATS:
-        {
-          if (data.length < 5) {
-            RequestLogger.printLine(
-                "Pocket " + pocketId + " does not have muscle, mysticality, and moxie");
-            return null;
-          }
-          String muscleString = data[2];
-          if (!StringUtilities.isNumeric(muscleString)) {
-            RequestLogger.printLine(
-                "Pocket " + pocketId + " has bad muscle value: " + muscleString);
-            return null;
-          }
-          int muscle = StringUtilities.parseInt(muscleString);
-          String mysticalityString = data[3];
-          if (!StringUtilities.isNumeric(mysticalityString)) {
-            RequestLogger.printLine(
-                "Pocket " + pocketId + " has bad mysticality value: " + mysticalityString);
-            return null;
-          }
-          int mysticality = StringUtilities.parseInt(mysticalityString);
-          String moxieString = data[4];
-          if (!StringUtilities.isNumeric(moxieString)) {
-            RequestLogger.printLine("Pocket " + pocketId + " has bad moxie value: " + moxieString);
-            return null;
-          }
-          int moxie = StringUtilities.parseInt(moxieString);
-          return new StatsPocket(pocketId, muscle, mysticality, moxie);
+      case STATS -> {
+        if (data.length < 5) {
+          RequestLogger.printLine(
+              "Pocket " + pocketId + " does not have muscle, mysticality, and moxie");
+          return null;
         }
-      case MONSTER:
-        {
-          if (data.length < 3) {
-            RequestLogger.printLine("Pocket " + pocketId + " does not have a monster name");
-            return null;
-          }
-          String name = data[2];
-          MonsterData monster = MonsterDatabase.findMonster(name);
-          if (monster == null) {
-            RequestLogger.printLine("Pocket " + pocketId + " has unknown monster name: " + name);
-            return null;
-          }
-          return new MonsterPocket(pocketId, monster);
+        String muscleString = data[2];
+        if (!StringUtilities.isNumeric(muscleString)) {
+          RequestLogger.printLine("Pocket " + pocketId + " has bad muscle value: " + muscleString);
+          return null;
         }
-      case COMMON:
-      case EFFECT:
-      case RESTORE:
-      case BUFF:
-      case ELEMENT:
-      case CANDY1:
-      case CANDY2:
-      case CHIPS1:
-      case GUM1:
-      case LENS1:
-      case NEEDLE1:
-      case TEETH1:
-        {
-          if (data.length < 3) {
-            RequestLogger.printLine("Pocket " + pocketId + " does not have an effect");
-            return null;
-          }
-          String effect1String = data[2];
-          AdventureResult effect1 = PocketDatabase.parseEffect(effect1String);
-          if (effect1 == null) {
-            RequestLogger.printLine("Pocket " + pocketId + " has unknown effect: " + effect1String);
-            return null;
-          }
-          if (effect1.getCount() == 0) {
-            RequestLogger.printLine(
-                "Pocket " + pocketId + " has effect duration 0: " + effect1String);
-          }
-          return new OneResultPocket(pocketId, type, effect1);
+        int muscle = StringUtilities.parseInt(muscleString);
+        String mysticalityString = data[3];
+        if (!StringUtilities.isNumeric(mysticalityString)) {
+          RequestLogger.printLine(
+              "Pocket " + pocketId + " has bad mysticality value: " + mysticalityString);
+          return null;
         }
-      case CANDY:
-      case CHIPS:
-      case GUM:
-      case LENS:
-      case NEEDLE:
-      case TEETH:
-        {
-          if (data.length < 4) {
-            RequestLogger.printLine("Pocket " + pocketId + " does not have two effects");
-            return null;
-          }
-          String effect1String = data[2];
-          AdventureResult effect1 = PocketDatabase.parseEffect(effect1String);
-          if (effect1 == null) {
-            RequestLogger.printLine("Pocket " + pocketId + " has unknown effect: " + effect1String);
-            return null;
-          }
-          if (effect1.getCount() == 0) {
-            RequestLogger.printLine(
-                "Pocket " + pocketId + " has effect duration 0: " + effect1String);
-          }
-          String effect2String = data[3];
-          AdventureResult effect2 = PocketDatabase.parseEffect(effect2String);
-          if (effect2 == null) {
-            RequestLogger.printLine("Pocket " + pocketId + " has unknown effect: " + effect2String);
-            return null;
-          }
-          if (effect2.getCount() == 0) {
-            RequestLogger.printLine(
-                "Pocket " + pocketId + " has effect duration 0: " + effect2String);
-          }
-          return new TwoResultPocket(pocketId, type, effect1, effect2);
+        int mysticality = StringUtilities.parseInt(mysticalityString);
+        String moxieString = data[4];
+        if (!StringUtilities.isNumeric(moxieString)) {
+          RequestLogger.printLine("Pocket " + pocketId + " has bad moxie value: " + moxieString);
+          return null;
         }
-      case ITEM:
-      case AVATAR:
-      case BELL:
-      case BOOZE:
-      case CASH:
-      case CHESS:
-      case CHOCO:
-      case FOOD:
-      case FRUIT:
-      case OYSTER:
-      case POTION:
-      case YEG:
-        {
-          if (data.length < 3) {
-            RequestLogger.printLine("Pocket " + pocketId + " does not have an item");
-            return null;
-          }
-          String item1String = data[2];
-          AdventureResult item1 = PocketDatabase.parseItem(item1String);
-          if (item1 == null) {
-            RequestLogger.printLine("Pocket " + pocketId + " has unknown item: " + item1String);
-            return null;
-          }
-          if (item1.getCount() == 0) {
-            RequestLogger.printLine("Pocket " + pocketId + " has item count 0: " + item1String);
-          }
-          return new OneResultPocket(pocketId, type, item1);
+        int moxie = StringUtilities.parseInt(moxieString);
+        return new StatsPocket(pocketId, muscle, mysticality, moxie);
+      }
+      case MONSTER -> {
+        if (data.length < 3) {
+          RequestLogger.printLine("Pocket " + pocketId + " does not have a monster name");
+          return null;
         }
-      case ITEM2:
-        {
-          if (data.length < 4) {
-            RequestLogger.printLine("Pocket " + pocketId + " does not have two items");
-            return null;
-          }
-          String item1String = data[2];
-          AdventureResult item1 = PocketDatabase.parseItem(item1String);
-          if (item1 == null) {
-            RequestLogger.printLine("Pocket " + pocketId + " has unknown item: " + item1String);
-            return null;
-          }
-          if (item1.getCount() == 0) {
-            RequestLogger.printLine("Pocket " + pocketId + " has item count 0: " + item1String);
-          }
-          String item2String = data[3];
-          AdventureResult item2 = PocketDatabase.parseItem(item2String);
-          if (item2 == null) {
-            RequestLogger.printLine("Pocket " + pocketId + " has unknown item: " + item2String);
-            return null;
-          }
-          if (item2.getCount() == 0) {
-            RequestLogger.printLine("Pocket " + pocketId + " has item count 0: " + item2String);
-          }
-          return new TwoResultPocket(pocketId, type, item1, item2);
+        String name = data[2];
+        MonsterData monster = MonsterDatabase.findMonster(name);
+        if (monster == null) {
+          RequestLogger.printLine("Pocket " + pocketId + " has unknown monster name: " + name);
+          return null;
         }
-      case JOKE:
-        {
-          if (data.length < 3) {
-            RequestLogger.printLine("Pocket " + pocketId + " must have a text string");
-            return null;
-          }
-          String text = data[2];
-          return new JokePocket(pocketId, text);
+        return new MonsterPocket(pocketId, monster);
+      }
+      case COMMON,
+          EFFECT,
+          RESTORE,
+          BUFF,
+          ELEMENT,
+          CANDY1,
+          CANDY2,
+          CHIPS1,
+          GUM1,
+          LENS1,
+          NEEDLE1,
+          TEETH1 -> {
+        if (data.length < 3) {
+          RequestLogger.printLine("Pocket " + pocketId + " does not have an effect");
+          return null;
         }
-      case MEAT:
-        {
-          if (data.length < 4) {
-            RequestLogger.printLine(
-                "Pocket " + pocketId + " must have an integer and a text string");
-            return null;
-          }
-          String meatString = data[2];
-          if (!StringUtilities.isNumeric(meatString)) {
-            RequestLogger.printLine("Pocket " + pocketId + " has bad meat value: " + meatString);
-            return null;
-          }
-          int meat = StringUtilities.parseInt(meatString);
-          String text = data[3];
-          return new MeatPocket(pocketId, meat, text);
+        String effect1String = data[2];
+        AdventureResult effect1 = PocketDatabase.parseEffect(effect1String);
+        if (effect1 == null) {
+          RequestLogger.printLine("Pocket " + pocketId + " has unknown effect: " + effect1String);
+          return null;
         }
-      case POEM:
-        {
-          if (data.length < 4) {
-            RequestLogger.printLine(
-                "Pocket " + pocketId + " must have an integer and a text string");
-            return null;
-          }
-          String indexString = data[2];
-          if (!StringUtilities.isNumeric(indexString)) {
-            RequestLogger.printLine("Pocket " + pocketId + " has bad index value: " + indexString);
-            return null;
-          }
-          int index = StringUtilities.parseInt(indexString);
-          String text = data[3];
-          return new PoemPocket(pocketId, index, text);
+        if (effect1.getCount() == 0) {
+          RequestLogger.printLine(
+              "Pocket " + pocketId + " has effect duration 0: " + effect1String);
         }
-      case SCRAP:
-        {
-          if (data.length < 3) {
-            RequestLogger.printLine("Pocket " + pocketId + " must have a scrap number");
-            return null;
-          }
-          String scrapString = data[2];
-          if (!StringUtilities.isNumeric(scrapString)) {
-            RequestLogger.printLine("Pocket " + pocketId + " has bad scrap number: " + scrapString);
-            return null;
-          }
-          int scrap = StringUtilities.parseInt(scrapString);
-          return new ScrapPocket(pocketId, scrap);
+        return new OneResultPocket(pocketId, type, effect1);
+      }
+      case CANDY, CHIPS, GUM, LENS, NEEDLE, TEETH -> {
+        if (data.length < 4) {
+          RequestLogger.printLine("Pocket " + pocketId + " does not have two effects");
+          return null;
         }
+        String effect1String = data[2];
+        AdventureResult effect1 = PocketDatabase.parseEffect(effect1String);
+        if (effect1 == null) {
+          RequestLogger.printLine("Pocket " + pocketId + " has unknown effect: " + effect1String);
+          return null;
+        }
+        if (effect1.getCount() == 0) {
+          RequestLogger.printLine(
+              "Pocket " + pocketId + " has effect duration 0: " + effect1String);
+        }
+        String effect2String = data[3];
+        AdventureResult effect2 = PocketDatabase.parseEffect(effect2String);
+        if (effect2 == null) {
+          RequestLogger.printLine("Pocket " + pocketId + " has unknown effect: " + effect2String);
+          return null;
+        }
+        if (effect2.getCount() == 0) {
+          RequestLogger.printLine(
+              "Pocket " + pocketId + " has effect duration 0: " + effect2String);
+        }
+        return new TwoResultPocket(pocketId, type, effect1, effect2);
+      }
+      case ITEM, AVATAR, BELL, BOOZE, CASH, CHESS, CHOCO, FOOD, FRUIT, OYSTER, POTION, YEG -> {
+        if (data.length < 3) {
+          RequestLogger.printLine("Pocket " + pocketId + " does not have an item");
+          return null;
+        }
+        String item1String = data[2];
+        AdventureResult item1 = PocketDatabase.parseItem(item1String);
+        if (item1 == null) {
+          RequestLogger.printLine("Pocket " + pocketId + " has unknown item: " + item1String);
+          return null;
+        }
+        if (item1.getCount() == 0) {
+          RequestLogger.printLine("Pocket " + pocketId + " has item count 0: " + item1String);
+        }
+        return new OneResultPocket(pocketId, type, item1);
+      }
+      case ITEM2 -> {
+        if (data.length < 4) {
+          RequestLogger.printLine("Pocket " + pocketId + " does not have two items");
+          return null;
+        }
+        String item1String = data[2];
+        AdventureResult item1 = PocketDatabase.parseItem(item1String);
+        if (item1 == null) {
+          RequestLogger.printLine("Pocket " + pocketId + " has unknown item: " + item1String);
+          return null;
+        }
+        if (item1.getCount() == 0) {
+          RequestLogger.printLine("Pocket " + pocketId + " has item count 0: " + item1String);
+        }
+        String item2String = data[3];
+        AdventureResult item2 = PocketDatabase.parseItem(item2String);
+        if (item2 == null) {
+          RequestLogger.printLine("Pocket " + pocketId + " has unknown item: " + item2String);
+          return null;
+        }
+        if (item2.getCount() == 0) {
+          RequestLogger.printLine("Pocket " + pocketId + " has item count 0: " + item2String);
+        }
+        return new TwoResultPocket(pocketId, type, item1, item2);
+      }
+      case JOKE -> {
+        if (data.length < 3) {
+          RequestLogger.printLine("Pocket " + pocketId + " must have a text string");
+          return null;
+        }
+        String text = data[2];
+        return new JokePocket(pocketId, text);
+      }
+      case MEAT -> {
+        if (data.length < 4) {
+          RequestLogger.printLine("Pocket " + pocketId + " must have an integer and a text string");
+          return null;
+        }
+        String meatString = data[2];
+        if (!StringUtilities.isNumeric(meatString)) {
+          RequestLogger.printLine("Pocket " + pocketId + " has bad meat value: " + meatString);
+          return null;
+        }
+        int meat = StringUtilities.parseInt(meatString);
+        String text = data[3];
+        return new MeatPocket(pocketId, meat, text);
+      }
+      case POEM -> {
+        if (data.length < 4) {
+          RequestLogger.printLine("Pocket " + pocketId + " must have an integer and a text string");
+          return null;
+        }
+        String indexString = data[2];
+        if (!StringUtilities.isNumeric(indexString)) {
+          RequestLogger.printLine("Pocket " + pocketId + " has bad index value: " + indexString);
+          return null;
+        }
+        int index = StringUtilities.parseInt(indexString);
+        String text = data[3];
+        return new PoemPocket(pocketId, index, text);
+      }
+      case SCRAP -> {
+        if (data.length < 3) {
+          RequestLogger.printLine("Pocket " + pocketId + " must have a scrap number");
+          return null;
+        }
+        String scrapString = data[2];
+        if (!StringUtilities.isNumeric(scrapString)) {
+          RequestLogger.printLine("Pocket " + pocketId + " has bad scrap number: " + scrapString);
+          return null;
+        }
+        int scrap = StringUtilities.parseInt(scrapString);
+        return new ScrapPocket(pocketId, scrap);
+      }
     }
 
     return new Pocket(pocketId, type);
@@ -709,86 +680,55 @@ public class PocketDatabase {
   private static boolean addToDatabase(Pocket pocket) {
     // Add to additional List/Set/Map as needed
     switch (pocket.getType()) {
-      case COMMON:
-      case EFFECT:
-      case BUFF:
-      case ELEMENT:
-      case JOKE:
-      case RESTORE:
-      case CANDY1:
-      case CANDY2:
-      case CHIPS1:
-      case GUM1:
-      case LENS1:
-      case NEEDLE1:
-      case TEETH1:
-        {
-          OneResultPocket orp = (OneResultPocket) pocket;
-          PocketDatabase.addResultPocket(
-              PocketDatabase.effectPockets, orp.getResult1().getName(), orp);
-          PocketDatabase.allEffectPockets.add(orp.getPocket());
-          break;
-        }
-      case CANDY:
-      case CHIPS:
-      case GUM:
-      case LENS:
-      case NEEDLE:
-      case TEETH:
-        {
-          TwoResultPocket trp = (TwoResultPocket) pocket;
-          PocketDatabase.addResultPocket(
-              PocketDatabase.effectPockets, trp.getResult1().getName(), trp);
-          PocketDatabase.addResultPocket(
-              PocketDatabase.effectPockets, trp.getResult2().getName(), trp);
-          PocketDatabase.allEffectPockets.add(trp.getPocket());
-          break;
-        }
-      case ITEM:
-      case AVATAR:
-      case BELL:
-      case BOOZE:
-      case CASH:
-      case CHESS:
-      case CHOCO:
-      case FOOD:
-      case FRUIT:
-      case OYSTER:
-      case POTION:
-      case YEG:
-        {
-          OneResultPocket orp = (OneResultPocket) pocket;
-          PocketDatabase.addResultPocket(
-              PocketDatabase.itemPockets, orp.getResult1().getName(), orp);
-          PocketDatabase.allItemPockets.add(orp.getPocket());
-          break;
-        }
-      case ITEM2:
-        {
-          TwoResultPocket trp = (TwoResultPocket) pocket;
-          PocketDatabase.addResultPocket(
-              PocketDatabase.itemPockets, trp.getResult1().getName(), trp);
-          PocketDatabase.addResultPocket(
-              PocketDatabase.itemPockets, trp.getResult2().getName(), trp);
-          PocketDatabase.allItemPockets.add(trp.getPocket());
-          break;
-        }
-      case MONSTER:
-        {
-          MonsterPocket mp = (MonsterPocket) pocket;
-          PocketDatabase.addMonsterPocket(mp);
-          PocketDatabase.allMonsterPockets.add(mp.getPocket());
-          break;
-        }
-      case STATS:
-        {
-          StatsPocket sp = (StatsPocket) pocket;
-          PocketDatabase.addStatsPocket("muscle", sp.getMuscle(), sp);
-          PocketDatabase.addStatsPocket("mysticality", sp.getMysticality(), sp);
-          PocketDatabase.addStatsPocket("moxie", sp.getMoxie(), sp);
-          PocketDatabase.allStatsPockets.add(sp.getPocket());
-          break;
-        }
+      case COMMON,
+          EFFECT,
+          BUFF,
+          ELEMENT,
+          JOKE,
+          RESTORE,
+          CANDY1,
+          CANDY2,
+          CHIPS1,
+          GUM1,
+          LENS1,
+          NEEDLE1,
+          TEETH1 -> {
+        OneResultPocket orp = (OneResultPocket) pocket;
+        PocketDatabase.addResultPocket(
+            PocketDatabase.effectPockets, orp.getResult1().getName(), orp);
+        PocketDatabase.allEffectPockets.add(orp.getPocket());
+      }
+      case CANDY, CHIPS, GUM, LENS, NEEDLE, TEETH -> {
+        TwoResultPocket trp = (TwoResultPocket) pocket;
+        PocketDatabase.addResultPocket(
+            PocketDatabase.effectPockets, trp.getResult1().getName(), trp);
+        PocketDatabase.addResultPocket(
+            PocketDatabase.effectPockets, trp.getResult2().getName(), trp);
+        PocketDatabase.allEffectPockets.add(trp.getPocket());
+      }
+      case ITEM, AVATAR, BELL, BOOZE, CASH, CHESS, CHOCO, FOOD, FRUIT, OYSTER, POTION, YEG -> {
+        OneResultPocket orp = (OneResultPocket) pocket;
+        PocketDatabase.addResultPocket(PocketDatabase.itemPockets, orp.getResult1().getName(), orp);
+        PocketDatabase.allItemPockets.add(orp.getPocket());
+      }
+      case ITEM2 -> {
+        TwoResultPocket trp = (TwoResultPocket) pocket;
+        PocketDatabase.addResultPocket(PocketDatabase.itemPockets, trp.getResult1().getName(), trp);
+        PocketDatabase.addResultPocket(PocketDatabase.itemPockets, trp.getResult2().getName(), trp);
+        PocketDatabase.allItemPockets.add(trp.getPocket());
+      }
+      case MONSTER -> {
+        MonsterPocket mp = (MonsterPocket) pocket;
+        PocketDatabase.addMonsterPocket(mp);
+        PocketDatabase.allMonsterPockets.add(mp.getPocket());
+      }
+      case STATS -> {
+        StatsPocket sp = (StatsPocket) pocket;
+        PocketDatabase.addStatsPocket("muscle", sp.getMuscle(), sp);
+        PocketDatabase.addStatsPocket("mysticality", sp.getMysticality(), sp);
+        PocketDatabase.addStatsPocket("moxie", sp.getMoxie(), sp);
+        PocketDatabase.allStatsPockets.add(sp.getPocket());
+      }
     }
     return true;
   }
@@ -839,84 +779,75 @@ public class PocketDatabase {
   public static List<Pocket> sortPockets(PocketType type, Map<Integer, Pocket> pockets) {
     // PocketType is derivable from the first pocket in the
     // collection, but since caller always knows it, pass in
-    switch (type) {
-      case SCRAP:
-        // Sort on scrap index.
-        return pockets.values().stream()
-            .sorted(Comparator.comparing(p -> ((ScrapPocket) p).getScrap()))
-            .collect(Collectors.toList());
-      case MEAT:
-        // Sort on Meat
-        return pockets.values().stream()
-            .sorted(Comparator.comparing(p -> ((MeatPocket) p).getMeat()))
-            .collect(Collectors.toList());
-      case POEM:
-        // Sort on line index
-        return pockets.values().stream()
-            .sorted(Comparator.comparing(p -> ((PoemPocket) p).getIndex()))
-            .collect(Collectors.toList());
-      case MONSTER:
-        // Sort on monster name
-        return pockets.values().stream()
-            .sorted(
-                Comparator.comparing(p -> ((MonsterPocket) p).getMonster().getName().toLowerCase()))
-            .collect(Collectors.toList());
-      case ITEM:
-      case AVATAR:
-      case BELL:
-      case BOOZE:
-      case CASH:
-      case CHESS:
-      case CHOCO:
-      case FOOD:
-      case FRUIT:
-      case OYSTER:
-      case POTION:
-      case YEG:
-      case EFFECT:
-      case RESTORE:
-      case BUFF:
-      case CANDY1:
-      case CANDY2:
-      case CHIPS1:
-      case GUM1:
-      case LENS1:
-      case NEEDLE1:
-      case TEETH1:
-        // Single results with a single source sort on effect name
-        return pockets.values().stream()
-            .sorted(Comparator.comparing(p -> ((OneResultPocket) p).getResult1().getName()))
-            .collect(Collectors.toList());
-      case COMMON:
-      case ELEMENT:
-        // Single effects with multiple sources sort first on effect name then on pocket number
-        return pockets.values().stream()
-            .sorted(
-                Comparator.comparing(p -> ((OneResultPocket) p).getResult1().getName())
-                    .thenComparing(p -> ((Pocket) p).getPocket()))
-            .collect(Collectors.toList());
-      case ITEM2:
-      case CANDY:
-      case CHIPS:
-      case GUM:
-      case LENS:
-      case NEEDLE:
-      case TEETH:
-        // Two results sort first on result 1 then on result 2
-        return pockets.values().stream()
-            .sorted(
-                Comparator.comparing(p -> ((TwoResultPocket) p).getResult1().getName())
-                    .thenComparing(p -> ((TwoResultPocket) p).getResult2().getName()))
-            .collect(Collectors.toList());
-      case STATS:
+    return switch (type) {
+      case SCRAP ->
+      // Sort on scrap index.
+      pockets.values().stream()
+          .sorted(Comparator.comparing(p -> ((ScrapPocket) p).getScrap()))
+          .collect(Collectors.toList());
+      case MEAT ->
+      // Sort on Meat
+      pockets.values().stream()
+          .sorted(Comparator.comparing(p -> ((MeatPocket) p).getMeat()))
+          .collect(Collectors.toList());
+      case POEM ->
+      // Sort on line index
+      pockets.values().stream()
+          .sorted(Comparator.comparing(p -> ((PoemPocket) p).getIndex()))
+          .collect(Collectors.toList());
+      case MONSTER ->
+      // Sort on monster name
+      pockets.values().stream()
+          .sorted(
+              Comparator.comparing(p -> ((MonsterPocket) p).getMonster().getName().toLowerCase()))
+          .collect(Collectors.toList());
+      case ITEM,
+          AVATAR,
+          BELL,
+          BOOZE,
+          CASH,
+          CHESS,
+          CHOCO,
+          FOOD,
+          FRUIT,
+          OYSTER,
+          POTION,
+          YEG,
+          EFFECT,
+          RESTORE,
+          BUFF,
+          CANDY1,
+          CANDY2,
+          CHIPS1,
+          GUM1,
+          LENS1,
+          NEEDLE1,
+          TEETH1 ->
+      // Single results with a single source sort on effect name
+      pockets.values().stream()
+          .sorted(Comparator.comparing(p -> ((OneResultPocket) p).getResult1().getName()))
+          .collect(Collectors.toList());
+      case COMMON, ELEMENT ->
+      // Single effects with multiple sources sort first on effect name then on pocket number
+      pockets.values().stream()
+          .sorted(
+              Comparator.comparing(p -> ((OneResultPocket) p).getResult1().getName())
+                  .thenComparing(p -> ((Pocket) p).getPocket()))
+          .collect(Collectors.toList());
+      case ITEM2, CANDY, CHIPS, GUM, LENS, NEEDLE, TEETH ->
+      // Two results sort first on result 1 then on result 2
+      pockets.values().stream()
+          .sorted(
+              Comparator.comparing(p -> ((TwoResultPocket) p).getResult1().getName())
+                  .thenComparing(p -> ((TwoResultPocket) p).getResult2().getName()))
+          .collect(Collectors.toList());
         // I can't think of a rational full ordering for stats
-      case JOKE:
-      default:
-        // Pocket number is good enough
-        return pockets.values().stream()
-            .sorted(Comparator.comparing(Pocket::getPocket))
-            .collect(Collectors.toList());
-    }
+      case STATS, JOKE ->
+      // Pocket number is good enough
+      pockets.values().stream()
+          .sorted(Comparator.comparing(Pocket::getPocket))
+          .collect(Collectors.toList());
+    };
   }
 
   public static List<Pocket> sortStats(String stat, Set<StatsPocket> pockets) {

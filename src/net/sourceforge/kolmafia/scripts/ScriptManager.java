@@ -53,7 +53,7 @@ public class ScriptManager {
    * @return a <code>List</code> of matches
    */
   public static List<String> getMatchingNames(String[] projects, String params) {
-    List<String> matches = new ArrayList<String>();
+    List<String> matches = new ArrayList<>();
 
     for (String project : projects) {
       // exact matches return immediately, disregarding other substring matches

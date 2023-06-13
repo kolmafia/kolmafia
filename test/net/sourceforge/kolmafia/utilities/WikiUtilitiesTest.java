@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -91,48 +92,38 @@ public class WikiUtilitiesTest {
 
   private static Stream<Arguments> wikiPages() {
     return Stream.of(
-        Arguments.of("seal-clubbing club", WikiUtilities.ANY_TYPE, "Seal-clubbing_club"),
-        Arguments.of("sweet tooth", WikiUtilities.ITEM_TYPE, "Sweet_tooth"),
-        Arguments.of("water wings", WikiUtilities.ITEM_TYPE, "Water_wings"),
-        Arguments.of("knuckle sandwich", WikiUtilities.ITEM_TYPE, "Knuckle_sandwich"),
+        Arguments.of("seal-clubbing club", WikiType.ANY, "Seal-clubbing_club"),
+        Arguments.of("sweet tooth", WikiType.ITEM, "Sweet_tooth"),
+        Arguments.of("water wings", WikiType.ITEM, "Water_wings"),
+        Arguments.of("knuckle sandwich", WikiType.ITEM, "Knuckle_sandwich"),
+        Arguments.of("industrial strength starch", WikiType.ITEM, "Industrial_strength_starch"),
+        Arguments.of("black pudding", WikiType.ITEM, "Black_pudding_%28food%29"),
+        Arguments.of("zmobie", WikiType.ITEM, "Zmobie_%28drink%29"),
+        Arguments.of("ice porter", WikiType.ITEM, "Ice_porter_%28drink%29"),
+        Arguments.of("Bulky Buddy Box", WikiType.ITEM, "Bulky_Buddy_Box_%28hatchling%29"),
+        Arguments.of("The Sword in the Steak", WikiType.ITEM, "The_Sword_in_the_Steak_%28item%29"),
+        Arguments.of("BRICKO bat", WikiType.ITEM, "BRICKO_bat_%28item%29"),
         Arguments.of(
-            "industrial strength starch", WikiUtilities.ITEM_TYPE, "Industrial_strength_starch"),
-        Arguments.of("black pudding", WikiUtilities.ITEM_TYPE, "Black_pudding_%28food%29"),
-        Arguments.of("zmobie", WikiUtilities.ITEM_TYPE, "Zmobie_%28drink%29"),
-        Arguments.of("ice porter", WikiUtilities.ITEM_TYPE, "Ice_porter_%28drink%29"),
-        Arguments.of("Bulky Buddy Box", WikiUtilities.ITEM_TYPE, "Bulky_Buddy_Box_%28hatchling%29"),
+            "Chorale of Companionship", WikiType.ITEM, "Chorale_of_Companionship_%28item%29"),
+        Arguments.of("sonar-in-a-biscuit", WikiType.ITEM, "Sonar-in-a-biscuit"),
         Arguments.of(
-            "The Sword in the Steak", WikiUtilities.ITEM_TYPE, "The_Sword_in_the_Steak_%28item%29"),
-        Arguments.of("BRICKO bat", WikiUtilities.ITEM_TYPE, "BRICKO_bat_%28item%29"),
+            "Chorale of Companionship", WikiType.SKILL, "Chorale_of_Companionship_%28skill%29"),
+        Arguments.of("Knuckle Sandwich", WikiType.SKILL, "Knuckle_Sandwich_%28skill%29"),
         Arguments.of(
-            "Chorale of Companionship",
-            WikiUtilities.ITEM_TYPE,
-            "Chorale_of_Companionship_%28item%29"),
-        Arguments.of("sonar-in-a-biscuit", WikiUtilities.ITEM_TYPE, "Sonar-in-a-biscuit"),
+            "Chorale of Companionship", WikiType.EFFECT, "Chorale_of_Companionship_%28effect%29"),
+        Arguments.of("Sweet Tooth", WikiType.EFFECT, "Sweet_Tooth"),
+        Arguments.of("Water Wings", WikiType.EFFECT, "Water_Wings"),
+        Arguments.of("Industrial Strength Starch", WikiType.EFFECT, "Industrial_Strength_Starch"),
+        Arguments.of("ice porter", WikiType.MONSTER, "Ice_porter"),
         Arguments.of(
-            "Chorale of Companionship",
-            WikiUtilities.SKILL_TYPE,
-            "Chorale_of_Companionship_%28skill%29"),
-        Arguments.of("Knuckle Sandwich", WikiUtilities.SKILL_TYPE, "Knuckle_Sandwich_%28skill%29"),
-        Arguments.of(
-            "Chorale of Companionship",
-            WikiUtilities.EFFECT_TYPE,
-            "Chorale_of_Companionship_%28effect%29"),
-        Arguments.of("Sweet Tooth", WikiUtilities.EFFECT_TYPE, "Sweet_Tooth"),
-        Arguments.of("Water Wings", WikiUtilities.EFFECT_TYPE, "Water_Wings"),
-        Arguments.of(
-            "Industrial Strength Starch", WikiUtilities.EFFECT_TYPE, "Industrial_Strength_Starch"),
-        Arguments.of("ice porter", WikiUtilities.MONSTER_TYPE, "Ice_porter"),
-        Arguments.of(
-            "undead elbow macaroni",
-            WikiUtilities.MONSTER_TYPE,
-            "Undead_elbow_macaroni_%28monster%29"),
-        Arguments.of("Souped Up", WikiUtilities.EFFECT_TYPE, "Souped_Up_%28effect%29"));
+            "undead elbow macaroni", WikiType.MONSTER, "Undead_elbow_macaroni_%28monster%29"),
+        Arguments.of("Souped Up", WikiType.EFFECT, "Souped_Up_%28effect%29"));
   }
 
   @ParameterizedTest
   @MethodSource("wikiPages")
-  public void correctAnswerForWikiPagesOfVariousTypes(String name, int type, String expectedPage) {
+  public void correctAnswerForWikiPagesOfVariousTypes(
+      String name, WikiType type, String expectedPage) {
     var link = WikiUtilities.getWikiLocation(name, type, false);
     assertEquals("https://kol.coldfront.net/thekolwiki/index.php/" + expectedPage, link);
   }

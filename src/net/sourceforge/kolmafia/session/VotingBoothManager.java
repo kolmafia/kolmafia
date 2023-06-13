@@ -1,63 +1,63 @@
 package net.sourceforge.kolmafia.session;
 
-import net.sourceforge.kolmafia.Modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
 
 public class VotingBoothManager {
-  private static final Modifier[] VOTING_BOOTH_POSITIVE_MODIFIERS = {
-    new Modifier("Monster Level", "+10"),
-    new Modifier("Food Drop", "+30"),
-    new Modifier("Monster Level", "-10"),
-    new Modifier("Initiative", "+25"),
-    new Modifier("Stench Damage", "+10"),
-    new Modifier("Sleaze Damage", "+10"),
-    new Modifier("Pants Drop", "+30"),
-    new Modifier("Maximum MP Percent", "+30"),
-    new Modifier("Moxie Percent", "+25"),
-    new Modifier("Ranged Damage Percent", "+100"),
-    new Modifier("Experience (Mysticality)", "+4"),
-    new Modifier("Experience (Moxie)", "+4"),
-    new Modifier("Weapon Damage Percent", "+100"),
-    new Modifier("Stench Resistance", "+3"),
-    new Modifier("Booze Drop", "+30"),
-    new Modifier("Item Drop", "+15"),
-    new Modifier("Cold Damage", "+10"),
-    new Modifier("Hot Resistance", "+3"),
-    new Modifier("Weapon Damage Unarmed", "+20"),
-    new Modifier("Muscle Percent", "+25"),
-    new Modifier("Experience", "+3"),
-    new Modifier("Spell Damage Percent", "+20"),
-    new Modifier("Spooky Resistance", "+3"),
-    new Modifier("Hot Damage", "+10"),
-    new Modifier("Meat Drop", "+30"),
-    new Modifier("Experience (familiar)", "+2"),
-    new Modifier("Mysticality Percent", "+25"),
-    new Modifier("Cold Resistance", "+3"),
-    new Modifier("Experience (Muscle)", "+4"),
-    new Modifier("Gear Drop", "+30"),
-    new Modifier("Adventures", "+1"),
-    new Modifier("Candy Drop", "+30"),
-    new Modifier("Maximum HP Percent", "+30"),
-    new Modifier("Sleaze Resistanc", "+3"),
+  private static final ModifierValue[] VOTING_BOOTH_POSITIVE_MODIFIERS = {
+    new ModifierValue("Monster Level", "+10"),
+    new ModifierValue("Food Drop", "+30"),
+    new ModifierValue("Monster Level", "-10"),
+    new ModifierValue("Initiative", "+25"),
+    new ModifierValue("Stench Damage", "+10"),
+    new ModifierValue("Sleaze Damage", "+10"),
+    new ModifierValue("Pants Drop", "+30"),
+    new ModifierValue("Maximum MP Percent", "+30"),
+    new ModifierValue("Moxie Percent", "+25"),
+    new ModifierValue("Ranged Damage Percent", "+100"),
+    new ModifierValue("Experience (Mysticality)", "+4"),
+    new ModifierValue("Experience (Moxie)", "+4"),
+    new ModifierValue("Weapon Damage Percent", "+100"),
+    new ModifierValue("Stench Resistance", "+3"),
+    new ModifierValue("Booze Drop", "+30"),
+    new ModifierValue("Item Drop", "+15"),
+    new ModifierValue("Cold Damage", "+10"),
+    new ModifierValue("Hot Resistance", "+3"),
+    new ModifierValue("Weapon Damage Unarmed", "+20"),
+    new ModifierValue("Muscle Percent", "+25"),
+    new ModifierValue("Experience", "+3"),
+    new ModifierValue("Spell Damage Percent", "+20"),
+    new ModifierValue("Spooky Resistance", "+3"),
+    new ModifierValue("Hot Damage", "+10"),
+    new ModifierValue("Meat Drop", "+30"),
+    new ModifierValue("Experience (familiar)", "+2"),
+    new ModifierValue("Mysticality Percent", "+25"),
+    new ModifierValue("Cold Resistance", "+3"),
+    new ModifierValue("Experience (Muscle)", "+4"),
+    new ModifierValue("Gear Drop", "+30"),
+    new ModifierValue("Adventures", "+1"),
+    new ModifierValue("Candy Drop", "+30"),
+    new ModifierValue("Maximum HP Percent", "+30"),
+    new ModifierValue("Sleaze Resistanc", "+3"),
   };
 
-  private static final Modifier[] VOTING_BOOTH_NEGATIVE_MODIFIERS = {
-    new Modifier("Maximum MP Percent", "-50"),
-    new Modifier("Initiative", "-30"),
-    new Modifier("Moxie", "-20"),
-    new Modifier("Experience", "-3"),
-    new Modifier("Spell Damage Percent", "-50"),
-    new Modifier("Muscle", "-20"),
-    new Modifier("Meat Drop", "-30"),
-    new Modifier("Adventures", "-2"),
-    new Modifier("Item Drop", "-20"),
-    new Modifier("Critical Hit Percent", "-10"),
-    new Modifier("Experience (familiar)", "-2"),
-    new Modifier("Gear Drop", "-50"),
-    new Modifier("Maximum HP Percent", "-50"),
-    new Modifier("Mysticality", "-20"),
-    new Modifier("Weapon Damage Percent", "-50"),
+  private static final ModifierValue[] VOTING_BOOTH_NEGATIVE_MODIFIERS = {
+    new ModifierValue("Maximum MP Percent", "-50"),
+    new ModifierValue("Initiative", "-30"),
+    new ModifierValue("Moxie", "-20"),
+    new ModifierValue("Experience", "-3"),
+    new ModifierValue("Spell Damage Percent", "-50"),
+    new ModifierValue("Muscle", "-20"),
+    new ModifierValue("Meat Drop", "-30"),
+    new ModifierValue("Adventures", "-2"),
+    new ModifierValue("Item Drop", "-20"),
+    new ModifierValue("Critical Hit Percent", "-10"),
+    new ModifierValue("Experience (familiar)", "-2"),
+    new ModifierValue("Gear Drop", "-50"),
+    new ModifierValue("Maximum HP Percent", "-50"),
+    new ModifierValue("Mysticality", "-20"),
+    new ModifierValue("Weapon Damage Percent", "-50"),
   };
 
   private VotingBoothManager() {}
@@ -66,12 +66,12 @@ public class VotingBoothManager {
     return (4 * path) + (9 * clss) + (79 * daycount);
   }
 
-  public static final Modifier[] getPositiveInitiatives(final int seed) {
+  public static final ModifierValue[] getPositiveInitiatives(final int seed) {
     PHPRandom rng = new PHPRandom(seed);
 
     int[] positives = rng.array(VOTING_BOOTH_POSITIVE_MODIFIERS.length, 3);
 
-    Modifier[] modifiers = new Modifier[3];
+    ModifierValue[] modifiers = new ModifierValue[3];
 
     for (int p = 0; p < modifiers.length; p++) {
       modifiers[p] = VOTING_BOOTH_POSITIVE_MODIFIERS[positives[p]];
@@ -80,7 +80,7 @@ public class VotingBoothManager {
     return modifiers;
   }
 
-  public static final Modifier getNegativeInitiative(final int seed) {
+  public static final ModifierValue getNegativeInitiative(final int seed) {
     PHPMTRandom mtRng = new PHPMTRandom(seed);
 
     int n = 15;
@@ -91,13 +91,13 @@ public class VotingBoothManager {
     return VOTING_BOOTH_NEGATIVE_MODIFIERS[n];
   }
 
-  public static final Modifier[] getInitiatives(
+  public static final ModifierValue[] getInitiatives(
       final int clss, final int path, final int daycount) {
     int seed = calculateSeed(clss, path, daycount);
 
-    Modifier[] modifiers = new Modifier[4];
+    ModifierValue[] modifiers = new ModifierValue[4];
 
-    Modifier[] positive = getPositiveInitiatives(seed);
+    ModifierValue[] positive = getPositiveInitiatives(seed);
 
     for (int i = 0; i < positive.length; i++) {
       modifiers[i] = positive[i];

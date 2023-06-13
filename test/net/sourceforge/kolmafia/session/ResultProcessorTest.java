@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -31,6 +32,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -51,7 +53,7 @@ public class ResultProcessorTest {
     @Test
     public void obtainOysterEggAppropriately() {
       HolidayDatabase.guessPhaseStep();
-      EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
+      EquipmentManager.setEquipment(Slot.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
       // This was an Oyster Egg Day.
       final var cleanups = withDay(2022, Month.JANUARY, 29, 12, 0);
       try (cleanups) {
@@ -61,7 +63,7 @@ public class ResultProcessorTest {
 
     @Test
     public void obtainOysterEggOnWrongDay() {
-      EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
+      EquipmentManager.setEquipment(Slot.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
       // This was not an Oyster Egg Day.
       final var cleanups = withDay(2022, Month.JANUARY, 30, 12, 0);
       try (cleanups) {
@@ -260,7 +262,7 @@ public class ResultProcessorTest {
 
   @Nested
   class Cookbookbat {
-    private static Stream<AdventureResult> coobookbatRecipes() {
+    private static Stream<AdventureResult> cookbookbatRecipes() {
       return Stream.of(
           ItemPool.get(ItemPool.ROBY_BORIS_BEER),
           ItemPool.get(ItemPool.ROBY_HONEY_BUN_OF_BORIS),
@@ -280,7 +282,7 @@ public class ResultProcessorTest {
     }
 
     @ParameterizedTest
-    @MethodSource("coobookbatRecipes")
+    @MethodSource("cookbookbatRecipes")
     public void cookbookbatPropertyGetsUpdated(AdventureResult recipe) {
       var cleanups =
           new Cleanups(
@@ -305,6 +307,44 @@ public class ResultProcessorTest {
         ResultProcessor.processResult(false, ItemPool.get(ItemPool.ROBY_BAKED_VEGGIE_RICOTTA));
 
         assertThat("_cookbookbatRecipeDrops", isSetTo(false));
+      }
+    }
+  }
+
+  @Nested
+  class InfiniteDropItems {
+    private static Stream<Arguments> infiniteDropFamiliars() {
+      return Stream.of(
+          Arguments.of(
+              FamiliarPool.ROCKIN_ROBIN, ItemPool.get(ItemPool.ROBIN_EGG), "_robinEggDrops"),
+          Arguments.of(FamiliarPool.CANDLE, ItemPool.get(ItemPool.WAX_GLOB), "_waxGlobDrops"),
+          Arguments.of(
+              FamiliarPool.GARBAGE_FIRE,
+              ItemPool.get(ItemPool.BURNING_NEWSPAPER),
+              "_garbageFireDrops"),
+          Arguments.of(
+              FamiliarPool.GARBAGE_FIRE,
+              ItemPool.get(ItemPool.TOASTED_HALF_SANDWICH),
+              "_garbageFireDrops"),
+          Arguments.of(
+              FamiliarPool.GARBAGE_FIRE,
+              ItemPool.get(ItemPool.MULLED_HOBO_WINE),
+              "_garbageFireDrops"),
+          Arguments.of(
+              FamiliarPool.HOBO_IN_SHEEPS_CLOTHING,
+              ItemPool.get(ItemPool.GRUBBY_WOOL),
+              "_grubbyWoolDrops"));
+    }
+
+    @ParameterizedTest
+    @MethodSource("infiniteDropFamiliars")
+    public void propertyTracksDrops(int familiar, AdventureResult drop, String preference) {
+      var cleanups = new Cleanups(withFamiliar(familiar), withProperty(preference, 0));
+
+      try (cleanups) {
+        ResultProcessor.processResult(true, drop);
+
+        assertThat(preference, isSetTo(1));
       }
     }
   }

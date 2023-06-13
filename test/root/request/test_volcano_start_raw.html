@@ -1,0 +1,626 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script>		<style type="text/css">
+			#puzzle a { text-decoration: none; }
+			.sq { width: 30px; height: 30px; float: left; font-size: 11px; overflow: hidden; }
+			.lv1 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava1.gif'); }
+			.lv2 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava2.gif'); }
+			.lv3 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava3.gif'); }
+			.lv4 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava4.gif'); }
+			.lv5 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava5.gif'); }
+			.lv6 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava6.gif'); }
+			.lv7 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava7.gif'); }
+			.lv8 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava8.gif'); }
+			.lv9 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava9.gif'); }
+			.lv10 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava10.gif'); }
+			.lv11 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava11.gif'); }
+			.lv12 { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/lava12.gif'); }
+			.yes a { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/platform3.gif'); }
+			.sq a:link { color: #000; }
+			.sq a { display: block; height: 30px; width: 30px;}
+			#puzzle { width: 390px; height: 390px; background: #fff }
+			.goal { background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/platformgoal.gif'); }
+			.you { display: block; height: 30px; width: 30px; background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/platformupyou.gif');}
+			.lastyou { display: block; height: 30px; width: 30px; background: url('https://d2uyhvukfffg5a.cloudfront.net/itemimages/platformdownyou.gif');}
+		</style>
+		<script type="text/javascript">
+			var uhohs = 0;
+			function setTitle(div, title) {
+				var a = div.find('a');
+				var cur = a.attr('title');
+				a.attr('title', cur.replace(/- [^)]*\)/, '- '+title+')'));
+			}
+			$(document).ready(function () {
+				$('#puzzle, .no').click(function (e) {
+					if ($(e).hasClass('yes')) return false;
+					if (confirm('Swim back to the start?')) {
+						document.location = '?jump=1';
+					}
+					return false;
+				});
+				$('.sq a').click(function () {
+					var going = $(this).parent().attr('rel');
+					$.getJSON($(this).attr('href') + '&ajax=1', function (res) {
+						if (res) {
+							if (res.won) {
+								document.location = res.won;
+								return;
+							}
+							$('#you').remove();
+							$('.lastyou').removeClass('lastyou');
+							$('.you').removeClass('you').find('a').addClass('lastyou');
+							$('.sq').each(function () {
+								t = $(this);
+								if (t.hasClass('goal')) return true;
+								var bg = t.find('a').css('background');
+								t.removeClass('yes');
+								if (bg && bg.match(/platformup[0-9]/) && t.attr('rel') != res.pos) {
+									t.find('a').css('background','url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/platformdown'+Math.floor((Math.random() * 4) +1)+'.gif?foo='+1+'")');
+								}
+								else t.find('a').css('background','');
+								if (!t.hasClass('no')) { t.addClass('no'); setTitle(t, 'Lava'); }
+								if (t.attr('rel') == res.pos) {
+									t.removeClass('no').addClass('you');
+									setTitle(t, 'You');
+								}
+							});
+							for (i in res.show) {
+								if (!res.show.hasOwnProperty(i)) continue;
+								var sq = $('#sq'+res.show[i]);
+								if (sq.hasClass('goal')) continue;
+								sq.removeClass('no')
+								if (!sq.hasClass('you')) {	
+									sq.addClass('yes').find('a').css('background','url("https://d2uyhvukfffg5a.cloudfront.net/itemimages/platformup'+Math.floor((Math.random() * 4) +1)+'.gif?foo='+1+'")');
+									setTitle(sq, 'Platform');
+								}
+							}
+						}
+						else {
+							uhohs++;
+							if (uhohs > 3) {
+								document.location = '?';
+								return;
+							}
+							//alert('There doesn\'t seem to be a platform there.');
+						}
+					});
+					return false;
+				});
+			});
+		</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20151006.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>A Volcanic Cave</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td>		<center><div id="puzzle">
+			<div>				<div id="sq0" class="sq no  lv2" rel="0,0">
+				<a href="?move=0,0" title="(0,0 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq1" class="sq no  lv1" rel="1,0">
+				<a href="?move=1,0" title="(1,0 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq2" class="sq no  lv2" rel="2,0">
+				<a href="?move=2,0" title="(2,0 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq3" class="sq yes  lv3" rel="3,0">
+				<a href="?move=3,0" title="(3,0 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq4" class="sq no  lv1" rel="4,0">
+				<a href="?move=4,0" title="(4,0 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq5" class="sq yes  lv3" rel="5,0">
+				<a href="?move=5,0" title="(5,0 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq6" class="sq no  lv3" rel="6,0">
+				<a href="?move=6,0" title="(6,0 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq7" class="sq no  lv1" rel="7,0">
+				<a href="?move=7,0" title="(7,0 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq8" class="sq yes  lv2" rel="8,0">
+				<a href="?move=8,0" title="(8,0 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq9" class="sq no  lv3" rel="9,0">
+				<a href="?move=9,0" title="(9,0 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq10" class="sq no  lv2" rel="10,0">
+				<a href="?move=10,0" title="(10,0 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq11" class="sq no  lv3" rel="11,0">
+				<a href="?move=11,0" title="(11,0 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq12" class="sq yes  lv6" rel="12,0">
+				<a href="?move=12,0" title="(12,0 - Platform)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq13" class="sq no  lv1" rel="0,1">
+				<a href="?move=0,1" title="(0,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq14" class="sq no  lv4" rel="1,1">
+				<a href="?move=1,1" title="(1,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq15" class="sq no  lv3" rel="2,1">
+				<a href="?move=2,1" title="(2,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq16" class="sq no  lv2" rel="3,1">
+				<a href="?move=3,1" title="(3,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq17" class="sq yes  lv3" rel="4,1">
+				<a href="?move=4,1" title="(4,1 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq18" class="sq no  lv1" rel="5,1">
+				<a href="?move=5,1" title="(5,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq19" class="sq no  lv1" rel="6,1">
+				<a href="?move=6,1" title="(6,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq20" class="sq no  lv4" rel="7,1">
+				<a href="?move=7,1" title="(7,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq21" class="sq no  lv1" rel="8,1">
+				<a href="?move=8,1" title="(8,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq22" class="sq no  lv1" rel="9,1">
+				<a href="?move=9,1" title="(9,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq23" class="sq no  lv3" rel="10,1">
+				<a href="?move=10,1" title="(10,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq24" class="sq no  lv2" rel="11,1">
+				<a href="?move=11,1" title="(11,1 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq25" class="sq no  lv8" rel="12,1">
+				<a href="?move=12,1" title="(12,1 - Lava)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq26" class="sq no  lv2" rel="0,2">
+				<a href="?move=0,2" title="(0,2 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq27" class="sq yes  lv3" rel="1,2">
+				<a href="?move=1,2" title="(1,2 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq28" class="sq no  lv4" rel="2,2">
+				<a href="?move=2,2" title="(2,2 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq29" class="sq no  lv4" rel="3,2">
+				<a href="?move=3,2" title="(3,2 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq30" class="sq no  lv4" rel="4,2">
+				<a href="?move=4,2" title="(4,2 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq31" class="sq no  lv2" rel="5,2">
+				<a href="?move=5,2" title="(5,2 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq32" class="sq no  lv1" rel="6,2">
+				<a href="?move=6,2" title="(6,2 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq33" class="sq yes  lv2" rel="7,2">
+				<a href="?move=7,2" title="(7,2 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq34" class="sq no  lv3" rel="8,2">
+				<a href="?move=8,2" title="(8,2 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq35" class="sq no  lv2" rel="9,2">
+				<a href="?move=9,2" title="(9,2 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq36" class="sq no  lv4" rel="10,2">
+				<a href="?move=10,2" title="(10,2 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq37" class="sq yes  lv1" rel="11,2">
+				<a href="?move=11,2" title="(11,2 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq38" class="sq no  lv9" rel="12,2">
+				<a href="?move=12,2" title="(12,2 - Lava)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq39" class="sq yes  lv5" rel="0,3">
+				<a href="?move=0,3" title="(0,3 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq40" class="sq no  lv3" rel="1,3">
+				<a href="?move=1,3" title="(1,3 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq41" class="sq no  lv4" rel="2,3">
+				<a href="?move=2,3" title="(2,3 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq42" class="sq no  lv4" rel="3,3">
+				<a href="?move=3,3" title="(3,3 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq43" class="sq no  lv3" rel="4,3">
+				<a href="?move=4,3" title="(4,3 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq44" class="sq no  lv1" rel="5,3">
+				<a href="?move=5,3" title="(5,3 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq45" class="sq yes  lv2" rel="6,3">
+				<a href="?move=6,3" title="(6,3 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq46" class="sq no  lv3" rel="7,3">
+				<a href="?move=7,3" title="(7,3 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq47" class="sq no  lv4" rel="8,3">
+				<a href="?move=8,3" title="(8,3 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq48" class="sq no  lv3" rel="9,3">
+				<a href="?move=9,3" title="(9,3 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq49" class="sq no  lv1" rel="10,3">
+				<a href="?move=10,3" title="(10,3 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq50" class="sq no  lv11" rel="11,3">
+				<a href="?move=11,3" title="(11,3 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq51" class="sq no  lv3" rel="12,3">
+				<a href="?move=12,3" title="(12,3 - Lava)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq52" class="sq no  lv3" rel="0,4">
+				<a href="?move=0,4" title="(0,4 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq53" class="sq no  lv2" rel="1,4">
+				<a href="?move=1,4" title="(1,4 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq54" class="sq yes  lv4" rel="2,4">
+				<a href="?move=2,4" title="(2,4 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq55" class="sq no  lv4" rel="3,4">
+				<a href="?move=3,4" title="(3,4 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq56" class="sq no  lv1" rel="4,4">
+				<a href="?move=4,4" title="(4,4 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq57" class="sq no  lv4" rel="5,4">
+				<a href="?move=5,4" title="(5,4 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq58" class="sq no  lv2" rel="6,4">
+				<a href="?move=6,4" title="(6,4 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq59" class="sq no  lv3" rel="7,4">
+				<a href="?move=7,4" title="(7,4 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq60" class="sq no  lv3" rel="8,4">
+				<a href="?move=8,4" title="(8,4 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq61" class="sq no  lv2" rel="9,4">
+				<a href="?move=9,4" title="(9,4 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq62" class="sq no  lv2" rel="10,4">
+				<a href="?move=10,4" title="(10,4 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq63" class="sq yes  lv3" rel="11,4">
+				<a href="?move=11,4" title="(11,4 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq64" class="sq no  lv4" rel="12,4">
+				<a href="?move=12,4" title="(12,4 - Lava)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq65" class="sq no  lv4" rel="0,5">
+				<a href="?move=0,5" title="(0,5 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq66" class="sq no  lv3" rel="1,5">
+				<a href="?move=1,5" title="(1,5 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq67" class="sq no  lv3" rel="2,5">
+				<a href="?move=2,5" title="(2,5 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq68" class="sq no  lv4" rel="3,5">
+				<a href="?move=3,5" title="(3,5 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq69" class="sq no  lv1" rel="4,5">
+				<a href="?move=4,5" title="(4,5 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq70" class="sq no  lv3" rel="5,5">
+				<a href="?move=5,5" title="(5,5 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq71" class="sq no  lv3" rel="6,5">
+				<a href="?move=6,5" title="(6,5 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq72" class="sq no  lv2" rel="7,5">
+				<a href="?move=7,5" title="(7,5 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq73" class="sq no  lv2" rel="8,5">
+				<a href="?move=8,5" title="(8,5 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq74" class="sq yes  lv2" rel="9,5">
+				<a href="?move=9,5" title="(9,5 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq75" class="sq no  lv1" rel="10,5">
+				<a href="?move=10,5" title="(10,5 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq76" class="sq yes  lv1" rel="11,5">
+				<a href="?move=11,5" title="(11,5 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq77" class="sq no  lv2" rel="12,5">
+				<a href="?move=12,5" title="(12,5 - Lava)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq78" class="sq no  lv1" rel="0,6">
+				<a href="?move=0,6" title="(0,6 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq79" class="sq no  lv4" rel="1,6">
+				<a href="?move=1,6" title="(1,6 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq80" class="sq no  lv2" rel="2,6">
+				<a href="?move=2,6" title="(2,6 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq81" class="sq no  lv4" rel="3,6">
+				<a href="?move=3,6" title="(3,6 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq82" class="sq yes  lv4" rel="4,6">
+				<a href="?move=4,6" title="(4,6 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq83" class="sq yes  lv4" rel="5,6">
+				<a href="?move=5,6" title="(5,6 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq84" class="sq no  goal lv2" rel="6,6">
+				<a href="?move=6,6" title="(6,6 - Goal)">&nbsp;</a>
+														</div>
+							<div id="sq85" class="sq no  lv4" rel="7,6">
+				<a href="?move=7,6" title="(7,6 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq86" class="sq no  lv2" rel="8,6">
+				<a href="?move=8,6" title="(8,6 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq87" class="sq no  lv3" rel="9,6">
+				<a href="?move=9,6" title="(9,6 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq88" class="sq no  lv2" rel="10,6">
+				<a href="?move=10,6" title="(10,6 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq89" class="sq no  lv2" rel="11,6">
+				<a href="?move=11,6" title="(11,6 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq90" class="sq yes  lv3" rel="12,6">
+				<a href="?move=12,6" title="(12,6 - Platform)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq91" class="sq no  lv2" rel="0,7">
+				<a href="?move=0,7" title="(0,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq92" class="sq no  lv1" rel="1,7">
+				<a href="?move=1,7" title="(1,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq93" class="sq no  lv3" rel="2,7">
+				<a href="?move=2,7" title="(2,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq94" class="sq no  lv2" rel="3,7">
+				<a href="?move=3,7" title="(3,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq95" class="sq no  lv3" rel="4,7">
+				<a href="?move=4,7" title="(4,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq96" class="sq no  lv4" rel="5,7">
+				<a href="?move=5,7" title="(5,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq97" class="sq no  lv1" rel="6,7">
+				<a href="?move=6,7" title="(6,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq98" class="sq yes  lv4" rel="7,7">
+				<a href="?move=7,7" title="(7,7 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq99" class="sq no  lv1" rel="8,7">
+				<a href="?move=8,7" title="(8,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq100" class="sq no  lv1" rel="9,7">
+				<a href="?move=9,7" title="(9,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq101" class="sq no  lv3" rel="10,7">
+				<a href="?move=10,7" title="(10,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq102" class="sq no  lv3" rel="11,7">
+				<a href="?move=11,7" title="(11,7 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq103" class="sq no  lv1" rel="12,7">
+				<a href="?move=12,7" title="(12,7 - Lava)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq104" class="sq yes  lv1" rel="0,8">
+				<a href="?move=0,8" title="(0,8 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq105" class="sq no  lv3" rel="1,8">
+				<a href="?move=1,8" title="(1,8 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq106" class="sq no  lv1" rel="2,8">
+				<a href="?move=2,8" title="(2,8 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq107" class="sq yes  lv3" rel="3,8">
+				<a href="?move=3,8" title="(3,8 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq108" class="sq yes  lv12" rel="4,8">
+				<a href="?move=4,8" title="(4,8 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq109" class="sq no  lv4" rel="5,8">
+				<a href="?move=5,8" title="(5,8 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq110" class="sq no  lv2" rel="6,8">
+				<a href="?move=6,8" title="(6,8 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq111" class="sq no  lv4" rel="7,8">
+				<a href="?move=7,8" title="(7,8 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq112" class="sq no  lv2" rel="8,8">
+				<a href="?move=8,8" title="(8,8 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq113" class="sq yes  lv1" rel="9,8">
+				<a href="?move=9,8" title="(9,8 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq114" class="sq no  lv3" rel="10,8">
+				<a href="?move=10,8" title="(10,8 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq115" class="sq no  lv3" rel="11,8">
+				<a href="?move=11,8" title="(11,8 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq116" class="sq no  lv3" rel="12,8">
+				<a href="?move=12,8" title="(12,8 - Lava)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq117" class="sq no  lv1" rel="0,9">
+				<a href="?move=0,9" title="(0,9 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq118" class="sq no  lv3" rel="1,9">
+				<a href="?move=1,9" title="(1,9 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq119" class="sq yes  lv3" rel="2,9">
+				<a href="?move=2,9" title="(2,9 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq120" class="sq no  lv1" rel="3,9">
+				<a href="?move=3,9" title="(3,9 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq121" class="sq no  lv1" rel="4,9">
+				<a href="?move=4,9" title="(4,9 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq122" class="sq no  lv3" rel="5,9">
+				<a href="?move=5,9" title="(5,9 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq123" class="sq no  lv1" rel="6,9">
+				<a href="?move=6,9" title="(6,9 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq124" class="sq no  lv4" rel="7,9">
+				<a href="?move=7,9" title="(7,9 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq125" class="sq yes  lv10" rel="8,9">
+				<a href="?move=8,9" title="(8,9 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq126" class="sq no  lv3" rel="9,9">
+				<a href="?move=9,9" title="(9,9 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq127" class="sq no  lv3" rel="10,9">
+				<a href="?move=10,9" title="(10,9 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq128" class="sq yes  lv1" rel="11,9">
+				<a href="?move=11,9" title="(11,9 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq129" class="sq no  lv4" rel="12,9">
+				<a href="?move=12,9" title="(12,9 - Lava)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq130" class="sq no  lv2" rel="0,10">
+				<a href="?move=0,10" title="(0,10 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq131" class="sq no  lv1" rel="1,10">
+				<a href="?move=1,10" title="(1,10 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq132" class="sq no  lv3" rel="2,10">
+				<a href="?move=2,10" title="(2,10 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq133" class="sq no  lv3" rel="3,10">
+				<a href="?move=3,10" title="(3,10 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq134" class="sq yes  lv3" rel="4,10">
+				<a href="?move=4,10" title="(4,10 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq135" class="sq yes  lv4" rel="5,10">
+				<a href="?move=5,10" title="(5,10 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq136" class="sq no  lv7" rel="6,10">
+				<a href="?move=6,10" title="(6,10 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq137" class="sq no  lv4" rel="7,10">
+				<a href="?move=7,10" title="(7,10 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq138" class="sq no  lv1" rel="8,10">
+				<a href="?move=8,10" title="(8,10 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq139" class="sq yes  lv4" rel="9,10">
+				<a href="?move=9,10" title="(9,10 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq140" class="sq no  lv3" rel="10,10">
+				<a href="?move=10,10" title="(10,10 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq141" class="sq yes  lv4" rel="11,10">
+				<a href="?move=11,10" title="(11,10 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq142" class="sq no  lv1" rel="12,10">
+				<a href="?move=12,10" title="(12,10 - Lava)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq143" class="sq no  lv2" rel="0,11">
+				<a href="?move=0,11" title="(0,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq144" class="sq no  lv2" rel="1,11">
+				<a href="?move=1,11" title="(1,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq145" class="sq no  lv1" rel="2,11">
+				<a href="?move=2,11" title="(2,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq146" class="sq no  lv1" rel="3,11">
+				<a href="?move=3,11" title="(3,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq147" class="sq no  lv4" rel="4,11">
+				<a href="?move=4,11" title="(4,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq148" class="sq no  lv1" rel="5,11">
+				<a href="?move=5,11" title="(5,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq149" class="sq no  lv4" rel="6,11">
+				<a href="?move=6,11" title="(6,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq150" class="sq no  lv2" rel="7,11">
+				<a href="?move=7,11" title="(7,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq151" class="sq no  lv1" rel="8,11">
+				<a href="?move=8,11" title="(8,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq152" class="sq no  lv1" rel="9,11">
+				<a href="?move=9,11" title="(9,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq153" class="sq no  lv3" rel="10,11">
+				<a href="?move=10,11" title="(10,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq154" class="sq no  lv4" rel="11,11">
+				<a href="?move=11,11" title="(11,11 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq155" class="sq yes  lv2" rel="12,11">
+				<a href="?move=12,11" title="(12,11 - Platform)">&nbsp;</a>
+														</div>
+			</div><div>				<div id="sq156" class="sq no  lv2" rel="0,12">
+				<a href="?move=0,12" title="(0,12 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq157" class="sq no  lv3" rel="1,12">
+				<a href="?move=1,12" title="(1,12 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq158" class="sq yes  lv3" rel="2,12">
+				<a href="?move=2,12" title="(2,12 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq159" class="sq no  lv3" rel="3,12">
+				<a href="?move=3,12" title="(3,12 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq160" class="sq no  lv3" rel="4,12">
+				<a href="?move=4,12" title="(4,12 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq161" class="sq yes  lv1" rel="5,12">
+				<a href="?move=5,12" title="(5,12 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq162" class="sq no you lv2" rel="6,12">
+				<a href="?move=6,12" title="(6,12 - You)">&nbsp;</a>
+					<div id="you">YOU</div>									</div>
+							<div id="sq163" class="sq yes  lv4" rel="7,12">
+				<a href="?move=7,12" title="(7,12 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq164" class="sq no  lv4" rel="8,12">
+				<a href="?move=8,12" title="(8,12 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq165" class="sq yes  lv1" rel="9,12">
+				<a href="?move=9,12" title="(9,12 - Platform)">&nbsp;</a>
+														</div>
+							<div id="sq166" class="sq no  lv4" rel="10,12">
+				<a href="?move=10,12" title="(10,12 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq167" class="sq no  lv1" rel="11,12">
+				<a href="?move=11,12" title="(11,12 - Lava)">&nbsp;</a>
+														</div>
+							<div id="sq168" class="sq no  lv2" rel="12,12">
+				<a href="?move=12,12" title="(12,12 - Lava)">&nbsp;</a>
+														</div>
+			</div>		</div>
+		<p>(Instructions:  Click adjacent rocks to make your way to the goal.)</p>
+		<center>
+		<form method="get"><input type="hidden" name="jump" value="1"/><input type="submit" class="button" value="Swim Back to Shore" /></form>
+		
+				</center>
+		</td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center></body></html>

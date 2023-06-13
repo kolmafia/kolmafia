@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ArcadeRequest extends GenericRequest {
@@ -98,9 +97,6 @@ public class ArcadeRequest extends GenericRequest {
     if (action.equals("arcade_plumber")) {
       // We visited Jackass Plumber for the day
       Preferences.setBoolean("_defectiveTokenChecked", true);
-      if (responseText.contains("defective Game Grid token")) {
-        InputFieldUtilities.alert("You found a defective Game Grid token!");
-      }
       return;
     }
   }
@@ -179,46 +175,45 @@ public class ArcadeRequest extends GenericRequest {
 
   public static final boolean arcadeChoice(final int choice) {
     // Do not look for "Encounters" inside arcade choices
-    switch (choice) {
-      case 460:
-      case 461:
-      case 462:
-      case 463:
-      case 464:
-      case 465:
-      case 467:
-      case 468:
-      case 469:
-      case 470:
-      case 472:
-      case 473:
-      case 474:
-      case 475:
-      case 476:
-      case 477:
-      case 478:
-      case 479:
-      case 480:
-      case 481:
-      case 482:
-      case 483:
-      case 484:
-        // Space Trip
-      case 471:
-        // DemonStar
-      case 485:
-        // Fighters Of Fighting
-      case 486:
-        // Dungeon Fist!
-      case 488:
-      case 489:
-      case 490:
-      case 491:
-        // Meteoid
-        return true;
-    }
-
-    return false;
+    return switch (choice) {
+      case
+          // Space Trip
+          460,
+          461,
+          462,
+          463,
+          464,
+          465,
+          467,
+          468,
+          469,
+          470,
+          472,
+          473,
+          474,
+          475,
+          476,
+          477,
+          478,
+          479,
+          480,
+          481,
+          482,
+          483,
+          484,
+          // DemonStar
+          471,
+          // Fighters Of Fighting
+          485,
+          // Dungeon Fist!
+          486,
+          // Meteoid
+          488,
+          489,
+          490,
+          491 -> true;
+      default -> false;
+    };
   }
 
   /*

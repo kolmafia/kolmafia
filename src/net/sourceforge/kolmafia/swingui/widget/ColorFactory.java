@@ -11,7 +11,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public final class ColorFactory {
-  private static final HashMap<String, String> colorPrefMap = new HashMap<String, String>();
+  private static final HashMap<String, String> colorPrefMap = new HashMap<>();
 
   static {
     String rawPref = Preferences.getString("textColors");

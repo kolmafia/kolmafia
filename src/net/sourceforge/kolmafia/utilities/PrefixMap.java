@@ -44,9 +44,11 @@ map.
 
 public class PrefixMap<T> extends TreeMap<String, T> {
   // Return values for getKeyType
-  public static final int NOT_A_KEY = 0;
-  public static final int EXACT_KEY = 1;
-  public static final int PREFIX_KEY = 2;
+  public enum KeyType {
+    NOT_A_KEY,
+    EXACT_KEY,
+    PREFIX_KEY
+  }
 
   private static final String EXACT_SUFFIX = "\u0000";
   private static final String PREFIX_SUFFIX = "\uFFFF";
@@ -91,14 +93,14 @@ public class PrefixMap<T> extends TreeMap<String, T> {
     return super.remove(key);
   }
 
-  public int getKeyType(String key) {
+  public KeyType getKeyType(String key) {
     if (key.endsWith(EXACT_SUFFIX) || key.endsWith(PREFIX_SUFFIX)) {
-      return NOT_A_KEY;
+      return KeyType.NOT_A_KEY;
     }
     if (super.containsKey(key + EXACT_SUFFIX)) {
-      return EXACT_KEY;
+      return KeyType.EXACT_KEY;
     }
-    return PREFIX_KEY;
+    return KeyType.PREFIX_KEY;
   }
 
   // The following methods, inherited from TreeMap, should be safe to call

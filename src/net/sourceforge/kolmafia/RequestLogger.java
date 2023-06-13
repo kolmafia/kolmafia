@@ -463,6 +463,13 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    // grubby wool creation is an instance of choice.php
+    if ((isExternal || request instanceof GrubbyWoolRequest)
+        && GrubbyWoolRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     // The Clan Lounge Swimming Pool is an instance of choice.php
     if ((isExternal || request instanceof ClanLoungeSwimmingPoolRequest)
         && ClanLoungeSwimmingPoolRequest.registerRequest(urlString)) {
@@ -1234,6 +1241,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof MrStore2002Request)
+        && MrStore2002Request.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof MushroomRequest)
         && MushroomRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
@@ -1318,6 +1331,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof ReplicaMrStoreRequest)
+        && ReplicaMrStoreRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof RichardRequest)
         && RichardRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
@@ -1356,6 +1375,12 @@ public class RequestLogger extends NullStream {
 
     if ((isExternal || request instanceof SendMailRequest)
         && SendMailRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof ShadowForgeRequest)
+        && ShadowForgeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }

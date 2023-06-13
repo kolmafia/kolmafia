@@ -12,16 +12,18 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -29,11 +31,13 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -57,6 +61,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
 import net.sourceforge.kolmafia.request.LocketRequest;
+import net.sourceforge.kolmafia.request.MonkeyPawRequest;
 import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -68,7 +73,6 @@ import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
@@ -321,6 +325,14 @@ public abstract class ChoiceControl {
       case 1345:
         // Blech House
         Preferences.setInteger("smutOrcNoncombatProgress", 0);
+        break;
+
+      case 1500:
+        // Like a Loded Stone
+        if (ChoiceManager.lastDecision == 1) {
+          Preferences.setInteger("lastShadowForgeUnlockAdventure", KoLCharacter.getCurrentRun());
+          ConcoctionDatabase.refreshConcoctions();
+        }
         break;
     }
   }
@@ -959,7 +971,7 @@ public abstract class ChoiceControl {
         // Treat this is simply discarding the pants you are
         // wearing
         if (text.contains("oddly chilly")) {
-          EquipmentManager.discardEquipment(EquipmentManager.getEquipment(EquipmentManager.PANTS));
+          EquipmentManager.discardEquipment(EquipmentManager.getEquipment(Slot.PANTS));
           QuestDatabase.setQuestProgress(Quest.MOXIE, "step1");
         }
         break;
@@ -1152,6 +1164,15 @@ public abstract class ChoiceControl {
           Preferences.setInteger("twinPeakProgress", 15);
         }
         return;
+
+      case 627:
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+      case 633:
+        ChibiBuddyManager.postChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
+        break;
 
       case 669:
       case 670:
@@ -1454,8 +1475,7 @@ public abstract class ChoiceControl {
 
           if (text.contains("spreading weed seeds all over your skirt")) {
             EquipmentManager.discardEquipment(ItemPool.MUDDY_SKIRT);
-            EquipmentManager.setEquipment(
-                EquipmentManager.PANTS, ItemPool.get(ItemPool.WEEDY_SKIRT, 1));
+            EquipmentManager.setEquipment(Slot.PANTS, ItemPool.get(ItemPool.WEEDY_SKIRT, 1));
           }
         }
         return;
@@ -2213,8 +2233,8 @@ public abstract class ChoiceControl {
       case 994:
         // Hide a gift!
         if (text.contains("You hide")) {
-          HashMap<Integer, Integer> idMap = new HashMap<Integer, Integer>(3);
-          HashMap<Integer, Integer> qtyMap = new HashMap<Integer, Integer>(3);
+          HashMap<Integer, Integer> idMap = new HashMap<>(3);
+          HashMap<Integer, Integer> qtyMap = new HashMap<>(3);
           int index;
           int id;
           int giftQty;
@@ -3645,8 +3665,8 @@ public abstract class ChoiceControl {
                 break;
             }
             if (!songChosen.equals("")) {
-              if (!KoLCharacter.hasSkill("Sing Along")) {
-                KoLCharacter.addAvailableSkill("Sing Along");
+              if (!KoLCharacter.hasSkill(SkillPool.SING_ALONG)) {
+                KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
               }
               if (!Preferences.getString("boomBoxSong").equals(songChosen)) {
                 Preferences.setString("boomBoxSong", songChosen);
@@ -3656,8 +3676,8 @@ public abstract class ChoiceControl {
                 RequestLogger.updateSessionLog(message);
               }
             } else {
-              if (KoLCharacter.hasSkill("Sing Along")) {
-                KoLCharacter.removeAvailableSkill("Sing Along");
+              if (KoLCharacter.hasSkill(SkillPool.SING_ALONG)) {
+                KoLCharacter.removeAvailableSkill(SkillPool.SING_ALONG);
               }
               if (!Preferences.getString("boomBoxSong").equals("")) {
                 Preferences.setString("boomBoxSong", "");
@@ -3695,23 +3715,28 @@ public abstract class ChoiceControl {
               Preferences.setString("_questPartyFairProgress", "");
             } else {
               QuestDatabase.setQuestProgress(Quest.PARTY_FAIR, "step1");
-              if (quest.equals("woots")) {
-                Preferences.setInteger("_questPartyFairProgress", 10);
-              } else if (quest.equals("partiers")) {
-                if (hard) {
-                  Preferences.setInteger("_questPartyFairProgress", 100);
-                } else {
-                  Preferences.setInteger("_questPartyFairProgress", 50);
-                }
-              } else if (quest.equals("dj")) {
-                if (hard) {
-                  Preferences.setInteger("_questPartyFairProgress", 10000);
-                } else {
-                  Preferences.setInteger("_questPartyFairProgress", 5000);
-                }
-              } else if (quest.equals("trash")) {
-                // The amount isn't known, so check quest log
-                (new GenericRequest("questlog.php?which=1")).run();
+              switch (quest) {
+                case "woots":
+                  Preferences.setInteger("_questPartyFairProgress", 10);
+                  break;
+                case "partiers":
+                  if (hard) {
+                    Preferences.setInteger("_questPartyFairProgress", 100);
+                  } else {
+                    Preferences.setInteger("_questPartyFairProgress", 50);
+                  }
+                  break;
+                case "dj":
+                  if (hard) {
+                    Preferences.setInteger("_questPartyFairProgress", 10000);
+                  } else {
+                    Preferences.setInteger("_questPartyFairProgress", 5000);
+                  }
+                  break;
+                case "trash":
+                  // The amount isn't known, so check quest log
+                  (new GenericRequest("questlog.php?which=1")).run();
+                  break;
               }
             }
           } else if (ChoiceManager.lastDecision == 2) {
@@ -3865,8 +3890,8 @@ public abstract class ChoiceControl {
           while (matcher.find()) {
             int vote = StringUtilities.parseInt(matcher.group(1)) + 1;
             String pref = Preferences.getString("_voteLocal" + vote);
-            ModifierList addModList = Modifiers.splitModifiers(pref);
-            for (Modifier modifier : addModList) {
+            ModifierList addModList = ModifierDatabase.splitModifiers(pref);
+            for (ModifierValue modifier : addModList) {
               modList.addToModifier(modifier);
             }
           }
@@ -4046,7 +4071,7 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 5 && text.contains("You gain 500 gold")) {
           // Sell them the cursed compass
           // Remove from equipment (including checkpoints)
-          if (EquipmentManager.discardEquipment(ItemPool.CURSED_COMPASS) == -1) {
+          if (EquipmentManager.discardEquipment(ItemPool.CURSED_COMPASS) == Slot.NONE) {
             // Remove from inventory
             ResultProcessor.removeItem(ItemPool.CURSED_COMPASS);
           }
@@ -4629,7 +4654,7 @@ public abstract class ChoiceControl {
           Preferences.increment("sexChanges", 1);
           Preferences.setBoolean("_sexChanged", true);
           KoLCharacter.setGender(
-              text.contains("in more ways than one") ? KoLCharacter.FEMALE : KoLCharacter.MALE);
+              text.contains("in more ways than one") ? Gender.FEMALE : Gender.MALE);
           ConcoctionDatabase.setRefreshNeeded(false);
         }
         break;
@@ -5134,14 +5159,6 @@ public abstract class ChoiceControl {
             RequestLogger.printLine(message);
             RequestLogger.updateSessionLog(message);
           }
-        }
-        break;
-
-      case 633:
-        // ChibiBuddy&trade;
-        if (ChoiceManager.lastDecision == 1) {
-          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_OFF, -1);
-          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_ON, 1);
         }
         break;
 
@@ -5890,6 +5907,11 @@ public abstract class ChoiceControl {
         Preferences.setInteger("lttQuestStageCount", 0);
         break;
 
+      case 1180:
+        // Back to the East
+        handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
+
       case 1188: // The Call is Coming from Outside the Simulation
         if (ChoiceManager.lastDecision == 1) {
           // Skill learned
@@ -6216,10 +6238,13 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 1267: // Rubbed it the Right Way
-        String wish = request.getFormField("wish");
-        GenieRequest.postChoice(text, wish);
-        break;
+      case 1267:
+        // Rubbed it the Right Way
+        {
+          String wish = request.getFormField("wish");
+          GenieRequest.postChoice(text, wish);
+          break;
+        }
 
       case 1272:
         // R&D
@@ -6282,6 +6307,9 @@ public abstract class ChoiceControl {
           if (ChoiceManager.lastDecision == 7) {
             // *** No longer forces a semirare
           }
+          if (ChoiceManager.lastDecision == 3) {
+            Preferences.setBoolean("noncombatForcerActive", true);
+          }
         }
         break;
 
@@ -6294,7 +6322,7 @@ public abstract class ChoiceControl {
         // If you change the mode with the item equipped, you need to un-equip and re-equip it to
         // get the modifiers
         if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 3) {
-          for (int i : EquipmentManager.ACCESSORY_SLOTS) {
+          for (var i : SlotSet.ACCESSORY_SLOTS) {
             AdventureResult item = EquipmentManager.getEquipment(i);
             if (item != null && item.getItemId() == ItemPool.BACKUP_CAMERA) {
               RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, i));
@@ -6409,6 +6437,85 @@ public abstract class ChoiceControl {
           Preferences.setString("speakeasyName", name);
         }
         break;
+
+      case 1486: // Choose an Action During a Caboose Distraction
+        if (ChoiceManager.lastDecision == 2) {
+          Preferences.increment("elfGratitude", 3);
+        }
+        break;
+
+      case 1487: // A Passenger Among Passengers
+        Preferences.increment("elfGratitude", 5);
+        break;
+
+      case 1489: // Slagging Off
+        switch (ChoiceManager.lastDecision) {
+          case 1, 2 -> ResultProcessor.removeItem(ItemPool.CRIMBO_CRYSTAL_SHARDS);
+        }
+        break;
+
+      case 1490: // Woolin' Around
+        if (ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 6) {
+          // Exchanging for items
+          ResultProcessor.removeItem(ItemPool.GRUBBY_WOOL);
+        }
+        break;
+
+      case 1494: // Examine S.I.T. Course Certificate
+        switch (ChoiceManager.lastDecision) {
+          case 1 -> {
+            KoLCharacter.removeAvailableSkill(SkillPool.INSECTOLOGIST);
+            KoLCharacter.removeAvailableSkill(SkillPool.CRYPTOBOTANIST);
+            Preferences.setString("currentSITSkill", "Psychogeologist");
+          }
+          case 2 -> {
+            KoLCharacter.removeAvailableSkill(SkillPool.PSYCHOGEOLOGIST);
+            KoLCharacter.removeAvailableSkill(SkillPool.CRYPTOBOTANIST);
+            Preferences.setString("currentSITSkill", "Insectologist");
+          }
+          case 3 -> {
+            KoLCharacter.removeAvailableSkill(SkillPool.PSYCHOGEOLOGIST);
+            KoLCharacter.removeAvailableSkill(SkillPool.INSECTOLOGIST);
+            Preferences.setString("currentSITSkill", "Cryptobotanist");
+          }
+          default -> {
+            return;
+          }
+        }
+        // Since you can walk away from this choice, only set you
+        // actually selected a course.
+        Preferences.setBoolean("_sitCourseCompleted", true);
+        break;
+
+      case 1496:
+        // Out of the Shadows
+        handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
+
+      case 1497:
+        // Calling Rufus
+        RufusManager.parseCallResponse(text, ChoiceManager.lastDecision);
+        break;
+
+      case 1498:
+        // Calling Rufus Back
+        RufusManager.parseCallBackResponse(text, ChoiceManager.lastDecision);
+        break;
+
+      case 1500:
+        // Like a Loded Stone
+        if (ChoiceManager.lastDecision == 3) {
+          Preferences.setBoolean("_shadowForestLooted", true);
+        }
+        break;
+
+      case 1501:
+        // Make a Wish
+        {
+          String wish = request.getFormField("wish");
+          MonkeyPawRequest.postChoice(text, wish);
+          break;
+        }
     }
   }
 
@@ -6642,6 +6749,15 @@ public abstract class ChoiceControl {
 
       case 570:
         GameproManager.parseGameproMagazine(text);
+        break;
+
+      case 627:
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+      case 633:
+        ChibiBuddyManager.visit(ChoiceManager.lastChoice, text);
         break;
 
       case 641:
@@ -7421,78 +7537,43 @@ public abstract class ChoiceControl {
           Matcher matcher = capitalPattern.matcher(text);
           while (matcher.find()) {
             if (matcher.group(2).contains("Active") || matcher.group(2).contains("Connected")) {
-              if (matcher.group(1).equals("Super-Accurate Spy Watch")) {
-                bondAdv = true;
-              } else if (matcher.group(1).equals("Razor-Sharp Tie")) {
-                bondWpn = true;
-              } else if (matcher.group(1).equals("Jet-Powered Skis")) {
-                bondInit = true;
-              } else if (matcher.group(1).equals("Kevlar-Lined Pants")) {
-                bondDR = true;
-              } else if (matcher.group(1).equals("Injected Nanobots")) {
-                bondHP = true;
-              } else if (matcher.group(1).equals("Sticky Climbing Gloves")) {
-                bondItem2 = true;
-              } else if (matcher.group(1).equals("Retinal Knowledge HUD")) {
-                bondStat = true;
-              } else if (matcher.group(1).equals("Belt-Implanted Still")) {
-                bondDrunk1 = true;
-              } else if (matcher.group(1).equals("Alcohol Absorbent Underwear")) {
-                bondBooze = true;
-              } else if (matcher.group(1).equals("Universal Symbology Guide")) {
-                bondSymbols = true;
-              } else if (matcher.group(1).equals("Soberness Injection Pen")) {
-                bondDrunk2 = true;
-              } else if (matcher.group(1).equals("Short-Range Jetpack")) {
-                bondJetpack = true;
-              } else if (matcher.group(1).equals("Invisible Meat Car, the Vanish")) {
-                bondStealth = true;
-              } else if (matcher.group(1).equals("Portable Pocket Bridge")) {
-                bondBridge = true;
-              } else if (matcher.group(1).equals("Static-Inducing, Bug-Shorting Underpants")) {
-                bondMPregen = true;
-              } else if (matcher.group(1).equals("Exotic Bartender, Barry L. Eagle")) {
-                bondMartiniTurn = true;
-              } else if (matcher.group(1).equals("Renowned Meat Thief, Ivanna Cuddle")) {
-                bondMeat = true;
-              } else if (matcher.group(1).equals("Master Art Thief, Sly Richard")) {
-                bondItem1 = true;
-              } else if (matcher.group(1).equals("Personal Trainer, Debbie Dallas")) {
-                bondMus1 = true;
-              } else if (matcher.group(1).equals("Rocket Scientist, Crimbo Jones")) {
-                bondMys1 = true;
-              } else if (matcher.group(1).equals("Licensed Masseur, Oliver Closehoff")) {
-                bondMox1 = true;
-              } else if (matcher.group(1).equals("Professional Cabbie, Rock Hardy")) {
-                bondBeach = true;
-              } else if (matcher.group(1).equals("Fellow Spy, Daisy Duke")) {
-                bondBeat = true;
-              } else if (matcher.group(1).equals("Fellow Spy, Prince O'Toole")) {
-                bondMartiniDelivery = true;
-              } else if (matcher.group(1).equals("Personal Kinesiologist, Doctor Kittie")) {
-                bondMus2 = true;
-              } else if (matcher.group(1).equals("Computer Hacker, Mitt Jobs")) {
-                bondMys2 = true;
-              } else if (matcher.group(1).equals("Spa Owner, Fatima Jiggles")) {
-                bondMox2 = true;
-              } else if (matcher.group(1).equals("Exotic Olive Procurer, Ben Dover")) {
-                bondMartiniPlus = true;
-              } else if (matcher.group(1).equals("Trained Sniper, Felicity Snuggles")) {
-                bondWar = true;
-              } else if (matcher.group(1).equals("Martial Arts Trainer, Jaques Trappe")) {
-                bondWeapon2 = true;
-              } else if (matcher.group(1).equals("Electromagnetic Ring")) {
-                bondItem3 = true;
-              } else if (matcher.group(1).equals("Robo-Spleen")) {
-                bondSpleen = true;
-              } else if (matcher.group(1).equals("Universal GPS")) {
-                bondDesert = true;
-              } else if (matcher.group(1).equals("Mission Controller, Maeby Moneypenny")) {
-                bondStealth2 = true;
-              } else if (matcher.group(1).equals("Sage Advisor, London McBrittishman")) {
-                bondStat2 = true;
-              } else if (matcher.group(1).equals("True Love, Honey Potts")) {
-                bondHoney = true;
+              switch (matcher.group(1)) {
+                case "Super-Accurate Spy Watch" -> bondAdv = true;
+                case "Razor-Sharp Tie" -> bondWpn = true;
+                case "Jet-Powered Skis" -> bondInit = true;
+                case "Kevlar-Lined Pants" -> bondDR = true;
+                case "Injected Nanobots" -> bondHP = true;
+                case "Sticky Climbing Gloves" -> bondItem2 = true;
+                case "Retinal Knowledge HUD" -> bondStat = true;
+                case "Belt-Implanted Still" -> bondDrunk1 = true;
+                case "Alcohol Absorbent Underwear" -> bondBooze = true;
+                case "Universal Symbology Guide" -> bondSymbols = true;
+                case "Soberness Injection Pen" -> bondDrunk2 = true;
+                case "Short-Range Jetpack" -> bondJetpack = true;
+                case "Invisible Meat Car, the Vanish" -> bondStealth = true;
+                case "Portable Pocket Bridge" -> bondBridge = true;
+                case "Static-Inducing, Bug-Shorting Underpants" -> bondMPregen = true;
+                case "Exotic Bartender, Barry L. Eagle" -> bondMartiniTurn = true;
+                case "Renowned Meat Thief, Ivanna Cuddle" -> bondMeat = true;
+                case "Master Art Thief, Sly Richard" -> bondItem1 = true;
+                case "Personal Trainer, Debbie Dallas" -> bondMus1 = true;
+                case "Rocket Scientist, Crimbo Jones" -> bondMys1 = true;
+                case "Licensed Masseur, Oliver Closehoff" -> bondMox1 = true;
+                case "Professional Cabbie, Rock Hardy" -> bondBeach = true;
+                case "Fellow Spy, Daisy Duke" -> bondBeat = true;
+                case "Fellow Spy, Prince O'Toole" -> bondMartiniDelivery = true;
+                case "Personal Kinesiologist, Doctor Kittie" -> bondMus2 = true;
+                case "Computer Hacker, Mitt Jobs" -> bondMys2 = true;
+                case "Spa Owner, Fatima Jiggles" -> bondMox2 = true;
+                case "Exotic Olive Procurer, Ben Dover" -> bondMartiniPlus = true;
+                case "Trained Sniper, Felicity Snuggles" -> bondWar = true;
+                case "Martial Arts Trainer, Jaques Trappe" -> bondWeapon2 = true;
+                case "Electromagnetic Ring" -> bondItem3 = true;
+                case "Robo-Spleen" -> bondSpleen = true;
+                case "Universal GPS" -> bondDesert = true;
+                case "Mission Controller, Maeby Moneypenny" -> bondStealth2 = true;
+                case "Sage Advisor, London McBrittishman" -> bondStat2 = true;
+                case "True Love, Honey Potts" -> bondHoney = true;
               }
             }
           }
@@ -7705,7 +7786,7 @@ public abstract class ChoiceControl {
           Matcher localMatcher = VOTE_PATTERN.matcher(text);
           while (localMatcher.find()) {
             int voteValue = StringUtilities.parseInt(localMatcher.group(1)) + 1;
-            String voteMod = Modifiers.parseModifier(localMatcher.group(3));
+            String voteMod = ModifierDatabase.parseModifier(localMatcher.group(3));
             if (voteMod != null) {
               Preferences.setString("_voteLocal" + voteValue, voteMod);
             }
@@ -7837,12 +7918,10 @@ public abstract class ChoiceControl {
           while (matcher.find()) {
             String costume = matcher.group(2);
             cost = StringUtilities.parseInt(matcher.group(3));
-            if (costume.equals("Carpenter")) {
-              carpenter = true;
-            } else if (costume.equals("Gardener")) {
-              gardener = true;
-            } else if (costume.equals("Ballerina")) {
-              ballerina = true;
+            switch (costume) {
+              case "Carpenter" -> carpenter = true;
+              case "Gardener" -> gardener = true;
+              case "Ballerina" -> ballerina = true;
             }
           }
           String wearing =
@@ -8086,6 +8165,38 @@ public abstract class ChoiceControl {
           Preferences.setString("speakeasyName", matcher.group(1));
         }
         break;
+      case 1485: // Play with your train
+        CampgroundRequest.setCurrentWorkshedItem(ItemPool.MODEL_TRAIN_SET);
+        TrainsetManager.visitChoice(text);
+        break;
+      case 1491: // Strange Stalagmite(s)
+        Preferences.setBoolean("_strangeStalagmiteUsed", true);
+        break;
+
+      case 1497:
+        // Calling Rufus
+        RufusManager.parseCall(text);
+        break;
+
+      case 1498:
+        // Calling Rufus Back
+        RufusManager.parseCallBack(text);
+        break;
+
+      case 1499:
+        // The Shadow Labyrinth
+        RufusManager.handleShadowRiftNC(1499, text);
+        break;
+
+      case 1500:
+        // Like a Loded Stone
+        RufusManager.handleShadowRiftNC(1500, text);
+        break;
+
+      case 1501:
+        // Make a Wish
+        MonkeyPawRequest.visitChoice(text);
+        break;
     }
   }
 
@@ -8159,65 +8270,59 @@ public abstract class ChoiceControl {
     if (decisionText == null) {
       return 0;
     }
-    if (decisionText.equals("Ask the Question")
-        || decisionText.equals("Talk to the Ghosts")
-        || decisionText.equals("I Wanna Know What Love Is")
-        || decisionText.equals("Tap Him on the Back")
-        || decisionText.equals("Avert Your Eyes")
-        || decisionText.equals("Approach a Raider")
-        || decisionText.equals("Approach the Argument")
-        || decisionText.equals("Approach the Ghost")
-        || decisionText.equals("Approach the Accountant Ghost")
-        || decisionText.equals("Ask if He's Lost")) {
-      return 1;
-    } else if (decisionText.equals("Enter the Crypt")
-        || decisionText.equals("Try to Talk Some Sense into Them")
-        || decisionText.equals("Put Your Two Cents In")
-        || decisionText.equals("Talk to the Ghost")
-        || decisionText.equals("Tell Them What Werewolves Are")
-        || decisionText.equals("Scream in Terror")
-        || decisionText.equals("Check out the Duel")
-        || decisionText.equals("Watch the Fight")
-        || decisionText.equals("Approach and Reproach")
-        || decisionText.equals("Talk Back to the Robot")) {
-      return 2;
-    } else if (decisionText.equals("Go down the Steps")
-        || decisionText.equals("Make a Suggestion")
-        || decisionText.equals("Tell Them About True Love")
-        || decisionText.equals("Scold the Ghost")
-        || decisionText.equals("Examine the Pipe")
-        || decisionText.equals("Say What?")
-        || decisionText.equals("Listen to the Lesson")
-        || decisionText.equals("Listen in on the Discussion")
-        || decisionText.equals("Point out the Malefactors")
-        || decisionText.equals("Ask for Information")) {
-      return 3;
-    } else if (decisionText.equals("Hurl Some Spells of Your Own")
-        || decisionText.equals("Take Command")
-        || decisionText.equals("Lose Your Patience")
-        || decisionText.equals("Fail to Stifle a Sneeze")
-        || decisionText.equals("Ask for Help")
-        || decisionText.equals(
-            "Ask How Duskwalker Basketball Is Played, Against Your Better Judgment")
-        || decisionText.equals("Knights in White Armor, Never Reaching an End")
-        || decisionText.equals("Own up to It")
-        || decisionText.equals("Approach the Poor Waifs")
-        || decisionText.equals("Look Behind You")) {
-      return 4;
-    } else if (decisionText.equals("Read the Book")
-        || decisionText.equals("Join the Conversation")
-        || decisionText.equals("Speak of the Pompatus of Love")
-        || decisionText.equals("Ask What's Going On")
-        || decisionText.equals("Interrupt the Rally")
-        || decisionText.equals("Ask What She's Doing Up There")
-        || decisionText.equals("Point Out an Unfortunate Fact")
-        || decisionText.equals("Try to Talk Sense")
-        || decisionText.equals("Ask for Directional Guidance")
-        || decisionText.equals("What?")) {
-      return 5;
-    }
-
-    return 0;
+    return switch (decisionText) {
+      case "Ask the Question",
+          "Talk to the Ghosts",
+          "I Wanna Know What Love Is",
+          "Tap Him on the Back",
+          "Avert Your Eyes",
+          "Approach a Raider",
+          "Approach the Argument",
+          "Approach the Ghost",
+          "Approach the Accountant Ghost",
+          "Ask if He's Lost" -> 1;
+      case "Enter the Crypt",
+          "Try to Talk Some Sense into Them",
+          "Put Your Two Cents In",
+          "Talk to the Ghost",
+          "Tell Them What Werewolves Are",
+          "Scream in Terror",
+          "Check out the Duel",
+          "Watch the Fight",
+          "Approach and Reproach",
+          "Talk Back to the Robot" -> 2;
+      case "Go down the Steps",
+          "Make a Suggestion",
+          "Tell Them About True Love",
+          "Scold the Ghost",
+          "Examine the Pipe",
+          "Say What?",
+          "Listen to the Lesson",
+          "Listen in on the Discussion",
+          "Point out the Malefactors",
+          "Ask for Information" -> 3;
+      case "Hurl Some Spells of Your Own",
+          "Take Command",
+          "Lose Your Patience",
+          "Fail to Stifle a Sneeze",
+          "Ask for Help",
+          "Ask How Duskwalker Basketball Is Played, Against Your Better Judgment",
+          "Knights in White Armor, Never Reaching an End",
+          "Own up to It",
+          "Approach the Poor Waifs",
+          "Look Behind You" -> 4;
+      case "Read the Book",
+          "Join the Conversation",
+          "Speak of the Pompatus of Love",
+          "Ask What's Going On",
+          "Interrupt the Rally",
+          "Ask What She's Doing Up There",
+          "Point Out an Unfortunate Fact",
+          "Try to Talk Sense",
+          "Ask for Directional Guidance",
+          "What?" -> 5;
+      default -> 0;
+    };
   }
 
   private static void checkGuyMadeOfBees(final GenericRequest request) {
@@ -8631,11 +8736,11 @@ public abstract class ChoiceControl {
 
       ++explorations;
       AdventureResult item = ItemPool.get(ItemPool.GATORSKIN_UMBRELLA, 1);
-      int slot = EquipmentManager.WEAPON;
-      if (KoLCharacter.hasEquipped(item, EquipmentManager.WEAPON)) {
-        slot = EquipmentManager.WEAPON;
-      } else if (KoLCharacter.hasEquipped(item, EquipmentManager.OFFHAND)) {
-        slot = EquipmentManager.OFFHAND;
+      Slot slot = Slot.WEAPON;
+      if (KoLCharacter.hasEquipped(item, Slot.WEAPON)) {
+        slot = Slot.WEAPON;
+      } else if (KoLCharacter.hasEquipped(item, Slot.OFFHAND)) {
+        slot = Slot.OFFHAND;
       }
 
       EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
@@ -8709,7 +8814,8 @@ public abstract class ChoiceControl {
     // If we have spoilers for this choice, use that
     Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, null);
     if (spoilers != null) {
-      Option spoiler = ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
+      ChoiceOption spoiler =
+          ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
       if (spoiler != null) {
         return spoiler.toString();
       }
@@ -8924,7 +9030,7 @@ public abstract class ChoiceControl {
             String desc = ChoiceManager.choiceDescription(choice, decision);
             RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
             if (desc != null && !desc.equals("Decide Later")) {
-              Preferences.setString("_LastPirateRealmIsland", desc);
+              Preferences.setString("_lastPirateRealmIsland", desc);
             }
             return true;
           }
@@ -9153,7 +9259,6 @@ public abstract class ChoiceControl {
       case 1195: // Spinning Your Time-Spinner
       case 1197: // Travel back to a Delicious Meal
       case 1217: // Sweet Synthesis
-      case 1218: // Wax On
       case 1219: // Approach the Jellyfish
       case 1233: // Equipment Requisition
       case 1234: // Spacegate Vaccination Machine
@@ -9202,6 +9307,12 @@ public abstract class ChoiceControl {
       case 1476: // Stillsuit
       case 1483: // Direct Autumn-Aton
       case 1484: // Conspicuous Plaque
+      case 1485: // Play with your train
+      case 1490: // Woolin' Around
+      case 1493: // Treasure House
+      case 1494: // Examine S.I.T. Course Certificate
+      case 1495: // Get Some Training
+      case 1501: // Make a Wish
         return true;
 
       default:

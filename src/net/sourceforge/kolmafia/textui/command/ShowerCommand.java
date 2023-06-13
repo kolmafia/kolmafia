@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 
 public class ShowerCommand extends AbstractCommand {
   public ShowerCommand() {
@@ -26,6 +27,6 @@ public class ShowerCommand extends AbstractCommand {
       return;
     }
 
-    RequestThread.postRequest(new ClanLoungeRequest(ClanLoungeRequest.APRIL_SHOWER, option));
+    RequestThread.postRequest(new ClanLoungeRequest(Action.APRIL_SHOWER, option));
   }
 }

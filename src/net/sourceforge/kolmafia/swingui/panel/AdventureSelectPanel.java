@@ -270,7 +270,8 @@ public class AdventureSelectPanel extends JPanel {
     }
   }
 
-  private class RedoFreeAdventuresCheckbox extends JCheckBox implements ActionListener, Listener {
+  private static class RedoFreeAdventuresCheckbox extends JCheckBox
+      implements ActionListener, Listener {
     public RedoFreeAdventuresCheckbox() {
       super();
       this.setToolTipText("Don't count free adventures towards turn count maximum");
@@ -336,7 +337,7 @@ public class AdventureSelectPanel extends JPanel {
     }
   }
 
-  private class StopButton extends JButton implements ActionListener {
+  private static class StopButton extends JButton implements ActionListener {
     public StopButton() {
       super("stop after");
       this.addActionListener(this);
@@ -608,7 +609,7 @@ public class AdventureSelectPanel extends JPanel {
       }
 
       AreaCombatData combat = request.getAreaSummary();
-      String text = combat == null ? " " : combat.toString(true);
+      String text = combat == null ? " " : combat.toString(true, true);
 
       // Avoid rendering and screen flicker if no change.
       // Compare with our own copy of what we set, since
@@ -629,7 +630,8 @@ public class AdventureSelectPanel extends JPanel {
     }
   }
 
-  private class AdventureCountSpinner extends AutoHighlightSpinner implements ChangeListener {
+  private static class AdventureCountSpinner extends AutoHighlightSpinner
+      implements ChangeListener {
     public AdventureCountSpinner() {
       super();
       this.addChangeListener(this);

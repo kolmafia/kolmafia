@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,7 +29,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceAdventure;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.session.ChoiceOption;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.OceanManager.Destination;
 import net.sourceforge.kolmafia.session.OceanManager.Point;
@@ -86,6 +87,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
   private final JComboBox<String> addingSelect;
   private final JComboBox<String> paranormalLabSelect;
   private final JComboBox<String> containmentSelect;
+  private final JComboBox<String> shadowLabyrinthSelect;
 
   /** Constructs a new <code>ChoiceOptionsPanel</code>. */
   public ChoiceOptionsPanel() {
@@ -104,7 +106,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     for (int i = 0; i < ChoiceAdventures.CHOICE_ADVS.length; ++i) {
       this.optionSelects.add(new JComboBox<>());
       this.optionSelects.get(i).addItem("show in browser");
-      Option[] options = ChoiceAdventures.CHOICE_ADVS[i].getOptions();
+      ChoiceOption[] options = ChoiceAdventures.CHOICE_ADVS[i].getOptions();
       for (int j = 0; j < options.length; ++j) {
         this.optionSelects.get(i).addItem(options[j]);
       }
@@ -345,6 +347,16 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.containmentSelect.addItem("show in browser");
     this.containmentSelect.addItem("automate");
 
+    this.shadowLabyrinthSelect = new JComboBox<>();
+    this.shadowLabyrinthSelect.addItem("show in browser");
+    this.shadowLabyrinthSelect.addItem("90-100 Muscle substats");
+    this.shadowLabyrinthSelect.addItem("90-100 Mysticality substats");
+    this.shadowLabyrinthSelect.addItem("90-100 Moxie substats");
+    this.shadowLabyrinthSelect.addItem("+3 turns to 3 random effects");
+    this.shadowLabyrinthSelect.addItem("Maximum HP +300%");
+    this.shadowLabyrinthSelect.addItem("Maximum MP +300%");
+    this.shadowLabyrinthSelect.addItem("+5 Spooky, Hot, Sleaze resistance");
+
     this.addChoiceSelect("Item-Driven", "Llama Gong", this.gongSelect);
     this.addChoiceSelect("Item-Driven", "Breakable Equipment", this.breakableSelect);
     this.addChoiceSelect("Plains", "Papaya War", this.palindomePapayaSelect);
@@ -382,6 +394,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.addChoiceSelect("Dungeon", "Daily Dungeon: Doors", this.dailyDungeonDoorSelect);
     this.addChoiceSelect("Conspiracy Island", "Paranormal Test Lab", this.paranormalLabSelect);
     this.addChoiceSelect("Conspiracy Island", "Containment Unit", this.containmentSelect);
+    this.addChoiceSelect("Shadow Rift", "Labyrinth of Shadows", this.shadowLabyrinthSelect);
 
     for (int i = 0; i < this.optionSelects.size(); ++i) {
       this.addChoiceSelect(
@@ -406,6 +419,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     PreferenceListenerRegistry.registerPreferenceListener("basementMallPrices", this);
     PreferenceListenerRegistry.registerPreferenceListener("breakableHandling", this);
     PreferenceListenerRegistry.registerPreferenceListener("addingScrolls", this);
+    PreferenceListenerRegistry.registerPreferenceListener("shadowLabyrinthGoal", this);
 
     this.loadSettings();
 
@@ -428,14 +442,11 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
   }
 
   private String getLouvreDirection(final int i) {
-    switch (i) {
-      case 1:
-        return "up";
-      case 2:
-        return "down";
-      default:
-        return "side";
-    }
+    return switch (i) {
+      case 1 -> "up";
+      case 2 -> "down";
+      default -> "side";
+    };
   }
 
   private void addChoiceSelect(final String zone, final String name, final JComponent option) {
@@ -498,7 +509,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     public void setEnabled(final boolean isEnabled) {}
   }
 
-  private class ShrineComboBox extends JComboBox<String> {
+  private static class ShrineComboBox extends JComboBox<String> {
     final String setting;
 
     public ShrineComboBox(final String setting, final String blessing) {
@@ -532,7 +543,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     }
   }
 
-  private class OceanDestinationComboBox extends JComboBox<String> {
+  private static class OceanDestinationComboBox extends JComboBox<String> {
     public OceanDestinationComboBox() {
       super();
       this.createMenu(Preferences.getString("oceanDestination"));
@@ -721,16 +732,23 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       if (location == null) {
         return;
       }
+
       String zone = location.getZone();
+
+      // Spelunky Area and Batfellow Area are sub-zones of "Item-Driven".
+      // There are no adventuring areas that are directly under Item-Driven.
       if (zone.equals("Item-Driven")) {
         ChoiceOptionsPanel.this.setSelectedIndex(1);
         ChoiceOptionsPanel.this.choiceCards.show(ChoiceOptionsPanel.this.choicePanel, "");
-      } else {
-        ChoiceOptionsPanel.this.setSelectedIndex(0);
-        ChoiceOptionsPanel.this.choiceCards.show(
-            ChoiceOptionsPanel.this.choicePanel,
-            ChoiceOptionsPanel.this.choiceMap.containsKey(zone) ? zone : "");
+        return;
       }
+
+      Map map = ChoiceOptionsPanel.this.choiceMap;
+      String parent = location.getParentZone();
+      String key = map.containsKey(zone) ? zone : map.containsKey(parent) ? parent : "";
+
+      ChoiceOptionsPanel.this.setSelectedIndex(0);
+      ChoiceOptionsPanel.this.choiceCards.show(ChoiceOptionsPanel.this.choicePanel, key);
       KoLCharacter.updateSelectedLocation(location);
     }
   }
@@ -822,6 +840,20 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         "choiceAdventure989", String.valueOf(this.paranormalLabSelect.getSelectedIndex()));
     Preferences.setString(
         "choiceAdventure988", String.valueOf(this.containmentSelect.getSelectedIndex()));
+    Preferences.setString(
+        "shadowLabyrinthGoal",
+        switch (this.shadowLabyrinthSelect.getSelectedIndex()) {
+          case 0 -> "browser";
+          case 1 -> "muscle";
+          case 2 -> "mysticality";
+          case 3 -> "moxie";
+          case 4 -> "effects";
+          case 5 -> "maxHP";
+          case 6 -> "maxMP";
+          case 7 -> "resistance";
+            // Not possible
+          default -> "browser";
+        });
 
     Preferences.setInteger("basementMallPrices", this.basementMallSelect.getSelectedIndex());
     Preferences.setInteger("breakableHandling", this.breakableSelect.getSelectedIndex() + 1);
@@ -838,25 +870,24 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       String setting = choiceAdventure.getSetting();
       int index = this.optionSelects.get(i).getSelectedIndex();
       Object option = this.optionSelects.get(i).getSelectedItem();
-      if (option instanceof Option) {
-        index = ((Option) option).getDecision(index);
+      if (option instanceof ChoiceOption co) {
+        index = co.getDecision(index);
       }
       Preferences.setString(setting, String.valueOf(index));
     }
 
     switch (this.spookyForestSelect.getSelectedIndex()) {
-      case 0: // Manual Control
-        Preferences.setString("choiceAdventure502", "0");
-        break;
-      case 1: // Mosquito Larva or Spooky Mushrooms
+      case 0 -> // Manual Control
+      Preferences.setString("choiceAdventure502", "0");
+      case 1 -> { // Mosquito Larva or Spooky Mushrooms
         Preferences.setString("choiceAdventure502", "2");
         Preferences.setString("choiceAdventure505", "1");
-        break;
-      case 2: // Spooky-Gro Fertilizer
+      }
+      case 2 -> { // Spooky-Gro Fertilizer
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "2");
-        break;
-      case 3: // Spooky Sapling & Sell Bar Skins
+      }
+      case 3 -> { // Spooky Sapling & Sell Bar Skins
         Preferences.setString("choiceAdventure502", "1");
         Preferences.setString("choiceAdventure503", "3");
         // If we have no Spooky Sapling
@@ -865,8 +896,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         // Preferences.setString( "choiceAdventure504", "2" );
         // Exit choice
         Preferences.setString("choiceAdventure504", "4");
-        break;
-      case 4: // Spooky Temple Map then skip adventure
+      }
+      case 4 -> { // Spooky Temple Map then skip adventure
         // Without tree-holed coin
         Preferences.setString("choiceAdventure502", "2");
         Preferences.setString("choiceAdventure505", "2");
@@ -874,86 +905,79 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         // Preferences.setString( "choiceAdventure502", "3" );
         Preferences.setString("choiceAdventure506", "3");
         Preferences.setString("choiceAdventure507", "1");
-        break;
-      case 5: // Meet Vampire Hunter
+      }
+      case 5 -> { // Meet Vampire Hunter
         Preferences.setString("choiceAdventure502", "1");
         Preferences.setString("choiceAdventure503", "2");
-        break;
-      case 6: // Meet Vampire
+      }
+      case 6 -> { // Meet Vampire
         Preferences.setString("choiceAdventure502", "2");
         Preferences.setString("choiceAdventure505", "3");
-        break;
-      case 7: // Gain Meat
+      }
+      case 7 -> { // Gain Meat
         Preferences.setString("choiceAdventure502", "1");
         Preferences.setString("choiceAdventure503", "1");
-        break;
-      case 8: // Seal clubber corpse
+      }
+      case 8 -> { // Seal clubber corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "1");
         Preferences.setString("choiceAdventure27", "1");
-        break;
-      case 9: // Loot Turtle Tamer corpse
+      }
+      case 9 -> { // Loot Turtle Tamer corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "1");
         Preferences.setString("choiceAdventure27", "2");
-        break;
-      case 10: // Loot Pastamancer corpse
+      }
+      case 10 -> { // Loot Pastamancer corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "2");
         Preferences.setString("choiceAdventure28", "1");
-        break;
-      case 11: // Loot Sauceror corpse
+      }
+      case 11 -> { // Loot Sauceror corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "2");
         Preferences.setString("choiceAdventure28", "2");
-        break;
-      case 12: // Loot Disco Bandit corpse
+      }
+      case 12 -> { // Loot Disco Bandit corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "3");
         Preferences.setString("choiceAdventure29", "1");
-        break;
-      case 13: // Loot Accordion Thief corpse
+      }
+      case 13 -> { // Loot Accordion Thief corpse
         Preferences.setString("choiceAdventure502", "3");
         Preferences.setString("choiceAdventure506", "1");
         Preferences.setString("choiceAdventure26", "3");
         Preferences.setString("choiceAdventure29", "2");
-        break;
+      }
     }
 
     switch (this.riseSelect.getSelectedIndex()) {
-      case 0: // Ignore this adventure
-        Preferences.setString("choiceAdventure888", "4");
-        break;
-
-      case 1: // Mysticality
+      case 0 -> // Ignore this adventure
+      Preferences.setString("choiceAdventure888", "4");
+      case 1 -> { // Mysticality
         Preferences.setString("choiceAdventure888", "3");
         Preferences.setString("choiceAdventure88", "1");
-        break;
-
-      case 2: // Moxie
+      }
+      case 2 -> { // Moxie
         Preferences.setString("choiceAdventure888", "3");
         Preferences.setString("choiceAdventure88", "2");
-        break;
-
-      case 3: // Mysticality Class Skill
+      }
+      case 3 -> { // Mysticality Class Skill
         Preferences.setString("choiceAdventure888", "3");
         Preferences.setString("choiceAdventure88", "3");
-        break;
+      }
     }
 
     switch (this.fallSelect.getSelectedIndex()) {
-      case 0: // Ignore this adventure
-        Preferences.setString("choiceAdventure889", "5");
-        break;
-
-      case 1: // Muscle
-        Preferences.setString("choiceAdventure889", "3");
-        break;
+      case 0 -> // Ignore this adventure
+      Preferences.setString("choiceAdventure889", "5");
+      case 1 -> // Muscle
+      Preferences.setString("choiceAdventure889", "3");
     }
 
     // necessary for backwards-compatibility
@@ -977,29 +1001,18 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.oceanDestSelect.saveSettings();
 
     switch (this.oceanActionSelect.getSelectedIndex()) {
-      case 0:
-        Preferences.setString("oceanAction", "continue");
-        break;
-      case 1:
-        Preferences.setString("oceanAction", "show");
-        break;
-      case 2:
-        Preferences.setString("oceanAction", "stop");
-        break;
-      case 3:
-        Preferences.setString("oceanAction", "savecontinue");
-        break;
-      case 4:
-        Preferences.setString("oceanAction", "saveshow");
-        break;
-      case 5:
-        Preferences.setString("oceanAction", "savestop");
-        break;
+      case 0 -> Preferences.setString("oceanAction", "continue");
+      case 1 -> Preferences.setString("oceanAction", "show");
+      case 2 -> Preferences.setString("oceanAction", "stop");
+      case 3 -> Preferences.setString("oceanAction", "savecontinue");
+      case 4 -> Preferences.setString("oceanAction", "saveshow");
+      case 5 -> Preferences.setString("oceanAction", "savestop");
     }
 
     this.isAdjusting = false;
   }
 
+  @SuppressWarnings("fallthrough")
   public synchronized void loadSettings() {
     this.isAdjusting = true;
     ActionPanel.enableActions(false); // prevents recursive actions from being triggered
@@ -1092,26 +1105,14 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     }
 
     switch (Preferences.getInteger("choiceAdventure692")) {
-      case 0:
-        this.dailyDungeonDoorSelect.setSelectedIndex(0);
-        break;
-      case 1:
-        this.dailyDungeonDoorSelect.setSelectedIndex(1);
-        break;
-      case 2:
-      case 3:
-      case 7:
-      case 11:
-        // unlock door
-        this.dailyDungeonDoorSelect.setSelectedIndex(2);
-        break;
-      case 4:
-      case 5:
-      case 6:
-      case 12:
-        // stat test
-        this.dailyDungeonDoorSelect.setSelectedIndex(3);
-        break;
+      case 0 -> this.dailyDungeonDoorSelect.setSelectedIndex(0);
+      case 1 -> this.dailyDungeonDoorSelect.setSelectedIndex(1);
+      case 2, 3, 7, 11 ->
+      // unlock door
+      this.dailyDungeonDoorSelect.setSelectedIndex(2);
+      case 4, 5, 6, 12 ->
+      // stat test
+      this.dailyDungeonDoorSelect.setSelectedIndex(3);
     }
 
     int paranormalLabIndex = Preferences.getInteger("choiceAdventure989");
@@ -1127,6 +1128,24 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     } else {
       System.out.println("Invalid setting " + containmentIndex + " for choiceAdventure988.");
     }
+
+    String shadowLabyrinthSetting = Preferences.getString("shadowLabyrinthGoal");
+    this.shadowLabyrinthSelect.setSelectedIndex(
+        switch (shadowLabyrinthSetting) {
+          case "browser" -> 0;
+          case "muscle" -> 1;
+          case "mysticality" -> 2;
+          case "moxie" -> 3;
+          case "effects" -> 4;
+          case "maxHP" -> 5;
+          case "maxMP" -> 6;
+          case "resistance" -> 7;
+          default -> {
+            System.out.println(
+                "Invalid setting " + shadowLabyrinthSetting + " for shadowLabyrinthGoal.");
+            yield 0;
+          }
+        });
 
     this.basementMallSelect.setSelectedIndex(Preferences.getInteger("basementMallPrices"));
     this.breakableSelect.setSelectedIndex(
@@ -1150,8 +1169,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       }
 
       if (index > 0) {
-        Option[] options = choiceAdventure.getOptions();
-        Option option = ChoiceAdventures.findOption(options, index);
+        ChoiceOption[] options = choiceAdventure.getOptions();
+        ChoiceOption option = ChoiceAdventures.findOption(options, index);
         if (option != null) {
           this.optionSelects.get(i).setSelectedItem(option);
           continue;
@@ -1172,44 +1191,40 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         break;
 
       case 1:
-        switch (Preferences.getInteger("choiceAdventure503")) {
-          case 1: // Get Meat
-            index = 7;
-            break;
-          case 2: // Meet Vampire Hunter
-            index = 5;
-            break;
-          case 3: // Spooky Sapling & Sell Bar Skins
-            index = 3;
-            break;
-        }
+        index =
+            switch (Preferences.getInteger("choiceAdventure503")) {
+              case 1 -> // Get Meat
+              7;
+              case 2 -> // Meet Vampire Hunter
+              5;
+              case 3 -> // Spooky Sapling & Sell Bar Skins
+              3;
+              default -> index;
+            };
         break;
       case 2:
-        switch (Preferences.getInteger("choiceAdventure505")) {
-          case 1: // Mosquito Larva or Spooky Mushrooms
-            index = 1;
-            break;
-          case 2: // Tree-holed coin -> Spooky Temple Map
-            index = 4;
-            break;
-          case 3: // Meet Vampire
-            index = 6;
-            break;
-        }
+        index =
+            switch (Preferences.getInteger("choiceAdventure505")) {
+              case 1 -> // Mosquito Larva or Spooky Mushrooms
+              1;
+              case 2 -> // Tree-holed coin -> Spooky Temple Map
+              4;
+              case 3 -> // Meet Vampire
+              6;
+              default -> index;
+            };
         break;
       case 3:
         switch (Preferences.getInteger("choiceAdventure506")) {
-          case 1: // Forest Corpses
+          case 1 -> { // Forest Corpses
             index = Preferences.getInteger("choiceAdventure26");
             index = index * 2 + Preferences.getInteger("choiceAdventure" + (26 + index)) - 3;
             index += 8;
-            break;
-          case 2: // Spooky-Gro Fertilizer
-            index = 2;
-            break;
-          case 3: // Spooky Temple Map
-            index = 4;
-            break;
+          }
+          case 2 -> // Spooky-Gro Fertilizer
+          index = 2;
+          case 3 -> // Spooky Temple Map
+          index = 4;
         }
         break;
     }
@@ -1246,18 +1261,13 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.oceanDestSelect.loadSettings();
 
     String action = Preferences.getString("oceanAction");
-    if (action.equals("continue")) {
-      this.oceanActionSelect.setSelectedIndex(0);
-    } else if (action.equals("show")) {
-      this.oceanActionSelect.setSelectedIndex(1);
-    } else if (action.equals("stop")) {
-      this.oceanActionSelect.setSelectedIndex(2);
-    } else if (action.equals("savecontinue")) {
-      this.oceanActionSelect.setSelectedIndex(3);
-    } else if (action.equals("saveshow")) {
-      this.oceanActionSelect.setSelectedIndex(4);
-    } else if (action.equals("savestop")) {
-      this.oceanActionSelect.setSelectedIndex(5);
+    switch (action) {
+      case "continue" -> this.oceanActionSelect.setSelectedIndex(0);
+      case "show" -> this.oceanActionSelect.setSelectedIndex(1);
+      case "stop" -> this.oceanActionSelect.setSelectedIndex(2);
+      case "savecontinue" -> this.oceanActionSelect.setSelectedIndex(3);
+      case "saveshow" -> this.oceanActionSelect.setSelectedIndex(4);
+      case "savestop" -> this.oceanActionSelect.setSelectedIndex(5);
     }
 
     this.isAdjusting = false;

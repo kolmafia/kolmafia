@@ -80,10 +80,6 @@ public class BuyCommand extends AbstractCommand {
 
       KoLmafia.makePurchases(
           results, results.toArray(new PurchaseRequest[0]), match.getCount(), false, priceLimit);
-
-      if (interact && !storage) {
-        MallPriceManager.updateMallPrice(match, results);
-      }
     }
   }
 }

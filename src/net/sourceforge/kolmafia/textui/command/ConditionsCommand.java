@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
+import net.sourceforge.kolmafia.AdventureResult.Priority;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -148,7 +149,7 @@ public class ConditionsCommand extends AbstractCommand {
     if (conditionString.endsWith("pirate insult") || conditionString.endsWith("pirate insults")) {
       String[] splitCondition = conditionString.split("\\s+");
       int count = splitCondition.length > 1 ? StringUtilities.parseInt(splitCondition[0]) : 1;
-      return new AdventureResult(AdventureResult.PSEUDO_ITEM_PRIORITY, "pirate insult", count) {
+      return new AdventureResult(Priority.PSEUDO_ITEM, "pirate insult", count) {
 
         @Override
         public int getCount(List<AdventureResult> list) {
@@ -163,7 +164,7 @@ public class ConditionsCommand extends AbstractCommand {
     if (conditionString.endsWith("arena flyer ml")) {
       String[] splitCondition = conditionString.split("\\s+");
       int count = splitCondition.length > 1 ? StringUtilities.parseInt(splitCondition[0]) : 1;
-      return new AdventureResult(AdventureResult.PSEUDO_ITEM_PRIORITY, "Arena flyer ML", count) {
+      return new AdventureResult(Priority.PSEUDO_ITEM, "Arena flyer ML", count) {
 
         @Override
         public int getCount(List<AdventureResult> list) {
@@ -184,8 +185,7 @@ public class ConditionsCommand extends AbstractCommand {
                   ? StringUtilities.parseInt(splitCondition[0])
                   : 30,
               30);
-      return new AdventureResult(
-          AdventureResult.PSEUDO_ITEM_PRIORITY, "Chasm Bridge Progress", count) {
+      return new AdventureResult(Priority.PSEUDO_ITEM, "Chasm Bridge Progress", count) {
 
         @Override
         public int getCount(List<AdventureResult> list) {

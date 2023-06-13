@@ -1,6 +1,11 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Equipment.assertItem;
+import static internal.helpers.Equipment.assertItemUnequip;
+import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -9,10 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -45,7 +54,7 @@ public class EquipmentManagerTest {
   public void thatUnbreakableUmbrellaIsRecognized(String style) {
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.OFFHAND, "unbreakable umbrella"),
+            withEquipped(Slot.OFFHAND, "unbreakable umbrella"),
             withProperty("umbrellaState", style));
 
     try (cleanups) {
@@ -62,9 +71,7 @@ public class EquipmentManagerTest {
       strings = {"", "kachungasaur", "dilophosaur", "spikolodon", "ghostasaurus", "pterodactyl"})
   public void thatJurassicParkaIsRecognized(String mode) {
     var cleanups =
-        new Cleanups(
-            withEquipped(EquipmentManager.SHIRT, "Jurassic Parka"),
-            withProperty("parkaMode", mode));
+        new Cleanups(withEquipped(Slot.SHIRT, "Jurassic Parka"), withProperty("parkaMode", mode));
 
     try (cleanups) {
       if (mode.equals("")) {
@@ -83,8 +90,7 @@ public class EquipmentManagerTest {
   public void thatBackupCameraIsRecognized(String mode) {
     var cleanups =
         new Cleanups(
-            withEquipped(EquipmentManager.ACCESSORY1, "backup camera"),
-            withProperty("backupCameraMode", mode));
+            withEquipped(Slot.ACCESSORY1, "backup camera"), withProperty("backupCameraMode", mode));
 
     try (cleanups) {
       assertEquals("backup camera (" + mode + ")", BACKUP_CAMERA.getName());
@@ -94,29 +100,60 @@ public class EquipmentManagerTest {
 
   @Test
   public void equippingDesignerSweatpantsGivesCombatSkills() {
-    assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(false));
+    assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(false));
 
     var cleanup =
-        new Cleanups(
-            withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
-            withProperty("sweat", 100));
+        new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 100));
 
     try (cleanup) {
-      assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(true));
+      assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(true));
     }
   }
 
   @Test
   public void unequippingDesignerSweatpantsRemovesCombatSkills() {
     var cleanup =
-        new Cleanups(
-            withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
-            withProperty("sweat", 100));
+        new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"), withProperty("sweat", 100));
 
     try (cleanup) {
-      assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(true));
-      EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
-      assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(false));
+      assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(true));
+      EquipmentManager.setEquipment(Slot.PANTS, EquipmentRequest.UNEQUIP);
+      assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_FLICK), equalTo(false));
+    }
+  }
+
+  @Test
+  public void canParseStatus() {
+    var cleanups = withFamiliar(FamiliarPool.TRICK_TOT);
+
+    try (cleanups) {
+      String text = html("request/test_status.json");
+      JSONObject JSON = json(text);
+
+      EquipmentManager.parseStatus(JSON);
+
+      assertItem(Slot.HAT, "Daylight Shavings Helmet");
+      assertItem(Slot.CONTAINER, "vampyric cloake");
+      assertItem(Slot.SHIRT, "Sneaky Pete's leather jacket");
+      assertItem(Slot.WEAPON, "cursed pirate cutlass");
+      assertItem(Slot.OFFHAND, "June cleaver");
+      assertItem(Slot.PANTS, "purpleheart \"pants\"");
+      assertItem(Slot.ACCESSORY1, "fudgecycle");
+      assertItem(Slot.ACCESSORY2, "Treads of Loathing");
+      assertItem(Slot.ACCESSORY3, "Counterclockwise Watch");
+      assertItem(Slot.FAMILIAR, "li'l unicorn costume");
+
+      assertItem(Slot.CARDSLEEVE, "Alice's Army Coward");
+
+      assertItem(Slot.STICKER1, "scratch 'n' sniff UPC sticker");
+      assertItemUnequip(Slot.STICKER2);
+      assertItemUnequip(Slot.STICKER3);
+
+      assertItem(Slot.FOLDER1, "folder (heavy metal)");
+      assertItem(Slot.FOLDER2, "folder (tranquil landscape)");
+      assertItem(Slot.FOLDER3, "folder (owl)");
+      assertItemUnequip(Slot.FOLDER4);
+      assertItemUnequip(Slot.FOLDER5);
     }
   }
 }

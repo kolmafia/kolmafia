@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -716,5 +717,48 @@ class StringUtilitiesTest {
   @Test
   void multipleValuelistToHumanString() {
     assertThat(StringUtilities.listToHumanString(List.of("a", "b", "c")), equalTo("a, b and c"));
+  }
+
+  @Nested
+  class Filter {
+    @ParameterizedTest
+    @CsvSource(
+        value = {
+          "'',''",
+          "'',*",
+          "a,a",
+          "ab,ab",
+          "a,*",
+          "b,*",
+          "ab,*",
+          "ab,a*",
+          "ab,*b",
+          "ab,*a*",
+          "ab,*b*",
+          "abc,a*c",
+          "abcd,a*d",
+          "abcde,a*b*c*e",
+        })
+    public void matches(String str, String filter) {
+      assertTrue(StringUtilities.matchesFilter(str, filter));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "a,''",
+      "a,b",
+      "ab,a",
+      "ab,aa",
+      "a,*b",
+      "a,b*",
+      "ab,*a",
+      "ab,b*",
+      "ab,*b*a*",
+      "ab,*a*a*b*",
+      "abcd,*ab*bc*cd*",
+    })
+    public void nonMatches(String str, String filter) {
+      assertFalse(StringUtilities.matchesFilter(str, filter));
+    }
   }
 }

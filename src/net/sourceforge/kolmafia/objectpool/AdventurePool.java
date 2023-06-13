@@ -8,6 +8,7 @@ public class AdventurePool {
   public static final String SHROUDED_PEAK_ID = "cloudypeak2";
   public static final String TUNNEL_OF_LOVE_ID = "townwrong_tunnel";
   public static final String INNER_WOLF_ID = "ioty2014_wolf";
+  public static final String LOCOMOTIVE_ID = "crimbo22_engine";
 
   public static final int SPOOKY_FOREST = 15;
   public static final int DEGRASSI_KNOLL = 18;
@@ -289,6 +290,11 @@ public class AdventurePool {
   public static final int SITE_ALPHA_DORMITORY = 554;
   public static final int SITE_ALPHA_GREENHOUSE = 555;
   public static final int OLIVERS_SPEAKEASY_BRAWL = 558;
+  public static final int FUNGUS_PLAINS = 563;
+  public static final int HEROS_FIELD = 564;
+  public static final int VANYAS_CASTLE = 565;
+  public static final int MEGALO_CITY = 566;
+  public static final int SHADOW_RIFT = 567;
 
   private AdventurePool() {}
 }

@@ -9,24 +9,33 @@ import java.net.http.HttpClient;
 import java.time.Month;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.*;
@@ -34,10 +43,13 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -97,8 +109,34 @@ public class Player {
    * @param itemName Item to equip to slot
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withEquipped(final int slot, final String itemName) {
+  public static Cleanups withEquipped(final Slot slot, final String itemName) {
     return withEquipped(slot, AdventureResult.tallyItem(itemName));
+  }
+
+  /**
+   * Equip the given item in its default slot
+   *
+   * @param itemId Item to equip
+   * @return Restores item previously equipped to slot
+   */
+  public static Cleanups withEquipped(final int itemId) {
+    return withAllEquipped(itemId);
+  }
+
+  /**
+   * Find slots to equip all the given items
+   *
+   * @param itemIds Items to equip
+   * @return Restores items previously equipped to slots
+   */
+  public static Cleanups withAllEquipped(final int... itemIds) {
+    var cleanups = new Cleanups();
+    cleanups.addCleanups(
+        Arrays.stream(itemIds)
+            .mapToObj(
+                id -> withEquipped(EquipmentRequest.chooseEquipmentSlot(id), ItemPool.get(id, 1)))
+            .collect(Collectors.toList()));
+    return cleanups;
   }
 
   /**
@@ -108,7 +146,7 @@ public class Player {
    * @param itemId Item to equip to slot
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withEquipped(final int slot, final int itemId) {
+  public static Cleanups withEquipped(final Slot slot, final int itemId) {
     return withEquipped(slot, ItemPool.get(itemId));
   }
 
@@ -118,7 +156,7 @@ public class Player {
    * @param slot Slot to unequip
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withUnequipped(final int slot) {
+  public static Cleanups withUnequipped(final Slot slot) {
     return withEquipped(slot, (String) null);
   }
 
@@ -129,7 +167,7 @@ public class Player {
    * @param item Item to equip to slot
    * @return Restores item previously equipped to slot
    */
-  public static Cleanups withEquipped(final int slot, final AdventureResult item) {
+  public static Cleanups withEquipped(final Slot slot, final AdventureResult item) {
     var cleanups = new Cleanups();
     // Do this first so that Equipment lists and outfits will update appropriately
     cleanups.add(withStatsRequiredForEquipment(item));
@@ -149,6 +187,43 @@ public class Player {
               ConcoctionDatabase.refreshConcoctions();
             }));
     return cleanups;
+  }
+
+  /**
+   * Equip the given outfit
+   *
+   * @param outfitId Outfit to equip
+   * @return Restores previous equipment
+   */
+  public static Cleanups withOutfit(final int outfitId) {
+    var cleanups = new Cleanups();
+    cleanups.addCleanups(
+        Arrays.stream(EquipmentDatabase.getOutfit(outfitId).getPieces())
+            .map(piece -> withEquipped(piece.getItemId()))
+            .collect(Collectors.toList()));
+    return cleanups;
+  }
+
+  /**
+   * Equip the given number of fake hands
+   *
+   * @param fakeHands Number of fake hands to equip
+   * @return Restores previous equipment
+   */
+  public static Cleanups withFakeHands(final int fakeHands) {
+    final int oldCount = EquipmentManager.getFakeHands();
+    EquipmentManager.setFakeHands(fakeHands);
+    return new Cleanups(() -> EquipmentManager.setFakeHands(oldCount));
+  }
+
+  /**
+   * Clears Inventory
+   *
+   * @return Clears inventory
+   */
+  public static Cleanups withNoItems() {
+    KoLConstants.inventory.clear();
+    return new Cleanups(KoLConstants.inventory::clear);
   }
 
   /**
@@ -205,6 +280,29 @@ public class Player {
   }
 
   /**
+   * Puts the given items into the player's inventory
+   *
+   * @param itemIds Items to give
+   * @return Restores the number of these items to the old values
+   */
+  public static Cleanups withItems(final int... itemIds) {
+    var cleanups = new Cleanups();
+    cleanups.addCleanups(
+        Arrays.stream(itemIds).mapToObj(Player::withItem).collect(Collectors.toList()));
+    return cleanups;
+  }
+
+  /**
+   * Ensures that a given item is not in the player's inventory
+   *
+   * @param itemId Item to not have
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withoutItem(final int itemId) {
+    return withItem(itemId, 0);
+  }
+
+  /**
    * Puts the given item into the player's closet
    *
    * @param itemName Item to give
@@ -224,6 +322,16 @@ public class Player {
   public static Cleanups withItemInCloset(final String itemName, final int count) {
     int itemId = ItemDatabase.getItemId(itemName, count, false);
     return withItemInCloset(itemId, count);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's closet
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInCloset(final int itemId) {
+    return withItemInCloset(ItemPool.get(itemId, 1));
   }
 
   /**
@@ -339,6 +447,27 @@ public class Player {
   public static Cleanups withClanLoungeItem(final int itemId) {
     ClanLoungeRequest.setClanLoungeItem(itemId, 1);
     return new Cleanups(() -> ClanLoungeRequest.setClanLoungeItem(itemId, 0));
+  }
+
+  /**
+   * Resets clan info to initial state
+   *
+   * @return Resets to initial state
+   */
+  public static Cleanups withClan() {
+    return withClan(0, "");
+  }
+
+  /**
+   * Sets Clan ID and name as desired (presumably because saved HTML has a specific clan name).
+   *
+   * @param clanId clan ID
+   * @param clanName clanName
+   * @return Resets to initial state
+   */
+  public static Cleanups withClan(final int clanId, final String clanName) {
+    ClanManager.setClan(clanId, clanName);
+    return new Cleanups(() -> ClanManager.clearCache(true));
   }
 
   /**
@@ -476,7 +605,32 @@ public class Player {
    * @return Removes familiar from the terrarium
    */
   public static Cleanups withFamiliarInTerrarium(final int familiarId) {
+    return withFamiliarInTerrarium(familiarId, 0);
+  }
+
+  /**
+   * Adds familiar to player's terrarium, but does not take it out
+   *
+   * @param familiarId Familiar to add
+   * @param experience Experience for familiar to have
+   * @return Removes familiar from the terrarium
+   */
+  public static Cleanups withFamiliarInTerrarium(final int familiarId, final int experience) {
+    var familiar = FamiliarData.registerFamiliar(familiarId, experience);
+    KoLCharacter.addFamiliar(familiar);
+    return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
+  }
+
+  /**
+   * Adds familiar to player's terrarium, but does not take it out
+   *
+   * @param familiarId Familiar to add
+   * @param itemId Item for familiar to equip
+   * @return Removes familiar from the terrarium
+   */
+  public static Cleanups withFamiliarInTerrariumWithItem(final int familiarId, final int itemId) {
     var familiar = FamiliarData.registerFamiliar(familiarId, 0);
+    familiar.setItem(ItemPool.get(itemId, 1));
     KoLCharacter.addFamiliar(familiar);
     return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
   }
@@ -579,13 +733,81 @@ public class Player {
   }
 
   /**
+   * Takes thrall as player's current thrall, and sets class to Pastamancer
+   *
+   * @param bindSkillId Skill id for binding skill
+   * @param level Level for thrall to have
+   * @return Reset current familiar
+   */
+  public static Cleanups withThrall(int bindSkillId, int level) {
+    var type = PastaThrallData.skillIdToData(bindSkillId);
+    if (type == null) return new Cleanups();
+
+    PastaThrallData.initialize();
+
+    var classCleanups = withClass(AscensionClass.PASTAMANCER);
+    var old = KoLCharacter.currentPastaThrall();
+    var newThrall =
+        KoLCharacter.getPastaThrallList().stream()
+            .filter(thrall -> PastaThrallData.dataToId(thrall.getData()) == type.id)
+            .findAny()
+            .orElseThrow();
+    var propertyCleanups = withProperty(type.settingName, String.valueOf(level));
+    newThrall.updateFromSetting();
+    KoLCharacter.setPastaThrall(newThrall);
+    return new Cleanups(
+        classCleanups,
+        propertyCleanups,
+        new Cleanups(
+            () -> {
+              KoLCharacter.setPastaThrall(old);
+              old.updateFromSetting();
+            }));
+  }
+
+  /**
+   * Add florist, set up plants in a location, and go to that location
+   *
+   * @param locationId Location to put plants
+   * @param plants Plants to put there
+   * @return Reset location, florist status, plants
+   */
+  public static Cleanups withFlorist(int locationId, FloristRequest.Florist... plants) {
+    KoLAdventure location = AdventureDatabase.getAdventure(locationId);
+    FloristRequest.setHaveFlorist(true);
+    for (var plant : plants) {
+      FloristRequest.addPlant(location.getAdventureName(), plant.id());
+    }
+    return new Cleanups(
+        withLocation(location.getAdventureName()), new Cleanups(FloristRequest::reset));
+  }
+
+  /**
+   * Add VYKEA companion
+   *
+   * @param companionTypeId Id of companion type (e.g. VYKEACompanionData.LAMP)
+   * @param level Level of companion
+   * @return Reset to previous companion or no companion
+   */
+  public static Cleanups withVykea(VYKEACompanionType companionTypeId, int level) {
+    var propertyCleanups =
+        new Cleanups(
+            withProperty("_VYKEACompanionName", "DÕZEQÍRHRU"),
+            withProperty("_VYKEACompanionLevel", level),
+            withProperty("_VYKEACompanionType", VYKEACompanionData.typeToString(companionTypeId)));
+    VYKEACompanionData.settingsToVYKEACompanion();
+    return new Cleanups(
+        propertyCleanups, new Cleanups(VYKEACompanionData::settingsToVYKEACompanion));
+  }
+
+  /**
    * Clears active effects
    *
    * @return Clears effects
    */
   public static Cleanups withNoEffects() {
     KoLConstants.activeEffects.clear();
-    return new Cleanups(() -> KoLConstants.activeEffects.clear());
+    return new Cleanups(KoLConstants.activeEffects::clear);
   }
 
   /**
@@ -598,7 +820,12 @@ public class Player {
   public static Cleanups withEffect(final int effectId, final int turns) {
     var effect = EffectPool.get(effectId, turns);
     KoLConstants.activeEffects.add(effect);
-    return new Cleanups(() -> KoLConstants.activeEffects.remove(effect));
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(
+        () -> {
+          KoLConstants.activeEffects.remove(effect);
+          KoLCharacter.recalculateAdjustments();
+        });
   }
 
   /**
@@ -676,6 +903,30 @@ public class Player {
   }
 
   /**
+   * Sets player's substats to given values.
+   *
+   * @param muscle Muscle substats
+   * @param mysticality Mysticality substats
+   * @param moxie Moxie substats
+   * @return Resets substats to zero
+   */
+  public static Cleanups withSubStats(final long muscle, final long mysticality, final long moxie) {
+    KoLCharacter.setStatPoints(
+        (int) Math.floor(Math.sqrt(muscle)),
+        muscle,
+        (int) Math.floor(Math.sqrt(mysticality)),
+        mysticality,
+        (int) Math.floor(Math.sqrt(moxie)),
+        moxie);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setStatPoints(0, 0, 0, 0, 0, 0);
+          KoLCharacter.recalculateAdjustments();
+        });
+  }
+
+  /**
    * Sets player's stats to given values. Substats are set to stat squared
    *
    * @param muscle Muscle mainstat
@@ -684,19 +935,7 @@ public class Player {
    * @return Resets stats to zero
    */
   public static Cleanups withStats(final int muscle, final int mysticality, final int moxie) {
-    KoLCharacter.setStatPoints(
-        muscle,
-        (long) muscle * muscle,
-        mysticality,
-        (long) mysticality * mysticality,
-        moxie,
-        (long) moxie * moxie);
-    KoLCharacter.recalculateAdjustments();
-    return new Cleanups(
-        () -> {
-          KoLCharacter.setStatPoints(0, 0, 0, 0, 0, 0);
-          KoLCharacter.recalculateAdjustments();
-        });
+    return withSubStats(muscle * muscle, mysticality * mysticality, moxie * moxie);
   }
 
   /**
@@ -807,10 +1046,10 @@ public class Player {
    * @param gender Required gender
    * @return Resets gender to unknown
    */
-  public static Cleanups withGender(final int gender) {
+  public static Cleanups withGender(final Gender gender) {
     KoLCharacter.setGender(gender);
     KoLCharacter.recalculateAdjustments();
-    return new Cleanups(() -> KoLCharacter.setGender(0));
+    return new Cleanups(() -> KoLCharacter.setGender(Gender.UNKNOWN));
   }
 
   /**
@@ -1029,6 +1268,19 @@ public class Player {
   }
 
   /**
+   * Sets the Monster Control Device
+   *
+   * @param mcdLevel Desired MCD level
+   * @return Resets the MCD to the previous value
+   */
+  public static Cleanups withMCD(int mcdLevel) {
+    final int original = KoLCharacter.getMindControlLevel();
+    KoLCharacter.setMindControlLevel(mcdLevel);
+
+    return new Cleanups(() -> KoLCharacter.setMindControlLevel(original));
+  }
+
+  /**
    * Sets the player's limit mode
    *
    * @param limitMode Desired limit mode
@@ -1115,6 +1367,18 @@ public class Player {
   }
 
   /**
+   * Sets the stat day to a given stat
+   *
+   * @param stat Stat to use for stat day
+   * @return Restores to the old value
+   */
+  public static Cleanups withStatDay(KoLConstants.Stat stat) {
+    final String old = KoLmafia.statDay;
+    KoLmafia.statDay = stat.toString() + " Day";
+    return new Cleanups(() -> KoLmafia.statDay = old);
+  }
+
+  /**
    * Sets the player's noobcore absorbs
    *
    * @param absorbs Number of absorbs to use
@@ -1178,7 +1442,7 @@ public class Player {
    */
   public static Cleanups withEmptyCampground() {
     CampgroundRequest.reset();
-    return new Cleanups(() -> CampgroundRequest.reset());
+    return new Cleanups(CampgroundRequest::reset);
   }
 
   /**
@@ -1189,6 +1453,22 @@ public class Player {
    */
   public static Cleanups withWorkshedItem(final int itemId) {
     CampgroundRequest.setCurrentWorkshedItem(itemId);
+    return new Cleanups(CampgroundRequest::resetCurrentWorkshedItem);
+  }
+
+  /**
+   * Sets the player's workshed
+   *
+   * @param item Item to set
+   * @return Removes workshed item
+   */
+  public static Cleanups withWorkshedItem(final AdventureResult item) {
+    if (item == null) {
+      CampgroundRequest.resetCurrentWorkshedItem();
+    } else {
+      CampgroundRequest.setCurrentWorkshedItem(item);
+    }
+
     return new Cleanups(CampgroundRequest::resetCurrentWorkshedItem);
   }
 
@@ -1219,6 +1499,43 @@ public class Player {
         () -> {
           KoLCharacter.setCocktailKit(false);
           ConcoctionDatabase.refreshConcoctions();
+        });
+  }
+
+  /**
+   * Sets the user as having this dwlling installed
+   *
+   * @param dwellingId Id of dwelling to have installed
+   * @return Restores the old dwelling state
+   */
+  public static Cleanups withDwelling(int dwellingId) {
+    final int oldDwelling = CampgroundRequest.getCurrentDwelling().getItemId();
+    CampgroundRequest.setCurrentDwelling(dwellingId);
+    return new Cleanups(
+        withCampgroundItem(dwellingId),
+        new Cleanups(() -> CampgroundRequest.setCurrentDwelling(oldDwelling)));
+  }
+
+  /**
+   * Sets the user as having this item installed in their Chateau Mantegna
+   *
+   * @param itemIds Id of items to have installed
+   * @return Restores the old chateau state
+   */
+  public static Cleanups withChateau(int... itemIds) {
+    final List<AdventureResult> oldChateau = new ArrayList<>(KoLConstants.chateau);
+
+    for (var itemId : itemIds) {
+      ChateauRequest.gainItem(ItemPool.get(itemId));
+    }
+
+    KoLCharacter.recalculateAdjustments();
+
+    return new Cleanups(
+        () -> {
+          KoLConstants.chateau.clear();
+          KoLConstants.chateau.addAll(oldChateau);
+          KoLCharacter.recalculateAdjustments();
         });
   }
 
@@ -1797,8 +2114,20 @@ public class Player {
    */
   public static Cleanups withCounter(int turns, String label, String image) {
     var cleanups = new Cleanups(withProperty("relayCounters"));
-    TurnCounter.startCounting(turns, label, image);
-    cleanups.add(() -> TurnCounter.stopCounting(label));
+    var counter = TurnCounter.startCounting(turns, label, image);
+    cleanups.add(() -> TurnCounter.stopCounting(counter));
+    return cleanups;
+  }
+
+  /**
+   * Removes all counters
+   *
+   * @return Returns whatever counters were present before
+   */
+  public static Cleanups withoutCounters() {
+    var cleanups = new Cleanups(withProperty("relayCounters", ""));
+    TurnCounter.clearCounters();
+    cleanups.add(TurnCounter::loadCounters);
     return cleanups;
   }
 
@@ -1866,5 +2195,51 @@ public class Player {
   public static Cleanups withConcoctionRefresh() {
     ConcoctionDatabase.refreshConcoctions();
     return new Cleanups(new OrderedRunnable(ConcoctionDatabase::refreshConcoctions, 10));
+  }
+
+  public static Cleanups withNPCStoreReset() {
+    NPCStoreDatabase.reset();
+
+    return new Cleanups(NPCStoreDatabase::reset);
+  }
+
+  public static Cleanups withOverrideModifiers(ModifierType type, String key, String value) {
+    ModifierDatabase.overrideModifier(type, key, value);
+    return new Cleanups(() -> ModifierDatabase.overrideRemoveModifier(type, key));
+  }
+
+  public static Cleanups withOverrideModifiers(ModifierType type, int key, String value) {
+    ModifierDatabase.overrideModifier(type, key, value);
+    return new Cleanups(() -> ModifierDatabase.overrideRemoveModifier(type, key));
+  }
+
+  public static Cleanups withHermitReset() {
+    HermitRequest.initialize();
+
+    return new Cleanups(HermitRequest::initialize);
+  }
+
+  /**
+   * Sets the current daycount
+   *
+   * @param currentDays The current daycount to use
+   * @return Returns value to previous value
+   */
+  public static Cleanups withDaycount(final int currentDays) {
+    var oldDays = KoLCharacter.getCurrentDays();
+    KoLCharacter.setCurrentDays(currentDays);
+    return new Cleanups(() -> KoLCharacter.setCurrentDays(oldDays));
+  }
+
+  /**
+   * Sets the next adventure location
+   *
+   * @param adventure The location to consider as the next adventure
+   * @return Returns value to previous value
+   */
+  public static Cleanups withNextAdventure(final String adventure) {
+    var cleanups = new Cleanups(withProperty("nextAdventure"));
+    KoLAdventure.setNextAdventure(adventure);
+    return cleanups;
   }
 }

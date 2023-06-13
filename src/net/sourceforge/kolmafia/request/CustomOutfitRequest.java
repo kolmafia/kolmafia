@@ -54,7 +54,7 @@ public class CustomOutfitRequest extends GenericRequest {
   }
 
   public static final void parseResponse(final String urlString, final String responseText) {
-    SortedListModel<SpecialOutfit> outfits = new SortedListModel<SpecialOutfit>();
+    SortedListModel<SpecialOutfit> outfits = new SortedListModel<>();
 
     Matcher listMatcher = CustomOutfitRequest.LIST_PATTERN.matcher(responseText);
     if (!listMatcher.find()) {

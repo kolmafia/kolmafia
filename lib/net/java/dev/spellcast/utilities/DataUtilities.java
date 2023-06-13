@@ -51,6 +51,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -216,7 +217,7 @@ public class DataUtilities
 			}
 			else
 			{
-				reader = new InputStreamReader( istream, "UTF-8" );
+				reader = new InputStreamReader( istream, StandardCharsets.UTF_8 );
 			}
 		}
 		catch ( Exception e )
@@ -457,10 +458,7 @@ public class DataUtilities
 
 		StringBuffer hexBuffer = new StringBuffer( digitCount );
 		int zeroesToAdd = digitCount - hexString.length();
-		for ( int i = 0; i < zeroesToAdd; ++i )
-		{
-			hexBuffer.append( 0 );
-		}
+		hexBuffer.append( "0".repeat( zeroesToAdd ) );
 		hexBuffer.append( hexString );
 		return hexBuffer.toString();
 	}

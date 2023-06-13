@@ -22,9 +22,9 @@ import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterManuelManager {
-  private static final Map<Integer, String> manuelEntries = new TreeMap<Integer, String>();
-  private static final Map<Integer, Integer> manuelFactoidCounts = new TreeMap<Integer, Integer>();
-  private static final Set<Integer> variableNamedMonsters = new TreeSet<Integer>();
+  private static final Map<Integer, String> manuelEntries = new TreeMap<>();
+  private static final Map<Integer, Integer> manuelFactoidCounts = new TreeMap<>();
+  private static final Set<Integer> variableNamedMonsters = new TreeSet<>();
 
   static {
     MonsterManuelManager.variableNamedMonsters.add(1667); // Your winged yeti
@@ -530,7 +530,7 @@ public class MonsterManuelManager {
   }
 
   public static List<String> getFactoids(final int id) {
-    List<String> list = new ArrayList<String>();
+    List<String> list = new ArrayList<>();
 
     String text = MonsterManuelManager.getManuelText(id);
     if (text == MonsterManuelManager.NO_FACTOIDS) {

@@ -63,9 +63,7 @@ public class RequestPane extends JEditorPane {
             Object attribute = iterator.nextElement();
             Object value = elem.getAttributes().getAttribute(attribute);
 
-            if (value instanceof SimpleAttributeSet) {
-              SimpleAttributeSet attributeSet = (SimpleAttributeSet) value;
-
+            if (value instanceof SimpleAttributeSet attributeSet) {
               String text = (String) attributeSet.getAttribute(HTML.Attribute.TITLE);
 
               if (text == null) {
@@ -81,21 +79,18 @@ public class RequestPane extends JEditorPane {
         @Override
         public float getMinimumSpan(int axis) {
           switch (axis) {
-            case View.X_AXIS:
-              {
-                if (!Preferences.getBoolean("wrapLongLines")) {
-                  return super.getMinimumSpan(axis);
-                }
-                return 0;
-              }
-            case View.Y_AXIS:
-              {
+            case View.X_AXIS -> {
+              if (!Preferences.getBoolean("wrapLongLines")) {
                 return super.getMinimumSpan(axis);
               }
-            default:
-              {
-                throw new IllegalArgumentException("Invalid axis: " + axis);
-              }
+              return 0;
+            }
+            case View.Y_AXIS -> {
+              return super.getMinimumSpan(axis);
+            }
+            default -> {
+              throw new IllegalArgumentException("Invalid axis: " + axis);
+            }
           }
         }
 

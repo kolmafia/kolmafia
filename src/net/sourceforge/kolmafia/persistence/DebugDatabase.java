@@ -18,35 +18,38 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierExpression;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -56,8 +59,12 @@ import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNURL;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -77,7 +84,7 @@ public class DebugDatabase {
 
   /** Takes an item name and constructs the likely Wiki equivalent of that item name. */
   private static String readWikiItemData(final String name, final HttpClient client) {
-    String url = WikiUtilities.getWikiLocation(name, WikiUtilities.ITEM_TYPE, false);
+    String url = WikiUtilities.getWikiLocation(name, WikiType.ITEM, false);
     return DebugDatabase.readWikiData(url, client);
   }
 
@@ -517,7 +524,7 @@ public class DebugDatabase {
     return StringUtilities.parseInt(matcher.group(1));
   }
 
-  private static StringBuilder appendAccessTypes(StringBuilder accessTypes, String accessType) {
+  private static StringBuilder appendAccessTypes(StringBuilder accessTypes, Attribute accessType) {
     if (accessTypes.length() > 0) {
       return accessTypes.append(",").append(accessType);
     }
@@ -530,23 +537,23 @@ public class DebugDatabase {
     if (text.contains("Quest Item")
         || text.contains("This item will disappear at the end of the day.")
         || text.contains("May not be moved out of inventory")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.QUEST_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.QUEST);
     }
 
     // Quest items cannot be gifted or traded
     else if (text.contains("Gift Item") && !text.contains("gift package")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.GIFT_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.GIFT);
     }
 
     // Gift items cannot be (normally) traded
     else if (!text.contains("Cannot be traded")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.TRADE_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.TRADEABLE);
     }
 
     // We shouldn't just check for "discarded", in case "discarded" appears somewhere else in the
     // description.
     if (!text.contains("Cannot be discarded") && !text.contains("Cannot be traded or discarded")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.DISCARD_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.DISCARDABLE);
     }
 
     return accessTypes.toString();
@@ -666,48 +673,33 @@ public class DebugDatabase {
   }
 
   private static boolean typesMatch(final ConsumptionType type, final ConsumptionType descType) {
-    switch (type) {
-      case NONE:
-      case FOOD_HELPER:
-      case DRINK_HELPER:
-      case STICKER:
-      case FOLDER:
-      case POKEPILL:
-        // We intentionally disallow certain items from being
-        // "used" through the GUI.
-        return descType == ConsumptionType.NONE || descType == ConsumptionType.USE;
-      case EAT:
-      case DRINK:
-      case SPLEEN:
-      case FAMILIAR_HATCHLING:
-      case FAMILIAR_EQUIPMENT:
-      case ACCESSORY:
-      case CONTAINER:
-      case HAT:
-      case PANTS:
-      case SHIRT:
-      case WEAPON:
-      case OFFHAND:
-        return descType == type;
-      case USE_MESSAGE_DISPLAY:
-      case USE:
-      case USE_MULTIPLE:
-      case USE_INFINITE:
-        return descType == ConsumptionType.USE
-            || descType == ConsumptionType.USE_MULTIPLE
-            || descType == ConsumptionType.EAT
-            || descType == ConsumptionType.DRINK
-            || descType == ConsumptionType.AVATAR_POTION
-            || descType == ConsumptionType.NONE;
-      case POTION:
-      case AVATAR_POTION:
-        return descType == ConsumptionType.POTION;
-      case CARD:
-      case EL_VIBRATO_SPHERE:
-      case ZAP:
-        return descType == ConsumptionType.NONE;
-    }
-    return true;
+    return switch (type) {
+      case NONE, FOOD_HELPER, DRINK_HELPER, STICKER, FOLDER, POKEPILL ->
+      // We intentionally disallow certain items from being
+      // "used" through the GUI.
+      descType == ConsumptionType.NONE || descType == ConsumptionType.USE;
+      case EAT,
+          DRINK,
+          SPLEEN,
+          FAMILIAR_HATCHLING,
+          FAMILIAR_EQUIPMENT,
+          ACCESSORY,
+          CONTAINER,
+          HAT,
+          PANTS,
+          SHIRT,
+          WEAPON,
+          OFFHAND -> descType == type;
+      case USE_MESSAGE_DISPLAY, USE, USE_MULTIPLE, USE_INFINITE -> descType == ConsumptionType.USE
+          || descType == ConsumptionType.USE_MULTIPLE
+          || descType == ConsumptionType.EAT
+          || descType == ConsumptionType.DRINK
+          || descType == ConsumptionType.AVATAR_POTION
+          || descType == ConsumptionType.NONE;
+      case POTION, AVATAR_POTION -> descType == ConsumptionType.POTION;
+      case CARD, EL_VIBRATO_SPHERE, ZAP -> descType == ConsumptionType.NONE;
+      default -> true;
+    };
   }
 
   private static boolean attributesMatch(
@@ -820,7 +812,7 @@ public class DebugDatabase {
 
     var quality = ConsumablesDatabase.getQuality(name);
     var descQuality = DebugDatabase.parseQuality(text);
-    if (!quality.equals(descQuality)) {
+    if (quality != descQuality) {
       report.println(
           "# *** " + name + " is quality " + quality + " but should be " + descQuality + ".");
     }
@@ -1089,16 +1081,16 @@ public class DebugDatabase {
 
     // Compare to what is already registered, logging differences
     // and substituting expressions, as appropriate.
-    DebugDatabase.checkModifiers("Item", name, known, true, report);
+    DebugDatabase.checkModifiers(ModifierType.ITEM, name, known, true, report);
 
     // Print the modifiers in the format modifiers.txt expects.
     if (showAll || known.size() > 0 || unknown.size() > 0) {
-      DebugDatabase.logModifierDatum("Item", name, known, unknown, report);
+      DebugDatabase.logModifierDatum(ModifierType.ITEM, name, known, unknown, report);
     }
   }
 
   private static void checkModifiers(
-      final String type,
+      final ModifierType type,
       final String name,
       final ModifierList known,
       final boolean appendCurrent,
@@ -1110,14 +1102,14 @@ public class DebugDatabase {
     //   of parsed modifiers in the order they appear in modifiers.txt
 
     // Get the existing modifiers for the name
-    ModifierList existing = Modifiers.getModifierList(type, name);
+    ModifierList existing = ModifierDatabase.getModifierList(new Lookup(type, name));
 
     // Look at each modifier in known
-    for (Modifier modifier : known) {
+    for (ModifierValue modifier : known) {
       String key = modifier.getName();
       String value = modifier.getValue();
 
-      Modifier current = existing.removeModifier(key);
+      ModifierValue current = existing.removeModifier(key);
       if (current != null) {
         String currentValue = current.getValue();
         if (currentValue == null) {
@@ -1128,7 +1120,7 @@ public class DebugDatabase {
           int lbracket = currentValue.indexOf("[");
           int rbracket = currentValue.indexOf("]");
 
-          if (Modifiers.isNumericModifier(key)) {
+          if (ModifierDatabase.isNumericModifier(key)) {
             // Evaluate the expression
             String expression = currentValue.substring(lbracket + 1, rbracket);
 
@@ -1138,8 +1130,7 @@ public class DebugDatabase {
               expression = StringUtilities.singleStringReplace(expression, "R", "5");
             }
 
-            ModifierExpression expr =
-                new ModifierExpression(expression, Modifiers.getLookupName(type, name));
+            ModifierExpression expr = new ModifierExpression(expression, type, name);
             if (expr.hasErrors()) {
               report.println(expr.getExpressionErrors());
             } else {
@@ -1207,7 +1198,7 @@ public class DebugDatabase {
       // Add all modifiers in existing list that were not seen in description to "known"
       known.addAll(existing);
     } else {
-      for (Modifier modifier : existing) {
+      for (ModifierValue modifier : existing) {
         String key = modifier.getName();
         String value = modifier.getValue();
         if (value == null) {
@@ -1220,33 +1211,22 @@ public class DebugDatabase {
   }
 
   private static void logModifierDatum(
-      final String type,
+      final ModifierType type,
       final String name,
       final ModifierList known,
       final ArrayList<String> unknown,
       final PrintStream report) {
     for (String s : unknown) {
-      Modifiers.writeModifierComment(report, null, name, s);
+      ModifierDatabase.writeModifierComment(report, name, s);
     }
 
     if (known.size() == 0) {
       if (unknown.size() == 0) {
-        Modifiers.writeModifierComment(report, null, name);
+        ModifierDatabase.writeModifierComment(report, null, name);
       }
     } else {
-      Modifiers.writeModifierString(report, type, name, DebugDatabase.createModifierString(known));
+      ModifierDatabase.writeModifierString(report, type, name, known.toString());
     }
-  }
-
-  private static String createModifierString(final ModifierList modifiers) {
-    StringBuilder buffer = new StringBuilder();
-    for (Modifier modifier : modifiers) {
-      if (buffer.length() > 0) {
-        buffer.append(", ");
-      }
-      buffer.append(modifier.toString());
-    }
-    return buffer.toString();
   }
 
   private static final Pattern ITEM_ENCHANTMENT_PATTERN =
@@ -1281,18 +1261,18 @@ public class DebugDatabase {
     // included shield DR as well, but for shields that have no
     // enchantments, get DR here.
     if (!known.containsModifier("Damage Reduction")) {
-      DebugDatabase.appendModifier(known, Modifiers.parseDamageReduction(text));
+      DebugDatabase.appendModifier(known, ModifierDatabase.parseDamageReduction(text));
     }
 
-    DebugDatabase.appendModifier(known, Modifiers.parseSkill(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseSingleEquip(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseSoftcoreOnly(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseLastsOneDay(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseFreePull(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseEffect(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseEffectDuration(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseSongDuration(text));
-    DebugDatabase.appendModifier(known, Modifiers.parseDropsItems(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseSkill(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseSingleEquip(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseSoftcoreOnly(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseLastsOneDay(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseFreePull(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseEffect(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseEffectDuration(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseSongDuration(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseDropsItems(text));
 
     if (type == ConsumptionType.FAMILIAR_EQUIPMENT) {
       String familiar = DebugDatabase.parseFamiliar(text);
@@ -1366,14 +1346,14 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown, final ConsumptionType type) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static final String parseItemEnchantments(final String text, final ConsumptionType type) {
     ModifierList known = new ModifierList();
     ArrayList<String> unknown = new ArrayList<>();
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static void parseStandardEnchantments(
@@ -1501,12 +1481,12 @@ public class DebugDatabase {
         }
       }
 
-      String mod = Modifiers.parseModifier(enchantment);
+      String mod = ModifierDatabase.parseModifier(enchantment);
       if (mod != null) {
         // Rollover Effect and Rollover Effect Duration come together
         // Modifiers parses the numeric modifier first
         if (mod.startsWith("Rollover Effect Duration")) {
-          String effect = Modifiers.parseStringModifier(enchantment);
+          String effect = ModifierDatabase.parseStringModifier(enchantment);
           if (effect != null) {
             DebugDatabase.appendModifier(known, effect);
           }
@@ -1515,7 +1495,7 @@ public class DebugDatabase {
         // Damage Reduction can appear in several
         // places. Combine them all.
         else if (mod.startsWith("Damage Reduction")) {
-          mod = Modifiers.parseDamageReduction(text);
+          mod = ModifierDatabase.parseDamageReduction(text);
         } else if (mod.equals("Class: \"December\"")) {
           decemberEvent = true;
           continue;
@@ -1531,7 +1511,7 @@ public class DebugDatabase {
     }
 
     if (decemberEvent) {
-      for (Modifier m : known) {
+      for (ModifierValue m : known) {
         m.setValue("[" + m.getValue() + "*event(December)]");
       }
     }
@@ -1553,11 +1533,11 @@ public class DebugDatabase {
     }
   }
 
-  private static Modifier makeModifier(final String mod) {
+  private static ModifierValue makeModifier(final String mod) {
     int colon = mod.indexOf(":");
     String key = colon == -1 ? mod.trim() : mod.substring(0, colon).trim();
     String value = colon == -1 ? null : mod.substring(colon + 1).trim();
-    return new Modifier(key, value);
+    return new ModifierValue(key, value);
   }
 
   // **********************************************************
@@ -1715,10 +1695,10 @@ public class DebugDatabase {
 
     // Compare to what is already registered.
     // Log differences and substitute formulas, as appropriate.
-    DebugDatabase.checkModifiers("Outfit", name, known, false, report);
+    DebugDatabase.checkModifiers(ModifierType.OUTFIT, name, known, false, report);
 
     // Print the modifiers in the format modifiers.txt expects.
-    DebugDatabase.logModifierDatum("Outfit", name, known, unknown, report);
+    DebugDatabase.logModifierDatum(ModifierType.OUTFIT, name, known, unknown, report);
   }
 
   private static final Pattern OUTFIT_ENCHANTMENT_PATTERN =
@@ -1734,7 +1714,7 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseOutfitEnchantments(text, known, unknown);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   // **********************************************************
@@ -1955,7 +1935,7 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseEffectEnchantments(text, known, unknown);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static final String parseEffectEnchantments(final String text) {
@@ -1973,10 +1953,10 @@ public class DebugDatabase {
 
     // Compare to what is already registered.
     // Log differences and substitute formulas, as appropriate.
-    DebugDatabase.checkModifiers("Effect", name, known, true, report);
+    DebugDatabase.checkModifiers(ModifierType.EFFECT, name, known, true, report);
 
     // Print the modifiers in the format modifiers.txt expects.
-    DebugDatabase.logModifierDatum("Effect", name, known, unknown, report);
+    DebugDatabase.logModifierDatum(ModifierType.EFFECT, name, known, unknown, report);
   }
 
   // **********************************************************
@@ -2029,29 +2009,6 @@ public class DebugDatabase {
     String name = SkillDatabase.getSkillName(skillId);
     if (name == null) {
       return;
-    }
-
-    // Kludge: KoL returns 500 (Internal Server Error) for campground summoning skills
-    switch (skillId) {
-      case SkillPool.SNOWCONE:
-      case SkillPool.STICKER:
-      case SkillPool.SUGAR:
-      case SkillPool.CLIP_ART:
-      case SkillPool.RAD_LIB:
-      case SkillPool.SMITHSNESS:
-      case SkillPool.CANDY_HEART:
-      case SkillPool.PARTY_FAVOR:
-      case SkillPool.LOVE_SONG:
-      case SkillPool.BRICKOS:
-      case SkillPool.DICE:
-      case SkillPool.RESOLUTIONS:
-      case SkillPool.TAFFY:
-      case SkillPool.HILARIOUS:
-      case SkillPool.TASTEFUL:
-      case SkillPool.CARDS:
-      case SkillPool.GEEKY:
-      case SkillPool.CONFISCATOR:
-        return;
     }
 
     String rawText = DebugDatabase.rawSkillDescriptionText(skillId);
@@ -2204,7 +2161,7 @@ public class DebugDatabase {
       final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseSkillEnchantments(text, known, unknown);
-    return DebugDatabase.createModifierString(known);
+    return known.toString();
   }
 
   public static final String parseSkillEnchantments(final String text) {
@@ -2222,11 +2179,11 @@ public class DebugDatabase {
 
     // Compare to what is already registered.
     // Log differences and substitute formulas, as appropriate.
-    DebugDatabase.checkModifiers("Skill", name, known, true, report);
+    DebugDatabase.checkModifiers(ModifierType.SKILL, name, known, true, report);
 
     // Print the modifiers in the format modifiers.txt expects.
     if (known.size() > 0 || unknown.size() > 0) {
-      DebugDatabase.logModifierDatum("Skill", name, known, unknown, report);
+      DebugDatabase.logModifierDatum(ModifierType.SKILL, name, known, unknown, report);
     }
   }
 
@@ -2358,7 +2315,7 @@ public class DebugDatabase {
     // Don't bother checking quest items
     String access = ItemDatabase.getAccessById(id);
     boolean logit = false;
-    if (access != null && !access.contains(ItemDatabase.QUEST_FLAG)) {
+    if (access != null && !access.contains(Attribute.QUEST.description)) {
       String otherPlural;
       boolean checkApi = InventoryManager.getCount(itemId) > 1;
       if (checkApi) {
@@ -2433,6 +2390,94 @@ public class DebugDatabase {
 
   // **********************************************************
 
+  public static final void checkMuseumPlurals(final String parameters) {
+
+    PrintStream report =
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
+
+    try (report) {
+      var array = getMuseumPluralArray();
+      var length = array.length();
+      for (int i = 0; i < length; i++) {
+        var entry = array.getJSONObject(i);
+        var id = entry.getInt("id");
+        var name = entry.getString("name");
+        var plural = entry.optString("plural", "");
+
+        if (plural.equals(name + "s")) {
+          // make default
+          plural = "";
+        }
+
+        String mafiaName = ItemDatabase.getItemDataName(id);
+        if (mafiaName == null) {
+          report.println("Unrecognised item " + id + ": \"" + name + "\"");
+          continue;
+        }
+        if (!mafiaName.equals(name)) {
+          report.println(
+              "item " + id + " has name \"" + name + "\" but Mafia says \"" + mafiaName + "\"");
+        }
+        String mafiaPlural = ItemDatabase.getPluralById(id);
+        if (plural.isEmpty() && !mafiaPlural.isEmpty()) {
+          report.println(
+              "Item "
+                  + id
+                  + ": \""
+                  + name
+                  + "\" has default plural, but Mafia says \""
+                  + mafiaPlural
+                  + "\"");
+        } else if (mafiaPlural.isEmpty() && !plural.isEmpty()) {
+          report.println(
+              "Item " + id + ": \"" + name + "\" has plural unknown to Mafia: \"" + plural + "\"");
+        } else if (!plural.equals(mafiaPlural)) {
+          report.println(
+              "Item "
+                  + id
+                  + ": \""
+                  + name
+                  + "\" has plural \""
+                  + plural
+                  + "\" but Mafia says \""
+                  + mafiaPlural
+                  + "\"");
+        }
+      }
+    }
+  }
+
+  private static JSONArray getMuseumPluralArray() {
+    var client = HttpUtilities.getClientBuilder().build();
+    String url = "https://museum.loathers.net/api/plurals";
+
+    URI uri;
+    try {
+      uri = new URI(url);
+    } catch (URISyntaxException e) {
+      return new JSONArray();
+    }
+
+    var request =
+        HttpRequest.newBuilder(uri).header("User-Agent", GenericRequest.getUserAgent()).build();
+
+    HttpResponse<String> response;
+    try {
+      response = client.send(request, BodyHandlers.ofString(StandardCharsets.UTF_8));
+    } catch (IOException | InterruptedException e) {
+      return new JSONArray();
+    }
+
+    if (response.statusCode() == 200) {
+      String body = response.body();
+      return new JSONArray(body);
+    } else {
+      return new JSONArray();
+    }
+  }
+
+  // **********************************************************
+
   private static boolean powerFilter(AdventureResult item) {
     int itemId = item.getItemId();
     ConsumptionType type = ItemDatabase.getConsumptionType(itemId);
@@ -2446,7 +2491,7 @@ public class DebugDatabase {
   }
 
   private static void conditionallyAddItems(
-      Collection<AdventureResult> items, List<AdventureResult> location, boolean force) {
+      Collection<AdventureResult> items, Collection<AdventureResult> location, boolean force) {
     // If checking display case, retrieve if necessary
     if (location == KoLConstants.collection) {
       if (!KoLCharacter.hasDisplayCase()) {
@@ -2466,8 +2511,9 @@ public class DebugDatabase {
         // Move a single one to inventory and then to the closet
         AdventureResult toTransfer = item.getInstance(1);
         RequestThread.postRequest(
-            new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, toTransfer));
-        RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, toTransfer));
+            new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, toTransfer));
+        RequestThread.postRequest(
+            new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, toTransfer));
       }
       items.add(item);
     }
@@ -2489,7 +2535,7 @@ public class DebugDatabase {
 
     DebugDatabase.conditionallyAddItems(items, KoLConstants.inventory, force);
     DebugDatabase.conditionallyAddItems(items, KoLConstants.closet, force);
-    DebugDatabase.conditionallyAddItems(items, EquipmentManager.allEquipmentAsList(), force);
+    DebugDatabase.conditionallyAddItems(items, EquipmentManager.allEquipmentAsCollection(), force);
     DebugDatabase.conditionallyAddItems(items, KoLConstants.collection, force);
     // Storage must be at the end since we will pull things iff they
     // are not present in a more accessible place
@@ -2567,7 +2613,10 @@ public class DebugDatabase {
     int maxIndex;
     String msg;
     int[][] result;
-    LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
+    List<Concoction> usables =
+        ConcoctionDatabase.getUsables().values().stream()
+            .flatMap(l -> l.stream())
+            .collect(Collectors.toList());
     // size is all elements.  getSize is visible elements.
     maxIndex = usables.size();
     ids = new Concoction[maxIndex];
@@ -2692,7 +2741,8 @@ public class DebugDatabase {
 
       // Potions grant an effect. Check for a new effect.
       String itemName = ItemDatabase.getItemDataName(id);
-      String effectName = Modifiers.getStringModifier("Item", itemId, "Effect");
+      String effectName =
+          ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
       if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
         String rawText = DebugDatabase.rawItemDescriptionText(itemId);
         String effectDescid = DebugDatabase.parseEffectDescid(rawText);
@@ -3219,27 +3269,13 @@ public class DebugDatabase {
       Node child = node.getFirstChild();
 
       switch (tag) {
-        case "title":
-          name = DebugDatabase.getStringValue(child);
-          break;
-        case "advs":
-          advs = DebugDatabase.getNumericValue(child);
-          break;
-        case "musc":
-          musc = DebugDatabase.getNumericValue(child);
-          break;
-        case "myst":
-          myst = DebugDatabase.getNumericValue(child);
-          break;
-        case "mox":
-          mox = DebugDatabase.getNumericValue(child);
-          break;
-        case "fullness":
-          fullness = DebugDatabase.getNumericValue(child);
-          break;
-        case "level":
-          level = DebugDatabase.getNumericValue(child);
-          break;
+        case "title" -> name = DebugDatabase.getStringValue(child);
+        case "advs" -> advs = DebugDatabase.getNumericValue(child);
+        case "musc" -> musc = DebugDatabase.getNumericValue(child);
+        case "myst" -> myst = DebugDatabase.getNumericValue(child);
+        case "mox" -> mox = DebugDatabase.getNumericValue(child);
+        case "fullness" -> fullness = DebugDatabase.getNumericValue(child);
+        case "level" -> level = DebugDatabase.getNumericValue(child);
       }
     }
 
@@ -3315,27 +3351,13 @@ public class DebugDatabase {
       Node child = node.getFirstChild();
 
       switch (tag) {
-        case "title":
-          name = DebugDatabase.getStringValue(child);
-          break;
-        case "advs":
-          advs = DebugDatabase.getNumericValue(child);
-          break;
-        case "musc":
-          musc = DebugDatabase.getNumericValue(child);
-          break;
-        case "myst":
-          myst = DebugDatabase.getNumericValue(child);
-          break;
-        case "mox":
-          mox = DebugDatabase.getNumericValue(child);
-          break;
-        case "drunk":
-          drunk = DebugDatabase.getNumericValue(child);
-          break;
-        case "level":
-          level = DebugDatabase.getNumericValue(child);
-          break;
+        case "title" -> name = DebugDatabase.getStringValue(child);
+        case "advs" -> advs = DebugDatabase.getNumericValue(child);
+        case "musc" -> musc = DebugDatabase.getNumericValue(child);
+        case "myst" -> myst = DebugDatabase.getNumericValue(child);
+        case "mox" -> mox = DebugDatabase.getNumericValue(child);
+        case "drunk" -> drunk = DebugDatabase.getNumericValue(child);
+        case "level" -> level = DebugDatabase.getNumericValue(child);
       }
     }
 
@@ -3454,40 +3476,20 @@ public class DebugDatabase {
       Node child = node.getFirstChild();
 
       switch (tag) {
-        case "cansmash":
-          cansmash = DebugDatabase.getStringValue(child).equals("y");
-          break;
-        case "confirmed":
-          confirmed = DebugDatabase.getStringValue(child).equals("y");
-          break;
-        case "title":
-          name = DebugDatabase.getStringValue(child);
-          break;
-        case "kolid":
+        case "cansmash" -> cansmash = DebugDatabase.getStringValue(child).equals("y");
+        case "confirmed" -> confirmed = DebugDatabase.getStringValue(child).equals("y");
+        case "title" -> name = DebugDatabase.getStringValue(child);
+        case "kolid" -> {
           id = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
           seen.add(id);
-          break;
-        case "yield":
-          yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
-          break;
-        case "cold":
-          cold = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "hot":
-          hot = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "sleazy":
-          sleaze = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "spooky":
-          spooky = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "stinky":
-          stench = !DebugDatabase.getStringValue(child).equals("0");
-          break;
-        case "twinkly":
-          twinkly = !DebugDatabase.getStringValue(child).equals("0");
-          break;
+        }
+        case "yield" -> yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
+        case "cold" -> cold = !DebugDatabase.getStringValue(child).equals("0");
+        case "hot" -> hot = !DebugDatabase.getStringValue(child).equals("0");
+        case "sleazy" -> sleaze = !DebugDatabase.getStringValue(child).equals("0");
+        case "spooky" -> spooky = !DebugDatabase.getStringValue(child).equals("0");
+        case "stinky" -> stench = !DebugDatabase.getStringValue(child).equals("0");
+        case "twinkly" -> twinkly = !DebugDatabase.getStringValue(child).equals("0");
       }
     }
 
@@ -3883,5 +3885,31 @@ public class DebugDatabase {
       }
     }
     return (theList);
+  }
+
+  public static void checkLocalSVNRepositoryForGitHub(File root) {
+    File[] contents = root.listFiles();
+    if (contents != null) {
+      for (File f : contents) {
+        if (f.getName().startsWith(".")) continue;
+        if (f.isDirectory()) {
+          try {
+            SVNURL repo = SVNManager.workingCopyToSVNURL(f);
+            if (repo == null) {
+              RequestLogger.printLine(
+                  f.getName() + " does not seem to have a valid remote repository.");
+            } else {
+              String repoHost = repo.getHost();
+              if (repoHost.equalsIgnoreCase("github.com")) {
+                RequestLogger.printLine(
+                    "Local installation of " + f.getName() + " uses SVN to update from GitHub.");
+              }
+            }
+          } catch (SVNException e) {
+            StaticEntity.printStackTrace(e);
+          }
+        }
+      }
+    }
   }
 }

@@ -63,13 +63,9 @@ public abstract class KoLmafiaASH {
     String field2 = null;
 
     switch (script) {
-      case "place.php":
-        field1 = request.getFormField("whichplace");
-        break;
-      case "shop.php":
-        field1 = request.getFormField("whichshop");
-        break;
-      case "campground.php":
+      case "place.php" -> field1 = request.getFormField("whichplace");
+      case "shop.php" -> field1 = request.getFormField("whichshop");
+      case "campground.php" -> {
         field1 = request.getFormField("action");
         if (field1 != null && field1.equals("workshed")) {
           AdventureResult workshed_item = CampgroundRequest.getCurrentWorkshedItem();
@@ -77,7 +73,7 @@ public abstract class KoLmafiaASH {
             field2 = field1 + "." + workshed_item.getItemId();
           }
         }
-        break;
+      }
     }
 
     String scriptName = script.substring(0, script.length() - 4);

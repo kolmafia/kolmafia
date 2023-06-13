@@ -61,22 +61,15 @@ public class VolcanoIslandRequest extends GenericRequest {
   }
 
   public static String npcName() {
-    switch (KoLCharacter.getAscensionClass()) {
-      case SEAL_CLUBBER:
-        return "a Palm Tree Shelter";
-      case TURTLE_TAMER:
-        return "a Guy in the Bushes";
-      case DISCO_BANDIT:
-        return "a Girl in a Black Dress";
-      case ACCORDION_THIEF:
-        return "the Fishing Village";
-      case PASTAMANCER:
-        return "a Protestor";
-      case SAUCEROR:
-        return "a Boat";
-      default:
-        return null;
-    }
+    return switch (KoLCharacter.getAscensionClass()) {
+      case SEAL_CLUBBER -> "a Palm Tree Shelter";
+      case TURTLE_TAMER -> "a Guy in the Bushes";
+      case DISCO_BANDIT -> "a Girl in a Black Dress";
+      case ACCORDION_THIEF -> "the Fishing Village";
+      case PASTAMANCER -> "a Protestor";
+      case SAUCEROR -> "a Boat";
+      default -> null;
+    };
   }
 
   private static String visitNPC(final String urlString) {

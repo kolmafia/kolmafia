@@ -114,7 +114,7 @@ public final class Line {
   }
 
   Iterable<Token> getTokensIterator() {
-    return new Iterable<Token>() {
+    return new Iterable<>() {
       @Override
       public Iterator<Token> iterator() {
         return Line.this.tokens.iterator();

@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -118,7 +119,7 @@ public class PulverizeRequest extends GenericRequest {
         return;
     }
 
-    if (!KoLCharacter.hasSkill("Pulverize")) {
+    if (!KoLCharacter.hasSkill(SkillPool.PULVERIZE)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't know how to pulverize objects.");
       return;
     }

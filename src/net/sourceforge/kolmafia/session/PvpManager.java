@@ -19,14 +19,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PvpManager {
   // The current mapping of stances
-  public static final TreeMap<Integer, String> optionToStance = new TreeMap<Integer, String>();
-  public static final TreeMap<String, Integer> stanceToOption = new TreeMap<String, Integer>();
+  public static final TreeMap<Integer, String> optionToStance = new TreeMap<>();
+  public static final TreeMap<String, Integer> stanceToOption = new TreeMap<>();
   public static boolean stancesKnown = false;
 
   // Support for fuzzy mapping of stance names
   public static String[] canonicalStances = null;
-  public static final TreeMap<String, Integer> canonicalStanceToOption =
-      new TreeMap<String, Integer>();
+  public static final TreeMap<String, Integer> canonicalStanceToOption = new TreeMap<>();
 
   // <select name="stance"><option value="0" >Bear Hugs All Around</option><option value="1"
   // selected>Beary Famous</option><option value="2" >Barely Dressed</option><option value="3"
@@ -64,7 +63,7 @@ public class PvpManager {
     PvpManager.optionToStance.clear();
     PvpManager.stanceToOption.clear();
 
-    ArrayList<String> canonical = new ArrayList<String>();
+    ArrayList<String> canonical = new ArrayList<>();
 
     Matcher optionsMatcher = PvpManager.STANCE_OPTION_PATTERN.matcher(stances);
     while (optionsMatcher.find()) {

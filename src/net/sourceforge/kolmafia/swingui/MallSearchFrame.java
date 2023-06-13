@@ -104,7 +104,7 @@ public class MallSearchFrame extends GenericPanelFrame {
 
       this.forceSortingCheckBox = new JCheckBox();
       this.limitPurchasesCheckBox = new JCheckBox();
-      MallSearchFrame.results = new SortedListModel<PurchaseRequest>();
+      MallSearchFrame.results = new SortedListModel<>();
 
       JPanel checkBoxPanels = new JPanel();
       checkBoxPanels.add(Box.createHorizontalStrut(20));

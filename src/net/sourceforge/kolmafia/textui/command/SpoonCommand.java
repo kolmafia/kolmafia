@@ -6,11 +6,11 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class SpoonCommand extends AbstractCommand {
@@ -61,8 +61,8 @@ public class SpoonCommand extends AbstractCommand {
     }
 
     AdventureResult spoon = ItemPool.get(ItemPool.HEWN_MOON_RUNE_SPOON);
-    int slot = KoLCharacter.equipmentSlot(spoon);
-    if (slot != EquipmentManager.NONE) {
+    Slot slot = KoLCharacter.equipmentSlot(spoon);
+    if (slot != Slot.NONE) {
       RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, slot));
     }
 
@@ -76,7 +76,7 @@ public class SpoonCommand extends AbstractCommand {
     RequestThread.postRequest(new GenericRequest(buf));
 
     KoLmafia.updateDisplay("Tuning moon to " + sign);
-    if (slot != EquipmentManager.NONE) {
+    if (slot != Slot.NONE) {
       RequestThread.postRequest(new EquipmentRequest(spoon, slot));
     }
     KoLCharacter.updateStatus();

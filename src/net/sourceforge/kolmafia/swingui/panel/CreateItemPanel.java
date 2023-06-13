@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
@@ -97,7 +98,7 @@ public class CreateItemPanel extends InventoryPanel<CreateItemRequest> {
         int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;
         RequestThread.postRequest(
             new StorageRequest(
-                StorageRequest.STORAGE_TO_INVENTORY,
+                StorageRequestType.STORAGE_TO_INVENTORY,
                 new AdventureResult[] {ItemPool.get(selection.getItemId(), pulled)}));
         ConcoctionDatabase.setPullsBudgeted(newbudget);
       }
@@ -133,7 +134,7 @@ public class CreateItemPanel extends InventoryPanel<CreateItemRequest> {
         int newbudget = ConcoctionDatabase.getPullsBudgeted() - pulled;
         RequestThread.postRequest(
             new StorageRequest(
-                StorageRequest.STORAGE_TO_INVENTORY,
+                StorageRequestType.STORAGE_TO_INVENTORY,
                 new AdventureResult[] {ItemPool.get(selection.getItemId(), pulled)}));
         ConcoctionDatabase.setPullsBudgeted(newbudget);
       }

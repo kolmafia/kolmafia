@@ -182,15 +182,9 @@ public class IslandRequest extends GenericRequest {
   @Override
   public void run() {
     switch (this.quest) {
-      case ARENA:
-        KoLmafia.updateDisplay("Visiting the Mysterious Island Arena...");
-        break;
-      case LIGHTHOUSE:
-        KoLmafia.updateDisplay("Visiting the Lighthouse Keeper...");
-        break;
-      case FARM:
-        KoLmafia.updateDisplay("Visiting the Farmer...");
-        break;
+      case ARENA -> KoLmafia.updateDisplay("Visiting the Mysterious Island Arena...");
+      case LIGHTHOUSE -> KoLmafia.updateDisplay("Visiting the Lighthouse Keeper...");
+      case FARM -> KoLmafia.updateDisplay("Visiting the Farmer...");
     }
 
     super.run();
@@ -206,7 +200,7 @@ public class IslandRequest extends GenericRequest {
     IslandRequest.parseResponse(this.getURLString(), this.responseText);
 
     switch (this.quest) {
-      case ARENA:
+      case ARENA -> {
         // Unfortunately, you think you've pretty much tapped out this
         // event's entertainment potential for today
         //
@@ -223,22 +217,14 @@ public class IslandRequest extends GenericRequest {
           KoLmafia.updateDisplay("Nobody is performing.");
           return;
         }
-
         if (!this.responseText.contains("You acquire an effect")) {
           KoLmafia.updateDisplay("You couldn't get to the Mysterious Island Arena.");
           return;
         }
-
         KoLmafia.updateDisplay("A music lover is you.");
-        break;
-
-      case LIGHTHOUSE:
-        KoLmafia.updateDisplay("Done visiting the Lighthouse Keeper.");
-        break;
-
-      case FARM:
-        KoLmafia.updateDisplay("Done visiting the Farmer.");
-        break;
+      }
+      case LIGHTHOUSE -> KoLmafia.updateDisplay("Done visiting the Lighthouse Keeper.");
+      case FARM -> KoLmafia.updateDisplay("Done visiting the Farmer.");
     }
   }
 
@@ -379,31 +365,34 @@ public class IslandRequest extends GenericRequest {
       return true;
     }
 
-    if (action.equals("concert")) {
-      Matcher matcher = OPTION_PATTERN.matcher(urlString);
-      if (!matcher.find()) {
-        return true;
+    switch (action) {
+      case "concert" -> {
+        Matcher matcher = OPTION_PATTERN.matcher(urlString);
+        if (!matcher.find()) {
+          return true;
+        }
+        message = "concert " + matcher.group(1);
       }
-      message = "concert " + matcher.group(1);
-    } else if (action.equals("junkman")) {
-      message = "Visiting Yossarian";
-    } else if (action.equals("stand")) {
-      message = "Visiting The Organic Produce Stand";
-      gcli = true; // Part of Breakfast
-    } else if (action.equals("farmer")) {
-      message = "Visiting Farmer McMillicancuddy";
-      gcli = true; // Part of Breakfast
-    } else if (action.equals("nuns")) {
-      message = "Visiting Our Lady of Perpetual Indecision ";
-    } else if (action.equals("pyro")) {
-      int count = IslandRequest.GUNPOWDER.getCount(KoLConstants.inventory);
-      message =
-          "Visiting the lighthouse keeper with "
-              + count
-              + " barrel"
-              + (count == 1 ? "" : "s")
-              + " of gunpowder.";
-      gcli = true; // Part of Breakfast
+      case "junkman" -> message = "Visiting Yossarian";
+      case "stand" -> {
+        message = "Visiting The Organic Produce Stand";
+        gcli = true; // Part of Breakfast
+      }
+      case "farmer" -> {
+        message = "Visiting Farmer McMillicancuddy";
+        gcli = true; // Part of Breakfast
+      }
+      case "nuns" -> message = "Visiting Our Lady of Perpetual Indecision ";
+      case "pyro" -> {
+        int count = IslandRequest.GUNPOWDER.getCount(KoLConstants.inventory);
+        message =
+            "Visiting the lighthouse keeper with "
+                + count
+                + " barrel"
+                + (count == 1 ? "" : "s")
+                + " of gunpowder.";
+        gcli = true; // Part of Breakfast
+      }
     }
 
     if (message == null) {

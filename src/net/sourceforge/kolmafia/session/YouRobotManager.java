@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,10 +12,14 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -80,7 +84,7 @@ public abstract class YouRobotManager {
       return this.usable;
     }
 
-    int getSlot() {
+    Slot getSlot() {
       return this.usable.getSlot();
     }
 
@@ -93,28 +97,28 @@ public abstract class YouRobotManager {
   public static enum Effect {
     PASSIVE,
     COMBAT,
-    EQUIP;
+    EQUIP
   }
 
   public static enum Usable {
     NONE("no special effect"),
-    HAT("can equip hats", EquipmentManager.HAT),
-    WEAPON("can equip weapons", EquipmentManager.WEAPON),
-    OFFHAND("can equip offhands", EquipmentManager.OFFHAND),
-    SHIRT("can equip shirts", EquipmentManager.SHIRT),
-    PANTS("can equip pants", EquipmentManager.PANTS),
+    HAT("can equip hats", Slot.HAT),
+    WEAPON("can equip weapons", Slot.WEAPON),
+    OFFHAND("can equip offhands", Slot.OFFHAND),
+    SHIRT("can equip shirts", Slot.SHIRT),
+    PANTS("can equip pants", Slot.PANTS),
     FAMILIAR("can use familiars"),
     POTIONS("can use potions");
 
     String description;
     int consume;
-    int slot;
+    Slot slot;
 
     Usable(String description) {
-      this(description, EquipmentManager.NONE);
+      this(description, Slot.NONE);
     }
 
-    Usable(String description, int slot) {
+    Usable(String description, Slot slot) {
       this.description = description;
       this.slot = slot;
     }
@@ -123,7 +127,7 @@ public abstract class YouRobotManager {
       return this.description;
     }
 
-    public int getSlot() {
+    public Slot getSlot() {
       return this.slot;
     }
 
@@ -213,7 +217,7 @@ public abstract class YouRobotManager {
       this.part = part;
       this.effect = effect;
       this.cost = cost;
-      this.mods = Modifiers.getModifiers("Robot", name);
+      this.mods = ModifierDatabase.getModifiers(ModifierType.ROBOT, name);
       this.index = 0;
       this.keyword = "";
       this.usable = Usable.NONE;
@@ -240,7 +244,7 @@ public abstract class YouRobotManager {
     RobotUpgrade(String name, Part part, int index, int cost) {
       this(name, part, Effect.PASSIVE, cost);
       this.index = index;
-      this.string = this.mods.getString("Modifiers");
+      this.string = this.mods.getString(StringModifier.MODIFIERS);
       addToIndexMaps();
     }
 
@@ -265,7 +269,7 @@ public abstract class YouRobotManager {
     RobotUpgrade(String name, String keyword, int cost) {
       this(name, Part.CPU, Effect.PASSIVE, cost);
       this.keyword = keyword;
-      this.string = this.mods.getString("Modifiers");
+      this.string = this.mods.getString(StringModifier.MODIFIERS);
       addToIndexMaps();
     }
 
@@ -337,21 +341,11 @@ public abstract class YouRobotManager {
 
     private void addToIndexMaps() {
       switch (this.part) {
-        case TOP:
-          indexToTop.put(this.index, this);
-          break;
-        case LEFT:
-          indexToLeft.put(this.index, this);
-          break;
-        case RIGHT:
-          indexToRight.put(this.index, this);
-          break;
-        case BOTTOM:
-          indexToBottom.put(this.index, this);
-          break;
-        case CPU:
-          keywordToCPU.put(this.keyword, this);
-          break;
+        case TOP -> indexToTop.put(this.index, this);
+        case LEFT -> indexToLeft.put(this.index, this);
+        case RIGHT -> indexToRight.put(this.index, this);
+        case BOTTOM -> indexToBottom.put(this.index, this);
+        case CPU -> keywordToCPU.put(this.keyword, this);
       }
     }
   }
@@ -374,7 +368,7 @@ public abstract class YouRobotManager {
   // *** Current state of Configuration
 
   private static final Map<Part, RobotUpgrade> currentParts = new HashMap<>();
-  private static final Set<RobotUpgrade> currentCPU = new HashSet<>();
+  private static final Set<RobotUpgrade> currentCPU = EnumSet.noneOf(RobotUpgrade.class);
 
   // For testing
   public static void reset() {
@@ -389,16 +383,10 @@ public abstract class YouRobotManager {
 
   public static boolean hasEquipped(RobotUpgrade upgrade) {
     Part part = upgrade.getPart();
-    switch (part) {
-      case TOP:
-      case LEFT:
-      case RIGHT:
-      case BOTTOM:
-        return currentParts.get(part) == upgrade;
-      case CPU:
-        return currentCPU.contains(upgrade);
-    }
-    return false;
+    return switch (part) {
+      case TOP, LEFT, RIGHT, BOTTOM -> currentParts.get(part) == upgrade;
+      case CPU -> currentCPU.contains(upgrade);
+    };
   }
 
   // *** Public methods to parse robot info from KoL responses
@@ -505,13 +493,11 @@ public abstract class YouRobotManager {
     currentParts.put(part, upgrade);
 
     switch (upgrade.getEffect()) {
-      case COMBAT:
-        upgrade.addCombatSkill();
-        break;
-      case EQUIP:
+      case COMBAT -> upgrade.addCombatSkill();
+      case EQUIP -> {
         EquipmentManager.updateEquipmentList(part.getSlot());
         EquipmentManager.updateNormalOutfits();
-        break;
+      }
     }
 
     // Set the legacy properties for use by scripts
@@ -530,7 +516,7 @@ public abstract class YouRobotManager {
       KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
     } else if (upgrade.getEffect() == Effect.EQUIP) {
       // If replacing another equipment part, drop the equipment
-      int slot = part.getSlot();
+      Slot slot = part.getSlot();
       EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
       EquipmentManager.updateEquipmentList(slot);
       EquipmentManager.updateNormalOutfits();
@@ -558,7 +544,7 @@ public abstract class YouRobotManager {
       // This was detected on the charsheet when you log in, but tests do not
       // parse the charasheet
       KoLCharacter.addAvailableSkill(SkillPool.TORSO);
-      EquipmentManager.updateEquipmentList(EquipmentManager.SHIRT);
+      EquipmentManager.updateEquipmentList(Slot.SHIRT);
       EquipmentManager.updateNormalOutfits();
     } else {
       KoLCharacter.recalculateAdjustments();
@@ -588,21 +574,15 @@ public abstract class YouRobotManager {
 
   // Used by EquipmentManager.canEquip
   public static boolean canEquip(final ConsumptionType type) {
-    switch (type) {
-      case HAT:
-        return hasEquipped(RobotUpgrade.MANNEQUIN_HEAD);
-      case WEAPON:
-        return hasEquipped(RobotUpgrade.VICE_GRIPS);
-      case OFFHAND:
-        return hasEquipped(RobotUpgrade.OMNI_CLAW);
-      case SHIRT:
-        return hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
-      case PANTS:
-        return hasEquipped(RobotUpgrade.ROBO_LEGS);
-    }
-
-    // Any other slot is allowed
-    return true;
+    return switch (type) {
+      case HAT -> hasEquipped(RobotUpgrade.MANNEQUIN_HEAD);
+      case WEAPON -> hasEquipped(RobotUpgrade.VICE_GRIPS);
+      case OFFHAND -> hasEquipped(RobotUpgrade.OMNI_CLAW);
+      case SHIRT -> hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
+      case PANTS -> hasEquipped(RobotUpgrade.ROBO_LEGS);
+        // Any other slot is allowed
+      default -> true;
+    };
   }
 
   // Used by KoLCharacter.canUsePotions

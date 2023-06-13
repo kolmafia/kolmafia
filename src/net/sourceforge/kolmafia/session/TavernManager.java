@@ -314,7 +314,7 @@ public class TavernManager {
   }
 
   private static ArrayList<Integer> getSearchList(final String layout) {
-    ArrayList<Integer> searchList = new ArrayList<Integer>();
+    ArrayList<Integer> searchList = new ArrayList<>();
 
     for (int i = 0; i < TavernManager.searchOrder.length; ++i) {
       searchList.add(TavernManager.searchOrder[i]);

@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -18,6 +19,7 @@ import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
@@ -158,15 +160,12 @@ public abstract class HPRestoreItemList {
   public static void updateHealthRestored() {
     HPRestoreItemList.CAMPGROUND.healthPerUse = KoLCharacter.getRestingHP();
     HPRestoreItemList.FREEREST.healthPerUse =
-        ChateauRequest.chateauRestUsable()
+        (ChateauRequest.chateauRestUsable() || CampAwayRequest.campAwayTentRestUsable())
             ? 250
-            : (Preferences.getBoolean("restUsingCampAwayTent")
-                    && Preferences.getBoolean("getawayCampsiteUnlocked"))
-                ? 250
-                : KoLCharacter.getRestingHP();
+            : KoLCharacter.getRestingHP();
     HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
     HPRestoreItemList.DISCONAP.healthPerUse =
-        KoLCharacter.hasSkill("Adventurer of Leisure") ? 40 : 20;
+        KoLCharacter.hasSkill(SkillPool.ADVENTURER_OF_LEISURE) ? 40 : 20;
     HPRestoreItemList.DOCS_UNGUENT.purchaseCost =
         QuestDatabase.isQuestFinished(Quest.DOC) ? 20 : 30;
     HPRestoreItemList.DOCS_ELIXIR.purchaseCost =
@@ -263,11 +262,9 @@ public abstract class HPRestoreItemList {
 
     @Override
     public int compareTo(final RestoreItem o) {
-      if (!(o instanceof HPRestoreItem)) {
+      if (!(o instanceof HPRestoreItem hpi)) {
         return super.compareTo(o);
       }
-
-      HPRestoreItem hpi = (HPRestoreItem) o;
 
       // Health restores are special because skills are preferred
       // over items, so test for that first.
@@ -395,7 +392,7 @@ public abstract class HPRestoreItemList {
           return;
         }
 
-        RequestThread.postRequest(new ClanLoungeRequest(ClanLoungeRequest.HOTTUB));
+        RequestThread.postRequest(new ClanLoungeRequest(Action.HOTTUB));
         return;
       }
 

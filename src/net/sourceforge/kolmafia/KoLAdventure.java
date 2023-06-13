@@ -12,7 +12,9 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.combat.Macrofier;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -30,6 +32,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -260,6 +263,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   }
 
   public int getSnarfblat() {
+    if (this.adventureId.equals("shadow_rift")) {
+      // Going through a Shadow Rift redirects to
+      // adventure.php?snarfblat=567
+      return AdventurePool.SHADOW_RIFT;
+    }
+
     if (!hasSnarfblat()) {
       return -1;
     }
@@ -479,7 +488,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       EffectPool.get(EffectPool.FILTHWORM_DRONE_STENCH);
   private static final AdventureResult FILTHWORM_GUARD_STENCH =
       EffectPool.get(EffectPool.FILTHWORM_GUARD_STENCH);
-  private static final AdventureResult HARE_BRAINED = EffectPool.get(EffectPool.HARE_BRAINED);
 
   private static final Map<String, String> grimstoneZones =
       Map.ofEntries(
@@ -499,13 +507,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           Map.entry("Drunken Stupor", ""));
 
   public boolean tooDrunkToAdventure() {
-    if (!KoLCharacter.isFallingDown()) return false;
+    if (!KoLCharacter.isFallingDown()) {
+      return false;
+    }
 
     // The wine glass allows you to adventure in snarfblat zones while falling down drunk
     // There may be some non-snarfblat zones coded to respect the wineglass, but I've not
     // been able to find any.
-    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS)) && hasSnarfblat())
-      return false;
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS))) {
+      if (this.hasSnarfblat()) {
+        return false;
+      }
+      // Shadow Rift locations are place.php redirecting to adventure.php?snarfblat=567
+      if (this.zone.equals("Shadow Rift")) {
+        return false;
+      }
+    }
 
     // There are some limit modes that allow adventuring even while falling down drunk
     switch (KoLCharacter.getLimitMode()) {
@@ -520,6 +537,16 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     return true;
+  }
+
+  private static boolean woodsOpen() {
+    return QuestDatabase.isQuestStarted(Quest.LARVA) || QuestDatabase.isQuestStarted(Quest.CITADEL);
+  }
+
+  private static boolean cemetaryOpen() {
+    return QuestDatabase.isQuestStarted(Quest.CYRPT)
+        || QuestDatabase.isQuestStarted(Quest.EGO)
+        || QuestDatabase.isQuestStarted(Quest.NEMESIS);
   }
 
   private static Set<String> invalidExploathingPlaces =
@@ -587,6 +614,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return checkZone("telegraphOfficeAvailable", "_telegraphOfficeToday", "town_right");
       case "Neverending Party":
         // Unlimited adventuring if available
+        if (KoLCharacter.inLegacyOfLoathing()) {
+          if (Preferences.getBoolean("replicaNeverendingPartyAlways")) {
+            return true;
+          }
+        }
         return checkZone("neverendingPartyAlways", "_neverendingPartyToday", "town_wrong");
       case "FantasyRealm":
         // One daily visit if available
@@ -833,6 +865,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return turnsUsed < 25 || turnsUsed == 27;
     }
 
+    // Crimbo Train (Locomotive)
+    if (this.adventureId.equals(AdventurePool.LOCOMOTIVE_ID)) {
+      return !Preferences.getBoolean("superconductorDefeated");
+    }
+
     /* Removed adventures.
     if (this.adventureId.equals(AdventurePool.ELDRITCH_FISSURE_ID)) {
       return Preferences.getBoolean("eldritchFissureAvailable");
@@ -842,6 +879,61 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return Preferences.getBoolean("eldritchHorrorAvailable");
     }
     */
+
+    if (this.zone.equals("Shadow Rift")) {
+      if (!InventoryManager.hasItem(ItemPool.CLOSED_CIRCUIT_PAY_PHONE)
+          && !KoLCharacter.inShadowsOverLoathing()) {
+        // need payphone in inventory or to be in ASoL
+        return false;
+      }
+
+      // These are "place.php" visits.
+      ShadowRift rift = ShadowRift.findAdventureName(this.adventureName);
+      String ingress = Preferences.getString("shadowRiftIngress");
+      if (rift == null) {
+        // Requesting generic Shadow Rift, which will go straight to
+        // adventure.php as if through the most recent rift you entered.
+        //
+        // If we haven't yet gone through a Shadow Rift this ascension,
+        // you'll find nothing but tumbleweeds, which is unlikely to be
+        // what the user wants.
+        return !ingress.equals("");
+      }
+      // If the desired rift is through the current ingress, cool.
+      if (rift.getPlace().equals(ingress)) {
+        return true;
+      }
+      // Otherwise, we want to adventure through a specific rift.
+      // Ensure that we can reach it.
+      return switch (rift) {
+          // Right Side of the Tracks and The Nearby Plains
+        case TOWN, PLAINS -> true;
+          // The Distant Woods, Forest Village, The 8-Bit Realm
+        case WOODS, VILLAGE, REALM -> KoLAdventure.woodsOpen();
+          // Spookyraven Manor Third Floor
+        case MANOR -> QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
+          // The Misspelled Cemetary
+        case CEMETARY -> KoLAdventure.cemetaryOpen();
+          // Desert Beach
+        case BEACH -> KoLCharacter.desertBeachAccessible();
+          // Mt. McLargeHuge
+        case MCLARGEHUGE -> QuestDatabase.isQuestStarted(Quest.TRAPPER);
+          // Somewhere Over the Beanstalk
+        case BEANSTALK -> !KoLCharacter.isKingdomOfExploathing()
+            && (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)
+                || (QuestDatabase.isQuestStarted(Quest.GARBAGE)
+                    && InventoryManager.hasItem(ENCHANTED_BEAN)));
+          // The Castle in the Clouds in the Sky
+        case CASTLE -> KoLCharacter.isKingdomOfExploathing()
+            // Kingdom of Exploathing aftercore retains access. Check quest
+            || QuestDatabase.isQuestFinished(Quest.GARBAGE)
+            || InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1));
+          // The Hidden City
+        case CITY -> QuestDatabase.isQuestLaterThan(Quest.WORSHIP, "step2");
+          // The Ancient Buried Pyramid
+        case PYRAMID -> QuestDatabase.isQuestStarted(Quest.PYRAMID);
+      };
+    }
 
     // Only look at adventure.php locations below this.
     if (!this.formSource.startsWith("adventure.php")) {
@@ -1004,8 +1096,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       return switch (this.adventureNumber) {
         case AdventurePool.FUN_HOUSE -> QuestDatabase.isQuestLaterThan(Quest.NEMESIS, "step4");
-        case AdventurePool.UNQUIET_GARVES -> QuestDatabase.isQuestStarted(Quest.CYRPT)
-            || QuestDatabase.isQuestStarted(Quest.EGO);
+        case AdventurePool.UNQUIET_GARVES -> KoLAdventure.cemetaryOpen();
         case AdventurePool.VERY_UNQUIET_GARVES -> QuestDatabase.isQuestFinished(Quest.CYRPT);
           // Allow future "Plains" zones
         default -> true;
@@ -1026,10 +1117,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       // With the exception of a few challenge paths, the Woods open when
       // the Council asks for a mosquito larva at level two.
+      // In Community Service and Grey Goo (or at any other time, I suppose)
+      // the Woods open when Whitey's Grove is opened by the Citadel quest.
+      // This logic is handled in KoLAdventure.woodsOpen()
       return switch (this.adventureNumber) {
         case AdventurePool.BARROOM_BRAWL -> QuestDatabase.isQuestStarted(Quest.RAT);
           // prepareForAdventure will visit the Crackpot Mystic to get one, if needed
-        case AdventurePool.PIXEL_REALM -> QuestDatabase.isQuestStarted(Quest.LARVA)
+        case AdventurePool.PIXEL_REALM -> KoLAdventure.woodsOpen()
             || InventoryManager.hasItem(TRANSFUNCTIONER);
         case AdventurePool.HIDDEN_TEMPLE -> KoLCharacter.getTempleUnlocked()
             // Kingdom of Exploathing aftercore retains access. Check quest
@@ -1042,7 +1136,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
             Quest.CITADEL, QuestDatabase.STARTED);
         case AdventurePool.OLD_LANDFILL -> QuestDatabase.isQuestStarted(Quest.HIPPY);
           // Allow future "Woods" zones
-        default -> QuestDatabase.isQuestStarted(Quest.LARVA);
+        default -> KoLAdventure.woodsOpen();
       };
     }
 
@@ -1051,7 +1145,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (KoLCharacter.isKingdomOfExploathing()) {
         return switch (this.adventureNumber) {
           case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
-          case AdventurePool.OASIS -> Preferences.getInteger("desertExploration") > 0
+          case AdventurePool.OASIS -> Preferences.getBoolean("oasisAvailable")
               || QuestDatabase.isQuestFinished(Quest.DESERT);
           default -> false;
         };
@@ -1065,8 +1159,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.THE_SHORE, AdventurePool.SOUTH_OF_THE_BORDER -> true;
           // Open after diary read
         case AdventurePool.ARID_DESERT -> QuestDatabase.isQuestStarted(Quest.DESERT);
-          // Open after 1 desert exploration or - legacy - desert quest is finished
-        case AdventurePool.OASIS -> Preferences.getInteger("desertExploration") > 0
+          // Opens after 1st desert exploration or - legacy - desert quest is finished
+        case AdventurePool.OASIS -> Preferences.getBoolean("oasisAvailable")
             || QuestDatabase.isQuestFinished(Quest.DESERT);
           // Open with "Tropical Contact High"
         case AdventurePool.KOKOMO_RESORT -> KoLConstants.activeEffects.contains(
@@ -1649,6 +1743,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
     }
 
+    if (this.zone.equals("The 8-Bit Realm")) {
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        return false;
+      }
+      return KoLAdventure.woodsOpen() || InventoryManager.hasItem(TRANSFUNCTIONER);
+    }
+
     if (this.zone.equals("The Drip")) {
       if (!InventoryManager.hasItem(DRIP_HARNESS)) {
         return false;
@@ -1805,7 +1906,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
-    if (this.rootZone.equals("Astral")) {
+    if (this.zone.equals("Astral")) {
       // astral mushroom grants 5 turns of Half-Astral
       // You can choose the type of trip to take.
       // You cannot adventure anywhere else until it expires.
@@ -1865,7 +1966,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     if (this.zone.equals("Neverending Party")) {
       // The Neverending Party
       return Preferences.getBoolean("neverendingPartyAlways")
-          || Preferences.getBoolean("_neverendingPartyToday");
+          || Preferences.getBoolean("_neverendingPartyToday")
+          || KoLCharacter.inLegacyOfLoathing()
+              && Preferences.getBoolean("replicaNeverendingPartyAlways");
     }
 
     if (this.zone.equals("Video Game Dungeon")) {
@@ -1928,18 +2031,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return InventoryManager.hasItem(item);
     }
 
-    // You can only have one jar of psychoses open at once.
-    // Each type of jar gives you access to a zone
-    // There is a quest associated with each.
-    // After you finish, you can no longer adventure there.
-    // We do not track those quests.
     if (this.parentZone.equals("Psychoses")) {
-      // AdventureResult item - the item needed to activate this zone
-      // That item is in the Campground if it is currently active
+      // You can only have one jar of psychoses open at once.
+      // Each type of jar gives you access to a zone
       // _psychoJarUsed - if a psycho jar is in use
-      // prepareForAdventure will NOT use a jar of psychoses if necessary.
-      // *** Should it? They are very expensive
-      return KoLConstants.campground.contains(item) || InventoryManager.hasItem(item);
+      // item - the item needed to activate this zone
+      // That item is in the Campground if it is currently active
+      if (KoLConstants.campground.contains(item)) {
+        // There is a quest associated with each jar
+        // After you finish, you can no longer adventure there.
+        // We do not track those quests.
+        // *** Add quest tracking and return false if quest is complete.
+        return true;
+      }
+
+      // prepareForAdventure will NOT use a jar of psychoses.
+      return false;
     }
 
     // You can only have one grimstone mask in use at a time.
@@ -1958,10 +2065,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // See if the tale is finished
         switch (tale) {
           case "hare" -> {
-            // 30 turns of the Hare-Brained effect.
-            // The zone closes when you lose the effect.
-            // You adventure at A Deserted Stretch of I-911
-            return KoLConstants.activeEffects.contains(HARE_BRAINED);
+            // 30 turns to adventure in A Deserted Stretch of I-911.
+            // The zone closes when you finish.
+            //
+            // Note that you will be given turns of the Hare-Brained effect
+            // when you attempt to adventure in that zone.  The duration of the
+            // effect equals the number of turns remaining to adventure.
+            return Preferences.getInteger("hareTurnsUsed") < 30;
           }
           case "wolf" -> {
             // 30 turns to adventure in Skid Row.
@@ -2059,7 +2169,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.startsWith("PirateRealm")) {
       // *** You have limited turns available per day.
-      return Preferences.getBoolean("prAlways") || Preferences.getBoolean("_prToday");
+      if (!Preferences.getBoolean("prAlways") && !Preferences.getBoolean("_prToday")) {
+        return false;
+      }
+      if (this.adventureName.equals("PirateRealm Island")
+          || this.adventureName.equals("Sailing the PirateRealm Seas")) {
+        return true;
+      }
+      return Preferences.getString("_lastPirateRealmIsland").equals(this.adventureName);
+    }
+
+    if (this.zone.equals("Speakeasy")) {
+      return (Preferences.getBoolean("ownsSpeakeasy"));
     }
 
     // Assume that any areas we did not call out above are available
@@ -2140,6 +2261,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public boolean prepareForAdventure() {
     // If we get here via automation, canAdventure() returned true
 
+    // Certain Shadow Rifts can be unlocked just like certain zones.
+    ShadowRift rift = ShadowRift.findAdventureName(this.adventureName);
+
     if (this.formSource.equals("cellar.php")) {
       if (QuestDatabase.isQuestLaterThan(Quest.RAT, QuestDatabase.STARTED)) {
         return true;
@@ -2149,7 +2273,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestLaterThan(Quest.RAT, QuestDatabase.STARTED);
     }
 
-    if (this.rootZone.equals("Astral")) {
+    if (this.zone.equals("Astral")) {
       // To take a trip to the Astral Plane, you either need to be in
       // LimitMode.ASTRAL (Half-Astral is active) or have access to an astral
       // mushroom. You also cannot be in a competing LimitMode.
@@ -2189,9 +2313,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // redirected to the choice where you pick your zone.
         Preferences.setString("choiceAdventure71", option);
         RequestThread.postRequest(this.getRequest());
+
+        if (Preferences.getString("currentAstralTrip").equals("")) {
+          // This should not happen
+          return false;
+        }
       }
 
-      return Preferences.getString("currentAstralTrip").equals(this.zone);
+      return !LimitMode.ASTRAL.limitAdventure(this);
     }
 
     if (this.parentZone.equals("Grimstone")) {
@@ -2262,7 +2391,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       // We can accept the Untinker's quest if the woods are open.
-      if (QuestDatabase.isQuestStarted(Quest.LARVA)) {
+      if (KoLAdventure.woodsOpen()) {
         var request = new PlaceRequest("forestvillage", "fv_untinker_quest", true);
         request.addFormField("preaction", "screwquest");
         request.run();
@@ -2417,8 +2546,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // War Uniform.  Remove the shield.
       if (EquipmentManager.isWearingOutfit(OutfitPool.CLOACA_UNIFORM)
           || EquipmentManager.isWearingOutfit(OutfitPool.DYSPEPSI_UNIFORM)) {
-        RequestThread.postRequest(
-            new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND, true));
+        RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.OFFHAND));
       }
 
       return true;
@@ -2428,7 +2556,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // some way of equipping it.  If they do not have one, then
     // acquire one then try to equip it.
 
-    if (this.adventureNumber == AdventurePool.PIXEL_REALM || this.zone.equals("Vanya's Castle")) {
+    if (this.zone.equals("The 8-Bit Realm")
+        || this.zone.equals("Vanya's Castle")
+        || rift == ShadowRift.REALM) {
+      // You don't need a transfunctioner to go to the Shadow Rift in
+      // The 8-bit Realm if that is the current ingress.
+      if (rift == ShadowRift.REALM && Preferences.getString("shadowRiftIngress").equals("8bit")) {
+        return true;
+      }
+
       if (!InventoryManager.hasItem(TRANSFUNCTIONER)) {
         RequestThread.postRequest(new PlaceRequest("forestvillage", "fv_mystic"));
         // This redirects to choice.php&forceoption=0.
@@ -2539,14 +2675,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.rootZone.equals("The Sea")) {
-      if (!KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
         // In theory, we could choose equipment or effects.
         // It's complicated. Let the user do that.
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't breathe underwater.");
         return false;
       }
 
-      if (!KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+      if (!KoLCharacter.currentBooleanModifier(BooleanModifier.UNDERWATER_FAMILIAR)) {
         // In theory, we could choose equipment or effects or even another familiar.
         // It's complicated. Let the user do that.
         KoLmafia.updateDisplay(MafiaState.ERROR, "Your familiar can't breathe underwater.");
@@ -2634,7 +2770,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return false;
     }
 
-    if (this.adventureNumber == AdventurePool.AIRSHIP) {
+    if (this.adventureNumber == AdventurePool.AIRSHIP || rift == ShadowRift.BEANSTALK) {
       if (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, QuestDatabase.STARTED)) {
         return true;
       }
@@ -3067,7 +3203,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (this.areaSummary != null
           && action.startsWith("attack")
           && !this.areaSummary.willHitSomething()
-          && !KoLCharacter.currentBooleanModifier(Modifiers.ATTACKS_CANT_MISS)
+          && !KoLCharacter.currentBooleanModifier(BooleanModifier.ATTACKS_CANT_MISS)
           && !KoLCharacter.getFamiliar().isCombatFamiliar()) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't hit anything there.");
         return;
@@ -3247,10 +3383,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public static int lastAdventureId() {
     KoLAdventure location = KoLAdventure.lastVisitedLocation;
-
-    return location == null || !StringUtilities.isNumeric(location.adventureId)
-        ? 0
-        : StringUtilities.parseInt(location.adventureId);
+    if (location == null) {
+      return 0;
+    }
+    // adventure.php locations
+    if (location.adventureNumber != -1) {
+      return location.adventureNumber;
+    }
+    // Mines, for example
+    if (StringUtilities.isNumeric(location.adventureId)) {
+      return StringUtilities.parseInt(location.adventureId);
+    }
+    // Anything else
+    return 0;
   }
 
   public static String lastAdventureIdString() {
@@ -3271,6 +3416,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // See if this is a standard "adventure" in adventures.txt
     KoLAdventure adventure = KoLAdventure.findAdventure(urlString);
     if (adventure != null) {
+      if (adventure.adventureId.equals("shadow_rift") && urlString.startsWith("place.php")) {
+        String place = GenericRequest.getPlace(urlString);
+        ShadowRift rift = ShadowRift.findPlace(place);
+        if (rift != null) {
+          String message = "Entering the Shadow Rift via " + rift.getContainer();
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog();
+          RequestLogger.updateSessionLog(message);
+          Preferences.setString("shadowRiftIngress", place);
+        }
+      }
+
       adventure.prepareToAdventure(urlString);
       KoLAdventure.lastVisitedLocation = adventure;
       KoLAdventure.lastLocationName = adventure.getPrettyAdventureName(urlString);
@@ -3977,6 +4134,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure(
         "they're not gonna let you in dressed like this", "You're not dressed appropriately."),
     new AdventureFailure("The temple is empty", "Nothing more to do here.", MafiaState.PENDING),
+
+    // You've already defeated the Trainbot boss.
+    new AdventureFailure(
+        "You've already defeated the Trainbot boss.",
+        "Nothing more to do here.",
+        MafiaState.PENDING),
   };
 
   private static final Pattern CRIMBO21_COLD_RES =

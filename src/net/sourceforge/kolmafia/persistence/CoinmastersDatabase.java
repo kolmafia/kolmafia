@@ -74,7 +74,7 @@ public class CoinmastersDatabase {
   }
 
   public static final Map<Integer, Integer> getNewMap() {
-    return new TreeMap<Integer, Integer>();
+    return new TreeMap<>();
   }
 
   private static List<AdventureResult> getOrMakeList(
@@ -149,14 +149,13 @@ public class CoinmastersDatabase {
   }
 
   private static int purchaseLimit(final int itemId) {
-    switch (itemId) {
-      case ItemPool.ZEPPELIN_TICKET:
-      case ItemPool.TALES_OF_DREAD:
-      case ItemPool.BRASS_DREAD_FLASK:
-      case ItemPool.SILVER_DREAD_FLASK:
-        return 1;
-    }
-    return PurchaseRequest.MAX_QUANTITY;
+    return switch (itemId) {
+      case ItemPool.ZEPPELIN_TICKET,
+          ItemPool.TALES_OF_DREAD,
+          ItemPool.BRASS_DREAD_FLASK,
+          ItemPool.SILVER_DREAD_FLASK -> 1;
+      default -> PurchaseRequest.MAX_QUANTITY;
+    };
   }
 
   public static final int getPrice(final int itemId, final Map<Integer, Integer> prices) {

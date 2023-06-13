@@ -132,7 +132,7 @@ public class CardLayoutSelectorPanel extends JPanel {
     }
   }
 
-  private class OptionRenderer extends DefaultListCellRenderer {
+  private static class OptionRenderer extends DefaultListCellRenderer {
     public OptionRenderer() {
       this.setOpaque(true);
     }

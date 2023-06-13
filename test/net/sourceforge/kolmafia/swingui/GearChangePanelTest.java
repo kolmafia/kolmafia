@@ -8,9 +8,9 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +36,7 @@ class GearChangePanelTest {
 
     @BeforeEach
     void beforeEach() {
-      GearChangePanel.updateSlot(EquipmentManager.HAT);
+      GearChangePanel.updateSlot(Slot.HAT);
     }
 
     @Test
@@ -46,12 +46,11 @@ class GearChangePanelTest {
         var ravioliHat =
             KoLConstants.inventory.get(
                 KoLConstants.inventory.indexOf(ItemPool.get(ItemPool.RAVIOLI_HAT, 1)));
-        var equipCleanups = withEquipped(EquipmentManager.HAT, ravioliHat);
+        var equipCleanups = withEquipped(Slot.HAT, ravioliHat);
         try (equipCleanups) {
-          GearChangePanel.updateSlot(EquipmentManager.HAT);
+          GearChangePanel.updateSlot(Slot.HAT);
           assertThat(
-              ((AdventureResult) GearChangePanel.getModel(EquipmentManager.HAT).getSelectedItem())
-                  .getItemId(),
+              ((AdventureResult) GearChangePanel.getModel(Slot.HAT).getSelectedItem()).getItemId(),
               equalTo(ItemPool.RAVIOLI_HAT));
         }
       }
@@ -64,15 +63,14 @@ class GearChangePanelTest {
         var ravioliHat =
             KoLConstants.inventory.get(
                 KoLConstants.inventory.indexOf(ItemPool.get(ItemPool.RAVIOLI_HAT, 1)));
-        GearChangePanel.updateSlot(EquipmentManager.HAT);
+        GearChangePanel.updateSlot(Slot.HAT);
         GearChangePanel.deferUpdate();
         // withEquipped calls updateSlot again, which sets the equipped item but should defer
         // updating the whole list.
         var cleanups2 =
-            new Cleanups(
-                withEquipped(EquipmentManager.HAT, ravioliHat), withItem(ItemPool.HELMET_TURTLE));
+            new Cleanups(withEquipped(Slot.HAT, ravioliHat), withItem(ItemPool.HELMET_TURTLE));
         try (cleanups2) {
-          var hatModel = GearChangePanel.getModel(EquipmentManager.HAT);
+          var hatModel = GearChangePanel.getModel(Slot.HAT);
           // List should not be updated yet, so helmet turtle should not be in it.
           assertThat(hatModel, not(contains(ItemPool.get(ItemPool.HELMET_TURTLE, 1))));
           GearChangePanel.resolveDeferredUpdate();
@@ -93,8 +91,7 @@ class GearChangePanelTest {
     @Test
     void canShowBasicItemModifiers() {
       var mods =
-          GearChangePanel.getModifiers(
-              ItemPool.get(ItemPool.RAVIOLI_HAT), EquipmentManager.HAT, false, 1);
+          GearChangePanel.getModifiers(ItemPool.get(ItemPool.RAVIOLI_HAT), Slot.HAT, false, 1);
       assertThat(
           modifierText(mods.toString()),
           equalTo(
@@ -107,7 +104,7 @@ class GearChangePanelTest {
       try (cleanups) {
         var mods =
             GearChangePanel.getModifiers(
-                ItemPool.get(ItemPool.RAVIOLI_HAT), EquipmentManager.FAMILIAR, false, 1);
+                ItemPool.get(ItemPool.RAVIOLI_HAT), Slot.FAMILIAR, false, 1);
         assertThat(modifierText(mods.toString()), equalTo(""));
       }
     }
@@ -115,8 +112,7 @@ class GearChangePanelTest {
     @Test
     void weaponsInOffhandSlotGetPowerDamage() {
       var mods =
-          GearChangePanel.getModifiers(
-              ItemPool.get(ItemPool.SEAL_CLUB), EquipmentManager.WEAPON, false, 1);
+          GearChangePanel.getModifiers(ItemPool.get(ItemPool.SEAL_CLUB), Slot.WEAPON, false, 1);
       assertThat(modifierText(mods.toString()), equalTo("Weapon Dmg:<div align=right>+1.50</div>"));
     }
 
@@ -124,7 +120,7 @@ class GearChangePanelTest {
     void offhandsInOffhandSlotDoNotGetPowerDamage() {
       var mods =
           GearChangePanel.getModifiers(
-              ItemPool.get(ItemPool.BONERDAGON_SKULL), EquipmentManager.OFFHAND, false, 1);
+              ItemPool.get(ItemPool.BONERDAGON_SKULL), Slot.OFFHAND, false, 1);
       assertThat(modifierText(mods.toString()), equalTo("Spooky Dmg:<div align=right>+5.00</div>"));
     }
 
@@ -136,13 +132,13 @@ class GearChangePanelTest {
     void canShowCowboyBootsModifiers(String skin, String spurs, String expectedMods) {
       var cleanups = new Cleanups();
 
-      if (skin != null) cleanups.add(withEquipped(EquipmentManager.BOOTSKIN, skin));
-      if (spurs != null) cleanups.add(withEquipped(EquipmentManager.BOOTSPUR, spurs));
+      if (skin != null) cleanups.add(withEquipped(Slot.BOOTSKIN, skin));
+      if (spurs != null) cleanups.add(withEquipped(Slot.BOOTSPUR, spurs));
 
       try (cleanups) {
         var mods =
             GearChangePanel.getModifiers(
-                ItemPool.get(ItemPool.COWBOY_BOOTS), EquipmentManager.ACCESSORY1, false, 1);
+                ItemPool.get(ItemPool.COWBOY_BOOTS), Slot.ACCESSORY1, false, 1);
         assertThat(modifierText(mods.toString()), equalTo(expectedMods));
       }
     }
@@ -158,7 +154,7 @@ class GearChangePanelTest {
       try (cleanups) {
         var mods =
             GearChangePanel.getModifiers(
-                ItemPool.get(ItemPool.BACKUP_CAMERA), EquipmentManager.ACCESSORY1, false, 1);
+                ItemPool.get(ItemPool.BACKUP_CAMERA), Slot.ACCESSORY1, false, 1);
         assertThat(modifierText(mods.toString()), equalTo(expectedMods));
       }
     }

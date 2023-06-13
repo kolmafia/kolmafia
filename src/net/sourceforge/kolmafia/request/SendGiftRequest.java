@@ -28,8 +28,7 @@ public class SendGiftRequest extends TransferItemRequest {
   private final String recipient, message;
   private final GiftWrapper wrappingType;
   private final int maxCapacity, materialCost;
-  private static final LockableListModel<GiftWrapper> PACKAGES =
-      new LockableListModel<GiftWrapper>();
+  private static final LockableListModel<GiftWrapper> PACKAGES = new LockableListModel<>();
 
   static {
     try (BufferedReader reader =
@@ -110,7 +109,7 @@ public class SendGiftRequest extends TransferItemRequest {
 
     if (isFromStorage) {
       this.source = KoLConstants.storage;
-      this.destination = new ArrayList<AdventureResult>();
+      this.destination = new ArrayList<>();
     }
   }
 
@@ -154,7 +153,7 @@ public class SendGiftRequest extends TransferItemRequest {
     // You start with two packages and receive an additional
     // package every three ascensions you complete.
 
-    LockableListModel<GiftWrapper> packages = new LockableListModel<GiftWrapper>();
+    LockableListModel<GiftWrapper> packages = new LockableListModel<>();
     int packageCount = Math.min(KoLCharacter.getAscensions() / 3 + 2, 11);
 
     packages.addAll(SendGiftRequest.PACKAGES.subList(0, packageCount + 1));

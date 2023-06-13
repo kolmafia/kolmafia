@@ -9,11 +9,16 @@ public class FamiliarPool {
   public static final int BARRRNACLE = 8;
   public static final int STAB_BAT = 10;
   public static final int BLOOD_FACED_VOLLEYBALL = 12;
+  public static final int GHUOL_WHELP = 14;
   public static final int BABY_GRAVY_FAIRY = 15;
   public static final int STARFISH = 17;
   public static final int SOMBRERO = 18;
+  public static final int JILL_O_LANTERN = 24;
+  public static final int HAND_TURKEY = 25;
+  public static final int CRIMBO_ELF = 26;
   public static final int EMO_SQUID = 30;
   public static final int DODECAPEDE = 38;
+  public static final int PYGMY_BUGBEAR_SHAMAN = 39;
   public static final int DOPPEL = 40;
   public static final int RIFTLET = 43;
   public static final int PET_ROCK = 45;
@@ -26,8 +31,10 @@ public class FamiliarPool {
   public static final int TOOTHSOME_ROCK = 63;
   public static final int DANDY_LION = 66;
   public static final int OAF = 67;
+  public static final int JUMPSUITED_HOUND_DOG = 69;
   public static final int PIXIE = 70;
   public static final int PARROT = 72;
+  public static final int WIZARD_ACTION_FIGURE = 73;
   public static final int GHOST = 74;
   public static final int PRESSIE = 77;
   public static final int BUDDY_BOX = 78;
@@ -43,6 +50,7 @@ public class FamiliarPool {
   public static final int DRAGONFISH = 104;
   public static final int BANDER = 105;
   public static final int CLOWNFISH = 106;
+  public static final int PURSE_RAT = 109;
   public static final int SANDWORM = 111;
   public static final int SLIMELING = 112;
   public static final int HE_BOULDER = 113;
@@ -65,6 +73,7 @@ public class FamiliarPool {
   public static final int SCARECROW = 152;
   public static final int GROOSE = 154;
   public static final int KLOOP = 155;
+  public static final int PEPPERMINT_RHINO = 156;
   public static final int STEAM_CHEERLEADER = 158;
   public static final int HAPPY_MEDIUM = 159;
   public static final int ARTISTIC_GOTH_KID = 160;
@@ -117,6 +126,7 @@ public class FamiliarPool {
   public static final int VAMPIRE_VINTNER = 284;
   public static final int GREY_GOOSE = 287;
   public static final int COOKBOOKBAT = 288;
+  public static final int HOBO_IN_SHEEPS_CLOTHING = 290;
 
   private FamiliarPool() {}
 }

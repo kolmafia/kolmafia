@@ -57,7 +57,7 @@ public class BuffBotFrame extends GenericFrame {
   }
 
   /** Internal class used to handle everything related to operating the buffbot. */
-  private class MainBuffPanel extends ScrollablePanel<JList<?>> {
+  private static class MainBuffPanel extends ScrollablePanel<JList<?>> {
     public MainBuffPanel() {
       super("BuffBot Activities", "start", "stop", new JList<>(BuffBotHome.getMessages()));
 
@@ -101,7 +101,7 @@ public class BuffBotFrame extends GenericFrame {
     public BuffOptionsPanel() {
       super("add", "remove", new Dimension(150, 20), new Dimension(300, 20));
 
-      LockableListModel<UseSkillRequest> buffSet = new LockableListModel<UseSkillRequest>();
+      LockableListModel<UseSkillRequest> buffSet = new LockableListModel<>();
 
       for (UseSkillRequest skill : KoLConstants.usableSkills) {
         if (SkillDatabase.isBuff(SkillDatabase.getSkillId(skill.getSkillName()))) {
@@ -154,7 +154,7 @@ public class BuffBotFrame extends GenericFrame {
   }
 
   /** Internal class used to handle everything related to BuffBot White List management */
-  private class MainSettingsPanel extends GenericPanel {
+  private static class MainSettingsPanel extends GenericPanel {
     private final JTextArea invalidPriceMessage, thanksMessage;
     private final JComboBox<String> philanthropyModeSelect;
     private final JComboBox<String> messageDisposalSelect;
@@ -162,13 +162,13 @@ public class BuffBotFrame extends GenericFrame {
     public MainSettingsPanel() {
       super("save", "reset", new Dimension(120, 20), new Dimension(200, 20), false);
 
-      LockableListModel<String> philanthropyModeChoices = new LockableListModel<String>();
+      LockableListModel<String> philanthropyModeChoices = new LockableListModel<>();
       philanthropyModeChoices.add("Disabled");
       philanthropyModeChoices.add("Once per day");
       philanthropyModeChoices.add("Clan only");
       this.philanthropyModeSelect = new JComboBox<>(philanthropyModeChoices);
 
-      LockableListModel<String> messageDisposalChoices = new LockableListModel<String>();
+      LockableListModel<String> messageDisposalChoices = new LockableListModel<>();
       messageDisposalChoices.add("Auto-save non-requests");
       messageDisposalChoices.add("Auto-delete non-requests");
       messageDisposalChoices.add("Do nothing to non-requests");

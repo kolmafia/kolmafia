@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -23,15 +24,13 @@ import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DeckOfEveryCardRequest extends GenericRequest {
-  private static final TreeMap<Integer, EveryCard> idToCard = new TreeMap<Integer, EveryCard>();
-  private static final TreeMap<String, EveryCard> canonicalNameToCard =
-      new TreeMap<String, EveryCard>();
-  private static final TreeMap<Phylum, EveryCard> phylumToCard = new TreeMap<Phylum, EveryCard>();
-  private static final HashSet<EveryCard> monsterCards = new HashSet<EveryCard>();
-  private static final TreeMap<Stat, EveryCard> statToCard = new TreeMap<Stat, EveryCard>();
-  private static final TreeMap<AdventureResult, EveryCard> buffToCard =
-      new TreeMap<AdventureResult, EveryCard>();
-  public static final TreeSet<String> allCardNames = new TreeSet<String>();
+  private static final TreeMap<Integer, EveryCard> idToCard = new TreeMap<>();
+  private static final TreeMap<String, EveryCard> canonicalNameToCard = new TreeMap<>();
+  private static final TreeMap<Phylum, EveryCard> phylumToCard = new TreeMap<>();
+  private static final HashSet<EveryCard> monsterCards = new HashSet<>();
+  private static final TreeMap<Stat, EveryCard> statToCard = new TreeMap<>();
+  private static final TreeMap<AdventureResult, EveryCard> buffToCard = new TreeMap<>();
+  public static final TreeSet<String> allCardNames = new TreeSet<>();
 
   public static final AdventureResult STRONGLY_MOTIVATED =
       EffectPool.get(EffectPool.STRONGLY_MOTIVATED, 20);
@@ -250,8 +249,15 @@ public class DeckOfEveryCardRequest extends GenericRequest {
       return;
     }
 
-    // If you can't get a deck into inventory, punt
-    if (!InventoryManager.retrieveItem(ItemPool.DECK_OF_EVERY_CARD, 1, true)) {
+    int deckUsed;
+
+    if (InventoryManager.retrieveItem(ItemPool.DECK_OF_EVERY_CARD, 1, true)) {
+      deckUsed = ItemPool.DECK_OF_EVERY_CARD;
+    } else if (KoLCharacter.inLegacyOfLoathing()
+        && InventoryManager.retrieveItem(ItemPool.REPLICA_DECK_OF_EVERY_CARD, 1, true)) {
+      deckUsed = ItemPool.REPLICA_DECK_OF_EVERY_CARD;
+    } else {
+      // If you can't get a deck into inventory, punt
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have a Deck of Every Card available");
       return;
     }
@@ -266,7 +272,7 @@ public class DeckOfEveryCardRequest extends GenericRequest {
     }
 
     GenericRequest useRequest = new GenericRequest("inv_use.php");
-    useRequest.addFormField("whichitem", String.valueOf(ItemPool.DECK_OF_EVERY_CARD));
+    useRequest.addFormField("whichitem", String.valueOf(deckUsed));
     if (this.card == null) {
       useRequest.addFormField("which", "3");
     } else {
@@ -367,7 +373,7 @@ public class DeckOfEveryCardRequest extends GenericRequest {
       return;
     }
 
-    TreeSet<String> cards = new TreeSet<String>(DeckOfEveryCardRequest.allCardNames);
+    TreeSet<String> cards = new TreeSet<>(DeckOfEveryCardRequest.allCardNames);
 
     Matcher cardMatcher =
         DeckOfEveryCardRequest.AVAILABLE_CARD_PATTERN.matcher(selectMatcher.group(0));
@@ -476,7 +482,7 @@ public class DeckOfEveryCardRequest extends GenericRequest {
 
     @Override
     public boolean equals(final Object o) {
-      return (o instanceof EveryCard) && ((EveryCard) o).id == this.id;
+      return (o instanceof EveryCard ec) && ec.id == this.id;
     }
 
     @Override

@@ -69,17 +69,17 @@ public class MummeryRequest extends GenericRequest {
     int familiarId = KoLCharacter.currentFamiliar.getId();
     int mod1, mod2;
     switch (choice) {
-      case 1:
+      case 1 -> {
         mod1 = 15;
-        if (FamiliarDatabase.hasAttribute(familiarId, "hands")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "hashands")) {
           mod1 = 30;
         }
         mods += "Meat Drop: [" + mod1 + "*fam(" + familiar + ")],";
-        break;
-      case 2:
+      }
+      case 2 -> {
         mod1 = 4;
         mod2 = 5;
-        if (FamiliarDatabase.hasAttribute(familiarId, "wings")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "haswings")) {
           mod1 = 6;
           mod2 = 10;
         }
@@ -93,32 +93,32 @@ public class MummeryRequest extends GenericRequest {
                 + "*fam("
                 + familiar
                 + ")],";
-        break;
-      case 3:
+      }
+      case 3 -> {
         mod1 = 3;
         if (FamiliarDatabase.hasAttribute(familiarId, "animal")) {
           mod1 = 4;
         }
         mods += "Experience (Muscle): [" + mod1 + "*fam(" + familiar + ")],";
-        break;
-      case 4:
+      }
+      case 4 -> {
         mod1 = 15;
-        if (FamiliarDatabase.hasAttribute(familiarId, "clothes")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "wearsclothes")) {
           mod1 = 25;
         }
         mods += "Item Drop: [" + mod1 + "*fam(" + familiar + ")],";
-        break;
-      case 5:
+      }
+      case 5 -> {
         mod1 = 3;
-        if (FamiliarDatabase.hasAttribute(familiarId, "eyes")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "haseyes")) {
           mod1 = 4;
         }
         mods += "Experience (Mysticality): [" + mod1 + "*fam(" + familiar + ")],";
-        break;
-      case 6:
+      }
+      case 6 -> {
         mod1 = 8;
         mod2 = 10;
-        if (FamiliarDatabase.hasAttribute(familiarId, "mechanical")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "technological")) {
           mod1 = 18;
           mod2 = 20;
         }
@@ -132,14 +132,14 @@ public class MummeryRequest extends GenericRequest {
                 + "*fam("
                 + familiar
                 + ")],";
-        break;
-      case 7:
+      }
+      case 7 -> {
         mod1 = 2;
-        if (FamiliarDatabase.hasAttribute(familiarId, "sleazy")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "sleaze")) {
           mod1 = 4;
         }
         mods += "Experience (Moxie): [" + mod1 + "*fam(" + familiar + ")],";
-        break;
+      }
     }
 
     String message = "Costume " + choice + " applied to " + familiar;

@@ -76,9 +76,9 @@ public class LockableListModel<E>
 
 	public LockableListModel()
 	{
-		this.actualElements = new ArrayList<E>();
-		this.visibleElements = new ArrayList<E>();
-		this.mirrorList = new ArrayList<WeakReference<LockableListModel<E>>>();
+		this.actualElements = new ArrayList<>();
+		this.visibleElements = new ArrayList<>();
+		this.mirrorList = new ArrayList<>();
 
 		this.selectedValue = null;
 		this.currentFilter = LockableListModel.NO_FILTER;
@@ -107,13 +107,13 @@ public class LockableListModel<E>
 		synchronized ( l.actualElements )
 		{
 			this.actualElements = l.actualElements;
-			this.visibleElements = new ArrayList<E>();
+			this.visibleElements = new ArrayList<>();
 
 			this.selectedValue = null;
 			this.currentFilter = f == null ? LockableListModel.NO_FILTER : f;
-			this.mirrorList = new ArrayList<WeakReference<LockableListModel<E>>>();
+			this.mirrorList = new ArrayList<>();
 
-			l.mirrorList.add( new WeakReference<LockableListModel<E>>( this ) );
+			l.mirrorList.add( new WeakReference<>( this ) );
 
 			if ( f == LockableListModel.NO_FILTER )
 			{
@@ -1115,7 +1115,7 @@ public class LockableListModel<E>
 
 	public LockableListModel<E> getMirrorImage()
 	{
-		return new LockableListModel<E>( this );
+		return new LockableListModel<>( this );
 	}
 
 	/**
@@ -1130,6 +1130,6 @@ public class LockableListModel<E>
 
 	public LockableListModel<E> getMirrorImage( final ListElementFilter filter )
 	{
-		return new LockableListModel<E>( this, filter );
+		return new LockableListModel<>( this, filter );
 	}
 }

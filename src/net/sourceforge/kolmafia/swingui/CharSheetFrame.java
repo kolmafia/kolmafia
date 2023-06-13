@@ -107,7 +107,7 @@ public class CharSheetFrame extends GenericFrame {
     }
   }
 
-  public class AvatarLabel extends JLayeredPane implements Listener {
+  public static class AvatarLabel extends JLayeredPane implements Listener {
     private static final int LAYERS = 5;
     private JLabel[] labels = new JLabel[LAYERS];
     private int width = 0;

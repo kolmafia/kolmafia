@@ -21,9 +21,7 @@ public class DisplayFrameListener extends ThreadedListener {
       Frame[] frames = Frame.getFrames();
 
       for (int i = 0; i < frames.length; ++i) {
-        if ((frames[i] instanceof GenericFrame)) {
-          GenericFrame frame = (GenericFrame) frames[i];
-
+        if ((frames[i] instanceof GenericFrame frame)) {
           if (frame.showInWindowMenu() && interfaceSetting.indexOf(frame.getFrameName()) == -1) {
             frame.setVisible(true);
           }

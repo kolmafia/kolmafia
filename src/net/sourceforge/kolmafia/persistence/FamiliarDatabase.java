@@ -24,7 +24,9 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -48,6 +50,9 @@ public class FamiliarDatabase {
   private static final Set<Integer> sombreroById = new HashSet<>();
   private static final Set<Integer> meatDropById = new HashSet<>();
   private static final Set<Integer> fairyById = new HashSet<>();
+  private static final Set<Integer> boozeFairyById = new HashSet<>();
+  private static final Set<Integer> candyFairyById = new HashSet<>();
+  private static final Set<Integer> foodFairyById = new HashSet<>();
 
   private static final Set<Integer> combat0ById = new HashSet<>();
   private static final Set<Integer> combat1ById = new HashSet<>();
@@ -93,7 +98,7 @@ public class FamiliarDatabase {
     FamiliarDatabase.eventSkillByName = new ArrayList<>(4);
 
     for (int i = 0; i < 4; ++i) {
-      FamiliarDatabase.eventSkillByName.add(new HashMap<String, Integer>());
+      FamiliarDatabase.eventSkillByName.add(new HashMap<>());
     }
     FamiliarDatabase.readFamiliars();
     FamiliarDatabase.saveCanonicalNames();
@@ -177,6 +182,9 @@ public class FamiliarDatabase {
     FamiliarDatabase.updateType(type, "stat0", id, volleyById);
     FamiliarDatabase.updateType(type, "stat1", id, sombreroById);
     FamiliarDatabase.updateType(type, "item0", id, fairyById);
+    FamiliarDatabase.updateType(type, "item1", id, foodFairyById);
+    FamiliarDatabase.updateType(type, "item2", id, boozeFairyById);
+    FamiliarDatabase.updateType(type, "item3", id, candyFairyById);
     FamiliarDatabase.updateType(type, "meat0", id, meatDropById);
 
     // The following are "combat" abilities
@@ -336,6 +344,29 @@ public class FamiliarDatabase {
    */
   public static final FamiliarData growFamiliarLarva(final int larvaId) {
     Integer familiarId = FamiliarDatabase.familiarByLarva.get(larvaId);
+    if (familiarId == null) {
+      switch (larvaId) {
+        case ItemPool.REPLICA_DARK_JILL -> familiarId = FamiliarPool.JILL_O_LANTERN;
+        case ItemPool.REPLICA_HAND_TURKEY -> familiarId = FamiliarPool.HAND_TURKEY;
+        case ItemPool.REPLICA_CRIMBO_ELF -> familiarId = FamiliarPool.CRIMBO_ELF;
+        case ItemPool.REPLICA_BUGBEAR_SHAMAN -> familiarId = FamiliarPool.PYGMY_BUGBEAR_SHAMAN;
+        case ItemPool.REPLICA_COTTON_CANDY_COCOON -> familiarId = FamiliarPool.CARNIE;
+        case ItemPool.REPLICA_SQUAMOUS_POLYP -> familiarId = FamiliarPool.GIBBERER;
+        case ItemPool.REPLICA_ORGAN_GRINDER -> familiarId = FamiliarPool.GRINDER;
+        case ItemPool.REPLICA_CUTE_ANGEL -> familiarId = FamiliarPool.OBTUSE_ANGEL;
+        case ItemPool.REPLICA_DEACTIVATED_NANOBOTS -> familiarId = FamiliarPool.NANORHINO;
+        case ItemPool.REPLICA_BANDERSNATCH -> familiarId = FamiliarPool.BANDER;
+        case ItemPool.REPLICA_STILL_GRILL -> familiarId = FamiliarPool.GALLOPING_GRILL;
+        case ItemPool.REPLICA_CRIMBO_SAPLING -> familiarId = FamiliarPool.CRIMBO_SHRUB;
+        case ItemPool.REPLICA_YELLOW_PUCK -> familiarId = FamiliarPool.PUCK_MAN;
+        case ItemPool.REPLICA_INTERGNAT -> familiarId = FamiliarPool.INTERGNAT;
+        case ItemPool.REPLICA_SPACE_PLANULA -> familiarId = FamiliarPool.SPACE_JELLYFISH;
+        case ItemPool.REPLICA_ROBORTENDER -> familiarId = FamiliarPool.ROBORTENDER;
+        case ItemPool.REPLICA_GOD_LOBSTER -> familiarId = FamiliarPool.GOD_LOBSTER;
+        case ItemPool.REPLICA_CAMELCALF -> familiarId = FamiliarPool.MELODRAMEDARY;
+        case ItemPool.REPLICA_GREY_GOSLING -> familiarId = FamiliarPool.GREY_GOOSE;
+      }
+    }
     return familiarId == null ? null : new FamiliarData(familiarId.intValue());
   }
 
@@ -382,8 +413,30 @@ public class FamiliarDatabase {
     return FamiliarDatabase.sombreroById.contains(familiarId);
   }
 
-  public static final boolean isFairyType(final Integer familiarId) {
-    return FamiliarDatabase.fairyById.contains(familiarId);
+  public static boolean isFairyType(final int id) {
+    return FamiliarDatabase.fairyById.contains(id);
+  }
+
+  public static boolean isBoozeFairyType(final int id) {
+    return FamiliarDatabase.boozeFairyById.contains(id);
+  }
+
+  public static boolean isCandyFairyType(final int id) {
+    return FamiliarDatabase.candyFairyById.contains(id);
+  }
+
+  public static boolean isFoodFairyType(final int id) {
+    return FamiliarDatabase.foodFairyById.contains(id);
+  }
+
+  public static boolean isFairyType(final int id, final DoubleModifier fairyModifier) {
+    return switch (fairyModifier) {
+      case FAIRY_WEIGHT -> isFairyType(id);
+      case BOOZE_FAIRY_WEIGHT -> isBoozeFairyType(id);
+      case CANDY_FAIRY_WEIGHT -> isCandyFairyType(id);
+      case FOOD_FAIRY_WEIGHT -> isFoodFairyType(id);
+      default -> false;
+    };
   }
 
   public static final boolean isMeatDropType(final Integer familiarId) {

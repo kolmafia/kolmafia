@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 
 public class CrimboTreeCommand extends AbstractCommand {
   public CrimboTreeCommand() {
@@ -18,7 +19,7 @@ public class CrimboTreeCommand extends AbstractCommand {
           "Check back in " + Preferences.getInteger("crimboTreeDays") + " days.");
       return;
     } else if (parameters.equals("get") && Preferences.getInteger("crimboTreeDays") > 0) {
-      RequestThread.postRequest(new ClanLoungeRequest(ClanLoungeRequest.CRIMBO_TREE));
+      RequestThread.postRequest(new ClanLoungeRequest(Action.CRIMBO_TREE));
       KoLmafia.updateDisplay(
           "There's nothing under the Crimbo Tree with your name on it right now. Check back in "
               + Preferences.getInteger("crimboTreeDays")
@@ -26,6 +27,6 @@ public class CrimboTreeCommand extends AbstractCommand {
       return;
     }
 
-    RequestThread.postRequest(new ClanLoungeRequest(ClanLoungeRequest.CRIMBO_TREE));
+    RequestThread.postRequest(new ClanLoungeRequest(Action.CRIMBO_TREE));
   }
 }

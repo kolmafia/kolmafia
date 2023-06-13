@@ -91,29 +91,36 @@ public class UseItemCommand extends AbstractCommand {
     ConsumptionType consumptionType = ConsumptionType.NONE;
     Match filter;
 
-    if (command.equals("eat") || command.equals("eatsilent")) {
-      consumptionType = ConsumptionType.EAT;
-      filter = Match.FOOD;
-    } else if (command.equals("ghost")) {
-      consumptionType = ConsumptionType.GLUTTONOUS_GHOST;
-      filter = Match.FOOD;
-    } else if (command.equals("drink") || command.equals("overdrink")) {
-      consumptionType = ConsumptionType.DRINK;
-      filter = Match.BOOZE;
-    } else if (command.equals("hobo")) {
-      consumptionType = ConsumptionType.SPIRIT_HOBO;
-      filter = Match.BOOZE;
-    } else if (command.equals("chew")) {
-      consumptionType = ConsumptionType.SPLEEN;
-      filter = Match.SPLEEN;
-    } else if (command.equals("slimeling")) {
-      consumptionType = ConsumptionType.SLIMELING;
-      filter = Match.EQUIP;
-    } else if (command.equals("robo")) {
-      consumptionType = ConsumptionType.ROBORTENDER;
-      filter = Match.ROBO;
-    } else {
-      filter = Match.USE;
+    switch (command) {
+      case "eat", "eatsilent" -> {
+        consumptionType = ConsumptionType.EAT;
+        filter = Match.FOOD;
+      }
+      case "ghost" -> {
+        consumptionType = ConsumptionType.GLUTTONOUS_GHOST;
+        filter = Match.FOOD;
+      }
+      case "drink", "overdrink" -> {
+        consumptionType = ConsumptionType.DRINK;
+        filter = Match.BOOZE;
+      }
+      case "hobo" -> {
+        consumptionType = ConsumptionType.SPIRIT_HOBO;
+        filter = Match.BOOZE;
+      }
+      case "chew" -> {
+        consumptionType = ConsumptionType.SPLEEN;
+        filter = Match.SPLEEN;
+      }
+      case "slimeling" -> {
+        consumptionType = ConsumptionType.SLIMELING;
+        filter = Match.EQUIP;
+      }
+      case "robo" -> {
+        consumptionType = ConsumptionType.ROBORTENDER;
+        filter = Match.ROBO;
+      }
+      default -> filter = Match.USE;
     }
 
     AdventureResult[] itemList = ItemFinder.getMatchingItemList(parameters, !sim, null, filter);

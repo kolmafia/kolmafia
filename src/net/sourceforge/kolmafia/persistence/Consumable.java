@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.persistence;
 import java.util.Arrays;
 import java.util.Set;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 
 // Consumable represents the static attributes of a consumable as pulled out of a line in the
 // relevant data file.
@@ -122,6 +124,10 @@ public class Consumable {
 
   public int[] getStatRange(int stat) {
     return this.statRanges[stat];
+  }
+
+  public Concoction getConcoction() {
+    return ConcoctionPool.get(this.itemId, this.name);
   }
 
   public String toString() {

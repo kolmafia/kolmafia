@@ -5,10 +5,15 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -101,8 +106,8 @@ public class AccordionsCommand extends AbstractCommand {
 
       output.append("<td colspan=4>");
       output.append(
-          Modifiers.evaluateModifiers(accordion.getModsLookup(), accordion.getEnchantments())
-              .toString());
+          ModifierDatabase.evaluateModifiers(
+              accordion.getModsLookup(), accordion.getEnchantments()));
       output.append("</td>");
 
       output.append("</tr>");
@@ -120,7 +125,7 @@ public class AccordionsCommand extends AbstractCommand {
     private final String monster;
     private final int hands;
     private final int songDuration;
-    private final String modsLookup;
+    private final Lookup modsLookup;
     private final String enchantments;
 
     public Accordion(final int itemId, final String monster) {
@@ -129,24 +134,24 @@ public class AccordionsCommand extends AbstractCommand {
       this.monster = monster;
       this.hands = EquipmentDatabase.getHands(itemId);
 
-      Modifiers mods = Modifiers.getItemModifiers(itemId);
+      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
       if (mods != null) {
-        this.songDuration = (int) mods.get(Modifiers.SONG_DURATION);
-        this.modsLookup = mods.getName();
+        this.songDuration = (int) mods.getDouble(DoubleModifier.SONG_DURATION);
+        this.modsLookup = mods.getLookup();
 
         if (itemId == ItemPool.AUTOCALLIOPE) {
           // Special case to prevent stretching table way wide
           this.enchantments = "Prismatic Damage: [2*(1+skill(Accordion Appreciation))]";
         } else {
-          String enchantments = mods.getString("Modifiers");
-          enchantments = Modifiers.trimModifiers(enchantments, "Class");
-          enchantments = Modifiers.trimModifiers(enchantments, "Song Duration");
+          String enchantments = mods.getString(StringModifier.MODIFIERS);
+          enchantments = ModifierDatabase.trimModifiers(enchantments, "Class");
+          enchantments = ModifierDatabase.trimModifiers(enchantments, "Song Duration");
           this.enchantments = enchantments;
         }
       } else {
         // Handle items missing from modifiers.txt
         this.songDuration = 0;
-        this.modsLookup = "";
+        this.modsLookup = new Lookup(ModifierType.NONE, "");
         this.enchantments = "";
       }
     }
@@ -171,7 +176,7 @@ public class AccordionsCommand extends AbstractCommand {
       return this.songDuration;
     }
 
-    public String getModsLookup() {
+    public Lookup getModsLookup() {
       return this.modsLookup;
     }
 

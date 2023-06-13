@@ -111,9 +111,9 @@ public class RelayLoader extends Thread {
 
   public static void openSystemBrowser(final File file) {
     try {
-      String location = file.getCanonicalPath();
-      RelayLoader.openSystemBrowser("file://" + location, false);
-    } catch (IOException e) {
+      URI location = file.toURI();
+      RelayLoader.openSystemBrowser(location.toString(), false);
+    } catch (Error e) {
       KoLmafia.updateDisplay(
           "Exception: " + e.getMessage() + " for location " + file.getName() + " in browser.");
     }

@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -19,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -119,11 +124,10 @@ public class AreaCombatData {
           && KoLCharacter.getFamiliar().getId() == FamiliarPool.RED_SNAPPER) {
         currentWeighting += 2 * baseWeighting;
       }
-      // If any relevant Daily Candle familiar-tracking potions are active, add two(?) to the
+      // If any relevant Daily Candle familiar-tracking potions are active, add two to the
       // encounter pool
-      if ((monsterPhylum.equals(Phylum.HUMANOID)
-              && KoLConstants.activeEffects.contains(EW_THE_HUMANITY))
-          || (monsterPhylum.equals(Phylum.BEAST)
+      if ((monsterPhylum == Phylum.HUMANOID && KoLConstants.activeEffects.contains(EW_THE_HUMANITY))
+          || (monsterPhylum == Phylum.BEAST
               && KoLConstants.activeEffects.contains(A_BEASTLY_ODOR))) {
         currentWeighting += 2 * baseWeighting;
       }
@@ -156,6 +160,14 @@ public class AreaCombatData {
       // If Long Con used, add three to encounter pool
       if (Preferences.getString("longConMonster").equals(monsterName)) {
         currentWeighting += 3 * baseWeighting;
+      }
+      // If Motif used, add two to encounter pool
+      if (Preferences.getString("motifMonster").equals(monsterName)) {
+        currentWeighting += 2 * baseWeighting;
+      }
+      // If Monkey Point used, add two to encounter pool
+      if (Preferences.getString("monkeyPointMonster").equals(monsterName)) {
+        currentWeighting += 2 * baseWeighting;
       }
 
       if (BanishManager.isBanished(monsterName)) {
@@ -262,16 +274,12 @@ public class AreaCombatData {
 
       weighting = Integer.parseInt(weight);
 
-      // Only one flag per monster is is supported
+      // Only one flag per monster is supported
       if (flag != null) {
         switch (flag.charAt(0)) {
-          case 'e':
-            flags = ASCENSION_EVEN;
-            break;
-          case 'o':
-            flags = ASCENSION_ODD;
-            break;
-          case 'r':
+          case 'e' -> flags = ASCENSION_EVEN;
+          case 'o' -> flags = ASCENSION_ODD;
+          case 'r' -> {
             if (flag.length() > 1) {
               if (!StringUtilities.isNumeric(flag.substring(1))) {
                 KoLmafia.updateDisplay(
@@ -286,11 +294,12 @@ public class AreaCombatData {
                   "No rejection percentage specified for " + name + " in combats.txt.");
               return false;
             }
-            break;
-          default:
+          }
+          default -> {
             KoLmafia.updateDisplay(
                 "Unknown flag " + flag.charAt(0) + " specified for " + name + " in combats.txt.");
             return false;
+          }
         }
       }
     }
@@ -333,36 +342,6 @@ public class AreaCombatData {
     return true;
   }
 
-  /**
-   * Counts the number of monsters in this area that drop the item with the given ID.
-   *
-   * @param itemId the itemID of the the item to count
-   * @return the number of monsters in this area dropping the item
-   */
-  public int countMonstersDroppingItem(final int itemId) {
-    int total = 0;
-
-    for (MonsterData monster : this.monsters) {
-      for (AdventureResult item : monster.getItems()) {
-        if (item.getItemId() == itemId) {
-          total++;
-          break;
-        }
-      }
-    }
-
-    for (MonsterData monster : this.superlikelyMonsters) {
-      for (AdventureResult item : monster.getItems()) {
-        if (item.getItemId() == itemId) {
-          total++;
-          break;
-        }
-      }
-    }
-
-    return total;
-  }
-
   public List<MonsterData> getMonsters() {
     return this.monsters;
   }
@@ -401,14 +380,6 @@ public class AreaCombatData {
       return false;
     }
     return this.monsters.contains(m) || this.superlikelyMonsters.contains(m);
-  }
-
-  public int getMonsterIndex(MonsterData monster) {
-    return this.monsters.indexOf(monster);
-  }
-
-  public int getSuperlikelyMonsterIndex(MonsterData monster) {
-    return this.superlikelyMonsters.indexOf(monster);
   }
 
   public int getWeighting(final MonsterData monster) {
@@ -513,6 +484,10 @@ public class AreaCombatData {
   }
 
   public String toString(final boolean fullString) {
+    return this.toString(fullString, false);
+  }
+
+  public String toString(final boolean fullString, boolean mapped) {
     StringBuffer buffer = new StringBuffer();
 
     buffer.append("<html><head>");
@@ -526,15 +501,43 @@ public class AreaCombatData {
 
     buffer.append("</head><body>");
 
-    this.getSummary(buffer, fullString);
+    this.getSummary(buffer, fullString, mapped);
     this.getEncounterData(buffer);
-    this.appendMonsterData(buffer, fullString);
+    this.appendMonsterData(buffer, fullString, mapped);
 
     buffer.append("</body></html>");
     return buffer.toString();
   }
 
-  public void getSummary(final StringBuffer buffer, final boolean fullString) {
+  private MonsterData mapMonster(MonsterData mon) {
+    Path path = KoLCharacter.getPath();
+    if (path != null) {
+      Map<MonsterData, MonsterData> pathMap = MonsterDatabase.getMonsterPathMap(path.getName());
+      if (pathMap != null) {
+        MonsterData mapped = pathMap.get(mon);
+        if (mapped != null) {
+          return mapped;
+        }
+      }
+    }
+
+    // Your Ascension Class is null in Valhalla
+    AscensionClass clazz = KoLCharacter.getAscensionClass();
+    if (clazz != null) {
+      Map<MonsterData, MonsterData> classMap = MonsterDatabase.getMonsterClassMap(clazz);
+      if (classMap != null) {
+        MonsterData mapped = classMap.get(mon);
+        if (mapped != null) {
+          return mapped;
+        }
+      }
+    }
+
+    return mon;
+  }
+
+  public void getSummary(
+      final StringBuffer buffer, final boolean fullString, final boolean mapped) {
     // Get up-to-date monster stats in area summary
     this.recalculate();
 
@@ -564,15 +567,20 @@ public class AreaCombatData {
 
     for (MonsterData monster : monsters) {
       int weighting = this.getWeighting(monster);
+      int rejection = this.getRejection(monster);
+      if (mapped) {
+        monster = mapMonster(monster);
+      }
+      if (monster == MonsterData.NO_MONSTER) {
+        continue;
+      }
 
       // Omit impossible (-2), ultra-rare (-1) and special/banished (0) monsters
       if (weighting < 1) {
         continue;
       }
 
-      double weight =
-          dividedByTotalWeighting(
-              (double) weighting * (1 - (double) this.getRejection(monster) / 100));
+      double weight = dividedByTotalWeighting((double) weighting * (1 - (double) rejection / 100));
       int ml = monster.ML();
       averageExperience +=
           weight * (monster.getExperience() + experienceAdjustment - ml / (ml > 0 ? 6.0 : 8.0));
@@ -581,6 +589,12 @@ public class AreaCombatData {
     double averageSuperlikelyExperience = 0.0;
     double superlikelyChance = 0.0;
     for (MonsterData monster : this.superlikelyMonsters) {
+      if (mapped) {
+        monster = mapMonster(monster);
+      }
+      if (monster == MonsterData.NO_MONSTER) {
+        continue;
+      }
       String monsterName = monster.getName();
       double chance = AreaCombatData.superlikelyChance(monsterName);
       if (chance > 0) {
@@ -626,7 +640,11 @@ public class AreaCombatData {
   }
 
   public Map<MonsterData, Double> getMonsterData(boolean stateful) {
-    Map<MonsterData, Double> monsterData = new HashMap<>();
+    return getMonsterData(stateful, false);
+  }
+
+  public Map<MonsterData, Double> getMonsterData(boolean stateful, boolean mapped) {
+    Map<MonsterData, Double> monsterData = new TreeMap<>();
 
     if (stateful) {
       recalculate();
@@ -635,6 +653,12 @@ public class AreaCombatData {
     double totalSuperlikelyChance = 0.0;
 
     for (MonsterData monster : superlikelyMonsters) {
+      if (mapped) {
+        monster = mapMonster(monster);
+      }
+      if (monster == MonsterData.NO_MONSTER) {
+        continue;
+      }
       double chance = superlikelyChance(monster);
       monsterData.put(monster, chance);
       totalSuperlikelyChance += chance;
@@ -644,6 +668,12 @@ public class AreaCombatData {
 
     for (MonsterData monster : monsters) {
       int weighting = getWeighting(monster);
+      if (mapped) {
+        monster = mapMonster(monster);
+      }
+      if (monster == MonsterData.NO_MONSTER) {
+        continue;
+      }
 
       if (weighting == -2) {
         continue;
@@ -674,56 +704,54 @@ public class AreaCombatData {
     return monsterData;
   }
 
-  public void appendMonsterData(final StringBuffer buffer, final boolean fullString) {
+  public void appendMonsterData(
+      final StringBuffer buffer, final boolean fullString, final boolean mapped) {
     int moxie = KoLCharacter.getAdjustedMoxie();
     int hitstat = EquipmentManager.getAdjustedHitStat();
 
     for (Map.Entry<MonsterData, Double> entry : getMonsterData(true).entrySet()) {
       MonsterData monster = entry.getKey();
+      int weighting = getWeighting(monster);
+      if (mapped) {
+        monster = mapMonster(monster);
+      }
+      if (monster == MonsterData.NO_MONSTER) {
+        continue;
+      }
       double chance = entry.getValue();
       buffer
           .append("<br><br>")
-          .append(
-              this.getMonsterString(
-                  monster, moxie, hitstat, getWeighting(monster), chance, fullString));
+          .append(this.getMonsterString(monster, moxie, hitstat, weighting, chance, fullString));
     }
   }
 
   public void getEncounterData(final StringBuffer buffer) {
     Environment environment = AdventureDatabase.getEnvironment(this.zone);
+    buffer.append("<br><b>Environment:</b> ");
     if (environment == Environment.UNKNOWN) {
-      buffer.append("<br>");
-      buffer.append("<b>Environment:</b> unknown");
+      buffer.append("unknown");
     } else {
-      buffer.append("<br>");
-      buffer.append("<b>Environment:</b> ");
       buffer.append(environment);
     }
 
     int recommendedStat = AdventureDatabase.getRecommendedStat(this.zone);
+    buffer.append("<br><b>Recommended Mainstat:</b> ");
     if (recommendedStat == -1) {
-      buffer.append("<br>");
-      buffer.append("<b>Recommended Mainstat:</b> unknown");
+      buffer.append("unknown");
     } else {
-      buffer.append("<br>");
-      buffer.append("<b>Recommended Mainstat:</b> ");
       buffer.append(recommendedStat);
     }
 
     if (KoLCharacter.inRaincore()) {
       int waterLevel = KoLCharacter.getWaterLevel();
       boolean fixed = AdventureDatabase.getWaterLevel(this.zone) != -1;
+      buffer.append("<br><b>Water Level:</b> ");
       if (environment == null) {
-        buffer.append("<br>");
-        buffer.append("<b>Water Level:</b> unknown");
+        buffer.append("unknown");
       } else if (recommendedStat == -1 && !fixed) {
-        buffer.append("<br>");
-        buffer.append("<b>Water Level:</b> ");
         buffer.append(waterLevel);
         buffer.append(" (at least)");
       } else {
-        buffer.append("<br>");
-        buffer.append("<b>Water Level:</b> ");
         buffer.append(waterLevel);
       }
     }
@@ -782,39 +810,43 @@ public class AreaCombatData {
 
       // Some areas have fixed non-combats, if we're tracking this, handle them here.
       switch (zone) {
-        case "The Defiled Alcove":
-          if (Preferences.getInteger("cyrptAlcoveEvilness") <= 25) {
+        case "The Defiled Alcove" -> {
+          if (Preferences.getInteger("cyrptAlcoveEvilness") <= 13) {
             return 100;
           }
-          break;
-        case "The Defiled Cranny":
-          if (Preferences.getInteger("cyrptCrannyEvilness") <= 25) {
+        }
+        case "The Defiled Cranny" -> {
+          if (Preferences.getInteger("cyrptCrannyEvilness") <= 13) {
             return 100;
           }
-          break;
-        case "The Defiled Niche":
-          if (Preferences.getInteger("cyrptNicheEvilness") <= 25) {
+        }
+        case "The Defiled Niche" -> {
+          if (Preferences.getInteger("cyrptNicheEvilness") <= 13) {
             return 100;
           }
-          break;
-        case "The Defiled Nook":
-          if (Preferences.getInteger("cyrptNookEvilness") <= 25) {
+        }
+        case "The Defiled Nook" -> {
+          if (Preferences.getInteger("cyrptNookEvilness") <= 13) {
             return 100;
           }
-          break;
-        case "The Smut Orc Logging Camp":
+        }
+        case "The Smut Orc Logging Camp" -> {
           return Preferences.getInteger("smutOrcNoncombatProgress") < 15 ? 100 : 0;
-        case "Barf Mountain":
+        }
+        case "Barf Mountain" -> {
           return Preferences.getBoolean("dinseyRollercoasterNext") ? 0 : 100;
-        case "Investigating a Plaintive Telegram":
+        }
+        case "Investigating a Plaintive Telegram" -> {
           return Preferences.getInteger("lttQuestStageCount") == 9
                   || QuestDatabase.isQuestStep(Quest.TELEGRAM, QuestDatabase.STARTED)
               ? 0
               : 100;
-        case "The Dripping Trees":
+        }
+        case "The Dripping Trees" -> {
           // Non-Combat on turn 16, 31, 46, ...
           int advs = Preferences.getInteger("drippingTreesAdventuresSinceAscension");
           return (advs > 0 && (advs % 15) == 0) ? 0 : 100;
+        }
       }
     }
 
@@ -913,7 +945,7 @@ public class AreaCombatData {
     // Color the monster name according to its element
     buffer.append(" <font color=").append(AreaCombatData.elementColor(element)).append("><b>");
     if (monster.getPoison() < Integer.MAX_VALUE) {
-      buffer.append("\u2620 ");
+      buffer.append("☠ ");
     }
     String name = monster.getName();
     buffer.append(name);
@@ -1017,7 +1049,7 @@ public class AreaCombatData {
 
   private void appendItemList(
       final StringBuffer buffer,
-      final List<AdventureResult> items,
+      final List<MonsterDrop> items,
       final List<Double> pocketRates,
       boolean fullString) {
     if (items.size() == 0) {
@@ -1027,10 +1059,10 @@ public class AreaCombatData {
     double itemModifier = AreaCombatData.getDropRateModifier();
     boolean stealing = KoLCharacter.canPickpocket();
     double pocketModifier =
-        (100.0 + KoLCharacter.currentNumericModifier(Modifiers.PICKPOCKET_CHANCE)) / 100.0;
+        (100.0 + KoLCharacter.currentNumericModifier(DoubleModifier.PICKPOCKET_CHANCE)) / 100.0;
 
     for (int i = 0; i < items.size(); ++i) {
-      AdventureResult item = items.get(i);
+      MonsterDrop drop = items.get(i);
 
       if (!fullString) {
         if (i == 0) {
@@ -1039,41 +1071,41 @@ public class AreaCombatData {
           buffer.append(", ");
         }
 
-        buffer.append(item.getName());
+        buffer.append(drop.item().getName());
         continue;
       }
 
       buffer.append("<br>");
 
       // Certain items can be increased by other bonuses than just item drop
-      int itemId = item.getItemId();
+      int itemId = drop.item().getItemId();
       double itemBonus = 0.0;
 
       if (ItemDatabase.isFood(itemId)) {
-        itemBonus += KoLCharacter.currentNumericModifier(Modifiers.FOODDROP) / 100.0;
+        itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.FOODDROP) / 100.0;
       } else if (ItemDatabase.isBooze(itemId)) {
-        itemBonus += KoLCharacter.currentNumericModifier(Modifiers.BOOZEDROP) / 100.0;
+        itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.BOOZEDROP) / 100.0;
       } else if (ItemDatabase.isCandyItem(itemId)) {
-        itemBonus += KoLCharacter.currentNumericModifier(Modifiers.CANDYDROP) / 100.0;
+        itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.CANDYDROP) / 100.0;
       } else if (ItemDatabase.isEquipment(itemId)) {
-        itemBonus += KoLCharacter.currentNumericModifier(Modifiers.GEARDROP) / 100.0;
+        itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.GEARDROP) / 100.0;
         if (ItemDatabase.isHat(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.HATDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.HATDROP) / 100.0;
         } else if (ItemDatabase.isWeapon(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.WEAPONDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.WEAPONDROP) / 100.0;
         } else if (ItemDatabase.isOffHand(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.OFFHANDDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.OFFHANDDROP) / 100.0;
         } else if (ItemDatabase.isShirt(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.SHIRTDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.SHIRTDROP) / 100.0;
         } else if (ItemDatabase.isPants(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.PANTSDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.PANTSDROP) / 100.0;
         } else if (ItemDatabase.isAccessory(itemId)) {
-          itemBonus += KoLCharacter.currentNumericModifier(Modifiers.ACCESSORYDROP) / 100.0;
+          itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.ACCESSORYDROP) / 100.0;
         }
       }
 
       double stealRate = Math.min(pocketRates.get(i) * pocketModifier, 1.0);
-      int rawDropRate = item.getCount() >> 16;
+      double rawDropRate = drop.chance();
       double dropRate = Math.min(rawDropRate * (itemModifier + itemBonus), 100.0);
       double effectiveDropRate = stealRate * 100.0 + (1.0 - stealRate) * dropRate;
 
@@ -1081,13 +1113,10 @@ public class AreaCombatData {
       String rate1 = this.format(dropRate);
       String rate2 = this.format(effectiveDropRate);
 
-      buffer.append(item.getName());
-      switch ((char) item.getCount() & 0xFFFF) {
-        case '0':
-          buffer.append(" (unknown drop rate)");
-          break;
-
-        case 'n':
+      buffer.append(drop.item().getName());
+      switch (drop.flag()) {
+        case UNKNOWN_RATE -> buffer.append(" (unknown drop rate)");
+        case NO_PICKPOCKET -> {
           if (rawDropRate > 0) {
             buffer.append(" ");
             buffer.append(rate1);
@@ -1095,9 +1124,8 @@ public class AreaCombatData {
           } else {
             buffer.append(" (no pickpocket, unknown drop rate)");
           }
-          break;
-
-        case 'c':
+        }
+        case CONDITIONAL -> {
           if (rawDropRate > 0) {
             buffer.append(" ");
             buffer.append(rate1);
@@ -1105,29 +1133,25 @@ public class AreaCombatData {
           } else {
             buffer.append(" (conditional, unknown drop rate)");
           }
-          break;
-
-        case 'f':
+        }
+        case FIXED -> {
           buffer.append(" ");
           buffer.append(rateRaw);
           buffer.append("% (no modifiers)");
-          break;
-
-        case 'p':
-          if (stealing && rawDropRate > 0) {
+        }
+        case PICKPOCKET_ONLY -> {
+          if (rawDropRate == 0) {
+            buffer.append(" (pickpocket only, unknown rate)");
+          } else if (stealing) {
             buffer.append(" ");
             buffer.append(Math.min(rawDropRate * pocketModifier, 100.0));
             buffer.append("% (pickpocket only)");
           } else {
-            buffer.append(" (pickpocket only, unknown rate)");
+            buffer.append(" (pickpocket only, cannot steal)");
           }
-          break;
-
-        case 'a':
-          buffer.append(" (stealable accordion)");
-          break;
-
-        default:
+        }
+        case STEAL_ACCORDION -> buffer.append(" (stealable accordion)");
+        default -> {
           if (stealing) {
             buffer.append(" ");
             buffer.append(rate2);
@@ -1141,11 +1165,12 @@ public class AreaCombatData {
             buffer.append(rate1);
             buffer.append("%");
           }
+        }
       }
     }
   }
 
-  public static final double getDropRateModifier() {
+  public static double getDropRateModifier() {
     if (AreaCombatData.lastDropMultiplier != 0.0
         && KoLCharacter.getItemDropPercentAdjustment() == AreaCombatData.lastDropModifier) {
       return AreaCombatData.lastDropMultiplier;
@@ -1158,26 +1183,19 @@ public class AreaCombatData {
     return AreaCombatData.lastDropMultiplier;
   }
 
-  public static final String elementColor(final Element element) {
-    switch (element) {
-      case HOT:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#ff8a93" : "#ff0000";
-      case COLD:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#00d4ff" : "#0000ff";
-      case STENCH:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#39f0d0" : "#008000";
-      case SPOOKY:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#bebebe" : "#808080";
-      case SLEAZE:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#b980ee" : "#8a2be2";
-      case SLIME:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#1adde9" : "#006400";
-      default:
-        return (KoLmafiaGUI.isDarkTheme()) ? "#FFFFFF" : "#000000";
-    }
+  public static String elementColor(final Element element) {
+    return switch (element) {
+      case HOT -> (KoLmafiaGUI.isDarkTheme()) ? "#ff8a93" : "#ff0000";
+      case COLD -> (KoLmafiaGUI.isDarkTheme()) ? "#00d4ff" : "#0000ff";
+      case STENCH -> (KoLmafiaGUI.isDarkTheme()) ? "#39f0d0" : "#008000";
+      case SPOOKY -> (KoLmafiaGUI.isDarkTheme()) ? "#bebebe" : "#808080";
+      case SLEAZE -> (KoLmafiaGUI.isDarkTheme()) ? "#b980ee" : "#8a2be2";
+      case SLIME -> (KoLmafiaGUI.isDarkTheme()) ? "#1adde9" : "#006400";
+      default -> (KoLmafiaGUI.isDarkTheme()) ? "#FFFFFF" : "#000000";
+    };
   }
 
-  public static final double hitPercent(final int attack, final int defense) {
+  public static double hitPercent(final int attack, final int defense) {
     // ( (Attack - Defense) / 18 ) * 100 + 50 = Hit%
     double percent = 100.0 * (attack - defense) / 18 + 50.0;
     if (percent < 0.0) {
@@ -1186,7 +1204,7 @@ public class AreaCombatData {
     return Math.min(percent, 100.0);
   }
 
-  public static final int perfectHit(final int attack, final int defense) {
+  public static int perfectHit(final int attack, final int defense) {
     return attack - defense - 9;
   }
 
@@ -1197,14 +1215,15 @@ public class AreaCombatData {
   private static int adjustConditionalWeighting(String zone, String monster, int weighting) {
     // Bossbat can appear on 4th fight, and will always appear on the 8th fight
     switch (zone) {
-      case "The Boss Bat's Lair":
+      case "The Boss Bat's Lair" -> {
         int bossTurns = AdventureSpentDatabase.getTurns(zone);
         if (monster.equals("Boss Bat")) {
           return bossTurns > 3 && !QuestDatabase.isQuestLaterThan(Quest.BAT, "step3") ? 1 : 0;
         } else {
           return bossTurns > 7 || QuestDatabase.isQuestLaterThan(Quest.BAT, "step3") ? -4 : 1;
         }
-      case "The Hidden Park":
+      }
+      case "The Hidden Park" -> {
         if (monster.equals("pygmy janitor")
             && Preferences.getInteger("relocatePygmyJanitor") != KoLCharacter.getAscensions()) {
           return -4;
@@ -1213,11 +1232,11 @@ public class AreaCombatData {
             && Preferences.getInteger("relocatePygmyLawyer") != KoLCharacter.getAscensions()) {
           return -4;
         }
-        break;
-      case "The Hidden Apartment Building":
-      case "The Hidden Hospital":
-      case "The Hidden Office Building":
-      case "The Hidden Bowling Alley":
+      }
+      case "The Hidden Apartment Building",
+          "The Hidden Hospital",
+          "The Hidden Office Building",
+          "The Hidden Bowling Alley" -> {
         if (monster.equals("pygmy janitor")
             && Preferences.getInteger("relocatePygmyJanitor") == KoLCharacter.getAscensions()) {
           return -4;
@@ -1229,129 +1248,119 @@ public class AreaCombatData {
         if (monster.equals("drunk pygmy") && Preferences.getInteger("_drunkPygmyBanishes") >= 11) {
           return -4;
         }
-        break;
-      case "The Fungal Nethers":
-        if (monster.equals("muscular mushroom guy")) {
-          return KoLCharacter.isSealClubber() ? 1 : 0;
+      }
+      case "The Fungal Nethers" -> {
+        switch (monster) {
+          case "muscular mushroom guy":
+            return KoLCharacter.isSealClubber() ? 1 : 0;
+          case "armored mushroom guy":
+            return KoLCharacter.isTurtleTamer() ? 1 : 0;
+          case "wizardly mushroom guy":
+            return KoLCharacter.isPastamancer() ? 1 : 0;
+          case "fiery mushroom guy":
+            return KoLCharacter.isSauceror() ? 1 : 0;
+          case "dancing mushroom guy":
+            return KoLCharacter.isDiscoBandit() ? 1 : 0;
+          case "wailing mushroom guy":
+            return KoLCharacter.isAccordionThief() ? 1 : 0;
         }
-        if (monster.equals("armored mushroom guy")) {
-          return KoLCharacter.isTurtleTamer() ? 1 : 0;
-        }
-        if (monster.equals("wizardly mushroom guy")) {
-          return KoLCharacter.isPastamancer() ? 1 : 0;
-        }
-        if (monster.equals("fiery mushroom guy")) {
-          return KoLCharacter.isSauceror() ? 1 : 0;
-        }
-        if (monster.equals("dancing mushroom guy")) {
-          return KoLCharacter.isDiscoBandit() ? 1 : 0;
-        }
-        if (monster.equals("wailing mushroom guy")) {
-          return KoLCharacter.isAccordionThief() ? 1 : 0;
-        }
-        break;
-      case "Pirates of the Garbage Barges":
+      }
+      case "Pirates of the Garbage Barges" -> {
         if (monster.equals("flashy pirate") && !Preferences.getBoolean("dinseyGarbagePirate")) {
           return 0;
         }
-        break;
-      case "Uncle Gator's Country Fun-Time Liquid Waste Sluice":
+      }
+      case "Uncle Gator's Country Fun-Time Liquid Waste Sluice" -> {
         if (monster.equals("nasty bear") && QuestDatabase.isQuestStep(Quest.NASTY_BEARS, "step1")) {
           return 1;
         }
-        break;
-      case "Throne Room":
+      }
+      case "Throne Room" -> {
         if (monster.equals("Knob Goblin King") && QuestDatabase.isQuestFinished(Quest.GOBLIN)) {
           return 0;
         }
-        break;
-      case "The Defiled Alcove":
-        {
-          int evilness = Preferences.getInteger("cyrptAlcoveEvilness");
-          if (monster.equals("conjoined zmombie")) {
-            return evilness > 0 && evilness <= 25 ? 1 : 0;
-          } else if (!monster.equals("modern zmobie")) {
-            return evilness > 25 ? 1 : 0;
-          }
-          break;
+      }
+      case "The Defiled Alcove" -> {
+        int evilness = Preferences.getInteger("cyrptAlcoveEvilness");
+        if (monster.equals("conjoined zmombie")) {
+          return evilness > 0 && evilness <= 13 ? 1 : 0;
+        } else if (!monster.equals("modern zmobie")) {
+          return evilness > 13 ? 1 : 0;
         }
-      case "The Defiled Cranny":
-        {
-          int evilness = Preferences.getInteger("cyrptCrannyEvilness");
-          if (monster.equals("huge ghuol")) {
-            return evilness > 0 && evilness <= 25 ? 1 : 0;
-          } else if (monster.equals("gaunt ghuol") || monster.equals("gluttonous ghuol")) {
-            return evilness > 25 ? 1 : 0;
-          }
-          break;
+      }
+      case "The Defiled Cranny" -> {
+        int evilness = Preferences.getInteger("cyrptCrannyEvilness");
+        if (monster.equals("huge ghuol")) {
+          return evilness > 0 && evilness <= 13 ? 1 : 0;
+        } else if (monster.equals("gaunt ghuol") || monster.equals("gluttonous ghuol")) {
+          return evilness > 13 ? 1 : 0;
         }
-      case "The Defiled Niche":
-        {
-          int evilness = Preferences.getInteger("cyrptNicheEvilness");
-          if (monster.equals("gargantulihc")) {
-            return evilness > 0 && evilness <= 25 ? 1 : 0;
-          } else {
-            return evilness > 25 ? 1 : 0;
-          }
+      }
+      case "The Defiled Niche" -> {
+        int evilness = Preferences.getInteger("cyrptNicheEvilness");
+        if (monster.equals("gargantulihc")) {
+          return evilness > 0 && evilness <= 13 ? 1 : 0;
+        } else {
+          return evilness > 13 ? 1 : 0;
         }
-      case "The Defiled Nook":
-        {
-          int evilness = Preferences.getInteger("cyrptNookEvilness");
-          if (monster.equals("giant skeelton")) {
-            return evilness > 0 && evilness <= 25 ? 1 : 0;
-          } else {
-            return evilness > 25 ? 1 : 0;
-          }
+      }
+      case "The Defiled Nook" -> {
+        int evilness = Preferences.getInteger("cyrptNookEvilness");
+        if (monster.equals("giant skeelton")) {
+          return evilness > 0 && evilness <= 13 ? 1 : 0;
+        } else {
+          return evilness > 13 ? 1 : 0;
         }
-      case "Haert of the Cyrpt":
+      }
+      case "Haert of the Cyrpt" -> {
         if (monster.equals("Bonerdagon")
             && QuestDatabase.isQuestLaterThan(Quest.CYRPT, QuestDatabase.STARTED)) {
           return 0;
         }
-        break;
-      case "The F'c'le":
+      }
+      case "The F'c'le" -> {
         if (monster.equals("clingy pirate (female)")) {
-          return KoLCharacter.getGender() == KoLCharacter.MALE ? 1 : 0;
+          return KoLCharacter.getGender() == Gender.MALE ? 1 : 0;
         } else if (monster.equals("clingy pirate (male)")) {
-          return KoLCharacter.getGender() == KoLCharacter.FEMALE ? 1 : 0;
+          return KoLCharacter.getGender() == Gender.FEMALE ? 1 : 0;
         }
-        break;
-      case "Summoning Chamber":
+      }
+      case "Summoning Chamber" -> {
         if (monster.equals("Lord Spookyraven") && QuestDatabase.isQuestFinished(Quest.MANOR)) {
           return 0;
         }
-        break;
-      case "An Overgrown Shrine (Northwest)":
+      }
+      case "An Overgrown Shrine (Northwest)" -> {
         // Assume lianas are dealt with once Apartment opened. Player may leave without doing so,
         // but that's a bit niche for me to care!
         if (monster.equals("dense liana")
             && Preferences.getInteger("hiddenApartmentProgress") > 0) {
           return 0;
         }
-        break;
-      case "An Overgrown Shrine (Northeast)":
+      }
+      case "An Overgrown Shrine (Northeast)" -> {
         // Assume lianas are dealt with once Office opened. Player may leave without doing so, but
         // that's a bit niche for me to care!
         if (monster.equals("dense liana") && Preferences.getInteger("hiddenOfficeProgress") > 0) {
           return 0;
         }
-        break;
-      case "An Overgrown Shrine (Southwest)":
+      }
+      case "An Overgrown Shrine (Southwest)" -> {
         // Assume lianas are dealt with once Hospital opened. Player may leave without doing so, but
         // that's a bit niche for me to care!
         if (monster.equals("dense liana") && Preferences.getInteger("hiddenHospitalProgress") > 0) {
           return 0;
         }
-        break;
-      case "An Overgrown Shrine (Southeast)":
+      }
+      case "An Overgrown Shrine (Southeast)" -> {
         // Assume lianas are dealt with once Bowling Alley opened. Player may leave without doing
         // so, but that's a bit niche for me to care!
         if (monster.equals("dense liana")
             && Preferences.getInteger("hiddenBowlingAlleyProgress") > 0) {
           return 0;
         }
-        break;
-      case "A Massive Ziggurat":
+      }
+      case "A Massive Ziggurat" -> {
         // Assume lianas dealt with after 3 turns, won't always be right, but this is a bit niche
         // for special tracking
         int zoneTurns = AdventureSpentDatabase.getTurns(zone);
@@ -1362,424 +1371,550 @@ public class AreaCombatData {
             && QuestDatabase.isQuestStep(Quest.WORSHIP, "step4")) {
           return 1;
         }
-        break;
-      case "Oil Peak":
-        {
-          int monsterLevel = (int) KoLCharacter.currentNumericModifier(Modifiers.MONSTER_LEVEL);
-          switch (monster) {
-            case "oil slick":
-              return monsterLevel < 20 ? 1 : 0;
-            case "oil tycoon":
-              return monsterLevel >= 20 && monsterLevel < 50 ? 1 : 0;
-            case "oil baron":
-              return monsterLevel >= 50 && monsterLevel < 100 ? 1 : 0;
-            case "oil cartel":
-              return monsterLevel >= 100 ? 1 : 0;
-          }
-          break;
+      }
+      case "Oil Peak" -> {
+        int monsterLevel = (int) KoLCharacter.currentNumericModifier(DoubleModifier.MONSTER_LEVEL);
+        return switch (monster) {
+          case "oil slick" -> monsterLevel < 20 ? 1 : 0;
+          case "oil tycoon" -> monsterLevel >= 20 && monsterLevel < 50 ? 1 : 0;
+          case "oil baron" -> monsterLevel >= 50 && monsterLevel < 100 ? 1 : 0;
+          case "oil cartel" -> monsterLevel >= 100 ? 1 : 0;
+          default -> weighting;
+        };
+      }
+      case "The Battlefield (Frat Uniform)" -> {
+        int hippiesDefeated = Preferences.getInteger("hippiesDefeated");
+
+        // If the battlefield is cleared, only the boss can appear
+        if (hippiesDefeated == 1000) {
+          return monster.equals("The Big Wisniewski") ? 1 : 0;
         }
-      case "Fastest Adventurer Contest":
-        {
-          int opponentsLeft = Preferences.getInteger("nsContestants1");
-          if (monster.equals("Tasmanian Dervish")) {
-            return opponentsLeft == 1 ? 1 : 0;
-          } else {
-            return opponentsLeft > 1 ? 1 : 0;
-          }
+        return switch (monster) {
+            // Junkyard quest completed as hippy
+          case "Bailey's Beetle" -> Preferences.getString("sidequestJunkyardCompleted")
+                  .equals("hippy")
+              ? 1
+              : 0;
+            // After specific number of hippies defeated
+          case "Green Ops Soldier" -> hippiesDefeated >= 401 ? 1 : 0;
+          case "Mobile Armored Sweat Lodge" -> hippiesDefeated >= 151 ? 1 : 0;
+          case "War Hippy Airborne Commander" -> hippiesDefeated >= 351 ? 1 : 0;
+          case "War Hippy Baker" -> hippiesDefeated <= 600 ? 2 : 0;
+          case "War Hippy Dread Squad" -> hippiesDefeated <= 850 ? 1 : 0;
+          case "War Hippy Elder Shaman" -> hippiesDefeated >= 251 ? 1 : 0;
+          case "War Hippy Elite Fire Spinner" -> hippiesDefeated >= 501 ? 1 : 0;
+          case "War Hippy Elite Rigger" -> hippiesDefeated >= 301 ? 2 : 0;
+          case "War Hippy F.R.O.G." -> hippiesDefeated >= 51 && hippiesDefeated <= 500 ? 2 : 0;
+          case "War Hippy Fire Spinner" -> hippiesDefeated >= 301 && hippiesDefeated <= 650 ? 1 : 0;
+          case "War Hippy Green Gourmet" -> hippiesDefeated >= 201 && hippiesDefeated <= 750
+              ? 2
+              : 0;
+          case "War Hippy Homeopath" -> hippiesDefeated <= 900 ? 1 : 0;
+          case "War Hippy Infantryman" -> hippiesDefeated <= 400 ? 2 : 0;
+          case "War Hippy Naturopathic Homeopath" -> hippiesDefeated >= 451 ? 1 : 0;
+          case "War Hippy Rigger" -> hippiesDefeated <= 800 ? 2 : 0;
+          case "War Hippy Shaman" -> hippiesDefeated >= 26 && hippiesDefeated <= 700 ? 1 : 0;
+          case "War Hippy Sky Captain" -> hippiesDefeated >= 76 && hippiesDefeated <= 550 ? 1 : 0;
+          case "War Hippy Windtalker" -> hippiesDefeated > 0 ? 1 : 0;
+            // Hippy Heroes only appear in specific range. Very low encounter chance
+          case "Slow Talkin' Elliot" -> hippiesDefeated >= 501 && hippiesDefeated <= 600 ? -1 : 0;
+          case "Neil" -> hippiesDefeated >= 601 && hippiesDefeated <= 700 ? -1 : 0;
+          case "Zim Merman" -> hippiesDefeated >= 701 && hippiesDefeated <= 800 ? -1 : 0;
+          case "C.A.R.N.I.V.O.R.E. Operative" -> hippiesDefeated >= 801 && hippiesDefeated <= 900
+              ? -1
+              : 0;
+          case "Glass of Orange Juice" -> hippiesDefeated >= 901 && hippiesDefeated <= 999 ? -1 : 0;
+          default -> weighting;
+        };
+      }
+      case "The Battlefield (Hippy Uniform)" -> {
+        int fratboysDefeated = Preferences.getInteger("fratboysDefeated");
+
+        // If the battlefield is cleared, only the boss can appear
+        if (fratboysDefeated == 1000) {
+          return monster.equals("The Man") ? 1 : 0;
         }
-      case "Strongest Adventurer Contest":
-        {
-          int opponentsLeft =
-              Preferences.getString("nsChallenge1").equals("Muscle")
-                  ? Preferences.getInteger("nsContestants2")
-                  : 0;
-          if (monster.equals("Mr. Loathing")) {
-            return opponentsLeft == 1 ? 1 : 0;
-          } else {
-            return opponentsLeft > 1 ? 1 : 0;
-          }
+
+        return switch (monster) {
+            // Junkyard quest completed as fratboy
+          case "War Frat Mobile Grill Unit" -> Preferences.getString("sidequestJunkyardCompleted")
+                  .equals("fratboy")
+              ? 1
+              : 0;
+            // After specific number of fratboys defeated (todo: has not been spaded)
+          case "Sorority Operator" -> fratboysDefeated >= 151 ? 1 : 0;
+          case "Panty Raider Frat Boy" -> fratboysDefeated >= 401 ? 1 : 0;
+            // Fratboy Heroes only appear in specific range. Very low encounter chance
+          case "Next-generation Frat Boy" -> fratboysDefeated >= 501 && fratboysDefeated <= 600
+              ? -1
+              : 0;
+          case "Monty Basingstoke-Pratt, IV" -> fratboysDefeated >= 601 && fratboysDefeated <= 700
+              ? -1
+              : 0;
+          case "Brutus, the toga-clad lout" -> fratboysDefeated >= 701 && fratboysDefeated <= 800
+              ? -1
+              : 0;
+          case "Danglin' Chad" -> fratboysDefeated >= 801 && fratboysDefeated <= 900 ? -1 : 0;
+          case "War Frat Streaker" -> fratboysDefeated >= 901 && fratboysDefeated <= 999 ? -1 : 0;
+          default -> weighting;
+        };
+      }
+      case "Fastest Adventurer Contest" -> {
+        int opponentsLeft = Preferences.getInteger("nsContestants1");
+        if (monster.equals("Tasmanian Dervish")) {
+          return opponentsLeft == 1 ? 1 : 0;
+        } else {
+          return opponentsLeft > 1 ? 1 : 0;
         }
-      case "Smartest Adventurer Contest":
-        {
-          int opponentsLeft =
-              Preferences.getString("nsChallenge1").equals("Mysticality")
-                  ? Preferences.getInteger("nsContestants2")
-                  : 0;
-          if (monster.equals("The Mastermind")) {
-            return opponentsLeft == 1 ? 1 : 0;
-          } else {
-            return opponentsLeft > 1 ? 1 : 0;
-          }
+      }
+      case "Strongest Adventurer Contest" -> {
+        int opponentsLeft =
+            Preferences.getString("nsChallenge1").equals("Muscle")
+                ? Preferences.getInteger("nsContestants2")
+                : 0;
+        if (monster.equals("Mr. Loathing")) {
+          return opponentsLeft == 1 ? 1 : 0;
+        } else {
+          return opponentsLeft > 1 ? 1 : 0;
         }
-      case "Smoothest Adventurer Contest":
-        {
-          int opponentsLeft =
-              Preferences.getString("nsChallenge1").equals("Muscle")
-                  ? Preferences.getInteger("nsContestants2")
-                  : 0;
-          if (monster.equals("Seannery the Conman")) {
-            return opponentsLeft == 1 ? 1 : 0;
-          } else {
-            return opponentsLeft > 1 ? 1 : 0;
-          }
+      }
+      case "Smartest Adventurer Contest" -> {
+        int opponentsLeft =
+            Preferences.getString("nsChallenge1").equals("Mysticality")
+                ? Preferences.getInteger("nsContestants2")
+                : 0;
+        if (monster.equals("The Mastermind")) {
+          return opponentsLeft == 1 ? 1 : 0;
+        } else {
+          return opponentsLeft > 1 ? 1 : 0;
         }
-      case "Coldest Adventurer Contest":
-        {
-          int opponentsLeft =
-              Preferences.getString("nsChallenge2").equals("cold")
-                  ? Preferences.getInteger("nsContestants3")
-                  : 0;
-          if (monster.equals("Mrs. Freeze")) {
-            return opponentsLeft == 1 ? 1 : 0;
-          } else {
-            return opponentsLeft > 1 ? 1 : 0;
-          }
+      }
+      case "Smoothest Adventurer Contest" -> {
+        int opponentsLeft =
+            Preferences.getString("nsChallenge1").equals("Muscle")
+                ? Preferences.getInteger("nsContestants2")
+                : 0;
+        if (monster.equals("Seannery the Conman")) {
+          return opponentsLeft == 1 ? 1 : 0;
+        } else {
+          return opponentsLeft > 1 ? 1 : 0;
         }
-      case "Hottest Adventurer Contest":
-        {
-          int opponentsLeft =
-              Preferences.getString("nsChallenge2").equals("hot")
-                  ? Preferences.getInteger("nsContestants3")
-                  : 0;
-          if (monster.equals("Mrs. Freeze")) {
-            return opponentsLeft == 1 ? 1 : 0;
-          } else {
-            return opponentsLeft > 1 ? 1 : 0;
-          }
+      }
+      case "Coldest Adventurer Contest" -> {
+        int opponentsLeft =
+            Preferences.getString("nsChallenge2").equals("cold")
+                ? Preferences.getInteger("nsContestants3")
+                : 0;
+        if (monster.equals("Mrs. Freeze")) {
+          return opponentsLeft == 1 ? 1 : 0;
+        } else {
+          return opponentsLeft > 1 ? 1 : 0;
         }
-      case "Sleaziest Adventurer Contest":
-        {
-          int opponentsLeft =
-              Preferences.getString("nsChallenge2").equals("sleaze")
-                  ? Preferences.getInteger("nsContestants3")
-                  : 0;
-          if (monster.equals("Leonard")) {
-            return opponentsLeft == 1 ? 1 : 0;
-          } else {
-            return opponentsLeft > 1 ? 1 : 0;
-          }
+      }
+      case "Hottest Adventurer Contest" -> {
+        int opponentsLeft =
+            Preferences.getString("nsChallenge2").equals("hot")
+                ? Preferences.getInteger("nsContestants3")
+                : 0;
+        if (monster.equals("Mrs. Freeze")) {
+          return opponentsLeft == 1 ? 1 : 0;
+        } else {
+          return opponentsLeft > 1 ? 1 : 0;
         }
-      case "Spookiest Adventurer Contest":
-        {
-          int opponentsLeft =
-              Preferences.getString("nsChallenge2").equals("spooky")
-                  ? Preferences.getInteger("nsContestants3")
-                  : 0;
-          if (monster.equals("Arthur Frankenstein")) {
-            return opponentsLeft == 1 ? 1 : 0;
-          } else {
-            return opponentsLeft > 1 ? 1 : 0;
-          }
+      }
+      case "Sleaziest Adventurer Contest" -> {
+        int opponentsLeft =
+            Preferences.getString("nsChallenge2").equals("sleaze")
+                ? Preferences.getInteger("nsContestants3")
+                : 0;
+        if (monster.equals("Leonard")) {
+          return opponentsLeft == 1 ? 1 : 0;
+        } else {
+          return opponentsLeft > 1 ? 1 : 0;
         }
-      case "Stinkiest Adventurer Contest":
-        {
-          int opponentsLeft =
-              Preferences.getString("nsChallenge2").equals("stinky")
-                  ? Preferences.getInteger("nsContestants3")
-                  : 0;
-          if (monster.equals("Odorous Humongous")) {
-            return opponentsLeft == 1 ? 1 : 0;
-          } else {
-            return opponentsLeft > 1 ? 1 : 0;
-          }
+      }
+      case "Spookiest Adventurer Contest" -> {
+        int opponentsLeft =
+            Preferences.getString("nsChallenge2").equals("spooky")
+                ? Preferences.getInteger("nsContestants3")
+                : 0;
+        if (monster.equals("Arthur Frankenstein")) {
+          return opponentsLeft == 1 ? 1 : 0;
+        } else {
+          return opponentsLeft > 1 ? 1 : 0;
         }
-      case "The Nemesis' Lair":
+      }
+      case "Stinkiest Adventurer Contest" -> {
+        int opponentsLeft =
+            Preferences.getString("nsChallenge2").equals("stinky")
+                ? Preferences.getInteger("nsContestants3")
+                : 0;
+        if (monster.equals("Odorous Humongous")) {
+          return opponentsLeft == 1 ? 1 : 0;
+        } else {
+          return opponentsLeft > 1 ? 1 : 0;
+        }
+      }
+      case "The Nemesis' Lair" -> {
         int lairTurns = AdventureSpentDatabase.getTurns(zone);
-        switch (monster) {
-          case "hellseal guardian":
-            return KoLCharacter.isSealClubber() ? 1 : 0;
-          case "Gorgolok, the Infernal Seal (Inner Sanctum)":
-            return KoLCharacter.isSealClubber() && lairTurns >= 4 ? 1 : 0;
-          case "warehouse worker":
-            return KoLCharacter.isTurtleTamer() ? 1 : 0;
-          case "Stella, the Turtle Poacher (Inner Sanctum)":
-            return KoLCharacter.isTurtleTamer() && lairTurns >= 4 ? 1 : 0;
-          case "evil spaghetti cult zealot":
-            return KoLCharacter.isPastamancer() ? 1 : 0;
-          case "Spaghetti Elemental (Inner Sanctum)":
-            return KoLCharacter.isPastamancer() && lairTurns >= 4 ? 1 : 0;
-          case "security slime":
-            return KoLCharacter.isSauceror() ? 1 : 0;
-          case "Lumpy, the Sinister Sauceblob (Inner Sanctum)":
-            return KoLCharacter.isSauceror() && lairTurns >= 4 ? 1 : 0;
-          case "daft punk":
-            return KoLCharacter.isDiscoBandit() ? 1 : 0;
-          case "Spirit of New Wave (Inner Sanctum)":
-            return KoLCharacter.isDiscoBandit() && lairTurns >= 4 ? 1 : 0;
-          case "mariachi bruiser":
-            return KoLCharacter.isAccordionThief() ? 1 : 0;
-          case "Somerset Lopez, Dread Mariachi (Inner Sanctum)":
-            return KoLCharacter.isAccordionThief() && lairTurns >= 4 ? 1 : 0;
-        }
-        break;
-      case "The Slime Tube":
-        {
-          int monsterLevel = (int) KoLCharacter.currentNumericModifier(Modifiers.MONSTER_LEVEL);
-          switch (monster) {
-            case "Slime":
-              return monsterLevel <= 100 ? 1 : 0;
-            case "Slime Hand":
-              return monsterLevel > 100 && monsterLevel <= 300 ? 1 : 0;
-            case "Slime Mouth":
-              return monsterLevel > 300 && monsterLevel <= 600 ? 1 : 0;
-            case "Slime Construct":
-              return monsterLevel > 600 && monsterLevel <= 1000 ? 1 : 0;
-            case "Slime Colossus":
-              return monsterLevel > 1000 ? 1 : 0;
-          }
-          break;
-        }
-      case "The Post-Mall":
+        return switch (monster) {
+          case "hellseal guardian" -> KoLCharacter.isSealClubber() ? 1 : 0;
+          case "Gorgolok, the Infernal Seal (Inner Sanctum)" -> KoLCharacter.isSealClubber()
+                  && lairTurns >= 4
+              ? 1
+              : 0;
+          case "warehouse worker" -> KoLCharacter.isTurtleTamer() ? 1 : 0;
+          case "Stella, the Turtle Poacher (Inner Sanctum)" -> KoLCharacter.isTurtleTamer()
+                  && lairTurns >= 4
+              ? 1
+              : 0;
+          case "evil spaghetti cult zealot" -> KoLCharacter.isPastamancer() ? 1 : 0;
+          case "Spaghetti Elemental (Inner Sanctum)" -> KoLCharacter.isPastamancer()
+                  && lairTurns >= 4
+              ? 1
+              : 0;
+          case "security slime" -> KoLCharacter.isSauceror() ? 1 : 0;
+          case "Lumpy, the Sinister Sauceblob (Inner Sanctum)" -> KoLCharacter.isSauceror()
+                  && lairTurns >= 4
+              ? 1
+              : 0;
+          case "daft punk" -> KoLCharacter.isDiscoBandit() ? 1 : 0;
+          case "Spirit of New Wave (Inner Sanctum)" -> KoLCharacter.isDiscoBandit()
+                  && lairTurns >= 4
+              ? 1
+              : 0;
+          case "mariachi bruiser" -> KoLCharacter.isAccordionThief() ? 1 : 0;
+          case "Somerset Lopez, Dread Mariachi (Inner Sanctum)" -> KoLCharacter.isAccordionThief()
+                  && lairTurns >= 4
+              ? 1
+              : 0;
+          default -> weighting;
+        };
+      }
+      case "The Slime Tube" -> {
+        int monsterLevel = (int) KoLCharacter.currentNumericModifier(DoubleModifier.MONSTER_LEVEL);
+        return switch (monster) {
+          case "Slime" -> monsterLevel <= 100 ? 1 : 0;
+          case "Slime Hand" -> monsterLevel > 100 && monsterLevel <= 300 ? 1 : 0;
+          case "Slime Mouth" -> monsterLevel > 300 && monsterLevel <= 600 ? 1 : 0;
+          case "Slime Construct" -> monsterLevel > 600 && monsterLevel <= 1000 ? 1 : 0;
+          case "Slime Colossus" -> monsterLevel > 1000 ? 1 : 0;
+          default -> weighting;
+        };
+      }
+      case "The Post-Mall" -> {
         int mallTurns = AdventureSpentDatabase.getTurns(zone);
         if (monster.equals("sentient ATM")) {
           return mallTurns == 11 ? 1 : 0;
         } else {
           return mallTurns == 11 ? -4 : 1;
         }
-      case "Investigating a Plaintive Telegram":
+      }
+      case "Investigating a Plaintive Telegram" -> {
         String quest = Preferences.getString("lttQuestName");
         String questStep = Preferences.getString("questLTTQuestByWire");
-        switch (monster) {
-          case "drunk cowpoke":
-            return (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
-                    || (quest.equals("Help!  Desperados|") && questStep.equals("step1"))
-                    || (quest.equals("Big Gambling Tournament Announced")
-                        && questStep.equals("step1"))
-                    || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
-                    || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
-                ? 1
-                : 0;
-          case "surly gambler":
-            return (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
-                    || (quest.equals("Big Gambling Tournament Announced")
-                        && questStep.equals("step3"))
-                    || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
-                ? 1
-                : 0;
-          case "wannabe gunslinger":
-            return (quest.equals("Help!  Desperados|") && questStep.equals("step1"))
-                    || (quest.equals("Big Gambling Tournament Announced")
-                        && questStep.equals("step1"))
-                    || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
-                    || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
-                ? 1
-                : 0;
-          case "cow cultist":
-            return (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step2"))
-                    || (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
-                    || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
-                    || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
-                ? 1
-                : 0;
-          case "hired gun":
-            return (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
-                    || (quest.equals("Help!  Desperados|") && questStep.equals("step1"))
-                    || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step2"))
-                    || (quest.equals("Big Gambling Tournament Announced")
-                        && questStep.equals("step3"))
-                    || (quest.equals("Sheriff Wanted") && questStep.equals("step3"))
-                    || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
-                    || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
-                ? 1
-                : 0;
-          case "camp cook":
-            return (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
-                    || (quest.equals("Sheriff Wanted") && questStep.equals("step3"))
-                    || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
-                    || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
-                ? 1
-                : 0;
-          case "skeletal gunslinger":
-            return (quest.equals("Help!  Desperados|") && questStep.equals("step3"))
-                    || (quest.equals("Haunted Boneyard") && questStep.equals("step1"))
-                    || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
-                    || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
-                ? 1
-                : 0;
-          case "restless ghost":
-            return (quest.equals("Missing: Fancy Man") && questStep.equals("step3"))
-                    || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step1"))
-                    || (quest.equals("Haunted Boneyard") && questStep.equals("step2"))
-                    || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
-                    || (quest.equals("Missing: Many Children") && questStep.equals("step2"))
-                    || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
-                ? 1
-                : 0;
-          case "buzzard":
-            return (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
-                    || (quest.equals("Help! Desperados|") && questStep.equals("step2"))
-                    || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step1"))
-                    || (quest.equals("Haunted Boneyard") && questStep.equals("step1"))
-                ? 1
-                : 0;
-          case "mountain lion":
-            return (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
-                    || (quest.equals("Help!  Desperados|") && questStep.equals("step2"))
-                    || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
-                    || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
-                    || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
-                ? 1
-                : 0;
-          case "grizzled bear":
-            return (quest.equals("Help!  Desperados|") && questStep.equals("step3"))
-                    || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
-                    || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
-                ? 1
-                : 0;
-          case "diamondback rattler":
-            return (quest.equals("Help!  Desperados|") && questStep.equals("step2"))
-                    || (quest.equals("Big Gambling Tournament Announced")
-                        && questStep.equals("step2"))
-                    || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
-                    || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
-                ? 1
-                : 0;
-          case "coal snake":
-            return (quest.equals("Missing: Fancy Man") && questStep.equals("step3"))
-                    || (quest.equals("Big Gambling Tournament Announced")
-                        && questStep.equals("step2"))
-                    || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
-                ? 1
-                : 0;
-          case "frontwinder":
-            return (quest.equals("Big Gambling Tournament Announced") && questStep.equals("step2"))
-                    || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
-                ? 1
-                : 0;
-          case "caugr":
-            return (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step3"))
-                    || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
-                ? 1
-                : 0;
-          case "pyrobove":
-            return (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step3"))
-                    || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
-                    || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
-                ? 1
-                : 0;
-          case "spidercow":
-            return (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step3"))
-                    || (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
-                    || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
-                ? 1
-                : 0;
-          case "moomy":
-            return (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
-                    || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
-                    || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
-                ? 1
-                : 0;
-          case "Jeff the Fancy Skeleton":
-            return (quest.equals("Missing: Fancy Man") && questStep.equals("step4")) ? 1 : 0;
-          case "Daisy the Unclean":
-            return (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step4")) ? 1 : 0;
-          case "Pecos Dave":
-            return (quest.equals("Help!  Desperados|") && questStep.equals("step4")) ? 1 : 0;
-          case "Pharaoh Amoon-Ra Cowtep":
-            return (quest.equals("Haunted Boneyard") && questStep.equals("step4")) ? 1 : 0;
-          case "Snake-Eyes Glenn":
-            return (quest.equals("Big Gambling Tournament Announced") && questStep.equals("step4"))
-                ? 1
-                : 0;
-          case "Former Sheriff Dan Driscoll":
-            return (quest.equals("Sheriff Wanted") && questStep.equals("step4")) ? 1 : 0;
-          case "unusual construct":
-            return (quest.equals("Madness at the Mine") && questStep.equals("step4")) ? 1 : 0;
-          case "Clara":
-            return (quest.equals("Missing: Many Children") && questStep.equals("step4")) ? 1 : 0;
-          case "Granny Hackleton":
-            return (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step4")) ? 1 : 0;
-        }
-        break;
-      case "Gingerbread Civic Center":
-      case "Gingerbread Train Station":
-      case "Gingerbread Industrial Zone":
-      case "Gingerbread Upscale Retail District":
+        return switch (monster) {
+          case "drunk cowpoke" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
+                  || (quest.equals("Help!  Desperados|") && questStep.equals("step1"))
+                  || (quest.equals("Big Gambling Tournament Announced")
+                      && questStep.equals("step1"))
+                  || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
+                  || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
+              ? 1
+              : 0;
+          case "surly gambler" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
+                  || (quest.equals("Big Gambling Tournament Announced")
+                      && questStep.equals("step3"))
+                  || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
+              ? 1
+              : 0;
+          case "wannabe gunslinger" -> (quest.equals("Help!  Desperados|")
+                      && questStep.equals("step1"))
+                  || (quest.equals("Big Gambling Tournament Announced")
+                      && questStep.equals("step1"))
+                  || (quest.equals("Sheriff Wanted") && questStep.equals("step1"))
+                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
+              ? 1
+              : 0;
+          case "cow cultist" -> (quest.equals("Missing: Pioneer Daughter")
+                      && questStep.equals("step2"))
+                  || (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
+                  || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
+                  || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
+              ? 1
+              : 0;
+          case "hired gun" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step1"))
+                  || (quest.equals("Help!  Desperados|") && questStep.equals("step1"))
+                  || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step2"))
+                  || (quest.equals("Big Gambling Tournament Announced")
+                      && questStep.equals("step3"))
+                  || (quest.equals("Sheriff Wanted") && questStep.equals("step3"))
+                  || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
+                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
+              ? 1
+              : 0;
+          case "camp cook" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
+                  || (quest.equals("Sheriff Wanted") && questStep.equals("step3"))
+                  || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
+                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step3"))
+              ? 1
+              : 0;
+          case "skeletal gunslinger" -> (quest.equals("Help!  Desperados|")
+                      && questStep.equals("step3"))
+                  || (quest.equals("Haunted Boneyard") && questStep.equals("step1"))
+                  || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
+                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
+              ? 1
+              : 0;
+          case "restless ghost" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step3"))
+                  || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step1"))
+                  || (quest.equals("Haunted Boneyard") && questStep.equals("step2"))
+                  || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
+                  || (quest.equals("Missing: Many Children") && questStep.equals("step2"))
+                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
+              ? 1
+              : 0;
+          case "buzzard" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
+                  || (quest.equals("Help! Desperados|") && questStep.equals("step2"))
+                  || (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step1"))
+                  || (quest.equals("Haunted Boneyard") && questStep.equals("step1"))
+              ? 1
+              : 0;
+          case "mountain lion" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step2"))
+                  || (quest.equals("Help!  Desperados|") && questStep.equals("step2"))
+                  || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
+                  || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
+                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
+              ? 1
+              : 0;
+          case "grizzled bear" -> (quest.equals("Help!  Desperados|") && questStep.equals("step3"))
+                  || (quest.equals("Madness at the Mine") && questStep.equals("step3"))
+                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
+              ? 1
+              : 0;
+          case "diamondback rattler" -> (quest.equals("Help!  Desperados|")
+                      && questStep.equals("step2"))
+                  || (quest.equals("Big Gambling Tournament Announced")
+                      && questStep.equals("step2"))
+                  || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
+                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step1"))
+              ? 1
+              : 0;
+          case "coal snake" -> (quest.equals("Missing: Fancy Man") && questStep.equals("step3"))
+                  || (quest.equals("Big Gambling Tournament Announced")
+                      && questStep.equals("step2"))
+                  || (quest.equals("Madness at the Mine") && questStep.equals("step1"))
+              ? 1
+              : 0;
+          case "frontwinder" -> (quest.equals("Big Gambling Tournament Announced")
+                      && questStep.equals("step2"))
+                  || (quest.equals("Sheriff Wanted") && questStep.equals("step2"))
+              ? 1
+              : 0;
+          case "caugr" -> (quest.equals("Missing: Pioneer Daughter") && questStep.equals("step3"))
+                  || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
+              ? 1
+              : 0;
+          case "pyrobove" -> (quest.equals("Missing: Pioneer Daughter")
+                      && questStep.equals("step3"))
+                  || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
+                  || (quest.equals("Wagon Train Escort Wanted") && questStep.equals("step2"))
+              ? 1
+              : 0;
+          case "spidercow" -> (quest.equals("Missing: Pioneer Daughter")
+                      && questStep.equals("step3"))
+                  || (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
+                  || (quest.equals("Missing: Many Children") && questStep.equals("step1"))
+              ? 1
+              : 0;
+          case "moomy" -> (quest.equals("Haunted Boneyard") && questStep.equals("step3"))
+                  || (quest.equals("Madness at the Mine") && questStep.equals("step2"))
+                  || (quest.equals("Missing: Many Children") && questStep.equals("step3"))
+              ? 1
+              : 0;
+          case "Jeff the Fancy Skeleton" -> (quest.equals("Missing: Fancy Man")
+                  && questStep.equals("step4"))
+              ? 1
+              : 0;
+          case "Daisy the Unclean" -> (quest.equals("Missing: Pioneer Daughter")
+                  && questStep.equals("step4"))
+              ? 1
+              : 0;
+          case "Pecos Dave" -> (quest.equals("Help!  Desperados|") && questStep.equals("step4"))
+              ? 1
+              : 0;
+          case "Pharaoh Amoon-Ra Cowtep" -> (quest.equals("Haunted Boneyard")
+                  && questStep.equals("step4"))
+              ? 1
+              : 0;
+          case "Snake-Eyes Glenn" -> (quest.equals("Big Gambling Tournament Announced")
+                  && questStep.equals("step4"))
+              ? 1
+              : 0;
+          case "Former Sheriff Dan Driscoll" -> (quest.equals("Sheriff Wanted")
+                  && questStep.equals("step4"))
+              ? 1
+              : 0;
+          case "unusual construct" -> (quest.equals("Madness at the Mine")
+                  && questStep.equals("step4"))
+              ? 1
+              : 0;
+          case "Clara" -> (quest.equals("Missing: Many Children") && questStep.equals("step4"))
+              ? 1
+              : 0;
+          case "Granny Hackleton" -> (quest.equals("Wagon Train Escort Wanted")
+                  && questStep.equals("step4"))
+              ? 1
+              : 0;
+          default -> weighting;
+        };
+      }
+      case "Gingerbread Civic Center",
+          "Gingerbread Train Station",
+          "Gingerbread Industrial Zone",
+          "Gingerbread Upscale Retail District" -> {
         if (monster.equals("gingerbread pigeon") || monster.equals("gingerbread rat")) {
           return Preferences.getBoolean("gingerSewersUnlocked") ? 0 : 1;
         }
-        break;
-      case "The Canadian Wildlife Preserve":
+      }
+      case "The Canadian Wildlife Preserve" -> {
         if (monster.equals("wild reindeer")) {
           return KoLCharacter.getFamiliar().getId() != FamiliarPool.YULE_HOUND ? 0 : 1;
         }
-        break;
-      case "The Clumsiness Grove":
+      }
+      case "The Clumsiness Grove" -> {
         if (monster.equals("The Bat in the Spats") || monster.equals("The Thorax")) {
           return (monster.equals(Preferences.getString("clumsinessGroveBoss"))) ? 1 : 0;
         }
-        break;
-      case "The Maelstrom of Lovers":
+      }
+      case "The Maelstrom of Lovers" -> {
         if (monster.equals("The Terrible Pinch") || monster.equals("Thug 1 and Thug 2")) {
           return (monster.equals(Preferences.getString("maelstromOfLoversBoss"))) ? 1 : 0;
         }
-        break;
-      case "The Glacier of Jerks":
+      }
+      case "The Glacier of Jerks" -> {
         if (monster.equals("Mammon the Elephant") || monster.equals("The Large-Bellied Snitch")) {
           return (monster.equals(Preferences.getString("glacierOfJerksBoss"))) ? 1 : 0;
         }
-        break;
-      case "The Jungles of Ancient Loathing":
+      }
+      case "The Jungles of Ancient Loathing" -> {
         if (monster.equals("evil cultist")) {
           return QuestDatabase.isQuestFinished(Quest.PRIMORDIAL) ? 1 : 0;
         }
-        break;
-      case "Seaside Megalopolis":
-        switch (monster) {
-          case "cyborg policeman":
-            return (InventoryManager.hasItem(ItemPool.MULTI_PASS)
-                    && !QuestDatabase.isQuestFinished(Quest.FUTURE))
-                ? 1
-                : 0;
-          case "obese tourist":
-          case "terrifying robot":
-            return QuestDatabase.isQuestLaterThan(Quest.FUTURE, "step1") ? 1 : 0;
-        }
+      }
+      case "Seaside Megalopolis" -> {
+        return switch (monster) {
+          case "cyborg policeman" -> (InventoryManager.hasItem(ItemPool.MULTI_PASS)
+                  && !QuestDatabase.isQuestFinished(Quest.FUTURE))
+              ? 1
+              : 0;
+          case "obese tourist", "terrifying robot" -> QuestDatabase.isQuestLaterThan(
+                  Quest.FUTURE, "step1")
+              ? 1
+              : 0;
+          default -> weighting;
+        };
+      }
+      case "Shadow Rift" -> {
+        var ingress = Preferences.getString("shadowRiftIngress");
+        return switch (monster) {
+              case "shadow bat" -> ingress.equals("manor3")
+                  || ingress.equals("pyramid")
+                  || ingress.equals("plains")
+                  || ingress.equals("giantcastle");
+              case "shadow cow" -> ingress.equals("mclargehuge")
+                  || ingress.equals("plains")
+                  || ingress.equals("town_right");
+              case "shadow devil" -> ingress.equals("desertbeach")
+                  || ingress.equals("manor3")
+                  || ingress.equals("woods");
+              case "shadow guy" -> ingress.equals("forestvillage")
+                  || ingress.equals("town_right")
+                  || ingress.equals("giantcastle")
+                  || ingress.equals("cemetery");
+              case "shadow hexagon" -> ingress.equals("mclargehuge")
+                  || ingress.equals("8bit")
+                  || ingress.equals("forestvillage");
+              case "shadow orb" -> ingress.equals("desertbeach")
+                  || ingress.equals("8bit")
+                  || ingress.equals("beanstalk")
+                  || ingress.equals("giantcastle");
+              case "shadow prism" -> ingress.equals("8bit")
+                  || ingress.equals("town_right")
+                  || ingress.equals("beanstalk");
+              case "shadow slab" -> ingress.equals("pyramid")
+                  || ingress.equals("hiddencity")
+                  || ingress.equals("cemetery");
+              case "shadow spider" -> ingress.equals("manor3")
+                  || ingress.equals("forestvillage")
+                  || ingress.equals("plains");
+              case "shadow snake" -> ingress.equals("desertbeach")
+                  || ingress.equals("pyramid")
+                  || ingress.equals("hiddencity");
+              case "shadow stalk" -> ingress.equals("hiddencity")
+                  || ingress.equals("beanstalk")
+                  || ingress.equals("woods");
+              case "shadow tree" -> ingress.equals("mclargehuge")
+                  || ingress.equals("woods")
+                  || ingress.equals("cemetery");
+                // If you somehow get another monster here, assume it's not affected by ingress
+                // point
+              default -> true;
+            }
+            ? weighting
+            : -4;
+      }
     }
     return weighting;
   }
 
-  public static final double superlikelyChance(MonsterData monster) {
+  public static double superlikelyChance(MonsterData monster) {
     return superlikelyChance(monster.getName());
   }
 
-  public static final double superlikelyChance(String monster) {
-    if (monster.equals("screambat")) {
-      int turns =
-          AdventureSpentDatabase.getTurns("Guano Junction")
-              + AdventureSpentDatabase.getTurns("The Batrat and Ratbat Burrow")
-              + AdventureSpentDatabase.getTurns("The Beanbat Chamber");
-      // Appears every 8 turns in relevant zones
-      return turns > 0 && (turns % 8) == 0 ? 100.0 : 0.0;
-    }
-    if (monster.equals("modern zmobie") && Preferences.getInteger("cyrptAlcoveEvilness") > 25) {
-      // Chance based on initiative
-      double chance = 15 + KoLCharacter.getInitiativeAdjustment() / 10;
-      return chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
-    }
-    if (monster.equals("ninja snowman assassin")) {
-      // Do not appear without positive combat rate
-      double combatRate = KoLCharacter.getCombatRateAdjustment();
-      if (combatRate <= 0) {
-        return 0;
+  public static double superlikelyChance(String monster) {
+    return switch (monster) {
+      case "screambat" -> {
+        int turns =
+            AdventureSpentDatabase.getTurns("Guano Junction")
+                + AdventureSpentDatabase.getTurns("The Batrat and Ratbat Burrow")
+                + AdventureSpentDatabase.getTurns("The Beanbat Chamber");
+        // Appears every 8 turns in relevant zones
+        yield turns > 0 && (turns % 8) == 0 ? 100.0 : 0.0;
       }
-      // Guaranteed on turns 11, 21, and 31
-      int snowmanTurns = AdventureSpentDatabase.getTurns("Lair of the Ninja Snowmen");
-      if (snowmanTurns == 10 || snowmanTurns == 20 || snowmanTurns == 30) {
-        return 100.0;
+      case "modern zmobie" -> {
+        if (Preferences.getInteger("cyrptAlcoveEvilness") > 13) {
+          // Chance based on initiative
+          double chance = 15 + KoLCharacter.getInitiativeAdjustment() / 10;
+          yield chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
+        } else {
+          yield 0;
+        }
       }
-      double chance = combatRate / 2 + (double) snowmanTurns * 1.5;
-      return chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
-    }
-    if (monster.equals("mother hellseal")) {
-      double chance = Preferences.getInteger("_sealScreeches") * 10;
-      return chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
-    }
-    if (monster.equals("Brick Mulligan, the Bartender")) {
-      int kokomoTurns = AdventureSpentDatabase.getTurns("Kokomo Resort");
-      // Appears every 25 turns
-      return kokomoTurns > 0 && (kokomoTurns % 25) == 0 ? 100.0 : 0.0;
-    }
-    return 0;
+      case "ninja snowman assassin" -> {
+        // Do not appear without positive combat rate
+        double combatRate = KoLCharacter.getCombatRateAdjustment();
+        if (combatRate <= 0) {
+          yield 0;
+        }
+        // Guaranteed on turns 11, 21, and 31
+        int snowmanTurns = AdventureSpentDatabase.getTurns("Lair of the Ninja Snowmen");
+        if (snowmanTurns == 10 || snowmanTurns == 20 || snowmanTurns == 30) {
+          yield 100.0;
+        }
+        double chance = combatRate / 2 + (double) snowmanTurns * 1.5;
+        yield chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
+      }
+      case "mother hellseal" -> {
+        double chance = Preferences.getInteger("_sealScreeches") * 10;
+        yield chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
+      }
+      case "Brick Mulligan, the Bartender" -> {
+        int kokomoTurns = AdventureSpentDatabase.getTurns("Kokomo Resort");
+        // Appears every 25 turns
+        yield kokomoTurns > 0 && (kokomoTurns % 25) == 0 ? 100.0 : 0.0;
+      }
+      default -> 0;
+    };
   }
 }

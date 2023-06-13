@@ -103,18 +103,13 @@ public class CakeArenaManager {
   }
 
   public static final String eventIdToName(final int eventId) {
-    switch (eventId) {
-      case 1:
-        return "Ultimate Cage Match";
-      case 2:
-        return "Scavenger Hunt";
-      case 3:
-        return "Obstacle Course";
-      case 4:
-        return "Hide and Seek";
-      default:
-        return "Unknown Event";
-    }
+    return switch (eventId) {
+      case 1 -> "Ultimate Cage Match";
+      case 2 -> "Scavenger Hunt";
+      case 3 -> "Obstacle Course";
+      case 4 -> "Hide and Seek";
+      default -> "Unknown Event";
+    };
   }
 
   public static final int eventNameToId(final String eventName) {
@@ -164,7 +159,7 @@ public class CakeArenaManager {
 
     @Override
     public boolean equals(final Object o) {
-      return o instanceof ArenaOpponent && this.id == ((ArenaOpponent) o).id;
+      return o instanceof ArenaOpponent ao && this.id == ao.id;
     }
 
     @Override

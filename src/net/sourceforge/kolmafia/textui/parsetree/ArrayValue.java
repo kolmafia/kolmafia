@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -61,11 +61,11 @@ public class ArrayValue extends AggregateValue {
 
     if (baseType.equals(valType)) {
       array[index] = val;
-    } else if (baseType.equals(DataTypes.TYPE_STRING)) {
+    } else if (baseType.equals(TypeSpec.STRING)) {
       array[index] = val.toStringValue();
-    } else if (baseType.equals(DataTypes.TYPE_INT) && valType.equals(DataTypes.TYPE_FLOAT)) {
+    } else if (baseType.equals(TypeSpec.INT) && valType.equals(TypeSpec.FLOAT)) {
       array[index] = val.toIntValue();
-    } else if (baseType.equals(DataTypes.TYPE_FLOAT) && valType.equals(DataTypes.TYPE_INT)) {
+    } else if (baseType.equals(TypeSpec.FLOAT) && valType.equals(TypeSpec.INT)) {
       array[index] = val.toFloatValue();
     } else {
       throw interpreter.runtimeException(

@@ -5,12 +5,10 @@ import ca.bcit.geekkit.JCalendar;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -33,8 +31,8 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
   static {
     // all dates are presented as if the day begins at rollover
 
-    CalendarFrame.SHORT_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT-0330"));
-    CalendarFrame.LONG_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT-0330"));
+    CalendarFrame.SHORT_FORMAT.setTimeZone(KoLmafia.KOL_TIME_ZONE);
+    CalendarFrame.LONG_FORMAT.setTimeZone(KoLmafia.KOL_TIME_ZONE);
   }
 
   // static final array of file names (not including .gif extension)
@@ -64,22 +62,29 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
 
   public CalendarFrame() {
     super("Farmer's Almanac");
-
-    CalendarFrame.selectedRow = -1;
-    CalendarFrame.selectedColumn = -1;
-
     try {
-      CalendarFrame.selectedDate =
-          Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"), Locale.US);
+      Calendar useMe = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE, Locale.US);
+      buildCalendarFrame(useMe);
     } catch (Exception e) {
       // This should not happen.  Therefore, print
       // a stack trace for debug purposes.
-
       StaticEntity.printStackTrace(e);
     }
+  }
+
+  // for testing
+  public CalendarFrame(Calendar calendarToUse) {
+    super("Farmer's Almanac");
+    buildCalendarFrame(calendarToUse);
+  }
+
+  private void buildCalendarFrame(Calendar calendarToUse) {
+    CalendarFrame.selectedRow = -1;
+    CalendarFrame.selectedColumn = -1;
+    CalendarFrame.selectedDate = calendarToUse;
 
     CalendarFrame.calculatePhases(
-        CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()));
+        CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId()));
 
     dailyDisplay = new RequestPane();
     JComponentUtilities.setComponentSize(dailyDisplay, 400, 335);
@@ -89,7 +94,6 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
 
     this.tabs.addTab("KoL One-a-Day", dailyDisplay);
     this.tabs.addTab("Upcoming Events", predictDisplay);
-
     CalendarFrame.calendar = new JCalendar(OracleTable.class);
     CalendarFrame.oracleTable = (OracleTable) CalendarFrame.calendar.getTable();
     CalendarFrame.oracleTable.getSelectionModel().addListSelectionListener(this);
@@ -98,9 +102,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     JPanel calendarPanel = new JPanel(new BorderLayout());
     calendarPanel.add(this.tabs, BorderLayout.CENTER);
     calendarPanel.add(CalendarFrame.calendar, BorderLayout.EAST);
-
     this.setCenterComponent(calendarPanel);
-
     this.updateTabs();
   }
 
@@ -137,7 +139,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
                         .getValueAt(CalendarFrame.selectedRow, CalendarFrame.selectedColumn)));
 
         CalendarFrame.calculatePhases(
-            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()));
+            CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId()));
         this.updateTabs();
       } catch (Exception e1) {
         // This should not happen.  Therefore, print
@@ -171,6 +173,10 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
    * should be called after all recalculation attempts.
    */
   private static void updateDailyPage() {
+    updateDailyPage(KoLConstants.RNG.nextInt(2));
+  }
+
+  protected static void updateDailyPage(int rngVal) {
     if (KoLConstants.DAILY_FORMAT.format(CalendarFrame.selectedDate.getTime()).equals("20051027")) {
       CalendarFrame.dailyDisplay.setText("<center><h1>White Wednesday</h1></center>");
       return;
@@ -191,7 +197,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     String artistName;
     String artDirectory;
 
-    if (KoLConstants.RNG.nextInt(2) == 1) {
+    if (rngVal == 1) {
       artistURL = "http://elfwood.lysator.liu.se/loth/l/e/leigh/leigh.html";
       artistName = "SpaceMonkey";
       artDirectory = "bikini";
@@ -201,7 +207,12 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
       artDirectory = "beefcake";
     }
 
-    displayHTML.append("<a href=\"" + artistURL + "\">" + artistName + "</a></b></td></tr>");
+    displayHTML
+        .append("<a href=\"")
+        .append(artistURL)
+        .append("\">")
+        .append(artistName)
+        .append("</a></b></td></tr>");
     displayHTML.append("<tr><td><img src=\"");
     displayHTML.append(KoLmafia.imageServerPath());
     displayHTML.append("otherimages/");
@@ -210,13 +221,13 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     displayHTML.append(
         CalendarFrame.CALENDARS[
             HolidayDatabase.getCalendarMonth(
-                CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()))]);
+                CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId()))]);
     displayHTML.append(".gif\"></td></tr><tr><td align=center>");
     displayHTML.append(CalendarFrame.LONG_FORMAT.format(CalendarFrame.selectedDate.getTime()));
     displayHTML.append("</td></tr><tr><td align=center><font size=+1><b>");
     displayHTML.append(
         HolidayDatabase.getCalendarDayAsString(
-            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault())));
+            CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId())));
     displayHTML.append("</b></font></td></tr></table></center>");
 
     displayHTML.append("</td><td valign=top>");
@@ -228,7 +239,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     displayHTML.append("<tr><td colspan=2 align=center><b>");
     displayHTML.append(
         HolidayDatabase.getHoliday(
-            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault())));
+            CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId())));
     displayHTML.append("</b></td></tr><tr><td colspan=2></td></tr>");
 
     // Next display today's moon phases, including
@@ -367,12 +378,12 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     displayHTML.append("</u></b><br><i>");
     displayHTML.append(
         HolidayDatabase.getCalendarDayAsString(
-            CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault())));
+            CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId())));
     displayHTML.append("</i><br>&nbsp;<br>");
 
     HolidayDatabase.addPredictionHTML(
         displayHTML,
-        CalendarFrame.selectedDate.toInstant().atZone(ZoneId.systemDefault()),
+        CalendarFrame.selectedDate.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId()),
         phaseStep);
 
     CalendarFrame.predictDisplay.setText(displayHTML.toString());
@@ -390,7 +401,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     } else if (percentage < 0) {
       buffer.append(percentage);
       buffer.append('%');
-    } else if (percentage == 0) {
+    } else {
       buffer.append("no effect");
     }
   }
@@ -413,7 +424,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
       super(model);
       this.model = model;
 
-      this.dateCalculator = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"), Locale.US);
+      this.dateCalculator = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE, Locale.US);
       this.normalRenderer = new DefaultTableCellRenderer();
 
       this.todayRenderer = new DefaultTableCellRenderer();
@@ -456,7 +467,8 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
             this.model.getCurrentYear(),
             this.model.getCurrentMonth(),
             StringUtilities.parseInt(dayString));
-        ZonedDateTime selectedTime = this.dateCalculator.toInstant().atZone(ZoneId.systemDefault());
+        ZonedDateTime selectedTime =
+            this.dateCalculator.toInstant().atZone(KoLmafia.KOL_TIME_ZONE.toZoneId());
 
         if (CalendarFrame.SHORT_FORMAT
             .format(new Date())

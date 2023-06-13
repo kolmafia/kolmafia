@@ -9,7 +9,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.utilities.PrefixMap;
+import net.sourceforge.kolmafia.utilities.PrefixMap.KeyType;
 
 public class CliRefCommand extends AbstractCommand {
   public CliRefCommand() {
@@ -78,8 +78,8 @@ public class CliRefCommand extends AbstractCommand {
     while (i.hasNext()) {
       Map.Entry<String, AbstractCommand> e = i.next();
       String name = e.getKey();
-      int type = AbstractCommand.lookup.getKeyType(name);
-      if (type == PrefixMap.NOT_A_KEY) {
+      KeyType type = AbstractCommand.lookup.getKeyType(name);
+      if (type == KeyType.NOT_A_KEY) {
         continue;
       }
       AbstractCommand handler = e.getValue();
@@ -91,7 +91,7 @@ public class CliRefCommand extends AbstractCommand {
           || name.indexOf(filter) == -1 && usage.toLowerCase().indexOf(filter) == -1) {
         continue;
       }
-      if (type == PrefixMap.PREFIX_KEY) {
+      if (type == KeyType.PREFIX_KEY) {
         name += "*";
       }
       if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {

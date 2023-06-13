@@ -18,16 +18,30 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.PastaThrallData.PastaThrallType;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
-import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.CandyDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.RestoresDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
@@ -73,36 +87,36 @@ public class ProxyRecordValue extends RecordValue {
       return type.getFieldTypes()[index].initialValue();
     }
 
-    if (rv instanceof Value) {
-      return (Value) rv;
+    if (rv instanceof Value vv) {
+      return vv;
     }
 
-    if (rv instanceof Integer) {
-      return DataTypes.makeIntValue(((Integer) rv).intValue());
+    if (rv instanceof Integer iv) {
+      return DataTypes.makeIntValue(iv);
     }
 
-    if (rv instanceof Long) {
-      return DataTypes.makeIntValue(((Long) rv).longValue());
+    if (rv instanceof Long lv) {
+      return DataTypes.makeIntValue(lv);
     }
 
-    if (rv instanceof Float) {
-      return DataTypes.makeFloatValue(((Float) rv).floatValue());
+    if (rv instanceof Float fv) {
+      return DataTypes.makeFloatValue(fv);
     }
 
-    if (rv instanceof Double) {
-      return DataTypes.makeFloatValue(((Double) rv).doubleValue());
+    if (rv instanceof Double dv) {
+      return DataTypes.makeFloatValue(dv);
     }
 
     if (rv instanceof String) {
       return new Value(rv.toString());
     }
 
-    if (rv instanceof Boolean) {
-      return DataTypes.makeBooleanValue(((Boolean) rv).booleanValue());
+    if (rv instanceof Boolean bv) {
+      return DataTypes.makeBooleanValue(bv);
     }
 
-    if (rv instanceof CoinmasterData) {
-      return DataTypes.makeCoinmasterValue((CoinmasterData) rv);
+    if (rv instanceof CoinmasterData cv) {
+      return DataTypes.makeCoinmasterValue(cv);
     }
 
     throw interpreter.runtimeException(
@@ -133,8 +147,8 @@ public class ProxyRecordValue extends RecordValue {
     private final ArrayList<Type> types;
 
     public RecordBuilder() {
-      names = new ArrayList<String>();
-      types = new ArrayList<Type>();
+      names = new ArrayList<>();
+      types = new ArrayList<>();
     }
 
     public RecordBuilder add(String name, Type type) {
@@ -151,8 +165,9 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class ClassProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("primestat", DataTypes.STAT_TYPE)
             .add("path", DataTypes.PATH_TYPE)
             .finish("class proxy");
@@ -163,6 +178,10 @@ public class ProxyRecordValue extends RecordValue {
 
     private AscensionClass getAscensionClass() {
       return (AscensionClass) this.content;
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public Value get_primestat() {
@@ -186,8 +205,9 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class ItemProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("plural", DataTypes.STRING_TYPE)
             .add("descid", DataTypes.STRING_TYPE)
@@ -237,6 +257,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public ItemProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     /**
@@ -599,7 +623,7 @@ public class ProxyRecordValue extends RecordValue {
      * @return The candy type
      */
     public String get_candy_type() {
-      return CandyDatabase.getCandyType((int) this.contentLong);
+      return CandyDatabase.getCandyType((int) this.contentLong).name;
     }
 
     /**
@@ -662,7 +686,9 @@ public class ProxyRecordValue extends RecordValue {
      * @return The Skill granted
      */
     public Value get_skill() {
-      String skillName = Modifiers.getStringModifier("Item", (int) this.contentLong, "Skill");
+      String skillName =
+          ModifierDatabase.getStringModifier(
+              ModifierType.ITEM, (int) this.contentLong, StringModifier.SKILL);
       return skillName.equals("")
           ? DataTypes.SKILL_INIT
           : DataTypes.makeSkillValue(SkillDatabase.getSkillId(skillName), true);
@@ -674,14 +700,17 @@ public class ProxyRecordValue extends RecordValue {
      * @return The Recipe learned
      */
     public Value get_recipe() {
-      String recipeName = Modifiers.getStringModifier("Item", (int) this.contentLong, "Recipe");
+      String recipeName =
+          ModifierDatabase.getStringModifier(
+              ModifierType.ITEM, (int) this.contentLong, StringModifier.RECIPE);
       return recipeName.equals("") ? DataTypes.ITEM_INIT : DataTypes.makeItemValue(recipeName);
     }
   }
 
   public static class FamiliarProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("hatchling", DataTypes.ITEM_TYPE)
             .add("image", DataTypes.STRING_TYPE)
             .add("name", DataTypes.STRING_TYPE)
@@ -709,6 +738,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("passive", DataTypes.BOOLEAN_TYPE)
             .add("underwater", DataTypes.BOOLEAN_TYPE)
             .add("variable", DataTypes.BOOLEAN_TYPE)
+            .add("feasted", DataTypes.BOOLEAN_TYPE)
             .add("attributes", DataTypes.STRING_TYPE)
             .add("poke_level", DataTypes.INT_TYPE)
             .add("poke_level_2_power", DataTypes.INT_TYPE)
@@ -725,6 +755,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public FamiliarProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public Value get_hatchling() {
@@ -843,6 +877,11 @@ public class ProxyRecordValue extends RecordValue {
       return FamiliarDatabase.isVariableType((int) this.contentLong);
     }
 
+    public boolean get_feasted() {
+      FamiliarData fam = KoLCharacter.usableFamiliar(this.contentString);
+      return fam == null ? false : fam.getFeasted();
+    }
+
     public String get_attributes() {
       List<String> attrs = FamiliarDatabase.getFamiliarAttributes((int) this.contentLong);
       if (attrs == null) {
@@ -915,7 +954,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class BountyProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
             .add("plural", DataTypes.STRING_TYPE)
             .add("type", DataTypes.STRING_TYPE)
@@ -950,8 +989,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public int get_number() {
-      int number = BountyDatabase.getNumber(this.contentString);
-      return number;
+      return BountyDatabase.getNumber(this.contentString);
     }
 
     public String get_image() {
@@ -971,7 +1009,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class ThrallProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
             .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
@@ -1023,7 +1061,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class ServantProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
             .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
@@ -1087,7 +1125,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class VykeaProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
             .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
@@ -1148,8 +1186,9 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class SkillProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("type", DataTypes.STRING_TYPE)
             .add("level", DataTypes.INT_TYPE)
@@ -1171,6 +1210,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public SkillProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public String get_name() {
@@ -1195,7 +1238,7 @@ public class ProxyRecordValue extends RecordValue {
 
     public Value get_class() {
       return DataTypes.parseClassValue(
-          SkillDatabase.getSkillCategory((int) this.contentLong), true);
+          SkillDatabase.getSkillCategory((int) this.contentLong).name, true);
     }
 
     public boolean get_libram() {
@@ -1244,8 +1287,9 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class EffectProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("default", DataTypes.STRING_TYPE)
             .add("note", DataTypes.STRING_TYPE)
@@ -1260,6 +1304,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public EffectProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public String get_name() {
@@ -1284,7 +1332,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public Value get_all() {
-      ArrayList<Value> rv = new ArrayList<Value>();
+      ArrayList<Value> rv = new ArrayList<>();
       Iterator<String> i = EffectDatabase.getAllActions((int) this.contentLong);
       while (i.hasNext()) {
         rv.add(new Value(i.next()));
@@ -1310,7 +1358,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class LocationProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
             .add("id", DataTypes.INT_TYPE)
             .add("nocombats", DataTypes.BOOLEAN_TYPE)
@@ -1342,7 +1390,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_nocombats() {
-      return this.content != null ? ((KoLAdventure) this.content).isNonCombatsOnly() : false;
+      return this.content != null && ((KoLAdventure) this.content).isNonCombatsOnly();
     }
 
     public double get_combat_percent() {
@@ -1411,7 +1459,7 @@ public class ProxyRecordValue extends RecordValue {
 
         if (builder.length() > 0) builder.append("; ");
 
-        builder.append(ob.toString());
+        builder.append(ob);
       }
 
       return builder.toString();
@@ -1433,7 +1481,7 @@ public class ProxyRecordValue extends RecordValue {
 
         if (builder.length() > 0) builder.append("; ");
 
-        builder.append(ob.toString());
+        builder.append(ob);
       }
 
       return builder.toString();
@@ -1471,7 +1519,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_wanderers() {
-      return this.content != null ? ((KoLAdventure) this.content).hasWanderers() : false;
+      return this.content != null && ((KoLAdventure) this.content).hasWanderers();
     }
 
     public int get_fire_level() {
@@ -1484,7 +1532,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class MonsterProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
             .add("name", DataTypes.STRING_TYPE)
             .add("article", DataTypes.STRING_TYPE)
@@ -1578,7 +1626,7 @@ public class ProxyRecordValue extends RecordValue {
 
     public Value get_attack_elements() {
       if (this.content == null) {
-        return new PluralValue(DataTypes.ELEMENT_TYPE, new ArrayList<Value>());
+        return new PluralValue(DataTypes.ELEMENT_TYPE, new ArrayList<>());
       }
       MonsterData monster = (MonsterData) this.content;
       List<Value> elements =
@@ -1646,11 +1694,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_boss() {
-      return this.content != null ? ((MonsterData) this.content).isBoss() : false;
+      return this.content != null && ((MonsterData) this.content).isBoss();
     }
 
     public boolean get_copyable() {
-      return this.content != null ? !(((MonsterData) this.content).isNoCopy()) : false;
+      return this.content != null && !(((MonsterData) this.content).isNoCopy());
     }
 
     public String get_image() {
@@ -1661,7 +1709,7 @@ public class ProxyRecordValue extends RecordValue {
       if (this.content == null) {
         return new PluralValue(DataTypes.STRING_TYPE, new ArrayList<>());
       }
-      ArrayList<Value> rv = new ArrayList<Value>();
+      ArrayList<Value> rv = new ArrayList<>();
       for (String image : ((MonsterData) this.content).getImages()) {
         rv.add(new Value(image));
       }
@@ -1672,7 +1720,7 @@ public class ProxyRecordValue extends RecordValue {
       if (this.content == null) {
         return new PluralValue(DataTypes.STRING_TYPE, new ArrayList<>());
       }
-      ArrayList<Value> rv = new ArrayList<Value>();
+      ArrayList<Value> rv = new ArrayList<>();
       for (String attribute : ((MonsterData) this.content).getRandomModifiers()) {
         rv.add(new Value(attribute));
       }
@@ -1683,7 +1731,7 @@ public class ProxyRecordValue extends RecordValue {
       if (this.content == null) {
         return new PluralValue(DataTypes.STRING_TYPE, new ArrayList<>());
       }
-      ArrayList<Value> rv = new ArrayList<Value>();
+      ArrayList<Value> rv = new ArrayList<>();
       for (String attribute : ((MonsterData) this.content).getSubTypes()) {
         rv.add(new Value(attribute));
       }
@@ -1704,7 +1752,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class CoinmasterProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
             .add("token", DataTypes.STRING_TYPE)
             .add("item", DataTypes.ITEM_TYPE)
@@ -1741,11 +1789,11 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public boolean get_buys() {
-      return this.content != null ? ((CoinmasterData) this.content).getSellAction() != null : false;
+      return this.content != null && ((CoinmasterData) this.content).getSellAction() != null;
     }
 
     public boolean get_sells() {
-      return this.content != null ? ((CoinmasterData) this.content).getBuyAction() != null : false;
+      return this.content != null && ((CoinmasterData) this.content).getBuyAction() != null;
     }
 
     public String get_nickname() {
@@ -1754,7 +1802,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class ElementProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder().add("image", DataTypes.STRING_TYPE).finish("element proxy");
 
     public ElementProxy(Value obj) {
@@ -1762,31 +1810,21 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_image() {
-      switch ((Element) this.content) {
-        case NONE:
-          return "circle.gif";
-        case COLD:
-          return "snowflake.gif";
-        case HOT:
-          return "fire.gif";
-        case SLEAZE:
-          return "wink.gif";
-        case SPOOKY:
-          return "skull.gif";
-        case STENCH:
-          return "stench.gif";
+      return switch ((Element) this.content) {
           // No image for Slime or Supercold in Manuel
-        case SLIME:
-          return "circle.gif";
-        case SUPERCOLD:
-          return "circle.gif";
-      }
-      return "";
+        case NONE, SLIME, SUPERCOLD -> "circle.gif";
+        case COLD -> "snowflake.gif";
+        case HOT -> "fire.gif";
+        case SLEAZE -> "wink.gif";
+        case SPOOKY -> "skull.gif";
+        case STENCH -> "stench.gif";
+        default -> "";
+      };
     }
   }
 
   public static class PathProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder()
             .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
@@ -1830,7 +1868,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class PhylumProxy extends ProxyRecordValue {
-    public static RecordType _type =
+    public static final RecordType _type =
         new RecordBuilder().add("image", DataTypes.STRING_TYPE).finish("phylum proxy");
 
     public PhylumProxy(Value obj) {
@@ -1839,7 +1877,7 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_image() {
       Phylum phylum = (Phylum) this.content;
-      if (phylum == null || phylum.equals(Phylum.NONE)) {
+      if (phylum == null || phylum == Phylum.NONE) {
         return "";
       }
 
@@ -1848,7 +1886,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class StatProxy extends ProxyRecordValue {
-    public static RecordType _type = new RecordBuilder().finish("stat proxy");
+    public static final RecordType _type = new RecordBuilder().finish("stat proxy");
 
     public StatProxy(Value obj) {
       super(_type, obj);
@@ -1856,7 +1894,7 @@ public class ProxyRecordValue extends RecordValue {
   }
 
   public static class SlotProxy extends ProxyRecordValue {
-    public static RecordType _type = new RecordBuilder().finish("slot proxy");
+    public static final RecordType _type = new RecordBuilder().finish("slot proxy");
 
     public SlotProxy(Value obj) {
       super(_type, obj);

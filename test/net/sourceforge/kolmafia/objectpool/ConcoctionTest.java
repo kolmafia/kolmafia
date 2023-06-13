@@ -22,10 +22,10 @@ import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -137,7 +137,7 @@ public class ConcoctionTest {
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.CARNIE),
-              withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT),
+              withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT),
               withProperty("familiarSweat", drams));
 
       try (cleanups) {
@@ -152,7 +152,7 @@ public class ConcoctionTest {
       var cleanups =
           new Cleanups(withFamiliar(FamiliarPool.CARNIE), withProperty("familiarSweat", 20));
 
-      if (hasStillSuit) cleanups.add(withEquipped(EquipmentManager.FAMILIAR, ItemPool.STILLSUIT));
+      if (hasStillSuit) cleanups.add(withEquipped(Slot.FAMILIAR, ItemPool.STILLSUIT));
 
       try (cleanups) {
         DISTILLATE.calculate3();

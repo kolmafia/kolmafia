@@ -41,33 +41,28 @@ public class ChezSnooteeRequest extends CafeRequest {
     int price = 0;
 
     switch (KoLConstants.restaurantItems.indexOf(name)) {
-      case 0:
+      case 0 -> {
         itemId = -1;
         price = 50;
-        break;
-
-      case 1:
+      }
+      case 1 -> {
         itemId = -2;
         price = 75;
-        break;
-
-      case 2:
+      }
+      case 2 -> {
         itemId = -3;
         price = 100;
-        break;
-
-      case 3:
+      }
+      case 3 -> {
         itemId = ItemDatabase.getItemId(name);
         String dsItemName = Preferences.getString("_dailySpecial");
-
         if (dsItemName.equals(name)) {
           price = Preferences.getInteger("_dailySpecialPrice");
         }
-
         if (price == 0) {
           price = Math.max(1, Math.abs(ItemDatabase.getPriceById(itemId))) * 3;
         }
-        break;
+      }
     }
 
     this.setItem(name, itemId, price);
@@ -191,32 +186,28 @@ public class ChezSnooteeRequest extends CafeRequest {
     int price = 0;
 
     switch (itemId) {
-      case -1:
+      case -1 -> {
         itemName = "Peche a la Frog";
         price = 50;
-        break;
-      case -2:
+      }
+      case -2 -> {
         itemName = "As Jus Gezund Heit";
         price = 75;
-        break;
-      case -3:
+      }
+      case -3 -> {
         itemName = "Bouillabaise Coucher Avec Moi";
         price = 100;
-        break;
-      default:
+      }
+      default -> {
         itemName = ItemDatabase.getItemName(itemId);
-
         String dsItemName = Preferences.getString("_dailySpecial");
-
         if (dsItemName.equals(itemName)) {
           price = Preferences.getInteger("_dailySpecialPrice");
         }
-
         if (price == 0) {
           price = Math.max(1, Math.abs(ItemDatabase.getPriceById(itemId))) * 3;
         }
-
-        break;
+      }
     }
 
     CafeRequest.registerItemUsage(itemName, price);

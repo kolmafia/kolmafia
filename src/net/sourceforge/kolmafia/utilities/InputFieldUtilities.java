@@ -268,7 +268,7 @@ public class InputFieldUtilities {
             JOptionPane.OK_CANCEL_OPTION);
 
     return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION
-        ? new ArrayList<T>()
+        ? new ArrayList<>()
         : selector.getSelectedValuesList();
   }
 

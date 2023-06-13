@@ -28,7 +28,10 @@ import static internal.matchers.Quest.isStarted;
 import static internal.matchers.Quest.isStep;
 import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -44,10 +47,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -273,7 +279,7 @@ public class QuestManagerTest {
 
       @Test
       public void canTrackOilPeakProgressWearingDressPants() {
-        withEquipped(EquipmentManager.PANTS, "dress pants");
+        withEquipped(Slot.PANTS, "dress pants");
         String responseText = html("request/test_fight_oil_tycoon.html");
         QuestManager.updateQuestData(responseText, "oil tycoon");
         assertThat("oilPeakProgress", isSetTo(285.3f));
@@ -513,7 +519,7 @@ public class QuestManagerTest {
   /*
    * Level 11 - Palindome
    */
-  class Palindome {
+  static class Palindome {
     @Test
     public void canDetectPalindomeStartInPalindome() {
       assertThat(Quest.PALINDOME, isUnstarted());
@@ -565,7 +571,7 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
+              withEquipped(Slot.OFFHAND, "UV-resistant compass"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
         assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -581,7 +587,7 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withEquipped(EquipmentManager.WEAPON, "survival knife"),
+              withEquipped(Slot.WEAPON, "survival knife"),
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -598,8 +604,8 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withEquipped(EquipmentManager.WEAPON, "survival knife"),
-              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
+              withEquipped(Slot.WEAPON, "survival knife"),
+              withEquipped(Slot.OFFHAND, "UV-resistant compass"),
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -632,7 +638,7 @@ public class QuestManagerTest {
           new Cleanups(
               withProperty("desertExploration", 20),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
-              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
+              withEquipped(Slot.OFFHAND, "UV-resistant compass"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
         assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -649,7 +655,7 @@ public class QuestManagerTest {
           new Cleanups(
               withProperty("desertExploration", 20),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
-              withEquipped(EquipmentManager.WEAPON, "survival knife"),
+              withEquipped(Slot.WEAPON, "survival knife"),
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -667,8 +673,8 @@ public class QuestManagerTest {
           new Cleanups(
               withProperty("desertExploration", 20),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
-              withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
-              withEquipped(EquipmentManager.WEAPON, "survival knife"),
+              withEquipped(Slot.OFFHAND, "UV-resistant compass"),
+              withEquipped(Slot.WEAPON, "survival knife"),
               withEffect("Ultrahydrated"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
@@ -686,13 +692,116 @@ public class QuestManagerTest {
           new Cleanups(
               withProperty("desertExploration", 20),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
-              withEquipped(EquipmentManager.WEAPON, "survival knife"));
+              withEquipped(Slot.WEAPON, "survival knife"));
       try (cleanups) {
         KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
         assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
         QuestManager.updateQuestData(responseText, "cactuary");
         assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
         assertEquals(Preferences.getInteger("desertExploration"), 22);
+      }
+    }
+  }
+
+  /*
+   * Level 11 - The Oasis
+   */
+
+  @Nested
+  class Oasis {
+    @Test
+    void canDetectOasisNotOpenWithNoDesert() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_no_desert.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(0));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisNotOpenWithNoDesertProgress() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_unexplored.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(0));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisNotOpenWithProgress() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(10));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisNotOpenWithProgressAndGnasir() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored_gnasir.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(10));
+        assertThat("oasisAvailable", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canDetectOasisOpenWithProgress() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored_oasis.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(2));
+        assertThat("oasisAvailable", isSetTo(true));
+      }
+    }
+
+    @Test
+    void canDetectOasisOpenWithProgressAndGnasir() {
+      var cleanups =
+          new Cleanups(withProperty("desertExploration", 0), withProperty("oasisAvailable", false));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_explored_oasis_gnasir.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(12));
+        assertThat("oasisAvailable", isSetTo(true));
       }
     }
   }
@@ -979,6 +1088,7 @@ public class QuestManagerTest {
       }
     }
 
+    @Test
     public void turningInScrewdriverFinishesQuest() {
       var cleanups =
           new Cleanups(
@@ -1155,6 +1265,151 @@ public class QuestManagerTest {
       request.responseText = "anything";
       QuestManager.handleQuestChange(request);
       assertThat(Quest.AZAZEL, isStep(1));
+    }
+  }
+
+  /*
+   * Melvign's Garment
+   */
+
+  @Nested
+  class Melvign {
+    @Test
+    public void equippingShirtWithoutTorsoAwarenessGivesLetter() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.JURASSIC_PARKA),
+              withItem(ItemPool.LETTER_FOR_MELVIGN, 0),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_get_letter.html"));
+        var urlString =
+            "inv_equip.php?which=2&action=equip&whichitem=" + ItemPool.JURASSIC_PARKA + "&ajax=1";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertTrue(InventoryManager.hasItem(ItemPool.LETTER_FOR_MELVIGN));
+        assertThat(Quest.SHIRT, isUnstarted());
+      }
+    }
+
+    @Test
+    public void readingLetterStartsQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.LETTER_FOR_MELVIGN, 1),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(
+            302,
+            Map.of("location", List.of("place.php?whichplace=mountains&action=mts_melvin")),
+            "");
+        client.addResponse(200, html("request/test_melvign_read_letter.html"));
+        client.addResponse(200, ""); // api.php
+        var urlString = "inv_use.php?which=3&whichitem=" + ItemPool.LETTER_FOR_MELVIGN + "&ajax=1";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertFalse(InventoryManager.hasItem(ItemPool.LETTER_FOR_MELVIGN));
+        assertThat(Quest.SHIRT, isStarted());
+      }
+    }
+
+    @Test
+    public void visitShopWithoutGarmentStartsQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_visit_shop.html"));
+        var urlString = "place.php?whichplace=mountains&action=mts_melvin";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertThat(Quest.SHIRT, isStarted());
+      }
+    }
+
+    @Test
+    public void seeingComicShopStartsQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_visit_mountains_shop.html"));
+        var urlString = "place.php?whichplace=mountains";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertThat(Quest.SHIRT, isStarted());
+      }
+    }
+
+    @Test
+    public void findingGarmentAdvancesQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.PROFESSOR_WHAT_GARMENT, 0),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_get_garment.html"));
+        client.addResponse(200, ""); // api.php
+        var urlString = "adventure.php?snarfblat=387";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertTrue(InventoryManager.hasItem(ItemPool.PROFESSOR_WHAT_GARMENT));
+        assertThat(Quest.SHIRT, isStep("step1"));
+      }
+    }
+
+    @Test
+    public void returningGarmentFinishesQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.PROFESSOR_WHAT_GARMENT, 1),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_return_shirt.html"));
+        client.addResponse(200, ""); // api.php
+        var urlString = "place.php?whichplace=mountains&action=mts_melvin";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertFalse(InventoryManager.hasItem(ItemPool.PROFESSOR_WHAT_GARMENT));
+        assertTrue(InventoryManager.hasItem(ItemPool.PROFESSOR_WHAT_TSHIRT));
+        assertTrue(KoLCharacter.hasSkill(SkillPool.TORSO));
+        assertThat(Quest.SHIRT, isFinished());
+      }
+    }
+
+    @Test
+    public void seeingNoComicShopFinishesQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_visit_mountains_no_shop.html"));
+        var urlString = "place.php?whichplace=mountains";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertThat(Quest.SHIRT, isFinished());
+      }
     }
   }
 
@@ -1652,7 +1907,7 @@ public class QuestManagerTest {
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED),
                 withProperty("dampOldBootPurchased", false),
                 withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_buy_damp_old_boot.html"));
           builder.client.addResponse(200, ""); // api.php
@@ -1785,7 +2040,7 @@ public class QuestManagerTest {
                 withItem(WRIGGLING_FLYTRAP_PELLET),
                 withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
                 withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_started_2.html"));
           builder.client.addResponse(200, ""); // api.php
@@ -1902,7 +2157,7 @@ public class QuestManagerTest {
                 withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
                 withProperty("bigBrotherRescued", false),
                 withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(
               302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -2037,7 +2292,7 @@ public class QuestManagerTest {
                 withHttpClientBuilder(builder),
                 withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
                 withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(
               302, Map.of("location", List.of("choice.php?forceoption=0")), "");
@@ -2099,7 +2354,8 @@ public class QuestManagerTest {
       private static final AdventureResult CHARTREUSE_YARN = ItemPool.get(ItemPool.CHARTREUSE_YARN);
       private static final AdventureResult GRANDMAS_MAP = ItemPool.get(ItemPool.GRANDMAS_MAP);
 
-      void talkingToGrandpaStartsQuest() {
+      @Test
+      public void talkingToGrandpaStartsQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -2171,7 +2427,8 @@ public class QuestManagerTest {
         }
       }
 
-      void talkingToGrandpaWithNoteConfirmsQuest() {
+      @Test
+      public void talkingToGrandpaWithNoteConfirmsQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -2195,7 +2452,8 @@ public class QuestManagerTest {
         }
       }
 
-      void talkingToGrandpaWithNoteAndYarnAdvancesQuest() {
+      @Test
+      public void talkingToGrandpaWithNoteAndYarnAdvancesQuest() {
         var builder = new FakeHttpClientBuilder();
         var cleanups =
             new Cleanups(
@@ -2206,7 +2464,6 @@ public class QuestManagerTest {
                 withItem(CHARTREUSE_YARN));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_8.html"));
-          builder.client.addResponse(200, ""); // api.php
 
           String URL = "monkeycastle.php?action=grandpastory&topic=note";
           var request = new GenericRequest(URL);
@@ -2219,9 +2476,8 @@ public class QuestManagerTest {
           assertTrue(InventoryManager.hasItem(GRANDMAS_MAP));
 
           var requests = builder.client.getRequests();
-          assertThat(requests, hasSize(2));
+          assertThat(requests, hasSize(1));
           assertPostRequest(requests.get(0), "/monkeycastle.php", "action=grandpastory&topic=note");
-          assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
         }
       }
 
@@ -2333,7 +2589,7 @@ public class QuestManagerTest {
                 withItem(SAND_DOLLAR.getInstance(2887)),
                 withQuestProgress(Quest.SEA_MONKEES, QuestDatabase.UNSTARTED),
                 withPasswordHash("SEAMONKEES"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_sea_monkee_step_12.html"));
           builder.client.addResponse(200, ""); // api.php
@@ -2447,7 +2703,7 @@ public class QuestManagerTest {
                 withItem(MERKIN_TRAILMAP),
                 withProperty("intenseCurrents", false),
                 withPasswordHash("MERKIN"),
-                withGender(KoLCharacter.FEMALE));
+                withGender(Gender.FEMALE));
         try (cleanups) {
           builder.client.addResponse(200, html("request/test_quest_intense_currents_1.html"));
           builder.client.addResponse(200, ""); // api.php
@@ -3069,7 +3325,7 @@ public class QuestManagerTest {
           new Cleanups(
               withItem(ItemPool.FORGED_ID_DOCUMENTS),
               withItem(ItemPool.MACGUFFIN_DIARY),
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               withQuestProgress(Quest.BLACK, "step2"),
               withProperty("autoQuest", true),
               withQuestProgress(Quest.MACGUFFIN, QuestDatabase.STARTED),
@@ -3165,32 +3421,272 @@ public class QuestManagerTest {
     }
   }
 
-  @Test
-  public void canParseSpeakeasyName() {
-    var cleanup = new Cleanups(withProperty("speakeasyName", "Oliver's Place"));
+  @Nested
+  class Speakeasy {
+    @Test
+    public void canParseSpeakeasyName() {
+      var cleanup = new Cleanups(withProperty("speakeasyName", "Oliver's Place"));
 
-    try (cleanup) {
-      var request = new GenericRequest("place.php?whichplace=town_wrong");
-      request.responseText = html("request/test_visit_town_wrong.html");
+      try (cleanup) {
+        var request = new GenericRequest("place.php?whichplace=town_wrong");
+        request.responseText = html("request/test_visit_town_wrong.html");
+        QuestManager.handleQuestChange(request);
+
+        assertThat("speakeasyName", isSetTo("Veracity's Place"));
+      }
+    }
+
+    @Test
+    public void canParseSpeakeasyBeingNotFree() {
+      var request = new GenericRequest("place.php?whichplace=speakeasy");
+      request.responseText = html("request/test_speakeasy_brawl_(1).html");
       QuestManager.handleQuestChange(request);
+      assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
+    }
 
-      assertThat("speakeasyName", isSetTo("BLORP"));
+    @Test
+    public void canParseSpeakeasyBeingFree() {
+      var request = new GenericRequest("place.php?whichplace=speakeasy");
+      request.responseText = html("request/test_speakeasy_brawl_(0).html");
+      QuestManager.handleQuestChange(request);
+      assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
+    }
+  }
+
+  @Nested
+  class ElfGratitude {
+    @Test
+    public void canDetectElfGratitudeFromQuestLog() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty("elfGratitude", 0));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_questlog_elf_gratitude.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("questlog.php?which=3");
+        request.run();
+
+        assertThat("elfGratitude", isSetTo(219));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+
+        assertPostRequest(requests.get(0), "/questlog.php", "which=3");
+      }
     }
   }
 
   @Test
-  public void canParseSpeakeasyBeingNotFree() {
-    var request = new GenericRequest("place.php?whichplace=speakeasy");
-    request.responseText = html("request/test_speakeasy_brawl_(1).html");
-    QuestManager.handleQuestChange(request);
-    assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 3);
+  public void canDefeatSuperconductor() {
+    var builder = new FakeHttpClientBuilder();
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withProperty("superconductorDefeated", false),
+            withLastLocation("Crimbo Train (Locomotive)"));
+    try (cleanups) {
+      builder.client.addResponse(
+          302, Map.of("location", List.of("fight.php?ireallymeanit=1671907453")), "");
+      builder.client.addResponse(200, html("request/test_fight_superconductor_1.html"));
+      builder.client.addResponse(200, ""); // api.php
+      builder.client.addResponse(200, html("request/test_fight_superconductor_2.html"));
+      builder.client.addResponse(200, ""); // api.php
+
+      var request = new GenericRequest("place.php?whichplace=crimbo22&action=crimbo22_engine");
+      request.run();
+      request = new GenericRequest("fight.php?action=skill&whichskill=4012");
+      request.run();
+
+      assertThat("superconductorDefeated", isSetTo(true));
+
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(5));
+
+      assertPostRequest(
+          requests.get(0), "/place.php", "whichplace=crimbo22&action=crimbo22_engine");
+      assertGetRequest(requests.get(1), "/fight.php", "ireallymeanit=1671907453");
+      assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      assertPostRequest(requests.get(3), "/fight.php", "action=skill&whichskill=4012");
+      assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
+    }
   }
 
-  @Test
-  public void canParseSpeakeasyBeingFree() {
-    var request = new GenericRequest("place.php?whichplace=speakeasy");
-    request.responseText = html("request/test_speakeasy_brawl_(0).html");
-    QuestManager.handleQuestChange(request);
-    assertEquals(Preferences.getInteger("_speakeasyFreeFights"), 0);
+  @Nested
+  class UhOhs {
+    @Test
+    public void doNotProgressQuestManorOnUhOh() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.MANOR, QuestDatabase.UNSTARTED),
+              withProperty("lastSecondFloorUnlock", -1));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_quest_manor11_uhoh.html"));
+
+        var request = new GenericRequest("place.php?whichplace=manor4", false);
+        request.run();
+
+        assertThat(Quest.MANOR, isUnstarted());
+        assertThat("lastSecondFloorUnlock", isSetTo(-1));
+      }
+    }
+
+    @Test
+    public void doNotProgressQuestPyramidOnUhOh() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.PYRAMID, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_quest_pyramid_uhoh.html"));
+
+        var request = new GenericRequest("place.php?whichplace=pyramid", false);
+        request.run();
+
+        assertThat(Quest.PYRAMID, isUnstarted());
+      }
+    }
+  }
+
+  @Nested
+  class WizardOfEgo {
+    @ParameterizedTest
+    @CsvSource({"staring_into_nothing, 4", "into_the_maw_of_deepness, 5", "take_a_dusty_look, 6"})
+    public void canParseTowerRuinsChoices(String html, int expectedResult) {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.EGO, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_adventure_tower_ruins_" + html + ".html"));
+        var request = new GenericRequest("adventure.php?snarfblat=22");
+        request.run();
+        assertThat(Quest.EGO, isStep(expectedResult));
+      }
+    }
+
+    @Test
+    public void doNotUnfinishQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder), withQuestProgress(Quest.EGO, QuestDatabase.FINISHED));
+      try (cleanups) {
+        client.addResponse(
+            200, html("request/test_adventure_tower_ruins_staring_into_nothing.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=22");
+        request.run();
+        assertThat(Quest.EGO, isStep(QuestDatabase.FINISHED));
+      }
+    }
+
+    @Test
+    public void canSetQuestProgressMinimum() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.EGO, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_fight_bread_golem.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=22");
+        request.run();
+        assertThat(Quest.EGO, isStep(3));
+      }
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"started", "step1", "step2", "step3", "step4"})
+  public void canHandleBatholeChange(String step) {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder), withQuestProgress(Quest.BAT, QuestDatabase.UNSTARTED));
+    try (cleanups) {
+      client.addResponse(200, html("request/test_bathole_" + step + ".html"));
+      var request = new GenericRequest("place.php?whichplace=bathole");
+      request.run();
+      assertThat(Quest.BAT, isStep(step));
+    }
+  }
+
+  @Nested
+  class PixelRealm {
+    public static Stream<Arguments> pixelMonsterIncrements() {
+      return Stream.of(
+          Arguments.of("fleaman", "fleaman", "Vanya's Castle", 4, 5),
+          Arguments.of("Blader", "blader", "Megalo-City", 3, 4),
+          Arguments.of("Buzzy Beetle", "buzzy_beetle", "The Fungus Plains", 2, 3),
+          Arguments.of("Zol", "zol", "Hero's Field", 1, 2));
+    }
+
+    public static Stream<Arguments> pixelMonsterNoIncrements() {
+      return Stream.of(
+          Arguments.of(
+              "Tektite",
+              "request/test_loss_tektite.html",
+              "Hero's Field",
+              "skill&whichskill=17047",
+              1),
+          Arguments.of("Keese", "request/test_freerun_keese.html", "Hero's Field", "runaway", 2));
+    }
+
+    @ParameterizedTest
+    @MethodSource("pixelMonsterIncrements")
+    public void canTrack8BitBonusTurns(
+        String monsterName,
+        String response,
+        String location,
+        int startingValue,
+        int expectedResult) {
+      var cleanups =
+          new Cleanups(withLastLocation(location), withProperty("8BitBonusTurns", startingValue));
+      try (cleanups) {
+        String URL = "fight.php?action=attack";
+        String html = html("request/test_fight_" + response + ".html");
+        FightRequest.registerRequest(true, URL);
+        FightRequest.updateCombatData(URL, monsterName, html);
+        assertThat("8BitBonusTurns", isSetTo(expectedResult));
+      }
+    }
+
+    @ParameterizedTest
+    @MethodSource("pixelMonsterNoIncrements")
+    public void doNotTrack8BitBonusTurns(
+        String monsterName, String response, String location, String action, int startingValue) {
+      var cleanups =
+          new Cleanups(withLastLocation(location), withProperty("8BitBonusTurns", startingValue));
+      try (cleanups) {
+        String URL = "fight.php?action=" + action;
+        String html = html(response);
+        FightRequest.registerRequest(true, URL);
+        FightRequest.updateCombatData(URL, monsterName, html);
+        assertThat("8BitBonusTurns", isSetTo(startingValue));
+      }
+    }
+  }
+
+  @Nested
+  class FantasyRealm {
+    @Test
+    public void cantrackBarrwWraith() {
+      var cleanups =
+          new Cleanups(
+              withLastLocation("The Barrow Mounds"), withProperty("_frMonstersKilled", ""));
+      try (cleanups) {
+        String responseText = html("request/test_barrow_wraith_win.html");
+        QuestManager.updateQuestData(responseText, "barrow wraith?");
+        assertEquals(Preferences.getString("_frMonstersKilled"), "barrow wraith?:1,");
+      }
+    }
   }
 }

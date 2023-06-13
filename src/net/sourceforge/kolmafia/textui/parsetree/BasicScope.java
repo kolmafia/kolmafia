@@ -218,8 +218,7 @@ public abstract class BasicScope extends Command {
 
     Function[] options = this.functions.findFunctions(f.getName());
     for (Function function : options) {
-      if (function instanceof UserDefinedFunction) {
-        UserDefinedFunction existing = (UserDefinedFunction) function;
+      if (function instanceof UserDefinedFunction existing) {
         if (f.paramsMatch(existing, false)) {
           return existing;
         }

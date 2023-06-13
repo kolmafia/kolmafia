@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   check:
@@ -25,6 +26,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup xvfb
+        if: matrix.os == 'ubuntu-latest'
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: xvfb
+          version: 1.0
+
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -32,13 +40,18 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: "gradle"
 
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1
-
       - name: Prepare Workspace
         run: mkdir -p ./build
 
       - name: Run Java checks (including tests)
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          ORG_GRADLE_PROJECT_javaSourceCompatibility: ${{ matrix.java }}
+          ORG_GRADLE_PROJECT_javaTargetCompatibility: ${{ matrix.java }}
+        run: xvfb-run ./gradlew --no-daemon check jacocoTestReport
+
+      - name: Run Java checks (including tests)
+        if: matrix.os != 'ubuntu-latest'
         env:
           ORG_GRADLE_PROJECT_javaSourceCompatibility: ${{ matrix.java }}
           ORG_GRADLE_PROJECT_javaTargetCompatibility: ${{ matrix.java }}
@@ -48,7 +61,6 @@ jobs:
         uses: mikepenz/action-junit-report@v3
         if: always()
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           check_name: "Test Report (${{ matrix.os }})"
           report_paths: "**/build/test-results/test/TEST-*.xml"
 

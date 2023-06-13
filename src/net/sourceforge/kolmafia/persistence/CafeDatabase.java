@@ -22,13 +22,11 @@ public class CafeDatabase {
     }
   }
 
-  private static final Map<Integer, String> cafeFood =
-      new TreeMap<Integer, String>(new InverseIntegerOrder());
-  private static final Map<Integer, String> cafeBooze =
-      new TreeMap<Integer, String>(new InverseIntegerOrder());
+  private static final Map<Integer, String> cafeFood = new TreeMap<>(new InverseIntegerOrder());
+  private static final Map<Integer, String> cafeBooze = new TreeMap<>(new InverseIntegerOrder());
 
   // Map from item name to descid, since ItemDatabase can't help with these
-  private static final Map<String, String> nameToDescId = new TreeMap<String, String>();
+  private static final Map<String, String> nameToDescId = new TreeMap<>();
 
   static {
     CafeDatabase.readCafeData(
@@ -100,5 +98,9 @@ public class CafeDatabase {
     map.put(itemId, name);
     String descId = (map == cafeBooze) ? boozeDescId(itemId) : foodDescId(itemId);
     nameToDescId.put(name, descId);
+  }
+
+  public static boolean isCafeConsumable(String name) {
+    return nameToDescId.containsKey(name);
   }
 }

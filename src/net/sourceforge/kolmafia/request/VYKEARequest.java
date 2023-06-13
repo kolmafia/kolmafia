@@ -108,51 +108,43 @@ public class VYKEARequest extends CreateItemRequest {
       switch (choice) {
         case 1120:
           switch (itemId) {
-            case ItemPool.VYKEA_PLANK:
+            case ItemPool.VYKEA_PLANK -> {
               option = 1;
               index++;
-              break;
-            case ItemPool.VYKEA_RAIL:
+            }
+            case ItemPool.VYKEA_RAIL -> {
               option = 2;
               index++;
-              break;
+            }
           }
           break;
         case 1121:
           switch (itemId) {
-            case ItemPool.VYKEA_FRENZY_RUNE:
+            case ItemPool.VYKEA_FRENZY_RUNE -> {
               option = 1;
               index++;
-              break;
-            case ItemPool.VYKEA_BLOOD_RUNE:
+            }
+            case ItemPool.VYKEA_BLOOD_RUNE -> {
               option = 2;
               index++;
-              break;
-            case ItemPool.VYKEA_LIGHTNING_RUNE:
+            }
+            case ItemPool.VYKEA_LIGHTNING_RUNE -> {
               option = 3;
               index++;
-              break;
-            default:
-              option = 6;
-              break;
+            }
+            default -> option = 6;
           }
           break;
         case 1122:
           if (itemId == ItemPool.VYKEA_DOWEL) {
-            switch (count) {
-              case 1:
-                option = 1;
-                break;
-              case 11:
-                option = 2;
-                break;
-              case 23:
-                option = 3;
-                break;
-              case 37:
-                option = 4;
-                break;
-            }
+            option =
+                switch (count) {
+                  case 1 -> 1;
+                  case 11 -> 2;
+                  case 23 -> 3;
+                  case 37 -> 4;
+                  default -> option;
+                };
             index++;
           } else {
             option = 6;
@@ -160,18 +152,18 @@ public class VYKEARequest extends CreateItemRequest {
           break;
         case 1123:
           switch (itemId) {
-            case ItemPool.VYKEA_PLANK:
+            case ItemPool.VYKEA_PLANK -> {
               option = 1;
               index++;
-              break;
-            case ItemPool.VYKEA_RAIL:
+            }
+            case ItemPool.VYKEA_RAIL -> {
               option = 2;
               index++;
-              break;
-            case ItemPool.VYKEA_BRACKET:
+            }
+            case ItemPool.VYKEA_BRACKET -> {
               option = 3;
               index++;
-              break;
+            }
           }
           break;
       }

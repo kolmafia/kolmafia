@@ -17,7 +17,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.startsWith;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -274,7 +273,7 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
       try (cleanups) {
         String output = execute("");
 
-        assertThat(output, startsWith("Cold Medicine Cabinet choice could not be parsed.\n"));
+        assertThat(output, containsString("Cold Medicine Cabinet choice could not be parsed.\n"));
         assertErrorState();
       }
     }

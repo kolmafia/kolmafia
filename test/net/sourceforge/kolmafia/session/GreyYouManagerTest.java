@@ -90,14 +90,14 @@ public class GreyYouManagerTest {
     MonsterData monster1 = MonsterDatabase.findMonster(name1);
     assertNotNull(monster1);
     assertEquals(0, GreyYouManager.absorbedMonsters.size());
-    GreyYouManager.absorbMonster(monster1);
+    GreyYouManager.absorbMonster(monster1, "a lot of potential energy!");
     assertEquals(1, GreyYouManager.absorbedMonsters.size());
     assertTrue(GreyYouManager.absorbedMonsters.contains(monster1.getId()));
 
     String name2 = "Baiowulf";
     MonsterData monster2 = MonsterDatabase.findMonster(name2);
     assertNotNull(monster2);
-    GreyYouManager.absorbMonster(monster2);
+    GreyYouManager.absorbMonster(monster2, "a lot of potential energy!");
     assertEquals(1, GreyYouManager.absorbedMonsters.size());
     assertFalse(GreyYouManager.absorbedMonsters.contains(monster2.getId()));
   }

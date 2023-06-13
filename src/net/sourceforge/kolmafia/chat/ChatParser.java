@@ -83,7 +83,7 @@ public class ChatParser {
 
     String title = titleMatcher.find() ? titleMatcher.group(1) : "Contacts Online";
 
-    Map<String, Boolean> contacts = new TreeMap<String, Boolean>();
+    Map<String, Boolean> contacts = new TreeMap<>();
 
     Matcher whoMatcher;
 
@@ -164,7 +164,7 @@ public class ChatParser {
   }
 
   public static List<ChatMessage> parseLines(final String content) {
-    List<ChatMessage> chatMessages = new LinkedList<ChatMessage>();
+    List<ChatMessage> chatMessages = new LinkedList<>();
     ChatParser.parseLines(chatMessages, content);
     return chatMessages;
   }

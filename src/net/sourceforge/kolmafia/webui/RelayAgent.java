@@ -172,22 +172,12 @@ public class RelayAgent extends Thread {
       String headerValue = currentHeader[1].trim();
 
       switch (headerType) {
-        case "host":
-          host = headerValue;
-          break;
-        case "referer":
-          referer = headerValue;
-          break;
-        case "if-modified-since":
-          this.isCheckingModified = headerValue;
-          break;
-        case "content-length":
-          contentLength = StringUtilities.parseInt(headerValue);
-          break;
-        case "user-agent":
-          GenericRequest.saveUserAgent(headerValue);
-          break;
-        case "cookie":
+        case "host" -> host = headerValue;
+        case "referer" -> referer = headerValue;
+        case "if-modified-since" -> this.isCheckingModified = headerValue;
+        case "content-length" -> contentLength = StringUtilities.parseInt(headerValue);
+        case "user-agent" -> GenericRequest.saveUserAgent(headerValue);
+        case "cookie" -> {
           StringBuilder buffer = new StringBuilder();
           for (String cookie : headerValue.split("\\s*;\\s*")) {
             if (cookie.startsWith("appserver")
@@ -203,6 +193,7 @@ public class RelayAgent extends Thread {
           if (buffer.length() > 0) {
             this.request.cookies = buffer.toString();
           }
+        }
       }
     }
 

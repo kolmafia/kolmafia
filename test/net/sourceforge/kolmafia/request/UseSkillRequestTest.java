@@ -4,6 +4,7 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
@@ -11,6 +12,7 @@ import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.matchers.Preference.isSetTo;
@@ -23,13 +25,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -38,6 +42,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class UseSkillRequestTest {
   @BeforeAll
@@ -50,7 +55,7 @@ class UseSkillRequestTest {
     Preferences.reset("UseSkillRequestTest");
   }
 
-  private static int EXPERIENCE_SAFARI = SkillDatabase.getSkillId("Experience Safari");
+  private static final int EXPERIENCE_SAFARI = SkillDatabase.getSkillId("Experience Safari");
 
   @Test
   void errorDoesNotIncrementSkillUses() {
@@ -204,7 +209,7 @@ class UseSkillRequestTest {
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Drench Yourself in Sweat", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
         req.run();
 
         var requests = getRequests();
@@ -223,7 +228,7 @@ class UseSkillRequestTest {
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Sweat Out Some Booze", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.SWEAT_OUT_BOOZE, 1);
         req.run();
 
         var requests = getRequests();
@@ -236,11 +241,11 @@ class UseSkillRequestTest {
 
     @Test
     void doNotEquipDesignerSweatpantsForSkillIfAlreadyWearing() {
-      var cleanups = new Cleanups(withEquipped(EquipmentManager.PANTS, "designer sweatpants"));
+      var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
       InventoryManager.checkDesignerSweatpants();
 
       try (cleanups) {
-        var req = UseSkillRequest.getInstance("Drench Yourself in Sweat", 1);
+        var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
         req.run();
 
         var requests = getRequests();
@@ -272,6 +277,167 @@ class UseSkillRequestTest {
           html("request/test_cast_drench_sweat.html"));
       // 69 - 15 = 54
       assertEquals(Preferences.getInteger("sweat"), 54);
+    }
+  }
+
+  @Nested
+  class Numberology {
+    @Test
+    void calculatingUniverseRequiresAvailableTurns() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 1),
+              withProperty("_universeCalculated", 0),
+              withInteractivity(true),
+              withAdventuresLeft(0));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(0, skill.getMaximumCast());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"5, 0", "5, 1", "5, 2", "5, 3", "5, 4", "5, 5"})
+    void calculatingUniverseHasDailyLimit(int skillLevel, int casts) {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", skillLevel),
+              withProperty("_universeCalculated", casts),
+              withInteractivity(true),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(skillLevel - casts, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    void calculatingUniverseLimitedInHardcoreOrRonin() {
+      var cleanups =
+          new Cleanups(
+              withProperty("skillLevel144", 5),
+              withProperty("_universeCalculated", 0),
+              withInteractivity(false),
+              withAdventuresLeft(1));
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.CALCULATE_THE_UNIVERSE);
+        assertEquals(3, skill.getMaximumCast());
+      }
+    }
+  }
+
+  @Nested
+  class CinchoDeMayo {
+    @BeforeEach
+    public void initializeState() {
+      HttpClientWrapper.setupFakeClient();
+      KoLCharacter.reset("CinchoDeMayo");
+      Preferences.reset("CinchoDeMayo");
+    }
+
+    @AfterAll
+    public static void afterAll() {
+      UseSkillRequest.lastSkillUsed = -1;
+      UseSkillRequest.lastSkillCount = 0;
+      InventoryManager.checkCinchoDeMayo();
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        ints = {SkillPool.CINCHO_PARTY_SOUNDTRACK, SkillPool.CINCHO_DISPENSE_SALT_AND_LIME})
+    void wearCinchoForCastingCinchSkills(final int skill) {
+      var cleanups =
+          new Cleanups(withEquippableItem("Cincho de Mayo"), withProperty("_cinchUsed", 0));
+      InventoryManager.checkCinchoDeMayo();
+
+      try (cleanups) {
+        var req = UseSkillRequest.getInstance(skill, 1);
+        req.run();
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=3&action=equip&whichitem=11223");
+        assertGetRequest(
+            requests.get(1),
+            "/runskillz.php",
+            "action=Skillz&whichskill=" + skill + "&ajax=1&quantity=1");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void wearReplicaCinchoForCastingCinchSkillsInLol() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.LEGACY_OF_LOATHING),
+              withEquippableItem(ItemPool.REPLICA_CINCHO_DE_MAYO),
+              withProperty("_cinchUsed", 0));
+      InventoryManager.checkCinchoDeMayo();
+
+      try (cleanups) {
+        var req = UseSkillRequest.getInstance(SkillPool.CINCHO_PARTY_SOUNDTRACK, 1);
+        req.run();
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(3));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&slot=3&action=equip&whichitem=11254");
+        assertGetRequest(
+            requests.get(1), "/runskillz.php", "action=Skillz&whichskill=7440&ajax=1&quantity=1");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {ItemPool.CINCHO_DE_MAYO, ItemPool.REPLICA_CINCHO_DE_MAYO})
+    void doNotEquipCinchoDeMayoForSkillIfAlreadyWearing(final int itemId) {
+      var cleanups =
+          new Cleanups(withPath(Path.LEGACY_OF_LOATHING), withEquipped(Slot.ACCESSORY2, itemId));
+      InventoryManager.checkCinchoDeMayo();
+
+      try (cleanups) {
+        var req = UseSkillRequest.getInstance(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME, 1);
+        req.run();
+
+        var requests = getRequests();
+        assertThat(requests, hasSize(2));
+        assertGetRequest(
+            requests.get(0), "/runskillz.php", "action=Skillz&whichskill=7439&ajax=1&quantity=1");
+      }
+    }
+
+    @Test
+    void increaseCinchWhenCastingSkill() {
+      var cleanups = new Cleanups(withProperty("_cinchUsed", 10));
+
+      try (cleanups) {
+        UseSkillRequest.lastSkillUsed = SkillPool.CINCHO_FIESTA_EXIT;
+        UseSkillRequest.lastSkillCount = 1;
+        UseSkillRequest.parseResponse(
+            "runskillz.php?action=Skillz&whichskill=7441&ajax=1&quantity=1",
+            html("request/test_cast_cincho_fiesta_exit.html"));
+        // 10 + 60 = 70
+        assertThat("_cinchUsed", isSetTo(70));
+      }
+    }
+
+    @Test
+    void dispensingSaltAndLimeIsTracked() {
+      var cleanups = new Cleanups(withProperty("cinchoSaltAndLime", 2));
+
+      try (cleanups) {
+        UseSkillRequest.lastSkillUsed = SkillPool.CINCHO_DISPENSE_SALT_AND_LIME;
+        UseSkillRequest.lastSkillCount = 1;
+        UseSkillRequest.parseResponse(
+            "runskillz.php?action=Skillz&whichskill=74439&ajax=1&quantity=1",
+            html("request/test_cast_cincho_dispense_salt_and_lime.html"));
+        assertThat("cinchoSaltAndLime", isSetTo(3));
+      }
     }
   }
 }

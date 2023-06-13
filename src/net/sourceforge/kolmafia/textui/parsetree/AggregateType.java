@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import org.eclipse.lsp4j.Location;
 
 public class AggregateType extends CompositeType {
@@ -25,7 +26,7 @@ public class AggregateType extends CompositeType {
       final int size,
       final boolean caseInsensitive,
       final Location location) {
-    super(name, DataTypes.TYPE_AGGREGATE, location);
+    super(name, TypeSpec.AGGREGATE, location);
     this.dataType = dataType;
     this.indexType = indexType;
     this.size = size;

@@ -33,9 +33,7 @@ public class LowerCaseEntry<K, V> implements Entry<K, V> {
 
   @Override
   public boolean equals(final Object o) {
-    if (o instanceof Entry) {
-      Entry<?, ?> entry = (Entry<?, ?>) o;
-
+    if (o instanceof Entry<?, ?> entry) {
       return this.key.equals(entry.getKey()) && this.value.equals(entry.getValue());
     }
 

@@ -10,7 +10,7 @@ public class SwinglessUIUtils {
     try {
       // try to instantiate a LockableListModel, which implements Swing
       // interfaces
-      new LockableListModel<Object>();
+      new LockableListModel<>();
       isSwingAvailable = true;
     } catch (NoClassDefFoundError e) {
       // if unable to do so, we are in a Swing-less environment

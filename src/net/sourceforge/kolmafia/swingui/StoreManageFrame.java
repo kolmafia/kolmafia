@@ -434,7 +434,7 @@ public class StoreManageFrame extends GenericPanelFrame {
                 renderer.setForeground(getForeground());
               }
               if (UNDERLINE_FONT == null) {
-                Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
+                Map<TextAttribute, Integer> fontAttributes = new HashMap<>();
                 fontAttributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
                 UNDERLINE_FONT = renderer.getFont().deriveFont(fontAttributes);
               }
@@ -603,7 +603,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class RemoveSomeListener extends ThreadedListener {
+  private static class RemoveSomeListener extends ThreadedListener {
     private final Vector<Serializable> vector;
     private final int itemId;
 
@@ -626,7 +626,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class StoreAddPanel extends JTabbedPane {
+  private static class StoreAddPanel extends JTabbedPane {
     public StoreAddPanel() {
       super(JTabbedPane.LEFT);
       this.addTab("Inventory", new StoreAddFromInventoryPanel());
@@ -634,7 +634,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class StoreAddFromInventoryPanel extends ItemListManagePanel<AdventureResult> {
+  private static class StoreAddFromInventoryPanel extends ItemListManagePanel<AdventureResult> {
     public StoreAddFromInventoryPanel() {
       super("mallsell", "autosell", (SortedListModel<AdventureResult>) KoLConstants.inventory);
       this.addFilters();
@@ -665,7 +665,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class StoreAddFromStoragePanel extends ItemListManagePanel<AdventureResult> {
+  private static class StoreAddFromStoragePanel extends ItemListManagePanel<AdventureResult> {
     public StoreAddFromStoragePanel() {
       super("mallsell", null, (SortedListModel<AdventureResult>) KoLConstants.storage, true, true);
       this.addFilters();
@@ -690,7 +690,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     public void actionCancelled() {}
   }
 
-  private class StoreRemovePanel extends ItemListManagePanel<SoldItem> {
+  private static class StoreRemovePanel extends ItemListManagePanel<SoldItem> {
     public StoreRemovePanel() {
       super("take all", "take one", StoreManager.getSortedSoldItemList());
       this.addFilters();
@@ -752,7 +752,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class StoreLogPanel extends ScrollablePanel<JList<StoreLogEntry>> {
+  private static class StoreLogPanel extends ScrollablePanel<JList<StoreLogEntry>> {
     public StoreLogPanel() {
       super("", "refresh", "resort", new JList<>(StoreManager.getStoreLog()), false);
 
@@ -776,7 +776,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  public class BoolRenderer extends JCheckBox implements TableCellRenderer {
+  public static class BoolRenderer extends JCheckBox implements TableCellRenderer {
     public BoolRenderer() {
       setHorizontalAlignment(JLabel.CENTER);
     }

@@ -17,9 +17,11 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -118,41 +120,21 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     String mode = null;
 
     switch (this.mixingMethod) {
-      case COMBINE:
-      case ACOMBINE:
-      case JEWELRY:
-        mode = "combine";
-        break;
-
-      case MIX:
-      case MIX_FANCY:
-        mode = "cocktail";
-        break;
-
-      case COOK:
-      case COOK_FANCY:
-        mode = "cook";
-        break;
-
-      case SMITH:
-      case SSMITH:
-        mode = "smith";
-        break;
-
-      case ROLLING_PIN:
-        formSource = "inv_use.php";
-        break;
-
-      case MALUS:
+      case COMBINE, ACOMBINE, JEWELRY -> mode = "combine";
+      case MIX, MIX_FANCY -> mode = "cocktail";
+      case COOK, COOK_FANCY -> mode = "cook";
+      case SMITH, SSMITH -> mode = "smith";
+      case ROLLING_PIN -> formSource = "inv_use.php";
+      case MALUS -> {
         formSource = "guild.php";
         action = "malussmash";
-        break;
-
-      default:
+      }
+      default -> {
         // For everything else, simply force the datastring to
         // be rebuilt before the request is submitted
         this.setDataChanged();
         return;
+      }
     }
 
     this.constructURLString(formSource);
@@ -235,138 +217,53 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     // Return the appropriate subclass of item which will be
     // created.
 
-    switch (conc.getMixingMethod()) {
-      case NOCREATE:
-        return null;
-
-      case STILL:
-        return new StillRequest(conc);
-
-      case STARCHART:
-        return new StarChartRequest(conc);
-
-      case SUGAR_FOLDING:
-        return new SugarSheetRequest(conc);
-
-      case PIXEL:
-        return new PixelRequest(conc);
-
-      case GNOME_TINKER:
-        return new GnomeTinkerRequest(conc);
-
-      case STAFF:
-        return new ChefStaffRequest(conc);
-
-      case SUSHI:
-        return new SushiRequest(conc);
-
-      case SINGLE_USE:
-        return new SingleUseRequest(conc);
-
-      case MULTI_USE:
-        return new MultiUseRequest(conc);
-
-      case SEWER:
-        return new SewerRequest(conc);
-
-      case CRIMBO05:
-        return new Crimbo05Request(conc);
-
-      case CRIMBO06:
-        return new Crimbo06Request(conc);
-
-      case CRIMBO07:
-        return new Crimbo07Request(conc);
-
-      case CRIMBO12:
-        return new Crimbo12Request(conc);
-
-      case CRIMBO16:
-        return new Crimbo16Request(conc);
-
-      case PHINEAS:
-        return new PhineasRequest(conc);
-
-      case CLIPART:
-        return new ClipArtRequest(conc);
-
-      case JARLS:
-        return new JarlsbergRequest(conc);
-
-      case GRANDMA:
-        return new GrandmaRequest(conc);
-
-      case KRINGLE:
-        return new KringleRequest(conc);
-
-      case CHEMCLASS:
-      case ARTCLASS:
-      case SHOPCLASS:
-        return new KOLHSRequest(conc);
-
-      case BEER:
-        return new BeerGardenRequest(conc);
-
-      case JUNK:
-        return new JunkMagazineRequest(conc);
-
-      case WINTER:
-        return new WinterGardenRequest(conc);
-
-      case RUMPLE:
-        return new RumpleRequest(conc);
-
-      case FIVE_D:
-        return new FiveDPrinterRequest(conc);
-
-      case VYKEA:
-        return new VYKEARequest(conc);
-
-      case DUTYFREE:
-        return new AirportRequest(conc);
-
-      case FLOUNDRY:
-        return new FloundryRequest(conc);
-
-      case TERMINAL:
-        return new TerminalExtrudeRequest(conc);
-
-      case BARREL:
-        return new BarrelShrineRequest(conc);
-
-      case WAX:
-        return new WaxGlobRequest(conc);
-
-      case SPANT:
-        return new SpantRequest(conc);
-
-      case XO:
-        return new XOShopRequest(conc);
-
-      case SLIEMCE:
-        return new SliemceRequest(conc);
-
-      case NEWSPAPER:
-        return new BurningNewspaperRequest(conc);
-
-      case METEOROID:
-        return new MeteoroidRequest(conc);
-
-      case SAUSAGE_O_MATIC:
-        return new SausageOMaticRequest(conc);
-
-      case SPACEGATE:
-        return new SpacegateEquipmentRequest(conc);
-
-      case FANTASY_REALM:
-        return new FantasyRealmRequest(conc);
-
-      case STILLSUIT:
-        return new StillSuitRequest();
-
-      default:
-        return new CreateItemRequest(conc);
-    }
+    return switch (conc.getMixingMethod()) {
+      case NOCREATE -> null;
+      case STILL -> new StillRequest(conc);
+      case STARCHART -> new StarChartRequest(conc);
+      case SUGAR_FOLDING -> new SugarSheetRequest(conc);
+      case PIXEL -> new PixelRequest(conc);
+      case GNOME_TINKER -> new GnomeTinkerRequest(conc);
+      case STAFF -> new ChefStaffRequest(conc);
+      case SUSHI -> new SushiRequest(conc);
+      case SINGLE_USE -> new SingleUseRequest(conc);
+      case MULTI_USE -> new MultiUseRequest(conc);
+      case SEWER -> new SewerRequest(conc);
+      case CRIMBO05 -> new Crimbo05Request(conc);
+      case CRIMBO06 -> new Crimbo06Request(conc);
+      case CRIMBO07 -> new Crimbo07Request(conc);
+      case CRIMBO12 -> new Crimbo12Request(conc);
+      case CRIMBO16 -> new Crimbo16Request(conc);
+      case PHINEAS -> new PhineasRequest(conc);
+      case CLIPART -> new ClipArtRequest(conc);
+      case JARLS -> new JarlsbergRequest(conc);
+      case GRANDMA -> new GrandmaRequest(conc);
+      case KRINGLE -> new KringleRequest(conc);
+      case CHEMCLASS, ARTCLASS, SHOPCLASS -> new KOLHSRequest(conc);
+      case BEER -> new BeerGardenRequest(conc);
+      case JUNK -> new JunkMagazineRequest(conc);
+      case WINTER -> new WinterGardenRequest(conc);
+      case RUMPLE -> new RumpleRequest(conc);
+      case FIVE_D -> new FiveDPrinterRequest(conc);
+      case VYKEA -> new VYKEARequest(conc);
+      case DUTYFREE -> new AirportRequest(conc);
+      case FLOUNDRY -> new FloundryRequest(conc);
+      case TERMINAL -> new TerminalExtrudeRequest(conc);
+      case BARREL -> new BarrelShrineRequest(conc);
+      case WAX -> new WaxGlobRequest(conc);
+      case SPANT -> new SpantRequest(conc);
+      case XO -> new XOShopRequest(conc);
+      case SLIEMCE -> new SliemceRequest(conc);
+      case NEWSPAPER -> new BurningNewspaperRequest(conc);
+      case METEOROID -> new MeteoroidRequest(conc);
+      case SAUSAGE_O_MATIC -> new SausageOMaticRequest(conc);
+      case SPACEGATE -> new SpacegateEquipmentRequest(conc);
+      case FANTASY_REALM -> new FantasyRealmRequest(conc);
+      case STILLSUIT -> new StillSuitRequest();
+      case WOOL -> new GrubbyWoolRequest(conc);
+      case SHADOW_FORGE -> new ShadowForgeRequest(conc);
+      default -> new CreateItemRequest(conc);
+    };
   }
 
   @Override
@@ -397,7 +294,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       return;
     }
 
-    if (!KoLmafia.permitsContinue() || this.quantityNeeded <= 0) {
+    if (this.quantityNeeded <= 0 || !KoLmafia.permitsContinue()) {
       return;
     }
 
@@ -409,8 +306,11 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       return;
     }
 
-    // Save outfit in case we need to equip something - like a Grimacite hammer
+    this.runCreateItemLoop();
+  }
 
+  public void runCreateItemLoop() {
+    // Save outfit in case we need to equip something - like a Grimacite hammer
     try (Checkpoint checkpoint = new Checkpoint()) {
       this.createItemLoop();
     }
@@ -428,24 +328,15 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       this.beforeQuantity = this.createdItem.getCount(KoLConstants.inventory);
 
       switch (this.mixingMethod) {
-        case SUBCLASS:
+        case SUBCLASS -> {
           super.run();
           if (this.responseCode == 302 && this.redirectLocation.startsWith("inventory")) {
             CreateItemRequest.REDIRECT_REQUEST.constructURLString(this.redirectLocation).run();
           }
-          break;
-
-        case ROLLING_PIN:
-          this.makeDough();
-          break;
-
-        case COINMASTER:
-          this.makeCoinmasterPurchase();
-          break;
-
-        default:
-          this.combineItems();
-          break;
+        }
+        case ROLLING_PIN -> this.makeDough();
+        case COINMASTER -> this.makeCoinmasterPurchase();
+        default -> this.combineItems();
       }
 
       // Certain creations are used immediately.
@@ -595,12 +486,19 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
   /** Helper routine which actually does the item combination. */
   private void combineItems() {
+    this.buildFullURL();
+    KoLmafia.updateDisplay("Creating " + this.name + " (" + this.quantityNeeded + ")...");
+    super.run();
+  }
+
+  /** Helper routine which builds the URL to create the item */
+  public void buildFullURL() {
     String path = this.getPath();
     String quantityField = "quantity";
 
     this.calculateYield();
     AdventureResult[] ingredients =
-        ConcoctionDatabase.getIngredients(this.concoction.getIngredients());
+        ConcoctionDatabase.getIngredients(this.concoction, this.concoction.getIngredients());
 
     if (ingredients.length == 1) {
       if (this.getAdventuresUsed() > KoLCharacter.getAdventuresLeft()) {
@@ -625,9 +523,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
     int quantity = (this.quantityNeeded + this.yield - 1) / this.yield;
     this.addFormField(quantityField, String.valueOf(quantity));
-
-    KoLmafia.updateDisplay("Creating " + this.name + " (" + this.quantityNeeded + ")...");
-    super.run();
   }
 
   @Override
@@ -683,7 +578,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     // Multi-step crafting makes it harder to tell how many
     // free crafts were used, so we look at the text following
     // each craft individually for the free crafting texts.
-    List<Integer[]> craftComments = new ArrayList<Integer[]>();
+    List<Integer[]> craftComments = new ArrayList<>();
 
     do {
       // item ids can be -1, if crafting uses a single item
@@ -875,7 +770,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
     if (requirements.contains(CraftingRequirements.GRIMACITE)) {
       AdventureResult hammer = CreateItemRequest.GRIMACITE_HAMMER;
-      int slot = EquipmentManager.WEAPON;
+      Slot slot = Slot.WEAPON;
 
       if (!KoLCharacter.hasEquipped(hammer, slot)
           && EquipmentManager.canEquip(hammer)
@@ -920,7 +815,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         }
 
         // If we have a bartender, fancy mixing is now free
-        if (KoLCharacter.hasBartender() || KoLCharacter.hasSkill("Cocktail Magic")) {
+        if (KoLCharacter.hasBartender() || KoLCharacter.hasSkill(SkillPool.COCKTAIL_MAGIC)) {
           return true;
         }
         break;
@@ -941,22 +836,18 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       return true;
     }
 
-    boolean autoRepairSuccessful = false;
+    boolean autoRepairSuccessful =
+        switch (mixingMethod) {
+          case COOK_FANCY -> CreateItemRequest.useBoxServant(
+              ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF);
+          case MIX_FANCY -> CreateItemRequest.useBoxServant(
+              ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER);
+          default -> false;
 
-    // If they want to auto-repair, make sure that the appropriate
-    // item is available in their inventory
+            // If they want to auto-repair, make sure that the appropriate
+            // item is available in their inventory
 
-    switch (mixingMethod) {
-      case COOK_FANCY:
-        autoRepairSuccessful =
-            CreateItemRequest.useBoxServant(ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF);
-        break;
-
-      case MIX_FANCY:
-        autoRepairSuccessful =
-            CreateItemRequest.useBoxServant(ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER);
-        break;
-    }
+        };
 
     return autoRepairSuccessful && KoLmafia.permitsContinue();
   }
@@ -1026,13 +917,14 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     }
 
     AdventureResult[] ingredients =
-        ConcoctionDatabase.getIngredients(this.concoction.getIngredients()).clone();
+        ConcoctionDatabase.getIngredients(this.concoction, this.concoction.getIngredients())
+            .clone();
 
     // Sort ingredients by their creatability, so that if the overall creation
     // is going to fail, it should do so immediately, without wasted effort.
     Arrays.sort(
         ingredients,
-        new Comparator<AdventureResult>() {
+        new Comparator<>() {
           @Override
           public int compare(AdventureResult o1, AdventureResult o2) {
             Concoction left = ConcoctionPool.get(o1);
@@ -1218,22 +1110,13 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
   }
 
   private static int getMultiplier(final CraftingType mixingMethod) {
-    switch (mixingMethod) {
-      case SMITH:
-        return (KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore()) ? 0 : 1;
-
-      case SSMITH:
-        return 1;
-
-      case COOK_FANCY:
-        return KoLCharacter.hasChef() ? 0 : 1;
-
-      case MIX_FANCY:
-        return KoLCharacter.hasBartender() ? 0 : 1;
-
-      default:
-        return 0;
-    }
+    return switch (mixingMethod) {
+      case SMITH -> (KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore()) ? 0 : 1;
+      case SSMITH -> 1;
+      case COOK_FANCY -> KoLCharacter.hasChef() ? 0 : 1;
+      case MIX_FANCY -> KoLCharacter.hasBartender() ? 0 : 1;
+      default -> 0;
+    };
   }
 
   private static int getAdventuresUsed(final CraftingType mixingMethod, final int quantityNeeded) {
@@ -1358,7 +1241,8 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         command = "Combine";
       } else if (urlString.contains("mode=cocktail")) {
         command = "Mix";
-        usesTurns = !KoLCharacter.hasBartender() && !KoLCharacter.hasSkill("Cocktail Magic");
+        usesTurns =
+            !KoLCharacter.hasBartender() && !KoLCharacter.hasSkill(SkillPool.COCKTAIL_MAGIC);
       } else if (urlString.contains("mode=cook")) {
         command = "Cook";
         usesTurns = !KoLCharacter.hasChef();

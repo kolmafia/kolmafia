@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -167,12 +168,13 @@ public class MomRequest extends GenericRequest {
       return "You haven't rescued Mom yet.";
     }
 
-    if (MomRequest.self == null && !KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+    if (MomRequest.self == null
+        && !KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
       return "You don't have the right equipment to adventure underwater.";
     }
 
     if (MomRequest.familiar == null
-        && !KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+        && !KoLCharacter.currentBooleanModifier(BooleanModifier.UNDERWATER_FAMILIAR)) {
       return "Your familiar doesn't have the right equipment to adventure underwater.";
     }
 
@@ -181,12 +183,12 @@ public class MomRequest extends GenericRequest {
 
   private void equip() {
     MomRequest.update();
-    if (!KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+    if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
       EquipmentRequest request = new EquipmentRequest(MomRequest.self);
       RequestThread.postRequest(request);
     }
 
-    if (!KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+    if (!KoLCharacter.currentBooleanModifier(BooleanModifier.UNDERWATER_FAMILIAR)) {
       EquipmentRequest request = new EquipmentRequest(familiar);
       RequestThread.postRequest(request);
     }

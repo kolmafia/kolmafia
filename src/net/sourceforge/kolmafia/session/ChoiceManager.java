@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -27,7 +28,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceAdventure;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceSpoiler;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -341,25 +341,12 @@ public abstract class ChoiceManager {
 
     String option = "choiceAdventure" + choice;
     String optionValue = Preferences.getString(option);
-    int amp = optionValue.indexOf("&");
 
+    int amp = optionValue.indexOf("&");
     String decision = (amp == -1) ? optionValue : optionValue.substring(0, amp);
     String extraFields = (amp == -1) ? "" : optionValue.substring(amp + 1);
 
-    // If choice zero is not "Manual Control", adjust it to an actual choice
-
-    decision =
-        ChoiceManager.specialChoiceDecision1(choice, decision, stepCount, request.responseText);
-
-    // If one of the decisions will satisfy a goal, take it
-
-    decision = ChoiceManager.pickGoalChoice(choice, decision);
-
-    // If this choice has special handling based on
-    // character state, convert to real decision index
-
-    decision =
-        ChoiceManager.specialChoiceDecision2(choice, decision, stepCount, request.responseText);
+    decision = getDecision(choice, stepCount, decision, request.responseText);
 
     // Let user handle the choice manually, if requested
 
@@ -431,28 +418,26 @@ public abstract class ChoiceManager {
     ChoiceUtilities.printChoices(ChoiceManager.lastResponseText);
   }
 
+  /**
+   * Map the user-configured choice option to the option submitted to KoL.
+   *
+   * <p>This is for callers who have not already fetched the property because they need to do
+   * additional processing on the value, and who do not care about the stepCount within a choice
+   * chain
+   *
+   * @param choice - the choice number
+   * @param responseText - KoL's responseText containing choice forms
+   * @return decision -
+   */
   public static final int getDecision(int choice, String responseText) {
     String option = "choiceAdventure" + choice;
     String optionValue = Preferences.getString(option);
-    int amp = optionValue.indexOf("&");
 
+    int amp = optionValue.indexOf("&");
     String decision = (amp == -1) ? optionValue : optionValue.substring(0, amp);
     String extraFields = (amp == -1) ? "" : optionValue.substring(amp + 1);
 
-    // If choice decision is not "Manual Control", adjust it to an actual option
-
-    decision =
-        ChoiceManager.specialChoiceDecision1(choice, decision, Integer.MAX_VALUE, responseText);
-
-    // If one of the decisions will satisfy a goal, take it
-
-    decision = ChoiceManager.pickGoalChoice(choice, decision);
-
-    // If this choice has special handling based on
-    // character state, convert to real decision index
-
-    decision =
-        ChoiceManager.specialChoiceDecision2(choice, decision, Integer.MAX_VALUE, responseText);
+    decision = getDecision(choice, Integer.MAX_VALUE, decision, responseText);
 
     // Currently unavailable decision, manual choice requested, or unsupported choice
     if (decision.equals("0")
@@ -462,6 +447,35 @@ public abstract class ChoiceManager {
     }
 
     return StringUtilities.parseInt(decision);
+  }
+
+  /**
+   * Map the user-configured choice option to the option submitted to KoL.
+   *
+   * <p>Some configuration properties map directly, but many depend on current character state or
+   * the whim of KoL itself
+   *
+   * <p>This is the "guts" of this processing.
+   *
+   * @param choice - the choice number
+   * @param stepCount - counter when chaining choices
+   * @param decision - the configured decision from a choiceAdventure property
+   * @param responseText - KoL's responseText containing choice forms
+   * @return this - Allows fluid chaining of fields
+   */
+  private static final String getDecision(
+      int choice, int stepCount, String decision, String responseText) {
+    // If choice decision zero is not "Manual Control", adjust it to an actual option
+    decision = ChoiceManager.specialChoiceDecision1(choice, decision, stepCount, responseText);
+
+    // If one of the decisions will satisfy a goal, take it
+    decision = ChoiceManager.pickGoalChoice(choice, decision);
+
+    // If this choice has special handling based on character state,
+    // convert to real decision index
+    decision = ChoiceManager.specialChoiceDecision2(choice, decision, stepCount, responseText);
+
+    return decision;
   }
 
   private static boolean specialChoiceHandling(final int choice, final GenericRequest request) {
@@ -742,6 +756,10 @@ public abstract class ChoiceManager {
 
         // Again, we should not fail, but cope.
         return "0";
+
+      case 1499:
+        // A Labyrinth of Shadows
+        return RufusManager.specialChoiceDecision(1499, responseText);
     }
 
     return decision;
@@ -933,6 +951,12 @@ public abstract class ChoiceManager {
   private static final AdventureResult MCCLUSKY_FILE_PAGE5 =
       ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE5, 1);
   private static final AdventureResult STONE_TRIANGLE = ItemPool.get(ItemPool.STONE_TRIANGLE, 1);
+  private static final AdventureResult CRIMBO_CRYSTAL_SHARDS =
+      ItemPool.get(ItemPool.CRIMBO_CRYSTAL_SHARDS, 1);
+  private static final AdventureResult CRYSTAL_CRIMBO_GOBLET =
+      ItemPool.get(ItemPool.CRYSTAL_CRIMBO_GOBLET, 1);
+  private static final AdventureResult CRYSTAL_CRIMBO_PLATTER =
+      ItemPool.get(ItemPool.CRYSTAL_CRIMBO_PLATTER, 1);
 
   private static final AdventureResult CURSE3_EFFECT = EffectPool.get(EffectPool.THRICE_CURSED);
   private static final AdventureResult JOCK_EFFECT =
@@ -1151,6 +1175,54 @@ public abstract class ChoiceManager {
 
         if (decision.equals("1") && Preferences.getInteger("seaodesFound") == 3) {
           return "2";
+        }
+        return decision;
+
+        // These choices always have option 1, which takes a turn and
+        // gives you some items.
+        //
+        // If you have at least 20 of a particular kind of elemental
+        // damage, option 2 is available, which passes the choice
+        // without taking a turn.
+        //
+        // We could parse the page to make sure the option is actually
+        // available, but we'll be doing that later, anyway.
+        //
+        // Lets check the specific elemental weapon damage.
+
+        // Crate Expectations
+      case 496:
+        if (decision.equals("2")) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.HOT_DAMAGE) < 20) {
+            return "1";
+          }
+        }
+        return decision;
+
+      case 513:
+        // Staring Down the Barrel
+        if (decision.equals("2")) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.COLD_DAMAGE) < 20) {
+            return "1";
+          }
+        }
+        return decision;
+
+      case 514:
+        // 1984 Had Nothing on This Cellar
+        if (decision.equals("2")) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.STENCH_DAMAGE) < 20) {
+            return "1";
+          }
+        }
+        return decision;
+
+      case 515:
+        // A Rat's Home...
+        if (decision.equals("2")) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.SPOOKY_DAMAGE) < 20) {
+            return "1";
+          }
         }
         return decision;
 
@@ -1920,6 +1992,39 @@ public abstract class ChoiceManager {
           return "5";
         }
         return decision;
+
+      case 1489:
+        // Slagging Off
+        //
+        // If you have Crimbo crystal shards, you must take option 1 or 2
+        if (InventoryManager.getCount(CRIMBO_CRYSTAL_SHARDS) > 0) {
+          // If want specifically a goblet or platter, you got it.
+          if (decision.equals("1") || decision.equals("2")) {
+            return decision;
+          }
+
+          // You want whichever you have the fewest of
+          int goblets = InventoryManager.getCount(CRYSTAL_CRIMBO_GOBLET);
+          int platters = InventoryManager.getCount(CRYSTAL_CRIMBO_PLATTER);
+          if (goblets == platters) {
+            // When we display choice spoilers in the Relay Browser, a right
+            // arrow points to the option we will take if you automate.
+            //
+            // If you tell it to automate, this method will be called again to
+            // decide which option to take.
+            //
+            // I wanted to make a random choice, but that is very confusing if
+            // the two calls don't agree.
+            return "1";
+          }
+          return (goblets < platters) ? "1" : "2";
+        }
+        // If you have none, you must take option 3
+        return "3";
+
+      case 1498:
+        // Calling Rufus Back
+        return RufusManager.specialChoiceDecision(1498, responseText);
     }
     return decision;
   }
@@ -1932,7 +2037,7 @@ public abstract class ChoiceManager {
 
     // Find the options for the choice we've encountered
 
-    Option[] options = null;
+    ChoiceOption[] options = null;
 
     // See if this choice is controlled by user option
     if (options == null) {
@@ -1960,8 +2065,8 @@ public abstract class ChoiceManager {
 
     boolean items = false;
     for (int i = 0; i < options.length; ++i) {
-      Option opt = options[i];
-      AdventureResult item[] = opt.getItems();
+      ChoiceOption opt = options[i];
+      AdventureResult[] item = opt.getItems();
       if (item.length == 0) {
         continue;
       }
@@ -1980,7 +2085,7 @@ public abstract class ChoiceManager {
     }
 
     // Find the spoiler corresponding to the chosen decision
-    Option chosen = ChoiceAdventures.findOption(options, StringUtilities.parseInt(decision));
+    ChoiceOption chosen = ChoiceAdventures.findOption(options, StringUtilities.parseInt(decision));
 
     // If the player doesn't want to "complete the outfit", nothing to do
     if (chosen == null || !chosen.toString().equals("complete the outfit")) {
@@ -1989,8 +2094,8 @@ public abstract class ChoiceManager {
 
     // Pick an item that the player doesn't have yet
     for (int i = 0; i < options.length; ++i) {
-      Option opt = options[i];
-      AdventureResult item[] = opt.getItems();
+      ChoiceOption opt = options[i];
+      AdventureResult[] item = opt.getItems();
       if (item.length == 0) {
         continue;
       }
@@ -2097,7 +2202,8 @@ public abstract class ChoiceManager {
     // If we have spoilers for this choice, use that
     Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, null);
     if (spoilers != null) {
-      Option spoiler = ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
+      ChoiceOption spoiler =
+          ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
       if (spoiler != null) {
         return spoiler.toString();
       }

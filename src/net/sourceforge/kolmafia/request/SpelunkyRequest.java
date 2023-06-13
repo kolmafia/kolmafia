@@ -10,15 +10,20 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.RelayRequest.Confirm;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -223,76 +228,67 @@ public class SpelunkyRequest extends GenericRequest {
       int itemId = ItemDatabase.getItemIdFromDescription(descId);
       AdventureResult item = ItemPool.get(itemId, 1);
       switch (ItemDatabase.getConsumptionType(itemId)) {
-        case HAT:
-          EquipmentManager.setEquipment(EquipmentManager.HAT, item);
-          break;
-        case WEAPON:
-          EquipmentManager.setEquipment(EquipmentManager.WEAPON, item);
-          break;
-        case OFFHAND:
-          EquipmentManager.setEquipment(EquipmentManager.OFFHAND, item);
+        case HAT -> EquipmentManager.setEquipment(Slot.HAT, item);
+        case WEAPON -> EquipmentManager.setEquipment(Slot.WEAPON, item);
+        case OFFHAND -> {
+          EquipmentManager.setEquipment(Slot.OFFHAND, item);
           switch (itemId) {
-            case ItemPool.SPELUNKY_SKULL:
-              KoLCharacter.addAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_ROCK:
-              KoLCharacter.addAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_POT:
-              KoLCharacter.addAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_TORCH:
-              KoLCharacter.addAvailableSkill("Throw Torch");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              break;
-            case ItemPool.SPELUNKY_COFFEE_CUP:
-            case ItemPool.SPELUNKY_PICKAXE:
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
+            case ItemPool.SPELUNKY_SKULL -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_ROCK -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_POT -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_TORCH -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_TORCH);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+            }
+            case ItemPool.SPELUNKY_COFFEE_CUP, ItemPool.SPELUNKY_PICKAXE -> {
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
           }
-          break;
-        case CONTAINER:
-          EquipmentManager.setEquipment(EquipmentManager.CONTAINER, item);
-          break;
-        case ACCESSORY:
-          EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, item);
-          break;
+        }
+        case CONTAINER -> EquipmentManager.setEquipment(Slot.CONTAINER, item);
+        case ACCESSORY -> EquipmentManager.setEquipment(Slot.ACCESSORY1, item);
       }
     }
     if (gear.contains(">hat<")) {
-      EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.HAT, EquipmentRequest.UNEQUIP);
     }
     if (gear.contains(">off<")) {
-      EquipmentManager.setEquipment(EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP);
-      KoLCharacter.removeAvailableSkill("Throw Rock");
-      KoLCharacter.removeAvailableSkill("Throw Skull");
-      KoLCharacter.removeAvailableSkill("Throw Pot");
-      KoLCharacter.removeAvailableSkill("Throw Torch");
+      EquipmentManager.setEquipment(Slot.OFFHAND, EquipmentRequest.UNEQUIP);
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
     }
     if (gear.contains(">back<")) {
-      EquipmentManager.setEquipment(EquipmentManager.CONTAINER, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.CONTAINER, EquipmentRequest.UNEQUIP);
     }
     if (gear.contains(">hand<")) {
-      EquipmentManager.setEquipment(EquipmentManager.WEAPON, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.WEAPON, EquipmentRequest.UNEQUIP);
     }
     if (gear.contains(">shoes<")) {
-      EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, EquipmentRequest.UNEQUIP);
-      EquipmentManager.setEquipment(EquipmentManager.ACCESSORY2, EquipmentRequest.UNEQUIP);
-      EquipmentManager.setEquipment(EquipmentManager.ACCESSORY3, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.ACCESSORY1, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.ACCESSORY2, EquipmentRequest.UNEQUIP);
+      EquipmentManager.setEquipment(Slot.ACCESSORY3, EquipmentRequest.UNEQUIP);
     }
 
     if (responseText.contains("spelghostarms.gif")) {
@@ -306,19 +302,19 @@ public class SpelunkyRequest extends GenericRequest {
 
     // Make right skills available based on resources
     if (bombs > 0) {
-      KoLCharacter.addAvailableSkill("Throw Bomb");
+      KoLCharacter.addAvailableSkill(SkillPool.THROW_BOMB);
     } else {
-      KoLCharacter.removeAvailableSkill("Throw Bomb");
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_BOMB);
     }
     if (bombs >= 10) {
-      KoLCharacter.addAvailableSkill("Throw Ten Bombs");
+      KoLCharacter.addAvailableSkill(SkillPool.THROW_TEN_BOMBS);
     } else {
-      KoLCharacter.removeAvailableSkill("Throw Ten Bombs");
+      KoLCharacter.removeAvailableSkill(SkillPool.THROW_TEN_BOMBS);
     }
     if (ropes > 0) {
-      KoLCharacter.addAvailableSkill("Use Rope");
+      KoLCharacter.addAvailableSkill(SkillPool.USE_ROPE);
     } else {
-      KoLCharacter.removeAvailableSkill("Use Rope");
+      KoLCharacter.removeAvailableSkill(SkillPool.USE_ROPE);
     }
 
     // Have we gained a buddy? Log it
@@ -385,8 +381,8 @@ public class SpelunkyRequest extends GenericRequest {
         continue;
       }
 
-      int slot = EquipmentRequest.phpSlotNumber(slotName);
-      if (slot == -1) {
+      Slot slot = Slot.byCaselessPhpName(slotName);
+      if (slot == Slot.NONE) {
         continue;
       }
 
@@ -394,53 +390,45 @@ public class SpelunkyRequest extends GenericRequest {
       AdventureResult item = EquipmentManager.equippedItem(itemId);
 
       switch (slot) {
-        case EquipmentManager.HAT:
-          EquipmentManager.setEquipment(EquipmentManager.HAT, item);
-          break;
-        case EquipmentManager.WEAPON:
-          EquipmentManager.setEquipment(EquipmentManager.WEAPON, item);
-          break;
-        case EquipmentManager.OFFHAND:
-          EquipmentManager.setEquipment(EquipmentManager.OFFHAND, item);
+        case HAT -> EquipmentManager.setEquipment(Slot.HAT, item);
+        case WEAPON -> EquipmentManager.setEquipment(Slot.WEAPON, item);
+        case OFFHAND -> {
+          EquipmentManager.setEquipment(Slot.OFFHAND, item);
           switch (itemId) {
-            case ItemPool.SPELUNKY_SKULL:
-              KoLCharacter.addAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_ROCK:
-              KoLCharacter.addAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_POT:
-              KoLCharacter.addAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
-            case ItemPool.SPELUNKY_TORCH:
-              KoLCharacter.addAvailableSkill("Throw Torch");
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              break;
-            default:
-              KoLCharacter.removeAvailableSkill("Throw Rock");
-              KoLCharacter.removeAvailableSkill("Throw Skull");
-              KoLCharacter.removeAvailableSkill("Throw Pot");
-              KoLCharacter.removeAvailableSkill("Throw Torch");
-              break;
+            case ItemPool.SPELUNKY_SKULL -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_ROCK -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_POT -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
+            case ItemPool.SPELUNKY_TORCH -> {
+              KoLCharacter.addAvailableSkill(SkillPool.THROW_TORCH);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+            }
+            default -> {
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_ROCK);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_SKULL);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_POT);
+              KoLCharacter.removeAvailableSkill(SkillPool.THROW_TORCH);
+            }
           }
-          break;
-        case EquipmentManager.CONTAINER:
-          EquipmentManager.setEquipment(EquipmentManager.CONTAINER, item);
-          break;
-        case EquipmentManager.ACCESSORY1:
-          EquipmentManager.setEquipment(EquipmentManager.ACCESSORY1, item);
-          break;
+        }
+        case CONTAINER -> EquipmentManager.setEquipment(Slot.CONTAINER, item);
+        case ACCESSORY1 -> EquipmentManager.setEquipment(Slot.ACCESSORY1, item);
       }
     }
 
@@ -764,33 +752,15 @@ public class SpelunkyRequest extends GenericRequest {
       StringBuilder upgradeMessage = new StringBuilder();
       upgradeMessage.append("Spelunky Finished. Upgrade chosen is ");
       switch (choice) {
-        case 1:
-          upgradeMessage.append("Unlock Jungle.");
-          break;
-        case 2:
-          upgradeMessage.append("Unlock Ice Caves.");
-          break;
-        case 3:
-          upgradeMessage.append("Unlock Temple Ruins.");
-          break;
-        case 4:
-          upgradeMessage.append("Start with +2 bombs.");
-          break;
-        case 5:
-          upgradeMessage.append("More Shopkeeper items for sale.");
-          break;
-        case 6:
-          upgradeMessage.append("Begin with 100 gold.");
-          break;
-        case 7:
-          upgradeMessage.append("Start with +2 Ropes.");
-          break;
-        case 8:
-          upgradeMessage.append("Start with Fedora.");
-          break;
-        case 9:
-          upgradeMessage.append("Start with key.");
-          break;
+        case 1 -> upgradeMessage.append("Unlock Jungle.");
+        case 2 -> upgradeMessage.append("Unlock Ice Caves.");
+        case 3 -> upgradeMessage.append("Unlock Temple Ruins.");
+        case 4 -> upgradeMessage.append("Start with +2 bombs.");
+        case 5 -> upgradeMessage.append("More Shopkeeper items for sale.");
+        case 6 -> upgradeMessage.append("Begin with 100 gold.");
+        case 7 -> upgradeMessage.append("Start with +2 Ropes.");
+        case 8 -> upgradeMessage.append("Start with Fedora.");
+        case 9 -> upgradeMessage.append("Start with key.");
       }
       String message = upgradeMessage.toString();
       RequestLogger.printLine();
@@ -959,8 +929,8 @@ public class SpelunkyRequest extends GenericRequest {
     int physicalResistance = monster == null ? 0 : monster.getPhysicalResistance();
 
     // Calculate your expected combat damage
-    AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
-    AdventureResult offhand = EquipmentManager.getEquipment(EquipmentManager.OFFHAND);
+    AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
+    AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
     int weaponItemId = weapon.getItemId();
     int offhandItemId = offhand.getItemId();
 
@@ -988,11 +958,17 @@ public class SpelunkyRequest extends GenericRequest {
     // Spelunky weapons can have bonus damage
 
     int bonusWeaponDamage =
-        (int) Modifiers.getNumericModifier("Item", weaponItemId, "Weapon Damage");
+        (int)
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, weaponItemId, DoubleModifier.WEAPON_DAMAGE);
     int bonusOffhandDamage =
-        (int) Modifiers.getNumericModifier("Item", offhandItemId, "Weapon Damage");
+        (int)
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, offhandItemId, DoubleModifier.WEAPON_DAMAGE);
     int bonusRangedDamage =
-        (int) Modifiers.getNumericModifier("Item", weaponItemId, "Ranged Damage");
+        (int)
+            ModifierDatabase.getNumericModifier(
+                ModifierType.ITEM, weaponItemId, DoubleModifier.RANGED_DAMAGE);
     int bonusDamage =
         bonusWeaponDamage + (stat == Stat.MOXIE ? bonusRangedDamage : 0) + bonusOffhandDamage;
 
@@ -1027,7 +1003,7 @@ public class SpelunkyRequest extends GenericRequest {
     int monsterStatDamage = Math.max(monsterAttack - moxie, 0);
 
     // Some Spelunky items provide Damage Reduction
-    int dr = (int) KoLCharacter.currentNumericModifier(Modifiers.DAMAGE_REDUCTION);
+    int dr = (int) KoLCharacter.currentNumericModifier(DoubleModifier.DAMAGE_REDUCTION);
 
     int monsterDamageMin = Math.max(monsterStatDamage + monsterAttack / 5 - dr, 1);
     int monsterDamageMax = Math.max(monsterStatDamage + monsterAttack / 4 - dr, 1);
@@ -1077,7 +1053,7 @@ public class SpelunkyRequest extends GenericRequest {
     return String.valueOf(damage);
   }
 
-  public static String spelunkyWarning(final KoLAdventure adventure, final String confirm) {
+  public static String spelunkyWarning(final KoLAdventure adventure, final Confirm confirm) {
     // If we have won fewer than 3 combats since the last
     // noncombat, no noncombat is due.
 
@@ -1419,7 +1395,7 @@ public class SpelunkyRequest extends GenericRequest {
     return item.getCount(KoLConstants.inventory) > 0 || InventoryManager.getEquippedCount(item) > 0;
   }
 
-  private static String spelunkyLocationLink(String name, final int id, final String confirm) {
+  private static String spelunkyLocationLink(String name, final int id, final Confirm confirm) {
     return "<a href=\"adventure.php?snarfblat="
         + id
         + "&"

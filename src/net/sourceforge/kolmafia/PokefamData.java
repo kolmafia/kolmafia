@@ -347,7 +347,7 @@ public class PokefamData implements Comparable<PokefamData> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof PokefamData && this.race.equals(((PokefamData) o).race);
+    return o instanceof PokefamData data && this.race.equals(data.race);
   }
 
   @Override

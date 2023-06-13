@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -220,7 +221,7 @@ public class ElVibratoManager {
 
     buffer.append("use ");
     buffer.append(id1);
-    if (KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+    if (KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING)) {
       buffer.append(",");
     } else {
       buffer.append("; use ");

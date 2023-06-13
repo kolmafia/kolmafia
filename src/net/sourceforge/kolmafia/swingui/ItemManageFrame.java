@@ -30,21 +30,22 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.objectpool.ConcoctionType;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.ConcoctionType;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClosetRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateSpecialPanel;
 import net.sourceforge.kolmafia.swingui.panel.InventoryPanel;
-import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
 import net.sourceforge.kolmafia.swingui.panel.PulverizePanel;
@@ -242,17 +243,18 @@ public class ItemManageFrame extends GenericFrame {
     }
 
     switch (pullsRemaining) {
-      case 0:
+      case 0 -> {
         ItemManageFrame.pullsRemainingLabel1.setText("No Pulls Left");
         ItemManageFrame.pullsRemainingLabel2.setText("No Pulls Left");
-        break;
-      case 1:
+      }
+      case 1 -> {
         ItemManageFrame.pullsRemainingLabel1.setText("1 Pull Left");
         ItemManageFrame.pullsRemainingLabel2.setText("1 Pull Left");
-        break;
-      default:
+      }
+      default -> {
         ItemManageFrame.pullsRemainingLabel1.setText(pullsRemaining + " Pulls Left");
         ItemManageFrame.pullsRemainingLabel2.setText(pullsRemaining + " Pulls Left");
+      }
     }
   }
 
@@ -262,7 +264,7 @@ public class ItemManageFrame extends GenericFrame {
     ItemManageFrame.pullBudgetSpinner2.setValue(value);
   }
 
-  private class JunkItemsPanel extends OverlapPanel {
+  private static class JunkItemsPanel extends OverlapPanel {
     public JunkItemsPanel() {
       super("cleanup", "help", (LockableListModel<AdventureResult>) KoLConstants.junkList, true);
     }
@@ -279,7 +281,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class SingletonItemsPanel extends OverlapPanel {
+  private static class SingletonItemsPanel extends OverlapPanel {
     public SingletonItemsPanel() {
       super(
           "closet", "help", (LockableListModel<AdventureResult>) KoLConstants.singletonList, true);
@@ -295,7 +297,7 @@ public class ItemManageFrame extends GenericFrame {
         items[i] = current.getInstance(Math.min(icount, Math.max(0, 1 - ccount)));
       }
 
-      RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, items));
+      RequestThread.postRequest(new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, items));
     }
 
     @Override
@@ -305,7 +307,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class MementoItemsPanel extends OverlapPanel {
+  private static class MementoItemsPanel extends OverlapPanel {
     public MementoItemsPanel() {
       super("closet", "help", (LockableListModel<AdventureResult>) KoLConstants.mementoList, true);
     }
@@ -319,7 +321,7 @@ public class ItemManageFrame extends GenericFrame {
         items[i] = current.getInstance(current.getCount(KoLConstants.inventory));
       }
 
-      RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, items));
+      RequestThread.postRequest(new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, items));
     }
 
     @Override
@@ -372,7 +374,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class HagnkStoragePanel extends InventoryPanel<AdventureResult> {
+  private static class HagnkStoragePanel extends InventoryPanel<AdventureResult> {
     private boolean isPullingForUse = false;
     private final EmptyStorageButton emptyButton;
 
@@ -441,7 +443,7 @@ public class ItemManageFrame extends GenericFrame {
       }
     }
 
-    private class EmptyStorageButton extends InvocationButton implements Listener {
+    private static class EmptyStorageButton extends InvocationButton implements Listener {
       public EmptyStorageButton() {
         super("empty", StorageRequest.class, "emptyStorage");
         NamedListenerRegistry.registerNamedListener("(hardcore)", this);
@@ -475,25 +477,17 @@ public class ItemManageFrame extends GenericFrame {
         final String itemName,
         final int itemCount,
         final String message,
-        final int quantityType) {
-      if (!this.isPullingForUse || quantityType != ItemManagePanel.TAKE_MULTIPLE) {
+        final QuantityType quantityType) {
+      if (!this.isPullingForUse || quantityType != QuantityType.TAKE_MULTIPLE) {
         return super.getDesiredItemAmount(item, itemName, itemCount, message, quantityType);
       }
 
       ConsumptionType consumptionType =
           ItemDatabase.getConsumptionType(((AdventureResult) item).getItemId());
-      switch (consumptionType) {
-        case HAT:
-        case PANTS:
-        case SHIRT:
-        case CONTAINER:
-        case WEAPON:
-        case OFFHAND:
-          return 1;
-
-        default:
-          return super.getDesiredItemAmount(item, itemName, itemCount, message, quantityType);
-      }
+      return switch (consumptionType) {
+        case HAT, PANTS, SHIRT, CONTAINER, WEAPON, OFFHAND -> 1;
+        default -> super.getDesiredItemAmount(item, itemName, itemCount, message, quantityType);
+      };
     }
 
     private AdventureResult[] pullItems(final boolean isPullingForUse) {
@@ -516,9 +510,10 @@ public class ItemManageFrame extends GenericFrame {
       }
 
       if (items.length == KoLConstants.storage.size()) {
-        RequestThread.postRequest(new StorageRequest(StorageRequest.EMPTY_STORAGE));
+        RequestThread.postRequest(new StorageRequest(StorageRequestType.EMPTY_STORAGE));
       } else {
-        RequestThread.postRequest(new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, items));
+        RequestThread.postRequest(
+            new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, items));
       }
 
       return items;
@@ -543,12 +538,12 @@ public class ItemManageFrame extends GenericFrame {
           }
         }
       } else {
-        RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, items));
+        RequestThread.postRequest(new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, items));
       }
     }
   }
 
-  private class FreePullsPanel extends InventoryPanel<AdventureResult> {
+  private static class FreePullsPanel extends InventoryPanel<AdventureResult> {
     public FreePullsPanel() {
       super(
           "pull item",
@@ -572,7 +567,7 @@ public class ItemManageFrame extends GenericFrame {
         return null;
       }
 
-      RequestThread.postRequest(new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, items));
+      RequestThread.postRequest(new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, items));
       return items;
     }
 
@@ -588,11 +583,11 @@ public class ItemManageFrame extends GenericFrame {
         return;
       }
 
-      RequestThread.postRequest(new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, items));
+      RequestThread.postRequest(new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, items));
     }
   }
 
-  private class ViewOnlyPanel extends InventoryPanel<AdventureResult> {
+  private static class ViewOnlyPanel extends InventoryPanel<AdventureResult> {
     public ViewOnlyPanel(final LockableListModel<AdventureResult> elementModel) {
       super(elementModel);
     }
@@ -688,16 +683,17 @@ public class ItemManageFrame extends GenericFrame {
 
     @Override
     public void actionConfirmed() {
-      Preferences.resetToDefault("usable1HWeapons");
-      Preferences.resetToDefault("usable1xAccs");
-      Preferences.resetToDefault("usable2HWeapons");
-      Preferences.resetToDefault("usable3HWeapons");
-      Preferences.resetToDefault("usableAccessories");
-      Preferences.resetToDefault("usableHats");
-      Preferences.resetToDefault("usableOffhands");
-      Preferences.resetToDefault("usableOther");
-      Preferences.resetToDefault("usablePants");
-      Preferences.resetToDefault("usableShirts");
+      Preferences.resetToDefault(
+          "usable1HWeapons",
+          "usable1xAccs",
+          "usable2HWeapons",
+          "usable3HWeapons",
+          "usableAccessories",
+          "usableHats",
+          "usableOffhands",
+          "usableOther",
+          "usablePants",
+          "usableShirts");
     }
 
     @Override

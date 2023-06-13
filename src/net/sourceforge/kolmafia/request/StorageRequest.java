@@ -14,13 +14,15 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -30,7 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class StorageRequest extends TransferItemRequest {
-  private int moveType;
+  private StorageRequestType moveType;
   private boolean bulkTransfer;
 
   public static final Set<Integer> roninStoragePulls = new HashSet<>();
@@ -99,22 +101,24 @@ public class StorageRequest extends TransferItemRequest {
     return set.contains(itemId);
   }
 
-  public static final int REFRESH = 0;
-  public static final int EMPTY_STORAGE = 1;
-  public static final int STORAGE_TO_INVENTORY = 2;
-  public static final int PULL_MEAT_FROM_STORAGE = 3;
+  public enum StorageRequestType {
+    REFRESH,
+    EMPTY_STORAGE,
+    STORAGE_TO_INVENTORY,
+    PULL_MEAT_FROM_STORAGE
+  }
 
   public static void refresh() {
     // To refresh storage, we get Meat and pulls from the main page
     // and items from api.php
 
-    RequestThread.postRequest(new StorageRequest(REFRESH));
+    RequestThread.postRequest(new StorageRequest(StorageRequestType.REFRESH));
     ApiRequest.updateStorage();
     StorageRequest.updateSettings();
   }
 
   public static void emptyStorage() {
-    RequestThread.postRequest(new StorageRequest(EMPTY_STORAGE));
+    RequestThread.postRequest(new StorageRequest(StorageRequestType.EMPTY_STORAGE));
   }
 
   public static final void parseStorage(final JSONObject JSON) {
@@ -173,28 +177,30 @@ public class StorageRequest extends TransferItemRequest {
 
   public StorageRequest() {
     super("storage.php");
-    this.moveType = StorageRequest.REFRESH;
+    this.moveType = StorageRequestType.REFRESH;
   }
 
-  public StorageRequest(final int moveType) {
+  public StorageRequest(final StorageRequestType moveType) {
     this(moveType, new AdventureResult[0]);
     this.moveType = moveType;
   }
 
-  public StorageRequest(final int moveType, final long amount) {
+  public StorageRequest(final StorageRequestType moveType, final long amount) {
     this(moveType, new AdventureLongCountResult(AdventureResult.MEAT, amount));
   }
 
-  public StorageRequest(final int moveType, final AdventureResult attachment) {
+  public StorageRequest(final StorageRequestType moveType, final AdventureResult attachment) {
     this(moveType, new AdventureResult[] {attachment});
   }
 
-  public StorageRequest(final int moveType, final AdventureResult[] attachments) {
+  public StorageRequest(final StorageRequestType moveType, final AdventureResult[] attachments) {
     this(moveType, attachments, false);
   }
 
   public StorageRequest(
-      final int moveType, final AdventureResult[] attachments, final boolean bulkTransfer) {
+      final StorageRequestType moveType,
+      final AdventureResult[] attachments,
+      final boolean bulkTransfer) {
     super("storage.php", attachments);
     this.moveType = moveType;
     this.bulkTransfer = bulkTransfer;
@@ -203,36 +209,29 @@ public class StorageRequest extends TransferItemRequest {
     // different request types.
 
     switch (moveType) {
-      case REFRESH:
-        this.addFormField("which", "5");
-        break;
-
-      case EMPTY_STORAGE:
+      case REFRESH -> this.addFormField("which", "5");
+      case EMPTY_STORAGE -> {
         this.addFormField("action", "pullall");
         this.source = KoLConstants.storage;
         this.destination = KoLConstants.inventory;
-        break;
-
-      case STORAGE_TO_INVENTORY:
+      }
+      case STORAGE_TO_INVENTORY -> {
         // storage.php?action=pull&whichitem1=1649&howmany1=1&pwd
         this.addFormField("action", "pull");
         this.addFormField("ajax", "1");
         this.source = KoLConstants.storage;
         this.destination = KoLConstants.inventory;
-        break;
-
-      case PULL_MEAT_FROM_STORAGE:
-        this.addFormField("action", "takemeat");
-        break;
+      }
+      case PULL_MEAT_FROM_STORAGE -> this.addFormField("action", "takemeat");
     }
   }
 
   @Override
   protected boolean retryOnTimeout() {
-    return this.moveType == StorageRequest.REFRESH;
+    return this.moveType == StorageRequestType.REFRESH;
   }
 
-  public int getMoveType() {
+  public StorageRequestType getMoveType() {
     return this.moveType;
   }
 
@@ -272,7 +271,7 @@ public class StorageRequest extends TransferItemRequest {
 
   @Override
   public boolean forceGETMethod() {
-    return this.moveType == STORAGE_TO_INVENTORY;
+    return this.moveType == StorageRequestType.STORAGE_TO_INVENTORY;
   }
 
   @Override
@@ -455,11 +454,11 @@ public class StorageRequest extends TransferItemRequest {
   @Override
   public void processResults() {
     switch (this.moveType) {
-      case StorageRequest.REFRESH:
+      case REFRESH -> {
         StorageRequest.parseStorage(this.getURLString(), this.responseText);
         return;
-      default:
-        super.processResults();
+      }
+      default -> super.processResults();
     }
   }
 
@@ -533,11 +532,13 @@ public class StorageRequest extends TransferItemRequest {
       return false;
     }
 
-    return Modifiers.getBooleanModifier("Item", itemId, "Free Pull");
+    return ModifierDatabase.getBooleanModifier(
+        ModifierType.ITEM, itemId, BooleanModifier.FREE_PULL);
   }
 
   public static boolean isNoPull(final AdventureResult item) {
-    return Modifiers.getBooleanModifier("Item", item.getItemId(), "No Pull");
+    return ModifierDatabase.getBooleanModifier(
+        ModifierType.ITEM, item.getItemId(), BooleanModifier.NOPULL);
   }
 
   @Override
@@ -681,7 +682,7 @@ public class StorageRequest extends TransferItemRequest {
     Matcher matcher2 = StorageRequest.PULL_ITEM_PATTERN.matcher(responseText);
 
     // Transfer items from storage and/or freepulls
-    ArrayList<AdventureResult> list = bulkTransfer ? new ArrayList<AdventureResult>() : null;
+    ArrayList<AdventureResult> list = bulkTransfer ? new ArrayList<>() : null;
     int pulls = 0;
 
     while (matcher1.find() && matcher2.find()) {
@@ -803,22 +804,13 @@ public class StorageRequest extends TransferItemRequest {
 
   @Override
   public String getStatusMessage() {
-    switch (this.moveType) {
-      case REFRESH:
-        return "Examining Meat and pulls in storage";
-
-      case EMPTY_STORAGE:
-        return "Emptying storage";
-
-      case STORAGE_TO_INVENTORY:
-        return "Pulling items from storage";
-
-      case PULL_MEAT_FROM_STORAGE:
-        return "Pulling meat from storage";
-
-      default:
-        return "Unknown request type";
-    }
+    return switch (this.moveType) {
+      case REFRESH -> "Examining Meat and pulls in storage";
+      case EMPTY_STORAGE -> "Emptying storage";
+      case STORAGE_TO_INVENTORY -> "Pulling items from storage";
+      case PULL_MEAT_FROM_STORAGE -> "Pulling meat from storage";
+      default -> "Unknown request type";
+    };
   }
 
   /**

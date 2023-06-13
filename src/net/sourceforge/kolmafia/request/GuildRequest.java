@@ -28,117 +28,80 @@ public class GuildRequest extends GenericRequest {
   }
 
   public static String whichGuild() {
-    switch (KoLCharacter.mainStat()) {
-      case MUSCLE:
-        return "The Brotherhood of the Smackdown";
-      case MYSTICALITY:
-        return "The League of Chef-Magi";
-      case MOXIE:
-        return "The Department of Shadowy Arts and Crafts";
-      default:
-        return "None";
-    }
+    return switch (KoLCharacter.mainStat()) {
+      case MUSCLE -> "The Brotherhood of the Smackdown";
+      case MYSTICALITY -> "The League of Chef-Magi";
+      case MOXIE -> "The Department of Shadowy Arts and Crafts";
+      default -> "None";
+    };
   }
 
   public static String getStoreName() {
-    switch (KoLCharacter.mainStat()) {
-      case MUSCLE:
-        return "The Smacketeria";
-      case MYSTICALITY:
-        return "Gouda's Grimoire and Grocery";
-      case MOXIE:
-        return "The Shadowy Store";
-      default:
-        return "Nowhere";
-    }
+    return switch (KoLCharacter.mainStat()) {
+      case MUSCLE -> "The Smacketeria";
+      case MYSTICALITY -> "Gouda's Grimoire and Grocery";
+      case MOXIE -> "The Shadowy Store";
+      default -> "Nowhere";
+    };
   }
 
   public static String getImplementName() {
-    switch (KoLCharacter.mainStat()) {
-      case MUSCLE:
-        return "The Malus of Forethought";
-      case MOXIE:
-        return "Nash Crosby's Still";
-      default:
-        return "Nothing";
-    }
+    return switch (KoLCharacter.mainStat()) {
+      case MUSCLE -> "The Malus of Forethought";
+      case MOXIE -> "Nash Crosby's Still";
+      default -> "Nothing";
+    };
   }
 
   public static String getMasterName() {
-    switch (KoLCharacter.mainStat()) {
-      case MUSCLE:
-        return "Gunther, Lord of the Smackdown";
-      case MYSTICALITY:
-        return "Gorgonzola, the Chief Chef";
-      case MOXIE:
-        return "Shifty, the Thief Chief";
-      default:
-        return "Nobody";
-    }
+    return switch (KoLCharacter.mainStat()) {
+      case MUSCLE -> "Gunther, Lord of the Smackdown";
+      case MYSTICALITY -> "Gorgonzola, the Chief Chef";
+      case MOXIE -> "Shifty, the Thief Chief";
+      default -> "Nobody";
+    };
   }
 
   public static String getTrainerName() {
-    switch (KoLCharacter.mainStat()) {
-      case MUSCLE:
-        return "Torg, the Trainer";
-      case MYSTICALITY:
-        return "Brie, the Trainer";
-      case MOXIE:
-        return "Lefty, the Trainer";
-      default:
-        return "Nobody";
-    }
+    return switch (KoLCharacter.mainStat()) {
+      case MUSCLE -> "Torg, the Trainer";
+      case MYSTICALITY -> "Brie, the Trainer";
+      case MOXIE -> "Lefty, the Trainer";
+      default -> "Nobody";
+    };
   }
 
   public static String getPacoName() {
-    switch (KoLCharacter.mainStat()) {
-      case MUSCLE:
-        return "Olaf the Janitor";
-      case MYSTICALITY:
-        return "Blaine";
-      case MOXIE:
-        return "Izzy the Lizard";
-      default:
-        return "Nobody";
-    }
+    return switch (KoLCharacter.mainStat()) {
+      case MUSCLE -> "Olaf the Janitor";
+      case MYSTICALITY -> "Blaine";
+      case MOXIE -> "Izzy the Lizard";
+      default -> "Nobody";
+    };
   }
 
   public static String getSCGName() {
-    switch (KoLCharacter.getAscensionClass()) {
-      case SEAL_CLUBBER:
-        return "Grignr, the Seal Clubber";
-      case TURTLE_TAMER:
-        return "Terry, the Turtle Tamer";
-      case PASTAMANCER:
-        return "Asiago, the Pastamancer";
-      case SAUCEROR:
-        return "Edam, the Sauceror";
-      case DISCO_BANDIT:
-        return "Duncan Drisorderly, the Disco Bandit";
-      case ACCORDION_THIEF:
-        return "Stradella, the Accordion Thief";
-      default:
-        return "Nobody";
-    }
+    return switch (KoLCharacter.getAscensionClass()) {
+      case SEAL_CLUBBER -> "Grignr, the Seal Clubber";
+      case TURTLE_TAMER -> "Terry, the Turtle Tamer";
+      case PASTAMANCER -> "Asiago, the Pastamancer";
+      case SAUCEROR -> "Edam, the Sauceror";
+      case DISCO_BANDIT -> "Duncan Drisorderly, the Disco Bandit";
+      case ACCORDION_THIEF -> "Stradella, the Accordion Thief";
+      default -> "Nobody";
+    };
   }
 
   public static String getOCGName() {
-    switch (KoLCharacter.getAscensionClass()) {
-      case SEAL_CLUBBER:
-        return "Terry, the Turtle Tamer";
-      case TURTLE_TAMER:
-        return "Grignr, the Seal Clubber";
-      case PASTAMANCER:
-        return "Edam, the Sauceror";
-      case SAUCEROR:
-        return "Asiago, the Pastamancer";
-      case DISCO_BANDIT:
-        return "Stradella, the Accordion Thief";
-      case ACCORDION_THIEF:
-        return "Duncan Drisorderly, the Disco Bandit";
-      default:
-        return "Nobody";
-    }
+    return switch (KoLCharacter.getAscensionClass()) {
+      case SEAL_CLUBBER -> "Terry, the Turtle Tamer";
+      case TURTLE_TAMER -> "Grignr, the Seal Clubber";
+      case PASTAMANCER -> "Edam, the Sauceror";
+      case SAUCEROR -> "Asiago, the Pastamancer";
+      case DISCO_BANDIT -> "Stradella, the Accordion Thief";
+      case ACCORDION_THIEF -> "Duncan Drisorderly, the Disco Bandit";
+      default -> "Nobody";
+    };
   }
 
   public static String getNPCName(final String place) {

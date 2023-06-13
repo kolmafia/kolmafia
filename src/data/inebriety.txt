@@ -70,7 +70,7 @@ Bone's Farm &quot;wine&quot;	1	6	awesome	3-4	5-10	5-10	5-10	30 Sticks and Stones
 boot flask	3	1	awesome	0	0	0	0	Unspaded
 booze-soaked cherry	1	3	decent	1-3	0	5-10	0
 Bordeaux Marteaux	1	3	awesome	3-5	60-75	0	0	20 Hammered (+50% weapon dmg), WINE
-Boris's beer	1	1	EPIC	5-7	0	0	0	Unspaded, 30 Beery Cool (+5 Muscle, +50% Muscle, +5 Hot Resistance)
+Boris's beer	1	1	EPIC	5-7	20-40	0	0	30 Beery Cool (+5 Muscle, +50% Muscle, +5 Hot Resistance)
 bottle of Amontillado	4	5	good	11-13	5-15	0	5-15	100 Bricked-In (+50 HP)
 bottle of Bloodweiser	2	1	EPIC	12-13	30-50	30-50	30-50	50 Blood Porter
 bottle of Calcutta Emerald	3	2	decent	4-8	0	0	0
@@ -113,7 +113,7 @@ bottle of tequila	3	1	crappy	3	0	0	0
 bottle of vodka	3	1	crappy	3	0	0	0
 bottle of whiskey	3	1	crappy	3	0	0	0
 bottle of wine	2	5	awesome	8	18-22	18-22	18-22	WINE
-Boulevardier cocktail	1	1	awesome	3-4	0	0	0	Unspaded, 40 Ready to Roll
+Boulevardier cocktail	1	1	awesome	3-4	0	0	20-40	40 Ready to Roll
 Bowl of Scorpions	8	6	crappy	5-6	-30	-15	-30	10 Really Quite Poisoned
 boxed champagne	3	2	decent	4-8	0	0	0	WINE
 boxed wine	3	1	crappy	3	0	0	0
@@ -147,7 +147,7 @@ Centauri fish wine	2	4	awesome	9-10	10-20	10-20	10-20	60 Fishy, WINE
 Chakra Libre	2	4	awesome	6-7	0	20-30	0	10 Transcendental Wind (+50 Myst)
 chakra-mental wine	3	1	awesome	11-13	0	0	0	50 The Power of Positive Thinking
 Champagne Shimmy	3	1	awesome	0	0	0	0	Unspaded
-Charleston Choo-Choo	3	1	good	0	0	0	0	Unspaded, 30 Speakin' Easy (+15 Mus / Mys / Mox)
+Charleston Choo-Choo	3	1	good	9	30-40	0	0	30 Speakin' Easy (+15 Mus / Mys / Mox)
 cheap Chinese beer	1	1	crappy	1	0	0	0	4 MP, BEER, CANNED
 cherry bomb	6	6	awesome	22-26	0	16-20	0	tiny plastic sword
 Cherrytastrophe wine cooler	2	1	good	6	0	0	7-8
@@ -179,6 +179,7 @@ CRIMBCO wine	3	1	decent	4-8	10-20	10-20	10-20	WINE
 Crimbo Saketini	3	1	decent	3-6	0	0	0
 Crimbojito	2	2	EPIC	10-13	10-20	25-50	10-20
 Crimboku Drop	4	1	decent	6-10	0	0	0
+Crimbosmopolitan	3	11	EPIC	0	0	0	0	Unspaded
 cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg), WINE
 crystal skeleton vodka	3	3	EPIC	15-17	15-35	15-35	15-35	20 Aykrophobia (+25% Item Drop, +20 spooky dmg, +15 ML)
 CSA cheerfulness ration	1	6	awesome	4	40-50	40-50	40-50	BEER, CANNED
@@ -219,6 +220,7 @@ Dreadsylvanian grimlet	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Fear (+5 C
 Dreadsylvanian hot toddy	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Heat (+5 Cold/Spooky Res)
 Dreadsylvanian slithery nipple	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Sheen (+5 Hot/Stench Res)
 dream of a dog	2	8	EPIC	10	20	20	20
+dregs of a Crimbo cocktail	4	1	decent	4-6	10-15	10-15	10-15
 drippy pilsner	5	1	drippy	5	0	0	0	5 µg of Drippy Juice
 drive-by shooting	1	3	EPIC	5-7	10-30	10-30	10-30	40 Drive-By Shot (40 Cold Damage, 40 Cold Spell Damage)
 Drunken Astrophysicist	2	8	awesome	8-9	5-15	30-50	5-15	15 Heisenberglary (+/- all stats)
@@ -424,7 +426,7 @@ magnum of fancy champagne	6	6	awesome	22-26	10-20	10-20	10-20	20-40 MP, WINE
 Maiali Sifilitici Pinot Noir	1	10	EPIC	6-10	60	60	60
 mandarina colada	4	6	awesome	14-18	0	16-20	25-27
 margarita	3	1	decent	5-6	8-10	0	0
-Marltini	3	1	good	0	0	0	0	Unspaded
+Marltini	3	1	good	9	0	0	30-40
 marshmallow bomb	2	1	awesome	8-10	0	0	0
 marshmallow flamb&eacute;	2	3	EPIC	11-13	46-79	0	0	10 Sugar Rush
 martini	3	1	decent	5-6	0	0	8-10	MARTINI
@@ -456,6 +458,7 @@ moreltini	1	3	awesome	3-5	0	0	10-20	40 Truffle Tango (+50 Item Drop), MARTINI
 Morlock's Mark Bourbon	4	4	awesome	10-15	10-28	10-28	10-28
 morning dew	1	1	awesome	4	4-6	0	0	40 Granolarrrgh (+20 Stench Damage & Stench Spell Damage)
 Morto Moreto	1	5	EPIC	4-6	0	0	0	100 Majorly Poisoned, WINE
+mostly-empty bottle of cookie wine	1	1	decent	1-2	1-5	1-5	1-5	WINE
 mourning wine	2	1	good	5-7	30-50	30-50	30-50
 Mt. Noob Pale Ale	2	1	good	3-6	0	0	0	BEER
 mulled berry wine	5	7	awesome	18-22	0	30-50	0	30 Sweet Nostalgia (+20 Candy Drop), WINE
@@ -477,6 +480,7 @@ nega-mushroom wine	2	1	awesome	8-10	0	30-40	0	50 Double Negavision (+50% Item Dr
 Neuromancer	4	6	awesome	14-18	25-27	0	16-20
 New Zealand iced tea	2	4	awesome	6-8	20-30	0	0	20 New Zeal (+40 HP, +20 MP)
 Newark	1	3	awesome	4-6	10-20	10-20	10-20	40 Hobo Powering Up! (+10 Hobo Power)
+nice warm beer	1	1	awesome	4-5	12-15	12-15	12-15	BEER
 Nog-on-the-Cob	3	1	awesome	12	15-30	15-30	15-30	20 Sulfurous Sinuses (+3 Stench Resist, +20 Stench Dam, +40 Meat Drop)
 non-aged vinegar	2	4	awesome	6-7	5-10	5-10	5-10	40 Sour Grapes (+40% Item Drop)
 nothingtini	1	1	good	2-4	0	0	0	40 Nothing Happened (+20 Monster Level), MARTINI
@@ -518,6 +522,7 @@ pink pony	4	4	good	10-14	25-27	0	8-10
 piscatini	1	1	awesome	4-6	0	0	0	40 You Drank Fish Wine (+20 Cold Damage & Cold Spell Damage), MARTINI
 pixel beer	2	4	awesome	9-11	0	0	0	40 Analog Drunk (+3 stats/fight)
 pixel daiquiri	2	1	awesome	9-11	0	0	0
+pixel whiskey	3	1	crappy	3	0	0	0	5 Wall Rage (+50% item drops)
 Plague of Locusts	2	8	awesome	8-9	0	0	30-40	15 Cockroach Scurry (+50 Init)
 plain old beer	1	1	crappy	1	0	0	0	BEER, CANNED
 plastic cup of beer	1	1	crappy	1	0	0	0	BEER
@@ -578,6 +583,10 @@ scotch on the rocks	3	11	EPIC	15-18	10-20	10-20	10-20	30 Hair on Your Chest (+50
 Scrawny Stout	3	6	decent	3-6	0	0	0
 screwdiver	3	4	decent	5-6	34-80	0	0	20 Brined Liver
 screwdriver	3	1	decent	5-6	8-10	0	0
+Sexy Cosmo	3	1	awesome	0	0	0	0	Unspaded
+shadow fluid	3	1	awesome	9-11	13	13	13
+shadow martini	1	1	EPIC	5-6	13-15	13-15	13-15
+shadow venom	3	1	awesome	13	0	0	0
 sham champagne	2	7	good	3-8	0	0	38-58	5-15 MP, 10 Shamboozled (+50% mox)
 shining goblet	3	9	awesome	15	18-22	18-22	18-22
 shot of blackberry schnapps	1	11	good	1-4	5-7	5-7	5-7
@@ -592,6 +601,7 @@ shot of pear schnapps	2	8	good	4-8	0	14-20	0
 shot of rotgut	1	1	good	2-3	10-12	10-12	10-12	lose 20-28 HP
 Shot of the Living Dead	2	8	awesome	8-9	30-40	0	0	15 Creepypasted (+50 Spooky Dam)
 shot of tomato schnapps	1	1	decent	2	1-2	1-2	1-2
+shot of wasp venom	1	1	awesome	5	0	0	10-20
 shroomtini	1	1	good	2-4	0	0	0	40 Mushroom Samba (+25 Item Drop), MARTINI
 Siberian sunrise	1	1	awesome	4-6	0	0	0	40 Sugar, Hello (+20 Mys)
 Silver Bullet beer	1	6	awesome	3-4	5-10	5-10	5-10	30 Wolf's Bane (+50 dmg vs. Werewolves), BEER, CANNED
@@ -682,7 +692,7 @@ unquiet spirits	1	1	good	2-3	0	0	5-10	50 Hollow Inside (+6 Maximum Hooch)
 Uovo Marcio Shiraz	1	10	EPIC	6-10	60	60	60
 used beer	2	1	crappy	0	0	0	0	+1 PvP fight
 vampagne	1	1	EPIC	23	25-30	25-30	25-30	Vampyre
-Velvet Veil	3	1	good	0	0	0	0	Unspaded
+Velvet Veil	3	1	good	9	0	30-40	0
 very fancy whiskey	2	1	EPIC	13-15	5-20	5-20	5-20
 vesper	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 vintage smart drink	10	1	awesome	40	0	0	0	1 Smart Drunk (+120 HP, +20 Familiar Weight)

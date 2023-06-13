@@ -74,11 +74,11 @@ public class ChatBuffer
 	private final String title;
 
 	private final StringBuffer content = new StringBuffer();
-	private final LinkedList<JEditorPane> displayPanes = new LinkedList<JEditorPane>();
+	private final LinkedList<JEditorPane> displayPanes = new LinkedList<>();
 
-	private final Set<JEditorPane> stickyPanes = new LinkedHashSet<JEditorPane>();
-	private final LinkedList<JEditorPane> addStickyPanes = new LinkedList<JEditorPane>();
-	private final LinkedList<JEditorPane> removeStickyPanes = new LinkedList<JEditorPane>();
+	private final Set<JEditorPane> stickyPanes = new LinkedHashSet<>();
+	private final LinkedList<JEditorPane> addStickyPanes = new LinkedList<>();
+	private final LinkedList<JEditorPane> removeStickyPanes = new LinkedList<>();
 
 	private volatile int resetSequence = 0;
 
@@ -89,7 +89,7 @@ public class ChatBuffer
 	private File logFile;
 	private PrintWriter logWriter;
 
-	protected static final HashMap<String, PrintWriter> ACTIVE_LOG_FILES = new HashMap<String, PrintWriter>();
+	protected static final HashMap<String, PrintWriter> ACTIVE_LOG_FILES = new HashMap<>();
 
 	private static final int MAXIMUM_LENGTH = 50000;
 	private static final int TRIM_TO_LENGTH = 45000;
@@ -387,8 +387,8 @@ public class ChatBuffer
 		{
 			// Check for imbalanced HTML here
 
-			Stack<String> openTags = new Stack<String>();
-			Set<String> skippedTags = new HashSet<String>();
+			Stack<String> openTags = new Stack<>();
+			Set<String> skippedTags = new HashSet<>();
 			StringBuffer buffer = new StringBuffer();
 
 			String noCommentsContent = COMMENT_PATTERN.matcher( newContent ).replaceAll( "" );

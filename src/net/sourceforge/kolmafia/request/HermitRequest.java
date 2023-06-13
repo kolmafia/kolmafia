@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -25,7 +26,7 @@ public class HermitRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You have ([\\d,]+) tradable items");
   public static final AdventureResult WORTHLESS_ITEM = ItemPool.get(ItemPool.WORTHLESS_ITEM, 1);
 
-  private static final Map<Integer, Integer> buyPrices = new TreeMap<Integer, Integer>();
+  private static final Map<Integer, Integer> buyPrices = new TreeMap<>();
 
   public static final CoinmasterData HERMIT =
       new CoinmasterData(master, "hermit", HermitRequest.class)
@@ -310,6 +311,20 @@ public class HermitRequest extends CoinMasterRequest {
     used = subtractWorthlessItems(KNICK_KNACK, quantity);
     if (used > 0) {
       quantity -= used;
+    }
+
+    LinkedList<AdventureResult> results = ResultProcessor.parseItems(responseText);
+
+    for (AdventureResult result : results) {
+      if (result.getItemId() != ItemPool.ELEVEN_LEAF_CLOVER) {
+        continue;
+      }
+
+      if (result.getCount() <= 0) {
+        continue;
+      }
+
+      Preferences.increment("_cloversPurchased", result.getCount());
     }
 
     if (responseText.indexOf("he sends you packing") != -1) {

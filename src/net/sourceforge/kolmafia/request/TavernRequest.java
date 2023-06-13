@@ -31,16 +31,9 @@ public class TavernRequest extends GenericRequest {
     super("tavern.php");
 
     switch (itemId) {
-      case ItemPool.GOOFBALLS:
-        this.addFormField("action", "buygoofballs");
-        break;
-      case ItemPool.OILY_GOLDEN_MUSHROOM:
-        this.addFormField("sleazy", "1");
-        break;
-      default:
-        this.addFormField("place", "susguy");
-
-        break;
+      case ItemPool.GOOFBALLS -> this.addFormField("action", "buygoofballs");
+      case ItemPool.OILY_GOLDEN_MUSHROOM -> this.addFormField("sleazy", "1");
+      default -> this.addFormField("place", "susguy");
     }
   }
 

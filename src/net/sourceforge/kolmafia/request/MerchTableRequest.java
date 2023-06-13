@@ -45,8 +45,7 @@ public class MerchTableRequest extends CoinMasterRequest {
 
   // Since there are two different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.
-  private static final Map<Integer, AdventureResult> buyCosts =
-      new TreeMap<Integer, AdventureResult>();
+  private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<>();
 
   // Manually set up the map and change the currency, as need
   static {

@@ -191,6 +191,7 @@ public class EffectPool {
   public static final int VAMPIN = 939;
   public static final int YIFFABLE_YOU = 940;
   public static final int BONE_US_ROUND = 941;
+  public static final int DIRTY_PEAR = 959;
   public static final int DIS_ABLED = 963;
   public static final int JUST_THE_BEST_ANAPESTS = 1003;
   public static final int GLORIOUS_LUNCH = 1005;
@@ -198,10 +199,12 @@ public class EffectPool {
   public static final int STONE_FACED = 1031;
   public static final int N_SPATIAL_VISION = 1035;
   public static final int CONSUMED_BY_FEAR = 1146;
+  public static final int CHIBICHANGED = 1167;
   public static final int DEEP_TAINTED_MIND = 1217;
   public static final int TOUCHED_BY_A_GHOST = 1276;
   public static final int CHILLED_TO_THE_BONE = 1277;
   public static final int NAUSEATED = 1278;
+  public static final int VIDEO_GAMES = 1301;
   public static final int FIRST_BLOOD_KIWI = 1302;
   public static final int SHEPHERDS_BREATH = 1303;
   public static final int CURSE_OF_HOLLOWNESS = 1304;
@@ -252,6 +255,8 @@ public class EffectPool {
   public static final int BLOOD_SUGAR_SAUCE_MAGIC_LITE = 1457;
   public static final int BLOOD_SUGAR_SAUCE_MAGIC = 1458;
   public static final int SOULERSKATES = 1465;
+  public static final int MERRY_SMITHSNESS = 1476;
+  public static final int SMITHSNESS_CHEER = 1479;
   public static final int REASSURED = 1492;
   public static final int HARE_BRAINED = 1515;
   public static final int UNMUFFLED = 1545;
@@ -274,6 +279,7 @@ public class EffectPool {
   public static final int BEER_BARREL_POLKA = 1950;
   public static final int CRAFT_TEA = 1989;
   public static final int INSIDE_THE_SNOWGLOBE = 1999;
+  public static final int PAINTED_ON_BIKINI = 2017;
   public static final int COWRRUPTION = 2064;
   public static final int BOWLEGGED_SWAGGER = 2073;
   public static final int BENDIN_HELL = 2074;
@@ -316,6 +322,7 @@ public class EffectPool {
   public static final int METEOR_SHOWERED = 2317;
   public static final int SILENT_HUNTING = 2336;
   public static final int NEARLY_SILENT_HUNTING = 2337;
+  public static final int THERES_NO_N_IN_LOVE = 2367;
   public static final int TAINTED_LOVE_POTION = 2374;
   public static final int SHARK_TOOTH_GRIN = 2413;
   public static final int BOILING_DETERMINATION = 2414;
@@ -346,6 +353,10 @@ public class EffectPool {
   public static final int LUCKY = 2693;
   public static final int ON_THE_TRAIL = 2694;
   public static final int BUZZED_ON_DISTILLATE = 2720;
+  public static final int PING_PONG_PROWESS = 2768;
+  public static final int PING_PONG_PERSISTENCE = 2769;
+  public static final int SHADOW_AFFINITY = 2802;
+  public static final int OMINOUS_WISDOM = 2810;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

@@ -10,15 +10,11 @@ public class JuneCleaverManager {
 
   private JuneCleaverManager() {}
 
-  public static ArrayList<Integer> queue = new ArrayList<>();
-
-  public static void reset() {
-    queue.clear();
-  }
-
   private static void updateQueue(int id) {
+    ArrayList<Integer> queue = new ArrayList<>();
+
     String savedQueue = Preferences.getString("juneCleaverQueue");
-    if (queue.isEmpty() && savedQueue.length() > 0) {
+    if (savedQueue.length() > 0) {
       for (String x : savedQueue.split(",")) {
         queue.add(Integer.parseInt(x));
       }
@@ -31,7 +27,7 @@ public class JuneCleaverManager {
     }
 
     Preferences.setString(
-        "juneCleaverQueue", queue.stream().map(x -> x.toString()).collect(Collectors.joining(",")));
+        "juneCleaverQueue", queue.stream().map(Object::toString).collect(Collectors.joining(",")));
   }
 
   public static final Pattern[] MESSAGES = {
@@ -50,21 +46,11 @@ public class JuneCleaverManager {
       if (matcher.find()) {
         Preferences.decrement("_juneCleaverFightsLeft");
         switch (matcher.group("color")) {
-          case "blue":
-            Preferences.increment("_juneCleaverCold");
-            break;
-          case "blueviolet":
-            Preferences.increment("_juneCleaverSleaze");
-            break;
-          case "gray":
-            Preferences.increment("_juneCleaverSpooky");
-            break;
-          case "green":
-            Preferences.increment("_juneCleaverStench");
-            break;
-          case "red":
-            Preferences.increment("_juneCleaverHot");
-            break;
+          case "blue" -> Preferences.increment("_juneCleaverCold");
+          case "blueviolet" -> Preferences.increment("_juneCleaverSleaze");
+          case "gray" -> Preferences.increment("_juneCleaverSpooky");
+          case "green" -> Preferences.increment("_juneCleaverStench");
+          case "red" -> Preferences.increment("_juneCleaverHot");
         }
         return;
       }

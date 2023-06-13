@@ -14,6 +14,7 @@ import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -29,6 +30,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -297,10 +300,10 @@ public class VolcanoMazeManagerTest {
               // Avoid a "health warning" from RelayRequest
               withHP(500, 500, 500),
               // Avoid looking at your vinyl boots
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               // Not strictly necessary in simulation, but KoL requires it.
               withClass(AscensionClass.ACCORDION_THIEF),
-              withEquipped(EquipmentManager.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
+              withEquipped(Slot.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
       try (cleanups) {
         client.addResponse(200, html("request/test_volcano_intro.html"));
         client.addResponse(200, html("request/test_volcano_start.html"));
@@ -402,10 +405,10 @@ public class VolcanoMazeManagerTest {
               // Avoid a "health warning" from RelayRequest
               withHP(500, 500, 500),
               // Avoid looking at your vinyl boots
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               // Not strictly necessary in simulation, but KoL requires it.
               withClass(AscensionClass.ACCORDION_THIEF),
-              withEquipped(EquipmentManager.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
+              withEquipped(Slot.WEAPON, ItemPool.SQUEEZEBOX_OF_THE_AGES));
       try (cleanups) {
         client.addResponse(200, html("request/test_volcano_intro.html"));
         client.addResponse(200, html("request/test_volcano_start.html"));
@@ -442,7 +445,7 @@ public class VolcanoMazeManagerTest {
           // RelayAgent intercepts that and calls VolcanoMazeManager.autoStep,
           // which submits the appropriate request to KoL, leaving the response
           // in the responseText
-          url = "volcanomaze,php?autostep";
+          url = "volcanomaze.php?autostep";
           request = new RelayRequest(false);
           request.constructURLString(url);
           VolcanoMazeManager.autoStep(request);
@@ -463,6 +466,57 @@ public class VolcanoMazeManagerTest {
         i = validateVolcanoMazeRequests(builder, findMapMoves, i);
         assertGetRequest(requests.get(i++), "/volcanomaze.php", "jump=1");
         i = validateVolcanoMazeRequests(builder, stepMapMoves, i);
+      }
+    }
+  }
+
+  @Nested
+  class Decorate {
+    @BeforeEach
+    public void beforeEach() {
+      Preferences.reset("volcano maze");
+      VolcanoMazeManager.reset();
+    }
+
+    @AfterEach
+    public void afterEach() {
+      VolcanoMazeManager.reset();
+    }
+
+    @Test
+    public void decoratesInitialVisit() {
+      var cleanups =
+          new Cleanups(
+              withProperty("volcanoMaze1", ""),
+              withProperty("volcanoMaze2", ""),
+              withProperty("volcanoMaze3", ""),
+              withProperty("volcanoMaze4", ""),
+              withProperty("volcanoMaze5", ""));
+      try (cleanups) {
+        String data = html("request/test_volcano_start_raw.html");
+        VolcanoMazeManager.parseResult(data);
+
+        StringBuffer buffer = new StringBuffer(data);
+        VolcanoMazeManager.decorate("volcanomaze.php", buffer);
+
+        // We deduced what the map set is
+        assertNotEquals("", Preferences.getString("volcanoMaze1"));
+        assertNotEquals("", Preferences.getString("volcanoMaze2"));
+        assertNotEquals("", Preferences.getString("volcanoMaze3"));
+        assertNotEquals("", Preferences.getString("volcanoMaze4"));
+        assertNotEquals("", Preferences.getString("volcanoMaze5"));
+
+        // We decorated the HTML with the "Next Platform"
+        assertTrue(buffer.indexOf("Next Platform") != -1);
+
+        // We gave it a nice image
+        assertTrue(buffer.indexOf("platform3x.gif") != -1);
+
+        // We Added a Step button
+        assertTrue(buffer.indexOf("<input class=button type=submit value=\"Step\">") != -1);
+
+        // We Added a Solve button
+        assertTrue(buffer.indexOf("<input class=button type=submit value=\"Solve!\">") != -1);
       }
     }
   }

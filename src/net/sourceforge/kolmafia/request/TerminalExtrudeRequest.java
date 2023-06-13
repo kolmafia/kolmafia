@@ -20,28 +20,18 @@ public class TerminalExtrudeRequest extends CreateItemRequest {
     String creation = this.getName();
     String output = null;
 
-    if (creation.equals("hacked gibson")) {
-      output = "extrude -f booze.ext";
-    } else if (creation.equals("browser cookie")) {
-      output = "extrude -f food.ext";
-    } else if (creation.equals("software bug")) {
-      output = "extrude -f familiar.ext";
-    } else if (creation.equals("Source shades")) {
-      output = "extrude -f goggles.ext";
-    } else if (creation.equals("Source terminal CRAM chip")) {
-      output = "extrude -f cram.ext";
-    } else if (creation.equals("Source terminal DRAM chip")) {
-      output = "extrude -f dram.ext";
-    } else if (creation.equals("Source terminal GRAM chip")) {
-      output = "extrude -f gram.ext";
-    } else if (creation.equals("Source terminal PRAM chip")) {
-      output = "extrude -f pram.ext";
-    } else if (creation.equals("Source terminal SPAM chip")) {
-      output = "extrude -f spam.ext";
-    } else if (creation.equals("Source terminal TRAM chip")) {
-      output = "extrude -f tram.ext";
-    } else {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot create " + creation);
+    switch (creation) {
+      case "hacked gibson" -> output = "extrude -f booze.ext";
+      case "browser cookie" -> output = "extrude -f food.ext";
+      case "software bug" -> output = "extrude -f familiar.ext";
+      case "Source shades" -> output = "extrude -f goggles.ext";
+      case "Source terminal CRAM chip" -> output = "extrude -f cram.ext";
+      case "Source terminal DRAM chip" -> output = "extrude -f dram.ext";
+      case "Source terminal GRAM chip" -> output = "extrude -f gram.ext";
+      case "Source terminal PRAM chip" -> output = "extrude -f pram.ext";
+      case "Source terminal SPAM chip" -> output = "extrude -f spam.ext";
+      case "Source terminal TRAM chip" -> output = "extrude -f tram.ext";
+      default -> KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot create " + creation);
     }
 
     KoLmafia.updateDisplay("Creating " + this.getQuantityNeeded() + " " + creation + "...");

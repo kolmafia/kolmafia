@@ -17,6 +17,7 @@ import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -106,7 +107,7 @@ public class RabbitHoleManagerTest {
               // Avoid health warning
               withHP(100, 100, 100),
               // Avoid looking at your vinyl boots
-              withGender(KoLCharacter.FEMALE));
+              withGender(Gender.FEMALE));
       try (cleanups) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
         client.addResponse(200, html("request/test_rabbithole_reflection.html"));
@@ -166,7 +167,7 @@ public class RabbitHoleManagerTest {
               // Avoid health warning
               withHP(100, 100, 100),
               // Avoid looking at your vinyl boots
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               withHandlingChoice(false));
       try (cleanups) {
         client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");

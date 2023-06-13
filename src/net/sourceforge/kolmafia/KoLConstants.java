@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -98,7 +99,7 @@ public interface KoLConstants extends UtilityConstants {
     {"Store Manager", "StoreManageFrame"},
     {"Coin Masters", "CoinmastersFrame"},
     {"Museum Display", "MuseumFrame"},
-    {"Hall of Legends", "MeatManageFrame"},
+    {"Meat Manager", "MeatManageFrame"},
     {"Skill Casting", "SkillBuffFrame"},
     {"Contact List", "ContactListFrame"},
     {"Buffbot Manager", "BuffBotFrame"},
@@ -118,7 +119,7 @@ public interface KoLConstants extends UtilityConstants {
   // Scripting-related constants.  Used throughout KoLmafia in
   // order to ensure proper handling of scripts.
 
-  List<File> scripts = new ArrayList<>();
+  List<File> scripts = Collections.synchronizedList(new ArrayList<>());
   List<String> bookmarks = LockableListFactory.getInstance(String.class);
 
   ArrayList<String> disabledScripts = new ArrayList<>();
@@ -245,7 +246,7 @@ public interface KoLConstants extends UtilityConstants {
   String SORTTABLE_JS = "sorttable.2.js";
   String STATIONARYBUTTONS_CSS = "stationarybuttons.2.css";
   String STATIONARYBUTTONS_JS = "stationarybuttons.2.js";
-  String VOLCANOMAZE_JS = "volcanomaze.1.js";
+  String VOLCANOMAZE_JS = "volcanomaze.5.js";
 
   String[] RELAY_FILES = {
     AFTERLIFE_ASH,
@@ -503,6 +504,8 @@ public interface KoLConstants extends UtilityConstants {
     SAUSAGE_O_MATIC, // Items made by Kramco Sausage-o-Matic
     KRINGLE, // Items made from waterlogged items
     STILLSUIT, // Distillate from the stillsuit
+    WOOL, // Items made from grubby wool
+    SHADOW_FORGE, // Items made at The Shadow Forge
   }
 
   enum CraftingRequirements {

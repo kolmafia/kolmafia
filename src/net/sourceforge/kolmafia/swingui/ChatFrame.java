@@ -264,7 +264,7 @@ public class ChatFrame extends GenericFrame {
       this.chatDisplay.addHyperlinkListener(new ChatLinkClickedListener());
 
       this.associatedContact = associatedContact;
-      this.commandHistory = new ArrayList<String>();
+      this.commandHistory = new ArrayList<>();
 
       ChatEntryListener listener = new ChatEntryListener();
 
@@ -459,53 +459,41 @@ public class ChatFrame extends GenericFrame {
       String urlString = null;
 
       switch (linkOption) {
-        case 1:
+        case 1 -> {
           String bufferKey = ChatManager.getBufferKey(playerName);
           ChatManager.openWindow(bufferKey, false);
           return;
-
-        case 2:
+        }
+        case 2 -> {
           Object[] parameters = new Object[] {playerName};
-
           GenericFrame.createDisplay(SendMessageFrame.class, parameters);
           return;
-
-        case 3:
-          urlString = "makeoffer.php?towho=" + playerId;
-          break;
-
-        case 4:
-          urlString = "displaycollection.php?who=" + playerId;
-          break;
-
-        case 5:
-          urlString = "ascensionhistory.php?who=" + playerId;
-          break;
-
-        case 6:
+        }
+        case 3 -> urlString = "makeoffer.php?towho=" + playerId;
+        case 4 -> urlString = "displaycollection.php?who=" + playerId;
+        case 5 -> urlString = "ascensionhistory.php?who=" + playerId;
+        case 6 -> {
           GenericFrame.createDisplay(MallSearchFrame.class);
           MallSearchFrame.searchMall(new MallSearchRequest(StringUtilities.parseInt(playerId)));
           return;
-
-        case 7:
+        }
+        case 7 -> {
           ChatSender.sendMessage(playerName, "/whois", false);
           return;
-
-        case 8:
+        }
+        case 8 -> {
           ChatSender.sendMessage(playerName, "/friend", false);
           return;
-
-        case 9:
+        }
+        case 9 -> {
           ChatSender.sendMessage(playerName, "/baleet", false);
           return;
-
-        case 10:
+        }
+        case 10 -> {
           ChatFrame.runChatPlayerScript(playerName, playerId);
           return;
-
-        default:
-          urlString = "showplayer.php?who=" + playerId;
-          break;
+        }
+        default -> urlString = "showplayer.php?who=" + playerId;
       }
 
       if (Preferences.getBoolean("chatLinksUseRelay") || !urlString.startsWith("show")) {
@@ -516,7 +504,8 @@ public class ChatFrame extends GenericFrame {
     }
   }
 
-  private class AwayPanel extends JXCollapsiblePane implements MouseListener, Listener, Runnable {
+  private static class AwayPanel extends JXCollapsiblePane
+      implements MouseListener, Listener, Runnable {
     public AwayPanel() {
       NamedListenerRegistry.registerNamedListener("[chatAway]", this);
     }

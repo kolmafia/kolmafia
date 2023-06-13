@@ -172,13 +172,9 @@ public class DiscoCombatHelper {
       return false;
     }
     String encounter = monster.getName();
-    if (encounter.equals("Breakdancing Raver")
+    return encounter.equals("Breakdancing Raver")
         || encounter.equals("Pop-and-Lock Raver")
-        || encounter.equals("Running Man")) {
-      return true;
-    }
-
-    return false;
+        || encounter.equals("Running Man");
   }
 
   public static String disambiguateCombo(String name) {

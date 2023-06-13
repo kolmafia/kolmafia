@@ -62,7 +62,6 @@ Uncle Gator's Country Fun-Time Liquid Waste Sluice	STOP	Swamp Control
 The Neverending Party	STOP	Party's Over
 
 ### Lucky Adventures
-8-Bit Realm	LUCKY	Some Bricks Do, In Fact, Hang in the Air
 A Maze of Sewer Tunnels	LUCKY	C. H. U. M. chieftain
 A Mob of Zeppelin Protesters	LUCKY	Methinks the Protesters Doth Protest Too Little
 A-Boo Peak	LUCKY	The "Journalist"
@@ -116,6 +115,7 @@ The Dark Elbow of the Woods	LUCKY	It's The Only Way To Be Sure
 The Dark Heart of the Woods	LUCKY	It's The Only Way To Be Sure
 The Dark Neck of the Woods	LUCKY	It's The Only Way To Be Sure
 The Dive Bar	LUCKY	Razor, Scooter
+The Fungus Plains	LUCKY	Some Bricks Do, In Fact, Hang in the Air
 The Goatlet	LUCKY	Natural Selection
 The Hallowed Halls	LUCKY	Through the Locking Glass
 The Haunted Ballroom	LUCKY	Forward to the Past
@@ -154,6 +154,7 @@ The Wreck of the Edgar Fitzsimmons	LUCKY	Camera On, James
 Thugnderdome	LUCKY	Gno More Mr. Gnice Guy
 Tower Ruins	LUCKY	I've Gotta Crow
 Twin Peak	LUCKY	What Kind of Party Is This?
+Vanya's Castle	LUCKY	Crossfire
 Vanya's Castle Chapel	LUCKY	The Time This Fire
 Whitey's Grove	LUCKY	Monty of County Crisco
 Ye Olde Medievale Villagee	LUCKY	Clay Is Great, But Leather Is Bether

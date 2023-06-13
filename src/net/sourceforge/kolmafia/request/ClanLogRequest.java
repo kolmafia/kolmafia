@@ -27,14 +27,26 @@ public class ClanLogRequest extends GenericRequest {
   private static final SimpleDateFormat STASH_FORMAT =
       new SimpleDateFormat("MM/dd/yy, hh:mma", Locale.US);
 
-  private static final String STASH_ADD = "add";
-  private static final String STASH_TAKE = "take";
-  private static final String WAR_BATTLE = "warfare";
+  private enum LogEntryType {
+    STASH_ADD("add"),
+    STASH_TAKE("take"),
+    WAR_BATTLE("warfare"),
+    WHITELIST("whitelist"),
+    ACCEPT("accept"),
+    LEAVE("leave"),
+    BOOT("boot");
 
-  private static final String CLAN_WHITELIST = "whitelist";
-  private static final String CLAN_ACCEPT = "accept";
-  private static final String CLAN_LEAVE = "leave";
-  private static final String CLAN_BOOT = "boot";
+    final String name;
+
+    LogEntryType(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
+    }
+  }
 
   private static final String TIME_REGEX = "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M)";
   private static final String PLAYER_REGEX =
@@ -46,8 +58,7 @@ public class ClanLogRequest extends GenericRequest {
   private static final Pattern LOGENTRY_PATTERN =
       Pattern.compile("\t<li class=\"(.*?)\">(.*?): (.*?)</li>");
 
-  private final Map<String, List<StashLogEntry>> stashMap =
-      new TreeMap<String, List<StashLogEntry>>();
+  private final Map<String, List<StashLogEntry>> stashMap = new TreeMap<>();
 
   public ClanLogRequest() {
     super("clan_log.php");
@@ -91,13 +102,13 @@ public class ClanLogRequest extends GenericRequest {
     // things in the clan.
 
     this.handleAdmin(
-        ClanLogRequest.CLAN_WHITELIST,
+        LogEntryType.WHITELIST,
         "was accepted into the clan \\(whitelist\\)",
         "",
         "auto-accepted through whitelist");
-    this.handleAdmin(ClanLogRequest.CLAN_ACCEPT, "accepted", " into the clan", "accepted by ");
-    this.handleAdmin(ClanLogRequest.CLAN_LEAVE, "left the clan", "", "left clan");
-    this.handleAdmin(ClanLogRequest.CLAN_BOOT, "booted", "", "booted by ");
+    this.handleAdmin(LogEntryType.ACCEPT, "accepted", " into the clan", "accepted by ");
+    this.handleAdmin(LogEntryType.LEAVE, "left the clan", "", "left clan");
+    this.handleAdmin(LogEntryType.BOOT, "booted", "", "booted by ");
 
     this.saveCurrentData(file);
   }
@@ -156,13 +167,13 @@ public class ClanLogRequest extends GenericRequest {
     ostream.println();
     ostream.println("\tbody { font-family: Verdana; font-size: 9pt }");
     ostream.println();
-    ostream.println("\t." + ClanLogRequest.STASH_ADD + " { color: green }");
-    ostream.println("\t." + ClanLogRequest.STASH_TAKE + " { color: olive }");
-    ostream.println("\t." + ClanLogRequest.WAR_BATTLE + " { color: orange }");
-    ostream.println("\t." + ClanLogRequest.CLAN_WHITELIST + " { color: blue }");
-    ostream.println("\t." + ClanLogRequest.CLAN_ACCEPT + " { color: blue }");
-    ostream.println("\t." + ClanLogRequest.CLAN_LEAVE + " { color: red }");
-    ostream.println("\t." + ClanLogRequest.CLAN_BOOT + " { color: red }");
+    ostream.println("\t." + LogEntryType.STASH_ADD + " { color: green }");
+    ostream.println("\t." + LogEntryType.STASH_TAKE + " { color: olive }");
+    ostream.println("\t." + LogEntryType.WAR_BATTLE + " { color: orange }");
+    ostream.println("\t." + LogEntryType.WHITELIST + " { color: blue }");
+    ostream.println("\t." + LogEntryType.ACCEPT + " { color: blue }");
+    ostream.println("\t." + LogEntryType.LEAVE + " { color: red }");
+    ostream.println("\t." + LogEntryType.BOOT + " { color: red }");
     ostream.println();
     ostream.println("--></style></head>");
 
@@ -203,7 +214,7 @@ public class ClanLogRequest extends GenericRequest {
           + " took ([\\d,]+) (.*?)\\.<br>";
 
   private void handleItems(final boolean parseAdditions) {
-    String handleType = parseAdditions ? ClanLogRequest.STASH_ADD : ClanLogRequest.STASH_TAKE;
+    LogEntryType handleType = parseAdditions ? LogEntryType.STASH_ADD : LogEntryType.STASH_TAKE;
     String regex = parseAdditions ? ClanLogRequest.ADD_REGEX : ClanLogRequest.TAKE_REGEX;
     String suffixDescription = parseAdditions ? "added to stash" : "taken from stash";
 
@@ -223,7 +234,7 @@ public class ClanLogRequest extends GenericRequest {
         currentMember = entryMatcher.group(2).trim();
 
         if (!this.stashMap.containsKey(currentMember)) {
-          this.stashMap.put(currentMember, new ArrayList<StashLogEntry>());
+          this.stashMap.put(currentMember, new ArrayList<>());
         }
 
         entryList = this.stashMap.get(currentMember);
@@ -265,13 +276,13 @@ public class ClanLogRequest extends GenericRequest {
       try {
         currentMember = entryMatcher.group(2).trim();
         if (!this.stashMap.containsKey(currentMember)) {
-          this.stashMap.put(currentMember, new ArrayList<StashLogEntry>());
+          this.stashMap.put(currentMember, new ArrayList<>());
         }
 
         entryList = this.stashMap.get(currentMember);
         entry =
             new StashLogEntry(
-                ClanLogRequest.WAR_BATTLE,
+                LogEntryType.WAR_BATTLE,
                 ClanLogRequest.STASH_FORMAT.parse(entryMatcher.group(1)),
                 "<i>" + entryMatcher.group(3) + "</i> attacked");
 
@@ -290,7 +301,7 @@ public class ClanLogRequest extends GenericRequest {
   }
 
   private void handleAdmin(
-      final String entryType,
+      final LogEntryType entryType,
       final String searchString,
       final String suffixString,
       final String descriptionString) {
@@ -313,7 +324,7 @@ public class ClanLogRequest extends GenericRequest {
       try {
         currentMember = entryMatcher.group(descriptionString.endsWith(" ") ? 3 : 2).trim();
         if (!this.stashMap.containsKey(currentMember)) {
-          this.stashMap.put(currentMember, new ArrayList<StashLogEntry>());
+          this.stashMap.put(currentMember, new ArrayList<>());
         }
 
         entryList = this.stashMap.get(currentMember);
@@ -343,7 +354,7 @@ public class ClanLogRequest extends GenericRequest {
     private Date timestamp;
     private final String stringform;
 
-    public StashLogEntry(final String entryType, final Date timestamp, final String entry) {
+    public StashLogEntry(final LogEntryType entryType, final Date timestamp, final String entry) {
       this.timestamp = timestamp;
 
       this.stringform =

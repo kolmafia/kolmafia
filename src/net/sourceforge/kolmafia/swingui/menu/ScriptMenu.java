@@ -48,7 +48,8 @@ public class ScriptMenu extends JMenu implements Listener {
       return;
     }
 
-    List<File> files = useMRUList ? KoLConstants.scriptMRUList.listAsFiles() : KoLConstants.scripts;
+    List<File> files =
+        List.copyOf(useMRUList ? KoLConstants.scriptMRUList.listAsFiles() : KoLConstants.scripts);
 
     if (files.size() == 0) {
       return;

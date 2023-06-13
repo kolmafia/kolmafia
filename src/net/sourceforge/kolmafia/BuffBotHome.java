@@ -307,11 +307,10 @@ public class BuffBotHome {
       Component defaultComponent =
           super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-      if (!(value instanceof BuffMessage)) {
+      if (!(value instanceof BuffMessage bm)) {
         return defaultComponent;
       }
 
-      BuffMessage bm = (BuffMessage) value;
       ((JLabel) defaultComponent).setText(bm.message);
       defaultComponent.setForeground(bm.c);
       return defaultComponent;

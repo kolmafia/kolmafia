@@ -119,27 +119,34 @@ public class AccountRequest extends PasswordHashRequest {
 
   private static void parseOptionTab(final String location, final String responseText) {
     switch (AccountRequest.getTab(location)) {
-      case INTERFACE:
+      case INTERFACE -> {
         AccountRequest.parseInterfaceOptions(responseText);
         return;
-      case INVENTORY:
+      }
+      case INVENTORY -> {
         AccountRequest.parseInventoryOptions(responseText);
         return;
-      case CHAT:
+      }
+      case CHAT -> {
         AccountRequest.parseChatOptions(responseText);
         return;
-      case COMBAT:
+      }
+      case COMBAT -> {
         AccountRequest.parseCombatOptions(responseText);
         return;
-      case ACCOUNT:
+      }
+      case ACCOUNT -> {
         AccountRequest.parseAccountOptions(responseText);
         return;
-      case PROFILE:
+      }
+      case PROFILE -> {
         AccountRequest.parseProfileOptions(responseText);
         return;
-      case PRIVACY:
+      }
+      case PRIVACY -> {
         AccountRequest.parsePrivacyOptions(responseText);
         return;
+      }
     }
   }
 
@@ -157,10 +164,8 @@ public class AccountRequest extends PasswordHashRequest {
     // Top Menu Style
     GenericRequest.topMenuStyle =
         responseText.contains(fancyMenuStyle)
-            ? GenericRequest.MENU_FANCY
-            : responseText.contains(compactMenuStyle)
-                ? GenericRequest.MENU_COMPACT
-                : GenericRequest.MENU_NORMAL;
+            ? TopMenuStyle.FANCY
+            : responseText.contains(compactMenuStyle) ? TopMenuStyle.COMPACT : TopMenuStyle.NORMAL;
 
     boolean checked;
     checked = AccountRequest.getCheckbox("flag_compactchar", responseText);
@@ -268,10 +273,8 @@ public class AccountRequest extends PasswordHashRequest {
       // account.php?pwd&action=menu&value=normal&ajax=1
       GenericRequest.topMenuStyle =
           valueString.equals("fancy")
-              ? GenericRequest.MENU_FANCY
-              : valueString.equals("compact")
-                  ? GenericRequest.MENU_COMPACT
-                  : GenericRequest.MENU_NORMAL;
+              ? TopMenuStyle.FANCY
+              : valueString.equals("compact") ? TopMenuStyle.COMPACT : TopMenuStyle.NORMAL;
       return;
     }
 
@@ -472,10 +475,10 @@ public class AccountRequest extends PasswordHashRequest {
     int topmenu = flags.getInt( "topmenu" );
     GenericRequest.topMenuStyle =
       (topmenu == 2 ) ?
-      GenericRequest.MENU_FANCY :
+      TopMenuStyle.MENU_FANCY :
       (topmenu == 1 ) ?
-      GenericRequest.MENU_COMPACT :
-      GenericRequest.MENU_NORMAL;
+      TopMenuStyle.MENU_COMPACT :
+      TopMenuStyle.MENU_NORMAL;
     */
 
     checked = flags.getInt("compactchar") == 1;

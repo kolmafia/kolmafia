@@ -6,13 +6,13 @@ import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-import java.util.ArrayList;
 import java.util.Set;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -128,7 +128,6 @@ public class AdventureRequestTest {
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
 
     // Can load queue
-    JuneCleaverManager.queue = new ArrayList<>();
     Preferences.setString("juneCleaverQueue", "1467,1468,1469,1470,1471");
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1472&option=3");
     assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,1469,1470,1471,1472");
@@ -142,6 +141,22 @@ public class AdventureRequestTest {
     assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 3);
     assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 12);
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
+  }
+
+  @Test
+  public void devReadoutIsStripped() {
+    var cleanups =
+        new Cleanups(
+            withProperty("useDevProxyServer", true),
+            withProperty("lastEncounter"),
+            withLastLocation("The Spooky Forest"));
+
+    try (cleanups) {
+      var request = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.SPOOKY_FOREST);
+      request.responseText = html("request/test_choice_on_dev_server.html");
+      AdventureRequest.registerEncounter(request);
+      assertThat("lastEncounter", isSetTo("Arboreal Respite"));
+    }
   }
 
   @Nested

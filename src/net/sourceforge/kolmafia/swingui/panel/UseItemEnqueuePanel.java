@@ -4,10 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
@@ -15,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -28,12 +25,12 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionType;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.ConcoctionType;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
@@ -54,15 +51,8 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
   private final ConcoctionType type;
   private final boolean hasCreationQueue;
 
-  private final LockableListModel<Concoction> model;
-  private final Comparator<? extends Concoction> comparator;
-
-  // These control the sort order for Consumable and Potion comparators.
-  // They are controlled by checkboxes, but these are reasonable defaults
-  private boolean sortByEffect = false;
-
   public UseItemEnqueuePanel(final ConcoctionType type, JTabbedPane queueTabs) {
-    super(ConcoctionDatabase.getUsables(), true, true);
+    super(ConcoctionDatabase.getUsables().get(type), true, true);
 
     this.type = type;
 
@@ -73,13 +63,6 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     b.setVgap(0);
 
     boolean potions = type == ConcoctionType.POTION;
-
-    this.model = this.elementModel;
-    this.comparator = potions ? new PotionComparator() : new ConsumableComparator();
-
-    // *** We can only do this if we are using a mirror image,
-    // *** which has unsolved issues
-    // this.model.setComparator( this.comparator );
 
     this.refreshButton.setAction(new RefreshListener());
 
@@ -93,7 +76,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
     this.queueTabs = queueTabs;
 
-    List<ThreadedListener> listeners = new ArrayList<ThreadedListener>();
+    List<ThreadedListener> listeners = new ArrayList<>();
 
     if (this.hasCreationQueue) {
       listeners.add(new EnqueueListener());
@@ -243,7 +226,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         // The lunch listener is just after the seasoning listener
         boolean lunchAvailable =
             canEat
-                && (KoLCharacter.hasSkill("Song of the Glorious Lunch")
+                && (KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH)
                     || (Preferences.getBoolean("barrelShrineUnlocked")
                         && !KoLCharacter.isKingdomOfExploathing()
                         && !Preferences.getBoolean("_barrelPrayer")
@@ -342,50 +325,6 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
   @Override
   public void actionCancelled() {}
-
-  private static class ConsumableComparator implements Comparator<Concoction> {
-    @Override
-    public int compare(Concoction o1, Concoction o2) {
-      if (o1 == null) {
-        throw new NullPointerException();
-      }
-
-      return o1.compareTo(o2);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      return o instanceof ConsumableComparator;
-    }
-  }
-
-  private class PotionComparator implements Comparator<Concoction> {
-    @Override
-    public int compare(Concoction o1, Concoction o2) {
-      if (o1 == null || o2 == null) {
-        throw new NullPointerException();
-      }
-
-      String name1, name2;
-
-      if (UseItemEnqueuePanel.this.sortByEffect) {
-        name1 = o1.getEffectName();
-        name2 = o2.getEffectName();
-      } else {
-        name1 = o1.getName();
-        name2 = o2.getName();
-      }
-
-      return name1 == null
-          ? (name2 == null ? 0 : 1)
-          : name2 == null ? -1 : name1.compareToIgnoreCase(name2);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      return o instanceof PotionComparator;
-    }
-  }
 
   private static class ReSortListener extends ThreadedListener {
     @Override
@@ -571,8 +510,8 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
   private static class LunchListener extends ThreadedListener {
     @Override
     protected void execute() {
-      if (KoLCharacter.hasSkill("Song of the Glorious Lunch")) {
-        RequestThread.postRequest(UseSkillRequest.getInstance("Song of the Glorious Lunch", 1));
+      if (KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH)) {
+        RequestThread.postRequest(UseSkillRequest.getInstance(SkillPool.GLORIOUS_LUNCH, 1));
       } else {
         // Barrel shrine request
         GenericRequest request = new GenericRequest("da.php?barrelshrine=1");
@@ -584,16 +523,14 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     @Override
     public String toString() {
-      return KoLCharacter.hasSkill("Song of the Glorious Lunch")
-          ? "glorious lunch"
-          : "barrel prayer";
+      return KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH) ? "glorious lunch" : "barrel prayer";
     }
   }
 
   private static class OdeListener extends ThreadedListener {
     @Override
     protected void execute() {
-      RequestThread.postRequest(UseSkillRequest.getInstance("The Ode to Booze", 1));
+      RequestThread.postRequest(UseSkillRequest.getInstance(SkillPool.ODE_TO_BOOZE, 1));
       if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ODE))) {
         KoLmafia.updateDisplay(MafiaState.ABORT, "Failed to cast Ode.");
       }
@@ -689,23 +626,31 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       }
 
       ConcoctionType type = UseItemEnqueuePanel.this.type;
-      boolean potions = type == ConcoctionType.POTION;
-
       String name = creation.getName();
 
-      if (ConsumablesDatabase.getRawFullness(name) != null) {
-        if (type != ConcoctionType.FOOD) {
-          return false;
+      if (item != null) {
+        switch (type) {
+          case FOOD -> {
+            // Some foods cannot be eaten (regardless of fullness) even
+            // if they can be created. Displaying them on a consumption
+            // panel is distracting; you can see them on a create panel.
+            String property =
+                switch (item.getItemId()) {
+                  case ItemPool.PIZZA_OF_LEGEND -> "pizzaOfLegendEaten";
+                  case ItemPool.DEEP_DISH_OF_LEGEND -> "deepDishOfLegendEaten";
+                  case ItemPool.CALZONE_OF_LEGEND -> "calzoneOfLegendEaten";
+                  default -> null;
+                };
+            if (property != null && Preferences.getBoolean(property)) {
+              return false;
+            }
+          }
         }
-      } else if (ConsumablesDatabase.getRawInebriety(name) != null) {
-        if (type != ConcoctionType.BOOZE) {
-          return false;
-        }
-      } else if (ConsumablesDatabase.getRawSpleenHit(name) != null) {
-        if (type != ConcoctionType.SPLEEN) {
-          return false;
-        }
-      } else
+      }
+
+      if (ConsumablesDatabase.getRawFullness(name) == null
+          && ConsumablesDatabase.getRawInebriety(name) == null
+          && ConsumablesDatabase.getRawSpleenHit(name) == null) {
         switch (ItemDatabase.getConsumptionType(creation.getItemId())) {
           case FOOD_HELPER:
             if (type != ConcoctionType.FOOD) {
@@ -758,13 +703,14 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
           default:
             return false;
         }
+      }
 
       if (creation.hotdog
           && !StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan hot dog stand")) {
         return false;
       }
 
-      if (creation.speakeasy
+      if (creation.speakeasy != null
           && !StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Clan speakeasy")) {
         return false;
       }
@@ -810,7 +756,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       if (KoLCharacter.isJarlsberg()
           && (type == ConcoctionType.FOOD || type == ConcoctionType.BOOZE)) {
         // No VIP items for Jarlsberg
-        if (creation.hotdog || creation.speakeasy) {
+        if (creation.hotdog || creation.speakeasy != null) {
           return false;
         }
         if (creation.getMixingMethod() != CraftingType.JARLS
@@ -821,7 +767,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       }
 
       if (KoLCharacter.inHighschool() && type == ConcoctionType.BOOZE) {
-        if (creation.speakeasy) {
+        if (creation.speakeasy != null) {
           return false;
         }
         String notes = ConsumablesDatabase.getNotes(name);
@@ -884,7 +830,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       }
 
       if (KoLCharacter.getLimitMode().limitClan()) {
-        if (creation.hotdog || creation.speakeasy) {
+        if (creation.hotdog || creation.speakeasy != null) {
           return false;
         }
       }
@@ -894,7 +840,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         return false;
       }
 
-      if (creation.speakeasy
+      if (creation.speakeasy != null
           && (ConcoctionDatabase.queuedSpeakeasyDrink
                   + Preferences.getInteger("_speakeasyDrinksDrunk")
               >= 3)) {
@@ -920,7 +866,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
       }
 
       // Consumables only:
-      if (!potions) {
+      if (creation.type != ConcoctionType.POTION) {
         if (UseItemEnqueuePanel.this.filters[3].isSelected()) {
           String range = ConsumablesDatabase.getMuscleRange(name);
           if (range.equals("+0.0") || range.startsWith("-")) {
@@ -983,23 +929,15 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     }
   }
 
-  private class EffectNameCheckbox extends JCheckBox implements ActionListener {
+  private class EffectNameCheckbox extends PreferenceListenerCheckBox {
     public EffectNameCheckbox() {
-      super("by effect");
+      super("by effect", "sortByEffect");
       this.setToolTipText("Sort items by the effect they produce");
-      this.setSelected(UseItemEnqueuePanel.this.sortByEffect);
-      this.addActionListener(this);
     }
 
     @Override
-    public void actionPerformed(final ActionEvent e) {
-      if (UseItemEnqueuePanel.this.sortByEffect == this.isSelected()) {
-        return;
-      }
-
-      UseItemEnqueuePanel.this.sortByEffect = this.isSelected();
-      // Sort using PotionComparator
-      ConcoctionDatabase.getUsables().sort(UseItemEnqueuePanel.this.comparator);
+    protected void handleClick() {
+      ConcoctionDatabase.getUsables().sort();
     }
   }
 

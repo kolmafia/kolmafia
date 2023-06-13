@@ -520,7 +520,7 @@ public class SushiRequest extends CreateItemRequest {
       return;
     }
 
-    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(-1, name);
+    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(name);
     for (AdventureResult ingredient : ingredients) {
       ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount()));
     }
@@ -559,7 +559,7 @@ public class SushiRequest extends CreateItemRequest {
     buf.append(name);
     buf.append(" from ");
 
-    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(-1, name);
+    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(name);
     for (int i = 0; i < ingredients.length; ++i) {
       AdventureResult ingredient = ingredients[i];
       if (i > 0) {

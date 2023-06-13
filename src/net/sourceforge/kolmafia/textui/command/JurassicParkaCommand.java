@@ -81,7 +81,7 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
 
     // If still in choice, call 'Leave it alone' to exit
     if (ChoiceManager.handlingChoice && ChoiceManager.lastChoice == 1481) {
-      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1449&option=6"));
+      RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1481&option=6"));
     }
 
     KoLmafia.updateDisplay("Your parka is now set to " + mode + " mode.");

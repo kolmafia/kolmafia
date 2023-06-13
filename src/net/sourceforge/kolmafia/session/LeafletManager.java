@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.textui.command.CouncilCommand;
@@ -476,7 +477,7 @@ public abstract class LeafletManager {
     KoLmafia.updateDisplay("Finding the giant...");
     LeafletManager.getScroll();
 
-    if (LeafletManager.parchment && !KoLCharacter.hasSkill("CLEESH")) {
+    if (LeafletManager.parchment && !KoLCharacter.hasSkill(SkillPool.CLEESH)) {
       LeafletManager.executeCommand("GNUSTO CLEESH");
       ResponseTextParser.learnSkill("CLEESH");
       LeafletManager.parchment = false;
@@ -657,12 +658,8 @@ public abstract class LeafletManager {
 
       case TREE:
         switch (LeafletManager.location) {
-          case BOTTOM:
-            LeafletManager.executeCommand("up");
-            break;
-          case TABLE:
-            LeafletManager.executeCommand("down");
-            break;
+          case BOTTOM -> LeafletManager.executeCommand("up");
+          case TABLE -> LeafletManager.executeCommand("down");
         }
 
         break;

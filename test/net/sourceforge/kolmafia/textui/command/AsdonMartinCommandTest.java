@@ -4,6 +4,7 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withWorkshedItem;
@@ -221,6 +222,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
     var cleanups =
         new Cleanups(
+            withEmptyCampground(),
             withHttpClientBuilder(builder),
             withWorkshedItem(ItemPool.ASDON_MARTIN),
             withFuel(136),

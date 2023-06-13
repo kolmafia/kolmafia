@@ -179,12 +179,10 @@ public class MoodOptionsPanel extends JPanel {
 
       // Update the selected type
 
-      if (type.equals("lose_effect")) {
-        this.typeSelect.setSelectedIndex(0);
-      } else if (type.equals("gain_effect")) {
-        this.typeSelect.setSelectedIndex(1);
-      } else if (type.equals("unconditional")) {
-        this.typeSelect.setSelectedIndex(2);
+      switch (type) {
+        case "lose_effect" -> this.typeSelect.setSelectedIndex(0);
+        case "gain_effect" -> this.typeSelect.setSelectedIndex(1);
+        case "unconditional" -> this.typeSelect.setSelectedIndex(2);
       }
 
       // Update the selected effect
@@ -258,16 +256,12 @@ public class MoodOptionsPanel extends JPanel {
       }
 
       public String getSelectedType() {
-        switch (this.getSelectedIndex()) {
-          case 0:
-            return "lose_effect";
-          case 1:
-            return "gain_effect";
-          case 2:
-            return "unconditional";
-          default:
-            return null;
-        }
+        return switch (this.getSelectedIndex()) {
+          case 0 -> "lose_effect";
+          case 1 -> "gain_effect";
+          case 2 -> "unconditional";
+          default -> null;
+        };
       }
 
       private class TypeComboBoxListener implements ActionListener {

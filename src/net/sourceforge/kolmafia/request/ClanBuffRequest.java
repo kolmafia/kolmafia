@@ -28,7 +28,7 @@ public class ClanBuffRequest extends GenericRequest {
    * @return A complete <code>ListModel</code>
    */
   public static final LockableListModel<ClanBuffRequest> getRequestList() {
-    LockableListModel<ClanBuffRequest> requestList = new LockableListModel<ClanBuffRequest>();
+    LockableListModel<ClanBuffRequest> requestList = new LockableListModel<>();
     for (int i = 1; i < 9; ++i) {
       for (int j = 1; j <= 3; ++j) {
         requestList.add(new ClanBuffRequest(10 * i + j));
@@ -54,46 +54,22 @@ public class ClanBuffRequest extends GenericRequest {
 
     if (gift != 9) {
       switch (size) {
-        case 1:
-          stringForm.append("Cheap ");
-          break;
-        case 2:
-          stringForm.append("Normal ");
-          break;
-        case 3:
-          stringForm.append("Expensive ");
-          break;
+        case 1 -> stringForm.append("Cheap ");
+        case 2 -> stringForm.append("Normal ");
+        case 3 -> stringForm.append("Expensive ");
       }
     }
 
     switch (gift) {
-      case 1:
-        stringForm.append("Muscle Training");
-        break;
-      case 2:
-        stringForm.append("Mysticality Training");
-        break;
-      case 3:
-        stringForm.append("Moxie Training");
-        break;
-      case 4:
-        stringForm.append("Temporary Muscle Boost");
-        break;
-      case 5:
-        stringForm.append("Temporary Mysticality Boost");
-        break;
-      case 6:
-        stringForm.append("Temporary Moxie Boost");
-        break;
-      case 7:
-        stringForm.append("Temporary Item Drop Boost");
-        break;
-      case 8:
-        stringForm.append("Temporary Meat Drop Boost");
-        break;
-      case 9:
-        stringForm.append("Adventure Massage");
-        break;
+      case 1 -> stringForm.append("Muscle Training");
+      case 2 -> stringForm.append("Mysticality Training");
+      case 3 -> stringForm.append("Moxie Training");
+      case 4 -> stringForm.append("Temporary Muscle Boost");
+      case 5 -> stringForm.append("Temporary Mysticality Boost");
+      case 6 -> stringForm.append("Temporary Moxie Boost");
+      case 7 -> stringForm.append("Temporary Item Drop Boost");
+      case 8 -> stringForm.append("Temporary Meat Drop Boost");
+      case 9 -> stringForm.append("Adventure Massage");
     }
 
     return stringForm.toString();

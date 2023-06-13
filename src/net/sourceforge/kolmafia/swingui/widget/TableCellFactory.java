@@ -5,12 +5,18 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
@@ -40,9 +46,7 @@ public class TableCellFactory {
       boolean[] flags,
       boolean isSelected,
       boolean raw) {
-    if (result instanceof AdventureResult) {
-      AdventureResult advresult = (AdventureResult) result;
-
+    if (result instanceof AdventureResult advresult) {
       if (flags[0]) { // Equipment panel
         return getEquipmentCell(columnIndex, isSelected, advresult, raw);
       }
@@ -68,61 +72,49 @@ public class TableCellFactory {
     if (result instanceof String || result instanceof Integer || result instanceof JButton) {
       return result;
     }
-    if (result instanceof Script) {
-      return getScriptCell(columnIndex, isSelected, (Script) result);
+    if (result instanceof Script s) {
+      return getScriptCell(columnIndex, isSelected, s);
     }
     return null;
   }
 
   private static Object getScriptCell(int columnIndex, boolean isSelected, Script result) {
-    switch (columnIndex) {
-      case 0:
-        return result.getScriptName();
-      case 1:
-        return result.getAuthors();
-      case 2:
-        return result.getShortDesc();
-      case 3:
-        return result.getCategory();
-      case 4:
-        return result.getRepo();
-    }
-    return null;
+    return switch (columnIndex) {
+      case 0 -> result.getScriptName();
+      case 1 -> result.getAuthors();
+      case 2 -> result.getShortDesc();
+      case 3 -> result.getCategory();
+      case 4 -> result.getRepo();
+      case 5 -> result.getBranch();
+      case 6 -> result.getType().toString();
+      default -> null;
+    };
   }
 
   private static Object getGeneralDatabaseCell(
       int columnIndex, boolean isSelected, LowerCaseEntry<Integer, ?> result, boolean raw) {
-    switch (columnIndex) {
-      case 0:
-        return result.getValue().toString();
-      case 1:
-        return result.getKey();
-    }
-    return null;
+    return switch (columnIndex) {
+      case 0 -> result.getValue().toString();
+      case 1 -> result.getKey();
+      default -> null;
+    };
   }
 
   private static Object getAllItemsCell(
       int columnIndex, boolean isSelected, LowerCaseEntry<Integer, String> result, boolean raw) {
-    switch (columnIndex) {
-      case 0:
-        return ItemDatabase.getDisplayName(result.getKey());
-      case 1:
-        return result.getKey();
-      case 2:
-        return ItemDatabase.getPriceById(result.getKey());
-      case 3:
-        return MallPriceDatabase.getPrice(result.getKey());
-      case 4:
-        return ConsumablesDatabase.getFullness(result.getValue())
-            + ConsumablesDatabase.getInebriety(result.getValue())
-            + ConsumablesDatabase.getSpleenHit(result.getValue());
-      case 5:
-        return ConsumablesDatabase.getBaseAdventureRange(
-            ItemDatabase.getCanonicalName(result.getKey()));
-      case 6:
-        return ConsumablesDatabase.getLevelReqByName(result.getValue());
-    }
-    return null;
+    return switch (columnIndex) {
+      case 0 -> ItemDatabase.getDisplayName(result.getKey());
+      case 1 -> result.getKey();
+      case 2 -> ItemDatabase.getPriceById(result.getKey());
+      case 3 -> MallPriceDatabase.getPrice(result.getKey());
+      case 4 -> ConsumablesDatabase.getFullness(result.getValue())
+          + ConsumablesDatabase.getInebriety(result.getValue())
+          + ConsumablesDatabase.getSpleenHit(result.getValue());
+      case 5 -> ConsumablesDatabase.getBaseAdventureRange(
+          ItemDatabase.getCanonicalName(result.getKey()));
+      case 6 -> ConsumablesDatabase.getLevelReqByName(result.getValue());
+      default -> null;
+    };
   }
 
   private static Object getGeneralCell(
@@ -366,7 +358,7 @@ public class TableCellFactory {
         "item name", "autosell", "quantity", "mallprice", "power", "fill", "adv/fill"
       };
     } else if (originalModel == ConcoctionDatabase.getCreatables()
-        || originalModel == ConcoctionDatabase.getUsables()) {
+        || ConcoctionDatabase.getUsables().values().contains(originalModel)) {
       return new String[] {
         "item name", "autosell", "quantity", "mallprice", "fill", "adv/fill", "level req"
       };
@@ -396,7 +388,9 @@ public class TableCellFactory {
       };
     } else if (originalModel == ScriptManager.getInstalledScripts()
         || originalModel == ScriptManager.getRepoScripts()) {
-      return new String[] {"Script Name", "Authors", "Description", "Category", "Repo"};
+      return new String[] {
+        "Script Name", "Authors", "Description", "Category", "Repo", "Branch", "Type"
+      };
     }
     return new String[] {"not implemented"};
   }
@@ -423,15 +417,15 @@ public class TableCellFactory {
       return null;
     }
 
-    Modifiers mods = Modifiers.getItemModifiers(itemId);
+    Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
     if (mods == null) {
       return null;
     }
-    String name = mods.getString(Modifiers.INTRINSIC_EFFECT);
+    String name = mods.getString(StringModifier.INTRINSIC_EFFECT);
     if (name.length() > 0) {
       Modifiers newMods = new Modifiers();
       newMods.add(mods);
-      newMods.add(Modifiers.getModifiers("Effect", name));
+      newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, name));
       mods = newMods;
     }
 
@@ -440,10 +434,10 @@ public class TableCellFactory {
     buff.append(modifiersWidth);
     buff.append(">");
 
-    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
-      double val = mods.get(i);
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+      double val = mods.getDouble(mod);
       if (val == 0.0) continue;
-      name = Modifiers.getModifierName(i);
+      name = mod.getName();
       name = StringUtilities.singleStringReplace(name, "Familiar", "Fam");
       name = StringUtilities.singleStringReplace(name, "Experience", "Exp");
       name = StringUtilities.singleStringReplace(name, "Damage", "Dmg");
@@ -456,22 +450,22 @@ public class TableCellFactory {
     }
 
     boolean anyBool = false;
-    for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; ++i) {
-      if (mods.getRawBitmap(i) == 0) continue;
+    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+      if (mods.getRawBitmap(mod) == 0) continue;
       if (anyBool) {
         buff.append(", ");
       }
       anyBool = true;
-      buff.append(Modifiers.getBitmapModifierName(i));
+      buff.append(mod.getName());
     }
 
-    for (int i = 1; i < Modifiers.BOOLEAN_MODIFIERS; ++i) {
-      if (!mods.getBoolean(i)) continue;
+    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
+      if (!mods.getBoolean(mod)) continue;
       if (anyBool) {
         buff.append(", ");
       }
       anyBool = true;
-      buff.append(Modifiers.getBooleanModifierName(i));
+      buff.append(mod.getName());
     }
 
     buff.append("</td></tr></table></html>");

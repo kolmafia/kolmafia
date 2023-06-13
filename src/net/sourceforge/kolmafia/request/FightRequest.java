@@ -23,13 +23,14 @@ import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessingLevel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -37,6 +38,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -56,6 +58,7 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -91,12 +94,15 @@ import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.RufusManager;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.StillSuitManager;
+import net.sourceforge.kolmafia.session.TrainsetManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1246,7 +1252,7 @@ public class FightRequest extends GenericRequest {
       }
 
       int item1, item2;
-      boolean funksling = KoLCharacter.hasSkill("Ambidextrous Funkslinging");
+      boolean funksling = KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING);
 
       int commaIndex = FightRequest.nextAction.indexOf(",");
       if (commaIndex != -1) {
@@ -1875,7 +1881,7 @@ public class FightRequest extends GenericRequest {
       return this.createAddingScroll(part2);
     }
 
-    if (!KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+    if (!KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING)) {
       ++FightRequest.preparatoryRounds;
       FightRequest.nextAction = String.valueOf(part1.getItemId());
 
@@ -1904,7 +1910,7 @@ public class FightRequest extends GenericRequest {
     }
 
     ++FightRequest.preparatoryRounds;
-    if (!KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+    if (!KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING)) {
       FightRequest.nextAction = "3146";
     } else {
       FightRequest.nextAction = "3146,3155";
@@ -1920,31 +1926,31 @@ public class FightRequest extends GenericRequest {
     boolean isAcceptable = false;
 
     // Disco Eye-Poke
-    if (!isAcceptable && KoLCharacter.hasSkill("Disco Eye-Poke")) {
+    if (!isAcceptable && KoLCharacter.hasSkill(SkillPool.DISCO_EYE_POKE)) {
       desiredSkill = 5003;
       isAcceptable = this.isAcceptable(-1, -1);
     }
 
     // Disco Dance of Doom
-    if (!isAcceptable && KoLCharacter.hasSkill("Disco Dance of Doom")) {
+    if (!isAcceptable && KoLCharacter.hasSkill(SkillPool.DISCO_DANCE_OF_DOOM)) {
       desiredSkill = 5005;
       isAcceptable = this.isAcceptable(-3, -3);
     }
 
     // Disco Dance II: Electric Boogaloo
-    if (!isAcceptable && KoLCharacter.hasSkill("Disco Dance II: Electric Boogaloo")) {
+    if (!isAcceptable && KoLCharacter.hasSkill(SkillPool.DISCO_DANCE_II_ELECTRIC_BOOGALOO)) {
       desiredSkill = 5008;
       isAcceptable = this.isAcceptable(-5, -5);
     }
 
     // Tango of Terror
-    if (!isAcceptable && KoLCharacter.hasSkill("Tango of Terror")) {
+    if (!isAcceptable && KoLCharacter.hasSkill(SkillPool.TANGO_OF_TERROR)) {
       desiredSkill = 5019;
       isAcceptable = this.isAcceptable(-6, -6);
     }
 
     // Disco Face Stab
-    if (!isAcceptable && KoLCharacter.hasSkill("Disco Face Stab")) {
+    if (!isAcceptable && KoLCharacter.hasSkill(SkillPool.DISCO_FACE_STAB)) {
       desiredSkill = 5012;
       isAcceptable = this.isAcceptable(-7, -7);
     }
@@ -2139,23 +2145,26 @@ public class FightRequest extends GenericRequest {
 
       // Adventuring in the Mer-kin Colosseum
       switch (adventure) {
-        case AdventurePool.MERKIN_COLOSSEUM:
+        case AdventurePool.MERKIN_COLOSSEUM -> {
           Matcher roundMatcher = FightRequest.ROUND_PATTERN.matcher(responseText);
           if (roundMatcher.find()) {
             int round = StringUtilities.parseInt(roundMatcher.group(1));
             Preferences.setInteger("lastColosseumRoundWon", round - 1);
           }
-          break;
-        case AdventurePool.THE_DAILY_DUNGEON:
+        }
+        case AdventurePool.THE_DAILY_DUNGEON -> {
           Matcher chamberMatcher = FightRequest.CHAMBER_PATTERN.matcher(responseText);
           if (chamberMatcher.find()) {
             int round = StringUtilities.parseInt(chamberMatcher.group(1));
             Preferences.setInteger("_lastDailyDungeonRoom", round - 1);
           }
-          break;
-        case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE:
-          ResultProcessor.processItem(ItemPool.WARBEAR_BADGE, -1);
-          break;
+        }
+        case AdventurePool.WARBEAR_FORTRESS_LEVEL_THREE -> ResultProcessor.processItem(
+            ItemPool.WARBEAR_BADGE, -1);
+        case AdventurePool.SHADOW_RIFT -> {
+          Preferences.increment("_shadowRiftCombats");
+          MonsterStatusTracker.recalculateOriginalStats();
+        }
       }
 
       // Wearing any piece of papier equipment really messes up the results
@@ -2168,13 +2177,10 @@ public class FightRequest extends GenericRequest {
       // If other familiars also end up getting charged at start of fight rather than end we can put
       // them here
       switch (familiarId) {
-        case FamiliarPool.GHOST_COMMERCE:
-          {
-            Preferences.increment("commerceGhostCombats");
-            break;
-          }
-        default:
-          break;
+        case FamiliarPool.GHOST_COMMERCE -> {
+          Preferences.increment("commerceGhostCombats");
+        }
+        default -> {}
       }
 
       FightRequest.haveFought = true;
@@ -2238,11 +2244,17 @@ public class FightRequest extends GenericRequest {
       } else if (CrystalBallManager.isCrystalBallMonster()) {
         // This similarly has no message so can be checked at the end
         CrystalBallManager.clear();
+      } else if (EncounterManager.isSpookyVHSTapeMonster(responseText, true)) {
+        EncounterManager.ignoreSpecialMonsters();
+        TurnCounter.stopCounting("Spooky VHS Tape Monster");
+        TurnCounter.stopCounting("Spooky VHS Tape unknown monster window begin");
+        TurnCounter.stopCounting("Spooky VHS Tape unknown monster window end");
+        Preferences.setString("spookyVHSTapeMonster", "");
       }
 
       // Increment Turtle Blessing counter
-      int blessingLevel = KoLCharacter.getBlessingLevel();
-      if (blessingLevel > 0 && blessingLevel < 4) {
+      TurtleBlessingLevel blessingLevel = KoLCharacter.getBlessingLevel();
+      if (blessingLevel.isBlessing()) {
         Preferences.increment("turtleBlessingTurns", 1);
       } else {
         Preferences.setInteger("turtleBlessingTurns", 0);
@@ -2289,33 +2301,33 @@ public class FightRequest extends GenericRequest {
             }
             break;
 
-            // Correct Crypt Evilness if encountering boss when we think we're at more than 25 evil
+            // Correct Crypt Evilness if encountering boss when we think we're at more than 13 evil
           case CONJOINED_ZMOMBIE:
-            if (Preferences.getInteger("cyrptAlcoveEvilness") > 25) {
+            if (Preferences.getInteger("cyrptAlcoveEvilness") > 13) {
               Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptAlcoveEvilness") + 25);
-              Preferences.setInteger("cyrptAlcoveEvilness", 25);
+                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptAlcoveEvilness") + 13);
+              Preferences.setInteger("cyrptAlcoveEvilness", 13);
             }
             break;
           case HUGE_GHUOL:
-            if (Preferences.getInteger("cyrptCrannyEvilness") > 25) {
+            if (Preferences.getInteger("cyrptCrannyEvilness") > 13) {
               Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptCrannyEvilness") + 25);
-              Preferences.setInteger("cyrptCrannyEvilness", 25);
+                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptCrannyEvilness") + 13);
+              Preferences.setInteger("cyrptCrannyEvilness", 13);
             }
             break;
           case GARGANTULIHC:
-            if (Preferences.getInteger("cyrptNicheEvilness") > 25) {
+            if (Preferences.getInteger("cyrptNicheEvilness") > 13) {
               Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNicheEvilness") + 25);
-              Preferences.setInteger("cyrptNicheEvilness", 25);
+                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNicheEvilness") + 13);
+              Preferences.setInteger("cyrptNicheEvilness", 13);
             }
             break;
           case GIANT_SKEELTON:
-            if (Preferences.getInteger("cyrptNookEvilness") > 25) {
+            if (Preferences.getInteger("cyrptNookEvilness") > 13) {
               Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNookEvilness") + 25);
-              Preferences.setInteger("cyrptNookEvilness", 25);
+                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNookEvilness") + 13);
+              Preferences.setInteger("cyrptNookEvilness", 13);
             }
             break;
 
@@ -2503,7 +2515,7 @@ public class FightRequest extends GenericRequest {
         KoLCharacter.resetCurrentPP();
       }
 
-      if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR)) {
+      if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, Slot.FAMILIAR)) {
         CrystalBallManager.parseCrystalBall(responseText);
       }
 
@@ -2731,7 +2743,7 @@ public class FightRequest extends GenericRequest {
     // Check for magnifying glass messages
     CursedMagnifyingGlassManager.updatePreference(responseText);
 
-    if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
+    if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, Slot.HAT)) {
       DaylightShavingsHelmetManager.updatePreference(responseText);
     }
 
@@ -2739,7 +2751,8 @@ public class FightRequest extends GenericRequest {
       JuneCleaverManager.updatePreferences(responseText);
     }
 
-    if (KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)) {
+    if (KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)
+        || KoLCharacter.hasEquipped(ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       Matcher lessSweatMatcher = FightRequest.DESIGNER_SWEATPANTS_LESS_SWEATY.matcher(responseText);
       if (lessSweatMatcher.find()) {
         Preferences.decrement("sweat", StringUtilities.parseInt(lessSweatMatcher.group(1)));
@@ -2774,7 +2787,7 @@ public class FightRequest extends GenericRequest {
     // He flicks his oiled switchblade at you and wrenches your weapon out of your hand.
     // Luckily, it lands in your sack instead of on the grimy sea floor.
     if (responseText.contains("sack instead of on the grimy sea floor")) {
-      EquipmentManager.removeEquipment(EquipmentManager.getEquipment(EquipmentManager.WEAPON));
+      EquipmentManager.removeEquipment(EquipmentManager.getEquipment(Slot.WEAPON));
     }
 
     // The little hellseal gives you an aggrieved look, raises its head, and emits a high-pitched
@@ -2869,7 +2882,7 @@ public class FightRequest extends GenericRequest {
       }
     }
 
-    if (KoLCharacter.hasEquipped(ItemPool.BAG_O_TRICKS, EquipmentManager.OFFHAND)) {
+    if (KoLCharacter.hasEquipped(ItemPool.BAG_O_TRICKS, Slot.OFFHAND)) {
       if (responseText.contains("You reach into the bag and pull out ")) {
         Preferences.increment("_bagOTricksBuffs");
         Preferences.setInteger("bagOTricksCharges", 0);
@@ -2959,15 +2972,10 @@ public class FightRequest extends GenericRequest {
     }
 
     switch (KoLAdventure.lastAdventureId()) {
-      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
-      case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
-      case AdventurePool.EXPLOADED_BATTLEFIELD:
-        IslandManager.handleBattlefield(responseText);
-        break;
-
-      case AdventurePool.HOBOPOLIS_TOWN_SQUARE:
-        HobopolisDecorator.handleTownSquare(responseText);
-        break;
+      case AdventurePool.FRAT_UNIFORM_BATTLEFIELD,
+          AdventurePool.HIPPY_UNIFORM_BATTLEFIELD,
+          AdventurePool.EXPLOADED_BATTLEFIELD -> IslandManager.handleBattlefield(responseText);
+      case AdventurePool.HOBOPOLIS_TOWN_SQUARE -> HobopolisDecorator.handleTownSquare(responseText);
     }
 
     // Reset round information if the battle is complete.
@@ -3021,6 +3029,26 @@ public class FightRequest extends GenericRequest {
 
     FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 
+    var garbledCombat = FightRequest.machineElf || FightRequest.anapest || FightRequest.haiku;
+
+    // Track ghost pepper
+    if (responseText.contains("The ghost pepper you ate") && KoLCharacter.getCurrentHP() > 0) {
+      Preferences.decrement("ghostPepperTurnsLeft", 1, 1);
+    } else if (garbledCombat) {
+      Preferences.decrement("ghostPepperTurnsLeft", 1, 0);
+    } else {
+      Preferences.setInteger("ghostPepperTurnsLeft", 0);
+    }
+
+    // Track Gets-You-Drunk
+    if (responseText.contains("The mulled wine you drank") && KoLCharacter.getCurrentHP() > 0) {
+      Preferences.decrement("getsYouDrunkTurnsLeft", 1, 1);
+    } else if (garbledCombat) {
+      Preferences.decrement("ghostPepperTurnsLeft", 1, 0);
+    } else {
+      Preferences.setInteger("getsYouDrunkTurnsLeft", 0);
+    }
+
     // Increment stinky cheese counter
     int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
     if (stinkyCount > 0) {
@@ -3028,7 +3056,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Increment Pantsgiving counter
-    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PANTSGIVING, 1), EquipmentManager.PANTS)) {
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PANTSGIVING, 1), Slot.PANTS)) {
       Preferences.increment("_pantsgivingCount");
     }
 
@@ -3157,7 +3185,7 @@ public class FightRequest extends GenericRequest {
 
     if (responseText.contains("You wore out your weapon cozy...")) {
       // Cozy weapons are two-handed, so they are necessarily in the weapon slot
-      int cozyId = EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId();
+      int cozyId = EquipmentManager.getEquipment(Slot.WEAPON).getItemId();
       EquipmentManager.breakEquipment(cozyId, "Your cozy wore out.");
     }
 
@@ -3311,7 +3339,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Cancel any combat modifiers
-    Modifiers.overrideRemoveModifier("Generated:fightMods");
+    ModifierDatabase.overrideRemoveModifier(ModifierType.GENERATED, "fightMods");
 
     if (KoLCharacter.isSauceror()) {
       // Check for Soulsauce gain
@@ -3351,7 +3379,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Check for Latte unlocks
-    if (KoLCharacter.hasEquipped(ItemPool.LATTE_MUG, EquipmentManager.OFFHAND)) {
+    if (KoLCharacter.hasEquipped(ItemPool.LATTE_MUG, Slot.OFFHAND)) {
       LatteRequest.parseFight(locationName, responseText);
     }
 
@@ -3367,6 +3395,10 @@ public class FightRequest extends GenericRequest {
 
     if (adventure == AdventurePool.DEEP_MACHINE_TUNNELS) {
       Preferences.decrement("encountersUntilDMTChoice");
+    }
+
+    if (adventure == AdventurePool.SHADOW_RIFT) {
+      RufusManager.handleShadowRiftFight(monster);
     }
 
     if (adventure == AdventurePool.NEVERENDING_PARTY) {
@@ -3413,7 +3445,7 @@ public class FightRequest extends GenericRequest {
       RequestLogger.updateSessionLog(updateMessage);
       KoLmafia.updateDisplay(updateMessage);
     } else {
-      trackEnvironment(location);
+      ColdMedicineCabinetCommand.trackEnvironment(location);
     }
 
     Preferences.setBoolean("_lastCombatWon", won);
@@ -3437,7 +3469,7 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.REAGNIMATED_GNOME:
-          if (KoLCharacter.hasEquipped(ItemPool.GNOMISH_KNEE, EquipmentManager.FAMILIAR)
+          if (KoLCharacter.hasEquipped(ItemPool.GNOMISH_KNEE, Slot.FAMILIAR)
               && GNOME_ADV_ACTIVATION.stream().anyMatch(responseText::contains)) {
             Preferences.increment("_gnomeAdv", 1);
           }
@@ -3812,10 +3844,7 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.STEAM_CHEERLEADER:
-          int dec =
-              KoLCharacter.hasEquipped(ItemPool.SPIRIT_SOCKET_SET, EquipmentManager.FAMILIAR)
-                  ? 1
-                  : 2;
+          int dec = KoLCharacter.hasEquipped(ItemPool.SPIRIT_SOCKET_SET, Slot.FAMILIAR) ? 1 : 2;
           int currentSteam = Preferences.getInteger("_cheerleaderSteam");
           if (currentSteam - dec < 0) {
             dec = currentSteam;
@@ -3827,8 +3856,7 @@ public class FightRequest extends GenericRequest {
           int currentCharge = Preferences.getInteger("_nanorhinoCharge");
           int newCharge =
               currentCharge
-                  + (KoLCharacter.hasEquipped(
-                          ItemPool.NANORHINO_CREDIT_CARD, EquipmentManager.FAMILIAR)
+                  + (KoLCharacter.hasEquipped(ItemPool.NANORHINO_CREDIT_CARD, Slot.FAMILIAR)
                       ? 3
                       : 2);
           // Verify value if text visible
@@ -4004,7 +4032,7 @@ public class FightRequest extends GenericRequest {
               || responseText.contains("shortbutter.gif")
               || responseText.contains("shortwater.gif")
               || responseText.contains("shortcoffee.gif")) {
-            if (KoLCharacter.hasEquipped(ItemPool.BLUE_PLATE, EquipmentManager.FAMILIAR)) {
+            if (KoLCharacter.hasEquipped(ItemPool.BLUE_PLATE, Slot.FAMILIAR)) {
               charge = 2;
             } else {
               charge = 0;
@@ -4074,19 +4102,19 @@ public class FightRequest extends GenericRequest {
       }
 
       // You see a strange cartouche painted on a nearby wall.
-      if (KoLCharacter.hasEquipped(ItemPool.CROWN_OF_ED, EquipmentManager.HAT)
+      if (KoLCharacter.hasEquipped(ItemPool.CROWN_OF_ED, Slot.HAT)
           && responseText.contains("You see a strange cartouche")) {
         FightRequest.handleCartouche(responseText);
       }
 
       // Booze Filler surveys the scene from atop the throne, and gains 1 Experience
-      if (KoLCharacter.hasEquipped(ItemPool.HATSEAT, EquipmentManager.HAT)
+      if (KoLCharacter.hasEquipped(ItemPool.HATSEAT, Slot.HAT)
           && responseText.contains("throne, and gains 1 Experience")) {
         KoLCharacter.getEnthroned().addNonCombatExperience(1);
       }
 
       // Llama surveys the scene from your back, and gains 1 Experience.
-      if (KoLCharacter.hasEquipped(ItemPool.BUDDY_BJORN, EquipmentManager.CONTAINER)
+      if (KoLCharacter.hasEquipped(ItemPool.BUDDY_BJORN, Slot.CONTAINER)
           && responseText.contains("back, and gains 1 Experience")) {
         KoLCharacter.getBjorned().addNonCombatExperience(1);
       }
@@ -4096,7 +4124,7 @@ public class FightRequest extends GenericRequest {
         Preferences.decrement("_spookyJellyUses");
       }
 
-      if (KoLCharacter.hasEquipped(ItemPool.SNOW_SUIT, EquipmentManager.FAMILIAR)) {
+      if (KoLCharacter.hasEquipped(ItemPool.SNOW_SUIT, Slot.FAMILIAR)) {
         if (Preferences.getInteger("_snowSuitCount") < 75
             && Preferences.increment("_snowSuitCount") % 5 == 0) {
           KoLCharacter.recalculateAdjustments();
@@ -4193,7 +4221,7 @@ public class FightRequest extends GenericRequest {
         AdventureResult.addResultToList(KoLConstants.tally, result);
       }
 
-      if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, EquipmentManager.OFFHAND)
+      if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
           && responseText.contains("You move a bone on the abacus to record your victory")) {
         Preferences.increment("boneAbacusVictories", 1);
       }
@@ -4240,31 +4268,6 @@ public class FightRequest extends GenericRequest {
     }
   }
 
-  private static void trackEnvironment(final KoLAdventure location) {
-    String symbol;
-
-    if (location == null) {
-      symbol = "?";
-    } else {
-      if (!location.getFormSource().equals("adventure.php")) return;
-
-      symbol =
-          switch (location.getEnvironment()) {
-            case OUTDOOR -> "o";
-            case INDOOR -> "i";
-            case UNDERGROUND -> "u";
-            case UNDERWATER -> "x";
-            default -> "?";
-          };
-    }
-
-    // Make sure the value is padded to handle malformed preferences
-    var environments = "x".repeat(20) + Preferences.getString("lastCombatEnvironments") + symbol;
-
-    Preferences.setString(
-        "lastCombatEnvironments", environments.substring(environments.length() - 20));
-  }
-
   // <p>You see a strange cartouche painted on a nearby wall.<div style='position: relative;
   // display: inline-block; z-index 0;'><img src=/images/otherimages/cartouche.gif><div
   // style='position: absolute; left: 15; top: 30; z-index 1;'><img
@@ -4295,7 +4298,7 @@ public class FightRequest extends GenericRequest {
     if (!pref.equals("")
         && !KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ON_THE_TRAIL))) {
       boolean haveSkill =
-          KoLCharacter.hasSkill("Transcendent Olfaction")
+          KoLCharacter.hasSkill(SkillPool.OLFACTION)
               && !KoLCharacter.inGLover()
               && (Preferences.getBoolean("autoManaRestore"));
       boolean haveItem = KoLConstants.inventory.contains(FightRequest.EXTRACTOR);
@@ -4353,7 +4356,7 @@ public class FightRequest extends GenericRequest {
     int itemsSize = items.size();
     if (itemsSize == 0) {
       return null;
-    } else if (itemsSize == 1 || !KoLCharacter.hasSkill("Ambidextrous Funkslinging")) {
+    } else if (itemsSize == 1 || !KoLCharacter.hasSkill(SkillPool.AMBIDEXTROUS_FUNKSLINGING)) {
       return String.valueOf(items.get(0));
     } else {
       return items.get(0) + "," + items.get(1);
@@ -4814,7 +4817,7 @@ public class FightRequest extends GenericRequest {
 
     if (status.limitmode == LimitMode.SPELUNKY) {
       // additional logging when decrease monster's HP, attack, or defense
-      AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
+      AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
       Stat stat = EquipmentDatabase.getWeaponStat(weapon.getItemId());
       int hitStat =
           stat == Stat.MOXIE ? KoLCharacter.getAdjustedMoxie() : KoLCharacter.getAdjustedMuscle();
@@ -5491,6 +5494,12 @@ public class FightRequest extends GenericRequest {
     public boolean carnivorous;
     public boolean lovebugs;
     public String lovebugProperty;
+    public boolean toyTrain;
+    public boolean pingpong;
+    public boolean harness;
+    public boolean luggage;
+    public boolean armtowel;
+    public boolean pebble;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5500,8 +5509,7 @@ public class FightRequest extends GenericRequest {
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
       this.doppel =
           (familiarId == FamiliarPool.DOPPEL)
-              || KoLCharacter.hasEquipped(
-                  ItemPool.TINY_COSTUME_WARDROBE, EquipmentManager.FAMILIAR);
+              || KoLCharacter.hasEquipped(ItemPool.TINY_COSTUME_WARDROBE, Slot.FAMILIAR);
       this.crimbo = (familiarId == FamiliarPool.CRIMBO_SHRUB);
 
       this.diceMessage =
@@ -5556,7 +5564,7 @@ public class FightRequest extends GenericRequest {
       this.ravers = (KoLAdventure.lastAdventureId() == AdventurePool.OUTSIDE_THE_CLUB);
 
       // If we have the Meteor Lore skill
-      this.meteors = KoLCharacter.hasSkill("Meteor Lore");
+      this.meteors = KoLCharacter.hasSkill(SkillPool.METEOR_LORE);
 
       // If goose drones are active
       this.drones = Preferences.getInteger("gooseDronesRemaining");
@@ -5565,12 +5573,21 @@ public class FightRequest extends GenericRequest {
       this.greyYou = KoLCharacter.inGreyYou();
 
       // If you are carrying a carnivorous potted plant
-      this.carnivorous =
-          KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT, EquipmentManager.OFFHAND);
+      this.carnivorous = KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT, Slot.OFFHAND);
 
       // If you have lovebugs
       this.lovebugs = Preferences.getBoolean("lovebugsUnlocked");
       this.lovebugProperty = null;
+
+      // If you have a toy train in your workshed
+      AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
+      this.toyTrain = workshed != null && workshed.getItemId() == ItemPool.MODEL_TRAIN_SET;
+
+      this.pingpong = KoLCharacter.hasEquipped(ItemPool.PING_PONG_PADDLE);
+      this.harness = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_HARNESS);
+      this.luggage = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_LUGGAGE_HOOK);
+      this.armtowel = KoLCharacter.hasEquipped(ItemPool.WHITE_ARM_TOWEL);
+      this.pebble = KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE);
 
       this.ghost = null;
 
@@ -5662,8 +5679,7 @@ public class FightRequest extends GenericRequest {
 
     for (Object bnode : node.getElementListByName("b", true)) {
       // Should be unnecessary. We need a more modern version of this package
-      if (bnode instanceof TagNode) {
-        TagNode b = (TagNode) bnode;
+      if (bnode instanceof TagNode b) {
         if (b.getText().toString().contains(" Team:")) {
           return b.getParent();
         }
@@ -5693,8 +5709,7 @@ public class FightRequest extends GenericRequest {
     int pokindex = 0;
     while (it.hasNext() && !done) {
       BaseToken child = it.next();
-      if (child instanceof TagNode) {
-        TagNode tnode = (TagNode) child;
+      if (child instanceof TagNode tnode) {
         String name = tnode.getName();
 
         // Each familiar is in a table
@@ -5848,45 +5863,35 @@ public class FightRequest extends GenericRequest {
     int td = 1;
     for (TagNode tdnode : row1Tags) {
       switch (td++) {
-        case 1:
-          {
-            // Familiar Image:
-            TagNode inode = tdnode.findElementByName("img", true);
-            image = imgToString(inode);
-            break;
-          }
-        case 2:
-          {
-            // Familiar name
-            name = tdnode.getText().toString();
-            break;
-          }
-        case 3:
-          {
-            // Familiar power: one image (blacksword.gif) per
-            power = tdnode.getElementsByName("img", true).length;
-            break;
-          }
-        case 4:
-          {
-            // Familiar attribute: distinct images, can have two
-            TagNode[] inodes = tdnode.getElementsByName("img", true);
-            for (TagNode inode : inodes) {
-              String title = inode.getAttributeByName("title");
-              if (title != null) {
-                int colon = title.indexOf(":");
-                String aname = title.substring(0, colon);
-                attributes.add(aname);
-              }
+        case 1 -> {
+          // Familiar Image:
+          TagNode inode = tdnode.findElementByName("img", true);
+          image = imgToString(inode);
+        }
+        case 2 -> {
+          // Familiar name
+          name = tdnode.getText().toString();
+        }
+        case 3 -> {
+          // Familiar power: one image (blacksword.gif) per
+          power = tdnode.getElementsByName("img", true).length;
+        }
+        case 4 -> {
+          // Familiar attribute: distinct images, can have two
+          TagNode[] inodes = tdnode.getElementsByName("img", true);
+          for (TagNode inode : inodes) {
+            String title = inode.getAttributeByName("title");
+            if (title != null) {
+              int colon = title.indexOf(":");
+              String aname = title.substring(0, colon);
+              attributes.add(aname);
             }
-            break;
           }
-        case 5:
-          {
-            // Familiar HP: one image (blackheart.gif) per
-            hp = tdnode.getElementsByName("img", true).length;
-            break;
-          }
+        }
+        case 5 -> {
+          // Familiar HP: one image (blackheart.gif) per
+          hp = tdnode.getElementsByName("img", true).length;
+        }
       }
     }
 
@@ -5906,18 +5911,9 @@ public class FightRequest extends GenericRequest {
     // Power, HP, Armor, Regenerating, Smart, Spiked
     PokeBoost boost = myFamiliar ? FamTeamRequest.getPokeBoost(race) : PokeBoost.NONE;
     switch (boost) {
-      case POWER:
-        power -= 1;
-        break;
-      case HP:
-        hp -= 1;
-        break;
-      case ARMOR:
-      case REGENERATING:
-      case SMART:
-      case SPIKED:
-        attributes.remove(boost.toString());
-        break;
+      case POWER -> power -= 1;
+      case HP -> hp -= 1;
+      case ARMOR, REGENERATING, SMART, SPIKED -> attributes.remove(boost.toString());
     }
 
     if (attributes.size() > 0) {
@@ -6124,10 +6120,7 @@ public class FightRequest extends GenericRequest {
 
     if (FightRequest.anapest || FightRequest.haiku) {
       switch (familiarId) {
-        case FamiliarPool.MOSQUITO:
-        case FamiliarPool.ADORABLE_SEAL_LARVA:
-          status.mosquito = true;
-          break;
+        case FamiliarPool.MOSQUITO, FamiliarPool.ADORABLE_SEAL_LARVA -> status.mosquito = true;
       }
 
       return;
@@ -6137,46 +6130,35 @@ public class FightRequest extends GenericRequest {
     // normal text.
 
     switch (familiarId) {
-      case FamiliarPool.MOSQUITO:
-        {
-          Matcher m = FightRequest.MOSQUITO_PATTERN.matcher(text);
-          if (m.find()) {
-            status.mosquito = true;
-          }
-          break;
+      case FamiliarPool.MOSQUITO -> {
+        Matcher m = FightRequest.MOSQUITO_PATTERN.matcher(text);
+        if (m.find()) {
+          status.mosquito = true;
         }
+      }
+      case FamiliarPool.ADORABLE_SEAL_LARVA -> {
+        Matcher m = FightRequest.ADORABLE_SEAL_PATTERN.matcher(text);
 
-      case FamiliarPool.ADORABLE_SEAL_LARVA:
-        {
-          Matcher m = FightRequest.ADORABLE_SEAL_PATTERN.matcher(text);
-
-          if (m.find()) {
-            status.mosquito = true;
-          }
-          break;
+        if (m.find()) {
+          status.mosquito = true;
         }
+      }
+      case FamiliarPool.STAB_BAT -> {
+        Matcher m = FightRequest.STABBAT_PATTERN.matcher(text);
 
-      case FamiliarPool.STAB_BAT:
-        {
-          Matcher m = FightRequest.STABBAT_PATTERN.matcher(text);
-
-          if (m.find()) {
-            String message = "You lose " + m.group(1) + " hit points";
-            FightRequest.logPlayerAttribute(status, message);
-          }
-          break;
+        if (m.find()) {
+          String message = "You lose " + m.group(1) + " hit points";
+          FightRequest.logPlayerAttribute(status, message);
         }
+      }
+      case FamiliarPool.ORB -> {
+        Matcher m = FightRequest.CARBS_PATTERN.matcher(text);
 
-      case FamiliarPool.ORB:
-        {
-          Matcher m = FightRequest.CARBS_PATTERN.matcher(text);
-
-          if (m.find()) {
-            String message = "You lose " + m.group(1) + " hit points";
-            FightRequest.logPlayerAttribute(status, message);
-          }
-          break;
+        if (m.find()) {
+          String message = "You lose " + m.group(1) + " hit points";
+          FightRequest.logPlayerAttribute(status, message);
         }
+      }
     }
   }
 
@@ -6281,6 +6263,25 @@ public class FightRequest extends GenericRequest {
 
       String str = FightRequest.getContentNodeText(node);
 
+      if (status.pebble) {
+        FightRequest.handleLittleRoundPebble(str, status);
+      }
+
+      // Crimbo2022 Trainbot features
+      if (won) {
+        if (status.harness) {
+          FightRequest.handleTrainbotHarness(str, status);
+        }
+
+        if (status.luggage) {
+          FightRequest.handleTrainbotLuggageHook(str, status);
+        }
+
+        if (status.armtowel) {
+          FightRequest.handleWhiteArmTowel(str, status);
+        }
+      }
+
       if (containsMacroError(str)) {
         FightRequest.macroErrorMessage = str;
         Preferences.setString("lastMacroError", str);
@@ -6329,6 +6330,13 @@ public class FightRequest extends GenericRequest {
       }
 
       if (handleCosmicBowlingBall(str)) return;
+
+      // As empty track does not have an image, it is specially handled to pass it to the appropiate
+      // handler
+      if (str.equals("Your toy train moves ahead to some empty track.")) {
+        handleToyTrain("modeltrain", str, status);
+        return;
+      }
 
       FightRequest.handleVillainLairRadio(node, status);
 
@@ -6398,14 +6406,12 @@ public class FightRequest extends GenericRequest {
   private static void processChildren(final TagNode node, final TagStatus status) {
     StringBuffer action = status.action;
     for (BaseToken child : node.getAllChildren()) {
-      if (child instanceof CommentNode) {
-        CommentNode object = (CommentNode) child;
+      if (child instanceof CommentNode object) {
         FightRequest.processComment(object, status);
         continue;
       }
 
-      if (child instanceof ContentNode) {
-        ContentNode object = (ContentNode) child;
+      if (child instanceof ContentNode object) {
         String str = object.getContent().trim();
 
         if (str.equals("")) {
@@ -6480,8 +6486,7 @@ public class FightRequest extends GenericRequest {
         continue;
       }
 
-      if (child instanceof TagNode) {
-        TagNode object = (TagNode) child;
+      if (child instanceof TagNode object) {
         FightRequest.processNode(object, status);
       }
     }
@@ -6508,15 +6513,9 @@ public class FightRequest extends GenericRequest {
           cell = cells[i];
           int value = StringUtilities.parseInt(cell.getText().toString());
           switch (stat) {
-            case "Enemy's Attack Power":
-              attack = value;
-              break;
-            case "Enemy's Defense":
-              defense = value;
-              break;
-            case "Enemy's Hit Points":
-              hp = value;
-              break;
+            case "Enemy's Attack Power" -> attack = value;
+            case "Enemy's Defense" -> defense = value;
+            case "Enemy's Hit Points" -> hp = value;
           }
         }
         MonsterStatusTracker.setManuelStats(attack, defense, hp);
@@ -6576,6 +6575,7 @@ public class FightRequest extends GenericRequest {
               : FightRequest.parseNormalDamage(str);
       if (damage != 0) {
         FightRequest.handleSpelunky(str, status);
+        FightRequest.handlePingPong(str, status);
         FightRequest.logSpecialDamage(str, status);
         FightRequest.logMonsterAttribute(status, damage, HEALTH);
         MonsterStatusTracker.damageMonster(damage);
@@ -6717,6 +6717,10 @@ public class FightRequest extends GenericRequest {
 
     if (FightRequest.handleSpelunkyGold(image, str, status)) {
       return false;
+    }
+
+    if (status.toyTrain) {
+      FightRequest.handleToyTrain(src, str, status);
     }
 
     // Attempt to identify combat items
@@ -6990,7 +6994,6 @@ public class FightRequest extends GenericRequest {
         if (!matcher.find()) return false;
         int candy = StringUtilities.parseInt(matcher.group(1));
         Preferences.increment("candyWitchCandyTotal", candy);
-        break;
       }
       default -> {
         return false;
@@ -7000,6 +7003,63 @@ public class FightRequest extends GenericRequest {
     FightRequest.logText(text, status);
     status.grimstone = false;
     return true;
+  }
+
+  private static final Pattern TRAINSET_MOVE =
+      Pattern.compile("^Your toy train moves ahead to (?:the|some) (.+?)\\.");
+
+  private static void handleToyTrain(String image, String str, TagStatus status) {
+    if (image == null || !image.contains("modeltrain")) {
+      return;
+    }
+
+    FightRequest.logText(str, status);
+
+    Matcher matcher = TRAINSET_MOVE.matcher(str);
+
+    if (matcher.find()) {
+      TrainsetManager.onTrainsetMove(matcher.group(1));
+    }
+
+    status.toyTrain = false;
+  }
+
+  private static void handlePingPong(String str, TagStatus status) {
+    if (status.pingpong && str.contains("+1 Ping-Pong Skill")) {
+      FightRequest.logText("You gain +1 Ping-Pong Skill", status);
+      Preferences.increment("pingpongSkill");
+    }
+  }
+
+  private static void handleTrainbotHarness(String str, TagStatus status) {
+    // You grab a nearby elf, toss it into your backpack, and drop it off safely outside of the
+    // train.
+    if (str.contains("You grab a nearby elf")) {
+      FightRequest.logText(str, status);
+      FightRequest.logText("You've earned 1 Elf Gratitude.", status);
+      Preferences.increment("elfGratitude");
+    }
+  }
+
+  private static void handleTrainbotLuggageHook(String str, TagStatus status) {
+    // You snag a nearby piece of luggage with your handy-dandy hook.
+    if (str.contains("handy-dandy hook")) {
+      FightRequest.logText(str, status);
+    }
+  }
+
+  private static void handleWhiteArmTowel(String str, TagStatus status) {
+    // Your familiar grabs you something from the dining car.
+    if (str.contains("Your familiar grabs you something")) {
+      FightRequest.logText(str, status);
+    }
+  }
+
+  private static void handleLittleRoundPebble(String str, TagStatus status) {
+    if (str.contains("He grabs the pebble from your hand.")) {
+      FightRequest.logText(str, status);
+      EquipmentManager.discardEquipment(ItemPool.LITTLE_ROUND_PEBBLE);
+    }
   }
 
   private static boolean handleEldritchHorror(TagNode node, TagStatus status) {
@@ -7041,6 +7101,9 @@ public class FightRequest extends GenericRequest {
 
     return false;
   }
+
+  // You toss the ball into the air and whack it with your paddle, nailing your opponent right in
+  // the paddle for 37 damage.<p><b>+1 Ping-Pong Skill</b>
 
   private static boolean handleGlitchMonster(TagStatus status, String str) {
     if (!status.glitch || !status.won) {
@@ -7246,8 +7309,7 @@ public class FightRequest extends GenericRequest {
 
   private static void processComments(TagNode node, TagStatus status) {
     for (BaseToken child : node.getAllChildren()) {
-      if (child instanceof CommentNode) {
-        CommentNode object = (CommentNode) child;
+      if (child instanceof CommentNode object) {
         FightRequest.processComment(object, status);
       }
     }
@@ -7332,7 +7394,7 @@ public class FightRequest extends GenericRequest {
 
     if (str.equals("Your hat gets bigger!")) {
       // Upgraded hat in Avatar of West of Loathing
-      AdventureResult oldHat = EquipmentManager.getEquipment(EquipmentManager.HAT);
+      AdventureResult oldHat = EquipmentManager.getEquipment(Slot.HAT);
       // The hats are in sequential item id order, and you can only upgrade 1 level per combat
       AdventureResult newHat = ItemPool.get(oldHat.getItemId() + 1, 1);
       EquipmentManager.transformEquipment(oldHat, newHat);
@@ -7467,6 +7529,10 @@ public class FightRequest extends GenericRequest {
       if (m.find()) {
         Preferences.setInteger("camelSpit", StringUtilities.parseInt(m.group(1)));
       }
+    }
+
+    if (str.contains("is starting to make audible sloshing noises as he walks around.")) {
+      Preferences.setInteger("camelSpit", 100);
     }
 
     if (status.logFamiliar) {
@@ -7886,7 +7952,7 @@ public class FightRequest extends GenericRequest {
     // It only happens when you've won the combat or reprocessed the monster with your Goose
     var fam = KoLCharacter.getFamiliar();
     if (FightRequest.won || fam != null && status.familiarId == FamiliarPool.GREY_GOOSE) {
-      GreyYouManager.absorbMonster(status.monster);
+      GreyYouManager.absorbMonster(status.monster, text);
       Matcher matcher = GOO_GAIN_PATTERN.matcher(text);
       String gain = null;
       if (matcher.find()) {
@@ -8770,6 +8836,30 @@ public class FightRequest extends GenericRequest {
         }
         return false;
 
+      case ItemPool.SPOOKY_VHS_TAPE:
+        if (responseText.contains("grow wide as they view the contents") || itemSuccess) {
+          TurnCounter.stopCounting("Spooky VHS Tape Monster");
+          if (Preferences.getBoolean("stopForFixedWanderer")) {
+            TurnCounter.startCounting(8, "Spooky VHS Tape Monster type=wander", "watch.gif");
+          } else {
+            TurnCounter.startCounting(8, "Spooky VHS Tape Monster loc=* type=wander", "watch.gif");
+          }
+          Preferences.setString("spookyVHSTapeMonster", monsterName);
+          Preferences.setInteger("spookyVHSTapeMonsterTurn", KoLCharacter.getTurnsPlayed());
+          return true;
+        }
+
+        if (responseText.contains("one of your spooky tapes")
+            && !TurnCounter.isCounting("Spooky VHS Tape Monster")) {
+          TurnCounter.startCounting(
+              0, "Spooky VHS Tape unknown monster window begin loc=* type=wander", "lparen.gif");
+          TurnCounter.startCounting(
+              8, "Spooky VHS Tape unknown monster window end loc=* type=wander", "rparen.gif");
+          return false;
+        }
+
+        return false;
+
       default:
         return true;
     }
@@ -8795,7 +8885,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void setFightModifiers(final String mods) {
-    Modifiers.overrideModifier("Generated:fightMods", mods);
+    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "fightMods", mods);
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }
@@ -8882,7 +8972,7 @@ public class FightRequest extends GenericRequest {
               || (FightRequest.haiku && responseText.contains("jiggle a stick"))
               || (FightRequest.machineElf && responseText.contains("line of power"));
 
-      int staffId = EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId();
+      int staffId = EquipmentManager.getEquipment(Slot.WEAPON).getItemId();
       switch (staffId) {
         case ItemPool.STAFF_OF_LIFE:
           // You jiggle the staff. There is a weak coughing sound,
@@ -9032,6 +9122,27 @@ public class FightRequest extends GenericRequest {
         singleCastsThisFight.add(skillId);
         return;
 
+      case SkillPool.BALL_THROW:
+      case SkillPool.HOT_FOOT:
+      case SkillPool.SECOND_WIND:
+      case SkillPool.STOP_HITTING_YOURSELF:
+      case SkillPool.EMMENTAL_ELEMENTAL:
+      case SkillPool.STILTON_SPLATTER:
+      case SkillPool.KNIFE_IN_THE_DARKNESS:
+      case SkillPool.VENOMOUS_RIFF:
+      case SkillPool.DRUM_ROLL:
+        singleCastsThisFight.add(skillId);
+        return;
+
+      case SkillPool.CERAMIC_PUNCH:
+      case SkillPool.CERAMIC_BASH:
+      case SkillPool.CERAMIC_GRATE:
+      case SkillPool.CERAMIC_BOIL:
+      case SkillPool.CERAMIC_SKULLGAZE:
+      case SkillPool.CERAMIC_CENOBITIZE:
+        singleCastsThisFight.add(skillId);
+        return;
+
       case SkillPool.MAYFLY_SWARM:
         if (responseText.contains("mayfly bait and swing it")
             || responseText.contains("May flies when")
@@ -9170,6 +9281,20 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case SkillPool.MOTIF:
+        if (responseText.contains("You whip out an instrument and play a quick motif")) {
+          Preferences.setString("motifMonster", monsterName);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.MONKEY_POINT:
+        if (responseText.contains("Your monkey paw points at your opponent")) {
+          Preferences.setString("mokeyPointMonster", monsterName);
+          skillSuccess = true;
+        }
+        break;
+
         // Banishing Shout has lots of success messages.  Check for the failure message instead
       case SkillPool.BANISHING_SHOUT:
         if (!responseText.contains("but this foe refuses")) {
@@ -9213,6 +9338,18 @@ public class FightRequest extends GenericRequest {
       case SkillPool.BATTER_UP:
         if (responseText.contains("knocked out of the park") || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.BATTER_UP);
+        }
+        break;
+
+      case SkillPool.PUNT:
+        if (responseText.contains("You punt your foe into next week") || skillRunawaySuccess) {
+          BanishManager.banishMonster(monster, Banisher.PUNT);
+        }
+        break;
+
+      case SkillPool.MONKEY_SLAP:
+        if (responseText.contains("You hold up the monkey paw and it slaps") || skillSuccess) {
+          BanishManager.banishMonster(monster, Banisher.MONKEY_SLAP);
         }
         break;
 
@@ -9304,8 +9441,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("tide of beans") || skillSuccess) {
           skillSuccess = true;
           BanishManager.banishMonster(monster, Banisher.BEANCANNON);
-          EquipmentManager.discardEquipment(
-              EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
+          EquipmentManager.discardEquipment(EquipmentManager.getEquipment(Slot.OFFHAND));
         }
         break;
 
@@ -10061,7 +10197,29 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.LAUNCH_SPIKOLODON_SPIKES:
         if (responseText.contains("The spikolodon spikes both")) {
+          Preferences.setBoolean("noncombatForcerActive", true);
           skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.CINCHO_PROJECTILE_PINATA:
+        if (responseText.contains(
+            "You press the Projectile Pi&ntilde;ata button on your Cincho.")) {
+          skillSuccess = true;
+          increment = 5;
+        }
+        break;
+      case SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA:
+        if (responseText.contains("You activate your Cincho's Confetti Extravaganza function.")) {
+          skillSuccess = true;
+          increment = 5;
+        }
+        break;
+      case SkillPool.CINCHO_PARTY_FOUL:
+        if (responseText.contains(
+            "You press the button on your Cincho that unleashes a torrent of ghastly obscenities.")) {
+          skillSuccess = true;
+          increment = 5;
         }
         break;
     }
@@ -10433,6 +10591,18 @@ public class FightRequest extends GenericRequest {
             QuestManager.updateCyrusAdjective(itemId2);
           }
           break;
+        case ItemPool.SHADOW_BRICK:
+          if (responseText.contains("They collide, and are annihilated")) {
+            itemSuccess = true;
+          }
+      }
+    }
+
+    if (itemSuccess || itemRunawaySuccess) {
+      var limit = DailyLimitType.USE.getDailyLimit(itemId);
+
+      if (limit != null) {
+        limit.increment();
       }
     }
 
@@ -10470,7 +10640,7 @@ public class FightRequest extends GenericRequest {
   }
 
   public static final boolean canHandleCan() {
-    return EquipmentManager.usingCanOfBeans() && KoLCharacter.hasSkill("Canhandle");
+    return EquipmentManager.usingCanOfBeans() && KoLCharacter.hasSkill(SkillPool.CANHANDLE);
   }
 
   public static final boolean shotSixgun() {
@@ -10504,8 +10674,11 @@ public class FightRequest extends GenericRequest {
           > Preferences.getInteger("_banderRunaways")) {
         return 100;
       }
-    } else if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.NAVEL_RING, 1))
-        || KoLCharacter.hasEquipped(ItemPool.get(ItemPool.GREAT_PANTS, 1))) {
+    } else if (KoLCharacter.hasEquipped(ItemPool.NAVEL_RING)
+        || KoLCharacter.hasEquipped(ItemPool.GREAT_PANTS)
+        || (KoLCharacter.inLegacyOfLoathing()
+            && (KoLCharacter.hasEquipped(ItemPool.REPLICA_NAVEL_RING)
+                || KoLCharacter.hasEquipped(ItemPool.REPLICA_GREAT_PANTS)))) {
       int navelRunaways = Preferences.getInteger("_navelRunaways");
 
       return navelRunaways < 3 ? 100 : navelRunaways < 6 ? 80 : navelRunaways < 9 ? 50 : 20;
@@ -10521,22 +10694,12 @@ public class FightRequest extends GenericRequest {
 
     String action = m.group(1);
     switch (action) {
-      case "attack":
-        FightRequest.registerRequest(false, "fight.php?attack");
-        break;
-      case "runaway":
-        FightRequest.registerRequest(false, "fight.php?runaway");
-        break;
-      case "steal":
-        FightRequest.registerRequest(false, "fight.php?steal");
-        break;
-      case "chefstaff":
-        FightRequest.registerRequest(false, "fight.php?chefstaff");
-        break;
-      case "skill":
-        FightRequest.registerRequest(false, "fight.php?whichskill=" + m.group(2));
-        break;
-      case "use":
+      case "attack" -> FightRequest.registerRequest(false, "fight.php?attack");
+      case "runaway" -> FightRequest.registerRequest(false, "fight.php?runaway");
+      case "steal" -> FightRequest.registerRequest(false, "fight.php?steal");
+      case "chefstaff" -> FightRequest.registerRequest(false, "fight.php?chefstaff");
+      case "skill" -> FightRequest.registerRequest(false, "fight.php?whichskill=" + m.group(2));
+      case "use" -> {
         String item1 = m.group(2);
         String item2 = m.group(3);
         if (item2 == null) {
@@ -10545,10 +10708,8 @@ public class FightRequest extends GenericRequest {
           FightRequest.registerRequest(
               false, "fight.php?whichitem=" + item1 + "&whichitem2=" + item2);
         }
-        break;
-      default:
-        System.out.println("unrecognized macroaction: " + action);
-        break;
+      }
+      default -> System.out.println("unrecognized macroaction: " + action);
     }
   }
 
@@ -10800,7 +10961,7 @@ public class FightRequest extends GenericRequest {
       FightRequest.nextAction = "jiggle";
       if (shouldLogAction) {
         action.append("jiggles the ");
-        action.append(EquipmentManager.getEquipment(EquipmentManager.WEAPON).getName());
+        action.append(EquipmentManager.getEquipment(Slot.WEAPON).getName());
       }
     } else if (urlString.contains("twiddle")) {
       FightRequest.nextAction = "twiddle";

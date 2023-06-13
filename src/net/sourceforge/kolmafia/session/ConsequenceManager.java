@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.ModifierExpression;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -21,10 +21,12 @@ import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class ConsequenceManager {
   private static final HashMap<String, Consequence> itemDescs = new HashMap<>();
@@ -295,12 +297,12 @@ public abstract class ConsequenceManager {
           mods =
               DebugDatabase.parseItemEnchantments(
                   match.replaceFirst(match.group(0)), new ArrayList<>(), equipType);
-          Modifiers.overrideModifier("Item:[" + itemId + "]", mods);
+          ModifierDatabase.overrideModifier(ModifierType.ITEM, itemId, mods);
         }
         case "DESC_EFFECT" -> {
-          int itemId = EffectDatabase.getEffectId(this.getSpec());
+          int effectId = EffectDatabase.getEffectId(this.getSpec());
           mods = DebugDatabase.parseEffectEnchantments(match.replaceFirst(match.group(0)));
-          Modifiers.overrideModifier("Effect:[" + itemId + "]", mods);
+          ModifierDatabase.overrideModifier(ModifierType.EFFECT, effectId, mods);
         }
       }
 
@@ -310,7 +312,11 @@ public abstract class ConsequenceManager {
         String value = action.substring(pos + 1).trim();
         if (value.equals("ascensions")) value = String.valueOf(KoLCharacter.getAscensions());
         if (value.equals("mods")) value = mods;
-        Preferences.setString(setting, value);
+        if (StringUtilities.isNumeric(value)) {
+          Preferences.setInteger(setting, StringUtilities.parseInt(value));
+        } else {
+          Preferences.setString(setting, value);
+        }
         return null;
       }
 

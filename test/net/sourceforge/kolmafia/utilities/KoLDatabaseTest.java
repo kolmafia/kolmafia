@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 
 public class KoLDatabaseTest {
 
-  List<String> theList = new ArrayList<String>();
-  List<Integer> theOtherList = new ArrayList<Integer>();
+  List<String> theList = new ArrayList<>();
+  List<Integer> theOtherList = new ArrayList<>();
 
   @Test
   public void itShouldReturnEOLForEmptyList() {

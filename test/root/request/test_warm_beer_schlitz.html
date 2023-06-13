@@ -1,0 +1,337 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/core.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/cookie.20130818.js"></script>
+<script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20130705.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/ircm.20161111.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	one = 'one'; ss=some;
+if (i.d==1 && i.s>0) { shown++; 
+contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=41a4313d9aaa26d91729f9a229a3ef93" id="pircm_'+i.id+'"><b>Auto-Sell ('+i.s+' meat):</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'inventory.php?action=closetpush&ajax=1&whichitem=IID&qty=NUM&pwd=41a4313d9aaa26d91729f9a229a3ef93" id="pircm_'+i.id+'"><b>Closet:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.g==0 && i.t==1) { shown++; 
+contents += dc + 'managestore.php?action=additem&qty1=NUM&item1=IID&price1=&limit1=&ajax=1&pwd=41a4313d9aaa26d91729f9a229a3ef93" id="pircm_'+i.id+'"><b>Stock in Mall:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'managecollection.php?action=put&ajax=1&whichitem1=IID&howmany1=NUM&pwd=41a4313d9aaa26d91729f9a229a3ef93" id="pircm_'+i.id+'"><b>Add to Display Case:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.t==1) { shown++; 
+contents += dc + 'clan_stash.php?action=addgoodies&ajax=1&item1=IID&qty1=NUM&pwd=41a4313d9aaa26d91729f9a229a3ef93" id="pircm_'+i.id+'"><b>Contribute to Clan:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && !i.ac) { shown++; 
+contents += dc + 'inv_'+(i.u=="a"?"redir":(lab=(i.u=="u"?"use":(i.u=="e"?"eat":(i.u=="b"?"booze":(i.u=="s"?"spleen":"equip"))))))+'.php?ajax=1&whichitem=IID&itemquantity=NUM&quantity=NUM'+(i.u=="q"?"&action=equip":"")+'&pwd=41a4313d9aaa26d91729f9a229a3ef93" id="pircm_'+i.id+'"><b>'+ucfirst(unescape(i.ou ? i.ou.replace(/\+/g," ") : (lab=="booze"?"drink":lab)))+':</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=1&ajax=1&whichitem=IID&action=equip&pwd=41a4313d9aaa26d91729f9a229a3ef93" id="pircm_'+i.id+'"><b>Equip (slot 1):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=2&ajax=1&whichitem=IID&action=equip&pwd=41a4313d9aaa26d91729f9a229a3ef93" id="pircm_'+i.id+'"><b>Equip (slot 2):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=3&ajax=1&whichitem=IID&action=equip&pwd=41a4313d9aaa26d91729f9a229a3ef93" id="pircm_'+i.id+'"><b>Equip (slot 3):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+</script><style type="text/css">.gray {color: gray; }</style>	<script type="text/javascript">
+	function cookme(form) {
+		var select = form[0]
+		var what = select.options[select.selectedIndex].value
+		what = what.split(/,/);
+		var itema = document.getElementById('a');
+		var itemb = document.getElementById('b');
+		var i = 0;
+		for (o in itema.options) {
+			if (itema.options[o].value == what[0]) { itema.selectedIndex = i;}
+			i++;
+		}
+		i = 0;
+		for (o in itemb.options) {
+			if (itemb.options[o].value == what[1]) { itemb.selectedIndex = i;}
+			i++;
+		}
+	}
+
+	function hiddenCookie() {
+		var tohide_s = getCookie('crafthide');
+		tohide_s = tohide_s ? tohide_s : '';
+		var tohide = tohide_s.split(/,/);
+		return tohide;
+	}
+
+	function hideCookie(t) {
+		var tohide = hiddenCookie();
+		var done = [];
+		for (i in tohide) {
+			if (tohide[i] != t){ done.push(tohide[i]);}
+		}
+		setCookie('crafthide', done.join(','));
+	}
+
+	function showCookie(t) {
+		var tohide = hiddenCookie();
+		var seen = false;
+		for (i in tohide) {
+			if (tohide[i] == t){ seen = true; }
+		}
+		if (!seen) { tohide.push(t);}
+		setCookie('crafthide', tohide.join(','));
+	}
+
+	function toggledisp(t) {
+		var hide = getObj('hide_' + t);
+		var table = getObj('table_' + t);
+		if (hide.innerHTML == 'show') {
+			table.style.display = 'block';
+			hide.innerHTML = 'hide';
+			hideCookie(t);
+		}
+		else {
+			table.style.display = 'none';
+			hide.innerHTML = 'show';
+			showCookie(t);
+		}
+	}
+
+	function multicraft(args) {
+		var num = parseInt(prompt('How many?'));
+		if (num && num > 0) {
+			var url = '/craft.php?stay=1&action=craft&pwd=' + "41a4313d9aaa26d91729f9a229a3ef93" + '&' + args + '&qty=' + num;
+			document.location = url;
+		}
+	}
+
+	function reallysmash()
+	{
+		var select = document.pulverize.smashitem;
+		var selected = select.options[select.selectedIndex];
+		if (selected.getAttribute)
+		{
+			if (selected.getAttribute('cantransfer') == 0)
+				return confirm('This item is not tradable. Do you really want to smash it?');
+			else if (selected.getAttribute('candiscard') == 0)
+				return confirm('This item may be valuable.  Do you really want to smash it?');
+		}
+		return true;
+	}
+
+	function showqty() {
+		var show = true;
+		var items = ['a', 'b'];
+		for (i in items) {
+			var sel = getObj(items[i]);
+			var selected = sel.options[sel.selectedIndex];
+			if (selected.getAttribute) {
+				if (selected.getAttribute('qty') < 2) { show = false; }
+			}
+		}
+		if (show && (qty = getObj('qtybox'))) {
+			qty.style.display = 'block';
+			getObj('qtyentry').focus();
+		}
+		return true;
+	}
+
+	function hideqty () {
+		if (qty = getObj('qtybox')) {
+			qty.style.display = 'none';
+		}
+	}
+	
+	</script><script>var free=0;</script>
+<script type="text/javascript">
+	var oldshowqty = showqty;
+	var turns = 1;
+	showqty =  function () {
+		var fancy = false;
+		var items = ['a', 'b'];
+		for (i in items) {
+			var sel = getObj(items[i]);
+			var selected = sel.options[sel.selectedIndex];
+			if (selected.getAttribute) {
+				if (selected.getAttribute('fancy') == 1) fancy = true;
+			}
+		}
+		var lbl = $('#goer').val();	
+		lbl = lbl.replace(/\s*\(\d Advent.*/, '')
+		if (fancy && turns && !free) {
+			lbl += ' (' + turns + ' Adventure)';
+		}
+		$('#goer').val(lbl);
+
+		if (fancy && turns == 0) {
+			$('#servant').show();
+		}
+		else {
+			$('#servant').hide();
+		}
+		oldshowqty();
+	};
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<center>
+	<table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Crafting:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><font size=2>[<a href="craft.php?mode=combine">combine items</a>]&nbsp;[<a href="craft.php?mode=cook">cook stuff</a>]&nbsp;[<a href="craft.php?mode=smith">smith stuff</a>]&nbsp;[make cocktails]&nbsp;[<a href="craft.php?mode=discoveries&what=cocktail">discoveries</a>]</font></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table>	<center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><!-- cr:1x41,11096=11097 --><center>You mix up a refreshing cocktail.</center><center><table class="item" style="float: none" rel="id=11097&s=0&q=0&d=0&g=0&t=0&n=1&m=0&p=0&u=b"><tr><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/gwoolbeer.gif" alt="nice warm beer" title="nice warm beer" class=hand onClick='descitem(497162291)' ></td><td valign=center class=effect>You acquire an item: <b>nice warm beer</b></td></tr></table></center><p>Congratulations!  You just <a href="craft.php?mode=discoveries&what=cocktail">discovered</a> a new recipe!</p></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center>	<table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Make Cocktails:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td>	<center>
+	
+				<form method="post" name="master">
+			<input type="hidden" name="mode" value="cocktail">
+			<input type="hidden" name="pwd" value="41a4313d9aaa26d91729f9a229a3ef93">
+			<input type="hidden" name="action" value="craft">
+	
+				
+				Mix<br />
+				<select name="a" id="a" onchange="showqty()"><option value="0" qty="0">-select an item-</option><option value="10043"  qty="1" fancy="0">beavermouth (1)</option><option value="2063"  qty="1" fancy="0">blackberry (1)</option><option value="249"  qty="2" fancy="0">bloody mary (2)</option><option value="1552"  qty="1" fancy="1">bottle of Definit (1)</option><option value="237"  qty="1" fancy="0">bottle of gin (1)</option><option value="1554"  qty="1" fancy="1">bottle of Lieutenant Freeman (1)</option><option value="3497"  qty="1" fancy="1">bottle of Pete's Sake (1)</option><option value="10203"  qty="1" fancy="0">bottle of super-extra-dark rhum (1)</option><option value="1004"  qty="10" fancy="0">bottle of tequila (10)</option><option value="328"  qty="8" fancy="0">bottle of whiskey (8)</option><option value="1005"  qty="2" fancy="0">boxed wine (2)</option><option value="2579"  qty="1" fancy="0">cactus fruit (1)</option><option value="1006"  qty="1" fancy="0">cherry (1)</option><option value="2725"  qty="3" fancy="0">cob of corn (3)</option><option value="1007"  qty="285" fancy="1">coconut shell (285)</option><option value="751"  qty="44" fancy="0">cool mushroom (44)</option><option value="672"  qty="10" fancy="0">cranberries (10)</option><option value="2970"  qty="3" fancy="0">cream stout (3)</option><option value="9366"  qty="2" fancy="0">double entendre (2)</option><option value="2275"  qty="1" fancy="0">dusty bottle of Marsala (1)</option><option value="2276"  qty="2" fancy="0">dusty bottle of Muscat (2)</option><option value="2272"  qty="1" fancy="0">dusty bottle of Port (1)</option><option value="755"  qty="61" fancy="0">flaming mushroom (61)</option><option value="756"  qty="62" fancy="0">frozen mushroom (62)</option><option value="161"  qty="4" fancy="0">ghuol egg (4)</option><option value="5481"  qty="2" fancy="0">giant yellow gummi bear (2)</option><option value="330"  qty="2" fancy="0">glass of goat's milk (2)</option><option value="244"  qty="1" fancy="0">grapes (1)</option><option value="11096"  qty="1" fancy="0">grubby wool beerwarmer (1)</option><option value="10012"  qty="1" fancy="0">haunted bottle of vodka (1)</option><option value="81"  qty="3" fancy="0">ice-cold Willer (3)</option><option value="455"  qty="1" fancy="0">jumbo olive (1)</option><option value="2726"  qty="1" fancy="0">juniper berries (1)</option><option value="1562"  qty="20" fancy="0">kiwi (20)</option><option value="303"  qty="50" fancy="0">Knob mushroom (50)</option><option value="723"  qty="54" fancy="0">Knoll mushroom (54)</option><option value="1557"  qty="2" fancy="0">kumquat (2)</option><option value="332"  qty="8" fancy="0">lemon (8)</option><option value="333"  qty="1" fancy="0">lime (1)</option><option value="635"  qty="273" fancy="1">little paper umbrella (273)</option><option value="1008"  qty="291" fancy="1">magical ice cubes (291)</option><option value="7369"  qty="1" fancy="0">mangled finger (1)</option><option value="251"  qty="2" fancy="0">martini (2)</option><option value="2519"  qty="6" fancy="0">McMillicancuddy's Special Lager (6)</option><option value="9369"  qty="1" fancy="0">mentholated wine (1)</option><option value="5370"  qty="1" fancy="0">miniature boiler (1)</option><option value="245"  qty="5" fancy="0">olive (5)</option><option value="242"  qty="7" fancy="0">orange (7)</option><option value="498"  qty="1" fancy="0">papaya (1)</option><option value="2729"  qty="1" fancy="0">peach (1)</option><option value="10212"  qty="1" fancy="0">pineapple slab (1)</option><option value="753"  qty="42" fancy="0">pointy mushroom (42)</option><option value="7230"  qty="1" fancy="0">red rum (1)</option><option value="10415"  qty="1" fancy="0">salt plum (1)</option><option value="1022"  qty="1" fancy="0">sangria (1)</option><option value="680"  qty="1" fancy="0">slap and tickle (1)</option><option value="3764"  qty="1" fancy="1">slug of rum (1)</option><option value="1003"  qty="1" fancy="0">soda water (1)</option><option value="9380"  qty="1" fancy="0">soilzerac (1)</option><option value="8"  qty="1651" fancy="0">spices (1651)</option><option value="724"  qty="73" fancy="0">spooky mushroom (73)</option><option value="757"  qty="61" fancy="0">stinky mushroom (61)</option><option value="786"  qty="6" fancy="0">strawberry (6)</option><option value="1014"  qty="1" fancy="0">strawberry wine (1)</option><option value="1574"  qty="2" fancy="0">teqiwila (2)</option><option value="1012"  qty="1" fancy="0">tequila sunrise (1)</option><option value="246"  qty="5" fancy="0">tomato (5)</option><option value="3831"  qty="4" fancy="0">Typical Tavern swill (4)</option><option value="8171"  qty="5" fancy="0">unflavored wine cooler (5)</option><option value="1569"  qty="2" fancy="0">vodka gibson (2)</option><option value="1009"  qty="2" fancy="0">vodka martini (2)</option><option value="749"  qty="46" fancy="0">warm mushroom (46)</option><option value="1010"  qty="1" fancy="0">whiskey and soda (1)</option><option value="3582"  qty="1" fancy="0">white rice (1)</option><option value="1015"  qty="1" fancy="0">wine spritzer (1)</option></select>
+				<br />with <br />
+				<select name="b" id="b" onchange="showqty()"><option value="0" qty="0">-select an item-</option><option value="10043"  qty="1" fancy="0">beavermouth (1)</option><option value="2063"  qty="1" fancy="0">blackberry (1)</option><option value="249"  qty="2" fancy="0">bloody mary (2)</option><option value="1552"  qty="1" fancy="1">bottle of Definit (1)</option><option value="237"  qty="1" fancy="0">bottle of gin (1)</option><option value="1554"  qty="1" fancy="1">bottle of Lieutenant Freeman (1)</option><option value="3497"  qty="1" fancy="1">bottle of Pete's Sake (1)</option><option value="10203"  qty="1" fancy="0">bottle of super-extra-dark rhum (1)</option><option value="1004"  qty="10" fancy="0">bottle of tequila (10)</option><option value="328"  qty="8" fancy="0">bottle of whiskey (8)</option><option value="1005"  qty="2" fancy="0">boxed wine (2)</option><option value="2579"  qty="1" fancy="0">cactus fruit (1)</option><option value="1006"  qty="1" fancy="0">cherry (1)</option><option value="2725"  qty="3" fancy="0">cob of corn (3)</option><option value="1007"  qty="285" fancy="1">coconut shell (285)</option><option value="751"  qty="44" fancy="0">cool mushroom (44)</option><option value="672"  qty="10" fancy="0">cranberries (10)</option><option value="2970"  qty="3" fancy="0">cream stout (3)</option><option value="9366"  qty="2" fancy="0">double entendre (2)</option><option value="2275"  qty="1" fancy="0">dusty bottle of Marsala (1)</option><option value="2276"  qty="2" fancy="0">dusty bottle of Muscat (2)</option><option value="2272"  qty="1" fancy="0">dusty bottle of Port (1)</option><option value="755"  qty="61" fancy="0">flaming mushroom (61)</option><option value="756"  qty="62" fancy="0">frozen mushroom (62)</option><option value="161"  qty="4" fancy="0">ghuol egg (4)</option><option value="5481"  qty="2" fancy="0">giant yellow gummi bear (2)</option><option value="330"  qty="2" fancy="0">glass of goat's milk (2)</option><option value="244"  qty="1" fancy="0">grapes (1)</option><option value="11096" selected qty="1" fancy="0">grubby wool beerwarmer (1)</option><option value="10012"  qty="1" fancy="0">haunted bottle of vodka (1)</option><option value="81"  qty="3" fancy="0">ice-cold Willer (3)</option><option value="455"  qty="1" fancy="0">jumbo olive (1)</option><option value="2726"  qty="1" fancy="0">juniper berries (1)</option><option value="1562"  qty="20" fancy="0">kiwi (20)</option><option value="303"  qty="50" fancy="0">Knob mushroom (50)</option><option value="723"  qty="54" fancy="0">Knoll mushroom (54)</option><option value="1557"  qty="2" fancy="0">kumquat (2)</option><option value="332"  qty="8" fancy="0">lemon (8)</option><option value="333"  qty="1" fancy="0">lime (1)</option><option value="635"  qty="273" fancy="1">little paper umbrella (273)</option><option value="1008"  qty="291" fancy="1">magical ice cubes (291)</option><option value="7369"  qty="1" fancy="0">mangled finger (1)</option><option value="251"  qty="2" fancy="0">martini (2)</option><option value="2519"  qty="6" fancy="0">McMillicancuddy's Special Lager (6)</option><option value="9369"  qty="1" fancy="0">mentholated wine (1)</option><option value="5370"  qty="1" fancy="0">miniature boiler (1)</option><option value="245"  qty="5" fancy="0">olive (5)</option><option value="242"  qty="7" fancy="0">orange (7)</option><option value="498"  qty="1" fancy="0">papaya (1)</option><option value="2729"  qty="1" fancy="0">peach (1)</option><option value="10212"  qty="1" fancy="0">pineapple slab (1)</option><option value="753"  qty="42" fancy="0">pointy mushroom (42)</option><option value="7230"  qty="1" fancy="0">red rum (1)</option><option value="10415"  qty="1" fancy="0">salt plum (1)</option><option value="1022"  qty="1" fancy="0">sangria (1)</option><option value="680"  qty="1" fancy="0">slap and tickle (1)</option><option value="3764"  qty="1" fancy="1">slug of rum (1)</option><option value="1003"  qty="1" fancy="0">soda water (1)</option><option value="9380"  qty="1" fancy="0">soilzerac (1)</option><option value="8"  qty="1651" fancy="0">spices (1651)</option><option value="724"  qty="73" fancy="0">spooky mushroom (73)</option><option value="757"  qty="61" fancy="0">stinky mushroom (61)</option><option value="786"  qty="6" fancy="0">strawberry (6)</option><option value="1014"  qty="1" fancy="0">strawberry wine (1)</option><option value="1574"  qty="2" fancy="0">teqiwila (2)</option><option value="1012"  qty="1" fancy="0">tequila sunrise (1)</option><option value="246"  qty="5" fancy="0">tomato (5)</option><option value="3831"  qty="4" fancy="0">Typical Tavern swill (4)</option><option value="8171"  qty="5" fancy="0">unflavored wine cooler (5)</option><option value="1569"  qty="2" fancy="0">vodka gibson (2)</option><option value="1009"  qty="2" fancy="0">vodka martini (2)</option><option value="749"  qty="46" fancy="0">warm mushroom (46)</option><option value="1010"  qty="1" fancy="0">whiskey and soda (1)</option><option value="3582"  qty="1" fancy="0">white rice (1)</option><option value="1015"  qty="1" fancy="0">wine spritzer (1)</option></select>
+				<div id="qtybox">
+				<p>Make <input class="text" size="5" value="1" name="qty" id="qtyentry">
+					<br><input type=checkbox name=max>Make as many as possible
+				</p>
+				</div>
+						<p>
+			<input id="goer" type="submit" class="button" value="Shake! (1 Adventure)">
+			<div id="servant" style="display: none">(Using )</div>
+			<script type='text/javascript'>$(document).ready(function () { hideqty(); showqty(); });
+				turns = 1;</script>
+			</p>
+					</form>	
+	
+		
+		<p><a href="inventory.php">Back to Inventory</a></p>
+	</center>
+	</td></tr></table></center></td></tr><tr><td height=4></td></tr></table>
+	</center>
+</body></html>

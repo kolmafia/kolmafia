@@ -1,10 +1,12 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.KoLmafia.KOL_TIME_ZONE;
+
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class DateTimeManager {
-  public static final ZoneId ROLLOVER = ZoneId.of("GMT-0330");
+  public static final ZoneId ROLLOVER = ZoneId.of(KOL_TIME_ZONE.getID());
   public static final ZoneId ARIZONA = ZoneId.of("GMT-0700");
 
   /**

@@ -36,12 +36,10 @@ public class UseSkillCommand extends AbstractCommand {
    *     parameter
    */
   private static String expandRecognizedShorthand(final String skillNameString) {
-    switch (skillNameString) {
-      case "ode":
-        return "The Ode to Booze";
-    }
-
-    return skillNameString;
+    return switch (skillNameString) {
+      case "ode" -> "The Ode to Booze";
+      default -> skillNameString;
+    };
   }
 
   private static void cast(final String parameters) {

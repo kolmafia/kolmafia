@@ -86,7 +86,8 @@ public class FamiliarTool {
           }
 
           // optimal weight for equal skill is +3
-          if (this.betterWeightDifference(ownPower - (opponentPower + 3), this.difference)) {
+          if (FamiliarTool.betterWeightDifference(
+              ownPower - (opponentPower + 3), this.difference)) {
             this.difference = ownPower - (opponentPower + 3);
             this.bestOpponent = opp;
             this.bestMatch = match;
@@ -134,36 +135,23 @@ public class FamiliarTool {
     return this.difference;
   }
 
-  private boolean betterWeightDifference(final int newVal, final int oldVal) {
+  private static boolean betterWeightDifference(final int newVal, final int oldVal) {
     // In order to reduce the probability for accidental loss,
     // do not consider priority values less than -2, but make
     // it lower priority than 3.
 
-    switch (oldVal) {
-      case 0:
-        return false;
-
-      case 1:
-        return newVal == 0;
-
-      case -1:
-        return newVal == 0 || newVal == 1;
-
-      case 2:
-        return newVal == 0 || newVal == 1 || newVal == -1;
-
-      case 3:
-        return newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2;
-
-      case -2:
-        return newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2 || newVal == 3;
-
-      default:
-        return newVal == 0 || newVal < oldVal && newVal >= -2;
-    }
+    return switch (oldVal) {
+      case 0 -> false;
+      case 1 -> newVal == 0;
+      case -1 -> newVal == 0 || newVal == 1;
+      case 2 -> newVal == 0 || newVal == 1 || newVal == -1;
+      case 3 -> newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2;
+      case -2 -> newVal == 0 || newVal == 1 || newVal == -1 || newVal == 2 || newVal == 3;
+      default -> newVal == 0 || newVal < oldVal && newVal >= -2;
+    };
   }
 
-  private class Opponent {
+  private static class Opponent {
     // Cake Arena data structure
     private final ArenaOpponent opponent;
 

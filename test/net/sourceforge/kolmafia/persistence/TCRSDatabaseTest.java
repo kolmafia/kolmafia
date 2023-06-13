@@ -1,13 +1,22 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.stream.Stream;
+
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.Test;
@@ -140,48 +149,78 @@ class TCRSDatabaseTest {
           }
 
           var checkMods =
-              !TCRSDatabase.DYNAMICALLY_NAMED.contains(itemId)
-                  && switch (ItemDatabase.getConsumptionType(itemId)) {
+                  !TCRSDatabase.DYNAMICALLY_NAMED.contains(itemId)
+                          && switch (ItemDatabase.getConsumptionType(itemId)) {
                     case USE, USE_INFINITE, USE_MULTIPLE, USE_MESSAGE_DISPLAY -> false;
                     default -> true;
                   };
 
           assertAll(
-              String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign),
-              () ->
-                  assertThat(
-                      "Name",
-                      weGuessed.name,
-                      equalTo(StringUtilities.getEntityDecode(dataSays.name))),
-              () -> assertThat("Size", weGuessed.size, equalTo(dataSays.size)),
-              () -> {
-                if (dataSays.quality.getValue() > 0)
-                  assertThat("Quality", weGuessed.quality, equalTo(dataSays.quality));
-              },
-              () -> {
-                if (checkMods) {
-                  var dataSaysMods = Modifiers.splitModifiers(dataSays.modifiers);
-                  var weGuessedMods = Modifiers.splitModifiers(weGuessed.modifiers);
+                  String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign),
+                  () ->
+                          assertThat(
+                                  "Name",
+                                  weGuessed.name,
+                                  equalTo(StringUtilities.getEntityDecode(dataSays.name))),
+                  () -> assertThat("Size", weGuessed.size, equalTo(dataSays.size)),
+                  () -> {
+                    if (dataSays.quality.getValue() > 0)
+                      assertThat("Quality", weGuessed.quality, equalTo(dataSays.quality));
+                  },
+                  () -> {
+                    if (checkMods) {
+                      var dataSaysMods = ModifierDatabase.splitModifiers(dataSays.modifiers);
+                      var weGuessedMods = ModifierDatabase.splitModifiers(weGuessed.modifiers);
 
-                  assertAll(
-                      () ->
-                          assertThat(
-                              "Effect",
-                              weGuessedMods.getModifierValue("Effect"),
-                              equalTo(dataSaysMods.getModifierValue("Effect"))),
-                      () -> {
-                        // @TODO Queen cookie sometimes has no effect duration. Is this right?
-                        if (dataSaysMods.containsModifier("Effect Duration")) {
-                          assertThat(
-                              "Effect Duration",
-                              weGuessedMods.getModifierValue("Effect Duration"),
-                              equalTo(dataSaysMods.getModifierValue("Effect Duration")));
-                        }
-                      });
-                }
-              });
+                      assertAll(
+                              () ->
+                                      assertThat(
+                                              "Effect",
+                                              weGuessedMods.getModifierValue("Effect"),
+                                              equalTo(dataSaysMods.getModifierValue("Effect"))),
+                              () -> {
+                                // @TODO Queen cookie sometimes has no effect duration. Is this right?
+                                if (dataSaysMods.containsModifier("Effect Duration")) {
+                                  assertThat(
+                                          "Effect Duration",
+                                          weGuessedMods.getModifierValue("Effect Duration"),
+                                          equalTo(dataSaysMods.getModifierValue("Effect Duration")));
+                                }
+                              });
+                    }
+                  });
         }
       }
+    }
+  }
+
+  @Test
+  public void campgroundItemsRetainModifiers() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.MONGOOSE));
+
+    try (cleanups) {
+      TCRSDatabase.loadTCRSData();
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.MAID);
+      assertThat(mods.getDouble(DoubleModifier.ADVENTURES), is(4.0));
+    }
+  }
+
+  @Test
+  public void chateauItemsRetainModifiers() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.MONGOOSE));
+
+    try (cleanups) {
+      TCRSDatabase.loadTCRSData();
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.CHATEAU_SKYLIGHT);
+      assertThat(mods.getDouble(DoubleModifier.ADVENTURES), is(3.0));
     }
   }
 }

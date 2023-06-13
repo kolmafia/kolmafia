@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
+import net.sourceforge.kolmafia.request.LatteRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -327,42 +328,22 @@ public class ResponseTextParser {
         boolean changesFromTimeToTime = true;
 
         switch (itemId) {
-          case ItemPool.YEARBOOK_CAMERA:
-            ItemDatabase.parseYearbookCamera(responseText);
-            break;
-          case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
-            ItemDatabase.parseRetroCape(responseText);
-            break;
-          case ItemPool.HATSEAT:
-            ItemDatabase.parseCrownOfThrones(responseText);
-            break;
-          case ItemPool.BUDDY_BJORN:
-            ItemDatabase.parseBuddyBjorn(responseText);
-            break;
-          case ItemPool.FOURTH_SABER:
-            ItemDatabase.parseSaber(responseText);
-            break;
-          case ItemPool.VAMPIRE_VINTNER_WINE:
-            ItemDatabase.parseVampireVintnerWine(responseText);
-            break;
-          case ItemPool.COMBAT_LOVERS_LOCKET:
-            LocketManager.parseLocket(responseText);
-            break;
-          case ItemPool.UNBREAKABLE_UMBRELLA:
-            ItemDatabase.parseUmbrella(responseText);
-            break;
-          case ItemPool.JUNE_CLEAVER:
-            ItemDatabase.parseCleaver(responseText);
-            break;
-          case ItemPool.DESIGNER_SWEATPANTS:
-            ItemDatabase.parseDesignerSweatpants(responseText);
-            break;
-          case ItemPool.POWERFUL_GLOVE:
-            ItemDatabase.parsePowerfulGlove(responseText);
-            break;
-          default:
-            changesFromTimeToTime = false;
-            break;
+          case ItemPool.YEARBOOK_CAMERA -> ItemDatabase.parseYearbookCamera(responseText);
+          case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.parseRetroCape(responseText);
+          case ItemPool.HATSEAT -> ItemDatabase.parseCrownOfThrones(responseText);
+          case ItemPool.BUDDY_BJORN -> ItemDatabase.parseBuddyBjorn(responseText);
+          case ItemPool.FOURTH_SABER -> ItemDatabase.parseSaber(responseText);
+          case ItemPool.VAMPIRE_VINTNER_WINE -> ItemDatabase.parseVampireVintnerWine(responseText);
+          case ItemPool.COMBAT_LOVERS_LOCKET -> LocketManager.parseLocket(responseText);
+          case ItemPool.UNBREAKABLE_UMBRELLA -> ItemDatabase.parseUmbrella(responseText);
+          case ItemPool.JUNE_CLEAVER -> ItemDatabase.parseCleaver(responseText);
+          case ItemPool.DESIGNER_SWEATPANTS, ItemPool.REPLICA_DESIGNER_SWEATPANTS -> ItemDatabase
+              .parseDesignerSweatpants(responseText);
+          case ItemPool.POWERFUL_GLOVE, ItemPool.REPLICA_POWERFUL_GLOVE -> ItemDatabase
+              .parsePowerfulGlove(responseText);
+          case ItemPool.RING -> ItemDatabase.parseRing(responseText);
+          case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
+          default -> changesFromTimeToTime = false;
         }
 
         if (changesFromTimeToTime) {
@@ -729,9 +710,9 @@ public class ResponseTextParser {
     }
   }
 
-  public static void learnSkill(final String location, final String responseText) {
+  public static int learnSkill(final String location, final String responseText) {
     if (!ResponseTextParser.hasResult(location)) {
-      return;
+      return 0;
     }
 
     // Don't parse skill acquisition via item use here, since
@@ -743,7 +724,7 @@ public class ResponseTextParser {
         || location.startsWith("inv_booze.php")
         || location.startsWith("inv_spleen.php")
         || location.startsWith("showplayer.php")) {
-      return;
+      return 0;
     }
 
     // Unfortunately, if you learn a new skill from Frank
@@ -757,42 +738,38 @@ public class ResponseTextParser {
         int skillId = StringUtilities.parseInt(matcher.group(1));
         String skillName = SkillDatabase.getSkillName(skillId);
         ResponseTextParser.learnSkill(skillName);
-        return;
+        return 0;
       }
     }
 
-    ResponseTextParser.learnSkillFromResponse(responseText);
+    return ResponseTextParser.learnSkillFromResponse(responseText);
   }
 
-  public static void learnSkillFromResponse(final String responseText) {
-    boolean skillFound = false;
+  public static int learnSkillFromResponse(final String responseText) {
+    int skillFound = 0;
 
     Matcher matcher = ResponseTextParser.NEWSKILL1_PATTERN.matcher(responseText);
     while (matcher.find()) {
-      ResponseTextParser.learnSkill(matcher.group(1));
-      skillFound = true;
+      skillFound = ResponseTextParser.learnSkill(matcher.group(1));
     }
 
-    if (skillFound) {
-      return;
+    if (skillFound != 0) {
+      return skillFound;
     }
 
     matcher = ResponseTextParser.NEWSKILL3_PATTERN.matcher(responseText);
     while (matcher.find()) {
-      ResponseTextParser.learnSkill(Integer.parseInt(matcher.group(1)));
-      skillFound = true;
+      skillFound = ResponseTextParser.learnSkill(Integer.parseInt(matcher.group(1)));
     }
 
-    if (skillFound) {
-      return;
-    }
+    return skillFound;
   }
 
-  public static final void learnSkill(final String skillName) {
-    learnSkill(SkillDatabase.getSkillId(skillName));
+  public static final int learnSkill(final String skillName) {
+    return learnSkill(SkillDatabase.getSkillId(skillName));
   }
 
-  public static final void learnSkill(final int skillId) {
+  public static final int learnSkill(final int skillId) {
     // The following skills are found in battle and result in
     // losing an item from inventory.
     var levelPref = "skillLevel" + skillId;
@@ -843,49 +820,44 @@ public class ResponseTextParser {
     }
 
     if (KoLCharacter.inNuclearAutumn()) {
-      int cost = 0;
-
-      switch (skillId) {
-        case SkillPool.BOILING_TEAR_DUCTS:
-        case SkillPool.PROJECTILE_SALIVARY_GLANDS:
-        case SkillPool.TRANSLUCENT_SKIN:
-        case SkillPool.SKUNK_GLANDS:
-        case SkillPool.THROAT_REFRIDGERANT:
-        case SkillPool.INTERNAL_SODA_MACHINE:
-          cost = 30;
-          break;
-        case SkillPool.STEROID_BLADDER:
-        case SkillPool.MAGIC_SWEAT:
-        case SkillPool.FLAPPY_EARS:
-        case SkillPool.SELF_COMBING_HAIR:
-        case SkillPool.INTRACRANIAL_EYE:
-        case SkillPool.MIND_BULLETS:
-        case SkillPool.EXTRA_KIDNEY:
-        case SkillPool.EXTRA_GALL_BLADDER:
-          cost = 60;
-          break;
-        case SkillPool.EXTRA_MUSCLES:
-        case SkillPool.ADIPOSE_POLYMERS:
-        case SkillPool.METALLIC_SKIN:
-        case SkillPool.HYPNO_EYES:
-        case SkillPool.EXTRA_BRAIN:
-        case SkillPool.MAGNETIC_EARS:
-        case SkillPool.EXTREMELY_PUNCHABLE_FACE:
-        case SkillPool.FIREFLY_ABDOMEN:
-        case SkillPool.BONE_SPRINGS:
-        case SkillPool.SQUID_GLANDS:
-          cost = 90;
-          break;
-        case SkillPool.SUCKER_FINGERS:
-        case SkillPool.BACKWARDS_KNEES:
-          cost = 120;
-          break;
-      }
+      int cost =
+          switch (skillId) {
+            case SkillPool.BOILING_TEAR_DUCTS,
+                SkillPool.PROJECTILE_SALIVARY_GLANDS,
+                SkillPool.TRANSLUCENT_SKIN,
+                SkillPool.SKUNK_GLANDS,
+                SkillPool.THROAT_REFRIDGERANT,
+                SkillPool.INTERNAL_SODA_MACHINE -> 30;
+            case SkillPool.STEROID_BLADDER,
+                SkillPool.MAGIC_SWEAT,
+                SkillPool.FLAPPY_EARS,
+                SkillPool.SELF_COMBING_HAIR,
+                SkillPool.INTRACRANIAL_EYE,
+                SkillPool.MIND_BULLETS,
+                SkillPool.EXTRA_KIDNEY,
+                SkillPool.EXTRA_GALL_BLADDER -> 60;
+            case SkillPool.EXTRA_MUSCLES,
+                SkillPool.ADIPOSE_POLYMERS,
+                SkillPool.METALLIC_SKIN,
+                SkillPool.HYPNO_EYES,
+                SkillPool.EXTRA_BRAIN,
+                SkillPool.MAGNETIC_EARS,
+                SkillPool.EXTREMELY_PUNCHABLE_FACE,
+                SkillPool.FIREFLY_ABDOMEN,
+                SkillPool.BONE_SPRINGS,
+                SkillPool.SQUID_GLANDS -> 90;
+            case SkillPool.SUCKER_FINGERS, SkillPool.BACKWARDS_KNEES -> 120;
+            default -> 0;
+          };
 
       ResultProcessor.processResult(ItemPool.get(ItemPool.RAD, -cost));
     }
 
     UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
+    if (skill == null) {
+      SkillDatabase.registerSkill(skillId);
+      skill = UseSkillRequest.getUnmodifiedInstance(skillId);
+    }
 
     String message = "You learned a new skill: " + skill.getSkillName();
     RequestLogger.printLine(message);
@@ -905,6 +877,8 @@ public class ResponseTextParser {
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.resetCurrentPP();
     }
+
+    return skillId;
   }
 
   public static final String[][] COMBAT_MOVE_DATA = {

@@ -5,6 +5,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -40,7 +41,7 @@ public class HatterCommand extends AbstractCommand {
 
       RabbitHoleManager.getHatBuff(len);
     } catch (NumberFormatException e) {
-      List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(EquipmentManager.HAT);
+      List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(Slot.HAT);
       AdventureResult[] matches = ItemFinder.getMatchingItemList(hat, false, hats);
 
       // TODO: ItemFinder will just return a 0-length array if too many matches.  It would be nice

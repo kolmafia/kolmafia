@@ -5,16 +5,20 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -100,21 +104,19 @@ public class BasementDecorator {
     }
 
     for (FamiliarData fam : KoLCharacter.usableFamiliars()) {
-      boolean useful = false;
-      switch (fam.getId()) {
-        case FamiliarPool.HAND:
-        case FamiliarPool.SANDWORM:
-        case FamiliarPool.PARROT:
-        case FamiliarPool.PRESSIE:
-        case FamiliarPool.RIFTLET:
-        case FamiliarPool.GIBBERER:
-        case FamiliarPool.HARE:
-          useful = true;
-          break;
-        case FamiliarPool.SOMBRERO:
-          useful = !KoLCharacter.usableFamiliars().contains(BasementRequest.SANDWORM);
-          break;
-      }
+      boolean useful =
+          switch (fam.getId()) {
+            case FamiliarPool.HAND,
+                FamiliarPool.SANDWORM,
+                FamiliarPool.PARROT,
+                FamiliarPool.PRESSIE,
+                FamiliarPool.RIFTLET,
+                FamiliarPool.GIBBERER,
+                FamiliarPool.HARE -> true;
+            case FamiliarPool.SOMBRERO -> !KoLCharacter.usableFamiliars()
+                .contains(BasementRequest.SANDWORM);
+            default -> false;
+          };
 
       if (fam.hasDrop()) {
         useful = fam.dropsToday() < fam.dropDailyCap();
@@ -149,7 +151,7 @@ public class BasementDecorator {
       changes.append("\" id=\"potion\" style=\"width: 100%;\" multiple size=5>");
 
       if (KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP()) {
-        if (KoLCharacter.hasSkill("Cannelloni Cocoon")) {
+        if (KoLCharacter.hasSkill(SkillPool.COCOON)) {
           changes.append("<option value=0>cast Cannelloni Cocoon (hp restore)</option>");
         } else {
           changes.append("<option value=0>use 1 scroll of drastic healing (hp restore)</option>");
@@ -360,17 +362,18 @@ public class BasementDecorator {
     public static void checkSkills() {
       StatBooster.moxieControlsMP = moxieControlsMP();
 
-      StatBooster.absOfTin = KoLCharacter.hasSkill("Abs of Tin");
-      StatBooster.gnomishHardigness = KoLCharacter.hasSkill("Gnomish Hardigness");
-      StatBooster.gnomishUgnderstanding = KoLCharacter.hasSkill("Cosmic Ugnderstanding");
-      StatBooster.marginallyInsane = KoLCharacter.hasSkill("Marginally Insane");
-      StatBooster.spiritOfRavioli = KoLCharacter.hasSkill("Spirit of Ravioli");
-      StatBooster.wisdomOfTheElderTortoise = KoLCharacter.hasSkill("Wisdom of the Elder Tortoises");
+      StatBooster.absOfTin = KoLCharacter.hasSkill(SkillPool.ABS_OF_TIN);
+      StatBooster.gnomishHardigness = KoLCharacter.hasSkill(SkillPool.GNOMISH_HARDINESS);
+      StatBooster.gnomishUgnderstanding = KoLCharacter.hasSkill(SkillPool.COSMIC_UNDERSTANDING);
+      StatBooster.marginallyInsane = KoLCharacter.hasSkill(SkillPool.MARGINALLY_INSANE);
+      StatBooster.spiritOfRavioli = KoLCharacter.hasSkill(SkillPool.SPIRIT_OF_RAVIOLI);
+      StatBooster.wisdomOfTheElderTortoise =
+          KoLCharacter.hasSkill(SkillPool.WISDOM_OF_THE_ELDER_TORTOISES);
     }
 
     @Override
     public boolean equals(final Object o) {
-      return o instanceof StatBooster && this.name.equals(((StatBooster) o).name);
+      return o instanceof StatBooster sb && this.name.equals(sb.name);
     }
 
     @Override
@@ -481,38 +484,38 @@ public class BasementDecorator {
     }
 
     public int computeBoost() {
-      Modifiers m = Modifiers.getModifiers("Effect", this.name);
+      Modifiers m = ModifierDatabase.getModifiers(ModifierType.EFFECT, this.name);
       if (m == null) {
         return 0;
       }
 
-      if (BasementRequest.getActualStatNeeded() == Modifiers.HP) {
+      if (BasementRequest.getActualStatNeeded() == DoubleModifier.HP) {
         return StatBooster.boostMaxHP(m);
       }
 
-      if (BasementRequest.getActualStatNeeded() == Modifiers.MP) {
+      if (BasementRequest.getActualStatNeeded() == DoubleModifier.MP) {
         return StatBooster.boostMaxMP(m);
       }
 
       double base = StatBooster.getEqualizedStat(BasementRequest.getPrimaryBoost());
       double boost =
-          m.get(BasementRequest.getSecondaryBoost())
-              + m.get(BasementRequest.getPrimaryBoost()) * base / 100.0;
+          m.getDouble(BasementRequest.getSecondaryBoost())
+              + m.getDouble(BasementRequest.getPrimaryBoost()) * base / 100.0;
 
       return (int) Math.ceil(boost);
     }
 
-    public static double getEqualizedStat(final int mod) {
+    public static double getEqualizedStat(final DoubleModifier mod) {
       double currentStat = 0.0;
 
       switch (mod) {
-        case Modifiers.MUS_PCT:
+        case MUS_PCT:
           currentStat = KoLCharacter.getBaseMuscle();
           break;
-        case Modifiers.MYS_PCT:
+        case MYS_PCT:
           currentStat = KoLCharacter.getBaseMysticality();
           break;
-        case Modifiers.MOX_PCT:
+        case MOX_PCT:
           currentStat = KoLCharacter.getBaseMoxie();
           break;
         default:
@@ -535,15 +538,15 @@ public class BasementDecorator {
     }
 
     public static int boostMaxHP(final Modifiers m) {
-      double addedMuscleFixed = m.get(Modifiers.MUS);
-      double addedMusclePercent = m.get(Modifiers.MUS_PCT);
-      int addedHealthFixed = (int) m.get(Modifiers.HP);
+      double addedMuscleFixed = m.getDouble(DoubleModifier.MUS);
+      double addedMusclePercent = m.getDouble(DoubleModifier.MUS_PCT);
+      int addedHealthFixed = (int) m.getDouble(DoubleModifier.HP);
 
       if (addedMuscleFixed == 0.0 && addedMusclePercent == 0.0 && addedHealthFixed == 0) {
         return 0;
       }
 
-      double muscleBase = StatBooster.getEqualizedStat(Modifiers.MUS_PCT);
+      double muscleBase = StatBooster.getEqualizedStat(DoubleModifier.MUS_PCT);
       double muscleBonus = addedMuscleFixed + Math.floor(addedMusclePercent * muscleBase / 100.0);
       double muscleMultiplicator = 1.0;
 
@@ -567,20 +570,20 @@ public class BasementDecorator {
     }
 
     public static int boostMaxMP(final Modifiers m) {
-      int statModifier;
-      int statPercentModifier;
+      DoubleModifier statModifier;
+      DoubleModifier statPercentModifier;
 
       if (StatBooster.moxieControlsMP) {
-        statModifier = Modifiers.MOX;
-        statPercentModifier = Modifiers.MOX_PCT;
+        statModifier = DoubleModifier.MOX;
+        statPercentModifier = DoubleModifier.MOX_PCT;
       } else {
-        statModifier = Modifiers.MYS;
-        statPercentModifier = Modifiers.MYS_PCT;
+        statModifier = DoubleModifier.MYS;
+        statPercentModifier = DoubleModifier.MYS_PCT;
       }
 
-      double addedStatFixed = m.get(statModifier);
-      double addedStatPercent = m.get(statPercentModifier);
-      int addedManaFixed = (int) m.get(Modifiers.MP);
+      double addedStatFixed = m.getDouble(statModifier);
+      double addedStatPercent = m.getDouble(statPercentModifier);
+      int addedManaFixed = (int) m.getDouble(DoubleModifier.MP);
 
       if (addedStatFixed == 0.0 && addedStatPercent == 0.0 && addedManaFixed == 0.0) {
         return 0;

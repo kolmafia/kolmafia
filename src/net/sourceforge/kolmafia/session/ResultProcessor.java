@@ -15,19 +15,22 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -35,6 +38,8 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
@@ -164,23 +169,22 @@ public class ResultProcessor {
       // Log it if we pickpocket something "impossible"
       if (RequestLogger.getLastURLString().contains("action=steal")) {
         MonsterData monster = MonsterStatusTracker.getLastMonster();
-        for (AdventureResult monsterItem : monster.getItems()) {
-          if (monsterItem.getItemId() == itemId) {
-            String message = null;
-            switch ((char) monsterItem.getCount() & 0xFFFF) {
-              case 'n':
-                message = "Pickpocketed item " + name + " which is marked as non pickpocketable.";
-                break;
-              case 'c':
-                message = "Pickpocketed item " + name + " which is marked as conditional.";
-                break;
-              case 'f':
-                message = "Pickpocketed item " + name + " which is marked as fixed chance.";
-                break;
-              case 'a':
-                message = "Pickpocketed item " + name + " which is marked as accordion steal.";
-                break;
-            }
+        for (MonsterDrop monsterDrop : monster.getItems()) {
+          if (monsterDrop.item().getItemId() == itemId) {
+            String message =
+                switch (monsterDrop.flag()) {
+                  case NO_PICKPOCKET -> "Pickpocketed item "
+                      + name
+                      + " which is marked as non pickpocketable.";
+                  case CONDITIONAL -> "Pickpocketed item "
+                      + name
+                      + " which is marked as conditional.";
+                  case FIXED -> "Pickpocketed item " + name + " which is marked as fixed chance.";
+                  case STEAL_ACCORDION -> "Pickpocketed item "
+                      + name
+                      + " which is marked as accordion steal.";
+                  default -> null;
+                };
             if (message != null) {
               RequestLogger.printLine(message);
               RequestLogger.updateSessionLog(message);
@@ -318,10 +322,6 @@ public class ResultProcessor {
 
   public static void updateEntauntauned() {
     DebugDatabase.readEffectDescriptionText(EffectPool.ENTAUNTAUNED);
-  }
-
-  public static void updateVintner() {
-    ItemDatabase.parseVampireVintnerWine();
   }
 
   public static Pattern EFFECT_TABLE_PATTERN =
@@ -869,10 +869,10 @@ public class ResultProcessor {
         int drop = result.getCount();
         if (!ResultProcessor.possibleMeatDrop(drop, 0)) {
           StringBuilder buf = new StringBuilder("Alert - possible unknown meat bonus:");
-          if (KoLCharacter.currentNumericModifier(Modifiers.SPORADIC_MEATDROP) != 0.0f) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.SPORADIC_MEATDROP) != 0.0f) {
             buf.append(" (sporadic!)");
           }
-          if (KoLCharacter.currentNumericModifier(Modifiers.MEAT_BONUS) != 0.0f) {
+          if (KoLCharacter.currentNumericModifier(DoubleModifier.MEAT_BONUS) != 0.0f) {
             buf.append(" (ant tool!)");
           }
           for (int i = 1; i <= 100 && buf.length() < 80; ++i) {
@@ -958,9 +958,7 @@ public class ResultProcessor {
       AdventureResult.addResultToList(KoLConstants.inventory, item);
       AdventureResult.addResultToList(KoLConstants.tally, item);
       switch (item.getItemId()) {
-        case ItemPool.INSTANT_KARMA:
-          Preferences.increment("bankedKarma", 11);
-          break;
+        case ItemPool.INSTANT_KARMA -> Preferences.increment("bankedKarma", 11);
       }
     }
   }
@@ -1120,6 +1118,9 @@ public class ResultProcessor {
             KoLCharacter.setLimitMode(LimitMode.ASTRAL);
           }
         }
+        case EffectPool.HARE_BRAINED -> {
+          Preferences.setInteger("hareTurnsUsed", 30 - result.getCount());
+        }
         case EffectPool.INIGOS, EffectPool.CRAFT_TEA -> {
           // If you gain or lose Inigo's or Craft Tea, what you can
           // craft changes
@@ -1202,16 +1203,17 @@ public class ResultProcessor {
     if (result.isItem()) {
       // Certain items that you "gain" don't really enter inventory
       switch (result.getItemId()) {
-        case ItemPool.CHATEAU_MUSCLE:
-        case ItemPool.CHATEAU_MYST:
-        case ItemPool.CHATEAU_MOXIE:
-        case ItemPool.CHATEAU_FAN:
-        case ItemPool.CHATEAU_CHANDELIER:
-        case ItemPool.CHATEAU_SKYLIGHT:
-        case ItemPool.CHATEAU_BANK:
-        case ItemPool.CHATEAU_JUICE_BAR:
+        case ItemPool.CHATEAU_MUSCLE,
+            ItemPool.CHATEAU_MYST,
+            ItemPool.CHATEAU_MOXIE,
+            ItemPool.CHATEAU_FAN,
+            ItemPool.CHATEAU_CHANDELIER,
+            ItemPool.CHATEAU_SKYLIGHT,
+            ItemPool.CHATEAU_BANK,
+            ItemPool.CHATEAU_JUICE_BAR -> {
           ChateauRequest.gainItem(result);
           return;
+        }
       }
 
       AdventureResult.addResultToList(KoLConstants.inventory, result);
@@ -1376,6 +1378,7 @@ public class ResultProcessor {
         // Speakeasy currencies
       case ItemPool.MILK_CAP:
       case ItemPool.DRINK_CHIT:
+      case ItemPool.REPLICA_MR_ACCESSORY:
         NamedListenerRegistry.fireChange("(coinmaster)");
         break;
 
@@ -1441,6 +1444,21 @@ public class ResultProcessor {
             && adventureResults) {
           Preferences.increment("_oysterEggsFound");
         }
+        break;
+
+      case ItemPool.SHADOW_SAUSAGE:
+      case ItemPool.SHADOW_SKIN:
+      case ItemPool.SHADOW_FLAME:
+      case ItemPool.SHADOW_BREAD:
+      case ItemPool.SHADOW_ICE:
+      case ItemPool.SHADOW_FLUID:
+      case ItemPool.SHADOW_GLASS:
+      case ItemPool.SHADOW_BRICK:
+      case ItemPool.SHADOW_SINEW:
+      case ItemPool.SHADOW_VENOM:
+      case ItemPool.SHADOW_NECTAR:
+      case ItemPool.SHADOW_STICK:
+        RufusManager.handleShadowItems(result.getName());
         break;
     }
 
@@ -1674,8 +1692,7 @@ public class ResultProcessor {
               checkpoint = new Checkpoint();
               RequestThread.postRequest(
                   new EquipmentRequest(
-                      ItemPool.get(ItemPool.SPOOKYRAVEN_SPECTACLES, 1),
-                      EquipmentManager.ACCESSORY3));
+                      ItemPool.get(ItemPool.SPOOKYRAVEN_SPECTACLES, 1), Slot.ACCESSORY3));
             }
             RequestThread.postRequest(
                 UseItemRequest.getInstance(ItemPool.MORTAR_DISSOLVING_RECIPE));
@@ -1777,6 +1794,7 @@ public class ResultProcessor {
 
       case ItemPool.LIT_BIRTHDAY_CAKE:
         ResultProcessor.processItem(ItemPool.UNLIT_BIRTHDAY_CAKE, -1);
+        //noinspection fallthrough
       case ItemPool.UNLIT_BIRTHDAY_CAKE:
         // Yes, they are the same quest step!
         QuestDatabase.setQuestProgress(Quest.BAKER, QuestDatabase.STARTED);
@@ -2605,12 +2623,10 @@ public class ResultProcessor {
         }
         String lockkeyMonster = merkinMonster.getName();
         Preferences.setString("merkinLockkeyMonster", lockkeyMonster);
-        if (lockkeyMonster.equals("Mer-kin burglar")) {
-          Preferences.setInteger("choiceAdventure312", 1);
-        } else if (lockkeyMonster.equals("Mer-kin raider")) {
-          Preferences.setInteger("choiceAdventure312", 2);
-        } else if (lockkeyMonster.equals("Mer-kin healer")) {
-          Preferences.setInteger("choiceAdventure312", 3);
+        switch (lockkeyMonster) {
+          case "Mer-kin burglar" -> Preferences.setInteger("choiceAdventure312", 1);
+          case "Mer-kin raider" -> Preferences.setInteger("choiceAdventure312", 2);
+          case "Mer-kin healer" -> Preferences.setInteger("choiceAdventure312", 3);
         }
         break;
 
@@ -2695,6 +2711,7 @@ public class ResultProcessor {
               .equals(KoLCharacter.usableFamiliar(FamiliarPool.GARBAGE_FIRE))) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("garbageFireProgress", -1);
+            Preferences.increment("_garbageFireDrops", 1);
           }
         }
         break;
@@ -2705,6 +2722,7 @@ public class ResultProcessor {
               .equals(KoLCharacter.usableFamiliar(FamiliarPool.GARBAGE_FIRE))) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("garbageFireProgress", -1);
+            Preferences.increment("_garbageFireDrops", 1);
           } else if (KoLCharacter.currentBjorned.getId() == FamiliarPool.GARBAGE_FIRE
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.GARBAGE_FIRE) {
             Preferences.increment("_garbageFireDropsCrown");
@@ -2762,19 +2780,6 @@ public class ResultProcessor {
       case ItemPool.PROFESSOR_WHAT_GARMENT:
         QuestDatabase.setQuestProgress(Quest.SHIRT, "step1");
         break;
-
-      case ItemPool.PROFESSOR_WHAT_TSHIRT:
-        {
-          String lastURL = RequestLogger.getLastURLString();
-          if (lastURL.startsWith("place.php")
-              && lastURL.contains("whichplace=mountains")
-              && lastURL.contains("action=mts_melvin")) {
-            QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.FINISHED);
-            ResultProcessor.removeItem(ItemPool.PROFESSOR_WHAT_GARMENT);
-            ResponseTextParser.learnSkill("Torso Awareness");
-          }
-          break;
-        }
 
       case ItemPool.THINKNERD_PACKAGE:
         if (adventureResults) {
@@ -3142,6 +3147,7 @@ public class ResultProcessor {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.ROCKIN_ROBIN) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("rockinRobinProgress", -1);
+            Preferences.increment("_robinEggDrops", 1);
           }
         }
         break;
@@ -3151,6 +3157,7 @@ public class ResultProcessor {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.CANDLE) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("optimisticCandleProgress", -1);
+            Preferences.increment("_waxGlobDrops", 1);
           } else if (KoLCharacter.currentBjorned.getId() == FamiliarPool.CANDLE
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.CANDLE) {
             Preferences.increment("_optimisticCandleDropsCrown");
@@ -3211,7 +3218,7 @@ public class ResultProcessor {
               DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), true);
           String mod =
               DebugDatabase.parseItemEnchantments(rawText, new ArrayList<>(), ConsumptionType.HAT);
-          Modifiers.overrideModifier("Item:[" + itemId + "]", mod);
+          ModifierDatabase.overrideModifier(ModifierType.ITEM, itemId, mod);
           Preferences.setString("_noHatModifier", mod);
         }
         break;
@@ -3240,7 +3247,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.BOOMBOX:
-        KoLCharacter.addAvailableSkill("Sing Along");
+        KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
         break;
 
       case ItemPool.GARLAND_OF_GREATNESS:
@@ -3278,9 +3285,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.POWERFUL_GLOVE:
-        // *** Special case: the buffs are always available
-        KoLCharacter.addAvailableSkill("CHEAT CODE: Invisible Avatar");
-        KoLCharacter.addAvailableSkill("CHEAT CODE: Triple Size");
+      case ItemPool.REPLICA_POWERFUL_GLOVE:
+        InventoryManager.addPowerfulGloveSkills();
         break;
 
       case ItemPool.POWDER_PUFF:
@@ -3311,7 +3317,7 @@ public class ResultProcessor {
 
       case ItemPool.VAMPIRE_VINTNER_WINE:
         Preferences.setInteger("vintnerCharge", 13);
-        ResultProcessor.updateVintner();
+        ItemDatabase.parseVampireVintnerWine();
         break;
 
       case ItemPool.COSMIC_BOWLING_BALL:
@@ -3328,11 +3334,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.DESIGNER_SWEATPANTS:
-        // *** Special case: the buffs are always available
-        KoLCharacter.addAvailableSkill("Make Sweat-Ade");
-        KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
-        KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
-        KoLCharacter.addAvailableSkill("Sip Some Sweat");
+      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
+        InventoryManager.addDesignerSweatpantsSkills();
         break;
 
       case ItemPool.ROBY_BORIS_BEER:
@@ -3353,6 +3356,27 @@ public class ResultProcessor {
         if (adventureResults) {
           Preferences.setBoolean("_cookbookbatRecipeDrops", true);
         }
+        break;
+
+      case ItemPool.GRUBBY_WOOL:
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.HOBO_IN_SHEEPS_CLOTHING) {
+          Preferences.increment("_grubbyWoolDrops", 1);
+        }
+        break;
+
+      case ItemPool.SHADOW_LIGHTER:
+      case ItemPool.SHADOW_HEPTAHEDRON:
+      case ItemPool.SHADOW_SNOWFLAKE:
+      case ItemPool.SHADOW_HEART:
+      case ItemPool.SHADOW_BUCKET:
+      case ItemPool.SHADOW_WAVE:
+        QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
+        break;
+
+      case ItemPool.CINCHO_DE_MAYO:
+      case ItemPool.REPLICA_CINCHO_DE_MAYO:
+        InventoryManager.addCinchoDeMayoSkills();
         break;
     }
 

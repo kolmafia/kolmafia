@@ -35,13 +35,12 @@ public class BuffBotDatabase {
   private static boolean hasNameList = false;
   private static boolean isInitialized = false;
 
-  private static final ArrayList<String> nameList = new ArrayList<String>();
-  private static final TreeMap<String, String[]> buffDataMap = new TreeMap<String, String[]>();
+  private static final ArrayList<String> nameList = new ArrayList<>();
+  private static final TreeMap<String, String[]> buffDataMap = new TreeMap<>();
 
   private static final TreeMap<String, LockableListModel<Offering>> normalOfferings =
-      new TreeMap<String, LockableListModel<Offering>>();
-  private static final TreeMap<String, LockableListModel<Offering>> freeOfferings =
-      new TreeMap<String, LockableListModel<Offering>>();
+      new TreeMap<>();
+  private static final TreeMap<String, LockableListModel<Offering>> freeOfferings = new TreeMap<>();
 
   private BuffBotDatabase() {}
 
@@ -188,8 +187,7 @@ public class BuffBotDatabase {
   }
 
   public static final String[] getCompleteBotList() {
-    ArrayList<String> completeList = new ArrayList<String>();
-    completeList.addAll(BuffBotDatabase.normalOfferings.keySet());
+    ArrayList<String> completeList = new ArrayList<>(BuffBotDatabase.normalOfferings.keySet());
 
     for (String bot : BuffBotDatabase.freeOfferings.keySet()) {
       if (!completeList.contains(bot)) {
@@ -206,13 +204,13 @@ public class BuffBotDatabase {
   public static final LockableListModel<Offering> getStandardOfferings(final String botName) {
     return botName != null && BuffBotDatabase.normalOfferings.containsKey(botName)
         ? BuffBotDatabase.normalOfferings.get(botName)
-        : new LockableListModel<Offering>();
+        : new LockableListModel<>();
   }
 
   public static final LockableListModel<Offering> getPhilanthropicOfferings(final String botName) {
     return botName != null && BuffBotDatabase.freeOfferings.containsKey(botName)
         ? BuffBotDatabase.freeOfferings.get(botName)
-        : new LockableListModel<Offering>();
+        : new LockableListModel<>();
   }
 
   private static void configureBuffBots() {
@@ -257,8 +255,8 @@ public class BuffBotDatabase {
       }
 
       if (this.location.equals(BuffBotDatabase.OPTOUT_URL)) {
-        BuffBotDatabase.freeOfferings.put(this.botName, new LockableListModel<Offering>());
-        BuffBotDatabase.normalOfferings.put(this.botName, new LockableListModel<Offering>());
+        BuffBotDatabase.freeOfferings.put(this.botName, new LockableListModel<>());
+        BuffBotDatabase.normalOfferings.put(this.botName, new LockableListModel<>());
 
         return;
       }
@@ -287,8 +285,8 @@ public class BuffBotDatabase {
       // XML file -- which is assumed because of the XSLT.
 
       Matcher nodeMatcher = BuffBotDatabase.BUFFDATA_PATTERN.matcher(responseText.toString());
-      LockableListModel<Offering> freeBuffs = new LockableListModel<Offering>();
-      LockableListModel<Offering> normalBuffs = new LockableListModel<Offering>();
+      LockableListModel<Offering> freeBuffs = new LockableListModel<>();
+      LockableListModel<Offering> normalBuffs = new LockableListModel<>();
 
       Matcher nameMatcher, priceMatcher, turnMatcher, freeMatcher;
 

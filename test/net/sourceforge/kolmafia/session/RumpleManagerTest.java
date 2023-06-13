@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -65,7 +66,7 @@ public class RumpleManagerTest {
               withEmptyWorkshop(),
               withPasswordHash("gnome"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               withHandlingChoice(845));
       try (cleanups) {
         var html = html("request/test_visit_workshop_1.html");
@@ -103,7 +104,7 @@ public class RumpleManagerTest {
               withEmptyWorkshop(),
               withPasswordHash("gnome"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               withHandlingChoice(845));
       try (cleanups) {
         var html = html("request/test_visit_workshop_2.html");
@@ -145,7 +146,7 @@ public class RumpleManagerTest {
                 withItem(ItemPool.LEATHER, initialLeather),
                 withPasswordHash("gnome"),
                 // If you have a password hash, KoL looks at your vinyl boots
-                withGender(KoLCharacter.FEMALE),
+                withGender(Gender.FEMALE),
                 withHandlingChoice(849));
         try (cleanups) {
           var html = html("request/test_practice_crafting_" + triesLeft + ".html");

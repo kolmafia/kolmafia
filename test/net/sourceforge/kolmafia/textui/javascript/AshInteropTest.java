@@ -71,4 +71,30 @@ public class AshInteropTest {
     String retS = ret.toString();
     assertEquals("Seal Clubber", retS);
   }
+
+  @Test
+  void dataConversionHandles64bitNumbersCorrectly() {
+    String testDate = "2023-03-03 00:00:00 -0600";
+    String dateFormat = "yyyy-MM-dd HH:mm:ss Z";
+    long timeStamp = 1677823200000L;
+    double approx = 1677823180800.0;
+    var js =
+        new JavascriptRuntime("dateToTimestamp(\"" + dateFormat + "\" , \"" + testDate + "\")");
+    assertNotNull(js, "JavascriptRuntime returned null.");
+    Value ret = js.execute(null, null, true);
+    assertNotNull(ret, "Javascript execute returns null instead of a result to be tested.");
+    long retVal = Long.parseLong(ret.toString());
+
+    assertTrue(retVal >= 0, "long should not be negative.");
+    assertEquals(timeStamp, retVal, "expected timestamp to be Epoch value of" + testDate);
+
+    var js2 = new JavascriptRuntime("max(" + (double) timeStamp + ", 1)");
+    assertNotNull(js2, "JavascriptRuntime returned null.");
+    Value JSIntFunction = js2.execute(null, null, true);
+    assertNotNull(ret, "Javascript execute returns null instead of a result to be tested.");
+    double result = Double.parseDouble(JSIntFunction.toString());
+
+    assertTrue(result >= 0, "double should not be negative.");
+    assertEquals(approx, result, "ASH function should return double value of result");
+  }
 }

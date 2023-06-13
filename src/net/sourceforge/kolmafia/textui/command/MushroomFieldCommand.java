@@ -19,43 +19,45 @@ public class MushroomFieldCommand extends AbstractCommand {
     String[] split = parameters.split(" ");
     String command = split[0];
 
-    if (command.equals("plant")) {
-      if (split.length < 3) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Syntax: field plant square spore");
-        return;
+    switch (command) {
+      case "plant" -> {
+        if (split.length < 3) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Syntax: field plant square spore");
+          return;
+        }
+
+        String squareString = split[1];
+        int square = StringUtilities.parseInt(squareString);
+
+        // Skip past command and square
+        parameters = parameters.substring(command.length()).trim();
+        parameters = parameters.substring(squareString.length()).trim();
+
+        if (parameters.indexOf("mushroom") == -1) {
+          parameters = parameters.trim() + " mushroom";
+        }
+
+        int spore = ItemFinder.getFirstMatchingItem(parameters).getItemId();
+
+        if (spore == -1) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown spore: " + parameters);
+          return;
+        }
+
+        MushroomManager.plantMushroom(square, spore);
       }
+      case "pick" -> {
+        if (split.length < 2) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Syntax: field pick square");
+          return;
+        }
 
-      String squareString = split[1];
-      int square = StringUtilities.parseInt(squareString);
+        String squareString = split[1];
 
-      // Skip past command and square
-      parameters = parameters.substring(command.length()).trim();
-      parameters = parameters.substring(squareString.length()).trim();
-
-      if (parameters.indexOf("mushroom") == -1) {
-        parameters = parameters.trim() + " mushroom";
+        int square = StringUtilities.parseInt(squareString);
+        MushroomManager.pickMushroom(square, true);
       }
-
-      int spore = ItemFinder.getFirstMatchingItem(parameters).getItemId();
-
-      if (spore == -1) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown spore: " + parameters);
-        return;
-      }
-
-      MushroomManager.plantMushroom(square, spore);
-    } else if (command.equals("pick")) {
-      if (split.length < 2) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Syntax: field pick square");
-        return;
-      }
-
-      String squareString = split[1];
-
-      int square = StringUtilities.parseInt(squareString);
-      MushroomManager.pickMushroom(square, true);
-    } else if (command.equals("harvest")) {
-      MushroomManager.harvestMushrooms();
+      case "harvest" -> MushroomManager.harvestMushrooms();
     }
 
     String plot = MushroomManager.getMushroomManager(false);

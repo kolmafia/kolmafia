@@ -29,6 +29,8 @@
 
 QUEST_LOG	chatLiterate	You have proven yourself literate	chatLiterate=true
 QUEST_LOG	seahorseName	You have tamed the mighty seahorse <b>(.*?)</b>	seahorseName=$1
+QUEST_LOG	elfGratitude	You earned ([\d,]+) Elf Gratitude during Crimbo 2022.	elfGratitude=$1
+QUEST_LOG	pingpongSkill	You have achieved a skill level of ([\d,]+) at playing ping-pong	pingpongSkill=$1
 QUEST_LOG	lastPlusSignUnlock	You have discovered the secret of the Dungeons of Doom	lastPlusSignUnlock=ascensions
 QUEST_LOG	lastTempleUnlock	You have discovered the Hidden Temple	lastTempleUnlock=ascensions
 
@@ -45,7 +47,7 @@ QUEST_LOG	demonName11	;&middot;([^<]*?), Friend of Gary<br	demonName11=$1
 
 DESC_ITEM	Adventurer bobblehead	Attributes \+(\d+)%	nuclearAutumnPoints=$1
 DESC_ITEM	bishop cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
-DESC_ITEM	bone abacus	defeated (\d+) opponent	boneAbacusVictories=$1
+DESC_ITEM	bone abacus	defeated ([\d,]+) opponent	boneAbacusVictories=$1
 DESC_ITEM	brainwave-controlled unicorn horn	(\d+)% inflated	unicornHornInflation=$1
 DESC_ITEM	briefcase full of snakes	Venom Level: (\d+)<br>Medicine Level: (\d+)	awolVenom=$1	awolMedicine=$2
 DESC_ITEM	crude monster sculpture	crude sculpture of (a|an|something <i>totally</i> unrecognizable|)\s*(.*?)\.	crudeMonster=$2
@@ -83,6 +85,9 @@ DESC_ITEM	familiar scrapbook	Scraps Collected: <b>([\d,]+)</b>	scrapbookCharges=
 DESC_ITEM	industrial fire extinguisher	The extinguisher's tank is currently <b>([\d]+)% full</b>	_fireExtinguisherCharge=$1
 DESC_ITEM	designer sweatpants	Your sweatpants are currently (\d+)% sweat-logged.	sweat=$1
 DESC_ITEM	Powerful Glove	The Glove's battery is (\d+)% charged.	_powerfulGloveBatteryPowerUsed=[100-$1]
+DESC_ITEM	Crimbo training manual	all that's left is Chapter (\d+).	crimboTrainingSkill=$1
+DESC_ITEM	cursed monkey's paw	monkey's paw recently pointed at a ([^<]+).<!-- itemid	monkeyPointMonster=$1
+DESC_ITEM	Cincho de Mayo	Your belt is <b>([\d]+)% </b> cinched	_cinchUsed=[100-$1]
 
 # Item modifiers
 DESC_ITEM	no hat		_noHatModifier=mods
@@ -140,6 +145,7 @@ COMBAT_SKILL	Otoscope	Otoscope \((\d+) charges left\)	_otoscopeUsed=[3-$1]
 COMBAT_SKILL	Reflex Hammer	Reflex Hammer \((\d+) charges left\)	_reflexHammerUsed=[3-$1]
 COMBAT_SKILL	Chest X-Ray	Chest X-Ray \((\d+) charges left\)	_chestXRayUsed=[3-$1]
 COMBAT_SKILL	Back-Up to your Last Enemy	Back-Up to your Last Enemy \((\d+) uses? today\)	_backUpUses=[(11+path(You, Robot)*5)-$1]
+COMBAT_SKILL	Cincho: Party Foul	Cincho: Party Foul \(5 cinch, (\d+)% remaining\)	_cinchUsed=[100-$1]
 
 # Monster disambiguation:
 

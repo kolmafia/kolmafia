@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanFortuneRequest extends GenericRequest {
@@ -94,7 +95,7 @@ public class ClanFortuneRequest extends GenericRequest {
     }
 
     ClanLoungeRequest request =
-        new ClanLoungeRequest(ClanLoungeRequest.FORTUNE) {
+        new ClanLoungeRequest(Action.FORTUNE) {
           @Override
           protected boolean shouldFollowRedirect() {
             return true;

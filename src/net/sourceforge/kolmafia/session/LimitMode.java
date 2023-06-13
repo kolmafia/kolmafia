@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -118,15 +120,11 @@ public enum LimitMode {
     };
   }
 
-  public boolean limitSlot(final int slot) {
+  public boolean limitSlot(final Slot slot) {
     return switch (this) {
       case UNKNOWN, NONE -> false;
       case SPELUNKY -> switch (slot) {
-        case EquipmentManager.HAT,
-            EquipmentManager.WEAPON,
-            EquipmentManager.OFFHAND,
-            EquipmentManager.CONTAINER,
-            EquipmentManager.ACCESSORY1 -> false;
+        case HAT, WEAPON, OFFHAND, CONTAINER, ACCESSORY1 -> false;
         default -> true;
       };
       case ED, BATMAN -> true;
@@ -151,6 +149,18 @@ public enum LimitMode {
   }
 
   public boolean limitAdventure(KoLAdventure adventure) {
+    if (this == LimitMode.ASTRAL) {
+      String trip = Preferences.getString("currentAstralTrip");
+      boolean chosen = !trip.equals("");
+      // If we're Half-Astral and have not chosen a trip, any Astral area is
+      // allowed, since attempting to automate any of them will choose.
+      return switch (adventure.getAdventureNumber()) {
+        case AdventurePool.BAD_TRIP -> chosen && !trip.equals("Bad Trip");
+        case AdventurePool.MEDIOCRE_TRIP -> chosen && !trip.equals("Mediocre Trip");
+        case AdventurePool.GREAT_TRIP -> chosen && !trip.equals("Great Trip");
+        default -> true;
+      };
+    }
     return limitZone(adventure.getZone());
   }
 
@@ -185,7 +195,10 @@ public enum LimitMode {
       case BIRD -> zoneName.equals("Shape of Mole") || rootZone.equals("Astral");
       case ROACH -> false;
       case MOLE -> !zoneName.equals("Shape of Mole");
-      case ASTRAL -> !zoneName.equals(Preferences.getString("currentAstralTrip"));
+        // Astral travelers are actually limited to a specific adventure areas in
+        // the "Astral" zone, but given just the zone, we cannot enforce that.
+        // limitAdventure() will do that.
+      case ASTRAL -> !zoneName.equals("Astral");
     };
   }
 

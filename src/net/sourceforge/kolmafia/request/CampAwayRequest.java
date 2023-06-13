@@ -93,6 +93,7 @@ public class CampAwayRequest extends PlaceRequest {
       } else {
         Preferences.setInteger("campAwayDecoration", 0);
       }
+      CampgroundRequest.handleCinchoRest(responseText);
       Preferences.increment("timesRested");
     } else if (action.equals("campaway_sky")) {
       Matcher m = EFFECT_PATTERN.matcher(responseText);
@@ -125,7 +126,7 @@ public class CampAwayRequest extends PlaceRequest {
   private static final Pattern CLOUD_TALK_PATTERN =
       Pattern.compile("<img .*?otherimages/smoke2/([^\"]*)\"", Pattern.DOTALL);
 
-  private static final Map<String, Character> cloudLetters = new HashMap<String, Character>();
+  private static final Map<String, Character> cloudLetters = new HashMap<>();
 
   static {
     cloudLetters.put("a.png", 'A');
@@ -270,11 +271,15 @@ public class CampAwayRequest extends PlaceRequest {
     return true;
   }
 
-  public static boolean campAwayTentRestUsable() {
-    return Preferences.getBoolean("restUsingCampAwayTent")
-        && Preferences.getBoolean("getawayCampsiteUnlocked")
+  public static boolean campAwayTentAvailable() {
+    return Preferences.getBoolean("getawayCampsiteUnlocked")
         && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
         && !KoLCharacter.getLimitMode().limitZone("Woods")
         && !KoLCharacter.inBadMoon();
+  }
+
+  public static boolean campAwayTentRestUsable() {
+    return Preferences.getBoolean("restUsingCampAwayTent")
+        && CampAwayRequest.campAwayTentAvailable();
   }
 }

@@ -6,10 +6,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -132,7 +132,7 @@ public class IslandDecorator {
     message.append(KoLConstants.COMMA_FORMAT.format(left));
     message.append(" left (");
 
-    double mod = (KoLCharacter.currentNumericModifier(Modifiers.MEATDROP) + 100.0f) / 100.0f;
+    double mod = (KoLCharacter.currentNumericModifier(DoubleModifier.MEATDROP) + 100.0f) / 100.0f;
     double min = BRIGAND_MIN * mod;
     double max = BRIGAND_MAX * mod;
 

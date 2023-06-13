@@ -239,6 +239,7 @@ public class FileUtilities {
         if (RequestLogger.isTracing()) {
           RequestLogger.trace("Not modified: " + remote);
         }
+        //noinspection fallthrough
       default:
         if (RequestLogger.isDebugging()) {
           RequestLogger.updateDebugLog("Server returned response code " + responseCode);

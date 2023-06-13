@@ -29,12 +29,15 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.AscensionSnapshot.AscensionFilter;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
+import net.sourceforge.kolmafia.persistence.ProfileSnapshot.ProfileFilter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.ClanLogRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
@@ -55,24 +58,20 @@ public abstract class ClanManager {
   public static boolean stashRetrieved = false;
   private static boolean ranksRetrieved = false;
 
-  private static final ArrayList<String> currentMembers = new ArrayList<String>();
-  private static final ArrayList<String> whiteListMembers = new ArrayList<String>();
+  private static final ArrayList<String> currentMembers = new ArrayList<>();
+  private static final ArrayList<String> whiteListMembers = new ArrayList<>();
 
   private static final Map<String, String> profileMap = ProfileSnapshot.getProfileMap();
   private static final Map<String, String> ascensionMap = AscensionSnapshot.getAscensionMap();
-  private static final Map<String, String> titleMap = new HashMap<String, String>();
-  private static final Map<Integer, List<AdventureResult>> clanLounge =
-      new HashMap<Integer, List<AdventureResult>>();
-  private static final Map<Integer, List<String>> clanRumpus =
-      new LinkedHashMap<Integer, List<String>>();
-  private static final Map<Integer, List<String>> clanHotdogs =
-      new HashMap<Integer, List<String>>();
+  private static final Map<String, String> titleMap = new HashMap<>();
+  private static final Map<Integer, List<AdventureResult>> clanLounge = new HashMap<>();
+  private static final Map<Integer, List<String>> clanRumpus = new LinkedHashMap<>();
+  private static final Map<Integer, List<String>> clanHotdogs = new HashMap<>();
 
   private static final List<?> battleList = new ArrayList<>();
 
-  private static final LockableListModel<String> rankList = new LockableListModel<String>();
-  private static final SortedListModel<AdventureResult> stashContents =
-      new SortedListModel<AdventureResult>();
+  private static final LockableListModel<String> rankList = new LockableListModel<>();
+  private static final SortedListModel<AdventureResult> stashContents = new SortedListModel<>();
 
   public static final AdventureResult HOT_DOG_STAND = ItemPool.get(ItemPool.CLAN_HOT_DOG_STAND, 1);
   public static final AdventureResult SPEAKEASY = ItemPool.get(ItemPool.CLAN_SPEAKEASY, 1);
@@ -113,6 +112,16 @@ public abstract class ClanManager {
     ClanManager.clanId = 0;
     ClanManager.clanName = null;
     KoLCharacter.setClan(false);
+  }
+
+  // For testing
+  public static void setClan(int clanId, String name) {
+    // Drop all saved clan information
+    ClanManager.clearCache(true);
+
+    // Save new clan information
+    ClanManager.clanId = clanId;
+    ClanManager.clanName = clanName;
   }
 
   private static void retrieveClanIdAndName() {
@@ -158,10 +167,10 @@ public abstract class ClanManager {
         // All of this stuff has already been checked, but hot dogs and
         // such need to be re-added as concoctions for the returned-to clan
         for (AdventureResult item : ClanManager.getClanLounge()) {
-          if (ClanLoungeRequest.isSpeakeasyDrink(item.getName())) {
-            ConcoctionDatabase.getUsables()
-                .add(ClanLoungeRequest.addSpeakeasyDrink(item.getName()));
-          } else if (ClanLoungeRequest.isFloundryItem(item)) {
+          if (ClanLoungeRequest.maybeAddSpeakeasyDrink(item)) {
+            continue;
+          }
+          if (ClanLoungeRequest.isFloundryItem(item)) {
             Concoction c = ConcoctionPool.get(item);
             c.setMixingMethod(CraftingType.FLOUNDRY);
             ConcoctionDatabase.getUsables().add(c);
@@ -169,7 +178,9 @@ public abstract class ClanManager {
         }
         for (String hotdog : ClanManager.getHotdogs()) {
           Concoction c = ClanLoungeRequest.addHotDog(hotdog);
-          ConcoctionDatabase.getUsables().add(c);
+          if (c != null) {
+            ConcoctionDatabase.getUsables().add(c);
+          }
         }
         ConcoctionDatabase.refreshConcoctions();
         KoLCharacter.recalculateAdjustments();
@@ -183,13 +194,13 @@ public abstract class ClanManager {
 
       // Check hotdog stand, speakeasy, and floundry, if present
       if (ClanManager.getClanLounge().contains(HOT_DOG_STAND)) {
-        ClanLoungeRequest.visitLounge(ClanLoungeRequest.HOT_DOG_STAND);
+        ClanLoungeRequest.visitLounge(Action.HOT_DOG_STAND);
       }
       if (ClanManager.getClanLounge().contains(SPEAKEASY)) {
-        ClanLoungeRequest.visitLounge(ClanLoungeRequest.SPEAKEASY);
+        ClanLoungeRequest.visitLounge(Action.SPEAKEASY);
       }
       if (ClanManager.getClanLounge().contains(FLOUNDRY)) {
-        ClanLoungeRequest.visitLounge(ClanLoungeRequest.FLOUNDRY);
+        ClanLoungeRequest.visitLounge(Action.FLOUNDRY);
       }
 
       RequestThread.postRequest(new ClanRumpusRequest(RequestType.SEARCH));
@@ -597,7 +608,7 @@ public abstract class ClanManager {
       ostream = LogStream.openStream(softcoreFile, true);
       ostream.println(
           AscensionSnapshot.getAscensionData(
-              AscensionSnapshot.NORMAL,
+              AscensionFilter.NORMAL,
               mostAscensionsBoardSize,
               mainBoardSize,
               classBoardSize,
@@ -609,7 +620,7 @@ public abstract class ClanManager {
       ostream = LogStream.openStream(hardcoreFile, true);
       ostream.println(
           AscensionSnapshot.getAscensionData(
-              AscensionSnapshot.HARDCORE,
+              AscensionFilter.HARDCORE,
               mostAscensionsBoardSize,
               mainBoardSize,
               classBoardSize,
@@ -621,7 +632,7 @@ public abstract class ClanManager {
       ostream = LogStream.openStream(casualFile, true);
       ostream.println(
           AscensionSnapshot.getAscensionData(
-              AscensionSnapshot.CASUAL,
+              AscensionFilter.CASUAL,
               mostAscensionsBoardSize,
               mainBoardSize,
               classBoardSize,
@@ -677,7 +688,7 @@ public abstract class ClanManager {
   }
 
   public static final void applyFilter(
-      final int matchType, final int filterType, final String filter) {
+      final int matchType, final ProfileFilter filterType, final String filter) {
     ClanManager.retrieveClanData();
 
     // Certain filter types do not require the player profiles
@@ -685,9 +696,9 @@ public abstract class ClanManager {
     // without prompting the user for confirmation.
 
     switch (filterType) {
-      case ProfileSnapshot.NAME_FILTER:
-      case ProfileSnapshot.LEVEL_FILTER:
-      case ProfileSnapshot.KARMA_FILTER:
+      case NAME:
+      case LEVEL:
+      case KARMA:
         break;
 
       default:
@@ -699,14 +710,14 @@ public abstract class ClanManager {
 
   public static final List<AdventureResult> getClanLounge() {
     List<AdventureResult> list = ClanManager.clanLounge.get(ClanManager.clanId);
-    return list == null ? new ArrayList<AdventureResult>() : list;
+    return list == null ? new ArrayList<>() : list;
   }
 
   public static final void addToLounge(AdventureResult item) {
 
     List<AdventureResult> list = ClanManager.clanLounge.get(ClanManager.clanId);
     if (list == null) {
-      ClanManager.clanLounge.put(ClanManager.clanId, new ArrayList<AdventureResult>());
+      ClanManager.clanLounge.put(ClanManager.clanId, new ArrayList<>());
       list = ClanManager.clanLounge.get(ClanManager.clanId);
     }
     list.add(item);
@@ -714,7 +725,7 @@ public abstract class ClanManager {
 
   public static final List<String> getClanRumpus() {
     List<String> list = ClanManager.clanRumpus.get(ClanManager.clanId);
-    return list == null ? new ArrayList<String>() : list;
+    return list == null ? new ArrayList<>() : list;
   }
 
   public static void addToRumpus(final String it) {
@@ -732,13 +743,13 @@ public abstract class ClanManager {
 
   public static final List<String> getHotdogs() {
     List<String> list = ClanManager.clanHotdogs.get(ClanManager.clanId);
-    return list == null ? new ArrayList<String>() : list;
+    return list == null ? new ArrayList<>() : list;
   }
 
   public static final void addHotdog(String hotdog) {
     List<String> list = ClanManager.clanHotdogs.get(ClanManager.clanId);
     if (list == null) {
-      ClanManager.clanHotdogs.put(ClanManager.clanId, new ArrayList<String>());
+      ClanManager.clanHotdogs.put(ClanManager.clanId, new ArrayList<>());
       list = ClanManager.clanHotdogs.get(ClanManager.clanId);
     }
     list.add(hotdog);

@@ -1,10 +1,13 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -22,49 +25,49 @@ public enum Modeable {
       "backupcamera",
       "backupCameraMode",
       ItemPool.get(ItemPool.BACKUP_CAMERA),
-      "BackupCamera",
+      ModifierType.BACKUP_CAMERA,
       new BackupCameraCommand(),
       true),
   EDPIECE(
       "edpiece",
       "edPiece",
       ItemPool.get(ItemPool.CROWN_OF_ED),
-      "Edpiece",
+      ModifierType.EDPIECE,
       new EdPieceCommand(),
       false),
   PARKA(
       "parka",
       "parkaMode",
       ItemPool.get(ItemPool.JURASSIC_PARKA),
-      "JurassicParka",
+      ModifierType.JURASSIC_PARKA,
       new JurassicParkaCommand(),
       true),
   RETROCAPE(
       "retrocape",
       null,
       ItemPool.get(ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE),
-      "RetroCape",
+      ModifierType.RETRO_CAPE,
       new RetroCapeCommand(),
       false),
   SNOWSUIT(
       "snowsuit",
       "snowsuit",
       ItemPool.get(ItemPool.SNOW_SUIT),
-      "Snowsuit",
+      ModifierType.SNOW_SUIT,
       new SnowsuitCommand(),
       false),
   UMBRELLA(
       "umbrella",
       "umbrellaState",
       ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA),
-      "UnbreakableUmbrella",
+      ModifierType.UNBREAKABLE_UMBRELLA,
       new UmbrellaCommand(),
       true);
 
   private final String command;
   private final String statePref;
   private final AdventureResult item;
-  private final String modifier;
+  private final ModifierType modifierType;
   private final ModeCommand commandInstance;
   private final boolean mustEquipAfterChange;
 
@@ -72,15 +75,23 @@ public enum Modeable {
       final String command,
       final String statePref,
       final AdventureResult item,
-      final String modifier,
+      final ModifierType modifierType,
       final ModeCommand commandInstance,
       final boolean mustEquipAfterChange) {
     this.command = command;
     this.statePref = statePref;
     this.item = item;
-    this.modifier = modifier;
+    this.modifierType = modifierType;
     this.commandInstance = commandInstance;
     this.mustEquipAfterChange = mustEquipAfterChange;
+  }
+
+  private static final Map<Integer, Modeable> idToModeable = new TreeMap<>();
+
+  static {
+    for (Modeable m : values()) {
+      idToModeable.put(m.getItemId(), m);
+    }
   }
 
   public String getCommand() {
@@ -95,7 +106,7 @@ public enum Modeable {
     return this.item.getItemId();
   }
 
-  public int getSlot() {
+  public Slot getSlot() {
     return EquipmentManager.consumeFilterToEquipmentType(
         ItemDatabase.getConsumptionType(this.item.getItemId()));
   }
@@ -119,8 +130,8 @@ public enum Modeable {
     return Preferences.getString(this.statePref);
   }
 
-  public String getModifier() {
-    return this.modifier;
+  public ModifierType getModifierType() {
+    return this.modifierType;
   }
 
   public boolean mustEquipAfterChange() {
@@ -139,10 +150,7 @@ public enum Modeable {
   }
 
   public static Modeable find(final int itemId) {
-    return Arrays.stream(values())
-        .filter(m -> m.getItem().getItemId() == itemId)
-        .findAny()
-        .orElse(null);
+    return idToModeable.get(itemId);
   }
 
   public static Map<Modeable, String> getStringMap(Function<Modeable, String> cb) {
@@ -150,7 +158,12 @@ public enum Modeable {
   }
 
   public static Map<Modeable, String> getStateMap() {
-    return getStringMap(Modeable::getState);
+    // This is performance-critical for the maximizer and needs to be written imperatively.
+    Map<Modeable, String> stateMap = new EnumMap<>(Modeable.class);
+    for (Modeable modeable : values()) {
+      stateMap.put(modeable, modeable.getState());
+    }
+    return stateMap;
   }
 
   public static Map<Modeable, Boolean> getBooleanMap(final Function<Modeable, Boolean> cb) {

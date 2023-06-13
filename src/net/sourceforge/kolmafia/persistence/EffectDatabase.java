@@ -20,9 +20,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.command.UseItemCommand;
@@ -33,13 +35,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EffectDatabase {
   private static String[] canonicalNames = new String[0];
-  private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
-  private static final Map<String, int[]> effectIdSetByName = new TreeMap<String, int[]>();
-  public static final HashMap<Integer, String> defaultActions = new HashMap<Integer, String>();
+  private static final Map<Integer, String> nameById = new TreeMap<>();
+  private static final Map<String, int[]> effectIdSetByName = new TreeMap<>();
+  public static final HashMap<Integer, String> defaultActions = new HashMap<>();
 
-  private static final Map<Integer, String> imageById = new HashMap<Integer, String>();
-  private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
-  private static final Map<String, Integer> effectIdByDescription = new HashMap<String, Integer>();
+  private static final Map<Integer, String> imageById = new HashMap<>();
+  private static final Map<Integer, String> descriptionById = new TreeMap<>();
+  private static final Map<String, Integer> effectIdByDescription = new HashMap<>();
   private static final Map<Integer, Integer> qualityById = new HashMap<>();
   private static final Map<Integer, List<String>> attributesById = new HashMap<>();
 
@@ -109,27 +111,20 @@ public class EffectDatabase {
   }
 
   private static int parseQuality(final String quality) {
-    switch (quality) {
-      case "good":
-        return EffectDatabase.GOOD;
-      case "bad":
-        return EffectDatabase.BAD;
-      default:
-        return EffectDatabase.NEUTRAL;
-    }
+    return switch (quality) {
+      case "good" -> EffectDatabase.GOOD;
+      case "bad" -> EffectDatabase.BAD;
+      default -> EffectDatabase.NEUTRAL;
+    };
   }
 
   private static String describeQuality(final Integer quality) {
-    switch (quality) {
-      case EffectDatabase.GOOD:
-        return "good";
-      case EffectDatabase.BAD:
-        return "bad";
-      case EffectDatabase.NEUTRAL:
-        return "neutral";
-      default:
-        return "";
-    }
+    return switch (quality) {
+      case EffectDatabase.GOOD -> "good";
+      case EffectDatabase.BAD -> "bad";
+      case EffectDatabase.NEUTRAL -> "neutral";
+      default -> "";
+    };
   }
 
   private static void addToDatabase(
@@ -153,7 +148,7 @@ public class EffectDatabase {
     EffectDatabase.qualityById.put(effectId, EffectDatabase.parseQuality(quality));
 
     String[] list = attributes.split("\\s*,\\s*");
-    List<String> attrs = new LinkedList<String>(Arrays.asList(list));
+    List<String> attrs = new LinkedList<>(Arrays.asList(list));
     attrs.remove("none");
     EffectDatabase.attributesById.put(effectId, attrs);
 
@@ -234,7 +229,7 @@ public class EffectDatabase {
     if (actions == null) {
       return Collections.emptyIterator();
     }
-    ArrayList<String> rv = new ArrayList<String>();
+    ArrayList<String> rv = new ArrayList<>();
     String[] pieces = actions.split("\\|");
     for (int i = 0; i < pieces.length; ++i) {
       String action = pieces[i];
@@ -486,7 +481,7 @@ public class EffectDatabase {
         try {
           int effectId = StringUtilities.parseInt(idString);
           // It parsed to a number so is valid
-          List<String> list = new ArrayList<String>();
+          List<String> list = new ArrayList<>();
           list.add(substring);
           return list;
         } catch (NumberFormatException e) {
@@ -550,7 +545,7 @@ public class EffectDatabase {
     RequestLogger.updateSessionLog(printMe);
 
     // Let modifiers database do what it wishes with this effect
-    Modifiers.registerEffect(name, text);
+    ModifierDatabase.registerEffect(name, text);
 
     // Done generating data
     printMe = "--------------------";
@@ -755,19 +750,19 @@ public class EffectDatabase {
   }
 
   public static void parseVampireVintnerWineEffect(final String edesc, final int effectId) {
-    String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<String>());
-    String ename = EffectDatabase.getEffectName(effectId);
-    Modifiers emods = Modifiers.parseModifiers(ename, eEnchantments);
+    String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<>());
+    Modifiers emods = ModifierDatabase.parseModifiers(ModifierType.EFFECT, effectId, eEnchantments);
 
     int level =
         switch (effectId) {
-          case EffectPool.WINE_FORTIFIED -> (int) emods.get(Modifiers.WEAPON_DAMAGE) / 3;
-          case EffectPool.WINE_HOT -> (int) emods.get(Modifiers.HOT_DAMAGE) / 3;
-          case EffectPool.WINE_COLD -> (int) emods.get(Modifiers.COLD_DAMAGE) / 3;
-          case EffectPool.WINE_DARK -> (int) emods.get(Modifiers.SPOOKY_DAMAGE) / 4;
-          case EffectPool.WINE_BEFOULED -> (int) emods.get(Modifiers.STENCH_DAMAGE) / 3;
-          case EffectPool.WINE_FRISKY -> (int) emods.get(Modifiers.SLEAZE_DAMAGE) / 3;
-          case EffectPool.WINE_FRIENDLY -> (int) emods.get(Modifiers.FAMILIAR_DAMAGE) / 3;
+          case EffectPool.WINE_FORTIFIED -> (int) emods.getDouble(DoubleModifier.WEAPON_DAMAGE) / 3;
+          case EffectPool.WINE_HOT -> (int) emods.getDouble(DoubleModifier.HOT_DAMAGE) / 3;
+          case EffectPool.WINE_COLD -> (int) emods.getDouble(DoubleModifier.COLD_DAMAGE) / 3;
+          case EffectPool.WINE_DARK -> (int) emods.getDouble(DoubleModifier.SPOOKY_DAMAGE) / 4;
+          case EffectPool.WINE_BEFOULED -> (int) emods.getDouble(DoubleModifier.STENCH_DAMAGE) / 3;
+          case EffectPool.WINE_FRISKY -> (int) emods.getDouble(DoubleModifier.SLEAZE_DAMAGE) / 3;
+          case EffectPool.WINE_FRIENDLY -> (int) emods.getDouble(DoubleModifier.FAMILIAR_DAMAGE)
+              / 3;
           default -> -1;
         };
 

@@ -5,6 +5,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.maximizer.PriceLevel;
 
 public class ModifierMaximizeCommand extends AbstractCommand {
   public ModifierMaximizeCommand() {
@@ -20,7 +21,8 @@ public class ModifierMaximizeCommand extends AbstractCommand {
       RequestLogger.updateSessionLog(command + " " + parameters);
     }
 
-    if (!Maximizer.maximize(parameters, 0, 0, isSpeculateOnly) && !isSpeculateOnly) {
+    if (!Maximizer.maximize(parameters, 0, PriceLevel.DONT_CHECK, isSpeculateOnly)
+        && !isSpeculateOnly) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "Unable to meet all requirements via equipment changes.");
       RequestLogger.printLine("See the Modifier Maximizer for further suggestions.");

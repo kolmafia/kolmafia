@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -113,6 +114,13 @@ public class DrinkItemRequest extends UseItemRequest {
     int maxAvailable = Integer.MAX_VALUE;
 
     switch (itemId) {
+      case ItemPool.GETS_YOU_DRUNK:
+        if (Preferences.getInteger("getsYouDrunkTurnsLeft") > 0) {
+          UseItemRequest.limiter = "still working on the last one";
+          return 0;
+        }
+        return 1;
+
       case ItemPool.MISS_GRAVES_VERMOUTH:
         UseItemRequest.limiter = "daily limit";
         return Preferences.getBoolean("_missGravesVermouthDrunk") ? 0 : 1;
@@ -369,18 +377,18 @@ public class DrinkItemRequest extends UseItemRequest {
   }
 
   private static boolean sequentialConsume(final int itemId) {
-    switch (itemId) {
-      case ItemPool.DIRTY_MARTINI:
-      case ItemPool.GROGTINI:
-      case ItemPool.CHERRY_BOMB:
-      case ItemPool.VESPER:
-      case ItemPool.BODYSLAM:
-      case ItemPool.SANGRIA_DEL_DIABLO:
-        // Allow player who owns a single tiny plastic sword to
-        // make and drink multiple drinks in succession.
-        return true;
-    }
-    return false;
+    return switch (itemId) {
+      case ItemPool.DIRTY_MARTINI,
+          ItemPool.GROGTINI,
+          ItemPool.CHERRY_BOMB,
+          ItemPool.VESPER,
+          ItemPool.BODYSLAM,
+          ItemPool.SANGRIA_DEL_DIABLO ->
+      // Allow player who owns a single tiny plastic sword to
+      // make and drink multiple drinks in succession.
+      true;
+      default -> false;
+    };
   }
 
   private boolean allowBoozeConsumption() {
@@ -521,7 +529,7 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     // Check if character can cast Ode.
-    UseSkillRequest ode = UseSkillRequest.getInstance("The Ode to Booze");
+    UseSkillRequest ode = UseSkillRequest.getInstance(SkillPool.ODE_TO_BOOZE);
     boolean canOde =
         !KoLCharacter.inGLover()
             && KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE)
@@ -596,9 +604,8 @@ public class DrinkItemRequest extends UseItemRequest {
         InventoryManager.retrieveItem(ItemPool.TUXEDO_SHIRT);
       }
       RequestThread.postRequest(
-          new EquipmentRequest(ItemPool.get(ItemPool.TUXEDO_SHIRT, 1), EquipmentManager.SHIRT));
-      if (EquipmentManager.getEquipment(EquipmentManager.SHIRT).getItemId()
-          != ItemPool.TUXEDO_SHIRT) {
+          new EquipmentRequest(ItemPool.get(ItemPool.TUXEDO_SHIRT, 1), Slot.SHIRT));
+      if (EquipmentManager.getEquipment(Slot.SHIRT).getItemId() != ItemPool.TUXEDO_SHIRT) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip Tuxedo Shirt.");
         return false;
       } else {
@@ -641,10 +648,8 @@ public class DrinkItemRequest extends UseItemRequest {
         InventoryManager.retrieveItem(ItemPool.MAFIA_PINKY_RING);
       }
       RequestThread.postRequest(
-          new EquipmentRequest(
-              ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), EquipmentManager.ACCESSORY3));
-      if (EquipmentManager.getEquipment(EquipmentManager.ACCESSORY3).getItemId()
-          != ItemPool.MAFIA_PINKY_RING) {
+          new EquipmentRequest(ItemPool.get(ItemPool.MAFIA_PINKY_RING, 1), Slot.ACCESSORY3));
+      if (EquipmentManager.getEquipment(Slot.ACCESSORY3).getItemId() != ItemPool.MAFIA_PINKY_RING) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to equip mafia pinky ring.");
         return false;
       } else {
@@ -757,20 +762,35 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     int itemId = item.getItemId();
-    if (itemId == ItemPool.ICE_STEIN) {
-      // You're way too drunk already. (checked above)
-      // Hmm. One can of beer isn't going to be sufficient for this. This is a job for a six-pack.
-      if (responseText.contains("This is a job for a six-pack")) {
-        // This shouldn't happen, since maximumUses
-        // checked for availability of six-packs
-        UseItemRequest.lastUpdate = "Your ice-stein needs an ice-cold six-pack.";
-        KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
-        return;
-      }
 
-      // You pull a beer from your six-pack, open it, pour it into the stein, and chug it down.
-      // It succeeded. Remove a six-pack from inventory
-      ResultProcessor.processItem(ItemPool.ICE_COLD_SIX_PACK, -1);
+    // Handle item-specific consumption failure
+    switch (itemId) {
+      case ItemPool.ICE_STEIN -> {
+        // You're way too drunk already. (checked above)
+        // Hmm. One can of beer isn't going to be sufficient for this. This is a job for a six-pack.
+        if (responseText.contains("This is a job for a six-pack")) {
+          // This shouldn't happen, since maximumUses
+          // checked for availability of six-packs
+          UseItemRequest.lastUpdate = "Your ice-stein needs an ice-cold six-pack.";
+          KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+          return;
+        }
+
+        // You pull a beer from your six-pack, open it, pour it into the stein, and chug it down.
+        // It succeeded. Remove a six-pack from inventory
+        ResultProcessor.processItem(ItemPool.ICE_COLD_SIX_PACK, -1);
+      }
+      case ItemPool.GETS_YOU_DRUNK -> {
+        if (responseText.contains("You shouldn't drink one of those")) {
+          // If we weren't already tracking this, update the pref defensively
+          if (Preferences.getInteger("getsYouDrunkTurnsLeft") == 0) {
+            Preferences.setInteger("getsYouDrunkTurnsLeft", 4);
+          }
+          UseItemRequest.lastUpdate = "You already have a Gets-You-Drunk melting your innards.";
+          KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+          return;
+        }
+      }
     }
 
     // The drink was consumed successfully
@@ -804,6 +824,13 @@ public class DrinkItemRequest extends UseItemRequest {
           ItemPool.get(ItemPool.BLACK_LABEL, Math.max(-item.getCount(), -labelCount)));
     }
 
+    // If you've dispensed salt and lime from your Cincho de Mayo, stats are increased.
+    // "Some of the salt and lime stuck to your hands gets on your drink, which kicks off a real
+    // party in your mouth!"
+    if (responseText.contains("Some of the salt and lime")) {
+      Preferences.decrement("cinchoSaltAndLime", 1, 0);
+    }
+
     KoLCharacter.updateStatus();
 
     // Re-sort consumables list if needed
@@ -812,70 +839,53 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     // Perform item-specific processing
-
     switch (itemId) {
-      case ItemPool.STEEL_LIVER:
+      case ItemPool.STEEL_LIVER -> {
         if (responseText.contains("You acquire a skill")) {
           ResponseTextParser.learnSkill("Liver of Steel");
         }
-        return;
-
-      case ItemPool.FERMENTED_PICKLE_JUICE:
+      }
+      case ItemPool.FERMENTED_PICKLE_JUICE -> {
         KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() - 5 * item.getCount());
         KoLCharacter.updateStatus();
-        return;
-
-      case ItemPool.MINI_MARTINI:
-        Preferences.increment("miniMartinisDrunk", item.getCount());
-        return;
-
-      case ItemPool.BLOODWEISER:
+      }
+      case ItemPool.MINI_MARTINI -> Preferences.increment("miniMartinisDrunk", item.getCount());
+      case ItemPool.GETS_YOU_DRUNK -> Preferences.setInteger("getsYouDrunkTurnsLeft", 4);
+      case ItemPool.BLOODWEISER -> {
         Preferences.increment("bloodweiserDrunk", item.getCount());
-        return;
-
-      case ItemPool.MISS_GRAVES_VERMOUTH:
+      }
+      case ItemPool.MISS_GRAVES_VERMOUTH -> {
         Preferences.setBoolean("_missGravesVermouthDrunk", true);
-        return;
-
-      case ItemPool.MAD_LIQUOR:
-        Preferences.setBoolean("_madLiquorDrunk", true);
-        return;
-
-      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL:
-        Preferences.setBoolean("_docClocksThymeCocktailDrunk", true);
-        return;
-
-      case ItemPool.DRIPPY_PILSNER:
+      }
+      case ItemPool.MAD_LIQUOR -> Preferences.setBoolean("_madLiquorDrunk", true);
+      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL -> Preferences.setBoolean(
+          "_docClocksThymeCocktailDrunk", true);
+      case ItemPool.DRIPPY_PILSNER -> {
         Preferences.setBoolean("_drippyPilsnerUsed", true);
         Preferences.increment("drippyJuice", 5);
-        return;
-
-      case ItemPool.DRIPPY_WINE:
+      }
+      case ItemPool.DRIPPY_WINE -> {
         Preferences.setBoolean("_drippyWineUsed", true);
         Preferences.increment("drippyJuice", 5);
-        return;
-
-      case ItemPool.EVERFULL_GLASS:
-        {
-          // You drink the liquid in the cup.  Someone must have poured some of their horizontal
-          // tango into it.
-          if (responseText.contains("You drink the liquid in the cup")) {
-            Matcher m = EVERFULL_GLASS_PATTERN.matcher(responseText);
-            if (m.find()) {
-              String booze = m.group(1);
-              String message = "Your everfull glass contained some " + booze + "!";
-              RequestLogger.printLine(message);
-              RequestLogger.updateSessionLog(message);
-            }
+      }
+      case ItemPool.EVERFULL_GLASS -> {
+        // You drink the liquid in the cup.  Someone must have poured some of their horizontal
+        // tango into it.
+        if (responseText.contains("You drink the liquid in the cup")) {
+          Matcher m = EVERFULL_GLASS_PATTERN.matcher(responseText);
+          if (m.find()) {
+            String booze = m.group(1);
+            String message = "Your everfull glass contained some " + booze + "!";
+            RequestLogger.printLine(message);
+            RequestLogger.updateSessionLog(message);
           }
-          break;
         }
-
-      case ItemPool.VAMPIRE_VINTNER_WINE:
+      }
+      case ItemPool.VAMPIRE_VINTNER_WINE -> {
         // The charge only starts recounting when the wine is drunk
         Preferences.setInteger("vintnerCharge", 0);
         KoLCharacter.usableFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
-        break;
+      }
     }
   }
 

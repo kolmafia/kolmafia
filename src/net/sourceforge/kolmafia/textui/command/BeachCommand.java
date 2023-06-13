@@ -192,7 +192,7 @@ public class BeachCommand extends AbstractCommand {
     }
   }
 
-  private void printBeachLayout() {
+  private static void printBeachLayout() {
     RequestLogger.printLine("Beach at " + Preferences.getInteger("_beachMinutes"));
     RequestLogger.printLine("");
 
@@ -202,7 +202,7 @@ public class BeachCommand extends AbstractCommand {
     // It is sorted from lowest to highest row. I.e., closest to
     // farthest from waves. We want to display it in the opposite
     // order. Push rows on stack and then pop them off
-    Stack<Entry<Integer, String>> stack = new Stack<Entry<Integer, String>>();
+    Stack<Entry<Integer, String>> stack = new Stack<>();
     for (Entry<Integer, String> entry : layout.entrySet()) {
       stack.push(entry);
     }

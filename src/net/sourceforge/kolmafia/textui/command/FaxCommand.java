@@ -5,6 +5,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class FaxCommand extends AbstractCommand {
@@ -41,6 +42,6 @@ public class FaxCommand extends AbstractCommand {
       return;
     }
 
-    RequestThread.postRequest(new ClanLoungeRequest(ClanLoungeRequest.FAX_MACHINE, option));
+    RequestThread.postRequest(new ClanLoungeRequest(Action.FAX_MACHINE, option));
   }
 }

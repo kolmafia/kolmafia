@@ -19,11 +19,9 @@ public class IntegerRenderer extends DefaultTableCellRenderer {
     Component component =
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-    if (!(component instanceof JLabel)) {
+    if (!(component instanceof JLabel label)) {
       return component;
     }
-
-    JLabel label = (JLabel) component;
 
     int intValue =
         value instanceof Integer

@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -73,23 +74,23 @@ public class EquipmentDatabase {
   public static final int MASK_ELEMENT = 0x7F000;
   public static final int MALUS_UPGRADE = 0x100000;
 
-  public static final int[] IMPLICATIONS = {
-    Modifiers.COLD_RESISTANCE, ELEM_HOT | ELEM_SPOOKY,
-    Modifiers.HOT_RESISTANCE, ELEM_STENCH | ELEM_SLEAZE,
-    Modifiers.SLEAZE_RESISTANCE, ELEM_COLD | ELEM_SPOOKY,
-    Modifiers.SPOOKY_RESISTANCE, ELEM_HOT | ELEM_STENCH,
-    Modifiers.STENCH_RESISTANCE, ELEM_COLD | ELEM_SLEAZE,
-    Modifiers.COLD_DAMAGE, ELEM_COLD,
-    Modifiers.HOT_DAMAGE, ELEM_HOT,
-    Modifiers.SLEAZE_DAMAGE, ELEM_SLEAZE,
-    Modifiers.SPOOKY_DAMAGE, ELEM_SPOOKY,
-    Modifiers.STENCH_DAMAGE, ELEM_STENCH,
-    Modifiers.COLD_SPELL_DAMAGE, ELEM_COLD,
-    Modifiers.HOT_SPELL_DAMAGE, ELEM_HOT,
-    Modifiers.SLEAZE_SPELL_DAMAGE, ELEM_SLEAZE,
-    Modifiers.SPOOKY_SPELL_DAMAGE, ELEM_SPOOKY,
-    Modifiers.STENCH_SPELL_DAMAGE, ELEM_STENCH,
-  };
+  public static final Map<DoubleModifier, Integer> IMPLICATIONS =
+      Map.ofEntries(
+          Map.entry(DoubleModifier.COLD_RESISTANCE, ELEM_HOT | ELEM_SPOOKY),
+          Map.entry(DoubleModifier.HOT_RESISTANCE, ELEM_STENCH | ELEM_SLEAZE),
+          Map.entry(DoubleModifier.SLEAZE_RESISTANCE, ELEM_COLD | ELEM_SPOOKY),
+          Map.entry(DoubleModifier.SPOOKY_RESISTANCE, ELEM_HOT | ELEM_STENCH),
+          Map.entry(DoubleModifier.STENCH_RESISTANCE, ELEM_COLD | ELEM_SLEAZE),
+          Map.entry(DoubleModifier.COLD_DAMAGE, ELEM_COLD),
+          Map.entry(DoubleModifier.HOT_DAMAGE, ELEM_HOT),
+          Map.entry(DoubleModifier.SLEAZE_DAMAGE, ELEM_SLEAZE),
+          Map.entry(DoubleModifier.SPOOKY_DAMAGE, ELEM_SPOOKY),
+          Map.entry(DoubleModifier.STENCH_DAMAGE, ELEM_STENCH),
+          Map.entry(DoubleModifier.COLD_SPELL_DAMAGE, ELEM_COLD),
+          Map.entry(DoubleModifier.HOT_SPELL_DAMAGE, ELEM_HOT),
+          Map.entry(DoubleModifier.SLEAZE_SPELL_DAMAGE, ELEM_SLEAZE),
+          Map.entry(DoubleModifier.SPOOKY_SPELL_DAMAGE, ELEM_SPOOKY),
+          Map.entry(DoubleModifier.STENCH_SPELL_DAMAGE, ELEM_STENCH));
 
   public static boolean newEquipment = false;
 
@@ -234,13 +235,13 @@ public class EquipmentDatabase {
     RequestLogger.printLine("Writing data override: " + output);
 
     // One map per equipment category
-    Map<String, Integer> hats = new TreeMap<String, Integer>();
-    Map<String, Integer> weapons = new TreeMap<String, Integer>();
-    Map<String, Integer> offhands = new TreeMap<String, Integer>();
-    Map<String, Integer> shirts = new TreeMap<String, Integer>();
-    Map<String, Integer> pants = new TreeMap<String, Integer>();
-    Map<String, Integer> accessories = new TreeMap<String, Integer>();
-    Map<String, Integer> containers = new TreeMap<String, Integer>();
+    Map<String, Integer> hats = new TreeMap<>();
+    Map<String, Integer> weapons = new TreeMap<>();
+    Map<String, Integer> offhands = new TreeMap<>();
+    Map<String, Integer> shirts = new TreeMap<>();
+    Map<String, Integer> pants = new TreeMap<>();
+    Map<String, Integer> accessories = new TreeMap<>();
+    Map<String, Integer> containers = new TreeMap<>();
 
     // Iterate over all items and assign item id to category
     Iterator<Entry<Integer, String>> it = ItemDatabase.dataNameEntrySet().iterator();
@@ -251,27 +252,13 @@ public class EquipmentDatabase {
       ConsumptionType type = ItemDatabase.getConsumptionType(key.intValue());
 
       switch (type) {
-        case HAT:
-          hats.put(name, key);
-          break;
-        case PANTS:
-          pants.put(name, key);
-          break;
-        case SHIRT:
-          shirts.put(name, key);
-          break;
-        case WEAPON:
-          weapons.put(name, key);
-          break;
-        case OFFHAND:
-          offhands.put(name, key);
-          break;
-        case ACCESSORY:
-          accessories.put(name, key);
-          break;
-        case CONTAINER:
-          containers.put(name, key);
-          break;
+        case HAT -> hats.put(name, key);
+        case PANTS -> pants.put(name, key);
+        case SHIRT -> shirts.put(name, key);
+        case WEAPON -> weapons.put(name, key);
+        case OFFHAND -> offhands.put(name, key);
+        case ACCESSORY -> accessories.put(name, key);
+        case CONTAINER -> containers.put(name, key);
       }
     }
 
@@ -453,7 +440,7 @@ public class EquipmentDatabase {
     RequestLogger.updateSessionLog(printMe);
 
     // Let modifiers database do what it wishes with this outfit
-    Modifiers.registerOutfit(outfitName, rawText);
+    ModifierDatabase.registerOutfit(outfitName, rawText);
 
     // Done generating data
     printMe = "--------------------";
@@ -620,14 +607,11 @@ public class EquipmentDatabase {
   }
 
   public static final WeaponType getWeaponType(final int itemId) {
-    switch (EquipmentDatabase.getWeaponStat(itemId)) {
-      case NONE:
-        return WeaponType.NONE;
-      case MOXIE:
-        return WeaponType.RANGED;
-      default:
-        return WeaponType.MELEE;
-    }
+    return switch (EquipmentDatabase.getWeaponStat(itemId)) {
+      case NONE -> WeaponType.NONE;
+      case MOXIE -> WeaponType.RANGED;
+      default -> WeaponType.MELEE;
+    };
   }
 
   public static final boolean isChefStaff(final AdventureResult item) {
@@ -768,7 +752,7 @@ public class EquipmentDatabase {
     }
 
     int pulver = PULVERIZE_BITS | ELEM_TWINKLY;
-    Modifiers mods = Modifiers.getItemModifiers(id);
+    Modifiers mods = ModifierDatabase.getItemModifiers(id);
     if (mods == null) { // Apparently no enchantments at all, which would imply that this
       // item pulverizes to useless powder.  However, there are many items
       // with enchantments that don't correspond to a KoLmafia modifier
@@ -777,9 +761,9 @@ public class EquipmentDatabase {
       // items will have to be explicitly listed in pulverize.txt.
       pulver |= EquipmentDatabase.ELEM_TWINKLY;
     } else {
-      for (int i = 0; i < IMPLICATIONS.length; i += 2) {
-        if (mods.get(IMPLICATIONS[i]) > 0.0f) {
-          pulver |= IMPLICATIONS[i + 1];
+      for (var implication : IMPLICATIONS.entrySet()) {
+        if (mods.getDouble(implication.getKey()) > 0.0f) {
+          pulver |= implication.getValue();
         }
       }
     }
@@ -883,45 +867,22 @@ public class EquipmentDatabase {
   public static final int getOutfitId(final KoLAdventure adventure) {
     int adventureId = adventure.getAdventureNumber();
 
-    switch (adventureId) {
-      case AdventurePool.COBB_BARRACKS:
-        return OutfitPool.KNOB_ELITE_OUTFIT;
-
-      case AdventurePool.COBB_HAREM:
-        return OutfitPool.HAREM_OUTFIT;
-
-      case AdventurePool.ITZNOTYERZITZ_MINE:
-        return OutfitPool.MINING_OUTFIT;
-
-      case AdventurePool.EXTREME_SLOPE:
-        return OutfitPool.EXTREME_COLD_WEATHER_GEAR;
-
-      case AdventurePool.HIPPY_CAMP:
-      case AdventurePool.HIPPY_CAMP_DISGUISED:
-        return OutfitPool.HIPPY_OUTFIT;
-
-      case AdventurePool.FRAT_HOUSE:
-      case AdventurePool.FRAT_HOUSE_DISGUISED:
-        return OutfitPool.FRAT_OUTFIT;
-
-      case AdventurePool.PIRATE_COVE:
-        return OutfitPool.SWASHBUCKLING_GETUP;
-
+    return switch (adventureId) {
+      case AdventurePool.COBB_BARRACKS -> OutfitPool.KNOB_ELITE_OUTFIT;
+      case AdventurePool.COBB_HAREM -> OutfitPool.HAREM_OUTFIT;
+      case AdventurePool.ITZNOTYERZITZ_MINE -> OutfitPool.MINING_OUTFIT;
+      case AdventurePool.EXTREME_SLOPE -> OutfitPool.EXTREME_COLD_WEATHER_GEAR;
+      case AdventurePool.HIPPY_CAMP, AdventurePool.HIPPY_CAMP_DISGUISED -> OutfitPool.HIPPY_OUTFIT;
+      case AdventurePool.FRAT_HOUSE, AdventurePool.FRAT_HOUSE_DISGUISED -> OutfitPool.FRAT_OUTFIT;
+      case AdventurePool.PIRATE_COVE -> OutfitPool.SWASHBUCKLING_GETUP;
         // Choose the uniform randomly
-      case AdventurePool.COLA_BATTLEFIELD:
-        return KoLConstants.RNG.nextInt(2) == 0
-            ? OutfitPool.CLOACA_UNIFORM
-            : OutfitPool.DYSPEPSI_UNIFORM;
-
-      case AdventurePool.CLOACA_BATTLEFIELD:
-        return OutfitPool.CLOACA_UNIFORM;
-
-      case AdventurePool.DYSPEPSI_BATTLEFIELD:
-        return OutfitPool.DYSPEPSI_UNIFORM;
-
+      case AdventurePool.COLA_BATTLEFIELD -> KoLConstants.RNG.nextInt(2) == 0
+          ? OutfitPool.CLOACA_UNIFORM
+          : OutfitPool.DYSPEPSI_UNIFORM;
+      case AdventurePool.CLOACA_BATTLEFIELD -> OutfitPool.CLOACA_UNIFORM;
+      case AdventurePool.DYSPEPSI_BATTLEFIELD -> OutfitPool.DYSPEPSI_UNIFORM;
         // No outfit existed for this area
-      default:
-        return -1;
-    }
+      default -> -1;
+    };
   }
 }

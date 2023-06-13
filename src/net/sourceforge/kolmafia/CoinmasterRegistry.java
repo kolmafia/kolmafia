@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.request.LTTRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MemeShopRequest;
 import net.sourceforge.kolmafia.request.MerchTableRequest;
+import net.sourceforge.kolmafia.request.MrStore2002Request;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
@@ -59,6 +60,7 @@ import net.sourceforge.kolmafia.request.PlumberItemRequest;
 import net.sourceforge.kolmafia.request.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.PrecinctRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.RubeeRequest;
 import net.sourceforge.kolmafia.request.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
@@ -132,6 +134,7 @@ public abstract class CoinmasterRegistry {
         MemeShopRequest.BACON_STORE,
         MerchTableRequest.MERCH_TABLE,
         MrStoreRequest.MR_STORE,
+        MrStore2002Request.MR_STORE_2002,
         NeandermallRequest.NEANDERMALL,
         NinjaStoreRequest.NINJA_STORE,
         NuggletCraftingRequest.NUGGLETCRAFTING,
@@ -140,6 +143,7 @@ public abstract class CoinmasterRegistry {
         PokemporiumRequest.POKEMPORIUM,
         PrecinctRequest.PRECINCT,
         QuartersmasterRequest.FRATBOY,
+        ReplicaMrStoreRequest.REPLICA_MR_STORE,
         RubeeRequest.RUBEE,
         SHAWARMARequest.SHAWARMA,
         ShoeRepairRequest.SHOE_REPAIR,
@@ -169,7 +173,8 @@ public abstract class CoinmasterRegistry {
       CoinmasterData cm = COINMASTERS[i];
       MASTERS[i] = StringUtilities.getCanonicalName(cm.getMaster());
       NICKNAMES[i] = StringUtilities.getCanonicalName(cm.getNickname());
-      COINMASTERS[i].registerPurchaseRequests();
+      cm.registerPurchaseRequests();
+      cm.registerPropertyToken();
     }
   }
 

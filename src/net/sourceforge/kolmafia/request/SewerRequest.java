@@ -15,6 +15,8 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -251,7 +253,7 @@ public class SewerRequest extends CreateItemRequest {
 
   private static void transferStarterItems(
       final AdventureResult[] goals, final List<AdventureResult> source) {
-    ArrayList<AdventureResult> attachments = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> attachments = new ArrayList<>();
     List<AdventureResult> destination = KoLConstants.inventory;
     List<AdventureResult> skip = Arrays.asList(goals);
 
@@ -293,10 +295,10 @@ public class SewerRequest extends CreateItemRequest {
       final List<AdventureResult> destination) {
     TransferItemRequest request =
         (destination == KoLConstants.closet)
-            ? new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, transfers)
+            ? new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, transfers)
             : (source == KoLConstants.storage)
-                ? new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, transfers)
-                : new ClosetRequest(ClosetRequest.CLOSET_TO_INVENTORY, transfers);
+                ? new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, transfers)
+                : new ClosetRequest(ClosetRequestType.CLOSET_TO_INVENTORY, transfers);
 
     RequestThread.postRequest(request);
   }
@@ -312,7 +314,7 @@ public class SewerRequest extends CreateItemRequest {
   }
 
   private static int closetSewerItems(final AdventureResult[] items) {
-    ArrayList<AdventureResult> transfers = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> transfers = new ArrayList<>();
     for (AdventureResult item : items) {
       int available = item.getCount(KoLConstants.inventory);
       if (available > 0) {
@@ -328,7 +330,7 @@ public class SewerRequest extends CreateItemRequest {
   }
 
   private static int unclosetSewerItems(final AdventureResult[] items, int needed) {
-    ArrayList<AdventureResult> transfers = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> transfers = new ArrayList<>();
     for (AdventureResult item : items) {
       int available = Math.min(needed, item.getCount(KoLConstants.closet));
       if (available > 0) {
@@ -346,7 +348,7 @@ public class SewerRequest extends CreateItemRequest {
 
   private static int unclosetSewerItems(
       final AdventureResult[] currentCloset, final AdventureResult[] initialCloset) {
-    ArrayList<AdventureResult> transfers = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> transfers = new ArrayList<>();
     for (int index = 0; index < initialCloset.length; ++index) {
       AdventureResult original = initialCloset[index];
       AdventureResult current = currentCloset[index];
@@ -364,7 +366,7 @@ public class SewerRequest extends CreateItemRequest {
   }
 
   private static int pullSewerItems(final AdventureResult[] items, int needed) {
-    ArrayList<AdventureResult> transfers = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> transfers = new ArrayList<>();
     for (AdventureResult item : items) {
       int available = Math.min(needed, item.getCount(KoLConstants.storage));
       if (available > 0) {

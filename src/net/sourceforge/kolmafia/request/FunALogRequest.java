@@ -7,8 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -33,10 +31,6 @@ public class FunALogRequest extends CoinMasterRequest {
 
   private static Boolean availableItem(final Integer itemId) {
     return unlockedItems.contains(ItemDatabase.getItemName(itemId));
-  }
-
-  static {
-    ConcoctionPool.set(new Concoction("FunPoint", "availableFunPoints"));
   }
 
   public FunALogRequest() {

@@ -25,11 +25,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -53,8 +54,7 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierExpression;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.Modifier;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterExpression;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -71,17 +71,26 @@ import net.sourceforge.kolmafia.chat.WhoMessage;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.maximizer.PriceLevel;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
@@ -98,9 +107,12 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.JokePocket;
@@ -117,8 +129,11 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
+import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
+import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
@@ -153,9 +168,11 @@ import net.sourceforge.kolmafia.session.VotingBoothManager;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand;
+import net.sourceforge.kolmafia.textui.command.MonkeyPawCommand;
 import net.sourceforge.kolmafia.textui.command.SetPreferencesCommand;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateValue;
@@ -175,6 +192,7 @@ import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleXmlSerializer;
@@ -190,9 +208,9 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 public abstract class RuntimeLibrary {
   private static final RecordType itemDropRec =
       new RecordType(
-          "{item drop; int rate; string type;}",
+          "{item drop; float rate; string type;}",
           new String[] {"drop", "rate", "type"},
-          new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE});
+          new Type[] {DataTypes.ITEM_TYPE, DataTypes.FLOAT_TYPE, DataTypes.STRING_TYPE});
 
   private static final RecordType maximizerResults =
       new RecordType(
@@ -589,6 +607,21 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("to_url", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.EFFECT_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.SKILL_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("desc_to_effect", DataTypes.EFFECT_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
@@ -708,6 +741,12 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.LOCATION_TYPE};
+    functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.LOCATION_TYPE, DataTypes.STRING_TYPE, DataTypes.FLOAT_TYPE};
+    functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.INT_TYPE};
     functions.add(new LibraryFunction("get_ccs_action", DataTypes.STRING_TYPE, params));
@@ -1164,6 +1203,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("equipped_amount", DataTypes.INT_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("equipped_amount", DataTypes.INT_TYPE, params));
+
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("creatable_amount", DataTypes.INT_TYPE, params));
 
@@ -1355,6 +1397,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {};
     functions.add(new LibraryFunction("my_session_results", DataTypes.STRING_TO_INT_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("daycount", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
     functions.add(new LibraryFunction("my_daycount", DataTypes.INT_TYPE, params));
@@ -1965,6 +2010,12 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction("split_string", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
+    params = new Type[] {new AggregateType(DataTypes.STRING_TYPE, 0)};
+    functions.add(new LibraryFunction("join_strings", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {new AggregateType(DataTypes.STRING_TYPE, 0), DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("join_strings", DataTypes.STRING_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("group_string", DataTypes.REGEX_GROUP_TYPE, params));
 
@@ -2166,6 +2217,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("set_ccs", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("read_ccs", DataTypes.BUFFER_TYPE, params));
 
     params = new Type[] {DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE};
@@ -2353,10 +2407,10 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_INT_TYPE, params));
+    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_FLOAT_TYPE, params));
 
     params = new Type[] {DataTypes.MONSTER_TYPE};
-    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_INT_TYPE, params));
+    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_FLOAT_TYPE, params));
 
     Type itemDropRecArray = new AggregateType(itemDropRec, 0);
 
@@ -2422,6 +2476,9 @@ public abstract class RuntimeLibrary {
         new Type[] {
           DataTypes.FAMILIAR_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE
         };
+    functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
+
+    params = new Type[] {DataTypes.THRALL_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
@@ -2755,6 +2812,15 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction(
             "get_autumnaton_locations", new AggregateType(DataTypes.LOCATION_TYPE, 0), params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.EFFECT_TYPE};
+    functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -2796,11 +2862,10 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value get_stack_trace(ScriptRuntime controller) {
-    if (!(controller instanceof AshRuntime)) {
+    if (!(controller instanceof AshRuntime interpreter)) {
       throw controller.runtimeException("Stack trace only supported when called from ASH.");
     }
 
-    AshRuntime interpreter = (AshRuntime) controller;
     List<CallFrame> callStack = interpreter.getCallFrames();
 
     int frameCount = callStack.size();
@@ -3210,8 +3275,7 @@ public abstract class RuntimeLibrary {
     for (int i = 0; i < result.length; i++) {
       Object ob = result[i];
 
-      if (ob instanceof TagNode) {
-        TagNode tag = (TagNode) ob;
+      if (ob instanceof TagNode tag) {
         result[i] = serializer.getAsString(tag);
       }
 
@@ -3364,7 +3428,7 @@ public abstract class RuntimeLibrary {
   public static Value to_string(ScriptRuntime controller, Value val, Value fmt) {
     try {
       Object arg;
-      if (val.getType().equals(DataTypes.TYPE_FLOAT)) {
+      if (val.getType().equals(TypeSpec.FLOAT)) {
         arg = val.floatValue();
       } else {
         arg = val.intValue();
@@ -3381,7 +3445,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_int(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_STRING)) {
+    if (value.getType().equals(TypeSpec.STRING)) {
       String string = value.toString();
       try {
         return new Value(StringUtilities.parseLongInternal1(string, true));
@@ -3414,7 +3478,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_float(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_STRING)) {
+    if (value.getType().equals(TypeSpec.STRING)) {
       String string = value.toString();
       try {
         return new Value(StringUtilities.parseFloat(string));
@@ -3431,7 +3495,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_item(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeItemValue((int) value.intValue(), true);
     }
 
@@ -3482,11 +3546,11 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_skill(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeSkillValue((int) value.intValue(), true);
     }
 
-    if (value.getType().equals(DataTypes.TYPE_EFFECT)) {
+    if (value.getType().equals(TypeSpec.EFFECT)) {
       return DataTypes.parseSkillValue(UneffectRequest.effectToSkill(value.toString()), true);
     }
 
@@ -3509,11 +3573,11 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_effect(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeEffectValue((int) value.intValue(), true);
     }
 
-    if (value.getType().equals(DataTypes.TYPE_SKILL)) {
+    if (value.getType().equals(TypeSpec.SKILL)) {
       return DataTypes.parseEffectValue(UneffectRequest.skillToEffect(value.toString()), true);
     }
 
@@ -3525,7 +3589,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_location(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.parseLocationValue((int) value.intValue(), true);
     } else {
       return DataTypes.parseLocationValue(value.toString(), true);
@@ -3533,7 +3597,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_familiar(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeFamiliarValue((int) value.intValue(), true);
     }
 
@@ -3541,7 +3605,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_monster(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeMonsterValue((int) value.intValue(), true);
     }
 
@@ -3558,29 +3622,20 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_slot(ScriptRuntime controller, final Value item) {
-    if (!item.getType().equals(DataTypes.TYPE_ITEM)) {
+    if (!item.getType().equals(TypeSpec.ITEM)) {
       return DataTypes.parseSlotValue(item.toString(), true);
     }
-    switch (ItemDatabase.getConsumptionType((int) item.intValue())) {
-      case HAT:
-        return DataTypes.parseSlotValue("hat", true);
-      case WEAPON:
-        return DataTypes.parseSlotValue("weapon", true);
-      case OFFHAND:
-        return DataTypes.parseSlotValue("off-hand", true);
-      case SHIRT:
-        return DataTypes.parseSlotValue("shirt", true);
-      case PANTS:
-        return DataTypes.parseSlotValue("pants", true);
-      case CONTAINER:
-        return DataTypes.parseSlotValue("container", true);
-      case FAMILIAR_EQUIPMENT:
-        return DataTypes.parseSlotValue("familiar", true);
-      case ACCESSORY:
-        return DataTypes.parseSlotValue("acc1", true);
-      default:
-        return DataTypes.parseSlotValue("none", true);
-    }
+    return switch (ItemDatabase.getConsumptionType((int) item.intValue())) {
+      case HAT -> DataTypes.parseSlotValue("hat", true);
+      case WEAPON -> DataTypes.parseSlotValue("weapon", true);
+      case OFFHAND -> DataTypes.parseSlotValue("off-hand", true);
+      case SHIRT -> DataTypes.parseSlotValue("shirt", true);
+      case PANTS -> DataTypes.parseSlotValue("pants", true);
+      case CONTAINER -> DataTypes.parseSlotValue("container", true);
+      case FAMILIAR_EQUIPMENT -> DataTypes.parseSlotValue("familiar", true);
+      case ACCESSORY -> DataTypes.parseSlotValue("acc1", true);
+      default -> DataTypes.parseSlotValue("none", true);
+    };
   }
 
   public static Value to_element(ScriptRuntime controller, final Value value) {
@@ -3604,7 +3659,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_thrall(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeThrallValue((int) value.intValue(), true);
     }
 
@@ -3612,7 +3667,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_servant(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.makeServantValue((int) value.intValue(), true);
     }
 
@@ -3624,7 +3679,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_path(ScriptRuntime controller, final Value value) {
-    if (value.getType().equals(DataTypes.TYPE_INT)) {
+    if (value.getType().equals(TypeSpec.INT)) {
       return DataTypes.parsePathValue((int) value.intValue(), true);
     }
 
@@ -3640,6 +3695,20 @@ public abstract class RuntimeLibrary {
     return (adventure == null)
         ? DataTypes.STRING_INIT
         : new Value(adventure.getRequest().getURLString());
+  }
+
+  public static Value to_wiki_url(ScriptRuntime controller, final Value value) {
+    var type =
+        switch (value.getType().getType()) {
+          case EFFECT -> WikiUtilities.WikiType.EFFECT;
+          case ITEM -> WikiUtilities.WikiType.ITEM;
+          case MONSTER -> WikiUtilities.WikiType.MONSTER;
+          case SKILL -> WikiUtilities.WikiType.SKILL;
+          default -> WikiUtilities.WikiType.ANY;
+        };
+
+    var link = WikiUtilities.getWikiLocation(value.toString(), type, false);
+    return new Value(link);
   }
 
   // Functions related to daily information which get
@@ -3805,7 +3874,7 @@ public abstract class RuntimeLibrary {
       return value;
     }
 
-    Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+    Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
 
     for (int i = 0; i < dayCount; ++i) {
       String logContents =
@@ -3878,7 +3947,7 @@ public abstract class RuntimeLibrary {
   }
 
   private static Calendar getBaseTimeStamp(String base, int count) {
-    Calendar timestamp = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+    Calendar timestamp = Calendar.getInstance(KoLmafia.KOL_TIME_ZONE);
     timestamp.clear();
     int year = Integer.parseInt(base.substring(0, 4));
     int mon = Integer.parseInt(base.substring(4, 6));
@@ -3987,6 +4056,59 @@ public abstract class RuntimeLibrary {
     }
 
     return RuntimeLibrary.continueValue();
+  }
+
+  private record EightBitZone(DoubleModifier mod, int base, String color) {}
+
+  private static final Map<Integer, EightBitZone> EIGHT_BIT_ZONES =
+      Map.ofEntries(
+          Map.entry(
+              AdventurePool.FUNGUS_PLAINS, new EightBitZone(DoubleModifier.MEATDROP, 150, "red")),
+          Map.entry(
+              AdventurePool.HEROS_FIELD, new EightBitZone(DoubleModifier.ITEMDROP, 100, "green")),
+          Map.entry(
+              AdventurePool.VANYAS_CASTLE,
+              new EightBitZone(DoubleModifier.INITIATIVE, 300, "black")),
+          Map.entry(
+              AdventurePool.MEGALO_CITY,
+              new EightBitZone(DoubleModifier.DAMAGE_ABSORPTION, 300, "blue")));
+
+  public static Value eight_bit_points(ScriptRuntime controller, final Value locationValue) {
+    var location = (KoLAdventure) locationValue.rawValue();
+    EightBitZone zone = EIGHT_BIT_ZONES.getOrDefault(location.getSnarfblat(), null);
+    if (zone == null) {
+      return DataTypes.ZERO_VALUE;
+    }
+
+    String color = Preferences.getString("8BitColor");
+    double modValue = KoLCharacter.currentNumericModifier(zone.mod());
+
+    return eight_bit_points(zone, color, modValue);
+  }
+
+  public static Value eight_bit_points(EightBitZone zone, String color, double modValue) {
+    boolean isBonus = zone.color().equals(color);
+    int base = isBonus ? 100 : 50;
+    int divisor = isBonus ? 10 : 20;
+    long bonus = Math.round(Math.min(300, Math.max(0, modValue - zone.base)) / divisor) * 10;
+    return new Value(base + bonus);
+  }
+
+  public static Value eight_bit_points(
+      ScriptRuntime controller,
+      final Value locationValue,
+      final Value colorValue,
+      final Value modValue) {
+    var location = (KoLAdventure) locationValue.rawValue();
+    EightBitZone zone = EIGHT_BIT_ZONES.getOrDefault(location.getSnarfblat(), null);
+    if (zone == null) {
+      return DataTypes.ZERO_VALUE;
+    }
+
+    String color = RuntimeLibrary.cleanString(colorValue);
+    double mod = modValue.floatValue();
+
+    return eight_bit_points(zone, color, mod);
   }
 
   public static Value get_ccs_action(ScriptRuntime controller, final Value index) {
@@ -4108,7 +4230,7 @@ public abstract class RuntimeLibrary {
 
   public static Value buy(
       ScriptRuntime controller, final Value arg1, final Value arg2, final Value arg3) {
-    if (arg1.getType().equals(DataTypes.TYPE_COINMASTER)) {
+    if (arg1.getType().equals(TypeSpec.COINMASTER)) {
       return RuntimeLibrary.coinmaster_buy(controller, arg1, arg2, arg3);
     }
 
@@ -4372,7 +4494,7 @@ public abstract class RuntimeLibrary {
     if (controller.getBatched() != null) {
       RuntimeLibrary.batchCommand(controller, "closet", null, "empty");
     } else {
-      ClosetRequest request = new ClosetRequest(ClosetRequest.EMPTY_CLOSET);
+      ClosetRequest request = new ClosetRequest(ClosetRequestType.EMPTY_CLOSET);
       RequestThread.postRequest(request);
     }
     return RuntimeLibrary.continueValue();
@@ -4399,7 +4521,7 @@ public abstract class RuntimeLibrary {
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
       ClosetRequest request =
-          new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, ItemPool.get(itemId, count));
+          new ClosetRequest(ClosetRequestType.INVENTORY_TO_CLOSET, ItemPool.get(itemId, count));
       RequestThread.postRequest(request);
     }
     return RuntimeLibrary.continueValue();
@@ -4421,7 +4543,7 @@ public abstract class RuntimeLibrary {
       String params = meat + " meat";
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
-      ClosetRequest request = new ClosetRequest(ClosetRequest.MEAT_TO_CLOSET, (int) meat);
+      ClosetRequest request = new ClosetRequest(ClosetRequestType.MEAT_TO_CLOSET, (int) meat);
       RequestThread.postRequest(request);
     }
     return RuntimeLibrary.continueValue();
@@ -4555,7 +4677,7 @@ public abstract class RuntimeLibrary {
     } else {
       AdventureResult[] items = new AdventureResult[1];
       items[0] = ItemPool.get(itemId, count);
-      ClanStashRequest request = new ClanStashRequest(items, ClanStashRequest.ITEMS_TO_STASH);
+      ClanStashRequest request = new ClanStashRequest(items, ClanStashRequestType.ITEMS_TO_STASH);
       RequestThread.postRequest(request);
     }
 
@@ -4611,7 +4733,7 @@ public abstract class RuntimeLibrary {
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
       ClosetRequest request =
-          new ClosetRequest(ClosetRequest.CLOSET_TO_INVENTORY, ItemPool.get(itemId, count));
+          new ClosetRequest(ClosetRequestType.CLOSET_TO_INVENTORY, ItemPool.get(itemId, count));
       RequestThread.postRequest(request);
     }
 
@@ -4634,7 +4756,7 @@ public abstract class RuntimeLibrary {
       String params = meat + " meat";
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
-      ClosetRequest request = new ClosetRequest(ClosetRequest.MEAT_TO_INVENTORY, (int) meat);
+      ClosetRequest request = new ClosetRequest(ClosetRequestType.MEAT_TO_INVENTORY, (int) meat);
       RequestThread.postRequest(request);
     }
 
@@ -4715,7 +4837,7 @@ public abstract class RuntimeLibrary {
       RuntimeLibrary.batchCommand(controller, cmd, null, params);
     } else {
       StorageRequest request =
-          new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, ItemPool.get(itemId, count));
+          new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, ItemPool.get(itemId, count));
       RequestThread.postRequest(request);
     }
 
@@ -4773,7 +4895,7 @@ public abstract class RuntimeLibrary {
     } else {
       AdventureResult[] items = new AdventureResult[1];
       items[0] = ItemPool.get(itemId, count);
-      ClanStashRequest request = new ClanStashRequest(items, ClanStashRequest.STASH_TO_ITEMS);
+      ClanStashRequest request = new ClanStashRequest(items, ClanStashRequestType.STASH_TO_ITEMS);
       RequestThread.postRequest(request);
     }
 
@@ -5186,106 +5308,108 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
     String which = type.toString();
 
-    if (which.equals("zap")) {
-      List<String> zapgroup = ZapRequest.getZapGroup((int) item.intValue());
-      for (int i = zapgroup.size() - 1; i >= 0; --i) {
-        Value key = DataTypes.parseItemValue(zapgroup.get(i), true);
-        if (key.intValue() != item.intValue()) {
-          value.aset(key, DataTypes.ZERO_VALUE);
-        }
-      }
-    } else if (which.equals("fold")) {
-      FoldGroup list = ItemDatabase.getFoldGroup(item.toString());
-      if (list == null) return value;
-      for (int i = list.names.size() - 1; i >= 0; --i) {
-        value.aset(DataTypes.parseItemValue(list.names.get(i), true), new Value(i + 1));
-      }
-    } else if (which.equals("pulverize")) { // All values scaled up by one million
-      int pulver = EquipmentDatabase.getPulverization((int) item.intValue());
-      if (pulver == -1 || (pulver & EquipmentDatabase.MALUS_UPGRADE) != 0) {
-        return value;
-      }
-      if (pulver > 0) {
-        value.aset(DataTypes.makeItemValue(pulver, true), DataTypes.makeIntValue(1000000));
-        return value;
-      }
-
-      ArrayList<Integer> elems = new ArrayList<>();
-      boolean clusters = (pulver & EquipmentDatabase.YIELD_1C) != 0;
-      if ((pulver & EquipmentDatabase.ELEM_HOT) != 0) {
-        elems.add(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_COLD) != 0) {
-        elems.add(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_STENCH) != 0) {
-        elems.add(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_SPOOKY) != 0) {
-        elems.add(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_SLEAZE) != 0) {
-        elems.add(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD);
-      }
-      if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) { // Important: twinkly must be last
-        elems.add(ItemPool.TWINKLY_WAD);
-      }
-      int nelems = elems.size();
-      if (nelems == 0) {
-        return value; // shouldn't happen
-      }
-
-      int powders = 0, nuggets = 0, wads = 0;
-      if ((pulver & EquipmentDatabase.YIELD_3W) != 0) {
-        wads = 3000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_1W3N_2W) != 0) {
-        wads = 1500000;
-        nuggets = 1500000;
-      } else if ((pulver & EquipmentDatabase.YIELD_4N_1W) != 0) {
-        wads = 500000;
-        nuggets = 2000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_3N) != 0) {
-        nuggets = 3000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_1N3P_2N) != 0) {
-        nuggets = 1500000;
-        powders = 1500000;
-      } else if ((pulver & EquipmentDatabase.YIELD_4P_1N) != 0) {
-        nuggets = 500000;
-        powders = 2000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_3P) != 0) {
-        powders = 3000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_2P) != 0) {
-        powders = 2000000;
-      } else if ((pulver & EquipmentDatabase.YIELD_1P) != 0) {
-        powders = 1000000;
-      }
-      int gems = wads / 100;
-      wads -= gems;
-
-      for (int wad : elems) {
-        if (powders > 0) {
-          value.aset(
-              DataTypes.makeItemValue(wad + WAD2POWDER, true),
-              DataTypes.makeIntValue(powders / nelems));
-        }
-        if (nuggets > 0) {
-          value.aset(
-              DataTypes.makeItemValue(wad + WAD2NUGGET, true),
-              DataTypes.makeIntValue(nuggets / nelems));
-        }
-        if (wads > 0) {
-          if (wad == ItemPool.TWINKLY_WAD) { // no twinkly gem!
-            wads += gems;
-            gems = 0;
+    switch (which) {
+      case "zap" -> {
+        List<String> zapgroup = ZapRequest.getZapGroup((int) item.intValue());
+        for (int i = zapgroup.size() - 1; i >= 0; --i) {
+          Value key = DataTypes.parseItemValue(zapgroup.get(i), true);
+          if (key.intValue() != item.intValue()) {
+            value.aset(key, DataTypes.ZERO_VALUE);
           }
-          value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(wads / nelems));
         }
-        if (gems > 0) {
-          value.aset(
-              DataTypes.makeItemValue(wad + WAD2GEM, true), DataTypes.makeIntValue(gems / nelems));
+      }
+      case "fold" -> {
+        FoldGroup list = ItemDatabase.getFoldGroup(item.toString());
+        if (list == null) return value;
+        for (int i = list.names.size() - 1; i >= 0; --i) {
+          value.aset(DataTypes.parseItemValue(list.names.get(i), true), new Value(i + 1));
         }
-        if (clusters) {
-          value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(1000000));
+      }
+      case "pulverize" -> { // All values scaled up by one million
+        int pulver = EquipmentDatabase.getPulverization((int) item.intValue());
+        if (pulver == -1 || (pulver & EquipmentDatabase.MALUS_UPGRADE) != 0) {
+          return value;
+        }
+        if (pulver > 0) {
+          value.aset(DataTypes.makeItemValue(pulver, true), DataTypes.makeIntValue(1000000));
+          return value;
+        }
+        ArrayList<Integer> elems = new ArrayList<>();
+        boolean clusters = (pulver & EquipmentDatabase.YIELD_1C) != 0;
+        if ((pulver & EquipmentDatabase.ELEM_HOT) != 0) {
+          elems.add(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_COLD) != 0) {
+          elems.add(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_STENCH) != 0) {
+          elems.add(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_SPOOKY) != 0) {
+          elems.add(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_SLEAZE) != 0) {
+          elems.add(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD);
+        }
+        if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) { // Important: twinkly must be last
+          elems.add(ItemPool.TWINKLY_WAD);
+        }
+        int nelems = elems.size();
+        if (nelems == 0) {
+          return value; // shouldn't happen
+        }
+        int powders = 0, nuggets = 0, wads = 0;
+        if ((pulver & EquipmentDatabase.YIELD_3W) != 0) {
+          wads = 3000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_1W3N_2W) != 0) {
+          wads = 1500000;
+          nuggets = 1500000;
+        } else if ((pulver & EquipmentDatabase.YIELD_4N_1W) != 0) {
+          wads = 500000;
+          nuggets = 2000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_3N) != 0) {
+          nuggets = 3000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_1N3P_2N) != 0) {
+          nuggets = 1500000;
+          powders = 1500000;
+        } else if ((pulver & EquipmentDatabase.YIELD_4P_1N) != 0) {
+          nuggets = 500000;
+          powders = 2000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_3P) != 0) {
+          powders = 3000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_2P) != 0) {
+          powders = 2000000;
+        } else if ((pulver & EquipmentDatabase.YIELD_1P) != 0) {
+          powders = 1000000;
+        }
+        int gems = wads / 100;
+        wads -= gems;
+        for (int wad : elems) {
+          if (powders > 0) {
+            value.aset(
+                DataTypes.makeItemValue(wad + WAD2POWDER, true),
+                DataTypes.makeIntValue(powders / nelems));
+          }
+          if (nuggets > 0) {
+            value.aset(
+                DataTypes.makeItemValue(wad + WAD2NUGGET, true),
+                DataTypes.makeIntValue(nuggets / nelems));
+          }
+          if (wads > 0) {
+            if (wad == ItemPool.TWINKLY_WAD) { // no twinkly gem!
+              wads += gems;
+              gems = 0;
+            }
+            value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(wads / nelems));
+          }
+          if (gems > 0) {
+            value.aset(
+                DataTypes.makeItemValue(wad + WAD2GEM, true),
+                DataTypes.makeIntValue(gems / nelems));
+          }
+          if (clusters) {
+            value.aset(DataTypes.makeItemValue(wad, true), DataTypes.makeIntValue(1000000));
+          }
         }
       }
     }
@@ -5509,15 +5633,18 @@ public abstract class RuntimeLibrary {
 
   public static Value equipped_amount(ScriptRuntime controller, final Value arg) {
     AdventureResult item = ItemPool.get((int) arg.intValue(), 0);
-    int runningTotal = 0;
+    int amount = InventoryManager.getEquippedCount(item);
 
-    for (int i = 0; i <= EquipmentManager.FAMILIAR; ++i) {
-      if (EquipmentManager.getEquipment(i).equals(item)) {
-        ++runningTotal;
-      }
-    }
+    return new Value(amount);
+  }
 
-    return new Value(runningTotal);
+  public static Value equipped_amount(
+      ScriptRuntime controller, final Value arg0, final Value arg1) {
+    AdventureResult item = ItemPool.get((int) arg0.intValue(), 0);
+    boolean includeAllFamiliars = arg1.intValue() == 1;
+    int amount = InventoryManager.getEquippedCount(item, includeAllFamiliars);
+
+    return new Value(amount);
   }
 
   public static Value creatable_amount(ScriptRuntime controller, final Value arg) {
@@ -5948,6 +6075,10 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
+  public static Value daycount(ScriptRuntime controller) {
+    return new Value(KoLCharacter.getGlobalDays());
+  }
+
   public static Value my_daycount(ScriptRuntime controller) {
     return new Value(KoLCharacter.getCurrentDays());
   }
@@ -6269,9 +6400,9 @@ public abstract class RuntimeLibrary {
   public static Value set_auto_attack(ScriptRuntime controller, Value attackValue) {
     Type type = attackValue.getType();
     String arg =
-        type.equals(DataTypes.TYPE_STRING)
+        type.equals(TypeSpec.STRING)
             ? attackValue.toString()
-            : type.equals(DataTypes.TYPE_INT) ? String.valueOf(attackValue.intValue()) : "none";
+            : type.equals(TypeSpec.INT) ? String.valueOf(attackValue.intValue()) : "none";
 
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("autoattack", arg);
 
@@ -6314,7 +6445,7 @@ public abstract class RuntimeLibrary {
 
   public static Value run_choice(
       ScriptRuntime controller, final Value decision, final Value extra) {
-    if (extra.getType().equals(DataTypes.TYPE_BOOLEAN)) {
+    if (extra.getType().equals(TypeSpec.BOOLEAN)) {
       // if extra is a boolean, it specifies whether to automate fights
       return run_choice(controller, decision, extra, DataTypes.STRING_INIT);
     }
@@ -6647,11 +6778,17 @@ public abstract class RuntimeLibrary {
         // ...which is our current familiar, just use the "familiar" slot
         destination = new Value("familiar");
       } else {
-        // ...otherwise check if we can equip it...
-        var it = ItemPool.get((int) item.intValue());
+        AdventureResult it;
+        // ...otherwise check if it's "none"
+        if (item.equals(DataTypes.ITEM_INIT)) {
+          it = EquipmentRequest.UNEQUIP;
+        } else {
+          // ...or if we can equip it...
+          it = ItemPool.get((int) item.intValue());
 
-        if (!familiar.canEquip(it)) {
-          return DataTypes.FALSE_VALUE;
+          if (!familiar.canEquip(it)) {
+            return DataTypes.FALSE_VALUE;
+          }
         }
 
         // ...and fire a request to do so.
@@ -6672,7 +6809,8 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value equipped_item(ScriptRuntime controller, final Value slot) {
-    return DataTypes.makeItemValue(EquipmentManager.getEquipment((int) slot.intValue()));
+    return DataTypes.makeItemValue(
+        EquipmentManager.getEquipment(Slot.byOrdinal((int) slot.intValue())));
   }
 
   public static Value have_equipped(ScriptRuntime controller, final Value item) {
@@ -7424,16 +7562,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value split_string(ScriptRuntime controller, final Value string) {
-    String[] pieces = string.toString().split(KoLConstants.LINE_BREAK);
-
-    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, pieces.length);
-    ArrayValue value = new ArrayValue(type);
-
-    for (int i = 0; i < pieces.length; ++i) {
-      value.aset(new Value(i), new Value(pieces[i]));
-    }
-
-    return value;
+    return split_string(string.toString().split(KoLConstants.LINE_BREAK));
   }
 
   public static Value split_string(
@@ -7451,8 +7580,11 @@ public abstract class RuntimeLibrary {
         throw controller.runtimeException("Invalid pattern syntax");
       }
     }
-    String[] pieces = p.split(string.toString());
 
+    return split_string(p.split(string.toString()));
+  }
+
+  private static Value split_string(String[] pieces) {
     AggregateType type = new AggregateType(DataTypes.STRING_TYPE, pieces.length);
     ArrayValue value = new ArrayValue(type);
 
@@ -7461,6 +7593,20 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value join_strings(ScriptRuntime controller, final Value strings) {
+    return join_strings(strings, KoLConstants.LINE_BREAK);
+  }
+
+  public static Value join_strings(
+      ScriptRuntime controller, final Value strings, final Value joiner) {
+    return join_strings(strings, joiner.toString());
+  }
+
+  private static Value join_strings(final Value strings, final String joiner) {
+    Value[] array = (Value[]) strings.content;
+    return new Value(Arrays.stream(array).map(Value::toString).collect(Collectors.joining(joiner)));
   }
 
   public static Value group_string(
@@ -7538,7 +7684,7 @@ public abstract class RuntimeLibrary {
     if (expr.content instanceof ModifierExpression) {
       e = (ModifierExpression) expr.content;
     } else {
-      e = new ModifierExpression(expr.toString(), "modifier_eval()");
+      e = new ModifierExpression(expr.toString(), ModifierType.GENERATED, "modifier_eval()");
       String errors = e.getExpressionErrors();
       if (errors != null) {
         throw controller.runtimeException(errors);
@@ -7581,7 +7727,9 @@ public abstract class RuntimeLibrary {
     int priceLevel = (int) priceLevelValue.intValue();
     boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
 
-    return new Value(Maximizer.maximize(maximizerString, maxPrice, priceLevel, isSpeculateOnly));
+    return new Value(
+        Maximizer.maximize(
+            maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly));
   }
 
   public static Value maximize(
@@ -7597,7 +7745,7 @@ public abstract class RuntimeLibrary {
     boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
     boolean showEquip = showEquipment.intValue() == 1;
 
-    Maximizer.maximize(maximizerString, maxPrice, priceLevel, isSpeculateOnly);
+    Maximizer.maximize(maximizerString, maxPrice, PriceLevel.byIndex(priceLevel), isSpeculateOnly);
 
     List<Boost> m = Maximizer.boosts;
 
@@ -7745,9 +7893,7 @@ public abstract class RuntimeLibrary {
 
     MapValue value = new MapValue(DataTypes.STRING_TO_BOOLEAN_TYPE);
     for (ChatMessage chatMessage : chatMessages) {
-      if (chatMessage instanceof WhoMessage) {
-        WhoMessage message = (WhoMessage) chatMessage;
-
+      if (chatMessage instanceof WhoMessage message) {
         for (Entry<String, Boolean> entry : message.getContacts().entrySet()) {
           value.aset(new Value(entry.getKey()), DataTypes.makeBooleanValue(entry.getValue()));
         }
@@ -8299,6 +8445,20 @@ public abstract class RuntimeLibrary {
     return DataFileCache.printBytes(location, bytes);
   }
 
+  public static Value set_ccs(ScriptRuntime controller, final Value name) {
+    String ccsName = name.toString();
+    Optional<String> strategy =
+        CombatActionManager.getAvailableLookups().stream()
+            .filter(script -> script.equalsIgnoreCase(ccsName))
+            .findFirst();
+    if (strategy.isPresent()) {
+      CombatActionManager.loadStrategyLookup(strategy.get());
+      return DataTypes.TRUE_VALUE;
+    } else {
+      return DataTypes.FALSE_VALUE;
+    }
+  }
+
   public static Value read_ccs(ScriptRuntime controller, final Value name) {
     String ccsName = name.toString();
     byte[] bytes = CcsFileManager.getBytes(ccsName);
@@ -8324,7 +8484,13 @@ public abstract class RuntimeLibrary {
 
   public static Value set_location(ScriptRuntime controller, final Value location) {
     KoLAdventure adventure = (KoLAdventure) location.rawValue();
-    KoLAdventure.setNextAdventure(adventure);
+    if (adventure == null) {
+      Preferences.setString("nextAdventure", "None");
+      KoLCharacter.updateSelectedLocation(null);
+    } else {
+      Preferences.setString("nextAdventure", adventure.getAdventureName());
+      KoLCharacter.updateSelectedLocation(adventure);
+    }
     return DataTypes.VOID_VALUE;
   }
 
@@ -8332,12 +8498,23 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeMonsterValue(MonsterStatusTracker.getLastMonster());
   }
 
-  private static MonsterData mapMonster(MonsterData mon, Map<MonsterData, MonsterData> mapping) {
-    if (mapping == null) {
-      return mon;
+  private static MonsterData mapMonster(
+      MonsterData mon,
+      Map<MonsterData, MonsterData> classMap,
+      Map<MonsterData, MonsterData> pathMap) {
+    if (pathMap != null) {
+      MonsterData mapped = pathMap.get(mon);
+      if (mapped != null) {
+        return mapped;
+      }
     }
-    MonsterData mapped = mapping.get(mon);
-    return mapped != null ? mapped : mon;
+    if (classMap != null) {
+      MonsterData mapped = classMap.get(mon);
+      if (mapped != null) {
+        return mapped;
+      }
+    }
+    return mon;
   }
 
   public static Value get_monsters(ScriptRuntime controller, final Value location) {
@@ -8351,16 +8528,18 @@ public abstract class RuntimeLibrary {
         new AggregateType(DataTypes.MONSTER_TYPE, monsterCount + superlikelyMonsterCount);
     ArrayValue value = new ArrayValue(type);
 
-    Map<MonsterData, MonsterData> mapping =
+    Map<MonsterData, MonsterData> classMap =
+        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass());
+    Map<MonsterData, MonsterData> pathMap =
         MonsterDatabase.getMonsterPathMap(KoLCharacter.getPath().getName());
 
     for (int i = 0; i < monsterCount; ++i) {
-      MonsterData mon = mapMonster(data.getMonster(i), mapping);
+      MonsterData mon = mapMonster(data.getMonster(i), classMap, pathMap);
       value.aset(new Value(i), DataTypes.makeMonsterValue(mon));
     }
 
     for (int i = 0; i < superlikelyMonsterCount; ++i) {
-      MonsterData mon = mapMonster(data.getSuperlikelyMonster(i), mapping);
+      MonsterData mon = mapMonster(data.getSuperlikelyMonster(i), classMap, pathMap);
       value.aset(new Value(i + monsterCount), DataTypes.makeMonsterValue(mon));
     }
 
@@ -8374,18 +8553,20 @@ public abstract class RuntimeLibrary {
     AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE);
     MapValue value = new MapValue(type);
 
-    Map<MonsterData, MonsterData> mapping =
+    Map<MonsterData, MonsterData> classMap =
+        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass());
+    Map<MonsterData, MonsterData> pathMap =
         MonsterDatabase.getMonsterPathMap(KoLCharacter.getPath().getName());
 
     int monsterCount = data == null ? 0 : data.getMonsterCount();
     for (int i = 0; i < monsterCount; ++i) {
-      MonsterData mon = mapMonster(data.getMonster(i), mapping);
+      MonsterData mon = mapMonster(data.getMonster(i), classMap, pathMap);
       value.aset(DataTypes.makeMonsterValue(mon), DataTypes.TRUE_VALUE);
     }
 
     int superlikelyMonsterCount = data == null ? 0 : data.getSuperlikelyMonsterCount();
     for (int i = 0; i < superlikelyMonsterCount; ++i) {
-      MonsterData mon = mapMonster(data.getSuperlikelyMonster(i), mapping);
+      MonsterData mon = mapMonster(data.getSuperlikelyMonster(i), classMap, pathMap);
       value.aset(DataTypes.makeMonsterValue(mon), DataTypes.TRUE_VALUE);
     }
 
@@ -8488,7 +8669,7 @@ public abstract class RuntimeLibrary {
     int attack = monster.getAttack() + attackModifier;
     int defenseStat = KoLCharacter.getAdjustedMoxie();
 
-    if (KoLCharacter.hasSkill(SkillDatabase.getSkillId("Hero of the Half-Shell"))
+    if (KoLCharacter.hasSkill(SkillPool.HERO_OF_THE_HALF_SHELL)
         && EquipmentManager.usingShield()
         && KoLCharacter.getAdjustedMuscle() > defenseStat) {
       defenseStat = KoLCharacter.getAdjustedMuscle();
@@ -8558,7 +8739,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value elemental_resistance(ScriptRuntime controller, final Value arg) {
-    if (arg.getType().equals(DataTypes.TYPE_ELEMENT)) {
+    if (arg.getType().equals(TypeSpec.ELEMENT)) {
       String elementName = arg.toString();
       Element elem = Element.fromString(elementName);
       return new Value(KoLCharacter.getElementalResistance(elem));
@@ -8702,7 +8883,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value jump_chance(ScriptRuntime controller, final Value arg) {
-    if (arg.getType().equals(DataTypes.TYPE_MONSTER)) {
+    if (arg.getType().equals(TypeSpec.MONSTER)) {
       MonsterData monster = (MonsterData) arg.rawValue();
       if (monster == null) {
         return DataTypes.ZERO_VALUE;
@@ -8710,7 +8891,7 @@ public abstract class RuntimeLibrary {
       return new Value(monster.getJumpChance());
     }
 
-    if (arg.getType().equals(DataTypes.TYPE_LOCATION)) {
+    if (arg.getType().equals(TypeSpec.LOCATION)) {
       KoLAdventure adventure = (KoLAdventure) arg.rawValue();
       AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
       return new Value(data.getJumpChance());
@@ -8721,7 +8902,7 @@ public abstract class RuntimeLibrary {
   public static Value jump_chance(ScriptRuntime controller, final Value arg, final Value init) {
     int initiative = (int) init.intValue();
 
-    if (arg.getType().equals(DataTypes.TYPE_MONSTER)) {
+    if (arg.getType().equals(TypeSpec.MONSTER)) {
       MonsterData monster = (MonsterData) arg.rawValue();
       if (monster == null) {
         return DataTypes.ZERO_VALUE;
@@ -8729,7 +8910,7 @@ public abstract class RuntimeLibrary {
       return new Value(monster.getJumpChance(initiative));
     }
 
-    if (arg.getType().equals(DataTypes.TYPE_LOCATION)) {
+    if (arg.getType().equals(TypeSpec.LOCATION)) {
       KoLAdventure adventure = (KoLAdventure) arg.rawValue();
       AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
       if (data == null) {
@@ -8744,7 +8925,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value init, final Value ml) {
     int initiative = (int) init.intValue();
     int monsterLevel = (int) ml.intValue();
-    if (arg.getType().equals(DataTypes.TYPE_MONSTER)) {
+    if (arg.getType().equals(TypeSpec.MONSTER)) {
       MonsterData monster = (MonsterData) arg.rawValue();
       if (monster == null) {
         return DataTypes.ZERO_VALUE;
@@ -8752,7 +8933,7 @@ public abstract class RuntimeLibrary {
       return new Value(monster.getJumpChance(initiative, monsterLevel));
     }
 
-    if (arg.getType().equals(DataTypes.TYPE_LOCATION)) {
+    if (arg.getType().equals(TypeSpec.LOCATION)) {
       KoLAdventure adventure = (KoLAdventure) arg.rawValue();
       AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
       if (data == null) {
@@ -8766,29 +8947,22 @@ public abstract class RuntimeLibrary {
 
   public static Value item_drops(ScriptRuntime controller) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
-    List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
-
-    MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
-
-    for (AdventureResult result : data) {
-      value.aset(
-          DataTypes.makeItemValue(result.getItemId(), true),
-          DataTypes.parseIntValue(String.valueOf(result.getCount() >> 16), true));
-    }
-
-    return value;
+    return item_drops(monster);
   }
 
   public static Value item_drops(ScriptRuntime controller, final Value arg) {
     MonsterData monster = (MonsterData) arg.rawValue();
-    List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
+    return item_drops(monster);
+  }
 
-    MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
+  private static Value item_drops(MonsterData monster) {
+    List<MonsterDrop> data = monster == null ? new ArrayList<>() : monster.getItems();
 
-    for (AdventureResult result : data) {
+    MapValue value = new MapValue(DataTypes.ITEM_TO_FLOAT_TYPE);
+
+    for (MonsterDrop result : data) {
       value.aset(
-          DataTypes.makeItemValue(result.getItemId(), true),
-          DataTypes.parseIntValue(String.valueOf(result.getCount() >> 16), true));
+          DataTypes.makeItemValue(result.item().getItemId(), true), new Value(result.chance()));
     }
 
     return value;
@@ -8803,21 +8977,19 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value item_drops_array(ScriptRuntime controller, MonsterData monster) {
-    List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
+    List<MonsterDrop> data = monster == null ? new ArrayList<>() : monster.getItems();
     int dropCount = data.size();
     AggregateType type = new AggregateType(RuntimeLibrary.itemDropRec, dropCount);
     ArrayValue value = new ArrayValue(type);
     for (int i = 0; i < dropCount; ++i) {
-      AdventureResult result = data.get(i);
-      int count = result.getCount();
-      char dropType = (char) (count & 0xFFFF);
+      MonsterDrop result = data.get(i);
+      DropFlag dropType = result.flag();
       RecordValue rec = (RecordValue) value.aref(new Value(i));
 
-      rec.aset(0, DataTypes.makeItemValue(result.getItemId(), true), null);
-      rec.aset(1, new Value(count >> 16), null);
-      if (dropType < '1'
-          || dropType > '9') { // leave as an empty string if no special type was given
-        rec.aset(2, new Value(String.valueOf(dropType)), null);
+      rec.aset(0, DataTypes.makeItemValue(result.item().getItemId(), true), null);
+      rec.aset(1, new Value(result.chance()), null);
+      if (dropType != DropFlag.NONE) { // leave as an empty string if no special type was given
+        rec.aset(2, new Value(dropType.toString()), null);
       }
     }
 
@@ -8978,20 +9150,14 @@ public abstract class RuntimeLibrary {
 
   public static Value dad_sea_monkee_weakness(ScriptRuntime controller, final Value arg) {
     DadManager.Element element = DadManager.weakness((int) arg.intValue());
-    switch (element) {
-      case HOT:
-        return new Value(DataTypes.ELEMENT_TYPE, "hot", element);
-      case COLD:
-        return new Value(DataTypes.ELEMENT_TYPE, "cold", element);
-      case STENCH:
-        return new Value(DataTypes.ELEMENT_TYPE, "stench", element);
-      case SPOOKY:
-        return new Value(DataTypes.ELEMENT_TYPE, "spooky", element);
-      case SLEAZE:
-        return new Value(DataTypes.ELEMENT_TYPE, "sleaze", element);
-      default:
-        return DataTypes.ELEMENT_INIT;
-    }
+    return switch (element) {
+      case HOT -> new Value(DataTypes.ELEMENT_TYPE, "hot", element);
+      case COLD -> new Value(DataTypes.ELEMENT_TYPE, "cold", element);
+      case STENCH -> new Value(DataTypes.ELEMENT_TYPE, "stench", element);
+      case SPOOKY -> new Value(DataTypes.ELEMENT_TYPE, "spooky", element);
+      case SLEAZE -> new Value(DataTypes.ELEMENT_TYPE, "sleaze", element);
+      default -> DataTypes.ELEMENT_INIT;
+    };
   }
 
   public static Value unusual_construct_disc(ScriptRuntime controller) {
@@ -9026,33 +9192,36 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
-  private static String getModifierType(final Value arg) {
+  private static ModifierType getModifierType(final Value arg) {
     Type type = arg.getType();
     String name = arg.toString();
     int id = (int) arg.intValue();
     if (type.equals(DataTypes.ITEM_TYPE)) {
-      return "Item";
+      return ModifierType.ITEM;
     }
     if (type.equals(DataTypes.EFFECT_TYPE)) {
-      return "Effect";
+      return ModifierType.EFFECT;
     }
     if (type.equals(DataTypes.SKILL_TYPE)) {
-      return "Skill";
+      return ModifierType.SKILL;
     }
     if (type.equals(DataTypes.THRALL_TYPE)) {
-      return "Thrall";
+      return ModifierType.THRALL;
     }
     if (name.contains(":")) {
-      return name.substring(0, name.indexOf(":"));
+      ModifierType modifierType = ModifierType.fromString(name.substring(0, name.indexOf(":")));
+      if (modifierType != null) return modifierType;
     }
-    return "Item";
+    return ModifierType.ITEM;
   }
 
   private static String getModifierName(final Value arg) {
     Type type = arg.getType();
     String name = arg.toString();
     int id = (int) arg.intValue();
-    if (type.equals(DataTypes.ITEM_TYPE) || type.equals(DataTypes.EFFECT_TYPE)) {
+    if (type.equals(DataTypes.ITEM_TYPE)
+        || type.equals(DataTypes.SKILL_TYPE)
+        || type.equals(DataTypes.EFFECT_TYPE)) {
       return "[" + id + "]";
     }
     int index = name.indexOf(":");
@@ -9064,15 +9233,17 @@ public abstract class RuntimeLibrary {
 
   public static Value numeric_modifier(ScriptRuntime controller, final Value modifier) {
     String mod = modifier.toString();
-    return new Value(KoLCharacter.currentNumericModifier(mod));
+    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
+    return new Value(KoLCharacter.currentNumericModifier(realMod));
   }
 
   public static Value numeric_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(Modifiers.getNumericModifier(type, name, mod));
+    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
+    return new Value(ModifierDatabase.getNumericModifier(type, name, realMod));
   }
 
   public static Value numeric_modifier(
@@ -9083,78 +9254,91 @@ public abstract class RuntimeLibrary {
       final Value item) {
     FamiliarData fam = new FamiliarData((int) familiar.intValue());
     String mod = modifier.toString();
+    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
     int w = Math.max(1, (int) weight.intValue());
     AdventureResult it = ItemPool.get((int) item.intValue());
 
-    return new Value(Modifiers.getNumericModifier(fam, mod, w, it));
+    return new Value(ModifierDatabase.getNumericModifier(fam, realMod, w, it));
   }
 
   public static Value boolean_modifier(ScriptRuntime controller, final Value modifier) {
-    String mod = modifier.toString();
+    String modName = modifier.toString();
+    BooleanModifier mod = BooleanModifier.byCaselessName(modName);
     return DataTypes.makeBooleanValue(KoLCharacter.currentBooleanModifier(mod));
   }
 
   public static Value boolean_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return DataTypes.makeBooleanValue(Modifiers.getBooleanModifier(type, name, mod));
+    BooleanModifier boolMod = BooleanModifier.byCaselessName(mod);
+    return DataTypes.makeBooleanValue(ModifierDatabase.getBooleanModifier(type, name, boolMod));
   }
 
   public static Value string_modifier(ScriptRuntime controller, final Value modifier) {
     String mod = modifier.toString();
-    return new Value(KoLCharacter.currentStringModifier(mod));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(KoLCharacter.currentStringModifier(strMod));
   }
 
   public static Value string_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(Modifiers.getStringModifier(type, name, mod));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(ModifierDatabase.getStringModifier(type, name, strMod));
   }
 
   public static Value effect_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
+    StringModifier strMod = StringModifier.byCaselessName(mod);
     return new Value(
-        DataTypes.parseEffectValue(Modifiers.getStringModifier(type, name, mod), true));
+        DataTypes.parseEffectValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value class_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseClassValue(Modifiers.getStringModifier(type, name, mod), true));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(
+        DataTypes.parseClassValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value skill_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseSkillValue(Modifiers.getStringModifier(type, name, mod), true));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(
+        DataTypes.parseSkillValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value stat_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
-    return new Value(DataTypes.parseStatValue(Modifiers.getStringModifier(type, name, mod), true));
+    StringModifier strMod = StringModifier.byCaselessName(mod);
+    return new Value(
+        DataTypes.parseStatValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value monster_modifier(
       ScriptRuntime controller, final Value arg, final Value modifier) {
-    String type = RuntimeLibrary.getModifierType(arg);
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
     String mod = modifier.toString();
+    StringModifier strMod = StringModifier.byCaselessName(name);
     return new Value(
-        DataTypes.parseMonsterValue(Modifiers.getStringModifier(type, name, mod), true));
+        DataTypes.parseMonsterValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
 
   public static Value white_citadel_available(ScriptRuntime controller) {
@@ -9214,7 +9398,7 @@ public abstract class RuntimeLibrary {
     Type type = thing.getType();
     boolean result;
 
-    if (type.equals(DataTypes.TYPE_STRING)) {
+    if (type.equals(TypeSpec.STRING)) {
 
       result =
           TrendyRequest.isTrendy(RestrictedItemType.ITEMS, key)
@@ -9223,11 +9407,11 @@ public abstract class RuntimeLibrary {
               && TrendyRequest.isTrendy(RestrictedItemType.FAMILIARS, key)
               && TrendyRequest.isTrendy(RestrictedItemType.SKILLS, key)
               && TrendyRequest.isTrendy(RestrictedItemType.CLAN_ITEMS, key);
-    } else if (type.equals(DataTypes.TYPE_ITEM)) {
+    } else if (type.equals(TypeSpec.ITEM)) {
       result = TrendyRequest.isTrendy(RestrictedItemType.ITEMS, key);
-    } else if (type.equals(DataTypes.TYPE_FAMILIAR)) {
+    } else if (type.equals(TypeSpec.FAMILIAR)) {
       result = TrendyRequest.isTrendy(RestrictedItemType.FAMILIARS, key);
-    } else if (type.equals(DataTypes.TYPE_SKILL)) {
+    } else if (type.equals(TypeSpec.SKILL)) {
       if (SkillDatabase.isBookshelfSkill(key)) {
         int itemId = SkillDatabase.skillToBook(key);
         key = ItemDatabase.getItemName(itemId);
@@ -9248,18 +9432,18 @@ public abstract class RuntimeLibrary {
     Type type = thing.getType();
     boolean result;
 
-    if (type.equals(DataTypes.TYPE_STRING)) {
+    if (type.equals(TypeSpec.STRING)) {
       result =
           StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key)
               && StandardRequest.isNotRestricted(RestrictedItemType.BOOKSHELF_BOOKS, key)
               && StandardRequest.isNotRestricted(RestrictedItemType.SKILLS, key)
               && StandardRequest.isNotRestricted(RestrictedItemType.FAMILIARS, key)
               && StandardRequest.isNotRestricted(RestrictedItemType.CLAN_ITEMS, key);
-    } else if (type.equals(DataTypes.TYPE_ITEM)) {
+    } else if (type.equals(TypeSpec.ITEM)) {
       result = StandardRequest.isNotRestricted(RestrictedItemType.ITEMS, key);
-    } else if (type.equals(DataTypes.TYPE_FAMILIAR)) {
+    } else if (type.equals(TypeSpec.FAMILIAR)) {
       result = StandardRequest.isNotRestricted(RestrictedItemType.FAMILIARS, key);
-    } else if (type.equals(DataTypes.TYPE_SKILL)) {
+    } else if (type.equals(TypeSpec.SKILL)) {
       if (SkillDatabase.isBookshelfSkill(key)) {
         int itemId = SkillDatabase.skillToBook(key);
         key = ItemDatabase.getItemName(itemId);
@@ -9434,7 +9618,7 @@ public abstract class RuntimeLibrary {
     Type type1 = arg1.getType();
 
     // sweet_synthesis( effect, flags )
-    if (type1.equals(DataTypes.TYPE_EFFECT)) {
+    if (type1.equals(TypeSpec.EFFECT)) {
       int effectId = (int) arg1.intValue();
       int flags = (int) arg2.intValue() | CandyDatabase.defaultFlags();
       return RuntimeLibrary.synthesize_effect(controller, 1, effectId, flags);
@@ -9443,7 +9627,7 @@ public abstract class RuntimeLibrary {
     Type type2 = arg2.getType();
 
     // sweet_synthesis( count, effect )
-    if (type2.equals(DataTypes.TYPE_EFFECT)) {
+    if (type2.equals(TypeSpec.EFFECT)) {
       int count = (int) arg1.intValue();
       int effectId = (int) arg2.intValue();
       int flags = CandyDatabase.defaultFlags();
@@ -9468,7 +9652,7 @@ public abstract class RuntimeLibrary {
     Type type2 = arg2.getType();
 
     // sweet_synthesis( count, effect, flags )
-    if (type2.equals(DataTypes.TYPE_EFFECT)) {
+    if (type2.equals(TypeSpec.EFFECT)) {
       int count = (int) arg1.intValue();
       int effectId = (int) arg2.intValue();
       int flags = (int) arg3.intValue() | CandyDatabase.defaultFlags();
@@ -9535,7 +9719,7 @@ public abstract class RuntimeLibrary {
     AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE);
     MapValue value = new MapValue(type);
 
-    for (Modifier modifier :
+    for (ModifierValue modifier :
         VotingBoothManager.getInitiatives(
             (int) clss.intValue(), (int) path.intValue(), (int) daycount.intValue())) {
       value.aset(new Value(modifier.toString()), DataTypes.TRUE_VALUE);
@@ -9604,8 +9788,7 @@ public abstract class RuntimeLibrary {
   // monster pocket_monster( pocket p );
   public static Value pocket_monster(ScriptRuntime controller, final Value pocket) {
     Pocket p = PocketDatabase.pocketByNumber((int) pocket.intValue());
-    if (p instanceof MonsterPocket) {
-      MonsterPocket mp = (MonsterPocket) p;
+    if (p instanceof MonsterPocket mp) {
       return DataTypes.makeMonsterValue(mp.getMonster());
     }
     return DataTypes.MONSTER_INIT;
@@ -9678,7 +9861,7 @@ public abstract class RuntimeLibrary {
   public static Value pick_pocket(ScriptRuntime controller, final Value arg) {
     Type type = arg.getType();
     Pocket pocket =
-        type.equals(DataTypes.TYPE_INT)
+        type.equals(TypeSpec.INT)
             ? PocketDatabase.pocketByNumber((int) arg.intValue())
             : PocketDatabase.firstUnpickedPocket(
                 RuntimeLibrary.sortedPockets(type, arg.toString()));
@@ -9694,22 +9877,22 @@ public abstract class RuntimeLibrary {
   }
 
   private static List<Pocket> sortedPockets(Type type, String name) {
-    if (type.equals(DataTypes.TYPE_EFFECT)) {
+    if (type.equals(TypeSpec.EFFECT)) {
       Set<OneResultPocket> pockets = PocketDatabase.effectPockets.get(name);
       if (pockets != null) {
         return PocketDatabase.sortResults(name, pockets);
       }
-    } else if (type.equals(DataTypes.TYPE_ITEM)) {
+    } else if (type.equals(TypeSpec.ITEM)) {
       Set<OneResultPocket> pockets = PocketDatabase.itemPockets.get(name);
       if (pockets != null) {
         return PocketDatabase.sortResults(name, pockets);
       }
-    } else if (type.equals(DataTypes.TYPE_MONSTER)) {
+    } else if (type.equals(TypeSpec.MONSTER)) {
       MonsterPocket pocket = PocketDatabase.monsterPockets.get(name.toLowerCase());
       if (pocket != null) {
         return Collections.singletonList(pocket);
       }
-    } else if (type.equals(DataTypes.TYPE_STAT)) {
+    } else if (type.equals(TypeSpec.STAT)) {
       name = name.toLowerCase();
       Set<StatsPocket> pockets = PocketDatabase.statsPockets.get(name);
       if (pockets != null) {
@@ -9741,14 +9924,12 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(PocketEffectsType);
     Pocket p = PocketDatabase.pocketByNumber(pocket);
     if (p != null && PocketDatabase.allEffectPockets.contains(p.getPocket())) {
-      if (p instanceof OneResultPocket) {
-        OneResultPocket orp = (OneResultPocket) p;
+      if (p instanceof OneResultPocket orp) {
         value.aset(
             DataTypes.makeEffectValue(orp.getResult1().getEffectId(), true),
             new Value(orp.getResult1().getCount()));
       }
-      if (p instanceof TwoResultPocket) {
-        TwoResultPocket trp = (TwoResultPocket) p;
+      if (p instanceof TwoResultPocket trp) {
         value.aset(
             DataTypes.makeEffectValue(trp.getResult2().getEffectId(), true),
             new Value(trp.getResult2().getCount()));
@@ -9761,14 +9942,12 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(PocketItemsType);
     Pocket p = PocketDatabase.pocketByNumber(pocket);
     if (p != null && PocketDatabase.allItemPockets.contains(p.getPocket())) {
-      if (p instanceof OneResultPocket) {
-        OneResultPocket orp = (OneResultPocket) p;
+      if (p instanceof OneResultPocket orp) {
         value.aset(
             DataTypes.makeItemValue(orp.getResult1().getItemId(), true),
             new Value(orp.getResult1().getCount()));
       }
-      if (p instanceof TwoResultPocket) {
-        TwoResultPocket trp = (TwoResultPocket) p;
+      if (p instanceof TwoResultPocket trp) {
         value.aset(
             DataTypes.makeItemValue(trp.getResult2().getItemId(), true),
             new Value(trp.getResult2().getCount()));
@@ -9794,26 +9973,20 @@ public abstract class RuntimeLibrary {
     Pocket p = PocketDatabase.pocketByNumber(pocket);
     if (p != null) {
       switch (p.getType()) {
-        case SCRAP:
-          {
-            ScrapPocket sp = (ScrapPocket) p;
-            Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
-            String syllable = knownScraps.getOrDefault(sp.getPocket(), "");
-            value.aset(new Value(sp.getScrap()), new Value(syllable));
-            break;
-          }
-        case POEM:
-          {
-            PoemPocket pp = (PoemPocket) p;
-            value.aset(new Value(pp.getIndex()), new Value(pp.getText()));
-            break;
-          }
-        case MEAT:
-          {
-            MeatPocket mp = (MeatPocket) p;
-            value.aset(new Value(mp.getMeat()), new Value(mp.getText()));
-            break;
-          }
+        case SCRAP -> {
+          ScrapPocket sp = (ScrapPocket) p;
+          Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
+          String syllable = knownScraps.getOrDefault(sp.getPocket(), "");
+          value.aset(new Value(sp.getScrap()), new Value(syllable));
+        }
+        case POEM -> {
+          PoemPocket pp = (PoemPocket) p;
+          value.aset(new Value(pp.getIndex()), new Value(pp.getText()));
+        }
+        case MEAT -> {
+          MeatPocket mp = (MeatPocket) p;
+          value.aset(new Value(mp.getMeat()), new Value(mp.getText()));
+        }
       }
     }
     return value;
@@ -9886,5 +10059,33 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  // boolean monkey_paw( string s );
+  // boolean monkey_paw( item i );
+  // boolean monkey_paw( effect e );
+  public static Value monkey_paw(ScriptRuntime controller, final Value arg) {
+    String wish = null;
+    Type type = arg.getType();
+    if (type.equals(TypeSpec.ITEM)) {
+      AdventureResult item = ItemPool.get((int) arg.intValue());
+      wish = MonkeyPawCommand.getValidItemSubstring(item.getName());
+    } else if (type.equals(TypeSpec.EFFECT)) {
+      AdventureResult effect = EffectPool.get((int) arg.intValue());
+      wish = MonkeyPawCommand.getValidEffectSubstring(effect.getName());
+    } else {
+      wish = arg.toString();
+    }
+    if (wish == null) {
+      return DataTypes.FALSE_VALUE;
+    } else {
+      return DataTypes.makeBooleanValue(monkey_paw(wish));
+    }
+  }
+
+  private static boolean monkey_paw(String wish) {
+    var req = new MonkeyPawRequest(wish);
+    RequestThread.postRequest(req);
+    return req.responseText != null && !req.responseText.contains("impossible");
   }
 }

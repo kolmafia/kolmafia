@@ -56,50 +56,32 @@ public class UseItemPanel extends InventoryPanel<AdventureResult> {
         return false;
       }
 
-      boolean filter = false;
-
-      switch (ItemDatabase.getConsumptionType(itemId)) {
-        case EAT:
-          filter = UsableItemFilterField.this.food;
-          break;
-
-        case DRINK:
-          filter = UsableItemFilterField.this.booze;
-          break;
-
-        case USE:
-        case SPLEEN:
-        case USE_MESSAGE_DISPLAY:
-        case USE_INFINITE:
-        case USE_MULTIPLE:
-        case AVATAR_POTION:
-        case FAMILIAR_HATCHLING:
-        case ZAP:
-          filter = UsableItemFilterField.this.other;
-          break;
-
-        case FAMILIAR_EQUIPMENT:
-        case ACCESSORY:
-        case HAT:
-        case PANTS:
-        case CONTAINER:
-        case SHIRT:
-        case WEAPON:
-        case OFFHAND:
-          filter = UsableItemFilterField.this.equip;
-          break;
-
-        default:
-          filter =
-              UsableItemFilterField.this.other
-                  && ItemDatabase.getAttribute(
-                      itemId,
-                      EnumSet.of(
-                          Attribute.USABLE,
-                          Attribute.MULTIPLE,
-                          Attribute.REUSABLE,
-                          Attribute.CURSE));
-      }
+      boolean filter =
+          switch (ItemDatabase.getConsumptionType(itemId)) {
+            case EAT -> UsableItemFilterField.this.food;
+            case DRINK -> UsableItemFilterField.this.booze;
+            case USE,
+                SPLEEN,
+                USE_MESSAGE_DISPLAY,
+                USE_INFINITE,
+                USE_MULTIPLE,
+                AVATAR_POTION,
+                FAMILIAR_HATCHLING,
+                ZAP -> UsableItemFilterField.this.other;
+            case FAMILIAR_EQUIPMENT,
+                ACCESSORY,
+                HAT,
+                PANTS,
+                CONTAINER,
+                SHIRT,
+                WEAPON,
+                OFFHAND -> UsableItemFilterField.this.equip;
+            default -> UsableItemFilterField.this.other
+                && ItemDatabase.getAttribute(
+                    itemId,
+                    EnumSet.of(
+                        Attribute.USABLE, Attribute.MULTIPLE, Attribute.REUSABLE, Attribute.CURSE));
+          };
 
       return filter && super.isVisible(element);
     }

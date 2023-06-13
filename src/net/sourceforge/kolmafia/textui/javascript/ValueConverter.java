@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
@@ -82,7 +83,7 @@ public class ValueConverter {
     } else if (value.getType().equals(DataTypes.BOOLEAN_TYPE)) {
       return value.contentLong != 0;
     } else if (value.getType().equals(DataTypes.INT_TYPE)) {
-      return (int) value.contentLong;
+      return value.contentLong;
     } else if (value.getType().equals(DataTypes.FLOAT_TYPE)) {
       return value.floatValue();
     } else if (value.getType().equals(DataTypes.STRING_TYPE)
@@ -113,11 +114,11 @@ public class ValueConverter {
     Type valueType = value.getType();
     if (targetType.equals(valueType)) {
       return value;
-    } else if (targetType.equals(DataTypes.TYPE_STRING)) {
+    } else if (targetType.equals(TypeSpec.STRING)) {
       return value.toStringValue();
-    } else if (targetType.equals(DataTypes.TYPE_INT) && valueType.equals(DataTypes.TYPE_FLOAT)) {
+    } else if (targetType.equals(TypeSpec.INT) && valueType.equals(TypeSpec.FLOAT)) {
       return value.toIntValue();
-    } else if (targetType.equals(DataTypes.TYPE_FLOAT) && valueType.equals(DataTypes.TYPE_INT)) {
+    } else if (targetType.equals(TypeSpec.FLOAT) && valueType.equals(TypeSpec.INT)) {
       return value.toFloatValue();
     } else {
       return null;
@@ -126,8 +127,7 @@ public class ValueConverter {
 
   private MapValue convertNativeObject(NativeObject nativeObject, Type typeHint) {
     if (nativeObject.size() == 0) {
-      if (typeHint instanceof AggregateType && ((AggregateType) typeHint).getSize() < 0) {
-        AggregateType aggregateTypeHint = (AggregateType) typeHint;
+      if (typeHint instanceof AggregateType aggregateTypeHint && aggregateTypeHint.getSize() < 0) {
         return new MapValue(
             new AggregateType(aggregateTypeHint.getDataType(), aggregateTypeHint.getIndexType()));
       } else {
@@ -140,7 +140,7 @@ public class ValueConverter {
     for (Entry<?, ?> entry : nativeObject.entrySet()) {
       dataType = fromJava(entry.getValue()).getType();
       indexType = fromJava(entry.getKey()).getType();
-      if (indexType.equals(DataTypes.TYPE_FLOAT)) {
+      if (indexType.equals(TypeSpec.FLOAT)) {
         // Convert float index to int, since it doesn't make sense in JS anyway.
         indexType = DataTypes.INT_TYPE;
       }
@@ -173,8 +173,7 @@ public class ValueConverter {
 
   private ArrayValue convertNativeArray(NativeArray nativeArray, Type typeHint) {
     if (nativeArray.size() == 0) {
-      if (typeHint instanceof AggregateType && ((AggregateType) typeHint).getSize() >= 0) {
-        AggregateType aggregateTypeHint = (AggregateType) typeHint;
+      if (typeHint instanceof AggregateType aggregateTypeHint && aggregateTypeHint.getSize() >= 0) {
         return new ArrayValue(new AggregateType(aggregateTypeHint.getDataType(), 0));
       } else {
         return new ArrayValue(new AggregateType(DataTypes.ANY_TYPE, 0));
@@ -199,7 +198,7 @@ public class ValueConverter {
         || object instanceof Short
         || object instanceof Integer
         || object instanceof Long) {
-      return DataTypes.makeIntValue(((Number) object).intValue());
+      return DataTypes.makeIntValue(((Number) object).longValue());
     } else if (object instanceof String) {
       return DataTypes.makeStringValue((String) object);
     } else if (object instanceof StringBuffer || object instanceof ConsString) {

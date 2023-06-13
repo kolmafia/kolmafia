@@ -318,17 +318,23 @@ public class CharSheetRequest extends GenericRequest {
       }
 
       boolean shouldAddSkill = true;
+      int skillId = currentSkill.getSkillId();
 
-      if (SkillDatabase.isBookshelfSkill(currentSkill.getSkillId())) {
+      if (SkillDatabase.isBookshelfSkill(skillId)) {
         shouldAddSkill =
             (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
                 || KoLCharacter.kingLiberated();
       }
 
-      if (currentSkill.getSkillId() == SkillPool.OLFACTION) {
-        shouldAddSkill =
-            (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
-                || KoLCharacter.skillsRecalled();
+      switch (skillId) {
+        case SkillPool.OLFACTION -> {
+          shouldAddSkill =
+              (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
+                  || KoLCharacter.skillsRecalled();
+        }
+        case SkillPool.CRYPTOBOTANIST, SkillPool.INSECTOLOGIST, SkillPool.PSYCHOGEOLOGIST -> {
+          Preferences.setString("currentSITSkill", currentSkill.getSkillName());
+        }
       }
 
       if (shouldAddSkill) {
@@ -346,27 +352,27 @@ public class CharSheetRequest extends GenericRequest {
 
     // The Smile of Mr. A no longer appears on the char sheet
     if (Preferences.getInteger("goldenMrAccessories") > 0) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("The Smile of Mr. A.");
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(SkillPool.SMILE_OF_MR_A);
       newSkillSet.add(skill);
     }
 
     // Toggle Optimality does not appear on the char sheet
     if (Preferences.getInteger("skillLevel7254") > 0) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Toggle Optimality");
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(SkillPool.TOGGLE_OPTIMALITY);
       newSkillSet.add(skill);
     }
 
     // If you have the Cowrruption effect, you can Absorb Cowrruption if a Cow Puncher
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.COWRRUPTION))
         && KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Absorb Cowrruption");
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(SkillPool.ABSORB_COWRRUPTION);
       newSkillSet.add(skill);
     }
 
     // If you have looked at your Bird-a-Day calendar today, you can use
     // "Seek out a Bird".
     if (Preferences.getBoolean("_canSeekBirds")) {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Seek out a Bird");
+      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(SkillPool.SEEK_OUT_A_BIRD);
       newSkillSet.add(skill);
     }
 

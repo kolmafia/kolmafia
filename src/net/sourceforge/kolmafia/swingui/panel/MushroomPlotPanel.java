@@ -137,17 +137,12 @@ public class MushroomPlotPanel extends JPanel {
       for (int i = 0; i < 16; ++i) {
         int mushroomType = MushroomManager.getMushroomType(this.layoutData[i]);
         switch (mushroomType) {
-          case MushroomManager.SPOOKY:
-          case MushroomManager.KNOB:
-          case MushroomManager.KNOLL:
+          case MushroomManager.SPOOKY, MushroomManager.KNOB, MushroomManager.KNOLL -> {
             ostream.println("field pick " + (i + 1));
             ostream.println(
                 "field plant " + (i + 1) + " " + ItemDatabase.getItemName(mushroomType));
-            break;
-
-          case MushroomManager.EMPTY:
-            ostream.println("field pick " + (i + 1));
-            break;
+          }
+          case MushroomManager.EMPTY -> ostream.println("field pick " + (i + 1));
         }
       }
 

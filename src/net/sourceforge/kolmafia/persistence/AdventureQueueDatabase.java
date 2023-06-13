@@ -278,7 +278,7 @@ public class AdventureQueueDatabase implements Serializable {
     // Ignore monsters in the queue that aren't actually part of the zone's normal monster list
     // This includes monsters that have special conditions to find and wandering monsters
     // that are not part of the location at all
-    // Ignore olfacted or long conned monsters, as these are never rejected
+    // Ignore olfacted, long conned, or motifed monsters, as these are never rejected
     int queueWeight = 0;
     for (String mon : zoneSet) {
       MonsterData queueMonster = MonsterDatabase.findMonster(mon);
@@ -286,7 +286,8 @@ public class AdventureQueueDatabase implements Serializable {
           queueMonster != null
               && ((Preferences.getString("olfactedMonster").equals(queueMonster.getName())
                       && KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL))
-                  || Preferences.getString("longConMonster").equals(queueMonster.getName()));
+                  || Preferences.getString("longConMonster").equals(queueMonster.getName())
+                  || Preferences.getString("motifMonster").equals(queueMonster.getName()));
       if (queueMonster != null && data.getWeighting(queueMonster) > 0 && !olfacted) {
         queueWeight += data.getWeighting(queueMonster);
       }

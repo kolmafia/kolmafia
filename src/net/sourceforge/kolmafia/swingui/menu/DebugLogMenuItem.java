@@ -18,7 +18,7 @@ public class DebugLogMenuItem extends ThreadedMenuItem implements Listener {
         RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log");
   }
 
-  private class DebugLogListener extends ThreadedListener {
+  private static class DebugLogListener extends ThreadedListener {
     @Override
     protected void execute() {
       if (RequestLogger.isDebugging()) {

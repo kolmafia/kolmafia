@@ -61,7 +61,7 @@ public class StandardRequest extends GenericRequest {
       return false;
     }
 
-    if (KoLCharacter.inQuantum() && type.equals(RestrictedItemType.FAMILIARS)) {
+    if (KoLCharacter.inQuantum() && type == RestrictedItemType.FAMILIARS) {
       return true;
     }
 
@@ -77,7 +77,7 @@ public class StandardRequest extends GenericRequest {
   }
 
   public static boolean isAllowedInStandard(RestrictedItemType type, final String key) {
-    if (type.equals(RestrictedItemType.BOOKSHELF_BOOKS)) {
+    if (type == RestrictedItemType.BOOKSHELF_BOOKS) {
       // Work around a KoL bug: most restricted books are
       // listed both under Bookshelf Books and Items, but
       // 3 are listed under only one or the other.

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -12,15 +13,16 @@ import internal.helpers.Cleanups;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -174,9 +176,9 @@ public class RequestEditorKitTest {
       // TODO: Test rune computation for attack.
       var cleanups =
           new Cleanups(
-              withEquipped(EquipmentManager.HAT, ItemPool.DWARVISH_WAR_HELMET),
-              withEquipped(EquipmentManager.PANTS, ItemPool.DWARVISH_WAR_KILT),
-              withEquipped(EquipmentManager.WEAPON, ItemPool.DWARVISH_WAR_MATTOCK));
+              withEquipped(Slot.HAT, ItemPool.DWARVISH_WAR_HELMET),
+              withEquipped(Slot.PANTS, ItemPool.DWARVISH_WAR_KILT),
+              withEquipped(Slot.WEAPON, ItemPool.DWARVISH_WAR_MATTOCK));
 
       try (cleanups) {
         var buffer = new StringBuffer(nativeText);
@@ -191,6 +193,28 @@ public class RequestEditorKitTest {
       var buffer = new StringBuffer(nativeText);
       RequestEditorKit.getFeatureRichHTML("fight.php", buffer, false);
       assertThat(buffer.toString(), not(containsString(addedText)));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    // Test regular drops
+    "fluffy bunny, 'bunny liver (75)'",
+    "skeleton with a mop, 'beer-soaked mop (10), ice-cold Willer (30), ice-cold Willer (30)'",
+    // Test mix of pp and no pp
+    "cheerless mime executive, 'crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), warehouse key (0 pp only)'",
+    // Test mix of item drops and bounty drops
+    "novelty tropical skeleton, 'cherry (0), cherry (0), grapefruit (0), grapefruit (0), orange (0), orange (0), strawberry (0), strawberry (0), lemon (0), lemon (0), novelty fruit hat (0 cond), cherry stem (bounty)'",
+    // Test fractional drops
+    "stench zombie, 'Dreadsylvanian Almanac page (0 no mod), Freddy Kruegerand (0 no mod), muddy skirt (0.1 cond)'"
+  })
+  public void addsSimpleItemDrops(final String monsterName, final String itemDropString) {
+    var cleanups = new Cleanups(withNextMonster(monsterName));
+
+    try (cleanups) {
+      var buffer = new StringBuffer("<span id='monname'>" + monsterName + "</span>");
+      RequestEditorKit.getFeatureRichHTML("fight.php", buffer, false);
+      assertThat(buffer.toString(), containsString("Drops: " + itemDropString));
     }
   }
 }

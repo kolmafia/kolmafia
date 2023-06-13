@@ -2,18 +2,17 @@ package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SafetyShelterManager {
-  public static final Option[] RonaldGoals = {
-    new Option("E.M.U. rocket thrusters"),
-    new Option("Spell Transfer Complete"),
-    new Option("E.M.U. joystick"),
-    new Option("elven medi-pack & magi-pack"),
-    new Option("Overstimulated"),
-    new Option("Simulation Stimulation"),
+  public static final ChoiceOption[] RonaldGoals = {
+    new ChoiceOption("E.M.U. rocket thrusters"),
+    new ChoiceOption("Spell Transfer Complete"),
+    new ChoiceOption("E.M.U. joystick"),
+    new ChoiceOption("elven medi-pack & magi-pack"),
+    new ChoiceOption("Overstimulated"),
+    new ChoiceOption("Simulation Stimulation"),
   };
 
   private static final String[] RonaldScript = {
@@ -25,13 +24,13 @@ public class SafetyShelterManager {
     "1322", // Simulation Stimulation
   };
 
-  public static final Option[] GrimaceGoals = {
-    new Option("distention pill"),
-    new Option("synthetic dog hair pill"),
-    new Option("Heal Thy Nanoself"),
-    new Option("E.M.U. harness"),
-    new Option("elven hardtack & squeeze"),
-    new Option("E.M.U. Helmet"),
+  public static final ChoiceOption[] GrimaceGoals = {
+    new ChoiceOption("distention pill"),
+    new ChoiceOption("synthetic dog hair pill"),
+    new ChoiceOption("Heal Thy Nanoself"),
+    new ChoiceOption("E.M.U. harness"),
+    new ChoiceOption("elven hardtack & squeeze"),
+    new ChoiceOption("E.M.U. Helmet"),
   };
 
   private static final String[] GrimaceScript = {

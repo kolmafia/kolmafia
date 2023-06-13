@@ -2,41 +2,46 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.utilities.IntOrString;
 
 public class DebugModifiers extends Modifiers {
-  private static HashMap<Integer, String> wanted, adjustments;
+  private static Map<DoubleModifier, String> wanted, adjustments;
   private static String currentType;
-  private static String currentDesc;
+  private static String currentName;
   private static StringBuilder buffer;
 
   public static int setup(String parameters) {
-    DebugModifiers.wanted = new HashMap<>();
-    DebugModifiers.adjustments = new HashMap<>();
-    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
-      String name = Modifiers.getModifierName(i);
+    DebugModifiers.wanted = new EnumMap<>(DoubleModifier.class);
+    DebugModifiers.adjustments = new EnumMap<>(DoubleModifier.class);
+    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+      String name = mod.getName();
       if (name.toLowerCase().contains(parameters)) {
-        DebugModifiers.wanted.put(i, "<td colspan=3>" + name + "</td>");
-        DebugModifiers.adjustments.put(i, "<td colspan=2>" + name + "</td>");
+        DebugModifiers.wanted.put(mod, "<td colspan=3>" + name + "</td>");
+        DebugModifiers.adjustments.put(mod, "<td colspan=2>" + name + "</td>");
       }
     }
     DebugModifiers.currentType = "type";
-    DebugModifiers.currentDesc = "source";
+    DebugModifiers.currentName = "source";
     DebugModifiers.buffer = new StringBuilder("<table border=2>");
     return DebugModifiers.wanted.size();
   }
 
   private static String getDesc() {
     return switch (DebugModifiers.currentType) {
-      case "Item" -> ItemDatabase.getItemDisplayName(DebugModifiers.currentDesc);
-      case "Effect" -> EffectDatabase.getEffectDisplayName(DebugModifiers.currentDesc);
-      case "Skill" -> SkillDatabase.getSkillDisplayName(DebugModifiers.currentDesc);
-      default -> DebugModifiers.currentDesc;
+      case "Item" -> ItemDatabase.getItemDisplayName(DebugModifiers.currentName);
+      case "Effect" -> EffectDatabase.getEffectDisplayName(DebugModifiers.currentName);
+      case "Skill" -> SkillDatabase.getSkillDisplayName(DebugModifiers.currentName);
+      default -> DebugModifiers.currentName;
     };
   }
 
@@ -46,7 +51,7 @@ public class DebugModifiers extends Modifiers {
     DebugModifiers.buffer.append("</td><td>");
     DebugModifiers.buffer.append(DebugModifiers.getDesc());
     DebugModifiers.buffer.append("</td>");
-    for (Integer key : DebugModifiers.wanted.keySet()) {
+    for (DoubleModifier key : DebugModifiers.wanted.keySet()) {
       String item = DebugModifiers.adjustments.get(key);
       DebugModifiers.buffer.append(Objects.requireNonNullElse(item, "<td></td><td></td>"));
     }
@@ -55,39 +60,36 @@ public class DebugModifiers extends Modifiers {
   }
 
   @Override
-  public void add(final int index, final double mod, final String desc) {
-    if (index < 0 || index >= Modifiers.DOUBLE_MODIFIERS || mod == 0.0) {
+  protected void addDouble(
+      final DoubleModifier modifier,
+      final double mod,
+      final ModifierType type,
+      final IntOrString key) {
+    if (modifier == null || mod == 0.0) {
       return;
     }
 
-    super.add(index, mod, desc);
+    Lookup lookup = new Lookup(type, key);
 
-    Integer key = index;
-    if (!DebugModifiers.wanted.containsKey(key)) {
+    super.addDouble(modifier, mod, type, key);
+
+    if (!DebugModifiers.wanted.containsKey(modifier)) {
       return;
     }
 
-    String type;
-    String name;
-    int ind = desc.indexOf(":");
-    if (ind > 0) {
-      type = desc.substring(0, ind);
-      name = desc.replace(type + ":", "");
-    } else {
-      type = "";
-      name = desc;
-    }
-    if (!desc.equals(DebugModifiers.currentDesc) || DebugModifiers.adjustments.containsKey(key)) {
+    String name = lookup.getName();
+    if (!name.equals(DebugModifiers.currentName)
+        || DebugModifiers.adjustments.containsKey(modifier)) {
       DebugModifiers.flushRow();
     }
-    DebugModifiers.currentType = type;
-    DebugModifiers.currentDesc = name;
+    DebugModifiers.currentType = type.wordsName();
+    DebugModifiers.currentName = name;
     DebugModifiers.adjustments.put(
-        key,
+        modifier,
         "<td>"
             + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(mod)
             + "</td><td>=&nbsp;"
-            + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(this.get(index))
+            + KoLConstants.ROUNDED_MODIFIER_FORMAT.format(this.getDouble(modifier))
             + "</td>");
   }
 
@@ -101,29 +103,21 @@ public class DebugModifiers extends Modifiers {
 
   public static void allModifiers() {
     DebugModifiers.buffer.append("<tr>");
-    HashMap<Integer, Iterator<Change>> modifiersChangers = new HashMap<>();
-    for (Integer key : DebugModifiers.wanted.keySet()) {
+    Map<DoubleModifier, Iterator<Change>> modifiersChangers = new EnumMap<>(DoubleModifier.class);
+    for (DoubleModifier key : DebugModifiers.wanted.keySet()) {
       String modifier = DebugModifiers.wanted.get(key);
       DebugModifiers.buffer.append(modifier);
       ArrayList<Change> modChangers = new ArrayList<>();
-      for (String lookup : Modifiers.getAllModifiers()) {
-        String type;
-        String name;
-        int ind = lookup.indexOf(":");
-        if (ind > 0) {
-          type = lookup.substring(0, ind);
-          name = lookup.replace(type + ":", "");
-        } else {
-          type = "";
-          name = lookup;
-        }
-        Modifiers mods = Modifiers.getModifiers(type, name);
+      for (Lookup lookup : ModifierDatabase.getAllModifiers()) {
+        Modifiers mods = ModifierDatabase.getModifiers(lookup);
         if (mods == null) {
           continue;
         }
-        double value = mods.get(key);
+        double value = mods.getDouble(key);
         if (value != 0.0) {
-          modChangers.add(new Change(type, name, value, mods.variable));
+          ModifierType type = lookup.type;
+          String name = lookup.getName();
+          modChangers.add(new Change(type.wordsName(), name, value, mods.variable));
         }
       }
       if (modChangers.size() > 0) {
@@ -134,7 +128,7 @@ public class DebugModifiers extends Modifiers {
     DebugModifiers.buffer.append("</tr>");
     while (modifiersChangers.size() > 0) {
       DebugModifiers.buffer.append("<tr>");
-      for (Integer key : DebugModifiers.wanted.keySet()) {
+      for (DoubleModifier key : DebugModifiers.wanted.keySet()) {
         Iterator<Change> li = modifiersChangers.get(key);
         if (li == null) {
           DebugModifiers.buffer.append("<td colspan=3></td>");

@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -379,14 +380,15 @@ public class AdventureDatabase {
   }
 
   public static final String pirateRealmIslandName() {
-    String island = Preferences.getString("_LastPirateRealmIsland");
+    String island = Preferences.getString("_lastPirateRealmIsland");
     return island.isEmpty() ? "PirateRealm Island" : island;
   }
 
   public static final void addAdventure(final KoLAdventure location) {
     AdventureDatabase.adventures.add(location);
     AdventureDatabase.allAdventures.add(location);
-    AdventureDatabase.adventureByName.put(location.getAdventureName(), location);
+    String adventureName = location.getAdventureName();
+    AdventureDatabase.adventureByName.put(adventureName, location);
 
     if (location.hasSnarfblat()) {
       AdventureDatabase.adventureById.put(location.getSnarfblat(), location);
@@ -407,6 +409,12 @@ public class AdventureDatabase {
     }
 
     AdventureDatabase.adventureByURL.put(url, location);
+
+    // Each Shadow Rift ingress has two potential URLs.
+    ShadowRift rift = ShadowRift.findAdventureName(adventureName);
+    if (rift != null) {
+      AdventureDatabase.adventureByURL.put(rift.getFreeURL(), location);
+    }
 
     if (url.contains("snarfblat=")) {
       // The map of the Bat Hole has a bogus URL for the Boss Bat's lair
@@ -569,6 +577,13 @@ public class AdventureDatabase {
       if (adventureURL.contains("action=wolf_houserun")) {
         return AdventureDatabase.getAdventure("Unleash Your Inner Wolf");
       }
+
+      // place.php?whichplace=crimbo22&action=crimbo22_engine
+      // place.php?whichplace=crimbo22&action=c22_locobox
+      if (adventureURL.contains("action=crimbo22_engine")
+          || adventureURL.contains("action=c22_locobox")) {
+        return AdventureDatabase.getAdventure("Crimbo Train (Locomotive)");
+      }
     }
 
     // Adventuring in the barracks after the Nemesis has been defeated
@@ -591,10 +606,21 @@ public class AdventureDatabase {
     KoLAdventure location = AdventureDatabase.adventureByURL.get(adventureURL);
     if (location != null) {
       // *** Why exclude these?
-      return location.getRequest() instanceof ClanRumpusRequest
-              || location.getRequest() instanceof RichardRequest
-          ? null
-          : location;
+      if (location.getRequest() instanceof ClanRumpusRequest
+          || location.getRequest() instanceof RichardRequest) {
+        return null;
+      }
+
+      // If we are adventuring in the Shadow Rift via adventure.php,
+      // decide which one based on the last rift we entered
+      if (location.getAdventureNumber() == AdventurePool.SHADOW_RIFT) {
+        String place = Preferences.getString("shadowRiftIngress");
+        ShadowRift rift = ShadowRift.findPlace(place);
+        if (rift != null) {
+          return getAdventure(rift.getAdventureName());
+        }
+      }
+      return location;
     }
 
     if (isPirateRealmIsland(adventureURL)) {
@@ -759,7 +785,7 @@ public class AdventureDatabase {
   }
 
   public static final ArrayList<String> getAreasWithMonster(MonsterData monster) {
-    ArrayList<String> zones = new ArrayList<String>();
+    ArrayList<String> zones = new ArrayList<>();
 
     for (Entry<String, AreaCombatData> entry : AdventureDatabase.areaCombatData.entrySet()) {
       AreaCombatData area = entry.getValue();

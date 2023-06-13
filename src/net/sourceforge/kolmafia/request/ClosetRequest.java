@@ -21,20 +21,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ClosetRequest extends TransferItemRequest {
-  private int moveType;
+  private ClosetRequestType moveType;
 
-  public static final int REFRESH = 0;
-  public static final int INVENTORY_TO_CLOSET = 1;
-  public static final int CLOSET_TO_INVENTORY = 2;
-  public static final int MEAT_TO_CLOSET = 3;
-  public static final int MEAT_TO_INVENTORY = 4;
-  public static final int EMPTY_CLOSET = 5;
+  public enum ClosetRequestType {
+    REFRESH,
+    INVENTORY_TO_CLOSET,
+    CLOSET_TO_INVENTORY,
+    MEAT_TO_CLOSET,
+    MEAT_TO_INVENTORY,
+    EMPTY_CLOSET
+  }
 
   public static void refresh() {
     // To refresh closet, we get Meat from any page
     // and items from api.php
 
-    RequestThread.postRequest(new ClosetRequest(REFRESH));
+    RequestThread.postRequest(new ClosetRequest(ClosetRequestType.REFRESH));
     ApiRequest.updateCloset();
   }
 
@@ -76,23 +78,23 @@ public class ClosetRequest extends TransferItemRequest {
 
   public ClosetRequest() {
     super("closet.php");
-    this.moveType = REFRESH;
+    this.moveType = ClosetRequestType.REFRESH;
   }
 
-  public ClosetRequest(final int moveType) {
+  public ClosetRequest(final ClosetRequestType moveType) {
     this(moveType, new AdventureResult[0]);
     this.moveType = moveType;
   }
 
-  public ClosetRequest(final int moveType, final long amount) {
+  public ClosetRequest(final ClosetRequestType moveType, final long amount) {
     this(moveType, new AdventureLongCountResult(AdventureResult.MEAT, amount));
   }
 
-  public ClosetRequest(final int moveType, final AdventureResult attachment) {
+  public ClosetRequest(final ClosetRequestType moveType, final AdventureResult attachment) {
     this(moveType, new AdventureResult[] {attachment});
   }
 
-  public ClosetRequest(final int moveType, final AdventureResult[] attachments) {
+  public ClosetRequest(final ClosetRequestType moveType, final AdventureResult[] attachments) {
     super(ClosetRequest.pickURL(moveType), attachments);
     this.moveType = moveType;
 
@@ -100,58 +102,49 @@ public class ClosetRequest extends TransferItemRequest {
     // different request types.
 
     switch (moveType) {
-      case REFRESH:
-        // It doesn't matter which page we visit to get Meat
-        this.addFormField("which", "1");
-        break;
-
-      case MEAT_TO_CLOSET:
+      case REFRESH ->
+      // It doesn't matter which page we visit to get Meat
+      this.addFormField("which", "1");
+      case MEAT_TO_CLOSET -> {
         // closet.php?action=addtakeclosetmeat&addtake=add&pwd&quantity=x
         this.addFormField("action", "addtakeclosetmeat");
         this.addFormField("addtake", "add");
-        break;
-
-      case MEAT_TO_INVENTORY:
+      }
+      case MEAT_TO_INVENTORY -> {
         // closet.php?action=addtakeclosetmeat&addtake=take&pwd&quantity=x
         this.addFormField("action", "addtakeclosetmeat");
         this.addFormField("addtake", "take");
-        break;
-
-      case INVENTORY_TO_CLOSET:
+      }
+      case INVENTORY_TO_CLOSET -> {
         // fillcloset.php?action=closetpush&whichitem=4511&qty=xxx&pwd&ajax=1
         // fillcloset.php?action=closetpush&whichitem=4511&qty=all&pwd&ajax=1
         this.addFormField("action", "closetpush");
         this.addFormField("ajax", "1");
         this.source = KoLConstants.inventory;
         this.destination = KoLConstants.closet;
-        break;
-
-      case CLOSET_TO_INVENTORY:
+      }
+      case CLOSET_TO_INVENTORY -> {
         // closet.php?action=closetpull&whichitem=4511&qty=xxx&pwd&ajax=1
         // closet.php?action=closetpull&whichitem=4511&qty=all&pwd&ajax=1
         this.addFormField("action", "closetpull");
         this.addFormField("ajax", "1");
         this.source = KoLConstants.closet;
         this.destination = KoLConstants.inventory;
-        break;
-
-      case EMPTY_CLOSET:
+      }
+      case EMPTY_CLOSET -> {
         // closet.php?action=pullallcloset&pwd
         this.addFormField("action", "pullallcloset");
         this.source = KoLConstants.closet;
         this.destination = KoLConstants.inventory;
-        break;
+      }
     }
   }
 
-  private static String pickURL(final int moveType) {
-    switch (moveType) {
-      case INVENTORY_TO_CLOSET:
-      case CLOSET_TO_INVENTORY:
-        return "inventory.php";
-      default:
-        return "closet.php";
-    }
+  private static String pickURL(final ClosetRequestType moveType) {
+    return switch (moveType) {
+      case INVENTORY_TO_CLOSET, CLOSET_TO_INVENTORY -> "inventory.php";
+      default -> "closet.php";
+    };
   }
 
   @Override
@@ -159,7 +152,7 @@ public class ClosetRequest extends TransferItemRequest {
     return true;
   }
 
-  public int getMoveType() {
+  public ClosetRequestType getMoveType() {
     return this.moveType;
   }
 
@@ -197,7 +190,8 @@ public class ClosetRequest extends TransferItemRequest {
 
   @Override
   public boolean forceGETMethod() {
-    return this.moveType == INVENTORY_TO_CLOSET || this.moveType == CLOSET_TO_INVENTORY;
+    return this.moveType == ClosetRequestType.INVENTORY_TO_CLOSET
+        || this.moveType == ClosetRequestType.CLOSET_TO_INVENTORY;
   }
 
   @Override
@@ -219,11 +213,11 @@ public class ClosetRequest extends TransferItemRequest {
   @Override
   public void processResults() {
     switch (this.moveType) {
-      case ClosetRequest.REFRESH:
+      case REFRESH -> {
         ClosetRequest.parseCloset(this.getURLString(), this.responseText);
         return;
-      default:
-        super.processResults();
+      }
+      default -> super.processResults();
     }
   }
 
@@ -377,27 +371,14 @@ public class ClosetRequest extends TransferItemRequest {
 
   @Override
   public String getStatusMessage() {
-    switch (this.moveType) {
-      case REFRESH:
-        return "Examining Meat in closet";
-
-      case INVENTORY_TO_CLOSET:
-        return "Placing items into closet";
-
-      case CLOSET_TO_INVENTORY:
-        return "Removing items from closet";
-
-      case MEAT_TO_CLOSET:
-        return "Placing meat into closet";
-
-      case MEAT_TO_INVENTORY:
-        return "Removing meat from closet";
-
-      case EMPTY_CLOSET:
-        return "Emptying closet";
-
-      default:
-        return "Unknown request type";
-    }
+    return switch (this.moveType) {
+      case REFRESH -> "Examining Meat in closet";
+      case INVENTORY_TO_CLOSET -> "Placing items into closet";
+      case CLOSET_TO_INVENTORY -> "Removing items from closet";
+      case MEAT_TO_CLOSET -> "Placing meat into closet";
+      case MEAT_TO_INVENTORY -> "Removing meat from closet";
+      case EMPTY_CLOSET -> "Emptying closet";
+      default -> "Unknown request type";
+    };
   }
 }

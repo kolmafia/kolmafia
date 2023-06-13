@@ -1,9 +1,13 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -18,8 +22,10 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -28,89 +34,29 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
+import net.sourceforge.kolmafia.utilities.SortedList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class EquipmentManager {
-  public static final int NONE = -1;
-
-  // Mutable equipment slots
-  public static final int HAT = 0;
-  public static final int WEAPON = 1;
-  public static final int HOLSTER = 2;
-  public static final int OFFHAND = 3;
-  public static final int CONTAINER = 4;
-  public static final int SHIRT = 5;
-  public static final int PANTS = 6;
-  public static final int ACCESSORY1 = 7;
-  public static final int ACCESSORY2 = 8;
-  public static final int ACCESSORY3 = 9;
-  public static final int FAMILIAR = 10;
-
-  // Count of slots visible on equipment page: HAT to FAMILIAR
-  public static final int SLOTS = 11;
-
-  // Pseudo-equipment slots
-  public static final int CROWNOFTHRONES = 11;
-
-  public static final int STICKER1 = 12;
-  public static final int STICKER2 = 13;
-  public static final int STICKER3 = 14;
-
-  public static final int CARDSLEEVE = 15;
-
-  public static final int FOLDER1 = 16;
-  public static final int FOLDER2 = 17;
-  public static final int FOLDER3 = 18;
-  public static final int FOLDER4 = 19;
-  public static final int FOLDER5 = 20;
-
-  public static final int BUDDYBJORN = 21;
-
-  public static final int BOOTSKIN = 22;
-  public static final int BOOTSPUR = 23;
-
-  // Count of all equipment slots: HAT to BOOTSPUR
-  public static final int ALL_SLOTS = 24;
-
-  public static final int FAKEHAND = 24;
-
-  private static final List<AdventureResult> equipment =
-      LockableListFactory.getInstance(AdventureResult.class);
+  /** A list of all possible accessories. Is an interior list of equipmentLists for acc1, 2, 3 */
   private static final List<AdventureResult> accessories =
       LockableListFactory.getInstance(AdventureResult.class);
-  private static final List<List<AdventureResult>> equipmentLists =
-      new ArrayList<>(EquipmentManager.ALL_SLOTS);
-  private static final List<List<AdventureResult>> historyLists =
-      new ArrayList<>(EquipmentManager.ALL_SLOTS);
-
-  public static final int[] FOLDER_SLOTS =
-      new int[] {
-        EquipmentManager.FOLDER1,
-        EquipmentManager.FOLDER2,
-        EquipmentManager.FOLDER3,
-        EquipmentManager.FOLDER4,
-        EquipmentManager.FOLDER5,
-      };
-
-  public static final int[] FOLDER_SLOTS_AFTERCORE =
-      new int[] {
-        EquipmentManager.FOLDER1, EquipmentManager.FOLDER2, EquipmentManager.FOLDER3,
-      };
-
-  public static final int[] ACCESSORY_SLOTS =
-      new int[] {
-        EquipmentManager.ACCESSORY1, EquipmentManager.ACCESSORY2, EquipmentManager.ACCESSORY3
-      };
-
-  public static final int[] STICKER_SLOTS =
-      new int[] {EquipmentManager.STICKER1, EquipmentManager.STICKER2, EquipmentManager.STICKER3};
+  // these three all use HAT through BOOTSPUR (i.e. all slots)
+  /** A list indexed by Slot of current equipment */
+  private static final Map<Slot, AdventureResult> equipment = new EnumMap<>(Slot.class);
+  /** A list indexed by Slot of possible equipment. Interior list is used in GearChangeFrame */
+  private static final Map<Slot, List<AdventureResult>> equipmentLists = new EnumMap<>(Slot.class);
+  /** A list indexed by Slot of equipment we have previously equipped, in order */
+  private static final Map<Slot, List<AdventureResult>> historyLists = new EnumMap<>(Slot.class);
 
   private static int fakeHandCount = 0;
   private static int stinkyCheeseLevel = 0;
@@ -120,7 +66,8 @@ public class EquipmentManager {
   private static final List<SpecialOutfit> customOutfits =
       LockableListFactory.getInstance(SpecialOutfit.class);
 
-  private static final int[] turnsRemaining = new int[3];
+  /** Map from Sticker[1|2|3] to turns remaining. */
+  private static final EnumMap<Slot, Integer> turnsRemaining = new EnumMap<>(Slot.class);
 
   private static AdventureResult lockedFamiliarItem = EquipmentRequest.UNEQUIP;
 
@@ -129,25 +76,20 @@ public class EquipmentManager {
   public static final AdventureResult CROWN_OF_THRONES = ItemPool.get(ItemPool.HATSEAT, 1);
   public static final AdventureResult BUDDY_BJORN = ItemPool.get(ItemPool.BUDDY_BJORN, 1);
   public static final AdventureResult FOLDER_HOLDER = ItemPool.get(ItemPool.FOLDER_HOLDER, 1);
+  public static final AdventureResult REPLICA_FOLDER_HOLDER =
+      ItemPool.get(ItemPool.REPLICA_FOLDER_HOLDER, 1);
   public static final AdventureResult COWBOY_BOOTS = ItemPool.get(ItemPool.COWBOY_BOOTS, 1);
 
   static {
-    for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
-      EquipmentManager.equipment.add(EquipmentRequest.UNEQUIP);
-      EquipmentManager.historyLists.add(new ArrayList<>());
+    for (var slot : SlotSet.ALL_SLOTS) {
+      EquipmentManager.equipment.put(slot, EquipmentRequest.UNEQUIP);
+      EquipmentManager.historyLists.put(slot, new ArrayList<>());
 
-      switch (i) {
-        case EquipmentManager.ACCESSORY1:
-        case EquipmentManager.ACCESSORY2:
-        case EquipmentManager.ACCESSORY3:
-          EquipmentManager.equipmentLists.add(
-              LockableListFactory.getMirror(EquipmentManager.accessories));
-          break;
-
-        default:
-          EquipmentManager.equipmentLists.add(
-              LockableListFactory.getSortedInstance(AdventureResult.class));
-          break;
+      switch (slot) {
+        case ACCESSORY1, ACCESSORY2, ACCESSORY3 -> EquipmentManager.equipmentLists.put(
+            slot, LockableListFactory.getMirror(EquipmentManager.accessories));
+        default -> EquipmentManager.equipmentLists.put(
+            slot, LockableListFactory.getSortedInstance(AdventureResult.class));
       }
     }
   }
@@ -155,9 +97,11 @@ public class EquipmentManager {
   private EquipmentManager() {}
 
   public static void resetEquipment() {
-    for (int i = 0; i < EquipmentManager.equipmentLists.size(); ++i) {
-      EquipmentManager.equipmentLists.get(i).clear();
-      EquipmentManager.historyLists.get(i).clear();
+    for (var list : EquipmentManager.equipmentLists.values()) {
+      list.clear();
+    }
+    for (var list : EquipmentManager.historyLists.values()) {
+      list.clear();
     }
 
     EquipmentManager.accessories.clear();
@@ -165,8 +109,8 @@ public class EquipmentManager {
 
     EquipmentManager.equipment.clear();
 
-    for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
-      EquipmentManager.equipment.add(EquipmentRequest.UNEQUIP);
+    for (var slot : SlotSet.ALL_SLOTS) {
+      EquipmentManager.equipment.put(slot, EquipmentRequest.UNEQUIP);
     }
 
     EquipmentManager.fakeHandCount = 0;
@@ -179,39 +123,39 @@ public class EquipmentManager {
     EquipmentManager.customOutfits.clear();
   }
 
-  public static AdventureResult[] emptyEquipmentArray() {
+  public static EnumMap<Slot, AdventureResult> emptyEquipmentArray() {
     return EquipmentManager.emptyEquipmentArray(false);
   }
 
-  public static AdventureResult[] emptyEquipmentArray(boolean all) {
-    int length = all ? EquipmentManager.ALL_SLOTS : EquipmentManager.SLOTS;
-    AdventureResult[] array = new AdventureResult[length];
+  public static EnumMap<Slot, AdventureResult> emptyEquipmentArray(boolean all) {
+    EnumSet<Slot> slots = all ? SlotSet.ALL_SLOTS : SlotSet.SLOTS;
+    EnumMap<Slot, AdventureResult> map = new EnumMap<>(Slot.class);
 
-    for (int i = 0; i < length; ++i) {
-      array[i] = EquipmentRequest.UNEQUIP;
+    for (var slot : slots) {
+      map.put(slot, EquipmentRequest.UNEQUIP);
     }
 
-    return array;
+    return map;
   }
 
-  public static AdventureResult[] currentEquipment() {
-    AdventureResult[] array = new AdventureResult[EquipmentManager.SLOTS];
+  public static EnumMap<Slot, AdventureResult> currentEquipment() {
+    EnumMap<Slot, AdventureResult> map = new EnumMap<>(Slot.class);
 
-    for (int i = 0; i < EquipmentManager.SLOTS; ++i) {
-      array[i] = EquipmentManager.getEquipment(i);
+    for (var slot : SlotSet.SLOTS) {
+      map.put(slot, EquipmentManager.getEquipment(slot));
     }
-    return array;
+    return map;
   }
 
-  public static AdventureResult[] allEquipment() {
-    AdventureResult[] array = new AdventureResult[EquipmentManager.ALL_SLOTS];
-    array = EquipmentManager.equipment.toArray(array);
-    array[EquipmentManager.FAMILIAR] = EquipmentManager.getFamiliarItem();
-    return array;
+  public static EnumMap<Slot, AdventureResult> allEquipment() {
+    EnumMap<Slot, AdventureResult> map = new EnumMap<>(EquipmentManager.equipment);
+
+    map.put(Slot.FAMILIAR, EquipmentManager.getFamiliarItem());
+    return map;
   }
 
-  public static final List<AdventureResult> allEquipmentAsList() {
-    return EquipmentManager.equipment;
+  public static final Collection<AdventureResult> allEquipmentAsCollection() {
+    return EquipmentManager.equipment.values();
   }
 
   public static final void processResult(AdventureResult item) {
@@ -219,8 +163,7 @@ public class EquipmentManager {
 
     // If your current familiar can use this item, add it to familiar item list
     if (KoLCharacter.getFamiliar().canEquip(item)) {
-      AdventureResult.addResultToList(
-          EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR), item);
+      AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(Slot.FAMILIAR), item);
       if (ItemDatabase.getConsumptionType(itemId) == ConsumptionType.FAMILIAR_EQUIPMENT) {
         return;
       }
@@ -248,7 +191,7 @@ public class EquipmentManager {
       // Make sure the current sticker in each slot remains in the list, even if
       // there are no more of that type in inventory.
 
-      for (int slot : EquipmentManager.STICKER_SLOTS) {
+      for (Slot slot : SlotSet.STICKER_SLOTS) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
         if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
@@ -258,7 +201,7 @@ public class EquipmentManager {
     } else if (consumeType == ConsumptionType.FOLDER) {
       // Folders are similar to stickers
 
-      for (int slot : EquipmentManager.FOLDER_SLOTS) {
+      for (Slot slot : SlotSet.FOLDER_SLOTS) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
         if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
@@ -266,14 +209,12 @@ public class EquipmentManager {
         }
       }
     } else if (itemId == ItemPool.HATSEAT) {
-      AdventureResult.addResultToList(
-          EquipmentManager.equipmentLists.get(EquipmentManager.HAT), item);
+      AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(Slot.HAT), item);
     } else if (itemId == ItemPool.BUDDY_BJORN) {
-      AdventureResult.addResultToList(
-          EquipmentManager.equipmentLists.get(EquipmentManager.CONTAINER), item);
+      AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(Slot.CONTAINER), item);
     } else {
-      int equipmentType = EquipmentManager.consumeFilterToEquipmentType(consumeType);
-      if (equipmentType != -1) {
+      Slot equipmentType = EquipmentManager.consumeFilterToEquipmentType(consumeType);
+      if (equipmentType != Slot.NONE) {
         AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(equipmentType), item);
         GearChangePanel.updateSlot(equipmentType);
       }
@@ -289,8 +230,8 @@ public class EquipmentManager {
   }
 
   public static final void autoequipItem(AdventureResult newItem, boolean addToCheckpoints) {
-    int slot = EquipmentManager.itemIdToEquipmentType(newItem.getItemId());
-    if (slot < 0) {
+    Slot slot = EquipmentManager.itemIdToEquipmentType(newItem.getItemId());
+    if (slot == Slot.NONE) {
       return;
     }
 
@@ -318,9 +259,9 @@ public class EquipmentManager {
     EquipmentManager.setEquipment(slot, newItem);
   }
 
-  public static final void setEquipment(final int slot, AdventureResult item) {
+  public static final void setEquipment(final Slot slot, AdventureResult item) {
     // Variable slots do not include the fake hand
-    if (slot >= EquipmentManager.equipmentLists.size()) {
+    if (slot == Slot.FAKEHAND) {
       return;
     }
 
@@ -330,7 +271,7 @@ public class EquipmentManager {
     // in equipment lists -- they are all mirrors of accessories.
 
     switch (slot) {
-      case -1: // unknown item - ignore it
+      case NONE: // unknown item - ignore it
         return;
 
       case ACCESSORY1:
@@ -351,14 +292,14 @@ public class EquipmentManager {
         break;
     }
 
-    EquipmentManager.equipment.set(slot, item);
+    EquipmentManager.equipment.put(slot, item);
     LockableListFactory.setSelectedItem(EquipmentManager.equipmentLists.get(slot), item);
     EquipmentManager.historyLists.get(slot).remove(item);
     EquipmentManager.historyLists.get(slot).add(item);
 
     // Certain equipment slots require special update handling
     // in addition to the above code.
-    if (slot == FAMILIAR && KoLCharacter.currentFamiliar != null) {
+    if (slot == Slot.FAMILIAR && KoLCharacter.currentFamiliar != null) {
       KoLCharacter.currentFamiliar.setItem(item);
     }
     EquipmentManager.checkFamiliar(slot);
@@ -373,89 +314,67 @@ public class EquipmentManager {
       boolean removed = true;
       // Some items could be in multiple slots
       switch (slot) {
-        case EquipmentManager.HAT:
-          {
-            // Mad Hatrack wears hats and grants conditional skills
-            AdventureResult hat = EquipmentManager.getEquipment(HAT);
-            AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
-            removed = hat.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
-            break;
-          }
-        case EquipmentManager.WEAPON:
-          {
-            // Disembodied Hand wields weapons and grants conditional skills
-            AdventureResult offhand = EquipmentManager.getEquipment(OFFHAND);
-            AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
-            removed =
-                offhand.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
-            break;
-          }
-        case EquipmentManager.OFFHAND:
-          {
-            // Left-Hand Man Hand wields offhand items and grants conditional skills
-            AdventureResult weapon = EquipmentManager.getEquipment(WEAPON);
-            AdventureResult offhand = EquipmentManager.getEquipment(OFFHAND);
-            AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
-            removed =
-                weapon.getItemId() != old.getItemId()
-                    && offhand.getItemId() != old.getItemId()
-                    && familiar.getItemId() != old.getItemId();
-            break;
-          }
-        case EquipmentManager.PANTS:
-          {
-            // Fancypants Scarecrow wears pants and grants conditional skills
-            AdventureResult pants = EquipmentManager.getEquipment(PANTS);
-            AdventureResult familiar = EquipmentManager.getEquipment(FAMILIAR);
-            removed =
-                pants.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
-            break;
-          }
-        case EquipmentManager.FAMILIAR:
-          {
-            // Mad Hatrack wears hats and grants conditional skills
-            // Disembodied Hand wields weapons and grants conditional skills
-            // Fancypants Scarecrow wears pants and grants conditional skills
-            AdventureResult hat = EquipmentManager.getEquipment(HAT);
-            AdventureResult weapon = EquipmentManager.getEquipment(WEAPON);
-            AdventureResult offhand = EquipmentManager.getEquipment(OFFHAND);
-            AdventureResult pants = EquipmentManager.getEquipment(PANTS);
-            switch (consumption) {
-              case HAT:
-                removed = hat.getItemId() != old.getItemId();
-                break;
-              case WEAPON:
-              case OFFHAND:
-                removed =
-                    weapon.getItemId() != old.getItemId() && offhand.getItemId() != old.getItemId();
-                break;
-              case PANTS:
-                removed = pants.getItemId() != old.getItemId();
-                break;
-            }
-            break;
-          }
-        case EquipmentManager.ACCESSORY1:
-          {
-            AdventureResult acc2 = EquipmentManager.getEquipment(ACCESSORY2);
-            AdventureResult acc3 = EquipmentManager.getEquipment(ACCESSORY3);
-            removed = acc2.getItemId() != old.getItemId() && acc3.getItemId() != old.getItemId();
-            break;
-          }
-        case EquipmentManager.ACCESSORY2:
-          {
-            AdventureResult acc1 = EquipmentManager.getEquipment(ACCESSORY1);
-            AdventureResult acc3 = EquipmentManager.getEquipment(ACCESSORY3);
-            removed = acc1.getItemId() != old.getItemId() && acc3.getItemId() != old.getItemId();
-            break;
-          }
-        case EquipmentManager.ACCESSORY3:
-          {
-            AdventureResult acc1 = EquipmentManager.getEquipment(ACCESSORY1);
-            AdventureResult acc2 = EquipmentManager.getEquipment(ACCESSORY2);
-            removed = acc1.getItemId() != old.getItemId() && acc2.getItemId() != old.getItemId();
-            break;
-          }
+        case HAT -> {
+          // Mad Hatrack wears hats and grants conditional skills
+          AdventureResult hat = EquipmentManager.getEquipment(Slot.HAT);
+          AdventureResult familiar = EquipmentManager.getEquipment(Slot.FAMILIAR);
+          removed = hat.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
+        }
+        case WEAPON -> {
+          // Disembodied Hand wields weapons and grants conditional skills
+          AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
+          AdventureResult familiar = EquipmentManager.getEquipment(Slot.FAMILIAR);
+          removed =
+              offhand.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
+        }
+        case OFFHAND -> {
+          // Left-Hand Man Hand wields offhand items and grants conditional skills
+          AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
+          AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
+          AdventureResult familiar = EquipmentManager.getEquipment(Slot.FAMILIAR);
+          removed =
+              weapon.getItemId() != old.getItemId()
+                  && offhand.getItemId() != old.getItemId()
+                  && familiar.getItemId() != old.getItemId();
+        }
+        case PANTS -> {
+          // Fancypants Scarecrow wears pants and grants conditional skills
+          AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
+          AdventureResult familiar = EquipmentManager.getEquipment(Slot.FAMILIAR);
+          removed = pants.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
+        }
+        case FAMILIAR -> {
+          // Mad Hatrack wears hats and grants conditional skills
+          // Disembodied Hand wields weapons and grants conditional skills
+          // Fancypants Scarecrow wears pants and grants conditional skills
+          AdventureResult hat = EquipmentManager.getEquipment(Slot.HAT);
+          AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
+          AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
+          AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
+          removed =
+              switch (consumption) {
+                case HAT -> hat.getItemId() != old.getItemId();
+                case WEAPON, OFFHAND -> weapon.getItemId() != old.getItemId()
+                    && offhand.getItemId() != old.getItemId();
+                case PANTS -> pants.getItemId() != old.getItemId();
+                default -> removed;
+              };
+        }
+        case ACCESSORY1 -> {
+          AdventureResult acc2 = EquipmentManager.getEquipment(Slot.ACCESSORY2);
+          AdventureResult acc3 = EquipmentManager.getEquipment(Slot.ACCESSORY3);
+          removed = acc2.getItemId() != old.getItemId() && acc3.getItemId() != old.getItemId();
+        }
+        case ACCESSORY2 -> {
+          AdventureResult acc1 = EquipmentManager.getEquipment(Slot.ACCESSORY1);
+          AdventureResult acc3 = EquipmentManager.getEquipment(Slot.ACCESSORY3);
+          removed = acc1.getItemId() != old.getItemId() && acc3.getItemId() != old.getItemId();
+        }
+        case ACCESSORY3 -> {
+          AdventureResult acc1 = EquipmentManager.getEquipment(Slot.ACCESSORY1);
+          AdventureResult acc2 = EquipmentManager.getEquipment(Slot.ACCESSORY2);
+          removed = acc1.getItemId() != old.getItemId() && acc2.getItemId() != old.getItemId();
+        }
       }
 
       // If removed, remove conditional skill
@@ -471,13 +390,13 @@ public class EquipmentManager {
     // recalculate stinky cheese level.
     if (ItemDatabase.isStinkyCheeseItem(old.getItemId())
         || ItemDatabase.isStinkyCheeseItem(item.getItemId())) {
-      AdventureResult weapon = EquipmentManager.getEquipment(WEAPON);
-      AdventureResult offhand = EquipmentManager.getEquipment(OFFHAND);
-      AdventureResult pants = EquipmentManager.getEquipment(PANTS);
-      AdventureResult acc1 = EquipmentManager.getEquipment(ACCESSORY1);
-      AdventureResult acc2 = EquipmentManager.getEquipment(ACCESSORY2);
-      AdventureResult acc3 = EquipmentManager.getEquipment(ACCESSORY3);
-      AdventureResult fam = EquipmentManager.getEquipment(FAMILIAR);
+      AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
+      AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
+      AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
+      AdventureResult acc1 = EquipmentManager.getEquipment(Slot.ACCESSORY1);
+      AdventureResult acc2 = EquipmentManager.getEquipment(Slot.ACCESSORY2);
+      AdventureResult acc3 = EquipmentManager.getEquipment(Slot.ACCESSORY3);
+      AdventureResult fam = EquipmentManager.getEquipment(Slot.FAMILIAR);
 
       boolean sword =
           weapon.getItemId() == ItemPool.STINKY_CHEESE_SWORD
@@ -511,7 +430,7 @@ public class EquipmentManager {
     }
   }
 
-  public static final void removeConditionalSkills(final int slot, AdventureResult item) {
+  public static final void removeConditionalSkills(final Slot slot, AdventureResult item) {
     // Certain items can be equipped either in their normal slot or
     // on a familiar. Granted skills may or may not be available.
     //
@@ -522,314 +441,324 @@ public class EquipmentManager {
 
     switch (item.getItemId()) {
       case ItemPool.BOTTLE_ROCKET:
-        KoLCharacter.removeAvailableSkill("Fire red bottle-rocket");
-        KoLCharacter.removeAvailableSkill("Fire blue bottle-rocket");
-        KoLCharacter.removeAvailableSkill("Fire orange bottle-rocket");
-        KoLCharacter.removeAvailableSkill("Fire purple bottle-rocket");
-        KoLCharacter.removeAvailableSkill("Fire black bottle-rocket");
+      case ItemPool.REPLICA_BOTTLE_ROCKET:
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_RED_BOTTLE_ROCKET);
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_BLUE_BOTTLE_ROCKET);
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_ORANGE_BOTTLE_ROCKET);
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_PURPLE_BOTTLE_ROCKET);
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_BLACK_BOTTLE_ROCKET);
         break;
       case ItemPool.JEWEL_EYED_WIZARD_HAT:
-        KoLCharacter.removeAvailableSkill("Magic Missile");
+      case ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT:
+        KoLCharacter.removeAvailableSkill(SkillPool.MAGIC_MISSILE);
         break;
       case ItemPool.BAKULA:
-        KoLCharacter.removeAvailableSkill("Give In To Your Vampiric Urges");
+        KoLCharacter.removeAvailableSkill(SkillPool.GIVE_IN_TO_YOUR_VAMPIRIC_URGES);
         break;
       case ItemPool.JOYBUZZER:
-        KoLCharacter.removeAvailableSkill("Shake Hands");
+        KoLCharacter.removeAvailableSkill(SkillPool.SHAKE_HANDS);
         break;
       case ItemPool.V_MASK:
-        KoLCharacter.removeAvailableSkill("Creepy Grin");
+      case ItemPool.REPLICA_V_MASK:
+        KoLCharacter.removeAvailableSkill(SkillPool.CREEPY_GRIN);
         break;
       case ItemPool.MAYFLY_BAIT_NECKLACE:
-        KoLCharacter.removeAvailableSkill("Summon Mayfly Swarm");
+        KoLCharacter.removeAvailableSkill(SkillPool.MAYFLY_SWARM);
         break;
       case ItemPool.HODGMANS_PORKPIE_HAT:
       case ItemPool.HODGMANS_LOBSTERSKIN_PANTS:
       case ItemPool.HODGMANS_BOW_TIE:
-        KoLCharacter.removeAvailableSkill("Summon hobo underling");
+        KoLCharacter.removeAvailableSkill(SkillPool.SUMMON_HOBO);
         break;
       case ItemPool.WILLOWY_BONNET:
-        KoLCharacter.removeAvailableSkill("Rouse Sapling");
+        KoLCharacter.removeAvailableSkill(SkillPool.ROUSE_SAPLING);
         break;
       case ItemPool.SACCHARINE_MAPLE_PENDANT:
-        KoLCharacter.removeAvailableSkill("Spray Sap");
+        KoLCharacter.removeAvailableSkill(SkillPool.SPRAY_SAP);
         break;
       case ItemPool.CROTCHETY_PANTS:
-        KoLCharacter.removeAvailableSkill("Put Down Roots");
+        KoLCharacter.removeAvailableSkill(SkillPool.PUT_DOWN_ROOTS);
         break;
       case ItemPool.FIREWORKS:
-        KoLCharacter.removeAvailableSkill("Fire off a Roman Candle");
+      case ItemPool.REPLICA_FIREWORKS:
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_OFF_A_ROMAN_CANDLE);
         break;
       case ItemPool.HAIKU_KATANA:
-        KoLCharacter.removeAvailableSkill("Spring Raindrop Attack");
-        KoLCharacter.removeAvailableSkill("Summer Siesta");
-        KoLCharacter.removeAvailableSkill("Falling Leaf Whirlwind");
-        KoLCharacter.removeAvailableSkill("Winter's Bite Technique");
-        KoLCharacter.removeAvailableSkill("The 17 Cuts");
+      case ItemPool.REPLICA_HAIKU_KATANA:
+        KoLCharacter.removeAvailableSkill(SkillPool.SPRING_RAINDROP_ATTACK);
+        KoLCharacter.removeAvailableSkill(SkillPool.SUMMER_SIESTA);
+        KoLCharacter.removeAvailableSkill(SkillPool.FALLING_LEAF_WHIRLWIND);
+        KoLCharacter.removeAvailableSkill(SkillPool.WINTERS_BITE_TECHNIQUE);
+        KoLCharacter.removeAvailableSkill(SkillPool.THE_17_CUTS);
         break;
       case ItemPool.PARASITIC_CLAW:
       case ItemPool.PARASITIC_TENTACLES:
       case ItemPool.PARASITIC_HEADGNAWER:
       case ItemPool.PARASITIC_STRANGLEWORM:
-        KoLCharacter.removeAvailableSkill("Disarm");
-        KoLCharacter.removeAvailableSkill("Entangle");
-        KoLCharacter.removeAvailableSkill("Strangle");
+        KoLCharacter.removeAvailableSkill(SkillPool.DISARM);
+        KoLCharacter.removeAvailableSkill(SkillPool.ENTANGLE);
+        KoLCharacter.removeAvailableSkill(SkillPool.STRANGLE);
         break;
       case ItemPool.ELVISH_SUNGLASSES:
-        KoLCharacter.removeAvailableSkill("Play an Accordion Solo");
-        KoLCharacter.removeAvailableSkill("Play a Guitar Solo");
-        KoLCharacter.removeAvailableSkill("Play a Drum Solo");
-        KoLCharacter.removeAvailableSkill("Play a Flute Solo");
+      case ItemPool.REPLICA_ELVISH_SUNGLASSES:
+        KoLCharacter.removeAvailableSkill(SkillPool.PLAY_AN_ACCORDION_SOLO);
+        KoLCharacter.removeAvailableSkill(SkillPool.PLAY_A_GUITAR_SOLO);
+        KoLCharacter.removeAvailableSkill(SkillPool.PLAY_A_DRUM_SOLO);
+        KoLCharacter.removeAvailableSkill(SkillPool.PLAY_A_FLUTE_SOLO);
         break;
       case ItemPool.BAG_O_TRICKS:
-        KoLCharacter.removeAvailableSkill("Open the Bag o' Tricks");
+        KoLCharacter.removeAvailableSkill(SkillPool.OPEN_THE_BAG_O_TRICKS);
         break;
       case ItemPool.FOUET_DE_TORTUE_DRESSAGE:
-        KoLCharacter.removeAvailableSkill("Apprivoisez la tortue");
+        KoLCharacter.removeAvailableSkill(SkillPool.APPRIVOISEZ_LA_TORTUE);
         break;
       case ItemPool.RED_AND_GREEN_SWEATER:
         KoLCharacter.removeAvailableSkill(SkillPool.STATIC_SHOCK__RED_AND_GREEN_SWEATER);
         break;
       case ItemPool.STINKY_CHEESE_EYE:
-        KoLCharacter.removeAvailableSkill("Give Your Opponent the Stinkeye");
+        KoLCharacter.removeAvailableSkill(SkillPool.STINKEYE);
         break;
       case ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR:
-        KoLCharacter.removeAvailableSkill("Bashing Slam Smash");
+        KoLCharacter.removeAvailableSkill(SkillPool.BASHING_SLAM_SMASH);
         break;
       case ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS:
-        KoLCharacter.removeAvailableSkill("Turtle of Seven Tails");
+        KoLCharacter.removeAvailableSkill(SkillPool.TURTLE_OF_SEVEN_TAILS);
         break;
       case ItemPool.WRATH_OF_THE_PASTALORDS:
-        KoLCharacter.removeAvailableSkill("Noodles of Fire");
+        KoLCharacter.removeAvailableSkill(SkillPool.NOODLES_OF_FIRE);
         break;
       case ItemPool.WINDSOR_PAN_OF_THE_SOURCE:
-        KoLCharacter.removeAvailableSkill("Saucemageddon");
+        KoLCharacter.removeAvailableSkill(SkillPool.SAUCEMAGEDDON);
         break;
       case ItemPool.SEEGERS_BANJO:
-        KoLCharacter.removeAvailableSkill("Funk Bluegrass Fusion");
+        KoLCharacter.removeAvailableSkill(SkillPool.FUNK_BLUEGRASS_FUSION);
         break;
       case ItemPool.TRICKSTER_TRIKITIXA:
-        KoLCharacter.removeAvailableSkill("Extreme High Note");
+        KoLCharacter.removeAvailableSkill(SkillPool.EXTREME_HIGH_NOTE);
         break;
       case ItemPool.BOTTLE_OF_GOLDENSCHNOCKERED:
-        KoLCharacter.removeAvailableSkill("Goldensh&ouml;wer");
+        KoLCharacter.removeAvailableSkill(SkillPool.GOLDENSHOWER);
         break;
       case ItemPool.SPIDER_RING:
-        KoLCharacter.removeAvailableSkill("Shoot Web");
+        KoLCharacter.removeAvailableSkill(SkillPool.SHOOT_WEB);
         break;
       case ItemPool.STRESS_BALL:
-        KoLCharacter.removeAvailableSkill("Squeeze Stress Ball");
+        KoLCharacter.removeAvailableSkill(SkillPool.SQUEEZE_STRESS_BALL);
         break;
       case ItemPool.PATRIOT_SHIELD:
-        KoLCharacter.removeAvailableSkill("Throw Shield");
+      case ItemPool.REPLICA_PATRIOT_SHIELD:
+        KoLCharacter.removeAvailableSkill(SkillPool.THROW_SHIELD);
         break;
       case ItemPool.PLASTIC_VAMPIRE_FANGS:
-        KoLCharacter.removeAvailableSkill("Feed");
+      case ItemPool.REPLICA_PLASTIC_VAMPIRE_FANGS:
+        KoLCharacter.removeAvailableSkill(SkillPool.FEED);
         break;
       case ItemPool.LORD_FLAMEFACES_CLOAK:
-        KoLCharacter.removeAvailableSkill("Swirl Cloak");
+        KoLCharacter.removeAvailableSkill(SkillPool.SWIRL_CLOAK);
         break;
       case ItemPool.RIGHT_BEAR_ARM:
-        KoLCharacter.removeAvailableSkill("Kodiak Moment");
-        KoLCharacter.removeAvailableSkill("Grizzly Scene");
-        KoLCharacter.removeAvailableSkill("Bear Hug");
-        KoLCharacter.removeAvailableSkill("I Can Bearly Hear You Over the Applause");
+        KoLCharacter.removeAvailableSkill(SkillPool.KODIAK_MOMENT);
+        KoLCharacter.removeAvailableSkill(SkillPool.GRIZZLY_SCENE);
+        KoLCharacter.removeAvailableSkill(SkillPool.BEAR_HUG);
+        KoLCharacter.removeAvailableSkill(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
         break;
       case ItemPool.LEFT_BEAR_ARM:
-        KoLCharacter.removeAvailableSkill("Bear-Backrub");
-        KoLCharacter.removeAvailableSkill("Bear-ly Legal");
-        KoLCharacter.removeAvailableSkill("Bear Hug");
-        KoLCharacter.removeAvailableSkill("I Can Bearly Hear You Over the Applause");
+        KoLCharacter.removeAvailableSkill(SkillPool.BEAR_BACKRUB);
+        KoLCharacter.removeAvailableSkill(SkillPool.BEARLY_LEGAL);
+        KoLCharacter.removeAvailableSkill(SkillPool.BEAR_HUG);
+        KoLCharacter.removeAvailableSkill(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
         break;
       case ItemPool.ELECTRONIC_DULCIMER_PANTS:
-        KoLCharacter.removeAvailableSkill("Play Hog Fiddle");
+        KoLCharacter.removeAvailableSkill(SkillPool.PLAY_HOG_FIDDLE);
         break;
       case ItemPool.HAGGIS_SOCKS:
-        KoLCharacter.removeAvailableSkill("Haggis Kick");
+        KoLCharacter.removeAvailableSkill(SkillPool.HAGGIS_KICK);
         break;
       case ItemPool.MARK_V_STEAM_HAT:
-        KoLCharacter.removeAvailableSkill("Fire Death Ray");
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_DEATH_RAY);
         break;
       case ItemPool.VIOLENCE_LENS:
-        KoLCharacter.removeAvailableSkill("Violent Gaze");
+        KoLCharacter.removeAvailableSkill(SkillPool.VIOLENT_GAZE);
         break;
       case ItemPool.VIOLENCE_BRAND:
-        KoLCharacter.removeAvailableSkill("Brand");
+        KoLCharacter.removeAvailableSkill(SkillPool.BRAND);
         break;
       case ItemPool.VIOLENCE_PANTS:
-        KoLCharacter.removeAvailableSkill("Mosh");
+        KoLCharacter.removeAvailableSkill(SkillPool.MOSH);
         break;
       case ItemPool.VIOLENCE_STOMPERS:
-        KoLCharacter.removeAvailableSkill("Stomp Ass");
+        KoLCharacter.removeAvailableSkill(SkillPool.STOMP_ASS);
         break;
       case ItemPool.HATRED_LENS:
-        KoLCharacter.removeAvailableSkill("Hateful Gaze");
+        KoLCharacter.removeAvailableSkill(SkillPool.HATEFUL_GAZE);
         break;
       case ItemPool.HATRED_STONE:
-        KoLCharacter.removeAvailableSkill("Chilling Grip");
+        KoLCharacter.removeAvailableSkill(SkillPool.CHILLING_GRIP);
         break;
       case ItemPool.HATRED_PANTS:
         KoLCharacter.removeAvailableSkill(SkillPool.STATIC_SHOCK__PANTALOONS_OF_HATRED);
         break;
       case ItemPool.HATRED_GIRDLE:
-        KoLCharacter.removeAvailableSkill("Tighten Girdle");
+        KoLCharacter.removeAvailableSkill(SkillPool.TIGHTEN_GIRDLE);
         break;
       case ItemPool.ANGER_BLASTER:
-        KoLCharacter.removeAvailableSkill("Rage Flame");
+        KoLCharacter.removeAvailableSkill(SkillPool.RAGE_FLAME);
         break;
       case ItemPool.DOUBT_CANNON:
-        KoLCharacter.removeAvailableSkill("Doubt Shackles");
+        KoLCharacter.removeAvailableSkill(SkillPool.DOUBT_SHACKLES);
         break;
       case ItemPool.FEAR_CONDENSER:
-        KoLCharacter.removeAvailableSkill("Fear Vapor");
+        KoLCharacter.removeAvailableSkill(SkillPool.FEAR_VAPOR);
         break;
       case ItemPool.REGRET_HOSE:
-        KoLCharacter.removeAvailableSkill("Tear Wave");
+        KoLCharacter.removeAvailableSkill(SkillPool.TEAR_WAVE);
         break;
       case ItemPool.GREAT_WOLFS_LEFT_PAW:
       case ItemPool.GREAT_WOLFS_RIGHT_PAW:
-        KoLCharacter.removeAvailableSkill("Great Slash");
+        KoLCharacter.removeAvailableSkill(SkillPool.GREAT_SLASH);
         break;
       case ItemPool.GREAT_WOLFS_ROCKET_LAUNCHER:
-        KoLCharacter.removeAvailableSkill("Fire Rocket");
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_ROCKET);
         break;
       case ItemPool.MAYOR_GHOSTS_GAVEL:
-        KoLCharacter.removeAvailableSkill("Hammer Ghost");
+        KoLCharacter.removeAvailableSkill(SkillPool.HAMMER_GHOST);
         break;
       case ItemPool.PANTSGIVING:
-        KoLCharacter.removeAvailableSkill("Talk About Politics");
-        KoLCharacter.removeAvailableSkill("Pocket Crumbs");
-        KoLCharacter.removeAvailableSkill("Air Dirty Laundry");
+        KoLCharacter.removeAvailableSkill(SkillPool.TALK_ABOUT_POLITICS);
+        KoLCharacter.removeAvailableSkill(SkillPool.POCKET_CRUMBS);
+        KoLCharacter.removeAvailableSkill(SkillPool.AIR_DIRTY_LAUNDRY);
         break;
       case ItemPool.WARBEAR_OIL_PAN:
         if (KoLCharacter.isSauceror()) {
-          KoLCharacter.removeAvailableSkill("Spray Hot Grease");
+          KoLCharacter.removeAvailableSkill(SkillPool.SPRAY_HOT_GREASE);
         }
         break;
       case ItemPool.WOLF_WHISTLE:
-        KoLCharacter.removeAvailableSkill("Blow Wolf Whistle");
+        KoLCharacter.removeAvailableSkill(SkillPool.BLOW_WOLF_WHISTLE);
         break;
       case ItemPool.TOMMY_GUN:
-        KoLCharacter.removeAvailableSkill("Unload Tommy Gun");
+        KoLCharacter.removeAvailableSkill(SkillPool.UNLOAD_TOMMY_GUN);
         break;
       case ItemPool.CREEPY_VOICE_BOX:
-        KoLCharacter.removeAvailableSkill("Pull Voice Box String");
+        KoLCharacter.removeAvailableSkill(SkillPool.PULL_VOICE_BOX_STRING);
         break;
       case ItemPool.COAL_SHOVEL:
-        KoLCharacter.removeAvailableSkill("Shovel Hot Coal");
+        KoLCharacter.removeAvailableSkill(SkillPool.SHOVEL_HOT_COAL);
         break;
       case ItemPool.SPACE_HEATER:
-        KoLCharacter.removeAvailableSkill("Heat Space");
+        KoLCharacter.removeAvailableSkill(SkillPool.HEAT_SPACE);
         break;
       case ItemPool.CAP_GUN:
-        KoLCharacter.removeAvailableSkill("Bang! Bang! Bang! Bang!");
+        KoLCharacter.removeAvailableSkill(SkillPool.BANG_BANG_BANG_BANG);
         break;
       case ItemPool.THORS_PLIERS:
-        KoLCharacter.removeAvailableSkill("Ply Reality");
+        KoLCharacter.removeAvailableSkill(SkillPool.PLY_REALITY);
         break;
       case ItemPool.CUDDLY_TEDDY_BEAR:
-        KoLCharacter.removeAvailableSkill("Overload Teddy Bear");
+        KoLCharacter.removeAvailableSkill(SkillPool.OVERLOAD_TEDDY_BEAR);
         break;
       case ItemPool.TOY_CRIMBOT_FACE:
-        KoLCharacter.removeAvailableSkill("LIGHT");
+        KoLCharacter.removeAvailableSkill(SkillPool.LIGHT);
         break;
       case ItemPool.TOY_CRIMBOT_GLOVE:
-        KoLCharacter.removeAvailableSkill("ZAP");
+        KoLCharacter.removeAvailableSkill(SkillPool.ZAP);
         break;
       case ItemPool.TOY_CRIMBOT_FIST:
-        KoLCharacter.removeAvailableSkill("POW");
+        KoLCharacter.removeAvailableSkill(SkillPool.POW);
         break;
       case ItemPool.TOY_CRIMBOT_LEGS:
-        KoLCharacter.removeAvailableSkill("BURN");
+        KoLCharacter.removeAvailableSkill(SkillPool.BURN);
         break;
       case ItemPool.RING_OF_TELLING_SKELETONS_WHAT_TO_DO:
-        KoLCharacter.removeAvailableSkill("Tell a Skeleton What To Do");
-        KoLCharacter.removeAvailableSkill("Tell This Skeleton What To Do");
+        KoLCharacter.removeAvailableSkill(SkillPool.TELL_A_SKELETON_WHAT_TO_DO);
+        KoLCharacter.removeAvailableSkill(SkillPool.TELL_THIS_SKELETON_WHAT_TO_DO);
         break;
       case ItemPool.SEWAGE_CLOGGED_PISTOL:
-        KoLCharacter.removeAvailableSkill("Fire Sewage Pistol");
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_SEWAGE_PISTOL);
         break;
       case ItemPool.LOTS_ENGAGEMENT_RING:
-        KoLCharacter.removeAvailableSkill("Propose To Your Opponent");
+        KoLCharacter.removeAvailableSkill(SkillPool.PROPOSE_TO_YOUR_OPPONENT);
         break;
       case ItemPool.PROTON_ACCELERATOR:
-        KoLCharacter.removeAvailableSkill("Shoot Ghost");
-        KoLCharacter.removeAvailableSkill("Trap Ghost");
+        KoLCharacter.removeAvailableSkill(SkillPool.SHOOT_GHOST);
+        KoLCharacter.removeAvailableSkill(SkillPool.TRAP_GHOST);
         break;
       case ItemPool.STANDARDS_AND_PRACTICES:
-        KoLCharacter.removeAvailableSkill("Censurious Lecture");
+        KoLCharacter.removeAvailableSkill(SkillPool.CENSORIOUS_LECTURE);
         break;
       case ItemPool.KREMLIN_BRIEFCASE:
-        KoLCharacter.removeAvailableSkill("KGB tranquilizer dart");
+        KoLCharacter.removeAvailableSkill(SkillPool.KGB_TRANQUILIZER_DART);
         break;
       case ItemPool.GABARDINE_GIRDLE:
-        KoLCharacter.removeAvailableSkill("Unleash Disco Pudge");
+        KoLCharacter.removeAvailableSkill(SkillPool.UNLEASH_DISCO_PUDGE);
         break;
       case ItemPool.PAINT_PALETTE:
-        KoLCharacter.removeAvailableSkill("Paint Job");
+        KoLCharacter.removeAvailableSkill(SkillPool.PAINT_JOB);
         break;
       case ItemPool.PARTYCRASHER:
-        KoLCharacter.removeAvailableSkill("Party Crash");
+        KoLCharacter.removeAvailableSkill(SkillPool.PARTY_CRASH);
         break;
       case ItemPool.LATTE_MUG:
-        KoLCharacter.removeAvailableSkill("Throw Latte on Opponent");
-        KoLCharacter.removeAvailableSkill("Offer Latte to Opponent");
-        KoLCharacter.removeAvailableSkill("Gulp Latte");
+        KoLCharacter.removeAvailableSkill(SkillPool.THROW_LATTE);
+        KoLCharacter.removeAvailableSkill(SkillPool.OFFER_LATTE);
+        KoLCharacter.removeAvailableSkill(SkillPool.GULP_LATTE);
         break;
       case ItemPool.DOCTOR_BAG:
-        KoLCharacter.removeAvailableSkill("Otoscope");
-        KoLCharacter.removeAvailableSkill("Reflex Hammer");
-        KoLCharacter.removeAvailableSkill("Chest X-Ray");
+        KoLCharacter.removeAvailableSkill(SkillPool.OTOSCOPE);
+        KoLCharacter.removeAvailableSkill(SkillPool.REFLEX_HAMMER);
+        KoLCharacter.removeAvailableSkill(SkillPool.CHEST_X_RAY);
         break;
       case ItemPool.FOURTH_SABER:
-        KoLCharacter.removeAvailableSkill("Use the Force");
+        KoLCharacter.removeAvailableSkill(SkillPool.USE_THE_FORCE);
         break;
       case ItemPool.HEWN_MOON_RUNE_SPOON:
         if (KoLCharacter.isMuscleClass()) {
-          KoLCharacter.removeAvailableSkill("Dragoon Platoon");
+          KoLCharacter.removeAvailableSkill(SkillPool.DRAGOON_PLATOON);
         } else if (KoLCharacter.isMysticalityClass()) {
-          KoLCharacter.removeAvailableSkill("Spittoon Monsoon");
+          KoLCharacter.removeAvailableSkill(SkillPool.SPITTOON_MONSOON);
         } else if (KoLCharacter.isMoxieClass()) {
-          KoLCharacter.removeAvailableSkill("Festoon Buffoon");
+          KoLCharacter.removeAvailableSkill(SkillPool.FESTOON_BUFFOON);
         }
         break;
       case ItemPool.BEACH_COMB:
-        KoLCharacter.removeAvailableSkill("Beach Combo");
+        KoLCharacter.removeAvailableSkill(SkillPool.BEACH_COMBO);
         break;
       case ItemPool.POWERFUL_GLOVE:
+      case ItemPool.REPLICA_POWERFUL_GLOVE:
         // These are only the combat skills, we make the noncombat skills always available
-        KoLCharacter.removeAvailableSkill("CHEAT CODE: Replace Enemy");
-        KoLCharacter.removeAvailableSkill("CHEAT CODE: Shrink Enemy");
+        KoLCharacter.removeAvailableSkill(SkillPool.REPLACE_ENEMY);
+        KoLCharacter.removeAvailableSkill(SkillPool.SHRINK_ENEMY);
         break;
       case ItemPool.RED_PLUMBERS_BOOTS:
-        KoLCharacter.removeAvailableSkill("Plumber Jump");
+        KoLCharacter.removeAvailableSkill(SkillPool.PLUMBER_JUMP);
         break;
       case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
         ItemDatabase.setCapeSkills();
         break;
       case ItemPool.BLART:
-        KoLCharacter.removeAvailableSkill("B. L. A. R. T. Spray (narrow)");
-        KoLCharacter.removeAvailableSkill("B. L. A. R. T. Spray (medium)");
-        KoLCharacter.removeAvailableSkill("B. L. A. R. T. Spray (wide)");
+        KoLCharacter.removeAvailableSkill(SkillPool.BLART_SPRAY_NARROW);
+        KoLCharacter.removeAvailableSkill(SkillPool.BLART_SPRAY_MEDIUM);
+        KoLCharacter.removeAvailableSkill(SkillPool.BLART_SPRAY_WIDE);
         break;
       case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
-        KoLCharacter.removeAvailableSkill("Fire Extinguisher: Foam 'em Up");
-        KoLCharacter.removeAvailableSkill("Fire Extinguisher: Polar Vortex");
-        KoLCharacter.removeAvailableSkill("Fire Extinguisher: Foam Yourself");
-        KoLCharacter.removeAvailableSkill("Fire Extinguisher: Blast the Area");
-        KoLCharacter.removeAvailableSkill("Fire Extinguisher: Zone Specific");
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_EM_UP);
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__POLAR_VORTEX);
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_YOURSELF);
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__BLAST_THE_AREA);
+        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC);
         break;
       case ItemPool.DESIGNER_SWEATPANTS:
+      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
         // These are only the combat skills, we make the noncombat skills always available
-        KoLCharacter.removeAvailableSkill("Sweat Flick");
-        KoLCharacter.removeAvailableSkill("Sweat Flood");
-        KoLCharacter.removeAvailableSkill("Sweat Spray");
-        KoLCharacter.removeAvailableSkill("Sweat Sip");
+        KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_FLICK);
+        KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_FLOOD);
+        KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_SPRAY);
+        KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_SIP);
         break;
     }
   }
 
-  public static final void addConditionalSkills(final int slot, AdventureResult item) {
+  public static final void addConditionalSkills(final Slot slot, AdventureResult item) {
     // Certain items can be equipped either in their normal slot or
     // on a familiar. Granted skills may or may not be available.
     //
@@ -841,7 +770,7 @@ public class EquipmentManager {
     int id = item.getItemId();
 
     // If we are equipping a new sword or gun we may be changing the capabilities of the retrocape
-    if (slot == EquipmentManager.WEAPON) {
+    if (slot == Slot.WEAPON) {
       if (EquipmentDatabase.isSword(id)
           || EquipmentDatabase.isGun(id)
           || EquipmentDatabase.isPistol(id)
@@ -852,332 +781,342 @@ public class EquipmentManager {
 
     switch (id) {
       case ItemPool.BOTTLE_ROCKET:
-        KoLCharacter.addAvailableSkill("Fire red bottle-rocket");
-        KoLCharacter.addAvailableSkill("Fire blue bottle-rocket");
-        KoLCharacter.addAvailableSkill("Fire orange bottle-rocket");
-        KoLCharacter.addAvailableSkill("Fire purple bottle-rocket");
-        KoLCharacter.addAvailableSkill("Fire black bottle-rocket");
+      case ItemPool.REPLICA_BOTTLE_ROCKET:
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_RED_BOTTLE_ROCKET);
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_BLUE_BOTTLE_ROCKET);
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_ORANGE_BOTTLE_ROCKET);
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_PURPLE_BOTTLE_ROCKET);
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_BLACK_BOTTLE_ROCKET);
         break;
       case ItemPool.JEWEL_EYED_WIZARD_HAT:
-        KoLCharacter.addAvailableSkill("Magic Missile");
+      case ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT:
+        KoLCharacter.addAvailableSkill(SkillPool.MAGIC_MISSILE);
         break;
       case ItemPool.BAKULA:
-        KoLCharacter.addAvailableSkill("Give In To Your Vampiric Urges");
+        KoLCharacter.addAvailableSkill(SkillPool.GIVE_IN_TO_YOUR_VAMPIRIC_URGES);
         break;
       case ItemPool.JOYBUZZER:
-        KoLCharacter.addAvailableSkill("Shake Hands");
+        KoLCharacter.addAvailableSkill(SkillPool.SHAKE_HANDS);
         break;
       case ItemPool.V_MASK:
-        KoLCharacter.addAvailableSkill("Creepy Grin");
+      case ItemPool.REPLICA_V_MASK:
+        KoLCharacter.addAvailableSkill(SkillPool.CREEPY_GRIN);
         break;
       case ItemPool.MAYFLY_BAIT_NECKLACE:
-        KoLCharacter.addAvailableSkill("Summon Mayfly Swarm");
+        KoLCharacter.addAvailableSkill(SkillPool.MAYFLY_SWARM);
         break;
       case ItemPool.HODGMANS_PORKPIE_HAT:
       case ItemPool.HODGMANS_LOBSTERSKIN_PANTS:
       case ItemPool.HODGMANS_BOW_TIE:
         if (EquipmentManager.isWearingOutfit(OutfitPool.HODGMANS_REGAL_FRIPPERY)) {
-          KoLCharacter.addAvailableSkill("Summon hobo underling");
+          KoLCharacter.addAvailableSkill(SkillPool.SUMMON_HOBO);
         }
         break;
       case ItemPool.WILLOWY_BONNET:
-        KoLCharacter.addAvailableSkill("Rouse Sapling");
+        KoLCharacter.addAvailableSkill(SkillPool.ROUSE_SAPLING);
         break;
       case ItemPool.SACCHARINE_MAPLE_PENDANT:
-        KoLCharacter.addAvailableSkill("Spray Sap");
+        KoLCharacter.addAvailableSkill(SkillPool.SPRAY_SAP);
         break;
       case ItemPool.CROTCHETY_PANTS:
-        KoLCharacter.addAvailableSkill("Put Down Roots");
+        KoLCharacter.addAvailableSkill(SkillPool.PUT_DOWN_ROOTS);
         break;
       case ItemPool.FIREWORKS:
-        KoLCharacter.addAvailableSkill("Fire off a Roman Candle");
+      case ItemPool.REPLICA_FIREWORKS:
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_OFF_A_ROMAN_CANDLE);
         break;
       case ItemPool.HAIKU_KATANA:
-        KoLCharacter.addAvailableSkill("Spring Raindrop Attack");
-        KoLCharacter.addAvailableSkill("Summer Siesta");
-        KoLCharacter.addAvailableSkill("Falling Leaf Whirlwind");
-        KoLCharacter.addAvailableSkill("Winter's Bite Technique");
-        KoLCharacter.addAvailableSkill("The 17 Cuts");
+      case ItemPool.REPLICA_HAIKU_KATANA:
+        KoLCharacter.addAvailableSkill(SkillPool.SPRING_RAINDROP_ATTACK);
+        KoLCharacter.addAvailableSkill(SkillPool.SUMMER_SIESTA);
+        KoLCharacter.addAvailableSkill(SkillPool.FALLING_LEAF_WHIRLWIND);
+        KoLCharacter.addAvailableSkill(SkillPool.WINTERS_BITE_TECHNIQUE);
+        KoLCharacter.addAvailableSkill(SkillPool.THE_17_CUTS);
         break;
       case ItemPool.PARASITIC_CLAW:
       case ItemPool.PARASITIC_TENTACLES:
       case ItemPool.PARASITIC_HEADGNAWER:
       case ItemPool.PARASITIC_STRANGLEWORM:
         if (EquipmentManager.isWearingOutfit(OutfitPool.MUTANT_COUTURE)) {
-          KoLCharacter.addAvailableSkill("Disarm");
-          KoLCharacter.addAvailableSkill("Entangle");
-          KoLCharacter.addAvailableSkill("Strangle");
+          KoLCharacter.addAvailableSkill(SkillPool.DISARM);
+          KoLCharacter.addAvailableSkill(SkillPool.ENTANGLE);
+          KoLCharacter.addAvailableSkill(SkillPool.STRANGLE);
         }
         break;
       case ItemPool.ELVISH_SUNGLASSES:
-        KoLCharacter.addAvailableSkill("Play an Accordion Solo");
-        KoLCharacter.addAvailableSkill("Play a Guitar Solo");
-        KoLCharacter.addAvailableSkill("Play a Drum Solo");
-        KoLCharacter.addAvailableSkill("Play a Flute Solo");
+      case ItemPool.REPLICA_ELVISH_SUNGLASSES:
+        KoLCharacter.addAvailableSkill(SkillPool.PLAY_AN_ACCORDION_SOLO);
+        KoLCharacter.addAvailableSkill(SkillPool.PLAY_A_GUITAR_SOLO);
+        KoLCharacter.addAvailableSkill(SkillPool.PLAY_A_DRUM_SOLO);
+        KoLCharacter.addAvailableSkill(SkillPool.PLAY_A_FLUTE_SOLO);
         break;
       case ItemPool.BAG_O_TRICKS:
-        KoLCharacter.addAvailableSkill("Open the Bag o' Tricks");
+        KoLCharacter.addAvailableSkill(SkillPool.OPEN_THE_BAG_O_TRICKS);
         break;
       case ItemPool.FOUET_DE_TORTUE_DRESSAGE:
-        KoLCharacter.addAvailableSkill("Apprivoisez la tortue");
+        KoLCharacter.addAvailableSkill(SkillPool.APPRIVOISEZ_LA_TORTUE);
         break;
       case ItemPool.RED_AND_GREEN_SWEATER:
         KoLCharacter.addAvailableSkill(SkillPool.STATIC_SHOCK__RED_AND_GREEN_SWEATER);
         break;
       case ItemPool.STINKY_CHEESE_EYE:
-        KoLCharacter.addAvailableSkill("Give Your Opponent the Stinkeye");
+        KoLCharacter.addAvailableSkill(SkillPool.STINKEYE);
         break;
       case ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR:
-        KoLCharacter.addAvailableSkill("Bashing Slam Smash");
+        KoLCharacter.addAvailableSkill(SkillPool.BASHING_SLAM_SMASH);
         break;
       case ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS:
-        KoLCharacter.addAvailableSkill("Turtle of Seven Tails");
+        KoLCharacter.addAvailableSkill(SkillPool.TURTLE_OF_SEVEN_TAILS);
         break;
       case ItemPool.WRATH_OF_THE_PASTALORDS:
-        KoLCharacter.addAvailableSkill("Noodles of Fire");
+        KoLCharacter.addAvailableSkill(SkillPool.NOODLES_OF_FIRE);
         break;
       case ItemPool.WINDSOR_PAN_OF_THE_SOURCE:
-        KoLCharacter.addAvailableSkill("Saucemageddon");
+        KoLCharacter.addAvailableSkill(SkillPool.SAUCEMAGEDDON);
         break;
       case ItemPool.SEEGERS_BANJO:
-        KoLCharacter.addAvailableSkill("Funk Bluegrass Fusion");
+        KoLCharacter.addAvailableSkill(SkillPool.FUNK_BLUEGRASS_FUSION);
         break;
       case ItemPool.TRICKSTER_TRIKITIXA:
-        KoLCharacter.addAvailableSkill("Extreme High Note");
+        KoLCharacter.addAvailableSkill(SkillPool.EXTREME_HIGH_NOTE);
         break;
       case ItemPool.BOTTLE_OF_GOLDENSCHNOCKERED:
-        KoLCharacter.addAvailableSkill("Goldensh&ouml;wer");
+        KoLCharacter.addAvailableSkill(SkillPool.GOLDENSHOWER);
         break;
       case ItemPool.SPIDER_RING:
-        KoLCharacter.addAvailableSkill("Shoot Web");
+        KoLCharacter.addAvailableSkill(SkillPool.SHOOT_WEB);
         break;
       case ItemPool.STRESS_BALL:
-        KoLCharacter.addAvailableSkill("Squeeze Stress Ball");
+        KoLCharacter.addAvailableSkill(SkillPool.SQUEEZE_STRESS_BALL);
         break;
       case ItemPool.PATRIOT_SHIELD:
-        KoLCharacter.addAvailableSkill("Throw Shield");
+      case ItemPool.REPLICA_PATRIOT_SHIELD:
+        KoLCharacter.addAvailableSkill(SkillPool.THROW_SHIELD);
         break;
       case ItemPool.PLASTIC_VAMPIRE_FANGS:
-        KoLCharacter.addAvailableSkill("Feed");
+      case ItemPool.REPLICA_PLASTIC_VAMPIRE_FANGS:
+        KoLCharacter.addAvailableSkill(SkillPool.FEED);
         break;
       case ItemPool.LORD_FLAMEFACES_CLOAK:
-        KoLCharacter.addAvailableSkill("Swirl Cloak");
+        KoLCharacter.addAvailableSkill(SkillPool.SWIRL_CLOAK);
         break;
       case ItemPool.RIGHT_BEAR_ARM:
-        KoLCharacter.addAvailableSkill("Kodiak Moment");
-        KoLCharacter.addAvailableSkill("Grizzly Scene");
+        KoLCharacter.addAvailableSkill(SkillPool.KODIAK_MOMENT);
+        KoLCharacter.addAvailableSkill(SkillPool.GRIZZLY_SCENE);
         if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.LEFT_BEAR_ARM, 1))) {
-          KoLCharacter.addAvailableSkill("Bear Hug");
-          KoLCharacter.addAvailableSkill("I Can Bearly Hear You Over the Applause");
+          KoLCharacter.addAvailableSkill(SkillPool.BEAR_HUG);
+          KoLCharacter.addAvailableSkill(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
         }
         break;
       case ItemPool.LEFT_BEAR_ARM:
-        KoLCharacter.addAvailableSkill("Bear-Backrub");
-        KoLCharacter.addAvailableSkill("Bear-ly Legal");
+        KoLCharacter.addAvailableSkill(SkillPool.BEAR_BACKRUB);
+        KoLCharacter.addAvailableSkill(SkillPool.BEARLY_LEGAL);
         if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.RIGHT_BEAR_ARM, 1))) {
-          KoLCharacter.addAvailableSkill("Bear Hug");
-          KoLCharacter.addAvailableSkill("I Can Bearly Hear You Over the Applause");
+          KoLCharacter.addAvailableSkill(SkillPool.BEAR_HUG);
+          KoLCharacter.addAvailableSkill(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
         }
         break;
       case ItemPool.ELECTRONIC_DULCIMER_PANTS:
-        KoLCharacter.addAvailableSkill("Play Hog Fiddle");
+        KoLCharacter.addAvailableSkill(SkillPool.PLAY_HOG_FIDDLE);
         break;
       case ItemPool.HAGGIS_SOCKS:
-        KoLCharacter.addAvailableSkill("Haggis Kick");
+        KoLCharacter.addAvailableSkill(SkillPool.HAGGIS_KICK);
         break;
       case ItemPool.MARK_V_STEAM_HAT:
-        KoLCharacter.addAvailableSkill("Fire Death Ray");
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_DEATH_RAY);
         break;
       case ItemPool.VIOLENCE_LENS:
-        KoLCharacter.addAvailableSkill("Violent Gaze");
+        KoLCharacter.addAvailableSkill(SkillPool.VIOLENT_GAZE);
         break;
       case ItemPool.VIOLENCE_BRAND:
-        KoLCharacter.addAvailableSkill("Brand");
+        KoLCharacter.addAvailableSkill(SkillPool.BRAND);
         break;
       case ItemPool.VIOLENCE_PANTS:
-        KoLCharacter.addAvailableSkill("Mosh");
+        KoLCharacter.addAvailableSkill(SkillPool.MOSH);
         break;
       case ItemPool.VIOLENCE_STOMPERS:
-        KoLCharacter.addAvailableSkill("Stomp Ass");
+        KoLCharacter.addAvailableSkill(SkillPool.STOMP_ASS);
         break;
       case ItemPool.HATRED_LENS:
-        KoLCharacter.addAvailableSkill("Hateful Gaze");
+        KoLCharacter.addAvailableSkill(SkillPool.HATEFUL_GAZE);
         break;
       case ItemPool.HATRED_STONE:
-        KoLCharacter.addAvailableSkill("Chilling Grip");
+        KoLCharacter.addAvailableSkill(SkillPool.CHILLING_GRIP);
         break;
       case ItemPool.HATRED_PANTS:
         KoLCharacter.addAvailableSkill(SkillPool.STATIC_SHOCK__PANTALOONS_OF_HATRED);
         break;
       case ItemPool.HATRED_GIRDLE:
-        KoLCharacter.addAvailableSkill("Tighten Girdle");
+        KoLCharacter.addAvailableSkill(SkillPool.TIGHTEN_GIRDLE);
         break;
       case ItemPool.ANGER_BLASTER:
-        KoLCharacter.addAvailableSkill("Rage Flame");
+        KoLCharacter.addAvailableSkill(SkillPool.RAGE_FLAME);
         break;
       case ItemPool.DOUBT_CANNON:
-        KoLCharacter.addAvailableSkill("Doubt Shackles");
+        KoLCharacter.addAvailableSkill(SkillPool.DOUBT_SHACKLES);
         break;
       case ItemPool.FEAR_CONDENSER:
-        KoLCharacter.addAvailableSkill("Fear Vapor");
+        KoLCharacter.addAvailableSkill(SkillPool.FEAR_VAPOR);
         break;
       case ItemPool.REGRET_HOSE:
-        KoLCharacter.addAvailableSkill("Tear Wave");
+        KoLCharacter.addAvailableSkill(SkillPool.TEAR_WAVE);
         break;
       case ItemPool.GREAT_WOLFS_LEFT_PAW:
       case ItemPool.GREAT_WOLFS_RIGHT_PAW:
-        KoLCharacter.addAvailableSkill("Great Slash");
+        KoLCharacter.addAvailableSkill(SkillPool.GREAT_SLASH);
         break;
       case ItemPool.GREAT_WOLFS_ROCKET_LAUNCHER:
-        KoLCharacter.addAvailableSkill("Fire Rocket");
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_ROCKET);
         break;
       case ItemPool.MAYOR_GHOSTS_GAVEL:
-        KoLCharacter.addAvailableSkill("Hammer Ghost");
+        KoLCharacter.addAvailableSkill(SkillPool.HAMMER_GHOST);
         break;
       case ItemPool.PANTSGIVING:
-        KoLCharacter.addAvailableSkill("Talk About Politics");
-        KoLCharacter.addAvailableSkill("Pocket Crumbs");
-        KoLCharacter.addAvailableSkill("Air Dirty Laundry");
+        KoLCharacter.addAvailableSkill(SkillPool.TALK_ABOUT_POLITICS);
+        KoLCharacter.addAvailableSkill(SkillPool.POCKET_CRUMBS);
+        KoLCharacter.addAvailableSkill(SkillPool.AIR_DIRTY_LAUNDRY);
         break;
       case ItemPool.WARBEAR_OIL_PAN:
         if (KoLCharacter.isSauceror()) {
-          KoLCharacter.addAvailableSkill("Spray Hot Grease");
+          KoLCharacter.addAvailableSkill(SkillPool.SPRAY_HOT_GREASE);
         }
         break;
       case ItemPool.WOLF_WHISTLE:
-        KoLCharacter.addAvailableSkill("Blow Wolf Whistle");
+        KoLCharacter.addAvailableSkill(SkillPool.BLOW_WOLF_WHISTLE);
         break;
       case ItemPool.TOMMY_GUN:
-        KoLCharacter.addAvailableSkill("Unload Tommy Gun");
+        KoLCharacter.addAvailableSkill(SkillPool.UNLOAD_TOMMY_GUN);
         break;
       case ItemPool.CREEPY_VOICE_BOX:
-        KoLCharacter.addAvailableSkill("Pull Voice Box String");
+        KoLCharacter.addAvailableSkill(SkillPool.PULL_VOICE_BOX_STRING);
         break;
       case ItemPool.COAL_SHOVEL:
-        KoLCharacter.addAvailableSkill("Shovel Hot Coal");
+        KoLCharacter.addAvailableSkill(SkillPool.SHOVEL_HOT_COAL);
         break;
       case ItemPool.SPACE_HEATER:
-        KoLCharacter.addAvailableSkill("Heat Space");
+        KoLCharacter.addAvailableSkill(SkillPool.HEAT_SPACE);
         break;
       case ItemPool.CAP_GUN:
-        KoLCharacter.addAvailableSkill("Bang! Bang! Bang! Bang!");
+        KoLCharacter.addAvailableSkill(SkillPool.BANG_BANG_BANG_BANG);
         break;
       case ItemPool.THORS_PLIERS:
-        KoLCharacter.addAvailableSkill("Ply Reality");
+        KoLCharacter.addAvailableSkill(SkillPool.PLY_REALITY);
         break;
       case ItemPool.CUDDLY_TEDDY_BEAR:
-        KoLCharacter.addAvailableSkill("Overload Teddy Bear");
+        KoLCharacter.addAvailableSkill(SkillPool.OVERLOAD_TEDDY_BEAR);
         break;
       case ItemPool.TOY_CRIMBOT_FACE:
-        KoLCharacter.addAvailableSkill("LIGHT");
+        KoLCharacter.addAvailableSkill(SkillPool.LIGHT);
         break;
       case ItemPool.TOY_CRIMBOT_GLOVE:
-        KoLCharacter.addAvailableSkill("ZAP");
+        KoLCharacter.addAvailableSkill(SkillPool.ZAP);
         break;
       case ItemPool.TOY_CRIMBOT_FIST:
-        KoLCharacter.addAvailableSkill("POW");
+        KoLCharacter.addAvailableSkill(SkillPool.POW);
         break;
       case ItemPool.TOY_CRIMBOT_LEGS:
-        KoLCharacter.addAvailableSkill("BURN");
+        KoLCharacter.addAvailableSkill(SkillPool.BURN);
         break;
       case ItemPool.RING_OF_TELLING_SKELETONS_WHAT_TO_DO:
-        KoLCharacter.addAvailableSkill("Tell a Skeleton What To Do");
-        KoLCharacter.addAvailableSkill("Tell This Skeleton What To Do");
+        KoLCharacter.addAvailableSkill(SkillPool.TELL_A_SKELETON_WHAT_TO_DO);
+        KoLCharacter.addAvailableSkill(SkillPool.TELL_THIS_SKELETON_WHAT_TO_DO);
         break;
       case ItemPool.SEWAGE_CLOGGED_PISTOL:
-        KoLCharacter.addAvailableSkill("Fire Sewage Pistol");
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_SEWAGE_PISTOL);
         break;
       case ItemPool.LOTS_ENGAGEMENT_RING:
-        KoLCharacter.addAvailableSkill("Propose To Your Opponent");
+        KoLCharacter.addAvailableSkill(SkillPool.PROPOSE_TO_YOUR_OPPONENT);
         break;
       case ItemPool.PROTON_ACCELERATOR:
-        KoLCharacter.addAvailableSkill("Shoot Ghost");
-        KoLCharacter.addAvailableSkill("Trap Ghost");
+        KoLCharacter.addAvailableSkill(SkillPool.SHOOT_GHOST);
+        KoLCharacter.addAvailableSkill(SkillPool.TRAP_GHOST);
         break;
       case ItemPool.STANDARDS_AND_PRACTICES:
-        KoLCharacter.addAvailableSkill("Censurious Lecture");
+        KoLCharacter.addAvailableSkill(SkillPool.CENSORIOUS_LECTURE);
         break;
       case ItemPool.KREMLIN_BRIEFCASE:
-        KoLCharacter.addAvailableSkill("KGB tranquilizer dart");
+        KoLCharacter.addAvailableSkill(SkillPool.KGB_TRANQUILIZER_DART);
         break;
       case ItemPool.GABARDINE_GIRDLE:
-        KoLCharacter.addAvailableSkill("Unleash Disco Pudge");
+        KoLCharacter.addAvailableSkill(SkillPool.UNLEASH_DISCO_PUDGE);
         break;
       case ItemPool.PAINT_PALETTE:
-        KoLCharacter.addAvailableSkill("Paint Job");
+        KoLCharacter.addAvailableSkill(SkillPool.PAINT_JOB);
         break;
       case ItemPool.PARTYCRASHER:
-        KoLCharacter.addAvailableSkill("Party Crash");
+        KoLCharacter.addAvailableSkill(SkillPool.PARTY_CRASH);
         break;
       case ItemPool.LATTE_MUG:
-        KoLCharacter.addAvailableSkill("Throw Latte on Opponent");
-        KoLCharacter.addAvailableSkill("Offer Latte to Opponent");
-        KoLCharacter.addAvailableSkill("Gulp Latte");
+        KoLCharacter.addAvailableSkill(SkillPool.THROW_LATTE);
+        KoLCharacter.addAvailableSkill(SkillPool.OFFER_LATTE);
+        KoLCharacter.addAvailableSkill(SkillPool.GULP_LATTE);
         break;
       case ItemPool.DOCTOR_BAG:
-        KoLCharacter.addAvailableSkill("Otoscope");
-        KoLCharacter.addAvailableSkill("Reflex Hammer");
-        KoLCharacter.addAvailableSkill("Chest X-Ray");
+        KoLCharacter.addAvailableSkill(SkillPool.OTOSCOPE);
+        KoLCharacter.addAvailableSkill(SkillPool.REFLEX_HAMMER);
+        KoLCharacter.addAvailableSkill(SkillPool.CHEST_X_RAY);
         break;
       case ItemPool.FOURTH_SABER:
-        KoLCharacter.addAvailableSkill("Use the Force");
+        KoLCharacter.addAvailableSkill(SkillPool.USE_THE_FORCE);
         break;
       case ItemPool.HEWN_MOON_RUNE_SPOON:
         if (KoLCharacter.isMuscleClass()) {
-          KoLCharacter.addAvailableSkill("Dragoon Platoon");
+          KoLCharacter.addAvailableSkill(SkillPool.DRAGOON_PLATOON);
         } else if (KoLCharacter.isMysticalityClass()) {
-          KoLCharacter.addAvailableSkill("Spittoon Monsoon");
+          KoLCharacter.addAvailableSkill(SkillPool.SPITTOON_MONSOON);
         } else if (KoLCharacter.isMoxieClass()) {
-          KoLCharacter.addAvailableSkill("Festoon Buffoon");
+          KoLCharacter.addAvailableSkill(SkillPool.FESTOON_BUFFOON);
         }
         break;
       case ItemPool.BEACH_COMB:
-        KoLCharacter.addAvailableSkill("Beach Combo");
+        KoLCharacter.addAvailableSkill(SkillPool.BEACH_COMBO);
         break;
       case ItemPool.POWERFUL_GLOVE:
+      case ItemPool.REPLICA_POWERFUL_GLOVE:
         // *** Special case: the buffs are always available
         // These are only the combat skills, we make the noncombat skills always available
-        KoLCharacter.addAvailableSkill("CHEAT CODE: Replace Enemy");
-        KoLCharacter.addAvailableSkill("CHEAT CODE: Shrink Enemy");
+        KoLCharacter.addAvailableSkill(SkillPool.REPLACE_ENEMY);
+        KoLCharacter.addAvailableSkill(SkillPool.SHRINK_ENEMY);
         break;
       case ItemPool.RED_PLUMBERS_BOOTS:
-        KoLCharacter.addAvailableSkill("Plumber Jump");
+        KoLCharacter.addAvailableSkill(SkillPool.PLUMBER_JUMP);
         break;
       case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
         ItemDatabase.setCapeSkills();
         break;
       case ItemPool.BLART:
-        KoLCharacter.addAvailableSkill("B. L. A. R. T. Spray (narrow)");
-        KoLCharacter.addAvailableSkill("B. L. A. R. T. Spray (medium)");
-        KoLCharacter.addAvailableSkill("B. L. A. R. T. Spray (wide)");
+        KoLCharacter.addAvailableSkill(SkillPool.BLART_SPRAY_NARROW);
+        KoLCharacter.addAvailableSkill(SkillPool.BLART_SPRAY_MEDIUM);
+        KoLCharacter.addAvailableSkill(SkillPool.BLART_SPRAY_WIDE);
         break;
       case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
-        KoLCharacter.addAvailableSkill("Fire Extinguisher: Foam 'em Up");
-        KoLCharacter.addAvailableSkill("Fire Extinguisher: Polar Vortex");
-        KoLCharacter.addAvailableSkill("Fire Extinguisher: Foam Yourself");
-        KoLCharacter.addAvailableSkill("Fire Extinguisher: Blast the Area");
-        KoLCharacter.addAvailableSkill("Fire Extinguisher: Zone Specific");
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_EM_UP);
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__POLAR_VORTEX);
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_YOURSELF);
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__BLAST_THE_AREA);
+        KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC);
         break;
       case ItemPool.DESIGNER_SWEATPANTS:
+      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
         // *** Special case: the buffs are always available
         // These are only the combat skills, we make the noncombat skills always available
-        KoLCharacter.addAvailableSkill("Sweat Flick");
-        KoLCharacter.addAvailableSkill("Sweat Flood");
-        KoLCharacter.addAvailableSkill("Sweat Spray");
-        KoLCharacter.addAvailableSkill("Sweat Sip");
+        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_FLICK);
+        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_FLOOD);
+        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_SPRAY);
+        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_SIP);
         break;
     }
   }
 
   public static final void transformEquipment(AdventureResult before, AdventureResult after) {
     SpecialOutfit.replaceEquipment(before, after);
-    for (int slot = 0; slot <= EquipmentManager.FAMILIAR; ++slot) {
+    for (var slot : SlotSet.SLOTS) {
       if (KoLCharacter.hasEquipped(before, slot)) {
         EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
         // FamiliarData.setItem moved the current
         // familiar item to inventory when we
         // unequipped it above
-        if (slot != EquipmentManager.FAMILIAR) {
+        if (slot != Slot.FAMILIAR) {
           AdventureResult.addResultToList(KoLConstants.inventory, before);
         }
         ResultProcessor.processResult(before.getInstance(-1));
@@ -1188,20 +1127,20 @@ public class EquipmentManager {
     RequestLogger.printLine("(unable to determine slot of transformed equipment)");
   }
 
-  public static final int removeEquipment(final int itemId) {
+  public static final Slot removeEquipment(final int itemId) {
     return EquipmentManager.removeEquipment(ItemPool.get(itemId, 1));
   }
 
-  public static final int removeEquipment(final AdventureResult item) {
-    for (int slot = 0; slot <= EquipmentManager.FAMILIAR; ++slot) {
+  public static final Slot removeEquipment(final AdventureResult item) {
+    for (var slot : SlotSet.SLOTS) {
       if (EquipmentManager.removeEquipment(item, slot)) {
         return slot;
       }
     }
-    return -1;
+    return Slot.NONE;
   }
 
-  public static final boolean removeEquipment(final AdventureResult item, final int slot) {
+  public static final boolean removeEquipment(final AdventureResult item, final Slot slot) {
     if (!KoLCharacter.hasEquipped(item, slot)) {
       return false;
     }
@@ -1210,7 +1149,7 @@ public class EquipmentManager {
 
     // FamiliarData.setItem moved the current familiar item to
     // inventory when we unequipped it above
-    if (slot != EquipmentManager.FAMILIAR) {
+    if (slot != Slot.FAMILIAR) {
       AdventureResult.addResultToList(KoLConstants.inventory, item);
     }
 
@@ -1218,38 +1157,38 @@ public class EquipmentManager {
   }
 
   public static final void removeAllEquipment() {
-    for (int slot = 0; slot <= EquipmentManager.FAMILIAR; ++slot) {
+    for (var slot : SlotSet.SLOTS) {
       AdventureResult item = EquipmentManager.getEquipment(slot);
       if (!item.equals(EquipmentRequest.UNEQUIP)) {
         EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
         // FamiliarData.setItem moved the current familiar item to
         // inventory when we unequipped it above
-        if (slot != EquipmentManager.FAMILIAR) {
+        if (slot != Slot.FAMILIAR) {
           AdventureResult.addResultToList(KoLConstants.inventory, item);
         }
       }
     }
   }
 
-  public static final int discardEquipment(final int itemId) {
+  public static final Slot discardEquipment(final int itemId) {
     return EquipmentManager.discardEquipment(itemId, true);
   }
 
-  public static final int discardEquipment(final int itemId, boolean deleteFromCheckpoints) {
+  public static final Slot discardEquipment(final int itemId, boolean deleteFromCheckpoints) {
     return EquipmentManager.discardEquipment(ItemPool.get(itemId, 1), deleteFromCheckpoints);
   }
 
-  public static final int discardEquipment(final AdventureResult item) {
+  public static final Slot discardEquipment(final AdventureResult item) {
     return EquipmentManager.discardEquipment(item, true);
   }
 
-  public static final int discardEquipment(
+  public static final Slot discardEquipment(
       final AdventureResult item, boolean deleteFromCheckpoints) {
     if (deleteFromCheckpoints) {
       SpecialOutfit.forgetEquipment(item);
     }
-    int slot = EquipmentManager.removeEquipment(item);
-    if (slot != -1) {
+    Slot slot = EquipmentManager.removeEquipment(item);
+    if (slot != Slot.NONE) {
       ResultProcessor.processItem(item.getItemId(), -1);
     }
     return slot;
@@ -1269,7 +1208,7 @@ public class EquipmentManager {
 
     // Move from offhand to inventory if necessary
     if (InventoryManager.getCount(item) == 0
-        && !EquipmentManager.removeEquipment(item, EquipmentManager.OFFHAND)) {
+        && !EquipmentManager.removeEquipment(item, Slot.OFFHAND)) {
       // Not equipped. How odd.
       return;
     }
@@ -1281,26 +1220,22 @@ public class EquipmentManager {
   public static final void breakEquipment(int itemId, String msg) {
     switch (itemId) {
         // Breaking sugar equipment resets sugar counter
-      case ItemPool.SUGAR_CHAPEAU:
-      case ItemPool.SUGAR_SHANK:
-      case ItemPool.SUGAR_SHIELD:
-      case ItemPool.SUGAR_SHILLELAGH:
-      case ItemPool.SUGAR_SHIRT:
-      case ItemPool.SUGAR_SHOTGUN:
-      case ItemPool.SUGAR_SHORTS:
-        Preferences.setInteger("sugarCounter" + itemId, 0);
-        break;
+      case ItemPool.SUGAR_CHAPEAU,
+          ItemPool.SUGAR_SHANK,
+          ItemPool.SUGAR_SHIELD,
+          ItemPool.SUGAR_SHILLELAGH,
+          ItemPool.SUGAR_SHIRT,
+          ItemPool.SUGAR_SHOTGUN,
+          ItemPool.SUGAR_SHORTS -> Preferences.setInteger("sugarCounter" + itemId, 0);
+
         // Breaking cozy equipment resets cozy counter
-      case ItemPool.COZY_SCIMITAR:
-      case ItemPool.COZY_STAFF:
-      case ItemPool.COZY_BAZOOKA:
-        Preferences.setInteger("cozyCounter" + itemId, 0);
-        break;
+      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA -> Preferences
+          .setInteger("cozyCounter" + itemId, 0);
     }
 
     // Discard the item, but do not clear it from outfit checkpoints yet.
-    int slot = EquipmentManager.discardEquipment(itemId, false);
-    if (slot == -1) {
+    Slot slot = EquipmentManager.discardEquipment(itemId, false);
+    if (slot == Slot.NONE) {
       RequestLogger.printLine("(unable to determine slot of broken equipment)");
       return;
     }
@@ -1338,7 +1273,7 @@ public class EquipmentManager {
       if (prev.equals(EquipmentRequest.UNEQUIP)
           || prev.equals(item)
           || !InventoryManager.hasItem(prev)
-          || (slot == EquipmentManager.FAMILIAR && !KoLCharacter.getFamiliar().canEquip(prev))) {
+          || (slot == Slot.FAMILIAR && !KoLCharacter.getFamiliar().canEquip(prev))) {
         continue;
       }
 
@@ -1351,38 +1286,38 @@ public class EquipmentManager {
     KoLmafia.updateDisplay(msg + "  No previous item to equip.");
   }
 
-  public static final void checkFamiliar(final int slot) {
+  public static final void checkFamiliar(final Slot slot) {
     switch (KoLCharacter.getFamiliar().getId()) {
       case FamiliarPool.HATRACK:
-        if (slot == EquipmentManager.HAT) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-        } else if (slot == EquipmentManager.FAMILIAR) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.HAT);
+        if (slot == Slot.HAT) {
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        } else if (slot == Slot.FAMILIAR) {
+          EquipmentManager.updateEquipmentList(Slot.HAT);
         }
         break;
 
       case FamiliarPool.HAND:
-        if (slot == EquipmentManager.WEAPON || slot == EquipmentManager.OFFHAND) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-        } else if (slot == EquipmentManager.FAMILIAR) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.WEAPON);
-          EquipmentManager.updateEquipmentList(EquipmentManager.OFFHAND);
+        if (slot == Slot.WEAPON || slot == Slot.OFFHAND) {
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        } else if (slot == Slot.FAMILIAR) {
+          EquipmentManager.updateEquipmentList(Slot.WEAPON);
+          EquipmentManager.updateEquipmentList(Slot.OFFHAND);
         }
         break;
 
       case FamiliarPool.LEFT_HAND:
-        if (slot == EquipmentManager.OFFHAND) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-        } else if (slot == EquipmentManager.FAMILIAR) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.OFFHAND);
+        if (slot == Slot.OFFHAND) {
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        } else if (slot == Slot.FAMILIAR) {
+          EquipmentManager.updateEquipmentList(Slot.OFFHAND);
         }
         break;
 
       case FamiliarPool.SCARECROW:
-        if (slot == EquipmentManager.PANTS) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
-        } else if (slot == EquipmentManager.FAMILIAR) {
-          EquipmentManager.updateEquipmentList(EquipmentManager.PANTS);
+        if (slot == Slot.PANTS) {
+          EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        } else if (slot == Slot.FAMILIAR) {
+          EquipmentManager.updateEquipmentList(Slot.PANTS);
         }
         break;
     }
@@ -1394,29 +1329,18 @@ public class EquipmentManager {
    * that if no item is equipped, the value should be <code>none</code>, not <code>null</code> or
    * the empty string.
    *
-   * @param equipment All of the available equipment, stored in an array index by the constants
+   * @param equipment All of the available equipment, stored as a map
    */
-  public static final void setEquipment(final AdventureResult[] equipment) {
-    // Sanity check: must set ALL equipment slots
-
-    if (equipment.length < EquipmentManager.SLOTS) {
-      StaticEntity.printStackTrace(
-          "Equipment array slot mismatch: "
-              + EquipmentManager.SLOTS
-              + " expected, "
-              + equipment.length
-              + " provided.");
-      return;
-    }
-
+  public static final void setEquipment(final Map<Slot, AdventureResult> equipment) {
     // Defer updating so that we don't regenerate every GearChangeFrame list once for each slot.
     GearChangePanel.deferUpdate();
-    for (int i = 0; i < EquipmentManager.ALL_SLOTS && i < equipment.length; ++i) {
-      if (equipment[i] == null) {
-      } else if (equipment[i].equals(EquipmentRequest.UNEQUIP)) {
-        setEquipment(i, EquipmentRequest.UNEQUIP);
+    for (var slot : SlotSet.ALL_SLOTS) {
+      var equipped = equipment.get(slot);
+      if (equipped == null) {
+      } else if (equipped.equals(EquipmentRequest.UNEQUIP)) {
+        setEquipment(slot, EquipmentRequest.UNEQUIP);
       } else {
-        setEquipment(i, equipment[i]);
+        setEquipment(slot, equipped);
       }
     }
     GearChangePanel.resolveDeferredUpdate();
@@ -1432,8 +1356,8 @@ public class EquipmentManager {
   }
 
   public static final boolean isDualWielding() {
-    AdventureResult mainhand = EquipmentManager.equipment.get(EquipmentManager.WEAPON);
-    AdventureResult offhand = EquipmentManager.equipment.get(EquipmentManager.OFFHAND);
+    AdventureResult mainhand = EquipmentManager.equipment.get(Slot.WEAPON);
+    AdventureResult offhand = EquipmentManager.equipment.get(Slot.OFFHAND);
 
     return !mainhand.equals(EquipmentRequest.UNEQUIP)
         && ItemDatabase.getConsumptionType(offhand) == ConsumptionType.WEAPON;
@@ -1501,35 +1425,31 @@ public class EquipmentManager {
    * @param type the type of equipment
    * @return The name of the equipment, <code>none</code> if no such item exists
    */
-  public static final AdventureResult getEquipment(final int type) {
-    if (type == EquipmentManager.FAMILIAR) {
+  public static final AdventureResult getEquipment(final Slot type) {
+    if (type == Slot.FAMILIAR) {
       return getFamiliarItem();
     }
 
-    if (type >= 0 && type < equipment.size()) {
-      return equipment.get(type);
-    }
-
-    return EquipmentRequest.UNEQUIP;
+    return equipment.getOrDefault(type, EquipmentRequest.UNEQUIP);
   }
 
-  public static final int getTurns(int slot) {
-    return EquipmentManager.turnsRemaining[slot - EquipmentManager.STICKER1];
+  public static final int getTurns(Slot slot) {
+    return EquipmentManager.turnsRemaining.getOrDefault(slot, 0);
   }
 
-  public static final void setTurns(int slot, int minTurns, int maxTurns) {
-    int curr = EquipmentManager.turnsRemaining[slot - EquipmentManager.STICKER1];
+  public static final void setTurns(Slot slot, int minTurns, int maxTurns) {
+    int curr = EquipmentManager.turnsRemaining.getOrDefault(slot, 0);
     if (curr > maxTurns) {
       curr = maxTurns;
     }
     if (curr < minTurns) {
       curr = minTurns;
     }
-    EquipmentManager.turnsRemaining[slot - EquipmentManager.STICKER1] = curr;
+    EquipmentManager.turnsRemaining.put(slot, curr);
     GearChangePanel.updateStickers(
-        EquipmentManager.turnsRemaining[0],
-        EquipmentManager.turnsRemaining[1],
-        EquipmentManager.turnsRemaining[2]);
+        EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER1, 0),
+        EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER2, 0),
+        EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER3, 0));
   }
 
   public static final boolean isStickerWeapon(AdventureResult item) {
@@ -1541,15 +1461,9 @@ public class EquipmentManager {
   }
 
   public static final boolean usingStickerWeapon() {
-    return isStickerWeapon(getEquipment(EquipmentManager.WEAPON))
-        || isStickerWeapon(getEquipment(EquipmentManager.OFFHAND))
-        || isStickerWeapon(getEquipment(EquipmentManager.FAMILIAR));
-  }
-
-  public static final boolean usingStickerWeapon(AdventureResult[] equipment) {
-    return isStickerWeapon(equipment[EquipmentManager.WEAPON])
-        || isStickerWeapon(equipment[EquipmentManager.OFFHAND])
-        || isStickerWeapon(equipment[EquipmentManager.FAMILIAR]);
+    return isStickerWeapon(getEquipment(Slot.WEAPON))
+        || isStickerWeapon(getEquipment(Slot.OFFHAND))
+        || isStickerWeapon(getEquipment(Slot.FAMILIAR));
   }
 
   public static final boolean hasStickerWeapon() {
@@ -1559,48 +1473,46 @@ public class EquipmentManager {
   }
 
   public static final void incrementEquipmentCounters() {
-    for (int i = 0; i < EquipmentManager.SLOTS; ++i) {
-      int itemId = EquipmentManager.getEquipment(i).getItemId();
+    for (var slot : SlotSet.SLOTS) {
+      int itemId = EquipmentManager.getEquipment(slot).getItemId();
       switch (itemId) {
-        case ItemPool.SUGAR_CHAPEAU:
-        case ItemPool.SUGAR_SHANK:
-        case ItemPool.SUGAR_SHIELD:
-        case ItemPool.SUGAR_SHILLELAGH:
-        case ItemPool.SUGAR_SHIRT:
-        case ItemPool.SUGAR_SHOTGUN:
-        case ItemPool.SUGAR_SHORTS:
-          Preferences.increment("sugarCounter" + itemId, 1);
-          break;
-        case ItemPool.COZY_SCIMITAR:
-        case ItemPool.COZY_STAFF:
-        case ItemPool.COZY_BAZOOKA:
-          Preferences.increment("cozyCounter" + itemId, 1);
-          break;
+        case ItemPool.SUGAR_CHAPEAU,
+            ItemPool.SUGAR_SHANK,
+            ItemPool.SUGAR_SHIELD,
+            ItemPool.SUGAR_SHILLELAGH,
+            ItemPool.SUGAR_SHIRT,
+            ItemPool.SUGAR_SHOTGUN,
+            ItemPool.SUGAR_SHORTS -> Preferences.increment("sugarCounter" + itemId, 1);
+        case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA -> Preferences
+            .increment("cozyCounter" + itemId, 1);
       }
     }
   }
 
   public static final void decrementTurns() {
     if (usingStickerWeapon()) {
+      for (var slot : SlotSet.STICKER_SLOTS) {
+        EquipmentManager.turnsRemaining.compute(slot, (k, v) -> v == null ? -1 : v - 1);
+      }
       GearChangePanel.updateStickers(
-          --EquipmentManager.turnsRemaining[0],
-          --EquipmentManager.turnsRemaining[1],
-          --EquipmentManager.turnsRemaining[2]);
+          EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER1, 0),
+          EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER2, 0),
+          EquipmentManager.turnsRemaining.getOrDefault(Slot.STICKER3, 0));
     }
 
     EquipmentManager.incrementEquipmentCounters();
   }
 
   public static final void stickersExpired(int count) {
-    for (int i = 0; i < 3; ++i) {
-      if (EquipmentManager.turnsRemaining[i] <= 0
-          && getEquipment(EquipmentManager.STICKER1 + i) != EquipmentRequest.UNEQUIP) {
-        setEquipment(EquipmentManager.STICKER1 + i, EquipmentRequest.UNEQUIP);
+    for (var slot : SlotSet.STICKER_SLOTS) {
+      if (EquipmentManager.turnsRemaining.getOrDefault(slot, 0) <= 0
+          && getEquipment(slot) != EquipmentRequest.UNEQUIP) {
+        setEquipment(slot, EquipmentRequest.UNEQUIP);
         --count;
       }
     }
     if (count != 0) { // we've lost count somewhere, refresh
-      RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.BEDAZZLEMENTS));
+      RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.BEDAZZLEMENTS));
     }
   }
 
@@ -1608,11 +1520,11 @@ public class EquipmentManager {
    * Accessor method to retrieve a list of all available items which can be equipped by familiars.
    * Note this lists items which the current familiar cannot equip.
    */
-  public static final List<List<AdventureResult>> getEquipmentLists() {
+  public static final Map<Slot, List<AdventureResult>> getEquipmentLists() {
     return EquipmentManager.equipmentLists;
   }
 
-  public static final void updateEquipmentList(final int listIndex) {
+  public static final void updateEquipmentList(final Slot listIndex) {
     ConsumptionType consumeFilter = EquipmentManager.equipmentTypeToConsumeFilter(listIndex);
     if (consumeFilter == ConsumptionType.UNKNOWN) {
       return;
@@ -1621,34 +1533,34 @@ public class EquipmentManager {
     AdventureResult equippedItem = EquipmentManager.getEquipment(listIndex);
 
     switch (listIndex) {
-      case EquipmentManager.ACCESSORY1:
-      case EquipmentManager.ACCESSORY2:
+      case ACCESSORY1:
+      case ACCESSORY2:
         return; // do all the work when updating ACC3
 
-      case EquipmentManager.ACCESSORY3:
+      case ACCESSORY3:
         EquipmentManager.updateEquipmentList(consumeFilter, EquipmentManager.accessories);
-        AdventureResult accessory = EquipmentManager.getEquipment(EquipmentManager.ACCESSORY1);
+        AdventureResult accessory = EquipmentManager.getEquipment(Slot.ACCESSORY1);
         if (accessory != EquipmentRequest.UNEQUIP) {
           AdventureResult.addResultToList(EquipmentManager.accessories, accessory);
         }
-        accessory = EquipmentManager.getEquipment(EquipmentManager.ACCESSORY2);
+        accessory = EquipmentManager.getEquipment(Slot.ACCESSORY2);
         if (accessory != EquipmentRequest.UNEQUIP) {
           AdventureResult.addResultToList(EquipmentManager.accessories, accessory);
         }
-        accessory = EquipmentManager.getEquipment(EquipmentManager.ACCESSORY3);
+        accessory = EquipmentManager.getEquipment(Slot.ACCESSORY3);
         if (accessory != EquipmentRequest.UNEQUIP) {
           AdventureResult.addResultToList(EquipmentManager.accessories, accessory);
         }
         break;
 
-      case EquipmentManager.FAMILIAR:
+      case FAMILIAR:
 
         // If we are looking at familiar items, include those
         // which can be universally equipped, but are currently
         // on another familiar.
 
         EquipmentManager.updateEquipmentList(
-            consumeFilter, EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR));
+            consumeFilter, EquipmentManager.equipmentLists.get(Slot.FAMILIAR));
 
         FamiliarData[] familiarList = KoLCharacter.ownedFamiliars().toArray(new FamiliarData[0]);
 
@@ -1658,7 +1570,7 @@ public class EquipmentManager {
           AdventureResult currentItem = familiarData.getItem();
           if (currentItem != EquipmentRequest.UNEQUIP && currentFamiliar.canEquip(currentItem)) {
             AdventureResult.addResultToList(
-                EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR), currentItem);
+                EquipmentManager.equipmentLists.get(Slot.FAMILIAR), currentItem);
           }
         }
 
@@ -1680,7 +1592,7 @@ public class EquipmentManager {
 
   private static void updateEquipmentList(
       final ConsumptionType filterId, final List<AdventureResult> currentList) {
-    ArrayList<AdventureResult> temporary = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> temporary = new ArrayList<>();
     temporary.add(EquipmentRequest.UNEQUIP);
 
     // If the character is currently equipped with a one-handed
@@ -1688,7 +1600,7 @@ public class EquipmentManager {
     // weapons, then also allow one-handed weapons in the off-hand.
 
     boolean dual =
-        getWeaponHandedness() == 1 && KoLCharacter.hasSkill("Double-Fisted Skull Smashing");
+        getWeaponHandedness() == 1 && KoLCharacter.hasSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING);
     WeaponType weaponType = EquipmentManager.getWeaponType();
     FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
@@ -1771,7 +1683,7 @@ public class EquipmentManager {
    * this character
    */
   public static void addCustomOutfit(SpecialOutfit outfit) {
-    List<SpecialOutfit> newOutfits = LockableListFactory.getSortedInstance(SpecialOutfit.class);
+    List<SpecialOutfit> newOutfits = new SortedList<>();
     String name = outfit.getName();
 
     for (SpecialOutfit current : EquipmentManager.customOutfits) {
@@ -1798,76 +1710,53 @@ public class EquipmentManager {
 
   public static final void updateEquipmentLists() {
     KoLCharacter.resetTriggers();
-    for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
-      EquipmentManager.updateEquipmentList(i);
+    for (var slot : SlotSet.ALL_SLOTS) {
+      EquipmentManager.updateEquipmentList(slot);
     }
     EquipmentManager.updateNormalOutfits();
   }
 
-  public static final ConsumptionType equipmentTypeToConsumeFilter(final int equipmentType) {
-    switch (equipmentType) {
-      case EquipmentManager.HAT:
-        return ConsumptionType.HAT;
-      case EquipmentManager.WEAPON:
-        return ConsumptionType.WEAPON;
-      case EquipmentManager.OFFHAND:
-        return ConsumptionType.OFFHAND;
-      case EquipmentManager.SHIRT:
-        return ConsumptionType.SHIRT;
-      case EquipmentManager.PANTS:
-        return ConsumptionType.PANTS;
-      case EquipmentManager.CONTAINER:
-        return ConsumptionType.CONTAINER;
-      case EquipmentManager.ACCESSORY1:
-      case EquipmentManager.ACCESSORY2:
-      case EquipmentManager.ACCESSORY3:
-        return ConsumptionType.ACCESSORY;
-      case EquipmentManager.FAMILIAR:
-        return ConsumptionType.FAMILIAR_EQUIPMENT;
-      case EquipmentManager.STICKER1:
-      case EquipmentManager.STICKER2:
-      case EquipmentManager.STICKER3:
-        return ConsumptionType.STICKER;
-      case EquipmentManager.CARDSLEEVE:
-        return ConsumptionType.CARD;
-      case EquipmentManager.FOLDER1:
-      case EquipmentManager.FOLDER2:
-      case EquipmentManager.FOLDER3:
-      case EquipmentManager.FOLDER4:
-      case EquipmentManager.FOLDER5:
-        return ConsumptionType.FOLDER;
-      case EquipmentManager.BOOTSKIN:
-        return ConsumptionType.BOOTSKIN;
-      case EquipmentManager.BOOTSPUR:
-        return ConsumptionType.BOOTSPUR;
-      case EquipmentManager.HOLSTER:
-        return ConsumptionType.SIXGUN;
-      default:
-        return ConsumptionType.UNKNOWN;
-    }
-  }
-
-  public static final int consumeFilterToEquipmentType(final ConsumptionType consumeFilter) {
-    return switch (consumeFilter) {
-      case HAT -> EquipmentManager.HAT;
-      case WEAPON -> EquipmentManager.WEAPON;
-      case OFFHAND -> EquipmentManager.OFFHAND;
-      case SHIRT -> EquipmentManager.SHIRT;
-      case PANTS -> EquipmentManager.PANTS;
-      case CONTAINER -> EquipmentManager.CONTAINER;
-      case ACCESSORY -> EquipmentManager.ACCESSORY1;
-      case FAMILIAR_EQUIPMENT -> EquipmentManager.FAMILIAR;
-      case STICKER -> EquipmentManager.STICKER1;
-      case CARD -> EquipmentManager.CARDSLEEVE;
-      case FOLDER -> EquipmentManager.FOLDER1;
-      case BOOTSKIN -> EquipmentManager.BOOTSKIN;
-      case BOOTSPUR -> EquipmentManager.BOOTSPUR;
-      case SIXGUN -> EquipmentManager.HOLSTER;
-      default -> -1;
+  public static final ConsumptionType equipmentTypeToConsumeFilter(final Slot equipmentType) {
+    return switch (equipmentType) {
+      case HAT -> ConsumptionType.HAT;
+      case WEAPON -> ConsumptionType.WEAPON;
+      case OFFHAND -> ConsumptionType.OFFHAND;
+      case SHIRT -> ConsumptionType.SHIRT;
+      case PANTS -> ConsumptionType.PANTS;
+      case CONTAINER -> ConsumptionType.CONTAINER;
+      case ACCESSORY1, ACCESSORY2, ACCESSORY3 -> ConsumptionType.ACCESSORY;
+      case FAMILIAR -> ConsumptionType.FAMILIAR_EQUIPMENT;
+      case STICKER1, STICKER2, STICKER3 -> ConsumptionType.STICKER;
+      case CARDSLEEVE -> ConsumptionType.CARD;
+      case FOLDER1, FOLDER2, FOLDER3, FOLDER4, FOLDER5 -> ConsumptionType.FOLDER;
+      case BOOTSKIN -> ConsumptionType.BOOTSKIN;
+      case BOOTSPUR -> ConsumptionType.BOOTSPUR;
+      case HOLSTER -> ConsumptionType.SIXGUN;
+      default -> ConsumptionType.UNKNOWN;
     };
   }
 
-  public static final int itemIdToEquipmentType(final int itemId) {
+  public static final Slot consumeFilterToEquipmentType(final ConsumptionType consumeFilter) {
+    return switch (consumeFilter) {
+      case HAT -> Slot.HAT;
+      case WEAPON -> Slot.WEAPON;
+      case OFFHAND -> Slot.OFFHAND;
+      case SHIRT -> Slot.SHIRT;
+      case PANTS -> Slot.PANTS;
+      case CONTAINER -> Slot.CONTAINER;
+      case ACCESSORY -> Slot.ACCESSORY1;
+      case FAMILIAR_EQUIPMENT -> Slot.FAMILIAR;
+      case STICKER -> Slot.STICKER1;
+      case CARD -> Slot.CARDSLEEVE;
+      case FOLDER -> Slot.FOLDER1;
+      case BOOTSKIN -> Slot.BOOTSKIN;
+      case BOOTSPUR -> Slot.BOOTSPUR;
+      case SIXGUN -> Slot.HOLSTER;
+      default -> Slot.NONE;
+    };
+  }
+
+  public static final Slot itemIdToEquipmentType(final int itemId) {
     return EquipmentManager.consumeFilterToEquipmentType(ItemDatabase.getConsumptionType(itemId));
   }
 
@@ -1877,8 +1766,7 @@ public class EquipmentManager {
    * @return int number of hands needed
    */
   public static final int getWeaponHandedness() {
-    return EquipmentDatabase.getHands(
-        EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+    return EquipmentDatabase.getHands(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
   }
 
   /**
@@ -1887,9 +1775,7 @@ public class EquipmentManager {
    * @return boolean true if character has two weapons equipped
    */
   public static final boolean usingTwoWeapons() {
-    return EquipmentDatabase.getHands(
-            EquipmentManager.getEquipment(EquipmentManager.OFFHAND).getItemId())
-        == 1;
+    return EquipmentDatabase.getHands(EquipmentManager.getEquipment(Slot.OFFHAND).getItemId()) == 1;
   }
 
   /**
@@ -1898,7 +1784,7 @@ public class EquipmentManager {
    * @return boolean true if weapon is a chefstaff
    */
   public static final boolean usingChefstaff() {
-    return EquipmentDatabase.isChefStaff(EquipmentManager.getEquipment(EquipmentManager.WEAPON));
+    return EquipmentDatabase.isChefStaff(EquipmentManager.getEquipment(Slot.WEAPON));
   }
 
   /**
@@ -1907,7 +1793,7 @@ public class EquipmentManager {
    * @return boolean true if off-hand is a bean can
    */
   public static final boolean usingCanOfBeans() {
-    return EquipmentDatabase.isCanOfBeans(EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
+    return EquipmentDatabase.isCanOfBeans(EquipmentManager.getEquipment(Slot.OFFHAND));
   }
 
   /**
@@ -1916,7 +1802,7 @@ public class EquipmentManager {
    * @return boolean true if off-hand is a bean can
    */
   public static final boolean holsteredSixgun() {
-    return EquipmentManager.getEquipment(EquipmentManager.HOLSTER) != EquipmentRequest.UNEQUIP;
+    return EquipmentManager.getEquipment(Slot.HOLSTER) != EquipmentRequest.UNEQUIP;
   }
 
   /**
@@ -1925,7 +1811,9 @@ public class EquipmentManager {
    * @return int 0 if not wearing Powerful Glove, otherwise remaining battery power
    */
   public static final int powerfulGloveUsableBatteryPower() {
-    return KoLCharacter.hasEquipped(ItemPool.get(ItemPool.POWERFUL_GLOVE, 1))
+    return (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.POWERFUL_GLOVE, 1))
+            || (KoLCharacter.inLegacyOfLoathing()
+                && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.REPLICA_POWERFUL_GLOVE, 1))))
         ? EquipmentManager.powerfulGloveAvailableBatteryPower()
         : 0;
   }
@@ -1955,8 +1843,7 @@ public class EquipmentManager {
 
   public static final boolean wieldingClub(final boolean includeEffect) {
     String type =
-        EquipmentDatabase.getItemType(
-            EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+        EquipmentDatabase.getItemType(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     return type.equals("club")
         || (includeEffect
             && KoLConstants.activeEffects.contains(EquipmentManager.IRON_PALMS)
@@ -1965,15 +1852,13 @@ public class EquipmentManager {
 
   public static final boolean wieldingKnife() {
     String type =
-        EquipmentDatabase.getItemType(
-            EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+        EquipmentDatabase.getItemType(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     return type.equals("knife");
   }
 
   public static final boolean wieldingAccordion() {
     String type =
-        EquipmentDatabase.getItemType(
-            EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+        EquipmentDatabase.getItemType(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     return type.equals("accordion");
   }
 
@@ -1983,14 +1868,13 @@ public class EquipmentManager {
 
   public static final boolean wieldingSword(final boolean includeEffect) {
     boolean sword =
-        EquipmentDatabase.isSword(
-            EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+        EquipmentDatabase.isSword(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
     return sword
         && (!includeEffect || !KoLConstants.activeEffects.contains(EquipmentManager.IRON_PALMS));
   }
 
   public static final boolean wieldingGun() {
-    int id = EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId();
+    int id = EquipmentManager.getEquipment(Slot.WEAPON).getItemId();
     // These are the weapons retrocape considers a "gun"
     return EquipmentDatabase.isGun(id)
         || EquipmentDatabase.isPistol(id)
@@ -2003,7 +1887,7 @@ public class EquipmentManager {
    * @return boolean true if character has a shield equipped
    */
   public static final boolean usingShield() {
-    return EquipmentDatabase.getItemType(EquipmentManager.getEquipment(OFFHAND).getItemId())
+    return EquipmentDatabase.getItemType(EquipmentManager.getEquipment(Slot.OFFHAND).getItemId())
         .equals("shield");
   }
 
@@ -2013,8 +1897,7 @@ public class EquipmentManager {
    * @return int MELEE or RANGED
    */
   public static final WeaponType getWeaponType() {
-    return EquipmentDatabase.getWeaponType(
-        EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId());
+    return EquipmentDatabase.getWeaponType(EquipmentManager.getEquipment(Slot.WEAPON).getItemId());
   }
 
   /**
@@ -2029,11 +1912,10 @@ public class EquipmentManager {
       default:
         if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
             && EquipmentManager.wieldingKnife()
-            && KoLCharacter.hasSkill("Tricky Knifework")) {
+            && KoLCharacter.hasSkill(SkillPool.TRICKY_KNIFEWORK)) {
           return Stat.MOXIE;
         }
-        if (EquipmentManager.getEquipment(EquipmentManager.WEAPON).getItemId()
-            == ItemPool.FOURTH_SABER) {
+        if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId() == ItemPool.FOURTH_SABER) {
           // Fourth of May Cosplay Saber uses highest buffed stat
           if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
               && KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMysticality()) {
@@ -2055,14 +1937,14 @@ public class EquipmentManager {
    */
   public static final int getAdjustedHitStat() {
     int hitStat;
-    if (KoLCharacter.currentBooleanModifier(Modifiers.ATTACKS_CANT_MISS)) {
+    if (KoLCharacter.currentBooleanModifier(BooleanModifier.ATTACKS_CANT_MISS)) {
       return Integer.MAX_VALUE;
     }
     switch (getHitStatType()) {
       default:
       case MUSCLE:
         hitStat = KoLCharacter.getAdjustedMuscle();
-        if (Modifiers.unarmed && KoLCharacter.hasSkill("Master of the Surprising Fist")) {
+        if (Modifiers.unarmed && KoLCharacter.hasSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST)) {
           hitStat += 20;
         }
         return hitStat;
@@ -2070,7 +1952,8 @@ public class EquipmentManager {
         return KoLCharacter.getAdjustedMysticality();
       case MOXIE:
         hitStat = KoLCharacter.getAdjustedMoxie();
-        if (EquipmentManager.wieldingAccordion() && KoLCharacter.hasSkill("Crab Claw Technique")) {
+        if (EquipmentManager.wieldingAccordion()
+            && KoLCharacter.hasSkill(SkillPool.CRAB_CLAW_TECHNIQUE)) {
           hitStat += 50;
         }
         return hitStat;
@@ -2180,14 +2063,22 @@ public class EquipmentManager {
     return null;
   }
 
-  public static final SpecialOutfit currentOutfit(AdventureResult[] equipment) {
+  public static final SpecialOutfit currentOutfit(Map<Slot, AdventureResult> equipment) {
+    // Go through any outfit that any worn item belongs to.
     int hash = SpecialOutfit.equipmentHash(equipment);
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
-      if (outfit == null) {
-        continue;
-      }
-      if (outfit.isWearing(equipment, hash)) {
-        return outfit;
+    List<Integer> checkedOutfits = new ArrayList<>();
+    for (var slot : SlotSet.CORE_EQUIP_SLOTS) {
+      AdventureResult item = equipment.getOrDefault(slot, null);
+      if (item == null) continue;
+      int outfitId = EquipmentDatabase.getOutfitWithItem(item.getItemId());
+      if (checkedOutfits.contains(outfitId)) continue;
+
+      SpecialOutfit outfit = EquipmentDatabase.getOutfit(outfitId);
+      if (outfit != null) {
+        if (outfit.isWearing(equipment, hash)) {
+          return outfit;
+        }
+        checkedOutfits.add(outfitId);
       }
     }
 
@@ -2236,8 +2127,8 @@ public class EquipmentManager {
     }
 
     if (KoLCharacter.isHardcore()) {
-      Modifiers mods = Modifiers.getItemModifiers(itemId);
-      if (mods != null && mods.getBoolean(Modifiers.SOFTCORE)) {
+      Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
+      if (mods != null && mods.getBoolean(BooleanModifier.SOFTCORE)) {
         return false;
       }
     }
@@ -2341,8 +2232,8 @@ public class EquipmentManager {
 
   public static final int equippedCount(final AdventureResult item) {
     int count = 0;
-    for (int i = 0; i < EquipmentManager.SLOTS; ++i) {
-      if (item.equals(EquipmentManager.getEquipment(i))) {
+    for (var slot : SlotSet.SLOTS) {
+      if (item.equals(EquipmentManager.getEquipment(slot))) {
         count++;
       }
     }
@@ -2367,8 +2258,8 @@ public class EquipmentManager {
     // "stickers":[0,0,0],
     // "folder_holder":["01","22","12","00","00"]
 
-    AdventureResult[] current = EquipmentManager.allEquipment();
-    AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray(true);
+    EnumMap<Slot, AdventureResult> current = EquipmentManager.allEquipment();
+    EnumMap<Slot, AdventureResult> equipment = EquipmentManager.emptyEquipmentArray(true);
     int fakeHands = 0;
 
     JSONObject equip = JSON.getJSONObject("equipment");
@@ -2380,56 +2271,58 @@ public class EquipmentManager {
         continue;
       }
 
-      int slot = EquipmentRequest.phpSlotNumber(slotName);
-      if (slot == -1) {
+      Slot slot = Slot.byCaselessPhpName(slotName);
+      if (slot == Slot.NONE) {
         continue;
       }
 
-      equipment[slot] = EquipmentManager.equippedItem(equip.getInt(slotName));
+      equipment.put(slot, EquipmentManager.equippedItem(equip.getInt(slotName)));
     }
 
     // Read stickers
     JSONArray stickers = JSON.getJSONArray("stickers");
-    for (int i = 0; i < 3; ++i) {
-      AdventureResult item = EquipmentManager.equippedItem(stickers.getInt(i));
-      equipment[EquipmentManager.STICKER1 + i] = item;
+    int i = 0;
+    for (var slot : SlotSet.STICKER_SLOTS) {
+      AdventureResult item = EquipmentManager.equippedItem(stickers.getInt(i++));
+      equipment.put(slot, item);
     }
 
     // Read folders
     JSONArray folders = JSON.getJSONArray("folder_holder");
-    for (int i = 0; i < 5; ++i) {
-      int folder = folders.getInt(i);
+    i = 0;
+    for (var slot : SlotSet.FOLDER_SLOTS) {
+      int folder = folders.getInt(i++);
       AdventureResult item =
           folder == 0 ? EquipmentRequest.UNEQUIP : ItemPool.get(ItemPool.FOLDER_01 - 1 + folder, 1);
-      equipment[EquipmentManager.FOLDER1 + i] = item;
+      equipment.put(slot, item);
     }
 
     // We can't read these from api.php (yet?)
-    equipment[EquipmentManager.CROWNOFTHRONES] = current[EquipmentManager.CROWNOFTHRONES];
-    equipment[EquipmentManager.BUDDYBJORN] = current[EquipmentManager.BUDDYBJORN];
-    equipment[EquipmentManager.BOOTSKIN] = current[EquipmentManager.BOOTSKIN];
-    equipment[EquipmentManager.BOOTSPUR] = current[EquipmentManager.BOOTSPUR];
-    equipment[EquipmentManager.HOLSTER] = current[EquipmentManager.HOLSTER];
+    equipment.put(Slot.CROWNOFTHRONES, current.get(Slot.CROWNOFTHRONES));
+    equipment.put(Slot.BUDDYBJORN, current.get(Slot.BUDDYBJORN));
+    equipment.put(Slot.BOOTSKIN, current.get(Slot.BOOTSKIN));
+    equipment.put(Slot.BOOTSPUR, current.get(Slot.BOOTSPUR));
+    equipment.put(Slot.HOLSTER, current.get(Slot.HOLSTER));
 
     // For debug purposes, print wherever KoLmafia's model differs
     // from KoL's model.
 
     if (!KoLmafia.isRefreshing()) {
-      for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
+      for (var slot : SlotSet.ALL_SLOTS) {
         // Quantum Terrarium will have a familiar item in api.php even
         // if the particular familiar can't equip it. Ignore that.
-        if (i == EquipmentManager.FAMILIAR && KoLCharacter.inQuantum()) {
+        if (slot == Slot.FAMILIAR && KoLCharacter.inQuantum()) {
           continue;
         }
-        if (!current[i].equals(equipment[i])) {
-          String slotName = EquipmentRequest.slotNames[i];
+        if (!current.get(slot).equals(equipment.get(slot))) {
+          String slotName = slot.name;
           String message =
               "*** slot "
                   + slotName
                   + ": KoL has "
-                  + equipment[i]
+                  + equipment.get(slot)
                   + " but KoLmafia has "
-                  + current[i];
+                  + current.get(slot);
           RequestLogger.printLine(message);
           RequestLogger.updateSessionLog(message);
         }

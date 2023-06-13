@@ -214,9 +214,7 @@ public class ChatFormatter {
       if (messageColor != null) {
         displayHTML.append("</font>");
       }
-    } else if (message instanceof ModeratorMessage) {
-      ModeratorMessage modMessage = (ModeratorMessage) message;
-
+    } else if (message instanceof ModeratorMessage modMessage) {
       String open, close;
       if (sender.equals("Mod Announcement")) {
         open = "<font color=green>";

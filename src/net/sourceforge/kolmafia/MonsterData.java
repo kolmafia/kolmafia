@@ -12,13 +12,17 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -615,14 +619,16 @@ public class MonsterData extends AdventureResult {
   private final String attributes;
   private final int beeCount;
 
-  private final ArrayList<AdventureResult> items;
+  private final ArrayList<MonsterDrop> items;
   private final List<Double> pocketRates;
 
   // The following apply to a specific (cloned) instance of a monster
   private String[] randomModifiers;
 
+  public static final MonsterData NO_MONSTER = new MonsterData("none", 0, new String[0], "");
+
   public MonsterData(String name, int id, String[] images, String attributeString) {
-    super(AdventureResult.MONSTER_PRIORITY, name);
+    super(Priority.MONSTER, name);
 
     Map<Attribute, Object> attributes = attributeStringToMap(name, attributeString);
     EnumSet<EncounterType> type = attributeMapToEncounterTypes(attributes);
@@ -731,7 +737,7 @@ public class MonsterData extends AdventureResult {
   }
 
   public MonsterData(final MonsterData monster) {
-    super(AdventureResult.MONSTER_PRIORITY, monster.getName());
+    super(Priority.MONSTER, monster.getName());
 
     this.id = monster.id;
     this.health = monster.health;
@@ -778,7 +784,7 @@ public class MonsterData extends AdventureResult {
     this.items.clear();
   }
 
-  public void addItem(final AdventureResult item) {
+  public void addItem(final MonsterDrop item) {
     this.items.add(item);
   }
 
@@ -799,18 +805,17 @@ public class MonsterData extends AdventureResult {
       }
 
       for (int j = 0; j < this.items.size(); ++j) {
-        AdventureResult item = this.items.get(j);
-        probability = (item.getCount() >> 16) / 100.0;
-        switch ((char) item.getCount() & 0xFFFF) {
-          case 'p':
+        MonsterDrop drop = this.items.get(j);
+        probability = drop.chance() / 100.0;
+        switch (drop.flag()) {
+          case PICKPOCKET_ONLY:
             if (probability == 0.0) { // assume some probability of a pickpocket-only item
               probability = 0.05;
             }
             break;
-          case 'n':
-          case 'c':
-          case 'f':
-          case 'b':
+          case NO_PICKPOCKET:
+          case CONDITIONAL:
+          case FIXED:
             probability = 0.0;
             break;
         }
@@ -1324,9 +1329,7 @@ public class MonsterData extends AdventureResult {
     if (this.health instanceof Integer) {
       int hp = (Integer) this.health;
 
-      if (hp == 0
-          && (this.attack == null
-              || (this.attack instanceof Integer && (Integer) this.attack == 0))) {
+      if (hp == 0 && (this.attack == null || (this.attack instanceof Integer i && i == 0))) {
         // The monster is unknown, so do not apply modifiers
         return 0;
       }
@@ -1423,7 +1426,7 @@ public class MonsterData extends AdventureResult {
 
   public int getDefense() {
     double reduceMonsterDefense =
-        KoLCharacter.currentNumericModifier(Modifiers.REDUCE_ENEMY_DEFENSE) / 100;
+        KoLCharacter.currentNumericModifier(DoubleModifier.REDUCE_ENEMY_DEFENSE) / 100;
     if (this.scale != null && this.defense == null) {
       int scale = evaluate(this.scale, MonsterData.DEFAULT_SCALE);
       int defense = KoLCharacter.getAdjustedMuscle() + scale;
@@ -1531,7 +1534,7 @@ public class MonsterData extends AdventureResult {
     }
     int charInit = initBonus;
     // Overclocked helps against Source Monsters
-    if (this.name.contains("Source Agent") && KoLCharacter.hasSkill("Overclocked")) {
+    if (this.name.contains("Source Agent") && KoLCharacter.hasSkill(SkillPool.OVERCLOCKED)) {
       charInit += 200;
     }
     int jumpChance =
@@ -1681,7 +1684,7 @@ public class MonsterData extends AdventureResult {
     return this.randomModifiers == null ? new String[0] : this.randomModifiers;
   }
 
-  public List<AdventureResult> getItems() {
+  public List<MonsterDrop> getItems() {
     return this.items;
   }
 
@@ -1694,7 +1697,8 @@ public class MonsterData extends AdventureResult {
     // then steal anything.
 
     if (this.willUsuallyDodge(0)) {
-      return this.shouldSteal(this.items);
+      return this.shouldSteal(
+          this.items.stream().map(MonsterDrop::item).collect(Collectors.toList()));
     }
 
     // Otherwise, only steal from monsters that drop
@@ -1720,17 +1724,21 @@ public class MonsterData extends AdventureResult {
       return false;
     }
 
-    int itemIndex = this.items.indexOf(item);
+    MonsterDrop drop = null;
+    for (var itemDrop : this.items) {
+      if (item.equals(itemDrop.item())) {
+        drop = itemDrop;
+      }
+    }
 
     // If the monster drops this item, then return true
     // when the drop rate is less than 100%.
 
-    if (itemIndex != -1) {
-      item = this.items.get(itemIndex);
-      return switch ((char) item.getCount() & 0xFFFF) {
-        case 'p' -> true;
-        case 'n', 'c', 'f', 'b' -> false;
-        default -> (item.getCount() >> 16) * dropModifier < 100.0;
+    if (drop != null) {
+      return switch (drop.flag()) {
+        case PICKPOCKET_ONLY -> true;
+        case NO_PICKPOCKET, CONDITIONAL, FIXED -> false;
+        default -> drop.chance() * dropModifier < 100.0;
       };
     }
 
@@ -1756,8 +1764,7 @@ public class MonsterData extends AdventureResult {
 
   public double getExperience() {
     int xpMultiplier = 1;
-    if (KoLCharacter.hasEquipped(
-            ItemPool.get(ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1), EquipmentManager.SHIRT)
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1), Slot.SHIRT)
         && Preferences.getInteger("garbageShirtCharge") > 0) {
       xpMultiplier = 2;
     }
@@ -1798,16 +1805,20 @@ public class MonsterData extends AdventureResult {
         new ArrayList<>(
             this.items.stream()
                 .map(
-                    item -> {
-                      int rate = item.getCount() >> 16;
-                      return item.getName()
+                    drop -> {
+                      double rawRate = drop.chance();
+                      String rate =
+                          (rawRate >= 1 || rawRate == 0)
+                              ? String.valueOf((int) rawRate)
+                              : String.valueOf(rawRate);
+                      return drop.item().getName()
                           + " ("
-                          + switch ((char) item.getCount() & 0xFFFF) {
-                            case 'p' -> rate + " pp only";
-                            case 'n' -> rate + " no pp";
-                            case 'c' -> rate + " cond";
-                            case 'f' -> rate + " no mod";
-                            case 'a' -> "stealable accordion";
+                          + switch (drop.flag()) {
+                            case PICKPOCKET_ONLY -> rate + " pp only";
+                            case NO_PICKPOCKET -> rate + " no pp";
+                            case CONDITIONAL -> rate + " cond";
+                            case FIXED -> rate + " no mod";
+                            case STEAL_ACCORDION -> "stealable accordion";
                             default -> rate;
                           }
                           + ")";

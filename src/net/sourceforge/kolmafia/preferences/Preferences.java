@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -81,6 +84,7 @@ public class Preferences {
               "grimoire3Summons",
               "libramSummons",
               "libraryCardUsed",
+              "noncombatForcerActive",
               "noodleSummons",
               "nunsVisits",
               "oscusSodaUsed",
@@ -100,11 +104,16 @@ public class Preferences {
 
   private static final String[] resetOnAscension =
       new String[] {
+        "8BitBonusTurns",
+        "8BitColor",
+        "8BitScore",
         "affirmationCookiesEaten",
         "aminoAcidsUsed",
+        "asolDeferredPoints",
         "autumnatonQuestLocation",
         "autumnatonQuestTurn",
         "autumnatonUpgrades",
+        "availableMrStore2002Credits",
         "awolDeferredPointsBeanslinger",
         "awolDeferredPointsCowpuncher",
         "awolDeferredPointsSnakeoiler",
@@ -161,15 +170,27 @@ public class Preferences {
         "camelSpit",
         "cameraMonster",
         "campAwayDecoration",
+        "candyWitchCandyTotal",
+        "candyWitchTurnsUsed",
         "carboLoading",
         "cargoPocketScraps",
         "cargoPocketsEmptied",
         "catBurglarBankHeists",
         "chaosButterflyThrown",
         "charitableDonations",
+        "chibiAlignment",
+        "chibiBirthday",
+        "chibiEntertain",
+        "chibiFitness",
+        "chibiLastVisit",
+        "chibiName",
+        "chibiSocialization",
+        "cinchoSaltAndLime",
         "cinderellaMinutesToMidnight",
         "cinderellaScore",
         "clumsinessGroveBoss",
+        "commaFamiliar",
+        "commerceGhostCombats",
         "commerceGhostItem",
         "copperheadClubHazard",
         "cornucopiasOpened",
@@ -195,6 +216,7 @@ public class Preferences {
         "currentLlamaForm",
         "currentPortalEnergy",
         "currentSpecialBountyItem",
+        "currentSITSkill",
         "cursedMagnifyingGlassCount",
         "cyrusAdjectives",
         "dampOldBootPurchased",
@@ -224,6 +246,7 @@ public class Preferences {
         "eldritchTentaclesFought",
         "encountersUntilDMTChoice",
         "encountersUntilNEPChoice",
+        "encountersUntilSRChoice",
         "ensorcelee",
         "ensorceleeLevel",
         "entauntaunedColdRes",
@@ -254,6 +277,8 @@ public class Preferences {
         "garbageFireProgress",
         "garbageShirtCharge",
         "garbageTreeCharge",
+        "getsYouDrunkTurnsLeft",
+        "ghostPepperTurnsLeft",
         "gingerBlackmailAccomplished",
         "gingerDigCount",
         "gingerLawChoice",
@@ -285,6 +310,8 @@ public class Preferences {
         "hallowienerSmutOrcs",
         "hallowienerSonofaBeach",
         "hallowienerVolcoino",
+        "hareMillisecondsSaved",
+        "hareTurnsUsed",
         "hasBartender",
         "hasChef",
         "hasCocktailKit",
@@ -314,7 +341,10 @@ public class Preferences {
         "lastFriarElbowNC",
         "lastFriarHeartNC",
         "lastFriarNeckNC",
+        "lastShadowForgeUnlockAdventure",
+        "lastTrainsetConfiguration",
         "lastZapperWandExplosionDay",
+        "latteIngredients",
         "latteModifier",
         "latteUnlocks",
         "leafletCompleted",
@@ -359,6 +389,8 @@ public class Preferences {
         "milkOfMagnesiumActive",
         "miniAdvClass",
         "moonTuned",
+        "motifMonster",
+        "monkeyPointMonster",
         "mushroomGardenCropLevel",
         "nextDistillateMods",
         "nextParanormalActivity",
@@ -371,6 +403,7 @@ public class Preferences {
         "nextSpookyravenStephenRoom",
         "noobDeferredPoints",
         "nosyNoseMonster",
+        "oasisAvailable",
         "optimisticCandleProgress",
         "overgrownLotAvailable",
         "parasolUsed",
@@ -385,6 +418,7 @@ public class Preferences {
         "pastaThrall8",
         "pendingMapReflections",
         "photocopyMonster",
+        "pingpongSkill",
         "pizzaOfLegendEaten",
         "plantingDate",
         "plantingDay",
@@ -404,12 +438,18 @@ public class Preferences {
         "retroCapeSuperhero",
         "retroCapeWashingInstructions",
         "rockinRobinProgress",
+        "rufusDesiredArtifact",
+        "rufusDesiredEntity",
+        "rufusDesiredItems",
+        "rufusQuestTarget",
+        "rufusQuestType",
         "rumpelstiltskinKidsRescued",
         "rumpelstiltskinTurnsUsed",
         "sausageGrinderUnits",
         "scrapbookCharges",
         "screencappedMonster",
         "seahorseName",
+        "shadowRiftIngress",
         "shenInitiationDay",
         "shockingLickCharges",
         "singleFamiliarRun",
@@ -435,6 +475,8 @@ public class Preferences {
         "spaceInvaderDefeated",
         "spacePirateLanguageFluency",
         "spookyPuttyMonster",
+        "spookyVHSTapeMonster",
+        "spookyVHSTapeMonsterTurn",
         "statbotUses",
         "sugarCounter4178",
         "sugarCounter4179",
@@ -453,6 +495,8 @@ public class Preferences {
         "telescope6",
         "telescope7",
         "testudinalTeachings",
+        "trainsetConfiguration",
+        "trainsetPosition",
         "trapperOre",
         "turtleBlessingTurns",
         "twinPeakProgress",
@@ -464,11 +508,14 @@ public class Preferences {
         "vintnerWineType",
         "violetFogLayout",
         "waxMonster",
+        "whetstonesUsed",
         "wildfireBarrelCaulked",
         "wildfireDusted",
         "wildfireFracked",
         "wildfirePumpGreased",
         "wildfireSprinkled",
+        "wolfPigsEvicted",
+        "wolfTurnsUsed",
         "workteaClue",
         "xoSkeleltonOProgress",
         "xoSkeleltonXProgress",
@@ -481,6 +528,12 @@ public class Preferences {
         "youRobotRight",
         "youRobotScavenged",
         "youRobotTop",
+      };
+
+  // Obsolete properties.
+  private static final String[] obsoleteProperties =
+      new String[] {
+        "shadowRiftLastNC", "shadowRiftTotalTurns",
       };
 
   static {
@@ -621,11 +674,70 @@ public class Preferences {
   }
 
   private static void loadUserPreferences(String username) {
-    File file =
+    File userPrefsFile =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
-    Preferences.userPropertiesFile = file;
+    File backupFile =
+        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
+    Preferences.userPropertiesFile = userPrefsFile;
 
-    Properties p = Preferences.loadPreferences(file);
+    Properties p = Preferences.loadPreferences(userPrefsFile);
+
+    if (p.size() == 0) {
+      // Something went wrong reading the preferences.
+      if (backupFile.exists()) {
+        KoLmafia.updateDisplay(
+            userPrefsFile
+                + " could not be read, loading backup. "
+                + "This will restore the last successfully opened preferences");
+        // also tell system out, in case things are really fubar
+        System.out.println("Prefs could not be read and backup exists, trying backup. ");
+
+        p = Preferences.loadPreferences(backupFile);
+
+        if (p.size() > 0) {
+          try {
+            Files.copy(
+                backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+          } catch (IOException ex) {
+
+            KoLmafia.updateDisplay(
+                "Error when restoring preferences from backup,  see session log for details");
+            RequestLogger.updateSessionLog(
+                userPrefsFile
+                    + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
+                    + "your preferences file and received error message:"
+                    + ex.getMessage()
+                    + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
+                    + " If you have a damaged preferences file, "
+                    + "please consider creating a bug report on the forum, noting any special circumstances around "
+                    + "the failure, and attaching the preferences.");
+          }
+        }
+      } else {
+        KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+        RequestLogger.updateSessionLog(
+            userPrefsFile
+                + " could not be read and backup there is no backup file found. "
+                + "If this is unexpected, please manually inspect "
+                + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+                + "please consider creating a bug report on the forum, noting any special circumstances around "
+                + "the failure, and attaching the preferences.");
+      }
+    } else {
+      try {
+        Files.copy(
+            userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      } catch (IOException ex) {
+        System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
+        RequestLogger.updateSessionLog(
+            userPrefsFile
+                + " backup creation failed. Please manually inspect "
+                + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                + "please consider creating a bug report on the forum, noting any special circumstances around "
+                + "the failure, and attaching the preferences.");
+      }
+    }
     Preferences.userValues.clear();
     Preferences.userEncodedValues.clear();
 
@@ -697,11 +809,13 @@ public class Preferences {
 
   private static void reinitializeEncodedValuesOn(
       Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
-    for (Entry<String, Object> entry : valuesMap.entrySet()) {
-      encodedMap.put(
-          entry.getKey(),
-          encodeProperty(entry.getKey(), entry.getValue().toString())
-              .getBytes(StandardCharsets.UTF_8));
+    synchronized (valuesMap) {
+      for (Entry<String, Object> entry : valuesMap.entrySet()) {
+        encodedMap.put(
+            entry.getKey(),
+            encodeProperty(entry.getKey(), entry.getValue().toString())
+                .getBytes(StandardCharsets.UTF_8));
+      }
     }
   }
 
@@ -733,25 +847,26 @@ public class Preferences {
     }
 
     switch (ch) {
-      case '\t':
+      case '\t' -> {
         characterMap[ch] = "\\t";
         return;
-      case '\n':
+      }
+      case '\n' -> {
         characterMap[ch] = "\\n";
         return;
-      case '\f':
+      }
+      case '\f' -> {
         characterMap[ch] = "\\f";
         return;
-      case '\r':
+      }
+      case '\r' -> {
         characterMap[ch] = "\\r";
         return;
-      case '\\':
-      case '=':
-      case ':':
-      case '#':
-      case '!':
+      }
+      case '\\', '=', ':', '#', '!' -> {
         characterMap[ch] = "\\" + ch;
         return;
+      }
     }
 
     characterMap[ch] =
@@ -1207,8 +1322,10 @@ public class Preferences {
       OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
 
       try {
-        for (Entry<String, byte[]> current : encodedData.entrySet()) {
-          fstream.write(current.getValue());
+        synchronized (encodedData) {
+          for (Entry<String, byte[]> current : encodedData.entrySet()) {
+            fstream.write(current.getValue());
+          }
         }
       } catch (IOException e) {
         System.out.println(e.getMessage() + " trying to write preferences as byte array.");
@@ -1222,11 +1339,13 @@ public class Preferences {
     }
   }
 
-  public static void resetToDefault(String name) {
-    if (Preferences.userNames.containsKey(name)) {
-      Preferences.setString(name, Preferences.userNames.get(name));
-    } else if (Preferences.globalNames.containsKey(name)) {
-      Preferences.setString(name, Preferences.globalNames.get(name));
+  public static void resetToDefault(String... names) {
+    for (var name : names) {
+      if (Preferences.userNames.containsKey(name)) {
+        Preferences.setString(name, Preferences.userNames.get(name));
+      } else if (Preferences.globalNames.containsKey(name)) {
+        Preferences.setString(name, Preferences.globalNames.get(name));
+      }
     }
   }
 
@@ -1234,17 +1353,24 @@ public class Preferences {
     return name.startsWith("_") || legacyDailies.contains(name);
   }
 
+  private static void deferredPoints(String prop, String defprop, int max) {
+    int deferred = Preferences.getInteger(defprop);
+    if (deferred > 0) {
+      Preferences.increment(prop, deferred, max, false);
+    }
+  }
+
   public static void resetPerAscension() {
     // Deferred ascension rewards
     Preferences.setInteger(
         "yearbookCameraUpgrades", Preferences.getInteger("yearbookCameraAscensions"));
-    Preferences.increment(
-        "awolPointsBeanslinger", Preferences.getInteger("awolDeferredPointsBeanslinger"));
-    Preferences.increment(
-        "awolPointsCowpuncher", Preferences.getInteger("awolDeferredPointsCowpuncher"));
-    Preferences.increment(
-        "awolPointsSnakeoiler", Preferences.getInteger("awolDeferredPointsSnakeoiler"));
-    Preferences.increment("noobPoints", Preferences.getInteger("noobDeferredPoints"));
+    Preferences.deferredPoints("awolPointsBeanslinger", "awolDeferredPointsBeanslinger", 10);
+    Preferences.deferredPoints("awolPointsCowpuncher", "awolDeferredPointsCowpuncher", 10);
+    Preferences.deferredPoints("awolPointsSnakeoiler", "awolDeferredPointsSnakeoiler", 10);
+    Preferences.deferredPoints("asolPointsCheeseWizard", "asolDeferredPoints", 11);
+    Preferences.deferredPoints("asolPointsJazzAgent", "asolDeferredPoints", 11);
+    Preferences.deferredPoints("asolPointsPigSkinner", "asolDeferredPoints", 11);
+    Preferences.deferredPoints("noobPoints", "noobDeferredPoints", 20);
 
     // Most prefs that get reset on ascension just return to their default value
     for (String pref : resetOnAscension) {

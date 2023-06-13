@@ -29,6 +29,7 @@ Cyrpt	Cyrpt	Defiled Cyrpt
 Woods	Woods	Distant Woods
 HiddenCity	Woods	Hidden City
 The Drip	Woods	The Drip
+The 8-Bit Realm	Woods	The 8-Bit Realm
 
 # The following are in the woods but have their own sorting
 Friars	Friars	Deep Fat Friars
@@ -50,6 +51,8 @@ IsleWar	IsleWar	Island War Quest
 Farm	IsleWar	McMillicancuddy's Farm
 Orchard	IsleWar	Organic Orchard
 Junkyard	IsleWar	Wartime Junkyard
+
+Shadow Rift	Shadow Rift	Shadow Rift
 
 The Sea	The Sea	The Sea
 The Sea Floor	The Sea	The Sea Floor
@@ -100,9 +103,6 @@ LT&T	Town	LT&T Telegrams	inflatable LT&T telegraph office
 Neverending Party	Town	The Neverending Party	Neverending Party guest pass
 
 Astral	Astral	Astral Plane	astral mushroom
-Bad Trip	Astral	Taking a Bad Trip
-Mediocre Trip	Astral	Taking a Mediocre Trip
-Great Trip	Astral	Taking a Great Trip
 
 Wormwood	Wormwood	Worm Wood	tiny bottle of absinthe
 Memories	Memories	Memories	empty agua de vida bottle
@@ -175,6 +175,7 @@ Override	Unsorted	Discoveries
 # The following zones are only available at the whim of KoL
 
 Events	Events	Events
+
 Twitch	Town	Time-Twitching Tower
 
 # The following zones are all retired Events or Holidays
@@ -201,5 +202,6 @@ Crimbo18	Removed	Christmas 2018
 Crimbo19	Removed	Christmas 2019
 Tammy's Offshore Platform	Crimbo19	Crimbo 19 Underwater
 Crimbo21	Removed	Christmas 2021
+Crimbo22	Removed	Christmas 2022
 
 Obsolete	Removed	Retired zones

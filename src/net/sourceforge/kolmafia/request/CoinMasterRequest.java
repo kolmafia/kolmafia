@@ -323,15 +323,14 @@ public class CoinMasterRequest extends GenericRequest {
     }
 
     // Mr. Store, at least, like to spell out some numbers
-    if (balance.equals("no")) {
-      balance = "0";
-    } else if (balance.equals("one")) {
-      balance = "1";
-    }
-    // The Tr4pz0r doesn't give a number if you have 1
-    else if (balance.equals("")) {
-      balance = "1";
-    }
+    balance =
+        switch (balance) {
+          case "no" -> "0";
+          case "one" -> "1";
+            // The Tr4pz0r doesn't give a number if you have 1
+          case "" -> "1";
+          default -> balance;
+        };
 
     String property = data.getProperty();
     if (property != null) {

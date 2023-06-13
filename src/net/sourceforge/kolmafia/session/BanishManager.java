@@ -86,10 +86,12 @@ public class BanishManager {
     LICORICE_ROPE("licorice rope", -1, 1, false, Reset.ROLLOVER_RESET),
     LOUDER_THAN_BOMB("louder than bomb", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
     MAFIA_MIDDLEFINGER_RING("mafia middle finger ring", 60, 1, true, Reset.TURN_ROLLOVER_RESET),
+    MONKEY_SLAP("Monkey Slap", -1, 1, false, Reset.ROLLOVER_RESET),
     NANORHINO("nanorhino", -1, 1, false, Reset.ROLLOVER_RESET),
     PANTSGIVING("pantsgiving", 30, 1, false, Reset.TURN_ROLLOVER_RESET),
     PEEL_OUT("peel out", -1, 1, true, Reset.AVATAR_RESET),
     PULLED_INDIGO_TAFFY("pulled indigo taffy", 40, 1, true, Reset.TURN_RESET),
+    PUNT("Punt", -1, 1, false, Reset.ROLLOVER_RESET),
     REFLEX_HAMMER("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     SABER_FORCE("Saber Force", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     SHOW_YOUR_BORING_FAMILIAR_PICTURES(
@@ -418,12 +420,12 @@ public class BanishManager {
   }
 
   public static void removeBanishByBanisher(final Banisher banisher) {
-    resetIf(m -> m.getBanisher().equals(banisher));
+    resetIf(m -> m.getBanisher() == banisher);
   }
 
   private static void removeOldestBanish(final Banisher banisher) {
     banishedMonsters.stream()
-        .filter(b -> b.getBanisher().equals(banisher))
+        .filter(b -> b.getBanisher() == banisher)
         .min(Comparator.comparingInt(BanishedMonster::getTurnBanished))
         .ifPresent(b -> resetIf(m -> m == b));
   }
@@ -437,7 +439,7 @@ public class BanishManager {
   }
 
   private static int countBanishes(final Banisher banisher) {
-    return (int) banishedMonsters.stream().filter(m -> m.getBanisher().equals(banisher)).count();
+    return (int) banishedMonsters.stream().filter(m -> m.getBanisher() == banisher).count();
   }
 
   public static List<String> getBanishedMonsters() {
@@ -452,7 +454,7 @@ public class BanishManager {
     BanishManager.recalculate();
 
     return banishedMonsters.stream()
-        .filter(m -> m.getBanisher().equals(banisher))
+        .filter(m -> m.getBanisher() == banisher)
         .map(BanishedMonster::getMonsterName)
         .collect(Collectors.toList());
   }

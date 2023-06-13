@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.InternalMessage;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -59,6 +60,8 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
@@ -109,16 +112,20 @@ public class GenericRequest implements Runnable {
   public static final Pattern REDIRECT_PATTERN =
       Pattern.compile("([^/]*)/(login\\.php.*)", Pattern.DOTALL);
   public static final Pattern JS_REDIRECT_PATTERN =
-      Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";");
+      Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*['\"](.*?)['\"];");
   private static final Pattern ADVENTURE_AGAIN =
       Pattern.compile("\">Adventure Again \\(([^<]+)\\)</a>");
 
   protected String encounter = "";
 
-  public static final int MENU_FANCY = 1;
-  public static final int MENU_COMPACT = 2;
-  public static final int MENU_NORMAL = 3;
-  public static int topMenuStyle = 0;
+  public enum TopMenuStyle {
+    UNKNOWN,
+    FANCY,
+    COMPACT,
+    NORMAL
+  }
+
+  public static TopMenuStyle topMenuStyle = TopMenuStyle.UNKNOWN;
 
   public static final String[] SERVERS = {
     "devproxy.kingdomofloathing.com", "www.kingdomofloathing.com"
@@ -245,9 +252,8 @@ public class GenericRequest implements Runnable {
       registerProxyListeners("https");
     }
 
-    boolean useDevProxyServer = Preferences.getBoolean("useDevProxyServer");
-
-    GenericRequest.setLoginServer(GenericRequest.SERVERS[useDevProxyServer ? 0 : 1]);
+    var loginServer = GenericRequest.SERVERS[KoLmafia.usingDevServer() ? 0 : 1];
+    GenericRequest.setLoginServer(loginServer);
   }
 
   private static void registerProxyListeners(String protocol) {
@@ -1271,21 +1277,18 @@ public class GenericRequest implements Runnable {
       String comedy;
       boolean offhand = false;
       switch (comedyItemID) {
-        case ItemPool.INSULT_PUPPET:
+        case ItemPool.INSULT_PUPPET -> {
           comedy = "insult";
           offhand = true;
-          break;
-        case ItemPool.OBSERVATIONAL_GLASSES:
-          comedy = "observe";
-          break;
-        case ItemPool.COMEDY_PROP:
-          comedy = "prop";
-          break;
-        default:
+        }
+        case ItemPool.OBSERVATIONAL_GLASSES -> comedy = "observe";
+        case ItemPool.COMEDY_PROP -> comedy = "prop";
+        default -> {
           KoLmafia.updateDisplay(
               MafiaState.ABORT,
               "\"" + comedyItemID + "\" is not a comedy item number that Mafia recognizes.");
           return false;
+        }
       }
 
       AdventureResult comedyItem = ItemPool.get(comedyItemID, 1);
@@ -1297,10 +1300,10 @@ public class GenericRequest implements Runnable {
         if (KoLConstants.inventory.contains(comedyItem)) {
           // Unequip any 2-handed weapon before equipping an offhand
           if (offhand) {
-            AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
+            AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
             int hands = EquipmentDatabase.getHands(weapon.getItemId());
             if (hands > 1) {
-              new EquipmentRequest(EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON).run();
+              new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.WEAPON).run();
             }
           }
 
@@ -2457,7 +2460,7 @@ public class GenericRequest implements Runnable {
           m.clearItems();
           String stolen = Preferences.getString("dolphinItem");
           if (stolen.length() > 0) {
-            m.addItem(ItemPool.get(stolen, 100 << 16 | 'n'));
+            m.addItem(new MonsterDrop(ItemPool.get(stolen, 1), 100, DropFlag.NO_PICKPOCKET));
           }
           m.doneWithItems();
         }
@@ -2752,6 +2755,7 @@ public class GenericRequest implements Runnable {
 
       case ItemPool.GENIE_BOTTLE:
       case ItemPool.POCKET_WISH:
+      case ItemPool.REPLICA_GENIE_BOTTLE:
         // Do not ignore special monsters here. That is handled
         // elsewhere, just for the cases that will be a combat.
 
@@ -2793,6 +2797,11 @@ public class GenericRequest implements Runnable {
       case ItemPool.BASTILLE_LOANER_VOUCHER:
         itemName = item.getName();
         consumed = true;
+        break;
+
+      case ItemPool.MOLEHILL_MOUNTAIN:
+        itemName = item.getName();
+        Preferences.setBoolean("_molehillMountainUsed", true);
         break;
 
       default:
@@ -2920,25 +2929,20 @@ public class GenericRequest implements Runnable {
   }
 
   private static AdventureResult sealRitualCandles(final int itemId) {
-    switch (itemId) {
-      case ItemPool.WRETCHED_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -1);
-      case ItemPool.CUTE_BABY_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -5);
-      case ItemPool.ARMORED_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -10);
-      case ItemPool.ANCIENT_SEAL:
-        return ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -3);
-      case ItemPool.SLEEK_SEAL:
-      case ItemPool.SHADOWY_SEAL:
-      case ItemPool.STINKING_SEAL:
-      case ItemPool.CHARRED_SEAL:
-      case ItemPool.COLD_SEAL:
-      case ItemPool.SLIPPERY_SEAL:
-      case ItemPool.DEPLETED_URANIUM_SEAL:
-        return ItemPool.get(ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1);
-    }
-    return null;
+    return switch (itemId) {
+      case ItemPool.WRETCHED_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -1);
+      case ItemPool.CUTE_BABY_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -5);
+      case ItemPool.ARMORED_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -10);
+      case ItemPool.ANCIENT_SEAL -> ItemPool.get(ItemPool.SEAL_BLUBBER_CANDLE, -3);
+      case ItemPool.SLEEK_SEAL,
+          ItemPool.SHADOWY_SEAL,
+          ItemPool.STINKING_SEAL,
+          ItemPool.CHARRED_SEAL,
+          ItemPool.COLD_SEAL,
+          ItemPool.SLIPPERY_SEAL,
+          ItemPool.DEPLETED_URANIUM_SEAL -> ItemPool.get(ItemPool.IMBUED_SEAL_BLUBBER_CANDLE, -1);
+      default -> null;
+    };
   }
 
   public final void loadResponseFromFile(final String filename) {

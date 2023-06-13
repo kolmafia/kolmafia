@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
@@ -88,7 +89,6 @@ public final class CrystalBallManager {
         CrystalBallManager.predictions.put(
             parts[1], new Prediction(Integer.parseInt(parts[0]), parts[1], parts[2]));
       } catch (NumberFormatException e) {
-        continue;
       }
     }
   }
@@ -196,7 +196,7 @@ public final class CrystalBallManager {
 
   // EncounterManager methods
   private static boolean isEquipped() {
-    return KoLCharacter.hasEquipped(ORB, EquipmentManager.FAMILIAR);
+    return KoLCharacter.hasEquipped(ORB, Slot.FAMILIAR);
   }
 
   public static boolean isCrystalBallZone(final String zone) {
@@ -223,8 +223,7 @@ public final class CrystalBallManager {
 
   public static boolean own() {
     AdventureResult ORB = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL, 1);
-    return (KoLCharacter.hasEquipped(ORB, EquipmentManager.FAMILIAR)
-        || KoLConstants.inventory.contains(ORB));
+    return (KoLCharacter.hasEquipped(ORB, Slot.FAMILIAR) || KoLConstants.inventory.contains(ORB));
   }
 
   public static void ponder() {

@@ -5,12 +5,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -26,8 +26,7 @@ public class CrossStreamsCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, String parameters) {
     Boolean equipped =
-        KoLCharacter.hasEquipped(
-            CrossStreamsCommand.PROTON_ACCELERATOR, EquipmentManager.CONTAINER);
+        KoLCharacter.hasEquipped(CrossStreamsCommand.PROTON_ACCELERATOR, Slot.CONTAINER);
     // Check if Protonic Accelerator Pack equipped or owned
     if (!InventoryManager.hasItem(CrossStreamsCommand.PROTON_ACCELERATOR) && !equipped) {
       KoLmafia.updateDisplay("Do not have a Proton Accelerator Pack");
@@ -72,8 +71,7 @@ public class CrossStreamsCommand extends AbstractCommand {
     try (Checkpoint checkpoint = new Checkpoint(equipped)) {
       if (!equipped) {
         RequestThread.postRequest(
-            new EquipmentRequest(
-                CrossStreamsCommand.PROTON_ACCELERATOR, EquipmentManager.CONTAINER));
+            new EquipmentRequest(CrossStreamsCommand.PROTON_ACCELERATOR, Slot.CONTAINER));
       }
 
       // Cross Streams

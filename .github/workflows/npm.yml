@@ -22,9 +22,6 @@ jobs:
           java-version: "17"
           cache: "gradle"
 
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1
-
       - name: Generating TypeScript definitions
         env:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}

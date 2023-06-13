@@ -1,0 +1,30 @@
+<html><head>
+<title>Effect Description</title>
+</head>
+<body bgcolor=white text=black link=black alink=black vlink=black>
+<div id="description">
+
+<font face=Arial,Helvetica size=2><!-- effectid: 2660 --><center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/redwine.gif" width=30 height=30><p><b>Wine-Hot</b><p></center><blockquote>You're hot under the collar, especially the part of under your collar where that wine you drank is currently being processed.</blockquote><center><font color=blue><b>+39 <font color=red>Hot Damage</font><br> Hot Resistance (+11)<br>Maximum HP +130<br>+65% Item Drops from Monsters</b></font></center></font></font>
+</div>
+<script type="text/javascript">
+<!--
+var resizetries = 0;
+var fsckinresize;
+setTimeout(fsckinresize = function ()  {
+	var desch = document.getElementById('description').offsetHeight;
+	if (desch < 100 && resizetries < 5) {
+		setTimeout(fsckinresize, 100);
+		resizetries++;
+	}
+	if (desch < 100) desch = 200; 
+	//alert('resizing on try #' + resizetries);
+	if (self.resizeTo && window.outerHeight) { 
+		self.resizeTo(400, desch + (window.outerHeight - window.innerHeight) + 50); 
+	}
+	else if (self.resizeTo ) { self.resizeTo(400, desch+130); }
+	else { window.innerHeight = newh; }
+}, 100);
+//-->
+</script>
+</body>
+</html>

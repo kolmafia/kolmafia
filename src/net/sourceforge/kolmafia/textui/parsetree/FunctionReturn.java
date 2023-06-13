@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.eclipse.lsp4j.Location;
 
@@ -74,15 +75,15 @@ public class FunctionReturn extends Command {
       return result;
     }
 
-    if (this.expectedType.equals(DataTypes.TYPE_STRING)) {
+    if (this.expectedType.equals(TypeSpec.STRING)) {
       return result.toStringValue();
     }
 
-    if (this.expectedType.equals(DataTypes.TYPE_FLOAT)) {
+    if (this.expectedType.equals(TypeSpec.FLOAT)) {
       return result.toFloatValue();
     }
 
-    if (this.expectedType.equals(DataTypes.TYPE_INT)) {
+    if (this.expectedType.equals(TypeSpec.INT)) {
       return result.toIntValue();
     }
 
@@ -98,7 +99,7 @@ public class FunctionReturn extends Command {
   public void print(final PrintStream stream, final int indent) {
     AshRuntime.indentLine(stream, indent);
     stream.println("<RETURN " + this.getType() + ">");
-    if (!this.getType().equals(DataTypes.TYPE_VOID)) {
+    if (!this.getType().equals(TypeSpec.VOID)) {
       this.returnValue.print(stream, indent + 1);
     }
   }

@@ -16,6 +16,7 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -55,6 +56,13 @@ class ResponseTextParserTest {
     }
   }
 
+  @Test
+  void canParseLatte() {
+    String responseText = html("request/test_latte_description.html");
+    ResponseTextParser.externalUpdate("desc_item.php?whichitem=294224337", responseText);
+    assertEquals(Preferences.getString("latteIngredients"), "pumpkin,carrot,cinnamon");
+  }
+
   @Nested
   class Recipes {
     @Test
@@ -67,7 +75,7 @@ class ResponseTextParserTest {
               withHttpClientBuilder(builder),
               withPasswordHash("recipe"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               withItem(recipe),
               withProperty("unknownRecipe10974", true),
               withProperty("_concoctionDatabaseRefreshes", 0));
@@ -104,7 +112,7 @@ class ResponseTextParserTest {
               withHttpClientBuilder(builder),
               withPasswordHash("recipe"),
               // If you have a password hash, KoL looks at your vinyl boots
-              withGender(KoLCharacter.FEMALE),
+              withGender(Gender.FEMALE),
               withItem(recipe),
               withProperty("unknownRecipe10974", true),
               withProperty("_concoctionDatabaseRefreshes", 0));

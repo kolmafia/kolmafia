@@ -26,6 +26,12 @@ Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
 Cast	Chest X-Ray	_chestXRayUsed	3
 Cast	Chorale of Companionship	_companionshipCasts	10
 Cast	Chubby and Plump	_chubbyAndPlumpUsed
+Cast	Cincho: Dispense Salt and Lime	_cinchUsed	100
+Cast	Cincho: Party Soundtrack	_cinchUsed	100
+Cast	Cincho: Fiesta Exit	_cinchUsed	100
+Cast	Cincho: Projectile Piñata	_cinchUsed	100
+Cast	Cincho: Party Foul	_cinchUsed	100
+Cast	Cincho: Confetti Extravaganza	_cinchUsed	100
 Cast	Communism!	_communismUsed
 Cast	Conjure Cheese	_jarlsCheeseSummoned
 Cast	Conjure Cream	_jarlsCreamSummoned
@@ -145,6 +151,7 @@ Use	Chester's bag of candy	_bagOfCandyUsed
 Use	Chroner cross	_chronerCrossUsed
 Use	Chroner trigger	_chronerTriggerUsed
 Use	Clara's bell	_claraBellUsed
+Use	Crimbo training manual	_crimboTraining
 Use	Cuppa Sobrie tea	_sobrieTeaUsed
 Use	Cuppa Voraci tea	_voraciTeaUsed
 Use	Emblem of Ak'gyxoth	_akgyxothUsed
@@ -192,6 +199,7 @@ Use	burrowgrub hive	burrowgrubHiveUsed
 Use	cabbage-flavored Mr. Mediocrebar	_chocolatesUsed	3
 Use	choco-Crimbot	_chocolatesUsed	3
 Use	chocolate cigar	_chocolateCigarsUsed	3
+Use	chocolate covered ping-pong ball	_chocolateCoveredPingPongBallsUsed	3
 Use	chocolate disco ball	_chocolatesUsed	3
 Use	chocolate pasta spoon	_chocolatesUsed	3
 Use	chocolate saucepan	_chocolatesUsed	3
@@ -233,15 +241,19 @@ Use	jar of psychoses (The Old Man)	_psychoJarUsed
 Use	jar of psychoses (The Pretentious Artist)	_psychoJarUsed
 Use	jar of psychoses (The Suspicious-Looking Guy)	_psychoJarUsed
 Use	jingle bell	_jingleBellUsed
+Use	lodestone	_lodestoneUsed
 Use	lupine appetite hormones	_lupineHormonesUsed
 Use	meatball machine	_meatballMachineUsed
 Use	milk of magnesium	_milkOfMagnesiumUsed
 Use	mojo filter	currentMojoFilters	3
+Use	molehill mountain	_molehillMountainUsed
 Use	moveable feast	_feastUsed	5
 Use	overflowing gift basket	_overflowingGiftBasketUsed
 Use	perfectly fair coin	_perfectlyFairCoinUsed
 Use	picky tweezers	_pickyTweezersUsed
 Use	pixel orb	_pixelOrbUsed
+Use	portable ping-pong table	_pingPongGame
+Use	portable steam unit	_portableSteamUnitUsed
 Use	pressurized potion of pneumaticity	_pneumaticityPotionUsed
 Use	pump-up high-tops	_highTopPumps	3
 Use	red and green rain stick	_rainStickUsed
@@ -249,10 +261,12 @@ Use	redwood rain stick	_redwoodRainStickUsed
 Use	refurbished air fryer	_airFryerUsed
 Use	set of jacks	_setOfJacksUsed
 Use	sewing kit	_sewingKitUsed
+Use	shadow brick	_shadowBricksUsed	13
 Use	silver Dreadsylvanian flask	_silverDreadFlaskUsed
 Use	snake	_fireworkUsed
 Use	sparkler	_fireworkUsed
 Use	spice melange	spiceMelangeUsed
+Use	strange stalagmite	_strangeStalagmiteUsed
 Use	stuffed pocketwatch	_stuffedPocketwatchUsed
 Use	subscription cocoa dispenser	_cocoaDispenserUsed
 Use	sweet tooth	_sweetToothUsed

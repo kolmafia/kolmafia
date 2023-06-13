@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import org.eclipse.lsp4j.Location;
 
 public class Variable extends Symbol {
@@ -79,16 +80,16 @@ public class Variable extends Symbol {
         || this.getBaseType().equals(targetValue.getType())) {
       this.content = targetValue;
       this.expression = null;
-    } else if (this.getBaseType().equals(DataTypes.TYPE_STRICT_STRING)
-        || this.getBaseType().equals(DataTypes.TYPE_STRING)) {
+    } else if (this.getBaseType().equals(TypeSpec.STRICT_STRING)
+        || this.getBaseType().equals(TypeSpec.STRING)) {
       this.content = targetValue.toStringValue();
       this.expression = null;
-    } else if (this.getBaseType().equals(DataTypes.TYPE_INT)
-        && targetValue.getType().equals(DataTypes.TYPE_FLOAT)) {
+    } else if (this.getBaseType().equals(TypeSpec.INT)
+        && targetValue.getType().equals(TypeSpec.FLOAT)) {
       this.content = targetValue.toIntValue();
       this.expression = null;
-    } else if (this.getBaseType().equals(DataTypes.TYPE_FLOAT)
-        && targetValue.getType().equals(DataTypes.TYPE_INT)) {
+    } else if (this.getBaseType().equals(TypeSpec.FLOAT)
+        && targetValue.getType().equals(TypeSpec.INT)) {
       this.content = targetValue.toFloatValue();
       this.expression = null;
     } else {

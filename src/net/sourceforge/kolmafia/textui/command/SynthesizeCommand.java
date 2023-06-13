@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
+import net.sourceforge.kolmafia.persistence.CandyDatabase.CandyType;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -112,9 +113,9 @@ public class SynthesizeCommand extends AbstractCommand {
   private void analyzeCandy(final AdventureResult candy) {
     StringBuilder message = new StringBuilder();
     int itemId = candy.getItemId();
-    String candyType = CandyDatabase.getCandyType(itemId);
+    CandyType candyType = CandyDatabase.getCandyType(itemId);
 
-    if (candyType == CandyDatabase.NONE) {
+    if (candyType == CandyType.NONE) {
       message.append("Item '");
       message.append(candy.getName());
       message.append("' has candy type ");

@@ -10,13 +10,13 @@ public class ClanCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    if (parameters.equals("")) {
-      KoLmafiaGUI.constructFrame("ClanManageFrame");
-      return;
-    } else if (parameters.equals("snapshot")) {
-      ClanManager.takeSnapshot(20, 10, 5, 0, false, true);
-    } else if (parameters.equals("stashlog")) {
-      ClanManager.saveStashLog();
+    switch (parameters) {
+      case "" -> {
+        KoLmafiaGUI.constructFrame("ClanManageFrame");
+        return;
+      }
+      case "snapshot" -> ClanManager.takeSnapshot(20, 10, 5, 0, false, true);
+      case "stashlog" -> ClanManager.saveStashLog();
     }
   }
 }

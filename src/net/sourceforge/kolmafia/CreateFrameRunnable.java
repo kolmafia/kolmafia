@@ -141,9 +141,7 @@ public class CreateFrameRunnable implements Runnable {
       this.creation.pack();
     }
 
-    if (this.creation instanceof GenericFrame) {
-      GenericFrame gframe = (GenericFrame) this.creation;
-
+    if (this.creation instanceof GenericFrame gframe) {
       gframe.setStatusMessage(KoLmafia.getLastMessage());
     } else {
       this.creation.setLocationRelativeTo(null);
@@ -175,9 +173,7 @@ public class CreateFrameRunnable implements Runnable {
 
     for (Frame frame : frames) {
       if (frame.getClass() == this.creationType) {
-        if (frame instanceof GenericFrame) {
-          GenericFrame gframe = (GenericFrame) frame;
-
+        if (frame instanceof GenericFrame gframe) {
           if (!gframe.exists()) {
             continue;
           }
@@ -224,9 +220,7 @@ public class CreateFrameRunnable implements Runnable {
     // to the appropriate size.
 
     try {
-      if (frame instanceof GenericFrame) {
-        GenericFrame gframe = (GenericFrame) frame;
-
+      if (frame instanceof GenericFrame gframe) {
         if (gframe.useSidePane()) {
           gframe.addCompactPane();
         }

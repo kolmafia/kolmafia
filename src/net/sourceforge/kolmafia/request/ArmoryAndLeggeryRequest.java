@@ -80,9 +80,9 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
 
     CoinmasterData data = ARMORY_AND_LEGGERY;
 
-    List<AdventureResult> items = new ArrayList<AdventureResult>();
-    Map<Integer, AdventureResult> costs = new TreeMap<Integer, AdventureResult>();
-    Map<Integer, Integer> rows = new TreeMap<Integer, Integer>();
+    List<AdventureResult> items = new ArrayList<>();
+    Map<Integer, AdventureResult> costs = new TreeMap<>();
+    Map<Integer, Integer> rows = new TreeMap<>();
 
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     while (matcher.find()) {

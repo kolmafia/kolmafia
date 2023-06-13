@@ -21,15 +21,12 @@ public class CombineMeatRequest extends CreateItemRequest {
   }
 
   public static int getCost(int itemId) {
-    switch (itemId) {
-      case ItemPool.MEAT_PASTE:
-        return 10;
-      case ItemPool.MEAT_STACK:
-        return 100;
-      case ItemPool.DENSE_STACK:
-        return 1000;
-    }
-    return 0;
+    return switch (itemId) {
+      case ItemPool.MEAT_PASTE -> 10;
+      case ItemPool.MEAT_STACK -> 100;
+      case ItemPool.DENSE_STACK -> 1000;
+      default -> 0;
+    };
   }
 
   @Override

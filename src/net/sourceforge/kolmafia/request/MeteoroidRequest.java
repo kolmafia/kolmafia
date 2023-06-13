@@ -12,17 +12,15 @@ public class MeteoroidRequest extends CreateItemRequest {
   }
 
   private static String itemIdToOption(final int itemId) {
-    return itemId == ItemPool.METEORTARBOARD
-        ? "1"
-        : itemId == ItemPool.METEORITE_GUARD
-            ? "2"
-            : itemId == ItemPool.METEORB
-                ? "3"
-                : itemId == ItemPool.ASTEROID_BELT
-                    ? "4"
-                    : itemId == ItemPool.METEORTHOPEDIC_SHOES
-                        ? "5"
-                        : itemId == ItemPool.SHOOTING_MORNING_STAR ? "6" : "7";
+    return switch (itemId) {
+      case ItemPool.METEORTARBOARD -> "1";
+      case ItemPool.METEORITE_GUARD -> "2";
+      case ItemPool.METEORB -> "3";
+      case ItemPool.ASTEROID_BELT -> "4";
+      case ItemPool.METEORTHOPEDIC_SHOES -> "5";
+      case ItemPool.SHOOTING_MORNING_STAR -> "6";
+      default -> "7";
+    };
   }
 
   @Override
@@ -46,12 +44,15 @@ public class MeteoroidRequest extends CreateItemRequest {
 
     KoLmafia.updateDisplay("Creating " + count + " " + name + "...");
 
-    GenericRequest useRequest = new GenericRequest("inv_use.php");
-    useRequest.addFormField("whichitem", String.valueOf(ItemPool.METAL_METEOROID));
+    int yield = this.getYield();
 
-    for (int i = 0; i < count; ++i) {
+    while (count > 0 && KoLmafia.permitsContinue()) {
+      GenericRequest useRequest = new GenericRequest("inv_use.php");
+      useRequest.addFormField("whichitem", String.valueOf(ItemPool.METAL_METEOROID));
       useRequest.run();
+      this.setQuantityNeeded(Math.min(count, yield));
       super.run();
+      count -= yield;
     }
   }
 

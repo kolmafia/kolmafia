@@ -18,7 +18,6 @@ import java.util.StringJoiner;
 import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -27,18 +26,22 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.Modifiers.ModifierList;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -92,11 +95,11 @@ public class TCRSDatabase {
   private static String currentClassSign; // Character class/Zodiac Sign
 
   // Sorted by itemId
-  private static final Map<Integer, TCRS> TCRSMap = new TreeMap<Integer, TCRS>();
+  private static final Map<Integer, TCRS> TCRSMap = new TreeMap<>();
   private static final Map<Integer, TCRS> TCRSBoozeMap =
-      new TreeMap<Integer, TCRS>(new CafeDatabase.InverseIntegerOrder());
+      new TreeMap<>(new CafeDatabase.InverseIntegerOrder());
   private static final Map<Integer, TCRS> TCRSFoodMap =
-      new TreeMap<Integer, TCRS>(new CafeDatabase.InverseIntegerOrder());
+      new TreeMap<>(new CafeDatabase.InverseIntegerOrder());
 
   private static final List<Integer> TCRSEffectPool = new ArrayList<Integer>();
 
@@ -453,7 +456,12 @@ public class TCRSDatabase {
   }
 
   public static void deriveApplyItem(final int id) {
-    applyModifiers(id, deriveItem(DebugDatabase.itemDescriptionText(id, false)));
+    String text = DebugDatabase.itemDescriptionText(id, false);
+
+    // should only be null in tests, but setting up the builder is hard
+    if (text != null) {
+      applyModifiers(id, deriveItem(text));
+    }
   }
 
   private static TCRS deriveItem(final String text) {
@@ -461,7 +469,7 @@ public class TCRSDatabase {
     String name = DebugDatabase.parseName(text);
     int size = DebugDatabase.parseConsumableSize(text);
     var quality = DebugDatabase.parseQuality(text);
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, ConsumptionType.UNKNOWN);
 
     // Create and return the TCRS object
@@ -704,7 +712,7 @@ public class TCRSDatabase {
   }
 
   private static ModifierList getRetainedModifiers(final int itemId) {
-    var list = Modifiers.getModifierList("Item", itemId);
+    var list = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId));
     switch (ItemDatabase.getConsumptionType(itemId)) {
       case EAT, DRINK, SPLEEN, POTION, AVATAR_POTION -> {
         while (list.containsModifier("Effect")) list.removeModifier("Effect");
@@ -721,7 +729,7 @@ public class TCRSDatabase {
     var effectName =
         (roll != TCRSEffectPool.size())
             ? EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName()
-            : Modifiers.getStringModifier("Item", itemId, "Effect");
+            : ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
     var duration = 5 * mtRng.nextInt(1, 10);
 
     return new Enchantment(effectName, duration);
@@ -739,7 +747,7 @@ public class TCRSDatabase {
     var mods = getRetainedModifiers(id);
 
     if (TCRS_GENERIC.contains(id)) {
-      mods = Modifiers.getModifierList("Item", id);
+      mods = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, id));
       var name =
           Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
               .filter(Predicate.not(String::isBlank))
@@ -768,7 +776,7 @@ public class TCRSDatabase {
         (roll == TCRSEffectPool.size())
             ?
             //   If we picked an overflow size, the item retains its original effect
-            Modifiers.getStringModifier("Item", item.getDisambiguatedName(), "Effect")
+            ModifierDatabase.getStringModifier(ModifierType.ITEM, item.getDisambiguatedName(), StringModifier.EFFECT)
             :
             //   Otherwise use the roll we got
             EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
@@ -797,8 +805,8 @@ public class TCRSDatabase {
     var potionString = String.join(" ", prefixedPotionMods);
 
     if (!effectName.isBlank()) {
-      mods.addStringModifier("Effect", effectName);
-      mods.addModifier("Effect Duration", duration);
+      mods.addModifier("Effect", effectName);
+      mods.addModifier("Effect Duration", String.valueOf(duration));
     }
 
     var name =
@@ -973,16 +981,16 @@ public class TCRSDatabase {
 
     if (HARDCODED_EFFECT.contains(id)) {
       enchanted = true;
-      enchantment.effect = Modifiers.getStringModifier("Item", id, "Effect");
+      enchantment.effect = ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.EFFECT);
 
       if (!HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
-        enchantment.duration = (int) Modifiers.getNumericModifier("Item", id, "Effect Duration");
+        enchantment.duration = (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, id, DoubleModifier.EFFECT_DURATION);
       }
     }
 
     if (enchanted && !enchantment.effect.isBlank()) {
-      mods.addStringModifier("Effect", enchantment.effect);
-      mods.addModifier("Effect Duration", enchantment.duration);
+      mods.addModifier("Effect", enchantment.effect);
+      mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
     }
 
     if (id == ItemPool.QUANTUM_TACO
@@ -1102,8 +1110,8 @@ public class TCRSDatabase {
     if ((mtRng.nextInt(1, 3) == 1)) {
       var enchantment = rollConsumableEnchantment(id, mtRng);
       if (!enchantment.effect.isBlank()) {
-        mods.addStringModifier("Effect", enchantment.effect);
-        mods.addModifier("Effect Duration", enchantment.duration);
+        mods.addModifier("Effect", enchantment.effect);
+        mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
       }
     }
 
@@ -1331,7 +1339,11 @@ public class TCRSDatabase {
       return false;
     }
 
-    if (IntStream.of(CampgroundRequest.campgroundItems).anyMatch(i -> i == itemId)) {
+    if (CampgroundRequest.campgroundItems.contains(itemId)) {
+      return false;
+    }
+
+    if (ChateauRequest.chateauItems.contains(itemId)) {
       return false;
     }
 
@@ -1341,7 +1353,7 @@ public class TCRSDatabase {
     }
 
     // Set modifiers
-    Modifiers.updateItem(itemName, tcrs.modifiers);
+    ModifierDatabase.updateItem(itemId, tcrs.modifiers);
 
     // *** Do this after modifiers are set so can log effect modifiers
     ConsumptionType usage = ItemDatabase.getConsumptionType(itemId);
@@ -1352,7 +1364,8 @@ public class TCRSDatabase {
     }
 
     // Add as effect source, if appropriate
-    String effectName = Modifiers.getStringModifier("Item", itemName, "Effect");
+    String effectName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
     if (effectName != null && !effectName.equals("")) {
       addEffectSource(itemName, usage, effectName);
     }
@@ -1442,10 +1455,16 @@ public class TCRSDatabase {
     // Consumable attributes (like SAUCY, BEER, etc) are preserved
     ConsumablesDatabase.getAttributes(consumable).stream().map(Enum::name).forEach(comment::add);
 
-    String effectName = Modifiers.getStringModifier("Item", itemName, "Effect");
+    String effectName =
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
     if (effectName != null && !effectName.isEmpty()) {
-      int duration = (int) Modifiers.getNumericModifier("Item", itemName, "Effect Duration");
-      String effectModifiers = Modifiers.getStringModifier("Effect", effectName, "Modifiers");
+      int duration =
+          (int)
+              ModifierDatabase.getNumericModifier(
+                  ModifierType.ITEM, itemName, DoubleModifier.EFFECT_DURATION);
+      String effectModifiers =
+          ModifierDatabase.getStringModifier(
+              ModifierType.EFFECT, effectName, StringModifier.MODIFIERS);
       comment.add(duration + " " + effectName + " (" + effectModifiers + ")");
     }
 
@@ -1472,7 +1491,7 @@ public class TCRSDatabase {
 
     TCRSDatabase.reset();
 
-    Modifiers.resetModifiers();
+    ModifierDatabase.resetModifiers();
     EffectDatabase.reset();
     ConsumablesDatabase.reset();
 
@@ -1541,7 +1560,7 @@ public class TCRSDatabase {
 
   // Remote files we have fetched this session
   private static final Set<String> remoteFetched =
-      new HashSet<String>(); // remote files fetched this session
+      new HashSet<>(); // remote files fetched this session
 
   // *** Fetching files from the SVN repository, in two parts, since the
   // non-cafe code was released a week before the cafe code, and some

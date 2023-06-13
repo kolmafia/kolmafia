@@ -6,7 +6,7 @@ import java.util.List;
 public class CharacterListenerRegistry {
   // Listener-driven container items
 
-  private static final List<CharacterListener> listenerList = new ArrayList<CharacterListener>();
+  private static final List<CharacterListener> listenerList = new ArrayList<>();
 
   private CharacterListenerRegistry() {}
 

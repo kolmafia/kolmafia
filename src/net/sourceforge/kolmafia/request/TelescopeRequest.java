@@ -24,12 +24,8 @@ public class TelescopeRequest extends GenericRequest {
 
     this.where = where;
     switch (where) {
-      case HIGH:
-        this.addFormField("action", "telescopehigh");
-        break;
-      case LOW:
-        this.addFormField("action", "telescopelow");
-        break;
+      case HIGH -> this.addFormField("action", "telescopehigh");
+      case LOW -> this.addFormField("action", "telescopelow");
     }
   }
 

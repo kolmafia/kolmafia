@@ -1,15 +1,18 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withInebriety;
+import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withUnequipped;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
@@ -19,6 +22,8 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -26,6 +31,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.RelayRequest.Confirm;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.YouRobotManager;
@@ -37,7 +43,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
 public class RelayRequestWarningsTest {
 
@@ -89,7 +95,7 @@ public class RelayRequestWarningsTest {
     KoLCharacter.setPath(Path.NONE);
   }
 
-  private String adventureURL(KoLAdventure adventure, String confirmation) {
+  private String adventureURL(KoLAdventure adventure, Confirm confirmation) {
     var request = adventure.getRequest();
     StringBuilder buf = new StringBuilder();
     buf.append(request.getURLString());
@@ -102,12 +108,82 @@ public class RelayRequestWarningsTest {
   }
 
   @Nested
+  class KungFuFighting {
+    private static final KoLAdventure WARREN =
+        AdventureDatabase.getAdventureByName("The Dire Warren");
+    private static final Confirm confirm = Confirm.KUNGFU;
+
+    @Test
+    public void shouldNotWarnWithoutEffect() {
+      var cleanups = withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB);
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendKungFuWarning());
+      }
+    }
+
+    @Test
+    public void shouldWarnWithIntrinsicAndFullHands() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB),
+              withIntrinsicEffect("Kung Fu Fighting"));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertTrue(request.sendKungFuWarning());
+      }
+    }
+
+    @Test
+    public void shouldNotWarnWithIntrinsicAndEmptyHands() {
+      var cleanups =
+          new Cleanups(
+              withUnequipped(Slot.WEAPON),
+              withUnequipped(Slot.OFFHAND),
+              withIntrinsicEffect("Kung Fu Fighting"));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendKungFuWarning());
+      }
+    }
+
+    @Test
+    public void shouldNotWarnWithNonIntrinsicEffect() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB),
+              withEffect(EffectPool.KUNG_FU_FIGHTING));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString());
+        assertFalse(request.sendKungFuWarning());
+      }
+    }
+
+    @Test
+    public void shouldNotWarnWithIntrinsicIfAlreadyConfirmed() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, ItemPool.SEAL_CLUB),
+              withIntrinsicEffect("Kung Fu Fighting"));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(WARREN.getRequest().getURLString() + "&" + confirm + "=on");
+        assertFalse(request.sendKungFuWarning());
+      }
+    }
+  }
+
+  @Nested
   class WineGlass {
     private static final KoLAdventure WARREN =
         AdventureDatabase.getAdventureByName("The Dire Warren");
     private static final KoLAdventure CELLAR =
         AdventureDatabase.getAdventureByName("The Typical Tavern Cellar");
-    private static final String confirm = RelayRequest.CONFIRM_WINEGLASS;
+    private static final Confirm confirm = Confirm.WINEGLASS;
 
     @Test
     public void thatNoWarningNeededIfNotOverDrunk() {
@@ -163,8 +239,10 @@ public class RelayRequestWarningsTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {EquipmentManager.OFFHAND, EquipmentManager.FAMILIAR})
-    public void thatNoWarningNeededIfWineglassEquipped(final int slot) {
+    @EnumSource(
+        value = Slot.class,
+        names = {"OFFHAND", "FAMILIAR"})
+    public void thatNoWarningNeededIfWineglassEquipped(final Slot slot) {
       var cleanups =
           new Cleanups(
               withInebriety(30),
@@ -219,7 +297,7 @@ public class RelayRequestWarningsTest {
         AdventureDatabase.getAdventureByName("A-Boo Peak");
     private static final KoLAdventure CASTLE_TOP_FLOOR =
         AdventureDatabase.getAdventureByName("The Castle in the Clouds in the Sky (Top Floor)");
-    private static final String confirm = RelayRequest.CONFIRM_MOHAWK_WIG;
+    private static final Confirm confirm = Confirm.MOHAWK_WIG;
     private static final AdventureResult MOHAWK_WIG = ItemPool.get(ItemPool.MOHAWK_WIG);
 
     @BeforeEach
@@ -276,7 +354,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfMohawkWigEquipped() {
-      var cleanups = new Cleanups(withEquipped(EquipmentManager.HAT, MOHAWK_WIG));
+      var cleanups = new Cleanups(withEquipped(Slot.HAT, MOHAWK_WIG));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(CASTLE_TOP_FLOOR, null), false);
@@ -397,7 +475,7 @@ public class RelayRequestWarningsTest {
         AdventureDatabase.getAdventureByName("A-Boo Peak");
     private static final KoLAdventure ARID_DESERT =
         AdventureDatabase.getAdventureByName("The Arid, Extra-Dry Desert");
-    private static final String confirm = RelayRequest.CONFIRM_DESERT_WEAPON;
+    private static final Confirm confirm = Confirm.DESERT_WEAPON;
     private static final AdventureResult SURVIVAL_KNIFE = ItemPool.get(ItemPool.SURVIVAL_KNIFE);
 
     @Test
@@ -422,7 +500,7 @@ public class RelayRequestWarningsTest {
       assertFalse(request.sendDesertWeaponWarning());
 
       // No warning if we have a survival knife equipped
-      int slot = EquipmentManager.WEAPON;
+      Slot slot = Slot.WEAPON;
       AdventureResult knife = ItemPool.get(ItemPool.SURVIVAL_KNIFE);
       EquipmentManager.setEquipment(slot, SURVIVAL_KNIFE);
       assertFalse(request.sendDesertWeaponWarning());
@@ -464,11 +542,11 @@ public class RelayRequestWarningsTest {
         AdventureDatabase.getAdventureByName("An Overgrown Shrine (Southeast)");
     private static final KoLAdventure ZIGGURAT =
         AdventureDatabase.getAdventureByName("A Massive Ziggurat");
-    private static final String confirm = RelayRequest.CONFIRM_MACHETE;
+    private static final Confirm confirm = Confirm.MACHETE;
 
     private void testMacheteItem(RelayRequest request, int itemId) {
       // No warning if we have the machete equipped
-      int slot = EquipmentManager.WEAPON;
+      Slot slot = Slot.WEAPON;
       AdventureResult machete = ItemPool.get(itemId);
       String name = machete.getName();
       EquipmentManager.setEquipment(slot, machete);
@@ -598,7 +676,7 @@ public class RelayRequestWarningsTest {
       assertFalse(request.sendMacheteWarning());
 
       // No warning needed if this a resubmission of the "go ahead" URL
-      request.constructURLString(adventureURL(NW_SHRINE, RelayRequest.CONFIRM_MACHETE), true);
+      request.constructURLString(adventureURL(NW_SHRINE, Confirm.MACHETE), true);
       assertFalse(request.sendMacheteWarning());
       assertTrue(RelayRequest.ignoreMacheteWarning);
 
@@ -638,7 +716,7 @@ public class RelayRequestWarningsTest {
 
   @Nested
   class Prism {
-    private String prismURL(String confirmation) {
+    private String prismURL(Confirm confirmation) {
       StringBuilder buf = new StringBuilder();
       buf.append("place.php?whichplace=nstower&action=ns_11_prism");
       if (confirmation != null) {
@@ -686,7 +764,7 @@ public class RelayRequestWarningsTest {
       public void shouldNotWarnInExploathingIfAlreadyConfirmed() {
         var cleanups = withPath(Path.KINGDOM_OF_EXPLOATHING);
         try (cleanups) {
-          String URL = prismURL(RelayRequest.CONFIRM_RALPH);
+          String URL = prismURL(Confirm.RALPH);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(URL);
           assertFalse(request.sendBreakPrismWarning(URL));
@@ -720,7 +798,7 @@ public class RelayRequestWarningsTest {
         try (cleanups) {
           // No warning needed if already confirmed
           RelayRequest request = new RelayRequest(false);
-          String URL = prismURL(RelayRequest.CONFIRM_RALPH);
+          String URL = prismURL(Confirm.RALPH);
           request.constructURLString(URL, true);
           assertFalse(request.sendBreakPrismWarning(URL));
         }
@@ -859,11 +937,106 @@ public class RelayRequestWarningsTest {
       public void shouldNotWarnInDinocoreIfAlreadyConfirmed() {
         var cleanups = withPath(Path.DINOSAURS);
         try (cleanups) {
-          String URL = prismURL(RelayRequest.CONFIRM_RALPH);
+          String URL = prismURL(Confirm.RALPH);
           RelayRequest request = new RelayRequest(false);
           request.constructURLString(URL);
           assertFalse(request.sendBreakPrismWarning(URL));
         }
+      }
+    }
+  }
+
+  @Nested
+  class UnhydratedDesert {
+    private static final KoLAdventure A_BOO_PEAK =
+        AdventureDatabase.getAdventureByName("A-Boo Peak");
+    private static final KoLAdventure DESERT =
+        AdventureDatabase.getAdventureByName("The Arid, Extra-Dry Desert");
+    private static final Confirm confirm = Confirm.DESERT_UNHYDRATED;
+
+    @BeforeEach
+    public void beforeEach() {
+      RelayRequest.ignoreDesertWarning = false;
+    }
+
+    @Test
+    public void noWarningIfNotDesert() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(A_BOO_PEAK, null), false);
+        // No warning needed if you are not in The Arid, Ultra-Dry Desert
+        assertFalse(request.sendUnhydratedDesertWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfConfirmed() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(DESERT, confirm), false);
+        // No warning needed if this a resubmission with confirmation
+        assertFalse(request.sendUnhydratedDesertWarning());
+        assertTrue(RelayRequest.ignoreDesertWarning);
+      }
+    }
+
+    @Test
+    public void noWarningIfPreviouslyConfirmed() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(DESERT, null), false);
+        // No warning needed if this was previously confirmed
+        RelayRequest.ignoreDesertWarning = true;
+        assertFalse(request.sendUnhydratedDesertWarning());
+        assertTrue(RelayRequest.ignoreDesertWarning);
+      }
+    }
+
+    @Test
+    public void noWarningIfUltrahydrated() {
+      var cleanups = withEffect(EffectPool.ULTRAHYDRATED, 10);
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(DESERT.getRequest().getURLString());
+        assertFalse(request.sendUnhydratedDesertWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfOasisNotOpenYet() {
+      var cleanups =
+          new Cleanups(
+              withProperty("oasisAvailable", false), withProperty("desertExploration", 10));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(DESERT.getRequest().getURLString());
+        assertFalse(request.sendUnhydratedDesertWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfDesertFullyExplored() {
+      var cleanups =
+          new Cleanups(
+              withProperty("oasisAvailable", true), withProperty("desertExploration", 100));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(DESERT.getRequest().getURLString());
+        assertFalse(request.sendUnhydratedDesertWarning());
+      }
+    }
+
+    @Test
+    public void warningIfOasisOpenAndDesertNotFullyExplored() {
+      var cleanups =
+          new Cleanups(withProperty("oasisAvailable", true), withProperty("desertExploration", 20));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(DESERT.getRequest().getURLString());
+        assertTrue(request.sendUnhydratedDesertWarning());
       }
     }
   }

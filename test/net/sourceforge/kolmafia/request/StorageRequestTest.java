@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -296,7 +297,8 @@ public class StorageRequestTest {
     KoLCharacter.setRonin(false);
 
     // Make a StorageRequest
-    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+    StorageRequest request =
+        new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, attachments);
 
     // Generate subinstances.
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
@@ -357,7 +359,8 @@ public class StorageRequestTest {
     KoLCharacter.setRonin(false);
 
     // Make a StorageRequest
-    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+    StorageRequest request =
+        new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, attachments);
 
     // Generate subinstances.
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
@@ -444,7 +447,8 @@ public class StorageRequestTest {
     KoLCharacter.setRonin(true);
 
     // Make a StorageRequest
-    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+    StorageRequest request =
+        new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, attachments);
 
     // Generate subinstances.
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
@@ -495,7 +499,8 @@ public class StorageRequestTest {
     KoLCharacter.setRonin(false);
 
     // Make a StorageRequest
-    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+    StorageRequest request =
+        new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, attachments);
 
     // Generate subinstances.
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
@@ -546,7 +551,8 @@ public class StorageRequestTest {
     KoLCharacter.setRonin(true);
 
     // Make a StorageRequest
-    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+    StorageRequest request =
+        new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, attachments);
 
     // Generate subinstances.
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
@@ -668,7 +674,8 @@ public class StorageRequestTest {
     assertTrue(StorageRequest.itemPulledInRonin(ItemPool.HOT_WAD));
 
     // Make a StorageRequest
-    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+    StorageRequest request =
+        new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, attachments);
 
     // Generate subinstances.
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
@@ -710,7 +717,8 @@ public class StorageRequestTest {
     AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
 
     // Make a StorageRequest
-    StorageRequest request = new StorageRequest(StorageRequest.PULL_MEAT_FROM_STORAGE, attachments);
+    StorageRequest request =
+        new StorageRequest(StorageRequestType.PULL_MEAT_FROM_STORAGE, attachments);
 
     // Generate subinstances.
     ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
@@ -764,7 +772,7 @@ public class StorageRequestTest {
     private StorageRequest makeZeroItemRequest() {
       // Make a StorageRequest
       StorageRequest request =
-          new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[0]);
+          new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, new AdventureResult[0]);
 
       // Return a subinstance
       return makeSubinstance(request);
@@ -775,7 +783,8 @@ public class StorageRequestTest {
       var attachments = List.of(ItemPool.get(itemId, 1)).toArray(new AdventureResult[0]);
 
       // Make a StorageRequest
-      StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+      StorageRequest request =
+          new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, attachments);
 
       // Return a subinstance
       return makeSubinstance(request);
@@ -789,7 +798,7 @@ public class StorageRequestTest {
 
       // Make a StorageRequest
       StorageRequest request =
-          new StorageRequest(StorageRequest.PULL_MEAT_FROM_STORAGE, attachments);
+          new StorageRequest(StorageRequestType.PULL_MEAT_FROM_STORAGE, attachments);
 
       // Return a subinstance
       return makeSubinstance(request);
@@ -801,7 +810,7 @@ public class StorageRequestTest {
 
       try (cleanups) {
         // Make an request to empty storage
-        StorageRequest request = new StorageRequest(StorageRequest.EMPTY_STORAGE);
+        StorageRequest request = new StorageRequest(StorageRequestType.EMPTY_STORAGE);
 
         // Run it and verify failure
         request.run();
@@ -843,7 +852,7 @@ public class StorageRequestTest {
 
       try (cleanups) {
         // Make an request to empty storage
-        StorageRequest request = new StorageRequest(StorageRequest.EMPTY_STORAGE);
+        StorageRequest request = new StorageRequest(StorageRequestType.EMPTY_STORAGE);
 
         // Run it and verify failure
         request.run();
@@ -931,7 +940,8 @@ public class StorageRequestTest {
     AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
 
     // Make a StorageRequest
-    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+    StorageRequest request =
+        new StorageRequest(StorageRequestType.STORAGE_TO_INVENTORY, attachments);
 
     // Return a subinstance
     StorageRequest subinstance = makeSubinstance(request);

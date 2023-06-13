@@ -9,11 +9,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -30,7 +32,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class NPCPurchaseRequest extends PurchaseRequest {
   private static final List<AdventureResult> DISCOUNT_TROUSERS =
       List.of(
-          ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS), ItemPool.get(ItemPool.DESIGNER_SWEATPANTS));
+          ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS),
+          ItemPool.get(ItemPool.DESIGNER_SWEATPANTS),
+          ItemPool.get(ItemPool.REPLICA_DESIGNER_SWEATPANTS));
   private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
   private static final AdventureResult SUPER_STRUCTURE = EffectPool.get(EffectPool.SUPER_STRUCTURE);
@@ -150,7 +154,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       factor = 67;
     }
     if (NPCPurchaseRequest.usingTrousers(this.npcStoreId)) factor -= 5;
-    if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
+    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
     return (int) ((this.price * factor) / 100);
   }
 
@@ -161,7 +165,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   public static int currentDiscountedPrice(String npcStoreId, int price) {
     long factor = 100;
     if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
-    if (KoLCharacter.hasSkill("Five Finger Discount")) factor -= 5;
+    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
     return (int) ((price * factor) / 100);
   }
 
@@ -170,7 +174,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return false;
     }
 
-    var trousers = EquipmentManager.getEquipment(EquipmentManager.PANTS);
+    var trousers = EquipmentManager.getEquipment(Slot.PANTS);
 
     if (trousers == null) {
       return false;
@@ -178,7 +182,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     // Designer sweatpants discount does not apply to the gift shop
     if ("town_giftshop.php".equals(npcStoreId)
-        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+        && (trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS
+            || trousers.getItemId() == ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       return false;
     }
 
@@ -199,7 +204,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     // Designer sweatpants discount does not apply to the gift shop
     if ("town_giftshop.php".equals(npcStoreId)
-        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+        && (trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS
+            || trousers.getItemId() == ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       return null;
     }
 
@@ -311,7 +317,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     if (!usingTrousers(this.npcStoreId)) {
       var trousers = getEquippableTrousers(this.npcStoreId);
       if (trousers != null) {
-        (new EquipmentRequest(trousers, EquipmentManager.PANTS)).run();
+        (new EquipmentRequest(trousers, Slot.PANTS)).run();
       }
     }
 
@@ -465,6 +471,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         || shopId.startsWith("kolhs_")
         || shopId.equals("mystic")
         || shopId.equals("rumple")
+        || shopId.equals("shadowforge")
         || shopId.equals("snowgarden")
         || shopId.equals("spant")
         || shopId.equals("starchart")
@@ -938,15 +945,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     if (shopId.equals("wildfire")) {
       if (responseText.contains("You acquire an item")) {
         switch (boughtItemId) {
-          case ItemPool.BLART:
-            Preferences.setBoolean("itemBoughtPerAscension10790", true);
-            break;
-          case ItemPool.RAINPROOF_BARREL_CAULK:
-            Preferences.setBoolean("itemBoughtPerAscension10794", true);
-            break;
-          case ItemPool.PUMP_GREASE:
-            Preferences.setBoolean("itemBoughtPerAscension10795", true);
-            break;
+          case ItemPool.BLART -> Preferences.setBoolean("itemBoughtPerAscension10790", true);
+          case ItemPool.RAINPROOF_BARREL_CAULK -> Preferences.setBoolean(
+              "itemBoughtPerAscension10794", true);
+          case ItemPool.PUMP_GREASE -> Preferences.setBoolean("itemBoughtPerAscension10795", true);
         }
       }
 
@@ -966,6 +968,16 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     if (shopId.equals("dino")) {
       DinostaurRequest.parseResponse(urlString, responseText);
+      return;
+    }
+
+    if (shopId.equals("mrreplica")) {
+      ReplicaMrStoreRequest.parseResponse(urlString, responseText);
+      return;
+    }
+
+    if (shopId.equals("mrstore2002")) {
+      MrStore2002Request.parseResponse(urlString, responseText);
       return;
     }
 
@@ -1108,6 +1120,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
           || shopId.startsWith("kolhs_")
           || shopId.equals("mystic")
           || shopId.equals("rumple")
+          || shopId.equals("shadowforge")
           || shopId.equals("snowgarden")
           || shopId.equals("spant")
           || shopId.equals("xo")) {
@@ -1341,6 +1354,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.equals("dino")) {
         return DinostaurRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("mrreplica")) {
+        return ReplicaMrStoreRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("mrstore2022")) {
+        return MrStore2002Request.registerRequest(urlString);
       }
 
       return false;

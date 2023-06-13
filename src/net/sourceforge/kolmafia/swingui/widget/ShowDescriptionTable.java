@@ -9,7 +9,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -43,7 +42,6 @@ import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.InstalledScript;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
@@ -56,6 +54,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -69,8 +68,6 @@ import net.sourceforge.kolmafia.webui.RelayLoader;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.ColumnControlButton;
 import org.jdesktop.swingx.table.TableColumnExt;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNURL;
 
 /*
 ShowDescriptionTable is a variant of ShowDescriptionList that extends a JXTable instead of a JList.
@@ -90,7 +87,7 @@ public class ShowDescriptionTable<E> extends JXTable {
   private static final Pattern PLAYERID_MATCHER = Pattern.compile("\\(#(\\d+)\\)");
 
   private final Comparator<String[]> arrayComparator =
-      new Comparator<String[]>() {
+      new Comparator<>() {
         @Override
         public int compare(String[] o1, String[] o2) {
           if (o1.length != 2 || o2.length != 2) {
@@ -420,7 +417,7 @@ public class ShowDescriptionTable<E> extends JXTable {
     }
   }
 
-  public class ClipboardHandler extends TransferHandler {
+  public static class ClipboardHandler extends TransferHandler {
     @Override
     protected Transferable createTransferable(JComponent c) {
       JTable t = (JTable) c;
@@ -432,9 +429,9 @@ public class ShowDescriptionTable<E> extends JXTable {
       return COPY;
     }
 
-    class Selection implements Transferable {
+    static class Selection implements Transferable {
       private final JTable delegate;
-      private final List<DataFlavor> flavors = new ArrayList<DataFlavor>();
+      private final List<DataFlavor> flavors = new ArrayList<>();
 
       public Selection(JTable t) {
         this.flavors.add(DataFlavor.stringFlavor);
@@ -746,16 +743,15 @@ public class ShowDescriptionTable<E> extends JXTable {
       for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -780,16 +776,15 @@ public class ShowDescriptionTable<E> extends JXTable {
       for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -817,16 +812,15 @@ public class ShowDescriptionTable<E> extends JXTable {
       for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (item instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) item).createdItem;
-        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
-          data = (AdventureResult) item;
-        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
-          int itemId = ItemDatabase.getItemId((String) item);
+        if (item instanceof CreateItemRequest cir) {
+          data = cir.createdItem;
+        } else if (item instanceof AdventureResult ar && ar.isItem()) {
+          data = ar;
+        } else if (item instanceof String s && ItemDatabase.contains(s)) {
+          int itemId = ItemDatabase.getItemId(s);
           data = ItemPool.get(itemId);
-        } else if (item instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
+        } else if (item instanceof Entry e && ItemDatabase.contains((String) e.getValue())) {
+          int itemId = ItemDatabase.getItemId((String) e.getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -914,20 +908,14 @@ public class ShowDescriptionTable<E> extends JXTable {
       int row = this.table.getSelectedRow();
       final Object ob = this.table.getValueAt(row, 0);
 
-      if (ob instanceof Script) {
+      if (ob instanceof Script s) {
         RequestThread.postRequest(
             new Runnable() {
               @Override
               public void run() {
-                String installMe = ((Script) ob).getRepo();
-                try {
-                  SVNManager.doCheckout(SVNURL.parseURIEncoded(installMe));
-                } catch (SVNException e) {
-                  StaticEntity.printStackTrace(e);
-                  return;
+                if (s.install()) {
+                  ScriptManager.updateRepoScripts(false);
                 }
-                ScriptManager.updateRepoScripts(false);
-                ScriptManager.updateInstalledScripts();
               }
             });
       }
@@ -946,14 +934,12 @@ public class ShowDescriptionTable<E> extends JXTable {
       int row = this.table.getSelectedRow();
       final Object ob = this.table.getValueAt(row, 0);
 
-      if (ob instanceof InstalledScript) {
+      if (ob instanceof Script s && s.isInstalled()) {
         RequestThread.postRequest(
             new Runnable() {
               @Override
               public void run() {
-                File deleteMe = ((InstalledScript) ob).getScriptFolder();
-                SVNManager.deleteInstalledProject(deleteMe);
-                if (!deleteMe.exists()) {
+                if (s.delete()) {
                   ScriptManager.getInstalledScripts().remove(ob);
                   ScriptManager.updateRepoScripts(false);
                 }
@@ -975,12 +961,12 @@ public class ShowDescriptionTable<E> extends JXTable {
       int row = this.table.getSelectedRow();
       final Object ob = this.table.getValueAt(row, 0);
 
-      if (ob instanceof Script) {
+      if (ob instanceof Script s) {
         RequestThread.postRequest(
             new Runnable() {
               @Override
               public void run() {
-                String ft = ((Script) ob).getForumThread();
+                String ft = s.getForumThread();
                 if (ft != null && !ft.equals("")) RelayLoader.openSystemBrowser(ft);
               }
             });
@@ -997,7 +983,7 @@ public class ShowDescriptionTable<E> extends JXTable {
           new Runnable() {
             @Override
             public void run() {
-              ScriptManager.updateInstalledScripts();
+              ScriptManager.updateRepoScripts(false);
             }
           });
     }
@@ -1020,7 +1006,8 @@ public class ShowDescriptionTable<E> extends JXTable {
               @Override
               public void run() {
                 SVNManager.doUpdate();
-                ScriptManager.updateInstalledScripts();
+                GitManager.updateAll();
+                ScriptManager.updateRepoScripts(false);
               }
             });
       } else {
@@ -1030,14 +1017,10 @@ public class ShowDescriptionTable<E> extends JXTable {
               public void run() {
                 Object ob = UpdateScriptRunnable.this.table.getValueAt(table.getSelectedRow(), 0);
 
-                if (ob instanceof Script) {
-                  try {
-                    SVNManager.doUpdate(SVNURL.parseURIEncoded(((Script) ob).getRepo()));
-                  } catch (SVNException e) {
-                    StaticEntity.printStackTrace(e);
-                    return;
+                if (ob instanceof Script s) {
+                  if (s.update()) {
+                    ScriptManager.updateRepoScripts(false);
                   }
-                  ScriptManager.updateInstalledScripts();
                 }
               }
             });
@@ -1105,7 +1088,7 @@ public class ShowDescriptionTable<E> extends JXTable {
 
   public void setHeaderStates(String rawPref) {
     List<TableColumn> cols = this.getColumns(true);
-    ArrayList<String[]> sortCols = new ArrayList<String[]>();
+    ArrayList<String[]> sortCols = new ArrayList<>();
 
     // rawPref is a pipe-delimited list of (header name):(view index)
     String[] split1 = rawPref.split("\\|");

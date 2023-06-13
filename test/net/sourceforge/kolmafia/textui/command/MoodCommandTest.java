@@ -9,7 +9,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
-import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.AfterEach;
@@ -138,10 +138,10 @@ class MoodCommandTest extends AbstractCommandTestBase {
   public void itShouldAutofill() {
     Preferences.setString("currentMood", "default");
     MoodManager.deleteCurrentMood();
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("empathy of the newt"));
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("fat leon's phat loot lyric"));
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("leash of linguini"));
-    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("the polka of plenty"));
+    KoLCharacter.addAvailableSkill(SkillPool.EMPATHY_OF_THE_NEWT);
+    KoLCharacter.addAvailableSkill(SkillPool.PHAT_LOOT);
+    KoLCharacter.addAvailableSkill(SkillPool.LEASH_OF_LINGUINI);
+    KoLCharacter.addAvailableSkill(SkillPool.POLKA_OF_PLENTY);
     String output = execute("autofill");
     String expected =
         "When I run low on Empathy, cast 1 Empathy of the Newt"

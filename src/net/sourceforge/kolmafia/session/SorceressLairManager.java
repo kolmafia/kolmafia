@@ -161,20 +161,14 @@ public abstract class SorceressLairManager {
   public static final int TRAP3 = 5;
 
   public static String[][] challengeToData(final int challenge) {
-    switch (challenge) {
-      case SorceressLairManager.CROWD2:
-        return SorceressLairManager.CROWD2_DATA;
-      case SorceressLairManager.CROWD3:
-        return SorceressLairManager.CROWD3_DATA;
-      case SorceressLairManager.TRAP1:
-        return SorceressLairManager.MAZE_TRAP1_DATA;
-      case SorceressLairManager.TRAP2:
-        return SorceressLairManager.MAZE_TRAP2_DATA;
-      case SorceressLairManager.TRAP3:
-        return SorceressLairManager.MAZE_TRAP3_DATA;
-      default:
-        return null;
-    }
+    return switch (challenge) {
+      case SorceressLairManager.CROWD2 -> SorceressLairManager.CROWD2_DATA;
+      case SorceressLairManager.CROWD3 -> SorceressLairManager.CROWD3_DATA;
+      case SorceressLairManager.TRAP1 -> SorceressLairManager.MAZE_TRAP1_DATA;
+      case SorceressLairManager.TRAP2 -> SorceressLairManager.MAZE_TRAP2_DATA;
+      case SorceressLairManager.TRAP3 -> SorceressLairManager.MAZE_TRAP3_DATA;
+      default -> null;
+    };
   }
 
   public static void parseChallenge(
@@ -196,22 +190,15 @@ public abstract class SorceressLairManager {
   }
 
   public static String getChallengeName(final int challenge) {
-    switch (challenge) {
-      case SorceressLairManager.CROWD1:
-        return "Crowd #1";
-      case SorceressLairManager.CROWD2:
-        return "Crowd #2";
-      case SorceressLairManager.CROWD3:
-        return "Crowd #3";
-      case SorceressLairManager.TRAP1:
-        return "Maze Trap #1";
-      case SorceressLairManager.TRAP2:
-        return "Maze Trap #2";
-      case SorceressLairManager.TRAP3:
-        return "Maze Trap #3";
-      default:
-        return "Unknown Challenge";
-    }
+    return switch (challenge) {
+      case SorceressLairManager.CROWD1 -> "Crowd #1";
+      case SorceressLairManager.CROWD2 -> "Crowd #2";
+      case SorceressLairManager.CROWD3 -> "Crowd #3";
+      case SorceressLairManager.TRAP1 -> "Maze Trap #1";
+      case SorceressLairManager.TRAP2 -> "Maze Trap #2";
+      case SorceressLairManager.TRAP3 -> "Maze Trap #3";
+      default -> "Unknown Challenge";
+    };
   }
 
   public static String getChallengeDescription(final int challenge, final String test) {
@@ -729,12 +716,13 @@ public abstract class SorceressLairManager {
 
     // The Hedge Maze is available
     switch (mode) {
-      case HEDGE_MAZE_TRAPS:
+      case HEDGE_MAZE_TRAPS -> {
         // This is the expected path, entering in room 1
         Preferences.setInteger("choiceAdventure1005", 2); // 'Allo
         Preferences.setInteger("choiceAdventure1008", 2); // Pooling Your Resources
         Preferences.setInteger("choiceAdventure1011", 2); // Of Mouseholes and Manholes
         Preferences.setInteger("choiceAdventure1013", 1); // Mazel Tov!
+
         // If the user is already part way into the maze, the
         // following will eventually get him back on track.
         Preferences.setInteger("choiceAdventure1006", 1); // One Small Step For Adventurer
@@ -742,8 +730,8 @@ public abstract class SorceressLairManager {
         Preferences.setInteger("choiceAdventure1009", 1); // Good Ol' 44% Duck
         Preferences.setInteger("choiceAdventure1010", 1); // Another Day, Another Fork
         Preferences.setInteger("choiceAdventure1012", 1); // The Last Temptation
-        break;
-      case HEDGE_MAZE_GOPHER_DUCK:
+      }
+      case HEDGE_MAZE_GOPHER_DUCK -> {
         // This is the expected path, entering in room 1
         Preferences.setInteger("choiceAdventure1005", 1); // 'Allo
         Preferences.setInteger("choiceAdventure1006", 2); // One Small Step For Adventurer
@@ -752,12 +740,13 @@ public abstract class SorceressLairManager {
         Preferences.setInteger("choiceAdventure1011", 1); // Of Mouseholes and Manholes
         Preferences.setInteger("choiceAdventure1012", 1); // The Last Temptation
         Preferences.setInteger("choiceAdventure1013", 1); // Mazel Tov!
+
         // If the user is already part way into the maze, the
         // following will eventually get him back on track.
         Preferences.setInteger("choiceAdventure1007", 1); // Twisty Little Passages, All Hedge
         Preferences.setInteger("choiceAdventure1010", 1); // Another Day, Another Fork
-        break;
-      case HEDGE_MAZE_CHIHUAHUA_KIWI:
+      }
+      case HEDGE_MAZE_CHIHUAHUA_KIWI -> {
         // This is the expected path, entering in room 1
         Preferences.setInteger("choiceAdventure1005", 1); // 'Allo
         Preferences.setInteger("choiceAdventure1006", 1); // One Small Step For Adventurer
@@ -766,12 +755,13 @@ public abstract class SorceressLairManager {
         Preferences.setInteger("choiceAdventure1010", 2); // Another Day, Another Fork
         Preferences.setInteger("choiceAdventure1012", 1); // The Last Temptation
         Preferences.setInteger("choiceAdventure1013", 1); // Mazel Tov!
+
         // If the user is already part way into the maze, the
         // following will eventually get him back on track.
         Preferences.setInteger("choiceAdventure1008", 1); // Pooling Your Resources
         Preferences.setInteger("choiceAdventure1011", 1); // Of Mouseholes and Manholes
-        break;
-      case HEDGE_MAZE_NUGGLETS:
+      }
+      case HEDGE_MAZE_NUGGLETS -> {
         // This is the expected path, entering in room 1
         Preferences.setInteger("choiceAdventure1005", 1); // 'Allo
         Preferences.setInteger("choiceAdventure1006", 1); // One Small Step For Adventurer
@@ -782,10 +772,11 @@ public abstract class SorceressLairManager {
         Preferences.setInteger("choiceAdventure1011", 1); // Of Mouseholes and Manholes
         Preferences.setInteger("choiceAdventure1012", 1); // The Last Temptation
         Preferences.setInteger("choiceAdventure1013", 1); // Mazel Tov!
-        break;
-      default:
+      }
+      default -> {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Internal error: unknown mode (" + mode + ").");
         return;
+      }
     }
 
     // See if we have enough turns available.

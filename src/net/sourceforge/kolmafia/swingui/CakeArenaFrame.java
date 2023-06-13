@@ -161,7 +161,7 @@ public class CakeArenaFrame extends GenericFrame {
     }
   }
 
-  private class OpponentRenderer implements TableCellRenderer {
+  private static class OpponentRenderer implements TableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(
         final JTable table,

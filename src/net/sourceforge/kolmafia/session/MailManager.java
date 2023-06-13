@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MailboxRequest;
 
 public abstract class MailManager {
-  public static final Map<String, SortedListModel<KoLMailMessage>> mailboxes =
-      new TreeMap<String, SortedListModel<KoLMailMessage>>();
+  public static final Map<String, SortedListModel<KoLMailMessage>> mailboxes = new TreeMap<>();
 
   static {
     MailManager.mailboxes.put("Inbox", new SortedListModel<>());

@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -141,12 +142,12 @@ public class SkateParkRequest extends GenericRequest {
 
   private static void equip() {
     SkateParkRequest.update();
-    if (!KoLCharacter.currentBooleanModifier("Adventure Underwater")) {
+    if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
       EquipmentRequest request = new EquipmentRequest(SkateParkRequest.self);
       RequestThread.postRequest(request);
     }
 
-    if (!KoLCharacter.currentBooleanModifier("Underwater Familiar")) {
+    if (!KoLCharacter.currentBooleanModifier(BooleanModifier.UNDERWATER_FAMILIAR)) {
       EquipmentRequest request = new EquipmentRequest(SkateParkRequest.familiar);
       RequestThread.postRequest(request);
     }
