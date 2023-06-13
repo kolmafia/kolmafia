@@ -1435,6 +1435,17 @@ public class Player {
   }
 
   /**
+   * Sets the player's campground as having an item installed in it
+   *
+   * @param item Item to add
+   * @return Removes the item
+   */
+  public static Cleanups withCampgroundItem(final AdventureResult item) {
+    CampgroundRequest.setCampgroundItem(item);
+    return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(item));
+  }
+
+  /**
    * Clears the Campground and clears it again when done. This prevents leakage if the test adds
    * items to the campground.
    *
