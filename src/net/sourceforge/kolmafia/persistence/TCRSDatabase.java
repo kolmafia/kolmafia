@@ -776,7 +776,8 @@ public class TCRSDatabase {
         (roll == TCRSEffectPool.size())
             ?
             //   If we picked an overflow size, the item retains its original effect
-            ModifierDatabase.getStringModifier(ModifierType.ITEM, item.getDisambiguatedName(), StringModifier.EFFECT)
+            ModifierDatabase.getStringModifier(
+                ModifierType.ITEM, item.getDisambiguatedName(), StringModifier.EFFECT)
             :
             //   Otherwise use the roll we got
             EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
@@ -981,10 +982,14 @@ public class TCRSDatabase {
 
     if (HARDCODED_EFFECT.contains(id)) {
       enchanted = true;
-      enchantment.effect = ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.EFFECT);
+      enchantment.effect =
+          ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.EFFECT);
 
       if (!HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
-        enchantment.duration = (int) ModifierDatabase.getNumericModifier(ModifierType.ITEM, id, DoubleModifier.EFFECT_DURATION);
+        enchantment.duration =
+            (int)
+                ModifierDatabase.getNumericModifier(
+                    ModifierType.ITEM, id, DoubleModifier.EFFECT_DURATION);
       }
     }
 
@@ -1124,18 +1129,18 @@ public class TCRSDatabase {
   }
 
   private static TCRS guessEquipment(
-          final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
+      final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
-    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId()) ;
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
     var mtRng = new PHPMTRandom(seed);
     var rng = new PHPRandom(seed);
 
     var cosmeticsString = rollCosmetics(mtRng, rng, 8);
 
     var name =
-            Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
-                    .filter(Predicate.not(String::isBlank))
-                    .collect(Collectors.joining(" "));
+        Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+            .filter(Predicate.not(String::isBlank))
+            .collect(Collectors.joining(" "));
 
     var mods = getRetainedModifiers(id);
 
@@ -1200,7 +1205,14 @@ public class TCRSDatabase {
       case POTION, AVATAR_POTION -> guessPotion(ascensionClass, sign, item);
       case EAT, DRINK -> guessFoodBooze(ascensionClass, sign, item, type == ConsumptionType.EAT);
       case SPLEEN -> guessSpleen(ascensionClass, sign, item);
-      case HAT, SHIRT, CONTAINER, WEAPON, OFFHAND, PANTS, ACCESSORY, FAMILIAR_EQUIPMENT -> guessEquipment(ascensionClass, sign, item);
+      case HAT,
+          SHIRT,
+          CONTAINER,
+          WEAPON,
+          OFFHAND,
+          PANTS,
+          ACCESSORY,
+          FAMILIAR_EQUIPMENT -> guessEquipment(ascensionClass, sign, item);
       default -> guessGeneric(ascensionClass, sign, item);
     };
   }

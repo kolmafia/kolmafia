@@ -8,9 +8,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import java.util.stream.Stream;
-
 import internal.helpers.Cleanups;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.ModifierType;
@@ -149,46 +148,46 @@ class TCRSDatabaseTest {
           }
 
           var checkMods =
-                  !TCRSDatabase.DYNAMICALLY_NAMED.contains(itemId)
-                          && switch (ItemDatabase.getConsumptionType(itemId)) {
+              !TCRSDatabase.DYNAMICALLY_NAMED.contains(itemId)
+                  && switch (ItemDatabase.getConsumptionType(itemId)) {
                     case USE, USE_INFINITE, USE_MULTIPLE, USE_MESSAGE_DISPLAY -> false;
                     default -> true;
                   };
 
           assertAll(
-                  String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign),
-                  () ->
-                          assertThat(
-                                  "Name",
-                                  weGuessed.name,
-                                  equalTo(StringUtilities.getEntityDecode(dataSays.name))),
-                  () -> assertThat("Size", weGuessed.size, equalTo(dataSays.size)),
-                  () -> {
-                    if (dataSays.quality.getValue() > 0)
-                      assertThat("Quality", weGuessed.quality, equalTo(dataSays.quality));
-                  },
-                  () -> {
-                    if (checkMods) {
-                      var dataSaysMods = ModifierDatabase.splitModifiers(dataSays.modifiers);
-                      var weGuessedMods = ModifierDatabase.splitModifiers(weGuessed.modifiers);
+              String.format("[%s]%s in %s / %s", itemId, i.getValue(), ascensionClass, sign),
+              () ->
+                  assertThat(
+                      "Name",
+                      weGuessed.name,
+                      equalTo(StringUtilities.getEntityDecode(dataSays.name))),
+              () -> assertThat("Size", weGuessed.size, equalTo(dataSays.size)),
+              () -> {
+                if (dataSays.quality.getValue() > 0)
+                  assertThat("Quality", weGuessed.quality, equalTo(dataSays.quality));
+              },
+              () -> {
+                if (checkMods) {
+                  var dataSaysMods = ModifierDatabase.splitModifiers(dataSays.modifiers);
+                  var weGuessedMods = ModifierDatabase.splitModifiers(weGuessed.modifiers);
 
-                      assertAll(
-                              () ->
-                                      assertThat(
-                                              "Effect",
-                                              weGuessedMods.getModifierValue("Effect"),
-                                              equalTo(dataSaysMods.getModifierValue("Effect"))),
-                              () -> {
-                                // @TODO Queen cookie sometimes has no effect duration. Is this right?
-                                if (dataSaysMods.containsModifier("Effect Duration")) {
-                                  assertThat(
-                                          "Effect Duration",
-                                          weGuessedMods.getModifierValue("Effect Duration"),
-                                          equalTo(dataSaysMods.getModifierValue("Effect Duration")));
-                                }
-                              });
-                    }
-                  });
+                  assertAll(
+                      () ->
+                          assertThat(
+                              "Effect",
+                              weGuessedMods.getModifierValue("Effect"),
+                              equalTo(dataSaysMods.getModifierValue("Effect"))),
+                      () -> {
+                        // @TODO Queen cookie sometimes has no effect duration. Is this right?
+                        if (dataSaysMods.containsModifier("Effect Duration")) {
+                          assertThat(
+                              "Effect Duration",
+                              weGuessedMods.getModifierValue("Effect Duration"),
+                              equalTo(dataSaysMods.getModifierValue("Effect Duration")));
+                        }
+                      });
+                }
+              });
         }
       }
     }
