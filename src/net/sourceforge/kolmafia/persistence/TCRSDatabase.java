@@ -1115,12 +1115,6 @@ public class TCRSDatabase {
     return new TCRS(name, 1, quality, mods.toString());
   }
 
-  private static record EquipmentEnchantment(final String adjective, final String modifier) {}
-
-  private static Set<EquipmentEnchantment> equipmentEnchantments = Set.of(
-          new EquipmentEnchantment()
-  )
-
   private static TCRS guessEquipment(
           final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
     var id = item.getItemId();
