@@ -11297,9 +11297,9 @@
 11269	Crimbo cookie sheet	520625195	2002cookies.gif	usable	t,d	50
 11270	Spooky VHS Tape	754348768	2002vhs.gif	none, combat	t,d	50
 11271	scroll of minor invulnerability	873755113	scroll2.gif	potion, usable	t,d	10
-11272	Lapis Lazuli	460775590	lapis.gif	usable	t,d	100
+11272	Lapis Lazuli	460775590	lapis.gif	multiple	t,d	100
 11273	Eye Agate	556792213	agate.gif	multiple	t,d	100
-11274	Azurite	560374993	azurite.gif	usable	t,d	100
+11274	Azurite	560374993	azurite.gif	multiple	t,d	100
 11275	Arrow (+1)	391510123	arrow_normal.gif	none, combat	t,d	10
 11276	scroll of protection from lycanthropes	545555359	scroll3.gif	potion, usable	t,d	10
 11277	Loathing Idol Microphone (75% charged)	606528143	2002mic.gif	usable	t,d	50
