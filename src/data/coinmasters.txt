@@ -1142,7 +1142,7 @@ Replica Mr. Store	buy	1	replica designer sweatpants	ROW1376
 Replica Mr. Store	buy	1	replica grey gosling	ROW1375
 Replica Mr. Store	buy	1	replica Jurassic Parka	ROW1374
 Replica Mr. Store	buy	1	replica Cincho de Mayo	ROW1377
-Replica Mr. Store	buy	1	Replica 2002 Mr. Store	ROW1391
+Replica Mr. Store	buy	1	Replica 2002 Mr. Store Catalog	ROW1391
 
 # Mr. Store 2002
 

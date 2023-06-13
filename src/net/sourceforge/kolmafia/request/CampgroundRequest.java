@@ -94,6 +94,7 @@ public class CampgroundRequest extends GenericRequest {
           // Inside dwelling: maids
           ItemPool.MAID,
           ItemPool.CLOCKWORK_MAID,
+          ItemPool.MEAT_BUTLER,
 
           // Inside dwelling: miscellaneous
           // (Certificate of Participation)
@@ -456,12 +457,6 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.FIFTEEN_CORNUCOPIA,
     CampgroundRequest.MEGACOPIA,
     CampgroundRequest.TALL_GRASS,
-    // CampgroundRequest.TWO_TALL_GRASS,
-    // CampgroundRequest.THREE_TALL_GRASS,
-    // CampgroundRequest.FOUR_TALL_GRASS,
-    // CampgroundRequest.FIVE_TALL_GRASS,
-    // CampgroundRequest.SIX_TALL_GRASS,
-    // CampgroundRequest.SEVEN_TALL_GRASS,
     CampgroundRequest.VERY_TALL_GRASS,
     CampgroundRequest.FREE_RANGE_MUSHROOM,
     CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM,
@@ -554,11 +549,29 @@ public class CampgroundRequest extends GenericRequest {
 
   public static List<AdventureResult> getCrops() {
     var list = new ArrayList<AdventureResult>();
+    // CROPS is an array of "interesting" crops to harvest.
+    // Each crop is an AdventureResult: an itemID and a count.
+    // The same itemId can appear multiple times with a different count.
+    //
+    // We want to return a single AdventureResult for each crop type.
+    CropType cropType = null;
     for (AdventureResult crop : CampgroundRequest.CROPS) {
       int index = KoLConstants.campground.indexOf(crop);
-      if (index != -1) {
-        list.add(KoLConstants.campground.get(index));
+      if (index == -1) {
+        // This crop is not present
+        continue;
       }
+      // This crop is in the campground.
+      AdventureResult current = KoLConstants.campground.get(index);
+      // See if it is already in the list of crops.
+      // AdventureResult.equals() does not consider count
+      index = list.indexOf(current);
+      if (index != -1) {
+        // Yes. We have already saved the actual crop.
+        continue;
+      }
+      // No. Add the actual crop we have
+      list.add(current);
     }
     return list;
   }
@@ -700,15 +713,21 @@ public class CampgroundRequest extends GenericRequest {
         CampgroundRequest request = new CampgroundRequest("rgarden3");
         RequestThread.postRequest(request);
       }
-    } else {
+    } else if (cropType == CropType.GRASS) {
       // Grass plots are special: each cluster of tall grass is picked
       // individually - except for Very Tall Grass (the 8th growth)
-      if (cropType != CropType.GRASS || count == 8) {
+      if (count >= 8) {
         // Harvest the entire garden in one go
         count = 1;
       }
 
-      // Pick your crop (in multiple requests, if Tall Grass)
+      // Pick your crop in multiple requests
+      CampgroundRequest request = new CampgroundRequest("garden");
+      while (count-- > 0) {
+        RequestThread.postRequest(request);
+      }
+    } else {
+      // Pick your crop
       CampgroundRequest request = new CampgroundRequest("garden");
       while (count-- > 0) {
         RequestThread.postRequest(request);
@@ -1522,8 +1541,10 @@ public class CampgroundRequest extends GenericRequest {
     if (startIndex > 0 && endIndex > 0) {
       var relevantResponse = responseText.substring(startIndex, endIndex);
 
-      boolean maidFound = findImage(relevantResponse, "maid.gif", ItemPool.MAID);
-      if (!maidFound) findImage(relevantResponse, "maid2.gif", ItemPool.CLOCKWORK_MAID);
+      // Three mutually exclusive dwelling servants
+      if (findImage(relevantResponse, "maid.gif", ItemPool.MAID)
+          || findImage(relevantResponse, "maid2.gif", ItemPool.CLOCKWORK_MAID)
+          || findImage(relevantResponse, "butler.gif", ItemPool.MEAT_BUTLER)) {}
 
       Matcher m = FURNISHING_PATTERN.matcher(relevantResponse);
       while (m.find()) {
