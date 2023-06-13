@@ -371,7 +371,6 @@ class ConsumablesDatabaseTest {
   }
 
   @Nested
-  @Disabled("ConsumablesDatabase leaks to other tests.")
   class TCRS {
     static Cleanups CLEANUPS = new Cleanups();
 

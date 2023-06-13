@@ -14,10 +14,8 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-@Disabled("ConsumablesDatabase leaks to other tests.")
 public class TCRSDatabaseTest {
   @BeforeAll
   public static void beforeAll() {
