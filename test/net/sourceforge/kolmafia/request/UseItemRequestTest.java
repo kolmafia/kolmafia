@@ -827,6 +827,70 @@ class UseItemRequestTest {
     }
   }
 
+  @Nested
+  class ReplicaTenDollars {
+    @Test
+    void successfulSingleUseIncrementsSetting() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.REPLICA_MR_ACCESSORY, 0),
+              withItem(ItemPool.REPLICA_TEN_DOLLARS, 2),
+              withProperty("legacyPoints", 0));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_one_replica_ten_dollars.html"));
+        client.addResponse(200, ""); // api.php
+
+        var req = UseItemRequest.getInstance(ItemPool.REPLICA_TEN_DOLLARS, 1);
+        req.run();
+
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_TEN_DOLLARS), is(1));
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_MR_ACCESSORY), is(1));
+        assertThat("legacyPoints", isSetTo(1));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11253&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void successfulMultiseIncrementsSetting() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.REPLICA_MR_ACCESSORY, 0),
+              withItem(ItemPool.REPLICA_TEN_DOLLARS, 2),
+              withProperty("legacyPoints", 0));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_two_replica_ten_dollars.html"));
+        client.addResponse(200, ""); // api.php
+
+        var req = UseItemRequest.getInstance(ItemPool.REPLICA_TEN_DOLLARS, 2);
+        req.run();
+
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_TEN_DOLLARS), is(0));
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_MR_ACCESSORY), is(2));
+        assertThat("legacyPoints", isSetTo(2));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0), "/multiuse.php", "whichitem=11253&action=useitem&quantity=2&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
   @ParameterizedTest
   @CsvSource({
     "your stomach drops and your ears pop as you are suddenly plunged into a horrifyingly dark and blurry version of the world you once knew, true",
