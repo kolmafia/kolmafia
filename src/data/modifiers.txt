@@ -6708,6 +6708,7 @@ Effect	Not Sharing	Monster Level: +25
 Effect	Notably Lovely	Moxie: +10, Ranged Damage: +10, Damage Reduction: 10
 Effect	Nothing Happened	Monster Level: +20
 Effect	Nothing Is Impossible	Spell Damage Percent: +100
+Effect	Nothing Really Matters	Monster Level: -13
 Effect	Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Nutrient-Rich	Experience: +4, Maximum HP Percent: +50, Maximum MP Percent: +25
 Effect	Nuts about Candy	Maximum HP: +50
@@ -8986,6 +8987,7 @@ Item	sausage without a cause	Effect: "East of Eaten", Effect Duration: 1
 Item	savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 Item	sea truffle	Effect: "Trufflin'", Effect Duration: 10
 Item	shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
+Item	shadow candy	Effect: "Nothing Really Matters", Effect Duration: 10
 Item	shadow flame	Effect: "Inflamed With Shadows", Effect Duration: 100
 Item	shoo-fish pie	Effect: "Fishy", Effect Duration: 20
 Item	shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30

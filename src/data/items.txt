@@ -11213,7 +11213,7 @@
 11185	shadow needle	852125044	shadowneedle.gif	usable		0
 11186	cursed monkey's paw	617234158	monkeypaw0.gif	accessory		0
 11187	cursed monkey glove	144539345	monkeyglove.gif	usable	t	0
-11188	shadow candy	408964450	nopic.gif	none		0
+11188	shadow candy	408964450	shadowmonocle.gif	potion, usable	t	0
 11189	replica Mr. Accessory	341989211	replicamra.gif	none	q	0	replica Mr. Accessories
 11190	replica Dark Jill-O-Lantern	844290698	jilldark.gif	grow	q	0
 11191	replica hand turkey outline	643478560	hand.gif	grow	q	0
