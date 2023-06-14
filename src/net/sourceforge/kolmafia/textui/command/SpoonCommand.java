@@ -61,7 +61,12 @@ public class SpoonCommand extends AbstractCommand {
       return;
     }
 
-    AdventureResult spoon = ItemPool.get(ItemPool.HEWN_MOON_RUNE_SPOON);
+    int spoonId =
+        KoLCharacter.inLegacyOfLoathing()
+                && InventoryManager.hasItem(ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON)
+            ? ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON
+            : ItemPool.HEWN_MOON_RUNE_SPOON;
+    AdventureResult spoon = ItemPool.get(spoonId);
     Slot slot = KoLCharacter.equipmentSlot(spoon);
     if (slot != Slot.NONE) {
       RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, slot));
@@ -69,7 +74,7 @@ public class SpoonCommand extends AbstractCommand {
 
     String buf =
         "inv_use.php?whichitem="
-            + ItemPool.HEWN_MOON_RUNE_SPOON
+            + spoonId
             + "&pwd="
             + GenericRequest.passwordHash
             + "&doit=96&whichsign="
