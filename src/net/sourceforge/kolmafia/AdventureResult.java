@@ -439,7 +439,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
           + " ("
           + Preferences.getString("umbrellaState")
           + ")";
-      case ItemPool.JURASSIC_PARKA -> {
+      case ItemPool.JURASSIC_PARKA, ItemPool.REPLICA_JURASSIC_PARKA -> {
         var mode = Preferences.getString("parkaMode");
         yield mode.equals("") ? this.name : this.name + " (" + mode + " mode)";
       }
