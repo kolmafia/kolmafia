@@ -152,6 +152,20 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.reset();
   }
 
+
+  // Used for testing to replicate static initialization
+  public static void forceRestore() {
+    consumableByItemId.clear();
+    consumableByName.clear();
+    allConsumables.clear();
+    currentAverageAdventures.clear();
+    for (int i = 0; i < AVERAGE_ADVENTURE_CACHE_SIZE; ++i) {
+      ConsumablesDatabase.currentAverageAdventures.add(new HashMap<>());
+    }
+    ConsumablesDatabase.reset();
+
+  }
+
   public static void writeConsumable(final PrintStream writer, final Consumable consumable) {
     writer.println(consumable.toString());
   }

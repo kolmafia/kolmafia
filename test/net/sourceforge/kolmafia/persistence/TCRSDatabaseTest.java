@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.persistence;
 import static internal.helpers.Player.*;
 
 public class TCRSDatabaseTest {
-  /*
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("TCRSDatabaseTest");
@@ -54,5 +53,4 @@ public class TCRSDatabaseTest {
       assertThat(mods.getDouble(DoubleModifier.ADVENTURES), is(3.0));
     }
   }
-   */
 }

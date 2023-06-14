@@ -18,11 +18,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
-
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Month;
-
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -374,6 +374,7 @@ class ConsumablesDatabaseTest {
       DebugDatabase.cacheItemDescriptionText(
           ItemPool.RING, html("request/test_normal_desc_item_ring.html"));
       TCRSDatabase.resetModifiers();
+      ConsumablesDatabase.forceRestore();
       try (var walker = Files.walk(KoLConstants.DATA_LOCATION.toPath())) {
         walker
             .map(Path::toFile)
