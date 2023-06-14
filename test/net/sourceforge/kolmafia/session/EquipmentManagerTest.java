@@ -83,6 +83,30 @@ public class EquipmentManagerTest {
     }
   }
 
+  private static final AdventureResult REPLICA_JURASSIC_PARKA =
+      ItemPool.get(ItemPool.REPLICA_JURASSIC_PARKA);
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {"", "kachungasaur", "dilophosaur", "spikolodon", "ghostasaurus", "pterodactyl"})
+  public void thatReplicaJurassicParkaIsRecognized(String mode) {
+    var cleanups =
+        new Cleanups(
+            withEquipped(Slot.SHIRT, "replica Jurassic Parka"), withProperty("parkaMode", mode));
+
+    try (cleanups) {
+      if (mode.equals("")) {
+        assertEquals("replica Jurassic Parka", REPLICA_JURASSIC_PARKA.getName());
+      } else {
+        assertEquals(
+            "replica Jurassic Parka (" + mode + " mode)", REPLICA_JURASSIC_PARKA.getName());
+      }
+      assertEquals(
+          REPLICA_JURASSIC_PARKA.getItemId(),
+          ItemDatabase.getItemId(REPLICA_JURASSIC_PARKA.getName()));
+    }
+  }
+
   private static final AdventureResult BACKUP_CAMERA = ItemPool.get(ItemPool.BACKUP_CAMERA);
 
   @ParameterizedTest

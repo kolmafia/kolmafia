@@ -6456,7 +6456,7 @@ public class KoLAdventureValidationTest {
       }
 
       @Test
-      public void skateParkasMap() {
+      public void skateParkHasMap() {
         var cleanups =
             new Cleanups(
                 withQuestProgress(Quest.SEA_OLD_GUY, QuestDatabase.STARTED),
