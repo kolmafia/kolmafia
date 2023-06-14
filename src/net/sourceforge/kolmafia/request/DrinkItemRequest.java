@@ -189,7 +189,9 @@ public class DrinkItemRequest extends UseItemRequest {
       allowOverDrink = true;
     }
 
-    int maxNumber = inebrietyLeft / inebriety + shotglass;
+    int temp = inebriety + shotglass;
+    // Don't overflow if overdrink is allowed
+    int maxNumber = temp == 0 ? Integer.MAX_VALUE - 1 : inebrietyLeft / temp;
 
     if (allowOverDrink) {
       // Multiple drinks will make us drunk

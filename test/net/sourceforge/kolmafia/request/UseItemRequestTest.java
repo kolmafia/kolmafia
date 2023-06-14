@@ -326,16 +326,34 @@ class UseItemRequestTest {
         assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.SPLEEN), is(maxUses));
       }
     }
-
-    @Test
-    void itShouldNotDivideByZeroWhenConsumingQuantumTaco() {
+    /**
+     * The list ot tested items was derived from items with zero fullness in fullness.txt at the
+     * time the test was written. Magical sausage 10060 has zero fullness but it is not tested here
+     * because the fullness is controlled by a preference. Similarly for the glitch season reward
+     * 10207. Given that the point of this test is to show a divide by zero does not occur, leaving
+     * them out is deemed acceptable.
+     */
+    @ParameterizedTest
+    @CsvSource({"572", "1266", "1432", "2149", "2188", "4412"})
+    void itShouldNotDivideByZeroWhenConsumingZeroFullnessItems(int itemID) {
       int fullness = 0;
       int maxUses = Integer.MAX_VALUE;
       var cleanups = withFullness(fullness);
 
       try (cleanups) {
-        assertThat(
-            UseItemRequest.maximumUses(ItemPool.QUANTUM_TACO, ConsumptionType.EAT), is(maxUses));
+        assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.EAT), is(maxUses));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1047", "1276", "4413", "7491"})
+    void itShouldNotDivideByZeroWhenConsumingZeroInebrietyItems(int itemID) {
+      int inebriety = 0;
+      int maxUses = Integer.MAX_VALUE;
+      var cleanups = withInebriety(inebriety);
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.DRINK), is(maxUses));
       }
     }
 
