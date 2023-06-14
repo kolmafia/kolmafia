@@ -1,10 +1,14 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLevel;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -14,13 +18,23 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
+
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.Month;
+
+import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -338,7 +352,6 @@ class ConsumablesDatabaseTest {
     }
   }
 
-  /*
   @Nested
   class TCRS {
     static Cleanups CLEANUPS = new Cleanups();
@@ -384,5 +397,4 @@ class ConsumablesDatabaseTest {
       assertThat(ConsumablesDatabase.isCannedBeer(ItemPool.WILLER), is(true));
     }
   }
-   */
 }
