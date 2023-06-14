@@ -11230,8 +11230,7 @@ Item	Elron's Explosive Etude	Skill: "Elron's Explosive Etude"
 # elven magi-pack: Restores 40-50 MP
 # elven medi-pack: Restores 80-100 HP
 Item	emo roe	Free Pull
-Item	emotion chip	Free Pull
-Item	emotion chip	Skill: "Emotionally Chipped"
+Item	emotion chip	Free Pull, Skill: "Emotionally Chipped"
 Item	Essence of Annoyance	Skill: "Summon Annoyance"
 Item	Essence of Bear	Skill: "Bear Essence"
 # eternal car battery: Restores 45-55 MP
