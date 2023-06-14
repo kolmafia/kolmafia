@@ -642,9 +642,6 @@ public class ConsumablesDatabase {
 
   public static final int getSpleenHit(final String name) {
     Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(name);
-    if (name.contains("astral energy drink") && (!name.contains("carton"))) {
-      System.out.println(spleenhit == null ? 0 : spleenhit);
-    }
     return spleenhit == null ? 0 : spleenhit;
   }
 

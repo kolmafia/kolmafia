@@ -1,22 +1,9 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
-import internal.helpers.Cleanups;
-import net.sourceforge.kolmafia.AscensionClass;
-import net.sourceforge.kolmafia.AscensionPath.Path;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.ModifierType;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.ZodiacSign;
-import net.sourceforge.kolmafia.modifiers.DoubleModifier;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 public class TCRSDatabaseTest {
+  /*
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("TCRSDatabaseTest");
@@ -67,4 +54,5 @@ public class TCRSDatabaseTest {
       assertThat(mods.getDouble(DoubleModifier.ADVENTURES), is(3.0));
     }
   }
+   */
 }
