@@ -2815,3 +2815,9 @@
 2815	Romantically Roused	singlenote.gif	53288d446261bea13b62567b694c65ec	neutral	none	loathingidol ballad
 2816	Spitting Rhymes	rhyme.gif	79b45774d3b494108eefa1475ea3d61b	neutral	none	loathingidol rhyme
 2817	Twangy	seegerbanjo.gif	62262f6ca05f7a7cb0ac53f808efda9b	neutral	none	loathingidol country
+2818
+2819
+2820
+2821
+2822
+2823	Nothing Really Matters	shadowmonocle.gif	e6924ac8aa3314bf0d41a8cf764cbaf9	neutral	none	use 1 shadow candy
