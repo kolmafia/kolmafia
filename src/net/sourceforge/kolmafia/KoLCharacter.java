@@ -3988,6 +3988,7 @@ public abstract class KoLCharacter {
             break;
 
           case SkillPool.EMOTIONALLY_CHIPPED:
+          case SkillPool.REPLICA_EMOTIONALLY_CHIPPED:
             KoLCharacter.addAvailableSkill(SkillPool.FEEL_DISAPPOINTED);
             KoLCharacter.addAvailableSkill(SkillPool.FEEL_ENVY);
             KoLCharacter.addAvailableSkill(SkillPool.FEEL_EXCITEMENT);

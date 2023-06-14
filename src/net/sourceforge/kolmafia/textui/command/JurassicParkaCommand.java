@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Map;
 import java.util.Set;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -62,7 +63,9 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
 
   @Override
   public void run(final String cmd, final String parameters) {
-    if (!InventoryManager.hasItem(ItemPool.JURASSIC_PARKA)) {
+    if (!InventoryManager.hasItem(ItemPool.JURASSIC_PARKA)
+        && !(KoLCharacter.inLegacyOfLoathing()
+            && InventoryManager.hasItem(ItemPool.REPLICA_JURASSIC_PARKA))) {
       KoLmafia.updateDisplay("You need a Jurassic Parka to pull tabs on your Jurassic Parka.");
       return;
     }
