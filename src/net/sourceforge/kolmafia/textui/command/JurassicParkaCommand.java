@@ -64,8 +64,8 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
   @Override
   public void run(final String cmd, final String parameters) {
     if (!InventoryManager.hasItem(ItemPool.JURASSIC_PARKA)
-        && (!KoLCharacter.inLegacyOfLoathing()
-            || !InventoryManager.hasItem(ItemPool.REPLICA_JURASSIC_PARKA))) {
+        && !(KoLCharacter.inLegacyOfLoathing()
+            && InventoryManager.hasItem(ItemPool.REPLICA_JURASSIC_PARKA))) {
       KoLmafia.updateDisplay("You need a Jurassic Parka to pull tabs on your Jurassic Parka.");
       return;
     }

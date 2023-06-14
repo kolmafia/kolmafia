@@ -2515,7 +2515,7 @@ public class FightRequest extends GenericRequest {
         KoLCharacter.resetCurrentPP();
       }
 
-      if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, Slot.FAMILIAR)) {
+      if (CrystalBallManager.isEquipped()) {
         CrystalBallManager.parseCrystalBall(responseText);
       }
 

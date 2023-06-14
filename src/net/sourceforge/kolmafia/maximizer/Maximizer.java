@@ -744,7 +744,9 @@ public class Maximizer {
             continue;
           }
           // You must have the cargo shorts
-          if (!InventoryManager.hasItem(ItemPool.CARGO_CULTIST_SHORTS)) {
+          if (!InventoryManager.hasItem(ItemPool.CARGO_CULTIST_SHORTS)
+              && !(KoLCharacter.inLegacyOfLoathing()
+                  && InventoryManager.hasItem(ItemPool.REPLICA_CARGO_CULTIST_SHORTS))) {
             if (includeAll) {
               text = "(acquire a pair of Cargo Cultist Shorts for " + name + ")";
               cmd = "";
