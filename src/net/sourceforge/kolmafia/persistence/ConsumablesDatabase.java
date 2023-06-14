@@ -152,7 +152,6 @@ public class ConsumablesDatabase {
     ConsumablesDatabase.reset();
   }
 
-
   // Used for testing to replicate static initialization
   public static void forceRestore() {
     consumableByItemId.clear();
@@ -163,7 +162,6 @@ public class ConsumablesDatabase {
       ConsumablesDatabase.currentAverageAdventures.add(new HashMap<>());
     }
     ConsumablesDatabase.reset();
-
   }
 
   public static void writeConsumable(final PrintStream writer, final Consumable consumable) {
