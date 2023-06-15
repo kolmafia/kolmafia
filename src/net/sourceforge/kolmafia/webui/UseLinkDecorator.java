@@ -1658,6 +1658,11 @@ public abstract class UseLinkDecorator {
           return new UsesLink(uses.toArray(new UseLink[uses.size()]));
         }
 
+      case ItemPool.REPLICA_MR_ACCESSORY:
+        useType = "shop";
+        useLocation = "shop.php?whichshop=mrreplica";
+        break;
+
         // Subject 37 File goes to Cell #37
       case ItemPool.SUBJECT_37_FILE:
         useType = "cell #37";
