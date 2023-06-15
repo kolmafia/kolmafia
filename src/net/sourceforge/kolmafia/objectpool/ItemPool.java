@@ -3616,9 +3616,16 @@ public class ItemPool {
   public static final int REPLICA_NEVERENDING_PARTY_INVITE = 11237;
   public static final int REPLICA_GARBAGE_TOTE = 11238;
   public static final int REPLICA_GOD_LOBSTER = 11239;
+  public static final int REPLICA_FOURTH_SABER = 10240;
   public static final int REPLICA_SAUSAGE_O_MATIC = 11241;
+  public static final int REPLICA_HEWN_MOON_RUNE_SPOON = 11242;
   public static final int REPLICA_CAMELCALF = 11243;
   public static final int REPLICA_POWERFUL_GLOVE = 11244;
+  public static final int REPLICA_CARGO_CULTIST_SHORTS = 11245;
+  public static final int REPLICA_INDUSTRIAL_FIRE_EXTINGUISHER = 11246;
+  public static final int REPLICA_MINIATURE_CRYSTAL_BALL = 11247;
+  public static final int REPLICA_EMOTION_CHIP = 11248;
+  public static final int REPLICA_JURASSIC_PARKA = 11249;
   public static final int REPLICA_GREY_GOSLING = 11250;
   public static final int REPLICA_DESIGNER_SWEATPANTS = 11251;
   public static final int REPLICA_TEN_DOLLARS = 11253;

@@ -17,7 +17,8 @@ public class SaberCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, String parameter) {
     if (!InventoryManager.hasItem(ItemPool.FOURTH_SABER)
-        && !KoLCharacter.hasEquipped(ItemPool.FOURTH_SABER)) {
+        && !(KoLCharacter.inLegacyOfLoathing()
+            && InventoryManager.hasItem(ItemPool.REPLICA_FOURTH_SABER))) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You need a Fourth of May Cosplay Saber first.");
       return;
     }

@@ -1998,7 +1998,9 @@ public class ConcoctionDatabase {
         CraftingType.COINMASTER, "You have not selected the option to trade with coin masters.");
 
     if (InventoryManager.getCount(ItemPool.SAUSAGE_O_MATIC) > 0
-        || KoLCharacter.hasEquipped(ItemPool.SAUSAGE_O_MATIC, Slot.OFFHAND)) {
+        || KoLCharacter.hasEquipped(ItemPool.SAUSAGE_O_MATIC, Slot.OFFHAND)
+        || (KoLCharacter.inLegacyOfLoathing()
+            && InventoryManager.equippedOrInInventory(ItemPool.REPLICA_SAUSAGE_O_MATIC))) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SAUSAGE_O_MATIC);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SAUSAGE_O_MATIC, 0);
       ConcoctionDatabase.CREATION_COST.put(

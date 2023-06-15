@@ -11230,7 +11230,7 @@ Item	Elron's Explosive Etude	Skill: "Elron's Explosive Etude"
 # elven magi-pack: Restores 40-50 MP
 # elven medi-pack: Restores 80-100 HP
 Item	emo roe	Free Pull
-Item	emotion chip	Free Pull
+Item	emotion chip	Free Pull, Skill: "Emotionally Chipped"
 Item	Essence of Annoyance	Skill: "Summon Annoyance"
 Item	Essence of Bear	Skill: "Bear Essence"
 # eternal car battery: Restores 45-55 MP
@@ -11937,6 +11937,7 @@ Item	redwood rain stick	Effect: "You Have Ever Seen The Rain", Effect Duration: 
 Item	rehearsing dramatic hedgehog	Free Pull
 # replica bat-oomerang: Instantly kill a foe (up to 3x per day)
 # replica bat-oomerang: (does not go away when used)
+Item	replica emotion chip	Skill: "Replica Emotionally Chipped"
 Item	Rethinking Candy	Skill: "Sweet Synthesis"
 Item	Retrospecs try-at-home kit	Free Pull
 # riboflavin: Increase a Pokefamiliar's maximum HP by 1

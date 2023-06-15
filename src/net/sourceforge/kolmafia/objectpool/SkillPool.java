@@ -122,6 +122,7 @@ public class SkillPool {
   public static final int CRYPTOBOTANIST = 218;
   public static final int INSECTOLOGIST = 219;
   public static final int PSYCHOGEOLOGIST = 220;
+  public static final int REPLICA_EMOTIONALLY_CHIPPED = 222;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;

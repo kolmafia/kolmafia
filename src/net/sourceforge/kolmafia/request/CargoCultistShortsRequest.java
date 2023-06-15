@@ -96,7 +96,9 @@ public class CargoCultistShortsRequest extends GenericRequest {
 
     // If you can't get a pair of cargo cultist shorts, punt
     if (!KoLCharacter.hasEquipped(ItemPool.CARGO_CULTIST_SHORTS, Slot.PANTS)
-        && !InventoryManager.retrieveItem(ItemPool.CARGO_CULTIST_SHORTS, 1, true)) {
+        && !InventoryManager.retrieveItem(ItemPool.CARGO_CULTIST_SHORTS, 1, true)
+        && !(KoLCharacter.inLegacyOfLoathing()
+            && InventoryManager.equippedOrInInventory(ItemPool.REPLICA_CARGO_CULTIST_SHORTS))) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "You don't have a pair of Cargo Cultist Shorts available");
       return;
