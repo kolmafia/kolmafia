@@ -2148,7 +2148,8 @@ public class FightRequestTest {
             withEquipped(Slot.ACCESSORY1, "Flash Liquidizer Ultra Dousing Accessory"));
 
     try (cleanups) {
-      parseCombatData("request/test_fight_douse_foe.html", "fight.php?action=skill&whichskill=7448");
+      parseCombatData(
+          "request/test_fight_douse_foe.html", "fight.php?action=skill&whichskill=7448");
 
       assertThat("_douseFoeUses", isSetTo(3));
     }
@@ -2163,7 +2164,8 @@ public class FightRequestTest {
             withEquipped(Slot.ACCESSORY1, "pro skateboard"));
 
     try (cleanups) {
-      parseCombatData("request/test_fight_epic_mctwist.html", "fight.php?action=skill&whichskill=7447");
+      parseCombatData(
+          "request/test_fight_epic_mctwist.html", "fight.php?action=skill&whichskill=7447");
 
       assertThat("_epicMcTwistUsed", isSetTo(true));
     }
