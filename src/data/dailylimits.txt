@@ -46,7 +46,7 @@ Cast	Demand Sandwich	_demandSandwich	3
 Cast	Digitize	_sourceTerminalDigitizeUses	[1+pref(sourceTerminalChips,TRAM)+pref(sourceTerminalChips,TRIGRAM)]
 Cast	Do an epic McTwist!	_epicMcTwistUsed
 Cast	Donho's Bubbly Ballad	_donhosCasts	50
-Cast	Douse Foe	_douseFoeUsed	3
+Cast	Douse Foe	_douseFoeUses	3
 Cast	Duplicate	_sourceTerminalDuplicateUses	[1+(4*path(The Source))]
 Cast	Elron's Explosive Etude	_elronsCasts	10
 Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
