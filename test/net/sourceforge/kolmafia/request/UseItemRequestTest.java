@@ -13,6 +13,7 @@ import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
@@ -52,6 +53,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
@@ -322,6 +324,21 @@ class UseItemRequestTest {
 
       try (cleanups) {
         assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.SPLEEN), is(maxUses));
+      }
+    }
+
+    @Test
+    void itShouldHandleAstralEnergyDrinkAppropriately() {
+      var cleanups = new Cleanups(withLevel(1), withSpleenUse(0));
+      try (cleanups) {
+        assertThat(ConsumablesDatabase.getRawSpleenHit("[5140]astral energy drink"), is(8));
+        assertThat(ConsumablesDatabase.getRawSpleenHit("[10883]astral energy drink"), is(5));
+        assertThat(ConsumablesDatabase.getRawSpleenHit("astral energy drink"), is(0));
+        //assertThat(UseItemRequest.maximumUses("[5140]astral energy drink"), is(1));
+        //assertThat(UseItemRequest.maximumUses(5140), is(1));
+        //assertThat(UseItemRequest.maximumUses("[10883]astral energy drink"), is(3));
+        //assertThat(UseItemRequest.maximumUses(10883), is(3));
+        assertThat(UseItemRequest.maximumUses("astral energy drink"), is(0));
       }
     }
     /**
