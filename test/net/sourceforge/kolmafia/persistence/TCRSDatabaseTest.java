@@ -31,7 +31,7 @@ public class TCRSDatabaseTest {
 
   @AfterAll
   static void afterAll() throws IOException {
-    ConsumablesDatabase.forceRestore();
+    ConsumablesDatabase.clearAndRebuild();
     try (var walker = Files.walk(KoLConstants.DATA_LOCATION.toPath())) {
       walker
           .map(java.nio.file.Path::toFile)

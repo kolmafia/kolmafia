@@ -146,22 +146,27 @@ public class ConsumablesDatabase {
   }
 
   static {
-    for (int i = 0; i < AVERAGE_ADVENTURE_CACHE_SIZE; ++i) {
-      ConsumablesDatabase.currentAverageAdventures.add(new HashMap<>());
-    }
+    populateAndBuild();
+  }
+
+  private static void populateAndBuild() {
+    populateAverageAdventures();
     ConsumablesDatabase.reset();
   }
 
+  private static void populateAverageAdventures() {
+    for (int i = 0; i < AVERAGE_ADVENTURE_CACHE_SIZE; ++i) {
+      ConsumablesDatabase.currentAverageAdventures.add(new HashMap<>());
+    }
+  }
+
   // Used for testing to replicate static initialization
-  public static void forceRestore() {
+  public static void clearAndRebuild() {
     consumableByItemId.clear();
     consumableByName.clear();
     allConsumables.clear();
     currentAverageAdventures.clear();
-    for (int i = 0; i < AVERAGE_ADVENTURE_CACHE_SIZE; ++i) {
-      ConsumablesDatabase.currentAverageAdventures.add(new HashMap<>());
-    }
-    ConsumablesDatabase.reset();
+    populateAndBuild();
   }
 
   public static void writeConsumable(final PrintStream writer, final Consumable consumable) {
