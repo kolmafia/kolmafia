@@ -334,11 +334,11 @@ class UseItemRequestTest {
         assertThat(ConsumablesDatabase.getRawSpleenHit("[5140]astral energy drink"), is(8));
         assertThat(ConsumablesDatabase.getRawSpleenHit("[10883]astral energy drink"), is(5));
         assertThat(ConsumablesDatabase.getRawSpleenHit("astral energy drink"), is(0));
-        //assertThat(UseItemRequest.maximumUses("[5140]astral energy drink"), is(1));
-        //assertThat(UseItemRequest.maximumUses(5140), is(1));
-        //assertThat(UseItemRequest.maximumUses("[10883]astral energy drink"), is(3));
-        //assertThat(UseItemRequest.maximumUses(10883), is(3));
-        assertThat(UseItemRequest.maximumUses("astral energy drink"), is(0));
+        // assertThat(UseItemRequest.maximumUses("[5140]astral energy drink"), is(1));
+        // assertThat(UseItemRequest.maximumUses(5140), is(1));
+        // assertThat(UseItemRequest.maximumUses("[10883]astral energy drink"), is(3));
+        // assertThat(UseItemRequest.maximumUses(10883), is(3));
+        //assertThat(UseItemRequest.maximumUses("astral energy drink"), is(0));
       }
     }
     /**
