@@ -10222,6 +10222,16 @@ public class FightRequest extends GenericRequest {
           increment = 5;
         }
         break;
+      case SkillPool.DOUSE_FOE:
+        if (responseText.contains("One of the three indicator lights goes dim")) {
+          skillSuccess = true;
+        }
+        break;
+      case SkillPool.DO_EPIC_MCTWIST:
+        if (responseText.contains("degrees in the air while performing")) {
+          skillSuccess = true;
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
