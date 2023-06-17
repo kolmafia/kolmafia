@@ -345,7 +345,7 @@ class UseItemRequestTest {
 
     @ParameterizedTest
     @CsvSource({"1047", "1276", "4413", "7491"})
-    void itShouldNotDivideByZeroWhenConsumingZeroInebrietyItems(int itemID) {
+    void itShouldNotDivideByZeroWhenDrinkingZeroInebrietyItems(int itemID) {
       int inebriety = 0;
       int maxUses = Integer.MAX_VALUE;
       var cleanups = withInebriety(inebriety);
