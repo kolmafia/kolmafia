@@ -2138,4 +2138,36 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  public void canDetectFludaUse() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_douseFoeUses", 2),
+            withEquipped(Slot.ACCESSORY1, "Flash Liquidizer Ultra Dousing Accessory"));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_douse_foe.html", "fight.php?action=skill&whichskill=7448");
+
+      assertThat("_douseFoeUses", isSetTo(3));
+    }
+  }
+
+  @Test
+  public void canDetectMcTwist() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_epicMcTwistUsed", false),
+            withEquipped(Slot.ACCESSORY1, "pro skateboard"));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_epic_mctwist.html", "fight.php?action=skill&whichskill=7447");
+
+      assertThat("_epicMcTwistUsed", isSetTo(true));
+    }
+  }
 }
