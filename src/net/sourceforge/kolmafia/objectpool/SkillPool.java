@@ -532,6 +532,10 @@ public class SkillPool {
   public static final int CINCHO_PROJECTILE_PINATA = 7442;
   public static final int CINCHO_PARTY_FOUL = 7443;
   public static final int CINCHO_CONFETTI_EXTRAVAGANZA = 7444;
+  public static final int DO_KICKFLIP = 7445;
+  public static final int DO_METHOD = 7446;
+  public static final int DO_EPIC_MCTWIST = 7447;
+  public static final int DOUSE_FOE = 7448;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

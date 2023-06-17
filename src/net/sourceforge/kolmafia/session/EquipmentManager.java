@@ -758,6 +758,14 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_SPRAY);
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_SIP);
         break;
+      case ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY:
+        KoLCharacter.removeAvailableSkill(SkillPool.DOUSE_FOE);
+        break;
+      case ItemPool.PRO_SKATEBOARD:
+        KoLCharacter.removeAvailableSkill(SkillPool.DO_KICKFLIP);
+        KoLCharacter.removeAvailableSkill(SkillPool.DO_METHOD);
+        KoLCharacter.removeAvailableSkill(SkillPool.DO_EPIC_MCTWIST);
+        break;
     }
   }
 
@@ -1110,6 +1118,14 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_FLOOD);
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_SPRAY);
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_SIP);
+        break;
+      case ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY:
+        KoLCharacter.addAvailableSkill(SkillPool.DOUSE_FOE);
+        break;
+      case ItemPool.PRO_SKATEBOARD:
+        KoLCharacter.addAvailableSkill(SkillPool.DO_KICKFLIP);
+        KoLCharacter.addAvailableSkill(SkillPool.DO_METHOD);
+        KoLCharacter.addAvailableSkill(SkillPool.DO_EPIC_MCTWIST);
         break;
     }
   }
