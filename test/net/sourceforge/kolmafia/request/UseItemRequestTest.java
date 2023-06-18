@@ -14,6 +14,8 @@ import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLimitMode;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
@@ -45,9 +47,11 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
@@ -903,6 +907,95 @@ class UseItemRequestTest {
       req.responseText = responseText;
       req.processResponse();
       assertThat("noncombatForcerActive", isSetTo(Boolean.parseBoolean(result)));
+    }
+  }
+
+  @Nested
+  class LoathingIdolMicrophone {
+    @ParameterizedTest
+    @CsvSource({"100, 1", "75, 2", "50, 3", "25, 4"})
+    void usingMicrophoneUsesCharges(int charge, int option) {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      int itemId = 0;
+      int nextId = 0;
+      switch (charge) {
+        case 100:
+          itemId = ItemPool.LOATHING_IDOL_MICROPHONE;
+          nextId = ItemPool.LOATHING_IDOL_MICROPHONE_75;
+          break;
+        case 75:
+          itemId = ItemPool.LOATHING_IDOL_MICROPHONE_75;
+          nextId = ItemPool.LOATHING_IDOL_MICROPHONE_50;
+          break;
+        case 50:
+          itemId = ItemPool.LOATHING_IDOL_MICROPHONE_50;
+          nextId = ItemPool.LOATHING_IDOL_MICROPHONE_25;
+          break;
+        case 25:
+          itemId = ItemPool.LOATHING_IDOL_MICROPHONE_25;
+          nextId = 0;
+          break;
+      }
+
+      String effectName = "none";
+      switch (option) {
+        case 1:
+          effectName = "Poppy Performance";
+          break;
+        case 2:
+          effectName = "Romantically Roused ";
+          break;
+        case 3:
+          effectName = "Spitting Rhymes";
+          break;
+        case 4:
+          effectName = "Twangy";
+          break;
+      }
+      AdventureResult effect = EffectPool.get(EffectDatabase.getEffectId(effectName));
+
+      String path = "request/test_microphone_" + charge + ".html";
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withNoItems(),
+              withItem(itemId, 1),
+              withNoEffects(),
+              withProperty("choiceAdventure1505", option),
+              // Need a password hash to automate choice adventures
+              withPasswordHash("microphone"),
+              // If you have a password hash, KoL looks at your vinyl boots
+              withGender(Gender.FEMALE));
+
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_microphone_choice.html"));
+        client.addResponse(200, html(path));
+        client.addResponse(200, ""); // api.php
+
+        var req = UseItemRequest.getInstance(itemId, 1);
+        req.run();
+
+        assertThat(InventoryManager.getCount(itemId), is(0));
+        if (nextId != 0) {
+          assertThat(InventoryManager.getCount(nextId), is(1));
+        }
+        assertThat(effect.getCount(KoLConstants.activeEffects), is(30));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(4));
+
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + itemId + "&ajax=1&pwd=microphone");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(
+            requests.get(2),
+            "/choice.php",
+            "whichchoice=1505&option=" + option + "&pwd=microphone");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+      }
     }
   }
 }
