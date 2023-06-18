@@ -4583,6 +4583,38 @@ public abstract class ChoiceControl {
       case 1481:
         JurassicParkaCommand.parseChoice(ChoiceManager.lastDecision);
         break;
+
+      case 1505:
+        // Sing!
+        // This should not fail without intentionally submitting a bad option.
+        if (text.contains("You sing:")) {
+          AdventureResult item = ChoiceManager.lastItemUsed;
+          if (item == null) {
+            // Unexpected
+            return;
+          }
+          int itemId = item.getItemId();
+          // Remove the microphone you used from inventory
+          // Add the more-used version to inventory
+          switch (itemId) {
+            case ItemPool.LOATHING_IDOL_MICROPHONE:
+              ResultProcessor.processItem(ItemPool.LOATHING_IDOL_MICROPHONE_75, 1);
+              break;
+            case ItemPool.LOATHING_IDOL_MICROPHONE_75:
+              ResultProcessor.processItem(ItemPool.LOATHING_IDOL_MICROPHONE_50, 1);
+              break;
+            case ItemPool.LOATHING_IDOL_MICROPHONE_50:
+              ResultProcessor.processItem(ItemPool.LOATHING_IDOL_MICROPHONE_25, 1);
+              break;
+            case ItemPool.LOATHING_IDOL_MICROPHONE_25:
+              break;
+            default:
+              // Should not get here unless UseItemRequest did not parse the item.
+              return;
+          }
+          ResultProcessor.processItem(itemId, -1);
+        }
+        break;
     }
   }
 
