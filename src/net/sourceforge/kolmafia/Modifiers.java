@@ -681,7 +681,7 @@ public class Modifiers {
             BooleanModifier.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
         return true;
       }
-      case ItemPool.PATRIOT_SHIELD -> {
+      case ItemPool.PATRIOT_SHIELD, ItemPool.REPLICA_PATRIOT_SHIELD -> {
         // Muscle classes
         this.setDouble(DoubleModifier.HP_REGEN_MIN, 0.0);
         this.setDouble(DoubleModifier.HP_REGEN_MAX, 0.0);
@@ -926,6 +926,11 @@ public class Modifiers {
     weight += (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
     weight += (int) this.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
     weight += (familiar.getFeasted() ? 10 : 0);
+    // Comma Chameleons gain a passive 5lbs while they are imitating another familiar
+    weight +=
+        (familiar.getId() == FamiliarPool.CHAMELEON && familiar.getId() != familiar.getEffectiveId()
+            ? 5
+            : 0);
 
     double percent = this.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) / 100.0;
     if (percent != 0.0) {
@@ -938,20 +943,12 @@ public class Modifiers {
 
   public void lookupFamiliarModifiers(
       final FamiliarData familiar, int weight, final AdventureResult famItem) {
-    int familiarId = familiar.getId();
+    int familiarId = familiar.getEffectiveId();
     weight = Math.max(1, weight);
     Modifiers.currentWeight = weight;
 
-    String race = familiar.getRace();
+    String race = familiar.getEffectiveRace();
 
-    // Comma Chameleon acts as if it was something else
-    if (familiarId == FamiliarPool.CHAMELEON) {
-      String newRace = Preferences.getString("commaFamiliar");
-      if (newRace != null && !newRace.isEmpty()) {
-        race = newRace;
-        familiarId = FamiliarDatabase.getFamiliarId(race);
-      }
-    }
     this.add(ModifierDatabase.getModifiers(ModifierType.FAMILIAR, race));
     if (famItem != null) {
       // "fameq" modifiers are generated when "Familiar Effect" is parsed
@@ -1272,5 +1269,10 @@ public class Modifiers {
 
   public static void setFamiliar(FamiliarData fam) {
     Modifiers.currentFamiliar = fam == null ? "" : fam.getRace();
+  }
+
+  @Override
+  public String toString() {
+    return this.getString(StringModifier.MODIFIERS);
   }
 }

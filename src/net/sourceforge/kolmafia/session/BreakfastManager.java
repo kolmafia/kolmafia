@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
+import net.sourceforge.kolmafia.request.MrStore2002Request;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -87,7 +88,7 @@ public class BreakfastManager {
 
   private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get(ItemPool.VIP_LOUNGE_KEY, 1);
 
-  private static List<Runnable> ACTIONS =
+  private static final List<Runnable> ACTIONS =
       List.of(
           BreakfastManager::checkRumpusRoom,
           BreakfastManager::checkVIPLounge,
@@ -95,6 +96,7 @@ public class BreakfastManager {
           BreakfastManager::getHermitClovers,
           BreakfastManager::harvestGarden,
           BreakfastManager::collectHardwood,
+          BreakfastManager::collect2002MrStoreCredits,
           BreakfastManager::useSpinningWheel,
           BreakfastManager::visitBigIsland,
           BreakfastManager::visitVolcanoIsland,
@@ -105,7 +107,8 @@ public class BreakfastManager {
           BreakfastManager::collectAnticheese,
           BreakfastManager::collectSeaJelly,
           BreakfastManager::harvestBatteries,
-          BreakfastManager::useBookOfEverySkill);
+          BreakfastManager::useBookOfEverySkill,
+          BreakfastManager::useReplicaBooks);
 
   private BreakfastManager() {}
 
@@ -378,6 +381,20 @@ public class BreakfastManager {
     }
   }
 
+  public static void collect2002MrStoreCredits() {
+    int catalogue = MrStore2002Request.catalogToUse();
+    if (catalogue == 0) {
+      return;
+    }
+
+    if (Preferences.getBoolean("_2002MrStoreCreditsCollected")) {
+      return;
+    }
+
+    KoLmafia.updateDisplay("Getting 2002 Mr Store Credits...");
+    RequestThread.postRequest(new MrStore2002Request());
+  }
+
   public static void useSpinningWheel() {
     if (KoLCharacter.isEd()
         || KoLCharacter.inNuclearAutumn()
@@ -614,7 +631,9 @@ public class BreakfastManager {
   }
 
   private static void makePocketWishes() {
-    if (!InventoryManager.hasItem(ItemPool.GENIE_BOTTLE)) {
+    if (!InventoryManager.hasItem(ItemPool.GENIE_BOTTLE)
+        && (!KoLCharacter.inLegacyOfLoathing()
+            || !InventoryManager.hasItem(ItemPool.REPLICA_GENIE_BOTTLE))) {
       return;
     }
 
@@ -879,6 +898,31 @@ public class BreakfastManager {
         "useBookOfEverySkill" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
       KoLmafia.updateDisplay("Reading for a guild skill...");
 
+      RequestThread.postRequest(UseItemRequest.getInstance(book));
+    }
+  }
+
+  private static void useReplicaBooks() {
+    if (!KoLCharacter.inLegacyOfLoathing()) {
+      return;
+    }
+
+    AdventureResult book = ItemPool.get(ItemPool.REPLICA_SNOWCONE_BOOK, 1);
+
+    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaSnowconeTomeUsed")) {
+      KoLmafia.updateDisplay("Summoning snowcones...");
+      RequestThread.postRequest(UseItemRequest.getInstance(book));
+    }
+
+    book = ItemPool.get(ItemPool.REPLICA_RESOLUTION_BOOK, 1);
+    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaResolutionLibramUsed")) {
+      KoLmafia.updateDisplay("Summoning resolutions...");
+      RequestThread.postRequest(UseItemRequest.getInstance(book));
+    }
+
+    book = ItemPool.get(ItemPool.REPLICA_SMITH_BOOK, 1);
+    if (InventoryManager.hasItem(book) && !Preferences.getBoolean("_replicaSmithsTomeUsed")) {
+      KoLmafia.updateDisplay("Summoning smithables...");
       RequestThread.postRequest(UseItemRequest.getInstance(book));
     }
   }

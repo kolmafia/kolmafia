@@ -3260,3 +3260,14 @@ grubby wool beerwarmer	WOOL	grubby wool
 grubby woolball (3)	WOOL	grubby wool
 
 nice warm beer	MIX	ice-cold Sir Schlitz	grubby wool beerwarmer
+
+# The Shadow Forge
+shadow chef's hat	SHADOW_FORGE, ROW1309	shadow skin (3)	shadow bread (2)
+shadow trousers	SHADOW_FORGE, ROW1310	shadow skin (3)	shadow sinew (2)
+shadow hammer	SHADOW_FORGE, ROW1311	shadow brick (3)	shadow stick (3)
+shadow monocle	SHADOW_FORGE, ROW1312	shadow brick	shadow glass (3)	shadow ice (2)
+shadow candle	SHADOW_FORGE, ROW1313	shadow sausage (3)	shadow sinew (2)	shadow flame
+shadow hot dog	SHADOW_FORGE, ROW1315	shadow sausage	shadow bread	shadow venom
+shadow martini	SHADOW_FORGE, ROW1316	shadow glass	shadow ice	shadow nectar
+shadow pill	SHADOW_FORGE, ROW1317	shadow fluid	shadow flame
+shadow needle	SHADOW_FORGE, ROW1318	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)

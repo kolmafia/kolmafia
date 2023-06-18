@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
@@ -168,16 +169,20 @@ public class ResultProcessor {
       // Log it if we pickpocket something "impossible"
       if (RequestLogger.getLastURLString().contains("action=steal")) {
         MonsterData monster = MonsterStatusTracker.getLastMonster();
-        for (AdventureResult monsterItem : monster.getItems()) {
-          if (monsterItem.getItemId() == itemId) {
+        for (MonsterDrop monsterDrop : monster.getItems()) {
+          if (monsterDrop.item().getItemId() == itemId) {
             String message =
-                switch ((char) monsterItem.getCount() & 0xFFFF) {
-                  case 'n' -> "Pickpocketed item "
+                switch (monsterDrop.flag()) {
+                  case NO_PICKPOCKET -> "Pickpocketed item "
                       + name
                       + " which is marked as non pickpocketable.";
-                  case 'c' -> "Pickpocketed item " + name + " which is marked as conditional.";
-                  case 'f' -> "Pickpocketed item " + name + " which is marked as fixed chance.";
-                  case 'a' -> "Pickpocketed item " + name + " which is marked as accordion steal.";
+                  case CONDITIONAL -> "Pickpocketed item "
+                      + name
+                      + " which is marked as conditional.";
+                  case FIXED -> "Pickpocketed item " + name + " which is marked as fixed chance.";
+                  case STEAL_ACCORDION -> "Pickpocketed item "
+                      + name
+                      + " which is marked as accordion steal.";
                   default -> null;
                 };
             if (message != null) {
@@ -1373,6 +1378,7 @@ public class ResultProcessor {
         // Speakeasy currencies
       case ItemPool.MILK_CAP:
       case ItemPool.DRINK_CHIT:
+      case ItemPool.REPLICA_MR_ACCESSORY:
         NamedListenerRegistry.fireChange("(coinmaster)");
         break;
 
@@ -1438,6 +1444,21 @@ public class ResultProcessor {
             && adventureResults) {
           Preferences.increment("_oysterEggsFound");
         }
+        break;
+
+      case ItemPool.SHADOW_SAUSAGE:
+      case ItemPool.SHADOW_SKIN:
+      case ItemPool.SHADOW_FLAME:
+      case ItemPool.SHADOW_BREAD:
+      case ItemPool.SHADOW_ICE:
+      case ItemPool.SHADOW_FLUID:
+      case ItemPool.SHADOW_GLASS:
+      case ItemPool.SHADOW_BRICK:
+      case ItemPool.SHADOW_SINEW:
+      case ItemPool.SHADOW_VENOM:
+      case ItemPool.SHADOW_NECTAR:
+      case ItemPool.SHADOW_STICK:
+        RufusManager.handleShadowItems(result.getName());
         break;
     }
 
@@ -2760,19 +2781,6 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.SHIRT, "step1");
         break;
 
-      case ItemPool.PROFESSOR_WHAT_TSHIRT:
-        {
-          String lastURL = RequestLogger.getLastURLString();
-          if (lastURL.startsWith("place.php")
-              && lastURL.contains("whichplace=mountains")
-              && lastURL.contains("action=mts_melvin")) {
-            QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.FINISHED);
-            ResultProcessor.removeItem(ItemPool.PROFESSOR_WHAT_GARMENT);
-            ResponseTextParser.learnSkill("Torso Awareness");
-          }
-          break;
-        }
-
       case ItemPool.THINKNERD_PACKAGE:
         if (adventureResults) {
           Preferences.increment("_thinknerdPackageDrops");
@@ -3277,9 +3285,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.POWERFUL_GLOVE:
-        // *** Special case: the buffs are always available
-        KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
-        KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
+      case ItemPool.REPLICA_POWERFUL_GLOVE:
+        InventoryManager.addPowerfulGloveSkills();
         break;
 
       case ItemPool.POWDER_PUFF:
@@ -3327,11 +3334,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.DESIGNER_SWEATPANTS:
-        // *** Special case: the buffs are always available
-        KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
-        KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
-        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
-        KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
+      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
+        InventoryManager.addDesignerSweatpantsSkills();
         break;
 
       case ItemPool.ROBY_BORIS_BEER:
@@ -3359,6 +3363,20 @@ public class ResultProcessor {
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.HOBO_IN_SHEEPS_CLOTHING) {
           Preferences.increment("_grubbyWoolDrops", 1);
         }
+        break;
+
+      case ItemPool.SHADOW_LIGHTER:
+      case ItemPool.SHADOW_HEPTAHEDRON:
+      case ItemPool.SHADOW_SNOWFLAKE:
+      case ItemPool.SHADOW_HEART:
+      case ItemPool.SHADOW_BUCKET:
+      case ItemPool.SHADOW_WAVE:
+        QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
+        break;
+
+      case ItemPool.CINCHO_DE_MAYO:
+      case ItemPool.REPLICA_CINCHO_DE_MAYO:
+        InventoryManager.addCinchoDeMayoSkills();
         break;
     }
 

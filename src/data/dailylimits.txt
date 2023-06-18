@@ -26,6 +26,12 @@ Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
 Cast	Chest X-Ray	_chestXRayUsed	3
 Cast	Chorale of Companionship	_companionshipCasts	10
 Cast	Chubby and Plump	_chubbyAndPlumpUsed
+Cast	Cincho: Dispense Salt and Lime	_cinchUsed	100
+Cast	Cincho: Party Soundtrack	_cinchUsed	100
+Cast	Cincho: Fiesta Exit	_cinchUsed	100
+Cast	Cincho: Projectile Piñata	_cinchUsed	100
+Cast	Cincho: Party Foul	_cinchUsed	100
+Cast	Cincho: Confetti Extravaganza	_cinchUsed	100
 Cast	Communism!	_communismUsed
 Cast	Conjure Cheese	_jarlsCheeseSummoned
 Cast	Conjure Cream	_jarlsCreamSummoned
@@ -38,7 +44,9 @@ Cast	Conjure Vegetables	_jarlsVeggiesSummoned
 Cast	Creepy Grin	_vmaskBanisherUsed	1
 Cast	Demand Sandwich	_demandSandwich	3
 Cast	Digitize	_sourceTerminalDigitizeUses	[1+pref(sourceTerminalChips,TRAM)+pref(sourceTerminalChips,TRIGRAM)]
+Cast	Do an epic McTwist!	_epicMcTwistUsed
 Cast	Donho's Bubbly Ballad	_donhosCasts	50
+Cast	Douse Foe	_douseFoeUses	3
 Cast	Duplicate	_sourceTerminalDuplicateUses	[1+(4*path(The Source))]
 Cast	Elron's Explosive Etude	_elronsCasts	10
 Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
@@ -67,7 +75,7 @@ Cast	Grab a Cold One	_coldOne
 Cast	Hugs and Kisses!	_xoHugsUsed	11
 Cast	Implode Universe	_universeImploded	[pref(skillLevel188)]
 Cast	Incite Riot	_peteRiotIncited
-Cast	Incredible Self Esteem	_incredibleSelfEsteemCast
+Cast	Incredible Self-Esteem	_incredibleSelfEsteemCast
 Cast	Inigo's Incantation of Inspiration	_inigosCasts	5
 Cast	Jump Shark	_peteJumpedShark	3
 Cast	KGB tranquilizer dart	_kgbTranquilizerDartUses	3
@@ -129,7 +137,7 @@ Cast	Turtle Power	_turtlePowerCast
 Cast	Vent Rage Gland	rageGlandVented
 Cast	Visit Your Favorite Bird	_favoriteBirdVisited
 Cast	Wink at	_badlyRomanticArrows	1
-Cast	deliver your thesis	_thesisDelivered
+Cast	deliver your thesis!	_thesisDelivered
 Cast	lecture on mass	_pocketProfessorLectures	[fam(Pocket Professor)*ceil(sqrt(W))+(equipped(Pocket Professor Memory Chip)*2)]
 Cast	lecture on relativity	_pocketProfessorLectures	[fam(Pocket Professor)*ceil(sqrt(W))+(equipped(Pocket Professor Memory Chip)*2)]
 Cast	lecture on velocity	_pocketProfessorLectures	[fam(Pocket Professor)*ceil(sqrt(W))+(equipped(Pocket Professor Memory Chip)*2)]
@@ -193,6 +201,7 @@ Use	burrowgrub hive	burrowgrubHiveUsed
 Use	cabbage-flavored Mr. Mediocrebar	_chocolatesUsed	3
 Use	choco-Crimbot	_chocolatesUsed	3
 Use	chocolate cigar	_chocolateCigarsUsed	3
+Use	chocolate covered ping-pong ball	_chocolateCoveredPingPongBallsUsed	3
 Use	chocolate disco ball	_chocolatesUsed	3
 Use	chocolate pasta spoon	_chocolatesUsed	3
 Use	chocolate saucepan	_chocolatesUsed	3
@@ -220,7 +229,7 @@ Use	festive warbear bank	_warbearBankUsed
 Use	fish hatchet	_floundryItemUsed
 Use	fishy pipe	_fishyPipeUsed
 Use	fudge spork	_fudgeSporkUsed
-Use	gnoll eye	_gnollEyeUsed
+Use	glass gnoll eye	_gnollEyeUsed
 Use	green rocket	_fireworkUsed
 Use	handmade hobby horse	_hobbyHorseUsed
 Use	heart of dark chocolate	_darkChocolateHeart

@@ -80,12 +80,6 @@ public class ItemDatabase {
   private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<>();
   private static final Map<Integer, Integer> noobSkillIdByItemSource = new HashMap<>();
 
-  public static final String QUEST_FLAG = "q";
-  public static final String GIFT_FLAG = "g";
-  public static final String TRADE_FLAG = "t";
-  public static final String DISCARD_FLAG = "d";
-  public static final String BOGUS_FLAG = "z";
-
   private record Alias(int id, String name) {}
 
   private static final Alias[] ALIASES = {
@@ -94,6 +88,7 @@ public class ItemDatabase {
     new Alias(ItemPool.BUGGED_POTION, "bugged Knob Goblin love potion"),
     new Alias(ItemPool.BUGGED_KNICKERBOCKERS, "bugged old school Mafia knickerbockers"),
     new Alias(ItemPool.BUGGED_BAIO, "bugged Talisman of Baio"),
+    new Alias(ItemPool.LOVE_POTION_XYZ, "Love Potion #0"),
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (broken)"),
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (forward-facing)"),
     new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (bucket style)"),
@@ -105,6 +100,11 @@ public class ItemDatabase {
     new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (spikolodon mode)"),
     new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (ghostasaurus mode)"),
     new Alias(ItemPool.JURASSIC_PARKA, "Jurassic Parka (pterodactyl mode)"),
+    new Alias(ItemPool.REPLICA_JURASSIC_PARKA, "replica Jurassic Parka (kachungasaur mode)"),
+    new Alias(ItemPool.REPLICA_JURASSIC_PARKA, "replica Jurassic Parka (dilophosaur mode)"),
+    new Alias(ItemPool.REPLICA_JURASSIC_PARKA, "replica Jurassic Parka (spikolodon mode)"),
+    new Alias(ItemPool.REPLICA_JURASSIC_PARKA, "replica Jurassic Parka (ghostasaurus mode)"),
+    new Alias(ItemPool.REPLICA_JURASSIC_PARKA, "replica Jurassic Parka (pterodactyl mode)"),
     new Alias(ItemPool.BACKUP_CAMERA, "backup camera (meat)"),
     new Alias(ItemPool.BACKUP_CAMERA, "backup camera (init)"),
     new Alias(ItemPool.BACKUP_CAMERA, "backup camera (ml)"),
@@ -131,20 +131,20 @@ public class ItemDatabase {
     new Alias(-1, "vial of slime: moxiousness"),
   };
 
-  private static final List<String> ACCESS =
-      Arrays.asList(QUEST_FLAG, GIFT_FLAG, TRADE_FLAG, DISCARD_FLAG);
+  private static final EnumSet<Attribute> ACCESS =
+      EnumSet.of(Attribute.QUEST, Attribute.GIFT, Attribute.TRADEABLE, Attribute.DISCARDABLE);
 
   private ItemDatabase() {}
 
   private static String parseAccess(final String data) {
     if (data.equals("")) {
-      return data;
+      return "";
     }
 
     String[] accessTypes = data.split("\\s*,\\s*");
     for (String accessType : accessTypes) {
-      if (!ACCESS.contains(accessType)) {
-        return BOGUS_FLAG;
+      if (!ACCESS.contains(Attribute.byDescription(accessType))) {
+        throw new IllegalStateException("Data file contained unrecognised flag");
       }
     }
     return data;
@@ -197,6 +197,11 @@ public class ItemDatabase {
               .findAny();
       search.ifPresent(x -> attributeByDescription.put(description, x));
       return search.orElse(null);
+    }
+
+    @Override
+    public String toString() {
+      return this.description;
     }
   }
 
@@ -356,10 +361,9 @@ public class ItemDatabase {
         ItemDatabase.nameById.put(id, displayName);
 
         ItemDatabase.accessById.put(id, access);
-        if (access.contains(TRADE_FLAG)) attrs.add(Attribute.TRADEABLE);
-        if (access.contains(GIFT_FLAG)) attrs.add(Attribute.GIFT);
-        if (access.contains(QUEST_FLAG)) attrs.add(Attribute.QUEST);
-        if (access.contains(DISCARD_FLAG)) attrs.add(Attribute.DISCARDABLE);
+        for (Attribute a : ACCESS) {
+          if (access.contains(a.description)) attrs.add(a);
+        }
 
         ItemDatabase.attributesById.put(itemId, attrs);
 
@@ -863,7 +867,7 @@ public class ItemDatabase {
       // Assume defaults
       ItemDatabase.useTypeById.put(itemId, ConsumptionType.NONE);
       ItemDatabase.attributesById.put(itemId, EnumSet.noneOf(Attribute.class));
-      ItemDatabase.accessById.put(id, TRADE_FLAG + "," + DISCARD_FLAG);
+      ItemDatabase.accessById.put(id, Attribute.TRADEABLE + "," + Attribute.DISCARDABLE);
       ItemDatabase.priceById.put(itemId, 0);
       return;
     }
@@ -885,10 +889,9 @@ public class ItemDatabase {
     ItemDatabase.accessById.put(id, access);
 
     EnumSet<Attribute> attrs = DebugDatabase.typeToSecondary(type, usage, text, multi);
-    if (access.contains(TRADE_FLAG)) attrs.add(Attribute.TRADEABLE);
-    if (access.contains(GIFT_FLAG)) attrs.add(Attribute.GIFT);
-    if (access.contains(QUEST_FLAG)) attrs.add(Attribute.QUEST);
-    if (access.contains(DISCARD_FLAG)) attrs.add(Attribute.DISCARDABLE);
+    for (Attribute a : ACCESS) {
+      if (access.contains(a.description)) attrs.add(a);
+    }
     if (multi && usage != ConsumptionType.USE_MULTIPLE) {
       attrs.add(Attribute.MULTIPLE);
     }

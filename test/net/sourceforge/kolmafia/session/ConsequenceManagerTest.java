@@ -52,4 +52,33 @@ public class ConsequenceManagerTest {
       }
     }
   }
+
+  @Nested
+  class MonkeyPaw {
+    @Test
+    public void canParsePoint() {
+      var cleanups = new Cleanups(withProperty("monkeyPointMonster", ""));
+
+      try (cleanups) {
+        var descid = ItemDatabase.getDescriptionId(ItemPool.CURSED_MONKEY_PAW);
+        var responseText = html("request/test_consequences_cursed_monkey_point.html");
+
+        ConsequenceManager.parseItemDesc(descid, responseText);
+        assertThat("monkeyPointMonster", isSetTo("BRICKO ooze"));
+      }
+    }
+
+    @Test
+    public void canParsePointWithBanish() {
+      var cleanups = new Cleanups(withProperty("monkeyPointMonster", ""));
+
+      try (cleanups) {
+        var descid = ItemDatabase.getDescriptionId(ItemPool.CURSED_MONKEY_PAW);
+        var responseText = html("request/test_consequences_cursed_monkey_point_banish.html");
+
+        ConsequenceManager.parseItemDesc(descid, responseText);
+        assertThat("monkeyPointMonster", isSetTo("BRICKO ooze"));
+      }
+    }
+  }
 }

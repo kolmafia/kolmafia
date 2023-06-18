@@ -364,6 +364,7 @@ public class QuestManager {
             }
           }
           case "monorail" -> handleMonorailChange(location, responseText);
+          case "mountains" -> handleMountainsChange(location, action, responseText);
           case "orc_chasm" -> handleChasmChange(responseText);
           case "palindome" -> handlePalindomeChange(location, responseText);
           case "plains" -> handlePlainsChange(responseText);
@@ -473,7 +474,8 @@ public class QuestManager {
     if (!location.contains("action") && !KoLCharacter.inBadMoon()) {
       Preferences.setBoolean("hasDetectiveSchool", responseText.contains("Precinct"));
       if (responseText.contains("The Neverending Party")
-          && !Preferences.getBoolean("neverendingPartyAlways")) {
+          && !Preferences.getBoolean("neverendingPartyAlways")
+          && !Preferences.getBoolean("replicaNeverendingPartyAlways")) {
         Preferences.setBoolean("_neverendingPartyToday", true);
       }
       if (Preferences.getInteger("_neverendingPartyFreeTurns") < 10
@@ -497,7 +499,8 @@ public class QuestManager {
     }
   }
 
-  private static Pattern SPEAKEASY_NAME = Pattern.compile("whichplace=speakeasy.*?title=\"(.*?)\"");
+  private static Pattern SPEAKEASY_NAME =
+      Pattern.compile("div id=town_speakeasyname.*?title=\"(.*?)\"");
 
   private static void handleSpeakeasyName(final String text) {
     var matcher = SPEAKEASY_NAME.matcher(text);
@@ -525,6 +528,29 @@ public class QuestManager {
     }
     if (responseText.contains("PirateRealm") && !Preferences.getBoolean("prAlways")) {
       Preferences.setBoolean("_prToday", true);
+    }
+  }
+
+  private static void handleMountainsChange(
+      final String location, String action, String responseText) {
+    if (action != null && action.equals("mts_melvin")) {
+      // I saw this awesome T-shirt
+      // haven't you fougnd my T-shirt yet?
+      if (responseText.contains("I saw this awesome T-shirt")
+          || responseText.contains("haven't you fougnd my T-shirt yet")) {
+        QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.STARTED);
+        ResultProcessor.removeItem(ItemPool.LETTER_FOR_MELVIGN);
+      }
+      // I dogn't have a torso.
+      else if (responseText.contains("I dogn't have a torso.")) {
+        QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.FINISHED);
+        ResultProcessor.removeItem(ItemPool.PROFESSOR_WHAT_GARMENT);
+      }
+    }
+    if (responseText.contains("Melvin's Comic Shop")) {
+      QuestDatabase.setQuestIfBetter(Quest.SHIRT, QuestDatabase.STARTED);
+    } else if (responseText.contains("The Thinknerd Warehouse")) {
+      QuestDatabase.setQuestProgress(Quest.SHIRT, QuestDatabase.FINISHED);
     }
   }
 
@@ -1070,10 +1096,6 @@ public class QuestManager {
     // If we see the link to the empty Black Market, Wu Tang has been defeated
     if (responseText.contains("action=emptybm")) {
       Preferences.setInteger("lastWuTangDefeated", KoLCharacter.getAscensions());
-    }
-    if (!responseText.contains("You are not yet ready to be here.")) {
-      // Detect if the Getaway Campsite is available
-      Preferences.setBoolean("getawayCampsiteUnlocked", responseText.contains("campaway"));
     }
   }
 
@@ -2006,7 +2028,7 @@ public class QuestManager {
           "druid plants",
           "flock of every birds",
           "plywood cultists",
-          "barrow wraith",
+          "barrow wraith?",
           "regular thief",
           "swamp troll",
           "crypt creeper",
@@ -2136,6 +2158,14 @@ public class QuestManager {
       }
       case "The Superconductor" -> {
         Preferences.setBoolean("superconductorDefeated", true);
+      }
+      case "shadow spire",
+          "shadow orrery",
+          "shadow tongue",
+          "shadow scythe",
+          "shadow cauldron",
+          "shadow matrix" -> {
+        QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
       }
     }
 
@@ -2344,6 +2374,13 @@ public class QuestManager {
           Preferences.setInteger("_villainLairProgress", 999);
           Preferences.increment("bondVillainsDefeated");
         }
+        break;
+
+      case AdventurePool.FUNGUS_PLAINS:
+      case AdventurePool.HEROS_FIELD:
+      case AdventurePool.VANYAS_CASTLE:
+      case AdventurePool.MEGALO_CITY:
+        Preferences.increment("8BitBonusTurns");
         break;
     }
 

@@ -73,6 +73,8 @@ public class ChoiceUtilities {
       return 1309;
     } else if (responseText.contains("<b>What the Future Holds</b>")) {
       return 1462;
+    } else if (responseText.contains("<b>Make a Wish</b>")) {
+      return 1501;
     }
 
     return 0;

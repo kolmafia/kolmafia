@@ -122,6 +122,7 @@ public class SkillPool {
   public static final int CRYPTOBOTANIST = 218;
   public static final int INSECTOLOGIST = 219;
   public static final int PSYCHOGEOLOGIST = 220;
+  public static final int REPLICA_EMOTIONALLY_CHIPPED = 222;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
@@ -523,6 +524,18 @@ public class SkillPool {
   public static final int CERAMIC_BOIL = 7429;
   public static final int CERAMIC_SKULLGAZE = 7430;
   public static final int CERAMIC_CENOBITIZE = 7431;
+  public static final int MONKEY_SLAP = 7433;
+  public static final int MONKEY_POINT = 7437;
+  public static final int CINCHO_DISPENSE_SALT_AND_LIME = 7439;
+  public static final int CINCHO_PARTY_SOUNDTRACK = 7440;
+  public static final int CINCHO_FIESTA_EXIT = 7441;
+  public static final int CINCHO_PROJECTILE_PINATA = 7442;
+  public static final int CINCHO_PARTY_FOUL = 7443;
+  public static final int CINCHO_CONFETTI_EXTRAVAGANZA = 7444;
+  public static final int DO_KICKFLIP = 7445;
+  public static final int DO_METHOD = 7446;
+  public static final int DO_EPIC_MCTWIST = 7447;
+  public static final int DOUSE_FOE = 7448;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;
@@ -746,6 +759,8 @@ public class SkillPool {
   public static final int HOT_FOOT = 28015;
   public static final int SECOND_WIND = 28016;
   public static final int STOP_HITTING_YOURSELF = 28017;
+  public static final int FREE_FOR_ALL = 28019;
+  public static final int PUNT = 28021;
   public static final int EMMENTAL_ELEMENTAL = 29017;
   public static final int STILTON_SPLATTER = 29019;
   public static final int FONDELUGE = 29021;

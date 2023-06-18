@@ -127,12 +127,14 @@ public class FoldItemCommand extends AbstractCommand {
       // If we have this item equipped, remember where
       Slot where = KoLCharacter.equipmentSlot(item);
       if (where != Slot.NONE) {
-        if (worn == null) {
+        if (worn != null) {
+          multiple = true;
+        }
+
+        if (where.ordinal() > slot.ordinal()) {
           worn = item;
           wornIndex = sourceIndex;
           slot = where;
-        } else {
-          multiple = true;
         }
       }
 
@@ -191,7 +193,7 @@ public class FoldItemCommand extends AbstractCommand {
     // If nothing in inventory is foldable, consider equipment
     if (source == null) {
       // Too many choices. Let player decide which one
-      if (multiple) {
+      if (multiple && Preferences.getBoolean("errorOnAmbiguousFold")) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Unequip the item you want to fold into that.");
         return;
       }
@@ -278,9 +280,15 @@ public class FoldItemCommand extends AbstractCommand {
         }
       }
 
+      int tote =
+          KoLCharacter.inLegacyOfLoathing()
+                  && InventoryManager.hasItem(ItemPool.REPLICA_GARBAGE_TOTE)
+              ? ItemPool.REPLICA_GARBAGE_TOTE
+              : ItemPool.GARBAGE_TOTE;
+
       GenericRequest useRequest = new GenericRequest("inv_use.php");
       useRequest.addFormField("pwd", GenericRequest.passwordHash);
-      useRequest.addFormField("whichitem", String.valueOf(ItemPool.GARBAGE_TOTE));
+      useRequest.addFormField("whichitem", String.valueOf(tote));
       RequestThread.postRequest(useRequest);
 
       GenericRequest choiceRequest = new GenericRequest("choice.php");

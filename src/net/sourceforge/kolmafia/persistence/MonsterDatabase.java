@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -24,6 +26,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -39,8 +42,8 @@ public class MonsterDatabase {
   private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<>();
   private static final Map<String, Map<MonsterData, MonsterData>> MONSTER_PATH_MAP =
       new TreeMap<>();
-  private static final Map<String, Map<MonsterData, MonsterData>> MONSTER_CLASS_MAP =
-      new TreeMap<>();
+  private static final Map<AscensionClass, Map<MonsterData, MonsterData>> MONSTER_CLASS_MAP =
+      new EnumMap<>(AscensionClass.class);
 
   // For handling duplicate monster and substring match of monster names
   private static final Map<String, MonsterData[]> MONSTER_ID_SET = new HashMap<>();
@@ -387,27 +390,39 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(
         pigSkinnerMap, "Naughty Sorceress (2)", "General Bruise (true form)");
     MonsterDatabase.addMapping(pigSkinnerMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.PIG_SKINNER.getName(), pigSkinnerMap);
+    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.PIG_SKINNER, pigSkinnerMap);
 
     Map<MonsterData, MonsterData> cheeseWizardMap = new TreeMap<>();
     MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress", "Dark Noël");
     MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress (2)", "Dark Noël (true form)");
     MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.CHEESE_WIZARD.getName(), cheeseWizardMap);
+    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.CHEESE_WIZARD, cheeseWizardMap);
 
     Map<MonsterData, MonsterData> jazzAgentMap = new TreeMap<>();
     MonsterDatabase.addMapping(jazzAgentMap, "Naughty Sorceress", "Terrence Poindexter");
     MonsterDatabase.addMapping(
         jazzAgentMap, "Naughty Sorceress (2)", "Terrence Poindexter (true form)");
     MonsterDatabase.addMapping(jazzAgentMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.JAZZ_AGENT.getName(), jazzAgentMap);
+    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.JAZZ_AGENT, jazzAgentMap);
+
+    Map<MonsterData, MonsterData> lolMap = new TreeMap<>();
+    MonsterDatabase.addMapping(lolMap, "Boss Bat", "Classic Boss Bat");
+    MonsterDatabase.addMapping(lolMap, "Knob Goblin King", "Weirdly Scrawny Knob Goblin King");
+    MonsterDatabase.addMapping(lolMap, "Bonerdagon", "Orignial Bonerdagon");
+    MonsterDatabase.addMapping(lolMap, "Groar", "Flock of Groars?");
+    MonsterDatabase.addMapping(lolMap, "Dr. Awkward", "Jr. Awkwarj");
+    MonsterDatabase.addMapping(lolMap, "Lord Spookyraven", "Little Lord Spookyraven");
+    MonsterDatabase.addMapping(lolMap, "Protector Spectre", "Protector Spectre Candidate");
+    MonsterDatabase.addMapping(lolMap, "The Big Wisniewski", "The Little Wisniewski");
+    MonsterDatabase.addMapping(lolMap, "The Man", "The Boy");
+    MonsterDatabase.MONSTER_PATH_MAP.put(Path.LEGACY_OF_LOATHING.getName(), lolMap);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterPathMap(final String path) {
     return MonsterDatabase.MONSTER_PATH_MAP.get(path);
   }
 
-  public static Map<MonsterData, MonsterData> getMonsterClassMap(final String clazz) {
+  public static Map<MonsterData, MonsterData> getMonsterClassMap(final AscensionClass clazz) {
     return MonsterDatabase.MONSTER_CLASS_MAP.get(clazz);
   }
 
@@ -444,14 +459,15 @@ public class MonsterDatabase {
 
         for (int i = 4; i < data.length; ++i) {
           String itemString = data[i];
-          AdventureResult item = MonsterDatabase.parseItem(itemString);
+          MonsterDrop drop = MonsterDatabase.parseItem(itemString);
+          var item = drop.item();
           if (item == null || item.getItemId() == -1 || item.getName() == null) {
             RequestLogger.printLine("Bad item for monster \"" + name + "\": " + itemString);
             bogus = true;
             continue;
           }
 
-          monster.addItem(item);
+          monster.addItem(drop);
         }
 
         if (!bogus) {
@@ -573,37 +589,30 @@ public class MonsterDatabase {
     }
   }
 
-  private static AdventureResult parseItem(final String data) {
-    String name = data;
-    int count = 0;
-    String countString;
-    char prefix = '0';
-
-    // Remove quantity and flag
-    if (name.endsWith(")")) {
-      int left = name.lastIndexOf(" (");
-
-      if (left == -1) {
-        return null;
-      }
-
-      countString = name.substring(left + 2, name.length() - 1);
-
-      if (!Character.isDigit(countString.charAt(0))) {
-        countString = countString.substring(1);
-      }
-
-      count = StringUtilities.parseInt(countString);
-      prefix = name.charAt(left + 2);
-      name = name.substring(0, left);
+  private static MonsterDrop parseItem(final String data) {
+    Matcher dropMatcher = MonsterDrop.DROP.matcher(data);
+    if (!dropMatcher.matches()) {
+      throw new IllegalStateException(data + " did not match expected layout");
     }
 
-    int itemId = ItemDatabase.getItemId(name);
+    var itemName = dropMatcher.group(1);
+    var flag = DropFlag.fromFlag(dropMatcher.group(2));
+    var chance = StringUtilities.parseDouble(dropMatcher.group(3));
+
+    AdventureResult item;
+
+    int itemId = ItemDatabase.getItemId(itemName);
     if (itemId == -1) {
-      return ItemPool.get(data, '0');
+      item = ItemPool.get(data, 1);
+    } else {
+      item = ItemPool.get(itemId);
     }
 
-    return ItemPool.get(itemId, (count << 16) | prefix);
+    if (flag == DropFlag.NONE && chance == 0) {
+      flag = DropFlag.UNKNOWN_RATE;
+    }
+
+    return new MonsterDrop(item, chance, flag);
   }
 
   private static synchronized void initializeMonsterStrings() {

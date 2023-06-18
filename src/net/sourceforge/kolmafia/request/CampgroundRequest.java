@@ -29,6 +29,8 @@ public class CampgroundRequest extends GenericRequest {
           "Summon (Candy Heart|Party Favor|Love Song|BRICKOs|Dice|Resolutions|Taffy) *.[(]([\\d,]+) MP[)]");
   private static final Pattern HOUSING_PATTERN =
       Pattern.compile("/rest([\\da-z])(tp)?(_free)?.gif");
+  private static final Pattern CINCHO_LOOSEN_PATTERN =
+      Pattern.compile("your cincho loosens (\\d+)%");
   private static final Pattern FURNISHING_PATTERN = Pattern.compile("<b>(?:an? )?(.*?)</b>");
 
   private static final Pattern JUNG_PATTERN = Pattern.compile("junggate_(\\d)");
@@ -55,100 +57,102 @@ public class CampgroundRequest extends GenericRequest {
   public static final AdventureResult LED_CLOCK = ItemPool.get(ItemPool.LED_CLOCK, 1);
 
   // The following are items that (can) have modifiers in modifiers.txt
-  public static final int[] campgroundItems = {
-    // Housing
-    ItemPool.BIG_ROCK,
-    ItemPool.NEWBIESPORT_TENT,
-    ItemPool.BARSKIN_TENT,
-    ItemPool.COTTAGE,
-    ItemPool.HOUSE,
-    ItemPool.SANDCASTLE,
-    ItemPool.TWIG_HOUSE,
-    ItemPool.HOBO_FORTRESS,
-    ItemPool.GINGERBREAD_HOUSE,
-    ItemPool.BRICKO_PYRAMID,
-    ItemPool.GINORMOUS_PUMPKIN,
-    ItemPool.GIANT_FARADAY_CAGE,
-    ItemPool.SNOW_FORT,
-    ItemPool.ELEVENT,
-    ItemPool.RESIDENCE_CUBE,
-    ItemPool.GIANT_PILGRIM_HAT,
-    ItemPool.HOUSE_SIZED_MUSHROOM,
+  public static final Set<Integer> campgroundItems =
+      Set.of(
+          // Housing
+          ItemPool.BIG_ROCK,
+          ItemPool.NEWBIESPORT_TENT,
+          ItemPool.BARSKIN_TENT,
+          ItemPool.COTTAGE,
+          ItemPool.HOUSE,
+          ItemPool.SANDCASTLE,
+          ItemPool.TWIG_HOUSE,
+          ItemPool.HOBO_FORTRESS,
+          ItemPool.GINGERBREAD_HOUSE,
+          ItemPool.BRICKO_PYRAMID,
+          ItemPool.GINORMOUS_PUMPKIN,
+          ItemPool.GIANT_FARADAY_CAGE,
+          ItemPool.SNOW_FORT,
+          ItemPool.ELEVENT,
+          ItemPool.RESIDENCE_CUBE,
+          ItemPool.GIANT_PILGRIM_HAT,
+          ItemPool.HOUSE_SIZED_MUSHROOM,
 
-    // Bedding
-    ItemPool.BEANBAG_CHAIR,
-    ItemPool.COLD_BEDDING,
-    ItemPool.GAUZE_HAMMOCK,
-    ItemPool.HOT_BEDDING,
-    ItemPool.LAZYBONES_RECLINER,
-    ItemPool.SLEAZE_BEDDING,
-    ItemPool.SPOOKY_BEDDING,
-    ItemPool.STENCH_BEDDING,
-    ItemPool.SLEEPING_STOCKING,
-    ItemPool.SALTWATERBED,
-    ItemPool.SPIRIT_BED,
+          // Bedding
+          ItemPool.BEANBAG_CHAIR,
+          ItemPool.COLD_BEDDING,
+          ItemPool.GAUZE_HAMMOCK,
+          ItemPool.HOT_BEDDING,
+          ItemPool.LAZYBONES_RECLINER,
+          ItemPool.SLEAZE_BEDDING,
+          ItemPool.SPOOKY_BEDDING,
+          ItemPool.STENCH_BEDDING,
+          ItemPool.SLEEPING_STOCKING,
+          ItemPool.SALTWATERBED,
+          ItemPool.SPIRIT_BED,
 
-    // Inside dwelling: maids
-    ItemPool.MAID,
-    ItemPool.CLOCKWORK_MAID,
+          // Inside dwelling: maids
+          ItemPool.MAID,
+          ItemPool.CLOCKWORK_MAID,
+          ItemPool.MEAT_BUTLER,
 
-    // Inside dwelling: miscellaneous
-    // (Certificate of Participation)
-    // (Shiny Certificate of Participation)
-    ItemPool.BONSAI_TREE,
-    ItemPool.CUCKOO_CLOCK,
-    ItemPool.FENG_SHUI,
-    ItemPool.LED_CLOCK,
-    ItemPool.LUCKY_CAT_STATUE,
-    ItemPool.MEAT_GLOBE,
-    ItemPool.PICTURE_OF_YOU,
-    ItemPool.TIN_ROOF,
-    ItemPool.CRIMBO_CANDLE,
+          // Inside dwelling: miscellaneous
+          // (Certificate of Participation)
+          // (Shiny Certificate of Participation)
+          ItemPool.BONSAI_TREE,
+          ItemPool.CUCKOO_CLOCK,
+          ItemPool.FENG_SHUI,
+          ItemPool.LED_CLOCK,
+          ItemPool.LUCKY_CAT_STATUE,
+          ItemPool.MEAT_GLOBE,
+          ItemPool.PICTURE_OF_YOU,
+          ItemPool.TIN_ROOF,
+          ItemPool.CRIMBO_CANDLE,
 
-    // Inside dwelling: "Tasteful" items
-    ItemPool.BLACK_BLUE_LIGHT,
-    ItemPool.LOUDMOUTH_LARRY,
-    ItemPool.PLASMA_BALL,
+          // Inside dwelling: "Tasteful" items
+          ItemPool.BLACK_BLUE_LIGHT,
+          ItemPool.LOUDMOUTH_LARRY,
+          ItemPool.PLASMA_BALL,
 
-    // Kitchen
-    ItemPool.SHAKER,
-    ItemPool.COCKTAIL_KIT,
-    ItemPool.BARTENDER,
-    ItemPool.CLOCKWORK_BARTENDER,
-    ItemPool.OVEN,
-    ItemPool.RANGE,
-    ItemPool.CHEF,
-    ItemPool.CLOCKWORK_CHEF,
+          // Kitchen
+          ItemPool.SHAKER,
+          ItemPool.COCKTAIL_KIT,
+          ItemPool.BARTENDER,
+          ItemPool.CLOCKWORK_BARTENDER,
+          ItemPool.OVEN,
+          ItemPool.RANGE,
+          ItemPool.CHEF,
+          ItemPool.CLOCKWORK_CHEF,
 
-    // Workshed
-    ItemPool.CHEMISTRY_LAB,
-    ItemPool.INDUCTION_OVEN,
-    ItemPool.LP_ROM_BURNER,
-    ItemPool.HIGH_EFFICIENCY_STILL,
-    ItemPool.AUTO_ANVIL,
-    ItemPool.JACKHAMMER_DRILL_PRESS,
-    ItemPool.SNOW_MACHINE,
-    ItemPool.SPINNING_WHEEL,
-    ItemPool.DNA_LAB,
-    ItemPool.MAYO_CLINIC,
-    ItemPool.ASDON_MARTIN,
-    ItemPool.DIABOLIC_PIZZA_CUBE,
-    ItemPool.COLD_MEDICINE_CABINET,
-    ItemPool.MODEL_TRAIN_SET,
+          // Workshed
+          ItemPool.CHEMISTRY_LAB,
+          ItemPool.INDUCTION_OVEN,
+          ItemPool.LP_ROM_BURNER,
+          ItemPool.HIGH_EFFICIENCY_STILL,
+          ItemPool.AUTO_ANVIL,
+          ItemPool.JACKHAMMER_DRILL_PRESS,
+          ItemPool.SNOW_MACHINE,
+          ItemPool.SPINNING_WHEEL,
+          ItemPool.DNA_LAB,
+          ItemPool.MAYO_CLINIC,
+          ItemPool.ASDON_MARTIN,
+          ItemPool.DIABOLIC_PIZZA_CUBE,
+          ItemPool.COLD_MEDICINE_CABINET,
+          ItemPool.MODEL_TRAIN_SET,
 
-    // Outside dwelling
-    ItemPool.MEAT_GOLEM,
-    ItemPool.PAGODA_PLANS,
-    ItemPool.SCARECROW,
-    ItemPool.TOILET_PAPER,
-    ItemPool.HAUNTED_DOGHOUSE,
-    ItemPool.WITCHESS_SET,
-    ItemPool.SOURCE_TERMINAL,
-    ItemPool.TRAPEZOID,
+          // Outside dwelling
+          ItemPool.MEAT_GOLEM,
+          ItemPool.PAGODA_PLANS,
+          ItemPool.SCARECROW,
+          ItemPool.TOILET_PAPER,
+          ItemPool.HAUNTED_DOGHOUSE,
+          ItemPool.WITCHESS_SET,
+          ItemPool.SOURCE_TERMINAL,
+          ItemPool.TRAPEZOID,
+          ItemPool.GIANT_BLACK_MONOLITH,
 
-    // Special item that aids resting
-    ItemPool.COMFY_BLANKET,
-  };
+          // Special item that aids resting
+          ItemPool.COMFY_BLANKET);
 
   public static final int[] transientFurnishings = {
     // Bedding
@@ -296,30 +300,27 @@ public class CampgroundRequest extends GenericRequest {
   public static final AdventureResult STRANGE_STALAGMITE =
       ItemPool.get(ItemPool.STRANGE_STALAGMITE, 1);
 
-  // Crop seeds
-  public static final AdventureResult PUMPKIN_SEEDS = ItemPool.get(ItemPool.PUMPKIN_SEEDS, 1);
-  public static final AdventureResult PEPPERMINT_PACKETS =
-      ItemPool.get(ItemPool.PEPPERMINT_PACKET, 1);
-  public static final AdventureResult DRAGON_TEETH = ItemPool.get(ItemPool.DRAGON_TEETH, 1);
-  public static final AdventureResult BEER_SEEDS = ItemPool.get(ItemPool.BEER_SEEDS, 1);
-  public static final AdventureResult WINTER_SEEDS = ItemPool.get(ItemPool.WINTER_SEEDS, 1);
-  public static final AdventureResult THANKSGARDEN_SEEDS =
-      ItemPool.get(ItemPool.THANKSGARDEN_SEEDS, 1);
-  public static final AdventureResult TALL_GRASS_SEEDS = ItemPool.get(ItemPool.TALL_GRASS_SEEDS, 1);
-  public static final AdventureResult MUSHROOM_SPORES = ItemPool.get(ItemPool.MUSHROOM_SPORES, 1);
-  public static final AdventureResult ROCK_SEEDS = ItemPool.get(ItemPool.ROCK_SEEDS, 1);
-
   public enum CropType {
-    PUMPKIN,
-    PEPPERMINT,
-    SKELETON,
-    BEER,
-    WINTER,
-    THANKSGARDEN,
-    GRASS,
-    MUSHROOM,
-    ROCK,
+    PUMPKIN(ItemPool.PUMPKIN_SEEDS),
+    PEPPERMINT(ItemPool.PEPPERMINT_PACKET),
+    SKELETON(ItemPool.DRAGON_TEETH),
+    BEER(ItemPool.BEER_SEEDS),
+    WINTER(ItemPool.WINTER_SEEDS),
+    THANKSGARDEN(ItemPool.THANKSGARDEN_SEEDS),
+    GRASS(ItemPool.TALL_GRASS_SEEDS),
+    MUSHROOM(ItemPool.MUSHROOM_SPORES),
+    ROCK(ItemPool.ROCK_SEEDS),
     ;
+
+    private final AdventureResult seeds;
+
+    CropType(int seeds) {
+      this.seeds = ItemPool.get(seeds, 1);
+    }
+
+    public AdventureResult getSeeds() {
+      return this.seeds;
+    }
 
     @Override
     public String toString() {
@@ -456,12 +457,6 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.FIFTEEN_CORNUCOPIA,
     CampgroundRequest.MEGACOPIA,
     CampgroundRequest.TALL_GRASS,
-    // CampgroundRequest.TWO_TALL_GRASS,
-    // CampgroundRequest.THREE_TALL_GRASS,
-    // CampgroundRequest.FOUR_TALL_GRASS,
-    // CampgroundRequest.FIVE_TALL_GRASS,
-    // CampgroundRequest.SIX_TALL_GRASS,
-    // CampgroundRequest.SEVEN_TALL_GRASS,
     CampgroundRequest.VERY_TALL_GRASS,
     CampgroundRequest.FREE_RANGE_MUSHROOM,
     CampgroundRequest.PLUMP_FREE_RANGE_MUSHROOM,
@@ -478,18 +473,6 @@ public class CampgroundRequest extends GenericRequest {
     CampgroundRequest.WHETSTONE,
     CampgroundRequest.HARD_ROCK,
     CampgroundRequest.STRANGE_STALAGMITE,
-  };
-
-  public static final AdventureResult[] CROP_SEEDS = {
-    CampgroundRequest.PUMPKIN_SEEDS,
-    CampgroundRequest.PEPPERMINT_PACKETS,
-    CampgroundRequest.DRAGON_TEETH,
-    CampgroundRequest.BEER_SEEDS,
-    CampgroundRequest.WINTER_SEEDS,
-    CampgroundRequest.THANKSGARDEN_SEEDS,
-    CampgroundRequest.TALL_GRASS_SEEDS,
-    CampgroundRequest.MUSHROOM_SPORES,
-    CampgroundRequest.ROCK_SEEDS,
   };
 
   public static void reset() {
@@ -566,11 +549,29 @@ public class CampgroundRequest extends GenericRequest {
 
   public static List<AdventureResult> getCrops() {
     var list = new ArrayList<AdventureResult>();
+    // CROPS is an array of "interesting" crops to harvest.
+    // Each crop is an AdventureResult: an itemID and a count.
+    // The same itemId can appear multiple times with a different count.
+    //
+    // We want to return a single AdventureResult for each crop type.
+    CropType cropType = null;
     for (AdventureResult crop : CampgroundRequest.CROPS) {
       int index = KoLConstants.campground.indexOf(crop);
-      if (index != -1) {
-        list.add(KoLConstants.campground.get(index));
+      if (index == -1) {
+        // This crop is not present
+        continue;
       }
+      // This crop is in the campground.
+      AdventureResult current = KoLConstants.campground.get(index);
+      // See if it is already in the list of crops.
+      // AdventureResult.equals() does not consider count
+      index = list.indexOf(current);
+      if (index != -1) {
+        // Yes. We have already saved the actual crop.
+        continue;
+      }
+      // No. Add the actual crop we have
+      list.add(current);
     }
     return list;
   }
@@ -659,7 +660,10 @@ public class CampgroundRequest extends GenericRequest {
     for (AdventureResult crop : CampgroundRequest.CROPS) {
       KoLConstants.campground.remove(crop);
     }
-    for (AdventureResult seed : CampgroundRequest.CROP_SEEDS) {
+    for (AdventureResult seed :
+        Arrays.stream(CropType.values())
+            .map(CropType::getSeeds)
+            .collect(Collectors.toUnmodifiableSet())) {
       KoLConstants.campground.remove(seed);
     }
   }
@@ -709,15 +713,21 @@ public class CampgroundRequest extends GenericRequest {
         CampgroundRequest request = new CampgroundRequest("rgarden3");
         RequestThread.postRequest(request);
       }
-    } else {
+    } else if (cropType == CropType.GRASS) {
       // Grass plots are special: each cluster of tall grass is picked
       // individually - except for Very Tall Grass (the 8th growth)
-      if (cropType != CropType.GRASS || count == 8) {
+      if (count >= 8) {
         // Harvest the entire garden in one go
         count = 1;
       }
 
-      // Pick your crop (in multiple requests, if Tall Grass)
+      // Pick your crop in multiple requests
+      CampgroundRequest request = new CampgroundRequest("garden");
+      while (count-- > 0) {
+        RequestThread.postRequest(request);
+      }
+    } else {
+      // Pick your crop
       CampgroundRequest request = new CampgroundRequest("garden");
       while (count-- > 0) {
         RequestThread.postRequest(request);
@@ -928,6 +938,14 @@ public class CampgroundRequest extends GenericRequest {
     return action != null && (action.equals("workshed") || action.equals("terminal"));
   }
 
+  public static void handleCinchoRest(final String responseText) {
+    var m = CINCHO_LOOSEN_PATTERN.matcher(responseText);
+    if (m.find()) {
+      Preferences.decrement("_cinchUsed", StringUtilities.parseInt(m.group(1)), 0);
+      Preferences.increment("_cinchoRests");
+    }
+  }
+
   public static void parseResponse(final String urlString, final String responseText) {
     // Workshed may redirect to shop.php
     if (urlString.startsWith("shop.php")) {
@@ -943,7 +961,7 @@ public class CampgroundRequest extends GenericRequest {
     var preaction = GenericRequest.getPreaction(urlString);
 
     if (action == null) {
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       action = "";
     }
 
@@ -1041,7 +1059,9 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.decrement("_nightmareFuelCharges");
       }
 
-      Matcher m = HOUSING_PATTERN.matcher(responseText);
+      handleCinchoRest(responseText);
+
+      var m = HOUSING_PATTERN.matcher(responseText);
       if (m.find()) {
         KoLCharacter.updateFreeRests(m.group(3) != null);
       }
@@ -1053,24 +1073,24 @@ public class CampgroundRequest extends GenericRequest {
         || action.equals("rgarden1")
         || action.equals("rgarden2")
         || action.equals("rgarden3")) {
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       return;
     }
 
     if (action.equals("inspectdwelling")) {
-      CampgroundRequest.parseCampground(responseText);
-      CampgroundRequest.parseDwelling(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
+      CampgroundRequest.inspectDwelling(responseText);
       return;
     }
 
     if (action.equals("inspectkitchen")) {
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseKitchen(responseText);
       return;
     }
 
     if (action.equals("workshed")) {
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseWorkshed(responseText);
       return;
     }
@@ -1079,7 +1099,7 @@ public class CampgroundRequest extends GenericRequest {
       if (responseText.contains("little bottle of gene tonic")) {
         Preferences.increment("_dnaPotionsMade", 1);
       }
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseWorkshed(responseText);
       return;
     }
@@ -1089,7 +1109,7 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.setBoolean("_dnaHybrid", true);
         Preferences.setString("_dnaSyringe", "");
       }
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseWorkshed(responseText);
       return;
     }
@@ -1100,7 +1120,7 @@ public class CampgroundRequest extends GenericRequest {
       if (responseText.contains("air into Meat")) {
         Preferences.setBoolean("_spinningWheel", true);
       }
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseWorkshed(responseText);
       return;
     }
@@ -1116,7 +1136,7 @@ public class CampgroundRequest extends GenericRequest {
         int itemId = StringUtilities.parseInt(fuelMatcher.group(2));
         ResultProcessor.processResult(ItemPool.get(itemId, -qty));
       }
-      CampgroundRequest.parseCampground(responseText);
+      CampgroundRequest.parseCampground(urlString, responseText);
       CampgroundRequest.parseWorkshed(responseText);
       return;
     }
@@ -1128,9 +1148,18 @@ public class CampgroundRequest extends GenericRequest {
       }
       return;
     }
+
+    if (action.equals("monolith")) {
+      Preferences.setBoolean("_blackMonolithUsed", true);
+      return;
+    }
   }
 
-  private static void parseCampground(final String responseText) {
+  private static void parseCampground(final String urlString, final String responseText) {
+    if (urlString.contains("ajax=1")) {
+      return;
+    }
+
     boolean haveTelescope = findImage(responseText, "telescope.gif", ItemPool.TELESCOPE);
     if (haveTelescope) {
       KoLCharacter.setTelescope(true);
@@ -1147,6 +1176,7 @@ public class CampgroundRequest extends GenericRequest {
     findImage(responseText, "doghouse.gif", ItemPool.HAUNTED_DOGHOUSE);
     findImage(responseText, "chesstable.gif", ItemPool.WITCHESS_SET);
     findImage(responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL);
+    findImage(responseText, "monolith.gif", ItemPool.GIANT_BLACK_MONOLITH);
 
     if (responseText.contains("portal1.gif")) {
       // Charged portal.
@@ -1199,6 +1229,8 @@ public class CampgroundRequest extends GenericRequest {
     } else {
       Preferences.setBoolean("_psychoJarUsed", false);
     }
+
+    CampgroundRequest.parseDwelling(responseText);
   }
 
   private static boolean parseGarden(final String responseText) {
@@ -1501,16 +1533,20 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     KoLCharacter.updateFreeRests(m.group(3) != null);
+  }
 
+  private static void inspectDwelling(final String responseText) {
     int startIndex = responseText.indexOf("Your dwelling has the following stuff");
     int endIndex = responseText.indexOf("<b>Your Campsite</b>", startIndex + 1);
     if (startIndex > 0 && endIndex > 0) {
       var relevantResponse = responseText.substring(startIndex, endIndex);
 
-      boolean maidFound = findImage(relevantResponse, "maid.gif", ItemPool.MAID);
-      if (!maidFound) findImage(relevantResponse, "maid2.gif", ItemPool.CLOCKWORK_MAID);
+      // Three mutually exclusive dwelling servants
+      if (findImage(relevantResponse, "maid.gif", ItemPool.MAID)
+          || findImage(relevantResponse, "maid2.gif", ItemPool.CLOCKWORK_MAID)
+          || findImage(relevantResponse, "butler.gif", ItemPool.MEAT_BUTLER)) {}
 
-      m = FURNISHING_PATTERN.matcher(relevantResponse);
+      Matcher m = FURNISHING_PATTERN.matcher(relevantResponse);
       while (m.find()) {
         String name = m.group(1);
 

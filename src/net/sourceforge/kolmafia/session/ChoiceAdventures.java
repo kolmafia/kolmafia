@@ -2709,8 +2709,14 @@ public abstract class ChoiceAdventures {
     // Choice 494 is unknown
     // Choice 495 is unknown
 
-    // Choice 496 is Crate Expectations
-    // -> can skip if have +20 hot damage
+    // Crate Expectations
+    new ChoiceAdventure(
+        496,
+        "Woods",
+        "Typical Tavern",
+        // Option...
+        new ChoiceOption("3 bottles of basic booze"),
+        new ChoiceOption("Get rid of crate without spending an adventure"));
 
     // Choice 497 is SHAFT!
     // Choice 498 is unknown
@@ -2797,12 +2803,32 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("fight"),
         SKIP_ADVENTURE);
 
-    // Choice 513 is Staring Down the Barrel
-    // -> can skip if have +20 cold damage
-    // Choice 514 is 1984 Had Nothing on This Cellar
-    // -> can skip if have +20 stench damage
-    // Choice 515 is A Rat's Home...
-    // -> can skip if have +20 spooky damage
+    // Staring Down the Barrel
+    new ChoiceAdventure(
+        513,
+        "Woods",
+        "Typical Tavern",
+        // Option...
+        new ChoiceOption("3-5 ice-cold Willers"),
+        new ChoiceOption("Get rid of crate without spending an adventure"));
+
+    // 1984 Had Nothing on This Cellar
+    new ChoiceAdventure(
+        514,
+        "Woods",
+        "Typical Tavern",
+        // Option...
+        new ChoiceOption("3-5 rat whiskers and smiling rat (sometimes)"),
+        new ChoiceOption("Get rid of crate without spending an adventure"));
+
+    // A Rat's Home...
+    new ChoiceAdventure(
+        515,
+        "Woods",
+        "Typical Tavern",
+        // Option...
+        new ChoiceOption("3 bottles of tequila"),
+        new ChoiceOption("Get rid of crate without spending an adventure"));
 
     // Choice 516 is unknown
     // Choice 517 is Mr. Alarm, I Presarm
@@ -6222,6 +6248,16 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("Psychogeologist", 1),
         new ChoiceOption("Insectologist", 2),
         new ChoiceOption("Cryptobotanist", 3));
+
+    // Sing!
+    new ChoiceAdventure(
+        1505,
+        "Item-Driven",
+        "Loathing Idol Microphone",
+        new ChoiceOption("30 turns of +100% init, +50% moxie", 1),
+        new ChoiceOption("30 turns of +5% combat chance", 2),
+        new ChoiceOption("30 turns of +50% item drop", 3),
+        new ChoiceOption("30 turns of +3 exp, +4 stench/sleaze res", 4));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
@@ -7031,6 +7067,10 @@ public abstract class ChoiceAdventures {
       case 1489:
         // Slagging Off
         return dynamicChoiceSpoilers(choice, "Slagging Off");
+
+      case 1499:
+        // A Labyrinth of Shadows
+        return dynamicChoiceSpoilers(choice, "A Labyrinth of Shadows");
     }
 
     return null;
@@ -7941,7 +7981,8 @@ public abstract class ChoiceAdventures {
           buffer.setLength(0);
           buffer.append("blood kiwi (from above)");
           buffer.append(", Dreadsylvanian seed pod");
-          if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.FOLDER_HOLDER, 1))) {
+          if (KoLCharacter.hasEquipped(ItemPool.FOLDER_HOLDER)
+              || KoLCharacter.hasEquipped(ItemPool.REPLICA_FOLDER_HOLDER)) {
             buffer.append(", folder (owl)");
           }
 
@@ -8941,6 +8982,25 @@ public abstract class ChoiceAdventures {
           result[0] = new ChoiceOption("Get a crystal Crimbo goblet", "crystal Crimbo goblet");
           result[1] = new ChoiceOption("Get a crystal Crimbo platter", "crystal Crimbo platter");
           result[2] = new ChoiceOption("Walk away in disappointment");
+          return result;
+        }
+
+      case 1499:
+        {
+          // A Labyrinth of Shadows
+
+          String responseText = ChoiceManager.lastResponseText;
+          Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
+          int options = choices.size();
+
+          result = new ChoiceOption[options];
+          result[0] = new ChoiceOption("Randomize themes");
+          for (int i = 1; i <= 3; ++i) {
+            result[i] = RufusManager.shadowLabyrinthSpoiler(choices.get(i + 1));
+          }
+          result[4] = new ChoiceOption("Randomize themes");
+          result[5] = new ChoiceOption("Leave with nothing");
+
           return result;
         }
     }

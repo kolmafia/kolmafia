@@ -28,7 +28,7 @@ public enum StringModifier implements Modifier {
   MODIFIERS("Modifiers", Pattern.compile("^(none)$")),
   OUTFIT("Outfit", null),
   STAT_TUNING("Stat Tuning", Pattern.compile("Stat Tuning: \"(.*?)\"")),
-  EFFECT("Effect", Pattern.compile("(?:^|, )Effect: \"(.*?)\"")),
+  EFFECT("Effect", Pattern.compile("Effect: \"(.*?)\"")),
   EQUIPS_ON("Equips On", Pattern.compile("Equips On: \"(.*?)\"")),
   FAMILIAR_EFFECT("Familiar Effect", Pattern.compile("Familiar Effect: \"(.*?)\"")),
   JIGGLE("Jiggle", Pattern.compile("Jiggle: *(.*?)$"), Pattern.compile("Jiggle: \"(.*?)\"")),
@@ -120,7 +120,7 @@ public enum StringModifier implements Modifier {
       }
 
       Matcher matcher = pattern.matcher(tag);
-      if (matcher.find()) {
+      if (matcher.matches()) {
         return modifier;
       }
     }

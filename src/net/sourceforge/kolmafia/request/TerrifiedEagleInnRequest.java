@@ -33,7 +33,8 @@ public class TerrifiedEagleInnRequest extends CoinMasterRequest {
       case ItemPool.TALES_OF_DREAD -> !Preferences.getBoolean("itemBoughtPerCharacter6423");
       case ItemPool.BRASS_DREAD_FLASK -> !Preferences.getBoolean("itemBoughtPerCharacter6428");
       case ItemPool.SILVER_DREAD_FLASK -> !Preferences.getBoolean("itemBoughtPerCharacter6429");
-      case ItemPool.FOLDER_21 -> KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER);
+      case ItemPool.FOLDER_21 -> KoLCharacter.hasEquipped(EquipmentManager.FOLDER_HOLDER)
+          || KoLCharacter.hasEquipped(EquipmentManager.REPLICA_FOLDER_HOLDER);
       default -> ItemPool.get(itemId).getCount(TERRIFIED_EAGLE_INN.getBuyItems()) > 0;
     };
   }

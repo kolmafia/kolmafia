@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAllEquipped;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHandlingChoice;
@@ -451,6 +452,35 @@ public class ChoiceManagerTest {
         String ONE_SHARD = html("request/test_slagging_off_one_shard.html");
         int option = ChoiceManager.getDecision(SLAGGING_OFF, ONE_SHARD);
         // Always returns 1 so choice spoilers in the relay browser work.
+        assertEquals(1, option);
+      }
+    }
+  }
+
+  @Nested
+  class TavernChoices {
+    private static final int STARING_DOWN_THE_BARREL = 513;
+    private static final String property = "choiceAdventure513";
+
+    @Test
+    public void sufficientElementalDamageAllowsOption2() {
+      var cleanups =
+          new Cleanups(
+              withProperty(property, 2),
+              withAllEquipped(ItemPool.SEAL_CLUB, ItemPool.SEVENTEEN_BALL));
+      try (cleanups) {
+        String responseText = html("request/test_explore_cellar_choice.html");
+        int option = ChoiceManager.getDecision(STARING_DOWN_THE_BARREL, responseText);
+        assertEquals(2, option);
+      }
+    }
+
+    @Test
+    public void insufficientElementalDamageForcesOption1() {
+      var cleanups = new Cleanups(withProperty(property, 2), withAllEquipped(ItemPool.SEAL_CLUB));
+      try (cleanups) {
+        String responseText = html("request/test_explore_cellar_choice.html");
+        int option = ChoiceManager.getDecision(STARING_DOWN_THE_BARREL, responseText);
         assertEquals(1, option);
       }
     }

@@ -33,7 +33,6 @@ public class ScriptManageFrame extends GenericPanelFrame {
 
   static {
     ScriptManager.updateRepoScripts(false);
-    ScriptManager.updateInstalledScripts();
   }
 
   private static class ScriptManageTable extends ShowDescriptionTable<Script> {
@@ -138,7 +137,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
       JPanel topInnerRight = new JPanel(new BorderLayout());
       top.add(topInnerRight, BorderLayout.EAST);
 
-      JLabel baseLabel = new JLabel("<html>Install new scripts from SVN here. </html>");
+      JLabel baseLabel = new JLabel("<html>Install new scripts here. </html>");
       topInnerLeft.add(baseLabel);
 
       JLabel helpLabel = new JLabel("<html><u>Hover for more info.</u></html>");
@@ -158,8 +157,8 @@ public class ScriptManageFrame extends GenericPanelFrame {
 
       String tooltip =
           "<html>On this panel you can install community-created scripts.<br>"
-              + "Scripts so installed will automatically receive available updates when you perform the \"svn update\" command<br>"
-              + "(which can be set to automatically run on login - look in General > Preferences > SVN).<br><br>"
+              + "Scripts so installed will automatically receive available updates when you perform the \"svn update\" and \"git update\" commands<br>"
+              + "(which can be set to automatically run on login - look in General > Preferences > SVN or > Git).<br><br>"
               + "Notable things you can do here:<br>"
               + "<ul><li>Click a header column to sort ascending/descending</li>"
               + "<li>Left-click a script to see more details on the bottom panel</li>"
@@ -200,8 +199,8 @@ public class ScriptManageFrame extends GenericPanelFrame {
 
       Object ob = table.getValueAt(row, 0);
 
-      if (ob instanceof Script) {
-        comp.setText(((Script) ob).getLongDesc());
+      if (ob instanceof Script s) {
+        comp.setText(s.getLongDesc());
       }
     }
   }
@@ -213,7 +212,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
 
       JPanel top = new JPanel(new BorderLayout());
       JLabel baseLabel =
-          new JLabel("<html>Manage current SVN-installed scripts.  Right click for options.");
+          new JLabel("<html>Manage current installed scripts.  Right click for options.");
       top.add(baseLabel, BorderLayout.WEST);
       top.add(Box.createVerticalStrut(25));
 
@@ -249,7 +248,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
 
     @Override
     public void actionConfirmed() {
-      ScriptManager.updateInstalledScripts();
+      ScriptManager.updateRepoScripts(false);
     }
 
     @Override

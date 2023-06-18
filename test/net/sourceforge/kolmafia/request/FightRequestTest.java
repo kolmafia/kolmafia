@@ -2,12 +2,14 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHippyStoneBroken;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
@@ -18,6 +20,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withWorkshedItem;
+import static internal.helpers.Player.withoutCounters;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
@@ -61,6 +64,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -1213,6 +1217,22 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canDetectCinchRemaining() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_cinchUsed", 0),
+            withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"));
+
+    try (cleanups) {
+      String html = html("request/test_fight_cincho_uses_remaining.html");
+      FightRequest.parseAvailableCombatSkills(html);
+
+      assertThat("_cinchUsed", isSetTo(30));
+    }
+  }
+
+  @Test
   public void canDetectVampyreCloakeFormUses() {
     var cleanups =
         new Cleanups(
@@ -1753,6 +1773,31 @@ public class FightRequestTest {
         assertThat("_spikolodonSpikeUses", isSetTo(1));
       }
     }
+
+    @Test
+    void spikodonSpikesSetNCForcerFlag() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.SHIRT, ItemPool.JURASSIC_PARKA),
+              withProperty("_spikolodonSpikeUses", 0),
+              withProperty("noncombatForcerActive", false));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_spikolodon_spikes.html");
+        assertThat("noncombatForcerActive", isSetTo(true));
+      }
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"projectile", "confetti", "party"})
+  void cinchoCastRecorded(String fileName) {
+    var cleanups = new Cleanups(withProperty("_cinchUsed", 90));
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_parse_casting_cinch_" + fileName + ".html");
+      assertThat("_cinchUsed", isSetTo(95));
+    }
   }
 
   @Nested
@@ -1984,6 +2029,145 @@ public class FightRequestTest {
         assertThat("lastAdventure", isSetTo("Shadow Rift (The Hidden City)"));
         assertThat("_shadowRiftCombats", isSetTo(1));
       }
+    }
+  }
+
+  @Nested
+  class DreadConsumables {
+    @ParameterizedTest
+    @CsvSource({
+      "getsYouDrunkTurnsLeft, gets_you_drunk",
+      "ghostPepperTurnsLeft, ghost_pepper",
+    })
+    public void survivingDecrementsCounter(String pref, String fixture) {
+      var cleanups = new Cleanups(withProperty(pref, 4), withHP(5000, 5000, 5000));
+      try (cleanups) {
+        parseCombatData("request/test_fight_" + fixture + "_survive.html");
+        assertThat(pref, isSetTo(3));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "getsYouDrunkTurnsLeft, gets_you_drunk_elemental_form",
+      "ghostPepperTurnsLeft, ghost_pepper_elemental_form",
+      "getsYouDrunkTurnsLeft, gets_you_drunk_complete",
+      "ghostPepperTurnsLeft, ghost_pepper_complete",
+    })
+    public void otherSituationsEndCounter(String pref, String fixture) {
+      var cleanups = new Cleanups(withProperty(pref, 4));
+      try (cleanups) {
+        parseCombatData("request/test_fight_" + fixture + ".html");
+        assertThat(pref, isSetTo(0));
+      }
+    }
+  }
+
+  @Nested
+  class SpookyVHSTape {
+    @Test
+    public void canRecogniseSpookyVHSTapeMonster() {
+      var cleanups =
+          new Cleanups(
+              withProperty("spookyVHSTapeMonster", "ghost"),
+              withProperty("spookyVHSTapeMonsterTurn", "119"),
+              withTurnsPlayed(111),
+              withFight(0),
+              withCounter(8, "Spooky VHS Tape Monster type=wander", "watch.gif"),
+              withCounter(
+                  0,
+                  "Spooky VHS Tape unknown monster window begin loc=* type=wander",
+                  "lparen.gif"),
+              withCounter(
+                  8, "Spooky VHS Tape unknown monster window end loc=* type=wander", "rparen.gif"));
+
+      try (cleanups) {
+        String html = html("request/test_fight_spooky_vhs_tape_monster.html");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("spookyVHSTapeMonster", isSetTo(""));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape Monster"), is(false));
+        assertThat(
+            TurnCounter.isCounting("Spooky VHS Tape unknown monster window begin"), is(false));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape unknown monster window end"), is(false));
+      }
+    }
+
+    @Test
+    public void canTrackSpookyVHSTapeSuccess() {
+      var cleanups =
+          new Cleanups(
+              withoutCounters(),
+              withProperty("spookyVHSTapeMonster"),
+              withProperty("spookyVHSTapeMonsterTurn"),
+              withTurnsPlayed(111),
+              withItem(ItemPool.SPOOKY_VHS_TAPE),
+              withFight(1));
+
+      try (cleanups) {
+        String html = html("request/test_fight_spooky_vhs_tape_success.html");
+        FightRequest.registerRequest(true, "fight.php?action=useitem&whichitem=11270");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("Spooky VHS Tape", not(isInInventory()));
+        assertThat("spookyVHSTapeMonster", isSetTo("ghost"));
+        assertThat("spookyVHSTapeMonsterTurn", isSetTo(111));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape Monster"), is(true));
+      }
+    }
+
+    @Test
+    public void canTrackSpookyVHSTapeFailure() {
+      var cleanups =
+          new Cleanups(
+              withoutCounters(),
+              withProperty("spookyVHSTapeMonster"),
+              withProperty("spookyVHSTapeMonsterTurn"),
+              withTurnsPlayed(111),
+              withItem(ItemPool.SPOOKY_VHS_TAPE),
+              withFight(1));
+
+      try (cleanups) {
+        String html = html("request/test_fight_spooky_vhs_tape_failure.html");
+        FightRequest.registerRequest(true, "fight.php?action=useitem&whichitem=11270");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("Spooky VHS Tape", isInInventory());
+        assertThat("spookyVHSTapeMonster", isSetTo(""));
+        assertThat("spookyVHSTapeMonsterTurn", isSetTo(-1));
+        assertThat(
+            TurnCounter.isCounting("Spooky VHS Tape unknown monster window begin"), is(true));
+        assertThat(TurnCounter.isCounting("Spooky VHS Tape unknown monster window end"), is(true));
+      }
+    }
+  }
+
+  @Test
+  public void canDetectFludaUse() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_douseFoeUses", 2),
+            withEquipped(Slot.ACCESSORY1, "Flash Liquidizer Ultra Dousing Accessory"));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_douse_foe.html", "fight.php?action=skill&whichskill=7448");
+
+      assertThat("_douseFoeUses", isSetTo(3));
+    }
+  }
+
+  @Test
+  public void canDetectMcTwist() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("_epicMcTwistUsed", false),
+            withEquipped(Slot.ACCESSORY1, "pro skateboard"));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_epic_mctwist.html", "fight.php?action=skill&whichskill=7447");
+
+      assertThat("_epicMcTwistUsed", isSetTo(true));
     }
   }
 }

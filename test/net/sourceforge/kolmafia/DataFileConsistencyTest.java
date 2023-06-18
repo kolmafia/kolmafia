@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -18,12 +19,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.CafeDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.Test;
@@ -107,11 +116,14 @@ public class DataFileConsistencyTest {
     for (var id : items) {
       if (ItemDatabase.getConsumptionType(id) == ConsumptionType.FAMILIAR_HATCHLING) {
         var name = ItemDatabase.getItemDataName(id);
-        assertThat(
-            String.format("%s is in items.txt but not in familiars.txt", name),
-            hatchlings,
-            hasItem(name));
-        hatchlings.remove(name);
+        // replica familiars from Legacy of Loathing are special
+        if (!name.startsWith("replica ")) {
+          assertThat(
+              String.format("%s is in items.txt but not in familiars.txt", name),
+              hatchlings,
+              hasItem(name));
+          hatchlings.remove(name);
+        }
       }
     }
 
@@ -128,6 +140,24 @@ public class DataFileConsistencyTest {
     for (var name : familiarSpecificEquipment) {
       assertThat(
           String.format("%s is in familiars.txt but not in items.txt", name),
+          ItemDatabase.getItemId(name),
+          greaterThan(0));
+    }
+  }
+
+  @Test
+  public void testCoinmasterBuyables() throws IOException {
+    var buyables = datafileItems("coinmasters.txt", 2, 3);
+
+    Pattern withNum = Pattern.compile("(.*) \\(\\d+\\)");
+
+    for (var name : buyables) {
+      var match = withNum.matcher(name);
+      if (match.find()) {
+        name = match.group(1);
+      }
+      assertThat(
+          String.format("%s is in coinmasters.txt but not in items.txt", name),
           ItemDatabase.getItemId(name),
           greaterThan(0));
     }
@@ -207,6 +237,166 @@ public class DataFileConsistencyTest {
       }
     } catch (IOException e) {
       fail("Couldn't read from combats.txt");
+    }
+  }
+
+  @Test
+  public void modifiersShouldApplyToValidItems() {
+    String file = "modifiers.txt";
+    int version = 3;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        String identifier = fields[0];
+        String name = fields[1];
+        switch (identifier) {
+          case "Item", "Clancy" -> {
+            var id = ItemDatabase.getExactItemId(name);
+            if (id == -1) {
+              if (!CafeDatabase.isCafeConsumable(name)) {
+                fail("unrecognised item " + name);
+              }
+            }
+          }
+          case "Effect" -> {
+            var id = EffectDatabase.getEffectId(name, true);
+            if (id < 0) {
+              fail("unrecognised effect " + name);
+            }
+          }
+          case "Skill" -> {
+            var id = SkillDatabase.getSkillId(name, true);
+            if (id < 0) {
+              fail("unrecognised skill " + name);
+            }
+          }
+          case "Familiar", "Throne" -> {
+            if (!"(none)".equals(name)) {
+              var id = FamiliarDatabase.getFamiliarId(name, false);
+              if (id < 0) {
+                fail("unrecognised familiar " + name);
+              }
+            }
+          }
+          case "Thrall" -> {
+            var thrall = PastaThrallData.typeToData(name);
+            if (thrall == null) {
+              fail("unrecognised thrall " + name);
+            }
+          }
+          case "Outfit" -> {
+            var outfit =
+                EquipmentDatabase.normalOutfits.values().stream()
+                    .anyMatch(x -> x.getName().equals(name));
+            if (!outfit) {
+              fail("unrecognised outfit " + name);
+            }
+          }
+          case "Sign" -> {
+            var sign = ZodiacSign.find(name);
+            if (sign == ZodiacSign.NONE) {
+              fail("unrecognised sign " + name);
+            }
+          }
+          case "Zone" -> {
+            var zone = AdventureDatabase.PARENT_LIST.stream().anyMatch(x -> x.equals(name));
+            if (!zone) {
+              fail("unrecognised zone " + name);
+            }
+          }
+          case "Loc" -> {
+            var loc = AdventureDatabase.validateAdventureArea(name);
+            if (!loc) {
+              fail("unrecognised location " + name);
+            }
+          }
+          case "Synergy", "MutexI" -> {
+            assertThat(name, containsString("/"));
+            for (var item : name.split("/")) {
+              var id = ItemDatabase.getExactItemId(item);
+              if (id < 0) {
+                fail("unrecognised item " + item);
+              }
+            }
+          }
+          case "MutexE" -> {
+            assertThat(name, containsString("/"));
+            for (var effect : name.split("/")) {
+              var id = EffectDatabase.getEffectId(effect, true);
+              if (id < 0) {
+                fail("unrecognised effect " + effect);
+              }
+            }
+          }
+          case "Florist" -> {
+            var flower = FloristRequest.Florist.getFlower(name);
+            if (flower == null) {
+              fail("unrecognised flower " + name);
+            }
+          }
+          case "Path" -> {
+            var path = AscensionPath.nameToPath(name);
+            if (path == Path.NONE) {
+              fail("unrecognised path " + name);
+            }
+          }
+          case "Motorbike",
+              "Snowsuit",
+              "Edpiece",
+              "Rumpus",
+              "Event",
+              "MaxCat",
+              "Horsery",
+              "BoomBox",
+              "RetroCape",
+              "BackupCamera",
+              "UnbreakableUmbrella",
+              "JurassicParka",
+              "Mask",
+              "Ensorcel",
+              "Robot",
+              "RobotTop",
+              "RobotRight",
+              "RobotBottom",
+              "RobotLeft",
+              "RobotCPU" -> {
+            // all fine
+          }
+          default -> fail("unrecognised identifier " + identifier);
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from " + file);
+    }
+  }
+
+  @Test
+  public void dailyLimitsShouldApplyToValidItems() {
+    String file = "dailylimits.txt";
+    int version = 1;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        String identifier = fields[0];
+        String name = fields[1];
+        switch (identifier) {
+          case "Use" -> {
+            var id = ItemDatabase.getExactItemId(name);
+            if (id == -1) {
+              fail("unrecognised item " + name);
+            }
+          }
+          case "Cast", "Tome" -> {
+            var id = SkillDatabase.getSkillId(name, true);
+            if (id < 0) {
+              fail("unrecognised skill " + name);
+            }
+          }
+          default -> fail("unrecognised identifier " + identifier);
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from " + file);
     }
   }
 }

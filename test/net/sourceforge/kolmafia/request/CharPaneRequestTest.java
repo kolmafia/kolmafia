@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,7 +13,9 @@ import static org.hamcrest.Matchers.notNullValue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,6 +80,57 @@ class CharPaneRequestTest {
   }
 
   @Nested
+  class NonCombatForcers {
+    @Test
+    void anyNoncombatForcerSetsFlagInApi() {
+      var cleanups = new Cleanups(withProperty("noncombatForcerActive", false));
+      try (cleanups) {
+        var json =
+            ApiRequest.getJSON(html("request/test_api_status_noncomforcers.json"), "testing");
+        assertThat(json, notNullValue());
+
+        CharPaneRequest.parseStatus(json);
+
+        assertThat("noncombatForcerActive", isSetTo(true));
+      }
+    }
+
+    @Test
+    void absenceOfNoncombatForcerUnsetsFlagInApi() {
+      var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+      try (cleanups) {
+        var json =
+            ApiRequest.getJSON(
+                html("request/test_adventure_crystal_ball_handles_noncombat_api_preadventure.json"),
+                "testing");
+        assertThat(json, notNullValue());
+
+        CharPaneRequest.parseStatus(json);
+
+        assertThat("noncombatForcerActive", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canParseNoncombatModifiersInCharpane() {
+      CharPaneRequest.processResults(
+          html("request/test_parse_charpane_for_noncombat_forcers.html"));
+      assertThat("noncombatForcerActive", isSetTo(true));
+    }
+
+    @Test
+    void canParseAbsenceOfNoncombatModifiersInCharpane() {
+      var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+
+      try (cleanups) {
+        // This one doesn't hav eany noncombat modifiers
+        CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
+        assertThat("noncombatForcerActive", isSetTo(false));
+      }
+    }
+  }
+
+  @Nested
   class Sweaty {
     @ParameterizedTest
     @CsvSource({
@@ -116,7 +170,8 @@ class CharPaneRequestTest {
           new Cleanups(
               withEquipped(ItemPool.TRANSFUNCTIONER),
               withProperty("8BitScore", 0),
-              withProperty("8BitColor", ""));
+              withProperty("8BitColor", ""),
+              withProperty("8BitBonusTurns", 0));
 
       try (cleanups) {
         var responseText = html("request/test_charpane_8bit_" + color + "_score.html");
@@ -124,6 +179,27 @@ class CharPaneRequestTest {
         assertThat(result, equalTo(true));
         assertThat("8BitScore", isSetTo(expectedScore));
         assertThat("8BitColor", isSetTo(color));
+        assertThat("8BitBonusTurns", isSetTo(0));
+      }
+    }
+  }
+
+  @Nested
+  class Comma {
+    @Test
+    void commaGrantsGreyGooseSkills() {
+      var cleanups =
+          new Cleanups(withFamiliar(FamiliarPool.CHAMELEON, 200), withProperty("commaFamiliar"));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_comma_as_goose.html"));
+        assertThat("commaFamiliar", isSetTo("Grey Goose"));
+        assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(true));
+
+        // Removed after change
+        CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
+        assertThat("commaFamiliar", isSetTo("Homemade Robot"));
+        assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(false));
       }
     }
   }

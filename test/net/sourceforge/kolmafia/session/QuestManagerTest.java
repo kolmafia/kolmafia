@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1264,6 +1265,151 @@ public class QuestManagerTest {
       request.responseText = "anything";
       QuestManager.handleQuestChange(request);
       assertThat(Quest.AZAZEL, isStep(1));
+    }
+  }
+
+  /*
+   * Melvign's Garment
+   */
+
+  @Nested
+  class Melvign {
+    @Test
+    public void equippingShirtWithoutTorsoAwarenessGivesLetter() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.JURASSIC_PARKA),
+              withItem(ItemPool.LETTER_FOR_MELVIGN, 0),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_get_letter.html"));
+        var urlString =
+            "inv_equip.php?which=2&action=equip&whichitem=" + ItemPool.JURASSIC_PARKA + "&ajax=1";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertTrue(InventoryManager.hasItem(ItemPool.LETTER_FOR_MELVIGN));
+        assertThat(Quest.SHIRT, isUnstarted());
+      }
+    }
+
+    @Test
+    public void readingLetterStartsQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.LETTER_FOR_MELVIGN, 1),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(
+            302,
+            Map.of("location", List.of("place.php?whichplace=mountains&action=mts_melvin")),
+            "");
+        client.addResponse(200, html("request/test_melvign_read_letter.html"));
+        client.addResponse(200, ""); // api.php
+        var urlString = "inv_use.php?which=3&whichitem=" + ItemPool.LETTER_FOR_MELVIGN + "&ajax=1";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertFalse(InventoryManager.hasItem(ItemPool.LETTER_FOR_MELVIGN));
+        assertThat(Quest.SHIRT, isStarted());
+      }
+    }
+
+    @Test
+    public void visitShopWithoutGarmentStartsQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_visit_shop.html"));
+        var urlString = "place.php?whichplace=mountains&action=mts_melvin";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertThat(Quest.SHIRT, isStarted());
+      }
+    }
+
+    @Test
+    public void seeingComicShopStartsQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_visit_mountains_shop.html"));
+        var urlString = "place.php?whichplace=mountains";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertThat(Quest.SHIRT, isStarted());
+      }
+    }
+
+    @Test
+    public void findingGarmentAdvancesQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.PROFESSOR_WHAT_GARMENT, 0),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_get_garment.html"));
+        client.addResponse(200, ""); // api.php
+        var urlString = "adventure.php?snarfblat=387";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertTrue(InventoryManager.hasItem(ItemPool.PROFESSOR_WHAT_GARMENT));
+        assertThat(Quest.SHIRT, isStep("step1"));
+      }
+    }
+
+    @Test
+    public void returningGarmentFinishesQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.PROFESSOR_WHAT_GARMENT, 1),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_return_shirt.html"));
+        client.addResponse(200, ""); // api.php
+        var urlString = "place.php?whichplace=mountains&action=mts_melvin";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertFalse(InventoryManager.hasItem(ItemPool.PROFESSOR_WHAT_GARMENT));
+        assertTrue(InventoryManager.hasItem(ItemPool.PROFESSOR_WHAT_TSHIRT));
+        assertTrue(KoLCharacter.hasSkill(SkillPool.TORSO));
+        assertThat(Quest.SHIRT, isFinished());
+      }
+    }
+
+    @Test
+    public void seeingNoComicShopFinishesQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.SHIRT, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_melvign_visit_mountains_no_shop.html"));
+        var urlString = "place.php?whichplace=mountains";
+        var request = new GenericRequest(urlString);
+        request.run();
+        assertThat(Quest.SHIRT, isFinished());
+      }
     }
   }
 
@@ -3286,7 +3432,7 @@ public class QuestManagerTest {
         request.responseText = html("request/test_visit_town_wrong.html");
         QuestManager.handleQuestChange(request);
 
-        assertThat("speakeasyName", isSetTo("BLORP"));
+        assertThat("speakeasyName", isSetTo("Veracity's Place"));
       }
     }
 
@@ -3401,6 +3547,145 @@ public class QuestManagerTest {
         request.run();
 
         assertThat(Quest.PYRAMID, isUnstarted());
+      }
+    }
+  }
+
+  @Nested
+  class WizardOfEgo {
+    @ParameterizedTest
+    @CsvSource({"staring_into_nothing, 4", "into_the_maw_of_deepness, 5", "take_a_dusty_look, 6"})
+    public void canParseTowerRuinsChoices(String html, int expectedResult) {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.EGO, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_adventure_tower_ruins_" + html + ".html"));
+        var request = new GenericRequest("adventure.php?snarfblat=22");
+        request.run();
+        assertThat(Quest.EGO, isStep(expectedResult));
+      }
+    }
+
+    @Test
+    public void doNotUnfinishQuest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder), withQuestProgress(Quest.EGO, QuestDatabase.FINISHED));
+      try (cleanups) {
+        client.addResponse(
+            200, html("request/test_adventure_tower_ruins_staring_into_nothing.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=22");
+        request.run();
+        assertThat(Quest.EGO, isStep(QuestDatabase.FINISHED));
+      }
+    }
+
+    @Test
+    public void canSetQuestProgressMinimum() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withQuestProgress(Quest.EGO, QuestDatabase.UNSTARTED));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_fight_bread_golem.html"));
+        var request = new GenericRequest("adventure.php?snarfblat=22");
+        request.run();
+        assertThat(Quest.EGO, isStep(3));
+      }
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"started", "step1", "step2", "step3", "step4"})
+  public void canHandleBatholeChange(String step) {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder), withQuestProgress(Quest.BAT, QuestDatabase.UNSTARTED));
+    try (cleanups) {
+      client.addResponse(200, html("request/test_bathole_" + step + ".html"));
+      var request = new GenericRequest("place.php?whichplace=bathole");
+      request.run();
+      assertThat(Quest.BAT, isStep(step));
+    }
+  }
+
+  @Nested
+  class PixelRealm {
+    public static Stream<Arguments> pixelMonsterIncrements() {
+      return Stream.of(
+          Arguments.of("fleaman", "fleaman", "Vanya's Castle", 4, 5),
+          Arguments.of("Blader", "blader", "Megalo-City", 3, 4),
+          Arguments.of("Buzzy Beetle", "buzzy_beetle", "The Fungus Plains", 2, 3),
+          Arguments.of("Zol", "zol", "Hero's Field", 1, 2));
+    }
+
+    public static Stream<Arguments> pixelMonsterNoIncrements() {
+      return Stream.of(
+          Arguments.of(
+              "Tektite",
+              "request/test_loss_tektite.html",
+              "Hero's Field",
+              "skill&whichskill=17047",
+              1),
+          Arguments.of("Keese", "request/test_freerun_keese.html", "Hero's Field", "runaway", 2));
+    }
+
+    @ParameterizedTest
+    @MethodSource("pixelMonsterIncrements")
+    public void canTrack8BitBonusTurns(
+        String monsterName,
+        String response,
+        String location,
+        int startingValue,
+        int expectedResult) {
+      var cleanups =
+          new Cleanups(withLastLocation(location), withProperty("8BitBonusTurns", startingValue));
+      try (cleanups) {
+        String URL = "fight.php?action=attack";
+        String html = html("request/test_fight_" + response + ".html");
+        FightRequest.registerRequest(true, URL);
+        FightRequest.updateCombatData(URL, monsterName, html);
+        assertThat("8BitBonusTurns", isSetTo(expectedResult));
+      }
+    }
+
+    @ParameterizedTest
+    @MethodSource("pixelMonsterNoIncrements")
+    public void doNotTrack8BitBonusTurns(
+        String monsterName, String response, String location, String action, int startingValue) {
+      var cleanups =
+          new Cleanups(withLastLocation(location), withProperty("8BitBonusTurns", startingValue));
+      try (cleanups) {
+        String URL = "fight.php?action=" + action;
+        String html = html(response);
+        FightRequest.registerRequest(true, URL);
+        FightRequest.updateCombatData(URL, monsterName, html);
+        assertThat("8BitBonusTurns", isSetTo(startingValue));
+      }
+    }
+  }
+
+  @Nested
+  class FantasyRealm {
+    @Test
+    public void cantrackBarrwWraith() {
+      var cleanups =
+          new Cleanups(
+              withLastLocation("The Barrow Mounds"), withProperty("_frMonstersKilled", ""));
+      try (cleanups) {
+        String responseText = html("request/test_barrow_wraith_win.html");
+        QuestManager.updateQuestData(responseText, "barrow wraith?");
+        assertEquals(Preferences.getString("_frMonstersKilled"), "barrow wraith?:1,");
       }
     }
   }

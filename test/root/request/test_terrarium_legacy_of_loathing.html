@@ -1,0 +1,128 @@
+<html><head>
+  <script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+top.charpane.location.href="charpane.php";
+//-->
+</script>
+  <script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+  <script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+  <script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/core.js"></script>
+  <script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+  <script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20130705.js"></script>
+  <script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/famquip.20140109.js"></script>
+  <style type="text/css">
+	.expired td {color: #999; }
+	.it { display: inline-block; width: 120px; }
+</style>
+  <script>
+var pwdhash = "<?php echo 8b98a487336bbdf71f2c663344c3d619?>";
+var currentfam = 26;
+function changer(select, over, famid)
+{
+	if (!over) over = $('#shower');
+	over.empty().append($('#grower > *').clone());
+	var famid = famid ||select.options[select.selectedIndex].value;
+	if (!(famid == 82 || (currentfam == 82 && famid == -1))) {
+		$('.optgroup_hat', over).remove();
+	}
+
+	if (!(famid == 152 || (currentfam == 152 && famid == -1))) {
+		$('.optgroup_pants', over).remove();
+	}
+	if (!(famid == 92 || (currentfam == 92 && famid == -1))) {
+		$('.optgroup_weapon', over).remove();
+	}
+	if (!(famid == 278 || (currentfam == 278 && famid == -1))) {
+		$('.optgroup_offhand', over).remove();
+	}
+
+	$('option', over).each(function () {
+		var fams = $(this).attr('fams');
+		if (!fams) return true;
+		fams = fams.split(',');
+		if (fams.length) {
+			var ok = false;
+			for (var i=0; i<fams.length; i++) {
+				if (fams[i]==famid || (famid==-1 && currentfam==fams[i])) {
+					ok = true;
+					break;
+				}
+			}
+			if (famid == 54 || (famid==-1 && currentfam==54)) ok=true;
+			if (!ok) $(this).remove();
+		}
+		return true;
+	});
+
+	$('optgroup', over).each(function () {
+		var opts = $('option', this);
+		if (opts.length == 0) $(this).remove();
+		return true;
+	});
+
+	if ($('optgroup', over).length == 1) {
+		over.append($('option', over));
+		$('opgroup', over).remove();
+	}
+}
+window.onload = function () { if (document && document.famequip && document.famequip.whichfam) changer(document.famequip.whichfam); };
+jQuery(function($) {
+	$('.fave').hide();
+	$('table.famlist tr').hover(
+		function () { $('.fave', this).show(); },
+		function () { $('.fave', this).hide(); }
+	);
+	$('#grower').append($('#shower > *').clone());
+});
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+  <style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35;
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<Center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Manage your Familiar:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center>Current Familiar:<br><img onClick='fam(26)' src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/familiar26.gif" width=30 height=30 border=0><br><b>Elfy McElferson</b><br>9-pound Crimbo Elf (85 experience, 73 kills)<table><tr><td valign=center>Equipment:</td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ast_sweater.gif" class=hand onClick='descitem(648386354)'></td><td valign=center>astral pet sweater <font size=1><a href='inv_equip.php?pwd=8b98a487336bbdf71f2c663344c3d619&action=unequip&type=familiarequip&terrarium=1'>[unequip]</a></font></td><td><a href='familiar.php?action=lockequip&pwd=8b98a487336bbdf71f2c663344c3d619'><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/padlock.gif" class=hand title='This Familiar Equipment is Locked'></a></td><td valign=top><font size=-1><b><a class=nounder href='javascript:doc("famequiplock");'>?</a></b></font></td></tr></table><p><form name=rename action=familiar.php method=post><input type=hidden name=action value="rename"><input type=hidden name=pwd value='8b98a487336bbdf71f2c663344c3d619'>Change your Familiar's Name:<br><input class=text type=text size=40 maxlength=40 name=newname value="Elfy McElferson"> <input class=button type=submit value="Rename"></form><p><form name=putback action=familiar.php method=post><input type=hidden name=action value="putback"><input class=button type=submit value="Put Elfy McElferson in the Terrarium"></form><p><a href='familiarnames.php'>Manage Familiar Names</a><p><p>Your Familiar-Gro&trade; Terrarium contains the following creatures:<p><form name=newfam action=familiar.php method=post><input type=hidden name=action value="newfam"><table class="famlist"><tr class="frow " data-stats="1" data-itemdrops="1"><td valign=center><input type=radio name=newfam value=39></td><td valign=center><img onClick='fam(39)' src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/familiar39.gif" width=30 height=30 border=0></td><td valign=top style='padding-top: .45em;'><b>Brain Drain</b>, the 8-pound Pygmy Bugbear Shaman (74 exp, 64 kills) <font size="1"><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="fave" href="familiar.php?group=1&action=fave&famid=39&pwd=8b98a487336bbdf71f2c663344c3d619">[favorite]</a>&nbsp;&nbsp;<a class="fave" href="familiar.php?&action=newfam&newfam=39&pwd=8b98a487336bbdf71f2c663344c3d619">[take with you]</a></font></td></tr></table><p><center><input class=button type=submit value="Take this one with you"></center></form><p><center><a href="campground.php">Back to Your Campsite</a></centeR></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center><script>
+jQuery(function($) {
+	$('#filter input').click(function (e) {
+		var nm = $(this).attr('name');
+		var good = [];
+		$('#filter input:checked').each(function () {
+			if ($(this).attr('name') != 'all')
+				good.push($(this).attr('name'));
+		});
+		if (nm == 'all') {
+			$('#filter input').attr('checked', false);
+			$(this).attr('checked', true);
+			$('.frow').show();
+		}
+		else if (good.length == 0) {
+			$('#filter input').attr('checked', false);
+			$('#filter input[name="all"]').attr('checked', true);
+			$('.frow').show();
+		}
+		else {
+			$('#filter input[name="all"]').attr('checked', false);
+			var i;
+			$('.frow').each(function () {
+				for (i=0; i<good.length; i++){
+					if (!$(this).attr('data-'+good[i])) {
+						$(this).hide();
+						return true;
+					}
+				}
+				$(this).show();
+			});
+		}
+	});
+});
+</script>
+</body></html>

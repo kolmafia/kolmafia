@@ -145,8 +145,7 @@ public abstract class KoLmafia {
     System.setProperty("apple.laf.useScreenMenuBar", "true");
   }
 
-  // Visible for testing
-  public static void ensureContentTypes() {
+  protected static void ensureContentTypes() {
     var contentTypesFile = KoLConstants.DATA_LOCATION.toPath().resolve("content-types.properties");
     if (!Files.exists(contentTypesFile)) {
       FileUtilities.loadLibrary(
@@ -884,8 +883,7 @@ public abstract class KoLmafia {
     InventoryManager.checkMods();
 
     // Items that conditionally grant skills
-    InventoryManager.checkPowerfulGlove();
-    InventoryManager.checkDesignerSweatpants();
+    InventoryManager.checkSkillGrantingEquipment();
 
     // Check Horsery if we haven't today
     if (Preferences.getBoolean("horseryAvailable")
@@ -978,8 +976,7 @@ public abstract class KoLmafia {
     // Clear skills first, since we no longer know Avatar skills
     KoLCharacter.resetSkills();
     RequestThread.postRequest(new CharSheetRequest());
-    InventoryManager.checkPowerfulGlove();
-    InventoryManager.checkDesignerSweatpants();
+    InventoryManager.checkSkillGrantingEquipment();
     InventoryManager.checkCoatOfPaint(true);
 
     // Clear preferences
@@ -1060,8 +1057,7 @@ public abstract class KoLmafia {
     // Clear skills first, since we no longer know Limitmode skills
     KoLCharacter.resetSkills();
     RequestThread.postRequest(new CharSheetRequest());
-    InventoryManager.checkPowerfulGlove();
-    InventoryManager.checkDesignerSweatpants();
+    InventoryManager.checkSkillGrantingEquipment();
 
     // Retrieve inventory contents, since quest items may disappear.
     InventoryManager.refresh();

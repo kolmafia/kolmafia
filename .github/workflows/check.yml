@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   check:
@@ -38,9 +39,6 @@ jobs:
           distribution: "temurin"
           java-version: ${{ matrix.java }}
           cache: "gradle"
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1
 
       - name: Prepare Workspace
         run: mkdir -p ./build

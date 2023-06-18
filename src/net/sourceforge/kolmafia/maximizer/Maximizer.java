@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.textui.command.LoathingIdolCommand;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -738,11 +739,14 @@ public class Maximizer {
           duration = 30;
         } else if (cmd.startsWith("cargo effect ")) {
           // Must be available in your current path
-          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cargo Cultist Shorts")) {
+          if (!KoLCharacter.inLegacyOfLoathing()
+              && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Cargo Cultist Shorts")) {
             continue;
           }
           // You must have the cargo shorts
-          if (!InventoryManager.hasItem(ItemPool.CARGO_CULTIST_SHORTS)) {
+          if (!InventoryManager.hasItem(ItemPool.CARGO_CULTIST_SHORTS)
+              && !(KoLCharacter.inLegacyOfLoathing()
+                  && InventoryManager.hasItem(ItemPool.REPLICA_CARGO_CULTIST_SHORTS))) {
             if (includeAll) {
               text = "(acquire a pair of Cargo Cultist Shorts for " + name + ")";
               cmd = "";
@@ -1018,7 +1022,9 @@ public class Maximizer {
           usesRemaining = Preferences.getBoolean(buffPref) ? 0 : 1;
         } else if (cmd.startsWith("gap ")) {
           AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
-          if (InventoryManager.getAccessibleCount(ItemPool.GREAT_PANTS) == 0) {
+          if (InventoryManager.getAccessibleCount(ItemPool.GREAT_PANTS) == 0
+              && (!KoLCharacter.inLegacyOfLoathing()
+                  || InventoryManager.getAccessibleCount(ItemPool.REPLICA_GREAT_PANTS) == 0)) {
             if (includeAll) {
               text = "(acquire and equip Greatest American Pants for " + name + ")";
               cmd = "";
@@ -1027,7 +1033,9 @@ public class Maximizer {
             }
           } else if (Preferences.getInteger("_gapBuffs") >= 5) {
             cmd = "";
-          } else if (pants == null || (pants.getItemId() != ItemPool.GREAT_PANTS)) {
+          } else if (pants == null
+              || (pants.getItemId() != ItemPool.GREAT_PANTS
+                  && pants.getItemId() != ItemPool.REPLICA_GREAT_PANTS)) {
             text = "(equip Greatest American Pants for " + name + ")";
             cmd = "";
           }
@@ -1105,7 +1113,10 @@ public class Maximizer {
           duration = 100;
           usesRemaining = Preferences.getBoolean("_daycareSpa") ? 0 : 1;
         } else if (cmd.startsWith("play")) {
-          if (InventoryManager.getAccessibleCount(ItemPool.DECK_OF_EVERY_CARD) == 0) {
+          if (InventoryManager.getAccessibleCount(ItemPool.DECK_OF_EVERY_CARD) == 0
+              && (!KoLCharacter.inLegacyOfLoathing()
+                  || InventoryManager.getAccessibleCount(ItemPool.REPLICA_DECK_OF_EVERY_CARD)
+                      == 0)) {
             if (includeAll) {
               text = "(acquire Deck of Every Card for " + name + ")";
               cmd = "";
@@ -1134,7 +1145,9 @@ public class Maximizer {
           duration = 30;
           usesRemaining = Preferences.getBoolean("_grimBuff") ? 0 : 1;
         } else if (cmd.equals("witchess")) {
-          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
+          if (!(KoLCharacter.inLegacyOfLoathing()
+                  && Preferences.getBoolean("replicaWitchessSetAvailable"))
+              && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
             continue;
           }
           if (!KoLConstants.campground.contains(ItemPool.get(ItemPool.WITCHESS_SET, 1))) {
@@ -1248,6 +1261,14 @@ public class Maximizer {
                   EffectPool.get(EffectPool.SUPERFICIALLY_INTERESTED))) {
             continue;
           }
+        } else if (cmd.startsWith("loathingidol ")) {
+          var usableMicrophone = LoathingIdolCommand.getUsableMicrophone();
+          if (usableMicrophone == -1) {
+            item = ItemPool.get(ItemPool.LOATHING_IDOL_MICROPHONE, 1);
+          } else {
+            item = ItemPool.get(usableMicrophone, 1);
+          }
+          duration = 30;
         }
 
         if (item != null) {

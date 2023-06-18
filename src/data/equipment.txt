@@ -318,6 +318,7 @@ rave visor	150	Mox: 60
 ravioli hat	10	none
 red traffic cone	60	Mox: 15
 reinforced beaded headband	170	Mox: 70
+replica jewel-eyed wizard hat	10	none
 rusty diving helmet	200	Mox: 85
 safarrri hat	90	Mox: 30
 samurai turtle helmet	25	none
@@ -329,6 +330,7 @@ sealhide hood	160	Mox: 65
 Seasonal Beret	100	Mys: 35
 sequined fez	80	Mox: 25
 seven-gallon hat	140	none
+shadow chef's hat	100	none
 shapeless wide-brimmed hat	200	Mox: 200
 shining star cap	100	none
 silent beret	13	none
@@ -645,12 +647,16 @@ Radio Free Pants	150	Mox: 60
 ratskin pajama pants	150	Mox: 50
 red silk skirt	155	Mox: 62
 repaid diaper	200	Mox: 20
+replica Cargo Cultist Shorts	100	none
+replica designer sweatpants	100	none
+replica Greatest American Pants	100	none
 rusty metal greaves	150	Mus: 60
 saffron antaravasaka	100	Mox: 35
 scale-mail underwear	200	Mox: 85
 sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
 servo-assisted exo-pants	50	none
+shadow trousers	100	none
 slime waders	150	Mys: 30
 slime-covered greaves	200	Mox: 200
 SMOOCH codpiece	80	Mox: 25
@@ -1465,6 +1471,11 @@ reindeer sickle	100	Mus: 0	1-handed claw
 remaindered axe	20	Mus: 0	1-handed club
 remorseless knife	225	Mus: 200	1-handed knife
 repeating crossbow	65	Mox: 17	2-handed crossbow
+replica bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
+replica Fourth of May Cosplay Saber	100	Mus: 0	1-handed saber
+replica haiku katana	100	Mus: 0	1-handed sword
+replica industrial fire extinguisher	100	Mus: 0	1-handed extinguisher
+replica Jurassic Parka	100	none
 revolver	100	Mox: 0	1-handed pistol
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
@@ -1503,6 +1514,7 @@ serpentine sword	115	Mus: 42	1-handed sword
 severed flipper	80	Mus: 25	1-handed club
 sewage-clogged pistol	100	Mox: 35	1-handed pistol
 sewer snake	30	Mox: 0	1-handed flail
+shadow hammer	100	Mus: 0	2-handed club
 shadow stick	130	Mus: 50	1-handed club
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Shakespeare's Sister's Accordion	100	Mox: 0	1-handed accordion
@@ -2113,6 +2125,7 @@ red LavaCo Lamp&trade;	100	Mus: 35
 Red Roger's red left hand	120	none
 red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield
+replica Operation Patriot Shield	240	none	shield
 reusable shopping bag	10	none
 rice bowl	30	none
 rock	0	none
@@ -2137,6 +2150,7 @@ security flashlight	50	Mys: 10
 set of jacks	20	none
 Seven Loco	0	none
 sewer turtle	20	none	shield
+shadow candle	0	none
 shadowy seal eye	100	Mus: 35
 Shield of Icy Fate	120	none	shield
 shield of the Skeleton Lord	300	Mus: 50	shield
@@ -2288,6 +2302,7 @@ zoological sample kit	10	none
 
 # Accessories section of equipment.txt
 
+&quot;I survived Y2K&quot; T-Shirt	0	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
@@ -2298,6 +2313,7 @@ albatross necklace	90	Mys: 15
 Aluminum Epsilon of Humility	200	Mys: 85
 amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
+Amulet of Perpetual Darkness	0	none
 Amulet of Yendor	10	none
 anchovy can key	10	none
 anemoney clip	80	Mys: 15
@@ -2435,6 +2451,7 @@ chintzy turtle brooch	120	Mus: 45
 chocolate pocketwatch	100	Mys: 20
 chocolate rabbit's foot	40	Mys: 5
 Choker of the Ultragoth	150	Mys: 60
+Cincho de Mayo	100	none
 Claw of the Infernal Seal	150	Mus: 45
 Claybender glasses	100	Mys: 35
 clingfilm slippers	150	Mys: 60
@@ -2466,6 +2483,7 @@ crystalline seal eye	0	none
 cursed bat paw	0	none
 cursed dragon wishbone	0	none
 cursed medallion	0	none
+cursed monkey's paw	100	none
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
 cursed swash buckle	200	Mys: 50
@@ -2547,6 +2565,7 @@ fishbone kneepads	20	none
 flagstone flip-flops	120	Mys: 40
 flagstone fringe	120	Mox: 40
 flapper floppers	100	Mys: 35
+Flash Liquidizer Ultra Dousing Accessory	0	none
 flashing novelty button	20	none
 flask flops	10	none
 floaty rock necklace	100	Mys: 35
@@ -2774,6 +2793,7 @@ monstrous monocle	160	Mus: 65
 mood ring	10	none
 moon-amber necklace	250	Mys: 200
 moustache sock	100	Mus: 10
+Mr. Accessaturday	0	none
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
 Mr. Cheeng's spectacles	150	Mys: 35
@@ -2889,6 +2909,7 @@ portable cassette player	20	none
 power sock	100	Mys: 10
 Powerful Glove	100	none
 primitive alien necklace	50	Mys: 10
+pro skateboard	0	none
 Protects-Your-Junk	350	Mox: 100
 psychic's amulet	100	Mys: 35
 pulled porquoise earring	110	Mys: 40
@@ -2914,6 +2935,7 @@ rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
 ratskin belt	180	Mys: 75
 recovered cufflinks	0	none
+red-soled high heels	0	none
 red armband	10	none
 red badge	150	Mys: 60
 Red Balloon of Valor	200	Mys: 85
@@ -2927,6 +2949,16 @@ red shoe	150	Mys: 40
 red-hot medallion	50	none
 reinforced furry underpants	30	none
 Retrospecs	100	none
+replica Cincho de Mayo	100	none
+replica Elvish sunglasses	0	none
+replica hewn moon-rune spoon	200	none
+replica Juju Mojo Mask	0	none
+replica Kramco Sausage-o-Matic&trade;	100	none
+replica navel ring of navel gazing	0	none
+replica over-the-shoulder Folder Holder	0	none
+replica plastic vampire fangs	0	none
+replica Powerful Glove	0	none
+replica V for Vivala mask	0	none
 ribbon candy ascot	80	Mys: 20
 rickety old unicycle	200	Mox: 200
 ridiculous belt	0	none
@@ -2978,6 +3010,7 @@ second-hand knockoff engagement ring	0	none
 self-repairing earmuffs	50	none
 Senior LAAAAME merit badge	0	none
 severed rocking horse head	50	Mys: 10
+shadow monocle	0	none
 shamanic beads	125	Mys: 47
 shark tooth necklace	200	Mys: 85
 shin gourds	100	none
@@ -3504,6 +3537,7 @@ porcelain pelerine	120	Mus: 40
 protonic accelerator pack	100	none
 rad cloak	10	none
 Rain-Doh red wings	100	none
+replica Camp Scout backpack	0	none
 rubber cape	200	Mys: 85
 saffron uttarasanga	100	Mus: 35
 sea cape	200	Mox: 85

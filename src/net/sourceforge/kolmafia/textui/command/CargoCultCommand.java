@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -320,7 +321,9 @@ public class CargoCultCommand extends AbstractCommand {
   }
 
   private boolean haveCargoShorts() {
-    if (InventoryManager.getAccessibleCount(ItemPool.CARGO_CULTIST_SHORTS) == 0) {
+    if (InventoryManager.getAccessibleCount(ItemPool.CARGO_CULTIST_SHORTS) == 0
+        && !(KoLCharacter.inLegacyOfLoathing()
+            && InventoryManager.getAccessibleCount(ItemPool.REPLICA_CARGO_CULTIST_SHORTS) > 0)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't own a pair of Cargo Cultist Shorts");
       return false;
     }

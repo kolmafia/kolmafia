@@ -3,12 +3,12 @@ package net.sourceforge.kolmafia.combat;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 
 public class CombatEncounterKey {
   private static final Pattern ELEMENT_PATTERN = Pattern.compile("\\s*\\$element\\[([^\\]]+)\\]");
@@ -74,12 +74,12 @@ public class CombatEncounterKey {
       if (this.itemId != -1) {
         boolean foundItem = false;
 
-        Iterator<AdventureResult> itemIterator = monsterData.getItems().iterator();
+        Iterator<MonsterDrop> itemIterator = monsterData.getItems().iterator();
 
         while (!foundItem && itemIterator.hasNext()) {
-          AdventureResult item = itemIterator.next();
+          MonsterDrop drop = itemIterator.next();
 
-          if (item.getItemId() == this.itemId) {
+          if (drop.item().getItemId() == this.itemId) {
             foundItem = true;
           }
         }

@@ -290,6 +290,10 @@ public class AdventurePool {
   public static final int SITE_ALPHA_DORMITORY = 554;
   public static final int SITE_ALPHA_GREENHOUSE = 555;
   public static final int OLIVERS_SPEAKEASY_BRAWL = 558;
+  public static final int FUNGUS_PLAINS = 563;
+  public static final int HEROS_FIELD = 564;
+  public static final int VANYAS_CASTLE = 565;
+  public static final int MEGALO_CITY = 566;
   public static final int SHADOW_RIFT = 567;
 
   private AdventurePool() {}

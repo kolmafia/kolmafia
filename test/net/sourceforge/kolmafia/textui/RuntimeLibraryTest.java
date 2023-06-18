@@ -3,11 +3,17 @@ package net.sourceforge.kolmafia.textui;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withFamiliarInTerrariumWithItem;
 import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -20,14 +26,18 @@ import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -241,10 +251,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void canVisitCabinet() {
-      var cleanups =
-          new Cleanups(withNextResponse(200, html("request/test_choice_cmc_frozen_jeans.html")));
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withHandlingChoice(false));
 
       try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_choice_cmc_frozen_jeans.html"));
         String output = execute("expected_cold_medicine_cabinet()");
         assertThat(
             output,
@@ -262,9 +275,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @Test
     void canHandleUnexpectedCabinetResponse() {
-      var cleanups = new Cleanups(withNextResponse(200, "huh?"));
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withHandlingChoice(false));
 
       try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, "huh?");
         String output = execute("expected_cold_medicine_cabinet()");
         assertThat(
             output,
@@ -452,76 +469,92 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
     }
 
-    @Nested
-    class PathFunctions {
-      @ParameterizedTest
-      @ValueSource(
-          strings = {
-            "boolean test(string p) { return p == \"Trendy\"; } test($path[Trendy])",
-            "string p = my_path(); (p == \"Trendy\")",
-            "(my_path() == \"Trendy\")",
-            "my_path().starts_with(\"Tre\")",
-            "boolean test() { switch (my_path()) { case \"Trendy\": return true; default: return false; } } test()",
-            "boolean test(string path_name) { switch (path_name) { case $path[Trendy]: return true; default: return false; } } test(\"Trendy\")",
-            "($strings[Trendy] contains my_path())",
-            "($paths[Trendy] contains \"Trendy\")"
-          })
-      void myPathCoercesToString(String command) {
-        // my_path() used to return a string, we want to make sure that we don't break old scripts
-        // where possible
-        var cleanups = new Cleanups(withPath(Path.TRENDY));
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void equippedAmountIncludesFamiliarsIfSpecified(final boolean include) {
+      var cleanups =
+          new Cleanups(
+              withFamiliarInTerrariumWithItem(FamiliarPool.MOSQUITO, ItemPool.LEAD_NECKLACE),
+              withFamiliarInTerrariumWithItem(FamiliarPool.POTATO, ItemPool.LEAD_NECKLACE),
+              withFamiliar(FamiliarPool.GOAT),
+              withEquipped(Slot.FAMILIAR, ItemPool.LEAD_NECKLACE));
 
-        try (cleanups) {
-          String output = execute(command);
-          assertThat(output, endsWith("Returned: true\n"));
-        }
+      try (cleanups) {
+        String output = execute("equipped_amount($item[lead necklace], " + include + ")");
+        assertThat(output, endsWith("Returned: " + (include ? 3 : 1) + "\n"));
       }
+    }
+  }
 
-      @ParameterizedTest
-      @ValueSource(
-          strings = {
-            "(my_path() == \"None\")",
-            "boolean test() { switch (my_path()) { case \"None\": return true; default: return false; } } test()",
-          })
-      void nonePathIsTitleCases(String command) {
-        // Unrestricted used to be "None" but now it's technically "none". These tests make sure
-        // coercion is handling this
-        // We know it won't work in one case: "None" == my_path(). So if you wrote that, you're SOL
-        // :)
-        var cleanups = new Cleanups(withPath(Path.NONE));
+  @Nested
+  class PathFunctions {
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "boolean test(string p) { return p == \"Trendy\"; } test($path[Trendy])",
+          "string p = my_path(); (p == \"Trendy\")",
+          "(my_path() == \"Trendy\")",
+          "my_path().starts_with(\"Tre\")",
+          "boolean test() { switch (my_path()) { case \"Trendy\": return true; default: return false; } } test()",
+          "boolean test(string path_name) { switch (path_name) { case $path[Trendy]: return true; default: return false; } } test(\"Trendy\")",
+          "($strings[Trendy] contains my_path())",
+          "($paths[Trendy] contains \"Trendy\")"
+        })
+    void myPathCoercesToString(String command) {
+      // my_path() used to return a string, we want to make sure that we don't break old scripts
+      // where possible
+      var cleanups = new Cleanups(withPath(Path.TRENDY));
 
-        try (cleanups) {
-          String output = execute(command);
-          assertThat(output, endsWith("Returned: true\n"));
-        }
+      try (cleanups) {
+        String output = execute(command);
+        assertThat(output, endsWith("Returned: true\n"));
       }
+    }
 
-      @Test
-      void myPathCoercionWorksInJs() {
-        getInstance().command = "js";
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "(my_path() == \"None\")",
+          "boolean test() { switch (my_path()) { case \"None\": return true; default: return false; } } test()",
+        })
+    void nonePathIsTitleCases(String command) {
+      // Unrestricted used to be "None" but now it's technically "none". These tests make sure
+      // coercion is handling this
+      // We know it won't work in one case: "None" == my_path(). So if you wrote that, you're SOL
+      // :)
+      var cleanups = new Cleanups(withPath(Path.NONE));
 
-        var cleanups = new Cleanups(withPath(Path.TRENDY));
-
-        try (cleanups) {
-          String output = execute("myPath() == \"Trendy\"");
-          assertThat(output, endsWith("Returned: true\n"));
-        }
-
-        getInstance().command = "ash";
+      try (cleanups) {
+        String output = execute(command);
+        assertThat(output, endsWith("Returned: true\n"));
       }
     }
 
     @Test
-    void environmentIsLowercase() {
-      String output = execute("($location[Noob Cave].environment == 'underground')");
-      assertThat(output, endsWith("Returned: true\n"));
-    }
+    void myPathCoercionWorksInJs() {
+      getInstance().command = "js";
 
-    @Test
-    void diffLevelIsLowercase() {
-      String output = execute("($location[Noob Cave].difficulty_level == 'low')");
-      assertThat(output, endsWith("Returned: true\n"));
+      var cleanups = new Cleanups(withPath(Path.TRENDY));
+
+      try (cleanups) {
+        String output = execute("myPath() == \"Trendy\"");
+        assertThat(output, endsWith("Returned: true\n"));
+      }
+
+      getInstance().command = "ash";
     }
+  }
+
+  @Test
+  void environmentIsLowercase() {
+    String output = execute("($location[Noob Cave].environment == 'underground')");
+    assertThat(output, endsWith("Returned: true\n"));
+  }
+
+  @Test
+  void diffLevelIsLowercase() {
+    String output = execute("($location[Noob Cave].difficulty_level == 'low')");
+    assertThat(output, endsWith("Returned: true\n"));
   }
 
   @Nested
@@ -622,6 +655,267 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertContinueState();
 
       assertThat(output, is("Returned: 7302\n"));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"16000", "zero placeholder", "[zero placeholder]", "[16000]"})
+  void canIdentifySkill(final String skillIdentifier) {
+    String output = execute("$skill[" + skillIdentifier + "].name");
+    assertThat(output, endsWith("Returned: [zero placeholder]\n"));
+  }
+
+  @Nested
+  class EightBitPoints {
+    @Test
+    void zeroPointsInNon8BitZone() {
+      String output = execute("eight_bit_points($location[The Dire Warren])");
+      assertThat(output, endsWith("Returned: 0\n"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({"red, 300", "black, 150"})
+    void fungusPlains(String color, int points) {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.SYNTHESIS_GREED), // 300% meat drop
+              withEquipped(ItemPool.CARPE), // 50% meat drop
+              withProperty("8BitColor", color));
+
+      try (cleanups) {
+        String output = execute("eight_bit_points($location[The Fungus Plains])");
+        assertThat(output, endsWith("Returned: " + points + "\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"green, 380", "black, 190"})
+    void herosField(String color, int points) {
+      var cleanups =
+          new Cleanups(
+              withEffect("Frosty"), // 100% item drop
+              withEffect("Certainty"), // 100% item drop
+              withEffect(EffectPool.SYNTHESIS_COLLECTION), // 150% item drop
+              withEquipped(ItemPool.GRIMACITE_GO_GO_BOOTS), // 30% item drop
+              withProperty("8BitColor", color));
+
+      try (cleanups) {
+        String output = execute("eight_bit_points($location[Hero's Field])");
+        assertThat(output, endsWith("Returned: " + points + "\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"black, 400", "red, 200"})
+    void vanyasCastle(String color, int points) {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.RACING), // 200% init
+              withEffect("Memory of Speed"), // 200% init
+              withEffect("Industrially Lubricated"), // 150% init
+              withEquipped(ItemPool.ROCKET_BOOTS), // 100% init
+              withProperty("8BitColor", color));
+
+      try (cleanups) {
+        String output = execute("eight_bit_points($location[Vanya's Castle])");
+        assertThat(output, endsWith("Returned: " + points + "\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"blue, 300", "black, 150"})
+    void megaloCity(String color, int points) {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.SUPER_STRUCTURE), // 500 DA
+              withProperty("8BitColor", color));
+
+      try (cleanups) {
+        String output = execute("eight_bit_points($location[Megalo-City])");
+        assertThat(output, endsWith("Returned: " + points + "\n"));
+      }
+    }
+  }
+
+  @Nested
+  class ItemDrops {
+    @Test
+    void itemDrops() {
+      var cleanups = withNextMonster("stench zombie");
+
+      try (cleanups) {
+        String output = execute("item_drops()");
+        assertThat(
+            output,
+            is(
+                """
+                      Returned: aggregate float [item]
+                      Freddy Kruegerand => 0.0
+                      muddy skirt => 0.1
+                      Dreadsylvanian Almanac page => 0.0
+                      """));
+      }
+    }
+
+    @Test
+    void itemDropsMonster() {
+      String output = execute("item_drops($monster[spooky zombie])");
+      assertThat(
+          output,
+          is(
+              """
+                    Returned: aggregate float [item]
+                    Freddy Kruegerand => 0.0
+                    grandfather watch => 0.1
+                    Dreadsylvanian Almanac page => 0.0
+                    """));
+    }
+
+    @Test
+    void itemDropsArray() {
+      var cleanups = withNextMonster("stench zombie");
+
+      try (cleanups) {
+        String output = execute("item_drops_array()");
+        assertThat(
+            output,
+            is(
+                """
+                      Returned: aggregate {item drop; float rate; string type;} [3]
+                      0 => record {item drop; float rate; string type;}
+                        drop => Dreadsylvanian Almanac page
+                        rate => 0.0
+                        type => f
+                      1 => record {item drop; float rate; string type;}
+                        drop => Freddy Kruegerand
+                        rate => 0.0
+                        type => f
+                      2 => record {item drop; float rate; string type;}
+                        drop => muddy skirt
+                        rate => 0.1
+                        type => c
+                      """));
+      }
+    }
+
+    @Test
+    void itemDropsArrayMonster() {
+      String output = execute("item_drops_array($monster[spooky zombie])");
+      assertThat(
+          output,
+          is(
+              """
+                    Returned: aggregate {item drop; float rate; string type;} [3]
+                    0 => record {item drop; float rate; string type;}
+                      drop => Dreadsylvanian Almanac page
+                      rate => 0.0
+                      type => f
+                    1 => record {item drop; float rate; string type;}
+                      drop => Freddy Kruegerand
+                      rate => 0.0
+                      type => f
+                    2 => record {item drop; float rate; string type;}
+                      drop => grandfather watch
+                      rate => 0.1
+                      type => c
+                    """));
+    }
+  }
+
+  @Test
+  void setLocation() {
+    String output = execute("set_location($location[Barf Mountain])");
+    assertThat(output, containsString("Returned: void"));
+    output = execute("my_location()");
+    assertThat(output, containsString("Returned: Barf Mountain"));
+    output = execute("set_location($location[none])");
+    assertThat(output, containsString("Returned: void"));
+    output = execute("my_location()");
+    assertThat(output, containsString("Returned: none"));
+  }
+
+  @Test
+  void numericModifierHandlesCrimboTrainingSkills() {
+    String output = execute("numeric_modifier($skill[Crimbo Training: Bartender], \"booze drop\")");
+    assertThat(output, containsString("15.0"));
+  }
+
+  @Nested
+  class Ids {
+    @ParameterizedTest
+    @CsvSource({
+      "$item[pirate radio ring].id, 10210",
+      "$skill[Unleash Terra Cotta Army].id, 7321",
+      "$effect[Wings].id, 6",
+      "$familiar[Cat Burglar].id, 267",
+      "$monster[Knob Goblin Embezzler].id, 530",
+      "$location[The Dire Warren].id, 92",
+      "$path[Trendy].id, 7",
+      "$class[Pig Skinner].id, 28"
+    })
+    void exposesIds(String exec, String value) {
+      String output = execute(exec);
+      assertThat(output, containsString("Returned: " + value));
+    }
+  }
+
+  @Nested
+  class SplitJoinStrings {
+    String input1 = "line1\\nline2\\nline3";
+    String input2 = "foo bar baz";
+
+    @Test
+    void canSplitOnNewLine() {
+      String input = "string str = \"" + input1 + "\"; split_string(str)";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+              Returned: aggregate string [3]
+              0 => line1
+              1 => line2
+              2 => line3
+              """));
+    }
+
+    @Test
+    void canSplitOnSpace() {
+      String input = "string str = \"" + input2 + "\"; split_string(str, \" \")";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+              Returned: aggregate string [3]
+              0 => foo
+              1 => bar
+              2 => baz
+              """));
+    }
+
+    @Test
+    void canSplitJoinOnNewLine() {
+      String input = "string str = \"" + input1 + "\"; split_string(str).join_strings()";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+              Returned: line1
+              line2
+              line3
+              """));
+    }
+
+    @Test
+    void canSplitJoinOnSpace() {
+      String input =
+          "string str = \"" + input2 + "\"; split_string(str, \" \").join_strings(\" \")";
+      String output = execute(input);
+      assertThat(output, is("""
+              Returned: foo bar baz
+              """));
     }
   }
 }

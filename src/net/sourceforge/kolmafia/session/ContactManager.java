@@ -25,6 +25,13 @@ public class ContactManager {
 
   private static ContactListFrame contactsFrame = null;
 
+  public static void reset() {
+    seenPlayerIds.clear();
+    seenPlayerNames.clear();
+    mailContacts.clear();
+    chatContacts.clear();
+  }
+
   private ContactManager() {}
 
   public static final void updateMailContacts() {

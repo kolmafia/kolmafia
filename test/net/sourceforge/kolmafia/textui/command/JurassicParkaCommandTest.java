@@ -2,7 +2,9 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
@@ -12,11 +14,14 @@ import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,6 +96,33 @@ class JurassicParkaCommandTest extends AbstractCommandTestBase {
       assertThat(requests, hasSize(greaterThanOrEqualTo(2)));
       assertPostRequest(requests.get(0), "/inventory.php", "action=jparka");
       assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1481&option=" + decision);
+    }
+  }
+
+  @Test
+  void worksWithEquippedParka() {
+    var cleanups = withEquipped(Slot.SHIRT, ItemPool.JURASSIC_PARKA);
+
+    try (cleanups) {
+      String output = execute("spooky");
+
+      assertContinueState();
+      assertThat(output, Matchers.containsString("Your parka is now set to"));
+    }
+  }
+
+  @Test
+  void worksWithReplicaParka() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.LEGACY_OF_LOATHING),
+            withEquipped(Slot.SHIRT, ItemPool.REPLICA_JURASSIC_PARKA));
+
+    try (cleanups) {
+      String output = execute("spooky");
+
+      assertContinueState();
+      assertThat(output, Matchers.containsString("Your parka is now set to"));
     }
   }
 }

@@ -127,3 +127,6 @@ questDoctorBag	Doctor, Doctor	Acquire 	to the patient	(no completion message)
 
 # Guzzlr 
 questGuzzlr	Guzzlr.  Low Effort, High ABV.	(various messages)	Deliver the 	(no completion message)
+
+# Rufus 
+questRufus	Rufus's Goofin'	Rufus wants	Call Rufus 	(no completion message)

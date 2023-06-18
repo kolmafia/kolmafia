@@ -141,8 +141,8 @@ public class ModifierExpressionTest {
   @ParameterizedTest
   @CsvSource({
     "animal, 1",
-    "eyes, 1",
-    "flying, 0",
+    "haseyes, 1",
+    "flies, 0",
   })
   public void canDetectFamiliarAttribute(String attr, String expected) {
     var cleanups = withFamiliar(FamiliarPool.ADORABLE_SEAL_LARVA);
@@ -241,6 +241,28 @@ public class ModifierExpressionTest {
     try (cleanups) {
       var exp = new ModifierExpression("event(December)", ModifierType.EVENT, "December");
       assertThat(exp.eval(), is(1.0));
+    }
+  }
+
+  @Test
+  public void canDetectSaturday() {
+    final var cleanups = withDay(2023, Month.JUNE, 10);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("event(Saturday)", ModifierType.EVENT, "Saturday");
+      assertThat(exp.eval(), is(1.0));
+    }
+  }
+
+  @Test
+  public void canDetectMainstat() {
+    var cleanups = withClass(AscensionClass.SEAL_CLUBBER);
+
+    try (cleanups) {
+      var exp = new ModifierExpression("mainstat(muscle)", "Muscle");
+      assertThat(exp.eval(), is(1.0));
+      exp = new ModifierExpression("mainstat(moxie)", "Moxie");
+      assertThat(exp.eval(), is(0.0));
     }
   }
 

@@ -167,6 +167,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class ClassProxy extends ProxyRecordValue {
     public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("primestat", DataTypes.STAT_TYPE)
             .add("path", DataTypes.PATH_TYPE)
             .finish("class proxy");
@@ -177,6 +178,10 @@ public class ProxyRecordValue extends RecordValue {
 
     private AscensionClass getAscensionClass() {
       return (AscensionClass) this.content;
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public Value get_primestat() {
@@ -202,6 +207,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class ItemProxy extends ProxyRecordValue {
     public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("plural", DataTypes.STRING_TYPE)
             .add("descid", DataTypes.STRING_TYPE)
@@ -251,6 +257,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public ItemProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     /**
@@ -700,6 +710,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class FamiliarProxy extends ProxyRecordValue {
     public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("hatchling", DataTypes.ITEM_TYPE)
             .add("image", DataTypes.STRING_TYPE)
             .add("name", DataTypes.STRING_TYPE)
@@ -727,6 +738,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("passive", DataTypes.BOOLEAN_TYPE)
             .add("underwater", DataTypes.BOOLEAN_TYPE)
             .add("variable", DataTypes.BOOLEAN_TYPE)
+            .add("feasted", DataTypes.BOOLEAN_TYPE)
             .add("attributes", DataTypes.STRING_TYPE)
             .add("poke_level", DataTypes.INT_TYPE)
             .add("poke_level_2_power", DataTypes.INT_TYPE)
@@ -743,6 +755,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public FamiliarProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public Value get_hatchling() {
@@ -859,6 +875,11 @@ public class ProxyRecordValue extends RecordValue {
 
     public boolean get_variable() {
       return FamiliarDatabase.isVariableType((int) this.contentLong);
+    }
+
+    public boolean get_feasted() {
+      FamiliarData fam = KoLCharacter.usableFamiliar(this.contentString);
+      return fam == null ? false : fam.getFeasted();
     }
 
     public String get_attributes() {
@@ -1167,6 +1188,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class SkillProxy extends ProxyRecordValue {
     public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("type", DataTypes.STRING_TYPE)
             .add("level", DataTypes.INT_TYPE)
@@ -1188,6 +1210,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public SkillProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public String get_name() {
@@ -1263,6 +1289,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class EffectProxy extends ProxyRecordValue {
     public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("default", DataTypes.STRING_TYPE)
             .add("note", DataTypes.STRING_TYPE)
@@ -1277,6 +1304,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public EffectProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public String get_name() {

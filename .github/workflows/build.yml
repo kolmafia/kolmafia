@@ -29,9 +29,6 @@ jobs:
           java-version: "17"
           cache: "gradle"
 
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1
-
       - name: Build
         env:
           ORG_GRADLE_PROJECT_commit: ${{ github.sha }}
@@ -63,9 +60,6 @@ jobs:
           distribution: "temurin"
           java-version: "17"
           cache: "gradle"
-
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1
 
       - name: Build
         env:

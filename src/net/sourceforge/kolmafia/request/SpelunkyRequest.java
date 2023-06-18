@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.RelayRequest.Confirm;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -1052,7 +1053,7 @@ public class SpelunkyRequest extends GenericRequest {
     return String.valueOf(damage);
   }
 
-  public static String spelunkyWarning(final KoLAdventure adventure, final String confirm) {
+  public static String spelunkyWarning(final KoLAdventure adventure, final Confirm confirm) {
     // If we have won fewer than 3 combats since the last
     // noncombat, no noncombat is due.
 
@@ -1394,7 +1395,7 @@ public class SpelunkyRequest extends GenericRequest {
     return item.getCount(KoLConstants.inventory) > 0 || InventoryManager.getEquippedCount(item) > 0;
   }
 
-  private static String spelunkyLocationLink(String name, final int id, final String confirm) {
+  private static String spelunkyLocationLink(String name, final int id, final Confirm confirm) {
     return "<a href=\"adventure.php?snarfblat="
         + id
         + "&"

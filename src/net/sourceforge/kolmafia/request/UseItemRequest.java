@@ -142,6 +142,7 @@ public class UseItemRequest extends GenericRequest {
 
   protected static AdventureResult lastItemUsed = null;
   protected static AdventureResult lastHelperUsed = null;
+  protected static String currentURL = "";
   private static int currentItemId = -1;
   private static String lastUrlString = null;
 
@@ -569,6 +570,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.CLOCKWORK_BARTENDER:
       case ItemPool.MAID:
       case ItemPool.CLOCKWORK_MAID:
+      case ItemPool.MEAT_BUTLER:
       case ItemPool.SCARECROW:
       case ItemPool.MEAT_GOLEM:
       case ItemPool.MEAT_GLOBE:
@@ -925,7 +927,7 @@ public class UseItemRequest extends GenericRequest {
     }
 
     switch (itemId) {
-      case ItemPool.DECK_OF_EVERY_CARD -> {
+      case ItemPool.DECK_OF_EVERY_CARD, ItemPool.REPLICA_DECK_OF_EVERY_CARD -> {
         // Treat a "use" of the deck as "play random"
         (new DeckOfEveryCardRequest()).run();
         return;
@@ -1431,7 +1433,10 @@ public class UseItemRequest extends GenericRequest {
 
   @Override
   public void processResults() {
-    if (this.getPath().startsWith("choice.php")) {
+    // We might have been redirected.
+    UseItemRequest.currentURL = this.getPath();
+
+    if (UseItemRequest.currentURL.startsWith("choice.php")) {
       // We have been redirected. Unlike a redirection to fight.php,
       // which GenericRequest automates in FightRequest.INSTANCE, we
       // automate this ourself in runOneIteration. Item consumption
@@ -2818,6 +2823,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.THE_SPIRIT_OF_GIVING:
       case ItemPool.MANUAL_OF_LOCK_PICKING:
       case ItemPool.SPINAL_FLUID_COVERED_EMOTION_CHIP:
+      case ItemPool.REPLICA_EMOTION_CHIP:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you
@@ -2888,6 +2894,10 @@ public class UseItemRequest extends GenericRequest {
           return;
         }
 
+        break;
+
+      case ItemPool.REPLICA_CHATEAU_ROOM_KEY:
+        Preferences.setBoolean("replicaChateauAvailable", true);
         break;
 
       case ItemPool.GINGERBREAD_CITY:
@@ -3658,7 +3668,6 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.SCARECROW:
       case ItemPool.MEAT_GOLEM:
-      case ItemPool.MAID:
       case ItemPool.BLACK_BLUE_LIGHT:
       case ItemPool.LOUDMOUTH_LARRY:
       case ItemPool.PLASMA_BALL:
@@ -3672,13 +3681,34 @@ public class UseItemRequest extends GenericRequest {
         CampgroundRequest.setCampgroundItem(itemId, 1);
         break;
 
+      case ItemPool.MAID:
+        if (responseText.contains("You've already got")) {
+          return;
+        }
+
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
+        CampgroundRequest.setCampgroundItem(ItemPool.MAID, 1);
+        break;
+
       case ItemPool.CLOCKWORK_MAID:
         if (responseText.contains("You've already got")) {
           return;
         }
 
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
         CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
         CampgroundRequest.setCampgroundItem(ItemPool.CLOCKWORK_MAID, 1);
+        break;
+
+      case ItemPool.MEAT_BUTLER:
+        if (responseText.contains("You've already got")) {
+          return;
+        }
+
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
+        CampgroundRequest.setCampgroundItem(ItemPool.MEAT_BUTLER, 1);
         break;
 
       case ItemPool.BEANBAG_CHAIR:
@@ -4867,6 +4897,17 @@ public class UseItemRequest extends GenericRequest {
         Preferences.increment("darkGyfftePoints");
         break;
 
+      case ItemPool.REPLICA_TEN_DOLLARS:
+        // You hand your replica ten dollars to some guy who tells you to &quot;pay, pal&quot; and
+        // are now entitled to an extra replica Mr. Accessory in future Legacy of Loathing runs.
+        // You hand your replica ten dollars to some guy who tells you to &quot;pay, pal&quot; and
+        // are now entitled to some extra replica Mr. Accessory in future Legacy of Loathing runs.
+        if (!responseText.contains("extra replica Mr. Accessor")) {
+          return;
+        }
+        Preferences.increment("legacyPoints", count, 19, false);
+        break;
+
       case ItemPool.ESSENCE_OF_ANNOYANCE:
         if (!responseText.contains("You quaff")) {
           return;
@@ -4953,10 +4994,6 @@ public class UseItemRequest extends GenericRequest {
           ResultProcessor.processItem(ItemPool.STEAM_PLUMBER_3, -1);
         }
         return;
-
-      case ItemPool.LETTER_FROM_MELVIGN:
-        QuestDatabase.setQuestIfBetter(Quest.SHIRT, QuestDatabase.STARTED);
-        break;
 
       case ItemPool.XIBLAXIAN_SCHEMATIC_COWL:
       case ItemPool.XIBLAXIAN_SCHEMATIC_TROUSERS:
@@ -5147,6 +5184,11 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.CLARA_BELL:
+        // To make tests easier, this is the longest contiguous block without commas
+        if (responseText.contains(
+            "your stomach drops and your ears pop as you are suddenly plunged into a horrifyingly dark and blurry version of the world you once knew")) {
+          Preferences.setBoolean("noncombatForcerActive", true);
+        }
         Preferences.setBoolean("_claraBellUsed", true);
         return;
 
@@ -5498,6 +5540,10 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setBoolean("neverendingPartyAlways", true);
         break;
 
+      case ItemPool.REPLICA_NEVERENDING_PARTY_INVITE:
+        Preferences.setBoolean("replicaNeverendingPartyAlways", true);
+        break;
+
       case ItemPool.NEVERENDING_PARTY_INVITE_DAILY:
         if (responseText.contains("You're already invited to that party.")) {
           // If you already have access it is not consumed
@@ -5580,6 +5626,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.HEWN_MOON_RUNE_SPOON:
+      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
         // You twist the spoon around until the reflection of the moon in the bowl looks just like
         // you intended.
         if (responseText.contains("You twist the spoon around")) {
@@ -6010,11 +6057,59 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
         return;
 
+      case ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL:
+        if (responseText.contains("You've tempted fate")) {
+          // You've tempted fate enough for one day.
+          Preferences.setInteger("_chocolateCoveredPingPongBallsUsed", 3);
+        } else {
+          // You carefully lick the thin shell of chocolate off of the ping pong ball.
+          Preferences.increment("_chocolateCoveredPingPongBallsUsed", 1, 3, false);
+        }
+        break;
+
       case ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE:
         // If we were not redirected, the item was used already
         // You already wrote a course on the certificate with totally indelible-for-a-day marker.
         Preferences.setBoolean("_sitCourseCompleted", true);
         return;
+
+      case ItemPool.REPLICA_SNOWCONE_BOOK:
+        if (responseText.contains("You open the Tome")
+            || responseText.contains("already read this book")) {
+          Preferences.setBoolean("_replicaSnowconeTomeUsed", true);
+        }
+        return;
+
+      case ItemPool.REPLICA_RESOLUTION_BOOK:
+        if (responseText.contains("You make a bunch of resolutions")
+            || responseText.contains("already made enough resolutions")) {
+          Preferences.setBoolean("_replicaResolutionLibramUsed", true);
+        }
+        return;
+
+      case ItemPool.REPLICA_SMITH_BOOK:
+        if (responseText.contains("You read from The Smith")
+            || responseText.contains("smithed enough for today")) {
+          Preferences.setBoolean("_replicaSmithsTomeUsed", true);
+        }
+        return;
+
+      case ItemPool.REPLICA_WITCHESS_SET:
+        Preferences.setBoolean("replicaWitchessSetAvailable", true);
+        break;
+
+      case ItemPool.MR_STORE_2002_CATALOG:
+      case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
+        // Using the catalog redirects to "whichshop=mrstore2002".
+        // If we followed the redirect, let MrStore2002Request handle it.
+        MrStore2002Request.parseResponse(currentURL, responseText);
+        return;
+
+      case ItemPool.GIANT_BLACK_MONOLITH:
+        // You lug the giant black monolith to your campground and set it down.
+        // There's a deafening Bwoom-woob-woob-woob and then an ominous hum fills the air.
+        CampgroundRequest.setCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH, 1);
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
@@ -6661,12 +6756,20 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.HEWN_MOON_RUNE_SPOON:
+      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
         {
           ZodiacSign sign = parseAscensionSign(urlString);
           if (sign != ZodiacSign.NONE && urlString.contains("doit=96")) {
             useString = "tuning moon to The " + sign;
           }
+          break;
         }
+
+      case ItemPool.MR_STORE_2002_CATALOG:
+      case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
+        // This redirects to shop.php
+        Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
+        break;
     }
 
     if (useString == null) {
@@ -6682,7 +6785,10 @@ public class UseItemRequest extends GenericRequest {
   public int getAdventuresUsed() {
     // Some only use adventures when used as a proxy for a non adventure game location
     return switch (this.itemUsed.getItemId()) {
-      case ItemPool.CHATEAU_WATERCOLOR, ItemPool.GOD_LOBSTER, ItemPool.WITCHESS_SET -> 0;
+      case ItemPool.CHATEAU_WATERCOLOR,
+          ItemPool.GOD_LOBSTER,
+          ItemPool.WITCHESS_SET,
+          ItemPool.REPLICA_WITCHESS_SET -> 0;
       default -> UseItemRequest.getAdventuresUsedByItem(this.itemUsed);
     };
   }
@@ -6699,6 +6805,7 @@ public class UseItemRequest extends GenericRequest {
     return item == null
         ? 0
         : item.getItemId() == ItemPool.DECK_OF_EVERY_CARD
+                || item.getItemId() == ItemPool.REPLICA_DECK_OF_EVERY_CARD
             ? DeckOfEveryCardRequest.getAdventuresUsed(urlString)
             : UseItemRequest.getAdventuresUsedByItem(item);
   }
@@ -6729,6 +6836,8 @@ public class UseItemRequest extends GenericRequest {
           ItemPool.PHOTOCOPIED_MONSTER,
           ItemPool.POCKET_WISH,
           ItemPool.RAIN_DOH_MONSTER,
+          ItemPool.REPLICA_DECK_OF_EVERY_CARD,
+          ItemPool.REPLICA_GENIE_BOTTLE,
           ItemPool.SCREENCAPPED_MONSTER,
           ItemPool.SHAKING_CAMERA,
           ItemPool.SHAKING_CRAPPY_CAMERA,

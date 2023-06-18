@@ -217,6 +217,16 @@ public class Player {
   }
 
   /**
+   * Clears Inventory
+   *
+   * @return Clears inventory
+   */
+  public static Cleanups withNoItems() {
+    KoLConstants.inventory.clear();
+    return new Cleanups(KoLConstants.inventory::clear);
+  }
+
+  /**
    * Puts the given item into the player's inventory
    *
    * @param itemName Item to give
@@ -283,6 +293,16 @@ public class Player {
   }
 
   /**
+   * Ensures that a given item is not in the player's inventory
+   *
+   * @param itemId Item to not have
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withoutItem(final int itemId) {
+    return withItem(itemId, 0);
+  }
+
+  /**
    * Puts the given item into the player's closet
    *
    * @param itemName Item to give
@@ -302,6 +322,16 @@ public class Player {
   public static Cleanups withItemInCloset(final String itemName, final int count) {
     int itemId = ItemDatabase.getItemId(itemName, count, false);
     return withItemInCloset(itemId, count);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's closet
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInCloset(final int itemId) {
+    return withItemInCloset(ItemPool.get(itemId, 1));
   }
 
   /**
@@ -587,6 +617,20 @@ public class Player {
    */
   public static Cleanups withFamiliarInTerrarium(final int familiarId, final int experience) {
     var familiar = FamiliarData.registerFamiliar(familiarId, experience);
+    KoLCharacter.addFamiliar(familiar);
+    return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
+  }
+
+  /**
+   * Adds familiar to player's terrarium, but does not take it out
+   *
+   * @param familiarId Familiar to add
+   * @param itemId Item for familiar to equip
+   * @return Removes familiar from the terrarium
+   */
+  public static Cleanups withFamiliarInTerrariumWithItem(final int familiarId, final int itemId) {
+    var familiar = FamiliarData.registerFamiliar(familiarId, 0);
+    familiar.setItem(ItemPool.get(itemId, 1));
     KoLCharacter.addFamiliar(familiar);
     return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
   }
@@ -1391,6 +1435,17 @@ public class Player {
   }
 
   /**
+   * Sets the player's campground as having an item installed in it
+   *
+   * @param item Item to add
+   * @return Removes the item
+   */
+  public static Cleanups withCampgroundItem(final AdventureResult item) {
+    CampgroundRequest.setCampgroundItem(item);
+    return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(item));
+  }
+
+  /**
    * Clears the Campground and clears it again when done. This prevents leakage if the test adds
    * items to the campground.
    *
@@ -1475,20 +1530,23 @@ public class Player {
   /**
    * Sets the user as having this item installed in their Chateau Mantegna
    *
-   * @param itemId Id of item to have installed
+   * @param itemIds Id of items to have installed
    * @return Restores the old chateau state
    */
-  public static Cleanups withChateau(int itemId) {
-    final String oldCeiling = ChateauRequest.ceiling;
+  public static Cleanups withChateau(int... itemIds) {
     final List<AdventureResult> oldChateau = new ArrayList<>(KoLConstants.chateau);
 
-    ChateauRequest.ceiling = ItemDatabase.getItemName(itemId);
-    AdventureResult.addResultToList(KoLConstants.chateau, ItemPool.get(itemId, 1));
+    for (var itemId : itemIds) {
+      ChateauRequest.gainItem(ItemPool.get(itemId));
+    }
+
+    KoLCharacter.recalculateAdjustments();
+
     return new Cleanups(
         () -> {
-          ChateauRequest.ceiling = oldCeiling;
           KoLConstants.chateau.clear();
           KoLConstants.chateau.addAll(oldChateau);
+          KoLCharacter.recalculateAdjustments();
         });
   }
 
@@ -2067,8 +2125,20 @@ public class Player {
    */
   public static Cleanups withCounter(int turns, String label, String image) {
     var cleanups = new Cleanups(withProperty("relayCounters"));
-    TurnCounter.startCounting(turns, label, image);
-    cleanups.add(() -> TurnCounter.stopCounting(label));
+    var counter = TurnCounter.startCounting(turns, label, image);
+    cleanups.add(() -> TurnCounter.stopCounting(counter));
+    return cleanups;
+  }
+
+  /**
+   * Removes all counters
+   *
+   * @return Returns whatever counters were present before
+   */
+  public static Cleanups withoutCounters() {
+    var cleanups = new Cleanups(withProperty("relayCounters", ""));
+    TurnCounter.clearCounters();
+    cleanups.add(TurnCounter::loadCounters);
     return cleanups;
   }
 
@@ -2158,5 +2228,29 @@ public class Player {
     HermitRequest.initialize();
 
     return new Cleanups(HermitRequest::initialize);
+  }
+
+  /**
+   * Sets the current daycount
+   *
+   * @param currentDays The current daycount to use
+   * @return Returns value to previous value
+   */
+  public static Cleanups withDaycount(final int currentDays) {
+    var oldDays = KoLCharacter.getCurrentDays();
+    KoLCharacter.setCurrentDays(currentDays);
+    return new Cleanups(() -> KoLCharacter.setCurrentDays(oldDays));
+  }
+
+  /**
+   * Sets the next adventure location
+   *
+   * @param adventure The location to consider as the next adventure
+   * @return Returns value to previous value
+   */
+  public static Cleanups withNextAdventure(final String adventure) {
+    var cleanups = new Cleanups(withProperty("nextAdventure"));
+    KoLAdventure.setNextAdventure(adventure);
+    return cleanups;
   }
 }

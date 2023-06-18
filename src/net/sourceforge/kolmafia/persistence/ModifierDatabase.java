@@ -567,110 +567,110 @@ public class ModifierDatabase {
   }
 
   public static final Modifiers parseModifiers(final Lookup lookup, final String string) {
+    return parseModifiers(lookup, splitModifiers(string));
+  }
+
+  public static final Modifiers parseModifiers(final Lookup lookup, final ModifierList list) {
     Modifiers newMods = new Modifiers();
 
     newMods.setLookup(lookup);
 
-    for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
-      Pattern pattern = mod.getTagPattern();
-      if (pattern == null) {
-        continue;
-      }
+    modLoop:
+    for (var modValue : list) {
+      var string = modValue.toString();
 
-      Matcher matcher = pattern.matcher(string);
-      if (!matcher.find()) {
-        continue;
-      }
-
-      if (matcher.group(1) != null) {
-        newMods.setDouble(mod, Double.parseDouble(matcher.group(1)));
-      } else {
-        newMods.addExpression(
-            new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
-      }
-    }
-
-    for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
-      Pattern pattern = mod.getTagPattern();
-      if (pattern == null) {
-        continue;
-      }
-
-      Matcher matcher = pattern.matcher(string);
-      if (!matcher.find()) {
-        continue;
-      }
-      int bitcount = 1;
-      if (matcher.groupCount() > 0) {
-        bitcount = StringUtilities.parseInt(matcher.group(1));
-        if (mod == BitmapModifier.CLOWNINESS) {
-          bitcount = bitcount / 25;
-        }
-      }
-      // bitmapMasks stores the next mask we're going to use for modifier mod
-      int mask = bitmapMasks.get(mod);
-      switch (bitcount) {
-        case 1 -> bitmapMasks.put(mod, mask << 1);
-        case 2 -> {
-          bitmapMasks.put(mod, mask << 2);
-          mask |= mask << 1;
-        }
-        case 3 -> {
-          bitmapMasks.put(mod, mask << 3);
-          mask |= mask << 1;
-          mask |= mask << 1;
-        }
-        default -> {
-          KoLmafia.updateDisplay(
-              "ERROR: invalid count for bitmap modifier in " + lookup.toString());
+      for (var mod : DoubleModifier.DOUBLE_MODIFIERS) {
+        Pattern pattern = mod.getTagPattern();
+        if (pattern == null) {
           continue;
         }
-      }
-      if (bitmapMasks.get(mod) == 0) {
-        KoLmafia.updateDisplay(
-            "ERROR: too many sources for bitmap modifier "
-                + mod.getName()
-                + ", consider using longs.");
+
+        Matcher matcher = pattern.matcher(string);
+        if (!matcher.matches()) {
+          continue;
+        }
+
+        if (matcher.group(1) != null) {
+          newMods.setDouble(mod, Double.parseDouble(matcher.group(1)));
+        } else {
+          newMods.addExpression(
+              new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(2), lookup)));
+        }
+        continue modLoop;
       }
 
-      newMods.addBitmap(mod, mask);
+      for (var mod : BitmapModifier.BITMAP_MODIFIERS) {
+        Pattern pattern = mod.getTagPattern();
+        if (pattern == null) {
+          continue;
+        }
+
+        Matcher matcher = pattern.matcher(string);
+        if (!matcher.matches()) {
+          continue;
+        }
+        int bitcount = 1;
+        if (matcher.groupCount() > 0) {
+          bitcount = StringUtilities.parseInt(matcher.group(1));
+          if (mod == BitmapModifier.CLOWNINESS) {
+            bitcount = bitcount / 25;
+          }
+        }
+        // bitmapMasks stores the next mask we're going to use for modifier mod
+        int mask = bitmapMasks.get(mod);
+        bitmapMasks.put(mod, mask << bitcount);
+        for (int i = 0; i < bitcount - 1; i++) {
+          mask |= mask << 1;
+        }
+        if (bitmapMasks.get(mod) == 0) {
+          String message =
+              "ERROR: too many sources for bitmap modifier "
+                  + mod.getName()
+                  + ", consider using longs.";
+          KoLmafia.updateDisplay(message);
+        }
+
+        newMods.addBitmap(mod, mask);
+        continue modLoop;
+      }
+
+      for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
+        Pattern pattern = mod.getTagPattern();
+        if (pattern == null) {
+          continue;
+        }
+
+        Matcher matcher = pattern.matcher(string);
+        if (!matcher.matches()) {
+          continue;
+        }
+
+        newMods.setBoolean(mod, true);
+        continue modLoop;
+      }
+
+      for (var mod : StringModifier.STRING_MODIFIERS) {
+        Pattern pattern = mod.getTagPattern();
+        if (pattern == null) {
+          continue;
+        }
+
+        Matcher matcher = pattern.matcher(string);
+        if (!matcher.matches()) {
+          continue;
+        }
+
+        String value = matcher.group(1);
+
+        if (mod == StringModifier.CLASS) {
+          value = StringModifier.depluralizeClassName(value);
+        }
+
+        newMods.setString(mod, value);
+        continue modLoop;
+      }
     }
-
-    for (var mod : BooleanModifier.BOOLEAN_MODIFIERS) {
-      Pattern pattern = mod.getTagPattern();
-      if (pattern == null) {
-        continue;
-      }
-
-      Matcher matcher = pattern.matcher(string);
-      if (!matcher.find()) {
-        continue;
-      }
-
-      newMods.setBoolean(mod, true);
-    }
-
-    for (var mod : StringModifier.STRING_MODIFIERS) {
-      Pattern pattern = mod.getTagPattern();
-      if (pattern == null) {
-        continue;
-      }
-
-      Matcher matcher = pattern.matcher(string);
-      if (!matcher.find()) {
-        continue;
-      }
-
-      String value = matcher.group(1);
-
-      if (mod == StringModifier.CLASS) {
-        value = StringModifier.depluralizeClassName(value);
-      }
-
-      newMods.setString(mod, value);
-    }
-
-    newMods.setString(StringModifier.MODIFIERS, string);
+    newMods.setString(StringModifier.MODIFIERS, list.toString());
 
     return newMods;
   }
@@ -985,6 +985,11 @@ public class ModifierDatabase {
   }
 
   private static final void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
+    if (!modifierStringsByName.containsKey(lookup.type, lookup.getKey())
+        && !(lookup.type == ModifierType.GENERATED)) {
+      RequestLogger.updateSessionLog("WARNING: updated modifier not in modifiers.txt: " + lookup);
+      modifierStringsByName.put(lookup.type, lookup.getKey(), value.toString());
+    }
     modifiersByName.put(lookup.type, lookup.getKey(), value);
   }
 
@@ -1137,8 +1142,7 @@ public class ModifierDatabase {
     // Make a map of campground items
     Set<String> campground = new TreeSet<>();
 
-    for (int i = 0; i < CampgroundRequest.campgroundItems.length; ++i) {
-      int itemId = CampgroundRequest.campgroundItems[i];
+    for (var itemId : CampgroundRequest.campgroundItems) {
       String name = ItemDatabase.getItemDataName(itemId);
       // Sanity check: if the user has an old override file
       // which we didn't delete for some reason, we may have

@@ -265,6 +265,8 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.check8BitScore(responseText);
 
+    CharPaneRequest.checkNoncombatForcers(responseText);
+
     // Mana cost adjustment may have changed
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
@@ -272,6 +274,12 @@ public class CharPaneRequest extends GenericRequest {
     RequestFrame.refreshStatus();
 
     return true;
+  }
+
+  public static void checkNoncombatForcers(final String responseText) {
+    boolean noncombatForcerActive =
+        responseText.contains("<b><font size=2>Adventure Modifiers:</font></b>");
+    Preferences.setBoolean("noncombatForcerActive", noncombatForcerActive);
   }
 
   public static final String getLastResponse() {
@@ -1363,19 +1371,16 @@ public class CharPaneRequest extends GenericRequest {
       Pattern.compile("pound (.*?), Chameleon", Pattern.DOTALL);
 
   private static void checkComma(final String responseText) {
-    Pattern pattern = CharPaneRequest.commaPattern;
-    Matcher commaMatcher = pattern.matcher(responseText);
-    if (commaMatcher.find()) {
-      String newRace = commaMatcher.group(1);
-      if (!newRace.equals(Preferences.getString("commaFamiliar"))) {
-        Preferences.setString("commaFamiliar", commaMatcher.group(1));
-        KoLCharacter.recalculateAdjustments();
-      }
-    } else {
-      if (!Preferences.getString("commaFamiliar").equals("")) {
-        Preferences.setString("commaFamiliar", "");
-        KoLCharacter.recalculateAdjustments();
-      }
+    Matcher commaMatcher = CharPaneRequest.commaPattern.matcher(responseText);
+    var newRace = commaMatcher.find() ? commaMatcher.group(1) : "";
+
+    if (!Preferences.getString("commaFamiliar").equals(newRace)) {
+      KoLCharacter.currentFamiliar.deactivate();
+      Preferences.setString("commaFamiliar", newRace);
+      KoLCharacter.currentFamiliar.activate();
+      // Some familiars can have different weight calculations.
+      KoLCharacter.currentFamiliar.setWeight();
+      KoLCharacter.recalculateAdjustments();
     }
   }
 
@@ -1466,7 +1471,8 @@ public class CharPaneRequest extends GenericRequest {
       Pattern.compile("Sweatiness:</td><td.*?><b><font.*?><span.*?>([\\d]+)%</span></font></td>");
 
   public static void checkSweatiness(final String responseText) {
-    if (!KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)) {
+    if (!KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)
+        && !KoLCharacter.hasEquipped(ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       return;
     }
 
@@ -1493,7 +1499,10 @@ public class CharPaneRequest extends GenericRequest {
 
     if (matcher.find()) {
       Preferences.setInteger("8BitScore", StringUtilities.parseInt(matcher.group(2)));
-      Preferences.setString("8BitColor", matcher.group(1));
+      if (!matcher.group(1).equals(Preferences.getString("8BitColor"))) {
+        Preferences.setString("8BitColor", matcher.group(1));
+        Preferences.resetToDefault("8BitBonusTurns");
+      }
     }
   }
 
@@ -1589,6 +1598,9 @@ public class CharPaneRequest extends GenericRequest {
 
     boolean casual = JSON.getInt("casual") == 1;
     KoLCharacter.setCasual(casual);
+
+    var noncombatForcers = JSON.getJSONArray("noncomforcers");
+    Preferences.setBoolean("noncombatForcerActive", noncombatForcers.length() > 0);
 
     // boolean casual = JSON.getInt( "casual" ) == 1;
     int roninLeft = JSON.getInt("roninleft");

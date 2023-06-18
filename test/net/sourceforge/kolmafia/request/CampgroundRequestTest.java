@@ -5,21 +5,27 @@ import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -31,6 +37,23 @@ public class CampgroundRequestTest {
   public void beforeEach() {
     KoLCharacter.reset("CampgroundRequest");
     Preferences.reset("CampgroundRequest");
+  }
+
+  @AfterEach
+  public void afterEach() {
+    CampgroundRequest.reset();
+  }
+
+  private void assertCampgroundItemAbsent(int itemId) {
+    var resOpt = KoLConstants.campground.stream().filter(x -> x.getItemId() == itemId).findAny();
+    assertThat(resOpt.isPresent(), equalTo(false));
+  }
+
+  private void assertCampgroundItemCount(int itemId, int count) {
+    var resOpt = KoLConstants.campground.stream().filter(x -> x.getItemId() == itemId).findAny();
+    assertThat(resOpt.isPresent(), equalTo(true));
+    var res = resOpt.get();
+    assertThat(res.getCount(), equalTo(count));
   }
 
   @Test
@@ -86,16 +109,105 @@ public class CampgroundRequestTest {
   }
 
   @Nested
-  class RockGarden {
-    @AfterEach
-    public void afterEach() {
-      CampgroundRequest.reset();
+  class Pumpkins {
+    @Test
+    void canDetectGinormousPumpkinHouse() {
+      // Campground has a pumpkin house as a dwelling and no garden.
+      String html = html("request/test_ginormous_pumpkin_house.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      // Correct dwelling
+      assertEquals(CampgroundRequest.GINORMOUS_PUMPKIN, CampgroundRequest.getCurrentDwelling());
+      // No garden
+      assertEquals(null, CampgroundRequest.getCropType());
+      // No crop
+      assertEquals(null, CampgroundRequest.getCrop());
+      // Dwelling does not appear in Campground item list
+      assertCampgroundItemAbsent(ItemPool.GINORMOUS_PUMPKIN);
     }
 
+    @Test
+    void canDetectGinormousPumpkinCrop() {
+      // Campground has a house as a dwelling and a pumpkin garden with
+      // a ginormous pumpkin in it.
+      String html = html("request/test_ginormous_pumpkin_crop.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      // Correct dwelling
+      assertEquals(ItemPool.get(ItemPool.HOUSE), CampgroundRequest.getCurrentDwelling());
+      // Correct garden
+      assertEquals(CropType.PUMPKIN, CampgroundRequest.getCropType());
+      // Correct crop
+      assertEquals(CampgroundRequest.GINORMOUS_PUMPKIN, CampgroundRequest.getCrop());
+      // Correct crop level
+      assertCampgroundItemCount(ItemPool.PUMPKIN_SEEDS, 11);
+      // Crop appears in Campground item list
+      assertCampgroundItemCount(ItemPool.GINORMOUS_PUMPKIN, 1);
+    }
+
+    @Test
+    void canDetectGinormousPumpkinHouseAndCrop() {
+      // Campground has both a pumpkin house as a dwelling and a pumpkin
+      // garden with a ginormous pumpkin in it.
+      String html = html("request/test_ginormous_pumpkin_house_and_crop.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      // Correct dwelling
+      assertEquals(CampgroundRequest.GINORMOUS_PUMPKIN, CampgroundRequest.getCurrentDwelling());
+      // Correct garden
+      assertEquals(CropType.PUMPKIN, CampgroundRequest.getCropType());
+      // Correct crop
+      assertEquals(CampgroundRequest.GINORMOUS_PUMPKIN, CampgroundRequest.getCrop());
+      // Correct crop level
+      assertCampgroundItemCount(ItemPool.PUMPKIN_SEEDS, 11);
+      // Crop appears in Campground item list
+      assertCampgroundItemCount(ItemPool.GINORMOUS_PUMPKIN, 1);
+    }
+  }
+
+  @Nested
+  class Grass {
+    @Test
+    void canDetectNoTallGrass() {
+      String html = html("request/test_grass_garden_0.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      assertCampgroundItemCount(ItemPool.TALL_GRASS_SEEDS, 0);
+      assertEquals(CropType.GRASS, CampgroundRequest.getCropType());
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(1, crops.size());
+      assertEquals(ItemPool.TALL_GRASS_SEEDS, crops.get(0).getItemId());
+      assertEquals(0, crops.get(0).getCount());
+    }
+
+    @Test
+    void canDetectTallGrass() {
+      String html = html("request/test_grass_garden_2.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      assertCampgroundItemCount(ItemPool.TALL_GRASS_SEEDS, 2);
+      assertEquals(CropType.GRASS, CampgroundRequest.getCropType());
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(1, crops.size());
+      assertEquals(ItemPool.TALL_GRASS_SEEDS, crops.get(0).getItemId());
+      assertEquals(2, crops.get(0).getCount());
+    }
+
+    @Test
+    void canDetectVeryTallGrass() {
+      String html = html("request/test_grass_garden_8.html");
+      CampgroundRequest.parseResponse("campground.php", html);
+      assertCampgroundItemCount(ItemPool.TALL_GRASS_SEEDS, 8);
+      assertEquals(CropType.GRASS, CampgroundRequest.getCropType());
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(1, crops.size());
+      assertEquals(ItemPool.TALL_GRASS_SEEDS, crops.get(0).getItemId());
+      assertEquals(8, crops.get(0).getCount());
+    }
+  }
+
+  @Nested
+  class RockGarden {
     @Test
     void canDetectNoGarden() {
       String html = html("request/test_campground_no_garden.html");
       CampgroundRequest.parseResponse("campground.php", html);
+      assertThat(CampgroundRequest.getCropType(), nullValue());
       assertThat(CampgroundRequest.getCrop(), nullValue());
       assertThat(CampgroundRequest.getCrops(), empty());
     }
@@ -108,6 +220,14 @@ public class CampgroundRequestTest {
       assertCampgroundItemCount(ItemPool.MILESTONE, 0);
       assertCampgroundItemCount(ItemPool.WHETSTONE, 0);
       assertCampgroundItemCount(ItemPool.ROCK_SEEDS, 0);
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(3, crops.size());
+      assertEquals(ItemPool.GROVELING_GRAVEL, crops.get(0).getItemId());
+      assertEquals(0, crops.get(0).getCount());
+      assertEquals(ItemPool.MILESTONE, crops.get(1).getItemId());
+      assertEquals(0, crops.get(1).getCount());
+      assertEquals(ItemPool.WHETSTONE, crops.get(2).getItemId());
+      assertEquals(0, crops.get(2).getCount());
     }
 
     @Test
@@ -118,6 +238,14 @@ public class CampgroundRequestTest {
       assertCampgroundItemCount(ItemPool.MILESTONE, 0);
       assertCampgroundItemCount(ItemPool.WHETSTONE, 0);
       assertCampgroundItemCount(ItemPool.ROCK_SEEDS, 1);
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(3, crops.size());
+      assertEquals(ItemPool.GROVELING_GRAVEL, crops.get(0).getItemId());
+      assertEquals(1, crops.get(0).getCount());
+      assertEquals(ItemPool.MILESTONE, crops.get(1).getItemId());
+      assertEquals(0, crops.get(1).getCount());
+      assertEquals(ItemPool.WHETSTONE, crops.get(2).getItemId());
+      assertEquals(0, crops.get(2).getCount());
     }
 
     @Test
@@ -128,6 +256,14 @@ public class CampgroundRequestTest {
       assertCampgroundItemCount(ItemPool.BOLDER_BOULDER, 2);
       assertCampgroundItemCount(ItemPool.HARD_ROCK, 2);
       assertCampgroundItemCount(ItemPool.ROCK_SEEDS, 1);
+      var crops = CampgroundRequest.getCrops();
+      assertEquals(3, crops.size());
+      assertEquals(ItemPool.FRUITY_PEBBLE, crops.get(0).getItemId());
+      assertEquals(2, crops.get(0).getCount());
+      assertEquals(ItemPool.BOLDER_BOULDER, crops.get(1).getItemId());
+      assertEquals(2, crops.get(1).getCount());
+      assertEquals(ItemPool.HARD_ROCK, crops.get(2).getItemId());
+      assertEquals(2, crops.get(2).getCount());
     }
 
     @Test
@@ -167,10 +303,58 @@ public class CampgroundRequestTest {
     }
   }
 
-  private void assertCampgroundItemCount(int itemId, int count) {
-    var resOpt = KoLConstants.campground.stream().filter(x -> x.getItemId() == itemId).findAny();
-    assertThat(resOpt.isPresent(), equalTo(true));
-    var res = resOpt.get();
-    assertThat(res.getCount(), equalTo(count));
+  @Nested
+  class BlackMonolith {
+    private static AdventureResult OMINOUS_WISDOM = EffectPool.get(EffectPool.OMINOUS_WISDOM);
+
+    @Test
+    void canTrackBlackMonolithFirstUse() {
+      var cleanups =
+          new Cleanups(
+              withCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH),
+              withNextResponse(
+                  200, html("request/test_campground_tracks_black_monolith_first_use.html")),
+              withProperty("_blackMonolithUsed", false),
+              withNoEffects());
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=monolith").run();
+        assertThat("_blackMonolithUsed", isSetTo(true));
+        assertThat(OMINOUS_WISDOM.getCount(KoLConstants.activeEffects), is(50));
+      }
+    }
+
+    @Test
+    void canTrackBlackMonolithSecondUse() {
+      var cleanups =
+          new Cleanups(
+              withCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH),
+              withNextResponse(
+                  200, html("request/test_campground_tracks_black_monolith_second_use.html")),
+              withProperty("_blackMonolithUsed", false),
+              withNoEffects());
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=monolith").run();
+        assertThat("_blackMonolithUsed", isSetTo(true));
+        assertThat(OMINOUS_WISDOM.getCount(KoLConstants.activeEffects), is(0));
+      }
+    }
+  }
+
+  @Test
+  void trackCinchoLoosening() {
+    var cleanups =
+        new Cleanups(
+            withNextResponse(200, html("request/test_rest_cincho_loosens.html")),
+            withProperty("_cinchUsed", 75),
+            withProperty("_cinchoRests", 2));
+
+    try (cleanups) {
+      new GenericRequest("campground.php?action=rest").run();
+
+      assertThat("_cinchUsed", isSetTo(45));
+      assertThat("_cinchoRests", isSetTo(3));
+    }
   }
 }

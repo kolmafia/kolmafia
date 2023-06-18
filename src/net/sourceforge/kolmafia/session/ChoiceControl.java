@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
 import net.sourceforge.kolmafia.request.LocketRequest;
+import net.sourceforge.kolmafia.request.MonkeyPawRequest;
 import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -324,6 +325,14 @@ public abstract class ChoiceControl {
       case 1345:
         // Blech House
         Preferences.setInteger("smutOrcNoncombatProgress", 0);
+        break;
+
+      case 1500:
+        // Like a Loded Stone
+        if (ChoiceManager.lastDecision == 1) {
+          Preferences.setInteger("lastShadowForgeUnlockAdventure", KoLCharacter.getCurrentRun());
+          ConcoctionDatabase.refreshConcoctions();
+        }
         break;
     }
   }
@@ -1155,6 +1164,15 @@ public abstract class ChoiceControl {
           Preferences.setInteger("twinPeakProgress", 15);
         }
         return;
+
+      case 627:
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+      case 633:
+        ChibiBuddyManager.postChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
+        break;
 
       case 669:
       case 670:
@@ -5144,14 +5162,6 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 633:
-        // ChibiBuddy&trade;
-        if (ChoiceManager.lastDecision == 1) {
-          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_OFF, -1);
-          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_ON, 1);
-        }
-        break;
-
       case 640:
         // Tailor the Snow Suit
         SnowsuitCommand.setStateFromDecision(ChoiceManager.lastDecision);
@@ -5897,6 +5907,11 @@ public abstract class ChoiceControl {
         Preferences.setInteger("lttQuestStageCount", 0);
         break;
 
+      case 1180:
+        // Back to the East
+        handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
+
       case 1188: // The Call is Coming from Outside the Simulation
         if (ChoiceManager.lastDecision == 1) {
           // Skill learned
@@ -6223,10 +6238,13 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 1267: // Rubbed it the Right Way
-        String wish = request.getFormField("wish");
-        GenieRequest.postChoice(text, wish);
-        break;
+      case 1267:
+        // Rubbed it the Right Way
+        {
+          String wish = request.getFormField("wish");
+          GenieRequest.postChoice(text, wish);
+          break;
+        }
 
       case 1272:
         // R&D
@@ -6288,6 +6306,9 @@ public abstract class ChoiceControl {
           }
           if (ChoiceManager.lastDecision == 7) {
             // *** No longer forces a semirare
+          }
+          if (ChoiceManager.lastDecision == 3) {
+            Preferences.setBoolean("noncombatForcerActive", true);
           }
         }
         break;
@@ -6465,6 +6486,36 @@ public abstract class ChoiceControl {
         // actually selected a course.
         Preferences.setBoolean("_sitCourseCompleted", true);
         break;
+
+      case 1496:
+        // Out of the Shadows
+        handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
+
+      case 1497:
+        // Calling Rufus
+        RufusManager.parseCallResponse(text, ChoiceManager.lastDecision);
+        break;
+
+      case 1498:
+        // Calling Rufus Back
+        RufusManager.parseCallBackResponse(text, ChoiceManager.lastDecision);
+        break;
+
+      case 1500:
+        // Like a Loded Stone
+        if (ChoiceManager.lastDecision == 3) {
+          Preferences.setBoolean("_shadowForestLooted", true);
+        }
+        break;
+
+      case 1501:
+        // Make a Wish
+        {
+          String wish = request.getFormField("wish");
+          MonkeyPawRequest.postChoice(text, wish);
+          break;
+        }
     }
   }
 
@@ -6698,6 +6749,15 @@ public abstract class ChoiceControl {
 
       case 570:
         GameproManager.parseGameproMagazine(text);
+        break;
+
+      case 627:
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+      case 633:
+        ChibiBuddyManager.visit(ChoiceManager.lastChoice, text);
         break;
 
       case 641:
@@ -8112,6 +8172,31 @@ public abstract class ChoiceControl {
       case 1491: // Strange Stalagmite(s)
         Preferences.setBoolean("_strangeStalagmiteUsed", true);
         break;
+
+      case 1497:
+        // Calling Rufus
+        RufusManager.parseCall(text);
+        break;
+
+      case 1498:
+        // Calling Rufus Back
+        RufusManager.parseCallBack(text);
+        break;
+
+      case 1499:
+        // The Shadow Labyrinth
+        RufusManager.handleShadowRiftNC(1499, text);
+        break;
+
+      case 1500:
+        // Like a Loded Stone
+        RufusManager.handleShadowRiftNC(1500, text);
+        break;
+
+      case 1501:
+        // Make a Wish
+        MonkeyPawRequest.visitChoice(text);
+        break;
     }
   }
 
@@ -8945,7 +9030,7 @@ public abstract class ChoiceControl {
             String desc = ChoiceManager.choiceDescription(choice, decision);
             RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
             if (desc != null && !desc.equals("Decide Later")) {
-              Preferences.setString("_LastPirateRealmIsland", desc);
+              Preferences.setString("_lastPirateRealmIsland", desc);
             }
             return true;
           }
@@ -9227,6 +9312,7 @@ public abstract class ChoiceControl {
       case 1493: // Treasure House
       case 1494: // Examine S.I.T. Course Certificate
       case 1495: // Get Some Training
+      case 1501: // Make a Wish
         return true;
 
       default:

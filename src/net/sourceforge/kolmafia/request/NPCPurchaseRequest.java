@@ -32,7 +32,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class NPCPurchaseRequest extends PurchaseRequest {
   private static final List<AdventureResult> DISCOUNT_TROUSERS =
       List.of(
-          ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS), ItemPool.get(ItemPool.DESIGNER_SWEATPANTS));
+          ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS),
+          ItemPool.get(ItemPool.DESIGNER_SWEATPANTS),
+          ItemPool.get(ItemPool.REPLICA_DESIGNER_SWEATPANTS));
   private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
   private static final AdventureResult SUPER_STRUCTURE = EffectPool.get(EffectPool.SUPER_STRUCTURE);
@@ -180,7 +182,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     // Designer sweatpants discount does not apply to the gift shop
     if ("town_giftshop.php".equals(npcStoreId)
-        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+        && (trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS
+            || trousers.getItemId() == ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       return false;
     }
 
@@ -201,7 +204,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     // Designer sweatpants discount does not apply to the gift shop
     if ("town_giftshop.php".equals(npcStoreId)
-        && trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS) {
+        && (trousers.getItemId() == ItemPool.DESIGNER_SWEATPANTS
+            || trousers.getItemId() == ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       return null;
     }
 
@@ -467,6 +471,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         || shopId.startsWith("kolhs_")
         || shopId.equals("mystic")
         || shopId.equals("rumple")
+        || shopId.equals("shadowforge")
         || shopId.equals("snowgarden")
         || shopId.equals("spant")
         || shopId.equals("starchart")
@@ -966,6 +971,16 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (shopId.equals("mrreplica")) {
+      ReplicaMrStoreRequest.parseResponse(urlString, responseText);
+      return;
+    }
+
+    if (shopId.equals("mrstore2002")) {
+      MrStore2002Request.parseResponse(urlString, responseText);
+      return;
+    }
+
     // When we purchase items from NPC stores using ajax, the
     // response tells us nothing about the contents of the store.
     if (urlString.contains("ajax=1")) {
@@ -1105,6 +1120,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
           || shopId.startsWith("kolhs_")
           || shopId.equals("mystic")
           || shopId.equals("rumple")
+          || shopId.equals("shadowforge")
           || shopId.equals("snowgarden")
           || shopId.equals("spant")
           || shopId.equals("xo")) {
@@ -1338,6 +1354,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.equals("dino")) {
         return DinostaurRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("mrreplica")) {
+        return ReplicaMrStoreRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("mrstore2022")) {
+        return MrStore2002Request.registerRequest(urlString);
       }
 
       return false;

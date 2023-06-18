@@ -549,12 +549,13 @@ public class KoLmafiaCLI {
         .register("call")
         .register("run")
         .register("exec")
-        .register("exececute")
+        .register("execute")
         .register("load")
         .register("start")
         .register("profile");
     new CampgroundCommand().register("camp").register("campground");
     new ChangeCombatScriptCommand().register("ccs");
+    new ChibiBuddyCommand().register("chibi");
     new CargoCultCommand().register("cargo");
     new CheckDataCommand()
         .register("newdata")
@@ -570,6 +571,7 @@ public class KoLmafiaCLI {
         .register("checkmodifiers")
         .register("checkoutfits")
         .register("checkplurals")
+        .register("checkmuseumplurals")
         .register("checkpotions")
         .register("checkpowers")
         .register("checkprofile")
@@ -692,6 +694,7 @@ public class KoLmafiaCLI {
     new KitchenCommand().register("kitchen").register("hellkitchen").register("hellskitchen");
     new LatteCommand().register("latte");
     new LeafletCommand().register("leaflet");
+    new LoathingIdolCommand().register("loathingidol");
     new LogEchoCommand().register("logecho").register("logprint");
     new LoginCommand().register("login");
     new LogoutCommand().register("logout");
@@ -713,6 +716,7 @@ public class KoLmafiaCLI {
     new ModRefCommand().register("modref");
     new MoleRefCommand().register("moleref");
     new MomCommand().register("mom");
+    new MonkeyPawCommand().register("monkeypaw");
     new MonorailCommand().register("monorail");
     new MonsterDataCommand().register("monsters");
     new MonsterLevelCommand().register("mind-control").register("mcd");

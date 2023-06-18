@@ -711,6 +711,47 @@ class UseItemRequestTest {
   }
 
   @Nested
+  class ChocolateCoveredPingPongBall {
+    @Test
+    void incrementsCounterOnSuccess() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_chocolateCoveredPingPongBallsUsed", 1),
+              withItem(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL),
+              withItem(ItemPool.PING_PONG_BALL, 0),
+              withNextResponse(
+                  200,
+                  html("request/test_use_item_chocolate_covered_ping_pong_ball_success.html")));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL);
+        req.run();
+
+        assertThat("_chocolateCoveredPingPongBallsUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    void maxesCounterOnFailure() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_chocolateCoveredPingPongBallsUsed", 1),
+              withItem(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL),
+              withItem(ItemPool.PING_PONG_BALL, 0),
+              withNextResponse(
+                  200,
+                  html("request/test_use_item_chocolate_covered_ping_pong_ball_failure.html")));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL);
+        req.run();
+
+        assertThat("_chocolateCoveredPingPongBallsUsed", isSetTo(3));
+      }
+    }
+  }
+
+  @Nested
   class SIT {
     private UseItemRequest getCertificateRequest() {
       return UseItemRequest.getInstance(ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE);
@@ -783,6 +824,85 @@ class UseItemRequestTest {
         assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11116&ajax=1");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
+    }
+  }
+
+  @Nested
+  class ReplicaTenDollars {
+    @Test
+    void successfulSingleUseIncrementsSetting() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.REPLICA_MR_ACCESSORY, 0),
+              withItem(ItemPool.REPLICA_TEN_DOLLARS, 2),
+              withProperty("legacyPoints", 0));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_one_replica_ten_dollars.html"));
+        client.addResponse(200, ""); // api.php
+
+        var req = UseItemRequest.getInstance(ItemPool.REPLICA_TEN_DOLLARS, 1);
+        req.run();
+
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_TEN_DOLLARS), is(1));
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_MR_ACCESSORY), is(1));
+        assertThat("legacyPoints", isSetTo(1));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11253&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void successfulMultiseIncrementsSetting() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.REPLICA_MR_ACCESSORY, 0),
+              withItem(ItemPool.REPLICA_TEN_DOLLARS, 2),
+              withProperty("legacyPoints", 0));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_two_replica_ten_dollars.html"));
+        client.addResponse(200, ""); // api.php
+
+        var req = UseItemRequest.getInstance(ItemPool.REPLICA_TEN_DOLLARS, 2);
+        req.run();
+
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_TEN_DOLLARS), is(0));
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_MR_ACCESSORY), is(2));
+        assertThat("legacyPoints", isSetTo(2));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0), "/multiuse.php", "whichitem=11253&action=useitem&quantity=2&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "your stomach drops and your ears pop as you are suddenly plunged into a horrifyingly dark and blurry version of the world you once knew, true",
+    "You're gonna need a full night's sleep before you ring that thing again., false"
+  })
+  void clarasBellSetsNCForcerFlag(String responseText, String result) {
+    var cleanups = withProperty("noncombatForcerActive", false);
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.CLARA_BELL);
+      req.responseText = responseText;
+      req.processResponse();
+      assertThat("noncombatForcerActive", isSetTo(Boolean.parseBoolean(result)));
     }
   }
 }

@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -123,7 +124,7 @@ public class AreaCombatData {
           && KoLCharacter.getFamiliar().getId() == FamiliarPool.RED_SNAPPER) {
         currentWeighting += 2 * baseWeighting;
       }
-      // If any relevant Daily Candle familiar-tracking potions are active, add two(?) to the
+      // If any relevant Daily Candle familiar-tracking potions are active, add two to the
       // encounter pool
       if ((monsterPhylum == Phylum.HUMANOID && KoLConstants.activeEffects.contains(EW_THE_HUMANITY))
           || (monsterPhylum == Phylum.BEAST
@@ -159,6 +160,14 @@ public class AreaCombatData {
       // If Long Con used, add three to encounter pool
       if (Preferences.getString("longConMonster").equals(monsterName)) {
         currentWeighting += 3 * baseWeighting;
+      }
+      // If Motif used, add two to encounter pool
+      if (Preferences.getString("motifMonster").equals(monsterName)) {
+        currentWeighting += 2 * baseWeighting;
+      }
+      // If Monkey Point used, add two to encounter pool
+      if (Preferences.getString("monkeyPointMonster").equals(monsterName)) {
+        currentWeighting += 2 * baseWeighting;
       }
 
       if (BanishManager.isBanished(monsterName)) {
@@ -515,7 +524,7 @@ public class AreaCombatData {
     // Your Ascension Class is null in Valhalla
     AscensionClass clazz = KoLCharacter.getAscensionClass();
     if (clazz != null) {
-      Map<MonsterData, MonsterData> classMap = MonsterDatabase.getMonsterClassMap(clazz.getName());
+      Map<MonsterData, MonsterData> classMap = MonsterDatabase.getMonsterClassMap(clazz);
       if (classMap != null) {
         MonsterData mapped = classMap.get(mon);
         if (mapped != null) {
@@ -1040,7 +1049,7 @@ public class AreaCombatData {
 
   private void appendItemList(
       final StringBuffer buffer,
-      final List<AdventureResult> items,
+      final List<MonsterDrop> items,
       final List<Double> pocketRates,
       boolean fullString) {
     if (items.size() == 0) {
@@ -1053,7 +1062,7 @@ public class AreaCombatData {
         (100.0 + KoLCharacter.currentNumericModifier(DoubleModifier.PICKPOCKET_CHANCE)) / 100.0;
 
     for (int i = 0; i < items.size(); ++i) {
-      AdventureResult item = items.get(i);
+      MonsterDrop drop = items.get(i);
 
       if (!fullString) {
         if (i == 0) {
@@ -1062,14 +1071,14 @@ public class AreaCombatData {
           buffer.append(", ");
         }
 
-        buffer.append(item.getName());
+        buffer.append(drop.item().getName());
         continue;
       }
 
       buffer.append("<br>");
 
       // Certain items can be increased by other bonuses than just item drop
-      int itemId = item.getItemId();
+      int itemId = drop.item().getItemId();
       double itemBonus = 0.0;
 
       if (ItemDatabase.isFood(itemId)) {
@@ -1096,7 +1105,7 @@ public class AreaCombatData {
       }
 
       double stealRate = Math.min(pocketRates.get(i) * pocketModifier, 1.0);
-      int rawDropRate = item.getCount() >> 16;
+      double rawDropRate = drop.chance();
       double dropRate = Math.min(rawDropRate * (itemModifier + itemBonus), 100.0);
       double effectiveDropRate = stealRate * 100.0 + (1.0 - stealRate) * dropRate;
 
@@ -1104,10 +1113,10 @@ public class AreaCombatData {
       String rate1 = this.format(dropRate);
       String rate2 = this.format(effectiveDropRate);
 
-      buffer.append(item.getName());
-      switch ((char) item.getCount() & 0xFFFF) {
-        case '0' -> buffer.append(" (unknown drop rate)");
-        case 'n' -> {
+      buffer.append(drop.item().getName());
+      switch (drop.flag()) {
+        case UNKNOWN_RATE -> buffer.append(" (unknown drop rate)");
+        case NO_PICKPOCKET -> {
           if (rawDropRate > 0) {
             buffer.append(" ");
             buffer.append(rate1);
@@ -1116,7 +1125,7 @@ public class AreaCombatData {
             buffer.append(" (no pickpocket, unknown drop rate)");
           }
         }
-        case 'c' -> {
+        case CONDITIONAL -> {
           if (rawDropRate > 0) {
             buffer.append(" ");
             buffer.append(rate1);
@@ -1125,21 +1134,23 @@ public class AreaCombatData {
             buffer.append(" (conditional, unknown drop rate)");
           }
         }
-        case 'f' -> {
+        case FIXED -> {
           buffer.append(" ");
           buffer.append(rateRaw);
           buffer.append("% (no modifiers)");
         }
-        case 'p' -> {
-          if (stealing && rawDropRate > 0) {
+        case PICKPOCKET_ONLY -> {
+          if (rawDropRate == 0) {
+            buffer.append(" (pickpocket only, unknown rate)");
+          } else if (stealing) {
             buffer.append(" ");
             buffer.append(Math.min(rawDropRate * pocketModifier, 100.0));
             buffer.append("% (pickpocket only)");
           } else {
-            buffer.append(" (pickpocket only, unknown rate)");
+            buffer.append(" (pickpocket only, cannot steal)");
           }
         }
-        case 'a' -> buffer.append(" (stealable accordion)");
+        case STEAL_ACCORDION -> buffer.append(" (stealable accordion)");
         default -> {
           if (stealing) {
             buffer.append(" ");
@@ -1368,6 +1379,83 @@ public class AreaCombatData {
           case "oil tycoon" -> monsterLevel >= 20 && monsterLevel < 50 ? 1 : 0;
           case "oil baron" -> monsterLevel >= 50 && monsterLevel < 100 ? 1 : 0;
           case "oil cartel" -> monsterLevel >= 100 ? 1 : 0;
+          default -> weighting;
+        };
+      }
+      case "The Battlefield (Frat Uniform)" -> {
+        int hippiesDefeated = Preferences.getInteger("hippiesDefeated");
+
+        // If the battlefield is cleared, only the boss can appear
+        if (hippiesDefeated == 1000) {
+          return monster.equals("The Big Wisniewski") ? 1 : 0;
+        }
+        return switch (monster) {
+            // Junkyard quest completed as hippy
+          case "Bailey's Beetle" -> Preferences.getString("sidequestJunkyardCompleted")
+                  .equals("hippy")
+              ? 1
+              : 0;
+            // After specific number of hippies defeated
+          case "Green Ops Soldier" -> hippiesDefeated >= 401 ? 1 : 0;
+          case "Mobile Armored Sweat Lodge" -> hippiesDefeated >= 151 ? 1 : 0;
+          case "War Hippy Airborne Commander" -> hippiesDefeated >= 351 ? 1 : 0;
+          case "War Hippy Baker" -> hippiesDefeated <= 600 ? 2 : 0;
+          case "War Hippy Dread Squad" -> hippiesDefeated <= 850 ? 1 : 0;
+          case "War Hippy Elder Shaman" -> hippiesDefeated >= 251 ? 1 : 0;
+          case "War Hippy Elite Fire Spinner" -> hippiesDefeated >= 501 ? 1 : 0;
+          case "War Hippy Elite Rigger" -> hippiesDefeated >= 301 ? 2 : 0;
+          case "War Hippy F.R.O.G." -> hippiesDefeated >= 51 && hippiesDefeated <= 500 ? 2 : 0;
+          case "War Hippy Fire Spinner" -> hippiesDefeated >= 301 && hippiesDefeated <= 650 ? 1 : 0;
+          case "War Hippy Green Gourmet" -> hippiesDefeated >= 201 && hippiesDefeated <= 750
+              ? 2
+              : 0;
+          case "War Hippy Homeopath" -> hippiesDefeated <= 900 ? 1 : 0;
+          case "War Hippy Infantryman" -> hippiesDefeated <= 400 ? 2 : 0;
+          case "War Hippy Naturopathic Homeopath" -> hippiesDefeated >= 451 ? 1 : 0;
+          case "War Hippy Rigger" -> hippiesDefeated <= 800 ? 2 : 0;
+          case "War Hippy Shaman" -> hippiesDefeated >= 26 && hippiesDefeated <= 700 ? 1 : 0;
+          case "War Hippy Sky Captain" -> hippiesDefeated >= 76 && hippiesDefeated <= 550 ? 1 : 0;
+          case "War Hippy Windtalker" -> hippiesDefeated > 0 ? 1 : 0;
+            // Hippy Heroes only appear in specific range. Very low encounter chance
+          case "Slow Talkin' Elliot" -> hippiesDefeated >= 501 && hippiesDefeated <= 600 ? -1 : 0;
+          case "Neil" -> hippiesDefeated >= 601 && hippiesDefeated <= 700 ? -1 : 0;
+          case "Zim Merman" -> hippiesDefeated >= 701 && hippiesDefeated <= 800 ? -1 : 0;
+          case "C.A.R.N.I.V.O.R.E. Operative" -> hippiesDefeated >= 801 && hippiesDefeated <= 900
+              ? -1
+              : 0;
+          case "Glass of Orange Juice" -> hippiesDefeated >= 901 && hippiesDefeated <= 999 ? -1 : 0;
+          default -> weighting;
+        };
+      }
+      case "The Battlefield (Hippy Uniform)" -> {
+        int fratboysDefeated = Preferences.getInteger("fratboysDefeated");
+
+        // If the battlefield is cleared, only the boss can appear
+        if (fratboysDefeated == 1000) {
+          return monster.equals("The Man") ? 1 : 0;
+        }
+
+        return switch (monster) {
+            // Junkyard quest completed as fratboy
+          case "War Frat Mobile Grill Unit" -> Preferences.getString("sidequestJunkyardCompleted")
+                  .equals("fratboy")
+              ? 1
+              : 0;
+            // After specific number of fratboys defeated (todo: has not been spaded)
+          case "Sorority Operator" -> fratboysDefeated >= 151 ? 1 : 0;
+          case "Panty Raider Frat Boy" -> fratboysDefeated >= 401 ? 1 : 0;
+            // Fratboy Heroes only appear in specific range. Very low encounter chance
+          case "Next-generation Frat Boy" -> fratboysDefeated >= 501 && fratboysDefeated <= 600
+              ? -1
+              : 0;
+          case "Monty Basingstoke-Pratt, IV" -> fratboysDefeated >= 601 && fratboysDefeated <= 700
+              ? -1
+              : 0;
+          case "Brutus, the toga-clad lout" -> fratboysDefeated >= 701 && fratboysDefeated <= 800
+              ? -1
+              : 0;
+          case "Danglin' Chad" -> fratboysDefeated >= 801 && fratboysDefeated <= 900 ? -1 : 0;
+          case "War Frat Streaker" -> fratboysDefeated >= 901 && fratboysDefeated <= 999 ? -1 : 0;
           default -> weighting;
         };
       }

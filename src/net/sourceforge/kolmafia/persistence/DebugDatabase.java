@@ -36,7 +36,6 @@ import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -61,6 +60,7 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tmatesoft.svn.core.SVNException;
@@ -524,7 +524,7 @@ public class DebugDatabase {
     return StringUtilities.parseInt(matcher.group(1));
   }
 
-  private static StringBuilder appendAccessTypes(StringBuilder accessTypes, String accessType) {
+  private static StringBuilder appendAccessTypes(StringBuilder accessTypes, Attribute accessType) {
     if (accessTypes.length() > 0) {
       return accessTypes.append(",").append(accessType);
     }
@@ -537,23 +537,23 @@ public class DebugDatabase {
     if (text.contains("Quest Item")
         || text.contains("This item will disappear at the end of the day.")
         || text.contains("May not be moved out of inventory")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.QUEST_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.QUEST);
     }
 
     // Quest items cannot be gifted or traded
     else if (text.contains("Gift Item") && !text.contains("gift package")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.GIFT_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.GIFT);
     }
 
     // Gift items cannot be (normally) traded
     else if (!text.contains("Cannot be traded")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.TRADE_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.TRADEABLE);
     }
 
     // We shouldn't just check for "discarded", in case "discarded" appears somewhere else in the
     // description.
     if (!text.contains("Cannot be discarded") && !text.contains("Cannot be traded or discarded")) {
-      accessTypes = appendAccessTypes(accessTypes, ItemDatabase.DISCARD_FLAG);
+      accessTypes = appendAccessTypes(accessTypes, Attribute.DISCARDABLE);
     }
 
     return accessTypes.toString();
@@ -2011,29 +2011,6 @@ public class DebugDatabase {
       return;
     }
 
-    // Kludge: KoL returns 500 (Internal Server Error) for campground summoning skills
-    switch (skillId) {
-      case SkillPool.SNOWCONE:
-      case SkillPool.STICKER:
-      case SkillPool.SUGAR:
-      case SkillPool.CLIP_ART:
-      case SkillPool.RAD_LIB:
-      case SkillPool.SMITHSNESS:
-      case SkillPool.CANDY_HEART:
-      case SkillPool.PARTY_FAVOR:
-      case SkillPool.LOVE_SONG:
-      case SkillPool.BRICKOS:
-      case SkillPool.DICE:
-      case SkillPool.RESOLUTIONS:
-      case SkillPool.TAFFY:
-      case SkillPool.HILARIOUS:
-      case SkillPool.TASTEFUL:
-      case SkillPool.CARDS:
-      case SkillPool.GEEKY:
-      case SkillPool.CONFISCATOR:
-        return;
-    }
-
     String rawText = DebugDatabase.rawSkillDescriptionText(skillId);
 
     if (rawText == null) {
@@ -2338,7 +2315,7 @@ public class DebugDatabase {
     // Don't bother checking quest items
     String access = ItemDatabase.getAccessById(id);
     boolean logit = false;
-    if (access != null && !access.contains(ItemDatabase.QUEST_FLAG)) {
+    if (access != null && !access.contains(Attribute.QUEST.description)) {
       String otherPlural;
       boolean checkApi = InventoryManager.getCount(itemId) > 1;
       if (checkApi) {
@@ -2408,6 +2385,94 @@ public class DebugDatabase {
       report.println(itemId + "\t" + name);
     } else {
       report.println(itemId + "\t" + name + "\t" + plural);
+    }
+  }
+
+  // **********************************************************
+
+  public static final void checkMuseumPlurals(final String parameters) {
+
+    PrintStream report =
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
+
+    try (report) {
+      var array = getMuseumPluralArray();
+      var length = array.length();
+      for (int i = 0; i < length; i++) {
+        var entry = array.getJSONObject(i);
+        var id = entry.getInt("id");
+        var name = entry.getString("name");
+        var plural = entry.optString("plural", "");
+
+        if (plural.equals(name + "s")) {
+          // make default
+          plural = "";
+        }
+
+        String mafiaName = ItemDatabase.getItemDataName(id);
+        if (mafiaName == null) {
+          report.println("Unrecognised item " + id + ": \"" + name + "\"");
+          continue;
+        }
+        if (!mafiaName.equals(name)) {
+          report.println(
+              "item " + id + " has name \"" + name + "\" but Mafia says \"" + mafiaName + "\"");
+        }
+        String mafiaPlural = ItemDatabase.getPluralById(id);
+        if (plural.isEmpty() && !mafiaPlural.isEmpty()) {
+          report.println(
+              "Item "
+                  + id
+                  + ": \""
+                  + name
+                  + "\" has default plural, but Mafia says \""
+                  + mafiaPlural
+                  + "\"");
+        } else if (mafiaPlural.isEmpty() && !plural.isEmpty()) {
+          report.println(
+              "Item " + id + ": \"" + name + "\" has plural unknown to Mafia: \"" + plural + "\"");
+        } else if (!plural.equals(mafiaPlural)) {
+          report.println(
+              "Item "
+                  + id
+                  + ": \""
+                  + name
+                  + "\" has plural \""
+                  + plural
+                  + "\" but Mafia says \""
+                  + mafiaPlural
+                  + "\"");
+        }
+      }
+    }
+  }
+
+  private static JSONArray getMuseumPluralArray() {
+    var client = HttpUtilities.getClientBuilder().build();
+    String url = "https://museum.loathers.net/api/plurals";
+
+    URI uri;
+    try {
+      uri = new URI(url);
+    } catch (URISyntaxException e) {
+      return new JSONArray();
+    }
+
+    var request =
+        HttpRequest.newBuilder(uri).header("User-Agent", GenericRequest.getUserAgent()).build();
+
+    HttpResponse<String> response;
+    try {
+      response = client.send(request, BodyHandlers.ofString(StandardCharsets.UTF_8));
+    } catch (IOException | InterruptedException e) {
+      return new JSONArray();
+    }
+
+    if (response.statusCode() == 200) {
+      String body = response.body();
+      return new JSONArray(body);
+    } else {
+      return new JSONArray();
     }
   }
 

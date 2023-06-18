@@ -1,12 +1,16 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
@@ -76,6 +80,33 @@ public class SaberCommandTest extends AbstractCommandTestBase {
 
     try (cleanups) {
       String output = execute(upgrade);
+
+      assertContinueState();
+      assertThat(output, containsString("Upgrading saber"));
+    }
+  }
+
+  @Test
+  void worksWithEquippedSaber() {
+    var cleanups = withEquipped(Slot.WEAPON, ItemPool.FOURTH_SABER);
+
+    try (cleanups) {
+      String output = execute("ml");
+
+      assertContinueState();
+      assertThat(output, containsString("Upgrading saber"));
+    }
+  }
+
+  @Test
+  void worksWithReplicaSaber() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.LEGACY_OF_LOATHING),
+            withEquipped(Slot.WEAPON, ItemPool.REPLICA_FOURTH_SABER));
+
+    try (cleanups) {
+      String output = execute("ml");
 
       assertContinueState();
       assertThat(output, containsString("Upgrading saber"));
