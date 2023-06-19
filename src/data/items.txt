@@ -11247,8 +11247,8 @@
 11219	replica Smith's Tome	485569257	book4.gif	usable	q	0
 11220	replica over-the-shoulder Folder Holder	427735258	folderholder2.gif	accessory	q	0
 11221	replica Order of the Green Thumb Order Form	957859985	floristform.gif	usable	q	0
-11222	shrink-wrapped Cincho de Mayo	539769549	cinchobox.gif	usable	t	0
-11223	Cincho de Mayo	408302806	cincho.gif	accessory		0
+11222	shrink-wrapped Cincho de Mayo	539769549	cinchobox.gif	usable	t	0	shrink-wrapped Cinchos de Mayo
+11223	Cincho de Mayo	408302806	cincho.gif	accessory		0	Cinchos de Mayo
 11224
 11225	replica Little Geneticist DNA-Splicing Lab	634830887	genelab.gif	usable	q	0
 11226	replica still grill	476730920	stillgrill.gif	grow	q	0
@@ -11284,29 +11284,29 @@
 11256	shrink-wrapped 2002 Mr. Store Catalog	520858825	2002catalog.gif	usable	t	0
 11257	2002 Mr. Store Catalog	480259225	2002catalog.gif	reusable		0
 11258	&quot;I survived Y2K&quot; T-Shirt	706294128	2002shirt.gif	accessory	t,d	50
-11259	Letter from Carrie Bradshaw	279042305	2002letters.gif	usable	t,d	50
+11259	Letter from Carrie Bradshaw	279042305	2002letters.gif	usable	t,d	50	Letters from Carrie Bradshaw
 11260	pro skateboard	338212179	2002skateboard.gif	accessory	t,d	50
 11261	Mr. Accessaturday	981379568	2002mra.gif	accessory	t,d	50
 11262	Meat Butler	998336913	2002butler.gif	usable	t,d	50
 11263	Loathing Idol Microphone	650153685	2002mic.gif	usable	t,d	50
-11264	Charter: Nellyville	828185932	2002charter.gif	multiple	t,d	100
-11265	Manual of Secret Door Detection	461689426	book4.gif	usable	t,d	50
-11266	Flash Liquidizer Ultra Dousing Accessory	400486179	2002fludd.gif	accessory	t,d	100
-11267	Amulet of Perpetual Darkness	851661209	2002amulet.gif	accessory	t,d	50
+11264	Charter: Nellyville	828185932	2002charter.gif	multiple	t,d	100	Charters: Nellyville
+11265	Manual of Secret Door Detection	461689426	book4.gif	usable	t,d	50	Manuals of Secret Door Detection
+11266	Flash Liquidizer Ultra Dousing Accessory	400486179	2002fludd.gif	accessory	t,d	100	Flash Liquidizer Ultra Dousing Accessories
+11267	Amulet of Perpetual Darkness	851661209	2002amulet.gif	accessory	t,d	50	Amulets of Perpetual Darkness
 11268	Giant black monolith	362534862	2002monolith.gif	usable	t,d	66
 11269	Crimbo cookie sheet	520625195	2002cookies.gif	usable	t,d	50
 11270	Spooky VHS Tape	754348768	2002vhs.gif	none, combat	t,d	50
-11271	scroll of minor invulnerability	873755113	scroll2.gif	potion, usable	t,d	10
+11271	scroll of minor invulnerability	873755113	scroll2.gif	potion, usable	t,d	10	scrolls of minor invulnerability
 11272	Lapis Lazuli	460775590	lapis.gif	multiple	t,d	100
 11273	Eye Agate	556792213	agate.gif	multiple	t,d	100
 11274	Azurite	560374993	azurite.gif	multiple	t,d	100
-11275	Arrow (+1)	391510123	arrow_normal.gif	none, combat	t,d	10
-11276	scroll of protection from lycanthropes	545555359	scroll3.gif	potion, usable	t,d	10
-11277	Loathing Idol Microphone (75% charged)	606528143	2002mic.gif	usable	t,d	50
-11278	Loathing Idol Microphone (50% charged)	538550263	2002mic.gif	usable	t,d	50
-11279	Loathing Idol Microphone (25% charged)	931703699	2002mic.gif	usable	t,d	50
+11275	Arrow (+1)	391510123	arrow_normal.gif	none, combat	t,d	10	Arrows (+1)
+11276	scroll of protection from lycanthropes	545555359	scroll3.gif	potion, usable	t,d	10	scrolls of protection from lycanthropes
+11277	Loathing Idol Microphone (75% charged)	606528143	2002mic.gif	usable	t,d	50	Loathing Idol Microphones (75% charged)
+11278	Loathing Idol Microphone (50% charged)	538550263	2002mic.gif	usable	t,d	50	Loathing Idol Microphones (50% charged)
+11279	Loathing Idol Microphone (25% charged)	931703699	2002mic.gif	usable	t,d	50	Loathing Idol Microphones (25% charged)
 11280	Replica 2002 Mr. Store Catalog	661333312	2002catalog.gif	reusable	q	0
 11281	Mr. Big's Wallet	827833135	wallet.gif	usable	t	0
 11282	Sexy Cosmo	445044642	perf_cosmo.gif	drink	t,d	11
-11283	Souvenir Chopsticks	821052146	chopsticks2.gif	none	t,d	10
-11284	red-soled high heels	933964223	highheels.gif	accessory	t,d	100
+11283	Souvenir Chopsticks	821052146	chopsticks2.gif	none	t,d	10	Souvenir Chopsticks
+11284	red-soled high heels	933964223	highheels.gif	accessory	t,d	100	pairs of red-soled high heels
