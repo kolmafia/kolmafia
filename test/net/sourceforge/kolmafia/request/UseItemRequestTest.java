@@ -315,10 +315,9 @@ class UseItemRequestTest {
   @Nested
   class zeroFullness {
     @ParameterizedTest
-    @CsvSource({"5140", "10883"})
-    void itShouldNotDivideByZeroWhenConsumingAstralEnergyDrink(int itemID) {
+    @CsvSource({"5140, 1", "10883, 3"})
+    void itShouldNotDivideByZeroWhenConsumingAstralEnergyDrink(int itemID, int maxUses) {
       int spleenUsed = 0;
-      int maxUses = Integer.MAX_VALUE;
       var cleanups =
           new Cleanups(
               withSpleenUse(spleenUsed),
