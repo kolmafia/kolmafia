@@ -157,6 +157,25 @@ public class CharSheetRequestTest {
     assertTrue(Arrays.asList(skillInfos).contains(expected[2]));
   }
 
+  @Test
+  public void parseAllPermedSkills() {
+    String html = html("request/test_charsheet_permed_skills.html");
+    ParsedSkillInfo[] skillInfos =
+        CharSheetRequest.parseAllSkills(html).toArray(new ParsedSkillInfo[0]);
+
+    ParsedSkillInfo[] expected = {
+      new ParsedSkillInfo(12, "Torso Awareness", PermStatus.SOFTCORE),
+      new ParsedSkillInfo(3012, "Cannelloni Cocoon", PermStatus.SOFTCORE),
+      new ParsedSkillInfo(5014, "Advanced Cocktailcrafting", PermStatus.SOFTCORE),
+      new ParsedSkillInfo(5018, "Superhuman Cocktailcrafting", PermStatus.SOFTCORE)
+    };
+    assertEquals(123, skillInfos.length);
+    assertTrue(Arrays.asList(skillInfos).contains(expected[0]));
+    assertTrue(Arrays.asList(skillInfos).contains(expected[1]));
+    assertTrue(Arrays.asList(skillInfos).contains(expected[2]));
+    assertTrue(Arrays.asList(skillInfos).contains(expected[3]));
+  }
+
   @ParameterizedTest
   @CsvSource({"normal, 123", "unbuffed_stats, 1199739", "grey_you, 2395753"})
   public void parsePlayerId(String page, String expected) {

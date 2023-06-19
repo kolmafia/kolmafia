@@ -295,7 +295,7 @@ public class CharSheetRequest extends GenericRequest {
     List<UseSkillRequest> permedSkillSet = new ArrayList<>();
     Set<Integer> hardcorePermedSkillSet = new HashSet<>();
 
-    List<ParsedSkillInfo> parsedSkillInfos = parseSkills(doc, true);
+    List<ParsedSkillInfo> parsedSkillInfos = parseAllSkills(doc);
     for (ParsedSkillInfo skillInfo : parsedSkillInfos) {
       UseSkillRequest currentSkill = null;
       if (skillInfo.isBadId()) {
@@ -392,16 +392,6 @@ public class CharSheetRequest extends GenericRequest {
 
     // Set the character's avatar.
     CharSheetRequest.parseAvatar(responseText);
-  }
-
-  public static List<ParsedSkillInfo> parseSkills(final String responseText, boolean available) {
-    try {
-      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
-      return parseSkills(doc, available);
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
-      return new ArrayList<ParsedSkillInfo>();
-    }
   }
 
   private static final Pattern AVATAR_PATTERN =
@@ -563,6 +553,13 @@ public class CharSheetRequest extends GenericRequest {
   private static final String UNAVAILABLE_SKILL_XPATH =
       "//a[contains(@onclick,'skill') and (ancestor::*[@id='permskills'])]";
 
+  private static List<ParsedSkillInfo> parseAllSkills(Document doc) {
+    List<ParsedSkillInfo> retval = new ArrayList<>();
+    retval.addAll(parseSkills(doc, true));
+    retval.addAll(parseSkills(doc, false));
+    return retval;
+  }
+
   private static List<ParsedSkillInfo> parseSkills(Document doc, boolean available) {
     String xpath = available ? AVAILABLE_SKILL_XPATH : UNAVAILABLE_SKILL_XPATH;
     NodeList skillNodes;
@@ -645,6 +642,31 @@ public class CharSheetRequest extends GenericRequest {
     }
 
     return parsedSkillInfos;
+  }
+
+  // parseStatus creates a Document from the HTML responseText and calls
+  // versions of the following methods that accept such.
+  //
+  // The following methods that accept a responseText are for use by tests.
+
+  public static List<ParsedSkillInfo> parseAllSkills(final String responseText) {
+    try {
+      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
+      return parseAllSkills(doc);
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
+  }
+
+  public static List<ParsedSkillInfo> parseSkills(final String responseText, boolean available) {
+    try {
+      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
+      return parseSkills(doc, available);
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+      return new ArrayList<ParsedSkillInfo>();
+    }
   }
 
   public static void parseStatus(final JSONObject JSON) throws JSONException {
