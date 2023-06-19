@@ -168,7 +168,8 @@ public class ModifierDatabase {
           ModifierType.SKILL,
           ModifierType.SYNERGY,
           ModifierType.THRONE,
-          ModifierType.UNBREAKABLE_UMBRELLA);
+          ModifierType.UNBREAKABLE_UMBRELLA,
+          ModifierType.PASSIVES);
 
   public static void ensureModifierDatabaseInitialised() {
     if (modifierTypesByName.isEmpty()) {

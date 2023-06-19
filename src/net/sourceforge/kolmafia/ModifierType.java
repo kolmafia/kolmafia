@@ -66,6 +66,7 @@ public enum ModifierType {
   MUTEX_GENERIC,
   MUTEX_I,
   MUTEX_E,
+  PASSIVES,
   GENERATED,
   NONE;
 
