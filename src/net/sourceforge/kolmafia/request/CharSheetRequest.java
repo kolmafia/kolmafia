@@ -289,66 +289,17 @@ public class CharSheetRequest extends GenericRequest {
       pos++;
     }
 
-    // The first token says "(click the skill name for more
-    // information)" which is not really a skill.
     List<UseSkillRequest> newSkillSet = new ArrayList<>();
     List<UseSkillRequest> permedSkillSet = new ArrayList<>();
     Set<Integer> hardcorePermedSkillSet = new HashSet<>();
 
-    List<ParsedSkillInfo> parsedSkillInfos = parseAllSkills(doc);
-    for (ParsedSkillInfo skillInfo : parsedSkillInfos) {
-      UseSkillRequest currentSkill = null;
-      if (skillInfo.isBadId()) {
-        System.err.println(
-            "Cannot parse skill ID in 'onclick' attribute for skill: " + skillInfo.name);
-      } else {
-        currentSkill = UseSkillRequest.getUnmodifiedInstance(skillInfo.id);
-        if (currentSkill == null) {
-          System.err.println("Unknown skill ID in charsheet.php: " + skillInfo.id);
-        }
-      }
+    // Available skills added to newSkillSet and also have perm status saved
+    List<ParsedSkillInfo> availableSkills = parseSkills(doc, true);
+    updateSkillSets(availableSkills, newSkillSet, permedSkillSet, hardcorePermedSkillSet);
 
-      // Cannot find skill by ID, fall back to skill name check
-      if (currentSkill == null) {
-        currentSkill = UseSkillRequest.getUnmodifiedInstance(skillInfo.name);
-        if (currentSkill == null) {
-          System.err.println("Ignoring unknown skill name in charsheet.php: " + skillInfo.name);
-          continue;
-        }
-      }
-
-      boolean shouldAddSkill = true;
-      int skillId = currentSkill.getSkillId();
-
-      if (SkillDatabase.isBookshelfSkill(skillId)) {
-        shouldAddSkill =
-            (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
-                || KoLCharacter.kingLiberated();
-      }
-
-      switch (skillId) {
-        case SkillPool.OLFACTION -> {
-          shouldAddSkill =
-              (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
-                  || KoLCharacter.skillsRecalled();
-        }
-        case SkillPool.CRYPTOBOTANIST, SkillPool.INSECTOLOGIST, SkillPool.PSYCHOGEOLOGIST -> {
-          Preferences.setString("currentSITSkill", currentSkill.getSkillName());
-        }
-      }
-
-      if (shouldAddSkill) {
-        newSkillSet.add(currentSkill);
-      }
-
-      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.SOFTCORE) {
-        permedSkillSet.add(currentSkill);
-      }
-      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.HARDCORE) {
-        permedSkillSet.add(currentSkill);
-        hardcorePermedSkillSet.add(currentSkill.getSkillId());
-      }
-    }
+    // Unavailable skills not added to newSkillSet but have perm status saved
+    List<ParsedSkillInfo> unavailableSkills = parseSkills(doc, false);
+    updateSkillSets(unavailableSkills, null, permedSkillSet, hardcorePermedSkillSet);
 
     // The Smile of Mr. A no longer appears on the char sheet
     if (Preferences.getInteger("goldenMrAccessories") > 0) {
@@ -517,6 +468,66 @@ public class CharSheetRequest extends GenericRequest {
     public String toString() {
       return String.format(
           "ParsedSkillInfo(id=%d, name=%s, permStatus=%s)", this.id, this.name, this.permStatus);
+    }
+  }
+
+  public static void updateSkillSets(
+      List<ParsedSkillInfo> parsedSkillInfos,
+      List<UseSkillRequest> available,
+      List<UseSkillRequest> permed,
+      Set<Integer> hardcore) {
+    for (ParsedSkillInfo skillInfo : parsedSkillInfos) {
+      UseSkillRequest currentSkill = null;
+      if (skillInfo.isBadId()) {
+        System.err.println(
+            "Cannot parse skill ID in 'onclick' attribute for skill: " + skillInfo.name);
+      } else {
+        currentSkill = UseSkillRequest.getUnmodifiedInstance(skillInfo.id);
+        if (currentSkill == null) {
+          System.err.println("Unknown skill ID in charsheet.php: " + skillInfo.id);
+        }
+      }
+
+      // Cannot find skill by ID, fall back to skill name check
+      if (currentSkill == null) {
+        currentSkill = UseSkillRequest.getUnmodifiedInstance(skillInfo.name);
+        if (currentSkill == null) {
+          System.err.println("Ignoring unknown skill name in charsheet.php: " + skillInfo.name);
+          continue;
+        }
+      }
+
+      boolean shouldAddSkill = true;
+      int skillId = currentSkill.getSkillId();
+
+      if (SkillDatabase.isBookshelfSkill(skillId)) {
+        shouldAddSkill =
+            (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
+                || KoLCharacter.kingLiberated();
+      }
+
+      switch (skillId) {
+        case SkillPool.OLFACTION -> {
+          shouldAddSkill =
+              (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
+                  || KoLCharacter.skillsRecalled();
+        }
+        case SkillPool.CRYPTOBOTANIST, SkillPool.INSECTOLOGIST, SkillPool.PSYCHOGEOLOGIST -> {
+          Preferences.setString("currentSITSkill", currentSkill.getSkillName());
+        }
+      }
+
+      if (shouldAddSkill && available != null) {
+        available.add(currentSkill);
+      }
+
+      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.SOFTCORE) {
+        permed.add(currentSkill);
+      }
+      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.HARDCORE) {
+        permed.add(currentSkill);
+        hardcore.add(currentSkill.getSkillId());
+      }
     }
   }
 
