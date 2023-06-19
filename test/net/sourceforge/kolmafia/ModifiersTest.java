@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -223,6 +224,19 @@ public class ModifiersTest {
     }
 
     @Test
+    public void squintDoublesPassive() {
+      var cleanups =
+          new Cleanups(
+              withEffect(EffectPool.STEELY_EYED_SQUINT), withSkill(SkillPool.OBSERVATIOGN));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(20.0));
+      }
+    }
+
+    @Test
     public void champagneDoublesEffect() {
       var cleanups =
           new Cleanups(
@@ -234,6 +248,21 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments();
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(300.0));
+      }
+    }
+
+    @Test
+    public void champagneDoublesPassive() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, ItemPool.BROKEN_CHAMPAGNE),
+              withProperty("garbageChampagneCharge", 11),
+              withSkill(SkillPool.OBSERVATIOGN));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.getDouble(DoubleModifier.ITEMDROP), equalTo(20.0));
       }
     }
 

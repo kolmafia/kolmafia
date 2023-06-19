@@ -819,7 +819,7 @@ public class Modifiers {
   public void applyPassiveModifiers(final boolean debug) {
     if (Modifiers.cachedPassiveModifiers == null) {
       Modifiers.cachedPassiveModifiers =
-          new Modifiers(new Lookup(ModifierType.GENERATED, "cachedPassives"));
+          new Modifiers(new Lookup(ModifierType.PASSIVES, "cachedPassives"));
       PreferenceListenerRegistry.registerPreferenceListener(
           new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged = true);
     }
