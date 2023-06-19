@@ -42,6 +42,9 @@ public abstract class ChoiceManager {
   public static String lastResponseText = "";
   public static String lastDecoratedResponseText = "";
 
+  // In case we were redirected from item used
+  public static AdventureResult lastItemUsed;
+
   public static void reset() {
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
@@ -2481,9 +2484,13 @@ public abstract class ChoiceManager {
 
     ChoiceManager.lastResponseText = text;
 
-    // Clear lastItemUsed, to prevent the item being "prcessed"
+    // Clear lastItemUsed, to prevent the item being "processed"
     // next time we simply visit the inventory.
-    UseItemRequest.clearLastItemUsed();
+    AdventureResult item = UseItemRequest.getLastItemUsed();
+    if (item != null) {
+      ChoiceManager.lastItemUsed = item;
+      UseItemRequest.clearLastItemUsed();
+    }
 
     ChoiceControl.visitChoice(request);
 
