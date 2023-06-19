@@ -342,7 +342,7 @@ class UseItemRequestTest {
         assertThat(UseItemRequest.maximumUses(5140), is(1));
         assertThat(UseItemRequest.maximumUses("[10883]astral energy drink"), is(3));
         assertThat(UseItemRequest.maximumUses(10883), is(3));
-        assertThat(UseItemRequest.maximumUses("astral energy drink"), is(0));
+        assertThat(UseItemRequest.maximumUses("astral energy drink"), is(Integer.MAX_VALUE));
       }
     }
     /**
