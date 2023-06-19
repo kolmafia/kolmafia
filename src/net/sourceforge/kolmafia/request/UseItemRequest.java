@@ -358,7 +358,6 @@ public class UseItemRequest extends GenericRequest {
 
   public static final int maximumUses(String itemName) {
     int itemId = ItemDatabase.getItemId(itemName);
-    ;
     int[] itemIds = ItemDatabase.getItemIds(itemName, 1, false);
     if (itemIds.length == 1) {
       itemId = itemIds[0];
