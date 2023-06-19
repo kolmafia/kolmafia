@@ -165,10 +165,10 @@ public class CharSheetRequestTest {
     }
 
     @Test
-    public void parseAllPermedSkills() {
+    public void parseAllSkills() {
       String html = html("request/test_charsheet_permed_skills.html");
       ParsedSkillInfo[] skillInfos =
-          CharSheetRequest.parseAllSkills(html).toArray(new ParsedSkillInfo[0]);
+          CharSheetRequest.parseSkills(html).toArray(new ParsedSkillInfo[0]);
 
       ParsedSkillInfo[] expected = {
         new ParsedSkillInfo(12, "Torso Awareness", PermStatus.SOFTCORE),
@@ -215,6 +215,19 @@ public class CharSheetRequestTest {
           availableSkills, null, permedSkillSet, hardcorePermedSkillSet);
       assertEquals(0, newSkillSet.size());
       assertEquals(3, permedSkillSet.size());
+      assertEquals(0, hardcorePermedSkillSet.size());
+    }
+
+    @Test
+    public void parseAllSkills() {
+      String html = html("request/test_charsheet_permed_skills.html");
+      List<UseSkillRequest> newSkillSet = new ArrayList<>();
+      List<UseSkillRequest> permedSkillSet = new ArrayList<>();
+      Set<Integer> hardcorePermedSkillSet = new HashSet<>();
+      CharSheetRequest.parseAndUpdateSkills(
+          html, newSkillSet, permedSkillSet, hardcorePermedSkillSet);
+      assertEquals(120, newSkillSet.size());
+      assertEquals(4, permedSkillSet.size());
       assertEquals(0, hardcorePermedSkillSet.size());
     }
   }

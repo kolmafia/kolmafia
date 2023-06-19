@@ -294,12 +294,8 @@ public class CharSheetRequest extends GenericRequest {
     Set<Integer> hardcorePermedSkillSet = new HashSet<>();
 
     // Available skills added to newSkillSet and also have perm status saved
-    List<ParsedSkillInfo> availableSkills = parseSkills(doc, true);
-    updateSkillSets(availableSkills, newSkillSet, permedSkillSet, hardcorePermedSkillSet);
-
     // Unavailable skills not added to newSkillSet but have perm status saved
-    List<ParsedSkillInfo> unavailableSkills = parseSkills(doc, false);
-    updateSkillSets(unavailableSkills, null, permedSkillSet, hardcorePermedSkillSet);
+    parseAndUpdateSkills(doc, newSkillSet, permedSkillSet, hardcorePermedSkillSet);
 
     // The Smile of Mr. A no longer appears on the char sheet
     if (Preferences.getInteger("goldenMrAccessories") > 0) {
@@ -471,6 +467,15 @@ public class CharSheetRequest extends GenericRequest {
     }
   }
 
+  private static void parseAndUpdateSkills(
+      Document doc,
+      List<UseSkillRequest> available,
+      List<UseSkillRequest> permed,
+      Set<Integer> hardcore) {
+    updateSkillSets(parseSkills(doc, true), available, permed, hardcore);
+    updateSkillSets(parseSkills(doc, false), null, permed, hardcore);
+  }
+
   public static void updateSkillSets(
       List<ParsedSkillInfo> parsedSkillInfos,
       List<UseSkillRequest> available,
@@ -564,7 +569,7 @@ public class CharSheetRequest extends GenericRequest {
   private static final String UNAVAILABLE_SKILL_XPATH =
       "//a[contains(@onclick,'skill') and (ancestor::*[@id='permskills'])]";
 
-  private static List<ParsedSkillInfo> parseAllSkills(Document doc) {
+  private static List<ParsedSkillInfo> parseSkills(Document doc) {
     List<ParsedSkillInfo> retval = new ArrayList<>();
     retval.addAll(parseSkills(doc, true));
     retval.addAll(parseSkills(doc, false));
@@ -660,10 +665,23 @@ public class CharSheetRequest extends GenericRequest {
   //
   // The following methods that accept a responseText are for use by tests.
 
-  public static List<ParsedSkillInfo> parseAllSkills(final String responseText) {
+  public static void parseAndUpdateSkills(
+      String responseText,
+      List<UseSkillRequest> available,
+      List<UseSkillRequest> permed,
+      Set<Integer> hardcore) {
     try {
       Document doc = domSerializer.createDOM(cleaner.clean(responseText));
-      return parseAllSkills(doc);
+      parseAndUpdateSkills(doc, available, permed, hardcore);
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static List<ParsedSkillInfo> parseSkills(final String responseText) {
+    try {
+      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
+      return parseSkills(doc);
     } catch (ParserConfigurationException e) {
       e.printStackTrace();
       return new ArrayList<>();
