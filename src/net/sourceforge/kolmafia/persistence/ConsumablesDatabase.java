@@ -150,14 +150,10 @@ public class ConsumablesDatabase {
   }
 
   private static void populateAndBuild() {
-    populateAverageAdventures();
-    ConsumablesDatabase.reset();
-  }
-
-  private static void populateAverageAdventures() {
     for (int i = 0; i < AVERAGE_ADVENTURE_CACHE_SIZE; ++i) {
       ConsumablesDatabase.currentAverageAdventures.add(new HashMap<>());
     }
+    ConsumablesDatabase.reset();
   }
 
   // Used for testing to replicate static initialization
