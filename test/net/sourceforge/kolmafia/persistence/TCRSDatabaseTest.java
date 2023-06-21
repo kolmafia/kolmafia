@@ -1,18 +1,25 @@
 package net.sourceforge.kolmafia.persistence;
 
-import static internal.helpers.Player.*;
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +27,18 @@ public class TCRSDatabaseTest {
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("TCRSDatabaseTest");
+  }
+
+  @AfterAll
+  static void afterAll() throws IOException {
+    ConsumablesDatabase.clearAndRebuild();
+    try (var walker = Files.walk(KoLConstants.DATA_LOCATION.toPath())) {
+      walker
+          .map(java.nio.file.Path::toFile)
+          .filter(f -> f.getName().startsWith("TCRS_"))
+          .filter(f -> f.getName().endsWith(".txt"))
+          .forEach(File::delete);
+    }
   }
 
   @Test

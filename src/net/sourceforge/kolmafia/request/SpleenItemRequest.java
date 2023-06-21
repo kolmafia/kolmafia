@@ -49,7 +49,7 @@ public class SpleenItemRequest extends UseItemRequest {
 
     int limit = KoLCharacter.getSpleenLimit();
     int spleenLeft = limit - KoLCharacter.getSpleenUse();
-    int usableMaximum = spleenLeft / spleenHit;
+    int usableMaximum = spleenHit == 0 ? Integer.MAX_VALUE : spleenLeft / spleenHit;
 
     switch (itemId) {
       case ItemPool.TURKEY_BLASTER -> {

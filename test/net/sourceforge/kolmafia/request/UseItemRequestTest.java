@@ -8,15 +8,19 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withGender;
+import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLimitMode;
+import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withSpleenUse;
@@ -41,6 +45,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -51,6 +56,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -302,6 +308,70 @@ class UseItemRequestTest {
         assertThat(
             UseItemRequest.maximumUses(ItemPool.EXTROVERMECTIN, ConsumptionType.SPLEEN),
             is(maxUses));
+      }
+    }
+  }
+
+  @Nested
+  class zeroFullness {
+    @ParameterizedTest
+    @CsvSource({"5140, 1", "10883, 3"})
+    void itShouldNotDivideByZeroWhenConsumingAstralEnergyDrink(int itemID, int maxUses) {
+      int spleenUsed = 0;
+      var cleanups =
+          new Cleanups(
+              withSpleenUse(spleenUsed),
+              withHP(0, 10, 10),
+              withMP(0, 10, 10),
+              withPath(AscensionPath.Path.STANDARD));
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.SPLEEN), is(maxUses));
+      }
+    }
+
+    @Test
+    void itShouldHandleAstralEnergyDrinkAppropriately() {
+      var cleanups = new Cleanups(withLevel(1), withSpleenUse(0));
+      try (cleanups) {
+        assertThat(ConsumablesDatabase.getRawSpleenHit("[5140]astral energy drink"), is(8));
+        assertThat(ConsumablesDatabase.getRawSpleenHit("[10883]astral energy drink"), is(5));
+        assertThat(ConsumablesDatabase.getRawSpleenHit("astral energy drink"), is(0));
+        assertThat(UseItemRequest.maximumUses("[5140]astral energy drink"), is(1));
+        assertThat(UseItemRequest.maximumUses(5140), is(1));
+        assertThat(UseItemRequest.maximumUses("[10883]astral energy drink"), is(3));
+        assertThat(UseItemRequest.maximumUses(10883), is(3));
+        assertThat(UseItemRequest.maximumUses("astral energy drink"), is(Integer.MAX_VALUE));
+      }
+    }
+    /**
+     * The list ot tested items was derived from items with zero fullness in fullness.txt at the
+     * time the test was written. Magical sausage 10060 has zero fullness but it is not tested here
+     * because the fullness is controlled by a preference. Similarly for the glitch season reward
+     * 10207. Given that the point of this test is to show a divide by zero does not occur, leaving
+     * them out is deemed acceptable.
+     */
+    @ParameterizedTest
+    @CsvSource({"572", "1266", "1432", "2149", "2188", "4412"})
+    void itShouldNotDivideByZeroWhenConsumingZeroFullnessItems(int itemID) {
+      int fullness = 0;
+      int maxUses = Integer.MAX_VALUE;
+      var cleanups = withFullness(fullness);
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.EAT), is(maxUses));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1047", "1276", "4413", "7491"})
+    void itShouldNotDivideByZeroWhenDrinkingZeroInebrietyItems(int itemID) {
+      int inebriety = 0;
+      int maxUses = Integer.MAX_VALUE;
+      var cleanups = withInebriety(inebriety);
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.DRINK), is(maxUses));
       }
     }
   }
