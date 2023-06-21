@@ -92,6 +92,12 @@ public class LocketRequest extends GenericRequest {
 
     if (monster != null) {
       // Open the locket.
+      if (this.getAdventuresUsed() > 0) {
+        // set location to "None" for the benefit of
+        // betweenBattleScripts
+        Preferences.setString("nextAdventure", "None");
+        RecoveryManager.runBetweenBattleChecks(true);
+      }
       (new LocketRequest()).run();
     }
 
