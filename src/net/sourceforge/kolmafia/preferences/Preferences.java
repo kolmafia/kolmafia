@@ -215,6 +215,7 @@ public class Preferences {
         "currentHippyStore",
         "currentLlamaForm",
         "currentPortalEnergy",
+        "currentReplicaStoreYear",
         "currentSpecialBountyItem",
         "currentSITSkill",
         "cursedMagnifyingGlassCount",

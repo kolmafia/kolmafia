@@ -3581,6 +3581,8 @@ public class ItemPool {
   public static final int REPLICA_HAND_TURKEY = 11191;
   public static final int REPLICA_CRIMBO_ELF = 11192;
   public static final int REPLICA_BUGBEAR_SHAMAN = 11193;
+  public static final int REPLICA_GRAVY_MAYPOLE = 11195;
+  public static final int REPLICA_WAX_LIPS = 11196;
   public static final int REPLICA_SNOWCONE_BOOK = 11197;
   public static final int REPLICA_JEWEL_EYED_WIZARD_HAT = 11199;
   public static final int REPLICA_BOTTLE_ROCKET = 11200;
@@ -3598,16 +3600,20 @@ public class ItemPool {
   public static final int REPLICA_RESOLUTION_BOOK = 11213;
   public static final int REPLICA_PLASTIC_VAMPIRE_FANGS = 11214;
   public static final int REPLICA_CUTE_ANGEL = 11215;
+  public static final int REPLICA_CAMP_SCOUT_BACKPACK = 11216;
   public static final int REPLICA_DEACTIVATED_NANOBOTS = 11217;
   public static final int REPLICA_BANDERSNATCH = 11218;
   public static final int REPLICA_SMITH_BOOK = 11219;
   public static final int REPLICA_FOLDER_HOLDER = 11220;
+  public static final int REPLICA_GREEN_THUMB = 11221;
   public static final int CINCHO_DE_MAYO = 11223;
+  public static final int REPLICA_GENE_SPLICING_LAB = 11225;
   public static final int REPLICA_STILL_GRILL = 11226;
   public static final int REPLICA_CRIMBO_SAPLING = 11227;
   public static final int REPLICA_YELLOW_PUCK = 11228;
   public static final int REPLICA_CHATEAU_ROOM_KEY = 11229;
   public static final int REPLICA_DECK_OF_EVERY_CARD = 11230;
+  public static final int REPLICA_SOURCE_TERMINAL = 11231;
   public static final int REPLICA_INTERGNAT = 11232;
   public static final int REPLICA_WITCHESS_SET = 11233;
   public static final int REPLICA_GENIE_BOTTLE = 11234;
@@ -3616,7 +3622,7 @@ public class ItemPool {
   public static final int REPLICA_NEVERENDING_PARTY_INVITE = 11237;
   public static final int REPLICA_GARBAGE_TOTE = 11238;
   public static final int REPLICA_GOD_LOBSTER = 11239;
-  public static final int REPLICA_FOURTH_SABER = 10240;
+  public static final int REPLICA_FOURTH_SABER = 11240;
   public static final int REPLICA_SAUSAGE_O_MATIC = 11241;
   public static final int REPLICA_HEWN_MOON_RUNE_SPOON = 11242;
   public static final int REPLICA_CAMELCALF = 11243;
@@ -3628,6 +3634,7 @@ public class ItemPool {
   public static final int REPLICA_JURASSIC_PARKA = 11249;
   public static final int REPLICA_GREY_GOSLING = 11250;
   public static final int REPLICA_DESIGNER_SWEATPANTS = 11251;
+  public static final int REPLICA_PUMPKIN_BUCKET = 11252;
   public static final int REPLICA_TEN_DOLLARS = 11253;
   public static final int REPLICA_CINCHO_DE_MAYO = 11254;
   public static final int MR_STORE_2002_CATALOG = 11257;
