@@ -349,13 +349,18 @@ public class UseItemRequest extends GenericRequest {
 
   public static final int maximumUses(final int itemId, final ConsumptionType consumptionType) {
     String itemName = ItemDatabase.getItemDataName(itemId);
+    int[] itemIds = ItemDatabase.getItemIds(itemName, 1, false);
+    if (itemIds.length != 1) {
+      itemName = "[" + itemId + "]" + itemName;
+    }
     return UseItemRequest.maximumUses(itemId, itemName, consumptionType, true);
   }
 
   public static final int maximumUses(String itemName) {
     int itemId = ItemDatabase.getItemId(itemName);
-    if (itemId > 0) {
-      itemName = ItemDatabase.getItemDataName(itemId);
+    int[] itemIds = ItemDatabase.getItemIds(itemName, 1, false);
+    if (itemIds.length == 1) {
+      itemId = itemIds[0];
     }
     return UseItemRequest.maximumUses(itemId, itemName, ConsumptionType.NONE, false);
   }
