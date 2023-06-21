@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
@@ -911,6 +912,15 @@ public class TestCommand extends AbstractCommand {
 
     if (command.equals("charpane")) {
       CharPaneRequest.processResults(TestCommand.contents);
+      TestCommand.contents = null;
+      return;
+    }
+
+    if (command.equals("charsheet-skills")) {
+      var skills = CharSheetRequest.parseSkills(TestCommand.contents, true);
+      for (var skill : skills) {
+        RequestLogger.printLine(skill.toString());
+      }
       TestCommand.contents = null;
       return;
     }

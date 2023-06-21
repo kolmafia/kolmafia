@@ -289,66 +289,13 @@ public class CharSheetRequest extends GenericRequest {
       pos++;
     }
 
-    // The first token says "(click the skill name for more
-    // information)" which is not really a skill.
     List<UseSkillRequest> newSkillSet = new ArrayList<>();
     List<UseSkillRequest> permedSkillSet = new ArrayList<>();
     Set<Integer> hardcorePermedSkillSet = new HashSet<>();
 
-    List<ParsedSkillInfo> parsedSkillInfos = parseSkills(doc);
-    for (ParsedSkillInfo skillInfo : parsedSkillInfos) {
-      UseSkillRequest currentSkill = null;
-      if (skillInfo.isBadId()) {
-        System.err.println(
-            "Cannot parse skill ID in 'onclick' attribute for skill: " + skillInfo.name);
-      } else {
-        currentSkill = UseSkillRequest.getUnmodifiedInstance(skillInfo.id);
-        if (currentSkill == null) {
-          System.err.println("Unknown skill ID in charsheet.php: " + skillInfo.id);
-        }
-      }
-
-      // Cannot find skill by ID, fall back to skill name check
-      if (currentSkill == null) {
-        currentSkill = UseSkillRequest.getUnmodifiedInstance(skillInfo.name);
-        if (currentSkill == null) {
-          System.err.println("Ignoring unknown skill name in charsheet.php: " + skillInfo.name);
-          continue;
-        }
-      }
-
-      boolean shouldAddSkill = true;
-      int skillId = currentSkill.getSkillId();
-
-      if (SkillDatabase.isBookshelfSkill(skillId)) {
-        shouldAddSkill =
-            (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
-                || KoLCharacter.kingLiberated();
-      }
-
-      switch (skillId) {
-        case SkillPool.OLFACTION -> {
-          shouldAddSkill =
-              (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
-                  || KoLCharacter.skillsRecalled();
-        }
-        case SkillPool.CRYPTOBOTANIST, SkillPool.INSECTOLOGIST, SkillPool.PSYCHOGEOLOGIST -> {
-          Preferences.setString("currentSITSkill", currentSkill.getSkillName());
-        }
-      }
-
-      if (shouldAddSkill) {
-        newSkillSet.add(currentSkill);
-      }
-
-      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.SOFTCORE) {
-        permedSkillSet.add(currentSkill);
-      }
-      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.HARDCORE) {
-        permedSkillSet.add(currentSkill);
-        hardcorePermedSkillSet.add(currentSkill.getSkillId());
-      }
-    }
+    // Available skills added to newSkillSet and also have perm status saved
+    // Unavailable skills not added to newSkillSet but have perm status saved
+    parseAndUpdateSkills(doc, newSkillSet, permedSkillSet, hardcorePermedSkillSet);
 
     // The Smile of Mr. A no longer appears on the char sheet
     if (Preferences.getInteger("goldenMrAccessories") > 0) {
@@ -520,42 +467,122 @@ public class CharSheetRequest extends GenericRequest {
     }
   }
 
+  private static void parseAndUpdateSkills(
+      Document doc,
+      List<UseSkillRequest> available,
+      List<UseSkillRequest> permed,
+      Set<Integer> hardcore) {
+    updateSkillSets(parseSkills(doc, true), available, permed, hardcore);
+    updateSkillSets(parseSkills(doc, false), null, permed, hardcore);
+  }
+
+  public static void updateSkillSets(
+      List<ParsedSkillInfo> parsedSkillInfos,
+      List<UseSkillRequest> available,
+      List<UseSkillRequest> permed,
+      Set<Integer> hardcore) {
+    for (ParsedSkillInfo skillInfo : parsedSkillInfos) {
+      UseSkillRequest currentSkill = null;
+      if (skillInfo.isBadId()) {
+        System.err.println(
+            "Cannot parse skill ID in 'onclick' attribute for skill: " + skillInfo.name);
+      } else {
+        currentSkill = UseSkillRequest.getUnmodifiedInstance(skillInfo.id);
+        if (currentSkill == null) {
+          System.err.println("Unknown skill ID in charsheet.php: " + skillInfo.id);
+        }
+      }
+
+      // Cannot find skill by ID, fall back to skill name check
+      if (currentSkill == null) {
+        currentSkill = UseSkillRequest.getUnmodifiedInstance(skillInfo.name);
+        if (currentSkill == null) {
+          System.err.println("Ignoring unknown skill name in charsheet.php: " + skillInfo.name);
+          continue;
+        }
+      }
+
+      boolean shouldAddSkill = true;
+      int skillId = currentSkill.getSkillId();
+
+      if (SkillDatabase.isBookshelfSkill(skillId)) {
+        shouldAddSkill =
+            (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
+                || KoLCharacter.kingLiberated();
+      }
+
+      switch (skillId) {
+        case SkillPool.OLFACTION -> {
+          shouldAddSkill =
+              (!KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore())
+                  || KoLCharacter.skillsRecalled();
+        }
+        case SkillPool.CRYPTOBOTANIST, SkillPool.INSECTOLOGIST, SkillPool.PSYCHOGEOLOGIST -> {
+          Preferences.setString("currentSITSkill", currentSkill.getSkillName());
+        }
+      }
+
+      if (shouldAddSkill && available != null) {
+        available.add(currentSkill);
+      }
+
+      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.SOFTCORE) {
+        permed.add(currentSkill);
+      }
+      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.HARDCORE) {
+        permed.add(currentSkill);
+        hardcore.add(currentSkill.getSkillId());
+      }
+    }
+  }
+
   /**
    * Parses skill information from charsheet.php.
    *
    * @param doc Parsed-and-cleaned HTML document
    */
-  public static List<ParsedSkillInfo> parseSkills(Document doc) {
-    // Assumption:
-    // In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the
-    // following:
-    //
-    //	(Most of the time)
-    //	<a
-    // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a><br>
-    //	<a
-    // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (P)<br>
-    //	<a
-    // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (<b>HP</b>)<br>
-    //	(Rarely)
-    //	<a onclick="skill(SKILL_ID)">Skill Name</a>
-    //
-    // ...where SKILL_ID is an integer, and P/HP indicate perm status.
-    //
-    // Skills that you cannot use right now (e.g. due to path restrictions) are wrapped in a <span>
-    // tag:
-    //
-    //	<span id="permskills" ...>...</span>
+
+  // Assumption:
+  // In the cleaned-up HTML, each skill is displayed as an <a> tag that looks like any of the
+  // following:
+  //
+  //	(Most of the time)
+  //	<a
+  // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a><br>
+  //	<a
+  // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (P)<br>
+  //	<a
+  // onclick="javascript:poop(&quot;desc_skill.php?whichskill=SKILL_ID&amp;self=true&quot;,&quot;skill&quot;, 350, 300)">Skill Name</a> (<b>HP</b>)<br>
+  //	(Rarely)
+  //	<a onclick="skill(SKILL_ID)">Skill Name</a>
+  //
+  // ...where SKILL_ID is an integer, and P/HP indicate perm status.
+  //
+  // Skills that you cannot use right now (e.g. due to path restrictions) are wrapped in a <span>
+  // tag:
+  //
+  //	<span id="permskills" ...>...</span>
+
+  private static final String AVAILABLE_SKILL_XPATH =
+      "//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]";
+
+  private static final String UNAVAILABLE_SKILL_XPATH =
+      "//a[contains(@onclick,'skill') and (ancestor::*[@id='permskills'])]";
+
+  private static List<ParsedSkillInfo> parseSkills(Document doc) {
+    List<ParsedSkillInfo> retval = new ArrayList<>();
+    retval.addAll(parseSkills(doc, true));
+    retval.addAll(parseSkills(doc, false));
+    return retval;
+  }
+
+  private static List<ParsedSkillInfo> parseSkills(Document doc, boolean available) {
+    String xpath = available ? AVAILABLE_SKILL_XPATH : UNAVAILABLE_SKILL_XPATH;
     NodeList skillNodes;
     try {
       skillNodes =
           (NodeList)
-              XPathFactory.newInstance()
-                  .newXPath()
-                  .evaluate(
-                      "//a[contains(@onclick,'skill') and not(ancestor::*[@id='permskills'])]",
-                      doc,
-                      XPathConstants.NODESET);
+              XPathFactory.newInstance().newXPath().evaluate(xpath, doc, XPathConstants.NODESET);
     } catch (XPathExpressionException e) {
       // Our xpath selector is bad; this build shouldn't be released at all
       e.printStackTrace();
@@ -631,6 +658,44 @@ public class CharSheetRequest extends GenericRequest {
     }
 
     return parsedSkillInfos;
+  }
+
+  // parseStatus creates a Document from the HTML responseText and calls
+  // versions of the following methods that accept such.
+  //
+  // The following methods that accept a responseText are for use by tests.
+
+  public static void parseAndUpdateSkills(
+      String responseText,
+      List<UseSkillRequest> available,
+      List<UseSkillRequest> permed,
+      Set<Integer> hardcore) {
+    try {
+      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
+      parseAndUpdateSkills(doc, available, permed, hardcore);
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static List<ParsedSkillInfo> parseSkills(final String responseText) {
+    try {
+      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
+      return parseSkills(doc);
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+      return new ArrayList<>();
+    }
+  }
+
+  public static List<ParsedSkillInfo> parseSkills(final String responseText, boolean available) {
+    try {
+      Document doc = domSerializer.createDOM(cleaner.clean(responseText));
+      return parseSkills(doc, available);
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+      return new ArrayList<ParsedSkillInfo>();
+    }
   }
 
   public static void parseStatus(final JSONObject JSON) throws JSONException {
