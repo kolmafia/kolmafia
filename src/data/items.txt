@@ -11310,3 +11310,22 @@
 11282	Sexy Cosmo	445044642	perf_cosmo.gif	drink	t,d	11
 11283	Souvenir Chopsticks	821052146	chopsticks2.gif	none	t,d	10	Souvenir Chopsticks
 11284	red-soled high heels	933964223	highheels.gif	accessory	t,d	100	pairs of red-soled high heels
+11285
+11286
+11287
+11288
+11289
+11290
+11291
+11292
+11293
+11294
+11295
+11296
+11297
+11298
+11299
+11300
+11301
+11302
+11303	name change form	541643472	namechange.gif	usable	t	0
