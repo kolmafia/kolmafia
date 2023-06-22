@@ -1225,6 +1225,43 @@ public class MaximizerTest {
         assertTrue(someBoostIs(x -> commandStartsWith(x, "parka ghostasaurus")));
       }
     }
+
+    @Nested
+    class GarbageTote {
+      @Test
+      public void shouldSuggestEquippingGarbageToteItem() {
+        final var cleanups =
+            new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.BROKEN_CHAMPAGNE));
+
+        try (cleanups) {
+          assertTrue(maximize("weapon damage percent"));
+          recommendedSlotIs(Slot.WEAPON, "broken champagne bottle");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
+        }
+      }
+
+      @Test
+      public void shouldSuggestFoldingGarbageToteItem() {
+        final var cleanups =
+            new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+
+        try (cleanups) {
+          assertTrue(maximize("weapon damage percent"));
+          recommendedSlotIs(Slot.WEAPON, "broken champagne bottle");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
+        }
+      }
+
+      @Test
+      public void shouldNotSuggestUsingGarbageToteItem() {
+        final var cleanups = new Cleanups(withItem(ItemPool.TINSEL_TIGHTS));
+
+        try (cleanups) {
+          assertTrue(maximize("weapon damage percent"));
+          assertFalse(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
+        }
+      }
+    }
   }
 
   @Nested
