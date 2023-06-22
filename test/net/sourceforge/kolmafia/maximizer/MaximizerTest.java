@@ -1229,14 +1229,30 @@ public class MaximizerTest {
     @Nested
     class GarbageTote {
       @Test
-      public void shouldSuggestEquippingGarbageToteItem() {
+      public void shouldSuggestEquippingGarbageToteItem1() {
         final var cleanups =
-            new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.BROKEN_CHAMPAGNE));
+            new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+
+        try (cleanups) {
+          assertTrue(maximize("monster level"));
+          recommendedSlotIs(Slot.PANTS, "tinsel tights");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "equip pants ¶9693")));
+        }
+      }
+
+      @Test
+      public void shouldSuggestEquippingGarbageToteItem2() {
+        final var cleanups =
+            new Cleanups(
+                withItem(ItemPool.REPLICA_GARBAGE_TOTE),
+                withItem(ItemPool.REPLICA_HAIKU_KATANA),
+                withItem(ItemPool.BROKEN_CHAMPAGNE),
+                withSkill("Double-Fisted Skull Smashing"));
 
         try (cleanups) {
           assertTrue(maximize("weapon damage percent"));
-          recommendedSlotIs(Slot.WEAPON, "broken champagne bottle");
-          assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
+          recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip off-hand ¶9692")));
         }
       }
 
