@@ -1669,11 +1669,11 @@ public class Maximizer {
       }
 
       // We might want to fold for a new Garbage item, even if we already have it, to reset it
-      if (((itemId == ItemPool.BROKEN_CHAMPAGNE
-                  && Preferences.getInteger("garbageChampagneCharge") == 0)
-              || (itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT
-                  && Preferences.getInteger("garbageShirtCharge") == 0))
-          && !Preferences.getBoolean("_garbageItemChanged")) {
+      if ((itemId == ItemPool.BROKEN_CHAMPAGNE
+              && Preferences.getInteger("garbageChampagneCharge") == 0)
+          || (itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT
+              && Preferences.getInteger("garbageShirtCharge") == 0
+              && !Preferences.getBoolean("_garbageItemChanged"))) {
         if (checkedItem.initial > count) {
           text = "fold & " + text;
           cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;
