@@ -144,8 +144,8 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withItemInCloset(ItemPool.GARBAGE_TOTE),
               withNoItems(),
+              withItemInCloset(ItemPool.GARBAGE_TOTE),
               withProperty("autoSatisfyWithCloset", true),
               withHandlingChoice(false));
 
@@ -171,9 +171,9 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withItemInCloset(ItemPool.GARBAGE_TOTE),
-              withItem(ItemPool.WAD_OF_TAPE),
               withNoItems(),
+              withItem(ItemPool.WAD_OF_TAPE),
+              withItemInCloset(ItemPool.GARBAGE_TOTE),
               withProperty("autoSatisfyWithCloset", true),
               withHandlingChoice(false));
 
