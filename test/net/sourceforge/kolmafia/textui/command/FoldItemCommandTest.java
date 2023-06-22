@@ -4,7 +4,6 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHandlingChoice;
@@ -157,7 +156,34 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
         assertContinueState();
 
         var requests = client.getRequests();
-        printRequests(requests);
+        assertThat(requests, hasSize(3));
+        assertGetRequest(
+            requests.get(0), "/inventory.php", "action=closetpull&ajax=1&whichitem=9690&qty=1");
+        assertPostRequest(requests.get(1), "/inv_use.php", "whichitem=9690");
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1275&option=3");
+      }
+    }
+
+    @Test
+    public void retrieveGarbageToteWithItem() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItemInCloset(ItemPool.GARBAGE_TOTE),
+              withItem(ItemPool.WAD_OF_TAPE),
+              withNoItems(),
+              withProperty("autoSatisfyWithCloset", true),
+              withHandlingChoice(false));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_uncloset_garbage_tote.html"));
+
+        execute("tinsel tights");
+        assertContinueState();
+
+        var requests = client.getRequests();
         assertThat(requests, hasSize(3));
         assertGetRequest(
             requests.get(0), "/inventory.php", "action=closetpull&ajax=1&whichitem=9690&qty=1");
