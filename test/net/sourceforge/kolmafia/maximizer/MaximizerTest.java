@@ -1247,6 +1247,25 @@ public class MaximizerTest {
                 withItem(ItemPool.REPLICA_GARBAGE_TOTE),
                 withItem(ItemPool.REPLICA_HAIKU_KATANA),
                 withItem(ItemPool.BROKEN_CHAMPAGNE),
+                withProperty("garbageChampagneCharge", 5),
+                withSkill("Double-Fisted Skull Smashing"));
+
+        try (cleanups) {
+          assertTrue(maximize("weapon damage percent"));
+          recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "equip off-hand ¶9692")));
+        }
+      }
+
+      @Test
+      public void shouldFoldUnusedChampagneBottle() {
+        final var cleanups =
+            new Cleanups(
+                withItem(ItemPool.REPLICA_GARBAGE_TOTE),
+                withItem(ItemPool.REPLICA_HAIKU_KATANA),
+                withItem(ItemPool.BROKEN_CHAMPAGNE),
+                withProperty("garbageChampagneCharge", 0),
+                withProperty("_garbageItemChanged", false),
                 withSkill("Double-Fisted Skull Smashing"));
 
         try (cleanups) {

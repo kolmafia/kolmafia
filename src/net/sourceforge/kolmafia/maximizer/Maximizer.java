@@ -1672,8 +1672,8 @@ public class Maximizer {
       if ((itemId == ItemPool.BROKEN_CHAMPAGNE
               && Preferences.getInteger("garbageChampagneCharge") == 0)
           || (itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT
-                  && Preferences.getInteger("garbageShirtCharge") == 0)
-              && !Preferences.getBoolean("_garbageItemChanged")) {
+              && Preferences.getInteger("garbageShirtCharge") == 0
+              && !Preferences.getBoolean("_garbageItemChanged"))) {
         if (checkedItem.initial > count) {
           text = "fold & " + text;
           cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;
