@@ -6634,7 +6634,7 @@ public abstract class RuntimeLibrary {
         || FightRequest.choiceFollowsFight) {
       return RuntimeLibrary.run_choice(controller, new Value(-1));
     }
-    return new Value(DataTypes.BUFFER_TYPE, "");
+    return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
   }
 
   public static Value stun_skill(ScriptRuntime controller) {
