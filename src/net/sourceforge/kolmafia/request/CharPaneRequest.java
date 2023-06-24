@@ -292,7 +292,7 @@ public class CharPaneRequest extends GenericRequest {
 
   public static final Pattern AVATAR_PATTERN =
       Pattern.compile(
-          "<img +src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
+          "<img [ crossorigin=\"Anonymous\"|]+src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
 
   public static final void parseAvatar(final String responseText) {
     if (!KoLCharacter.inRobocore()) {
