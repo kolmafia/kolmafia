@@ -6322,6 +6322,10 @@ public abstract class ChoiceControl {
         handleAfterAvatar(ChoiceManager.lastDecision);
         break;
 
+      case 1387:
+        SaberRequest.postForce(urlString, text);
+        break;
+
       case 1395: // Take your Pills
         {
           if (!text.contains("day's worth of pills")) {
