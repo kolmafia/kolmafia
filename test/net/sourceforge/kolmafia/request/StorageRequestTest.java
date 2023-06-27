@@ -3,6 +3,9 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withHardcore;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItemInStorage;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRonin;
@@ -10,11 +13,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -31,6 +36,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -1038,5 +1044,40 @@ public class StorageRequestTest {
 
     // Test that pulls remaining has been decremented
     assertTrue(ConcoctionDatabase.getPullsRemaining() == 13);
+  }
+
+  @Test
+  public void itShouldDetectFailedPulls() {
+
+    // If a request asks for the same item more than once, if you don't
+    // have enough of the item for the second pull, KoL will silently
+    // ignore it and return fewer transfer messages than requested itemIds.
+    // storage.php?action=pull&ajax=1&whichitem1=11267&howmany1=1&whichitem2=11267&howmany2=1&whichitem3=5647&howmany3=1&pwd
+
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withNoItems(),
+            withItemInStorage(ItemPool.AMULET_OF_PERPETUAL_DARKNESS, 1),
+            withItemInStorage(ItemPool.ANCIENT_CALENDAR, 1));
+
+    try (cleanups) {
+      client.addResponse(200, html("request/test_pull_missing_item.html"));
+
+      var url =
+          "storage.php?action=pull&ajax=1&whichitem1=11267&howmany1=1&whichitem2=11267&howmany2=1&whichitem3=5647&howmany3=1&pwd";
+      var request = new GenericRequest(url);
+      request.run();
+
+      // We requested:
+      //   Amulet of Perpetual Darkness
+      //   Amulet of Perpetual Darkness
+      //   ancient calendar
+
+      assertThat(InventoryManager.getCount(ItemPool.AMULET_OF_PERPETUAL_DARKNESS), is(1));
+      assertThat(InventoryManager.getCount(ItemPool.ANCIENT_CALENDAR), is(1));
+    }
   }
 }
