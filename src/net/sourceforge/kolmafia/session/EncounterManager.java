@@ -316,7 +316,7 @@ public abstract class EncounterManager {
     return false;
   }
 
-  public static boolean isRainManMonster(final String responseText) {
+  public static boolean isRainManEncounter(final String responseText) {
     // Use of Rain Man skill fires two encounters, first is a non-combat, second a fight, which
     // could be a semi-rare
     return KoLCharacter.inRaincore() && responseText.contains("simulacrum of a previous foe");
