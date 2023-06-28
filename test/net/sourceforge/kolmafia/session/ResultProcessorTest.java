@@ -1,25 +1,38 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInCloset;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.helpers.Player.withSign;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isFinished;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.time.Month;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -28,6 +41,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -345,6 +359,160 @@ public class ResultProcessorTest {
         ResultProcessor.processResult(true, drop);
 
         assertThat(preference, isSetTo(1));
+      }
+    }
+  }
+
+  @Nested
+  class AutoCraft {
+    @Nested
+    class BonerdagonNecklace {
+      private static AdventureResult HEMP_STRING = ItemPool.get(ItemPool.HEMP_STRING, 1);
+      private static AdventureResult BONERDAGON_VERTEBRA =
+          ItemPool.get(ItemPool.BONERDAGON_VERTEBRA, 1);
+      private static AdventureResult BONERDAGON_NECKLACE =
+          ItemPool.get(ItemPool.BONERDAGON_NECKLACE, 1);
+
+      @Test
+      public void getHempStringFromClosetCraftsNecklace() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withNoItems(),
+                withItem(BONERDAGON_VERTEBRA),
+                withItemInCloset(HEMP_STRING),
+                withProperty("autoCraft", true),
+                // The Plunger obviates meat paste
+                withSign(ZodiacSign.MONGOOSE));
+
+        try (cleanups) {
+          client.addResponse(200, html("request/test_uncloset_hemp_string.html"));
+          client.addResponse(200, html("request/test_create_bonerdagon_necklace.html"));
+          client.addResponse(200, ""); // api.php
+
+          var url = "inventory.php?action=closetpull&ajax=1&whichitem=218&qty=1";
+          var request = new GenericRequest(url);
+          request.run();
+
+          // We no longer have the Bonerdagon vertebra
+          assertThat(BONERDAGON_VERTEBRA.getCount(KoLConstants.inventory), is(0));
+
+          // We do not have a hemp string in closet OR in inventory
+          assertThat(HEMP_STRING.getCount(KoLConstants.inventory), is(0));
+          assertThat(HEMP_STRING.getCount(KoLConstants.closet), is(0));
+
+          // We have a Bonerdagon necklace
+          assertThat(BONERDAGON_NECKLACE.getCount(KoLConstants.inventory), is(1));
+
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(3));
+
+          assertPostRequest(
+              requests.get(0), "/inventory.php", "action=closetpull&ajax=1&whichitem=218&qty=1");
+          assertPostRequest(
+              requests.get(1), "/craft.php", "action=craft&mode=combine&ajax=1&a=218&b=1247&qty=1");
+          assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void getHempStringFromFightCraftsNecklace() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withNoItems(),
+                withItem(BONERDAGON_VERTEBRA),
+                withFight(),
+                withProperty("autoCraft", true),
+                // The Plunger obviates meat paste
+                withSign(ZodiacSign.MONGOOSE));
+
+        try (cleanups) {
+          client.addResponse(200, html("request/test_fight_win_hemp_string.html"));
+          client.addResponse(200, html("request/test_create_bonerdagon_necklace.html"));
+          client.addResponse(200, ""); // api.php
+          client.addResponse(200, ""); // api.php
+
+          var url = "fight.php?action=attack";
+          var request = new GenericRequest(url);
+          request.run();
+
+          // We no longer have the Bonerdagon vertebra
+          assertThat(BONERDAGON_VERTEBRA.getCount(KoLConstants.inventory), is(0));
+
+          // We do not have a hemp string in inventory - even though we won one
+          assertThat(HEMP_STRING.getCount(KoLConstants.inventory), is(0));
+
+          // We have a Bonerdagon necklace
+          assertThat(BONERDAGON_NECKLACE.getCount(KoLConstants.inventory), is(1));
+
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(4));
+
+          assertPostRequest(requests.get(0), "/fight.php", "action=attack");
+          assertPostRequest(
+              requests.get(1), "/craft.php", "action=craft&mode=combine&ajax=1&a=218&b=1247&qty=1");
+          // Once for the fight
+          assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+          // Once for the craft
+          assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+        }
+      }
+
+      @Test
+      public void getHempStringFromUsingForceCraftsNecklace() {
+        // choice.php?pwd&whichchoice=1387&option=3
+        // test_fight_force_hemp_string_.html
+        // craft.php?action=craft&mode=combine&ajax=1&a=218&b=1247&qty=1
+        // test_create_bonerdagon_necklace.html
+        // api.php
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withNoItems(),
+                withItem(BONERDAGON_VERTEBRA),
+                // Use the Force
+                withHandlingChoice(1387),
+                withProperty("autoCraft", true),
+                // The Plunger obviates meat paste
+                withSign(ZodiacSign.MONGOOSE));
+
+        try (cleanups) {
+          client.addResponse(200, html("request/test_fight_force_hemp_string.html"));
+          client.addResponse(200, html("request/test_create_bonerdagon_necklace.html"));
+          client.addResponse(200, ""); // api.php
+          client.addResponse(200, ""); // api.php
+
+          var url = "choice.php?pwd&whichchoice=1387&option=3";
+          var request = new GenericRequest(url);
+          request.run();
+
+          // We are done with the choice
+          assertThat(ChoiceManager.handlingChoice, is(false));
+
+          // We no longer have the Bonerdagon vertebra
+          assertThat(BONERDAGON_VERTEBRA.getCount(KoLConstants.inventory), is(0));
+
+          // We do not have a hemp string in inventory - even though we won one
+          assertThat(HEMP_STRING.getCount(KoLConstants.inventory), is(0));
+
+          // We have a Bonerdagon necklace
+          assertThat(BONERDAGON_NECKLACE.getCount(KoLConstants.inventory), is(1));
+
+          var requests = client.getRequests();
+          assertThat(requests, hasSize(3));
+
+          assertPostRequest(requests.get(0), "/choice.php", "whichchoice=1387&option=3");
+          assertPostRequest(
+              requests.get(1), "/craft.php", "action=craft&mode=combine&ajax=1&a=218&b=1247&qty=1");
+          assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        }
       }
     }
   }

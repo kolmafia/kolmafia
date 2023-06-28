@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class SaberRequest extends GenericRequest {
   public SaberRequest() {
@@ -68,5 +70,24 @@ public class SaberRequest extends GenericRequest {
     // Eventually try to reduce delay in the last adventured area, and remove the
     // last monster from the queue.  Not reducing delay when the fight didn't come
     // from a location will likely be non-trivial.
+  }
+
+  public static final void postForce(final String urlString, final String responseText) {
+    if (!urlString.contains("whichchoice=1387")) {
+      return;
+    }
+
+    // This is called from postChoice2, after items have been processed
+    // and we are no longer handling the choice.
+
+    if (urlString.contains("option=3")) {
+      // The monster dropped all its items. If one of them forces
+      // autocrafting, the attempt failed, because we were still
+      // handling a choice when it was attempted.
+      //
+      // This is the only example we know with a non-conditional drop
+      // that can be forced.
+      ResultProcessor.autoCreate(ItemPool.BONERDAGON_NECKLACE);
+    }
   }
 }

@@ -2,12 +2,17 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withCampgroundItem;
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
+import static net.sourceforge.kolmafia.request.CampgroundRequest.BIG_ROCK;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
@@ -19,8 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -62,13 +70,6 @@ public class CampgroundRequestTest {
     CampgroundRequest.parseResponse("campground.php?action=workshed", html);
     assertEquals(
         CampgroundRequest.getCurrentWorkshedItem().getItemId(), ItemPool.COLD_MEDICINE_CABINET);
-  }
-
-  @Test
-  void canDetectMeatMaid() {
-    String html = html("request/test_campground_inspect_dwelling.html");
-    CampgroundRequest.parseResponse("campground.php?action=inspectdwelling", html);
-    assertCampgroundItemCount(ItemPool.CLOCKWORK_MAID, 1);
   }
 
   @Test
@@ -355,6 +356,48 @@ public class CampgroundRequestTest {
 
       assertThat("_cinchUsed", isSetTo(45));
       assertThat("_cinchoRests", isSetTo(3));
+    }
+  }
+
+  @Nested
+  class Dwelling {
+    @Test
+    void canDetectMeatMaid() {
+      var cleanups = new Cleanups(withEmptyCampground());
+
+      try (cleanups) {
+        String page = html("request/test_campground_inspect_dwelling.html");
+        CampgroundRequest.parseResponse("campground.php?action=inspectdwelling", page);
+        assertCampgroundItemCount(ItemPool.CLOCKWORK_MAID, 1);
+      }
+    }
+
+    @Test
+    void canParseContentsOfDwellingWithoutDwelling() {
+      var cleanups = new Cleanups(withEmptyCampground());
+
+      try (cleanups) {
+        var page = html("request/test_campground_meat_butler.html");
+        CampgroundRequest.parseResponse("campground.php?action=inspectdwelling", page);
+        assertCampgroundItemCount(ItemPool.MEAT_BUTLER, 1);
+      }
+    }
+
+    @Test
+    void doNotCheckDwellingInVampyre() {
+      var cleanups =
+          new Cleanups(
+              withPath(AscensionPath.Path.DARK_GYFFTE),
+              withClass(AscensionClass.VAMPYRE),
+              withContinuationState());
+
+      try (cleanups) {
+        CampgroundRequest.parseResponse(
+            "campground.php", html("request/test_campground_vampyre.html"));
+
+        assertThat(CampgroundRequest.getCurrentDwelling(), is(BIG_ROCK));
+        assertThat(StaticEntity.getContinuationState(), is(KoLConstants.MafiaState.CONTINUE));
+      }
     }
   }
 }
