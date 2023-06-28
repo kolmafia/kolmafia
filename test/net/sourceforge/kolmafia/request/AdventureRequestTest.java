@@ -9,11 +9,13 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.util.Set;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
@@ -29,6 +31,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class AdventureRequestTest {
   @BeforeEach
@@ -81,7 +84,7 @@ public class AdventureRequestTest {
   }
 
   @Test
-  public void gregariousMonstersAreQueued() {
+  public void gregariousMonstersAreEnqueued() {
     var cleanups =
         new Cleanups(withLastLocation("Barf Mountain"), withNextMonster("Knob Goblin Embezzler"));
 
@@ -94,6 +97,48 @@ public class AdventureRequestTest {
 
       assertThat(
           AdventureQueueDatabase.getZoneQueue("Barf Mountain"), contains("Knob Goblin Embezzler"));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void rainManMonstersAreNotEnqueued(final boolean isRainMan) {
+    var cleanups = new Cleanups(withLastLocation("Barf Mountain"));
+
+    if (isRainMan) cleanups.add(withPath(AscensionPath.Path.HEAVY_RAINS));
+
+    try (cleanups) {
+      AdventureQueueDatabase.resetQueue();
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText = html("request/test_fight_rainman_monster.html");
+      req.processResponse();
+
+      var matcher = contains("baseball bat");
+      if (isRainMan) matcher = not(matcher);
+
+      assertThat(AdventureQueueDatabase.getZoneQueue("Barf Mountain"), matcher);
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void relativityMonsterAreNotEnqueued(final boolean isRelativity) {
+    var cleanups =
+        new Cleanups(
+            withLastLocation("Oil Peak"), withProperty("_relativityMonster", isRelativity));
+
+    try (cleanups) {
+      AdventureQueueDatabase.resetQueue();
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText = html("request/test_fight_oil_slick.html");
+      req.processResponse();
+
+      var matcher = contains("oil slick");
+      if (isRelativity) matcher = not(matcher);
+
+      assertThat(AdventureQueueDatabase.getZoneQueue("Oil Peak"), matcher);
     }
   }
 
