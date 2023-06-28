@@ -3071,6 +3071,7 @@ public class ItemPool {
   public static final int AFFIRMATION_COOKIE = 9486;
   public static final int LICENSE_TO_KILL = 9487;
   public static final int VICTOR_SPOILS = 9493;
+  public static final int CAN_OF_MINIONS_BE_GONE = 9498;
   public static final int KREMLIN_BRIEFCASE = 9493;
   public static final int LICENSE_TO_CHILL = 9503;
   public static final int CELSIUS_233 = 9504;
