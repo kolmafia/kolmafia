@@ -3061,7 +3061,7 @@ public abstract class ChoiceControl {
         // Which Door?
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("drop 1000")) {
-            Preferences.increment("_villainLairProgress", 5);
+            Preferences.increment("_villainLairProgress", 10);
             Preferences.setBoolean("_villainLairDoorChoiceUsed", true);
           }
         } else if (ChoiceManager.lastDecision == 2) {

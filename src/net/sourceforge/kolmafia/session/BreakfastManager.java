@@ -867,6 +867,11 @@ public class BreakfastManager {
         "harvestBatteries" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
       KoLmafia.updateDisplay("Harvesting batteries...");
 
+      // We have one - somewhere - but it must be in inventory in order to "use" it.
+      if (!InventoryManager.retrieveItem(plant)) {
+        return;
+      }
+
       RequestThread.postRequest(
           new GenericRequest("inv_use.php?pwd&whichitem=" + plant.getItemId()));
 
