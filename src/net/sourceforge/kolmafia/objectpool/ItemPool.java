@@ -1805,7 +1805,6 @@ public class ItemPool {
   public static final int GLOWING_FUNGUS = 5641;
   public static final int STONE_WOOL = 5643;
   public static final int NOSTRIL_OF_THE_SERPENT = 5645;
-  public static final int ANCIENT_CALENDAR = 5647;
   public static final int BORIS_HELM = 5648;
   public static final int BORIS_HELM_ASKEW = 5650;
   public static final int MIME_SOUL_FRAGMENT = 5651;
@@ -3647,7 +3646,6 @@ public class ItemPool {
   public static final int LOATHING_IDOL_MICROPHONE = 11263;
   public static final int CHARTER_NELLYVILLE = 11264;
   public static final int FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY = 11266;
-  public static final int AMULET_OF_PERPETUAL_DARKNESS = 11267;
   public static final int GIANT_BLACK_MONOLITH = 11268;
   public static final int SPOOKY_VHS_TAPE = 11270;
   public static final int LOATHING_IDOL_MICROPHONE_75 = 11277;
