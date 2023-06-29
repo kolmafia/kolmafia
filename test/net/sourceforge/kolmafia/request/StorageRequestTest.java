@@ -1128,22 +1128,22 @@ public class StorageRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoItems(),
-              withItemInStorage(ItemPool.SEVEN_BALL, 10),
-              withItemInStorage(ItemPool.EIGHT_BALL, 10));
+              withItemInStorage(ItemPool.FOUR_BALL, 12),
+              withItemInStorage(ItemPool.FIVE_BALL, 10));
       try (cleanups) {
         client.addResponse(200, html("request/test_pull_duplicate_item.html"));
 
         StringBuilder buf = new StringBuilder("storage.php?action=pull&ajax=1");
-        addItem(buf, 1, ItemPool.SEVEN_BALL, 10);
-        addItem(buf, 2, ItemPool.SEVEN_BALL, 2);
-        addItem(buf, 3, ItemPool.EIGHT_BALL, 10);
+        addItem(buf, 1, ItemPool.FOUR_BALL, 10);
+        addItem(buf, 2, ItemPool.FOUR_BALL, 2);
+        addItem(buf, 3, ItemPool.FIVE_BALL, 10);
 
         var url = buf.toString();
         var request = new GenericRequest(url);
         request.run();
 
-        assertThat(InventoryManager.getCount(ItemPool.SEVEN_BALL), is(10));
-        assertThat(InventoryManager.getCount(ItemPool.EIGHT_BALL), is(10));
+        assertThat(InventoryManager.getCount(ItemPool.FOUR_BALL), is(10));
+        assertThat(InventoryManager.getCount(ItemPool.FIVE_BALL), is(10));
       }
     }
 
@@ -1160,23 +1160,23 @@ public class StorageRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoItems(),
-              withItemInStorage(ItemPool.FOUR_BALL, 12),
-              withItemInStorage(ItemPool.FIVE_BALL, 10));
+              withItemInStorage(ItemPool.SEVEN_BALL, 12),
+              withItemInStorage(ItemPool.EIGHT_BALL, 10));
       try (cleanups) {
         client.addResponse(200, html("request/test_pull_missing_item.html"));
 
         StringBuilder buf = new StringBuilder("storage.php?action=pull&ajax=1");
-        addItem(buf, 1, ItemPool.FOUR_BALL, 10);
+        addItem(buf, 1, ItemPool.SEVEN_BALL, 10);
         addItem(buf, 2, ItemPool.CLOCKWORK_HANDLE, 1);
-        addItem(buf, 3, ItemPool.FIVE_BALL, 10);
+        addItem(buf, 3, ItemPool.EIGHT_BALL, 10);
 
         var url = buf.toString();
         var request = new GenericRequest(url);
         request.run();
 
-        assertThat(InventoryManager.getCount(ItemPool.FOUR_BALL), is(10));
+        assertThat(InventoryManager.getCount(ItemPool.SEVEN_BALL), is(10));
         assertThat(InventoryManager.getCount(ItemPool.CLOCKWORK_HANDLE), is(0));
-        assertThat(InventoryManager.getCount(ItemPool.FIVE_BALL), is(0));
+        assertThat(InventoryManager.getCount(ItemPool.EIGHT_BALL), is(0));
       }
     }
   }
