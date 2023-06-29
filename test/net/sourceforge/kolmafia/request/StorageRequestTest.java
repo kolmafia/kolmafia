@@ -3,6 +3,9 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withHardcore;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItemInStorage;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRonin;
@@ -10,11 +13,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -31,6 +36,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -1038,5 +1044,140 @@ public class StorageRequestTest {
 
     // Test that pulls remaining has been decremented
     assertTrue(ConcoctionDatabase.getPullsRemaining() == 13);
+  }
+
+  @Nested
+  class TransferParsing {
+    // A storage "pull" action can ask for up to 11 items at a time:
+    //     whichitem<N>=<ITEMID>&howmany<N>=<COUNT>
+    //
+    // The responseText contains a message for each whichitem/howmany pair:
+    //     <b>beer helmet (1)</b> moved from storage to inventory.<br />
+    //     You already pulled one of those today.
+    //     You haven't got any of that item in your storage.
+    //
+    // If the same itemId appears more than once, only the first is processed.
+    // If you attempt to pull an item which is not in inventory, subsequent items are ignored.
+
+    private void addItem(StringBuilder buf, int index, int itemId, int count) {
+      buf.append("&whichitem");
+      buf.append(String.valueOf(index));
+      buf.append("=");
+      buf.append(String.valueOf(itemId));
+      buf.append("&howmany");
+      buf.append(String.valueOf(index));
+      buf.append("=");
+      buf.append(String.valueOf(count));
+    }
+
+    @Test
+    public void itShouldDetectAlreadyPulledItems() {
+      // storage.php?action=pull&ajax=1&whichitem1=594&howmany1=1&whichitem2=2069&howmany2=1&whichitem3=2353&howmany3=1&whichitem4=4659&howmany4=1&whichitem5=9707&howmany5=1&whichitem6=2070&howmany6=1&whichitem7=3399&howmany7=1
+      //     You already pulled one of those today.
+      //     <b>beer helmet (1)</b> moved from storage to inventory.<br />
+      //     <b>bejeweled pledge pin (1)</b> moved from storage to inventory.<br />
+      //     <b>blackberry galoshes (1)</b> moved from storage to inventory.<br />
+      //     You already pulled one of those today.
+      //     <b>distressed denim pants (1)</b> moved from storage to inventory.<br />
+      //     You already pulled one of those today.
+      // test_pull_already_pulled_item.html
+
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withNoItems(),
+              withItemInStorage(ItemPool.BEER_HELMET, 1),
+              withItemInStorage(ItemPool.BEJEWELED_PLEDGE_PIN, 1),
+              withItemInStorage(ItemPool.BLACKBERRY_GALOSHES, 1),
+              withItemInStorage(ItemPool.DISTRESSED_DENIM_PANTS, 1));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_pull_already_pulled_items.html"));
+
+        StringBuilder buf = new StringBuilder("storage.php?action=pull&ajax=1");
+        addItem(buf, 1, ItemPool.EXTREME_AMULET, 1);
+        addItem(buf, 2, ItemPool.BEER_HELMET, 1);
+        addItem(buf, 3, ItemPool.BEJEWELED_PLEDGE_PIN, 1);
+        addItem(buf, 4, ItemPool.BLACKBERRY_GALOSHES, 1);
+        addItem(buf, 5, ItemPool.DIETING_PILL, 1);
+        addItem(buf, 6, ItemPool.DISTRESSED_DENIM_PANTS, 1);
+        addItem(buf, 7, ItemPool.SQUEEZE, 1);
+
+        var url = buf.toString();
+        var request = new GenericRequest(url);
+        request.run();
+
+        assertThat(InventoryManager.getCount(ItemPool.BEER_HELMET), is(1));
+        assertThat(InventoryManager.getCount(ItemPool.BEJEWELED_PLEDGE_PIN), is(1));
+        assertThat(InventoryManager.getCount(ItemPool.BLACKBERRY_GALOSHES), is(1));
+        assertThat(InventoryManager.getCount(ItemPool.DISTRESSED_DENIM_PANTS), is(1));
+      }
+    }
+
+    @Test
+    public void itShouldSkipDuplicateItems() {
+      // storage.php?action=pull&ajax=1&whichitem1=1903&howmany1=10&whichitem2=1903&howmany2=20&whichitem3=1904&howmany3=10&pwd
+      //     <b>4-ball (10)</b> moved from storage to inventory.<br />
+      //     <b>5-ball (10)</b> moved from storage to inventory.
+      // test_pull_duplicate_item.html
+
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withNoItems(),
+              withItemInStorage(ItemPool.FOUR_BALL, 12),
+              withItemInStorage(ItemPool.FIVE_BALL, 10));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_pull_duplicate_item.html"));
+
+        StringBuilder buf = new StringBuilder("storage.php?action=pull&ajax=1");
+        addItem(buf, 1, ItemPool.FOUR_BALL, 10);
+        addItem(buf, 2, ItemPool.FOUR_BALL, 2);
+        addItem(buf, 3, ItemPool.FIVE_BALL, 10);
+
+        var url = buf.toString();
+        var request = new GenericRequest(url);
+        request.run();
+
+        assertThat(InventoryManager.getCount(ItemPool.FOUR_BALL), is(10));
+        assertThat(InventoryManager.getCount(ItemPool.FIVE_BALL), is(10));
+      }
+    }
+
+    @Test
+    public void itShouldSkipMissingItems() {
+      // storage.php?action=pull&ajax=1&whichitem1=1906&howmany1=10&whichitem2=1913&howmany2=1&whichitem3=1907&howmany3=10&pwd
+      //    <b>7-ball (10)</b> moved from storage to inventory.<br />
+      //    You haven't got any of that item in your storage.
+      // test_pull_missing_item.html
+
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withNoItems(),
+              withItemInStorage(ItemPool.SEVEN_BALL, 12),
+              withItemInStorage(ItemPool.EIGHT_BALL, 10));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_pull_missing_item.html"));
+
+        StringBuilder buf = new StringBuilder("storage.php?action=pull&ajax=1");
+        addItem(buf, 1, ItemPool.SEVEN_BALL, 10);
+        addItem(buf, 2, ItemPool.CLOCKWORK_HANDLE, 1);
+        addItem(buf, 3, ItemPool.EIGHT_BALL, 10);
+
+        var url = buf.toString();
+        var request = new GenericRequest(url);
+        request.run();
+
+        assertThat(InventoryManager.getCount(ItemPool.SEVEN_BALL), is(10));
+        assertThat(InventoryManager.getCount(ItemPool.CLOCKWORK_HANDLE), is(0));
+        assertThat(InventoryManager.getCount(ItemPool.EIGHT_BALL), is(0));
+      }
+    }
   }
 }
