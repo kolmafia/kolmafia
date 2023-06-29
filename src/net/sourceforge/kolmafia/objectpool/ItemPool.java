@@ -556,10 +556,13 @@ public class ItemPool {
   public static final int DUSTY_ANIMAL_SKULL = 1799;
   public static final int ONE_BALL = 1900;
   public static final int TWO_BALL = 1901;
+  public static final int THREE_BALL = 1902;
+  public static final int FOUR_BALL = 1903;
   public static final int FIVE_BALL = 1904;
   public static final int SIX_BALL = 1905;
   public static final int SEVEN_BALL = 1906;
   public static final int EIGHT_BALL = 1907;
+  public static final int CLOCKWORK_HANDLE = 1913;
   public static final int SPOOKYRAVEN_SPECTACLES = 1916;
   public static final int ENGLISH_TO_A_F_U_E_DICTIONARY = 1919;
   public static final int BIZARRE_ILLEGIBLE_SHEET_MUSIC = 1920;
