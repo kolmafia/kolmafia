@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -75,9 +77,7 @@ public class BreakfastManager {
         ItemPool.get(ItemPool.TOASTER, 1),
         ItemPool.get(ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA, 11),
         ItemPool.get(ItemPool.CSA_FIRE_STARTING_KIT, 1),
-        ItemPool.get(ItemPool.PUMP_UP_HIGH_TOPS, 1),
-        ItemPool.get(ItemPool.PUMP_UP_HIGH_TOPS, 1), // You can pump them more than once
-        ItemPool.get(ItemPool.PUMP_UP_HIGH_TOPS, 1), // Three times in fact
+        ItemPool.get(ItemPool.PUMP_UP_HIGH_TOPS, 3), // You can pump them three times per day
         ItemPool.get(ItemPool.ETCHED_HOURGLASS, 1),
         ItemPool.get(ItemPool.GLITCH_ITEM, 1),
         ItemPool.get(ItemPool.SUBSCRIPTION_COCOA_DISPENSER, 1),
@@ -210,7 +210,7 @@ public class BreakfastManager {
     }
   }
 
-  private static void useToys() {
+  static void useToys() {
     if (!Preferences.getBoolean(
         "useCrimboToys" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
       return;
@@ -222,6 +222,9 @@ public class BreakfastManager {
     List<AdventureResult> closetItems = useCloset ? new ArrayList<>() : null;
     List<AdventureResult> storageItems = useStorage ? new ArrayList<>() : null;
     ArrayList<UseItemRequest> requests = new ArrayList<>();
+
+    // Unique items to transfer
+    Set<Integer> itemIds = new HashSet<>();
 
     for (AdventureResult toy : toys) {
       int itemId = toy.getItemId();
@@ -249,39 +252,54 @@ public class BreakfastManager {
       }
 
       // If we run this more than once, we may have used up the maximum uses
-      int usable = UseItemRequest.maximumUses(toy.getItemId());
-      int needed = Math.min(toy.getCount(), usable);
-      int available = 0;
-      int count;
-
-      if ((count = toy.getCount(KoLConstants.inventory)) > 0) {
-        // Use from inventory
-        available += Math.min(count, needed);
-      }
-
-      if (useCloset && (available < needed) && (count = toy.getCount(KoLConstants.closet)) > 0) {
-        // Remove from closet
-        int take = Math.min(count, needed - available);
-        closetItems.add(toy.getInstance(take));
-        available += take;
-      }
-
-      if (useStorage && (available < needed) && (count = toy.getCount(KoLConstants.storage)) > 0) {
-        // Pull from storage
-        int take = Math.min(count, needed - available);
-        storageItems.add(toy.getInstance(take));
-        available += take;
-      }
-
-      // If we have none, skip this toy.
-      if (available == 0) {
+      int usable = UseItemRequest.maximumUses(itemId);
+      if (usable == 0) {
         continue;
       }
 
-      // It's OK if we don't have as many as we'd like
+      // Assumptions:
+      // - toys are not consumed on use.
+      // - if a toy can be used multiple times per day, you only need one.
+      // - toys must be used from inventory
+      // Conclusions:
+      // - we need at most one "transfer" request to put a toy into inventory
+      // - we (might) need more than one "use" request to use up daily uses
 
-      // Make a request to use the toy
-      requests.add(UseItemRequest.getInstance(toy.getInstance(available)));
+      if (!itemIds.contains(itemId)) {
+        boolean needed = true;
+
+        if (toy.getCount(KoLConstants.inventory) > 0) {
+          // Use from inventory
+          needed = false;
+        }
+
+        if (needed && useCloset && toy.getCount(KoLConstants.closet) > 0) {
+          // Remove from closet
+          closetItems.add(toy.getInstance(1));
+          needed = false;
+        }
+
+        if (needed && useStorage && toy.getCount(KoLConstants.storage) > 0) {
+          // Pull from storage
+          storageItems.add(toy.getInstance(1));
+          needed = false;
+        }
+
+        // If we have none, skip this toy.
+        if (needed) {
+          continue;
+        }
+
+        // Remember that we (will) have this item in inventory so that
+        // we don't try to retrieve another one
+        itemIds.add(itemId);
+      }
+
+      // Queue requests to use the toy the specified number of times
+      while (usable-- > 0) {
+        var request = UseItemRequest.getInstance(toy.getInstance(1));
+        requests.add(request);
+      }
     }
 
     // If nothing to do, do nothing!
