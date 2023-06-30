@@ -8694,7 +8694,7 @@ Synergy	stuffed carpenter/stuffed walrus	HP Regen Min: 5, HP Regen Max: 5, MP Re
 # in this file, even if their modifiers are just "none"; the mutex itself
 # should also specify "none" since its modifiers aren't actually used.
 
-MutexI	V for Vivala mask/Juju Mojo Mask	none
+MutexI	V for Vivala mask/Juju Mojo Mask/replica V for Vivala mask/replica Juju Mojo Mask	none
 MutexI	shining halo/furry halo/frosty halo/time halo	none
 MutexI	work boots/fancy boots	none
 MutexI	booze drive button/candy drive button/food drive button	none
