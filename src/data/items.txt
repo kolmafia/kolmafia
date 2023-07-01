@@ -11329,3 +11329,4 @@
 11301	claw-held flag	498722729	flag2.gif	familiar	t,d	10
 11302
 11303	name change form	541643472	namechange.gif	usable	t	0
+11304	replica sleeping patriotic eagle	552435162	pateagle_sleep.gif	grow	t	0

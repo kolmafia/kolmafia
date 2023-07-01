@@ -365,6 +365,7 @@ public class FamiliarDatabase {
         case ItemPool.REPLICA_GOD_LOBSTER -> familiarId = FamiliarPool.GOD_LOBSTER;
         case ItemPool.REPLICA_CAMELCALF -> familiarId = FamiliarPool.MELODRAMEDARY;
         case ItemPool.REPLICA_GREY_GOSLING -> familiarId = FamiliarPool.GREY_GOOSE;
+        case ItemPool.REPLICA_PATRIOTIC_EAGLE -> familiarId = FamiliarPool.PATRIOTIC_EAGLE;
       }
     }
     return familiarId == null ? null : new FamiliarData(familiarId.intValue());
