@@ -735,6 +735,7 @@ public class KoLmafiaCLI {
     new PandaCommand().register("panda");
     new PastaThrallCommand().register("thralls");
     new PillKeeperCommand().register("pillkeeper");
+    new PingCommand().register("ping");
     new PingPongCommand().register("pingpong");
     new PirateInsultsCommand().register("insults");
     new PlayerSnapshotCommand().register("log");
