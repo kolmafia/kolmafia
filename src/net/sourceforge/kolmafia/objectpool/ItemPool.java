@@ -3653,6 +3653,7 @@ public class ItemPool {
   public static final int LOATHING_IDOL_MICROPHONE_50 = 11278;
   public static final int LOATHING_IDOL_MICROPHONE_25 = 11279;
   public static final int REPLICA_MR_STORE_2002_CATALOG = 11280;
+  public static final int REPLICA_PATRIOTIC_EAGLE = 11304;
 
   private ItemPool() {}
 

@@ -105,7 +105,8 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
           Map.entry(ItemPool.REPLICA_DESIGNER_SWEATPANTS, 2022),
           Map.entry(ItemPool.REPLICA_JURASSIC_PARKA, 2022),
           Map.entry(ItemPool.REPLICA_CINCHO_DE_MAYO, 2023),
-          Map.entry(ItemPool.REPLICA_MR_STORE_2002_CATALOG, 2023));
+          Map.entry(ItemPool.REPLICA_MR_STORE_2002_CATALOG, 2023),
+          Map.entry(ItemPool.REPLICA_PATRIOTIC_EAGLE, 2023));
 
   private static final Set<Integer> freeYears = Set.of(2023);
 
