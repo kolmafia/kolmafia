@@ -2819,5 +2819,6 @@
 2819
 2820
 2821
-2822
+2822	Citizen of a Zone	flag1.gif	9391a5f7577e30ac3af6309804da6944	neutral	none
 2823	Nothing Really Matters	shadowmonocle.gif	e6924ac8aa3314bf0d41a8cf764cbaf9	neutral	none	use 1 shadow candy
+2824	Everything Looks Red, White and Blue	flag2.gif	e213a3ca5c80b0b5f894d4943a9ecc86	neutral	none
