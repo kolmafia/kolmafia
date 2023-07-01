@@ -5466,6 +5466,10 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setBoolean("_victorSpoilsUsed", true);
         break;
 
+      case ItemPool.CAN_OF_MINIONS_BE_GONE:
+        Preferences.increment("_villainLairProgress", 5);
+        break;
+
       case ItemPool.CORNUCOPIA:
         Preferences.increment("cornucopiasOpened", count);
         break;
