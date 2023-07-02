@@ -918,4 +918,43 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               """));
     }
   }
+
+  @Nested
+  class PledgeAllegiance {
+    @Test
+    void pledgeAllegiance() {
+      String input = "$location[Noob Cave].pledge_allegiance";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+          Returned: Item Drop: 30, Spooky Damage: 10, Spooky Spell Damage: 10, Muscle: 10
+          """));
+    }
+
+    @Test
+    void pledgeAllegianceComplex() {
+      String input = "$location[Hobopolis Town Square].pledge_allegiance";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+          Returned: Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15, Moxie Percent: 10
+          """));
+    }
+
+    @Test
+    void pledgeAllegianceResistance() {
+      String input = "$location[Outskirts of Camp Logging Camp].pledge_allegiance";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+          Returned: Meat Drop: 25, Hot Resistance: 2, Cold Resistance: 2, Spooky Resistance: 2, Stench Resistance: 2, Sleaze Resistance: 2, Cold Damage: 10, Cold Spell Damage: 10
+          """));
+    }
+  }
 }
