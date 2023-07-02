@@ -6,7 +6,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PingCommand extends AbstractCommand {
   public PingCommand() {
-    this.usage = "[count] - run a ping test with specified number of pings)";
+    this.usage = "[count [verbose]] - run a ping test with specified number of pings)";
   }
 
   @Override

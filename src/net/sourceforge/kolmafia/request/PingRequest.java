@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.GregorianCalendar;
-
 public class PingRequest extends GenericRequest {
 
   private String pingURL = "";
@@ -31,18 +29,18 @@ public class PingRequest extends GenericRequest {
   @Override
   public void run() {
     // You can reuse this request.
-    this.startTime = this.endTime = 0;
+    this.startTime = this.endTime = 0L;
 
     // If we know we will be redirected, punt
     if (!isSafeToRun()) {
       return;
     }
 
-    this.startTime = new GregorianCalendar().getTimeInMillis();
+    this.startTime = System.currentTimeMillis();
     super.run();
     // *** check if we were redirected
     // *** check if we got a responseText; If not, timed out?
-    this.endTime = new GregorianCalendar().getTimeInMillis();
+    this.endTime = System.currentTimeMillis();
   }
 
   @Override

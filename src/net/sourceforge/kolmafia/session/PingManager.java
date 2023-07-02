@@ -18,12 +18,9 @@ public class PingManager {
     private long low = 0L;
     private long high = 0L;
 
-    public PingTest() {
-      this.pings.clear();
-    }
+    public PingTest() {}
 
     public PingTest(long count, long total, long low, long high) {
-      this.pings.clear();
       this.count = count;
       this.total = total;
       this.low = low;
