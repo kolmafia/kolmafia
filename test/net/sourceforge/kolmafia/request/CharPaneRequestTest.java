@@ -39,17 +39,27 @@ class CharPaneRequestTest {
     var cleanups = new Cleanups();
 
     try (cleanups) {
-      CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
-      var snowCharacterAvatar = KoLCharacter.getAvatar();
-      assertTrue(
-          snowCharacterAvatar.contains("itemimages/snowface5.gif"), "fails on no crossorigin");
-
       CharPaneRequest.processResults(html("request/test_charpane_sauce.html"));
       var sauceCharacterAvatar = KoLCharacter.getAvatar();
       assertTrue(
-          sauceCharacterAvatar.contains("otherimages/classav4a.gif"), "fails with crossorigin");
+           sauceCharacterAvatar.contains("otherimages/classav4a.gif"), "fails with crossorigin");
+
     }
   }
+
+  @Test
+  void canFindAvatarWithouyCrossorigin() {
+    var cleanups = new Cleanups();
+
+    try (cleanups) {
+      CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
+
+      var snowCharacterAvatar = KoLCharacter.getAvatar();
+      assertTrue(
+           snowCharacterAvatar.contains("itemimages/snowface5.gif"), "fails on no crossorigin");
+        }
+  }
+
 
   @Test
   void canParseSnowsuit() {
