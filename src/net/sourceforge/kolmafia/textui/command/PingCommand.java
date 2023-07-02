@@ -31,9 +31,17 @@ public class PingCommand extends AbstractCommand {
     RequestLogger.printLine(
         result.getCount()
             + " pings in "
+            + result.getLow()
+            + "-"
+            + result.getHigh()
+            + " (total = "
             + result.getTotal()
-            + " msec (average = "
+            + ") msec (average = "
             + result.getAverage()
             + ")");
+
+    if (count >= 10) {
+      result.save();
+    }
   }
 }
