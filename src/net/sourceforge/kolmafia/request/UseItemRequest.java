@@ -6103,6 +6103,10 @@ public class UseItemRequest extends GenericRequest {
         }
         return;
 
+      case ItemPool.REPLICA_SOURCE_TERMINAL:
+        CampgroundRequest.setCampgroundItem(ItemPool.SOURCE_TERMINAL, 1);
+        break;
+
       case ItemPool.REPLICA_WITCHESS_SET:
         Preferences.setBoolean("replicaWitchessSetAvailable", true);
         break;
