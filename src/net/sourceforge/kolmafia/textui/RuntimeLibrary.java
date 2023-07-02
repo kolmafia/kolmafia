@@ -2821,9 +2821,6 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
-
-    params = new Type[] {DataTypes.LOCATION_TYPE};
-    functions.add(new LibraryFunction("pledge_allegiance_effect", DataTypes.STRING_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -10090,37 +10087,5 @@ public abstract class RuntimeLibrary {
     var req = new MonkeyPawRequest(wish);
     RequestThread.postRequest(req);
     return req.responseText != null && !req.responseText.contains("impossible");
-  }
-
-  public static Value pledge_allegiance_effect(ScriptRuntime controller, final Value arg) {
-    KoLAdventure adventure = (KoLAdventure) arg.rawValue();
-    var id = adventure.getAdventureNumber();
-    var mod = id % 10;
-    var strEffect =
-        switch (id % 10) {
-          case 0 -> "Item Drop: 30, Spooky Damage: 10, Spooky Spell Damage: 10";
-          case 1 -> "Item Drop: 15, Meat Drop: 25, Stench Damage: 10, Stench Spell Damage: 10";
-          case 2 -> "Meat Drop: 50, Hot Damage: 10, Hot Spell Damage: 10";
-          case 3 -> "Meat Drop: 25, All Resistance: 2, Cold Damage: 10, Cold Spell Damage: 10";
-          case 4 -> "All Resistance: 4, Sleaze Damage: 10, Sleaze Spell Damage: 10";
-          case 5 -> "All Resistance: 2, Spooky Damage: 10, Spooky Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
-          case 6 -> "Stench Damage: 10, Stench Spell Damage: 10, MP Regen Min: 20, MP Regen Max: 30";
-          case 7 -> "Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
-          case 8 -> "Initiative: 100, Cold Damage: 10, Cold Spell Damage: 10";
-          case 9 -> "Item Drop: 15, Initiative: 50, Sleaze Damage: 10, Sleaze Spell Damage: 10";
-          default -> throw new IllegalStateException("Unexpected value: " + mod);
-        };
-    var statEffect =
-        switch (id % 9) {
-          case 0, 7, 8 -> "";
-          case 1 -> ", Mysticality: 10";
-          case 2 -> ", Moxie: 10";
-          case 3 -> ", Muscle Percent: 10";
-          case 4 -> ", Mysticality Percent: 10";
-          case 5 -> ", Moxie Percent: 10";
-          case 6 -> ", Muscle: 10";
-          default -> throw new IllegalStateException("Unexpected value: " + mod);
-        };
-    return DataTypes.makeStringValue(strEffect + statEffect);
   }
 }
