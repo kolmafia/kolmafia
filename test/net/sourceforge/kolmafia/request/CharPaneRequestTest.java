@@ -42,8 +42,7 @@ class CharPaneRequestTest {
       CharPaneRequest.processResults(html("request/test_charpane_sauce.html"));
       var sauceCharacterAvatar = KoLCharacter.getAvatar();
       assertTrue(
-           sauceCharacterAvatar.contains("otherimages/classav4a.gif"), "fails with crossorigin");
-
+          sauceCharacterAvatar.contains("otherimages/classav4a.gif"), "fails with crossorigin");
     }
   }
 
@@ -56,10 +55,9 @@ class CharPaneRequestTest {
 
       var snowCharacterAvatar = KoLCharacter.getAvatar();
       assertTrue(
-           snowCharacterAvatar.contains("itemimages/snowface5.gif"), "fails on no crossorigin");
-        }
+          snowCharacterAvatar.contains("itemimages/snowface5.gif"), "fails on no crossorigin");
+    }
   }
-
 
   @Test
   void canParseSnowsuit() {
