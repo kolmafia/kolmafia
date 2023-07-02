@@ -8,9 +8,12 @@ public class PingRequest extends GenericRequest {
 
   // main.php will redirect if we are in a fight or choice.
   // api.php will redirect to afterlife.php in Valhalla.
+  //
+  // api.php's responseText is about 1/4 the size of main.php's - and
+  // measured ping time is about 1/4 as long.
 
   public PingRequest() {
-    this("main.php");
+    this("api.php");
   }
 
   public PingRequest(String pingURL) {
