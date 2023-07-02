@@ -843,8 +843,8 @@
 7289	Micrometeorite	micrometeor.gif	5	0	0
 7290	Macrometeorite	macrometeor.gif	5	0	0
 7291	Meteor Shower	meteorshower.gif	5	0	0
-7292	A New Habit		5	0	0
-7293	Hugs and Kisses!		5	0	0
+7292	A New Habit	bigdumbbell.gif	5	0	0
+7293	Hugs and Kisses!	2hearts.gif	5	0	0
 7294	Show them your ring	mafiaring3.gif	5	13	0
 7295	Unleash Disco Pudge	gabgirdle.gif	5	0	0
 7296
@@ -901,7 +901,7 @@
 7351	Unleash the Devil's Kiss	lips.gif	5	0	0
 7353	Deploy Robo-Handcuffs	handcuffs.gif	5	0	0
 7355	Blow a Robo-Kiss	lips.gif	5	0	0
-7356	Precision Shot		5	0	0
+7356	Precision Shot	reticle.gif	5	0	0
 7357	Feel Pride	emochip9.gif	5	0	0
 7358	Feel Excitement	emochip1.gif	3	0	20
 7359	Feel Hatred	emochip8.gif	5	0	0
@@ -967,7 +967,7 @@
 7419	Drench Yourself in Sweat	sebashield.gif	3	0	5
 7420	Sip Some Sweat	waterglass.gif	2	0	0
 7421	Sweat Sip	waterglass.gif	5	0	0
-7422	Snipe Pterodactyl		5	0	0
+7422	Snipe Pterodactyl	mercrifle.gif	5	0	0
 7423	Spit jurassic acid	jparka3.gif	5	0	0
 7424	Launch spikolodon spikes	jparka2.gif	5	0	0
 7425	Engage ultra-attractive parka mode	jparka7.gif	5	0	0
@@ -984,16 +984,19 @@
 7436	Monkey Peace Sign	monkeypaw3.gif	5	0	0
 7437	Monkey Point	monkeypaw4.gif	5	0	0
 7438	Monkey Punch	monkeypaw5.gif	5	0	0
-7439	Cincho: Dispense Salt and Lime		3	0	0
-7440	Cincho: Party Soundtrack		3	0	0
-7441	Cincho: Fiesta Exit		3	0	0
-7442	Cincho: Projectile Piñata		5	0	0
-7443	Cincho: Party Foul		5	0	0
-7444	Cincho: Confetti Extravaganza		5	0	0
+7439	Cincho: Dispense Salt and Lime	cincholime.gif	3	0	0
+7440	Cincho: Party Soundtrack	cinchomusic.gif	3	0	0
+7441	Cincho: Fiesta Exit	cinchoexit.gif	3	0	0
+7442	Cincho: Projectile Piñata	cinchocandy.gif	5	0	0
+7443	Cincho: Party Foul	cinchoswear.gif	5	0	0
+7444	Cincho: Confetti Extravaganza	cinchoconfetti.gif	5	0	0
 7445	Do a Kickflip	loop.gif	5	0	0
 7446	Do a Method!	2002skateboard.gif	5	0	0
 7447	Do an epic McTwist!	vortex.gif	5	0	0
 7448	Douse Foe	2002fludd.gif	5	0	0
+7449	%fn, let's pledge allegiance to a Zone	flag1.gif	5	0	0
+7450	%fn, fire a Red, White and Blue Blast	flag2.gif	5	0	0
+7451	%fn, Release the Patriotic Screech!	pateagle_sleep.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

@@ -4246,6 +4246,7 @@ Item	chocolate bowtie	Familiar Weight: +5
 Item	chocolate leash	Familiar Weight: +10
 Item	chocolate spurs	Familiar Weight: +5
 Item	chocolate-stained collar	Candy Drop: +25, Generic
+Item	claw-held flag	Familiar Weight: +5
 Item	cookbookbat book	Familiar Weight: +5
 Item	cotton candy cordial	Familiar Weight: +5
 Item	cracker	Familiar Weight: +15
@@ -8694,7 +8695,7 @@ Synergy	stuffed carpenter/stuffed walrus	HP Regen Min: 5, HP Regen Max: 5, MP Re
 # in this file, even if their modifiers are just "none"; the mutex itself
 # should also specify "none" since its modifiers aren't actually used.
 
-MutexI	V for Vivala mask/Juju Mojo Mask	none
+MutexI	V for Vivala mask/Juju Mojo Mask/replica V for Vivala mask/replica Juju Mojo Mask	none
 MutexI	shining halo/furry halo/frosty halo/time halo	none
 MutexI	work boots/fancy boots	none
 MutexI	booze drive button/candy drive button/food drive button	none
@@ -12028,6 +12029,7 @@ Item	sinistral homunculus	Free Pull
 Item	slap and slap again recipe	Recipe: "slap and slap again"
 # sleaze clusterbomb: Deals <font color=blueviolet>Sleaze Damage</font> based on your highest stat
 # sleaze clusterbomb: (more effective against groups)
+Item	sleeping patriotic eagle	Free Pull
 Item	sleeping piano cat	Free Pull
 # slime stack: Deals 10-20% of a monster's current Hit Points in Physical Damage
 # slime stack: Weakens the monster by 10%

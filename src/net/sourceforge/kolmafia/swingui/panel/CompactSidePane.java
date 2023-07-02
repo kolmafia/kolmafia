@@ -397,8 +397,7 @@ public class CompactSidePane extends JPanel implements Runnable {
             c.gridy++;
           }
 
-          famPopup.add(new FamiliarMenuItem(fam), c);
-          continue;
+          famPopup.add(new FamiliarMenuItem(fam, true), c);
         }
 
         int id = fam.getId();
@@ -647,9 +646,13 @@ public class CompactSidePane extends JPanel implements Runnable {
 
   private static class FamiliarMenuItem extends ThreadedMenuItem {
     public FamiliarMenuItem(final FamiliarData fam) {
+      this(fam, false);
+    }
+
+    public FamiliarMenuItem(final FamiliarData fam, boolean iconVersion) {
       super(fam.getRace(), new FamiliarListener(fam));
 
-      if (fam.getFavorite()) {
+      if (iconVersion) {
         ImageIcon icon = FamiliarDatabase.getFamiliarImage(fam.getId());
         this.setIcon(icon);
         this.setText("");
