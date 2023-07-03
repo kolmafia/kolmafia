@@ -97,6 +97,10 @@ global	macroLens	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
 global	pingLatest
+global	pingLogin	true
+global	pingLoginCheck	threshold
+global	pingLoginGoal	0
+global	pingLoginThreshold	0.2
 global	pingLongest
 global	pingShortest
 global	previousNotifyList	<>

@@ -307,6 +307,21 @@ public class InputFieldUtilities {
     return defaultValue;
   }
 
+  /**
+   * Utility method which retrieves a float value from the given field. In the event that the field
+   * does not contain an integer value, the default value provided will be returned instead.
+   */
+  public static final double getValue(final JTextField field, final double defaultValue) {
+    String currentValue = field.getText();
+
+    if (currentValue == null || currentValue.length() == 0 || currentValue.equals("*")) {
+      return defaultValue;
+    }
+
+    double result = StringUtilities.parseDouble(currentValue);
+    return result == 0 ? defaultValue : result;
+  }
+
   public static final Integer getQuantity(final String title, final int maximumValue) {
     return InputFieldUtilities.getQuantity(title, maximumValue, maximumValue);
   }

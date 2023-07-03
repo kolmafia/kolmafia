@@ -153,6 +153,11 @@ public class PingManager {
     }
   }
 
+  public static PingTest runPingTest() {
+    // Run a ping test that qualifies to be saved in ping history.
+    return runPingTest(MINIMUM_HISTORY_PINGS, DEFAULT_PAGE, false);
+  }
+
   public static PingTest runPingTest(int count, String page, boolean verbose) {
     PingTest result = new PingTest(page);
 
