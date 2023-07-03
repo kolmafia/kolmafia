@@ -26,12 +26,15 @@ import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
+import net.sourceforge.kolmafia.session.PingManager.PingTest;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class LoginManager {
 
@@ -40,6 +43,89 @@ public class LoginManager {
   private static boolean svnLoginUpdateNotFinished = true;
 
   private LoginManager() {}
+
+  public static boolean ping() {
+    // Optionally run a ping test and check connection speed.
+    // Return true if the connection is acceptable.
+
+    // If user does not want to measure ping speed, good enough
+    if (!Preferences.getBoolean("pingLogin")) {
+      return true;
+    }
+
+    // The user wants to measure ping speed.
+    var result = PingManager.runPingTest();
+    KoLmafia.updateDisplay("Ping test: average delay is " + result.getAverage() + " msecs.");
+
+    // See whether user wants to check ping speed.
+    long average = result.getAverage();
+    String error = "";
+    switch (Preferences.getString("pingLoginCheck")) {
+      case "goal" -> {
+        // The user has set a specific goal, presumably based on observation.
+        int goal = Preferences.getInteger("pingLoginGoal");
+        if (goal > 0) {
+          if (average <= goal) {
+            return true;
+          }
+          error = "you want no more than " + String.valueOf(goal) + " msec";
+        }
+        // Either no goal is set or this connection is too slow.
+        // Alert the user.
+      }
+      case "threshold" -> {
+        // The user wants to be "close" to the best ping seen.
+        // Get the shortest ping test time we've seen. If the ping test we
+        // just ran is the first, that will be it.
+        double threshold = 1.0 + Preferences.getFloat("pingLoginGood");
+        var shortest = PingTest.parseProperty("pingShortest");
+        long desired = (long) Math.floor(shortest.getAverage() * threshold);
+        if (average <= desired) {
+          return true;
+        }
+        // Either no threshold is set or this connection is too slow.
+        error = "you want no more than " + String.valueOf(desired) + " msec";
+        // Alert the user.
+      }
+      default -> {
+        // The user is happy with any connection
+        return true;
+      }
+    }
+
+    // InputFieldUtilities.confirm works either headless or with a Swing dialog
+
+    StringBuilder buf = new StringBuilder();
+    buf.append("This connection has an average ping time of ");
+    buf.append(String.valueOf(average));
+    buf.append(" msec");
+    if (!error.equals("")) {
+      buf.append(", but ");
+      buf.append(error);
+    }
+    buf.append(".");
+    buf.append(" Press 'Yes' if you are satisfied with the current connection.");
+    buf.append(" Press 'No' to log out and back in to try for a better connection.");
+    buf.append(" Press 'Cancel' to simply log out.");
+
+    Boolean confirmed = InputFieldUtilities.yesNoCancelDialog(buf.toString());
+
+    // If the user canceled, log out
+    if (confirmed == null) {
+      RequestThread.postRequest(new LogoutRequest());
+      return false;
+    }
+
+    // If the user said "Yes", accept it.
+    if (confirmed) {
+      return true;
+    }
+
+    // The user finds the ping time unacceptable.
+    RequestThread.postRequest(new LogoutRequest());
+    LoginRequest.relogin();
+    return false;
+  }
 
   public static void login(String username) {
     try {

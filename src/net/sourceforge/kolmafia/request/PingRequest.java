@@ -23,8 +23,9 @@ public class PingRequest extends GenericRequest {
 
   private boolean isSafeToRun() {
     return switch (this.pingURL) {
-      case "main.php" -> !GenericRequest.abortIfInFightOrChoice(true);
+      case "main.php", "council.php" -> !GenericRequest.abortIfInFightOrChoice(true);
       case "api.php" -> true;
+      case "afterlife.php" -> true;
       default -> false;
     };
   }
@@ -43,10 +44,18 @@ public class PingRequest extends GenericRequest {
     super.run();
 
     // We can get redirected if we are logged out or in Valhalla
-    if (this.redirectLocation == null) {}
+    if (this.redirectLocation != null) {
+      this.constructURLString(this.redirectLocation, false);
+      this.startTime = System.currentTimeMillis();
+      this.pingURL = this.redirectLocation;
+      super.run();
+    }
 
     // We can have an empty responseText on a timeout or I/O error
-    if (this.responseText == null) {}
+    if (this.responseText == null) {
+      // leave endTime at 0
+      return;
+    }
 
     this.endTime = System.currentTimeMillis();
   }

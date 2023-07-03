@@ -104,8 +104,8 @@ public class LoginRequest extends GenericRequest {
       return;
     }
 
-    // Too many login attempts in too short a span of time.	 Please
-    // wait a minute (Literally, like, one minute.	Sixty seconds.)
+    // Too many login attempts in too short a span of time. Please
+    // wait a minute (Literally, like, one minute. Sixty seconds.)
     // and try again.
 
     // Whoops -- it looks like you had a recent session open that
@@ -165,6 +165,16 @@ public class LoginRequest extends GenericRequest {
     return LoginRequest.completedLogin;
   }
 
+  public static final boolean relogin() {
+    if (LoginRequest.lastRequest == null) {
+      return false;
+    }
+
+    RequestThread.postRequest(LoginRequest.lastRequest);
+
+    return LoginRequest.completedLogin;
+  }
+
   public static final void isLoggingIn(final boolean isLoggingIn) {
     LoginRequest.isLoggingIn = isLoggingIn;
   }
@@ -199,6 +209,13 @@ public class LoginRequest extends GenericRequest {
     }
 
     if (name.contains("..")) {
+      return;
+    }
+
+    // Optionally do a ping and check the connection.
+    // Returns true if it is acceptable.
+    if (!LoginManager.ping()) {
+      // LoginManager logged out and may have logged in again.
       return;
     }
 

@@ -8,7 +8,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PingCommand extends AbstractCommand {
   public PingCommand() {
-    this.usage = " [count [(api|main) [verbose]]] - run a ping test with specified number of pings";
+    this.usage =
+        " [count [(api|council|main) [verbose]]] - run a ping test with specified number of pings";
   }
 
   @Override
@@ -26,7 +27,7 @@ public class PingCommand extends AbstractCommand {
       }
       if (split.length > 1) {
         switch (split[1]) {
-          case "api", "main" -> {
+          case "api", "council", "main" -> {
             page = split[1] + ".php";
           }
           default -> {
