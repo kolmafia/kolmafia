@@ -41,8 +41,13 @@ public class PingRequest extends GenericRequest {
 
     this.startTime = System.currentTimeMillis();
     super.run();
-    // *** check if we were redirected
-    // *** check if we got a responseText; If not, timed out?
+
+    // We can get redirected if we are logged out or in Valhalla
+    if (this.redirectLocation == null) {}
+
+    // We can have an empty responseText on a timeout or I/O error
+    if (this.responseText == null) {}
+
     this.endTime = System.currentTimeMillis();
   }
 
