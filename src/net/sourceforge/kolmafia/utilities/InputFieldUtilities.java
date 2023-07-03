@@ -67,6 +67,33 @@ public class InputFieldUtilities {
             JOptionPane.YES_NO_OPTION);
   }
 
+  public static final Boolean yesNoCancelDialog(final String message) {
+    if (StaticEntity.isHeadless()) {
+      RequestLogger.printLine(message);
+      RequestLogger.printLine("(Y/N, leave blank to cancel)");
+
+      String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
+      String option = reply.trim().toLowerCase();
+      return switch (option) {
+        case "y" -> true;
+        case "n" -> false;
+        default -> null;
+      };
+    }
+
+    var result =
+        JOptionPane.showConfirmDialog(
+            InputFieldUtilities.activeWindow,
+            StringUtilities.basicTextWrap(message),
+            "",
+            JOptionPane.YES_NO_CANCEL_OPTION);
+    return switch (result) {
+      case JOptionPane.YES_OPTION -> true;
+      case JOptionPane.NO_OPTION -> false;
+      default -> null;
+    };
+  }
+
   public static final String input(final String message) {
     if (StaticEntity.isHeadless()) {
       RequestLogger.printLine(message);

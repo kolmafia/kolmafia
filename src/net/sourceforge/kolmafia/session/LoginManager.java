@@ -106,8 +106,18 @@ public class LoginManager {
     buf.append(".");
     buf.append(" Press 'Yes' if you are satisfied with the current connection.");
     buf.append(" Press 'No' to log out and back in to try for a better connection.");
+    buf.append(" Press 'Cancel' to simply log out.");
 
-    if (InputFieldUtilities.confirm(buf.toString())) {
+    Boolean confirmed = InputFieldUtilities.yesNoCancelDialog(buf.toString());
+
+    // If the user canceled, log out
+    if (confirmed == null) {
+      RequestThread.postRequest(new LogoutRequest());
+      return false;
+    }
+
+    // If the user said "Yes", accept it.
+    if (confirmed) {
       return true;
     }
 
