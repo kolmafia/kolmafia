@@ -8,14 +8,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PingCommand extends AbstractCommand {
   public PingCommand() {
-    this.usage = "[count [page [verbose]]] - run a ping test with specified number of pings)";
+    this.usage = " [count [(api|main) [verbose]]] - run a ping test with specified number of pings";
   }
 
   @Override
   public void run(final String cmd, String parameters) {
     parameters = parameters.trim();
     int count = PingManager.MINIMUM_HISTORY_PINGS;
-    ;
     String page = PingManager.DEFAULT_PAGE;
     boolean verbose = false;
 
@@ -43,8 +42,6 @@ public class PingCommand extends AbstractCommand {
     }
 
     var result = PingManager.runPingTest(count, page, verbose);
-
-    var bps = (result.getBytes() * 1000) / result.getTotal();
     RequestLogger.printLine(
         result.getCount()
             + " pings at "
@@ -56,7 +53,7 @@ public class PingCommand extends AbstractCommand {
             + ", average = "
             + result.getAverage()
             + ") = "
-            + bps
+            + result.getBPS()
             + " bytes/second");
 
     result.save();

@@ -85,6 +85,10 @@ public class PingManager {
       return this.count == 0 ? 0 : this.total / this.count;
     }
 
+    public long getBPS() {
+      return this.total == 0 ? 0 : (this.bytes * 1000) / this.total;
+    }
+
     public String toString() {
       StringBuilder buf = new StringBuilder();
       buf.append(this.page);
