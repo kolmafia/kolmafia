@@ -96,6 +96,9 @@ global	macroDebug	false
 global	macroLens	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
+global	pingLatest
+global	pingLongest
+global	pingShortest
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
