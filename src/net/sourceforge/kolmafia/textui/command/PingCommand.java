@@ -44,7 +44,9 @@ public class PingCommand extends AbstractCommand {
     var result = PingManager.runPingTest(count, page, verbose);
     RequestLogger.printLine(
         result.getCount()
-            + " pings at "
+            + " pings to "
+            + page
+            + " at "
             + result.getLow()
             + "-"
             + result.getHigh()
@@ -55,7 +57,5 @@ public class PingCommand extends AbstractCommand {
             + ") = "
             + result.getBPS()
             + " bytes/second");
-
-    result.save();
   }
 }

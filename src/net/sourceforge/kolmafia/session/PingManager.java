@@ -170,6 +170,9 @@ public class PingManager {
       }
     }
 
+    // Save in appropriate properties
+    result.save();
+
     return result;
   }
 }
