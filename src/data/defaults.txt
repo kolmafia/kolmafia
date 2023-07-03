@@ -98,7 +98,7 @@ global	mementoListActive	false
 global	mergeHobopolisChat	false
 global	pingLatest
 global	pingLogin	true
-global	pingLoginCheck	threshold
+global	pingLoginCheck	none
 global	pingLoginGoal	0
 global	pingLoginThreshold	0.2
 global	pingLongest
