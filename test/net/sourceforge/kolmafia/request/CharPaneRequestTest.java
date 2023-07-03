@@ -9,6 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -31,6 +32,23 @@ class CharPaneRequestTest {
     Preferences.reset("CharPaneRequestTest");
     KoLCharacter.setCurrentRun(0);
     CharPaneRequest.reset();
+  }
+
+  @Test
+  void canFindAvatarWithCrossorigin() {
+    KoLCharacter.setAvatar("");
+    CharPaneRequest.processResults(html("request/test_charpane_sauce.html"));
+    var sauceCharacterAvatar = KoLCharacter.getAvatar();
+    assertTrue(
+        sauceCharacterAvatar.contains("otherimages/classav4a.gif"), "fails with crossorigin");
+  }
+
+  @Test
+  void canFindAvatarWithouyCrossorigin() {
+    KoLCharacter.setAvatar("");
+    CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
+    var snowCharacterAvatar = KoLCharacter.getAvatar();
+    assertTrue(snowCharacterAvatar.contains("itemimages/snowface5.gif"), "fails on no crossorigin");
   }
 
   @Test
