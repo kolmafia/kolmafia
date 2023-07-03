@@ -398,7 +398,8 @@ public class LoginFrame extends GenericFrame {
       this.queue(
           new PreferenceButtonGroup(
               "pingLoginCheck", "Login ping check type: ", true, "none", "goal", "threshold"));
-      this.queue(new PreferenceIntegerTextField("pingLoginGoal", 0, "Maximum average measured lag"));
+      this.queue(
+          new PreferenceIntegerTextField("pingLoginGoal", 0, "Maximum average measured lag"));
       this.queue(
           new PreferenceFloatTextField(
               "pingLoginThreshold", 0, "Allowed threshold above minimum historical lag"));
