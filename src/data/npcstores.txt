@@ -403,23 +403,6 @@ Underground Record Store	vault3	The Pigs holo-record	1000	ROW880
 Underground Record Store	vault3	li'l liberty costume	1000	ROW894
 Underground Record Store	vault3	li'l unicorn costume	1000	ROW897
 
-The Crimbo Cafe	crimbo18	hot watered rum	50	ROW1030
-The Crimbo Cafe	crimbo18	yule gruel	50	ROW1029
-
-Crimbo Town Gift-O-Mat	crimbo18giftomat	bottle of Crimbognac	100000	ROW1031
-Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimboysters Rockefeller	100000	ROW1032
-Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbeau de toilette	100000	ROW1033
-Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbo candle	250000	ROW1034
-Crimbo Town Gift-O-Mat	crimbo18giftomat	Carol of the Bulls	500000	ROW1035
-Crimbo Town Gift-O-Mat	crimbo18giftomat	Carol of the Hells	500000	ROW1036
-Crimbo Town Gift-O-Mat	crimbo18giftomat	Carol of the Thrills	500000	ROW1037
-Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbolex watch	1000000	ROW1039
-Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbo tattoo kit	1000000	ROW1040
-
-The Crimbo Cafe	crimbo19	fishelada	50	ROW1103
-The Crimbo Cafe	crimbo19	bowl of mernudo	50	ROW1101
-The Crimbo Cafe	crimbo19	ojo de pez burrito	50	ROW1104
-
 Drip Institute Cafeteria	dripcafeteria	drippy nugget	10000	ROW1131
 Drip Institute Cafeteria	dripcafeteria	glass of drippy wine	10000	ROW1151
 Drip Institute Cafeteria	dripcafeteria	drippy caviar	1000000	ROW1152
@@ -427,22 +410,6 @@ Drip Institute Cafeteria	dripcafeteria	Drip Institute petri dish	5000	ROW1159
 
 Drip Institute Armory	driparmory	Drip harness	50000	ROW1128
 Drip Institute Armory	driparmory	drippy truncheon	20000	ROW1129
-
-The Crimbo Cafe	crimbo20cafe	stuffed red and green pepper (stale)	300	ROW1201
-The Crimbo Cafe	crimbo20cafe	cranberry margarita (brackish)	300	ROW1202
-
-The Black and White and Red All Over Market	crimbo20blackmarket	&quot;reusable&quot; grocery bag	5000	ROW1171
-The Black and White and Red All Over Market	crimbo20blackmarket	cardboard wine carrier	5000	ROW1172
-The Black and White and Red All Over Market	crimbo20blackmarket	antique candy bucket	5000	ROW1173
-The Black and White and Red All Over Market	crimbo20blackmarket	prescription teeth whitener	10000	ROW1174
-The Black and White and Red All Over Market	crimbo20blackmarket	imported lemon lozenge	10000	ROW1175
-The Black and White and Red All Over Market	crimbo20blackmarket	hermedisiac cologne	10000	ROW1176
-The Black and White and Red All Over Market	crimbo20blackmarket	government food shipment	100000	ROW1177
-The Black and White and Red All Over Market	crimbo20blackmarket	government booze shipment	100000	ROW1178
-The Black and White and Red All Over Market	crimbo20blackmarket	government candy shipment	100000	ROW1179
-The Black and White and Red All Over Market	crimbo20blackmarket	Crimbo Cheer tattoo kit	1000000	ROW1180
-The Black and White and Red All Over Market	crimbo20blackmarket	Crimbo Carol tattoo kit	1000000	ROW1181
-The Black and White and Red All Over Market	crimbo20blackmarket	Crimbo Commerce tattoo kit	1000000	ROW1182
 
 Clan Underground Fireworks Shop	fwshop	Arr, M80	100	ROW1254
 Clan Underground Fireworks Shop	fwshop	fire crackers	100	ROW1253
@@ -461,9 +428,3 @@ FDKOL Auxiliary	wildfire	rusty empty nacho cheese can	1000	ROW1259
 FDKOL Auxiliary	wildfire	pump grease	5000	ROW1262
 FDKOL Auxiliary	wildfire	rainproof barrel caulk	5000	ROW1261
 FDKOL Auxiliary	wildfire	literal bucket hat	5000	ROW1260
-
-The Crimbo Cafe	crimbo21cafe	bread pie	50	ROW1263
-The Crimbo Cafe	crimbo21cafe	clear Russian	50	ROW1264
-
-Ornament Stand	crimbo21ornaments	black Crimbo ball	100	ROW1265
-Ornament Stand	crimbo21ornaments	white Crimbo ball	100	ROW1266
