@@ -24,12 +24,10 @@ import net.sourceforge.kolmafia.swingui.panel.ConfigQueueingPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
+import net.sourceforge.kolmafia.swingui.panel.PingOptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
-import net.sourceforge.kolmafia.swingui.widget.PreferenceButtonGroup;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
-import net.sourceforge.kolmafia.swingui.widget.PreferenceFloatTextField;
-import net.sourceforge.kolmafia.swingui.widget.PreferenceIntegerTextField;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginFrame extends GenericFrame {
@@ -386,24 +384,14 @@ public class LoginFrame extends GenericFrame {
   }
 
   private static class ConnectionOptionsPanel extends ConfigQueueingPanel {
-
     public ConnectionOptionsPanel() {
       super();
 
       this.queue(
           new PreferenceCheckBox(
               "useDevProxyServer", "Use devproxy.kingdomofloathing.com to login"));
-      this.queue(
-          new PreferenceCheckBox("pingLogin", "Run ping test at login to measure connection lag"));
-      this.queue(
-          new PreferenceButtonGroup(
-              "pingLoginCheck", "Login ping check type: ", true, "none", "goal", "threshold"));
-      this.queue(
-          new PreferenceIntegerTextField("pingLoginGoal", 0, "Maximum average measured lag"));
-      this.queue(
-          new PreferenceFloatTextField(
-              "pingLoginThreshold", 0, "Allowed threshold above minimum historical lag"));
-
+      this.queue(this.newSeparator());
+      this.queue(new PingOptionsPanel());
       this.makeLayout();
     }
   }
