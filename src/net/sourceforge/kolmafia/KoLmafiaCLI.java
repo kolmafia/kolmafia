@@ -755,7 +755,6 @@ public class KoLmafiaCLI {
     new RefreshStatusCommand().register("refresh");
     new RegisterAdventureCommand().register("location");
     new RelayBrowserCommand().register("relay");
-    new ReloginCommand().register("relog").register("relogin");
     new ReminisceCommand().register("reminisce");
     new RepeatLineCommand().register("repeat");
     new RestaurantCommand().register("restaurant").register("brewery").register("microbrewery");
@@ -806,6 +805,7 @@ public class KoLmafiaCLI {
     new TerminalCommand().register("terminal");
     new TestCommand().register("test");
     new ThrowItemCommand().register("throw");
+    new TimeinCommand().register("timein").register("relog").register("relogin");
     new TimeSpinnerCommand().register("timespinner");
     new ToggleCommand().register("toggle");
     new TowerDoorCommand().register("tower").register("lowkey");
