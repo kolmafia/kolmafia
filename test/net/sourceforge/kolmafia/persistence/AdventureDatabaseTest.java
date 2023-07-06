@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -9,8 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
@@ -131,7 +135,12 @@ public class AdventureDatabaseTest {
       }
     }
 
+    private static final AdventureResult SHADOW_AFFINITY =
+        EffectPool.get(EffectPool.SHADOW_AFFINITY);
+
     private void runRiftAdventure(ShadowRift rift, boolean first) {
+      boolean free = KoLConstants.activeEffects.contains(SHADOW_AFFINITY);
+
       String adventureName = rift.getAdventureName();
       var adventure = AdventureDatabase.getAdventure(adventureName);
       assertFalse(adventure == null);
@@ -147,8 +156,11 @@ public class AdventureDatabaseTest {
       // The first time we visit a rift, we expect the URL that will
       // be submitted is the place.php with whichplace/action for the
       // specified rift. Subsequently, we'll go straight to adventure.php
-      String expectedURL = first ? rift.getURL() : SHADOW_RIFT_URL;
+      String expectedURL = first ? rift.getCurrentURL() : SHADOW_RIFT_URL;
       String actualURL = request.getURLString();
+      if (first && free) {
+        assertTrue(expectedURL.contains("_free"));
+      }
       assertEquals(expectedURL, actualURL);
 
       // As a side effect of (preparing to) run the request, we save
@@ -159,6 +171,22 @@ public class AdventureDatabaseTest {
     @Test
     public void canMinimizeRedirections() {
       var cleanups = new Cleanups(withProperty("shadowRiftIngress", ""));
+      try (cleanups) {
+        // Enter a rift for the first time
+        runRiftAdventure(ShadowRift.CITY, true);
+        // Enter the same rift again
+        runRiftAdventure(ShadowRift.CITY, false);
+        // Enter a different rift for the first time
+        runRiftAdventure(ShadowRift.PLAINS, true);
+        // Enter a first rift again for the first time
+        runRiftAdventure(ShadowRift.CITY, true);
+      }
+    }
+
+    @Test
+    public void willUseFreeURLWithShadowAffinity() {
+      var cleanups =
+          new Cleanups(withProperty("shadowRiftIngress", ""), withEffect("Shadow Affinity", 11));
       try (cleanups) {
         // Enter a rift for the first time
         runRiftAdventure(ShadowRift.CITY, true);

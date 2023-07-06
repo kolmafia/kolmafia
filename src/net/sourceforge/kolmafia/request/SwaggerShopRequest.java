@@ -12,8 +12,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -135,10 +133,6 @@ public class SwaggerShopRequest extends CoinMasterRequest {
           && Preferences.getInteger(season.swagger) >= Preferences.getInteger(season.cost);
     }
     return SWAGGER_SHOP.getBuyItems().contains(ItemPool.get(itemId));
-  }
-
-  static {
-    ConcoctionPool.set(new Concoction("swagger", "availableSwagger"));
   }
 
   public SwaggerShopRequest() {

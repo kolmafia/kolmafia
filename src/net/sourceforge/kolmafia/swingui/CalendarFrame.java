@@ -176,8 +176,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
     updateDailyPage(KoLConstants.RNG.nextInt(2));
   }
 
-  // visible for testing
-  public static void updateDailyPage(int rngVal) {
+  protected static void updateDailyPage(int rngVal) {
     if (KoLConstants.DAILY_FORMAT.format(CalendarFrame.selectedDate.getTime()).equals("20051027")) {
       CalendarFrame.dailyDisplay.setText("<center><h1>White Wednesday</h1></center>");
       return;

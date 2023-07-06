@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
 import net.sourceforge.kolmafia.request.LocketRequest;
+import net.sourceforge.kolmafia.request.MonkeyPawRequest;
 import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -1163,6 +1164,15 @@ public abstract class ChoiceControl {
           Preferences.setInteger("twinPeakProgress", 15);
         }
         return;
+
+      case 627:
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+      case 633:
+        ChibiBuddyManager.postChoice(ChoiceManager.lastChoice, ChoiceManager.lastDecision, text);
+        break;
 
       case 669:
       case 670:
@@ -3051,7 +3061,7 @@ public abstract class ChoiceControl {
         // Which Door?
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("drop 1000")) {
-            Preferences.increment("_villainLairProgress", 5);
+            Preferences.increment("_villainLairProgress", 10);
             Preferences.setBoolean("_villainLairDoorChoiceUsed", true);
           }
         } else if (ChoiceManager.lastDecision == 2) {
@@ -4573,6 +4583,38 @@ public abstract class ChoiceControl {
       case 1481:
         JurassicParkaCommand.parseChoice(ChoiceManager.lastDecision);
         break;
+
+      case 1505:
+        // Sing!
+        // This should not fail without intentionally submitting a bad option.
+        if (text.contains("You sing:")) {
+          AdventureResult item = ChoiceManager.lastItemUsed;
+          if (item == null) {
+            // Unexpected
+            return;
+          }
+          int itemId = item.getItemId();
+          // Remove the microphone you used from inventory
+          // Add the more-used version to inventory
+          switch (itemId) {
+            case ItemPool.LOATHING_IDOL_MICROPHONE:
+              ResultProcessor.processItem(ItemPool.LOATHING_IDOL_MICROPHONE_75, 1);
+              break;
+            case ItemPool.LOATHING_IDOL_MICROPHONE_75:
+              ResultProcessor.processItem(ItemPool.LOATHING_IDOL_MICROPHONE_50, 1);
+              break;
+            case ItemPool.LOATHING_IDOL_MICROPHONE_50:
+              ResultProcessor.processItem(ItemPool.LOATHING_IDOL_MICROPHONE_25, 1);
+              break;
+            case ItemPool.LOATHING_IDOL_MICROPHONE_25:
+              break;
+            default:
+              // Should not get here unless UseItemRequest did not parse the item.
+              return;
+          }
+          ResultProcessor.processItem(itemId, -1);
+        }
+        break;
     }
   }
 
@@ -5149,14 +5191,6 @@ public abstract class ChoiceControl {
             RequestLogger.printLine(message);
             RequestLogger.updateSessionLog(message);
           }
-        }
-        break;
-
-      case 633:
-        // ChibiBuddy&trade;
-        if (ChoiceManager.lastDecision == 1) {
-          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_OFF, -1);
-          ResultProcessor.processItem(ItemPool.CHIBIBUDDY_ON, 1);
         }
         break;
 
@@ -6236,10 +6270,13 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 1267: // Rubbed it the Right Way
-        String wish = request.getFormField("wish");
-        GenieRequest.postChoice(text, wish);
-        break;
+      case 1267:
+        // Rubbed it the Right Way
+        {
+          String wish = request.getFormField("wish");
+          GenieRequest.postChoice(text, wish);
+          break;
+        }
 
       case 1272:
         // R&D
@@ -6285,6 +6322,10 @@ public abstract class ChoiceControl {
         handleAfterAvatar(ChoiceManager.lastDecision);
         break;
 
+      case 1387:
+        SaberRequest.postForce(urlString, text);
+        break;
+
       case 1395: // Take your Pills
         {
           if (!text.contains("day's worth of pills")) {
@@ -6301,6 +6342,9 @@ public abstract class ChoiceControl {
           }
           if (ChoiceManager.lastDecision == 7) {
             // *** No longer forces a semirare
+          }
+          if (ChoiceManager.lastDecision == 3) {
+            Preferences.setBoolean("noncombatForcerActive", true);
           }
         }
         break;
@@ -6500,6 +6544,14 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("_shadowForestLooted", true);
         }
         break;
+
+      case 1501:
+        // Make a Wish
+        {
+          String wish = request.getFormField("wish");
+          MonkeyPawRequest.postChoice(text, wish);
+          break;
+        }
     }
   }
 
@@ -6733,6 +6785,15 @@ public abstract class ChoiceControl {
 
       case 570:
         GameproManager.parseGameproMagazine(text);
+        break;
+
+      case 627:
+      case 628:
+      case 629:
+      case 630:
+      case 631:
+      case 633:
+        ChibiBuddyManager.visit(ChoiceManager.lastChoice, text);
         break;
 
       case 641:
@@ -8158,10 +8219,19 @@ public abstract class ChoiceControl {
         RufusManager.parseCallBack(text);
         break;
 
+      case 1499:
+        // The Shadow Labyrinth
+        RufusManager.handleShadowRiftNC(1499, text);
+        break;
+
       case 1500:
         // Like a Loded Stone
-        ResultProcessor.removeItem(ItemPool.RUFUS_SHADOW_LODESTONE);
-        QuestDatabase.setQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED);
+        RufusManager.handleShadowRiftNC(1500, text);
+        break;
+
+      case 1501:
+        // Make a Wish
+        MonkeyPawRequest.visitChoice(text);
         break;
     }
   }
@@ -8996,7 +9066,7 @@ public abstract class ChoiceControl {
             String desc = ChoiceManager.choiceDescription(choice, decision);
             RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
             if (desc != null && !desc.equals("Decide Later")) {
-              Preferences.setString("_LastPirateRealmIsland", desc);
+              Preferences.setString("_lastPirateRealmIsland", desc);
             }
             return true;
           }
@@ -9278,6 +9348,7 @@ public abstract class ChoiceControl {
       case 1493: // Treasure House
       case 1494: // Examine S.I.T. Course Certificate
       case 1495: // Get Some Training
+      case 1501: // Make a Wish
         return true;
 
       default:

@@ -474,7 +474,8 @@ public class QuestManager {
     if (!location.contains("action") && !KoLCharacter.inBadMoon()) {
       Preferences.setBoolean("hasDetectiveSchool", responseText.contains("Precinct"));
       if (responseText.contains("The Neverending Party")
-          && !Preferences.getBoolean("neverendingPartyAlways")) {
+          && !Preferences.getBoolean("neverendingPartyAlways")
+          && !Preferences.getBoolean("replicaNeverendingPartyAlways")) {
         Preferences.setBoolean("_neverendingPartyToday", true);
       }
       if (Preferences.getInteger("_neverendingPartyFreeTurns") < 10
@@ -498,7 +499,8 @@ public class QuestManager {
     }
   }
 
-  private static Pattern SPEAKEASY_NAME = Pattern.compile("whichplace=speakeasy.*?title=\"(.*?)\"");
+  private static Pattern SPEAKEASY_NAME =
+      Pattern.compile("div id=town_speakeasyname.*?title=\"(.*?)\"");
 
   private static void handleSpeakeasyName(final String text) {
     var matcher = SPEAKEASY_NAME.matcher(text);
@@ -2026,7 +2028,7 @@ public class QuestManager {
           "druid plants",
           "flock of every birds",
           "plywood cultists",
-          "barrow wraith",
+          "barrow wraith?",
           "regular thief",
           "swamp troll",
           "crypt creeper",

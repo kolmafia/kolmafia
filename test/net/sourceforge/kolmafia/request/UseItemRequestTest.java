@@ -8,13 +8,19 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withGender;
+import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLimitMode;
+import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withSpleenUse;
@@ -39,15 +45,19 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
@@ -298,6 +308,70 @@ class UseItemRequestTest {
         assertThat(
             UseItemRequest.maximumUses(ItemPool.EXTROVERMECTIN, ConsumptionType.SPLEEN),
             is(maxUses));
+      }
+    }
+  }
+
+  @Nested
+  class zeroFullness {
+    @ParameterizedTest
+    @CsvSource({"5140, 1", "10883, 3"})
+    void itShouldNotDivideByZeroWhenConsumingAstralEnergyDrink(int itemID, int maxUses) {
+      int spleenUsed = 0;
+      var cleanups =
+          new Cleanups(
+              withSpleenUse(spleenUsed),
+              withHP(0, 10, 10),
+              withMP(0, 10, 10),
+              withPath(AscensionPath.Path.STANDARD));
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.SPLEEN), is(maxUses));
+      }
+    }
+
+    @Test
+    void itShouldHandleAstralEnergyDrinkAppropriately() {
+      var cleanups = new Cleanups(withLevel(1), withSpleenUse(0));
+      try (cleanups) {
+        assertThat(ConsumablesDatabase.getRawSpleenHit("[5140]astral energy drink"), is(8));
+        assertThat(ConsumablesDatabase.getRawSpleenHit("[10883]astral energy drink"), is(5));
+        assertThat(ConsumablesDatabase.getRawSpleenHit("astral energy drink"), is(0));
+        assertThat(UseItemRequest.maximumUses("[5140]astral energy drink"), is(1));
+        assertThat(UseItemRequest.maximumUses(5140), is(1));
+        assertThat(UseItemRequest.maximumUses("[10883]astral energy drink"), is(3));
+        assertThat(UseItemRequest.maximumUses(10883), is(3));
+        assertThat(UseItemRequest.maximumUses("astral energy drink"), is(Integer.MAX_VALUE));
+      }
+    }
+    /**
+     * The list ot tested items was derived from items with zero fullness in fullness.txt at the
+     * time the test was written. Magical sausage 10060 has zero fullness but it is not tested here
+     * because the fullness is controlled by a preference. Similarly for the glitch season reward
+     * 10207. Given that the point of this test is to show a divide by zero does not occur, leaving
+     * them out is deemed acceptable.
+     */
+    @ParameterizedTest
+    @CsvSource({"572", "1266", "1432", "2149", "2188", "4412"})
+    void itShouldNotDivideByZeroWhenConsumingZeroFullnessItems(int itemID) {
+      int fullness = 0;
+      int maxUses = Integer.MAX_VALUE;
+      var cleanups = withFullness(fullness);
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.EAT), is(maxUses));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1047", "1276", "4413", "7491"})
+    void itShouldNotDivideByZeroWhenDrinkingZeroInebrietyItems(int itemID) {
+      int inebriety = 0;
+      int maxUses = Integer.MAX_VALUE;
+      var cleanups = withInebriety(inebriety);
+
+      try (cleanups) {
+        assertThat(UseItemRequest.maximumUses(itemID, ConsumptionType.DRINK), is(maxUses));
       }
     }
   }
@@ -711,6 +785,47 @@ class UseItemRequestTest {
   }
 
   @Nested
+  class ChocolateCoveredPingPongBall {
+    @Test
+    void incrementsCounterOnSuccess() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_chocolateCoveredPingPongBallsUsed", 1),
+              withItem(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL),
+              withItem(ItemPool.PING_PONG_BALL, 0),
+              withNextResponse(
+                  200,
+                  html("request/test_use_item_chocolate_covered_ping_pong_ball_success.html")));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL);
+        req.run();
+
+        assertThat("_chocolateCoveredPingPongBallsUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    void maxesCounterOnFailure() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_chocolateCoveredPingPongBallsUsed", 1),
+              withItem(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL),
+              withItem(ItemPool.PING_PONG_BALL, 0),
+              withNextResponse(
+                  200,
+                  html("request/test_use_item_chocolate_covered_ping_pong_ball_failure.html")));
+
+      try (cleanups) {
+        var req = UseItemRequest.getInstance(ItemPool.CHOCOLATE_COVERED_PING_PONG_BALL);
+        req.run();
+
+        assertThat("_chocolateCoveredPingPongBallsUsed", isSetTo(3));
+      }
+    }
+  }
+
+  @Nested
   class SIT {
     private UseItemRequest getCertificateRequest() {
       return UseItemRequest.getInstance(ItemPool.SIT_COURSE_COMPLETION_CERTIFICATE);
@@ -782,6 +897,174 @@ class UseItemRequestTest {
 
         assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11116&ajax=1");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class ReplicaTenDollars {
+    @Test
+    void successfulSingleUseIncrementsSetting() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.REPLICA_MR_ACCESSORY, 0),
+              withItem(ItemPool.REPLICA_TEN_DOLLARS, 2),
+              withProperty("legacyPoints", 0));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_one_replica_ten_dollars.html"));
+        client.addResponse(200, ""); // api.php
+
+        var req = UseItemRequest.getInstance(ItemPool.REPLICA_TEN_DOLLARS, 1);
+        req.run();
+
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_TEN_DOLLARS), is(1));
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_MR_ACCESSORY), is(1));
+        assertThat("legacyPoints", isSetTo(1));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=11253&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void successfulMultiseIncrementsSetting() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItem(ItemPool.REPLICA_MR_ACCESSORY, 0),
+              withItem(ItemPool.REPLICA_TEN_DOLLARS, 2),
+              withProperty("legacyPoints", 0));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_use_two_replica_ten_dollars.html"));
+        client.addResponse(200, ""); // api.php
+
+        var req = UseItemRequest.getInstance(ItemPool.REPLICA_TEN_DOLLARS, 2);
+        req.run();
+
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_TEN_DOLLARS), is(0));
+        assertThat(InventoryManager.getCount(ItemPool.REPLICA_MR_ACCESSORY), is(2));
+        assertThat("legacyPoints", isSetTo(2));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0), "/multiuse.php", "whichitem=11253&action=useitem&quantity=2&ajax=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "your stomach drops and your ears pop as you are suddenly plunged into a horrifyingly dark and blurry version of the world you once knew, true",
+    "You're gonna need a full night's sleep before you ring that thing again., false"
+  })
+  void clarasBellSetsNCForcerFlag(String responseText, String result) {
+    var cleanups = withProperty("noncombatForcerActive", false);
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.CLARA_BELL);
+      req.responseText = responseText;
+      req.processResponse();
+      assertThat("noncombatForcerActive", isSetTo(Boolean.parseBoolean(result)));
+    }
+  }
+
+  @Nested
+  class LoathingIdolMicrophone {
+    @ParameterizedTest
+    @CsvSource({"100, 1", "75, 2", "50, 3", "25, 4"})
+    void usingMicrophoneUsesCharges(int charge, int option) {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      int itemId = 0;
+      int nextId = 0;
+      switch (charge) {
+        case 100:
+          itemId = ItemPool.LOATHING_IDOL_MICROPHONE;
+          nextId = ItemPool.LOATHING_IDOL_MICROPHONE_75;
+          break;
+        case 75:
+          itemId = ItemPool.LOATHING_IDOL_MICROPHONE_75;
+          nextId = ItemPool.LOATHING_IDOL_MICROPHONE_50;
+          break;
+        case 50:
+          itemId = ItemPool.LOATHING_IDOL_MICROPHONE_50;
+          nextId = ItemPool.LOATHING_IDOL_MICROPHONE_25;
+          break;
+        case 25:
+          itemId = ItemPool.LOATHING_IDOL_MICROPHONE_25;
+          nextId = 0;
+          break;
+      }
+
+      String effectName = "none";
+      switch (option) {
+        case 1:
+          effectName = "Poppy Performance";
+          break;
+        case 2:
+          effectName = "Romantically Roused ";
+          break;
+        case 3:
+          effectName = "Spitting Rhymes";
+          break;
+        case 4:
+          effectName = "Twangy";
+          break;
+      }
+      AdventureResult effect = EffectPool.get(EffectDatabase.getEffectId(effectName));
+
+      String path = "request/test_microphone_" + charge + ".html";
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withNoItems(),
+              withItem(itemId, 1),
+              withNoEffects(),
+              withProperty("choiceAdventure1505", option),
+              // Need a password hash to automate choice adventures
+              withPasswordHash("microphone"),
+              // If you have a password hash, KoL looks at your vinyl boots
+              withGender(Gender.FEMALE));
+
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_microphone_choice.html"));
+        client.addResponse(200, html(path));
+        client.addResponse(200, ""); // api.php
+
+        var req = UseItemRequest.getInstance(itemId, 1);
+        req.run();
+
+        assertThat(InventoryManager.getCount(itemId), is(0));
+        if (nextId != 0) {
+          assertThat(InventoryManager.getCount(nextId), is(1));
+        }
+        assertThat(effect.getCount(KoLConstants.activeEffects), is(30));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(4));
+
+        assertPostRequest(
+            requests.get(0), "/inv_use.php", "whichitem=" + itemId + "&ajax=1&pwd=microphone");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(
+            requests.get(2),
+            "/choice.php",
+            "whichchoice=1505&option=" + option + "&pwd=microphone");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }

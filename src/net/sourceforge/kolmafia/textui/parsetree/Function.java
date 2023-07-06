@@ -114,9 +114,9 @@ public abstract class Function extends Symbol {
       }
 
       Type thisParamType = thisParam.getType();
-      if (thisParamType instanceof VarArgType) {
+      if (thisParamType instanceof VarArgType vat) {
         thisVararg = thisParam;
-        thisParamType = ((VarArgType) thisParamType).getDataType();
+        thisParamType = vat.getDataType();
       }
 
       VariableReference thatParam;
@@ -131,9 +131,9 @@ public abstract class Function extends Symbol {
       }
 
       Type thatParamType = thatParam.getType();
-      if (thatParamType instanceof VarArgType) {
+      if (thatParamType instanceof VarArgType vat) {
         thatVararg = thatParam;
-        thatParamType = ((VarArgType) thatParamType).getDataType();
+        thatParamType = vat.getDataType();
       }
 
       // If types don't agree, nothing more to look at
@@ -218,9 +218,9 @@ public abstract class Function extends Symbol {
       Type valueType = currentValue.getType();
 
       // If have found the vararg, remember it.
-      if (vararg == null && paramType instanceof VarArgType) {
+      if (vararg == null && paramType instanceof VarArgType vat) {
         vararg = currentParam;
-        varargType = ((VarArgType) paramType);
+        varargType = vat;
       }
 
       // Only one vararg is allowed. It must be at the end.
@@ -310,10 +310,10 @@ public abstract class Function extends Symbol {
       Value value = null;
 
       Type paramType = paramVarRef.getType();
-      if (paramType instanceof VarArgType) {
+      if (paramType instanceof VarArgType vat) {
         // If this is a vararg, it consumes all remaining values
         if (paramCount >= valueCount) {
-          value = new ArrayValue((VarArgType) paramType, Collections.emptyList());
+          value = new ArrayValue(vat, Collections.emptyList());
         } else {
           value = (Value) values[paramCount];
           if (!paramType.equals(value.getType())) {
@@ -323,7 +323,7 @@ public abstract class Function extends Symbol {
               varValues.add((Value) values[index]);
             }
             // Put them into an Array value
-            value = new ArrayValue((VarArgType) paramType, varValues);
+            value = new ArrayValue(vat, varValues);
           } else {
             // User explicitly passed us an array
           }

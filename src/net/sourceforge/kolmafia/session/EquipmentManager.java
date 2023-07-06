@@ -76,6 +76,8 @@ public class EquipmentManager {
   public static final AdventureResult CROWN_OF_THRONES = ItemPool.get(ItemPool.HATSEAT, 1);
   public static final AdventureResult BUDDY_BJORN = ItemPool.get(ItemPool.BUDDY_BJORN, 1);
   public static final AdventureResult FOLDER_HOLDER = ItemPool.get(ItemPool.FOLDER_HOLDER, 1);
+  public static final AdventureResult REPLICA_FOLDER_HOLDER =
+      ItemPool.get(ItemPool.REPLICA_FOLDER_HOLDER, 1);
   public static final AdventureResult COWBOY_BOOTS = ItemPool.get(ItemPool.COWBOY_BOOTS, 1);
 
   static {
@@ -439,6 +441,7 @@ public class EquipmentManager {
 
     switch (item.getItemId()) {
       case ItemPool.BOTTLE_ROCKET:
+      case ItemPool.REPLICA_BOTTLE_ROCKET:
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_RED_BOTTLE_ROCKET);
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_BLUE_BOTTLE_ROCKET);
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_ORANGE_BOTTLE_ROCKET);
@@ -446,6 +449,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_BLACK_BOTTLE_ROCKET);
         break;
       case ItemPool.JEWEL_EYED_WIZARD_HAT:
+      case ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT:
         KoLCharacter.removeAvailableSkill(SkillPool.MAGIC_MISSILE);
         break;
       case ItemPool.BAKULA:
@@ -455,6 +459,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.SHAKE_HANDS);
         break;
       case ItemPool.V_MASK:
+      case ItemPool.REPLICA_V_MASK:
         KoLCharacter.removeAvailableSkill(SkillPool.CREEPY_GRIN);
         break;
       case ItemPool.MAYFLY_BAIT_NECKLACE:
@@ -475,9 +480,11 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.PUT_DOWN_ROOTS);
         break;
       case ItemPool.FIREWORKS:
+      case ItemPool.REPLICA_FIREWORKS:
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_OFF_A_ROMAN_CANDLE);
         break;
       case ItemPool.HAIKU_KATANA:
+      case ItemPool.REPLICA_HAIKU_KATANA:
         KoLCharacter.removeAvailableSkill(SkillPool.SPRING_RAINDROP_ATTACK);
         KoLCharacter.removeAvailableSkill(SkillPool.SUMMER_SIESTA);
         KoLCharacter.removeAvailableSkill(SkillPool.FALLING_LEAF_WHIRLWIND);
@@ -493,6 +500,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.STRANGLE);
         break;
       case ItemPool.ELVISH_SUNGLASSES:
+      case ItemPool.REPLICA_ELVISH_SUNGLASSES:
         KoLCharacter.removeAvailableSkill(SkillPool.PLAY_AN_ACCORDION_SOLO);
         KoLCharacter.removeAvailableSkill(SkillPool.PLAY_A_GUITAR_SOLO);
         KoLCharacter.removeAvailableSkill(SkillPool.PLAY_A_DRUM_SOLO);
@@ -538,9 +546,11 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.SQUEEZE_STRESS_BALL);
         break;
       case ItemPool.PATRIOT_SHIELD:
+      case ItemPool.REPLICA_PATRIOT_SHIELD:
         KoLCharacter.removeAvailableSkill(SkillPool.THROW_SHIELD);
         break;
       case ItemPool.PLASTIC_VAMPIRE_FANGS:
+      case ItemPool.REPLICA_PLASTIC_VAMPIRE_FANGS:
         KoLCharacter.removeAvailableSkill(SkillPool.FEED);
         break;
       case ItemPool.LORD_FLAMEFACES_CLOAK:
@@ -699,9 +709,11 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.CHEST_X_RAY);
         break;
       case ItemPool.FOURTH_SABER:
+      case ItemPool.REPLICA_FOURTH_SABER:
         KoLCharacter.removeAvailableSkill(SkillPool.USE_THE_FORCE);
         break;
       case ItemPool.HEWN_MOON_RUNE_SPOON:
+      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
         if (KoLCharacter.isMuscleClass()) {
           KoLCharacter.removeAvailableSkill(SkillPool.DRAGOON_PLATOON);
         } else if (KoLCharacter.isMysticalityClass()) {
@@ -714,6 +726,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.BEACH_COMBO);
         break;
       case ItemPool.POWERFUL_GLOVE:
+      case ItemPool.REPLICA_POWERFUL_GLOVE:
         // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.removeAvailableSkill(SkillPool.REPLACE_ENEMY);
         KoLCharacter.removeAvailableSkill(SkillPool.SHRINK_ENEMY);
@@ -730,6 +743,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.BLART_SPRAY_WIDE);
         break;
       case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
+      case ItemPool.REPLICA_INDUSTRIAL_FIRE_EXTINGUISHER:
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_EM_UP);
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__POLAR_VORTEX);
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_YOURSELF);
@@ -737,11 +751,20 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC);
         break;
       case ItemPool.DESIGNER_SWEATPANTS:
+      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
         // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_FLICK);
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_FLOOD);
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_SPRAY);
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_SIP);
+        break;
+      case ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY:
+        KoLCharacter.removeAvailableSkill(SkillPool.DOUSE_FOE);
+        break;
+      case ItemPool.PRO_SKATEBOARD:
+        KoLCharacter.removeAvailableSkill(SkillPool.DO_KICKFLIP);
+        KoLCharacter.removeAvailableSkill(SkillPool.DO_METHOD);
+        KoLCharacter.removeAvailableSkill(SkillPool.DO_EPIC_MCTWIST);
         break;
     }
   }
@@ -769,6 +792,7 @@ public class EquipmentManager {
 
     switch (id) {
       case ItemPool.BOTTLE_ROCKET:
+      case ItemPool.REPLICA_BOTTLE_ROCKET:
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_RED_BOTTLE_ROCKET);
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_BLUE_BOTTLE_ROCKET);
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_ORANGE_BOTTLE_ROCKET);
@@ -776,6 +800,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_BLACK_BOTTLE_ROCKET);
         break;
       case ItemPool.JEWEL_EYED_WIZARD_HAT:
+      case ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT:
         KoLCharacter.addAvailableSkill(SkillPool.MAGIC_MISSILE);
         break;
       case ItemPool.BAKULA:
@@ -785,6 +810,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.SHAKE_HANDS);
         break;
       case ItemPool.V_MASK:
+      case ItemPool.REPLICA_V_MASK:
         KoLCharacter.addAvailableSkill(SkillPool.CREEPY_GRIN);
         break;
       case ItemPool.MAYFLY_BAIT_NECKLACE:
@@ -807,9 +833,11 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.PUT_DOWN_ROOTS);
         break;
       case ItemPool.FIREWORKS:
+      case ItemPool.REPLICA_FIREWORKS:
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_OFF_A_ROMAN_CANDLE);
         break;
       case ItemPool.HAIKU_KATANA:
+      case ItemPool.REPLICA_HAIKU_KATANA:
         KoLCharacter.addAvailableSkill(SkillPool.SPRING_RAINDROP_ATTACK);
         KoLCharacter.addAvailableSkill(SkillPool.SUMMER_SIESTA);
         KoLCharacter.addAvailableSkill(SkillPool.FALLING_LEAF_WHIRLWIND);
@@ -827,6 +855,7 @@ public class EquipmentManager {
         }
         break;
       case ItemPool.ELVISH_SUNGLASSES:
+      case ItemPool.REPLICA_ELVISH_SUNGLASSES:
         KoLCharacter.addAvailableSkill(SkillPool.PLAY_AN_ACCORDION_SOLO);
         KoLCharacter.addAvailableSkill(SkillPool.PLAY_A_GUITAR_SOLO);
         KoLCharacter.addAvailableSkill(SkillPool.PLAY_A_DRUM_SOLO);
@@ -872,9 +901,11 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.SQUEEZE_STRESS_BALL);
         break;
       case ItemPool.PATRIOT_SHIELD:
+      case ItemPool.REPLICA_PATRIOT_SHIELD:
         KoLCharacter.addAvailableSkill(SkillPool.THROW_SHIELD);
         break;
       case ItemPool.PLASTIC_VAMPIRE_FANGS:
+      case ItemPool.REPLICA_PLASTIC_VAMPIRE_FANGS:
         KoLCharacter.addAvailableSkill(SkillPool.FEED);
         break;
       case ItemPool.LORD_FLAMEFACES_CLOAK:
@@ -1037,9 +1068,11 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.CHEST_X_RAY);
         break;
       case ItemPool.FOURTH_SABER:
+      case ItemPool.REPLICA_FOURTH_SABER:
         KoLCharacter.addAvailableSkill(SkillPool.USE_THE_FORCE);
         break;
       case ItemPool.HEWN_MOON_RUNE_SPOON:
+      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
         if (KoLCharacter.isMuscleClass()) {
           KoLCharacter.addAvailableSkill(SkillPool.DRAGOON_PLATOON);
         } else if (KoLCharacter.isMysticalityClass()) {
@@ -1052,6 +1085,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.BEACH_COMBO);
         break;
       case ItemPool.POWERFUL_GLOVE:
+      case ItemPool.REPLICA_POWERFUL_GLOVE:
         // *** Special case: the buffs are always available
         // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.addAvailableSkill(SkillPool.REPLACE_ENEMY);
@@ -1069,6 +1103,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.BLART_SPRAY_WIDE);
         break;
       case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
+      case ItemPool.REPLICA_INDUSTRIAL_FIRE_EXTINGUISHER:
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_EM_UP);
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__POLAR_VORTEX);
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_YOURSELF);
@@ -1076,12 +1111,21 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC);
         break;
       case ItemPool.DESIGNER_SWEATPANTS:
+      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
         // *** Special case: the buffs are always available
         // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_FLICK);
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_FLOOD);
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_SPRAY);
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_SIP);
+        break;
+      case ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY:
+        KoLCharacter.addAvailableSkill(SkillPool.DOUSE_FOE);
+        break;
+      case ItemPool.PRO_SKATEBOARD:
+        KoLCharacter.addAvailableSkill(SkillPool.DO_KICKFLIP);
+        KoLCharacter.addAvailableSkill(SkillPool.DO_METHOD);
+        KoLCharacter.addAvailableSkill(SkillPool.DO_EPIC_MCTWIST);
         break;
     }
   }
@@ -1789,7 +1833,9 @@ public class EquipmentManager {
    * @return int 0 if not wearing Powerful Glove, otherwise remaining battery power
    */
   public static final int powerfulGloveUsableBatteryPower() {
-    return KoLCharacter.hasEquipped(ItemPool.get(ItemPool.POWERFUL_GLOVE, 1))
+    return (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.POWERFUL_GLOVE, 1))
+            || (KoLCharacter.inLegacyOfLoathing()
+                && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.REPLICA_POWERFUL_GLOVE, 1))))
         ? EquipmentManager.powerfulGloveAvailableBatteryPower()
         : 0;
   }
@@ -1891,7 +1937,8 @@ public class EquipmentManager {
             && KoLCharacter.hasSkill(SkillPool.TRICKY_KNIFEWORK)) {
           return Stat.MOXIE;
         }
-        if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId() == ItemPool.FOURTH_SABER) {
+        var mainhand = EquipmentManager.getEquipment(Slot.WEAPON).getItemId();
+        if (mainhand == ItemPool.FOURTH_SABER || mainhand == ItemPool.REPLICA_FOURTH_SABER) {
           // Fourth of May Cosplay Saber uses highest buffed stat
           if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
               && KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMysticality()) {

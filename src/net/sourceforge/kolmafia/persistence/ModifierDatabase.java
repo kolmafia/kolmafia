@@ -168,7 +168,8 @@ public class ModifierDatabase {
           ModifierType.SKILL,
           ModifierType.SYNERGY,
           ModifierType.THRONE,
-          ModifierType.UNBREAKABLE_UMBRELLA);
+          ModifierType.UNBREAKABLE_UMBRELLA,
+          ModifierType.PASSIVES);
 
   public static void ensureModifierDatabaseInitialised() {
     if (modifierTypesByName.isEmpty()) {
@@ -1142,8 +1143,7 @@ public class ModifierDatabase {
     // Make a map of campground items
     Set<String> campground = new TreeSet<>();
 
-    for (int i = 0; i < CampgroundRequest.campgroundItems.length; ++i) {
-      int itemId = CampgroundRequest.campgroundItems[i];
+    for (var itemId : CampgroundRequest.campgroundItems) {
       String name = ItemDatabase.getItemDataName(itemId);
       // Sanity check: if the user has an old override file
       // which we didn't delete for some reason, we may have

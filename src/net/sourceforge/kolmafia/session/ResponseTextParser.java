@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
+import net.sourceforge.kolmafia.request.LatteRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -331,14 +332,18 @@ public class ResponseTextParser {
           case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.parseRetroCape(responseText);
           case ItemPool.HATSEAT -> ItemDatabase.parseCrownOfThrones(responseText);
           case ItemPool.BUDDY_BJORN -> ItemDatabase.parseBuddyBjorn(responseText);
-          case ItemPool.FOURTH_SABER -> ItemDatabase.parseSaber(responseText);
+          case ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER -> ItemDatabase.parseSaber(
+              responseText);
           case ItemPool.VAMPIRE_VINTNER_WINE -> ItemDatabase.parseVampireVintnerWine(responseText);
           case ItemPool.COMBAT_LOVERS_LOCKET -> LocketManager.parseLocket(responseText);
           case ItemPool.UNBREAKABLE_UMBRELLA -> ItemDatabase.parseUmbrella(responseText);
           case ItemPool.JUNE_CLEAVER -> ItemDatabase.parseCleaver(responseText);
-          case ItemPool.DESIGNER_SWEATPANTS -> ItemDatabase.parseDesignerSweatpants(responseText);
-          case ItemPool.POWERFUL_GLOVE -> ItemDatabase.parsePowerfulGlove(responseText);
+          case ItemPool.DESIGNER_SWEATPANTS, ItemPool.REPLICA_DESIGNER_SWEATPANTS -> ItemDatabase
+              .parseDesignerSweatpants(responseText);
+          case ItemPool.POWERFUL_GLOVE, ItemPool.REPLICA_POWERFUL_GLOVE -> ItemDatabase
+              .parsePowerfulGlove(responseText);
           case ItemPool.RING -> ItemDatabase.parseRing(responseText);
+          case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
           default -> changesFromTimeToTime = false;
         }
 

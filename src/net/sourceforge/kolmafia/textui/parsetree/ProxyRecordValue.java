@@ -167,6 +167,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class ClassProxy extends ProxyRecordValue {
     public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("primestat", DataTypes.STAT_TYPE)
             .add("path", DataTypes.PATH_TYPE)
             .finish("class proxy");
@@ -177,6 +178,10 @@ public class ProxyRecordValue extends RecordValue {
 
     private AscensionClass getAscensionClass() {
       return (AscensionClass) this.content;
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public Value get_primestat() {
@@ -202,6 +207,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class ItemProxy extends ProxyRecordValue {
     public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("plural", DataTypes.STRING_TYPE)
             .add("descid", DataTypes.STRING_TYPE)
@@ -251,6 +257,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public ItemProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     /**
@@ -700,6 +710,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class FamiliarProxy extends ProxyRecordValue {
     public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("hatchling", DataTypes.ITEM_TYPE)
             .add("image", DataTypes.STRING_TYPE)
             .add("name", DataTypes.STRING_TYPE)
@@ -727,6 +738,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("passive", DataTypes.BOOLEAN_TYPE)
             .add("underwater", DataTypes.BOOLEAN_TYPE)
             .add("variable", DataTypes.BOOLEAN_TYPE)
+            .add("feasted", DataTypes.BOOLEAN_TYPE)
             .add("attributes", DataTypes.STRING_TYPE)
             .add("poke_level", DataTypes.INT_TYPE)
             .add("poke_level_2_power", DataTypes.INT_TYPE)
@@ -743,6 +755,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public FamiliarProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public Value get_hatchling() {
@@ -859,6 +875,11 @@ public class ProxyRecordValue extends RecordValue {
 
     public boolean get_variable() {
       return FamiliarDatabase.isVariableType((int) this.contentLong);
+    }
+
+    public boolean get_feasted() {
+      FamiliarData fam = KoLCharacter.usableFamiliar(this.contentString);
+      return fam == null ? false : fam.getFeasted();
     }
 
     public String get_attributes() {
@@ -1167,6 +1188,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class SkillProxy extends ProxyRecordValue {
     public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("type", DataTypes.STRING_TYPE)
             .add("level", DataTypes.INT_TYPE)
@@ -1188,6 +1210,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public SkillProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public String get_name() {
@@ -1263,6 +1289,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class EffectProxy extends ProxyRecordValue {
     public static final RecordType _type =
         new RecordBuilder()
+            .add("id", DataTypes.INT_TYPE)
             .add("name", DataTypes.STRING_TYPE)
             .add("default", DataTypes.STRING_TYPE)
             .add("note", DataTypes.STRING_TYPE)
@@ -1277,6 +1304,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public EffectProxy(Value obj) {
       super(_type, obj);
+    }
+
+    public int get_id() {
+      return (int) this.contentLong;
     }
 
     public String get_name() {
@@ -1348,6 +1379,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("poison", DataTypes.INT_TYPE)
             .add("water_level", DataTypes.INT_TYPE)
             .add("wanderers", DataTypes.BOOLEAN_TYPE)
+            .add("pledge_allegiance", DataTypes.STRING_TYPE)
             .finish("location proxy");
 
     public LocationProxy(Value obj) {
@@ -1497,6 +1529,54 @@ public class ProxyRecordValue extends RecordValue {
       }
 
       return WildfireCampRequest.getFireLevel((KoLAdventure) this.content);
+    }
+
+    public String get_pledge_allegiance() {
+      var id = get_id();
+      if (id < 0) return "";
+      var mod = id % 10;
+      var strEffect =
+          switch (id % 10) {
+            case 0 -> "Item Drop: 30, Spooky Damage: 10, Spooky Spell Damage: 10";
+            case 1 -> "Item Drop: 15, Meat Drop: 25, Stench Damage: 10, Stench Spell Damage: 10";
+            case 2 -> "Meat Drop: 50, Hot Damage: 10, Hot Spell Damage: 10";
+            case 3 -> "Meat Drop: 25, "
+                + all_resistance(2)
+                + ", Cold Damage: 10, Cold Spell Damage: 10";
+            case 4 -> all_resistance(4) + ", Sleaze Damage: 10, Sleaze Spell Damage: 10";
+            case 5 -> all_resistance(2)
+                + ", Spooky Damage: 10, Spooky Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
+            case 6 -> "Stench Damage: 10, Stench Spell Damage: 10, MP Regen Min: 20, MP Regen Max: 30";
+            case 7 -> "Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
+            case 8 -> "Initiative: 100, Cold Damage: 10, Cold Spell Damage: 10";
+            case 9 -> "Item Drop: 15, Initiative: 50, Sleaze Damage: 10, Sleaze Spell Damage: 10";
+            default -> throw new IllegalStateException("Unexpected value: " + mod);
+          };
+      var statEffect =
+          switch (id % 9) {
+            case 0, 7, 8 -> "";
+            case 1 -> ", Mysticality: 10";
+            case 2 -> ", Moxie: 10";
+            case 3 -> ", Muscle Percent: 10";
+            case 4 -> ", Mysticality Percent: 10";
+            case 5 -> ", Moxie Percent: 10";
+            case 6 -> ", Muscle: 10";
+            default -> throw new IllegalStateException("Unexpected value: " + mod);
+          };
+      return strEffect + statEffect;
+    }
+
+    private String all_resistance(int amt) {
+      return "Hot Resistance: "
+          + amt
+          + ", Cold Resistance: "
+          + amt
+          + ", Spooky Resistance: "
+          + amt
+          + ", Stench Resistance: "
+          + amt
+          + ", Sleaze Resistance: "
+          + amt;
     }
   }
 

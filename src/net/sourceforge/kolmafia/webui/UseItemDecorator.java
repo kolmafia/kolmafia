@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.webui;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 public class UseItemDecorator {
@@ -14,6 +15,19 @@ public class UseItemDecorator {
     // Saved when we executed inv_use.php, whether or not it
     // redirected to inventory.php
     int itemId = UseItemRequest.currentItemId();
+
+    if (CampgroundRequest.isWorkshedItem(itemId)) {
+      // When you use a workshed item, the previous item is removed from
+      // the workshed.  UseLinkDecorator will not give you a "use" link,
+      // since you can only change your workshed item once per day.
+      //
+      // Instead, provide a "workshed" link so that you can go inspect
+      // and manipulate your newly installed item, whether or not you
+      // replaced a previous workshed item.
+
+      UseItemDecorator.decorateWorkshedItem(buffer);
+      return;
+    }
 
     switch (itemId) {
       case ItemPool.BOO_CLUE, ItemPool.GLUED_BOO_CLUE -> UseItemDecorator.decorateBooClue(buffer);
@@ -36,6 +50,20 @@ public class UseItemDecorator {
 
     String link = "<tr align=center><td>" + insert + "</td></tr>";
     buffer.insert(index, link);
+  }
+
+  private static void decorateWorkshedItem(final StringBuffer buffer) {
+    if (buffer.indexOf("in your workshed") == -1) {
+      return;
+    }
+
+    // Add the link to visit your workshed
+    StringBuilder link = new StringBuilder();
+    link.append("<a href=\"campground.php?action=workshed\">");
+    link.append("[Visit your workshed]");
+    link.append("</a>");
+
+    UseItemDecorator.decorateItem(buffer, link);
   }
 
   // <table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center

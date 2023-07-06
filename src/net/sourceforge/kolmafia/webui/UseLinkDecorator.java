@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -538,6 +539,14 @@ public abstract class UseLinkDecorator {
 
   protected static UseLink generateUseLink(
       int itemId, int itemCount, String location, String text) {
+
+    // If this is a workshed item, and you've already replaced your
+    // workshed item today, it is pointless to provide a "use" link,
+    // since you can do that once per day.
+    if (CampgroundRequest.isWorkshedItem(itemId) && Preferences.getBoolean("_workshedItemUsed")) {
+      return null;
+    }
+
     // This might be a target of the Party Fair quest - if so we overwrite normal use link to
     // prevent accidents and show progress
     if (QuestDatabase.isQuestStep(Quest.PARTY_FAIR, "step1")
@@ -979,6 +988,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.CORKED_GENIE_BOTTLE:
           case ItemPool.GENIE_BOTTLE:
           case ItemPool.POCKET_WISH:
+          case ItemPool.REPLICA_GENIE_BOTTLE:
           case ItemPool.WAREHOUSE_KEY:
           case ItemPool.BOOMBOX:
           case ItemPool.BURNING_NEWSPAPER:
@@ -1034,6 +1044,14 @@ public abstract class UseLinkDecorator {
             // adventure doesn't work ajaxified.
 
             return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=", false);
+
+          case ItemPool.MR_STORE_2002_CATALOG:
+          case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
+
+            // Not inline, since the redirection to a
+            // shop doesn't work ajaxified.
+
+            return new UseLink(itemId, 1, "order", "inv_use.php?which=3&whichitem=", false);
 
           case ItemPool.LATTE_MUG:
 
@@ -1504,7 +1522,7 @@ public abstract class UseLinkDecorator {
             // doesn't work ajaxified.
             uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
           }
-          case ItemPool.CARGO_CULTIST_SHORTS -> {
+          case ItemPool.CARGO_CULTIST_SHORTS, ItemPool.REPLICA_CARGO_CULTIST_SHORTS -> {
             // Not inline, since the redirection to a choice
             // doesn't work ajaxified.
             uses.add(new UseLink(itemId, 1, "pockets", "inventory.php?action=pocket", false));
@@ -1639,6 +1657,11 @@ public abstract class UseLinkDecorator {
           uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
           return new UsesLink(uses.toArray(new UseLink[uses.size()]));
         }
+
+      case ItemPool.REPLICA_MR_ACCESSORY:
+        useType = "shop";
+        useLocation = "shop.php?whichshop=mrreplica";
+        break;
 
         // Subject 37 File goes to Cell #37
       case ItemPool.SUBJECT_37_FILE:

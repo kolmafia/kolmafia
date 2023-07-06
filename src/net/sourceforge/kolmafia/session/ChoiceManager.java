@@ -42,6 +42,9 @@ public abstract class ChoiceManager {
   public static String lastResponseText = "";
   public static String lastDecoratedResponseText = "";
 
+  // In case we were redirected from item used
+  public static AdventureResult lastItemUsed;
+
   public static void reset() {
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
@@ -341,25 +344,12 @@ public abstract class ChoiceManager {
 
     String option = "choiceAdventure" + choice;
     String optionValue = Preferences.getString(option);
-    int amp = optionValue.indexOf("&");
 
+    int amp = optionValue.indexOf("&");
     String decision = (amp == -1) ? optionValue : optionValue.substring(0, amp);
     String extraFields = (amp == -1) ? "" : optionValue.substring(amp + 1);
 
-    // If choice zero is not "Manual Control", adjust it to an actual choice
-
-    decision =
-        ChoiceManager.specialChoiceDecision1(choice, decision, stepCount, request.responseText);
-
-    // If one of the decisions will satisfy a goal, take it
-
-    decision = ChoiceManager.pickGoalChoice(choice, decision);
-
-    // If this choice has special handling based on
-    // character state, convert to real decision index
-
-    decision =
-        ChoiceManager.specialChoiceDecision2(choice, decision, stepCount, request.responseText);
+    decision = getDecision(choice, stepCount, decision, request.responseText);
 
     // Let user handle the choice manually, if requested
 
@@ -431,28 +421,26 @@ public abstract class ChoiceManager {
     ChoiceUtilities.printChoices(ChoiceManager.lastResponseText);
   }
 
+  /**
+   * Map the user-configured choice option to the option submitted to KoL.
+   *
+   * <p>This is for callers who have not already fetched the property because they need to do
+   * additional processing on the value, and who do not care about the stepCount within a choice
+   * chain
+   *
+   * @param choice - the choice number
+   * @param responseText - KoL's responseText containing choice forms
+   * @return decision -
+   */
   public static final int getDecision(int choice, String responseText) {
     String option = "choiceAdventure" + choice;
     String optionValue = Preferences.getString(option);
-    int amp = optionValue.indexOf("&");
 
+    int amp = optionValue.indexOf("&");
     String decision = (amp == -1) ? optionValue : optionValue.substring(0, amp);
     String extraFields = (amp == -1) ? "" : optionValue.substring(amp + 1);
 
-    // If choice decision is not "Manual Control", adjust it to an actual option
-
-    decision =
-        ChoiceManager.specialChoiceDecision1(choice, decision, Integer.MAX_VALUE, responseText);
-
-    // If one of the decisions will satisfy a goal, take it
-
-    decision = ChoiceManager.pickGoalChoice(choice, decision);
-
-    // If this choice has special handling based on
-    // character state, convert to real decision index
-
-    decision =
-        ChoiceManager.specialChoiceDecision2(choice, decision, Integer.MAX_VALUE, responseText);
+    decision = getDecision(choice, Integer.MAX_VALUE, decision, responseText);
 
     // Currently unavailable decision, manual choice requested, or unsupported choice
     if (decision.equals("0")
@@ -462,6 +450,35 @@ public abstract class ChoiceManager {
     }
 
     return StringUtilities.parseInt(decision);
+  }
+
+  /**
+   * Map the user-configured choice option to the option submitted to KoL.
+   *
+   * <p>Some configuration properties map directly, but many depend on current character state or
+   * the whim of KoL itself
+   *
+   * <p>This is the "guts" of this processing.
+   *
+   * @param choice - the choice number
+   * @param stepCount - counter when chaining choices
+   * @param decision - the configured decision from a choiceAdventure property
+   * @param responseText - KoL's responseText containing choice forms
+   * @return this - Allows fluid chaining of fields
+   */
+  private static final String getDecision(
+      int choice, int stepCount, String decision, String responseText) {
+    // If choice decision zero is not "Manual Control", adjust it to an actual option
+    decision = ChoiceManager.specialChoiceDecision1(choice, decision, stepCount, responseText);
+
+    // If one of the decisions will satisfy a goal, take it
+    decision = ChoiceManager.pickGoalChoice(choice, decision);
+
+    // If this choice has special handling based on character state,
+    // convert to real decision index
+    decision = ChoiceManager.specialChoiceDecision2(choice, decision, stepCount, responseText);
+
+    return decision;
   }
 
   private static boolean specialChoiceHandling(final int choice, final GenericRequest request) {
@@ -742,6 +759,10 @@ public abstract class ChoiceManager {
 
         // Again, we should not fail, but cope.
         return "0";
+
+      case 1499:
+        // A Labyrinth of Shadows
+        return RufusManager.specialChoiceDecision(1499, responseText);
     }
 
     return decision;
@@ -2003,6 +2024,10 @@ public abstract class ChoiceManager {
         }
         // If you have none, you must take option 3
         return "3";
+
+      case 1498:
+        // Calling Rufus Back
+        return RufusManager.specialChoiceDecision(1498, responseText);
     }
     return decision;
   }
@@ -2459,9 +2484,13 @@ public abstract class ChoiceManager {
 
     ChoiceManager.lastResponseText = text;
 
-    // Clear lastItemUsed, to prevent the item being "prcessed"
+    // Clear lastItemUsed, to prevent the item being "processed"
     // next time we simply visit the inventory.
-    UseItemRequest.clearLastItemUsed();
+    AdventureResult item = UseItemRequest.getLastItemUsed();
+    if (item != null) {
+      ChoiceManager.lastItemUsed = item;
+      UseItemRequest.clearLastItemUsed();
+    }
 
     ChoiceControl.visitChoice(request);
 

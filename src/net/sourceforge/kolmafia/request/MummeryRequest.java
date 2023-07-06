@@ -71,7 +71,7 @@ public class MummeryRequest extends GenericRequest {
     switch (choice) {
       case 1 -> {
         mod1 = 15;
-        if (FamiliarDatabase.hasAttribute(familiarId, "hands")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "hashands")) {
           mod1 = 30;
         }
         mods += "Meat Drop: [" + mod1 + "*fam(" + familiar + ")],";
@@ -79,7 +79,7 @@ public class MummeryRequest extends GenericRequest {
       case 2 -> {
         mod1 = 4;
         mod2 = 5;
-        if (FamiliarDatabase.hasAttribute(familiarId, "wings")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "haswings")) {
           mod1 = 6;
           mod2 = 10;
         }
@@ -103,14 +103,14 @@ public class MummeryRequest extends GenericRequest {
       }
       case 4 -> {
         mod1 = 15;
-        if (FamiliarDatabase.hasAttribute(familiarId, "clothes")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "wearsclothes")) {
           mod1 = 25;
         }
         mods += "Item Drop: [" + mod1 + "*fam(" + familiar + ")],";
       }
       case 5 -> {
         mod1 = 3;
-        if (FamiliarDatabase.hasAttribute(familiarId, "eyes")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "haseyes")) {
           mod1 = 4;
         }
         mods += "Experience (Mysticality): [" + mod1 + "*fam(" + familiar + ")],";
@@ -118,7 +118,7 @@ public class MummeryRequest extends GenericRequest {
       case 6 -> {
         mod1 = 8;
         mod2 = 10;
-        if (FamiliarDatabase.hasAttribute(familiarId, "mechanical")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "technological")) {
           mod1 = 18;
           mod2 = 20;
         }
@@ -135,7 +135,7 @@ public class MummeryRequest extends GenericRequest {
       }
       case 7 -> {
         mod1 = 2;
-        if (FamiliarDatabase.hasAttribute(familiarId, "sleazy")) {
+        if (FamiliarDatabase.hasAttribute(familiarId, "sleaze")) {
           mod1 = 4;
         }
         mods += "Experience (Moxie): [" + mod1 + "*fam(" + familiar + ")],";

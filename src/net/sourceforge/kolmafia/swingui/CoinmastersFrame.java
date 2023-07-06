@@ -97,6 +97,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel lunarLunchPanel = null;
   private CoinmasterPanel merchTablePanel = null;
   private CoinmasterPanel mrStorePanel = null;
+  private CoinmasterPanel mrStore2002Panel = null;
   private CoinmasterPanel neandermallPanel = null;
   private CoinmasterPanel ninjaPanel = null;
   private CoinmasterPanel nuggletcraftingPanel = null;
@@ -105,6 +106,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel pokemporiumPanel = null;
   private CoinmasterPanel precinctPanel = null;
   private CoinmasterPanel quartersmasterPanel = null;
+  private CoinmasterPanel replicaMrStorePanel = null;
   private CoinmasterPanel rubeePanel = null;
   private CoinmasterPanel shakeShopPanel = null;
   private CoinmasterPanel shoeRepairPanel = null;
@@ -245,6 +247,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     dinostaurPanel = new DinostaurPanel();
     panel.add(dinostaurPanel);
     this.selectorPanel.addPanel(dinostaurPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    replicaMrStorePanel = new ReplicaMrStorePanel();
+    panel.add(replicaMrStorePanel);
+    this.selectorPanel.addPanel(replicaMrStorePanel.getPanelSelector(), panel);
 
     // Aftercore coinmasters
     this.selectorPanel.addSeparator();
@@ -423,6 +430,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     fancyDanPanel = new FancyDanPanel();
     panel.add(fancyDanPanel);
     this.selectorPanel.addPanel(fancyDanPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    mrStore2002Panel = new MrStore2002Panel();
+    panel.add(mrStore2002Panel);
+    this.selectorPanel.addPanel(mrStore2002Panel.getPanelSelector(), panel);
 
     // Events coinmasters
     this.selectorPanel.addSeparator();
@@ -1429,6 +1441,18 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class DinostaurPanel extends CoinmasterPanel {
     public DinostaurPanel() {
       super(DinostaurRequest.DINOSTAUR);
+    }
+  }
+
+  private class ReplicaMrStorePanel extends CoinmasterPanel {
+    public ReplicaMrStorePanel() {
+      super(ReplicaMrStoreRequest.REPLICA_MR_STORE);
+    }
+  }
+
+  private class MrStore2002Panel extends CoinmasterPanel {
+    public MrStore2002Panel() {
+      super(MrStore2002Request.MR_STORE_2002);
     }
   }
 

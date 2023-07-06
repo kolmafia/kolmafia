@@ -104,8 +104,8 @@ public class LoginRequest extends GenericRequest {
       return;
     }
 
-    // Too many login attempts in too short a span of time.	 Please
-    // wait a minute (Literally, like, one minute.	Sixty seconds.)
+    // Too many login attempts in too short a span of time. Please
+    // wait a minute (Literally, like, one minute. Sixty seconds.)
     // and try again.
 
     // Whoops -- it looks like you had a recent session open that
@@ -165,6 +165,28 @@ public class LoginRequest extends GenericRequest {
     return LoginRequest.completedLogin;
   }
 
+  public static final boolean retimein() {
+    if (LoginRequest.lastRequest == null) {
+      return false;
+    }
+
+    LoginRequest.isTimingIn = true;
+    RequestThread.postRequest(LoginRequest.lastRequest);
+    LoginRequest.isTimingIn = false;
+
+    return LoginRequest.completedLogin;
+  }
+
+  public static final boolean relogin() {
+    if (LoginRequest.lastRequest == null) {
+      return false;
+    }
+
+    RequestThread.postRequest(LoginRequest.lastRequest);
+
+    return LoginRequest.completedLogin;
+  }
+
   public static final void isLoggingIn(final boolean isLoggingIn) {
     LoginRequest.isLoggingIn = isLoggingIn;
   }
@@ -175,6 +197,11 @@ public class LoginRequest extends GenericRequest {
 
   public static final boolean completedLogin() {
     return LoginRequest.completedLogin;
+  }
+
+  public static final void setLoggedOut() {
+    LoginRequest.completedLogin = false;
+    LoginRequest.lastLoginAttempt = 0;
   }
 
   public static final void processLoginRequest(final GenericRequest request) {
@@ -199,6 +226,15 @@ public class LoginRequest extends GenericRequest {
     }
 
     if (name.contains("..")) {
+      return;
+    }
+
+    // Optionally do a ping and check the connection.
+    // Returns true if it is acceptable.
+    // Returns false if it is unacceptable and we are logged out.
+    if (!LoginManager.ping()) {
+      // LoginManager left us logged out
+      LoginRequest.lastLoginAttempt = 0;
       return;
     }
 

@@ -199,6 +199,7 @@ public class EffectPool {
   public static final int STONE_FACED = 1031;
   public static final int N_SPATIAL_VISION = 1035;
   public static final int CONSUMED_BY_FEAR = 1146;
+  public static final int CHIBICHANGED = 1167;
   public static final int DEEP_TAINTED_MIND = 1217;
   public static final int TOUCHED_BY_A_GHOST = 1276;
   public static final int CHILLED_TO_THE_BONE = 1277;
@@ -355,6 +356,7 @@ public class EffectPool {
   public static final int PING_PONG_PROWESS = 2768;
   public static final int PING_PONG_PERSISTENCE = 2769;
   public static final int SHADOW_AFFINITY = 2802;
+  public static final int OMINOUS_WISDOM = 2810;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

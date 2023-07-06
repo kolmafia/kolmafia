@@ -3432,7 +3432,7 @@ public class QuestManagerTest {
         request.responseText = html("request/test_visit_town_wrong.html");
         QuestManager.handleQuestChange(request);
 
-        assertThat("speakeasyName", isSetTo("BLORP"));
+        assertThat("speakeasyName", isSetTo("Veracity's Place"));
       }
     }
 
@@ -3671,6 +3671,21 @@ public class QuestManagerTest {
         FightRequest.registerRequest(true, URL);
         FightRequest.updateCombatData(URL, monsterName, html);
         assertThat("8BitBonusTurns", isSetTo(startingValue));
+      }
+    }
+  }
+
+  @Nested
+  class FantasyRealm {
+    @Test
+    public void cantrackBarrwWraith() {
+      var cleanups =
+          new Cleanups(
+              withLastLocation("The Barrow Mounds"), withProperty("_frMonstersKilled", ""));
+      try (cleanups) {
+        String responseText = html("request/test_barrow_wraith_win.html");
+        QuestManager.updateQuestData(responseText, "barrow wraith?");
+        assertEquals(Preferences.getString("_frMonstersKilled"), "barrow wraith?:1,");
       }
     }
   }

@@ -374,6 +374,7 @@ class ConsumablesDatabaseTest {
       DebugDatabase.cacheItemDescriptionText(
           ItemPool.RING, html("request/test_normal_desc_item_ring.html"));
       TCRSDatabase.resetModifiers();
+      ConsumablesDatabase.clearAndRebuild();
       try (var walker = Files.walk(KoLConstants.DATA_LOCATION.toPath())) {
         walker
             .map(Path::toFile)

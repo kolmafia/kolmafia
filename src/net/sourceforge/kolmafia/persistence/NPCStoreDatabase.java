@@ -322,10 +322,18 @@ public class NPCStoreDatabase {
         case ItemPool.FOLDER_03:
           {
             AdventureResult folderHolder = ItemPool.get(ItemPool.FOLDER_HOLDER);
-            return folderHolder.getCount(KoLConstants.inventory) > 0
+            if (folderHolder.getCount(KoLConstants.inventory) > 0
                 || folderHolder.getCount(KoLConstants.closet) > 0
                 || folderHolder.getCount(KoLConstants.collection) > 0
-                || KoLCharacter.hasEquipped(folderHolder);
+                || KoLCharacter.hasEquipped(folderHolder)) {
+              return true;
+            }
+            if (KoLCharacter.inLegacyOfLoathing()) {
+              AdventureResult replicaFolderHolder = ItemPool.get(ItemPool.REPLICA_FOLDER_HOLDER);
+              return replicaFolderHolder.getCount(KoLConstants.inventory) > 0
+                  || KoLCharacter.hasEquipped(replicaFolderHolder);
+            }
+            return false;
           }
         case ItemPool.WATER_WINGS_FOR_BABIES:
         case ItemPool.MINI_LIFE_PRESERVER:

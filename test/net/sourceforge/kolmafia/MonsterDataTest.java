@@ -1,11 +1,14 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
@@ -339,11 +342,14 @@ public class MonsterDataTest {
     @ParameterizedTest
     @CsvSource({
       // Test regular drops
+      "fluffy bunny, 'bunny liver (75)'",
       "skeleton with a mop, 'beer-soaked mop (10), ice-cold Willer (30), ice-cold Willer (30)'",
       // Test mix of pp and no pp
       "cheerless mime executive, 'crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), warehouse key (0 pp only)'",
       // Test mix of item drops and bounty drops
       "novelty tropical skeleton, 'cherry (0), cherry (0), grapefruit (0), grapefruit (0), orange (0), orange (0), strawberry (0), strawberry (0), lemon (0), lemon (0), novelty fruit hat (0 cond), cherry stem (bounty)'",
+      // Test fractional drops
+      "stench zombie, 'Dreadsylvanian Almanac page (0 no mod), Freddy Kruegerand (0 no mod), muddy skirt (0.1 cond)'"
     })
     void itemDropsAreRenderedProperly(final String monsterName, final String itemDropString) {
       var monster = MonsterDatabase.findMonster(monsterName);
@@ -352,6 +358,50 @@ public class MonsterDataTest {
       monster.appendItemDrops(builder);
 
       assertThat(builder.toString(), equalTo("<br />Item Drops: " + itemDropString));
+    }
+  }
+
+  @Nested
+  class ShouldSteal {
+    @Test
+    public void shouldntStealIfNoItems() {
+      var cleanups = withMoxie(10000);
+
+      try (cleanups) {
+        var monster = MonsterDatabase.findMonster("crate");
+        assertFalse(monster.shouldSteal());
+      }
+    }
+
+    @Test
+    public void shouldntStealIfAllItemsAreNoPP() {
+      var cleanups = withMoxie(10000);
+
+      try (cleanups) {
+        var monster = MonsterDatabase.findMonster("Arizona bark scorpion");
+        assertFalse(monster.shouldSteal());
+      }
+    }
+
+    @Test
+    public void shouldntStealIfItemsWillSurelyDrop() {
+      var cleanups = withMoxie(10000);
+
+      try (cleanups) {
+        var monster = MonsterDatabase.findMonster("Astronomer");
+        assertFalse(monster.shouldSteal());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"100,true", "1,false"})
+    public void shouldStealGoallessIfOutMoxieing(int moxie, boolean shouldSteal) {
+      var cleanups = withMoxie(moxie);
+
+      try (cleanups) {
+        var monster = MonsterDatabase.findMonster("scary clown");
+        assertThat(monster.shouldSteal(), is(shouldSteal));
+      }
     }
   }
 }

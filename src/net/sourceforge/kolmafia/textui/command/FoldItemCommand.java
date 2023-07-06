@@ -109,6 +109,7 @@ public class FoldItemCommand extends AbstractCommand {
     int sourceIndex = (targetIndex > 0) ? targetIndex - 1 : groupSize - 1;
     AdventureResult source = null;
     AdventureResult worn = null;
+    AdventureResult retrieve = null;
     int wornIndex = 0;
     Slot slot = Slot.NONE;
     boolean multiple = false;
@@ -125,19 +126,41 @@ public class FoldItemCommand extends AbstractCommand {
       }
 
       // If we have this item equipped, remember where
-      Slot where = KoLCharacter.equipmentSlot(item);
-      if (where != Slot.NONE) {
-        if (worn == null) {
-          worn = item;
-          wornIndex = sourceIndex;
-          slot = where;
-        } else {
-          multiple = true;
+      int equippedCount = InventoryManager.getEquippedCount(item, true);
+      if (equippedCount > 0) {
+        Slot where = KoLCharacter.equipmentSlot(item);
+        if (where != Slot.NONE) {
+          if (worn != null) {
+            multiple = true;
+          }
+
+          if (where.ordinal() > slot.ordinal()) {
+            worn = item;
+            wornIndex = sourceIndex;
+            slot = where;
+          }
+        }
+      } else if (retrieve == null) {
+        // If this item can be retrieved, remember that
+        int accessibleCount = InventoryManager.getAccessibleCount(item);
+        if (accessibleCount > 0) {
+          retrieve = item;
         }
       }
 
       // Consider the next item.
       sourceIndex = sourceIndex > 0 ? sourceIndex - 1 : groupSize - 1;
+    }
+
+    // If there is no foldable item in inventory or equipped, but we
+    // can retrieve it from somewhere, put it into inventory right now.
+    if (source == null && worn == null && retrieve != null) {
+      if (!InventoryManager.retrieveItem(retrieve)) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Unable to retrieve your " + retrieve);
+        return;
+      }
+      // It is now in inventory
+      source = retrieve;
     }
 
     // If a Boris's Helm is equipped, twist it regardless of whether or not
@@ -191,7 +214,7 @@ public class FoldItemCommand extends AbstractCommand {
     // If nothing in inventory is foldable, consider equipment
     if (source == null) {
       // Too many choices. Let player decide which one
-      if (multiple) {
+      if (multiple && Preferences.getBoolean("errorOnAmbiguousFold")) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Unequip the item you want to fold into that.");
         return;
       }
@@ -278,9 +301,23 @@ public class FoldItemCommand extends AbstractCommand {
         }
       }
 
+      int tote =
+          KoLCharacter.inLegacyOfLoathing()
+                  && InventoryManager.hasItem(ItemPool.REPLICA_GARBAGE_TOTE)
+              ? ItemPool.REPLICA_GARBAGE_TOTE
+              : ItemPool.GARBAGE_TOTE;
+
+      // If we found a tote item, we made it with a tote.
+      // Make sure it is in inventory
+      if (!InventoryManager.retrieveItem(tote)) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Unable to retrieve your " + ItemDatabase.getDisplayName(tote));
+        return;
+      }
+
       GenericRequest useRequest = new GenericRequest("inv_use.php");
       useRequest.addFormField("pwd", GenericRequest.passwordHash);
-      useRequest.addFormField("whichitem", String.valueOf(ItemPool.GARBAGE_TOTE));
+      useRequest.addFormField("whichitem", String.valueOf(tote));
       RequestThread.postRequest(useRequest);
 
       GenericRequest choiceRequest = new GenericRequest("choice.php");

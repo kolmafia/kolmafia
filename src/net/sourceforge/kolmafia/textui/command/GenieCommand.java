@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
@@ -36,7 +37,9 @@ public class GenieCommand extends AbstractCommand {
       parameters = parameters.substring(5);
       if (parameters.startsWith("pocket")) {
         if (Preferences.getInteger("_genieWishesUsed") == 3
-            || !InventoryManager.hasItem(ItemPool.GENIE_BOTTLE)) {
+            || (!InventoryManager.hasItem(ItemPool.GENIE_BOTTLE)
+                && (!KoLCharacter.inLegacyOfLoathing()
+                    || !InventoryManager.hasItem(ItemPool.REPLICA_GENIE_BOTTLE)))) {
           KoLmafia.updateDisplay(
               MafiaState.ERROR, "Don't use a pocket wish to make a pocket wish.");
           return;

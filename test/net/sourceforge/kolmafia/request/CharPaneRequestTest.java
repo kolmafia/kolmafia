@@ -2,17 +2,21 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +32,23 @@ class CharPaneRequestTest {
     Preferences.reset("CharPaneRequestTest");
     KoLCharacter.setCurrentRun(0);
     CharPaneRequest.reset();
+  }
+
+  @Test
+  void canFindAvatarWithCrossorigin() {
+    KoLCharacter.setAvatar("");
+    CharPaneRequest.processResults(html("request/test_charpane_sauce.html"));
+    var sauceCharacterAvatar = KoLCharacter.getAvatar();
+    assertTrue(
+        sauceCharacterAvatar.contains("otherimages/classav4a.gif"), "fails with crossorigin");
+  }
+
+  @Test
+  void canFindAvatarWithouyCrossorigin() {
+    KoLCharacter.setAvatar("");
+    CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
+    var snowCharacterAvatar = KoLCharacter.getAvatar();
+    assertTrue(snowCharacterAvatar.contains("itemimages/snowface5.gif"), "fails on no crossorigin");
   }
 
   @Test
@@ -73,6 +94,57 @@ class CharPaneRequestTest {
       CharPaneRequest.parseStatus(json);
 
       assertThat(KoLCharacter.getLimitMode(), is(LimitMode.UNKNOWN));
+    }
+  }
+
+  @Nested
+  class NonCombatForcers {
+    @Test
+    void anyNoncombatForcerSetsFlagInApi() {
+      var cleanups = new Cleanups(withProperty("noncombatForcerActive", false));
+      try (cleanups) {
+        var json =
+            ApiRequest.getJSON(html("request/test_api_status_noncomforcers.json"), "testing");
+        assertThat(json, notNullValue());
+
+        CharPaneRequest.parseStatus(json);
+
+        assertThat("noncombatForcerActive", isSetTo(true));
+      }
+    }
+
+    @Test
+    void absenceOfNoncombatForcerUnsetsFlagInApi() {
+      var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+      try (cleanups) {
+        var json =
+            ApiRequest.getJSON(
+                html("request/test_adventure_crystal_ball_handles_noncombat_api_preadventure.json"),
+                "testing");
+        assertThat(json, notNullValue());
+
+        CharPaneRequest.parseStatus(json);
+
+        assertThat("noncombatForcerActive", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canParseNoncombatModifiersInCharpane() {
+      CharPaneRequest.processResults(
+          html("request/test_parse_charpane_for_noncombat_forcers.html"));
+      assertThat("noncombatForcerActive", isSetTo(true));
+    }
+
+    @Test
+    void canParseAbsenceOfNoncombatModifiersInCharpane() {
+      var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+
+      try (cleanups) {
+        // This one doesn't hav eany noncombat modifiers
+        CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
+        assertThat("noncombatForcerActive", isSetTo(false));
+      }
     }
   }
 
@@ -126,6 +198,26 @@ class CharPaneRequestTest {
         assertThat("8BitScore", isSetTo(expectedScore));
         assertThat("8BitColor", isSetTo(color));
         assertThat("8BitBonusTurns", isSetTo(0));
+      }
+    }
+  }
+
+  @Nested
+  class Comma {
+    @Test
+    void commaGrantsGreyGooseSkills() {
+      var cleanups =
+          new Cleanups(withFamiliar(FamiliarPool.CHAMELEON, 200), withProperty("commaFamiliar"));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_comma_as_goose.html"));
+        assertThat("commaFamiliar", isSetTo("Grey Goose"));
+        assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(true));
+
+        // Removed after change
+        CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
+        assertThat("commaFamiliar", isSetTo("Homemade Robot"));
+        assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(false));
       }
     }
   }

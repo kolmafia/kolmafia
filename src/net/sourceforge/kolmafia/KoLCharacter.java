@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
@@ -1751,12 +1752,16 @@ public abstract class KoLCharacter {
       freerests += 3;
     if (KoLCharacter.hasSkill(SkillPool.FOOD_COMA)) freerests += 10;
     if (KoLCharacter.hasSkill(SkillPool.DOG_TIRED)) freerests += 5;
-    if (ChateauRequest.ceiling != null && ChateauRequest.ceiling.equals("ceiling fan"))
-      freerests += 5;
-    if (Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
+    if (KoLConstants.chateau.contains(ChateauRequest.CHATEAU_FAN)) freerests += 5;
+    if (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
+        && Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
     if (KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
         || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
+    if (InventoryManager.getCount(ItemPool.CINCHO_DE_MAYO) > 0
+        || KoLCharacter.hasEquipped(ItemPool.CINCHO_DE_MAYO)) freerests += 3;
+    if (InventoryManager.getCount(ItemPool.REPLICA_CINCHO_DE_MAYO) > 0
+        || KoLCharacter.hasEquipped(ItemPool.REPLICA_CINCHO_DE_MAYO)) freerests += 3;
     return freerests;
   }
 
@@ -2953,7 +2958,7 @@ public abstract class KoLCharacter {
               default -> null;
             };
         if (pref != null) {
-          Preferences.increment(pref, points, 21, false);
+          Preferences.increment(pref, points, 11, false);
         }
       }
       case GLOVER -> {
@@ -3014,6 +3019,28 @@ public abstract class KoLCharacter {
       KoLCharacter.resetSkills();
     }
 
+    // Reset Legacy of Loathing stuff
+    if (oldPath == Path.LEGACY_OF_LOATHING) {
+      Preferences.resetToDefault("replicaChateauAvailable");
+      Preferences.resetToDefault("replicaNeverendingPartyAlways");
+      Preferences.resetToDefault("replicaWitchessSetAvailable");
+
+      // if replica emotion chipped
+      KoLCharacter.resetSkills();
+
+      // we lose replica familiars and items, but keep non-replica items equipped on those familiars
+      // resetting everything is easier
+      // we reset familiars a bit later
+      InventoryManager.refresh();
+      EquipmentManager.resetEquipment();
+      RequestThread.postRequest(new EquipmentRequest(EquipmentRequestType.EQUIPMENT));
+      KoLCharacter.currentModifiers.reset();
+
+      // we lose DNA lab and maybe source terminal / witchess
+      CampgroundRequest.reset();
+      RequestThread.postRequest(new CampgroundRequest("workshed"));
+    }
+
     // If we were in Hardcore or a path that alters skills, automatically recall skills
     if (restricted
         || wasInHardcore
@@ -3027,8 +3054,7 @@ public abstract class KoLCharacter {
         || oldPath == Path.YOU_ROBOT
         || oldPath == Path.JOURNEYMAN) {
       RequestThread.postRequest(new CharSheetRequest());
-      InventoryManager.checkPowerfulGlove();
-      InventoryManager.checkDesignerSweatpants();
+      InventoryManager.checkSkillGrantingEquipment();
     }
 
     if (restricted
@@ -3042,7 +3068,8 @@ public abstract class KoLCharacter {
     if (restricted
         || oldPath == Path.LICENSE_TO_ADVENTURE
         || oldPath == Path.YOU_ROBOT
-        || oldPath == Path.QUANTUM) {
+        || oldPath == Path.QUANTUM
+        || oldPath == Path.LEGACY_OF_LOATHING) {
       // Clear out any erroneous familiars (e.g. Quantum Terrarium adds any familiars you see)
       familiars.clear();
 
@@ -3447,6 +3474,10 @@ public abstract class KoLCharacter {
 
   public static final boolean inShadowsOverLoathing() {
     return KoLCharacter.ascensionPath == Path.SHADOWS_OVER_LOATHING;
+  }
+
+  public static final boolean inLegacyOfLoathing() {
+    return KoLCharacter.ascensionPath == Path.LEGACY_OF_LOATHING;
   }
 
   public static final boolean isUnarmed() {
@@ -3957,6 +3988,7 @@ public abstract class KoLCharacter {
             break;
 
           case SkillPool.EMOTIONALLY_CHIPPED:
+          case SkillPool.REPLICA_EMOTIONALLY_CHIPPED:
             KoLCharacter.addAvailableSkill(SkillPool.FEEL_DISAPPOINTED);
             KoLCharacter.addAvailableSkill(SkillPool.FEEL_ENVY);
             KoLCharacter.addAvailableSkill(SkillPool.FEEL_EXCITEMENT);
@@ -5186,8 +5218,7 @@ public abstract class KoLCharacter {
     }
 
     // Add modifiers from campground equipment.
-    for (int i = 0; i < KoLConstants.campground.size(); ++i) {
-      AdventureResult item = KoLConstants.campground.get(i);
+    for (AdventureResult item : KoLConstants.campground) {
       // Skip ginormous pumpkin growing in garden
       if (item.getItemId() == ItemPool.GINORMOUS_PUMPKIN) {
         continue;
@@ -5195,6 +5226,11 @@ public abstract class KoLCharacter {
       for (int count = item.getCount(); count > 0; --count) {
         newModifiers.add(ModifierDatabase.getItemModifiers(item.getItemId()));
       }
+    }
+
+    // Add modifiers from Chateau
+    for (AdventureResult item : KoLConstants.chateau) {
+      newModifiers.add(ModifierDatabase.getItemModifiers(item.getItemId()));
     }
 
     // Add modifiers from dwelling
@@ -5213,10 +5249,6 @@ public abstract class KoLCharacter {
     if (HolidayDatabase.getGrimacePhase() == 5) {
       newModifiers.addDouble(
           DoubleModifier.RESTING_HP_PCT, 100, ModifierType.EVENT, "Moons (Grimace full)");
-    }
-
-    if (ChateauRequest.ceiling != null) {
-      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.ITEM, ChateauRequest.ceiling));
     }
 
     for (String equip : ClanManager.getClanRumpus()) {
@@ -5541,11 +5573,12 @@ public abstract class KoLCharacter {
             EffectPool.STEELY_EYED_SQUINT);
       }
     }
-    if (Modifiers.currentLocation.equals("Shadow Rift")) {
+    if (Modifiers.currentZone.equals("Shadow Rift")) {
       newModifiers.addDouble(
           DoubleModifier.ITEMDROP,
-          newModifiers.getAccumulator(DoubleModifier.ITEMDROP) * -0.8,
-          ModifierType.LOC,
+          // It includes your current familiar
+          newModifiers.getDouble(DoubleModifier.ITEMDROP) * -0.8,
+          ModifierType.ZONE,
           "Shadow Rift");
     }
 
@@ -5650,7 +5683,7 @@ public abstract class KoLCharacter {
             newModifiers.add(ModifierDatabase.getItemModifiers(card.getItemId()));
           }
         }
-        case ItemPool.FOLDER_HOLDER ->
+        case ItemPool.FOLDER_HOLDER, ItemPool.REPLICA_FOLDER_HOLDER ->
         // Apply folders
         SlotSet.FOLDER_SLOTS.stream()
             .map(equipment::get)

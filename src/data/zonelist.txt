@@ -52,6 +52,8 @@ Farm	IsleWar	McMillicancuddy's Farm
 Orchard	IsleWar	Organic Orchard
 Junkyard	IsleWar	Wartime Junkyard
 
+Shadow Rift	Shadow Rift	Shadow Rift
+
 The Sea	The Sea	The Sea
 The Sea Floor	The Sea	The Sea Floor
 The Mer-Kin Deepcity	The Sea	The Mer-Kin Deepcity
@@ -173,7 +175,6 @@ Override	Unsorted	Discoveries
 # The following zones are only available at the whim of KoL
 
 Events	Events	Events
-Shadow Rift	Events	Shadow Rift
 
 Twitch	Town	Time-Twitching Tower
 

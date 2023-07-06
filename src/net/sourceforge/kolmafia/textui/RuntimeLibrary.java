@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -75,6 +76,7 @@ import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.PriceLevel;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
@@ -82,6 +84,7 @@ import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -108,6 +111,8 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.JokePocket;
@@ -167,6 +172,7 @@ import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand;
+import net.sourceforge.kolmafia.textui.command.MonkeyPawCommand;
 import net.sourceforge.kolmafia.textui.command.SetPreferencesCommand;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateValue;
@@ -186,6 +192,7 @@ import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleXmlSerializer;
@@ -201,9 +208,9 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 public abstract class RuntimeLibrary {
   private static final RecordType itemDropRec =
       new RecordType(
-          "{item drop; int rate; string type;}",
+          "{item drop; float rate; string type;}",
           new String[] {"drop", "rate", "type"},
-          new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE});
+          new Type[] {DataTypes.ITEM_TYPE, DataTypes.FLOAT_TYPE, DataTypes.STRING_TYPE});
 
   private static final RecordType maximizerResults =
       new RecordType(
@@ -600,6 +607,21 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("to_url", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.EFFECT_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.SKILL_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("to_wiki_url", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("desc_to_effect", DataTypes.EFFECT_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
@@ -719,6 +741,12 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.LOCATION_TYPE};
     functions.add(new LibraryFunction("adv1", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.LOCATION_TYPE};
+    functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.LOCATION_TYPE, DataTypes.STRING_TYPE, DataTypes.FLOAT_TYPE};
+    functions.add(new LibraryFunction("eight_bit_points", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.INT_TYPE};
     functions.add(new LibraryFunction("get_ccs_action", DataTypes.STRING_TYPE, params));
@@ -1982,6 +2010,12 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction("split_string", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
+    params = new Type[] {new AggregateType(DataTypes.STRING_TYPE, 0)};
+    functions.add(new LibraryFunction("join_strings", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {new AggregateType(DataTypes.STRING_TYPE, 0), DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("join_strings", DataTypes.STRING_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("group_string", DataTypes.REGEX_GROUP_TYPE, params));
 
@@ -2373,10 +2407,10 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_INT_TYPE, params));
+    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_FLOAT_TYPE, params));
 
     params = new Type[] {DataTypes.MONSTER_TYPE};
-    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_INT_TYPE, params));
+    functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_FLOAT_TYPE, params));
 
     Type itemDropRecArray = new AggregateType(itemDropRec, 0);
 
@@ -2778,6 +2812,15 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction(
             "get_autumnaton_locations", new AggregateType(DataTypes.LOCATION_TYPE, 0), params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.EFFECT_TYPE};
+    functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -3654,6 +3697,20 @@ public abstract class RuntimeLibrary {
         : new Value(adventure.getRequest().getURLString());
   }
 
+  public static Value to_wiki_url(ScriptRuntime controller, final Value value) {
+    var type =
+        switch (value.getType().getType()) {
+          case EFFECT -> WikiUtilities.WikiType.EFFECT;
+          case ITEM -> WikiUtilities.WikiType.ITEM;
+          case MONSTER -> WikiUtilities.WikiType.MONSTER;
+          case SKILL -> WikiUtilities.WikiType.SKILL;
+          default -> WikiUtilities.WikiType.ANY;
+        };
+
+    var link = WikiUtilities.getWikiLocation(value.toString(), type, false);
+    return new Value(link);
+  }
+
   // Functions related to daily information which get
   // updated usually once per day.
 
@@ -3999,6 +4056,59 @@ public abstract class RuntimeLibrary {
     }
 
     return RuntimeLibrary.continueValue();
+  }
+
+  private record EightBitZone(DoubleModifier mod, int base, String color) {}
+
+  private static final Map<Integer, EightBitZone> EIGHT_BIT_ZONES =
+      Map.ofEntries(
+          Map.entry(
+              AdventurePool.FUNGUS_PLAINS, new EightBitZone(DoubleModifier.MEATDROP, 150, "red")),
+          Map.entry(
+              AdventurePool.HEROS_FIELD, new EightBitZone(DoubleModifier.ITEMDROP, 100, "green")),
+          Map.entry(
+              AdventurePool.VANYAS_CASTLE,
+              new EightBitZone(DoubleModifier.INITIATIVE, 300, "black")),
+          Map.entry(
+              AdventurePool.MEGALO_CITY,
+              new EightBitZone(DoubleModifier.DAMAGE_ABSORPTION, 300, "blue")));
+
+  public static Value eight_bit_points(ScriptRuntime controller, final Value locationValue) {
+    var location = (KoLAdventure) locationValue.rawValue();
+    EightBitZone zone = EIGHT_BIT_ZONES.getOrDefault(location.getSnarfblat(), null);
+    if (zone == null) {
+      return DataTypes.ZERO_VALUE;
+    }
+
+    String color = Preferences.getString("8BitColor");
+    double modValue = KoLCharacter.currentNumericModifier(zone.mod());
+
+    return eight_bit_points(zone, color, modValue);
+  }
+
+  public static Value eight_bit_points(EightBitZone zone, String color, double modValue) {
+    boolean isBonus = zone.color().equals(color);
+    int base = isBonus ? 100 : 50;
+    int divisor = isBonus ? 10 : 20;
+    long bonus = Math.round(Math.min(300, Math.max(0, modValue - zone.base)) / divisor) * 10;
+    return new Value(base + bonus);
+  }
+
+  public static Value eight_bit_points(
+      ScriptRuntime controller,
+      final Value locationValue,
+      final Value colorValue,
+      final Value modValue) {
+    var location = (KoLAdventure) locationValue.rawValue();
+    EightBitZone zone = EIGHT_BIT_ZONES.getOrDefault(location.getSnarfblat(), null);
+    if (zone == null) {
+      return DataTypes.ZERO_VALUE;
+    }
+
+    String color = RuntimeLibrary.cleanString(colorValue);
+    double mod = modValue.floatValue();
+
+    return eight_bit_points(zone, color, mod);
   }
 
   public static Value get_ccs_action(ScriptRuntime controller, final Value index) {
@@ -6524,7 +6634,7 @@ public abstract class RuntimeLibrary {
         || FightRequest.choiceFollowsFight) {
       return RuntimeLibrary.run_choice(controller, new Value(-1));
     }
-    return new Value(DataTypes.BUFFER_TYPE, "");
+    return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
   }
 
   public static Value stun_skill(ScriptRuntime controller) {
@@ -7452,16 +7562,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value split_string(ScriptRuntime controller, final Value string) {
-    String[] pieces = string.toString().split(KoLConstants.LINE_BREAK);
-
-    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, pieces.length);
-    ArrayValue value = new ArrayValue(type);
-
-    for (int i = 0; i < pieces.length; ++i) {
-      value.aset(new Value(i), new Value(pieces[i]));
-    }
-
-    return value;
+    return split_string(string.toString().split(KoLConstants.LINE_BREAK));
   }
 
   public static Value split_string(
@@ -7479,8 +7580,11 @@ public abstract class RuntimeLibrary {
         throw controller.runtimeException("Invalid pattern syntax");
       }
     }
-    String[] pieces = p.split(string.toString());
 
+    return split_string(p.split(string.toString()));
+  }
+
+  private static Value split_string(String[] pieces) {
     AggregateType type = new AggregateType(DataTypes.STRING_TYPE, pieces.length);
     ArrayValue value = new ArrayValue(type);
 
@@ -7489,6 +7593,20 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value join_strings(ScriptRuntime controller, final Value strings) {
+    return join_strings(strings, KoLConstants.LINE_BREAK);
+  }
+
+  public static Value join_strings(
+      ScriptRuntime controller, final Value strings, final Value joiner) {
+    return join_strings(strings, joiner.toString());
+  }
+
+  private static Value join_strings(final Value strings, final String joiner) {
+    Value[] array = (Value[]) strings.content;
+    return new Value(Arrays.stream(array).map(Value::toString).collect(Collectors.joining(joiner)));
   }
 
   public static Value group_string(
@@ -8366,7 +8484,13 @@ public abstract class RuntimeLibrary {
 
   public static Value set_location(ScriptRuntime controller, final Value location) {
     KoLAdventure adventure = (KoLAdventure) location.rawValue();
-    KoLAdventure.setNextAdventure(adventure);
+    if (adventure == null) {
+      Preferences.setString("nextAdventure", "None");
+      KoLCharacter.updateSelectedLocation(null);
+    } else {
+      Preferences.setString("nextAdventure", adventure.getAdventureName());
+      KoLCharacter.updateSelectedLocation(adventure);
+    }
     return DataTypes.VOID_VALUE;
   }
 
@@ -8405,7 +8529,7 @@ public abstract class RuntimeLibrary {
     ArrayValue value = new ArrayValue(type);
 
     Map<MonsterData, MonsterData> classMap =
-        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass().getName());
+        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass());
     Map<MonsterData, MonsterData> pathMap =
         MonsterDatabase.getMonsterPathMap(KoLCharacter.getPath().getName());
 
@@ -8430,7 +8554,7 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(type);
 
     Map<MonsterData, MonsterData> classMap =
-        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass().getName());
+        MonsterDatabase.getMonsterClassMap(KoLCharacter.getAscensionClass());
     Map<MonsterData, MonsterData> pathMap =
         MonsterDatabase.getMonsterPathMap(KoLCharacter.getPath().getName());
 
@@ -8823,29 +8947,22 @@ public abstract class RuntimeLibrary {
 
   public static Value item_drops(ScriptRuntime controller) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
-    List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
-
-    MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
-
-    for (AdventureResult result : data) {
-      value.aset(
-          DataTypes.makeItemValue(result.getItemId(), true),
-          DataTypes.parseIntValue(String.valueOf(result.getCount() >> 16), true));
-    }
-
-    return value;
+    return item_drops(monster);
   }
 
   public static Value item_drops(ScriptRuntime controller, final Value arg) {
     MonsterData monster = (MonsterData) arg.rawValue();
-    List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
+    return item_drops(monster);
+  }
 
-    MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
+  private static Value item_drops(MonsterData monster) {
+    List<MonsterDrop> data = monster == null ? new ArrayList<>() : monster.getItems();
 
-    for (AdventureResult result : data) {
+    MapValue value = new MapValue(DataTypes.ITEM_TO_FLOAT_TYPE);
+
+    for (MonsterDrop result : data) {
       value.aset(
-          DataTypes.makeItemValue(result.getItemId(), true),
-          DataTypes.parseIntValue(String.valueOf(result.getCount() >> 16), true));
+          DataTypes.makeItemValue(result.item().getItemId(), true), new Value(result.chance()));
     }
 
     return value;
@@ -8860,21 +8977,19 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value item_drops_array(ScriptRuntime controller, MonsterData monster) {
-    List<AdventureResult> data = monster == null ? new ArrayList<>() : monster.getItems();
+    List<MonsterDrop> data = monster == null ? new ArrayList<>() : monster.getItems();
     int dropCount = data.size();
     AggregateType type = new AggregateType(RuntimeLibrary.itemDropRec, dropCount);
     ArrayValue value = new ArrayValue(type);
     for (int i = 0; i < dropCount; ++i) {
-      AdventureResult result = data.get(i);
-      int count = result.getCount();
-      char dropType = (char) (count & 0xFFFF);
+      MonsterDrop result = data.get(i);
+      DropFlag dropType = result.flag();
       RecordValue rec = (RecordValue) value.aref(new Value(i));
 
-      rec.aset(0, DataTypes.makeItemValue(result.getItemId(), true), null);
-      rec.aset(1, new Value(count >> 16), null);
-      if (dropType < '1'
-          || dropType > '9') { // leave as an empty string if no special type was given
-        rec.aset(2, new Value(String.valueOf(dropType)), null);
+      rec.aset(0, DataTypes.makeItemValue(result.item().getItemId(), true), null);
+      rec.aset(1, new Value(result.chance()), null);
+      if (dropType != DropFlag.NONE) { // leave as an empty string if no special type was given
+        rec.aset(2, new Value(dropType.toString()), null);
       }
     }
 
@@ -9104,7 +9219,9 @@ public abstract class RuntimeLibrary {
     Type type = arg.getType();
     String name = arg.toString();
     int id = (int) arg.intValue();
-    if (type.equals(DataTypes.ITEM_TYPE) || type.equals(DataTypes.EFFECT_TYPE)) {
+    if (type.equals(DataTypes.ITEM_TYPE)
+        || type.equals(DataTypes.SKILL_TYPE)
+        || type.equals(DataTypes.EFFECT_TYPE)) {
       return "[" + id + "]";
     }
     int index = name.indexOf(":");
@@ -9942,5 +10059,33 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  // boolean monkey_paw( string s );
+  // boolean monkey_paw( item i );
+  // boolean monkey_paw( effect e );
+  public static Value monkey_paw(ScriptRuntime controller, final Value arg) {
+    String wish = null;
+    Type type = arg.getType();
+    if (type.equals(TypeSpec.ITEM)) {
+      AdventureResult item = ItemPool.get((int) arg.intValue());
+      wish = MonkeyPawCommand.getValidItemSubstring(item.getName());
+    } else if (type.equals(TypeSpec.EFFECT)) {
+      AdventureResult effect = EffectPool.get((int) arg.intValue());
+      wish = MonkeyPawCommand.getValidEffectSubstring(effect.getName());
+    } else {
+      wish = arg.toString();
+    }
+    if (wish == null) {
+      return DataTypes.FALSE_VALUE;
+    } else {
+      return DataTypes.makeBooleanValue(monkey_paw(wish));
+    }
+  }
+
+  private static boolean monkey_paw(String wish) {
+    var req = new MonkeyPawRequest(wish);
+    RequestThread.postRequest(req);
+    return req.responseText != null && !req.responseText.contains("impossible");
   }
 }

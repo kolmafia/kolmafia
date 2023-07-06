@@ -4,6 +4,7 @@ import static internal.helpers.Maximizer.*;
 import static internal.helpers.Player.*;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -25,10 +26,10 @@ public class MaximizerCreatableTest {
 
   @Test
   public void canPasteAsshat() {
-    var cleanups = new Cleanups(withItem("bum cheek", 2), withItem("meat paste", 1));
+    var cleanups =
+        new Cleanups(withItem("bum cheek", 2), withItem("meat paste", 1), withConcoctionRefresh());
 
     try (cleanups) {
-      ConcoctionDatabase.refreshConcoctions();
       maximizeCreatable("sleaze dmg");
       recommendedSlotIs(Slot.HAT, "asshat");
     }
@@ -238,6 +239,53 @@ public class MaximizerCreatableTest {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("-combat");
         recommendedSlotIsUnchanged(Slot.HAT);
+      }
+    }
+  }
+
+  @Nested
+  class Foldables {
+    @Test
+    public void willFoldIfBetter() {
+      var cleanups = withEquippableItem(ItemPool.TURTLE_WAX_GREAVES);
+
+      try (cleanups) {
+        maximizeCreatable("hot res");
+        recommendedSlotIs(Slot.HAT, "turtle wax helmet");
+      }
+    }
+
+    @Test
+    public void willNotFoldIfPreferenceFalse() {
+      var cleanups =
+          new Cleanups(
+              withProperty("maximizerFoldables", false),
+              withEquippableItem(ItemPool.TURTLE_WAX_GREAVES));
+
+      try (cleanups) {
+        maximizeCreatable("hot res");
+        recommendedSlotIsUnchanged(Slot.HAT);
+      }
+    }
+
+    @Test
+    public void canFoldFromGarbageTote() {
+      var cleanups = new Cleanups(withItem(ItemPool.GARBAGE_TOTE));
+
+      try (cleanups) {
+        maximizeCreatable("ml");
+        recommendedSlotIs(Slot.PANTS, "tinsel tights");
+      }
+    }
+
+    @Test
+    public void canFoldFromReplicaGarbageTote() {
+      var cleanups =
+          new Cleanups(withPath(Path.LEGACY_OF_LOATHING), withItem(ItemPool.REPLICA_GARBAGE_TOTE));
+
+      try (cleanups) {
+        maximizeCreatable("ml");
+        recommendedSlotIs(Slot.PANTS, "tinsel tights");
       }
     }
   }

@@ -683,16 +683,17 @@ public class ItemManageFrame extends GenericFrame {
 
     @Override
     public void actionConfirmed() {
-      Preferences.resetToDefault("usable1HWeapons");
-      Preferences.resetToDefault("usable1xAccs");
-      Preferences.resetToDefault("usable2HWeapons");
-      Preferences.resetToDefault("usable3HWeapons");
-      Preferences.resetToDefault("usableAccessories");
-      Preferences.resetToDefault("usableHats");
-      Preferences.resetToDefault("usableOffhands");
-      Preferences.resetToDefault("usableOther");
-      Preferences.resetToDefault("usablePants");
-      Preferences.resetToDefault("usableShirts");
+      Preferences.resetToDefault(
+          "usable1HWeapons",
+          "usable1xAccs",
+          "usable2HWeapons",
+          "usable3HWeapons",
+          "usableAccessories",
+          "usableHats",
+          "usableOffhands",
+          "usableOther",
+          "usablePants",
+          "usableShirts");
     }
 
     @Override

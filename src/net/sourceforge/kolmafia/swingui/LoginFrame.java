@@ -20,11 +20,14 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+import net.sourceforge.kolmafia.swingui.panel.ConfigQueueingPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
+import net.sourceforge.kolmafia.swingui.panel.PingOptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
+import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginFrame extends GenericFrame {
@@ -380,20 +383,16 @@ public class LoginFrame extends GenericFrame {
     }
   }
 
-  private static class ConnectionOptionsPanel extends OptionsPanel {
-    private final String[][] options = {
-      {"useDevProxyServer", "Use devproxy.kingdomofloathing.com to login"},
-    };
-
+  private static class ConnectionOptionsPanel extends ConfigQueueingPanel {
     public ConnectionOptionsPanel() {
-      super(new Dimension(20, 20), new Dimension(250, 20));
+      super();
 
-      this.setOptions(this.options);
-    }
-
-    @Override
-    public void setEnabled(final boolean isEnabled) {
-      super.setEnabled(isEnabled);
+      this.queue(
+          new PreferenceCheckBox(
+              "useDevProxyServer", "Use devproxy.kingdomofloathing.com to login"));
+      this.queue(this.newSeparator());
+      this.queue(new PingOptionsPanel());
+      this.makeLayout();
     }
   }
 

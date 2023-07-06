@@ -96,6 +96,13 @@ global	macroDebug	false
 global	macroLens	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
+global	pingLatest
+global	pingLogin	true
+global	pingLoginCheck	none
+global	pingLoginGoal	0
+global	pingLoginThreshold	0.2
+global	pingLongest
+global	pingShortest
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
@@ -218,6 +225,7 @@ user	autumnatonUpgrades
 user	availableCandyCredits	0
 user	availableDimes	0
 user	availableFunPoints	0
+user	availableMrStore2002Credits	0
 user	availableQuarters	0
 user	availableStoreCredits	0
 user	availableSwagger	0
@@ -408,9 +416,17 @@ user	checkJackassHardcore	true
 user	checkJackassSoftcore	true
 user	chefTurnsUsed	0
 user	chessboardsCleared	0
+user	chibiAlignment	0
+user	chibiBirthday	-1
+user	chibiFitness	0
+user	chibiIntelligence	0
+user	chibiLastVisit	-1
+user	chibiName
+user	chibiSocialization	0
 user	chilledToTheBone	0
 user	choiceAdventureScript
 user	chosenTrip
+user	cinchoSaltAndLime	0
 user	cinderellaMinutesToMidnight	0
 user	cinderellaScore	0
 user	clanFortuneReply1	beer
@@ -486,6 +502,7 @@ user	currentMojoFilters	0
 user	currentMood	default
 user	currentNunneryMeat	0
 user	currentPortalEnergy	0
+user	currentReplicaStoreYear	2004
 user	currentPVPSeason	none
 user	currentPvpVictories
 user	currentSpecialBountyItem
@@ -581,12 +598,14 @@ user	electricKoolAidEaten	0
 user	elfGratitude	0
 user	encountersUntilDMTChoice	5
 user	encountersUntilNEPChoice	7
+user	encountersUntilSRChoice	11
 user	enamorangMonster
 user	enamorangMonsterTurn
 user	ensorcelee
 user	ensorceleeLevel	0
 user	entauntaunedColdRes	0
 user	envyfishMonster
+user	errorOnAmbiguousFold	true
 user	essenceOfAnnoyanceAvailable	true
 user	essenceOfAnnoyanceCost	5000
 user	essenceOfBearAvailable	true
@@ -651,6 +670,7 @@ user	garbageShirtCharge	0
 user	garbageTreeCharge	0
 user	garlandUpgrades	0
 user	getawayCampsiteUnlocked	false
+user	getsYouDrunkTurnsLeft	0
 user	ghostLocation	
 user	ghostPencil1	false
 user	ghostPencil2	false
@@ -661,6 +681,7 @@ user	ghostPencil6	false
 user	ghostPencil7	false
 user	ghostPencil8	false
 user	ghostPencil9	false
+user	ghostPepperTurnsLeft	0
 user	gingerAdvanceClockUnlocked	false
 user	gingerBlackmailAccomplished	false
 user	gingerbreadCityAvailable	false
@@ -944,11 +965,13 @@ user	lastWuTangDefeated	-1
 user	lastYearbookCameraAscension	-1
 user	lastZapperWand	0
 user	lastZapperWandExplosionDay	-3
+user	latteIngredients
 user	latteModifier	
 user	latteUnlocks	cinnamon,pumpkin,vanilla
 user	lawOfAveragesAvailable	true
 user	lawOfAveragesCost	1000
 user	leafletCompleted	false
+user	legacyPoints	0
 user	libramSkillsHardcore	none
 user	libramSkillsSoftcore	none
 user	libramSummons	0
@@ -1050,6 +1073,7 @@ user	miniAdvClass	0
 user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
 user	moonTuned	false
+user	monkeyPointMonster	
 user	motifMonster	
 user	mothershipProgress	0
 user	mpAutoRecovery	-0.5
@@ -1069,6 +1093,7 @@ user	nextQuantumFamiliarName
 user	nextQuantumFamiliarOwner
 user	nextQuantumFamiliarOwnerId	0
 user	nextQuantumFamiliarTurn	0
+user	noncombatForcerActive	false
 user	noobPoints	0
 user	noobDeferredPoints	0
 user	noodleSummons	0
@@ -1150,6 +1175,9 @@ user	promptAboutCrafting	1
 user	puzzleChampBonus	5
 user	pyramidPosition	1
 user	pyramidBombUsed	false
+user	replicaChateauAvailable	false
+user	replicaNeverendingPartyAlways	false
+user	replicaWitchessSetAvailable	false
 user	retroCapeSuperhero	vampire
 user	retroCapeWashingInstructions	hold
 user	rockinRobinProgress	25
@@ -1316,6 +1344,7 @@ user	seaodesFound	0
 user	SeasoningSwagger	0
 user	serverAddsCustomCombat	false
 user	sexChanges	0
+user	shadowLabyrinthGoal	browser
 user	shadowRiftIngress
 user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0
@@ -1436,6 +1465,8 @@ user	spookyAirportAlways	false
 user	spookyravenRecipeUsed	none
 user	spookyPuttyCopiesMade	0
 user	spookyPuttyMonster
+user	spookyVHSTapeMonster
+user	spookyVHSTapeMonsterTurn	-1
 user	statbotUses	0
 user	stationaryButton1
 user	stationaryButton2
@@ -1582,6 +1613,7 @@ user	youRobotTop	0
 user	zeppelinProtestors	0
 user	zigguratLianas	0
 user	zombiePoints	0
+user	_2002MrStoreCreditsCollected	false
 user	_absintheDrops	0
 user	_abstractionDropsCrown	0
 user	_affirmationCookieEaten	false
@@ -1642,6 +1674,7 @@ user	_birdOfTheDay
 user	_birdOfTheDayMods
 user	_birdsSoughtToday	0
 user	_bittycar
+user	_blackMonolithUsed	false
 user	_blankoutUsed	false
 user	_bonersSummoned	false
 user	_bookOfEverySkillUsed	false
@@ -1675,8 +1708,11 @@ user	_chateauDeskHarvested	false
 user	_chateauMonsterFought	false
 user	_cheerleaderSteam	200
 user	_chestXRayUsed	0
+user	_chibiAdventures	0
+user	_chibiChanged	false
 user	_chipBags	0
 user	_chocolateCigarsUsed	0
+user	_chocolateCoveredPingPongBallsUsed	0
 user	_chocolateSculpturesUsed	0
 user	_chocolatesUsed	0
 user	_chronerCrossUsed	false
@@ -1684,6 +1720,8 @@ user	_chronerTriggerUsed	false
 user	_chronolithActivations	0
 user	_chronolithNextCost	10
 user	_chubbyAndPlumpUsed	false
+user	_cinchUsed	0
+user	_cinchoRests	0
 user	_circleDrumUsed	false
 user	_clanFortuneBuffUsed	false
 user	_clanFortuneConsultUses	0
@@ -1741,6 +1779,7 @@ user	_dnaHybrid	false
 user	_dnaPotionsMade	0
 user	_docClocksThymeCocktailDrunk	false
 user	_donhosCasts	0
+user	_douseFoeUses	0
 user	_dreamJarDrops	0
 user	_drippingHallDoor1	false
 user	_drippingHallDoor2	false
@@ -1761,6 +1800,7 @@ user	_enamorangs	0
 user	_energyCollected	0
 user	_entauntaunedToday	false
 user	_envyfishEggUsed	false
+user	_epicMcTwistUsed	false
 user	_essentialTofuUsed	false
 user	_etchedHourglassUsed	false
 user	_eternalCarBatteryUsed	false
@@ -1956,7 +1996,7 @@ user	_kudzuSaladEaten	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
 user	_lastDailyDungeonRoom	0
-user	_LastPirateRealmIsland
+user	_lastPirateRealmIsland
 user	_lastSausageMonsterTurn	0
 user	_lastZomboEye	0
 user	_latteBanishUsed	false
@@ -2014,6 +2054,7 @@ user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
 user	_molehillMountainUsed	false
 user	_momFoodReceived	false
+user	_monkeyPawWishesUsed	0
 user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false
@@ -2101,6 +2142,9 @@ user	_raveStealCount	0
 user	_redwoodRainStickUsed	false
 user	_reflexHammerUsed	0
 user	_relativityMonster	false
+user	_replicaSnowconeTomeUsed	false
+user	_replicaResolutionLibramUsed	false
+user	_replicaSmithsTomeUsed	false
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
 user	_resolutionRareSummons	0
@@ -2129,6 +2173,7 @@ user	_sealsSummoned	0
 user	_setOfJacksUsed	false
 user	_sewingKitUsed	false
 user	_sexChanged	false
+user	_shadowAffinityToday	false
 user	_shadowBricksUsed	0
 user	_shadowForestLooted	false
 user	_shadowRiftCombats	0
@@ -2156,7 +2201,7 @@ user	_snowSuitCount	0
 user	_sobrieTeaUsed	false
 user	_softwareGlitchTurnReceived	false
 user	_sotParcelLocation
-user	_sotParcelReturned  false
+user	_sotParcelReturned	false
 user	_sourceTerminalDigitizeMonster
 user	_sourceTerminalDigitizeMonsterCount	0
 user	_sourceTerminalDigitizeUses	0
@@ -3083,6 +3128,7 @@ user	choiceAdventure1488	0
 user	choiceAdventure1489	3
 user	choiceAdventure1491	0
 user	choiceAdventure1494	0
+user	choiceAdventure1505	0
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

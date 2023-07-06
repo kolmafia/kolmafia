@@ -141,13 +141,23 @@ public class DailyLimitDatabase {
       return -1;
     }
 
+    public int cost() {
+      return switch (this.id) {
+        case SkillPool.INVISIBLE_AVATAR,
+            SkillPool.SHRINK_ENEMY,
+            SkillPool.TRIPLE_SIZE,
+            SkillPool.CINCHO_PROJECTILE_PINATA,
+            SkillPool.CINCHO_PARTY_FOUL,
+            SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA -> 5;
+        case SkillPool.REPLACE_ENEMY -> 10;
+        case SkillPool.CINCHO_DISPENSE_SALT_AND_LIME, SkillPool.CINCHO_PARTY_SOUNDTRACK -> 25;
+        case SkillPool.CINCHO_FIESTA_EXIT -> 60;
+        default -> 1;
+      };
+    }
+
     public int getUsesRemaining() {
-      double divisor =
-          switch (this.id) {
-            case SkillPool.INVISIBLE_AVATAR, SkillPool.SHRINK_ENEMY, SkillPool.TRIPLE_SIZE -> 5;
-            case SkillPool.REPLACE_ENEMY -> 10;
-            default -> 1;
-          };
+      double divisor = this.cost();
 
       return (int) Math.floor(Math.max(0, getMax() - getUses()) / divisor);
     }
@@ -186,6 +196,10 @@ public class DailyLimitDatabase {
       }
 
       return Preferences.increment(this.uses, delta, getMax(), false);
+    }
+
+    public int incrementByCost(final int count) {
+      return increment(cost() * count);
     }
 
     public void set(final int value) {

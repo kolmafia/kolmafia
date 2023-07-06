@@ -515,7 +515,19 @@ public enum DoubleModifier implements Modifier {
   BOOZE_FAIRY_EFFECTIVENESS(
       "Booze Fairy Effectiveness", Pattern.compile("Booze Fairy Effectiveness: " + EXPR)),
   CANDY_FAIRY_EFFECTIVENESS(
-      "Candy Fairy Effectiveness", Pattern.compile("Candy Fairy Effectiveness: " + EXPR));
+      "Candy Fairy Effectiveness", Pattern.compile("Candy Fairy Effectiveness: " + EXPR)),
+  DAMAGE_AURA(
+      "Damage Aura",
+      Pattern.compile("Deals (.*) (each|every) round"),
+      Pattern.compile("Damage Aura: " + EXPR)),
+  SPORADIC_DAMAGE_AURA("Sporadic Damage Aura", Pattern.compile("Sporadic Damage Aura: " + EXPR)),
+  THORNS(
+      "Thorns",
+      new Pattern[] {
+        Pattern.compile("Damages Attacking Opponents?"), Pattern.compile("Deals (.*) to attackers")
+      },
+      Pattern.compile("Thorns: " + EXPR)),
+  SPORADIC_THORNS("Sporadic Thorns", Pattern.compile("Sporadic Thorns: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;

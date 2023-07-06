@@ -8583,11 +8583,11 @@
 8555	a ten-percent bonus	869271245	percent.gif	usable	q	0	some ten-percent boni
 8556	Thwaitgold termite statuette	301131366	thwaittermite.gif	none		0
 8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	5
-8558	Wickers bar	951050553	wickerbar.gif	potion, multiple	t	0
+8558	Wickers bar	951050553	wickerbar.gif	potion, multiple, candy2	t	0
 8559	bakelite-covered bacon	113363781	bakebacon.gif	potion, multiple	t	0	pieces of bakelite-covered bacon
-8560	Aerheads	911385583	aerhead.gif	potion, multiple	t	0	bags of Aerheads
-8561	Wrotz	259155467	wrotz.gif	potion, multiple	t	0	Wrotz candies
-8562	Gabarbar	620139553	gabarbar.gif	potion, multiple	t	0
+8560	Aerheads	911385583	aerhead.gif	potion, multiple, candy2	t	0	bags of Aerheads
+8561	Wrotz	259155467	wrotz.gif	potion, multiple, candy2	t	0	Wrotz candies
+8562	Gabarbar	620139553	gabarbar.gif	potion, multiple, candy2	t	0
 8563	fiberglass insulation	592342530	fibercandy.gif	potion, multiple	t	0	pieces of fiberglass insulation
 8564	shrine to the Barrel god	671094436	crate.gif	usable	t	0	shrines to the Barrel god
 8565	barrel lid	134230040	barrelshield.gif	offhand	q	0
@@ -11052,7 +11052,7 @@
 11024	ceramic cerecloth belt	523770515	cerabelt.gif	accessory		0
 11025	ceramic cenobite's robe	935849680	cerarobe.gif	shirt		0
 11026	ceramic scree	220950183	cerabits.gif	spleen, usable		0	handfuls of ceramic scree
-11027
+11027	extra-hard jawbreaker	205324256	ceracandy.gif	potion, usable	t,d	15
 11028	chiffon chevrons	332021835	chifchevrons.gif	accessory		0	pairs of chiffon chevrons
 11029	chiffon chapeau	900963107	chifhat.gif	hat		0
 11030	chiffon chamberpot	467542968	chifpot.gif	offhand		0
@@ -11060,7 +11060,7 @@
 11032	chiffon chakram	919226181	chifchakram.gif	weapon		0
 11033	chiffon chaps	614635306	chifchaps.gif	pants		0	pairs of chiffon chaps
 11034	chiffon carbage	363341238	chifbits.gif	spleen, usable		0	handfuls of chiffon carbage
-11035
+11035	chiffon lemon	794988357	chiflemon.gif	potion, usable	t,d	15
 11036	chocomotive	925688122	chocomotoive.gif	food	t,d	10
 11037	freightcake	930577194	freightcake.gif	food	t,d	10
 11038	cabooze	454104733	cabooze.gif	drink	t,d	10
@@ -11211,3 +11211,122 @@
 11183	shadow martini	330264671	shadowmartini.gif	drink		0
 11184	shadow pill	535411734	shadowpill.gif	spleen, usable		0
 11185	shadow needle	852125044	shadowneedle.gif	usable		0
+11186	cursed monkey's paw	617234158	monkeypaw0.gif	accessory		0
+11187	cursed monkey glove	144539345	monkeyglove.gif	usable	t	0
+11188	shadow candy	408964450	shadowmonocle.gif	potion, usable	t	0
+11189	replica Mr. Accessory	341989211	replicamra.gif	none	q	0	replica Mr. Accessories
+11190	replica Dark Jill-O-Lantern	844290698	jilldark.gif	grow	q	0
+11191	replica hand turkey outline	643478560	hand.gif	grow	q	0
+11192	replica crimbo elfling	258450480	elfling.gif	grow	q	0
+11193	replica pygmy bugbear shaman	899612550	familiar39.gif	grow	q	0
+11194
+11195	replica miniature gravy-covered maypole	436493832	maypole.gif	familiar	q	0
+11196	replica wax lips	673520346	waxlips.gif	familiar	q	0
+11197	replica Tome of Snowcone Summoning	329232343	book.gif	usable	q	0
+11198
+11199	replica jewel-eyed wizard hat	244839212	wizhat.gif	hat	q	0
+11200	replica bottle-rocket crossbow	503354088	brcrossbow.gif	weapon	q	0
+11201	replica navel ring of navel gazing	974079701	navelring.gif	accessory	q	0
+11202	replica V for Vivala mask	850740075	vivala.gif	accessory	q	0
+11203	replica haiku katana	356680670	hkatana.gif	weapon	q	0
+11204	replica little box of fireworks	686386052	fireworksbox.gif	familiar	q	0
+11205	replica cotton candy cocoon	405092970	cccoccoon.gif	grow	q	0
+11206	replica Elvish sunglasses	238031926	elvisshades.gif	accessory	q	0
+11207	replica squamous polyp	554034719	polyp.gif	grow	q	0
+11208
+11209	replica Greatest American Pants	676766688	gapants.gif	pants	q	0
+11210	replica organ grinder	799236688	grinder.gif	grow	q	0
+11211	replica Juju Mojo Mask	154667577	jujumask.gif	accessory	q	0
+11212	replica Operation Patriot Shield	373189880	opshield.gif	offhand	q	0
+11213	replica Libram of Resolutions	238681591	book3.gif	usable	q	0
+11214	replica plastic vampire fangs	635116368	vampirefangs.gif	accessory	q	0
+11215	replica cute angel	237494338	acuteangel.gif	grow	q	0
+11216	replica Camp Scout backpack	444292916	csbackpack.gif	container	q	0
+11217	replica deactivated nanobots	926023282	nanobox.gif	grow	q	0
+11218	replica Apathargic Bandersnatch	551749177	banderlarva.gif	grow	q	0
+11219	replica Smith's Tome	485569257	book4.gif	usable	q	0
+11220	replica over-the-shoulder Folder Holder	427735258	folderholder2.gif	accessory	q	0
+11221	replica Order of the Green Thumb Order Form	957859985	floristform.gif	usable	q	0
+11222	shrink-wrapped Cincho de Mayo	539769549	cinchobox.gif	usable	t	0	shrink-wrapped Cinchos de Mayo
+11223	Cincho de Mayo	408302806	cincho.gif	accessory		0	Cinchos de Mayo
+11224
+11225	replica Little Geneticist DNA-Splicing Lab	634830887	genelab.gif	usable	q	0
+11226	replica still grill	476730920	stillgrill.gif	grow	q	0
+11227	replica Crimbo sapling	841170076	crimbosapling.gif	grow	q	0
+11228	replica yellow puck	471956216	yellapuck.gif	grow	q	0
+11229	replica Chateau Mantegna room key	872034228	cmkey.gif	usable	q	0
+11230	replica Deck of Every Card	787594947	deckdeck.gif	usable	q	0
+11231	replica Source terminal	708286296	sourceterminal.gif	usable	q	0
+11232	replica disconnected intergnat	984107064	discognat.gif	grow	q	0
+11233	replica Witchess Set	543568188	chessset.gif	usable	q	0
+11234	replica genie bottle	566475601	gbottle_open.gif	usable	q	0
+11235	replica space planula	586920289	planula.gif	grow	q	0
+11236	replica unpowered Robortender	847270068	robotenderlarva.gif	grow	q	0
+11237	replica Neverending Party invitation envelope	769015106	npartyinv.gif	usable	q	0
+11238	replica January's Garbage Tote	583590420	tote_open.gif	usable	q	0
+11239	replica God Lobster Egg	216572663	godlob_egg.gif	grow	q	0
+11240	replica Fourth of May Cosplay Saber	298790202	may4sword.gif	weapon	q	0
+11241	replica Kramco Sausage-o-Matic&trade;	206349840	saugrinder.gif	offhand	q	0
+11242	replica hewn moon-rune spoon	328774654	runespoon.gif	accessory	q	0
+11243	replica baby camelCalf	321211109	camelcalf.gif	grow	q	0
+11244	replica Powerful Glove	827018705	pglove.gif	accessory	q	0
+11245	replica Cargo Cultist Shorts	745224420	cultistshorts.gif	pants	q	0
+11246	replica industrial fire extinguisher	329547639	exting2.gif	weapon	q	0
+11247	replica miniature crystal ball	234868225	famball.gif	familiar	q	0
+11248	replica emotion chip	119606318	emochip_clean.gif	usable	q	0
+11249	replica Jurassic Parka	268200397	jparka7.gif	shirt	q	0
+11250	replica grey gosling	716923546	greygosling.gif	grow	q	0
+11251	replica designer sweatpants	152213403	sweats.gif	pants	q	0
+11252	replica plastic pumpkin bucket	127836800	punkin.gif	familiar	q	0
+11253	replica Ten Dollars	751729776	dinobuck.gif	multiple	t	0
+11254	replica Cincho de Mayo	512079504	cincho.gif	accessory	q	0
+11255	Thwaitgold splendor beetle statuette	854195085	thwaitsplendor.gif	none		0
+11256	shrink-wrapped 2002 Mr. Store Catalog	520858825	2002catalog.gif	usable	t	0
+11257	2002 Mr. Store Catalog	480259225	2002catalog.gif	reusable		0
+11258	&quot;I survived Y2K&quot; T-Shirt	706294128	2002shirt.gif	accessory	t,d	50
+11259	Letter from Carrie Bradshaw	279042305	2002letters.gif	usable	t,d	50	Letters from Carrie Bradshaw
+11260	pro skateboard	338212179	2002skateboard.gif	accessory	t,d	50
+11261	Mr. Accessaturday	981379568	2002mra.gif	accessory	t,d	50
+11262	Meat Butler	998336913	2002butler.gif	usable	t,d	50
+11263	Loathing Idol Microphone	650153685	2002mic.gif	usable	t,d	50
+11264	Charter: Nellyville	828185932	2002charter.gif	multiple	t,d	100	Charters: Nellyville
+11265	Manual of Secret Door Detection	461689426	book4.gif	usable	t,d	50	Manuals of Secret Door Detection
+11266	Flash Liquidizer Ultra Dousing Accessory	400486179	2002fludd.gif	accessory	t,d	100	Flash Liquidizer Ultra Dousing Accessories
+11267	Amulet of Perpetual Darkness	851661209	2002amulet.gif	accessory	t,d	50	Amulets of Perpetual Darkness
+11268	Giant black monolith	362534862	2002monolith.gif	usable	t,d	66
+11269	Crimbo cookie sheet	520625195	2002cookies.gif	usable	t,d	50
+11270	Spooky VHS Tape	754348768	2002vhs.gif	none, combat	t,d	50
+11271	scroll of minor invulnerability	873755113	scroll2.gif	potion, usable	t,d	10	scrolls of minor invulnerability
+11272	Lapis Lazuli	460775590	lapis.gif	multiple	t,d	100
+11273	Eye Agate	556792213	agate.gif	multiple	t,d	100
+11274	Azurite	560374993	azurite.gif	multiple	t,d	100
+11275	Arrow (+1)	391510123	arrow_normal.gif	none, combat	t,d	10	Arrows (+1)
+11276	scroll of protection from lycanthropes	545555359	scroll3.gif	potion, usable	t,d	10	scrolls of protection from lycanthropes
+11277	Loathing Idol Microphone (75% charged)	606528143	2002mic.gif	usable	t,d	50	Loathing Idol Microphones (75% charged)
+11278	Loathing Idol Microphone (50% charged)	538550263	2002mic.gif	usable	t,d	50	Loathing Idol Microphones (50% charged)
+11279	Loathing Idol Microphone (25% charged)	931703699	2002mic.gif	usable	t,d	50	Loathing Idol Microphones (25% charged)
+11280	Replica 2002 Mr. Store Catalog	661333312	2002catalog.gif	reusable	q	0
+11281	Mr. Big's Wallet	827833135	wallet.gif	usable	t	0
+11282	Sexy Cosmo	445044642	perf_cosmo.gif	drink	t,d	11
+11283	Souvenir Chopsticks	821052146	chopsticks2.gif	none	t,d	10	Souvenir Chopsticks
+11284	red-soled high heels	933964223	highheels.gif	accessory	t,d	100	pairs of red-soled high heels
+11285
+11286
+11287
+11288
+11289
+11290
+11291
+11292
+11293
+11294
+11295
+11296
+11297
+11298
+11299
+11300	sleeping patriotic eagle	916117380	pateagle_sleep.gif	grow	t	0
+11301	claw-held flag	498722729	flag2.gif	familiar	t,d	10
+11302	souvenir flag	557635312	flag1.gif	multiple	t,d	10
+11303	name change form	541643472	namechange.gif	usable	t	0
+11304	replica sleeping patriotic eagle	552435162	pateagle_sleep.gif	grow	t	0

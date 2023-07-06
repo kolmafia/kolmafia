@@ -72,8 +72,8 @@ public class TableCellFactory {
     if (result instanceof String || result instanceof Integer || result instanceof JButton) {
       return result;
     }
-    if (result instanceof Script) {
-      return getScriptCell(columnIndex, isSelected, (Script) result);
+    if (result instanceof Script s) {
+      return getScriptCell(columnIndex, isSelected, s);
     }
     return null;
   }
@@ -85,6 +85,8 @@ public class TableCellFactory {
       case 2 -> result.getShortDesc();
       case 3 -> result.getCategory();
       case 4 -> result.getRepo();
+      case 5 -> result.getBranch();
+      case 6 -> result.getType().toString();
       default -> null;
     };
   }
@@ -386,7 +388,9 @@ public class TableCellFactory {
       };
     } else if (originalModel == ScriptManager.getInstalledScripts()
         || originalModel == ScriptManager.getRepoScripts()) {
-      return new String[] {"Script Name", "Authors", "Description", "Category", "Repo"};
+      return new String[] {
+        "Script Name", "Authors", "Description", "Category", "Repo", "Branch", "Type"
+      };
     }
     return new String[] {"not implemented"};
   }

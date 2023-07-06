@@ -60,6 +60,8 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDrop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
@@ -110,7 +112,7 @@ public class GenericRequest implements Runnable {
   public static final Pattern REDIRECT_PATTERN =
       Pattern.compile("([^/]*)/(login\\.php.*)", Pattern.DOTALL);
   public static final Pattern JS_REDIRECT_PATTERN =
-      Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";");
+      Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*['\"](.*?)['\"];");
   private static final Pattern ADVENTURE_AGAIN =
       Pattern.compile("\">Adventure Again \\(([^<]+)\\)</a>");
 
@@ -1849,18 +1851,40 @@ public class GenericRequest implements Runnable {
         return false;
       }
 
-      String oldpwd = GenericRequest.passwordHashValue;
+      // KoL redirects us to login.php if we submit a request after KoL has
+      // silently timed us out. In this case, we have a password hash from
+      // the previous login, but when we log in again, we'll get a new one.
+      //
+      // If we want to resubmit a request that contains a  password hash,
+      // we'll have to replace the old one with the new one.
+
+      String oldpwd = GenericRequest.passwordHash;
+
       if (LoginRequest.executeTimeInRequest(this.getURLString(), this.redirectLocation)) {
         if (this.data.isEmpty()) {
-          String newpwd = GenericRequest.passwordHashValue;
-          this.formURLString =
-              StringUtilities.singleStringReplace(this.formURLString, oldpwd, newpwd);
+          // GenericRequest.passwordHash is set when we log in.  If it is "",
+          // we are not logged in - and we know it.  If it is not that, we are
+          // either currently logged in, or KoL has silently logged us out and
+          // we have not yet logged in and learned a new one.
+          if (oldpwd.equals("")) {
+            // See if there is a password hash in the request's URL
+            String formpwd = this.getFormField("pwd");
+            if (formpwd != null && !formpwd.equals("")) {
+              oldpwd = formpwd;
+            }
+          }
+          if (!oldpwd.equals("")) {
+            String newpwd = GenericRequest.passwordHash;
+            this.formURLString =
+                StringUtilities.singleStringReplace(this.formURLString, oldpwd, newpwd);
+          }
           this.formURL = null;
         } else {
           this.dataChanged = true;
         }
         return false;
       }
+      this.redirectHandled = true;
 
       return true;
     }
@@ -2458,7 +2482,7 @@ public class GenericRequest implements Runnable {
           m.clearItems();
           String stolen = Preferences.getString("dolphinItem");
           if (stolen.length() > 0) {
-            m.addItem(ItemPool.get(stolen, 100 << 16 | 'n'));
+            m.addItem(new MonsterDrop(ItemPool.get(stolen, 1), 100, DropFlag.NO_PICKPOCKET));
           }
           m.doneWithItems();
         }
@@ -2753,6 +2777,7 @@ public class GenericRequest implements Runnable {
 
       case ItemPool.GENIE_BOTTLE:
       case ItemPool.POCKET_WISH:
+      case ItemPool.REPLICA_GENIE_BOTTLE:
         // Do not ignore special monsters here. That is handled
         // elsewhere, just for the cases that will be a combat.
 

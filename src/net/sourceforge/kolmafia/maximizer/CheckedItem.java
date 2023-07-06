@@ -51,10 +51,24 @@ public class CheckedItem extends AdventureResult {
           }
         }
         // Cannot have more than one item from January's Garbage Tote, no matter how many you have
+        //
+        // The actual tote (or replica tote), must be accessible, since we "fold"
+        // by using that item and selecting a choice.
+        //
         // Fold groups are stored in lower case
         if (group.names.get(0).equals("january's garbage tote")) {
           if (this.foldable + this.initial > 1) {
             this.foldable = 1 - this.initial;
+          }
+          if (this.foldable > 0) {
+            int tote =
+                KoLCharacter.inLegacyOfLoathing()
+                        && InventoryManager.hasItem(ItemPool.REPLICA_GARBAGE_TOTE)
+                    ? ItemPool.REPLICA_GARBAGE_TOTE
+                    : ItemPool.GARBAGE_TOTE;
+            if (InventoryManager.getAccessibleCount(tote) == 0) {
+              this.foldable = 0;
+            }
           }
         }
       }
