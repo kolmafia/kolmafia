@@ -165,6 +165,18 @@ public class LoginRequest extends GenericRequest {
     return LoginRequest.completedLogin;
   }
 
+  public static final boolean retimein() {
+    if (LoginRequest.lastRequest == null) {
+      return false;
+    }
+
+    LoginRequest.isTimingIn = true;
+    RequestThread.postRequest(LoginRequest.lastRequest);
+    LoginRequest.isTimingIn = false;
+
+    return LoginRequest.completedLogin;
+  }
+
   public static final boolean relogin() {
     if (LoginRequest.lastRequest == null) {
       return false;
@@ -216,6 +228,7 @@ public class LoginRequest extends GenericRequest {
     // Returns true if it is acceptable.
     if (!LoginManager.ping()) {
       // LoginManager logged out and may have logged in again.
+      LoginRequest.lastLoginAttempt = 0;
       return;
     }
 
