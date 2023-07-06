@@ -116,7 +116,7 @@ public class LoginManager {
       // If this was from a timein, we still have a GUI and can submit URLs which
       // need a pwd. Save a bogus pwd which will be replaced by a real one if we
       // eventually time in and accept a ping.
-      GenericRequest.passwordHash = "bogus";
+      GenericRequest.passwordHash = "ThisIsAnEntirelyBogusPasswordHash";
       return false;
     }
 

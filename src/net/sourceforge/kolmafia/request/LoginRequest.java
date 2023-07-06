@@ -201,6 +201,7 @@ public class LoginRequest extends GenericRequest {
 
   public static final void setLoggedOut() {
     LoginRequest.completedLogin = false;
+    LoginRequest.lastLoginAttempt = 0;
   }
 
   public static final void processLoginRequest(final GenericRequest request) {
