@@ -1851,18 +1851,21 @@ public class GenericRequest implements Runnable {
         return false;
       }
 
-      String oldpwd = GenericRequest.passwordHashValue;
+      String oldpwd = this.getFormField("pwd");
       if (LoginRequest.executeTimeInRequest(this.getURLString(), this.redirectLocation)) {
         if (this.data.isEmpty()) {
-          String newpwd = GenericRequest.passwordHashValue;
-          this.formURLString =
-              StringUtilities.singleStringReplace(this.formURLString, oldpwd, newpwd);
+          if (!oldpwd.equals("")) {
+            String newpwd = GenericRequest.passwordHash;
+            this.formURLString =
+                StringUtilities.singleStringReplace(this.formURLString, oldpwd, newpwd);
+          }
           this.formURL = null;
         } else {
           this.dataChanged = true;
         }
         return false;
       }
+      this.redirectHandled = true;
 
       return true;
     }

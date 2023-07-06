@@ -123,8 +123,7 @@ public class LoginManager {
 
     // The user finds the ping time unacceptable.
     RequestThread.postRequest(new LogoutRequest());
-    LoginRequest.relogin();
-    return false;
+    return LoginRequest.relogin();
   }
 
   public static void login(String username) {
