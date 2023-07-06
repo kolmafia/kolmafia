@@ -356,7 +356,9 @@ public class EffectPool {
   public static final int PING_PONG_PROWESS = 2768;
   public static final int PING_PONG_PERSISTENCE = 2769;
   public static final int SHADOW_AFFINITY = 2802;
+  public static final int SHADOW_WATERS = 2806;
   public static final int OMINOUS_WISDOM = 2810;
+  public static final int CITIZEN_OF_A_ZONE = 2822;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

@@ -1725,6 +1725,8 @@ user	_chubbyAndPlumpUsed	false
 user	_cinchUsed	0
 user	_cinchoRests	0
 user	_circleDrumUsed	false
+user	_citizenZone
+user	_citizenZoneMods
 user	_clanFortuneBuffUsed	false
 user	_clanFortuneConsultUses	0
 user	_claraBellUsed	false

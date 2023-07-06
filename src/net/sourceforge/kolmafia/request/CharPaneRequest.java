@@ -864,7 +864,7 @@ public class CharPaneRequest extends GenericRequest {
         responseText.substring(durationIndex, responseText.indexOf(")", durationIndex));
 
     int duration;
-    if (durationString.equals("&infin;")) {
+    if (durationString.equals("&infin;") || durationString.equals("Today")) {
       duration = Integer.MAX_VALUE;
     } else if (durationString.indexOf("&") != -1 || durationString.indexOf("<") != -1) {
       return null;

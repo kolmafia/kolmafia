@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -218,6 +221,33 @@ class CharPaneRequestTest {
         CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
         assertThat("commaFamiliar", isSetTo("Homemade Robot"));
         assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(false));
+      }
+    }
+  }
+
+  @Nested
+  class Effects {
+    @Test
+    void canParseEffectDurations() {
+      var cleanups = withNoEffects();
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_citizen_of_a_zone.html"));
+
+        // normal
+        var shadowWaters = EffectPool.get(EffectPool.SHADOW_WATERS);
+        var duration = shadowWaters.getCount(KoLConstants.activeEffects);
+        assertThat(duration, equalTo(10));
+
+        // intrinsic
+        var peppermint = EffectPool.get(EffectPool.SPIRIT_OF_PEPPERMINT);
+        duration = peppermint.getCount(KoLConstants.activeEffects);
+        assertThat(duration, equalTo(Integer.MAX_VALUE));
+
+        // today
+        var citizen = EffectPool.get(EffectPool.CITIZEN_OF_A_ZONE);
+        duration = citizen.getCount(KoLConstants.activeEffects);
+        assertThat(duration, equalTo(Integer.MAX_VALUE));
       }
     }
   }
