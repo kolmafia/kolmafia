@@ -38,7 +38,7 @@ public class PingCommand extends AbstractCommand {
         }
       }
       if (split.length > 2) {
-        verbose = split[2].equals("true");
+        verbose = split[2].equals("verbose") || split[2].equals("true");
       }
     }
 

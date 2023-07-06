@@ -162,6 +162,13 @@ public class PingManager {
     PingTest result = new PingTest(page);
 
     PingRequest ping = new PingRequest(page);
+
+    // The first ping can be anomalous. Perhaps we were logged out and
+    // KoLmafia needs to time us in - which will now run a ping test.
+    //
+    // Run a single ping first and don't count it.
+    ping.run();
+
     for (int i = 1; i <= count; i++) {
       if (verbose) {
         RequestLogger.printLine("Ping #" + i + " of " + count + "...");
