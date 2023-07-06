@@ -113,6 +113,10 @@ public class LoginManager {
     // If the user canceled, log out
     if (confirmed == null) {
       RequestThread.postRequest(new LogoutRequest());
+      // If this was from a timein, we still have a GUI and can submit URLs which
+      // need a pwd. Save a bogus pwd which will be replaced by a real one if we
+      // eventually time in and accept a ping.
+      GenericRequest.passwordHash = "ThisIsAnEntirelyBogusPasswordHash";
       return false;
     }
 
@@ -123,8 +127,7 @@ public class LoginManager {
 
     // The user finds the ping time unacceptable.
     RequestThread.postRequest(new LogoutRequest());
-    LoginRequest.relogin();
-    return false;
+    return LoginRequest.relogin();
   }
 
   public static void login(String username) {

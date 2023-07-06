@@ -55,6 +55,7 @@ public class LogoutRequest extends GenericRequest {
   @Override
   public void processResults() {
     LogoutRequest.lastResponse = this.responseText;
+    LoginRequest.setLoggedOut();
   }
 
   public static final String getLastResponse() {

@@ -199,6 +199,11 @@ public class LoginRequest extends GenericRequest {
     return LoginRequest.completedLogin;
   }
 
+  public static final void setLoggedOut() {
+    LoginRequest.completedLogin = false;
+    LoginRequest.lastLoginAttempt = 0;
+  }
+
   public static final void processLoginRequest(final GenericRequest request) {
     if (request.redirectLocation == null) {
       return;
@@ -226,8 +231,9 @@ public class LoginRequest extends GenericRequest {
 
     // Optionally do a ping and check the connection.
     // Returns true if it is acceptable.
+    // Returns false if it is unacceptable and we are logged out.
     if (!LoginManager.ping()) {
-      // LoginManager logged out and may have logged in again.
+      // LoginManager left us logged out
       LoginRequest.lastLoginAttempt = 0;
       return;
     }
