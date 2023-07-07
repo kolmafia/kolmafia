@@ -41,8 +41,12 @@ class PreferencesTest {
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
     File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
-    File ConcurrentUserFile = new File("settings/" + CONCURRENT_USER_NAME.toLowerCase() + "_prefs.txt");
+    File ConcurrentUserFile =
+        new File("settings/" + CONCURRENT_USER_NAME.toLowerCase() + "_prefs.txt");
     if (userFile.exists()) {
+      userFile.delete();
+    }
+    if (ConcurrentUserFile.exists()) {
       userFile.delete();
     }
   }
