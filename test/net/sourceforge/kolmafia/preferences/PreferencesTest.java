@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.session.LoginManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -557,6 +558,50 @@ class PreferencesTest {
     assertFalse(Preferences.isPerUserGlobalProperty("xy..z.zy"));
     // property
     assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast.PreferencesTestFakeUser"));
+  }
+
+  public class timeinThread extends Thread {
+    public timeinThread (String s) {
+      super(s);
+    }
+    public void run() {
+      LoginManager.timein( USER_NAME);
+    }
+  }
+
+  public class incrementThread extends Thread {
+    public incrementThread (String s) {
+      super(s);
+    }
+    public void run() {
+
+      Preferences.increment("counter", 1);
+    }
+  }
+
+  @Test
+  public void timeinDoesNotCauseRaceCondition() {
+    String unrelatedPref = "coalmine";
+    String unrelatedValue = "canary";
+    String incrementedPref = "counter";
+
+    var cleanups = withSavePreferencesToFile();
+    try (cleanups) {
+      Preferences.setInteger(incrementedPref, 1);
+
+      Preferences.setString(unrelatedPref, unrelatedValue);
+      int i = 0;
+      timeinThread t1 = new timeinThread("timein-" + i );
+      t1.start();
+      while (i <= 40) {
+        incrementThread t2 = new incrementThread("increment-" + i );
+        t2.start();
+        i++;
+        System.out.println("iteration number: " + i + " incremented Pref: " +Preferences.getInteger( incrementedPref )+ " "
+                                + unrelatedPref +": "+ Preferences.getString(unrelatedPref, false));
+        //assertEquals(unrelatedValue, Preferences.getString(unrelatedPref, false));
+      }
+    }
   }
 
   @Test
