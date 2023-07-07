@@ -561,18 +561,20 @@ class PreferencesTest {
   }
 
   public class timeinThread extends Thread {
-    public timeinThread (String s) {
+    public timeinThread(String s) {
       super(s);
     }
+
     public void run() {
-      LoginManager.timein( USER_NAME);
+      LoginManager.timein(USER_NAME);
     }
   }
 
   public class incrementThread extends Thread {
-    public incrementThread (String s) {
+    public incrementThread(String s) {
       super(s);
     }
+
     public void run() {
 
       Preferences.increment("counter", 1);
@@ -591,15 +593,22 @@ class PreferencesTest {
 
       Preferences.setString(unrelatedPref, unrelatedValue);
       int i = 0;
-      timeinThread t1 = new timeinThread("timein-" + i );
+      timeinThread t1 = new timeinThread("timein-" + i);
       t1.start();
       while (i <= 40) {
-        incrementThread t2 = new incrementThread("increment-" + i );
+        incrementThread t2 = new incrementThread("increment-" + i);
         t2.start();
         i++;
-        System.out.println("iteration number: " + i + " incremented Pref: " +Preferences.getInteger( incrementedPref )+ " "
-                                + unrelatedPref +": "+ Preferences.getString(unrelatedPref, false));
-        //assertEquals(unrelatedValue, Preferences.getString(unrelatedPref, false));
+        System.out.println(
+            "iteration number: "
+                + i
+                + " incremented Pref: "
+                + Preferences.getInteger(incrementedPref)
+                + " "
+                + unrelatedPref
+                + ": "
+                + Preferences.getString(unrelatedPref, false));
+        // assertEquals(unrelatedValue, Preferences.getString(unrelatedPref, false));
       }
     }
   }
