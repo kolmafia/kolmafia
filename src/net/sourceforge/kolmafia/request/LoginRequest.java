@@ -18,6 +18,8 @@ public class LoginRequest extends GenericRequest {
   private static boolean isLoggingIn;
   private static boolean isTimingIn = false;
 
+  public static int loginPingAttempt = 0;
+
   private final String username;
   private final String password;
 
@@ -229,6 +231,14 @@ public class LoginRequest extends GenericRequest {
       return;
     }
 
+    if (name.endsWith("/q")) {
+      name = name.substring(0, name.length() - 2).trim();
+    } else {
+      // Subsequent requests (timeins) using this request
+      // will be in stealth mode.
+      request.addFormField("loginname", name + "/q");
+    }
+
     // Optionally do a ping and check the connection.
     // Returns true if it is acceptable.
     // Returns false if it is unacceptable and we are logged out.
@@ -238,8 +248,10 @@ public class LoginRequest extends GenericRequest {
       return;
     }
 
-    if (name.endsWith("/q")) {
-      name = name.substring(0, name.length() - 2).trim();
+    // Ping testing can recursively login using this request.
+    // Only finish login/timein after the original call
+    if (LoginRequest.loginPingAttempt > 0) {
+      return;
     }
 
     if (LoginRequest.isTimingIn) {

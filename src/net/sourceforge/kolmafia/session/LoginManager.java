@@ -45,6 +45,14 @@ public class LoginManager {
   private LoginManager() {}
 
   public static boolean ping() {
+    try {
+      return ping(++LoginRequest.loginPingAttempt);
+    } finally {
+      --LoginRequest.loginPingAttempt;
+    }
+  }
+
+  private static boolean ping(int attempt) {
     // Optionally run a ping test and check connection speed.
     // Return true if the connection is acceptable.
 
@@ -56,6 +64,13 @@ public class LoginManager {
     // The user wants to measure ping speed.
     var result = PingManager.runPingTest();
     KoLmafia.updateDisplay("Ping test: average delay is " + result.getAverage() + " msecs.");
+
+    // See if the Ping tested a suitable page
+    if (!result.isSaveable()) {
+      // Perhaps we redirected to afterlife.php or something.
+      // We can only compare averages vs. "normal" pages.
+      return true;
+    }
 
     // See whether user wants to check ping speed.
     long average = result.getAverage();
@@ -90,6 +105,40 @@ public class LoginManager {
       default -> {
         // The user is happy with any connection
         return true;
+      }
+    }
+
+    // Perhaps the user wants to automatically retry for a certain
+    // number of connections.
+    int allowed = Preferences.getInteger("pingLoginCount");
+    if (allowed > 0) {
+      if (attempt < allowed) {
+        // The user wants us to try again
+        RequestThread.postRequest(new LogoutRequest());
+        return LoginRequest.relogin();
+      }
+      // We've reached our limit
+      StringBuilder buf = new StringBuilder();
+      buf.append("We've tried ");
+      buf.append(String.valueOf(attempt));
+      buf.append(" times to get a fast connection");
+      if (!error.equals("")) {
+        buf.append("- ");
+        buf.append(error);
+        buf.append(" - but failed");
+      }
+      buf.append(".");
+      KoLmafia.updateDisplay(buf.toString());
+      switch (Preferences.getString("pingLoginFail")) {
+        case "logout":
+          KoLmafia.updateDisplay("Giving up and logging out.");
+          RequestThread.postRequest(new LogoutRequest());
+          GenericRequest.passwordHash = "ThisIsAnEntirelyBogusPasswordHash";
+          return false;
+        case "login":
+        default:
+          KoLmafia.updateDisplay("Accepting the last attempt of " + average + " msec.");
+          return true;
       }
     }
 

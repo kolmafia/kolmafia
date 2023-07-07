@@ -107,6 +107,10 @@ public class PingManager {
       return buf.toString();
     }
 
+    public boolean isSaveable() {
+      return this.page.equals(DEFAULT_PAGE) && this.count >= MINIMUM_HISTORY_PINGS;
+    }
+
     public void save() {
       String value = this.toString();
 
@@ -115,7 +119,7 @@ public class PingManager {
 
       // Only save in historical properties if we tested the default
       // page and there are enough pings.
-      if (!this.page.equals(DEFAULT_PAGE) || this.count < MINIMUM_HISTORY_PINGS) {
+      if (!this.isSaveable()) {
         return;
       }
 
