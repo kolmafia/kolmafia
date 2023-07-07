@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.LoginManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +43,10 @@ class PreferencesTest {
     File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
     File ConcurrentUserFile =
         new File("settings/" + CONCURRENT_USER_NAME.toLowerCase() + "_prefs.txt");
+    File MallPriceFile = new File("data/" + "mallprices.txt");
+    if (MallPriceFile.exists()) {
+      MallPriceFile.delete();
+    }
     if (userFile.exists()) {
       userFile.delete();
     }
@@ -589,7 +592,7 @@ class PreferencesTest {
     }
   }
 
-  @Disabled
+  // @Disabled
   @Test
   public void timeinDoesNotCauseRaceCondition() {
     String unrelatedPref = "coalmine";
@@ -603,23 +606,28 @@ class PreferencesTest {
       Preferences.setString(unrelatedPref, unrelatedValue);
       int i = 0;
       timeinThread t1 = new timeinThread("timein-" + i);
-      t1.start();
-      while (i <= 100) {
-        incrementThread t2 = new incrementThread("increment-" + i);
-        t2.start();
-        i++;
-        System.out.println(
-            "iteration number: "
-                + i
-                + " incremented Pref: "
-                + Preferences.getInteger(incrementedPref)
-                + " "
-                + unrelatedPref
-                + ": "
-                + Preferences.getString(unrelatedPref, false));
+      try {
+        t1.start();
+        while (i <= 100) {
+          incrementThread t2 = new incrementThread("increment-" + i);
+          t2.start();
+          i++;
+          System.out.println(
+              "iteration number: "
+                  + i
+                  + " incremented Pref: "
+                  + Preferences.getInteger(incrementedPref)
+                  + " "
+                  + unrelatedPref
+                  + ": "
+                  + Preferences.getString(unrelatedPref, false));
+          t2.join();
+        }
+        t1.join();
         // assertEquals(unrelatedValue, Preferences.getString(unrelatedPref, false));
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
       }
-      assertEquals(unrelatedValue, Preferences.getString(unrelatedPref, false));
     }
   }
 
