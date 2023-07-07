@@ -13,8 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
-
-import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -622,7 +620,6 @@ class PreferencesTest {
         // assertEquals(unrelatedValue, Preferences.getString(unrelatedPref, false));
       }
       assertEquals(unrelatedValue, Preferences.getString(unrelatedPref, false));
-
     }
   }
 
