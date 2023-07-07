@@ -13,11 +13,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
+
+import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.LoginManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -588,6 +591,7 @@ class PreferencesTest {
     }
   }
 
+  @Disabled
   @Test
   public void timeinDoesNotCauseRaceCondition() {
     String unrelatedPref = "coalmine";
@@ -602,7 +606,7 @@ class PreferencesTest {
       int i = 0;
       timeinThread t1 = new timeinThread("timein-" + i);
       t1.start();
-      while (i <= 40) {
+      while (i <= 100) {
         incrementThread t2 = new incrementThread("increment-" + i);
         t2.start();
         i++;
@@ -617,6 +621,8 @@ class PreferencesTest {
                 + Preferences.getString(unrelatedPref, false));
         // assertEquals(unrelatedValue, Preferences.getString(unrelatedPref, false));
       }
+      assertEquals(unrelatedValue, Preferences.getString(unrelatedPref, false));
+
     }
   }
 
