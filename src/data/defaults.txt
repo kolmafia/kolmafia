@@ -893,9 +893,9 @@ user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
 user	lastFratboyCall	-1
 user	lastFriarCeremonyAscension	-1
-user	lastFriarElbowNC	-1
-user	lastFriarHeartNC	-1
-user	lastFriarNeckNC	-1
+user	lastFriarsElbowNC	-1
+user	lastFriarsHeartNC	-1
+user	lastFriarsNeckNC	-1
 user	lastHippyCall	-1
 user	lastIslandUnlock	-1
 user	lastKeyotronUse	-1
