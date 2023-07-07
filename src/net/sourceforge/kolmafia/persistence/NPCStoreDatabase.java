@@ -168,405 +168,423 @@ public class NPCStoreDatabase {
       return false;
     }
 
-    // Check for whether or not the purchase can be made from a
-    // guild store.	 Store #1 is moxie classes, store #2 is for
-    // mysticality classes, and store #3 is for muscle classes.
-    if (storeId.equals("gnoll")) {
-      // Degrassi Knoll Bakery and Hardware Store
-      return KoLCharacter.knollAvailable();
-    } else if (storeId.equals("tweedle")) {
-      // The Tweedleporium
-      return KoLConstants.activeEffects.contains(NPCStoreDatabase.RABBIT_HOLE);
-    } else if (storeId.equals("bugbear")) {
-      if (KoLCharacter.inNuclearAutumn()) {
-        return false;
+    switch (storeId) {
+      case "armory" -> {
+        // Armory and Leggery
+        if (KoLCharacter.inZombiecore()
+            || KoLCharacter.inNuclearAutumn()
+            || KoLCharacter.isKingdomOfExploathing()) {
+          return false;
+        }
+        if (itemId == ItemPool.FISHING_HAT) {
+          return InventoryManager.hasItem(ItemPool.FISHING_POLE);
+        }
+        return true;
       }
-      // Bugbear Bakery
-      return EquipmentManager.hasOutfit(OutfitPool.BUGBEAR_COSTUME);
-    } else if (storeId.equals("madeline")) {
-      // Bugbear Bakery
-      return QuestDatabase.isQuestFinished(Quest.ARMORER);
-    } else if (storeId.equals("bartender")) {
-      // The Typical Tavern
-      return !KoLCharacter.inZombiecore() && QuestLogRequest.isTavernAvailable();
-    } else if (storeId.equals("blackmarket")) {
-      // Black Market
-      if (!QuestLogRequest.isBlackMarketAvailable()) {
-        return false;
+      case "bartender" -> {
+        // The Typical Tavern
+        return !KoLCharacter.inZombiecore() && QuestLogRequest.isTavernAvailable();
       }
-      return switch (itemId) {
-        case ItemPool.ZEPPELIN_TICKET -> !InventoryManager.hasItem(itemId);
-        case ItemPool.SPARE_KIDNEY ->
-        // Should check for whether your kidney has been stolen
-        KoLCharacter.inBadMoon() && !InventoryManager.hasItem(itemId);
-        case ItemPool.FORGED_ID_DOCUMENTS -> !QuestDatabase.isQuestLaterThan(
-            Quest.MACGUFFIN, "step1");
-        default -> true;
-      };
-    } else if (storeId.equals("chateau")) {
-      // Chateau Mantenga
-      return ChateauRequest.chateauAvailable();
-    } else if (storeId.equals("chinatown")) {
-      // Chinatown Shops
-      return InventoryManager.getCount(ItemPool.STRANGE_GOGGLES) > 0
-          && KoLConstants.campground.contains(ItemPool.get(ItemPool.SUSPICIOUS_JAR, 1));
-    } else if (storeId.startsWith("crimbo18")) {
-      return false;
-    } else if (storeId.startsWith("crimbo19")) {
-      return false;
-    } else if (storeId.startsWith("crimbo20")) {
-      return false;
-    } else if (storeId.startsWith("crimbo21")) {
-      return false;
-    } else if (storeId.equals("guildstore1")) {
-      // Shadowy Store
-      return KoLCharacter.isMoxieClass() && KoLCharacter.getGuildStoreOpen();
-    } else if (storeId.equals("guildstore2")) {
-      // Gouda's Grimoire and Grocery
-      return (KoLCharacter.isMysticalityClass()
-              || (KoLCharacter.isAccordionThief() && KoLCharacter.getLevel() >= 9))
-          && KoLCharacter.getGuildStoreOpen();
-    } else if (storeId.equals("guildstore3")) {
-      // Smacketeria
-      return ((KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris())
-              || (KoLCharacter.isAccordionThief() && KoLCharacter.getLevel() >= 9))
-          && KoLCharacter.getGuildStoreOpen();
-    } else if (storeId.equals("hippy")) {
-      if (KoLCharacter.isKingdomOfExploathing()) {
-        return false;
-      }
-
-      int level = KoLCharacter.getLevel();
-
-      if (shopName.equals("Hippy Store (Pre-War)")) {
-        if (!KoLCharacter.mysteriousIslandAccessible()
-            || !EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT)) {
+      case "bartlebys" -> {
+        // Barrrtleby's Barrrgain Books
+        boolean available = shopName.equals(NPCStoreDatabase.getStoreName(storeId));
+        if (!available) {
           return false;
         }
 
-        if (Preferences.getInteger("lastFilthClearance") == KoLCharacter.getAscensions()) {
+        String itemName = ItemDatabase.getItemName(itemId);
+        if (Preferences.getInteger("lastPirateEphemeraReset") == KoLCharacter.getAscensions()
+            && !Preferences.getString("lastPirateEphemera").equals(itemName)) {
+          if (NPCPurchaseRequest.PIRATE_EPHEMERA_PATTERN.matcher(itemName).matches()) {
+            return false;
+          }
+        }
+        return EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP)
+            || InventoryManager.hasItem(ItemPool.PIRATE_FLEDGES);
+      }
+      case "blackmarket" -> {
+        // The Black Market
+        if (!QuestLogRequest.isBlackMarketAvailable()) {
+          return false;
+        }
+        return switch (itemId) {
+          case ItemPool.ZEPPELIN_TICKET -> !InventoryManager.hasItem(itemId);
+          case ItemPool.SPARE_KIDNEY ->
+          // Should check for whether your kidney has been stolen
+          KoLCharacter.inBadMoon() && !InventoryManager.hasItem(itemId);
+          case ItemPool.FORGED_ID_DOCUMENTS -> !QuestDatabase.isQuestLaterThan(
+              Quest.MACGUFFIN, "step1");
+          default -> true;
+        };
+      }
+      case "bugbear" -> {
+        // Bugbear Bakery
+        if (KoLCharacter.inNuclearAutumn()) {
+          return false;
+        }
+        return EquipmentManager.hasOutfit(OutfitPool.BUGBEAR_COSTUME);
+      }
+      case "chateau" -> {
+        // Chateau Mantenga Gift Shop
+        return ChateauRequest.chateauAvailable();
+      }
+      case "chinatown" -> {
+        // Chinatown Shops
+        return InventoryManager.getCount(ItemPool.STRANGE_GOGGLES) > 0
+            && KoLConstants.campground.contains(ItemPool.get(ItemPool.SUSPICIOUS_JAR, 1));
+      }
+      case "crimbo18", "crimbo18giftomat" -> {
+        // The Crimbo Cafe
+        // Crimbo Town Gift-O-Mat
+        return false;
+      }
+      case "crimbo19" -> {
+        // The Crimbo Cafe
+        return false;
+      }
+      case "crimbo20", "crimbo20blackmarket" -> {
+        // The Crimbo Cafe
+        // The Black and White and Red All Over Market
+        return false;
+      }
+      case "crimbo21cafe", "crimbo21ornaments" -> {
+        // The Crimbo Cafe
+        // Ornament Stand
+        return false;
+      }
+      case "doc" -> {
+        // Doc Galaktik's Medicine Show
+        if (KoLCharacter.inZombiecore()
+            || KoLCharacter.inNuclearAutumn()
+            || KoLCharacter.isKingdomOfExploathing()) {
+          return false;
+        }
+        if (itemId == ItemPool.DOC_VITALITY_SERUM) {
+          return QuestDatabase.isQuestFinished(Quest.DOC);
+        }
+        return true;
+      }
+      case "fdkol" -> {
+        // FDKOL Requisitions Tent
+        return false;
+      }
+      case "fwshop" -> {
+        // Clan Underground Fireworks Shop
+        if (Preferences.getBoolean("_fireworksShop") == false) {
           return false;
         }
 
-        if (level < 12) {
-          return true;
-        }
-
-        return QuestLogRequest.isHippyStoreAvailable();
+        return switch (itemId) {
+          case ItemPool.FEDORA_MOUNTED_FOUNTAIN,
+              ItemPool.PORKPIE_MOUNTED_POPPER,
+              ItemPool.SOMBRERO_MOUNTED_SPARKLER -> Preferences.getBoolean(
+                  "_fireworksShopHatBought")
+              == false;
+          case ItemPool.CATHERINE_WHEEL,
+              ItemPool.ROCKET_BOOTS,
+              ItemPool.OVERSIZED_SPARKLER -> Preferences.getBoolean("_fireworksShopEquipmentBought")
+              == false;
+          default -> true;
+        };
       }
+      case "generalstore" -> {
+        // The General Store
 
-      // Here, you insert any logic which is able to detect
-      // the completion of the filthworm infestation and
-      // which outfit was used to complete it.
-
-      if (Preferences.getInteger("lastFilthClearance") != KoLCharacter.getAscensions()) {
-        return false;
-      }
-
-      int outfit = OutfitPool.NONE;
-      if (shopName.equals("Hippy Store (Hippy)")) {
-        if (!Preferences.getString("currentHippyStore").equals("hippy")) {
+        if (KoLCharacter.inNuclearAutumn()) {
           return false;
         }
 
-        outfit = OutfitPool.WAR_HIPPY_OUTFIT;
-      } else if (shopName.equals("Hippy Store (Fratboy)")) {
-        if (!Preferences.getString("currentHippyStore").equals("fratboy")) {
-          return false;
-        }
+        // Some items restricted, often because of holidays
+        String holiday = HolidayDatabase.getHoliday();
 
-        outfit = OutfitPool.WAR_FRAT_OUTFIT;
-      } else {
-        // What is this?
-        return false;
-      }
-
-      return QuestLogRequest.isHippyStoreAvailable() || EquipmentManager.hasOutfit(outfit);
-    } else if (storeId.equals("knobdisp")) {
-      // The Knob Dispensary
-      return KoLCharacter.getDispensaryOpen();
-    } else if (storeId.equals("jewelers")) {
-      // Little Canadia Jewelers
-      return !KoLCharacter.inZombiecore() && KoLCharacter.canadiaAvailable();
-    } else if (storeId.equals("generalstore")) {
-      // General Store
-
-      if (KoLCharacter.inNuclearAutumn()) {
-        return false;
-      }
-
-      // Some items restricted, often because of holidays
-      String holiday = HolidayDatabase.getHoliday();
-
-      switch (itemId) {
-        case ItemPool.MARSHMALLOW:
-          return holiday.contains("Yuletide");
-        case ItemPool.OYSTER_BASKET:
-          return holiday.contains("Oyster Egg Day");
-        case ItemPool.PARTY_HAT:
-          return holiday.contains("Festival of Jarlsberg");
-        case ItemPool.M282:
-        case ItemPool.SNAKE:
-        case ItemPool.SPARKLER:
-          return holiday.contains("Dependence Day");
-        case ItemPool.GREEN_ROCKET:
-          return holiday.contains("Dependence Day") && holiday.contains("St. Sneaky Pete's Day");
-        case ItemPool.FOAM_NOODLE:
-        case ItemPool.INFLATABLE_DUCK:
-        case ItemPool.WATER_WINGS:
-          return holiday.contains("Generic Summer Holiday");
-        case ItemPool.DESERT_BUS_PASS:
-          return !KoLCharacter.desertBeachAccessible();
-        case ItemPool.FOLDER_01:
-        case ItemPool.FOLDER_02:
-        case ItemPool.FOLDER_03:
-          {
+        return switch (itemId) {
+          case ItemPool.MARSHMALLOW -> holiday.contains("Yuletide");
+          case ItemPool.OYSTER_BASKET -> holiday.contains("Oyster Egg Day");
+          case ItemPool.PARTY_HAT -> holiday.contains("Festival of Jarlsberg");
+          case ItemPool.M282, ItemPool.SNAKE, ItemPool.SPARKLER -> holiday.contains(
+              "Dependence Day");
+          case ItemPool.GREEN_ROCKET -> holiday.contains("Dependence Day")
+              && holiday.contains("St. Sneaky Pete's Day");
+          case ItemPool.FOAM_NOODLE, ItemPool.INFLATABLE_DUCK, ItemPool.WATER_WINGS -> holiday
+              .contains("Generic Summer Holiday");
+          case ItemPool.DESERT_BUS_PASS -> !KoLCharacter.desertBeachAccessible();
+          case ItemPool.FOLDER_01, ItemPool.FOLDER_02, ItemPool.FOLDER_03 -> {
             AdventureResult folderHolder = ItemPool.get(ItemPool.FOLDER_HOLDER);
             if (folderHolder.getCount(KoLConstants.inventory) > 0
                 || folderHolder.getCount(KoLConstants.closet) > 0
                 || folderHolder.getCount(KoLConstants.collection) > 0
                 || KoLCharacter.hasEquipped(folderHolder)) {
-              return true;
+              yield true;
             }
             if (KoLCharacter.inLegacyOfLoathing()) {
               AdventureResult replicaFolderHolder = ItemPool.get(ItemPool.REPLICA_FOLDER_HOLDER);
-              return replicaFolderHolder.getCount(KoLConstants.inventory) > 0
+              yield replicaFolderHolder.getCount(KoLConstants.inventory) > 0
                   || KoLCharacter.hasEquipped(replicaFolderHolder);
             }
-            return false;
+            yield false;
           }
-        case ItemPool.WATER_WINGS_FOR_BABIES:
-        case ItemPool.MINI_LIFE_PRESERVER:
-        case ItemPool.HEAVY_DUTY_UMBRELLA:
-        case ItemPool.POOL_SKIMMER:
-          return KoLCharacter.inRaincore();
-        case ItemPool.FISHING_LINE:
-          return InventoryManager.hasItem(ItemPool.FISHING_POLE);
-        case ItemPool.TRICK_TOT_UNICORN:
-        case ItemPool.TRICK_TOT_CANDY:
-          return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
+          case ItemPool.WATER_WINGS_FOR_BABIES,
+              ItemPool.MINI_LIFE_PRESERVER,
+              ItemPool.HEAVY_DUTY_UMBRELLA,
+              ItemPool.POOL_SKIMMER -> KoLCharacter.inRaincore();
+          case ItemPool.FISHING_LINE -> InventoryManager.hasItem(ItemPool.FISHING_POLE);
+          case ItemPool.TRICK_TOT_UNICORN, ItemPool.TRICK_TOT_CANDY -> KoLCharacter.usableFamiliar(
+                  FamiliarPool.TRICK_TOT)
+              != null;
+          default -> true;
+        };
       }
-    } else if (storeId.equals("town_giftshop.php")) {
-      // Gift Shop
-      if (KoLCharacter.inBadMoon() || KoLCharacter.isKingdomOfExploathing()) {
-        return false;
+      case "gnoll" -> {
+        // Degrassi Knoll Bakery and Hardware Store
+        return KoLCharacter.knollAvailable();
       }
+      case "gnomart" -> {
+        // Gno-Mart
+        return !KoLCharacter.inZombiecore() && KoLCharacter.gnomadsAvailable();
+      }
+      case "guildstore1" -> {
+        // Shadowy Store
+        return KoLCharacter.isMoxieClass() && KoLCharacter.getGuildStoreOpen();
+      }
+      case "guildstore2" -> {
+        // Gouda's Grimoire and Grocery
+        return (KoLCharacter.isMysticalityClass()
+                || (KoLCharacter.isAccordionThief() && KoLCharacter.getLevel() >= 9))
+            && KoLCharacter.getGuildStoreOpen();
+      }
+      case "guildstore3" -> {
+        // Smacketeria
+        return ((KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris())
+                || (KoLCharacter.isAccordionThief() && KoLCharacter.getLevel() >= 9))
+            && KoLCharacter.getGuildStoreOpen();
+      }
+      case "hiddentavern" -> {
+        // The Hidden Tavern
+        return Preferences.getInteger("hiddenTavernUnlock") == KoLCharacter.getAscensions();
+      }
+      case "hippy" -> {
+        // Hippy Store (Pre-War)
+        // Hippy Store (Hippy)
+        // Hippy Store (Fratboy)
 
-      // Some items restricted, because of holidays or number of ascensions
-      String holiday = HolidayDatabase.getHoliday();
-      int asc = KoLCharacter.getAscensions();
-
-      switch (itemId) {
-        case ItemPool.VALENTINE:
-        case ItemPool.CHOCOLATE_COVERED_DIAMOND_STUDDED_ROSES:
-        case ItemPool.BOUQUET_OF_CIRCULAR_SAW_BLADES:
-        case ItemPool.BETTER_THAN_CUDDLING_CAKE:
-        case ItemPool.STUFFED_NINJA_SNOWMAN:
-          return holiday.contains("Valentine's Day");
-        case ItemPool.POTTED_FERN:
-        case ItemPool.HAPPY_BIRTHDAY_CLAUDE_CAKE:
-          return asc >= 1;
-        case ItemPool.STUFFED_GHUOL_WHELP:
-        case ItemPool.HEART_SHAPED_BALLOON:
-          return asc >= 2;
-        case ItemPool.TULIP:
-        case ItemPool.PERSONALIZED_BIRTHDAY_CAKE:
-          return asc >= 4;
-        case ItemPool.STUFFED_ZMOBIE:
-        case ItemPool.ANNIVERSARY_BALLOON:
-          return asc >= 5;
-        case ItemPool.VENUS_FLYTRAP:
-        case ItemPool.THREE_TIERED_WEDDING_CAKE:
-          return asc >= 7;
-        case ItemPool.RAGGEDY_HIPPY_DOLL:
-        case ItemPool.MYLAR_BALLOON:
-          return asc >= 8;
-        case ItemPool.ALL_PURPOSE_FLOWER:
-        case ItemPool.BABYCAKES:
-          return asc >= 10;
-        case ItemPool.STUFFED_STAB_BAT:
-        case ItemPool.KEVLAR_BALLOON:
-          return asc >= 11;
-        case ItemPool.EXOTIC_ORCHID:
-        case ItemPool.BLUE_VELVET_CAKE:
-          return asc >= 13;
-        case ItemPool.APATHETIC_LIZARDMAN_DOLL:
-        case ItemPool.THOUGHT_BALLOON:
-          return asc >= 14;
-        case ItemPool.LONG_STEMMED_ROSE:
-        case ItemPool.CONGRATULATORY_CAKE:
-          return asc >= 16;
-        case ItemPool.STUFFED_YETI:
-        case ItemPool.RAT_BALLOON:
-          return asc >= 17;
-        case ItemPool.GILDED_LILY:
-        case ItemPool.ANGEL_FOOD_CAKE:
-          return asc >= 19;
-        case ItemPool.STUFFED_MOB_PENGUIN:
-        case ItemPool.MINI_ZEPPELIN:
-          return asc >= 20;
-        case ItemPool.DEADLY_NIGHTSHADE:
-        case ItemPool.DEVILS_FOOD_CAKE:
-          return asc >= 22;
-        case ItemPool.STUFFED_SABRE_TOOTHED_LIME:
-        case ItemPool.MR_BALLOON:
-          return asc >= 23;
-        case ItemPool.BLACK_LOTUS:
-        case ItemPool.BIRTHDAY_PARTY_JELLYBEAN_CHEESECAKE:
-          return asc >= 25;
-        case ItemPool.GIANT_STUFFED_BUGBEAR:
-        case ItemPool.RED_BALLOON:
-          return asc >= 26;
-      }
-    } else if (storeId.equals("gnomart")) {
-      // Gno-Mart
-      return !KoLCharacter.inZombiecore() && KoLCharacter.gnomadsAvailable();
-    } else if (storeId.equals("mayoclinic")) {
-      // The Mayo Clinic
-      boolean available = false;
-      AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
-      if (workshedItem != null) {
-        available =
-            workshedItem.getItemId() == ItemPool.MAYO_CLINIC
-                && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "portable Mayo Clinic");
-        if (itemId == ItemPool.MIRACLE_WHIP) {
-          return available
-              && !Preferences.getBoolean("_mayoDeviceRented")
-              && !Preferences.getBoolean("itemBoughtPerAscension8266");
-        }
-        if (itemId == ItemPool.SPHYGMAYOMANOMETER
-            || itemId == ItemPool.REFLEX_HAMMER
-            || itemId == ItemPool.MAYO_LANCE) {
-          return available && !Preferences.getBoolean("_mayoDeviceRented");
-        }
-      }
-      return available;
-    } else if (storeId.equals("unclep")) {
-      // Uncle P's Antiques
-      return !KoLCharacter.inZombiecore()
-          && !KoLCharacter.inNuclearAutumn()
-          && KoLCharacter.desertBeachAccessible();
-    } else if (storeId.equals("bartlebys")) {
-      boolean available = shopName.equals(NPCStoreDatabase.getStoreName(storeId));
-      if (!available) {
-        return false;
-      }
-
-      if (itemId == ItemPool.ABRIDGED
-          && (InventoryManager.hasItem(ItemPool.ABRIDGED)
-              || InventoryManager.hasItem(ItemPool.DICTIONARY)
-              || QuestDatabase.isQuestFinished(Quest.LOL))) {
-        return false;
-      }
-
-      String itemName = ItemDatabase.getItemName(itemId);
-      if (Preferences.getInteger("lastPirateEphemeraReset") == KoLCharacter.getAscensions()
-          && !Preferences.getString("lastPirateEphemera").equals(itemName)) {
-        if (NPCPurchaseRequest.PIRATE_EPHEMERA_PATTERN.matcher(itemName).matches()) {
+        if (KoLCharacter.isKingdomOfExploathing()) {
           return false;
         }
-      }
-      return EquipmentManager.hasOutfit(OutfitPool.SWASHBUCKLING_GETUP)
-          || InventoryManager.hasItem(ItemPool.PIRATE_FLEDGES);
-    } else if (storeId.equals("meatsmith")) {
-      // Meatsmith's Shop
-      return !KoLCharacter.inZombiecore()
-          && !KoLCharacter.inNuclearAutumn()
-          && !KoLCharacter.isKingdomOfExploathing();
-    } else if (storeId.equals("whitecitadel")) {
-      return QuestLogRequest.isWhiteCitadelAvailable();
-    } else if (storeId.equals("nerve")) {
-      // Nervewrecker's Store
-      return KoLCharacter.inBadMoon();
-    } else if (storeId.equals("armory")) {
-      if (KoLCharacter.inZombiecore()
-          || KoLCharacter.inNuclearAutumn()
-          || KoLCharacter.isKingdomOfExploathing()) {
-        return false;
-      }
-      // Armory and Leggery
-      if (itemId == ItemPool.FISHING_HAT) {
-        return InventoryManager.hasItem(ItemPool.FISHING_POLE);
-      }
-    } else if (storeId.equals("fwshop")) {
-      if (Preferences.getBoolean("_fireworksShop") == false) {
-        return false;
-      }
 
-      return switch (itemId) {
-        case ItemPool.FEDORA_MOUNTED_FOUNTAIN,
-            ItemPool.PORKPIE_MOUNTED_POPPER,
-            ItemPool.SOMBRERO_MOUNTED_SPARKLER -> Preferences.getBoolean("_fireworksShopHatBought")
-            == false;
-        case ItemPool.CATHERINE_WHEEL,
-            ItemPool.ROCKET_BOOTS,
-            ItemPool.OVERSIZED_SPARKLER -> Preferences.getBoolean("_fireworksShopEquipmentBought")
-            == false;
-        default -> true;
-      };
+        int level = KoLCharacter.getLevel();
 
-    } else if (storeId.equals("fdkol")) {
-      return false;
-    } else if (storeId.equals("hiddentavern")) {
-      return Preferences.getInteger("hiddenTavernUnlock") == KoLCharacter.getAscensions();
-    } else if (storeId.equals("doc")) {
-      if (KoLCharacter.inZombiecore()
-          || KoLCharacter.inNuclearAutumn()
-          || KoLCharacter.isKingdomOfExploathing()) {
-        return false;
-      }
-      if (itemId == ItemPool.DOC_VITALITY_SERUM) {
-        return QuestDatabase.isQuestFinished(Quest.DOC);
-      }
-    } else if (storeId.equals("mystic")) {
-      if (KoLCharacter.isKingdomOfExploathing()) {
-        return false;
-      }
-      if (itemId == ItemPool.YELLOW_SUBMARINE) {
-        return !KoLCharacter.desertBeachAccessible();
-      } else if (itemId == ItemPool.DIGITAL_KEY) {
-        return !InventoryManager.hasItem(ItemPool.DIGITAL_KEY);
-      }
-    } else if (storeId.equals("vault1")) {
-      // Fallout Shelter Medical Supply
-      if (!KoLCharacter.inNuclearAutumn() || Preferences.getInteger("falloutShelterLevel") < 2) {
-        return false;
-      }
-      if (itemId == ItemPool.TRICK_TOT_CANDY || itemId == ItemPool.TRICK_TOT_EYEBALL) {
-        return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
-      }
-    } else if (storeId.equals("vault2")) {
+        if (shopName.equals("Hippy Store (Pre-War)")) {
+          if (!KoLCharacter.mysteriousIslandAccessible()
+              || !EquipmentManager.hasOutfit(OutfitPool.HIPPY_OUTFIT)) {
+            return false;
+          }
 
-      if (!KoLCharacter.inNuclearAutumn() || Preferences.getInteger("falloutShelterLevel") < 4) {
-        return false;
-      }
-      if (itemId == ItemPool.TRICK_TOT_KNIGHT || itemId == ItemPool.TRICK_TOT_ROBOT) {
-        return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
-      }
-    } else if (storeId.equals("vault3")) {
-      if (!KoLCharacter.inNuclearAutumn() || Preferences.getInteger("falloutShelterLevel") < 7) {
-        return false;
-      }
-      if (itemId == ItemPool.TRICK_TOT_LIBERTY || itemId == ItemPool.TRICK_TOT_UNICORN) {
-        return KoLCharacter.usableFamiliar(FamiliarPool.TRICK_TOT) != null;
-      }
-    } else if (storeId.equals("wildfire")) {
-      if (!KoLCharacter.inFirecore()) {
-        return false;
-      }
+          if (Preferences.getInteger("lastFilthClearance") == KoLCharacter.getAscensions()) {
+            return false;
+          }
 
-      switch (itemId) {
-        case ItemPool.BLART:
-          return !Preferences.getBoolean("itemBoughtPerAscension10790");
-        case ItemPool.RAINPROOF_BARREL_CAULK:
-          return !Preferences.getBoolean("itemBoughtPerAscension10794");
-        case ItemPool.PUMP_GREASE:
-          return !Preferences.getBoolean("itemBoughtPerAscension10795");
+          if (level < 12) {
+            return true;
+          }
+
+          return QuestLogRequest.isHippyStoreAvailable();
+        }
+
+        // Here, you insert any logic which is able to detect
+        // the completion of the filthworm infestation and
+        // which outfit was used to complete it.
+
+        if (Preferences.getInteger("lastFilthClearance") != KoLCharacter.getAscensions()) {
+          return false;
+        }
+
+        int outfit = OutfitPool.NONE;
+        switch (shopName) {
+          case "Hippy Store (Hippy)" -> {
+            if (!Preferences.getString("currentHippyStore").equals("hippy")) {
+              return false;
+            }
+
+            outfit = OutfitPool.WAR_HIPPY_OUTFIT;
+          }
+          case "Hippy Store (Fratboy)" -> {
+            if (!Preferences.getString("currentHippyStore").equals("fratboy")) {
+              return false;
+            }
+
+            outfit = OutfitPool.WAR_FRAT_OUTFIT;
+          }
+          default -> {
+            // What is this?
+            return false;
+          }
+        }
+
+        return QuestLogRequest.isHippyStoreAvailable() || EquipmentManager.hasOutfit(outfit);
+      }
+      case "jewelers" -> {
+        // Little Canadia Jewelers
+        return !KoLCharacter.inZombiecore() && KoLCharacter.canadiaAvailable();
+      }
+      case "knobdisp" -> {
+        // The Knob Dispensary
+        return KoLCharacter.getDispensaryOpen();
+      }
+      case "madeline" -> {
+        // Madeline's Baking Supply
+        return QuestDatabase.isQuestFinished(Quest.ARMORER);
+      }
+      case "mayoclinic" -> {
+        // The Mayo Clinic
+        boolean available = false;
+        AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+        if (workshedItem != null) {
+          available =
+              workshedItem.getItemId() == ItemPool.MAYO_CLINIC
+                  && StandardRequest.isAllowed(RestrictedItemType.ITEMS, "portable Mayo Clinic");
+          if (itemId == ItemPool.MIRACLE_WHIP) {
+            return available
+                && !Preferences.getBoolean("_mayoDeviceRented")
+                && !Preferences.getBoolean("itemBoughtPerAscension8266");
+          }
+          if (itemId == ItemPool.SPHYGMAYOMANOMETER
+              || itemId == ItemPool.REFLEX_HAMMER
+              || itemId == ItemPool.MAYO_LANCE) {
+            return available && !Preferences.getBoolean("_mayoDeviceRented");
+          }
+        }
+        return available;
+      }
+      case "meatsmith" -> {
+        // Meatsmith's Shop
+        return !KoLCharacter.inZombiecore()
+            && !KoLCharacter.inNuclearAutumn()
+            && !KoLCharacter.isKingdomOfExploathing();
+      }
+      case "mystic" -> {
+        // The Crackpot Mystic's Shed
+        if (KoLCharacter.isKingdomOfExploathing()) {
+          return false;
+        }
+        // The following is not complete:
+        // Items unlocked by beating all four bosses in the Crackpot Mystic's Psychoses:
+        //    pixel energy tank
+        //    pixel grappling hook
+        //    pixel pill
+        return switch (itemId) {
+          case ItemPool.YELLOW_SUBMARINE -> !KoLCharacter.desertBeachAccessible();
+          default -> true;
+        };
+      }
+      case "nerve" -> {
+        // Nervewrecker's Store
+        return KoLCharacter.inBadMoon();
+      }
+      case "town_giftshop.php" -> {
+        // Gift Shop
+        if (KoLCharacter.inBadMoon() || KoLCharacter.isKingdomOfExploathing()) {
+          return false;
+        }
+
+        // Some items restricted, because of holidays or number of ascensions
+        String holiday = HolidayDatabase.getHoliday();
+        int asc = KoLCharacter.getAscensions();
+
+        return switch (itemId) {
+          case ItemPool.VALENTINE,
+              ItemPool.CHOCOLATE_COVERED_DIAMOND_STUDDED_ROSES,
+              ItemPool.BOUQUET_OF_CIRCULAR_SAW_BLADES,
+              ItemPool.BETTER_THAN_CUDDLING_CAKE,
+              ItemPool.STUFFED_NINJA_SNOWMAN -> holiday.contains("Valentine's Day");
+          case ItemPool.POTTED_FERN, ItemPool.HAPPY_BIRTHDAY_CLAUDE_CAKE -> asc >= 1;
+          case ItemPool.STUFFED_GHUOL_WHELP, ItemPool.HEART_SHAPED_BALLOON -> asc >= 2;
+          case ItemPool.TULIP, ItemPool.PERSONALIZED_BIRTHDAY_CAKE -> asc >= 4;
+          case ItemPool.STUFFED_ZMOBIE, ItemPool.ANNIVERSARY_BALLOON -> asc >= 5;
+          case ItemPool.VENUS_FLYTRAP, ItemPool.THREE_TIERED_WEDDING_CAKE -> asc >= 7;
+          case ItemPool.RAGGEDY_HIPPY_DOLL, ItemPool.MYLAR_BALLOON -> asc >= 8;
+          case ItemPool.ALL_PURPOSE_FLOWER, ItemPool.BABYCAKES -> asc >= 10;
+          case ItemPool.STUFFED_STAB_BAT, ItemPool.KEVLAR_BALLOON -> asc >= 11;
+          case ItemPool.EXOTIC_ORCHID, ItemPool.BLUE_VELVET_CAKE -> asc >= 13;
+          case ItemPool.APATHETIC_LIZARDMAN_DOLL, ItemPool.THOUGHT_BALLOON -> asc >= 14;
+          case ItemPool.LONG_STEMMED_ROSE, ItemPool.CONGRATULATORY_CAKE -> asc >= 16;
+          case ItemPool.STUFFED_YETI, ItemPool.RAT_BALLOON -> asc >= 17;
+          case ItemPool.GILDED_LILY, ItemPool.ANGEL_FOOD_CAKE -> asc >= 19;
+          case ItemPool.STUFFED_MOB_PENGUIN, ItemPool.MINI_ZEPPELIN -> asc >= 20;
+          case ItemPool.DEADLY_NIGHTSHADE, ItemPool.DEVILS_FOOD_CAKE -> asc >= 22;
+          case ItemPool.STUFFED_SABRE_TOOTHED_LIME, ItemPool.MR_BALLOON -> asc >= 23;
+          case ItemPool.BLACK_LOTUS, ItemPool.BIRTHDAY_PARTY_JELLYBEAN_CHEESECAKE -> asc >= 25;
+          case ItemPool.GIANT_STUFFED_BUGBEAR, ItemPool.RED_BALLOON -> asc >= 26;
+          default -> true;
+        };
+      }
+      case "tweedle" -> {
+        // The Tweedleporium
+        return KoLConstants.activeEffects.contains(NPCStoreDatabase.RABBIT_HOLE);
+      }
+      case "unclep" -> {
+        // Uncle P's Antiques
+        return !KoLCharacter.inZombiecore()
+            && !KoLCharacter.inNuclearAutumn()
+            && KoLCharacter.desertBeachAccessible();
+      }
+      case "whitecitadel" -> {
+        // White Citadel
+        return QuestLogRequest.isWhiteCitadelAvailable();
+      }
+      case "vault1" -> {
+        // Fallout Shelter Medical Supply
+        if (!KoLCharacter.inNuclearAutumn() || Preferences.getInteger("falloutShelterLevel") < 2) {
+          return false;
+        }
+        return switch (itemId) {
+          case ItemPool.TRICK_TOT_CANDY, ItemPool.TRICK_TOT_EYEBALL -> KoLCharacter.usableFamiliar(
+                  FamiliarPool.TRICK_TOT)
+              != null;
+          default -> true;
+        };
+      }
+      case "vault2" -> {
+        // Fallout Shelter Electronics Supply
+        if (!KoLCharacter.inNuclearAutumn() || Preferences.getInteger("falloutShelterLevel") < 4) {
+          return false;
+        }
+        return switch (itemId) {
+          case ItemPool.TRICK_TOT_KNIGHT, ItemPool.TRICK_TOT_ROBOT -> KoLCharacter.usableFamiliar(
+                  FamiliarPool.TRICK_TOT)
+              != null;
+          default -> true;
+        };
+      }
+      case "vault3" -> {
+        // Underground Record Store
+        if (!KoLCharacter.inNuclearAutumn() || Preferences.getInteger("falloutShelterLevel") < 7) {
+          return false;
+        }
+        return switch (itemId) {
+          case ItemPool.TRICK_TOT_LIBERTY, ItemPool.TRICK_TOT_UNICORN -> KoLCharacter
+                  .usableFamiliar(FamiliarPool.TRICK_TOT)
+              != null;
+          default -> true;
+        };
+      }
+      case "wildfire" -> {
+        // FDKOL Auxiliary
+        if (!KoLCharacter.inFirecore()) {
+          return false;
+        }
+
+        return switch (itemId) {
+          case ItemPool.BLART -> !Preferences.getBoolean("itemBoughtPerAscension10790");
+          case ItemPool.RAINPROOF_BARREL_CAULK -> !Preferences.getBoolean(
+              "itemBoughtPerAscension10794");
+          case ItemPool.PUMP_GREASE -> !Preferences.getBoolean("itemBoughtPerAscension10795");
+          default -> true;
+        };
       }
     }
 
-    // If it gets this far, then the item is definitely available
-    // for purchase from the NPC store.
+    // If we get here, we don't recognize the shopId.
+    // Assume the item is available for purchase.
 
     return true;
   }
