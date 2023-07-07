@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
   private final String USER_NAME = "PreferencesTestFakeUser";
+  private final String CONCURRENT_USER_NAME = "ConcurrencyFakeUser";
   private final String EMPTY_USER = "Empty";
 
   // These need to be before and after each because leakage has been observed between tests
@@ -30,6 +31,7 @@ class PreferencesTest {
   @BeforeEach
   public void initializeCharPrefs() {
     KoLCharacter.reset(USER_NAME);
+    KoLCharacter.reset(CONCURRENT_USER_NAME);
     KoLCharacter.reset(true);
   }
 
@@ -39,6 +41,7 @@ class PreferencesTest {
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
     File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
+    File ConcurrentUserFile = new File("settings/" + CONCURRENT_USER_NAME.toLowerCase() + "_prefs.txt");
     if (userFile.exists()) {
       userFile.delete();
     }
@@ -566,7 +569,7 @@ class PreferencesTest {
     }
 
     public void run() {
-      LoginManager.timein(USER_NAME);
+      LoginManager.timein(CONCURRENT_USER_NAME);
     }
   }
 
