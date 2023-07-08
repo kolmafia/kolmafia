@@ -22,13 +22,17 @@ public class LoginRequest extends GenericRequest {
 
   private final String username;
   private final String password;
+  private boolean stealthy = false;
 
   public static int playersOnline = 0;
 
   public LoginRequest(final String username, final String password) {
     super("login.php");
 
+    // Ignore /q in the supplied username; we will add it later, as controlled by user preference.
     this.username = username == null ? "" : StringUtilities.globalStringReplace(username, "/q", "");
+    this.stealthy = false;
+
     Preferences.setString(this.username, "displayName", this.username);
 
     this.password = password;
@@ -81,9 +85,21 @@ public class LoginRequest extends GenericRequest {
     this.addFormField("password", this.password);
     this.addFormField("secure", "0");
 
-    this.addFormField(
-        "loginname", Preferences.getBoolean("stealthLogin") ? this.username + "/q" : this.username);
+    boolean stealthy = this.stealthy || Preferences.getBoolean("stealthLogin");
+    this.addFormField("loginname", stealthy ? this.username + "/q" : this.username);
     this.addFormField("loggingin", "Yup.");
+
+    // We construct a new LoginRequest every time the user hits login from the LoginFrame,
+    // or types a "login" command, or the GUI autologins when it is created.
+    //
+    // The request will be reused whenever we time in after KoL silently
+    // times out the session, or while we do ping tests to measure
+    // connection times on login or timein.
+    //
+    // We want all of those attempts to be stealthy, whether or not the
+    // user initially logged in that way.
+
+    this.stealthy = true;
 
     KoLmafia.updateDisplay("Sending login request...");
 
@@ -233,10 +249,6 @@ public class LoginRequest extends GenericRequest {
 
     if (name.endsWith("/q")) {
       name = name.substring(0, name.length() - 2).trim();
-    } else {
-      // Subsequent requests (timeins) using this request
-      // will be in stealth mode.
-      request.addFormField("loginname", name + "/q");
     }
 
     // Optionally do a ping and check the connection.
