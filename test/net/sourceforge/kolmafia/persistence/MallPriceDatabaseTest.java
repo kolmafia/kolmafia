@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.*;
 
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -18,6 +19,15 @@ public class MallPriceDatabaseTest {
   @BeforeAll
   public static void beforeAll() {
     MallPriceDatabase.savePricesToFile = false;
+    String MallPriceFileName = "data/" + "mallprices.txt";
+    File MallPriceFile = new File(MallPriceFileName);
+    if (MallPriceFile.exists()) {
+      boolean filedDeleted = MallPriceFile.delete();
+      if (!filedDeleted) {
+        System.out.println(MallPriceFile + " not deleted");
+      }
+    }
+    MallPriceDatabase.updatePrices(MallPriceFileName);
   }
 
   @AfterAll

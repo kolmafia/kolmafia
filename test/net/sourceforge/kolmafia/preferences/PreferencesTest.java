@@ -45,13 +45,19 @@ class PreferencesTest {
         new File("settings/" + CONCURRENT_USER_NAME.toLowerCase() + "_prefs.txt");
     File MallPriceFile = new File("data/" + "mallprices.txt");
     if (MallPriceFile.exists()) {
-      MallPriceFile.delete();
+      if (!MallPriceFile.delete()) {
+        System.out.println("Failed to delete " + MallPriceFile);
+      }
     }
     if (userFile.exists()) {
-      userFile.delete();
+      if (!userFile.delete()) {
+        System.out.println("Failed to delete " + userFile);
+      }
     }
     if (ConcurrentUserFile.exists()) {
-      userFile.delete();
+      if (!ConcurrentUserFile.delete()) {
+        System.out.println("Failed to delete " + ConcurrentUserFile);
+      }
     }
   }
 
@@ -63,10 +69,14 @@ class PreferencesTest {
     File userFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.txt");
     File backupUserFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.bak");
     if (userFile.exists()) {
-      userFile.delete();
+      if (!userFile.delete()) {
+        System.out.println("Failed to delete " + userFile);
+      }
     }
     if (backupUserFile.exists()) {
-      backupUserFile.delete();
+      if (!backupUserFile.delete()) {
+        System.out.println("Failed to delete " + backupUserFile);
+      }
     }
     Preferences.reset(EMPTY_USER);
     var cleanups =
@@ -598,33 +608,42 @@ class PreferencesTest {
     String unrelatedPref = "coalmine";
     String unrelatedValue = "canary";
     String incrementedPref = "counter";
+    Integer threadCount = 200;
+    Boolean debug = false;
 
     var cleanups = withSavePreferencesToFile();
     try (cleanups) {
-      Preferences.setInteger(incrementedPref, 1);
+      Preferences.setInteger(incrementedPref, 0);
 
       Preferences.setString(unrelatedPref, unrelatedValue);
       int i = 0;
-      timeinThread t1 = new timeinThread("timein-" + i);
       try {
-        t1.start();
-        while (i <= 100) {
-          incrementThread t2 = new incrementThread("increment-" + i);
-          t2.start();
+        while (i <= threadCount) {
           i++;
-          System.out.println(
-              "iteration number: "
-                  + i
-                  + " incremented Pref: "
-                  + Preferences.getInteger(incrementedPref)
-                  + " "
-                  + unrelatedPref
-                  + ": "
-                  + Preferences.getString(unrelatedPref, false));
+          timeinThread t1 = new timeinThread("timein-" + i);
+          incrementThread t2 = new incrementThread("increment-" + i);
+          t1.start();
+          t2.start();
           t2.join();
+          t1.join();
+          if (debug) {
+            System.out.println(
+                "iteration number: "
+                    + i
+                    + " incremented Pref: "
+                    + Preferences.getInteger(incrementedPref)
+                    + " "
+                    + unrelatedPref
+                    + ": "
+                    + Preferences.getString(unrelatedPref, false));
+          }
         }
-        t1.join();
-        // assertEquals(unrelatedValue, Preferences.getString(unrelatedPref, false));
+
+        assertEquals(
+            unrelatedValue,
+            Preferences.getString(unrelatedPref, false),
+            "unrelated pref does not match");
+        assertEquals(i, Preferences.getInteger(incrementedPref), "incremented pref does not match");
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }

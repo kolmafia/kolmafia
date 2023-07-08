@@ -605,32 +605,34 @@ public class Preferences {
   }
 
   /** Resets all settings so that the given user is represented whenever settings are modified. */
-  public static synchronized void reset(String username) {
-    // We might not have been tracking encoded values here before this save. Fix that.
-    Preferences.reinitializeEncodedValues();
-    Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
-    // Prevent anybody from manipulating the user map until we are
-    // done bulk-loading it.
-    synchronized (Preferences.userValues) {
-      if (username == null || username.equals("")) {
-        if (Preferences.userPropertiesFile != null) {
-          Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
-          Preferences.userPropertiesFile = null;
-          Preferences.userValues.clear();
-          Preferences.userEncodedValues.clear();
+  public static void reset(String username) {
+    synchronized (lock) {
+      // We might not have been tracking encoded values here before this save. Fix that.
+      Preferences.reinitializeEncodedValues();
+      Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
+      // Prevent anybody from manipulating the user map until we are
+      // done bulk-loading it.
+      synchronized (Preferences.userValues) {
+        if (username == null || username.equals("")) {
+          if (Preferences.userPropertiesFile != null) {
+            Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
+            Preferences.userPropertiesFile = null;
+            Preferences.userValues.clear();
+            Preferences.userEncodedValues.clear();
+          }
+
+          return;
         }
 
-        return;
+        Preferences.loadUserPreferences(username);
       }
 
-      Preferences.loadUserPreferences(username);
+      AdventureFrame.updateFromPreferences();
+      CharPaneDecorator.updateFromPreferences();
+      CombatActionManager.updateFromPreferences();
+      MoodManager.updateFromPreferences();
+      PreferenceListenerRegistry.fireAllPreferencesChanged();
     }
-
-    AdventureFrame.updateFromPreferences();
-    CharPaneDecorator.updateFromPreferences();
-    CombatActionManager.updateFromPreferences();
-    MoodManager.updateFromPreferences();
-    PreferenceListenerRegistry.fireAllPreferencesChanged();
   }
 
   public static String baseUserName(final String name) {
