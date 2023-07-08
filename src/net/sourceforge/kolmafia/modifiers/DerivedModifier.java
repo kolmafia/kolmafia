@@ -41,6 +41,16 @@ public enum DerivedModifier implements Modifier {
     return null;
   }
 
+  @Override
+  public String getType() {
+    return "numeric";
+  }
+
+  @Override
+  public String toString() {
+    return name;
+  }
+
   public static final Set<DerivedModifier> DERIVED_MODIFIERS =
       Collections.unmodifiableSet(EnumSet.allOf(DerivedModifier.class));
 

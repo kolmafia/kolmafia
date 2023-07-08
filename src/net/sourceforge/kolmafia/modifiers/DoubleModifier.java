@@ -581,6 +581,16 @@ public enum DoubleModifier implements Modifier {
     return tag;
   }
 
+  @Override
+  public String getType() {
+    return "numeric";
+  }
+
+  @Override
+  public String toString() {
+    return name;
+  }
+
   public static final Set<DoubleModifier> DOUBLE_MODIFIERS =
       Collections.unmodifiableSet(EnumSet.allOf(DoubleModifier.class));
 
