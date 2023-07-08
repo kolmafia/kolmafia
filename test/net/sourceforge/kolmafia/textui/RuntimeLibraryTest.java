@@ -1006,6 +1006,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void canGetAllModifiers() {
+      String input = "$modifiers[]";
+      String output = execute(input);
+      assertThat(output, containsString("Four Songs"));
+      assertThat(output, containsString("Meat Drop"));
+    }
+
+    @Test
     void canCallNumericWithModifier() {
       String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[Meat Drop])";
       String output = execute(input);

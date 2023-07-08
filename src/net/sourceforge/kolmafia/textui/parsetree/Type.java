@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -346,6 +347,12 @@ public class Type extends Symbol {
         case PATH -> DataTypes.makePathValue(path);
         default -> null;
       };
+    }
+    if (object instanceof Modifier modifier) {
+      if (this.type == TypeSpec.MODIFIER) {
+        return new Value(modifier);
+      }
+      return null;
     }
     return null;
   }
