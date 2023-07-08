@@ -11,7 +11,9 @@ public class TimeinCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, String parameters) {
-    RequestThread.postRequest(new LogoutRequest());
+    if (LoginRequest.completedLogin()) {
+      RequestThread.postRequest(new LogoutRequest());
+    }
     LoginRequest.retimein();
   }
 }
