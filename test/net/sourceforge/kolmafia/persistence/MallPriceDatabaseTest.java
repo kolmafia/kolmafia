@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 public class MallPriceDatabaseTest {
 
   @BeforeAll
-  public static void beforeAll() {
+  public static void beforeEach() {
     MallPriceDatabase.savePricesToFile = false;
     String MallPriceFileName = "data/" + "mallprices.txt";
     File MallPriceFile = new File(MallPriceFileName);
@@ -62,6 +62,7 @@ public class MallPriceDatabaseTest {
 
   @Test
   void writesDataInItemIdOrder() {
+
     MallPriceDatabase.recordPrice(600, 5, true);
     MallPriceDatabase.recordPrice(607, 50, true);
     MallPriceDatabase.recordPrice(555, 500, true);

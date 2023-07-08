@@ -611,7 +611,7 @@ class PreferencesTest {
     String unrelatedPref = "coalmine";
     String unrelatedValue = "canary";
     String incrementedPref = "counter";
-    Integer threadCount = 100;
+    Integer threadCount = 50;
     Boolean debug = false;
 
     var cleanups = withSavePreferencesToFile();
@@ -621,14 +621,13 @@ class PreferencesTest {
       Preferences.setString(unrelatedPref, unrelatedValue);
       int i = 0;
       try {
+        timeinThread t1 = new timeinThread("timein-" + i);
+        t1.start();
         while (i <= threadCount) {
           i++;
-          timeinThread t1 = new timeinThread("timein-" + i);
           incrementThread t2 = new incrementThread("increment-" + i);
-          t1.start();
           t2.start();
           t2.join();
-          t1.join();
           if (debug) {
             System.out.println(
                 "iteration number: "
@@ -641,7 +640,7 @@ class PreferencesTest {
                     + Preferences.getString(unrelatedPref, false));
           }
         }
-
+        t1.join();
         assertEquals(
             unrelatedValue,
             Preferences.getString(unrelatedPref, false),

@@ -612,7 +612,7 @@ public class Preferences {
       Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
       // Prevent anybody from manipulating the user map until we are
       // done bulk-loading it.
-      synchronized (lock) {
+      synchronized (Preferences.userValues) {
         if (username == null || username.equals("")) {
           if (Preferences.userPropertiesFile != null) {
             Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
@@ -1327,7 +1327,7 @@ public class Preferences {
       OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
 
       try {
-        synchronized (lock) {
+        synchronized (Preferences.userValues) {
           for (Entry<String, byte[]> current : encodedData.entrySet()) {
             fstream.write(current.getValue());
           }
