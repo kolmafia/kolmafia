@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -281,6 +282,7 @@ public class ModifierDatabase {
     mods.addAll(Arrays.asList(DerivedModifier.values()));
     mods.addAll(Arrays.asList(StringModifier.values()));
     mods.addAll(Arrays.asList(BooleanModifier.values()));
+    mods.sort(Comparator.comparing(Modifier::getName));
     allModifiers = mods;
     return mods;
   }

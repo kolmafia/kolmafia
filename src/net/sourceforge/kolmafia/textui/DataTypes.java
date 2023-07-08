@@ -1021,14 +1021,6 @@ public class DataTypes {
     return value;
   }
 
-  public static final Value makeModifierValue(final Modifier data) {
-    if (data == null) {
-      return DataTypes.MODIFIER_INIT;
-    }
-
-    return new Value(data);
-  }
-
   // Also supply:
   // public static final String promptForValue()
 
@@ -1098,7 +1090,7 @@ public class DataTypes {
 
       case MODIFIER:
         return InputFieldUtilities.input(
-                message, ModifierDatabase.allModifiers().toArray(new Modifier[] {}))
+                message, ModifierDatabase.allModifiers().toArray(new Modifier[0]))
             .toString();
 
       case INT:
