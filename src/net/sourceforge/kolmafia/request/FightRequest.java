@@ -3020,7 +3020,8 @@ public class FightRequest extends GenericRequest {
   // FightRequest.lastResponseText instead.
   // Note that this is not run if the combat is finished by
   // rollover-runaway, saber, or similar mechanic.
-  public static void updateFinalRoundData(final String responseText, final boolean won, final boolean lost) {
+  public static void updateFinalRoundData(
+      final String responseText, final boolean won, final boolean lost) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
     String monsterName = monster != null ? monster.getName() : "";
     SpecialMonster special = FightRequest.specialMonsterCategory(monsterName);

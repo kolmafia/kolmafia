@@ -1866,12 +1866,16 @@ public class FightRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"win, true, false", "lose, false, true", "run, false, false"})
-  void setsLastFightProperty(String html, boolean win, boolean lose) {
+  @CsvSource({
+    "win, fight.php?action=skill&whichskill=1005, true, false",
+    "lose, fight.php?action=useitem&whichitem=9963&whichitem2=0, false, true",
+    "run, fight.php?action=runaway, false, false"
+  })
+  void setsLastFightProperty(String html, String action, boolean win, boolean lose) {
     var cleanups = new Cleanups(withProperty("_lastCombatWon"), withProperty("_lastCombatLost"));
 
     try (cleanups) {
-      parseCombatData("request/test_fight_" + html + ".html", "fight.php?action=attack");
+      parseCombatData("request/test_fight_" + html + ".html", action);
       assertThat("_lastCombatWon", isSetTo(win));
       assertThat("_lastCombatLost", isSetTo(lose));
     }
