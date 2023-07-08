@@ -99,6 +99,8 @@ global	mergeHobopolisChat	false
 global	pingLatest
 global	pingLogin	true
 global	pingLoginCheck	none
+global	pingLoginCount	0
+global	pingLoginFail	login
 global	pingLoginGoal	0
 global	pingLoginThreshold	0.2
 global	pingLongest
