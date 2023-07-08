@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -51,12 +52,16 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.PingManager.PingTest;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.menu.LoadScriptMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.AddCustomDeedsPanel;
@@ -75,6 +80,7 @@ import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceButtonGroup;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceIntegerTextField;
+import net.sourceforge.kolmafia.swingui.widget.PreferenceTextArea;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -90,7 +96,7 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel(" - Item Acquisition", new ItemOptionsPanel(), true);
     selectorPanel.addPanel(" - Maximizer", new MaximizerOptionsPanel(), true);
     selectorPanel.addPanel(" - Session Logs", new SessionLogOptionsPanel(), true);
-    selectorPanel.addPanel(" - Connection Options", new PingOptionsPanel(), true);
+    selectorPanel.addPanel(" - Connection Options", new ConnectionOptionsPanel(), true);
     selectorPanel.addPanel(" - Extra Debugging", new DebugOptionsPanel(), true);
 
     JPanel programsPanel = new JPanel();
@@ -155,6 +161,73 @@ public class OptionsFrame extends GenericFrame {
       };
 
       this.setOptions(options);
+    }
+  }
+
+  static class ConnectionOptionsPanel extends ConfigQueueingPanel {
+    public ConnectionOptionsPanel() {
+      super();
+      this.queue(new PingOptionsPanel());
+      this.queue(this.newSeparator());
+      this.queue(new LatestPingTest());
+      this.queue(new TimeinButton());
+      this.makeLayout();
+    }
+
+    private static class LatestPingTest extends PreferenceTextArea {
+      public LatestPingTest() {
+        super("pingLatest");
+        this.update();
+      }
+
+      @Override
+      public void update() {
+        PingTest latest = PingTest.parseProperty("pingLatest");
+        StringBuilder message = new StringBuilder();
+        message.append("Latest ping test average time was ");
+        message.append(String.valueOf(latest.getAverage()));
+        message.append(" msec.");
+        this.setText(message.toString());
+      }
+    }
+
+    private static class TimeinButton extends JPanel {
+      private final JButton button = new ThreadedButton("Time In", new TimeinRunnable());
+
+      public TimeinButton() {
+        configure();
+        makeLayout();
+      }
+
+      private void configure() {
+        this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+      }
+
+      private void makeLayout() {
+        JLabel label = new JLabel("Try for a better connection:");
+        this.add(label);
+        this.add(this.button);
+      }
+
+      @Override
+      public Dimension getMaximumSize() {
+        return this.getPreferredSize();
+      }
+
+      private class TimeinRunnable implements Runnable {
+        @Override
+        public void run() {
+          try {
+            TimeinButton.this.button.setEnabled(false);
+            if (LoginRequest.completedLogin()) {
+              RequestThread.postRequest(new LogoutRequest());
+            }
+            LoginRequest.retimein();
+          } finally {
+            TimeinButton.this.button.setEnabled(true);
+          }
+        }
+      }
     }
   }
 

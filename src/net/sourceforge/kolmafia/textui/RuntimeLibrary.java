@@ -2821,6 +2821,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("sausage_goblin_chance", DataTypes.FLOAT_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -10087,5 +10090,19 @@ public abstract class RuntimeLibrary {
     var req = new MonkeyPawRequest(wish);
     RequestThread.postRequest(req);
     return req.responseText != null && !req.responseText.contains("impossible");
+  }
+
+  public static Value sausage_goblin_chance(ScriptRuntime controller) {
+    var sausageFights = Preferences.getInteger("_sausageFights");
+    var maxTurnsToNextGoblin = 4 + 3 * sausageFights + Math.pow(Math.max(0, sausageFights - 5), 3);
+    var lastGoblin = Preferences.getInteger("_lastSausageMonsterTurn");
+    var turnsSinceLastGoblin = KoLCharacter.getTurnsPlayed() - lastGoblin;
+
+    if (turnsSinceLastGoblin >= maxTurnsToNextGoblin) {
+      return DataTypes.makeFloatValue(1.0);
+    }
+
+    var prob = (turnsSinceLastGoblin + 1.0) / (maxTurnsToNextGoblin + 1);
+    return DataTypes.makeFloatValue(prob);
   }
 }
