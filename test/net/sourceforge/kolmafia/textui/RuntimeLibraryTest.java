@@ -1127,5 +1127,24 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       String output = execute(input);
       assertThat(output, startsWith("string modifier required"));
     }
+
+    @Test
+    void parsesModifierString() {
+      String input =
+          "split_modifiers(\"Meat Drop: 25, Hot Resistance: 2, Cold Resistance: 2, Unarmed, Cold Damage: 10, Cold Spell Damage: 10\")";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: aggregate string [modifier]
+                 Cold Damage => 10
+                 Cold Resistance => 2
+                 Cold Spell Damage => 10
+                 Hot Resistance => 2
+                 Meat Drop => 25
+                 Unarmed =>
+                 """));
+    }
   }
 }

@@ -2596,6 +2596,13 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.MODIFIER_TYPE};
     functions.add(new LibraryFunction("stat_modifier", DataTypes.STAT_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(
+        new LibraryFunction(
+            "split_modifiers",
+            new AggregateType(DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE),
+            params));
+
     // Quest status inquiries
 
     params = new Type[] {};
@@ -9438,6 +9445,23 @@ public abstract class RuntimeLibrary {
     StringModifier strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseMonsterValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
+  }
+
+  public static Value split_modifiers(ScriptRuntime controller, final Value arg) {
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE);
+    MapValue value = new MapValue(type);
+
+    for (ModifierValue mVal : ModifierDatabase.splitModifiers(arg.toString())) {
+      var modifierName = mVal.getName();
+      var modifier = ModifierDatabase.byCaselessName(modifierName);
+      if (modifier == null) {
+        // splitModifiers doesn't validate the passed-in string, so just drop it
+        continue;
+      }
+      value.aset(new Value(modifier), new Value(mVal.getValue()));
+    }
+
+    return value;
   }
 
   public static Value white_citadel_available(ScriptRuntime controller) {
