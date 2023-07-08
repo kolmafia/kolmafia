@@ -597,8 +597,12 @@ class PreferencesTest {
     }
 
     public void run() {
+      Integer priorValue = Preferences.getInteger("counter");
 
       Preferences.increment("counter", 1);
+      Integer postValue = Preferences.getInteger("counter");
+
+      assertEquals(priorValue + 1, postValue, "did not increment");
     }
   }
 

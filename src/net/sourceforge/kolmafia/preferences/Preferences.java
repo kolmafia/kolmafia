@@ -612,7 +612,7 @@ public class Preferences {
       Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
       // Prevent anybody from manipulating the user map until we are
       // done bulk-loading it.
-      synchronized (Preferences.userValues) {
+      synchronized (lock) {
         if (username == null || username.equals("")) {
           if (Preferences.userPropertiesFile != null) {
             Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
@@ -774,22 +774,24 @@ public class Preferences {
   }
 
   private static Properties loadPreferences(File file) {
-    InputStream istream = DataUtilities.getInputStream(file);
+    synchronized (lock) {
+      InputStream istream = DataUtilities.getInputStream(file);
 
-    Properties p = new Properties();
-    try {
-      p.load(istream);
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to load preferences from file.");
+      Properties p = new Properties();
+      try {
+        p.load(istream);
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to load preferences from file.");
+      }
+
+      try {
+        istream.close();
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to close preferences file.");
+      }
+
+      return p;
     }
-
-    try {
-      istream.close();
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to close preferences file.");
-    }
-
-    return p;
   }
 
   private static String encodeProperty(String name, String value) {
@@ -1325,7 +1327,7 @@ public class Preferences {
       OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
 
       try {
-        synchronized (encodedData) {
+        synchronized (lock) {
           for (Entry<String, byte[]> current : encodedData.entrySet()) {
             fstream.write(current.getValue());
           }
