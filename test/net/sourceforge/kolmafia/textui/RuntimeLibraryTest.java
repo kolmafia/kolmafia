@@ -17,6 +17,7 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withValueOfAdventure;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -955,6 +956,35 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               """
           Returned: Meat Drop: 25, Hot Resistance: 2, Cold Resistance: 2, Spooky Resistance: 2, Stench Resistance: 2, Sleaze Resistance: 2, Cold Damage: 10, Cold Spell Damage: 10
           """));
+    }
+  }
+
+  @Nested
+  class SausageGoblinProbability {
+    @ParameterizedTest
+    @CsvSource({
+      "0,0,0,0.2",
+      "1,0,0,0.4",
+      "3,0,0,0.8",
+      "4,0,0,1.0",
+      "5,0,0,1.0",
+      "5,1,5,0.125",
+      "6,1,5,0.25",
+      "0,8,0,0.017857",
+      "1,8,0,0.035714",
+    })
+    void calculatesGoblinChance(int turnsPlayed, int goblinsFought, int lastGoblin, String chance) {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(turnsPlayed),
+              withProperty("_sausageFights", goblinsFought),
+              withProperty("_lastSausageMonsterTurn", lastGoblin));
+
+      try (cleanups) {
+        String input = "sausage_goblin_chance()";
+        String output = execute(input);
+        assertThat(output, containsString(chance));
+      }
     }
   }
 }
