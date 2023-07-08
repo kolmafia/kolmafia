@@ -217,10 +217,15 @@ public class OptionsFrame extends GenericFrame {
       private class TimeinRunnable implements Runnable {
         @Override
         public void run() {
-          if (LoginRequest.completedLogin()) {
-            RequestThread.postRequest(new LogoutRequest());
+          try {
+            TimeinButton.this.button.setEnabled(false);
+            if (LoginRequest.completedLogin()) {
+              RequestThread.postRequest(new LogoutRequest());
+            }
+            LoginRequest.retimein();
+          } finally {
+            TimeinButton.this.button.setEnabled(true);
           }
-          LoginRequest.retimein();
         }
       }
     }

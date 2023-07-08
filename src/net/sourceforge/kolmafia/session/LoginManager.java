@@ -42,6 +42,9 @@ public class LoginManager {
   // have completed.
   private static boolean svnLoginUpdateNotFinished = true;
 
+  // A password hash for when we time you out, for use when timing in.
+  public static final String BOGUS_PASSWORD_HASH = "ThisIsAnEntirelyBogusPasswordHash";
+
   private LoginManager() {}
 
   public static boolean ping() {
@@ -123,7 +126,7 @@ public class LoginManager {
       buf.append(String.valueOf(attempt));
       buf.append(" times to get a fast connection");
       if (!error.equals("")) {
-        buf.append("- ");
+        buf.append(" - ");
         buf.append(error);
         buf.append(" - but failed");
       }
@@ -133,7 +136,7 @@ public class LoginManager {
         case "logout":
           KoLmafia.updateDisplay("Giving up and logging out.");
           RequestThread.postRequest(new LogoutRequest());
-          GenericRequest.passwordHash = "ThisIsAnEntirelyBogusPasswordHash";
+          GenericRequest.passwordHash = BOGUS_PASSWORD_HASH;
           return false;
         case "login":
         default:
@@ -165,7 +168,7 @@ public class LoginManager {
       // If this was from a timein, we still have a GUI and can submit URLs which
       // need a pwd. Save a bogus pwd which will be replaced by a real one if we
       // eventually time in and accept a ping.
-      GenericRequest.passwordHash = "ThisIsAnEntirelyBogusPasswordHash";
+      GenericRequest.passwordHash = BOGUS_PASSWORD_HASH;
       return false;
     }
 
