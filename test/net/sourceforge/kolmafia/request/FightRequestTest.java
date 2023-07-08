@@ -1869,6 +1869,7 @@ public class FightRequestTest {
   @CsvSource({
     "win, fight.php?action=skill&whichskill=1005, true, false",
     "lose, fight.php?action=useitem&whichitem=9963&whichitem2=0, false, true",
+    "expire, fight.php?action=useitem&whichitem=2, false, true",
     "run, fight.php?action=runaway, false, false"
   })
   void setsLastFightProperty(String html, String action, boolean win, boolean lose) {
