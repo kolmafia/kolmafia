@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -97,6 +98,10 @@ public class Value implements TypedNode, Comparable<Value> {
 
   public Value(final Path path) {
     this(DataTypes.PATH_TYPE, path.getId(), path.getName(), path);
+  }
+
+  public Value(final Modifier modifier) {
+    this(DataTypes.MODIFIER_TYPE, modifier.getName(), modifier);
   }
 
   public Value toFloatValue() {
@@ -218,6 +223,7 @@ public class Value implements TypedNode, Comparable<Value> {
       case PHYLUM -> new ProxyRecordValue.PhylumProxy(this);
       case STAT -> new ProxyRecordValue.StatProxy(this);
       case SLOT -> new ProxyRecordValue.SlotProxy(this);
+      case MODIFIER -> new ProxyRecordValue.ModifierProxy(this);
       default -> this;
     };
   }

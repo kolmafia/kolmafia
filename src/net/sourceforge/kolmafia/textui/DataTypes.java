@@ -19,11 +19,13 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -69,6 +71,7 @@ public class DataTypes {
     SERVANT,
     VYKEA,
     PATH,
+    MODIFIER,
 
     STRICT_STRING,
     AGGREGATE,
@@ -102,6 +105,7 @@ public class DataTypes {
   public static final Type SERVANT_TYPE = new Type("servant", TypeSpec.SERVANT);
   public static final Type VYKEA_TYPE = new Type("vykea", TypeSpec.VYKEA);
   public static final Type PATH_TYPE = new Type("path", TypeSpec.PATH);
+  public static final Type MODIFIER_TYPE = new Type("modifier", TypeSpec.MODIFIER);
 
   public static final Type STRICT_STRING_TYPE = new Type("strict_string", TypeSpec.STRICT_STRING);
   public static final Type AGGREGATE_TYPE = new Type("aggregate", TypeSpec.AGGREGATE);
@@ -206,6 +210,7 @@ public class DataTypes {
   public static final Value VYKEA_INIT =
       new Value(DataTypes.VYKEA_TYPE, 0, "none", VYKEACompanionData.NO_COMPANION);
   public static final Value PATH_INIT = new Value(DataTypes.PATH_TYPE, -1, "none", Path.NONE);
+  public static final Value MODIFIER_INIT = new Value(DataTypes.MODIFIER_TYPE, "none", null);
 
   public static final TypeList enumeratedTypes =
       TypeList.of(
@@ -225,7 +230,8 @@ public class DataTypes {
           THRALL_TYPE,
           SERVANT_TYPE,
           VYKEA_TYPE,
-          PATH_TYPE);
+          PATH_TYPE,
+          MODIFIER_TYPE);
   public static final TypeList simpleTypes =
       TypeList.of(
           VOID_TYPE,
@@ -735,6 +741,23 @@ public class DataTypes {
     return new Value(DataTypes.COINMASTER_TYPE, data.getMaster(), data);
   }
 
+  public static final Value parseModifierValue(String name, final boolean returnDefault) {
+    if (name == null || name.equals("")) {
+      return returnDefault ? DataTypes.MODIFIER_INIT : null;
+    }
+
+    if (name.equalsIgnoreCase("none")) {
+      return DataTypes.MODIFIER_INIT;
+    }
+
+    Modifier content = ModifierDatabase.byCaselessName(name);
+    if (content == null) {
+      return returnDefault ? DataTypes.MODIFIER_INIT : null;
+    }
+
+    return new Value(content);
+  }
+
   public static final Value parseValue(
       final Type type, final String name, final boolean returnDefault) {
     return type.parseValue(name, returnDefault);
@@ -998,6 +1021,14 @@ public class DataTypes {
     return value;
   }
 
+  public static final Value makeModifierValue(final Modifier data) {
+    if (data == null) {
+      return DataTypes.MODIFIER_INIT;
+    }
+
+    return new Value(data);
+  }
+
   // Also supply:
   // public static final String promptForValue()
 
@@ -1064,6 +1095,11 @@ public class DataTypes {
 
       case STAT:
         return InputFieldUtilities.input(message, DataTypes.STAT_ARRAY);
+
+      case MODIFIER:
+        return InputFieldUtilities.input(
+                message, ModifierDatabase.allModifiers().toArray(new Modifier[] {}))
+            .toString();
 
       case INT:
       case FLOAT:

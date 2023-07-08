@@ -271,6 +271,33 @@ public class ModifierDatabase {
     return BitmapModifier.byCaselessName(name);
   }
 
+  private static List<Modifier> allModifiers = null;
+
+  public static List<Modifier> allModifiers() {
+    if (allModifiers != null) return allModifiers;
+    List<Modifier> mods = new ArrayList<>();
+    mods.addAll(Arrays.asList(DoubleModifier.values()));
+    mods.addAll(Arrays.asList(BitmapModifier.values()));
+    mods.addAll(Arrays.asList(DerivedModifier.values()));
+    mods.addAll(Arrays.asList(StringModifier.values()));
+    mods.addAll(Arrays.asList(BooleanModifier.values()));
+    allModifiers = mods;
+    return mods;
+  }
+
+  /** Get any modifier by name, ignoring case */
+  public static Modifier byCaselessName(String name) {
+    var num = ModifierDatabase.numericByCaselessName(name);
+    if (num != null) {
+      return num;
+    }
+    var str = StringModifier.byCaselessName(name);
+    if (str != null) {
+      return str;
+    }
+    return BooleanModifier.byCaselessName(name);
+  }
+
   // region: get registered values
 
   public static final Modifiers getItemModifiers(final int id) {

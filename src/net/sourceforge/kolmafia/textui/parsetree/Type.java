@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.textui.AshRuntime;
@@ -121,6 +122,9 @@ public class Type extends Symbol {
     if (this.equals(DataTypes.STAT_TYPE)) {
       return ProxyRecordValue.StatProxy._type;
     }
+    if (this.equals(DataTypes.MODIFIER_TYPE)) {
+      return ProxyRecordValue.ModifierProxy._type;
+    }
     return this;
   }
 
@@ -157,6 +161,7 @@ public class Type extends Symbol {
       case SERVANT -> DataTypes.SERVANT_INIT;
       case VYKEA -> DataTypes.VYKEA_INIT;
       case PATH -> DataTypes.PATH_INIT;
+      case MODIFIER -> DataTypes.MODIFIER_INIT;
       default -> null;
     };
   }
@@ -184,6 +189,7 @@ public class Type extends Symbol {
       case SERVANT -> DataTypes.parseServantValue(name, returnDefault);
       case VYKEA -> DataTypes.parseVykeaValue(name, returnDefault);
       case PATH -> DataTypes.parsePathValue(name, returnDefault);
+      case MODIFIER -> DataTypes.parseModifierValue(name, returnDefault);
       default -> null;
     };
   }
@@ -213,6 +219,7 @@ public class Type extends Symbol {
       case PHYLUM -> DataTypes.PHYLUM_INIT;
       case BOUNTY -> DataTypes.BOUNTY_INIT;
       case VYKEA -> DataTypes.VYKEA_INIT;
+      case MODIFIER -> DataTypes.MODIFIER_INIT;
       default -> null;
     };
   }
@@ -397,6 +404,9 @@ public class Type extends Symbol {
         break;
       case PATH:
         this.addValues(list, Path.allPaths());
+        break;
+      case MODIFIER:
+        this.addValues(list, ModifierDatabase.allModifiers());
         break;
       default:
         return null;
