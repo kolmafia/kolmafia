@@ -40,7 +40,7 @@ public class Preferences {
   // If false, blocks saving of all preferences. Do not modify outside of tests.
   public static boolean saveSettingsToFile = true;
 
-  private static final Object lock = new Object(); // used to synch io
+  public static final Object lock = new Object(); // used to synch io
 
   private static final String[] characterMap = new String[65536];
 

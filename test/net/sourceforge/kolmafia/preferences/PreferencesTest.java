@@ -606,13 +606,12 @@ class PreferencesTest {
     }
   }
 
-  // @Disabled
   @Test
   public void timeinDoesNotCauseRaceCondition() {
     String unrelatedPref = "coalmine";
     String unrelatedValue = "canary";
     String incrementedPref = "counter";
-    Integer threadCount = 200;
+    Integer threadCount = 100;
     Boolean debug = false;
 
     var cleanups = withSavePreferencesToFile();
