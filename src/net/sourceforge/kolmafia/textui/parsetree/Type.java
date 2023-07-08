@@ -362,70 +362,35 @@ public class Type extends Symbol {
 
     List<Value> list = new ArrayList<>();
     switch (this.type) {
-      case BOOLEAN:
-        this.addValues(list, DataTypes.BOOLEANS);
-        break;
-      case ITEM:
+      case BOOLEAN -> this.addValues(list, DataTypes.BOOLEANS);
+      case ITEM -> {
         int limit = ItemDatabase.maxItemId();
         for (int i = 1; i <= limit; ++i) {
           if (i != 13 && ItemDatabase.getItemDataName(i) != null) {
             list.add(DataTypes.makeItemValue(i, true));
           }
         }
-        break;
-      case LOCATION:
-        this.addValues(list, AdventureDatabase.getAsLockableListModel());
-        break;
-      case CLASS:
-        this.addValues(list, AscensionClass.allClasses());
-        break;
-      case STAT:
-        this.addValues(list, DataTypes.STAT_ARRAY, 0, 3);
-        break;
-      case SKILL:
-        this.addValues(list, SkillDatabase.entrySet());
-        break;
-      case EFFECT:
-        this.addValues(list, EffectDatabase.entrySet());
-        break;
-      case FAMILIAR:
-        this.addValues(list, FamiliarDatabase.entrySet());
-        break;
-      case SLOT:
-        this.addValues(list, SlotSet.NAMES);
-        break;
-      case MONSTER:
-        this.addValues(list, MonsterDatabase.valueSet());
-        break;
-      case ELEMENT:
-        this.addValues(list, MonsterDatabase.ELEMENT_ARRAY, 1, -1);
-        break;
-      case COINMASTER:
-        this.addValues(list, CoinmasterRegistry.MASTERS);
-        break;
-      case PHYLUM:
-        this.addValues(list, MonsterDatabase.PHYLUM_ARRAY, 1, -1);
-        break;
-      case BOUNTY:
-        this.addValues(list, BountyDatabase.entrySet());
-        break;
-      case THRALL:
-        this.addValues(list, PastaThrallData.THRALL_ARRAY);
-        break;
-      case SERVANT:
-        this.addValues(list, EdServantData.SERVANT_ARRAY);
-        break;
-      case VYKEA:
-        this.addValues(list, VYKEACompanionData.VYKEA);
-        break;
-      case PATH:
-        this.addValues(list, Path.allPaths());
-        break;
-      case MODIFIER:
-        this.addValues(list, ModifierDatabase.allModifiers());
-        break;
-      default:
+      }
+      case LOCATION -> this.addValues(list, AdventureDatabase.getAsLockableListModel());
+      case CLASS -> this.addValues(list, AscensionClass.allClasses());
+      case STAT -> this.addValues(list, DataTypes.STAT_ARRAY, 0, 3);
+      case SKILL -> this.addValues(list, SkillDatabase.entrySet());
+      case EFFECT -> this.addValues(list, EffectDatabase.entrySet());
+      case FAMILIAR -> this.addValues(list, FamiliarDatabase.entrySet());
+      case SLOT -> this.addValues(list, SlotSet.NAMES);
+      case MONSTER -> this.addValues(list, MonsterDatabase.valueSet());
+      case ELEMENT -> this.addValues(list, MonsterDatabase.ELEMENT_ARRAY, 1, -1);
+      case COINMASTER -> this.addValues(list, CoinmasterRegistry.MASTERS);
+      case PHYLUM -> this.addValues(list, MonsterDatabase.PHYLUM_ARRAY, 1, -1);
+      case BOUNTY -> this.addValues(list, BountyDatabase.entrySet());
+      case THRALL -> this.addValues(list, PastaThrallData.THRALL_ARRAY);
+      case SERVANT -> this.addValues(list, EdServantData.SERVANT_ARRAY);
+      case VYKEA -> this.addValues(list, VYKEACompanionData.VYKEA);
+      case PATH -> this.addValues(list, Path.allPaths());
+      case MODIFIER -> this.addValues(list, ModifierDatabase.allModifiers());
+      default -> {
         return null;
+      }
     }
     this.allValues = new PluralValue(this, list);
     return this.allValues;

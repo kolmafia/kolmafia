@@ -1030,79 +1030,67 @@ public class DataTypes {
 
   private static String promptForValue(final Type type, final String message, final String name) {
     switch (type.getType()) {
-      case BOOLEAN:
+      case BOOLEAN -> {
         return InputFieldUtilities.input(message, DataTypes.BOOLEANS);
-
-      case LOCATION:
-        {
-          LockableListModel<KoLAdventure> inputs = AdventureDatabase.getAsLockableListModel();
-          KoLAdventure initial =
-              AdventureDatabase.getAdventure(Preferences.getString("lastAdventure"));
-          KoLAdventure value = InputFieldUtilities.input(message, inputs, initial);
-          return value == null ? null : value.getAdventureName();
-        }
-
-      case SKILL:
-        {
-          UseSkillRequest[] inputs =
-              SkillDatabase.getCastableSkills().toArray(new UseSkillRequest[0]);
-          UseSkillRequest value = InputFieldUtilities.input(message, inputs);
-          return value == null ? null : value.getSkillName();
-        }
-
-      case FAMILIAR:
-        {
-          FamiliarData[] inputs = KoLCharacter.usableFamiliars().toArray(new FamiliarData[0]);
-          FamiliarData initial = KoLCharacter.getFamiliar();
-          FamiliarData value = InputFieldUtilities.input(message, inputs, initial);
-          return value == null ? null : value.getRace();
-        }
-
-      case SLOT:
+      }
+      case LOCATION -> {
+        LockableListModel<KoLAdventure> inputs = AdventureDatabase.getAsLockableListModel();
+        KoLAdventure initial =
+            AdventureDatabase.getAdventure(Preferences.getString("lastAdventure"));
+        KoLAdventure value = InputFieldUtilities.input(message, inputs, initial);
+        return value == null ? null : value.getAdventureName();
+      }
+      case SKILL -> {
+        UseSkillRequest[] inputs =
+            SkillDatabase.getCastableSkills().toArray(new UseSkillRequest[0]);
+        UseSkillRequest value = InputFieldUtilities.input(message, inputs);
+        return value == null ? null : value.getSkillName();
+      }
+      case FAMILIAR -> {
+        FamiliarData[] inputs = KoLCharacter.usableFamiliars().toArray(new FamiliarData[0]);
+        FamiliarData initial = KoLCharacter.getFamiliar();
+        FamiliarData value = InputFieldUtilities.input(message, inputs, initial);
+        return value == null ? null : value.getRace();
+      }
+      case SLOT -> {
         return InputFieldUtilities.input(message, SlotSet.NAMES);
-
-      case ELEMENT:
+      }
+      case ELEMENT -> {
         return InputFieldUtilities.input(message, MonsterDatabase.ELEMENT_ARRAY);
-
-      case COINMASTER:
+      }
+      case COINMASTER -> {
         return InputFieldUtilities.input(message, CoinmasterRegistry.MASTERS);
-
-      case PHYLUM:
+      }
+      case PHYLUM -> {
         return InputFieldUtilities.input(message, MonsterDatabase.PHYLUM_ARRAY);
-
-      case THRALL:
+      }
+      case THRALL -> {
         return InputFieldUtilities.input(message, PastaThrallData.THRALL_ARRAY);
-
-      case SERVANT:
+      }
+      case SERVANT -> {
         return InputFieldUtilities.input(message, EdServantData.SERVANT_ARRAY);
-
-      case VYKEA:
+      }
+      case VYKEA -> {
         return InputFieldUtilities.input(message, VYKEACompanionData.VYKEA);
-
-      case PATH:
+      }
+      case PATH -> {
         return InputFieldUtilities.input(message, Path.values()).toString();
-
-      case CLASS:
+      }
+      case CLASS -> {
         return InputFieldUtilities.input(message, AscensionClass.values()).toString();
-
-      case STAT:
+      }
+      case STAT -> {
         return InputFieldUtilities.input(message, DataTypes.STAT_ARRAY);
-
-      case MODIFIER:
+      }
+      case MODIFIER -> {
         return InputFieldUtilities.input(
                 message, ModifierDatabase.allModifiers().toArray(new Modifier[0]))
             .toString();
-
-      case INT:
-      case FLOAT:
-      case STRING:
-      case ITEM:
-      case EFFECT:
-      case MONSTER:
+      }
+      case INT, FLOAT, STRING, ITEM, EFFECT, MONSTER -> {
         return InputFieldUtilities.input(message);
-
-      default:
-        throw new ScriptException("Internal error: Illegal type for main() parameter");
+      }
+      default -> throw new ScriptException("Internal error: Illegal type for main() parameter");
     }
   }
 }
