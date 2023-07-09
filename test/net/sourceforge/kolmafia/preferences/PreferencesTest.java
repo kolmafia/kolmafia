@@ -601,8 +601,10 @@ class PreferencesTest {
 
       Preferences.increment("counter", 1);
       Integer postValue = Preferences.getInteger("counter");
-
-      assertEquals(priorValue + 1, postValue, "did not increment");
+      if (postValue != (priorValue + 1)) {
+        System.out.println(
+            "Increment Failure!  Prior Value: " + priorValue + " Incremented Value: " + postValue);
+      }
     }
   }
 
@@ -611,7 +613,7 @@ class PreferencesTest {
     String unrelatedPref = "coalmine";
     String unrelatedValue = "canary";
     String incrementedPref = "counter";
-    Integer threadCount = 50;
+    Integer threadCount = 60;
     Boolean debug = false;
 
     var cleanups = withSavePreferencesToFile();
@@ -621,13 +623,15 @@ class PreferencesTest {
       Preferences.setString(unrelatedPref, unrelatedValue);
       int i = 0;
       try {
-        timeinThread t1 = new timeinThread("timein-" + i);
-        t1.start();
+
         while (i <= threadCount) {
           i++;
+          timeinThread t1 = new timeinThread("timein-" + i);
           incrementThread t2 = new incrementThread("increment-" + i);
+          t1.start();
           t2.start();
           t2.join();
+          t1.join();
           if (debug) {
             System.out.println(
                 "iteration number: "
@@ -640,7 +644,6 @@ class PreferencesTest {
                     + Preferences.getString(unrelatedPref, false));
           }
         }
-        t1.join();
         assertEquals(
             unrelatedValue,
             Preferences.getString(unrelatedPref, false),

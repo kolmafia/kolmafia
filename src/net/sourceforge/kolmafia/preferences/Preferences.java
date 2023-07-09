@@ -1025,21 +1025,23 @@ public class Preferences {
 
   public static int increment(
       final String name, final int delta, final int max, final boolean mod) {
-    int current = Preferences.getInteger(name);
-    if (delta != 0) {
-      current += delta;
+    synchronized (lock) {
+      int current = Preferences.getInteger(name);
+      if (delta != 0) {
+        current += delta;
 
-      if (max > 0 && current >= max) {
-        if (mod) {
-          current %= max;
-        } else {
-          current = max;
+        if (max > 0 && current >= max) {
+          if (mod) {
+            current %= max;
+          } else {
+            current = max;
+          }
         }
-      }
 
-      Preferences.setInteger(name, current);
+        Preferences.setInteger(name, current);
+      }
+      return current;
     }
-    return current;
   }
 
   public static int decrement(final String name) {
