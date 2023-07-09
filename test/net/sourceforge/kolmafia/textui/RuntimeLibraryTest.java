@@ -1155,4 +1155,31 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                  """));
     }
   }
+
+  @Nested
+  class Ping {
+    @Test
+    void parsesPropertyASH() {
+      final var cleanups =
+          new Cleanups(withProperty("pingLatest", "api.php:10:26:31:283:19620:28"));
+      try (cleanups) {
+        String input = "ping(\"pingLatest\")";
+        String output = execute(input);
+        assertThat(
+            output,
+            is(
+                """
+              Returned: record {string page; int count; int low; int high; int total; int bytes; int average; int bps;}
+              page => api.php
+              count => 10
+              low => 26
+              high => 31
+              total => 283
+              bytes => 19620
+              average => 28
+              bps => 69328
+              """));
+      }
+    }
+  }
 }
