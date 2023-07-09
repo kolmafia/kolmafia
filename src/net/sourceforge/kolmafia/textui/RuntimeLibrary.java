@@ -155,6 +155,8 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
+import net.sourceforge.kolmafia.session.PingManager;
+import net.sourceforge.kolmafia.session.PingManager.PingTest;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -249,6 +251,21 @@ public abstract class RuntimeLibrary {
             DataTypes.STRING_TYPE,
             DataTypes.STRING_TYPE,
             DataTypes.STRING_TYPE
+          });
+
+  private static final RecordType pingTestRec =
+      new RecordType(
+          "{string page; int count; int low; int high; int total; int bytes; int average; int bps;}",
+          new String[] {"page", "count", "low", "high", "total", "bytes", "average", "bps"},
+          new Type[] {
+            DataTypes.STRING_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE
           });
 
   private static final RecordType stackTraceRec =
@@ -2898,6 +2915,15 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {};
     functions.add(new LibraryFunction("sausage_goblin_chance", DataTypes.FLOAT_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("ping", pingTestRec, params));
+
+    params = new Type[] {DataTypes.INT_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("ping", pingTestRec, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("ping", pingTestRec, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -10224,5 +10250,46 @@ public abstract class RuntimeLibrary {
 
     var prob = (turnsSinceLastGoblin + 1.0) / (maxTurnsToNextGoblin + 1);
     return DataTypes.makeFloatValue(prob);
+  }
+
+  public static Value ping(ScriptRuntime controller) {
+    return ping(controller, PingManager.runPingTest());
+  }
+
+  public static Value ping(ScriptRuntime controller, final Value arg1) {
+    String property = arg1.toString();
+    return ping(controller, PingTest.parseProperty(property));
+  }
+
+  public static Value ping(ScriptRuntime controller, final Value arg1, final Value arg2) {
+    int count = (int) arg1.intValue();
+    String page = arg2.toString();
+    return ping(controller, PingManager.runPingTest(count, page, false));
+  }
+
+  private static Value ping(ScriptRuntime controller, final PingTest result) {
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+
+    RecordType type = RuntimeLibrary.pingTestRec;
+    RecordValue rec = new RecordValue(type);
+
+    // page
+    rec.aset(0, new Value(result.getPage()), interpreter);
+    // count
+    rec.aset(1, DataTypes.makeIntValue(result.getCount()), interpreter);
+    // low
+    rec.aset(2, DataTypes.makeIntValue(result.getLow()), interpreter);
+    // high
+    rec.aset(3, DataTypes.makeIntValue(result.getHigh()), interpreter);
+    // total
+    rec.aset(4, DataTypes.makeIntValue(result.getTotal()), interpreter);
+    // bytes
+    rec.aset(5, DataTypes.makeIntValue(result.getBytes()), interpreter);
+    // average
+    rec.aset(6, DataTypes.makeIntValue(result.getAverage()), interpreter);
+    // bps
+    rec.aset(7, DataTypes.makeIntValue(result.getBPS()), interpreter);
+
+    return rec;
   }
 }
