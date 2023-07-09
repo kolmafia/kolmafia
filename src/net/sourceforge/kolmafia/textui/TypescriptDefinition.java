@@ -251,7 +251,7 @@ public class TypescriptDefinition {
   }
 
   protected static List<String> getHelperTypes() {
-    return List.of("type Environment = " + getEnvironmentUnion());
+    return List.of("type Environment = " + getEnvironmentUnion() + ";");
   }
 
   protected static List<String> getFrontMatter() {
