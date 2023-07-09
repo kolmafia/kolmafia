@@ -125,6 +125,8 @@ DESC_EFFECT	Towering Strength	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_EFFECT	Buzzed on Distillate		currentDistillateMods=mods
 DESC_EFFECT	Blessing of the Bird		_birdOfTheDayMods=mods
 DESC_EFFECT	Blessing of your favorite Bird		yourFavoriteBirdMods=mods
+DESC_EFFECT	Citizen of a Zone	Citizen of ([^<]*)<	_citizenZone=$1
+DESC_EFFECT	Citizen of a Zone		_citizenZoneMods=mods
 
 DESC_EFFECT	Wine-Fortified	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
 DESC_EFFECT	Wine-Hot	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
