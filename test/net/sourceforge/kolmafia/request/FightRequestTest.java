@@ -1106,7 +1106,7 @@ public class FightRequestTest {
       int expected = 20 - (property / 5);
       int adjustment = KoLCharacter.getFamiliarWeightAdjustment();
       assertEquals(expected, adjustment);
-      FightRequest.updateFinalRoundData("", true);
+      FightRequest.updateFinalRoundData("", true, false);
       // We expect the property to increment, but cap at 75
       property = Math.min(75, property + 1);
       assertEquals(property, Preferences.getInteger("_snowSuitCount"));
@@ -1866,13 +1866,19 @@ public class FightRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"anapest_runaway, false", "goth_kid_pvp, true"})
-  void setsLastFightProperty(String html, boolean prop) {
-    var cleanups = withProperty("_lastCombatWon");
+  @CsvSource({
+    "win, fight.php?action=skill&whichskill=1005, true, false",
+    "lose, fight.php?action=useitem&whichitem=9963&whichitem2=0, false, true",
+    "expire, fight.php?action=useitem&whichitem=2, false, true",
+    "run, fight.php?action=runaway, false, false"
+  })
+  void setsLastFightProperty(String html, String action, boolean win, boolean lose) {
+    var cleanups = new Cleanups(withProperty("_lastCombatWon"), withProperty("_lastCombatLost"));
 
     try (cleanups) {
-      parseCombatData("request/test_fight_" + html + ".html", "fight.php?action=attack");
-      assertThat("_lastCombatWon", isSetTo(prop));
+      parseCombatData("request/test_fight_" + html + ".html", action);
+      assertThat("_lastCombatWon", isSetTo(win));
+      assertThat("_lastCombatLost", isSetTo(lose));
     }
   }
 
