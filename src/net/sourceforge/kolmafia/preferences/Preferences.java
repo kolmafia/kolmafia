@@ -1327,7 +1327,7 @@ public class Preferences {
       OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
 
       try {
-        synchronized (Preferences.userValues) {
+        synchronized (encodedData) {
           for (Entry<String, byte[]> current : encodedData.entrySet()) {
             fstream.write(current.getValue());
           }
