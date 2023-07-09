@@ -136,7 +136,7 @@ public class RecordType extends CompositeType {
 
     if (type.equals(TypeSpec.STRING)) {
       for (int index = 0; index < this.fieldNames.length; ++index) {
-        if (key == this.fieldIndices[index]) {
+        if (key.equals(this.fieldIndices[index])) {
           return index;
         }
       }
@@ -148,7 +148,26 @@ public class RecordType extends CompositeType {
 
   @Override
   public boolean equals(final Type o) {
-    return o instanceof RecordType && this.name.equals(o.name);
+    if (o instanceof RecordType ro) {
+      // If the type names are equal, cool
+      if (this.name.equals(ro.name)) {
+        return true;
+      }
+      // Otherwise, compare fields.
+      int fieldCount = this.fieldTypes.length;
+      if (fieldCount != ro.fieldTypes.length) {
+        return false;
+      }
+      // Both the type and name must match
+      for (int i = 0; i < fieldCount; ++i) {
+        if (!this.fieldTypes[i].equals(ro.fieldTypes[i])
+            || !this.fieldNames[i].equals(ro.fieldNames[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
   }
 
   @Override
