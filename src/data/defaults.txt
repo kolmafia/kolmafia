@@ -1995,6 +1995,7 @@ user	_kolhsPoeticallyLicenced	false
 user	_kolhsSavedByTheBell	0
 user	_kolhsSchoolSpirited	false
 user	_kudzuSaladEaten	false
+user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
 user	_lastDailyDungeonRoom	0

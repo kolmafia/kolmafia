@@ -19,11 +19,13 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -69,6 +71,7 @@ public class DataTypes {
     SERVANT,
     VYKEA,
     PATH,
+    MODIFIER,
 
     STRICT_STRING,
     AGGREGATE,
@@ -102,6 +105,7 @@ public class DataTypes {
   public static final Type SERVANT_TYPE = new Type("servant", TypeSpec.SERVANT);
   public static final Type VYKEA_TYPE = new Type("vykea", TypeSpec.VYKEA);
   public static final Type PATH_TYPE = new Type("path", TypeSpec.PATH);
+  public static final Type MODIFIER_TYPE = new Type("modifier", TypeSpec.MODIFIER);
 
   public static final Type STRICT_STRING_TYPE = new Type("strict_string", TypeSpec.STRICT_STRING);
   public static final Type AGGREGATE_TYPE = new Type("aggregate", TypeSpec.AGGREGATE);
@@ -206,6 +210,7 @@ public class DataTypes {
   public static final Value VYKEA_INIT =
       new Value(DataTypes.VYKEA_TYPE, 0, "none", VYKEACompanionData.NO_COMPANION);
   public static final Value PATH_INIT = new Value(DataTypes.PATH_TYPE, -1, "none", Path.NONE);
+  public static final Value MODIFIER_INIT = new Value(DataTypes.MODIFIER_TYPE, "none", null);
 
   public static final TypeList enumeratedTypes =
       TypeList.of(
@@ -225,7 +230,8 @@ public class DataTypes {
           THRALL_TYPE,
           SERVANT_TYPE,
           VYKEA_TYPE,
-          PATH_TYPE);
+          PATH_TYPE,
+          MODIFIER_TYPE);
   public static final TypeList simpleTypes =
       TypeList.of(
           VOID_TYPE,
@@ -735,6 +741,23 @@ public class DataTypes {
     return new Value(DataTypes.COINMASTER_TYPE, data.getMaster(), data);
   }
 
+  public static final Value parseModifierValue(String name, final boolean returnDefault) {
+    if (name == null || name.equals("")) {
+      return returnDefault ? DataTypes.MODIFIER_INIT : null;
+    }
+
+    if (name.equalsIgnoreCase("none")) {
+      return DataTypes.MODIFIER_INIT;
+    }
+
+    Modifier content = ModifierDatabase.byCaselessName(name);
+    if (content == null) {
+      return returnDefault ? DataTypes.MODIFIER_INIT : null;
+    }
+
+    return new Value(content);
+  }
+
   public static final Value parseValue(
       final Type type, final String name, final boolean returnDefault) {
     return type.parseValue(name, returnDefault);
@@ -1007,74 +1030,67 @@ public class DataTypes {
 
   private static String promptForValue(final Type type, final String message, final String name) {
     switch (type.getType()) {
-      case BOOLEAN:
+      case BOOLEAN -> {
         return InputFieldUtilities.input(message, DataTypes.BOOLEANS);
-
-      case LOCATION:
-        {
-          LockableListModel<KoLAdventure> inputs = AdventureDatabase.getAsLockableListModel();
-          KoLAdventure initial =
-              AdventureDatabase.getAdventure(Preferences.getString("lastAdventure"));
-          KoLAdventure value = InputFieldUtilities.input(message, inputs, initial);
-          return value == null ? null : value.getAdventureName();
-        }
-
-      case SKILL:
-        {
-          UseSkillRequest[] inputs =
-              SkillDatabase.getCastableSkills().toArray(new UseSkillRequest[0]);
-          UseSkillRequest value = InputFieldUtilities.input(message, inputs);
-          return value == null ? null : value.getSkillName();
-        }
-
-      case FAMILIAR:
-        {
-          FamiliarData[] inputs = KoLCharacter.usableFamiliars().toArray(new FamiliarData[0]);
-          FamiliarData initial = KoLCharacter.getFamiliar();
-          FamiliarData value = InputFieldUtilities.input(message, inputs, initial);
-          return value == null ? null : value.getRace();
-        }
-
-      case SLOT:
+      }
+      case LOCATION -> {
+        LockableListModel<KoLAdventure> inputs = AdventureDatabase.getAsLockableListModel();
+        KoLAdventure initial =
+            AdventureDatabase.getAdventure(Preferences.getString("lastAdventure"));
+        KoLAdventure value = InputFieldUtilities.input(message, inputs, initial);
+        return value == null ? null : value.getAdventureName();
+      }
+      case SKILL -> {
+        UseSkillRequest[] inputs =
+            SkillDatabase.getCastableSkills().toArray(new UseSkillRequest[0]);
+        UseSkillRequest value = InputFieldUtilities.input(message, inputs);
+        return value == null ? null : value.getSkillName();
+      }
+      case FAMILIAR -> {
+        FamiliarData[] inputs = KoLCharacter.usableFamiliars().toArray(new FamiliarData[0]);
+        FamiliarData initial = KoLCharacter.getFamiliar();
+        FamiliarData value = InputFieldUtilities.input(message, inputs, initial);
+        return value == null ? null : value.getRace();
+      }
+      case SLOT -> {
         return InputFieldUtilities.input(message, SlotSet.NAMES);
-
-      case ELEMENT:
+      }
+      case ELEMENT -> {
         return InputFieldUtilities.input(message, MonsterDatabase.ELEMENT_ARRAY);
-
-      case COINMASTER:
+      }
+      case COINMASTER -> {
         return InputFieldUtilities.input(message, CoinmasterRegistry.MASTERS);
-
-      case PHYLUM:
+      }
+      case PHYLUM -> {
         return InputFieldUtilities.input(message, MonsterDatabase.PHYLUM_ARRAY);
-
-      case THRALL:
+      }
+      case THRALL -> {
         return InputFieldUtilities.input(message, PastaThrallData.THRALL_ARRAY);
-
-      case SERVANT:
+      }
+      case SERVANT -> {
         return InputFieldUtilities.input(message, EdServantData.SERVANT_ARRAY);
-
-      case VYKEA:
+      }
+      case VYKEA -> {
         return InputFieldUtilities.input(message, VYKEACompanionData.VYKEA);
-
-      case PATH:
+      }
+      case PATH -> {
         return InputFieldUtilities.input(message, Path.values()).toString();
-
-      case CLASS:
+      }
+      case CLASS -> {
         return InputFieldUtilities.input(message, AscensionClass.values()).toString();
-
-      case STAT:
+      }
+      case STAT -> {
         return InputFieldUtilities.input(message, DataTypes.STAT_ARRAY);
-
-      case INT:
-      case FLOAT:
-      case STRING:
-      case ITEM:
-      case EFFECT:
-      case MONSTER:
+      }
+      case MODIFIER -> {
+        return InputFieldUtilities.input(
+                message, ModifierDatabase.allModifiers().toArray(new Modifier[0]))
+            .toString();
+      }
+      case INT, FLOAT, STRING, ITEM, EFFECT, MONSTER -> {
         return InputFieldUtilities.input(message);
-
-      default:
-        throw new ScriptException("Internal error: Illegal type for main() parameter");
+      }
+      default -> throw new ScriptException("Internal error: Illegal type for main() parameter");
     }
   }
 }

@@ -103,6 +103,16 @@ public enum BooleanModifier implements Modifier {
     return name;
   }
 
+  @Override
+  public String getType() {
+    return "boolean";
+  }
+
+  @Override
+  public String toString() {
+    return name;
+  }
+
   public static final Set<BooleanModifier> BOOLEAN_MODIFIERS =
       Collections.unmodifiableSet(EnumSet.allOf(BooleanModifier.class));
 

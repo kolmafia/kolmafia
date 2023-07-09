@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -985,6 +986,173 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         String output = execute(input);
         assertThat(output, containsString(chance));
       }
+    }
+  }
+
+  @Nested
+  class Modifier {
+    @Test
+    void canGetRecord() {
+      String input = "$modifier[meat drop]";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: Meat Drop
+                 name => Meat Drop
+                 type => numeric
+                 """));
+    }
+
+    @Test
+    void canGetAllModifiers() {
+      String input = "$modifiers[]";
+      String output = execute(input);
+      assertThat(output, containsString("Four Songs"));
+      assertThat(output, containsString("Meat Drop"));
+    }
+
+    @Test
+    void canCallNumericWithModifier() {
+      String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[Meat Drop])";
+      String output = execute(input);
+      assertThat(output, is("""
+                 Returned: 50.0
+                 """));
+    }
+
+    @Test
+    void numericErrorsWithWrongModifierType() {
+      String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[Unarmed])";
+      String output = execute(input);
+      assertThat(output, startsWith("numeric modifier required"));
+    }
+
+    @Test
+    void canCallBooleanWithModifier() {
+      String input = "boolean_modifier($item[Brimstone Beret], $modifier[Four Songs])";
+      String output = execute(input);
+      assertThat(output, is("""
+                 Returned: true
+                 """));
+    }
+
+    @Test
+    void booleanErrorsWithWrongModifierType() {
+      String input = "boolean_modifier($item[Brimstone Beret], $modifier[Moxie])";
+      String output = execute(input);
+      assertThat(output, startsWith("boolean modifier required"));
+    }
+
+    @Test
+    void canCallStringWithModifier() {
+      String input = "string_modifier(\"Sign:Marmot\", $modifier[Modifiers])";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: Experience Percent (Moxie): +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+                 """));
+    }
+
+    @Test
+    void stringErrorsWithWrongModifierType() {
+      String input = "string_modifier(\"Sign:Marmot\", $modifier[Cold Resistance])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void canCallEffectWithModifier() {
+      String input = "effect_modifier($item[blackberry polite], $modifier[Effect])";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Blackberry Politeness"));
+    }
+
+    @Test
+    void effectErrorsWithWrongModifierType() {
+      String input = "effect_modifier($item[blackberry polite], $modifier[Meat Drop])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void canCallClassWithModifier() {
+      String input = "class_modifier($item[chintzy noodle ring], $modifier[Class])";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Pastamancer"));
+    }
+
+    @Test
+    void classErrorsWithWrongModifierType() {
+      String input = "class_modifier($item[chintzy noodle ring], $modifier[Muscle])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void canCallSkillWithModifier() {
+      String input = "skill_modifier($item[alien source code printout], $modifier[Skill])";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Alien Source Code"));
+    }
+
+    @Test
+    void skillErrorsWithWrongModifierType() {
+      String input = "skill_modifier($item[alien source code printout], $modifier[Maximum MP])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void canCallStatWithModifier() {
+      String input = "stat_modifier($effect[Stabilizing Oiliness], $modifier[Equalize])";
+      String output = execute(input);
+      assertThat(output, is("""
+                 Returned: Muscle
+                 """));
+    }
+
+    @Test
+    void statErrorsWithWrongModifierType() {
+      String input = "stat_modifier($effect[Stabilizing Oiliness], $modifier[Muscle])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void canCallMonsterWithModifier() {
+      String input = "monster_modifier($effect[A Lovely Day for a Beatnik], $modifier[Avatar])";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Savage Beatnik"));
+    }
+
+    @Test
+    void monsterErrorsWithWrongModifierType() {
+      String input = "monster_modifier($effect[A Lovely Day for a Beatnik], $modifier[Muscle])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void parsesModifierString() {
+      String input =
+          "split_modifiers(\"Meat Drop: 25, Hot Resistance: 2, Cold Resistance: 2, Unarmed, Cold Damage: 10, Cold Spell Damage: 10\")";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: aggregate string [modifier]
+                 Cold Damage => 10
+                 Cold Resistance => 2
+                 Cold Spell Damage => 10
+                 Hot Resistance => 2
+                 Meat Drop => 25
+                 Unarmed =>
+                 """));
     }
   }
 }
