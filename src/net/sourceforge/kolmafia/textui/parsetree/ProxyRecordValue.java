@@ -1967,7 +1967,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_type() {
-      return this.content != null ? ((Modifier) this.content).getType() : "";
+      return this.content != null ? ((Modifier) this.content).getType().toString() : "";
     }
   }
 }

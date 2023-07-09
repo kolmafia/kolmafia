@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.ModifierValueType;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -9338,7 +9339,7 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType().equals("numeric")) {
+      if (content.getType() == ModifierValueType.NUMERIC) {
         return content;
       }
       throw controller.runtimeException("numeric modifier required");
@@ -9352,7 +9353,7 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType().equals("boolean")) {
+      if (content.getType() == ModifierValueType.BOOLEAN) {
         return (BooleanModifier) content;
       }
       throw controller.runtimeException("boolean modifier required");
@@ -9365,7 +9366,7 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType().equals("string")) {
+      if (content.getType() == ModifierValueType.STRING) {
         return (StringModifier) content;
       }
       throw controller.runtimeException("string modifier required");

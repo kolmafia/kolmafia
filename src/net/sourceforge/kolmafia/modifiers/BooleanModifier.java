@@ -104,8 +104,8 @@ public enum BooleanModifier implements Modifier {
   }
 
   @Override
-  public String getType() {
-    return "boolean";
+  public ModifierValueType getType() {
+    return ModifierValueType.BOOLEAN;
   }
 
   @Override

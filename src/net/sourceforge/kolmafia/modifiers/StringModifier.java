@@ -100,8 +100,8 @@ public enum StringModifier implements Modifier {
   }
 
   @Override
-  public String getType() {
-    return "string";
+  public ModifierValueType getType() {
+    return ModifierValueType.STRING;
   }
 
   @Override

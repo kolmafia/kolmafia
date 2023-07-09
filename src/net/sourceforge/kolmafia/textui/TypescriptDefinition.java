@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.modifiers.ModifierValueType;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.textui.command.JsRefCommand;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
@@ -49,25 +50,26 @@ public class TypescriptDefinition {
 
   private static final Map<String, String> descriptiveFieldTypes =
       Map.ofEntries(
-          Map.entry("Bounty.monster", "Monster"),
           Map.entry("Bounty.location", "Location"),
+          Map.entry("Bounty.monster", "Monster"),
           Map.entry("Class.primestat", "Stat"),
           Map.entry("Coinmaster.item", "Item"),
-          Map.entry("Item.buyer", "Coinmaster"),
-          Map.entry("Item.seller", "Coinmaster"),
-          Map.entry("Item.noob_skill", "Skill"),
-          Map.entry("Location.bounty", "Bounty"),
-          Map.entry("Skill.class", "Class"),
-          Map.entry("Thrall.skill", "Skill"),
-          Map.entry("Vykea.rune", "Item"),
-          Map.entry("Vykea.attack_element", "Element"),
-          Map.entry("Familiar.hatchling", "Item"),
           Map.entry("Familiar.drop_item", "Item"),
+          Map.entry("Familiar.hatchling", "Item"),
+          Map.entry("Item.buyer", "Coinmaster"),
+          Map.entry("Item.noob_skill", "Skill"),
+          Map.entry("Item.seller", "Coinmaster"),
+          Map.entry("Location.bounty", "Bounty"),
+          Map.entry("Location.environment", "Environment"),
+          Map.entry("Modifier.type", "ModifierValueType"),
           Map.entry("Monster.attack_element", "Element"),
           Map.entry("Monster.defense_element", "Element"),
           Map.entry("Monster.phylum", "Phylum"),
           Map.entry("Monster.poison", "Effect"),
-          Map.entry("Location.environment", "Environment"));
+          Map.entry("Skill.class", "Class"),
+          Map.entry("Thrall.skill", "Skill"),
+          Map.entry("Vykea.attack_element", "Element"),
+          Map.entry("Vykea.rune", "Item"));
 
   private static final List<Type> typesWithNumbers =
       List.of(
@@ -250,8 +252,18 @@ public class TypescriptDefinition {
         .collect(Collectors.joining(" | "));
   }
 
+  protected static String getModifierValueTypeUnion() {
+    return Arrays.stream(ModifierValueType.values())
+        .map(ModifierValueType::toString)
+        .sorted()
+        .map(t -> "\"" + t + "\"")
+        .collect(Collectors.joining(" | "));
+  }
+
   protected static List<String> getHelperTypes() {
-    return List.of("type Environment = " + getEnvironmentUnion() + ";");
+    return List.of(
+        "type Environment = " + getEnvironmentUnion() + ";",
+        "type ModifierValueType = " + getModifierValueTypeUnion() + ";");
   }
 
   protected static List<String> getFrontMatter() {
