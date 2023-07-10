@@ -42,8 +42,8 @@ public enum DerivedModifier implements Modifier {
   }
 
   @Override
-  public String getType() {
-    return "numeric";
+  public ModifierValueType getType() {
+    return ModifierValueType.NUMERIC;
   }
 
   @Override

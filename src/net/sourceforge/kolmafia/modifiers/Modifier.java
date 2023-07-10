@@ -11,5 +11,5 @@ public interface Modifier {
 
   String getTag();
 
-  String getType();
+  ModifierValueType getType();
 }
