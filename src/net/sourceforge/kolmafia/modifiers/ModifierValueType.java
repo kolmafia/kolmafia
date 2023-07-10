@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.modifiers;
 
 public enum ModifierValueType {
+  NONE,
   NUMERIC,
   BOOLEAN,
   STRING;
