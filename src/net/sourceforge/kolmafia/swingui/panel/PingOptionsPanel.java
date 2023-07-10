@@ -26,6 +26,17 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
         new PreferenceCheckBox("pingLogin", "Run ping test at login to measure connection lag"));
     this.queue(
         new PreferenceButtonGroup(
+            "pingDefaultTestPage",
+            "KoL page to ping: ",
+            true,
+            "api.php",
+            "council.php",
+            "main.php"));
+    this.queue(
+        new PreferenceIntegerTextField(
+            "pingDefaultTestPings", 4, "How many times to ping that page."));
+    this.queue(
+        new PreferenceButtonGroup(
             "pingLoginCheck", "Login ping check type: ", true, "none", "goal", "threshold"));
     this.queue(new PreferenceIntegerTextField("pingLoginGoal", 4, "Maximum average measured lag"));
     this.queue(

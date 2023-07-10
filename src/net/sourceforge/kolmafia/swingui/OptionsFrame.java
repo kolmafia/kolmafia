@@ -51,9 +51,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLGUIConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -61,6 +63,7 @@ import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.PingManager;
 import net.sourceforge.kolmafia.session.PingManager.PingTest;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.menu.LoadScriptMenuItem;
@@ -169,9 +172,119 @@ public class OptionsFrame extends GenericFrame {
       super();
       this.queue(new PingOptionsPanel());
       this.queue(this.newSeparator());
+      this.queue(
+          new PreferenceButtonGroup(
+              "pingTestPage", "KoL page to ping: ", true, "api.php", "council.php", "main.php"));
+      this.queue(
+          new PreferenceIntegerTextField("pingTestPings", 4, "How many times to ping that page."));
+      this.queue(new PingTestButton());
+      this.queue(new SetDefaultsButton());
+      this.queue(this.newSeparator());
       this.queue(new LatestPingTest());
       this.queue(new TimeinButton());
       this.makeLayout();
+    }
+
+    private static class PingTestButton extends JPanel implements Listener {
+      private final JButton button = new ThreadedButton("Ping Test", new PingTestRunnable());
+
+      public PingTestButton() {
+        configure();
+        makeLayout();
+        NamedListenerRegistry.registerNamedListener("(login)", this);
+        this.update();
+      }
+
+      private void configure() {
+        this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+      }
+
+      private void makeLayout() {
+        JLabel label = new JLabel("Run a ping test:");
+        this.add(label);
+        this.add(this.button);
+      }
+
+      @Override
+      public void update() {
+        this.button.setEnabled(LoginRequest.completedLogin());
+      }
+
+      @Override
+      public Dimension getMaximumSize() {
+        return this.getPreferredSize();
+      }
+
+      private class PingTestRunnable implements Runnable {
+        @Override
+        public void run() {
+          try {
+            PingTestButton.this.button.setEnabled(false);
+            String page = Preferences.getString("pingTestPage");
+            int pings = Preferences.getInteger("pingTestPings");
+
+            PingTest result = PingManager.runPingTest(pings, page, false);
+            KoLmafia.updateDisplay(
+                "Ping test: In "
+                    + result.getCount()
+                    + " requests to "
+                    + result.getPage()
+                    + " average delay is "
+                    + result.getAverage()
+                    + " msecs.");
+          } finally {
+            PingTestButton.this.button.setEnabled(true);
+          }
+        }
+      }
+    }
+
+    private static class SetDefaultsButton extends JPanel {
+      private final JButton button = new JButton("Set Defaults");
+
+      public SetDefaultsButton() {
+        configure();
+        makeLayout();
+      }
+
+      private void configure() {
+        this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+        this.addActionListener(
+            e -> {
+              String newPage = Preferences.getString("pingTestPage");
+              int newPings = Preferences.getInteger("pingTestPings");
+              boolean changed = false;
+              if (!Preferences.getString("pingDefaultTestPage").equals(newPage)) {
+                Preferences.setString("pingDefaultTestPage", newPage);
+                changed = true;
+              }
+              if (Preferences.getInteger("pingDefaultTestPings") != newPings) {
+                Preferences.setInteger("pingDefaultTestPings", newPings);
+                changed = true;
+              }
+              // If we change the parameters of our default ping test,
+              // discard historical ping test data
+              if (changed) {
+                Preferences.setString("pingLongest", "");
+                Preferences.setString("pingShortest", "");
+              }
+            });
+      }
+
+      public void addActionListener(ActionListener a) {
+        this.button.addActionListener(a);
+      }
+
+      private void makeLayout() {
+        JLabel label = new JLabel("Use those parameters for login ping tests:");
+        this.add(label);
+        this.add(this.button);
+      }
+
+      @Override
+      public Dimension getMaximumSize() {
+        return this.getPreferredSize();
+      }
     }
 
     private static class LatestPingTest extends PreferenceTextArea {

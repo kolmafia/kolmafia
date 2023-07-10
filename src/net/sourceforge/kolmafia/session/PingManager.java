@@ -9,9 +9,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PingManager {
 
-  public static final String DEFAULT_PAGE = "api.php";
-  public static final int MINIMUM_HISTORY_PINGS = 10;
-
   public PingManager() {}
 
   public static class PingTest {
@@ -108,7 +105,9 @@ public class PingManager {
     }
 
     public boolean isSaveable() {
-      return this.page.equals(DEFAULT_PAGE) && this.count >= MINIMUM_HISTORY_PINGS;
+      String defaultPage = Preferences.getString("pingDefaultTestPage");
+      int defaultPings = Preferences.getInteger("pingDefaultTestPings");
+      return this.page.equals(defaultPage) && this.count >= defaultPings;
     }
 
     public void save() {
@@ -159,7 +158,9 @@ public class PingManager {
 
   public static PingTest runPingTest() {
     // Run a ping test that qualifies to be saved in ping history.
-    return runPingTest(MINIMUM_HISTORY_PINGS, DEFAULT_PAGE, false);
+    String defaultPage = Preferences.getString("pingDefaultTestPage");
+    int defaultPings = Preferences.getInteger("pingDefaultTestPings");
+    return runPingTest(defaultPings, defaultPage, false);
   }
 
   public static PingTest runPingTest(int count, String page, boolean verbose) {
