@@ -3239,7 +3239,11 @@ public abstract class RuntimeLibrary {
     Value[] keys = obj.keys();
     for (Value key : keys) {
       Value v = obj.aref(key);
-      String line = indent + key + " => " + v;
+      String value = v.toString();
+      if (!addToSessionStream) {
+        value = StringUtilities.getEntityEncode(value);
+      }
+      String line = indent + key + " => " + value;
 
       if (addToSessionStream) {
         RuntimeLibrary.print(new AshRuntime(), new Value(line), color);
