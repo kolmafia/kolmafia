@@ -10242,7 +10242,10 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("fires off a thrilling, patriotic")) {
           Preferences.setString("rwbMonster", MonsterStatusTracker.getLastMonsterName());
           Preferences.setInteger("rwbMonsterCount", 3);
-          Preferences.setString("rwbLocation", KoLAdventure.lastVisitedLocation());
+          KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
+          if (lastLocation != null) {
+            Preferences.setString("rwbLocation", lastLocation.getAdventureName());
+          }
           skillSuccess = true;
         }
         break;
