@@ -1330,6 +1330,9 @@ user	rufusQuestTarget
 user	rufusQuestType
 user	rumpelstiltskinKidsRescued	0
 user	rumpelstiltskinTurnsUsed	0
+user	rwbMonster
+user	rwbMonsterCount	0
+user	rwbLocation
 user	safariSwagger	0
 user	safePickpocket	true
 user	sausageGrinderUnits	0
