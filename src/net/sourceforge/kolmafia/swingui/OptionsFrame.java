@@ -175,8 +175,7 @@ public class OptionsFrame extends GenericFrame {
       this.queue(this.newSeparator());
       this.queue(new PingTestPanel());
       this.queue(this.newSeparator());
-      this.queue(new LatestPingTest());
-      this.queue(new TimeinButton());
+      this.queue(new PingLatestPanel());
       this.makeLayout();
     }
 
@@ -288,59 +287,70 @@ public class OptionsFrame extends GenericFrame {
       }
     }
 
-    private static class LatestPingTest extends PreferenceTextArea {
-      public LatestPingTest() {
-        super("pingLatest");
-        this.update();
+    public class PingLatestPanel extends ConfigQueueingPanel {
+      public PingLatestPanel() {
+        super();
+
+        this.queue(new LatestPingTest());
+        this.queue(new TimeinButton());
+
+        this.makeLayout();
       }
 
-      @Override
-      public void update() {
-        PingTest latest = PingTest.parseProperty("pingLatest");
-        StringBuilder message = new StringBuilder();
-        message.append("Latest ping test to ");
-        message.append(latest.getPage());
-        message.append(" average time was ");
-        message.append(String.valueOf(latest.getAverage()));
-        message.append(" msec.");
-        this.setText(message.toString());
-      }
-    }
+      private class LatestPingTest extends PreferenceTextArea {
+        public LatestPingTest() {
+          super("pingLatest");
+          this.update();
+        }
 
-    private static class TimeinButton extends JPanel {
-      private final JButton button = new ThreadedButton("Time In", new TimeinRunnable());
-
-      public TimeinButton() {
-        configure();
-        makeLayout();
-      }
-
-      private void configure() {
-        this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
-      }
-
-      private void makeLayout() {
-        JLabel label = new JLabel("Try for a better connection:");
-        this.add(label);
-        this.add(this.button);
-      }
-
-      @Override
-      public Dimension getMaximumSize() {
-        return this.getPreferredSize();
-      }
-
-      private class TimeinRunnable implements Runnable {
         @Override
-        public void run() {
-          try {
-            TimeinButton.this.button.setEnabled(false);
-            if (LoginRequest.completedLogin()) {
-              RequestThread.postRequest(new LogoutRequest());
+        public void update() {
+          PingTest latest = PingTest.parseProperty("pingLatest");
+          StringBuilder message = new StringBuilder();
+          message.append("Latest ping test to ");
+          message.append(latest.getPage());
+          message.append(" average time was ");
+          message.append(String.valueOf(latest.getAverage()));
+          message.append(" msec.");
+          this.setText(message.toString());
+        }
+      }
+
+      private class TimeinButton extends JPanel {
+        private final JButton button = new ThreadedButton("Time In", new TimeinRunnable());
+
+        public TimeinButton() {
+          configure();
+          makeLayout();
+        }
+
+        private void configure() {
+          this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+        }
+
+        private void makeLayout() {
+          JLabel label = new JLabel("Try for a better connection:");
+          this.add(label);
+          this.add(this.button);
+        }
+
+        @Override
+        public Dimension getMaximumSize() {
+          return this.getPreferredSize();
+        }
+
+        private class TimeinRunnable implements Runnable {
+          @Override
+          public void run() {
+            try {
+              TimeinButton.this.button.setEnabled(false);
+              if (LoginRequest.completedLogin()) {
+                RequestThread.postRequest(new LogoutRequest());
+              }
+              LoginRequest.retimein();
+            } finally {
+              TimeinButton.this.button.setEnabled(true);
             }
-            LoginRequest.retimein();
-          } finally {
-            TimeinButton.this.button.setEnabled(true);
           }
         }
       }
