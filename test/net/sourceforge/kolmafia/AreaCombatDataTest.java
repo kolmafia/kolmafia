@@ -695,7 +695,7 @@ public class AreaCombatDataTest {
   }
 
   @Nested
-  class itemDrops {
+  class ItemDrops {
     @Test
     void shouldShowItemDrops() {
       var funHouse = AdventureDatabase.getAreaCombatData("The \"Fun\" House");
@@ -717,6 +717,52 @@ public class AreaCombatDataTest {
         assertThat(data, containsString("bloody clown pants 16% (7% steal, 10% drop)"));
         assertThat(data, containsString("polka-dot bow tie 5.0% (pickpocket only)"));
         assertThat(data, containsString("empty greasepaint tube (bounty)"));
+      }
+    }
+  }
+
+  @Nested
+  class RedWhiteBlueBlast {
+    @Test
+    public void simpleBlastBanishesOtherMonsters() {
+      var cleanups =
+          new Cleanups(
+              withProperty("rwbLocation", "The Smut Orc Logging Camp"),
+              withProperty("rwbMonster", "smut orc jacker"),
+              withProperty("rwbMonsterCount", 3));
+
+      try (cleanups) {
+        Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+
+        assertThat(
+            appearanceRates,
+            allOf(
+                hasEntry(JACKER, 100.0),
+                hasEntry(NAILER, -3.0),
+                hasEntry(PIPELAYER, -3.0),
+                hasEntry(SCREWER, -3.0)));
+      }
+    }
+
+    @Test
+    public void blastDoesNotForceIfOtherCopies() {
+      var cleanups =
+          new Cleanups(
+              withProperty("rwbLocation", "The Smut Orc Logging Camp"),
+              withProperty("rwbMonster", "smut orc jacker"),
+              withProperty("rwbMonsterCount", 3),
+              withProperty("_gallapagosMonster", "smut orc nailer"));
+
+      try (cleanups) {
+        Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+
+        assertThat(
+            appearanceRates,
+            allOf(
+                hasEntry(JACKER, 50.0),
+                hasEntry(NAILER, 50.0),
+                hasEntry(PIPELAYER, -3.0),
+                hasEntry(SCREWER, -3.0)));
       }
     }
   }

@@ -95,6 +95,9 @@ public class AreaCombatData {
 
     double weights = 0.0;
     Map<MonsterData, Integer> currentWeightings = new HashMap<>();
+    boolean rwbRelevant =
+        Preferences.getString("rwbLocation").equals(this.zone)
+            && Preferences.getInteger("rwbMonsterCount") > 0;
 
     for (MonsterData monster : monsters) {
       // Weighting has two low bits which represent odd or even ascension restriction
@@ -170,7 +173,8 @@ public class AreaCombatData {
         currentWeighting += 2 * baseWeighting;
       }
 
-      if (BanishManager.isBanished(monsterName)) {
+      if (BanishManager.isBanished(monsterName)
+          || (rwbRelevant && !Preferences.getString("rwbMonster").equals(monsterName))) {
         // Banishing reduces number of copies
         currentWeighting -= baseWeighting;
         // If this takes it to zero chance, it's properly banished

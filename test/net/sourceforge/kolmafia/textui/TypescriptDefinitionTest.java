@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.text.CharSequenceLength.hasLength;
 
 import java.util.Arrays;
@@ -67,5 +68,10 @@ public class TypescriptDefinitionTest {
     var firstLine = contents.substring(0, contents.indexOf("\n"));
     var version = firstLine.substring(4);
     assertThat(version, matchesPattern("^\\d+\\.\\d+\\.\\d+$"));
+  }
+
+  @Test
+  void containsEnvironmentUnion() {
+    assertThat(TypescriptDefinition.getEnvironmentUnion(), startsWith("\"indoor\""));
   }
 }

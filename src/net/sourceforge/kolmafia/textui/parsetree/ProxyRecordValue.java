@@ -25,8 +25,10 @@ import net.sourceforge.kolmafia.PastaThrallData.PastaThrallType;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierValueType;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
@@ -1432,7 +1434,9 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_environment() {
-      return this.content != null ? ((KoLAdventure) this.content).getEnvironment().toString() : "";
+      var environment =
+          this.content != null ? ((KoLAdventure) this.content).getEnvironment() : Environment.NONE;
+      return environment.toString();
     }
 
     public Value get_bounty() {
@@ -1967,7 +1971,9 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_type() {
-      return this.content != null ? ((Modifier) this.content).getType() : "";
+      var modifierValueType =
+          this.content != null ? ((Modifier) this.content).getType() : ModifierValueType.NONE;
+      return modifierValueType.toString();
     }
   }
 }
