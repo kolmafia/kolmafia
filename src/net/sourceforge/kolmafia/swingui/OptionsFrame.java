@@ -52,15 +52,15 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
-import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.PingManager;
 import net.sourceforge.kolmafia.session.PingManager.PingTest;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.menu.LoadScriptMenuItem;
@@ -169,29 +169,130 @@ public class OptionsFrame extends GenericFrame {
       super();
       this.queue(new PingOptionsPanel());
       this.queue(this.newSeparator());
-      this.queue(new LatestPingTest());
+      this.queue(new PingTestPanel());
+      this.queue(this.newSeparator());
       this.queue(new TimeinButton());
       this.makeLayout();
     }
 
-    private static class LatestPingTest extends PreferenceTextArea {
-      public LatestPingTest() {
-        super("pingLatest");
-        this.update();
+    public class PingTestPanel extends ConfigQueueingPanel {
+      public PingTestPanel() {
+        super();
+        this.queue(
+            new PreferenceButtonGroup(
+                "pingTestPage", "KoL page to ping: ", true, "api.php", "council.php", "main.php"));
+        this.queue(
+            new PreferenceIntegerTextField(
+                "pingTestPings", 4, "How many times to ping that page."));
+        this.queue(new PingTestButton());
+        this.queue(new LatestPingTest());
+        this.queue(new SetDefaultsButton());
+
+        this.makeLayout();
       }
 
-      @Override
-      public void update() {
-        PingTest latest = PingTest.parseProperty("pingLatest");
-        StringBuilder message = new StringBuilder();
-        message.append("Latest ping test average time was ");
-        message.append(String.valueOf(latest.getAverage()));
-        message.append(" msec.");
-        this.setText(message.toString());
+      private class PingTestButton extends JPanel implements Listener {
+        private final JButton button = new ThreadedButton("Ping Test", new PingTestRunnable());
+
+        public PingTestButton() {
+          configure();
+          makeLayout();
+          NamedListenerRegistry.registerNamedListener("(login)", this);
+          this.update();
+        }
+
+        private void configure() {
+          this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+        }
+
+        private void makeLayout() {
+          JLabel label = new JLabel("Run a ping test:");
+          this.add(label);
+          this.add(this.button);
+        }
+
+        @Override
+        public void update() {
+          this.button.setEnabled(LoginRequest.completedLogin());
+        }
+
+        @Override
+        public Dimension getMaximumSize() {
+          return this.getPreferredSize();
+        }
+
+        private class PingTestRunnable implements Runnable {
+          @Override
+          public void run() {
+            try {
+              PingTestButton.this.button.setEnabled(false);
+              int pings = Preferences.getInteger("pingTestPings");
+              String page = Preferences.getString("pingTestPage");
+              PingManager.runPingTest(pings, page, false);
+            } finally {
+              PingTestButton.this.button.setEnabled(true);
+            }
+          }
+        }
+      }
+
+      private class LatestPingTest extends PreferenceTextArea {
+        public LatestPingTest() {
+          super("pingLatest");
+          this.update();
+        }
+
+        @Override
+        public void update() {
+          PingTest latest = PingTest.parseProperty("pingLatest");
+          StringBuilder message = new StringBuilder();
+          message.append("Latest ping test: In ");
+          message.append(latest.getCount());
+          message.append(" requests to ");
+          message.append(latest.getPage());
+          message.append(" average time was ");
+          message.append(String.valueOf(latest.getAverage()));
+          message.append(" msec.");
+          this.setText(message.toString());
+        }
+      }
+
+      private class SetDefaultsButton extends JPanel {
+        private final JButton button = new JButton("Set Defaults");
+
+        public SetDefaultsButton() {
+          configure();
+          makeLayout();
+        }
+
+        private void configure() {
+          this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+          this.addActionListener(
+              e -> {
+                Preferences.setString("pingDefaultTestPage", Preferences.getString("pingTestPage"));
+                Preferences.setInteger(
+                    "pingDefaultTestPings", Preferences.getInteger("pingTestPings"));
+              });
+        }
+
+        public void addActionListener(ActionListener a) {
+          this.button.addActionListener(a);
+        }
+
+        private void makeLayout() {
+          JLabel label = new JLabel("Use those parameters for login ping tests:");
+          this.add(label);
+          this.add(this.button);
+        }
+
+        @Override
+        public Dimension getMaximumSize() {
+          return this.getPreferredSize();
+        }
       }
     }
 
-    private static class TimeinButton extends JPanel {
+    private class TimeinButton extends JPanel {
       private final JButton button = new ThreadedButton("Time In", new TimeinRunnable());
 
       public TimeinButton() {
@@ -219,9 +320,6 @@ public class OptionsFrame extends GenericFrame {
         public void run() {
           try {
             TimeinButton.this.button.setEnabled(false);
-            if (LoginRequest.completedLogin()) {
-              RequestThread.postRequest(new LogoutRequest());
-            }
             LoginRequest.retimein();
           } finally {
             TimeinButton.this.button.setEnabled(true);

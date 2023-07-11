@@ -19,6 +19,19 @@ public class PingRequest extends GenericRequest {
   public PingRequest(String pingURL) {
     super(pingURL);
     this.pingURL = pingURL;
+    this.addFormFields();
+  }
+
+  private void addFormFields() {
+    switch (this.pingURL) {
+      case "api.php" -> {
+        // This will lengthen the elapsed time by making KoL look up
+        // user data, rather than simply returning boilerplate text.
+        // Do we care?
+        // this.addFormField("what", "status");
+        // this.addFormField("for", "KoLmafia");
+      }
+    }
   }
 
   private boolean isSafeToRun() {

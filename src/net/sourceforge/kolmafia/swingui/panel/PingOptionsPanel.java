@@ -26,6 +26,17 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
         new PreferenceCheckBox("pingLogin", "Run ping test at login to measure connection lag"));
     this.queue(
         new PreferenceButtonGroup(
+            "pingDefaultTestPage",
+            "KoL page to ping: ",
+            true,
+            "api.php",
+            "council.php",
+            "main.php"));
+    this.queue(
+        new PreferenceIntegerTextField(
+            "pingDefaultTestPings", 4, "How many times to ping that page."));
+    this.queue(
+        new PreferenceButtonGroup(
             "pingLoginCheck", "Login ping check type: ", true, "none", "goal", "threshold"));
     this.queue(new PreferenceIntegerTextField("pingLoginGoal", 4, "Maximum average measured lag"));
     this.queue(
@@ -52,7 +63,9 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
       PingTest shortest = PingTest.parseProperty("pingShortest");
       PingTest longest = PingTest.parseProperty("pingLongest");
       StringBuilder message = new StringBuilder();
-      message.append("Observed average ping times range from ");
+      message.append("Observed average ping times to ");
+      message.append(shortest.getPage());
+      message.append(" range from ");
       message.append(String.valueOf(shortest.getAverage()));
       message.append("-");
       message.append(String.valueOf(longest.getAverage()));
