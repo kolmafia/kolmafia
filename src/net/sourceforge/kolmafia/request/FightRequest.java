@@ -2237,6 +2237,8 @@ public class FightRequest extends GenericRequest {
       } else if (EncounterManager.isGregariousEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.decrement("beGregariousFightsLeft", 1, 0);
+      } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
+        Preferences.decrement("rwbMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
         // This is earlier in the chain than the things above, but since
         // there's no message it's easiest to check it after
@@ -10232,6 +10234,18 @@ public class FightRequest extends GenericRequest {
         break;
       case SkillPool.DO_EPIC_MCTWIST:
         if (responseText.contains("degrees in the air while performing")) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RED_WHITE_BLUE_BLAST:
+        if (responseText.contains("fires off a thrilling, patriotic")) {
+          Preferences.setString("rwbMonster", MonsterStatusTracker.getLastMonsterName());
+          Preferences.setInteger("rwbMonsterCount", 3);
+          KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
+          if (lastLocation != null) {
+            Preferences.setString("rwbLocation", lastLocation.getAdventureName());
+          }
           skillSuccess = true;
         }
         break;
