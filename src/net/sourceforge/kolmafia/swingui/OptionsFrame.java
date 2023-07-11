@@ -167,15 +167,13 @@ public class OptionsFrame extends GenericFrame {
   }
 
   static class ConnectionOptionsPanel extends ConfigQueueingPanel {
-    private JTextArea testResultMessage;
-
     public ConnectionOptionsPanel() {
       super();
       this.queue(new PingOptionsPanel());
       this.queue(this.newSeparator());
       this.queue(new PingTestPanel());
       this.queue(this.newSeparator());
-      this.queue(new PingLatestPanel());
+      this.queue(new TimeinButton());
       this.makeLayout();
     }
 
@@ -189,9 +187,7 @@ public class OptionsFrame extends GenericFrame {
             new PreferenceIntegerTextField(
                 "pingTestPings", 4, "How many times to ping that page."));
         this.queue(new PingTestButton());
-        var message = this.newTextArea("");
-        ConnectionOptionsPanel.this.testResultMessage = message;
-        this.queue(message);
+        this.queue(new LatestPingTest());
         this.queue(new SetDefaultsButton());
 
         this.makeLayout();
@@ -232,23 +228,34 @@ public class OptionsFrame extends GenericFrame {
           public void run() {
             try {
               PingTestButton.this.button.setEnabled(false);
-              String page = Preferences.getString("pingTestPage");
               int pings = Preferences.getInteger("pingTestPings");
-
-              PingTest result = PingManager.runPingTest(pings, page, false);
-              String message =
-                  "Ping test: In "
-                      + result.getCount()
-                      + " requests to "
-                      + result.getPage()
-                      + " average time is "
-                      + result.getAverage()
-                      + " msecs.";
-              ConnectionOptionsPanel.this.testResultMessage.setText(message);
+              String page = Preferences.getString("pingTestPage");
+              PingManager.runPingTest(pings, page, false);
             } finally {
               PingTestButton.this.button.setEnabled(true);
             }
           }
+        }
+      }
+
+      private class LatestPingTest extends PreferenceTextArea {
+        public LatestPingTest() {
+          super("pingLatest");
+          this.update();
+        }
+
+        @Override
+        public void update() {
+          PingTest latest = PingTest.parseProperty("pingLatest");
+          StringBuilder message = new StringBuilder();
+          message.append("Latest ping test: In ");
+          message.append(latest.getCount());
+          message.append(" requests to ");
+          message.append(latest.getPage());
+          message.append(" average time was ");
+          message.append(String.valueOf(latest.getAverage()));
+          message.append(" msec.");
+          this.setText(message.toString());
         }
       }
 
@@ -287,70 +294,40 @@ public class OptionsFrame extends GenericFrame {
       }
     }
 
-    public class PingLatestPanel extends ConfigQueueingPanel {
-      public PingLatestPanel() {
-        super();
+    private class TimeinButton extends JPanel {
+      private final JButton button = new ThreadedButton("Time In", new TimeinRunnable());
 
-        this.queue(new LatestPingTest());
-        this.queue(new TimeinButton());
-
-        this.makeLayout();
+      public TimeinButton() {
+        configure();
+        makeLayout();
       }
 
-      private class LatestPingTest extends PreferenceTextArea {
-        public LatestPingTest() {
-          super("pingLatest");
-          this.update();
-        }
-
-        @Override
-        public void update() {
-          PingTest latest = PingTest.parseProperty("pingLatest");
-          StringBuilder message = new StringBuilder();
-          message.append("Latest ping test to ");
-          message.append(latest.getPage());
-          message.append(" average time was ");
-          message.append(String.valueOf(latest.getAverage()));
-          message.append(" msec.");
-          this.setText(message.toString());
-        }
+      private void configure() {
+        this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
       }
 
-      private class TimeinButton extends JPanel {
-        private final JButton button = new ThreadedButton("Time In", new TimeinRunnable());
+      private void makeLayout() {
+        JLabel label = new JLabel("Try for a better connection:");
+        this.add(label);
+        this.add(this.button);
+      }
 
-        public TimeinButton() {
-          configure();
-          makeLayout();
-        }
+      @Override
+      public Dimension getMaximumSize() {
+        return this.getPreferredSize();
+      }
 
-        private void configure() {
-          this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
-        }
-
-        private void makeLayout() {
-          JLabel label = new JLabel("Try for a better connection:");
-          this.add(label);
-          this.add(this.button);
-        }
-
+      private class TimeinRunnable implements Runnable {
         @Override
-        public Dimension getMaximumSize() {
-          return this.getPreferredSize();
-        }
-
-        private class TimeinRunnable implements Runnable {
-          @Override
-          public void run() {
-            try {
-              TimeinButton.this.button.setEnabled(false);
-              if (LoginRequest.completedLogin()) {
-                RequestThread.postRequest(new LogoutRequest());
-              }
-              LoginRequest.retimein();
-            } finally {
-              TimeinButton.this.button.setEnabled(true);
+        public void run() {
+          try {
+            TimeinButton.this.button.setEnabled(false);
+            if (LoginRequest.completedLogin()) {
+              RequestThread.postRequest(new LogoutRequest());
             }
+            LoginRequest.retimein();
+          } finally {
+            TimeinButton.this.button.setEnabled(true);
           }
         }
       }
