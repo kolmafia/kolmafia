@@ -18,20 +18,25 @@ import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isFinished;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.time.Month;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -514,6 +519,25 @@ public class ResultProcessorTest {
           assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
         }
       }
+    }
+  }
+
+  @Nested
+  class FalsePositives {
+    @Test
+    void noIRefuseFalsePositive() {
+      ByteArrayOutputStream stream = new ByteArrayOutputStream();
+      try (PrintStream out = new PrintStream(stream, true)) {
+        RequestLogger.openCustom(out);
+        ResultProcessor.processResults(true, html("request/test_choice_visit_i_refuse.html"));
+        RequestLogger.closeCustom();
+      }
+
+      assertThat(
+          stream.toString(),
+          not(
+              containsString(
+                  "Could not parse: You lose control of your legs, and begin running as fast as you can in a random direction")));
     }
   }
 }

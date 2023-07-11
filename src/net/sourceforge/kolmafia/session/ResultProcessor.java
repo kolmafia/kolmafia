@@ -533,6 +533,11 @@ public class ResultProcessor {
         return false;
       }
 
+      // "I Refuse!" choice text
+      if (lastToken.startsWith("You lose control of your legs")) {
+        return false;
+      }
+
       return ResultProcessor.processGainLoss(lastToken, data);
     }
 
