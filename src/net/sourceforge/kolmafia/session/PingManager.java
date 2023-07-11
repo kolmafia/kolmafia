@@ -123,10 +123,18 @@ public class PingManager {
       }
 
       long average = this.getAverage();
-      PingTest longest = PingTest.parseProperty("pingLongest");
-      long longestAverage = longest.getAverage();
       PingTest shortest = PingTest.parseProperty("pingShortest");
       long shortestAverage = shortest.getAverage();
+      PingTest longest = PingTest.parseProperty("pingLongest");
+      long longestAverage = longest.getAverage();
+
+      // If the historical data are for a different page than we now
+      // require, reset them and start fresh with this test.
+      if (!this.getPage().equals(shortest.getPage())) {
+        shortestAverage = 0;
+        longestAverage = 0;
+      }
+
       if (shortestAverage == 0 || average < shortestAverage) {
         Preferences.setString("pingShortest", value);
       }
