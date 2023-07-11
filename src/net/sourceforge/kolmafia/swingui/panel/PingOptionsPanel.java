@@ -63,7 +63,9 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
       PingTest shortest = PingTest.parseProperty("pingShortest");
       PingTest longest = PingTest.parseProperty("pingLongest");
       StringBuilder message = new StringBuilder();
-      message.append("Observed average ping times range from ");
+      message.append("Observed average ping times to ");
+      message.append(shortest.getPage());
+      message.append(" range from ");
       message.append(String.valueOf(shortest.getAverage()));
       message.append("-");
       message.append(String.valueOf(longest.getAverage()));

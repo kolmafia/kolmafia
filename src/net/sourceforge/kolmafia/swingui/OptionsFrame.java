@@ -242,7 +242,7 @@ public class OptionsFrame extends GenericFrame {
                       + result.getCount()
                       + " requests to "
                       + result.getPage()
-                      + " average delay is "
+                      + " average time is "
                       + result.getAverage()
                       + " msecs.";
               ConnectionOptionsPanel.this.testResultMessage.setText(message);
@@ -265,23 +265,9 @@ public class OptionsFrame extends GenericFrame {
           this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
           this.addActionListener(
               e -> {
-                String newPage = Preferences.getString("pingTestPage");
-                int newPings = Preferences.getInteger("pingTestPings");
-                boolean changed = false;
-                if (!Preferences.getString("pingDefaultTestPage").equals(newPage)) {
-                  Preferences.setString("pingDefaultTestPage", newPage);
-                  changed = true;
-                }
-                if (Preferences.getInteger("pingDefaultTestPings") != newPings) {
-                  Preferences.setInteger("pingDefaultTestPings", newPings);
-                  changed = true;
-                }
-                // If we change the parameters of our default ping test,
-                // discard historical ping test data
-                if (changed) {
-                  Preferences.setString("pingLongest", "");
-                  Preferences.setString("pingShortest", "");
-                }
+                Preferences.setString("pingDefaultTestPage", Preferences.getString("pingTestPage"));
+                Preferences.setInteger(
+                    "pingDefaultTestPings", Preferences.getInteger("pingTestPings"));
               });
         }
 
@@ -312,7 +298,9 @@ public class OptionsFrame extends GenericFrame {
       public void update() {
         PingTest latest = PingTest.parseProperty("pingLatest");
         StringBuilder message = new StringBuilder();
-        message.append("Latest ping test average time was ");
+        message.append("Latest ping test to ");
+        message.append(latest.getPage());
+        message.append(" average time was ");
         message.append(String.valueOf(latest.getAverage()));
         message.append(" msec.");
         this.setText(message.toString());
