@@ -52,14 +52,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
-import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.PingManager;
@@ -322,9 +320,6 @@ public class OptionsFrame extends GenericFrame {
         public void run() {
           try {
             TimeinButton.this.button.setEnabled(false);
-            if (LoginRequest.completedLogin()) {
-              RequestThread.postRequest(new LogoutRequest());
-            }
             LoginRequest.retimein();
           } finally {
             TimeinButton.this.button.setEnabled(true);

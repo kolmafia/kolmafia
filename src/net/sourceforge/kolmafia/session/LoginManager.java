@@ -116,8 +116,6 @@ public class LoginManager {
     int allowed = Preferences.getInteger("pingLoginCount");
     if (allowed > 0) {
       if (attempt < allowed) {
-        // The user wants us to try again
-        RequestThread.postRequest(new LogoutRequest());
         return LoginRequest.relogin();
       }
       // We've reached our limit
@@ -178,7 +176,6 @@ public class LoginManager {
     }
 
     // The user finds the ping time unacceptable.
-    RequestThread.postRequest(new LogoutRequest());
     return LoginRequest.relogin();
   }
 
