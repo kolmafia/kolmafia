@@ -2083,9 +2083,9 @@ burnout	2093	nparty_burnout.gif	Scale: [-5+100*equipped(PARTY HARD T-shirt)] Cap
 # Voter Registration Form (Nov 2018)
 angry ghost	2094	vw_ghost.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 50 E: spooky Article: an	ghostly ectoplasm (100)	ghostly ectoplasm (10)	ghostly ectoplasm (1)
 annoyed snake	2098	vwsnake.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 10 Init: -10000 Meat: 25 P: beast Elem: 50 Article: an	snake skin (0)
-government bureaucrat	2095	vwgovt.gif	NOCOPY Scale: 1 Cap: 1000 Floor: 10 Init: -10000 Meat: 50 P: dude Article: a	government requisition form (0)	absentee voter ballot (0)
-terrible mutant	2096	vwmutant.gif	NOCOPY Scale: 5 Cap: 1000 Floor: 10 Init: -10000 Meat: 10 P: humanoid Article: a	glob of undifferentiated tissue (0)	glob of undifferentiated tissue (0)	mutant arm (n0)	mutant legs (c0)	mutant crown (c0)
-slime blob	2097	vwslime.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: slime Phys: 50 ED: sleaze Article: a	green slime glob (20)	orange slime glob (40)	black slime glob (n0)
+government bureaucrat	2095	vwgovt.gif	NOCOPY Scale: 1 Cap: 1000 Floor: 10 Init: -10000 Meat: 50 P: dude Article: a	government requisition form (25)	absentee voter ballot (5)
+terrible mutant	2096	vwmutant.gif	NOCOPY Scale: 5 Cap: 1000 Floor: 10 Init: -10000 Meat: 10 P: humanoid Article: a	glob of undifferentiated tissue (100)	glob of undifferentiated tissue (c0)	mutant arm (c1)	mutant legs (c1)	mutant crown (c1)
+slime blob	2097	vwslime.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: slime Phys: 50 ED: sleaze Article: a	green slime glob (20)	orange slime glob (40)	black slime glob (n1)
 
 # Kramco Sausage-o-Matic (Jan 2019
 sausage goblin	2104	sausagegoblin.gif	FREE Scale: [1+2*pref(_sausageFights)] Cap: ? Floor: ? Init: -10000 Meat: 69 P: goblin ED: sleaze EA: hot EA: sleaze Article: a	magical sausage casing (n100)	red-hot sausage fork (0)	bag of sausage links (n0)
@@ -2200,9 +2200,9 @@ water spider	975	waterspider.gif	Atk: 130 Def: 117 HP: 150 Init: 50 P: bug EA: h
 # PVP Maps
 
 # Kokomo Resort (Feb-Apr 2015 PVP reward)
-Drunken Tropical Vacationer	1772	kok_drunk.gif	Scale: 0 Cap: ? Init: -10000 Meat: 200 P: dude Article: a	Kokomo Resort Brand Suntan Oil (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	captured boozles (c0)
-Lovestruck Tropical Honeymooners	1771	kok_lovers.gif	Scale: -5 Cap: ? Init: -10000 Meat: 250 P: dude Article: some	Afternoon Delight (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
-Resort Waiter	1773	kok_waiter.gif	Scale: 5 Cap: ? Init: -10000 Meat: 100 P: dude EA: hot Article: a	Kokomo Resort Order Pad (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	drinks tray (c0)
+Drunken Tropical Vacationer	1772	kok_drunk.gif	Scale: 0 Cap: ? Init: -10000 Meat: 200 P: dude Article: a	Kokomo Resort Chip (40)	Kokomo Resort Chip (10)	Kokomo Resort Brand Suntan Oil (1)	Kokomo Resort Chip (4)	captured boozles (c10)
+Lovestruck Tropical Honeymooners	1771	kok_lovers.gif	Scale: -5 Cap: ? Init: -10000 Meat: 250 P: dude Article: some	Afternoon Delight (20)	Kokomo Resort Chip (30)	Kokomo Resort Chip (3)
+Resort Waiter	1773	kok_waiter.gif	Scale: 5 Cap: ? Init: -10000 Meat: 100 P: dude EA: hot Article: a	Kokomo Resort Chip (25)	Kokomo Resort Order Pad (20)	drinks tray (c10)
 Brick Mulligan, the Bartender	1774	kok_tender.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude EA: hot	lemon (0)	lime (0)	orange (0)	bottle of gin (0)	bottle of vodka (0)	bottle of rum (0)	coconut shell (0)	little paper umbrella (0)	magical ice cubes (0)	eyebrow lifter (c0)
 
 # Current Events

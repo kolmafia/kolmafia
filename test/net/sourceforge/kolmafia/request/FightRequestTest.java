@@ -2176,4 +2176,45 @@ public class FightRequestTest {
       assertThat("_epicMcTwistUsed", isSetTo(true));
     }
   }
+
+  @Nested
+  class RedWhiteBlueBlast {
+    @Test
+    public void canDetect() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("rwbMonster"),
+              withProperty("rwbMonsterCount"),
+              withProperty("rwbLocation"),
+              withLastLocation("South of the Border"));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_red_white_blue.html", "fight.php?action=skill&whichskill=7450");
+
+        assertThat("rwbMonster", isSetTo("raging bull"));
+        assertThat("rwbMonsterCount", isSetTo(3));
+        assertThat("rwbLocation", isSetTo("South of the Border"));
+      }
+    }
+
+    @Test
+    public void canDetectMonsterAfterCast() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("rwbMonster", "raging bull"),
+              withProperty("rwbMonsterCount", 3),
+              withProperty("rwbLocation", "South of the Border"),
+              withNextMonster("raging bull"));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_red_white_blue_after.html");
+
+        assertThat("rwbMonster", isSetTo("raging bull"));
+        assertThat("rwbMonsterCount", isSetTo(2));
+      }
+    }
+  }
 }

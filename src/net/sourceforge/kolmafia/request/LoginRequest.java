@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -219,6 +220,7 @@ public class LoginRequest extends GenericRequest {
 
   public static final void setLoggedOut() {
     LoginRequest.completedLogin = false;
+    NamedListenerRegistry.fireChange("(login)");
     LoginRequest.lastLoginAttempt = 0;
   }
 
@@ -234,6 +236,7 @@ public class LoginRequest extends GenericRequest {
     // happens, then validate here.
 
     LoginRequest.completedLogin = true;
+    NamedListenerRegistry.fireChange("(login)");
 
     // If login is successful, notify client of success.
 

@@ -9,9 +9,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PingManager {
 
-  public static final String DEFAULT_PAGE = "api.php";
-  public static final int MINIMUM_HISTORY_PINGS = 10;
-
   public PingManager() {}
 
   public static class PingTest {
@@ -108,7 +105,9 @@ public class PingManager {
     }
 
     public boolean isSaveable() {
-      return this.page.equals(DEFAULT_PAGE) && this.count >= MINIMUM_HISTORY_PINGS;
+      String defaultPage = Preferences.getString("pingDefaultTestPage");
+      int defaultPings = Preferences.getInteger("pingDefaultTestPings");
+      return this.page.equals(defaultPage) && this.count >= defaultPings;
     }
 
     public void save() {
@@ -124,10 +123,18 @@ public class PingManager {
       }
 
       long average = this.getAverage();
-      PingTest longest = PingTest.parseProperty("pingLongest");
-      long longestAverage = longest.getAverage();
       PingTest shortest = PingTest.parseProperty("pingShortest");
       long shortestAverage = shortest.getAverage();
+      PingTest longest = PingTest.parseProperty("pingLongest");
+      long longestAverage = longest.getAverage();
+
+      // If the historical data are for a different page than we now
+      // require, reset them and start fresh with this test.
+      if (!this.getPage().equals(shortest.getPage())) {
+        shortestAverage = 0;
+        longestAverage = 0;
+      }
+
       if (shortestAverage == 0 || average < shortestAverage) {
         Preferences.setString("pingShortest", value);
       }
@@ -159,7 +166,9 @@ public class PingManager {
 
   public static PingTest runPingTest() {
     // Run a ping test that qualifies to be saved in ping history.
-    return runPingTest(MINIMUM_HISTORY_PINGS, DEFAULT_PAGE, false);
+    String defaultPage = Preferences.getString("pingDefaultTestPage");
+    int defaultPings = Preferences.getInteger("pingDefaultTestPings");
+    return runPingTest(defaultPings, defaultPage, false);
   }
 
   public static PingTest runPingTest(int count, String page, boolean verbose) {
