@@ -180,7 +180,14 @@ public class OptionsFrame extends GenericFrame {
         super();
         this.queue(
             new PreferenceButtonGroup(
-                "pingTestPage", "KoL page to ping: ", true, "api.php", "council.php", "main.php"));
+                "pingTestPage",
+                "KoL page to ping: ",
+                true,
+                "api",
+                "(events)",
+                "(status)",
+                "council",
+                "main"));
         this.queue(
             new PreferenceIntegerTextField(
                 "pingTestPings", 4, "How many times to ping that page."));

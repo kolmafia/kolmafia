@@ -107,6 +107,7 @@ global	pingLoginGoal	0
 global	pingLoginThreshold	0.2
 global	pingLongest
 global	pingShortest
+global	pingStealthyTimein	false
 global	pingTestPage	api.php
 global	pingTestPings	10
 global	previousNotifyList	<>

@@ -27,12 +27,23 @@ public class LoginRequest extends GenericRequest {
 
   public static int playersOnline = 0;
 
-  public LoginRequest(final String username, final String password) {
+  public LoginRequest(String username, final String password) {
     super("login.php");
 
-    // Ignore /q in the supplied username; we will add it later, as controlled by user preference.
-    this.username = username == null ? "" : StringUtilities.globalStringReplace(username, "/q", "");
+    // Assume login is not stealthy: user's contacts will be informed
+    // when they log in or out.
     this.stealthy = false;
+
+    if (username == null) {
+      username = "";
+    } else if (username.contains("/q")) {
+      // If supplied username includes /q, remove it, but remember it.
+      // We'll add it later, if supplied or user preference says to use it.
+      username = StringUtilities.globalStringReplace(username, "/q", "");
+      this.stealthy = true;
+    }
+
+    this.username = username;
 
     Preferences.setString(this.username, "displayName", this.username);
 
@@ -97,10 +108,20 @@ public class LoginRequest extends GenericRequest {
     // times out the session, or while we do ping tests to measure
     // connection times on login or timein.
     //
-    // We want all of those attempts to be stealthy, whether or not the
-    // user initially logged in that way.
-
-    this.stealthy = true;
+    // We can make those attempts stealthy, or not, as the user prefers.
+    // Each option has pluses and minuses:
+    //
+    // stealthy:
+    //   +: contacts are not informed about every timein
+    //   -: if there was at least one timein, contacts are not informed about logout
+    // not stealthy:
+    //   +: contacts are informed about logout
+    //   -: contacts are informed about every timeing
+    //
+    // Make it a user preference.
+    if (Preferences.getBoolean("pingStealthyTimein")) {
+      this.stealthy = true;
+    }
 
     KoLmafia.updateDisplay("Sending login request...");
 

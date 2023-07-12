@@ -29,9 +29,11 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
             "pingDefaultTestPage",
             "KoL page to ping: ",
             true,
-            "api.php",
-            "council.php",
-            "main.php"));
+            "api",
+            "(events)",
+            "(status)",
+            "council",
+            "main"));
     this.queue(
         new PreferenceIntegerTextField(
             "pingDefaultTestPings", 4, "How many times to ping that page."));
@@ -46,8 +48,15 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
         new PreferenceIntegerTextField(
             "pingLoginCount", 4, "Attempted ping checks before giving up"));
     this.queue(
+        new PreferenceCheckBox(
+            "pingStealthyTimein", "When timing in to reconnect, use stealth mode (/q)"));
+    this.queue(
         new PreferenceButtonGroup(
-            "pingLoginFail", "Action after failed ping check: ", true, "login", "logout"));
+            "pingLoginFail",
+            "Action after failed sequence of ping checks: ",
+            true,
+            "login",
+            "logout"));
 
     this.makeLayout();
   }
