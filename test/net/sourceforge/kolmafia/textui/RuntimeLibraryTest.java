@@ -1170,7 +1170,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             is(
                 """
               Returned: record {string page; int count; int low; int high; int total; int bytes; int average; int bps;}
-              page => api.php
+              page => api
               count => 10
               low => 26
               high => 31
