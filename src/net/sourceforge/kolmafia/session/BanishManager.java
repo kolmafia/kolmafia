@@ -188,56 +188,33 @@ public class BanishManager {
     }
   }
 
-  private static class Banished {
-    private final String banished;
-    private final Banisher banisher;
-    private final int turnBanished;
+  private record Banished(String banished, Banisher banisher, int turnBanished) {
+    public Integer turnsLeft() {
+        return (turnBanished + banisher.getDuration()) - KoLCharacter.getCurrentRun();
+      }
 
-    public Banished(
-        final String banished, final Banisher banisher, final int turnBanished) {
-      this.banished = banished;
-      this.banisher = banisher;
-      this.turnBanished = turnBanished;
-    }
+      public boolean isValid() {
+        return switch (banisher.getResetType()) {
+          case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() >= 0;
+          case COSMIC_BOWLING_BALL_RESET -> Preferences.getInteger("cosmicBowlingBallReturnCombats")
+              > 0;
+          default -> true;
+        };
+      }
 
-    public final String getBanished() {
-      return this.banished;
+      public String getDescription() {
+        return switch (banisher.getResetType()) {
+          case TURN_RESET -> turnsLeft().toString();
+          case ROLLOVER_RESET -> "Until Rollover";
+          case TURN_ROLLOVER_RESET -> turnsLeft() + " or Until Rollover";
+          case AVATAR_RESET -> "Until Prism Break";
+          case NEVER_RESET -> "Until Ice House opened";
+          case COSMIC_BOWLING_BALL_RESET -> "Until Ball returns ("
+              + Preferences.getInteger("cosmicBowlingBallReturnCombats")
+              + " combats) or Until Rollover";
+        };
+      }
     }
-
-    public final Banisher getBanisher() {
-      return this.banisher;
-    }
-
-    public final int getTurnBanished() {
-      return this.turnBanished;
-    }
-
-    public final Integer turnsLeft() {
-      return (turnBanished + banisher.getDuration()) - KoLCharacter.getCurrentRun();
-    }
-
-    public final boolean isValid() {
-      return switch (banisher.getResetType()) {
-        case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() >= 0;
-        case COSMIC_BOWLING_BALL_RESET -> Preferences.getInteger("cosmicBowlingBallReturnCombats")
-            > 0;
-        default -> true;
-      };
-    }
-
-    public final String getDescription() {
-      return switch (banisher.getResetType()) {
-        case TURN_RESET -> turnsLeft().toString();
-        case ROLLOVER_RESET -> "Until Rollover";
-        case TURN_ROLLOVER_RESET -> turnsLeft() + " or Until Rollover";
-        case AVATAR_RESET -> "Until Prism Break";
-        case NEVER_RESET -> "Until Ice House opened";
-        case COSMIC_BOWLING_BALL_RESET -> "Until Ball returns ("
-            + Preferences.getInteger("cosmicBowlingBallReturnCombats")
-            + " combats) or Until Rollover";
-      };
-    }
-  }
 
   public static void clearCache() {
     BanishManager.banishedMonsters.clear();
@@ -276,7 +253,7 @@ public class BanishManager {
         "banishedMonsters",
         banishedMonsters.stream()
             .flatMap(
-                m -> Stream.of(m.getBanished(), m.getBanisher().getName(), m.getTurnBanished()))
+                m -> Stream.of(m.banished(), m.banisher().getName(), m.turnBanished()))
             .map(Object::toString)
             .collect(Collectors.joining(":")));
   }
@@ -298,7 +275,7 @@ public class BanishManager {
    * @param predicate Predicate dictating removal
    */
   private static void resetIfType(Predicate<Reset> predicate) {
-    resetIf(m -> predicate.test(m.getBanisher().getResetType()));
+    resetIf(m -> predicate.test(m.banisher().getResetType()));
   }
 
   public static void resetRollover() {
@@ -438,13 +415,13 @@ public class BanishManager {
   }
 
   public static void removeBanishByBanisher(final Banisher banisher) {
-    resetIf(m -> m.getBanisher() == banisher);
+    resetIf(m -> m.banisher() == banisher);
   }
 
   private static void removeOldestBanish(final Banisher banisher) {
     banishedMonsters.stream()
-        .filter(b -> b.getBanisher() == banisher)
-        .min(Comparator.comparingInt(Banished::getTurnBanished))
+        .filter(b -> b.banisher() == banisher)
+        .min(Comparator.comparingInt(Banished::turnBanished))
         .ifPresent(b -> resetIf(m -> m == b));
   }
 
@@ -452,19 +429,19 @@ public class BanishManager {
     BanishManager.recalculate();
 
     return banishedMonsters.stream()
-        .filter(m -> m.getBanisher().isEffective())
-        .anyMatch(m -> m.getBanished().equalsIgnoreCase(monster));
+        .filter(m -> m.banisher().isEffective())
+        .anyMatch(m -> m.banished().equalsIgnoreCase(monster));
   }
 
   private static int countBanishes(final Banisher banisher) {
-    return (int) banishedMonsters.stream().filter(m -> m.getBanisher() == banisher).count();
+    return (int) banishedMonsters.stream().filter(m -> m.banisher() == banisher).count();
   }
 
   public static List<String> getBanishedMonsters() {
     BanishManager.recalculate();
 
     return banishedMonsters.stream()
-        .map(Banished::getBanished)
+        .map(Banished::banished)
         .collect(Collectors.toList());
   }
 
@@ -472,8 +449,8 @@ public class BanishManager {
     BanishManager.recalculate();
 
     return banishedMonsters.stream()
-        .filter(m -> m.getBanisher() == banisher)
-        .map(Banished::getBanished)
+        .filter(m -> m.banisher() == banisher)
+        .map(Banished::banished)
         .collect(Collectors.toList());
   }
 
@@ -489,9 +466,9 @@ public class BanishManager {
         .map(
             b ->
                 new String[] {
-                  b.getBanished(),
-                  b.getBanisher().getName(),
-                  String.valueOf(b.getTurnBanished()),
+                  b.banished(),
+                  b.banisher().getName(),
+                  String.valueOf(b.turnBanished()),
                   b.getDescription()
                 })
         .toArray(String[][]::new);
