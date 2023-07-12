@@ -10,28 +10,50 @@ public class BanishesCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    String[][] banishData = BanishManager.getBanishData();
+    String[][] banishedMonsterData = BanishManager.getBanishedMonsterData();
+    boolean hasMonsterData = banishedMonsterData.length > 0;
+    String[][] banishedPhylaData = BanishManager.getBanishedPhylaData();
+    boolean hasPhylaData = banishedPhylaData.length > 0;
 
     StringBuilder output = new StringBuilder();
 
-    if (banishData.length > 0) {
+    if (hasMonsterData || hasPhylaData) {
       output.append("<table border=2 cols=4>");
-      output.append("<tr>");
-      output.append("<th>Monsters Banished</th>");
-      output.append("<th>Banished By</th>");
-      output.append("<th>On Turn</th>");
-      output.append("<th>Turns Left</th>");
-      output.append("</tr>");
+      if (hasMonsterData) {
+        output
+            .append("<tr>")
+            .append("<th>Monsters Banished</th>")
+            .append("<th>Banished By</th>")
+            .append("<th>On Turn</th>")
+            .append("<th>Turns Left</th>")
+            .append("</tr>");
 
-      for (String[] banish : banishData) {
-        output.append("<tr>");
+        for (String[] banish : banishedMonsterData) {
+          output.append("<tr>");
 
-        for (int i = 0; i < 4; i++) {
-          output.append("<td>");
-          output.append(banish[i]);
-          output.append("</td>");
+          for (int i = 0; i < 4; i++) {
+            output.append("<td>").append(banish[i]).append("</td>");
+          }
+          output.append("</tr>");
         }
-        output.append("</tr>");
+      }
+      if (hasPhylaData) {
+        output
+            .append("<tr>")
+            .append("<th>Phyla Banished</th>")
+            .append("<th>Banished By</th>")
+            .append("<th>On Turn</th>")
+            .append("<th>Turns Left</th>")
+            .append("</tr>");
+
+        for (String[] banish : banishedPhylaData) {
+          output.append("<tr>");
+
+          for (int i = 0; i < 4; i++) {
+            output.append("<td>").append(banish[i]).append("</td>");
+          }
+          output.append("</tr>");
+        }
       }
 
       output.append("</table>");

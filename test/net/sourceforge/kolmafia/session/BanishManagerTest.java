@@ -279,12 +279,12 @@ class BanishManagerTest {
 
     try (cleanups) {
       BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.ICE_HOUSE);
-      assertThat(BanishManager.getBanishedMonster(Banisher.ICE_HOUSE), equalTo("spooky mummy"));
+      assertThat(BanishManager.getFirstBanished(Banisher.ICE_HOUSE), equalTo("spooky mummy"));
 
       BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.ICE_HOUSE);
 
-      assertThat(BanishManager.getBanishedMonsters(Banisher.ICE_HOUSE), hasSize(1));
-      assertThat(BanishManager.getBanishedMonster(Banisher.ICE_HOUSE), equalTo("spooky mummy"));
+      assertThat(BanishManager.getBanished(Banisher.ICE_HOUSE), hasSize(1));
+      assertThat(BanishManager.getFirstBanished(Banisher.ICE_HOUSE), equalTo("spooky mummy"));
     }
   }
 
@@ -298,7 +298,7 @@ class BanishManagerTest {
       KoLCharacter.setCurrentRun(105);
       BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.STINKY_CHEESE_EYE);
       KoLCharacter.setCurrentRun(120);
-      var data = BanishManager.getBanishData();
+      var data = BanishManager.getBanishedMonsterData();
       assertThat(data, arrayWithSize(1));
       assertThat(
           data,
@@ -319,7 +319,7 @@ class BanishManagerTest {
       BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.STINKY_CHEESE_EYE);
       KoLCharacter.setCurrentRun(106);
       BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.STINKY_CHEESE_EYE);
-      var data = BanishManager.getBanishData();
+      var data = BanishManager.getBanishedMonsterData();
       assertThat(data, arrayWithSize(2));
       assertThat(
           data,
@@ -341,7 +341,7 @@ class BanishManagerTest {
       BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.STINKY_CHEESE_EYE);
       KoLCharacter.setCurrentRun(106);
       BanishManager.banishMonster(SCARY_PIRATE, Banisher.STINKY_CHEESE_EYE);
-      var data = BanishManager.getBanishData();
+      var data = BanishManager.getBanishedMonsterData();
       assertThat(data, arrayWithSize(2));
       assertThat(
           data,
@@ -596,7 +596,7 @@ class BanishManagerTest {
 
     try (cleanups) {
       BanishManager.loadBanishedMonsters();
-      var ice = BanishManager.getBanishedMonster(Banisher.ICE_HOUSE);
+      var ice = BanishManager.getFirstBanished(Banisher.ICE_HOUSE);
 
       assertEquals("spooky vampire", ice);
     }
@@ -613,7 +613,7 @@ class BanishManagerTest {
 
     try (cleanups) {
       BanishManager.loadBanishedMonsters();
-      var ice = BanishManager.getBanishedMonster(Banisher.ICE_HOUSE);
+      var ice = BanishManager.getFirstBanished(Banisher.ICE_HOUSE);
 
       assertNull(ice);
     }
@@ -630,7 +630,7 @@ class BanishManagerTest {
       request.responseText = html("request/test_museum_ice_house.html");
       ChoiceManager.visitChoice(request);
 
-      var ice = BanishManager.getBanishedMonster(Banisher.ICE_HOUSE);
+      var ice = BanishManager.getFirstBanished(Banisher.ICE_HOUSE);
       assertEquals("Perceiver of Sensations", ice);
     }
   }
@@ -648,7 +648,7 @@ class BanishManagerTest {
     try (cleanups) {
       BanishManager.loadBanishedMonsters();
 
-      var data = BanishManager.getBanishData();
+      var data = BanishManager.getBanishedMonsterData();
 
       assertThat(data, arrayWithSize(12));
       assertThat(
@@ -681,7 +681,7 @@ class BanishManagerTest {
     try (cleanups) {
       BanishManager.loadBanishedMonsters();
 
-      var data = BanishManager.getBanishData();
+      var data = BanishManager.getBanishedMonsterData();
 
       assertEquals(0, data.length);
     }

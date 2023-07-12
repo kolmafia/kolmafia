@@ -10250,6 +10250,13 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case SkillPool.PATRIOTIC_SCREECH:
+        if (responseText.contains("releases an ear shattering screech")) {
+          BanishManager.banishMonster(monster, Banisher.PATRIOTIC_SCREECH);
+          skillSuccess = true;
+        }
+        break;
+
       case SkillPool.PERPETRATE_MILD_EVIL:
         if (
         // Spookypocket

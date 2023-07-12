@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BanishManager {
   private static final Set<Banished> banishedMonsters = new LinkedHashSet<>();
+  private static final Set<Banished> banishedPhyla = new LinkedHashSet<>();
 
   private BanishManager() {}
 
@@ -180,6 +181,10 @@ public class BanishManager {
       return this.resetType;
     }
 
+    public final BanishType getBanishType() {
+      return this.banishType;
+    }
+
     public final boolean isEffective() {
       if (this == Banisher.ICE_HOUSE) {
         return StandardRequest.isAllowed(RestrictedItemType.ITEMS, "ice house");
@@ -190,40 +195,61 @@ public class BanishManager {
 
   private record Banished(String banished, Banisher banisher, int turnBanished) {
     public Integer turnsLeft() {
-        return (turnBanished + banisher.getDuration()) - KoLCharacter.getCurrentRun();
-      }
-
-      public boolean isValid() {
-        return switch (banisher.getResetType()) {
-          case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() >= 0;
-          case COSMIC_BOWLING_BALL_RESET -> Preferences.getInteger("cosmicBowlingBallReturnCombats")
-              > 0;
-          default -> true;
-        };
-      }
-
-      public String getDescription() {
-        return switch (banisher.getResetType()) {
-          case TURN_RESET -> turnsLeft().toString();
-          case ROLLOVER_RESET -> "Until Rollover";
-          case TURN_ROLLOVER_RESET -> turnsLeft() + " or Until Rollover";
-          case AVATAR_RESET -> "Until Prism Break";
-          case NEVER_RESET -> "Until Ice House opened";
-          case COSMIC_BOWLING_BALL_RESET -> "Until Ball returns ("
-              + Preferences.getInteger("cosmicBowlingBallReturnCombats")
-              + " combats) or Until Rollover";
-        };
-      }
+      return (turnBanished + banisher.getDuration()) - KoLCharacter.getCurrentRun();
     }
+
+    public boolean isValid() {
+      return switch (banisher.getResetType()) {
+        case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() >= 0;
+        case COSMIC_BOWLING_BALL_RESET -> Preferences.getInteger("cosmicBowlingBallReturnCombats")
+            > 0;
+        default -> true;
+      };
+    }
+
+    public String getDescription() {
+      return switch (banisher.getResetType()) {
+        case TURN_RESET -> turnsLeft().toString();
+        case ROLLOVER_RESET -> "Until Rollover";
+        case TURN_ROLLOVER_RESET -> turnsLeft() + " or Until Rollover";
+        case AVATAR_RESET -> "Until Prism Break";
+        case NEVER_RESET -> "Until Ice House opened";
+        case COSMIC_BOWLING_BALL_RESET -> "Until Ball returns ("
+            + Preferences.getInteger("cosmicBowlingBallReturnCombats")
+            + " combats) or Until Rollover";
+      };
+    }
+  }
+
+  public static Set<Banished> getBanishedSet(Banisher banisher) {
+    return switch (banisher.getBanishType()) {
+      case MONSTER -> banishedMonsters;
+      case PHYLUM -> banishedPhyla;
+    };
+  }
 
   public static void clearCache() {
     BanishManager.banishedMonsters.clear();
+    BanishManager.banishedPhyla.clear();
+  }
+
+  public static void loadBanished() {
+    BanishManager.loadBanishedMonsters();
+    BanishManager.loadBanishedPhyla();
   }
 
   public static void loadBanishedMonsters() {
-    BanishManager.banishedMonsters.clear();
+    loadBanishedX("banishedMonsters", BanishManager.banishedMonsters);
+  }
 
-    String banishes = Preferences.getString("banishedMonsters");
+  public static void loadBanishedPhyla() {
+    loadBanishedX("banishedPhyla", BanishManager.banishedPhyla);
+  }
+
+  private static void loadBanishedX(String prefName, Set<Banished> banished) {
+    banished.clear();
+
+    String banishes = Preferences.getString(prefName);
     if (banishes.length() == 0) {
       return;
     }
@@ -244,7 +270,7 @@ public class BanishManager {
         continue;
       }
 
-      BanishManager.addBanishedMonster(monsterName, banisher, turnBanished);
+      BanishManager.addBanished(monsterName, banisher, turnBanished);
     }
   }
 
@@ -252,8 +278,16 @@ public class BanishManager {
     Preferences.setString(
         "banishedMonsters",
         banishedMonsters.stream()
-            .flatMap(
-                m -> Stream.of(m.banished(), m.banisher().getName(), m.turnBanished()))
+            .flatMap(m -> Stream.of(m.banished(), m.banisher().getName(), m.turnBanished()))
+            .map(Object::toString)
+            .collect(Collectors.joining(":")));
+  }
+
+  private static void saveBanishedPhyla() {
+    Preferences.setString(
+        "banishedPhyla",
+        banishedPhyla.stream()
+            .flatMap(m -> Stream.of(m.banished(), m.banisher().getName(), m.turnBanished()))
             .map(Object::toString)
             .collect(Collectors.joining(":")));
   }
@@ -266,6 +300,8 @@ public class BanishManager {
   private static void resetIf(Predicate<Banished> predicate) {
     BanishManager.banishedMonsters.removeIf(predicate);
     BanishManager.saveBanishedMonsters();
+    BanishManager.banishedPhyla.removeIf(predicate);
+    BanishManager.saveBanishedPhyla();
   }
 
   /**
@@ -336,12 +372,18 @@ public class BanishManager {
    */
   public static void banishMonster(
       final MonsterData monster, final Banisher banisher, final boolean adventureResult) {
+    String banished =
+        switch (banisher.getBanishType()) {
+          case MONSTER -> monster.getName();
+          case PHYLUM -> monster.getPhylum().toString();
+        };
+
     int queueSize = banisher.getQueueSize();
 
     if (BanishManager.countBanishes(banisher) >= queueSize) {
       // If we've rebanished a monster that wasn't going to run out anyway, there's nothing to do.
       if (queueSize == 1
-          && monster.getName().equals(getBanishedMonster(banisher))
+          && banished.equals(getFirstBanished(banisher))
           && !banisher.getResetType().isTurnReset()) {
         return;
       }
@@ -351,17 +393,19 @@ public class BanishManager {
 
     // Banishes fail in some areas, monsters in them cannot be banished
 
-    if (monster.isNoBanish()) {
-      KoLmafia.updateDisplay(
-          "Banish of "
-              + monster.getName()
-              + " by "
-              + banisher.getName()
-              + " failed, as monsters from this area cannot be banished.");
-      return;
+    if (banisher.getBanishType() == BanishType.MONSTER) {
+      if (monster.isNoBanish()) {
+        KoLmafia.updateDisplay(
+            "Banish of "
+                + banished
+                + " by "
+                + banisher.getName()
+                + " failed, as monsters from this area cannot be banished.");
+        return;
+      }
     }
 
-    KoLmafia.updateDisplay(monster.getName() + " banished by " + banisher.getName() + ".");
+    KoLmafia.updateDisplay(banished + " banished by " + banisher.getName() + ".");
 
     // Never-reset banishes are set to turn 0 so that they last the next ascension
     var turnBanished =
@@ -369,17 +413,17 @@ public class BanishManager {
             ? 0
             : KoLCharacter.getCurrentRun() + (banisher.isTurnFree() || !adventureResult ? 0 : 1);
 
-    BanishManager.addBanishedMonster(monster.getName(), banisher, turnBanished);
+    BanishManager.addBanished(banished, banisher, turnBanished);
 
     BanishManager.recalculate();
 
     // Legacy support
     switch (banisher) {
-      case NANORHINO -> Preferences.setString("_nanorhinoBanishedMonster", monster.getName());
+      case NANORHINO -> Preferences.setString("_nanorhinoBanishedMonster", banished);
       case BANISHING_SHOUT, HOWL_OF_THE_ALPHA -> Preferences.setString(
           "banishingShoutMonsters",
           Stream.concat(
-                  Stream.of(monster.getName()),
+                  Stream.of(banished),
                   Arrays.stream(Preferences.getString("banishingShoutMonsters").split("\\|"))
                       .limit(2)
                       .filter(Predicate.not(String::isEmpty)))
@@ -387,7 +431,7 @@ public class BanishManager {
       case STAFF_OF_THE_STANDALONE_CHEESE -> Preferences.setString(
           "_jiggleCheesedMonsters",
           Stream.concat(
-                  Stream.of(monster.getName()),
+                  Stream.of(banished),
                   Arrays.stream(Preferences.getString("_jiggleCheesedMonsters").split("\\|"))
                       .filter(Predicate.not(String::isEmpty)))
               .collect(Collectors.joining("|")));
@@ -398,20 +442,20 @@ public class BanishManager {
     banishMonster(monster, banisher, true);
   }
 
-  private static void addBanishedMonster(
-      final String monsterName, final Banisher banisher, final int turnBanished) {
-    var banishedMonster = new Banished(monsterName, banisher, turnBanished);
-    if (!banishedMonster.isValid()) {
+  private static void addBanished(
+      final String entry, final Banisher banisher, final int turnBanished) {
+    var banished = new Banished(entry, banisher, turnBanished);
+    if (!banished.isValid()) {
       KoLmafia.updateDisplay(
           "Banish of "
-              + monsterName
+              + entry
               + " by "
               + banisher.getName()
               + " failed, as the banish was invalid.");
       return;
     }
 
-    banishedMonsters.add(banishedMonster);
+    getBanishedSet(banisher).add(banished);
   }
 
   public static void removeBanishByBanisher(final Banisher banisher) {
@@ -419,7 +463,7 @@ public class BanishManager {
   }
 
   private static void removeOldestBanish(final Banisher banisher) {
-    banishedMonsters.stream()
+    Stream.concat(banishedMonsters.stream(), banishedPhyla.stream())
         .filter(b -> b.banisher() == banisher)
         .min(Comparator.comparingInt(Banished::turnBanished))
         .ifPresent(b -> resetIf(m -> m == b));
@@ -428,41 +472,69 @@ public class BanishManager {
   public static boolean isBanished(final String monster) {
     BanishManager.recalculate();
 
-    return banishedMonsters.stream()
+    if (banishedMonsters.stream()
         .filter(m -> m.banisher().isEffective())
-        .anyMatch(m -> m.banished().equalsIgnoreCase(monster));
+        .anyMatch(m -> m.banished().equalsIgnoreCase(monster))) {
+      return true;
+    }
+
+    MonsterData data = MonsterDatabase.findMonster(monster, false, false);
+    if (data == null) {
+      return false;
+    }
+    if (data.isNoBanish()) {
+      return false;
+    }
+    return banishedPhyla.stream()
+        .filter(m -> m.banisher().isEffective())
+        .anyMatch(m -> m.banished().equalsIgnoreCase(data.getPhylum().toString()));
   }
 
   private static int countBanishes(final Banisher banisher) {
-    return (int) banishedMonsters.stream().filter(m -> m.banisher() == banisher).count();
+    Set<Banished> banished = getBanishedSet(banisher);
+    return (int) banished.stream().filter(m -> m.banisher() == banisher).count();
   }
 
   public static List<String> getBanishedMonsters() {
     BanishManager.recalculate();
 
-    return banishedMonsters.stream()
-        .map(Banished::banished)
-        .collect(Collectors.toList());
+    return banishedMonsters.stream().map(Banished::banished).collect(Collectors.toList());
   }
 
-  public static List<String> getBanishedMonsters(Banisher banisher) {
+  public static List<String> getBanishedPhyla() {
     BanishManager.recalculate();
 
-    return banishedMonsters.stream()
+    return banishedPhyla.stream().map(Banished::banished).collect(Collectors.toList());
+  }
+
+  public static List<String> getBanished(Banisher banisher) {
+    BanishManager.recalculate();
+
+    Set<Banished> banished = getBanishedSet(banisher);
+
+    return banished.stream()
         .filter(m -> m.banisher() == banisher)
         .map(Banished::banished)
         .collect(Collectors.toList());
   }
 
-  public static String getBanishedMonster(Banisher banisher) {
-    var monsters = getBanishedMonsters(banisher);
-    return (monsters.size() > 0) ? monsters.get(0) : null;
+  public static String getFirstBanished(Banisher banisher) {
+    var banished = getBanished(banisher);
+    return (banished.size() > 0) ? banished.get(0) : null;
   }
 
-  public static String[][] getBanishData() {
+  public static String[][] getBanishedMonsterData() {
+    return getBanishedData(banishedMonsters);
+  }
+
+  public static String[][] getBanishedPhylaData() {
+    return getBanishedData(banishedPhyla);
+  }
+
+  private static String[][] getBanishedData(Set<Banished> banished) {
     BanishManager.recalculate();
 
-    return banishedMonsters.stream()
+    return banished.stream()
         .map(
             b ->
                 new String[] {
