@@ -20,7 +20,7 @@ public class PingManager {
     private long high = 0L;
     private long bytes = 0L;
 
-    private static String normalizePage(String page) {
+    public static String normalizePage(String page) {
       // Backwards compatibility; we no longer save ".php",
       // but saved properties may include it.
       int php = page.indexOf(".php");
@@ -175,7 +175,7 @@ public class PingManager {
 
   public static PingTest runPingTest() {
     // Run a ping test that qualifies to be saved in ping history.
-    String defaultPage = Preferences.getString("pingDefaultTestPage");
+    String defaultPage = PingTest.normalizePage(Preferences.getString("pingDefaultTestPage"));
     int defaultPings = Preferences.getInteger("pingDefaultTestPings");
     return runPingTest(defaultPings, defaultPage, false);
   }
