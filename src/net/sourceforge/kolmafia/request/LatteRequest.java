@@ -652,7 +652,7 @@ public class LatteRequest extends GenericRequest {
       for (Latte latte : LATTE) {
         if (start.startsWith(latte.first)) {
           mods[0] = latte.modifier;
-          first = latte.first;
+          first = latte.ingredient;
           middle = start.replace(latte.first, "").trim();
           break;
         }
@@ -661,14 +661,14 @@ public class LatteRequest extends GenericRequest {
       for (Latte latte : LATTE) {
         if (middle.equals(latte.second)) {
           mods[1] = latte.modifier;
-          second = latte.second;
+          second = latte.ingredient;
           if (third != null) {
             break;
           }
         }
         if (end.equals(latte.third)) {
           mods[2] = latte.modifier;
-          third = latte.third;
+          third = latte.ingredient;
           if (second != null) {
             break;
           }
