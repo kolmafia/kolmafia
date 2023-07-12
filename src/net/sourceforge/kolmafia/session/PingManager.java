@@ -20,6 +20,7 @@ public class PingManager {
     private long high = 0L;
     private long bytes = 0L;
 
+
     public static String normalizePage(String page) {
       // Backwards compatibility; we no longer save ".php",
       // but saved properties may include it.
