@@ -20,9 +20,14 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BanishManager {
-  private static final Set<BanishedMonster> banishedMonsters = new LinkedHashSet<>();
+  private static final Set<Banished> banishedMonsters = new LinkedHashSet<>();
 
   private BanishManager() {}
+
+  private enum BanishType {
+    MONSTER,
+    PHYLUM
+  }
 
   private enum Reset {
     TURN_RESET,
@@ -93,6 +98,7 @@ public class BanishManager {
     PULLED_INDIGO_TAFFY("pulled indigo taffy", 40, 1, true, Reset.TURN_RESET),
     PUNT("Punt", -1, 1, false, Reset.ROLLOVER_RESET),
     REFLEX_HAMMER("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
+    PATRIOTIC_SCREECH("Patriotic Screech", 100, 1, false, Reset.TURN_RESET, BanishType.PHYLUM),
     SABER_FORCE("Saber Force", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     SHOW_YOUR_BORING_FAMILIAR_PICTURES(
         "Show your boring familiar pictures", 100, 1, true, Reset.TURN_RESET),
@@ -118,6 +124,7 @@ public class BanishManager {
     final int queueSize;
     final boolean isTurnFree;
     final Reset resetType;
+    final BanishType banishType;
 
     public static Banisher find(final String banisherName) {
       return Arrays.stream(values())
@@ -132,11 +139,22 @@ public class BanishManager {
         final int queueSize,
         final boolean isTurnFree,
         final Reset resetType) {
+      this(name, duration, queueSize, isTurnFree, resetType, BanishType.MONSTER);
+    }
+
+    Banisher(
+        final String name,
+        final int duration,
+        final int queueSize,
+        final boolean isTurnFree,
+        final Reset resetType,
+        final BanishType banishType) {
       this.name = name;
       this.duration = duration;
       this.queueSize = queueSize;
       this.isTurnFree = isTurnFree;
       this.resetType = resetType;
+      this.banishType = banishType;
     }
 
     public final String getName() {
@@ -170,20 +188,20 @@ public class BanishManager {
     }
   }
 
-  private static class BanishedMonster {
-    private final String monsterName;
+  private static class Banished {
+    private final String banished;
     private final Banisher banisher;
     private final int turnBanished;
 
-    public BanishedMonster(
-        final String monsterName, final Banisher banisher, final int turnBanished) {
-      this.monsterName = monsterName;
+    public Banished(
+        final String banished, final Banisher banisher, final int turnBanished) {
+      this.banished = banished;
       this.banisher = banisher;
       this.turnBanished = turnBanished;
     }
 
-    public final String getMonsterName() {
-      return this.monsterName;
+    public final String getBanished() {
+      return this.banished;
     }
 
     public final Banisher getBanisher() {
@@ -258,7 +276,7 @@ public class BanishManager {
         "banishedMonsters",
         banishedMonsters.stream()
             .flatMap(
-                m -> Stream.of(m.getMonsterName(), m.getBanisher().getName(), m.getTurnBanished()))
+                m -> Stream.of(m.getBanished(), m.getBanisher().getName(), m.getTurnBanished()))
             .map(Object::toString)
             .collect(Collectors.joining(":")));
   }
@@ -268,7 +286,7 @@ public class BanishManager {
    *
    * @param predicate Predicate dictating removal
    */
-  private static void resetIf(Predicate<BanishedMonster> predicate) {
+  private static void resetIf(Predicate<Banished> predicate) {
     BanishManager.banishedMonsters.removeIf(predicate);
     BanishManager.saveBanishedMonsters();
   }
@@ -300,7 +318,7 @@ public class BanishManager {
   }
 
   public static void recalculate() {
-    resetIf(Predicate.not(BanishedMonster::isValid));
+    resetIf(Predicate.not(Banished::isValid));
   }
 
   public static void banishCurrentMonster(final Banisher banisher) {
@@ -405,7 +423,7 @@ public class BanishManager {
 
   private static void addBanishedMonster(
       final String monsterName, final Banisher banisher, final int turnBanished) {
-    var banishedMonster = new BanishedMonster(monsterName, banisher, turnBanished);
+    var banishedMonster = new Banished(monsterName, banisher, turnBanished);
     if (!banishedMonster.isValid()) {
       KoLmafia.updateDisplay(
           "Banish of "
@@ -426,7 +444,7 @@ public class BanishManager {
   private static void removeOldestBanish(final Banisher banisher) {
     banishedMonsters.stream()
         .filter(b -> b.getBanisher() == banisher)
-        .min(Comparator.comparingInt(BanishedMonster::getTurnBanished))
+        .min(Comparator.comparingInt(Banished::getTurnBanished))
         .ifPresent(b -> resetIf(m -> m == b));
   }
 
@@ -435,7 +453,7 @@ public class BanishManager {
 
     return banishedMonsters.stream()
         .filter(m -> m.getBanisher().isEffective())
-        .anyMatch(m -> m.getMonsterName().equalsIgnoreCase(monster));
+        .anyMatch(m -> m.getBanished().equalsIgnoreCase(monster));
   }
 
   private static int countBanishes(final Banisher banisher) {
@@ -446,7 +464,7 @@ public class BanishManager {
     BanishManager.recalculate();
 
     return banishedMonsters.stream()
-        .map(BanishedMonster::getMonsterName)
+        .map(Banished::getBanished)
         .collect(Collectors.toList());
   }
 
@@ -455,7 +473,7 @@ public class BanishManager {
 
     return banishedMonsters.stream()
         .filter(m -> m.getBanisher() == banisher)
-        .map(BanishedMonster::getMonsterName)
+        .map(Banished::getBanished)
         .collect(Collectors.toList());
   }
 
@@ -471,7 +489,7 @@ public class BanishManager {
         .map(
             b ->
                 new String[] {
-                  b.getMonsterName(),
+                  b.getBanished(),
                   b.getBanisher().getName(),
                   String.valueOf(b.getTurnBanished()),
                   b.getDescription()
