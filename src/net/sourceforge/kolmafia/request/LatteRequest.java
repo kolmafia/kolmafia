@@ -642,8 +642,11 @@ public class LatteRequest extends GenericRequest {
     Matcher matcher = RESULT_PATTERN.matcher(responseText);
     if (matcher.find()) {
       String first = null;
+      String firstIngredient = null;
       String second = null;
+      String secondIngredient = null;
       String third = null;
+      String thirdIngredient = null;
       String[] mods = new String[3];
       String start = matcher.group(1).trim();
       String middle = null;
@@ -652,7 +655,8 @@ public class LatteRequest extends GenericRequest {
       for (Latte latte : LATTE) {
         if (start.startsWith(latte.first)) {
           mods[0] = latte.modifier;
-          first = latte.ingredient;
+          first = latte.first;
+          firstIngredient = latte.ingredient;
           middle = start.replace(latte.first, "").trim();
           break;
         }
@@ -661,14 +665,16 @@ public class LatteRequest extends GenericRequest {
       for (Latte latte : LATTE) {
         if (middle.equals(latte.second)) {
           mods[1] = latte.modifier;
-          second = latte.ingredient;
+          second = latte.second;
+          secondIngredient = latte.ingredient;
           if (third != null) {
             break;
           }
         }
         if (end.equals(latte.third)) {
           mods[2] = latte.modifier;
-          third = latte.ingredient;
+          third = latte.third;
+          thirdIngredient = latte.ingredient;
           if (second != null) {
             break;
           }
@@ -683,7 +689,8 @@ public class LatteRequest extends GenericRequest {
       Preferences.setBoolean("_latteBanishUsed", false);
       Preferences.setBoolean("_latteCopyUsed", false);
       Preferences.setBoolean("_latteDrinkUsed", false);
-      Preferences.setString("latteIngredients", first + "," + second + "," + third);
+      Preferences.setString(
+          "latteIngredients", firstIngredient + "," + secondIngredient + "," + thirdIngredient);
     }
   }
 

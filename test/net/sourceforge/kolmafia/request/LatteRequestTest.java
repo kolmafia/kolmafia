@@ -22,7 +22,8 @@ public class LatteRequestTest {
       value = {
         "Latte: Autumnal carrot Latte with a shake of cinnamon|pumpkin,carrot,cinnamon",
         "Latte: Blue chalk and cajun spice Latte with dwarf cream|chalk,cajun,dwarf",
-        "Latte: Hellish lizard milk Latte dusted with flour|hellion,lizard,flour"
+        "Latte: Hellish lizard milk Latte dusted with flour|hellion,lizard,flour",
+        "Latte: Carrot pumpkin spice Latte with a shot of vanilla|carrot,pumpkin,vanilla"
       },
       delimiter = '|')
   public void canParseName(String name, String expected) {
