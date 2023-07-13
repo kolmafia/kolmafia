@@ -215,7 +215,7 @@ public abstract class RuntimeLibrary {
           new String[] {"drop", "rate", "type"},
           new Type[] {DataTypes.ITEM_TYPE, DataTypes.FLOAT_TYPE, DataTypes.STRING_TYPE});
 
-  private static final RecordType maximizerResults =
+  private static final RecordType maximizerResult =
       new RecordType(
           "{string display; string command; float score; effect effect; item item; skill skill;}",
           new String[] {"display", "command", "score", "effect", "item", "skill"},
@@ -2044,7 +2044,7 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("modifier_eval", DataTypes.FLOAT_TYPE, params));
 
-    Type maximizerResultsArray = new AggregateType(maximizerResults, 0);
+    Type maximizerResultArray = new AggregateType(maximizerResult, 0);
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE};
     functions.add(new LibraryFunction("maximize", DataTypes.BOOLEAN_TYPE, params));
@@ -2063,7 +2063,7 @@ public abstract class RuntimeLibrary {
           DataTypes.BOOLEAN_TYPE,
           DataTypes.BOOLEAN_TYPE
         };
-    functions.add(new LibraryFunction("maximize", maximizerResultsArray, params));
+    functions.add(new LibraryFunction("maximize", maximizerResultArray, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("monster_eval", DataTypes.FLOAT_TYPE, params));
@@ -7867,7 +7867,7 @@ public abstract class RuntimeLibrary {
     }
 
     AggregateType type =
-        new AggregateType(RuntimeLibrary.maximizerResults, m.size() - lastEquipIndex);
+        new AggregateType(RuntimeLibrary.maximizerResult, m.size() - lastEquipIndex);
     ArrayValue value = new ArrayValue(type);
 
     for (int i = lastEquipIndex; i < m.size(); ++i) {
