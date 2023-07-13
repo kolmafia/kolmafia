@@ -80,6 +80,10 @@ public class CustomScriptTest {
             .trim()
             // try to avoid environment-specific paths in stacktraces
             .replaceAll("\\bfile:.*?([^\\\\/\\s]+#\\d+)\\b", "file:%%STACKTRACE_LOCATION%%/$1");
+    if (!expectedOutput.equals(output)) {
+      System.out.println("expected = '" + expectedOutput + "'");
+      System.out.println("output = '" + output + "'");
+    }
     assertEquals(expectedOutput, output, script + " output does not match: ");
   }
 
