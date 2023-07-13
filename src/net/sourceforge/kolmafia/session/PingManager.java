@@ -20,12 +20,22 @@ public class PingManager {
     private long high = 0L;
     private long bytes = 0L;
 
+    public static String normalizePage(String page) {
+      // Backwards compatibility; we no longer save ".php",
+      // but saved properties may include it.
+      int php = page.indexOf(".php");
+      if (php != -1) {
+        page = page.substring(0, php);
+      }
+      return page;
+    }
+
     public PingTest() {
-      this("api.php");
+      this("api");
     }
 
     public PingTest(String page) {
-      this.page = page;
+      this.page = normalizePage(page);
     }
 
     private PingTest(String page, long count, long total, long low, long high, long bytes) {
@@ -105,9 +115,9 @@ public class PingManager {
     }
 
     public boolean isSaveable() {
-      String defaultPage = Preferences.getString("pingDefaultTestPage");
-      int defaultPings = Preferences.getInteger("pingDefaultTestPings");
-      return this.page.equals(defaultPage) && this.count >= defaultPings;
+      String defaultPage = normalizePage(Preferences.getString("pingDefaultTestPage"));
+
+      return this.getPage().equals(defaultPage);
     }
 
     public void save() {
@@ -116,8 +126,7 @@ public class PingManager {
       // Always save the last ping results
       Preferences.setString("pingLatest", value);
 
-      // Only save in historical properties if we tested the default
-      // page and there are enough pings.
+      // Only save in historical properties if we tested the default page
       if (!this.isSaveable()) {
         return;
       }
@@ -146,14 +155,14 @@ public class PingManager {
     public static PingTest parseProperty(String property) {
       String value = Preferences.getString(property);
       String[] values = value.split(":");
-      String page = "api.php";
+      String page = "api";
       long count = 0L;
       long low = 0L;
       long high = 0L;
       long total = 0L;
       long bytes = 0L;
       if (values.length >= 4) {
-        page = values[0];
+        page = normalizePage(values[0]);
         count = StringUtilities.parseLong(values[1]);
         low = StringUtilities.parseLong(values[2]);
         high = StringUtilities.parseLong(values[3]);
@@ -166,7 +175,7 @@ public class PingManager {
 
   public static PingTest runPingTest() {
     // Run a ping test that qualifies to be saved in ping history.
-    String defaultPage = Preferences.getString("pingDefaultTestPage");
+    String defaultPage = PingTest.normalizePage(Preferences.getString("pingDefaultTestPage"));
     int defaultPings = Preferences.getInteger("pingDefaultTestPings");
     return runPingTest(defaultPings, defaultPage, false);
   }

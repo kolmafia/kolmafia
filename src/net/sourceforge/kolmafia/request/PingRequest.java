@@ -17,27 +17,39 @@ public class PingRequest extends GenericRequest {
   }
 
   public PingRequest(String pingURL) {
-    super(pingURL);
+    super(pingURLToFormURL(pingURL));
     this.pingURL = pingURL;
     this.addFormFields();
   }
 
+  private static String pingURLToFormURL(String pingURL) {
+    return switch (pingURL) {
+      case "api", "council", "main" -> pingURL + ".php";
+      case "(status)", "(events)" -> "api.php";
+        // What is this?
+      default -> "(none)";
+    };
+  }
+
   private void addFormFields() {
     switch (this.pingURL) {
-      case "api.php" -> {
-        // This will lengthen the elapsed time by making KoL look up
-        // user data, rather than simply returning boilerplate text.
-        // Do we care?
-        // this.addFormField("what", "status");
-        // this.addFormField("for", "KoLmafia");
+      case "(status)" -> {
+        this.addFormField("what", "status");
+        this.addFormField("for", "KoLmafia");
+      }
+      case "(events)" -> {
+        this.addFormField("what", "events");
+        this.addFormField("for", "KoLmafia");
       }
     }
   }
 
   private boolean isSafeToRun() {
     return switch (this.pingURL) {
-      case "main.php", "council.php" -> !GenericRequest.abortIfInFightOrChoice(true);
-      case "api.php" -> true;
+      case "council", "main" -> !GenericRequest.abortIfInFightOrChoice(true);
+      case "api", "(status)", "(events)" -> true;
+        // Only if we are in Valhalla. But, this will only be the case if
+        // KoL redirected us there; the user cannot specify this.
       case "afterlife.php" -> true;
       default -> false;
     };
@@ -58,9 +70,10 @@ public class PingRequest extends GenericRequest {
 
     // We can get redirected if we are logged out or in Valhalla
     if (this.redirectLocation != null) {
+      // afterlife.php?realworld=1
       this.constructURLString(this.redirectLocation, false);
       this.startTime = System.currentTimeMillis();
-      this.pingURL = this.redirectLocation;
+      this.pingURL = this.getPage();
       super.run();
     }
 

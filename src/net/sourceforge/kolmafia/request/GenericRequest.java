@@ -752,6 +752,10 @@ public class GenericRequest implements Runnable {
     return this.formURLString;
   }
 
+  public String getPage() {
+    return this.baseURLString;
+  }
+
   public String getBasePath() {
     String path = this.formURLString;
     if (path == null) {

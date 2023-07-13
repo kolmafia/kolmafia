@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class PingCommand extends AbstractCommand {
   public PingCommand() {
     this.usage =
-        " [count [(api|council|main) [verbose]]] - run a ping test with specified number of pings";
+        " [count [(api|status|events|council|main) [verbose]]] - run a ping test with specified number of pings";
   }
 
   @Override
@@ -27,13 +27,18 @@ public class PingCommand extends AbstractCommand {
         count = StringUtilities.parseInt(countString);
       }
       if (split.length > 1) {
-        switch (split[1]) {
+        String target = split[1];
+        switch (target) {
           case "api", "council", "main" -> {
-            page = split[1] + ".php";
+            // PingManager does not require .php any more.
+            page = target;
+          }
+          case "events", "status" -> {
+            page = "(" + target + ")";
           }
           default -> {
             KoLmafia.updateDisplay(
-                MafiaState.ERROR, "'" + split[1] + "' is not a valid page to ping.");
+                MafiaState.ERROR, "'" + target + "' is not a valid page to ping.");
             return;
           }
         }
