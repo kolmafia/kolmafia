@@ -96,7 +96,7 @@ global	macroDebug	false
 global	macroLens	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
-global	pingDefaultTestPage	api.php
+global	pingDefaultTestPage	api
 global	pingDefaultTestPings	10
 global	pingLatest
 global	pingLogin	true
@@ -108,7 +108,7 @@ global	pingLoginThreshold	0.2
 global	pingLongest
 global	pingShortest
 global	pingStealthyTimein	false
-global	pingTestPage	api.php
+global	pingTestPage	api
 global	pingTestPings	10
 global	previousNotifyList	<>
 global	previousUpdateVersion
