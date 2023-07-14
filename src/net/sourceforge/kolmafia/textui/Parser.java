@@ -723,12 +723,6 @@ public class Parser {
         fieldErrors.submitSyntaxError(
             this.error(fieldName, "Invalid field name '" + fieldName + "'"));
         // don't read
-      } else if (Parser.isReservedWord(fieldName.content)) {
-        fieldErrors.submitError(
-            this.error(
-                fieldName, "Reserved word '" + fieldName + "' cannot be used as a field name"));
-
-        this.readToken(); // read name
       } else if (fieldNames.contains(fieldName.content)) {
         fieldErrors.submitError(
             this.error(fieldName, "Field name '" + fieldName + "' is already defined"));
