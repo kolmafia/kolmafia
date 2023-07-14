@@ -2829,6 +2829,8 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.MANUAL_OF_LOCK_PICKING:
       case ItemPool.SPINAL_FLUID_COVERED_EMOTION_CHIP:
       case ItemPool.REPLICA_EMOTION_CHIP:
+      case ItemPool.POCKET_GUIDE_TO_MILD_EVIL:
+      case ItemPool.POCKET_GUIDE_TO_MILD_EVIL_USED:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you

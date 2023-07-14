@@ -11348,4 +11348,4 @@
 11320
 11321
 11322	Pocket Guide to Mild Evil	636540989	tinybook.gif	usable	t	0
-11323	Pocket Guide to Mild Evil (used)	508639228	tinybook.gif	usable		0
+11323	Pocket Guide to Mild Evil (used)	508639228	tinybook.gif	reusable		0
