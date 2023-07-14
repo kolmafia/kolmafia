@@ -2061,6 +2061,7 @@ user	_meteoriteAdesUsed	0
 user	_meteorShowerUses	0
 user	_micrometeoriteUses	0
 user	_milkOfMagnesiumUsed	false
+user	_mildEvilPerpetrated	0
 user	_mimeArmyShotglassUsed	false
 user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false

@@ -248,6 +248,7 @@
 223
 224
 225	Secret Door Awareness	secretdoor.gif	0	0	0
+226	Perpetrate Mild Evil	skull.gif	5	0	0
 
 # Skills available to Clubbers
 
