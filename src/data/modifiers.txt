@@ -11814,6 +11814,8 @@ Item	plump purple mushroom	Lasts Until Rollover
 # plus-sized phylactery: Contains the soul of a specific lihc
 # Pocket Meteor Guide: Teaches you everything about meteors
 # Pocket Meteor Guide (well-thumbed): Teaches you everything about meteors
+Item	Pocket Guide to Mild Evil	Skill: "Perpetrate Mild Evil"
+Item	Pocket Guide to Mild Evil (used)	Skill: "Perpetrate Mild Evil"
 # pog #01 (spider): Does all sorts of crazy things
 # pog #02 (Knob goblin): Does all sorts of crazy things
 # pog #03 (warwelf): Does all sorts of crazy things

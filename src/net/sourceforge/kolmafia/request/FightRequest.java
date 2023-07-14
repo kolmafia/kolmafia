@@ -10249,6 +10249,18 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
         break;
+
+      case SkillPool.PERPETRATE_MILD_EVIL:
+        if (
+        // Spookypocket
+        responseText.contains("so discombobulated")
+            ||
+            // no items
+            responseText.contains("even mildly evil")
+            || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
