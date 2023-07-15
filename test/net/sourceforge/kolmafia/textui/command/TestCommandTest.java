@@ -29,7 +29,7 @@ public class TestCommandTest extends AbstractCommandTestBase {
   }
 
   @Nested
-  class Evilomete {
+  class Evilometer {
     private static final String[] filesToMove = {"evilometer_fight.html"};
 
     @BeforeAll
