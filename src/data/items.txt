@@ -11330,3 +11330,22 @@
 11302	souvenir flag	557635312	flag1.gif	multiple	t,d	10
 11303	name change form	541643472	namechange.gif	usable	t	0
 11304	replica sleeping patriotic eagle	552435162	pateagle_sleep.gif	grow	t	0
+11305
+11306
+11307
+11308
+11309
+11310
+11311
+11312
+11313
+11314
+11315
+11316
+11317
+11318
+11319
+11320
+11321
+11322	Pocket Guide to Mild Evil	636540989	tinybook.gif	usable	t	0
+11323	Pocket Guide to Mild Evil (used)	508639228	tinybook.gif	reusable		0

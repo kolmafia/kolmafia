@@ -148,6 +148,7 @@ COMBAT_SKILL	Reflex Hammer	Reflex Hammer \((\d+) charges left\)	_reflexHammerUse
 COMBAT_SKILL	Chest X-Ray	Chest X-Ray \((\d+) charges left\)	_chestXRayUsed=[3-$1]
 COMBAT_SKILL	Back-Up to your Last Enemy	Back-Up to your Last Enemy \((\d+) uses? today\)	_backUpUses=[(11+path(You, Robot)*5)-$1]
 COMBAT_SKILL	Cincho: Party Foul	Cincho: Party Foul \(5 cinch, (\d+)% remaining\)	_cinchUsed=[100-$1]
+COMBAT_SKILL	Perpetrate Mild Evil	Perpetrate Mild Evil \((\d+) uses? left today\)	_mildEvilPerpetrated=[3-$1]
 
 # Monster disambiguation:
 

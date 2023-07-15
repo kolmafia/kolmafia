@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -59,9 +60,15 @@ public class CustomScriptTest {
     return Files.readString(new File(EXPECTED_LOCATION, script + ".out").toPath());
   }
 
+  public void beforeEach() {
+    KoLCharacter.reset("CustomScriptTest");
+    Preferences.reset("CustomScriptTest");
+  }
+
   @ParameterizedTest
   @MethodSource("data")
   void testScript(String script) throws IOException {
+    beforeEach();
     String expectedOutput = getExpectedOutput(script).trim();
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     try (PrintStream out = new PrintStream(ostream, true)) {
@@ -80,6 +87,10 @@ public class CustomScriptTest {
             .trim()
             // try to avoid environment-specific paths in stacktraces
             .replaceAll("\\bfile:.*?([^\\\\/\\s]+#\\d+)\\b", "file:%%STACKTRACE_LOCATION%%/$1");
+    if (!expectedOutput.equals(output)) {
+      System.out.println("expected = '" + expectedOutput + "'");
+      System.out.println("output = '" + output + "'");
+    }
     assertEquals(expectedOutput, output, script + " output does not match: ");
   }
 

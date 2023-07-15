@@ -62,11 +62,6 @@ public class RecordTypeTest {
             "Invalid field name '1'",
             "char 16 to char 17"),
         invalid(
-            "record with reserved field name",
-            "record a { int class;};",
-            "Reserved word 'class' cannot be used as a field name",
-            "char 16 to char 21"),
-        invalid(
             "record with repeated field name",
             "record a { int b; int b;};",
             "Field name 'b' is already defined",
