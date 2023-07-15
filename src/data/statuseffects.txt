@@ -2268,7 +2268,7 @@
 2266	Nothing Happened	nontini.gif	4ea39859915bf5e160d3e3010d18f37b	neutral	none	drink 1 nothingtini
 2267	Hello, I Must Be Going	petejacket.gif	de2fd12e4cc01c737679abb75caf96dc	neutral	none	drink 1 Phil Collins
 2268	Aloofah	loof_candy.gif	4e1b19f13f36d4e3d03aa14f51e55414	good	none	use 1 chocolate-covered loofah
-2269	One Foot Heavier	fs_candy.gif	5a26995fdbca9e91a81e788a76f7b4ba	god	none	use 1 Flag by the Foot&trade;
+2269	One Foot Heavier	fs_candy.gif	5a26995fdbca9e91a81e788a76f7b4ba	good	none	use 1 Flag by the Foot&trade;
 2270	Bent Knees	knee.gif	a91c3d843c0ed51e7c9a0a751a5833cb	neutral	none	cast 1 Bendable Knees
 2271	Extended Toes	manglefinger.gif	f3e6dac40e7b543b8c62aa136cd82442	neutral	none	cast 1 Retractable Toes
 2272	Ink Cloud	darkness.gif	7c98336be37dcfe90cb25a1d64234546	neutral	none	cast 1 Ink Gland
@@ -2703,10 +2703,10 @@
 2703	Glowing Hands	maydayglowstick.gif	70f654ece069988c295d6c1e79737102	good	none	use 1 emergency glowstick
 2704	Tingly Tongue	maydaybattery.gif	3543e77d43816e573a802c5c68226f3d	good	none	use 1 spare battery
 2705	Temporarily Filtered	maydaymask.gif	3c274a686e3d4364c0ae2aed6f80c877	good	none	use 1 single-use dust mask
-2706	Gaffe Free	maydaytape.gif	af3ed07a138fe185660609606c1c2926	frozen	none	use 1 gaffer's tape
+2706	Gaffe Free	maydaytape.gif	af3ed07a138fe185660609606c1c2926	good	none	use 1 gaffer's tape
 2707	On the Minty Precipice	maydaybar.gif	6a543864b4bb1b558217729a507a4044	good	none	eat 1 cool mint precipice bar
 2708	On the Precipice of Carrots	maydaybar.gif	9b93c7a0436a4594d28bd8d03952cd13	good	none	eat 1 carrot cake precipice bar
-2709	Ready to Survive	maydaypackage.gif	e10348bbce52884781153e51f37ca337	neutral	nohookah  use 1 MayDay&trade; supply package
+2709	Ready to Survive	maydaypackage.gif	e10348bbce52884781153e51f37ca337	neutral	nohookah	use 1 MayDay&trade; supply package
 2710	Stuffed	maydaycan.gif	6e6cfdaf4191a47ecde914638c712803	good	none	eat 1 20-lb can of rice and beans
 2711	Ashamed	blush.gif	c9a095cc280c13e9ae6b44be77b61e79	good	none
 2712	Yapping Pal	dog.gif	dbdf338bfa4aba6ede9327f471914122	neutral	none
