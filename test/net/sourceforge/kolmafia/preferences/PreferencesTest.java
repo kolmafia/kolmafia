@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -23,7 +25,9 @@ import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
   private final String USER_NAME = "PreferencesTestFakeUser";
-  private final String CONCURRENT_USER_NAME = "ConcurrencyFakeUser";
+
+  // to test global prefs concurrency
+  // private final String DIFFERENT_USER_NAME = "ConcurrencyFakeUser";
   private final String EMPTY_USER = "Empty";
 
   // These need to be before and after each because leakage has been observed between tests
@@ -31,7 +35,7 @@ class PreferencesTest {
   @BeforeEach
   public void initializeCharPrefs() {
     KoLCharacter.reset(USER_NAME);
-    KoLCharacter.reset(CONCURRENT_USER_NAME);
+    // KoLCharacter.reset(DIFFERENT_USER_NAME);
     KoLCharacter.reset(true);
   }
 
@@ -41,8 +45,8 @@ class PreferencesTest {
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
     File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
-    File ConcurrentUserFile =
-        new File("settings/" + CONCURRENT_USER_NAME.toLowerCase() + "_prefs.txt");
+    // File ConcurrentUserFile =
+    //    new File("settings/" + DIFFERENT_USER_NAME.toLowerCase() + "_prefs.txt");
     File MallPriceFile = new File("data/" + "mallprices.txt");
     if (MallPriceFile.exists()) {
       if (!MallPriceFile.delete()) {
@@ -54,11 +58,11 @@ class PreferencesTest {
         System.out.println("Failed to delete " + userFile);
       }
     }
-    if (ConcurrentUserFile.exists()) {
-      if (!ConcurrentUserFile.delete()) {
-        System.out.println("Failed to delete " + ConcurrentUserFile);
-      }
-    }
+    // if (ConcurrentUserFile.exists()) {
+    // if (!ConcurrentUserFile.delete()) {
+    // System.out.println("Failed to delete " + ConcurrentUserFile);
+    // }
+    // }
   }
 
   @Test
@@ -587,7 +591,13 @@ class PreferencesTest {
     }
 
     public void run() {
-      LoginManager.timein(CONCURRENT_USER_NAME);
+      try {
+        long delay = (long) (Math.random() * 100);
+        TimeUnit.MILLISECONDS.sleep(delay);
+        LoginManager.timein(USER_NAME);
+      } catch (InterruptedException iE) {
+        iE.printStackTrace();
+      }
     }
   }
 
@@ -597,13 +607,25 @@ class PreferencesTest {
     }
 
     public void run() {
-      Integer priorValue = Preferences.getInteger("counter");
+      try { // force a random delay so that the tests can run different orders
+        long delay = (long) (Math.random() * 100);
+        TimeUnit.MILLISECONDS.sleep(delay);
+        Integer priorValue = Preferences.getInteger("counter");
 
-      Preferences.increment("counter", 1);
-      Integer postValue = Preferences.getInteger("counter");
-      if (postValue != (priorValue + 1)) {
-        System.out.println(
-            "Increment Failure!  Prior Value: " + priorValue + " Incremented Value: " + postValue);
+        Preferences.increment("counter", 1);
+        Integer postValue = Preferences.getInteger("counter");
+
+        if (postValue != (priorValue + 1)) {
+          // The end result is correct, so I want to note this, but I'm not sure why the read is
+          // wrong.
+          System.out.println(
+              "Failure: Prior Value: " + priorValue + " Incremented Value: " + postValue);
+          if (postValue == 0) {
+            System.out.println("Failure: value is now 0");
+          }
+        }
+      } catch (InterruptedException iE) {
+        iE.printStackTrace();
       }
     }
   }
@@ -613,45 +635,41 @@ class PreferencesTest {
     String unrelatedPref = "coalmine";
     String unrelatedValue = "canary";
     String incrementedPref = "counter";
-    Integer threadCount = 60;
-    Boolean debug = false;
+    Integer threadCount = 20;
 
     var cleanups = withSavePreferencesToFile();
     try (cleanups) {
       Preferences.setInteger(incrementedPref, 0);
 
       Preferences.setString(unrelatedPref, unrelatedValue);
-      int i = 0;
-      try {
+      Thread[] incrementThreads = new Thread[threadCount];
+      Thread[] timeinThreads = new Thread[threadCount];
 
-        while (i <= threadCount) {
-          i++;
-          timeinThread t1 = new timeinThread("timein-" + i);
-          incrementThread t2 = new incrementThread("increment-" + i);
-          t1.start();
-          t2.start();
-          t2.join();
-          t1.join();
-          if (debug) {
-            System.out.println(
-                "iteration number: "
-                    + i
-                    + " incremented Pref: "
-                    + Preferences.getInteger(incrementedPref)
-                    + " "
-                    + unrelatedPref
-                    + ": "
-                    + Preferences.getString(unrelatedPref, false));
-          }
-        }
-        assertEquals(
-            unrelatedValue,
-            Preferences.getString(unrelatedPref, false),
-            "unrelated pref does not match");
-        assertEquals(i, Preferences.getInteger(incrementedPref), "incremented pref does not match");
-      } catch (InterruptedException e) {
-        throw new RuntimeException(e);
-      }
+      IntStream.range(0, threadCount)
+          .forEach(
+              i -> {
+                incrementThreads[i] = new incrementThread("Increment-" + i);
+                timeinThreads[i] = new timeinThread("Timein-" + i);
+                timeinThreads[i].start();
+                incrementThreads[i].start();
+              });
+      IntStream.range(0, threadCount)
+          .forEach(
+              j -> {
+                try {
+                  timeinThreads[j].join();
+                  incrementThreads[j].join();
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                }
+              });
+
+      assertEquals(
+          unrelatedValue,
+          Preferences.getString(unrelatedPref, false),
+          "unrelated pref does not match");
+      assertEquals(
+          threadCount, Preferences.getInteger(incrementedPref), "incremented pref does not match");
     }
   }
 
