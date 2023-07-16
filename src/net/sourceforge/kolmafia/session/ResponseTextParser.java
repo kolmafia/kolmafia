@@ -172,7 +172,6 @@ public class ResponseTextParser {
           "desc_familiar.php",
           "desc_guardian.php",
           "desc_item.php",
-          "desc_monster.php",
           "desc_outfit.php",
           "desc_skill.php" -> {
         // No object descriptions
