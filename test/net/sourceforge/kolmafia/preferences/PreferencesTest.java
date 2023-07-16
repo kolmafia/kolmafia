@@ -45,6 +45,7 @@ class PreferencesTest {
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
     File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
+    File backupFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.bak");
     // File ConcurrentUserFile =
     //    new File("settings/" + DIFFERENT_USER_NAME.toLowerCase() + "_prefs.txt");
     File MallPriceFile = new File("data/" + "mallprices.txt");
@@ -58,11 +59,11 @@ class PreferencesTest {
         System.out.println("Failed to delete " + userFile);
       }
     }
-    // if (ConcurrentUserFile.exists()) {
-    // if (!ConcurrentUserFile.delete()) {
-    // System.out.println("Failed to delete " + ConcurrentUserFile);
-    // }
-    // }
+    if (backupFile.exists()) {
+      if (!backupFile.delete()) {
+        System.out.println("Failed to delete " + backupFile);
+      }
+    }
   }
 
   @Test
@@ -611,6 +612,7 @@ class PreferencesTest {
         long delay = (long) (Math.random() * 100);
         TimeUnit.MILLISECONDS.sleep(delay);
         Integer priorValue = Preferences.getInteger("counter");
+        boolean checkIncrementedValue = false;
 
         Preferences.increment("counter", 1);
         Integer postValue = Preferences.getInteger("counter");
@@ -618,10 +620,12 @@ class PreferencesTest {
         if (postValue != (priorValue + 1)) {
           // The end result is correct, so I want to note this, but I'm not sure why the read is
           // wrong.
-          System.out.println(
-              "Failure: Prior Value: " + priorValue + " Incremented Value: " + postValue);
-          if (postValue == 0) {
-            System.out.println("Failure: value is now 0");
+          if (checkIncrementedValue) {
+            System.out.println(
+                "Failure: Prior Value: " + priorValue + " Incremented Value: " + postValue);
+            if (postValue == 0) {
+              System.out.println("Failure: value is now 0");
+            }
           }
         }
       } catch (InterruptedException iE) {
