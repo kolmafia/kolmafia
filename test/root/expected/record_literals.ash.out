@@ -1,0 +1,11 @@
+point1: x = 1 y = 2
+point2: x = 13 y = 31
+point3: x = 3 y = 4
+pa1 has 3 points
+pa1[0]: x = 1 y = 2
+pa1[1]: x = 10 y = 20
+pa1[2]: x = 100 y = 200
+pm1 has 3 points
+pm1[1]: x = 1 y = 2
+pm1[3]: x = 10 y = 20
+pm1[5]: x = 100 y = 200
