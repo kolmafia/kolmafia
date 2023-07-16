@@ -814,9 +814,9 @@ public class Parser {
         recordLiteralErrors.submitSyntaxError(
             this.error(fieldName, "Invalid field name '" + fieldName + "'"));
         // don't read
-      } else if (keys.contains(fieldName)) {
+      } else if (keys.contains(fieldName.content)) {
         recordLiteralErrors.submitError(
-            this.error(fieldName, "Field name '" + fieldName + "' is already defined"));
+            this.error(fieldName, "Field name '" + fieldName + "' is already set"));
         this.readToken(); // read field name
       } else {
         this.readToken(); // read field name
@@ -825,7 +825,8 @@ public class Parser {
       // The "key" must be a valid field name
       Value fieldIndex = rec.getFieldIndex(fieldName.content);
       if (fieldIndex == null) {
-        recordLiteralErrors.submitSyntaxError(this.error(fieldName, "Invalid field name"));
+        recordLiteralErrors.submitSyntaxError(
+            this.error(fieldName, "Field name '" + fieldName + "' is not valid"));
       }
 
       if (this.currentToken().equals(":")) {
