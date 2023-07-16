@@ -146,44 +146,74 @@ public class ResponseTextParser {
       queryString = location.substring(queryStringBegin + 1);
     }
 
+    // *** This is an unfinished and unused feature.
     if (!PageRegistry.isGameAction(path, queryString)) {
       return false;
     }
 
-    if (location.startsWith("lchat.php")
-        || location.startsWith("mchat.php")
-        || location.startsWith("newchatmessages.php")
-        || location.startsWith("submitnewchat.php")) {
-      return false;
+    switch (path) {
+      case "login.php", "logout.php" -> {
+        return false;
+      }
+      case "api.php", "game.php", "doc.php" -> {
+        return false;
+      }
+      case "topmenu.php", "awesomemenu.php" -> {
+        return false;
+      }
+      case "actionbar.php" -> {
+        return false;
+      }
+      case "lchat.php", "mchat.php", "newchatmessages.php", "submitnewchat.php" -> {
+        // Nothing from chat.
+        return false;
+      }
+      case "desc_effect.php",
+          "desc_familiar.php",
+          "desc_guardian.php",
+          "desc_item.php",
+          "desc_outfit.php",
+          "desc_skill.php" -> {
+        // No object descriptions
+        return false;
+      }
+      case "showplayer.php" -> {
+        // We want to register new items from Equipment and Familiar
+        return true;
+      }
+      case "displaycollection.php" -> {
+        // We want to register new items in display cases
+        return true;
+      }
+      case "managecollectionshelves.php" -> {
+        return false;
+      }
+      case "clan_stash.php",
+          "clan_hall.php",
+          "clan_rumpus.php",
+          "clan_viplounge.php",
+          "clan_hobopolis.php",
+          "clan_slimetube.php",
+          "clan_dreadsylvania.php" -> {
+        // Other clan*.php URLs have no result.
+        // Which are those?
+        return true;
+      }
+      case "questlog.php" -> {
+        return false;
+      }
     }
 
-    if (location.startsWith("showplayer.php")) {
-      // We want to register new items from Equipment and Familiar
-      return true;
-    }
+    // Things not covered by above - but which could be, if we listed
+    // all the appropriate urls.
 
-    if (location.startsWith("displaycollection.php")) {
-      // We want to register new items in display cases
-      return true;
-    }
-
-    if (location.endsWith("menu.php") || location.startsWith("actionbar")) {
-      return false;
-    }
-
-    if (location.startsWith("api.php")
-        || location.startsWith("game.php")
-        || location.startsWith("desc")
-        || location.startsWith("doc.php")
-        || location.startsWith("quest")
-        || location.startsWith("static")) {
+    if (location.startsWith("static")) {
       return false;
     }
 
     if (location.startsWith("makeoffer")
         || location.startsWith("message")
         || location.startsWith("display")
-        || location.startsWith("managecollectionshelves")
         || location.startsWith("search")
         || location.startsWith("show")) {
       return false;
@@ -193,17 +223,8 @@ public class ResponseTextParser {
       return false;
     }
 
+    // Specific clan pages with results called out above
     if (location.startsWith("clan")) {
-      return location.startsWith("clan_stash")
-          || location.startsWith("clan_hall")
-          || location.startsWith("clan_rumpus")
-          || location.startsWith("clan_viplounge")
-          || location.startsWith("clan_hobopolis")
-          || location.startsWith("clan_slimetube")
-          || location.startsWith("clan_dreadsylvania");
-    }
-
-    if (location.startsWith("login.php") || location.startsWith("logout.php")) {
       return false;
     }
 
@@ -215,395 +236,494 @@ public class ResponseTextParser {
   }
 
   public static final void externalUpdate(final GenericRequest request) {
-    ResponseTextParser.externalUpdate(request.getURLString(), request.responseText);
-  }
-
-  public static final void externalUpdate(final String location, final String responseText) {
+    String responseText = request.responseText;
     if (responseText == null || responseText.length() == 0) {
       return;
     }
 
-    if (location.startsWith("account.php")) {
-      AccountRequest.parseAccountData(location, responseText);
-    } else if (location.startsWith("account_contactlist.php")) {
-      ContactListRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("account_manageoutfits.php")) {
-      CustomOutfitRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("adventure.php")) {
-      SeaMerkinRequest.parseColosseumResponse(location, responseText);
-    } else if (location.startsWith("api.php")) {
-      ApiRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("ascend.php")
-        && location.contains("alttext=communityservice")
-        && !Preferences.getBoolean("kingLiberated")) {
-      // Redirect from donating body to science in Community Service
-      ChoiceManager.canWalkAway();
-      KoLCharacter.liberateKing();
-    } else if (location.startsWith("ascensionhistory.php")) {
-      AscensionHistoryRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("arena.php")) {
-      CakeArenaRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("backoffice.php")) {
-      ManageStoreRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("basement.php")) {
-      BasementRequest.checkBasement(responseText);
-    } else if (location.startsWith("bedazzle.php")) {
-      EquipmentRequest.parseBedazzlements(responseText);
-    } else if (location.startsWith("beerpong.php")) {
-      BeerPongRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("bigisland.php") || location.startsWith("postwarisland.php")) {
-      IslandRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("bone_altar.php")) {
-      AltarOfBonesRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("bounty.php")) {
-      BountyHunterHunterRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("campground.php")) {
-      CampgroundRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("cafe.php")) {
-      ChezSnooteeRequest.parseResponse(location, responseText);
-      MicroBreweryRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("cave.php")) {
-      NemesisRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("charsheet.php") && !location.contains("ajax=1")) {
-      CharSheetRequest.parseStatus(responseText);
-    } else if (location.startsWith("choice.php")) {
-      if (location.contains("whichchoice=562")) {
-        FudgeWandRequest.parseResponse(location, responseText);
-      } else if (location.contains("whichchoice=585")) {
-        ClanLoungeSwimmingPoolRequest.parseResponse(location, responseText);
-      } else if (location.contains("whichchoice=922")) {
-        SummoningChamberRequest.parseResponse(location, responseText);
-      } else if (location.contains("whichchoice=1278")) {
-        ClanFortuneRequest.parseResponse(location, responseText);
+    String location = request.getURLString();
+
+    switch (request.getPage()) {
+      case "account.php" -> {
+        AccountRequest.parseAccountData(location, responseText);
       }
-    } else if (location.startsWith("clan_hall.php")) {
-      ClanHallRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("clan_rumpus.php")) {
-      ClanRumpusRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("clan_stash.php")) {
-      ClanStashRequest.parseTransfer(location, responseText);
-    } else if (location.startsWith("clan_dreadsylvania.php")) {
-      DreadsylvaniaRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("clan_viplounge.php")) {
-      if (location.contains("preaction=lovetester")) {
-        ClanFortuneRequest.parseResponse(location, responseText);
-      } else {
-        ClanLoungeRequest.parseResponse(location, responseText);
+      case "account_contactlist.php" -> {
+        ContactListRequest.parseResponse(location, responseText);
       }
-    } else if (location.startsWith("closet.php") || location.startsWith("fillcloset.php")) {
-      ClosetRequest.parseTransfer(location, responseText);
-    } else if (location.startsWith("craft.php")) {
-      CreateItemRequest.parseCrafting(location, responseText);
-    } else if (location.startsWith("crimbo09.php")) {
-      Crimbo09Request.parseResponse(location, responseText);
-    } else if (location.startsWith("crimbo10.php")) {
-      Crimbo10Request.parseResponse(location, responseText);
-    } else if (location.startsWith("crimbo11.php")) {
-      Crimbo11Request.parseResponse(location, responseText);
-    } else if (location.startsWith("crimbo21tree.php")) {
-      Crimbo21TreeRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("curse.php")) {
-      CurseRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("da.php")) {
-      ShrineRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("desc_skill.php")) {
-      Matcher m = ResponseTextParser.NEWSKILL2_PATTERN.matcher(location);
-      if (m.find()) {
-        int skill = StringUtilities.parseInt(m.group(1));
-        String skillName = SkillDatabase.getSkillName(skill);
-        if (skillName == null) {
-          SkillDatabase.registerSkill(responseText, skill, null);
-        }
-        if (location.contains("self=true")) {
-          ConsequenceManager.parseSkillDesc(skill, responseText);
+      case "account_manageoutfits.php" -> {
+        CustomOutfitRequest.parseResponse(location, responseText);
+      }
+      case "adventure.php" -> {
+        SeaMerkinRequest.parseColosseumResponse(location, responseText);
+      }
+      case "api.php" -> {
+        ApiRequest.parseResponse(location, responseText);
+      }
+      case "ascend.php" -> {
+        if (location.contains("alttext=communityservice")
+            && !Preferences.getBoolean("kingLiberated")) {
+          // Redirect from donating body to science in Community Service
+          ChoiceManager.canWalkAway();
+          KoLCharacter.liberateKing();
         }
       }
-    } else if (location.startsWith("desc_item.php") && !location.contains("otherplayer=")) {
-      Matcher m = ResponseTextParser.DESCITEM_PATTERN.matcher(location);
-      if (m.find()) {
-        String descid = m.group(1);
-        ConsequenceManager.parseItemDesc(descid, responseText);
-        int itemId = ItemDatabase.getItemIdFromDescription(descid);
-
-        boolean changesFromTimeToTime = true;
-
-        switch (itemId) {
-          case ItemPool.YEARBOOK_CAMERA -> ItemDatabase.parseYearbookCamera(responseText);
-          case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.parseRetroCape(responseText);
-          case ItemPool.HATSEAT -> ItemDatabase.parseCrownOfThrones(responseText);
-          case ItemPool.BUDDY_BJORN -> ItemDatabase.parseBuddyBjorn(responseText);
-          case ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER -> ItemDatabase.parseSaber(
-              responseText);
-          case ItemPool.VAMPIRE_VINTNER_WINE -> ItemDatabase.parseVampireVintnerWine(responseText);
-          case ItemPool.COMBAT_LOVERS_LOCKET -> LocketManager.parseLocket(responseText);
-          case ItemPool.UNBREAKABLE_UMBRELLA -> ItemDatabase.parseUmbrella(responseText);
-          case ItemPool.JUNE_CLEAVER -> ItemDatabase.parseCleaver(responseText);
-          case ItemPool.DESIGNER_SWEATPANTS, ItemPool.REPLICA_DESIGNER_SWEATPANTS -> ItemDatabase
-              .parseDesignerSweatpants(responseText);
-          case ItemPool.POWERFUL_GLOVE, ItemPool.REPLICA_POWERFUL_GLOVE -> ItemDatabase
-              .parsePowerfulGlove(responseText);
-          case ItemPool.RING -> ItemDatabase.parseRing(responseText);
-          case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
-          default -> changesFromTimeToTime = false;
-        }
-
-        if (changesFromTimeToTime) {
-          SpadingManager.processDescItem(ItemPool.get(itemId), responseText);
-        }
+      case "ascensionhistory.php" -> {
+        AscensionHistoryRequest.parseResponse(location, responseText);
       }
-    } else if (location.startsWith("desc_effect.php")) {
-      Matcher m = ResponseTextParser.DESCEFFECT_PATTERN.matcher(location);
-      if (m.find()) {
-        String descid = m.group(1);
-        ConsequenceManager.parseEffectDesc(descid, responseText);
-        int effectId = EffectDatabase.getEffectIdFromDescription(descid);
-        switch (effectId) {
-          case EffectPool.WINE_FORTIFIED,
-              EffectPool.WINE_HOT,
-              EffectPool.WINE_FRISKY,
-              EffectPool.WINE_COLD,
-              EffectPool.WINE_DARK,
-              EffectPool.WINE_BEFOULED,
-              EffectPool.WINE_FRIENDLY -> EffectDatabase.parseVampireVintnerWineEffect(
-              responseText, effectId);
+      case "arena.php" -> {
+        CakeArenaRequest.parseResponse(location, responseText);
+      }
+      case "backoffice.php" -> {
+        ManageStoreRequest.parseResponse(location, responseText);
+      }
+      case "basement.php" -> {
+        BasementRequest.checkBasement(responseText);
+      }
+      case "bedazzle.php" -> {
+        EquipmentRequest.parseBedazzlements(responseText);
+      }
+      case "beerpong.php" -> {
+        BeerPongRequest.parseResponse(location, responseText);
+      }
+      case "bigisland.php", "postwarisland.php" -> {
+        IslandRequest.parseResponse(location, responseText);
+      }
+      case "bone_altar.php" -> {
+        AltarOfBonesRequest.parseResponse(location, responseText);
+      }
+      case "bounty.php" -> {
+        BountyHunterHunterRequest.parseResponse(location, responseText);
+      }
+      case "campground.php" -> {
+        CampgroundRequest.parseResponse(location, responseText);
+      }
+      case "cafe.php" -> {
+        ChezSnooteeRequest.parseResponse(location, responseText);
+        MicroBreweryRequest.parseResponse(location, responseText);
+      }
+      case "cave.php" -> {
+        NemesisRequest.parseResponse(location, responseText);
+      }
+      case "charsheet.php" -> {
+        if (!location.contains("ajax=1")) {
+          CharSheetRequest.parseStatus(responseText);
         }
       }
-    } else if (location.startsWith("diary.php")) {
-      UseItemRequest.handleDiary(responseText);
-    } else if (location.startsWith("dig.php")) {
-      DigRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("dwarfcontraption.php")) {
-      DwarfContraptionRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("dwarffactory.php")) {
-      DwarfFactoryRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("elvmachine.php")) {
-      ElVibratoManager.parseResponse(location, responseText);
-    } else if (location.startsWith("familiar.php")) {
-      FamiliarRequest.parseResponse(location, responseText);
-      if (!location.contains("ajax=1")) {
-        FamiliarData.registerFamiliarData(responseText);
+      case "choice.php" -> {
+        // *** Seems like all of these could be in postChoice1
+        if (location.contains("whichchoice=562")) {
+          FudgeWandRequest.parseResponse(location, responseText);
+        } else if (location.contains("whichchoice=585")) {
+          ClanLoungeSwimmingPoolRequest.parseResponse(location, responseText);
+        } else if (location.contains("whichchoice=922")) {
+          SummoningChamberRequest.parseResponse(location, responseText);
+        } else if (location.contains("whichchoice=1278")) {
+          ClanFortuneRequest.parseResponse(location, responseText);
+        }
       }
-    } else if (location.startsWith("qterrarium.php")) {
-      QuantumTerrariumRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("famteam.php")) {
-      FamTeamRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("familiarbinger.php")) {
-      UseItemRequest.parseBinge(location, responseText);
-    } else if (location.startsWith("gamestore.php")) {
-      GameShoppeRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("guild.php")) {
-      GuildRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("hermit.php")) {
-      HermitRequest.parseHermitTrade(location, responseText);
-    } else if (location.startsWith("heydeze.php")) {
-      HeyDezeRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("friars.php")) {
-      FriarRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("gamestore")) {
-      GameShoppeRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("gnomes.php")) {
-      GnomeTinkerRequest.parseCreation(location, responseText);
-    }
+      case "clan_hall.php" -> {
+        ClanHallRequest.parseResponse(location, responseText);
+      }
+      case "clan_rumpus.php" -> {
+        ClanRumpusRequest.parseResponse(location, responseText);
+      }
+      case "clan_stash.php" -> {
+        ClanStashRequest.parseTransfer(location, responseText);
+      }
+      case "clan_dreadsylvania.php" -> {
+        DreadsylvaniaRequest.parseResponse(location, responseText);
+      }
+      case "clan_viplounge.php" -> {
+        if (location.contains("preaction=lovetester")) {
+          ClanFortuneRequest.parseResponse(location, responseText);
+        } else {
+          ClanLoungeRequest.parseResponse(location, responseText);
+        }
+      }
+      case "closet.php", "fillcloset.php" -> {
+        ClosetRequest.parseTransfer(location, responseText);
+      }
+      case "craft.php" -> {
+        CreateItemRequest.parseCrafting(location, responseText);
+      }
+      case "crimbo09.php" -> {
+        Crimbo09Request.parseResponse(location, responseText);
+      }
+      case "crimbo10.php" -> {
+        Crimbo10Request.parseResponse(location, responseText);
+      }
+      case "crimbo11.php" -> {
+        Crimbo11Request.parseResponse(location, responseText);
+      }
+      case "crimbo21tree.php" -> {
+        Crimbo21TreeRequest.parseResponse(location, responseText);
+      }
+      case "curse.php" -> {
+        CurseRequest.parseResponse(location, responseText);
+      }
+      case "crypt.php" -> {
+        // Check if crypt areas have unexpectedly vanished and correct if so
+        if (!responseText.contains("The Defiled Alcove")
+                && Preferences.getInteger("cyrptAlcoveEvilness") > 0
+            || !responseText.contains("The Defiled Cranny")
+                && Preferences.getInteger("cyrptCrannyEvilness") > 0
+            || !responseText.contains("The Defiled Niche")
+                && Preferences.getInteger("cyrptNicheEvilness") > 0
+            || !responseText.contains("The Defiled Nook")
+                && Preferences.getInteger("cyrptNookEvilness") > 0) {
+          if (InventoryManager.hasItem(ItemPool.EVILOMETER)) {
+            RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.EVILOMETER));
+          } else {
+            // Must have completed quest and already used and lost Evilometer
+            Preferences.setInteger("cyrptAlcoveEvilness", 0);
+            Preferences.setInteger("cyrptCrannyEvilness", 0);
+            Preferences.setInteger("cyrptNicheEvilness", 0);
+            Preferences.setInteger("cyrptNookEvilness", 0);
+            Preferences.setInteger("cyrptTotalEvilness", 0);
+          }
+        }
+      }
+      case "da.php" -> {
+        ShrineRequest.parseResponse(location, responseText);
+      }
+      case "desc_skill.php" -> {
+        Matcher m = ResponseTextParser.NEWSKILL2_PATTERN.matcher(location);
+        if (m.find()) {
+          int skill = StringUtilities.parseInt(m.group(1));
+          String skillName = SkillDatabase.getSkillName(skill);
+          if (skillName == null) {
+            SkillDatabase.registerSkill(responseText, skill, null);
+          }
+          if (location.contains("self=true")) {
+            ConsequenceManager.parseSkillDesc(skill, responseText);
+          }
+        }
+      }
+      case "desc_item.php" -> {
+        if (!location.contains("otherplayer=")) {
+          Matcher m = ResponseTextParser.DESCITEM_PATTERN.matcher(location);
+          if (m.find()) {
+            String descid = m.group(1);
+            ConsequenceManager.parseItemDesc(descid, responseText);
+            int itemId = ItemDatabase.getItemIdFromDescription(descid);
 
-    // Keep your current equipment and familiars updated, if you
-    // visit the appropriate pages.
+            boolean changesFromTimeToTime = true;
 
-    else if (location.startsWith("inventory.php")) {
-      // If KoL is showing us our current equipment, parse it.
-      if (location.contains("which=2") || location.contains("curequip=1")) {
-        EquipmentRequest.parseEquipment(location, responseText);
+            switch (itemId) {
+              case ItemPool.YEARBOOK_CAMERA -> ItemDatabase.parseYearbookCamera(responseText);
+              case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.parseRetroCape(
+                  responseText);
+              case ItemPool.HATSEAT -> ItemDatabase.parseCrownOfThrones(responseText);
+              case ItemPool.BUDDY_BJORN -> ItemDatabase.parseBuddyBjorn(responseText);
+              case ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER -> ItemDatabase.parseSaber(
+                  responseText);
+              case ItemPool.VAMPIRE_VINTNER_WINE -> ItemDatabase.parseVampireVintnerWine(
+                  responseText);
+              case ItemPool.COMBAT_LOVERS_LOCKET -> LocketManager.parseLocket(responseText);
+              case ItemPool.UNBREAKABLE_UMBRELLA -> ItemDatabase.parseUmbrella(responseText);
+              case ItemPool.JUNE_CLEAVER -> ItemDatabase.parseCleaver(responseText);
+              case ItemPool.DESIGNER_SWEATPANTS,
+                  ItemPool.REPLICA_DESIGNER_SWEATPANTS -> ItemDatabase.parseDesignerSweatpants(
+                  responseText);
+              case ItemPool.POWERFUL_GLOVE, ItemPool.REPLICA_POWERFUL_GLOVE -> ItemDatabase
+                  .parsePowerfulGlove(responseText);
+              case ItemPool.RING -> ItemDatabase.parseRing(responseText);
+              case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
+              default -> changesFromTimeToTime = false;
+            }
 
-        // Slimeling binge requests come here, too
-        if (location.contains("action=slime")) {
+            if (changesFromTimeToTime) {
+              SpadingManager.processDescItem(ItemPool.get(itemId), responseText);
+            }
+          }
+        }
+      }
+      case "desc_effect.php" -> {
+        Matcher m = ResponseTextParser.DESCEFFECT_PATTERN.matcher(location);
+        if (m.find()) {
+          String descid = m.group(1);
+          ConsequenceManager.parseEffectDesc(descid, responseText);
+          int effectId = EffectDatabase.getEffectIdFromDescription(descid);
+          switch (effectId) {
+            case EffectPool.WINE_FORTIFIED,
+                EffectPool.WINE_HOT,
+                EffectPool.WINE_FRISKY,
+                EffectPool.WINE_COLD,
+                EffectPool.WINE_DARK,
+                EffectPool.WINE_BEFOULED,
+                EffectPool.WINE_FRIENDLY -> EffectDatabase.parseVampireVintnerWineEffect(
+                responseText, effectId);
+          }
+        }
+      }
+      case "diary.php" -> {
+        UseItemRequest.handleDiary(responseText);
+      }
+      case "dig.php" -> {
+        DigRequest.parseResponse(location, responseText);
+      }
+      case "dwarfcontraption.php" -> {
+        DwarfContraptionRequest.parseResponse(location, responseText);
+      }
+      case "dwarffactory.php" -> {
+        DwarfFactoryRequest.parseResponse(location, responseText);
+      }
+      case "elvmachine.php" -> {
+        ElVibratoManager.parseResponse(location, responseText);
+      }
+      case "familiar.php" -> {
+        FamiliarRequest.parseResponse(location, responseText);
+        if (!location.contains("ajax=1")) {
+          FamiliarData.registerFamiliarData(responseText);
+        }
+      }
+      case "famteam.php" -> {
+        FamTeamRequest.parseResponse(location, responseText);
+      }
+      case "familiarbinger.php" -> {
+        UseItemRequest.parseBinge(location, responseText);
+      }
+      case "friars.php" -> {
+        FriarRequest.parseResponse(location, responseText);
+      }
+      case "gamestore.php" -> {
+        GameShoppeRequest.parseResponse(location, responseText);
+      }
+      case "gnomes.php" -> {
+        GnomeTinkerRequest.parseCreation(location, responseText);
+      }
+      case "guild.php" -> {
+        GuildRequest.parseResponse(location, responseText);
+      }
+      case "hermit.php" -> {
+        HermitRequest.parseHermitTrade(location, responseText);
+      }
+      case "heydeze.php" -> {
+        HeyDezeRequest.parseResponse(location, responseText);
+      }
+      case "inventory.php" -> {
+        // If KoL is showing us our current equipment, parse it.
+        if (location.contains("which=2") || location.contains("curequip=1")) {
+          EquipmentRequest.parseEquipment(location, responseText);
+
+          // Slimeling binge requests come here, too
+          if (location.contains("action=slime")) {
+            UseItemRequest.parseBinge(location, responseText);
+          }
+          // Certain requests, like inserting cards into
+          // an El Vibrato helmet, have a usage message,
+          // not an equipment page. Check for that, too.
+          else {
+            AdventureResult item = UseItemRequest.getLastItemUsed();
+            UseItemRequest.parseConsumption(responseText, false);
+            SpadingManager.processConsumeItem(item, responseText);
+          }
+        }
+
+        // If there is a consumption message, parse it
+        else if (location.contains("action=message")) {
+          AdventureResult item = UseItemRequest.getLastItemUsed();
+          UseItemRequest.parseConsumption(responseText, false);
+          AWOLQuartermasterRequest.parseResponse(responseText);
+          BURTRequest.parseResponse(responseText);
+          SpadingManager.processConsumeItem(item, responseText);
+        }
+
+        // If there is a bricko message, parse it
+        else if (location.contains("action=breakbricko")) {
+          UseItemRequest.parseBricko(responseText);
+        }
+
+        // If there is a binge message, parse it
+        else if (location.contains("action=ghost")
+            || location.contains("action=hobo")
+            || location.contains("action=slime")
+            || location.contains("action=candy")) {
           UseItemRequest.parseBinge(location, responseText);
         }
-        // Certain requests, like inserting cards into
-        // an El Vibrato helmet, have a usage message,
-        // not an equipment page. Check for that, too.
-        else {
+
+        // Robortender consumption
+        else if (location.contains("action=robooze")) {
+          UseItemRequest.parseRobortenderBinge(location, responseText);
+        }
+
+        // If there is an absorb message, parse it
+        else if (location.contains("absorb=")) {
+          UseItemRequest.parseAbsorb(location, responseText);
+        }
+
+        // Closet transfers can come via inventory.php
+        else if (location.contains("action=closetpush") || location.contains("action=closetpull")) {
+          ClosetRequest.parseTransfer(location, responseText);
+        }
+
+        // Emptying storage can come via inventory.php
+        else if (location.contains("action=pullall")) {
+          StorageRequest.parseTransfer(location, responseText);
+        }
+      }
+      case "inv_equip.php" -> {
+        if (location.contains("ajax=1")) {
+          // If we are changing equipment via a chat command,
+          // try to deduce what changed.
+          EquipmentRequest.parseEquipmentChange(location, responseText);
+        }
+      }
+      case "inv_eat.php", "inv_booze.php", "inv_spleen.php", "inv_use.php", "inv_familiar.php" -> {
+        if (location.contains("whichitem")) {
           AdventureResult item = UseItemRequest.getLastItemUsed();
           UseItemRequest.parseConsumption(responseText, false);
           SpadingManager.processConsumeItem(item, responseText);
         }
       }
-
-      // If there is a consumption message, parse it
-      else if (location.contains("action=message")) {
-        AdventureResult item = UseItemRequest.getLastItemUsed();
-        UseItemRequest.parseConsumption(responseText, false);
-        AWOLQuartermasterRequest.parseResponse(responseText);
-        BURTRequest.parseResponse(responseText);
-        SpadingManager.processConsumeItem(item, responseText);
+      case "knoll_mushrooms.php" -> {
+        MushroomRequest.parseResponse(location, responseText);
       }
-
-      // If there is a bricko message, parse it
-      else if (location.contains("action=breakbricko")) {
-        UseItemRequest.parseBricko(responseText);
+      case "leaflet.php" -> {
+        LeafletRequest.parseResponse(location, responseText);
       }
-
-      // If there is a binge message, parse it
-      else if (location.contains("action=ghost")
-          || location.contains("action=hobo")
-          || location.contains("action=slime")
-          || location.contains("action=candy")) {
-        UseItemRequest.parseBinge(location, responseText);
+      case "mallstore.php" -> {
+        MallPurchaseRequest.parseResponse(location, responseText);
       }
-
-      // Robortender consumption
-      else if (location.contains("action=robooze")) {
-        UseItemRequest.parseRobortenderBinge(location, responseText);
+      case "managecollection.php" -> {
+        DisplayCaseRequest.parseDisplayTransfer(location, responseText);
       }
-
-      // If there is an absorb message, parse it
-      else if (location.contains("absorb=")) {
-        UseItemRequest.parseAbsorb(location, responseText);
+      case "managecollectionshelves.php" -> {
+        DisplayCaseRequest.parseDisplayArrangement(location, responseText);
       }
-
-      // Closet transfers can come via inventory.php
-      else if (location.contains("action=closetpush") || location.contains("action=closetpull")) {
-        ClosetRequest.parseTransfer(location, responseText);
+      case "managestore.php" -> {
+        AutoMallRequest.parseTransfer(location, responseText);
       }
-
-      // Emptying storage can come via inventory.php
-      else if (location.contains("action=pullall")) {
+      case "mining.php" -> {
+        MineDecorator.parseResponse(location, responseText);
+      }
+      case "monkeycastle.php" -> {
+        if (location.contains("who=2") || location.contains("action=buyitem")) {
+          BigBrotherRequest.parseResponse(location, responseText);
+        } else if (location.contains("who=4")) {
+          MomRequest.parseResponse(location, responseText);
+        }
+      }
+      case "mrstore.php" -> {
+        MrStoreRequest.parseResponse(location, responseText);
+      }
+      case "multiuse.php" -> {
+        if (location.contains("useitem")) {
+          AdventureResult item = UseItemRequest.getLastItemUsed();
+          UseItemRequest.parseConsumption(responseText, false);
+          SpadingManager.processConsumeItem(item, responseText);
+        }
+      }
+      case "pandamonium.php" -> {
+        PandamoniumRequest.parseResponse(location, responseText);
+      }
+      case "peevpee.php" -> {
+        PeeVPeeRequest.parseResponse(location, responseText);
+      }
+      case "place.php" -> {
+        PlaceRequest.parseResponse(location, responseText);
+      }
+      case "qterrarium.php" -> {
+        QuantumTerrariumRequest.parseResponse(location, responseText);
+      }
+      case "questlog.php" -> {
+        MonsterManuelRequest.parseResponse(location, responseText);
+        QuestLogRequest.registerQuests(true, location, responseText);
+      }
+      case "raffle.php" -> {
+        RaffleRequest.parseResponse(location, responseText);
+      }
+      case "runskillz.php", "skillz.php" -> {
+        UseSkillRequest.parseResponse(location, responseText);
+      }
+      case "sea_merkin.php" -> {
+        SeaMerkinRequest.parseResponse(location, responseText);
+      }
+      case "sea_skatepark.php" -> {
+        SkateParkRequest.parseResponse(location, responseText);
+      }
+      case "sellstuff.php" -> {
+        AutoSellRequest.parseCompactAutoSell(location);
+      }
+      case "sellstuff_ugly.php" -> {
+        AutoSellRequest.parseDetailedAutoSell(location, responseText);
+      }
+      case "sendmessage.php" -> {
+        SendMailRequest.parseTransfer(location, responseText);
+      }
+      case "shop.php" -> {
+        NPCPurchaseRequest.parseShopResponse(location, responseText);
+      }
+      case "showclan.php" -> {
+        ShowClanRequest.parseResponse(location, responseText);
+      }
+      case "skills.php" -> {
+        if (location.contains("useitem") || location.contains("action=useditem")) {
+          AdventureResult item = UseItemRequest.getLastItemUsed();
+          UseItemRequest.parseConsumption(responseText, false);
+          SpadingManager.processConsumeItem(item, responseText);
+        }
+      }
+      case "spaaace.php" -> {
+        SpaaaceRequest.parseResponse(location, responseText);
+      }
+      case "storage.php" -> {
         StorageRequest.parseTransfer(location, responseText);
       }
-    } else if (location.startsWith("inv_equip.php") && location.contains("ajax=1")) {
-      // If we are changing equipment via a chat command,
-      // try to deduce what changed.
-      EquipmentRequest.parseEquipmentChange(location, responseText);
-    } else if ((location.startsWith("inv_eat.php")
-            || location.startsWith("inv_booze.php")
-            || location.startsWith("inv_spleen.php")
-            || location.startsWith("inv_use.php")
-            || location.startsWith("inv_familiar.php"))
-        && location.contains("whichitem")) {
-      AdventureResult item = UseItemRequest.getLastItemUsed();
-      UseItemRequest.parseConsumption(responseText, false);
-      SpadingManager.processConsumeItem(item, responseText);
-    } else if (location.startsWith("knoll_mushrooms.php")) {
-      MushroomRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("leaflet.php")) {
-      LeafletRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("mallstore.php")) {
-      MallPurchaseRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("managecollection.php")) {
-      DisplayCaseRequest.parseDisplayTransfer(location, responseText);
-    } else if (location.startsWith("managecollectionshelves.php")) {
-      DisplayCaseRequest.parseDisplayArrangement(location, responseText);
-    } else if (location.startsWith("managestore.php")) {
-      AutoMallRequest.parseTransfer(location, responseText);
-    } else if (location.startsWith("mining.php")) {
-      MineDecorator.parseResponse(location, responseText);
-    } else if (location.startsWith("monkeycastle.php")) {
-      if (location.contains("who=2") || location.contains("action=buyitem")) {
-        BigBrotherRequest.parseResponse(location, responseText);
-      } else if (location.contains("who=4")) {
-        MomRequest.parseResponse(location, responseText);
+      case "suburbandis.php" -> {
+        SuburbanDisRequest.parseResponse(location, responseText);
       }
-    } else if (location.startsWith("mrstore.php")) {
-      MrStoreRequest.parseResponse(location, responseText);
-    } else if ((location.startsWith("multiuse.php") || location.startsWith("skills.php"))
-        && location.contains("useitem")) {
-      AdventureResult item = UseItemRequest.getLastItemUsed();
-      UseItemRequest.parseConsumption(responseText, false);
-      SpadingManager.processConsumeItem(item, responseText);
-    } else if (location.startsWith("pandamonium.php")) {
-      PandamoniumRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("peevpee.php")) {
-      PeeVPeeRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("place.php")) {
-      PlaceRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("questlog.php")) {
-      MonsterManuelRequest.parseResponse(location, responseText);
-      QuestLogRequest.registerQuests(true, location, responseText);
-    } else if (location.startsWith("raffle.php")) {
-      RaffleRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("runskillz.php") || location.startsWith("skillz.php")) {
-      UseSkillRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("sea_merkin.php")) {
-      SeaMerkinRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("sea_skatepark.php")) {
-      SkateParkRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("sellstuff.php")) {
-      AutoSellRequest.parseCompactAutoSell(location);
-    } else if (location.startsWith("sellstuff_ugly.php")) {
-      AutoSellRequest.parseDetailedAutoSell(location, responseText);
-    } else if (location.startsWith("sendmessage.php")) {
-      SendMailRequest.parseTransfer(location, responseText);
-    } else if (location.startsWith("shop.php")) {
-      NPCPurchaseRequest.parseShopResponse(location, responseText);
-    } else if (location.startsWith("showclan.php")) {
-      ShowClanRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("skills.php")) {
-      if (location.contains("action=useditem")) {
-        AdventureResult item = UseItemRequest.getLastItemUsed();
-        UseItemRequest.parseConsumption(responseText, false);
-        SpadingManager.processConsumeItem(item, responseText);
+      case "sushi.php" -> {
+        SushiRequest.parseConsumption(location, responseText, true);
       }
-    } else if (location.startsWith("spaaace.php")) {
-      SpaaaceRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("storage.php")) {
-      StorageRequest.parseTransfer(location, responseText);
-    } else if (location.startsWith("suburbandis.php")) {
-      SuburbanDisRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("sushi.php")) {
-      SushiRequest.parseConsumption(location, responseText, true);
-    } else if (location.startsWith("tavern.php")) {
-      TavernRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("tiles.php")) {
-      if (responseText.contains("charpane.php")) {
-        // Since a charpane refresh was requested, this might have taken a turn
-        AdventureSpentDatabase.setNoncombatEncountered(true);
+      case "tavern.php" -> {
+        TavernRequest.parseResponse(location, responseText);
       }
-      DvorakManager.parseResponse(location, responseText);
-    } else if (location.startsWith("topmenu.php")) {
-      if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {
-        BatManager.parseTopMenu(responseText);
-      }
-    } else if (location.startsWith("town_altar.php")) {
-      AltarOfLiteracyRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("town_right.php")) {
-      GourdRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("town_sendgift.php")) {
-      SendGiftRequest.parseTransfer(location, responseText);
-    } else if (location.startsWith("traveler.php")) {
-      TravelingTraderRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("trophy.php")) {
-      TrophyHutRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("tutorial.php")) {
-      TutorialRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("typeii.php")) {
-      TrendyRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("volcanoisland.php")) {
-      PhineasRequest.parseResponse(location, responseText);
-      VolcanoIslandRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("volcanomaze.php")) {
-      VolcanoMazeRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("wand.php")) {
-      ZapRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("witchess.php")) {
-      WitchessRequest.parseResponse(location, responseText);
-    } else if (location.startsWith("crypt.php")) {
-      // Check if crypt areas have unexpectedly vanished and correct if so
-      if (!responseText.contains("The Defiled Alcove")
-              && Preferences.getInteger("cyrptAlcoveEvilness") > 0
-          || !responseText.contains("The Defiled Cranny")
-              && Preferences.getInteger("cyrptCrannyEvilness") > 0
-          || !responseText.contains("The Defiled Niche")
-              && Preferences.getInteger("cyrptNicheEvilness") > 0
-          || !responseText.contains("The Defiled Nook")
-              && Preferences.getInteger("cyrptNookEvilness") > 0) {
-        if (InventoryManager.hasItem(ItemPool.EVILOMETER)) {
-          RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.EVILOMETER));
-        } else {
-          // Must have completed quest and already used and lost Evilometer
-          Preferences.setInteger("cyrptAlcoveEvilness", 0);
-          Preferences.setInteger("cyrptCrannyEvilness", 0);
-          Preferences.setInteger("cyrptNicheEvilness", 0);
-          Preferences.setInteger("cyrptNookEvilness", 0);
-          Preferences.setInteger("cyrptTotalEvilness", 0);
+      case "tiles.php" -> {
+        if (responseText.contains("charpane.php")) {
+          // Since a charpane refresh was requested, this might have taken a turn
+          AdventureSpentDatabase.setNoncombatEncountered(true);
         }
+        DvorakManager.parseResponse(location, responseText);
+      }
+      case "topmenu.php" -> {
+        if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {
+          BatManager.parseTopMenu(responseText);
+        }
+      }
+      case "town_altar.php" -> {
+        AltarOfLiteracyRequest.parseResponse(location, responseText);
+      }
+      case "town_right.php" -> {
+        GourdRequest.parseResponse(location, responseText);
+      }
+      case "town_sendgift.php" -> {
+        SendGiftRequest.parseTransfer(location, responseText);
+      }
+      case "traveler.php" -> {
+        TravelingTraderRequest.parseResponse(location, responseText);
+      }
+      case "trophy.php" -> {
+        TrophyHutRequest.parseResponse(location, responseText);
+      }
+      case "tutorial.php" -> {
+        TutorialRequest.parseResponse(location, responseText);
+      }
+      case "typeii.php" -> {
+        TrendyRequest.parseResponse(location, responseText);
+      }
+      case "volcanoisland.php" -> {
+        PhineasRequest.parseResponse(location, responseText);
+        VolcanoIslandRequest.parseResponse(location, responseText);
+      }
+      case "volcanomaze.php" -> {
+        VolcanoMazeRequest.parseResponse(location, responseText);
+      }
+      case "wand.php" -> {
+        ZapRequest.parseResponse(location, responseText);
+      }
+      case "witchess.php" -> {
+        WitchessRequest.parseResponse(location, responseText);
       }
     }
 
