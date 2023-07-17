@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -173,6 +174,10 @@ public abstract class ChoiceManager {
     return ChoiceManager.stillInChoice(ChoiceManager.lastResponseText);
   }
 
+  private static Pattern STILL_IN_CHOICE =
+      Pattern.compile(
+          "href=(\"|)choice\\.php\\1(?!>refresh</a>)|action=choice\\.php|name=\"whichchoice\"");
+
   private static boolean stillInChoice(final String responseText) {
     // Doing the Maths has a choice form but, somehow, does not specify choice.php
 
@@ -184,11 +189,8 @@ public abstract class ChoiceManager {
     //   <input type="submit" value="Calculate the Universe" class="button" />
     //   <div style="clear:both"></div>
     // </form>
-
-    return responseText.contains("action=choice.php")
-        || responseText.contains("href=choice.php")
-        || responseText.contains("name=\"whichchoice\"")
-        || responseText.contains("href=\"choice.php");
+    var matcher = STILL_IN_CHOICE.matcher(responseText);
+    return matcher.find();
   }
 
   public static final void processChoiceAdventure(
