@@ -7567,7 +7567,7 @@ public class FightRequest extends GenericRequest {
       Preferences.decrement("screechCombats", 1, 0);
     }
 
-    if (str.contains("I'm ready to screech")) {
+    if (str.contains("I'm ready to screech") || str.contains("screech and then somehow smiles")) {
       Preferences.setInteger("screechCombats", 0);
     }
 

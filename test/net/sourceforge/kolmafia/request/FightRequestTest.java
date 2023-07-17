@@ -2239,14 +2239,30 @@ public class FightRequestTest {
 
   @Nested
   class Eagle {
-    @Test
-    public void screechTimerAdvances() {
+    @ParameterizedTest
+    @ValueSource(strings = {"", "_2"})
+    public void screechTimerAdvances(String extension) {
       var cleanups =
           new Cleanups(
-              withFamiliar(FamiliarPool.PATRIOTIC_EAGLE), withProperty("screechCombats", 6), withFight());
+              withFamiliar(FamiliarPool.PATRIOTIC_EAGLE),
+              withProperty("screechCombats", 6),
+              withFight());
       try (cleanups) {
-        parseCombatData("request/test_fight_eagle_screech_after.html");
+        parseCombatData("request/test_fight_eagle_screech_after" + extension + ".html");
         assertThat("screechCombats", isSetTo(5));
+      }
+    }
+
+    @Test
+    public void screechTimerEnds() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.PATRIOTIC_EAGLE),
+              withProperty("screechCombats", 6),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_eagle_screech_after_done.html");
+        assertThat("screechCombats", isSetTo(0));
       }
     }
   }
