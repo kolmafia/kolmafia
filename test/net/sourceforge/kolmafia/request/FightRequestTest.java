@@ -23,6 +23,7 @@ import static internal.helpers.Player.withWorkshedItem;
 import static internal.helpers.Player.withoutCounters;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
+import static internal.matchers.Preference.hasStringValue;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -2233,7 +2234,7 @@ public class FightRequestTest {
           "request/test_fight_eagle_screech.html", "fight.php?action=skill&whichskill=7451");
 
       assertThat("screechCombats", isSetTo(11));
-      assertThat("banishedPhyla", startsWith("beast:Patriotic Screech:"));
+      assertThat("banishedPhyla", hasStringValue(startsWith("beast:Patriotic Screech:")));
     }
   }
 
