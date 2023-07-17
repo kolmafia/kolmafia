@@ -2302,68 +2302,66 @@ public class GenericRequest implements Runnable {
     };
   }
 
+  private static final String butlerMeat =
+      "Your Meat Butler has collected some meat from around your campsite.";
+
   private void parseResults() {
     String urlString = this.getURLString();
+    String page = this.getPage();
 
     // Dispatch pages that have special handling
-
-    if (urlString.startsWith("mall.php")
-        || urlString.startsWith("account.php")
-        || urlString.startsWith("records.php")) {
-      // These pages cannot possibly contain an actual item
-      // drop, but may have a bogus "You acquire an item:" as
-      // part of a store name, profile quote, familiar name, etc.
-      return;
-    }
-
-    if (urlString.startsWith("afterlife.php")) {
-      AfterLifeRequest.parseResponse(urlString, this.responseText);
-      return;
-    }
-
-    if (urlString.startsWith("arena.php")) {
-      CakeArenaRequest.parseResults(this.responseText);
-      return;
-    }
-
-    if (urlString.startsWith("backoffice.php")) {
-      // ManageStoreRequest.parseResponse will sort this out.
-      return;
-    }
-
-    if (urlString.startsWith("mallstore.php")) {
-      // MallPurchaseRequest.parseResponse will sort this out.
-      return;
-    }
-
-    if (urlString.startsWith("peevpee.php")) {
-      if (this.getFormField("lid") == null) {
-        PeeVPeeRequest.parseItems(this.responseText);
+    switch (page) {
+      case "mall.php", "account.php", "records.php" -> {
+        // These pages cannot possibly contain an actual item
+        // drop, but may have a bogus "You acquire an item:" as
+        // part of a store name, profile quote, familiar name, etc.
+        return;
       }
-      return;
+      case "afterlife.php" -> {
+        AfterLifeRequest.parseResponse(urlString, this.responseText);
+        return;
+      }
+      case "arena.php" -> {
+        CakeArenaRequest.parseResults(this.responseText);
+        return;
+      }
+      case "backoffice.php" -> {
+        // ManageStoreRequest.parseResponse will sort this out.
+        return;
+      }
+      case "mallstore.php" -> {
+        // MallPurchaseRequest.parseResponse will sort this out.
+        return;
+      }
+      case "peevpee.php" -> {
+        if (this.getFormField("lid") == null) {
+          PeeVPeeRequest.parseItems(this.responseText);
+        }
+        return;
+      }
+      case "raffle.php" -> {
+        return;
+      }
+      case "showplayer.php" -> {
+        // These pages cannot possibly contain an actual item
+        // drop, but may have a bogus "You acquire an item:" as
+        // part of a store name, profile quote, familiar name,
+        // etc.  They may also have unknown items as equipment,
+        // which we want to recognize and register.  And if you
+        // are looking at Jick, his psychoses may be available.
+        ProfileRequest.parseResponse(urlString, this.responseText);
+        return;
+      }
+      case "displaycollection.php" -> {
+        // Again, these pages cannot possibly contain an actual
+        // item drop, but have a user supplied message.
+        DisplayCaseRequest.parseDisplayCase(urlString, this.responseText);
+        return;
+      }
     }
 
-    if (urlString.startsWith("raffle.php")) {
-      return;
-    }
-
-    if (urlString.startsWith("showplayer.php")) {
-      // These pages cannot possibly contain an actual item
-      // drop, but may have a bogus "You acquire an item:" as
-      // part of a store name, profile quote, familiar name,
-      // etc.  They may also have unknown items as equipment,
-      // which we want to recognize and register.  And if you
-      // are looking at Jick, his psychoses may be available.
-      ProfileRequest.parseResponse(urlString, this.responseText);
-      return;
-    }
-
-    if (urlString.startsWith("displaycollection.php")) {
-      // Again, these pages cannot possibly contain an actual
-      // item drop, but have a user supplied message.
-      DisplayCaseRequest.parseDisplayCase(urlString, this.responseText);
-      return;
-    }
+    // Various things that can occur on various pages on which normal
+    // result processing might also be needed.
 
     // If this is a lucky adventure, then remove the Lucky intrinsic
     if (this.responseText.contains("You feel less lucky")) {
@@ -2381,25 +2379,34 @@ public class GenericRequest implements Runnable {
       Preferences.setInteger("lastDispensaryOpen", KoLCharacter.getAscensions());
     }
 
-    if (urlString.startsWith("adventure.php")) {
-      ResultProcessor.processResults(true, this.responseText);
-      return;
-    }
-
-    if (urlString.startsWith("fight.php") || urlString.startsWith("fambattle.php")) {
-      FightRequest.processResults(urlString, this.encounter, this.responseText);
-      return;
-    }
-
-    if (urlString.startsWith("main.php")) {
-      FightRequest.currentRound = 0;
-      if (urlString.contains("fightgodlobster=1")
-          && this.responseText.contains("can't challenge your God Lobster anymore")) {
-        Preferences.setInteger("_godLobsterFights", 3);
+    switch (page) {
+      case "adventure.php" -> {
+        // This counts as an "adventure" result.
+        ResultProcessor.processResults(true, this.responseText);
+        return;
       }
-      return;
+      case "fight.php", "fambattle.php" -> {
+        FightRequest.processResults(urlString, this.encounter, this.responseText);
+        return;
+      }
+      case "main.php" -> {
+        FightRequest.currentRound = 0;
+        if (urlString.contains("fightgodlobster=1")
+            && this.responseText.contains("can't challenge your God Lobster anymore")) {
+          Preferences.setInteger("_godLobsterFights", 3);
+        }
+        return;
+      }
+      case "campground.php" -> {
+        if (responseText.contains(butlerMeat)) {
+          KoLmafia.updateDisplay(butlerMeat);
+          RequestLogger.updateSessionLog(butlerMeat);
+        }
+        // Fallthrough; ResultProcessor will log "You gain 917 Meat."
+      }
     }
 
+    // Anything else counts as NOT an "adventure" result.
     ResultProcessor.processResults(false, this.responseText);
   }
 
