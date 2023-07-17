@@ -30,6 +30,22 @@ class PreferencesTest {
   // private final String DIFFERENT_USER_NAME = "ConcurrencyFakeUser";
   private final String EMPTY_USER = "Empty";
 
+  private void verboseDelete(File deleteMe) {
+    String fileName = deleteMe.toString();
+    if (deleteMe.exists()) {
+      try {
+        boolean deleted = deleteMe.delete();
+        if (!deleted) {
+          System.out.println(fileName + "  not deleted but no exception thrown. Deferring.");
+          deleteMe.deleteOnExit();
+        }
+      }
+      catch (Exception e) {
+        System.out.println(fileName + "  not deleted with exception " + e);
+      }
+    }
+  }
+
   // These need to be before and after each because leakage has been observed between tests
   // in this class.
   @BeforeEach
@@ -45,25 +61,13 @@ class PreferencesTest {
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
     File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
+    verboseDelete(userFile);
     File backupFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.bak");
+    verboseDelete(backupFile);
     // File ConcurrentUserFile =
     //    new File("settings/" + DIFFERENT_USER_NAME.toLowerCase() + "_prefs.txt");
     File MallPriceFile = new File("data/" + "mallprices.txt");
-    if (MallPriceFile.exists()) {
-      if (!MallPriceFile.delete()) {
-        System.out.println("Failed to delete " + MallPriceFile);
-      }
-    }
-    if (userFile.exists()) {
-      if (!userFile.delete()) {
-        System.out.println("Failed to delete " + userFile);
-      }
-    }
-    if (backupFile.exists()) {
-      if (!backupFile.delete()) {
-        System.out.println("Failed to delete " + backupFile);
-      }
-    }
+    verboseDelete(MallPriceFile);
   }
 
   @Test
