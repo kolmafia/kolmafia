@@ -29,6 +29,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -2214,6 +2215,38 @@ public class FightRequestTest {
 
         assertThat("rwbMonster", isSetTo("raging bull"));
         assertThat("rwbMonsterCount", isSetTo(2));
+      }
+    }
+  }
+
+  @Test
+  public void canDetectEagleScreech() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("banishedPhyla"),
+            withProperty("screechCombats"),
+            withFamiliar(FamiliarPool.PATRIOTIC_EAGLE));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_eagle_screech.html", "fight.php?action=skill&whichskill=7451");
+
+      assertThat("screechCombats", isSetTo(11));
+      assertThat("banishedPhyla", startsWith("beast:Patriotic Screech:"));
+    }
+  }
+
+  @Nested
+  class Eagle {
+    @Test
+    public void screechTimerAdvances() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.PATRIOTIC_EAGLE), withProperty("screechCombats", 6), withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_eagle_screech_after.html");
+        assertThat("screechCombats", isSetTo(5));
       }
     }
   }
