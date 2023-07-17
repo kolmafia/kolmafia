@@ -485,4 +485,40 @@ public class ChoiceManagerTest {
       }
     }
   }
+
+  @Nested
+  class StillInChoice {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void noLongerInChoiceAfterGodLobsterSelection(final boolean onDevServer) {
+      ChoiceManager.lastResponseText =
+          html(
+              "request/test_choice_god_lobster_result_"
+                  + (onDevServer ? "dev" : "regular")
+                  + ".html");
+      assertThat(ChoiceManager.stillInChoice(), is(false));
+      ChoiceManager.lastResponseText = "";
+    }
+
+    @Test
+    void parsesNowWhat() {
+      ChoiceManager.lastResponseText = html("request/test_automation_temple_0.html");
+      assertThat(ChoiceManager.stillInChoice(), is(true));
+      ChoiceManager.lastResponseText = "";
+    }
+
+    @Test
+    void parseNightstand() {
+      ChoiceManager.lastResponseText = html("request/test_adventures_spent_fight_1_1.html");
+      assertThat(ChoiceManager.stillInChoice(), is(true));
+      ChoiceManager.lastResponseText = "";
+    }
+
+    @Test
+    void parsesDoingTheMaths() {
+      ChoiceManager.lastResponseText = html("request/test_choice_doing_the_maths.html");
+      assertThat(ChoiceManager.stillInChoice(), is(true));
+      ChoiceManager.lastResponseText = "";
+    }
+  }
 }
