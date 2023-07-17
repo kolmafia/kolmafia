@@ -5,8 +5,10 @@ import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEmptyCampground;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMP;
+import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withPath;
@@ -20,9 +22,12 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
+import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
@@ -397,6 +402,30 @@ public class CampgroundRequestTest {
 
         assertThat(CampgroundRequest.getCurrentDwelling(), is(BIG_ROCK));
         assertThat(StaticEntity.getContinuationState(), is(KoLConstants.MafiaState.CONTINUE));
+      }
+    }
+
+    @Test
+    void canDetectMeatFromMeatButler() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withEmptyCampground(), withMeat(0));
+      try (cleanups) {
+        RequestLoggerOutput.startStream();
+        client.addResponse(200, html("request/test_campground_meat_butler.html"));
+        var request = new GenericRequest("campground.php?action=inspectdwelling");
+        request.run();
+        var output = RequestLoggerOutput.stopStream();
+
+        String expected =
+            """
+            Your Meat Butler has collected some meat from around your campsite.
+            You gain 917 Meat
+            """;
+        assertThat(output, startsWith(expected));
+        assertCampgroundItemCount(ItemPool.MEAT_BUTLER, 1);
+        assertEquals(KoLCharacter.getAvailableMeat(), 917);
       }
     }
   }
