@@ -23,12 +23,14 @@ import static internal.helpers.Player.withWorkshedItem;
 import static internal.helpers.Player.withoutCounters;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
+import static internal.matchers.Preference.hasStringValue;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -2214,6 +2216,54 @@ public class FightRequestTest {
 
         assertThat("rwbMonster", isSetTo("raging bull"));
         assertThat("rwbMonsterCount", isSetTo(2));
+      }
+    }
+  }
+
+  @Test
+  public void canDetectEagleScreech() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("banishedPhyla"),
+            withProperty("screechCombats"),
+            withFamiliar(FamiliarPool.PATRIOTIC_EAGLE));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_eagle_screech.html", "fight.php?action=skill&whichskill=7451");
+
+      assertThat("screechCombats", isSetTo(11));
+      assertThat("banishedPhyla", hasStringValue(startsWith("beast:Patriotic Screech:")));
+    }
+  }
+
+  @Nested
+  class Eagle {
+    @ParameterizedTest
+    @ValueSource(strings = {"", "_2"})
+    public void screechTimerAdvances(String extension) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.PATRIOTIC_EAGLE),
+              withProperty("screechCombats", 6),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_eagle_screech_after" + extension + ".html");
+        assertThat("screechCombats", isSetTo(5));
+      }
+    }
+
+    @Test
+    public void screechTimerEnds() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.PATRIOTIC_EAGLE),
+              withProperty("screechCombats", 6),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_eagle_screech_after_done.html");
+        assertThat("screechCombats", isSetTo(0));
       }
     }
   }
