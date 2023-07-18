@@ -53,10 +53,11 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
     this.queue(
         new PreferenceButtonGroup(
             "pingLoginFail",
-            "Action after failed sequence of ping checks: ",
+            "Action after ping check failure: ",
             true,
             "login",
-            "logout"));
+            "logout",
+            "confirm"));
 
     this.makeLayout();
   }
