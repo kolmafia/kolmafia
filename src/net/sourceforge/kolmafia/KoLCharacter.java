@@ -3025,6 +3025,11 @@ public abstract class KoLCharacter {
       Preferences.resetToDefault("replicaNeverendingPartyAlways");
       Preferences.resetToDefault("replicaWitchessSetAvailable");
 
+      // we lose set enquiry, even if we have a terminal
+      Preferences.resetToDefault("sourceTerminalEducate1");
+      Preferences.resetToDefault("sourceTerminalEducate2");
+      Preferences.resetToDefault("sourceTerminalEnquiry");
+
       // if replica emotion chipped
       KoLCharacter.resetSkills();
 
