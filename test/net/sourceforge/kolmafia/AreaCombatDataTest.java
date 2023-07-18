@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withCurrentRun;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
@@ -30,6 +32,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import org.junit.jupiter.api.AfterAll;
@@ -763,6 +766,39 @@ public class AreaCombatDataTest {
                 hasEntry(NAILER, 50.0),
                 hasEntry(PIPELAYER, -3.0),
                 hasEntry(SCREWER, -3.0)));
+      }
+    }
+  }
+
+  @Nested
+  class PatrioticScreech {
+    @Test
+    public void screechBanishesPhylumCopies() {
+      var cleanups =
+          new Cleanups(
+              withCurrentRun(30),
+              withProperty("banishedPhyla", "dude:Patriotic Screech:25"),
+              withProperty("banishedMonsters", "bearpig topiary animal:snokebomb:26"),
+              withEffect(EffectPool.TAUNT_OF_HORUS));
+
+      try (cleanups) {
+        BanishManager.loadBanished();
+
+        var twinPeak = AdventureDatabase.getAreaCombatData("Twin Peak");
+        Map<MonsterData, Double> appearanceRates = twinPeak.getMonsterData(true);
+
+        assertThat(appearanceRates, aMapWithSize(8));
+        assertThat(
+            appearanceRates,
+            allOf(
+                hasEntry(MonsterDatabase.findMonster("bearpig topiary animal"), -3.0),
+                hasEntry(MonsterDatabase.findMonster("elephant (meatcar?) topiary animal"), 50.0),
+                hasEntry(MonsterDatabase.findMonster("spider (duck?) topiary animal"), 50.0),
+                hasEntry(MonsterDatabase.findMonster("Big Wheelin' Twins"), -3.0),
+                hasEntry(MonsterDatabase.findMonster("Bubblemint Twins"), -3.0),
+                hasEntry(MonsterDatabase.findMonster("Creepy Ginger Twin"), -3.0),
+                hasEntry(MonsterDatabase.findMonster("Mismatched Twins"), -3.0),
+                hasEntry(MonsterDatabase.findMonster("Troll Twins"), -3.0)));
       }
     }
   }

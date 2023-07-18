@@ -102,7 +102,7 @@ global	pingLatest
 global	pingLogin	true
 global	pingLoginCheck	none
 global	pingLoginCount	0
-global	pingLoginFail	login
+global	pingLoginFail	confirm
 global	pingLoginGoal	0
 global	pingLoginThreshold	0.2
 global	pingLongest
@@ -1335,9 +1335,9 @@ user	rufusQuestTarget
 user	rufusQuestType
 user	rumpelstiltskinKidsRescued	0
 user	rumpelstiltskinTurnsUsed	0
+user	rwbLocation
 user	rwbMonster
 user	rwbMonsterCount	0
-user	rwbLocation
 user	safariSwagger	0
 user	safePickpocket	true
 user	sausageGrinderUnits	0
@@ -1346,6 +1346,7 @@ user	schoolOfHardKnocksDiplomaCost	1000
 user	schoolSwagger	0
 user	scrapbookCharges	0
 user	screencappedMonster	
+user	screechCombats	0
 user	scriptCascadingMenus	true
 user	scriptMRULength	0
 user	scriptMRUList

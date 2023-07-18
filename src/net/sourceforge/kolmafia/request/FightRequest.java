@@ -5464,6 +5464,7 @@ public class FightRequest extends GenericRequest {
     public final boolean doppel;
     public final boolean crimbo;
     public String diceMessage;
+    public final boolean eagle;
     public final String ghost;
     public final boolean logFamiliar;
     public final boolean logMonsterHealth;
@@ -5512,6 +5513,7 @@ public class FightRequest extends GenericRequest {
       this.familiarId = current.getId();
       this.familiarName = current.getName();
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
+      this.eagle = (familiarId == FamiliarPool.PATRIOTIC_EAGLE);
       this.doppel =
           (familiarId == FamiliarPool.DOPPEL)
               || KoLCharacter.hasEquipped(ItemPool.TINY_COSTUME_WARDROBE, Slot.FAMILIAR);
@@ -6457,6 +6459,11 @@ public class FightRequest extends GenericRequest {
         if (status.camel && str.contains(status.familiarName)) {
           // Melodramedary action
           FightRequest.handleMelodramedary(str, status);
+        }
+
+        if (status.eagle && str.contains(status.familiarName)) {
+          // Patriotic Eagle action
+          FightRequest.handlePatrioticEagle(str, status);
         }
 
         int damage = FightRequest.parseNormalDamage(str);
@@ -7414,6 +7421,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (status.eagle && FightRequest.handlePatrioticEagle(str, status)) {
+      return;
+    }
+
     if (FightRequest.handleGooseDrones(str, status)) {
       return;
     }
@@ -7538,6 +7549,26 @@ public class FightRequest extends GenericRequest {
 
     if (str.contains("is starting to make audible sloshing noises as he walks around.")) {
       Preferences.setInteger("camelSpit", 100);
+    }
+
+    if (status.logFamiliar) {
+      FightRequest.logText(str, status);
+    }
+
+    return true;
+  }
+
+  private static boolean handlePatrioticEagle(String str, TagStatus status) {
+    if (!str.contains(status.familiarName)) {
+      return false;
+    }
+
+    if (str.contains("throat is still too raw") || str.contains("screech and starts coughing")) {
+      Preferences.decrement("screechCombats", 1, 0);
+    }
+
+    if (str.contains("I'm ready to screech") || str.contains("screech and then somehow smiles")) {
+      Preferences.setInteger("screechCombats", 0);
     }
 
     if (status.logFamiliar) {
@@ -10246,6 +10277,14 @@ public class FightRequest extends GenericRequest {
           if (lastLocation != null) {
             Preferences.setString("rwbLocation", lastLocation.getAdventureName());
           }
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.PATRIOTIC_SCREECH:
+        if (responseText.contains("releases an ear shattering screech")) {
+          BanishManager.banishMonster(monster, Banisher.PATRIOTIC_SCREECH);
+          Preferences.setInteger("screechCombats", 11);
           skillSuccess = true;
         }
         break;

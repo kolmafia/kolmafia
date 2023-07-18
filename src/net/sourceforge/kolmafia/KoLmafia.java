@@ -605,7 +605,7 @@ public abstract class KoLmafia {
     ConsequenceManager.updateOneDesc();
 
     // Make sure Banishes are loaded before removing them
-    BanishManager.loadBanishedMonsters();
+    BanishManager.loadBanished();
     BanishManager.resetRollover();
 
     // Libram summoning skills now costs 1 MP again
@@ -763,7 +763,7 @@ public abstract class KoLmafia {
     ClosetRequest.refresh();
 
     // Load Banished monsters
-    BanishManager.loadBanishedMonsters();
+    BanishManager.loadBanished();
 
     // Retrieve Custom Outfit list
     if (!KoLCharacter.getLimitMode().limitOutfits()) {
