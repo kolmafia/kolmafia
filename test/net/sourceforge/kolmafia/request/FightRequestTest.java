@@ -1144,6 +1144,17 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canDetectStenchJellyFromStenchHobo() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withFamiliar(FamiliarPool.SPACE_JELLYFISH));
+    try (cleanups) {
+      parseCombatData("request/test_fight_stench_hobo_stench_jelly.html");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("You acquire an item: stench jelly"));
+    }
+  }
+
+  @Test
   public void canDetectPowerfulGloveCharge() {
     var cleanups =
         new Cleanups(

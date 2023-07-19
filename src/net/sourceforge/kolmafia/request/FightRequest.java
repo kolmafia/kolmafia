@@ -15,6 +15,7 @@ import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AreaCombatData;
@@ -6103,13 +6104,11 @@ public class FightRequest extends GenericRequest {
   // Utility to reproduce the behavior of TagNode.getText() from the
   // earlier version we upgraded from.
   private static String getContentNodeText(TagNode node) {
-    StringBuilder text = new StringBuilder();
-    for (Object item : node.getAllChildren()) {
-      if (item instanceof ContentNode) {
-        text.append(((ContentNode) item).getContent());
-      }
-    }
-    return text.toString();
+    return node.getAllChildren().stream()
+        .filter(ContentNode.class::isInstance)
+        .map(ContentNode.class::cast)
+        .map(ContentNode::getContent)
+        .collect(Collectors.joining());
   }
 
   private static final Pattern FUMBLE_PATTERN =
@@ -6336,7 +6335,7 @@ public class FightRequest extends GenericRequest {
         return;
       }
 
-      if (handleCosmicBowlingBall(str)) return;
+      if (handleCosmicBowlingBall(str) && node.getAllChildren().size() == 1) return;
 
       // As empty track does not have an image, it is specially handled to pass it to the appropiate
       // handler
