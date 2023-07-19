@@ -639,13 +639,14 @@ class PreferencesTest {
     String unrelatedPref = "coalmine";
     String unrelatedValue = "canary";
     String incrementedPref = "counter";
-    Integer threadCount = 20;
+    Integer threadCount = 100;
 
-    var cleanups = withSavePreferencesToFile();
+    var cleanups =
+        new Cleanups(
+            withSavePreferencesToFile(),
+            withProperty(unrelatedPref, unrelatedValue),
+            withProperty(incrementedPref, 0));
     try (cleanups) {
-      Preferences.setInteger(incrementedPref, 0);
-
-      Preferences.setString(unrelatedPref, unrelatedValue);
       Thread[] incrementThreads = new Thread[threadCount];
       Thread[] timeinThreads = new Thread[threadCount];
 
@@ -673,9 +674,9 @@ class PreferencesTest {
           Preferences.getString(unrelatedPref, false),
           "unrelated pref does not match");
       // this test is failing  I need to rethink how this test should work.
-      // assertEquals(
-      //     threadCount, Preferences.getInteger(incrementedPref), "incremented pref does not
-      // match");
+      assertEquals(
+          threadCount, Preferences.getInteger(incrementedPref), "incremented pref does not match");
+      System.out.println("Final value: " + incrementedPref);
     }
   }
 
