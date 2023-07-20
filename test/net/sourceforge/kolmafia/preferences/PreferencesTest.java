@@ -662,12 +662,26 @@ class PreferencesTest {
           .forEach(
               j -> {
                 try {
+                  System.out.println("Waiting for thread "+timeinThreads[j].getName()+" to complete.");
                   timeinThreads[j].join();
-                  incrementThreads[j].join();
+                  //incrementThreads[j].join();
                 } catch (InterruptedException e) {
                   e.printStackTrace();
                 }
               });
+
+      IntStream.range(0, threadCount)
+               .forEach(
+                    j -> {
+                      try {
+                        System.out.println("Waiting for thread "+incrementThreads[j].getName()+" to complete.");
+
+                        // timeinThreads[j].join();
+                        incrementThreads[j].join();
+                      } catch (InterruptedException e) {
+                        e.printStackTrace();
+                      }
+                    });
 
       assertEquals(
           unrelatedValue,
@@ -676,7 +690,7 @@ class PreferencesTest {
       // this test is failing  I need to rethink how this test should work.
       assertEquals(
           threadCount, Preferences.getInteger(incrementedPref), "incremented pref does not match");
-      System.out.println("Final value: " + incrementedPref);
+      System.out.println("Final value: " + Preferences.getInteger(incrementedPref));
     }
   }
 
