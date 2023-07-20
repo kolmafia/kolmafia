@@ -662,26 +662,28 @@ class PreferencesTest {
           .forEach(
               j -> {
                 try {
-                  System.out.println("Waiting for thread "+timeinThreads[j].getName()+" to complete.");
+                  System.out.println(
+                      "Waiting for thread " + timeinThreads[j].getName() + " to complete.");
                   timeinThreads[j].join();
-                  //incrementThreads[j].join();
+                  // incrementThreads[j].join();
                 } catch (InterruptedException e) {
                   e.printStackTrace();
                 }
               });
 
       IntStream.range(0, threadCount)
-               .forEach(
-                    j -> {
-                      try {
-                        System.out.println("Waiting for thread "+incrementThreads[j].getName()+" to complete.");
+          .forEach(
+              j -> {
+                try {
+                  System.out.println(
+                      "Waiting for thread " + incrementThreads[j].getName() + " to complete.");
 
-                        // timeinThreads[j].join();
-                        incrementThreads[j].join();
-                      } catch (InterruptedException e) {
-                        e.printStackTrace();
-                      }
-                    });
+                  // timeinThreads[j].join();
+                  incrementThreads[j].join();
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                }
+              });
 
       assertEquals(
           unrelatedValue,
