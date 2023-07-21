@@ -176,7 +176,7 @@ public abstract class ChoiceManager {
 
   private static Pattern STILL_IN_CHOICE =
       Pattern.compile(
-          "href=(\"|)choice\\.php\\1(?!>refresh</a>)|action=choice\\.php|name=\"whichchoice\"");
+          "href=\"?choice\\.php(?!>refresh</a>)|action=choice\\.php|name=\"whichchoice\"");
 
   private static boolean stillInChoice(final String responseText) {
     // Doing the Maths has a choice form but, somehow, does not specify choice.php
