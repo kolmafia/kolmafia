@@ -520,5 +520,12 @@ public class ChoiceManagerTest {
       assertThat(ChoiceManager.stillInChoice(), is(true));
       ChoiceManager.lastResponseText = "";
     }
+
+    @Test
+    void parsesTheBatSedan() {
+      ChoiceManager.lastResponseText = html("request/test_choice_the_bat_sedan_result.html");
+      assertThat(ChoiceManager.stillInChoice(), is(true));
+      ChoiceManager.lastResponseText = "";
+    }
   }
 }
