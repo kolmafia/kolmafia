@@ -593,7 +593,7 @@ public class GitManager extends ScriptManager {
   }
 
   private static String[] allFolders() {
-    var folders = KoLConstants.GIT_LOCATION.list();
+    var folders = KoLConstants.GIT_LOCATION.list((x, y) -> new File(x, y).isDirectory());
     if (folders == null) return new String[0];
     return folders;
   }
