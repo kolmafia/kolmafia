@@ -60,9 +60,9 @@ public class PingCommand extends AbstractCommand {
             + " msec apiece (total = "
             + result.getTotal()
             + ", average = "
-            + result.getAverage()
+            + Math.round(result.getAverage())
             + ") = "
-            + result.getBPS()
+            + Math.round(result.getBPS())
             + " bytes/second");
   }
 }

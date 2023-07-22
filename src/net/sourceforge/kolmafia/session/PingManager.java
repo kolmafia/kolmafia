@@ -88,12 +88,12 @@ public class PingManager {
       return this.bytes;
     }
 
-    public long getAverage() {
-      return this.count == 0 ? 0 : this.total / this.count;
+    public double getAverage() {
+      return this.count == 0 ? 0 : (this.total * 1.0 / this.count);
     }
 
-    public long getBPS() {
-      return this.total == 0 ? 0 : (this.bytes * 1000) / this.total;
+    public double getBPS() {
+      return this.total == 0 ? 0 : (this.bytes * 1000.0) / this.total;
     }
 
     public String toString() {
@@ -109,8 +109,9 @@ public class PingManager {
       buf.append(String.valueOf(this.total));
       buf.append(":");
       buf.append(String.valueOf(this.getBytes()));
+      // Redundant, in that the user can calculate it from total & count
       buf.append(":");
-      buf.append(String.valueOf(this.getAverage()));
+      buf.append(String.valueOf(Math.round(this.getAverage())));
       return buf.toString();
     }
 
@@ -131,11 +132,11 @@ public class PingManager {
         return;
       }
 
-      long average = this.getAverage();
+      double average = this.getAverage();
       PingTest shortest = PingTest.parseProperty("pingShortest");
-      long shortestAverage = shortest.getAverage();
+      double shortestAverage = shortest.getAverage();
       PingTest longest = PingTest.parseProperty("pingLongest");
-      long longestAverage = longest.getAverage();
+      double longestAverage = longest.getAverage();
 
       // If the historical data are for a different page than we now
       // require, reset them and start fresh with this test.
