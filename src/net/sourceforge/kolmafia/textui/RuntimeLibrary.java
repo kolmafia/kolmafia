@@ -10291,9 +10291,9 @@ public abstract class RuntimeLibrary {
     // bytes
     rec.aset(5, DataTypes.makeIntValue(result.getBytes()), interpreter);
     // average
-    rec.aset(6, DataTypes.makeIntValue(result.getAverage()), interpreter);
+    rec.aset(6, DataTypes.makeIntValue(Math.round(result.getAverage())), interpreter);
     // bps
-    rec.aset(7, DataTypes.makeIntValue(result.getBPS()), interpreter);
+    rec.aset(7, DataTypes.makeIntValue(Math.round(result.getBPS())), interpreter);
 
     return rec;
   }
