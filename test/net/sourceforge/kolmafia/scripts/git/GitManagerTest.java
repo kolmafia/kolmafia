@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.scripts.git;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -77,7 +78,11 @@ public class GitManagerTest {
     @Test
     public void shouldList() {
       String output = CliCaller.callCli("git", "list");
-      assertThat(output, containsString(id));
+      assertThat(
+          output,
+          equalTo("""
+          midgleyc-mafia-script-install-test-test-basic
+          """));
     }
 
     @Test
