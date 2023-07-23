@@ -451,6 +451,7 @@ public class Preferences {
         "rwbMonsterCount",
         "sausageGrinderUnits",
         "scrapbookCharges",
+        "screechCombats",
         "screencappedMonster",
         "seahorseName",
         "shadowRiftIngress",
