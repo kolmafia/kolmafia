@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.scripts.git;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -218,6 +219,7 @@ public class GitManagerTest {
       removeGitIfExists("midgleyc-mafia-script-install-test-test-deps-github");
       removeSvnIfExists("midgleyc-mafia-script-install-test-branches-test-deps-svn");
       removeGitIfExists("midgleyc-mafia-script-install-test-test-deps-svn");
+      removeGitIfExists("custom-folder");
     }
 
     @Test
@@ -265,11 +267,12 @@ public class GitManagerTest {
     @Test
     public void installsToCustomFolder() {
       installGit(
-          id,
+          "custom-folder",
           "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github custom-folder",
           true);
 
       assertTrue(Files.isDirectory(Paths.get("git", "custom-folder")));
+      assertFalse(Files.isDirectory(Paths.get("git", "custom-folder-test-deps-github")));
       assertFalse(
           Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
     }
@@ -277,11 +280,34 @@ public class GitManagerTest {
     @Test
     public void installsToCustomFolderWithoutBranch() {
       installGit(
-          id, "https://github.com/midgleyc/mafia-script-install-test.git || custom-folder", true);
+          "custom-folder",
+          "https://github.com/midgleyc/mafia-script-install-test.git || custom-folder",
+          true);
 
       assertTrue(Files.isDirectory(Paths.get("git", "custom-folder")));
+      assertFalse(Files.isDirectory(Paths.get("git", "custom-folder-||")));
       assertFalse(
           Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
+    }
+
+    @Test
+    void cantCheckoutInvalidUrlWithoutProjectName() {
+      String output = CliCaller.callCli("git", "checkout https://gitlab.com/gitlab-examples/maven");
+
+      assertThat(
+          output.trim(),
+          equalTo(
+              "Cannot clone project, project name couldn't be resolved from url and must be provided."));
+    }
+
+    @Test
+    void cantCheckoutInvalidUrlAndBranchWithoutProjectName() {
+      String output =
+          CliCaller.callCli("git", "checkout https://gitlab.com/gitlab-examples/maven release");
+      assertThat(
+          output.trim(),
+          equalTo(
+              "Cannot clone project, project name couldn't be resolved from url and must be provided."));
     }
   }
 
