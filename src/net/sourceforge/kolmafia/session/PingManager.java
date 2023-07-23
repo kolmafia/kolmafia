@@ -174,6 +174,22 @@ public class PingManager {
     }
   }
 
+  private static boolean runPing(PingRequest ping, boolean verbose) {
+    // Run a single ping
+    ping.run();
+
+    String redirectLocation = ping.redirectLocation;
+    if (redirectLocation != null) {
+      RequestLogger.printLine("Ping redirected to '" + redirectLocation + "'; ping test aborted");
+      return false;
+    }
+    if (ping.responseText == null) {
+      RequestLogger.printLine("Ping returned no response; ping test aborted");
+      return false;
+    }
+    return true;
+  }
+
   public static PingTest runPingTest() {
     // Run a ping test that qualifies to be saved in ping history.
     String defaultPage = PingTest.normalizePage(Preferences.getString("pingDefaultTestPage"));
@@ -190,15 +206,19 @@ public class PingManager {
     // KoLmafia needs to time us in - which will now run a ping test.
     //
     // Run a single ping first and don't count it.
-    ping.run();
+    if (!runPing(ping, verbose)) {
+      return result;
+    }
 
     for (int i = 1; i <= count; i++) {
       if (verbose) {
         RequestLogger.printLine("Ping #" + i + " of " + count + "...");
       }
-      ping.run();
+      if (!runPing(ping, verbose)) {
+        return result;
+      }
       long elapsed = ping.getElapsedTime();
-      long bytes = ping.responseText == null ? 0 : ping.responseText.length();
+      long bytes = ping.responseText.length();
       result.addPing(elapsed, bytes);
       if (verbose) {
         RequestLogger.printLine("-> " + elapsed + " msec (" + bytes + " bytes)");
