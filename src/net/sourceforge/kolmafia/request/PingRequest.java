@@ -48,18 +48,8 @@ public class PingRequest extends GenericRequest {
     return switch (this.pingURL) {
       case "council", "main" -> !GenericRequest.abortIfInFightOrChoice(true);
       case "api", "(status)", "(events)" -> true;
-        // Only if we are in Valhalla. But, this will only be the case if
-        // KoL redirected us there; the user cannot specify this.
-      case "afterlife.php" -> true;
       default -> false;
     };
-  }
-
-  private static boolean canFollowRedirect(String redirectLocation) {
-    // In Valhalla, we COULD do a ping test on afterlife.php, but since
-    // we can't compare results with any other page, it is pointless.
-    // afterlife.php?realworld=1
-    return false;
   }
 
   @Override
@@ -81,15 +71,10 @@ public class PingRequest extends GenericRequest {
     // - we are in a choice (except api) -> choice.php
     // - we are in Valhalla -> afterlife.php
     if (this.redirectLocation != null) {
-      if (!canFollowRedirect(this.redirectLocation)) {
-        // leave endTime at 0
-        return;
-      }
-      this.constructURLString(this.redirectLocation, false);
-      this.startTime = System.currentTimeMillis();
-      // Switch URL to the page we are redirected to.
-      this.pingURL = this.getPage();
-      super.run();
+      // We COULD do a ping test on afterlife.php, but since we can't
+      // compare the results with any other page, it is pointless.
+      // leave endTime at 0
+      return;
     }
 
     // We can have an empty responseText on a timeout or I/O error
