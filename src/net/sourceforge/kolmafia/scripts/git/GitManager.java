@@ -62,13 +62,6 @@ public class GitManager extends ScriptManager {
 
   public static boolean clone(String repoUrl, String branch, String repoId) {
     String id = repoId != null ? repoId : getRepoId(repoUrl, branch);
-    if (id == null) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR,
-          "Cannot clone project, project name couldn't be resolved from url and must be provided.");
-      return false;
-    }
-
     Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(id);
     if (Files.exists(projectPath)) {
       KoLmafia.updateDisplay(
@@ -600,7 +593,6 @@ public class GitManager extends ScriptManager {
       return (repoUrl + dashBranch).replaceAll("https?://", "").replaceAll("/", "-");
     }
     String uuid = getProjectIdentifier(uri.getHost(), uri.getPath());
-    if (uuid == null) return null;
     return uuid + dashBranch;
   }
 

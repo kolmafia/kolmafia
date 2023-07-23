@@ -153,26 +153,6 @@ public class GitManagerTest {
       assertFalse(
           Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
     }
-
-    @Test
-    void cantCheckoutInvalidUrlWithoutProjectName() {
-      String output = CliCaller.callCli("git", "checkout https://gitlab.com/gitlab-examples/maven");
-
-      assertThat(
-          output.trim(),
-          equalTo(
-              "Cannot clone project, project name couldn't be resolved from url and must be provided."));
-    }
-
-    @Test
-    void cantCheckoutInvalidUrlAndBranchWithoutProjectName() {
-      String output =
-          CliCaller.callCli("git", "checkout https://gitlab.com/gitlab-examples/maven release");
-      assertThat(
-          output.trim(),
-          equalTo(
-              "Cannot clone project, project name couldn't be resolved from url and must be provided."));
-    }
   }
 
   @Nested
