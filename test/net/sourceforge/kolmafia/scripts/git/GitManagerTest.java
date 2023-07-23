@@ -78,7 +78,11 @@ public class GitManagerTest {
     @Test
     public void shouldList() {
       String output = CliCaller.callCli("git", "list");
-      assertThat(output, containsString(id));
+      assertThat(
+          output,
+          equalTo("""
+          midgleyc-mafia-script-install-test-test-basic
+          """));
     }
 
     @Test

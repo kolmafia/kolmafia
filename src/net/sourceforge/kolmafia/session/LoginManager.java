@@ -66,7 +66,8 @@ public class LoginManager {
 
     // The user wants to measure ping speed.
     var result = PingManager.runPingTest();
-    KoLmafia.updateDisplay("Ping test: average delay is " + result.getAverage() + " msecs.");
+    KoLmafia.updateDisplay(
+        "Ping test: average delay is " + Math.round(result.getAverage()) + " msecs.");
 
     // See if the Ping tested a suitable page
     if (!result.isSaveable()) {
@@ -76,7 +77,7 @@ public class LoginManager {
     }
 
     // See whether user wants to check ping speed.
-    long average = result.getAverage();
+    double average = result.getAverage();
     String checkType = Preferences.getString("pingLoginCheck");
     String error = "";
     switch (checkType) {
@@ -96,14 +97,14 @@ public class LoginManager {
         // The user wants to be "close" to the best ping seen.
         // Get the shortest ping test time we've seen. If the ping test we
         // just ran is the first, that will be it.
-        double threshold = 1.0 + Preferences.getFloat("pingLoginGood");
+        double threshold = 1.0 + Preferences.getDouble("pingLoginThreshold");
         var shortest = PingTest.parseProperty("pingShortest");
-        long desired = (long) Math.floor(shortest.getAverage() * threshold);
+        double desired = threshold * shortest.getAverage();
         if (average <= desired) {
           return true;
         }
         // Either no threshold is set or this connection is too slow.
-        error = "you want no more than " + String.valueOf(desired) + " msec";
+        error = "you want no more than " + String.valueOf(Math.round(desired)) + " msec";
         // Alert the user.
       }
       default -> {
@@ -207,13 +208,13 @@ public class LoginManager {
     return LoginRequest.relogin();
   }
 
-  private static StringBuilder reportFailure(long average, String error) {
+  private static StringBuilder reportFailure(double average, String error) {
     // Report a ping failure. The caller will decide how to craft a
     // dialog to report it to the user.
 
     StringBuilder buf = new StringBuilder();
     buf.append("This connection has an average ping time of ");
-    buf.append(String.valueOf(average));
+    buf.append(String.valueOf(Math.round(average)));
     buf.append(" msec");
     if (!error.equals("")) {
       buf.append(", but ");

@@ -76,9 +76,9 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
       message.append("Observed average ping times to ");
       message.append(shortest.getPage());
       message.append(" range from ");
-      message.append(String.valueOf(shortest.getAverage()));
+      message.append(String.valueOf(Math.round(shortest.getAverage())));
       message.append("-");
-      message.append(String.valueOf(longest.getAverage()));
+      message.append(String.valueOf(Math.round(longest.getAverage())));
       message.append(" msec.");
       this.setText(message.toString());
     }

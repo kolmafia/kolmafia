@@ -1177,7 +1177,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               total => 283
               bytes => 19620
               average => 28
-              bps => 69328
+              bps => 69329
               """));
       }
     }
