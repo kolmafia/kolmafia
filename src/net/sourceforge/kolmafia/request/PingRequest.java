@@ -55,6 +55,13 @@ public class PingRequest extends GenericRequest {
     };
   }
 
+  private static boolean canFollowRedirect(String redirectLocation) {
+    // In Valhalla, we COULD do a ping test on afterlife.php, but since
+    // we can't compare results with any other page, it is pointless.
+    // afterlife.php?realworld=1
+    return false;
+  }
+
   @Override
   public void run() {
     // You can reuse this request.
@@ -68,11 +75,19 @@ public class PingRequest extends GenericRequest {
     this.startTime = System.currentTimeMillis();
     super.run();
 
-    // We can get redirected if we are logged out or in Valhalla
+    // We can get redirected if:
+    // - we are logged out -> login.php?notloggedin=1
+    // - we are in a fight (except api) -> fight.php
+    // - we are in a choice (except api) -> choice.php
+    // - we are in Valhalla -> afterlife.php
     if (this.redirectLocation != null) {
-      // afterlife.php?realworld=1
+      if (!canFollowRedirect(this.redirectLocation)) {
+        // leave endTime at 0
+        return;
+      }
       this.constructURLString(this.redirectLocation, false);
       this.startTime = System.currentTimeMillis();
+      // Switch URL to the page we are redirected to.
       this.pingURL = this.getPage();
       super.run();
     }
