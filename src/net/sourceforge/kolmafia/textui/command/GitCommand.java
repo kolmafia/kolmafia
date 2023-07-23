@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.scripts.git.GitManager;
 public class GitCommand extends AbstractCommand {
   public GitCommand() {
     this.usage =
-        " checkout <giturl> [<branch>] | update [<project>] | list [<project>] | delete <project> | sync <project> - install/update/manage git projects.";
+        " checkout <giturl> [<branch>] [ || <repo-id>] | update [<project>] | list [<project>] | delete <project> | sync <project> - install/update/manage git projects.";
   }
 
   @Override
@@ -47,7 +47,19 @@ public class GitCommand extends AbstractCommand {
       GitManager.clone(url);
       return;
     }
-    GitManager.clone(url, params[2]);
+    String branch = params[2];
+
+    // If the branch name isn't human readable, assume user doesn't wish to define a branch
+    if (branch.matches("^[-|_]+$")) {
+      branch = null;
+    }
+
+    if (params.length == 3) {
+      GitManager.clone(url, branch);
+      return;
+    }
+
+    GitManager.clone(url, branch, params[3]);
   }
 
   private void update(String[] params) {

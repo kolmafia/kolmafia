@@ -261,6 +261,28 @@ public class GitManagerTest {
           Files.isDirectory(
               Paths.get("svn", "midgleyc-mafia-script-install-test-branches-test-deps-svn")));
     }
+
+    @Test
+    public void installsToCustomFolder() {
+      installGit(
+          id,
+          "https://github.com/midgleyc/mafia-script-install-test.git test-deps-github custom-folder",
+          true);
+
+      assertTrue(Files.isDirectory(Paths.get("git", "custom-folder")));
+      assertFalse(
+          Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
+    }
+
+    @Test
+    public void installsToCustomFolderWithoutBranch() {
+      installGit(
+          id, "https://github.com/midgleyc/mafia-script-install-test.git || custom-folder", true);
+
+      assertTrue(Files.isDirectory(Paths.get("git", "custom-folder")));
+      assertFalse(
+          Files.isDirectory(Paths.get("git", "midgleyc-mafia-script-install-test-test-deps-svn")));
+    }
   }
 
   @Nested

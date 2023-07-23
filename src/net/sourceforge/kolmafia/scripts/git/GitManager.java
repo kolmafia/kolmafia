@@ -57,7 +57,11 @@ public class GitManager extends ScriptManager {
   }
 
   public static boolean clone(String repoUrl, String branch) {
-    String id = getRepoId(repoUrl, branch);
+    return clone(repoUrl, branch, null);
+  }
+
+  public static boolean clone(String repoUrl, String branch, String repoId) {
+    String id = repoId != null ? repoId : getRepoId(repoUrl, branch);
     Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(id);
     if (Files.exists(projectPath)) {
       KoLmafia.updateDisplay(

@@ -78,5 +78,26 @@ class GitCommandTest extends AbstractCommandTestBase {
       execute("checkout gh-user/gh-repo");
       mocked.verify(() -> GitManager.clone("https://github.com/gh-user/gh-repo.git"));
     }
+
+    @Test
+    void canCheckoutWithAbsentFolderName() {
+      execute("checkout gh-user/gh-repo ||");
+      mocked.verify(() -> GitManager.clone("https://github.com/gh-user/gh-repo.git", null));
+    }
+
+    @Test
+    void canCheckoutWithCustomRepoId() {
+      execute("checkout gh-user/gh-repo release folder-name");
+      mocked.verify(
+          () ->
+              GitManager.clone("https://github.com/gh-user/gh-repo.git", "release", "folder-name"));
+    }
+
+    @Test
+    void canCheckoutWithCustomRepoWithoutBranch() {
+      execute("checkout gh-user/gh-repo || folder-name");
+      mocked.verify(
+          () -> GitManager.clone("https://github.com/gh-user/gh-repo.git", null, "folder-name"));
+    }
   }
 }
