@@ -116,7 +116,8 @@ public class GenieRequest extends GenericRequest {
         && Preferences.getInteger("_genieWishesUsed") < 3) {
       itemId = ItemPool.GENIE_BOTTLE;
     } else if (KoLCharacter.inLegacyOfLoathing()
-        && InventoryManager.hasItem(ItemPool.REPLICA_GENIE_BOTTLE)) {
+        && InventoryManager.hasItem(ItemPool.REPLICA_GENIE_BOTTLE)
+        && Preferences.getInteger("_genieWishesUsed") < 3) {
       itemId = ItemPool.REPLICA_GENIE_BOTTLE;
     } else if (InventoryManager.hasItem(ItemPool.POCKET_WISH)) {
       itemId = ItemPool.POCKET_WISH;

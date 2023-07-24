@@ -42,6 +42,13 @@ public enum Modeable {
       ModifierType.JURASSIC_PARKA,
       new JurassicParkaCommand(),
       true),
+  REPLICA_PARKA(
+      "parka",
+      "parkaMode",
+      ItemPool.get(ItemPool.REPLICA_JURASSIC_PARKA),
+      ModifierType.JURASSIC_PARKA,
+      new JurassicParkaCommand(),
+      true),
   RETROCAPE(
       "retrocape",
       null,

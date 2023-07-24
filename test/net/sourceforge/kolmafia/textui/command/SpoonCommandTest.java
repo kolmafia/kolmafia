@@ -1,14 +1,18 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
@@ -112,6 +116,33 @@ public class SpoonCommandTest extends AbstractCommandTestBase {
   void canChooseSign() {
     var cleanups =
         new Cleanups(withItem(ItemPool.HEWN_MOON_RUNE_SPOON), withSign(ZodiacSign.WALLABY));
+
+    try (cleanups) {
+      String output = execute("marmot");
+
+      assertContinueState();
+      assertThat(output, containsString("Tuning moon to Marmot"));
+    }
+  }
+
+  @Test
+  void worksWithEquippedSpoon() {
+    var cleanups = withEquipped(Slot.ACCESSORY1, ItemPool.HEWN_MOON_RUNE_SPOON);
+
+    try (cleanups) {
+      String output = execute("marmot");
+
+      assertContinueState();
+      assertThat(output, containsString("Tuning moon to Marmot"));
+    }
+  }
+
+  @Test
+  void worksWithReplicaSpoon() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.LEGACY_OF_LOATHING),
+            withEquipped(Slot.ACCESSORY1, ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON));
 
     try (cleanups) {
       String output = execute("marmot");

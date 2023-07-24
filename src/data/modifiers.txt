@@ -4246,6 +4246,7 @@ Item	chocolate bowtie	Familiar Weight: +5
 Item	chocolate leash	Familiar Weight: +10
 Item	chocolate spurs	Familiar Weight: +5
 Item	chocolate-stained collar	Candy Drop: +25, Generic
+Item	claw-held flag	Familiar Weight: +5
 Item	cookbookbat book	Familiar Weight: +5
 Item	cotton candy cordial	Familiar Weight: +5
 Item	cracker	Familiar Weight: +15
@@ -6708,6 +6709,7 @@ Effect	Not Sharing	Monster Level: +25
 Effect	Notably Lovely	Moxie: +10, Ranged Damage: +10, Damage Reduction: 10
 Effect	Nothing Happened	Monster Level: +20
 Effect	Nothing Is Impossible	Spell Damage Percent: +100
+Effect	Nothing Really Matters	Monster Level: -13
 Effect	Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Nutrient-Rich	Experience: +4, Maximum HP Percent: +50, Maximum MP Percent: +25
 Effect	Nuts about Candy	Maximum HP: +50
@@ -8693,7 +8695,7 @@ Synergy	stuffed carpenter/stuffed walrus	HP Regen Min: 5, HP Regen Max: 5, MP Re
 # in this file, even if their modifiers are just "none"; the mutex itself
 # should also specify "none" since its modifiers aren't actually used.
 
-MutexI	V for Vivala mask/Juju Mojo Mask	none
+MutexI	V for Vivala mask/Juju Mojo Mask/replica V for Vivala mask/replica Juju Mojo Mask	none
 MutexI	shining halo/furry halo/frosty halo/time halo	none
 MutexI	work boots/fancy boots	none
 MutexI	booze drive button/candy drive button/food drive button	none
@@ -8986,6 +8988,7 @@ Item	sausage without a cause	Effect: "East of Eaten", Effect Duration: 1
 Item	savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 Item	sea truffle	Effect: "Trufflin'", Effect Duration: 10
 Item	shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
+Item	shadow candy	Effect: "Nothing Really Matters", Effect Duration: 10
 Item	shadow flame	Effect: "Inflamed With Shadows", Effect Duration: 100
 Item	shoo-fish pie	Effect: "Fishy", Effect Duration: 20
 Item	shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30
@@ -11228,7 +11231,7 @@ Item	Elron's Explosive Etude	Skill: "Elron's Explosive Etude"
 # elven magi-pack: Restores 40-50 MP
 # elven medi-pack: Restores 80-100 HP
 Item	emo roe	Free Pull
-Item	emotion chip	Free Pull
+Item	emotion chip	Free Pull, Skill: "Emotionally Chipped"
 Item	Essence of Annoyance	Skill: "Summon Annoyance"
 Item	Essence of Bear	Skill: "Bear Essence"
 # eternal car battery: Restores 45-55 MP
@@ -11811,6 +11814,8 @@ Item	plump purple mushroom	Lasts Until Rollover
 # plus-sized phylactery: Contains the soul of a specific lihc
 # Pocket Meteor Guide: Teaches you everything about meteors
 # Pocket Meteor Guide (well-thumbed): Teaches you everything about meteors
+Item	Pocket Guide to Mild Evil	Skill: "Perpetrate Mild Evil"
+Item	Pocket Guide to Mild Evil (used)	Skill: "Perpetrate Mild Evil"
 # pog #01 (spider): Does all sorts of crazy things
 # pog #02 (Knob goblin): Does all sorts of crazy things
 # pog #03 (warwelf): Does all sorts of crazy things
@@ -11935,6 +11940,7 @@ Item	redwood rain stick	Effect: "You Have Ever Seen The Rain", Effect Duration: 
 Item	rehearsing dramatic hedgehog	Free Pull
 # replica bat-oomerang: Instantly kill a foe (up to 3x per day)
 # replica bat-oomerang: (does not go away when used)
+Item	replica emotion chip	Skill: "Replica Emotionally Chipped"
 Item	Rethinking Candy	Skill: "Sweet Synthesis"
 Item	Retrospecs try-at-home kit	Free Pull
 # riboflavin: Increase a Pokefamiliar's maximum HP by 1
@@ -12025,6 +12031,7 @@ Item	sinistral homunculus	Free Pull
 Item	slap and slap again recipe	Recipe: "slap and slap again"
 # sleaze clusterbomb: Deals <font color=blueviolet>Sleaze Damage</font> based on your highest stat
 # sleaze clusterbomb: (more effective against groups)
+Item	sleeping patriotic eagle	Free Pull
 Item	sleeping piano cat	Free Pull
 # slime stack: Deals 10-20% of a monster's current Hit Points in Physical Damage
 # slime stack: Weakens the monster by 10%

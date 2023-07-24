@@ -37,6 +37,8 @@ public final class CrystalBallManager {
   };
 
   private static final AdventureResult ORB = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL);
+  private static final AdventureResult REPLICA_ORB =
+      ItemPool.get(ItemPool.REPLICA_MINIATURE_CRYSTAL_BALL);
 
   private CrystalBallManager() {}
 
@@ -195,8 +197,9 @@ public final class CrystalBallManager {
   }
 
   // EncounterManager methods
-  private static boolean isEquipped() {
-    return KoLCharacter.hasEquipped(ORB, Slot.FAMILIAR);
+  public static boolean isEquipped() {
+    return KoLCharacter.hasEquipped(ORB, Slot.FAMILIAR)
+        || KoLCharacter.hasEquipped(REPLICA_ORB, Slot.FAMILIAR);
   }
 
   public static boolean isCrystalBallZone(final String zone) {
@@ -222,8 +225,11 @@ public final class CrystalBallManager {
   }
 
   public static boolean own() {
-    AdventureResult ORB = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL, 1);
-    return (KoLCharacter.hasEquipped(ORB, Slot.FAMILIAR) || KoLConstants.inventory.contains(ORB));
+    return (KoLCharacter.hasEquipped(ORB, Slot.FAMILIAR)
+        || KoLConstants.inventory.contains(ORB)
+        || (KoLCharacter.inLegacyOfLoathing()
+            && (KoLCharacter.hasEquipped(REPLICA_ORB, Slot.FAMILIAR)
+                || KoLConstants.inventory.contains(REPLICA_ORB))));
   }
 
   public static void ponder() {

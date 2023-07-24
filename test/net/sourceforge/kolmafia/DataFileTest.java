@@ -31,6 +31,17 @@ public class DataFileTest {
               "\\d+", // autosell
             }),
         Arguments.of(
+            "statuseffects.txt",
+            1,
+            new String[] {
+              "\\d+", // effectid
+              ".+", // name
+              "[a-zA-Z_0-9/\\-]+\\.gif", // img
+              "([a-f0-9]+|)", // descid
+              "(bad|neutral|good)", // quality
+              "(none|song|nohookah|nopvp|noremove|hottub)([ ,](none|song|nohookah|nopvp|noremove|hottub))*", // attributes
+            }),
+        Arguments.of(
             "fullness.txt",
             2,
             new String[] {

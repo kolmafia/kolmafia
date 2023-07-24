@@ -5,7 +5,9 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -92,6 +94,12 @@ public class LocketRequest extends GenericRequest {
 
     if (monster != null) {
       // Open the locket.
+      if (this.getAdventuresUsed() > 0) {
+        // set location to "None" for the benefit of
+        // betweenBattleScripts
+        Preferences.setString("nextAdventure", "None");
+        RecoveryManager.runBetweenBattleChecks(true);
+      }
       (new LocketRequest()).run();
     }
 

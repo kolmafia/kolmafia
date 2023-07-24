@@ -3,16 +3,20 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -31,6 +35,23 @@ class CharPaneRequestTest {
     Preferences.reset("CharPaneRequestTest");
     KoLCharacter.setCurrentRun(0);
     CharPaneRequest.reset();
+  }
+
+  @Test
+  void canFindAvatarWithCrossorigin() {
+    KoLCharacter.setAvatar("");
+    CharPaneRequest.processResults(html("request/test_charpane_sauce.html"));
+    var sauceCharacterAvatar = KoLCharacter.getAvatar();
+    assertTrue(
+        sauceCharacterAvatar.contains("otherimages/classav4a.gif"), "fails with crossorigin");
+  }
+
+  @Test
+  void canFindAvatarWithouyCrossorigin() {
+    KoLCharacter.setAvatar("");
+    CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
+    var snowCharacterAvatar = KoLCharacter.getAvatar();
+    assertTrue(snowCharacterAvatar.contains("itemimages/snowface5.gif"), "fails on no crossorigin");
   }
 
   @Test
@@ -200,6 +221,33 @@ class CharPaneRequestTest {
         CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
         assertThat("commaFamiliar", isSetTo("Homemade Robot"));
         assertThat(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN), is(false));
+      }
+    }
+  }
+
+  @Nested
+  class Effects {
+    @Test
+    void canParseEffectDurations() {
+      var cleanups = withNoEffects();
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_citizen_of_a_zone.html"));
+
+        // normal
+        var shadowWaters = EffectPool.get(EffectPool.SHADOW_WATERS);
+        var duration = shadowWaters.getCount(KoLConstants.activeEffects);
+        assertThat(duration, equalTo(10));
+
+        // intrinsic
+        var peppermint = EffectPool.get(EffectPool.SPIRIT_OF_PEPPERMINT);
+        duration = peppermint.getCount(KoLConstants.activeEffects);
+        assertThat(duration, equalTo(Integer.MAX_VALUE));
+
+        // today
+        var citizen = EffectPool.get(EffectPool.CITIZEN_OF_A_ZONE);
+        duration = citizen.getCount(KoLConstants.activeEffects);
+        assertThat(duration, equalTo(Integer.MAX_VALUE));
       }
     }
   }

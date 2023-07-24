@@ -62,7 +62,7 @@ public class RecordValueTest {
         invalid(
             "new with unexpected aggregate field",
             "record r {int a;}; new r({1,2});",
-            "Aggregate literal found when int expected for field #1 (a)",
+            "Composite literal found when int expected for field #1 (a)",
             // we currently can't read any further than the "{"
             // "char 26 to char 31"),
             "char 26 to char 27"),

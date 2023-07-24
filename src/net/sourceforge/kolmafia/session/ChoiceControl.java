@@ -3061,7 +3061,7 @@ public abstract class ChoiceControl {
         // Which Door?
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("drop 1000")) {
-            Preferences.increment("_villainLairProgress", 5);
+            Preferences.increment("_villainLairProgress", 10);
             Preferences.setBoolean("_villainLairDoorChoiceUsed", true);
           }
         } else if (ChoiceManager.lastDecision == 2) {
@@ -4582,6 +4582,38 @@ public abstract class ChoiceControl {
         break;
       case 1481:
         JurassicParkaCommand.parseChoice(ChoiceManager.lastDecision);
+        break;
+
+      case 1505:
+        // Sing!
+        // This should not fail without intentionally submitting a bad option.
+        if (text.contains("You sing:")) {
+          AdventureResult item = ChoiceManager.lastItemUsed;
+          if (item == null) {
+            // Unexpected
+            return;
+          }
+          int itemId = item.getItemId();
+          // Remove the microphone you used from inventory
+          // Add the more-used version to inventory
+          switch (itemId) {
+            case ItemPool.LOATHING_IDOL_MICROPHONE:
+              ResultProcessor.processItem(ItemPool.LOATHING_IDOL_MICROPHONE_75, 1);
+              break;
+            case ItemPool.LOATHING_IDOL_MICROPHONE_75:
+              ResultProcessor.processItem(ItemPool.LOATHING_IDOL_MICROPHONE_50, 1);
+              break;
+            case ItemPool.LOATHING_IDOL_MICROPHONE_50:
+              ResultProcessor.processItem(ItemPool.LOATHING_IDOL_MICROPHONE_25, 1);
+              break;
+            case ItemPool.LOATHING_IDOL_MICROPHONE_25:
+              break;
+            default:
+              // Should not get here unless UseItemRequest did not parse the item.
+              return;
+          }
+          ResultProcessor.processItem(itemId, -1);
+        }
         break;
     }
   }
@@ -6288,6 +6320,10 @@ public abstract class ChoiceControl {
 
       case 1344: // Thank You, Come Again
         handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
+
+      case 1387:
+        SaberRequest.postForce(urlString, text);
         break;
 
       case 1395: // Take your Pills

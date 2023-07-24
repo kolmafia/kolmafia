@@ -360,7 +360,8 @@ public class ResultProcessor {
             EffectPool.WINE_COLD,
             EffectPool.WINE_FRIENDLY,
             EffectPool.WINE_DARK,
-            EffectPool.WINE_BEFOULED -> DebugDatabase.readEffectDescriptionText(effectId);
+            EffectPool.WINE_BEFOULED,
+            EffectPool.CITIZEN_OF_A_ZONE -> DebugDatabase.readEffectDescriptionText(effectId);
       }
 
       String acquisition = effectMatcher.group(2);
@@ -529,6 +530,11 @@ public class ResultProcessor {
         || lastToken.startsWith("You spent ")) {
       // Chatty pirate message
       if (lastToken.startsWith("You lose your temper")) {
+        return false;
+      }
+
+      // "I Refuse!" choice text
+      if (lastToken.startsWith("You lose control of your legs")) {
         return false;
       }
 

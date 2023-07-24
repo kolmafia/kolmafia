@@ -1212,6 +1212,91 @@ public class MaximizerTest {
         assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
       }
     }
+
+    @Test
+    public void shouldSuggestReplicaParka() {
+      final var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.REPLICA_JURASSIC_PARKA), withSkill(SkillPool.TORSO));
+
+      try (cleanups) {
+        assertTrue(maximize("dr"));
+        recommendedSlotIs(Slot.SHIRT, "replica Jurassic Parka");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "parka ghostasaurus")));
+      }
+    }
+
+    @Nested
+    class GarbageTote {
+      @Test
+      public void shouldSuggestEquippingGarbageToteItem1() {
+        final var cleanups =
+            new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+
+        try (cleanups) {
+          assertTrue(maximize("monster level"));
+          recommendedSlotIs(Slot.PANTS, "tinsel tights");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "equip pants ¶9693")));
+        }
+      }
+
+      @Test
+      public void shouldSuggestEquippingGarbageToteItem2() {
+        final var cleanups =
+            new Cleanups(
+                withItem(ItemPool.REPLICA_GARBAGE_TOTE),
+                withItem(ItemPool.REPLICA_HAIKU_KATANA),
+                withItem(ItemPool.BROKEN_CHAMPAGNE),
+                withProperty("garbageChampagneCharge", 5),
+                withSkill("Double-Fisted Skull Smashing"));
+
+        try (cleanups) {
+          assertTrue(maximize("weapon damage percent"));
+          recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "equip off-hand ¶9692")));
+        }
+      }
+
+      @Test
+      public void shouldFoldUnusedChampagneBottle() {
+        final var cleanups =
+            new Cleanups(
+                withItem(ItemPool.REPLICA_GARBAGE_TOTE),
+                withItem(ItemPool.REPLICA_HAIKU_KATANA),
+                withItem(ItemPool.BROKEN_CHAMPAGNE),
+                withProperty("garbageChampagneCharge", 0),
+                withProperty("_garbageItemChanged", false),
+                withSkill("Double-Fisted Skull Smashing"));
+
+        try (cleanups) {
+          assertTrue(maximize("weapon damage percent"));
+          recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip off-hand ¶9692")));
+        }
+      }
+
+      @Test
+      public void shouldSuggestFoldingGarbageToteItem() {
+        final var cleanups =
+            new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+
+        try (cleanups) {
+          assertTrue(maximize("weapon damage percent"));
+          recommendedSlotIs(Slot.WEAPON, "broken champagne bottle");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
+        }
+      }
+
+      @Test
+      public void shouldNotSuggestUsingGarbageToteItem() {
+        final var cleanups = new Cleanups(withItem(ItemPool.TINSEL_TIGHTS));
+
+        try (cleanups) {
+          assertTrue(maximize("weapon damage percent"));
+          assertFalse(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
+        }
+      }
+    }
   }
 
   @Nested

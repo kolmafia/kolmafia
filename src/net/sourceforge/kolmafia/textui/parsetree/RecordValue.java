@@ -27,7 +27,8 @@ public class RecordValue extends CompositeValue {
 
   @Override
   public Value aref(final Value key, final AshRuntime interpreter) {
-    int index = ((RecordType) this.type).indexOf(key);
+    RecordType type = (RecordType) this.type;
+    int index = type.indexOf(key);
     if (index < 0) {
       throw interpreter.runtimeException("Internal error: field index out of bounds");
     }

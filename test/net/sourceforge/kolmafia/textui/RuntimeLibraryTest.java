@@ -17,12 +17,14 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withValueOfAdventure;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -916,6 +918,268 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(output, is("""
               Returned: foo bar baz
               """));
+    }
+  }
+
+  @Nested
+  class PledgeAllegiance {
+    @Test
+    void pledgeAllegiance() {
+      String input = "$location[Noob Cave].pledge_allegiance";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+          Returned: Item Drop: 30, Spooky Damage: 10, Spooky Spell Damage: 10, Muscle: 10
+          """));
+    }
+
+    @Test
+    void pledgeAllegianceComplex() {
+      String input = "$location[Hobopolis Town Square].pledge_allegiance";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+          Returned: Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15, Moxie Percent: 10
+          """));
+    }
+
+    @Test
+    void pledgeAllegianceResistance() {
+      String input = "$location[Outskirts of Camp Logging Camp].pledge_allegiance";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+          Returned: Meat Drop: 25, Hot Resistance: 2, Cold Resistance: 2, Spooky Resistance: 2, Stench Resistance: 2, Sleaze Resistance: 2, Cold Damage: 10, Cold Spell Damage: 10
+          """));
+    }
+  }
+
+  @Nested
+  class SausageGoblinProbability {
+    @ParameterizedTest
+    @CsvSource({
+      "0,0,0,0.2",
+      "1,0,0,0.4",
+      "3,0,0,0.8",
+      "4,0,0,1.0",
+      "5,0,0,1.0",
+      "5,1,5,0.125",
+      "6,1,5,0.25",
+      "0,8,0,0.017857",
+      "1,8,0,0.035714",
+    })
+    void calculatesGoblinChance(int turnsPlayed, int goblinsFought, int lastGoblin, String chance) {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(turnsPlayed),
+              withProperty("_sausageFights", goblinsFought),
+              withProperty("_lastSausageMonsterTurn", lastGoblin));
+
+      try (cleanups) {
+        String input = "sausage_goblin_chance()";
+        String output = execute(input);
+        assertThat(output, containsString(chance));
+      }
+    }
+  }
+
+  @Nested
+  class Modifier {
+    @Test
+    void canGetRecord() {
+      String input = "$modifier[meat drop]";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: Meat Drop
+                 name => Meat Drop
+                 type => numeric
+                 """));
+    }
+
+    @Test
+    void canGetAllModifiers() {
+      String input = "$modifiers[]";
+      String output = execute(input);
+      assertThat(output, containsString("Four Songs"));
+      assertThat(output, containsString("Meat Drop"));
+    }
+
+    @Test
+    void canCallNumericWithModifier() {
+      String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[Meat Drop])";
+      String output = execute(input);
+      assertThat(output, is("""
+                 Returned: 50.0
+                 """));
+    }
+
+    @Test
+    void numericErrorsWithWrongModifierType() {
+      String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[Unarmed])";
+      String output = execute(input);
+      assertThat(output, startsWith("numeric modifier required"));
+    }
+
+    @Test
+    void canCallBooleanWithModifier() {
+      String input = "boolean_modifier($item[Brimstone Beret], $modifier[Four Songs])";
+      String output = execute(input);
+      assertThat(output, is("""
+                 Returned: true
+                 """));
+    }
+
+    @Test
+    void booleanErrorsWithWrongModifierType() {
+      String input = "boolean_modifier($item[Brimstone Beret], $modifier[Moxie])";
+      String output = execute(input);
+      assertThat(output, startsWith("boolean modifier required"));
+    }
+
+    @Test
+    void canCallStringWithModifier() {
+      String input = "string_modifier(\"Sign:Marmot\", $modifier[Modifiers])";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: Experience Percent (Moxie): +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+                 """));
+    }
+
+    @Test
+    void stringErrorsWithWrongModifierType() {
+      String input = "string_modifier(\"Sign:Marmot\", $modifier[Cold Resistance])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void canCallEffectWithModifier() {
+      String input = "effect_modifier($item[blackberry polite], $modifier[Effect])";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Blackberry Politeness"));
+    }
+
+    @Test
+    void effectErrorsWithWrongModifierType() {
+      String input = "effect_modifier($item[blackberry polite], $modifier[Meat Drop])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void canCallClassWithModifier() {
+      String input = "class_modifier($item[chintzy noodle ring], $modifier[Class])";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Pastamancer"));
+    }
+
+    @Test
+    void classErrorsWithWrongModifierType() {
+      String input = "class_modifier($item[chintzy noodle ring], $modifier[Muscle])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void canCallSkillWithModifier() {
+      String input = "skill_modifier($item[alien source code printout], $modifier[Skill])";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Alien Source Code"));
+    }
+
+    @Test
+    void skillErrorsWithWrongModifierType() {
+      String input = "skill_modifier($item[alien source code printout], $modifier[Maximum MP])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void canCallStatWithModifier() {
+      String input = "stat_modifier($effect[Stabilizing Oiliness], $modifier[Equalize])";
+      String output = execute(input);
+      assertThat(output, is("""
+                 Returned: Muscle
+                 """));
+    }
+
+    @Test
+    void statErrorsWithWrongModifierType() {
+      String input = "stat_modifier($effect[Stabilizing Oiliness], $modifier[Muscle])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void canCallMonsterWithModifier() {
+      String input = "monster_modifier($effect[A Lovely Day for a Beatnik], $modifier[Avatar])";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Savage Beatnik"));
+    }
+
+    @Test
+    void monsterErrorsWithWrongModifierType() {
+      String input = "monster_modifier($effect[A Lovely Day for a Beatnik], $modifier[Muscle])";
+      String output = execute(input);
+      assertThat(output, startsWith("string modifier required"));
+    }
+
+    @Test
+    void parsesModifierString() {
+      String input =
+          "split_modifiers(\"Meat Drop: 25, Hot Resistance: 2, Cold Resistance: 2, Unarmed, Cold Damage: 10, Cold Spell Damage: 10\")";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: aggregate string [modifier]
+                 Cold Damage => 10
+                 Cold Resistance => 2
+                 Cold Spell Damage => 10
+                 Hot Resistance => 2
+                 Meat Drop => 25
+                 Unarmed =>
+                 """));
+    }
+  }
+
+  @Nested
+  class Ping {
+    @Test
+    void parsesPropertyASH() {
+      final var cleanups =
+          new Cleanups(withProperty("pingLatest", "api.php:10:26:31:283:19620:28"));
+      try (cleanups) {
+        String input = "ping(\"pingLatest\")";
+        String output = execute(input);
+        assertThat(
+            output,
+            is(
+                """
+              Returned: record {string page; int count; int low; int high; int total; int bytes; int average; int bps;}
+              page => api
+              count => 10
+              low => 26
+              high => 31
+              total => 283
+              bytes => 19620
+              average => 28
+              bps => 69329
+              """));
+      }
     }
   }
 }

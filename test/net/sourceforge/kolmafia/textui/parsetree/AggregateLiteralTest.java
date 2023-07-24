@@ -167,7 +167,7 @@ public class AggregateLiteralTest {
         invalid(
             "Unexpected aggregate in array literal",
             "boolean[5]{ true, true, false, {true}, false }",
-            "Expected an element of type boolean, found an aggregate",
+            "Expected an element of type boolean, found a composite",
             // we currently can't read past the "{" before throwing the exception
             // "char 32 to char 38"),
             "char 32 to char 33",
@@ -187,7 +187,7 @@ public class AggregateLiteralTest {
         invalid(
             "Unexpected aggregate in map literal: as a value",
             "boolean[5]{ 0:true, 1:true, 2:false, 3:{true}, 4:false }",
-            "Expected a value of type boolean, found an aggregate",
+            "Expected a value of type boolean, found a composite",
             // we currently can't read past the "{" before throwing the exception
             // "char 40 to char 46"),
             "char 40 to char 41",

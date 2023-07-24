@@ -178,7 +178,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         case "Free Fights" -> List.of(new FreeFightsDaily());
         case "Free Runaways" -> List.of(new RunawaysDaily());
         case "Hatter" -> List.of(new HatterDaily());
-        case "Banished Monsters" -> List.of(new BanishedDaily());
+        case "Banished Monsters" -> List.of(new BanishedDaily(), new BanishedPhylaDaily());
         case "Swimming Pool" -> List.of(new SwimmingPoolDaily());
         case "Jick Jar" -> List.of(new JickDaily());
         case "Avatar of Jarlberg Staves" -> List.of(new JarlsbergStavesDaily());
@@ -2629,10 +2629,6 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addLabel("");
     }
 
-    private boolean equippedOrInInventory(int itemId) {
-      return KoLCharacter.hasEquipped(itemId) || InventoryManager.getCount(itemId) > 0;
-    }
-
     @Override
     public void update() {
       FamiliarData bander = KoLCharacter.usableFamiliar(FamiliarPool.BANDER);
@@ -2641,13 +2637,13 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean hbo = boots != null && boots.canEquip();
       boolean run = Preferences.getInteger("_navelRunaways") > 0;
       boolean gp =
-          equippedOrInInventory(ItemPool.GREAT_PANTS)
+          InventoryManager.equippedOrInInventory(ItemPool.GREAT_PANTS)
               || (KoLCharacter.inLegacyOfLoathing()
-                  && equippedOrInInventory(ItemPool.REPLICA_GREAT_PANTS));
+                  && InventoryManager.equippedOrInInventory(ItemPool.REPLICA_GREAT_PANTS));
       boolean nr =
-          equippedOrInInventory(ItemPool.NAVEL_RING)
+          InventoryManager.equippedOrInInventory(ItemPool.NAVEL_RING)
               || (KoLCharacter.inLegacyOfLoathing()
-                  && equippedOrInInventory(ItemPool.REPLICA_NAVEL_RING));
+                  && InventoryManager.equippedOrInInventory(ItemPool.REPLICA_NAVEL_RING));
       boolean pp = InventoryManager.getCount(ItemPool.PEPPERMINT_PARASOL) > 0;
       boolean pl = KoLCharacter.hasSkill(SkillPool.PEEL_OUT);
       boolean big = KoLCharacter.inBigcore();
@@ -3358,6 +3354,23 @@ public class DailyDeedsPanel extends Box implements Listener {
     public void update() {
       List<String> list = BanishManager.getBanishedMonsters();
       String text = "Banished monsters: " + String.join(",", list);
+
+      this.setText(text);
+      this.setShown(list.size() > 0);
+    }
+  }
+
+  public static class BanishedPhylaDaily extends Daily {
+    public BanishedPhylaDaily() {
+      this.addListener("banishedPhyla");
+      this.addListener("(character)");
+      this.addLabel("");
+    }
+
+    @Override
+    public void update() {
+      List<String> list = BanishManager.getBanishedPhyla();
+      String text = "Banished phyla: " + String.join(",", list);
 
       this.setText(text);
       this.setShown(list.size() > 0);

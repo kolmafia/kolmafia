@@ -349,13 +349,18 @@ public class UseItemRequest extends GenericRequest {
 
   public static final int maximumUses(final int itemId, final ConsumptionType consumptionType) {
     String itemName = ItemDatabase.getItemDataName(itemId);
+    int[] itemIds = ItemDatabase.getItemIds(itemName, 1, false);
+    if (itemIds.length != 1) {
+      itemName = "[" + itemId + "]" + itemName;
+    }
     return UseItemRequest.maximumUses(itemId, itemName, consumptionType, true);
   }
 
   public static final int maximumUses(String itemName) {
     int itemId = ItemDatabase.getItemId(itemName);
-    if (itemId > 0) {
-      itemName = ItemDatabase.getItemDataName(itemId);
+    int[] itemIds = ItemDatabase.getItemIds(itemName, 1, false);
+    if (itemIds.length == 1) {
+      itemId = itemIds[0];
     }
     return UseItemRequest.maximumUses(itemId, itemName, ConsumptionType.NONE, false);
   }
@@ -2823,6 +2828,9 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.THE_SPIRIT_OF_GIVING:
       case ItemPool.MANUAL_OF_LOCK_PICKING:
       case ItemPool.SPINAL_FLUID_COVERED_EMOTION_CHIP:
+      case ItemPool.REPLICA_EMOTION_CHIP:
+      case ItemPool.POCKET_GUIDE_TO_MILD_EVIL:
+      case ItemPool.POCKET_GUIDE_TO_MILD_EVIL_USED:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you
@@ -5460,6 +5468,10 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setBoolean("_victorSpoilsUsed", true);
         break;
 
+      case ItemPool.CAN_OF_MINIONS_BE_GONE:
+        Preferences.increment("_villainLairProgress", 5);
+        break;
+
       case ItemPool.CORNUCOPIA:
         Preferences.increment("cornucopiasOpened", count);
         break;
@@ -5625,6 +5637,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.HEWN_MOON_RUNE_SPOON:
+      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
         // You twist the spoon around until the reflection of the moon in the bowl looks just like
         // you intended.
         if (responseText.contains("You twist the spoon around")) {
@@ -6091,6 +6104,10 @@ public class UseItemRequest extends GenericRequest {
           Preferences.setBoolean("_replicaSmithsTomeUsed", true);
         }
         return;
+
+      case ItemPool.REPLICA_SOURCE_TERMINAL:
+        CampgroundRequest.setCampgroundItem(ItemPool.SOURCE_TERMINAL, 1);
+        break;
 
       case ItemPool.REPLICA_WITCHESS_SET:
         Preferences.setBoolean("replicaWitchessSetAvailable", true);
@@ -6754,6 +6771,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.HEWN_MOON_RUNE_SPOON:
+      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
         {
           ZodiacSign sign = parseAscensionSign(urlString);
           if (sign != ZodiacSign.NONE && urlString.contains("doit=96")) {

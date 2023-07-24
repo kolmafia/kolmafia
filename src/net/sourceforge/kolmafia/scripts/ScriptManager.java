@@ -29,16 +29,18 @@ public class ScriptManager {
       Pattern.compile("/p/(.*?)/(?:code|svn)(.*)", Pattern.DOTALL);
 
   public static String getProjectIdentifier(String host, String path) {
-    String UUID = null;
     Matcher m;
 
     if ((m = SOURCEFORGE_PATTERN.matcher(path)).find()) {
       // replace awful SVN UUID with nicely-formatted string derived from URL
-      UUID = StringUtilities.globalStringReplace(m.group(1) + m.group(2), "/", "-"); //
+      return StringUtilities.globalStringReplace(m.group(1) + m.group(2), "/", "-"); //
     } else if (host.contains("github")) {
-      UUID = StringUtilities.globalStringReplace(path.substring(1), "/", "-");
+      // user-repo
+      return StringUtilities.globalStringReplace(path.substring(1), "/", "-");
+    } else {
+      // good enough fallback
+      return StringUtilities.globalStringReplace(path.substring(1), "/", "-");
     }
-    return UUID;
   }
 
   /**

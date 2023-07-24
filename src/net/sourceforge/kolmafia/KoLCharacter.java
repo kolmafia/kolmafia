@@ -3025,6 +3025,11 @@ public abstract class KoLCharacter {
       Preferences.resetToDefault("replicaNeverendingPartyAlways");
       Preferences.resetToDefault("replicaWitchessSetAvailable");
 
+      // we lose set enquiry, even if we have a terminal
+      Preferences.resetToDefault("sourceTerminalEducate1");
+      Preferences.resetToDefault("sourceTerminalEducate2");
+      Preferences.resetToDefault("sourceTerminalEnquiry");
+
       // if replica emotion chipped
       KoLCharacter.resetSkills();
 
@@ -3988,6 +3993,7 @@ public abstract class KoLCharacter {
             break;
 
           case SkillPool.EMOTIONALLY_CHIPPED:
+          case SkillPool.REPLICA_EMOTIONALLY_CHIPPED:
             KoLCharacter.addAvailableSkill(SkillPool.FEEL_DISAPPOINTED);
             KoLCharacter.addAvailableSkill(SkillPool.FEEL_ENVY);
             KoLCharacter.addAvailableSkill(SkillPool.FEEL_EXCITEMENT);

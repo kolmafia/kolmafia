@@ -99,6 +99,16 @@ public enum StringModifier implements Modifier {
     return name;
   }
 
+  @Override
+  public ModifierValueType getType() {
+    return ModifierValueType.STRING;
+  }
+
+  @Override
+  public String toString() {
+    return name;
+  }
+
   public static final Set<StringModifier> STRING_MODIFIERS =
       Collections.unmodifiableSet(EnumSet.allOf(StringModifier.class));
 

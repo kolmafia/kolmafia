@@ -255,6 +255,14 @@ public abstract class InventoryManager {
     return count;
   }
 
+  public static boolean equippedOrInInventory(int itemId) {
+    return equippedOrInInventory(ItemPool.get(itemId));
+  }
+
+  public static boolean equippedOrInInventory(AdventureResult equip) {
+    return KoLCharacter.hasEquipped(equip) || InventoryManager.getCount(equip) > 0;
+  }
+
   public static final boolean checkpointedRetrieveItem(final int itemId) {
     try (Checkpoint checkpoint = new Checkpoint()) {
       return InventoryManager.retrieveItem(ItemPool.get(itemId, 1), true, true, true);
@@ -1694,9 +1702,10 @@ public abstract class InventoryManager {
 
   public static void checkSaber() {
     AdventureResult SABER = ItemPool.get(ItemPool.FOURTH_SABER, 1);
-    if (!KoLCharacter.hasEquipped(SABER)
-        && SABER.getCount(KoLConstants.inventory) == 0
-        && SABER.getCount(KoLConstants.closet) == 0) {
+    if (!InventoryManager.equippedOrInInventory(SABER)
+        && SABER.getCount(KoLConstants.closet) == 0
+        && !(KoLCharacter.inLegacyOfLoathing()
+            && InventoryManager.equippedOrInInventory(ItemPool.REPLICA_FOURTH_SABER))) {
       return;
     }
     if (!Preferences.getString("_saberMod").equals("0")) {

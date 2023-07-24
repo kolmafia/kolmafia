@@ -1,10 +1,16 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInCloset;
+import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
@@ -15,6 +21,7 @@ import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -127,6 +134,104 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
         assertThat(requests, hasSize(2));
         assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=9690");
         assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1275&option=5");
+      }
+    }
+
+    @Test
+    public void retrieveGarbageTote() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withNoItems(),
+              withItemInCloset(ItemPool.GARBAGE_TOTE),
+              withProperty("autoSatisfyWithCloset", true),
+              withHandlingChoice(false));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_uncloset_garbage_tote.html"));
+
+        execute("tinsel tights");
+        assertContinueState();
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(3));
+        assertGetRequest(
+            requests.get(0), "/inventory.php", "action=closetpull&ajax=1&whichitem=9690&qty=1");
+        assertPostRequest(requests.get(1), "/inv_use.php", "whichitem=9690");
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1275&option=3");
+      }
+    }
+
+    @Test
+    public void retrieveGarbageToteWithItem() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withNoItems(),
+              withItem(ItemPool.WAD_OF_TAPE),
+              withItemInCloset(ItemPool.GARBAGE_TOTE),
+              withProperty("autoSatisfyWithCloset", true),
+              withHandlingChoice(false));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_uncloset_garbage_tote.html"));
+
+        execute("tinsel tights");
+        assertContinueState();
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(3));
+        assertGetRequest(
+            requests.get(0), "/inventory.php", "action=closetpull&ajax=1&whichitem=9690&qty=1");
+        assertPostRequest(requests.get(1), "/inv_use.php", "whichitem=9690");
+        assertPostRequest(requests.get(2), "/choice.php", "whichchoice=1275&option=3");
+      }
+    }
+
+    @Test
+    public void cannotRetrieveGarbageTote() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItemInCloset(ItemPool.GARBAGE_TOTE),
+              withHandlingChoice(false));
+
+      try (cleanups) {
+        String output = execute("broken champagne bottle");
+        assertThat(output, containsString("You don't have anything transformable into that item!"));
+        assertErrorState();
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    public void cannotTransformWithoutGarbageTote() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withItemInCloset(ItemPool.GARBAGE_TOTE),
+              withItem(ItemPool.TINSEL_TIGHTS),
+              withHandlingChoice(false));
+
+      try (cleanups) {
+        String output = execute("broken champagne bottle");
+        // You need 1 more January's Garbage Tote to continue.
+        // Unable to retrieve your January's Garbage Tote
+        assertThat(output, containsString("You need 1 more January's Garbage Tote to continue."));
+        assertErrorState();
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(0));
       }
     }
 

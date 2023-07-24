@@ -709,9 +709,11 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.CHEST_X_RAY);
         break;
       case ItemPool.FOURTH_SABER:
+      case ItemPool.REPLICA_FOURTH_SABER:
         KoLCharacter.removeAvailableSkill(SkillPool.USE_THE_FORCE);
         break;
       case ItemPool.HEWN_MOON_RUNE_SPOON:
+      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
         if (KoLCharacter.isMuscleClass()) {
           KoLCharacter.removeAvailableSkill(SkillPool.DRAGOON_PLATOON);
         } else if (KoLCharacter.isMysticalityClass()) {
@@ -741,6 +743,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.BLART_SPRAY_WIDE);
         break;
       case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
+      case ItemPool.REPLICA_INDUSTRIAL_FIRE_EXTINGUISHER:
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_EM_UP);
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__POLAR_VORTEX);
         KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_YOURSELF);
@@ -754,6 +757,14 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_FLOOD);
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_SPRAY);
         KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_SIP);
+        break;
+      case ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY:
+        KoLCharacter.removeAvailableSkill(SkillPool.DOUSE_FOE);
+        break;
+      case ItemPool.PRO_SKATEBOARD:
+        KoLCharacter.removeAvailableSkill(SkillPool.DO_KICKFLIP);
+        KoLCharacter.removeAvailableSkill(SkillPool.DO_METHOD);
+        KoLCharacter.removeAvailableSkill(SkillPool.DO_EPIC_MCTWIST);
         break;
     }
   }
@@ -1057,9 +1068,11 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.CHEST_X_RAY);
         break;
       case ItemPool.FOURTH_SABER:
+      case ItemPool.REPLICA_FOURTH_SABER:
         KoLCharacter.addAvailableSkill(SkillPool.USE_THE_FORCE);
         break;
       case ItemPool.HEWN_MOON_RUNE_SPOON:
+      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
         if (KoLCharacter.isMuscleClass()) {
           KoLCharacter.addAvailableSkill(SkillPool.DRAGOON_PLATOON);
         } else if (KoLCharacter.isMysticalityClass()) {
@@ -1090,6 +1103,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.BLART_SPRAY_WIDE);
         break;
       case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
+      case ItemPool.REPLICA_INDUSTRIAL_FIRE_EXTINGUISHER:
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_EM_UP);
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__POLAR_VORTEX);
         KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_YOURSELF);
@@ -1104,6 +1118,14 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_FLOOD);
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_SPRAY);
         KoLCharacter.addAvailableSkill(SkillPool.SWEAT_SIP);
+        break;
+      case ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY:
+        KoLCharacter.addAvailableSkill(SkillPool.DOUSE_FOE);
+        break;
+      case ItemPool.PRO_SKATEBOARD:
+        KoLCharacter.addAvailableSkill(SkillPool.DO_KICKFLIP);
+        KoLCharacter.addAvailableSkill(SkillPool.DO_METHOD);
+        KoLCharacter.addAvailableSkill(SkillPool.DO_EPIC_MCTWIST);
         break;
     }
   }
@@ -1915,7 +1937,8 @@ public class EquipmentManager {
             && KoLCharacter.hasSkill(SkillPool.TRICKY_KNIFEWORK)) {
           return Stat.MOXIE;
         }
-        if (EquipmentManager.getEquipment(Slot.WEAPON).getItemId() == ItemPool.FOURTH_SABER) {
+        var mainhand = EquipmentManager.getEquipment(Slot.WEAPON).getItemId();
+        if (mainhand == ItemPool.FOURTH_SABER || mainhand == ItemPool.REPLICA_FOURTH_SABER) {
           // Fourth of May Cosplay Saber uses highest buffed stat
           if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
               && KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMysticality()) {

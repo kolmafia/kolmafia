@@ -605,7 +605,7 @@ public abstract class KoLmafia {
     ConsequenceManager.updateOneDesc();
 
     // Make sure Banishes are loaded before removing them
-    BanishManager.loadBanishedMonsters();
+    BanishManager.loadBanished();
     BanishManager.resetRollover();
 
     // Libram summoning skills now costs 1 MP again
@@ -763,7 +763,7 @@ public abstract class KoLmafia {
     ClosetRequest.refresh();
 
     // Load Banished monsters
-    BanishManager.loadBanishedMonsters();
+    BanishManager.loadBanished();
 
     // Retrieve Custom Outfit list
     if (!KoLCharacter.getLimitMode().limitOutfits()) {
@@ -1617,7 +1617,11 @@ public abstract class KoLmafia {
    * Utility. The method used to decode a saved password. This should be called whenever a new
    * password intends to be stored in the global file.
    */
-  public static final String getSaveState(final String loginname) {
+  public static final String getSaveState(String loginname) {
+    if (loginname.contains("/q")) {
+      loginname = StringUtilities.globalStringReplace(loginname, "/q", "");
+    }
+
     String password = Preferences.getString(loginname, "saveState");
     if (password == null || password.length() == 0 || password.contains("/")) {
       return null;

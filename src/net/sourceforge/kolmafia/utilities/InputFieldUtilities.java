@@ -67,6 +67,33 @@ public class InputFieldUtilities {
             JOptionPane.YES_NO_OPTION);
   }
 
+  public static final Boolean yesNoCancelDialog(final String message) {
+    if (StaticEntity.isHeadless()) {
+      RequestLogger.printLine(message);
+      RequestLogger.printLine("(Y/N, leave blank to cancel)");
+
+      String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine(" > ");
+      String option = reply.trim().toLowerCase();
+      return switch (option) {
+        case "y" -> true;
+        case "n" -> false;
+        default -> null;
+      };
+    }
+
+    var result =
+        JOptionPane.showConfirmDialog(
+            InputFieldUtilities.activeWindow,
+            StringUtilities.basicTextWrap(message),
+            "",
+            JOptionPane.YES_NO_CANCEL_OPTION);
+    return switch (result) {
+      case JOptionPane.YES_OPTION -> true;
+      case JOptionPane.NO_OPTION -> false;
+      default -> null;
+    };
+  }
+
   public static final String input(final String message) {
     if (StaticEntity.isHeadless()) {
       RequestLogger.printLine(message);
@@ -305,6 +332,21 @@ public class InputFieldUtilities {
     }
 
     return defaultValue;
+  }
+
+  /**
+   * Utility method which retrieves a float value from the given field. In the event that the field
+   * does not contain an integer value, the default value provided will be returned instead.
+   */
+  public static final double getValue(final JTextField field, final double defaultValue) {
+    String currentValue = field.getText();
+
+    if (currentValue == null || currentValue.length() == 0 || currentValue.equals("*")) {
+      return defaultValue;
+    }
+
+    double result = StringUtilities.parseDouble(currentValue);
+    return result == 0 ? defaultValue : result;
   }
 
   public static final Integer getQuantity(final String title, final int maximumValue) {

@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
@@ -555,10 +556,6 @@ public class GearChangePanel extends JPanel {
       this.setEnabled(true);
     }
 
-    private boolean equippedOrInInventory(AdventureResult equip) {
-      return equip.getCount(KoLConstants.inventory) > 0 || KoLCharacter.hasEquipped(equip);
-    }
-
     @Override
     public void setEnabled(final boolean isEnabled) {
       super.setEnabled(isEnabled);
@@ -572,13 +569,14 @@ public class GearChangePanel extends JPanel {
       boolean hasFakeHands = GearChangePanel.this.fakeHands.getAvailableFakeHands() > 0;
       GearChangePanel.this.fakeHands.setEnabled(isEnabled && hasFakeHands);
 
-      boolean hasCardSleeve = equippedOrInInventory(EquipmentManager.CARD_SLEEVE);
+      boolean hasCardSleeve = InventoryManager.equippedOrInInventory(EquipmentManager.CARD_SLEEVE);
       GearChangePanel.this.equipment.get(Slot.CARDSLEEVE).setEnabled(isEnabled && hasCardSleeve);
 
       boolean hasFolderHolder =
-          equippedOrInInventory(EquipmentManager.FOLDER_HOLDER)
+          InventoryManager.equippedOrInInventory(EquipmentManager.FOLDER_HOLDER)
               || (KoLCharacter.inLegacyOfLoathing()
-                  && equippedOrInInventory(EquipmentManager.REPLICA_FOLDER_HOLDER));
+                  && InventoryManager.equippedOrInInventory(
+                      EquipmentManager.REPLICA_FOLDER_HOLDER));
       boolean inHighSchool = KoLCharacter.inHighschool();
 
       GearChangePanel.this.equipment.get(Slot.FOLDER1).setEnabled(isEnabled && hasFolderHolder);
@@ -593,7 +591,7 @@ public class GearChangePanel extends JPanel {
           .get(Slot.FOLDER5)
           .setEnabled(isEnabled && hasFolderHolder && inHighSchool);
 
-      boolean hasBoots = equippedOrInInventory(EquipmentManager.COWBOY_BOOTS);
+      boolean hasBoots = InventoryManager.equippedOrInInventory(EquipmentManager.COWBOY_BOOTS);
       GearChangePanel.this.equipment.get(Slot.BOOTSKIN).setEnabled(isEnabled && hasBoots);
       GearChangePanel.this.equipment.get(Slot.BOOTSPUR).setEnabled(isEnabled && hasBoots);
     }

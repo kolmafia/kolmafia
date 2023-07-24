@@ -131,6 +131,18 @@ class TCRSDatabaseTest {
     assertThat(item.modifiers, equalTo(expectedMods));
   }
 
+  @AfterAll
+  static void afterAll() throws IOException {
+    ConsumablesDatabase.clearAndRebuild();
+    try (var walker = Files.walk(KoLConstants.DATA_LOCATION.toPath())) {
+      walker
+          .map(java.nio.file.Path::toFile)
+          .filter(f -> f.getName().startsWith("TCRS_"))
+          .filter(f -> f.getName().endsWith(".txt"))
+          .forEach(File::delete);
+    }
+  }
+
   @Test
   void guessAll() {
     for (var ascensionClass : AscensionClass.standardClasses) {

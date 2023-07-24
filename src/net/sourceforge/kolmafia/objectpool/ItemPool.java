@@ -560,10 +560,13 @@ public class ItemPool {
   public static final int DUSTY_ANIMAL_SKULL = 1799;
   public static final int ONE_BALL = 1900;
   public static final int TWO_BALL = 1901;
+  public static final int THREE_BALL = 1902;
+  public static final int FOUR_BALL = 1903;
   public static final int FIVE_BALL = 1904;
   public static final int SIX_BALL = 1905;
   public static final int SEVEN_BALL = 1906;
   public static final int EIGHT_BALL = 1907;
+  public static final int CLOCKWORK_HANDLE = 1913;
   public static final int SPOOKYRAVEN_SPECTACLES = 1916;
   public static final int ENGLISH_TO_A_F_U_E_DICTIONARY = 1919;
   public static final int BIZARRE_ILLEGIBLE_SHEET_MUSIC = 1920;
@@ -3092,8 +3095,9 @@ public class ItemPool {
   public static final int AFFIRMATION_HATE = 9485;
   public static final int AFFIRMATION_COOKIE = 9486;
   public static final int LICENSE_TO_KILL = 9487;
-  public static final int VICTOR_SPOILS = 9493;
+  public static final int VICTOR_SPOILS = 9489;
   public static final int KREMLIN_BRIEFCASE = 9493;
+  public static final int CAN_OF_MINIONS_BE_GONE = 9498;
   public static final int LICENSE_TO_CHILL = 9503;
   public static final int CELSIUS_233 = 9504;
   public static final int CELSIUS_233_SINGED = 9505;
@@ -3606,6 +3610,8 @@ public class ItemPool {
   public static final int REPLICA_HAND_TURKEY = 11191;
   public static final int REPLICA_CRIMBO_ELF = 11192;
   public static final int REPLICA_BUGBEAR_SHAMAN = 11193;
+  public static final int REPLICA_GRAVY_MAYPOLE = 11195;
+  public static final int REPLICA_WAX_LIPS = 11196;
   public static final int REPLICA_SNOWCONE_BOOK = 11197;
   public static final int REPLICA_JEWEL_EYED_WIZARD_HAT = 11199;
   public static final int REPLICA_BOTTLE_ROCKET = 11200;
@@ -3623,16 +3629,20 @@ public class ItemPool {
   public static final int REPLICA_RESOLUTION_BOOK = 11213;
   public static final int REPLICA_PLASTIC_VAMPIRE_FANGS = 11214;
   public static final int REPLICA_CUTE_ANGEL = 11215;
+  public static final int REPLICA_CAMP_SCOUT_BACKPACK = 11216;
   public static final int REPLICA_DEACTIVATED_NANOBOTS = 11217;
   public static final int REPLICA_BANDERSNATCH = 11218;
   public static final int REPLICA_SMITH_BOOK = 11219;
   public static final int REPLICA_FOLDER_HOLDER = 11220;
+  public static final int REPLICA_GREEN_THUMB = 11221;
   public static final int CINCHO_DE_MAYO = 11223;
+  public static final int REPLICA_GENE_SPLICING_LAB = 11225;
   public static final int REPLICA_STILL_GRILL = 11226;
   public static final int REPLICA_CRIMBO_SAPLING = 11227;
   public static final int REPLICA_YELLOW_PUCK = 11228;
   public static final int REPLICA_CHATEAU_ROOM_KEY = 11229;
   public static final int REPLICA_DECK_OF_EVERY_CARD = 11230;
+  public static final int REPLICA_SOURCE_TERMINAL = 11231;
   public static final int REPLICA_INTERGNAT = 11232;
   public static final int REPLICA_WITCHESS_SET = 11233;
   public static final int REPLICA_GENIE_BOTTLE = 11234;
@@ -3641,14 +3651,23 @@ public class ItemPool {
   public static final int REPLICA_NEVERENDING_PARTY_INVITE = 11237;
   public static final int REPLICA_GARBAGE_TOTE = 11238;
   public static final int REPLICA_GOD_LOBSTER = 11239;
+  public static final int REPLICA_FOURTH_SABER = 11240;
   public static final int REPLICA_SAUSAGE_O_MATIC = 11241;
+  public static final int REPLICA_HEWN_MOON_RUNE_SPOON = 11242;
   public static final int REPLICA_CAMELCALF = 11243;
   public static final int REPLICA_POWERFUL_GLOVE = 11244;
+  public static final int REPLICA_CARGO_CULTIST_SHORTS = 11245;
+  public static final int REPLICA_INDUSTRIAL_FIRE_EXTINGUISHER = 11246;
+  public static final int REPLICA_MINIATURE_CRYSTAL_BALL = 11247;
+  public static final int REPLICA_EMOTION_CHIP = 11248;
+  public static final int REPLICA_JURASSIC_PARKA = 11249;
   public static final int REPLICA_GREY_GOSLING = 11250;
   public static final int REPLICA_DESIGNER_SWEATPANTS = 11251;
+  public static final int REPLICA_PUMPKIN_BUCKET = 11252;
   public static final int REPLICA_TEN_DOLLARS = 11253;
   public static final int REPLICA_CINCHO_DE_MAYO = 11254;
   public static final int MR_STORE_2002_CATALOG = 11257;
+  public static final int PRO_SKATEBOARD = 11260;
   public static final int MEAT_BUTLER = 11262;
   public static final int LOATHING_IDOL_MICROPHONE = 11263;
   public static final int CHARTER_NELLYVILLE = 11264;
@@ -3659,6 +3678,9 @@ public class ItemPool {
   public static final int LOATHING_IDOL_MICROPHONE_50 = 11278;
   public static final int LOATHING_IDOL_MICROPHONE_25 = 11279;
   public static final int REPLICA_MR_STORE_2002_CATALOG = 11280;
+  public static final int REPLICA_PATRIOTIC_EAGLE = 11304;
+  public static final int POCKET_GUIDE_TO_MILD_EVIL = 11322;
+  public static final int POCKET_GUIDE_TO_MILD_EVIL_USED = 11323;
 
   private ItemPool() {}
 

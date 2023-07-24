@@ -744,7 +744,9 @@ public class Maximizer {
             continue;
           }
           // You must have the cargo shorts
-          if (!InventoryManager.hasItem(ItemPool.CARGO_CULTIST_SHORTS)) {
+          if (!InventoryManager.hasItem(ItemPool.CARGO_CULTIST_SHORTS)
+              && !(KoLCharacter.inLegacyOfLoathing()
+                  && InventoryManager.hasItem(ItemPool.REPLICA_CARGO_CULTIST_SHORTS))) {
             if (includeAll) {
               text = "(acquire a pair of Cargo Cultist Shorts for " + name + ")";
               cmd = "";
@@ -1670,8 +1672,8 @@ public class Maximizer {
       if ((itemId == ItemPool.BROKEN_CHAMPAGNE
               && Preferences.getInteger("garbageChampagneCharge") == 0)
           || (itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT
-                  && Preferences.getInteger("garbageShirtCharge") == 0)
-              && !Preferences.getBoolean("_garbageItemChanged")) {
+              && Preferences.getInteger("garbageShirtCharge") == 0
+              && !Preferences.getBoolean("_garbageItemChanged"))) {
         if (checkedItem.initial > count) {
           text = "fold & " + text;
           cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;

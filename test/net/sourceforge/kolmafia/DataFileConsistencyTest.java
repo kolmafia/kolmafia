@@ -369,4 +369,34 @@ public class DataFileConsistencyTest {
       fail("Couldn't read from " + file);
     }
   }
+
+  @Test
+  public void dailyLimitsShouldApplyToValidItems() {
+    String file = "dailylimits.txt";
+    int version = 1;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        String identifier = fields[0];
+        String name = fields[1];
+        switch (identifier) {
+          case "Use" -> {
+            var id = ItemDatabase.getExactItemId(name);
+            if (id == -1) {
+              fail("unrecognised item " + name);
+            }
+          }
+          case "Cast", "Tome" -> {
+            var id = SkillDatabase.getSkillId(name, true);
+            if (id < 0) {
+              fail("unrecognised skill " + name);
+            }
+          }
+          default -> fail("unrecognised identifier " + identifier);
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from " + file);
+    }
+  }
 }
