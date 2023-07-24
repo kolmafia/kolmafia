@@ -66,6 +66,12 @@ public class LoginManager {
 
     // The user wants to measure ping speed.
     var result = PingManager.runPingTest();
+
+    // If the ping test failed, give up; error already logged.
+    if (result.getAverage() == 0) {
+      return true;
+    }
+
     KoLmafia.updateDisplay(
         "Ping test: average delay is " + Math.round(result.getAverage()) + " msecs.");
 
