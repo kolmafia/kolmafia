@@ -2265,8 +2265,8 @@
 2263	The Secret of the Ooze	sebashield.gif	02010e747d2a195f3908b9ddf3cd1cbb	good	nohookah	drink 1 Simepore slime
 2264
 2265
-2266	Nothing Happened	nontini.gif	4ea39859915bf5e160d3e3010d18f37b	neutral	none	drink 1 nothingtini
-2267	Hello, I Must Be Going	petejacket.gif	de2fd12e4cc01c737679abb75caf96dc	neutral	nohookah	drink 1 Phil Collins
+2266	Nothing Happened	nontini.gif	4ea39859915bf5e160d3e3010d18f37b	good	none	drink 1 nothingtini
+2267	Hello, I Must Be Going	petejacket.gif	de2fd12e4cc01c737679abb75caf96dc	good	nohookah	drink 1 Phil Collins
 2268	Aloofah	loof_candy.gif	4e1b19f13f36d4e3d03aa14f51e55414	good	none	use 1 chocolate-covered loofah
 2269	One Foot Heavier	fs_candy.gif	5a26995fdbca9e91a81e788a76f7b4ba	good	none	use 1 Flag by the Foot&trade;
 2270	Bent Knees	knee.gif	a91c3d843c0ed51e7c9a0a751a5833cb	neutral	none	cast 1 Bendable Knees
@@ -2401,7 +2401,7 @@
 2399	Powder Power	disease.gif	7f9795080d7119dc0009eae2b9a4e916	good	none	chew 1 sachet of strange powder
 2400	Artisanal Satiaton	analjar_empty.gif	bad8c8c5113bf8ef1a5fd160c591a716	good	notcrs	drink 1 hipster cocktail
 2401	Wisdom of the God Lobster	godlob.gif	6ba242c26d1ee1ccd15db6074fa9b0e3	good	notcrs	# Challenge God Lobster (no Lobster equipment) and get blessing
-2402	Intuition of the God Lobster	godlob_scepter.gif	a3f14e1ea52197a7a61a97c189a0f40d	notcrs	none	# Challenge God Lobster with Scepter and get blessing
+2402	Intuition of the God Lobster	godlob_scepter.gif	a3f14e1ea52197a7a61a97c189a0f40d	neutral	notcrs	# Challenge God Lobster with Scepter and get blessing
 2403	Silence of the God Lobster	godlob_ring.gif	edf2bf0fc7dd87227c6e9ae7091dae41	neutral	none	# Challenge God Lobster with Ring and get blessing
 2404	Color of the God Lobster	godlob_rod.gif	577be6fa4852f48c8be181e9261032f5	neutral	none	# Challenge God Lobster with Rod and get blessing
 2405	Carapace of the God Lobster	godlob_robe.gif	870bf8253a4b7118decd9a8fd019886e	good	notcrs	# Challenge God Lobster with Robe and get blessing
