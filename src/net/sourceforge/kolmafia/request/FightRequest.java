@@ -10292,7 +10292,8 @@ public class FightRequest extends GenericRequest {
       case SkillPool.PERPETRATE_MILD_EVIL:
         if (
         // Spookypocket
-        responseText.contains("so discombobulated")
+        responseText.contains("drop something")
+            || responseText.contains("drop an item")
             ||
             // no items
             responseText.contains("even mildly evil")
