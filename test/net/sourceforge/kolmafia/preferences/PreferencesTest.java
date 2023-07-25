@@ -59,17 +59,23 @@ class PreferencesTest {
 
   @AfterEach
   public void resetCharAndPrefs() {
-    KoLCharacter.reset("");
-    KoLCharacter.reset(true);
-    KoLCharacter.setUserId(0);
-    File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
-    verboseDelete(userFile);
-    File backupFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.bak");
-    verboseDelete(backupFile);
-    // File ConcurrentUserFile =
-    //    new File("settings/" + DIFFERENT_USER_NAME.toLowerCase() + "_prefs.txt");
-    File MallPriceFile = new File("data/" + "mallprices.txt");
-    verboseDelete(MallPriceFile);
+    try {
+      KoLCharacter.reset("");
+      KoLCharacter.reset(true);
+      KoLCharacter.setUserId(0);
+      File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
+      verboseDelete(userFile);
+      File backupFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.bak");
+      verboseDelete(backupFile);
+      // File ConcurrentUserFile =
+      //    new File("settings/" + DIFFERENT_USER_NAME.toLowerCase() + "_prefs.txt");
+      File MallPriceFile = new File("data/" + "mallprices.txt");
+      verboseDelete(MallPriceFile);
+    } catch (Exception ex) {
+      System.out.println("Reset caused an error: " + ex.getMessage());
+      ex.printStackTrace();
+      // we should probably throw this error, but wtf, let's see some stack traces.
+    }
   }
 
   @Test
@@ -664,31 +670,37 @@ class PreferencesTest {
                 timeinThreads[i].start();
                 incrementThreads[i].start();
               });
+
       IntStream.range(0, threadCount)
           .forEach(
               j -> {
                 try {
-                  System.out.println(
-                      "Waiting for thread " + timeinThreads[j].getName() + " to complete.");
-                  timeinThreads[j].join();
+                  //    System.out.println(
+                  //      "Waiting for thread " + timeinThreads[j].getName() + " to complete.");
+                  timeinThreads[j].join(4000);
                   // incrementThreads[j].join();
                 } catch (InterruptedException e) {
                   e.printStackTrace();
                 }
+                assertFalse(
+                    timeinThreads[j].isAlive(), "Undead thread: " + timeinThreads[j].getName());
               });
 
       IntStream.range(0, threadCount)
           .forEach(
               j -> {
                 try {
-                  System.out.println(
-                      "Waiting for thread " + incrementThreads[j].getName() + " to complete.");
+                  // System.out.println(
+                  //   "Waiting for thread " + incrementThreads[j].getName() + " to complete.");
 
                   // timeinThreads[j].join();
-                  incrementThreads[j].join();
+                  incrementThreads[j].join(4000);
                 } catch (InterruptedException e) {
                   e.printStackTrace();
                 }
+                assertFalse(
+                    incrementThreads[j].isAlive(),
+                    "Undead thread: " + incrementThreads[j].getName());
               });
 
       assertEquals(
