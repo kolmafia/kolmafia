@@ -3195,9 +3195,9 @@
 3167	augmented El Vibrato drone	390534062	buffdrone.gif	usable	d	500
 3168	seal eyeball	692691888	eyeball.gif	potion, usable	q,d	53
 3169	turtle soup	502609401	soupbowl.gif	food	q,d	53	bowls of turtle soup
-3170	evil noodles	894555030	evilnoodles.gif	none, fancy, cook	q,d	53	bunches of evil noodles
-3171	nauseating reagent	597949601	evilreagent.gif	none, fancy, cook	q,d	53
-3172	evil paper umbrella	974859822	evilumbrella.gif	weapon, mix	q,d	53
+3170	evil noodles	894555030	evilnoodles.gif	none, fancy, cook	t,d	53	bunches of evil noodles
+3171	nauseating reagent	597949601	evilreagent.gif	none, fancy, cook	t,d	53
+3172	evil paper umbrella	974859822	evilumbrella.gif	weapon, mix	t,d	53
 3173	evil vihuela	175721485	evihuela.gif	potion, usable	q,d	53
 3174	evil boring spaghetti	993409818	bowl.gif	food	q,d	71	bowls of evil boring spaghetti
 3175	evil delicious noodles	735365259	bowl.gif	food	q,d	71	bowls of evil delicious noodles
