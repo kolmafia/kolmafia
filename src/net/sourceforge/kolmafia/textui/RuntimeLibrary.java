@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
