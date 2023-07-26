@@ -6200,7 +6200,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value my_delayturncount(ScriptRuntime controller) {
-    return new Value(AdventuresSpentDatabase.getTotalTrackedTurns());
+    return new Value(AdventureSpentDatabase.getTotalTrackedTurns());
   }
 
   public static Value my_fullness(ScriptRuntime controller) {
