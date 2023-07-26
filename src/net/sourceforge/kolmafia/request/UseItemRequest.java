@@ -1898,9 +1898,7 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case USE_MESSAGE_DISPLAY:
-        if (!Preferences.getBoolean("suppressNegativeStatusPopup")) {
-          UseItemRequest.showItemUsage(showHTML, responseText);
-        }
+        UseItemRequest.showItemUsage(showHTML, responseText);
         return;
     }
 
