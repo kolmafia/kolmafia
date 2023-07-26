@@ -28,7 +28,9 @@ import net.sourceforge.kolmafia.request.FightRequest;
 public class AdventureSpentDatabase implements Serializable {
   @Serial private static final long serialVersionUID = -180241952508113933L;
   private static Map<String, Integer> TURNS = new TreeMap<>();
-  private static Integer totalTrackedTurns = 0; // Including free-fights, free-runs, delay burning turns, across all zones
+
+  // Including free-fights, free-runs, delay burning turns, across all zones
+  private static Integer totalTrackedTurns = 0;
 
   private static int lastTurnUpdated = -1;
 
