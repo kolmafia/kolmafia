@@ -1426,6 +1426,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_turncount", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
+    functions.add(new LibraryFunction("my_delayturncount", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {};
     functions.add(new LibraryFunction("my_fullness", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
@@ -6193,6 +6196,10 @@ public abstract class RuntimeLibrary {
 
   public static Value my_turncount(ScriptRuntime controller) {
     return new Value(KoLCharacter.getCurrentRun());
+  }
+
+  public static Value my_delayturncount(ScriptRuntime controller) {
+    return new Value(AdventuresSpentDatabase.getTotalTrackedTurns());
   }
 
   public static Value my_fullness(ScriptRuntime controller) {

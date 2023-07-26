@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 public class AdventureSpentDatabase implements Serializable {
   @Serial private static final long serialVersionUID = -180241952508113933L;
   private static Map<String, Integer> TURNS = new TreeMap<>();
+  private static Integer totalTrackedTurns = 0; // Including free-fights, free-runs, delay burning turns, across all zones
 
   private static int lastTurnUpdated = -1;
 
@@ -52,6 +53,7 @@ public class AdventureSpentDatabase implements Serializable {
 
   public static void resetTurns(boolean serializeAfterwards) {
     AdventureSpentDatabase.TURNS = new TreeMap<>();
+    totalTrackedTurns = 0;
 
     List<KoLAdventure> list = AdventureDatabase.getAsLockableListModel();
 
@@ -99,6 +101,7 @@ public class AdventureSpentDatabase implements Serializable {
     }
     int turns = AdventureSpentDatabase.TURNS.getOrDefault(loc, 0);
     AdventureSpentDatabase.TURNS.put(loc, turns + 1);
+    totalTrackedTurns = totalTrackedTurns + 1;
   }
 
   public static void setTurns(final String loc, final int turns) {
@@ -110,7 +113,9 @@ public class AdventureSpentDatabase implements Serializable {
       RequestLogger.printLine(loc + " is not a recognized location.");
       return;
     }
+    int prevTurns = AdventureSpentDatabase.TURNS.getOrDefault(loc, 0);
     AdventureSpentDatabase.TURNS.put(loc, turns);
+    totalTrackedTurns = totalTrackedTurns + (turns - prevTurns);
   }
 
   public static int getTurns(KoLAdventure adv) {
@@ -133,6 +138,10 @@ public class AdventureSpentDatabase implements Serializable {
 
   public static int getTurns(final String loc) {
     return getTurns(loc, false);
+  }
+
+  public static int getTotalTrackedTurns() {
+    return totalTrackedTurns;
   }
 
   public static void serialize() {
@@ -173,6 +182,9 @@ public class AdventureSpentDatabase implements Serializable {
       // after successfully loading, check if there were new zones added that aren't yet in the
       // TreeMap.
       AdventureSpentDatabase.checkZones();
+
+      // set totalTrackedTurns to the combined total of all zones
+      totalTrackedTurns = AdventureSpentDatabase.TURNS.values().stream().reduce(0, Integer::sum);
     } catch (FileNotFoundException e) {
       AdventureSpentDatabase.resetTurns(false);
     } catch (ClassNotFoundException | ClassCastException e) {
