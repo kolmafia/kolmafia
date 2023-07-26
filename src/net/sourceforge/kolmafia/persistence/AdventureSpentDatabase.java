@@ -106,6 +106,12 @@ public class AdventureSpentDatabase implements Serializable {
     totalTrackedTurns = totalTrackedTurns + 1;
   }
 
+  public static void setTurns(KoLAdventure adv, final int turns) {
+    // This function should rarely be needed
+    String name = adv.getAdventureName();
+    AdventureSpentDatabase.setTurns(name, turns);
+  }
+
   public static void setTurns(final String loc, final int turns) {
     // This function should rarely be needed
     if (loc == null) {

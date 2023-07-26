@@ -61,9 +61,9 @@ public class AdventureSpentDatabaseTest {
 
     AdventureSpentDatabase.addTurn(location2);
     assertEquals(3, AdventureSpentDatabase.getTotalTrackedTurns());
-    AdventureSpentDatabase.setTurns(location2.getZone(), 5); // Should add 4
+    AdventureSpentDatabase.setTurns(location2, 5); // Should add 4
     assertEquals(7, AdventureSpentDatabase.getTotalTrackedTurns());
-    AdventureSpentDatabase.setTurns(location2.getZone(), 0); // Should subtract 5
+    AdventureSpentDatabase.setTurns(location2, 0); // Should subtract 5
     assertEquals(2, AdventureSpentDatabase.getTotalTrackedTurns());
 
     AdventureSpentDatabase.resetTurns(false);
