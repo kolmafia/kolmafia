@@ -225,6 +225,10 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
+    if (responseText.contains("The Florist Friar's Cottage")) {
+      FloristRequest.setHaveFlorist(true);
+    }
+
     switch (FloristRequest.getOption(urlString)) {
       case 1 -> {
         int plant = FloristRequest.getPlant(urlString);
@@ -259,9 +263,6 @@ public class FloristRequest extends GenericRequest {
         return;
       }
       case 4 -> {
-        if (responseText.contains("The Florist Friar's Cottage")) {
-          FloristRequest.setHaveFlorist(true);
-        }
         FloristRequest.floristPlants.clear();
         Matcher matcher = FloristRequest.FLOWER_PATTERN.matcher(responseText);
         while (matcher.find()) {
