@@ -13,8 +13,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FloristRequest extends GenericRequest {
-  private static boolean haveFlorist = true;
-  private static boolean floristChecked = false;
 
   private static final Pattern FLOWER_PATTERN =
       Pattern.compile(
@@ -147,8 +145,7 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void reset() {
-    FloristRequest.haveFlorist = true;
-    FloristRequest.floristChecked = false;
+    Preferences.setBoolean("_floristChecked", false);
     FloristRequest.floristPlants.clear();
   }
 
@@ -181,17 +178,7 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
-    if (FloristRequest.floristChecked && !FloristRequest.haveFlorist()) {
-      return;
-    }
-
-    FloristRequest.floristChecked = true;
-
-    PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
-    RequestThread.postRequest(forestVisit);
-    if (forestVisit.responseText != null
-        && !forestVisit.responseText.contains("The Florist Friar's Cottage")) {
-      FloristRequest.setHaveFlorist(false);
+    if (!FloristRequest.haveFlorist()) {
       return;
     }
 
@@ -199,15 +186,20 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static boolean haveFlorist() {
-    if (!FloristRequest.floristChecked) {
-      return false;
+    if(Preferences.getBoolean("_floristChecked")) {
+      return Preferences.getBoolean("floristAvailable");
     }
-    return FloristRequest.haveFlorist;
+    PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
+    RequestThread.postRequest(forestVisit);
+
+    boolean haveFlorist = forestVisit.responseText != null && forestVisit.responseText.contains("The Florist Friar's Cottage");
+    Preferences.setBoolean("_floristChecked", true);
+    FloristRequest.setHaveFlorist(haveFlorist);
+    return haveFlorist;
   }
 
   public static void setHaveFlorist(final boolean haveFlorist) {
-    FloristRequest.floristChecked = true;
-    FloristRequest.haveFlorist = haveFlorist;
+    Preferences.setBoolean("floristAvailable", haveFlorist);
     if (haveFlorist && !KoLCharacter.inLegacyOfLoathing()) {
       Preferences.setBoolean("ownsFloristFriar", true);
     }
