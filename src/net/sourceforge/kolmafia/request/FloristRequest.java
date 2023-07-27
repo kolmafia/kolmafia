@@ -208,7 +208,7 @@ public class FloristRequest extends GenericRequest {
   public static void setHaveFlorist(final boolean haveFlorist) {
     FloristRequest.floristChecked = true;
     FloristRequest.haveFlorist = haveFlorist;
-    if (haveFlorist) {
+    if (haveFlorist && KoLCharacter.ascensionPath != Path.LEGACY_OF_LOATHING) {
       Preferences.setBoolean("ownsFloristFriar", true);
     }
   }
