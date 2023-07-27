@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -1424,6 +1425,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {};
     functions.add(new LibraryFunction("my_turncount", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("my_total_turns_spent", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
     functions.add(new LibraryFunction("my_fullness", DataTypes.INT_TYPE, params));
@@ -6193,6 +6197,10 @@ public abstract class RuntimeLibrary {
 
   public static Value my_turncount(ScriptRuntime controller) {
     return new Value(KoLCharacter.getCurrentRun());
+  }
+
+  public static Value my_total_turns_spent(ScriptRuntime controller) {
+    return new Value(AdventureSpentDatabase.getTotalTrackedTurns());
   }
 
   public static Value my_fullness(ScriptRuntime controller) {
