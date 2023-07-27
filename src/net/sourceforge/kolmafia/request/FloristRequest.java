@@ -208,6 +208,9 @@ public class FloristRequest extends GenericRequest {
   public static void setHaveFlorist(final boolean haveFlorist) {
     FloristRequest.floristChecked = true;
     FloristRequest.haveFlorist = haveFlorist;
+    if (haveFlorist) {
+      Preferences.setBoolean("ownsFloristFriar", true);
+    }
   }
 
   public static final List<Florist> getPlants(String location) {
