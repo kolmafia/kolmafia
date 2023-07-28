@@ -14,9 +14,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FloristRequest extends GenericRequest {
-  private static boolean haveFlorist = true;
-  private static boolean floristChecked = false;
-
   private static final Pattern FLOWER_PATTERN =
       Pattern.compile(
           "<tr><td>([^>]*?)</td><td width.*?plant(\\d+)\\.gif.*?plant(\\d+)?\\.gif.*?plant(\\d+)?\\.gif.*?");
@@ -148,8 +145,8 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void reset() {
-    FloristRequest.haveFlorist = true;
-    FloristRequest.floristChecked = false;
+    Preferences.setBoolean("_floristFriarChecked", false);
+    Preferences.setBoolean("floristFriarAvailable", false);
     FloristRequest.floristPlants.clear();
   }
 
@@ -181,8 +178,6 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
-    FloristRequest.floristChecked = true;
-
     PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
     RequestThread.postRequest(forestVisit);
     FloristRequest.setHaveFlorist(
@@ -204,16 +199,17 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static boolean haveFlorist() {
-    if (!FloristRequest.floristChecked) {
+    if (!Preferences.getBoolean("_floristFriarChecked")
+        && !Preferences.getBoolean("floristFriarAvailable")) {
       checkHaveFlorist();
     }
 
-    return FloristRequest.floristChecked && FloristRequest.haveFlorist;
+    return Preferences.getBoolean("floristFriarAvailable");
   }
 
   public static void setHaveFlorist(final boolean haveFlorist) {
-    FloristRequest.floristChecked = true;
-    FloristRequest.haveFlorist = haveFlorist;
+    Preferences.setBoolean("_floristFriarChecked", true);
+    Preferences.setBoolean("floristFriarAvailable", haveFlorist);
     if (haveFlorist && !KoLCharacter.inLegacyOfLoathing()) {
       Preferences.setBoolean("ownsFloristFriar", true);
     }

@@ -272,6 +272,7 @@ public class Preferences {
         "fistTeachingsPokerRoom",
         "fistTeachingsRoad",
         "fistTeachingsSlums",
+        "floristFriarAvailable",
         "funGuyMansionKills",
         "frenchGuardTurtlesFreed",
         "garbageChampagneCharge",
