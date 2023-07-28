@@ -168,8 +168,7 @@ public class FloristRequest extends GenericRequest {
     this.addFormField("plant", String.valueOf(plant));
   }
 
-  @Override
-  public void run() {
+  private static void checkHaveFlorist() {
     if (GenericRequest.abortIfInFightOrChoice()) {
       return;
     }
@@ -178,11 +177,7 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
-    if (KoLAdventure.woodsOpen()) {
-      return;
-    }
-
-    if (FloristRequest.floristChecked && !FloristRequest.haveFlorist()) {
+    if (!KoLAdventure.woodsOpen()) {
       return;
     }
 
@@ -190,9 +185,18 @@ public class FloristRequest extends GenericRequest {
 
     PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
     RequestThread.postRequest(forestVisit);
-    if (forestVisit.responseText != null
-        && !forestVisit.responseText.contains("The Florist Friar's Cottage")) {
-      FloristRequest.setHaveFlorist(false);
+    FloristRequest.setHaveFlorist(
+        forestVisit.responseText != null
+            && forestVisit.responseText.contains("The Florist Friar's Cottage"));
+  }
+
+  @Override
+  public void run() {
+    if (GenericRequest.abortIfInFightOrChoice()) {
+      return;
+    }
+
+    if (!FloristRequest.haveFlorist()) {
       return;
     }
 
@@ -201,9 +205,10 @@ public class FloristRequest extends GenericRequest {
 
   public static boolean haveFlorist() {
     if (!FloristRequest.floristChecked) {
-      return false;
+      checkHaveFlorist();
     }
-    return FloristRequest.haveFlorist;
+
+    return FloristRequest.floristChecked && FloristRequest.haveFlorist;
   }
 
   public static void setHaveFlorist(final boolean haveFlorist) {
