@@ -146,6 +146,7 @@ public class FloristRequest extends GenericRequest {
 
   public static void reset() {
     FloristRequest.floristPlants.clear();
+    checkFloristAvailable();
   }
 
   // forestvillage.php?action=floristfriar
