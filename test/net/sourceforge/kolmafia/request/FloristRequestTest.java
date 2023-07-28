@@ -35,7 +35,8 @@ public class FloristRequestTest {
 
   @Test
   public void unavailable() {
-    FloristRequest.parseResponse("choice.php?whichchoice=720", "");
+    String responseText = html("request/test_cant_get_there.html");
+    FloristRequest.parseResponse("choice.php?whichchoice=720", responseText);
     assertFalse(FloristRequest.haveFlorist());
     assertFalse(Preferences.getBoolean("floristFriarChecked"));
     assertFalse(Preferences.getBoolean("ownsFloristFriar"));
