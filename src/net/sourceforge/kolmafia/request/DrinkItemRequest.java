@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -19,6 +20,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -671,7 +673,10 @@ public class DrinkItemRequest extends UseItemRequest {
   }
 
   public static final void parseConsumption(
-      AdventureResult item, final AdventureResult helper, final String responseText) {
+      AdventureResult item,
+      final AdventureResult helper,
+      final String responseText,
+      final boolean showHTML) {
     if (responseText.contains("too drunk")) {
       UseItemRequest.lastUpdate = "Inebriety limit reached.";
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
@@ -695,6 +700,14 @@ public class DrinkItemRequest extends UseItemRequest {
 
     // You only have 1 of those, not 7.
     if (responseText.contains("You only have")) {
+      return;
+    }
+
+    int itemId = item.getItemId();
+    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
+    if (attrs.contains(Attribute.MESSAGE)) {
+      // The item is not consumed.
+      UseItemRequest.showItemUsage(showHTML, responseText);
       return;
     }
 
@@ -762,8 +775,6 @@ public class DrinkItemRequest extends UseItemRequest {
       // successfully eat or drink.
       return;
     }
-
-    int itemId = item.getItemId();
 
     // Handle item-specific consumption failure
     switch (itemId) {

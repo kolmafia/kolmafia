@@ -164,6 +164,7 @@ public class ItemDatabase {
     USABLE("usable"),
     MULTIPLE("multiple"),
     REUSABLE("reusable"),
+    MESSAGE("message"),
 
     SINGLE("single"),
     SOLO("solo"),
