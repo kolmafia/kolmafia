@@ -2893,6 +2893,13 @@ public class UseItemRequest extends GenericRequest {
 
         break;
 
+      case ItemPool.GREEN_THUMB:
+        Preferences.setBoolean("ownsFloristFriar", true);
+        // Fall through
+      case ItemPool.REPLICA_GREEN_THUMB:
+        FloristRequest.checkFloristAvailable();
+        break;
+
       case ItemPool.CHATEAU_ROOM_KEY:
         Preferences.setBoolean("chateauAvailable", true);
 
