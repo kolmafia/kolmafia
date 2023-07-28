@@ -652,6 +652,8 @@ user	flickeringPixel5	false
 user	flickeringPixel6	false
 user	flickeringPixel7	false
 user	flickeringPixel8	false
+user	floristFriarAvailable	false
+user	floristFriarChecked	false
 user	flyeredML	0
 user	forbiddenStores
 user	fossilB	0
@@ -1129,6 +1131,7 @@ user	optimisticCandleProgress	25
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
 user	overgrownLotAvailable	false
+user	ownsFloristFriar	false
 user	ownsSpeakeasy	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0

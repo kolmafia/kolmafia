@@ -667,12 +667,16 @@ public class EatItemRequest extends UseItemRequest {
   }
 
   public static final void parseConsumption(
-      final AdventureResult item, final AdventureResult helper, final String responseText) {
+      final AdventureResult item,
+      final AdventureResult helper,
+      final String responseText,
+      final boolean showHTML) {
     // Make sure the global value is reset before returning
     boolean timeSpinnerUsed = EatItemRequest.timeSpinnerUsed;
     EatItemRequest.timeSpinnerUsed = false;
 
     int itemId = item.getItemId();
+    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
 
     // Handle item-specific consumption failure
     switch (itemId) {
@@ -758,6 +762,12 @@ public class EatItemRequest extends UseItemRequest {
       int requested = StringUtilities.parseInt(quantityMatcher.group(2));
       UseItemRequest.lastUpdate = "You only have " + count + " of those, not " + requested;
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+      return;
+    }
+
+    if (attrs.contains(Attribute.MESSAGE)) {
+      // The item is not consumed.
+      UseItemRequest.showItemUsage(showHTML, responseText);
       return;
     }
 
@@ -866,7 +876,6 @@ public class EatItemRequest extends UseItemRequest {
       Preferences.setBoolean("universalSeasoningActive", false);
     }
 
-    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
     if (!timeSpinnerUsed && !attrs.contains(Attribute.REUSABLE)) {
       ResultProcessor.processResult(item.getNegation());
     }
