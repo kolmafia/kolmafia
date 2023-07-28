@@ -2887,7 +2887,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.GREEN_THUMB:
-        Preferences.setBoolean("chateauAvailable", true);
+        Preferences.setBoolean("ownsFloristFriar", true);
         // Fall through
       case ItemPool.REPLICA_GREEN_THUMB:
         FloristRequest.reset(); // Reset state
