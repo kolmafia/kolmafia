@@ -165,7 +165,7 @@ public class FloristRequest extends GenericRequest {
     this.addFormField("plant", String.valueOf(plant));
   }
 
-  private static void checkHaveFlorist() {
+  public static void checkFloristAvailable() {
     if (GenericRequest.abortIfInFightOrChoice()) {
       return;
     }
@@ -201,7 +201,7 @@ public class FloristRequest extends GenericRequest {
   public static boolean haveFlorist() {
     if (!Preferences.getBoolean("_floristFriarChecked")
         && !Preferences.getBoolean("floristFriarAvailable")) {
-      checkHaveFlorist();
+      checkFloristAvailable();
     }
 
     return Preferences.getBoolean("floristFriarAvailable");
