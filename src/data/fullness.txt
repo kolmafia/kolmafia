@@ -252,7 +252,7 @@ D roll	2	4	awesome	6-8	0	20-30	0	20 On a Roll (+25 Food Drop)
 dead lights pie	2	2	awesome	7-9	5-10	20-40	5-10
 dead meat bun	3	4	decent	5	10	0	0
 decent brain	1	1	decent	2	3-5	3-5	3-5	Zombie Slayer
-Deep Dish of Legend	2	1	EPIC	18-22	80-200	80-200	80-200	100 In the Depths (+15 Familiar Weight, +25 Mus, +300% Mus, +100% Max HP/MP), PIZZA
+Deep Dish of Legend	2	5	EPIC	18-22	80-200	80-200	80-200	100 In the Depths (+15 Familiar Weight, +25 Mus, +300% Mus, +100% Max HP/MP), PIZZA
 dehydrated caviar	1	2	decent	2	0	0	15
 delicious noodles	3	3	good	6-9	0	0	9-25
 delicious salad	3	1	decent	3-5	0	0	0	25% chance of tattoo, SALAD
