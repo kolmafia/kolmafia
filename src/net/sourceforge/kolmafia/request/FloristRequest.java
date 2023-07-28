@@ -186,13 +186,15 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static boolean haveFlorist() {
-    if(Preferences.getBoolean("_floristChecked")) {
+    if (Preferences.getBoolean("_floristChecked")) {
       return Preferences.getBoolean("floristAvailable");
     }
     PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
     RequestThread.postRequest(forestVisit);
 
-    boolean haveFlorist = forestVisit.responseText != null && forestVisit.responseText.contains("The Florist Friar's Cottage");
+    boolean haveFlorist =
+        forestVisit.responseText != null
+            && forestVisit.responseText.contains("The Florist Friar's Cottage");
     Preferences.setBoolean("_floristChecked", true);
     FloristRequest.setHaveFlorist(haveFlorist);
     return haveFlorist;
