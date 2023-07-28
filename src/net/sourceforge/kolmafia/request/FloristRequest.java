@@ -191,6 +191,10 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
+    if (!Preferences.getBoolean("_floristFriarChecked")) {
+      checkFloristAvailable();
+    }
+
     if (!FloristRequest.haveFlorist()) {
       return;
     }
@@ -199,9 +203,8 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static boolean haveFlorist() {
-    if (!Preferences.getBoolean("_floristFriarChecked")
-        && !Preferences.getBoolean("floristFriarAvailable")) {
-      checkFloristAvailable();
+    if (!Preferences.getBoolean("_floristFriarChecked")) {
+      return false;
     }
 
     return Preferences.getBoolean("floristFriarAvailable");
