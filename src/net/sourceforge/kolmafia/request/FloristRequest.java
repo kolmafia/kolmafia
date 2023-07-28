@@ -145,8 +145,6 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void reset() {
-    Preferences.setBoolean("floristFriarChecked", false);
-    Preferences.setBoolean("floristFriarAvailable", false);
     FloristRequest.floristPlants.clear();
   }
 
