@@ -145,8 +145,8 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void reset() {
+    Preferences.setBoolean("floristFriarChecked", false);
     FloristRequest.floristPlants.clear();
-    checkFloristAvailable();
   }
 
   // forestvillage.php?action=floristfriar
