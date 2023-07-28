@@ -145,7 +145,7 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void reset() {
-    Preferences.setBoolean("_floristFriarChecked", false);
+    Preferences.setBoolean("floristFriarChecked", false);
     Preferences.setBoolean("floristFriarAvailable", false);
     FloristRequest.floristPlants.clear();
   }
@@ -191,7 +191,7 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
-    if (!Preferences.getBoolean("_floristFriarChecked")) {
+    if (!Preferences.getBoolean("floristFriarChecked")) {
       checkFloristAvailable();
     }
 
@@ -203,7 +203,7 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static boolean haveFlorist() {
-    if (!Preferences.getBoolean("_floristFriarChecked")) {
+    if (!Preferences.getBoolean("floristFriarChecked")) {
       return false;
     }
 
@@ -211,7 +211,7 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void setHaveFlorist(final boolean haveFlorist) {
-    Preferences.setBoolean("_floristFriarChecked", true);
+    Preferences.setBoolean("floristFriarChecked", true);
     Preferences.setBoolean("floristFriarAvailable", haveFlorist);
     if (haveFlorist && !KoLCharacter.inLegacyOfLoathing()) {
       Preferences.setBoolean("ownsFloristFriar", true);
