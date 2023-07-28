@@ -539,7 +539,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     return true;
   }
 
-  private static boolean woodsOpen() {
+  public static boolean woodsOpen() {
     return QuestDatabase.isQuestStarted(Quest.LARVA) || QuestDatabase.isQuestStarted(Quest.CITADEL);
   }
 

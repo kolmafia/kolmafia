@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -177,7 +178,7 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
-    if (KoLCharacter.getLevel() < 2) {
+    if (KoLAdventure.woodsOpen()) {
       return;
     }
 
