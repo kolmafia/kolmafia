@@ -2404,6 +2404,10 @@ public class GenericRequest implements Runnable {
         }
         // Fallthrough; ResultProcessor will log "You gain 917 Meat."
       }
+      case "inv_use.php" -> {
+        UseItemRequest.parseGiftPackage(responseText);
+        // Fallthrough; ResultProcessor will log "You acquire <stuff>."
+      }
     }
 
     // Anything else counts as NOT an "adventure" result.

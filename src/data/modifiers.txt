@@ -11162,6 +11162,7 @@ Item	Dear Past Self Package	Free Pull
 # Deck of Every Card: Who knows what will happen when you draw from it!
 Item	decoded cult documents	Skill: "Bind Spaghetti Elemental"
 Item	decorative fountain	Effect: "Sleepy", Effect Duration: 1
+Item	deed to Oliver's Place	Free Pull
 Item	defective Game Grid token	Effect: "Video... Games?", Effect Duration: 5
 Item	deflated inflatable dodecapede	Free Pull
 # delicious shimmering moth: Restore 30-40 MP if you are a bird
@@ -11169,6 +11170,7 @@ Item	deflated inflatable dodecapede	Free Pull
 # deluxe Neverending Party favor: Contains extra-fabulous prizes!
 # depantsing bomb: Weakens enemies somewhat
 # Desert Bus pass: <b>Allows Travel to Desert Beach</b>
+Item	designer sweatpants (new old stock)	Free Pull
 Item	detective school application	Free Pull
 # detective tattoo
 # diamondback skin: Adds +20 Monster Level to your cowboy boots
@@ -11749,8 +11751,11 @@ Item	packaged cold medicine cabinet	Free Pull
 Item	packaged Daylight Shavings Helmet	Free Pull
 Item	packaged familiar scrapbook	Free Pull
 Item	packaged industrial fire extinguisher	Free Pull
+Item	packaged June cleaver	Free Pull
+Item	packaged Jurassic Parka	Free Pull
 Item	packaged knock-off retro superhero cape	Free Pull
 Item	packaged miniature crystal ball	Free Pull
+Item	packaged model train set	Free Pull
 Item	packaged Pocket Professor	Free Pull
 Item	packaged SpinMaster&trade; lathe	Free Pull
 # PADL Phone: Summons Frat Army Aid
@@ -12014,6 +12019,8 @@ Item	shingle	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
 Item	shortest-order cook	Free Pull
 Item	shot of Sneaky Pete's Mojo	Free Pull
 Item	shrine to the Barrel god	Free Pull
+Item	shrink-wrapped 2002 Mr. Store Catalog	Free Pull
+Item	shrink-wrapped Cincho de Mayo	Free Pull
 # shrinking powder: Reduce an enemy's size (Hit Points) by 35-50%
 # shuriken salad: Deals 25-35 Physical Damage, 25-35 <font color=blue>Cold Damage</font> and 25-35 <font color=green>Stench Damage</font>
 Item	siesta-ing Casagnova gnome	Free Pull
