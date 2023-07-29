@@ -89,9 +89,6 @@ public class UseItemRequest extends GenericRequest {
       Pattern.compile("Your Mer-kin vocabulary mastery is now at <b>(\\d*?)%</b>");
   private static final Pattern PURPLE_WORD_PATTERN =
       Pattern.compile("don't forget <font color=purple><b><i>(.*?)</i></b></font>");
-  private static final Pattern GIFT_FROM_PATTERN =
-      Pattern.compile(
-          "<p>From: <b><a class=nounder href=\"showplayer.php\\?who=(\\d+)\">(.*?)</a></b>");
   private static final Pattern BIRD_OF_THE_DAY_PATTERN =
       Pattern.compile("Today's bird is the (.*?)!");
 
@@ -2032,15 +2029,6 @@ public class UseItemRequest extends GenericRequest {
             UseItemRequest.lastUpdate = "You can't open that package yet.";
             KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
             return;
-          }
-
-          // Log sender of message
-          Matcher giftFromMatcher = UseItemRequest.GIFT_FROM_PATTERN.matcher(responseText);
-          if (giftFromMatcher.find()) {
-            String giftFrom = giftFromMatcher.group(2);
-            String message = "Opening " + name + " from " + giftFrom;
-            RequestLogger.printLine("<font color=\"green\">" + message + "</font>");
-            RequestLogger.updateSessionLog(message);
           }
 
           UseItemRequest.showItemUsage(showHTML, responseText);
@@ -6174,6 +6162,24 @@ public class UseItemRequest extends GenericRequest {
         if (!ItemDatabase.isReusable(itemId)) {
           ResultProcessor.processResult(item.getNegation());
         }
+    }
+  }
+
+  private static final Pattern GIFT_FROM_PATTERN =
+      Pattern.compile(
+          "<p>From: <b><a class=nounder href=\"showplayer.php\\?who=(\\d+)\">(.*?)</a></b>");
+
+  public static void parseGiftPackage(String responseText) {
+    AdventureResult item = UseItemRequest.lastItemUsed;
+    if (ItemDatabase.isGiftPackage(item.getItemId())) {
+      Matcher giftFromMatcher = GIFT_FROM_PATTERN.matcher(responseText);
+      if (giftFromMatcher.find()) {
+        String name = item.getName();
+        String giftFrom = giftFromMatcher.group(2);
+        String message = "Opening " + name + " from " + giftFrom;
+        RequestLogger.printLine("<font color=\"green\">" + message + "</font>");
+        RequestLogger.updateSessionLog(message);
+      }
     }
   }
 

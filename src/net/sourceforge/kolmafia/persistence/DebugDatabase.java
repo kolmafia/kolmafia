@@ -590,7 +590,7 @@ public class DebugDatabase {
       // Curse items are special
       return ConsumptionType.NONE;
     }
-    if (type.equals("potion")) {
+    if (type.startsWith("potion")) {
       return ConsumptionType.POTION;
     }
     if (type.startsWith("usable") || type.contains(" usable") || type.equals("gift package")) {
@@ -644,6 +644,8 @@ public class DebugDatabase {
       attributes.add(Attribute.COMBAT);
     } else if (type.contains("reusable")) {
       attributes.add(Attribute.REUSABLE);
+    } else if (type.equals("gift package")) {
+      attributes.add(Attribute.PACKAGE);
     }
     if (multi && primary != ConsumptionType.USE_MULTIPLE && usable) {
       attributes.add(Attribute.MULTIPLE);
@@ -1114,6 +1116,14 @@ public class DebugDatabase {
         String currentValue = current.getValue();
         if (currentValue == null) {
           continue; // No value
+        }
+        if (value == null) {
+          // This is a bug - somewhere - in our parsing.
+          //
+          // It only seems to happen with Thorns.  That supposedly has a numeric value
+          // (a range, actually), but several matching patterns don't have one.
+          report.println("# *** modifier " + key + ": " + currentValue + " missing a value");
+          continue;
         }
 
         if (currentValue.contains("[")) {

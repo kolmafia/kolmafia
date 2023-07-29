@@ -32,6 +32,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,6 +40,7 @@ import static org.junitpioneer.jupiter.cartesian.CartesianTest.Enum;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.util.List;
@@ -1065,6 +1067,31 @@ class UseItemRequestTest {
             "/choice.php",
             "whichchoice=1505&option=" + option + "&pwd=microphone");
         assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class GiftPackages {
+    @Test
+    void canDetectSenderOfGiftPackage() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withNoItems());
+      try (cleanups) {
+        RequestLoggerOutput.startStream();
+        client.addResponse(200, html("request/test_gift_package.html"));
+        var request = new GenericRequest("inv_use.php?whichitem=1168&ajax=1");
+        request.run();
+        var output = RequestLoggerOutput.stopStream();
+
+        String expected =
+            """
+            <font color="green">Opening less-than-three-shaped box from Veracity</font>
+            You acquire 11-leaf clover (11)
+            """;
+        assertThat(output, startsWith(expected));
+        assertThat(InventoryManager.getCount(ItemPool.ELEVEN_LEAF_CLOVER), is(11));
       }
     }
   }
