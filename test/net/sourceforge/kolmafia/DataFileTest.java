@@ -25,8 +25,8 @@ public class DataFileTest {
               ("(none|food|drink|spleen|usable|multiple|reusable|message|grow|pokepill|"
                   + "hat|weapon|sixgun|offhand|container|shirt|pants|accessory|familiar|sticker|"
                   + "card|folder|bootspur|bootskin|food helper|drink helper|zap|sphere|guardian|"
-                  + "avatar|potion)(\\s*,\\s*(usable|multiple|reusable|combat|combat reusable|single|"
-                  + "solo|curse|bounty|candy1|candy2|candy|chocolate|matchable|fancy|paste|smith|cook|mix))*"), // use
+                  + "avatar|potion)(\\s*,\\s*(usable|multiple|reusable|combat|combat reusable|single|message|"
+                  + "solo|curse|bounty|package|candy1|candy2|candy|chocolate|matchable|fancy|paste|smith|cook|mix))*"), // use
               "([qgtd](,[qgtd])*)?", // access
               "\\d+", // autosell
             }),
@@ -109,6 +109,7 @@ public class DataFileTest {
   public void testDataFileAgainstRegex(String fname, int version, String[] regexes) {
     try (BufferedReader reader = FileUtilities.getVersionedReader(fname, version)) {
       String[] fields;
+      boolean bogus = false;
 
       while ((fields = FileUtilities.readData(reader)) != null) {
         if (fields.length == 1) {
@@ -116,14 +117,22 @@ public class DataFileTest {
           continue;
         }
         if (fields.length < regexes.length) {
-          fail("Entry for " + fields[0] + " is missing fields");
+          System.out.println("Entry for " + fields[0] + " is missing fields");
+          bogus = true;
+          continue;
         }
         for (int i = 0; i < regexes.length; ++i) {
           // Assume fields[0] is something that uniquely identifies the row.
-          assertTrue(
-              Pattern.matches(regexes[i], fields[i]),
-              "Field " + i + " (" + fields[i] + ") did not match:\n" + join(fields, "\t"));
+          if (!Pattern.matches(regexes[i], fields[i])) {
+            System.out.println(
+                "Field " + i + " (" + fields[i] + ") did not match:\n" + join(fields, "\t"));
+            bogus = true;
+          }
         }
+      }
+
+      if (bogus) {
+        fail("Data errors in " + fname);
       }
     } catch (IOException e) {
       fail("Exception in tearing down reader:" + e.toString());

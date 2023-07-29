@@ -524,7 +524,9 @@ public enum DoubleModifier implements Modifier {
   THORNS(
       "Thorns",
       new Pattern[] {
-        Pattern.compile("Damages Attacking Opponents?"), Pattern.compile("Deals (.*) to attackers")
+        Pattern.compile("Damages Attacking Opponents?"),
+        Pattern.compile("Damages enemies who hit you"),
+        Pattern.compile("Deals (.*) to attackers")
       },
       Pattern.compile("Thorns: " + EXPR)),
   SPORADIC_THORNS("Sporadic Thorns", Pattern.compile("Sporadic Thorns: " + EXPR));
@@ -634,11 +636,11 @@ public enum DoubleModifier implements Modifier {
           continue;
         }
 
-        if (matcher.groupCount() == 0) {
-          return mod.getTag();
-        }
-
         String tag = mod.getTag();
+
+        if (matcher.groupCount() == 0) {
+          return tag;
+        }
 
         // Kludge for Slime (Really) Hates it
         if (mod == DoubleModifier.SLIME_HATES_IT) {

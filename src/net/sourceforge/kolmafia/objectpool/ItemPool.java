@@ -1997,6 +1997,7 @@ public class ItemPool {
   public static final int POCKET_SQUARE = 6407;
   public static final int CORRUPTED_STARDUST = 6408;
   public static final int SHAKING_SKULL = 6412;
+  public static final int GREEN_THUMB = 6413;
   public static final int TWIST_OF_LIME = 6417;
   public static final int TONIC_DJINN = 6421;
   public static final int TALES_OF_DREAD = 6423;

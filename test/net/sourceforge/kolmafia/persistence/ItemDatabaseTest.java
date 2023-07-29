@@ -61,7 +61,7 @@ public class ItemDatabaseTest {
       assertThat(
           none,
           is(
-              ", combat, combat reusable, usable, multiple, reusable, single, solo, curse, bounty, candy, candy1, candy2, matchable, fancy, chocolate, paste, smith, cook, mix"));
+              ", combat, combat reusable, usable, multiple, reusable, message, single, solo, curse, bounty, package, candy, candy1, candy2, matchable, fancy, chocolate, paste, smith, cook, mix"));
     }
   }
 

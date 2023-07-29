@@ -218,7 +218,7 @@ public class UseItemCommand extends AbstractCommand {
                   && !InventoryManager.simRetrieveItem(currentMatch, true, true, false)
                       .equalsIgnoreCase("fail");
             }
-            RequestThread.postRequest(request);
+            RequestThread.postRequest(request.showHTML(false));
             while (FightRequest.inMultiFight && KoLmafia.permitsContinue()) {
               FightRequest.INSTANCE.run();
             }

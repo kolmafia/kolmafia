@@ -2302,7 +2302,7 @@ zoological sample kit	10	none
 
 # Accessories section of equipment.txt
 
-&quot;I survived Y2K&quot; T-Shirt	0	none
+&quot;I survived Y2K&quot; T-Shirt	100	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none

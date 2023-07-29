@@ -15,7 +15,7 @@
 #	usable, multiple, reusable,
 #	combat, combat reusable,
 #	single, solo,
-#	curse, bounty,
+#	curse, bounty, package
 #	candy, candy1, candy2, chocolate
 #	fancy, paste, smith, cook. mix
 #	matchable
@@ -74,7 +74,7 @@
 46	wooden figurine	520591514	statue.gif	none, paste	t,d	25
 47	hot buttered roll	424947000	roll.gif	food, smith	t,d	25
 48	heart of rock and roll	855972490	heart.gif	none, smith	t,d	101	hearts of rock and roll
-49	bowl of cottage cheese	721301736	ccheese.gif	food, paste, smith	t,d	31	bowls of cottage cheese
+49	bowl of cottage cheese	721301736	ccheese.gif	food, paste, smith, cook	t,d	31	bowls of cottage cheese
 50	Rock and Roll Legend	275331264	legend.gif	weapon, smith		0
 51	Knob Goblin Uberpants	555557301	uberpants.gif	pants	t,d	60	pairs of Knob Goblin Uberpants
 52	banjo strings	546702280	strings.gif	none, smith	t,d	25	sets of banjo strings
@@ -199,7 +199,7 @@
 171	lihc eye pie	226058747	pie.gif	food	t,d	45
 172	gnoll lips	665720781	lips.gif	message, paste	t,d	11	sets of gnoll lips
 173	taco shell	335557202	tacoshell.gif	none, cook	t,d	40
-174	Gnollish casserole dish	605254179	cdish.gif	none, cook	t,d	75	Gnollish casserole dishes
+174	Gnollish casserole dish	605254179	cdish.gif	none, cook	t,d	50	Gnollish casserole dishes
 175	uncooked chorizo	514976861	chorizo.gif	food, cook	t,d	18	mounds of uncooked chorizo
 176	disembodied brain	653117852	brain.gif	message, paste	t,d	19
 177	brainy skull	629271368	smartskull.gif	message, paste	t,d	32
@@ -1072,7 +1072,7 @@
 1044	string of green beads	528180526	chain.gif	accessory	t,d	75	strings of green beads
 1045	cheap plastic bottle opener	140318770	bopener.gif	weapon	t	0
 1046	orange traffic cone	230629288	cone.gif	hat	d	100
-1047	N. O. Beer	557858370	nobeer.gif	message	t	0
+1047	N. O. Beer	557858370	nobeer.gif	drink, message	t	0
 1048	red striped oyster egg	191850697	eggstripe.gif	spleen, usable	t,d	50
 1049	red polka-dot oyster egg	546956743	eggdot.gif	spleen, usable	t,d	50
 1050	red paisley oyster egg	259099692	eggpaisley.gif	spleen, usable	t,d	50
@@ -1192,17 +1192,17 @@
 1164	poultrygeist	295145140	cockghost.gif	none, paste	t,d	50
 1165	hovering sombrero	203163475	hat2.gif	grow	t,d	100
 1166	tiny maracas	642237204	maracas.gif	familiar	t,d	75	pairs of tiny maracas
-1167	plain brown wrapper	546961999	plainbrown.gif	usable		0
-1168	less-than-three-shaped box	938194457	lessthan3.gif	usable		0	less-than-three-shaped boxes
-1169	exactly-three-shaped box	558617858	3box.gif	usable		0	exactly-three-shaped boxes
-1170	chocolate box	288094597	chocbox.gif	usable		0
-1171	miniature coffin	620396812	coffinbox.gif	usable		0
-1172	solid asbestos box	572164409	asbbox.gif	usable		0	solid asbestos boxes
-1173	solid linoleum box	512858222	linbox.gif	usable		0	solid linoleum boxes
-1174	solid chrome box	589369829	chromebox.gif	usable		0	solid chrome boxes
-1175	cryptic puzzle box	755107532	puzzlebox.gif	usable		0	cryptic puzzle boxes
-1176	refrigerated biohazard container	980209654	biobox.gif	usable		0
-1177	magnetic field	206018702	magfields.gif	usable		0
+1167	plain brown wrapper	546961999	plainbrown.gif	usable, package		0
+1168	less-than-three-shaped box	938194457	lessthan3.gif	usable, package		0	less-than-three-shaped boxes
+1169	exactly-three-shaped box	558617858	3box.gif	usable, package		0	exactly-three-shaped boxes
+1170	chocolate box	288094597	chocbox.gif	usable, package		0
+1171	miniature coffin	620396812	coffinbox.gif	usable, package		0
+1172	solid asbestos box	572164409	asbbox.gif	usable, package		0	solid asbestos boxes
+1173	solid linoleum box	512858222	linbox.gif	usable, package		0	solid linoleum boxes
+1174	solid chrome box	589369829	chromebox.gif	usable, package		0	solid chrome boxes
+1175	cryptic puzzle box	755107532	puzzlebox.gif	usable, package		0	cryptic puzzle boxes
+1176	refrigerated biohazard container	980209654	biobox.gif	usable, package		0
+1177	magnetic field	206018702	magfields.gif	usable, package		0
 1178	potted cactus	964067424	cactus.gif	none	g,d	1	potted cacti
 1179	daisy	146801132	daisy.gif	none	g,d	5	daisies
 1180	potted fern	523298616	fern.gif	none	g,d	10
@@ -1291,7 +1291,7 @@
 1263	pygmy bugbear shaman	728686242	familiar39.gif	grow	t	0	pygmy bugbear shamen
 1264	tiny nose-bone fetish	397212048	nosebone.gif	familiar	t,d	75	tiny nose-bone fetishes
 1265	box of sunshine	151059179	chromebox.gif	multiple		0	boxen of sunshine
-1266	gloomy black mushroom	142099004	blackshroo.gif	message, cook, mix		0
+1266	gloomy black mushroom	142099004	blackshroo.gif	food, message, cook, mix		0
 1267	dead mimic	668445632	smallm.gif	usable	q	0
 1268	pine wand	183375623	slash.gif	zap	q	0
 1269	ebony wand	997985875	slash.gif	zap	q	0
@@ -1301,7 +1301,7 @@
 1273	magic lamp	239575926	lparen.gif	offhand	t,d	25
 1274	Medicinal Herb's medicinal herbs	581570215	goofballs.gif	spleen, usable	d	50	bottles of Medicinal Herb's medicinal herbs
 1275	basic meat skirt	121934420	meatskirt.gif	pants, smith	t,d	140
-1276	Otorian Battle Scar	550617348	oscar.gif	message	t	0
+1276	Otorian Battle Scar	550617348	oscar.gif	drink, message	t	0
 1277	basic meat kilt	343077782	meatskirt.gif	pants, smith	t,d	140
 1278	sticky meat skirt	954312315	meatskirt.gif	pants	t,d	145
 1279	sticky meat kilt	494450165	meatskirt.gif	pants	t,d	145
@@ -1457,7 +1457,7 @@
 1429	roll of drink tickets	114581568	tickets.gif	multiple	t,d	90	rolls of drink tickets
 1430	pregnant gloomy black mushroom	590939155	blackshroo.gif	grow	d	150
 1431	pregnant oily golden mushroom	266780479	sleazeroom.gif	grow	d	150
-1432	oily golden mushroom	857416597	sleazeroom.gif	food, cook, mix		0
+1432	oily golden mushroom	857416597	sleazeroom.gif	food, message, cook, mix		0
 1433	fruit bowl	160382985	fruitbowl.gif	multiple	t,d	200	bowls of fruit
 1434	fruit basket	593246625	fruitbask.gif	multiple	t,d	400	fruits basket
 1435	hot pink lipstick	398407608	lipstick.gif	familiar	t	0	tubes of hot pink lipstick
@@ -1485,7 +1485,7 @@
 1457	miniature stuffed Goth Giant	703683283	stuffgoth.gif	offhand	g,d	10000	miniature stuffed goth giants
 1458	Valentine's Day cake	980784871	heartcake.gif	food	g,d	10000	Valentine's Day cakeses, preciousss
 1459	arrow'd heart balloon	653803530	arrowbal.gif	offhand	g,d	10000
-1460	black velvet box	955425771	bvbox.gif	usable		0	black velvet boxen
+1460	black velvet box	955425771	bvbox.gif	usable, package		0	black velvet boxen
 1461	squashed frog	579216550	squashfrog.gif	none, cook	t,d	5
 1462	eye of newt	191554922	newteye.gif	none, cook	t,d	5	eyes of newts
 1463	salamander spleen	406159950	salspleen.gif	none, cook	t,d	5	spleen salamanders
@@ -1531,10 +1531,10 @@
 1503	rubber emo roe	466647669	roe.gif	message	g,d	5	rubber emo roe
 1504	yellow snowcone	902814366	snowcone.gif	potion, multiple	g,d	5
 1505	magical ice cube with a fly in it	899463113	flycube.gif	message, mix	g,d	5	magical ice cubes with flies in them
-1506	calle de miel with a fly in it	156547621	daquiri.gif	message	g,d	5	calles de miel with flies in them
-1507	rockin' wagon with a fly in it	237474151	martini.gif	message	g,d	5	rockin' wagons with flies in them
-1508	perpendicular hula with a fly in it	596795087	daquiri.gif	message	g,d	5	perpendicular hulas with flies in them
-1509	slap and tickle with a fly in it	684534052	rocks.gif	message	g,d	5	slaps and tickles with flies in them
+1506	calle de miel with a fly in it	156547621	daquiri.gif	drink, message	g,d	5	calles de miel with flies in them
+1507	rockin' wagon with a fly in it	237474151	martini.gif	drink, message	g,d	5	rockin' wagons with flies in them
+1508	perpendicular hula with a fly in it	596795087	daquiri.gif	drink, message	g,d	5	perpendicular hulas with flies in them
+1509	slap and tickle with a fly in it	684534052	rocks.gif	drink, message	g,d	5	slaps and tickles with flies in them
 1510	bag of airline peanuts	274299402	nutsack.gif	none, combat	g,d	5	bags of airline peanuts
 1511	fake hand	826737671	glove.gif	offhand, paste	g,d	5
 1512	Knob Goblin pet-buffing spray	972920674	spraycan.gif	spleen	t,d	125	cans of Knob Goblin pet-buffing spray
@@ -1559,7 +1559,7 @@
 1531	grass skirt	761419701	grassskirt.gif	pants	t	0
 1532	grass hat	173784115	grasshat.gif	hat	t	0
 1533	grass blade	562599473	grassblade.gif	weapon	t	0
-1534	raffle prize box	588738049	rafflebox.gif	usable		0	raffle prize boxen
+1534	raffle prize box	588738049	rafflebox.gif	usable, package		0	raffle prize boxen
 1535
 1536	homeless hobo spirit	228156172	ghoboh.gif	grow	t	0	homeless oboe hspirits
 1537	weegee sqouija	659845184	squeegee.gif	familiar	t,d	75	squeeja ouigees
@@ -1625,11 +1625,11 @@
 1597	Junior LAAAAME merit badge	914015743	jmerit.gif	accessory		0	Junior LAAAAME merit badgers
 1598	Senior LAAAAME merit badge	382823864	smerit.gif	accessory		0	Senior LAAAAME merit badgers
 1599	jazz soap	224353604	jazzsoap.gif	potion, multiple	g	0	bars of jazz soap
-1600	tangarita with a fly in it	615496606	daquiri.gif	message	g,d	130	tangaritas with flies in them
-1601	mandarina colada with a fly in it	440247765	daquiri.gif	message	g,d	130	mandarina coladas with flies in them
-1602	prussian cathouse with a fly in it	978043304	chamflute.gif	message	g,d	130	prussian cathouses with flies in them
-1603	Mae West with a fly in it	637723210	daquiri.gif	message	g,d	130	Maes West with flies in them
-1604	astronaut ice-cream	695048778	astroice.gif	spleen, usable	d	42
+1600	tangarita with a fly in it	615496606	daquiri.gif	drink, message	g,d	130	tangaritas with flies in them
+1601	mandarina colada with a fly in it	440247765	daquiri.gif	drink, message	g,d	130	mandarina coladas with flies in them
+1602	prussian cathouse with a fly in it	978043304	chamflute.gif	drink, message	g,d	130	prussian cathouses with flies in them
+1603	Mae West with a fly in it	637723210	daquiri.gif	drink, message	g,d	130	Maes West with flies in them
+1604	astronaut ice-cream	695048778	astroice.gif	spleen, usable	d	42	bricks of astronaut ice cream
 1605	delectable catalyst	513832221	beaker.gif	multiple		0
 1606	ultimate wad	873886262	ultwad.gif	spleen, usable	t	0
 1607	libation of liveliness	144480035	potion7.gif	potion, multiple	t,d	36	libations of liveliness
@@ -2708,7 +2708,7 @@
 2680	snake	397831150	bor3snake.gif	potion, usable	t,d	150	sssnakess
 2681	M-242	160414339	dynamite.gif	potion, usable	t,d	150
 2682	detuned radio	692188284	radio.gif	message	q	0
-2683	Warehouse 23 crate	425159430	crate.gif	usable		0
+2683	Warehouse 23 crate	425159430	crate.gif	usable, package		0
 2684	armgun	582302917	machinegun.gif	weapon, paste	t,d	75
 2685	fancy seashell necklace	831641508	shellnecklace.gif	none	t,d	1000
 2686	commemorative war stein	780091889	beerstein.gif	none	t,d	1000
@@ -3455,7 +3455,7 @@
 3427	roll of Hob-Os	965215365	hob-oroll.gif	multiple	t,d	25	rolls of Hob-Os
 3428	Everlasting Deckswabber	133927592	ccannonball.gif	potion, multiple, candy2	t,d	50
 3429
-3430	bindle of joy	656438917	bindle.gif	usable		0	bindles of joy
+3430	bindle of joy	656438917	bindle.gif	usable, package		0	bindles of joy
 3431	cotton candy cocoon	960452345	cccoccoon.gif	grow	t	0
 3432	cotton candy cordial	723689501	cccordial.gif	familiar	t,d	75	bottles of cotton candy cordial
 3433	spice melange	569771218	melange.gif	usable	t	0	quantities of spice melange
@@ -3922,7 +3922,7 @@
 3894	vial of teal slime	867609165	vial.gif	potion, multiple, cook	q,d	99	vials of teal slime
 3895	vial of indigo slime	455694019	vial.gif	potion, multiple, cook	q,d	99	vials of indigo slime
 3896	vial of purple slime	553670862	vial.gif	potion, multiple, cook	q,d	99	vials of purple slime
-3897	vial of brown slime	615023386	vial.gif	multiple, usable, cook	q,d	3	vials of brown slime
+3897	vial of brown slime	615023386	vial.gif	potion, multiple, cook	q,d	3	vials of brown slime
 3898	bottle of G&uuml;-Gone	959190225	cleaner.gif	none, combat reusable	q	0	bottles of G&uuml;-Gone
 3899
 3900
@@ -3938,7 +3938,7 @@
 3910	figurine of a cold seal	325101579	sealfig9.gif	usable	d	150	figurines of cold seals
 3911	figurine of a slippery seal	623716453	sealfig10.gif	usable	d	150	figurines of slippery seals
 3912	imbued seal-blubber candle	920030991	iblubbercandle.gif	none	d	50
-3913	blended frozen swill with a fly in it	395554500	daquiri.gif	message	g,d	5	glasses of blended frozen swill with flies in them
+3913	blended frozen swill with a fly in it	395554500	daquiri.gif	drink, message	g,d	5	glasses of blended frozen swill with flies in them
 3914	turtle wax	688744545	waxblob.gif	usable	t,d	7	globs of turtle wax
 3915	turtle wax shield	490908351	waxshield.gif	offhand, usable	t,d	7
 3916	turtle wax helmet	760962787	waxhat.gif	hat, usable	t,d	7
@@ -6453,8 +6453,8 @@
 6425	Official Seal of Dreadsylvania	158915306	dvtat.gif	usable		0	Official Seals of Dreadsylvania
 6426	Dreadsylvanian stew	768933176	soupbowl.gif	food		0	bowls of Dreadsylvanian stew
 6427	white Dreadsylvanian	990659022	whitedrink.gif	drink		0
-6428	brass Dreadsylvanian flask	660945598	flask.gif	reusable		0
-6429	silver Dreadsylvanian flask	277786143	flask.gif	reusable		0
+6428	brass Dreadsylvanian flask	660945598	flask.gif	potion, reusable		0
+6429	silver Dreadsylvanian flask	277786143	flask.gif	potion, reusable		0
 6430	dreadful fedora	982873908	dv_freddyhat.gif	hat		0
 6431	dreadful sweater	794701101	dv_freddysweater.gif	shirt		0
 6432	dreadful glove	763468382	dv_freddyglove.gif	weapon		0
@@ -7516,7 +7516,7 @@
 7488	triple-distilled turpentine	792003365	flask.gif	none	q	0	flasks of triple-distilled turpentine
 7489	detartrated anhydrous sublicalc	277522897	potion1.gif	none	q	0	test tubes of detartrated anhydrous sublicalc
 7490	triatomaceous dust	237194343	powderpile2.gif	none	q	0	piles of triatomaceous dust
-7491	bottle of Chateau de Vinegar	650950724	wine2.gif	drink, fancy, cook	q	0	bottles of Chateau de Vinegar
+7491	bottle of Chateau de Vinegar	650950724	wine2.gif	drink, message, fancy, cook	q	0	bottles of Chateau de Vinegar
 7492	blasting soda	508369326	powder.gif	none, cook	q	0	vials of blasting soda
 7493	unstable fulminate	321705934	wine2.gif	offhand	q	0	bottles of unstable fulminate
 7494	wine bomb	152995888	wine2.gif	none	q	0
@@ -8043,7 +8043,7 @@
 8015	Crimbot ROM: Ruthless Efficiency (dirty)	858719961	crimbotchip.gif	reusable		0	Crimbot ROMs: Ruthless Efficiency (dirty)
 8016	fitness wristband	515708282	fitbit.gif	potion, usable	t	0
 8017	flask of tainted mining oil	639229886	flask.gif	potion, multiple	t,d	10	flasks of tainted mining oil
-8018	red and green rain stick	121053600	rainstick.gif	reusable		0
+8018	red and green rain stick	121053600	rainstick.gif	potion, reusable		0
 8019	Chateau Mantegna room key	667086316	cmkey.gif	usable	t	0
 8020	Choco-Mint patty	561293201	mintpatty.gif	food	t,d	5	Choco-Mint patties
 8021	hot mint schnocolate	654738040	coffeecup.gif	drink	t,d	5
@@ -8980,7 +8980,7 @@
 8952	nicksilver spurs	535150151	sspurs.gif	bootspur, usable	t,d	500	pairs of nicksilver spurs
 8953	ticksilver spurs	565102329	sspurs.gif	bootspur, usable	t,d	500	pairs of ticksilver spurs
 8954	special edition Batfellow comic	608798216	batfellowbook.gif	usable		0
-8955	Tales of the West:  Cow Punching	220432527	book3.gif	usable	q	0
+8955	Tales of the West: Cow Punching	220432527	book3.gif	usable	q	0
 8956	Tales of the West: Beanslinging	798701830	book4.gif	usable	q	0
 8957	Tales of the West: Snake Oiling	965929241	book5.gif	usable	q	0
 8958	briefcase full of snakes	153699809	briefcase.gif	none	q	0
@@ -11085,7 +11085,7 @@
 11057	ping-pong ball	941815404	pingpongball.gif	none, combat	t	0
 11058	Trainbot harness	711380214	trainharness.gif	container	t	0	Trainbot harnesses
 11059	portable ping-pong table	454745356	pingpongtable.gif	none, reusable, curse	t	0
-11060	Crimbo train emergency brake	781085744	trainbrake.gif	none, combat	t,d	0
+11060	Crimbo train emergency brake	781085744	trainbrake.gif	none, combat	t	0
 11061	Trainbot autoassembly module	926072076	tbot0.gif	usable	t	0
 11062	head-mounted Trainbot	603555109	tbot1.gif	hat		0
 11063	leg-mounted Trainbots	797495750	tbot2.gif	pants		0	pairs of leg-mounted Trainbots
@@ -11211,7 +11211,7 @@
 11183	shadow martini	330264671	shadowmartini.gif	drink		0
 11184	shadow pill	535411734	shadowpill.gif	spleen, usable		0
 11185	shadow needle	852125044	shadowneedle.gif	usable		0
-11186	cursed monkey's paw	617234158	monkeypaw0.gif	accessory		0
+11186	cursed monkey's paw	617234158	monkeypaw5.gif	accessory		0
 11187	cursed monkey glove	144539345	monkeyglove.gif	usable	t	0
 11188	shadow candy	408964450	shadowmonocle.gif	potion, usable	t	0
 11189	replica Mr. Accessory	341989211	replicamra.gif	none	q	0	replica Mr. Accessories
@@ -11329,7 +11329,7 @@
 11301	claw-held flag	498722729	flag2.gif	familiar	t,d	10
 11302	souvenir flag	557635312	flag1.gif	multiple	t,d	10
 11303	name change form	541643472	namechange.gif	usable	t	0
-11304	replica sleeping patriotic eagle	552435162	pateagle_sleep.gif	grow	t	0
+11304	replica sleeping patriotic eagle	552435162	pateagle_sleep.gif	grow	q	0
 11305
 11306
 11307
