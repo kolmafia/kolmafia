@@ -67,6 +67,16 @@ public enum BitmapModifier implements Modifier {
     return name;
   }
 
+  @Override
+  public ModifierValueType getType() {
+    return ModifierValueType.NUMERIC;
+  }
+
+  @Override
+  public String toString() {
+    return name;
+  }
+
   public static final Set<BitmapModifier> BITMAP_MODIFIERS =
       Collections.unmodifiableSet(EnumSet.allOf(BitmapModifier.class));
 

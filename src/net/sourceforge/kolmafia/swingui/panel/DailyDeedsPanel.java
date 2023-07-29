@@ -178,7 +178,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         case "Free Fights" -> List.of(new FreeFightsDaily());
         case "Free Runaways" -> List.of(new RunawaysDaily());
         case "Hatter" -> List.of(new HatterDaily());
-        case "Banished Monsters" -> List.of(new BanishedDaily());
+        case "Banished Monsters" -> List.of(new BanishedDaily(), new BanishedPhylaDaily());
         case "Swimming Pool" -> List.of(new SwimmingPoolDaily());
         case "Jick Jar" -> List.of(new JickDaily());
         case "Avatar of Jarlberg Staves" -> List.of(new JarlsbergStavesDaily());
@@ -3354,6 +3354,23 @@ public class DailyDeedsPanel extends Box implements Listener {
     public void update() {
       List<String> list = BanishManager.getBanishedMonsters();
       String text = "Banished monsters: " + String.join(",", list);
+
+      this.setText(text);
+      this.setShown(list.size() > 0);
+    }
+  }
+
+  public static class BanishedPhylaDaily extends Daily {
+    public BanishedPhylaDaily() {
+      this.addListener("banishedPhyla");
+      this.addListener("(character)");
+      this.addLabel("");
+    }
+
+    @Override
+    public void update() {
+      List<String> list = BanishManager.getBanishedPhyla();
+      String text = "Banished phyla: " + String.join(",", list);
 
       this.setText(text);
       this.setShown(list.size() > 0);

@@ -93,6 +93,7 @@ Cast	Otoscope	_otoscopeUsed	3
 Cast	Pastamastery	noodleSummons
 Cast	Peel Out	_petePeeledOut	[10+(pref(peteMotorbikeTires,Racing Slicks)*20)]
 Cast	Perfect Freeze	_perfectFreezeUsed
+Cast	Perpetrate Mild Evil	_mildEvilPerpetrated	3
 Cast	Pirate Bellow	_pirateBellowUsed
 Cast	Portscan	_sourceTerminalPortscanUses	3
 Cast	Prelude of Precision	_precisionCasts	10

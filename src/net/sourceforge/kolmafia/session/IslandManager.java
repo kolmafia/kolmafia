@@ -199,21 +199,21 @@ public class IslandManager {
   }
 
   public static final String sideSummary(final String side) {
-    return side.equals("frat boys")
-        ? IslandManager.sideSummary(
-            side,
-            Preferences.getInteger("fratboysDefeated"),
-            IslandManager.fratboyImage,
-            IslandManager.fratboyMin,
-            IslandManager.fratboyMax)
-        : side.equals("hippies")
-            ? IslandManager.sideSummary(
-                side,
-                Preferences.getInteger("hippiesDefeated"),
-                IslandManager.hippyImage,
-                IslandManager.hippyMin,
-                IslandManager.hippyMax)
-            : "";
+    return switch (side) {
+      case "frat boys" -> IslandManager.sideSummary(
+          side,
+          Preferences.getInteger("fratboysDefeated"),
+          IslandManager.fratboyImage,
+          IslandManager.fratboyMin,
+          IslandManager.fratboyMax);
+      case "hippies" -> IslandManager.sideSummary(
+          side,
+          Preferences.getInteger("hippiesDefeated"),
+          IslandManager.hippyImage,
+          IslandManager.hippyMin,
+          IslandManager.hippyMax);
+      default -> "";
+    };
   }
 
   public static final int currentNunneryMeat() {

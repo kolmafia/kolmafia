@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withCurrentRun;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
@@ -30,6 +32,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import org.junit.jupiter.api.AfterAll;
@@ -695,7 +698,7 @@ public class AreaCombatDataTest {
   }
 
   @Nested
-  class itemDrops {
+  class ItemDrops {
     @Test
     void shouldShowItemDrops() {
       var funHouse = AdventureDatabase.getAreaCombatData("The \"Fun\" House");
@@ -717,6 +720,85 @@ public class AreaCombatDataTest {
         assertThat(data, containsString("bloody clown pants 16% (7% steal, 10% drop)"));
         assertThat(data, containsString("polka-dot bow tie 5.0% (pickpocket only)"));
         assertThat(data, containsString("empty greasepaint tube (bounty)"));
+      }
+    }
+  }
+
+  @Nested
+  class RedWhiteBlueBlast {
+    @Test
+    public void simpleBlastBanishesOtherMonsters() {
+      var cleanups =
+          new Cleanups(
+              withProperty("rwbLocation", "The Smut Orc Logging Camp"),
+              withProperty("rwbMonster", "smut orc jacker"),
+              withProperty("rwbMonsterCount", 3));
+
+      try (cleanups) {
+        Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+
+        assertThat(
+            appearanceRates,
+            allOf(
+                hasEntry(JACKER, 100.0),
+                hasEntry(NAILER, -3.0),
+                hasEntry(PIPELAYER, -3.0),
+                hasEntry(SCREWER, -3.0)));
+      }
+    }
+
+    @Test
+    public void blastDoesNotForceIfOtherCopies() {
+      var cleanups =
+          new Cleanups(
+              withProperty("rwbLocation", "The Smut Orc Logging Camp"),
+              withProperty("rwbMonster", "smut orc jacker"),
+              withProperty("rwbMonsterCount", 3),
+              withProperty("_gallapagosMonster", "smut orc nailer"));
+
+      try (cleanups) {
+        Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+
+        assertThat(
+            appearanceRates,
+            allOf(
+                hasEntry(JACKER, 50.0),
+                hasEntry(NAILER, 50.0),
+                hasEntry(PIPELAYER, -3.0),
+                hasEntry(SCREWER, -3.0)));
+      }
+    }
+  }
+
+  @Nested
+  class PatrioticScreech {
+    @Test
+    public void screechBanishesPhylumCopies() {
+      var cleanups =
+          new Cleanups(
+              withCurrentRun(30),
+              withProperty("banishedPhyla", "dude:Patriotic Screech:25"),
+              withProperty("banishedMonsters", "bearpig topiary animal:snokebomb:26"),
+              withEffect(EffectPool.TAUNT_OF_HORUS));
+
+      try (cleanups) {
+        BanishManager.loadBanished();
+
+        var twinPeak = AdventureDatabase.getAreaCombatData("Twin Peak");
+        Map<MonsterData, Double> appearanceRates = twinPeak.getMonsterData(true);
+
+        assertThat(appearanceRates, aMapWithSize(8));
+        assertThat(
+            appearanceRates,
+            allOf(
+                hasEntry(MonsterDatabase.findMonster("bearpig topiary animal"), -3.0),
+                hasEntry(MonsterDatabase.findMonster("elephant (meatcar?) topiary animal"), 50.0),
+                hasEntry(MonsterDatabase.findMonster("spider (duck?) topiary animal"), 50.0),
+                hasEntry(MonsterDatabase.findMonster("Big Wheelin' Twins"), -3.0),
+                hasEntry(MonsterDatabase.findMonster("Bubblemint Twins"), -3.0),
+                hasEntry(MonsterDatabase.findMonster("Creepy Ginger Twin"), -3.0),
+                hasEntry(MonsterDatabase.findMonster("Mismatched Twins"), -3.0),
+                hasEntry(MonsterDatabase.findMonster("Troll Twins"), -3.0)));
       }
     }
   }

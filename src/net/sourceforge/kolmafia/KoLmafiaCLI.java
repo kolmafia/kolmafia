@@ -806,6 +806,7 @@ public class KoLmafiaCLI {
     new TestCommand().register("test");
     new ThrowItemCommand().register("throw");
     new TimeinCommand().register("timein").register("relog").register("relogin");
+    new TimeoutCommand().register("timeout");
     new TimeSpinnerCommand().register("timespinner");
     new ToggleCommand().register("toggle");
     new TowerDoorCommand().register("tower").register("lowkey");

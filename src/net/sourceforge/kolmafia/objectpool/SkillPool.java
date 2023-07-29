@@ -123,6 +123,7 @@ public class SkillPool {
   public static final int INSECTOLOGIST = 219;
   public static final int PSYCHOGEOLOGIST = 220;
   public static final int REPLICA_EMOTIONALLY_CHIPPED = 222;
+  public static final int PERPETRATE_MILD_EVIL = 226;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
@@ -536,6 +537,8 @@ public class SkillPool {
   public static final int DO_METHOD = 7446;
   public static final int DO_EPIC_MCTWIST = 7447;
   public static final int DOUSE_FOE = 7448;
+  public static final int RED_WHITE_BLUE_BLAST = 7450;
+  public static final int PATRIOTIC_SCREECH = 7451;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

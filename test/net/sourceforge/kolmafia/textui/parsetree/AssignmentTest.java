@@ -81,7 +81,7 @@ public class AssignmentTest {
             "Aggregate assignment to primitive",
             // What is this, C?
             "int x; x = {1};",
-            "Cannot use an aggregate literal for type int",
+            "Cannot use a composite literal for type int",
             // we currently can't read past the "{" before throwing the exception
             // "char 12 to char 15"),
             "char 12 to char 13"),
@@ -93,7 +93,7 @@ public class AssignmentTest {
         invalid(
             "Compound assignment to aggregate",
             "int[4] x; x += 1;",
-            "Cannot use '+=' on an aggregate",
+            "Cannot use '+=' on a composite",
             "char 13 to char 15"),
         valid(
             "Aggregate assignment to aggregate",
@@ -107,7 +107,7 @@ public class AssignmentTest {
         invalid(
             "brace assignment of primitive",
             "int x = {1}",
-            "Cannot initialize x of type int with an aggregate literal",
+            "Cannot initialize x of type int with a composite literal",
             // we currently can't read past the "{" before throwing the exception
             // "char 9 to char 12"),
             "char 9 to char 10",

@@ -36,7 +36,8 @@ class DrinkItemRequestTest {
       DrinkItemRequest.parseConsumption(
           ItemPool.get(ItemPool.VAMPIRE_VINTNER_WINE),
           null,
-          html("request/test_drink_vintner_wine.html"));
+          html("request/test_drink_vintner_wine.html"),
+          false);
       assertThat("vintnerCharge", isSetTo(0));
 
       var vintner = new FamiliarData(FamiliarPool.VAMPIRE_VINTNER);

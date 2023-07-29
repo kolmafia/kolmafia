@@ -1997,6 +1997,7 @@ public class ItemPool {
   public static final int POCKET_SQUARE = 6407;
   public static final int CORRUPTED_STARDUST = 6408;
   public static final int SHAKING_SKULL = 6412;
+  public static final int GREEN_THUMB = 6413;
   public static final int TWIST_OF_LIME = 6417;
   public static final int TONIC_DJINN = 6421;
   public static final int TALES_OF_DREAD = 6423;
@@ -3654,6 +3655,8 @@ public class ItemPool {
   public static final int LOATHING_IDOL_MICROPHONE_25 = 11279;
   public static final int REPLICA_MR_STORE_2002_CATALOG = 11280;
   public static final int REPLICA_PATRIOTIC_EAGLE = 11304;
+  public static final int POCKET_GUIDE_TO_MILD_EVIL = 11322;
+  public static final int POCKET_GUIDE_TO_MILD_EVIL_USED = 11323;
 
   private ItemPool() {}
 

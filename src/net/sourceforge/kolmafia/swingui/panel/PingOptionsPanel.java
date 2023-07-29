@@ -26,13 +26,62 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
         new PreferenceCheckBox("pingLogin", "Run ping test at login to measure connection lag"));
     this.queue(
         new PreferenceButtonGroup(
+            "pingDefaultTestPage",
+            "KoL page to ping: ",
+            true,
+            "api",
+            "(events)",
+            "(status)",
+            "council",
+            "main"));
+    this.queue(
+        new PreferenceIntegerTextField(
+            "pingDefaultTestPings", 4, "How many times to ping that page."));
+    this.queue(
+        new PreferenceButtonGroup(
             "pingLoginCheck", "Login ping check type: ", true, "none", "goal", "threshold"));
-    this.queue(new PreferenceIntegerTextField("pingLoginGoal", 0, "Maximum average measured lag"));
+    this.queue(new PreferenceIntegerTextField("pingLoginGoal", 4, "Maximum average measured lag"));
     this.queue(
         new PreferenceFloatTextField(
-            "pingLoginThreshold", 0, "Allowed threshold above minimum historical lag"));
+            "pingLoginThreshold", 4, "Allowed threshold above minimum historical lag"));
+    this.queue(
+        new PreferenceIntegerTextField(
+            "pingLoginCount", 4, "Attempted ping checks before giving up"));
+    this.queue(
+        new PreferenceCheckBox(
+            "pingStealthyTimein", "When timing in to reconnect, use stealth mode (/q)"));
+    this.queue(
+        new PreferenceButtonGroup(
+            "pingLoginFail",
+            "Action after ping check failure: ",
+            true,
+            "login",
+            "logout",
+            "confirm"));
 
     this.makeLayout();
+  }
+
+  private static class PingHistory extends PreferenceTextArea {
+    public PingHistory() {
+      super("pingShortest", "pingLongest");
+      this.update();
+    }
+
+    @Override
+    public void update() {
+      PingTest shortest = PingTest.parseProperty("pingShortest");
+      PingTest longest = PingTest.parseProperty("pingLongest");
+      StringBuilder message = new StringBuilder();
+      message.append("Observed average ping times to ");
+      message.append(shortest.getPage());
+      message.append(" range from ");
+      message.append(String.valueOf(Math.round(shortest.getAverage())));
+      message.append("-");
+      message.append(String.valueOf(Math.round(longest.getAverage())));
+      message.append(" msec.");
+      this.setText(message.toString());
+    }
   }
 
   private static class PingResetButton extends JPanel {
@@ -57,7 +106,7 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
     }
 
     private void makeLayout() {
-      JLabel label = new JLabel("Reset historical ping times");
+      JLabel label = new JLabel("Reset historical ping times:");
       this.add(label);
       this.add(this.button);
     }
@@ -65,26 +114,6 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
     @Override
     public Dimension getMaximumSize() {
       return this.getPreferredSize();
-    }
-  }
-
-  private static class PingHistory extends PreferenceTextArea {
-    public PingHistory() {
-      super("pingShortest", "pingLongest");
-      this.update();
-    }
-
-    @Override
-    public void update() {
-      PingTest shortest = PingTest.parseProperty("pingShortest");
-      PingTest longest = PingTest.parseProperty("pingLongest");
-      StringBuilder message = new StringBuilder();
-      message.append("Observed average ping times range from ");
-      message.append(String.valueOf(shortest.getAverage()));
-      message.append("-");
-      message.append(String.valueOf(longest.getAverage()));
-      message.append(" msec.");
-      this.setText(message.toString());
     }
   }
 }

@@ -49,6 +49,28 @@ public class AdventureSpentDatabaseTest {
   }
 
   @Test
+  public void canTrackTotalTurns() {
+    assertEquals(0, AdventureSpentDatabase.getTotalTrackedTurns());
+
+    KoLAdventure location1 = AdventureDatabase.getAdventure("The Haunted Pantry");
+    KoLAdventure location2 = AdventureDatabase.getAdventure("The Haunted Bedroom");
+    AdventureSpentDatabase.addTurn(location1);
+    assertEquals(1, AdventureSpentDatabase.getTotalTrackedTurns());
+    AdventureSpentDatabase.addTurn(location1);
+    assertEquals(2, AdventureSpentDatabase.getTotalTrackedTurns());
+
+    AdventureSpentDatabase.addTurn(location2);
+    assertEquals(3, AdventureSpentDatabase.getTotalTrackedTurns());
+    AdventureSpentDatabase.setTurns(location2, 5); // Should add 4
+    assertEquals(7, AdventureSpentDatabase.getTotalTrackedTurns());
+    AdventureSpentDatabase.setTurns(location2, 0); // Should subtract 5
+    assertEquals(2, AdventureSpentDatabase.getTotalTrackedTurns());
+
+    AdventureSpentDatabase.resetTurns(false);
+    assertEquals(0, AdventureSpentDatabase.getTotalTrackedTurns());
+  }
+
+  @Test
   public void canCountFightChoiceFightInHauntedBedroom() {
     // Every encounter in The Haunted Bedroom is a fight followed by a choice adventure.
     // The fight takes a turn.

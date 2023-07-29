@@ -16,11 +16,13 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.equipment.SlotSet;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.textui.AshRuntime;
@@ -121,12 +123,24 @@ public class Type extends Symbol {
     if (this.equals(DataTypes.STAT_TYPE)) {
       return ProxyRecordValue.StatProxy._type;
     }
+    if (this.equals(DataTypes.MODIFIER_TYPE)) {
+      return ProxyRecordValue.ModifierProxy._type;
+    }
     return this;
   }
 
   public boolean isStringLike() {
     return switch (this.getType()) {
-      case STRING, BUFFER, LOCATION, STAT, MONSTER, ELEMENT, COINMASTER, PHYLUM, BOUNTY -> true;
+      case STRING,
+          BUFFER,
+          LOCATION,
+          STAT,
+          MONSTER,
+          ELEMENT,
+          COINMASTER,
+          PHYLUM,
+          BOUNTY,
+          MODIFIER -> true;
       default -> false;
     };
   }
@@ -157,6 +171,7 @@ public class Type extends Symbol {
       case SERVANT -> DataTypes.SERVANT_INIT;
       case VYKEA -> DataTypes.VYKEA_INIT;
       case PATH -> DataTypes.PATH_INIT;
+      case MODIFIER -> DataTypes.MODIFIER_INIT;
       default -> null;
     };
   }
@@ -184,6 +199,7 @@ public class Type extends Symbol {
       case SERVANT -> DataTypes.parseServantValue(name, returnDefault);
       case VYKEA -> DataTypes.parseVykeaValue(name, returnDefault);
       case PATH -> DataTypes.parsePathValue(name, returnDefault);
+      case MODIFIER -> DataTypes.parseModifierValue(name, returnDefault);
       default -> null;
     };
   }
@@ -213,6 +229,7 @@ public class Type extends Symbol {
       case PHYLUM -> DataTypes.PHYLUM_INIT;
       case BOUNTY -> DataTypes.BOUNTY_INIT;
       case VYKEA -> DataTypes.VYKEA_INIT;
+      case MODIFIER -> DataTypes.MODIFIER_INIT;
       default -> null;
     };
   }
@@ -331,6 +348,12 @@ public class Type extends Symbol {
         default -> null;
       };
     }
+    if (object instanceof Modifier modifier) {
+      if (this.type == TypeSpec.MODIFIER) {
+        return new Value(modifier);
+      }
+      return null;
+    }
     return null;
   }
 
@@ -339,67 +362,35 @@ public class Type extends Symbol {
 
     List<Value> list = new ArrayList<>();
     switch (this.type) {
-      case BOOLEAN:
-        this.addValues(list, DataTypes.BOOLEANS);
-        break;
-      case ITEM:
+      case BOOLEAN -> this.addValues(list, DataTypes.BOOLEANS);
+      case ITEM -> {
         int limit = ItemDatabase.maxItemId();
         for (int i = 1; i <= limit; ++i) {
           if (i != 13 && ItemDatabase.getItemDataName(i) != null) {
             list.add(DataTypes.makeItemValue(i, true));
           }
         }
-        break;
-      case LOCATION:
-        this.addValues(list, AdventureDatabase.getAsLockableListModel());
-        break;
-      case CLASS:
-        this.addValues(list, AscensionClass.allClasses());
-        break;
-      case STAT:
-        this.addValues(list, DataTypes.STAT_ARRAY, 0, 3);
-        break;
-      case SKILL:
-        this.addValues(list, SkillDatabase.entrySet());
-        break;
-      case EFFECT:
-        this.addValues(list, EffectDatabase.entrySet());
-        break;
-      case FAMILIAR:
-        this.addValues(list, FamiliarDatabase.entrySet());
-        break;
-      case SLOT:
-        this.addValues(list, SlotSet.NAMES);
-        break;
-      case MONSTER:
-        this.addValues(list, MonsterDatabase.valueSet());
-        break;
-      case ELEMENT:
-        this.addValues(list, MonsterDatabase.ELEMENT_ARRAY, 1, -1);
-        break;
-      case COINMASTER:
-        this.addValues(list, CoinmasterRegistry.MASTERS);
-        break;
-      case PHYLUM:
-        this.addValues(list, MonsterDatabase.PHYLUM_ARRAY, 1, -1);
-        break;
-      case BOUNTY:
-        this.addValues(list, BountyDatabase.entrySet());
-        break;
-      case THRALL:
-        this.addValues(list, PastaThrallData.THRALL_ARRAY);
-        break;
-      case SERVANT:
-        this.addValues(list, EdServantData.SERVANT_ARRAY);
-        break;
-      case VYKEA:
-        this.addValues(list, VYKEACompanionData.VYKEA);
-        break;
-      case PATH:
-        this.addValues(list, Path.allPaths());
-        break;
-      default:
+      }
+      case LOCATION -> this.addValues(list, AdventureDatabase.getAsLockableListModel());
+      case CLASS -> this.addValues(list, AscensionClass.allClasses());
+      case STAT -> this.addValues(list, DataTypes.STAT_ARRAY, 0, 3);
+      case SKILL -> this.addValues(list, SkillDatabase.entrySet());
+      case EFFECT -> this.addValues(list, EffectDatabase.entrySet());
+      case FAMILIAR -> this.addValues(list, FamiliarDatabase.entrySet());
+      case SLOT -> this.addValues(list, SlotSet.NAMES);
+      case MONSTER -> this.addValues(list, MonsterDatabase.valueSet());
+      case ELEMENT -> this.addValues(list, MonsterDatabase.ELEMENT_ARRAY, 1, -1);
+      case COINMASTER -> this.addValues(list, CoinmasterRegistry.MASTERS);
+      case PHYLUM -> this.addValues(list, MonsterDatabase.PHYLUM_ARRAY, 1, -1);
+      case BOUNTY -> this.addValues(list, BountyDatabase.entrySet());
+      case THRALL -> this.addValues(list, PastaThrallData.THRALL_ARRAY);
+      case SERVANT -> this.addValues(list, EdServantData.SERVANT_ARRAY);
+      case VYKEA -> this.addValues(list, VYKEACompanionData.VYKEA);
+      case PATH -> this.addValues(list, Path.allPaths());
+      case MODIFIER -> this.addValues(list, ModifierDatabase.allModifiers());
+      default -> {
         return null;
+      }
     }
     this.allValues = new PluralValue(this, list);
     return this.allValues;

@@ -9,9 +9,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PingManager {
 
-  public static final String DEFAULT_PAGE = "api.php";
-  public static final int MINIMUM_HISTORY_PINGS = 10;
-
   public PingManager() {}
 
   public static class PingTest {
@@ -23,12 +20,22 @@ public class PingManager {
     private long high = 0L;
     private long bytes = 0L;
 
+    public static String normalizePage(String page) {
+      // Backwards compatibility; we no longer save ".php",
+      // but saved properties may include it.
+      int php = page.indexOf(".php");
+      if (php != -1) {
+        page = page.substring(0, php);
+      }
+      return page;
+    }
+
     public PingTest() {
-      this("api.php");
+      this("api");
     }
 
     public PingTest(String page) {
-      this.page = page;
+      this.page = normalizePage(page);
     }
 
     private PingTest(String page, long count, long total, long low, long high, long bytes) {
@@ -81,12 +88,12 @@ public class PingManager {
       return this.bytes;
     }
 
-    public long getAverage() {
-      return this.count == 0 ? 0 : this.total / this.count;
+    public double getAverage() {
+      return this.count == 0 ? 0 : (this.total * 1.0 / this.count);
     }
 
-    public long getBPS() {
-      return this.total == 0 ? 0 : (this.bytes * 1000) / this.total;
+    public double getBPS() {
+      return this.total == 0 ? 0 : (this.bytes * 1000.0) / this.total;
     }
 
     public String toString() {
@@ -102,9 +109,16 @@ public class PingManager {
       buf.append(String.valueOf(this.total));
       buf.append(":");
       buf.append(String.valueOf(this.getBytes()));
+      // Redundant, in that the user can calculate it from total & count
       buf.append(":");
-      buf.append(String.valueOf(this.getAverage()));
+      buf.append(String.valueOf(Math.round(this.getAverage())));
       return buf.toString();
+    }
+
+    public boolean isSaveable() {
+      String defaultPage = normalizePage(Preferences.getString("pingDefaultTestPage"));
+
+      return this.getPage().equals(defaultPage);
     }
 
     public void save() {
@@ -113,17 +127,24 @@ public class PingManager {
       // Always save the last ping results
       Preferences.setString("pingLatest", value);
 
-      // Only save in historical properties if we tested the default
-      // page and there are enough pings.
-      if (!this.page.equals(DEFAULT_PAGE) || this.count < MINIMUM_HISTORY_PINGS) {
+      // Only save in historical properties if we tested the default page
+      if (!this.isSaveable()) {
         return;
       }
 
-      long average = this.getAverage();
-      PingTest longest = PingTest.parseProperty("pingLongest");
-      long longestAverage = longest.getAverage();
+      double average = this.getAverage();
       PingTest shortest = PingTest.parseProperty("pingShortest");
-      long shortestAverage = shortest.getAverage();
+      double shortestAverage = shortest.getAverage();
+      PingTest longest = PingTest.parseProperty("pingLongest");
+      double longestAverage = longest.getAverage();
+
+      // If the historical data are for a different page than we now
+      // require, reset them and start fresh with this test.
+      if (!this.getPage().equals(shortest.getPage())) {
+        shortestAverage = 0;
+        longestAverage = 0;
+      }
+
       if (shortestAverage == 0 || average < shortestAverage) {
         Preferences.setString("pingShortest", value);
       }
@@ -135,14 +156,14 @@ public class PingManager {
     public static PingTest parseProperty(String property) {
       String value = Preferences.getString(property);
       String[] values = value.split(":");
-      String page = "api.php";
+      String page = "api";
       long count = 0L;
       long low = 0L;
       long high = 0L;
       long total = 0L;
       long bytes = 0L;
       if (values.length >= 4) {
-        page = values[0];
+        page = normalizePage(values[0]);
         count = StringUtilities.parseLong(values[1]);
         low = StringUtilities.parseLong(values[2]);
         high = StringUtilities.parseLong(values[3]);
@@ -153,9 +174,27 @@ public class PingManager {
     }
   }
 
+  private static boolean runPing(PingRequest ping, boolean verbose) {
+    // Run a single ping
+    ping.run();
+
+    String redirectLocation = ping.redirectLocation;
+    if (redirectLocation != null) {
+      RequestLogger.printLine("Ping redirected to '" + redirectLocation + "'; ping test aborted");
+      return false;
+    }
+    if (ping.responseText == null) {
+      RequestLogger.printLine("Ping returned no response; ping test aborted");
+      return false;
+    }
+    return true;
+  }
+
   public static PingTest runPingTest() {
     // Run a ping test that qualifies to be saved in ping history.
-    return runPingTest(MINIMUM_HISTORY_PINGS, DEFAULT_PAGE, false);
+    String defaultPage = PingTest.normalizePage(Preferences.getString("pingDefaultTestPage"));
+    int defaultPings = Preferences.getInteger("pingDefaultTestPings");
+    return runPingTest(defaultPings, defaultPage, false);
   }
 
   public static PingTest runPingTest(int count, String page, boolean verbose) {
@@ -167,15 +206,19 @@ public class PingManager {
     // KoLmafia needs to time us in - which will now run a ping test.
     //
     // Run a single ping first and don't count it.
-    ping.run();
+    if (!runPing(ping, verbose)) {
+      return result;
+    }
 
     for (int i = 1; i <= count; i++) {
       if (verbose) {
         RequestLogger.printLine("Ping #" + i + " of " + count + "...");
       }
-      ping.run();
+      if (!runPing(ping, verbose)) {
+        return result;
+      }
       long elapsed = ping.getElapsedTime();
-      long bytes = ping.responseText == null ? 0 : ping.responseText.length();
+      long bytes = ping.responseText.length();
       result.addPing(elapsed, bytes);
       if (verbose) {
         RequestLogger.printLine("-> " + elapsed + " msec (" + bytes + " bytes)");

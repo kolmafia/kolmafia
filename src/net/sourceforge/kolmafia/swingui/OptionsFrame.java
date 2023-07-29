@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -52,11 +53,15 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.PingManager;
+import net.sourceforge.kolmafia.session.PingManager.PingTest;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.menu.LoadScriptMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.AddCustomDeedsPanel;
@@ -75,6 +80,7 @@ import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceButtonGroup;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceIntegerTextField;
+import net.sourceforge.kolmafia.swingui.widget.PreferenceTextArea;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -90,7 +96,7 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel(" - Item Acquisition", new ItemOptionsPanel(), true);
     selectorPanel.addPanel(" - Maximizer", new MaximizerOptionsPanel(), true);
     selectorPanel.addPanel(" - Session Logs", new SessionLogOptionsPanel(), true);
-    selectorPanel.addPanel(" - Connection Options", new PingOptionsPanel(), true);
+    selectorPanel.addPanel(" - Connection Options", new ConnectionOptionsPanel(), true);
     selectorPanel.addPanel(" - Extra Debugging", new DebugOptionsPanel(), true);
 
     JPanel programsPanel = new JPanel();
@@ -155,6 +161,178 @@ public class OptionsFrame extends GenericFrame {
       };
 
       this.setOptions(options);
+    }
+  }
+
+  static class ConnectionOptionsPanel extends ConfigQueueingPanel {
+    public ConnectionOptionsPanel() {
+      super();
+      this.queue(new PingOptionsPanel());
+      this.queue(this.newSeparator());
+      this.queue(new PingTestPanel());
+      this.queue(this.newSeparator());
+      this.queue(new TimeinButton());
+      this.makeLayout();
+    }
+
+    public class PingTestPanel extends ConfigQueueingPanel {
+      public PingTestPanel() {
+        super();
+        this.queue(
+            new PreferenceButtonGroup(
+                "pingTestPage",
+                "KoL page to ping: ",
+                true,
+                "api",
+                "(events)",
+                "(status)",
+                "council",
+                "main"));
+        this.queue(
+            new PreferenceIntegerTextField(
+                "pingTestPings", 4, "How many times to ping that page."));
+        this.queue(new PingTestButton());
+        this.queue(new LatestPingTest());
+        this.queue(new SetDefaultsButton());
+
+        this.makeLayout();
+      }
+
+      private class PingTestButton extends JPanel implements Listener {
+        private final JButton button = new ThreadedButton("Ping Test", new PingTestRunnable());
+
+        public PingTestButton() {
+          configure();
+          makeLayout();
+          NamedListenerRegistry.registerNamedListener("(login)", this);
+          this.update();
+        }
+
+        private void configure() {
+          this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+        }
+
+        private void makeLayout() {
+          JLabel label = new JLabel("Run a ping test:");
+          this.add(label);
+          this.add(this.button);
+        }
+
+        @Override
+        public void update() {
+          this.button.setEnabled(LoginRequest.completedLogin());
+        }
+
+        @Override
+        public Dimension getMaximumSize() {
+          return this.getPreferredSize();
+        }
+
+        private class PingTestRunnable implements Runnable {
+          @Override
+          public void run() {
+            try {
+              PingTestButton.this.button.setEnabled(false);
+              int pings = Preferences.getInteger("pingTestPings");
+              String page = Preferences.getString("pingTestPage");
+              PingManager.runPingTest(pings, page, false);
+            } finally {
+              PingTestButton.this.button.setEnabled(true);
+            }
+          }
+        }
+      }
+
+      private class LatestPingTest extends PreferenceTextArea {
+        public LatestPingTest() {
+          super("pingLatest");
+          this.update();
+        }
+
+        @Override
+        public void update() {
+          PingTest latest = PingTest.parseProperty("pingLatest");
+          StringBuilder message = new StringBuilder();
+          message.append("Latest ping test: In ");
+          message.append(latest.getCount());
+          message.append(" requests to ");
+          message.append(latest.getPage());
+          message.append(" average time was ");
+          message.append(String.valueOf(Math.round(latest.getAverage())));
+          message.append(" msec.");
+          this.setText(message.toString());
+        }
+      }
+
+      private class SetDefaultsButton extends JPanel {
+        private final JButton button = new JButton("Set Defaults");
+
+        public SetDefaultsButton() {
+          configure();
+          makeLayout();
+        }
+
+        private void configure() {
+          this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+          this.addActionListener(
+              e -> {
+                Preferences.setString("pingDefaultTestPage", Preferences.getString("pingTestPage"));
+                Preferences.setInteger(
+                    "pingDefaultTestPings", Preferences.getInteger("pingTestPings"));
+              });
+        }
+
+        public void addActionListener(ActionListener a) {
+          this.button.addActionListener(a);
+        }
+
+        private void makeLayout() {
+          JLabel label = new JLabel("Use those parameters for login ping tests:");
+          this.add(label);
+          this.add(this.button);
+        }
+
+        @Override
+        public Dimension getMaximumSize() {
+          return this.getPreferredSize();
+        }
+      }
+    }
+
+    private class TimeinButton extends JPanel {
+      private final JButton button = new ThreadedButton("Time In", new TimeinRunnable());
+
+      public TimeinButton() {
+        configure();
+        makeLayout();
+      }
+
+      private void configure() {
+        this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+      }
+
+      private void makeLayout() {
+        JLabel label = new JLabel("Try for a better connection:");
+        this.add(label);
+        this.add(this.button);
+      }
+
+      @Override
+      public Dimension getMaximumSize() {
+        return this.getPreferredSize();
+      }
+
+      private class TimeinRunnable implements Runnable {
+        @Override
+        public void run() {
+          try {
+            TimeinButton.this.button.setEnabled(false);
+            LoginRequest.retimein();
+          } finally {
+            TimeinButton.this.button.setEnabled(true);
+          }
+        }
+      }
     }
   }
 
@@ -280,10 +458,6 @@ public class OptionsFrame extends GenericFrame {
         {"saveSettingsOnSet", "Save options to disk whenever they change"},
         {},
         {"removeMalignantEffects", "Auto-remove malignant status effects"},
-        {
-          "suppressNegativeStatusPopup",
-          "Suppress popup dialog for items which cause harmful effects"
-        },
         {"switchEquipmentForBuffs", "Allow equipment changing when casting buffs"},
         {"allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing"},
         {"allowSummonBurning", "Cast summoning skills during buff balancing"},

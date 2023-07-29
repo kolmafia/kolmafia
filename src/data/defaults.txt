@@ -96,13 +96,20 @@ global	macroDebug	false
 global	macroLens	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
+global	pingDefaultTestPage	api
+global	pingDefaultTestPings	10
 global	pingLatest
 global	pingLogin	true
 global	pingLoginCheck	none
+global	pingLoginCount	0
+global	pingLoginFail	confirm
 global	pingLoginGoal	0
 global	pingLoginThreshold	0.2
 global	pingLongest
 global	pingShortest
+global	pingStealthyTimein	false
+global	pingTestPage	api
+global	pingTestPings	10
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
@@ -645,6 +652,8 @@ user	flickeringPixel5	false
 user	flickeringPixel6	false
 user	flickeringPixel7	false
 user	flickeringPixel8	false
+user	floristFriarAvailable	false
+user	floristFriarChecked	false
 user	flyeredML	0
 user	forbiddenStores
 user	fossilB	0
@@ -893,9 +902,9 @@ user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
 user	lastFratboyCall	-1
 user	lastFriarCeremonyAscension	-1
-user	lastFriarElbowNC	-1
-user	lastFriarHeartNC	-1
-user	lastFriarNeckNC	-1
+user	lastFriarsElbowNC	-1
+user	lastFriarsHeartNC	-1
+user	lastFriarsNeckNC	-1
 user	lastHippyCall	-1
 user	lastIslandUnlock	-1
 user	lastKeyotronUse	-1
@@ -1122,6 +1131,7 @@ user	optimisticCandleProgress	25
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
 user	overgrownLotAvailable	false
+user	ownsFloristFriar	false
 user	ownsSpeakeasy	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
@@ -1175,14 +1185,6 @@ user	promptAboutCrafting	1
 user	puzzleChampBonus	5
 user	pyramidPosition	1
 user	pyramidBombUsed	false
-user	replicaChateauAvailable	false
-user	replicaNeverendingPartyAlways	false
-user	replicaWitchessSetAvailable	false
-user	retroCapeSuperhero	vampire
-user	retroCapeWashingInstructions	hold
-user	rockinRobinProgress	25
-user	ROMOfOptimalityAvailable	true
-user	ROMOfOptimalityCost	1000
 user	quantumPoints	0
 user	questClumsinessGrove	unstarted
 user	questDoctorBag	unstarted
@@ -1196,14 +1198,14 @@ user	questESlFish	unstarted
 user	questESlMushStash	unstarted
 user	questESlSalt	unstarted
 user	questESlSprinkles	unstarted
-user	questESpEVE	unstarted
-user	questESpJunglePun	unstarted
-user	questESpGore	unstarted
 user	questESpClipper	unstarted
+user	questESpEVE	unstarted
 user	questESpFakeMedium	unstarted
+user	questESpGore	unstarted
+user	questESpJunglePun	unstarted
+user	questESpOutOfOrder	unstarted
 user	questESpSerum	unstarted
 user	questESpSmokes	unstarted
-user	questESpOutOfOrder	unstarted
 user	questEStFishTrash	unstarted
 user	questEStGiveMeFuel	unstarted
 user	questEStNastyBears	unstarted
@@ -1240,12 +1242,12 @@ user	questL07Cyrptic	unstarted
 user	questL08Trapper	unstarted
 user	questL09Topping	unstarted
 user	questL10Garbage	unstarted
-user	questL11MacGuffin	unstarted
 user	questL11Black	unstarted
 user	questL11Business	unstarted
 user	questL11Curses	unstarted
 user	questL11Desert	unstarted
 user	questL11Doctor	unstarted
+user	questL11MacGuffin	unstarted
 user	questL11Manor	unstarted
 user	questL11Palindome	unstarted
 user	questL11Pyramid	unstarted
@@ -1253,8 +1255,8 @@ user	questL11Ron	unstarted
 user	questL11Shen	unstarted
 user	questL11Spare	unstarted
 user	questL11Worship	unstarted
-user	questL12War	unstarted
 user	questL12HippyFrat	unstarted
+user	questL12War	unstarted
 user	questL13Final	unstarted
 user	questL13Warehouse	unstarted
 user	questLTTQuestByWire	unstarted
@@ -1315,19 +1317,30 @@ user	relayShowWarnings	true
 user	relocatePygmyJanitor	-1
 user	relocatePygmyLawyer	-1
 user	rememberDesktopSize	false
-user	restUsingChateau	true
-user	restUsingCampAwayTent	true
+user	replicaChateauAvailable	false
+user	replicaNeverendingPartyAlways	false
+user	replicaWitchessSetAvailable	false
 user	requireBoxServants	false
 user	requireSewerTestItems	false
+user	restUsingCampAwayTent	true
+user	restUsingChateau	true
+user	retroCapeSuperhero	vampire
+user	retroCapeWashingInstructions	hold
+user	rockinRobinProgress	25
 user	romanticTarget
+user	ROMOfOptimalityAvailable	true
+user	ROMOfOptimalityCost	1000
 user	royalty
 user	rufusDesiredArtifact
 user	rufusDesiredEntity
 user	rufusDesiredItems
 user	rufusQuestTarget
 user	rufusQuestType
-user	rumpelstiltskinTurnsUsed	0
 user	rumpelstiltskinKidsRescued	0
+user	rumpelstiltskinTurnsUsed	0
+user	rwbLocation
+user	rwbMonster
+user	rwbMonsterCount	0
 user	safariSwagger	0
 user	safePickpocket	true
 user	sausageGrinderUnits	0
@@ -1336,6 +1349,7 @@ user	schoolOfHardKnocksDiplomaCost	1000
 user	schoolSwagger	0
 user	scrapbookCharges	0
 user	screencappedMonster	
+user	screechCombats	0
 user	scriptCascadingMenus	true
 user	scriptMRULength	0
 user	scriptMRUList
@@ -1723,6 +1737,8 @@ user	_chubbyAndPlumpUsed	false
 user	_cinchUsed	0
 user	_cinchoRests	0
 user	_circleDrumUsed	false
+user	_citizenZone
+user	_citizenZoneMods
 user	_clanFortuneBuffUsed	false
 user	_clanFortuneConsultUses	0
 user	_claraBellUsed	false
@@ -1993,6 +2009,7 @@ user	_kolhsPoeticallyLicenced	false
 user	_kolhsSavedByTheBell	0
 user	_kolhsSchoolSpirited	false
 user	_kudzuSaladEaten	false
+user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
 user	_lastDailyDungeonRoom	0
@@ -2048,6 +2065,7 @@ user	_meteoriteAdesUsed	0
 user	_meteorShowerUses	0
 user	_micrometeoriteUses	0
 user	_milkOfMagnesiumUsed	false
+user	_mildEvilPerpetrated	0
 user	_mimeArmyShotglassUsed	false
 user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false

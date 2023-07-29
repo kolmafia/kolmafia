@@ -17,15 +17,37 @@ public class PingRequest extends GenericRequest {
   }
 
   public PingRequest(String pingURL) {
-    super(pingURL);
+    super(pingURLToFormURL(pingURL));
     this.pingURL = pingURL;
+    this.addFormFields();
+  }
+
+  private static String pingURLToFormURL(String pingURL) {
+    return switch (pingURL) {
+      case "api", "council", "main" -> pingURL + ".php";
+      case "(status)", "(events)" -> "api.php";
+        // What is this?
+      default -> "(none)";
+    };
+  }
+
+  private void addFormFields() {
+    switch (this.pingURL) {
+      case "(status)" -> {
+        this.addFormField("what", "status");
+        this.addFormField("for", "KoLmafia");
+      }
+      case "(events)" -> {
+        this.addFormField("what", "events");
+        this.addFormField("for", "KoLmafia");
+      }
+    }
   }
 
   private boolean isSafeToRun() {
     return switch (this.pingURL) {
-      case "main.php", "council.php" -> !GenericRequest.abortIfInFightOrChoice(true);
-      case "api.php" -> true;
-      case "afterlife.php" -> true;
+      case "council", "main" -> !GenericRequest.abortIfInFightOrChoice(true);
+      case "api", "(status)", "(events)" -> true;
       default -> false;
     };
   }
@@ -43,12 +65,16 @@ public class PingRequest extends GenericRequest {
     this.startTime = System.currentTimeMillis();
     super.run();
 
-    // We can get redirected if we are logged out or in Valhalla
+    // We can get redirected if:
+    // - we are logged out -> login.php?notloggedin=1
+    // - we are in a fight (except api) -> fight.php
+    // - we are in a choice (except api) -> choice.php
+    // - we are in Valhalla -> afterlife.php
     if (this.redirectLocation != null) {
-      this.constructURLString(this.redirectLocation, false);
-      this.startTime = System.currentTimeMillis();
-      this.pingURL = this.redirectLocation;
-      super.run();
+      // We COULD do a ping test on afterlife.php, but since we can't
+      // compare the results with any other page, it is pointless.
+      // leave endTime at 0
+      return;
     }
 
     // We can have an empty responseText on a timeout or I/O error

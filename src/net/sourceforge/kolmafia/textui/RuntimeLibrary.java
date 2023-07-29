@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.ModifierValueType;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -92,6 +93,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -155,6 +157,8 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
+import net.sourceforge.kolmafia.session.PingManager;
+import net.sourceforge.kolmafia.session.PingManager.PingTest;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -212,7 +216,7 @@ public abstract class RuntimeLibrary {
           new String[] {"drop", "rate", "type"},
           new Type[] {DataTypes.ITEM_TYPE, DataTypes.FLOAT_TYPE, DataTypes.STRING_TYPE});
 
-  private static final RecordType maximizerResults =
+  private static final RecordType maximizerResult =
       new RecordType(
           "{string display; string command; float score; effect effect; item item; skill skill;}",
           new String[] {"display", "command", "score", "effect", "item", "skill"},
@@ -249,6 +253,21 @@ public abstract class RuntimeLibrary {
             DataTypes.STRING_TYPE,
             DataTypes.STRING_TYPE,
             DataTypes.STRING_TYPE
+          });
+
+  private static final RecordType pingTestRec =
+      new RecordType(
+          "{string page; int count; int low; int high; int total; int bytes; int average; int bps;}",
+          new String[] {"page", "count", "low", "high", "total", "bytes", "average", "bps"},
+          new Type[] {
+            DataTypes.STRING_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE,
+            DataTypes.INT_TYPE
           });
 
   private static final RecordType stackTraceRec =
@@ -1408,6 +1427,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("my_turncount", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
+    functions.add(new LibraryFunction("my_total_turns_spent", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {};
     functions.add(new LibraryFunction("my_fullness", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
@@ -2026,7 +2048,7 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("modifier_eval", DataTypes.FLOAT_TYPE, params));
 
-    Type maximizerResultsArray = new AggregateType(maximizerResults, 0);
+    Type maximizerResultArray = new AggregateType(maximizerResult, 0);
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE};
     functions.add(new LibraryFunction("maximize", DataTypes.BOOLEAN_TYPE, params));
@@ -2045,7 +2067,7 @@ public abstract class RuntimeLibrary {
           DataTypes.BOOLEAN_TYPE,
           DataTypes.BOOLEAN_TYPE
         };
-    functions.add(new LibraryFunction("maximize", maximizerResultsArray, params));
+    functions.add(new LibraryFunction("maximize", maximizerResultArray, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("monster_eval", DataTypes.FLOAT_TYPE, params));
@@ -2460,16 +2482,32 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
+    params = new Type[] {DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
+
     params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
+    ;
+
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.MODIFIER_TYPE};
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
+    params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
+
     params = new Type[] {DataTypes.SKILL_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
+
+    params = new Type[] {DataTypes.SKILL_TYPE, DataTypes.MODIFIER_TYPE};
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params =
@@ -2481,53 +2519,111 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.THRALL_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
+    params = new Type[] {DataTypes.THRALL_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.MODIFIER_TYPE};
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
+
     params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
+
     params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.MODIFIER_TYPE};
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
 
+    params = new Type[] {DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE};
     functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
+
     params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.MODIFIER_TYPE};
     functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("effect_modifier", DataTypes.EFFECT_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("effect_modifier", DataTypes.EFFECT_TYPE, params));
+
     params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("effect_modifier", DataTypes.EFFECT_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.MODIFIER_TYPE};
     functions.add(new LibraryFunction("effect_modifier", DataTypes.EFFECT_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("class_modifier", DataTypes.CLASS_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("class_modifier", DataTypes.CLASS_TYPE, params));
+
     params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("class_modifier", DataTypes.CLASS_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.MODIFIER_TYPE};
     functions.add(new LibraryFunction("class_modifier", DataTypes.CLASS_TYPE, params));
 
     params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("monster_modifier", DataTypes.MONSTER_TYPE, params));
 
+    params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("monster_modifier", DataTypes.MONSTER_TYPE, params));
+
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("skill_modifier", DataTypes.SKILL_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE};
     functions.add(new LibraryFunction("skill_modifier", DataTypes.SKILL_TYPE, params));
 
     params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("skill_modifier", DataTypes.SKILL_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("skill_modifier", DataTypes.SKILL_TYPE, params));
+
     params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("stat_modifier", DataTypes.STAT_TYPE, params));
+
+    params = new Type[] {DataTypes.EFFECT_TYPE, DataTypes.MODIFIER_TYPE};
+    functions.add(new LibraryFunction("stat_modifier", DataTypes.STAT_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(
+        new LibraryFunction(
+            "split_modifiers",
+            new AggregateType(DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE),
+            params));
 
     // Quest status inquiries
 
@@ -2821,6 +2917,18 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("sausage_goblin_chance", DataTypes.FLOAT_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("ping", pingTestRec, params));
+
+    params = new Type[] {DataTypes.INT_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("ping", pingTestRec, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("ping", pingTestRec, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -3135,7 +3243,11 @@ public abstract class RuntimeLibrary {
     Value[] keys = obj.keys();
     for (Value key : keys) {
       Value v = obj.aref(key);
-      String line = indent + key + " => " + v;
+      String value = v.toString();
+      if (!addToSessionStream) {
+        value = StringUtilities.getEntityEncode(value);
+      }
+      String line = indent + key + " => " + value;
 
       if (addToSessionStream) {
         RuntimeLibrary.print(new AshRuntime(), new Value(line), color);
@@ -6087,6 +6199,10 @@ public abstract class RuntimeLibrary {
     return new Value(KoLCharacter.getCurrentRun());
   }
 
+  public static Value my_total_turns_spent(ScriptRuntime controller) {
+    return new Value(AdventureSpentDatabase.getTotalTrackedTurns());
+  }
+
   public static Value my_fullness(ScriptRuntime controller) {
     return new Value(KoLCharacter.getFullness());
   }
@@ -7759,7 +7875,7 @@ public abstract class RuntimeLibrary {
     }
 
     AggregateType type =
-        new AggregateType(RuntimeLibrary.maximizerResults, m.size() - lastEquipIndex);
+        new AggregateType(RuntimeLibrary.maximizerResult, m.size() - lastEquipIndex);
     ArrayValue value = new ArrayValue(type);
 
     for (int i = lastEquipIndex; i < m.size(); ++i) {
@@ -9231,9 +9347,48 @@ public abstract class RuntimeLibrary {
     return name;
   }
 
-  public static Value numeric_modifier(ScriptRuntime controller, final Value modifier) {
+  private static Modifier getNumericModifier(ScriptRuntime controller, final Value modifier) {
+    Type type = modifier.getType();
+    if (type.equals(DataTypes.MODIFIER_TYPE)) {
+      Modifier content = (Modifier) modifier.content;
+      if (content.getType() == ModifierValueType.NUMERIC) {
+        return content;
+      }
+      throw controller.runtimeException("numeric modifier required");
+    }
     String mod = modifier.toString();
-    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
+    return ModifierDatabase.numericByCaselessName(mod);
+  }
+
+  private static BooleanModifier getBooleanModifier(
+      ScriptRuntime controller, final Value modifier) {
+    Type type = modifier.getType();
+    if (type.equals(DataTypes.MODIFIER_TYPE)) {
+      Modifier content = (Modifier) modifier.content;
+      if (content.getType() == ModifierValueType.BOOLEAN) {
+        return (BooleanModifier) content;
+      }
+      throw controller.runtimeException("boolean modifier required");
+    }
+    String mod = modifier.toString();
+    return BooleanModifier.byCaselessName(mod);
+  }
+
+  private static StringModifier getStringModifier(ScriptRuntime controller, final Value modifier) {
+    Type type = modifier.getType();
+    if (type.equals(DataTypes.MODIFIER_TYPE)) {
+      Modifier content = (Modifier) modifier.content;
+      if (content.getType() == ModifierValueType.STRING) {
+        return (StringModifier) content;
+      }
+      throw controller.runtimeException("string modifier required");
+    }
+    String mod = modifier.toString();
+    return StringModifier.byCaselessName(mod);
+  }
+
+  public static Value numeric_modifier(ScriptRuntime controller, final Value modifier) {
+    Modifier realMod = getNumericModifier(controller, modifier);
     return new Value(KoLCharacter.currentNumericModifier(realMod));
   }
 
@@ -9241,8 +9396,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    String mod = modifier.toString();
-    Modifier realMod = ModifierDatabase.numericByCaselessName(mod);
+    Modifier realMod = getNumericModifier(controller, modifier);
     return new Value(ModifierDatabase.getNumericModifier(type, name, realMod));
   }
 
@@ -9262,8 +9416,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value boolean_modifier(ScriptRuntime controller, final Value modifier) {
-    String modName = modifier.toString();
-    BooleanModifier mod = BooleanModifier.byCaselessName(modName);
+    BooleanModifier mod = getBooleanModifier(controller, modifier);
     return DataTypes.makeBooleanValue(KoLCharacter.currentBooleanModifier(mod));
   }
 
@@ -9271,14 +9424,12 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    String mod = modifier.toString();
-    BooleanModifier boolMod = BooleanModifier.byCaselessName(mod);
+    BooleanModifier boolMod = getBooleanModifier(controller, modifier);
     return DataTypes.makeBooleanValue(ModifierDatabase.getBooleanModifier(type, name, boolMod));
   }
 
   public static Value string_modifier(ScriptRuntime controller, final Value modifier) {
-    String mod = modifier.toString();
-    StringModifier strMod = StringModifier.byCaselessName(mod);
+    StringModifier strMod = getStringModifier(controller, modifier);
     return new Value(KoLCharacter.currentStringModifier(strMod));
   }
 
@@ -9286,8 +9437,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    String mod = modifier.toString();
-    StringModifier strMod = StringModifier.byCaselessName(mod);
+    StringModifier strMod = getStringModifier(controller, modifier);
     return new Value(ModifierDatabase.getStringModifier(type, name, strMod));
   }
 
@@ -9295,8 +9445,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    String mod = modifier.toString();
-    StringModifier strMod = StringModifier.byCaselessName(mod);
+    StringModifier strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseEffectValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
@@ -9305,8 +9454,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    String mod = modifier.toString();
-    StringModifier strMod = StringModifier.byCaselessName(mod);
+    StringModifier strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseClassValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
@@ -9315,8 +9463,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    String mod = modifier.toString();
-    StringModifier strMod = StringModifier.byCaselessName(mod);
+    StringModifier strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseSkillValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
@@ -9325,8 +9472,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    String mod = modifier.toString();
-    StringModifier strMod = StringModifier.byCaselessName(mod);
+    StringModifier strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseStatValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
@@ -9335,10 +9481,26 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    String mod = modifier.toString();
-    StringModifier strMod = StringModifier.byCaselessName(name);
+    StringModifier strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseMonsterValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
+  }
+
+  public static Value split_modifiers(ScriptRuntime controller, final Value arg) {
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, DataTypes.MODIFIER_TYPE);
+    MapValue value = new MapValue(type);
+
+    for (ModifierValue mVal : ModifierDatabase.splitModifiers(arg.toString())) {
+      var modifierName = mVal.getName();
+      var modifier = ModifierDatabase.byCaselessName(modifierName);
+      if (modifier == null) {
+        // splitModifiers doesn't validate the passed-in string, so just drop it
+        continue;
+      }
+      value.aset(new Value(modifier), new Value(mVal.getValue()));
+    }
+
+    return value;
   }
 
   public static Value white_citadel_available(ScriptRuntime controller) {
@@ -9389,6 +9551,9 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value florist_available(ScriptRuntime controller) {
+    if (!Preferences.getBoolean("floristFriarChecked")) {
+      FloristRequest.checkFloristAvailable();
+    }
     return DataTypes.makeBooleanValue(FloristRequest.haveFlorist());
   }
 
@@ -10087,5 +10252,60 @@ public abstract class RuntimeLibrary {
     var req = new MonkeyPawRequest(wish);
     RequestThread.postRequest(req);
     return req.responseText != null && !req.responseText.contains("impossible");
+  }
+
+  public static Value sausage_goblin_chance(ScriptRuntime controller) {
+    var sausageFights = Preferences.getInteger("_sausageFights");
+    var maxTurnsToNextGoblin = 4 + 3 * sausageFights + Math.pow(Math.max(0, sausageFights - 5), 3);
+    var lastGoblin = Preferences.getInteger("_lastSausageMonsterTurn");
+    var turnsSinceLastGoblin = KoLCharacter.getTurnsPlayed() - lastGoblin;
+
+    if (turnsSinceLastGoblin >= maxTurnsToNextGoblin) {
+      return DataTypes.makeFloatValue(1.0);
+    }
+
+    var prob = (turnsSinceLastGoblin + 1.0) / (maxTurnsToNextGoblin + 1);
+    return DataTypes.makeFloatValue(prob);
+  }
+
+  public static Value ping(ScriptRuntime controller) {
+    return ping(controller, PingManager.runPingTest());
+  }
+
+  public static Value ping(ScriptRuntime controller, final Value arg1) {
+    String property = arg1.toString();
+    return ping(controller, PingTest.parseProperty(property));
+  }
+
+  public static Value ping(ScriptRuntime controller, final Value arg1, final Value arg2) {
+    int count = (int) arg1.intValue();
+    String page = arg2.toString();
+    return ping(controller, PingManager.runPingTest(count, page, false));
+  }
+
+  private static Value ping(ScriptRuntime controller, final PingTest result) {
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+
+    RecordType type = RuntimeLibrary.pingTestRec;
+    RecordValue rec = new RecordValue(type);
+
+    // page
+    rec.aset(0, new Value(result.getPage()), interpreter);
+    // count
+    rec.aset(1, DataTypes.makeIntValue(result.getCount()), interpreter);
+    // low
+    rec.aset(2, DataTypes.makeIntValue(result.getLow()), interpreter);
+    // high
+    rec.aset(3, DataTypes.makeIntValue(result.getHigh()), interpreter);
+    // total
+    rec.aset(4, DataTypes.makeIntValue(result.getTotal()), interpreter);
+    // bytes
+    rec.aset(5, DataTypes.makeIntValue(result.getBytes()), interpreter);
+    // average
+    rec.aset(6, DataTypes.makeIntValue(Math.round(result.getAverage())), interpreter);
+    // bps
+    rec.aset(7, DataTypes.makeIntValue(Math.round(result.getBPS())), interpreter);
+
+    return rec;
   }
 }

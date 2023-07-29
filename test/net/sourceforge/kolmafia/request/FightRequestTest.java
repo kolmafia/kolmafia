@@ -23,12 +23,14 @@ import static internal.helpers.Player.withWorkshedItem;
 import static internal.helpers.Player.withoutCounters;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
+import static internal.matchers.Preference.hasStringValue;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -1106,7 +1108,7 @@ public class FightRequestTest {
       int expected = 20 - (property / 5);
       int adjustment = KoLCharacter.getFamiliarWeightAdjustment();
       assertEquals(expected, adjustment);
-      FightRequest.updateFinalRoundData("", true);
+      FightRequest.updateFinalRoundData("", true, false);
       // We expect the property to increment, but cap at 75
       property = Math.min(75, property + 1);
       assertEquals(property, Preferences.getInteger("_snowSuitCount"));
@@ -1866,13 +1868,19 @@ public class FightRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"anapest_runaway, false", "goth_kid_pvp, true"})
-  void setsLastFightProperty(String html, boolean prop) {
-    var cleanups = withProperty("_lastCombatWon");
+  @CsvSource({
+    "win, fight.php?action=skill&whichskill=1005, true, false",
+    "lose, fight.php?action=useitem&whichitem=9963&whichitem2=0, false, true",
+    "expire, fight.php?action=useitem&whichitem=2, false, true",
+    "run, fight.php?action=runaway, false, false"
+  })
+  void setsLastFightProperty(String html, String action, boolean win, boolean lose) {
+    var cleanups = new Cleanups(withProperty("_lastCombatWon"), withProperty("_lastCombatLost"));
 
     try (cleanups) {
-      parseCombatData("request/test_fight_" + html + ".html", "fight.php?action=attack");
-      assertThat("_lastCombatWon", isSetTo(prop));
+      parseCombatData("request/test_fight_" + html + ".html", action);
+      assertThat("_lastCombatWon", isSetTo(win));
+      assertThat("_lastCombatLost", isSetTo(lose));
     }
   }
 
@@ -2168,6 +2176,95 @@ public class FightRequestTest {
           "request/test_fight_epic_mctwist.html", "fight.php?action=skill&whichskill=7447");
 
       assertThat("_epicMcTwistUsed", isSetTo(true));
+    }
+  }
+
+  @Nested
+  class RedWhiteBlueBlast {
+    @Test
+    public void canDetect() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("rwbMonster"),
+              withProperty("rwbMonsterCount"),
+              withProperty("rwbLocation"),
+              withLastLocation("South of the Border"));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_red_white_blue.html", "fight.php?action=skill&whichskill=7450");
+
+        assertThat("rwbMonster", isSetTo("raging bull"));
+        assertThat("rwbMonsterCount", isSetTo(3));
+        assertThat("rwbLocation", isSetTo("South of the Border"));
+      }
+    }
+
+    @Test
+    public void canDetectMonsterAfterCast() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("rwbMonster", "raging bull"),
+              withProperty("rwbMonsterCount", 3),
+              withProperty("rwbLocation", "South of the Border"),
+              withNextMonster("raging bull"));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_red_white_blue_after.html");
+
+        assertThat("rwbMonster", isSetTo("raging bull"));
+        assertThat("rwbMonsterCount", isSetTo(2));
+      }
+    }
+  }
+
+  @Test
+  public void canDetectEagleScreech() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("banishedPhyla"),
+            withProperty("screechCombats"),
+            withFamiliar(FamiliarPool.PATRIOTIC_EAGLE));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_eagle_screech.html", "fight.php?action=skill&whichskill=7451");
+
+      assertThat("screechCombats", isSetTo(11));
+      assertThat("banishedPhyla", hasStringValue(startsWith("beast:Patriotic Screech:")));
+    }
+  }
+
+  @Nested
+  class Eagle {
+    @ParameterizedTest
+    @ValueSource(strings = {"", "_2"})
+    public void screechTimerAdvances(String extension) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.PATRIOTIC_EAGLE),
+              withProperty("screechCombats", 6),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_eagle_screech_after" + extension + ".html");
+        assertThat("screechCombats", isSetTo(5));
+      }
+    }
+
+    @Test
+    public void screechTimerEnds() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.PATRIOTIC_EAGLE),
+              withProperty("screechCombats", 6),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_eagle_screech_after_done.html");
+        assertThat("screechCombats", isSetTo(0));
+      }
     }
   }
 }
