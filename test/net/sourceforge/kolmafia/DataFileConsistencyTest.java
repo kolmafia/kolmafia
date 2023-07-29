@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +31,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.FloristRequest;
@@ -86,6 +88,35 @@ public class DataFileConsistencyTest {
                     ItemDatabase.isEquipment(itemId) && !ItemDatabase.isFamiliarEquipment(itemId)),
         Arguments.of("inebriety.txt", 2, (Function<Integer, Boolean>) ItemDatabase::isBooze),
         Arguments.of("fullness.txt", 2, (Function<Integer, Boolean>) ItemDatabase::isFood));
+  }
+
+  @Test
+  public void testPotions() throws IOException {
+    boolean bogus = false;
+    for (var id : allItems()) {
+      var type = ItemDatabase.getConsumptionType(id);
+      switch (type) {
+        case POTION, AVATAR_POTION -> {
+          EnumSet<Attribute> attributes = ItemDatabase.getAttributes(id);
+          // All Potions And avatar potions are multiusable by default.
+          // Do not allow a redundant "multiple" attribute
+          if (attributes.contains(Attribute.MULTIPLE)) {
+            // Print to stdout so we can see all errors, rather than
+            // stopping test after first failure.
+            System.out.println(
+                "Item '"
+                    + ItemDatabase.getItemName(id)
+                    + " is a "
+                    + type
+                    + " which is redundantly declared to be multi-usable");
+            bogus = true;
+          }
+        }
+      }
+    }
+    if (bogus) {
+      fail("Potions and Avatar Potions with redundant 'multiple' attribute");
+    }
   }
 
   @ParameterizedTest

@@ -208,15 +208,15 @@ public class UseItemRequest extends GenericRequest {
       return ConsumptionType.SPLEEN;
     }
 
-    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
-    if (attrs.contains(Attribute.USABLE)) {
-      return ConsumptionType.USE;
+    // ItemDatabase can decide usability
+    if (ItemDatabase.isReusable(itemId)) {
+      return ConsumptionType.USE_INFINITE;
     }
-    if (attrs.contains(Attribute.MULTIPLE)) {
+    if (ItemDatabase.isMultiUsable(itemId)) {
       return ConsumptionType.USE_MULTIPLE;
     }
-    if (attrs.contains(Attribute.REUSABLE)) {
-      return ConsumptionType.USE_INFINITE;
+    if (ItemDatabase.isUsable(itemId)) {
+      return ConsumptionType.USE;
     }
 
     return consumptionType;
