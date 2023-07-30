@@ -165,7 +165,7 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void checkFloristAvailable() {
-    if (GenericRequest.abortIfInFightOrChoice()) {
+    if (GenericRequest.abortIfInFightOrChoice(true)) {
       return;
     }
 
@@ -198,6 +198,8 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
+    PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
+    RequestThread.postRequest(forestVisit);
     super.run();
   }
 
