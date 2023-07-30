@@ -18,6 +18,11 @@ public abstract class TopMenuDecorator {
       return;
     }
 
+    if (location.equals("awesomemenu.php?icons=1")) {
+      // This returns a JSON array.
+      return;
+    }
+
     var style =
         buffer.indexOf("awesomemenu.php") != -1
             ? TopMenuStyle.FANCY
