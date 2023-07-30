@@ -165,7 +165,7 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void checkFloristAvailable() {
-    if (GenericRequest.abortIfInFightOrChoice()) {
+    if (GenericRequest.abortIfInFightOrChoice(true)) {
       return;
     }
 
