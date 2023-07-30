@@ -2,9 +2,14 @@ package net.sourceforge.kolmafia.webui;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withProperty;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -68,8 +73,11 @@ class TopMenuDecoratorTest {
         String input = html("request/" + playerToTextFile(player) + ".html");
         String output = RequestEditorKit.getFeatureRichHTML(location, input);
 
-        // We always insert a "quick scripts" dropdown for all three menu styles
-        assertEquals(output.contains("scriptbar"), (style != TopMenuStyle.UNKNOWN));
+        // We detected that we have an awesomemenu and corrected it
+        assertEquals(TopMenuStyle.FANCY, GenericRequest.topMenuStyle);
+
+        // We inserted a "quick scripts" dropdown
+        assertTrue(output.contains("scriptbar"));
 
         // We do not test for a relay script menu because that looks the
         // "relay" directory for scripts starting with "relay_".
@@ -77,6 +85,62 @@ class TopMenuDecoratorTest {
         // Given that the response text is from awesomemenu.php, we are
         // only doing the RIGHT thing if TopMenuStype is FANCY, but
         // there is no way to check that here.
+      }
+    }
+  }
+
+  @Nested
+  class MenuStyle {
+    @CartesianTest
+    void awesomeMenuIsAwesome(
+        @Values(strings = {"normal", "compact", "fancy"}) String styleName,
+        @Enum TopMenuStyle style) {
+      String location = "";
+      var actualStyle = TopMenuStyle.UNKNOWN;
+      switch (styleName) {
+        case "normal" -> {
+          location = "topmenu.php";
+          actualStyle = TopMenuStyle.NORMAL;
+        }
+        case "compact" -> {
+          location = "topmenu.php";
+          actualStyle = TopMenuStyle.COMPACT;
+        }
+        case "fancy" -> {
+          location = "awesomemenu.php";
+          actualStyle = TopMenuStyle.FANCY;
+        }
+        default -> {
+          fail("Unknown menu style: " + styleName);
+        }
+      }
+      // We have saved HTML for all three styles
+      String path = "request/test_" + styleName + "_topmenu.html";
+      var cleanups =
+          new Cleanups(
+              withTopMenuStyle(style),
+              withProperty("relayAddsQuickScripts", true),
+              withProperty("scriptlist", "restore hp | restore mp"));
+      try (cleanups) {
+        RequestLoggerOutput.startStream();
+        String decorated = RequestEditorKit.getFeatureRichHTML(location, html(path));
+        var log = RequestLoggerOutput.stopStream();
+
+        // Verify that we have detected and corrected the topmenu style
+        assertEquals(actualStyle, GenericRequest.topMenuStyle);
+
+        // Verify that if we changed it, we logged the correction
+        String expected =
+            (actualStyle != style)
+                ? "We think topmenu style is " + style + " but it is actually " + actualStyle
+                : "";
+        assertThat(log, startsWith(expected));
+
+        // We insert a "quick scripts" dropdown for all three menu styles
+        assertTrue(decorated.contains("scriptbar"));
+
+        // We do not test for a relay script menu because that looks the
+        // "relay" directory for scripts starting with "relay_".
       }
     }
   }

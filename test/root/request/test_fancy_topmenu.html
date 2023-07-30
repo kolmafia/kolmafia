@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html> <!--<![endif]-->
+<head>
+	<title>The Kingdom of Loathing</title>
+	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+	<style type="text/css">
+		#cancel { display: none; }
+		.helper { z-index: 999; outline: 2px solid black; position: absolute; }
+		.edit #config { display: block; }
+		.noedit { display: inline; }
+		.edit .noedit { display: none; }
+		.justedit { display: none; color: red; font-weight: bold; line-height: 30px; vertical-align: top; font-size: 12px; }
+		.edit .justedit { display: inline; }
+		.faded * { zoom: 1; filter: alpha(opacity=35);opacity: 0.35; cursor: default}  
+		body, td, ul { font-family: arial; }
+		.tiny { font-size: 9px; }
+		#fixedawesome { position: absolute; z-index: 2; top: 0px; right: 0px; background-color: white; }
+		#config {font-size: 11px; display: none; }
+		#config .left { float: left; }
+		.picker { width: 90%; border: 1px solid blue; position: fixed; top: 10px; left: 5% ; background-color: white; z-index: 5; height: 180px; overflow-y: scroll }
+		.picker img { width: 30px; padding: 2px; float: left; }
+		.cancel { position: fixed; top:11px; right: 10%; z-index: 7; text-decoration: underline; cursor: pointer}
+		#config .details > div { display: none; }
+		#awesome { width: 99%; position: absolute; top: 0px; left: 0px; text-align: center; -webkit-overflow-scrolling: touch; overflow: hidden;margin-top: 3px; margin-left: 3px; min-height: 31px; }
+		#green { z-index: 2; display: none; font-size: .8em; position: absolute; bottom: 1px;  background-color: white; color: green; right: 1px; width: 300px }
+		#green > div { border: 1px solid green; }
+		.custom { text-align: left; width: 100%; height: 33px; overflow: hidden; z-index: 1; }
+		.ai { width: 30px; height: 30px; display: inline-block; margin-left: 3px; }
+		.edit .ai { outline: 1px dashed gray; }
+		#text .ai { height: 10px; overflow: hidden; font-size: 9px; width: 45px; vertical-align: top; }
+		#text .custom { text-align: left; width: 100%; height: 13px; overflow: hidden; z-index: 1; }
+		#text .ai a { text-decoration: none; }
+	</style>
+</head>
+<body bgcolor="white" link="black" alink="black" vlink="black" text="black" id="img">
+	<div id="awesome" >
+		<div id="fixedawesome">
+		<a href="#" class="config"><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/tinyicon_edit.gif" alt="Configure Menu" /></a>
+			<div class="justedit">&laquo; Edit Mode, Click to Exit</div>
+			<div class="noedit"><table border=0 style="display: inline-table" cellpadding=0 id="themoons"><tr><td width=10></td><td align=center valign=top align=right class=tiny><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon5.gif"  alt="Ronald, Full"  ><td width=14></td><td align=center valign=top align=left class=tiny><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon7.gif" alt="Grimace, Half Waning"  ><td width=10></td></tr></table></div>
+			<a class="noedit" onclick="window.open('doc.php?topic=home','','height=400,width=550,scrollbars=yes,resizable=yes'); return false" href="#" target=_blank><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/tinyicon_help.gif" width=15 height=30 alt="Help"  border=0></a><a class="noedit" href="adminmail.php" target=mainpane><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/tinyicon_bugreport.gif" width=15 height=30 alt="Report Bug"  border=0></a><a class="noedit" href="logout.php" target=_top><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/tinyicon_logout.gif" width=15 height=30 alt="Log Out"  border=0></a>			<div id="description"></div>
+		</div>
+		<div id="green"></div>
+<div class="dragarea" rel="42"><div class="custom"><div class="ai"  data-xy="0,0"  data-def="[&quot;map&quot;,&quot;go&quot;,&quot;main.php&quot;,&quot;Main Map&quot;]"><a id="a0" target="mainpane" href="main.php"><img alt="Main Map" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/map.gif" /></a></div><div class="ai"  data-xy="1,0"  data-def="[&quot;backpack&quot;,&quot;go&quot;,&quot;inventory.php&quot;,&quot;Your Inventory&quot;]"><a id="a1" target="mainpane" href="inventory.php"><img alt="Your Inventory" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/backpack.gif" /></a></div><div class="ai"  data-xy="2,0"  data-def="[&quot;book3&quot;,&quot;go&quot;,&quot;skillz.php&quot;,&quot;Your Skills&quot;]"><a id="a2" target="mainpane" href="skillz.php"><img alt="Your Skills" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/book3.gif" /></a></div><div class="ai"  data-xy="3,0"  data-def="[&quot;pliers&quot;,&quot;go&quot;,&quot;craft.php&quot;,&quot;Crafting&quot;]"><a id="a3" target="mainpane" href="craft.php"><img alt="Crafting" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/pliers.gif" /></a></div><div class="ai"  data-xy="4,0"  data-def="[&quot;envelope&quot;,&quot;go&quot;,&quot;messages.php&quot;,&quot;Messages&quot;]"><a id="a4" target="mainpane" href="messages.php"><img alt="Messages" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/envelope.gif" /></a></div><div class="ai"  data-xy="5,0"  data-def="[&quot;blackwrench&quot;,&quot;go&quot;,&quot;account.php&quot;,&quot;Options&quot;]"><a id="a5" target="mainpane" href="account.php"><img alt="Options" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackwrench.gif" /></a></div><div class="ai"  data-xy="6,0"  data-def="[&quot;chat&quot;,&quot;go&quot;,&quot;community.php&quot;,&quot;Community&quot;]"><a id="a6" target="mainpane" href="community.php"><img alt="Community" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/chat.gif" /></a></div><div class="ai"  data-xy="7,0"  data-def="[&quot;donate&quot;,&quot;popup&quot;,&quot;donatepopup.php&quot;,&quot;Support the Kingdom&quot;]"><a id="a7" target="_blank" href="donatepopup.php"><img alt="Support the Kingdom" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/donate.gif" /></a></div><div class="ai empty"  data-xy="8,0" ></div><div class="ai empty"  data-xy="9,0" ></div><div class="ai empty"  data-xy="10,0" ></div><div class="ai empty"  data-xy="11,0" ></div><div class="ai empty"  data-xy="12,0" ></div><div class="ai empty"  data-xy="13,0" ></div><div class="ai empty"  data-xy="14,0" ></div><div class="ai empty"  data-xy="15,0" ></div><div class="ai empty"  data-xy="16,0" ></div><div class="ai empty"  data-xy="17,0" ></div><div class="ai empty"  data-xy="18,0" ></div><div class="ai empty"  data-xy="19,0" ></div><div class="ai empty"  data-xy="20,0" ></div><div class="ai empty"  data-xy="21,0" ></div><div class="ai empty"  data-xy="22,0" ></div><div class="ai empty"  data-xy="23,0" ></div><div class="ai empty"  data-xy="24,0" ></div><div class="ai empty"  data-xy="25,0" ></div><div class="ai empty"  data-xy="26,0" ></div><div class="ai empty"  data-xy="27,0" ></div><div class="ai empty"  data-xy="28,0" ></div><div class="ai empty"  data-xy="29,0" ></div><div class="ai empty"  data-xy="30,0" ></div><div class="ai empty"  data-xy="31,0" ></div><div class="ai empty"  data-xy="32,0" ></div><div class="ai empty"  data-xy="33,0" ></div><div class="ai empty"  data-xy="34,0" ></div><div class="ai empty"  data-xy="35,0" ></div><div class="ai empty"  data-xy="36,0" ></div><div class="ai empty"  data-xy="37,0" ></div><div class="ai empty"  data-xy="38,0" ></div><div class="ai empty"  data-xy="39,0" ></div><div class="ai empty"  data-xy="40,0" ></div><div class="ai empty"  data-xy="41,0" ></div><div class="ai empty"  data-xy="42,0" ></div><div class="ai empty"  data-xy="43,0" ></div><div class="ai empty"  data-xy="44,0" ></div><div class="ai empty"  data-xy="45,0" ></div><div class="ai empty"  data-xy="46,0" ></div><div class="ai empty"  data-xy="47,0" ></div><div class="ai empty"  data-xy="48,0" ></div><div class="ai empty"  data-xy="49,0" ></div><div class="ai empty"  data-xy="50,0" ></div><div class="ai empty"  data-xy="51,0" ></div><div class="ai empty"  data-xy="52,0" ></div><div class="ai empty"  data-xy="53,0" ></div><div class="ai empty"  data-xy="54,0" ></div><div class="ai empty"  data-xy="55,0" ></div><div class="ai empty"  data-xy="56,0" ></div><div class="ai empty"  data-xy="57,0" ></div><div class="ai empty"  data-xy="58,0" ></div><div class="ai empty"  data-xy="59,0" ></div></div></div>
+<div style="text-align: center; width: 100%;" id="config">
+	<form style="display: inline" method="post" action="awesomemenu.php" id="edit">
+	<input type="hidden" name="existing" value="" id="existing" />
+	<br />
+	<div><b>Config - Add a Button:</b> (right-click an existing button to delete)</div>
+	<div class="left ">
+		<div class="actiontype">
+				<select name="actiontype">
+					<option value="go">Link to Place</option>
+					<!-- <option value="skill">Use a Skill</option> -->
+					<option value="macro">Custom Macro</option>
+				</select>
+		</div>
+			<br />
+			<div class="icon">
+			<b>Icon</b><br />
+			<img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/seasidetown.gif" height="30" width="30" /><br />
+			<i>(click to edit)</i>
+			<input type="hidden" name="icon" value="seasidetown" />
+			</div>
+	</div>
+	<div class="left details">
+		<div class="go" style="width:350px">
+			<select name="go" style="width: 300px">
+			<option value="shop.php?whichshop=olivers"></option><option value="place.php?whichplace=town_wrong&action=townwrong_precinct">11th Precinct Headquarters</option><option value="shop.php?whichshop=mrstore2002">2002 Mr. Store</option><option value="account.php">Account Menu</option><option value="place.php?whichplace=monorail">A Monorail Station</option><option value="tavern.php?place=susguy">A Suspicious-Looking Guy</option><option value="campground.php?action=telescope">A Telescope</option><option value="barrel.php">Barrel full of Barrels</option><option value="tavern.php?place=barkeep">Bart Ender</option><option value="place.php?whichplace=bordertown">Bordertown</option><option value="da.php?place=gate1">Boris's Gate</option><option value="bhh.php">Bounty Hunter Hunter</option><option value="shop.php?whichshop=sbb_jimmy">Buff Jimmy's Souvenir Shop</option><option value="arena.php">Cake-Shaped Arena</option><option value="campground.php">Campground</option><option value="place.php?whichplace=chateau">Chateau Mantegna</option><option value="shop.php?whichshop=chateau">Chateau Mantegna Gift Shop</option><option value="account_macros.php">Chat Macros</option><option value="clan_hall.php">Clan Hall</option><option value="clan_rumpus.php">Clan Rumpus Room</option><option value="clan_stash.php">Clan Stash</option><option value="shop.php?whichshop=fwshop">Clan Underground Fireworks Shop</option><option value="clan_viplounge.php">Clan VIP Lounge</option><option value="cobbsknob.php">Cobb's Knob</option><option value="cobbsknob.php?action=tolabs">Cobb's Knob Laboratories</option><option value="cobbsknob.php?action=tomenagerie">Cobb's Knob Menagerie</option><option value="account_combatmacros.php">Combat Macros</option><option value="community.php">Community</option><option value="questlog.php?which=2">Completed Quest Log</option><option value="place.php?whichplace=airport_spooky">Conspiracy Island</option><option value="inventory.php?which=1">Consumables (Inventory)</option><option value="friars.php">Copse of the Deep Fat Friars</option><option value="craft.php">Crafting</option><option value="place.php?whichplace=crimbo2014">Crimbo Town</option><option value="questlog.php?which=1">Current Quest Log</option><option value="place.php?whichplace=knoll_friendly">Degrassi Knoll</option><option value="place.php?whichplace=desertbeach">Desert Beach</option><option value="place.php?whichplace=airport_stench">Dinseylandfill</option><option value="shop.php?whichshop=infernodisco">Disco GiftCo</option><option value="managecollection.php">Display Case</option><option value="shop.php?whichshop=doc">Doc Galaktik's Medicine Show</option><option value="clan_dreadsylvania.php">Dreadsylvania</option><option value="shop.php?whichshop=driparmory">Drip Institute Armory</option><option value="shop.php?whichshop=dripcafeteria">Drip Institute Cafeteria</option><option value="da.php">Dungeoneers' Association</option><option value="place.php?whichplace=airport">Elemental International Airport</option><option value="shop.php?whichshop=airport">Elemental International Airport Duty Free Shop</option><option value="inventory.php?which=2">Equipment (Inventory)</option><option value="place.php?whichplace=realm_fantasy">FantasyRealm, by LyleCo</option><option value="shop.php?whichshop=fdkol">FDKOL Requisitions Tent</option><option value="basement.php">Fernswarthy's Basement</option><option value="place.php?whichplace=forestvillage&action=fv_friar">Florist Friar</option><option value="place.php?whichplace=forestvillage">Forest Village</option><option value="shop.php?whichshop=fishbones">Freshwater Fishbonery</option><option value="place.php?whichplace=gingerbreadcity">Gingerbread City</option><option value="shop.php?whichshop=guildstore2">Gouda's Grimoire and Grocery</option><option value="guild.php">Guild</option><option value="storage.php">Hagnk's Ancestral Mini-Storage</option><option value="hermit.php">Hermitage</option><option value="clan_hobopolis.php">Hobopolis</option><option value="peevpee.php?">Huggler Memorial Colosseum</option><option value="shop.php?whichshop=snackbar">Huggler Memorial Colosseum Snack Bar</option><option value="knoll.php?place=smith">Innabox</option><option value="knoll.php">Inside Degrassi Knoll</option><option value="shop.php?whichshop=bacon">Internet Meme Shop</option><option value="inventory.php">Inventory</option><option value="postwarisland.php?place=concert">Island Arena</option><option value="da.php?place=gate2">Jarlsberg's Gate</option><option value="place.php?whichplace=kgb">Kremlin's Greatest Briefcase</option><option value="shop.php?whichshop=beergarden">Let's Brew!</option><option value="shop.php?whichshop=ltt">LT&T Gift Shop</option><option value="main.php">Main Map</option><option value="guild.php?place=malus">Malus of Forethought</option><option value="managestore.php">Manage your store</option><option value="account_tattoos.php">Manage your Tattoos</option><option value="place.php?whichplace=town_market">Market Square</option><option value="knoll.php?place=mayor">Mayor Zapruder</option><option value="messages.php">Messages</option><option value="inventory.php?which=3">Miscellaneous (Inventory)</option><option value="bet.php">Money Making Game</option><option value="questlog.php?which=6">Monster Manuel</option><option value="mrstore.php">Mr. Store</option><option value="place.php?whichplace=mclargehuge">Mt. McLargeHuge</option><option value="tutorial.php">Mt. Noob</option><option value="knoll_mushrooms.php">Mushroom Fields</option><option value="island.php">Mysterious Island</option><option value="questlog.php?which=4">Notes</option><option value="account.php?">Options Menu</option><option value="postwarisland.php?place=nunnery">Our Lady of Perpetual Indecision</option><option value="pandamonium.php">Pandamonium</option><option value="place.php?whichplace=realm_pirate">PirateRealm</option><option value="shop.php?whichshop=detective">Precinct Materiel Division</option><option value="peevpee.php">PvP</option><option value="mall.php">Search the Mall</option><option value="place.php?whichplace=town">Seaside Town</option><option value="volcanoisland.php?">Secret Tropical Island Volcano Lair</option><option value="place.php?whichplace=spacegate">Secret Underground Spacegate Facility</option><option value="skillz.php">Skills</option><option value="da.php?place=gate3">Sneaky Pete's Gate</option><option value="place.php?whichplace=beanstalk">Somewhere Over the Beanstalk</option><option value="lair.php">Sorceress' Lair</option><option value="shop.php?whichshop=spacegate">Spacegate Fabrication Facility</option><option value="shop.php?whichshop=spant">Spant Bit Assembly</option><option value="place.php?whichplace=speakeasy">speakeasy</option><option value="shop.php?whichshop=lathe">SpinMaster&trade; lathe</option><option value="place.php?whichplace=manor4">Spookyraven Manor Cellar</option><option value="place.php?whichplace=manor1">Spookyraven Manor First Floor</option><option value="place.php?whichplace=manor2">Spookyraven Manor Second Floor</option><option value="place.php?whichplace=manor3">Spookyraven Manor Third Floor</option><option value="place.php?whichplace=airport_sleaze">Spring Break Beach</option><option value="shop.php?whichshop=sugarsheets">Sugar Sheet Folding</option><option value="donatepopup.php">Support the Kingdom</option><option value="shop.php?whichshop=sbb_taco">Taco Dan's Taco Stand</option><option value="clan_hobopolis.php?place=3&action=talkrichard&whichtalk=3">Talk to Richard</option><option value="cellar.php">Tavern Cellar</option><option value="place.php?whichplace=airport_hot">That 70s Volcano</option><option value="place.php?whichplace=pyramid">The Ancient Buried Pyramid</option><option value="shop.php?whichshop=armory">The Armory and Leggery</option><option value="place.php?whichplace=bathole">The Bat Hole</option><option value="place.php?whichplace=mountains">The Big Mountains</option><option value="shop.php?whichshop=blackmarket">The Black Market</option><option value="casino.php">The Casino</option><option value="place.php?whichplace=giantcastle">The Castle in the Clouds in the Sky</option><option value="shop.php?whichshop=flowertradein">The Central Loathing Floral Mercantile Exchange</option><option value="place.php?whichplace=airport_spooky_bunker">The Conspiracy Island Bunker</option><option value="council.php">The Council of Loathing</option><option value="shop.php?whichshop=mystic">The Crackpot Mystic's Shed</option><option value="crypt.php">The Cyrpt</option><option value="place.php?whichplace=nemesiscave">The Dark and Dank and Sinister Cave</option><option value="shop.php?whichshop=gnoll">The Degrassi Knoll Bakery and Hardware Store</option><option value="shop.php?whichshop=landfillstore">The Dinsey Company Store</option><option value="place.php?whichplace=town_wrong&action=townwrong_artist_quest">The Dirt-Walled Hovel of the Pretentious Artist</option><option value="place.php?whichplace=woods">The Distant Woods</option><option value="place.php?whichplace=dripfacility">The Drip Institute</option><option value="shop.php?whichshop=damachine">The Dungeoneer's Association Vending Machine</option><option value="town_fleamarket.php">The Flea Market</option><option value="shop.php?whichshop=sbb_brogurt">The Frozen Brogurt Stand</option><option value="place.php?whichplace=arcade">The Game Grid Arcade</option><option value="shop.php?whichshop=generalstore">The General Store</option><option value="town_giftshop.php">The Gift Shop</option><option value="place.php?whichplace=airport_cold">The Glaciest</option><option value="town_right.php?place=gourd">The Gourd Tower</option><option value="town_grafwall.php">The Graffiti Wall</option><option value="knoll.php?place=gym">The Gym</option><option value="place.php?whichplace=hiddencity">The Hidden City</option><option value="shop.php?whichshop=hiddentavern">The Hidden Tavern</option><option value="place.php?whichplace=highlands">The Highlands</option><option value="shop.php?whichshop=hippy">The Hippy Produce Stand</option><option value="postwarisland.php?place=lighthouse">The Lighthouse</option><option value="shop.php?whichshop=meatsmith">The Meatsmith's Shop</option><option value="place.php?whichplace=cemetery">The Misspelled Cemetary</option><option value="museum.php">The Museum, First Floor</option><option value="place.php?whichplace=nstower">The Naughty Sorceress' Tower</option><option value="place.php?whichplace=plains">The Nearby Plains</option><option value="cove.php">The Obligatory Pirate's Cove</option><option value="place.php?whichplace=sea_oldman">The Old Man</option><option value="place.php?whichplace=orc_chasm">The Orc Chasm</option><option value="knoll.php?place=paster">The Plunger</option><option value="raffle.php">The Raffle House</option><option value="place.php?whichplace=zeppelin">The Red Zeppelin's Mooring</option><option value="place.php?whichplace=town_right">The Right Side of the Tracks</option><option value="fernruin.php">The Ruins of Fernswarthy's Tower</option><option value="place.php?whichplace=thesea">The Sea</option><option value="seafloor.php">The Sea Floor</option><option value="shop.php?whichshop=guildstore1">The Shadowy Store</option><option value="shore.php">The Shore, Inc.</option><option value="shop.php?whichshop=shore">The Shore, Inc. Gift Shop</option><option value="clan_slimetube.php">The Slimetube</option><option value="shop.php?whichshop=guildstore3">The Smacketeria</option><option value="place.php?whichplace=snojo">The Snojo</option><option value="shop.php?whichshop=dv">The Terrified Eagle Inn</option><option value="shop.php?whichshop=trapper">The Trapper's Cabin</option><option value="tavern.php">The Typical Tavern</option><option value="place.php?whichplace=forestvillage&action=fv_untinker">The Untinker</option><option value="place.php?whichplace=town_wrong">The Wrong Side of the Tracks</option><option value="shop.php?whichshop=arcade">Ticket Redemption Counter</option><option value="trophy.php">Trophy Hut</option><option value="shop.php?whichshop=unclep">Uncle P's Antiques</option><option value="volcanoisland.php">Volcanic Island</option><option value="shop.php?whichshop=glaciest">Wal-Mart</option><option value="shop.php?whichshop=snowgarden">Winter Gardening</option><option value="guild.php?place=wok">Wok of the Ages</option><option value="gamestore.php">Ye Wizard's Shack Game Shoppe</option><option value="shop.php?whichshop=campfire">Your Campfire</option><option value="place.php?whichplace=campaway">Your Campsite Away From Your Campsite</option><option value="closet.php">Your Colossal Closet</option><option value="campground.php?action=inspectkitchen">Your Kitchen</option><option value="campground.php?action=workshed">Your Workshed</option>			</select>
+		</div>
+		<div class="macro" style="text-align: left; width: 350px">
+				Macro:
+				<textarea style="width: 300px; height: 100px" name="macro"></textarea>
+				<br />
+				Name: <input type="text" name="name" value="" />
+		</div>
+	</div>
+	<div class="left add" style="text-align: left";>
+		<input class="button adder" id="adder" value="Add Icon" type="submit" />
+		<br />
+		<input class="button" id="cancel" value="Revert Icon" type="button" />
+	</div>
+	</form>
+	<br />
+	<table border="0" style="clear:both" align="center"><tr><td>
+	<form style="clear:both" method="post">
+		<input type="hidden" name="pwd" value="94b0afa371fb9d7f7b7dc4cdcb91e560" />
+		<input type="hidden" name="action" value="reset" />
+		<input type="submit" id="reset" value="Reset Menu" class="button" />
+	</form>
+	</td><td>
+	<form method="post">
+		<input type="hidden" name="pwd" value="94b0afa371fb9d7f7b7dc4cdcb91e560" />
+		<input type="hidden" name="action" value="toggle" />
+		<input type="submit" id="reset" value="Text Mode" class="button" />
+	</form>
+	</tr></table>
+</div>
+
+</div>
+
+<script script src="https://d2uyhvukfffg5a.cloudfront.net/scripts/core.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-ui.min.js"></script>
+<script type="text/javascript">
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+
+var configging = false;
+function do_description(txt) {
+	var b = top.mainpane.document.body;                                     
+	var d = top.mainpane.document.getElementById('awesomedesc');                     
+	if (txt) {
+		if (!d) {
+			d = top.mainpane.document.createElement('DIV');                     
+			d.id = 'awesomedesc';
+			if (b) {
+				b.insertBefore(d, b.firstChild); 
+			}
+		}
+		var $d = $(d);
+		$d.text(txt).css({
+			position: 'fixed',
+			top: '0px',
+			left: '50%',
+			marginLeft: '-150px',
+			width: '300px',
+			textAlign: 'center',
+			backgroundColor: 'white',
+			border: '1px solid black',
+			fontSize: '18px',
+			padding: '2px',
+			zIndex: '99999',
+			fontWeight: 'bold'
+		});
+		if ($('html').is('.ie6, .ie7, .ie8, .ie9')) {
+			b.sc
+			$d.css({
+				position: 'absolute',
+				left: ((b.clientWidth / 2)-150)+'px',
+				marginLeft: '0px',
+				top: b.scrollTop + 'px'
+			});
+		}
+	}
+	else {
+		if (d && b) {
+			b.removeChild(d);
+		}
+	}
+}
+jQuery(function ($) {
+	var drops = [];
+	var pwd = "94b0afa371fb9d7f7b7dc4cdcb91e560";
+	var started = null;
+	$('#reset').click(function () {
+		return confirm('Click OK if you really want to erase your loving-crafted custom menu.');
+	});
+	var amdragging = false;
+	$(document).mouseup(function () {
+		setTimeout(function () {
+			if (amdragging && started) {
+				started.find('img').show();
+			}
+			started = null;
+			amdragging = false;
+		}, 50);
+	});
+	var init_drag = function () {
+		$('.ai').draggable({
+			containment: '.dragarea',
+			//distance: 5,
+			grid: $('body').is('#text') ? [48,13] : [33,33],
+			revert: 'invalid',
+			appendTo: '.dragarea',
+			helper: 'clone'
+			//stack: '.ai'
+		}).on('dragstart', function (e, ui) {
+			amdragging = true;
+			if (!configging) return false;
+			ui.helper.addClass('helper');
+			started = $(e.target);
+			started.find('img').hide();
+		}).on('dragststop', function (e, ui) {
+			amdragging = false;
+			$(e.target).show();
+		}).droppable({greedy: true}).on('drop', function (e, ui) {
+			amdragging = false;
+			$('.fake').remove();
+			var start = ui.draggable.data('xy');
+			var end = $(this).data('xy');
+			drops.push([start,end,started,$(this)]);
+			var foo = started;
+			started = null;
+			setTimeout(function () {
+				var d = drops.pop();
+				if (!d) return;
+				drops = [];
+				var start = d[0];
+				var end = d[1];
+				var started = d[2];
+				var ended = d[3];
+				var startimg = foo.find('img');
+				var endimg = ended.find('img');
+				if (endimg) {
+					foo.append(endimg);
+				}
+				if (startimg) {
+					ended.append(startimg);
+					startimg.show();
+				}
+				$.post('/awesomemenu.php', {pwd: pwd, s: start, e: end, action: 'drag'}, function (r) {
+					$('.dragarea').replaceWith($(r).find('.dragarea'));
+					add_extra();
+					init_drag();
+				});
+			}, 50);
+		}).on('dropover', function (e, ui) {
+			$('.fake').remove();
+			var endimg = $(this).find('img');
+			if (endimg) {
+				started.append(endimg.clone().addClass('fake'));
+			}
+		});
+	};
+	$('#themoons').hover(
+		function () { do_description('The Moons'); },
+		function () { do_description(false) }
+	);
+	$('#awesome img[alt], span.title').live('mouseover',
+		function () { do_description($(this).attr('alt') || $(this).text()); });
+	$('#awesome img[alt], span.title').live('mouseout',
+		function () { do_description(false) }
+	);
+	var icon_list = null;
+	$('#config .icon').click(function (e) {
+		if (icon_list == null) {
+			$.get('awesomemenu.php?icons=1', function (res) {
+				icon_list = res;
+				do_picker();
+			}, 'json');
+		}
+		else {
+			do_picker();
+		}
+		e.preventDefault();
+
+	});
+	$('#config .details > div:first').show();
+	$('#config .actiontype select').change(function (e) {
+		$('#config .details > div').hide();
+		$('#config .details .'+$(this).val()).show();
+	});
+	var picked = false;
+	var do_picker = function () {
+		var img, picker = $('<div class="picker"><div style="font-weight:bold">Click an Icon</div></div>');
+		for (var i=0; i<icon_list.length; i++) {
+			img = $('<img height="30" width="30" />').attr('src','https://d2uyhvukfffg5a.cloudfront.net/itemimages/' + icon_list[i] + '.gif');
+			picker.append(img);
+		}
+		picker.append('<div style="clear: both"></div>');
+		picker.click(function (e) {
+			var t = $(e.target);
+			if (t.is('img')) {
+				$('#config .icon img').attr('src', t.attr('src'));
+				$('#config .icon input').val(t.attr('src').replace('.gif', '').replace(/.*\//, ''));
+				$('.picker').remove();
+				$('.cancel').remove();
+			}
+		});
+		var cancel = $('<div>Cancel</div>').addClass('cancel').click(function () {
+			$('.picker').remove();
+			$('.cancel').remove();
+
+		});
+		$('#config').append(cancel);
+		$('#config').append(picker);
+	}
+
+	var add_extra = function () {
+		$('.extra').remove();
+		var extra = $('.custom:last').clone();
+		extra.find('a').remove();
+		extra.find('img').remove();
+		extra.addClass('extra');
+		extra.find('.ai').each(function () {
+			var xy = $(this).data('xy').split(',');
+			var y = parseInt(xy[1])+1;
+			$(this).data('xy', xy[0]+','+y);
+		});
+		$('.dragarea').append(extra);
+	};
+
+	$('.config').live('click', function(e) {
+		e.preventDefault();
+		var menuheight = parseInt($('.dragarea').attr('rel'));
+		if (!configging) {
+			add_extra();
+			init_drag();
+			configging = true;
+			$('#awesome').addClass('edit');
+			jQuery(top.menuset || top.mainset).attr('rows', menuheight+200+',*');
+		}
+		else {
+			configging = false;
+			$('.extra').remove();
+			$('#awesome').removeClass('edit');
+			jQuery(top.menuset || top.mainset).attr('rows', menuheight+',*');
+		}
+	});
+
+
+	$('.macrocon').live('click',function (e) {
+		e.preventDefault();
+		if (configging) { return; }
+		var macro = $(this).attr('rel');
+		if (!macro.match(/^\//)) macro = '/' + macro;
+
+		var m, rep;
+		while (m = macro.match(/\$\d/)) {
+			var rep = prompt("Value for "+m[0]+"?");
+			while (macro.indexOf(m[0]) != -1) {
+				macro = macro.replace(m[0], rep);
+			}
+		}
+
+		var url = document.location.protocol+"//"+window.location.host+"/submitnewchat.php?playerid=121572&pwd=94b0afa371fb9d7f7b7dc4cdcb91e560&graf="+escape(macro)+"&cli=1";
+		$.get(url, function (resp) {
+			var d;
+			$('#green').append(d = $('<div />').html(resp)).show();
+			setTimeout(function () { d.fadeOut(400,function() {$(this).remove(); }); }, 5000);
+			jstest = /<!--js\((.+?)\)-->/g;
+			while (ev = jstest.exec(resp)) {
+				var cmd = ev[1];
+				if (cmd.indexOf('dojax') == -1) cmd += ';setTimeout(nextAction,3000)';
+				todo.push(cmd);
+			}
+			nextAction();
+		});
+	});
+	$('#green').click(function (e) {
+		$(this).html('').hide();
+	});
+	var textme = function (str) {
+		return $('<div />').html(str).text();
+	};
+	$('.ai a').live('click',function (e) {
+		if (!configging) return true;
+		var d = $(this).parent().data('def');
+		var e = $('#edit');
+		e.find(':input[name="actiontype"]').val(d[1]).change();
+		e.find('.icon :input').val(d[0]);
+		e.find('.icon img').attr('src', 'https://d2uyhvukfffg5a.cloudfront.net/itemimages/'+d[0]+'.gif');
+		e.find('.details :input:visible:eq(0)').val(textme(d[2]));
+		if (d[3]) {
+			e.find('.details :input:visible:eq(1)').val(textme(d[3]));
+		}
+		e.find('#existing').val($(this).parent().data('xy'));
+		$('#adder').val('Save Changes');
+		$('#cancel').show();
+		return false;
+	});
+	$('#cancel').live('click', function (e) {
+		var e = $('#edit');
+		e.find(':input[name="actiontype"]').val('link').change();
+		e.find('#existing').val('');
+		e.find('.icon :input').val('seasidetown');
+		e.find('.icon img').attr('src', 'https://d2uyhvukfffg5a.cloudfront.net/itemimages/seasidetown.gif');
+		e.find('.details :input:visible:eq(0)').val('account.php');
+		$(this).hide();
+		$('#adder').val('Add Icon');
+	});
+	$('.ai a').live('contextmenu',function (e) {
+		if (configging) {
+			e.preventDefault();
+			if (confirm('Click OK to delete this icon.')) {
+				$.get('/awesomemenu.php?pwd='+pwd+'&delete='+$(this).parent().data('xy').replace('a',''), function (r) {
+					$('.dragarea').replaceWith($(r).find('.dragarea'));
+					add_extra();
+					init_drag();
+				});
+			}
+			return false;
+		}
+	});
+
+});
+</script>
+</body>
+</html>
