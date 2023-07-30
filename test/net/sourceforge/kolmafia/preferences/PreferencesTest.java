@@ -661,34 +661,27 @@ class PreferencesTest {
             withProperty(incrementedPref, 0));
     try (cleanups) {
       Thread[] incrementThreads = new Thread[threadCount];
-      Thread[] timeinThreads = new Thread[threadCount];
+      Thread timein = new timeinThread("Timein");
+      timein.start();
 
       IntStream.range(0, threadCount)
           .forEach(
               i -> {
                 incrementThreads[i] = new incrementThread("Increment-" + i);
-                timeinThreads[i] = new timeinThread("Timein-" + i);
-                timeinThreads[i].start();
                 incrementThreads[i].start();
               });
-
-      IntStream.range(0, threadCount)
-          .forEach(
-              j -> {
-                try {
-                  //    System.out.println(
-                  //      "Waiting for thread " + timeinThreads[j].getName() + " to complete.");
-                  timeinThreads[j].join(4000);
-                  // incrementThreads[j].join();
-                } catch (InterruptedException e) {
-                  e.printStackTrace();
-                }
-                if (timeinThreads[j].isAlive()) {
-                  System.out.println("Undead thread: " + timeinThreads[j].getName());
-                }
-                // assertFalse(
-                //     timeinThreads[j].isAlive(), "Undead thread: " + timeinThreads[j].getName());
-              });
+      try {
+        if (timein.isAlive()) {
+          timein.join(4000);
+        }
+      } catch (InterruptedException ex) {
+        ex.printStackTrace();
+      }
+      if (timein.isAlive()) {
+        System.out.println("Undead thread: " + timein.getName());
+      }
+      // assertFalse(
+      //     timeinThreads[j].isAlive(), "Undead thread: " + timeinThreads[j].getName());
 
       IntStream.range(0, threadCount)
           .forEach(
