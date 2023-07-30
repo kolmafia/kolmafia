@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
 import org.junitpioneer.jupiter.cartesian.CartesianTest.Enum;
 import org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
@@ -87,12 +88,32 @@ class TopMenuDecoratorTest {
         // there is no way to check that here.
       }
     }
+
+    @Test
+    void loadingIconsDoesNotChangeStyle() {
+      var cleanups =
+          new Cleanups(
+              withTopMenuStyle(TopMenuStyle.FANCY),
+              withProperty("relayAddsQuickScripts", true),
+              withProperty("scriptlist", "restore hp | restore mp"));
+      try (cleanups) {
+        String location = "awesomemenu.php?icons=1";
+        String input = html("request/test_fancy_topmenu_icons.json");
+        String output = RequestEditorKit.getFeatureRichHTML(location, input);
+
+        // We did not change the topmenu style
+        assertEquals(TopMenuStyle.FANCY, GenericRequest.topMenuStyle);
+
+        // We inserted nothing
+        assertEquals(output, input);
+      }
+    }
   }
 
   @Nested
   class MenuStyle {
     @CartesianTest
-    void awesomeMenuIsAwesome(
+    void canDeriveMenuStyle(
         @Values(strings = {"normal", "compact", "fancy"}) String styleName,
         @Enum TopMenuStyle style) {
       String location = "";
