@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.webui;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withTopMenuStyle;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,15 +33,6 @@ class TopMenuDecoratorTest {
   @BeforeEach
   public void beforeEach() {
     Preferences.reset("TopMenuDecoratorTest");
-  }
-
-  public static Cleanups withTopMenuStyle(final TopMenuStyle style) {
-    var oldStyle = GenericRequest.topMenuStyle;
-    GenericRequest.topMenuStyle = style;
-    return new Cleanups(
-        () -> {
-          GenericRequest.topMenuStyle = oldStyle;
-        });
   }
 
   @Nested
