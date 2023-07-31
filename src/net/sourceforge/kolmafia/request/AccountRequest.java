@@ -278,9 +278,12 @@ public class AccountRequest extends PasswordHashRequest {
       // account.php?pwd&action=menu&value=compact&ajax=1
       // account.php?pwd&action=menu&value=normal&ajax=1
       GenericRequest.topMenuStyle =
-          valueString.equals("fancy")
-              ? TopMenuStyle.FANCY
-              : valueString.equals("compact") ? TopMenuStyle.COMPACT : TopMenuStyle.NORMAL;
+          switch (valueString) {
+            case "fancy" -> TopMenuStyle.FANCY;
+            case "compact" -> TopMenuStyle.COMPACT;
+            case "normal" -> TopMenuStyle.NORMAL;
+            default -> TopMenuStyle.UNKNOWN;
+          };
       return;
     }
 
