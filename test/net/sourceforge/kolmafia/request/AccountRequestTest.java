@@ -49,7 +49,7 @@ class AccountRequestTest {
       var client = builder.client;
       var cleanups = new Cleanups(withHttpClientBuilder(builder), withTopMenuStyle(style));
       try (cleanups) {
-        String location = "account.php?tab=interface";
+        String location = "account.php";
         String path = "request/test_account_" + styleName + "_topmenu.html";
         client.addResponse(200, html(path));
         var request = new GenericRequest(location);
