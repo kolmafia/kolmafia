@@ -6171,7 +6171,7 @@ public class UseItemRequest extends GenericRequest {
 
   public static void parseGiftPackage(String responseText) {
     AdventureResult item = UseItemRequest.lastItemUsed;
-    if (ItemDatabase.isGiftPackage(item.getItemId())) {
+    if (item != null && ItemDatabase.isGiftPackage(item.getItemId())) {
       Matcher giftFromMatcher = GIFT_FROM_PATTERN.matcher(responseText);
       if (giftFromMatcher.find()) {
         String name = item.getName();
