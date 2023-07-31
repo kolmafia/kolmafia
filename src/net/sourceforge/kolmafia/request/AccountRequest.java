@@ -167,29 +167,6 @@ public class AccountRequest extends PasswordHashRequest {
       "<input type=\"radio\" value=\"compact\" checked=\"checked\"  name=\"menu\"/>Drop-Downs";
 
   private static void parseInterfaceOptions(final String location, final String responseText) {
-    if (location.contains("ajax=1")) {
-      // account.php?am=1&pwd&action=menu&value=fancy&ajax=1
-      // account.php?am=1&pwd&action=menu&value=compact&ajax=1
-      // account.php?am=1&pwd&action=menu&value=normal&ajax=1
-      String action = GenericRequest.getAction(location);
-      if (action == null || responseText == null) {
-        return;
-      }
-      switch (action) {
-        case "menu" -> {
-          // Response is a simple quoted string. JSON, presumably...
-          GenericRequest.topMenuStyle =
-              switch (responseText) {
-                case "fancy" -> TopMenuStyle.FANCY;
-                case "compact" -> TopMenuStyle.COMPACT;
-                case "normal" -> TopMenuStyle.NORMAL;
-                default -> TopMenuStyle.UNKNOWN;
-              };
-        }
-      }
-      return;
-    }
-
     // Top Menu Style
     GenericRequest.topMenuStyle =
         responseText.contains(fancyMenuStyle)
