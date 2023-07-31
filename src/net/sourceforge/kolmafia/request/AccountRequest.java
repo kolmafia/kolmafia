@@ -120,7 +120,7 @@ public class AccountRequest extends PasswordHashRequest {
   private static void parseOptionTab(final String location, final String responseText) {
     switch (AccountRequest.getTab(location)) {
       case INTERFACE -> {
-        AccountRequest.parseInterfaceOptions(location, responseText);
+        AccountRequest.parseInterfaceOptions(responseText);
         return;
       }
       case INVENTORY -> {
@@ -166,7 +166,7 @@ public class AccountRequest extends PasswordHashRequest {
   private static final String compactMenuStyle =
       "<input type=\"radio\" value=\"compact\" checked=\"checked\"  name=\"menu\"/>Drop-Downs";
 
-  private static void parseInterfaceOptions(final String location, final String responseText) {
+  private static void parseInterfaceOptions(final String responseText) {
     // Top Menu Style
     GenericRequest.topMenuStyle =
         responseText.contains(fancyMenuStyle)
