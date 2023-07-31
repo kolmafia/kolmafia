@@ -155,8 +155,14 @@ public class AccountRequest extends PasswordHashRequest {
     return responseText.contains(test);
   }
 
+  // <input type="radio" value="fancy" checked="checked"  name="menu"/>Customizable Icons or Text
+  // <input type="radio" value="compact" checked="checked"  name="menu"/>Drop-Downs
+  // <input type="radio" value="normal"   name="menu"/>Links
+  //
+  // Notice that the "normal" style's radio button is never checked.
+
   private static final String fancyMenuStyle =
-      "<input type=\"radio\" value=\"fancy\" checked=\"checked\"  name=\"menu\"/>Icons";
+      "<input type=\"radio\" value=\"fancy\" checked=\"checked\"  name=\"menu\"/>Customizable Icons or Text";
   private static final String compactMenuStyle =
       "<input type=\"radio\" value=\"compact\" checked=\"checked\"  name=\"menu\"/>Drop-Downs";
 
@@ -272,9 +278,12 @@ public class AccountRequest extends PasswordHashRequest {
       // account.php?pwd&action=menu&value=compact&ajax=1
       // account.php?pwd&action=menu&value=normal&ajax=1
       GenericRequest.topMenuStyle =
-          valueString.equals("fancy")
-              ? TopMenuStyle.FANCY
-              : valueString.equals("compact") ? TopMenuStyle.COMPACT : TopMenuStyle.NORMAL;
+          switch (valueString) {
+            case "fancy" -> TopMenuStyle.FANCY;
+            case "compact" -> TopMenuStyle.COMPACT;
+            case "normal" -> TopMenuStyle.NORMAL;
+            default -> TopMenuStyle.UNKNOWN;
+          };
       return;
     }
 
