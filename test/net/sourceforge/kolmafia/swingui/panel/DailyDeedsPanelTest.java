@@ -278,9 +278,14 @@ public class DailyDeedsPanelTest {
 
   @Nested
   class DropsFamiliars {
+
+    @BeforeEach
+    public void beforeEach() {
+      FamiliarData.reset();
+    }
+
     @Test
     public void showsCookbookbat() {
-      FamiliarData.reset();
       var dd = new DailyDeedsPanel.DropsDaily();
       var cleanups = withFamiliarInTerrarium(FamiliarPool.COOKBOOKBAT);
       try (cleanups) {
@@ -291,7 +296,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void cookbookbatRecipeDrop() {
-      FamiliarData.reset();
       var dd = new DailyDeedsPanel.DropsDaily();
       var cleanups =
           new Cleanups(
