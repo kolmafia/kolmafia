@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.ChoiceControl;
@@ -2252,5 +2253,20 @@ public class Player {
     var cleanups = new Cleanups(withProperty("nextAdventure"));
     KoLAdventure.setNextAdventure(adventure);
     return cleanups;
+  }
+
+  /**
+   * Sets the TopMenuStyle
+   *
+   * @param style The TopMenuStyle from GenericRequest
+   * @return Returns value to previous value
+   */
+  public static Cleanups withTopMenuStyle(final TopMenuStyle style) {
+    var oldStyle = GenericRequest.topMenuStyle;
+    GenericRequest.topMenuStyle = style;
+    return new Cleanups(
+        () -> {
+          GenericRequest.topMenuStyle = oldStyle;
+        });
   }
 }
