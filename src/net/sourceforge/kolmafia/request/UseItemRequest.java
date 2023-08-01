@@ -208,6 +208,12 @@ public class UseItemRequest extends GenericRequest {
       return ConsumptionType.SPLEEN;
     }
 
+    // Familiar hatchlings are a type of "usable" item, but you have to
+    // go to inv_familiar.php, not inv_use.php
+    if (consumptionType == ConsumptionType.FAMILIAR_HATCHLING) {
+      return ConsumptionType.FAMILIAR_HATCHLING;
+    }
+
     // ItemDatabase can decide usability
     if (ItemDatabase.isReusable(itemId)) {
       return ConsumptionType.USE_INFINITE;

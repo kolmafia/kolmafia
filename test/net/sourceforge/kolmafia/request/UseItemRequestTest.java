@@ -1095,4 +1095,34 @@ class UseItemRequestTest {
       }
     }
   }
+
+  @Nested
+  class ConsumptionTypes {
+    @Test
+    void potionsAreMultiusable() {
+      assertEquals(
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.VIAL_OF_PURPLE_SLIME)),
+          ConsumptionType.USE_MULTIPLE);
+    }
+
+    @Test
+    void reusablePotionsAreReusable() {
+      assertEquals(
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.BRASS_DREAD_FLASK)),
+          ConsumptionType.USE_INFINITE);
+    }
+
+    @Test
+    void singleUsePotionsAreUsable() {
+      assertEquals(
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.GOOFBALLS)), ConsumptionType.USE);
+    }
+
+    @Test
+    void familiarHatchlingsAreTheirOwnType() {
+      assertEquals(
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.MOSQUITO_LARVA)),
+          ConsumptionType.FAMILIAR_HATCHLING);
+    }
+  }
 }
