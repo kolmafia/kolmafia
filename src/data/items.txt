@@ -11330,22 +11330,23 @@
 11302	souvenir flag	557635312	flag1.gif	multiple	t,d	10
 11303	name change form	541643472	namechange.gif	usable	t	0
 11304	replica sleeping patriotic eagle	552435162	pateagle_sleep.gif	grow	q	0
-11305
-11306
-11307
-11308
-11309
-11310
-11311
-11312
-11313
-11314
-11315
-11316
-11317
-11318
-11319
-11320
-11321
+11305	boxed august scepter	918836834	ascepterbox.gif	usable	t	0
+11306	august scepter	813034987	ascepter.gif	offhand		0
+11307	watermelon	405438561	watermelon.gif	food	t,d	11
+11308	watermelon seed	967601198	watermelonseed.gif	none, combat	t,d	5
+11309	water balloon	825278204	waterballoon.gif	none, combat	t,d	7
+11310	thriftshop coupon	636172314	thriftcoupon.gif	none	t,d	50
+11311	waffle	693089204	waffle.gif	food	t,d	11	waffles
+11312	fixodent	950484165	fixodent.gif	usable	t,d	11
+11313	cat o' nine teeth	512973092	nineteeth.gif	weapon	t,d	100
+11314	tooth cap	507514456	toothcap.gif	hat	t,d	100
+11315	toothy trousers	392999066	toothpants.gif	pants	t,d	100
+11316	banana split	711110825	bananasplit.gif	food	t,d	11
+11317	handful of toilet paper	801865898	toiletpaper.gif	usable	t,d	1
+11318	Mrs. Rush	726168767	mrsrush.gif	usable	t,d	20	bottles of Mrs. Rush
+11319	tiny gold medal	342125480	tinymedal.gif	familiar	q,d	100
+11320	bottle of Cabernet Sauvignon	657381011	wine2.gif	drink	t,d	0	bottles of Cabernet Sauvignon
+11321	baywatch	195446393	baywatch.gif	accessory	q,d	100
 11322	Pocket Guide to Mild Evil	636540989	tinybook.gif	usable	t	0
 11323	Pocket Guide to Mild Evil (used)	508639228	tinybook.gif	reusable		0
+11324	tiny consolation ribbon	705646571	tinyribbon.gif	familiar	t	0

@@ -23,20 +23,22 @@ public abstract class TopMenuDecorator {
       return;
     }
 
-    var style =
-        buffer.indexOf("awesomemenu.php") != -1
-            ? TopMenuStyle.FANCY
-            : buffer.indexOf("Function:") != -1 ? TopMenuStyle.COMPACT : TopMenuStyle.NORMAL;
+    if (Preferences.getBoolean("debugTopMenuStyle")) {
+      var style =
+          buffer.indexOf("awesomemenu.php") != -1
+              ? TopMenuStyle.FANCY
+              : buffer.indexOf("Function:") != -1 ? TopMenuStyle.COMPACT : TopMenuStyle.NORMAL;
 
-    if (style != GenericRequest.topMenuStyle) {
-      String message =
-          "We think topmenu style is "
-              + GenericRequest.topMenuStyle
-              + " but it is actually "
-              + style;
-      RequestLogger.printLine(message);
-      RequestLogger.updateSessionLog(message);
-      GenericRequest.topMenuStyle = style;
+      if (style != GenericRequest.topMenuStyle) {
+        String message =
+            "We think topmenu style is "
+                + GenericRequest.topMenuStyle
+                + " but it is actually "
+                + style;
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
+        GenericRequest.topMenuStyle = style;
+      }
     }
 
     switch (GenericRequest.topMenuStyle) {

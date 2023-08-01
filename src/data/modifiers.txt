@@ -508,6 +508,7 @@ Item	three-gallon hat	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +3
 Item	Thunkula's drinking cap	Mysticality Percent: +50, Maximum MP: +250, MP Regen Min: 20, MP Regen Max: 40, Class: "Sauceror", Familiar Effect: "atk, 1xVolley"
 Item	time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
 Item	tin tam	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 5, Experience (Mysticality): +1, Familiar Effect: "MP regen, cap 25"
+Item	tooth cap	Candy Drop: +25, Spell Damage: +5
 Item	tope&eacute;	Stench Resistance: +3, Hot Resistance: +3, Familiar Effect: "3xBarrr, cap 12"
 # toy Crimbot mega face: Allows use of LIGHT in combat
 Item	toy Crimbot mega face	Item Drop: +10, Crimbot Outfit Power: +1, Familiar Effect: "hot atk, cap 12"
@@ -862,6 +863,7 @@ Item	thunder down underwear	Damage Absorption: +100, Maximum HP: +100, HP Regen 
 Item	tighty whiteys	Spooky Resistance: +2, Familiar Effect: "sleaze atk, 3xVolley, cap 10"
 Item	time trousers	Adventures: +3, Familiar Effect: "1xPotato, cap 25"
 Item	tinsel tights	Monster Level: +25, Sleaze Damage: +10, Lasts Until Rollover
+Item	toothy trousers	PvP Fights: +2, Weapon Damage: +10
 Item	topiary tights	Cold Resistance: +3, Spooky Resistance: +3
 # toy Crimbot rocket legs: Allows use of BURN in combat
 Item	toy Crimbot rocket legs	Initiative: +30, Crimbot Outfit Power: +1
@@ -1236,6 +1238,7 @@ Item	carob cannon	Moxie: +7, Adventures: +3, Stench Damage: +5
 Item	Carpathian longsword	Hot Damage: +20, Hot Spell Damage: +20, Monster Level: +10
 Item	carrot-on-a-stick	Moxie: +7, Candy Drop: +50
 Item	cast-iron legacy paddle	Muscle: +15, Weapon Damage: +10
+Item	cat o' nine teeth	Sleaze Damage: +10, Monster Level: +10
 # ceramic celery grater: Deal 30 damage and cause bleeding
 Item	ceramic celery grater	Mysticality Percent: +20, Spell Critical Percent: +20
 Item	Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
@@ -2094,6 +2097,7 @@ Item	arm buzzer	Maximum MP: +25, Damage Reduction: 6
 # arrow'd heart balloon
 Item	astral shield	Muscle Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Damage Reduction: 15
 Item	astral statuette	Mysticality Percent: +25, Spell Damage Percent: +50, Adventures: +4
+Item	august scepter	Muscle: +15, Mysticality: +15, Moxie: +15, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 7, MP Regen Max: 10, Weapon Damage Percent: +50, Spell Damage Percent: +50
 Item	autumn debris shield	Damage Reduction: 19, Initiative: +30, Hot Damage: +20, Hot Spell Damage: +20, Lasts Until Rollover
 # Bag o' Tricks: Summons Animals During Combat
 Item	Bag o' Tricks	Item Drop: +10, Meat Drop: +15, MP Regen Min: 10, MP Regen Max: 12, Spell Damage Percent: +50, Softcore Only
@@ -2774,6 +2778,7 @@ Item	batskin belt	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	batting cage key	Stench Resistance: +3, Stench Damage: +15, Stench Spell Damage: +30
 Item	battle broom	Experience (Mysticality): +5, MP Regen Min: 5, MP Regen Max: 10, Mysticality Percent: +50, Spell Damage Percent: +100, Spell Critical Percent: +10, Single Equip, Lasts Until Rollover
 Item	bauxite bow-tie	Mysticality: +11, Maximum MP: [23+floor(pref(daycareToddlers)^0.35)], Spell Damage: [37+floor(pref(daycareToddlers)^0.35)], Single Equip
+Item	baywatch	Adventures: +7, PvP Fights: +2, Mana Cost: -2, Lasts Until Rollover, Nonstackable Watch
 Item	Beach Comb	Moxie Percent: +20, MP Regen Min: 8, MP Regen Max: 12, Familiar Weight: +5, Single Equip
 Item	beach glass necklace	Muscle: +5
 Item	beaten-up Chucks	Initiative: +40
@@ -4503,6 +4508,9 @@ Item	tiny do-rag	Familiar Weight: +5
 Item	tiny domino mask	Familiar Weight: +5
 Item	tiny fly glasses	Experience (familiar): +1, Generic
 Item	tiny glowing red nose	Familiar Weight: +5, Experience (Mysticality): +3, Generic
+Item	tiny consolation ribbon	Familiar Weight: -10, Experience (familiar): -1, Generic
+# tiny gold medal: Doubles the chance that familiars act in combat
+Item	tiny gold medal	Familiar Weight: +10, Experience (familiar): +1, Lasts Until Rollover, Generic
 Item	tiny knife and fork	Familiar Weight: +5
 Item	tiny makeup kit	Familiar Weight: +15
 Item	tiny maracas	Familiar Weight: +5
@@ -5437,6 +5445,7 @@ Effect	Buttons Rouged, Louisiana	Avatar: "man with the red buttons"
 Effect	Buy!  Sell!  Buy!  Sell!	Meat Drop: [max(0,202-2*T)]
 Effect	Buzzard Breath	Stench Damage: +30, Spooky Damage: +30
 # Buzzed on Distillate: Variable
+Effect	Cabernet Hunter	Booze Drop: +100
 Effect	Cafeter&iacute;a Brujer&iacute;a	MP Regen Min: 3, MP Regen Max: 4
 Effect	Cake Caked	Mysticality Percent: +50
 Effect	Can Has Cyborger	Moxie Percent: +10
@@ -5527,6 +5536,7 @@ Effect	Clerical Aura	Avatar: "Father McGruber"
 Effect	Cletus's Canticle of Celerity	Initiative: +20
 Effect	Cloak of Shadows	Combat Rate: -15
 Effect	Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
+Effect	Cloud of Mosquitos	HP Regen Min: 40, HP Regen Max: 50
 # Clumsy: Always Fumble
 Effect	Clyde's Blessing	Item Drop: +50
 Effect	Coal-Powered	Damage Aura: 1
@@ -6012,6 +6022,7 @@ Effect	Free Bird	Mysticality: +20
 Effect	French Bronilla Brogueishness	Moxie Percent: +100, Initiative: +100, Pickpocket Chance: +25
 # Frenzied, Bloody: Lose 8-10 HP per Adventure
 Effect	Frenzied, Bloody	Weapon Damage Percent: +50
+Effect	Fresh Breath	Combat Rate: +10, Moxie Percent: +20, Moxie: +10
 Effect	Fresh Scent	Combat Rate: -5
 Effect	Friendly Chops	Meat Drop: +100, Sleaze Resistance: +5
 Effect	Frigid Weapon	Cold Damage: +3
@@ -6332,6 +6343,7 @@ Effect	In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percen
 Effect	Inappropriate Spirit	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Effect	Incensed	Mysticality: +10
 Effect	Incredibly Hulking	Muscle Percent: +200
+Effect	Incredibly Well Lit	Item Drop: +50, Meat Drop: +100
 Effect	Indescribable Flavor	Spell Damage: +30
 Effect	Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20, Wiki Name: "Industrial Strength Starch"
 Effect	Industrially Frosted	Damage Reduction: 50, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Sprinkle Drop: +250
@@ -6512,6 +6524,7 @@ Effect	Lookin' at Some Burning Cereal	Avatar: "Cereal Arsonist"
 Effect	Looking at Fire	Avatar: "Burnglar"
 Effect	Loose Joints	Item Drop: [50*loc(The Crimbonium Mining Camp)]
 Effect	Lord of Acid	Avatar: "acid blob"
+Effect	Lost Stomach	Food Drop: +100
 Effect	Lovebotamy	Experience: +10
 Effect	Low on the Hog	Meat Drop: +100
 Effect	Loyal as a Rock	Familiar Weight: +5, Familiar Damage: +10
@@ -7762,6 +7775,7 @@ Effect	Wasabi With You	Weapon Damage Percent: +150
 Effect	Wassailing You	Familiar Weight: +5
 Effect	Watch Out!	Mysticality Percent: +100, Maximum MP Percent: +50, MP Regen Min: 20, MP Regen Max: 25
 Effect	Watched Over	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Water Balloon Champion	Experience: +5, Item Drop: +20, Meat Drop: +40
 Effect	Waterborne	Avatar: "giant tardigrade"
 # Water Wings: You believe you can float!
 Effect	Water Wings	Wiki Name: "Water Wings"
@@ -8487,6 +8501,7 @@ Outfit	Crimbot Crimboutfit	Crimbot Outfit Power: +3
 Outfit	Cursed Skeleton Pirate Costume	Critical Hit Percent: +10, Spell Critical Percent: +10
 Outfit	Cursed Zombie Pirate Costume	Spooky Damage: +30
 Outfit	Dark Bro's Vestments	Spooky Spell Damage: +40
+Outfit	Dental Drip	Candy Drop: +25
 Outfit	Dinsey's Exoskeleton	Muscle: +100, Mysticality: +100, Moxie: +100
 Outfit	Dire Drifter Duds	Familiar Weight: +5
 Outfit	Dreadful Bugbear Suit	Hot Damage: +50, Hot Spell Damage: +50
@@ -9100,6 +9115,7 @@ Item	Bordeaux Marteaux	Effect: "Hammered", Effect Duration: 20
 Item	Boris's beer	Effect: "Beery Cool", Effect Duration: 30
 Item	bottle of Amontillado	Effect: "Bricked-In", Effect Duration: 100
 Item	bottle of Bloodweiser	Effect: "Blood Porter", Effect Duration: 50
+Item	bottle of Cabernet Sauvignon	Effect: "Cabernet Hunter", Effect Duration: 30
 Item	bottle of Evermore	Effect: "The Dark Lord Rides in Force Tonight", Effect Duration: 30
 Item	bottle of Fishhead 900-Day IPA	Effect: "A Real Head for Fish", Effect Duration: 50
 Item	bottle of Greedy Dog	Effect: "Covetin' Drunk", Effect Duration: 20
@@ -10964,6 +10980,7 @@ Item	bottled Vampire Vintner	Free Pull
 # box of hammers: (way more effective against constructs)
 # box of old Crimbo decorations: Lets you give your Crimbo Shrub new decorations each day
 Item	box of sunshine	Free Pull
+Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull
 Item	Boxing Day care package	Free Pull
 # brain preservation fluid: Drink it for 5 Adventures!

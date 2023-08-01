@@ -1160,4 +1160,3 @@ Mr. Store 2002	buy	1	Flash Liquidizer Ultra Dousing Accessory	ROW1387
 Mr. Store 2002	buy	1	Amulet of Perpetual Darkness	ROW1388
 Mr. Store 2002	buy	1	Giant black monolith	ROW1389
 Mr. Store 2002	buy	1	Crimbo cookie sheet	ROW1390
-

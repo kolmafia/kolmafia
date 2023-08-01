@@ -2136,6 +2136,9 @@ shadow scythe	2301	shadowscythe.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRif
 shadow cauldron	2302	shadowcauldron.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [1000+10*pref(_shadowRiftCombats)] Init: -10000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow fluid (100)	shadow nectar (100)
 shadow matrix	2303	shadowmatrix.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: 1000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow flame (100)	shadow skin (100)
 
+# august scepter (Aug 2023)
+Tooth Golem	2336	toothgolem.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: construct Article: a	loose teeth (0)	loose teeth (0)	loose teeth (0)	fixodent (0)
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
