@@ -4508,6 +4508,7 @@ Item	tiny do-rag	Familiar Weight: +5
 Item	tiny domino mask	Familiar Weight: +5
 Item	tiny fly glasses	Experience (familiar): +1, Generic
 Item	tiny glowing red nose	Familiar Weight: +5, Experience (Mysticality): +3, Generic
+Item	tiny consolation ribbon	Familiar Weight: -10, Experience (familiar): -1, Generic
 # tiny gold medal: Doubles the chance that familiars act in combat
 Item	tiny gold medal	Familiar Weight: +10, Experience (familiar): +1, Lasts Until Rollover, Generic
 Item	tiny knife and fork	Familiar Weight: +5
