@@ -998,6 +998,39 @@
 7449	%fn, let's pledge allegiance to a Zone	flag1.gif	5	0	0
 7450	%fn, fire a Red, White and Blue Blast	flag2.gif	5	0	0
 7451	%fn, Release the Patriotic Screech!	pateagle_sleep.gif	5	0	0
+7452	Aug. 1st: Mountain Climbing Day!	aug1.gif	3	0	30
+7453	Aug. 2nd: Find an Eleven-Leaf Clover Day	aug2.gif	3	0	0
+7454	Aug. 3rd: Watermelon Day!	aug3.gif	3	0	0
+7455	Aug. 4th: Water Balloon Day!	aug4.gif	3	0	0
+7456	Aug. 5th: Oyster Day!	aug5.gif	3	0	0
+7457	Aug. 6th: Fresh Breath Day!	aug6.gif	3	0	30
+7458	Aug. 7th: Lighthouse Day!	aug7.gif	3	0	30
+7459	Aug. 8th: Cat Day!	aug8.gif	3	0	0
+7460	Aug. 9th: Hand Holding Day!	aug9.gif	3	0	0
+7461	Aug. 10th: World Lion Day!	aug10.gif	3	0	30
+7462	Aug. 11th: Presidential Joke Day!	aug11.gif	3	0	0
+7463	Aug. 12th: Elephant Day!	aug12.gif	3	0	0
+7464	Aug. 13th: Left/Off Hander's Day!	aug13.gif	3	0	30
+7465	Aug. 14th: Financial Awareness  Day!	aug14.gif	3	0	0
+7466	Aug. 15th: Relaxation Day!	aug15.gif	3	0	0
+7467	Aug. 16th: Roller Coaster Day!	aug16.gif	3	0	30
+7468	Aug. 17th: Thriftshop Day!	aug17.gif	3	0	0
+7469	Aug. 18th: Serendipity Day!	aug18.gif	3	0	30
+7470	Aug. 19th: Honey Bee Awareness Day!	aug19.gif	3	0	30
+7471	Aug. 20th: Mosquito Day!	aug20.gif	3	0	30
+7472	Aug. 21st: Spumoni Day!	aug21.gif	3	0	0
+7473	Aug. 22nd: Tooth Fairy Day!	aug22.gif	3	0	0
+7474	Aug. 23rd: Ride the Wind Day!	aug23.gif	3	0	0
+7475	Aug. 24th: Waffle Day!	aug24.gif	3	0	0
+7476	Aug. 25th: Banana Split Day!	aug25.gif	3	0	0
+7477	Aug. 26th: Toilet Paper Day!	aug26.gif	3	0	0
+7478	Aug. 27th: Just Because Day!	aug27.gif	3	0	0
+7479	Aug. 28th: Race Your Mouse Day!	aug28.gif	3	0	0
+7480	Aug. 29th: More Herbs, Less Salt  Day!	aug29.gif	3	0	0
+7481	Aug. 30th: Beach Day!	aug30.gif	3	0	0
+7482	Aug. 31st: Cabernet Sauvignon  Day!	aug31.gif	3	0	0
+7483	Roar like a Lion		5	0	0
+7484	Hold Hands		5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

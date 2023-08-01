@@ -49,6 +49,7 @@ ballroom blintz	3	1	decent	3-8	0	0	10-12
 banana	1	1	crappy	1	1	1	1	banana peel
 banana cream pie	3	7	good	6-12	1-100	1-100	1-100
 banana milkshake	2	8	awesome	4-10	30-90	40-135	10-100
+banana split	3	1	awesome	0	0	0	0	Unspaded
 banana-frosted king cake	3	1	crappy	3	0	0	0	brown plastic baby
 bar of freeze-dried water	1	1	awesome	4	0	0	0	10 Ultrahydrated
 barrel cracker	1	4	good	3	0	0	0	40 Shortened (+25 sleaze dmg, +50 sleaze spell dmg, +2 sleaze res)
@@ -1029,6 +1030,7 @@ video games hot dog	3	1	awesome	12-14	0	0	0	RGB pixels, 50 Video Game Hot Dog (+
 vinegar-soaked lemon slice	1	2	decent	2	15-20	15-20	15-20
 void burger	1	1	awesome	3-4	0	0	0	
 VYKEA meatballs	2	7	awesome	8-10	5-10	5-10	20-40
+waffle	2	1	awesome	0	0	0	0	Unspaded
 walrus ice cream	2	5	good	4-8	37-38	0	0
 warbear feasting bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Gift of the Warbear (+15% Items from WarBears)
 warbear gyro	3	3	good	7-9	10-20	10-20	10-20
@@ -1039,6 +1041,7 @@ warm mushroom	2	1	decent	2-3	12-14	0	0
 warm war shawarma	3	7	EPIC	15-18	30-60	0	0	30 Shawarma Warm War (+15 Mus, +50% Mus, +25 Hot Dam, +25 Hot Spell Dam, +3 Cold/Spooky Resist)
 wasabi pocky	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
 water log	5	11	EPIC	30-35	30-60	30-60	30-60
+watermelon	10	1	awesome	0	0	0	0	Unspaded
 wax pancake	2	1	awesome	8-9	20-25	20-25	20-25	30 Waxing (+100% HP, +50% MP, +50 Init)
 wedge of gray cheese	2	9	EPIC	7-13	50-69	50-69	50-69
 weird gazelle steak	10	1	awesome	40	0	0	0	1 Gaze of the Gazelle (+200% Spell Damage, +60 Booze drop)
