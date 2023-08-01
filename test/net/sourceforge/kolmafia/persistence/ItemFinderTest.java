@@ -304,7 +304,8 @@ public class ItemFinderTest {
 
     // All available (using inventory)
     item =
-        ItemFinder.getFirstMatchingItem("* roll of toilet paper", false, KoLConstants.inventory, Match.ANY);
+        ItemFinder.getFirstMatchingItem(
+            "* roll of toilet paper", false, KoLConstants.inventory, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNotNull(item);
     assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
@@ -578,14 +579,18 @@ public class ItemFinderTest {
     StaticEntity.setContinuationState(MafiaState.CONTINUE);
 
     // Test for requesting a free pull from freepulLs
-    item = ItemFinder.getFirstMatchingItem("roll of toilet paper", true, KoLConstants.freepulls, Match.ANY);
+    item =
+        ItemFinder.getFirstMatchingItem(
+            "roll of toilet paper", true, KoLConstants.freepulls, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNotNull(item);
     assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
     assertEquals(item.getCount(), 1);
 
     // Test for requesting a free pull from storage
-    item = ItemFinder.getFirstMatchingItem("roll of toilet paper", true, KoLConstants.storage, Match.ANY);
+    item =
+        ItemFinder.getFirstMatchingItem(
+            "roll of toilet paper", true, KoLConstants.storage, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNotNull(item);
     assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
@@ -854,7 +859,8 @@ public class ItemFinderTest {
 
     // Multiple items, all valid
     results =
-        ItemFinder.getMatchingItemList("1 seal tooth, 2 roll of toilet paper, 3 milk of magnesium", null);
+        ItemFinder.getMatchingItemList(
+            "1 seal tooth, 2 roll of toilet paper, 3 milk of magnesium", null);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNotNull(results);
     assertEquals(results.length, 3);
