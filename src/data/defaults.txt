@@ -36,6 +36,7 @@ global	debugBuy	false
 global	debugConsequences	false
 global	debugFoxtrotRemoval	false
 global	debugPathnames	true
+global	debugTopMenuStyle	false
 global	defaultBorderColor	blue
 global	defaultDropdown1	0
 global	defaultDropdown2	1
