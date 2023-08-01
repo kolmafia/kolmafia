@@ -2129,6 +2129,7 @@ red LavaCo Lamp&trade;	100	Mus: 35
 Red Roger's red left hand	120	none
 red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield
+replica august scepter	0	none
 replica Operation Patriot Shield	240	none	shield
 reusable shopping bag	10	none
 rice bowl	30	none
