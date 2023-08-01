@@ -2822,3 +2822,14 @@
 2822	Citizen of a Zone	flag1.gif	9391a5f7577e30ac3af6309804da6944	neutral	nohookah
 2823	Nothing Really Matters	shadowmonocle.gif	e6924ac8aa3314bf0d41a8cf764cbaf9	neutral	none	use 1 shadow candy
 2824	Everything Looks Red, White and Blue	flag2.gif	e213a3ca5c80b0b5f894d4943a9ecc86	bad	nohookah
+2825	Spirit of the Mountains	themountains.gif	5dab11010ae13cb07f4d3dce895401e7	neutral	none	cast 1 Aug. 1st: Mountain Climbing Day!
+2826	Water Balloon Champion	waterballoon.gif	45f0b3222f8c7d240995606e776a8b70	neutral	none
+2827	Fresh Breath	lips.gif	dd106d6875be835e7ca9b673a3d2af24	neutral	none	cast 1 Aug. 6th: Fresh Breath Day!
+2828	Incredibly Well Lit	bulb.gif	4861d428fe0f165a91c22f6cf1ee8cce	neutral	none	cast 1 Aug. 7th: Lighthouse Day!
+2829	Hear Me Roar	exclam.gif	7a6d8db79cf02dc03e5980190b87f9b2	neutral	none	cast 1 Aug. 10th: World Lion Day!
+2830	Offhand Remarkable	lefthandman.gif	79686584cd253e4395ccd999d8c78ab5	neutral	none	cast 1 Aug. 13th: Left/Off Hander's Day!
+2831	Lost Stomach	stomach.gif	d06828cf01ba0801ac138a504c05eedc	neutral	none	cast 1 Aug. 16th: Roller Coaster Day!
+2832	Cloud of Mosquitos	disease.gif	9c6f1c4538148bd143fe26f8b41231c7	neutral	none	cast 1 Aug. 20th: Mosquito Day!
+2833	Serendipity	dice5.gif	26354f13757a64aeff5d476fc4d9fc9a	neutral	none	cast 1 Aug. 18th: Serendipity Day!
+2834	Aware of Bees	bees.gif	6fe94a77eb12fb19bc02b91d1c935b40	neutral	none	cast 1 Aug. 19th: Honey Bee Awareness Day!
+2835	Cabernet Hunter	wine2.gif	20833a581c848a3d5c5e0c1a659c4b1b	neutral	none	drink 1 bottle of Cabernet Sauvignon
