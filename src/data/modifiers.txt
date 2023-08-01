@@ -7774,6 +7774,7 @@ Effect	Wasabi With You	Weapon Damage Percent: +150
 Effect	Wassailing You	Familiar Weight: +5
 Effect	Watch Out!	Mysticality Percent: +100, Maximum MP Percent: +50, MP Regen Min: 20, MP Regen Max: 25
 Effect	Watched Over	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Water Balloon Champion	Experience: +5, Item Drop: +20, Meat Drop: +40
 Effect	Waterborne	Avatar: "giant tardigrade"
 # Water Wings: You believe you can float!
 Effect	Water Wings	Wiki Name: "Water Wings"

@@ -2823,7 +2823,7 @@
 2823	Nothing Really Matters	shadowmonocle.gif	e6924ac8aa3314bf0d41a8cf764cbaf9	neutral	none	use 1 shadow candy
 2824	Everything Looks Red, White and Blue	flag2.gif	e213a3ca5c80b0b5f894d4943a9ecc86	bad	nohookah
 2825	Spirit of the Mountains	themountains.gif	5dab11010ae13cb07f4d3dce895401e7	neutral	none	cast 1 Aug. 1st: Mountain Climbing Day!
-2826
+2826	Water Balloon Champion	waterballoon.gif	45f0b3222f8c7d240995606e776a8b70	neutral	none
 2827	Fresh Breath	lips.gif	dd106d6875be835e7ca9b673a3d2af24	neutral	none	cast 1 Aug. 6th: Fresh Breath Day!
 2828	Incredibly Well Lit	bulb.gif	4861d428fe0f165a91c22f6cf1ee8cce	neutral	none	cast 1 Aug. 7th: Lighthouse Day!
 2829	Hear Me Roar	exclam.gif	7a6d8db79cf02dc03e5980190b87f9b2	neutral	none	cast 1 Aug. 10th: World Lion Day!
