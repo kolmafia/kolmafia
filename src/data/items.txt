@@ -11350,3 +11350,4 @@
 11322	Pocket Guide to Mild Evil	636540989	tinybook.gif	usable	t	0
 11323	Pocket Guide to Mild Evil (used)	508639228	tinybook.gif	reusable		0
 11324	tiny consolation ribbon	705646571	tinyribbon.gif	familiar	t	0
+11325	replica august scepter	673883740	ascepter.gif	offhand	q	0
