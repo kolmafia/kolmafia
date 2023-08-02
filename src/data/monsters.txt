@@ -1852,7 +1852,7 @@ ice porter	1851	iceporter.gif	Atk: 90 Def: 100 HP: 160 Init: 10 Meat: 25 P: dude
 
 # VYKEA (The Glaciest November 2015)
 VYKEA viking (female)	1849	vykfemale1.gif,vykfemale2.gif,vykfemale3.gif	NOCOPY Scale: 10 Cap: 12500 Floor: 85 Init: -10000 P: dude ED: cold	VYKEA instructions (2)	VYKEA woadpaint (10)	VYKEA hex key (1)
-VYKEA viking (male)	1848	vykmale1.gif,vykmale2.gif,vykmale3.gif	NOCOPY Scale: 6 Cap: 12000 Floor: 85 Init: -10000 P: dude E: cold	VYKEA instructions (0)	VYKEA woadpaint (0)	VYKEA hex key (1)
+VYKEA viking (male)	1848	vykmale1.gif,vykmale2.gif,vykmale3.gif	NOCOPY Scale: 6 Cap: 12000 Floor: 85 Init: -10000 P: dude E: cold	VYKEA instructions (2)	VYKEA woadpaint (10)	VYKEA hex key (1)
 
 # The Ice Hole (The Glaciest November 2015)
 Norwhal	1856	norwhal.gif	Atk: 250 Def: 200 HP: 225 Init: 25 P: fish ED: cold Article: a	bottle of norwhiskey (0)	norwhal helmet (c0)
@@ -1860,9 +1860,9 @@ Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 Init: 25 P: fish ED: c
 Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 Init: 25 P: fish ED: cold Article: a	tin of submardines (25)	sardine can key (c0)
 
 # Deep Machine Tunnels (Machine Elf Capsule December 2015)
-Performer of Actions	1859	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: action (10)	abstraction: purpose (0)
-Thinker of Thoughts	1860	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: thought (10)	abstraction: category (0)
-Perceiver of Sensations	1861	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: perception (10)	abstraction: sensation (0)
+Performer of Actions	1859	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: action (10)	abstraction: purpose (c10)
+Thinker of Thoughts	1860	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: thought (10)	abstraction: category (c10)
+Perceiver of Sensations	1861	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: perception (10)	abstraction: sensation (c10)
 
 # The X-32-F Combat Training Snowman (X-32-F snowman crate January 2016)
 X-32-F Combat Training Snowman	1858	blank.gif	NOCOPY NOMANUEL NOWANDER Atk: 1 Def: 1 HP: 1 P: construct ED: cold EA: cold EA: hot EA: sleaze EA: spooky EA: stench
@@ -2074,11 +2074,11 @@ Skeleton Lord	2087	skeletonlord.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 200 Init: 
 God Lobster	2088	godlob.gif,godlob_scepter.gif,godlob_ring.gif,godlob_rod.gif,godlob_cape.gif,godlob_crown.gif	NOCOPY FREE Scale: [10*equipped(God Lobster's Scepter)+20*equipped(God Lobster's Ring)+30*equipped(God Lobster's Rod)+40*equipped(God Lobster's Robe)+50*equipped(God Lobster's Crown)] Cap: 1500 Floor: ? Init: 1000 P: horror Phys: [30*equipped(God Lobster's Ring)+50*equipped(God Lobster's Rod)+60*equipped(God Lobster's Robe)+80*equipped(God Lobster's Crown)] Elem: [25*equipped(God Lobster's Rod)+60*equipped(God Lobster's Robe)+90*equipped(God Lobster's Crown)] EA: hot EA: spooky Article: the Wiki: "God Lobster (monster)"
 
 # Neverending Party (Sept 2018)
-biker	2089	nparty_biker.gif	Scale: [20+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 21 Init: -10000 Meat: 100 P: dude Phys: 20 EA: hot EA: sleaze EA: stench Article: a	gas can (0)	Middle of the Road&trade; brand whiskey (0)	neverending wallet chain (0)	pentagram bandana (0)	gold skull ring (c0)
-"plain" girl	2090	nparty_plaingirl.gif	Scale: [-10+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 Meat: 100 P: dude EA: sleaze Article: a	electronics kit (0)	PB&J with the crusts cut off (0)	dorky glasses (0)	ponytail clip (0)	paint palette (c0)
-jock	2091	nparty_jock.gif	Scale: [0+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 Meat: 150 P: dude EA: sleaze Article: a	unremarkable duffel bag (0)	Purple Beast energy drink (0)	cosmetic football (0)	shoe ad T-shirt (0)	pump-up high-tops (c0)
-party girl	2092	nparty_partygirl.gif	Scale: [10+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 11 Init: -10000 Meat: 100 P: dude EA: sleaze Article: a	runproof mascara (0)	very small red dress (0)	noticeable pumps (0)	surprisingly capacious handbag (0)	everfull glass (c0)
-burnout	2093	nparty_burnout.gif	Scale: [-5+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 Meat: 50 P: dude EA: hot EA: stench Article: a	denim jacket (0)	ratty knitted cap (0)	van key (0)	jam band bootleg (0)
+biker	2089	nparty_biker.gif	Scale: [20+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 21 Init: -10000 Meat: 100 P: dude Phys: 20 EA: hot EA: sleaze EA: stench Article: a	gas can (0)	Middle of the Road&trade; brand whiskey (0)	neverending wallet chain (c15)	pentagram bandana (c15)	gold skull ring (c0.2)
+"plain" girl	2090	nparty_plaingirl.gif	Scale: [-10+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 Meat: 100 P: dude EA: sleaze Article: a	electronics kit (0)	PB&J with the crusts cut off (0)	dorky glasses (c15)	ponytail clip (c15)	paint palette (c0.2)
+jock	2091	nparty_jock.gif	Scale: [0+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 Meat: 150 P: dude EA: sleaze Article: a	unremarkable duffel bag (0)	Purple Beast energy drink (0)	cosmetic football (c15)	shoe ad T-shirt (c15)	pump-up high-tops (c0.2)
+party girl	2092	nparty_partygirl.gif	Scale: [10+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 11 Init: -10000 Meat: 100 P: dude EA: sleaze Article: a	runproof mascara (0)	very small red dress (0)	noticeable pumps (c15)	surprisingly capacious handbag (c15)	everfull glass (c0.2)
+burnout	2093	nparty_burnout.gif	Scale: [-5+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 Meat: 50 P: dude EA: hot EA: stench Article: a	denim jacket (c15)	ratty knitted cap (c15)	van key (0)	jam band bootleg (0)
 
 # Voter Registration Form (Nov 2018)
 angry ghost	2094	vw_ghost.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 50 E: spooky Article: an	ghostly ectoplasm (100)	ghostly ectoplasm (10)	ghostly ectoplasm (1)
