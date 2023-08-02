@@ -73,7 +73,7 @@ public class LoginManager {
     }
 
     KoLmafia.updateDisplay(
-        "Ping test: average delay is " + Math.round(result.getAverage()) + " msecs.");
+        "Ping test: average delay is " + Math.floor(result.getAverage()) + " msecs.");
 
     // See if the Ping tested a suitable page
     if (!result.isSaveable()) {
@@ -110,7 +110,7 @@ public class LoginManager {
           return true;
         }
         // Either no threshold is set or this connection is too slow.
-        error = "you want no more than " + String.valueOf(Math.round(desired)) + " msec";
+        error = "you want no more than " + String.valueOf(Math.floor(desired)) + " msec";
         // Alert the user.
       }
       default -> {

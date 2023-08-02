@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.PingRequest;
@@ -111,7 +113,7 @@ public class PingManager {
       buf.append(String.valueOf(this.getBytes()));
       // Redundant, in that the user can calculate it from total & count
       buf.append(":");
-      buf.append(String.valueOf(Math.round(this.getAverage())));
+      buf.append(String.valueOf(Math.floor(this.getAverage())));
       return buf.toString();
     }
 
@@ -171,6 +173,81 @@ public class PingManager {
         bytes = StringUtilities.parseLong(values[5]);
       }
       return new PingTest(page, count, total, low, high, bytes);
+    }
+  }
+
+  public static class PingTestAbort implements Comparable<PingTestAbort> {
+    private int count;
+    private int factor;
+
+    public PingTestAbort(int count, int factor) {
+      this.count = count;
+      this.factor = factor;
+    }
+
+    public int getCount() {
+      return this.count;
+    }
+
+    public void setCount(int count) {
+      this.count = count;
+    }
+
+    public int getFactor() {
+      return this.factor;
+    }
+
+    public void setFactor(int factor) {
+      this.factor = factor;
+    }
+
+    public int compareTo(final PingTestAbort o) {
+      if (o == null) {
+        throw new ClassCastException();
+      }
+      return this.factor < o.factor ? -1 : this.factor == o.factor ? 0 : 1;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj instanceof PingTestAbort o) {
+        return this.count == o.count && this.factor == o.factor;
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return this.count * 1000 + this.factor;
+    }
+
+    public static Set<PingTestAbort> load() {
+      Set<PingTestAbort> aborts = new TreeSet<>();
+      for (String value : Preferences.getString("pingLoginAbort").split("\\s*\\|\\s*")) {
+        int index = value.indexOf(":");
+        if (index != -1) {
+          int count = StringUtilities.parseInt(value.substring(0, index));
+          int factor = StringUtilities.parseInt(value.substring(index + 1));
+          if (count > 0 && factor > 0) {
+            aborts.add(new PingTestAbort(count, factor));
+          }
+        }
+      }
+
+      return aborts;
+    }
+
+    public static void save(Set<PingTestAbort> aborts) {
+      StringBuilder buffer = new StringBuilder();
+      for (PingTestAbort abort : aborts) {
+        if (buffer.length() > 0) {
+          buffer.append("|");
+        }
+        buffer.append(String.valueOf(abort.count));
+        buffer.append(":");
+        buffer.append(String.valueOf(abort.factor));
+      }
+      Preferences.setString("pingLoginAbort", buffer.toString());
     }
   }
 
