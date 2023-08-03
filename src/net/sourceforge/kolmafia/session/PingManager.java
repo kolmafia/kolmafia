@@ -176,11 +176,11 @@ public class PingManager {
     }
   }
 
-  public static class PingTestAbort implements Comparable<PingTestAbort> {
+  public static class PingAbortTrigger implements Comparable<PingAbortTrigger> {
     private int count;
     private int factor;
 
-    public PingTestAbort(int count, int factor) {
+    public PingAbortTrigger(int count, int factor) {
       this.count = count;
       this.factor = factor;
     }
@@ -201,16 +201,18 @@ public class PingManager {
       this.factor = factor;
     }
 
-    public int compareTo(final PingTestAbort o) {
+    public int compareTo(final PingAbortTrigger o) {
       if (o == null) {
         throw new ClassCastException();
       }
-      return this.factor < o.factor ? -1 : this.factor == o.factor ? 0 : 1;
+      return this.factor < o.factor
+          ? -1
+          : this.factor > o.factor ? 1 : this.count < o.count ? -1 : this.count > o.count ? 1 : 0;
     }
 
     @Override
     public boolean equals(Object obj) {
-      if (obj instanceof PingTestAbort o) {
+      if (obj instanceof PingAbortTrigger o) {
         return this.count == o.count && this.factor == o.factor;
       }
       return false;
@@ -221,15 +223,15 @@ public class PingManager {
       return this.count * 1000 + this.factor;
     }
 
-    public static Set<PingTestAbort> load() {
-      Set<PingTestAbort> aborts = new TreeSet<>();
+    public static Set<PingAbortTrigger> load() {
+      Set<PingAbortTrigger> aborts = new TreeSet<>();
       for (String value : Preferences.getString("pingLoginAbort").split("\\s*\\|\\s*")) {
         int index = value.indexOf(":");
         if (index != -1) {
           int count = StringUtilities.parseInt(value.substring(0, index));
           int factor = StringUtilities.parseInt(value.substring(index + 1));
           if (count > 0 && factor > 0) {
-            aborts.add(new PingTestAbort(count, factor));
+            aborts.add(new PingAbortTrigger(count, factor));
           }
         }
       }
@@ -237,9 +239,9 @@ public class PingManager {
       return aborts;
     }
 
-    public static void save(Set<PingTestAbort> aborts) {
+    public static void save(Set<PingAbortTrigger> aborts) {
       StringBuilder buffer = new StringBuilder();
-      for (PingTestAbort abort : aborts) {
+      for (PingAbortTrigger abort : aborts) {
         if (buffer.length() > 0) {
           buffer.append("|");
         }

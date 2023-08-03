@@ -23,8 +23,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.PingManager.PingAbortTrigger;
 import net.sourceforge.kolmafia.session.PingManager.PingTest;
-import net.sourceforge.kolmafia.session.PingManager.PingTestAbort;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceButtonGroup;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceFloatTextField;
@@ -76,7 +76,7 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
             "login",
             "logout",
             "confirm"));
-    this.queue(new PingLoginAbortPanel());
+    this.queue(new PingAbortTriggerPanel());
 
     this.makeLayout();
   }
@@ -136,10 +136,10 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
     }
   }
 
-  private static class PingLoginAbortPanel extends JPanel implements Listener {
+  private static class PingAbortTriggerPanel extends JPanel implements Listener {
     int rowCount = 0;
 
-    public PingLoginAbortPanel() {
+    public PingAbortTriggerPanel() {
       Border blackLine = BorderFactory.createLineBorder(Color.black);
       ;
       this.setBorder(blackLine);
@@ -155,35 +155,35 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
     }
 
     private void loadConfiguration() {
-      Set<PingTestAbort> aborts = PingTestAbort.load();
+      Set<PingAbortTrigger> triggers = PingAbortTrigger.load();
 
-      if (aborts.size() == 0) {
-        aborts.add(new PingTestAbort(0, 0));
+      if (triggers.size() == 0) {
+        triggers.add(new PingAbortTrigger(0, 0));
       }
 
       this.removeAll();
-      for (var abort : aborts) {
-        this.addRow(abort);
+      for (var trigger : triggers) {
+        this.addRow(trigger);
       }
     }
 
     private void saveConfiguration() {
-      Set<PingTestAbort> aborts =
+      Set<PingAbortTrigger> triggers =
           Arrays.stream(this.getComponents())
-              .filter(item -> item instanceof PingTestAbortRow)
-              .map(item -> ((PingTestAbortRow) item).abort)
-              .filter(abort -> abort.getCount() != 0 && abort.getFactor() != 0)
+              .filter(item -> item instanceof PingAbortTriggerRow)
+              .map(item -> ((PingAbortTriggerRow) item).trigger)
+              .filter(trigger -> trigger.getCount() != 0 && trigger.getFactor() != 0)
               .collect(Collectors.toCollection(TreeSet::new));
 
-      PingTestAbort.save(aborts);
+      PingAbortTrigger.save(triggers);
     }
 
-    private void addRow(PingTestAbort abort) {
-      this.add(new PingTestAbortRow(abort));
+    private void addRow(PingAbortTrigger trigger) {
+      this.add(new PingAbortTriggerRow(trigger));
       this.rowCount++;
     }
 
-    private int rowIndex(PingTestAbortRow row) {
+    private int rowIndex(PingAbortTriggerRow row) {
       var components = this.getComponents();
       for (int i = 0; i < components.length; ++i) {
         if (components[i] == row) {
@@ -193,21 +193,21 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
       return -1;
     }
 
-    public void addRowAfter(PingTestAbortRow row) {
+    public void addRowAfter(PingAbortTriggerRow row) {
       int index = rowIndex(row);
       if (index != -1) {
-        this.addRow(new PingTestAbort(0, 0));
+        this.addRow(new PingAbortTrigger(0, 0));
         this.revalidate();
         this.repaint();
       }
     }
 
-    public void removeRow(PingTestAbortRow row) {
-      // Zero out the abort for this row
+    public void removeRow(PingAbortTriggerRow row) {
+      // Zero out the trigger for this row
       row.setCount(0);
       row.setFactor(0);
 
-      // Saving the configuration ignores zeroed aborts
+      // Saving the configuration ignores zeroed triggers
       this.saveConfiguration();
 
       // Do not remove the last row.
@@ -229,8 +229,8 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
       this.repaint();
     }
 
-    public void abortChanged(PingTestAbort abort) {
-      if (abort.getCount() > 0 && abort.getFactor() > 0) {
+    public void triggerChanged(PingAbortTrigger trigger) {
+      if (trigger.getCount() > 0 && trigger.getFactor() > 0) {
         this.saveConfiguration();
       }
     }
@@ -242,50 +242,50 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
       this.repaint();
     }
 
-    private class PingTestAbortRow extends JPanel implements FocusListener {
+    private class PingAbortTriggerRow extends JPanel implements FocusListener {
       static final ImageIcon plusIcon = JComponentUtilities.getImage("icon_plus.gif");
       static final ImageIcon minusIcon = JComponentUtilities.getImage("icon_minus.gif");
 
-      public final PingTestAbort abort;
+      public final PingAbortTrigger trigger;
       private final JTextField countField;
       private final JTextField factorField;
       private final JButton plusButton;
       private final JButton minusButton;
 
-      public PingTestAbortRow(PingTestAbort abort) {
-        this.abort = abort;
+      public PingAbortTriggerRow(PingAbortTrigger trigger) {
+        this.trigger = trigger;
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
 
         this.add(new JLabel("Retry if "));
-        this.countField = new JTextField(String.valueOf(abort.getCount()), 2);
+        this.countField = new JTextField(String.valueOf(trigger.getCount()), 2);
         this.countField.addFocusListener(this);
         this.add(this.countField);
         this.add(new JLabel(" pings exceed "));
-        this.factorField = new JTextField(String.valueOf(abort.getFactor()), 2);
+        this.factorField = new JTextField(String.valueOf(trigger.getFactor()), 2);
         this.factorField.addFocusListener(this);
         this.add(this.factorField);
         this.add(new JLabel(" times average historical ping"));
         this.plusButton = new JButton(plusIcon);
         this.plusButton.addActionListener(
             e -> {
-              PingLoginAbortPanel.this.addRowAfter(this);
+              PingAbortTriggerPanel.this.addRowAfter(this);
             });
         this.add(plusButton);
         this.minusButton = new JButton(minusIcon);
         this.minusButton.addActionListener(
             e -> {
-              PingLoginAbortPanel.this.removeRow(this);
+              PingAbortTriggerPanel.this.removeRow(this);
             });
         this.add(minusButton);
       }
 
       public void setCount(final int count) {
-        this.abort.setCount(count);
+        this.trigger.setCount(count);
         this.countField.setText(String.valueOf(count));
       }
 
       public void setFactor(final int factor) {
-        this.abort.setFactor(factor);
+        this.trigger.setFactor(factor);
         this.factorField.setText(String.valueOf(factor));
       }
 
@@ -294,15 +294,15 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
         Component component = e.getComponent();
         if (component == this.countField) {
           int newValue = InputFieldUtilities.getValue(this.countField, 0);
-          if (newValue != this.abort.getCount()) {
-            this.abort.setCount(newValue);
-            PingLoginAbortPanel.this.abortChanged(this.abort);
+          if (newValue != this.trigger.getCount()) {
+            this.trigger.setCount(newValue);
+            PingAbortTriggerPanel.this.triggerChanged(this.trigger);
           }
         } else if (component == this.factorField) {
           int newValue = InputFieldUtilities.getValue(this.factorField, 0);
-          if (newValue != this.abort.getFactor()) {
-            this.abort.setFactor(newValue);
-            PingLoginAbortPanel.this.abortChanged(this.abort);
+          if (newValue != this.trigger.getFactor()) {
+            this.trigger.setFactor(newValue);
+            PingAbortTriggerPanel.this.triggerChanged(this.trigger);
           }
         }
       }
