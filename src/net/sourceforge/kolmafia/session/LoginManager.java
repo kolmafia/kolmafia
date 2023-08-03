@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
+import net.sourceforge.kolmafia.session.PingManager.PingAbortTrigger;
 import net.sourceforge.kolmafia.session.PingManager.PingTest;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -117,6 +118,21 @@ public class LoginManager {
         // The user is happy with any connection
         return true;
       }
+    }
+
+    // If the ping test aborted because times exceeded a user-defined
+    // trigger, log that.
+    PingAbortTrigger trigger = result.getTrigger();
+    if (trigger != null) {
+      StringBuilder buf = new StringBuilder();
+      buf.append("Ping test aborted because ");
+      buf.append(String.valueOf(trigger.getCount()));
+      buf.append(" pings exceeded ");
+      var shortest = PingTest.parseProperty("pingShortest");
+      double limit = trigger.getFactor() * shortest.getAverage();
+      buf.append(String.valueOf(limit));
+      buf.append(" msec.");
+      KoLmafia.updateDisplay(buf.toString());
     }
 
     // Perhaps the user wants to automatically retry for a certain
