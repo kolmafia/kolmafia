@@ -130,7 +130,7 @@ public class PingManager {
       buf.append(String.valueOf(this.getBytes()));
       // Redundant, in that the user can calculate it from total & count
       buf.append(":");
-      buf.append(String.valueOf(Math.floor(this.getAverage())));
+      buf.append(String.valueOf(this.getAverage()));
       return buf.toString();
     }
 
