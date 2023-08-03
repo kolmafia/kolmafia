@@ -256,15 +256,18 @@ public class PingManager {
       return triggers;
     }
 
-    public static void save(Set<PingAbortTrigger> aborts) {
+    public static void save(Set<PingAbortTrigger> triggers) {
       StringBuilder buffer = new StringBuilder();
-      for (PingAbortTrigger abort : aborts) {
+      for (PingAbortTrigger trigger : triggers) {
+        if (trigger.count < 1 || trigger.factor < 1) {
+          continue;
+        }
         if (buffer.length() > 0) {
           buffer.append("|");
         }
-        buffer.append(String.valueOf(abort.count));
+        buffer.append(String.valueOf(trigger.count));
         buffer.append(":");
-        buffer.append(String.valueOf(abort.factor));
+        buffer.append(String.valueOf(trigger.factor));
       }
       Preferences.setString("pingLoginAbort", buffer.toString());
     }
@@ -305,10 +308,6 @@ public class PingManager {
       PingAbortTrigger trigger = entry.getKey();
       int count = trigger.getCount();
       int factor = trigger.getFactor();
-      // Sanity check.
-      if (count == 0 || factor == 0) {
-        continue;
-      }
       if (elapsed >= average * factor) {
         // This ping applies. Increment count.
         int seen = entry.getValue() + 1;
