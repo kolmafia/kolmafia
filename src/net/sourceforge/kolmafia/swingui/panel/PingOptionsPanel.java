@@ -141,7 +141,6 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
 
     public PingAbortTriggerPanel() {
       Border blackLine = BorderFactory.createLineBorder(Color.black);
-      ;
       this.setBorder(blackLine);
       this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
       this.loadConfiguration();
@@ -248,6 +247,7 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
 
       public final PingAbortTrigger trigger;
       private final JTextField countField;
+      private final JLabel countLabel;
       private final JTextField factorField;
       private final JButton plusButton;
       private final JButton minusButton;
@@ -257,10 +257,12 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
 
         this.add(new JLabel("Retry if "));
-        this.countField = new JTextField(String.valueOf(trigger.getCount()), 2);
+        this.countField = new JTextField("0", 2);
         this.countField.addFocusListener(this);
         this.add(this.countField);
-        this.add(new JLabel(" pings exceed "));
+        this.countLabel = new JLabel("");
+        this.add(countLabel);
+        this.setCount(trigger.getCount());
         this.factorField = new JTextField(String.valueOf(trigger.getFactor()), 2);
         this.factorField.addFocusListener(this);
         this.add(this.factorField);
@@ -282,6 +284,7 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
       public void setCount(final int count) {
         this.trigger.setCount(count);
         this.countField.setText(String.valueOf(count));
+        this.countLabel.setText(count == 1 ? " ping exceeds " : " pings exceed ");
       }
 
       public void setFactor(final int factor) {
