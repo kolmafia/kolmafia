@@ -1566,9 +1566,7 @@ public class ConcoctionDatabase {
     // gnome sign and they can access the Desert Beach.
 
     if (KoLCharacter.gnomadsAvailable() && !KoLCharacter.inZombiecore()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.GNOME_TINKER);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.GNOME_TINKER, 0);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.GNOME_TINKER, 0);
+      permitNoCost(CraftingType.GNOME_TINKER);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.GNOME_TINKER, "Only gnome signs can use the Supertinkerer.");
@@ -1603,9 +1601,7 @@ public class ConcoctionDatabase {
     // a knoll sign.
 
     if (KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SMITH);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SMITH, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.ACOMBINE, 0);
+      permitNoCost(CraftingType.SMITH);
     }
 
     if (KoLCharacter.canSmithWeapons()) {
@@ -1622,9 +1618,7 @@ public class ConcoctionDatabase {
         || ConcoctionDatabase.THORS_PLIERS.getCount(KoLConstants.closet) > 0
         || ConcoctionDatabase.THORS_PLIERS.getCount(KoLConstants.inventory) > 0
         || InventoryManager.getEquippedCount(ConcoctionDatabase.THORS_PLIERS) > 0) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.JEWELRY);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.JEWELRY, 0);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.JEWELRY, 0);
+      permitNoCost(CraftingType.JEWELRY);
     }
 
     if (KoLCharacter.canCraftExpensiveJewelry()) {
@@ -1633,43 +1627,27 @@ public class ConcoctionDatabase {
 
     // Star chart recipes are always available to all players.
 
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.STARCHART);
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.MULTI_USE);
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SINGLE_USE);
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SUGAR_FOLDING);
-
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.STARCHART, 0);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.MULTI_USE, 0);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.SINGLE_USE, 0);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.SUGAR_FOLDING, 0);
-
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.STARCHART, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MULTI_USE, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SINGLE_USE, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SUGAR_FOLDING, 0);
+    permitNoCost(CraftingType.STARCHART);
+    permitNoCost(CraftingType.MULTI_USE);
+    permitNoCost(CraftingType.SINGLE_USE);
+    permitNoCost(CraftingType.SUGAR_FOLDING);
 
     // Pixel recipes are not available in Kingdom of Exploathing
     if (!KoLCharacter.isKingdomOfExploathing()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.PIXEL);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.PIXEL, 0);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.PIXEL, 0);
+      permitNoCost(CraftingType.PIXEL);
     }
 
     // A rolling pin or unrolling pin can be always used in item
     // creation because we can get the same effect even without the
     // tool.
 
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.ROLLING_PIN);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.ROLLING_PIN, 0);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.ROLLING_PIN, 0);
+    permitNoCost(CraftingType.ROLLING_PIN);
 
     // Rodoric will make chefstaves for mysticality class
     // characters who can get to the guild.
 
     if (KoLCharacter.isMysticalityClass() && KoLCharacter.getGuildStoreOpen()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.STAFF);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.STAFF, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.STAFF, 0);
+      permitNoCost(CraftingType.STAFF);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.STAFF, "Only mysticality classes can make chefstaves.");
@@ -1678,9 +1656,7 @@ public class ConcoctionDatabase {
     // their Nemesis, and hence have their ULEW
 
     if (InventoryManager.hasItem(ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR)) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.PHINEAS);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.PHINEAS, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.PHINEAS, 0);
+      permitNoCost(CraftingType.PHINEAS);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.PHINEAS, "Only Seal Clubbers who have defeated Gorgolok can use Phineas.");
@@ -1702,9 +1678,7 @@ public class ConcoctionDatabase {
     // range installed in their kitchen
 
     if (KoLCharacter.hasOven() || KoLCharacter.hasRange()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.COOK);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK, 0);
+      permitNoCost(CraftingType.COOK);
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.COOK, "You cannot cook without an oven or a range.");
 
@@ -1787,9 +1761,7 @@ public class ConcoctionDatabase {
     // cocktailcrafting kit installed in their kitchen
 
     if (KoLCharacter.hasShaker() || KoLCharacter.hasCocktailKit()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.MIX);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX, 0);
+      permitNoCost(CraftingType.MIX);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.MIX, "You cannot mix without a shaker or a cocktailcrafting kit.");
     }
@@ -1819,9 +1791,7 @@ public class ConcoctionDatabase {
     }
     // If you are Sneaky Pete with Cocktail Magic, fancy mixing is free
     else if (KoLCharacter.hasSkill(SkillPool.COCKTAIL_MAGIC)) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.MIX_FANCY);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0);
+      permitNoCost(CraftingType.MIX_FANCY);
       ConcoctionDatabase.EXCUSE.put(CraftingType.MIX_FANCY, null);
     }
     // If we don't have a bartender, Inigo's makes mixing free
@@ -1910,9 +1880,7 @@ public class ConcoctionDatabase {
     // Pulverize and is a Muscle class character.
 
     if (KoLCharacter.canUseMalus()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.MALUS);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MALUS, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.MALUS, 0);
+      permitNoCost(CraftingType.MALUS);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.MALUS, "You require Malus access to be able to pulverize.");
@@ -1921,18 +1889,14 @@ public class ConcoctionDatabase {
     // in your kitchen.
 
     if (KoLCharacter.hasSushiMat()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SUSHI);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SUSHI, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.SUSHI, 0);
+      permitNoCost(CraftingType.SUSHI);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SUSHI, "You cannot make sushi without a sushi-rolling mat.");
 
     // You can ask Grandma to make stuff if you have rescued her.
     if (QuestDatabase.isQuestLaterThan(Quest.SEA_MONKEES, "step8")) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.GRANDMA);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.GRANDMA, 0);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.GRANDMA, 0);
+      permitNoCost(CraftingType.GRANDMA);
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.GRANDMA, "You must rescue Grandma first.");
 
@@ -1940,17 +1904,9 @@ public class ConcoctionDatabase {
     // how many items are allowed given available ingredients
     // But only in KOLHS!
     if (KoLCharacter.inHighschool()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.CHEMCLASS);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.CHEMCLASS, 0);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.CHEMCLASS, 0);
-
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.ARTCLASS);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.ARTCLASS, 0);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.ARTCLASS, 0);
-
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SHOPCLASS);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.SHOPCLASS, 0);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SHOPCLASS, 0);
+      permitNoCost(CraftingType.CHEMCLASS);
+      permitNoCost(CraftingType.ARTCLASS);
+      permitNoCost(CraftingType.SHOPCLASS);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.CHEMCLASS, "You cannot make that as you are not at school.");
@@ -1960,29 +1916,21 @@ public class ConcoctionDatabase {
         CraftingType.SHOPCLASS, "You cannot make that as you are not at school.");
 
     // Making stuff with Beer Garden ingredients needs
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.BEER);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.BEER, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.BEER, 0);
+    permitNoCost(CraftingType.BEER);
 
     // Making stuff with the Junk Magazine requires the magazine
     if (InventoryManager.hasItem(ItemPool.WORSE_HOMES_GARDENS)) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.JUNK);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.JUNK, 0);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.JUNK, 0);
+      permitNoCost(CraftingType.JUNK);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.JUNK, "You can't make that without a copy of Worse Homes and Gardens.");
 
     // Making stuff with Winter Garden ingredients is always allowed
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.WINTER);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.WINTER, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.WINTER, 0);
+    permitNoCost(CraftingType.WINTER);
 
     // Making stuff with Rumplestiltskin's Workshop is allowed when have access to it
     if (Preferences.getString("grimstoneMaskPath").equals("gnome")) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.RUMPLE);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.RUMPLE, 0);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.RUMPLE, 0);
+      permitNoCost(CraftingType.RUMPLE);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.RUMPLE, "You need access to Rumplestiltskin's Workshop to make that.");
@@ -1990,9 +1938,7 @@ public class ConcoctionDatabase {
     // You trade tokens to Coin Masters if you have opted in to do so,
 
     if (Preferences.getBoolean("autoSatisfyWithCoinmasters")) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.COINMASTER);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COINMASTER, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.COINMASTER, 0);
+      permitNoCost(CraftingType.COINMASTER);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.COINMASTER, "You have not selected the option to trade with coin masters.");
@@ -2010,9 +1956,7 @@ public class ConcoctionDatabase {
         CraftingType.SAUSAGE_O_MATIC, "You do not have a Kramco Sausage-o-Matic&trade;.");
 
     if (InventoryManager.getCount(ItemPool.FIVE_D_PRINTER) > 0) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.FIVE_D);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.FIVE_D, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.FIVE_D, 0);
+      permitNoCost(CraftingType.FIVE_D);
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.FIVE_D, "You do not have a Xiblaxian 5D printer.");
 
@@ -2022,65 +1966,43 @@ public class ConcoctionDatabase {
     } else if (!InventoryManager.hasItem(ItemPool.VYKEA_HEX_KEY)) {
       ConcoctionDatabase.EXCUSE.put(CraftingType.VYKEA, "You do not have a VYKEA hex key.");
     } else {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.VYKEA);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.VYKEA, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.VYKEA, 0);
+      permitNoCost(CraftingType.VYKEA);
     }
 
     // Making stuff with globs of melted wax is always allowed
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.WAX);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.WAX, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.WAX, 0);
+    permitNoCost(CraftingType.WAX);
 
     // Making stuff with spant chitin/tendons is always allowed
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SPANT);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.SPANT, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SPANT, 0);
+    permitNoCost(CraftingType.SPANT);
 
     // Making stuff with Xes/Os is always allowed
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.XO);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.XO, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.XO, 0);
+    permitNoCost(CraftingType.XO);
 
     // Making stuff with Slime is always allowed
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SLIEMCE);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.SLIEMCE, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SLIEMCE, 0);
+    permitNoCost(CraftingType.SLIEMCE);
 
     // Making stuff with burning newspaper is always allowed
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.NEWSPAPER);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.NEWSPAPER, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.NEWSPAPER, 0);
+    permitNoCost(CraftingType.NEWSPAPER);
 
     // Making stuff with metal meteoroid is always allowed
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.METEOROID);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.METEOROID, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.METEOROID, 0);
+    permitNoCost(CraftingType.METEOROID);
 
     // Pulling stuff out of the sewer is always allowed
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SEWER);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SEWER, 0);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.SEWER, 0);
+    permitNoCost(CraftingType.SEWER);
 
     // Making stuff with grubby wool is always allowed
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.WOOL);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.WOOL, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.WOOL, 0);
+    permitNoCost(CraftingType.WOOL);
 
     // Making stuff at The Shadow Forge is only allowed if you have not
     // spent any adventures since you last encountered it.
     if (Preferences.getInteger("lastShadowForgeUnlockAdventure") == KoLCharacter.getCurrentRun()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SHADOW_FORGE);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.SHADOW_FORGE, 0);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SHADOW_FORGE, 0);
+      permitNoCost(CraftingType.SHADOW_FORGE);
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SHADOW_FORGE, "You need to be at The Shadow Forge to make that.");
 
     // Making stuff with fixodent is always allowed
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.FIXODENT);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.FIXODENT, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.FIXODENT, 0);
+    permitNoCost(CraftingType.FIXODENT);
 
     // Other creatability flags
 
@@ -2098,9 +2020,7 @@ public class ConcoctionDatabase {
     }
 
     if (KoLCharacter.isJarlsberg()) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.JARLS);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.JARLS, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.JARLS, 0);
+      permitNoCost(CraftingType.JARLS);
 
       if (KoLCharacter.hasSkill(SkillPool.BAKE)) {
         ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.BAKE);
@@ -2142,15 +2062,11 @@ public class ConcoctionDatabase {
         || Preferences.getBoolean("_spookyAirportToday")
         || Preferences.getBoolean("_stenchAirportToday")
         || Preferences.getBoolean("_sleazeAirportToday")) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.DUTYFREE);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.DUTYFREE, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.DUTYFREE, 0);
+      permitNoCost(CraftingType.DUTYFREE);
     }
 
     // It's Crimbo, so allow creation!
-    // ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.CRIMBO16 );
-    // ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.CRIMBO16, 0 );
-    // ConcoctionDatabase.CREATION_COST.put( CraftingType.CRIMBO16, 0 );
+    // permitNoCost( CraftingType.CRIMBO16 );
 
     boolean clanFloundry =
         ClanLoungeRequest.hasClanLoungeItem(ItemPool.get(ItemPool.CLAN_FLOUNDRY, 1));
@@ -2165,9 +2081,7 @@ public class ConcoctionDatabase {
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Clan Floundry")
             && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
     if (clanFloundry && !gotFloundryItem && floundryUsable) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.FLOUNDRY);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.FLOUNDRY, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.FLOUNDRY, 0);
+      permitNoCost(CraftingType.FLOUNDRY);
     }
     if (!floundryUsable) {
       ConcoctionDatabase.EXCUSE.put(
@@ -2186,9 +2100,7 @@ public class ConcoctionDatabase {
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god")
             && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
     if (gotBarrelShrine && !gotBarrelItem && barrelUsable) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.BARREL);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.BARREL, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.BARREL, 0);
+      permitNoCost(CraftingType.BARREL);
     }
     if (!barrelUsable) {
       ConcoctionDatabase.EXCUSE.put(
@@ -2205,9 +2117,7 @@ public class ConcoctionDatabase {
             || KoLConstants.falloutShelter.contains(ItemPool.get(ItemPool.SOURCE_TERMINAL));
     boolean sourceTerminalUsable = Preferences.getInteger("_sourceTerminalExtrudes") < 3;
     if (sourceTerminal && sourceTerminalUsable) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.TERMINAL);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.TERMINAL, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.TERMINAL, 0);
+      permitNoCost(CraftingType.TERMINAL);
     } else if (sourceTerminal && !sourceTerminalUsable) {
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.TERMINAL, "You have used all your extrudes for today.");
@@ -2219,9 +2129,7 @@ public class ConcoctionDatabase {
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")
             && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
     if (Preferences.getBoolean("spacegateAlways") && spacegateUsable) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SPACEGATE);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SPACEGATE, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.SPACEGATE, 0);
+      permitNoCost(CraftingType.SPACEGATE);
     } else {
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.SPACEGATE, "You do not have access to Spacegate Equipment Requisition.");
@@ -2233,9 +2141,7 @@ public class ConcoctionDatabase {
             && !StringUtilities.isNumeric(Preferences.getString("_frHoursLeft"));
     if ((Preferences.getBoolean("frAlways") || Preferences.getBoolean("_frToday"))
         && fantasyRealmUsable) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.FANTASY_REALM);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.FANTASY_REALM, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.FANTASY_REALM, 0);
+      permitNoCost(CraftingType.FANTASY_REALM);
     } else {
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.FANTASY_REALM, "You do not have access to Fantasy Realm welcome center.");
@@ -2244,18 +2150,14 @@ public class ConcoctionDatabase {
     // You can't use Kringle's workshop on demand; it is a shop
     // found in a non-combat adventure. However, if you are in
     // that shop, you can "create" the item normally.
-    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.KRINGLE);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.KRINGLE, 0);
-    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.KRINGLE, 0);
-    ConcoctionDatabase.EXCUSE.put(CraftingType.KRINGLE, "You must be in Kringel's workshop.");
+    permitNoCost(CraftingType.KRINGLE);
+    ConcoctionDatabase.EXCUSE.put(CraftingType.KRINGLE, "You must be in Kringle's workshop.");
 
     boolean stillsuitUsable =
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "tiny stillsuit")
             && InventoryManager.hasItem(ItemPool.STILLSUIT);
     if (stillsuitUsable) {
-      ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.STILLSUIT);
-      ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.STILLSUIT, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.STILLSUIT, 0);
+      permitNoCost(CraftingType.STILLSUIT);
     } else {
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.STILLSUIT, "You do not have access to a tiny stillsuit.");
@@ -2288,6 +2190,12 @@ public class ConcoctionDatabase {
         }
       }
     }
+  }
+
+  private static void permitNoCost(CraftingType craft) {
+    ConcoctionDatabase.PERMIT_METHOD.add(craft);
+    ConcoctionDatabase.CREATION_COST.put(craft, 0);
+    ConcoctionDatabase.ADVENTURE_USAGE.put(craft, 0);
   }
 
   public static int getAdventureUsage(CraftingType method) {
