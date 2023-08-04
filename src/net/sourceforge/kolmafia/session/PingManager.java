@@ -332,6 +332,11 @@ public class PingManager {
   }
 
   public static PingTest runPingTest(int count, String page, boolean verbose) {
+    return runPingTest(count, page, verbose, true);
+  }
+
+  public static PingTest runPingTest(
+      int count, String page, boolean verbose, boolean checkTriggers) {
     PingTest result = new PingTest(page);
 
     PingRequest ping = new PingRequest(page);
@@ -339,6 +344,9 @@ public class PingManager {
     Map<PingAbortTrigger, Integer> triggers = getAllAbortTriggers();
     PingTest shortest = PingTest.parseProperty("pingShortest");
     double average = shortest.getAverage();
+
+    // Only check triggers if historical average is for the same page.
+    checkTriggers &= result.getPage().equals(shortest.getPage());
 
     // The first ping can be anomalous. Perhaps we were logged out and
     // KoLmafia needs to time us in - which will now run a ping test.
@@ -349,7 +357,7 @@ public class PingManager {
     }
 
     // But do check if it should trigger an abort
-    if (shouldAbortPingTest(ping, average, triggers, result)) {
+    if (checkTriggers && shouldAbortPingTest(ping, average, triggers, result)) {
       result.addPing(ping);
       return result;
     }
@@ -372,7 +380,7 @@ public class PingManager {
       }
 
       // If this ping should trigger an abort, stop the test
-      if (shouldAbortPingTest(ping, average, triggers, result)) {
+      if (checkTriggers && shouldAbortPingTest(ping, average, triggers, result)) {
         break;
       }
     }
