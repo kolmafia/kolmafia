@@ -2077,6 +2077,11 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SHADOW_FORGE, "You need to be at The Shadow Forge to make that.");
 
+    // Making stuff with fixodent is always allowed
+    ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.FIXODENT);
+    ConcoctionDatabase.CREATION_COST.put(CraftingType.FIXODENT, 0);
+    ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.FIXODENT, 0);
+
     // Other creatability flags
 
     if (KoLCharacter.isTorsoAware()) {
@@ -2504,6 +2509,8 @@ public class ConcoctionDatabase {
       result.append("grubby wool");
     } else if (mixingMethod == CraftingType.SHADOW_FORGE) {
       result.append("The Shadow Forge");
+    } else if (mixingMethod == CraftingType.FIXODENT) {
+      result.append("Craft with Teeth");
     }
     if (result.length() == 0) {
       result.append("[unknown method of creation]");
@@ -3091,6 +3098,9 @@ public class ConcoctionDatabase {
         break;
       case "SHADOW_FORGE":
         ConcoctionDatabase.mixingMethod = CraftingType.SHADOW_FORGE;
+        break;
+      case "FIXODENT":
+        ConcoctionDatabase.mixingMethod = CraftingType.FIXODENT;
         break;
       default:
         if (mix.startsWith("ROW")) {
