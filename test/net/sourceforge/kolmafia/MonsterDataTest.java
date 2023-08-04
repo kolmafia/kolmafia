@@ -349,7 +349,7 @@ public class MonsterDataTest {
       // Test mix of item drops and bounty drops
       "novelty tropical skeleton, 'cherry (0), cherry (0), grapefruit (0), grapefruit (0), orange (0), orange (0), strawberry (0), strawberry (0), lemon (0), lemon (0), novelty fruit hat (0 cond), cherry stem (bounty)'",
       // Test fractional drops
-      "stench zombie, 'Dreadsylvanian Almanac page (0 no mod), Freddy Kruegerand (0 no mod), muddy skirt (0.1 cond)'"
+      "stench zombie, 'Dreadsylvanian Almanac page (1 no mod), Freddy Kruegerand (5 no mod), muddy skirt (0.1 cond)'"
     })
     void itemDropsAreRenderedProperly(final String monsterName, final String itemDropString) {
       var monster = MonsterDatabase.findMonster(monsterName);
