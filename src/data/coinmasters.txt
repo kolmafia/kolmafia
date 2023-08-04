@@ -1144,6 +1144,7 @@ Replica Mr. Store	buy	1	replica Jurassic Parka	ROW1374
 Replica Mr. Store	buy	1	replica Cincho de Mayo	ROW1377
 Replica Mr. Store	buy	1	Replica 2002 Mr. Store Catalog	ROW1391
 Replica Mr. Store	buy	1	replica sleeping patriotic eagle	ROW1392
+Replica Mr. Store	buy	1	replica august scepter	ROW1396
 
 # Mr. Store 2002
 
