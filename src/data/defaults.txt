@@ -101,6 +101,7 @@ global	pingDefaultTestPage	api
 global	pingDefaultTestPings	10
 global	pingLatest
 global	pingLogin	true
+global	pingLoginAbort	1:10
 global	pingLoginCheck	none
 global	pingLoginCount	0
 global	pingLoginFail	confirm
