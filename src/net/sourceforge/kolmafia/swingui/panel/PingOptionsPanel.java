@@ -67,9 +67,6 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
         new PreferenceIntegerTextField(
             "pingLoginCount", 4, "Attempted ping checks before giving up"));
     this.queue(
-        new PreferenceCheckBox(
-            "pingStealthyTimein", "When timing in to reconnect, use stealth mode (/q)"));
-    this.queue(
         new PreferenceButtonGroup(
             "pingLoginFail",
             "Action after ping check failure: ",
