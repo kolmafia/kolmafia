@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -95,9 +96,9 @@ public class PingOptionsPanel extends ConfigQueueingPanel {
       message.append("Observed average ping times to ");
       message.append(shortest.getPage());
       message.append(" range from ");
-      message.append(String.valueOf(shortest.getAverage()));
+      message.append(KoLConstants.FLOAT_FORMAT.format(shortest.getAverage()));
       message.append("-");
-      message.append(String.valueOf(longest.getAverage()));
+      message.append(KoLConstants.FLOAT_FORMAT.format(longest.getAverage()));
       message.append(" msec.");
       this.setText(message.toString());
     }

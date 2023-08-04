@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.PingRequest;
@@ -130,7 +131,7 @@ public class PingManager {
       buf.append(String.valueOf(this.getBytes()));
       // Redundant, in that the user can calculate it from total & count
       buf.append(":");
-      buf.append(String.valueOf(this.getAverage()));
+      buf.append(KoLConstants.FLOAT_FORMAT.format(this.getAverage()));
       return buf.toString();
     }
 
@@ -323,14 +324,15 @@ public class PingManager {
     return false;
   }
 
-  public static PingTest runPingTest() {
+  public static PingTest runPingTest(boolean checkTriggers) {
     // Run a ping test that qualifies to be saved in ping history.
     String defaultPage = PingTest.normalizePage(Preferences.getString("pingDefaultTestPage"));
     int defaultPings = Preferences.getInteger("pingDefaultTestPings");
-    return runPingTest(defaultPings, defaultPage, false);
+    return runPingTest(defaultPings, defaultPage, false, checkTriggers);
   }
 
-  public static PingTest runPingTest(int count, String page, boolean verbose) {
+  public static PingTest runPingTest(
+      int count, String page, boolean verbose, boolean checkTriggers) {
     PingTest result = new PingTest(page);
 
     PingRequest ping = new PingRequest(page);
@@ -338,6 +340,9 @@ public class PingManager {
     Map<PingAbortTrigger, Integer> triggers = getAllAbortTriggers();
     PingTest shortest = PingTest.parseProperty("pingShortest");
     double average = shortest.getAverage();
+
+    // Only check triggers if historical average is for the same page.
+    checkTriggers &= result.getPage().equals(shortest.getPage());
 
     // The first ping can be anomalous. Perhaps we were logged out and
     // KoLmafia needs to time us in - which will now run a ping test.
@@ -348,7 +353,7 @@ public class PingManager {
     }
 
     // But do check if it should trigger an abort
-    if (shouldAbortPingTest(ping, average, triggers, result)) {
+    if (checkTriggers && shouldAbortPingTest(ping, average, triggers, result)) {
       result.addPing(ping);
       return result;
     }
@@ -371,7 +376,7 @@ public class PingManager {
       }
 
       // If this ping should trigger an abort, stop the test
-      if (shouldAbortPingTest(ping, average, triggers, result)) {
+      if (checkTriggers && shouldAbortPingTest(ping, average, triggers, result)) {
         break;
       }
     }

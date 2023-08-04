@@ -235,7 +235,7 @@ public class OptionsFrame extends GenericFrame {
               PingTestButton.this.button.setEnabled(false);
               int pings = Preferences.getInteger("pingTestPings");
               String page = Preferences.getString("pingTestPage");
-              PingManager.runPingTest(pings, page, false);
+              PingManager.runPingTest(pings, page, false, false);
             } finally {
               PingTestButton.this.button.setEnabled(true);
             }
@@ -258,7 +258,7 @@ public class OptionsFrame extends GenericFrame {
           message.append(" requests to ");
           message.append(latest.getPage());
           message.append(" average time was ");
-          message.append(String.valueOf(latest.getAverage()));
+          message.append(KoLConstants.FLOAT_FORMAT.format(latest.getAverage()));
           message.append(" msec.");
           this.setText(message.toString());
         }
