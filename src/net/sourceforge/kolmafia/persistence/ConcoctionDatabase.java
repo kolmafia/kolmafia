@@ -1762,9 +1762,9 @@ public class ConcoctionDatabase {
 
     if (KoLCharacter.hasShaker() || KoLCharacter.hasCocktailKit()) {
       permitNoCost(CraftingType.MIX);
-      ConcoctionDatabase.EXCUSE.put(
-          CraftingType.MIX, "You cannot mix without a shaker or a cocktailcrafting kit.");
     }
+    ConcoctionDatabase.EXCUSE.put(
+        CraftingType.MIX, "You cannot mix without a shaker or a cocktailcrafting kit.");
 
     // If we have a kit and a bartender installed, mixing fancy drinks
     // costs no adventure. If we have no bartender, mixing takes
