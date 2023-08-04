@@ -66,14 +66,17 @@ public class LoginManager {
     }
 
     // The user wants to measure ping speed.
-    var result = PingManager.runPingTest();
+    var result = PingManager.runPingTest(true);
 
     // If the ping test failed, give up; error already logged.
     if (result.getAverage() == 0) {
       return true;
     }
 
-    KoLmafia.updateDisplay("Ping test: average delay is " + result.getAverage() + " msecs.");
+    KoLmafia.updateDisplay(
+        "Ping test: average delay is "
+            + KoLConstants.FLOAT_FORMAT.format(result.getAverage())
+            + " msecs.");
 
     // See if the Ping tested a suitable page
     if (!result.isSaveable()) {
@@ -125,11 +128,16 @@ public class LoginManager {
     if (trigger != null) {
       StringBuilder buf = new StringBuilder();
       buf.append("Ping test aborted because ");
-      buf.append(String.valueOf(trigger.getCount()));
-      buf.append(" pings exceeded ");
+      int count = trigger.getCount();
+      buf.append(String.valueOf(count));
+      buf.append(" ping");
+      if (count != 1) {
+        buf.append("s");
+      }
+      buf.append(" exceeded ");
       var shortest = PingTest.parseProperty("pingShortest");
       double limit = trigger.getFactor() * shortest.getAverage();
-      buf.append(String.valueOf(limit));
+      buf.append(KoLConstants.FLOAT_FORMAT.format(limit));
       buf.append(" msec.");
       KoLmafia.updateDisplay(buf.toString());
     }
@@ -193,7 +201,8 @@ public class LoginManager {
           break;
         }
       }
-      KoLmafia.updateDisplay("Accepting the last attempt of " + average + " msec.");
+      KoLmafia.updateDisplay(
+          "Accepting the last attempt of " + KoLConstants.FLOAT_FORMAT.format(average) + " msec.");
       return true;
     }
 
