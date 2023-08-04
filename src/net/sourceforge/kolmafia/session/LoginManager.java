@@ -128,8 +128,13 @@ public class LoginManager {
     if (trigger != null) {
       StringBuilder buf = new StringBuilder();
       buf.append("Ping test aborted because ");
-      buf.append(String.valueOf(trigger.getCount()));
-      buf.append(" pings exceeded ");
+      int count = trigger.getCount();
+      buf.append(String.valueOf(count));
+      buf.append(" ping");
+      if (count != 1) {
+        buf.append("s");
+      }
+      buf.append(" exceeded ");
       var shortest = PingTest.parseProperty("pingShortest");
       double limit = trigger.getFactor() * shortest.getAverage();
       buf.append(KoLConstants.FLOAT_FORMAT.format(limit));
