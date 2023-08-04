@@ -258,7 +258,7 @@ public class OptionsFrame extends GenericFrame {
           message.append(" requests to ");
           message.append(latest.getPage());
           message.append(" average time was ");
-          message.append(String.valueOf(latest.getAverage()));
+          message.append(KoLConstants.FLOAT_FORMAT.format(latest.getAverage()));
           message.append(" msec.");
           this.setText(message.toString());
         }

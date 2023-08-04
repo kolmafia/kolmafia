@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.PingRequest;
@@ -130,7 +131,7 @@ public class PingManager {
       buf.append(String.valueOf(this.getBytes()));
       // Redundant, in that the user can calculate it from total & count
       buf.append(":");
-      buf.append(String.valueOf(this.getAverage()));
+      buf.append(KoLConstants.FLOAT_FORMAT.format(this.getAverage()));
       return buf.toString();
     }
 

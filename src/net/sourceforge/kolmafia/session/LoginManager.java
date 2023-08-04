@@ -73,7 +73,10 @@ public class LoginManager {
       return true;
     }
 
-    KoLmafia.updateDisplay("Ping test: average delay is " + result.getAverage() + " msecs.");
+    KoLmafia.updateDisplay(
+        "Ping test: average delay is "
+            + KoLConstants.FLOAT_FORMAT.format(result.getAverage())
+            + " msecs.");
 
     // See if the Ping tested a suitable page
     if (!result.isSaveable()) {
@@ -129,7 +132,7 @@ public class LoginManager {
       buf.append(" pings exceeded ");
       var shortest = PingTest.parseProperty("pingShortest");
       double limit = trigger.getFactor() * shortest.getAverage();
-      buf.append(String.valueOf(limit));
+      buf.append(KoLConstants.FLOAT_FORMAT.format(limit));
       buf.append(" msec.");
       KoLmafia.updateDisplay(buf.toString());
     }
@@ -193,7 +196,8 @@ public class LoginManager {
           break;
         }
       }
-      KoLmafia.updateDisplay("Accepting the last attempt of " + average + " msec.");
+      KoLmafia.updateDisplay(
+          "Accepting the last attempt of " + KoLConstants.FLOAT_FORMAT.format(average) + " msec.");
       return true;
     }
 
