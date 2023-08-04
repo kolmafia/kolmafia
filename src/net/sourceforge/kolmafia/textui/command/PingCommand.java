@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -48,7 +49,7 @@ public class PingCommand extends AbstractCommand {
       }
     }
 
-    var result = PingManager.runPingTest(count, page, verbose);
+    var result = PingManager.runPingTest(count, page, verbose, false);
     RequestLogger.printLine(
         result.getCount()
             + " pings to "
@@ -60,9 +61,9 @@ public class PingCommand extends AbstractCommand {
             + " msec apiece (total = "
             + result.getTotal()
             + ", average = "
-            + Math.round(result.getAverage())
+            + KoLConstants.FLOAT_FORMAT.format(result.getAverage())
             + ") = "
-            + Math.round(result.getBPS())
+            + KoLConstants.COMMA_FORMAT.format(Math.round(result.getBPS()))
             + " bytes/second");
   }
 }
