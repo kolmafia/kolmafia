@@ -42,7 +42,7 @@ public class PreferenceFloatTextField extends JPanel implements Listener, FocusL
   }
 
   private void configure() {
-    this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+    this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
     PreferenceListenerRegistry.registerPreferenceListener(pref, this);
   }
 

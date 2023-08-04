@@ -171,7 +171,7 @@ public class OptionsFrame extends GenericFrame {
       this.queue(this.newSeparator());
       this.queue(new PingTestPanel());
       this.queue(this.newSeparator());
-      this.queue(new TimeinButton());
+      this.queue(new TimeinPanel());
       this.makeLayout();
     }
 
@@ -299,37 +299,40 @@ public class OptionsFrame extends GenericFrame {
       }
     }
 
-    private class TimeinButton extends JPanel {
-      private final JButton button = new ThreadedButton("Time In", new TimeinRunnable());
-
-      public TimeinButton() {
-        configure();
-        makeLayout();
+    private class TimeinPanel extends ConfigQueueingPanel {
+      public TimeinPanel() {
+        super();
+        this.queue(new TimeinButton());
+        this.queue(
+            new PreferenceCheckBox(
+                "pingStealthyTimein", "When timing in to reconnect, use stealth mode (/q)"));
+        this.makeLayout();
       }
 
-      private void configure() {
-        this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
-      }
+      private class TimeinButton extends JPanel {
+        private final JButton button = new ThreadedButton("Time In", new TimeinRunnable());
 
-      private void makeLayout() {
-        JLabel label = new JLabel("Try for a better connection:");
-        this.add(label);
-        this.add(this.button);
-      }
+        public TimeinButton() {
+          this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+          JLabel label = new JLabel("Try for a better connection:");
+          this.add(label);
+          this.add(this.button);
+        }
 
-      @Override
-      public Dimension getMaximumSize() {
-        return this.getPreferredSize();
-      }
-
-      private class TimeinRunnable implements Runnable {
         @Override
-        public void run() {
-          try {
-            TimeinButton.this.button.setEnabled(false);
-            LoginRequest.retimein();
-          } finally {
-            TimeinButton.this.button.setEnabled(true);
+        public Dimension getMaximumSize() {
+          return this.getPreferredSize();
+        }
+
+        private class TimeinRunnable implements Runnable {
+          @Override
+          public void run() {
+            try {
+              TimeinButton.this.button.setEnabled(false);
+              LoginRequest.retimein();
+            } finally {
+              TimeinButton.this.button.setEnabled(true);
+            }
           }
         }
       }
