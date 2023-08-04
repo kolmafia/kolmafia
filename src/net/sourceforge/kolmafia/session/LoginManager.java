@@ -66,7 +66,7 @@ public class LoginManager {
     }
 
     // The user wants to measure ping speed.
-    var result = PingManager.runPingTest();
+    var result = PingManager.runPingTest(true);
 
     // If the ping test failed, give up; error already logged.
     if (result.getAverage() == 0) {

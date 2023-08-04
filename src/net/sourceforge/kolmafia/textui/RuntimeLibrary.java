@@ -10269,7 +10269,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value ping(ScriptRuntime controller) {
-    return ping(controller, PingManager.runPingTest());
+    return ping(controller, PingManager.runPingTest(false));
   }
 
   public static Value ping(ScriptRuntime controller, final Value arg1) {

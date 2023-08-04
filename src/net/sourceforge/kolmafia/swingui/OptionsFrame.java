@@ -235,7 +235,7 @@ public class OptionsFrame extends GenericFrame {
               PingTestButton.this.button.setEnabled(false);
               int pings = Preferences.getInteger("pingTestPings");
               String page = Preferences.getString("pingTestPage");
-              PingManager.runPingTest(pings, page, false);
+              PingManager.runPingTest(pings, page, false, false);
             } finally {
               PingTestButton.this.button.setEnabled(true);
             }

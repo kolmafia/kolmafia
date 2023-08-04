@@ -324,15 +324,11 @@ public class PingManager {
     return false;
   }
 
-  public static PingTest runPingTest() {
+  public static PingTest runPingTest(boolean checkTriggers) {
     // Run a ping test that qualifies to be saved in ping history.
     String defaultPage = PingTest.normalizePage(Preferences.getString("pingDefaultTestPage"));
     int defaultPings = Preferences.getInteger("pingDefaultTestPings");
-    return runPingTest(defaultPings, defaultPage, false);
-  }
-
-  public static PingTest runPingTest(int count, String page, boolean verbose) {
-    return runPingTest(count, page, verbose, true);
+    return runPingTest(defaultPings, defaultPage, false, checkTriggers);
   }
 
   public static PingTest runPingTest(
