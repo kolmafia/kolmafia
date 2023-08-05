@@ -1858,6 +1858,7 @@ public abstract class InventoryManager {
     checkPowerfulGlove();
     checkDesignerSweatpants();
     checkCinchoDeMayo();
+    checkAugustScepter();
   }
 
   public static void checkPowerfulGlove() {
@@ -1911,6 +1912,50 @@ public abstract class InventoryManager {
     KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PROJECTILE_PINATA);
     KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_FOUL);
     KoLCharacter.addAvailableSkill(SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA);
+  }
+
+  public static void checkAugustScepter() {
+    if (KoLCharacter.hasEquipped(UseSkillRequest.AUGUST_SCEPTER)
+        || InventoryManager.hasItem(UseSkillRequest.AUGUST_SCEPTER, false)
+        || (KoLCharacter.inLegacyOfLoathing()
+            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_AUGUST_SCEPTER)
+                || InventoryManager.hasItem(UseSkillRequest.REPLICA_AUGUST_SCEPTER, false)))) {
+      addAugustScepterSkills();
+    }
+  }
+
+  public static void addAugustScepterSkills() {
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_2ND_FIND_AN_ELEVENLEAF_CLOVER_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_3RD_WATERMELON_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_4TH_WATER_BALLOON_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_5TH_OYSTER_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_6TH_FRESH_BREATH_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_7TH_LIGHTHOUSE_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_8TH_CAT_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_9TH_HAND_HOLDING_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_10TH_WORLD_LION_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_11TH_PRESIDENTIAL_JOKE_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_12TH_ELEPHANT_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_13TH_LEFTOFF_HANDERS_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_14TH_FINANCIAL_AWARENESS_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_15TH_RELAXATION_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_16TH_ROLLER_COASTER_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_17TH_THRIFTSHOP_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_18TH_SERENDIPITY_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_19TH_HONEY_BEE_AWARENESS_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_20TH_MOSQUITO_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_21ST_SPUMONI_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_22ND_TOOTH_FAIRY_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_23RD_RIDE_THE_WIND_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_24TH_WAFFLE_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_25TH_BANANA_SPLIT_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_26TH_TOILET_PAPER_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_27TH_JUST_BECAUSE_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_28TH_RACE_YOUR_MOUSE_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_30TH_BEACH_DAY);
+    KoLCharacter.addAvailableSkill(SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY);
   }
 
   public static void checkRing() {

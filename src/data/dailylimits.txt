@@ -2,6 +2,37 @@
 # Limiter: daily limit
 # Type	Item name	Tracking property	[Max = 1]
 Cast	Acquire Rhinestones	_rhinestonesAcquired
+Cast	Aug. 1st: Mountain Climbing Day!	_aug1Cast
+Cast	Aug. 2nd: Find an Eleven-Leaf Clover Day	_aug2Cast
+Cast	Aug. 3rd: Watermelon Day!	_aug3Cast
+Cast	Aug. 4th: Water Balloon Day!	_aug4Cast
+Cast	Aug. 5th: Oyster Day!	_aug5Cast
+Cast	Aug. 6th: Fresh Breath Day!	_aug6Cast
+Cast	Aug. 7th: Lighthouse Day!	_aug7Cast
+Cast	Aug. 8th: Cat Day!	_aug8Cast
+Cast	Aug. 9th: Hand Holding Day!	_aug9Cast
+Cast	Aug. 10th: World Lion Day!	_aug10Cast
+Cast	Aug. 11th: Presidential Joke Day!	_aug11Cast
+Cast	Aug. 12th: Elephant Day!	_aug12Cast
+Cast	Aug. 13th: Left/Off Hander's Day!	_aug13Cast
+Cast	Aug. 14th: Financial Awareness  Day!	_aug14Cast
+Cast	Aug. 15th: Relaxation Day!	_aug15Cast
+Cast	Aug. 16th: Roller Coaster Day!	_aug16Cast
+Cast	Aug. 17th: Thriftshop Day!	_aug17Cast
+Cast	Aug. 18th: Serendipity Day!	_aug18Cast
+Cast	Aug. 19th: Honey Bee Awareness Day!	_aug19Cast
+Cast	Aug. 20th: Mosquito Day!	_aug20Cast
+Cast	Aug. 21st: Spumoni Day!	_aug21Cast
+Cast	Aug. 22nd: Tooth Fairy Day!	_aug22Cast
+Cast	Aug. 23rd: Ride the Wind Day!	_aug23Cast
+Cast	Aug. 24th: Waffle Day!	_aug24Cast
+Cast	Aug. 25th: Banana Split Day!	_aug25Cast
+Cast	Aug. 26th: Toilet Paper Day!	_aug26Cast
+Cast	Aug. 27th: Just Because Day!	_aug27Cast
+Cast	Aug. 28th: Race Your Mouse Day!	_aug28Cast
+Cast	Aug. 29th: More Herbs, Less Salt  Day!	_aug29Cast
+Cast	Aug. 30th: Beach Day!	_aug30Cast
+Cast	Aug. 31st: Cabernet Sauvignon  Day!	_aug31Cast
 Cast	Advanced Cocktailcrafting	cocktailSummons
 Cast	Advanced Saucecrafting	reagentSummons
 Cast	Ancestral Recall	_ancestralRecallCasts	10
