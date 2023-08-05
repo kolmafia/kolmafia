@@ -246,6 +246,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final AdventureResult CINCHO_DE_MAYO = ItemPool.get(ItemPool.CINCHO_DE_MAYO, 1);
   public static final AdventureResult REPLICA_CINCHO_DE_MAYO =
       ItemPool.get(ItemPool.REPLICA_CINCHO_DE_MAYO, 1);
+  public static final AdventureResult AUGUST_SCEPTER = ItemPool.get(ItemPool.AUGUST_SCEPTER, 1);
+  public static final AdventureResult REPLICA_AUGUST_SCEPTER =
+      ItemPool.get(ItemPool.REPLICA_AUGUST_SCEPTER, 1);
 
   private static final AdventureResult[] AVOID_REMOVAL =
       new AdventureResult[] {
