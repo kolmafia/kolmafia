@@ -36,7 +36,6 @@ class PreferencesTest {
   @BeforeEach
   public void initializeCharPrefs() {
     KoLCharacter.reset(USER_NAME);
-    // KoLCharacter.reset(DIFFERENT_USER_NAME);
     KoLCharacter.reset(true);
   }
 
