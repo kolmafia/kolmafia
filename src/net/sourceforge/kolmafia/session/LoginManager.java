@@ -113,7 +113,7 @@ public class LoginManager {
           return true;
         }
         // Either no threshold is set or this connection is too slow.
-        error = "you want no more than " + String.valueOf(desired) + " msec";
+        error = "you want no more than " + KoLConstants.FLOAT_FORMAT.format(desired) + " msec";
         // Alert the user.
       }
       default -> {
@@ -244,7 +244,7 @@ public class LoginManager {
 
     StringBuilder buf = new StringBuilder();
     buf.append("This connection has an average ping time of ");
-    buf.append(String.valueOf(average));
+    buf.append(KoLConstants.FLOAT_FORMAT.format(average));
     buf.append(" msec");
     if (!error.equals("")) {
       buf.append(", but ");

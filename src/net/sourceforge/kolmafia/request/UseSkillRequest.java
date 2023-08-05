@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -246,6 +247,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final AdventureResult CINCHO_DE_MAYO = ItemPool.get(ItemPool.CINCHO_DE_MAYO, 1);
   public static final AdventureResult REPLICA_CINCHO_DE_MAYO =
       ItemPool.get(ItemPool.REPLICA_CINCHO_DE_MAYO, 1);
+  public static final AdventureResult AUGUST_SCEPTER = ItemPool.get(ItemPool.AUGUST_SCEPTER, 1);
+  public static final AdventureResult REPLICA_AUGUST_SCEPTER =
+      ItemPool.get(ItemPool.REPLICA_AUGUST_SCEPTER, 1);
 
   private static final AdventureResult[] AVOID_REMOVAL =
       new AdventureResult[] {
@@ -605,6 +609,55 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           int birds = Preferences.getInteger("_birdsSoughtToday");
           return (birds < 7 && option != 1) ? 6 - birds : Long.MAX_VALUE;
         }
+
+      case SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY:
+      case SkillPool.AUG_2ND_FIND_AN_ELEVENLEAF_CLOVER_DAY:
+      case SkillPool.AUG_3RD_WATERMELON_DAY:
+      case SkillPool.AUG_4TH_WATER_BALLOON_DAY:
+      case SkillPool.AUG_5TH_OYSTER_DAY:
+      case SkillPool.AUG_6TH_FRESH_BREATH_DAY:
+      case SkillPool.AUG_7TH_LIGHTHOUSE_DAY:
+      case SkillPool.AUG_8TH_CAT_DAY:
+      case SkillPool.AUG_9TH_HAND_HOLDING_DAY:
+      case SkillPool.AUG_10TH_WORLD_LION_DAY:
+      case SkillPool.AUG_11TH_PRESIDENTIAL_JOKE_DAY:
+      case SkillPool.AUG_12TH_ELEPHANT_DAY:
+      case SkillPool.AUG_13TH_LEFTOFF_HANDERS_DAY:
+      case SkillPool.AUG_14TH_FINANCIAL_AWARENESS_DAY:
+      case SkillPool.AUG_15TH_RELAXATION_DAY:
+      case SkillPool.AUG_16TH_ROLLER_COASTER_DAY:
+      case SkillPool.AUG_17TH_THRIFTSHOP_DAY:
+      case SkillPool.AUG_18TH_SERENDIPITY_DAY:
+      case SkillPool.AUG_19TH_HONEY_BEE_AWARENESS_DAY:
+      case SkillPool.AUG_20TH_MOSQUITO_DAY:
+      case SkillPool.AUG_21ST_SPUMONI_DAY:
+      case SkillPool.AUG_22ND_TOOTH_FAIRY_DAY:
+      case SkillPool.AUG_23RD_RIDE_THE_WIND_DAY:
+      case SkillPool.AUG_24TH_WAFFLE_DAY:
+      case SkillPool.AUG_25TH_BANANA_SPLIT_DAY:
+      case SkillPool.AUG_26TH_TOILET_PAPER_DAY:
+      case SkillPool.AUG_27TH_JUST_BECAUSE_DAY:
+      case SkillPool.AUG_28TH_RACE_YOUR_MOUSE_DAY:
+      case SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY:
+      case SkillPool.AUG_30TH_BEACH_DAY:
+      case SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY:
+        // if we've already cast it, we can't cast it again
+        if (!DailyLimitType.CAST.getDailyLimit(this.skillId).hasUsesRemaining()) {
+          return 0;
+        }
+        // we can cast up to 5 skills normally
+        if (Preferences.getInteger("_augSkillsCast") < 5) {
+          return 1;
+        }
+        // outside ronin / hardcore we can also cast today's skill
+        if (KoLCharacter.canInteract()) {
+          var date = DateTimeManager.getRolloverDateTime().getDayOfMonth();
+          var isTodaySkill = skillId == date - 1 + SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY;
+          if (isTodaySkill) {
+            return 1;
+          }
+        }
+        return 0;
     }
 
     var dailyLimit = DailyLimitType.CAST.getDailyLimit(this.skillId);
@@ -1964,6 +2017,47 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
       case SkillPool.CINCHO_FIESTA_EXIT:
         Preferences.setBoolean("noncombatForcerActive", true);
+        break;
+
+      case SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY:
+      case SkillPool.AUG_2ND_FIND_AN_ELEVENLEAF_CLOVER_DAY:
+      case SkillPool.AUG_3RD_WATERMELON_DAY:
+      case SkillPool.AUG_4TH_WATER_BALLOON_DAY:
+      case SkillPool.AUG_5TH_OYSTER_DAY:
+      case SkillPool.AUG_6TH_FRESH_BREATH_DAY:
+      case SkillPool.AUG_7TH_LIGHTHOUSE_DAY:
+      case SkillPool.AUG_8TH_CAT_DAY:
+      case SkillPool.AUG_9TH_HAND_HOLDING_DAY:
+      case SkillPool.AUG_10TH_WORLD_LION_DAY:
+      case SkillPool.AUG_11TH_PRESIDENTIAL_JOKE_DAY:
+      case SkillPool.AUG_12TH_ELEPHANT_DAY:
+      case SkillPool.AUG_13TH_LEFTOFF_HANDERS_DAY:
+      case SkillPool.AUG_14TH_FINANCIAL_AWARENESS_DAY:
+      case SkillPool.AUG_15TH_RELAXATION_DAY:
+      case SkillPool.AUG_16TH_ROLLER_COASTER_DAY:
+      case SkillPool.AUG_17TH_THRIFTSHOP_DAY:
+      case SkillPool.AUG_18TH_SERENDIPITY_DAY:
+      case SkillPool.AUG_19TH_HONEY_BEE_AWARENESS_DAY:
+      case SkillPool.AUG_20TH_MOSQUITO_DAY:
+      case SkillPool.AUG_21ST_SPUMONI_DAY:
+      case SkillPool.AUG_22ND_TOOTH_FAIRY_DAY:
+      case SkillPool.AUG_23RD_RIDE_THE_WIND_DAY:
+      case SkillPool.AUG_24TH_WAFFLE_DAY:
+      case SkillPool.AUG_25TH_BANANA_SPLIT_DAY:
+      case SkillPool.AUG_26TH_TOILET_PAPER_DAY:
+      case SkillPool.AUG_27TH_JUST_BECAUSE_DAY:
+      case SkillPool.AUG_28TH_RACE_YOUR_MOUSE_DAY:
+      case SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY:
+      case SkillPool.AUG_30TH_BEACH_DAY:
+      case SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY:
+        // is this our "today" skill?
+        var date = DateTimeManager.getRolloverDateTime().getDayOfMonth();
+        var isTodaySkill = skillId == date - 1 + SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY;
+        if (isTodaySkill) {
+          Preferences.setBoolean("_augTodayCast", true);
+        }
+        // casting the "today" skill ahead of time still increments casts
+        Preferences.increment("_augSkillsCast", 1, 5, false);
         break;
     }
 
