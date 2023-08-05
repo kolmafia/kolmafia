@@ -1918,8 +1918,8 @@ public abstract class InventoryManager {
     if (KoLCharacter.hasEquipped(UseSkillRequest.AUGUST_SCEPTER)
         || InventoryManager.hasItem(UseSkillRequest.AUGUST_SCEPTER, false)
         || (KoLCharacter.inLegacyOfLoathing()
-        && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_AUGUST_SCEPTER)
-        || InventoryManager.hasItem(UseSkillRequest.REPLICA_AUGUST_SCEPTER, false)))) {
+            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_AUGUST_SCEPTER)
+                || InventoryManager.hasItem(UseSkillRequest.REPLICA_AUGUST_SCEPTER, false)))) {
       addAugustScepterSkills();
     }
   }
