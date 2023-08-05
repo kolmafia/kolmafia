@@ -2,11 +2,15 @@ package net.sourceforge.kolmafia.preferences;
 
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
+import static internal.helpers.Utilities.verboseDelete;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.io.File;
@@ -27,28 +31,6 @@ import org.junit.jupiter.api.Test;
 class PreferencesTest {
   private final String USER_NAME = "PreferencesTestFakeUser";
 
-  // to test global prefs concurrency
-  // private final String DIFFERENT_USER_NAME = "ConcurrencyFakeUser";
-  private final String EMPTY_USER = "Empty";
-
-  private void verboseDelete(File deleteMe) {
-    String fileName = deleteMe.toString();
-    if (deleteMe.exists()) {
-      try {
-        boolean deleted = deleteMe.delete();
-        if (!deleted) {
-          System.out.println(
-              fileName
-                  + " not deleted but no exception thrown. Still exists? "
-                  + deleteMe.exists());
-          // deleteMe.deleteOnExit();
-        }
-      } catch (Exception e) {
-        System.out.println(fileName + " not deleted with exception " + e);
-      }
-    }
-  }
-
   // These need to be before and after each because leakage has been observed between tests
   // in this class.
   @BeforeEach
@@ -68,8 +50,6 @@ class PreferencesTest {
       verboseDelete(userFile);
       File backupFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.bak");
       verboseDelete(backupFile);
-      // File ConcurrentUserFile =
-      //    new File("settings/" + DIFFERENT_USER_NAME.toLowerCase() + "_prefs.txt");
       File MallPriceFile = new File("data/" + "mallprices.txt");
       verboseDelete(MallPriceFile);
     } catch (Exception ex) {
@@ -81,6 +61,8 @@ class PreferencesTest {
 
   @Test
   void TestBackupFileWrite() {
+    // to test global prefs concurrency
+    String EMPTY_USER = "Empty";
     KoLCharacter.reset(EMPTY_USER);
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
@@ -615,7 +597,7 @@ class PreferencesTest {
     }
   }
 
-  public class incrementThread extends Thread {
+  public static class incrementThread extends Thread {
     public incrementThread(String s) {
       super(s);
     }
@@ -624,11 +606,11 @@ class PreferencesTest {
       try { // force a random delay so that the tests can run different orders
         long delay = (long) (Math.random() * 100);
         TimeUnit.MILLISECONDS.sleep(delay);
-        Integer priorValue = Preferences.getInteger("counter");
+        int priorValue = Preferences.getInteger("counter");
         boolean checkIncrementedValue = false;
 
         Preferences.increment("counter", 1);
-        Integer postValue = Preferences.getInteger("counter");
+        int postValue = Preferences.getInteger("counter");
 
         if (postValue != (priorValue + 1)) {
           // The end result is correct, so I want to note this, but I'm not sure why the read is
@@ -652,7 +634,7 @@ class PreferencesTest {
     String unrelatedPref = "coalmine";
     String unrelatedValue = "canary";
     String incrementedPref = "counter";
-    Integer threadCount = 100;
+    int threadCount = 100;
 
     var cleanups =
         new Cleanups(
@@ -687,10 +669,6 @@ class PreferencesTest {
           .forEach(
               j -> {
                 try {
-                  // System.out.println(
-                  //   "Waiting for thread " + incrementThreads[j].getName() + " to complete.");
-
-                  // timeinThreads[j].join();
                   incrementThreads[j].join(4000);
                 } catch (InterruptedException e) {
                   e.printStackTrace();
@@ -786,7 +764,7 @@ class PreferencesTest {
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
       if (globalfile.exists()) {
-        globalfile.delete();
+        verboseDelete(globalfile);
       }
       assertFalse(globalfile.exists());
       // Reset should save global.
@@ -804,7 +782,7 @@ class PreferencesTest {
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
       if (globalfile.exists()) {
-        globalfile.delete();
+        verboseDelete(globalfile);
       }
       assertFalse(globalfile.exists());
       // Reset should save global.
@@ -822,7 +800,7 @@ class PreferencesTest {
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
       if (globalfile.exists()) {
-        globalfile.delete();
+        verboseDelete(globalfile);
       }
       assertFalse(globalfile.exists());
       // Reset should save global.
