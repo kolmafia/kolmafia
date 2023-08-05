@@ -1,12 +1,17 @@
 package net.sourceforge.kolmafia.persistence;
 
-import static com.spotify.hamcrest.optional.OptionalMatchers.*;
+import static com.spotify.hamcrest.optional.OptionalMatchers.optionalWithValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.arrayWithSize;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.matchesPattern;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.startsWith;
 
+import internal.helpers.Utilities;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -20,13 +25,7 @@ public class MallPriceDatabaseTest {
   public static void beforeEach() {
     MallPriceDatabase.savePricesToFile = false;
     String MallPriceFileName = "data/" + "mallprices.txt";
-    File MallPriceFile = new File(MallPriceFileName);
-    if (MallPriceFile.exists()) {
-      boolean filedDeleted = MallPriceFile.delete();
-      if (!filedDeleted) {
-        System.out.println(MallPriceFile + " not deleted");
-      }
-    }
+    Utilities.verboseDelete(MallPriceFileName);
     MallPriceDatabase.updatePrices(MallPriceFileName);
   }
 
