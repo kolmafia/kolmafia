@@ -689,8 +689,13 @@ public class LatteRequest extends GenericRequest {
       Preferences.setBoolean("_latteBanishUsed", false);
       Preferences.setBoolean("_latteCopyUsed", false);
       Preferences.setBoolean("_latteDrinkUsed", false);
-      Preferences.setString(
-          "latteIngredients", firstIngredient + "," + secondIngredient + "," + thirdIngredient);
+
+      String ingredients = "";
+
+      if (firstIngredient != null && secondIngredient != null && thirdIngredient != null)
+        ingredients = firstIngredient + "," + secondIngredient + "," + thirdIngredient;
+
+      Preferences.setString("latteIngredients", ingredients);
     }
   }
 
@@ -837,7 +842,13 @@ public class LatteRequest extends GenericRequest {
         continue;
       }
     }
-    Preferences.setString("latteIngredients", first + "," + second + "," + third);
+
+    String ingredients = "";
+
+    if (first != null && second != null && third != null)
+      ingredients = first + "," + second + "," + third;
+
+    Preferences.setString("latteIngredients", ingredients);
   }
 
   public static final void parseDescription(final String responseText) {
