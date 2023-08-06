@@ -231,11 +231,7 @@ eXtreme cross-country hippy	1154	skihippy.gif	Atk: 73 Def: 65 HP: 65 Init: 60 P:
 eXtreme Orcish snowboarder	1155	fratboard.gif	Atk: 74 Def: 66 HP: 65 Init: 60 Meat: 40 P: orc E: sleaze Article: an	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p5)	eXtreme Bi-Polar Fleece Vest (c5)
 extremely annoyed witch	1581	witchy2.gif	NOCOPY Atk: 36 Def: 32 HP: 32 Init: 25 Meat: 40 P: dude EA: hot EA: stench Article: an	wand of pigification (c100)
 eye in the darkness	1373	darkeye.gif	Atk: 600 Def: 650 HP: 700 Init: 200 P: horror E: spooky Article: an	black tear (n50)
-<<<<<<< HEAD
 factory-irregular skeleton	1744	badskel1.gif,badskel2.gif,badskel3.gif,badskel4.gif,badskel5.gif,badskel6.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: undead ED: spooky Article: a	really thick spine (50)	oversized skullcap (30)	three-legged pants (30)	skeleton bone (25)	loose teeth (25)	alien autoautopsy kit (c10)
-=======
-factory-irregular skeleton	1744	badskel1.gif,badskel2.gif,badskel3.gif,badskel4.gif,badskel5.gif,badskel6.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: undead ED: spooky Article: a	really thick spine (50)	oversized skullcap (30)	three-legged pants (30)	skeleton bone (25)	loose teeth (25)	alien autoautopsy kit (c0)
->>>>>>> 102f8da6618fbe9b464d314cf4c42a0f4529e1e2
 Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 Meat: 45 P: demon E: hot Article: a	demon skin (15)	evil golden arch (3)	infernal insoles (5)	pink slime (30)	heavy-duty bendy straw (c0)
 Family Jewels	180	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 Group: 2 P: constellation E: sleaze Article: The	star (30)	star (30)	star (30)
 fan dancer	1532	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 Meat: 100 P: dude Article: a	blowdart (20)	red silk skirt (5)	combat fan (5)	dancing fan (c0)
@@ -1628,11 +1624,7 @@ Whisk of Misery	1293	pa_whisk.gif	Atk: 9 Def: 11 HP: 12 Init: 50 P: weird Articl
 Spatula of Despair	1295	pa_spatula.gif	Atk: 8 Def: 12 HP: 12 Init: 50 P: weird Article: a	Artist's Spatula of Despair (25)
 Butterknife of Regret	1294	pa_knife.gif	Atk: 11 Def: 9 HP: 12 Init: 50 P: weird EA: hot Article: a	Artist's Butterknife of Regret (25)
 Cookie Cutter of Loneliness	1296	pa_cutter.gif	Atk: 10 Def: 10 HP: 12 Init: 50 P: weird Article: a	Artist's Cookie Cutter of Loneliness (25)
-<<<<<<< HEAD
 Creme Brulee Torch of Fury	1297	pa_torch.gif	Atk: 12 Def: 8 HP: 12 Init: 50 P: weird ED: hot EA: hot EA: sleaze Article: a	Artist's Cr&egrave;me Brul&eacute;e Torch of Fury (25)
-=======
-Creme Brulee Torch of Fury	1297	pa_torch.gif	Atk: 12 Def: 8 HP: 12 Init: 50 P: weird ED: hot EA: hot EA: sleaze Article: a	Artist's Cr&egrave;me Brul&eacute;e Torch of Fury (0)
->>>>>>> 102f8da6618fbe9b464d314cf4c42a0f4529e1e2
 bag of Potatoes of Security	1300	pa_potatoes.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 P: weird EA: hot Article: a
 box of Batter Mix of Hope	1302	pa_muffin.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 P: weird Article: a
 carton of Eggs of Confidence	1298	pa_eggs.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 P: weird EA: sleaze Article: a
@@ -1657,15 +1649,9 @@ giant man-eating shark	1321	bath_whale.gif	NOCOPY Atk: 130 Def: 120 HP: 140 Init
 Bristled Man-O-War	1325	bath_bubble.gif	NOCOPY Atk: 135 Def: 135 HP: 160 Init: 500 P: fish Article: a	old chum (15)
 Deadly Hydra	1326	bath_showerhead.gif	NOCOPY Atk: 140 Def: 140 HP: 180 Init: 750 P: beast Article: the	Hundred Headed IPA (25)
 The Cray-Kin	1324	bath_craykin.gif	NOCOPY Atk: 135 Def: 135 HP: 160 Init: 500 P: fish	old chum (15)
-<<<<<<< HEAD
 grinning pork bun	1305	porkbun.gif	Atk: 65 Def: 65 HP: 75 Init: 50 Meat: 30 P: construct Article: a	dead meat bun (30)
 roasted duck golem	1303	duckgolem.gif	Atk: 68 Def: 62 HP: 75 Init: 50 Meat: 30 P: construct Article: a	roasted duck (30)
 lucky cat statue	1304	catstatue.gif	Atk: 62 Def: 68 HP: 75 Init: 50 P: construct Article: a	lucky cat collar (10)	lucky cat's paw (c0)
-=======
-grinning pork bun	1305	porkbun.gif	Atk: 65 Def: 65 HP: 75 Init: 50 Meat: 30 P: construct Article: a	dead meat bun (0)
-roasted duck golem	1303	duckgolem.gif	Atk: 68 Def: 62 HP: 75 Init: 50 Meat: 30 P: construct Article: a	roasted duck (0)
-lucky cat statue	1304	catstatue.gif	Atk: 62 Def: 68 HP: 75 Init: 50 P: construct Article: a	lucky cat collar (0)	lucky cat's paw (c0)
->>>>>>> 102f8da6618fbe9b464d314cf4c42a0f4529e1e2
 yakuza courier	1310	yakcourier.gif	NOCOPY Atk: 70 Def: 70 HP: 85 Init: 65 P: humanoid Article: a	butterfly knife (0)	tube of herbal ointment (0)	zaibatsu lobby card (100)
 triad code wizard	1306	triadwizard.gif	Atk: 73 Def: 67 HP: 85 Init: 50 Meat: 20 P: dude Article: a	triad summoning scroll (30)	ASCII fu manchu (c25)
 clean-room daemon	1307	cleanroomdemon.gif	Atk: 70 Def: 70 HP: 85 Init: 50 P: demon Article: a	rubber gloves (15)	demonic surgical gloves (c0)
