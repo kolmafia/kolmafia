@@ -11336,7 +11336,7 @@
 11308	watermelon seed	967601198	watermelonseed.gif	none, combat	t,d	5
 11309	water balloon	825278204	waterballoon.gif	none, combat	t,d	7
 11310	thriftshop coupon	636172314	thriftcoupon.gif	none	t,d	50
-11311	waffle	693089204	waffle.gif	food	t,d	11	waffles
+11311	waffle	693089204	waffle.gif	food, combat	t,d	11	waffles
 11312	fixodent	950484165	fixodent.gif	usable	t,d	11
 11313	cat o' nine teeth	512973092	nineteeth.gif	weapon	t,d	100
 11314	tooth cap	507514456	toothcap.gif	hat	t,d	100
