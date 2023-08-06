@@ -585,7 +585,7 @@ class PreferencesTest {
     }
 
     public void run() {
-        LoginManager.timein(USER_NAME);
+      LoginManager.timein(USER_NAME);
     }
   }
 
@@ -599,7 +599,7 @@ class PreferencesTest {
       boolean checkIncrementedValue = false;
 
       Preferences.increment("counter", 1);
-        int postValue = Preferences.getInteger("counter");
+      int postValue = Preferences.getInteger("counter");
 
       if (postValue != (priorValue + 1)) {
         // The end result is correct, so I want to note this, but I'm not sure why the read is
