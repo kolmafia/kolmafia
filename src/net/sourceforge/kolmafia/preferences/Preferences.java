@@ -1059,17 +1059,19 @@ public class Preferences {
   }
 
   public static int decrement(final String name, final int delta, final int min) {
-    int current = Preferences.getInteger(name);
-    if (delta != 0) {
-      current -= delta;
+    synchronized (lock) {
+      int current = Preferences.getInteger(name);
+      if (delta != 0) {
+        current -= delta;
 
-      if (current < min) {
-        current = min;
+        if (current < min) {
+          current = min;
+        }
+
+        Preferences.setInteger(name, current);
       }
-
-      Preferences.setInteger(name, current);
+      return current;
     }
-    return current;
   }
 
   // Per-user global properties are stored in the global settings with

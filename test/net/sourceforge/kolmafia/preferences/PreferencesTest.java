@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -586,13 +585,7 @@ class PreferencesTest {
     }
 
     public void run() {
-      try {
-        long delay = (long) (Math.random() * 100);
-        TimeUnit.MILLISECONDS.sleep(delay);
         LoginManager.timein(USER_NAME);
-      } catch (InterruptedException iE) {
-        iE.printStackTrace();
-      }
     }
   }
 
@@ -602,28 +595,22 @@ class PreferencesTest {
     }
 
     public void run() {
-      try { // force a random delay so that the tests can run different orders
-        long delay = (long) (Math.random() * 100);
-        TimeUnit.MILLISECONDS.sleep(delay);
-        int priorValue = Preferences.getInteger("counter");
-        boolean checkIncrementedValue = false;
+      int priorValue = Preferences.getInteger("counter");
+      boolean checkIncrementedValue = false;
 
-        Preferences.increment("counter", 1);
+      Preferences.increment("counter", 1);
         int postValue = Preferences.getInteger("counter");
 
-        if (postValue != (priorValue + 1)) {
-          // The end result is correct, so I want to note this, but I'm not sure why the read is
-          // wrong.
-          if (checkIncrementedValue) {
-            System.out.println(
-                "Failure: Prior Value: " + priorValue + " Incremented Value: " + postValue);
-            if (postValue == 0) {
-              System.out.println("Failure: value is now 0");
-            }
+      if (postValue != (priorValue + 1)) {
+        // The end result is correct, so I want to note this, but I'm not sure why the read is
+        // wrong.
+        if (checkIncrementedValue) {
+          System.out.println(
+              "Failure: Prior Value: " + priorValue + " Incremented Value: " + postValue);
+          if (postValue == 0) {
+            System.out.println("Failure: value is now 0");
           }
         }
-      } catch (InterruptedException iE) {
-        iE.printStackTrace();
       }
     }
   }
@@ -661,9 +648,6 @@ class PreferencesTest {
       if (timein.isAlive()) {
         System.out.println("Undead thread: " + timein.getName());
       }
-      // assertFalse(
-      //     timeinThreads[j].isAlive(), "Undead thread: " + timeinThreads[j].getName());
-
       IntStream.range(0, threadCount)
           .forEach(
               j -> {
@@ -713,8 +697,6 @@ class PreferencesTest {
                   System.out.println("Undead thread: " + incrementThreads[j].getName());
                 }
               });
-
-      // this test is failing  I need to rethink how this test should work.
       assertEquals(
           threadCount, Preferences.getInteger(incrementedPref), "incremented pref does not match");
       System.out.println("Final value: " + Preferences.getInteger(incrementedPref));
