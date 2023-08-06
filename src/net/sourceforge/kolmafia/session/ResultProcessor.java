@@ -462,7 +462,7 @@ public class ResultProcessor {
         // The following are Anapest results
         results.contains("just got heavier")
         || results.contains("put on some weight")) {
-      KoLCharacter.incrementFamilarWeight();
+      KoLCharacter.incrementFamiliarWeight();
 
       FamiliarData familiar = KoLCharacter.getFamiliar();
       String fam1 =
