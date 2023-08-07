@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -22,6 +23,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -30,6 +32,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -155,6 +158,7 @@ public class MallPriceManagerTest {
   @BeforeEach
   public void beforeEach() {
     // Stop requests from actually running
+    Preferences.reset("mall price manager user");
     GenericRequest.sessionId = null;
     KoLCharacter.setAvailableMeat(1_000_000);
     MallPriceManager.reset();
@@ -571,6 +575,50 @@ public class MallPriceManagerTest {
 
       // The MallSearchRequest found a bunch of PurchaseRequests from the responseText
       assertEquals(results.size(), 60);
+    }
+  }
+
+  @Nested
+  class ForbiddenStores {
+    @Test
+    public void canSkipForbiddenStores() {
+      // Test with Hell ramen.
+      AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
+
+      // Make a mocked MallSearchResponse with the responseText preloaded
+      MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
+      request.responseText = html("request/test_mall_search_hell_ramen.html");
+
+      // Count the shops with Hell Ramen in our saved search
+      var shopIds = request.extractShopIds(ItemPool.HELL_RAMEN);
+      int count = shopIds.size();
+      assertEquals(count, 60);
+
+      // Forbid every other store
+      StringBuilder buf = new StringBuilder();
+      boolean forbid = true;
+      for (var shopId : shopIds) {
+        if (forbid) {
+          if (buf.length() > 0) {
+            buf.append(",");
+          }
+          buf.append(String.valueOf(shopId));
+          count--;
+        }
+        forbid = !forbid;
+      }
+
+      // Start with half the stores forbidden
+      var cleanups =
+          new Cleanups(
+              mockMallSearchRequest(request), withProperty("forbiddenStores", buf.toString()));
+
+      try (cleanups) {
+        long timestamp = 1_000_000;
+        Mockito.when(clock.millis()).thenReturn(timestamp);
+        List<PurchaseRequest> results = MallPriceManager.searchMall(item);
+        assertEquals(results.size(), count);
+      }
     }
   }
 

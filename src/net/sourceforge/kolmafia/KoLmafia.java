@@ -1738,7 +1738,7 @@ public abstract class KoLmafia {
     PurchaseRequest firstRequest = purchases[firstIndex];
 
     List<AdventureResult> destination =
-        (KoLCharacter.canInteract() || !firstRequest.isMallStore)
+        (KoLCharacter.canInteract() || !firstRequest.isMallStore())
             ? KoLConstants.inventory
             : StorageRequest.isFreePull(firstRequest.getItem())
                 ? KoLConstants.freepulls

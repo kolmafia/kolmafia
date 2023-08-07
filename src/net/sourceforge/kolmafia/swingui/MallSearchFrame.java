@@ -9,6 +9,7 @@ import java.awt.event.FocusListener;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -21,6 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -29,7 +31,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
@@ -299,15 +304,54 @@ public class MallSearchFrame extends GenericPanelFrame {
               "Search Results", SwingConstants.CENTER, Color.black, Color.white),
           BorderLayout.NORTH);
 
-      MallSearchFrame.this.resultsList = new ShowDescriptionList<>(MallSearchFrame.results);
-      MallSearchFrame.this.resultsList.setSelectionMode(
-          ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-      ((ShowDescriptionList) MallSearchFrame.this.resultsList)
-          .setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-      MallSearchFrame.this.resultsList.setVisibleRowCount(11);
+      var resultsList = new ShowDescriptionList<>(MallSearchFrame.results, new MallShopFilter());
+      MallSearchFrame.this.resultsList = resultsList;
+      resultsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+      ((ShowDescriptionList) resultsList).setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+      resultsList.setVisibleRowCount(11);
+      resultsList.addListSelectionListener(new PurchaseSelectListener());
 
-      MallSearchFrame.this.resultsList.addListSelectionListener(new PurchaseSelectListener());
-      this.add(new GenericScrollPane(MallSearchFrame.this.resultsList), BorderLayout.CENTER);
+      this.add(new GenericScrollPane(resultsList), BorderLayout.CENTER);
+    }
+
+    private static class MallShopFilter implements ListElementFilter, Listener {
+      private boolean showForbidden = Preferences.getBoolean("showForbiddenStores");
+      private boolean showIgnoring = Preferences.getBoolean("showIgnoringStorePrices");
+      private Set<Integer> forbiddenStores = MallPurchaseRequest.getForbiddenStores();
+
+      public MallShopFilter() {
+        PreferenceListenerRegistry.registerPreferenceListener("showForbiddenStores", this);
+        PreferenceListenerRegistry.registerPreferenceListener("showIgnoringStorePrices", this);
+        PreferenceListenerRegistry.registerPreferenceListener("forbiddenStores", this);
+      }
+
+      // Listener
+      public void update() {
+        this.showForbidden = Preferences.getBoolean("showForbiddenStores");
+        this.showIgnoring = Preferences.getBoolean("showIgnoringStorePrices");
+        this.forbiddenStores = MallPurchaseRequest.getForbiddenStores();
+        MallSearchFrame.results.updateFilter(true);
+      }
+
+      // ListElementFilter
+      public boolean isVisible(final Object element) {
+        if (element instanceof MallPurchaseRequest mpr) {
+          int shopId = mpr.getShopId();
+          boolean forbidden = mpr.isForbidden(shopId, forbiddenStores);
+          boolean ignoring = mpr.isIgnoring(shopId);
+          if (!forbidden && !ignoring) {
+            return true;
+          }
+          if (forbidden && !showForbidden) {
+            return false;
+          }
+          if (ignoring && !showIgnoring) {
+            return false;
+          }
+        }
+
+        return true;
+      }
     }
 
     /**

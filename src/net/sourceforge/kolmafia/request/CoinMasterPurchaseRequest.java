@@ -21,7 +21,6 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     super(""); // We do not run this request itself
 
     this.shopName = data.getMaster();
-    this.isMallStore = false;
     this.item = item.getInstance(1);
     this.price = price.getCount();
     this.quantity = item.getCount();
@@ -34,6 +33,11 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     this.data = data;
     this.cost = price;
     this.request = data.getRequest(true, new AdventureResult[] {this.item});
+  }
+
+  @Override
+  public boolean isMallStore() {
+    return false;
   }
 
   public CoinmasterData getData() {
