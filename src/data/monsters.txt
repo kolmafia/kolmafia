@@ -280,7 +280,7 @@ ghuol	30	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 Init: 60 Meat: 34 P: undead ED: sp
 giant giant giant centipede	462	centipede.gif	Atk: 142 Def: 124 HP: 142 Init: 50 Meat: 150 P: bug Article: a	centipede eggs (20)	handful of sand (25)	handful of sand (15)
 giant mob of baby spiders	1584	manyspiders.gif	Atk: 36 Def: 31 HP: 37 Init: 50 Meat: 20 P: bug EA: spooky Article: a
 giant rubber spider	1622	rubberspider.gif	NOCOPY FREE Scale: 3 Cap: 1000 Init: -10000 P: bug EA: stench Article: a	rubber nubbin (100)
-giant sandworm	458	sandworm.gif	NOCOPY Atk: 175 Def: 166 HP: 200 Init: 60 Meat: 250 P: bug Article: a	spices (10)	spices (10)	spices (10)	spice melange (n0)
+giant sandworm	458	sandworm.gif	NOCOPY Atk: 175 Def: 166 HP: 200 Init: 60 Meat: 250 P: bug Article: a	spices (10)	spices (10)	spices (10)	spice melange (c0.1)
 giant skeelton	187	giantskel.gif	BOSS NOCOPY Atk: 71 Def: 65 HP: 120 Exp: [53+ML/3] Init: 60 P: undead E: spooky Article: a	skeleton bone (0)	skeleton bone (0)	skeleton bone (0)
 giant squid	763	giantsquid.gif	Atk: 500 Def: 405 HP: 800 Init: 75 Meat: 300 P: fish Article: a	ink bladder (n30)	inky squid sauce (50)
 giant swarm of ghuol whelps	1074	whelps3.gif	Atk: 50 Def: 45 HP: 250 Init: 300 Group: 45 P: undead ED: spooky Article: a
@@ -808,7 +808,7 @@ zombie waltzers	401	zomwaltz.gif	Atk: 65 Def: 55 HP: 70 Init: 50 Meat: 50 Group:
 
 # Copperhead Quest
 
-Batsnake	1517	snakeboss5.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: stench Article: the	The Stankara Stone (0)
+Batsnake	1517	snakeboss5.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: stench Article: the	The Stankara Stone (n100)
 Frozen Solid Snake	1514	snakeboss1.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: cold Article: the	The First Pizza (n100)
 Burning Snake of Fire	1518	snakeboss4.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: hot Article: the	Murphy's Rancid Black Flag (n100)
 The Snake With Like Ten Heads	1516	snakeboss3.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: sleaze	The Eye of the Stars (n100)
@@ -1508,7 +1508,7 @@ BRICKO elephant	922	brickoelephant.gif	NOCOPY FREE Atk: 130 Def: 117 HP: 200 Ini
 BRICKO gargantuchicken	928	brickogchicken.gif	NOCOPY FREE Atk: 1000 Def: 900 HP: 1000000 Init: 300 P: construct Phys: 50 Elem: 50 EA: sleaze Article: a	BRICKO egg (100)
 BRICKO octopus	923	brickoctopus.gif	NOCOPY FREE Atk: 140 Def: 126 HP: 250 Init: 90 P: construct Article: a	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	black BRICKO brick (0)
 BRICKO ooze	918	brickoblob.gif	FREE Atk: 40 Def: 36 HP: 50 Init: 20 P: construct Article: a	BRICKO brick (30)	BRICKO stud (c0)
-BRICKO oyster	920	brickooyster.gif	NOCOPY FREE Atk: 100 Def: 90 HP: 120 Init: 50 P: construct Article: a	BRICKO pearl (0)
+BRICKO oyster	920	brickooyster.gif	NOCOPY FREE Atk: 100 Def: 90 HP: 120 Init: 50 P: construct Article: a	BRICKO pearl (30)
 BRICKO python	924	brickopython.gif	NOCOPY FREE Atk: 160 Def: 144 HP: 300 Init: 100 P: construct Article: a	green BRICKO brick (25)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)
 BRICKO turtle	921	brickoturtle.gif	NOCOPY FREE Atk: 120 Def: 108 HP: 150 Init: 70 P: construct Article: a	BRICKO bulwark (50)
 BRICKO vacuum cleaner	925	brickovacuum.gif	NOCOPY FREE Atk: 400 Def: 360 HP: 2500 Init: 150 P: construct Phys: 10 Elem: 10 EA: hot Article: a	broken BRICKO brick (0)
@@ -2000,9 +2000,9 @@ gingerbread rat	1976	gbrat.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 50 Spr
 gingerbread convict	1977	gbconvict.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: dude Article: a	sour ball and chain (0)
 gingerbread mad dog	1978	gbdog.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: beast Article: a	candy dog collar (0)
 gingerbread lawyer	1979	gblawyer.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: -10000 SprinkleMin: 18 SprinkleMax: 20 P: dude Article: a	candy dress shoes (0)	gingerbread restraining order (0)
-gingerbread vagrant	1980	gbvagrant.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 3 SprinkleMax: 5 P: dude Article: a	sprinkle-begging cup (0)
-animal cracker	1981	gbcracker.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 8 SprinkleMax: 10 P: beast Article: an	animal part cracker (0)
-gingerbread wino	1982	gbwino.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: dude EA: stench Article: a	gingerbread wine (0)
+gingerbread vagrant	1980	gbvagrant.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 3 SprinkleMax: 5 P: dude Article: a	sprinkle-begging cup (10)
+animal cracker	1981	gbcracker.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 8 SprinkleMax: 10 P: beast Article: an	animal part cracker (10)
+gingerbread wino	1982	gbwino.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: dude EA: stench Article: a	gingerbread wine (10)
 gingerbread mugger	1983	gbmugger.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 16 SprinkleMax: 22 P: dude Article: a	gingerbread mug (0)	gingerbread mask (0)
 gingerbread welder robot	1984	gbwelder.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 200 SprinkleMin: 8 SprinkleMax: 11 P: construct Article: a	gingerservo (0)
 gingerbread mutant	1985	gbmutant.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 8 SprinkleMax: 11 P: dude Article: a	tainted icing (15)
@@ -2015,8 +2015,8 @@ Judge Fudge	1991	gbjudge.gif	BOSS NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100
 GNG-3-R	1992	gng3r.gif	BOSS NOCOPY Scale: ? Cap: ? Floor: ? Init: 300 P: construct	industrial frosting (n100)
 
 # Tunnel of L.O.V.E. (February 2017)
-LOV Enforcer	2009	lovenforcer.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 75 Elem: 25 Article: a	LOV Elixir #3 (c0)
-LOV Engineer	2010	lovengineer.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 25 Elem: 75 Article: a	LOV Elixir #6 (c0)
+LOV Enforcer	2009	lovenforcer.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 75 Elem: 25 Article: a	LOV Elixir #3 (c100)
+LOV Engineer	2010	lovengineer.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 25 Elem: 75 Article: a	LOV Elixir #6 (c100)
 LOV Equivocator	2011	lovequivocator.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: 500 P: dude Phys: 50 Elem: 50 Article: a	LOV Elixir #9 (p0)
 
 # Spacegate (April 2017)
