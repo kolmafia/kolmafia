@@ -23,7 +23,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.LoginManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -595,23 +594,8 @@ class PreferencesTest {
     }
 
     public void run() {
-      int priorValue = Preferences.getInteger("counter");
-      boolean checkIncrementedValue = false;
 
       Preferences.increment("counter", 1);
-      int postValue = Preferences.getInteger("counter");
-
-      if (postValue != (priorValue + 1)) {
-        // The end result is correct, so I want to note this, but I'm not sure why the read is
-        // wrong.
-        if (checkIncrementedValue) {
-          System.out.println(
-              "Failure: Prior Value: " + priorValue + " Incremented Value: " + postValue);
-          if (postValue == 0) {
-            System.out.println("Failure: value is now 0");
-          }
-        }
-      }
     }
   }
 
@@ -669,10 +653,10 @@ class PreferencesTest {
     }
   }
 
-  @Disabled
+  // @Disabled
   @Test
   public void incrementSimultaneouslyDoesNotCauseRaceCondition() {
-    String incrementedPref = "counterTwo";
+    String incrementedPref = "counter";
     Integer threadCount = 100;
 
     var cleanups = new Cleanups(withSavePreferencesToFile(), withProperty(incrementedPref, 0));
@@ -699,7 +683,6 @@ class PreferencesTest {
               });
       assertEquals(
           threadCount, Preferences.getInteger(incrementedPref), "incremented pref does not match");
-      System.out.println("Final value: " + Preferences.getInteger(incrementedPref));
     }
   }
 

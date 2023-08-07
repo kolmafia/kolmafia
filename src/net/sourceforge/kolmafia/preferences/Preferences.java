@@ -1177,8 +1177,10 @@ public class Preferences {
 
   private static Object getObject(
       final Map<String, Object> map, final String user, final String name) {
-    String key = Preferences.propertyName(user, name);
-    return map.get(key);
+    synchronized (lock) {
+      String key = Preferences.propertyName(user, name);
+      return map.get(key);
+    }
   }
 
   // Used only in ASH get_all_properties.
