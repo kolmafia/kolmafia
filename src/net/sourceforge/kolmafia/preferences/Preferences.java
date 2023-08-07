@@ -40,7 +40,7 @@ public class Preferences {
   // If false, blocks saving of all preferences. Do not modify outside of tests.
   public static boolean saveSettingsToFile = true;
 
-  private static final Object lock = new Object(); // used to synch io
+  public static final Object lock = new Object(); // used to synch io
 
   private static final String[] characterMap = new String[65536];
 
@@ -611,32 +611,34 @@ public class Preferences {
   }
 
   /** Resets all settings so that the given user is represented whenever settings are modified. */
-  public static synchronized void reset(String username) {
-    // We might not have been tracking encoded values here before this save. Fix that.
-    Preferences.reinitializeEncodedValues();
-    Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
-    // Prevent anybody from manipulating the user map until we are
-    // done bulk-loading it.
-    synchronized (Preferences.userValues) {
-      if (username == null || username.equals("")) {
-        if (Preferences.userPropertiesFile != null) {
-          Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
-          Preferences.userPropertiesFile = null;
-          Preferences.userValues.clear();
-          Preferences.userEncodedValues.clear();
+  public static void reset(String username) {
+    synchronized (lock) {
+      // We might not have been tracking encoded values here before this save. Fix that.
+      Preferences.reinitializeEncodedValues();
+      Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
+      // Prevent anybody from manipulating the user map until we are
+      // done bulk-loading it.
+      synchronized (Preferences.userValues) {
+        if (username == null || username.equals("")) {
+          if (Preferences.userPropertiesFile != null) {
+            Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
+            Preferences.userPropertiesFile = null;
+            Preferences.userValues.clear();
+            Preferences.userEncodedValues.clear();
+          }
+
+          return;
         }
 
-        return;
+        Preferences.loadUserPreferences(username);
       }
 
-      Preferences.loadUserPreferences(username);
+      AdventureFrame.updateFromPreferences();
+      CharPaneDecorator.updateFromPreferences();
+      CombatActionManager.updateFromPreferences();
+      MoodManager.updateFromPreferences();
+      PreferenceListenerRegistry.fireAllPreferencesChanged();
     }
-
-    AdventureFrame.updateFromPreferences();
-    CharPaneDecorator.updateFromPreferences();
-    CombatActionManager.updateFromPreferences();
-    MoodManager.updateFromPreferences();
-    PreferenceListenerRegistry.fireAllPreferencesChanged();
   }
 
   public static String baseUserName(final String name) {
@@ -778,22 +780,24 @@ public class Preferences {
   }
 
   private static Properties loadPreferences(File file) {
-    InputStream istream = DataUtilities.getInputStream(file);
+    synchronized (lock) {
+      InputStream istream = DataUtilities.getInputStream(file);
 
-    Properties p = new Properties();
-    try {
-      p.load(istream);
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to load preferences from file.");
+      Properties p = new Properties();
+      try {
+        p.load(istream);
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to load preferences from file.");
+      }
+
+      try {
+        istream.close();
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to close preferences file.");
+      }
+
+      return p;
     }
-
-    try {
-      istream.close();
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to close preferences file.");
-    }
-
-    return p;
   }
 
   private static String encodeProperty(String name, String value) {
@@ -1027,21 +1031,23 @@ public class Preferences {
 
   public static int increment(
       final String name, final int delta, final int max, final boolean mod) {
-    int current = Preferences.getInteger(name);
-    if (delta != 0) {
-      current += delta;
+    synchronized (lock) {
+      int current = Preferences.getInteger(name);
+      if (delta != 0) {
+        current += delta;
 
-      if (max > 0 && current >= max) {
-        if (mod) {
-          current %= max;
-        } else {
-          current = max;
+        if (max > 0 && current >= max) {
+          if (mod) {
+            current %= max;
+          } else {
+            current = max;
+          }
         }
-      }
 
-      Preferences.setInteger(name, current);
+        Preferences.setInteger(name, current);
+      }
+      return current;
     }
-    return current;
   }
 
   public static int decrement(final String name) {
@@ -1053,17 +1059,19 @@ public class Preferences {
   }
 
   public static int decrement(final String name, final int delta, final int min) {
-    int current = Preferences.getInteger(name);
-    if (delta != 0) {
-      current -= delta;
+    synchronized (lock) {
+      int current = Preferences.getInteger(name);
+      if (delta != 0) {
+        current -= delta;
 
-      if (current < min) {
-        current = min;
+        if (current < min) {
+          current = min;
+        }
+
+        Preferences.setInteger(name, current);
       }
-
-      Preferences.setInteger(name, current);
+      return current;
     }
-    return current;
   }
 
   // Per-user global properties are stored in the global settings with
@@ -1169,8 +1177,10 @@ public class Preferences {
 
   private static Object getObject(
       final Map<String, Object> map, final String user, final String name) {
-    String key = Preferences.propertyName(user, name);
-    return map.get(key);
+    synchronized (lock) {
+      String key = Preferences.propertyName(user, name);
+      return map.get(key);
+    }
   }
 
   // Used only in ASH get_all_properties.
