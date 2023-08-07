@@ -2,19 +2,25 @@ package net.sourceforge.kolmafia.preferences;
 
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
+import static internal.helpers.Utilities.verboseDelete;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
+import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.session.LoginManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -22,7 +28,6 @@ import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
   private final String USER_NAME = "PreferencesTestFakeUser";
-  private final String EMPTY_USER = "Empty";
 
   // These need to be before and after each because leakage has been observed between tests
   // in this class.
@@ -34,27 +39,41 @@ class PreferencesTest {
 
   @AfterEach
   public void resetCharAndPrefs() {
-    KoLCharacter.reset("");
-    KoLCharacter.reset(true);
-    KoLCharacter.setUserId(0);
-    File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
-    if (userFile.exists()) {
-      userFile.delete();
+    try {
+      KoLCharacter.reset("");
+      KoLCharacter.reset(true);
+      KoLCharacter.setUserId(0);
+      File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
+      verboseDelete(userFile);
+      File backupFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.bak");
+      verboseDelete(backupFile);
+      File MallPriceFile = new File("data/" + "mallprices.txt");
+      verboseDelete(MallPriceFile);
+    } catch (Exception ex) {
+      System.out.println("Reset caused an error: " + ex.getMessage());
+      ex.printStackTrace();
+      // we should probably throw this error, but wtf, let's see some stack traces.
     }
   }
 
   @Test
   void TestBackupFileWrite() {
+    // to test global prefs concurrency
+    String EMPTY_USER = "Empty";
     KoLCharacter.reset(EMPTY_USER);
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
     File userFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.txt");
     File backupUserFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.bak");
     if (userFile.exists()) {
-      userFile.delete();
+      if (!userFile.delete()) {
+        System.out.println("Failed to delete " + userFile);
+      }
     }
     if (backupUserFile.exists()) {
-      backupUserFile.delete();
+      if (!backupUserFile.delete()) {
+        System.out.println("Failed to delete " + backupUserFile);
+      }
     }
     Preferences.reset(EMPTY_USER);
     var cleanups =
@@ -75,7 +94,7 @@ class PreferencesTest {
     String propName = "aTestProp";
     Preferences.setBoolean(propName, true);
     assertTrue(Preferences.getBoolean(propName), "Property Set but does not exist.");
-    Preferences.reset("PreferencesTestFakeUser"); // reload from disk
+    Preferences.reset(USER_NAME); // reload from disk
     assertFalse(Preferences.getBoolean(propName), "Property not restored from disk by reset.");
   }
 
@@ -559,6 +578,114 @@ class PreferencesTest {
     assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast.PreferencesTestFakeUser"));
   }
 
+  public class timeinThread extends Thread {
+    public timeinThread(String s) {
+      super(s);
+    }
+
+    public void run() {
+      LoginManager.timein(USER_NAME);
+    }
+  }
+
+  public static class incrementThread extends Thread {
+    public incrementThread(String s) {
+      super(s);
+    }
+
+    public void run() {
+
+      Preferences.increment("counter", 1);
+    }
+  }
+
+  @Test
+  public void timeinDoesNotCauseRaceCondition() {
+    String unrelatedPref = "coalmine";
+    String unrelatedValue = "canary";
+    String incrementedPref = "counter";
+    int threadCount = 100;
+
+    var cleanups =
+        new Cleanups(
+            withSavePreferencesToFile(),
+            withProperty(unrelatedPref, unrelatedValue),
+            withProperty(incrementedPref, 0));
+    try (cleanups) {
+      Thread[] incrementThreads = new Thread[threadCount];
+      Thread timein = new timeinThread("Timein");
+      timein.start();
+
+      IntStream.range(0, threadCount)
+          .forEach(
+              i -> {
+                incrementThreads[i] = new incrementThread("Increment-" + i);
+                incrementThreads[i].start();
+              });
+      try {
+        if (timein.isAlive()) {
+          timein.join(4000);
+        }
+      } catch (InterruptedException ex) {
+        ex.printStackTrace();
+      }
+      if (timein.isAlive()) {
+        System.out.println("Undead thread: " + timein.getName());
+      }
+      IntStream.range(0, threadCount)
+          .forEach(
+              j -> {
+                try {
+                  incrementThreads[j].join(4000);
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                }
+                assertFalse(
+                    incrementThreads[j].isAlive(),
+                    "Undead thread: " + incrementThreads[j].getName());
+              });
+
+      assertEquals(
+          unrelatedValue,
+          Preferences.getString(unrelatedPref, false),
+          "unrelated pref does not match");
+      System.out.println("Final value: " + Preferences.getInteger(incrementedPref));
+    }
+  }
+
+  // @Disabled
+  @Test
+  public void incrementSimultaneouslyDoesNotCauseRaceCondition() {
+    String incrementedPref = "counter";
+    Integer threadCount = 100;
+
+    var cleanups = new Cleanups(withSavePreferencesToFile(), withProperty(incrementedPref, 0));
+    try (cleanups) {
+      Thread[] incrementThreads = new Thread[threadCount];
+
+      IntStream.range(0, threadCount)
+          .forEach(
+              i -> {
+                incrementThreads[i] = new incrementThread("Increment-" + i);
+                incrementThreads[i].start();
+              });
+      IntStream.range(0, threadCount)
+          .forEach(
+              j -> {
+                try {
+                  incrementThreads[j].join(4000);
+                } catch (InterruptedException e) {
+                  e.printStackTrace();
+                }
+                if (incrementThreads[j].isAlive()) {
+                  System.out.println("Undead thread: " + incrementThreads[j].getName());
+                }
+              });
+      assertEquals(
+          threadCount, Preferences.getInteger(incrementedPref), "incremented pref does not match");
+    }
+  }
+
   @Test
   public void actuallySaveFileToIncreaseCoverage() {
     var cleanups = withSavePreferencesToFile();
@@ -601,7 +728,7 @@ class PreferencesTest {
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
       if (globalfile.exists()) {
-        globalfile.delete();
+        verboseDelete(globalfile);
       }
       assertFalse(globalfile.exists());
       // Reset should save global.
@@ -619,7 +746,7 @@ class PreferencesTest {
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
       if (globalfile.exists()) {
-        globalfile.delete();
+        verboseDelete(globalfile);
       }
       assertFalse(globalfile.exists());
       // Reset should save global.
@@ -637,7 +764,7 @@ class PreferencesTest {
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
       if (globalfile.exists()) {
-        globalfile.delete();
+        verboseDelete(globalfile);
       }
       assertFalse(globalfile.exists());
       // Reset should save global.
