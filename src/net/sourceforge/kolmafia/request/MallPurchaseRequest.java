@@ -130,12 +130,16 @@ public class MallPurchaseRequest extends PurchaseRequest {
   }
 
   public void toggleForbiddenStore() {
+    toggleForbiddenStore(this.shopId);
+  }
+
+  public static void toggleForbiddenStore(int shopId) {
     Set<Integer> forbidden = getForbiddenStores();
 
-    if (forbidden.contains(this.shopId)) {
-      forbidden.remove(this.shopId);
+    if (forbidden.contains(shopId)) {
+      forbidden.remove(shopId);
     } else {
-      forbidden.add(this.shopId);
+      forbidden.add(shopId);
     }
 
     setForbiddenStores(forbidden);
