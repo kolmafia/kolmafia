@@ -1,15 +1,9 @@
 package net.sourceforge.kolmafia.persistence;
 
-import static com.spotify.hamcrest.optional.OptionalMatchers.optionalWithValue;
+import static com.spotify.hamcrest.optional.OptionalMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.arrayWithSize;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.matchesPattern;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 
-import internal.helpers.Utilities;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -22,11 +16,8 @@ import org.junit.jupiter.api.Test;
 public class MallPriceDatabaseTest {
 
   @BeforeAll
-  public static void beforeEach() {
+  public static void beforeAll() {
     MallPriceDatabase.savePricesToFile = false;
-    String MallPriceFileName = "data/" + "mallprices.txt";
-    Utilities.verboseDelete(MallPriceFileName);
-    MallPriceDatabase.updatePrices(MallPriceFileName);
   }
 
   @AfterAll
@@ -61,7 +52,6 @@ public class MallPriceDatabaseTest {
 
   @Test
   void writesDataInItemIdOrder() {
-
     MallPriceDatabase.recordPrice(600, 5, true);
     MallPriceDatabase.recordPrice(607, 50, true);
     MallPriceDatabase.recordPrice(555, 500, true);
