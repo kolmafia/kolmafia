@@ -41,6 +41,7 @@ public class Preferences {
   public static boolean saveSettingsToFile = true;
 
   public static final Object lock = new Object(); // used to synch io
+  public static final Object dataLock = new Object(); // used to synch io
 
   private static final String[] characterMap = new String[65536];
 
@@ -820,7 +821,7 @@ public class Preferences {
 
   private static void reinitializeEncodedValuesOn(
       Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
-    synchronized (valuesMap) {
+    synchronized (dataLock) {
       for (Entry<String, Object> entry : valuesMap.entrySet()) {
         encodedMap.put(
             entry.getKey(),
@@ -1258,7 +1259,7 @@ public class Preferences {
     // We stop tracking encoded values when saveSettingsOnSet is off. When it is turned back on,
     // many encoded values will be out of date, and we don't know which ones, so we have to
     // recompute all of them.
-    if (name == "saveSettingsOnSet" && (boolean) object) {
+    if (name.equals("saveSettingsOnSet") && (boolean) object) {
       Preferences.reinitializeEncodedValues();
       trackEncoded |= Preferences.saveSettingsToFile;
     }
@@ -1339,7 +1340,7 @@ public class Preferences {
       OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
 
       try {
-        synchronized (encodedData) {
+        synchronized (dataLock) {
           for (Entry<String, byte[]> current : encodedData.entrySet()) {
             fstream.write(current.getValue());
           }
