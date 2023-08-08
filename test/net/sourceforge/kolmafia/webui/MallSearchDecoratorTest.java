@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,12 +17,17 @@ public class MallSearchDecoratorTest {
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("Test Character");
+    MallPurchaseRequest.reset();
   }
 
   @BeforeEach
   public void beforeEach() {
-    MallPurchaseRequest.reset();
     Preferences.reset("Test Character");
+  }
+
+  @AfterEach
+  public void AfterEach() {
+    MallPurchaseRequest.reset();
   }
 
   @Test

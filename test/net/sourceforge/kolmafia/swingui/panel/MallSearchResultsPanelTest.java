@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -28,14 +29,18 @@ public class MallSearchResultsPanelTest {
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("mallSearchResults");
+    MallPurchaseRequest.reset();
   }
 
   @BeforeEach
   public void beforeEach() {
+    Preferences.reset("mallSearchResults");
+  }
+
+  @AfterEach
+  public void AfterEach() {
     NamedListenerRegistry.reset();
     PreferenceListenerRegistry.reset();
-    Preferences.reset("mallSearchResults");
-    MallPurchaseRequest.disabledStores.clear();
     MallPurchaseRequest.reset();
   }
 

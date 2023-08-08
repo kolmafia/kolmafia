@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -11,6 +12,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +32,7 @@ import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -143,26 +146,28 @@ public class MallPriceManagerTest {
 
   @BeforeAll
   public static void beforeAll() {
-    // Simulate logging out and back in again.
-    KoLCharacter.reset("");
-    KoLCharacter.reset("mall price manager user");
-    CharPaneRequest.setCanInteract(true);
+    KoLCharacter.reset("MallPriceManager");
+    MallPriceManager.reset();
+    GenericRequest.sessionId = null;
     MallPriceDatabase.savePricesToFile = false;
+  }
+
+  @BeforeEach
+  public void beforeEach() {
+    Preferences.reset("MallPriceManager");
+    CharPaneRequest.setCanInteract(true);
+    KoLCharacter.setAvailableMeat(1_000_000);
+    nextShopId = 1;
+  }
+
+  @AfterEach
+  public void AfterEach() {
+    MallPurchaseRequest.reset();
   }
 
   @AfterAll
   public static void afterAll() {
     MallPriceDatabase.savePricesToFile = true;
-  }
-
-  @BeforeEach
-  public void beforeEach() {
-    // Stop requests from actually running
-    Preferences.reset("mall price manager user");
-    GenericRequest.sessionId = null;
-    KoLCharacter.setAvailableMeat(1_000_000);
-    MallPriceManager.reset();
-    nextShopId = 1;
   }
 
   private void addNPCStoreItem(int itemId, List<PurchaseRequest> list) {
@@ -580,20 +585,15 @@ public class MallPriceManagerTest {
 
   @Nested
   class ForbiddenStores {
-    @Test
-    public void canSkipForbiddenStores() {
-      // Test with Hell ramen.
-      AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
+    private static List<Integer> extractShopIds(AdventureResult item, String responseText) {
+      MallSearchRequest request = new MallSearchRequest(item.getName(), 0);
+      request.responseText = responseText;
 
-      // Make a mocked MallSearchResponse with the responseText preloaded
-      MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
-      request.responseText = html("request/test_mall_search_hell_ramen.html");
+      // Get all the shops with Hell Ramen in our saved search
+      return request.extractShopIds(item.getItemId());
+    }
 
-      // Count the shops with Hell Ramen in our saved search
-      var shopIds = request.extractShopIds(ItemPool.HELL_RAMEN);
-      int count = shopIds.size();
-      assertEquals(count, 60);
-
+    private static String getForbiddenStores(List<Integer> shopIds) {
       // Forbid every other store
       StringBuilder buf = new StringBuilder();
       boolean forbid = true;
@@ -603,21 +603,73 @@ public class MallPriceManagerTest {
             buf.append(",");
           }
           buf.append(String.valueOf(shopId));
-          count--;
         }
         forbid = !forbid;
       }
 
-      // Start with half the stores forbidden
-      var cleanups =
-          new Cleanups(
-              mockMallSearchRequest(request), withProperty("forbiddenStores", buf.toString()));
+      return buf.toString();
+    }
 
+    @Test
+    public void canSkipForbiddenStoresWithSearchMall() {
+      // Test with Hell ramen.
+      AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
+      String responseText = html("request/test_mall_search_hell_ramen.html");
+
+      // Get the shopIds from the responseText
+      List<Integer> shopIds = extractShopIds(item, responseText);
+      int count = shopIds.size();
+      assertEquals(count, 60);
+
+      // Forbid half the stores
+      String forbidden = getForbiddenStores(shopIds);
+
+      // Make a mocked MallSearchResponse with the responseText preloaded
+      MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
+      request.responseText = responseText;
+
+      var cleanups =
+          new Cleanups(mockMallSearchRequest(request), withProperty("forbiddenStores", forbidden));
       try (cleanups) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
+
+        // MallPriceManager can search the mall and return a filtered list of results
         List<PurchaseRequest> results = MallPriceManager.searchMall(item);
-        assertEquals(results.size(), count);
+        assertEquals(results.size(), 30);
+      }
+    }
+
+    @Test
+    public void canSkipForbiddenStoresWithActualRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      // Test with Hell ramen.
+      AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
+      String responseText = html("request/test_mall_search_hell_ramen.html");
+
+      // Get the shopIds from the responseText
+      List<Integer> shopIds = extractShopIds(item, responseText);
+      int count = shopIds.size();
+      assertEquals(count, 60);
+
+      // Forbid half the stores
+      String forbidden = getForbiddenStores(shopIds);
+
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withProperty("forbiddenStores", forbidden));
+      try (cleanups) {
+        long timestamp = 1_000_000;
+        Mockito.when(clock.millis()).thenReturn(timestamp);
+        var request = new MallSearchRequest("Hell ramen", 0);
+        client.addResponse(200, responseText);
+        request.run();
+
+        // MallSearchRequest will give MallPriceManager a full set of results.
+        // MallPriceManager will filter them.
+        List<PurchaseRequest> results = MallPriceManager.getSavedSearch(item.getItemId(), 5);
+        assertEquals(results.size(), 30);
       }
     }
   }
