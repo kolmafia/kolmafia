@@ -9,6 +9,7 @@ import internal.helpers.Cleanups;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -28,8 +29,9 @@ public class MallSearchResultsPanelTest {
 
   @BeforeEach
   public void beforeEach() {
-    Preferences.reset("mallSearchResults");
+    NamedListenerRegistry.reset();
     PreferenceListenerRegistry.reset();
+    Preferences.reset("mallSearchResults");
     MallPurchaseRequest.disabledStores.clear();
     MallPurchaseRequest.ignoringStores.clear();
   }
@@ -91,7 +93,6 @@ public class MallSearchResultsPanelTest {
 
         // Mark the store as ignoring
         MallPurchaseRequest.addIgnoringStore(request1.getShopId());
-        results.updateFilter(true);
 
         // It is not currently visible
         // *** How to test this?
@@ -120,7 +121,6 @@ public class MallSearchResultsPanelTest {
 
         // Mark the store as ignoring
         MallPurchaseRequest.addIgnoringStore(request1.getShopId());
-        results.updateFilter(true);
 
         // It is still visible but is now gray
         assertEquals(0, results.getIndexOf(request1));
@@ -152,7 +152,6 @@ public class MallSearchResultsPanelTest {
 
         // Mark the store as forbidden
         MallPurchaseRequest.addForbiddenStore(request1.getShopId());
-        results.updateFilter(true);
 
         // It is not currently visible
         // *** How to test this?
@@ -182,7 +181,6 @@ public class MallSearchResultsPanelTest {
 
         // Mark the store as forbidden
         MallPurchaseRequest.addForbiddenStore(request1.getShopId());
-        results.updateFilter(true);
 
         // It is still visible but is now gray
         assertEquals(0, results.getIndexOf(request1));

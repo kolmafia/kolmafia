@@ -10,6 +10,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -57,9 +58,11 @@ public class MallSearchResultsPanel extends JPanel {
 
     public MallShopFilter(LockableListModel<PurchaseRequest> results) {
       this.results = results;
-      PreferenceListenerRegistry.registerPreferenceListener("showForbiddenStores", this);
+      NamedListenerRegistry.registerNamedListener("(disabledStore)", this);
+      NamedListenerRegistry.registerNamedListener("(ignoringStore)", this);
       PreferenceListenerRegistry.registerPreferenceListener("showIgnoringStorePrices", this);
       PreferenceListenerRegistry.registerPreferenceListener("forbiddenStores", this);
+      PreferenceListenerRegistry.registerPreferenceListener("showForbiddenStores", this);
     }
 
     // Listener

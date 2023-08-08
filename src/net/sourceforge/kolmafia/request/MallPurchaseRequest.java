@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -41,6 +42,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   public static void addDisabledStore(int shopId) {
     disabledStores.add(shopId);
+    NamedListenerRegistry.fireChange("(disabledStore)");
     MallPriceManager.resetMallPrices(shopId);
   }
 
@@ -54,6 +56,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   public static void addIgnoringStore(int shopId) {
     ignoringStores.add(shopId);
+    NamedListenerRegistry.fireChange("(ignoringStore)");
     MallPriceManager.resetMallPrices(shopId);
   }
 
