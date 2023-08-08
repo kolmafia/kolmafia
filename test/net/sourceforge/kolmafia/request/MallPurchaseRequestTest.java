@@ -76,8 +76,7 @@ public class MallPurchaseRequestTest {
     @Test
     public void disabledStoresAreGray() {
       AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
-      var cleanups =
-          new Cleanups(withInteractivity(true), withMeat(100));
+      var cleanups = new Cleanups(withInteractivity(true), withMeat(100));
       try (cleanups) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
         assertEquals(null, request.color());
@@ -89,8 +88,7 @@ public class MallPurchaseRequestTest {
     @Test
     public void ignoringStoresAreGray() {
       AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
-      var cleanups =
-          new Cleanups(withInteractivity(true), withMeat(100));
+      var cleanups = new Cleanups(withInteractivity(true), withMeat(100));
       try (cleanups) {
         MallPurchaseRequest request = makeMallPurchaseRequest(item);
         assertEquals(null, request.color());

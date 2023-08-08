@@ -22,12 +22,12 @@ import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
  * that all of the tallying functionality is handled by the <code>LockableListModel
  * </code> provided, so this functions as a container for that list model.
  */
-public class SearchResultsPanel extends JPanel {
+public class MallSearchResultsPanel extends JPanel {
 
   private final LockableListModel<PurchaseRequest> results;
   private final ShowDescriptionList<PurchaseRequest> resultsList;
 
-  public SearchResultsPanel(LockableListModel<PurchaseRequest> results) {
+  public MallSearchResultsPanel(LockableListModel<PurchaseRequest> results) {
     super(new BorderLayout());
 
     JPanel resultsPanel = new JPanel(new BorderLayout());

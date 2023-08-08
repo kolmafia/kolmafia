@@ -31,7 +31,7 @@ import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.panel.SearchResultsPanel;
+import net.sourceforge.kolmafia.swingui.panel.MallSearchResultsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
@@ -133,7 +133,8 @@ public class MallSearchFrame extends GenericPanelFrame {
 
       this.setContent(elements);
 
-      SearchResultsPanel searchResultsPanel = new SearchResultsPanel(MallSearchFrame.results);
+      MallSearchResultsPanel searchResultsPanel =
+          new MallSearchResultsPanel(MallSearchFrame.results);
       this.resultsList = searchResultsPanel.getResultsList();
       this.resultsList.addListSelectionListener(new PurchaseSelectListener());
 
