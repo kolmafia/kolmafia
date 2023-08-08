@@ -1411,20 +1411,22 @@ public class Preferences {
     // userValues is a synchronized map, but we are doing a mass
     // change to it.
 
-    synchronized (Preferences.userValues) {
-      Iterator<String> it = Preferences.userValues.keySet().iterator();
-      while (it.hasNext()) {
-        String name = it.next();
-        if (isDaily(name)) {
-          if (!Preferences.containsDefault(name)) {
-            // fully delete preferences that start with _ and aren't in defaults.txt
-            it.remove();
-            userEncodedValues.remove(name);
-            continue;
+    synchronized (Preferences.lock) {
+      synchronized (Preferences.userValues) {
+        Iterator<String> it = Preferences.userValues.keySet().iterator();
+        while (it.hasNext()) {
+          String name = it.next();
+          if (isDaily(name)) {
+            if (!Preferences.containsDefault(name)) {
+              // fully delete preferences that start with _ and aren't in defaults.txt
+              it.remove();
+              userEncodedValues.remove(name);
+              continue;
+            }
+            String val = Preferences.userNames.get(name);
+            if (val == null) val = "";
+            Preferences.setString(name, val);
           }
-          String val = Preferences.userNames.get(name);
-          if (val == null) val = "";
-          Preferences.setString(name, val);
         }
       }
     }
@@ -1436,16 +1438,18 @@ public class Preferences {
     // globalValues is a synchronized map, but we are doing a mass
     // change to it.
 
-    synchronized (Preferences.globalValues) {
-      for (String name : Preferences.globalValues.keySet()) {
-        if (isDaily(name)) {
-          String val = Preferences.globalNames.get(name);
-          if (val == null) val = "";
-          Preferences.setString(name, val);
+    synchronized (Preferences.lock) {
+      synchronized (Preferences.globalValues) {
+        for (String name : Preferences.globalValues.keySet()) {
+          if (isDaily(name)) {
+            String val = Preferences.globalNames.get(name);
+            if (val == null) val = "";
+            Preferences.setString(name, val);
+          }
         }
-      }
 
-      Preferences.setLong("lastGlobalCounterDay", KoLCharacter.getRollover());
+        Preferences.setLong("lastGlobalCounterDay", KoLCharacter.getRollover());
+      }
     }
   }
 

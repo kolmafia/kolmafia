@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
 import java.io.File;
@@ -650,6 +651,45 @@ class PreferencesTest {
           Preferences.getString(unrelatedPref, false),
           "unrelated pref does not match");
       System.out.println("Final value: " + Preferences.getInteger(incrementedPref));
+    }
+  }
+
+  public class resetThread extends Thread {
+    public resetThread(String s) {
+      super(s);
+    }
+
+    public void run() {
+      Preferences.reset(USER_NAME);
+    }
+  }
+
+  public class resetDailiesThread extends Thread {
+    public resetDailiesThread(String s) {
+      super(s);
+    }
+
+    public void run() {
+      Preferences.resetDailies();
+    }
+  }
+
+  @Test
+  public void resetDailiesDoesNotRaceWithReset() {
+    var cleanups = new Cleanups(withSavePreferencesToFile());
+    try (cleanups) {
+      Thread reset = new resetThread("Timein");
+      Thread resetDailies = new resetDailiesThread("Timein");
+      reset.start();
+      resetDailies.start();
+
+      try {
+        reset.join(1000);
+        resetDailies.join(1000);
+      } catch (InterruptedException ex) {
+        fail("deadlock encountered");
+      }
+      // If we got here, we did not deadlock.
     }
   }
 
