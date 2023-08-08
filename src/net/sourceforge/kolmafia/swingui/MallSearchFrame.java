@@ -9,20 +9,15 @@ import java.awt.event.FocusListener;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -31,17 +26,14 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
-import net.sourceforge.kolmafia.listener.Listener;
-import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.panel.SearchResultsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
-import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -60,7 +52,6 @@ public class MallSearchFrame extends GenericPanelFrame {
 
   private boolean currentlySearching;
   private boolean currentlyBuying;
-  private ShowDescriptionList<PurchaseRequest> resultsList;
   private final MallSearchPanel mallSearch;
 
   public MallSearchFrame() {
@@ -89,6 +80,7 @@ public class MallSearchFrame extends GenericPanelFrame {
    * </code>.
    */
   private class MallSearchPanel extends GenericPanel implements FocusListener {
+    private final ShowDescriptionList<PurchaseRequest> resultsList;
     private final JComponent searchField;
     private final AutoHighlightTextField countField;
 
@@ -141,7 +133,11 @@ public class MallSearchFrame extends GenericPanelFrame {
 
       this.setContent(elements);
 
-      this.add(new SearchResultsPanel(), BorderLayout.CENTER);
+      SearchResultsPanel searchResultsPanel = new SearchResultsPanel(MallSearchFrame.results);
+      this.resultsList = searchResultsPanel.getResultsList();
+      this.resultsList.addListSelectionListener(new PurchaseSelectListener());
+
+      this.add(searchResultsPanel, BorderLayout.CENTER);
       MallSearchFrame.this.currentlySearching = false;
       MallSearchFrame.this.currentlyBuying = false;
 
@@ -212,7 +208,7 @@ public class MallSearchFrame extends GenericPanelFrame {
         return;
       }
 
-      PurchaseRequest[] purchases = MallSearchFrame.this.resultsList.getSelectedPurchases();
+      PurchaseRequest[] purchases = this.resultsList.getSelectedPurchases();
       if (purchases == null || purchases.length == 0) {
         this.setStatusMessage("Please select a store from which to purchase.");
         return;
@@ -246,6 +242,31 @@ public class MallSearchFrame extends GenericPanelFrame {
       }
 
       MallSearchFrame.this.currentlyBuying = false;
+    }
+
+    /**
+     * A ListSelectionListener class to detect which values are selected in the search results
+     * panel.
+     */
+    private class PurchaseSelectListener implements ListSelectionListener {
+      @Override
+      public void valueChanged(final ListSelectionEvent e) {
+        if (e.getValueIsAdjusting()) {
+          return;
+        }
+
+        // Reset the status message on this panel to show what the current
+        // state of the selections is at this time.
+
+        if (!MallSearchFrame.this.currentlyBuying) {
+          MallSearchFrame.this.mallSearch.setStatusMessage(
+              MallSearchFrame.this.getPurchaseSummary(
+                  MallSearchPanel.this
+                      .resultsList
+                      .getSelectedValuesList()
+                      .toArray(new PurchaseRequest[0])));
+        }
+      }
     }
   }
 
@@ -287,97 +308,5 @@ public class MallSearchFrame extends GenericPanelFrame {
         + KoLConstants.COMMA_FORMAT.format(totalPrice)
         + " "
         + currentPurchase.getCurrency(totalPrice);
-  }
-
-  /**
-   * An internal class which represents the panel used for tallying the results of the mall search
-   * request. Note that all of the tallying functionality is handled by the <code>LockableListModel
-   * </code> provided, so this functions as a container for that list model.
-   */
-  private class SearchResultsPanel extends JPanel {
-    public SearchResultsPanel() {
-      super(new BorderLayout());
-
-      JPanel resultsPanel = new JPanel(new BorderLayout());
-      resultsPanel.add(
-          JComponentUtilities.createLabel(
-              "Search Results", SwingConstants.CENTER, Color.black, Color.white),
-          BorderLayout.NORTH);
-
-      var resultsList = new ShowDescriptionList<>(MallSearchFrame.results, new MallShopFilter());
-      MallSearchFrame.this.resultsList = resultsList;
-      resultsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-      ((ShowDescriptionList) resultsList).setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-      resultsList.setVisibleRowCount(11);
-      resultsList.addListSelectionListener(new PurchaseSelectListener());
-
-      this.add(new GenericScrollPane(resultsList), BorderLayout.CENTER);
-    }
-
-    private static class MallShopFilter implements ListElementFilter, Listener {
-      private boolean showForbidden = Preferences.getBoolean("showForbiddenStores");
-      private boolean showIgnoring = Preferences.getBoolean("showIgnoringStorePrices");
-      private Set<Integer> forbiddenStores = MallPurchaseRequest.getForbiddenStores();
-
-      public MallShopFilter() {
-        PreferenceListenerRegistry.registerPreferenceListener("showForbiddenStores", this);
-        PreferenceListenerRegistry.registerPreferenceListener("showIgnoringStorePrices", this);
-        PreferenceListenerRegistry.registerPreferenceListener("forbiddenStores", this);
-      }
-
-      // Listener
-      public void update() {
-        this.showForbidden = Preferences.getBoolean("showForbiddenStores");
-        this.showIgnoring = Preferences.getBoolean("showIgnoringStorePrices");
-        this.forbiddenStores = MallPurchaseRequest.getForbiddenStores();
-        MallSearchFrame.results.updateFilter(true);
-      }
-
-      // ListElementFilter
-      public boolean isVisible(final Object element) {
-        if (element instanceof MallPurchaseRequest mpr) {
-          int shopId = mpr.getShopId();
-          boolean forbidden = mpr.isForbidden(shopId, forbiddenStores);
-          boolean ignoring = mpr.isIgnoring(shopId);
-          if (!forbidden && !ignoring) {
-            return true;
-          }
-          if (forbidden && !showForbidden) {
-            return false;
-          }
-          if (ignoring && !showIgnoring) {
-            return false;
-          }
-        }
-
-        return true;
-      }
-    }
-
-    /**
-     * An internal listener class which detects which values are selected in the search results
-     * panel.
-     */
-    private class PurchaseSelectListener implements ListSelectionListener {
-      @Override
-      public void valueChanged(final ListSelectionEvent e) {
-        if (e.getValueIsAdjusting()) {
-          return;
-        }
-
-        // Reset the status message on this panel to
-        // show what the current state of the selections
-        // is at this time.
-
-        if (!MallSearchFrame.this.currentlyBuying) {
-          MallSearchFrame.this.mallSearch.setStatusMessage(
-              MallSearchFrame.this.getPurchaseSummary(
-                  MallSearchFrame.this
-                      .resultsList
-                      .getSelectedValuesList()
-                      .toArray(new PurchaseRequest[0])));
-        }
-      }
-    }
   }
 }
