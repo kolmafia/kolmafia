@@ -34,6 +34,17 @@ public class LatteRequestTest {
   }
 
   @Test
+  public void canParseEmptyLatte() {
+    Preferences.setString("latteIngredients", "carrot,pumpkin,vanilla");
+
+    var req = new GenericRequest("desc_item.php?whichitem=294224337");
+    req.responseText = html("request/test_latte_empty_description.html");
+    req.processResponse();
+
+    assertEquals("", Preferences.getString("latteIngredients"));
+  }
+
+  @Test
   public void canParseRefillResponse() {
     LatteRequest.parseResponse(
         "choice.php?pwd&whichchoice=1329&option=1&l3=6MQI6aq4KVr0JD0jd1gipq4LhmptVwaIG2KseCJknX3c0M7DLLWaKAQNqVv8h1LjT1hyaGt4eXBGSkpLQ3FuNU9kOTlNdz09&l2=cdDxyYfNxiWNQBxfbF%2FmC1QeYifAGOSFGrsuVltKDglKn%2FNB40pD9Fs3L%2F4w8v4fZTU0b1I3aDBhVFF1MXQ3SnI4YnhGUT09&l1=ncqOW6ME3y5UWfHXGD6jUZqMbCfQiS%2Bb1ySnRf1wxbEI6z3BSTdBhrndeu6y6ZydQ2ROYUh4UGc5Z2V5NFNmODJzcFNsUT09",

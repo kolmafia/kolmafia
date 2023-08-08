@@ -269,12 +269,13 @@ public class LoginManager {
   }
 
   public static void timein(final String username) {
-    // Save the current user settings to disk
-    Preferences.reset(null);
+    synchronized (Preferences.lock) {
+      // Save the current user settings to disk
+      Preferences.reset(null);
 
-    // Reload the current user's preferences
-    Preferences.reset(username);
-
+      // Reload the current user's preferences
+      Preferences.reset(username);
+    }
     // Close existing session log and reopen it
     RequestLogger.closeSessionLog();
     RequestLogger.openSessionLog();
