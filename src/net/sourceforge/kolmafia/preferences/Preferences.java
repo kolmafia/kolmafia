@@ -44,7 +44,6 @@ public class Preferences {
   public static final Object dataLock1 = new Object(); // used to synch io
   public static final Object dataLock2 = new Object(); // used to synch io
 
-
   private static final String[] characterMap = new String[65536];
 
   private static final HashMap<String, String> globalNames = new HashMap<>();
