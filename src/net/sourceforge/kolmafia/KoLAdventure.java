@@ -2197,7 +2197,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           Quest.SEA_MONKEES, QuestDatabase.STARTED);
         // Grandpa
         // Free for Muscle classes. Otherwise, must buy map.
-      case AdventurePool.ANENOME_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
+      case AdventurePool.ANEMONE_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
         // Free for Mysticality classes Otherwise, must buy map.
       case AdventurePool.MARINARA_TRENCH -> ItemDatabase.haveVirtualItem(
           ItemPool.MARINARA_TRENCH_MAP);
