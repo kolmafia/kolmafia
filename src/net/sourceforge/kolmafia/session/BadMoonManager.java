@@ -66,7 +66,7 @@ public abstract class BadMoonManager {
         "Sandwiched in the Club",
         "The Sleazy Back Alley",
         null,
-        EffectPool.get(EffectPool.CHRONOLOGICALLY_PUMMELLED, 10),
+        EffectPool.get(EffectPool.CHRONOLOGICALLY_PUMMELED, 10),
         "Moxie +20, Muscle -5, Mysticality -5",
         Type.STAT1,
         "badMoonEncounter03"),
