@@ -339,11 +339,7 @@ public abstract class MallPriceManager {
   }
 
   public static final List<PurchaseRequest> filterMallSearch(final List<PurchaseRequest> results) {
-    Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
-    return results.stream()
-        .filter(PurchaseRequest::canPurchase)
-        .filter(pr -> (pr instanceof MallPurchaseRequest mpr) ? mpr.canPurchase(forbidden) : true)
-        .collect(Collectors.toList());
+    return results.stream().filter(PurchaseRequest::canPurchase).collect(Collectors.toList());
   }
 
   public static final List<PurchaseRequest> searchOnlyMall(final AdventureResult item) {

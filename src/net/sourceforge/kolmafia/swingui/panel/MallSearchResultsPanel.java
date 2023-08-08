@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.util.Set;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -54,7 +53,6 @@ public class MallSearchResultsPanel extends JPanel {
     private final LockableListModel<PurchaseRequest> results;
     private boolean showForbidden = Preferences.getBoolean("showForbiddenStores");
     private boolean showIgnoring = Preferences.getBoolean("showIgnoringStorePrices");
-    private Set<Integer> forbiddenStores = MallPurchaseRequest.getForbiddenStores();
 
     public MallShopFilter(LockableListModel<PurchaseRequest> results) {
       this.results = results;
@@ -69,7 +67,6 @@ public class MallSearchResultsPanel extends JPanel {
     public void update() {
       this.showForbidden = Preferences.getBoolean("showForbiddenStores");
       this.showIgnoring = Preferences.getBoolean("showIgnoringStorePrices");
-      this.forbiddenStores = MallPurchaseRequest.getForbiddenStores();
       this.results.updateFilter(true);
     }
 
@@ -77,7 +74,7 @@ public class MallSearchResultsPanel extends JPanel {
     public boolean isVisible(final Object element) {
       if (element instanceof MallPurchaseRequest mpr) {
         int shopId = mpr.getShopId();
-        boolean forbidden = mpr.isForbidden(shopId, forbiddenStores);
+        boolean forbidden = mpr.isForbidden(shopId);
         boolean ignoring = mpr.isIgnoring(shopId);
         if (!forbidden && !ignoring) {
           return true;

@@ -36,7 +36,7 @@ public class MallSearchResultsPanelTest {
     PreferenceListenerRegistry.reset();
     Preferences.reset("mallSearchResults");
     MallPurchaseRequest.disabledStores.clear();
-    MallPurchaseRequest.ignoringStores.clear();
+    MallPurchaseRequest.reset();
   }
 
   private MallPurchaseRequest makeMallPurchaseRequest(AdventureResult item, int shopId, int price) {

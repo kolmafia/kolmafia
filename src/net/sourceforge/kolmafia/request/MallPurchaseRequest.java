@@ -17,7 +17,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -31,6 +33,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   public static final Set<Integer> disabledStores = new HashSet<>();
   public static final Set<Integer> ignoringStores = new HashSet<>();
+  public static Set<Integer> forbiddenStores = new HashSet<>();
 
   public boolean isDisabled() {
     return isDisabled(this.shopId);
@@ -60,27 +63,99 @@ public class MallPurchaseRequest extends PurchaseRequest {
     MallPriceManager.resetMallPrices(shopId);
   }
 
+  public boolean isForbidden() {
+    return isForbidden(this.shopId);
+  }
+
   public static boolean isForbidden(int shopId) {
-    return isForbidden(shopId, getForbiddenStores());
+    return forbiddenStores.contains(shopId);
   }
 
-  public boolean isForbidden(Set<Integer> forbidden) {
-    return isForbidden(this.shopId, forbidden);
+  private static class ForbiddenStoreManager implements Listener {
+    ForbiddenStoreManager() {
+      PreferenceListenerRegistry.registerPreferenceListener("forbiddenStores", this);
+      this.update();
+    }
+
+    public void update() {
+      this.load();
+    }
+
+    public void add(int shopId) {
+      forbiddenStores.add(shopId);
+      this.save();
+    }
+
+    public void remove(int shopId) {
+      forbiddenStores.remove(shopId);
+      this.save();
+    }
+
+    public void save() {
+      Preferences.setString(
+          "forbiddenStores",
+          String.join(
+              ",", forbiddenStores.stream().map(String::valueOf).collect(Collectors.joining(","))));
+    }
+
+    public void load() {
+      forbiddenStores.clear();
+
+      String input = Preferences.getString("forbiddenStores");
+      if (input.equals("")) {
+        return;
+      }
+
+      Set<Integer> forbidden =
+          Arrays.stream(input.split("\\s*,\\s*"))
+              .filter(s -> s.matches("[0-9]+"))
+              .mapToInt(Integer::parseInt)
+              .boxed()
+              .collect(Collectors.toSet());
+
+      forbiddenStores.addAll(forbidden);
+    }
   }
 
-  public static boolean isForbidden(int shopId, Set<Integer> forbidden) {
-    return forbidden.contains(shopId);
+  private static ForbiddenStoreManager manager = new ForbiddenStoreManager();
+
+  public static Set<Integer> getForbiddenStores() {
+    return forbiddenStores;
   }
 
+  public static void addForbiddenStore(int shopId) {
+    manager.add(shopId);
+    MallPriceManager.resetMallPrices(shopId);
+  }
+
+  public static void removeForbiddenStore(int shopId) {
+    manager.remove(shopId);
+    MallPriceManager.resetMallPrices(shopId);
+  }
+
+  public void toggleForbiddenStore() {
+    toggleForbiddenStore(this.shopId);
+  }
+
+  public static void toggleForbiddenStore(int shopId) {
+    if (isForbidden(shopId)) {
+      manager.remove(shopId);
+    } else {
+      manager.add(shopId);
+    }
+    MallPriceManager.resetMallPrices(shopId);
+  }
+
+  public static void reset() {
+    // Stores which ignore one player may not ignore another player
+    ignoringStores.clear();
+    // Each player chooses which stores to forbid
+    forbiddenStores.clear();
+  }
+
+  @Override
   public boolean canPurchase() {
-    return this.canPurchase(getForbiddenStores());
-  }
-
-  public boolean canPurchase(Set<Integer> forbidden) {
-    return super.canPurchase()
-        && !this.isDisabled()
-        && !this.isIgnoring()
-        && !this.isForbidden(forbidden);
+    return super.canPurchase() && !this.isDisabled() && !this.isIgnoring() && !this.isForbidden();
   }
 
   private static final Pattern STOREID_PATTERN = Pattern.compile("whichstore\\d?=(\\d+)");
@@ -91,66 +166,6 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   public int getShopId() {
     return this.shopId;
-  }
-
-  public static void reset() {
-    // Stores which are ignoring one character may not be ignoring
-    // another player
-    ignoringStores.clear();
-  }
-
-  public static Set<Integer> getForbiddenStores() {
-    // We want to return a mutable list.
-    // String.split returns a fixed-size list
-    // String.split returns a list with an empty element if the input string is empty
-    String input = Preferences.getString("forbiddenStores").trim();
-
-    if (input.equals("")) {
-      return new HashSet<>();
-    }
-
-    return Arrays.stream(input.split("\\s*,\\s*"))
-        .filter(s -> s.matches("[0-9]+"))
-        .mapToInt(Integer::parseInt)
-        .boxed()
-        .collect(Collectors.toSet());
-  }
-
-  private static void setForbiddenStores(Set<Integer> forbidden) {
-    Preferences.setString(
-        "forbiddenStores",
-        String.join(",", forbidden.stream().map(String::valueOf).collect(Collectors.joining(","))));
-  }
-
-  public static void removeForbiddenStore(int shopId) {
-    Set<Integer> forbidden = getForbiddenStores();
-    forbidden.remove(shopId);
-    setForbiddenStores(forbidden);
-    MallPriceManager.resetMallPrices(shopId);
-  }
-
-  public static void addForbiddenStore(int shopId) {
-    Set<Integer> forbidden = getForbiddenStores();
-    forbidden.add(shopId);
-    setForbiddenStores(forbidden);
-    MallPriceManager.resetMallPrices(shopId);
-  }
-
-  public void toggleForbiddenStore() {
-    toggleForbiddenStore(this.shopId);
-  }
-
-  public static void toggleForbiddenStore(int shopId) {
-    Set<Integer> forbidden = getForbiddenStores();
-
-    if (forbidden.contains(shopId)) {
-      forbidden.remove(shopId);
-    } else {
-      forbidden.add(shopId);
-    }
-
-    setForbiddenStores(forbidden);
-    MallPriceManager.resetMallPrices(shopId);
   }
 
   /**
@@ -246,9 +261,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   @Override
   public String color() {
-    Set<Integer> forbidden = getForbiddenStores();
-
-    if (forbidden.contains(this.shopId)) {
+    if (this.isForbidden()) {
       // Try get the color from look and feel
       Color color = UIManager.getColor("InternalFrame.closePressedBackground");
 
@@ -259,7 +272,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return "#" + Integer.toHexString(color.getRGB()).substring(2);
     }
 
-    return !this.canPurchase(forbidden)
+    return !this.canPurchase()
         ? "gray"
         : KoLCharacter.canInteract()
             ? (KoLCharacter.getAvailableMeat() >= this.price ? null : "gray")
