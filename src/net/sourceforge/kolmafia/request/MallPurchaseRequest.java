@@ -33,7 +33,6 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   public static final Set<Integer> disabledStores = new HashSet<>();
   public static final Set<Integer> ignoringStores = new HashSet<>();
-  public static Set<Integer> forbiddenStores = new HashSet<>();
 
   public boolean isDisabled() {
     return isDisabled(this.shopId);
@@ -63,30 +62,50 @@ public class MallPurchaseRequest extends PurchaseRequest {
     MallPriceManager.resetMallPrices(shopId);
   }
 
-  public boolean isForbidden() {
-    return isForbidden(this.shopId);
-  }
-
-  public static boolean isForbidden(int shopId) {
-    return forbiddenStores.contains(shopId);
-  }
-
   private static class ForbiddenStoreManager implements Listener {
+    // Lazy initialization: initialize only when first needed.
+    private Set<Integer> forbiddenStores = new HashSet<>();
+    private boolean loaded = false;
+
     ForbiddenStoreManager() {
       PreferenceListenerRegistry.registerPreferenceListener("forbiddenStores", this);
-      this.update();
     }
 
     public void update() {
       this.load();
     }
 
+    public void reset() {
+      forbiddenStores.clear();
+      loaded = false;
+    }
+
+    public Set<Integer> getForbiddenStores() {
+      if (!loaded) {
+        load();
+      }
+      return forbiddenStores;
+    }
+
+    public boolean isForbidden(int shopId) {
+      if (!loaded) {
+        load();
+      }
+      return forbiddenStores.contains(shopId);
+    }
+
     public void add(int shopId) {
+      if (!loaded) {
+        load();
+      }
       forbiddenStores.add(shopId);
       this.save();
     }
 
     public void remove(int shopId) {
+      if (!loaded) {
+        load();
+      }
       forbiddenStores.remove(shopId);
       this.save();
     }
@@ -99,6 +118,8 @@ public class MallPurchaseRequest extends PurchaseRequest {
     }
 
     public void load() {
+      loaded = true;
+
       forbiddenStores.clear();
 
       String input = Preferences.getString("forbiddenStores");
@@ -117,19 +138,27 @@ public class MallPurchaseRequest extends PurchaseRequest {
     }
   }
 
-  private static ForbiddenStoreManager manager = new ForbiddenStoreManager();
+  private static ForbiddenStoreManager forbiddenManager = new ForbiddenStoreManager();
+
+  public boolean isForbidden() {
+    return isForbidden(this.shopId);
+  }
+
+  public static boolean isForbidden(int shopId) {
+    return forbiddenManager.isForbidden(shopId);
+  }
 
   public static Set<Integer> getForbiddenStores() {
-    return forbiddenStores;
+    return forbiddenManager.getForbiddenStores();
   }
 
   public static void addForbiddenStore(int shopId) {
-    manager.add(shopId);
+    forbiddenManager.add(shopId);
     MallPriceManager.resetMallPrices(shopId);
   }
 
   public static void removeForbiddenStore(int shopId) {
-    manager.remove(shopId);
+    forbiddenManager.remove(shopId);
     MallPriceManager.resetMallPrices(shopId);
   }
 
@@ -139,9 +168,9 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   public static void toggleForbiddenStore(int shopId) {
     if (isForbidden(shopId)) {
-      manager.remove(shopId);
+      forbiddenManager.remove(shopId);
     } else {
-      manager.add(shopId);
+      forbiddenManager.add(shopId);
     }
     MallPriceManager.resetMallPrices(shopId);
   }
@@ -150,7 +179,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     // Stores which ignore one player may not ignore another player
     ignoringStores.clear();
     // Each player chooses which stores to forbid
-    forbiddenStores.clear();
+    forbiddenManager.reset();
   }
 
   @Override
