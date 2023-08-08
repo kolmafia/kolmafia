@@ -41,7 +41,9 @@ public class Preferences {
   public static boolean saveSettingsToFile = true;
 
   public static final Object lock = new Object(); // used to synch io
-  public static final Object dataLock = new Object(); // used to synch io
+  public static final Object dataLock1 = new Object(); // used to synch io
+  public static final Object dataLock2 = new Object(); // used to synch io
+
 
   private static final String[] characterMap = new String[65536];
 
@@ -821,7 +823,7 @@ public class Preferences {
 
   private static void reinitializeEncodedValuesOn(
       Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
-    synchronized (dataLock) {
+    synchronized (dataLock1) {
       for (Entry<String, Object> entry : valuesMap.entrySet()) {
         encodedMap.put(
             entry.getKey(),
@@ -1340,7 +1342,7 @@ public class Preferences {
       OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
 
       try {
-        synchronized (dataLock) {
+        synchronized (dataLock2) {
           for (Entry<String, byte[]> current : encodedData.entrySet()) {
             fstream.write(current.getValue());
           }
