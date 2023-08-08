@@ -4,6 +4,9 @@ import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -53,19 +56,21 @@ public class MallSearchResultsPanelTest {
         results.add(request2);
 
         var panel = new MallSearchResultsPanel(results);
+        var filter = panel.getResultsList().filter;
+        assertNotNull(filter);
 
         // Both results are visible and uncolored
-        assertEquals(0, results.getIndexOf(request1));
+        assertTrue(filter.isVisible(request1));
         assertEquals(null, request1.color());
 
-        assertEquals(1, results.getIndexOf(request2));
+        assertTrue(filter.isVisible(request2));
         assertEquals(null, request2.color());
 
         // Disable the first store
         MallPurchaseRequest.addDisabledStore(request1.getShopId());
 
         // It is still visible but is now gray
-        assertEquals(0, results.getIndexOf(request1));
+        assertTrue(filter.isVisible(request1));
         assertEquals("gray", request1.color());
       }
     }
@@ -86,18 +91,18 @@ public class MallSearchResultsPanelTest {
         results.add(request1);
 
         var panel = new MallSearchResultsPanel(results);
+        var filter = panel.getResultsList().filter;
+        assertNotNull(filter);
 
         // Result is visible and uncolored
-        assertEquals(0, results.getIndexOf(request1));
+        assertTrue(filter.isVisible(request1));
         assertEquals(null, request1.color());
 
         // Mark the store as ignoring
         MallPurchaseRequest.addIgnoringStore(request1.getShopId());
 
         // It is not currently visible
-        // *** How to test this?
-        // assertEquals(-1, results.getIndexOf(request1));
-        assertEquals("gray", request1.color());
+        assertFalse(filter.isVisible(request1));
       }
     }
 
@@ -114,16 +119,18 @@ public class MallSearchResultsPanelTest {
         results.add(request1);
 
         var panel = new MallSearchResultsPanel(results);
+        var filter = panel.getResultsList().filter;
+        assertNotNull(filter);
 
         // Result is visible and uncolored
-        assertEquals(0, results.getIndexOf(request1));
+        assertTrue(filter.isVisible(request1));
         assertEquals(null, request1.color());
 
         // Mark the store as ignoring
         MallPurchaseRequest.addIgnoringStore(request1.getShopId());
 
         // It is still visible but is now gray
-        assertEquals(0, results.getIndexOf(request1));
+        assertTrue(filter.isVisible(request1));
         assertEquals("gray", request1.color());
       }
     }
@@ -145,18 +152,18 @@ public class MallSearchResultsPanelTest {
         results.add(request1);
 
         var panel = new MallSearchResultsPanel(results);
+        var filter = panel.getResultsList().filter;
+        assertNotNull(filter);
 
         // Result is visible and uncolored
-        assertEquals(0, results.getIndexOf(request1));
+        assertTrue(filter.isVisible(request1));
         assertEquals(null, request1.color());
 
         // Mark the store as forbidden
         MallPurchaseRequest.addForbiddenStore(request1.getShopId());
 
         // It is not currently visible
-        // *** How to test this?
-        // assertEquals(-1, results.getIndexOf(request1));
-        assertEquals("red", request1.color());
+        assertFalse(filter.isVisible(request1));
       }
     }
 
@@ -174,16 +181,18 @@ public class MallSearchResultsPanelTest {
         results.add(request1);
 
         var panel = new MallSearchResultsPanel(results);
+        var filter = panel.getResultsList().filter;
+        assertNotNull(filter);
 
         // Result is visible and uncolored
-        assertEquals(0, results.getIndexOf(request1));
+        assertTrue(filter.isVisible(request1));
         assertEquals(null, request1.color());
 
         // Mark the store as forbidden
         MallPurchaseRequest.addForbiddenStore(request1.getShopId());
 
         // It is still visible but is now gray
-        assertEquals(0, results.getIndexOf(request1));
+        assertTrue(filter.isVisible(request1));
         assertEquals("red", request1.color());
       }
     }

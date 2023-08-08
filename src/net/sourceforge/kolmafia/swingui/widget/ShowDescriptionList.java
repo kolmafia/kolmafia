@@ -138,6 +138,7 @@ public class ShowDescriptionList<E> extends JList<E> {
 
     this.addMouseListener(new PopupListener(this.contextMenu));
 
+    this.filter = filter;
     this.originalModel = displayModel;
     this.displayModel =
         filter == null ? displayModel.getMirrorImage() : displayModel.getMirrorImage(filter);
