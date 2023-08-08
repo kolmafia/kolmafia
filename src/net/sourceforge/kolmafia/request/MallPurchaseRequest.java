@@ -89,7 +89,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
   public static void reset() {
     // Stores which are ignoring one character may not be ignoring
     // another player
-    MallPurchaseRequest.ignoringStores.clear();
+    ignoringStores.clear();
   }
 
   public static Set<Integer> getForbiddenStores() {
