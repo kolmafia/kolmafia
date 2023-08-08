@@ -72,8 +72,12 @@ public class MallPurchaseRequest extends PurchaseRequest {
     return forbidden.contains(shopId);
   }
 
+  public boolean canPurchase() {
+    return this.canPurchase(getForbiddenStores());
+  }
+
   public boolean canPurchase(Set<Integer> forbidden) {
-    return this.canPurchase
+    return super.canPurchase()
         && !this.isDisabled()
         && !this.isIgnoring()
         && !this.isForbidden(forbidden);

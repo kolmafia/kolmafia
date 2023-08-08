@@ -62,9 +62,11 @@ public class MallSearchResultsPanelTest {
         // Both results are visible and uncolored
         assertTrue(filter.isVisible(request1));
         assertEquals(null, request1.color());
+        assertTrue(request1.canPurchase());
 
         assertTrue(filter.isVisible(request2));
         assertEquals(null, request2.color());
+        assertTrue(request2.canPurchase());
 
         // Disable the first store
         MallPurchaseRequest.addDisabledStore(request1.getShopId());
@@ -72,6 +74,7 @@ public class MallSearchResultsPanelTest {
         // It is still visible but is now gray
         assertTrue(filter.isVisible(request1));
         assertEquals("gray", request1.color());
+        assertFalse(request1.canPurchase());
       }
     }
   }
@@ -97,12 +100,14 @@ public class MallSearchResultsPanelTest {
         // Result is visible and uncolored
         assertTrue(filter.isVisible(request1));
         assertEquals(null, request1.color());
+        assertTrue(request1.canPurchase());
 
         // Mark the store as ignoring
         MallPurchaseRequest.addIgnoringStore(request1.getShopId());
 
         // It is not currently visible
         assertFalse(filter.isVisible(request1));
+        assertFalse(request1.canPurchase());
       }
     }
 
@@ -125,6 +130,7 @@ public class MallSearchResultsPanelTest {
         // Result is visible and uncolored
         assertTrue(filter.isVisible(request1));
         assertEquals(null, request1.color());
+        assertTrue(request1.canPurchase());
 
         // Mark the store as ignoring
         MallPurchaseRequest.addIgnoringStore(request1.getShopId());
@@ -132,6 +138,7 @@ public class MallSearchResultsPanelTest {
         // It is still visible but is now gray
         assertTrue(filter.isVisible(request1));
         assertEquals("gray", request1.color());
+        assertFalse(request1.canPurchase());
       }
     }
   }
@@ -158,12 +165,14 @@ public class MallSearchResultsPanelTest {
         // Result is visible and uncolored
         assertTrue(filter.isVisible(request1));
         assertEquals(null, request1.color());
+        assertTrue(request1.canPurchase());
 
         // Mark the store as forbidden
         MallPurchaseRequest.addForbiddenStore(request1.getShopId());
 
         // It is not currently visible
         assertFalse(filter.isVisible(request1));
+        assertFalse(request1.canPurchase());
       }
     }
 
@@ -187,13 +196,15 @@ public class MallSearchResultsPanelTest {
         // Result is visible and uncolored
         assertTrue(filter.isVisible(request1));
         assertEquals(null, request1.color());
+        assertTrue(request1.canPurchase());
 
         // Mark the store as forbidden
         MallPurchaseRequest.addForbiddenStore(request1.getShopId());
 
-        // It is still visible but is now gray
+        // It is still visible but is now red
         assertTrue(filter.isVisible(request1));
         assertEquals("red", request1.color());
+        assertFalse(request1.canPurchase());
       }
     }
   }
