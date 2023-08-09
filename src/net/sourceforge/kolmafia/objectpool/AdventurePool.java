@@ -109,7 +109,7 @@ public class AdventurePool {
   public static final int THE_WRECK_OF_THE_EDGAR_FITZSIMMONS = 191;
   public static final int MADNESS_REEF = 194;
   public static final int MARINARA_TRENCH = 195;
-  public static final int ANENOME_MINE = 196;
+  public static final int ANEMONE_MINE = 196;
   public static final int DIVE_BAR = 197;
   public static final int MERKIN_OUTPOST = 198;
   public static final int THE_CORAL_CORRAL = 199;

@@ -4699,7 +4699,7 @@ public abstract class KoLCharacter {
   }
 
   /** Accessor method to increment the weight of the current familiar by one. */
-  public static final void incrementFamilarWeight() {
+  public static final void incrementFamiliarWeight() {
     if (KoLCharacter.currentFamiliar != null) {
       KoLCharacter.currentFamiliar.setWeight(KoLCharacter.currentFamiliar.getWeight() + 1);
     }

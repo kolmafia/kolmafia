@@ -23,7 +23,7 @@ public class CurseRequest extends GenericRequest {
 
   private final AdventureResult itemUsed;
 
-  private static final AdventureResult MARSHMALLLOW = ItemPool.get(ItemPool.MARSHMALLOW, 1);
+  private static final AdventureResult MARSHMALLOW = ItemPool.get(ItemPool.MARSHMALLOW, 1);
 
   public CurseRequest(final AdventureResult item) {
     this(item, KoLCharacter.getPlayerId(), "");
@@ -126,7 +126,7 @@ public class CurseRequest extends GenericRequest {
     switch (item.getItemId()) {
       case ItemPool.SMORE_GUN -> {
         // When you "throw" a s'more gun at someone, marshmallows get used up
-        item = CurseRequest.MARSHMALLLOW;
+        item = CurseRequest.MARSHMALLOW;
       }
       case ItemPool.CRIMBO_TRAINING_MANUAL -> {
         // Usable once per day on another player

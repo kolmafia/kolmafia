@@ -96,7 +96,7 @@ public class EffectPool {
   public static final int MAID_DISSERVICE = 389;
   public static final int MINIONED = 390;
   public static final int ENHANCED_ARCHAEOLOGIST = 391;
-  public static final int CHRONOLOGICALLY_PUMMELLED = 392;
+  public static final int CHRONOLOGICALLY_PUMMELED = 392;
   public static final int ANIMAL_EXPLOITER = 393;
   public static final int SCENT_OF_A_KITCHEN_ELF = 394;
   public static final int ONCE_BITTEN_TWICE_SHY = 395;

@@ -1412,7 +1412,7 @@ public class ArcadeRequest extends GenericRequest {
     ArcadeRequest.parseChoiceNames(responseText);
   }
 
-  public static final void logMetoidAction(
+  public static final void logMeteoidAction(
       final String responseText, final int lastChoice, final int lastDecision) {
     // Called when we are about to take a choice in SpaceTrip
     String action = ArcadeRequest.findChoiceName(lastDecision);
@@ -1466,7 +1466,7 @@ public class ArcadeRequest extends GenericRequest {
     String responseText = request.responseText;
 
     // Log action appropriately
-    ArcadeRequest.logMetoidAction(responseText, lastChoice, lastDecision);
+    ArcadeRequest.logMeteoidAction(responseText, lastChoice, lastDecision);
 
     // The room was guarded by a fierce <monster>!
     Matcher guardMatcher = GUARD_PATTERN.matcher(responseText);
