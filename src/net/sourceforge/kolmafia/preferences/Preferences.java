@@ -22,11 +22,13 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -635,10 +637,23 @@ public class Preferences {
         Preferences.loadUserPreferences(username);
       }
 
-      AdventureFrame.updateFromPreferences();
+      if (StaticEntity.isGUIRequired()) {
+        try {
+          SwingUtilities.invokeAndWait(
+              () -> {
+                AdventureFrame.updateFromPreferences();
+                MoodManager.updateFromPreferences();
+              });
+        } catch (Exception e) {
+          // We don't really care about these exceptions.
+        }
+      } else {
+        AdventureFrame.updateFromPreferences();
+        MoodManager.updateFromPreferences();
+      }
+
       CharPaneDecorator.updateFromPreferences();
       CombatActionManager.updateFromPreferences();
-      MoodManager.updateFromPreferences();
       PreferenceListenerRegistry.fireAllPreferencesChanged();
     }
   }
