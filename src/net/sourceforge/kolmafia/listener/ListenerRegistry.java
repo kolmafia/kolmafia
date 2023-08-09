@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -213,14 +212,7 @@ public class ListenerRegistry {
         }
 
         try {
-          if (StaticEntity.isGUIRequired()) {
-            SwingUtilities.invokeAndWait(
-                () -> {
-                  listener.update();
-                });
-          } else {
-            listener.update();
-          }
+          listener.update();
         } catch (Exception e) {
           // Don't let a botched listener interfere with
           // the code that modified the preference.

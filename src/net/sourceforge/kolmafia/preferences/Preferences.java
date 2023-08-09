@@ -28,7 +28,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -36,6 +35,7 @@ import net.sourceforge.kolmafia.session.MonorailManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.SwinglessUIUtils;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class Preferences {
@@ -637,12 +637,13 @@ public class Preferences {
         Preferences.loadUserPreferences(username);
       }
 
-      if (StaticEntity.isGUIRequired()) {
+      if (SwinglessUIUtils.isSwingAvailable()) {
         try {
-          SwingUtilities.invokeAndWait(
+          SwingUtilities.invokeLater(
               () -> {
                 AdventureFrame.updateFromPreferences();
                 MoodManager.updateFromPreferences();
+                PreferenceListenerRegistry.fireAllPreferencesChanged();
               });
         } catch (Exception e) {
           // We don't really care about these exceptions.
@@ -650,11 +651,11 @@ public class Preferences {
       } else {
         AdventureFrame.updateFromPreferences();
         MoodManager.updateFromPreferences();
+        PreferenceListenerRegistry.fireAllPreferencesChanged();
       }
 
       CharPaneDecorator.updateFromPreferences();
       CombatActionManager.updateFromPreferences();
-      PreferenceListenerRegistry.fireAllPreferencesChanged();
     }
   }
 
