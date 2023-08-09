@@ -396,8 +396,70 @@ public class Player {
    * @return Restores the number of this item to the old value
    */
   public static Cleanups withItemInStorage(final int itemId, final int count) {
-    AdventureResult item = ItemPool.get(itemId, count);
+    return withItemInStorage(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts the given item into the player's storage
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInStorage(final AdventureResult item) {
     return addToList(item, KoLConstants.storage);
+  }
+
+  /**
+   * Puts the given item into the player's freepulls
+   *
+   * @param itemName Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInFreepulls(final String itemName) {
+    return withItemInFreepulls(itemName, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's freepulls
+   *
+   * @param itemName Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInFreepulls(final String itemName, final int count) {
+    int itemId = ItemDatabase.getItemId(itemName, count, false);
+    return withItemInFreepulls(itemId, count);
+  }
+
+  /**
+   * Puts the given item into the player's freepulls
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInFreepulls(final int itemId) {
+    return withItemInFreepulls(itemId, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's freepulls
+   *
+   * @param itemId Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInFreepulls(final int itemId, final int count) {
+    return withItemInFreepulls(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts the given item into the player's freepulls
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInFreepulls(final AdventureResult item) {
+    return addToList(item, KoLConstants.freepulls);
   }
 
   /**

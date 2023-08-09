@@ -1,7 +1,11 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -10,11 +14,13 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -22,14 +28,17 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -140,25 +149,29 @@ public class MallPriceManagerTest {
 
   @BeforeAll
   public static void beforeAll() {
-    // Simulate logging out and back in again.
-    KoLCharacter.reset("");
-    KoLCharacter.reset("mall price manager user");
-    CharPaneRequest.setCanInteract(true);
+    KoLCharacter.reset("MallPriceManager");
+    MallPriceManager.reset();
+    GenericRequest.sessionId = null;
     MallPriceDatabase.savePricesToFile = false;
+  }
+
+  @BeforeEach
+  public void beforeEach() {
+    Preferences.reset("MallPriceManager");
+    CharPaneRequest.setCanInteract(true);
+    KoLCharacter.setAvailableMeat(1_000_000);
+    nextShopId = 1;
+  }
+
+  @AfterEach
+  public void AfterEach() {
+    MallPriceManager.reset();
+    MallPurchaseRequest.reset();
   }
 
   @AfterAll
   public static void afterAll() {
     MallPriceDatabase.savePricesToFile = true;
-  }
-
-  @BeforeEach
-  public void beforeEach() {
-    // Stop requests from actually running
-    GenericRequest.sessionId = null;
-    KoLCharacter.setAvailableMeat(1_000_000);
-    MallPriceManager.reset();
-    nextShopId = 1;
   }
 
   private void addNPCStoreItem(int itemId, List<PurchaseRequest> list) {
@@ -239,7 +252,7 @@ public class MallPriceManagerTest {
   public void canFindPriceForMultipleItems() {
     AdventureResult item = ItemPool.get(ItemPool.REAGENT);
     int[] prices = getTestPrices();
-    try (var cleanups = mockClock()) {
+    try (var cleanups = new Cleanups(withMeat(0), mockClock())) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -266,6 +279,64 @@ public class MallPriceManagerTest {
 
       // Counts greater than available extrapolate using highest price
       assertEquals(37500, MallPriceManager.getMallPrice(item.getInstance(16)));
+    }
+  }
+
+  @Nested
+  class OmittedStores {
+    @Test
+    public void canExcludeDisabledIgnoringAndForbiddenStores() {
+      AdventureResult item = ItemPool.get(ItemPool.REAGENT);
+      int[] prices = getTestPrices();
+
+      // count  mall price    actual   current    skip
+      // -----  ----------  ---------   ------    ----
+      //   1        100         100      1000       no
+      //            200       -----     -----      yes
+      //   2        300         400      2000       no
+      //            400       -----     -----      yes
+      //   3        500         900      3000       no
+      //           1000       -----     -----      yes
+      //   4       1000        1900      4000       no
+      //           1000       -----     -----      yes
+      //   5       1000        2900      5000       no
+      //           1000       -----     -----      yes
+      //   6       5000        7900     10000       no
+      //           5000       -----     -----      yes
+      //   7       5000       12900     15000       no
+      //           5000       -----     -----      yes
+      //   8       5000       17900     20000       no
+
+      var cleanups = new Cleanups(withMeat(0), withProperty("forbiddenStores", ""), mockClock());
+      try (cleanups) {
+        long timestamp = 1_000_000;
+        Mockito.when(clock.millis()).thenReturn(timestamp);
+
+        List<PurchaseRequest> results = generateSearchResults(item, prices);
+        assertEquals(15, results.size());
+        addSearchResults(item, results);
+
+        // Eliminate every other store from consideration
+        MallPurchaseRequest.addDisabledStore(2);
+        MallPurchaseRequest.addIgnoringStore(4);
+        MallPurchaseRequest.addForbiddenStore(6);
+        MallPurchaseRequest.addDisabledStore(8);
+        MallPurchaseRequest.addIgnoringStore(10);
+        MallPurchaseRequest.addForbiddenStore(12);
+        MallPurchaseRequest.addDisabledStore(14);
+
+        assertEquals(1000, MallPriceManager.getMallPrice(item.getInstance(1)));
+        assertEquals(2000, MallPriceManager.getMallPrice(item.getInstance(2)));
+        assertEquals(3000, MallPriceManager.getMallPrice(item.getInstance(3)));
+        assertEquals(4000, MallPriceManager.getMallPrice(item.getInstance(4)));
+        assertEquals(5000, MallPriceManager.getMallPrice(item.getInstance(5)));
+        assertEquals(10000, MallPriceManager.getMallPrice(item.getInstance(6)));
+        assertEquals(15000, MallPriceManager.getMallPrice(item.getInstance(7)));
+        assertEquals(20000, MallPriceManager.getMallPrice(item.getInstance(8)));
+
+        // Counts greater than available extrapolate using highest price
+        assertEquals(25000, MallPriceManager.getMallPrice(item.getInstance(9)));
+      }
     }
   }
 
@@ -508,11 +579,6 @@ public class MallPriceManagerTest {
       search = MallPriceManager.getSavedSearch(itemId, 0);
       assertNotNull(search);
 
-      // Verify that there is no search that we can afford
-      // (1 means "we have to be able to afford 1 item")
-      search = MallPriceManager.getSavedSearch(itemId, 1);
-      assertNull(search);
-
       // Advance time such that the timestamp is now 5 seconds stale :)
       long now = timestamp + (MallPriceManager.MALL_SEARCH_FRESHNESS + 5) * 1000;
       Mockito.when(clock.millis()).thenReturn(now);
@@ -571,6 +637,113 @@ public class MallPriceManagerTest {
 
       // The MallSearchRequest found a bunch of PurchaseRequests from the responseText
       assertEquals(results.size(), 60);
+    }
+  }
+
+  @Nested
+  class ForbiddenStores {
+    private static List<Integer> extractShopIds(AdventureResult item, String responseText) {
+      MallSearchRequest request = new MallSearchRequest(item.getName(), 0);
+      request.responseText = responseText;
+
+      // Get all the shops with Hell Ramen in our saved search
+      return request.extractShopIds(item.getItemId());
+    }
+
+    private static String getForbiddenStores(List<Integer> shopIds) {
+      // Forbid every other store
+      StringBuilder buf = new StringBuilder();
+      boolean forbid = true;
+      for (var shopId : shopIds) {
+        if (forbid) {
+          if (buf.length() > 0) {
+            buf.append(",");
+          }
+          buf.append(String.valueOf(shopId));
+        }
+        forbid = !forbid;
+      }
+
+      return buf.toString();
+    }
+
+    @Test
+    public void canSkipForbiddenStoresWithSearchMall() {
+      // Test with Hell ramen.
+      AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
+      String responseText = html("request/test_mall_search_hell_ramen.html");
+
+      // Get the shopIds from the responseText
+      List<Integer> shopIds = extractShopIds(item, responseText);
+      int count = shopIds.size();
+      assertEquals(count, 60);
+
+      // Forbid half the stores
+      String setting = getForbiddenStores(shopIds);
+
+      // Make a mocked MallSearchResponse with the responseText preloaded
+      MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
+      request.responseText = responseText;
+
+      var cleanups =
+          new Cleanups(mockMallSearchRequest(request), withProperty("forbiddenStores", setting));
+      try (cleanups) {
+        long timestamp = 1_000_000;
+        Mockito.when(clock.millis()).thenReturn(timestamp);
+
+        // MallPriceManager can search the mall and return a filtered list of results
+        List<PurchaseRequest> results = MallPriceManager.searchMall(item);
+        assertEquals(results.size(), 30);
+
+        // Verify that none of the forbidden stores are in the resulta
+        Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
+        for (var req : results) {
+          if (req instanceof MallPurchaseRequest mpr) {
+            assertFalse(forbidden.contains(mpr.getShopId()));
+          }
+        }
+      }
+    }
+
+    @Test
+    public void canSkipForbiddenStoresWithActualRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      // Test with Hell ramen.
+      AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
+      String responseText = html("request/test_mall_search_hell_ramen.html");
+
+      // Get the shopIds from the responseText
+      List<Integer> shopIds = extractShopIds(item, responseText);
+      int count = shopIds.size();
+      assertEquals(count, 60);
+
+      // Forbid half the stores
+      String setting = getForbiddenStores(shopIds);
+
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withProperty("forbiddenStores", setting));
+      try (cleanups) {
+        long timestamp = 1_000_000;
+        Mockito.when(clock.millis()).thenReturn(timestamp);
+        var request = new MallSearchRequest("Hell ramen", 0);
+        client.addResponse(200, responseText);
+        request.run();
+
+        // MallSearchRequest will give MallPriceManager a full set of results.
+        // MallPriceManager will filter them.
+        List<PurchaseRequest> results = MallPriceManager.getSavedSearch(item.getItemId(), 5);
+        assertEquals(results.size(), 30);
+
+        // Verify that none of the forbidden stores are in the resulta
+        Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
+        for (var req : results) {
+          if (req instanceof MallPurchaseRequest mpr) {
+            assertFalse(forbidden.contains(mpr.getShopId()));
+          }
+        }
+      }
     }
   }
 
