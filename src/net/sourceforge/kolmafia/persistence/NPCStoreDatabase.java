@@ -242,7 +242,7 @@ public class NPCStoreDatabase {
         // The Crimbo Cafe
         return false;
       }
-      case "crimbo20", "crimbo20blackmarket" -> {
+      case "crimbo20cafe", "crimbo20blackmarket" -> {
         // The Crimbo Cafe
         // The Black and White and Red All Over Market
         return false;
