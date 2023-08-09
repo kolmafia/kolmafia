@@ -696,7 +696,7 @@ public class CharPaneDecorator {
 
         if (spit < 100) {
           double spitPerTurn = 10 / 3.0;
-          AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
+          AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMET, 1);
           boolean wearingHelmet = EquipmentManager.getEquipment(Slot.FAMILIAR).equals(helmet);
 
           if (wearingHelmet) {
