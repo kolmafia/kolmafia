@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -251,7 +252,7 @@ public class MallPriceManagerTest {
   public void canFindPriceForMultipleItems() {
     AdventureResult item = ItemPool.get(ItemPool.REAGENT);
     int[] prices = getTestPrices();
-    try (var cleanups = mockClock()) {
+    try (var cleanups = new Cleanups(withMeat(0), mockClock())) {
       long timestamp = 1_000_000;
       Mockito.when(clock.millis()).thenReturn(timestamp);
 
@@ -306,7 +307,7 @@ public class MallPriceManagerTest {
       //           5000       -----     -----      yes
       //   8       5000       17900     20000       no
 
-      var cleanups = new Cleanups(withProperty("forbiddenStores", ""), mockClock());
+      var cleanups = new Cleanups(withMeat(0), withProperty("forbiddenStores", ""), mockClock());
       try (cleanups) {
         long timestamp = 1_000_000;
         Mockito.when(clock.millis()).thenReturn(timestamp);
@@ -577,11 +578,6 @@ public class MallPriceManagerTest {
       // (0 means "we don't care how many we can buy")
       search = MallPriceManager.getSavedSearch(itemId, 0);
       assertNotNull(search);
-
-      // Verify that there is no search that we can afford
-      // (1 means "we have to be able to afford 1 item")
-      search = MallPriceManager.getSavedSearch(itemId, 1);
-      assertNull(search);
 
       // Advance time such that the timestamp is now 5 seconds stale :)
       long now = timestamp + (MallPriceManager.MALL_SEARCH_FRESHNESS + 5) * 1000;

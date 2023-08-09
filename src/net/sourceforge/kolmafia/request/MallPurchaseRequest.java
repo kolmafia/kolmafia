@@ -184,7 +184,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   @Override
   public boolean canPurchase() {
-    return super.canPurchase() && !this.isDisabled() && !this.isIgnoring() && !this.isForbidden();
+    return this.canPurchase && !this.isDisabled() && !this.isIgnoring() && !this.isForbidden();
   }
 
   private static final Pattern STOREID_PATTERN = Pattern.compile("whichstore\\d?=(\\d+)");
