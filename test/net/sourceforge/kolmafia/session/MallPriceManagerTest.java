@@ -164,6 +164,7 @@ public class MallPriceManagerTest {
 
   @AfterEach
   public void AfterEach() {
+    MallPriceManager.reset();
     MallPurchaseRequest.reset();
   }
 
@@ -277,6 +278,64 @@ public class MallPriceManagerTest {
 
       // Counts greater than available extrapolate using highest price
       assertEquals(37500, MallPriceManager.getMallPrice(item.getInstance(16)));
+    }
+  }
+
+  @Nested
+  class OmittedStores {
+    @Test
+    public void canExcludeDisabledIgnoringAndForbiddenStores() {
+      AdventureResult item = ItemPool.get(ItemPool.REAGENT);
+      int[] prices = getTestPrices();
+
+      // count  mall price    actual   current    skip
+      // -----  ----------  ---------   ------    ----
+      //   1        100         100      1000       no
+      //            200       -----     -----      yes
+      //   2        300         400      2000       no
+      //            400       -----     -----      yes
+      //   3        500         900      3000       no
+      //           1000       -----     -----      yes
+      //   4       1000        1900      4000       no
+      //           1000       -----     -----      yes
+      //   5       1000        2900      5000       no
+      //           1000       -----     -----      yes
+      //   6       5000        7900     10000       no
+      //           5000       -----     -----      yes
+      //   7       5000       12900     15000       no
+      //           5000       -----     -----      yes
+      //   8       5000       17900     20000       no
+
+      var cleanups = new Cleanups(withProperty("forbiddenStores", ""), mockClock());
+      try (cleanups) {
+        long timestamp = 1_000_000;
+        Mockito.when(clock.millis()).thenReturn(timestamp);
+
+        List<PurchaseRequest> results = generateSearchResults(item, prices);
+        assertEquals(15, results.size());
+        addSearchResults(item, results);
+
+        // Eliminate every other store from consideration
+        MallPurchaseRequest.addDisabledStore(2);
+        MallPurchaseRequest.addIgnoringStore(4);
+        MallPurchaseRequest.addForbiddenStore(6);
+        MallPurchaseRequest.addDisabledStore(8);
+        MallPurchaseRequest.addIgnoringStore(10);
+        MallPurchaseRequest.addForbiddenStore(12);
+        MallPurchaseRequest.addDisabledStore(14);
+
+        assertEquals(1000, MallPriceManager.getMallPrice(item.getInstance(1)));
+        assertEquals(2000, MallPriceManager.getMallPrice(item.getInstance(2)));
+        assertEquals(3000, MallPriceManager.getMallPrice(item.getInstance(3)));
+        assertEquals(4000, MallPriceManager.getMallPrice(item.getInstance(4)));
+        assertEquals(5000, MallPriceManager.getMallPrice(item.getInstance(5)));
+        assertEquals(10000, MallPriceManager.getMallPrice(item.getInstance(6)));
+        assertEquals(15000, MallPriceManager.getMallPrice(item.getInstance(7)));
+        assertEquals(20000, MallPriceManager.getMallPrice(item.getInstance(8)));
+
+        // Counts greater than available extrapolate using highest price
+        assertEquals(25000, MallPriceManager.getMallPrice(item.getInstance(9)));
+      }
     }
   }
 

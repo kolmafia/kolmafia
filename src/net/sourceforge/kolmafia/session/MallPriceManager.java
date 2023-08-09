@@ -263,18 +263,18 @@ public abstract class MallPriceManager {
       return null;
     }
 
+    // Filter the results to exclude stores we cannot purchase from.
+    // For mall stores, that includes disabled, ignoring, and forbidden.
+    List<PurchaseRequest> filtered = filterMallSearch(results);
+
     // If we don't care how many are available, any saved search is
     // good enough
     if (needed == 0) {
-      return results;
+      return filtered;
     }
 
     // See if the saved search will let you purchase enough of the item
     int available = 0;
-
-    // Filter the results to exclude stores we cannot purchase from.
-    // For mall stores, that includes disabled, ignoring, and forbidden.
-    List<PurchaseRequest> filtered = filterMallSearch(results);
 
     for (PurchaseRequest result : filtered) {
       int count = result.getQuantity();
