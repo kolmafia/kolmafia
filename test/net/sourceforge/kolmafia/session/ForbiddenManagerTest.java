@@ -7,10 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +18,7 @@ public class ForbiddenManagerTest {
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("ForbiddenManager");
-    PreferenceListenerRegistry.reset();
-    MallPriceManager.reset();
+    MallPurchaseRequest.reset();
   }
 
   @BeforeEach
@@ -30,13 +27,8 @@ public class ForbiddenManagerTest {
   }
 
   @AfterEach
-  public void AfterEach() {
+  public void afterEach() {
     MallPurchaseRequest.reset();
-  }
-
-  @AfterAll
-  public static void AfterAll() {
-    PreferenceListenerRegistry.reset();
   }
 
   @Test

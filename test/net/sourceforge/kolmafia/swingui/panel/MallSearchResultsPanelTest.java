@@ -12,8 +12,6 @@ import internal.helpers.Cleanups;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
-import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -28,19 +26,17 @@ public class MallSearchResultsPanelTest {
 
   @BeforeAll
   public static void beforeAll() {
-    KoLCharacter.reset("mallSearchResults");
+    KoLCharacter.reset("mallSearchResultsPanel");
     MallPurchaseRequest.reset();
   }
 
   @BeforeEach
   public void beforeEach() {
-    Preferences.reset("mallSearchResults");
+    Preferences.reset("mallSearchResultsPanel");
   }
 
   @AfterEach
   public void AfterEach() {
-    NamedListenerRegistry.reset();
-    PreferenceListenerRegistry.reset();
     MallPurchaseRequest.reset();
   }
 
