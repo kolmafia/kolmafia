@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 public class UseItemEnqueuePanelTest {
 
   @BeforeAll
-  public static void beforeEach() {
+  public static void beforeAll() {
     KoLCharacter.reset("useItemEnqueue");
     Preferences.reset("useItemEnqueue");
 
