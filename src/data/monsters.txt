@@ -2000,7 +2000,7 @@ gingerbread rat	1976	gbrat.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 50 Spr
 gingerbread convict	1977	gbconvict.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: dude Article: a	sour ball and chain (0)
 gingerbread mad dog	1978	gbdog.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: beast Article: a	candy dog collar (0)
 gingerbread lawyer	1979	gblawyer.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: -10000 SprinkleMin: 18 SprinkleMax: 20 P: dude Article: a	candy dress shoes (0)	gingerbread restraining order (0)
-gingerbread vagrant	1980	gbvagrant.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 3 SprinkleMax: 5 P: dude Article: a	sprinkle-begging cup (10)
+gingerbread vagrant	1980	gbvagrant.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 3 SprinkleMax: 5 P: dude Article: a	sprinkle-begging cup (c0)
 animal cracker	1981	gbcracker.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 8 SprinkleMax: 10 P: beast Article: an	animal part cracker (10)
 gingerbread wino	1982	gbwino.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: dude EA: stench Article: a	gingerbread wine (10)
 gingerbread mugger	1983	gbmugger.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 16 SprinkleMax: 22 P: dude Article: a	gingerbread mug (0)	gingerbread mask (0)
