@@ -70,7 +70,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       final int quantity) {
     super(NPCPurchaseRequest.pickForm(storeId));
 
-    this.isMallStore = false;
     this.item = ItemPool.get(itemId);
 
     this.shopName = storeName;
@@ -113,6 +112,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       this.hashField = "phash";
       this.quantityField = "howmany";
     }
+  }
+
+  @Override
+  public boolean isMallStore() {
+    return false;
   }
 
   public static String pickForm(final String shopId) {

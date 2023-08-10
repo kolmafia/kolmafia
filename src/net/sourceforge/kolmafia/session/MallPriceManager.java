@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -206,6 +207,23 @@ public abstract class MallPriceManager {
     }
   }
 
+  // If a shop has been added or removed from forbidden, ignored, or
+  // disabled status, reset save mall prices to force new mall searchs
+  public static final void resetMallPrices(final int shopId) {
+    // Reset saved mall prices for all items with this shopId
+    for (List<PurchaseRequest> search : new ArrayList<>(mallSearches.values())) {
+      for (PurchaseRequest request : search) {
+        if (request instanceof MallPurchaseRequest mpr) {
+          if (shopId == mpr.getShopId()) {
+            int itemId = mpr.getItemId();
+            MallPriceManager.updateMallPrice(itemId, search);
+            break;
+          }
+        }
+      }
+    }
+  }
+
   public static final void flushCache(final int itemId) {
     List<PurchaseRequest> search = MallPriceManager.mallSearches.get(itemId);
     if (search != null) {
@@ -245,28 +263,27 @@ public abstract class MallPriceManager {
       return null;
     }
 
+    // Filter the results to exclude stores we cannot purchase from.
+    // For mall stores, that includes disabled, ignoring, and forbidden.
+    List<PurchaseRequest> filtered = filterMallSearch(results);
+
     // If we don't care how many are available, any saved search is
     // good enough
     if (needed == 0) {
-      return results;
+      return filtered;
     }
 
     // See if the saved search will let you purchase enough of the item
     int available = 0;
 
-    for (PurchaseRequest result : results) {
-      // If we can't use this request, ignore it
-      if (!result.canPurchase()) {
-        continue;
-      }
-
+    for (PurchaseRequest result : filtered) {
       int count = result.getQuantity();
 
       // If there is an unlimited number of this item
       // available (because this is an NPC store), that is
       // enough for anybody
       if (count == PurchaseRequest.MAX_QUANTITY) {
-        return results;
+        return filtered;
       }
 
       // Accumulate available count
@@ -275,7 +292,7 @@ public abstract class MallPriceManager {
       // If we have found enough available items, this search
       // is good enough
       if (available >= needed) {
-        return results;
+        return filtered;
       }
     }
 
@@ -300,6 +317,7 @@ public abstract class MallPriceManager {
       if (!Preferences.getBoolean("suppressMallPriceCacheMessages")) {
         KoLmafia.updateDisplay("Using cached search results for " + name + "...");
       }
+      // getSavedSearch already filtered out unavailable stores.
       return results;
     }
 
@@ -317,24 +335,20 @@ public abstract class MallPriceManager {
       }
     }
 
-    return results;
+    return filterMallSearch(results);
+  }
+
+  public static final List<PurchaseRequest> filterMallSearch(final List<PurchaseRequest> results) {
+    return results.stream().filter(PurchaseRequest::canPurchase).collect(Collectors.toList());
   }
 
   public static final List<PurchaseRequest> searchOnlyMall(final AdventureResult item) {
     // Get a potentially cached list of search request from both PC and NPC stores,
     // Coinmaster Requests have already been filtered out
-    List<PurchaseRequest> allResults = MallPriceManager.searchMall(item);
-
     // Filter out NPC stores
-    List<PurchaseRequest> results = new ArrayList<>();
-
-    for (PurchaseRequest result : allResults) {
-      if (result.isMallStore) {
-        results.add(result);
-      }
-    }
-
-    return results;
+    return MallPriceManager.searchMall(item).stream()
+        .filter(PurchaseRequest::isMallStore)
+        .collect(Collectors.toList());
   }
 
   public static final List<PurchaseRequest> searchNPCs(final AdventureResult item) {
@@ -424,9 +438,12 @@ public abstract class MallPriceManager {
   }
 
   public static int nthCheapestPrice(int qty, List<PurchaseRequest> results) {
+    // Filter out forbidden, ignored, and disabled stores
+    List<PurchaseRequest> filtered = filterMallSearch(results);
+
     // If there are no PurchaseRequests for this item, return -1
     int price = -1;
-    for (PurchaseRequest req : results) {
+    for (PurchaseRequest req : filtered) {
       if (req instanceof CoinMasterPurchaseRequest || !req.canPurchaseIgnoringMeat()) {
         continue;
       }

@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -240,7 +239,9 @@ public class MallSearchRequest extends GenericRequest {
     // If an exact match, we can think about updating mall_price().
     if (this.searchString.startsWith("\"") && this.results.size() > 0) {
       AdventureResult item = this.results.get(0).getItem();
-      MallPriceManager.updateMallPrice(item, new ArrayList<>(this.results));
+      List<PurchaseRequest> search = new ArrayList<>(this.results);
+      MallPriceManager.updateMallPrice(item, search);
+      MallPriceManager.saveMallSearch(item.getItemId(), search);
     }
   }
 
@@ -418,8 +419,6 @@ public class MallSearchRequest extends GenericRequest {
       String itemListResult = itemMatcher.group(4);
       Matcher linkMatcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher(itemListResult);
 
-      Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
-
       while (linkMatcher.find()) {
         String linkText = linkMatcher.group();
         Matcher quantityMatcher = MallSearchRequest.LISTQUANTITY_PATTERN.matcher(linkText);
@@ -449,20 +448,6 @@ public class MallSearchRequest extends GenericRequest {
 
         int shopId = StringUtilities.parseInt(detailsMatcher.group(1));
 
-        // If we are ignoring this store, skip it.
-        if (!Preferences.getBoolean("showForbiddenStores") && forbidden.contains(shopId)) {
-          continue;
-        }
-
-        // If we have tried to purchase from this store this session
-        // and discovered that it is disabled or ignoring you, skip it.
-
-        if (MallPurchaseRequest.disabledStores.contains(shopId)
-            || (!Preferences.getBoolean("showIgnoringStorePrices")
-                && MallPurchaseRequest.ignoringStores.contains(shopId))) {
-          continue;
-        }
-
         if (previousItemId != itemId) {
           previousItemId = itemId;
           this.addNPCStoreItem(itemId);
@@ -485,6 +470,38 @@ public class MallSearchRequest extends GenericRequest {
     // store data and finalize the list.
 
     this.finalizeList(itemNames);
+  }
+
+  // For testing
+  public List<Integer> extractShopIds(int itemId) {
+    List<Integer> shopIds = new ArrayList<>();
+
+    int startIndex = this.responseText.indexOf("Search Results:");
+    String storeListResult = this.responseText.substring(Math.max(startIndex, 0));
+
+    Matcher itemMatcher = MallSearchRequest.ITEMDETAIL_PATTERN.matcher(storeListResult);
+    while (itemMatcher.find()) {
+      int foundItemId = StringUtilities.parseInt(itemMatcher.group(1));
+      if (foundItemId != itemId) {
+        continue;
+      }
+
+      String itemListResult = itemMatcher.group(4);
+      Matcher linkMatcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher(itemListResult);
+
+      while (linkMatcher.find()) {
+        String linkText = linkMatcher.group();
+        Matcher detailsMatcher = MallSearchRequest.LISTDETAIL_PATTERN.matcher(linkText);
+        if (!detailsMatcher.find()) {
+          continue;
+        }
+
+        int shopId = StringUtilities.parseInt(detailsMatcher.group(1));
+        shopIds.add(shopId);
+      }
+    }
+
+    return shopIds;
   }
 
   private void addNPCStoreItem(final int itemId) {

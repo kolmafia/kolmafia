@@ -1,81 +1,113 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInFreepulls;
+import static internal.helpers.Player.withItemInStorage;
+import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withProperty;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class MallPurchaseRequestTest {
-  private MallPurchaseRequest mallPurchaseRequestSetup(AdventureResult item) {
-    // Simulate logging out and back in again.
+
+  @BeforeAll
+  public static void beforeAll() {
     KoLCharacter.reset("");
-    KoLCharacter.reset("transfer items user");
-    // Reset preferences to defaults.
-    KoLCharacter.reset(true);
-    // Not in error state
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    // Make a MallPurchaseRequest with specific URLstring and responseText
-    MallPurchaseRequest request = new MallPurchaseRequest(item, 1, 1234, "shop", 100, 1, true);
-
-    // The items are not in inventory, storage, or freepulls
-    KoLConstants.inventory.clear();
-    KoLConstants.storage.clear();
-    KoLConstants.freepulls.clear();
-
-    return request;
+    KoLCharacter.reset("mall purchase request");
   }
 
-  @Test
-  public void itCountsItemsInInventory() {
-    // Testing a non-static method, so make a request.
-    AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
-    MallPurchaseRequest request = mallPurchaseRequestSetup(item);
-
-    // Test allowed to interact
-    CharPaneRequest.setCanInteract(true);
-
-    // Add an item to inventory
-    AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.SEAL_TOOTH, 1));
-
-    // Verify we find it in inventory
-    assertTrue(request.getCurrentCount() == 1);
+  @BeforeEach
+  public void beforeEach() {
+    Preferences.reset("mall purchase request");
+    MallPurchaseRequest.disabledStores.clear();
+    MallPurchaseRequest.ignoringStores.clear();
   }
 
-  @Test
-  public void itCountsItemsInStorage() {
-    // Testing a non-static method, so make a request.
-    AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
-    MallPurchaseRequest request = mallPurchaseRequestSetup(item);
-
-    // Test NOT allowed to interact
-    CharPaneRequest.setCanInteract(false);
-
-    // Add an item to storage
-    AdventureResult.addResultToList(KoLConstants.storage, item);
-
-    // Verify we find it in inventory
-    assertTrue(request.getCurrentCount() == 1);
+  private MallPurchaseRequest makeMallPurchaseRequest(AdventureResult item) {
+    return new MallPurchaseRequest(item, 1, 1234, "shop", 100, 1, true);
   }
 
-  @Test
-  public void itCountsItemsInFreepulls() {
-    // Testing a non-static method, so make a request.
-    AdventureResult item = ItemPool.get(ItemPool.TOILET_PAPER, 1);
-    MallPurchaseRequest request = mallPurchaseRequestSetup(item);
+  @Nested
+  class CurrentCount {
+    @Test
+    public void itCountsItemsInInventory() {
+      AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
+      var cleanups = new Cleanups(withInteractivity(true), withItem(item));
+      try (cleanups) {
+        MallPurchaseRequest request = makeMallPurchaseRequest(item);
+        assertTrue(request.getCurrentCount() == 1);
+      }
+    }
 
-    // Test NOT allowed to interact
-    CharPaneRequest.setCanInteract(false);
+    @Test
+    public void itCountsItemsInStorage() {
+      AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
+      var cleanups = new Cleanups(withInteractivity(false), withItemInStorage(item));
+      try (cleanups) {
+        MallPurchaseRequest request = makeMallPurchaseRequest(item);
+        assertTrue(request.getCurrentCount() == 1);
+      }
+    }
 
-    // Add an item to freepulls
-    AdventureResult.addResultToList(KoLConstants.freepulls, item);
+    @Test
+    public void itCountsItemsInFreepulls() {
+      AdventureResult item = ItemPool.get(ItemPool.TOILET_PAPER, 1);
+      var cleanups = new Cleanups(withInteractivity(false), withItemInFreepulls(item));
+      try (cleanups) {
+        MallPurchaseRequest request = makeMallPurchaseRequest(item);
+        assertTrue(request.getCurrentCount() == 1);
+      }
+    }
+  }
 
-    // Verify we find it in freepulls
-    assertTrue(request.getCurrentCount() == 1);
+  @Nested
+  class Color {
+    @Test
+    public void disabledStoresAreGray() {
+      AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
+      var cleanups = new Cleanups(withInteractivity(true), withMeat(100));
+      try (cleanups) {
+        MallPurchaseRequest request = makeMallPurchaseRequest(item);
+        assertEquals(null, request.color());
+        MallPurchaseRequest.addDisabledStore(request.getShopId());
+        assertEquals("gray", request.color());
+      }
+    }
+
+    @Test
+    public void ignoringStoresAreGray() {
+      AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
+      var cleanups = new Cleanups(withInteractivity(true), withMeat(100));
+      try (cleanups) {
+        MallPurchaseRequest request = makeMallPurchaseRequest(item);
+        assertEquals(null, request.color());
+        MallPurchaseRequest.addIgnoringStore(request.getShopId());
+        assertEquals("gray", request.color());
+      }
+    }
+
+    @Test
+    public void forbiddenStoresAreRed() {
+      AdventureResult item = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
+      var cleanups =
+          new Cleanups(withInteractivity(true), withMeat(100), withProperty("forbiddenStores"));
+      try (cleanups) {
+        MallPurchaseRequest request = makeMallPurchaseRequest(item);
+        assertEquals(null, request.color());
+        MallPurchaseRequest.addForbiddenStore(request.getShopId());
+        assertEquals("red", request.color());
+      }
+    }
   }
 }

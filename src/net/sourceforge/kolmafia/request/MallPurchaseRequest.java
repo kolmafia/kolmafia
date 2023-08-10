@@ -17,6 +17,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -25,14 +28,164 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPurchaseRequest extends PurchaseRequest {
-  private static final Pattern YIELD_PATTERN =
-      Pattern.compile(
-          "You may only buy ([\\d,]+) of this item per day from this store\\. You have already purchased ([\\d,]+)");
+
+  private final int shopId;
 
   public static final Set<Integer> disabledStores = new HashSet<>();
   public static final Set<Integer> ignoringStores = new HashSet<>();
 
-  private final int shopId;
+  public boolean isDisabled() {
+    return isDisabled(this.shopId);
+  }
+
+  public static boolean isDisabled(int shopId) {
+    return disabledStores.contains(shopId);
+  }
+
+  public static void addDisabledStore(int shopId) {
+    disabledStores.add(shopId);
+    NamedListenerRegistry.fireChange("(disabledStore)");
+    MallPriceManager.resetMallPrices(shopId);
+  }
+
+  public boolean isIgnoring() {
+    return isIgnoring(this.shopId);
+  }
+
+  public static boolean isIgnoring(int shopId) {
+    return ignoringStores.contains(shopId);
+  }
+
+  public static void addIgnoringStore(int shopId) {
+    ignoringStores.add(shopId);
+    NamedListenerRegistry.fireChange("(ignoringStore)");
+    MallPriceManager.resetMallPrices(shopId);
+  }
+
+  private static class ForbiddenStoreManager implements Listener {
+    // Lazy initialization: initialize only when first needed.
+    private Set<Integer> forbiddenStores = new HashSet<>();
+    private boolean loaded = false;
+
+    ForbiddenStoreManager() {
+      PreferenceListenerRegistry.registerPreferenceListener("forbiddenStores", this);
+    }
+
+    public void update() {
+      this.load();
+    }
+
+    public void reset() {
+      forbiddenStores.clear();
+      loaded = false;
+    }
+
+    public Set<Integer> getForbiddenStores() {
+      if (!loaded) {
+        load();
+      }
+      return forbiddenStores;
+    }
+
+    public boolean isForbidden(int shopId) {
+      if (!loaded) {
+        load();
+      }
+      return forbiddenStores.contains(shopId);
+    }
+
+    public void add(int shopId) {
+      if (!loaded) {
+        load();
+      }
+      forbiddenStores.add(shopId);
+      this.save();
+    }
+
+    public void remove(int shopId) {
+      if (!loaded) {
+        load();
+      }
+      forbiddenStores.remove(shopId);
+      this.save();
+    }
+
+    public void save() {
+      Preferences.setString(
+          "forbiddenStores",
+          String.join(
+              ",", forbiddenStores.stream().map(String::valueOf).collect(Collectors.joining(","))));
+    }
+
+    public void load() {
+      loaded = true;
+
+      forbiddenStores.clear();
+
+      String input = Preferences.getString("forbiddenStores");
+      if (input.equals("")) {
+        return;
+      }
+
+      Set<Integer> forbidden =
+          Arrays.stream(input.split("\\s*,\\s*"))
+              .filter(s -> s.matches("[0-9]+"))
+              .mapToInt(Integer::parseInt)
+              .boxed()
+              .collect(Collectors.toSet());
+
+      forbiddenStores.addAll(forbidden);
+    }
+  }
+
+  private static ForbiddenStoreManager forbiddenManager = new ForbiddenStoreManager();
+
+  public boolean isForbidden() {
+    return isForbidden(this.shopId);
+  }
+
+  public static boolean isForbidden(int shopId) {
+    return forbiddenManager.isForbidden(shopId);
+  }
+
+  public static Set<Integer> getForbiddenStores() {
+    return forbiddenManager.getForbiddenStores();
+  }
+
+  public static void addForbiddenStore(int shopId) {
+    forbiddenManager.add(shopId);
+    MallPriceManager.resetMallPrices(shopId);
+  }
+
+  public static void removeForbiddenStore(int shopId) {
+    forbiddenManager.remove(shopId);
+    MallPriceManager.resetMallPrices(shopId);
+  }
+
+  public void toggleForbiddenStore() {
+    toggleForbiddenStore(this.shopId);
+  }
+
+  public static void toggleForbiddenStore(int shopId) {
+    if (isForbidden(shopId)) {
+      forbiddenManager.remove(shopId);
+    } else {
+      forbiddenManager.add(shopId);
+    }
+    MallPriceManager.resetMallPrices(shopId);
+  }
+
+  public static void reset() {
+    // Stores which ignore one player may not ignore another player
+    ignoringStores.clear();
+    // Each player chooses which stores to forbid
+    forbiddenManager.reset();
+  }
+
+  @Override
+  public boolean canPurchase() {
+    return this.canPurchase && !this.isDisabled() && !this.isIgnoring() && !this.isForbidden();
+  }
 
   private static final Pattern STOREID_PATTERN = Pattern.compile("whichstore\\d?=(\\d+)");
 
@@ -42,60 +195,6 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   public int getShopId() {
     return this.shopId;
-  }
-
-  public static void reset() {
-    // Stores which are ignoring one character may not be ignoring
-    // another player
-    MallPurchaseRequest.ignoringStores.clear();
-  }
-
-  public static Set<Integer> getForbiddenStores() {
-    // We want to return a mutable list.
-    // String.split returns a fixed-size list
-    // String.split returns a list with an empty element if the input string is empty
-    String input = Preferences.getString("forbiddenStores").trim();
-
-    if (input.equals("")) {
-      return new HashSet<>();
-    }
-
-    return Arrays.stream(input.split("\\s*,\\s*"))
-        .filter(s -> s.matches("[0-9]+"))
-        .mapToInt(Integer::parseInt)
-        .boxed()
-        .collect(Collectors.toSet());
-  }
-
-  private static void setForbiddenStores(Set<Integer> forbidden) {
-    Preferences.setString(
-        "forbiddenStores",
-        String.join(",", forbidden.stream().map(String::valueOf).collect(Collectors.joining(","))));
-  }
-
-  public static void removeForbiddenStore(int shopId) {
-    Set<Integer> forbidden = getForbiddenStores();
-    forbidden.remove(shopId);
-    setForbiddenStores(forbidden);
-  }
-
-  public static void addForbiddenStore(int shopId) {
-    Set<Integer> forbidden = getForbiddenStores();
-    forbidden.add(shopId);
-
-    setForbiddenStores(forbidden);
-  }
-
-  public static void toggleForbiddenStore(int shopId) {
-    Set<Integer> forbidden = getForbiddenStores();
-
-    if (forbidden.contains(shopId)) {
-      forbidden.remove(shopId);
-    } else {
-      forbidden.add(shopId);
-    }
-
-    setForbiddenStores(forbidden);
   }
 
   /**
@@ -142,7 +241,6 @@ public class MallPurchaseRequest extends PurchaseRequest {
       final boolean canPurchase) {
     super("mallstore.php");
 
-    this.isMallStore = true;
     this.hashField = "pwd";
     this.item = item;
 
@@ -160,6 +258,11 @@ public class MallPurchaseRequest extends PurchaseRequest {
     this.addFormField("whichitem", MallPurchaseRequest.getStoreString(item.getItemId(), price));
 
     this.timestamp = MallPriceManager.currentTimeMillis();
+  }
+
+  @Override
+  public boolean isMallStore() {
+    return true;
   }
 
   public static String getStoreString(final int itemId, final int price) {
@@ -187,7 +290,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   @Override
   public String color() {
-    if (getForbiddenStores().contains(this.shopId)) {
+    if (this.isForbidden()) {
       // Try get the color from look and feel
       Color color = UIManager.getColor("InternalFrame.closePressedBackground");
 
@@ -198,7 +301,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return "#" + Integer.toHexString(color.getRGB()).substring(2);
     }
 
-    return !this.canPurchase
+    return !this.canPurchase()
         ? "gray"
         : KoLCharacter.canInteract()
             ? (KoLCharacter.getAvailableMeat() >= this.price ? null : "gray")
@@ -211,7 +314,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (MallPurchaseRequest.disabledStores.contains(this.shopId)) {
+    if (isDisabled(this.shopId)) {
       KoLmafia.updateDisplay(
           "This shop "
               + this.shopName
@@ -221,7 +324,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (MallPurchaseRequest.ignoringStores.contains(this.shopId)) {
+    if (isIgnoring(this.shopId)) {
       KoLmafia.updateDisplay(
           "This shop ("
               + this.shopName
@@ -231,7 +334,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (MallPurchaseRequest.getForbiddenStores().contains(this.shopId)) {
+    if (isForbidden(this.shopId)) {
       KoLmafia.updateDisplay(
           "This shop ("
               + this.shopName
@@ -272,6 +375,10 @@ public class MallPurchaseRequest extends PurchaseRequest {
     return StringUtilities.parseInt(idString.substring(0, idString.length() - 9));
   }
 
+  private static final Pattern YIELD_PATTERN =
+      Pattern.compile(
+          "You may only buy ([\\d,]+) of this item per day from this store\\. You have already purchased ([\\d,]+)");
+
   @Override
   public void processResults() {
     MallPurchaseRequest.parseResponse(this.getURLString(), this.responseText);
@@ -291,9 +398,8 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
     String result = this.responseText.substring(startIndex, stopIndex);
 
-    // One error is that the item price changed, or the item
-    // is no longer available because someone was faster at
-    // purchasing the item.	 If that's the case, just return
+    // If the item price changed, or the item is no longer available
+    // because someone was faster at purchasing the item, just return
     // without doing anything; nothing left to do.
 
     if (this.responseText.contains("You can't afford")) {
@@ -304,34 +410,31 @@ public class MallPurchaseRequest extends PurchaseRequest {
     // If you are on a player's ignore list, you can't buy from his store
 
     if (this.responseText.contains("That player will not sell to you")) {
-      KoLmafia.updateDisplay(
-          "You are on this shop's ignore list (#" + this.shopId + "). Skipping...");
+      KoLmafia.updateDisplay("You are on this shop's ignore list (#" + shopId + "). Skipping...");
       RequestLogger.updateSessionLog(
-          "You are on this shop's ignore list (#" + this.shopId + "). Skipping...");
-      MallPurchaseRequest.ignoringStores.add(shopId);
+          "You are on this shop's ignore list (#" + shopId + "). Skipping...");
+      addIgnoringStore(shopId);
       if (Preferences.getBoolean("autoForbidIgnoringStores")) {
-        MallPurchaseRequest.addForbiddenStore(this.shopId);
+        addForbiddenStore(shopId);
       }
-      MallPriceManager.flushCache(-1, this.shopId);
+      MallPriceManager.flushCache(-1, shopId);
       return;
     }
 
-    // This store belongs to a player whose account has been disabled for policy violation. Its
-    // inventory is frozen.
+    // This store belongs to a player whose account has been disabled for policy violation.
+    // Its inventory is frozen.
 
     if (this.responseText.contains("Its inventory is frozen")) {
-      KoLmafia.updateDisplay("This shop's inventory is frozen (#" + this.shopId + "). Skipping...");
+      KoLmafia.updateDisplay("This shop's inventory is frozen (#" + shopId + "). Skipping...");
       RequestLogger.updateSessionLog(
-          "This shop's inventory is frozen (#" + this.shopId + "). Skipping...");
-      MallPurchaseRequest.disabledStores.add(shopId);
-      MallPriceManager.flushCache(-1, this.shopId);
+          "This shop's inventory is frozen (#" + shopId + "). Skipping...");
+      addDisabledStore(shopId);
+      MallPriceManager.flushCache(-1, shopId);
       return;
     }
 
-    // Another thing to search for is to see if the person
-    // swapped the price on the item, or you got a "failed
-    // to yield" message.  In that case, you may wish to
-    // re-attempt the purchase.
+    // If the person swapped the price on the item, or you got a "failed
+    // to yield" message, you may wish to re-attempt the purchase.
 
     if (this.responseText.contains("This store doesn't")
         || this.responseText.contains("failed to yield")) {
@@ -346,9 +449,8 @@ public class MallPurchaseRequest extends PurchaseRequest {
         int limit = StringUtilities.parseInt(itemChangedMatcher.group(1));
         int newPrice = StringUtilities.parseInt(itemChangedMatcher.group(2));
 
-        // If the item exists at a lower or equivalent
-        // price, then you should re-attempt the purchase
-        // of the item.
+        // If the item exists at a lower or equivalent price, then you
+        // should re-attempt the purchase of the item.
 
         if (this.price >= newPrice) {
           KoLmafia.updateDisplay("Failed to yield.  Attempting repurchase...");
@@ -371,11 +473,9 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    // One error that might be encountered is that the user
-    // already purchased the item; if that's the case, and
-    // the user hasn't exhausted their limit, then make a
-    // second request to the server containing the correct
-    // number of items to buy.
+    // If the user already purchased the item, and the user hasn't
+    // exhausted their limit, then make a second request to the server
+    // containing the correct number of items to buy.
 
     Matcher quantityMatcher = MallPurchaseRequest.YIELD_PATTERN.matcher(result);
 
@@ -416,13 +516,11 @@ public class MallPurchaseRequest extends PurchaseRequest {
     if (responseText.contains("That player will not sell to you")) {
       // This store is unavailable to you.
       int shopId = MallPurchaseRequest.getStoreId(urlString);
-      if (shopId == -1) {
-        return;
+      if (shopId != -1) {
+        // Ignore it for the rest of the session.
+        addIgnoringStore(shopId);
+        MallPriceManager.flushCache(-1, shopId);
       }
-
-      // Ignore it for the rest of the session.
-      MallPurchaseRequest.ignoringStores.add(shopId);
-      MallPriceManager.flushCache(-1, shopId);
 
       return;
     }
@@ -430,13 +528,11 @@ public class MallPurchaseRequest extends PurchaseRequest {
     if (responseText.contains("Its inventory is frozen")) {
       // This store is unavailable to you.
       int shopId = MallPurchaseRequest.getStoreId(urlString);
-      if (shopId == -1) {
-        return;
+      if (shopId != -1) {
+        // Ignore it for the rest of the session.
+        addDisabledStore(shopId);
+        MallPriceManager.flushCache(-1, shopId);
       }
-
-      // Ignore it for the rest of the session.
-      MallPurchaseRequest.disabledStores.add(shopId);
-      MallPriceManager.flushCache(-1, shopId);
 
       return;
     }

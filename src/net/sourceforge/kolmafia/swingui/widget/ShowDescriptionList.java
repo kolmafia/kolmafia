@@ -138,6 +138,7 @@ public class ShowDescriptionList<E> extends JList<E> {
 
     this.addMouseListener(new PopupListener(this.contextMenu));
 
+    this.filter = filter;
     this.originalModel = displayModel;
     this.displayModel =
         filter == null ? displayModel.getMirrorImage() : displayModel.getMirrorImage(filter);
@@ -287,14 +288,8 @@ public class ShowDescriptionList<E> extends JList<E> {
   public class ForbidStoreRunnable extends ContextMenuListener {
     @Override
     protected void executeAction() {
-      if (!(this.item instanceof PurchaseRequest)) {
-        return;
-      }
-
-      try {
-        int storeId = Integer.parseInt(((PurchaseRequest) this.item).getFormField("whichstore"));
-        MallPurchaseRequest.toggleForbiddenStore(storeId);
-      } catch (NumberFormatException e) {
+      if (this.item instanceof MallPurchaseRequest mpr) {
+        mpr.toggleForbiddenStore();
       }
     }
   }
