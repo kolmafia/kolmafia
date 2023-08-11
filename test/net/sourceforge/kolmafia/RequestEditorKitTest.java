@@ -202,7 +202,7 @@ public class RequestEditorKitTest {
     "fluffy bunny, 'bunny liver (75)'",
     "skeleton with a mop, 'beer-soaked mop (10), ice-cold Willer (30), ice-cold Willer (30)'",
     // Test mix of pp and no pp
-    "cheerless mime executive, 'crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), crystalline cheer (100 no pp), warehouse key (0 pp only)'",
+    "Dr. Awkward, 'Drowsy Sword (100 no pp), Staff of Fats (100 no pp), fumble formula (5 pp only)'",
     // Test mix of item drops and bounty drops
     "novelty tropical skeleton, 'cherry (0), cherry (0), grapefruit (0), grapefruit (0), orange (0), orange (0), strawberry (0), strawberry (0), lemon (0), lemon (0), novelty fruit hat (0 cond), cherry stem (bounty)'",
     // Test fractional drops
