@@ -1997,18 +1997,18 @@ Wooly Duck	1963	woolyduck.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: beast Ph
 # Gingerbread City (December 2016)
 gingerbread pigeon	1975	gbpigeon.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 50 SprinkleMin: 1 SprinkleMax: 3 P: beast Article: a
 gingerbread rat	1976	gbrat.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 50 SprinkleMin: 1 SprinkleMax: 3 P: beast Article: a
-gingerbread convict	1977	gbconvict.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: dude Article: a	sour ball and chain (0)
-gingerbread mad dog	1978	gbdog.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: beast Article: a	candy dog collar (0)
-gingerbread lawyer	1979	gblawyer.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: -10000 SprinkleMin: 18 SprinkleMax: 20 P: dude Article: a	candy dress shoes (0)	gingerbread restraining order (0)
+gingerbread convict	1977	gbconvict.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: dude Article: a	sour ball and chain (c0)
+gingerbread mad dog	1978	gbdog.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: beast Article: a	candy dog collar (c0)
+gingerbread lawyer	1979	gblawyer.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: -10000 SprinkleMin: 18 SprinkleMax: 20 P: dude Article: a	candy dress shoes (3)	gingerbread restraining order (5)
 gingerbread vagrant	1980	gbvagrant.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 3 SprinkleMax: 5 P: dude Article: a	sprinkle-begging cup (c0)
 animal cracker	1981	gbcracker.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 8 SprinkleMax: 10 P: beast Article: an	animal part cracker (10)
 gingerbread wino	1982	gbwino.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 3 SprinkleMax: 5 P: dude EA: stench Article: a	gingerbread wine (10)
-gingerbread mugger	1983	gbmugger.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 16 SprinkleMax: 22 P: dude Article: a	gingerbread mug (0)	gingerbread mask (0)
-gingerbread welder robot	1984	gbwelder.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 200 SprinkleMin: 8 SprinkleMax: 11 P: construct Article: a	gingerservo (0)
+gingerbread mugger	1983	gbmugger.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 16 SprinkleMax: 22 P: dude Article: a	gingerbread mug (10)	gingerbread mask (3)
+gingerbread welder robot	1984	gbwelder.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 200 SprinkleMin: 8 SprinkleMax: 11 P: construct Article: a	gingerservo (c0)
 gingerbread mutant	1985	gbmutant.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 8 SprinkleMax: 11 P: dude Article: a	tainted icing (15)
-gingerbread gentrifier	1986	gbgentry.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 200 SprinkleMin: 18 SprinkleMax: 22 P: dude EA: hot Article: a	gingerbread smartphone (0)	gingerbeard (0)
-gingerbread finance bro	1987	gbfinancebro.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 28 SprinkleMax: 32 P: dude Article: a	gingerbread smartphone (0)	candy necktie (0)
-gingerbread tech bro	1988	gbtechbro.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: -10000 SprinkleMin: 23 SprinkleMax: 27 P: dude Article: a	gingerbread smartphone (0)	gingerbread hoodie (0)
+gingerbread gentrifier	1986	gbgentry.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 200 SprinkleMin: 18 SprinkleMax: 22 P: dude EA: hot Article: a	gingerbread smartphone (15)	gingerbeard (c0)
+gingerbread finance bro	1987	gbfinancebro.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 150 SprinkleMin: 28 SprinkleMax: 32 P: dude Article: a	candy necktie (3)	gingerbread smartphone (15)
+gingerbread tech bro	1988	gbtechbro.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: -10000 SprinkleMin: 23 SprinkleMax: 27 P: dude Article: a	gingerbread hoodie (3)	gingerbread smartphone (15)
 gingerbread alligator	1989	gbgator.gif	NOCOPY Scale: [10+190*pref(_gingerBiggerAlligators)] Cap: 1000 Floor: 30 Init: 100 SprinkleMin: [28+70*pref(_gingerBiggerAlligators)] SprinkleMax: [30+70*pref(_gingerBiggerAlligators)] P: beast Article: a
 gingerbread vigilante	1990	gbvigilante.gif	BOSS NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: -10000 SprinkleMin: 98 SprinkleMax: 100 P: dude Article: a	The Gingerbread Vigilante's Handbook (0)
 Judge Fudge	1991	gbjudge.gif	BOSS NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 100 SprinkleMax: 100 P: dude	gingerbread gavel (n100)
@@ -2017,7 +2017,7 @@ GNG-3-R	1992	gng3r.gif	BOSS NOCOPY Scale: ? Cap: ? Floor: ? Init: 300 P: constru
 # Tunnel of L.O.V.E. (February 2017)
 LOV Enforcer	2009	lovenforcer.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 75 Elem: 25 Article: a	LOV Elixir #3 (c100)
 LOV Engineer	2010	lovengineer.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 25 Elem: 75 Article: a	LOV Elixir #6 (c100)
-LOV Equivocator	2011	lovequivocator.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: 500 P: dude Phys: 50 Elem: 50 Article: a	LOV Elixir #9 (p0)
+LOV Equivocator	2011	lovequivocator.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Init: 500 P: dude Phys: 50 Elem: 50 Article: a	LOV Elixir #9 (p50)
 
 # Spacegate (April 2017)
 hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: a	edible alien plant bit (0)	alien plant fibers (0)	alien plant goo (0)
@@ -2690,7 +2690,7 @@ cheerless mime functionary	2044	mimefunc1.gif,mimefunc2.gif,mimefunc3.gif	Scale:
 cheerless mime scientist	2045	mimesci1.gif,mimesci2.gif,mimesci3.gif	Scale: 15 Init: 100 P: horror EA: cold Article: a	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
 cheerless mime soldier	2046	mimebat1.gif,mimebat2.gif,mimebat3.gif	Scale: 30 Init: 200 P: horror Article: a	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
 cheerless mime vizier	2047	mimeseer1.gif,mimeseer2.gif,mimeseer3.gif	Scale: 45 Init: 300 P: horror EA: cold EA: spooky Article: a	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
-cheerless mime executive	2048	mimeexec1.gif,mimeexec2.gif,mimeexec3.gif	Scale: 60 Init: 400 Meat: 500 P: horror Phys: 100 Article: a	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	warehouse key (p0)
+cheerless mime executive	2048	mimeexec1.gif,mimeexec2.gif,mimeexec3.gif	Scale: 60 Init: 400 Meat: 500 P: horror Phys: 100 Article: a	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
 The Silent Nightmare	2049	c17_bossguy.gif	BOSS NOCOPY NOMANUEL Atk: 100 Def: 100 HP: 200 Init: 100 P: horror
 mouthless murmur	2043	mimemurmur.gif	WANDERER Scale: -11 Init: -10000 P: weird Phys: 100 Article: a
 silent scream	2042	mimescream.gif	WANDERER Scale: 1 Init: -10000 P: weird Article: a
