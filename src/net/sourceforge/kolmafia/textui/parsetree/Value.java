@@ -264,9 +264,14 @@ public class Value implements TypedNode, Comparable<Value> {
     return this.compareTo(o, true);
   }
 
-  private int compareTo(final Value o, final boolean ignoreCase) {
+  protected int compareTo(final Value o, final boolean ignoreCase) {
     if (o == null) {
-      throw new ClassCastException();
+      throw new NullPointerException();
+    }
+
+    // If the objects are identical Objects, save a lot of work
+    if (this == o) {
+      return 0;
     }
 
     // If both Vykeas, defer to Vykea compareTo. Otherwise, compare as normal

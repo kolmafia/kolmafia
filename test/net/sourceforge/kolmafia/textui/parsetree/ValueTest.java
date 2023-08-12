@@ -26,7 +26,7 @@ class ValueTest {
   void compareToNull() {
     var value = new Value(true);
     //noinspection ResultOfMethodCallIgnored
-    assertThrows(ClassCastException.class, () -> value.compareTo(null));
+    assertThrows(NullPointerException.class, () -> value.compareTo(null));
   }
 
   @Nested

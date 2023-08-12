@@ -21,8 +21,93 @@ public class RecordValue extends CompositeValue {
     return (RecordType) this.type;
   }
 
+  public Value[] getRecordFields() {
+    return (Value[]) this.content;
+  }
+
   public Type getDataType(final Value key) {
     return ((RecordType) this.type).getDataType(key);
+  }
+
+  // The only comparison we implement is equality; we define no
+  // "natural order" for a record value.
+  //
+  // Value implements equals, compareTo, and compreToIgnoreCase in terms
+  // of compareTo(Value value, boolean ignoreCase)
+  //
+  // Therefore, that is the only method we need to implement here
+
+  @Override
+  protected int compareTo(final Value o, boolean ignoreCase) {
+    // Per the implementation contract of Comparable.compareTo()
+    if (o == null) {
+      throw new NullPointerException();
+    }
+
+    // If the objects are identical Objects, save a lot of work
+    if (this == o) {
+      return 0;
+    }
+
+    // Per the implementation contract of Comparable.compareTo()
+    // The Parser enforces this at compile time, but...
+    if (!(o instanceof RecordValue)) {
+      throw new ClassCastException();
+    }
+
+    RecordValue orv = (RecordValue) o;
+
+    // The objects must both have the same record type.
+    // The Parser does not (currently) enforce this.
+    // Otherwise, it could be a ClassCastException
+    RecordType type = this.getRecordType();
+    if (!type.equals(orv.getRecordType())) {
+      return -1;
+    }
+
+    // The fields must all be equal.
+    Type[] dataTypes = type.getFieldTypes();
+    Value[] fields = this.getRecordFields();
+    Value[] ofields = orv.getRecordFields();
+
+    // Compare each field
+    for (int index = 0; index < dataTypes.length; ++index) {
+      Type dataType = dataTypes[index].getBaseType();
+      Value field = fields[index];
+      Value ofield = ofields[index];
+
+      // If the fields are identical objects, easy equals
+      if (field == ofield) {
+        continue;
+      }
+
+      // Unless we do a deep comparison, we cannot look inside aggregates
+      // Require that they have the same size, at least
+      if (dataType instanceof AggregateType) {
+        if (field.count() != ofield.count()) {
+          return -1;
+        }
+        continue;
+      }
+
+      // Any other field type - including another record - has a
+      // functional equality operation.
+      if (field.compareTo(ofield, ignoreCase) != 0) {
+        return -1;
+      }
+    }
+
+    return 0;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = this.getRecordType().hashCode();
+    Value[] fields = this.getRecordFields();
+    for (int index = 0; index < fields.length; ++index) {
+      hash += 31 * fields[index].hashCode();
+    }
+    return hash;
   }
 
   @Override
