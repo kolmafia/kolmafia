@@ -14,7 +14,7 @@ one == three: false
 strec1.str = ABC
 strec2.str = abc
 strec1 == strec2: false
-strec1 ≈ strec2: true
+strec1 APPROX strec2: true
 -------
 iarec1.ia = [1,2,3]
 iarec2.ia = [1,2,3]
