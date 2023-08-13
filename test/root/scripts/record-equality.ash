@@ -42,7 +42,7 @@ strec strec2 = new strec("abc");
 print("strec1.str = " + strec1.str);
 print("strec2.str = " + strec2.str);
 print("strec1 == strec2: " + (strec1 == strec2));
-print("strec1 APPROX strec2: " + (strec1 ≈ strec2));
+print("strec1 ≈ strec2: " + (strec1 ≈ strec2));
 print("-------");
 
 typedef int[] int_array;
