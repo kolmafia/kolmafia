@@ -315,7 +315,15 @@ public class Value implements TypedNode, Comparable<Value> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof Value v && this.compareTo(v) == 0;
+    return this.equals(o, false);
+  }
+
+  public boolean equalsIgnoreCase(final Object o) {
+    return this.equals(o, true);
+  }
+
+  protected boolean equals(final Object o, boolean ignoreCase) {
+    return o instanceof Value v && this.compareTo(v, ignoreCase) == 0;
   }
 
   @Override

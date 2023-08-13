@@ -32,37 +32,35 @@ public class RecordValue extends CompositeValue {
   // The only comparison we implement is equality; we define no
   // "natural order" for a record value.
   //
-  // Value implements equals, compareTo, and compreToIgnoreCase in terms
-  // of compareTo(Value value, boolean ignoreCase)
+  // Value implements equals and equalsIgnoreCase in terms of
+  // equals(Value value, boolean ignoreCase)
   //
   // Therefore, that is the only method we need to implement here
 
   @Override
-  protected int compareTo(final Value o, boolean ignoreCase) {
-    // Per the implementation contract of Comparable.compareTo()
+  protected boolean equals(final Object o, boolean ignoreCase) {
+    // No object equals null
     if (o == null) {
-      throw new NullPointerException();
+      return false;
     }
 
-    // If the objects are identical Objects, save a lot of work
+    // If the objects are identical Objects, easy equality
     if (this == o) {
-      return 0;
+      return true;
     }
 
-    // Per the implementation contract of Comparable.compareTo()
     // The Parser enforces this at compile time, but...
     if (!(o instanceof RecordValue)) {
-      throw new ClassCastException();
+      return false;
     }
 
     RecordValue orv = (RecordValue) o;
 
     // The objects must both have the same record type.
     // The Parser does not (currently) enforce this.
-    // Otherwise, it could be a ClassCastException
     RecordType type = this.getRecordType();
     if (!type.equals(orv.getRecordType())) {
-      return -1;
+      return false;
     }
 
     // The fields must all be equal.
@@ -72,32 +70,21 @@ public class RecordValue extends CompositeValue {
 
     // Compare each field
     for (int index = 0; index < dataTypes.length; ++index) {
-      Type dataType = dataTypes[index].getBaseType();
       Value field = fields[index];
       Value ofield = ofields[index];
 
-      // If the fields are identical objects, easy equals
+      // If the objects are identical Objects, easy equality
       if (field == ofield) {
         continue;
       }
 
-      // Unless we do a deep comparison, we cannot look inside aggregates
-      // Require that they have the same size, at least
-      if (dataType instanceof AggregateType) {
-        if (field.count() != ofield.count()) {
-          return -1;
-        }
-        continue;
-      }
-
-      // Any other field type - including another record - has a
-      // functional equality operation.
-      if (field.compareTo(ofield, ignoreCase) != 0) {
-        return -1;
+      // The fields must be equal, per the data type's definition of equality.
+      if (!field.equals(ofield, ignoreCase)) {
+        return false;
       }
     }
 
-    return 0;
+    return true;
   }
 
   @Override
