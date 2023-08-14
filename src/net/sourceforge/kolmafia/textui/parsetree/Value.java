@@ -274,16 +274,23 @@ public class Value implements TypedNode, Comparable<Value> {
       return 0;
     }
 
+    Type type = this.getType().getBaseType();
+    Type otype = o.getType().getBaseType();
+
+    // Composite values cannot be compared
+    if (!type.isPrimitive() || !otype.isPrimitive()) {
+      throw new ClassCastException();
+    }
+
     // If both Vykeas, defer to Vykea compareTo. Otherwise, compare as normal
-    if (this.getType().equals(DataTypes.VYKEA_TYPE) && o.getType().equals(DataTypes.VYKEA_TYPE)) {
+    if (type.equals(DataTypes.VYKEA_TYPE) && otype.equals(DataTypes.VYKEA_TYPE)) {
       VYKEACompanionData v1 = (VYKEACompanionData) (this.content);
       VYKEACompanionData v2 = (VYKEACompanionData) (o.content);
       return v1.compareTo(v2);
     }
 
     // Prefer to order monsters by ID. If they both have id 0, then fall back to string comparison.
-    if (this.getType().equals(DataTypes.MONSTER_TYPE)
-        && o.getType().equals(DataTypes.MONSTER_TYPE)) {
+    if (type.equals(DataTypes.MONSTER_TYPE) && otype.equals(DataTypes.MONSTER_TYPE)) {
       int cmp = Long.compare(this.contentLong, o.contentLong);
       if (cmp != 0 || !this.isStringLike()) {
         return cmp;

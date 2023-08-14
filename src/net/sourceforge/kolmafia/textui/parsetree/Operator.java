@@ -102,49 +102,78 @@ public class Operator extends Command {
   }
 
   public boolean isArithmetic() {
-    return this.operator.equals("+")
-        || this.operator.equals("-")
-        || this.operator.equals("*")
-        || this.operator.equals("/")
-        || this.operator.equals("%")
-        || this.operator.equals("**")
-        || this.operator.equals(Parser.PRE_INCREMENT)
-        || this.operator.equals(Parser.PRE_DECREMENT)
-        || this.operator.equals(Parser.POST_INCREMENT)
-        || this.operator.equals(Parser.POST_DECREMENT);
+    return isArithmetic(this.operator);
+  }
+
+  public static boolean isArithmetic(final String oper) {
+    return switch (oper) {
+      case "+",
+          "-",
+          "*",
+          "/",
+          "%",
+          "**",
+          Parser.PRE_INCREMENT,
+          Parser.PRE_DECREMENT,
+          Parser.POST_INCREMENT,
+          Parser.POST_DECREMENT -> true;
+      default -> false;
+    };
   }
 
   public boolean isBoolean() {
-    return this.operator.equals("&&") || this.operator.equals("||");
+    return isBoolean(this.operator);
+  }
+
+  public static boolean isBoolean(final String oper) {
+    return switch (oper) {
+      case "&&", "||" -> true;
+      default -> false;
+    };
   }
 
   public boolean isLogical() {
-    return this.operator.equals("&")
-        || this.operator.equals("|")
-        || this.operator.equals("^")
-        || this.operator.equals("~")
-        || this.operator.equals("&=")
-        || this.operator.equals("^=")
-        || this.operator.equals("|=");
+    return isLogical(this.operator);
+  }
+
+  public static boolean isLogical(final String oper) {
+    return switch (oper) {
+      case "&", "|", "^", "~", "&=", "^=", "|=" -> true;
+      default -> false;
+    };
   }
 
   public boolean isInteger() {
-    return this.operator.equals("<<")
-        || this.operator.equals(">>")
-        || this.operator.equals(">>>")
-        || this.operator.equals("<<=")
-        || this.operator.equals(">>=")
-        || this.operator.equals(">>>=");
+    return isInteger(this.operator);
+  }
+
+  public static boolean isInteger(final String oper) {
+    return switch (oper) {
+      case "<<", ">>", ">>>", "<<=", ">>=", ">>>=" -> true;
+      default -> false;
+    };
+  }
+
+  public boolean isEquality() {
+    return isEquality(this.operator);
+  }
+
+  public static boolean isEquality(final String oper) {
+    return switch (oper) {
+      case "==", Parser.APPROX, "!=" -> true;
+      default -> false;
+    };
   }
 
   public boolean isComparison() {
-    return this.operator.equals("==")
-        || this.operator.equals(Parser.APPROX)
-        || this.operator.equals("!=")
-        || this.operator.equals("<")
-        || this.operator.equals(">")
-        || this.operator.equals("<=")
-        || this.operator.equals(">=");
+    return isComparison(this.operator);
+  }
+
+  public static boolean isComparison(final String oper) {
+    return switch (oper) {
+      case "==", Parser.APPROX, "!=", "<", ">", "<=", ">=" -> true;
+      default -> false;
+    };
   }
 
   @Override
@@ -153,14 +182,14 @@ public class Operator extends Command {
   }
 
   public boolean validCoercion(Type lhs, Type rhs) {
-    TypeSpec ltype = lhs.getBaseType().getType();
-    TypeSpec rtype = rhs.getBaseType().getType();
-
     if (lhs.isBad() || rhs.isBad()) {
       // BadNode's are only generated through errors, which
       // means one was already generated about this type.
       return true;
     }
+
+    TypeSpec ltype = lhs.getBaseType().getType();
+    TypeSpec rtype = rhs.getBaseType().getType();
 
     if (this.isInteger()) {
       return (ltype == TypeSpec.INT && rtype == TypeSpec.INT);
@@ -208,6 +237,13 @@ public class Operator extends Command {
           && validCoercion(((AggregateType) lhs).getIndexType().getBaseType(), rhs, "==");
     }
 
+    // Composites implement equality but not other comparisons.
+    if (lhs instanceof CompositeType) {
+      if (isComparison(oper) && !isEquality(oper)) {
+        return false;
+      }
+    }
+
     // If the types are equal, no coercion is necessary
     if (lhs.equals(rhs)) {
       return true;
@@ -251,11 +287,6 @@ public class Operator extends Command {
   }
 
   private Value compareValues(final AshRuntime interpreter, Value leftValue, Value rightValue) {
-    var c =
-        this.operator.equals(Parser.APPROX)
-            ? leftValue.compareToIgnoreCase(rightValue)
-            : leftValue.compareTo(rightValue);
-
     var result =
         switch (this.operator) {
               case "==" -> leftValue.equals(rightValue);
