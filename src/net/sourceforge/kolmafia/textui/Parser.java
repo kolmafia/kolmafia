@@ -839,7 +839,7 @@ public class Parser {
       Evaluable rhs;
 
       if (this.currentToken().equals("{")) {
-        if (dataType instanceof CompositeType ct) {
+        if (dataType.getBaseType() instanceof CompositeType ct) {
           rhs = this.parseCompositeLiteral(scope, ct);
         } else {
           rhs = this.parseCompositeLiteral(scope, badAggregateType());

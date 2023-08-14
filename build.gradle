@@ -161,6 +161,7 @@ test {
 	systemProperty 'line.separator', '\n'
 	systemProperty 'junit.jupiter.extensions.autodetection.enabled', true
 	systemProperty 'useCWDasROOT', true
+	systemProperty 'file.encoding', 'UTF-8'
 	workingDir 'test/root'
 
 	testLogging.showStandardStreams = true
