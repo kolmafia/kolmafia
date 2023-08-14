@@ -18,6 +18,35 @@ public abstract class CompositeValue extends Value {
     return (CompositeType) this.type;
   }
 
+  // Subclasses of CompositeValue must redefine equality.
+  // equals() and equalsIgnoreCase will use that definition
+  // compareTo and compareToIgnoreCase will also use that,
+  // unless the subclasses do something more.
+
+  @Override
+  protected abstract boolean equals(final Object o, boolean ignoreCase);
+
+  @Override
+  protected int compareTo(final Value o, final boolean ignoreCase) {
+    if (o == null) {
+      throw new NullPointerException();
+    }
+
+    // If the objects are identical Objects, save a lot of work
+    if (this == o) {
+      return 0;
+    }
+
+    // Subclasses of CompositeValue must redefine equality.
+    // Let that kick in first.
+    if (this.equals(o, ignoreCase)) {
+      return 0;
+    }
+
+    // Otherwise, defer to Value's compareTo method.
+    return super.compareTo(o, ignoreCase);
+  }
+
   public Value aref(final Value key) {
     return this.aref(key, null);
   }

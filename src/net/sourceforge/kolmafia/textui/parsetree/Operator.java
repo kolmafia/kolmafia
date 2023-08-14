@@ -258,12 +258,13 @@ public class Operator extends Command {
 
     var result =
         switch (this.operator) {
-              case "==", Parser.APPROX -> c == 0;
-              case "!=" -> c != 0;
-              case ">=" -> c >= 0;
-              case "<=" -> c <= 0;
-              case ">" -> c > 0;
-              case "<" -> c < 0;
+              case "==" -> leftValue.equals(rightValue);
+              case "!=" -> !leftValue.equals(rightValue);
+              case Parser.APPROX -> leftValue.equalsIgnoreCase(rightValue);
+              case ">=" -> leftValue.compareTo(rightValue) >= 0;
+              case "<=" -> leftValue.compareTo(rightValue) <= 0;
+              case ">" -> leftValue.compareTo(rightValue) > 0;
+              case "<" -> leftValue.compareTo(rightValue) < 0;
               default -> false;
             }
             ? DataTypes.TRUE_VALUE
