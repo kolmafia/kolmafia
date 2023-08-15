@@ -2196,7 +2196,7 @@ public class FightRequestTest {
             "request/test_fight_red_white_blue.html", "fight.php?action=skill&whichskill=7450");
 
         assertThat("rwbMonster", isSetTo("raging bull"));
-        assertThat("rwbMonsterCount", isSetTo(3));
+        assertThat("rwbMonsterCount", isSetTo(2));
         assertThat("rwbLocation", isSetTo("South of the Border"));
       }
     }
@@ -2207,7 +2207,7 @@ public class FightRequestTest {
           new Cleanups(
               withFight(0),
               withProperty("rwbMonster", "raging bull"),
-              withProperty("rwbMonsterCount", 3),
+              withProperty("rwbMonsterCount", 2),
               withProperty("rwbLocation", "South of the Border"),
               withNextMonster("raging bull"));
 
@@ -2215,7 +2215,7 @@ public class FightRequestTest {
         parseCombatData("request/test_fight_red_white_blue_after.html");
 
         assertThat("rwbMonster", isSetTo("raging bull"));
-        assertThat("rwbMonsterCount", isSetTo(2));
+        assertThat("rwbMonsterCount", isSetTo(1));
       }
     }
   }

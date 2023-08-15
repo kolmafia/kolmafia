@@ -10285,7 +10285,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.RED_WHITE_BLUE_BLAST:
         if (responseText.contains("fires off a thrilling, patriotic")) {
           Preferences.setString("rwbMonster", MonsterStatusTracker.getLastMonsterName());
-          Preferences.setInteger("rwbMonsterCount", 3);
+          Preferences.setInteger("rwbMonsterCount", 2);
           KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
           if (lastLocation != null) {
             Preferences.setString("rwbLocation", lastLocation.getAdventureName());
