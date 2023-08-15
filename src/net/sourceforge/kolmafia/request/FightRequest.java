@@ -5506,6 +5506,7 @@ public class FightRequest extends GenericRequest {
     public boolean luggage;
     public boolean armtowel;
     public boolean pebble;
+    public boolean serendipity;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5595,6 +5596,9 @@ public class FightRequest extends GenericRequest {
       this.luggage = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_LUGGAGE_HOOK);
       this.armtowel = KoLCharacter.hasEquipped(ItemPool.WHITE_ARM_TOWEL);
       this.pebble = KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE);
+
+      this.serendipity =
+          KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SERENDIPITY));
 
       this.ghost = null;
 
@@ -6373,6 +6377,15 @@ public class FightRequest extends GenericRequest {
       }
 
       FightRequest.handleLuckyGoldRing(str, status);
+
+      // Serendipity
+      if (status.serendipity) {
+        if (str.contains("serendipitous")
+            || str.contains("luck is on your side")
+            || str.contains("How random")) {
+          FightRequest.logText(str, status);
+        }
+      }
 
       // Retrospecs
       if (str.contains("notice an item you missed earlier")) {
