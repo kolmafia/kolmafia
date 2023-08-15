@@ -11311,20 +11311,20 @@
 11283	Souvenir Chopsticks	821052146	chopsticks2.gif	none	t,d	10	Souvenir Chopsticks
 11284	red-soled high heels	933964223	highheels.gif	accessory	t,d	100	pairs of red-soled high heels
 11285
-11286
-11287
-11288
-11289
-11290
-11291
-11292
-11293
-11294
-11295
-11296
-11297
-11298
-11299
+11286	ncle leg	416832592	antleg.gif	weapon	t,d	5
+11287	rutabuga bag	303689533	carapace2.gif	container	t,d	5
+11288	mesquito proboscis	393226240	proboscis.gif	offhand	t,d	5
+11289	senate fly thorax	320407123	flythorax.gif	hat	t,d	5
+11290	bug juice	333300860	bugjuice.gif	potion, usable	t,d	5
+11291	spider leg	884930240	spiderleg.gif	weapon	t,d	15
+11292	beetle antenna	783227324	antenna_b2.gif	offhand	t,d	15
+11293	mantis skull	230118075	mantisskull.gif	hat	t,d	15
+11294	chitin powder	199412863	chitinpowder2.gif	potion, usable, cook	t,d	15
+11295	daddy shortlegs leg	412213809	daddyleg.gif	weapon	t,d	10
+11296	birdybug antenna	457580338	antenna_b.gif	offhand	t,d	10
+11297	kilopede skull	887761968	kiloskull.gif	hat	t,d	10
+11298	haemolymphnode	986358063	haemonode.gif	potion, usable, cook	t,d	10
+11299	chitin powder paste	311520333	chitinpowder.gif	potion, usable	t,d	30
 11300	sleeping patriotic eagle	916117380	pateagle_sleep.gif	grow	t	0
 11301	claw-held flag	498722729	flag2.gif	familiar	t,d	10
 11302	souvenir flag	557635312	flag1.gif	multiple	t,d	10

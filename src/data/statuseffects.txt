@@ -2815,10 +2815,10 @@
 2815	Romantically Roused	singlenote.gif	53288d446261bea13b62567b694c65ec	neutral	none	loathingidol ballad
 2816	Spitting Rhymes	rhyme.gif	79b45774d3b494108eefa1475ea3d61b	neutral	none	loathingidol rhyme
 2817	Twangy	seegerbanjo.gif	62262f6ca05f7a7cb0ac53f808efda9b	neutral	none	loathingidol country
-2818
-2819
-2820
-2821
+2818	Insectudinal Fortitude	bugjuice.gif	452798aaf9655438676d3be66e1cb59d	neutral	none	use 1 bug juice
+2819	Chitin Powderful	chitinpowder2.gif	a61374f78eade210cc2889385bc31c2d	neutral	none	use 1 chitin powder
+2820	Haemolymphatic	haemonode.gif	362f06d0a3fba7c43d9d69e801c4fdd7	neutral	none	use 1 haemolymphnode
+2821	Pastey Power	chitinpowder.gif	329b3f1b2e6adafd2157a19b9d17d2c2	neutral	none	use 1 chitin powder paste
 2822	Citizen of a Zone	flag1.gif	9391a5f7577e30ac3af6309804da6944	neutral	nohookah
 2823	Nothing Really Matters	shadowmonocle.gif	e6924ac8aa3314bf0d41a8cf764cbaf9	neutral	none	use 1 shadow candy
 2824	Everything Looks Red, White and Blue	flag2.gif	e213a3ca5c80b0b5f894d4943a9ecc86	bad	nohookah

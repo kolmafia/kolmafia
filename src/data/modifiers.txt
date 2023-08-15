@@ -310,6 +310,7 @@ Item	Jarlsberg's hat	Mysticality: +5, MP Regen Min: 4, MP Regen Max: 5, Experien
 # jewel-eyed wizard hat: Allows casting of Magic Missile
 Item	jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, Softcore Only, MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Familiar Effect: "atk, 5xVolley, 5xLep, cap 2"
 Item	Kentucky-style derby	Familiar Effect: "atk, cap 5"
+Item	kilopede skull	Ranged Damage: +10, Moxie: [4*L]
 Item	Knob Goblin elite helm	Muscle: +3, Familiar Effect: "2xFairy, cap 15"
 Item	Knob Goblin harem veil	Stench Resistance: +1, Familiar Effect: "5xLep, cap 2"
 Item	Knob Goblin visor	Moxie: +3, Familiar Effect: "2xVolley, 1xPotato, cap 12"
@@ -335,6 +336,7 @@ Item	maiden wig	Familiar Effect: "2xPotato, cap 8"
 # makeshift turban: Interferes with your vision
 Item	makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
 Item	makeshift yakuza mask	Moxie: -10
+Item	mantis skull	Ranged Damage: +15, Moxie: [5*L]
 Item	marble mariachi hat	Monster Level: +10, Ranged Damage Percent: +30, Thorns: 1
 Item	mariachi hat	Moxie: +1, Familiar Effect: "atk, cap 2"
 Item	Mark I Steam-Hat	Mysticality: +5, Maximum HP: +20, Familiar Effect: "1xLep, cap 37"
@@ -1301,6 +1303,7 @@ Item	cursed cutlass	Muscle: +15
 Item	cursed machete	Meat Drop: +50
 Item	cursed pirate cutlass	Muscle: +25, Familiar Weight: +10, Adventures: +5, Single Equip
 Item	cyber-mattock	Item Drop: +5, Meat Drop: +10
+Item	daddy shortlegs leg	Weapon Damage: +10, Muscle: [4*L]
 Item	deadfall branch	Mysticality Percent: +10, Weapon Damage Percent: +10, Adventures: +1, PvP Fights: +1
 Item	deathchucks	Weapon Damage Percent: +75, Monster Level: +15
 # debonair deboner: +25% Damage vs. Skeletons
@@ -1623,6 +1626,7 @@ Item	murderbot plasma rifle	Hot Damage: +25, Reduce Enemy Defense: 10
 Item	murderbot whip	Weapon Damage: +10, Critical Hit Percent: +10
 Item	mutant arm	Monster Level: +5, Maximum HP: +25, Weapon Damage Percent: +50
 Item	nasty-ass club	Weapon Damage: +25, Monster Level: +15, Stench Damage: +15, Class: "Seal Clubber"
+Item	ncle leg	Weapon Damage: +5, Muscle: [3*L]
 Item	negotiatin' hammer	Critical Hit Percent: +12, Muscle Percent: +15, Maximum HP: +30, PvP Fights: +5
 Item	ninja mop	Weapon Damage: +5
 Item	non-Euclidean non-accordion	Initiative: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15
@@ -1843,6 +1847,7 @@ Item	spearfish fishing spear	Weapon Damage Percent: +50, Monster Level: +10, Fis
 # spectral axe: +30 Damage vs. Ghosts
 Item	spectral axe	Cold Damage: +15
 Item	Spelunker's whip	Weapon Damage Percent: +25, Item Drop: +10, Familiar Weight: +5
+Item	spider leg	Weapon Damage: +15, Muscle: [5*L]
 Item	spiked femur	Spooky Damage: +6
 Item	Spirit Precipice	Muscle: +7, Mysticality: +5, Critical Hit Percent: +20
 Item	spooky bicycle chain	Spooky Damage: +5, Critical Hit Percent: +5
@@ -2114,9 +2119,11 @@ Item	basaltamander buckler	Experience Percent (Mysticality): +25, Damage Absorpt
 Item	basic meat foon	Mysticality: +3, Spell Damage: +3
 Item	battered hubcap	Muscle: +15, Maximum HP: +100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 14
 Item	beach ball marble	Spell Damage: +35, Hot Spell Damage: +35, Cold Spell Damage: +35
+Item	beetle antenna	Maximum MP: +30, Mysticality: [5*L]
 Item	beige clambroth marble	Spell Damage: +30, Hot Spell Damage: +30
 Item	big bumboozer marble	Spell Damage: +80
 Item	big hot pepper	Spell Damage: +10, Hot Damage: +10
+Item	birdybug antenna	Maximum MP: +20, Mysticality: [4*L]
 Item	black catseye marble	Spooky Spell Damage: +75
 Item	black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
 Item	blue LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Blue Eyed Devil", Rollover Effect Duration: 50
@@ -2384,6 +2391,7 @@ Item	Mer-kin roundshield	Damage Reduction: 19, Damage Absorption: +40, HP Regen 
 Item	Mer-kin stopwatch	Adventures: +3, Initiative: [50*env(underwater)]
 # Mer-kin takebag: (+15% Underwater)
 Item	Mer-kin takebag	Item Drop: [5+10*env(underwater)]
+Item	mesquito proboscis	Maximum MP: +5, Mysticality: [3*L]
 # meteorite guard: 75% Chance of Preventing Negative Status Attacks
 Item	meteorite guard	Stench Resistance: +3, Hot Resistance: +3, Damage Reduction: 9
 # meteorb: Contributes Hot Damage to your spells
@@ -3558,6 +3566,7 @@ Item	sealhide gloves	Weapon Damage: +10
 Item	sealhide moccasins	Muscle: +5, Mysticality: +5, Moxie: +5, Single Equip
 Item	second-hand knockoff engagement ring	Muscle: +1, Mysticality: +1, Moxie: +1, Single Equip
 Item	self-repairing earmuffs	HP Regen Min: 10, HP Regen Max: 20
+Item	senate fly thorax	Ranged Damage: +5, Moxie: [3*L]
 Item	Senior LAAAAME merit badge	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	severed rocking horse head	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	shadow monocle	Spell Damage: +13, Item Drop: +13, Initiative: +13, Single Equip
@@ -4163,6 +4172,7 @@ Item	Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 # replica Camp Scout backpack: Helps You Be Prepared
 Item	replica Camp Scout backpack	Item Drop: +15, Drops Items
 Item	rubber cape	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10
+Item	rutabuga bag	Maximum HP: +10, Damage Reduction: 5
 # saffron uttarasanga: Improves chances of finding lumps and sludge
 Item	saffron uttarasanga	HP Regen Min: 4, HP Regen Max: 6, Critical Hit Percent: +5
 Item	sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*env(underwater)], Critical Hit Percent: [15*env(underwater)]
@@ -5512,6 +5522,7 @@ Effect	Chilblains of the Corn	Spooky Damage: +5
 Effect	Chill Out, Dog	Cold Damage: +30, Stench Resistance: +3, Sleaze Resistance: +3, Monster Level: +10
 # Chilled to the Bone: Enemies get N extra attack(s) against you per round
 Effect	Chilled to the Bone	Mana Cost: [pref(chilledToTheBone)]
+Effect	Chitin Powderful	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
 Effect	Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
 Effect	[800]Chocolate Reign	Moxie: +10
@@ -6164,6 +6175,7 @@ Effect	Guts Feeling	Meat Drop: +50
 Effect	Gutterminded	Sleaze Damage: +50
 Effect	Gyromitra Gymnastics	Moxie: +40
 # Habituated: Lets you exercise your habit in combat.
+Effect	Haemolymphatic	Muscle: +20, Mysticality: +20, Moxie: +20
 Effect	Hag-gard	Avatar: "swamp hag"
 Effect	Hagg-ard	Muscle: +10
 Effect	Hagnk's Gratitude	Hot Spell Damage: +50, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -6376,6 +6388,7 @@ Effect	Insani Tea	Random Monster Modifiers: +3
 Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50
 Effect	Inscrutable exoskeleton	Damage Absorption: +300
 Effect	Inscrutable Gaze	Experience Percent (Mysticality): +10
+Effect	Insectudinal Fortitude	Muscle: +10, Mysticality: +10, Moxie: +10
 # Inside The Snowglobe: You can access the Deep Machine Tunnels beneath Seaside Town
 Effect	Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Effect	Inspired Chef	Meat Drop: +100, Muscle: +10, Muscle Percent: +100
@@ -6809,6 +6822,7 @@ Effect	Party on Your Skin	Maximum HP Percent: +50, Maximum MP Percent: +50, Fami
 Effect	Party Soundtrack	Familiar Weight: +5
 Effect	Pasta Eyeball	Meat Drop: +10
 Effect	Pasta Oneness	Mysticality: +2
+Effect	Pastey Power	Muscle: +50, Mysticality: +50, Moxie: +50
 Effect	Pasty	Muscle Percent: +50
 Effect	Patched In	Mysticality Percent: +20
 Effect	Patchy Punk	Avatar: "Punk Rock Giant"
@@ -9661,6 +9675,7 @@ Item	Bright Water	Effect: "Bright!", Effect Duration: 10
 Item	BROS Energy Drink	Effect: "Tapped In", Effect Duration: 20
 Item	Bruno's blessing of Mars	Effect: "The Smeezingtons", Effect Duration: 50
 Item	buffed alien drugs	Effect: "Space Tripping", Effect Duration: 10
+Item	bug juice	Effect: "Insectudinal Fortitude", Effect Duration: 10
 Item	Bugbearclaw Donut	Effect: "Bugbear in Tooth and Claw", Effect Duration: 20
 Item	Burt's blessing of Bacchus	Effect: "Smoking like a Bandit", Effect Duration: 50
 Item	buzzard feather	Effect: "Buzzard Breath", Effect Duration: 30
@@ -9694,6 +9709,8 @@ Item	Cheer-Up soda	Effect: "Cheered Up", Effect Duration: 20
 Item	chicle de salchicha	Effect: "Here to Kick Ass", Effect Duration: 20
 Item	chiffon lemon	Effect: "Bulging Jaw Muscles", Effect Duration: 20
 Item	children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
+Item	chitin powder	Effect: "Chitin Powderful", Effect Duration: 10
+Item	chitin powder paste	Effect: "Pastey Power", Effect Duration: 30
 Item	chocolate bath ball	Effect: "[800]Chocolate Reign", Effect Duration: 10
 Item	chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
 Item	chocolate-covered caviar	Effect: "Sugar Rush", Effect Duration: 10
@@ -10008,6 +10025,7 @@ Item	Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
 Item	Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
 Item	gun cleaning kit	Effect: "Very Clean Guns", Effect Duration: 20
 Item	Gyromitra Dynomita mushroom	Effect: "Gyromitra Gymnastics", Effect Duration: 10
+Item	haemolymphnode	Effect: "Haemolymphatic", Effect Duration: 10
 Item	haggis-infused soap	Effect: "Sheepskinned", Effect Duration: 20
 Item	hair of the fish	Effect: "Antihangover", Effect Duration: 10
 Item	hair oil	Effect: "[1342]Slicked-Back Do", Effect Duration: 10
