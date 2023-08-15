@@ -206,6 +206,7 @@ Iunion Crown	100	none
 Jarlsberg's hat	30	none
 jewel-eyed wizard hat	10	none
 Kentucky-style derby	20	none
+kilopede skull	100	Mus: 35
 Knob Goblin elite helm	60	Mox: 15
 Knob Goblin harem veil	10	none
 Knob Goblin visor	50	Mox: 10
@@ -227,6 +228,7 @@ MAHI fez	200	Mox: 85
 maiden wig	35	Mox: 2
 makeshift turban	100	Mox: 35
 makeshift yakuza mask	10	none
+mantis skull	100	none
 marble mariachi hat	120	Mox: 40
 mariachi hat	10	none
 Mark I Steam-Hat	150	Mox: 60
@@ -1091,6 +1093,7 @@ cursed cutlass	200	Mus: 85	1-handed sword
 cursed machete	100	Mus: 0	1-handed sword
 cursed pirate cutlass	200	Mus: 50	1-handed sword
 cyber-mattock	160	Mus: 65	2-handed axe
+daddy shortlegs leg	60	Mus: 35	1-handed club
 deadfall branch	50	Mus: 15	1-handed club
 deathchucks	50	Mus: 10	2-handed flail
 debonair deboner	90	Mus: 30	1-handed club
@@ -1373,6 +1376,7 @@ murderbot plasma rifle	150	Mox: 30	2-handed rifle
 murderbot whip	10	Mus: 30	1-handed whip
 mutant arm	200	Mus: 50	1-handed polearm
 nasty-ass club	160	Mus: 65	2-handed club
+ncle leg	10	Mus: 0	1-handed club
 negotiatin' hammer	110	Mus: 45	2-handed club
 ninja mop	90	Mus: 30	2-handed polearm
 non-Euclidean non-accordion	115	Mox: 42	2-handed accordion
@@ -1562,6 +1566,7 @@ spant spear	100	Mus: 20	1-handed spear
 spearfish fishing spear	150	Mus: 30	1-handed spear
 spectral axe	150	Mus: 50	1-handed axe
 Spelunker's whip	10	Mus: 0	1-handed whip
+spider leg	100	Mus: 35	1-handed club
 spiked femur	100	Mus: 35	1-handed club
 Spirit Precipice	135	Mus: 45	2-handed sword
 spooky bicycle chain	80	Mus: 25	1-handed flail
@@ -1798,9 +1803,11 @@ basic meat foon	50	Mys: 10
 basaltamander buckler	240	Mus: 40	shield
 battered hubcap	220	Mus: 65	shield
 beach ball marble	209	Mys: 85
+beetle antenna	0	none
 beige clambroth marble	207	Mys: 85
 big bumboozer marble	211	Mys: 85
 big hot pepper	50	none
+birdybug antenna	0	none
 black catseye marble	210	Mys: 85
 black shield	160	Mus: 65	shield
 blue LavaCo Lamp&trade;	100	Mys: 35
@@ -2034,6 +2041,7 @@ Mer-kin begsign	200	Mus: 85
 Mer-kin roundshield	215	Mus: 85	shield
 Mer-kin stopwatch	200	Mys: 85
 Mer-kin takebag	200	Mys: 85
+mesquito proboscis	0	none
 meteorite guard	150	none	shield
 meteorb	100	none
 Microplushie: Bropane	5	none
@@ -3014,6 +3022,7 @@ sealhide gloves	160	Mys: 65
 sealhide moccasins	160	Mys: 65
 second-hand knockoff engagement ring	0	none
 self-repairing earmuffs	50	none
+senate fly thorax	10	none
 Senior LAAAAME merit badge	0	none
 severed rocking horse head	50	Mys: 10
 shadow monocle	0	none
@@ -3545,6 +3554,7 @@ rad cloak	10	none
 Rain-Doh red wings	100	none
 replica Camp Scout backpack	0	none
 rubber cape	200	Mys: 85
+rutabuga bag	0	none
 saffron uttarasanga	100	Mus: 35
 sea cape	200	Mox: 85
 sea mantle	200	Mus: 85
