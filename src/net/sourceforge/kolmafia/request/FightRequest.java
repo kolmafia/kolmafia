@@ -9444,6 +9444,13 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case SkillPool.ROAR_LIKE_A_LION:
+        if (responseText.contains("release a majestic roar") || skillRunawaySuccess) {
+          skillRunawaySuccess = true;
+          BanishManager.banishMonster(monster, Banisher.ROAR_LIKE_A_LION);
+        }
+        break;
+
       case SkillPool.POCKET_CRUMBS:
         if (responseText.contains("pocket next to the crumbs")) {
           // No casting limit, can drop items up to 10 times a day
