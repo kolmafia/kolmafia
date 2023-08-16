@@ -328,6 +328,7 @@ public class Preferences {
         "hasSushiMat",
         "hermitHax0red",
         "highTopPumped",
+        "holdHandsMonster",
         "homebodylCharges",
         "iceSculptureMonster",
         "intenseCurrents",

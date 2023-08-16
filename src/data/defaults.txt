@@ -796,6 +796,7 @@ user	hippiesDefeated	0
 user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
 user	holidaySwagger	0
+user	holdHandsMonster	
 user	homemadeRobotUpgrades	0
 user	homebodylCharges	0
 user	horseryAvailable	false
