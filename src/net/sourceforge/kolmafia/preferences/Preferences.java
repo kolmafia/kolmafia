@@ -107,6 +107,7 @@ public class Preferences {
 
   private static final String[] resetOnAscension =
       new String[] {
+        "_shortOrderCookCharge",
         "8BitBonusTurns",
         "8BitColor",
         "8BitScore",
@@ -456,7 +457,6 @@ public class Preferences {
         "rwbMonsterCount",
         "sausageGrinderUnits",
         "scrapbookCharges",
-        "screechCombats",
         "screencappedMonster",
         "seahorseName",
         "shadowRiftIngress",
