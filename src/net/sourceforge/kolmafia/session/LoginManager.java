@@ -422,6 +422,11 @@ public class LoginManager {
 
     RequestLogger.openSessionLog();
 
+    // Log when a session is started
+
+    RequestLogger.updateSessionLog();
+    RequestLogger.updateSessionLog("Initializing session for " + username + "...");
+
     // Perform requests to read current character's data
 
     KoLmafia.refreshSession();

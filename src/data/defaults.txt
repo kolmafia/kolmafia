@@ -300,6 +300,7 @@ user	badMoonEncounter48	false
 user	bagOTricksCharges	0
 user	ballpitBonus	1
 user	banishedMonsters	
+user	banishedPhyla	
 user	banishingShoutMonsters
 user	bankedKarma	0
 user	barrelShrineUnlocked	false
