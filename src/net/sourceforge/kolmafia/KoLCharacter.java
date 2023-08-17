@@ -3485,6 +3485,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.LEGACY_OF_LOATHING;
   }
 
+  public static final boolean inSmallcore() {
+    return KoLCharacter.ascensionPath == Path.SMALL;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);

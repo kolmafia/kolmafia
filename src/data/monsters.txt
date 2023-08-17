@@ -1418,6 +1418,19 @@ Flock of Groars?	2322	ayetiswarm.gif	BOSS NOCOPY Atk: 120 Def: 108 HP: 250 Init:
 The Little Wisniewski	2323	lilthedude.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy E: stench	solid gold bowling ball (100)	replica Mr. Accessory (n100)
 The Boy	2324	liltheman.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude ED: sleaze EA: hot EA: cold	really dense meat stack (100)	replica Mr. Accessory (n100)
 
+# A Shrunken Adventurer am I
+
+ncle	2325	ncle.gif	Atk: 4 Def: 1 HP: 10 Init: -10000 P: bug Article: an	ncle leg (50)	bug juice (30)
+rutabaga bug	2326	rutabagabug.gif	Atk: 1 Def: 5 HP: 30 Init: -10000 P: bug Article: a	rutabuga bag (50)	bug juice (30)
+mesquito	2327	mesquito.gif	Atk: 3 Def: 3 HP: 10 Init: -10000 P: bug Article: a	mesquito proboscis (50)	bug juice (30)
+senate fly	2328	senatefly.gif	Atk: 4 Def: 2 HP: 10 Init: 50 P: bug Article: a	senate fly thorax (50)	bug juice (30)
+flagellating mantis	2329	flagmantis.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: bug Article: a	mantis skull (50)	chitin powder (30)
+beetle	2330	beeetle.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: bug Article: a	beetle antenna (50)	chitin powder (30)
+terrorantula	2331	terrorantula.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: bug Article: a	spider leg (50)	chitin powder (30)
+daddy shortlegs	2332	daddyshort.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: bug Article: a	daddy shortlegs leg (50)	haemolymphnode (30)
+birdybug	2333	birdybug.gif	Atk: 35 Def: 40 HP: 60 Init: -10000 P: bug Article: a	birdybug antenna (50)	haemolymphnode (30)
+kilopede	2334	killipede.gif	Atk: 47 Def: 37 HP: 30 Init: 50 P: bug Article: a	kilopede skull (50)	haemolymphnode (30)
+
 # Items of the Month
 
 # Bad Trip (Astral Badger June 2006)
