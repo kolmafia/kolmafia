@@ -11351,3 +11351,4 @@
 11323	Pocket Guide to Mild Evil (used)	508639228	tinybook.gif	reusable		0	Pocket Guides to Mild Evil (used)
 11324	tiny consolation ribbon	705646571	tinyribbon.gif	familiar	t	0
 11325	replica august scepter	673883740	ascepter.gif	offhand	q	0
+11326	Thwaitgold Fairyfly Statue	579008694	pebble.gif	none		0
