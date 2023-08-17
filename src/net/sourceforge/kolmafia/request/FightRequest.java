@@ -9339,7 +9339,14 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.MONKEY_POINT:
         if (responseText.contains("Your monkey paw points at your opponent")) {
-          Preferences.setString("mokeyPointMonster", monsterName);
+          Preferences.setString("monkeyPointMonster", monsterName);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.HOLD_HANDS:
+        if (responseText.contains("stop the battle for a moment and hold hands with you")) {
+          Preferences.setString("holdHandsMonster", monsterName);
           skillSuccess = true;
         }
         break;
@@ -9434,6 +9441,13 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("press the secret switch") || skillRunawaySuccess) {
           skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.KGB_TRANQUILIZER_DART);
+        }
+        break;
+
+      case SkillPool.ROAR_LIKE_A_LION:
+        if (responseText.contains("release a majestic roar") || skillRunawaySuccess) {
+          skillRunawaySuccess = true;
+          BanishManager.banishMonster(monster, Banisher.ROAR_LIKE_A_LION);
         }
         break;
 

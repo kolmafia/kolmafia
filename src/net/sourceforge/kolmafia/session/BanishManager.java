@@ -99,6 +99,7 @@ public class BanishManager {
     PULLED_INDIGO_TAFFY("pulled indigo taffy", 40, 1, true, Reset.TURN_RESET),
     PUNT("Punt", -1, 1, false, Reset.ROLLOVER_RESET),
     REFLEX_HAMMER("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
+    ROAR_LIKE_A_LION("Roar like a Lion", -1, 1, false, Reset.ROLLOVER_RESET),
     PATRIOTIC_SCREECH("Patriotic Screech", 100, 1, false, Reset.TURN_RESET, BanishType.PHYLUM),
     SABER_FORCE("Saber Force", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     SHOW_YOUR_BORING_FAMILIAR_PICTURES(
