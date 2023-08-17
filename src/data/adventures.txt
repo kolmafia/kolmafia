@@ -361,6 +361,12 @@ The Grey Goo Impact Site	adventure=550	DiffLevel: unknown Env: unknown Stat: 0	T
 The Grey Goo Impact Site	adventure=551	DiffLevel: unknown Env: unknown Stat: 0	The Goo-Girded Garves
 The Grey Goo Impact Site	adventure=552	DiffLevel: unknown Env: unknown Stat: 0	The Goo-Splattered Tower Ruins
 
+# A Shrunken Adventurer Am I path
+
+Campground	adventure=568	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Dirt
+Campground	adventure=569	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Tall Grass
+Campground	adventure=570	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Very Tall Grass
+
 # Zodiac sign areas
 
 MusSign	adventure=47	DiffLevel: low Env: underground Stat: 13	The Bugbear Pen	1 annoying pitchfork
