@@ -570,6 +570,8 @@ public class SkillPool {
   public static final int AUG_29TH_MORE_HERBS_LESS_SALT_DAY = 7480;
   public static final int AUG_30TH_BEACH_DAY = 7481;
   public static final int AUG_31ST_CABERNET_SAUVIGNON_DAY = 7482;
+  public static final int ROAR_LIKE_A_LION = 7483;
+  public static final int HOLD_HANDS = 7484;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;
