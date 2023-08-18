@@ -6492,6 +6492,7 @@ Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +1
 # Latency: Prismatic Vulnerability (-Source Agents killed)
 # Latency: All stats (-3 x Source Agents killed)
 Effect	Latency	Muscle: [-3*pref(sourceAgentsDefeated)], Mysticality: [-3*pref(sourceAgentsDefeated)], Moxie: [-3*pref(sourceAgentsDefeated)], Cold Resistance: [-pref(sourceAgentsDefeated)], Hot Resistance: [-pref(sourceAgentsDefeated)], Sleaze Resistance: [-pref(sourceAgentsDefeated)], Spooky Resistance: [-pref(sourceAgentsDefeated)], Stench Resistance: [-pref(sourceAgentsDefeated)]
+Effect	Latently Energized	MP Regen Min: 20, MP Regen Max: 30
 Effect	Leash of Linguini	Familiar Weight: +5
 Effect	Leisurely Amblin'	Meat Drop: +100
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
@@ -7009,6 +7010,7 @@ Effect	Ready to Snap	Mysticality: +5, Experience (Mysticality): +1
 Effect	Ready to Survive	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1, Damage Reduction: 20, Weapon Damage: +10, Spell Damage: +10, Initiative: +100, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Real Meat Craving	Meat Drop: +30
 Effect	Really Deep Breath	Adventure Underwater
+Effect	Really Hard	Damage Reduction: 50
 Effect	Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
 Effect	Reassured	Muscle: [10*interact()], Mysticality: [10*interact()], Moxie: [10*interact()]
 # Record Hunger: Food gives 100% more Adventures
@@ -7122,6 +7124,7 @@ Effect	Shamboozled	Moxie Percent: +50
 Effect	Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Shape of...Mole!: You're a Mole
 Effect	Sharin' Stone	Avatar: "Stone Golem"
+Effect	Sharky	Pool Skill: +5, Moxie: +15
 # Shark-Tooth Grin: Boosts military attack and defense in Bastille Battalion.
 # Sharp Weapon: +3-5 Weapon Damage
 Effect	Sharpened Sweet Tooth	Candy Drop: +25
@@ -8013,6 +8016,7 @@ Skill	Central Hypothalamus	Absorb Adventures: +1
 Skill	Chatterable Teeth	Cold Resistance: +2
 Skill	Chill of the Tomb	Maximum HP: -10
 Skill	Chip on your Shoulder	PvP Fights: +5
+Skill	Chitinous Soul	Maximum HP: +1
 Skill	Choleric Humours	Hot Damage: +9
 Skill	Clammy Microcilia	Stench Resistance: +2
 Skill	Claws of the Walrus	Weapon Damage: +7
@@ -9449,6 +9453,7 @@ Item	chlorophyll paste	Effect: "Chlorophyll Flavor", Effect Duration: 10
 # cold jelly: Freezes your liver
 Item	cold jelly	Effect: "Cold Jellied", Effect Duration: 50
 Item	cold wad	Effect: "Cold Blooded", Effect Duration: 20
+Item	concentrated cooking	Effect: "Cooking Concentrate", Effect Duration: 10
 Item	cosmic paste	Effect: "Cosmic Flavor", Effect Duration: 10
 Item	Crimbeau de toilette	Effect: "Crimbeau'd", Effect Duration: 50
 Item	Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
@@ -9478,6 +9483,7 @@ Item	goblin paste	Effect: "Gobliny Flavor", Effect Duration: 10
 Item	greasy paste	Effect: "Greasy Flavor", Effect Duration: 10
 Item	groose grease	Effect: "Just the Best Anapests", Effect Duration: 50
 Item	handful of Smithereens	Effect: "Smithsness Presence", Effect Duration: 100
+Item	hardening cream	Effect: "Really Hard", Effect Duration: 50
 Item	hippy paste	Effect: "Hippy Flavor", Effect Duration: 10
 Item	hobo paste	Effect: "Hobo Flavor", Effect Duration: 10
 Item	homeopathic mint tea	Effect: "Alpine Mintiness", Effect Duration: 50
@@ -9516,6 +9522,7 @@ Item	pearlescent oyster egg	Effect: "Pearly Vision", Effect Duration: 50
 Item	penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10
 Item	pewter shavings	Effect: "Pewtershot", Effect Duration: 100
 Item	pirate paste	Effect: "Piratey Flavor", Effect Duration: 10
+Item	pool shark hair oil	Effect: "Sharky", Effect Duration: 20
 Item	powdered oxygen	Effect: "Hyperoxygenated Blood", Effect Duration: 10
 Item	prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
 Item	prototype stimulant	Effect: "Proto-Stimulated", Effect Duration: 50
@@ -9532,6 +9539,7 @@ Item	sleaze jelly	Effect: "Sleazy Jellied", Effect Duration: 50
 Item	sleaze wad	Effect: "Supafly", Effect Duration: 20
 Item	slimy alveolus	Effect: "Slimebreath", Effect Duration: 50
 Item	slimy paste	Effect: "Slimy Flavor", Effect Duration: 10
+Item	sparkling orb	Effect: "Latently Energized", Effect Duration: 30
 # spooky jelly: Makes you emanate Spookily
 Item	spooky jelly	Effect: "Spooky Jellied", Effect Duration: 50
 Item	spooky wad	Effect: "Spooky Demeanor", Effect Duration: 20
@@ -11982,6 +11990,7 @@ Item	rehearsing dramatic hedgehog	Free Pull
 # replica bat-oomerang: Instantly kill a foe (up to 3x per day)
 # replica bat-oomerang: (does not go away when used)
 Item	replica emotion chip	Skill: "Replica Emotionally Chipped"
+Item	residual chitin paste	Skill: "Chitinous Soul"
 Item	Rethinking Candy	Skill: "Sweet Synthesis"
 Item	Retrospecs try-at-home kit	Free Pull
 # riboflavin: Increase a Pokefamiliar's maximum HP by 1

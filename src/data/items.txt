@@ -11352,3 +11352,9 @@
 11324	tiny consolation ribbon	705646571	tinyribbon.gif	familiar	t	0
 11325	replica august scepter	673883740	ascepter.gif	offhand	q	0
 11326	Thwaitgold Fairyfly Statue	579008694	pebble.gif	none		0
+11327	residual chitin paste	835465451	chitinpowder.gif	usable		0
+11328	concentrated cooking	351580029	stimpill2.gif	spleen, usable	t,d	15
+11329	ancient meat	883952044	pillowshell.gif	spleen, usable	t,d	10
+11330	sparkling orb	862610632	frostshock.gif	spleen, usable	t,d	30
+11331	hardening cream	547824668	creamtube.gif	spleen, usable	t,d	11
+11332	pool shark hair oil	972311757	bottle.gif	spleen, usable	t,d	20
