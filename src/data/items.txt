@@ -11313,13 +11313,13 @@
 11285
 11286	ncle leg	416832592	antleg.gif	weapon	t,d	5
 11287	rutabuga bag	303689533	carapace2.gif	container	t,d	5
-11288	mesquito proboscis	393226240	proboscis.gif	offhand	t,d	5
-11289	senate fly thorax	320407123	flythorax.gif	hat	t,d	5
-11290	bug juice	333300860	bugjuice.gif	potion, usable	t,d	5
+11288	mesquito proboscis	393226240	proboscis.gif	offhand	t,d	5	mesquito proboscises
+11289	senate fly thorax	320407123	flythorax.gif	hat	t,d	5	senate fly thoraces
+11290	bug juice	333300860	bugjuice.gif	potion, usable	t,d	5	flasks of bug juice
 11291	spider leg	884930240	spiderleg.gif	weapon	t,d	15
-11292	beetle antenna	783227324	antenna_b2.gif	offhand	t,d	15
+11292	beetle antenna	783227324	antenna_b2.gif	offhand	t,d	15	beetle antennae
 11293	mantis skull	230118075	mantisskull.gif	hat	t,d	15
-11294	chitin powder	199412863	chitinpowder2.gif	potion, usable, cook	t,d	15
+11294	chitin powder	199412863	chitinpowder2.gif	potion, usable, cook	t,d	15	handfuls of chitin powder
 11295	daddy shortlegs leg	412213809	daddyleg.gif	weapon	t,d	10
 11296	birdybug antenna	457580338	antenna_b.gif	offhand	t,d	10
 11297	kilopede skull	887761968	kiloskull.gif	hat	t,d	10
@@ -11342,7 +11342,7 @@
 11314	tooth cap	507514456	toothcap.gif	hat	t,d	100
 11315	toothy trousers	392999066	toothpants.gif	pants	t,d	100	pairs of toothy trousers
 11316	banana split	711110825	bananasplit.gif	food	t,d	11
-11317	handful of toilet paper	801865898	toiletpaper.gif	usable	t,d	1
+11317	handful of toilet paper	801865898	toiletpaper.gif	usable	t,d	1	handfuls of toilet paper
 11318	Mrs. Rush	726168767	mrsrush.gif	usable	t,d	20	bottles of Mrs. Rush
 11319	tiny gold medal	342125480	tinymedal.gif	familiar	q,d	100
 11320	bottle of Cabernet Sauvignon	657381011	wine2.gif	drink	t,d	0	bottles of Cabernet Sauvignon
@@ -11352,3 +11352,9 @@
 11324	tiny consolation ribbon	705646571	tinyribbon.gif	familiar	t	0
 11325	replica august scepter	673883740	ascepter.gif	offhand	q	0
 11326	Thwaitgold Fairyfly Statue	579008694	pebble.gif	none		0
+11327	residual chitin paste	835465451	chitinpowder.gif	usable		0
+11328	concentrated cooking	351580029	stimpill2.gif	spleen, usable	t,d	15
+11329	ancient meat	883952044	pillowshell.gif	spleen, usable	t,d	10
+11330	sparkling orb	862610632	frostshock.gif	spleen, usable	t,d	30
+11331	hardening cream	547824668	creamtube.gif	spleen, usable	t,d	11
+11332	pool shark hair oil	972311757	bottle.gif	spleen, usable	t,d	20
