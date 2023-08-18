@@ -2833,3 +2833,8 @@
 2833	Serendipity	dice5.gif	26354f13757a64aeff5d476fc4d9fc9a	neutral	none	cast 1 Aug. 18th: Serendipity Day!
 2834	Aware of Bees	bees.gif	6fe94a77eb12fb19bc02b91d1c935b40	neutral	none	cast 1 Aug. 19th: Honey Bee Awareness Day!
 2835	Cabernet Hunter	wine2.gif	20833a581c848a3d5c5e0c1a659c4b1b	neutral	none	drink 1 bottle of Cabernet Sauvignon
+2836
+2837	Cooking Concentrate	stimpill2.gif	68438fe524f5437fe50a6847d873fc40	neutral	none	chew 1 concentrated cooking
+2838	Latently Energized	nopic.gif	0a5204a8896ef2d7b8b968cc7c6be65b	neutral	none	chew 1 sparkling orb
+2839	Really Hard	creamtube.gif	bc5cb9dab274da7f4566e833c2fb666c	neutral	none	chew 1 hardening cream
+2840	Sharky	nopic.gif	b01cbd7c66f460075ffd3a68eb23e138	neutral	none	chew 1 pool shark hair oil
