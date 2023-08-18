@@ -75,6 +75,7 @@ KOL High School	Town	KOL High School	KOLHS
 Exploathing	Exploathing	Kingdom of Exploathing	Kingdom of Exploathing
 Mothership	Mothership	The Bugbear Mothership	Bugbear Invasion
 The Grey Goo Impact Site	The Grey Goo Impact Site	Grey Goo	Grey Goo
+Your Campground from a bug's Perspective	Campground	Shrunken Campground	A Shrunken Adventurer Am I
 
 # Zodiac Signs
 
