@@ -534,7 +534,7 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.FLOAT_TYPE};
     functions.add(new LibraryFunction("to_float", DataTypes.FLOAT_TYPE, params));
 
-    params = new Type[] {DataTypes.STRING_TYPE};
+    params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("to_buffer", DataTypes.BUFFER_TYPE, params));
 
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};

@@ -861,8 +861,7 @@ public class Parser {
       }
 
       // Check that value is valid via validCoercion
-      rhs = this.autoCoerceValue(dataType, rhs, scope);
-
+      rhs = this.autoCoerceValue(dataType, rhs, scope, "assign");
       if (!Operator.validCoercion(dataType, rhs.getType(), "assign")) {
         recordLiteralErrors.submitError(
             this.error(
@@ -1143,7 +1142,7 @@ public class Parser {
       result = this.parseExpression(scope);
 
       if (result != null) {
-        result = this.autoCoerceValue(t, result, scope);
+        result = this.autoCoerceValue(t, result, scope, "assign");
         if (!Operator.validCoercion(ltype, result.getType(), "assign")) {
           initializationErrors.submitError(
               this.error(
@@ -1159,7 +1158,13 @@ public class Parser {
     return result;
   }
 
-  private Evaluable autoCoerceValue(final Type ltype, final Evaluable rhs, final BasicScope scope) {
+  private Evaluable autoCoerceValue(
+      final Type ltype, final Evaluable rhs, final BasicScope scope, final Operator oper) {
+    return autoCoerceValue(ltype, rhs, scope, oper.toString());
+  }
+
+  private Evaluable autoCoerceValue(
+      final Type ltype, final Evaluable rhs, final BasicScope scope, final String oper) {
     // TypeSpec.ANY has no name
     if (ltype == null || ltype.getName() == null) {
       return rhs;
@@ -1189,7 +1194,16 @@ public class Parser {
       }
     }
 
-    if (ltype.equals(PATH_TYPE) || ltype.equals(BUFFER_TYPE)) {
+    if (ltype.equals(PATH_TYPE)) {
+      Function target = scope.findFunction(name, params, MatchType.COERCE);
+      if (target != null && target.getType().equals(ltype)) {
+        return new FunctionCall(rhs.getLocation(), target, params, this);
+      }
+    }
+
+    // Only do auto-coercion on assignments; not on function parameters.
+    // We COULD do it for return values.
+    if (ltype.equals(BUFFER_TYPE) && oper.equals("assign")) {
       Function target = scope.findFunction(name, params, MatchType.COERCE);
       if (target != null && target.getType().equals(ltype)) {
         return new FunctionCall(rhs.getLocation(), target, params, this);
@@ -1242,7 +1256,7 @@ public class Parser {
       }
 
       Evaluable currentValue = valIterator.next();
-      Evaluable coercedValue = this.autoCoerceValue(paramType, currentValue, scope);
+      Evaluable coercedValue = this.autoCoerceValue(paramType, currentValue, scope, "parameter");
       valIterator.set(coercedValue);
     }
 
@@ -1541,7 +1555,7 @@ public class Parser {
         // If parsing an ArrayLiteral, accumulate only values
         if (isArray) {
           // The value must have the correct data type
-          lhs = this.autoCoerceValue(data, lhs, scope);
+          lhs = this.autoCoerceValue(data, lhs, scope, "assign");
           if (!Operator.validCoercion(dataType, lhs.getType(), "assign")) {
             aggregateLiteralErrors.submitError(
                 this.error(
@@ -1620,8 +1634,8 @@ public class Parser {
       }
 
       // Check that each type is valid via validCoercion
-      lhs = this.autoCoerceValue(index, lhs, scope);
-      rhs = this.autoCoerceValue(data, rhs, scope);
+      lhs = this.autoCoerceValue(index, lhs, scope, "assign");
+      rhs = this.autoCoerceValue(data, rhs, scope, "assign");
 
       if (!Operator.validCoercion(index, lhs.getType(), "assign")) {
         aggregateLiteralErrors.submitError(
@@ -1817,7 +1831,7 @@ public class Parser {
     Evaluable value = this.parseExpression(parentScope);
 
     if (value != null) {
-      value = this.autoCoerceValue(expectedType, value, parentScope);
+      value = this.autoCoerceValue(expectedType, value, parentScope, "return");
     } else {
       Location errorLocation = this.makeLocation(this.currentToken());
 
@@ -2290,7 +2304,7 @@ public class Parser {
           caseErrors.submitSyntaxError(this.unexpectedTokenError(":", this.currentToken()));
         }
 
-        test = autoCoerceValue(type, test, scope);
+        test = autoCoerceValue(type, test, scope, "");
 
         if (!test.getType().equals(type) && !type.isBad() && !test.getType().isBad()) {
           caseErrors.submitError(
@@ -2941,7 +2955,7 @@ public class Parser {
         }
 
         Type ltype = t.getBaseType();
-        rhs = this.autoCoerceValue(t, rhs, scope);
+        rhs = this.autoCoerceValue(t, rhs, scope, "assign");
         Type rtype = rhs.getType();
 
         if (!Operator.validCoercion(ltype, rtype, "assign")) {
@@ -3228,7 +3242,7 @@ public class Parser {
         }
 
         if (!val.evaluatesTo(DataTypes.VOID_VALUE)) {
-          val = this.autoCoerceValue(currentType, val, scope);
+          val = this.autoCoerceValue(currentType, val, scope, "assign");
           Type given = val.getType();
           if (!Operator.validCoercion(expected, given, "assign")) {
             Location errorLocation = val.getLocation();
@@ -3530,7 +3544,7 @@ public class Parser {
       rhs = Value.locate(errorLocation, Value.BAD_VALUE);
     }
 
-    rhs = this.autoCoerceValue(lhs.getRawType(), rhs, scope);
+    rhs = this.autoCoerceValue(lhs.getRawType(), rhs, scope, oper);
     if (!oper.validCoercion(lhs.getType(), rhs.getType())) {
       String error =
           oper.isLogical()
@@ -3665,7 +3679,7 @@ public class Parser {
         lhs = Value.locate(errorLocation, Value.BAD_VALUE);
       }
 
-      lhs = this.autoCoerceValue(DataTypes.BOOLEAN_TYPE, lhs, scope);
+      lhs = this.autoCoerceValue(DataTypes.BOOLEAN_TYPE, lhs, scope, oper);
       lhs = new Operation(lhs, oper);
       if (!lhs.getType().equals(DataTypes.BOOLEAN_TYPE) && !lhs.getType().isBad()) {
         expressionErrors.submitError(
@@ -3822,10 +3836,10 @@ public class Parser {
         if (oper.equals("+") && (ltype.equals(TypeSpec.STRING) || rtype.equals(TypeSpec.STRING))) {
           // String concatenation
           if (!ltype.equals(TypeSpec.STRING)) {
-            lhs = this.autoCoerceValue(DataTypes.STRING_TYPE, lhs, scope);
+            lhs = this.autoCoerceValue(DataTypes.STRING_TYPE, lhs, scope, oper);
           }
           if (!rtype.equals(TypeSpec.STRING)) {
-            rhs = this.autoCoerceValue(DataTypes.STRING_TYPE, rhs, scope);
+            rhs = this.autoCoerceValue(DataTypes.STRING_TYPE, rhs, scope, oper);
           }
           if (lhs instanceof Concatenate) {
             ((Concatenate) lhs).addString(rhs);
@@ -3840,7 +3854,7 @@ public class Parser {
                   ? ((AggregateType) ltype).getIndexType().getBaseType()
                   : ltype;
 
-          rhs = this.autoCoerceValue(lhsCoerceType, rhs, scope);
+          rhs = this.autoCoerceValue(lhsCoerceType, rhs, scope, oper);
           if (!oper.validCoercion(ltype, rhs.getType())) {
             expressionErrors.submitError(
                 this.error(
