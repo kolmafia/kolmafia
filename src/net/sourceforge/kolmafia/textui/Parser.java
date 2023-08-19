@@ -1003,7 +1003,8 @@ public class Parser {
             functionName.content, functionType, variableReferences, functionLocation);
 
     if (f.overridesLibraryFunction()) {
-      functionErrors.submitError(this.overridesLibraryFunctionError(f));
+      String buffer = "Function '" + f.getSignature() + "' overrides a library function.";
+      this.warning(f.getLocation(), buffer);
     }
 
     UserDefinedFunction existing = parentScope.findFunction(f);
@@ -5534,11 +5535,6 @@ public class Parser {
 
   private AshDiagnostic multiplyDefinedFunctionError(final Function f) {
     String buffer = "Function '" + f.getSignature() + "' defined multiple times.";
-    return this.error(f.getLocation(), buffer);
-  }
-
-  private AshDiagnostic overridesLibraryFunctionError(final Function f) {
-    String buffer = "Function '" + f.getSignature() + "' overrides a library function.";
     return this.error(f.getLocation(), buffer);
   }
 

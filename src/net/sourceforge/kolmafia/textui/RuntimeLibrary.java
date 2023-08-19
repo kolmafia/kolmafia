@@ -534,7 +534,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.FLOAT_TYPE};
     functions.add(new LibraryFunction("to_float", DataTypes.FLOAT_TYPE, params));
 
-    params = new Type[] {DataTypes.STRICT_STRING_TYPE};
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("to_buffer", DataTypes.BUFFER_TYPE, params));
+    params = new Type[] {DataTypes.BUFFER_TYPE};
     functions.add(new LibraryFunction("to_buffer", DataTypes.BUFFER_TYPE, params));
 
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
@@ -3614,9 +3616,12 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value to_buffer(ScriptRuntime controller, final Value value) {
-    String string = value.toString();
-    StringBuffer buffer = new StringBuffer(string);
-    return new Value(DataTypes.BUFFER_TYPE, "", buffer);
+    if (value.getType().equals(TypeSpec.STRING)) {
+      String string = value.toString();
+      return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer(string));
+    }
+    StringBuffer buffer = (StringBuffer) value.rawValue();
+    return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer(buffer));
   }
 
   public static Value to_item(ScriptRuntime controller, final Value value) {
