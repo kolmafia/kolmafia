@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
+import static net.sourceforge.kolmafia.textui.DataTypes.BUFFER_TYPE;
 import static net.sourceforge.kolmafia.textui.DataTypes.PATH_TYPE;
 import static net.sourceforge.kolmafia.textui.parsetree.AggregateType.badAggregateType;
 import static net.sourceforge.kolmafia.textui.parsetree.VariableReference.badVariableReference;
@@ -1188,7 +1189,7 @@ public class Parser {
       }
     }
 
-    if (ltype.equals(PATH_TYPE)) {
+    if (ltype.equals(PATH_TYPE) || ltype.equals(BUFFER_TYPE)) {
       Function target = scope.findFunction(name, params, MatchType.COERCE);
       if (target != null && target.getType().equals(ltype)) {
         return new FunctionCall(rhs.getLocation(), target, params, this);

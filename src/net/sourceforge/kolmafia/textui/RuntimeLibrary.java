@@ -534,6 +534,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.FLOAT_TYPE};
     functions.add(new LibraryFunction("to_float", DataTypes.FLOAT_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("to_buffer", DataTypes.BUFFER_TYPE, params));
+
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("to_item", DataTypes.ITEM_TYPE, params));
     params = new Type[] {DataTypes.INT_TYPE};
@@ -3399,8 +3402,11 @@ public abstract class RuntimeLibrary {
 
   public static Value visit_url(ScriptRuntime controller) {
     RelayRequest relayRequest = controller.getRelayRequest();
+    StringBuffer buffer = new StringBuffer();
+    Value returnValue = new Value(DataTypes.BUFFER_TYPE, "", buffer);
+
     if (relayRequest == null) {
-      return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
+      return returnValue;
     }
 
     while (true) {
@@ -3414,11 +3420,10 @@ public abstract class RuntimeLibrary {
       }
     }
 
-    StringBuffer buffer = new StringBuffer();
     if (relayRequest.responseText != null) {
       buffer.append(relayRequest.responseText);
     }
-    return new Value(DataTypes.BUFFER_TYPE, "", buffer);
+    return returnValue;
   }
 
   public static Value visit_url(ScriptRuntime controller, final Value string) {
@@ -3529,11 +3534,13 @@ public abstract class RuntimeLibrary {
   public static Value to_string(ScriptRuntime controller, Value val) {
     // This function previously just returned val, except in the
     // case of buffers in which case it's necessary to capture the
-    // current string value of the buffer.	That works fine in most
-    // cases, but NOT if the value ever gets used as a key in a
-    // map; having a key that's actually an int (for example) in a
-    // string map causes the map ordering to become inconsistent,
-    // because int Values compare differently than string Values.
+    // current string value of the buffer.
+    //
+    // That works fine in most cases, but NOT if the value ever gets
+    // used as a key in a map; having a key that's actually an int (for
+    // example) in a string map causes the map ordering to become
+    // inconsistent, because int Values compare differently than string
+    // Values.
     return val.toStringValue();
   }
 
@@ -3604,6 +3611,12 @@ public abstract class RuntimeLibrary {
     }
 
     return value.toFloatValue();
+  }
+
+  public static Value to_buffer(ScriptRuntime controller, final Value value) {
+    String string = value.toString();
+    StringBuffer buffer = new StringBuffer(string);
+    return new Value(DataTypes.BUFFER_TYPE, "", buffer);
   }
 
   public static Value to_item(ScriptRuntime controller, final Value value) {
