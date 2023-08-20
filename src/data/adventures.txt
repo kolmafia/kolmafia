@@ -363,9 +363,9 @@ The Grey Goo Impact Site	adventure=552	DiffLevel: unknown Env: unknown Stat: 0	T
 
 # A Shrunken Adventurer Am I path
 
-Your Campground from a bug's Perspective	adventure=568	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Dirt
-Your Campground from a bug's Perspective	adventure=569	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Tall Grass
-Your Campground from a bug's Perspective	adventure=570	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Very Tall Grass
+Your Campground From a Bug's Perspective	adventure=568	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Dirt
+Your Campground From a Bug's Perspective	adventure=569	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Tall Grass
+Your Campground From a Bug's Perspective	adventure=570	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Very Tall Grass
 
 # Zodiac sign areas
 

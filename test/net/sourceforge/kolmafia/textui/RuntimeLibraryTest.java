@@ -547,6 +547,17 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
+  @Nested
+  class BufferFunctions {
+    @ParameterizedTest
+    @ValueSource(
+        strings = {"buffer b = \"Initial content\"; (b.to_string() == \"Initial content\")"})
+    void stringCanInitializeBuffer(String command) {
+      String output = execute(command);
+      assertThat(output, endsWith("Returned: true\n"));
+    }
+  }
+
   @Test
   void environmentIsLowercase() {
     String output = execute("($location[Noob Cave].environment == 'underground')");
