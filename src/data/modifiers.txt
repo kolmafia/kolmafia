@@ -12510,6 +12510,7 @@ Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative:
 Path	Dark Gyffte	Maximum HP: [20+20*pref(darkGyfftePoints)]
 Path	You, Robot	Energy: +1
 Path	Quantum Terrarium	Familiar Weight: [min(2*L,20)]
+Path	A Shrunken Adventurer Am I	Muscle Limit: 1, Mysticality Limit: 1, Moxie Limit: 1
 
 # Horsery
 Horsery	normal horse	Initiative: +10, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10

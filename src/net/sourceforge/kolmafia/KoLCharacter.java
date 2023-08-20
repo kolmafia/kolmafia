@@ -602,6 +602,8 @@ public abstract class KoLCharacter {
       limit = 5;
     } else if (KoLCharacter.isPlumber()) {
       limit = 20;
+    } else if (KoLCharacter.inSmallcore()) {
+      limit = 2;
     } else if (KoLCharacter.inBadMoon()) {
       if (KoLCharacter.hasSkill(SkillPool.PRIDE)) {
         limit -= 1;
@@ -723,6 +725,8 @@ public abstract class KoLCharacter {
       }
     } else if (KoLCharacter.isVampyre()) {
       limit = 4;
+    } else if (KoLCharacter.inSmallcore()) {
+      limit = 1;
     }
 
     if (KoLCharacter.hasSkill(SkillPool.STEEL_LIVER)) {
