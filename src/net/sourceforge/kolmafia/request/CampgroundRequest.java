@@ -1486,6 +1486,11 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
+    if (KoLCharacter.inSmallcore()) {
+      // hard to parse
+      return;
+    }
+
     Matcher m = HOUSING_PATTERN.matcher(responseText);
     if (!m.find()) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Unable to parse housing!");

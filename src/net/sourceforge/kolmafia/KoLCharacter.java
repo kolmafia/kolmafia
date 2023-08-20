@@ -602,6 +602,8 @@ public abstract class KoLCharacter {
       limit = 5;
     } else if (KoLCharacter.isPlumber()) {
       limit = 20;
+    } else if (KoLCharacter.inSmallcore()) {
+      limit = 2;
     } else if (KoLCharacter.inBadMoon()) {
       if (KoLCharacter.hasSkill(SkillPool.PRIDE)) {
         limit -= 1;
@@ -723,6 +725,8 @@ public abstract class KoLCharacter {
       }
     } else if (KoLCharacter.isVampyre()) {
       limit = 4;
+    } else if (KoLCharacter.inSmallcore()) {
+      limit = 1;
     }
 
     if (KoLCharacter.hasSkill(SkillPool.STEEL_LIVER)) {
@@ -1755,7 +1759,8 @@ public abstract class KoLCharacter {
     if (KoLConstants.chateau.contains(ChateauRequest.CHATEAU_FAN)) freerests += 5;
     if (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
         && Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
-    if (KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
+    if (StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Long Winter's Nap")
+        && KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
         || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.CINCHO_DE_MAYO) > 0
