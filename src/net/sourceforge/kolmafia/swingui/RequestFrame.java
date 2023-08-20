@@ -399,6 +399,10 @@ public class RequestFrame extends GenericFrame {
 
     this.locationIndex = RequestFrame.this.shownHTML.size() - 1;
 
+    this.showRawHTML(responseText);
+  }
+
+  public void showRawHTML(String responseText) {
     Matcher imageMatcher = RequestFrame.IMAGE_PATTERN.matcher(responseText);
     while (imageMatcher.find()) {
       FileUtilities.downloadImage("http://" + imageMatcher.group());
