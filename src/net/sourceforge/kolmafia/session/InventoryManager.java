@@ -848,7 +848,9 @@ public abstract class InventoryManager {
     // ingredients needed to create the item
 
     if (shouldUseMall && !scriptSaysBuy && !InventoryManager.hasAnyIngredient(itemId)) {
-      if (creator == null) {
+      // On the dev server it's always useful to check the buyScript because items can be magicked
+      // into existence.
+      if (creator == null && !KoLmafia.usingDevServer()) {
         if (sim) {
           return "buy";
         }
