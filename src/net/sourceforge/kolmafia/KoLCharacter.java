@@ -1759,7 +1759,8 @@ public abstract class KoLCharacter {
     if (KoLConstants.chateau.contains(ChateauRequest.CHATEAU_FAN)) freerests += 5;
     if (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
         && Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
-    if (KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
+    if (StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Long Winter's Nap")
+        && KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
         || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.CINCHO_DE_MAYO) > 0
