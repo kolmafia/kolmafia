@@ -1,0 +1,8 @@
+Function 'to_buffer(string)' overrides a library function. (to_buffer_test.ash, line 2, char 8 to char 33)
+initial = 'Initial content 1'
+buf1 content = 'Initial content 1'
+buf1a content = 'Initial content 1'
+initial = 'Initial content 2'
+buf2 content = 'Initial content 2'
+initial = 'Heavy Rains'
+buf3 content = 'Heavy Rains'
