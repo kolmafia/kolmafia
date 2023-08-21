@@ -181,6 +181,7 @@ global	userAgent
 global	verboseSpeakeasy	false
 global	verboseFloundry	false
 global	wrapLongLines	true
+global	_beachTides	-1
 global	_g9Effect	0
 global	_gitUpdated	false
 global	_svnRepoFileFetched	false
@@ -1715,7 +1716,6 @@ user	_beachCombing	false
 user	_beachHeadsUsed
 user	_beachLayout
 user	_beachMinutes
-user	_beachTides	0
 user	_beanCannonUses	0
 user	_bearHugs	0
 user	_beerLensDrops	0

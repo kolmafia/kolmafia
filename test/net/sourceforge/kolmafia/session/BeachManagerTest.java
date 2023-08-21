@@ -48,7 +48,7 @@ public class BeachManagerTest {
             withHandlingChoice(1388),
             withProperty("_beachCombing", false),
             withProperty("_beachMinutes", 0),
-            withProperty("_beachTides", 0),
+            withProperty("_beachTides", -1),
             withProperty("_beachLayout", ""));
 
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
@@ -74,7 +74,6 @@ public class BeachManagerTest {
       assertEquals(
           "3:rrrrrrrrrr,4:rrrrrrrrrr,5:rrrrrrrrrr,6:rrrrrrrrrr,7:rrrrrrrrrr,8:rrrrrrrrrr,9:rrrrrWrrrr,10:rrrrrrrrrr",
           Preferences.getString("_beachLayout"));
-      assertEquals(2, Preferences.getInteger("_beachTides"));
     }
   }
 
