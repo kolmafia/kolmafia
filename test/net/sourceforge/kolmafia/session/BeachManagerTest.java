@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withMeat;
@@ -42,6 +43,7 @@ public class BeachManagerTest {
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
+            withCurrentRun(100),
             withHandlingChoice(1388),
             withProperty("_beachCombing", false),
             withProperty("_beachMinutes", 0),
@@ -62,7 +64,7 @@ public class BeachManagerTest {
       RequestLogger.closeCustom();
 
       String output = ostream.toString().trim();
-      assertEquals(output, "[1] Wandering 6079 minutes down the beach");
+      assertEquals(output, "[101] Wandering 6079 minutes down the beach");
       assertTrue(ChoiceManager.handlingChoice);
       assertEquals(1388, ChoiceManager.lastChoice);
       assertTrue(Preferences.getBoolean("_beachCombing"));
