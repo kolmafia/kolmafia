@@ -5793,8 +5793,9 @@ public abstract class KoLCharacter {
     if (item != null && item != EquipmentRequest.UNEQUIP) {
       if (item.id != ItemPool.LATTE_MUG) {
         var mods = ModifierDatabase.getItemModifiers(item.id);
-        mods.setLookup(new Lookup(ModifierType.EFFECT, EffectPool.OFFHAND_REMARKABLE));
-        newModifiers.add(mods);
+        var copyMods = new Modifiers(mods);
+        copyMods.setLookup(new Lookup(ModifierType.EFFECT, EffectPool.OFFHAND_REMARKABLE));
+        newModifiers.add(copyMods);
       }
     }
   }
