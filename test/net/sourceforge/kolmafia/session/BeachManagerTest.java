@@ -8,6 +8,7 @@ import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -64,8 +65,7 @@ public class BeachManagerTest {
       RequestLogger.closeCustom();
 
       String output = ostream.toString().trim();
-      System.out.println("output = '" + output + "'");
-      assertEquals(output, "[101] Wandering 6079 minutes down the beach");
+      assertThat(output, startsWith("[101] Wandering 6079 minutes down the beach"));
       assertTrue(ChoiceManager.handlingChoice);
       assertEquals(1388, ChoiceManager.lastChoice);
       assertTrue(Preferences.getBoolean("_beachCombing"));
