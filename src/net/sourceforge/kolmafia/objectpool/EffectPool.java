@@ -360,6 +360,7 @@ public class EffectPool {
   public static final int SHADOW_WATERS = 2806;
   public static final int OMINOUS_WISDOM = 2810;
   public static final int CITIZEN_OF_A_ZONE = 2822;
+  public static final int OFFHAND_REMARKABLE = 2830;
   public static final int SERENDIPITY = 2833;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
