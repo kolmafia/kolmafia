@@ -64,6 +64,7 @@ public class BeachManagerTest {
       RequestLogger.closeCustom();
 
       String output = ostream.toString().trim();
+      System.out.println("output = '" + output + "'");
       assertEquals(output, "[101] Wandering 6079 minutes down the beach");
       assertTrue(ChoiceManager.handlingChoice);
       assertEquals(1388, ChoiceManager.lastChoice);
