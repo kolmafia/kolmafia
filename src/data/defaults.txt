@@ -1715,6 +1715,7 @@ user	_beachCombing	false
 user	_beachHeadsUsed
 user	_beachLayout
 user	_beachMinutes
+user	_beachTides	0
 user	_beanCannonUses	0
 user	_bearHugs	0
 user	_beerLensDrops	0
