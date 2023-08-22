@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -1386,6 +1387,8 @@ public abstract class KoLCharacter {
       EffectPool.get(EffectPool.BOWLEGGED_SWAGGER);
   public static final AdventureResult STEELY_EYED_SQUINT =
       EffectPool.get(EffectPool.STEELY_EYED_SQUINT);
+  public static final AdventureResult OFFHAND_REMARKABLE =
+      EffectPool.get(EffectPool.OFFHAND_REMARKABLE);
 
   public static void setLimitMode(final LimitMode limitmode) {
     switch (limitmode) {
@@ -5538,6 +5541,9 @@ public abstract class KoLCharacter {
           EffectPool.BOWLEGGED_SWAGGER);
       // Add "Physical Damage" here, when that is properly defined
     }
+    if (effects.contains(KoLCharacter.OFFHAND_REMARKABLE) && !KoLCharacter.inGLover()) {
+      addOffhandRemarkable(equipment, newModifiers);
+    }
     if (equipment.get(Slot.SHIRT).getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT
         && (Preferences.getInteger("garbageShirtCharge") > 0
             || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
@@ -5769,6 +5775,28 @@ public abstract class KoLCharacter {
             ModifierType.EQUIPMENT_POWER,
             "shirt power");
         break;
+    }
+  }
+
+  private static void addOffhandRemarkable(
+      Map<Slot, AdventureResult> equipment, Modifiers newModifiers) {
+    var offhand = equipment.get(Slot.OFFHAND);
+    addOffhandRemarkable(offhand, newModifiers);
+    // and also offhand items that are equipped on the familiar
+    var famItem = equipment.get(Slot.FAMILIAR);
+    if (famItem != null && ItemDatabase.getConsumptionType(famItem.id) == ConsumptionType.OFFHAND) {
+      addOffhandRemarkable(famItem, newModifiers);
+    }
+  }
+
+  private static void addOffhandRemarkable(AdventureResult item, Modifiers newModifiers) {
+    if (item != null && item != EquipmentRequest.UNEQUIP) {
+      if (item.id != ItemPool.LATTE_MUG) {
+        var mods = ModifierDatabase.getItemModifiers(item.id);
+        var copyMods = new Modifiers(mods);
+        copyMods.setLookup(new Lookup(ModifierType.EFFECT, EffectPool.OFFHAND_REMARKABLE));
+        newModifiers.add(copyMods);
+      }
     }
   }
 
