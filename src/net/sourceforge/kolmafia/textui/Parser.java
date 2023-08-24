@@ -1388,7 +1388,7 @@ public class Parser {
       // standalone catch doesn't have a ; token
       return result;
     } else if ((result = this.parseStatic(functionType, scope)) != null) {
-      // try doesn't have a ; token
+      // static doesn't have a ; token
       return result;
     } else if ((result = this.parseSort(scope)) != null) {
     } else if ((result = this.parseRemove(scope)) != null) {
@@ -1829,7 +1829,16 @@ public class Parser {
           this.error(this.currentToken(), "Cannot return a value from a void function"));
     }
 
-    Evaluable value = this.parseExpression(parentScope);
+    Evaluable value;
+    if (this.currentToken().equals("{")) {
+      if (expectedType.getBaseType() instanceof CompositeType ct) {
+        value = this.parseCompositeLiteral(parentScope, ct);
+      } else {
+        value = this.parseCompositeLiteral(parentScope, badAggregateType());
+      }
+    } else {
+      value = this.parseExpression(parentScope);
+    }
 
     if (value != null) {
       value = this.autoCoerceValue(expectedType, value, parentScope, "return");
@@ -3937,9 +3946,9 @@ public class Parser {
       Token anchor = this.currentToken();
 
       Type baseType = this.parseType(scope, false);
-      if (baseType != null && baseType.getBaseType() instanceof AggregateType) {
+      if (baseType != null && baseType.getBaseType() instanceof CompositeType ct) {
         if (this.currentToken().equals("{")) {
-          result = this.parseAggregateLiteral(scope, (AggregateType) baseType.getBaseType());
+          result = this.parseCompositeLiteral(scope, ct.getBaseType());
         } else {
           evaluableErrors.submitSyntaxError(this.unexpectedTokenError("{", this.currentToken()));
           // don't parse. We don't know if they just didn't put anything.
