@@ -1086,6 +1086,23 @@ public class ModifiersTest {
     }
 
     @Test
+    public void onlyDoublesOffhandOffhands() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING),
+              withEquipped(ItemPool.BRIMSTONE_BLUDGEON),
+              withEquipped(Slot.OFFHAND, ItemPool.BRIMSTONE_BLUDGEON),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(100.0));
+      }
+    }
+
+    @Test
     public void doublesOffhandsOnFamiliar() {
       var cleanups =
           new Cleanups(

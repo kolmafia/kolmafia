@@ -5784,13 +5784,13 @@ public abstract class KoLCharacter {
     addOffhandRemarkable(offhand, newModifiers);
     // and also offhand items that are equipped on the familiar
     var famItem = equipment.get(Slot.FAMILIAR);
-    if (famItem != null && ItemDatabase.getConsumptionType(famItem.id) == ConsumptionType.OFFHAND) {
-      addOffhandRemarkable(famItem, newModifiers);
-    }
+    addOffhandRemarkable(famItem, newModifiers);
   }
 
   private static void addOffhandRemarkable(AdventureResult item, Modifiers newModifiers) {
-    if (item != null && item != EquipmentRequest.UNEQUIP) {
+    if (item != null
+        && item != EquipmentRequest.UNEQUIP
+        && ItemDatabase.getConsumptionType(item.id) == ConsumptionType.OFFHAND) {
       if (item.id != ItemPool.LATTE_MUG) {
         var mods = ModifierDatabase.getItemModifiers(item.id);
         var copyMods = new Modifiers(mods);

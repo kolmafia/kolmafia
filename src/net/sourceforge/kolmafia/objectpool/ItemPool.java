@@ -824,6 +824,7 @@ public class ItemPool {
   public static final int GOLD_BOWLING_BALL = 2766;
   public static final int SOLID_BACONSTONE_EARRING = 2780;
   public static final int BRIMSTONE_BERET = 2813;
+  public static final int BRIMSTONE_BLUDGEON = 2814;
   public static final int BRIMSTONE_BUNKER = 2815;
   public static final int BRIMSTONE_BRACELET = 2818;
   public static final int GRIMACITE_GASMASK = 2819;
