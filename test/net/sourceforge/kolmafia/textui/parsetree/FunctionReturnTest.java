@@ -66,6 +66,29 @@ public class FunctionReturnTest {
               // From the "return" up to the end of the expression (without the semi-colon)
               ParserTest.assertLocationEquals(1, 11, 1, 23, functionReturn.getLocation());
             }),
+        valid(
+            "return array literal from array function",
+            "int[] f() { return {1, 2, 3}; }",
+            Arrays.asList(
+                "int", "[", "]", "f", "(", ")", "{", "return", "{", "1", ",", "2", ",", "3", "}",
+                ";", "}"),
+            Arrays.asList(
+                "1-1", "1-4", "1-5", "1-7", "1-8", "1-9", "1-11", "1-13", "1-20", "1-21", "1-22",
+                "1-24", "1-25", "1-27", "1-28", "1-29", "1-31"),
+            scope -> {
+              Iterator<Function> functions = scope.getFunctions().iterator();
+
+              assertTrue(functions.hasNext());
+              UserDefinedFunction function =
+                  assertInstanceOf(UserDefinedFunction.class, functions.next());
+              assertFalse(functions.hasNext());
+
+              List<Command> commands = function.getScope().getCommandList();
+              FunctionReturn functionReturn =
+                  assertInstanceOf(FunctionReturn.class, commands.get(0));
+              // From the "return" up to the end of the expression (without the semi-colon)
+              ParserTest.assertLocationEquals(1, 13, 1, 29, functionReturn.getLocation());
+            }),
         invalid(
             "no return from int function",
             "int f() {}",
