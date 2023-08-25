@@ -91,8 +91,8 @@ public class ParserTest {
     assertEquals(script.tokens, getTokensContents(script.parser), script.desc);
     assertEquals(script.positions, getTokensPositions(script.parser), script.desc);
 
-    if (script instanceof ValidScriptDataWithLocationTests) {
-      ((ValidScriptDataWithLocationTests) script).locationTests.accept(script.scope);
+    if (script instanceof ValidScriptDataWithLocationTests test) {
+      test.locationTests.accept(script.scope);
     }
   }
 
