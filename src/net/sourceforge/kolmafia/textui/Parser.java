@@ -3946,9 +3946,9 @@ public class Parser {
       Token anchor = this.currentToken();
 
       Type baseType = this.parseType(scope, false);
-      if (baseType != null && baseType.getBaseType() instanceof CompositeType ct) {
+      if (baseType != null && baseType.getBaseType() instanceof AggregateType) {
         if (this.currentToken().equals("{")) {
-          result = this.parseCompositeLiteral(scope, ct.getBaseType());
+          result = this.parseAggregateLiteral(scope, (AggregateType) baseType.getBaseType());
         } else {
           evaluableErrors.submitSyntaxError(this.unexpectedTokenError("{", this.currentToken()));
           // don't parse. We don't know if they just didn't put anything.
