@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.swingui;
 import javax.swing.JFrame;
 import javax.swing.ToolTipManager;
 import net.sourceforge.kolmafia.ImageCachingEditorKit;
+import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class ShowHTMLFrame extends RequestFrame {
   private static ShowHTMLFrame INSTANCE = null;
@@ -19,7 +20,7 @@ public class ShowHTMLFrame extends RequestFrame {
     return false;
   }
 
-  public static final void showHTMLText(final String html) {
+  public static final void showRequest(final GenericRequest request) {
     if (ShowHTMLFrame.INSTANCE == null) {
       GenericFrame.createDisplay(ShowHTMLFrame.class);
     } else {
@@ -31,6 +32,6 @@ public class ShowHTMLFrame extends RequestFrame {
       ShowHTMLFrame.INSTANCE.requestFocus();
       ShowHTMLFrame.INSTANCE.setAlwaysOnTop(false);
     }
-    ShowHTMLFrame.INSTANCE.showRawHTML(html);
+    ShowHTMLFrame.INSTANCE.refresh(request);
   }
 }

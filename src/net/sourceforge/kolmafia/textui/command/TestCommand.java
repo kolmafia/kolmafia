@@ -699,10 +699,13 @@ public class TestCommand extends AbstractCommand {
 
       String fileName = split[1];
       String html = load(fileName);
-
-      if (html != null) {
-        ShowHTMLFrame.showHTMLText(html);
+      if (html == null) {
+        return;
       }
+
+      var request = new GenericRequest(fileName);
+      request.responseText = html;
+      ShowHTMLFrame.showRequest(request);
 
       return;
     }
