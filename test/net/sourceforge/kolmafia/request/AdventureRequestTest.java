@@ -214,9 +214,7 @@ public class AdventureRequestTest {
     @Test
     public void detectsGrassMonsters() {
       var cleanups =
-          new Cleanups(
-              withProperty("lastEncounter"),
-              withLastLocation("Fight in the Tall Grass"));
+          new Cleanups(withProperty("lastEncounter"), withLastLocation("Fight in the Tall Grass"));
 
       try (cleanups) {
         AdventureQueueDatabase.resetQueue();
@@ -224,9 +222,8 @@ public class AdventureRequestTest {
         req.responseText = html("request/test_fight_small_grass.html");
         String encounter = AdventureRequest.registerEncounter(req);
 
-        assertThat(
-            encounter,
-            is("kilopede"));
+        assertThat(encounter, is("kilopede"));
+        assertThat("lastEncounter", isSetTo("kilopede"));
       }
     }
 
@@ -234,8 +231,7 @@ public class AdventureRequestTest {
     public void detectsShrunkMonsters() {
       var cleanups =
           new Cleanups(
-              withProperty("lastEncounter"),
-              withLastLocation("The Outskirts of Cobb's Knob"));
+              withProperty("lastEncounter"), withLastLocation("The Outskirts of Cobb's Knob"));
 
       try (cleanups) {
         AdventureQueueDatabase.resetQueue();
@@ -243,9 +239,8 @@ public class AdventureRequestTest {
         req.responseText = html("request/test_fight_small_outskirts.html");
         String encounter = AdventureRequest.registerEncounter(req);
 
-        assertThat(
-            encounter,
-            is("Knob Goblin Assistant Chef"));
+        assertThat(encounter, is("Knob Goblin Assistant Chef"));
+        assertThat("lastEncounter", isSetTo("Knob Goblin Assistant Chef"));
       }
     }
   }
