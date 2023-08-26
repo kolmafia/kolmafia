@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withPath;
@@ -84,7 +85,10 @@ public class AdventureRequestTest {
   @Test
   public void gregariousMonstersAreQueued() {
     var cleanups =
-        new Cleanups(withLastLocation("Barf Mountain"), withNextMonster("Knob Goblin Embezzler"));
+        new Cleanups(
+            withFight(0),
+            withLastLocation("Barf Mountain"),
+            withNextMonster("Knob Goblin Embezzler"));
 
     try (cleanups) {
       AdventureQueueDatabase.resetQueue();
@@ -214,7 +218,10 @@ public class AdventureRequestTest {
     @Test
     public void detectsGrassMonsters() {
       var cleanups =
-          new Cleanups(withProperty("lastEncounter"), withLastLocation("Fight in the Tall Grass"));
+          new Cleanups(
+              withFight(0),
+              withProperty("lastEncounter"),
+              withLastLocation("Fight in the Tall Grass"));
 
       try (cleanups) {
         AdventureQueueDatabase.resetQueue();
@@ -231,7 +238,9 @@ public class AdventureRequestTest {
     public void detectsShrunkMonsters() {
       var cleanups =
           new Cleanups(
-              withProperty("lastEncounter"), withLastLocation("The Outskirts of Cobb's Knob"));
+              withFight(0),
+              withProperty("lastEncounter"),
+              withLastLocation("The Outskirts of Cobb's Knob"));
 
       try (cleanups) {
         AdventureQueueDatabase.resetQueue();
