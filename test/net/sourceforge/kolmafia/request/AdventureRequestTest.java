@@ -9,6 +9,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -204,6 +205,47 @@ public class AdventureRequestTest {
           }
           assertTrue(modifiers.contains(dinosaur));
         }
+      }
+    }
+  }
+
+  @Nested
+  class Small {
+    @Test
+    public void detectsGrassMonsters() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastEncounter"),
+              withLastLocation("Fight in the Tall Grass"));
+
+      try (cleanups) {
+        AdventureQueueDatabase.resetQueue();
+        var req = new GenericRequest("fight.php?ireallymeanit=16");
+        req.responseText = html("request/test_fight_small_grass.html");
+        String encounter = AdventureRequest.registerEncounter(req);
+
+        assertThat(
+            encounter,
+            is("kilopede"));
+      }
+    }
+
+    @Test
+    public void detectsShrunkMonsters() {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastEncounter"),
+              withLastLocation("The Outskirts of Cobb's Knob"));
+
+      try (cleanups) {
+        AdventureQueueDatabase.resetQueue();
+        var req = new GenericRequest("fight.php?ireallymeanit=16");
+        req.responseText = html("request/test_fight_small_outskirts.html");
+        String encounter = AdventureRequest.registerEncounter(req);
+
+        assertThat(
+            encounter,
+            is("Knob Goblin Assistant Chef"));
       }
     }
   }
