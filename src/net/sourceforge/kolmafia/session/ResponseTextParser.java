@@ -938,6 +938,9 @@ public class ResponseTextParser {
       case SkillPool.IMPLODE_UNIVERSE:
         Preferences.increment(levelPref, 1, 13, false);
         break;
+      case SkillPool.CHITINOUS_SOUL:
+        Preferences.increment(levelPref, 1, 11, false);
+        break;
     }
 
     if (KoLCharacter.inNuclearAutumn()) {

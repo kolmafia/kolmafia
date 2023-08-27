@@ -8016,7 +8016,7 @@ Skill	Central Hypothalamus	Absorb Adventures: +1
 Skill	Chatterable Teeth	Cold Resistance: +2
 Skill	Chill of the Tomb	Maximum HP: -10
 Skill	Chip on your Shoulder	PvP Fights: +5
-Skill	Chitinous Soul	Maximum HP: +1
+Skill	Chitinous Soul	Maximum HP: [pref(skillLevel227)]
 Skill	Choleric Humours	Hot Damage: +9
 Skill	Clammy Microcilia	Stench Resistance: +2
 Skill	Claws of the Walrus	Weapon Damage: +7
