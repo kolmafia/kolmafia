@@ -988,9 +988,10 @@ public class MonsterData extends AdventureResult {
     }
     MonsterData.cosmeticModifierImages.put("powerPixel", null);
     MonsterData.cosmeticModifierImages.put("drippy", null);
+    MonsterData.cosmeticModifierImages.put("shrunk", null);
   }
 
-  private static final String[] extraModifierNames = {"powerPixel"};
+  private static final String[] extraModifierNames = {"powerPixel", "shrunk"};
 
   public static final Set<String> extraModifiers = new HashSet<>();
 

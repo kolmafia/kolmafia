@@ -654,6 +654,9 @@ public class AdventureRequest extends GenericRequest {
     Pattern.compile("You're fighting <span id='monname'> *(.*?)</span>", Pattern.DOTALL),
     // papier weapons can change "fighting" to some other verb
     Pattern.compile("You're (?:<u>.*?</u>) <span id='monname'>(.*?)</span>", Pattern.DOTALL),
+    // Shrunken adventurers have this changed for some reason
+    Pattern.compile(
+        "You're a tiny adventurer fighting <span id='monname'> *(.*?)</span>", Pattern.DOTALL),
     // Pocket Familiars have Pokefam battles
     // <b><center>a fleet woodsman's Team:</b>
     Pattern.compile(">([^<]*?)'s Team:<"),
