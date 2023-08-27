@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withPath;
@@ -9,6 +10,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -83,7 +85,10 @@ public class AdventureRequestTest {
   @Test
   public void gregariousMonstersAreQueued() {
     var cleanups =
-        new Cleanups(withLastLocation("Barf Mountain"), withNextMonster("Knob Goblin Embezzler"));
+        new Cleanups(
+            withFight(0),
+            withLastLocation("Barf Mountain"),
+            withNextMonster("Knob Goblin Embezzler"));
 
     try (cleanups) {
       AdventureQueueDatabase.resetQueue();
@@ -204,6 +209,47 @@ public class AdventureRequestTest {
           }
           assertTrue(modifiers.contains(dinosaur));
         }
+      }
+    }
+  }
+
+  @Nested
+  class Small {
+    @Test
+    public void detectsGrassMonsters() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("lastEncounter"),
+              withLastLocation("Fight in the Tall Grass"));
+
+      try (cleanups) {
+        AdventureQueueDatabase.resetQueue();
+        var req = new GenericRequest("fight.php?ireallymeanit=16");
+        req.responseText = html("request/test_fight_small_grass.html");
+        String encounter = AdventureRequest.registerEncounter(req);
+
+        assertThat(encounter, is("kilopede"));
+        assertThat("lastEncounter", isSetTo("kilopede"));
+      }
+    }
+
+    @Test
+    public void detectsShrunkMonsters() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("lastEncounter"),
+              withLastLocation("The Outskirts of Cobb's Knob"));
+
+      try (cleanups) {
+        AdventureQueueDatabase.resetQueue();
+        var req = new GenericRequest("fight.php?ireallymeanit=16");
+        req.responseText = html("request/test_fight_small_outskirts.html");
+        String encounter = AdventureRequest.registerEncounter(req);
+
+        assertThat(encounter, is("Knob Goblin Assistant Chef"));
+        assertThat("lastEncounter", isSetTo("Knob Goblin Assistant Chef"));
       }
     }
   }
