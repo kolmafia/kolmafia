@@ -896,48 +896,39 @@ public class ResponseTextParser {
     var levelPref = "skillLevel" + skillId;
 
     switch (skillId) {
-      case SkillPool.SNARL_OF_THE_TIMBERWOLF:
+      case SkillPool.SNARL_OF_THE_TIMBERWOLF -> {
         if (InventoryManager.hasItem(ItemPool.TATTERED_WOLF_STANDARD)) {
           ResultProcessor.processItem(ItemPool.TATTERED_WOLF_STANDARD, -1);
         }
-        break;
-      case SkillPool.SPECTRAL_SNAPPER:
+      }
+      case SkillPool.SPECTRAL_SNAPPER -> {
         if (InventoryManager.hasItem(ItemPool.TATTERED_SNAKE_STANDARD)) {
           ResultProcessor.processItem(ItemPool.TATTERED_SNAKE_STANDARD, -1);
         }
-        break;
-      case SkillPool.SCARYSAUCE:
-      case SkillPool.FEARFUL_FETTUCINI:
+      }
+      case SkillPool.SCARYSAUCE, SkillPool.FEARFUL_FETTUCINI -> {
         if (InventoryManager.hasItem(ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY)) {
           ResultProcessor.processItem(ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY, -1);
         }
-        break;
-      case SkillPool.TANGO_OF_TERROR:
-      case SkillPool.DIRGE_OF_DREADFULNESS:
+      }
+      case SkillPool.TANGO_OF_TERROR, SkillPool.DIRGE_OF_DREADFULNESS -> {
         if (InventoryManager.hasItem(ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC)) {
           ResultProcessor.processItem(ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1);
         }
-        break;
-      case SkillPool.BELCH_THE_RAINBOW:
-        Preferences.increment(levelPref, 1, 11, false);
-        break;
-      case SkillPool.TOGGLE_OPTIMALITY:
-      case SkillPool.PIRATE_BELLOW:
-      case SkillPool.HOLIDAY_FUN:
-      case SkillPool.SUMMON_CARROT:
-      case SkillPool.BEAR_ESSENCE:
-      case SkillPool.CALCULATE_THE_UNIVERSE:
-      case SkillPool.EXPERIENCE_SAFARI:
-        Preferences.increment(levelPref);
-        break;
-      case SkillPool.SLIMY_SHOULDERS:
-      case SkillPool.SLIMY_SINEWS:
-      case SkillPool.SLIMY_SYNAPSES:
-        Preferences.increment(levelPref, 1, 10, false);
-        break;
-      case SkillPool.IMPLODE_UNIVERSE:
-        Preferences.increment(levelPref, 1, 13, false);
-        break;
+      }
+      case SkillPool.BELCH_THE_RAINBOW, SkillPool.CHITINOUS_SOUL -> Preferences.increment(
+          levelPref, 1, 11, false);
+      case SkillPool.TOGGLE_OPTIMALITY,
+          SkillPool.PIRATE_BELLOW,
+          SkillPool.HOLIDAY_FUN,
+          SkillPool.SUMMON_CARROT,
+          SkillPool.BEAR_ESSENCE,
+          SkillPool.CALCULATE_THE_UNIVERSE,
+          SkillPool.EXPERIENCE_SAFARI -> Preferences.increment(levelPref);
+      case SkillPool.SLIMY_SHOULDERS,
+          SkillPool.SLIMY_SINEWS,
+          SkillPool.SLIMY_SYNAPSES -> Preferences.increment(levelPref, 1, 10, false);
+      case SkillPool.IMPLODE_UNIVERSE -> Preferences.increment(levelPref, 1, 13, false);
     }
 
     if (KoLCharacter.inNuclearAutumn()) {

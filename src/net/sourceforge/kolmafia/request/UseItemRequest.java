@@ -2830,6 +2830,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.REPLICA_EMOTION_CHIP:
       case ItemPool.POCKET_GUIDE_TO_MILD_EVIL:
       case ItemPool.POCKET_GUIDE_TO_MILD_EVIL_USED:
+      case ItemPool.RESIDUAL_CHITIN_PASTE:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you
@@ -2844,7 +2845,8 @@ public class UseItemRequest extends GenericRequest {
               && !responseText.contains("larynx become even more pirate")
               && !responseText.contains("become even more of an expert")
               && !responseText.contains("reread the tale and really remember")
-              && !responseText.contains("Beleven")) {
+              && !responseText.contains("Beleven")
+              && !responseText.contains("absorb the residual paste into your soul")) {
             UseItemRequest.lastUpdate = "You can't learn that skill.";
             KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
             return;
