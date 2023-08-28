@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -310,6 +311,8 @@ public class ValhallaDecorator {
     ValhallaDecorator.switchChateau(buffer);
 
     ValhallaDecorator.switchCowboyBoots(buffer);
+
+    ValhallaDecorator.collectUntradablePulls(buffer);
   }
 
   private static void checkForKeyLime(StringBuffer buffer, int itemId, String keyType) {
@@ -779,5 +782,68 @@ public class ValhallaDecorator {
       case ItemPool.TICKSILVER_SPURS -> "+5 Adventures";
       default -> "";
     };
+  }
+
+  private static void collectUntradablePulls(StringBuffer buffer) {
+    record PotentialPull(int itemId, int desiredAmount, String url) {
+      PotentialPull(int itemId, int desiredAmount) {
+        this(itemId, desiredAmount, null);
+      }
+    }
+    var pulls =
+        List.of(
+            new PotentialPull(ItemPool.SHIP_TRIP_SCRIP, 4, "adventure.php?snarfblat=355"),
+            new PotentialPull(ItemPool.BORIS_BREAD, 3),
+            new PotentialPull(ItemPool.ROASTED_VEGETABLE_OF_JARLSBERG, 3),
+            new PotentialPull(ItemPool.PETES_RICH_RICOTTA, 3),
+            new PotentialPull(ItemPool.ROASTED_VEGETABLE_FOCACCIA, 3),
+            new PotentialPull(ItemPool.PLAIN_CALZONE, 3),
+            new PotentialPull(ItemPool.BAKED_VEGGIE_RICOTTA_CASSEROLE, 3),
+            new PotentialPull(ItemPool.DEEP_DISH_OF_LEGEND, 1),
+            new PotentialPull(ItemPool.CALZONE_OF_LEGEND, 1),
+            new PotentialPull(ItemPool.PIZZA_OF_LEGEND, 1));
+
+    boolean showPulls = false;
+
+    var pullBuffer = new StringBuilder();
+    pullBuffer
+        .append("<br><b>Collect Untradable Pulls</b>")
+        .append("<ul style=\"list-style-type:none;padding-inline:0;\">");
+
+    for (var pull : pulls) {
+      var countItem = InventoryManager.getCount(pull.itemId);
+      if (countItem >= pull.desiredAmount) {
+        continue;
+      }
+      showPulls = true;
+      var itemName = ItemDatabase.getItemName(pull.itemId);
+      var wanted = pull.desiredAmount - countItem;
+      var link =
+          pull.url != null
+              ? pull.url
+              : "/KoLmafia/redirectedCommand?cmd=acquire+"
+                  + wanted
+                  + "+"
+                  + StringUtilities.getURLEncode(itemName)
+                  + "&pwd="
+                  + GenericRequest.passwordHash;
+      pullBuffer
+          .append("<li>")
+          .append("<a href=\"")
+          .append(link)
+          .append("\">")
+          .append(itemName)
+          .append(" (")
+          .append(countItem)
+          .append("/")
+          .append(pull.desiredAmount)
+          .append(")")
+          .append("</li>");
+    }
+
+    pullBuffer.append("</ul>");
+    if (showPulls) {
+      buffer.append(pullBuffer);
+    }
   }
 }
