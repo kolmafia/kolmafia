@@ -1431,6 +1431,7 @@ user	skillLevel134	0
 user	skillLevel144	0
 user	skillLevel180	0
 user	skillLevel188	0
+user	skillLevel227	0
 user	skillLevel7254	0
 user	sleazeAirportAlways	false
 user	slimelingFullness	0.0
