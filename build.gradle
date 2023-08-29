@@ -158,6 +158,7 @@ task pruneDist(type: Delete) {
 
 test {
 	useJUnitPlatform()
+	forkEvery = 12
 	systemProperty 'line.separator', '\n'
 	systemProperty 'junit.jupiter.extensions.autodetection.enabled', true
 	systemProperty 'useCWDasROOT', true
