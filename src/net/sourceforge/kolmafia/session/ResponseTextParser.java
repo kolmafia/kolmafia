@@ -59,6 +59,8 @@ import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamTeamRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.FleaMarketRequest;
+import net.sourceforge.kolmafia.request.FleaMarketSellRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
@@ -694,11 +696,17 @@ public class ResponseTextParser {
       case "town_altar.php" -> {
         AltarOfLiteracyRequest.parseResponse(location, responseText);
       }
+      case "town_fleamarket.php" -> {
+        FleaMarketRequest.parseResponse(location, responseText);
+      }
       case "town_right.php" -> {
         GourdRequest.parseResponse(location, responseText);
       }
       case "town_sendgift.php" -> {
         SendGiftRequest.parseTransfer(location, responseText);
+      }
+      case "town_sellflea.php" -> {
+        FleaMarketSellRequest.parseResponse(location, responseText);
       }
       case "traveler.php" -> {
         TravelingTraderRequest.parseResponse(location, responseText);
