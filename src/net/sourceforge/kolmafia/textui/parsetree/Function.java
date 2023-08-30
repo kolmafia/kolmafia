@@ -10,8 +10,10 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import org.eclipse.lsp4j.Location;
 
 public abstract class Function extends Symbol {
+  protected FunctionType functionType;
   protected Type type;
   protected List<VariableReference> variableReferences;
+  protected List<Type> parameterTypes;
   private String signature;
 
   public Function(
@@ -28,6 +30,31 @@ public abstract class Function extends Symbol {
     this(name, type, new ArrayList<>(), null);
   }
 
+  public Function(
+      final FunctionType type,
+      final List<VariableReference> variableReferences,
+      final Location location) {
+    this("function", type.getReturnType(), variableReferences, location);
+    this.functionType = functionType;
+  }
+
+  public List<Type> getParameterTypes() {
+    if (this.parameterTypes == null && this.variableReferences != null) {
+      this.parameterTypes = new ArrayList<>();
+      for (VariableReference variableReference : variableReferences) {
+        this.parameterTypes.add(variableReference.getRawType());
+      }
+    }
+    return this.parameterTypes;
+  }
+
+  public FunctionType getFunctionType() {
+    if (this.functionType == null && this.variableReferences != null) {
+      this.functionType = new FunctionType(this.type, this.getParameterTypes());
+    }
+    return this.functionType;
+  }
+
   public Type getType() {
     return this.type;
   }
@@ -38,6 +65,7 @@ public abstract class Function extends Symbol {
 
   public void setVariableReferences(final List<VariableReference> variableReferences) {
     this.variableReferences = variableReferences;
+    this.functionType = null;
   }
 
   public String getSignature() {
@@ -154,19 +182,23 @@ public abstract class Function extends Symbol {
 
   public boolean paramsMatch(
       final List<? extends TypedNode> params, MatchType match, boolean vararg) {
-    return (vararg)
-        ? this.paramsMatchVararg(params, match)
-        : this.paramsMatchNoVararg(params, match);
+    return paramsMatch(params, this.getParameterTypes(), match, vararg);
   }
 
-  private boolean paramsMatchNoVararg(final List<? extends TypedNode> params, MatchType match) {
-    Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
+  public static boolean paramsMatch(
+      final List<? extends TypedNode> params, final List<Type> paramTypes, MatchType match, boolean vararg) {
+    return (vararg)
+        ? paramsMatchVararg(params, paramTypes, match)
+        : paramsMatchNoVararg(params, paramTypes, match);
+  }
+
+  private static boolean paramsMatchNoVararg(final List<? extends TypedNode> params, List<Type> paramTypes, MatchType match) {
+    Iterator<Type> typeIterator = paramTypes.iterator();
     Iterator<? extends TypedNode> valIterator = params.iterator();
     boolean matched = true;
 
-    while (matched && refIterator.hasNext() && valIterator.hasNext()) {
-      VariableReference currentParam = refIterator.next();
-      Type paramType = currentParam.getType();
+    while (matched && typeIterator.hasNext() && valIterator.hasNext()) {
+      Type paramType = typeIterator.next();
 
       if (paramType == null || paramType instanceof VarArgType) {
         matched = false;
@@ -178,53 +210,52 @@ public abstract class Function extends Symbol {
 
       switch (match) {
         case EXACT:
-          if (!currentParam.getRawType().equals(currentValue.getRawType())) {
+          if (!paramType.equals(currentValue.getRawType())) {
             matched = false;
           }
           break;
 
         case BASE:
-          if (!paramType.equals(valueType)) {
+          if (!paramType.getBaseType().equals(currentValue.getType())) {
             matched = false;
           }
           break;
 
         case COERCE:
-          if (!Operator.validCoercion(paramType, valueType, "parameter")) {
+          if (!Operator.validCoercion(paramType, currentValue.getType(), "parameter")) {
             matched = false;
           }
           break;
       }
     }
 
-    if (matched && !refIterator.hasNext() && !valIterator.hasNext()) {
+    if (matched && !typeIterator.hasNext() && !valIterator.hasNext()) {
       return true;
     }
     return false;
   }
 
-  private boolean paramsMatchVararg(final List<? extends TypedNode> params, MatchType match) {
-    Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
+  private static  boolean paramsMatchVararg(final List<? extends TypedNode> params, List<Type> paramTypes, MatchType match) {
+    Iterator<Type> typeIterator = paramTypes.iterator();
     Iterator<? extends TypedNode> valIterator = params.iterator();
     boolean matched = true;
-    VariableReference vararg = null;
+    Type vararg = null;
     VarArgType varargType = null;
 
-    while (matched && (vararg != null || refIterator.hasNext()) && valIterator.hasNext()) {
+    while (matched && (vararg != null || typeIterator.hasNext()) && valIterator.hasNext()) {
       // A VarArg parameter will consume all remaining values
-      VariableReference currentParam = (vararg != null) ? vararg : refIterator.next();
-      Type paramType = currentParam.getType();
+      Type paramType = (vararg != null) ? vararg : typeIterator.next();
       TypedNode currentValue = valIterator.next();
       Type valueType = currentValue.getType();
 
       // If have found the vararg, remember it.
       if (vararg == null && paramType instanceof VarArgType vat) {
-        vararg = currentParam;
+        vararg = paramType;
         varargType = vat;
       }
 
       // Only one vararg is allowed. It must be at the end.
-      if (vararg != null && refIterator.hasNext()) {
+      if (vararg != null && typeIterator.hasNext()) {
         matched = false;
         break;
       }
@@ -256,11 +287,11 @@ public abstract class Function extends Symbol {
       }
     }
 
-    if (refIterator.hasNext()) {
+    if (typeIterator.hasNext()) {
       // If the next parameter is a vararg, this is
       // allowed if we ran out of parameters.
-      VariableReference currentParam = refIterator.next();
-      Type paramType = currentParam.getType();
+      Type currentParam = typeIterator.next();
+      Type paramType = currentParam;
 
       if (paramType instanceof VarArgType) {
         vararg = currentParam;
@@ -268,7 +299,7 @@ public abstract class Function extends Symbol {
       }
     }
 
-    if (matched && vararg != null && !refIterator.hasNext() && !valIterator.hasNext()) {
+    if (matched && vararg != null && !typeIterator.hasNext() && !valIterator.hasNext()) {
       return true;
     }
 
