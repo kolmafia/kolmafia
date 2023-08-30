@@ -3484,6 +3484,9 @@ public class ItemPool {
   public static final int DINOSAUR_DROPPINGS = 10945;
   public static final int JURASSIC_PARKA = 10952;
   public static final int AUTUMNATON = 10954;
+  public static final int ROASTED_VEGETABLE_OF_JARLSBERG = 10969;
+  public static final int PETES_RICH_RICOTTA = 10975;
+  public static final int BORIS_BREAD = 10978;
   public static final int ROBY_RATATOUILLE_DE_JARLSBERG = 10979;
   public static final int ROBY_JARLSBERGS_VEGETABLE_SOUP = 10980;
   public static final int ROBY_ROASTED_VEGETABLE_OF_J = 10981;
@@ -3493,6 +3496,9 @@ public class ItemPool {
   public static final int ROBY_BORIS_BEER = 10985;
   public static final int ROBY_HONEY_BUN_OF_BORIS = 10986;
   public static final int ROBY_BORIS_BREAD = 10987;
+  public static final int BAKED_VEGGIE_RICOTTA_CASSEROLE = 10988;
+  public static final int PLAIN_CALZONE = 10989;
+  public static final int ROASTED_VEGETABLE_FOCACCIA = 10990;
   public static final int PIZZA_OF_LEGEND = 10991;
   public static final int CALZONE_OF_LEGEND = 10992;
   public static final int ROBY_CALZONE_OF_LEGEND = 10993;
@@ -3661,6 +3667,7 @@ public class ItemPool {
   public static final int POCKET_GUIDE_TO_MILD_EVIL = 11322;
   public static final int POCKET_GUIDE_TO_MILD_EVIL_USED = 11323;
   public static final int REPLICA_AUGUST_SCEPTER = 11325;
+  public static final int RESIDUAL_CHITIN_PASTE = 11327;
 
   private ItemPool() {}
 

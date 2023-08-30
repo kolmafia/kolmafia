@@ -103,6 +103,7 @@ DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=[$1/2]
 DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1
 DESC_SKILL	Summon Annoyance	Cost</b>: (\d+)	summonAnnoyanceCost=$1
 DESC_SKILL	Bear Essence	\+(\d+)% Picnic Basket	skillLevel134=[$1/20]
+DESC_SKILL	Chitinous Soul	Maximum HP \+(\d+)	skillLevel227=$1
 DESC_SKILL	Visit your Favorite Bird	your favorite bird, the (.*?), and get	yourFavoriteBird=$1
 
 DESC_EFFECT	Antihangover	Moxie \+(\d+)	_antihangoverBonus=$1
