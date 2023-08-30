@@ -1739,9 +1739,9 @@ brick outhouse	1483	brick_stench.gif	NOCOPY FREE Init: -10000 P: construct E: st
 brick (suggestive pause) house	1484	brick_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: a
 
 # Spring Break Beach (May 2014)
-Sloppy Seconds Burger	1566	ssd_burger.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 Meat: 250 P: weird ED: sleaze EA: hot EA: sleaze	Meat-inflating powder (0)
-Sloppy Seconds Cocktail	1567	ssd_cocktail.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 P: weird E: sleaze	bottle of vodka (0)	bottle of rum (0)	bottle of tequila (0)
-Sloppy Seconds Sundae	1568	ssd_sundae.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 P: weird ED: sleaze EA: cold EA: hot	possessed sugar cube (0)
+Sloppy Seconds Burger	1566	ssd_burger.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 Meat: 250 P: weird ED: sleaze EA: hot EA: sleaze	Meat-inflating powder (n20)
+Sloppy Seconds Cocktail	1567	ssd_cocktail.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 P: weird E: sleaze	bottle of vodka (15)	bottle of rum (15)	bottle of tequila (15)
+Sloppy Seconds Sundae	1568	ssd_sundae.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 P: weird ED: sleaze EA: cold EA: hot	possessed sugar cube (n15)
 Fun-Guy Playmate	1569	fun-gal1.gif,fun-gal2.gif,fun-gal3.gif,fun-gal4.gif,fun-gal5.gif,fun-gal6.gif	NOCOPY Atk: [30] Def: [30] HP: [30] Exp: 30 Init: -10000 P: plant ED: sleaze EA: cold EA: hot EA: sleaze EA: stench	sleight-of-hand mushroom (0)	Fun-Guy spore (5)	pencil thin mushroom (c0)
 broctopus	1571	broctopus.gif	Atk: 375 Def: 300 HP: 500 Init: 50 Meat: 100 P: fish E: sleaze Article: a	BROS Energy Drink (25)	8-billed baseball cap (5)
 cocktail shrimp	1572	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: 75 Meat: 50 P: fish Elem: 50 E: sleaze Article: a	giant shrimp fork (5)	shrimp cocktail (25)
@@ -1754,14 +1754,14 @@ drownedbeat	1575	drownedbeat.gif	NOCOPY Atk: 400 Def: 325 HP: 450 Init: 25 Meat:
 one of Doctor Weirdeaux's creations	1632	noart.gif	NOCOPY Init: -10000 P: beast ED: spooky EA: cold EA: hot EA: sleaze EA: spooky EA: stench	experimental serum P-00 (0)
 
 # The Deep Dark Jungle (Conspiracy Island October 2014)
-bigface	1638	bigface.gif	Scale: 5 Cap: 11111 Init: -10000 P: humanoid ED: spooky EA: sleaze EA: spooky	&quot;meat&quot; stick (15)	Sasq&trade; watch (c0)
-Mercenary of Fortune	1640	mercenary.gif	Scale: 5 Cap: 11111 Init: -10000 P: dude ED: spooky EA: hot Article: a	specialty ammo bandolier (15)	camouflage T-shirt (c0)	Coinspiracy (c0)	mercenary headband (c0)
-smoke monster	1639	smokemonster.gif	Scale: 5 Cap: 11111 Init: -10000 P: weird ED: spooky Article: a	transdermal smoke patch (15)	smoker's cloak (c0)
-Venus mantrap	1637	mantrap.gif	Scale: 5 Cap: 11111 Init: -10000 P: plant ED: spooky Article: a	the most dangerous bait (15)	pair of plants (c0)
+bigface	1638	bigface.gif	Scale: 5 Cap: 11111 Init: -10000 P: humanoid ED: spooky EA: sleaze EA: spooky	&quot;meat&quot; stick (15)	Sasq&trade; watch (c0.1)
+Mercenary of Fortune	1640	mercenary.gif	Scale: 5 Cap: 11111 Init: -10000 P: dude ED: spooky EA: hot Article: a	specialty ammo bandolier (15)	camouflage T-shirt (c0.1)	Coinspiracy (c30)	mercenary headband (c10)
+smoke monster	1639	smokemonster.gif	Scale: 5 Cap: 11111 Init: -10000 P: weird ED: spooky Article: a	transdermal smoke patch (15)	smoker's cloak (c0.1)
+Venus mantrap	1637	mantrap.gif	Scale: 5 Cap: 11111 Init: -10000 P: plant ED: spooky Article: a	the most dangerous bait (15)	pair of plants (c0.1)
 
 # The Secret Government Laboratory (Conspiracy Island October 2014)
 creepy little girl	1635	creepygirl.gif	NOBANISH Atk: [200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel5)+150*pref(controlPanel6)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude E: spooky Article: a	jangly bracelet (c0)	delicious candy (c0)	cuddly teddy bear (c0)	airborne mutagen (c0)	creepy nursery rhyme (c0)
-government scientist	1633	scientist.gif	NOBANISH Atk: [200+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude ED: spooky EA: hot Article: a	heavy-duty clipboard (c0)	experimental serum G-9 (c15)	battery-powered drill (c0)	airborne mutagen (c0)	grimy lab coat (c0)
+government scientist	1633	scientist.gif	NOBANISH Atk: [200+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude ED: spooky EA: hot Article: a	heavy-duty clipboard (c5)	experimental serum G-9 (c15)	battery-powered drill (c10)	airborne mutagen (c10)	grimy lab coat (c10)
 lab monkey	1634	labmonkey.gif	NOBANISH Atk: [200+150*pref(controlPanel3)+150*pref(controlPanel4)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel3)+150*pref(controlPanel4)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel3)+150*pref(controlPanel4)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel3)+150*pref(controlPanel4)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: beast ED: spooky EA: cold EA: stench Article: a	limp broccoli (c0)	monkey barf (c0)	giant yellow hat (c0)	airborne mutagen (c0)
 super-sized Cola Wars soldier	1636	colasoldier.gif	NOBANISH Atk: [200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude ED: spooky Article: a	ice-cold Cloaca Zero (c0)	first-aid pouch (c0)	khaki duffel bag (c0)	airborne mutagen (c0)	iron torso box (c0)
 E.V.E., the robot zombie	1647	eve.gif	NOBANISH NOCOPY Atk: 300 Def: 300 HP: 500 Init: 150 P: construct Phys: 50 E: spooky
