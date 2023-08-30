@@ -1739,9 +1739,9 @@ brick outhouse	1483	brick_stench.gif	NOCOPY FREE Init: -10000 P: construct E: st
 brick (suggestive pause) house	1484	brick_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze Article: a
 
 # Spring Break Beach (May 2014)
-Sloppy Seconds Burger	1566	ssd_burger.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 Meat: 250 P: weird ED: sleaze EA: hot EA: sleaze	Meat-inflating powder (20)
+Sloppy Seconds Burger	1566	ssd_burger.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 Meat: 250 P: weird ED: sleaze EA: hot EA: sleaze	Meat-inflating powder (n20)
 Sloppy Seconds Cocktail	1567	ssd_cocktail.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 P: weird E: sleaze	bottle of vodka (15)	bottle of rum (15)	bottle of tequila (15)
-Sloppy Seconds Sundae	1568	ssd_sundae.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 P: weird ED: sleaze EA: cold EA: hot	possessed sugar cube (15)
+Sloppy Seconds Sundae	1568	ssd_sundae.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 P: weird ED: sleaze EA: cold EA: hot	possessed sugar cube (n15)
 Fun-Guy Playmate	1569	fun-gal1.gif,fun-gal2.gif,fun-gal3.gif,fun-gal4.gif,fun-gal5.gif,fun-gal6.gif	NOCOPY Atk: [30] Def: [30] HP: [30] Exp: 30 Init: -10000 P: plant ED: sleaze EA: cold EA: hot EA: sleaze EA: stench	sleight-of-hand mushroom (0)	Fun-Guy spore (5)	pencil thin mushroom (c0)
 broctopus	1571	broctopus.gif	Atk: 375 Def: 300 HP: 500 Init: 50 Meat: 100 P: fish E: sleaze Article: a	BROS Energy Drink (25)	8-billed baseball cap (5)
 cocktail shrimp	1572	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: 75 Meat: 50 P: fish Elem: 50 E: sleaze Article: a	giant shrimp fork (5)	shrimp cocktail (25)
