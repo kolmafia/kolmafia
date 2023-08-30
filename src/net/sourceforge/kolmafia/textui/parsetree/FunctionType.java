@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
-import net.sourceforge.kolmafia.textui.parsetree.Type.BadType;
 import net.sourceforge.kolmafia.textui.parsetree.Function.MatchType;
+import net.sourceforge.kolmafia.textui.parsetree.Type.BadType;
 import org.eclipse.lsp4j.Location;
 
 public class FunctionType extends Type {

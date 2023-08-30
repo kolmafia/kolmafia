@@ -186,13 +186,17 @@ public abstract class Function extends Symbol {
   }
 
   public static boolean paramsMatch(
-      final List<? extends TypedNode> params, final List<Type> paramTypes, MatchType match, boolean vararg) {
+      final List<? extends TypedNode> params,
+      final List<Type> paramTypes,
+      MatchType match,
+      boolean vararg) {
     return (vararg)
         ? paramsMatchVararg(params, paramTypes, match)
         : paramsMatchNoVararg(params, paramTypes, match);
   }
 
-  private static boolean paramsMatchNoVararg(final List<? extends TypedNode> params, List<Type> paramTypes, MatchType match) {
+  private static boolean paramsMatchNoVararg(
+      final List<? extends TypedNode> params, List<Type> paramTypes, MatchType match) {
     Iterator<Type> typeIterator = paramTypes.iterator();
     Iterator<? extends TypedNode> valIterator = params.iterator();
     boolean matched = true;
@@ -235,7 +239,8 @@ public abstract class Function extends Symbol {
     return false;
   }
 
-  private static  boolean paramsMatchVararg(final List<? extends TypedNode> params, List<Type> paramTypes, MatchType match) {
+  private static boolean paramsMatchVararg(
+      final List<? extends TypedNode> params, List<Type> paramTypes, MatchType match) {
     Iterator<Type> typeIterator = paramTypes.iterator();
     Iterator<? extends TypedNode> valIterator = params.iterator();
     boolean matched = true;

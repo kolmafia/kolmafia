@@ -3455,7 +3455,8 @@ public class Parser {
     return null;
   }
 
-  private Evaluable parseFunctionValueCall(final FunctionType ft, final BasicScope scope) throws InterruptedException {
+  private Evaluable parseFunctionValueCall(final FunctionType ft, final BasicScope scope)
+      throws InterruptedException {
     final ErrorManager callErrors = new ErrorManager();
 
     List<Evaluable> params = this.parseParameters(scope, null);
