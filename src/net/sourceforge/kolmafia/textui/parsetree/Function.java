@@ -220,13 +220,13 @@ public abstract class Function extends Symbol {
           break;
 
         case BASE:
-          if (!paramType.getBaseType().equals(currentValue.getType())) {
+          if (!paramType.getBaseType().equals(valueType)) {
             matched = false;
           }
           break;
 
         case COERCE:
-          if (!Operator.validCoercion(paramType, currentValue.getType(), "parameter")) {
+          if (!Operator.validCoercion(paramType.getBaseType(), valueType, "parameter")) {
             matched = false;
           }
           break;
@@ -250,8 +250,6 @@ public abstract class Function extends Symbol {
     while (matched && (vararg != null || typeIterator.hasNext()) && valIterator.hasNext()) {
       // A VarArg parameter will consume all remaining values
       Type paramType = (vararg != null) ? vararg : typeIterator.next();
-      TypedNode currentValue = valIterator.next();
-      Type valueType = currentValue.getType();
 
       // If have found the vararg, remember it.
       if (vararg == null && paramType instanceof VarArgType vat) {
@@ -265,6 +263,9 @@ public abstract class Function extends Symbol {
         break;
       }
 
+      TypedNode currentValue = valIterator.next();
+      Type valueType = currentValue.getType();
+
       switch (match) {
         case EXACT:
           if (!paramType.equals(valueType)) {
@@ -276,7 +277,7 @@ public abstract class Function extends Symbol {
           if (vararg != null) {
             paramType = varargType.getDataType();
           }
-          if (!paramType.equals(valueType)) {
+          if (!paramType.getBaseType().equals(valueType)) {
             matched = false;
           }
           break;
@@ -285,7 +286,7 @@ public abstract class Function extends Symbol {
           if (vararg != null) {
             paramType = varargType.getDataType();
           }
-          if (!Operator.validCoercion(paramType, valueType, "parameter")) {
+          if (!Operator.validCoercion(paramType.getBaseType(), valueType, "parameter")) {
             matched = false;
           }
           break;
