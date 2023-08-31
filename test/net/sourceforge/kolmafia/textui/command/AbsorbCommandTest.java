@@ -99,7 +99,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
 
       assertThat("_noobSkillCount", isSetTo(0));
       assertThat(output, containsString("Failed to absorb 15 Lights that Never Go Out"));
-      assertContinueState();
+      assertErrorState();
     }
   }
 
