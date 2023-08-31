@@ -48,14 +48,14 @@ public class AbsorbCommand extends AbstractCommand {
 
     // If not in inventory, try to retrieve it (if it's in inventory, doesn't matter if outside
     // Standard)
-    if (!InventoryManager.hasItem(match, true)
-        && !InventoryManager.retrieveItem(match)
-        && match.getCount(KoLConstants.inventory) == 0) {
+    if (match.getCount(KoLConstants.inventory) < count && !InventoryManager.retrieveItem(match)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Item not accessible.");
       return;
     }
 
     var request = new GenericRequest("inventory.php?absorb=" + itemId + "&ajax=1", false);
+    int previousAbsorbs = KoLCharacter.getAbsorbs();
+
     // Absorb the item(s)
     for (int i = 0; i < count; i++) {
       RequestThread.postRequest(request);
@@ -68,6 +68,22 @@ public class AbsorbCommand extends AbstractCommand {
       PreferenceListenerRegistry.firePreferenceChanged("(hats)");
     }
 
-    KoLmafia.updateDisplay("Absorbed " + (count > 1 ? count + " " : "") + match.getPluralName());
+    int failedAbsorbs = count - (KoLCharacter.getAbsorbs() - previousAbsorbs);
+    count -= failedAbsorbs;
+
+    if (count > 0) {
+      KoLmafia.updateDisplay(
+          "Absorbed "
+              + (count > 1 ? count + " " + ItemDatabase.getPluralName(itemId) : match.getName()));
+    }
+
+    if (failedAbsorbs > 0) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Failed to absorb "
+              + (failedAbsorbs > 1
+                  ? failedAbsorbs + " " + ItemDatabase.getPluralName(itemId)
+                  : match.getName()));
+    }
   }
 }
