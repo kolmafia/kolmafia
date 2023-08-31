@@ -69,18 +69,18 @@ public class AbsorbCommand extends AbstractCommand {
     }
 
     int failedAbsorbs = count - (KoLCharacter.getAbsorbs() - previousAbsorbs);
-
-    if (failedAbsorbs > 0) {
-      KoLmafia.updateDisplay(
-          "Failed to absorb "
-              + (failedAbsorbs > 1 ? failedAbsorbs + " " : "")
-              + match.getPluralName());
-    }
-
     count -= failedAbsorbs;
 
     if (count > 0) {
       KoLmafia.updateDisplay("Absorbed " + (count > 1 ? count + " " : "") + match.getPluralName());
+    }
+
+    if (failedAbsorbs > 0) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Failed to absorb "
+              + (failedAbsorbs > 1 ? failedAbsorbs + " " : "")
+              + match.getPluralName());
     }
   }
 }
