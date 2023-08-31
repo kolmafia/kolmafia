@@ -128,7 +128,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
     }
 
     var requests = client.getRequests();
-    assertThat(requests.size(), equalTo(17)); // 15 items + 1 charpane + 1 avatar
+    assertThat(requests.size(), equalTo(16)); // 15 items + 1 charpane
   }
 
   @Test
