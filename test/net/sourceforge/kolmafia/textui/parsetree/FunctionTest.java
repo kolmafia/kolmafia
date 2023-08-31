@@ -334,6 +334,17 @@ public class FunctionTest {
           assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
         }
 
+        // vararg allowed, an array of matching typedef ints is provided
+        @Test
+        void typedef_int_array() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
+          TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
+          makeValues(DataTypes.STRING_TYPE, array(td));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
+        }
+
         // vararg allowed, a map of matching ints is provided
         @Test
         void int_map() {
@@ -344,6 +355,17 @@ public class FunctionTest {
           assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
         }
 
+        // vararg allowed, a map of matching ints is provided
+        @Test
+        void typedef_int_map() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
+          TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
+          makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, td));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
+        }
+
         // vararg allowed, a typedef array of matching ints is provided
         @Test
         void int_typedef_array() {
@@ -352,7 +374,8 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           TypeDef tda = new TypeDef("tda", array(DataTypes.INT_TYPE), null);
           makeValues(DataTypes.STRING_TYPE, tda);
-          // *** Why does EXACT match accept this?
+          // Since we are matching parameters, any aggregate that holds the
+          // appropriate data type is fine.
           assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
         }
 
@@ -364,7 +387,8 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           TypeDef tdm = new TypeDef("tdm", aggregate(DataTypes.INT_TYPE, DataTypes.INT_TYPE), null);
           makeValues(DataTypes.STRING_TYPE, tdm);
-          // *** Why does EXACT match accept this?
+          // Since we are matching parameters, any aggregate that holds the
+          // appropriate data type is fine.
           assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
         }
 
@@ -514,6 +538,18 @@ public class FunctionTest {
           assertFalse(f.paramsMatch(values, MatchType.BASE, true));
         }
 
+        // vararg allowed, an array of matching typedef ints is provided
+        @Test
+        void typedef_int_array() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
+          TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
+          makeValues(DataTypes.STRING_TYPE, array(td));
+          // *** Why does BASE match not accept this?
+          assertFalse(f.paramsMatch(values, MatchType.BASE, true));
+        }
+
         // vararg allowed, a map of matching ints is provided
         @Test
         void int_map() {
@@ -522,6 +558,18 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, DataTypes.INT_TYPE));
           // *** This is EXACT. Why does BASE match not accept this?
+          assertFalse(f.paramsMatch(values, MatchType.BASE, true));
+        }
+
+        // vararg allowed, a map of matching ints is provided
+        @Test
+        void typedef_int_map() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
+          TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
+          makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, td));
+          // *** Why does BASE match not accept this?
           assertFalse(f.paramsMatch(values, MatchType.BASE, true));
         }
 
@@ -695,6 +743,19 @@ public class FunctionTest {
           assertFalse(f.paramsMatch(values, MatchType.COERCE, false));
         }
 
+        // vararg allowed, an array of matching typedef ints is provided
+        @Test
+        void typedef_int_array() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
+          TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
+          makeValues(DataTypes.STRING_TYPE, array(td));
+          // *** aggregates are not coercable.
+          // *** Why does COERCE match not accept this?
+          assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
+        }
+
         // vararg allowed, a map of matching ints is provided
         @Test
         void int_map() {
@@ -703,6 +764,19 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, DataTypes.INT_TYPE));
           // *** aggregates are not coercable.
+          assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
+        }
+
+        // vararg allowed, a map of matching ints is provided
+        @Test
+        void typedef_int_map() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
+          TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
+          makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, td));
+          // *** aggregates are not coercable.
+          // *** Why does COERCE match not accept this?
           assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
         }
 
