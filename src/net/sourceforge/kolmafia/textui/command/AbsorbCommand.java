@@ -48,7 +48,7 @@ public class AbsorbCommand extends AbstractCommand {
 
     // If not in inventory, try to retrieve it (if it's in inventory, doesn't matter if outside
     // Standard)
-    if (!InventoryManager.retrieveItem(match) && match.getCount(KoLConstants.inventory) == 0) {
+    if (match.getCount(KoLConstants.inventory) < count && !InventoryManager.retrieveItem(match)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Item not accessible.");
       return;
     }
