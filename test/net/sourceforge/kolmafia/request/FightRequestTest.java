@@ -2309,10 +2309,7 @@ public class FightRequestTest {
   class RecallFactsCircadian {
     @Test
     public void canDetectCast() {
-      var cleanups =
-          new Cleanups(
-              withFight(),
-              withProperty("_circadianRhythmsRecalled", false));
+      var cleanups = new Cleanups(withFight(), withProperty("_circadianRhythmsRecalled", false));
 
       try (cleanups) {
         parseCombatData(
@@ -2331,8 +2328,7 @@ public class FightRequestTest {
               withProperty("_circadianRhythmsAdventures", 3));
 
       try (cleanups) {
-        parseCombatData(
-            "request/test_fight_recall_circadian_adv.html", "fight.php?action=attack");
+        parseCombatData("request/test_fight_recall_circadian_adv.html", "fight.php?action=attack");
 
         assertThat("_circadianRhythmsAdventures", isSetTo(4));
       }
