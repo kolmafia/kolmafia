@@ -3668,6 +3668,8 @@ public class ItemPool {
   public static final int POCKET_GUIDE_TO_MILD_EVIL_USED = 11323;
   public static final int REPLICA_AUGUST_SCEPTER = 11325;
   public static final int RESIDUAL_CHITIN_PASTE = 11327;
+  public static final int BOOK_OF_FACTS = 11333;
+  public static final int BOOK_OF_FACTS_DOG_EARED = 11334;
 
   private ItemPool() {}
 
