@@ -1089,7 +1089,7 @@ user	moleTunnelLevel	0
 user	moonTuned	false
 user	monkeyPointMonster	
 user	monsterHabitatsMonster	
-user	monsterHabitatsFightsLeft	
+user	monsterHabitatsFightsLeft	0
 user	motifMonster	
 user	mothershipProgress	0
 user	mpAutoRecovery	-0.5
