@@ -2838,3 +2838,9 @@
 2838	Latently Energized	nopic.gif	0a5204a8896ef2d7b8b968cc7c6be65b	neutral	none	chew 1 sparkling orb
 2839	Really Hard	creamtube.gif	bc5cb9dab274da7f4566e833c2fb666c	neutral	none	chew 1 hardening cream
 2840	Sharky	nopic.gif	b01cbd7c66f460075ffd3a68eb23e138	neutral	none	chew 1 pool shark hair oil
+2841	Antiantifrozen	celestoil.gif	e33d30b60699ac4c23024b93b06e5310	neutral	none
+2842	Shamed	sad.gif	e7a1cf2b5f2ca1f9acbd76de5166ac0a	neutral	none
+2843	Disabled Olfactory Processing	stinknose.gif	a3d275c2260e8b24e5edd810b9a205f7	neutral	none
+2844	Imagining Guts	batgut.gif	97fe901d5ee9b04d87643079ebe365a4	neutral	none
+2845	Spooked	scaredeyes.gif	2d2276d5341df849b76d066622846478	neutral	none
+2846	Recalling Circadian Rhythms	clock.gif	50660df88fde2562b5fa5e2932d7d20b	neutral	none
