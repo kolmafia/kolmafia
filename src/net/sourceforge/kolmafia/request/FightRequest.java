@@ -2252,6 +2252,9 @@ public class FightRequest extends GenericRequest {
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window begin");
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window end");
         Preferences.setString("spookyVHSTapeMonster", "");
+      } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.decrement("monsterHabitatsFightsLeft", 1, 0);
       }
 
       // Increment Turtle Blessing counter
@@ -4236,6 +4239,12 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("awolVenom");
         } else if (responseText.contains("+1 Medicine")) {
           Preferences.increment("awolMedicine");
+        }
+      }
+
+      if (Preferences.getBoolean("_circadianRhythmsRecalled")) {
+        if (responseText.contains("sleep a bit better tonight")) {
+          Preferences.increment("_circadianRhythmsAdventures", 1, 11, false);
         }
       }
 
@@ -10325,6 +10334,22 @@ public class FightRequest extends GenericRequest {
             // no items
             responseText.contains("even mildly evil")
             || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RECALL_FACTS_MONSTER_HABITATS:
+        if (responseText.contains("Your knowledge of facts tells you")) {
+          Preferences.setString("monsterHabitatsMonster", monsterName);
+          Preferences.setInteger("monsterHabitatsFightsLeft", 5);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS:
+        if (responseText.contains("really improve your sleep tonight")) {
+          Phylum phylum = monster != null ? monster.getPhylum() : Phylum.NONE;
+          Preferences.setString("_circadianRhythmsPhylum", phylum.toString());
           skillSuccess = true;
         }
         break;

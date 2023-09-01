@@ -320,6 +320,10 @@ public abstract class EncounterManager {
     return responseText.contains("Looks like it's that friend you gregariously made");
   }
 
+  public static final boolean isHabitatFactEncounter(final String responseText) {
+    return responseText.contains("Fun fact that you just remembered");
+  }
+
   public static final boolean isWanderingMonster(String encounter) {
     MonsterData monster = MonsterDatabase.findMonster(encounter);
     return monster != null && monster.getType().contains(EncounterType.WANDERER);

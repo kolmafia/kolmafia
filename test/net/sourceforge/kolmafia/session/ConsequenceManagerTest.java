@@ -101,4 +101,17 @@ public class ConsequenceManagerTest {
               "Hot Resistance: +4, Cold Resistance: +4, Sleaze Resistance: +4, Stench Resistance: +4, Spooky Resistance: +4, Sleaze Damage: +10, Sleaze Spell Damage: +10, Muscle: +10"));
     }
   }
+
+  @Test
+  public void canParseCircadianRhythms() {
+    var cleanups = new Cleanups(withProperty("_circadianRhythmsPhylum"));
+
+    try (cleanups) {
+      var descid = EffectDatabase.getDescriptionId(EffectPool.RECALLING_CIRCADIAN_RHYTHMS);
+      var responseText = html("request/test_desc_effect_circadian.html");
+
+      ConsequenceManager.parseEffectDesc(descid, responseText);
+      assertThat(Preferences.getString("_circadianRhythmsPhylum"), equalTo("elemental"));
+    }
+  }
 }
