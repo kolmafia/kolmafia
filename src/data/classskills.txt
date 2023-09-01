@@ -250,6 +250,7 @@
 225	Secret Door Awareness	secretdoor.gif	0	0	0
 226	Perpetrate Mild Evil	skull.gif	5	0	0
 227	Chitinous Soul	chitinpowder.gif	0	0	0
+228	Just the Facts	factbook.gif	0	0	0
 
 # Skills available to Clubbers
 
@@ -1030,8 +1031,10 @@
 7480	Aug. 29th: More Herbs, Less Salt  Day!	aug29.gif	3	0	0
 7481	Aug. 30th: Beach Day!	aug30.gif	3	0	0
 7482	Aug. 31st: Cabernet Sauvignon  Day!	aug31.gif	3	0	0
-7483	Roar like a Lion		5	0	0
-7484	Hold Hands		5	0	0
+7483	Roar like a Lion	exclam.gif	5	0	0
+7484	Hold Hands	hand.gif	5	0	0
+7485	Recall Facts: Monster Habitats	map.gif	5	0	0
+7486	Recall Facts: %phylum Circadian Rhythms	hourglass.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

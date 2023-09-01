@@ -2831,6 +2831,8 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.POCKET_GUIDE_TO_MILD_EVIL:
       case ItemPool.POCKET_GUIDE_TO_MILD_EVIL_USED:
       case ItemPool.RESIDUAL_CHITIN_PASTE:
+      case ItemPool.BOOK_OF_FACTS:
+      case ItemPool.BOOK_OF_FACTS_DOG_EARED:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you
