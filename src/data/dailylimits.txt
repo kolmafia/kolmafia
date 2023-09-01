@@ -131,6 +131,8 @@ Cast	Prelude of Precision	_precisionCasts	10
 Cast	Prevent Scurvy and Sobriety	_preventScurvy
 Cast	Psychokinetic Hug	_psychokineticHugUsed
 Cast	Rainbow Gravitation	prismaticSummons	3
+Cast	Recall Facts: %phylum Circadian Rhythms	_circadianRhythmsRecalled
+Cast	Recall Facts: Monster Habitats	_monsterHabitatsRecalled	3
 Cast	Reflex Hammer	_reflexHammerUsed	3
 Cast	Release the Boots	_bootStomps	7
 Cast	Request Sandwich	_requestSandwichSucceeded
