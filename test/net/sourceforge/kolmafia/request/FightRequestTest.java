@@ -2267,4 +2267,71 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class RecallFactsHabitats {
+    @Test
+    public void canDetectCast() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_monsterHabitatsRecalled", 1),
+              withProperty("monsterHabitatsFightsLeft", 0),
+              withProperty("monsterHabitatsMonster", ""));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_recall_habitat.html", "fight.php?action=skill&whichskill=7485");
+
+        assertThat("_monsterHabitatsRecalled", isSetTo(2));
+        assertThat("monsterHabitatsFightsLeft", isSetTo(5));
+        assertThat("monsterHabitatsMonster", isSetTo("Knob Goblin Embezzler"));
+      }
+    }
+
+    @Test
+    public void canDetectNewEncounter() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("monsterHabitatsFightsLeft", 4),
+              withProperty("monsterHabitatsMonster", "Knob Goblin Embezzler"));
+
+      try (cleanups) {
+        String html = html("request/test_fight_recall_habitat_adv.html");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("monsterHabitatsFightsLeft", isSetTo(3));
+      }
+    }
+  }
+
+  @Nested
+  class RecallFactsCircadian {
+    @Test
+    public void canDetectCast() {
+      var cleanups = new Cleanups(withFight(), withProperty("_circadianRhythmsRecalled", false));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_recall_circadian.html", "fight.php?action=skill&whichskill=7486");
+
+        assertThat("_circadianRhythmsRecalled", isSetTo(true));
+      }
+    }
+
+    @Test
+    public void canDetectAdventureGain() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_circadianRhythmsRecalled", true),
+              withProperty("_circadianRhythmsAdventures", 3));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_recall_circadian_adv.html", "fight.php?action=attack");
+
+        assertThat("_circadianRhythmsAdventures", isSetTo(4));
+      }
+    }
+  }
 }
