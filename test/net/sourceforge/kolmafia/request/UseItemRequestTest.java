@@ -1125,4 +1125,46 @@ class UseItemRequestTest {
           ConsumptionType.FAMILIAR_HATCHLING);
     }
   }
+
+  @Nested
+  class NEPBagsKeys {
+    @Test
+    void propertyIsntIncrementedWithoutQuestActive() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.VAN_KEY),
+              withItem(ItemPool.UNREMARKABLE_DUFFEL_BAG),
+              withProperty("_questPartyFairItemsUsed", 0),
+              withProperty("_questPartyFairQuest", ""),
+              withNextResponse(
+                  new FakeHttpResponse<>(200, html("request/test_item_use_van_key.html")),
+                  new FakeHttpResponse<>(
+                      200, html("request/test_item_use_unremarkable_duffel_bag.html"))));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.VAN_KEY).run();
+        assertThat("_questPartyFairItemsUsed", isSetTo(0));
+        UseItemRequest.getInstance(ItemPool.UNREMARKABLE_DUFFEL_BAG).run();
+        assertThat("_questPartyFairItemsUsed", isSetTo(0));
+      }
+    }
+
+    @Test
+    void propertyIsIncrementedWithQuestActive() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.VAN_KEY),
+              withProperty("_questPartyFairItemsUsed", 0),
+              withProperty("_questPartyFairQuest", "food"),
+              withProperty("_questPartyFairProgress", "10 2063"),
+              withNextResponse(
+                  new FakeHttpResponse<>(200, html("request/test_item_use_van_key.html"))));
+
+      try (cleanups) {
+        // Verify that the correct item increments the quest
+        UseItemRequest.getInstance(ItemPool.VAN_KEY).run();
+        assertThat("_questPartyFairItemsUsed", isSetTo(1));
+      }
+    }
+  }
 }
