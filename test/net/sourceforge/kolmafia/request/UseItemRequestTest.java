@@ -1135,9 +1135,9 @@ class UseItemRequestTest {
       ItemPool.VAN_KEY + ", 'booze', ''",
       ItemPool.VAN_KEY + ", 'booze', '10 2063'",
       ItemPool.UNREMARKABLE_DUFFEL_BAG + ", '', ''",
+      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'booze', ''",
       ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'food', ''",
-      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'food', '10 2063'",
-      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'booze', ''"
+      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'food', '10 2063'"
     })
     void propertyIsntIncrementedWithoutQuestActive(int itemId, String quest, String questProgress) {
       var html =
