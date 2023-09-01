@@ -5163,6 +5163,7 @@ Effect	Anti-Freezing	Cold Resistance: +2, Stench Damage: +20, Stench Spell Damag
 Effect	Anti-Goosebumped	Spooky Resistance: +2, Cold Damage: +20, Cold Spell Damage: +20, Sleaze Damage: +20, Sleaze Spell Damage: +20
 Effect	Anti-Hurt	Damage Absorption: +50, Damage Reduction: 5, Weapon Damage: +10, Spell Damage: +10, Ranged Damage: +10
 Effect	Anti-Odored	Stench Resistance: +2, Hot Damage: +20, Hot Spell Damage: +20, Spooky Damage: +20, Spooky Spell Damage: +20
+Effect	Antiantifrozen	Hot Resistance: +3
 Effect	Antibiotic Saucesphere	HP Regen Min: 4, HP Regen Max: 5
 # Antihangover	actual bonus is floor((yesterday's drunkenness)^(1/1.7)), we assume 5 but viewing effect updates
 Effect	Antihangover	Muscle: [pref(_antihangoverBonus)], Mysticality: [pref(_antihangoverBonus)], Moxie: [pref(_antihangoverBonus)]
@@ -5725,6 +5726,7 @@ Effect	Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Effect	Dirge of Dreadfulness (Remastered)	Spooky Damage: +36, Spooky Spell Damage: +36
 Effect	Dirty Pear	Sleaze Damage: [mod(Sleaze Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
 # Dis Abled: Grants access to the Suburb of Dis
+Effect	Disabled Olfactory Processing	Stench Resistance: +3
 # Disavowed reduces a bunch of stuff based on how many times it has been given that day
 Effect	Disavowed	Muscle Percent: [-pref(_disavowed)], Mysticality Percent: [-pref(_disavowed)], Moxie Percent: [-pref(_disavowed)], Item Drop: [-pref(_disavowed)], Meat Drop: [-2*pref(_disavowed)], Experience: [-pref(_disavowed)]
 Effect	Disco Concentration	Item Drop: +20
@@ -6337,6 +6339,7 @@ Effect	Ichorous Intensity	Spell Damage Percent: +20
 Effect	Icy Composition	Cold Resistance: +5, Cold Damage: +25, Cold Spell Damage: +50
 Effect	Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
 Effect	Icy Glare	Cold Damage: +10, Cold Spell Damage: +10
+Effect	Imagining Guts	Cold Resistance: +3
 Effect	Impeccable Coiffure	Moxie Percent: +50
 Effect	Imported Strength	Weapon Damage Percent: +50, Spell Damage Percent: +50
 Effect	Impregnabili Tea	Damage Reduction: 30
@@ -7121,6 +7124,7 @@ Effect	Shadow's Heart	Maximum HP Percent: +300
 Effect	Shadow's Thickness	Spooky Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5
 Effect	Shahamaniacal	Avatar: "Ham Shaman"
 Effect	Shamboozled	Moxie Percent: +50
+Effect	Shamed	Sleaze Resistance: +3
 Effect	Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Shape of...Mole!: You're a Mole
 Effect	Sharin' Stone	Avatar: "Stone Golem"
@@ -7349,6 +7353,7 @@ Effect	Spiritually Awash	MP Regen Min: 8, MP Regen Max: 10
 Effect	Spiro Gyro	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Spit Upon	Weapon Damage Percent: +100, Spell Damage Percent: +100, Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Spitting Rhymes	Never Fumble, Item Drop: +50
+Effect	Spooked	Spooky Resistance: +3
 Effect	Spookily Greasy	Sleaze Damage: +10, Spooky Resistance: +2
 Effect	Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
@@ -10984,6 +10989,8 @@ Item	blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
 # bobcat grenade: Deals 400-500 Physical Damage
 # bobcat grenade: (super effective against beasts)
 # Bohemian rhapsody: Deals Physical Damage based on your Level
+Item	book of facts	Skill: "Just the Facts"
+Item	book of facts (dog-eared)	Skill: "Just the Facts"
 # book of matches: Deals 40-60 <font color=red>Hot Damage</font>
 # Booke of Vampyric Knowledge: Grants one of several Vampyric skills
 # booze mailing list: Unlocks another row of houses for Crimbo activities
