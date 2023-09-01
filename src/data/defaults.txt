@@ -2189,7 +2189,7 @@ user	_psychoJarUsed	false
 user	_psychokineticHugUsed	false
 user	_questESp
 user	_questPartyFair	unstarted
-user	_questPartyFairItemsUsed	0
+user	_questPartyFairItemsOpened	0
 user	_questPartyFairProgress
 user	_questPartyFairQuest
 user	_radlibSummons	0
