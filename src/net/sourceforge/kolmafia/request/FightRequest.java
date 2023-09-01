@@ -2252,6 +2252,9 @@ public class FightRequest extends GenericRequest {
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window begin");
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window end");
         Preferences.setString("spookyVHSTapeMonster", "");
+      } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.decrement("monsterHabitatsFightsLeft", 1, 0);
       }
 
       // Increment Turtle Blessing counter
@@ -10331,6 +10334,14 @@ public class FightRequest extends GenericRequest {
             // no items
             responseText.contains("even mildly evil")
             || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RECALL_FACTS_MONSTER_HABITATS:
+        if (responseText.contains("Your knowledge of facts tells you")) {
+          Preferences.setString("monsterHabitatsMonster", monsterName);
+          Preferences.setInteger("monsterHabitatsFightsLeft", 5);
           skillSuccess = true;
         }
         break;

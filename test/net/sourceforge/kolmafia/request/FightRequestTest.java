@@ -2269,6 +2269,43 @@ public class FightRequestTest {
   }
 
   @Nested
+  class RecallFactsHabitats {
+    @Test
+    public void canDetectCast() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_monsterHabitatsRecalled", 1),
+              withProperty("monsterHabitatsFightsLeft", 0),
+              withProperty("monsterHabitatsMonster", ""));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_recall_habitat.html", "fight.php?action=skill&whichskill=7485");
+
+        assertThat("_monsterHabitatsRecalled", isSetTo(2));
+        assertThat("monsterHabitatsFightsLeft", isSetTo(5));
+        assertThat("monsterHabitatsMonster", isSetTo("Knob Goblin Embezzler"));
+      }
+    }
+
+    @Test
+    public void canDetectNewEncounter() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("monsterHabitatsFightsLeft", 4),
+              withProperty("monsterHabitatsMonster", "Knob Goblin Embezzler"));
+
+      try (cleanups) {
+        String html = html("request/test_fight_recall_habitat_adv.html");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("monsterHabitatsFightsLeft", isSetTo(3));
+      }
+    }
+  }
+
+  @Nested
   class RecallFactsCircadian {
     @Test
     public void canDetectCast() {
