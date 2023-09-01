@@ -2267,4 +2267,38 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class RecallFactsCircadian {
+    @Test
+    public void canDetectCast() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_circadianRhythmsRecalled", false));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_recall_circadian.html", "fight.php?action=skill&whichskill=7486");
+
+        assertThat("_circadianRhythmsRecalled", isSetTo(true));
+      }
+    }
+
+    @Test
+    public void canDetectAdventureGain() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_circadianRhythmsRecalled", true),
+              withProperty("_circadianRhythmsAdventures", 3));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_recall_circadian_adv.html", "fight.php?action=attack");
+
+        assertThat("_circadianRhythmsAdventures", isSetTo(4));
+      }
+    }
+  }
 }

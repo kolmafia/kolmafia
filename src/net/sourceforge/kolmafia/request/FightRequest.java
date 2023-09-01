@@ -4239,6 +4239,12 @@ public class FightRequest extends GenericRequest {
         }
       }
 
+      if (Preferences.getBoolean("_circadianRhythmsRecalled")) {
+        if (responseText.contains("sleep a bit better tonight")) {
+          Preferences.increment("_circadianRhythmsAdventures", 1, 11, false);
+        }
+      }
+
       QuestManager.updateQuestData(FightRequest.lastResponseText, monsterName);
     }
 
@@ -10325,6 +10331,14 @@ public class FightRequest extends GenericRequest {
             // no items
             responseText.contains("even mildly evil")
             || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS:
+        if (responseText.contains("really improve your sleep tonight")) {
+          Phylum phylum = monster != null ? monster.getPhylum() : Phylum.NONE;
+          Preferences.setString("_circadianRhythmsPhylum", phylum.toString());
           skillSuccess = true;
         }
         break;
