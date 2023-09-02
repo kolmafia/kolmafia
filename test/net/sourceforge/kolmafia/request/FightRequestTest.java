@@ -1144,6 +1144,17 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canDetectCartography() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withSkill(SkillPool.COMPREHENSIVE_CARTOGRAPHY));
+    try (cleanups) {
+      parseCombatData("request/test_barrow_wraith_win.html");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("\"Aroma of Juniper,\" was the label in this region."));
+    }
+  }
+
+  @Test
   public void canDetectPowerfulGloveCharge() {
     var cleanups =
         new Cleanups(

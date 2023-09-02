@@ -5425,6 +5425,24 @@ public abstract class KoLCharacter {
       newModifiers.applyCompanionModifiers(VYKEACompanionData.currentCompanion());
     }
 
+    // add additional rollover adventures
+    var resolutionAdv = Preferences.getInteger("_resolutionAdv");
+    if (resolutionAdv > 0) {
+      newModifiers.addDouble(
+          DoubleModifier.ADVENTURES,
+          resolutionAdv,
+          ModifierType.ITEM,
+          ItemPool.RESOLUTION_ADVENTUROUS);
+    }
+    var circadianAdv = Preferences.getInteger("_circadianRhythmsAdventures");
+    if (resolutionAdv > 0) {
+      newModifiers.addDouble(
+          DoubleModifier.ADVENTURES,
+          circadianAdv,
+          ModifierType.SKILL,
+          SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS);
+    }
+
     // Lastly, experience adjustment also implicitly depends on
     // monster level.  Add that information.
 
