@@ -3226,10 +3226,12 @@ public class ItemPool {
   public static final int PARTY_HARD_T_SHIRT = 9944;
   public static final int ELECTRONICS_KIT = 9952;
   public static final int PAINT_PALETTE = 9956;
+  public static final int UNREMARKABLE_DUFFEL_BAG = 9957;
   public static final int PURPLE_BEAST_ENERGY_DRINK = 9958;
   public static final int PUMP_UP_HIGH_TOPS = 9961;
   public static final int VERY_SMALL_RED_DRESS = 9963;
   public static final int EVERFULL_GLASS = 9966;
+  public static final int VAN_KEY = 9967;
   public static final int JAM_BAND_BOOTLEG = 9968;
   public static final int INTIMIDATING_CHAINSAW = 9972;
   public static final int PARTY_PLANNING_BOOK = 9978;

@@ -6135,6 +6135,19 @@ public class UseItemRequest extends GenericRequest {
         // There's a deafening Bwoom-woob-woob-woob and then an ominous hum fills the air.
         CampgroundRequest.setCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH, 1);
         break;
+      case ItemPool.VAN_KEY:
+        // When the player has a NEP Booze/Food quest active, up to 11 bags or keys can be opened
+        if (Preferences.getString("_questPartyFairQuest").equals("food")
+            && !Preferences.getString("_questPartyFairProgress").isEmpty()) {
+          Preferences.increment("_questPartyFairItemsOpened", 1, 11, false);
+        }
+        break;
+      case ItemPool.UNREMARKABLE_DUFFEL_BAG:
+        if (Preferences.getString("_questPartyFairQuest").equals("booze")
+            && !Preferences.getString("_questPartyFairProgress").isEmpty()) {
+          Preferences.increment("_questPartyFairItemsOpened", 1, 11, false);
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
