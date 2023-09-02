@@ -7464,7 +7464,7 @@ public class FightRequest extends GenericRequest {
     }
 
     if (!str.equals("") && !ResultProcessor.processFamiliarWeightGain(str)) {
-      // Familiar combat action?
+      // Familiar combat action? (or cartography)
       // Don't log most familiar actions in the Deep Machine Tunnels
       if (status.logFamiliar
           && (!FightRequest.machineElf || str.contains("time starts passing again"))) {
