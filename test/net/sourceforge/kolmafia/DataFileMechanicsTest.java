@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
@@ -33,7 +35,7 @@ public class DataFileMechanicsTest {
         // concoctions.txt too complex
         // consequences.txt too complex
         // cultshorts.txt too complex
-        // defaults.txt too complex
+        Arguments.of("defaults.txt", 1, 2, 3),
         Arguments.of("encounters.txt", 1, 3, 3),
         Arguments.of("equipment.txt", 2, 3, 4),
         Arguments.of("fambattle.txt", 1, 8, 8),
@@ -92,15 +94,20 @@ public class DataFileMechanicsTest {
         noLines = false;
         int fieldsRead = fields.length;
         if (skipMe(fieldsRead)) continue;
-        String msg = fname + " " + fields[0];
+        StringBuilder msg = new StringBuilder(fname);
+        for (String field : fields) {
+          msg.append(" ").append(field);
+        }
         // Line has too many or too few fields.
         assertThat(
-            msg, fieldsRead, allOf(greaterThanOrEqualTo(lowCount), lessThanOrEqualTo(highCount)));
+            msg.toString(),
+            fieldsRead,
+            allOf(greaterThanOrEqualTo(lowCount), lessThanOrEqualTo(highCount)));
       }
       // No lines is sometimes a symptom caused by a bad file name.
       assertFalse(noLines, "No lines in " + fname);
     } catch (IOException e) {
-      fail("Exception in tearing down reader:" + e.toString());
+      fail("Exception in tearing down reader:" + e);
     }
   }
 }
