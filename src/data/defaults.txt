@@ -573,8 +573,8 @@ user	dinseyTouristsFed	0
 user	dinseyToxicMultiplier	3
 user	dnaSyringe
 user	doctorBagQuestItem	
-user	doctorBagQuestLights	0	
-user	doctorBagQuestLocation	
+user	doctorBagQuestLights	0
+user	doctorBagQuestLocation
 user	doctorBagUpgrades	0
 user	doghouseBoarded	false
 user	dolphinItem
