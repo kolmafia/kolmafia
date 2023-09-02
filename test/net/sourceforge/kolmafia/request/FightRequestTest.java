@@ -2334,4 +2334,36 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class JustTheFacts {
+    @Test
+    public void canDetectFactsDrops() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withSkill(SkillPool.JUST_THE_FACTS));
+      try (cleanups) {
+        parseCombatData("request/test_fight_recall_circadian_adv.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(
+            text,
+            containsString(
+                "These monsters have vestigial organ that collects things they can't digest.\nYou acquire an item: foon"));
+        assertThat(text, containsString("sleep a bit better tonight"));
+      }
+    }
+
+    @Test
+    public void doesNotLogCircadianFailures() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withEffect(EffectPool.RECALLING_CIRCADIAN_RHYTHMS));
+      try (cleanups) {
+        parseCombatData("request/test_fight_recall_circadian_wrong_monster.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, not(containsString("rythm")));
+      }
+    }
+  }
 }

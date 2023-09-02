@@ -125,6 +125,7 @@ public class SkillPool {
   public static final int REPLICA_EMOTIONALLY_CHIPPED = 222;
   public static final int PERPETRATE_MILD_EVIL = 226;
   public static final int CHITINOUS_SOUL = 227;
+  public static final int JUST_THE_FACTS = 228;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
