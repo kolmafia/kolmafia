@@ -6532,6 +6532,14 @@ public class FightRequest extends GenericRequest {
     String onclick = null;
 
     if (inode != null) {
+      var src = inode.getAttributeByName("src");
+      if (src.endsWith("factbook.gif")) {
+        // log if it's a fact
+        var text = node.getText().toString();
+        if (!(text.contains("rythm") || text.contains("rhythm"))) {
+          FightRequest.logText(text, status);
+        }
+      }
       String alt = inode.getAttributeByName("alt");
       if (alt != null && alt.startsWith("Enemy's")) {
         // This is Monster Manuel stuff
