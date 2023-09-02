@@ -11358,5 +11358,5 @@
 11330	sparkling orb	862610632	frostshock.gif	spleen, usable	t,d	30
 11331	hardening cream	547824668	creamtube.gif	spleen, usable	t,d	11
 11332	pool shark hair oil	972311757	bottle.gif	spleen, usable	t,d	20
-11333	book of facts	678190656	factbook.gif	usable	t	0
-11334	book of facts (dog-eared)	397159536	factbook.gif	usable		0
+11333	book of facts	678190656	factbook.gif	usable	t	0	books of facts
+11334	book of facts (dog-eared)	397159536	factbook.gif	usable		0	books of facts (dog-eared)
