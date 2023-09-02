@@ -3666,6 +3666,7 @@ public class ItemPool {
   public static final int REPLICA_PATRIOTIC_EAGLE = 11304;
   public static final int AUGUST_SCEPTER = 11306;
   public static final int FIXODENT = 11312;
+  public static final int BAYWATCH = 11321;
   public static final int POCKET_GUIDE_TO_MILD_EVIL = 11322;
   public static final int POCKET_GUIDE_TO_MILD_EVIL_USED = 11323;
   public static final int REPLICA_AUGUST_SCEPTER = 11325;
