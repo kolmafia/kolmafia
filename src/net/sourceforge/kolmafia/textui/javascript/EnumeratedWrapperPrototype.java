@@ -67,7 +67,7 @@ public class EnumeratedWrapperPrototype extends ScriptableObject {
 
       constructor.sealObject();
 
-      for (String methodName : new String[] {"toString"}) {
+      for (String methodName : new String[] {"toString", "toJSON"}) {
         Method method = EnumeratedWrapper.class.getDeclaredMethod(methodName);
         FunctionObject functionObject = new FunctionObject(methodName, method, scope);
         defineProperty(methodName, functionObject, DONTENUM | READONLY | PERMANENT);

@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptException;
+import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.json.JSONObject;
 import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
@@ -74,6 +76,24 @@ public class EnumeratedWrapper extends ScriptableObject {
   @Override
   public String toString() {
     return wrapped.toString();
+  }
+
+  public String toJSON() {
+    return toCamelCaseJSON(wrapped.asProxy()).toString();
+  }
+
+  private static Object toCamelCaseJSON(Value anyValue) {
+    if (!(anyValue instanceof CompositeValue compValue)) return anyValue.toJSON();
+
+    var obj = new JSONObject();
+
+    for (Value keyObject : compValue.keys()) {
+      var key = JavascriptRuntime.toCamelCase(keyObject.toString());
+      var value = toCamelCaseJSON(compValue.aref(keyObject));
+      obj.put(key, value);
+    }
+
+    return obj;
   }
 
   public static Object constructDefaultValue() {
