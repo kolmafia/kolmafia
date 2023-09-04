@@ -5814,6 +5814,14 @@ public abstract class KoLCharacter {
         var copyMods = new Modifiers(mods);
         copyMods.setLookup(new Lookup(ModifierType.EFFECT, EffectPool.OFFHAND_REMARKABLE));
         newModifiers.add(copyMods);
+        if (item.id == ItemPool.UNBREAKABLE_UMBRELLA) {
+          mods =
+              ModifierDatabase.getModifiers(
+                  ModifierType.UNBREAKABLE_UMBRELLA, Preferences.getString("umbrellaState"));
+          copyMods = new Modifiers(mods);
+          copyMods.setLookup(new Lookup(ModifierType.EFFECT, EffectPool.OFFHAND_REMARKABLE));
+          newModifiers.add(copyMods);
+        }
       }
     }
   }
