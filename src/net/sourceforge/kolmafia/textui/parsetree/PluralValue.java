@@ -56,11 +56,9 @@ public class PluralValue extends AggregateValue {
 
   @Override
   public Object toJSON() throws JSONException {
-    JSONArray obj = new JSONArray();
+    var obj = new JSONArray();
 
-    Value[] array = this.keys();
-
-    for (Value value : array) {
+    for (Value value : this.keys()) {
       obj.put(value.toJSON());
     }
 

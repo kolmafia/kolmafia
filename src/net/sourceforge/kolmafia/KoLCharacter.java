@@ -5435,7 +5435,7 @@ public abstract class KoLCharacter {
           ItemPool.RESOLUTION_ADVENTUROUS);
     }
     var circadianAdv = Preferences.getInteger("_circadianRhythmsAdventures");
-    if (resolutionAdv > 0) {
+    if (circadianAdv > 0) {
       newModifiers.addDouble(
           DoubleModifier.ADVENTURES,
           circadianAdv,

@@ -465,11 +465,11 @@ public class Value implements TypedNode, Comparable<Value> {
 
   public Object toJSON() throws JSONException {
     if (this.getType().equals(TypeSpec.BOOLEAN)) {
-      return Boolean.valueOf(this.contentLong > 0);
+      return this.contentLong > 0;
     } else if (this.getType().equals(TypeSpec.INT)) {
-      return Long.valueOf(this.contentLong);
+      return this.contentLong;
     } else if (this.getType().equals(TypeSpec.FLOAT)) {
-      return Double.valueOf(Double.longBitsToDouble(this.contentLong));
+      return Double.longBitsToDouble(this.contentLong);
     } else {
       return this.toString();
     }
