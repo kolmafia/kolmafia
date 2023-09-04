@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import org.json.JSONObject;
 import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
@@ -78,22 +77,22 @@ public class EnumeratedWrapper extends ScriptableObject {
     return wrapped.toString();
   }
 
-  public String toJSON() {
-    return toCamelCaseJSON(wrapped.asProxy()).toString();
-  }
+  public static Object toJSON(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
+    Scriptable scope = ScriptableObject.getTopLevelScope(thisObj);
+    ValueConverter coercer = new ValueConverter(cx, scope);
+    var proxy = ((EnumeratedWrapper) thisObj).wrapped.asProxy();
 
-  private static Object toCamelCaseJSON(Value anyValue) {
-    if (!(anyValue instanceof CompositeValue compValue)) return anyValue.toJSON();
+    if (!(proxy instanceof CompositeValue compValue)) return coercer.asJava(proxy);
 
-    var obj = new JSONObject();
+    var result = cx.newObject(thisObj);
 
     for (Value keyObject : compValue.keys()) {
       var key = JavascriptRuntime.toCamelCase(keyObject.toString());
-      var value = toCamelCaseJSON(compValue.aref(keyObject));
-      obj.put(key, value);
+      var value = compValue.aref(keyObject).toJSON();
+      ScriptableObject.putProperty(result, key, value);
     }
 
-    return obj;
+    return result;
   }
 
   public static Object constructDefaultValue() {

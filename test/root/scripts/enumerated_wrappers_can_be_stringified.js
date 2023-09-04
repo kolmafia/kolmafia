@@ -1,5 +1,7 @@
 const { printHtml } = require("kolmafia");
 
-const lime = Item.get("lime");
+printHtml(JSON.stringify(Item.get("lime")));
+printHtml(JSON.stringify(Skill.get("Ode to Booze")));
 
-printHtml(JSON.stringify(lime));
+var test = JSON.parse(JSON.stringify(Monster.get("zmobie")));
+printHtml(`Flip flop: ${test.image === Monster.get("zmobie").image}`);
