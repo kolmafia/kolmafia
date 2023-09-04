@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
@@ -67,8 +68,12 @@ public class EnumeratedWrapperPrototype extends ScriptableObject {
 
       constructor.sealObject();
 
-      for (String methodName : new String[] {"toString"}) {
-        Method method = EnumeratedWrapper.class.getDeclaredMethod(methodName);
+      for (String methodName : new String[] {"toString", "toJSON"}) {
+        var method =
+            Arrays.stream(EnumeratedWrapper.class.getMethods())
+                .filter(m -> m.getName().equals(methodName))
+                .findAny()
+                .orElseThrow(NoSuchMethodException::new);
         FunctionObject functionObject = new FunctionObject(methodName, method, scope);
         defineProperty(methodName, functionObject, DONTENUM | READONLY | PERMANENT);
         functionObject.sealObject();

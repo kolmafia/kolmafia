@@ -132,13 +132,11 @@ public abstract class CompositeValue extends Value {
 
   @Override
   public Object toJSON() throws JSONException {
-    JSONObject obj = new JSONObject();
+    var obj = new JSONObject();
 
-    Value[] keys = this.keys();
-
-    for (int i = 0; i < keys.length; ++i) {
-      String key = keys[i].toString();
-      Object value = this.aref(keys[i]).toJSON();
+    for (Value item : this.keys()) {
+      var key = item.toString();
+      var value = this.aref(item).toJSON();
       obj.put(key, value);
     }
 

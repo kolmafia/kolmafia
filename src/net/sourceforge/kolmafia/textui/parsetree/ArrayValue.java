@@ -186,12 +186,10 @@ public class ArrayValue extends AggregateValue {
 
   @Override
   public Object toJSON() throws JSONException {
-    JSONArray obj = new JSONArray();
+    var obj = new JSONArray();
 
-    Value[] array = (Value[]) this.content;
-
-    for (int i = 0; i < array.length; ++i) {
-      obj.put(array[i].toJSON());
+    for (var value : (Value[]) this.content) {
+      obj.put(value.toJSON());
     }
 
     return obj;
