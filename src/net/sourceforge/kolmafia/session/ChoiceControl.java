@@ -7114,6 +7114,10 @@ public abstract class ChoiceControl {
         TurnCounter.stopCounting("Spookyraven Lights Out");
         Preferences.setInteger("lastLightsOutTurn", KoLCharacter.getTurnsPlayed());
         break;
+      case 918:
+        // Yachtzee!
+        Preferences.setInteger("encountersUntilYachtzeeChoice ", 19);
+        break;
 
       case 930:
         // Another Errand I Mean Quest
