@@ -5520,6 +5520,7 @@ public abstract class ChoiceControl {
 
       case 918:
         // Yachtzee!
+        Preferences.decrement("encountersUntilYachtzeeChoice ", 1, 0);
         if (text.contains("Ultimate Mind Destroyer")) {
           var date = DateTimeManager.getArizonaDateTime();
           Preferences.setString(
@@ -7116,7 +7117,7 @@ public abstract class ChoiceControl {
         break;
       case 918:
         // Yachtzee!
-        Preferences.setInteger("encountersUntilYachtzeeChoice ", 19);
+        Preferences.setInteger("encountersUntilYachtzeeChoice ", 20);
         break;
 
       case 930:
