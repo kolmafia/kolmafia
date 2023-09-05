@@ -251,7 +251,7 @@ public class Preferences {
         "eldritchTentaclesFought",
         "encountersUntilDMTChoice",
         "encountersUntilNEPChoice",
-        "encountersUntilYachtzeeChoice ",
+        "encountersUntilYachtzeeChoice",
         "encountersUntilSRChoice",
         "ensorcelee",
         "ensorceleeLevel",
