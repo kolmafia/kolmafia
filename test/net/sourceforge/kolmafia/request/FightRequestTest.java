@@ -2382,22 +2382,11 @@ public class FightRequestTest {
   class Yachtzee {
     @Test
     void canTrackPartyYachtCombats() {
-      var builder = new FakeHttpClientBuilder();
-      var client = builder.client;
-      var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder), withProperty("encountersUntilYachtzeeChoice", 10));
-      try (cleanups) {
-        client.addResponse(
-            302, Map.of("location", List.of("adventure.php?snarfblat=" + AdventurePool.YACHT)), "");
-        client.addResponse(
-            302, Map.of("location", List.of("fight.php?ireallymeanit=1693958909")), "");
-        client.addResponse(200, html("request/test_party_yacht_fight.html"));
-        client.addResponse(200, ""); // api.php
+      var cleanups = new Cleanups(withLastLocation("Sunken Party Yacht"));
 
-        var request = new GenericRequest("adventure.php?snarfblat=404");
-        request.run();
-        assertThat("encountersUntilYachtzeeChoice", isSetTo(11));
+      try (cleanups) {
+        parseCombatData("request/test_party_yacht_fight.html");
+        assertThat("encountersUntilYachtzeeChoice", isSetTo("19"));
       }
     }
   }
