@@ -2386,7 +2386,7 @@ public class FightRequestTest {
 
       try (cleanups) {
         parseCombatData("request/test_party_yacht_fight.html");
-        assertThat("encountersUntilYachtzeeChoice", isSetTo("19"));
+        assertThat("encountersUntilYachtzeeChoice", isSetTo(19));
       }
     }
   }
