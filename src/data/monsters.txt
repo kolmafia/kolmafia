@@ -376,7 +376,7 @@ Knob Goblin MBA	1064	kg_mba.gif	Atk: 25 Def: 22 HP: 20 Init: 75 Meat: 70 P: gobl
 Knob Goblin Mutant	88	kg_mutant.gif	Atk: 53 Def: 47 HP: 43 Init: 70 Meat: 55 P: goblin Article: a
 Knob Goblin poseur	533	kg_poseur.gif	Atk: 4 Def: 3 HP: 5 Init: 50 Meat: 20 P: goblin Article: a	dope gangsta bling-bling (10)	out-of-tune biwa (10)	terrible poem (20)
 Knob Goblin Sous Chef	76	kg_souschef.gif	Atk: 20 Def: 18 HP: 15 Init: 60 Meat: 20 P: goblin EA: hot Article: a	Knob Goblin spatula (7)	Knob sausage (15)	tomato (15)	wad of dough (15)
-Knob Goblin Very Mad Scientist	86	kg_verymadsci.gif	Atk: 45 Def: 40 HP: 30 Init: 70 Meat: 45 P: goblin Article: a	Knob Goblin melon baller (5)	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	bunch of square grapes (c19)	smudged alchemical recipe (p5)	Cobb's Knob Menagerie key (c0)	Subject 37 file (c0)
+Knob Goblin Very Mad Scientist	86	kg_verymadsci.gif	Atk: 45 Def: 40 HP: 30 Init: 70 Meat: 45 P: goblin Article: a	Knob Goblin melon baller (5)	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	bunch of square grapes (c19)	smudged alchemical recipe (p5)	Cobb's Knob Menagerie key (c0)	Subject 37 file (c0)	sparkling orb (20)
 Knott Slanding	617	slanding.gif	NOCOPY NOMANUEL ULTRARARE Atk: 150 Def: 135 HP: 150 Init: 10000 Meat: 970-1342 P: beast ED: cold	Dallas Dynasty Falcon Crest shield (100)
 Knott Yeti	99	yeti.gif	Atk: 105 Def: 92 HP: 90 Init: 60 Meat: 200 P: beast E: cold Article: a	yeti fur (30)
 Koopa Troopa	116	koopa.gif	Atk: 20 Def: 18 HP: 15 Init: 60 Meat: 10 P: beast Article: a	black pixel (50)	green pixel (80)	white pixel (50)
@@ -2101,7 +2101,7 @@ terrible mutant	2096	vwmutant.gif	NOCOPY Scale: 5 Cap: 1000 Floor: 10 Init: -100
 slime blob	2097	vwslime.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: slime Phys: 50 ED: sleaze Article: a	green slime glob (20)	orange slime glob (40)	black slime glob (n1)
 
 # Kramco Sausage-o-Matic (Jan 2019
-sausage goblin	2104	sausagegoblin.gif	FREE Scale: [1+2*pref(_sausageFights)] Cap: ? Floor: ? Init: -10000 Meat: 69 P: goblin ED: sleaze EA: hot EA: sleaze Article: a	magical sausage casing (n100)	red-hot sausage fork (0)	bag of sausage links (n0)
+sausage goblin	2104	sausagegoblin.gif	FREE Scale: [1+2*pref(_sausageFights)] Cap: ? Floor: ? Init: -10000 Meat: 69 P: goblin ED: sleaze EA: hot EA: sleaze Article: a	magical sausage casing (n100)	red-hot sausage fork (4)	bag of sausage links (n0.1)
 
 # PirateRealm (Apr 2019)
 giant crab	2116	pr_crab.gif	Atk: 25 Def: 25 HP: 30 Init: 50 Meat: 150 P: beast EA: sleaze Article: a
