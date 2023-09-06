@@ -1999,7 +1999,6 @@ public abstract class ChoiceControl {
         break;
       case 918:
         // Yachtzee!
-        Preferences.setInteger("encountersUntilYachtzeeChoice ", 19);
         if (ChoiceManager.lastDecision == 3 && text.contains("You open the captain's door")) {
           int beads = Math.min(InventoryManager.getCount(ItemPool.MOIST_BEADS), 100);
           ResultProcessor.processResult(ItemPool.get(ItemPool.MOIST_BEADS, -beads));
