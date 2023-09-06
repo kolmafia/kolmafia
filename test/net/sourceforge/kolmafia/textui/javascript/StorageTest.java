@@ -16,7 +16,7 @@ class StorageTest {
     storage.setItem("c", "3");
 
     assertThat(storage.getLength(), is(3));
-    assertThat(storage.key(1), is("2"));
+    assertThat(storage.key(1), is("b"));
   }
 
   @Test
