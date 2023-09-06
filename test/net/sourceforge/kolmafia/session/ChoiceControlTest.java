@@ -366,6 +366,29 @@ class ChoiceControlTest {
     }
   }
 
+  @Nested
+  class Yachtzee {
+    @Test
+    void visitingTheNCResetsPreference() {
+      var cleanups =
+          new Cleanups(withProperty("encountersUntilYachtzeeChoice ", 0));
+      try (cleanups) {
+        var req = new GenericRequest("adventure.php?snarfblat=404");
+        req.responseText = html("request/test_visit_yachtzee.html");
+        assertThat("encountersUntilYachtzeeChoice", isSetTo(20));
+      }
+    }
+
+    @Test
+    void choosingAnNCOptionDecrementsPreference() {
+      var cleanups =
+          new Cleanups(withProperty("encountersUntilYachtzeeChoice ", 20), withPostChoice2(918, 2));
+      try (cleanups) {
+        assertThat("encountersUntilYachtzeeChoice", isSetTo(19));
+      }
+    }
+  }
+
   @ParameterizedTest
   @CsvSource({"3, true", "5, false"})
   void sneakisolForcesNC(String decision, String propertyValue) {
