@@ -2386,13 +2386,10 @@ public class FightRequestTest {
       var client = builder.client;
       var cleanups =
           new Cleanups(
-              withHttpClientBuilder(builder),
-              withProperty("encountersUntilYachtzeeChoice", 10));
+              withHttpClientBuilder(builder), withProperty("encountersUntilYachtzeeChoice", 10));
       try (cleanups) {
         client.addResponse(
-            302,
-            Map.of("location", List.of("adventure.php?snarfblat=" + AdventurePool.YACHT)),
-            "");
+            302, Map.of("location", List.of("adventure.php?snarfblat=" + AdventurePool.YACHT)), "");
         client.addResponse(
             302, Map.of("location", List.of("fight.php?ireallymeanit=1693958909")), "");
         client.addResponse(200, html("request/test_party_yacht_fight.html"));
