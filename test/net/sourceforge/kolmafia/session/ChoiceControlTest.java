@@ -370,8 +370,7 @@ class ChoiceControlTest {
   class Yachtzee {
     @Test
     void visitingTheNCResetsPreference() {
-      var cleanups =
-          new Cleanups(withProperty("encountersUntilYachtzeeChoice ", 0));
+      var cleanups = new Cleanups(withProperty("encountersUntilYachtzeeChoice ", 0));
       try (cleanups) {
         var req = new GenericRequest("adventure.php?snarfblat=404");
         req.responseText = html("request/test_visit_yachtzee.html");
