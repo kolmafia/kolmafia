@@ -5,58 +5,58 @@ import java.util.LinkedHashMap;
 
 public class Storage {
 
-    static class IndexedMap<K, V> extends LinkedHashMap<K, V> {
-        ArrayList<K> indices = new ArrayList<>();
+  static class IndexedMap<K, V> extends LinkedHashMap<K, V> {
+    ArrayList<K> indices = new ArrayList<>();
 
-        @Override
-        public V put(K key, V value) {
-            super.put(key, value);
-            indices.add(key);
-            return value;
-        }
-
-        @Override
-        public V remove(Object key) {
-            var value = super.remove(key);
-            indices.removeIf(k -> k == key);
-            return value;
-        }
-
-        public K key(Integer index) {
-            return (index < indices.size()) ? indices.get(index) : null;
-        }
-
-        public void clear() {
-            super.clear();
-            indices.clear();
-        }
+    @Override
+    public V put(K key, V value) {
+      super.put(key, value);
+      indices.add(key);
+      return value;
     }
 
-    private final IndexedMap<String, String> values = new IndexedMap<>();
-
-    Storage() {}
-
-    public String key(final Integer index) {
-        return this.values.key(index);
+    @Override
+    public V remove(Object key) {
+      var value = super.remove(key);
+      indices.removeIf(k -> k == key);
+      return value;
     }
 
-    public String getItem(final String key) {
-        return this.values.get(key);
-    }
-
-    public String setItem(final String key, final String value) {
-        return this.values.put(key, value);
-    }
-
-    public String removeItem(final String key) {
-        return this.values.remove(key);
+    public K key(Integer index) {
+      return (index < indices.size()) ? indices.get(index) : null;
     }
 
     public void clear() {
-        this.values.clear();
+      super.clear();
+      indices.clear();
     }
+  }
 
-    public Integer getLength() {
-        return this.values.size();
-    }
+  private final IndexedMap<String, String> values = new IndexedMap<>();
+
+  Storage() {}
+
+  public String key(final Integer index) {
+    return this.values.key(index);
+  }
+
+  public String getItem(final String key) {
+    return this.values.get(key);
+  }
+
+  public String setItem(final String key, final String value) {
+    return this.values.put(key, value);
+  }
+
+  public String removeItem(final String key) {
+    return this.values.remove(key);
+  }
+
+  public void clear() {
+    this.values.clear();
+  }
+
+  public Integer getLength() {
+    return this.values.size();
+  }
 }

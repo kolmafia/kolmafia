@@ -1,5 +1,9 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
+import static org.mozilla.javascript.ScriptableObject.DONTENUM;
+import static org.mozilla.javascript.ScriptableObject.PERMANENT;
+import static org.mozilla.javascript.ScriptableObject.READONLY;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +30,6 @@ import net.sourceforge.kolmafia.textui.parsetree.Symbol;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
-import org.mozilla.javascript.Callable;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.EcmaError;
@@ -40,10 +43,6 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
 import org.mozilla.javascript.commonjs.module.Require;
-
-import static org.mozilla.javascript.ScriptableObject.DONTENUM;
-import static org.mozilla.javascript.ScriptableObject.PERMANENT;
-import static org.mozilla.javascript.ScriptableObject.READONLY;
 
 public class JavascriptRuntime extends AbstractRuntime {
   public static final String DEFAULT_RUNTIME_LIBRARY_NAME = "__runtimeLibrary__";
@@ -129,7 +128,7 @@ public class JavascriptRuntime extends AbstractRuntime {
           jsName,
           new LibraryFunctionStub(
               stdLib, ScriptableObject.getFunctionPrototype(stdLib), this, libraryFunctionName),
-              READONLY | PERMANENT);
+          READONLY | PERMANENT);
       if (addToTopScope) {
         ScriptableObject.defineProperty(
             scope,
@@ -174,7 +173,8 @@ public class JavascriptRuntime extends AbstractRuntime {
     var wrapFactory = cx.getWrapFactory();
     wrapFactory.setJavaPrimitiveWrap(false);
     var jsObject = (NativeJavaObject) wrapFactory.wrap(cx, scope, sessionStorage, null);
-    ScriptableObject.defineProperty(scope, "sessionStorage", jsObject, DONTENUM | READONLY | PERMANENT);
+    ScriptableObject.defineProperty(
+        scope, "sessionStorage", jsObject, DONTENUM | READONLY | PERMANENT);
   }
 
   @Override
