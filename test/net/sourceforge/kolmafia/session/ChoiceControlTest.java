@@ -371,7 +371,7 @@ class ChoiceControlTest {
     @Test
     void choosingAnNCOptionSetsPreference() {
       var cleanups =
-          new Cleanups(withProperty("encountersUntilYachtzeeChoice ", 0), withPostChoice2(918, 2));
+          new Cleanups(withProperty("encountersUntilYachtzeeChoice", 0), withPostChoice2(918, 2));
       try (cleanups) {
         assertThat("encountersUntilYachtzeeChoice", isSetTo(19));
       }

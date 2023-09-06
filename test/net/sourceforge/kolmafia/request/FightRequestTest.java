@@ -2382,7 +2382,10 @@ public class FightRequestTest {
   class Yachtzee {
     @Test
     void canTrackPartyYachtCombats() {
-      var cleanups = new Cleanups(withLastLocation("Sunken Party Yacht"));
+      var cleanups =
+          new Cleanups(
+              withLastLocation("Sunken Party Yacht"),
+              withProperty("encountersUntilYachtzeeChoice", 20));
 
       try (cleanups) {
         parseCombatData("request/test_party_yacht_fight.html");
