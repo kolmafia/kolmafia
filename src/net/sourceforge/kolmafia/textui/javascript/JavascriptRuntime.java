@@ -26,12 +26,14 @@ import net.sourceforge.kolmafia.textui.parsetree.Symbol;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
+import org.mozilla.javascript.Callable;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.JavaScriptException;
+import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
@@ -39,13 +41,17 @@ import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
 import org.mozilla.javascript.commonjs.module.Require;
 
+import static org.mozilla.javascript.ScriptableObject.DONTENUM;
+import static org.mozilla.javascript.ScriptableObject.PERMANENT;
+import static org.mozilla.javascript.ScriptableObject.READONLY;
+
 public class JavascriptRuntime extends AbstractRuntime {
   public static final String DEFAULT_RUNTIME_LIBRARY_NAME = "__runtimeLibrary__";
   public static final Pattern CAMEL_CASER = Pattern.compile("(?<=[A-Za-z0-9])_([A-Za-z0-9])");
 
   static final Set<JavascriptRuntime> runningRuntimes = ConcurrentHashMap.newKeySet();
   static final ContextFactory contextFactory = new ObservingContextFactory();
-
+  static final Storage sessionStorage = new Storage();
   private File scriptFile = null;
   private String scriptString = null;
 
@@ -115,7 +121,6 @@ public class JavascriptRuntime extends AbstractRuntime {
         getFunctions().stream().map(Symbol::getName).collect(Collectors.toCollection(TreeSet::new));
 
     Scriptable stdLib = cx.newObject(scope);
-    int permanentReadOnly = ScriptableObject.PERMANENT | ScriptableObject.READONLY;
 
     for (String libraryFunctionName : uniqueFunctionNames) {
       String jsName = toCamelCase(libraryFunctionName);
@@ -124,19 +129,19 @@ public class JavascriptRuntime extends AbstractRuntime {
           jsName,
           new LibraryFunctionStub(
               stdLib, ScriptableObject.getFunctionPrototype(stdLib), this, libraryFunctionName),
-          permanentReadOnly);
+              READONLY | PERMANENT);
       if (addToTopScope) {
         ScriptableObject.defineProperty(
             scope,
             jsName,
             new LibraryFunctionStub(
                 scope, ScriptableObject.getFunctionPrototype(scope), this, libraryFunctionName),
-            ScriptableObject.DONTENUM);
+            DONTENUM);
       }
     }
 
     ScriptableObject.defineProperty(
-        scope, DEFAULT_RUNTIME_LIBRARY_NAME, stdLib, ScriptableObject.DONTENUM | permanentReadOnly);
+        scope, DEFAULT_RUNTIME_LIBRARY_NAME, stdLib, DONTENUM | READONLY | PERMANENT);
     return stdLib;
   }
 
@@ -163,6 +168,13 @@ public class JavascriptRuntime extends AbstractRuntime {
 
       initEnumeratedType(cx, scope, runtimeLibrary, proxyRecordValueClass, valueType);
     }
+  }
+
+  private static void initSessionStorage(Context cx, Scriptable scope) {
+    var wrapFactory = cx.getWrapFactory();
+    wrapFactory.setJavaPrimitiveWrap(false);
+    var jsObject = (NativeJavaObject) wrapFactory.wrap(cx, scope, sessionStorage, null);
+    ScriptableObject.defineProperty(scope, "sessionStorage", jsObject, DONTENUM | READONLY | PERMANENT);
   }
 
   @Override
@@ -192,6 +204,7 @@ public class JavascriptRuntime extends AbstractRuntime {
       // If executing from GCLI (and not file), add std lib to top scope.
       currentStdLib = initRuntimeLibrary(cx, scope, scriptFile == null);
       initEnumeratedTypes(cx, scope, currentStdLib);
+      initSessionStorage(cx, scope);
 
       setState(State.NORMAL);
       if (ScriptRuntime.hasTopCall(cx)) {
