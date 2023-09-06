@@ -717,10 +717,10 @@
 7160	Dive Into a Puddle	waves.gif	5	0	0
 7161	Hide Under a Rock	bigrock.gif	5	0	0
 7162	Throw a Mr. Card	mrcards.gif	5	0	0
-7163	Hammer Ghost	nopic.gif	5	0	0
-7164	Fire Rocket	nopic.gif	5	0	0
-7165	Great Slash	nopic.gif	5	0	0
-7166	Get a Good Whiff of This Guy	nopic.gif	5	0	0
+7163	Hammer Ghost	mg_gavel.gif	5	0	0
+7164	Fire Rocket	ww_bazooka.gif	5	0	0
+7165	Great Slash	ww_rightclaw.gif	5	0	0
+7166	Get a Good Whiff of This Guy	nosynose.gif	5	0	0
 7167	Blinding Flash	camera.gif	5	0	0
 7168	Wink at	wink.gif	5	0	0
 7169	Talk About Politics	banishingshout.gif	5	0	0
@@ -752,7 +752,7 @@
 7195	Stinky Blow	stench.gif	5	0	0
 7196	Spooky Blow	skull.gif	5	0	0
 7197	&quot;Blow&quot;	wink.gif	5	0	0
-7198	Throw Frostball	nopic.gif	5	0	0
+7198	Throw Frostball	frostflower.gif	5	0	0
 7199	Blow Wolf Whistle	wolfwhistle.gif	5	0	0
 7200	Unload Tommy Gun	tommygun.gif	5	0	0
 7201	Mug for the Audience	mug.gif	5	0	0
