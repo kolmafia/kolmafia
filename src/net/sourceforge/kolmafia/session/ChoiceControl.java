@@ -1999,6 +1999,7 @@ public abstract class ChoiceControl {
         break;
       case 918:
         // Yachtzee!
+        Preferences.setInteger("encountersUntilYachtzeeChoice ", 19);
         if (ChoiceManager.lastDecision == 3 && text.contains("You open the captain's door")) {
           int beads = Math.min(InventoryManager.getCount(ItemPool.MOIST_BEADS), 100);
           ResultProcessor.processResult(ItemPool.get(ItemPool.MOIST_BEADS, -beads));
@@ -5520,7 +5521,7 @@ public abstract class ChoiceControl {
 
       case 918:
         // Yachtzee!
-        Preferences.decrement("encountersUntilYachtzeeChoice ", 1, 0);
+        Preferences.setInteger("encountersUntilYachtzeeChoice ", 19);
         if (text.contains("Ultimate Mind Destroyer")) {
           var date = DateTimeManager.getArizonaDateTime();
           Preferences.setString(
@@ -7114,10 +7115,6 @@ public abstract class ChoiceControl {
         // as soon as the next adventure is started
         TurnCounter.stopCounting("Spookyraven Lights Out");
         Preferences.setInteger("lastLightsOutTurn", KoLCharacter.getTurnsPlayed());
-        break;
-      case 918:
-        // Yachtzee!
-        Preferences.setInteger("encountersUntilYachtzeeChoice ", 20);
         break;
 
       case 930:
