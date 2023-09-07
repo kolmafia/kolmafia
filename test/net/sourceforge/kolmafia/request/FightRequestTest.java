@@ -2383,8 +2383,8 @@ public class FightRequestTest {
     @Test
     void canTrackPartyYachtCombats() {
       var cleanups =
-          new Cleanups(
-              withLastLocation("Sunken Party Yacht"),
+          new Cleanups(withFight(),
+              withLastLocation("The Sunken Party Yacht"),
               withProperty("encountersUntilYachtzeeChoice", 20));
 
       try (cleanups) {
