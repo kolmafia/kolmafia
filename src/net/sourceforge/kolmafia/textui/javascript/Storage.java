@@ -48,8 +48,8 @@ public class Storage {
     return this.values.put(key, value);
   }
 
-  public String removeItem(final String key) {
-    return this.values.remove(key);
+  public void removeItem(final String key) {
+    this.values.remove(key);
   }
 
   public void clear() {

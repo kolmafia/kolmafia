@@ -139,6 +139,9 @@ public class JavascriptRuntime extends AbstractRuntime {
       }
     }
 
+    // Initialise sessionStorage
+    initSessionStorage(cx, stdLib);
+
     ScriptableObject.defineProperty(
         scope, DEFAULT_RUNTIME_LIBRARY_NAME, stdLib, DONTENUM | READONLY | PERMANENT);
     return stdLib;
@@ -204,7 +207,6 @@ public class JavascriptRuntime extends AbstractRuntime {
       // If executing from GCLI (and not file), add std lib to top scope.
       currentStdLib = initRuntimeLibrary(cx, scope, scriptFile == null);
       initEnumeratedTypes(cx, scope, currentStdLib);
-      initSessionStorage(cx, scope);
 
       setState(State.NORMAL);
       if (ScriptRuntime.hasTopCall(cx)) {
