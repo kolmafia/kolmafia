@@ -1,9 +1,15 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
+import static org.mozilla.javascript.ScriptableObject.DONTENUM;
+import static org.mozilla.javascript.ScriptableObject.PERMANENT;
+import static org.mozilla.javascript.ScriptableObject.READONLY;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,6 +38,7 @@ import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.JavaScriptException;
+import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
@@ -45,12 +52,16 @@ public class JavascriptRuntime extends AbstractRuntime {
 
   static final Set<JavascriptRuntime> runningRuntimes = ConcurrentHashMap.newKeySet();
   static final ContextFactory contextFactory = new ObservingContextFactory();
-
+  static final Map<String, Storage> storedSessions = new HashMap<>();
   private File scriptFile = null;
   private String scriptString = null;
 
   private Scriptable currentTopScope = null;
   private Scriptable currentStdLib = null;
+
+  public static void clearSessionStorage() {
+    storedSessions.clear();
+  }
 
   public static String toCamelCase(String name) {
     if (name == null) {
@@ -110,12 +121,13 @@ public class JavascriptRuntime extends AbstractRuntime {
     return functions;
   }
 
-  private Scriptable initRuntimeLibrary(Context cx, Scriptable scope, boolean addToTopScope) {
+  private Scriptable initRuntimeLibrary(Context cx, Scriptable scope, File scriptFile) {
+    var addToTopScope = scriptFile == null;
+
     Set<String> uniqueFunctionNames =
         getFunctions().stream().map(Symbol::getName).collect(Collectors.toCollection(TreeSet::new));
 
     Scriptable stdLib = cx.newObject(scope);
-    int permanentReadOnly = ScriptableObject.PERMANENT | ScriptableObject.READONLY;
 
     for (String libraryFunctionName : uniqueFunctionNames) {
       String jsName = toCamelCase(libraryFunctionName);
@@ -124,19 +136,35 @@ public class JavascriptRuntime extends AbstractRuntime {
           jsName,
           new LibraryFunctionStub(
               stdLib, ScriptableObject.getFunctionPrototype(stdLib), this, libraryFunctionName),
-          permanentReadOnly);
+          READONLY | PERMANENT);
       if (addToTopScope) {
         ScriptableObject.defineProperty(
             scope,
             jsName,
             new LibraryFunctionStub(
                 scope, ScriptableObject.getFunctionPrototype(scope), this, libraryFunctionName),
-            ScriptableObject.DONTENUM);
+            DONTENUM);
       }
     }
 
+    // Initialise sessionStorage
+    // Storage is sandboxed per script file. CLI scripts share a session.
+    var storage =
+        storedSessions.computeIfAbsent(
+            scriptFile == null ? null : scriptFile.getAbsolutePath(), k -> new Storage());
+
+    var wrapFactory = cx.getWrapFactory();
+    wrapFactory.setJavaPrimitiveWrap(false);
+    var jsObject = (NativeJavaObject) wrapFactory.wrap(cx, scope, storage, null);
     ScriptableObject.defineProperty(
-        scope, DEFAULT_RUNTIME_LIBRARY_NAME, stdLib, ScriptableObject.DONTENUM | permanentReadOnly);
+        stdLib, "sessionStorage", jsObject, DONTENUM | READONLY | PERMANENT);
+
+    if (addToTopScope) {
+      ScriptableObject.defineProperty(scope, "sessionStorage", jsObject, DONTENUM);
+    }
+
+    ScriptableObject.defineProperty(
+        scope, DEFAULT_RUNTIME_LIBRARY_NAME, stdLib, DONTENUM | READONLY | PERMANENT);
     return stdLib;
   }
 
@@ -190,7 +218,7 @@ public class JavascriptRuntime extends AbstractRuntime {
 
     try {
       // If executing from GCLI (and not file), add std lib to top scope.
-      currentStdLib = initRuntimeLibrary(cx, scope, scriptFile == null);
+      currentStdLib = initRuntimeLibrary(cx, scope, scriptFile);
       initEnumeratedTypes(cx, scope, currentStdLib);
 
       setState(State.NORMAL);

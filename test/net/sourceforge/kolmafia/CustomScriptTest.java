@@ -19,11 +19,14 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.command.AshSingleLineCommand;
 import net.sourceforge.kolmafia.textui.command.CallScriptCommand;
+import net.sourceforge.kolmafia.textui.command.JavaScriptCommand;
+import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -147,6 +150,50 @@ public class CustomScriptTest {
     }
 
     RuntimeLibrary.functions.remove(newFunction);
+  }
+
+  @Nested
+  class SessionStorage {
+    @Test
+    void sessionStorageWorksInCli() {
+      ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+      try (PrintStream out = new PrintStream(ostream, true)) {
+        var command = new JavaScriptCommand();
+        command.run("js", "sessionStorage.setItem(\"test\", \"value\");");
+
+        // Inject custom output stream.
+        RequestLogger.openCustom(out);
+        command.run("js", "sessionStorage.getItem(\"test\");");
+
+        String output = ostream.toString().trim();
+        assertThat(output, startsWith("Returned: value"));
+        RequestLogger.closeCustom();
+      }
+
+      JavascriptRuntime.clearSessionStorage();
+    }
+
+    @Test
+    void sessionStorageDoesNotLeakAcrossScriptEntrypoints() {
+      ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+      try (PrintStream out = new PrintStream(ostream, true)) {
+        var jsCommand = new JavaScriptCommand();
+        jsCommand.run("js", "sessionStorage.setItem(\"test\", \"value\");");
+
+        // Inject custom output stream.
+        RequestLogger.openCustom(out);
+        var callCommand = new CallScriptCommand();
+        callCommand.run("call", "Excluded/sessionStorageTest.js");
+
+        String output = ostream.toString().trim();
+        assertThat(output, startsWith("true"));
+        RequestLogger.closeCustom();
+      }
+
+      JavascriptRuntime.clearSessionStorage();
+    }
   }
 
   @BeforeEach
