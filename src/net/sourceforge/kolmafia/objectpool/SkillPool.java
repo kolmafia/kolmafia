@@ -125,6 +125,7 @@ public class SkillPool {
   public static final int REPLICA_EMOTIONALLY_CHIPPED = 222;
   public static final int PERPETRATE_MILD_EVIL = 226;
   public static final int CHITINOUS_SOUL = 227;
+  public static final int JUST_THE_FACTS = 228;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
@@ -573,6 +574,8 @@ public class SkillPool {
   public static final int AUG_31ST_CABERNET_SAUVIGNON_DAY = 7482;
   public static final int ROAR_LIKE_A_LION = 7483;
   public static final int HOLD_HANDS = 7484;
+  public static final int RECALL_FACTS_MONSTER_HABITATS = 7485;
+  public static final int RECALL_FACTS_CIRCADIAN_RHYTHMS = 7486;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

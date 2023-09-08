@@ -250,6 +250,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final AdventureResult AUGUST_SCEPTER = ItemPool.get(ItemPool.AUGUST_SCEPTER, 1);
   public static final AdventureResult REPLICA_AUGUST_SCEPTER =
       ItemPool.get(ItemPool.REPLICA_AUGUST_SCEPTER, 1);
+  public static final AdventureResult BAYWATCH = ItemPool.get(ItemPool.BAYWATCH, 1);
 
   private static final AdventureResult[] AVOID_REMOVAL =
       new AdventureResult[] {
@@ -260,6 +261,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         UseSkillRequest.PLEXI_WATCH, // -3
         UseSkillRequest.POCKET_SQUARE, // -3
         UseSkillRequest.SOLITAIRE, // -2
+        UseSkillRequest.BAYWATCH, // -2
         UseSkillRequest.SHAKESPEARES_SISTERS_ACCORDION, // -1 or -2
         UseSkillRequest.WIZARD_HAT, // -1
         UseSkillRequest.REPLICA_WIZARD_HAT, // -1
@@ -284,7 +286,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   // there to avoid removal - there's no point in equipping them
   // temporarily during casting:
 
-  private static final int AVOID_REMOVAL_ONLY = 2;
+  private static final int AVOID_REMOVAL_ONLY = 6;
 
   private enum SkillStatus {
     // The skill was used successfully.

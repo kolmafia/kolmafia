@@ -573,8 +573,8 @@ user	dinseyTouristsFed	0
 user	dinseyToxicMultiplier	3
 user	dnaSyringe
 user	doctorBagQuestItem	
-user	doctorBagQuestLights	0	
-user	doctorBagQuestLocation	
+user	doctorBagQuestLights	0
+user	doctorBagQuestLocation
 user	doctorBagUpgrades	0
 user	doghouseBoarded	false
 user	dolphinItem
@@ -1088,6 +1088,8 @@ user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
 user	moonTuned	false
 user	monkeyPointMonster	
+user	monsterHabitatsMonster	
+user	monsterHabitatsFightsLeft	0
 user	motifMonster	
 user	mothershipProgress	0
 user	mpAutoRecovery	-0.5
@@ -1775,6 +1777,9 @@ user	_chronolithNextCost	10
 user	_chubbyAndPlumpUsed	false
 user	_cinchUsed	0
 user	_cinchoRests	0
+user	_circadianRhythmsAdventures	0
+user	_circadianRhythmsRecalled	false
+user	_circadianRhythmsPhylum
 user	_circleDrumUsed	false
 user	_citizenZone
 user	_citizenZoneMods
@@ -2112,6 +2117,7 @@ user	_missileLauncherUsed	false
 user	_molehillMountainUsed	false
 user	_momFoodReceived	false
 user	_monkeyPawWishesUsed	0
+user	_monsterHabitatsRecalled	0
 user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false
@@ -2189,6 +2195,7 @@ user	_psychoJarUsed	false
 user	_psychokineticHugUsed	false
 user	_questESp
 user	_questPartyFair	unstarted
+user	_questPartyFairItemsOpened	0
 user	_questPartyFairProgress
 user	_questPartyFairQuest
 user	_radlibSummons	0

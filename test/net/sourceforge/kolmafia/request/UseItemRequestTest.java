@@ -1125,4 +1125,74 @@ class UseItemRequestTest {
           ConsumptionType.FAMILIAR_HATCHLING);
     }
   }
+
+  @Nested
+  class NEPBagsKeys {
+    @ParameterizedTest
+    @CsvSource({
+      ItemPool.VAN_KEY + ", '', ''",
+      ItemPool.VAN_KEY + ", 'food', ''",
+      ItemPool.VAN_KEY + ", 'booze', ''",
+      ItemPool.VAN_KEY + ", 'booze', '10 2063'",
+      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", '', ''",
+      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'booze', ''",
+      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'food', ''",
+      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'food', '10 2063'"
+    })
+    void propertyIsntIncrementedWithoutQuestActive(int itemId, String quest, String questProgress) {
+      var html =
+          itemId == ItemPool.VAN_KEY
+              ? html("request/test_item_use_van_key.html")
+              : html("request/test_item_use_unremarkable_duffel_bag.html");
+      var cleanups =
+          new Cleanups(
+              withItem(itemId),
+              withProperty("_questPartyFairItemsOpened", 0),
+              withProperty("_questPartyFairQuest", quest),
+              withProperty("_questPartyFairProgress", questProgress),
+              withNextResponse(new FakeHttpResponse<>(200, html)));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(itemId).run();
+        assertThat("_questPartyFairItemsOpened", isSetTo(0));
+      }
+    }
+
+    @Test
+    void foodPropertyIsIncrementedWithQuestActive() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.VAN_KEY),
+              withProperty("_questPartyFairItemsOpened", 0),
+              withProperty("_questPartyFairQuest", "food"),
+              withProperty("_questPartyFairProgress", "10 2063"),
+              withNextResponse(
+                  new FakeHttpResponse<>(200, html("request/test_item_use_van_key.html"))));
+
+      try (cleanups) {
+        // Verify that the correct item increments the quest
+        UseItemRequest.getInstance(ItemPool.VAN_KEY).run();
+        assertThat("_questPartyFairItemsOpened", isSetTo(1));
+      }
+    }
+
+    @Test
+    void boozePropertyIsIncrementedWithQuestActive() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.UNREMARKABLE_DUFFEL_BAG),
+              withProperty("_questPartyFairItemsOpened", 0),
+              withProperty("_questPartyFairQuest", "booze"),
+              withProperty("_questPartyFairProgress", "10 2063"),
+              withNextResponse(
+                  new FakeHttpResponse<>(
+                      200, html("request/test_item_use_unremarkable_duffel_bag.html"))));
+
+      try (cleanups) {
+        // Verify that the correct item increments the quest
+        UseItemRequest.getInstance(ItemPool.UNREMARKABLE_DUFFEL_BAG).run();
+        assertThat("_questPartyFairItemsOpened", isSetTo(1));
+      }
+    }
+  }
 }

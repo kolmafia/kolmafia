@@ -3226,10 +3226,12 @@ public class ItemPool {
   public static final int PARTY_HARD_T_SHIRT = 9944;
   public static final int ELECTRONICS_KIT = 9952;
   public static final int PAINT_PALETTE = 9956;
+  public static final int UNREMARKABLE_DUFFEL_BAG = 9957;
   public static final int PURPLE_BEAST_ENERGY_DRINK = 9958;
   public static final int PUMP_UP_HIGH_TOPS = 9961;
   public static final int VERY_SMALL_RED_DRESS = 9963;
   public static final int EVERFULL_GLASS = 9966;
+  public static final int VAN_KEY = 9967;
   public static final int JAM_BAND_BOOTLEG = 9968;
   public static final int INTIMIDATING_CHAINSAW = 9972;
   public static final int PARTY_PLANNING_BOOK = 9978;
@@ -3664,10 +3666,13 @@ public class ItemPool {
   public static final int REPLICA_PATRIOTIC_EAGLE = 11304;
   public static final int AUGUST_SCEPTER = 11306;
   public static final int FIXODENT = 11312;
+  public static final int BAYWATCH = 11321;
   public static final int POCKET_GUIDE_TO_MILD_EVIL = 11322;
   public static final int POCKET_GUIDE_TO_MILD_EVIL_USED = 11323;
   public static final int REPLICA_AUGUST_SCEPTER = 11325;
   public static final int RESIDUAL_CHITIN_PASTE = 11327;
+  public static final int BOOK_OF_FACTS = 11333;
+  public static final int BOOK_OF_FACTS_DOG_EARED = 11334;
 
   private ItemPool() {}
 

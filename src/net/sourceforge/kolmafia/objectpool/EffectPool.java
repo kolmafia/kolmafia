@@ -362,6 +362,7 @@ public class EffectPool {
   public static final int CITIZEN_OF_A_ZONE = 2822;
   public static final int OFFHAND_REMARKABLE = 2830;
   public static final int SERENDIPITY = 2833;
+  public static final int RECALLING_CIRCADIAN_RHYTHMS = 2846;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

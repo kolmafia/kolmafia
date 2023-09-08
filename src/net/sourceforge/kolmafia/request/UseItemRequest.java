@@ -2831,6 +2831,8 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.POCKET_GUIDE_TO_MILD_EVIL:
       case ItemPool.POCKET_GUIDE_TO_MILD_EVIL_USED:
       case ItemPool.RESIDUAL_CHITIN_PASTE:
+      case ItemPool.BOOK_OF_FACTS:
+      case ItemPool.BOOK_OF_FACTS_DOG_EARED:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you
@@ -6132,6 +6134,19 @@ public class UseItemRequest extends GenericRequest {
         // You lug the giant black monolith to your campground and set it down.
         // There's a deafening Bwoom-woob-woob-woob and then an ominous hum fills the air.
         CampgroundRequest.setCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH, 1);
+        break;
+      case ItemPool.VAN_KEY:
+        // When the player has a NEP Booze/Food quest active, up to 11 bags or keys can be opened
+        if (Preferences.getString("_questPartyFairQuest").equals("food")
+            && !Preferences.getString("_questPartyFairProgress").isEmpty()) {
+          Preferences.increment("_questPartyFairItemsOpened", 1, 11, false);
+        }
+        break;
+      case ItemPool.UNREMARKABLE_DUFFEL_BAG:
+        if (Preferences.getString("_questPartyFairQuest").equals("booze")
+            && !Preferences.getString("_questPartyFairProgress").isEmpty()) {
+          Preferences.increment("_questPartyFairItemsOpened", 1, 11, false);
+        }
         break;
     }
 
