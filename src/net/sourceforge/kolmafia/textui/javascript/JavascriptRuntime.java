@@ -7,7 +7,9 @@ import static org.mozilla.javascript.ScriptableObject.READONLY;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,12 +52,16 @@ public class JavascriptRuntime extends AbstractRuntime {
 
   static final Set<JavascriptRuntime> runningRuntimes = ConcurrentHashMap.newKeySet();
   static final ContextFactory contextFactory = new ObservingContextFactory();
-  static final Storage sessionStorage = new Storage();
+  static final Map<String, Storage> storedSessions = new HashMap<>();
   private File scriptFile = null;
   private String scriptString = null;
 
   private Scriptable currentTopScope = null;
   private Scriptable currentStdLib = null;
+
+  public static void clearSessionStorage() {
+    storedSessions.clear();
+  }
 
   public static String toCamelCase(String name) {
     if (name == null) {
@@ -115,7 +121,9 @@ public class JavascriptRuntime extends AbstractRuntime {
     return functions;
   }
 
-  private Scriptable initRuntimeLibrary(Context cx, Scriptable scope, boolean addToTopScope) {
+  private Scriptable initRuntimeLibrary(Context cx, Scriptable scope, File scriptFile) {
+    var addToTopScope = scriptFile == null;
+
     Set<String> uniqueFunctionNames =
         getFunctions().stream().map(Symbol::getName).collect(Collectors.toCollection(TreeSet::new));
 
@@ -140,7 +148,20 @@ public class JavascriptRuntime extends AbstractRuntime {
     }
 
     // Initialise sessionStorage
-    initSessionStorage(cx, stdLib);
+    // Storage is sandboxed per script file. CLI scripts share a session.
+    var storage =
+        storedSessions.computeIfAbsent(
+            scriptFile == null ? null : scriptFile.getAbsolutePath(), k -> new Storage());
+
+    var wrapFactory = cx.getWrapFactory();
+    wrapFactory.setJavaPrimitiveWrap(false);
+    var jsObject = (NativeJavaObject) wrapFactory.wrap(cx, scope, storage, null);
+    ScriptableObject.defineProperty(
+        stdLib, "sessionStorage", jsObject, DONTENUM | READONLY | PERMANENT);
+
+    if (addToTopScope) {
+      ScriptableObject.defineProperty(scope, "sessionStorage", jsObject, DONTENUM);
+    }
 
     ScriptableObject.defineProperty(
         scope, DEFAULT_RUNTIME_LIBRARY_NAME, stdLib, DONTENUM | READONLY | PERMANENT);
@@ -172,14 +193,6 @@ public class JavascriptRuntime extends AbstractRuntime {
     }
   }
 
-  private static void initSessionStorage(Context cx, Scriptable scope) {
-    var wrapFactory = cx.getWrapFactory();
-    wrapFactory.setJavaPrimitiveWrap(false);
-    var jsObject = (NativeJavaObject) wrapFactory.wrap(cx, scope, sessionStorage, null);
-    ScriptableObject.defineProperty(
-        scope, "sessionStorage", jsObject, DONTENUM | READONLY | PERMANENT);
-  }
-
   @Override
   public Value execute(
       final String functionName, final Object[] arguments, final boolean executeTopLevel) {
@@ -205,7 +218,7 @@ public class JavascriptRuntime extends AbstractRuntime {
 
     try {
       // If executing from GCLI (and not file), add std lib to top scope.
-      currentStdLib = initRuntimeLibrary(cx, scope, scriptFile == null);
+      currentStdLib = initRuntimeLibrary(cx, scope, scriptFile);
       initEnumeratedTypes(cx, scope, currentStdLib);
 
       setState(State.NORMAL);

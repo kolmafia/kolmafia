@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Storage {
-
-  static class IndexedMap<K, V> extends LinkedHashMap<K, V> {
+  private static class IndexedMap<K, V> extends LinkedHashMap<K, V> {
     ArrayList<K> indices = new ArrayList<>();
 
     @Override
@@ -26,6 +25,7 @@ public class Storage {
       return (index < indices.size()) ? indices.get(index) : null;
     }
 
+    @Override
     public void clear() {
       super.clear();
       indices.clear();
