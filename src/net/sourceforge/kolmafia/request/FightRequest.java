@@ -2644,7 +2644,7 @@ public class FightRequest extends GenericRequest {
                 : (limitmode == LimitMode.BATMAN || FightRequest.innerWolf)
                     ? responseText.contains("action=\"fight.php\"")
                     : Preferences.getBoolean("serverAddsCustomCombat")
-                        ? responseText.contains("\'fightform\'")
+                        ? responseText.contains("(show old combat form)")
                         : KoLCharacter.inDisguise() ? fightCount > 1 : fightCount > 0);
 
     if (limitmode == LimitMode.BATMAN || limitmode == LimitMode.SPELUNKY) {
