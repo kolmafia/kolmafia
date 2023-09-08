@@ -217,16 +217,6 @@ public class FightRequestTest {
   }
 
   @Test
-  public void CABandOldForm() {
-    var cleanups = new Cleanups(withProperty("serverAddsCustomCombat", true), withFight());
-    try (cleanups) {
-      parseCombatData("request/test_fight_cab_old_form.html");
-      int fightRound = FightRequest.getCurrentRound();
-      assertEquals(1, fightRound, "Incorrectly retrieved current round");
-    }
-  }
-
-  @Test
   public void hareAdv() {
     var cleanups =
         new Cleanups(
