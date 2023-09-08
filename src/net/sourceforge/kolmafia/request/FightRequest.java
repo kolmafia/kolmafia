@@ -2237,6 +2237,9 @@ public class FightRequest extends GenericRequest {
       } else if (EncounterManager.isGregariousEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.decrement("beGregariousFightsLeft", 1, 0);
+      } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.decrement("monsterHabitatsFightsLeft", 1, 0);
       } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
         Preferences.decrement("rwbMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
@@ -2252,9 +2255,6 @@ public class FightRequest extends GenericRequest {
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window begin");
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window end");
         Preferences.setString("spookyVHSTapeMonster", "");
-      } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
-        EncounterManager.ignoreSpecialMonsters();
-        Preferences.decrement("monsterHabitatsFightsLeft", 1, 0);
       }
 
       // Increment Turtle Blessing counter
