@@ -29,6 +29,8 @@ import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.Line.Token;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayLiteral;
+import net.sourceforge.kolmafia.textui.parsetree.ArrowFunction;
+import net.sourceforge.kolmafia.textui.parsetree.ArrowScope;
 import net.sourceforge.kolmafia.textui.parsetree.Assignment;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScope;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
@@ -900,19 +902,232 @@ public class Parser {
     return result;
   }
 
-  private Function parseArrowFunction(final FunctionType functionType, final BasicScope scope)
+  private Function parseArrowFunction(final FunctionType functionType, final BasicScope parentScope)
       throws InterruptedException {
 
-    Token startToken = this.currentToken();
+    // We are in a context where we expect a FunctionValue.
+    // We know the FunctionType
 
-    final ErrorManager arrowErrors = new ErrorManager();
+    final ErrorManager functionErrors = new ErrorManager();
+    Token functionStartToken = this.currentToken();
 
-    // *** parse it
+    Type returnType = functionType.getReturnType();
+    Type[] parameterTypes = functionType.getParameterTypes();
+    int expectedParams = parameterTypes.length;
+    int currentParam = 0;
 
-    Location location = this.makeLocation(startToken, this.peekPreviousToken());
-    // return Value.locate(location, result);
+    // The script gets to define the variable names.
+    // There must be as many as the FunctionType requires.
+    // The types are defined by the FunctionType
+    VariableList paramList = new VariableList();
+    List<VariableReference> variableReferences = new ArrayList<>();
 
-    return null;
+    // *** Looking for:
+    // () ->
+    // (x [, y]*) ->
+    // x ->
+
+    String variableName = this.currentToken().content;
+    // If there is a single parameter, you can omit the ().
+    if (this.parseIdentifier(variableName)) {
+      // Parentheses can be omitted only there is a single parameter
+      if (expectedParams != 1) {
+        return null;
+      }
+      // If it is not an arrow function, it is not a parameter name
+      // It could be a function name or expression
+      if (!"->".equals(this.nextToken())) {
+        return null;
+      }
+      // The name of the first (single) parameter is in variableName
+      // We need to make a Variable and a VariableReference, but
+      // parenthesis are not involved
+    } else if (!"(".equals(this.nextToken())) {
+      // It's not the start of an arrow function.
+      // It could be the start of an expression
+      return null;
+    }
+
+    Position previousPosition = null;
+    while (this.madeProgress(previousPosition, previousPosition = this.getCurrentPosition())) {
+      if (this.atEndOfFile()) {
+        String expected = variableName != null ? "->" : ")";
+        functionErrors.submitSyntaxError(this.unexpectedTokenError(expected, this.currentToken()));
+        break;
+      }
+
+      if (this.currentToken().equals(")")) {
+        if (variableName != null) {
+          // Single parameter with no parentheses;
+          functionErrors.submitSyntaxError(this.unexpectedTokenError(")", this.currentToken()));
+          continue;
+        }
+
+        this.readToken(); // read )
+        break;
+      }
+
+      final ErrorManager parameterErrors = functionErrors.makeChild();
+
+      Type paramType = parameterTypes[currentParam++];
+      Variable param = this.parseVariable(paramType, null);
+      if (param == null) {
+        parameterErrors.submitSyntaxError(
+            this.unexpectedTokenError("identifier", this.currentToken()));
+        continue;
+      }
+
+      if (!paramList.add(param)) {
+        parameterErrors.submitError(
+            this.error(
+                param.getLocation(), "Parameter " + param.getName() + " is already defined"));
+      } else {
+        variableReferences.add(new VariableReference(param.getLocation(), param));
+      }
+
+      if (this.currentToken().equals("=")) {
+        parameterErrors.submitError(
+            this.error(this.currentToken(), "Cannot initialize parameter " + param.getName()));
+      }
+
+      // If we have found all the parameter this FunctionType needs, time to finish up
+      if (currentParam == expectedParams) {
+        if (this.currentToken().equals(")")) {
+          if (variableName != null) {
+            // No parentheses
+            parameterErrors.submitSyntaxError(this.unexpectedTokenError("->", this.currentToken()));
+          } else {
+            this.readToken(); // read )
+          }
+        }
+        break;
+      } else if (this.currentToken().equals(",")) {
+        if (variableName != null) {
+          // No commas
+          parameterErrors.submitSyntaxError(this.unexpectedTokenError(",", this.currentToken()));
+        } else {
+          this.readToken(); // read ,
+        }
+      } else {
+        parameterErrors.submitSyntaxError(this.unexpectedTokenError(",", this.currentToken()));
+      }
+    }
+
+    if (!this.currentToken().equals("->")) {
+      functionErrors.submitError(this.error(this.currentToken(), "-> expected"));
+    }
+    this.readToken(); // read ->
+
+    // Make an ArrowFunction before we parse the scope so it has access to the variable references
+
+    Location functionLocation = this.makeLocation(functionStartToken, this.peekLastToken());
+    ArrowFunction f = new ArrowFunction(functionType, variableReferences, functionLocation);
+    Scope scope = this.parseArrowScope(functionType, paramList, parentScope);
+    ArrowFunction result = f;
+
+    result.setScope(scope);
+    if (!scope.assertBarrier() && !returnType.equals(TypeSpec.VOID)) {
+      functionErrors.submitError(this.error(functionLocation, "Missing return value"));
+    }
+
+    return result;
+  }
+
+  private ArrowScope parseArrowScope(
+      final FunctionType functionType, final VariableList variables, final BasicScope parentScope)
+      throws InterruptedException {
+    Type returnType = functionType.getReturnType();
+    ArrowScope scope = parseArrowBlock(returnType, variables, parentScope);
+    if (scope != null) {
+      return scope;
+    }
+    return this.parseArrowCommand(returnType, variables, parentScope);
+  }
+
+  private ArrowScope parseArrowBlock(
+      final Type returnType, final VariableList variables, final BasicScope parentScope)
+      throws InterruptedException {
+
+    if (!this.currentToken().equals("{")) {
+      return null;
+    }
+
+    final ErrorManager blockErrors = new ErrorManager();
+    Token blockStartToken = this.currentToken();
+    this.readToken(); // {
+
+    ArrowScope result = new ArrowScope(variables, parentScope);
+    Scope scope = this.parseScope(result, returnType, parentScope, false, false, false);
+
+    if (this.currentToken().equals("}")) {
+      this.readToken(); // read }
+    } else {
+      blockErrors.submitSyntaxError(this.unexpectedTokenError("}", this.currentToken()));
+    }
+
+    Location blockLocation = this.makeLocation(blockStartToken, this.peekPreviousToken());
+    scope.setScopeLocation(blockLocation);
+
+    return result;
+  }
+
+  private ArrowScope parseArrowCommand(
+      final Type returnType, final VariableList variables, final BasicScope parentScope)
+      throws InterruptedException {
+    final ErrorManager singleCommandScopeErrors = new ErrorManager();
+
+    Token scopeStartToken = this.currentToken();
+    ArrowScope scope = new ArrowScope(variables, parentScope);
+
+    Command command = this.parseCommand(returnType, scope, false, false, false);
+    if (command == null) {
+      if (returnType.equals(TypeSpec.VOID)) {
+        if (this.currentToken().equals(";")) {
+          this.readToken(); // ;
+        } else {
+          singleCommandScopeErrors.submitSyntaxError(
+              this.unexpectedTokenError(";", this.currentToken()));
+        }
+        // This is allowed.
+      } else {
+        singleCommandScopeErrors.submitError(this.error("Missing return value"));
+      }
+    }
+
+    if (returnType.equals(TypeSpec.VOID)) {
+      // Any command will do.
+      scope.addCommand(command, this);
+    } else if (command instanceof FunctionReturn fr) {
+      Type commandType = fr.getType();
+      if (Operator.validCoercion(returnType, commandType, "return")) {
+        scope.addCommand(command, this);
+      } else {
+        singleCommandScopeErrors.submitError(
+            this.error(
+                command.getLocation(),
+                "Cannot return " + commandType + " value from " + returnType + " function"));
+      }
+    } else if (command instanceof Evaluable ev) {
+      Type commandType = ev.getType();
+      // No explicit "return" command. Create one.
+      if (Operator.validCoercion(returnType, commandType, "return")) {
+        Location returnLocation = this.makeLocation(scopeStartToken, this.peekPreviousToken());
+        FunctionReturn returnCommnd = new FunctionReturn(returnLocation, ev, returnType);
+        scope.addCommand(returnCommnd, this);
+      } else {
+        singleCommandScopeErrors.submitError(
+            this.error(
+                command.getLocation(),
+                "Cannot return " + commandType + " value from " + returnType + " function"));
+      }
+    } else {
+      singleCommandScopeErrors.submitError(this.error("Missing return value"));
+    }
+
+    Location scopeLocation = this.makeLocation(scopeStartToken, this.peekPreviousToken());
+    scope.setScopeLocation(scopeLocation);
+
+    return scope;
   }
 
   /**
