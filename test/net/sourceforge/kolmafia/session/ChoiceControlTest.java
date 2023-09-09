@@ -366,6 +366,18 @@ class ChoiceControlTest {
     }
   }
 
+  @Nested
+  class Yachtzee {
+    @Test
+    void choosingAnNCOptionSetsPreference() {
+      var cleanups =
+          new Cleanups(withProperty("encountersUntilYachtzeeChoice", 0), withPostChoice2(918, 2));
+      try (cleanups) {
+        assertThat("encountersUntilYachtzeeChoice", isSetTo(19));
+      }
+    }
+  }
+
   @ParameterizedTest
   @CsvSource({"3, true", "5, false"})
   void sneakisolForcesNC(String decision, String propertyValue) {

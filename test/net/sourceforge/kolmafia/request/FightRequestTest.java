@@ -2377,4 +2377,21 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class Yachtzee {
+    @Test
+    void canTrackPartyYachtCombats() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withLastLocation("The Sunken Party Yacht"),
+              withProperty("encountersUntilYachtzeeChoice", 20));
+
+      try (cleanups) {
+        parseCombatData("request/test_party_yacht_fight.html");
+        assertThat("encountersUntilYachtzeeChoice", isSetTo(19));
+      }
+    }
+  }
 }
