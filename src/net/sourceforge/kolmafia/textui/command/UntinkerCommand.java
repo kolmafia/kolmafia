@@ -47,6 +47,7 @@ public class UntinkerCommand extends AbstractCommand {
               false);
           RequestThread.postRequest(req);
         }
+        KoLmafia.updateDisplay("Unscrewing " + item + "...");
       } else {
         RequestThread.postRequest(new UntinkerRequest(item.getItemId(), count));
       }
