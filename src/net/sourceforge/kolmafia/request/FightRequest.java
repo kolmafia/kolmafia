@@ -3412,6 +3412,10 @@ public class FightRequest extends GenericRequest {
       Preferences.decrement("encountersUntilNEPChoice", 1, 0);
     }
 
+    if (adventure == AdventurePool.YACHT) {
+      Preferences.decrement("encountersUntilYachtzeeChoice", 1, 0);
+    }
+
     if (monsterName.equals("unusual construct")) {
       ResultProcessor.removeItem(ItemPool.STRANGE_DISC_WHITE);
       ResultProcessor.removeItem(ItemPool.STRANGE_DISC_BLACK);
