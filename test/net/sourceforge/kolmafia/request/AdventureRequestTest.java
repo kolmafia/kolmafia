@@ -10,6 +10,8 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -296,6 +298,61 @@ public class AdventureRequestTest {
         assertThat(encounter, is("Knob Goblin Assistant Chef"));
         assertThat("lastEncounter", isSetTo("Knob Goblin Assistant Chef"));
       }
+    }
+  }
+
+  @Test
+  void rainManEncountersAreNotAddedToQueue() {
+    var location = "The Dire Warren";
+    String html = html("request/test_fight_rainman_monster.html");
+    var cleanups = new Cleanups(withPath(Path.HEAVY_RAINS), withLastLocation(location));
+
+    try (cleanups) {
+      // Prep queue
+      AdventureQueueDatabase.resetQueue();
+      AdventureQueueDatabase.enqueue(location, "fluffy bunny");
+      AdventureQueueDatabase.enqueue(location, "fluffy bunny");
+
+      // Simulate fighting a rainman monster
+      var req = new GenericRequest("fight.php?ireallymeanit=16");
+      req.responseText = html;
+      String encounter = AdventureRequest.registerEncounter(req);
+
+      assertThat(encounter, is("baseball bat"));
+      var queue = AdventureQueueDatabase.getZoneQueue(location);
+      assertThat(queue, hasSize(2));
+      assertThat(queue, not(contains("baseball bat")));
+    }
+  }
+
+  @Test
+  void relativityEncountersAreNotAddedToQueue() {
+    var location = "Oil Peak";
+    String html = html("request/test_fight_oil_slick.html");
+    var cleanups =
+        new Cleanups(
+            withPath(Path.HEAVY_RAINS),
+            withLastLocation(location),
+            withProperty("_relativityMonster", true));
+
+    try (cleanups) {
+      // Prep queue
+      AdventureQueueDatabase.resetQueue();
+      AdventureQueueDatabase.enqueue(location, "oil baron");
+      AdventureQueueDatabase.enqueue(location, "oil baron");
+      AdventureQueueDatabase.enqueue(location, "oil baron");
+      AdventureQueueDatabase.enqueue(location, "oil baron");
+      AdventureQueueDatabase.enqueue(location, "oil slick");
+
+      // Simulate fighting a rainman monster
+      var req = new GenericRequest("fight.php?ireallymeanit=16");
+      req.responseText = html;
+      String encounter = AdventureRequest.registerEncounter(req);
+
+      assertThat(encounter, is("oil slick"));
+      var queue = AdventureQueueDatabase.getZoneQueue(location);
+      assertThat(queue, hasSize(5));
+      assertThat(queue, hasItems("oil baron", "oil baron", "oil baron", "oil baron", "oil slick"));
     }
   }
 }
