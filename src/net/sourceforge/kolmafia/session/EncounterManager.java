@@ -279,6 +279,10 @@ public abstract class EncounterManager {
     return monsterName.equalsIgnoreCase(Preferences.getString("_saberForceMonster"));
   }
 
+  public static final boolean isRedWhiteBlueMonster(final String responseText) {
+    return responseText.contains("still hanging around to watch the fireworks");
+  }
+
   public static final boolean isSaberForceZone(String monsterName, String zone) {
     MonsterData monster = MonsterDatabase.findMonster(monsterName);
     return AdventureDatabase.getAreaCombatData(zone).hasMonster(monster);
@@ -324,6 +328,10 @@ public abstract class EncounterManager {
 
   public static final boolean isGregariousEncounter(final String responseText) {
     return responseText.contains("Looks like it's that friend you gregariously made");
+  }
+
+  public static final boolean isHabitatFactEncounter(final String responseText) {
+    return responseText.contains("Fun fact that you just remembered");
   }
 
   public static final boolean isWanderingMonster(String encounter) {

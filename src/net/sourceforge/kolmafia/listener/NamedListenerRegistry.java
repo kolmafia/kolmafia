@@ -4,6 +4,11 @@ public class NamedListenerRegistry extends ListenerRegistry {
   // The registry of listeners:
   private static final ListenerRegistry INSTANCE = new ListenerRegistry();
 
+  // For testing
+  public static void reset() {
+    INSTANCE.clear();
+  }
+
   public static void deferNamedListeners(boolean deferring) {
     NamedListenerRegistry.INSTANCE.deferListeners(deferring);
   }

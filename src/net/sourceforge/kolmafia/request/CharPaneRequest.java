@@ -290,9 +290,16 @@ public class CharPaneRequest extends GenericRequest {
   // src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/classav41_f.gif"
   // width=60 height=100 border=0></a>
 
+  // Update June 24, 2023, now with new property...
+  // <a class='nounder ' target=mainpane href="charsheet.php">
+  // <div style="position: relative; height: 100px; width: 60px">
+  // <img  crossorigin="Anonymous"
+  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/classav4a.gif"
+  // width=60 height=100 border=0>
+
   public static final Pattern AVATAR_PATTERN =
       Pattern.compile(
-          "<img +src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
+          "<img +(?:crossorigin=\"Anonymous\" +|)src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
 
   public static final void parseAvatar(final String responseText) {
     if (!KoLCharacter.inRobocore()) {
@@ -485,6 +492,11 @@ public class CharPaneRequest extends GenericRequest {
 
   private static void handleStatPoints(final String responseText, final Pattern pattern)
       throws Exception {
+    if (KoLCharacter.inSmallcore()) {
+      // trust api.php
+      return;
+    }
+
     Matcher statMatcher = pattern.matcher(responseText);
     if (!statMatcher.find()) {
       return;
@@ -857,7 +869,7 @@ public class CharPaneRequest extends GenericRequest {
         responseText.substring(durationIndex, responseText.indexOf(")", durationIndex));
 
     int duration;
-    if (durationString.equals("&infin;")) {
+    if (durationString.equals("&infin;") || durationString.equals("Today")) {
       duration = Integer.MAX_VALUE;
     } else if (durationString.indexOf("&") != -1 || durationString.indexOf("<") != -1) {
       return null;

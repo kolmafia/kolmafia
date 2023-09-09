@@ -172,7 +172,10 @@ public class SpleenItemRequest extends UseItemRequest {
   }
 
   public static final void parseConsumption(
-      final AdventureResult item, final AdventureResult helper, final String responseText) {
+      final AdventureResult item,
+      final AdventureResult helper,
+      final String responseText,
+      final boolean showHTML) {
     if (responseText.contains("You don't have the item")) {
       // Double clicked a use link, say
       return;
@@ -194,6 +197,14 @@ public class SpleenItemRequest extends UseItemRequest {
       }
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "Internal data error: item incorrectly flagged as multi-usable.");
+      return;
+    }
+
+    int itemId = item.getItemId();
+    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
+    if (attrs.contains(Attribute.MESSAGE)) {
+      // The item is not consumed.
+      UseItemRequest.showItemUsage(showHTML, responseText);
       return;
     }
 
@@ -250,7 +261,7 @@ public class SpleenItemRequest extends UseItemRequest {
 
     // Perform item-specific processing
 
-    switch (item.getItemId()) {
+    switch (itemId) {
       case ItemPool.STEEL_SPLEEN:
         if (responseText.contains("You acquire a skill")) {
           ResponseTextParser.learnSkill("Spleen of Steel");

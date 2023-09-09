@@ -661,7 +661,7 @@ public class StorageRequest extends TransferItemRequest {
   private static final Pattern URL_ITEM_PATTERN = Pattern.compile("whichitem\\d+=(\\d+)");
   private static final Pattern PULL_ITEM_PATTERN =
       Pattern.compile(
-          "(You already pulled one of those today|<b>([^<]*) \\((\\d+)\\)</b> moved from storage to inventory)");
+          "(You already pulled one of those today|You haven't got any of that item in your storage|<b>([^<]*) \\((\\d+)\\)</b> moved from storage to inventory)");
 
   public static void transferItems(
       final String urlString, final String responseText, final boolean bulkTransfer) {
@@ -682,12 +682,35 @@ public class StorageRequest extends TransferItemRequest {
     Matcher matcher2 = StorageRequest.PULL_ITEM_PATTERN.matcher(responseText);
 
     // Transfer items from storage and/or freepulls
+    Set<Integer> itemIds = new HashSet<>();
     ArrayList<AdventureResult> list = bulkTransfer ? new ArrayList<>() : null;
     int pulls = 0;
 
-    while (matcher1.find() && matcher2.find()) {
+    // Iterate over the itemIds from the URL
+    while (matcher1.find()) {
       int itemId = StringUtilities.parseInt(matcher1.group(1));
-      boolean failed = matcher2.group(0).equals("You already pulled one of those today");
+
+      // Duplicate itemIds are skipped without a message.
+      if (itemIds.contains(itemId)) {
+        continue;
+      }
+
+      // So remember we have seen this one.
+      itemIds.add(itemId);
+
+      // Every itemId SHOULD have an associated message
+      if (!matcher2.find()) {
+        break;
+      }
+
+      String message = matcher2.group(0);
+      boolean missing = message.equals("You haven't got any of that item in your storage");
+      // This aborts subsequent item processing by KoL
+      if (missing) {
+        break;
+      }
+
+      boolean failed = message.equals("You already pulled one of those today");
       int count = failed ? 0 : StringUtilities.parseInt(matcher2.group(3));
 
       AdventureResult item = ItemPool.get(itemId, count);

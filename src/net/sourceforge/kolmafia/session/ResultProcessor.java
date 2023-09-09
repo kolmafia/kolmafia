@@ -360,7 +360,8 @@ public class ResultProcessor {
             EffectPool.WINE_COLD,
             EffectPool.WINE_FRIENDLY,
             EffectPool.WINE_DARK,
-            EffectPool.WINE_BEFOULED -> DebugDatabase.readEffectDescriptionText(effectId);
+            EffectPool.WINE_BEFOULED,
+            EffectPool.CITIZEN_OF_A_ZONE -> DebugDatabase.readEffectDescriptionText(effectId);
       }
 
       String acquisition = effectMatcher.group(2);
@@ -461,7 +462,7 @@ public class ResultProcessor {
         // The following are Anapest results
         results.contains("just got heavier")
         || results.contains("put on some weight")) {
-      KoLCharacter.incrementFamilarWeight();
+      KoLCharacter.incrementFamiliarWeight();
 
       FamiliarData familiar = KoLCharacter.getFamiliar();
       String fam1 =
@@ -529,6 +530,11 @@ public class ResultProcessor {
         || lastToken.startsWith("You spent ")) {
       // Chatty pirate message
       if (lastToken.startsWith("You lose your temper")) {
+        return false;
+      }
+
+      // "I Refuse!" choice text
+      if (lastToken.startsWith("You lose control of your legs")) {
         return false;
       }
 
@@ -1351,7 +1357,7 @@ public class ResultProcessor {
       case ItemPool.GABARDEEN_SMITHEREENS: // 2018 Standard gear -> 2017 Standard gear
       case ItemPool.FIBERGLASS_FIBERS: // 2018 Hardcore gear -> 2017 Hardcore gear
       case ItemPool.CHALK_CHUNKS: // 2019 Standard gear -> 2018 Standard gear
-      case ItemPool.MARBLE_MOECULES: // 2019 Hardcore gear -> 2018 Hardcore gear
+      case ItemPool.MARBLE_MOLECULES: // 2019 Hardcore gear -> 2018 Hardcore gear
       case ItemPool.PARAFFIN_PIECES: // 2020 Standard gear -> 2019 Standard gear
       case ItemPool.TERRA_COTTA_TIDBITS: // 2020 Hardcore gear -> 2019 Hardcore gear
         // BatFellow currencies
@@ -1435,7 +1441,7 @@ public class ResultProcessor {
       case ItemPool.MAGNIFICENT_OYSTER_EGG:
       case ItemPool.BRILLIANT_OYSTER_EGG:
       case ItemPool.GLISTENING_OYSTER_EGG:
-      case ItemPool.SCINTILATING_OYSTER_EGG:
+      case ItemPool.SCINTILLATING_OYSTER_EGG:
       case ItemPool.PEARLESCENT_OYSTER_EGG:
       case ItemPool.LUSTROUS_OYSTER_EGG:
       case ItemPool.GLEAMING_OYSTER_EGG:
@@ -1832,11 +1838,11 @@ public class ResultProcessor {
       case ItemPool.VIAL_OF_ECTOPLASM:
         ResultProcessor.processItem(ItemPool.KNOB_BUTTER, -1);
         break;
-      case ItemPool.BOOCK_OF_MAGIKS:
+      case ItemPool.BOOCK_OF_MAGICKS:
         ResultProcessor.processItem(ItemPool.VIAL_OF_ECTOPLASM, -1);
         break;
       case ItemPool.EZ_PLAY_HARMONICA_BOOK:
-        ResultProcessor.processItem(ItemPool.BOOCK_OF_MAGIKS, -1);
+        ResultProcessor.processItem(ItemPool.BOOCK_OF_MAGICKS, -1);
         break;
       case ItemPool.FINGERLESS_HOBO_GLOVES:
         ResultProcessor.processItem(ItemPool.EZ_PLAY_HARMONICA_BOOK, -1);

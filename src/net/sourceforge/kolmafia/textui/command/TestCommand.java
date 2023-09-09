@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RumpleManager;
+import net.sourceforge.kolmafia.swingui.ShowHTMLFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -116,6 +117,27 @@ public class TestCommand extends AbstractCommand {
     return null;
   }
 
+  private String load(String fileName) {
+    File file = new File(KoLConstants.DATA_LOCATION, fileName);
+
+    if (!file.exists()) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "File " + file + " does not exist");
+      return null;
+    }
+
+    byte[] bytes = ByteBufferUtilities.read(file);
+    String string = new String(bytes, StandardCharsets.UTF_8);
+
+    KoLmafia.updateDisplay(
+        "Read "
+            + KoLConstants.COMMA_FORMAT.format(bytes.length)
+            + " bytes into a "
+            + KoLConstants.COMMA_FORMAT.format(string.length())
+            + " character string");
+
+    return string;
+  }
+
   @Override
   public void run(final String cmd, final String parameters) {
     String[] split = parameters.split(" +");
@@ -129,24 +151,8 @@ public class TestCommand extends AbstractCommand {
       }
 
       String fileName = split[1];
-      File file = new File(KoLConstants.DATA_LOCATION, fileName);
 
-      if (!file.exists()) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "File " + file + " does not exist");
-        return;
-      }
-
-      byte[] bytes = ByteBufferUtilities.read(file);
-      String string = new String(bytes, StandardCharsets.UTF_8);
-      TestCommand.contents = string;
-
-      KoLmafia.updateDisplay(
-          "Read "
-              + KoLConstants.COMMA_FORMAT.format(bytes.length)
-              + " bytes into a "
-              + KoLConstants.COMMA_FORMAT.format(string.length())
-              + " character string");
-
+      TestCommand.contents = load(fileName);
       return;
     }
 
@@ -682,6 +688,25 @@ public class TestCommand extends AbstractCommand {
               + ") "
               + (concoction == null ? "IS NOT" : "is")
               + " a known concoction");
+      return;
+    }
+
+    if (command.equals("showhtml")) {
+      if (split.length < 2) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Load what?");
+        return;
+      }
+
+      String fileName = split[1];
+      String html = load(fileName);
+      if (html == null) {
+        return;
+      }
+
+      var request = new GenericRequest(fileName);
+      request.responseText = html;
+      ShowHTMLFrame.showRequest(request);
+
       return;
     }
 

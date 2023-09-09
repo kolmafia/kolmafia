@@ -36,6 +36,7 @@ global	debugBuy	false
 global	debugConsequences	false
 global	debugFoxtrotRemoval	false
 global	debugPathnames	true
+global	debugTopMenuStyle	false
 global	defaultBorderColor	blue
 global	defaultDropdown1	0
 global	defaultDropdown2	1
@@ -96,6 +97,21 @@ global	macroDebug	false
 global	macroLens	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
+global	pingDefaultTestPage	api
+global	pingDefaultTestPings	10
+global	pingLatest
+global	pingLogin	true
+global	pingLoginAbort	1:10
+global	pingLoginCheck	none
+global	pingLoginCount	0
+global	pingLoginFail	confirm
+global	pingLoginGoal	0
+global	pingLoginThreshold	0.2
+global	pingLongest
+global	pingShortest
+global	pingStealthyTimein	false
+global	pingTestPage	api
+global	pingTestPings	10
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
@@ -165,6 +181,7 @@ global	userAgent
 global	verboseSpeakeasy	false
 global	verboseFloundry	false
 global	wrapLongLines	true
+global	_beachTides	-1
 global	_g9Effect	0
 global	_gitUpdated	false
 global	_svnRepoFileFetched	false
@@ -284,6 +301,7 @@ user	badMoonEncounter48	false
 user	bagOTricksCharges	0
 user	ballpitBonus	1
 user	banishedMonsters	
+user	banishedPhyla	
 user	banishingShoutMonsters
 user	bankedKarma	0
 user	barrelShrineUnlocked	false
@@ -555,8 +573,8 @@ user	dinseyTouristsFed	0
 user	dinseyToxicMultiplier	3
 user	dnaSyringe
 user	doctorBagQuestItem	
-user	doctorBagQuestLights	0	
-user	doctorBagQuestLocation	
+user	doctorBagQuestLights	0
+user	doctorBagQuestLocation
 user	doctorBagUpgrades	0
 user	doghouseBoarded	false
 user	dolphinItem
@@ -638,6 +656,8 @@ user	flickeringPixel5	false
 user	flickeringPixel6	false
 user	flickeringPixel7	false
 user	flickeringPixel8	false
+user	floristFriarAvailable	false
+user	floristFriarChecked	false
 user	flyeredML	0
 user	forbiddenStores
 user	fossilB	0
@@ -777,6 +797,7 @@ user	hippiesDefeated	0
 user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
 user	holidaySwagger	0
+user	holdHandsMonster	
 user	homemadeRobotUpgrades	0
 user	homebodylCharges	0
 user	horseryAvailable	false
@@ -886,9 +907,9 @@ user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
 user	lastFratboyCall	-1
 user	lastFriarCeremonyAscension	-1
-user	lastFriarElbowNC	-1
-user	lastFriarHeartNC	-1
-user	lastFriarNeckNC	-1
+user	lastFriarsElbowNC	-1
+user	lastFriarsHeartNC	-1
+user	lastFriarsNeckNC	-1
 user	lastHippyCall	-1
 user	lastIslandUnlock	-1
 user	lastKeyotronUse	-1
@@ -1067,6 +1088,8 @@ user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
 user	moonTuned	false
 user	monkeyPointMonster	
+user	monsterHabitatsMonster	
+user	monsterHabitatsFightsLeft	0
 user	motifMonster	
 user	mothershipProgress	0
 user	mpAutoRecovery	-0.5
@@ -1115,6 +1138,7 @@ user	optimisticCandleProgress	25
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
 user	overgrownLotAvailable	false
+user	ownsFloristFriar	false
 user	ownsSpeakeasy	false
 user	palindomeDudesDefeated	0
 user	parasolUsed	0
@@ -1168,14 +1192,6 @@ user	promptAboutCrafting	1
 user	puzzleChampBonus	5
 user	pyramidPosition	1
 user	pyramidBombUsed	false
-user	replicaChateauAvailable	false
-user	replicaNeverendingPartyAlways	false
-user	replicaWitchessSetAvailable	false
-user	retroCapeSuperhero	vampire
-user	retroCapeWashingInstructions	hold
-user	rockinRobinProgress	25
-user	ROMOfOptimalityAvailable	true
-user	ROMOfOptimalityCost	1000
 user	quantumPoints	0
 user	questClumsinessGrove	unstarted
 user	questDoctorBag	unstarted
@@ -1189,14 +1205,14 @@ user	questESlFish	unstarted
 user	questESlMushStash	unstarted
 user	questESlSalt	unstarted
 user	questESlSprinkles	unstarted
-user	questESpEVE	unstarted
-user	questESpJunglePun	unstarted
-user	questESpGore	unstarted
 user	questESpClipper	unstarted
+user	questESpEVE	unstarted
 user	questESpFakeMedium	unstarted
+user	questESpGore	unstarted
+user	questESpJunglePun	unstarted
+user	questESpOutOfOrder	unstarted
 user	questESpSerum	unstarted
 user	questESpSmokes	unstarted
-user	questESpOutOfOrder	unstarted
 user	questEStFishTrash	unstarted
 user	questEStGiveMeFuel	unstarted
 user	questEStNastyBears	unstarted
@@ -1233,12 +1249,12 @@ user	questL07Cyrptic	unstarted
 user	questL08Trapper	unstarted
 user	questL09Topping	unstarted
 user	questL10Garbage	unstarted
-user	questL11MacGuffin	unstarted
 user	questL11Black	unstarted
 user	questL11Business	unstarted
 user	questL11Curses	unstarted
 user	questL11Desert	unstarted
 user	questL11Doctor	unstarted
+user	questL11MacGuffin	unstarted
 user	questL11Manor	unstarted
 user	questL11Palindome	unstarted
 user	questL11Pyramid	unstarted
@@ -1246,8 +1262,8 @@ user	questL11Ron	unstarted
 user	questL11Shen	unstarted
 user	questL11Spare	unstarted
 user	questL11Worship	unstarted
-user	questL12War	unstarted
 user	questL12HippyFrat	unstarted
+user	questL12War	unstarted
 user	questL13Final	unstarted
 user	questL13Warehouse	unstarted
 user	questLTTQuestByWire	unstarted
@@ -1308,19 +1324,30 @@ user	relayShowWarnings	true
 user	relocatePygmyJanitor	-1
 user	relocatePygmyLawyer	-1
 user	rememberDesktopSize	false
-user	restUsingChateau	true
-user	restUsingCampAwayTent	true
+user	replicaChateauAvailable	false
+user	replicaNeverendingPartyAlways	false
+user	replicaWitchessSetAvailable	false
 user	requireBoxServants	false
 user	requireSewerTestItems	false
+user	restUsingCampAwayTent	true
+user	restUsingChateau	true
+user	retroCapeSuperhero	vampire
+user	retroCapeWashingInstructions	hold
+user	rockinRobinProgress	25
 user	romanticTarget
+user	ROMOfOptimalityAvailable	true
+user	ROMOfOptimalityCost	1000
 user	royalty
 user	rufusDesiredArtifact
 user	rufusDesiredEntity
 user	rufusDesiredItems
 user	rufusQuestTarget
 user	rufusQuestType
-user	rumpelstiltskinTurnsUsed	0
 user	rumpelstiltskinKidsRescued	0
+user	rumpelstiltskinTurnsUsed	0
+user	rwbLocation
+user	rwbMonster
+user	rwbMonsterCount	0
 user	safariSwagger	0
 user	safePickpocket	true
 user	sausageGrinderUnits	0
@@ -1329,6 +1356,7 @@ user	schoolOfHardKnocksDiplomaCost	1000
 user	schoolSwagger	0
 user	scrapbookCharges	0
 user	screencappedMonster	
+user	screechCombats	0
 user	scriptCascadingMenus	true
 user	scriptMRULength	0
 user	scriptMRUList
@@ -1405,6 +1433,7 @@ user	skillLevel134	0
 user	skillLevel144	0
 user	skillLevel180	0
 user	skillLevel188	0
+user	skillLevel227	0
 user	skillLevel7254	0
 user	sleazeAirportAlways	false
 user	slimelingFullness	0.0
@@ -1623,6 +1652,39 @@ user	_antihangoverBonus	5
 user	_aprilShower	false
 user	_armyToddlerCast	false
 user	_astralDrops	0
+user	_aug1Cast	false
+user	_aug2Cast	false
+user	_aug3Cast	false
+user	_aug4Cast	false
+user	_aug5Cast	false
+user	_aug6Cast	false
+user	_aug7Cast	false
+user	_aug8Cast	false
+user	_aug9Cast	false
+user	_aug10Cast	false
+user	_aug11Cast	false
+user	_aug12Cast	false
+user	_aug13Cast	false
+user	_aug14Cast	false
+user	_aug15Cast	false
+user	_aug16Cast	false
+user	_aug17Cast	false
+user	_aug18Cast	false
+user	_aug19Cast	false
+user	_aug20Cast	false
+user	_aug21Cast	false
+user	_aug22Cast	false
+user	_aug23Cast	false
+user	_aug24Cast	false
+user	_aug25Cast	false
+user	_aug26Cast	false
+user	_aug27Cast	false
+user	_aug28Cast	false
+user	_aug29Cast	false
+user	_aug30Cast	false
+user	_aug31Cast	false
+user	_augSkillsCast	0
+user	_augTodayCast	false
 user	_authorsInkUsed	false
 user	_autumnatonQuests	0
 user	_backUpUses	0
@@ -1715,7 +1777,12 @@ user	_chronolithNextCost	10
 user	_chubbyAndPlumpUsed	false
 user	_cinchUsed	0
 user	_cinchoRests	0
+user	_circadianRhythmsAdventures	0
+user	_circadianRhythmsRecalled	false
+user	_circadianRhythmsPhylum
 user	_circleDrumUsed	false
+user	_citizenZone
+user	_citizenZoneMods
 user	_clanFortuneBuffUsed	false
 user	_clanFortuneConsultUses	0
 user	_claraBellUsed	false
@@ -1986,6 +2053,7 @@ user	_kolhsPoeticallyLicenced	false
 user	_kolhsSavedByTheBell	0
 user	_kolhsSchoolSpirited	false
 user	_kudzuSaladEaten	false
+user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
 user	_lastDailyDungeonRoom	0
@@ -2041,6 +2109,7 @@ user	_meteoriteAdesUsed	0
 user	_meteorShowerUses	0
 user	_micrometeoriteUses	0
 user	_milkOfMagnesiumUsed	false
+user	_mildEvilPerpetrated	0
 user	_mimeArmyShotglassUsed	false
 user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false
@@ -2048,6 +2117,7 @@ user	_missileLauncherUsed	false
 user	_molehillMountainUsed	false
 user	_momFoodReceived	false
 user	_monkeyPawWishesUsed	0
+user	_monsterHabitatsRecalled	0
 user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false
@@ -2125,6 +2195,7 @@ user	_psychoJarUsed	false
 user	_psychokineticHugUsed	false
 user	_questESp
 user	_questPartyFair	unstarted
+user	_questPartyFairItemsOpened	0
 user	_questPartyFairProgress
 user	_questPartyFairQuest
 user	_radlibSummons	0
@@ -2194,7 +2265,7 @@ user	_snowSuitCount	0
 user	_sobrieTeaUsed	false
 user	_softwareGlitchTurnReceived	false
 user	_sotParcelLocation
-user	_sotParcelReturned  false
+user	_sotParcelReturned	false
 user	_sourceTerminalDigitizeMonster
 user	_sourceTerminalDigitizeMonsterCount	0
 user	_sourceTerminalDigitizeUses	0

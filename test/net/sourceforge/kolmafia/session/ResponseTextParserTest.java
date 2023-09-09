@@ -58,9 +58,13 @@ class ResponseTextParserTest {
 
   @Test
   void canParseLatte() {
-    String responseText = html("request/test_latte_description.html");
-    ResponseTextParser.externalUpdate("desc_item.php?whichitem=294224337", responseText);
-    assertEquals(Preferences.getString("latteIngredients"), "pumpkin,carrot,cinnamon");
+    var cleanups = new Cleanups(withProperty("latteIngredients", ""));
+    try (cleanups) {
+      var request = new GenericRequest("desc_item.php?whichitem=294224337");
+      request.responseText = html("request/test_latte_description.html");
+      ResponseTextParser.externalUpdate(request);
+      assertEquals(Preferences.getString("latteIngredients"), "pumpkin,carrot,cinnamon");
+    }
   }
 
   @Nested

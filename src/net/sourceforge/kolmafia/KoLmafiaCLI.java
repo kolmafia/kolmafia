@@ -735,6 +735,7 @@ public class KoLmafiaCLI {
     new PandaCommand().register("panda");
     new PastaThrallCommand().register("thralls");
     new PillKeeperCommand().register("pillkeeper");
+    new PingCommand().register("ping");
     new PingPongCommand().register("pingpong");
     new PirateInsultsCommand().register("insults");
     new PlayerSnapshotCommand().register("log");
@@ -804,6 +805,8 @@ public class KoLmafiaCLI {
     new TerminalCommand().register("terminal");
     new TestCommand().register("test");
     new ThrowItemCommand().register("throw");
+    new TimeinCommand().register("timein").register("relog").register("relogin");
+    new TimeoutCommand().register("timeout");
     new TimeSpinnerCommand().register("timespinner");
     new ToggleCommand().register("toggle");
     new TowerDoorCommand().register("tower").register("lowkey");

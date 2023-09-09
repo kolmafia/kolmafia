@@ -1,0 +1,370 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+var actions = {  }
+var notchat = true;//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<script language=Javascript src='https://d2uyhvukfffg5a.cloudfront.net/scripts/rcm.20160406.js'></script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<div id='menu' class=rcm></div>
+<style type="text/css">
+	div.fancymenu { padding-left: 1em; padding-bottom: 1.5em; }
+	div.fancymenu .subhead { font-size: 1em; }
+	div.indent { padding-left: 1em; }
+	.error { font-weight: bold; color: red; }
+	.link { font-weight: bold; }
+	.help {
+		cursor: help;
+		padding-left: .5em;
+		font-size: .6em;
+		vertical-align: top;
+		/*text-decoration: underline;	*/
+	}
+	.select select { 
+		width: auto;
+		padding-left: 2%;
+	}
+
+	div.opt { 
+		padding-bottom: .5em;
+		position: relative;
+	}
+
+	.opt_rcm td, .opt_ircm, .opt_progress { font-size: .8em; }
+
+	.radio label { 
+		padding-left: .5em;
+	}	
+
+	.textbox label { 
+		width: 160px
+	}
+
+	.textarea textarea { 
+		width: 90%;
+		height: 100px;
+	}
+
+	.textbox label:after { 
+		content: ":";
+	}
+
+	.textbox input { 
+		width: 200px;
+	}
+
+
+	.header {
+		background-color: blue;
+		color: white;
+		text-align: center;
+		font-weight: bold;
+		display: block;
+		height: 19px;
+		z-index: 3;
+	}
+
+	#options { 
+		width: 99%; 
+	}
+
+	#tabs {
+		width: 130px;
+		float: left;
+		margin-top: 19px;
+		z-index: 2;
+	}
+
+	#body {
+		border: 1px solid blue;
+		margin-left: 129px;
+		min-height: 400px;
+	}
+
+	#tabs ul {
+		padding: 0px;
+		margin: 0px;
+		border-bottom: 1px solid blue;
+	}
+
+	#tabs li {
+		display: block;
+		border: 1px solid blue;
+		border-bottom: 0px;
+		background-color: white;
+		padding: .5em;
+		cursor: pointer;
+	}
+
+	.saving {
+		color: blue;
+		font-size: .8em;
+		display: block;
+		position: absolute;
+		top: 2px;
+		right: 2px;
+	}
+
+	#tabs li.active {
+		/* background-color: blue; */
+		border-right: 1px solid white;
+	}
+
+	#tabs li.active a {
+		/* color: white; */
+		font-weight: bold;
+	}
+	
+	#guts { padding: 5px 5px 5px 15px; }
+
+	#guts label {
+		display: block;
+		/* font-weight: bold; */
+	}
+
+	.subhead { 
+		font-size: 1.2em;
+		font-weight: bold;
+		display: block;
+		padding-top: .5em;
+	}
+
+	.disabled { background-color: #ccc; }
+
+	.scaffold {
+		float: right;
+		width: 1px;
+		height: 400px;
+	}
+
+	.clear {
+		clear: both;
+		height: 1px;
+		overflow: hidden
+	}
+
+	#guts .checkbox input { padding-right: 1em; vertical-align: baseline; }
+</style>
+
+<script type="text/javascript">
+var pwd = "d748279486ddd49dff38cf246e4971ca";
+
+function changeTab(ev) {
+	$('.helpbox').remove();
+	$('.disabled').remove();
+	var tab = $(this).attr('id');
+	$('#tabs li').removeClass('active');
+	$('#'+tab).addClass('active');
+	$('#guts').css('opacity', 0.2);
+	$.get('account.php', {action:'loadtab', value:tab, pwd:pwd}, function (res) {
+		$('#guts').empty();
+		$('#guts').append('<div class="scaffold"></div>'+res+'<div class="clear"></div>');
+			$('#guts').css('opacity', '');
+			$('select').each(function () { $(this).data('orig', $(this).val());});
+			$('select').blur(function () { $(this).change(); });
+			$('.help').hover(dohelp, function () {$('.helpbox').remove(); });
+		});
+		return false;
+	}
+
+	function throttle(func, delay) {
+		var to = null;
+		if (!delay) delay = 250;
+		return function () {
+			var context = this, args = arguments;
+			if ($(this).hasClass('confirm')) return true;
+			else if ($(this).is('select')) {
+				if ($(this).val() == $(this).data('orig')) return true;
+			}
+			disableDiv($(this).parents('div.opt:first'));
+			clearTimeout(to);
+			to = setTimeout(function () {
+				func.apply(context, args);
+			}, delay);
+		};
+	}
+
+	function disableDiv(div) {
+		div.addClass('disabled');
+		if (div.find('.saving').size() == 0) {
+			div.append('<span class="saving">Saving...</span>');
+		}
+	}
+
+	function enableDiv(div) {
+		div.removeClass('disabled');
+		div.find('.saving').text('Saved');
+		setTimeout(function () { div.find('.saving').remove(); }, 2000);
+	}
+
+
+	function anyClick(ev) {
+		var cur = $(this).val();
+		var $input = $(this);
+		if ($input.attr('type') == 'checkbox') {
+			if ($input.prop) cur = $input.prop('checked') ? 1 : 0;
+			else cur = $input.attr('checked') ? 1 : 0;
+		}
+		var div = $input.parents('div.opt');
+		var action = div.attr('id').replace(/^opt_/, '');
+		$.post('account.php', {am:1, pwd:pwd, action:action, value:cur, ajax: 1}, function (res) {
+			$input.data('orig', cur);
+			enableDiv(div);
+			if ($input.attr('type') == 'text' && res.error) {
+				$input.val(res.val);
+				div.find('.saving').remove();
+				$input.after('<div class="error">'+res.error+'</div>');
+				setTimeout(function () {$input.parent().find('.error').slideUp();}, 6000);
+			}
+			else {
+				if (action == 'menu' || action == 'flag_quickskills' || action.match(/^fm_/)) { top.menupane.location='topmenu.php'; }
+				else if (action == 'flag_compactchar' || action == 'flag_compactchar' || action == 'flag_showoutfit' || action == 'flag_slimhpmpdisplay' || action == 'flag_compacteffects' || action == 'flag_swapfam' || action == 'flag_questtracker' || action == 'flag_fullnesscounter' || action.match(/^statbar/) || action=='flag_hideefarrows' || action=='expeffcount') { top.charpane.location='charpane.php'; }
+				else if (action == 'flag_tc_times' && top && top.chatpane && top.chatpane.opts) top.chatpane.opts.showtimes = parseInt(res);
+				else if (action == 'flag_tc_tabsonbottom' && top && top.chatpane && top.chatpane.opts) { top.chatpane.opts.tabsonbottom = parseInt(res); top.chatpane.sizing() ;}
+				else if (action == 'flag_tc_modifierkey' && top && top.chatpane && top.chatpane.opts) top.chatpane.opts.modifier = parseInt(res);
+				else if (action == 'flag_tc_alwayswho' && top && top.chatpane && top.chatpane.opts) top.chatpane.opts.alwayswho = parseInt(res);
+				else if (action == 'flag_tc_updatetitle' && top && top.chatpane && top.chatpane.opts) top.chatpane.opts.updatetitle = parseInt(res);
+				else if (action == 'flag_alwaystag' && top && top.chatpane && top.chatpane.opts) top.chatpane.opts.channeltag = parseInt(res);
+				else if (action == 'flag_tc_eventsactive' && top && top.chatpane && top.chatpane.opts) { 
+					var p = parseInt(res) > 0 ? 'active' : 'main';
+				top.chatpane.opts.event = p;
+			}
+			else if (action == 'flag_tc_hidebadges' && top && top.chatpane && top.chatpane.opts) {
+				top.chatpane.opts.unreadbadges = !parseInt(res);
+				if (top.chatpane.opts.unreadbadges) top.chatpane.$('#tabs').removeClass('nounread');
+				else top.chatpane.$('#tabs').addClass('nounread');
+			}
+			else if (action == 'flag_tc_colortabs' && top && top.chatpane && top.chatpane.opts) {
+				top.chatpane.opts.colortabs = parseInt(res);
+				if (top.chatpane.opts.colortabs) top.chatpane.$('#tabs').addClass('colortabs');
+				else top.chatpane.$('#tabs').removeClass('colortabs');
+			}
+			else if (action == 'fontbase') {
+				document.location = 'account.php?tab=interface';
+			}
+		}
+	},'json');
+
+	var rel = div.attr('rel'),
+		parts = rel ? rel.split(/,/) : [],
+		m,
+		part;
+	for (var i =0; i<parts.length; i++) {
+		part = parts[i];
+		if (m = part.match(/onchange\(([^)]*)\)/)) {
+			if (typeof window[m[1]] == 'function') {
+				window[m[1]](cur, $input);
+			}
+		}
+	}
+	return true;
+}
+
+function dohelp() {
+	$('.helpbox').remove();
+	var $sp = $(this);
+	var info = $sp.attr('info');
+	var pos = $sp.parents('div.opt:first').offset();
+
+	var $div = $('<div><span></span></div>')
+		.addClass('helpbox')
+		.css({
+			'position': 'absolute',
+			'text-align': 'left',
+			'background-color': 'white',
+			'border': '1px solid black',
+			'top': pos.top + 20,
+			'left': pos.left + 30,
+			'width': '330px',
+			'padding': '.5em'
+		});
+	$div.find('span').html(info);
+	$('body').append($div);
+/*
+	$div.find('.close').click(function () {
+		$div.remove();
+	});
+*/
+	if ($div.width() + $div.offset().left > $(window).width()) {
+		$div.css('left', $div.offset().left - (($div.width() + $div.offset().left) - $(window).width()));
+	}
+
+}
+
+document.write('<style type="text/css">#submit {display: none; }</style>');
+jQuery(function($) {
+	$('#tabs li').click(changeTab);
+	var pkey = function (e) {
+		if (e.which == 13) {
+			e.preventDefault();
+			$(this).parents('.opt').find('input[type="submit"]').click();
+		}
+	};
+	try {
+	if ($(document).live) {
+		$('input[type="radio"], input[type="checkbox"], select')
+			.live('change', throttle(anyClick))
+			.live('click', function () { $(this).change(); } );
+		$('input[type="text"]').live('keyup', notSaved);
+		$('textarea').live('keyup', notSaved);
+		$('.opt input[type="text"], .opt input[type="password"]').live('keyup',pkey);
+	} else {
+		$(document).on('change', 'input[type="radio"], input[type="checkbox"], select', throttle(anyClick))
+		//$(document).on('click', 'input[type="radio"], input[type="checkbox"], select', function () { $(this).change(); } );
+		$(document).on('keyup', 'input[type="text"], textarea', notSaved);
+		$(document).on('keyup', '.opt input[type="text"], .opt input[type="password"]', pkey);
+	}
+	} catch (e) { alert(e); }
+	$('.help').hover(dohelp, function () {$('.helpbox').remove(); });
+	$('select').each(function () { $(this).data('orig', $(this).val());});
+});
+
+function notSaved() {
+	if ($('.disabled').size() < 1) $('#savechanges').after('<span style="background-color: white; padding-left: 1em; font-weight: bold;" class="disabled">Your changes have not been saved.</span>');
+}
+
+</script>
+
+<div id="options">
+	<div id="tabs">
+		<ul>
+						<li class="active" id="interface"><a href="account.php?tab=interface"><img border="0" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/interface.gif" align="absmiddle" height="30" width="30" style="padding-right: 10px; " />Interface</a></li>
+						<li  id="inventory"><a href="account.php?tab=inventory"><img border="0" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/backpack.gif" align="absmiddle" height="30" width="30" style="padding-right: 10px; " />Inventory</a></li>
+						<li  id="chat"><a href="account.php?tab=chat"><img border="0" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/chat.gif" align="absmiddle" height="30" width="30" style="padding-right: 10px; " />Chat</a></li>
+						<li  id="combat"><a href="account.php?tab=combat"><img border="0" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/swords.gif" align="absmiddle" height="30" width="30" style="padding-right: 10px; " />Combat</a></li>
+						<li  id="account"><a href="account.php?tab=account"><img border="0" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/padlock.gif" align="absmiddle" height="30" width="30" style="padding-right: 10px; " />Account</a></li>
+						<li  id="profile"><a href="account.php?tab=profile"><img border="0" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/eyes.gif" align="absmiddle" height="30" width="30" style="padding-right: 10px; " />Profile</a></li>
+						<li  id="privacy"><a href="account.php?tab=privacy"><img border="0" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/bigglasses.gif" align="absmiddle" height="30" width="30" style="padding-right: 10px; " />Privacy</a></li>
+						<li  id="correspondence"><a href="account.php?tab=correspondence"><img border="0" src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/envelope.gif" align="absmiddle" height="30" width="30" style="padding-right: 10px; " />Eudora</a></li>
+					</ul>
+	</div>
+	<div id="body">
+		<div class="header">Options</div>
+		<form method="post" action="account.php">
+			<input type="hidden" name="pwd" value="d748279486ddd49dff38cf246e4971ca" />
+			<div id="guts">
+				<div class="scaffold"></div>
+				<div class="subhead">Desktop/Mobile Options</div><div class=indent><input type="button" onclick="window.top.document.location='gomobile.php'" class="button" value="Enable Mobile Mode" /></div><div class="subhead">Menu Pane Options:</div><p><div class=indent><div class="opt radio" id="opt_menu"  rel="onchange(menuchange)" ><input type="hidden" name="actions[]" value="menu" /><label for="menu">Top Menu Style</label><input type="radio" value="fancy"   name="menu"/>Customizable Icons or Text <input type="radio" value="compact"   name="menu"/>Drop-Downs <input type="radio" value="normal"   name="menu"/>Links </div></div><div class="subhead">Character Pane Options:</div><p><div class=indent><div class="opt checkbox" id="opt_flag_compactchar"><input type="hidden" name="actions[]" value="flag_compactchar" /><label for="flag_compactchar"><input type="checkbox" value="1"   name="flag_compactchar"/>Use Compact Character Pane</label></div><div class="opt checkbox" id="opt_flag_shortcharpane"><input type="hidden" name="actions[]" value="flag_shortcharpane" /><label for="flag_shortcharpane"><input type="checkbox" value="1"   name="flag_shortcharpane"/>Use Short Character Pane (reload game to see change)</label></div><div class="opt checkbox" id="opt_flag_compacteffects"><input type="hidden" name="actions[]" value="flag_compacteffects" /><label for="flag_compacteffects"><input type="checkbox" value="1"   name="flag_compacteffects"/>Use Compact Effect Display (Might make icons look gross.)</label></div><div class="opt checkbox" id="opt_flag_slimhpmpdisplay"><input type="hidden" name="actions[]" value="flag_slimhpmpdisplay" /><label for="flag_slimhpmpdisplay"><input type="checkbox" value="1"   name="flag_slimhpmpdisplay"/>Use Slim HP/MP/Meat/Adv Display (only applies in non-compact character pane)</label></div><div class="opt checkbox" id="opt_flag_showoutfit"><input type="hidden" name="actions[]" value="flag_showoutfit" /><label for="flag_showoutfit"><input type="checkbox" value="1" checked="checked"  name="flag_showoutfit"/>Show Outfit on Character Pane<span class="help" info="This option will display the name of the outfit you have equipped on the character pane to the left. (Helpful if you have a custom avatar.) This option does not work in compact mode.">(?)</span></label></div><div class="opt checkbox" id="opt_flag_swapfam"><input type="hidden" name="actions[]" value="flag_swapfam" /><label for="flag_swapfam"><input type="checkbox" value="1"   name="flag_swapfam"/>Display Familiar Below Effects</label></div><div class="opt checkbox" id="opt_flag_fullnesscounter"><input type="hidden" name="actions[]" value="flag_fullnesscounter" /><label for="flag_fullnesscounter"><input type="checkbox" value="1" checked="checked"  name="flag_fullnesscounter"/>Display Fullness Counter (<b>WARNING:</b> Not funny.)</label></div><div class="opt checkbox" id="opt_flag_questtracker"><input type="hidden" name="actions[]" value="flag_questtracker" /><label for="flag_questtracker"><input type="checkbox" value="1" checked="checked"  name="flag_questtracker"/>Display Quest Tracker in the Character Pane</label></div><div class="opt checkbox" id="opt_flag_questtrackertiny"><input type="hidden" name="actions[]" value="flag_questtrackertiny" /><label for="flag_questtrackertiny"><input type="checkbox" value="1" checked="checked"  name="flag_questtrackertiny"/>Use tiny Quest Tracker text</label></div><div class="opt checkbox" id="opt_flag_questtrackerscroll"><input type="hidden" name="actions[]" value="flag_questtrackerscroll" /><label for="flag_questtrackerscroll"><input type="checkbox" value="1"   name="flag_questtrackerscroll"/>Display Quest Tracker in a scrollable sub-frame</label></div><div class="opt checkbox" id="opt_flag_charpanepvp"><input type="hidden" name="actions[]" value="flag_charpanepvp" /><label for="flag_charpanepvp"><input type="checkbox" value="1" checked="checked"  name="flag_charpanepvp"/>Display PvP Fights Remaining in the Character Pane</label></div><div class="opt checkbox" id="opt_flag_hideefarrows"><input type="hidden" name="actions[]" value="flag_hideefarrows" /><label for="flag_hideefarrows"><input type="checkbox" value="1"   name="flag_hideefarrows"/>Show effect replenishment arrows<span class="help" info="This will show your arrows in your character pane, which will allow you to attempt and renew an effect with one click.">(?)</span></label></div><div class="opt select" id="opt_expeffcount"><input type="hidden" name="actions[]" value="expeffcount" />Display <select name="expeffcount"><option selected="selected" value="0">0</option><option  value="1">1</option><option  value="2">2</option><option  value="3">3</option><option  value="4">4</option><option  value="5">5</option><option  value="6">6</option><option  value="7">7</option><option  value="8">8</option><option  value="9">9</option><option  value="10">10</option><option  value="11">11</option><option  value="12">12</option><option  value="13">13</option><option  value="14">14</option><option  value="15">15</option><option  value="16">16</option><option  value="17">17</option><option  value="18">18</option><option  value="19">19</option><option  value="20">20</option><option  value="21">21</option><option  value="22">22</option><option  value="23">23</option><option  value="24">24</option><option  value="25">25</option><option  value="26">26</option><option  value="27">27</option><option  value="28">28</option><option  value="29">29</option><option  value="30">30</option><option  value="31">31</option><option  value="32">32</option><option  value="33">33</option><option  value="34">34</option><option  value="35">35</option><option  value="36">36</option><option  value="37">37</option></select> recently expired effects</div><b>Progress Bars:</b><div class=indent><div class="opt_progress"><div class="opt checkbox" id="opt_statbar_level"><input type="hidden" name="actions[]" value="statbar_level" /><label for="statbar_level"><input type="checkbox" value="1" checked="checked"  name="statbar_level"/>Enable Level Progress Bar</label></div><div class="opt checkbox" id="opt_statbar_sub"><input type="hidden" name="actions[]" value="statbar_sub" /><label for="statbar_sub"><input type="checkbox" value="1"   name="statbar_sub"/>Show Substats per Level instead of Stats<span class="help" info="When you mouse over the level progress bar, it will normally show how many full stat points you need to reach the next level.  Checking this will instead show you how many substat points are required.">(?)</span></label></div><div class="opt checkbox" id="opt_statbar_mus"><input type="hidden" name="actions[]" value="statbar_mus" /><label for="statbar_mus"><input type="checkbox" value="1" checked="checked"  name="statbar_mus"/>Enable Muscle Progress Bar</label></div><div class="opt checkbox" id="opt_statbar_mag"><input type="hidden" name="actions[]" value="statbar_mag" /><label for="statbar_mag"><input type="checkbox" value="1" checked="checked"  name="statbar_mag"/>Enable Mysticality Progress Bar</label></div><div class="opt checkbox" id="opt_statbar_mox"><input type="hidden" name="actions[]" value="statbar_mox" /><label for="statbar_mox"><input type="checkbox" value="1" checked="checked"  name="statbar_mox"/>Enable Moxie Progress Bar</label></div><div class="opt checkbox" id="opt_statbar_fam"><input type="hidden" name="actions[]" value="statbar_fam" /><label for="statbar_fam"><input type="checkbox" value="1" checked="checked"  name="statbar_fam"/>Enable Familiar Progress Bar</label></div></div></div></div><div class="subhead">Daily Reminder Options:</div><p><div class=indent><div class="opt checkbox" id="opt_breakfast_109"><input type="hidden" name="actions[]" value="breakfast_109" /><label for="breakfast_109"><input type="checkbox" value="1"   name="breakfast_109"/>2002 Mr. Store Catalog<span class="help" info="Order Something">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_90"><input type="hidden" name="actions[]" value="breakfast_90" /><label for="breakfast_90"><input type="checkbox" value="1"   name="breakfast_90"/>Acquire Rhinestones<span class="help" info="Cast Acquire Rhinestones">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_28"><input type="hidden" name="actions[]" value="breakfast_28" /><label for="breakfast_28"><input type="checkbox" value="1"   name="breakfast_28"/>ball-in-a-cup<span class="help" info="You haven't played with your ball-in-a-cup today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_95"><input type="hidden" name="actions[]" value="breakfast_95" /><label for="breakfast_95"><input type="checkbox" value="1"   name="breakfast_95"/>Bend Hell<span class="help" info="Cast Bend Hell">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_94"><input type="hidden" name="actions[]" value="breakfast_94" /><label for="breakfast_94"><input type="checkbox" value="1"   name="breakfast_94"/>Bow-Legged Swagger<span class="help" info="Cast Bow-Legged Swagger ">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_104"><input type="hidden" name="actions[]" value="breakfast_104" /><label for="breakfast_104"><input type="checkbox" value="1"   name="breakfast_104"/>Bowl Full of Jelly<span class="help" info="Cast Bowl Full of Jelly">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_20"><input type="hidden" name="actions[]" value="breakfast_20" /><label for="breakfast_20"><input type="checkbox" value="1"   name="breakfast_20"/>burrowgrub hive<span class="help" info="You haven't yet used your burrowgrub hive today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_73"><input type="hidden" name="actions[]" value="breakfast_73" /><label for="breakfast_73"><input type="checkbox" value="1"   name="breakfast_73"/>Calculate the Universe<span class="help" info="Calculate the universe">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_23"><input type="hidden" name="actions[]" value="breakfast_23" /><label for="breakfast_23"><input type="checkbox" value="1"   name="breakfast_23"/>cheap toaster<span class="help" info="You haven't used your cheap toaster yet today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_25"><input type="hidden" name="actions[]" value="breakfast_25" /><label for="breakfast_25"><input type="checkbox" value="1"   name="breakfast_25"/>Chester's bag of candy<span class="help" info="You haven't opened Chester's bag yet today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_35"><input type="hidden" name="actions[]" value="breakfast_35" /><label for="breakfast_35"><input type="checkbox" value="1"   name="breakfast_35"/>Chroner cross<span class="help" info="You haven't used your Chroner cross yet today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_36"><input type="hidden" name="actions[]" value="breakfast_36" /><label for="breakfast_36"><input type="checkbox" value="1"   name="breakfast_36"/>Chroner trigger<span class="help" info="You haven't yet used your Chroner trigger today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_106"><input type="hidden" name="actions[]" value="breakfast_106" /><label for="breakfast_106"><input type="checkbox" value="1"   name="breakfast_106"/>Chubby and Plump<span class="help" info="Cast Chubby and Plump">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_77"><input type="hidden" name="actions[]" value="breakfast_77" /><label for="breakfast_77"><input type="checkbox" value="1"   name="breakfast_77"/>Communism!<span class="help" info="You haven't collected your share of society's wealth yet.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_6"><input type="hidden" name="actions[]" value="breakfast_6" /><label for="breakfast_6"><input type="checkbox" value="1"   name="breakfast_6"/>Create Prismatic Wad<span class="help" info="Cast Rainbow Gravitation">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_34"><input type="hidden" name="actions[]" value="breakfast_34" /><label for="breakfast_34"><input type="checkbox" value="1"   name="breakfast_34"/>creepy voodoo doll<span class="help" info="You haven't yet used your creepy voodoo doll today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_63"><input type="hidden" name="actions[]" value="breakfast_63" /><label for="breakfast_63"><input type="checkbox" value="1"   name="breakfast_63"/>Cursed Microwave<span class="help" info="Summon some cursed food!">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_108"><input type="hidden" name="actions[]" value="breakfast_108" /><label for="breakfast_108"><input type="checkbox" value="1"   name="breakfast_108"/>Cursed Monkey's Paw<span class="help" info="Make a wish">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_64"><input type="hidden" name="actions[]" value="breakfast_64" /><label for="breakfast_64"><input type="checkbox" value="1"   name="breakfast_64"/>Cursed pony keg<span class="help" info="Summon some cursed booze!">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_88"><input type="hidden" name="actions[]" value="breakfast_88" /><label for="breakfast_88"><input type="checkbox" value="1"   name="breakfast_88"/>Etched Hourglass<span class="help" info="Use Etched Hourglass">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_83"><input type="hidden" name="actions[]" value="breakfast_83" /><label for="breakfast_83"><input type="checkbox" value="1"   name="breakfast_83"/>Evoke Eldritch Horror<span class="help" info="Fight an Eldritch Tentacle!">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_105"><input type="hidden" name="actions[]" value="breakfast_105" /><label for="breakfast_105"><input type="checkbox" value="1"   name="breakfast_105"/>Eye and a Twist<span class="help" info="Cast Eye and a Twist">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_32"><input type="hidden" name="actions[]" value="breakfast_32" /><label for="breakfast_32"><input type="checkbox" value="1"   name="breakfast_32"/>festive warbear bank<span class="help" info="You haven't made a deposit into your festive warbear bank yet today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_19"><input type="hidden" name="actions[]" value="breakfast_19" /><label for="breakfast_19"><input type="checkbox" value="1"   name="breakfast_19"/>glass gnoll eye<span class="help" info="You haven't used your glass gnoll eye today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_52"><input type="hidden" name="actions[]" value="breakfast_52" /><label for="breakfast_52"><input type="checkbox" value="1"   name="breakfast_52"/>Grab a Cold One<span class="help" info="Summon a nice cold brew.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_29"><input type="hidden" name="actions[]" value="breakfast_29" /><label for="breakfast_29"><input type="checkbox" value="1"   name="breakfast_29"/>handmade hobby horse<span class="help" info="You haven't played with your handmade hobby horse today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_78"><input type="hidden" name="actions[]" value="breakfast_78" /><label for="breakfast_78"><input type="checkbox" value="1"   name="breakfast_78"/>Infinite BACON Machine<span class="help" info="Generate some BACON">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_81"><input type="hidden" name="actions[]" value="breakfast_81" /><label for="breakfast_81"><input type="checkbox" value="1"   name="breakfast_81"/>License to Chill<span class="help" info="Use your License to Chill">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_114"><input type="hidden" name="actions[]" value="breakfast_114" /><label for="breakfast_114"><input type="checkbox" value="1"   name="breakfast_114"/>lodestone<span class="help" info="Use your lodestone">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_110"><input type="hidden" name="actions[]" value="breakfast_110" /><label for="breakfast_110"><input type="checkbox" value="1"   name="breakfast_110"/>meatball machine<span class="help" info="Free meatball!">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_115"><input type="hidden" name="actions[]" value="breakfast_115" /><label for="breakfast_115"><input type="checkbox" value="1"   name="breakfast_115"/>molehill mountain<span class="help" info="Use molehill mountain">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_101"><input type="hidden" name="actions[]" value="breakfast_101" /><label for="breakfast_101"><input type="checkbox" value="1" checked="checked"  name="breakfast_101"/>overflowing gift basket<span class="help" info="Use your overflowing gift basket">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_53"><input type="hidden" name="actions[]" value="breakfast_53" /><label for="breakfast_53"><input type="checkbox" value="1"   name="breakfast_53"/>Perfect Freeze<span class="help" info="Summon a perfect cube">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_67"><input type="hidden" name="actions[]" value="breakfast_67" /><label for="breakfast_67"><input type="checkbox" value="1"   name="breakfast_67"/>Picky tweezers<span class="help" info="Grab a single atom.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_4"><input type="hidden" name="actions[]" value="breakfast_4" /><label for="breakfast_4"><input type="checkbox" value="1"   name="breakfast_4"/>Pirate bellow<span class="help" info="Cast Pirate Bellow">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_16"><input type="hidden" name="actions[]" value="breakfast_16" /><label for="breakfast_16"><input type="checkbox" value="1"   name="breakfast_16"/>Platinum Yendorian Express Card<span class="help" info="You haven't used your Platinum Yendorian Express Card to extend your buffs yet today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_89"><input type="hidden" name="actions[]" value="breakfast_89" /><label for="breakfast_89"><input type="checkbox" value="1"   name="breakfast_89"/>Prevent Scurvy and Sobriety<span class="help" info="Cast Prevent Scurvy and Sobriety">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_97"><input type="hidden" name="actions[]" value="breakfast_97" /><label for="breakfast_97"><input type="checkbox" value="1" checked="checked"  name="breakfast_97"/>redwood rain stick<span class="help" info="Use redwood rain stick">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_112"><input type="hidden" name="actions[]" value="breakfast_112" /><label for="breakfast_112"><input type="checkbox" value="1"   name="breakfast_112"/>refurbished air fryer<span class="help" info="Fry some air">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_84"><input type="hidden" name="actions[]" value="breakfast_84" /><label for="breakfast_84"><input type="checkbox" value="1" checked="checked"  name="breakfast_84"/>Rub Genie Bottle<span class="help" info="Make a Wish">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_27"><input type="hidden" name="actions[]" value="breakfast_27" /><label for="breakfast_27"><input type="checkbox" value="1"   name="breakfast_27"/>set of jacks<span class="help" info="You haven't played with your jacks today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_54"><input type="hidden" name="actions[]" value="breakfast_54" /><label for="breakfast_54"><input type="checkbox" value="1"   name="breakfast_54"/>Spaghetti Breakfast<span class="help" info="Summon a delicious breakfast spaghetti">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_7"><input type="hidden" name="actions[]" value="breakfast_7" /><label for="breakfast_7"><input type="checkbox" value="1"   name="breakfast_7"/>Steal Lunch<span class="help" info="Cast Lunch Break">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_93"><input type="hidden" name="actions[]" value="breakfast_93" /><label for="breakfast_93"><input type="checkbox" value="1"   name="breakfast_93"/>Steely-Eyed Squint<span class="help" info="Cast Steely-Eyed Squint">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_100"><input type="hidden" name="actions[]" value="breakfast_100" /><label for="breakfast_100"><input type="checkbox" value="1" checked="checked"  name="breakfast_100"/>subscription cocoa dispenser<span class="help" info="Use your subscription cocoa dispenser.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_38"><input type="hidden" name="actions[]" value="breakfast_38" /><label for="breakfast_38"><input type="checkbox" value="1"   name="breakfast_38"/>Summon Alice's Army Cards<span class="help" info="Cast Summon Alice's Army Cards">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_50"><input type="hidden" name="actions[]" value="breakfast_50" /><label for="breakfast_50"><input type="checkbox" value="1"   name="breakfast_50"/>Summon Carrot<span class="help" info="Cast Summon Carrot">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_40"><input type="hidden" name="actions[]" value="breakfast_40" /><label for="breakfast_40"><input type="checkbox" value="1"   name="breakfast_40"/>Summon Clip Art<span class="help" info="Cast Summon Clip Art">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_1"><input type="hidden" name="actions[]" value="breakfast_1" /><label for="breakfast_1"><input type="checkbox" value="1"   name="breakfast_1"/>Summon Cocktail Ingredients<span class="help" info="Cast Advanced Cocktailcrafting">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_44"><input type="hidden" name="actions[]" value="breakfast_44" /><label for="breakfast_44"><input type="checkbox" value="1"   name="breakfast_44"/>Summon Confiscated Things<span class="help" info="Cast Summon Confiscated Things">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_55"><input type="hidden" name="actions[]" value="breakfast_55" /><label for="breakfast_55"><input type="checkbox" value="1"   name="breakfast_55"/>Summon Crimbo Candy<span class="help" info="Summon some crimbo candy">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_3"><input type="hidden" name="actions[]" value="breakfast_3" /><label for="breakfast_3"><input type="checkbox" value="1"   name="breakfast_3"/>Summon Dry Noodles<span class="help" info="Cast pastamastery">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_37"><input type="hidden" name="actions[]" value="breakfast_37" /><label for="breakfast_37"><input type="checkbox" value="1"   name="breakfast_37"/>Summon Geeky Gifts<span class="help" info="Cast Summon Geeky Gifts">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_46"><input type="hidden" name="actions[]" value="breakfast_46" /><label for="breakfast_46"><input type="checkbox" value="1"   name="breakfast_46"/>Summon Hilarious Objects<span class="help" info="Cast Summon Hilarious Objects">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_49"><input type="hidden" name="actions[]" value="breakfast_49" /><label for="breakfast_49"><input type="checkbox" value="1"   name="breakfast_49"/>Summon Holiday Fun!<span class="help" info="Cast Summon Holiday Fun!">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_51"><input type="hidden" name="actions[]" value="breakfast_51" /><label for="breakfast_51"><input type="checkbox" value="1"   name="breakfast_51"/>Summon Kokomo Resort Pass<span class="help" info="Cast Summon Kokomo Resort Pass">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_85"><input type="hidden" name="actions[]" value="breakfast_85" /><label for="breakfast_85"><input type="checkbox" value="1"   name="breakfast_85"/>Summon Pants<span class="help" info="Use your portable pantogram">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_47"><input type="hidden" name="actions[]" value="breakfast_47" /><label for="breakfast_47"><input type="checkbox" value="1"   name="breakfast_47"/>Summon Rad Libs<span class="help" info="Cast Summon Rad Libs">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_2"><input type="hidden" name="actions[]" value="breakfast_2" /><label for="breakfast_2"><input type="checkbox" value="1"   name="breakfast_2"/>Summon Scrumptious Reagents<span class="help" info="Cast Advanced Saucecrafting">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_39"><input type="hidden" name="actions[]" value="breakfast_39" /><label for="breakfast_39"><input type="checkbox" value="1"   name="breakfast_39"/>Summon Smithsness<span class="help" info="Cast Summon Smithsness">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_42"><input type="hidden" name="actions[]" value="breakfast_42" /><label for="breakfast_42"><input type="checkbox" value="1"   name="breakfast_42"/>Summon Snowcones<span class="help" info="cast Summon Snowcones">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_43"><input type="hidden" name="actions[]" value="breakfast_43" /><label for="breakfast_43"><input type="checkbox" value="1"   name="breakfast_43"/>Summon Stickers<span class="help" info="Cast Summon Stickers">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_41"><input type="hidden" name="actions[]" value="breakfast_41" /><label for="breakfast_41"><input type="checkbox" value="1"   name="breakfast_41"/>Summon Sugar Sheets<span class="help" info="Cast Summon Sugar Sheets">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_45"><input type="hidden" name="actions[]" value="breakfast_45" /><label for="breakfast_45"><input type="checkbox" value="1"   name="breakfast_45"/>Summon Tasteful Items<span class="help" info="Cast Summon Tasteful Items">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_24"><input type="hidden" name="actions[]" value="breakfast_24" /><label for="breakfast_24"><input type="checkbox" value="1"   name="breakfast_24"/>Taco Dan's Taco Stand Flier<span class="help" info="You haven't gotten your free stuff from Taco Dan yet today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_56"><input type="hidden" name="actions[]" value="breakfast_56" /><label for="breakfast_56"><input type="checkbox" value="1"   name="breakfast_56"/>That's Not a Knife<span class="help" info="Scrounge around for a knife">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_22"><input type="hidden" name="actions[]" value="breakfast_22" /><label for="breakfast_22"><input type="checkbox" value="1"   name="breakfast_22"/>The Cocktail Shaker<span class="help" info="You haven't used The Cocktail Shaker yet today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_14"><input type="hidden" name="actions[]" value="breakfast_14" /><label for="breakfast_14"><input type="checkbox" value="1"   name="breakfast_14"/>The Legendary Beat<span class="help" info="You haven't considered the Legendary Beat yet today.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_9"><input type="hidden" name="actions[]" value="breakfast_9" /><label for="breakfast_9"><input type="checkbox" value="1"   name="breakfast_9"/>Trivial Avocations<span class="help" info="Get your days' cards from your Trivial Avocations board game">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_87"><input type="hidden" name="actions[]" value="breakfast_87" /><label for="breakfast_87"><input type="checkbox" value="1"   name="breakfast_87"/>Visit your Favorite Bird<span class="help" info="Cast Visit your Favorite Bird">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_86"><input type="hidden" name="actions[]" value="breakfast_86" /><label for="breakfast_86"><input type="checkbox" value="1"   name="breakfast_86"/>Vote!<span class="help" info="Exercise your right to vote!">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_71"><input type="hidden" name="actions[]" value="breakfast_71" /><label for="breakfast_71"><input type="checkbox" value="1"   name="breakfast_71"/>Warbear breakfast machine<span class="help" info="Summon a breakfast mess.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_72"><input type="hidden" name="actions[]" value="breakfast_72" /><label for="breakfast_72"><input type="checkbox" value="1"   name="breakfast_72"/>Warbear soda machine<span class="help" info="Summon a Cloaca Cola Polar.">(?)</span></label></div><div class="opt checkbox" id="opt_breakfast_92"><input type="hidden" name="actions[]" value="breakfast_92" /><label for="breakfast_92"><input type="checkbox" value="1"   name="breakfast_92"/>[glitch season reward name]<span class="help" info="implement [glitch season reward name]">(?)</span></label></div></div><div class="subhead">Miscellaneous Interface Options:</div><p><div class=indent><div class="opt checkbox" id="opt_flag_anchorshelf"><input type="hidden" name="actions[]" value="flag_anchorshelf" /><label for="flag_anchorshelf"><input type="checkbox" value="1"   name="flag_anchorshelf"/>Anchor Bookshelf Skills to Bottom of List<span class="help" info="This will force the skills page to always display skills representing books in Your Mystical Bookshelf at the bottom of the list of options. Additionally, checking this box will group and label these skills by type (Tome, Libram, Grimoire.)">(?)</span></label></div><div class="opt checkbox" id="opt_flag_nocalendar"><input type="hidden" name="actions[]" value="flag_nocalendar" /><label for="flag_nocalendar"><input type="checkbox" value="1"   name="flag_nocalendar"/>Show Clan Calendar in Chat Pane</label></div><div class="opt checkbox" id="opt_flag_noframesize"><input type="hidden" name="actions[]" value="flag_noframesize" /><label for="flag_noframesize"><input type="checkbox" value="1"   name="flag_noframesize"/>Remember the size of the character pane and chat</label></div><div class="opt checkbox" id="opt_flag_ignorezonewarnings"><input type="hidden" name="actions[]" value="flag_ignorezonewarnings" /><label for="flag_ignorezonewarnings"><input type="checkbox" value="1" checked="checked"  name="flag_ignorezonewarnings"/>Disable "This area might be too tough for you" warnings</label></div><div class="opt checkbox" id="opt_flag_fffights"><input type="hidden" name="actions[]" value="flag_fffights" /><label for="flag_fffights"><input type="checkbox" value="1" checked="checked"  name="flag_fffights"/>Automatically fast-forward all PvP fights</label></div><div class="opt checkbox" id="opt_flag_compactfights"><input type="hidden" name="actions[]" value="flag_compactfights" /><label for="flag_compactfights"><input type="checkbox" value="1"   name="flag_compactfights"/>Use compact PvP mode</label></div><div class="opt checkbox" id="opt_flag_poppvpsearch"><input type="hidden" name="actions[]" value="flag_poppvpsearch" /><label for="flag_poppvpsearch"><input type="checkbox" value="1"   name="flag_poppvpsearch"/>Pop up PvP Search</label></div><div class="opt checkbox" id="opt_flag_hidefamfilter"><input type="hidden" name="actions[]" value="flag_hidefamfilter" /><label for="flag_hidefamfilter"><input type="checkbox" value="1" checked="checked"  name="flag_hidefamfilter"/>Show Familiar Filter</label></div></div>				<div class="clear"></div>
+			</div>
+			<input type="submit" class="button" value="Update" name="action" id="submit"/>
+		</form>
+	</div>
+</div>
+</body></html>

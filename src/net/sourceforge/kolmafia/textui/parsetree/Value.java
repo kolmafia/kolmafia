@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -97,6 +98,10 @@ public class Value implements TypedNode, Comparable<Value> {
 
   public Value(final Path path) {
     this(DataTypes.PATH_TYPE, path.getId(), path.getName(), path);
+  }
+
+  public Value(final Modifier modifier) {
+    this(DataTypes.MODIFIER_TYPE, modifier.getName(), modifier);
   }
 
   public Value toFloatValue() {
@@ -218,6 +223,7 @@ public class Value implements TypedNode, Comparable<Value> {
       case PHYLUM -> new ProxyRecordValue.PhylumProxy(this);
       case STAT -> new ProxyRecordValue.StatProxy(this);
       case SLOT -> new ProxyRecordValue.SlotProxy(this);
+      case MODIFIER -> new ProxyRecordValue.ModifierProxy(this);
       default -> this;
     };
   }
@@ -258,21 +264,33 @@ public class Value implements TypedNode, Comparable<Value> {
     return this.compareTo(o, true);
   }
 
-  private int compareTo(final Value o, final boolean ignoreCase) {
+  protected int compareTo(final Value o, final boolean ignoreCase) {
     if (o == null) {
+      throw new NullPointerException();
+    }
+
+    // If the objects are identical Objects, save a lot of work
+    if (this == o) {
+      return 0;
+    }
+
+    Type type = this.getType().getBaseType();
+    Type otype = o.getType().getBaseType();
+
+    // Composite values cannot be compared
+    if (!type.isPrimitive() || !otype.isPrimitive()) {
       throw new ClassCastException();
     }
 
     // If both Vykeas, defer to Vykea compareTo. Otherwise, compare as normal
-    if (this.getType().equals(DataTypes.VYKEA_TYPE) && o.getType().equals(DataTypes.VYKEA_TYPE)) {
+    if (type.equals(DataTypes.VYKEA_TYPE) && otype.equals(DataTypes.VYKEA_TYPE)) {
       VYKEACompanionData v1 = (VYKEACompanionData) (this.content);
       VYKEACompanionData v2 = (VYKEACompanionData) (o.content);
       return v1.compareTo(v2);
     }
 
     // Prefer to order monsters by ID. If they both have id 0, then fall back to string comparison.
-    if (this.getType().equals(DataTypes.MONSTER_TYPE)
-        && o.getType().equals(DataTypes.MONSTER_TYPE)) {
+    if (type.equals(DataTypes.MONSTER_TYPE) && otype.equals(DataTypes.MONSTER_TYPE)) {
       int cmp = Long.compare(this.contentLong, o.contentLong);
       if (cmp != 0 || !this.isStringLike()) {
         return cmp;
@@ -304,7 +322,15 @@ public class Value implements TypedNode, Comparable<Value> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof Value v && this.compareTo(v) == 0;
+    return this.equals(o, false);
+  }
+
+  public boolean equalsIgnoreCase(final Object o) {
+    return this.equals(o, true);
+  }
+
+  protected boolean equals(final Object o, boolean ignoreCase) {
+    return o instanceof Value v && this.compareTo(v, ignoreCase) == 0;
   }
 
   @Override
@@ -439,11 +465,11 @@ public class Value implements TypedNode, Comparable<Value> {
 
   public Object toJSON() throws JSONException {
     if (this.getType().equals(TypeSpec.BOOLEAN)) {
-      return Boolean.valueOf(this.contentLong > 0);
+      return this.contentLong > 0;
     } else if (this.getType().equals(TypeSpec.INT)) {
-      return Long.valueOf(this.contentLong);
+      return this.contentLong;
     } else if (this.getType().equals(TypeSpec.FLOAT)) {
-      return Double.valueOf(Double.longBitsToDouble(this.contentLong));
+      return Double.longBitsToDouble(this.contentLong);
     } else {
       return this.toString();
     }

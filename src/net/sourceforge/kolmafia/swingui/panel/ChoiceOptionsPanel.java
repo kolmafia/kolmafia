@@ -1132,7 +1132,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     String shadowLabyrinthSetting = Preferences.getString("shadowLabyrinthGoal");
     this.shadowLabyrinthSelect.setSelectedIndex(
         switch (shadowLabyrinthSetting) {
-          case "browser" -> 0;
+          case "browser", "" -> 0;
           case "muscle" -> 1;
           case "mysticality" -> 2;
           case "moxie" -> 3;
@@ -1142,7 +1142,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
           case "resistance" -> 7;
           default -> {
             System.out.println(
-                "Invalid setting " + shadowLabyrinthSetting + " for shadowLabyrinthGoal.");
+                "Invalid setting '" + shadowLabyrinthSetting + "' for shadowLabyrinthGoal.");
             yield 0;
           }
         });

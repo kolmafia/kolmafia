@@ -696,7 +696,7 @@ public class CharPaneDecorator {
 
         if (spit < 100) {
           double spitPerTurn = 10 / 3.0;
-          AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
+          AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMET, 1);
           boolean wearingHelmet = EquipmentManager.getEquipment(Slot.FAMILIAR).equals(helmet);
 
           if (wearingHelmet) {
@@ -788,12 +788,16 @@ public class CharPaneDecorator {
           "<font size=2 color=olive>Everything Looks Yellow");
       StringUtilities.singleStringReplace(
           effects,
-          "<font size=2>Everything Looks Red",
-          "<font size=2 color=red>Everything Looks Red");
+          "<font size=2>Everything Looks Red ",
+          "<font size=2 color=red>Everything Looks Red ");
       StringUtilities.singleStringReplace(
           effects,
           "<font size=2>Everything Looks Blue",
           "<font size=2 color=blue>Everything Looks Blue");
+      StringUtilities.singleStringReplace(
+          effects,
+          "<font size=2>Everything Looks Red, White and Blue",
+          "<font size=2>Everything Looks <font color=red>Red</font>, <font color=grey>White</font> and <font color=blue>Blue</font>");
     }
 
     if (effectText != null) {

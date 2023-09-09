@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -602,6 +603,8 @@ public abstract class KoLCharacter {
       limit = 5;
     } else if (KoLCharacter.isPlumber()) {
       limit = 20;
+    } else if (KoLCharacter.inSmallcore()) {
+      limit = 2;
     } else if (KoLCharacter.inBadMoon()) {
       if (KoLCharacter.hasSkill(SkillPool.PRIDE)) {
         limit -= 1;
@@ -723,6 +726,8 @@ public abstract class KoLCharacter {
       }
     } else if (KoLCharacter.isVampyre()) {
       limit = 4;
+    } else if (KoLCharacter.inSmallcore()) {
+      limit = 1;
     }
 
     if (KoLCharacter.hasSkill(SkillPool.STEEL_LIVER)) {
@@ -1382,6 +1387,8 @@ public abstract class KoLCharacter {
       EffectPool.get(EffectPool.BOWLEGGED_SWAGGER);
   public static final AdventureResult STEELY_EYED_SQUINT =
       EffectPool.get(EffectPool.STEELY_EYED_SQUINT);
+  public static final AdventureResult OFFHAND_REMARKABLE =
+      EffectPool.get(EffectPool.OFFHAND_REMARKABLE);
 
   public static void setLimitMode(final LimitMode limitmode) {
     switch (limitmode) {
@@ -1755,7 +1762,8 @@ public abstract class KoLCharacter {
     if (KoLConstants.chateau.contains(ChateauRequest.CHATEAU_FAN)) freerests += 5;
     if (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
         && Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
-    if (KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
+    if (StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Long Winter's Nap")
+        && KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
         || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
     if (InventoryManager.getCount(ItemPool.CINCHO_DE_MAYO) > 0
@@ -3025,6 +3033,11 @@ public abstract class KoLCharacter {
       Preferences.resetToDefault("replicaNeverendingPartyAlways");
       Preferences.resetToDefault("replicaWitchessSetAvailable");
 
+      // we lose set enquiry, even if we have a terminal
+      Preferences.resetToDefault("sourceTerminalEducate1");
+      Preferences.resetToDefault("sourceTerminalEducate2");
+      Preferences.resetToDefault("sourceTerminalEnquiry");
+
       // if replica emotion chipped
       KoLCharacter.resetSkills();
 
@@ -3478,6 +3491,10 @@ public abstract class KoLCharacter {
 
   public static final boolean inLegacyOfLoathing() {
     return KoLCharacter.ascensionPath == Path.LEGACY_OF_LOATHING;
+  }
+
+  public static final boolean inSmallcore() {
+    return KoLCharacter.ascensionPath == Path.SMALL;
   }
 
   public static final boolean isUnarmed() {
@@ -4694,7 +4711,7 @@ public abstract class KoLCharacter {
   }
 
   /** Accessor method to increment the weight of the current familiar by one. */
-  public static final void incrementFamilarWeight() {
+  public static final void incrementFamiliarWeight() {
     if (KoLCharacter.currentFamiliar != null) {
       KoLCharacter.currentFamiliar.setWeight(KoLCharacter.currentFamiliar.getWeight() + 1);
     }
@@ -5408,6 +5425,24 @@ public abstract class KoLCharacter {
       newModifiers.applyCompanionModifiers(VYKEACompanionData.currentCompanion());
     }
 
+    // add additional rollover adventures
+    var resolutionAdv = Preferences.getInteger("_resolutionAdv");
+    if (resolutionAdv > 0) {
+      newModifiers.addDouble(
+          DoubleModifier.ADVENTURES,
+          resolutionAdv,
+          ModifierType.ITEM,
+          ItemPool.RESOLUTION_ADVENTUROUS);
+    }
+    var circadianAdv = Preferences.getInteger("_circadianRhythmsAdventures");
+    if (circadianAdv > 0) {
+      newModifiers.addDouble(
+          DoubleModifier.ADVENTURES,
+          circadianAdv,
+          ModifierType.SKILL,
+          SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS);
+    }
+
     // Lastly, experience adjustment also implicitly depends on
     // monster level.  Add that information.
 
@@ -5523,6 +5558,9 @@ public abstract class KoLCharacter {
           ModifierType.EFFECT,
           EffectPool.BOWLEGGED_SWAGGER);
       // Add "Physical Damage" here, when that is properly defined
+    }
+    if (effects.contains(KoLCharacter.OFFHAND_REMARKABLE) && !KoLCharacter.inGLover()) {
+      addOffhandRemarkable(equipment, newModifiers);
     }
     if (equipment.get(Slot.SHIRT).getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT
         && (Preferences.getInteger("garbageShirtCharge") > 0
@@ -5755,6 +5793,28 @@ public abstract class KoLCharacter {
             ModifierType.EQUIPMENT_POWER,
             "shirt power");
         break;
+    }
+  }
+
+  private static void addOffhandRemarkable(
+      Map<Slot, AdventureResult> equipment, Modifiers newModifiers) {
+    var offhand = equipment.get(Slot.OFFHAND);
+    addOffhandRemarkable(offhand, newModifiers);
+    // and also offhand items that are equipped on the familiar
+    var famItem = equipment.get(Slot.FAMILIAR);
+    addOffhandRemarkable(famItem, newModifiers);
+  }
+
+  private static void addOffhandRemarkable(AdventureResult item, Modifiers newModifiers) {
+    if (item != null
+        && item != EquipmentRequest.UNEQUIP
+        && ItemDatabase.getConsumptionType(item.id) == ConsumptionType.OFFHAND) {
+      if (item.id != ItemPool.LATTE_MUG) {
+        var mods = ModifierDatabase.getItemModifiers(item.id);
+        var copyMods = new Modifiers(mods);
+        copyMods.setLookup(new Lookup(ModifierType.EFFECT, EffectPool.OFFHAND_REMARKABLE));
+        newModifiers.add(copyMods);
+      }
     }
   }
 

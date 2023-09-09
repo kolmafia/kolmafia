@@ -321,3 +321,5 @@
 289	Mini-Trainbot	tbot_on.gif	combat1,hp1,mp1	deactivated mini-Trainbot	overloaded Yule battery	3	2	3	1	hashands
 290	Hobo in Sheep's Clothing	hobosheep.gif	stat0,item0,drop	unoccupied sheep suit	half-height cigar	1	3	3	2
 291	Pixel Rock	pixelrock.gif	none	pixel rock		0	0	0	0
+292
+293	Patriotic Eagle	pateagle.gif	combat0,stat1,mp0	sleeping patriotic eagle	claw-held flag	0	0	0	0

@@ -2237,6 +2237,11 @@ public class FightRequest extends GenericRequest {
       } else if (EncounterManager.isGregariousEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.decrement("beGregariousFightsLeft", 1, 0);
+      } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.decrement("monsterHabitatsFightsLeft", 1, 0);
+      } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
+        Preferences.decrement("rwbMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
         // This is earlier in the chain than the things above, but since
         // there's no message it's easiest to check it after
@@ -2616,6 +2621,7 @@ public class FightRequest extends GenericRequest {
     var limitmode = KoLCharacter.getLimitMode();
     boolean finalRound = macroMatcher.end() == FightRequest.lastResponseText.length();
     boolean won = finalRound && responseText.contains("<!--WINWINWIN-->");
+    boolean lost = finalRound && responseText.contains("<!--LOSELOSELOSE-->");
     KoLAdventure location = KoLAdventure.lastVisitedLocation();
     String locationName = (location != null) ? location.getAdventureName() : null;
 
@@ -2992,7 +2998,7 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
-    updateFinalRoundData(responseText, won);
+    updateFinalRoundData(responseText, won, lost);
   }
 
   static String[] ROBORTENDER_DROP_MESSAGES =
@@ -3019,7 +3025,8 @@ public class FightRequest extends GenericRequest {
   // FightRequest.lastResponseText instead.
   // Note that this is not run if the combat is finished by
   // rollover-runaway, saber, or similar mechanic.
-  public static void updateFinalRoundData(final String responseText, final boolean won) {
+  public static void updateFinalRoundData(
+      final String responseText, final boolean won, final boolean lost) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
     String monsterName = monster != null ? monster.getName() : "";
     SpecialMonster special = FightRequest.specialMonsterCategory(monsterName);
@@ -3449,6 +3456,7 @@ public class FightRequest extends GenericRequest {
     }
 
     Preferences.setBoolean("_lastCombatWon", won);
+    Preferences.setBoolean("_lastCombatLost", lost);
 
     if (!won) {
       QuestManager.updateQuestFightLost(responseText, monsterName);
@@ -4231,6 +4239,12 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("awolVenom");
         } else if (responseText.contains("+1 Medicine")) {
           Preferences.increment("awolMedicine");
+        }
+      }
+
+      if (Preferences.getBoolean("_circadianRhythmsRecalled")) {
+        if (responseText.contains("sleep a bit better tonight")) {
+          Preferences.increment("_circadianRhythmsAdventures", 1, 11, false);
         }
       }
 
@@ -5459,6 +5473,7 @@ public class FightRequest extends GenericRequest {
     public final boolean doppel;
     public final boolean crimbo;
     public String diceMessage;
+    public final boolean eagle;
     public final String ghost;
     public final boolean logFamiliar;
     public final boolean logMonsterHealth;
@@ -5500,6 +5515,7 @@ public class FightRequest extends GenericRequest {
     public boolean luggage;
     public boolean armtowel;
     public boolean pebble;
+    public boolean serendipity;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5507,6 +5523,7 @@ public class FightRequest extends GenericRequest {
       this.familiarId = current.getId();
       this.familiarName = current.getName();
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
+      this.eagle = (familiarId == FamiliarPool.PATRIOTIC_EAGLE);
       this.doppel =
           (familiarId == FamiliarPool.DOPPEL)
               || KoLCharacter.hasEquipped(ItemPool.TINY_COSTUME_WARDROBE, Slot.FAMILIAR);
@@ -5588,6 +5605,9 @@ public class FightRequest extends GenericRequest {
       this.luggage = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_LUGGAGE_HOOK);
       this.armtowel = KoLCharacter.hasEquipped(ItemPool.WHITE_ARM_TOWEL);
       this.pebble = KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE);
+
+      this.serendipity =
+          KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SERENDIPITY));
 
       this.ghost = null;
 
@@ -6367,6 +6387,15 @@ public class FightRequest extends GenericRequest {
 
       FightRequest.handleLuckyGoldRing(str, status);
 
+      // Serendipity
+      if (status.serendipity) {
+        if (str.contains("serendipitous")
+            || str.contains("luck is on your side")
+            || str.contains("How random")) {
+          FightRequest.logText(str, status);
+        }
+      }
+
       // Retrospecs
       if (str.contains("notice an item you missed earlier")) {
         FightRequest.logText(str, status);
@@ -6454,6 +6483,11 @@ public class FightRequest extends GenericRequest {
           FightRequest.handleMelodramedary(str, status);
         }
 
+        if (status.eagle && str.contains(status.familiarName)) {
+          // Patriotic Eagle action
+          FightRequest.handlePatrioticEagle(str, status);
+        }
+
         int damage = FightRequest.parseNormalDamage(str);
         if (damage != 0) {
           FightRequest.logSpecialDamage(str, status);
@@ -6498,6 +6532,14 @@ public class FightRequest extends GenericRequest {
     String onclick = null;
 
     if (inode != null) {
+      var src = inode.getAttributeByName("src");
+      if (src.endsWith("factbook.gif")) {
+        // log if it's a fact
+        var text = node.getText().toString();
+        if (!(text.contains("rythm") || text.contains("rhythm"))) {
+          FightRequest.logText(text, status);
+        }
+      }
       String alt = inode.getAttributeByName("alt");
       if (alt != null && alt.startsWith("Enemy's")) {
         // This is Monster Manuel stuff
@@ -7409,6 +7451,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (status.eagle && FightRequest.handlePatrioticEagle(str, status)) {
+      return;
+    }
+
     if (FightRequest.handleGooseDrones(str, status)) {
       return;
     }
@@ -7426,7 +7472,7 @@ public class FightRequest extends GenericRequest {
     }
 
     if (!str.equals("") && !ResultProcessor.processFamiliarWeightGain(str)) {
-      // Familiar combat action?
+      // Familiar combat action? (or cartography)
       // Don't log most familiar actions in the Deep Machine Tunnels
       if (status.logFamiliar
           && (!FightRequest.machineElf || str.contains("time starts passing again"))) {
@@ -7533,6 +7579,26 @@ public class FightRequest extends GenericRequest {
 
     if (str.contains("is starting to make audible sloshing noises as he walks around.")) {
       Preferences.setInteger("camelSpit", 100);
+    }
+
+    if (status.logFamiliar) {
+      FightRequest.logText(str, status);
+    }
+
+    return true;
+  }
+
+  private static boolean handlePatrioticEagle(String str, TagStatus status) {
+    if (!str.contains(status.familiarName)) {
+      return false;
+    }
+
+    if (str.contains("throat is still too raw") || str.contains("screech and starts coughing")) {
+      Preferences.decrement("screechCombats", 1, 0);
+    }
+
+    if (str.contains("I'm ready to screech") || str.contains("screech and then somehow smiles")) {
+      Preferences.setInteger("screechCombats", 0);
     }
 
     if (status.logFamiliar) {
@@ -9290,7 +9356,14 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.MONKEY_POINT:
         if (responseText.contains("Your monkey paw points at your opponent")) {
-          Preferences.setString("mokeyPointMonster", monsterName);
+          Preferences.setString("monkeyPointMonster", monsterName);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.HOLD_HANDS:
+        if (responseText.contains("stop the battle for a moment and hold hands with you")) {
+          Preferences.setString("holdHandsMonster", monsterName);
           skillSuccess = true;
         }
         break;
@@ -9385,6 +9458,13 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("press the secret switch") || skillRunawaySuccess) {
           skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.KGB_TRANQUILIZER_DART);
+        }
+        break;
+
+      case SkillPool.ROAR_LIKE_A_LION:
+        if (responseText.contains("release a majestic roar") || skillRunawaySuccess) {
+          skillRunawaySuccess = true;
+          BanishManager.banishMonster(monster, Banisher.ROAR_LIKE_A_LION);
         }
         break;
 
@@ -10229,6 +10309,55 @@ public class FightRequest extends GenericRequest {
         break;
       case SkillPool.DO_EPIC_MCTWIST:
         if (responseText.contains("degrees in the air while performing")) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RED_WHITE_BLUE_BLAST:
+        if (responseText.contains("fires off a thrilling, patriotic")) {
+          Preferences.setString("rwbMonster", MonsterStatusTracker.getLastMonsterName());
+          Preferences.setInteger("rwbMonsterCount", 2);
+          KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
+          if (lastLocation != null) {
+            Preferences.setString("rwbLocation", lastLocation.getAdventureName());
+          }
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.PATRIOTIC_SCREECH:
+        if (responseText.contains("releases an ear shattering screech")) {
+          BanishManager.banishMonster(monster, Banisher.PATRIOTIC_SCREECH);
+          Preferences.setInteger("screechCombats", 11);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.PERPETRATE_MILD_EVIL:
+        if (
+        // Spookypocket
+        responseText.contains("drop something")
+            || responseText.contains("drop an item")
+            ||
+            // no items
+            responseText.contains("even mildly evil")
+            || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RECALL_FACTS_MONSTER_HABITATS:
+        if (responseText.contains("Your knowledge of facts tells you")) {
+          Preferences.setString("monsterHabitatsMonster", monsterName);
+          Preferences.setInteger("monsterHabitatsFightsLeft", 5);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS:
+        if (responseText.contains("really improve your sleep tonight")) {
+          Phylum phylum = monster != null ? monster.getPhylum() : Phylum.NONE;
+          Preferences.setString("_circadianRhythmsPhylum", phylum.toString());
           skillSuccess = true;
         }
         break;

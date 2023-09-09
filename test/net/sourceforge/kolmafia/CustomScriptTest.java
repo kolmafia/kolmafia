@@ -10,24 +10,23 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.command.AshSingleLineCommand;
 import net.sourceforge.kolmafia.textui.command.CallScriptCommand;
+import net.sourceforge.kolmafia.textui.command.JavaScriptCommand;
+import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -36,8 +35,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class CustomScriptTest {
   // Directory containing expected output.
   private static final File EXPECTED_LOCATION = new File(KoLConstants.ROOT_LOCATION, "expected/");
-
-  private static final String[] filesToMove = {"evilometer_fight.txt"};
 
   private static class ScriptNameFilter implements FilenameFilter {
     @Override
@@ -59,9 +56,15 @@ public class CustomScriptTest {
     return Files.readString(new File(EXPECTED_LOCATION, script + ".out").toPath());
   }
 
+  public void beforeEach() {
+    KoLCharacter.reset("CustomScriptTest");
+    Preferences.reset("CustomScriptTest");
+  }
+
   @ParameterizedTest
   @MethodSource("data")
   void testScript(String script) throws IOException {
+    beforeEach();
     String expectedOutput = getExpectedOutput(script).trim();
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     try (PrintStream out = new PrintStream(ostream, true)) {
@@ -80,6 +83,10 @@ public class CustomScriptTest {
             .trim()
             // try to avoid environment-specific paths in stacktraces
             .replaceAll("\\bfile:.*?([^\\\\/\\s]+#\\d+)\\b", "file:%%STACKTRACE_LOCATION%%/$1");
+    if (!expectedOutput.equals(output)) {
+      System.out.println("expected = '" + expectedOutput + "'");
+      System.out.println("output = '" + output + "'");
+    }
     assertEquals(expectedOutput, output, script + " output does not match: ");
   }
 
@@ -145,6 +152,50 @@ public class CustomScriptTest {
     RuntimeLibrary.functions.remove(newFunction);
   }
 
+  @Nested
+  class SessionStorage {
+    @Test
+    void sessionStorageWorksInCli() {
+      ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+      try (PrintStream out = new PrintStream(ostream, true)) {
+        var command = new JavaScriptCommand();
+        command.run("js", "sessionStorage.setItem(\"test\", \"value\");");
+
+        // Inject custom output stream.
+        RequestLogger.openCustom(out);
+        command.run("js", "sessionStorage.getItem(\"test\");");
+
+        String output = ostream.toString().trim();
+        assertThat(output, startsWith("Returned: value"));
+        RequestLogger.closeCustom();
+      }
+
+      JavascriptRuntime.clearSessionStorage();
+    }
+
+    @Test
+    void sessionStorageDoesNotLeakAcrossScriptEntrypoints() {
+      ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+      try (PrintStream out = new PrintStream(ostream, true)) {
+        var jsCommand = new JavaScriptCommand();
+        jsCommand.run("js", "sessionStorage.setItem(\"test\", \"value\");");
+
+        // Inject custom output stream.
+        RequestLogger.openCustom(out);
+        var callCommand = new CallScriptCommand();
+        callCommand.run("call", "Excluded/sessionStorageTest.js");
+
+        String output = ostream.toString().trim();
+        assertThat(output, startsWith("true"));
+        RequestLogger.closeCustom();
+      }
+
+      JavascriptRuntime.clearSessionStorage();
+    }
+  }
+
   @BeforeEach
   void setUp() {
     KoLmafia.forceContinue();
@@ -158,22 +209,5 @@ public class CustomScriptTest {
   @AfterEach
   void tearDown() {
     StaticEntity.overrideRevision(null);
-  }
-
-  @BeforeAll
-  static void copyDataFiles() throws IOException {
-    for (String s : filesToMove) {
-      Path source = Paths.get(KoLConstants.ROOT_LOCATION + "/request/" + s);
-      Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + s);
-      Files.copy(source, dest, StandardCopyOption.REPLACE_EXISTING);
-    }
-  }
-
-  @AfterAll
-  static void deleteCopiedDataFiles() {
-    for (String s : filesToMove) {
-      Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + s);
-      dest.toFile().delete();
-    }
   }
 }

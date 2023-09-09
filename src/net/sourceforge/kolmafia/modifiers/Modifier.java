@@ -10,4 +10,6 @@ public interface Modifier {
   Pattern getTagPattern();
 
   String getTag();
+
+  ModifierValueType getType();
 }

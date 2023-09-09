@@ -89,9 +89,6 @@ public class UseItemRequest extends GenericRequest {
       Pattern.compile("Your Mer-kin vocabulary mastery is now at <b>(\\d*?)%</b>");
   private static final Pattern PURPLE_WORD_PATTERN =
       Pattern.compile("don't forget <font color=purple><b><i>(.*?)</i></b></font>");
-  private static final Pattern GIFT_FROM_PATTERN =
-      Pattern.compile(
-          "<p>From: <b><a class=nounder href=\"showplayer.php\\?who=(\\d+)\">(.*?)</a></b>");
   private static final Pattern BIRD_OF_THE_DAY_PATTERN =
       Pattern.compile("Today's bird is the (.*?)!");
 
@@ -140,6 +137,10 @@ public class UseItemRequest extends GenericRequest {
   protected final ConsumptionType consumptionType;
   protected AdventureResult itemUsed;
 
+  // Items with the "message" type or attribute have an amusing message
+  // that we want to display to the user, if item usage is from the GUI.
+  protected boolean showHTML = true;
+
   protected static AdventureResult lastItemUsed = null;
   protected static AdventureResult lastHelperUsed = null;
   protected static String currentURL = "";
@@ -184,6 +185,11 @@ public class UseItemRequest extends GenericRequest {
     this.addFormField("whichitem", String.valueOf(item.getItemId()));
   }
 
+  public UseItemRequest showHTML(boolean showHTML) {
+    this.showHTML = showHTML;
+    return this;
+  }
+
   public static final ConsumptionType getConsumptionType(final AdventureResult item) {
     int itemId = item.getItemId();
 
@@ -202,15 +208,21 @@ public class UseItemRequest extends GenericRequest {
       return ConsumptionType.SPLEEN;
     }
 
-    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
-    if (attrs.contains(Attribute.USABLE)) {
-      return ConsumptionType.USE;
+    // Familiar hatchlings are a type of "usable" item, but you have to
+    // go to inv_familiar.php, not inv_use.php
+    if (consumptionType == ConsumptionType.FAMILIAR_HATCHLING) {
+      return ConsumptionType.FAMILIAR_HATCHLING;
     }
-    if (attrs.contains(Attribute.MULTIPLE)) {
+
+    // ItemDatabase can decide usability
+    if (ItemDatabase.isReusable(itemId)) {
+      return ConsumptionType.USE_INFINITE;
+    }
+    if (ItemDatabase.isMultiUsable(itemId)) {
       return ConsumptionType.USE_MULTIPLE;
     }
-    if (attrs.contains(Attribute.REUSABLE)) {
-      return ConsumptionType.USE_INFINITE;
+    if (ItemDatabase.isUsable(itemId)) {
+      return ConsumptionType.USE;
     }
 
     return consumptionType;
@@ -1466,7 +1478,7 @@ public class UseItemRequest extends GenericRequest {
 
     UseItemRequest.lastItemUsed = this.itemUsed;
     UseItemRequest.currentItemId = this.itemUsed.getItemId();
-    UseItemRequest.parseConsumption(this.responseText, true);
+    UseItemRequest.parseConsumption(this.responseText, this.showHTML);
     ResponseTextParser.learnRecipe(this.getURLString(), this.responseText);
     SpadingManager.processConsumeItem(this.itemUsed, this.responseText);
   }
@@ -1627,10 +1639,6 @@ public class UseItemRequest extends GenericRequest {
     return ZodiacSign.NONE;
   }
 
-  public void parseConsumption() {
-    UseItemRequest.parseConsumption("", true);
-  }
-
   public static final void parseConsumption(final String responseText, final boolean showHTML) {
     if (UseItemRequest.lastItemUsed == null) {
       return;
@@ -1641,6 +1649,7 @@ public class UseItemRequest extends GenericRequest {
     AdventureResult item = UseItemRequest.lastItemUsed;
     int itemId = item.getItemId();
     int count = item.getCount();
+    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
 
     AdventureResult helper = UseItemRequest.lastHelperUsed;
 
@@ -1722,15 +1731,15 @@ public class UseItemRequest extends GenericRequest {
 
     switch (consumptionType) {
       case DRINK, DRINK_HELPER -> {
-        DrinkItemRequest.parseConsumption(item, helper, responseText);
+        DrinkItemRequest.parseConsumption(item, helper, responseText, showHTML);
         return;
       }
       case EAT, FOOD_HELPER -> {
-        EatItemRequest.parseConsumption(item, helper, responseText);
+        EatItemRequest.parseConsumption(item, helper, responseText, showHTML);
         return;
       }
       case SPLEEN -> {
-        SpleenItemRequest.parseConsumption(item, helper, responseText);
+        SpleenItemRequest.parseConsumption(item, helper, responseText, showHTML);
         return;
       }
     }
@@ -1742,19 +1751,19 @@ public class UseItemRequest extends GenericRequest {
 
     int inebriety = ConsumablesDatabase.getInebriety(name);
     if (inebriety > 0) {
-      DrinkItemRequest.parseConsumption(item, helper, responseText);
+      DrinkItemRequest.parseConsumption(item, helper, responseText, showHTML);
       return;
     }
 
     int fullness = ConsumablesDatabase.getFullness(name);
     if (fullness > 0 || itemId == ItemPool.MAGICAL_SAUSAGE) {
-      EatItemRequest.parseConsumption(item, helper, responseText);
+      EatItemRequest.parseConsumption(item, helper, responseText, showHTML);
       return;
     }
 
     int spleenHit = ConsumablesDatabase.getSpleenHit(name);
     if (spleenHit > 0) {
-      SpleenItemRequest.parseConsumption(item, helper, responseText);
+      SpleenItemRequest.parseConsumption(item, helper, responseText, showHTML);
       return;
     }
 
@@ -1863,7 +1872,6 @@ public class UseItemRequest extends GenericRequest {
     }
 
     if (responseText.contains("That item isn't usable in quantity")) {
-      EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
       if (!attrs.contains(Attribute.MULTIPLE)) {
         // Multi-use was attempted and failed, but the request was not generated by KoLmafia
         // because KoLmafia already knows that it cannot be multi-used
@@ -1888,6 +1896,14 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
+    // Items with the "message" type (or attribute) display an amusing
+    // message when used and are not consumed.
+    if (consumptionType == ConsumptionType.USE_MESSAGE_DISPLAY
+        || attrs.contains(Attribute.MESSAGE)) {
+      UseItemRequest.showItemUsage(showHTML, responseText);
+      return;
+    }
+
     switch (consumptionType) {
       case FOOD_HELPER:
       case DRINK_HELPER:
@@ -1895,12 +1911,6 @@ public class UseItemRequest extends GenericRequest {
         // successfully eat or drink.
 
       case NONE:
-        return;
-
-      case USE_MESSAGE_DISPLAY:
-        if (!Preferences.getBoolean("suppressNegativeStatusPopup")) {
-          UseItemRequest.showItemUsage(showHTML, responseText);
-        }
         return;
     }
 
@@ -2027,18 +2037,7 @@ public class UseItemRequest extends GenericRequest {
             return;
           }
 
-          // Log sender of message
-          Matcher giftFromMatcher = UseItemRequest.GIFT_FROM_PATTERN.matcher(responseText);
-          if (giftFromMatcher.find()) {
-            String giftFrom = giftFromMatcher.group(2);
-            String message = "Opening " + name + " from " + giftFrom;
-            RequestLogger.printLine("<font color=\"green\">" + message + "</font>");
-            RequestLogger.updateSessionLog(message);
-          }
-
-          if (showHTML) {
-            UseItemRequest.showItemUsage(true, responseText);
-          }
+          UseItemRequest.showItemUsage(showHTML, responseText);
 
           break;
         }
@@ -2829,6 +2828,11 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.MANUAL_OF_LOCK_PICKING:
       case ItemPool.SPINAL_FLUID_COVERED_EMOTION_CHIP:
       case ItemPool.REPLICA_EMOTION_CHIP:
+      case ItemPool.POCKET_GUIDE_TO_MILD_EVIL:
+      case ItemPool.POCKET_GUIDE_TO_MILD_EVIL_USED:
+      case ItemPool.RESIDUAL_CHITIN_PASTE:
+      case ItemPool.BOOK_OF_FACTS:
+      case ItemPool.BOOK_OF_FACTS_DOG_EARED:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you
@@ -2843,7 +2847,8 @@ public class UseItemRequest extends GenericRequest {
               && !responseText.contains("larynx become even more pirate")
               && !responseText.contains("become even more of an expert")
               && !responseText.contains("reread the tale and really remember")
-              && !responseText.contains("Beleven")) {
+              && !responseText.contains("Beleven")
+              && !responseText.contains("absorb the residual paste into your soul")) {
             UseItemRequest.lastUpdate = "You can't learn that skill.";
             KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
             return;
@@ -2884,6 +2889,13 @@ public class UseItemRequest extends GenericRequest {
 
         // Do we need to track this?
 
+        break;
+
+      case ItemPool.GREEN_THUMB:
+        Preferences.setBoolean("ownsFloristFriar", true);
+        // Fall through
+      case ItemPool.REPLICA_GREEN_THUMB:
+        FloristRequest.checkFloristAvailable();
         break;
 
       case ItemPool.CHATEAU_ROOM_KEY:
@@ -6103,6 +6115,10 @@ public class UseItemRequest extends GenericRequest {
         }
         return;
 
+      case ItemPool.REPLICA_SOURCE_TERMINAL:
+        CampgroundRequest.setCampgroundItem(ItemPool.SOURCE_TERMINAL, 1);
+        break;
+
       case ItemPool.REPLICA_WITCHESS_SET:
         Preferences.setBoolean("replicaWitchessSetAvailable", true);
         break;
@@ -6118,6 +6134,19 @@ public class UseItemRequest extends GenericRequest {
         // You lug the giant black monolith to your campground and set it down.
         // There's a deafening Bwoom-woob-woob-woob and then an ominous hum fills the air.
         CampgroundRequest.setCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH, 1);
+        break;
+      case ItemPool.VAN_KEY:
+        // When the player has a NEP Booze/Food quest active, up to 11 bags or keys can be opened
+        if (Preferences.getString("_questPartyFairQuest").equals("food")
+            && !Preferences.getString("_questPartyFairProgress").isEmpty()) {
+          Preferences.increment("_questPartyFairItemsOpened", 1, 11, false);
+        }
+        break;
+      case ItemPool.UNREMARKABLE_DUFFEL_BAG:
+        if (Preferences.getString("_questPartyFairQuest").equals("booze")
+            && !Preferences.getString("_questPartyFairProgress").isEmpty()) {
+          Preferences.increment("_questPartyFairItemsOpened", 1, 11, false);
+        }
         break;
     }
 
@@ -6156,6 +6185,24 @@ public class UseItemRequest extends GenericRequest {
         if (!ItemDatabase.isReusable(itemId)) {
           ResultProcessor.processResult(item.getNegation());
         }
+    }
+  }
+
+  private static final Pattern GIFT_FROM_PATTERN =
+      Pattern.compile(
+          "<p>From: <b><a class=nounder href=\"showplayer.php\\?who=(\\d+)\">(.*?)</a></b>");
+
+  public static void parseGiftPackage(String responseText) {
+    AdventureResult item = UseItemRequest.lastItemUsed;
+    if (item != null && ItemDatabase.isGiftPackage(item.getItemId())) {
+      Matcher giftFromMatcher = GIFT_FROM_PATTERN.matcher(responseText);
+      if (giftFromMatcher.find()) {
+        String name = item.getName();
+        String giftFrom = giftFromMatcher.group(2);
+        String message = "Opening " + name + " from " + giftFrom;
+        RequestLogger.printLine("<font color=\"green\">" + message + "</font>");
+        RequestLogger.updateSessionLog(message);
+      }
     }
   }
 
@@ -6220,7 +6267,7 @@ public class UseItemRequest extends GenericRequest {
     }
   }
 
-  private static void showItemUsage(final boolean showHTML, final String text) {
+  protected static void showItemUsage(final boolean showHTML, final String text) {
     if (showHTML) {
       KoLmafia.showHTML("inventory.php?action=message", UseItemRequest.trimInventoryText(text));
     }

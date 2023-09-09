@@ -21,13 +21,86 @@ public class RecordValue extends CompositeValue {
     return (RecordType) this.type;
   }
 
+  public Value[] getRecordFields() {
+    return (Value[]) this.content;
+  }
+
   public Type getDataType(final Value key) {
     return ((RecordType) this.type).getDataType(key);
   }
 
+  // The only comparison we implement is equality; we define no
+  // "natural order" for a record value.
+  //
+  // Value implements equals and equalsIgnoreCase in terms of
+  // equals(Value value, boolean ignoreCase)
+  //
+  // Therefore, that is the only method we need to implement here
+
+  @Override
+  protected boolean equals(final Object o, boolean ignoreCase) {
+    // No object equals null
+    if (o == null) {
+      return false;
+    }
+
+    // If the objects are identical Objects, easy equality
+    if (this == o) {
+      return true;
+    }
+
+    // The Parser enforces this at compile time, but...
+    if (!(o instanceof RecordValue)) {
+      return false;
+    }
+
+    RecordValue orv = (RecordValue) o;
+
+    // The objects must both have the same record type.
+    // The Parser does not (currently) enforce this.
+    RecordType type = this.getRecordType();
+    if (!type.equals(orv.getRecordType())) {
+      return false;
+    }
+
+    // The fields must all be equal.
+    Type[] dataTypes = type.getFieldTypes();
+    Value[] fields = this.getRecordFields();
+    Value[] ofields = orv.getRecordFields();
+
+    // Compare each field
+    for (int index = 0; index < dataTypes.length; ++index) {
+      Value field = fields[index];
+      Value ofield = ofields[index];
+
+      // If the objects are identical Objects, easy equality
+      if (field == ofield) {
+        continue;
+      }
+
+      // The fields must be equal, per the data type's definition of equality.
+      if (!field.equals(ofield, ignoreCase)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = this.getRecordType().hashCode();
+    Value[] fields = this.getRecordFields();
+    for (int index = 0; index < fields.length; ++index) {
+      hash += 31 * fields[index].hashCode();
+    }
+    return hash;
+  }
+
   @Override
   public Value aref(final Value key, final AshRuntime interpreter) {
-    int index = ((RecordType) this.type).indexOf(key);
+    RecordType type = (RecordType) this.type;
+    int index = type.indexOf(key);
     if (index < 0) {
       throw interpreter.runtimeException("Internal error: field index out of bounds");
     }

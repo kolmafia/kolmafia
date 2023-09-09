@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
+import static net.sourceforge.kolmafia.textui.DataTypes.BUFFER_TYPE;
 import static net.sourceforge.kolmafia.textui.DataTypes.PATH_TYPE;
 import static net.sourceforge.kolmafia.textui.parsetree.AggregateType.badAggregateType;
 import static net.sourceforge.kolmafia.textui.parsetree.VariableReference.badVariableReference;
@@ -34,6 +35,7 @@ import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
 import net.sourceforge.kolmafia.textui.parsetree.Catch;
 import net.sourceforge.kolmafia.textui.parsetree.Command;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeReference;
+import net.sourceforge.kolmafia.textui.parsetree.CompositeType;
 import net.sourceforge.kolmafia.textui.parsetree.Concatenate;
 import net.sourceforge.kolmafia.textui.parsetree.Conditional;
 import net.sourceforge.kolmafia.textui.parsetree.Else;
@@ -59,6 +61,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Operation;
 import net.sourceforge.kolmafia.textui.parsetree.Operator;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
+import net.sourceforge.kolmafia.textui.parsetree.RecordLiteral;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType.BadRecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
@@ -349,6 +352,7 @@ public class Parser {
     reservedWords.add("servant");
     reservedWords.add("vykea");
     reservedWords.add("path");
+    reservedWords.add("modifier");
 
     reservedWords.add("record");
     reservedWords.add("typedef");
@@ -603,9 +607,8 @@ public class Parser {
       }
 
       if (this.currentToken().equals("{")) {
-        if (t.getBaseType() instanceof AggregateType) {
-          result.addCommand(
-              this.parseAggregateLiteral(result, (AggregateType) t.getBaseType()), this);
+        if (t.getBaseType() instanceof CompositeType ct) {
+          result.addCommand(this.parseCompositeLiteral(result, ct), this);
         } else {
           if (!t.isBad()) {
             nodeErrors.submitError(
@@ -614,7 +617,7 @@ public class Parser {
                     "Aggregate type required to make an aggregate literal"));
           }
 
-          this.parseAggregateLiteral(result, badAggregateType());
+          this.parseCompositeLiteral(result, badAggregateType());
         }
       } else {
         // Found a type but no function or variable to tie it to
@@ -722,12 +725,6 @@ public class Parser {
         fieldErrors.submitSyntaxError(
             this.error(fieldName, "Invalid field name '" + fieldName + "'"));
         // don't read
-      } else if (Parser.isReservedWord(fieldName.content)) {
-        fieldErrors.submitError(
-            this.error(
-                fieldName, "Reserved word '" + fieldName + "' cannot be used as a field name"));
-
-        this.readToken(); // read name
       } else if (fieldNames.contains(fieldName.content)) {
         fieldErrors.submitError(
             this.error(fieldName, "Field name '" + fieldName + "' is already defined"));
@@ -773,6 +770,126 @@ public class Parser {
     }
 
     return rec;
+  }
+
+  /**
+   * Parses the content of a record literal, e.g., `{name:"Judy", age:40, married:false}`.
+   *
+   * <p>The presence of the opening bracket "{" is ALWAYS assumed when entering this method, and as
+   * such, MUST be checked before calling it. This method will never return null.
+   */
+  private Evaluable parseRecordLiteral(final BasicScope scope, final RecordType rec)
+      throws InterruptedException {
+    final ErrorManager recordLiteralErrors = new ErrorManager();
+
+    Token recordLiteralStartToken = this.currentToken();
+
+    this.readToken(); // read {
+
+    List<String> keys = new ArrayList<>();
+    List<Evaluable> values = new ArrayList<>();
+
+    Position previousPosition = null;
+    while (this.madeProgress(previousPosition, previousPosition = this.getCurrentPosition())) {
+      if (this.atEndOfFile()) {
+        recordLiteralErrors.submitSyntaxError(this.unexpectedTokenError("}", this.currentToken()));
+        break;
+      }
+
+      if (this.currentToken().equals("}")) {
+        if (keys.isEmpty()) {
+          recordLiteralErrors.submitError(
+              this.error(this.currentToken(), "Record field(s) expected"));
+        }
+
+        this.readToken(); // read }
+        break;
+      }
+
+      // Get a field name
+      Token fieldName = this.currentToken();
+      if (fieldName.equals(":")) {
+        recordLiteralErrors.submitSyntaxError(this.error(fieldName, "Field name expected"));
+        // don't read
+      } else if (!this.parseIdentifier(fieldName.content)) {
+        recordLiteralErrors.submitSyntaxError(
+            this.error(fieldName, "Invalid field name '" + fieldName + "'"));
+        // don't read
+      } else if (keys.contains(fieldName.content)) {
+        recordLiteralErrors.submitError(
+            this.error(fieldName, "Field name '" + fieldName + "' is already set"));
+        this.readToken(); // read field name
+      } else {
+        this.readToken(); // read field name
+      }
+
+      // The "key" must be a valid field name
+      Value fieldIndex = rec.getFieldIndex(fieldName.content);
+      if (fieldIndex == null) {
+        recordLiteralErrors.submitSyntaxError(
+            this.error(fieldName, "Field name '" + fieldName + "' is not valid"));
+      }
+
+      if (this.currentToken().equals(":")) {
+        this.readToken(); // read :
+      } else {
+        recordLiteralErrors.submitSyntaxError(this.unexpectedTokenError(":", this.currentToken()));
+      }
+
+      Type dataType = rec.getDataType(fieldIndex);
+      Evaluable rhs;
+
+      if (this.currentToken().equals("{")) {
+        if (dataType.getBaseType() instanceof CompositeType ct) {
+          rhs = this.parseCompositeLiteral(scope, ct);
+        } else {
+          rhs = this.parseCompositeLiteral(scope, badAggregateType());
+        }
+      } else {
+        rhs = this.parseExpression(scope);
+      }
+
+      if (rhs == null) {
+        Location errorLocation = this.makeLocation(this.currentToken());
+
+        recordLiteralErrors.submitSyntaxError(
+            this.error(
+                errorLocation,
+                "Script parsing error; couldn't figure out value of record field value"));
+
+        rhs = Value.locate(errorLocation, Value.BAD_VALUE);
+      }
+
+      // Check that value is valid via validCoercion
+      rhs = this.autoCoerceValue(dataType, rhs, scope, "assign");
+      if (!Operator.validCoercion(dataType, rhs.getType(), "assign")) {
+        recordLiteralErrors.submitError(
+            this.error(
+                rhs.getLocation(),
+                "Invalid record literal; cannot assign value of type "
+                    + rhs.getType().toString()
+                    + " to field of type "
+                    + dataType.toString()));
+      }
+
+      keys.add(fieldName.content);
+      values.add(rhs);
+
+      // Move on to the next value
+      if (this.currentToken().equals(",")) {
+        this.readToken(); // read ,
+      } else if (!this.currentToken().equals("}")) {
+        recordLiteralErrors.submitSyntaxError(this.unexpectedTokenError("}", this.currentToken()));
+      }
+    }
+
+    Location recordLiteralLocation =
+        this.makeLocation(recordLiteralStartToken, this.peekPreviousToken());
+
+    Value result =
+        recordLiteralErrors.sawError() ? Value.BAD_VALUE : new RecordLiteral(rec, keys, values);
+
+    return Value.locate(recordLiteralLocation, result);
   }
 
   private Function parseFunction(final Type functionType, final Scope parentScope)
@@ -886,7 +1003,8 @@ public class Parser {
             functionName.content, functionType, variableReferences, functionLocation);
 
     if (f.overridesLibraryFunction()) {
-      functionErrors.submitError(this.overridesLibraryFunctionError(f));
+      String buffer = "Function '" + f.getSignature() + "' overrides a library function.";
+      this.warning(f.getLocation(), buffer);
     }
 
     UserDefinedFunction existing = parentScope.findFunction(f);
@@ -1007,8 +1125,8 @@ public class Parser {
     Type t = lhs.target.getType();
     Type ltype = t.getBaseType();
     if (this.currentToken().equals("{")) {
-      if (ltype instanceof AggregateType) {
-        result = this.parseAggregateLiteral(scope, (AggregateType) ltype);
+      if (ltype instanceof CompositeType ct) {
+        result = this.parseCompositeLiteral(scope, ct);
       } else {
         if (!ltype.isBad()) {
           Location errorLocation = this.makeLocation(this.currentToken());
@@ -1016,16 +1134,16 @@ public class Parser {
           initializationErrors.submitError(
               this.error(
                   errorLocation,
-                  "Cannot initialize " + lhs + " of type " + t + " with an aggregate literal"));
+                  "Cannot initialize " + lhs + " of type " + t + " with a composite literal"));
         }
 
-        result = this.parseAggregateLiteral(scope, badAggregateType());
+        result = this.parseCompositeLiteral(scope, badAggregateType());
       }
     } else {
       result = this.parseExpression(scope);
 
       if (result != null) {
-        result = this.autoCoerceValue(t, result, scope);
+        result = this.autoCoerceValue(t, result, scope, "assign");
         if (!Operator.validCoercion(ltype, result.getType(), "assign")) {
           initializationErrors.submitError(
               this.error(
@@ -1041,7 +1159,13 @@ public class Parser {
     return result;
   }
 
-  private Evaluable autoCoerceValue(final Type ltype, final Evaluable rhs, final BasicScope scope) {
+  private Evaluable autoCoerceValue(
+      final Type ltype, final Evaluable rhs, final BasicScope scope, final Operator oper) {
+    return autoCoerceValue(ltype, rhs, scope, oper.toString());
+  }
+
+  private Evaluable autoCoerceValue(
+      final Type ltype, final Evaluable rhs, final BasicScope scope, final String oper) {
     // TypeSpec.ANY has no name
     if (ltype == null || ltype.getName() == null) {
       return rhs;
@@ -1072,6 +1196,15 @@ public class Parser {
     }
 
     if (ltype.equals(PATH_TYPE)) {
+      Function target = scope.findFunction(name, params, MatchType.COERCE);
+      if (target != null && target.getType().equals(ltype)) {
+        return new FunctionCall(rhs.getLocation(), target, params, this);
+      }
+    }
+
+    // Only do auto-coercion on assignments; not on function parameters.
+    // We COULD do it for return values.
+    if (ltype.equals(BUFFER_TYPE) && oper.equals("assign")) {
       Function target = scope.findFunction(name, params, MatchType.COERCE);
       if (target != null && target.getType().equals(ltype)) {
         return new FunctionCall(rhs.getLocation(), target, params, this);
@@ -1124,7 +1257,7 @@ public class Parser {
       }
 
       Evaluable currentValue = valIterator.next();
-      Evaluable coercedValue = this.autoCoerceValue(paramType, currentValue, scope);
+      Evaluable coercedValue = this.autoCoerceValue(paramType, currentValue, scope, "parameter");
       valIterator.set(coercedValue);
     }
 
@@ -1255,7 +1388,7 @@ public class Parser {
       // standalone catch doesn't have a ; token
       return result;
     } else if ((result = this.parseStatic(functionType, scope)) != null) {
-      // try doesn't have a ; token
+      // static doesn't have a ; token
       return result;
     } else if ((result = this.parseSort(scope)) != null) {
     } else if ((result = this.parseRemove(scope)) != null) {
@@ -1305,6 +1438,23 @@ public class Parser {
     }
 
     return valType;
+  }
+
+  /**
+   * Parses the content of a composite literal: array, map, or record
+   *
+   * <p>The presence of the opening bracket "{" is ALWAYS assumed when entering this method, and as
+   * such, MUST be checked before calling it. This method will never return null.
+   */
+  private Evaluable parseCompositeLiteral(final BasicScope scope, final Type comp)
+      throws InterruptedException {
+    if (comp instanceof AggregateType at) {
+      return this.parseAggregateLiteral(scope, at);
+    }
+    if (comp instanceof RecordType rt) {
+      return this.parseRecordLiteral(scope, rt);
+    }
+    return null;
   }
 
   /**
@@ -1362,8 +1512,8 @@ public class Parser {
                   this.currentToken(), "Expected a key of type " + index + ", found an aggregate"));
         }
 
-        if (dataType instanceof AggregateType) {
-          lhs = this.parseAggregateLiteral(scope, (AggregateType) dataType);
+        if (dataType instanceof CompositeType ct) {
+          lhs = this.parseCompositeLiteral(scope, ct);
         } else {
           if (!aggr.isBad()) {
             Location errorLocation = this.makeLocation(this.currentToken());
@@ -1371,10 +1521,10 @@ public class Parser {
             aggregateLiteralErrors.submitError(
                 this.error(
                     errorLocation,
-                    "Expected an element of type " + dataType.toString() + ", found an aggregate"));
+                    "Expected an element of type " + dataType.toString() + ", found a composite"));
           }
 
-          lhs = this.parseAggregateLiteral(scope, badAggregateType());
+          lhs = this.parseCompositeLiteral(scope, badAggregateType());
         }
       } else {
         lhs = this.parseExpression(scope);
@@ -1406,7 +1556,7 @@ public class Parser {
         // If parsing an ArrayLiteral, accumulate only values
         if (isArray) {
           // The value must have the correct data type
-          lhs = this.autoCoerceValue(data, lhs, scope);
+          lhs = this.autoCoerceValue(data, lhs, scope, "assign");
           if (!Operator.validCoercion(dataType, lhs.getType(), "assign")) {
             aggregateLiteralErrors.submitError(
                 this.error(
@@ -1455,8 +1605,8 @@ public class Parser {
       Evaluable rhs;
 
       if (this.currentToken().equals("{")) {
-        if (dataType instanceof AggregateType) {
-          rhs = this.parseAggregateLiteral(scope, (AggregateType) dataType);
+        if (dataType instanceof CompositeType ct) {
+          rhs = this.parseCompositeLiteral(scope, ct);
         } else {
           if (!aggr.isBad()) {
             Location errorLocation = this.makeLocation(this.currentToken());
@@ -1464,10 +1614,10 @@ public class Parser {
             aggregateLiteralErrors.submitError(
                 this.error(
                     errorLocation,
-                    "Expected a value of type " + dataType.toString() + ", found an aggregate"));
+                    "Expected a value of type " + dataType.toString() + ", found a composite"));
           }
 
-          rhs = this.parseAggregateLiteral(scope, badAggregateType());
+          rhs = this.parseCompositeLiteral(scope, badAggregateType());
         }
       } else {
         rhs = this.parseExpression(scope);
@@ -1485,8 +1635,8 @@ public class Parser {
       }
 
       // Check that each type is valid via validCoercion
-      lhs = this.autoCoerceValue(index, lhs, scope);
-      rhs = this.autoCoerceValue(data, rhs, scope);
+      lhs = this.autoCoerceValue(index, lhs, scope, "assign");
+      rhs = this.autoCoerceValue(data, rhs, scope, "assign");
 
       if (!Operator.validCoercion(index, lhs.getType(), "assign")) {
         aggregateLiteralErrors.submitError(
@@ -1679,10 +1829,19 @@ public class Parser {
           this.error(this.currentToken(), "Cannot return a value from a void function"));
     }
 
-    Evaluable value = this.parseExpression(parentScope);
+    Evaluable value;
+    if (this.currentToken().equals("{")) {
+      if (expectedType.getBaseType() instanceof CompositeType ct) {
+        value = this.parseCompositeLiteral(parentScope, ct);
+      } else {
+        value = this.parseCompositeLiteral(parentScope, badAggregateType());
+      }
+    } else {
+      value = this.parseExpression(parentScope);
+    }
 
     if (value != null) {
-      value = this.autoCoerceValue(expectedType, value, parentScope);
+      value = this.autoCoerceValue(expectedType, value, parentScope, "return");
     } else {
       Location errorLocation = this.makeLocation(this.currentToken());
 
@@ -2155,7 +2314,7 @@ public class Parser {
           caseErrors.submitSyntaxError(this.unexpectedTokenError(":", this.currentToken()));
         }
 
-        test = autoCoerceValue(type, test, scope);
+        test = autoCoerceValue(type, test, scope, "");
 
         if (!test.getType().equals(type) && !type.isBad() && !test.getType().isBad()) {
           caseErrors.submitError(
@@ -2806,7 +2965,7 @@ public class Parser {
         }
 
         Type ltype = t.getBaseType();
-        rhs = this.autoCoerceValue(t, rhs, scope);
+        rhs = this.autoCoerceValue(t, rhs, scope, "assign");
         Type rtype = rhs.getType();
 
         if (!Operator.validCoercion(ltype, rtype, "assign")) {
@@ -3063,19 +3222,19 @@ public class Parser {
         if (this.currentToken().equals(",")) {
           val = Value.locate(this.makeZeroWidthLocation(), DataTypes.VOID_VALUE);
         } else if (this.currentToken().equals("{")) {
-          if (expected instanceof AggregateType) {
-            val = this.parseAggregateLiteral(scope, (AggregateType) expected);
+          if (expected instanceof CompositeType ct) {
+            val = this.parseCompositeLiteral(scope, ct);
           } else {
             fieldErrors.submitError(
                 this.error(
                     this.currentToken(),
-                    "Aggregate literal found when "
+                    "Composite literal found when "
                         + expected
                         + " expected for field #"
                         + (param + 1)
                         + errorMessageFieldName));
 
-            val = this.parseAggregateLiteral(scope, badAggregateType());
+            val = this.parseCompositeLiteral(scope, badAggregateType());
           }
         } else {
           val = this.parseExpression(scope);
@@ -3093,7 +3252,7 @@ public class Parser {
         }
 
         if (!val.evaluatesTo(DataTypes.VOID_VALUE)) {
-          val = this.autoCoerceValue(currentType, val, scope);
+          val = this.autoCoerceValue(currentType, val, scope, "assign");
           Type given = val.getType();
           if (!Operator.validCoercion(expected, given, "assign")) {
             Location errorLocation = val.getLocation();
@@ -3360,11 +3519,11 @@ public class Parser {
     final ErrorManager assignmentErrors = new ErrorManager();
 
     Type ltype = lhs.getType().getBaseType();
-    boolean isAggregate = (ltype instanceof AggregateType);
+    boolean isComposite = (ltype instanceof CompositeType);
 
-    if (isAggregate && !operStr.equals("=")) {
+    if (isComposite && !operStr.equals("=")) {
       assignmentErrors.submitError(
-          this.error(operStr, "Cannot use '" + operStr + "' on an aggregate"));
+          this.error(operStr, "Cannot use '" + operStr + "' on a composite"));
     }
 
     Operator oper = new Operator(this.makeLocation(operStr), operStr.content, this);
@@ -3373,15 +3532,15 @@ public class Parser {
     Evaluable rhs;
 
     if (this.currentToken().equals("{")) {
-      if (isAggregate) {
-        rhs = this.parseAggregateLiteral(scope, (AggregateType) ltype);
+      if (isComposite) {
+        rhs = this.parseCompositeLiteral(scope, (CompositeType) ltype);
       } else {
         Location errorLocation = this.makeLocation(this.currentToken());
 
         assignmentErrors.submitError(
-            this.error(errorLocation, "Cannot use an aggregate literal for type " + lhs.getType()));
+            this.error(errorLocation, "Cannot use a composite literal for type " + lhs.getType()));
 
-        rhs = this.parseAggregateLiteral(scope, badAggregateType());
+        rhs = this.parseCompositeLiteral(scope, badAggregateType());
       }
     } else {
       rhs = this.parseExpression(scope);
@@ -3395,7 +3554,7 @@ public class Parser {
       rhs = Value.locate(errorLocation, Value.BAD_VALUE);
     }
 
-    rhs = this.autoCoerceValue(lhs.getRawType(), rhs, scope);
+    rhs = this.autoCoerceValue(lhs.getRawType(), rhs, scope, oper);
     if (!oper.validCoercion(lhs.getType(), rhs.getType())) {
       String error =
           oper.isLogical()
@@ -3530,7 +3689,7 @@ public class Parser {
         lhs = Value.locate(errorLocation, Value.BAD_VALUE);
       }
 
-      lhs = this.autoCoerceValue(DataTypes.BOOLEAN_TYPE, lhs, scope);
+      lhs = this.autoCoerceValue(DataTypes.BOOLEAN_TYPE, lhs, scope, oper);
       lhs = new Operation(lhs, oper);
       if (!lhs.getType().equals(DataTypes.BOOLEAN_TYPE) && !lhs.getType().isBad()) {
         expressionErrors.submitError(
@@ -3687,10 +3846,10 @@ public class Parser {
         if (oper.equals("+") && (ltype.equals(TypeSpec.STRING) || rtype.equals(TypeSpec.STRING))) {
           // String concatenation
           if (!ltype.equals(TypeSpec.STRING)) {
-            lhs = this.autoCoerceValue(DataTypes.STRING_TYPE, lhs, scope);
+            lhs = this.autoCoerceValue(DataTypes.STRING_TYPE, lhs, scope, oper);
           }
           if (!rtype.equals(TypeSpec.STRING)) {
-            rhs = this.autoCoerceValue(DataTypes.STRING_TYPE, rhs, scope);
+            rhs = this.autoCoerceValue(DataTypes.STRING_TYPE, rhs, scope, oper);
           }
           if (lhs instanceof Concatenate) {
             ((Concatenate) lhs).addString(rhs);
@@ -3705,7 +3864,7 @@ public class Parser {
                   ? ((AggregateType) ltype).getIndexType().getBaseType()
                   : ltype;
 
-          rhs = this.autoCoerceValue(lhsCoerceType, rhs, scope);
+          rhs = this.autoCoerceValue(lhsCoerceType, rhs, scope, oper);
           if (!oper.validCoercion(ltype, rhs.getType())) {
             expressionErrors.submitError(
                 this.error(
@@ -5385,11 +5544,6 @@ public class Parser {
 
   private AshDiagnostic multiplyDefinedFunctionError(final Function f) {
     String buffer = "Function '" + f.getSignature() + "' defined multiple times.";
-    return this.error(f.getLocation(), buffer);
-  }
-
-  private AshDiagnostic overridesLibraryFunctionError(final Function f) {
-    String buffer = "Function '" + f.getSignature() + "' overrides a library function.";
     return this.error(f.getLocation(), buffer);
   }
 

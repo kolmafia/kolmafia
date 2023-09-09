@@ -6,9 +6,11 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withNextResponse;
@@ -24,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -437,6 +440,101 @@ class UseSkillRequestTest {
             "runskillz.php?action=Skillz&whichskill=74439&ajax=1&quantity=1",
             html("request/test_cast_cincho_dispense_salt_and_lime.html"));
         assertThat("cinchoSaltAndLime", isSetTo(3));
+      }
+    }
+  }
+
+  @Nested
+  class August {
+    @BeforeEach
+    public void initializeState() {
+      KoLCharacter.reset("AugustScepter");
+      Preferences.reset("AugustScepter");
+    }
+
+    @AfterAll
+    public static void afterAll() {
+      InventoryManager.checkAugustScepter();
+    }
+
+    @Test
+    public void canCastSkillNormally() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.AUGUST_SCEPTER),
+              withProperty("_aug12Cast"),
+              withProperty("_augSkillsCast"));
+      InventoryManager.checkAugustScepter();
+
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
+        assertEquals(1, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    public void cannotCastSkillIfAlreadyCast() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.AUGUST_SCEPTER),
+              withProperty("_aug12Cast", true),
+              withProperty("_augSkillsCast"));
+      InventoryManager.checkAugustScepter();
+
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
+        assertEquals(0, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    public void cannotCastSkillIfCastFiveOthers() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.AUGUST_SCEPTER),
+              withProperty("_aug12Cast"),
+              withProperty("_augSkillsCast", 5));
+      InventoryManager.checkAugustScepter();
+
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
+        assertEquals(0, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    public void cannotCastTodaySkillIfCastFiveOthersInRun() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.AUGUST_SCEPTER),
+              withProperty("_aug12Cast"),
+              withProperty("_augSkillsCast", 5),
+              withInteractivity(false));
+      InventoryManager.checkAugustScepter();
+
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
+        assertEquals(0, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    public void canCastTodaySkillIfCastFiveOthersInAftercore() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.AUGUST_SCEPTER),
+              withProperty("_aug31Cast"),
+              withProperty("_aug30Cast"),
+              withProperty("_augSkillsCast", 5),
+              withInteractivity(true),
+              withDay(2023, Month.AUGUST, 31));
+      InventoryManager.checkAugustScepter();
+
+      try (cleanups) {
+        var skill = UseSkillRequest.getInstance(SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY);
+        assertEquals(1, skill.getMaximumCast());
+        skill = UseSkillRequest.getInstance(SkillPool.AUG_30TH_BEACH_DAY);
+        assertEquals(0, skill.getMaximumCast());
       }
     }
   }

@@ -23,6 +23,11 @@ public class ConfigQueueingPanel extends JPanel {
     this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
   }
 
+  @Override
+  public Dimension getMaximumSize() {
+    return this.getPreferredSize();
+  }
+
   protected JSeparator newSeparator() {
     JSeparator sep = new JSeparator();
     // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.

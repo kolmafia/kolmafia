@@ -24,13 +24,17 @@ import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.PastaThrallData.PastaThrallType;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+import net.sourceforge.kolmafia.modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierValueType;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1205,6 +1209,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("summon", DataTypes.BOOLEAN_TYPE)
             .add("permable", DataTypes.BOOLEAN_TYPE)
             .add("dailylimit", DataTypes.INT_TYPE)
+            .add("dailylimitpref", DataTypes.STRING_TYPE)
             .add("timescast", DataTypes.INT_TYPE)
             .finish("skill proxy");
 
@@ -1279,6 +1284,11 @@ public class ProxyRecordValue extends RecordValue {
 
     public long get_dailylimit() {
       return SkillDatabase.getMaxCasts((int) this.contentLong);
+    }
+
+    public String get_dailylimitpref() {
+      var limit = DailyLimitType.CAST.getDailyLimit((int) this.contentLong);
+      return limit == null ? "" : limit.getPref();
     }
 
     public int get_timescast() {
@@ -1379,6 +1389,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("poison", DataTypes.INT_TYPE)
             .add("water_level", DataTypes.INT_TYPE)
             .add("wanderers", DataTypes.BOOLEAN_TYPE)
+            .add("pledge_allegiance", DataTypes.STRING_TYPE)
             .finish("location proxy");
 
     public LocationProxy(Value obj) {
@@ -1430,7 +1441,9 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_environment() {
-      return this.content != null ? ((KoLAdventure) this.content).getEnvironment().toString() : "";
+      var environment =
+          this.content != null ? ((KoLAdventure) this.content).getEnvironment() : Environment.NONE;
+      return environment.toString();
     }
 
     public Value get_bounty() {
@@ -1528,6 +1541,54 @@ public class ProxyRecordValue extends RecordValue {
       }
 
       return WildfireCampRequest.getFireLevel((KoLAdventure) this.content);
+    }
+
+    public String get_pledge_allegiance() {
+      var id = get_id();
+      if (id < 0) return "";
+      var mod = id % 10;
+      var strEffect =
+          switch (id % 10) {
+            case 0 -> "Item Drop: 30, Spooky Damage: 10, Spooky Spell Damage: 10";
+            case 1 -> "Item Drop: 15, Meat Drop: 25, Stench Damage: 10, Stench Spell Damage: 10";
+            case 2 -> "Meat Drop: 50, Hot Damage: 10, Hot Spell Damage: 10";
+            case 3 -> "Meat Drop: 25, "
+                + all_resistance(2)
+                + ", Cold Damage: 10, Cold Spell Damage: 10";
+            case 4 -> all_resistance(4) + ", Sleaze Damage: 10, Sleaze Spell Damage: 10";
+            case 5 -> all_resistance(2)
+                + ", Spooky Damage: 10, Spooky Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
+            case 6 -> "Stench Damage: 10, Stench Spell Damage: 10, MP Regen Min: 20, MP Regen Max: 30";
+            case 7 -> "Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15";
+            case 8 -> "Initiative: 100, Cold Damage: 10, Cold Spell Damage: 10";
+            case 9 -> "Item Drop: 15, Initiative: 50, Sleaze Damage: 10, Sleaze Spell Damage: 10";
+            default -> throw new IllegalStateException("Unexpected value: " + mod);
+          };
+      var statEffect =
+          switch (id % 9) {
+            case 0, 7, 8 -> "";
+            case 1 -> ", Mysticality: 10";
+            case 2 -> ", Moxie: 10";
+            case 3 -> ", Muscle Percent: 10";
+            case 4 -> ", Mysticality Percent: 10";
+            case 5 -> ", Moxie Percent: 10";
+            case 6 -> ", Muscle: 10";
+            default -> throw new IllegalStateException("Unexpected value: " + mod);
+          };
+      return strEffect + statEffect;
+    }
+
+    private String all_resistance(int amt) {
+      return "Hot Resistance: "
+          + amt
+          + ", Cold Resistance: "
+          + amt
+          + ", Spooky Resistance: "
+          + amt
+          + ", Stench Resistance: "
+          + amt
+          + ", Sleaze Resistance: "
+          + amt;
     }
   }
 
@@ -1898,6 +1959,28 @@ public class ProxyRecordValue extends RecordValue {
 
     public SlotProxy(Value obj) {
       super(_type, obj);
+    }
+  }
+
+  public static class ModifierProxy extends ProxyRecordValue {
+    public static final RecordType _type =
+        new RecordBuilder()
+            .add("name", DataTypes.STRING_TYPE)
+            .add("type", DataTypes.STRING_TYPE)
+            .finish("modifier proxy");
+
+    public ModifierProxy(Value obj) {
+      super(_type, obj);
+    }
+
+    public String get_name() {
+      return this.content != null ? ((Modifier) this.content).getName() : "";
+    }
+
+    public String get_type() {
+      var modifierValueType =
+          this.content != null ? ((Modifier) this.content).getType() : ModifierValueType.NONE;
+      return modifierValueType.toString();
     }
   }
 }

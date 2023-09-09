@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -18,15 +19,32 @@ public class LoginRequest extends GenericRequest {
   private static boolean isLoggingIn;
   private static boolean isTimingIn = false;
 
+  public static int loginPingAttempt = 0;
+
   private final String username;
   private final String password;
+  private boolean stealthy = false;
 
   public static int playersOnline = 0;
 
-  public LoginRequest(final String username, final String password) {
+  public LoginRequest(String username, final String password) {
     super("login.php");
 
-    this.username = username == null ? "" : StringUtilities.globalStringReplace(username, "/q", "");
+    // Assume login is not stealthy: user's contacts will be informed
+    // when they log in or out.
+    this.stealthy = false;
+
+    if (username == null) {
+      username = "";
+    } else if (username.contains("/q")) {
+      // If supplied username includes /q, remove it, but remember it.
+      // We'll add it later, if supplied or user preference says to use it.
+      username = StringUtilities.globalStringReplace(username, "/q", "");
+      this.stealthy = true;
+    }
+
+    this.username = username;
+
     Preferences.setString(this.username, "displayName", this.username);
 
     this.password = password;
@@ -79,9 +97,31 @@ public class LoginRequest extends GenericRequest {
     this.addFormField("password", this.password);
     this.addFormField("secure", "0");
 
-    this.addFormField(
-        "loginname", Preferences.getBoolean("stealthLogin") ? this.username + "/q" : this.username);
+    boolean stealthy = this.stealthy || Preferences.getBoolean("stealthLogin");
+    this.addFormField("loginname", stealthy ? this.username + "/q" : this.username);
     this.addFormField("loggingin", "Yup.");
+
+    // We construct a new LoginRequest every time the user hits login from the LoginFrame,
+    // or types a "login" command, or the GUI autologins when it is created.
+    //
+    // The request will be reused whenever we time in after KoL silently
+    // times out the session, or while we do ping tests to measure
+    // connection times on login or timein.
+    //
+    // We can make those attempts stealthy, or not, as the user prefers.
+    // Each option has pluses and minuses:
+    //
+    // stealthy:
+    //   +: contacts are not informed about every timein
+    //   -: if there was at least one timein, contacts are not informed about logout
+    // not stealthy:
+    //   +: contacts are informed about logout
+    //   -: contacts are informed about every timeing
+    //
+    // Make it a user preference.
+    if (Preferences.getBoolean("pingStealthyTimein")) {
+      this.stealthy = true;
+    }
 
     KoLmafia.updateDisplay("Sending login request...");
 
@@ -104,8 +144,8 @@ public class LoginRequest extends GenericRequest {
       return;
     }
 
-    // Too many login attempts in too short a span of time.	 Please
-    // wait a minute (Literally, like, one minute.	Sixty seconds.)
+    // Too many login attempts in too short a span of time. Please
+    // wait a minute (Literally, like, one minute. Sixty seconds.)
     // and try again.
 
     // Whoops -- it looks like you had a recent session open that
@@ -165,6 +205,28 @@ public class LoginRequest extends GenericRequest {
     return LoginRequest.completedLogin;
   }
 
+  public static final boolean retimein() {
+    if (LoginRequest.lastRequest == null) {
+      return false;
+    }
+
+    LoginRequest.isTimingIn = true;
+    RequestThread.postRequest(LoginRequest.lastRequest);
+    LoginRequest.isTimingIn = false;
+
+    return LoginRequest.completedLogin;
+  }
+
+  public static final boolean relogin() {
+    if (LoginRequest.lastRequest == null) {
+      return false;
+    }
+
+    RequestThread.postRequest(LoginRequest.lastRequest);
+
+    return LoginRequest.completedLogin;
+  }
+
   public static final void isLoggingIn(final boolean isLoggingIn) {
     LoginRequest.isLoggingIn = isLoggingIn;
   }
@@ -175,6 +237,12 @@ public class LoginRequest extends GenericRequest {
 
   public static final boolean completedLogin() {
     return LoginRequest.completedLogin;
+  }
+
+  public static final void setLoggedOut() {
+    LoginRequest.completedLogin = false;
+    NamedListenerRegistry.fireChange("(login)");
+    LoginRequest.lastLoginAttempt = 0;
   }
 
   public static final void processLoginRequest(final GenericRequest request) {
@@ -189,6 +257,7 @@ public class LoginRequest extends GenericRequest {
     // happens, then validate here.
 
     LoginRequest.completedLogin = true;
+    NamedListenerRegistry.fireChange("(login)");
 
     // If login is successful, notify client of success.
 
@@ -204,6 +273,21 @@ public class LoginRequest extends GenericRequest {
 
     if (name.endsWith("/q")) {
       name = name.substring(0, name.length() - 2).trim();
+    }
+
+    // Optionally do a ping and check the connection.
+    // Returns true if it is acceptable.
+    // Returns false if it is unacceptable and we are logged out.
+    if (!LoginManager.ping()) {
+      // LoginManager left us logged out
+      LoginRequest.lastLoginAttempt = 0;
+      return;
+    }
+
+    // Ping testing can recursively login using this request.
+    // Only finish login/timein after the original call
+    if (LoginRequest.loginPingAttempt > 0) {
+      return;
     }
 
     if (LoginRequest.isTimingIn) {
