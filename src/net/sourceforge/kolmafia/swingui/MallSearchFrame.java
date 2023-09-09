@@ -15,11 +15,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -34,9 +31,9 @@ import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+import net.sourceforge.kolmafia.swingui.panel.MallSearchResultsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
-import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -55,7 +52,6 @@ public class MallSearchFrame extends GenericPanelFrame {
 
   private boolean currentlySearching;
   private boolean currentlyBuying;
-  private ShowDescriptionList<PurchaseRequest> resultsList;
   private final MallSearchPanel mallSearch;
 
   public MallSearchFrame() {
@@ -84,6 +80,7 @@ public class MallSearchFrame extends GenericPanelFrame {
    * </code>.
    */
   private class MallSearchPanel extends GenericPanel implements FocusListener {
+    private final ShowDescriptionList<PurchaseRequest> resultsList;
     private final JComponent searchField;
     private final AutoHighlightTextField countField;
 
@@ -136,7 +133,12 @@ public class MallSearchFrame extends GenericPanelFrame {
 
       this.setContent(elements);
 
-      this.add(new SearchResultsPanel(), BorderLayout.CENTER);
+      MallSearchResultsPanel searchResultsPanel =
+          new MallSearchResultsPanel(MallSearchFrame.results);
+      this.resultsList = searchResultsPanel.getResultsList();
+      this.resultsList.addListSelectionListener(new PurchaseSelectListener());
+
+      this.add(searchResultsPanel, BorderLayout.CENTER);
       MallSearchFrame.this.currentlySearching = false;
       MallSearchFrame.this.currentlyBuying = false;
 
@@ -207,7 +209,7 @@ public class MallSearchFrame extends GenericPanelFrame {
         return;
       }
 
-      PurchaseRequest[] purchases = MallSearchFrame.this.resultsList.getSelectedPurchases();
+      PurchaseRequest[] purchases = this.resultsList.getSelectedPurchases();
       if (purchases == null || purchases.length == 0) {
         this.setStatusMessage("Please select a store from which to purchase.");
         return;
@@ -241,6 +243,31 @@ public class MallSearchFrame extends GenericPanelFrame {
       }
 
       MallSearchFrame.this.currentlyBuying = false;
+    }
+
+    /**
+     * A ListSelectionListener class to detect which values are selected in the search results
+     * panel.
+     */
+    private class PurchaseSelectListener implements ListSelectionListener {
+      @Override
+      public void valueChanged(final ListSelectionEvent e) {
+        if (e.getValueIsAdjusting()) {
+          return;
+        }
+
+        // Reset the status message on this panel to show what the current
+        // state of the selections is at this time.
+
+        if (!MallSearchFrame.this.currentlyBuying) {
+          MallSearchFrame.this.mallSearch.setStatusMessage(
+              MallSearchFrame.this.getPurchaseSummary(
+                  MallSearchPanel.this
+                      .resultsList
+                      .getSelectedValuesList()
+                      .toArray(new PurchaseRequest[0])));
+        }
+      }
     }
   }
 
@@ -282,58 +309,5 @@ public class MallSearchFrame extends GenericPanelFrame {
         + KoLConstants.COMMA_FORMAT.format(totalPrice)
         + " "
         + currentPurchase.getCurrency(totalPrice);
-  }
-
-  /**
-   * An internal class which represents the panel used for tallying the results of the mall search
-   * request. Note that all of the tallying functionality is handled by the <code>LockableListModel
-   * </code> provided, so this functions as a container for that list model.
-   */
-  private class SearchResultsPanel extends JPanel {
-    public SearchResultsPanel() {
-      super(new BorderLayout());
-
-      JPanel resultsPanel = new JPanel(new BorderLayout());
-      resultsPanel.add(
-          JComponentUtilities.createLabel(
-              "Search Results", SwingConstants.CENTER, Color.black, Color.white),
-          BorderLayout.NORTH);
-
-      MallSearchFrame.this.resultsList = new ShowDescriptionList<>(MallSearchFrame.results);
-      MallSearchFrame.this.resultsList.setSelectionMode(
-          ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-      ((ShowDescriptionList) MallSearchFrame.this.resultsList)
-          .setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-      MallSearchFrame.this.resultsList.setVisibleRowCount(11);
-
-      MallSearchFrame.this.resultsList.addListSelectionListener(new PurchaseSelectListener());
-      this.add(new GenericScrollPane(MallSearchFrame.this.resultsList), BorderLayout.CENTER);
-    }
-
-    /**
-     * An internal listener class which detects which values are selected in the search results
-     * panel.
-     */
-    private class PurchaseSelectListener implements ListSelectionListener {
-      @Override
-      public void valueChanged(final ListSelectionEvent e) {
-        if (e.getValueIsAdjusting()) {
-          return;
-        }
-
-        // Reset the status message on this panel to
-        // show what the current state of the selections
-        // is at this time.
-
-        if (!MallSearchFrame.this.currentlyBuying) {
-          MallSearchFrame.this.mallSearch.setStatusMessage(
-              MallSearchFrame.this.getPurchaseSummary(
-                  MallSearchFrame.this
-                      .resultsList
-                      .getSelectedValuesList()
-                      .toArray(new PurchaseRequest[0])));
-        }
-      }
-    }
   }
 }

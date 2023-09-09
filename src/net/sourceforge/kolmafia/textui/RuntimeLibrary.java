@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -532,6 +533,11 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("to_float", DataTypes.FLOAT_TYPE, params));
     params = new Type[] {DataTypes.FLOAT_TYPE};
     functions.add(new LibraryFunction("to_float", DataTypes.FLOAT_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("to_buffer", DataTypes.BUFFER_TYPE, params));
+    params = new Type[] {DataTypes.BUFFER_TYPE};
+    functions.add(new LibraryFunction("to_buffer", DataTypes.BUFFER_TYPE, params));
 
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("to_item", DataTypes.ITEM_TYPE, params));
@@ -1424,6 +1430,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {};
     functions.add(new LibraryFunction("my_turncount", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("my_total_turns_spent", DataTypes.INT_TYPE, params));
 
     params = new Type[] {};
     functions.add(new LibraryFunction("my_fullness", DataTypes.INT_TYPE, params));
@@ -3395,8 +3404,11 @@ public abstract class RuntimeLibrary {
 
   public static Value visit_url(ScriptRuntime controller) {
     RelayRequest relayRequest = controller.getRelayRequest();
+    StringBuffer buffer = new StringBuffer();
+    Value returnValue = new Value(DataTypes.BUFFER_TYPE, "", buffer);
+
     if (relayRequest == null) {
-      return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
+      return returnValue;
     }
 
     while (true) {
@@ -3410,11 +3422,10 @@ public abstract class RuntimeLibrary {
       }
     }
 
-    StringBuffer buffer = new StringBuffer();
     if (relayRequest.responseText != null) {
       buffer.append(relayRequest.responseText);
     }
-    return new Value(DataTypes.BUFFER_TYPE, "", buffer);
+    return returnValue;
   }
 
   public static Value visit_url(ScriptRuntime controller, final Value string) {
@@ -3525,11 +3536,13 @@ public abstract class RuntimeLibrary {
   public static Value to_string(ScriptRuntime controller, Value val) {
     // This function previously just returned val, except in the
     // case of buffers in which case it's necessary to capture the
-    // current string value of the buffer.	That works fine in most
-    // cases, but NOT if the value ever gets used as a key in a
-    // map; having a key that's actually an int (for example) in a
-    // string map causes the map ordering to become inconsistent,
-    // because int Values compare differently than string Values.
+    // current string value of the buffer.
+    //
+    // That works fine in most cases, but NOT if the value ever gets
+    // used as a key in a map; having a key that's actually an int (for
+    // example) in a string map causes the map ordering to become
+    // inconsistent, because int Values compare differently than string
+    // Values.
     return val.toStringValue();
   }
 
@@ -3600,6 +3613,15 @@ public abstract class RuntimeLibrary {
     }
 
     return value.toFloatValue();
+  }
+
+  public static Value to_buffer(ScriptRuntime controller, final Value value) {
+    if (value.getType().equals(TypeSpec.STRING)) {
+      String string = value.toString();
+      return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer(string));
+    }
+    StringBuffer buffer = (StringBuffer) value.rawValue();
+    return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer(buffer));
   }
 
   public static Value to_item(ScriptRuntime controller, final Value value) {
@@ -6193,6 +6215,10 @@ public abstract class RuntimeLibrary {
 
   public static Value my_turncount(ScriptRuntime controller) {
     return new Value(KoLCharacter.getCurrentRun());
+  }
+
+  public static Value my_total_turns_spent(ScriptRuntime controller) {
+    return new Value(AdventureSpentDatabase.getTotalTrackedTurns());
   }
 
   public static Value my_fullness(ScriptRuntime controller) {
@@ -9543,6 +9569,9 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value florist_available(ScriptRuntime controller) {
+    if (!Preferences.getBoolean("floristFriarChecked")) {
+      FloristRequest.checkFloristAvailable();
+    }
     return DataTypes.makeBooleanValue(FloristRequest.haveFlorist());
   }
 
@@ -10258,7 +10287,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value ping(ScriptRuntime controller) {
-    return ping(controller, PingManager.runPingTest());
+    return ping(controller, PingManager.runPingTest(false));
   }
 
   public static Value ping(ScriptRuntime controller, final Value arg1) {
@@ -10269,7 +10298,7 @@ public abstract class RuntimeLibrary {
   public static Value ping(ScriptRuntime controller, final Value arg1, final Value arg2) {
     int count = (int) arg1.intValue();
     String page = arg2.toString();
-    return ping(controller, PingManager.runPingTest(count, page, false));
+    return ping(controller, PingManager.runPingTest(count, page, false, false));
   }
 
   private static Value ping(ScriptRuntime controller, final PingTest result) {

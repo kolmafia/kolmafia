@@ -506,6 +506,7 @@ public interface KoLConstants extends UtilityConstants {
     STILLSUIT, // Distillate from the stillsuit
     WOOL, // Items made from grubby wool
     SHADOW_FORGE, // Items made at The Shadow Forge
+    FIXODENT, // Items made from fixodent
   }
 
   enum CraftingRequirements {

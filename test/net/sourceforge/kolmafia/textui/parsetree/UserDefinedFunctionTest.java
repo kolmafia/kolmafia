@@ -111,11 +111,14 @@ public class UserDefinedFunctionTest {
             "void f(int ... a, float b) {}",
             "The vararg parameter must be the last one",
             "char 19 to char 24"),
+        // Overriding a library function is now a warning, not an error.
+        /*
         invalid(
             "Basic function overrides library",
             "void round(float n) {}",
             "Function 'round(float)' overrides a library function.",
             "char 6 to char 20"),
+        */
         invalid(
             "Basic function defined multiple times",
             "void f() {} void f() {}",

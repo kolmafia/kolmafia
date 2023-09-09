@@ -1150,6 +1150,9 @@ public abstract class UseLinkDecorator {
               return new UsesLink(uses.toArray(new UseLink[uses.size()]));
             }
 
+          case ItemPool.FIXODENT:
+            return new UseLink(itemId, 1, "fix", "shop.php?whichshop=fixodent");
+
           default:
             return new UseLink(
                 itemId,

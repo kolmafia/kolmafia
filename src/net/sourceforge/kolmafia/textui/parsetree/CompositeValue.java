@@ -18,6 +18,12 @@ public abstract class CompositeValue extends Value {
     return (CompositeType) this.type;
   }
 
+  // Subclasses of CompositeValue must redefine equality.
+  // equals() and equalsIgnoreCase will use that definition
+
+  @Override
+  protected abstract boolean equals(final Object o, boolean ignoreCase);
+
   public Value aref(final Value key) {
     return this.aref(key, null);
   }
@@ -126,13 +132,11 @@ public abstract class CompositeValue extends Value {
 
   @Override
   public Object toJSON() throws JSONException {
-    JSONObject obj = new JSONObject();
+    var obj = new JSONObject();
 
-    Value[] keys = this.keys();
-
-    for (int i = 0; i < keys.length; ++i) {
-      String key = keys[i].toString();
-      Object value = this.aref(keys[i]).toJSON();
+    for (Value item : this.keys()) {
+      var key = item.toString();
+      var value = this.aref(item).toJSON();
       obj.put(key, value);
     }
 

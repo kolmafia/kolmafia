@@ -492,6 +492,11 @@ public class CharPaneRequest extends GenericRequest {
 
   private static void handleStatPoints(final String responseText, final Pattern pattern)
       throws Exception {
+    if (KoLCharacter.inSmallcore()) {
+      // trust api.php
+      return;
+    }
+
     Matcher statMatcher = pattern.matcher(responseText);
     if (!statMatcher.find()) {
       return;

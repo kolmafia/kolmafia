@@ -732,7 +732,7 @@ public class AreaCombatDataTest {
           new Cleanups(
               withProperty("rwbLocation", "The Smut Orc Logging Camp"),
               withProperty("rwbMonster", "smut orc jacker"),
-              withProperty("rwbMonsterCount", 3));
+              withProperty("rwbMonsterCount", 2));
 
       try (cleanups) {
         Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
@@ -753,7 +753,7 @@ public class AreaCombatDataTest {
           new Cleanups(
               withProperty("rwbLocation", "The Smut Orc Logging Camp"),
               withProperty("rwbMonster", "smut orc jacker"),
-              withProperty("rwbMonsterCount", 3),
+              withProperty("rwbMonsterCount", 2),
               withProperty("_gallapagosMonster", "smut orc nailer"));
 
       try (cleanups) {

@@ -18,7 +18,6 @@ public abstract class PurchaseRequest extends GenericRequest
   protected String hashField;
 
   protected String shopName;
-  public boolean isMallStore;
 
   protected AdventureResult item;
   protected int quantity;
@@ -32,6 +31,10 @@ public abstract class PurchaseRequest extends GenericRequest
 
   public PurchaseRequest(final String location) {
     super(location);
+  }
+
+  public boolean isMallStore() {
+    return false;
   }
 
   @Override

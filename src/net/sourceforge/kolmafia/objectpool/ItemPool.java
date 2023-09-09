@@ -668,7 +668,7 @@ public class ItemPool {
   public static final int MARINATED_STAKES = 2295;
   public static final int KNOB_BUTTER = 2296;
   public static final int VIAL_OF_ECTOPLASM = 2297;
-  public static final int BOOCK_OF_MAGIKS = 2298;
+  public static final int BOOCK_OF_MAGICKS = 2298;
   public static final int EZ_PLAY_HARMONICA_BOOK = 2299;
   public static final int FINGERLESS_HOBO_GLOVES = 2300;
   public static final int CHOMSKYS_COMICS = 2301;
@@ -824,6 +824,7 @@ public class ItemPool {
   public static final int GOLD_BOWLING_BALL = 2766;
   public static final int SOLID_BACONSTONE_EARRING = 2780;
   public static final int BRIMSTONE_BERET = 2813;
+  public static final int BRIMSTONE_BLUDGEON = 2814;
   public static final int BRIMSTONE_BUNKER = 2815;
   public static final int BRIMSTONE_BRACELET = 2818;
   public static final int GRIMACITE_GASMASK = 2819;
@@ -1997,6 +1998,7 @@ public class ItemPool {
   public static final int POCKET_SQUARE = 6407;
   public static final int CORRUPTED_STARDUST = 6408;
   public static final int SHAKING_SKULL = 6412;
+  public static final int GREEN_THUMB = 6413;
   public static final int TWIST_OF_LIME = 6417;
   public static final int TONIC_DJINN = 6421;
   public static final int TALES_OF_DREAD = 6423;
@@ -2066,7 +2068,7 @@ public class ItemPool {
   public static final int VICIOUS_SPIKED_COLLAR = 6583;
   public static final int ANCIENT_HOT_DOG_WRAPPER = 6584;
   public static final int DEBONAIR_DEBONER = 6585;
-  public static final int CHICLE_DE_SALCHICA = 6586;
+  public static final int CHICLE_DE_SALCHICHA = 6586;
   public static final int JAR_OF_FROSTIGKRAUT = 6587;
   public static final int GNAWED_UP_DOG_BONE = 6588;
   public static final int GREY_GUANON = 6589;
@@ -3037,7 +3039,7 @@ public class ItemPool {
   public static final int FILTER_HELMET = 9405;
   public static final int EXO_SERVO_LEG_BRACES = 9406;
   public static final int RAD_CLOAK = 9407;
-  public static final int GATE_TRANCEIVER = 9408;
+  public static final int GATE_TRANSCEIVER = 9408;
   public static final int HIGH_FRICTION_BOOTS = 9409;
   public static final int SPACEGATE_RESEARCH = 9410;
   public static final int ALIEN_ROCK_SAMPLE = 9411;
@@ -3176,7 +3178,7 @@ public class ItemPool {
   public static final int MAGNIFICENT_OYSTER_EGG = 9828;
   public static final int BRILLIANT_OYSTER_EGG = 9829;
   public static final int GLISTENING_OYSTER_EGG = 9830;
-  public static final int SCINTILATING_OYSTER_EGG = 9831;
+  public static final int SCINTILLATING_OYSTER_EGG = 9831;
   public static final int PEARLESCENT_OYSTER_EGG = 9832;
   public static final int LUSTROUS_OYSTER_EGG = 9833;
   public static final int GLEAMING_OYSTER_EGG = 9834;
@@ -3224,10 +3226,12 @@ public class ItemPool {
   public static final int PARTY_HARD_T_SHIRT = 9944;
   public static final int ELECTRONICS_KIT = 9952;
   public static final int PAINT_PALETTE = 9956;
+  public static final int UNREMARKABLE_DUFFEL_BAG = 9957;
   public static final int PURPLE_BEAST_ENERGY_DRINK = 9958;
   public static final int PUMP_UP_HIGH_TOPS = 9961;
   public static final int VERY_SMALL_RED_DRESS = 9963;
   public static final int EVERFULL_GLASS = 9966;
+  public static final int VAN_KEY = 9967;
   public static final int JAM_BAND_BOOTLEG = 9968;
   public static final int INTIMIDATING_CHAINSAW = 9972;
   public static final int PARTY_PLANNING_BOOK = 9978;
@@ -3252,7 +3256,7 @@ public class ItemPool {
   public static final int MAGICAL_SAUSAGE = 10060;
   public static final int CRIMBO_CANDLE = 10072;
   public static final int CHALK_CHUNKS = 10088;
-  public static final int MARBLE_MOECULES = 10096;
+  public static final int MARBLE_MOLECULES = 10096;
   public static final int PARAFFIN_PSEUDOACCORDION = 10103;
   public static final int PARAFFIN_PIECES = 10104;
   public static final int TERRA_COTTA_TIDBITS = 10112;
@@ -3381,7 +3385,7 @@ public class ItemPool {
   public static final int DEEP_FRIED_KEY = 10568;
   public static final int DISCARDED_BIKE_LOCK_KEY = 10569;
   public static final int MANUAL_OF_LOCK_PICKING = 10571;
-  public static final int DROMEDARY_DRINKING_HELMENT = 10580;
+  public static final int DROMEDARY_DRINKING_HELMET = 10580;
   public static final int SPINMASTER = 10582;
   public static final int FLIMSY_HARDWOOD_SCRAPS = 10583;
   public static final int DREADSYLVANIAN_HEMLOCK = 10589;
@@ -3482,6 +3486,9 @@ public class ItemPool {
   public static final int DINOSAUR_DROPPINGS = 10945;
   public static final int JURASSIC_PARKA = 10952;
   public static final int AUTUMNATON = 10954;
+  public static final int ROASTED_VEGETABLE_OF_JARLSBERG = 10969;
+  public static final int PETES_RICH_RICOTTA = 10975;
+  public static final int BORIS_BREAD = 10978;
   public static final int ROBY_RATATOUILLE_DE_JARLSBERG = 10979;
   public static final int ROBY_JARLSBERGS_VEGETABLE_SOUP = 10980;
   public static final int ROBY_ROASTED_VEGETABLE_OF_J = 10981;
@@ -3491,6 +3498,9 @@ public class ItemPool {
   public static final int ROBY_BORIS_BEER = 10985;
   public static final int ROBY_HONEY_BUN_OF_BORIS = 10986;
   public static final int ROBY_BORIS_BREAD = 10987;
+  public static final int BAKED_VEGGIE_RICOTTA_CASSEROLE = 10988;
+  public static final int PLAIN_CALZONE = 10989;
+  public static final int ROASTED_VEGETABLE_FOCACCIA = 10990;
   public static final int PIZZA_OF_LEGEND = 10991;
   public static final int CALZONE_OF_LEGEND = 10992;
   public static final int ROBY_CALZONE_OF_LEGEND = 10993;
@@ -3654,8 +3664,15 @@ public class ItemPool {
   public static final int LOATHING_IDOL_MICROPHONE_25 = 11279;
   public static final int REPLICA_MR_STORE_2002_CATALOG = 11280;
   public static final int REPLICA_PATRIOTIC_EAGLE = 11304;
+  public static final int AUGUST_SCEPTER = 11306;
+  public static final int FIXODENT = 11312;
+  public static final int BAYWATCH = 11321;
   public static final int POCKET_GUIDE_TO_MILD_EVIL = 11322;
   public static final int POCKET_GUIDE_TO_MILD_EVIL_USED = 11323;
+  public static final int REPLICA_AUGUST_SCEPTER = 11325;
+  public static final int RESIDUAL_CHITIN_PASTE = 11327;
+  public static final int BOOK_OF_FACTS = 11333;
+  public static final int BOOK_OF_FACTS_DOG_EARED = 11334;
 
   private ItemPool() {}
 

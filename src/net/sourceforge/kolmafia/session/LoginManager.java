@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
+import net.sourceforge.kolmafia.session.PingManager.PingAbortTrigger;
 import net.sourceforge.kolmafia.session.PingManager.PingTest;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -65,9 +66,17 @@ public class LoginManager {
     }
 
     // The user wants to measure ping speed.
-    var result = PingManager.runPingTest();
+    var result = PingManager.runPingTest(true);
+
+    // If the ping test failed, give up; error already logged.
+    if (result.getAverage() == 0) {
+      return true;
+    }
+
     KoLmafia.updateDisplay(
-        "Ping test: average delay is " + Math.round(result.getAverage()) + " msecs.");
+        "Ping test: average delay is "
+            + KoLConstants.FLOAT_FORMAT.format(result.getAverage())
+            + " msecs.");
 
     // See if the Ping tested a suitable page
     if (!result.isSaveable()) {
@@ -104,13 +113,33 @@ public class LoginManager {
           return true;
         }
         // Either no threshold is set or this connection is too slow.
-        error = "you want no more than " + String.valueOf(Math.round(desired)) + " msec";
+        error = "you want no more than " + KoLConstants.FLOAT_FORMAT.format(desired) + " msec";
         // Alert the user.
       }
       default -> {
         // The user is happy with any connection
         return true;
       }
+    }
+
+    // If the ping test aborted because times exceeded a user-defined
+    // trigger, log that.
+    PingAbortTrigger trigger = result.getTrigger();
+    if (trigger != null) {
+      StringBuilder buf = new StringBuilder();
+      buf.append("Ping test aborted because ");
+      int count = trigger.getCount();
+      buf.append(String.valueOf(count));
+      buf.append(" ping");
+      if (count != 1) {
+        buf.append("s");
+      }
+      buf.append(" exceeded ");
+      var shortest = PingTest.parseProperty("pingShortest");
+      double limit = trigger.getFactor() * shortest.getAverage();
+      buf.append(KoLConstants.FLOAT_FORMAT.format(limit));
+      buf.append(" msec.");
+      KoLmafia.updateDisplay(buf.toString());
     }
 
     // Perhaps the user wants to automatically retry for a certain
@@ -172,7 +201,8 @@ public class LoginManager {
           break;
         }
       }
-      KoLmafia.updateDisplay("Accepting the last attempt of " + average + " msec.");
+      KoLmafia.updateDisplay(
+          "Accepting the last attempt of " + KoLConstants.FLOAT_FORMAT.format(average) + " msec.");
       return true;
     }
 
@@ -214,7 +244,7 @@ public class LoginManager {
 
     StringBuilder buf = new StringBuilder();
     buf.append("This connection has an average ping time of ");
-    buf.append(String.valueOf(Math.round(average)));
+    buf.append(KoLConstants.FLOAT_FORMAT.format(average));
     buf.append(" msec");
     if (!error.equals("")) {
       buf.append(", but ");
@@ -390,6 +420,11 @@ public class LoginManager {
     // Open the session log
 
     RequestLogger.openSessionLog();
+
+    // Log when a session is started
+
+    RequestLogger.updateSessionLog();
+    RequestLogger.updateSessionLog("Initializing session for " + username + "...");
 
     // Perform requests to read current character's data
 

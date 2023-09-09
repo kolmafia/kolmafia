@@ -15,6 +15,7 @@ import static org.hamcrest.Matchers.is;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -277,6 +278,12 @@ public class DailyDeedsPanelTest {
 
   @Nested
   class DropsFamiliars {
+
+    @BeforeEach
+    public void beforeEach() {
+      FamiliarData.reset();
+    }
+
     @Test
     public void showsCookbookbat() {
       var dd = new DailyDeedsPanel.DropsDaily();

@@ -1068,4 +1068,77 @@ public class ModifiersTest {
       }
     }
   }
+
+  @Nested
+  public class OffhandRemarkable {
+    @BeforeAll
+    public static void setup() {
+      Preferences.reset("OffhandRemarkable");
+    }
+
+    @Test
+    public void doublesOffhands() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(ItemPool.BRIMSTONE_BUNKER), withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(100.0));
+      }
+    }
+
+    @Test
+    public void onlyDoublesOffhandOffhands() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING),
+              withEquipped(ItemPool.BRIMSTONE_BLUDGEON),
+              withEquipped(Slot.OFFHAND, ItemPool.BRIMSTONE_BLUDGEON),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(100.0));
+      }
+    }
+
+    @Test
+    public void doublesOffhandsOnFamiliar() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(ItemPool.BRIMSTONE_BUNKER),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquipped(Slot.FAMILIAR, ItemPool.BRIMSTONE_BUNKER),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(200.0));
+      }
+    }
+
+    @Test
+    public void doublesUmbrellaMods() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.UNBREAKABLE_UMBRELLA),
+              withProperty("umbrellaState", "bucket style"),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(50.0));
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(50.0));
+      }
+    }
+  }
 }

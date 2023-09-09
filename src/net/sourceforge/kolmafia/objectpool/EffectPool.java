@@ -96,7 +96,7 @@ public class EffectPool {
   public static final int MAID_DISSERVICE = 389;
   public static final int MINIONED = 390;
   public static final int ENHANCED_ARCHAEOLOGIST = 391;
-  public static final int CHRONOLOGICALLY_PUMMELLED = 392;
+  public static final int CHRONOLOGICALLY_PUMMELED = 392;
   public static final int ANIMAL_EXPLOITER = 393;
   public static final int SCENT_OF_A_KITCHEN_ELF = 394;
   public static final int ONCE_BITTEN_TWICE_SHY = 395;
@@ -360,6 +360,9 @@ public class EffectPool {
   public static final int SHADOW_WATERS = 2806;
   public static final int OMINOUS_WISDOM = 2810;
   public static final int CITIZEN_OF_A_ZONE = 2822;
+  public static final int OFFHAND_REMARKABLE = 2830;
+  public static final int SERENDIPITY = 2833;
+  public static final int RECALLING_CIRCADIAN_RHYTHMS = 2846;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

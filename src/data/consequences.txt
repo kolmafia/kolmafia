@@ -103,6 +103,7 @@ DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=[$1/2]
 DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1
 DESC_SKILL	Summon Annoyance	Cost</b>: (\d+)	summonAnnoyanceCost=$1
 DESC_SKILL	Bear Essence	\+(\d+)% Picnic Basket	skillLevel134=[$1/20]
+DESC_SKILL	Chitinous Soul	Maximum HP \+(\d+)	skillLevel227=$1
 DESC_SKILL	Visit your Favorite Bird	your favorite bird, the (.*?), and get	yourFavoriteBird=$1
 
 DESC_EFFECT	Antihangover	Moxie \+(\d+)	_antihangoverBonus=$1
@@ -120,6 +121,7 @@ DESC_EFFECT	On the Trail	I mean "(.*?)\."<	olfactedMonster=$1
 DESC_EFFECT	Puzzle Champ	\+(\d+) to Familiar Weight	puzzleChampBonus=$1
 DESC_EFFECT	Starry-Eyed	All Attributes \+(\d+)%	telescopeUpgrades=[$1/5]
 DESC_EFFECT	Towering Strength	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_EFFECT	Recalling Circadian Rhythms	you encounter an? (.+) you will	_circadianRhythmsPhylum=$1
 
 # Effect modifiers
 DESC_EFFECT	Buzzed on Distillate		currentDistillateMods=mods

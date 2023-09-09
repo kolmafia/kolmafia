@@ -5,8 +5,10 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -14,6 +16,29 @@ public abstract class TopMenuDecorator {
   public static final void decorate(final StringBuffer buffer, final String location) {
     if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {
       return;
+    }
+
+    if (location.equals("awesomemenu.php?icons=1")) {
+      // This returns a JSON array.
+      return;
+    }
+
+    if (Preferences.getBoolean("debugTopMenuStyle")) {
+      var style =
+          buffer.indexOf("awesomemenu.php") != -1
+              ? TopMenuStyle.FANCY
+              : buffer.indexOf("Function:") != -1 ? TopMenuStyle.COMPACT : TopMenuStyle.NORMAL;
+
+      if (style != GenericRequest.topMenuStyle) {
+        String message =
+            "We think topmenu style is "
+                + GenericRequest.topMenuStyle
+                + " but it is actually "
+                + style;
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
+        GenericRequest.topMenuStyle = style;
+      }
     }
 
     switch (GenericRequest.topMenuStyle) {

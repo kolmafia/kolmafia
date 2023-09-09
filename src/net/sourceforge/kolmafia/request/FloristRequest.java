@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -13,9 +14,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FloristRequest extends GenericRequest {
-  private static boolean haveFlorist = true;
-  private static boolean floristChecked = false;
-
   private static final Pattern FLOWER_PATTERN =
       Pattern.compile(
           "<tr><td>([^>]*?)</td><td width.*?plant(\\d+)\\.gif.*?plant(\\d+)?\\.gif.*?plant(\\d+)?\\.gif.*?");
@@ -147,8 +145,7 @@ public class FloristRequest extends GenericRequest {
   }
 
   public static void reset() {
-    FloristRequest.haveFlorist = true;
-    FloristRequest.floristChecked = false;
+    Preferences.setBoolean("floristFriarChecked", false);
     FloristRequest.floristPlants.clear();
   }
 
@@ -167,9 +164,8 @@ public class FloristRequest extends GenericRequest {
     this.addFormField("plant", String.valueOf(plant));
   }
 
-  @Override
-  public void run() {
-    if (GenericRequest.abortIfInFightOrChoice()) {
+  public static void checkFloristAvailable() {
+    if (GenericRequest.abortIfInFightOrChoice(true)) {
       return;
     }
 
@@ -177,37 +173,50 @@ public class FloristRequest extends GenericRequest {
       return;
     }
 
-    if (KoLCharacter.getLevel() < 2) {
+    if (!KoLAdventure.woodsOpen()) {
       return;
     }
-
-    if (FloristRequest.floristChecked && !FloristRequest.haveFlorist()) {
-      return;
-    }
-
-    FloristRequest.floristChecked = true;
 
     PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
     RequestThread.postRequest(forestVisit);
-    if (forestVisit.responseText != null
-        && !forestVisit.responseText.contains("The Florist Friar's Cottage")) {
-      FloristRequest.setHaveFlorist(false);
+    FloristRequest.setHaveFlorist(
+        forestVisit.responseText != null
+            && forestVisit.responseText.contains("The Florist Friar's Cottage"));
+  }
+
+  @Override
+  public void run() {
+    if (GenericRequest.abortIfInFightOrChoice()) {
       return;
     }
 
+    if (!Preferences.getBoolean("floristFriarChecked")) {
+      checkFloristAvailable();
+    }
+
+    if (!FloristRequest.haveFlorist()) {
+      return;
+    }
+
+    PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
+    RequestThread.postRequest(forestVisit);
     super.run();
   }
 
   public static boolean haveFlorist() {
-    if (!FloristRequest.floristChecked) {
+    if (!Preferences.getBoolean("floristFriarChecked")) {
       return false;
     }
-    return FloristRequest.haveFlorist;
+
+    return Preferences.getBoolean("floristFriarAvailable");
   }
 
   public static void setHaveFlorist(final boolean haveFlorist) {
-    FloristRequest.floristChecked = true;
-    FloristRequest.haveFlorist = haveFlorist;
+    Preferences.setBoolean("floristFriarChecked", true);
+    Preferences.setBoolean("floristFriarAvailable", haveFlorist);
+    if (haveFlorist && !KoLCharacter.inLegacyOfLoathing()) {
+      Preferences.setBoolean("ownsFloristFriar", true);
+    }
   }
 
   public static final List<Florist> getPlants(String location) {
@@ -220,6 +229,10 @@ public class FloristRequest extends GenericRequest {
   public static void parseResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("choice.php") || !urlString.contains("whichchoice=720")) {
       return;
+    }
+
+    if (responseText.contains("The Florist Friar's Cottage")) {
+      FloristRequest.setHaveFlorist(true);
     }
 
     switch (FloristRequest.getOption(urlString)) {
@@ -256,9 +269,6 @@ public class FloristRequest extends GenericRequest {
         return;
       }
       case 4 -> {
-        if (responseText.contains("The Florist Friar's Cottage")) {
-          FloristRequest.setHaveFlorist(true);
-        }
         FloristRequest.floristPlants.clear();
         Matcher matcher = FloristRequest.FLOWER_PATTERN.matcher(responseText);
         while (matcher.find()) {

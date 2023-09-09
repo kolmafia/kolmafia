@@ -160,7 +160,7 @@ public class ClanLoungeRequest extends GenericRequest {
         -96,
         3,
         ItemPool.get(ItemPool.HOT_WAD, 25),
-        ItemPool.get(ItemPool.CHICLE_DE_SALCHICA, 1)),
+        ItemPool.get(ItemPool.CHICLE_DE_SALCHICHA, 1)),
     new HotDogData(
         "chilly dog",
         -97,

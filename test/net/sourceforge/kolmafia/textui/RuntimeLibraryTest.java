@@ -547,6 +547,17 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
+  @Nested
+  class BufferFunctions {
+    @ParameterizedTest
+    @ValueSource(
+        strings = {"buffer b = \"Initial content\"; (b.to_string() == \"Initial content\")"})
+    void stringCanInitializeBuffer(String command) {
+      String output = execute(command);
+      assertThat(output, endsWith("Returned: true\n"));
+    }
+  }
+
   @Test
   void environmentIsLowercase() {
     String output = execute("($location[Noob Cave].environment == 'underground')");
@@ -752,9 +763,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             is(
                 """
                       Returned: aggregate float [item]
-                      Freddy Kruegerand => 0.0
+                      Freddy Kruegerand => 5.0
                       muddy skirt => 0.1
-                      Dreadsylvanian Almanac page => 0.0
+                      Dreadsylvanian Almanac page => 1.0
                       """));
       }
     }
@@ -767,9 +778,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           is(
               """
                     Returned: aggregate float [item]
-                    Freddy Kruegerand => 0.0
+                    Freddy Kruegerand => 5.0
                     grandfather watch => 0.1
-                    Dreadsylvanian Almanac page => 0.0
+                    Dreadsylvanian Almanac page => 1.0
                     """));
     }
 
@@ -786,11 +797,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                       Returned: aggregate {item drop; float rate; string type;} [3]
                       0 => record {item drop; float rate; string type;}
                         drop => Dreadsylvanian Almanac page
-                        rate => 0.0
+                        rate => 1.0
                         type => f
                       1 => record {item drop; float rate; string type;}
                         drop => Freddy Kruegerand
-                        rate => 0.0
+                        rate => 5.0
                         type => f
                       2 => record {item drop; float rate; string type;}
                         drop => muddy skirt
@@ -810,11 +821,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                     Returned: aggregate {item drop; float rate; string type;} [3]
                     0 => record {item drop; float rate; string type;}
                       drop => Dreadsylvanian Almanac page
-                      rate => 0.0
+                      rate => 1.0
                       type => f
                     1 => record {item drop; float rate; string type;}
                       drop => Freddy Kruegerand
-                      rate => 0.0
+                      rate => 5.0
                       type => f
                     2 => record {item drop; float rate; string type;}
                       drop => grandfather watch

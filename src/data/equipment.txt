@@ -206,6 +206,7 @@ Iunion Crown	100	none
 Jarlsberg's hat	30	none
 jewel-eyed wizard hat	10	none
 Kentucky-style derby	20	none
+kilopede skull	100	Mus: 35
 Knob Goblin elite helm	60	Mox: 15
 Knob Goblin harem veil	10	none
 Knob Goblin visor	50	Mox: 10
@@ -227,6 +228,7 @@ MAHI fez	200	Mox: 85
 maiden wig	35	Mox: 2
 makeshift turban	100	Mox: 35
 makeshift yakuza mask	10	none
+mantis skull	100	none
 marble mariachi hat	120	Mox: 40
 mariachi hat	10	none
 Mark I Steam-Hat	150	Mox: 60
@@ -383,6 +385,7 @@ three-gallon hat	60	none
 Thunkula's drinking cap	300	Mys: 250
 time helmet	100	Mox: 35
 tin tam	100	none
+tooth cap	50	Mys: 10
 tope&eacute;	50	none
 toy Crimbot mega face	50	none
 toy space helmet	175	Mox: 72
@@ -696,6 +699,7 @@ thunder down underwear	100	none
 tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
 tinsel tights	50	none
+toothy trousers	50	Mox: 10
 topiary tights	50	none
 toy Crimbot rocket legs	50	none
 transparent pants	225	Mox: 200
@@ -1038,6 +1042,7 @@ carob cannon	135	Mox: 45	2-handed crossbow
 Carpathian longsword	150	Mus: 20	1-handed sword
 carrot-on-a-stick	120	Mox: 45	1-handed flail
 cast-iron legacy paddle	190	Mus: 80	2-handed club
+cat o' nine teeth	50	Mus: 10	1-handed whip
 ceramic celery grater	120	Mys: 40	1-handed
 Cerebral Crossbow	90	Mox: 30	1-handed crossbow
 charming flute	170	Mox: 70	2-handed flute
@@ -1088,6 +1093,7 @@ cursed cutlass	200	Mus: 85	1-handed sword
 cursed machete	100	Mus: 0	1-handed sword
 cursed pirate cutlass	200	Mus: 50	1-handed sword
 cyber-mattock	160	Mus: 65	2-handed axe
+daddy shortlegs leg	60	Mus: 35	1-handed club
 deadfall branch	50	Mus: 15	1-handed club
 deathchucks	50	Mus: 10	2-handed flail
 debonair deboner	90	Mus: 30	1-handed club
@@ -1370,6 +1376,7 @@ murderbot plasma rifle	150	Mox: 30	2-handed rifle
 murderbot whip	10	Mus: 30	1-handed whip
 mutant arm	200	Mus: 50	1-handed polearm
 nasty-ass club	160	Mus: 65	2-handed club
+ncle leg	10	Mus: 0	1-handed club
 negotiatin' hammer	110	Mus: 45	2-handed club
 ninja mop	90	Mus: 30	2-handed polearm
 non-Euclidean non-accordion	115	Mox: 42	2-handed accordion
@@ -1559,6 +1566,7 @@ spant spear	100	Mus: 20	1-handed spear
 spearfish fishing spear	150	Mus: 30	1-handed spear
 spectral axe	150	Mus: 50	1-handed axe
 Spelunker's whip	10	Mus: 0	1-handed whip
+spider leg	100	Mus: 35	1-handed club
 spiked femur	100	Mus: 35	1-handed club
 Spirit Precipice	135	Mus: 45	2-handed sword
 spooky bicycle chain	80	Mus: 25	1-handed flail
@@ -1780,6 +1788,7 @@ arm buzzer	100	Mus: 25	shield
 arrow'd heart balloon	10	none
 astral shield	50	none	shield
 astral statuette	50	none
+august scepter	0	none
 autumn debris shield	150	none	shield
 Bag o' Tricks	0	none
 bag of Crotchety Pine saplings	10	none
@@ -1794,9 +1803,11 @@ basic meat foon	50	Mys: 10
 basaltamander buckler	240	Mus: 40	shield
 battered hubcap	220	Mus: 65	shield
 beach ball marble	209	Mys: 85
+beetle antenna	0	none
 beige clambroth marble	207	Mys: 85
 big bumboozer marble	211	Mys: 85
 big hot pepper	50	none
+birdybug antenna	0	none
 black catseye marble	210	Mys: 85
 black shield	160	Mus: 65	shield
 blue LavaCo Lamp&trade;	100	Mys: 35
@@ -2030,6 +2041,7 @@ Mer-kin begsign	200	Mus: 85
 Mer-kin roundshield	215	Mus: 85	shield
 Mer-kin stopwatch	200	Mys: 85
 Mer-kin takebag	200	Mys: 85
+mesquito proboscis	0	none
 meteorite guard	150	none	shield
 meteorb	100	none
 Microplushie: Bropane	5	none
@@ -2125,6 +2137,7 @@ red LavaCo Lamp&trade;	100	Mus: 35
 Red Roger's red left hand	120	none
 red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield
+replica august scepter	0	none
 replica Operation Patriot Shield	240	none	shield
 reusable shopping bag	10	none
 rice bowl	30	none
@@ -2302,7 +2315,7 @@ zoological sample kit	10	none
 
 # Accessories section of equipment.txt
 
-&quot;I survived Y2K&quot; T-Shirt	0	none
+&quot;I survived Y2K&quot; T-Shirt	100	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
@@ -2366,6 +2379,7 @@ batskin belt	0	none
 batting cage key	10	none
 battle broom	200	Mys: 10
 bauxite bow-tie	150	Mys: 10
+baywatch	0	none
 Beach Comb	150	none
 beach glass necklace	70	Mys: 20
 beaten-up Chucks	200	Mys: 45
@@ -3008,6 +3022,7 @@ sealhide gloves	160	Mys: 65
 sealhide moccasins	160	Mys: 65
 second-hand knockoff engagement ring	0	none
 self-repairing earmuffs	50	none
+senate fly thorax	10	none
 Senior LAAAAME merit badge	0	none
 severed rocking horse head	50	Mys: 10
 shadow monocle	0	none
@@ -3539,6 +3554,7 @@ rad cloak	10	none
 Rain-Doh red wings	100	none
 replica Camp Scout backpack	0	none
 rubber cape	200	Mys: 85
+rutabuga bag	0	none
 saffron uttarasanga	100	Mus: 35
 sea cape	200	Mox: 85
 sea mantle	200	Mus: 85

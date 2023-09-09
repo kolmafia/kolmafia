@@ -206,6 +206,9 @@ public class UneffectRequest extends GenericRequest {
   }
 
   public static final boolean isRemovableIntrinsic(final int effectId) {
+    if (EffectPool.CITIZEN_OF_A_ZONE == effectId) {
+      return true;
+    }
     return !"".equals(getUneffectSkill(effectId));
   }
 

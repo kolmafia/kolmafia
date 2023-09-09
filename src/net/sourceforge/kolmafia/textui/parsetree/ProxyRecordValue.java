@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1208,6 +1209,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("summon", DataTypes.BOOLEAN_TYPE)
             .add("permable", DataTypes.BOOLEAN_TYPE)
             .add("dailylimit", DataTypes.INT_TYPE)
+            .add("dailylimitpref", DataTypes.STRING_TYPE)
             .add("timescast", DataTypes.INT_TYPE)
             .finish("skill proxy");
 
@@ -1282,6 +1284,11 @@ public class ProxyRecordValue extends RecordValue {
 
     public long get_dailylimit() {
       return SkillDatabase.getMaxCasts((int) this.contentLong);
+    }
+
+    public String get_dailylimitpref() {
+      var limit = DailyLimitType.CAST.getDailyLimit((int) this.contentLong);
+      return limit == null ? "" : limit.getPref();
     }
 
     public int get_timescast() {

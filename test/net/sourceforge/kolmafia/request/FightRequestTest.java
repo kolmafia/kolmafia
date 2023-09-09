@@ -1144,6 +1144,17 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canDetectCartography() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withSkill(SkillPool.COMPREHENSIVE_CARTOGRAPHY));
+    try (cleanups) {
+      parseCombatData("request/test_barrow_wraith_win.html");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("\"Aroma of Juniper,\" was the label in this region."));
+    }
+  }
+
+  @Test
   public void canDetectPowerfulGloveCharge() {
     var cleanups =
         new Cleanups(
@@ -2196,7 +2207,7 @@ public class FightRequestTest {
             "request/test_fight_red_white_blue.html", "fight.php?action=skill&whichskill=7450");
 
         assertThat("rwbMonster", isSetTo("raging bull"));
-        assertThat("rwbMonsterCount", isSetTo(3));
+        assertThat("rwbMonsterCount", isSetTo(2));
         assertThat("rwbLocation", isSetTo("South of the Border"));
       }
     }
@@ -2207,7 +2218,7 @@ public class FightRequestTest {
           new Cleanups(
               withFight(0),
               withProperty("rwbMonster", "raging bull"),
-              withProperty("rwbMonsterCount", 3),
+              withProperty("rwbMonsterCount", 2),
               withProperty("rwbLocation", "South of the Border"),
               withNextMonster("raging bull"));
 
@@ -2215,7 +2226,7 @@ public class FightRequestTest {
         parseCombatData("request/test_fight_red_white_blue_after.html");
 
         assertThat("rwbMonster", isSetTo("raging bull"));
-        assertThat("rwbMonsterCount", isSetTo(2));
+        assertThat("rwbMonsterCount", isSetTo(1));
       }
     }
   }
@@ -2264,6 +2275,105 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_eagle_screech_after_done.html");
         assertThat("screechCombats", isSetTo(0));
+      }
+    }
+  }
+
+  @Nested
+  class RecallFactsHabitats {
+    @Test
+    public void canDetectCast() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_monsterHabitatsRecalled", 1),
+              withProperty("monsterHabitatsFightsLeft", 0),
+              withProperty("monsterHabitatsMonster", ""));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_recall_habitat.html", "fight.php?action=skill&whichskill=7485");
+
+        assertThat("_monsterHabitatsRecalled", isSetTo(2));
+        assertThat("monsterHabitatsFightsLeft", isSetTo(5));
+        assertThat("monsterHabitatsMonster", isSetTo("Knob Goblin Embezzler"));
+      }
+    }
+
+    @Test
+    public void canDetectNewEncounter() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("monsterHabitatsFightsLeft", 4),
+              withProperty("monsterHabitatsMonster", "Knob Goblin Embezzler"));
+
+      try (cleanups) {
+        String html = html("request/test_fight_recall_habitat_adv.html");
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("monsterHabitatsFightsLeft", isSetTo(3));
+      }
+    }
+  }
+
+  @Nested
+  class RecallFactsCircadian {
+    @Test
+    public void canDetectCast() {
+      var cleanups = new Cleanups(withFight(), withProperty("_circadianRhythmsRecalled", false));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_recall_circadian.html", "fight.php?action=skill&whichskill=7486");
+
+        assertThat("_circadianRhythmsRecalled", isSetTo(true));
+      }
+    }
+
+    @Test
+    public void canDetectAdventureGain() {
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withProperty("_circadianRhythmsRecalled", true),
+              withProperty("_circadianRhythmsAdventures", 3));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_recall_circadian_adv.html", "fight.php?action=attack");
+
+        assertThat("_circadianRhythmsAdventures", isSetTo(4));
+      }
+    }
+  }
+
+  @Nested
+  class JustTheFacts {
+    @Test
+    public void canDetectFactsDrops() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withSkill(SkillPool.JUST_THE_FACTS));
+      try (cleanups) {
+        parseCombatData("request/test_fight_recall_circadian_adv.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(
+            text,
+            containsString(
+                "These monsters have vestigial organ that collects things they can't digest.\nYou acquire an item: foon"));
+        assertThat(text, containsString("sleep a bit better tonight"));
+      }
+    }
+
+    @Test
+    public void doesNotLogCircadianFailures() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withEffect(EffectPool.RECALLING_CIRCADIAN_RHYTHMS));
+      try (cleanups) {
+        parseCombatData("request/test_fight_recall_circadian_wrong_monster.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, not(containsString("rythm")));
       }
     }
   }

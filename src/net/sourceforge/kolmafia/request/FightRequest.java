@@ -2237,6 +2237,9 @@ public class FightRequest extends GenericRequest {
       } else if (EncounterManager.isGregariousEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.decrement("beGregariousFightsLeft", 1, 0);
+      } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.decrement("monsterHabitatsFightsLeft", 1, 0);
       } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
         Preferences.decrement("rwbMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
@@ -4239,6 +4242,12 @@ public class FightRequest extends GenericRequest {
         }
       }
 
+      if (Preferences.getBoolean("_circadianRhythmsRecalled")) {
+        if (responseText.contains("sleep a bit better tonight")) {
+          Preferences.increment("_circadianRhythmsAdventures", 1, 11, false);
+        }
+      }
+
       QuestManager.updateQuestData(FightRequest.lastResponseText, monsterName);
     }
 
@@ -5506,6 +5515,7 @@ public class FightRequest extends GenericRequest {
     public boolean luggage;
     public boolean armtowel;
     public boolean pebble;
+    public boolean serendipity;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5595,6 +5605,9 @@ public class FightRequest extends GenericRequest {
       this.luggage = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_LUGGAGE_HOOK);
       this.armtowel = KoLCharacter.hasEquipped(ItemPool.WHITE_ARM_TOWEL);
       this.pebble = KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE);
+
+      this.serendipity =
+          KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SERENDIPITY));
 
       this.ghost = null;
 
@@ -6374,6 +6387,15 @@ public class FightRequest extends GenericRequest {
 
       FightRequest.handleLuckyGoldRing(str, status);
 
+      // Serendipity
+      if (status.serendipity) {
+        if (str.contains("serendipitous")
+            || str.contains("luck is on your side")
+            || str.contains("How random")) {
+          FightRequest.logText(str, status);
+        }
+      }
+
       // Retrospecs
       if (str.contains("notice an item you missed earlier")) {
         FightRequest.logText(str, status);
@@ -6510,6 +6532,14 @@ public class FightRequest extends GenericRequest {
     String onclick = null;
 
     if (inode != null) {
+      var src = inode.getAttributeByName("src");
+      if (src.endsWith("factbook.gif")) {
+        // log if it's a fact
+        var text = node.getText().toString();
+        if (!(text.contains("rythm") || text.contains("rhythm"))) {
+          FightRequest.logText(text, status);
+        }
+      }
       String alt = inode.getAttributeByName("alt");
       if (alt != null && alt.startsWith("Enemy's")) {
         // This is Monster Manuel stuff
@@ -7442,7 +7472,7 @@ public class FightRequest extends GenericRequest {
     }
 
     if (!str.equals("") && !ResultProcessor.processFamiliarWeightGain(str)) {
-      // Familiar combat action?
+      // Familiar combat action? (or cartography)
       // Don't log most familiar actions in the Deep Machine Tunnels
       if (status.logFamiliar
           && (!FightRequest.machineElf || str.contains("time starts passing again"))) {
@@ -9326,7 +9356,14 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.MONKEY_POINT:
         if (responseText.contains("Your monkey paw points at your opponent")) {
-          Preferences.setString("mokeyPointMonster", monsterName);
+          Preferences.setString("monkeyPointMonster", monsterName);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.HOLD_HANDS:
+        if (responseText.contains("stop the battle for a moment and hold hands with you")) {
+          Preferences.setString("holdHandsMonster", monsterName);
           skillSuccess = true;
         }
         break;
@@ -9421,6 +9458,13 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("press the secret switch") || skillRunawaySuccess) {
           skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.KGB_TRANQUILIZER_DART);
+        }
+        break;
+
+      case SkillPool.ROAR_LIKE_A_LION:
+        if (responseText.contains("release a majestic roar") || skillRunawaySuccess) {
+          skillRunawaySuccess = true;
+          BanishManager.banishMonster(monster, Banisher.ROAR_LIKE_A_LION);
         }
         break;
 
@@ -10272,7 +10316,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.RED_WHITE_BLUE_BLAST:
         if (responseText.contains("fires off a thrilling, patriotic")) {
           Preferences.setString("rwbMonster", MonsterStatusTracker.getLastMonsterName());
-          Preferences.setInteger("rwbMonsterCount", 3);
+          Preferences.setInteger("rwbMonsterCount", 2);
           KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
           if (lastLocation != null) {
             Preferences.setString("rwbLocation", lastLocation.getAdventureName());
@@ -10292,11 +10336,28 @@ public class FightRequest extends GenericRequest {
       case SkillPool.PERPETRATE_MILD_EVIL:
         if (
         // Spookypocket
-        responseText.contains("so discombobulated")
+        responseText.contains("drop something")
+            || responseText.contains("drop an item")
             ||
             // no items
             responseText.contains("even mildly evil")
             || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RECALL_FACTS_MONSTER_HABITATS:
+        if (responseText.contains("Your knowledge of facts tells you")) {
+          Preferences.setString("monsterHabitatsMonster", monsterName);
+          Preferences.setInteger("monsterHabitatsFightsLeft", 5);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS:
+        if (responseText.contains("really improve your sleep tonight")) {
+          Phylum phylum = monster != null ? monster.getPhylum() : Phylum.NONE;
+          Preferences.setString("_circadianRhythmsPhylum", phylum.toString());
           skillSuccess = true;
         }
         break;

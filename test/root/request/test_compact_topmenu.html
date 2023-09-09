@@ -1,0 +1,150 @@
+<body><head>
+<title>The Kingdom of Loathing</title>
+
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<style type="text/css">
+<!--
+BODY, TD, UL {
+font-family: arial;
+}
+.tiny { font-size: 9px; }
+.small { font-size: 12px; }
+
+IFRAME {
+	border: 0px;
+	height: 25px;
+	margin: 0px;
+	padding: 0px;
+}
+-->
+</style>
+
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/core.js"></script>
+<script language=Javascript>
+<!--
+function goloc() {
+	if (document.navform1.loc.value!="nothing") {
+		if (document.navform1.loc.value=="logout.php") {
+			parent.location.href="logout.php";
+		} else if (document.navform1.loc.value=="forums") {
+			window.open("http://forums.kingdomofloathing.com/","");
+		} else if (document.navform1.loc.value=="radio") {
+			window.open("http://www.kingdomofloathing.com/radio.php","");
+		} else if (document.navform1.loc.value=="store") {
+			window.open("http://store.asymmetric.net/","");
+		} else if (document.navform1.loc.value=="donate") {
+			window.open("donatepopup.php?pid=121572","");
+		} else if (document.navform1.loc.value=="documentation") {
+			window.open("/doc.php?topic=home","","height=400,width=55,scrollbars=yes,resizable=yes");
+		} else {
+			parent.mainpane.location.href=document.navform1.loc.value;
+		}
+	}
+	document.navform1.loc.selectedIndex=0;
+}
+
+function move() {
+	if (document.navform2.location.value!="nothing") {
+		parent.mainpane.location.href=document.navform2.location.value;
+	}
+	document.navform2.location.selectedIndex=0;
+}
+
+function skillson(item)
+{
+	if (skillpane.location.href.indexOf("skills") == -1)
+	{
+		if (item)
+			skillpane.location.href = 'skillz.php?tiny=1&showitems=1';
+		else
+			skillpane.location.href = 'skillz.php?tiny=1';
+	}
+	else
+		skillpane.swap(item ? 0 : 1);
+}
+function showskills()
+{
+	$('#menus, .hidemenu').hide();
+	$('#skillbit').show();
+}
+
+function skillsoff()
+{
+	$('#menus, .hidemenu').show();
+	$('#skillbit').hide();
+	skillpane.location.href = "blank.html";
+}
+
+//setInterval(function () {
+//	var yep = getObj('yep');
+//	var l = yep.style.left;
+//	l = parseInt(l.replace(/[^0-9-]/g, ''));
+//	yep.style.left = (l + 1) + 'px';
+//}, 60000);
+
+//-->
+</script>
+
+</head>
+
+<body bgcolor=white link=black alink=black vlink=black text=black>
+<center>
+<div id="yep" style="position: absolute; top: 0px; left: 0px; text-align: center; width: 100%;">
+<center>
+<table cellpadding=0><tr>
+<td>
+<span id='menus' style='margin: 0px; padding: 0px; display: inline'>
+<table cellpadding=0>
+<tr>
+<td class=small valign=top>
+<form name=navform1 style='display: inline'>
+Function:<select name="loc" onChange="goloc();">
+<option value="nothing">- Select -</option>
+<option value="inventory.php">Inventory</option>
+<option value="charsheet.php">Character</option>
+<option value="questlog.php">Quests</option>
+<option value="craft.php">Crafting</option>
+<option value="skillz.php">Skills</option>
+<option value="messages.php">Read Messages</option>
+<option value="peevpee.php">PvP</option><option value="account.php">Options</option>
+<option value="documentation">Documentation</option>
+<option value="community.php">Community</option>
+<option value="radio">Radio</option>
+<option value="adminmail.php">Report Bug</option>
+<option value="store">Store</option>
+<option value="donate">Give Us Money</option>
+<option value="logout.php">Log Out</option>
+</select>
+</form>
+
+</td>
+<td class=small valign=top>
+<form name=navform2 style='display: inline'>
+Go&nbsp;To:<select name=location onChange='move();'>
+<option value="nothing">- Select -</option>
+<option value="main.php">Main Map</option>
+<option value="town.php">Seaside Town</option>
+<option value="mall.php">The Mall</option><option value="clan_hall.php">Clan Hall</option><option value="campground.php">Campground</option>
+<option value="mountains.php">Big Mountains</a>
+<option value="thesea.php">The Sea</option><option value="plains.php">Nearby Plains</a>
+<option value="place.php?whichplace=nstower">Sorceress' Lair</option><option value="beach.php">Desert Beach</option><option value="woods.php">Distant Woods</option><option value="island.php">Mysterious Island</option><option value="volcanoisland.php">Volcanic Island</option></select>
+</form>
+
+</td></tr></table>
+</span>
+</td>
+<td align=center valign=center class=tiny>
+&nbsp;&nbsp;<b>Moons: </b>
+</td>
+<td width=10></td><td align=center valign=top class=tiny><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon5.gif"><td width=14></td><td align=center valign=top class=tiny><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/smoon7.gif"><td width=10></td>
+<td width=10></td>
+<td class=tiny align=center valign=center>
+<a target=_blank href="http://asymmetric.net">&copy;&nbsp;2014</a>
+</td>
+</tr>
+</table>
+</center>
+</div>
+</center>
+</body>
+</html>

@@ -7457,4 +7457,18 @@ public class KoLAdventureValidationTest {
       }
     }
   }
+
+  @Nested
+  class Small {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void canOnlyAdventureInDirtWhenSmall(boolean inRun) {
+      var cleanups = new Cleanups(withPath(inRun ? Path.SMALL : Path.NONE));
+
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName("Fight in the Dirt");
+        assertThat(area.canAdventure(), is(inRun));
+      }
+    }
+  }
 }
