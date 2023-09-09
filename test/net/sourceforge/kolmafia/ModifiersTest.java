@@ -1071,6 +1071,11 @@ public class ModifiersTest {
 
   @Nested
   public class OffhandRemarkable {
+    @BeforeAll
+    public static void setup() {
+      Preferences.reset("OffhandRemarkable");
+    }
+
     @Test
     public void doublesOffhands() {
       var cleanups =
@@ -1116,6 +1121,23 @@ public class ModifiersTest {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(200.0));
+      }
+    }
+
+    @Test
+    public void doublesUmbrellaMods() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.UNBREAKABLE_UMBRELLA),
+              withProperty("umbrellaState", "bucket style"),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(50.0));
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(50.0));
       }
     }
   }
