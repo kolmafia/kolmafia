@@ -5811,11 +5811,21 @@ public abstract class KoLCharacter {
         && ItemDatabase.getConsumptionType(item.id) == ConsumptionType.OFFHAND) {
       if (item.id != ItemPool.LATTE_MUG) {
         var mods = ModifierDatabase.getItemModifiers(item.id);
-        var copyMods = new Modifiers(mods);
-        copyMods.setLookup(new Lookup(ModifierType.EFFECT, EffectPool.OFFHAND_REMARKABLE));
-        newModifiers.add(copyMods);
+        addModifiersWithOffHandRemarkable(newModifiers, mods);
+        for (var modeable : Modeable.values()) {
+          if (item.id == modeable.getItemId()) {
+            mods = ModifierDatabase.getModifiers(modeable.getModifierType(), modeable.getState());
+            addModifiersWithOffHandRemarkable(newModifiers, mods);
+          }
+        }
       }
     }
+  }
+
+  private static void addModifiersWithOffHandRemarkable(Modifiers newModifiers, Modifiers mods) {
+    var copyMods = new Modifiers(mods);
+    copyMods.setLookup(new Lookup(ModifierType.EFFECT, EffectPool.OFFHAND_REMARKABLE));
+    newModifiers.add(copyMods);
   }
 
   public static final double getSmithsnessModifier(
