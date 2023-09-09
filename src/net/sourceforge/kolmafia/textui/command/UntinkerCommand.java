@@ -15,9 +15,22 @@ public class UntinkerCommand extends AbstractCommand {
     this.usage = " [ <item>... ] - complete quest, or untinker items.";
   }
 
+  private GenericRequest constructUnscrewRequest(AdventureResult item) {
+    var req = new GenericRequest("");
+    req.constructURLString(
+        "inv_use.php?pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1&whichitem="
+            + ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER
+            + "&action=screw&dowhichitem="
+            + item.getItemId(),
+        false);
+    return req;
+  }
+
   @Override
   public void run(final String cmd, final String parameters) {
-    if (parameters.equals("")) {
+    if (parameters.isEmpty()) {
       UntinkerRequest.completeQuest();
       return;
     }
@@ -36,18 +49,8 @@ public class UntinkerCommand extends AbstractCommand {
 
       if (useLoathingLegion) {
         for (int i = 1; i <= count && KoLmafia.permitsContinue(); ++i) {
-          var req = new GenericRequest("");
-          req.constructURLString(
-              "inv_use.php?pwd="
-                  + GenericRequest.passwordHash
-                  + "&ajax=1&whichitem="
-                  + ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER
-                  + "&action=screw&dowhichitem="
-                  + item.getItemId(),
-              false);
-          RequestThread.postRequest(req);
+          RequestThread.postRequest(constructUnscrewRequest(item));
         }
-        KoLmafia.updateDisplay("Unscrewing " + item + "...");
       } else {
         RequestThread.postRequest(new UntinkerRequest(item.getItemId(), count));
       }
