@@ -608,6 +608,7 @@ user	eldritchTentaclesFought	0
 user	electricKoolAidEaten	0
 user	elfGratitude	0
 user	encountersUntilDMTChoice	5
+user	encountersUntilYachtzeeChoice	20
 user	encountersUntilNEPChoice	7
 user	encountersUntilSRChoice	11
 user	enamorangMonster
