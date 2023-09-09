@@ -10,8 +10,6 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasItems;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -130,6 +128,24 @@ public class AdventureRequestTest {
 
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
+  void rainManWitchessPiecesArentCountedTowardsTotal(final boolean isRainMan) {
+    var cleanups = new Cleanups(withProperty("_witchessFights", 0), withFight(0));
+
+    if (isRainMan) cleanups.add(withPath(AscensionPath.Path.HEAVY_RAINS));
+
+    try (cleanups) {
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText =
+          html("request/test_fight_witchess_pawn" + (isRainMan ? "_rain_man" : "") + ".html");
+      req.processResponse();
+
+      assertThat("_witchessFights", isSetTo(isRainMan ? 0 : 1));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
   void relativityMonsterAreNotEnqueued(final boolean isRelativity) {
     var cleanups =
         new Cleanups(
@@ -146,6 +162,25 @@ public class AdventureRequestTest {
       if (isRelativity) matcher = not(matcher);
 
       assertThat(AdventureQueueDatabase.getZoneQueue("Oil Peak"), matcher);
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void relativityWitchessPiecesArentCountedTowardsTotal(final boolean isRelativityFight) {
+    var cleanups =
+        new Cleanups(
+            withProperty("_witchessFights", 0),
+            withFight(0),
+            withProperty("_relativityMonster", isRelativityFight));
+
+    try (cleanups) {
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText = html("request/test_fight_witchess_pawn.html");
+      req.processResponse();
+
+      assertThat("_witchessFights", isSetTo(isRelativityFight ? 0 : 1));
     }
   }
 

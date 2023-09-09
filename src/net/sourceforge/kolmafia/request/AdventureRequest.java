@@ -608,6 +608,14 @@ public class AdventureRequest extends GenericRequest {
           MonsterStatusTracker.setNextMonster(monster);
         }
 
+        // Because relativity monster detection relies on a preference being true that is set back
+        // to false after being
+        // read, we can only detect it once. So let's do it here, and then rely on ignoring special
+        // monsters later.
+        if (EncounterManager.isRelativityMonster()) {
+          EncounterManager.ignoreSpecialMonsters();
+        }
+
         encounter = monster.getName();
         // Only queue normal monster encounters
         if (EncounterManager.isGregariousEncounter(responseText)
@@ -623,7 +631,6 @@ public class AdventureRequest extends GenericRequest {
                 && !EncounterManager.isRomanticEncounter(responseText, false)
                 && !EncounterManager.isSaberForceMonster()
                 && !CrystalBallManager.isCrystalBallMonster()
-                && !EncounterManager.isRelativityMonster()
                 && !EncounterManager.isRainManEncounter(responseText)
                 && !EncounterManager.isSpookyVHSTapeMonster(responseText, false)
                 && !FightRequest.edFightInProgress())) {
