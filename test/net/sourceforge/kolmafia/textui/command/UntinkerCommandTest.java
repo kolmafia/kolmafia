@@ -106,7 +106,7 @@ class UntinkerCommandTest extends AbstractCommandTestBase {
     var cleanups =
         new Cleanups(
             withItem(ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER, 1),
-            withItem("badass belt", 2));
+            withItem("badass belt", 3));
 
     try (cleanups) {
       setFakeResponse("You acquire <b>skull of the Bonerdagon</b>");
@@ -126,6 +126,35 @@ class UntinkerCommandTest extends AbstractCommandTestBase {
               + ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER
               + "&action=screw&dowhichitem="
               + ItemPool.BADASS_BELT);
+    }
+  }
+
+  @Test
+  void shortcutUntinkeringAllUsignScrewdriver() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER, 1),
+            withItem("badass belt", 3));
+
+    try (cleanups) {
+      setFakeResponse("You acquire <b>skull of the Bonerdagon</b>");
+      try (cleanups) {
+        String output = execute("* badass belt");
+
+        assertThat(output, containsString("Unscrewing badass belt"));
+        assertContinueState();
+      }
+
+      var requests = getRequests();
+      assertThat(requests, hasSize(1));
+      assertGetRequest(
+          requests.get(0),
+          "/inv_use.php",
+          "pwd=&ajax=1&whichitem="
+              + ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER
+              + "&action=screw&dowhichitem="
+              + ItemPool.BADASS_BELT
+              + "&untinkerall=on");
     }
   }
 
