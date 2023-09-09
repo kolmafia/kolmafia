@@ -10,6 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
@@ -105,19 +106,19 @@ class UntinkerCommandTest extends AbstractCommandTestBase {
     var cleanups =
         new Cleanups(
             withItem(ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER, 1),
-            withItem("badass belt", 1));
+            withItem("badass belt", 2));
 
     try (cleanups) {
       setFakeResponse("You acquire <b>skull of the Bonerdagon</b>");
       try (cleanups) {
-        String output = execute("badass belt");
+        String output = execute("2 badass belt");
 
         assertThat(output, containsString("Unscrewing badass belt"));
         assertContinueState();
       }
 
       var requests = getRequests();
-      assertThat(requests, not(empty()));
+      assertThat(requests, hasSize(2));
       assertGetRequest(
           requests.get(0),
           "/inv_use.php",
