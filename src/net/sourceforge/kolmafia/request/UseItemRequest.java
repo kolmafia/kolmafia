@@ -1931,6 +1931,7 @@ public class UseItemRequest extends GenericRequest {
           if (UseItemRequest.lastUntinker != null
               && responseText.contains("You jam your screwdriver")) {
             ResultProcessor.processResult(UseItemRequest.lastUntinker.getNegation());
+            KoLmafia.updateDisplay("Successfully unscrewed " + UseItemRequest.lastUntinker);
             UseItemRequest.lastUntinker = null;
             return;
           }
@@ -6732,12 +6733,15 @@ public class UseItemRequest extends GenericRequest {
 
           int uid = StringUtilities.parseInt(matcher.group(1));
           AdventureResult untinker = ItemPool.get(uid, 1);
+
           String countStr = "1";
 
           if (urlString.contains("untinkerall=on")) {
             untinker = ItemPool.get(uid, untinker.getCount(KoLConstants.inventory));
             countStr = "*";
           }
+
+          KoLmafia.updateDisplay("Unscrewing " + untinker + "...");
 
           UseItemRequest.lastUntinker = untinker;
           useString = "unscrew " + countStr + " " + untinker.getName();
