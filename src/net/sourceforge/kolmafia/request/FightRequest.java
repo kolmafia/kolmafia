@@ -2249,6 +2249,8 @@ public class FightRequest extends GenericRequest {
       } else if (CrystalBallManager.isCrystalBallMonster()) {
         // This similarly has no message so can be checked at the end
         CrystalBallManager.clear();
+      } else if (EncounterManager.isRainManEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
       } else if (EncounterManager.isSpookyVHSTapeMonster(responseText, true)) {
         EncounterManager.ignoreSpecialMonsters();
         TurnCounter.stopCounting("Spooky VHS Tape Monster");
@@ -9318,10 +9320,10 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("fires a badly romantic")
             || responseText.contains("You point a finger")
             || familiarSkillSuccess) {
-          boolean hasQuake =
-              (KoLCharacter.getFamiliar().getId() == FamiliarPool.REANIMATOR)
+          boolean moreFights =
+              KoLCharacter.getFamiliar().getEffectiveId() == FamiliarPool.REANIMATOR
                   || EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
-          int fights = hasQuake ? 3 : 2;
+          int fights = moreFights ? 3 : 2;
           familiarSkillSuccess = true;
           Preferences.setInteger("_romanticFightsLeft", fights);
           Preferences.setString("romanticTarget", monsterName);
