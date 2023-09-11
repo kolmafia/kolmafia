@@ -54,7 +54,7 @@ public class NumberologyRequest extends GenericRequest {
     // If the specified seed will get you "try again", punt
     int result = NumberologyManager.numberology(this.seed);
     String prize = NumberologyManager.numberologyPrize(result);
-    if (prize == NumberologyManager.TRY_AGAIN) {
+    if (prize.equals(NumberologyManager.TRY_AGAIN)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Seed " + this.seed + " will result in Try Again.");
       return;
     }
