@@ -198,6 +198,10 @@ public abstract class EncounterManager {
   }
 
   public static boolean isRomanticEncounter(final String responseText, final boolean checkMonster) {
+    // You stop for a moment to catch your breath, and possibly a
+    // cold, and hear a wolf whistle from behind you. You spin
+    // around and see <monster> that looks suspiciously like the
+    // ones you shot with a love arrow earlier.
     if (responseText.contains("hear a wolf whistle")
         || responseText.contains("you feel the hairs")) {
       return true;
@@ -316,6 +320,12 @@ public abstract class EncounterManager {
     return false;
   }
 
+  public static boolean isRainManEncounter(final String responseText) {
+    // Use of Rain Man skill fires two encounters, first is a non-combat, second a fight, which
+    // could be a semi-rare
+    return KoLCharacter.inRaincore() && responseText.contains("simulacrum of a previous foe");
+  }
+
   public static final boolean isGregariousEncounter(final String responseText) {
     return responseText.contains("Looks like it's that friend you gregariously made");
   }
@@ -373,22 +383,6 @@ public abstract class EncounterManager {
       return;
     }
 
-    // Use of Rain Man skill fires two encounters, first is a non-combat, second a fight, which
-    // could be a semi-rare
-    if (KoLCharacter.inRaincore() && responseText.contains("simulacrum of a previous foe")) {
-      EncounterManager.ignoreSpecialMonsters();
-    }
-
-    // Using the Lecture About Relativity skill fires an immediate encounter, a fight, which could
-    // be a semi-rare.
-    if (EncounterManager.isRelativityMonster()) {
-      EncounterManager.ignoreSpecialMonsters();
-    }
-
-    // You stop for a moment to catch your breath, and possibly a
-    // cold, and hear a wolf whistle from behind you. You spin
-    // around and see <monster> that looks suspiciously like the
-    // ones you shot with a love arrow earlier.
     if (encounterType == EncounterType.NONE) {
       return;
     }
