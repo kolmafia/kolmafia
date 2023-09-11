@@ -2249,6 +2249,8 @@ public class FightRequest extends GenericRequest {
       } else if (CrystalBallManager.isCrystalBallMonster()) {
         // This similarly has no message so can be checked at the end
         CrystalBallManager.clear();
+      } else if (EncounterManager.isRainManEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
       } else if (EncounterManager.isSpookyVHSTapeMonster(responseText, true)) {
         EncounterManager.ignoreSpecialMonsters();
         TurnCounter.stopCounting("Spooky VHS Tape Monster");

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.fakeClientBuilder;
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withSign;
@@ -9,15 +10,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class UntinkerCommandTest extends AbstractCommandTestBase {
+class UntinkerCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
     HttpClientWrapper.setupFakeClient();
@@ -96,6 +99,63 @@ public class UntinkerCommandTest extends AbstractCommandTestBase {
 
     var requests = getRequests();
     assertThat(requests, empty());
+  }
+
+  @Test
+  void usesLoathingLegionScrewdriverIfAccessible() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER, 1),
+            withItem("badass belt", 3));
+
+    try (cleanups) {
+      setFakeResponse("You acquire <b>skull of the Bonerdagon</b>");
+      try (cleanups) {
+        String output = execute("2 badass belt");
+
+        assertThat(output, containsString("Unscrewing badass belt"));
+        assertContinueState();
+      }
+
+      var requests = getRequests();
+      assertThat(requests, hasSize(2));
+      assertGetRequest(
+          requests.get(0),
+          "/inv_use.php",
+          "pwd=&ajax=1&whichitem="
+              + ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER
+              + "&action=screw&dowhichitem="
+              + ItemPool.BADASS_BELT);
+    }
+  }
+
+  @Test
+  void shortcutUntinkeringAllUsignScrewdriver() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER, 1),
+            withItem("badass belt", 3));
+
+    try (cleanups) {
+      setFakeResponse("You acquire <b>skull of the Bonerdagon</b>");
+      try (cleanups) {
+        String output = execute("* badass belt");
+
+        assertThat(output, containsString("Unscrewing badass belt"));
+        assertContinueState();
+      }
+
+      var requests = getRequests();
+      assertThat(requests, hasSize(1));
+      assertGetRequest(
+          requests.get(0),
+          "/inv_use.php",
+          "pwd=&ajax=1&whichitem="
+              + ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER
+              + "&action=screw&dowhichitem="
+              + ItemPool.BADASS_BELT
+              + "&untinkerall=on");
+    }
   }
 
   private void setFakeResponse(String string) {
