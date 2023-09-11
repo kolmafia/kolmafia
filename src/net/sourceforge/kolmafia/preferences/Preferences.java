@@ -404,6 +404,8 @@ public class Preferences {
         "moonTuned",
         "motifMonster",
         "monkeyPointMonster",
+        "monsterHabitatsMonster",
+        "monsterHabitatsFightsLeft",
         "mushroomGardenCropLevel",
         "nextDistillateMods",
         "nextParanormalActivity",
