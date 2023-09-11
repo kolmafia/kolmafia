@@ -189,11 +189,13 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public Value get_primestat() {
-      if (getAscensionClass() == null) {
+      var ascensionClass = getAscensionClass();
+
+      if (ascensionClass == null) {
         return DataTypes.STAT_INIT;
       }
 
-      int primeIndex = getAscensionClass().getPrimeStatIndex();
+      int primeIndex = ascensionClass.getPrimeStatIndex();
 
       String name = null;
       if (primeIndex > -1 && primeIndex < AdventureResult.STAT_NAMES.length) {
@@ -204,7 +206,13 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public Value get_path() {
-      return DataTypes.makePathValue(getAscensionClass().getPath());
+      var ascensionClass = getAscensionClass();
+
+      if (ascensionClass == null) {
+        return DataTypes.PATH_INIT;
+      }
+
+      return DataTypes.makePathValue(ascensionClass.getPath());
     }
   }
 
