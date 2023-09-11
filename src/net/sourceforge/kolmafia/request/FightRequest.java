@@ -9319,7 +9319,7 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("You point a finger")
             || familiarSkillSuccess) {
           boolean moreFights =
-              responseText.contains("You point a finger")
+              KoLCharacter.getFamiliar().getEffectiveId() == FamiliarPool.REANIMATOR
                   || EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
           int fights = moreFights ? 3 : 2;
           familiarSkillSuccess = true;
