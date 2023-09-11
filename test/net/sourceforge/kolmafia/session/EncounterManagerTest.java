@@ -27,7 +27,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
-import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -473,12 +473,26 @@ class EncounterManagerTest {
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
   void isRelativityMonster(boolean relativityMonster) {
-    Preferences.setBoolean("_relativityMonster", relativityMonster);
+    var cleanups = new Cleanups(withProperty("_relativityMonster", relativityMonster));
 
-    boolean actual = EncounterManager.isRelativityMonster();
+    try (cleanups) {
+      boolean actual = EncounterManager.isRelativityMonster();
 
-    assertThat(actual, equalTo(relativityMonster));
-    assertThat("_relativityMonster", isSetTo(false));
+      assertThat(actual, equalTo(relativityMonster));
+      assertThat("_relativityMonster", isSetTo(false));
+    }
+  }
+
+  @Test
+  void isRainManEncounter() {
+    String html = html("request/test_fight_rainman_monster.html");
+    var cleanups = new Cleanups(withPath(Path.HEAVY_RAINS));
+
+    try (cleanups) {
+      boolean actual = EncounterManager.isRainManEncounter(html);
+
+      assertThat(actual, is(true));
+    }
   }
 
   @ParameterizedTest
@@ -611,28 +625,6 @@ class EncounterManagerTest {
   }
 
   @Test
-  void rainManMonsterIgnoresSpecialMonsters() {
-    String html = html("request/test_fight_rainman_monster.html");
-
-    var cleanups = withPath(AscensionPath.Path.HEAVY_RAINS);
-
-    try (cleanups) {
-      EncounterManager.registerEncounter("Knob Goblin Embezzler", "Combat", html);
-
-      assertThat(EncounterManager.ignoreSpecialMonsters, equalTo(true));
-    }
-  }
-
-  @Test
-  void relativityMonsterIgnoresSpecialMonsters() {
-    Preferences.setBoolean("_relativityMonster", true);
-
-    EncounterManager.registerEncounter("oil slick", "Combat", "");
-
-    assertThat(EncounterManager.ignoreSpecialMonsters, equalTo(true));
-  }
-
-  @Test
   void nonEncounterTypeDoesNotTrackGoal() {
     var mocked = mockStatic(GoalManager.class, Mockito.CALLS_REAL_METHODS);
     try (mocked) {
@@ -657,8 +649,7 @@ class EncounterManagerTest {
   void badMoonTypeRecognized() {
     var goalManager = mockStatic(GoalManager.class, Mockito.CALLS_REAL_METHODS);
     var badMoonManager = mockStatic(BadMoonManager.class, Mockito.CALLS_REAL_METHODS);
-    var cleanups =
-        new Cleanups(withPath(AscensionPath.Path.BAD_MOON), withSign(ZodiacSign.BAD_MOON));
+    var cleanups = new Cleanups(withPath(Path.BAD_MOON), withSign(ZodiacSign.BAD_MOON));
     try (goalManager;
         badMoonManager;
         cleanups) {
