@@ -86,6 +86,8 @@ public class Preferences {
               "grimoire3Summons",
               "libramSummons",
               "libraryCardUsed",
+              "monsterHabitatsMonster",
+              "monsterHabitatsFightsLeft",
               "noncombatForcerActive",
               "noodleSummons",
               "nunsVisits",
