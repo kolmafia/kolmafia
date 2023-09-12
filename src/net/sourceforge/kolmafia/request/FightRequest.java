@@ -9320,10 +9320,10 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("fires a badly romantic")
             || responseText.contains("You point a finger")
             || familiarSkillSuccess) {
-          boolean hasQuake =
-              (KoLCharacter.getFamiliar().getId() == FamiliarPool.REANIMATOR)
+          boolean moreFights =
+              KoLCharacter.getFamiliar().getEffectiveId() == FamiliarPool.REANIMATOR
                   || EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
-          int fights = hasQuake ? 3 : 2;
+          int fights = moreFights ? 3 : 2;
           familiarSkillSuccess = true;
           Preferences.setInteger("_romanticFightsLeft", fights);
           Preferences.setString("romanticTarget", monsterName);
