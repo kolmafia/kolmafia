@@ -65,6 +65,11 @@ public class LoginManager {
       return true;
     }
 
+    // If user is using the dev server, they're stuck with the ping they get
+    if (KoLmafia.usingDevServer()) {
+      return true;
+    }
+
     // The user wants to measure ping speed.
     var result = PingManager.runPingTest(true);
 
