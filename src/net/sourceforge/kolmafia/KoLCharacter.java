@@ -5442,6 +5442,21 @@ public abstract class KoLCharacter {
           ModifierType.SKILL,
           SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS);
     }
+    var hareAdv = Preferences.getInteger("_hareAdv");
+    if (hareAdv > 0) {
+      newModifiers.addDouble(
+          DoubleModifier.ADVENTURES, hareAdv, ModifierType.FAMILIAR, FamiliarPool.HARE);
+    }
+    var gibberAdv = Preferences.getInteger("_gibbererAdv");
+    if (gibberAdv > 0) {
+      newModifiers.addDouble(
+          DoubleModifier.ADVENTURES, gibberAdv, ModifierType.FAMILIAR, FamiliarPool.GIBBERER);
+    }
+    var usedBorrowedTime = Preferences.getBoolean("_borrowedTimeUsed");
+    if (usedBorrowedTime) {
+      newModifiers.addDouble(
+          DoubleModifier.ADVENTURES, -20, ModifierType.ITEM, ItemPool.BORROWED_TIME);
+    }
 
     // Lastly, experience adjustment also implicitly depends on
     // monster level.  Add that information.
