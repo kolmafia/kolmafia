@@ -2287,16 +2287,16 @@ public class FightRequestTest {
           new Cleanups(
               withFight(),
               withProperty("_monsterHabitatsRecalled", 1),
-              withProperty("monsterHabitatsFightsLeft", 0),
-              withProperty("monsterHabitatsMonster", ""));
+              withProperty("_monsterHabitatsFightsLeft", 0),
+              withProperty("_monsterHabitatsMonster", ""));
 
       try (cleanups) {
         parseCombatData(
             "request/test_fight_recall_habitat.html", "fight.php?action=skill&whichskill=7485");
 
         assertThat("_monsterHabitatsRecalled", isSetTo(2));
-        assertThat("monsterHabitatsFightsLeft", isSetTo(5));
-        assertThat("monsterHabitatsMonster", isSetTo("Knob Goblin Embezzler"));
+        assertThat("_monsterHabitatsFightsLeft", isSetTo(5));
+        assertThat("_monsterHabitatsMonster", isSetTo("Knob Goblin Embezzler"));
       }
     }
 
@@ -2305,13 +2305,13 @@ public class FightRequestTest {
       var cleanups =
           new Cleanups(
               withFight(0),
-              withProperty("monsterHabitatsFightsLeft", 4),
-              withProperty("monsterHabitatsMonster", "Knob Goblin Embezzler"));
+              withProperty("_monsterHabitatsFightsLeft", 4),
+              withProperty("_monsterHabitatsMonster", "Knob Goblin Embezzler"));
 
       try (cleanups) {
         String html = html("request/test_fight_recall_habitat_adv.html");
         FightRequest.updateCombatData(null, null, html);
-        assertThat("monsterHabitatsFightsLeft", isSetTo(3));
+        assertThat("_monsterHabitatsFightsLeft", isSetTo(3));
       }
     }
   }

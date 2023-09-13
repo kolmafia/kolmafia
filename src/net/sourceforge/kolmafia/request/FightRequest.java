@@ -2239,7 +2239,7 @@ public class FightRequest extends GenericRequest {
         Preferences.decrement("beGregariousFightsLeft", 1, 0);
       } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
-        Preferences.decrement("monsterHabitatsFightsLeft", 1, 0);
+        Preferences.decrement("_monsterHabitatsFightsLeft", 1, 0);
       } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
         Preferences.decrement("rwbMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
@@ -10354,8 +10354,8 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.RECALL_FACTS_MONSTER_HABITATS:
         if (responseText.contains("Your knowledge of facts tells you")) {
-          Preferences.setString("monsterHabitatsMonster", monsterName);
-          Preferences.setInteger("monsterHabitatsFightsLeft", 5);
+          Preferences.setString("_monsterHabitatsMonster", monsterName);
+          Preferences.setInteger("_monsterHabitatsFightsLeft", 5);
           skillSuccess = true;
         }
         break;
