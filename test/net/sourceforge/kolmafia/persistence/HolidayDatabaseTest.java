@@ -2,12 +2,17 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withDay;
 import static net.sourceforge.kolmafia.persistence.DateTimeManager.ROLLOVER;
+import static net.sourceforge.kolmafia.persistence.HolidayDatabase.getEvents;
 import static net.sourceforge.kolmafia.persistence.HolidayDatabase.getHolidayPredictions;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
+import java.time.LocalDate;
 import java.time.Month;
+import java.time.MonthDay;
+import java.time.Year;
 import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -58,24 +63,37 @@ class HolidayDatabaseTest {
   class RealLifeHolidays {
     @ParameterizedTest
     @CsvSource({
-      "0101,Festival of Jarlsberg",
-      "0214,Valentine's Day",
-      "0317,St. Sneaky Pete's Day",
-      "0704,Dependence Day",
-      "0417,Oyster Egg Day",
-      "1124,Feast of Boris",
-      "1031,Halloween",
-      "0202,Groundhog Day",
-      "0401,April Fool's Day",
-      "0919,Talk Like a Pirate Day",
-      "1225,Crimbo",
-      "1022,Holatuwol's Birthday",
-      "0923,Veracity's Birthday",
-      "0217,Gausie's Birthday",
-      "0102,"
+      "1,1,Festival of Jarlsberg",
+      "2,14,Valentine's Day",
+      "3,17,St. Sneaky Pete's Day",
+      "7,4,Dependence Day",
+      "4,17,Oyster Egg Day",
+      "11,24,Feast of Boris",
+      "10,31,Halloween",
+      "2,2,Groundhog Day",
+      "4,1,April Fool's Day",
+      "9,19,Talk Like a Pirate Day",
+      "12,25,Crimbo",
+      "10,22,Holatuwol's Birthday",
+      "9,23,Veracity's Birthday",
+      "2,17,Gausie's Birthday",
+      "1,2,"
     })
-    void canIdentifyRealLifeHolidays(final String date, final String holiday) {
-      assertThat(HolidayDatabase.getRealLifeHoliday("2022" + date), equalTo(holiday));
+    void canIdentifyRealLifeHolidays(final int month, int day, final String holiday) {
+      var date = LocalDate.of(2022, month, day);
+      assertThat(HolidayDatabase.getRealLifeHoliday(date), equalTo(holiday));
+    }
+
+    @Test
+    void canCalculateThanksgiving() {
+      var date = HolidayDatabase.getThanksgiving(Year.of(1991));
+      assertThat(date, equalTo(MonthDay.of(Month.NOVEMBER, 28)));
+    }
+
+    @Test
+    void canCalculateEaster() {
+      var date = HolidayDatabase.getEaster(Year.of(1991));
+      assertThat(date, equalTo(MonthDay.of(Month.MARCH, 31)));
     }
   }
 
@@ -90,6 +108,16 @@ class HolidayDatabaseTest {
       var date = ZonedDateTime.of(2022, month, day, 0, 0, 0, 0, ROLLOVER);
       var actualHolidays = getHolidayPredictions(date);
       assertThat(String.join("|", actualHolidays), equalTo(holidays));
+    }
+
+    @Test
+    void canIdentifyLaborDayEve() {
+      var date = ZonedDateTime.of(2023, 4, 1, 0, 0, 0, 0, ROLLOVER);
+      var events = getEvents(date);
+
+      assertThat(
+          events,
+          containsInAnyOrder("Lab&oacute;r Day Eve", "April Fool's Day", "Mysticality Day"));
     }
   }
 

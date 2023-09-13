@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FlaggedItems;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -712,7 +711,6 @@ public abstract class KoLmafia {
     // Get current moon phases
 
     RequestThread.postRequest(new MoonPhaseRequest());
-    KoLCharacter.setHoliday(HolidayDatabase.getHoliday());
 
     // Forget what is trendy
     TrendyRequest.reset();

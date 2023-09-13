@@ -1310,7 +1310,7 @@ public class ModifierDatabase {
     writer.println();
     writeModifierCategory(writer, zodiacs, ModifierType.SIGN, "Zodiac Sign");
     writer.println();
-    writeModifierCategory(writer, statdays, ModifierType.EVENT, "Stat Day");
+    writeModifierCategory(writer, statdays, ModifierType.EVENT, "Holiday");
     writer.println();
     writeModifierCategory(writer, zones, ModifierType.ZONE, "Zone-specific");
     writer.println();

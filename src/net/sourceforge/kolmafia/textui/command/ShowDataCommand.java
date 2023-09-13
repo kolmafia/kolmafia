@@ -118,7 +118,7 @@ public class ShowDataCommand extends AbstractCommand {
       }
 
       desiredStream.println();
-      desiredStream.println(HolidayDatabase.getHoliday(today));
+      desiredStream.println(HolidayDatabase.getHoliday());
       desiredStream.println(HolidayDatabase.getMoonEffect());
       desiredStream.println();
       return;
