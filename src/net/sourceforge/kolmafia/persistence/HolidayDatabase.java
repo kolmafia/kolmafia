@@ -191,11 +191,11 @@ public class HolidayDatabase {
       RequestLogger.printLine(message);
 
       // Adjust the new year by the appropriate number of days.
-
       HolidayDatabase.NEWYEAR = HolidayDatabase.NEWYEAR.plusDays(phaseError);
       HolidayDatabase.BOUNDARY = HolidayDatabase.BOUNDARY.plusDays(phaseError);
       HolidayDatabase.COLLISION = HolidayDatabase.COLLISION.plusDays(phaseError);
     }
+
     HolidayDatabase.HAMBURGLAR_POSITION =
         HolidayDatabase.getHamburglarPosition(DateTimeManager.getRolloverDateTime());
   }

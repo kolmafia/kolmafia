@@ -7,6 +7,7 @@ import static net.sourceforge.kolmafia.persistence.HolidayDatabase.getHolidayPre
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import java.time.LocalDate;
@@ -160,11 +161,25 @@ class HolidayDatabaseTest {
           "10;front center",
           "11;in front of Grimace, R side",
         })
-    void canIdentityHamburglarPosition(final int day, final String hamburglar) {
+    void canIdentifyHamburglarPosition(final int day, final String hamburglar) {
       var cleanups = withDay(2022, Month.AUGUST, day);
 
       try (cleanups) {
         assertThat(HolidayDatabase.getHamburglarPositionAsString(), equalTo(hamburglar));
+      }
+    }
+
+    @Test
+    void canAdjustForInvalidMoonphase() {
+
+      var cleanups = new Cleanups(withDay(2023, Month.AUGUST, 4));
+
+      try (cleanups) {
+        HolidayDatabase.setMoonPhases(3, 2);
+
+        assertThat(
+            HolidayDatabase.getDayDifference(ZonedDateTime.of(2022, 1, 1, 0, 0, 0, 0, ROLLOVER)),
+            is(5951L));
       }
     }
   }
