@@ -1418,7 +1418,7 @@ Flock of Groars?	2322	ayetiswarm.gif	BOSS NOCOPY Atk: 120 Def: 108 HP: 250 Init:
 The Little Wisniewski	2323	lilthedude.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy E: stench	solid gold bowling ball (100)	replica Mr. Accessory (n100)
 The Boy	2324	liltheman.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude ED: sleaze EA: hot EA: cold	really dense meat stack (100)	replica Mr. Accessory (n100)
 
-# A Shrunken Adventurer Am I
+# A Shrunken Adventurer am I
 
 ncle	2325	ncle.gif	Atk: 4 Def: 1 HP: 10 Init: -10000 P: bug Article: an	ncle leg (50)	bug juice (30)
 rutabaga bug	2326	rutabagabug.gif	Atk: 1 Def: 5 HP: 30 Init: -10000 P: bug Article: a	rutabuga bag (50)	bug juice (30)

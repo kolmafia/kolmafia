@@ -361,7 +361,7 @@ The Grey Goo Impact Site	adventure=550	DiffLevel: unknown Env: unknown Stat: 0	T
 The Grey Goo Impact Site	adventure=551	DiffLevel: unknown Env: unknown Stat: 0	The Goo-Girded Garves
 The Grey Goo Impact Site	adventure=552	DiffLevel: unknown Env: unknown Stat: 0	The Goo-Splattered Tower Ruins
 
-# A Shrunken Adventurer Am I path
+# A Shrunken Adventurer am I path
 
 Your Campground From a Bug's Perspective	adventure=568	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Dirt
 Your Campground From a Bug's Perspective	adventure=569	DiffLevel: mid Env: outdoor Stat: 0	Fight in the Tall Grass
