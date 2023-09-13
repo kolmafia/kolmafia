@@ -1089,8 +1089,6 @@ user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
 user	moonTuned	false
 user	monkeyPointMonster	
-user	monsterHabitatsMonster	
-user	monsterHabitatsFightsLeft	0
 user	motifMonster	
 user	mothershipProgress	0
 user	mpAutoRecovery	-0.5
@@ -2118,6 +2116,8 @@ user	_missileLauncherUsed	false
 user	_molehillMountainUsed	false
 user	_momFoodReceived	false
 user	_monkeyPawWishesUsed	0
+user	_monsterHabitatsFightsLeft	0
+user	_monsterHabitatsMonster	
 user	_monsterHabitatsRecalled	0
 user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
