@@ -619,7 +619,7 @@ public class HolidayDatabase {
     return HolidayDatabase.getRealLifeHoliday(dateTime) != null;
   }
 
-  /** Returns whether the given day's most important attribute is being a muscle day. Note */
+  /** Returns whether the given day's most important attribute is being a muscle day. */
   public static boolean isMuscleDay(final ZonedDateTime dateTime) {
     return getStatDay(dateTime) == Stat.MUSCLE;
   }
@@ -629,7 +629,7 @@ public class HolidayDatabase {
     return getStatDay(dateTime) == Stat.MYSTICALITY;
   }
 
-  /** Returns whether the given day's most important attribute is being a moxie day. Note that */
+  /** Returns whether the given day's most important attribute is being a moxie day. */
   public static boolean isMoxieDay(final ZonedDateTime dateTime) {
     return getStatDay(dateTime) == Stat.MOXIE;
   }
@@ -796,7 +796,7 @@ public class HolidayDatabase {
   public static String getHolidaySummary(final ZonedDateTime dateTime) {
     String realHoliday = getRealLifeHoliday(dateTime);
 
-    if (realHoliday != null) return getHoliday();
+    if (realHoliday != null) return getHoliday(dateTime);
 
     String gameHoliday = getGameHoliday(dateTime);
 

@@ -23,7 +23,9 @@ class MoonPhaseRequestTest {
     var ostream = new ByteArrayOutputStream();
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
-    var cleanups = new Cleanups(withDay(2023, Month.AUGUST, 5), withHttpClientBuilder(builder));
+    var cleanups = new Cleanups(
+            withDay(2023, Month.AUGUST, 5),
+            withHttpClientBuilder(builder));
 
     try (cleanups) {
       try (var out = new PrintStream(ostream, true)) {
@@ -38,8 +40,5 @@ class MoonPhaseRequestTest {
       assertThat(HolidayDatabase.getGrimacePhase(), is(2));
       assertThat(ostream.toString(), not(containsString("phase error")));
     }
-
-    // Reset
-    HolidayDatabase.guessPhaseStep();
   }
 }
