@@ -744,8 +744,6 @@ public class HolidayDatabase {
   public static List<String> getHolidays(final ZonedDateTime dateTime) {
     var holidays = new ArrayList<String>();
 
-    if (HOLIDAY_OVERRIDE != null) holidays.add(HOLIDAY_OVERRIDE);
-
     String gameHoliday = getGameHoliday(dateTime);
     if (gameHoliday != null) holidays.add(gameHoliday);
 
@@ -756,6 +754,8 @@ public class HolidayDatabase {
       holidays.clear();
       holidays.add("Drunksgiving");
     }
+
+    if (HOLIDAY_OVERRIDE != null) holidays.add(HOLIDAY_OVERRIDE);
 
     return holidays;
   }
