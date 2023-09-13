@@ -8675,9 +8675,11 @@ Sign	Wombat	Experience Percent (Muscle): +10, Meat Drop: +20
 
 # Event section of modifiers.txt
 
-Event	Moxie Day	Experience Percent (Moxie): +25
-Event	Muscle Day	Experience Percent (Muscle): +25
-Event	Mysticality Day	Experience Percent (Mysticality): +25
+Event	Moxie Day	Experience Percent (Moxie): [25*interact()]
+Event	Muscle Day	Experience Percent (Muscle): [25*interact()]
+Event	Mysticality Day	Experience Percent (Mysticality): [25*interact()]
+Event	Festival of Jarlsberg	Mana Cost: -3
+Event	Lab&oacute;r Day Eve	Adventures: +10
 
 # Zone-specific section of modifiers.txt
 # -100% is the most common penalty in The Sea; use it as the default
