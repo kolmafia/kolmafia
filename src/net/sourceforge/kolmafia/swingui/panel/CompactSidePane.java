@@ -1409,8 +1409,7 @@ public class CompactSidePane extends JPanel implements Runnable {
     buf.append("</td><td rowspan=2>Rollover:<br>Adv ");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
-            KoLCharacter.currentNumericModifier(DoubleModifier.ADVENTURES)
-                + Preferences.getInteger("extraRolloverAdventures")));
+            KoLCharacter.currentNumericModifier(DoubleModifier.ADVENTURES)));
     buf.append("<br>PvP ");
     buf.append(
         KoLConstants.MODIFIER_FORMAT.format(
