@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class HolidayDatabaseTest {
   @Nested
@@ -119,6 +120,41 @@ class HolidayDatabaseTest {
       assertThat(
           events,
           containsInAnyOrder("Lab&oacute;r Day Eve", "April Fool's Day", "Mysticality Day"));
+    }
+
+    @ValueSource(booleans = {true, false})
+    @ParameterizedTest
+    void isHoliday(final boolean fob) {
+      var date = ZonedDateTime.of(2023, 7, fob ? 24 : 25, 0, 0, 0, 0, ROLLOVER);
+
+      assertThat(HolidayDatabase.isHoliday(date), is(fob));
+    }
+  }
+
+  @Nested
+  class StatDays {
+    @ValueSource(booleans = {true, false})
+    @ParameterizedTest
+    void isMoxieDay(final boolean statDay) {
+      var date = ZonedDateTime.of(2023, 7, statDay ? 2 : 3, 0, 0, 0, 0, ROLLOVER);
+
+      assertThat(HolidayDatabase.isMoxieDay(date), is(statDay));
+    }
+
+    @ValueSource(booleans = {true, false})
+    @ParameterizedTest
+    void isMysticalityDay(final boolean statDay) {
+      var date = ZonedDateTime.of(2023, 7, statDay ? 6 : 7, 0, 0, 0, 0, ROLLOVER);
+
+      assertThat(HolidayDatabase.isMysticalityDay(date), is(statDay));
+    }
+
+    @ValueSource(booleans = {true, false})
+    @ParameterizedTest
+    void isMuscleDay(final boolean statDay) {
+      var date = ZonedDateTime.of(2023, 7, statDay ? 11 : 12, 0, 0, 0, 0, ROLLOVER);
+
+      assertThat(HolidayDatabase.isMuscleDay(date), is(statDay));
     }
   }
 
