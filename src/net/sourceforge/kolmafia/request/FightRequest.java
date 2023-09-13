@@ -2239,7 +2239,7 @@ public class FightRequest extends GenericRequest {
         Preferences.decrement("beGregariousFightsLeft", 1, 0);
       } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
-        Preferences.decrement("monsterHabitatsFightsLeft", 1, 0);
+        Preferences.decrement("_monsterHabitatsFightsLeft", 1, 0);
       } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
         Preferences.decrement("rwbMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
@@ -3494,7 +3494,6 @@ public class FightRequest extends GenericRequest {
           // waistcoat and winds it. "Two days slow, that's what
           // it is," he says.
           if (responseText.contains("oversized pocketwatch")) {
-            Preferences.increment("extraRolloverAdventures", 1);
             Preferences.increment("_hareAdv", 1);
             Preferences.setInteger("_hareCharge", 0);
           } else {
@@ -3511,7 +3510,6 @@ public class FightRequest extends GenericRequest {
           boolean underwater = lastLocation != null && lastLocation.getEnvironment().isUnderwater();
           Preferences.increment("_gibbererCharge", underwater ? 2 : 1, 15, true);
           if (responseText.contains("you feel time slow down")) {
-            Preferences.increment("extraRolloverAdventures", 1);
             Preferences.increment("_gibbererAdv", 1);
             // Normally the updating below is wasted, but it allows things
             // to get in sync if progress is missed for some reason
@@ -10354,8 +10352,8 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.RECALL_FACTS_MONSTER_HABITATS:
         if (responseText.contains("Your knowledge of facts tells you")) {
-          Preferences.setString("monsterHabitatsMonster", monsterName);
-          Preferences.setInteger("monsterHabitatsFightsLeft", 5);
+          Preferences.setString("_monsterHabitatsMonster", monsterName);
+          Preferences.setInteger("_monsterHabitatsFightsLeft", 5);
           skillSuccess = true;
         }
         break;

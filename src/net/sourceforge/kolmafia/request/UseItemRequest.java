@@ -4197,7 +4197,6 @@ public class UseItemRequest extends GenericRequest {
         // You dip into your future and borrow some time. Be sure to spend it wisely!
         if (responseText.contains("dip into your future")) {
           KoLCharacter.updateStatus();
-          Preferences.increment("extraRolloverAdventures", -20);
         }
         break;
 
@@ -4294,7 +4293,6 @@ public class UseItemRequest extends GenericRequest {
         if (responseText.contains("already feeling adventurous enough")) {
           // player has already used 5 resolutions today
           int extraAdv = 10 - Preferences.getInteger("_resolutionAdv");
-          Preferences.increment("extraRolloverAdventures", extraAdv);
           Preferences.increment("_resolutionAdv", extraAdv);
           return;
         }
@@ -4305,7 +4303,6 @@ public class UseItemRequest extends GenericRequest {
           used += 1;
         }
 
-        Preferences.increment("extraRolloverAdventures", 2 * used);
         Preferences.increment("_resolutionAdv", 2 * used);
 
         if (used < count) {
