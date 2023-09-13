@@ -10342,9 +10342,6 @@ public class FightRequest extends GenericRequest {
         // Spookypocket
         responseText.contains("drop something")
             || responseText.contains("drop an item")
-            ||
-            // no items
-            responseText.contains("even mildly evil")
             || skillSuccess) {
           skillSuccess = true;
         }
