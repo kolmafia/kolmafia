@@ -162,8 +162,9 @@ class HolidayDatabaseTest {
     })
     @ParameterizedTest
     void getHoliday(final int year, final int month, final int day, final String holiday) {
-      var date = ZonedDateTime.of(year, month, day, 0, 0, 0, 0, ROLLOVER);
-      assertThat(HolidayDatabase.getHoliday(date), is(holiday));
+      try (var cleanups = withDay(year, Month.of(month), day)) {
+        assertThat(HolidayDatabase.getHoliday(), is(holiday));
+      }
     }
   }
 
@@ -241,17 +242,24 @@ class HolidayDatabaseTest {
       }
     }
 
-    @Test
-    void canAdjustForInvalidMoonphase() {
+    @ParameterizedTest
+    @CsvSource({
+      // Phase Step 1 (error of -2)
+      "4, 5951",
+      // Phase Step 15 (error of 12; should be treated as -4)
+      "18, 5953",
+    })
+    void canAdjustForInvalidMoonPhase(final int day, final long diff) {
 
-      var cleanups = new Cleanups(withDay(2023, Month.AUGUST, 4));
+      var cleanups = new Cleanups(withDay(2023, Month.AUGUST, day));
 
       try (cleanups) {
+        // Phase Step 3
         HolidayDatabase.setMoonPhases(3, 2);
 
         assertThat(
             HolidayDatabase.getDayDifference(ZonedDateTime.of(2022, 1, 1, 0, 0, 0, 0, ROLLOVER)),
-            is(5951L));
+            is(diff));
       }
     }
   }
