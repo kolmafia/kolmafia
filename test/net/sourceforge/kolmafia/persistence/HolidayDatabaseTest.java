@@ -8,6 +8,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 import internal.helpers.Cleanups;
 import java.time.LocalDate;
@@ -20,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mockito;
 
 class HolidayDatabaseTest {
   @Nested
@@ -155,6 +158,16 @@ class HolidayDatabaseTest {
       assertThat(HolidayDatabase.getHolidaySummary(date), is(summary));
     }
 
+    @Test
+    void handlesIfSomehowThereAreNoUpcomingHolidays() {
+      try (var mock = Mockito.mockStatic(HolidayDatabase.class, Mockito.CALLS_REAL_METHODS)) {
+        mock.when(() -> HolidayDatabase.getGameHolidayInDays(any(ZonedDateTime.class), anyInt()))
+            .thenReturn(null);
+        var date = ZonedDateTime.of(2023, 6, 2, 0, 0, 0, 0, ROLLOVER);
+        assertThat(HolidayDatabase.getHolidaySummary(date), is(""));
+      }
+    }
+
     @CsvSource({
       "2011, 3, 17, Drunksgiving",
       "2017, 11, 23, El Dia De Los Muertos Borrachos y Agradecido",
@@ -164,6 +177,18 @@ class HolidayDatabaseTest {
     void getHoliday(final int year, final int month, final int day, final String holiday) {
       try (var cleanups = withDay(year, Month.of(month), day)) {
         assertThat(HolidayDatabase.getHoliday(), is(holiday));
+      }
+    }
+
+    @CsvSource({
+      "2011, 3, 17, Drunksgiving",
+      "2017, 11, 23, El Dia De Los Muertos Borrachos y Agradecido",
+      "2021, 3, 17, Yuletide / St. Sneaky Pete's Day",
+    })
+    @ParameterizedTest
+    void getHolidays(final int year, final int month, final int day, final String holiday) {
+      try (var cleanups = withDay(year, Month.of(month), day)) {
+        assertThat(HolidayDatabase.getHolidays(), containsInAnyOrder(holiday.split(" / ")));
       }
     }
   }
