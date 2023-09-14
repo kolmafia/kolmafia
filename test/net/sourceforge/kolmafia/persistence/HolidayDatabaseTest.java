@@ -199,8 +199,7 @@ class HolidayDatabaseTest {
       "2021, 4, 15, false", // Nothing
     })
     @ParameterizedTest
-    void isFeastOfBorisLike(
-        final int year, final int month, final int day, final boolean fobLike) {
+    void isFeastOfBorisLike(final int year, final int month, final int day, final boolean fobLike) {
       try (var cleanups = withDay(year, Month.of(month), day)) {
         assertThat(HolidayDatabase.isFeastOfBorisLike(), is(fobLike));
       }
