@@ -27,7 +27,7 @@ public enum AscensionClass {
   AVATAR_OF_SNEAKY_PETE(
       "Avatar of Sneaky Pete", 15, "bigglasses", 2, Path.AVATAR_OF_SNEAKY_PETE, "Snap Fingers"),
   ED("Ed the Undying", 17, "thoth", 1, Path.ACTUALLY_ED_THE_UNDYING, "Curse of Indecision"),
-  COWPUNCHER("Cow Puncher", 18, "darkcow", 0, Path.AVATAR_OF_WEST_OF_LOATHING),
+  COW_PUNCHER("Cow Puncher", 18, "darkcow", 0, Path.AVATAR_OF_WEST_OF_LOATHING),
   BEANSLINGER("Beanslinger", 19, "beancan", 1, Path.AVATAR_OF_WEST_OF_LOATHING),
   SNAKE_OILER("Snake Oiler", 20, "tinysnake", 2, Path.AVATAR_OF_WEST_OF_LOATHING),
   GELATINOUS_NOOB("Gelatinous Noob", 23, "gelatinousicon", 2, Path.GELATINOUS_NOOB),

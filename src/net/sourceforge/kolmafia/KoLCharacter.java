@@ -1267,7 +1267,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean isAWoLClass() {
-    return ascensionClass == AscensionClass.COWPUNCHER
+    return ascensionClass == AscensionClass.COW_PUNCHER
         || ascensionClass == AscensionClass.BEANSLINGER
         || ascensionClass == AscensionClass.SNAKE_OILER;
   }
@@ -2844,7 +2844,7 @@ public abstract class KoLCharacter {
         final String pref =
             switch (ascensionClass) {
               case BEANSLINGER -> "awolPointsBeanslinger";
-              case COWPUNCHER -> "awolPointsCowpuncher";
+              case COW_PUNCHER -> "awolPointsCowpuncher";
               case SNAKE_OILER -> "awolPointsSnakeoiler";
               default -> null;
             };

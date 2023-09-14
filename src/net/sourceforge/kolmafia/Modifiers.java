@@ -715,7 +715,7 @@ public class Modifiers {
         AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
         if (ascensionClass != null) {
           switch (ascensionClass) {
-            case SEAL_CLUBBER, ZOMBIE_MASTER, ED, COWPUNCHER, BEANSLINGER, SNAKE_OILER -> {
+            case SEAL_CLUBBER, ZOMBIE_MASTER, ED, COW_PUNCHER, BEANSLINGER, SNAKE_OILER -> {
               this.setDouble(DoubleModifier.HP_REGEN_MIN, 10.0);
               this.setDouble(DoubleModifier.HP_REGEN_MAX, 12.0);
               this.setDouble(DoubleModifier.WEAPON_DAMAGE, 15.0);
