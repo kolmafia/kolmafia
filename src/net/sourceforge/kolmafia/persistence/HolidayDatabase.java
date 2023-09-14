@@ -786,9 +786,9 @@ public class HolidayDatabase {
         holidays.clear();
         holidays.add("Drunksgiving");
       } else if (holidays.contains("Feast of Boris")
-          && holidays.contains("El Dia de Los Muertos Borrachos")) {
+          && holidays.contains("El Dia De Los Muertos Borrachos")) {
         holidays.clear();
-        holidays.add("El Dia de los Muertos Borrachos y Agradecido");
+        holidays.add("El Dia De Los Muertos Borrachos y Agradecido");
       }
     }
 

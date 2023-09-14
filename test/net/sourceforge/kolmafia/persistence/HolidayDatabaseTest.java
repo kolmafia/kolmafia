@@ -145,8 +145,6 @@ class HolidayDatabaseTest {
     }
 
     @CsvSource({
-      "2011, 3, 17, Drunksgiving today",
-      "2021, 3, 17, Yuletide / St. Sneaky Pete's Day today",
       "2023, 5, 4, 6 days until Valentine's Day",
       "2023, 5, 16, St. Sneaky Pete's Day tomorrow",
       "2023, 6, 1, El Dia De Los Muertos Borrachos today",
@@ -155,6 +153,17 @@ class HolidayDatabaseTest {
     void getHolidaySummary(final int year, final int month, final int day, final String summary) {
       var date = ZonedDateTime.of(year, month, day, 0, 0, 0, 0, ROLLOVER);
       assertThat(HolidayDatabase.getHolidaySummary(date), is(summary));
+    }
+
+    @CsvSource({
+      "2011, 3, 17, Drunksgiving",
+      "2017, 11, 23, El Dia De Los Muertos Borrachos y Agradecido",
+      "2021, 3, 17, Yuletide / St. Sneaky Pete's Day",
+    })
+    @ParameterizedTest
+    void getHoliday(final int year, final int month, final int day, final String holiday) {
+      var date = ZonedDateTime.of(year, month, day, 0, 0, 0, 0, ROLLOVER);
+      assertThat(HolidayDatabase.getHoliday(date), is(holiday));
     }
   }
 
