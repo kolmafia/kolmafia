@@ -222,13 +222,11 @@ public class FightRequestTest {
         new Cleanups(
             withFamiliar(FamiliarPool.HARE),
             withProperty("_hareCharge", 11),
-            withProperty("extraRolloverAdventures", 2),
             withProperty("_hareAdv", 0),
             withFight());
     try (cleanups) {
       parseCombatData("request/test_hare_rollover_adventure.html");
       assertEquals(1, Preferences.getInteger("_hareAdv"));
-      assertEquals(3, Preferences.getInteger("extraRolloverAdventures"));
       assertEquals(0, Preferences.getInteger("_hareCharge"));
     }
   }
@@ -241,14 +239,12 @@ public class FightRequestTest {
           new Cleanups(
               withFamiliar(FamiliarPool.GIBBERER),
               withProperty("_gibbererAdv", 0),
-              withProperty("extraRolloverAdventures", 0),
               withProperty("_gibbererCharge", 14),
               withLastLocation("Noob Cave"),
               withFight());
       try (cleanups) {
         parseCombatData("request/test_gibberer_rollover_adventure.html");
         assertEquals(1, Preferences.getInteger("_gibbererAdv"));
-        assertEquals(1, Preferences.getInteger("extraRolloverAdventures"));
         assertEquals(0, Preferences.getInteger("_gibbererCharge"));
       }
     }

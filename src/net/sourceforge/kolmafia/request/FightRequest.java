@@ -3494,7 +3494,6 @@ public class FightRequest extends GenericRequest {
           // waistcoat and winds it. "Two days slow, that's what
           // it is," he says.
           if (responseText.contains("oversized pocketwatch")) {
-            Preferences.increment("extraRolloverAdventures", 1);
             Preferences.increment("_hareAdv", 1);
             Preferences.setInteger("_hareCharge", 0);
           } else {
@@ -3511,7 +3510,6 @@ public class FightRequest extends GenericRequest {
           boolean underwater = lastLocation != null && lastLocation.getEnvironment().isUnderwater();
           Preferences.increment("_gibbererCharge", underwater ? 2 : 1, 15, true);
           if (responseText.contains("you feel time slow down")) {
-            Preferences.increment("extraRolloverAdventures", 1);
             Preferences.increment("_gibbererAdv", 1);
             // Normally the updating below is wasted, but it allows things
             // to get in sync if progress is missed for some reason
@@ -10344,9 +10342,6 @@ public class FightRequest extends GenericRequest {
         // Spookypocket
         responseText.contains("drop something")
             || responseText.contains("drop an item")
-            ||
-            // no items
-            responseText.contains("even mildly evil")
             || skillSuccess) {
           skillSuccess = true;
         }
