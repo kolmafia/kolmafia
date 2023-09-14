@@ -549,6 +549,11 @@ public class Modifiers {
       case FAMILIAR_ACTION_BONUS:
         this.doubles.set(mod, Math.min(100, this.getDouble(mod) + value));
         break;
+      case STOMACH_CAPACITY:
+        if (KoLCharacter.canExpandStomachCapacity()) {
+          this.doubles.add(mod, value);
+        }
+        break;
       case BASE_STOMACH_CAPACITY:
         {
           // Only the lowest base capacity applies, but start with 15 as a base.
@@ -965,36 +970,31 @@ public class Modifiers {
   }
 
   public final void applyAdditionalStomachCapacityModifiers() {
-    if (KoLCharacter.canExpandStomachCapacity()) {
-      var usedDistentionPill = Preferences.getBoolean("_distentionPillUsed");
-      if (usedDistentionPill) {
-        this.addDouble(
-            DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.DISTENTION_PILL);
-      }
-      var usedLupineHormones = Preferences.getBoolean("_lupineHormonesUsed");
-      if (usedLupineHormones) {
-        this.addDouble(
-            DoubleModifier.STOMACH_CAPACITY,
-            3,
-            ModifierType.ITEM,
-            ItemPool.LUPINE_APPETITE_HORMONES);
-      }
-      var usedSweetTooth = Preferences.getBoolean("_sweetToothUsed");
-      if (usedSweetTooth) {
-        this.addDouble(DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.SWEET_TOOTH);
-      }
-      var usedVoraciTea = Preferences.getBoolean("_voraciTeaUsed");
-      if (usedVoraciTea) {
-        this.addDouble(DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.VORACI_TEA);
-      }
-      var pantsgivingFullness = Preferences.getInteger("_pantsgivingFullness");
-      if (pantsgivingFullness > 0) {
-        this.addDouble(
-            DoubleModifier.STOMACH_CAPACITY,
-            pantsgivingFullness,
-            ModifierType.ITEM,
-            ItemPool.PANTSGIVING);
-      }
+    var usedDistentionPill = Preferences.getBoolean("_distentionPillUsed");
+    if (usedDistentionPill) {
+      this.addDouble(
+          DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.DISTENTION_PILL);
+    }
+    var usedLupineHormones = Preferences.getBoolean("_lupineHormonesUsed");
+    if (usedLupineHormones) {
+      this.addDouble(
+          DoubleModifier.STOMACH_CAPACITY, 3, ModifierType.ITEM, ItemPool.LUPINE_APPETITE_HORMONES);
+    }
+    var usedSweetTooth = Preferences.getBoolean("_sweetToothUsed");
+    if (usedSweetTooth) {
+      this.addDouble(DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.SWEET_TOOTH);
+    }
+    var usedVoraciTea = Preferences.getBoolean("_voraciTeaUsed");
+    if (usedVoraciTea) {
+      this.addDouble(DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.VORACI_TEA);
+    }
+    var pantsgivingFullness = Preferences.getInteger("_pantsgivingFullness");
+    if (pantsgivingFullness > 0) {
+      this.addDouble(
+          DoubleModifier.STOMACH_CAPACITY,
+          pantsgivingFullness,
+          ModifierType.ITEM,
+          ItemPool.PANTSGIVING);
     }
   }
 

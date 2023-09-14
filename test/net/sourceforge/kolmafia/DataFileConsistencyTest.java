@@ -371,6 +371,12 @@ public class DataFileConsistencyTest {
               fail("unrecognised path " + name);
             }
           }
+          case "Class" -> {
+            var ascensionClass = AscensionClass.find(name);
+            if (ascensionClass == null) {
+              fail("unrecognised class " + name);
+            }
+          }
           case "Motorbike",
               "Snowsuit",
               "Edpiece",
