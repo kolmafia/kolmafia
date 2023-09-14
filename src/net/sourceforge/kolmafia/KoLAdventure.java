@@ -1791,18 +1791,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // Holiday zones
-    if (holidayAdventures.containsKey(this.zone)) {
+    if (holidayAdventures.containsKey(this.adventureName)) {
       var holiday = holidayAdventures.get(this.adventureName);
       var today = HolidayDatabase.getHolidays(false);
       return switch (this.adventureNumber) {
         case AdventurePool.DRUNKEN_STUPOR -> KoLCharacter.isFallingDown();
         case AdventurePool.SSPD_STUPOR -> {
-          if (today.contains(holiday) && KoLCharacter.getInebriety() >= 26) {
-            yield true;
-          } else {
+          if (!today.contains(holiday)) yield false;
+          if (KoLCharacter.getInebriety() < 26) {
             KoLmafia.updateDisplay(MafiaState.ERROR, "You are not drunk enough to continue.");
             yield false;
           }
+          yield true;
         }
         default -> holiday == null || today.contains(holiday);
       };
