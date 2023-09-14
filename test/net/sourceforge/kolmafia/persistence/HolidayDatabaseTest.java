@@ -97,6 +97,14 @@ class HolidayDatabaseTest {
       var date = HolidayDatabase.getEaster(Year.of(1991));
       assertThat(date, equalTo(MonthDay.of(Month.MARCH, 31)));
     }
+
+    @ValueSource(booleans = {true, false})
+    @ParameterizedTest
+    void isRealHoliday(final boolean scaryDay) {
+      var date = ZonedDateTime.of(2022, 10, scaryDay ? 31 : 1, 0, 0, 0, 0, ROLLOVER);
+
+      assertThat(HolidayDatabase.isRealLifeHoliday(date), is(scaryDay));
+    }
   }
 
   @Nested
@@ -124,10 +132,29 @@ class HolidayDatabaseTest {
 
     @ValueSource(booleans = {true, false})
     @ParameterizedTest
-    void isHoliday(final boolean fob) {
+    void isGameHoliday(final boolean fob) {
       var date = ZonedDateTime.of(2023, 7, fob ? 24 : 25, 0, 0, 0, 0, ROLLOVER);
 
-      assertThat(HolidayDatabase.isHoliday(date), is(fob));
+      assertThat(HolidayDatabase.isGameHoliday(date), is(fob));
+    }
+
+    @Test
+    void getGameHolidayInDays() {
+      var date = ZonedDateTime.of(2023, 7, 28, 0, 0, 0, 0, ROLLOVER);
+      assertThat(HolidayDatabase.getGameHolidayInDays(date, 1), is("Yuletide"));
+    }
+
+    @CsvSource({
+      "2011, 3, 17, Drunksgiving today",
+      "2021, 3, 17, Yuletide / St. Sneaky Pete's Day today",
+      "2023, 5, 4, 6 days until Valentine's Day",
+      "2023, 5, 16, St. Sneaky Pete's Day tomorrow",
+      "2023, 6, 1, El Dia De Los Muertos Borrachos today",
+    })
+    @ParameterizedTest
+    void getHolidaySummary(final int year, final int month, final int day, final String summary) {
+      var date = ZonedDateTime.of(year, month, day, 0, 0, 0, 0, ROLLOVER);
+      assertThat(HolidayDatabase.getHolidaySummary(date), is(summary));
     }
   }
 

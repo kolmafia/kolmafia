@@ -614,7 +614,17 @@ public class HolidayDatabase {
    * tomorrow) instead of just "x days".
    */
   public static String getDayCountAsString(final int dayCount) {
-    return dayCount == 0 ? "today" : dayCount == 1 ? "tomorrow" : dayCount + " days";
+    return switch (dayCount) {
+      case 0 -> "today";
+      case 1 -> "tomorrow";
+      default -> dayCount + " days";
+    };
+  }
+
+  public static String getDayCountAsString(final int dayCount, final String event) {
+    var dayCountString = getDayCountAsString(dayCount);
+    if (dayCount > 1) return dayCountString + " until " + event;
+    return event + " " + dayCountString;
   }
 
   /** Returns the KoL calendar month associated with the given date in the real world. */
@@ -622,8 +632,8 @@ public class HolidayDatabase {
     return HolidayDatabase.convertCalendarDayToArray(HolidayDatabase.getDayInKoLYear(dateTime))[0];
   }
 
-  /** Returns whether or not the given day's most important attribute is being a holiday. */
-  public static boolean isHoliday(final ZonedDateTime dateTime) {
+  /** Returns whether the given day is a game holiday. */
+  public static boolean isGameHoliday(final ZonedDateTime dateTime) {
     return HolidayDatabase.getGameHoliday(dateTime) != null;
   }
 
@@ -739,11 +749,7 @@ public class HolidayDatabase {
     }
   }
 
-  public static String getHolidayInDays(final int days) {
-    return getHolidayInDays(DateTimeManager.getRolloverDateTime(), days);
-  }
-
-  public static String getHolidayInDays(final ZonedDateTime dateTime, final int days) {
+  public static String getGameHolidayInDays(final ZonedDateTime dateTime, final int days) {
     int calendarDay = getDayInKoLYear(dateTime);
     return getGameHoliday((calendarDay + days) % 96);
   }
@@ -752,8 +758,21 @@ public class HolidayDatabase {
     HOLIDAY_OVERRIDE = holiday.isBlank() ? null : holiday;
   }
 
-  /** Returns the KoL holiday associated with the given date in the real world. */
+  public static List<String> getHolidays() {
+    return getHolidays(DateTimeManager.getRolloverDateTime());
+  }
+
+  public static List<String> getHolidays(final boolean replaceWithSpecial) {
+    return getHolidays(DateTimeManager.getRolloverDateTime(), replaceWithSpecial);
+  }
+
   public static List<String> getHolidays(final ZonedDateTime dateTime) {
+    return getHolidays(dateTime, true);
+  }
+
+  /** Returns the KoL holiday associated with the given date in the real world. */
+  public static List<String> getHolidays(
+      final ZonedDateTime dateTime, final boolean replaceWithSpecial) {
     var holidays = new ArrayList<String>();
 
     String gameHoliday = getGameHoliday(dateTime);
@@ -762,9 +781,15 @@ public class HolidayDatabase {
     String realHoliday = getRealLifeHoliday(dateTime);
     if (realHoliday != null) holidays.add(realHoliday);
 
-    if (holidays.contains("St. Sneaky Pete's Day") && holidays.contains("Feast of Boris")) {
-      holidays.clear();
-      holidays.add("Drunksgiving");
+    if (replaceWithSpecial) {
+      if (holidays.contains("St. Sneaky Pete's Day") && holidays.contains("Feast of Boris")) {
+        holidays.clear();
+        holidays.add("Drunksgiving");
+      } else if (holidays.contains("Feast of Boris")
+          && holidays.contains("El Dia de Los Muertos Borrachos")) {
+        holidays.clear();
+        holidays.add("El Dia de los Muertos Borrachos y Agradecido");
+      }
     }
 
     if (HOLIDAY_OVERRIDE != null) holidays.add(HOLIDAY_OVERRIDE);
@@ -789,7 +814,7 @@ public class HolidayDatabase {
 
     // Include this pseudo-event because the day before Labor Day essentially has +10 rollover
     // adventures
-    if ("Lab&oacute;r Day".equals(getHolidayInDays(dateTime, 1))) {
+    if ("Lab&oacute;r Day".equals(getGameHolidayInDays(dateTime, 1))) {
       list.add("Lab&oacute;r Day Eve");
     }
 
@@ -806,23 +831,15 @@ public class HolidayDatabase {
   }
 
   public static String getHolidaySummary(final ZonedDateTime dateTime) {
-    String realHoliday = getRealLifeHoliday(dateTime);
+    var holiday = getHoliday(dateTime);
 
-    if (realHoliday != null) return getHoliday(dateTime);
+    if (!holiday.isBlank()) return getDayCountAsString(0, holiday);
 
-    String gameHoliday = getGameHoliday(dateTime);
+    for (int i = 0; i < 96; ++i) {
+      holiday = getGameHolidayInDays(dateTime, i);
 
-    if (gameHoliday != null) {
-      return gameHoliday + " today";
-    }
-
-    for (int i = 1; i < 96; ++i) {
-      gameHoliday = getHolidayInDays(i);
-
-      if (gameHoliday != null) {
-        return i == 1
-            ? gameHoliday + " tomorrow"
-            : getDayCountAsString(i) + " until " + gameHoliday;
+      if (holiday != null) {
+        return getDayCountAsString(i, holiday);
       }
     }
 
@@ -1005,8 +1022,8 @@ public class HolidayDatabase {
   }
 
   public static boolean isFullnessIncreased() {
-    var holidays = getHolidays(DateTimeManager.getRolloverDateTime());
-    return holidays.contains("Feast of Boris") || holidays.contains("Drunksgiving");
+    var holidays = getHolidays(DateTimeManager.getRolloverDateTime(), false);
+    return holidays.contains("Feast of Boris");
   }
 
   public static void addPredictionHTML(

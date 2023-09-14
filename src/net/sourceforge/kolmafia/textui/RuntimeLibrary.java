@@ -98,7 +98,6 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -3845,18 +3844,7 @@ public abstract class RuntimeLibrary {
   // updated usually once per day.
 
   public static Value holiday(ScriptRuntime controller) {
-    var today = DateTimeManager.getRolloverDateTime();
-    String gameHoliday = HolidayDatabase.getGameHoliday(today);
-    String realHoliday = HolidayDatabase.getRealLifeHoliday(today);
-    String result =
-        gameHoliday != null && realHoliday != null
-            ? gameHoliday + "/" + realHoliday
-            : gameHoliday != null ? gameHoliday : realHoliday != null ? realHoliday : "";
-    if (result.equals("St. Sneaky Pete's Day/Feast of Boris")
-        || result.equals("Feast of Boris/St. Sneaky Pete's Day")) {
-      result = "Drunksgiving";
-    }
-    return new Value(result);
+    return new Value(HolidayDatabase.getHoliday());
   }
 
   public static Value today_to_string(ScriptRuntime controller) {
