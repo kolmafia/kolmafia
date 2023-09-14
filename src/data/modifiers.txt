@@ -773,7 +773,6 @@ Item	palm-frond capris	Moxie: +4, Maximum HP: +30, Maximum MP: +30, Familiar Eff
 Item	Pantaloons of Hatred	Adventures: +4, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Familiar Effect: "hot atk, 2xVolley"
 Item	pantogram pants	Lasts Until Rollover
 Item	pants of the Slug Lord	Stench Resistance: +2, Familiar Effect: "stench atk, 3xPotato, cap 8"
-# Pantsgiving: Lets you cram in slightly more food.
 # Pantsgiving: Improves resting
 # Pantsgiving: Lets you use various Thanksgivingy skills
 Item	Pantsgiving	Experience: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +15, Meat Drop: +30, Softcore Only, Bonus Resting HP: [5*F], Bonus Resting MP: [5*F], Familiar Effect: "1xPotato, cap 25", Drops Items, Variable
@@ -6388,7 +6387,7 @@ Effect	Inner Warmth	Cold Resistance: +5
 # Inocente, In a Sense: Te hace ver como un Persona Inocente Cadáver
 Effect	Inocente, In a Sense	Avatar: "Persona Inocente Cadáver"
 Effect	Insani Tea	Random Monster Modifiers: +3
-Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50
+Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50, Stomach Capacity: +5
 Effect	Inscrutable exoskeleton	Damage Absorption: +300
 Effect	Inscrutable Gaze	Experience Percent (Mysticality): +10
 Effect	Insectudinal Fortitude	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -8198,7 +8197,7 @@ Skill	Left Brain Hemisphere	Maximum MP Percent: +20
 Skill	Left Eyeball	Item Drop: +20
 Skill	Left Eyelid	Spooky Resistance: +1
 Skill	Legacy Code	Spooky Damage: +15
-# Legendary Appetite: Stomach Capacity +5
+Skill	Legendary Appetite	Stomach Capacity +5
 Skill	Legendary Bravado	Muscle: +10, Mysticality: +10, Moxie: +10
 Skill	Legendary Girth	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Legendary Impatience	Initiative: +100
@@ -8214,7 +8213,7 @@ Skill	Lucky Brooch	Item Drop: +30
 # Lucky Buckle: Find more coins after combat
 Skill	Lucky Insignia	Item Drop: +30
 Skill	Lucky Pin	Item Drop: +30
-# Lunch Like a King: Stomach Capacity +5
+Skill	Lunch Like a King	Stomach Capacity +5
 Skill	Lysosomes	Absorb Stats: +5
 Skill	Macabre Cunning	Experience: +5, Maximum HP: -20
 Skill	Mad Looting Skillz	Item Drop: +20
@@ -8289,7 +8288,7 @@ Skill	Powers of Observatiogn	Item Drop: +10
 Skill	Precision of the Penguin	Critical Hit Percent: [Y]
 Skill	Preternatural Strength	Floor Buffed Muscle: "Mysticality", Maximum HP: -15
 Skill	Procgen Ribaldry	Sleaze Damage: +10
-# Prodigious Appetite: +5 Stomach Capacity
+Skill	Prodigious Appetite	Stomach Capacity: +5
 Skill	Profound Shame	Sleaze Resistance: +3
 Skill	Propagation Drive	Item Drop: +20
 Skill	Provably Efficient	Adventures: +5
@@ -8299,11 +8298,12 @@ Skill	Quick Wit	Mysticality: +20
 Skill	Rain Delay	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 Skill	Rainbow Shield	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 # Rapid Prototyping: Craft up to 5 items per day without using an Adventure
+Skill	Ravenous Pounce	Stomach Capacity: +5
 # Really Expensive Jewelrycrafting: Lets you use fancy jewelrycrafting ingredients
 Skill	Refusal to Freeze	Cold Resistance: +3
 Skill	Reloading	Adventures: +5
-# Replacement Liver: +5 liver capacity
-# Replacement Stomach: +5 stomach capacity
+# Replacement Liver	Liver Capacity: +5
+Skill	Replacement Stomach	Stomach Capacity: +5
 Skill	Rhythm In Your Blood	Maximum HP Percent: +20
 Skill	Rhythmic Precision	Mana Cost: -3
 Skill	Ribald Memories	Sleaze Resistance: +3, Sleaze Damage: +15
@@ -8381,7 +8381,7 @@ Skill	Spot Weakness	Maximum HP: -15
 Skill	Steam Mycelia	Hot Damage: +15
 # Sticky Fingers: Pickpocketing also gives Meat
 # Still Another Extra Spleen: Still another +5 spleen capacity
-# Stomach of Steel: Lets you eat more
+Skill	Stomach of Steel	Stomach Capacity: +5
 Skill	Stomach-Like Thing	Absorb Adventures: +2
 Skill	Strong Back	Muscle: +20
 Skill	Subatomic Hardening	Damage Reduction: 30
@@ -8480,11 +8480,11 @@ Skill	Zombie Maestro	Mana Cost: -1
 
 Skill	Envy	Item Drop: +30, Meat Drop: -25
 # Gluttony duplicates Opossum's food gains
-Skill	Gluttony	Experience: -2
+Skill	Gluttony	Experience: -2, Stomach Capacity: -1
 Skill	Greed	Meat Drop: +50, Item Drop: -15
 Skill	Lust	Initiative: +50, Weapon Damage: -5, Spell Damage: -5
 # Pride lowers food gains
-Skill	Pride	Experience: +4
+Skill	Pride	Experience: +4, Stomach Capacity: -1
 Skill	Sloth	Damage Reduction: 8, Initiative: -25
 Skill	Wrath	Weapon Damage: +10, Spell Damage: +10, Damage Reduction: -4
 
@@ -8680,6 +8680,8 @@ Event	Muscle Day	Experience Percent (Muscle): [25*interact()]
 Event	Mysticality Day	Experience Percent (Mysticality): [25*interact()]
 Event	Festival of Jarlsberg	Mana Cost: -3
 Event	Lab&oacute;r Day Eve	Adventures: +10
+# Fullness only applies in no path or Teetotaller, and does not apply to AoWoL classes for some reason
+Event	Feast of Boris	Stomach Capacity: [min(1,path(none)+path(Teetotaller))*(1-class(AWOL))*15]
 
 # Zone-specific section of modifiers.txt
 # -100% is the most common penalty in The Sea; use it as the default
@@ -12514,12 +12516,28 @@ Florist	Up Sea Daisy	Experience: +30
 
 # Path section
 
-Path	One Crazy Random Summer	Random Monster Modifiers: +1
+Path	A Shrunken Adventurer am I	Muscle Limit: 1, Mysticality Limit: 1, Moxie Limit: 1, Base Stomach Capacity: 2
+Path	Actually Ed the Undying	Base Stomach Capacity: 0
+Path	Avatar of Boris	Base Stomach Capacity: 20
+Path	Avatar of Jarlsberg	Base Stomach Capacity: 10
+Path	Avatar of Sneaky Pete	Base Stomach Capacity: 10
+Path	Dark Gyffte	Maximum HP: [20+20*pref(darkGyfftePoints)], Base Stomach Capacity: 5
+Path	Grey You	Base Stomach Capacity: 0
 Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative: [30*pref(bondInit)], Damage Reduction: [10*pref(bondDR)], Maximum HP Percent: [20*pref(bondHP)], Item Drop: [10*pref(bondItem1)+20*pref(bondItem2)+30*pref(bondItem3)], Experience: [2*pref(bondStat)+5*pref(bondStat2)], Booze Drop: [100*pref(bondBooze)], Meat Drop: [20*pref(bondMeat)], Experience (Muscle): [2*pref(bondMus2)+pref(bondMus1)], Experience (Mysticality): [2*pref(bondMys2)+pref(bondMys1)], Experience (Moxie): [2*pref(bondMox2)+pref(bondMox1)], MP Regen Min: [10*pref(bondMPregen)], MP Regen Max: [15*pref(bondMPregen)], Weapon Damage: [10*pref(bondWeapon2)], Adventures: [11*pref(bondAdv)]
-Path	Dark Gyffte	Maximum HP: [20+20*pref(darkGyfftePoints)]
-Path	You, Robot	Energy: +1
+Path	Nuclear Autumn	Stomach Capacity: 5
+Path	One Crazy Random Summer	Random Monster Modifiers: +1
+Path	Path of the Plumber	Stomach Capacity: 20
 Path	Quantum Terrarium	Familiar Weight: [min(2*L,20)]
-Path	A Shrunken Adventurer am I	Muscle Limit: 1, Mysticality Limit: 1, Moxie Limit: 1
+Path	You, Robot	Energy: +1, Base Stomach Capacity: 0
+Path	Gelatinous Noob	Base	Base Stomach Capacity: 0
+Path	License to Adventure	Base Stomach Capacity: 0
+Path	Oxygenarian	Base Stomach Capacity: 0
+Path	Boozetafarian	Base Stomach Capacity: 0
+
+# Class section
+Class	Beanslinger	Base Stomach Capacity: 10
+Class	Cow Puncher	Base Stomach Capacity: 10
+Class	Snake Oiler	Base Stomach Capacity: 10
 
 # Horsery
 Horsery	normal horse	Initiative: +10, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10

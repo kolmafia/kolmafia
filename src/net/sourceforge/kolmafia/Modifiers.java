@@ -507,12 +507,14 @@ public class Modifiers {
       case MUS_LIMIT:
       case MYS_LIMIT:
       case MOX_LIMIT:
-        // Only the lowest limiter applies
-        double current = this.doubles.get(mod);
-        if ((current == 0.0 || current > value) && value > 0.0) {
-          this.doubles.set(mod, value);
+        {
+          // Only the lowest limiter applies
+          double current = this.doubles.get(mod);
+          if ((current == 0.0 || current > value) && value > 0.0) {
+            this.doubles.set(mod, value);
+          }
+          break;
         }
-        break;
       case ITEMDROP:
         if (ModifierDatabase.DOUBLED_BY_SQUINT_CHAMPAGNE.contains(type)) {
           this.accumulators.add(mod, value);
@@ -547,6 +549,13 @@ public class Modifiers {
       case FAMILIAR_ACTION_BONUS:
         this.doubles.set(mod, Math.min(100, this.getDouble(mod) + value));
         break;
+      case BASE_STOMACH_CAPACITY:
+        {
+          // Only the lowest base capacity applies, but start with 15 as a base.
+          var current = this.doubles.has(mod) ? this.doubles.get(mod) : 15;
+          this.doubles.set(mod, Math.min(current, value));
+          break;
+        }
       default:
         this.doubles.add(mod, value);
         break;
@@ -896,6 +905,96 @@ public class Modifiers {
 
     if (Modifiers.currentLocation.equals(questLocation)) {
       this.addDouble(DoubleModifier.EXPERIENCE, 1, ModifierType.AUTUMNATON, "");
+    }
+  }
+
+  public final void applyMotorbikeModifiers() {
+    // If Sneaky Pete, add Motorbike effects
+    if (KoLCharacter.isSneakyPete()) {
+      this.add(
+          ModifierDatabase.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeTires")));
+      this.add(
+          ModifierDatabase.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeGasTank")));
+      this.add(
+          ModifierDatabase.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeHeadlight")));
+      this.add(
+          ModifierDatabase.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeCowling")));
+      this.add(
+          ModifierDatabase.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeMuffler")));
+      this.add(
+          ModifierDatabase.getModifiers(
+              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeSeat")));
+    }
+  }
+
+  public final void applyAdditionalRolloverAdventureModifiers() {
+    var resolutionAdv = Preferences.getInteger("_resolutionAdv");
+    if (resolutionAdv > 0) {
+      this.addDouble(
+          DoubleModifier.ADVENTURES,
+          resolutionAdv,
+          ModifierType.ITEM,
+          ItemPool.RESOLUTION_ADVENTUROUS);
+    }
+    var circadianAdv = Preferences.getInteger("_circadianRhythmsAdventures");
+    if (circadianAdv > 0) {
+      this.addDouble(
+          DoubleModifier.ADVENTURES,
+          circadianAdv,
+          ModifierType.SKILL,
+          SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS);
+    }
+    var hareAdv = Preferences.getInteger("_hareAdv");
+    if (hareAdv > 0) {
+      this.addDouble(DoubleModifier.ADVENTURES, hareAdv, ModifierType.FAMILIAR, FamiliarPool.HARE);
+    }
+    var gibberAdv = Preferences.getInteger("_gibbererAdv");
+    if (gibberAdv > 0) {
+      this.addDouble(
+          DoubleModifier.ADVENTURES, gibberAdv, ModifierType.FAMILIAR, FamiliarPool.GIBBERER);
+    }
+    var usedBorrowedTime = Preferences.getBoolean("_borrowedTimeUsed");
+    if (usedBorrowedTime) {
+      this.addDouble(DoubleModifier.ADVENTURES, -20, ModifierType.ITEM, ItemPool.BORROWED_TIME);
+    }
+  }
+
+  public final void applyAdditionalStomachCapacityModifiers() {
+    if (KoLCharacter.canExpandStomachCapacity()) {
+      var usedDistentionPill = Preferences.getBoolean("_distentionPillUsed");
+      if (usedDistentionPill) {
+        this.addDouble(
+            DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.DISTENTION_PILL);
+      }
+      var usedLupineHormones = Preferences.getBoolean("_lupineHormonesUsed");
+      if (usedLupineHormones) {
+        this.addDouble(
+            DoubleModifier.STOMACH_CAPACITY,
+            3,
+            ModifierType.ITEM,
+            ItemPool.LUPINE_APPETITE_HORMONES);
+      }
+      var usedSweetTooth = Preferences.getBoolean("_sweetToothUsed");
+      if (usedSweetTooth) {
+        this.addDouble(DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.SWEET_TOOTH);
+      }
+      var usedVoraciTea = Preferences.getBoolean("_voraciTeaUsed");
+      if (usedVoraciTea) {
+        this.addDouble(DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.VORACI_TEA);
+      }
+      var pantsgivingFullness = Preferences.getInteger("_pantsgivingFullness");
+      if (pantsgivingFullness > 0) {
+        this.addDouble(
+            DoubleModifier.STOMACH_CAPACITY,
+            pantsgivingFullness,
+            ModifierType.ITEM,
+            ItemPool.PANTSGIVING);
+      }
     }
   }
 

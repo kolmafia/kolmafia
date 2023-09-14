@@ -537,73 +537,12 @@ public abstract class KoLCharacter {
     return KoLCharacter.fullness;
   }
 
-  public static final int getFullnessLimit() {
-    if (!KoLCharacter.canEat()) {
-      return 0;
-    }
-
-    if (KoLCharacter.inRobocore()) {
-      // Robots can eat size-0 magical sausages but have no fullness
-      return 0;
-    } else if (KoLCharacter.isGreyGoo()) {
-      // Grey Goo can "eat" things but they don't go into a stomach.
-      return 0;
-    }
-
-    // Default stomach size, overridden below for various paths
-    int limit = 15;
-
-    if (KoLCharacter.isAWoLClass()) {
-      limit = 10;
-      if (KoLCharacter.hasSkill(SkillPool.PRODIGIOUS_APPETITE)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isEd()) {
-      limit = 0;
-      if (KoLCharacter.hasSkill(SkillPool.REPLACEMENT_STOMACH)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.inZombiecore()) {
-      if (KoLCharacter.hasSkill(SkillPool.INSATIABLE_HUNGER)) {
-        limit += 5;
-      }
-
-      if (KoLCharacter.hasSkill(SkillPool.RAVENOUS_POUNCE)) {
-        limit += 5;
-      }
-    }
-
-    // If you are an Avatar of Boris, you are a hearty eater
-    else if (KoLCharacter.inAxecore()) {
-      limit = 20;
-
-      if (KoLCharacter.hasSkill(SkillPool.LEGENDARY_APPETITE)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isJarlsberg()) {
-      limit = 10;
-
-      if (KoLCharacter.hasSkill(SkillPool.LUNCH_LIKE_A_KING)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isSneakyPete()) {
-      limit = 5;
-    } else if (KoLCharacter.inNuclearAutumn()) {
-      limit = 3;
-    } else if (KoLCharacter.isVampyre()) {
-      limit = 5;
-    } else if (KoLCharacter.isPlumber()) {
-      limit = 20;
-    } else if (KoLCharacter.inSmallcore()) {
-      limit = 2;
-    } else if (KoLCharacter.inBadMoon()) {
-      if (KoLCharacter.hasSkill(SkillPool.PRIDE)) {
-        limit -= 1;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.GLUTTONY)) {
-        limit += 2;
-      }
-    }
+  public static boolean canExpandStomachCapacity() {
+    if (!KoLCharacter.canEat()) return false;
+    // Robots can eat size-0 magical sausages but have no fullness
+    if (inRobocore()) return false;
+    // Grey Goo can "eat" things but they don't go into a stomach.
+    if (isGreyGoo()) return false;
 
     // yojimbos_law sez:
     //
@@ -613,53 +552,19 @@ public abstract class KoLCharacter {
     //  Pantsgiving increases your max fullness, which is then set to 5,
     //  so it doesn't work. If you somehow got liver or stomach of steel,
     //  those would similarly not work."
+    if (isVampyre()) return false;
 
-    if (!KoLCharacter.isVampyre()) {
-      if (KoLCharacter.hasSkill(SkillPool.STEEL_STOMACH)) {
-        limit += 5;
-      }
+    return true;
+  }
 
-      if (Preferences.getBoolean("_distentionPillUsed")) {
-        limit += 1;
-      }
-
-      if (Preferences.getBoolean("_lupineHormonesUsed")) {
-        limit += 3;
-      }
-
-      if (Preferences.getBoolean("_sweetToothUsed")) {
-        limit += 1;
-      }
-
-      if (Preferences.getBoolean("_voraciTeaUsed")) {
-        limit += 1;
-      }
-
-      // Pantsgiving
-      limit += Preferences.getInteger("_pantsgivingFullness");
+  public static int getFullnessLimit() {
+    if (!KoLCharacter.canEat()) {
+      return 0;
     }
 
-    if (KoLCharacter.inBeecore()
-        || KoLCharacter.isTrendy()
-        || KoLCharacter.inBugcore()
-        || KoLCharacter.inClasscore()) {
-      // No bonus fullness is available in these paths
-      return limit;
-    }
-
-    if (KoLCharacter.isAWoLClass()) {
-      // No bonus fullness even in aftercore for these classes
-      return limit;
-    }
-
-    if (HolidayDatabase.isFeastOfBorisLike()
-        && (KoLCharacter.getPath() == Path.NONE || KoLCharacter.getPath() == Path.TEETOTALER)) {
-      // Challenge paths do not give bonus fullness for Feast of Boris.
-      // Check for paths that give bonus fullness instead of excluding all other paths.
-      limit += 15;
-    }
-
-    return limit;
+    return (int)
+        (KoLCharacter.currentNumericModifier(DoubleModifier.BASE_STOMACH_CAPACITY)
+            + KoLCharacter.currentNumericModifier(DoubleModifier.STOMACH_CAPACITY));
   }
 
   public static final void setInebriety(final int inebriety) {
@@ -5261,11 +5166,9 @@ public abstract class KoLCharacter {
     newModifiers.applySynergies();
 
     // Add familiar effects based on calculated weight adjustment.
-
     newModifiers.applyFamiliarModifiers(familiar, equipment.get(Slot.FAMILIAR));
 
     // Add Pasta Thrall effects
-
     if (ascensionClass == AscensionClass.PASTAMANCER) {
       PastaThrallData thrall = KoLCharacter.currentPastaThrall;
       if (thrall != PastaThrallData.NO_THRALL) {
@@ -5274,7 +5177,6 @@ public abstract class KoLCharacter {
     }
 
     // Add in strung-up quartet.
-
     if (KoLCharacter.getAscensions() == Preferences.getInteger("lastQuartetAscension")) {
       switch (Preferences.getInteger("lastQuartetRequest")) {
         case 1 -> newModifiers.addDouble(
@@ -5312,7 +5214,6 @@ public abstract class KoLCharacter {
     newModifiers.add(voteMods.get());
 
     // Miscellaneous
-
     newModifiers.add(ModifierDatabase.getModifiers(ModifierType.GENERATED, "_userMods"));
     Modifiers fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
     newModifiers.add(fightMods);
@@ -5337,33 +5238,16 @@ public abstract class KoLCharacter {
     newModifiers.add(
         ModifierDatabase.getModifiers(ModifierType.PATH, KoLCharacter.ascensionPath.toString()));
 
+    // Add modifiers from Current Class
+    newModifiers.add(
+        ModifierDatabase.getModifiers(ModifierType.CLASS, KoLCharacter.getAscensionClassName()));
+
     // Add modifiers from today's events (Holidays, stat days etc)
     for (var event : HolidayDatabase.getEvents()) {
       newModifiers.add(ModifierDatabase.getModifiers(ModifierType.EVENT, event));
     }
 
-    // If Sneaky Pete, add Motorbike effects
-
-    if (KoLCharacter.isSneakyPete()) {
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeTires")));
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeGasTank")));
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeHeadlight")));
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeCowling")));
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeMuffler")));
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeSeat")));
-    }
+    newModifiers.applyMotorbikeModifiers();
 
     // If in Nuclear Autumn, add Radiation Sickness
 
@@ -5416,37 +5300,10 @@ public abstract class KoLCharacter {
     }
 
     // add additional rollover adventures
-    var resolutionAdv = Preferences.getInteger("_resolutionAdv");
-    if (resolutionAdv > 0) {
-      newModifiers.addDouble(
-          DoubleModifier.ADVENTURES,
-          resolutionAdv,
-          ModifierType.ITEM,
-          ItemPool.RESOLUTION_ADVENTUROUS);
-    }
-    var circadianAdv = Preferences.getInteger("_circadianRhythmsAdventures");
-    if (circadianAdv > 0) {
-      newModifiers.addDouble(
-          DoubleModifier.ADVENTURES,
-          circadianAdv,
-          ModifierType.SKILL,
-          SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS);
-    }
-    var hareAdv = Preferences.getInteger("_hareAdv");
-    if (hareAdv > 0) {
-      newModifiers.addDouble(
-          DoubleModifier.ADVENTURES, hareAdv, ModifierType.FAMILIAR, FamiliarPool.HARE);
-    }
-    var gibberAdv = Preferences.getInteger("_gibbererAdv");
-    if (gibberAdv > 0) {
-      newModifiers.addDouble(
-          DoubleModifier.ADVENTURES, gibberAdv, ModifierType.FAMILIAR, FamiliarPool.GIBBERER);
-    }
-    var usedBorrowedTime = Preferences.getBoolean("_borrowedTimeUsed");
-    if (usedBorrowedTime) {
-      newModifiers.addDouble(
-          DoubleModifier.ADVENTURES, -20, ModifierType.ITEM, ItemPool.BORROWED_TIME);
-    }
+    newModifiers.applyAdditionalRolloverAdventureModifiers();
+
+    // Stomach capacity
+    newModifiers.applyAdditionalStomachCapacityModifiers();
 
     // Lastly, experience adjustment also implicitly depends on
     // monster level.  Add that information.
