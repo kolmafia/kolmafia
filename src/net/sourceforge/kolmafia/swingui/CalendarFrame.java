@@ -491,7 +491,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
           return this.holidayRenderer;
         }
 
-        if (HolidayDatabase.isHoliday(selectedTime)) {
+        if (HolidayDatabase.isGameHoliday(selectedTime)) {
           return this.holidayRenderer;
         }
 

@@ -1226,11 +1226,14 @@ public class ModifierDatabase {
       zodiacs.add(sign.getName());
     }
 
-    // Make a map of stat days
-    Set<String> statdays = new TreeSet<>();
-    statdays.add("Muscle Day");
-    statdays.add("Mysticality Day");
-    statdays.add("Moxie Day");
+    // Make a map of event days. This could eventually come from an enum.
+    Set<String> events =
+        Set.of(
+            "Muscle Day",
+            "Mysticality Day",
+            "Moxie Day",
+            "Festival of Jarlsberg",
+            "Lab&oacute;r Day Eve");
 
     // Make a map of zones
     Set<String> zones = new TreeSet<>();
@@ -1310,7 +1313,7 @@ public class ModifierDatabase {
     writer.println();
     writeModifierCategory(writer, zodiacs, ModifierType.SIGN, "Zodiac Sign");
     writer.println();
-    writeModifierCategory(writer, statdays, ModifierType.EVENT, "Stat Day");
+    writeModifierCategory(writer, events, ModifierType.EVENT, "Event");
     writer.println();
     writeModifierCategory(writer, zones, ModifierType.ZONE, "Zone-specific");
     writer.println();

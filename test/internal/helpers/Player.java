@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -1424,21 +1423,13 @@ public class Player {
             ZonedDateTime.of(
                 year, month.getValue(), day, hour, minute, 0, 0, DateTimeManager.ROLLOVER));
 
-    HolidayDatabase.guessPhaseStep();
+    HolidayDatabase.reset();
 
-    return new Cleanups(mocked::close);
-  }
-
-  /**
-   * Sets the stat day to a given stat
-   *
-   * @param stat Stat to use for stat day
-   * @return Restores to the old value
-   */
-  public static Cleanups withStatDay(KoLConstants.Stat stat) {
-    final String old = KoLmafia.statDay;
-    KoLmafia.statDay = stat.toString() + " Day";
-    return new Cleanups(() -> KoLmafia.statDay = old);
+    return new Cleanups(
+        () -> {
+          mocked.close();
+          HolidayDatabase.reset();
+        });
   }
 
   /**

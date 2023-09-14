@@ -15,9 +15,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.ConfigQueueingPanel;
@@ -28,7 +28,6 @@ import net.sourceforge.kolmafia.swingui.panel.PingOptionsPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginFrame extends GenericFrame {
   private static LoginFrame INSTANCE = null;
@@ -196,19 +195,7 @@ public class LoginFrame extends GenericFrame {
           Preferences.getBoolean(lastUsername, "getBreakfast"));
       LoginPanel.this.stealthLoginCheckBox.setSelected(Preferences.getBoolean("stealthLogin"));
 
-      String holiday = HolidayDatabase.getHoliday(true);
-      String moonEffect = HolidayDatabase.getMoonEffect();
-
-      String updateText;
-
-      if (holiday.equals("")) {
-        updateText = moonEffect;
-      } else {
-        updateText = holiday + ", " + moonEffect;
-      }
-
-      updateText = StringUtilities.getEntityDecode(updateText, false);
-      this.setStatusMessage(updateText);
+      this.setStatusMessage(LoginManager.getCurrentHoliday());
     }
 
     @Override

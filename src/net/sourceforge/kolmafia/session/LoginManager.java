@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.session.PingManager.PingAbortTrigger;
 import net.sourceforge.kolmafia.session.PingManager.PingTest;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginManager {
 
@@ -477,12 +478,15 @@ public class LoginManager {
     }
   }
 
-  public static void showCurrentHoliday() {
-    String holiday = HolidayDatabase.getHoliday(true);
-    String moonEffect = HolidayDatabase.getMoonEffect();
-    String updateText = (holiday.equals("")) ? moonEffect : holiday + ", " + moonEffect;
+  public static String getCurrentHoliday() {
+    var holidaySummary = HolidayDatabase.getHolidaySummary();
+    var moonEffect = HolidayDatabase.getMoonEffect();
+    var text = (holidaySummary.isEmpty()) ? moonEffect : holidaySummary + ", " + moonEffect;
+    return StringUtilities.getEntityDecode(text);
+  }
 
-    KoLmafia.updateDisplay(updateText);
+  public static void showCurrentHoliday() {
+    KoLmafia.updateDisplay(getCurrentHoliday());
   }
 
   public static boolean isSvnLoginUpdateUnfinished() {

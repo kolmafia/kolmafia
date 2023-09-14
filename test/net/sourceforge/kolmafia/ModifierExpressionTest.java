@@ -223,7 +223,6 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectHoliday() {
-    HolidayDatabase.guessPhaseStep();
     final var cleanups = withDay(2008, Month.FEBRUARY, 17, 12, 0);
 
     try (cleanups) {

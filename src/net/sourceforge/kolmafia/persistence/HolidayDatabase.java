@@ -1,39 +1,52 @@
 package net.sourceforge.kolmafia.persistence;
 
-import static net.sourceforge.kolmafia.KoLConstants.DAILY_DATETIME_FORMAT;
-
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Month;
+import java.time.MonthDay;
+import java.time.Year;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HolidayDatabase {
   // The epoch of the Kingdom of Loathing.
-  private static final ZonedDateTime NEWYEAR =
-      ZonedDateTime.of(2005, Month.SEPTEMBER.getValue(), 17, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+  private static ZonedDateTime NEWYEAR = null;
 
   // The date of White Wednesday, which throws everything off by a day
-  private static final ZonedDateTime BOUNDARY =
-      ZonedDateTime.of(2005, Month.OCTOBER.getValue(), 27, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+  private static ZonedDateTime BOUNDARY = null;
 
   // The day the thing crashed into Grimace
-  private static final ZonedDateTime COLLISION =
-      ZonedDateTime.of(2006, Month.JUNE.getValue(), 3, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+  private static ZonedDateTime COLLISION = null;
 
   private static int RONALD_PHASE = -1;
   private static int GRIMACE_PHASE = -1;
   private static int HAMBURGLAR_POSITION = -1;
+  private static String HOLIDAY_OVERRIDE = null;
 
   static {
-    HolidayDatabase.guessPhaseStep();
+    reset();
+  }
+
+  public static void reset() {
+    NEWYEAR =
+        ZonedDateTime.of(
+            2005, Month.SEPTEMBER.getValue(), 17, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+    BOUNDARY =
+        ZonedDateTime.of(2005, Month.OCTOBER.getValue(), 27, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+    COLLISION =
+        ZonedDateTime.of(2006, Month.JUNE.getValue(), 3, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+    RONALD_PHASE = -1;
+    GRIMACE_PHASE = -1;
+    HAMBURGLAR_POSITION = -1;
+    HOLIDAY_OVERRIDE = null;
+    guessPhaseStep();
   }
 
   // static final array of status effect day predictions
@@ -105,69 +118,6 @@ public class HolidayDatabase {
     HolidayDatabase.HOLIDAYS[10][8] = "Halloween"; // Porktober 8
     HolidayDatabase.HOLIDAYS[11][7] = "Feast of Boris"; // Boozember 7
     HolidayDatabase.HOLIDAYS[12][4] = "Yuletide"; // Dougtember
-  }
-
-  // static final array of when the special events in KoL occur, including
-  // stat days, HOLIDAYS and all that jazz.  Values are false where
-  // there is no special occasion, and true where there is.
-
-  private static final int[] SPECIAL = new int[96];
-
-  public static final int SP_NOTHING = 0;
-  public static final int SP_HOLIDAY = 1;
-  public static final int SP_MUSDAY = 2;
-  public static final int SP_MYSDAY = 3;
-  public static final int SP_MOXDAY = 4;
-
-  static {
-    // Assume there are no special days at all, and then
-    // fill them in once they're encountered.
-
-    for (int i = 0; i < 96; ++i) {
-      HolidayDatabase.SPECIAL[i] = HolidayDatabase.SP_NOTHING;
-    }
-
-    // Muscle days occur every phase 8 and phase 9 on the
-    // KoL calendar.
-
-    for (int i = 8; i < 96; i += 16) {
-      HolidayDatabase.SPECIAL[i] = HolidayDatabase.SP_MUSDAY;
-    }
-    for (int i = 9; i < 96; i += 16) {
-      HolidayDatabase.SPECIAL[i] = HolidayDatabase.SP_MUSDAY;
-    }
-
-    // Mysticism days occur every phase 4 and phase 12 on the
-    // KoL calendar.
-
-    for (int i = 4; i < 96; i += 16) {
-      HolidayDatabase.SPECIAL[i] = HolidayDatabase.SP_MYSDAY;
-    }
-    for (int i = 12; i < 96; i += 16) {
-      HolidayDatabase.SPECIAL[i] = HolidayDatabase.SP_MYSDAY;
-    }
-
-    // Moxie days occur every phase 0 and phase 15 on the
-    // KoL calendar.
-
-    for (int i = 0; i < 96; i += 16) {
-      HolidayDatabase.SPECIAL[i] = HolidayDatabase.SP_MOXDAY;
-    }
-    for (int i = 15; i < 96; i += 16) {
-      HolidayDatabase.SPECIAL[i] = HolidayDatabase.SP_MOXDAY;
-    }
-
-    // Next, fill in the HOLIDAYS.  These are manually
-    // computed based on the recurring day in the year
-    // at which these occur.
-
-    for (int i = 0; i < 13; ++i) {
-      for (int j = 0; j < 9; ++j) {
-        if (HolidayDatabase.HOLIDAYS[i][j] != null) {
-          HolidayDatabase.SPECIAL[8 * i + j - 9] = HolidayDatabase.SP_HOLIDAY;
-        }
-      }
-    }
   }
 
   private HolidayDatabase() {}
@@ -253,11 +203,11 @@ public class HolidayDatabase {
       RequestLogger.printLine(message);
 
       // Adjust the new year by the appropriate number of days.
-
-      HolidayDatabase.NEWYEAR.plusDays(phaseError);
-      HolidayDatabase.BOUNDARY.plusDays(phaseError);
-      HolidayDatabase.COLLISION.plusDays(phaseError);
+      HolidayDatabase.NEWYEAR = HolidayDatabase.NEWYEAR.plusDays(phaseError);
+      HolidayDatabase.BOUNDARY = HolidayDatabase.BOUNDARY.plusDays(phaseError);
+      HolidayDatabase.COLLISION = HolidayDatabase.COLLISION.plusDays(phaseError);
     }
+
     HolidayDatabase.HAMBURGLAR_POSITION =
         HolidayDatabase.getHamburglarPosition(DateTimeManager.getRolloverDateTime());
   }
@@ -664,7 +614,17 @@ public class HolidayDatabase {
    * tomorrow) instead of just "x days".
    */
   public static String getDayCountAsString(final int dayCount) {
-    return dayCount == 0 ? "today" : dayCount == 1 ? "tomorrow" : dayCount + " days";
+    return switch (dayCount) {
+      case 0 -> "today";
+      case 1 -> "tomorrow";
+      default -> dayCount + " days";
+    };
+  }
+
+  public static String getDayCountAsString(final int dayCount, final String event) {
+    var dayCountString = getDayCountAsString(dayCount);
+    if (dayCount > 1) return dayCountString + " until " + event;
+    return event + " " + dayCountString;
   }
 
   /** Returns the KoL calendar month associated with the given date in the real world. */
@@ -672,66 +632,41 @@ public class HolidayDatabase {
     return HolidayDatabase.convertCalendarDayToArray(HolidayDatabase.getDayInKoLYear(dateTime))[0];
   }
 
-  /** Returns whether or not the given day's most important attribute is being a holiday. */
-  public static boolean isHoliday(final ZonedDateTime dateTime) {
-    return HolidayDatabase.SPECIAL[HolidayDatabase.getDayInKoLYear(dateTime)]
-        == HolidayDatabase.SP_HOLIDAY;
+  /** Returns whether the given day is a game holiday. */
+  public static boolean isGameHoliday(final ZonedDateTime dateTime) {
+    return HolidayDatabase.getGameHoliday(dateTime) != null;
   }
 
   public static boolean isRealLifeHoliday(final ZonedDateTime dateTime) {
     return HolidayDatabase.getRealLifeHoliday(dateTime) != null;
   }
 
-  /**
-   * Returns whether or not the given day's most important attribute is being a muscle day. Note
-   * that this ranks behind being a holiday, so HOLIDAYS which are also stat days (Halloween and
-   * Oyster Egg Day, for example), will not be recognized as "stat days" in this method.
-   */
+  /** Returns whether the given day's most important attribute is being a muscle day. */
   public static boolean isMuscleDay(final ZonedDateTime dateTime) {
-    return HolidayDatabase.SPECIAL[HolidayDatabase.getDayInKoLYear(dateTime)]
-        == HolidayDatabase.SP_MUSDAY;
+    return getStatDay(dateTime) == Stat.MUSCLE;
   }
 
-  /**
-   * Returns whether or not the given day's most important attribute is being a mysticality day.
-   * Note that this ranks behind being a holiday, so HOLIDAYS which are also stat days (Halloween
-   * and Oyster Egg Day, for example), will not be recognized as "stat days" in this method.
-   */
+  /** Returns whether the given day's most important attribute is being a mysticality day. */
   public static boolean isMysticalityDay(final ZonedDateTime dateTime) {
-    return HolidayDatabase.SPECIAL[HolidayDatabase.getDayInKoLYear(dateTime)]
-        == HolidayDatabase.SP_MYSDAY;
+    return getStatDay(dateTime) == Stat.MYSTICALITY;
   }
 
-  /**
-   * Returns whether or not the given day's most important attribute is being a moxie day. Note that
-   * this ranks behind being a holiday, so HOLIDAYS which are also stat days (Halloween and Oyster
-   * Egg Day, for example), will not be recognized as "stat days" in this method.
-   */
+  /** Returns whether the given day's most important attribute is being a moxie day. */
   public static boolean isMoxieDay(final ZonedDateTime dateTime) {
-    return HolidayDatabase.SPECIAL[HolidayDatabase.getDayInKoLYear(dateTime)]
-        == HolidayDatabase.SP_MOXDAY;
+    return getStatDay(dateTime) == Stat.MOXIE;
   }
 
-  /**
-   * Returns whether or not the given day's most important attribute is being a moxie day. Note that
-   * this ranks behind being a holiday, so HOLIDAYS which are also stat days (Halloween and Oyster
-   * Egg Day, for example), will not be recognized as "stat days" in this method.
-   */
-  public static Stat statDay(final ZonedDateTime dateTime) {
-    return switch (HolidayDatabase.SPECIAL[HolidayDatabase.getDayInKoLYear(dateTime)]) {
-      case HolidayDatabase.SP_MUSDAY -> Stat.MUSCLE;
-      case HolidayDatabase.SP_MYSDAY -> Stat.MYSTICALITY;
-      case HolidayDatabase.SP_MOXDAY -> Stat.MOXIE;
+  public static Stat getStatDay() {
+    return getStatDay(DateTimeManager.getRolloverDateTime());
+  }
+
+  /** Returns whether the given day is a stat day and if so what stat. */
+  public static Stat getStatDay(final ZonedDateTime dateTime) {
+    return switch (HolidayDatabase.getDayInKoLYear(dateTime) % 16) {
+      case 0, 15 -> Stat.MOXIE;
+      case 4, 12 -> Stat.MYSTICALITY;
+      case 8, 9 -> Stat.MUSCLE;
       default -> Stat.NONE;
-    };
-  }
-
-  public static String currentStatDay() {
-    return switch (statDay(DateTimeManager.getRolloverDateTime())) {
-      case MUSCLE -> "Muscle Day";
-      case MYSTICALITY -> "Mysticality Day";
-      case MOXIE -> "Moxie Day";
-      default -> "None";
     };
   }
 
@@ -743,12 +678,11 @@ public class HolidayDatabase {
     int[] calendarDayAsArray;
 
     for (int i = 0; i < 96; ++i) {
-      if (HolidayDatabase.SPECIAL[i] == HolidayDatabase.SP_HOLIDAY) {
-        calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray(i);
+      calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray(i);
+      String holiday = HolidayDatabase.HOLIDAYS[calendarDayAsArray[0]][calendarDayAsArray[1]];
+
+      if (holiday != null) {
         int currentEstimate = (i - currentCalendarDay + 96) % 96;
-
-        String holiday = HolidayDatabase.HOLIDAYS[calendarDayAsArray[0]][calendarDayAsArray[1]];
-
         var holidayTester = dateTime;
 
         for (int j = 0; j < currentEstimate; ++j) {
@@ -771,8 +705,7 @@ public class HolidayDatabase {
     // If today is a real life holiday that doesn't map to a KoL
     // holiday, list it here.
 
-    if (HolidayDatabase.SPECIAL[HolidayDatabase.getDayInKoLYear(dateTime)]
-        != HolidayDatabase.SP_HOLIDAY) {
+    if (HolidayDatabase.getGameHoliday(dateTime) == null) {
       String holiday = HolidayDatabase.getRealLifeOnlyHoliday(dateTime);
       if (holiday != null) {
         holidayList.add(new HolidayEntry(0, holiday));
@@ -820,65 +753,101 @@ public class HolidayDatabase {
     }
   }
 
-  public static String getHoliday() {
-    return getHoliday(false);
+  public static String getGameHolidayInDays(final ZonedDateTime dateTime, final int days) {
+    int calendarDay = getDayInKoLYear(dateTime);
+    return getGameHoliday((calendarDay + days) % 96);
   }
 
-  public static String getHoliday(final boolean showPredictions) {
-    return getHoliday(DateTimeManager.getRolloverDateTime(), showPredictions);
+  public static void setHoliday(final String holiday) {
+    HOLIDAY_OVERRIDE = holiday.isBlank() ? null : holiday;
   }
 
-  public static String getHoliday(final ZonedDateTime dateTime) {
-    return getHoliday(dateTime, false);
+  public static List<String> getHolidays() {
+    return getHolidays(DateTimeManager.getRolloverDateTime());
+  }
+
+  public static List<String> getHolidays(final boolean replaceWithSpecial) {
+    return getHolidays(DateTimeManager.getRolloverDateTime(), replaceWithSpecial);
+  }
+
+  public static List<String> getHolidays(final ZonedDateTime dateTime) {
+    return getHolidays(dateTime, true);
   }
 
   /** Returns the KoL holiday associated with the given date in the real world. */
-  public static String getHoliday(final ZonedDateTime dateTime, final boolean showPrediction) {
+  public static List<String> getHolidays(
+      final ZonedDateTime dateTime, final boolean replaceWithSpecial) {
+    var holidays = new ArrayList<String>();
+
     String gameHoliday = getGameHoliday(dateTime);
+    if (gameHoliday != null) holidays.add(gameHoliday);
+
     String realHoliday = getRealLifeHoliday(dateTime);
+    if (realHoliday != null) holidays.add(realHoliday);
 
-    if (showPrediction && realHoliday == null) {
-      if (gameHoliday != null) {
-        return gameHoliday + " today";
+    if (replaceWithSpecial) {
+      if (holidays.contains("St. Sneaky Pete's Day") && holidays.contains("Feast of Boris")) {
+        holidays.clear();
+        holidays.add("Drunksgiving");
+      } else if (holidays.contains("Feast of Boris")
+          && holidays.contains("El Dia De Los Muertos Borrachos")) {
+        holidays.clear();
+        holidays.add("El Dia De Los Muertos Borrachos y Agradecido");
       }
+    }
 
-      int calendarDay = getDayInKoLYear(dateTime);
-      gameHoliday = getGameHoliday((calendarDay + 1) % 96);
+    if (HOLIDAY_OVERRIDE != null) holidays.add(HOLIDAY_OVERRIDE);
 
-      if (gameHoliday != null) {
-        return gameHoliday + " tomorrow";
+    return holidays;
+  }
+
+  public static String getHoliday() {
+    return getHoliday(DateTimeManager.getRolloverDateTime());
+  }
+
+  public static String getHoliday(final ZonedDateTime dateTime) {
+    return String.join(" / ", getHolidays(dateTime));
+  }
+
+  public static List<String> getEvents() {
+    return getEvents(DateTimeManager.getRolloverDateTime());
+  }
+
+  public static List<String> getEvents(final ZonedDateTime dateTime) {
+    var list = new ArrayList<>(getHolidays(dateTime));
+
+    // Include this pseudo-event because the day before Labor Day essentially has +10 rollover
+    // adventures
+    if ("Lab&oacute;r Day".equals(getGameHolidayInDays(dateTime, 1))) {
+      list.add("Lab&oacute;r Day Eve");
+    }
+
+    var statDay = getStatDay(dateTime);
+    if (statDay != Stat.NONE) {
+      list.add(statDay.toString() + " Day");
+    }
+
+    return list;
+  }
+
+  public static String getHolidaySummary() {
+    return getHolidaySummary(DateTimeManager.getRolloverDateTime());
+  }
+
+  public static String getHolidaySummary(final ZonedDateTime dateTime) {
+    var holiday = getHoliday(dateTime);
+
+    if (!holiday.isBlank()) return getDayCountAsString(0, holiday);
+
+    for (int i = 0; i < 96; ++i) {
+      holiday = getGameHolidayInDays(dateTime, i);
+
+      if (holiday != null) {
+        return getDayCountAsString(i, holiday);
       }
-
-      for (int i = 2; i < 96; ++i) {
-        gameHoliday = HolidayDatabase.getGameHoliday((calendarDay + i) % 96);
-
-        if (gameHoliday != null) {
-          return HolidayDatabase.getDayCountAsString(i) + " until " + gameHoliday;
-        }
-      }
-
-      return "";
     }
 
-    if (gameHoliday == null && realHoliday == null) {
-      return "";
-    }
-
-    if (gameHoliday == null) {
-      return realHoliday;
-    }
-
-    if (realHoliday == null) {
-      return gameHoliday;
-    }
-
-    String holiday = realHoliday + " / " + gameHoliday;
-    if (holiday.equals("St. Sneaky Pete's Day / Feast of Boris")
-        || holiday.equals("Feast of Boris / St. Sneaky Pete's Day")) {
-      holiday = "Drunksgiving";
-    }
-
-    return holiday;
+    return "";
   }
 
   public static String getGameHoliday(final int calendarDay) {
@@ -890,122 +859,112 @@ public class HolidayDatabase {
     return HolidayDatabase.getGameHoliday(HolidayDatabase.getDayInKoLYear(dateTime));
   }
 
-  private static String cachedYear = "";
-  private static String easter = "";
-  private static String thanksgiving = "";
+  private static Year cachedYear = null;
+  private static MonthDay easter = null;
+  private static MonthDay thanksgiving = null;
 
-  public static String getRealLifeHoliday(final ZonedDateTime dateTime) {
-    return HolidayDatabase.getRealLifeHoliday(dateTime.format(DAILY_DATETIME_FORMAT));
+  protected static MonthDay getEaster(final Year year) {
+    // Apparently Easter isn't the second Sunday in April,
+    // it actually depends on the occurrence of the first
+    // ecclesiastical full moon after the Spring Equinox
+    // (http://aa.usno.navy.mil/faq/docs/easter.html)
+    int y = year.getValue();
+    int c = y / 100;
+    int n = y - 19 * (y / 19);
+    int k = (c - 17) / 25;
+    int i = c - c / 4 - (c - k) / 3 + 19 * n + 15;
+    i = i - 30 * (i / 30);
+    i = i - (i / 28) * (1 - (i / 28) * (29 / (i + 1)) * ((21 - n) / 11));
+    int j = y + y / 4 + i + 2 - c + c / 4;
+    j = j - 7 * (j / 7);
+    int l = i - j;
+    int m = 3 + (l + 40) / 44;
+    int d = l + 28 - 31 * (m / 4);
+
+    return MonthDay.of(m, d);
   }
 
-  public static String getRealLifeHoliday(final String stringDate) {
-    String currentYear = stringDate.substring(0, 4);
-    if (!currentYear.equals(HolidayDatabase.cachedYear)) {
+  protected static MonthDay getThanksgiving(final Year year) {
+    var firstOfNovember = year.atMonthDay(MonthDay.of(Month.NOVEMBER, 1));
+    var firstThursday = Math.floorMod(3 - firstOfNovember.getDayOfWeek().ordinal(), 7);
+    return MonthDay.of(Month.NOVEMBER, firstThursday + 22);
+  }
+
+  public static String getRealLifeHoliday(final TemporalAccessor date) {
+    var currentYear = Year.from(date);
+
+    if (currentYear != HolidayDatabase.cachedYear) {
       HolidayDatabase.cachedYear = currentYear;
+
       // Calculate holidays for the in-game timezone (days which start at rollover)
-
-      // Apparently, Easter isn't the second Sunday in April;
-      // it actually depends on the occurrence of the first
-      // ecclesiastical full moon after the Spring Equinox
-      // (http://aa.usno.navy.mil/faq/docs/easter.html)
-
-      int y = StringUtilities.parseInt(currentYear);
-      int c = y / 100;
-      int n = y - 19 * (y / 19);
-      int k = (c - 17) / 25;
-      int i = c - c / 4 - (c - k) / 3 + 19 * n + 15;
-      i = i - 30 * (i / 30);
-      i = i - (i / 28) * (1 - (i / 28) * (29 / (i + 1)) * ((21 - n) / 11));
-      int j = y + y / 4 + i + 2 - c + c / 4;
-      j = j - 7 * (j / 7);
-      int l = i - j;
-      int m = 3 + (l + 40) / 44;
-      int d = l + 28 - 31 * (m / 4);
-
-      HolidayDatabase.easter =
-          ZonedDateTime.of(y, m, d, 0, 0, 0, 0, DateTimeManager.ROLLOVER)
-              .format(DAILY_DATETIME_FORMAT);
-
-      var dayOfTheWeek =
-          ZonedDateTime.of(y, Month.NOVEMBER.getValue(), 1, 0, 0, 0, 0, DateTimeManager.ROLLOVER)
-              .getDayOfWeek();
-      HolidayDatabase.thanksgiving =
-          switch (dayOfTheWeek) {
-            case FRIDAY -> "1128";
-            case SATURDAY -> "1127";
-            case SUNDAY -> "1126";
-            case MONDAY -> "1125";
-            case TUESDAY -> "1124";
-            case WEDNESDAY -> "1123";
-            case THURSDAY -> "1122";
-          };
+      HolidayDatabase.easter = getEaster(currentYear);
+      HolidayDatabase.thanksgiving = getThanksgiving(currentYear);
     }
 
     // Real-life holiday list borrowed from JRSiebz's
     // variables for HOLIDAYS on the KoL JS Almanac
     // (http://home.cinci.rr.com/jrsiebz/KoL/almanac.html)
+    var monthDay = MonthDay.from(date);
 
-    if (stringDate.endsWith("0101")) {
+    if (monthDay.equals(MonthDay.of(Month.JANUARY, 1))) {
       return "Festival of Jarlsberg";
     }
 
-    if (stringDate.endsWith("0214")) {
+    if (monthDay.equals(MonthDay.of(Month.FEBRUARY, 14))) {
       return "Valentine's Day";
     }
 
-    if (stringDate.endsWith("0317")) {
+    if (monthDay.equals(MonthDay.of(Month.MARCH, 17))) {
       return "St. Sneaky Pete's Day";
     }
 
-    if (stringDate.endsWith("0704")) {
+    if (monthDay.equals(MonthDay.of(Month.JULY, 4))) {
       return "Dependence Day";
     }
 
-    if (stringDate.equals(HolidayDatabase.easter)) {
+    if (monthDay.equals(HolidayDatabase.easter)) {
       return "Oyster Egg Day";
     }
 
-    if (stringDate.endsWith(HolidayDatabase.thanksgiving)) {
+    if (monthDay.equals(HolidayDatabase.thanksgiving)) {
       return "Feast of Boris";
     }
 
-    if (stringDate.endsWith("1031")) {
+    if (monthDay.equals(MonthDay.of(Month.OCTOBER, 31))) {
       return "Halloween";
     }
 
-    return HolidayDatabase.getRealLifeOnlyHoliday(stringDate);
+    return HolidayDatabase.getRealLifeOnlyHoliday(date);
   }
 
-  private static String getRealLifeOnlyHoliday(final ZonedDateTime dateTime) {
-    return HolidayDatabase.getRealLifeOnlyHoliday(dateTime.format(DAILY_DATETIME_FORMAT));
-  }
+  private static String getRealLifeOnlyHoliday(final TemporalAccessor date) {
+    var monthDay = MonthDay.from(date);
 
-  private static String getRealLifeOnlyHoliday(final String stringDate) {
-    if (stringDate.endsWith("0202")) {
+    if (monthDay.equals(MonthDay.of(Month.FEBRUARY, 2))) {
       return "Groundhog Day";
     }
 
-    if (stringDate.endsWith("0401")) {
+    if (monthDay.equals(MonthDay.of(Month.APRIL, 1))) {
       return "April Fool's Day";
     }
 
-    if (stringDate.endsWith("0919")) {
+    if (monthDay.equals(MonthDay.of(Month.SEPTEMBER, 19))) {
       return "Talk Like a Pirate Day";
     }
 
-    if (stringDate.endsWith("1225")) {
+    if (monthDay.equals(MonthDay.of(Month.DECEMBER, 25))) {
       return "Crimbo";
     }
 
-    if (stringDate.endsWith("1022")) {
+    if (monthDay.equals(MonthDay.of(Month.OCTOBER, 22))) {
       return "Holatuwol's Birthday";
     }
 
-    if (stringDate.endsWith("0923")) {
+    if (monthDay.equals(MonthDay.of(Month.SEPTEMBER, 23))) {
       return "Veracity's Birthday";
     }
 
-    if (stringDate.endsWith("0217")) {
+    if (monthDay.equals(MonthDay.of(Month.FEBRUARY, 17))) {
       return "Gausie's Birthday";
     }
 
@@ -1064,6 +1023,11 @@ public class HolidayDatabase {
    */
   public static boolean isSaturday(ZonedDateTime dateTime) {
     return dateTime.getDayOfWeek() == DayOfWeek.SATURDAY;
+  }
+
+  public static boolean isFeastOfBorisLike() {
+    var holidays = getHolidays(DateTimeManager.getRolloverDateTime(), false);
+    return holidays.contains("Feast of Boris");
   }
 
   public static void addPredictionHTML(

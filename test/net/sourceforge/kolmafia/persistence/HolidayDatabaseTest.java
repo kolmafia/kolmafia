@@ -2,17 +2,27 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withDay;
 import static net.sourceforge.kolmafia.persistence.DateTimeManager.ROLLOVER;
+import static net.sourceforge.kolmafia.persistence.HolidayDatabase.getEvents;
 import static net.sourceforge.kolmafia.persistence.HolidayDatabase.getHolidayPredictions;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 import internal.helpers.Cleanups;
+import java.time.LocalDate;
 import java.time.Month;
+import java.time.MonthDay;
+import java.time.Year;
 import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mockito;
 
 class HolidayDatabaseTest {
   @Nested
@@ -58,24 +68,45 @@ class HolidayDatabaseTest {
   class RealLifeHolidays {
     @ParameterizedTest
     @CsvSource({
-      "0101,Festival of Jarlsberg",
-      "0214,Valentine's Day",
-      "0317,St. Sneaky Pete's Day",
-      "0704,Dependence Day",
-      "0417,Oyster Egg Day",
-      "1124,Feast of Boris",
-      "1031,Halloween",
-      "0202,Groundhog Day",
-      "0401,April Fool's Day",
-      "0919,Talk Like a Pirate Day",
-      "1225,Crimbo",
-      "1022,Holatuwol's Birthday",
-      "0923,Veracity's Birthday",
-      "0217,Gausie's Birthday",
-      "0102,"
+      "1,1,Festival of Jarlsberg",
+      "2,14,Valentine's Day",
+      "3,17,St. Sneaky Pete's Day",
+      "7,4,Dependence Day",
+      "4,17,Oyster Egg Day",
+      "11,24,Feast of Boris",
+      "10,31,Halloween",
+      "2,2,Groundhog Day",
+      "4,1,April Fool's Day",
+      "9,19,Talk Like a Pirate Day",
+      "12,25,Crimbo",
+      "10,22,Holatuwol's Birthday",
+      "9,23,Veracity's Birthday",
+      "2,17,Gausie's Birthday",
+      "1,2,"
     })
-    void canIdentifyRealLifeHolidays(final String date, final String holiday) {
-      assertThat(HolidayDatabase.getRealLifeHoliday("2022" + date), equalTo(holiday));
+    void canIdentifyRealLifeHolidays(final int month, int day, final String holiday) {
+      var date = LocalDate.of(2022, month, day);
+      assertThat(HolidayDatabase.getRealLifeHoliday(date), equalTo(holiday));
+    }
+
+    @Test
+    void canCalculateThanksgiving() {
+      var date = HolidayDatabase.getThanksgiving(Year.of(1991));
+      assertThat(date, equalTo(MonthDay.of(Month.NOVEMBER, 28)));
+    }
+
+    @Test
+    void canCalculateEaster() {
+      var date = HolidayDatabase.getEaster(Year.of(1991));
+      assertThat(date, equalTo(MonthDay.of(Month.MARCH, 31)));
+    }
+
+    @ValueSource(booleans = {true, false})
+    @ParameterizedTest
+    void isRealHoliday(final boolean scaryDay) {
+      var date = ZonedDateTime.of(2022, 10, scaryDay ? 31 : 1, 0, 0, 0, 0, ROLLOVER);
+
+      assertThat(HolidayDatabase.isRealLifeHoliday(date), is(scaryDay));
     }
   }
 
@@ -90,6 +121,115 @@ class HolidayDatabaseTest {
       var date = ZonedDateTime.of(2022, month, day, 0, 0, 0, 0, ROLLOVER);
       var actualHolidays = getHolidayPredictions(date);
       assertThat(String.join("|", actualHolidays), equalTo(holidays));
+    }
+
+    @Test
+    void canIdentifyLaborDayEve() {
+      var date = ZonedDateTime.of(2023, 4, 1, 0, 0, 0, 0, ROLLOVER);
+      var events = getEvents(date);
+
+      assertThat(
+          events,
+          containsInAnyOrder("Lab&oacute;r Day Eve", "April Fool's Day", "Mysticality Day"));
+    }
+
+    @ValueSource(booleans = {true, false})
+    @ParameterizedTest
+    void isGameHoliday(final boolean fob) {
+      var date = ZonedDateTime.of(2023, 7, fob ? 24 : 25, 0, 0, 0, 0, ROLLOVER);
+
+      assertThat(HolidayDatabase.isGameHoliday(date), is(fob));
+    }
+
+    @Test
+    void getGameHolidayInDays() {
+      var date = ZonedDateTime.of(2023, 7, 28, 0, 0, 0, 0, ROLLOVER);
+      assertThat(HolidayDatabase.getGameHolidayInDays(date, 1), is("Yuletide"));
+    }
+
+    @CsvSource({
+      "2023, 5, 4, 6 days until Valentine's Day",
+      "2023, 5, 16, St. Sneaky Pete's Day tomorrow",
+      "2023, 6, 1, El Dia De Los Muertos Borrachos today",
+    })
+    @ParameterizedTest
+    void getHolidaySummary(final int year, final int month, final int day, final String summary) {
+      var date = ZonedDateTime.of(year, month, day, 0, 0, 0, 0, ROLLOVER);
+      assertThat(HolidayDatabase.getHolidaySummary(date), is(summary));
+    }
+
+    @Test
+    void handlesIfSomehowThereAreNoUpcomingHolidays() {
+      try (var mock = Mockito.mockStatic(HolidayDatabase.class, Mockito.CALLS_REAL_METHODS)) {
+        mock.when(() -> HolidayDatabase.getGameHolidayInDays(any(ZonedDateTime.class), anyInt()))
+            .thenReturn(null);
+        var date = ZonedDateTime.of(2023, 6, 2, 0, 0, 0, 0, ROLLOVER);
+        assertThat(HolidayDatabase.getHolidaySummary(date), is(""));
+      }
+    }
+
+    @CsvSource({
+      "2011, 3, 17, Drunksgiving",
+      "2017, 11, 23, El Dia De Los Muertos Borrachos y Agradecido",
+      "2021, 3, 17, Yuletide / St. Sneaky Pete's Day",
+    })
+    @ParameterizedTest
+    void getHoliday(final int year, final int month, final int day, final String holiday) {
+      try (var cleanups = withDay(year, Month.of(month), day)) {
+        assertThat(HolidayDatabase.getHoliday(), is(holiday));
+      }
+    }
+
+    @CsvSource({
+      "2011, 3, 17, Drunksgiving",
+      "2017, 11, 23, El Dia De Los Muertos Borrachos y Agradecido",
+      "2021, 3, 17, Yuletide / St. Sneaky Pete's Day",
+    })
+    @ParameterizedTest
+    void getHolidays(final int year, final int month, final int day, final String holiday) {
+      try (var cleanups = withDay(year, Month.of(month), day)) {
+        assertThat(HolidayDatabase.getHolidays(), containsInAnyOrder(holiday.split(" / ")));
+      }
+    }
+
+    @CsvSource({
+      "2011, 3, 17, true", // Drunksgiving
+      "2017, 11, 23, true", // Borrachos y Agradecido
+      "2023, 4, 19, true", // Feast of Boris
+      "2021, 4, 15, false", // Nothing
+    })
+    @ParameterizedTest
+    void isFeastOfBorisLike(final int year, final int month, final int day, final boolean fobLike) {
+      try (var cleanups = withDay(year, Month.of(month), day)) {
+        assertThat(HolidayDatabase.isFeastOfBorisLike(), is(fobLike));
+      }
+    }
+  }
+
+  @Nested
+  class StatDays {
+    @ValueSource(booleans = {true, false})
+    @ParameterizedTest
+    void isMoxieDay(final boolean statDay) {
+      var date = ZonedDateTime.of(2023, 7, statDay ? 2 : 3, 0, 0, 0, 0, ROLLOVER);
+
+      assertThat(HolidayDatabase.isMoxieDay(date), is(statDay));
+    }
+
+    @ValueSource(booleans = {true, false})
+    @ParameterizedTest
+    void isMysticalityDay(final boolean statDay) {
+      var date = ZonedDateTime.of(2023, 7, statDay ? 6 : 7, 0, 0, 0, 0, ROLLOVER);
+
+      assertThat(HolidayDatabase.isMysticalityDay(date), is(statDay));
+    }
+
+    @ValueSource(booleans = {true, false})
+    @ParameterizedTest
+    void isMuscleDay(final boolean statDay) {
+      var date = ZonedDateTime.of(2023, 7, statDay ? 11 : 12, 0, 0, 0, 0, ROLLOVER);
+
+      assertThat(HolidayDatabase.isMuscleDay(date), is(statDay));
     }
   }
 
@@ -132,11 +272,32 @@ class HolidayDatabaseTest {
           "10;front center",
           "11;in front of Grimace, R side",
         })
-    void canIdentityHamburglarPosition(final int day, final String hamburglar) {
+    void canIdentifyHamburglarPosition(final int day, final String hamburglar) {
       var cleanups = withDay(2022, Month.AUGUST, day);
 
       try (cleanups) {
         assertThat(HolidayDatabase.getHamburglarPositionAsString(), equalTo(hamburglar));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      // Phase Step 1 (error of -2)
+      "4, 5951",
+      // Phase Step 15 (error of 12; should be treated as -4)
+      "18, 5953",
+    })
+    void canAdjustForInvalidMoonPhase(final int day, final long diff) {
+
+      var cleanups = new Cleanups(withDay(2023, Month.AUGUST, day));
+
+      try (cleanups) {
+        // Phase Step 3
+        HolidayDatabase.setMoonPhases(3, 2);
+
+        assertThat(
+            HolidayDatabase.getDayDifference(ZonedDateTime.of(2022, 1, 1, 0, 0, 0, 0, ROLLOVER)),
+            is(diff));
       }
     }
   }

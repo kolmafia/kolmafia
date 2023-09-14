@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withDay;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFight;
@@ -22,7 +23,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -39,10 +39,8 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
-import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -52,6 +50,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -69,45 +68,27 @@ public class ResultProcessorTest {
     private static final AdventureResult MAGNIFICENT_OYSTER_EGG =
         ItemPool.get(ItemPool.MAGNIFICENT_OYSTER_EGG);
 
-    @Test
-    public void obtainOysterEggAppropriately() {
-      HolidayDatabase.guessPhaseStep();
-      EquipmentManager.setEquipment(Slot.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
-      // This was an Oyster Egg Day.
-      final var cleanups = withDay(2022, Month.JANUARY, 29, 12, 0);
-      try (cleanups) {
-        ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
-      }
-    }
+    @CsvSource({
+      "false, false, false",
+      "false, true, false",
+      "true, false, false",
+      "true, true, true",
+    })
+    @ParameterizedTest
+    void correctlyRegisteredObtainedOysterEggs(
+        final boolean isOysterEggDay, final boolean hasBasket, final boolean didIncrement) {
+      // 29th was an Oyster Egg Day, 30th wasn't.
 
-    @Test
-    public void obtainOysterEggOnWrongDay() {
-      EquipmentManager.setEquipment(Slot.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
-      // This was not an Oyster Egg Day.
-      final var cleanups = withDay(2022, Month.JANUARY, 30, 12, 0);
-      try (cleanups) {
-        ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
-        assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
-      }
-    }
+      final var cleanups =
+          new Cleanups(
+              withDay(2022, Month.JANUARY, isOysterEggDay ? 29 : 30, 12, 0),
+              withProperty("_oysterEggsFound", 0));
 
-    @Test
-    public void obtainOysterEggWithoutBasket() {
-      // This was an Oyster Egg Day.
-      final var cleanups = withDay(2022, Month.JANUARY, 29, 12, 0);
-      try (cleanups) {
-        ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
-        assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
-      }
-    }
+      if (hasBasket) cleanups.add(withEquipped(ItemPool.OYSTER_BASKET));
 
-    @Test
-    public void obtainOysterEggOnWrongDayAndWithoutBasket() {
-      // This was not an Oyster Egg Day.
-      final var cleanups = withDay(2022, Month.JANUARY, 30, 12, 0);
       try (cleanups) {
         ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
-        assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
+        assertThat(Preferences.getInteger("_oysterEggsFound"), is(didIncrement ? 1 : 0));
       }
     }
   }

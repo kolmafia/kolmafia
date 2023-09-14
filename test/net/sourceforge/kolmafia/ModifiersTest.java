@@ -6,6 +6,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withOverrideModifiers;
@@ -1138,6 +1139,34 @@ public class ModifiersTest {
 
         assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(50.0));
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(50.0));
+      }
+    }
+  }
+
+  @Nested
+  class Events {
+    @Test
+    void correctlyAppliesLaborDayAdventures() {
+      var cleanups = new Cleanups(withDay(2023, Month.JULY, 6));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ADVENTURES), equalTo(10.0));
+      }
+    }
+
+    @Test
+    void correctlyAppliedModsFromMultipleEventDay() {
+      var cleanups = new Cleanups(withDay(2023, Month.AUGUST, 3), withInteractivity(true));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MOX_EXPERIENCE_PCT), equalTo(25.0));
+        assertThat(current.getDouble(DoubleModifier.MANA_COST), equalTo(-3.0));
       }
     }
   }
