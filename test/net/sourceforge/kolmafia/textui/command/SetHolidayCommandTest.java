@@ -20,7 +20,5 @@ class SetHolidayCommandTest extends AbstractCommandTestBase {
       execute("Yuletide");
       assertThat(HolidayDatabase.getEvents(), containsInAnyOrder("Yuletide", "Dependence Day"));
     }
-
-    HolidayDatabase.setHoliday("");
   }
 }

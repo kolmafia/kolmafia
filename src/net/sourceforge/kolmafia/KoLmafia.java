@@ -170,10 +170,7 @@ public abstract class KoLmafia {
   private static FileChannel SESSION_CHANNEL = null;
   private static File SESSION_FILE = null;
   private static boolean SESSION_ENDING = false;
-
   public static KoLAdventure currentAdventure;
-  public static String statDay = "None";
-
   private static final String PREFERRED_IMAGE_SERVER = "https://d2uyhvukfffg5a.cloudfront.net";
   private static final String PREFERRED_IMAGE_SERVER_PATH = PREFERRED_IMAGE_SERVER + "/";
   public static final Set<String> IMAGE_SERVER_PATHS =

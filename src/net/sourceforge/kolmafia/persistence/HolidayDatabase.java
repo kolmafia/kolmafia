@@ -17,16 +17,13 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 public class HolidayDatabase {
   // The epoch of the Kingdom of Loathing.
-  private static ZonedDateTime NEWYEAR =
-      ZonedDateTime.of(2005, Month.SEPTEMBER.getValue(), 17, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+  private static ZonedDateTime NEWYEAR = null;
 
   // The date of White Wednesday, which throws everything off by a day
-  private static ZonedDateTime BOUNDARY =
-      ZonedDateTime.of(2005, Month.OCTOBER.getValue(), 27, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+  private static ZonedDateTime BOUNDARY = null;
 
   // The day the thing crashed into Grimace
-  private static ZonedDateTime COLLISION =
-      ZonedDateTime.of(2006, Month.JUNE.getValue(), 3, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+  private static ZonedDateTime COLLISION = null;
 
   private static int RONALD_PHASE = -1;
   private static int GRIMACE_PHASE = -1;
@@ -34,7 +31,22 @@ public class HolidayDatabase {
   private static String HOLIDAY_OVERRIDE = null;
 
   static {
-    HolidayDatabase.guessPhaseStep();
+    reset();
+  }
+
+  public static void reset() {
+    NEWYEAR =
+        ZonedDateTime.of(
+            2005, Month.SEPTEMBER.getValue(), 17, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+    BOUNDARY =
+        ZonedDateTime.of(2005, Month.OCTOBER.getValue(), 27, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+    COLLISION =
+        ZonedDateTime.of(2006, Month.JUNE.getValue(), 3, 0, 0, 0, 0, DateTimeManager.ROLLOVER);
+    RONALD_PHASE = -1;
+    GRIMACE_PHASE = -1;
+    HAMBURGLAR_POSITION = -1;
+    HOLIDAY_OVERRIDE = null;
+    guessPhaseStep();
   }
 
   // static final array of status effect day predictions

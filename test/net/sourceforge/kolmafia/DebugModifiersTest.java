@@ -157,8 +157,7 @@ public class DebugModifiersTest {
 
   @Test
   void listsStatDay() {
-    try (var cleanups =
-        new Cleanups(withInteractivity(true), withStatDay(KoLConstants.Stat.MUSCLE))) {
+    try (var cleanups = new Cleanups(withInteractivity(true), withDay(2023, Month.JULY, 10))) {
       evaluateDebugModifiers(DoubleModifier.MUS_EXPERIENCE_PCT);
     }
     assertThat(output(), containsDebugRow("Event", "Muscle Day", 25.0, 25.0));
@@ -167,7 +166,6 @@ public class DebugModifiersTest {
   @Test
   void listsOutfit() {
     try (var cleanups = withOutfit(OutfitPool.WAR_FRAT_OUTFIT)) {
-
       evaluateDebugModifiers(DoubleModifier.SLEAZE_DAMAGE);
       assertThat(output(), containsDebugRow("Outfit", "Frat Warrior Fatigues", 15.0, 15.0));
     }
