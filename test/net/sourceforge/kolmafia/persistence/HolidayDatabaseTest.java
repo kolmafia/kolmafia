@@ -199,10 +199,10 @@ class HolidayDatabaseTest {
       "2021, 4, 15, false", // Nothing
     })
     @ParameterizedTest
-    void isFullnessIncreased(
-        final int year, final int month, final int day, final boolean increased) {
+    void isFeastOfBorisLike(
+        final int year, final int month, final int day, final boolean fobLike) {
       try (var cleanups = withDay(year, Month.of(month), day)) {
-        assertThat(HolidayDatabase.isFullnessIncreased(), is(increased));
+        assertThat(HolidayDatabase.isFeastOfBorisLike(), is(fobLike));
       }
     }
   }

@@ -1025,7 +1025,7 @@ public class HolidayDatabase {
     return dateTime.getDayOfWeek() == DayOfWeek.SATURDAY;
   }
 
-  public static boolean isFullnessIncreased() {
+  public static boolean isFeastOfBorisLike() {
     var holidays = getHolidays(DateTimeManager.getRolloverDateTime(), false);
     return holidays.contains("Feast of Boris");
   }

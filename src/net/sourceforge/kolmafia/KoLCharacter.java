@@ -652,7 +652,7 @@ public abstract class KoLCharacter {
       return limit;
     }
 
-    if (HolidayDatabase.isFullnessIncreased()
+    if (HolidayDatabase.isFeastOfBorisLike()
         && (KoLCharacter.getPath() == Path.NONE || KoLCharacter.getPath() == Path.TEETOTALER)) {
       // Challenge paths do not give bonus fullness for Feast of Boris.
       // Check for paths that give bonus fullness instead of excluding all other paths.
