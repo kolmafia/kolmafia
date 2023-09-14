@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -173,7 +174,6 @@ import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
-import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand;
 import net.sourceforge.kolmafia.textui.command.MonkeyPawCommand;
 import net.sourceforge.kolmafia.textui.command.SetPreferencesCommand;
@@ -3938,35 +3938,13 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value stat_bonus_today(ScriptRuntime controller) {
-    if (ConditionalStatement.test("today is muscle day")) {
-      return DataTypes.MUSCLE_VALUE;
-    }
-
-    if (ConditionalStatement.test("today is myst day")) {
-      return DataTypes.MYSTICALITY_VALUE;
-    }
-
-    if (ConditionalStatement.test("today is moxie day")) {
-      return DataTypes.MOXIE_VALUE;
-    }
-
-    return DataTypes.STAT_INIT;
+    return DataTypes.parseStatValue(HolidayDatabase.getStatDay().toString(), true);
   }
 
   public static Value stat_bonus_tomorrow(ScriptRuntime controller) {
-    if (ConditionalStatement.test("tomorrow is muscle day")) {
-      return DataTypes.MUSCLE_VALUE;
-    }
-
-    if (ConditionalStatement.test("tomorrow is myst day")) {
-      return DataTypes.MYSTICALITY_VALUE;
-    }
-
-    if (ConditionalStatement.test("tomorrow is moxie day")) {
-      return DataTypes.MOXIE_VALUE;
-    }
-
-    return DataTypes.STAT_INIT;
+    return DataTypes.parseStatValue(
+        HolidayDatabase.getStatDay(DateTimeManager.getRolloverDateTime().plusDays(1)).toString(),
+        true);
   }
 
   public static Value session_logs(ScriptRuntime controller, final Value dayCount) {

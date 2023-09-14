@@ -656,6 +656,10 @@ public class HolidayDatabase {
     return getStatDay(dateTime) == Stat.MOXIE;
   }
 
+  public static Stat getStatDay() {
+    return getStatDay(DateTimeManager.getRolloverDateTime());
+  }
+
   /** Returns whether the given day is a stat day and if so what stat. */
   public static Stat getStatDay(final ZonedDateTime dateTime) {
     return switch (HolidayDatabase.getDayInKoLYear(dateTime) % 16) {

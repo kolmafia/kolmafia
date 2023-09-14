@@ -867,6 +867,30 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
+  @Test
+  void statBonusToday() {
+    var cleanups = withDay(2023, Month.SEPTEMBER, 12);
+
+    try (cleanups) {
+      String output = execute("stat_bonus_today()");
+
+      assertContinueState();
+      assertThat(output, is("Returned: Muscle\n"));
+    }
+  }
+
+  @Test
+  void statBonusTomorrow() {
+    var cleanups = withDay(2023, Month.SEPTEMBER, 19);
+
+    try (cleanups) {
+      String output = execute("stat_bonus_tomorrow()");
+
+      assertContinueState();
+      assertThat(output, is("Returned: Moxie\n"));
+    }
+  }
+
   @Nested
   class Ids {
     @ParameterizedTest
