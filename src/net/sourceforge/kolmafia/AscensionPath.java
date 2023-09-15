@@ -176,7 +176,7 @@ public class AscensionPath {
     }
 
     public int getStomachCapacity() {
-      return getStomachCapacity();
+      return this.stomachCapacity;
     }
 
     @Override
