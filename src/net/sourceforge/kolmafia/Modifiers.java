@@ -336,6 +336,10 @@ public class Modifiers {
     return this.doubles.get(modifier);
   }
 
+  public boolean containsDouble(final DoubleModifier modifier) {
+    return this.doubles.containsKey(modifier);
+  }
+
   public int getRawBitmap(final BitmapModifier modifier) {
     if (modifier == null) {
       return 0;
@@ -556,8 +560,8 @@ public class Modifiers {
         break;
       case BASE_STOMACH_CAPACITY:
         {
-          // Only the lowest base capacity applies, but start with 15 as a base.
-          var current = this.doubles.has(mod) ? this.doubles.get(mod) : 15;
+          // Only the lowest base capacity applies, but zero is also valid.
+          var current = this.doubles.containsKey(mod) ? this.doubles.get(mod) : value;
           this.doubles.set(mod, Math.min(current, value));
           break;
         }

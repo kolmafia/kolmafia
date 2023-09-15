@@ -27,12 +27,19 @@ public class DoubleModifierCollection {
     return this.doubles.getOrDefault(mod, 0.0);
   }
 
-  public boolean has(final DoubleModifier mod) {
+  public boolean containsKey(final DoubleModifier mod) {
     return this.doubles.containsKey(mod);
   }
 
   public boolean set(final DoubleModifier mod, final double value) {
-    Double oldValue = value == 0.0 ? this.doubles.remove(mod) : this.doubles.put(mod, value);
+    Double oldValue;
+    if (mod == DoubleModifier.BASE_STOMACH_CAPACITY) {
+      // Zero is meaningful for Base Stomach Capacity, and doesn't mean remove
+      oldValue = null;
+      this.doubles.put(mod, value);
+    } else {
+      oldValue = value == 0.0 ? this.doubles.remove(mod) : this.doubles.put(mod, value);
+    }
 
     if (this.doubles.size() >= DoubleModifierCollection.SPARSE_DOUBLES_MAX_SIZE) {
       this.densify();

@@ -25,6 +25,8 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 public class KoLCharacterTest {
   @BeforeEach
@@ -306,7 +308,6 @@ public class KoLCharacterTest {
       var cleanups = new Cleanups(withPath(Path.YOU_ROBOT), withProperty("_sweetToothUsed", true));
 
       try (cleanups) {
-        KoLCharacter.recalculateAdjustments();
         assertThat(KoLCharacter.getFullnessLimit(), is(0));
       }
     }
@@ -317,7 +318,6 @@ public class KoLCharacterTest {
           new Cleanups(withClass(AscensionClass.GREY_GOO), withSkill(SkillPool.STEEL_STOMACH));
 
       try (cleanups) {
-        KoLCharacter.recalculateAdjustments();
         assertThat(KoLCharacter.getFullnessLimit(), is(0));
       }
     }
@@ -325,14 +325,38 @@ public class KoLCharacterTest {
     @Test
     void vampyresCannotExpandStomach() {
       var cleanups =
-          new Cleanups(
-              withPath(Path.DARK_GYFFTE),
-              withClass(AscensionClass.VAMPYRE),
-              withProperty("_pantsgivingFullness", 2));
+          new Cleanups(withClass(AscensionClass.VAMPYRE), withProperty("_pantsgivingFullness", 2));
 
       try (cleanups) {
-        KoLCharacter.recalculateAdjustments();
         assertThat(KoLCharacter.getFullnessLimit(), is(5));
+      }
+    }
+
+    @Test
+    void borisHasABigAppetite() {
+      var cleanups = new Cleanups(withClass(AscensionClass.AVATAR_OF_BORIS));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getFullnessLimit(), is(20));
+      }
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = AscensionClass.class,
+        names = {
+          "SEAL_CLUBBER",
+          "TURTLE_TAMER",
+          "SAUCEROR",
+          "PASTAMANCER",
+          "DISCO_BANDIT",
+          "ACCORDION_THIEF"
+        })
+    void standardClassesHave15Stomach(final AscensionClass ascensionClass) {
+      var cleanups = new Cleanups(withPath(Path.NONE), withClass(ascensionClass));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getFullnessLimit(), is(15));
       }
     }
 

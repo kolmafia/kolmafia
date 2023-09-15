@@ -5232,8 +5232,6 @@ public abstract class KoLCharacter {
       }
     }
 
-    // Path specific modifiers
-
     // Add modifiers from Current Path
     newModifiers.add(
         ModifierDatabase.getModifiers(ModifierType.PATH, KoLCharacter.ascensionPath.toString()));
@@ -5481,9 +5479,13 @@ public abstract class KoLCharacter {
           ModifierType.ZONE,
           "Shadow Rift");
     }
+    // If we haven't set any sort of Base Stomach Capacity, the default is 15
+    if (!newModifiers.containsDouble(DoubleModifier.BASE_STOMACH_CAPACITY)) {
+      newModifiers.addDouble(
+          DoubleModifier.BASE_STOMACH_CAPACITY, 15.0, ModifierType.CLASS, getAscensionClassName());
+    }
 
     // Determine whether or not data has changed
-
     if (debug) {
       DebugModifiers.finish();
     }
