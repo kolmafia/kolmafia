@@ -2844,3 +2844,4 @@
 2844	Imagining Guts	batgut.gif	97fe901d5ee9b04d87643079ebe365a4	neutral	none
 2845	Spooked	scaredeyes.gif	2d2276d5341df849b76d066622846478	neutral	none
 2846	Recalling Circadian Rhythms	clock.gif	50660df88fde2562b5fa5e2932d7d20b	neutral	none
+2847	Tagged	spraycan.gif	f811f68d5db5e19b8af82f2154090e98	neutral	none	use 1 spray paint

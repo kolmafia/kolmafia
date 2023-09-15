@@ -555,7 +555,7 @@
 527	volleyball	630554300	volley.gif	usable	t,d	25
 528	blood-faced volleyball	952613923	wilson.gif	grow	t,d	35
 529	fertilized ghuol egg	266108177	egg.gif	grow	t,d	19
-530	spray paint	821779253	spraycan.gif	none	t,d	25	cans of spray paint
+530	spray paint	821779253	spraycan.gif	potion, usable	t,d	25	cans of spray paint
 531	special sauce glove	368427432	glove.gif	accessory	t,d	2500
 532	ladle of mystery	804245262	ladle.gif	accessory	t,d	1500	ladles of mystery
 533	Gnollish toolbox	885780882	toolbox.gif	multiple	t,d	23	Gnollish toolboxes
