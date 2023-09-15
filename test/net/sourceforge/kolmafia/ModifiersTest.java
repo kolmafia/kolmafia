@@ -530,7 +530,11 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesVampyreMaximumHP() {
-      var cleanups = new Cleanups(withClass(AscensionClass.VAMPYRE), withStats(100, 100, 100));
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.VAMPYRE),
+              withStats(100, 100, 100),
+              withProperty("darkGyfftePoints", 0));
       try (cleanups) {
         // Base HP = Base MUS
         // Buffed HP = max(Base MUS, Base HP + mod(HP))
