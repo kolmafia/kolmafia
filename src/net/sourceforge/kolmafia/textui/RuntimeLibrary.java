@@ -3247,7 +3247,7 @@ public abstract class RuntimeLibrary {
     Value[] keys = obj.keys();
     for (Value key : keys) {
       Value v = obj.aref(key);
-      String value = v.toString();
+      String value = v == null ? null : v.toString();
       if (!addToSessionStream) {
         value = StringUtilities.getEntityEncode(value);
       }
@@ -3258,8 +3258,8 @@ public abstract class RuntimeLibrary {
       } else {
         RequestLogger.printLine(line);
       }
-      if (v instanceof CompositeValue) {
-        RuntimeLibrary.dump((CompositeValue) v, indent + "\u00A0\u00A0", color, addToSessionStream);
+      if (v instanceof CompositeValue cv) {
+        RuntimeLibrary.dump(cv, indent + "\u00A0\u00A0", color, addToSessionStream);
       }
     }
   }
