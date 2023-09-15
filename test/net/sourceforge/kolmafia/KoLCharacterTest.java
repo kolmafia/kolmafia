@@ -305,7 +305,7 @@ public class KoLCharacterTest {
   class StomachCapacity {
     @Test
     void robotsHaveNoStomachCapacity() {
-      var cleanups = new Cleanups(withPath(Path.YOU_ROBOT), withProperty("_sweetToothUsed", true));
+      var cleanups = new Cleanups(withProperty("_sweetToothUsed", true), withPath(Path.YOU_ROBOT));
 
       try (cleanups) {
         assertThat(KoLCharacter.getFullnessLimit(), is(0));
@@ -325,7 +325,7 @@ public class KoLCharacterTest {
     @Test
     void vampyresCannotExpandStomach() {
       var cleanups =
-          new Cleanups(withClass(AscensionClass.VAMPYRE), withProperty("_pantsgivingFullness", 2));
+          new Cleanups(withProperty("_pantsgivingFullness", 2), withClass(AscensionClass.VAMPYRE));
 
       try (cleanups) {
         assertThat(KoLCharacter.getFullnessLimit(), is(5));
@@ -364,9 +364,9 @@ public class KoLCharacterTest {
     void awolClassesInAftercoreCanExpandStomachButDontFeastWithBoris() {
       var cleanups =
           new Cleanups(
-              withClass(AscensionClass.COW_PUNCHER),
               withDay(2023, Month.APRIL, 19),
-              withProperty("_voraciTeaUsed", true));
+              withProperty("_voraciTeaUsed", true),
+              withClass(AscensionClass.COW_PUNCHER));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();

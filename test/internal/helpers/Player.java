@@ -1637,14 +1637,10 @@ public class Player {
     var exists = Preferences.propertyExists(key, global);
     var oldValue = Preferences.getInteger(key);
     Preferences.setInteger(key, value);
-    if (exists) {
-      KoLCharacter.recalculateAdjustments();
-    }
     return new Cleanups(
         () -> {
           if (exists) {
             Preferences.setInteger(key, oldValue);
-            KoLCharacter.recalculateAdjustments();
           } else {
             Preferences.removeProperty(key, global);
           }
@@ -2274,6 +2270,11 @@ public class Player {
   public static Cleanups withConcoctionRefresh() {
     ConcoctionDatabase.refreshConcoctions();
     return new Cleanups(new OrderedRunnable(ConcoctionDatabase::refreshConcoctions, 10));
+  }
+
+  public static Cleanups withAdjustmentsRecalculated() {
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(new OrderedRunnable(KoLCharacter::recalculateAdjustments, 10));
   }
 
   public static Cleanups withNPCStoreReset() {
