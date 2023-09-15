@@ -27,12 +27,8 @@ public class DoubleModifierCollection {
     return this.doubles.getOrDefault(mod, 0.0);
   }
 
-  public boolean containsKey(final DoubleModifier mod) {
-    return this.doubles.containsKey(mod);
-  }
-
   public boolean set(final DoubleModifier mod, final double value) {
-    var oldValue = value == 0.0 ? this.doubles.remove(mod) : this.doubles.put(mod, value);
+    Double oldValue = value == 0.0 ? this.doubles.remove(mod) : this.doubles.put(mod, value);
 
     if (this.doubles.size() >= DoubleModifierCollection.SPARSE_DOUBLES_MAX_SIZE) {
       this.densify();

@@ -336,10 +336,6 @@ public class Modifiers {
     return this.doubles.get(modifier);
   }
 
-  public boolean containsDouble(final DoubleModifier modifier) {
-    return this.doubles.containsKey(modifier);
-  }
-
   public int getRawBitmap(final BitmapModifier modifier) {
     if (modifier == null) {
       return 0;
