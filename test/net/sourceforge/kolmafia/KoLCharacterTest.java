@@ -305,8 +305,11 @@ public class KoLCharacterTest {
   class StomachCapacity {
     @Test
     void robotsHaveNoStomachCapacity() {
-      var cleanups = new Cleanups(withProperty("_sweetToothUsed", true), withPath(Path.YOU_ROBOT));
-
+      var cleanups =
+          new Cleanups(
+              withProperty("_sweetToothUsed", true),
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withPath(Path.YOU_ROBOT));
       try (cleanups) {
         assertThat(KoLCharacter.getStomachCapacity(), is(0));
       }

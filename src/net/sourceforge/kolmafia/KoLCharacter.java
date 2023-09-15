@@ -562,7 +562,15 @@ public abstract class KoLCharacter {
       return 0;
     }
 
-    var baseCapacity = ascensionClass == null ? 15 : ascensionClass.getStomachCapacity();
+    int baseCapacity;
+
+    if (ascensionClass != null) {
+      var classCapacity = ascensionClass.getStomachCapacity();
+      baseCapacity =
+          classCapacity != null ? classCapacity : KoLCharacter.getPath().getStomachCapacity();
+    } else {
+      baseCapacity = 15;
+    }
 
     return baseCapacity
         + (int) KoLCharacter.currentNumericModifier(DoubleModifier.STOMACH_CAPACITY);

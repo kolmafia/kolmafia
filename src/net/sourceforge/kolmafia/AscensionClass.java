@@ -214,11 +214,12 @@ public enum AscensionClass {
     return path;
   }
 
-  public int getStomachCapacity() {
-    if (this.stomachCapacity == null) {
-      return this.path.getStomachCapacity();
-    }
-
+  /**
+   * Get stomach capacity for this class. If the class has no special capacity, returns null.
+   *
+   * @return Stomach capacity if a special one is imposed else null
+   */
+  public Integer getStomachCapacity() {
     return this.stomachCapacity;
   }
 
