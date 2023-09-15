@@ -538,7 +538,7 @@ public class ModifiersTest {
       try (cleanups) {
         // Base HP = Base MUS
         // Buffed HP = max(Base MUS, Base HP + mod(HP))
-        // Note that every Vampyre gets 20 additional base HP, plus another 20 for every Dark Gyffte Point
+        // Note that every Vampyre gets 20 additional base HP, plus another 20 for every DG Point
 
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         KoLCharacter.recalculateAdjustments(false);
