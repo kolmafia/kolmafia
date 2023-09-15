@@ -40,7 +40,8 @@ public class AscensionPath {
     COMMUNITY_SERVICE("Community Service", 25, false, "csplaquesmall", "a"),
     AVATAR_OF_WEST_OF_LOATHING("Avatar of West of Loathing", 26, false, "badge", "an"),
     THE_SOURCE("The Source", 27, false, "ss_datasiphon", "a", "sourcePoints", 0, false),
-    NUCLEAR_AUTUMN("Nuclear Autumn", 28, false, "radiation", "a", "nuclearAutumnPoints", 23, false, 5),
+    NUCLEAR_AUTUMN(
+        "Nuclear Autumn", 28, false, "radiation", "a", "nuclearAutumnPoints", 23, false, 5),
     GELATINOUS_NOOB("Gelatinous Noob", 29, true, "gcube", "a", "noobPoints", 20, true),
     LICENSE_TO_ADVENTURE(
         "License to Adventure", 30, false, "briefcase", "a", "bondPoints", 24, true, 0),
@@ -105,15 +106,15 @@ public class AscensionPath {
     }
 
     Path(
-      String name,
-      int id,
-      boolean isAvatar,
-      String image,
-      String article,
-      String pointsPreference,
-      int maximumPoints,
-      boolean bucket) {
-        this(name, id, isAvatar, image, article, pointsPreference, maximumPoints, bucket, 15);
+        String name,
+        int id,
+        boolean isAvatar,
+        String image,
+        String article,
+        String pointsPreference,
+        int maximumPoints,
+        boolean bucket) {
+      this(name, id, isAvatar, image, article, pointsPreference, maximumPoints, bucket, 15);
     }
 
     Path(String name, int id, boolean isAvatar, String image, String article) {

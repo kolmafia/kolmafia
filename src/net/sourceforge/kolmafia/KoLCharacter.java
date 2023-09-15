@@ -564,7 +564,8 @@ public abstract class KoLCharacter {
 
     var baseCapacity = ascensionClass == null ? 0 : ascensionClass.getStomachCapacity();
 
-    return baseCapacity + (int) KoLCharacter.currentNumericModifier(DoubleModifier.STOMACH_CAPACITY);
+    return baseCapacity
+        + (int) KoLCharacter.currentNumericModifier(DoubleModifier.STOMACH_CAPACITY);
   }
 
   public static final void setInebriety(final int inebriety) {

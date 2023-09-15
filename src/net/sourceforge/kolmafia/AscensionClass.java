@@ -93,7 +93,14 @@ public enum AscensionClass {
     return Arrays.stream(values()).filter(a -> a.getId() == id).findAny().orElse(null);
   }
 
-  AscensionClass(String name, int id, String image, int primeStatIndex, Path path, String stun, Integer stomachCapacity) {
+  AscensionClass(
+      String name,
+      int id,
+      String image,
+      int primeStatIndex,
+      Path path,
+      String stun,
+      Integer stomachCapacity) {
     this.name = name;
     this.id = id;
     this.image = image;
