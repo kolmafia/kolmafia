@@ -14,26 +14,26 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 public enum AscensionClass {
   ASTRAL_SPIRIT("Astral Spirit", -1),
-  SEAL_CLUBBER("Seal Clubber", 1, "club", 0, "Club Foot"),
-  TURTLE_TAMER("Turtle Tamer", 2, "turtle", 0, "Shell Up"),
-  PASTAMANCER("Pastamancer", 3, "pasta", 1, "Entangling Noodles"),
-  SAUCEROR("Sauceror", 4, "sauce", 1, "Soul Bubble"),
+  SEAL_CLUBBER("Seal Clubber", 1, "club", 0, Path.NONE, "Club Foot"),
+  TURTLE_TAMER("Turtle Tamer", 2, "turtle", 0, Path.NONE, "Shell Up"),
+  PASTAMANCER("Pastamancer", 3, "pasta", 1, Path.NONE, "Entangling Noodles"),
+  SAUCEROR("Sauceror", 4, "sauce", 1, Path.NONE, "Soul Bubble"),
   DISCO_BANDIT("Disco Bandit", 5, "disco", 2),
-  ACCORDION_THIEF("Accordion Thief", 6, "accordion", 2, "Accordion Bash"),
-  AVATAR_OF_BORIS("Avatar of Boris", 11, "trusty", 0, Path.AVATAR_OF_BORIS, "Broadside"),
+  ACCORDION_THIEF("Accordion Thief", 6, "accordion", 2, Path.NONE, "Accordion Bash"),
+  AVATAR_OF_BORIS("Avatar of Boris", 11, "trusty", 0, Path.AVATAR_OF_BORIS, "Broadside", 20),
   ZOMBIE_MASTER("Zombie Master", 12, "tombstone", 0, Path.ZOMBIE_SLAYER, "Corpse Pile"),
   AVATAR_OF_JARLSBERG(
-      "Avatar of Jarlsberg", 14, "path12icon", 1, Path.AVATAR_OF_JARLSBERG, "Blend"),
+      "Avatar of Jarlsberg", 14, "path12icon", 1, Path.AVATAR_OF_JARLSBERG, "Blend", 10),
   AVATAR_OF_SNEAKY_PETE(
-      "Avatar of Sneaky Pete", 15, "bigglasses", 2, Path.AVATAR_OF_SNEAKY_PETE, "Snap Fingers"),
-  ED("Ed the Undying", 17, "thoth", 1, Path.ACTUALLY_ED_THE_UNDYING, "Curse of Indecision"),
-  COW_PUNCHER("Cow Puncher", 18, "darkcow", 0, Path.AVATAR_OF_WEST_OF_LOATHING),
-  BEANSLINGER("Beanslinger", 19, "beancan", 1, Path.AVATAR_OF_WEST_OF_LOATHING),
-  SNAKE_OILER("Snake Oiler", 20, "tinysnake", 2, Path.AVATAR_OF_WEST_OF_LOATHING),
-  GELATINOUS_NOOB("Gelatinous Noob", 23, "gelatinousicon", 2, Path.GELATINOUS_NOOB),
-  VAMPYRE("Vampyre", 24, "vampirefangs", 1, Path.DARK_GYFFTE, "Chill of the Tomb"),
-  PLUMBER("Plumber", 25, "mario_hammer2", -1, Path.PATH_OF_THE_PLUMBER, "Spin Jump"),
-  GREY_GOO("Grey Goo", 27, "greygooring", -1, Path.GREY_YOU),
+      "Avatar of Sneaky Pete", 15, "bigglasses", 2, Path.AVATAR_OF_SNEAKY_PETE, "Snap Fingers", 5),
+  ED("Ed the Undying", 17, "thoth", 1, Path.ACTUALLY_ED_THE_UNDYING, "Curse of Indecision", 0),
+  COW_PUNCHER("Cow Puncher", 18, "darkcow", 0, Path.AVATAR_OF_WEST_OF_LOATHING, null, 10),
+  BEANSLINGER("Beanslinger", 19, "beancan", 1, Path.AVATAR_OF_WEST_OF_LOATHING, null, 10),
+  SNAKE_OILER("Snake Oiler", 20, "tinysnake", 2, Path.AVATAR_OF_WEST_OF_LOATHING, null, 10),
+  GELATINOUS_NOOB("Gelatinous Noob", 23, "gelatinousicon", 2, Path.GELATINOUS_NOOB, null, 0),
+  VAMPYRE("Vampyre", 24, "vampirefangs", 1, Path.DARK_GYFFTE, "Chill of the Tomb", 5),
+  PLUMBER("Plumber", 25, "mario_hammer2", -1, Path.PATH_OF_THE_PLUMBER, "Spin Jump", 20),
+  GREY_GOO("Grey Goo", 27, "greygooring", -1, Path.GREY_YOU, null, 0),
   PIG_SKINNER("Pig Skinner", 28, "football2", 0, Path.SHADOWS_OVER_LOATHING),
   CHEESE_WIZARD("Cheese Wizard", 29, "jarl_cheeseslice", 1, Path.SHADOWS_OVER_LOATHING),
   JAZZ_AGENT("Jazz Agent", 30, "motif", 2, Path.SHADOWS_OVER_LOATHING, "Drum Roll");
@@ -59,6 +59,7 @@ public enum AscensionClass {
   private final String stun;
 
   private final Path path;
+  private final Integer stomachCapacity;
 
   public static Set<AscensionClass> allClasses() {
     return Arrays.stream(values()).filter(a -> a.getId() > -1).collect(Collectors.toSet());
@@ -92,25 +93,26 @@ public enum AscensionClass {
     return Arrays.stream(values()).filter(a -> a.getId() == id).findAny().orElse(null);
   }
 
-  AscensionClass(String name, int id, String image, int primeStatIndex, Path path, String stun) {
+  AscensionClass(String name, int id, String image, int primeStatIndex, Path path, String stun, Integer stomachCapacity) {
     this.name = name;
     this.id = id;
     this.image = image;
     this.primeStatIndex = primeStatIndex;
     this.stun = stun;
     this.path = path;
+    this.stomachCapacity = stomachCapacity;
+  }
+
+  AscensionClass(String name, int id, String image, int primeStatIndex, Path path, String stun) {
+    this(name, id, image, primeStatIndex, path, stun, null);
   }
 
   AscensionClass(String name, int id, String image, int primeStatIndex, Path path) {
     this(name, id, image, primeStatIndex, path, null);
   }
 
-  AscensionClass(String name, int id, String image, int primeStatIndex, String stun) {
-    this(name, id, image, primeStatIndex, Path.NONE, stun);
-  }
-
   AscensionClass(String name, int id, String image, int primeStatIndex) {
-    this(name, id, image, primeStatIndex, Path.NONE, null);
+    this(name, id, image, primeStatIndex, Path.NONE);
   }
 
   AscensionClass(String name, int id) {
@@ -203,6 +205,14 @@ public enum AscensionClass {
 
   public Path getPath() {
     return path;
+  }
+
+  public int getStomachCapacity() {
+    if (this.stomachCapacity == null) {
+      return this.path.getStomachCapacity();
+    }
+
+    return this.stomachCapacity;
   }
 
   @Override

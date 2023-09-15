@@ -161,7 +161,7 @@ public class BasementDecorator {
       if (KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP()) {
         changes.append("<option value=0");
 
-        if (KoLCharacter.getFullness() == KoLCharacter.getFullnessLimit()) {
+        if (KoLCharacter.getFullness() == KoLCharacter.getStomachCapacity()) {
           changes.append(" disabled");
         }
 
@@ -454,7 +454,7 @@ public class BasementDecorator {
       }
 
       if (this.fullness > 0
-          && (KoLCharacter.getFullness() + this.fullness) > KoLCharacter.getFullnessLimit()) {
+          && (KoLCharacter.getFullness() + this.fullness) > KoLCharacter.getStomachCapacity()) {
         return true;
       }
 

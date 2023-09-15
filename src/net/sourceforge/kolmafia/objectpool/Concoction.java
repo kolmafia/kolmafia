@@ -482,7 +482,7 @@ public class Concoction implements Comparable<Concoction> {
       switch (this.type) {
         case FOOD -> {
           limit =
-              KoLCharacter.getFullnessLimit()
+              KoLCharacter.getStomachCapacity()
                   - KoLCharacter.getFullness()
                   - ConcoctionDatabase.getQueuedFullness();
           thisCantConsume = this.getFullness() > limit;

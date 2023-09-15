@@ -533,6 +533,7 @@ public class ModifiersTest {
       var cleanups =
           new Cleanups(
               withClass(AscensionClass.VAMPYRE),
+              withPath(Path.DARK_GYFFTE),
               withStats(100, 100, 100),
               withProperty("darkGyfftePoints", 0));
       try (cleanups) {

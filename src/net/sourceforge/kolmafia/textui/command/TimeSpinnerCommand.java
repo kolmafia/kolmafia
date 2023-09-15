@@ -69,7 +69,7 @@ public class TimeSpinnerCommand extends AbstractCommand {
       }
 
       if (ConsumablesDatabase.getFullness(foodName)
-          > (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness())) {
+          > (KoLCharacter.getStomachCapacity() - KoLCharacter.getFullness())) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You are too full to eat that.");
         return;
       }

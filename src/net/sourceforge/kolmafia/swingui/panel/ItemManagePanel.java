@@ -394,7 +394,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
             if (c.getFullness() > 0) {
               previous = KoLCharacter.getFullness() + ConcoctionDatabase.getQueuedFullness();
-              capacity = KoLCharacter.getFullnessLimit();
+              capacity = KoLCharacter.getStomachCapacity();
               unit = c.getFullness();
               standard =
                   previous >= capacity

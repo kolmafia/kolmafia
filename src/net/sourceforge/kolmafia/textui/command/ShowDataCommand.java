@@ -180,7 +180,7 @@ public class ShowDataCommand extends AbstractCommand {
       desiredStream.println();
 
       desiredStream.println(
-          "Full: " + KoLCharacter.getFullness() + " / " + KoLCharacter.getFullnessLimit());
+          "Full: " + KoLCharacter.getFullness() + " / " + KoLCharacter.getStomachCapacity());
       desiredStream.println(
           "Drunk: " + KoLCharacter.getInebriety() + " / " + KoLCharacter.getInebrietyLimit());
       desiredStream.println(

@@ -530,7 +530,6 @@ public enum DoubleModifier implements Modifier {
       },
       Pattern.compile("Thorns: " + EXPR)),
   SPORADIC_THORNS("Sporadic Thorns", Pattern.compile("Sporadic Thorns: " + EXPR)),
-  BASE_STOMACH_CAPACITY("Base Stomach Capacity", Pattern.compile("Base Stomach Capacity: " + EXPR)),
   STOMACH_CAPACITY(
       "Stomach Capacity",
       Pattern.compile("(.*) Stomach Capacity"),

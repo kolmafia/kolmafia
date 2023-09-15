@@ -308,7 +308,7 @@ public class KoLCharacterTest {
       var cleanups = new Cleanups(withProperty("_sweetToothUsed", true), withPath(Path.YOU_ROBOT));
 
       try (cleanups) {
-        assertThat(KoLCharacter.getFullnessLimit(), is(0));
+        assertThat(KoLCharacter.getStomachCapacity(), is(0));
       }
     }
 
@@ -318,7 +318,7 @@ public class KoLCharacterTest {
           new Cleanups(withClass(AscensionClass.GREY_GOO), withSkill(SkillPool.STEEL_STOMACH));
 
       try (cleanups) {
-        assertThat(KoLCharacter.getFullnessLimit(), is(0));
+        assertThat(KoLCharacter.getStomachCapacity(), is(0));
       }
     }
 
@@ -328,7 +328,7 @@ public class KoLCharacterTest {
           new Cleanups(withProperty("_pantsgivingFullness", 2), withClass(AscensionClass.VAMPYRE));
 
       try (cleanups) {
-        assertThat(KoLCharacter.getFullnessLimit(), is(5));
+        assertThat(KoLCharacter.getStomachCapacity(), is(5));
       }
     }
 
@@ -337,7 +337,7 @@ public class KoLCharacterTest {
       var cleanups = new Cleanups(withClass(AscensionClass.AVATAR_OF_BORIS));
 
       try (cleanups) {
-        assertThat(KoLCharacter.getFullnessLimit(), is(20));
+        assertThat(KoLCharacter.getStomachCapacity(), is(20));
       }
     }
 
@@ -356,7 +356,7 @@ public class KoLCharacterTest {
       var cleanups = new Cleanups(withPath(Path.NONE), withClass(ascensionClass));
 
       try (cleanups) {
-        assertThat(KoLCharacter.getFullnessLimit(), is(15));
+        assertThat(KoLCharacter.getStomachCapacity(), is(15));
       }
     }
 
@@ -370,7 +370,7 @@ public class KoLCharacterTest {
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
-        assertThat(KoLCharacter.getFullnessLimit(), is(11));
+        assertThat(KoLCharacter.getStomachCapacity(), is(11));
       }
     }
   }

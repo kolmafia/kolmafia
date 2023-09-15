@@ -12516,29 +12516,11 @@ Florist	Up Sea Daisy	Experience: +30
 
 # Path section
 
-Path	A Shrunken Adventurer am I	Muscle Limit: 1, Mysticality Limit: 1, Moxie Limit: 1, Base Stomach Capacity: 2
+Path	A Shrunken Adventurer am I	Muscle Limit: 1, Mysticality Limit: 1, Moxie Limit: 1
 Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative: [30*pref(bondInit)], Damage Reduction: [10*pref(bondDR)], Maximum HP Percent: [20*pref(bondHP)], Item Drop: [10*pref(bondItem1)+20*pref(bondItem2)+30*pref(bondItem3)], Experience: [2*pref(bondStat)+5*pref(bondStat2)], Booze Drop: [100*pref(bondBooze)], Meat Drop: [20*pref(bondMeat)], Experience (Muscle): [2*pref(bondMus2)+pref(bondMus1)], Experience (Mysticality): [2*pref(bondMys2)+pref(bondMys1)], Experience (Moxie): [2*pref(bondMox2)+pref(bondMox1)], MP Regen Min: [10*pref(bondMPregen)], MP Regen Max: [15*pref(bondMPregen)], Weapon Damage: [10*pref(bondWeapon2)], Adventures: [11*pref(bondAdv)]
-Path	Nuclear Autumn	Stomach Capacity: 5
 Path	One Crazy Random Summer	Random Monster Modifiers: +1
 Path	Quantum Terrarium	Familiar Weight: [min(2*L,20)]
-Path	You, Robot	Energy: +1, Base Stomach Capacity: 0
-Path	License to Adventure	Base Stomach Capacity: 0
-Path	Oxygenarian	Base Stomach Capacity: 0
-Path	Boozetafarian	Base Stomach Capacity: 0
-
-# Class section
-
-Class	Avatar of Boris	Base Stomach Capacity: 20
-Class	Avatar of Jarlsberg	Base Stomach Capacity: 10
-Class	Avatar of Sneaky Pete	Base Stomach Capacity: 10
-Class	Beanslinger	Base Stomach Capacity: 10
-Class	Cow Puncher	Base Stomach Capacity: 10
-Class	Ed the Undying	Base Stomach Capacity: 0
-Class	Gelatinous Noob	Base	Base Stomach Capacity: 0
-Class	Grey Goo	Base Stomach Capacity: 0
-Class	Plumber	Stomach Capacity: 20
-Class	Snake Oiler	Base Stomach Capacity: 10
-Class	Vampyre	Maximum HP: [20+20*pref(darkGyfftePoints)], Base Stomach Capacity: 5
+Path	Dark Gyffte	Maximum HP: [20+20*pref(darkGyfftePoints)]
 
 # Horsery
 Horsery	normal horse	Initiative: +10, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10

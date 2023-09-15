@@ -53,7 +53,6 @@ class CustomScriptTest {
     public void beforeEach() {
       KoLCharacter.reset("CustomScriptTest");
       Preferences.reset("CustomScriptTest");
-      KoLCharacter.recalculateAdjustments();
     }
 
     // Directory containing expected output.

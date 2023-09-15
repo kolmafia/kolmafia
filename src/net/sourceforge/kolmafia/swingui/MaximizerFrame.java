@@ -225,7 +225,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
               case BOOZE -> (KoLCharacter.canDrink()
                   && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit());
               case FOOD -> (KoLCharacter.canEat()
-                  && KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit());
+                  && KoLCharacter.getFullness() < KoLCharacter.getStomachCapacity());
               case SPLEEN -> (KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit());
               default -> true;
             };

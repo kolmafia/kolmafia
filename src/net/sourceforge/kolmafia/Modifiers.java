@@ -558,13 +558,6 @@ public class Modifiers {
           this.doubles.add(mod, value);
         }
         break;
-      case BASE_STOMACH_CAPACITY:
-        {
-          // Only the lowest base capacity applies, but zero is also valid.
-          var current = this.doubles.containsKey(mod) ? this.doubles.get(mod) : value;
-          this.doubles.set(mod, Math.min(current, value));
-          break;
-        }
       default:
         this.doubles.add(mod, value);
         break;

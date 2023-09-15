@@ -468,7 +468,7 @@ public class DrinkItemRequest extends UseItemRequest {
         return false;
       }
       if ((KoLCharacter.getAdventuresLeft() > 0
-              || KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit())
+              || KoLCharacter.getFullness() < KoLCharacter.getStomachCapacity())
           && !InputFieldUtilities.confirm("Are you sure you want to overdrink?")) {
         return false;
       }

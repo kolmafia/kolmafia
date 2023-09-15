@@ -557,14 +557,14 @@ public abstract class KoLCharacter {
     return true;
   }
 
-  public static int getFullnessLimit() {
+  public static int getStomachCapacity() {
     if (!KoLCharacter.canEat()) {
       return 0;
     }
 
-    return (int)
-        (KoLCharacter.currentNumericModifier(DoubleModifier.BASE_STOMACH_CAPACITY)
-            + KoLCharacter.currentNumericModifier(DoubleModifier.STOMACH_CAPACITY));
+    var baseCapacity = ascensionClass == null ? 0 : ascensionClass.getStomachCapacity();
+
+    return baseCapacity + (int) KoLCharacter.currentNumericModifier(DoubleModifier.STOMACH_CAPACITY);
   }
 
   public static final void setInebriety(final int inebriety) {
@@ -5478,11 +5478,6 @@ public abstract class KoLCharacter {
           newModifiers.getDouble(DoubleModifier.ITEMDROP) * -0.8,
           ModifierType.ZONE,
           "Shadow Rift");
-    }
-    // If we haven't set any sort of Base Stomach Capacity, the default is 15
-    if (!newModifiers.containsDouble(DoubleModifier.BASE_STOMACH_CAPACITY)) {
-      newModifiers.addDouble(
-          DoubleModifier.BASE_STOMACH_CAPACITY, 15.0, ModifierType.CLASS, getAscensionClassName());
     }
 
     // Determine whether or not data has changed

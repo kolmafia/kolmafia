@@ -6192,7 +6192,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value fullness_limit(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getFullnessLimit());
+    return new Value(KoLCharacter.getStomachCapacity());
   }
 
   public static Value my_inebriety(ScriptRuntime controller) {

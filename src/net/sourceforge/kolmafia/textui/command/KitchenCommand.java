@@ -70,7 +70,7 @@ public class KitchenCommand extends AbstractCommand {
         } else {
           int fullness = ConsumablesDatabase.getFullness(name);
           if (fullness > 0) {
-            count = (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
+            count = (KoLCharacter.getStomachCapacity() - KoLCharacter.getFullness()) / fullness;
           }
         }
       }

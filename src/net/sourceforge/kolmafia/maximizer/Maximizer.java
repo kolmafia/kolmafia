@@ -629,7 +629,7 @@ public class Maximizer {
             // Fullness available?
             fullCost = ClanLoungeRequest.hotdogNameToFullness(iName);
             if (fullCost > 0
-                && KoLCharacter.getFullness() + fullCost > KoLCharacter.getFullnessLimit()) {
+                && KoLCharacter.getFullness() + fullCost > KoLCharacter.getStomachCapacity()) {
               continue;
             }
             // Is it Fancy and has one been used?
@@ -1284,7 +1284,7 @@ public class Maximizer {
 
           fullCost = ConsumablesDatabase.getFullness(iname);
           if (fullCost != 0
-              && KoLCharacter.getFullness() + fullCost > KoLCharacter.getFullnessLimit()) {
+              && KoLCharacter.getFullness() + fullCost > KoLCharacter.getStomachCapacity()) {
             cmd = "";
           }
           drunkCost = ConsumablesDatabase.getInebriety(iname);
@@ -1413,7 +1413,7 @@ public class Maximizer {
         }
         if (fullCost != 0) {
           text += fullCost + " full, ";
-          if (KoLCharacter.getFullness() + fullCost > KoLCharacter.getFullnessLimit()) {
+          if (KoLCharacter.getFullness() + fullCost > KoLCharacter.getStomachCapacity()) {
             cmd = "";
           }
         }
