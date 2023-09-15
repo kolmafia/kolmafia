@@ -240,8 +240,6 @@ public abstract class KoLCharacter {
   private static int currentRun = 0;
   private static long rollover = 0;
   private static int globalDaycount = 0;
-  private static boolean isFullnessIncreased = false;
-  private static int holidayManaCostReduction = 0;
 
   // Travel information
 
@@ -531,13 +529,6 @@ public abstract class KoLCharacter {
     KoLCharacter.ensureUpdatedCellar();
   }
 
-  public static final void setHoliday(final String holiday) {
-    KoLCharacter.isFullnessIncreased =
-        holiday.contains("Feast of Boris") || holiday.contains("Drunksgiving");
-    KoLCharacter.holidayManaCostReduction = holiday.contains("Festival of Jarlsberg") ? 3 : 0;
-    KoLmafia.statDay = HolidayDatabase.currentStatDay();
-  }
-
   public static final void setFullness(final int fullness) {
     KoLCharacter.fullness = Math.max(0, fullness);
   }
@@ -661,7 +652,7 @@ public abstract class KoLCharacter {
       return limit;
     }
 
-    if (KoLCharacter.isFullnessIncreased
+    if (HolidayDatabase.isFeastOfBorisLike()
         && (KoLCharacter.getPath() == Path.NONE || KoLCharacter.getPath() == Path.TEETOTALER)) {
       // Challenge paths do not give bonus fullness for Feast of Boris.
       // Check for paths that give bonus fullness instead of excluding all other paths.
@@ -2319,8 +2310,7 @@ public abstract class KoLCharacter {
         + (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.STACKABLE_MANA_COST)
         + (combat
             ? (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.COMBAT_MANA_COST)
-            : 0)
-        - KoLCharacter.holidayManaCostReduction;
+            : 0);
   }
 
   /** Accessor method to retrieve the total current combat percent adjustment */
@@ -5091,11 +5081,6 @@ public abstract class KoLCharacter {
     newModifiers.add(
         ModifierDatabase.getModifiers(ModifierType.SIGN, KoLCharacter.ascensionSign.getName()));
 
-    // If we are out of ronin/hardcore, look at stat day adjustments
-    if (KoLCharacter.canInteract() && !KoLmafia.statDay.equals("None")) {
-      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.EVENT, KoLmafia.statDay));
-    }
-
     // Certain outfits give benefits to the character
     // Need to do this before the individual items, so that Hobo Power
     // from the outfit counts towards a Hodgman offhand.
@@ -5351,6 +5336,11 @@ public abstract class KoLCharacter {
     // Add modifiers from Current Path
     newModifiers.add(
         ModifierDatabase.getModifiers(ModifierType.PATH, KoLCharacter.ascensionPath.toString()));
+
+    // Add modifiers from today's events (Holidays, stat days etc)
+    for (var event : HolidayDatabase.getEvents()) {
+      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.EVENT, event));
+    }
 
     // If Sneaky Pete, add Motorbike effects
 

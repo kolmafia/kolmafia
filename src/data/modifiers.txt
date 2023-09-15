@@ -7503,6 +7503,7 @@ Effect	Synthesis: Smart	Mysticality Percent: +300
 Effect	Synthesis: Strong	Muscle Percent: +300
 Effect	Synthesis: Style	Experience Percent (Moxie): +50
 Effect	Synthesized	Damage Reduction: 8, Weapon Damage: -8
+Effect	Tagged	Moxie: +10
 Effect	Takin' It Greasy	Sleaze Damage: +15
 Effect	Taking the Plunge	Avatar: "Gnollish Plungermaster"
 # Talking Like a Pirate: Arrr.
@@ -8675,9 +8676,11 @@ Sign	Wombat	Experience Percent (Muscle): +10, Meat Drop: +20
 
 # Event section of modifiers.txt
 
-Event	Moxie Day	Experience Percent (Moxie): +25
-Event	Muscle Day	Experience Percent (Muscle): +25
-Event	Mysticality Day	Experience Percent (Mysticality): +25
+Event	Moxie Day	Experience Percent (Moxie): [25*interact()]
+Event	Muscle Day	Experience Percent (Muscle): [25*interact()]
+Event	Mysticality Day	Experience Percent (Mysticality): [25*interact()]
+Event	Festival of Jarlsberg	Mana Cost: -3
+Event	Lab&oacute;r Day Eve	Adventures: +10
 
 # Zone-specific section of modifiers.txt
 # -100% is the most common penalty in The Sea; use it as the default
@@ -12164,6 +12167,7 @@ Item	spirit beer	Effect: "Spiritually Aware", Effect Duration: 10
 # spooky music box mechanism: (unless you're in Spookyraven Manor, in which case it banishes a monster for a while)
 # Spooky Putty sheet: Makes a copy of a monster to fight later
 Item	spooky rattling cigar box	Free Pull
+Item	spray paint	Effect: "Tagged", Effect Duration: 10
 Item	squamous polyp	Free Pull
 Item	Stabonic scroll	Effect: "Bone Homie", Effect Duration: 20
 # star throwing star: Deals 50-75 Physical Damage

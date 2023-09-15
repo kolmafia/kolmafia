@@ -282,8 +282,8 @@ public class ConsumablesDatabase {
     String mysticality = data[6];
     String moxie = data[7];
 
-    String holiday = HolidayDatabase.getHoliday();
-    boolean isBorisDay = (holiday.contains("Feast of Boris") || holiday.contains("Drunksgiving"));
+    var holiday = HolidayDatabase.getHolidays(false);
+    boolean isBorisDay = holiday.contains("Feast of Boris");
 
     // Some items different on Feast of Boris
     if (isBorisDay) {
