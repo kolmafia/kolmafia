@@ -578,7 +578,7 @@ scorched duck	558	duckscorch.gif	Atk: 170 Def: 156 HP: 185 Init: 50 Meat: 150 P:
 screambat	1010	screambat.gif	SUPERLIKELY Atk: 18 Def: 16 HP: 15 Init: 50 P: beast Article: a
 sea cow	775	seacow.gif	Atk: 600 Def: 675 HP: 900 Init: 25 Meat: 300 P: fish EA: stench Article: a	sea cowbell (n10)	sea leather (n20)
 sea cowboy	776	seacowboy.gif	Atk: 750 Def: 585 HP: 700 Init: 50 Meat: 200 P: fish Article: a	sea lasso (n30)	deep six-shooter (n8)
-senile lihc	192	lich.gif	Atk: 56 Def: 51 HP: 50 Init: 50 P: undead E: spooky Article: a	lihc eye (20)	lihc face (9)	shimmering tendrils (c5)
+senile lihc	192	lich.gif	Atk: 56 Def: 51 HP: 50 Init: 50 P: undead E: spooky Article: a	lihc eye (20)	lihc face (9)
 serialbus	982	serialbus.gif	Atk: 60 Def: 54 HP: 60 Init: 50 Meat: 30 P: demon E: hot Article: a	bus pass (25)
 Servant of Grodstank	799	grodseal.gif	NOCOPY FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: horror EA: stench Article: a	fustulent seal grulch (35)	infernal toilet brush (5)
 sewer snake with a sewer snake in it	1752	sewersnake.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: beast SNAKE E: stench Article: a	carton of snake milk (100)	carton of snake milk (30)	sewer snake (30)
@@ -615,7 +615,7 @@ skulldozer	1239	skulldozer.gif	NOCOPY Scale: 5 Cap: 10000 Floor: 300 Init: -1000
 skullery maid	377	skullery.gif	Atk: 20 Def: 18 HP: 20 Init: 50 Meat: 5 P: undead ED: spooky Article: a	bottle of popskull (30)	dishrag (5)	Skullery Maid's Knee (c0)
 sleeping Knob Goblin Guard	152	kg_sleepingguard.gif	Atk: 0 Def: 0 HP: 1 Init: -10000 Meat: 5 P: goblin Article: a	viking helmet (32)	Knob Goblin pants (8)	Knob Goblin scimitar (32)
 sleepy 7-Foot Dwarf	1149	dwarf_sleepy.gif	Atk: 53 Def: 47 HP: 40 Init: -10000 Meat: 40 P: humanoid Article: a	miner's pants (9)
-slick lihc	193	lich.gif	Atk: 59 Def: 54 HP: 50 Init: 50 P: undead E: spooky Article: a	lihc eye (20)	lihc face (7)	shimmering tendrils (c5)
+slick lihc	193	lich.gif	Atk: 59 Def: 54 HP: 50 Init: 50 P: undead E: spooky Article: a	lihc eye (20)	lihc face (7)
 slithering hollandaise glob	658	holglob.gif	NOCOPY Atk: 24 Def: 21 HP: 21 Init: 40 P: slime EA: sleaze Article: a	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	nauseating reagent (0)
 slithering thing	1375	slithering.gif	Atk: 600 Def: 675 HP: 700 Init: 50 Meat: 50 P: horror Elem: 25 EA: sleaze Article: a	grisly shell fragment (30)	grisly shell fragment (15)	grisly shell fragment (5)
 Slow Talkin' Elliot	511	eliot.gif	NOCOPY Atk: 190 Def: 171 HP: 200 Init: 20 Meat: 150 P: hippy E: stench	Slow Talkin' Elliot's dogtags (100)	green clay bead (30)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)
