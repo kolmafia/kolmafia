@@ -4670,7 +4670,7 @@ Throne	Black Cat	Muscle: -10, Mysticality: -10, Moxie: -10, Drops Meat
 Throne	Blavious Kloop	Maximum HP: +10, Maximum MP: +10
 Throne	Blood-Faced Volleyball	Experience (Moxie): +2
 Throne	Bloovian Groose	Maximum HP: +10, Maximum MP: +10
-Throne	BRICKO chick	 Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Drops Items
+Throne	BRICKO chick	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Drops Items
 Throne	Bulky Buddy Box	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Casagnova Gnome	Meat Drop: +20, HP Regen Min: 16, HP Regen Max: 20, MP Regen Min: 9, MP Regen Max: 11
 Throne	Chauvinist Pig	Experience (Muscle): +2
@@ -4680,6 +4680,7 @@ Throne	Choctopus	Maximum HP: 15, Maximum MP: 15, HP Regen Min: 3, HP Regen Max: 
 Throne	Clockwork Grapefruit	Moxie Percent: +15
 Throne	Cocoabo	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Coffee Pixie	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
+Throne	Cookbookbat	Food Drop: +50, Drops Items
 Throne	Cotton Candy Carnie	Initiative: +20, Drops Items
 Throne	Crimbo Elf	Weapon Damage: +10, Drops Items
 Throne	Crimbo P. R. E. S. S. I. E.	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -4714,6 +4715,7 @@ Throne	Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen M
 Throne	Gluttonous Green Ghost	Food Drop: +15, Drops Items
 Throne	Golden Monkey	Meat Drop: +25, Drops Items
 Throne	Green Pixie	Maximum HP: +10, Maximum MP: +10, Drops Items
+Throne	Grey Goose	Weapon Damage: +10
 Throne	Grim Brother	Combat Rate: +5, Drops Items, Variable
 Throne	Grimstone Golem	Combat Rate: -5, Drops Items, Variable
 Throne	Grinning Turtle	Experience (Muscle): +2
@@ -4725,6 +4727,7 @@ Throne	Happy Medium	Meat Drop: +25, Drops Meat
 Throne	He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Meat
 Throne	Hippo Ballerina	Meat Drop: +20
 Throne	Hobo Monkey	Meat Drop: +25
+Throne	Hobo in Sheep's Clothing	Experience: +3, Drops Items
 Throne	Holiday Log	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Hovering Skull	Experience (Moxie): +2
 Throne	Hovering Sombrero	Experience (Mysticality): +2
@@ -4754,6 +4757,7 @@ Throne	Mini-Adventurer	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percen
 Throne	Mini-Crimbot	Cold Damage: +15
 Throne	Mini-Hipster	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne	Mini-Skulldozer	Initiative: +20
+Throne	Mini-Trainbot	Maximum HP: +10, Maximum MP: +10
 Throne	MiniMechaElf	Muscle Percent: +15
 Throne	Misshapen Animal Skeleton	Familiar Weight: +5, Drops Meat
 Throne	Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
@@ -4773,6 +4777,7 @@ Throne	Optimistic Candle	Item Drop: +15, Drops Items, Variable
 Throne	Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Pair of Ragged Claws	Familiar Weight: +5
 Throne	Pair of Stomping Boots	Weapon Damage Percent: +10
+Throne	Patriotic Eagle	Monster Level: +10
 Throne	Penguin Goodfella	Familiar Weight: +5
 Throne	Peppermint Rhino	Weapon Damage Percent: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Personal Raincloud	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -4819,6 +4824,7 @@ Throne	Stocking Mimic	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Sugar Fruit Fairy	Experience (Mysticality): +2
 Throne	Sweet Nutcracker	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
 Throne	Syncopated Turtle	Initiative: +20
+Throne	Synthetic Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Teddy Bear	Initiative: +20
 Throne	Teddy Borg	Initiative: +20
 Throne	Temporal Riftlet	Initiative: +20, Drops Meat
@@ -4949,7 +4955,7 @@ Item	folder (Knight Writer)	Initiative: +40
 Item	folder (KOLHS)	Item Drop: [50*zone(KOL High School)]
 Item	folder (magenta)	Muscle: +15, Mysticality: +15
 Item	folder (owl)	Item Drop: [500*zone(Dreadsylvania)]
-# folder (rainbow unicorn): Deals Prismatic Damage to Attackers
+Item	folder (rainbow unicorn)	Thorns: 5
 Item	folder (red)	Muscle: +20
 Item	folder (Seawolf)	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Item	folder (skull and crossbones)	Combat Rate: -5
