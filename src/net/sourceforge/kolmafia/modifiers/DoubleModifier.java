@@ -533,7 +533,15 @@ public enum DoubleModifier implements Modifier {
   STOMACH_CAPACITY(
       "Stomach Capacity",
       Pattern.compile("(.*) Stomach Capacity"),
-      Pattern.compile("Stomach Capacity: " + EXPR));
+      Pattern.compile("Stomach Capacity: " + EXPR)),
+  LIVER_CAPACITY(
+      "Liver Capacity",
+      Pattern.compile("(.*) Liver Capacity"),
+      Pattern.compile("Liver Capacity: " + EXPR)),
+  SPLEEN_CAPACITY(
+      "Spleen Capacity",
+      Pattern.compile("(.*) Spleen Capacity"),
+      Pattern.compile("Spleen Capacity: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;

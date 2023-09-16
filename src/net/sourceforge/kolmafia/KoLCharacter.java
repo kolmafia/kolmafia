@@ -584,74 +584,40 @@ public abstract class KoLCharacter {
     return KoLCharacter.inebriety;
   }
 
-  public static final int getInebrietyLimit() {
+  public static boolean canExpandLiverCapacity() {
+    if (!KoLCharacter.canDrink()) return false;
+    // Grey Goo can "drink" things but they don't go into a liver.
+    if (isGreyGoo()) return false;
+
+    // yojimbos_law sez:
+    //
+    // "The path sets your max fullness to 5, regardless of other modifiers.
+    //  Spice melanges and sour balls each clear 3 fullness (and dieting pills
+    //  have no interaction with your fullness), so those work.
+    //  Pantsgiving increases your max fullness, which is then set to 5,
+    //  so it doesn't work. If you somehow got liver or stomach of steel,
+    //  those would similarly not work."
+    if (isVampyre()) return false;
+
+    return true;
+  }
+
+  public static int getInebrietyLimit() {
     if (!KoLCharacter.canDrink()) {
       return 0;
     }
 
-    if (KoLCharacter.isGreyGoo()) {
-      // Grey Goo can "drink" things but they don't go into a liver.
-      return 0;
+    int baseCapacity;
+
+    if (ascensionClass != null) {
+      var classCapacity = ascensionClass.getLiverCapacity();
+      baseCapacity =
+          classCapacity != null ? classCapacity : KoLCharacter.getPath().getLiverCapacity();
+    } else {
+      baseCapacity = 14;
     }
 
-    // Default liver size, overridden below for various paths
-    int limit = 14;
-
-    if (KoLCharacter.isAWoLClass()) {
-      limit = 9;
-      if (KoLCharacter.hasSkill(SkillPool.HARD_DRINKER__COW_PUNCHER)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isJarlsberg()) {
-      limit = 9;
-      if (KoLCharacter.hasSkill(SkillPool.NIGHTCAP)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isSneakyPete()) {
-      limit = 19;
-      if (KoLCharacter.hasSkill(SkillPool.HARD_DRINKER__AVATAR_OF_SNEAKY_PETE)) {
-        limit += 10;
-      }
-    } else if (KoLCharacter.isEd()) {
-      limit = 0;
-      if (KoLCharacter.hasSkill(SkillPool.REPLACEMENT_LIVER)) {
-        limit += 4;
-      }
-    } else if (KoLCharacter.inAxecore() || KoLCharacter.inZombiecore()) {
-      limit = 4;
-    } else if (KoLCharacter.inNuclearAutumn()) {
-      limit = 2;
-    } else if (KoLCharacter.inBondcore()) {
-      limit = Math.min(KoLCharacter.getLevel(), 11) + 2;
-      if (Preferences.getBoolean("bondDrunk1")) {
-        limit += 1;
-      }
-      if (Preferences.getBoolean("bondDrunk2")) {
-        limit += 2;
-      }
-    } else if (KoLCharacter.isVampyre()) {
-      limit = 4;
-    } else if (KoLCharacter.inSmallcore()) {
-      limit = 1;
-    }
-
-    if (KoLCharacter.hasSkill(SkillPool.STEEL_LIVER)) {
-      limit += 5;
-    }
-
-    if (KoLCharacter.hasSkill(SkillPool.HOLLOW_LEG)) {
-      limit += 1;
-    }
-
-    if (KoLCharacter.hasSkill(SkillPool.DRINKING_TO_DRINK)) {
-      limit += 1;
-    }
-
-    if (KoLCharacter.getFamiliar().getId() == FamiliarPool.STOOPER) {
-      limit += 1;
-    }
-
-    return limit;
+    return baseCapacity + (int) KoLCharacter.currentNumericModifier(DoubleModifier.LIVER_CAPACITY);
   }
 
   public static final boolean isFallingDown() {

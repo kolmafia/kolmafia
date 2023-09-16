@@ -382,7 +382,8 @@ public class KoLCharacterTest {
   class LiverCapacity {
     @Test
     public void greyGooHasNoLiver() {
-      var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
+      var cleanups =
+          new Cleanups(withClass(AscensionClass.GREY_GOO), withSkill(SkillPool.STEEL_LIVER));
 
       try (cleanups) {
         assertThat(KoLCharacter.getInebrietyLimit(), equalTo(0));

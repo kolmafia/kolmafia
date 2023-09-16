@@ -4636,6 +4636,7 @@ Familiar	Red-Nosed Snapper	Fairy: [1+0.5*env(underwater)]
 Familiar	Robortender	Experience (Muscle): [max(3*pref(_roboDrinks,literal grasshopper),5*pref(_roboDrinks,eighth plague))], Fairy: [max(pref(_roboDrinks,single entendre),0.5*pref(_roboDrinks,double entendre))], Experience (Moxie): [max(3*pref(_roboDrinks,shroomtini),5*pref(_roboDrinks,moreltini))], Leprechaun: [1+max(0.5*pref(_roboDrinks,piscatini),pref(_roboDrinks,drive-by shooting))], Experience (Mysticality): [max(3*pref(_roboDrinks,soilzerac),5*pref(_roboDrinks,dirt julep))], Familiar Weight (hidden): [10*env(underwater)*pref(_roboDrinks,Bloody Nora)]
 Familiar	Space Jellyfish	Item Drop: [max(sqrt(55*W)+W-3,0)*env(underwater)], Experience: [max(2+W/5,2)*env(underwater)]
 Familiar	Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]
+Familiar	Stooper	Liver Capacity: +1
 Familiar	Vampire Vintner	Booze Fairy Effectiveness: 1.5
 Familiar	Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 Familiar	Xiblaxian Holo-Companion	Initiative: [2*W]
@@ -8069,7 +8070,7 @@ Skill	Disco Greed	Item Drop: [10*I]
 # Dog Tired: Rest Without Spending an Adventure (5x / day)
 Skill	Double-Eidetic Memory	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 # Double-Fisted Skull Smashing: Allows dual-wielding
-# Drinking to Drink: +1 Liver Capacity
+Skill	Drinking to Drink	Liver Capacity: +1
 # Drippy Eye-Beetle: It is awful!
 # Drippy Eye-Sprout: It tickles!
 # Drippy Eye-Stone: It is irritating!
@@ -8142,7 +8143,8 @@ Skill	Gravitational Compression	Item Drop: [min(ceil(basemys/5),100)]
 # Hammer Throw: Level 2: Reduction increased to 15%
 # Hammer Throw: Level 3: Reduction increased to 20%
 Skill	Hamstrings	Initiative: +10
-# Hard Drinker: +5 Liver Capacity
+Skill	[15025]Hard Drinker	Liver Capacity: +5
+Skill	[18008]Hard Drinker	Liver Capacity: +10
 Skill	Harried	Adventures: +5
 Skill	Head in the Game	Critical Hit Percent: +50
 Skill	Healing Scarabs	HP Regen Min: +2, HP Regen Max: +4
@@ -8154,7 +8156,7 @@ Skill	High Water Content	Hot Resistance: +2
 Skill	His Master's Voice	Familiar Weight: +5
 # Hivemindedness: Regenerate 100 MP per Adventure (Scales with your Mysticality)
 Skill	Hivemindedness	MP Regen Min: [min(ceil(basemys/10),100)], MP Regen Max: [min(ceil(basemys/10),100)]
-# Hollow Leg: +1 Liver Capacity
+Skill	Hollow Leg	Liver Capacity: +1
 Skill	Hot Headedness	Hot Damage: +11
 Skill	Hungry Eyes	Food Drop: +100
 Skill	Hunter's Sprint	Initiative: +100
@@ -8203,7 +8205,7 @@ Skill	Legendary Girth	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance
 Skill	Legendary Impatience	Initiative: +100
 # Legendary Luck: Critical hits are even criticaler!
 Skill	Limberger Limberness	Initiative: +75
-# Liver of Steel: Lets you hold more liquor
+Skill	Liver of Steel	Liver Capacity: +5
 Skill	Localized Vacuum	Hot Resistance: +2
 # Louder Bellows: You can bellow louder
 # Louder Bellows: (bellow delevels by 30%, and also stuns the monster for one round)
@@ -8248,7 +8250,7 @@ Skill	Natural Born Scrabbler	Item Drop: +5
 Skill	Natural Dancer	Item Drop: +200
 # Neurogourmet: +1 Adventure per Brain Eaten
 Skill	Never Late for Dinner	Initiative: +50, Adventures: +10
-# Nightcap: Liver Capacity +5
+Skill	Nightcap	Liver Capacity: +5
 Skill	Nimble Fingers	Meat Drop: +20
 Skill	Northern Exposure	Cold Resistance: +2
 Skill	Nose Hair	Stench Resistance: +1
@@ -8302,7 +8304,7 @@ Skill	Ravenous Pounce	Stomach Capacity: +5
 # Really Expensive Jewelrycrafting: Lets you use fancy jewelrycrafting ingredients
 Skill	Refusal to Freeze	Cold Resistance: +3
 Skill	Reloading	Adventures: +5
-# Replacement Liver	Liver Capacity: +5
+Skill	Replacement Liver	Liver Capacity: +4
 Skill	Replacement Stomach	Stomach Capacity: +5
 Skill	Rhythm In Your Blood	Maximum HP Percent: +20
 Skill	Rhythmic Precision	Mana Cost: -3
@@ -12518,7 +12520,7 @@ Florist	Up Sea Daisy	Experience: +30
 
 Path	A Shrunken Adventurer am I	Muscle Limit: 1, Mysticality Limit: 1, Moxie Limit: 1
 Path	Dark Gyffte	Maximum HP: [20+20*pref(darkGyfftePoints)]
-Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative: [30*pref(bondInit)], Damage Reduction: [10*pref(bondDR)], Maximum HP Percent: [20*pref(bondHP)], Item Drop: [10*pref(bondItem1)+20*pref(bondItem2)+30*pref(bondItem3)], Experience: [2*pref(bondStat)+5*pref(bondStat2)], Booze Drop: [100*pref(bondBooze)], Meat Drop: [20*pref(bondMeat)], Experience (Muscle): [2*pref(bondMus2)+pref(bondMus1)], Experience (Mysticality): [2*pref(bondMys2)+pref(bondMys1)], Experience (Moxie): [2*pref(bondMox2)+pref(bondMox1)], MP Regen Min: [10*pref(bondMPregen)], MP Regen Max: [15*pref(bondMPregen)], Weapon Damage: [10*pref(bondWeapon2)], Adventures: [11*pref(bondAdv)]
+Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative: [30*pref(bondInit)], Damage Reduction: [10*pref(bondDR)], Maximum HP Percent: [20*pref(bondHP)], Item Drop: [10*pref(bondItem1)+20*pref(bondItem2)+30*pref(bondItem3)], Experience: [2*pref(bondStat)+5*pref(bondStat2)], Booze Drop: [100*pref(bondBooze)], Meat Drop: [20*pref(bondMeat)], Experience (Muscle): [2*pref(bondMus2)+pref(bondMus1)], Experience (Mysticality): [2*pref(bondMys2)+pref(bondMys1)], Experience (Moxie): [2*pref(bondMox2)+pref(bondMox1)], MP Regen Min: [10*pref(bondMPregen)], MP Regen Max: [15*pref(bondMPregen)], Weapon Damage: [10*pref(bondWeapon2)], Adventures: [11*pref(bondAdv)], Liver Capacity: [L+pref(bondDrunk1)+(2*pref(bondDrunk2))]
 Path	One Crazy Random Summer	Random Monster Modifiers: +1
 Path	Quantum Terrarium	Familiar Weight: [min(2*L,20)]
 Path	You, Robot	Energy: +1
