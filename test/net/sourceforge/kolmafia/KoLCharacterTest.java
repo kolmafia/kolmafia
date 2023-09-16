@@ -500,6 +500,20 @@ public class KoLCharacterTest {
         assertThat(KoLCharacter.getSpleenLimit(), equalTo(20));
       }
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {68, 69})
+    void stillBeatingSpleen(final int sbsAscension) {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastStillBeatingSpleen", sbsAscension),
+              withAscensions(69),
+              withAdjustmentsRecalculated());
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getSpleenLimit(), equalTo(sbsAscension == 69 ? 16 : 15));
+      }
+    }
   }
 
   @Nested

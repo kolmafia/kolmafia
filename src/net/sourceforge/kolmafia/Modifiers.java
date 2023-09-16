@@ -1003,7 +1003,8 @@ public class Modifiers {
 
   public final void applyAdditionalSpleenCapacityModifiers() {
     if (Preferences.getInteger("lastStillBeatingSpleen") == KoLCharacter.getAscensions()) {
-      this.addDouble(DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.PANTSGIVING);
+      this.addDouble(
+          DoubleModifier.SPLEEN_CAPACITY, 1, ModifierType.ITEM, ItemPool.STILL_BEATING_SPLEEN);
     }
   }
 

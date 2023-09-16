@@ -8095,7 +8095,7 @@ Skill	Extra Brain	Mysticality Percent: +50
 Skill	Extra Innings	Adventures: +5
 # Extra Kidney: Booze gives 100% more Adventures
 Skill	Extra Muscles	Muscle Percent: +50
-Skill	Extra Spleen	Spleen Capacity: +5s
+Skill	Extra Spleen	Spleen Capacity: +5
 # Extra-Thick Skin: Reduces physical damage against you by 20%
 # Eye of the Stoat Improves your Smacks
 Skill	Fancy Footwork	Item Drop: +25
