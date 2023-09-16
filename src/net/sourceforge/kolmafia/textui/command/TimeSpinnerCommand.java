@@ -87,7 +87,7 @@ public class TimeSpinnerCommand extends AbstractCommand {
           && Preferences.getBoolean("autoFillMayoMinder")
           && !(minderSetting.equals("Mayostat") && ConsumablesDatabase.getFullness(foodName) == 1)
           && !(minderSetting.equals("Mayodiol")
-              && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety())
+              && KoLCharacter.getLiverCapacity() == KoLCharacter.getInebriety())
           && workshedItem != null
           && workshedItem.getItemId() == ItemPool.MAYO_CLINIC) {
         if (Preferences.getString("mayoInMouth").equals("")

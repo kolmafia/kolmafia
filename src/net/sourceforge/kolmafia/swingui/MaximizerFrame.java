@@ -223,7 +223,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
         usageUnderLimit =
             switch (fType) {
               case BOOZE -> (KoLCharacter.canDrink()
-                  && KoLCharacter.getInebriety() < KoLCharacter.getInebrietyLimit());
+                  && KoLCharacter.getInebriety() < KoLCharacter.getLiverCapacity());
               case FOOD -> (KoLCharacter.canEat()
                   && KoLCharacter.getFullness() < KoLCharacter.getStomachCapacity());
               case SPLEEN -> (KoLCharacter.getSpleenUse() < KoLCharacter.getSpleenLimit());

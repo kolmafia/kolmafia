@@ -1289,7 +1289,7 @@ public class Maximizer {
           }
           drunkCost = ConsumablesDatabase.getInebriety(iname);
           if (drunkCost != 0
-              && KoLCharacter.getInebriety() + drunkCost > KoLCharacter.getInebrietyLimit()) {
+              && KoLCharacter.getInebriety() + drunkCost > KoLCharacter.getLiverCapacity()) {
             cmd = "";
           }
           spleenCost = ConsumablesDatabase.getSpleenHit(iname);
@@ -1419,7 +1419,7 @@ public class Maximizer {
         }
         if (drunkCost != 0) {
           text += drunkCost + " drunk, ";
-          if (KoLCharacter.getInebriety() + drunkCost > KoLCharacter.getInebrietyLimit()) {
+          if (KoLCharacter.getInebriety() + drunkCost > KoLCharacter.getLiverCapacity()) {
             cmd = "";
           }
         }

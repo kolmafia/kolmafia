@@ -464,7 +464,7 @@ public class BasementDecorator {
       }
 
       if (this.inebriety > 0
-          && (KoLCharacter.getInebriety() + this.inebriety) > KoLCharacter.getInebrietyLimit()) {
+          && (KoLCharacter.getInebriety() + this.inebriety) > KoLCharacter.getLiverCapacity()) {
         return true;
       }
 

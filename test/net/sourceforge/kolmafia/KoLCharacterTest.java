@@ -405,7 +405,7 @@ public class KoLCharacterTest {
           new Cleanups(withClass(AscensionClass.GREY_GOO), withSkill(SkillPool.STEEL_LIVER));
 
       try (cleanups) {
-        assertThat(KoLCharacter.getInebrietyLimit(), equalTo(0));
+        assertThat(KoLCharacter.getLiverCapacity(), equalTo(0));
       }
     }
 
@@ -419,7 +419,7 @@ public class KoLCharacterTest {
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
-        assertThat(KoLCharacter.getInebrietyLimit(), is(hasLiver ? 4 : 0));
+        assertThat(KoLCharacter.getLiverCapacity(), is(hasLiver ? 4 : 0));
       }
     }
 
@@ -447,7 +447,7 @@ public class KoLCharacterTest {
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
-        assertThat(KoLCharacter.getInebrietyLimit(), is(liverCapacity));
+        assertThat(KoLCharacter.getLiverCapacity(), is(liverCapacity));
       }
     }
   }

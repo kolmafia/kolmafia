@@ -490,7 +490,7 @@ public class Concoction implements Comparable<Concoction> {
         }
         case BOOZE -> {
           limit =
-              KoLCharacter.getInebrietyLimit()
+              KoLCharacter.getLiverCapacity()
                   - KoLCharacter.getInebriety()
                   - ConcoctionDatabase.getQueuedInebriety();
           thisCantConsume = this.getInebriety() > limit;

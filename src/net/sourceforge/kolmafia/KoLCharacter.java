@@ -602,7 +602,7 @@ public abstract class KoLCharacter {
     return true;
   }
 
-  public static int getInebrietyLimit() {
+  public static int getLiverCapacity() {
     if (!KoLCharacter.canDrink()) {
       return 0;
     }
@@ -621,7 +621,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean isFallingDown() {
-    return KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit();
+    return KoLCharacter.getInebriety() > KoLCharacter.getLiverCapacity();
   }
 
   public static final void setSpleenUse(int spleenUse) {

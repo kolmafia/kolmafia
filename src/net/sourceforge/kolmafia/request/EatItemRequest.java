@@ -278,7 +278,7 @@ public class EatItemRequest extends UseItemRequest {
         && Preferences.getBoolean("autoFillMayoMinder")
         && !(minderSetting.equals("Mayostat") && ConsumablesDatabase.getFullness(name) == 1)
         && !(minderSetting.equals("Mayodiol")
-            && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety())
+            && KoLCharacter.getLiverCapacity() == KoLCharacter.getInebriety())
         && !(minderSetting.equals("Mayoflex")
             && ConsumablesDatabase.getBaseAdventureRange(name).equals("0"))
         && workshedItem != null
@@ -623,7 +623,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     // If we're not at drunk limit, it's ok
-    if (KoLCharacter.getInebrietyLimit() != KoLCharacter.getInebriety()) {
+    if (KoLCharacter.getLiverCapacity() != KoLCharacter.getInebriety()) {
       return true;
     }
 
