@@ -415,6 +415,17 @@ public class KoLCharacterTest {
       }
     }
 
+    @Test
+    void vampyresCannotExpandLiver() {
+      // "If you somehow got liver or stomach of steel, those would similarly not work."
+      var cleanups =
+          new Cleanups(withSkill(SkillPool.STEEL_LIVER), withClass(AscensionClass.VAMPYRE));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getLiverCapacity(), is(4));
+      }
+    }
+
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void edNeedsLiverToDrink(final boolean hasLiver) {
