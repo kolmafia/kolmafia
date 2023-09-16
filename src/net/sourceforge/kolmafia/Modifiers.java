@@ -554,6 +554,11 @@ public class Modifiers {
           this.doubles.add(mod, value);
         }
         break;
+      case LIVER_CAPACITY:
+        if (KoLCharacter.canExpandLiverCapacity()) {
+          this.doubles.add(mod, value);
+        }
+        break;
       default:
         this.doubles.add(mod, value);
         break;

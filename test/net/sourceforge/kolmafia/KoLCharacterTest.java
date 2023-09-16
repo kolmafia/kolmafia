@@ -320,7 +320,10 @@ public class KoLCharacterTest {
     @Test
     void greyGooHasNoStomachCapacity() {
       var cleanups =
-          new Cleanups(withClass(AscensionClass.GREY_GOO), withSkill(SkillPool.STEEL_STOMACH));
+          new Cleanups(
+              withSkill(SkillPool.STEEL_STOMACH),
+              withClass(AscensionClass.GREY_GOO),
+              withPath(Path.GREY_YOU));
 
       try (cleanups) {
         assertThat(KoLCharacter.getStomachCapacity(), is(0));
@@ -402,7 +405,10 @@ public class KoLCharacterTest {
     @Test
     public void greyGooHasNoLiver() {
       var cleanups =
-          new Cleanups(withClass(AscensionClass.GREY_GOO), withSkill(SkillPool.STEEL_LIVER));
+          new Cleanups(
+              withSkill(SkillPool.STEEL_LIVER),
+              withClass(AscensionClass.GREY_GOO),
+              withPath(Path.GREY_YOU));
 
       try (cleanups) {
         assertThat(KoLCharacter.getLiverCapacity(), equalTo(0));
