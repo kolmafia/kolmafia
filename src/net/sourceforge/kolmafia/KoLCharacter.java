@@ -620,11 +620,11 @@ public abstract class KoLCharacter {
     return baseCapacity + (int) KoLCharacter.currentNumericModifier(DoubleModifier.LIVER_CAPACITY);
   }
 
-  public static final boolean isFallingDown() {
+  public static boolean isFallingDown() {
     return KoLCharacter.getInebriety() > KoLCharacter.getLiverCapacity();
   }
 
-  public static final void setSpleenUse(int spleenUse) {
+  public static void setSpleenUse(int spleenUse) {
     int value = Math.max(0, spleenUse);
     if (KoLCharacter.spleenUse != value) {
       KoLCharacter.spleenUse = value;
@@ -632,69 +632,34 @@ public abstract class KoLCharacter {
     }
   }
 
-  public static final int getSpleenUse() {
+  public static int getSpleenUse() {
     return KoLCharacter.spleenUse;
   }
 
-  public static final int getSpleenLimit() {
-    if (KoLCharacter.getLimitMode().limitSpleening()) {
+  public static boolean canExpandSpleenCapacity() {
+    if (!KoLCharacter.canChew()) return false;
+    // Grey Goo can "drink" things but they don't go into a liver.
+    if (isGreyGoo()) return false;
+
+    return true;
+  }
+
+  public static int getSpleenLimit() {
+    if (!canChew()) {
       return 0;
     }
 
-    if (KoLCharacter.inNoobcore()) {
-      return 0;
-    } else if (KoLCharacter.inRobocore()) {
-      return 0;
-    } else if (KoLCharacter.isGreyGoo()) {
-      // Grey Goo can "chew" things but they don't go into a spleen.
-      return 0;
+    int baseCapacity;
+
+    if (ascensionClass != null) {
+      var classCapacity = ascensionClass.getSpleenCapacity();
+      baseCapacity =
+          classCapacity != null ? classCapacity : KoLCharacter.getPath().getSpleenCapacity();
+    } else {
+      baseCapacity = 15;
     }
 
-    // Default spleen size, overridden below for various paths
-    int limit = 15;
-
-    if (KoLCharacter.isAWoLClass()) {
-      limit = 10;
-      if (KoLCharacter.hasSkill(SkillPool.TOLERANT_CONSTITUTION)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isEd()) {
-      limit = 5;
-      if (KoLCharacter.hasSkill(SkillPool.OKAY_SERIOUSLY_THIS_IS_THE_LAST_SPLEEN)) {
-        limit += 5;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.JUST_ONE_MORE_EXTRA_SPLEEN)) {
-        limit += 5;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.STILL_ANOTHER_EXTRA_SPLEEN)) {
-        limit += 5;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.YET_ANOTHER_EXTRA_SPLEEN)) {
-        limit += 5;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.ANOTHER_EXTRA_SPLEEN)) {
-        limit += 5;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.EXTRA_SPLEEN)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.inNuclearAutumn()) {
-      limit = 3;
-    } else if (KoLCharacter.isPlumber()) {
-      limit = 5;
-    } else if (KoLCharacter.inBondcore() && Preferences.getBoolean("bondSpleen")) {
-      limit += 2;
-    }
-
-    if (KoLCharacter.hasSkill(SkillPool.STEEL_SPLEEN)) {
-      limit += 5;
-    }
-
-    if (Preferences.getInteger("lastStillBeatingSpleen") == KoLCharacter.getAscensions()) {
-      limit += 1;
-    }
-
-    return limit;
+    return baseCapacity + (int) KoLCharacter.currentNumericModifier(DoubleModifier.SPLEEN_CAPACITY);
   }
 
   /**
@@ -3388,7 +3353,7 @@ public abstract class KoLCharacter {
     ascensionPath = path;
   }
 
-  public static final boolean canEat() {
+  public static boolean canEat() {
     if (KoLCharacter.getLimitMode().limitEating()) {
       return false;
     }
@@ -3408,7 +3373,7 @@ public abstract class KoLCharacter {
     return true;
   }
 
-  public static final boolean canDrink() {
+  public static boolean canDrink() {
     if (KoLCharacter.getLimitMode().limitDrinking()) {
       return false;
     }
@@ -3428,7 +3393,7 @@ public abstract class KoLCharacter {
     return true;
   }
 
-  public static final boolean canSpleen() {
+  public static boolean canChew() {
     if (KoLCharacter.getLimitMode().limitSpleening()) {
       return false;
     }
@@ -5275,8 +5240,9 @@ public abstract class KoLCharacter {
     // add additional rollover adventures
     newModifiers.applyAdditionalRolloverAdventureModifiers();
 
-    // Stomach capacity
+    // Organ capacity
     newModifiers.applyAdditionalStomachCapacityModifiers();
+    newModifiers.applyAdditionalSpleenCapacityModifiers();
 
     // Lastly, experience adjustment also implicitly depends on
     // monster level.  Add that information.

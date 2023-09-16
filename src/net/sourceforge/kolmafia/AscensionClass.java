@@ -45,11 +45,10 @@ public enum AscensionClass {
       "Curse of Indecision",
       0,
       0,
-      null),
-  COW_PUNCHER("Cow Puncher", 18, "darkcow", 0, Path.AVATAR_OF_WEST_OF_LOATHING, null, 10, 9, null),
-  BEANSLINGER("Beanslinger", 19, "beancan", 1, Path.AVATAR_OF_WEST_OF_LOATHING, null, 10, 9, null),
-  SNAKE_OILER(
-      "Snake Oiler", 20, "tinysnake", 2, Path.AVATAR_OF_WEST_OF_LOATHING, null, 10, 9, null),
+      5),
+  COW_PUNCHER("Cow Puncher", 18, "darkcow", 0, Path.AVATAR_OF_WEST_OF_LOATHING, null, 10, 9, 10),
+  BEANSLINGER("Beanslinger", 19, "beancan", 1, Path.AVATAR_OF_WEST_OF_LOATHING, null, 10, 9, 10),
+  SNAKE_OILER("Snake Oiler", 20, "tinysnake", 2, Path.AVATAR_OF_WEST_OF_LOATHING, null, 10, 9, 10),
   GELATINOUS_NOOB(
       "Gelatinous Noob", 23, "gelatinousicon", 2, Path.GELATINOUS_NOOB, null, 0, 0, null),
   VAMPYRE("Vampyre", 24, "vampirefangs", 1, Path.DARK_GYFFTE, "Chill of the Tomb", 5, 4, null),

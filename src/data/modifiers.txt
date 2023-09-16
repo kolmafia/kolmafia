@@ -7960,7 +7960,7 @@ Skill	Amphibian Sympathy	Familiar Weight: [-10*(fam(Inflatable Dodecapede)-0.5)]
 Skill	Ancient Crymbo Lore	Experience: [3*event(December)]
 Skill	Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
 Skill	Ankle Joints	Initiative: +20
-# Another Extra Spleen: Another +5 spleen capacity
+Skill	Another Extra Spleen	Spleen Capacity: +5
 Skill	Anterior Cruciate Ligaments	Initiative: +50
 Skill	Anti-Sleaze Recursion	Sleaze Resistance: +3
 Skill	Arm Blade	Weapon Damage: +5, Critical Hit Percent: +20
@@ -8095,7 +8095,7 @@ Skill	Extra Brain	Mysticality Percent: +50
 Skill	Extra Innings	Adventures: +5
 # Extra Kidney: Booze gives 100% more Adventures
 Skill	Extra Muscles	Muscle Percent: +50
-# Extra Spleen: +5 spleen capacity
+Skill	Extra Spleen	Spleen Capacity: +5s
 # Extra-Thick Skin: Reduces physical damage against you by 20%
 # Eye of the Stoat Improves your Smacks
 Skill	Fancy Footwork	Item Drop: +25
@@ -8188,7 +8188,7 @@ Skill	Jazz Hands	MP Regen Min: 4, MP Regen Max: 5
 # Juggle Fireballs: Level 1: Briefly stun enemy and increase your stats by 100%
 # Juggle Fireballs: Level 2: Stat gain raised to 200%
 # Juggle Fireballs: Level 3: Also recover some HP
-# Just One More Extra Spleen: Good grief, another +5 spleen capacity
+Skill	Just One More Extra Spleen	Spleen Capacity: +5
 Skill	Kneecaps	Initiative: +30
 Skill	Knees	Weapon Damage: +13
 Skill	Knuckles	Weapon Damage: +15
@@ -8257,7 +8257,7 @@ Skill	Nose Hair	Stench Resistance: +1
 Skill	Object Permanence	Mysticality: +5
 Skill	Object Quasi-Permanence	Item Drop: +10
 Skill	Oily Scalp	Sleaze Damage: +7
-# Okay Seriously, This is the Last Spleen: Another +5 spleen capacity. That's it, for real.
+Skill	Okay Seriously, This is the Last Spleen	Spleen Capacity: +5
 Skill	Olfactory Burnout	Stench Resistance: +3
 Skill	Olfactory Cortex	Stench Resistance: +3
 Skill	Ominous Substrate	Spooky Damage: +10
@@ -8376,13 +8376,13 @@ Skill	Spinal Cord	Maximum MP Percent: +100
 Skill	Spinal Discs	Damage Reduction: 10
 Skill	Spirit of Ravioli	Maximum HP Percent: +25
 # Spirit of Rigatoni: Lets you equip Chefstaves
-# Spleen of Steel: Makes your spleen stronger
+Skill	Spleen of Steel	Spleen Capacity: +5
 Skill	Spooky Veins	Adventures: +10
 # Spot Weakness: Weakens foes at the start of combat
 Skill	Spot Weakness	Maximum HP: -15
 Skill	Steam Mycelia	Hot Damage: +15
 # Sticky Fingers: Pickpocketing also gives Meat
-# Still Another Extra Spleen: Still another +5 spleen capacity
+Skill	Still Another Extra Spleen	Spleen Capacity: +5
 Skill	Stomach of Steel	Stomach Capacity: +5
 Skill	Stomach-Like Thing	Absorb Adventures: +2
 Skill	Strong Back	Muscle: +20
@@ -8425,7 +8425,7 @@ Skill	Thumbs	Pickpocket Chance: +50
 # Thunder Thighs: Increased Thunder Regeneration
 # Tiki Mixology: You can make cocktails with rhum in them
 Skill	Tolerance of the Kitchen	Hot Resistance: +2
-# Tolerant Constitution: +5 Spleen Capacity
+Skill	Tolerant Constitution	Spleen Capacity: +5
 # Torso Awareness: Lets you equip Shirts
 Skill	Tougher Skin	Damage Absorption: +100
 # Transcendental Noodlecraft: Lets you summon more noodles per day
@@ -8472,7 +8472,7 @@ Skill	Work Ethic	Experience: +3
 # Wrath of the Wolverine: Lets you build Fury by defeating opponents (up to a maximum of 3 gallons of Fury)
 # Wrath of the Wolverine: NOTE: Only true Seal Clubbers have the fortitude needed to contain Fury. Other classes are weak, and would be torn apart by it.
 Skill	Wrath of the Wolverine	Weapon Damage: [Y]
-# Yet Another Extra Spleen: Yet another +5 spleen capacity
+Skill	Yet Another Extra Spleen	Spleen Capacity: +5
 Skill	Zombie Maestro	Mana Cost: -1
 
 # Bad Moon passive skills: the Seven Deadly Sins.
@@ -12520,7 +12520,7 @@ Florist	Up Sea Daisy	Experience: +30
 
 Path	A Shrunken Adventurer am I	Muscle Limit: 1, Mysticality Limit: 1, Moxie Limit: 1
 Path	Dark Gyffte	Maximum HP: [20+20*pref(darkGyfftePoints)]
-Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative: [30*pref(bondInit)], Damage Reduction: [10*pref(bondDR)], Maximum HP Percent: [20*pref(bondHP)], Item Drop: [10*pref(bondItem1)+20*pref(bondItem2)+30*pref(bondItem3)], Experience: [2*pref(bondStat)+5*pref(bondStat2)], Booze Drop: [100*pref(bondBooze)], Meat Drop: [20*pref(bondMeat)], Experience (Muscle): [2*pref(bondMus2)+pref(bondMus1)], Experience (Mysticality): [2*pref(bondMys2)+pref(bondMys1)], Experience (Moxie): [2*pref(bondMox2)+pref(bondMox1)], MP Regen Min: [10*pref(bondMPregen)], MP Regen Max: [15*pref(bondMPregen)], Weapon Damage: [10*pref(bondWeapon2)], Adventures: [11*pref(bondAdv)], Liver Capacity: [min(11,L)+pref(bondDrunk1)+(2*pref(bondDrunk2))]
+Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative: [30*pref(bondInit)], Damage Reduction: [10*pref(bondDR)], Maximum HP Percent: [20*pref(bondHP)], Item Drop: [10*pref(bondItem1)+20*pref(bondItem2)+30*pref(bondItem3)], Experience: [2*pref(bondStat)+5*pref(bondStat2)], Booze Drop: [100*pref(bondBooze)], Meat Drop: [20*pref(bondMeat)], Experience (Muscle): [2*pref(bondMus2)+pref(bondMus1)], Experience (Mysticality): [2*pref(bondMys2)+pref(bondMys1)], Experience (Moxie): [2*pref(bondMox2)+pref(bondMox1)], MP Regen Min: [10*pref(bondMPregen)], MP Regen Max: [15*pref(bondMPregen)], Weapon Damage: [10*pref(bondWeapon2)], Adventures: [11*pref(bondAdv)], Liver Capacity: [min(11,L)+pref(bondDrunk1)+(2*pref(bondDrunk2))], Spleen Capacity: [2*pref(bondSpleen)]
 Path	One Crazy Random Summer	Random Monster Modifiers: +1
 Path	Quantum Terrarium	Familiar Weight: [min(2*L,20)]
 Path	You, Robot	Energy: +1

@@ -469,12 +469,15 @@ public class KoLCharacterTest {
     }
   }
 
-  @Test
-  public void greyGooHasNoSpleen() {
-    var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
+  @Nested
+  class SpleenCapacity {
+    @Test
+    public void greyGooHasNoSpleen() {
+      var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
 
-    try (cleanups) {
-      assertThat(KoLCharacter.getSpleenLimit(), equalTo(0));
+      try (cleanups) {
+        assertThat(KoLCharacter.getSpleenLimit(), equalTo(0));
+      }
     }
   }
 

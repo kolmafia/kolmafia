@@ -559,6 +559,11 @@ public class Modifiers {
           this.doubles.add(mod, value);
         }
         break;
+      case SPLEEN_CAPACITY:
+        if (KoLCharacter.canExpandSpleenCapacity()) {
+          this.doubles.add(mod, value);
+        }
+        break;
       default:
         this.doubles.add(mod, value);
         break;
@@ -993,6 +998,12 @@ public class Modifiers {
           pantsgivingFullness,
           ModifierType.ITEM,
           ItemPool.PANTSGIVING);
+    }
+  }
+
+  public final void applyAdditionalSpleenCapacityModifiers() {
+    if (Preferences.getInteger("lastStillBeatingSpleen") == KoLCharacter.getAscensions()) {
+      this.addDouble(DoubleModifier.STOMACH_CAPACITY, 1, ModifierType.ITEM, ItemPool.PANTSGIVING);
     }
   }
 
