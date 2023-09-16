@@ -26,7 +26,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class KoLCharacterTest {
   @BeforeEach
@@ -376,6 +378,23 @@ public class KoLCharacterTest {
         assertThat(KoLCharacter.getStomachCapacity(), is(11));
       }
     }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void edCanExpandStomachIfHeHasOne(final boolean hasStomach) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_distentionPillUsed", true),
+              withClass(AscensionClass.ED),
+              withPath(Path.ACTUALLY_ED_THE_UNDYING));
+
+      if (hasStomach) cleanups.add(withSkill(SkillPool.REPLACEMENT_STOMACH));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getStomachCapacity(), is(hasStomach ? 6 : 0));
+      }
+    }
   }
 
   @Nested
@@ -387,6 +406,48 @@ public class KoLCharacterTest {
 
       try (cleanups) {
         assertThat(KoLCharacter.getInebrietyLimit(), equalTo(0));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void edNeedsLiverToDrink(final boolean hasLiver) {
+      var cleanups =
+          new Cleanups(withClass(AscensionClass.ED), withPath(Path.ACTUALLY_ED_THE_UNDYING));
+
+      if (hasLiver) cleanups.add(withSkill(SkillPool.REPLACEMENT_LIVER));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getInebrietyLimit(), is(hasLiver ? 4 : 0));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "false, false, 1, 3",
+      "true, false, 4, 7",
+      "true, true, 11, 16",
+      "false, true, 13, 15"
+    })
+    void ltaLiverIsComplicated(
+        final boolean beltImplantedStill,
+        final boolean sobernessInjectionPen,
+        final int level,
+        final int liverCapacity) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER),
+              withPath(Path.LICENSE_TO_ADVENTURE),
+              withLevel(level),
+              withAdjustmentsRecalculated());
+
+      if (beltImplantedStill) cleanups.add(withProperty("bondDrunk1", true));
+      if (sobernessInjectionPen) cleanups.add(withProperty("bondDrunk2", true));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getInebrietyLimit(), is(liverCapacity));
       }
     }
   }
