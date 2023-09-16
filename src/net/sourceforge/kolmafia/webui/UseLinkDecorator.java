@@ -1440,7 +1440,7 @@ public abstract class UseLinkDecorator {
                   "inv_equip.php?which=2&action=equip&slot=3&whichitem="));
         } else if (consumeMethod == ConsumptionType.SIXGUN) {
           // Only as WOL class
-          if (KoLCharacter.getAscensionClass() != AscensionClass.COWPUNCHER
+          if (KoLCharacter.getAscensionClass() != AscensionClass.COW_PUNCHER
               && KoLCharacter.getAscensionClass() != AscensionClass.BEANSLINGER
               && KoLCharacter.getAscensionClass() != AscensionClass.SNAKE_OILER) {
             return null;

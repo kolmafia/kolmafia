@@ -1273,19 +1273,22 @@ public class Player {
   public static Cleanups withClass(final AscensionClass ascensionClass) {
     var old = KoLCharacter.getAscensionClass();
     KoLCharacter.setAscensionClass(ascensionClass);
-    return new Cleanups(() -> KoLCharacter.setAscensionClass(old));
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setAscensionClass(old);
+          KoLCharacter.recalculateAdjustments();
+        });
   }
 
   /**
    * Sets the player's sign
    *
-   * @param sign Desired sign
+   * @param signName Name of desired sign
    * @return Resets the sign to the previous value
    */
-  public static Cleanups withSign(final String sign) {
-    var old = KoLCharacter.getSign();
-    KoLCharacter.setSign(sign);
-    return new Cleanups(() -> KoLCharacter.setSign(old));
+  public static Cleanups withSign(final String signName) {
+    return withSign(ZodiacSign.find(signName));
   }
 
   /**
@@ -1297,10 +1300,12 @@ public class Player {
   public static Cleanups withSign(final ZodiacSign sign) {
     var old = KoLCharacter.getSign();
     KoLCharacter.setSign(sign);
+    KoLCharacter.recalculateAdjustments();
     ConcoctionDatabase.refreshConcoctions();
     return new Cleanups(
         () -> {
           KoLCharacter.setSign(old);
+          KoLCharacter.recalculateAdjustments();
           ConcoctionDatabase.refreshConcoctions();
         });
   }
@@ -1314,7 +1319,12 @@ public class Player {
   public static Cleanups withPath(final Path path) {
     var old = KoLCharacter.getPath();
     KoLCharacter.setPath(path);
-    return new Cleanups(() -> KoLCharacter.setPath(old));
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setPath(old);
+          KoLCharacter.recalculateAdjustments();
+        });
   }
 
   /**
@@ -2260,6 +2270,11 @@ public class Player {
   public static Cleanups withConcoctionRefresh() {
     ConcoctionDatabase.refreshConcoctions();
     return new Cleanups(new OrderedRunnable(ConcoctionDatabase::refreshConcoctions, 10));
+  }
+
+  public static Cleanups withAdjustmentsRecalculated() {
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(new OrderedRunnable(KoLCharacter::recalculateAdjustments, 10));
   }
 
   public static Cleanups withNPCStoreReset() {

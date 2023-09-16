@@ -853,7 +853,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     if (KoLCharacter.isPlumber()) {
       // If you are already stuffed, you can't eat more.
-      if (KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit()
+      if (KoLCharacter.getFullness() < KoLCharacter.getStomachCapacity()
           && !RelayRequest.ignoreFullnessWarning) {
         // If it's already confirmed, then track that for the session
         if (this.getFormField(Confirm.RALPH1) == null) {

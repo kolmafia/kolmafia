@@ -65,12 +65,12 @@ public class KitchenCommand extends AbstractCommand {
         if (name.equals("Imp Ale")) {
           int inebriety = ConsumablesDatabase.getInebriety(name);
           if (inebriety > 0) {
-            count = (KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()) / inebriety;
+            count = (KoLCharacter.getLiverCapacity() - KoLCharacter.getInebriety()) / inebriety;
           }
         } else {
           int fullness = ConsumablesDatabase.getFullness(name);
           if (fullness > 0) {
-            count = (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
+            count = (KoLCharacter.getStomachCapacity() - KoLCharacter.getFullness()) / fullness;
           }
         }
       }

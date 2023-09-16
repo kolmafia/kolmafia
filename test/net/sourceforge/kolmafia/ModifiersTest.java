@@ -530,37 +530,43 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesVampyreMaximumHP() {
-      var cleanups = new Cleanups(withClass(AscensionClass.VAMPYRE), withStats(100, 100, 100));
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.VAMPYRE),
+              withPath(Path.DARK_GYFFTE),
+              withStats(100, 100, 100),
+              withProperty("darkGyfftePoints", 0));
       try (cleanups) {
         // Base HP = Base MUS
         // Buffed HP = max(Base MUS, Base HP + mod(HP))
+        // Note that every Vampyre gets 20 additional base HP, plus another 20 for every DG Point
 
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         KoLCharacter.recalculateAdjustments(false);
         var stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
-        assertEquals(100, stats.get(DerivedModifier.BUFFED_HP));
+        assertEquals(120, stats.get(DerivedModifier.BUFFED_HP));
 
         // viking helmet: (+1 muscle)
         EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(101, stats.get(DerivedModifier.BUFFED_MUS));
-        assertEquals(100, stats.get(DerivedModifier.BUFFED_HP));
+        assertEquals(120, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
         EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
-        assertEquals(140, stats.get(DerivedModifier.BUFFED_HP));
+        assertEquals(160, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
         EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
-        assertEquals(100, stats.get(DerivedModifier.BUFFED_HP));
+        assertEquals(120, stats.get(DerivedModifier.BUFFED_HP));
       }
     }
 

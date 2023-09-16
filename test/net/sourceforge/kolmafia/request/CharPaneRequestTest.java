@@ -1,9 +1,12 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,6 +16,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -248,6 +253,34 @@ class CharPaneRequestTest {
         var citizen = EffectPool.get(EffectPool.CITIZEN_OF_A_ZONE);
         duration = citizen.getCount(KoLConstants.activeEffects);
         assertThat(duration, equalTo(Integer.MAX_VALUE));
+      }
+    }
+  }
+
+  @Nested
+  class Consumption {
+    @Test
+    void canParseInebriety() {
+      var cleanups = new Cleanups(withInebriety(0));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_sauce.html"));
+        assertThat(KoLCharacter.getInebriety(), is(10));
+      }
+    }
+
+    @Test
+    void canParseInebrietyInGelnoob() {
+      // You can still get drunk in Gelatinous Noob by using a drunk bang potion
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.GELATINOUS_NOOB),
+              withPath(AscensionPath.Path.GELATINOUS_NOOB),
+              withInebriety(0));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_drunk_in_gelnoob.html"));
+        assertThat(KoLCharacter.getInebriety(), is(1));
       }
     }
   }

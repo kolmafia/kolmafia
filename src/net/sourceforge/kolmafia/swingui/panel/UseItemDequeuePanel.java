@@ -113,8 +113,8 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
         this.buttons[index++].setEnabled(canDrink);
       }
       case SPLEEN -> {
-        boolean canSpleen = KoLCharacter.canSpleen();
-        this.buttons[index++].setEnabled(canSpleen);
+        boolean canChew = KoLCharacter.canChew();
+        this.buttons[index++].setEnabled(canChew);
       }
       case POTION -> {
         // Potions.

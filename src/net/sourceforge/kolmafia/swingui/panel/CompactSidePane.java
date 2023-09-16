@@ -791,13 +791,13 @@ public class CompactSidePane extends JPanel implements Runnable {
     }
 
     count = 0;
-    int limit = KoLCharacter.getFullnessLimit();
+    int limit = KoLCharacter.getStomachCapacity();
     if (limit > 0) {
       this.consumptionLabel[count].setText("  Full: ");
       this.consumptionValueLabel[count].setText(KoLCharacter.getFullness() + " / " + limit);
       count++;
     }
-    limit = KoLCharacter.getInebrietyLimit();
+    limit = KoLCharacter.getLiverCapacity();
     if (limit > 0) {
       this.consumptionLabel[count].setText(" Drunk: ");
       this.consumptionValueLabel[count].setText(KoLCharacter.getInebriety() + " / " + limit);

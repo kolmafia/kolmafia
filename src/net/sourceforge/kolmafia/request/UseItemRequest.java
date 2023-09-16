@@ -2869,7 +2869,7 @@ public class UseItemRequest extends GenericRequest {
 
         // You memorize all of the violence-related slang terms in the book.
         //
-        // Advanced Cowpuncher skills have been unlocked in the
+        // Advanced Cow Puncher skills have been unlocked in the
         // Avatar of West of Loathing Challenge Path.
         //
         // You memorize all of the food-related slang terms in the book.

@@ -974,7 +974,7 @@ public class ConcoctionDatabase {
         && Preferences.getBoolean("autoFillMayoMinder")
         && !(minderSetting.equals("Mayostat") && c.getFullness() == 1)
         && !(minderSetting.equals("Mayodiol")
-            && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety())
+            && KoLCharacter.getLiverCapacity() == KoLCharacter.getInebriety())
         && workshedItem != null
         && workshedItem.getItemId() == ItemPool.MAYO_CLINIC) {
       int mayoCount = Preferences.getString("mayoInMouth").equals("") ? 0 : 1;

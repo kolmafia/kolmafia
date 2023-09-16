@@ -85,7 +85,7 @@ public class RestaurantCommand extends AbstractCommand {
       if (count == 0) {
         int fullness = ConsumablesDatabase.getFullness(name);
         if (fullness > 0) {
-          count = (KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness()) / fullness;
+          count = (KoLCharacter.getStomachCapacity() - KoLCharacter.getFullness()) / fullness;
         }
       }
 
@@ -150,7 +150,7 @@ public class RestaurantCommand extends AbstractCommand {
       if (count == 0) {
         int inebriety = ConsumablesDatabase.getInebriety(name);
         if (inebriety > 0) {
-          count = (KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety()) / inebriety;
+          count = (KoLCharacter.getLiverCapacity() - KoLCharacter.getInebriety()) / inebriety;
         }
       }
 
@@ -205,7 +205,7 @@ public class RestaurantCommand extends AbstractCommand {
         count = 1;
       }
 
-      int available = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
+      int available = KoLCharacter.getStomachCapacity() - KoLCharacter.getFullness();
       int fullness = ConsumablesDatabase.getFullness(hotdog);
       if (fullness > available) {
         KoLmafia.updateDisplay("You are too full to eat a " + hotdog);

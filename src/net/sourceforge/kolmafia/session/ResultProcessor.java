@@ -1257,7 +1257,7 @@ public class ResultProcessor {
           int duration = effect.getCount();
           if (duration == Integer.MAX_VALUE) {
             // Intrinsic effect
-          } else if (KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER
+          } else if (KoLCharacter.getAscensionClass() == AscensionClass.COW_PUNCHER
               && effect.getEffectId() == EffectPool.COWRRUPTION) {
             // Does not decrement
           } else if (duration + result.getCount() <= 0) {

@@ -191,19 +191,6 @@ class HolidayDatabaseTest {
         assertThat(HolidayDatabase.getHolidays(), containsInAnyOrder(holiday.split(" / ")));
       }
     }
-
-    @CsvSource({
-      "2011, 3, 17, true", // Drunksgiving
-      "2017, 11, 23, true", // Borrachos y Agradecido
-      "2023, 4, 19, true", // Feast of Boris
-      "2021, 4, 15, false", // Nothing
-    })
-    @ParameterizedTest
-    void isFeastOfBorisLike(final int year, final int month, final int day, final boolean fobLike) {
-      try (var cleanups = withDay(year, Month.of(month), day)) {
-        assertThat(HolidayDatabase.isFeastOfBorisLike(), is(fobLike));
-      }
-    }
   }
 
   @Nested
