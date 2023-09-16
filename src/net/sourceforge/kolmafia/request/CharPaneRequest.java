@@ -810,7 +810,7 @@ public class CharPaneRequest extends GenericRequest {
   private static Pattern makeConsumptionPattern(final String consumptionString) {
     return Pattern.compile(
         consumptionString
-            + ":</span></td><td(?: align=left)?><b><span class=\"(?:blur.)?\">(\\d+) / (\\d+)</span>");
+            + ":</span></td><td(?: align=left)?><b><span class=\"(?:blur.)?\">(\\d+) / (-?\\d+)</span>");
   }
 
   private static final Pattern[] compactInebrietyPatterns = {
