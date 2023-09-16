@@ -472,11 +472,32 @@ public class KoLCharacterTest {
   @Nested
   class SpleenCapacity {
     @Test
-    public void greyGooHasNoSpleen() {
+    void greyGooHasNoSpleen() {
       var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
 
       try (cleanups) {
         assertThat(KoLCharacter.getSpleenLimit(), equalTo(0));
+      }
+    }
+
+    @Test
+    void awolClassesCanSkillTo15Spleen() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.TOLERANT_CONSTITUTION), withClass(AscensionClass.BEANSLINGER));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getSpleenLimit(), equalTo(15));
+      }
+    }
+
+    @Test
+    void spleenOfSteel() {
+      var cleanups =
+          new Cleanups(withSkill(SkillPool.STEEL_SPLEEN), withClass(AscensionClass.TURTLE_TAMER));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getSpleenLimit(), equalTo(20));
       }
     }
   }
