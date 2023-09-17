@@ -94,7 +94,7 @@ public class SkillDatabase {
     AVATAR_OF_SNEAKY_PETE("Avatar of Sneaky Pete"), // 15xxx
     HEAVY_RAINS("Heavy Rains"), // 16xxx
     ED("Ed the Undying"), // 17xxx
-    COWPUNCHER("Cow Puncher"), // 18xxx
+    COW_PUNCHER("Cow Puncher"), // 18xxx
     BEANSLINGER("Beanslinger"), // 19xxx
     SNAKE_OILER("Snake Oiler"), // 20xxx
     SOURCE("The Source"), // 21xxx

@@ -3247,7 +3247,7 @@ public abstract class RuntimeLibrary {
     Value[] keys = obj.keys();
     for (Value key : keys) {
       Value v = obj.aref(key);
-      String value = v.toString();
+      String value = v == null ? null : v.toString();
       if (!addToSessionStream) {
         value = StringUtilities.getEntityEncode(value);
       }
@@ -3258,8 +3258,8 @@ public abstract class RuntimeLibrary {
       } else {
         RequestLogger.printLine(line);
       }
-      if (v instanceof CompositeValue) {
-        RuntimeLibrary.dump((CompositeValue) v, indent + "\u00A0\u00A0", color, addToSessionStream);
+      if (v instanceof CompositeValue cv) {
+        RuntimeLibrary.dump(cv, indent + "\u00A0\u00A0", color, addToSessionStream);
       }
     }
   }
@@ -6192,7 +6192,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value fullness_limit(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getFullnessLimit());
+    return new Value(KoLCharacter.getStomachCapacity());
   }
 
   public static Value my_inebriety(ScriptRuntime controller) {
@@ -6200,7 +6200,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value inebriety_limit(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getInebrietyLimit());
+    return new Value(KoLCharacter.getLiverCapacity());
   }
 
   public static Value my_spleen_use(ScriptRuntime controller) {

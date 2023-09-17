@@ -537,73 +537,12 @@ public abstract class KoLCharacter {
     return KoLCharacter.fullness;
   }
 
-  public static final int getFullnessLimit() {
-    if (!KoLCharacter.canEat()) {
-      return 0;
-    }
-
-    if (KoLCharacter.inRobocore()) {
-      // Robots can eat size-0 magical sausages but have no fullness
-      return 0;
-    } else if (KoLCharacter.isGreyGoo()) {
-      // Grey Goo can "eat" things but they don't go into a stomach.
-      return 0;
-    }
-
-    // Default stomach size, overridden below for various paths
-    int limit = 15;
-
-    if (KoLCharacter.isAWoLClass()) {
-      limit = 10;
-      if (KoLCharacter.hasSkill(SkillPool.PRODIGIOUS_APPETITE)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isEd()) {
-      limit = 0;
-      if (KoLCharacter.hasSkill(SkillPool.REPLACEMENT_STOMACH)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.inZombiecore()) {
-      if (KoLCharacter.hasSkill(SkillPool.INSATIABLE_HUNGER)) {
-        limit += 5;
-      }
-
-      if (KoLCharacter.hasSkill(SkillPool.RAVENOUS_POUNCE)) {
-        limit += 5;
-      }
-    }
-
-    // If you are an Avatar of Boris, you are a hearty eater
-    else if (KoLCharacter.inAxecore()) {
-      limit = 20;
-
-      if (KoLCharacter.hasSkill(SkillPool.LEGENDARY_APPETITE)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isJarlsberg()) {
-      limit = 10;
-
-      if (KoLCharacter.hasSkill(SkillPool.LUNCH_LIKE_A_KING)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isSneakyPete()) {
-      limit = 5;
-    } else if (KoLCharacter.inNuclearAutumn()) {
-      limit = 3;
-    } else if (KoLCharacter.isVampyre()) {
-      limit = 5;
-    } else if (KoLCharacter.isPlumber()) {
-      limit = 20;
-    } else if (KoLCharacter.inSmallcore()) {
-      limit = 2;
-    } else if (KoLCharacter.inBadMoon()) {
-      if (KoLCharacter.hasSkill(SkillPool.PRIDE)) {
-        limit -= 1;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.GLUTTONY)) {
-        limit += 2;
-      }
-    }
+  public static boolean canExpandStomachCapacity() {
+    if (!KoLCharacter.canEat()) return false;
+    // Robots can eat size-0 magical sausages but have no fullness
+    if (inRobocore()) return false;
+    // Grey Goo can "eat" things but they don't go into a stomach.
+    if (isGreyGoo()) return false;
 
     // yojimbos_law sez:
     //
@@ -613,53 +552,28 @@ public abstract class KoLCharacter {
     //  Pantsgiving increases your max fullness, which is then set to 5,
     //  so it doesn't work. If you somehow got liver or stomach of steel,
     //  those would similarly not work."
+    if (isVampyre()) return false;
 
-    if (!KoLCharacter.isVampyre()) {
-      if (KoLCharacter.hasSkill(SkillPool.STEEL_STOMACH)) {
-        limit += 5;
-      }
+    return true;
+  }
 
-      if (Preferences.getBoolean("_distentionPillUsed")) {
-        limit += 1;
-      }
-
-      if (Preferences.getBoolean("_lupineHormonesUsed")) {
-        limit += 3;
-      }
-
-      if (Preferences.getBoolean("_sweetToothUsed")) {
-        limit += 1;
-      }
-
-      if (Preferences.getBoolean("_voraciTeaUsed")) {
-        limit += 1;
-      }
-
-      // Pantsgiving
-      limit += Preferences.getInteger("_pantsgivingFullness");
+  public static int getStomachCapacity() {
+    if (!KoLCharacter.canEat()) {
+      return 0;
     }
 
-    if (KoLCharacter.inBeecore()
-        || KoLCharacter.isTrendy()
-        || KoLCharacter.inBugcore()
-        || KoLCharacter.inClasscore()) {
-      // No bonus fullness is available in these paths
-      return limit;
+    int baseCapacity;
+
+    if (ascensionClass != null) {
+      var classCapacity = ascensionClass.getStomachCapacity();
+      baseCapacity =
+          classCapacity != null ? classCapacity : KoLCharacter.getPath().getStomachCapacity();
+    } else {
+      baseCapacity = 15;
     }
 
-    if (KoLCharacter.isAWoLClass()) {
-      // No bonus fullness even in aftercore for these classes
-      return limit;
-    }
-
-    if (HolidayDatabase.isFeastOfBorisLike()
-        && (KoLCharacter.getPath() == Path.NONE || KoLCharacter.getPath() == Path.TEETOTALER)) {
-      // Challenge paths do not give bonus fullness for Feast of Boris.
-      // Check for paths that give bonus fullness instead of excluding all other paths.
-      limit += 15;
-    }
-
-    return limit;
+    return baseCapacity
+        + (int) KoLCharacter.currentNumericModifier(DoubleModifier.STOMACH_CAPACITY);
   }
 
   public static final void setInebriety(final int inebriety) {
@@ -670,81 +584,47 @@ public abstract class KoLCharacter {
     return KoLCharacter.inebriety;
   }
 
-  public static final int getInebrietyLimit() {
+  public static boolean canExpandLiverCapacity() {
+    if (!KoLCharacter.canDrink()) return false;
+    // Grey Goo can "drink" things but they don't go into a liver.
+    if (isGreyGoo()) return false;
+
+    // yojimbos_law sez:
+    //
+    // "The path sets your max fullness to 5, regardless of other modifiers.
+    //  Spice melanges and sour balls each clear 3 fullness (and dieting pills
+    //  have no interaction with your fullness), so those work.
+    //  Pantsgiving increases your max fullness, which is then set to 5,
+    //  so it doesn't work. If you somehow got liver or stomach of steel,
+    //  those would similarly not work."
+    if (isVampyre()) return false;
+
+    return true;
+  }
+
+  public static int getLiverCapacity() {
     if (!KoLCharacter.canDrink()) {
       return 0;
     }
 
-    if (KoLCharacter.isGreyGoo()) {
-      // Grey Goo can "drink" things but they don't go into a liver.
-      return 0;
+    int baseCapacity;
+
+    if (ascensionClass != null) {
+      var classCapacity = ascensionClass.getLiverCapacity();
+      baseCapacity =
+          classCapacity != null ? classCapacity : KoLCharacter.getPath().getLiverCapacity();
+    } else {
+      baseCapacity = 14;
     }
 
-    // Default liver size, overridden below for various paths
-    int limit = 14;
-
-    if (KoLCharacter.isAWoLClass()) {
-      limit = 9;
-      if (KoLCharacter.hasSkill(SkillPool.HARD_DRINKER__COW_PUNCHER)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isJarlsberg()) {
-      limit = 9;
-      if (KoLCharacter.hasSkill(SkillPool.NIGHTCAP)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isSneakyPete()) {
-      limit = 19;
-      if (KoLCharacter.hasSkill(SkillPool.HARD_DRINKER__AVATAR_OF_SNEAKY_PETE)) {
-        limit += 10;
-      }
-    } else if (KoLCharacter.isEd()) {
-      limit = 0;
-      if (KoLCharacter.hasSkill(SkillPool.REPLACEMENT_LIVER)) {
-        limit += 4;
-      }
-    } else if (KoLCharacter.inAxecore() || KoLCharacter.inZombiecore()) {
-      limit = 4;
-    } else if (KoLCharacter.inNuclearAutumn()) {
-      limit = 2;
-    } else if (KoLCharacter.inBondcore()) {
-      limit = Math.min(KoLCharacter.getLevel(), 11) + 2;
-      if (Preferences.getBoolean("bondDrunk1")) {
-        limit += 1;
-      }
-      if (Preferences.getBoolean("bondDrunk2")) {
-        limit += 2;
-      }
-    } else if (KoLCharacter.isVampyre()) {
-      limit = 4;
-    } else if (KoLCharacter.inSmallcore()) {
-      limit = 1;
-    }
-
-    if (KoLCharacter.hasSkill(SkillPool.STEEL_LIVER)) {
-      limit += 5;
-    }
-
-    if (KoLCharacter.hasSkill(SkillPool.HOLLOW_LEG)) {
-      limit += 1;
-    }
-
-    if (KoLCharacter.hasSkill(SkillPool.DRINKING_TO_DRINK)) {
-      limit += 1;
-    }
-
-    if (KoLCharacter.getFamiliar().getId() == FamiliarPool.STOOPER) {
-      limit += 1;
-    }
-
-    return limit;
+    return baseCapacity + (int) KoLCharacter.currentNumericModifier(DoubleModifier.LIVER_CAPACITY);
   }
 
-  public static final boolean isFallingDown() {
-    return KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit();
+  public static boolean isFallingDown() {
+    return KoLCharacter.getInebriety() > KoLCharacter.getLiverCapacity();
   }
 
-  public static final void setSpleenUse(int spleenUse) {
+  public static void setSpleenUse(int spleenUse) {
     int value = Math.max(0, spleenUse);
     if (KoLCharacter.spleenUse != value) {
       KoLCharacter.spleenUse = value;
@@ -752,69 +632,34 @@ public abstract class KoLCharacter {
     }
   }
 
-  public static final int getSpleenUse() {
+  public static int getSpleenUse() {
     return KoLCharacter.spleenUse;
   }
 
-  public static final int getSpleenLimit() {
-    if (KoLCharacter.getLimitMode().limitSpleening()) {
+  public static boolean canExpandSpleenCapacity() {
+    if (!KoLCharacter.canChew()) return false;
+    // Grey Goo can "drink" things but they don't go into a liver.
+    if (isGreyGoo()) return false;
+
+    return true;
+  }
+
+  public static int getSpleenLimit() {
+    if (!canChew()) {
       return 0;
     }
 
-    if (KoLCharacter.inNoobcore()) {
-      return 0;
-    } else if (KoLCharacter.inRobocore()) {
-      return 0;
-    } else if (KoLCharacter.isGreyGoo()) {
-      // Grey Goo can "chew" things but they don't go into a spleen.
-      return 0;
+    int baseCapacity;
+
+    if (ascensionClass != null) {
+      var classCapacity = ascensionClass.getSpleenCapacity();
+      baseCapacity =
+          classCapacity != null ? classCapacity : KoLCharacter.getPath().getSpleenCapacity();
+    } else {
+      baseCapacity = 15;
     }
 
-    // Default spleen size, overridden below for various paths
-    int limit = 15;
-
-    if (KoLCharacter.isAWoLClass()) {
-      limit = 10;
-      if (KoLCharacter.hasSkill(SkillPool.TOLERANT_CONSTITUTION)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.isEd()) {
-      limit = 5;
-      if (KoLCharacter.hasSkill(SkillPool.OKAY_SERIOUSLY_THIS_IS_THE_LAST_SPLEEN)) {
-        limit += 5;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.JUST_ONE_MORE_EXTRA_SPLEEN)) {
-        limit += 5;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.STILL_ANOTHER_EXTRA_SPLEEN)) {
-        limit += 5;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.YET_ANOTHER_EXTRA_SPLEEN)) {
-        limit += 5;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.ANOTHER_EXTRA_SPLEEN)) {
-        limit += 5;
-      }
-      if (KoLCharacter.hasSkill(SkillPool.EXTRA_SPLEEN)) {
-        limit += 5;
-      }
-    } else if (KoLCharacter.inNuclearAutumn()) {
-      limit = 3;
-    } else if (KoLCharacter.isPlumber()) {
-      limit = 5;
-    } else if (KoLCharacter.inBondcore() && Preferences.getBoolean("bondSpleen")) {
-      limit += 2;
-    }
-
-    if (KoLCharacter.hasSkill(SkillPool.STEEL_SPLEEN)) {
-      limit += 5;
-    }
-
-    if (Preferences.getInteger("lastStillBeatingSpleen") == KoLCharacter.getAscensions()) {
-      limit += 1;
-    }
-
-    return limit;
+    return baseCapacity + (int) KoLCharacter.currentNumericModifier(DoubleModifier.SPLEEN_CAPACITY);
   }
 
   /**
@@ -1362,7 +1207,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean isAWoLClass() {
-    return ascensionClass == AscensionClass.COWPUNCHER
+    return ascensionClass == AscensionClass.COW_PUNCHER
         || ascensionClass == AscensionClass.BEANSLINGER
         || ascensionClass == AscensionClass.SNAKE_OILER;
   }
@@ -2939,7 +2784,7 @@ public abstract class KoLCharacter {
         final String pref =
             switch (ascensionClass) {
               case BEANSLINGER -> "awolPointsBeanslinger";
-              case COWPUNCHER -> "awolPointsCowpuncher";
+              case COW_PUNCHER -> "awolPointsCowpuncher";
               case SNAKE_OILER -> "awolPointsSnakeoiler";
               default -> null;
             };
@@ -3508,7 +3353,7 @@ public abstract class KoLCharacter {
     ascensionPath = path;
   }
 
-  public static final boolean canEat() {
+  public static boolean canEat() {
     if (KoLCharacter.getLimitMode().limitEating()) {
       return false;
     }
@@ -3528,7 +3373,7 @@ public abstract class KoLCharacter {
     return true;
   }
 
-  public static final boolean canDrink() {
+  public static boolean canDrink() {
     if (KoLCharacter.getLimitMode().limitDrinking()) {
       return false;
     }
@@ -3548,7 +3393,7 @@ public abstract class KoLCharacter {
     return true;
   }
 
-  public static final boolean canSpleen() {
+  public static boolean canChew() {
     if (KoLCharacter.getLimitMode().limitSpleening()) {
       return false;
     }
@@ -5261,11 +5106,9 @@ public abstract class KoLCharacter {
     newModifiers.applySynergies();
 
     // Add familiar effects based on calculated weight adjustment.
-
     newModifiers.applyFamiliarModifiers(familiar, equipment.get(Slot.FAMILIAR));
 
     // Add Pasta Thrall effects
-
     if (ascensionClass == AscensionClass.PASTAMANCER) {
       PastaThrallData thrall = KoLCharacter.currentPastaThrall;
       if (thrall != PastaThrallData.NO_THRALL) {
@@ -5274,7 +5117,6 @@ public abstract class KoLCharacter {
     }
 
     // Add in strung-up quartet.
-
     if (KoLCharacter.getAscensions() == Preferences.getInteger("lastQuartetAscension")) {
       switch (Preferences.getInteger("lastQuartetRequest")) {
         case 1 -> newModifiers.addDouble(
@@ -5312,7 +5154,6 @@ public abstract class KoLCharacter {
     newModifiers.add(voteMods.get());
 
     // Miscellaneous
-
     newModifiers.add(ModifierDatabase.getModifiers(ModifierType.GENERATED, "_userMods"));
     Modifiers fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
     newModifiers.add(fightMods);
@@ -5331,39 +5172,20 @@ public abstract class KoLCharacter {
       }
     }
 
-    // Path specific modifiers
-
     // Add modifiers from Current Path
     newModifiers.add(
         ModifierDatabase.getModifiers(ModifierType.PATH, KoLCharacter.ascensionPath.toString()));
+
+    // Add modifiers from Current Class
+    newModifiers.add(
+        ModifierDatabase.getModifiers(ModifierType.CLASS, KoLCharacter.getAscensionClassName()));
 
     // Add modifiers from today's events (Holidays, stat days etc)
     for (var event : HolidayDatabase.getEvents()) {
       newModifiers.add(ModifierDatabase.getModifiers(ModifierType.EVENT, event));
     }
 
-    // If Sneaky Pete, add Motorbike effects
-
-    if (KoLCharacter.isSneakyPete()) {
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeTires")));
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeGasTank")));
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeHeadlight")));
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeCowling")));
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeMuffler")));
-      newModifiers.add(
-          ModifierDatabase.getModifiers(
-              ModifierType.MOTORBIKE, Preferences.getString("peteMotorbikeSeat")));
-    }
+    newModifiers.applyMotorbikeModifiers();
 
     // If in Nuclear Autumn, add Radiation Sickness
 
@@ -5416,37 +5238,11 @@ public abstract class KoLCharacter {
     }
 
     // add additional rollover adventures
-    var resolutionAdv = Preferences.getInteger("_resolutionAdv");
-    if (resolutionAdv > 0) {
-      newModifiers.addDouble(
-          DoubleModifier.ADVENTURES,
-          resolutionAdv,
-          ModifierType.ITEM,
-          ItemPool.RESOLUTION_ADVENTUROUS);
-    }
-    var circadianAdv = Preferences.getInteger("_circadianRhythmsAdventures");
-    if (circadianAdv > 0) {
-      newModifiers.addDouble(
-          DoubleModifier.ADVENTURES,
-          circadianAdv,
-          ModifierType.SKILL,
-          SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS);
-    }
-    var hareAdv = Preferences.getInteger("_hareAdv");
-    if (hareAdv > 0) {
-      newModifiers.addDouble(
-          DoubleModifier.ADVENTURES, hareAdv, ModifierType.FAMILIAR, FamiliarPool.HARE);
-    }
-    var gibberAdv = Preferences.getInteger("_gibbererAdv");
-    if (gibberAdv > 0) {
-      newModifiers.addDouble(
-          DoubleModifier.ADVENTURES, gibberAdv, ModifierType.FAMILIAR, FamiliarPool.GIBBERER);
-    }
-    var usedBorrowedTime = Preferences.getBoolean("_borrowedTimeUsed");
-    if (usedBorrowedTime) {
-      newModifiers.addDouble(
-          DoubleModifier.ADVENTURES, -20, ModifierType.ITEM, ItemPool.BORROWED_TIME);
-    }
+    newModifiers.applyAdditionalRolloverAdventureModifiers();
+
+    // Organ capacity
+    newModifiers.applyAdditionalStomachCapacityModifiers();
+    newModifiers.applyAdditionalSpleenCapacityModifiers();
 
     // Lastly, experience adjustment also implicitly depends on
     // monster level.  Add that information.
@@ -5626,7 +5422,6 @@ public abstract class KoLCharacter {
     }
 
     // Determine whether or not data has changed
-
     if (debug) {
       DebugModifiers.finish();
     }

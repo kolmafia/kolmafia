@@ -223,7 +223,7 @@ public class TavernRequest extends GenericRequest {
 
     if (KoLCharacter.getAdventuresLeft() == 0
         || KoLCharacter.getCurrentHP() == 0
-        || KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit()) {
+        || KoLCharacter.getInebriety() > KoLCharacter.getLiverCapacity()) {
       return;
     }
 

@@ -529,7 +529,19 @@ public enum DoubleModifier implements Modifier {
         Pattern.compile("Deals (.*) to attackers")
       },
       Pattern.compile("Thorns: " + EXPR)),
-  SPORADIC_THORNS("Sporadic Thorns", Pattern.compile("Sporadic Thorns: " + EXPR));
+  SPORADIC_THORNS("Sporadic Thorns", Pattern.compile("Sporadic Thorns: " + EXPR)),
+  STOMACH_CAPACITY(
+      "Stomach Capacity",
+      Pattern.compile("(.*) Stomach Capacity"),
+      Pattern.compile("Stomach Capacity: " + EXPR)),
+  LIVER_CAPACITY(
+      "Liver Capacity",
+      Pattern.compile("(.*) Liver Capacity"),
+      Pattern.compile("Liver Capacity: " + EXPR)),
+  SPLEEN_CAPACITY(
+      "Spleen Capacity",
+      Pattern.compile("(.*) Spleen Capacity"),
+      Pattern.compile("Spleen Capacity: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;

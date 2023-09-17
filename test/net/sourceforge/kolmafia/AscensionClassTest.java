@@ -178,7 +178,7 @@ class AscensionClassTest {
 
   @ParameterizedTest
   @CsvSource({
-    "COWPUNCHER, 18000",
+    "COW_PUNCHER, 18000",
     "PLUMBER, 25000",
   })
   void canGetSkilLBase(AscensionClass clazz, int expected) {
