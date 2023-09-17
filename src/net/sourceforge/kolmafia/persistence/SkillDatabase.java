@@ -33,7 +33,8 @@ public class SkillDatabase {
     COMBAT_NONCOMBAT_REMEDY("combat/noncombat remedy", 7),
     COMBAT_PASSIVE("combat/passive", 8),
     EXPRESSION("expression", 9),
-    WALK("walk", 10);
+    WALK("walk", 10),
+    NONCOMBAT_PASSIVE("noncombat/passive", 11);
 
     public final String name;
     public final int number;
@@ -921,10 +922,10 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill is passive
    */
   public static final boolean isPassive(final int skillId) {
-    // Shake it off is a passive as well as a non-combat heal
     // Vampyre skills all have a passive (-hp) effect
     return SkillDatabase.isType(skillId, SkillType.PASSIVE)
         || SkillDatabase.isType(skillId, SkillType.COMBAT_PASSIVE)
+        || SkillDatabase.isType(skillId, SkillType.NONCOMBAT_PASSIVE)
         || SkillDatabase.isVampyreSkill(skillId);
   }
 
@@ -1341,7 +1342,8 @@ public class SkillDatabase {
         switch (type) {
           case COMBAT -> EnumSet.of(COMBAT, COMBAT_NONCOMBAT_REMEDY, COMBAT_PASSIVE);
           case REMEDY -> EnumSet.of(REMEDY, COMBAT_NONCOMBAT_REMEDY);
-          case PASSIVE -> EnumSet.of(PASSIVE, SkillType.COMBAT_PASSIVE);
+          case PASSIVE -> EnumSet.of(
+              PASSIVE, SkillType.COMBAT_PASSIVE, SkillType.NONCOMBAT_PASSIVE);
           default -> EnumSet.of(type);
         };
     return getSkillsByType(searchTypes, onlyKnown);

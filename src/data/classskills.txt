@@ -13,6 +13,7 @@
 #     8 (Combat/Passive)
 #     9 (One-at-a-time Noncombat Expression)
 #    10 (One-at-a-time Noncombat Walk)
+#    11 (Noncombat/Passive)
 
 1	Liver of Steel	liver.gif	0	0	0
 2	Chronic Indigestion	fireball.gif	5	5	0
@@ -465,7 +466,7 @@
 5004	Nimble Fingers	glove.gif	0	0	0	6
 5005	Disco Dance of Doom	dance1.gif	5	3	0	2
 5006	Mad Looting Skillz	chest.gif	0	0	0	8
-5007	Disco Nap	sleepy.gif	2	8	0	3
+5007	Disco Nap	sleepy.gif	11	8	0	3
 5008	Disco Dance II: Electric Boogaloo	dance2.gif	5	4	0	4
 5009	Disco Fever	discomask.gif	3	10	10	13
 5010	Overdeveloped Sense of Self Preservation	numberone.gif	0	0	0	2

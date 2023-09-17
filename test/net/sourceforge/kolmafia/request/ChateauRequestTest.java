@@ -89,16 +89,17 @@ public class ChateauRequestTest {
   class Modifiers {
     @ParameterizedTest
     @CsvSource({
-      ItemPool.CHATEAU_SKYLIGHT + ", Adventures",
-      ItemPool.CHATEAU_CHANDELIER + ", PvP Fights",
+      ItemPool.CHATEAU_SKYLIGHT + ", Adventures, 3",
+      ItemPool.CHATEAU_CHANDELIER + ", PvP Fights, 3",
+      ItemPool.CHATEAU_FAN + ", Free Rests, 5",
     })
-    void appliesModifiersFromChateau(final int itemId, final String modifierName) {
+    void appliesModifiersFromChateau(final int itemId, final String modifierName, double score) {
       var cleanups = withChateau(itemId);
 
       try (cleanups) {
         assertThat(
             KoLCharacter.currentNumericModifier(DoubleModifier.byCaselessName(modifierName)),
-            is(3.0));
+            is(score));
       }
     }
   }
