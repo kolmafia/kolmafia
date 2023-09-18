@@ -81,8 +81,8 @@ public class DrinkItemRequest extends UseItemRequest {
 
     if (KoLCharacter.isJarlsberg()
         && ConcoctionDatabase.getMixingMethod(itemId) != CraftingType.JARLS
-        && !itemName.equals("steel margarita")
-        && !itemName.equals("mediocre lager")) {
+        && itemId != ItemPool.STEEL_LIVER
+        && itemId != ItemPool.MEDIOCRE_LAGER) {
       UseItemRequest.limiter = "its non-Jarlsbergian nature";
       return 0;
     }
@@ -97,16 +97,20 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     if (KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getInebriety(itemName) > 1) {
+      UseItemRequest.limiter = "your narrow, mutated throat";
       return 0;
     }
 
     if (KoLCharacter.inBondcore() && !"martini.gif".equals(ItemDatabase.getImage(itemId))) {
+      UseItemRequest.limiter = "it neither being shaken nor stirred";
       return 0;
     }
 
     if (KoLCharacter.isVampyre() && (notes == null || !notes.startsWith("Vampyre"))) {
+      UseItemRequest.limiter = "your lust for blood";
       return 0;
     } else if (!KoLCharacter.isVampyre() && notes != null && notes.startsWith("Vampyre")) {
+      UseItemRequest.limiter = "not being a Vampyre";
       return 0;
     }
 

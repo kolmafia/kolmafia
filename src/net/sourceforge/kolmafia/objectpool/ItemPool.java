@@ -1940,6 +1940,7 @@ public class ItemPool {
   public static final int COSMIC_POTATO = 6181;
   public static final int COSMIC_CREAM = 6182;
   public static final int MEDIOCRE_LAGER = 6215;
+  public static final int VODKA_DOG = 6231;
   public static final int COSMIC_SIX_PACK = 6237;
   public static final int WALBERG_BOOK = 6253;
   public static final int OCELOT_BOOK = 6254;
@@ -3262,6 +3263,7 @@ public class ItemPool {
   public static final int TERRA_COTTA_TIDBITS = 10112;
   public static final int TRYPTOPHAN_DART = 10159;
   public static final int DOCTOR_BAG = 10166;
+  public static final int VAMPAGNE = 10178;
   public static final int BOOKE_OF_VAMPYRIC_KNOWLEDGE = 10180;
   public static final int VAMPYRE_BLOOD = 10185;
   public static final int GLITCH_ITEM = 10207;
