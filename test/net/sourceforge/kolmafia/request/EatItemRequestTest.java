@@ -195,4 +195,22 @@ class EatItemRequestTest {
       assertThat("noncombatForcerActive", isSetTo(Boolean.parseBoolean(result)));
     }
   }
+
+  @Nested
+  class MaximumUses {
+    @Test
+    void magicalSausagesDayLimited() {
+      try (var cleanups = withProperty("_sausagesEaten", 3)) {
+        assertThat(EatItemRequest.maximumUses(ItemPool.MAGICAL_SAUSAGE), is(20));
+      }
+    }
+
+    @Test
+    void cbbFoodsAreAscensionLimited() {
+      try (var cleanups = withProperty("deepDishOfLegendEaten", true)) {
+        assertThat(EatItemRequest.maximumUses(ItemPool.DEEP_DISH_OF_LEGEND), is(0));
+        assertThat(EatItemRequest.limiter, is("lifetime limit"));
+      }
+    }
+  }
 }
