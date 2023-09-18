@@ -180,7 +180,7 @@ Chew	The Inquisitor's unidentifiable object	_inquisitorsUnidentifiableObjectUsed
 Chew	mansquito serum	_mansquitoSerumUsed
 Chew	turkey blaster	_turkeyBlastersUsed	3
 Drink	Bee's Knees	_speakeasyDrinksDrunk	3
-Drink	Cup of "tea"	_speakeasyDrinksDrunk	3
+Drink	cup of "tea"	_speakeasyDrinksDrunk	3
 Drink	Doc Clock's thyme cocktail	_docClocksThymeCocktailDrunk
 Drink	Flivver	_speakeasyDrinksDrunk	3
 Drink	Hot Socks	_speakeasyDrinksDrunk	3
