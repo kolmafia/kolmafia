@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSpleenUse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -22,8 +23,10 @@ class SpleenItemRequestTest {
   class MaximumUses {
     @Test
     void limitedBySpleenCapacity() {
-      var max = SpleenItemRequest.maximumUses(ItemPool.SHADOW_PILL);
-      assertThat(max, is(15));
+      try (var cleanups = withSpleenUse(0)) {
+        var max = SpleenItemRequest.maximumUses(ItemPool.SHADOW_PILL);
+        assertThat(max, is(15));
+      }
     }
 
     @Test
