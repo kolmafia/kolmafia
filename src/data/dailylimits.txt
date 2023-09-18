@@ -2,6 +2,11 @@
 # Limiter: daily limit
 # Type	Item name	Tracking property	[Max = 1]
 Cast	Acquire Rhinestones	_rhinestonesAcquired
+Cast	Advanced Cocktailcrafting	cocktailSummons
+Cast	Advanced Saucecrafting	reagentSummons
+Cast	Ancestral Recall	_ancestralRecallCasts	10
+Cast	Army of Toddlers	_armyToddlerCast
+Cast	Asdon Martin: Missile Launcher	_missileLauncherUsed
 Cast	Aug. 1st: Mountain Climbing Day!	_aug1Cast
 Cast	Aug. 2nd: Find an Eleven-Leaf Clover Day	_aug2Cast
 Cast	Aug. 3rd: Watermelon Day!	_aug3Cast
@@ -33,11 +38,6 @@ Cast	Aug. 28th: Race Your Mouse Day!	_aug28Cast
 Cast	Aug. 29th: More Herbs, Less Salt  Day!	_aug29Cast
 Cast	Aug. 30th: Beach Day!	_aug30Cast
 Cast	Aug. 31st: Cabernet Sauvignon  Day!	_aug31Cast
-Cast	Advanced Cocktailcrafting	cocktailSummons
-Cast	Advanced Saucecrafting	reagentSummons
-Cast	Ancestral Recall	_ancestralRecallCasts	10
-Cast	Army of Toddlers	_armyToddlerCast
-Cast	Asdon Martin: Missile Launcher	_missileLauncherUsed
 Cast	Back-Up to your Last Enemy	_backUpUses	[11+path(You, Robot)*5]
 Cast	Baleful Howl	_balefulHowlUses	10
 Cast	Beancannon	_beanCannonUses	5
@@ -49,20 +49,20 @@ Cast	Benetton's Medley of Diversity	_benettonsCasts	10
 Cast	Bow-Legged Swagger	_bowleggedSwaggerUsed
 Cast	Bowl Full of Jelly	_bowlFullOfJellyUsed
 Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
-Cast	CHEAT CODE: Triple Size	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Replace Enemy	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Shrink Enemy	_powerfulGloveBatteryPowerUsed	100
+Cast	CHEAT CODE: Triple Size	_powerfulGloveBatteryPowerUsed	100
 Cast	Canticle of Carboloading	_carboLoaded
 Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
 Cast	Chest X-Ray	_chestXRayUsed	3
 Cast	Chorale of Companionship	_companionshipCasts	10
 Cast	Chubby and Plump	_chubbyAndPlumpUsed
-Cast	Cincho: Dispense Salt and Lime	_cinchUsed	100
-Cast	Cincho: Party Soundtrack	_cinchUsed	100
-Cast	Cincho: Fiesta Exit	_cinchUsed	100
-Cast	Cincho: Projectile Piñata	_cinchUsed	100
-Cast	Cincho: Party Foul	_cinchUsed	100
 Cast	Cincho: Confetti Extravaganza	_cinchUsed	100
+Cast	Cincho: Dispense Salt and Lime	_cinchUsed	100
+Cast	Cincho: Fiesta Exit	_cinchUsed	100
+Cast	Cincho: Party Foul	_cinchUsed	100
+Cast	Cincho: Party Soundtrack	_cinchUsed	100
+Cast	Cincho: Projectile Piñata	_cinchUsed	100
 Cast	Communism!	_communismUsed
 Cast	Conjure Cheese	_jarlsCheeseSummoned
 Cast	Conjure Cream	_jarlsCreamSummoned
@@ -81,8 +81,8 @@ Cast	Douse Foe	_douseFoeUses	3
 Cast	Duplicate	_sourceTerminalDuplicateUses	[1+(4*path(The Source))]
 Cast	Elron's Explosive Etude	_elronsCasts	10
 Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
-Cast	Eye and a Twist	_eyeAndATwistUsed
 Cast	Extract Oil	_oilExtracted	15
+Cast	Eye and a Twist	_eyeAndATwistUsed
 Cast	Feel Disappointed	_feelDisappointedUsed	3
 Cast	Feel Envy	_feelEnvyUsed	3
 Cast	Feel Excitement	_feelExcitementUsed	3
@@ -103,6 +103,7 @@ Cast	Fix Jukebox	_peteJukeboxFixed	3
 Cast	Gingerbread Mob Hit	_gingerbreadMobHitUsed
 Cast	Give Your Opponent the Stinkeye	_stinkyCheeseBanisherUsed
 Cast	Grab a Cold One	_coldOne
+Cast	Gulp Latte	_latteDrinkUsed
 Cast	Hugs and Kisses!	_xoHugsUsed	11
 Cast	Implode Universe	_universeImploded	[pref(skillLevel188)]
 Cast	Incite Riot	_peteRiotIncited
@@ -120,6 +121,7 @@ Cast	Managerial Manipulation	_managerialManipulationUsed
 Cast	Map the Monsters	_monstersMapped	3
 Cast	Meatify Matter	_meatifyMatterUsed
 Cast	Meteor Shower	_meteorShowerUses	5
+Cast	Offer Latte to Opponent	_latteCopyUsed
 Cast	Otoscope	_otoscopeUsed	3
 Cast	Pastamastery	noodleSummons
 Cast	Peel Out	_petePeeledOut	[10+(pref(peteMotorbikeTires,Racing Slicks)*20)]
@@ -162,10 +164,8 @@ Cast	Talk About Politics	_pantsgivingBanish	5
 Cast	That's Not a Knife	_discoKnife
 Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10
 Cast	The Smile of Mr. A.	_smilesOfMrA	[pref(goldenMrAccessories)*5]
-Cast	Throw Party	_petePartyThrown
 Cast	Throw Latte on Opponent	_latteBanishUsed
-Cast	Offer Latte to Opponent	_latteCopyUsed
-Cast	Gulp Latte	_latteDrinkUsed
+Cast	Throw Party	_petePartyThrown
 Cast	Transcendent Olfaction	_olfactionsUsed	3
 Cast	Turtle Power	_turtlePowerCast
 Cast	Vent Rage Gland	rageGlandVented
@@ -175,13 +175,59 @@ Cast	deliver your thesis!	_thesisDelivered
 Cast	lecture on mass	_pocketProfessorLectures	[fam(Pocket Professor)*ceil(sqrt(W))+(equipped(Pocket Professor Memory Chip)*2)]
 Cast	lecture on relativity	_pocketProfessorLectures	[fam(Pocket Professor)*ceil(sqrt(W))+(equipped(Pocket Professor Memory Chip)*2)]
 Cast	lecture on velocity	_pocketProfessorLectures	[fam(Pocket Professor)*ceil(sqrt(W))+(equipped(Pocket Professor Memory Chip)*2)]
+Chew	The Author's ink	_authorsInkUsed
+Chew	The Inquisitor's unidentifiable object	_inquisitorsUnidentifiableObjectUsed
+Chew	mansquito serum	_mansquitoSerumUsed
+Chew	turkey blaster	_turkeyBlastersUsed	3
+Drink	Bee's Knees	_speakeasyDrinksDrunk	3
+Drink	cup of "tea"	_speakeasyDrinksDrunk	3
+Drink	Doc Clock's thyme cocktail	_docClocksThymeCocktailDrunk
+Drink	Flivver	_speakeasyDrinksDrunk	3
+Drink	Hot Socks	_speakeasyDrinksDrunk	3
+Drink	Ish Kabibble	_speakeasyDrinksDrunk	3
+Drink	Lucky Lindy	_speakeasyDrinksDrunk	3
+Drink	Miss Graves' vermouth	_missGravesVermouthDrunk
+Drink	Phonus Balonus	_speakeasyDrinksDrunk	3
+Drink	Sloppy Jalopy	_speakeasyDrinksDrunk	3
+Drink	Sockdollager	_speakeasyDrinksDrunk	3
+Drink	The Mad Liquor	_madLiquorDrunk
+Drink	drippy pilsner	_drippyPilsnerUsed
+Drink	everfull glass	_everfullGlassUsed
+Drink	glass of "milk"	_speakeasyDrinksDrunk	3
+Drink	glass of drippy wine	_drippyWineUsed
+Drink	thermos of "whiskey"	_speakeasyDrinksDrunk	3
+Eat	Calzone of Legend	calzoneOfLegendEaten
+Eat	Deep Dish of Legend	deepDishOfLegendEaten
+Eat	Kudzu salad	_kudzuSaladEaten
+Eat	Mr. Burnsger	_mrBurnsgerEaten
+Eat	Pizza of Legend	pizzaOfLegendEaten
+Eat	The Plumber's mushroom stew	_plumbersMushroomStewEaten
+Eat	[glitch season reward name]	_glitchMonsterFights
+Eat	affirmation cookie	_affirmationCookieEaten
+Eat	chilly dog	_fancyHotDogEaten
+Eat	devil dog	_fancyHotDogEaten
+Eat	drippy caviar	_drippyCaviarUsed
+Eat	drippy nugget	_drippyNuggetUsed
+Eat	drippy plum(?)	_drippyPlumUsed
+Eat	fudge spork	_fudgeSporkUsed
+Eat	ghost dog	_fancyHotDogEaten
+Eat	junkyard dog	_fancyHotDogEaten
+Eat	magical sausage	_sausagesEaten	23
+Eat	one with everything	_fancyHotDogEaten
+Eat	optimal dog	_fancyHotDogEaten
+Eat	pirate fork	_pirateForkUsed
+Eat	savage macho dog	_fancyHotDogEaten
+Eat	sleeping dog	_fancyHotDogEaten
+Eat	sly dog	_fancyHotDogEaten
+Eat	spaghetti breakfast	_spaghettiBreakfastEaten
+Eat	video games hot dog	_fancyHotDogEaten
+Eat	wet dog	_fancyHotDogEaten
 Tome	Summon Clip Art	_clipartSummons	3
 Tome	Summon Rad Libs	_radlibSummons	3
 Tome	Summon Smithsness	_smithsnessSummons	3
 Tome	Summon Snowcones	_snowconeSummons	3
 Tome	Summon Stickers	_stickerSummons	3
 Tome	Summon Sugar Sheets	_sugarSummons	3
-Use	[glitch season reward name]	_glitchItemImplemented
 Use	CSA fire-starting kit	_fireStartingKitUsed
 Use	Chester's bag of candy	_bagOfCandyUsed
 Use	Chroner cross	_chronerCrossUsed
@@ -218,6 +264,7 @@ Use	Twelve Night Energy	_twelveNightEnergyUsed
 Use	Ultra Mega Sour Ball	_ultraMegaSourBallUsed
 Use	Universal Seasoning	_universalSeasoningsUsed	[pref(universalSeasoningCost)/1000]
 Use	Victor's Spoils	_victorSpoilsUsed
+Use	[glitch season reward name]	_glitchItemImplemented
 Use	alien animal milk	_alienAnimalMilkUsed
 Use	alien plant pod	_alienPlantPodUsed
 Use	all-year sucker	_allYearSucker

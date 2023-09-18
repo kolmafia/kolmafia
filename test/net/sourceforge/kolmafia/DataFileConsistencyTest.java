@@ -417,7 +417,7 @@ public class DataFileConsistencyTest {
         String identifier = fields[0];
         String name = fields[1];
         switch (identifier) {
-          case "Use" -> {
+          case "Use", "Eat", "Drink", "Chew" -> {
             var id = ItemDatabase.getExactItemId(name);
             if (id == -1) {
               fail("unrecognised item " + name);

@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -51,27 +52,10 @@ public class SpleenItemRequest extends UseItemRequest {
     int spleenLeft = limit - KoLCharacter.getSpleenUse();
     int usableMaximum = spleenHit == 0 ? Integer.MAX_VALUE : spleenLeft / spleenHit;
 
-    switch (itemId) {
-      case ItemPool.TURKEY_BLASTER -> {
-        UseItemRequest.limiter = "daily limit";
-        return Math.min(usableMaximum, (3 - Preferences.getInteger("_turkeyBlastersUsed")));
-      }
-      case ItemPool.MOJO_FILTER -> {
-        UseItemRequest.limiter = "daily limit";
-        return Math.min(usableMaximum, (3 - Preferences.getInteger("currentMojoFilters")));
-      }
-      case ItemPool.MANSQUITO_SERUM -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_mansquitoSerumUsed") ? 0 : 1;
-      }
-      case ItemPool.AUTHORS_INK -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_authorsInkUsed") ? 0 : 1;
-      }
-      case ItemPool.INQUISITORS_UNIDENTIFIABLE_OBJECT -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_inquisitorsUnidentifiableObjectUsed") ? 0 : 1;
-      }
+    var dailyLimit = DailyLimitDatabase.DailyLimitType.CHEW.getDailyLimit(itemId);
+    if (dailyLimit != null) {
+      UseItemRequest.limiter = dailyLimit.getLimitReason();
+      return dailyLimit.getUsesRemaining();
     }
 
     return (int) Math.min(restorationMaximum, usableMaximum);

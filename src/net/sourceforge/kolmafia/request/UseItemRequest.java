@@ -846,7 +846,7 @@ public class UseItemRequest extends GenericRequest {
 
     var dailyLimit = DailyLimitType.USE.getDailyLimit(itemId);
     if (dailyLimit != null) {
-      UseItemRequest.limiter = "daily limit";
+      UseItemRequest.limiter = dailyLimit.getLimitReason();
       return dailyLimit.getUsesRemaining();
     }
 
