@@ -210,7 +210,7 @@ class EatItemRequestTest {
       ItemPool.CONSUMMATE_BAGEL + ", true",
       ItemPool.TOAST + ", false",
     })
-    void jarlsbergOnlyAllowsCertainBooze(final int itemId, final boolean allowed) {
+    void jarlsbergOnlyAllowsCertainFood(final int itemId, final boolean allowed) {
       try (var cleanups =
           new Cleanups(
               withPath(AscensionPath.Path.AVATAR_OF_JARLSBERG),
@@ -219,6 +219,25 @@ class EatItemRequestTest {
         assertThat(EatItemRequest.maximumUses(itemId), allowed ? greaterThan(0) : is(0));
         if (!allowed) {
           assertThat(EatItemRequest.limiter, is("its non-Jarlsbergian nature"));
+        }
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      ItemPool.STEEL_STOMACH + ", true",
+      ItemPool.BOSS_BRAIN + ", true",
+      ItemPool.TOAST + ", false",
+    })
+    void zombieOnlyAllowsCertainFood(final int itemId, final boolean allowed) {
+      try (var cleanups =
+          new Cleanups(
+              withPath(AscensionPath.Path.ZOMBIE_SLAYER),
+              withClass(AscensionClass.ZOMBIE_MASTER),
+              withFullness(0))) {
+        assertThat(EatItemRequest.maximumUses(itemId), allowed ? greaterThan(0) : is(0));
+        if (!allowed) {
+          assertThat(EatItemRequest.limiter, is("it not being a brain"));
         }
       }
     }
