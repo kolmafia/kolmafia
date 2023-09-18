@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withFullness;
+import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
@@ -113,6 +115,44 @@ class DrinkItemRequestTest {
       req.processResults();
       assertThat("cinchoSaltAndLime", isSetTo(1));
       assertThat(InventoryManager.getCount(ItemPool.VODKA_MARTINI), is(0));
+    }
+  }
+
+  @Nested
+  class MaximumUses {
+    @Test
+    void correctlyIdentifyWhenInebrietyIsCausingLimit() {
+      try (var cleanups =
+          new Cleanups(
+              withInebriety(11),
+              withProperty("_speakeasyDrinksDrunk", 1),
+              withItem(ItemPool.VIP_LOUNGE_KEY))) {
+        var max = DrinkItemRequest.maximumUses(ItemPool.BEES_KNEES, "Bee's Knees", 2, false);
+        assertThat(max, is(1));
+        assertThat(DrinkItemRequest.limiter, is("inebriety"));
+      }
+    }
+
+    @Test
+    void correctlyIdentifyWhenDailyLimitIsCausingLimit() {
+      try (var cleanups =
+          new Cleanups(
+              withInebriety(11),
+              withProperty("_speakeasyDrinksDrunk", 3),
+              withItem(ItemPool.VIP_LOUNGE_KEY))) {
+        var max = DrinkItemRequest.maximumUses(ItemPool.BEES_KNEES, "Bee's Knees", 2, false);
+        assertThat(max, is(0));
+        assertThat(DrinkItemRequest.limiter, is("daily limit"));
+      }
+    }
+
+    @Test
+    void abilityToDrinkDrunkiBearIsNotAffectedByInebriety() {
+      try (var cleanups = new Cleanups(withInebriety(10), withFullness(0))) {
+        var max =
+            DrinkItemRequest.maximumUses(ItemPool.GREEN_DRUNKI_BEAR, "green drunki-bear", 4, false);
+        assertThat(max, is(3));
+      }
     }
   }
 }
