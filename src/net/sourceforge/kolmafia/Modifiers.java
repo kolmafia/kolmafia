@@ -959,12 +959,12 @@ public class Modifiers {
     }
     var hareAdv = Preferences.getInteger("_hareAdv");
     if (hareAdv > 0) {
-      this.addDouble(DoubleModifier.ADVENTURES, hareAdv, ModifierType.FAMILIAR, FamiliarPool.HARE);
+      this.addDouble(DoubleModifier.ADVENTURES, hareAdv, ModifierType.FAMILIAR, "Wild Hare");
     }
     var gibberAdv = Preferences.getInteger("_gibbererAdv");
     if (gibberAdv > 0) {
       this.addDouble(
-          DoubleModifier.ADVENTURES, gibberAdv, ModifierType.FAMILIAR, FamiliarPool.GIBBERER);
+          DoubleModifier.ADVENTURES, gibberAdv, ModifierType.FAMILIAR, "Squamous Gibberer");
     }
     var usedBorrowedTime = Preferences.getBoolean("_borrowedTimeUsed");
     if (usedBorrowedTime) {

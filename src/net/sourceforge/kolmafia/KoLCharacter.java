@@ -557,23 +557,32 @@ public abstract class KoLCharacter {
     return true;
   }
 
+  private static int getCapacity(
+      final Function<AscensionClass, Integer> classCapacity,
+      final Function<Path, Integer> pathCapacity,
+      final Modifier capacityModifier) {
+    Integer baseCapacity = null;
+
+    if (ascensionClass != null) {
+      baseCapacity = classCapacity.apply(ascensionClass);
+    }
+
+    if (baseCapacity == null) {
+      baseCapacity = pathCapacity.apply(ascensionPath);
+    }
+
+    return baseCapacity + (int) KoLCharacter.currentNumericModifier(capacityModifier);
+  }
+
   public static int getStomachCapacity() {
     if (!KoLCharacter.canEat()) {
       return 0;
     }
 
-    int baseCapacity;
-
-    if (ascensionClass != null) {
-      var classCapacity = ascensionClass.getStomachCapacity();
-      baseCapacity =
-          classCapacity != null ? classCapacity : KoLCharacter.getPath().getStomachCapacity();
-    } else {
-      baseCapacity = 15;
-    }
-
-    return baseCapacity
-        + (int) KoLCharacter.currentNumericModifier(DoubleModifier.STOMACH_CAPACITY);
+    return getCapacity(
+        AscensionClass::getStomachCapacity,
+        Path::getStomachCapacity,
+        DoubleModifier.STOMACH_CAPACITY);
   }
 
   public static final void setInebriety(final int inebriety) {
@@ -607,17 +616,8 @@ public abstract class KoLCharacter {
       return 0;
     }
 
-    int baseCapacity;
-
-    if (ascensionClass != null) {
-      var classCapacity = ascensionClass.getLiverCapacity();
-      baseCapacity =
-          classCapacity != null ? classCapacity : KoLCharacter.getPath().getLiverCapacity();
-    } else {
-      baseCapacity = 14;
-    }
-
-    return baseCapacity + (int) KoLCharacter.currentNumericModifier(DoubleModifier.LIVER_CAPACITY);
+    return getCapacity(
+        AscensionClass::getLiverCapacity, Path::getLiverCapacity, DoubleModifier.LIVER_CAPACITY);
   }
 
   public static boolean isFallingDown() {
@@ -649,17 +649,8 @@ public abstract class KoLCharacter {
       return 0;
     }
 
-    int baseCapacity;
-
-    if (ascensionClass != null) {
-      var classCapacity = ascensionClass.getSpleenCapacity();
-      baseCapacity =
-          classCapacity != null ? classCapacity : KoLCharacter.getPath().getSpleenCapacity();
-    } else {
-      baseCapacity = 15;
-    }
-
-    return baseCapacity + (int) KoLCharacter.currentNumericModifier(DoubleModifier.SPLEEN_CAPACITY);
+    return getCapacity(
+        AscensionClass::getSpleenCapacity, Path::getSpleenCapacity, DoubleModifier.SPLEEN_CAPACITY);
   }
 
   /**

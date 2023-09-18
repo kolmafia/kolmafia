@@ -19,6 +19,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -69,7 +71,7 @@ public class DrinkItemRequest extends UseItemRequest {
         : null;
   }
 
-  public static final int maximumUses(
+  public static int maximumUses(
       final int itemId, final String itemName, final int inebriety, boolean allowOverDrink) {
     if (KoLCharacter.isGreyGoo()) {
       // If we ever track what items have already been absorbed this ascension, this is a great
@@ -79,35 +81,36 @@ public class DrinkItemRequest extends UseItemRequest {
 
     if (KoLCharacter.isJarlsberg()
         && ConcoctionDatabase.getMixingMethod(itemId) != CraftingType.JARLS
-        && !itemName.equals("steel margarita")
-        && !itemName.equals("mediocre lager")) {
+        && itemId != ItemPool.STEEL_LIVER
+        && itemId != ItemPool.MEDIOCRE_LAGER) {
       UseItemRequest.limiter = "its non-Jarlsbergian nature";
       return 0;
     }
 
+    var notes = ConsumablesDatabase.getNotes(itemName);
+
     if (KoLCharacter.inHighschool()
-        && !itemName.equals("steel margarita")
-        && (ConsumablesDatabase.getNotes(itemName) == null
-            || !ConsumablesDatabase.getNotes(itemName).startsWith("KOLHS"))) {
+        && itemId != ItemPool.STEEL_LIVER
+        && (notes == null || !notes.startsWith("KOLHS"))) {
       UseItemRequest.limiter = "your unrefined palate";
       return 0;
     }
 
     if (KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getInebriety(itemName) > 1) {
+      UseItemRequest.limiter = "your narrow, mutated throat";
       return 0;
     }
 
     if (KoLCharacter.inBondcore() && !"martini.gif".equals(ItemDatabase.getImage(itemId))) {
+      UseItemRequest.limiter = "it neither being shaken nor stirred";
       return 0;
     }
 
-    if (KoLCharacter.isVampyre()
-        && (ConsumablesDatabase.getNotes(itemName) == null
-            || !ConsumablesDatabase.getNotes(itemName).startsWith("Vampyre"))) {
+    if (KoLCharacter.isVampyre() && (notes == null || !notes.startsWith("Vampyre"))) {
+      UseItemRequest.limiter = "your lust for blood";
       return 0;
-    } else if (!KoLCharacter.isVampyre()
-        && ConsumablesDatabase.getNotes(itemName) != null
-        && ConsumablesDatabase.getNotes(itemName).startsWith("Vampyre")) {
+    } else if (!KoLCharacter.isVampyre() && notes != null && notes.startsWith("Vampyre")) {
+      UseItemRequest.limiter = "not being a Vampyre";
       return 0;
     }
 
@@ -116,48 +119,23 @@ public class DrinkItemRequest extends UseItemRequest {
     int maxAvailable = Integer.MAX_VALUE;
 
     switch (itemId) {
-      case ItemPool.GETS_YOU_DRUNK:
+      case ItemPool.GETS_YOU_DRUNK -> {
         if (Preferences.getInteger("getsYouDrunkTurnsLeft") > 0) {
           UseItemRequest.limiter = "still working on the last one";
           return 0;
         }
         return 1;
-
-      case ItemPool.MISS_GRAVES_VERMOUTH:
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_missGravesVermouthDrunk") ? 0 : 1;
-
-      case ItemPool.MAD_LIQUOR:
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_madLiquorDrunk") ? 0 : 1;
-
-      case ItemPool.DOC_CLOCKS_THYME_COCKTAIL:
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_docClocksThymeCocktailDrunk") ? 0 : 1;
-
-      case ItemPool.DRIPPY_PILSNER:
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_drippyPilsnerUsed") ? 0 : 1;
-
-      case ItemPool.DRIPPY_WINE:
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_drippyWineUsed") ? 0 : 1;
-
-      case ItemPool.GREEN_BEER:
-        // Green Beer allows drinking to limit + 10,
-        // but only on SSPD. For now, always allow
-        limit += 10;
-        break;
-
-      case ItemPool.RED_DRUNKI_BEAR:
-      case ItemPool.GREEN_DRUNKI_BEAR:
-      case ItemPool.YELLOW_DRUNKI_BEAR:
+      }
+      case ItemPool.GREEN_BEER -> {
+        // Green Beer allows drinking to limit + 10 on SSPD.
+        if (HolidayDatabase.getHolidays(false).contains("St. Sneaky Pete's Day")) {
+          limit += 10;
+        }
+      }
+      case ItemPool.RED_DRUNKI_BEAR, ItemPool.GREEN_DRUNKI_BEAR, ItemPool.YELLOW_DRUNKI_BEAR -> {
         // drunki-bears give inebriety but are limited by your fullness.
         return EatItemRequest.maximumUses(itemId, itemName, 4);
-
-      case ItemPool.EVERFULL_GLASS:
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_everfullGlassUsed") ? 0 : 1;
+      }
     }
 
     int inebrietyLeft = limit - KoLCharacter.getInebriety();
@@ -175,6 +153,16 @@ public class DrinkItemRequest extends UseItemRequest {
       shotglass = 1;
     }
 
+    var dailyLimit = DailyLimitDatabase.DailyLimitType.DRINK.getDailyLimit(itemId);
+    if (dailyLimit != null) {
+      var remaining = dailyLimit.getUsesRemaining();
+      if (remaining == 0) {
+        UseItemRequest.limiter = dailyLimit.getLimitReason();
+        return remaining;
+      }
+      maxAvailable = remaining;
+    }
+
     if (ClanLoungeRequest.isSpeakeasyDrink(ItemDatabase.getItemName(itemId))) {
       // Speakeasy not available in Bad Moon, or without VIP key
       if (KoLCharacter.inBadMoon()) {
@@ -183,7 +171,6 @@ public class DrinkItemRequest extends UseItemRequest {
       if (InventoryManager.getCount(ItemPool.VIP_LOUNGE_KEY) == 0) {
         return 0;
       }
-      maxAvailable = 3 - Preferences.getInteger("_speakeasyDrinksDrunk");
     }
 
     if (inebrietyLeft < inebriety) {
@@ -204,7 +191,7 @@ public class DrinkItemRequest extends UseItemRequest {
       maxNumber = maxAvailable;
     }
 
-    if (itemName.equals("ice stein")) {
+    if (itemId == ItemPool.ICE_STEIN) {
       int sixpacks = InventoryManager.getAccessibleCount(ItemPool.ICE_COLD_SIX_PACK);
       if (maxNumber > sixpacks) {
         UseItemRequest.limiter = "ice-cold six-packs";
