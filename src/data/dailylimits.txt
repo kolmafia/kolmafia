@@ -8,6 +8,7 @@ Cast	Ancestral Recall	_ancestralRecallCasts	10
 Cast	Army of Toddlers	_armyToddlerCast
 Cast	Asdon Martin: Missile Launcher	_missileLauncherUsed
 Cast	Aug. 1st: Mountain Climbing Day!	_aug1Cast
+Cast	Aug. 2nd: Find an Eleven-Leaf Clover Day	_aug2Cast
 Cast	Aug. 3rd: Watermelon Day!	_aug3Cast
 Cast	Aug. 4th: Water Balloon Day!	_aug4Cast
 Cast	Aug. 5th: Oyster Day!	_aug5Cast
@@ -35,7 +36,6 @@ Cast	Aug. 26th: Toilet Paper Day!	_aug26Cast
 Cast	Aug. 27th: Just Because Day!	_aug27Cast
 Cast	Aug. 28th: Race Your Mouse Day!	_aug28Cast
 Cast	Aug. 29th: More Herbs, Less Salt  Day!	_aug29Cast
-Cast	Aug. 2nd: Find an Eleven-Leaf Clover Day	_aug2Cast
 Cast	Aug. 30th: Beach Day!	_aug30Cast
 Cast	Aug. 31st: Cabernet Sauvignon  Day!	_aug31Cast
 Cast	Back-Up to your Last Enemy	_backUpUses	[11+path(You, Robot)*5]
