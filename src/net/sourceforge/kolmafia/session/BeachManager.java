@@ -151,7 +151,20 @@ public class BeachManager {
   public static final boolean parseCombUsage(final String urlString, final String text) {
     // If we actually combed the beach, update the beach layout
     BeachCombCommand command = BeachCombRequest.extractCommandFromURL(urlString);
-    if (command == BeachCombCommand.COMB && text.contains("You acquire")) {
+
+    // <span class='guts'>You comb the area and find something kind of interesting, as well as some
+    // sand, which is not particularly interesting unless you personally happen to be interested in
+    // sand, in which case boy howdy are you in luck. That stuff is <i>everywhere.</i>...
+    // <span class='guts'>You comb the area and under the sand you find a bottle. It looks like it
+    // contains some sort of message? You pop the bottle open and look at the piece of paper inside.
+    // It says:<br><br>LIFE ON A DESSERT ISLAND -- SHOULD BE HARD, BUT REALLY IT IS A PIECE OF
+    // CAKE<br><br>Is that some sort of joke?</span>
+    // <span class='guts'>You comb all of the meat off the whale carcass, just like barbers used to
+    // do back when they were surgeons.
+    // <span class='guts'>You comb the sand and hear a hollow <i>clonk</i> that can only mean one
+    // thing: pirate treasure chest! Heck yeah baby!
+
+    if (command == BeachCombCommand.COMB && text.contains("You comb")) {
       Coords coords = new Coords(urlString);
 
       // Parse the _beachLayout property
@@ -374,6 +387,8 @@ public class BeachManager {
 
     if (currentRow != -1) {
       rowLayout.put(currentRow, layout.toString());
+      // Rows count down from 10 to ...
+      Preferences.setInteger("_beachTides", currentRow - 1);
     }
 
     String value = BeachManager.layoutToString(rowLayout);

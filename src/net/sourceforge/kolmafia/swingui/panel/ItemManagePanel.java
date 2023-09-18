@@ -394,7 +394,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
             if (c.getFullness() > 0) {
               previous = KoLCharacter.getFullness() + ConcoctionDatabase.getQueuedFullness();
-              capacity = KoLCharacter.getFullnessLimit();
+              capacity = KoLCharacter.getStomachCapacity();
               unit = c.getFullness();
               standard =
                   previous >= capacity
@@ -402,7 +402,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
                       : Math.min((capacity - previous) / unit, itemCount);
             } else if (c.getInebriety() > 0) {
               previous = KoLCharacter.getInebriety() + ConcoctionDatabase.getQueuedInebriety();
-              capacity = KoLCharacter.getInebrietyLimit();
+              capacity = KoLCharacter.getLiverCapacity();
               unit = c.getInebriety();
               if (unit == 1
                   && !ConcoctionDatabase.queuedMimeShotglass

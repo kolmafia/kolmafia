@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -49,6 +48,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.ChoiceControl;
@@ -395,8 +395,70 @@ public class Player {
    * @return Restores the number of this item to the old value
    */
   public static Cleanups withItemInStorage(final int itemId, final int count) {
-    AdventureResult item = ItemPool.get(itemId, count);
+    return withItemInStorage(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts the given item into the player's storage
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInStorage(final AdventureResult item) {
     return addToList(item, KoLConstants.storage);
+  }
+
+  /**
+   * Puts the given item into the player's freepulls
+   *
+   * @param itemName Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInFreepulls(final String itemName) {
+    return withItemInFreepulls(itemName, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's freepulls
+   *
+   * @param itemName Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInFreepulls(final String itemName, final int count) {
+    int itemId = ItemDatabase.getItemId(itemName, count, false);
+    return withItemInFreepulls(itemId, count);
+  }
+
+  /**
+   * Puts the given item into the player's freepulls
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInFreepulls(final int itemId) {
+    return withItemInFreepulls(itemId, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's freepulls
+   *
+   * @param itemId Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInFreepulls(final int itemId, final int count) {
+    return withItemInFreepulls(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts the given item into the player's freepulls
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInFreepulls(final AdventureResult item) {
+    return addToList(item, KoLConstants.freepulls);
   }
 
   /**
@@ -1211,19 +1273,22 @@ public class Player {
   public static Cleanups withClass(final AscensionClass ascensionClass) {
     var old = KoLCharacter.getAscensionClass();
     KoLCharacter.setAscensionClass(ascensionClass);
-    return new Cleanups(() -> KoLCharacter.setAscensionClass(old));
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setAscensionClass(old);
+          KoLCharacter.recalculateAdjustments();
+        });
   }
 
   /**
    * Sets the player's sign
    *
-   * @param sign Desired sign
+   * @param signName Name of desired sign
    * @return Resets the sign to the previous value
    */
-  public static Cleanups withSign(final String sign) {
-    var old = KoLCharacter.getSign();
-    KoLCharacter.setSign(sign);
-    return new Cleanups(() -> KoLCharacter.setSign(old));
+  public static Cleanups withSign(final String signName) {
+    return withSign(ZodiacSign.find(signName));
   }
 
   /**
@@ -1235,10 +1300,12 @@ public class Player {
   public static Cleanups withSign(final ZodiacSign sign) {
     var old = KoLCharacter.getSign();
     KoLCharacter.setSign(sign);
+    KoLCharacter.recalculateAdjustments();
     ConcoctionDatabase.refreshConcoctions();
     return new Cleanups(
         () -> {
           KoLCharacter.setSign(old);
+          KoLCharacter.recalculateAdjustments();
           ConcoctionDatabase.refreshConcoctions();
         });
   }
@@ -1252,7 +1319,12 @@ public class Player {
   public static Cleanups withPath(final Path path) {
     var old = KoLCharacter.getPath();
     KoLCharacter.setPath(path);
-    return new Cleanups(() -> KoLCharacter.setPath(old));
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setPath(old);
+          KoLCharacter.recalculateAdjustments();
+        });
   }
 
   /**
@@ -1361,21 +1433,13 @@ public class Player {
             ZonedDateTime.of(
                 year, month.getValue(), day, hour, minute, 0, 0, DateTimeManager.ROLLOVER));
 
-    HolidayDatabase.guessPhaseStep();
+    HolidayDatabase.reset();
 
-    return new Cleanups(mocked::close);
-  }
-
-  /**
-   * Sets the stat day to a given stat
-   *
-   * @param stat Stat to use for stat day
-   * @return Restores to the old value
-   */
-  public static Cleanups withStatDay(KoLConstants.Stat stat) {
-    final String old = KoLmafia.statDay;
-    KoLmafia.statDay = stat.toString() + " Day";
-    return new Cleanups(() -> KoLmafia.statDay = old);
+    return new Cleanups(
+        () -> {
+          mocked.close();
+          HolidayDatabase.reset();
+        });
   }
 
   /**
@@ -2208,6 +2272,11 @@ public class Player {
     return new Cleanups(new OrderedRunnable(ConcoctionDatabase::refreshConcoctions, 10));
   }
 
+  public static Cleanups withAdjustmentsRecalculated() {
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(new OrderedRunnable(KoLCharacter::recalculateAdjustments, 10));
+  }
+
   public static Cleanups withNPCStoreReset() {
     NPCStoreDatabase.reset();
 
@@ -2252,5 +2321,20 @@ public class Player {
     var cleanups = new Cleanups(withProperty("nextAdventure"));
     KoLAdventure.setNextAdventure(adventure);
     return cleanups;
+  }
+
+  /**
+   * Sets the TopMenuStyle
+   *
+   * @param style The TopMenuStyle from GenericRequest
+   * @return Returns value to previous value
+   */
+  public static Cleanups withTopMenuStyle(final TopMenuStyle style) {
+    var oldStyle = GenericRequest.topMenuStyle;
+    GenericRequest.topMenuStyle = style;
+    return new Cleanups(
+        () -> {
+          GenericRequest.topMenuStyle = oldStyle;
+        });
   }
 }

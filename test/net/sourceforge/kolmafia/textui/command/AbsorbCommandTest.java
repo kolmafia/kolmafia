@@ -1,21 +1,31 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import static internal.helpers.HttpClientWrapper.getRequests;
-import static internal.helpers.Player.*;
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withConcoctionRefresh;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withRange;
+import static internal.helpers.Player.withUsedAbsorbs;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
-import internal.helpers.HttpClientWrapper;
+import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AscensionPath.Path;
-import org.junit.jupiter.api.BeforeEach;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class AbsorbCommandTest extends AbstractCommandTestBase {
-  @BeforeEach
-  public void initEach() {
-    HttpClientWrapper.setupFakeClient();
+  @BeforeAll
+  public static void init() {
+    KoLCharacter.reset("testUser");
+    Preferences.reset("testUser");
   }
 
   public AbsorbCommandTest() {
@@ -77,16 +87,69 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  void canAbsorbItems() {
-    var cleanups = new Cleanups(withPath(Path.GELATINOUS_NOOB), withItem("Half a Purse", 15));
-    try (cleanups) {
-      String output = execute("15 Half a Purse");
+  void canDetectFailedAbsorbItems() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.GELATINOUS_NOOB),
+            withItem("A Light that Never Goes Out", 15),
+            withUsedAbsorbs(0));
 
-      assertThat(output, containsString("Absorbed 15 Half Purses"));
+    try (cleanups) {
+      String output = execute("15 A Light that Never Goes Out");
+
+      assertThat("_noobSkillCount", isSetTo(0));
+      assertThat(output, containsString("Failed to absorb 15 Lights that Never Go Out"));
+      assertErrorState();
+    }
+  }
+
+  @Test
+  void canAbsorbItems() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withPath(Path.GELATINOUS_NOOB),
+            withHttpClientBuilder(builder),
+            withItem("A Light that Never Goes Out", 15),
+            withUsedAbsorbs(0));
+    try (cleanups) {
+      for (int i = 0; i < 15; i++) {
+        client.addResponse(200, "");
+      }
+
+      client.addResponse(200, html("request/test_gel_noob_charsheet.html"));
+
+      String output = execute("15 A Light that Never Goes Out");
+
+      assertThat("_noobSkillCount", isSetTo(15));
+      assertThat(output, containsString("Absorbed 15 Lights that Never Go Out"));
       assertContinueState();
     }
 
-    var requests = getRequests();
+    var requests = client.getRequests();
     assertThat(requests.size(), equalTo(16)); // 15 items + 1 charpane
+  }
+
+  @Test
+  void canCreateItemsToAbsorb() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withPath(Path.GELATINOUS_NOOB),
+            withHttpClientBuilder(builder),
+            withItem("pie crust", 1),
+            withItem("strawberry", 1),
+            withUsedAbsorbs(0),
+            withRange(),
+            withConcoctionRefresh());
+    try (cleanups) {
+      execute("Strawberry pie");
+    }
+
+    var requests = client.getRequests();
+    assertPostRequest(
+        requests.get(0), "/craft.php", "action=craft&mode=cook&ajax=1&a=160&b=786&qty=1");
   }
 }

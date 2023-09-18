@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptException;
+import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -74,6 +75,24 @@ public class EnumeratedWrapper extends ScriptableObject {
   @Override
   public String toString() {
     return wrapped.toString();
+  }
+
+  public static Object toJSON(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
+    Scriptable scope = ScriptableObject.getTopLevelScope(thisObj);
+    ValueConverter coercer = new ValueConverter(cx, scope);
+    var proxy = ((EnumeratedWrapper) thisObj).wrapped.asProxy();
+
+    if (!(proxy instanceof CompositeValue compValue)) return coercer.asJava(proxy);
+
+    var result = cx.newObject(thisObj);
+
+    for (Value keyObject : compValue.keys()) {
+      var key = JavascriptRuntime.toCamelCase(keyObject.toString());
+      var value = compValue.aref(keyObject).toJSON();
+      ScriptableObject.putProperty(result, key, value);
+    }
+
+    return result;
   }
 
   public static Object constructDefaultValue() {

@@ -1150,6 +1150,9 @@ public abstract class UseLinkDecorator {
               return new UsesLink(uses.toArray(new UseLink[uses.size()]));
             }
 
+          case ItemPool.FIXODENT:
+            return new UseLink(itemId, 1, "fix", "shop.php?whichshop=fixodent");
+
           default:
             return new UseLink(
                 itemId,
@@ -1437,7 +1440,7 @@ public abstract class UseLinkDecorator {
                   "inv_equip.php?which=2&action=equip&slot=3&whichitem="));
         } else if (consumeMethod == ConsumptionType.SIXGUN) {
           // Only as WOL class
-          if (KoLCharacter.getAscensionClass() != AscensionClass.COWPUNCHER
+          if (KoLCharacter.getAscensionClass() != AscensionClass.COW_PUNCHER
               && KoLCharacter.getAscensionClass() != AscensionClass.BEANSLINGER
               && KoLCharacter.getAscensionClass() != AscensionClass.SNAKE_OILER) {
             return null;

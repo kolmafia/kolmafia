@@ -1069,6 +1069,18 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof FleaMarketRequest)
+        && FleaMarketRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof FleaMarketSellRequest)
+        && FleaMarketSellRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof FreeSnackRequest)
         && FreeSnackRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;

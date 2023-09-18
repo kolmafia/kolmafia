@@ -696,7 +696,7 @@ public class CharPaneDecorator {
 
         if (spit < 100) {
           double spitPerTurn = 10 / 3.0;
-          AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
+          AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMET, 1);
           boolean wearingHelmet = EquipmentManager.getEquipment(Slot.FAMILIAR).equals(helmet);
 
           if (wearingHelmet) {
@@ -1144,7 +1144,7 @@ public class CharPaneDecorator {
       boolean needsCocoa = UneffectRequest.needsCocoa(effectName);
       boolean isTimer = effectName.startsWith("Timer ");
       boolean isCowrruption = effectName.equals("Cowrruption");
-      boolean isCowpuncher = KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER;
+      boolean isCowPuncher = KoLCharacter.getAscensionClass() == AscensionClass.COW_PUNCHER;
       int duration = effect.getCount();
       boolean isIntrinsic = duration == Integer.MAX_VALUE;
 
@@ -1155,7 +1155,7 @@ public class CharPaneDecorator {
       String removeAction =
           needsCocoa
               ? "use 1 hot Dreadsylvanian cocoa"
-              : (isIntrinsic || (isCowrruption && isCowpuncher))
+              : (isIntrinsic || (isCowrruption && isCowPuncher))
                   ? UneffectRequest.getUneffectSkill(effectName)
                   : !isRemovable ? "" : MoodManager.getDefaultAction("gain_effect", effectName);
 

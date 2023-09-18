@@ -22,7 +22,7 @@ public class NumberologyCommand extends AbstractCommand {
       for (Map.Entry<Integer, Integer> entry : results.entrySet()) {
         int result = entry.getKey();
         String prize = NumberologyManager.numberologyPrize(result);
-        if (prize != NumberologyManager.TRY_AGAIN) {
+        if (!prize.equals(NumberologyManager.TRY_AGAIN)) {
           int seed = entry.getValue();
           RequestLogger.printLine(
               "[" + result + "] Calculate the Universe with " + seed + " to get: " + prize);

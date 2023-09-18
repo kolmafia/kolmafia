@@ -2237,6 +2237,9 @@ public class FightRequest extends GenericRequest {
       } else if (EncounterManager.isGregariousEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.decrement("beGregariousFightsLeft", 1, 0);
+      } else if (EncounterManager.isHabitatFactEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.decrement("_monsterHabitatsFightsLeft", 1, 0);
       } else if (EncounterManager.isRedWhiteBlueMonster(responseText)) {
         Preferences.decrement("rwbMonsterCount", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
@@ -2246,6 +2249,8 @@ public class FightRequest extends GenericRequest {
       } else if (CrystalBallManager.isCrystalBallMonster()) {
         // This similarly has no message so can be checked at the end
         CrystalBallManager.clear();
+      } else if (EncounterManager.isRainManEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
       } else if (EncounterManager.isSpookyVHSTapeMonster(responseText, true)) {
         EncounterManager.ignoreSpecialMonsters();
         TurnCounter.stopCounting("Spooky VHS Tape Monster");
@@ -3376,8 +3381,9 @@ public class FightRequest extends GenericRequest {
     // Y'know, you're full, but you could probably make room for <i>one more thing</i>...
     if (responseText.contains("could probably make room for <i>one more thing</i>")) {
       Preferences.increment("_pantsgivingFullness");
+      KoLCharacter.recalculateAdjustments();
       String updateMessage =
-          "Pantsgiving increases max fullness by one to " + KoLCharacter.getFullnessLimit() + ".";
+          "Pantsgiving increases max fullness by one to " + KoLCharacter.getStomachCapacity() + ".";
       RequestLogger.updateSessionLog(updateMessage);
       KoLmafia.updateDisplay(updateMessage);
     }
@@ -3407,6 +3413,10 @@ public class FightRequest extends GenericRequest {
 
     if (adventure == AdventurePool.NEVERENDING_PARTY) {
       Preferences.decrement("encountersUntilNEPChoice", 1, 0);
+    }
+
+    if (adventure == AdventurePool.YACHT) {
+      Preferences.decrement("encountersUntilYachtzeeChoice", 1, 0);
     }
 
     if (monsterName.equals("unusual construct")) {
@@ -3485,7 +3495,6 @@ public class FightRequest extends GenericRequest {
           // waistcoat and winds it. "Two days slow, that's what
           // it is," he says.
           if (responseText.contains("oversized pocketwatch")) {
-            Preferences.increment("extraRolloverAdventures", 1);
             Preferences.increment("_hareAdv", 1);
             Preferences.setInteger("_hareCharge", 0);
           } else {
@@ -3502,7 +3511,6 @@ public class FightRequest extends GenericRequest {
           boolean underwater = lastLocation != null && lastLocation.getEnvironment().isUnderwater();
           Preferences.increment("_gibbererCharge", underwater ? 2 : 1, 15, true);
           if (responseText.contains("you feel time slow down")) {
-            Preferences.increment("extraRolloverAdventures", 1);
             Preferences.increment("_gibbererAdv", 1);
             // Normally the updating below is wasted, but it allows things
             // to get in sync if progress is missed for some reason
@@ -4236,6 +4244,12 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("awolVenom");
         } else if (responseText.contains("+1 Medicine")) {
           Preferences.increment("awolMedicine");
+        }
+      }
+
+      if (Preferences.getBoolean("_circadianRhythmsRecalled")) {
+        if (responseText.contains("sleep a bit better tonight")) {
+          Preferences.increment("_circadianRhythmsAdventures", 1, 11, false);
         }
       }
 
@@ -5506,6 +5520,7 @@ public class FightRequest extends GenericRequest {
     public boolean luggage;
     public boolean armtowel;
     public boolean pebble;
+    public boolean serendipity;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5595,6 +5610,9 @@ public class FightRequest extends GenericRequest {
       this.luggage = KoLCharacter.hasEquipped(ItemPool.TRAINBOT_LUGGAGE_HOOK);
       this.armtowel = KoLCharacter.hasEquipped(ItemPool.WHITE_ARM_TOWEL);
       this.pebble = KoLCharacter.hasEquipped(ItemPool.LITTLE_ROUND_PEBBLE);
+
+      this.serendipity =
+          KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SERENDIPITY));
 
       this.ghost = null;
 
@@ -6374,6 +6392,15 @@ public class FightRequest extends GenericRequest {
 
       FightRequest.handleLuckyGoldRing(str, status);
 
+      // Serendipity
+      if (status.serendipity) {
+        if (str.contains("serendipitous")
+            || str.contains("luck is on your side")
+            || str.contains("How random")) {
+          FightRequest.logText(str, status);
+        }
+      }
+
       // Retrospecs
       if (str.contains("notice an item you missed earlier")) {
         FightRequest.logText(str, status);
@@ -6510,6 +6537,14 @@ public class FightRequest extends GenericRequest {
     String onclick = null;
 
     if (inode != null) {
+      var src = inode.getAttributeByName("src");
+      if (src.endsWith("factbook.gif")) {
+        // log if it's a fact
+        var text = node.getText().toString();
+        if (!(text.contains("rythm") || text.contains("rhythm"))) {
+          FightRequest.logText(text, status);
+        }
+      }
       String alt = inode.getAttributeByName("alt");
       if (alt != null && alt.startsWith("Enemy's")) {
         // This is Monster Manuel stuff
@@ -7442,7 +7477,7 @@ public class FightRequest extends GenericRequest {
     }
 
     if (!str.equals("") && !ResultProcessor.processFamiliarWeightGain(str)) {
-      // Familiar combat action?
+      // Familiar combat action? (or cartography)
       // Don't log most familiar actions in the Deep Machine Tunnels
       if (status.logFamiliar
           && (!FightRequest.machineElf || str.contains("time starts passing again"))) {
@@ -9284,10 +9319,10 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("fires a badly romantic")
             || responseText.contains("You point a finger")
             || familiarSkillSuccess) {
-          boolean hasQuake =
-              (KoLCharacter.getFamiliar().getId() == FamiliarPool.REANIMATOR)
+          boolean moreFights =
+              KoLCharacter.getFamiliar().getEffectiveId() == FamiliarPool.REANIMATOR
                   || EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
-          int fights = hasQuake ? 3 : 2;
+          int fights = moreFights ? 3 : 2;
           familiarSkillSuccess = true;
           Preferences.setInteger("_romanticFightsLeft", fights);
           Preferences.setString("romanticTarget", monsterName);
@@ -9326,7 +9361,14 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.MONKEY_POINT:
         if (responseText.contains("Your monkey paw points at your opponent")) {
-          Preferences.setString("mokeyPointMonster", monsterName);
+          Preferences.setString("monkeyPointMonster", monsterName);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.HOLD_HANDS:
+        if (responseText.contains("stop the battle for a moment and hold hands with you")) {
+          Preferences.setString("holdHandsMonster", monsterName);
           skillSuccess = true;
         }
         break;
@@ -9421,6 +9463,13 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("press the secret switch") || skillRunawaySuccess) {
           skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.KGB_TRANQUILIZER_DART);
+        }
+        break;
+
+      case SkillPool.ROAR_LIKE_A_LION:
+        if (responseText.contains("release a majestic roar") || skillRunawaySuccess) {
+          skillRunawaySuccess = true;
+          BanishManager.banishMonster(monster, Banisher.ROAR_LIKE_A_LION);
         }
         break;
 
@@ -10272,7 +10321,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.RED_WHITE_BLUE_BLAST:
         if (responseText.contains("fires off a thrilling, patriotic")) {
           Preferences.setString("rwbMonster", MonsterStatusTracker.getLastMonsterName());
-          Preferences.setInteger("rwbMonsterCount", 3);
+          Preferences.setInteger("rwbMonsterCount", 2);
           KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
           if (lastLocation != null) {
             Preferences.setString("rwbLocation", lastLocation.getAdventureName());
@@ -10294,10 +10343,23 @@ public class FightRequest extends GenericRequest {
         // Spookypocket
         responseText.contains("drop something")
             || responseText.contains("drop an item")
-            ||
-            // no items
-            responseText.contains("even mildly evil")
             || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RECALL_FACTS_MONSTER_HABITATS:
+        if (responseText.contains("Your knowledge of facts tells you")) {
+          Preferences.setString("_monsterHabitatsMonster", monsterName);
+          Preferences.setInteger("_monsterHabitatsFightsLeft", 5);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.RECALL_FACTS_CIRCADIAN_RHYTHMS:
+        if (responseText.contains("really improve your sleep tonight")) {
+          Phylum phylum = monster != null ? monster.getPhylum() : Phylum.NONE;
+          Preferences.setString("_circadianRhythmsPhylum", phylum.toString());
           skillSuccess = true;
         }
         break;

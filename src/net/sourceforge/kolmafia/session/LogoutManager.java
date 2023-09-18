@@ -133,6 +133,11 @@ public class LogoutManager {
     AdventureQueueDatabase.serialize();
     AdventureSpentDatabase.serialize();
 
+    // Log the user session is ending
+
+    RequestLogger.updateSessionLog();
+    RequestLogger.updateSessionLog("Closing session for " + userName + "...");
+
     // Clear out user data
 
     RequestLogger.closeSessionLog();

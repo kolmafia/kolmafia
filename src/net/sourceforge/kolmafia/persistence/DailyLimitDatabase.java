@@ -28,7 +28,7 @@ public class DailyLimitDatabase {
     USE("use"),
     EAT("eat"),
     DRINK("drink"),
-    SPLEEN("spleen"),
+    CHEW("chew"),
     CAST("cast");
 
     private final String tag;
@@ -120,7 +120,7 @@ public class DailyLimitDatabase {
      * @return Maximum number of uses or -1 if the underlying data cannot be parsed
      */
     public int getMax() {
-      if (this.max.length() == 0) {
+      if (this.max.isEmpty()) {
         return 1;
       }
 
@@ -166,13 +166,17 @@ public class DailyLimitDatabase {
       return getUsesRemaining() > 0;
     }
 
+    public String getLimitReason() {
+      return Preferences.isDaily(this.uses) ? "daily limit" : "lifetime limit";
+    }
+
     public int getId() {
       return this.id;
     }
 
     public String getName() {
       return switch (this.getType()) {
-        case USE, EAT, DRINK, SPLEEN -> ItemDatabase.getItemName(this.getId());
+        case USE, EAT, DRINK, CHEW -> ItemDatabase.getItemName(this.getId());
         case CAST -> SkillDatabase.getSkillName(this.getId());
       };
     }
@@ -273,7 +277,7 @@ public class DailyLimitDatabase {
 
     int id =
         switch (type) {
-          case USE, EAT, DRINK, SPLEEN -> ItemDatabase.getItemId(thing);
+          case USE, EAT, DRINK, CHEW -> ItemDatabase.getItemId(thing);
           case CAST -> SkillDatabase.getSkillId(thing);
         };
 

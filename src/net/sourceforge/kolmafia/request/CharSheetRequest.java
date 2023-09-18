@@ -311,7 +311,7 @@ public class CharSheetRequest extends GenericRequest {
 
     // If you have the Cowrruption effect, you can Absorb Cowrruption if a Cow Puncher
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.COWRRUPTION))
-        && KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER) {
+        && KoLCharacter.getAscensionClass() == AscensionClass.COW_PUNCHER) {
       UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(SkillPool.ABSORB_COWRRUPTION);
       newSkillSet.add(skill);
     }

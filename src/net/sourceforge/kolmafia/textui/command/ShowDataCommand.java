@@ -118,7 +118,7 @@ public class ShowDataCommand extends AbstractCommand {
       }
 
       desiredStream.println();
-      desiredStream.println(HolidayDatabase.getHoliday(today));
+      desiredStream.println(HolidayDatabase.getHoliday());
       desiredStream.println(HolidayDatabase.getMoonEffect());
       desiredStream.println();
       return;
@@ -180,9 +180,9 @@ public class ShowDataCommand extends AbstractCommand {
       desiredStream.println();
 
       desiredStream.println(
-          "Full: " + KoLCharacter.getFullness() + " / " + KoLCharacter.getFullnessLimit());
+          "Full: " + KoLCharacter.getFullness() + " / " + KoLCharacter.getStomachCapacity());
       desiredStream.println(
-          "Drunk: " + KoLCharacter.getInebriety() + " / " + KoLCharacter.getInebrietyLimit());
+          "Drunk: " + KoLCharacter.getInebriety() + " / " + KoLCharacter.getLiverCapacity());
       desiredStream.println(
           "Spleen: " + KoLCharacter.getSpleenUse() + " / " + KoLCharacter.getSpleenLimit());
 

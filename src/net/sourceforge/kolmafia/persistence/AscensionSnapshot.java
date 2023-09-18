@@ -265,7 +265,7 @@ public class AscensionSnapshot {
       case AVATAR_OF_WEST_OF_LOATHING:
         hideShowByClass.run();
         strbuf.append("<table><tr><td valign=top>");
-        appendClassBoard.accept(AscensionClass.COWPUNCHER);
+        appendClassBoard.accept(AscensionClass.COW_PUNCHER);
         strbuf.append("</td><td valign=top>");
         appendClassBoard.accept(AscensionClass.BEANSLINGER);
         strbuf.append("</td></tr><tr><td valign=top>");

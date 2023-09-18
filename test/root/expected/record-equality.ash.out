@@ -1,0 +1,26 @@
+seal tooth
+seal-skull helmet
+equals = false
+-------
+zero = seal tooth (0)
+one = seal tooth (1)
+two = seal tooth (1)
+three = seal-skull helmet (1)
+zero == one: false
+one == one: true
+one == two: true
+one == three: false
+-------
+strec1.str = ABC
+strec2.str = abc
+strec1 == strec2: false
+strec1 ≈ strec2: true
+-------
+iarec1.ia = [1,2,3]
+iarec2.ia = [1,2,3]
+iarec3.ia = [1,2,3]
+iarec4.ia = [1,2,3,4]
+iarec1 == iarec1: true
+iarec1 == iarec2: true
+iarec1 == iarec3: true
+iarec1 == iarec4: false

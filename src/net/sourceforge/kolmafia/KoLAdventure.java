@@ -1791,19 +1791,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     // Holiday zones
-    if (holidayAdventures.containsKey(this.zone)) {
-      String holiday = holidayAdventures.get(this.adventureName);
-      String today = HolidayDatabase.getHoliday();
+    if (holidayAdventures.containsKey(this.adventureName)) {
+      var holiday = holidayAdventures.get(this.adventureName);
+      var today = HolidayDatabase.getHolidays(false);
       return switch (this.adventureNumber) {
         case AdventurePool.DRUNKEN_STUPOR -> KoLCharacter.isFallingDown();
         case AdventurePool.SSPD_STUPOR -> {
-          if ((today.contains(holiday) || today.equals("Drunksgiving"))
-              && KoLCharacter.getInebriety() >= 26) {
-            yield true;
-          } else {
+          if (!today.contains(holiday)) yield false;
+          if (KoLCharacter.getInebriety() < 26) {
             KoLmafia.updateDisplay(MafiaState.ERROR, "You are not drunk enough to continue.");
             yield false;
           }
+          yield true;
         }
         default -> holiday == null || today.contains(holiday);
       };
@@ -2197,7 +2196,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           Quest.SEA_MONKEES, QuestDatabase.STARTED);
         // Grandpa
         // Free for Muscle classes. Otherwise, must buy map.
-      case AdventurePool.ANENOME_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
+      case AdventurePool.ANEMONE_MINE -> ItemDatabase.haveVirtualItem(ItemPool.ANEMONE_MINE_MAP);
         // Free for Mysticality classes Otherwise, must buy map.
       case AdventurePool.MARINARA_TRENCH -> ItemDatabase.haveVirtualItem(
           ItemPool.MARINARA_TRENCH_MAP);

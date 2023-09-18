@@ -608,6 +608,14 @@ public class AdventureRequest extends GenericRequest {
           MonsterStatusTracker.setNextMonster(monster);
         }
 
+        // Because relativity monster detection relies on a preference being true that is set back
+        // to false after being
+        // read, we can only detect it once. So let's do it here, and then rely on ignoring special
+        // monsters later.
+        if (EncounterManager.isRelativityMonster()) {
+          EncounterManager.ignoreSpecialMonsters();
+        }
+
         encounter = monster.getName();
         // Only queue normal monster encounters
         if (EncounterManager.isGregariousEncounter(responseText)
@@ -623,6 +631,7 @@ public class AdventureRequest extends GenericRequest {
                 && !EncounterManager.isRomanticEncounter(responseText, false)
                 && !EncounterManager.isSaberForceMonster()
                 && !CrystalBallManager.isCrystalBallMonster()
+                && !EncounterManager.isRainManEncounter(responseText)
                 && !EncounterManager.isSpookyVHSTapeMonster(responseText, false)
                 && !FightRequest.edFightInProgress())) {
           AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), encounter);
@@ -654,6 +663,9 @@ public class AdventureRequest extends GenericRequest {
     Pattern.compile("You're fighting <span id='monname'> *(.*?)</span>", Pattern.DOTALL),
     // papier weapons can change "fighting" to some other verb
     Pattern.compile("You're (?:<u>.*?</u>) <span id='monname'>(.*?)</span>", Pattern.DOTALL),
+    // Shrunken adventurers have this changed for some reason
+    Pattern.compile(
+        "You're a tiny adventurer fighting <span id='monname'> *(.*?)</span>", Pattern.DOTALL),
     // Pocket Familiars have Pokefam battles
     // <b><center>a fleet woodsman's Team:</b>
     Pattern.compile(">([^<]*?)'s Team:<"),

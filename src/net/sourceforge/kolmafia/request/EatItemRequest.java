@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
@@ -85,7 +86,7 @@ public class EatItemRequest extends UseItemRequest {
         : null;
   }
 
-  public static final int maximumUses(final int itemId, final String itemName, final int fullness) {
+  public static int maximumUses(final int itemId, final String itemName, final int fullness) {
     if (KoLCharacter.isGreyGoo()) {
       // If we ever track what items have already been absorbed this ascension, this is a great
       // place to use those data.
@@ -98,26 +99,27 @@ public class EatItemRequest extends UseItemRequest {
       return 0;
     }
 
+    var notes = ConsumablesDatabase.getNotes(itemName);
+
     if (KoLCharacter.inZombiecore()
-        && !itemName.equals("steel lasagna")
-        && (ConsumablesDatabase.getNotes(itemName) == null
-            || !ConsumablesDatabase.getNotes(itemName).startsWith("Zombie Slayer"))) {
+        && itemId != ItemPool.STEEL_STOMACH
+        && (notes == null || !notes.startsWith("Zombie Slayer"))) {
       UseItemRequest.limiter = "it not being a brain";
       return 0;
     }
 
     if (KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getFullness(itemName) > 1) {
+      UseItemRequest.limiter = "your narrow, mutated throat";
       return 0;
     }
 
     if (KoLCharacter.isVampyre()
-        && !itemName.equals("magical sausage")
-        && (ConsumablesDatabase.getNotes(itemName) == null
-            || !ConsumablesDatabase.getNotes(itemName).startsWith("Vampyre"))) {
+        && itemId != ItemPool.MAGICAL_SAUSAGE
+        && (notes == null || !notes.startsWith("Vampyre"))) {
+      UseItemRequest.limiter = "your lust for blood";
       return 0;
-    } else if (!KoLCharacter.isVampyre()
-        && ConsumablesDatabase.getNotes(itemName) != null
-        && ConsumablesDatabase.getNotes(itemName).startsWith("Vampyre")) {
+    } else if (!KoLCharacter.isVampyre() && notes != null && notes.startsWith("Vampyre")) {
+      UseItemRequest.limiter = "not being a Vampyre";
       return 0;
     }
 
@@ -131,7 +133,7 @@ public class EatItemRequest extends UseItemRequest {
       }
       case ItemPool.SPAGHETTI_BREAKFAST -> {
         // This is your breakfast, you need to eat it first thing
-        if (KoLCharacter.getFullnessLimit() == 0) {
+        if (KoLCharacter.getStomachCapacity() == 0) {
           UseItemRequest.limiter = "cannot eat";
           return 0;
         }
@@ -139,68 +141,23 @@ public class EatItemRequest extends UseItemRequest {
           UseItemRequest.limiter = "have already eaten";
           return 0;
         }
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_spaghettiBreakfastEaten")
-            ? 0
-            : (1 - ConcoctionDatabase.queuedSpaghettiBreakfast);
-      }
-      case ItemPool.AFFIRMATION_COOKIE -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_affirmationCookieEaten")
-            ? 0
-            : (1 - ConcoctionDatabase.queuedAffirmationCookies);
-      }
-      case ItemPool.KUDZU_SALAD -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_kudzuSaladEaten") ? 0 : 1;
-      }
-      case ItemPool.PLUMBERS_MUSHROOM_STEW -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_plumbersMushroomStewEaten") ? 0 : 1;
-      }
-      case ItemPool.MR_BURNSGER -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_mrBurnsgerEaten") ? 0 : 1;
-      }
-      case ItemPool.DRIPPY_CAVIAR -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_drippyCaviarUsed") ? 0 : 1;
-      }
-      case ItemPool.DRIPPY_NUGGET -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_drippyNuggetUsed") ? 0 : 1;
-      }
-      case ItemPool.DRIPPY_PLUM -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_drippyPlumUsed") ? 0 : 1;
-      }
-      case ItemPool.MAGICAL_SAUSAGE -> {
-        UseItemRequest.limiter = "daily limit";
-        return 23 - Preferences.getInteger("_sausagesEaten");
-      }
-      case ItemPool.GLITCH_ITEM -> {
-        UseItemRequest.limiter = "daily limit";
-        return 1 - Preferences.getInteger("_glitchMonsterFights");
-      }
-      case ItemPool.PIRATE_FORK -> {
-        UseItemRequest.limiter = "daily limit";
-        return Preferences.getBoolean("_pirateForkUsed") ? 0 : 1;
-      }
-      case ItemPool.PIZZA_OF_LEGEND -> {
-        UseItemRequest.limiter = "ascension limit";
-        return Preferences.getBoolean("pizzaOfLegendEaten") ? 0 : 1;
-      }
-      case ItemPool.DEEP_DISH_OF_LEGEND -> {
-        UseItemRequest.limiter = "ascension limit";
-        return Preferences.getBoolean("deepDishOfLegendEaten") ? 0 : 1;
-      }
-      case ItemPool.CALZONE_OF_LEGEND -> {
-        UseItemRequest.limiter = "ascension limit";
-        return Preferences.getBoolean("calzoneOfLegendEaten") ? 0 : 1;
       }
     }
 
-    int limit = KoLCharacter.getFullnessLimit();
+    var dailyLimit = DailyLimitDatabase.DailyLimitType.EAT.getDailyLimit(itemId);
+    if (dailyLimit != null) {
+      UseItemRequest.limiter = dailyLimit.getLimitReason();
+      var usesRemaining = dailyLimit.getUsesRemaining();
+      return switch (itemId) {
+        case ItemPool.SPAGHETTI_BREAKFAST -> usesRemaining
+            - ConcoctionDatabase.queuedSpaghettiBreakfast;
+        case ItemPool.AFFIRMATION_COOKIE -> usesRemaining
+            - ConcoctionDatabase.queuedAffirmationCookies;
+        default -> usesRemaining;
+      };
+    }
+
+    int limit = KoLCharacter.getStomachCapacity();
     int fullnessLeft = limit - KoLCharacter.getFullness();
     UseItemRequest.limiter = "fullness";
     return fullness == 0 ? Integer.MAX_VALUE : fullnessLeft / fullness;
@@ -278,7 +235,7 @@ public class EatItemRequest extends UseItemRequest {
         && Preferences.getBoolean("autoFillMayoMinder")
         && !(minderSetting.equals("Mayostat") && ConsumablesDatabase.getFullness(name) == 1)
         && !(minderSetting.equals("Mayodiol")
-            && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety())
+            && KoLCharacter.getLiverCapacity() == KoLCharacter.getInebriety())
         && !(minderSetting.equals("Mayoflex")
             && ConsumablesDatabase.getBaseAdventureRange(name).equals("0"))
         && workshedItem != null
@@ -623,7 +580,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     // If we're not at drunk limit, it's ok
-    if (KoLCharacter.getInebrietyLimit() != KoLCharacter.getInebriety()) {
+    if (KoLCharacter.getLiverCapacity() != KoLCharacter.getInebriety()) {
       return true;
     }
 
@@ -785,7 +742,7 @@ public class EatItemRequest extends UseItemRequest {
         return;
       }
 
-      int maxFullness = KoLCharacter.getFullnessLimit();
+      int maxFullness = KoLCharacter.getStomachCapacity();
 
       // Based on what we think our current fullness is,
       // calculate how many of this item we have room for.

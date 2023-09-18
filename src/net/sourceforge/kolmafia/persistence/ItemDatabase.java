@@ -171,6 +171,7 @@ public class ItemDatabase {
 
     CURSE("curse"),
     BOUNTY("bounty"),
+    PACKAGE("package"),
     CANDY0("candy"),
     CANDY1("candy1"),
     CANDY2("candy2"),
@@ -562,6 +563,12 @@ public class ItemDatabase {
     for (Alias alias : ItemDatabase.ALIASES) {
       id = alias.id;
       String name = StringUtilities.getCanonicalName(alias.name);
+      ItemDatabase.addIdToName(name, id);
+    }
+
+    for (var hotdog : ClanLoungeRequest.HOTDOG_DATA) {
+      id = hotdog.id();
+      var name = StringUtilities.getCanonicalName(hotdog.name());
       ItemDatabase.addIdToName(name, id);
     }
   }
@@ -1544,6 +1551,15 @@ public class ItemDatabase {
    */
   public static final boolean isGiftItem(final int itemId) {
     return ItemDatabase.getAttribute(itemId, Attribute.GIFT);
+  }
+
+  /**
+   * Returns true if the item is a gift package, otherwise false
+   *
+   * @return true if item is a gift item
+   */
+  public static final boolean isGiftPackage(final int itemId) {
+    return ItemDatabase.getAttribute(itemId, Attribute.PACKAGE);
   }
 
   /**

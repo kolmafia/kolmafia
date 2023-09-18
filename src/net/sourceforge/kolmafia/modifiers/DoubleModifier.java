@@ -524,10 +524,24 @@ public enum DoubleModifier implements Modifier {
   THORNS(
       "Thorns",
       new Pattern[] {
-        Pattern.compile("Damages Attacking Opponents?"), Pattern.compile("Deals (.*) to attackers")
+        Pattern.compile("Damages Attacking Opponents?"),
+        Pattern.compile("Damages enemies who hit you"),
+        Pattern.compile("Deals (.*) to attackers")
       },
       Pattern.compile("Thorns: " + EXPR)),
-  SPORADIC_THORNS("Sporadic Thorns", Pattern.compile("Sporadic Thorns: " + EXPR));
+  SPORADIC_THORNS("Sporadic Thorns", Pattern.compile("Sporadic Thorns: " + EXPR)),
+  STOMACH_CAPACITY(
+      "Stomach Capacity",
+      Pattern.compile("(.*) Stomach Capacity"),
+      Pattern.compile("Stomach Capacity: " + EXPR)),
+  LIVER_CAPACITY(
+      "Liver Capacity",
+      Pattern.compile("(.*) Liver Capacity"),
+      Pattern.compile("Liver Capacity: " + EXPR)),
+  SPLEEN_CAPACITY(
+      "Spleen Capacity",
+      Pattern.compile("(.*) Spleen Capacity"),
+      Pattern.compile("Spleen Capacity: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
@@ -634,11 +648,11 @@ public enum DoubleModifier implements Modifier {
           continue;
         }
 
-        if (matcher.groupCount() == 0) {
-          return mod.getTag();
-        }
-
         String tag = mod.getTag();
+
+        if (matcher.groupCount() == 0) {
+          return tag;
+        }
 
         // Kludge for Slime (Really) Hates it
         if (mod == DoubleModifier.SLIME_HATES_IT) {

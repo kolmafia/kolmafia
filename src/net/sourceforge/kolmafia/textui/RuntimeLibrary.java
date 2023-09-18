@@ -174,7 +174,6 @@ import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
-import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand;
 import net.sourceforge.kolmafia.textui.command.MonkeyPawCommand;
 import net.sourceforge.kolmafia.textui.command.SetPreferencesCommand;
@@ -533,6 +532,11 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("to_float", DataTypes.FLOAT_TYPE, params));
     params = new Type[] {DataTypes.FLOAT_TYPE};
     functions.add(new LibraryFunction("to_float", DataTypes.FLOAT_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("to_buffer", DataTypes.BUFFER_TYPE, params));
+    params = new Type[] {DataTypes.BUFFER_TYPE};
+    functions.add(new LibraryFunction("to_buffer", DataTypes.BUFFER_TYPE, params));
 
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("to_item", DataTypes.ITEM_TYPE, params));
@@ -3243,7 +3247,7 @@ public abstract class RuntimeLibrary {
     Value[] keys = obj.keys();
     for (Value key : keys) {
       Value v = obj.aref(key);
-      String value = v.toString();
+      String value = v == null ? null : v.toString();
       if (!addToSessionStream) {
         value = StringUtilities.getEntityEncode(value);
       }
@@ -3254,8 +3258,8 @@ public abstract class RuntimeLibrary {
       } else {
         RequestLogger.printLine(line);
       }
-      if (v instanceof CompositeValue) {
-        RuntimeLibrary.dump((CompositeValue) v, indent + "\u00A0\u00A0", color, addToSessionStream);
+      if (v instanceof CompositeValue cv) {
+        RuntimeLibrary.dump(cv, indent + "\u00A0\u00A0", color, addToSessionStream);
       }
     }
   }
@@ -3399,8 +3403,11 @@ public abstract class RuntimeLibrary {
 
   public static Value visit_url(ScriptRuntime controller) {
     RelayRequest relayRequest = controller.getRelayRequest();
+    StringBuffer buffer = new StringBuffer();
+    Value returnValue = new Value(DataTypes.BUFFER_TYPE, "", buffer);
+
     if (relayRequest == null) {
-      return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
+      return returnValue;
     }
 
     while (true) {
@@ -3414,11 +3421,10 @@ public abstract class RuntimeLibrary {
       }
     }
 
-    StringBuffer buffer = new StringBuffer();
     if (relayRequest.responseText != null) {
       buffer.append(relayRequest.responseText);
     }
-    return new Value(DataTypes.BUFFER_TYPE, "", buffer);
+    return returnValue;
   }
 
   public static Value visit_url(ScriptRuntime controller, final Value string) {
@@ -3529,11 +3535,13 @@ public abstract class RuntimeLibrary {
   public static Value to_string(ScriptRuntime controller, Value val) {
     // This function previously just returned val, except in the
     // case of buffers in which case it's necessary to capture the
-    // current string value of the buffer.	That works fine in most
-    // cases, but NOT if the value ever gets used as a key in a
-    // map; having a key that's actually an int (for example) in a
-    // string map causes the map ordering to become inconsistent,
-    // because int Values compare differently than string Values.
+    // current string value of the buffer.
+    //
+    // That works fine in most cases, but NOT if the value ever gets
+    // used as a key in a map; having a key that's actually an int (for
+    // example) in a string map causes the map ordering to become
+    // inconsistent, because int Values compare differently than string
+    // Values.
     return val.toStringValue();
   }
 
@@ -3604,6 +3612,15 @@ public abstract class RuntimeLibrary {
     }
 
     return value.toFloatValue();
+  }
+
+  public static Value to_buffer(ScriptRuntime controller, final Value value) {
+    if (value.getType().equals(TypeSpec.STRING)) {
+      String string = value.toString();
+      return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer(string));
+    }
+    StringBuffer buffer = (StringBuffer) value.rawValue();
+    return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer(buffer));
   }
 
   public static Value to_item(ScriptRuntime controller, final Value value) {
@@ -3827,18 +3844,7 @@ public abstract class RuntimeLibrary {
   // updated usually once per day.
 
   public static Value holiday(ScriptRuntime controller) {
-    var today = DateTimeManager.getRolloverDateTime();
-    String gameHoliday = HolidayDatabase.getGameHoliday(today);
-    String realHoliday = HolidayDatabase.getRealLifeHoliday(today);
-    String result =
-        gameHoliday != null && realHoliday != null
-            ? gameHoliday + "/" + realHoliday
-            : gameHoliday != null ? gameHoliday : realHoliday != null ? realHoliday : "";
-    if (result.equals("St. Sneaky Pete's Day/Feast of Boris")
-        || result.equals("Feast of Boris/St. Sneaky Pete's Day")) {
-      result = "Drunksgiving";
-    }
-    return new Value(result);
+    return new Value(HolidayDatabase.getHoliday());
   }
 
   public static Value today_to_string(ScriptRuntime controller) {
@@ -3932,35 +3938,13 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value stat_bonus_today(ScriptRuntime controller) {
-    if (ConditionalStatement.test("today is muscle day")) {
-      return DataTypes.MUSCLE_VALUE;
-    }
-
-    if (ConditionalStatement.test("today is myst day")) {
-      return DataTypes.MYSTICALITY_VALUE;
-    }
-
-    if (ConditionalStatement.test("today is moxie day")) {
-      return DataTypes.MOXIE_VALUE;
-    }
-
-    return DataTypes.STAT_INIT;
+    return DataTypes.parseStatValue(HolidayDatabase.getStatDay().toString(), true);
   }
 
   public static Value stat_bonus_tomorrow(ScriptRuntime controller) {
-    if (ConditionalStatement.test("tomorrow is muscle day")) {
-      return DataTypes.MUSCLE_VALUE;
-    }
-
-    if (ConditionalStatement.test("tomorrow is myst day")) {
-      return DataTypes.MYSTICALITY_VALUE;
-    }
-
-    if (ConditionalStatement.test("tomorrow is moxie day")) {
-      return DataTypes.MOXIE_VALUE;
-    }
-
-    return DataTypes.STAT_INIT;
+    return DataTypes.parseStatValue(
+        HolidayDatabase.getStatDay(DateTimeManager.getRolloverDateTime().plusDays(1)).toString(),
+        true);
   }
 
   public static Value session_logs(ScriptRuntime controller, final Value dayCount) {
@@ -6208,7 +6192,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value fullness_limit(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getFullnessLimit());
+    return new Value(KoLCharacter.getStomachCapacity());
   }
 
   public static Value my_inebriety(ScriptRuntime controller) {
@@ -6216,7 +6200,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value inebriety_limit(ScriptRuntime controller) {
-    return new Value(KoLCharacter.getInebrietyLimit());
+    return new Value(KoLCharacter.getLiverCapacity());
   }
 
   public static Value my_spleen_use(ScriptRuntime controller) {
@@ -10269,7 +10253,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value ping(ScriptRuntime controller) {
-    return ping(controller, PingManager.runPingTest());
+    return ping(controller, PingManager.runPingTest(false));
   }
 
   public static Value ping(ScriptRuntime controller, final Value arg1) {
@@ -10280,7 +10264,7 @@ public abstract class RuntimeLibrary {
   public static Value ping(ScriptRuntime controller, final Value arg1, final Value arg2) {
     int count = (int) arg1.intValue();
     String page = arg2.toString();
-    return ping(controller, PingManager.runPingTest(count, page, false));
+    return ping(controller, PingManager.runPingTest(count, page, false, false));
   }
 
   private static Value ping(ScriptRuntime controller, final PingTest result) {

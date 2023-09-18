@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withPath;
@@ -9,11 +10,14 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.util.Set;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
@@ -29,6 +33,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class AdventureRequestTest {
   @BeforeEach
@@ -81,9 +86,12 @@ public class AdventureRequestTest {
   }
 
   @Test
-  public void gregariousMonstersAreQueued() {
+  public void gregariousMonstersAreEnqueued() {
     var cleanups =
-        new Cleanups(withLastLocation("Barf Mountain"), withNextMonster("Knob Goblin Embezzler"));
+        new Cleanups(
+            withFight(0),
+            withLastLocation("Barf Mountain"),
+            withNextMonster("Knob Goblin Embezzler"));
 
     try (cleanups) {
       AdventureQueueDatabase.resetQueue();
@@ -94,6 +102,85 @@ public class AdventureRequestTest {
 
       assertThat(
           AdventureQueueDatabase.getZoneQueue("Barf Mountain"), contains("Knob Goblin Embezzler"));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void rainManMonstersAreNotEnqueued(final boolean isRainMan) {
+    var cleanups = new Cleanups(withLastLocation("Barf Mountain"));
+
+    if (isRainMan) cleanups.add(withPath(AscensionPath.Path.HEAVY_RAINS));
+
+    try (cleanups) {
+      AdventureQueueDatabase.resetQueue();
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText = html("request/test_fight_rainman_monster.html");
+      req.processResponse();
+
+      var matcher = contains("baseball bat");
+      if (isRainMan) matcher = not(matcher);
+
+      assertThat(AdventureQueueDatabase.getZoneQueue("Barf Mountain"), matcher);
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void rainManWitchessPiecesArentCountedTowardsTotal(final boolean isRainMan) {
+    var cleanups = new Cleanups(withProperty("_witchessFights", 0), withFight(0));
+
+    if (isRainMan) cleanups.add(withPath(AscensionPath.Path.HEAVY_RAINS));
+
+    try (cleanups) {
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText =
+          html("request/test_fight_witchess_pawn" + (isRainMan ? "_rain_man" : "") + ".html");
+      req.processResponse();
+
+      assertThat("_witchessFights", isSetTo(isRainMan ? 0 : 1));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void relativityMonsterAreNotEnqueued(final boolean isRelativity) {
+    var cleanups =
+        new Cleanups(
+            withLastLocation("Oil Peak"), withProperty("_relativityMonster", isRelativity));
+
+    try (cleanups) {
+      AdventureQueueDatabase.resetQueue();
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText = html("request/test_fight_oil_slick.html");
+      req.processResponse();
+
+      var matcher = contains("oil slick");
+      if (isRelativity) matcher = not(matcher);
+
+      assertThat(AdventureQueueDatabase.getZoneQueue("Oil Peak"), matcher);
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void relativityWitchessPiecesArentCountedTowardsTotal(final boolean isRelativityFight) {
+    var cleanups =
+        new Cleanups(
+            withProperty("_witchessFights", 0),
+            withFight(0),
+            withProperty("_relativityMonster", isRelativityFight));
+
+    try (cleanups) {
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText = html("request/test_fight_witchess_pawn.html");
+      req.processResponse();
+
+      assertThat("_witchessFights", isSetTo(isRelativityFight ? 0 : 1));
     }
   }
 
@@ -204,6 +291,47 @@ public class AdventureRequestTest {
           }
           assertTrue(modifiers.contains(dinosaur));
         }
+      }
+    }
+  }
+
+  @Nested
+  class Small {
+    @Test
+    public void detectsGrassMonsters() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("lastEncounter"),
+              withLastLocation("Fight in the Tall Grass"));
+
+      try (cleanups) {
+        AdventureQueueDatabase.resetQueue();
+        var req = new GenericRequest("fight.php?ireallymeanit=16");
+        req.responseText = html("request/test_fight_small_grass.html");
+        String encounter = AdventureRequest.registerEncounter(req);
+
+        assertThat(encounter, is("kilopede"));
+        assertThat("lastEncounter", isSetTo("kilopede"));
+      }
+    }
+
+    @Test
+    public void detectsShrunkMonsters() {
+      var cleanups =
+          new Cleanups(
+              withFight(0),
+              withProperty("lastEncounter"),
+              withLastLocation("The Outskirts of Cobb's Knob"));
+
+      try (cleanups) {
+        AdventureQueueDatabase.resetQueue();
+        var req = new GenericRequest("fight.php?ireallymeanit=16");
+        req.responseText = html("request/test_fight_small_outskirts.html");
+        String encounter = AdventureRequest.registerEncounter(req);
+
+        assertThat(encounter, is("Knob Goblin Assistant Chef"));
+        assertThat("lastEncounter", isSetTo("Knob Goblin Assistant Chef"));
       }
     }
   }

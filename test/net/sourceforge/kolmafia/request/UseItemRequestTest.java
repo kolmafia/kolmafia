@@ -32,6 +32,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,6 +40,7 @@ import static org.junitpioneer.jupiter.cartesian.CartesianTest.Enum;
 import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.util.List;
@@ -1065,6 +1067,131 @@ class UseItemRequestTest {
             "/choice.php",
             "whichchoice=1505&option=" + option + "&pwd=microphone");
         assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class GiftPackages {
+    @Test
+    void canDetectSenderOfGiftPackage() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withNoItems());
+      try (cleanups) {
+        RequestLoggerOutput.startStream();
+        client.addResponse(200, html("request/test_gift_package.html"));
+        var request = new GenericRequest("inv_use.php?whichitem=1168&ajax=1");
+        request.run();
+        var output = RequestLoggerOutput.stopStream();
+
+        String expected =
+            """
+            <font color="green">Opening less-than-three-shaped box from Veracity</font>
+            You acquire 11-leaf clover (11)
+            """;
+        assertThat(output, startsWith(expected));
+        assertThat(InventoryManager.getCount(ItemPool.ELEVEN_LEAF_CLOVER), is(11));
+      }
+    }
+  }
+
+  @Nested
+  class ConsumptionTypes {
+    @Test
+    void potionsAreMultiusable() {
+      assertEquals(
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.VIAL_OF_PURPLE_SLIME)),
+          ConsumptionType.USE_MULTIPLE);
+    }
+
+    @Test
+    void reusablePotionsAreReusable() {
+      assertEquals(
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.BRASS_DREAD_FLASK)),
+          ConsumptionType.USE_INFINITE);
+    }
+
+    @Test
+    void singleUsePotionsAreUsable() {
+      assertEquals(
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.GOOFBALLS)), ConsumptionType.USE);
+    }
+
+    @Test
+    void familiarHatchlingsAreTheirOwnType() {
+      assertEquals(
+          UseItemRequest.getConsumptionType(ItemPool.get(ItemPool.MOSQUITO_LARVA)),
+          ConsumptionType.FAMILIAR_HATCHLING);
+    }
+  }
+
+  @Nested
+  class NEPBagsKeys {
+    @ParameterizedTest
+    @CsvSource({
+      ItemPool.VAN_KEY + ", '', ''",
+      ItemPool.VAN_KEY + ", 'food', ''",
+      ItemPool.VAN_KEY + ", 'booze', ''",
+      ItemPool.VAN_KEY + ", 'booze', '10 2063'",
+      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", '', ''",
+      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'booze', ''",
+      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'food', ''",
+      ItemPool.UNREMARKABLE_DUFFEL_BAG + ", 'food', '10 2063'"
+    })
+    void propertyIsntIncrementedWithoutQuestActive(int itemId, String quest, String questProgress) {
+      var html =
+          itemId == ItemPool.VAN_KEY
+              ? html("request/test_item_use_van_key.html")
+              : html("request/test_item_use_unremarkable_duffel_bag.html");
+      var cleanups =
+          new Cleanups(
+              withItem(itemId),
+              withProperty("_questPartyFairItemsOpened", 0),
+              withProperty("_questPartyFairQuest", quest),
+              withProperty("_questPartyFairProgress", questProgress),
+              withNextResponse(new FakeHttpResponse<>(200, html)));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(itemId).run();
+        assertThat("_questPartyFairItemsOpened", isSetTo(0));
+      }
+    }
+
+    @Test
+    void foodPropertyIsIncrementedWithQuestActive() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.VAN_KEY),
+              withProperty("_questPartyFairItemsOpened", 0),
+              withProperty("_questPartyFairQuest", "food"),
+              withProperty("_questPartyFairProgress", "10 2063"),
+              withNextResponse(
+                  new FakeHttpResponse<>(200, html("request/test_item_use_van_key.html"))));
+
+      try (cleanups) {
+        // Verify that the correct item increments the quest
+        UseItemRequest.getInstance(ItemPool.VAN_KEY).run();
+        assertThat("_questPartyFairItemsOpened", isSetTo(1));
+      }
+    }
+
+    @Test
+    void boozePropertyIsIncrementedWithQuestActive() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.UNREMARKABLE_DUFFEL_BAG),
+              withProperty("_questPartyFairItemsOpened", 0),
+              withProperty("_questPartyFairQuest", "booze"),
+              withProperty("_questPartyFairProgress", "10 2063"),
+              withNextResponse(
+                  new FakeHttpResponse<>(
+                      200, html("request/test_item_use_unremarkable_duffel_bag.html"))));
+
+      try (cleanups) {
+        // Verify that the correct item increments the quest
+        UseItemRequest.getInstance(ItemPool.UNREMARKABLE_DUFFEL_BAG).run();
+        assertThat("_questPartyFairItemsOpened", isSetTo(1));
       }
     }
   }

@@ -89,9 +89,6 @@ public class UseItemRequest extends GenericRequest {
       Pattern.compile("Your Mer-kin vocabulary mastery is now at <b>(\\d*?)%</b>");
   private static final Pattern PURPLE_WORD_PATTERN =
       Pattern.compile("don't forget <font color=purple><b><i>(.*?)</i></b></font>");
-  private static final Pattern GIFT_FROM_PATTERN =
-      Pattern.compile(
-          "<p>From: <b><a class=nounder href=\"showplayer.php\\?who=(\\d+)\">(.*?)</a></b>");
   private static final Pattern BIRD_OF_THE_DAY_PATTERN =
       Pattern.compile("Today's bird is the (.*?)!");
 
@@ -211,15 +208,21 @@ public class UseItemRequest extends GenericRequest {
       return ConsumptionType.SPLEEN;
     }
 
-    EnumSet<Attribute> attrs = ItemDatabase.getAttributes(itemId);
-    if (attrs.contains(Attribute.USABLE)) {
-      return ConsumptionType.USE;
+    // Familiar hatchlings are a type of "usable" item, but you have to
+    // go to inv_familiar.php, not inv_use.php
+    if (consumptionType == ConsumptionType.FAMILIAR_HATCHLING) {
+      return ConsumptionType.FAMILIAR_HATCHLING;
     }
-    if (attrs.contains(Attribute.MULTIPLE)) {
+
+    // ItemDatabase can decide usability
+    if (ItemDatabase.isReusable(itemId)) {
+      return ConsumptionType.USE_INFINITE;
+    }
+    if (ItemDatabase.isMultiUsable(itemId)) {
       return ConsumptionType.USE_MULTIPLE;
     }
-    if (attrs.contains(Attribute.REUSABLE)) {
-      return ConsumptionType.USE_INFINITE;
+    if (ItemDatabase.isUsable(itemId)) {
+      return ConsumptionType.USE;
     }
 
     return consumptionType;
@@ -843,7 +846,7 @@ public class UseItemRequest extends GenericRequest {
 
     var dailyLimit = DailyLimitType.USE.getDailyLimit(itemId);
     if (dailyLimit != null) {
-      UseItemRequest.limiter = "daily limit";
+      UseItemRequest.limiter = dailyLimit.getLimitReason();
       return dailyLimit.getUsesRemaining();
     }
 
@@ -1928,6 +1931,7 @@ public class UseItemRequest extends GenericRequest {
           if (UseItemRequest.lastUntinker != null
               && responseText.contains("You jam your screwdriver")) {
             ResultProcessor.processResult(UseItemRequest.lastUntinker.getNegation());
+            KoLmafia.updateDisplay("Successfully unscrewed " + UseItemRequest.lastUntinker);
             UseItemRequest.lastUntinker = null;
             return;
           }
@@ -2032,15 +2036,6 @@ public class UseItemRequest extends GenericRequest {
             UseItemRequest.lastUpdate = "You can't open that package yet.";
             KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
             return;
-          }
-
-          // Log sender of message
-          Matcher giftFromMatcher = UseItemRequest.GIFT_FROM_PATTERN.matcher(responseText);
-          if (giftFromMatcher.find()) {
-            String giftFrom = giftFromMatcher.group(2);
-            String message = "Opening " + name + " from " + giftFrom;
-            RequestLogger.printLine("<font color=\"green\">" + message + "</font>");
-            RequestLogger.updateSessionLog(message);
           }
 
           UseItemRequest.showItemUsage(showHTML, responseText);
@@ -2836,6 +2831,9 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.REPLICA_EMOTION_CHIP:
       case ItemPool.POCKET_GUIDE_TO_MILD_EVIL:
       case ItemPool.POCKET_GUIDE_TO_MILD_EVIL_USED:
+      case ItemPool.RESIDUAL_CHITIN_PASTE:
+      case ItemPool.BOOK_OF_FACTS:
+      case ItemPool.BOOK_OF_FACTS_DOG_EARED:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you
@@ -2850,7 +2848,8 @@ public class UseItemRequest extends GenericRequest {
               && !responseText.contains("larynx become even more pirate")
               && !responseText.contains("become even more of an expert")
               && !responseText.contains("reread the tale and really remember")
-              && !responseText.contains("Beleven")) {
+              && !responseText.contains("Beleven")
+              && !responseText.contains("absorb the residual paste into your soul")) {
             UseItemRequest.lastUpdate = "You can't learn that skill.";
             KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
             return;
@@ -2870,7 +2869,7 @@ public class UseItemRequest extends GenericRequest {
 
         // You memorize all of the violence-related slang terms in the book.
         //
-        // Advanced Cowpuncher skills have been unlocked in the
+        // Advanced Cow Puncher skills have been unlocked in the
         // Avatar of West of Loathing Challenge Path.
         //
         // You memorize all of the food-related slang terms in the book.
@@ -4198,7 +4197,6 @@ public class UseItemRequest extends GenericRequest {
         // You dip into your future and borrow some time. Be sure to spend it wisely!
         if (responseText.contains("dip into your future")) {
           KoLCharacter.updateStatus();
-          Preferences.increment("extraRolloverAdventures", -20);
         }
         break;
 
@@ -4295,7 +4293,6 @@ public class UseItemRequest extends GenericRequest {
         if (responseText.contains("already feeling adventurous enough")) {
           // player has already used 5 resolutions today
           int extraAdv = 10 - Preferences.getInteger("_resolutionAdv");
-          Preferences.increment("extraRolloverAdventures", extraAdv);
           Preferences.increment("_resolutionAdv", extraAdv);
           return;
         }
@@ -4306,7 +4303,6 @@ public class UseItemRequest extends GenericRequest {
           used += 1;
         }
 
-        Preferences.increment("extraRolloverAdventures", 2 * used);
         Preferences.increment("_resolutionAdv", 2 * used);
 
         if (used < count) {
@@ -6137,6 +6133,19 @@ public class UseItemRequest extends GenericRequest {
         // There's a deafening Bwoom-woob-woob-woob and then an ominous hum fills the air.
         CampgroundRequest.setCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH, 1);
         break;
+      case ItemPool.VAN_KEY:
+        // When the player has a NEP Booze/Food quest active, up to 11 bags or keys can be opened
+        if (Preferences.getString("_questPartyFairQuest").equals("food")
+            && !Preferences.getString("_questPartyFairProgress").isEmpty()) {
+          Preferences.increment("_questPartyFairItemsOpened", 1, 11, false);
+        }
+        break;
+      case ItemPool.UNREMARKABLE_DUFFEL_BAG:
+        if (Preferences.getString("_questPartyFairQuest").equals("booze")
+            && !Preferences.getString("_questPartyFairProgress").isEmpty()) {
+          Preferences.increment("_questPartyFairItemsOpened", 1, 11, false);
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
@@ -6174,6 +6183,24 @@ public class UseItemRequest extends GenericRequest {
         if (!ItemDatabase.isReusable(itemId)) {
           ResultProcessor.processResult(item.getNegation());
         }
+    }
+  }
+
+  private static final Pattern GIFT_FROM_PATTERN =
+      Pattern.compile(
+          "<p>From: <b><a class=nounder href=\"showplayer.php\\?who=(\\d+)\">(.*?)</a></b>");
+
+  public static void parseGiftPackage(String responseText) {
+    AdventureResult item = UseItemRequest.lastItemUsed;
+    if (item != null && ItemDatabase.isGiftPackage(item.getItemId())) {
+      Matcher giftFromMatcher = GIFT_FROM_PATTERN.matcher(responseText);
+      if (giftFromMatcher.find()) {
+        String name = item.getName();
+        String giftFrom = giftFromMatcher.group(2);
+        String message = "Opening " + name + " from " + giftFrom;
+        RequestLogger.printLine("<font color=\"green\">" + message + "</font>");
+        RequestLogger.updateSessionLog(message);
+      }
     }
   }
 
@@ -6703,12 +6730,15 @@ public class UseItemRequest extends GenericRequest {
 
           int uid = StringUtilities.parseInt(matcher.group(1));
           AdventureResult untinker = ItemPool.get(uid, 1);
+
           String countStr = "1";
 
           if (urlString.contains("untinkerall=on")) {
             untinker = ItemPool.get(uid, untinker.getCount(KoLConstants.inventory));
             countStr = "*";
           }
+
+          KoLmafia.updateDisplay("Unscrewing " + untinker + "...");
 
           UseItemRequest.lastUntinker = untinker;
           useString = "unscrew " + countStr + " " + untinker.getName();

@@ -63,6 +63,8 @@ public class Preferences {
   private static final Set<String> perUserGlobalSet = new HashSet<>();
   private static final Set<String> onlyResetOnRollover =
       new TreeSet<>(List.of("ascensionsToday", "potatoAlarmClockUsed"));
+  private static final Set<String> legacyNonDailies =
+      new TreeSet<>(List.of("_shortOrderCookCharge"));
   private static final Set<String> legacyDailies =
       new TreeSet<>(
           List.of(
@@ -93,6 +95,7 @@ public class Preferences {
               "rageGlandVented",
               "reagentSummons",
               "romanticTarget",
+              "screechCombats",
               "seaodesFound",
               "spiceMelangeUsed",
               "spookyPuttyCopiesMade",
@@ -104,6 +107,7 @@ public class Preferences {
 
   private static final String[] resetOnAscension =
       new String[] {
+        "_shortOrderCookCharge",
         "8BitBonusTurns",
         "8BitColor",
         "8BitScore",
@@ -247,6 +251,7 @@ public class Preferences {
         "eldritchTentaclesFought",
         "encountersUntilDMTChoice",
         "encountersUntilNEPChoice",
+        "encountersUntilYachtzeeChoice",
         "encountersUntilSRChoice",
         "ensorcelee",
         "ensorceleeLevel",
@@ -324,6 +329,7 @@ public class Preferences {
         "hasSushiMat",
         "hermitHax0red",
         "highTopPumped",
+        "holdHandsMonster",
         "homebodylCharges",
         "iceSculptureMonster",
         "intenseCurrents",
@@ -453,7 +459,6 @@ public class Preferences {
         "rwbMonsterCount",
         "sausageGrinderUnits",
         "scrapbookCharges",
-        "screechCombats",
         "screencappedMonster",
         "seahorseName",
         "shadowRiftIngress",
@@ -1357,7 +1362,8 @@ public class Preferences {
   }
 
   public static boolean isDaily(String name) {
-    return name.startsWith("_") || legacyDailies.contains(name);
+    return (name.startsWith("_") && !legacyNonDailies.contains(name))
+        || legacyDailies.contains(name);
   }
 
   private static void deferredPoints(String prop, String defprop, int max) {

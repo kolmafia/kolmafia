@@ -180,7 +180,8 @@ public class ValueConverter {
       }
     }
 
-    Type elementType = fromJava(nativeArray.get(0)).getType();
+    Value firstElement = fromJava(nativeArray.get(0));
+    Type elementType = firstElement == null ? DataTypes.ANY_TYPE : firstElement.getType();
     List<Value> result = new ArrayList<>();
     for (Object element : nativeArray) {
       result.add(fromJava(element));

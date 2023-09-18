@@ -410,11 +410,15 @@ class PreferencesTest {
     String legacyDaily = "nunsVisits";
     String newStyleDaily = "_SomeDailyThing";
     String notADaily = "somePrefName";
+    String legacyNonDaily = "_shortOrderCookCharge";
     assertTrue(
         Preferences.isDaily(legacyDaily), legacyDaily + " should be a Daily pref, but isn't");
     assertTrue(
         Preferences.isDaily(newStyleDaily), newStyleDaily + " should be a Daily pref, but isn't");
     assertFalse(Preferences.isDaily(notADaily), notADaily + " should not be a Daily pref, but is");
+    assertFalse(
+        Preferences.isDaily(legacyNonDaily),
+        legacyNonDaily + " should not be a Daily pref, but is");
   }
 
   @Test

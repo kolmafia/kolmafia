@@ -169,7 +169,7 @@ public class AscensionHistoryRequest extends GenericRequest
       final String pref;
 
       switch (entry.getKey()) {
-        case COWPUNCHER:
+        case COW_PUNCHER:
           pref = "awolPointsCowpuncher";
           break;
         case BEANSLINGER:

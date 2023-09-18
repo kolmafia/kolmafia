@@ -36,6 +36,7 @@ global	debugBuy	false
 global	debugConsequences	false
 global	debugFoxtrotRemoval	false
 global	debugPathnames	true
+global	debugTopMenuStyle	false
 global	defaultBorderColor	blue
 global	defaultDropdown1	0
 global	defaultDropdown2	1
@@ -100,6 +101,7 @@ global	pingDefaultTestPage	api
 global	pingDefaultTestPings	10
 global	pingLatest
 global	pingLogin	true
+global	pingLoginAbort	1:10
 global	pingLoginCheck	none
 global	pingLoginCount	0
 global	pingLoginFail	confirm
@@ -179,6 +181,7 @@ global	userAgent
 global	verboseSpeakeasy	false
 global	verboseFloundry	false
 global	wrapLongLines	true
+global	_beachTides	-1
 global	_g9Effect	0
 global	_gitUpdated	false
 global	_svnRepoFileFetched	false
@@ -298,6 +301,7 @@ user	badMoonEncounter48	false
 user	bagOTricksCharges	0
 user	ballpitBonus	1
 user	banishedMonsters	
+user	banishedPhyla	
 user	banishingShoutMonsters
 user	bankedKarma	0
 user	barrelShrineUnlocked	false
@@ -569,8 +573,8 @@ user	dinseyTouristsFed	0
 user	dinseyToxicMultiplier	3
 user	dnaSyringe
 user	doctorBagQuestItem	
-user	doctorBagQuestLights	0	
-user	doctorBagQuestLocation	
+user	doctorBagQuestLights	0
+user	doctorBagQuestLocation
 user	doctorBagUpgrades	0
 user	doghouseBoarded	false
 user	dolphinItem
@@ -604,6 +608,7 @@ user	eldritchTentaclesFought	0
 user	electricKoolAidEaten	0
 user	elfGratitude	0
 user	encountersUntilDMTChoice	5
+user	encountersUntilYachtzeeChoice	20
 user	encountersUntilNEPChoice	7
 user	encountersUntilSRChoice	11
 user	enamorangMonster
@@ -793,6 +798,7 @@ user	hippiesDefeated	0
 user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
 user	holidaySwagger	0
+user	holdHandsMonster	
 user	homemadeRobotUpgrades	0
 user	homebodylCharges	0
 user	horseryAvailable	false
@@ -1426,6 +1432,7 @@ user	skillLevel134	0
 user	skillLevel144	0
 user	skillLevel180	0
 user	skillLevel188	0
+user	skillLevel227	0
 user	skillLevel7254	0
 user	sleazeAirportAlways	false
 user	slimelingFullness	0.0
@@ -1644,6 +1651,39 @@ user	_antihangoverBonus	5
 user	_aprilShower	false
 user	_armyToddlerCast	false
 user	_astralDrops	0
+user	_aug1Cast	false
+user	_aug2Cast	false
+user	_aug3Cast	false
+user	_aug4Cast	false
+user	_aug5Cast	false
+user	_aug6Cast	false
+user	_aug7Cast	false
+user	_aug8Cast	false
+user	_aug9Cast	false
+user	_aug10Cast	false
+user	_aug11Cast	false
+user	_aug12Cast	false
+user	_aug13Cast	false
+user	_aug14Cast	false
+user	_aug15Cast	false
+user	_aug16Cast	false
+user	_aug17Cast	false
+user	_aug18Cast	false
+user	_aug19Cast	false
+user	_aug20Cast	false
+user	_aug21Cast	false
+user	_aug22Cast	false
+user	_aug23Cast	false
+user	_aug24Cast	false
+user	_aug25Cast	false
+user	_aug26Cast	false
+user	_aug27Cast	false
+user	_aug28Cast	false
+user	_aug29Cast	false
+user	_aug30Cast	false
+user	_aug31Cast	false
+user	_augSkillsCast	0
+user	_augTodayCast	false
 user	_authorsInkUsed	false
 user	_autumnatonQuests	0
 user	_backUpUses	0
@@ -1736,6 +1776,9 @@ user	_chronolithNextCost	10
 user	_chubbyAndPlumpUsed	false
 user	_cinchUsed	0
 user	_cinchoRests	0
+user	_circadianRhythmsAdventures	0
+user	_circadianRhythmsRecalled	false
+user	_circadianRhythmsPhylum
 user	_circleDrumUsed	false
 user	_citizenZone
 user	_citizenZoneMods
@@ -2073,6 +2116,9 @@ user	_missileLauncherUsed	false
 user	_molehillMountainUsed	false
 user	_momFoodReceived	false
 user	_monkeyPawWishesUsed	0
+user	_monsterHabitatsFightsLeft	0
+user	_monsterHabitatsMonster	
+user	_monsterHabitatsRecalled	0
 user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false
@@ -2150,6 +2196,7 @@ user	_psychoJarUsed	false
 user	_psychokineticHugUsed	false
 user	_questESp
 user	_questPartyFair	unstarted
+user	_questPartyFairItemsOpened	0
 user	_questPartyFairProgress
 user	_questPartyFairQuest
 user	_radlibSummons	0

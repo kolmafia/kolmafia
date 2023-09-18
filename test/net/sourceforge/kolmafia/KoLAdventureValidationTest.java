@@ -7,6 +7,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withEquippableItem;
@@ -47,6 +48,7 @@ import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import java.time.Month;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -6631,6 +6633,56 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class Holiday {
+    private static final KoLAdventure SSPD =
+        AdventureDatabase.getAdventure(AdventurePool.SSPD_STUPOR);
+
+    private static final KoLAdventure YULETIDE =
+        AdventureDatabase.getAdventure(AdventurePool.YULETIDE);
+
+    @Test
+    void mustBeSspdForStupor() {
+      var cleanups = new Cleanups(withDay(2023, Month.FEBRUARY, 9), withInebriety(200));
+      try (cleanups) {
+        assertThat(SSPD.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void mustBeDrunkForStupor() {
+      var cleanups = new Cleanups(withDay(2023, Month.FEBRUARY, 10), withInebriety(1));
+      try (cleanups) {
+        assertThat(SSPD.canAdventure(), is(false));
+      }
+    }
+
+    @Test
+    void canAdventureInSspdStupor() {
+      var cleanups = new Cleanups(withDay(2023, Month.FEBRUARY, 10), withInebriety(200));
+      try (cleanups) {
+        assertThat(SSPD.canAdventure(), is(true));
+      }
+    }
+
+    @Test
+    void canAdventureInSspdStuporOnCombinationSspdEvent() {
+      var cleanups = new Cleanups(withDay(2011, Month.MARCH, 17), withInebriety(200));
+      try (cleanups) {
+        assertThat(SSPD.canAdventure(), is(true));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void handlesSimpleHolidayZones(final boolean isYuletide) {
+      var cleanups = new Cleanups(withDay(2023, Month.JANUARY, isYuletide ? 18 : 20));
+      try (cleanups) {
+        assertThat(YULETIDE.canAdventure(), is(isYuletide));
+      }
+    }
+  }
+
+  @Nested
   class FantasyRealm {
     private static final KoLAdventure BANDITS =
         AdventureDatabase.getAdventureByName("The Bandit Crossroads");
@@ -7454,6 +7506,20 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         // You can get to the Pyramid once you have opened it
         assertTrue(PYRAMID.canAdventure());
+      }
+    }
+  }
+
+  @Nested
+  class Small {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void canOnlyAdventureInDirtWhenSmall(boolean inRun) {
+      var cleanups = new Cleanups(withPath(inRun ? Path.SMALL : Path.NONE));
+
+      try (cleanups) {
+        var area = AdventureDatabase.getAdventureByName("Fight in the Dirt");
+        assertThat(area.canAdventure(), is(inRun));
       }
     }
   }

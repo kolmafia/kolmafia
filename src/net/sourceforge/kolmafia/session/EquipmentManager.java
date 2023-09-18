@@ -2164,6 +2164,11 @@ public class EquipmentManager {
   }
 
   public static final boolean meetsStatRequirements(final int itemId) {
+    if (KoLCharacter.inSmallcore()) {
+      // stat requirements are ignored
+      return true;
+    }
+
     EquipmentRequirement req =
         new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
 

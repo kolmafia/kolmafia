@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
@@ -31,6 +32,7 @@ import internal.helpers.HttpClientWrapper;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.Month;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -547,6 +549,17 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
+  @Nested
+  class BufferFunctions {
+    @ParameterizedTest
+    @ValueSource(
+        strings = {"buffer b = \"Initial content\"; (b.to_string() == \"Initial content\")"})
+    void stringCanInitializeBuffer(String command) {
+      String output = execute(command);
+      assertThat(output, endsWith("Returned: true\n"));
+    }
+  }
+
   @Test
   void environmentIsLowercase() {
     String output = execute("($location[Noob Cave].environment == 'underground')");
@@ -752,9 +765,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             is(
                 """
                       Returned: aggregate float [item]
-                      Freddy Kruegerand => 0.0
+                      Freddy Kruegerand => 5.0
                       muddy skirt => 0.1
-                      Dreadsylvanian Almanac page => 0.0
+                      Dreadsylvanian Almanac page => 1.0
                       """));
       }
     }
@@ -767,9 +780,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           is(
               """
                     Returned: aggregate float [item]
-                    Freddy Kruegerand => 0.0
+                    Freddy Kruegerand => 5.0
                     grandfather watch => 0.1
-                    Dreadsylvanian Almanac page => 0.0
+                    Dreadsylvanian Almanac page => 1.0
                     """));
     }
 
@@ -786,11 +799,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                       Returned: aggregate {item drop; float rate; string type;} [3]
                       0 => record {item drop; float rate; string type;}
                         drop => Dreadsylvanian Almanac page
-                        rate => 0.0
+                        rate => 1.0
                         type => f
                       1 => record {item drop; float rate; string type;}
                         drop => Freddy Kruegerand
-                        rate => 0.0
+                        rate => 5.0
                         type => f
                       2 => record {item drop; float rate; string type;}
                         drop => muddy skirt
@@ -810,11 +823,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                     Returned: aggregate {item drop; float rate; string type;} [3]
                     0 => record {item drop; float rate; string type;}
                       drop => Dreadsylvanian Almanac page
-                      rate => 0.0
+                      rate => 1.0
                       type => f
                     1 => record {item drop; float rate; string type;}
                       drop => Freddy Kruegerand
-                      rate => 0.0
+                      rate => 5.0
                       type => f
                     2 => record {item drop; float rate; string type;}
                       drop => grandfather watch
@@ -840,6 +853,42 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   void numericModifierHandlesCrimboTrainingSkills() {
     String output = execute("numeric_modifier($skill[Crimbo Training: Bartender], \"booze drop\")");
     assertThat(output, containsString("15.0"));
+  }
+
+  @Test
+  void holiday() {
+    var cleanups = withDay(2023, Month.FEBRUARY, 10);
+
+    try (cleanups) {
+      String output = execute("holiday()");
+
+      assertContinueState();
+      assertThat(output, is("Returned: St. Sneaky Pete's Day\n"));
+    }
+  }
+
+  @Test
+  void statBonusToday() {
+    var cleanups = withDay(2023, Month.SEPTEMBER, 12);
+
+    try (cleanups) {
+      String output = execute("stat_bonus_today()");
+
+      assertContinueState();
+      assertThat(output, is("Returned: Muscle\n"));
+    }
+  }
+
+  @Test
+  void statBonusTomorrow() {
+    var cleanups = withDay(2023, Month.SEPTEMBER, 19);
+
+    try (cleanups) {
+      String output = execute("stat_bonus_tomorrow()");
+
+      assertContinueState();
+      assertThat(output, is("Returned: Moxie\n"));
+    }
   }
 
   @Nested

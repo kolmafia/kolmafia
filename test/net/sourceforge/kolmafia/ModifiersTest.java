@@ -6,6 +6,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withOverrideModifiers;
@@ -529,37 +530,43 @@ public class ModifiersTest {
 
     @Test
     public void correctlyCalculatesVampyreMaximumHP() {
-      var cleanups = new Cleanups(withClass(AscensionClass.VAMPYRE), withStats(100, 100, 100));
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.VAMPYRE),
+              withPath(Path.DARK_GYFFTE),
+              withStats(100, 100, 100),
+              withProperty("darkGyfftePoints", 0));
       try (cleanups) {
         // Base HP = Base MUS
         // Buffed HP = max(Base MUS, Base HP + mod(HP))
+        // Note that every Vampyre gets 20 additional base HP, plus another 20 for every DG Point
 
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         KoLCharacter.recalculateAdjustments(false);
         var stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
-        assertEquals(100, stats.get(DerivedModifier.BUFFED_HP));
+        assertEquals(120, stats.get(DerivedModifier.BUFFED_HP));
 
         // viking helmet: (+1 muscle)
         EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(101, stats.get(DerivedModifier.BUFFED_MUS));
-        assertEquals(100, stats.get(DerivedModifier.BUFFED_HP));
+        assertEquals(120, stats.get(DerivedModifier.BUFFED_HP));
 
         // reinforced beaded headband (+40 HP)
         EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.REINFORCED_BEADED_HEADBAND));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
-        assertEquals(140, stats.get(DerivedModifier.BUFFED_HP));
+        assertEquals(160, stats.get(DerivedModifier.BUFFED_HP));
 
         // extra-wide head candle (+100% HP)
         EquipmentManager.setEquipment(Slot.HAT, ItemPool.get(ItemPool.EXTRA_WIDE_HEAD_CANDLE));
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats.get(DerivedModifier.BUFFED_MUS));
-        assertEquals(100, stats.get(DerivedModifier.BUFFED_HP));
+        assertEquals(120, stats.get(DerivedModifier.BUFFED_HP));
       }
     }
 
@@ -1065,6 +1072,107 @@ public class ModifiersTest {
         assertThat(
             familiarMods.getDouble(DoubleModifier.ITEMDROP),
             closeTo(fairyFunction(weight) * itemFairyEffectiveness, 0.001));
+      }
+    }
+  }
+
+  @Nested
+  public class OffhandRemarkable {
+    @BeforeAll
+    public static void setup() {
+      Preferences.reset("OffhandRemarkable");
+    }
+
+    @Test
+    public void doublesOffhands() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(ItemPool.BRIMSTONE_BUNKER), withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(100.0));
+      }
+    }
+
+    @Test
+    public void onlyDoublesOffhandOffhands() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.DOUBLE_FISTED_SKULL_SMASHING),
+              withEquipped(ItemPool.BRIMSTONE_BLUDGEON),
+              withEquipped(Slot.OFFHAND, ItemPool.BRIMSTONE_BLUDGEON),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(100.0));
+      }
+    }
+
+    @Test
+    public void doublesOffhandsOnFamiliar() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(ItemPool.BRIMSTONE_BUNKER),
+              withFamiliar(FamiliarPool.LEFT_HAND),
+              withEquipped(Slot.FAMILIAR, ItemPool.BRIMSTONE_BUNKER),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MUS_PCT), equalTo(200.0));
+      }
+    }
+
+    @Test
+    public void doublesUmbrellaMods() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.UNBREAKABLE_UMBRELLA),
+              withProperty("umbrellaState", "bucket style"),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), equalTo(50.0));
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(50.0));
+      }
+    }
+  }
+
+  @Nested
+  class Events {
+    @Test
+    void correctlyAppliesLaborDayAdventures() {
+      var cleanups = new Cleanups(withDay(2023, Month.JULY, 6));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ADVENTURES), equalTo(10.0));
+      }
+    }
+
+    @Test
+    void correctlyAppliedModsFromMultipleEventDay() {
+      var cleanups = new Cleanups(withDay(2023, Month.AUGUST, 3), withInteractivity(true));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MOX_EXPERIENCE_PCT), equalTo(25.0));
+        assertThat(current.getDouble(DoubleModifier.MANA_COST), equalTo(-3.0));
       }
     }
   }
