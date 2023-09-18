@@ -85,7 +85,9 @@ public class AshRuntime extends AbstractRuntime {
   public void setState(final ScriptRuntime.State state) {
     super.setState(state);
 
-    if (state == ScriptRuntime.State.EXIT && Preferences.getBoolean("printStackOnAbort")) {
+    if (state == ScriptRuntime.State.EXIT
+        && KoLmafia.refusesContinue()
+        && Preferences.getBoolean("printStackOnAbort")) {
       this.printStackTrace();
     }
   }
