@@ -27,6 +27,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class DebugModifiersTest {
   private static Matcher<String> containsDebugRow(
@@ -570,6 +572,15 @@ public class DebugModifiersTest {
             withAllEquipped(ItemPool.SUGAR_SHIRT, ItemPool.MIME_ARMY_INSIGNIA_INFANTRY))) {
       evaluateDebugModifiers(DoubleModifier.MUS_EXPERIENCE);
       assertThat(output(), containsDebugRow("Class", "EXP", 5.0, 5.0));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"_hareAdv,Wild Hare", "_gibbererAdv,Squamous Gibberer"})
+  void listsFamiliarAdventures(String preference, String familiar) {
+    try (var cleanups = new Cleanups(withProperty(preference, 6))) {
+      evaluateDebugModifiers(DoubleModifier.ADVENTURES);
+      assertThat(output(), containsDebugRow("Familiar", familiar, 6.0, 6.0));
     }
   }
 }
