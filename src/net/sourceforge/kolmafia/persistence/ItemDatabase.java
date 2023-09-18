@@ -565,6 +565,12 @@ public class ItemDatabase {
       String name = StringUtilities.getCanonicalName(alias.name);
       ItemDatabase.addIdToName(name, id);
     }
+
+    for (var hotdog : ClanLoungeRequest.HOTDOG_DATA) {
+      id = hotdog.id();
+      var name = StringUtilities.getCanonicalName(hotdog.name());
+      ItemDatabase.addIdToName(name, id);
+    }
   }
 
   private static void saveCanonicalNames() {
