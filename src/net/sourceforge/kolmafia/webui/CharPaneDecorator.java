@@ -1144,7 +1144,7 @@ public class CharPaneDecorator {
       boolean needsCocoa = UneffectRequest.needsCocoa(effectName);
       boolean isTimer = effectName.startsWith("Timer ");
       boolean isCowrruption = effectName.equals("Cowrruption");
-      boolean isCowpuncher = KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER;
+      boolean isCowPuncher = KoLCharacter.getAscensionClass() == AscensionClass.COW_PUNCHER;
       int duration = effect.getCount();
       boolean isIntrinsic = duration == Integer.MAX_VALUE;
 
@@ -1155,7 +1155,7 @@ public class CharPaneDecorator {
       String removeAction =
           needsCocoa
               ? "use 1 hot Dreadsylvanian cocoa"
-              : (isIntrinsic || (isCowrruption && isCowpuncher))
+              : (isIntrinsic || (isCowrruption && isCowPuncher))
                   ? UneffectRequest.getUneffectSkill(effectName)
                   : !isRemovable ? "" : MoodManager.getDefaultAction("gain_effect", effectName);
 

@@ -278,8 +278,8 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         this.buttons[index++].setEnabled(canFlush);
       }
       case SPLEEN -> {
-        boolean canSpleen = KoLCharacter.canSpleen();
-        this.buttons[index++].setEnabled(canSpleen);
+        boolean canChew = KoLCharacter.canChew();
+        this.buttons[index++].setEnabled(canChew);
 
         boolean filterAvailable = InventoryManager.itemAvailable(ItemPool.MOJO_FILTER);
         boolean haveSpleen = KoLCharacter.getSpleenUse() > 0;

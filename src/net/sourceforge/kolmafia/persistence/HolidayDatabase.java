@@ -814,7 +814,7 @@ public class HolidayDatabase {
   }
 
   public static List<String> getEvents(final ZonedDateTime dateTime) {
-    var list = new ArrayList<>(getHolidays(dateTime));
+    var list = new ArrayList<>(getHolidays(dateTime, false));
 
     // Include this pseudo-event because the day before Labor Day essentially has +10 rollover
     // adventures
@@ -1023,11 +1023,6 @@ public class HolidayDatabase {
    */
   public static boolean isSaturday(ZonedDateTime dateTime) {
     return dateTime.getDayOfWeek() == DayOfWeek.SATURDAY;
-  }
-
-  public static boolean isFeastOfBorisLike() {
-    var holidays = getHolidays(DateTimeManager.getRolloverDateTime(), false);
-    return holidays.contains("Feast of Boris");
   }
 
   public static void addPredictionHTML(

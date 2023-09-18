@@ -13,9 +13,9 @@ public class AscensionPath {
   public enum Path {
     // Path Name, Path ID, is Avatar?, image in ascension history, article
     NONE("none", 0, false, "blank", null),
-    BOOZETAFARIAN("Boozetafarian", 1, false, "martini", "a"),
-    TEETOTALER("Teetotaler", 2, false, "bowl", "a"),
-    OXYGENARIAN("Oxygenarian", 3, false, "oxy", "an"),
+    BOOZETAFARIAN("Boozetafarian", 1, false, "martini", "a", null, 0, false, 0, 14, 15),
+    TEETOTALER("Teetotaler", 2, false, "bowl", "a", null, 0, false, 15, 0, 15),
+    OXYGENARIAN("Oxygenarian", 3, false, "oxy", "an", null, 0, false, 0, 0, 15),
     BEES_HATE_YOU("Bees Hate You", 4, false, "beeicon", "a"),
     SURPRISING_FIST("Way of the Surprising Fist", 6, false, "wosp_fist", "a"),
     TRENDY("Trendy", 7, false, "trendyicon", "a"),
@@ -40,10 +40,11 @@ public class AscensionPath {
     COMMUNITY_SERVICE("Community Service", 25, false, "csplaquesmall", "a"),
     AVATAR_OF_WEST_OF_LOATHING("Avatar of West of Loathing", 26, false, "badge", "an"),
     THE_SOURCE("The Source", 27, false, "ss_datasiphon", "a", "sourcePoints", 0, false),
-    NUCLEAR_AUTUMN("Nuclear Autumn", 28, false, "radiation", "a", "nuclearAutumnPoints", 23, false),
+    NUCLEAR_AUTUMN(
+        "Nuclear Autumn", 28, false, "radiation", "a", "nuclearAutumnPoints", 23, false, 5, 2, 3),
     GELATINOUS_NOOB("Gelatinous Noob", 29, true, "gcube", "a", "noobPoints", 20, true),
     LICENSE_TO_ADVENTURE(
-        "License to Adventure", 30, false, "briefcase", "a", "bondPoints", 24, true),
+        "License to Adventure", 30, false, "briefcase", "a", "bondPoints", 24, true, 0, 2, 15),
     LIVE_ASCEND_REPEAT("Live. Ascend. Repeat.", 31, false, "watch", "a"),
     POKEFAM("Pocket Familiars", 32, false, "spiritorb", "a"),
     GLOVER("G-Lover", 33, false, "g-loveheart", "a", "gloverPoints", 10, false),
@@ -56,7 +57,7 @@ public class AscensionPath {
         "Path of the Plumber", 38, true, "mario_mushroom1", "a", "plumberPoints", 22, false),
     LOWKEY("Low Key Summer", 39, false, "littlelock", "a"),
     GREY_GOO("Grey Goo", 40, false, "greygooball", "a"),
-    YOU_ROBOT("You, Robot", 41, false, "robobattery", "a", "youRobotPoints", 37, false),
+    YOU_ROBOT("You, Robot", 41, false, "robobattery", "a", "youRobotPoints", 37, false, 0, 0, 0),
     QUANTUM("Quantum Terrarium", 42, false, "quantum", "a", "quantumPoints", 11, false),
     WILDFIRE("Wildfire", 43, false, "fire", "a"),
     GREY_YOU("Grey You", 44, true, "greygooring", "a", "greyYouPoints", 11, false),
@@ -64,7 +65,7 @@ public class AscensionPath {
     DINOSAURS("Fall of the Dinosaurs", 46, false, "dinostuffy", "a"),
     SHADOWS_OVER_LOATHING("Avatar of Shadows Over Loathing", 47, false, "aosol", "an"),
     LEGACY_OF_LOATHING("Legacy of Loathing", 48, false, "xx", "a", "legacyPoints", 19, true),
-    SMALL("A Shrunken Adventurer am I", 49, false, "kiloskull", "an"),
+    SMALL("A Shrunken Adventurer am I", 49, false, "kiloskull", "an", null, 0, false, 2, 1, 15),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
@@ -77,6 +78,38 @@ public class AscensionPath {
     public final String pointsPreference;
     public final int maximumPoints;
     public final boolean bucket;
+    public final int stomachCapacity;
+    public final int liverCapacity;
+    public final int spleenCapacity;
+
+    public static Set<Path> allPaths() {
+      return Arrays.stream(values()).filter(a -> a.getId() > 0).collect(Collectors.toSet());
+    }
+
+    Path(
+        String name,
+        int id,
+        boolean isAvatar,
+        String image,
+        String article,
+        String pointsPreference,
+        int maximumPoints,
+        boolean bucket,
+        int stomachCapacity,
+        int liverCapacity,
+        int spleenCapacity) {
+      this.name = name;
+      this.id = id;
+      this.isAvatar = isAvatar;
+      this.image = image + ".gif";
+      this.article = article;
+      this.pointsPreference = pointsPreference;
+      this.maximumPoints = maximumPoints;
+      this.bucket = bucket;
+      this.stomachCapacity = stomachCapacity;
+      this.liverCapacity = liverCapacity;
+      this.spleenCapacity = spleenCapacity;
+    }
 
     Path(
         String name,
@@ -87,18 +120,7 @@ public class AscensionPath {
         String pointsPreference,
         int maximumPoints,
         boolean bucket) {
-      this.name = name;
-      this.id = id;
-      this.isAvatar = isAvatar;
-      this.image = image + ".gif";
-      this.article = article;
-      this.pointsPreference = pointsPreference;
-      this.maximumPoints = maximumPoints;
-      this.bucket = bucket;
-    }
-
-    public static Set<Path> allPaths() {
-      return Arrays.stream(values()).filter(a -> a.getId() > 0).collect(Collectors.toSet());
+      this(name, id, isAvatar, image, article, pointsPreference, maximumPoints, bucket, 15, 14, 15);
     }
 
     Path(String name, int id, boolean isAvatar, String image, String article) {
@@ -157,6 +179,18 @@ public class AscensionPath {
             DARK_GYFFTE -> false;
         default -> true;
       };
+    }
+
+    public int getStomachCapacity() {
+      return this.stomachCapacity;
+    }
+
+    public int getLiverCapacity() {
+      return this.liverCapacity;
+    }
+
+    public int getSpleenCapacity() {
+      return this.spleenCapacity;
     }
 
     @Override

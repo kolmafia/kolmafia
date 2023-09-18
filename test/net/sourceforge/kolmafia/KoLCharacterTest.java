@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import java.time.Month;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -23,6 +25,10 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class KoLCharacterTest {
   @BeforeEach
@@ -205,7 +211,7 @@ public class KoLCharacterTest {
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
             withFamiliarInTerrarium(FamiliarPool.BADGER),
-            withPath(AscensionPath.Path.GLOVER));
+            withPath(Path.GLOVER));
 
     try (cleanups) {
       var fam = KoLCharacter.usableFamiliar("mosquito");
@@ -219,7 +225,7 @@ public class KoLCharacterTest {
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
             withFamiliarInTerrarium(FamiliarPool.BADGER),
-            withPath(AscensionPath.Path.GLOVER));
+            withPath(Path.GLOVER));
 
     try (cleanups) {
       var fam = KoLCharacter.usableFamiliar("astral badger");
@@ -230,8 +236,7 @@ public class KoLCharacterTest {
   @Test
   public void familiarsWithoutBsDoExistInBeesHateYou() {
     var cleanups =
-        new Cleanups(
-            withPath(AscensionPath.Path.BEES_HATE_YOU), withFamiliarInTerrarium(FamiliarPool.MU));
+        new Cleanups(withPath(Path.BEES_HATE_YOU), withFamiliarInTerrarium(FamiliarPool.MU));
 
     try (cleanups) {
       var mu = KoLCharacter.usableFamiliar(FamiliarPool.MU);
@@ -243,8 +248,7 @@ public class KoLCharacterTest {
   public void familiarsWithBsDoNotExistInBeesHateYou() {
     var cleanups =
         new Cleanups(
-            withPath(AscensionPath.Path.BEES_HATE_YOU),
-            withFamiliarInTerrarium(FamiliarPool.CAT_BURGLAR));
+            withPath(Path.BEES_HATE_YOU), withFamiliarInTerrarium(FamiliarPool.CAT_BURGLAR));
 
     try (cleanups) {
       var mu = KoLCharacter.usableFamiliar(FamiliarPool.CAT_BURGLAR);
@@ -291,8 +295,7 @@ public class KoLCharacterTest {
   @Test
   public void familiarsWithoutGsAreStillOwnedInGLover() {
     var cleanups =
-        new Cleanups(
-            withFamiliarInTerrarium(FamiliarPool.MOSQUITO), withPath(AscensionPath.Path.GLOVER));
+        new Cleanups(withFamiliarInTerrarium(FamiliarPool.MOSQUITO), withPath(Path.GLOVER));
 
     try (cleanups) {
       var fam = KoLCharacter.ownedFamiliar("mosquito");
@@ -300,30 +303,216 @@ public class KoLCharacterTest {
     }
   }
 
-  @Test
-  public void greyGooHasNoStomach() {
-    var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
+  @Nested
+  class StomachCapacity {
+    @Test
+    void robotsHaveNoStomachCapacity() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_sweetToothUsed", true),
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withPath(Path.YOU_ROBOT));
+      try (cleanups) {
+        assertThat(KoLCharacter.getStomachCapacity(), is(0));
+      }
+    }
 
-    try (cleanups) {
-      assertThat(KoLCharacter.getFullnessLimit(), equalTo(0));
+    @Test
+    void greyGooHasNoStomachCapacity() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.STEEL_STOMACH),
+              withClass(AscensionClass.GREY_GOO),
+              withPath(Path.GREY_YOU));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getStomachCapacity(), is(0));
+      }
+    }
+
+    @Test
+    void vampyresCannotExpandStomach() {
+      var cleanups =
+          new Cleanups(withProperty("_pantsgivingFullness", 2), withClass(AscensionClass.VAMPYRE));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getStomachCapacity(), is(5));
+      }
+    }
+
+    @Test
+    void borisHasABigAppetite() {
+      var cleanups = new Cleanups(withClass(AscensionClass.AVATAR_OF_BORIS));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getStomachCapacity(), is(20));
+      }
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = AscensionClass.class,
+        names = {
+          "SEAL_CLUBBER",
+          "TURTLE_TAMER",
+          "SAUCEROR",
+          "PASTAMANCER",
+          "DISCO_BANDIT",
+          "ACCORDION_THIEF"
+        })
+    void standardClassesHave15Stomach(final AscensionClass ascensionClass) {
+      var cleanups = new Cleanups(withPath(Path.NONE), withClass(ascensionClass));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getStomachCapacity(), is(15));
+      }
+    }
+
+    @Test
+    void awolClassesInAftercoreCanExpandStomachButDontFeastWithBoris() {
+      var cleanups =
+          new Cleanups(
+              withDay(2023, Month.APRIL, 19),
+              withProperty("_voraciTeaUsed", true),
+              withClass(AscensionClass.COW_PUNCHER));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getStomachCapacity(), is(11));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void edCanExpandStomachIfHeHasOne(final boolean hasStomach) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_distentionPillUsed", true),
+              withClass(AscensionClass.ED),
+              withPath(Path.ACTUALLY_ED_THE_UNDYING));
+
+      if (hasStomach) cleanups.add(withSkill(SkillPool.REPLACEMENT_STOMACH));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getStomachCapacity(), is(hasStomach ? 6 : 0));
+      }
     }
   }
 
-  @Test
-  public void greyGooHasNoLiver() {
-    var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
+  @Nested
+  class LiverCapacity {
+    @Test
+    public void greyGooHasNoLiver() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.STEEL_LIVER),
+              withClass(AscensionClass.GREY_GOO),
+              withPath(Path.GREY_YOU));
 
-    try (cleanups) {
-      assertThat(KoLCharacter.getInebrietyLimit(), equalTo(0));
+      try (cleanups) {
+        assertThat(KoLCharacter.getLiverCapacity(), equalTo(0));
+      }
+    }
+
+    @Test
+    void vampyresCannotExpandLiver() {
+      // "If you somehow got liver or stomach of steel, those would similarly not work."
+      var cleanups =
+          new Cleanups(withSkill(SkillPool.STEEL_LIVER), withClass(AscensionClass.VAMPYRE));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getLiverCapacity(), is(4));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void edNeedsLiverToDrink(final boolean hasLiver) {
+      var cleanups =
+          new Cleanups(withClass(AscensionClass.ED), withPath(Path.ACTUALLY_ED_THE_UNDYING));
+
+      if (hasLiver) cleanups.add(withSkill(SkillPool.REPLACEMENT_LIVER));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getLiverCapacity(), is(hasLiver ? 4 : 0));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "false, false, 1, 3",
+      "true, false, 4, 7",
+      "true, true, 11, 16",
+      "false, true, 13, 15"
+    })
+    void ltaLiverIsComplicated(
+        final boolean beltImplantedStill,
+        final boolean sobernessInjectionPen,
+        final int level,
+        final int liverCapacity) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER),
+              withPath(Path.LICENSE_TO_ADVENTURE),
+              withLevel(level),
+              withAdjustmentsRecalculated());
+
+      if (beltImplantedStill) cleanups.add(withProperty("bondDrunk1", true));
+      if (sobernessInjectionPen) cleanups.add(withProperty("bondDrunk2", true));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getLiverCapacity(), is(liverCapacity));
+      }
     }
   }
 
-  @Test
-  public void greyGooHasNoSpleen() {
-    var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
+  @Nested
+  class SpleenCapacity {
+    @Test
+    void greyGooHasNoSpleen() {
+      var cleanups = new Cleanups(withClass(AscensionClass.GREY_GOO));
 
-    try (cleanups) {
-      assertThat(KoLCharacter.getSpleenLimit(), equalTo(0));
+      try (cleanups) {
+        assertThat(KoLCharacter.getSpleenLimit(), equalTo(0));
+      }
+    }
+
+    @Test
+    void awolClassesCanSkillTo15Spleen() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.TOLERANT_CONSTITUTION), withClass(AscensionClass.BEANSLINGER));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getSpleenLimit(), equalTo(15));
+      }
+    }
+
+    @Test
+    void spleenOfSteel() {
+      var cleanups =
+          new Cleanups(withSkill(SkillPool.STEEL_SPLEEN), withClass(AscensionClass.TURTLE_TAMER));
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getSpleenLimit(), equalTo(20));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {68, 69})
+    void stillBeatingSpleen(final int sbsAscension) {
+      var cleanups =
+          new Cleanups(
+              withProperty("lastStillBeatingSpleen", sbsAscension),
+              withAscensions(69),
+              withAdjustmentsRecalculated());
+
+      try (cleanups) {
+        assertThat(KoLCharacter.getSpleenLimit(), equalTo(sbsAscension == 69 ? 16 : 15));
+      }
     }
   }
 

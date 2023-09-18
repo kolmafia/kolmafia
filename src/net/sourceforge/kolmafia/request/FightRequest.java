@@ -3381,8 +3381,9 @@ public class FightRequest extends GenericRequest {
     // Y'know, you're full, but you could probably make room for <i>one more thing</i>...
     if (responseText.contains("could probably make room for <i>one more thing</i>")) {
       Preferences.increment("_pantsgivingFullness");
+      KoLCharacter.recalculateAdjustments();
       String updateMessage =
-          "Pantsgiving increases max fullness by one to " + KoLCharacter.getFullnessLimit() + ".";
+          "Pantsgiving increases max fullness by one to " + KoLCharacter.getStomachCapacity() + ".";
       RequestLogger.updateSessionLog(updateMessage);
       KoLmafia.updateDisplay(updateMessage);
     }

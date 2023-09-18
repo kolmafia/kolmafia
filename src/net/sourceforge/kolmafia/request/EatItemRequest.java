@@ -131,7 +131,7 @@ public class EatItemRequest extends UseItemRequest {
       }
       case ItemPool.SPAGHETTI_BREAKFAST -> {
         // This is your breakfast, you need to eat it first thing
-        if (KoLCharacter.getFullnessLimit() == 0) {
+        if (KoLCharacter.getStomachCapacity() == 0) {
           UseItemRequest.limiter = "cannot eat";
           return 0;
         }
@@ -200,7 +200,7 @@ public class EatItemRequest extends UseItemRequest {
       }
     }
 
-    int limit = KoLCharacter.getFullnessLimit();
+    int limit = KoLCharacter.getStomachCapacity();
     int fullnessLeft = limit - KoLCharacter.getFullness();
     UseItemRequest.limiter = "fullness";
     return fullness == 0 ? Integer.MAX_VALUE : fullnessLeft / fullness;
@@ -278,7 +278,7 @@ public class EatItemRequest extends UseItemRequest {
         && Preferences.getBoolean("autoFillMayoMinder")
         && !(minderSetting.equals("Mayostat") && ConsumablesDatabase.getFullness(name) == 1)
         && !(minderSetting.equals("Mayodiol")
-            && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety())
+            && KoLCharacter.getLiverCapacity() == KoLCharacter.getInebriety())
         && !(minderSetting.equals("Mayoflex")
             && ConsumablesDatabase.getBaseAdventureRange(name).equals("0"))
         && workshedItem != null
@@ -623,7 +623,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     // If we're not at drunk limit, it's ok
-    if (KoLCharacter.getInebrietyLimit() != KoLCharacter.getInebriety()) {
+    if (KoLCharacter.getLiverCapacity() != KoLCharacter.getInebriety()) {
       return true;
     }
 
@@ -785,7 +785,7 @@ public class EatItemRequest extends UseItemRequest {
         return;
       }
 
-      int maxFullness = KoLCharacter.getFullnessLimit();
+      int maxFullness = KoLCharacter.getStomachCapacity();
 
       // Based on what we think our current fullness is,
       // calculate how many of this item we have room for.

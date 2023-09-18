@@ -272,11 +272,14 @@ public class Expression {
             Modifiers.currentLocation.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
                 ? 1
                 : 0;
-        case 'n' -> v =
-            KoLCharacter.getAscensionClassName()
-                    .equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
-                ? 1
-                : 0;
+        case 'n' -> {
+          var input = (String) this.literals.get((int) s[--sp]);
+          if (input.equalsIgnoreCase("awol")) {
+            v = KoLCharacter.isAWoLClass() ? 1 : 0;
+            break;
+          }
+          v = KoLCharacter.getAscensionClassName().equalsIgnoreCase(input) ? 1 : 0;
+        }
         case 'w' -> {
           String fam = (String) this.literals.get((int) s[--sp]);
           String familiarName =

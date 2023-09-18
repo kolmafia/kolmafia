@@ -112,7 +112,7 @@ public class DrinkItemRequest extends UseItemRequest {
     }
 
     UseItemRequest.limiter = "inebriety";
-    int limit = KoLCharacter.getInebrietyLimit();
+    int limit = KoLCharacter.getLiverCapacity();
     int maxAvailable = Integer.MAX_VALUE;
 
     switch (itemId) {
@@ -456,7 +456,7 @@ public class DrinkItemRequest extends UseItemRequest {
     // have adventures or fullness remaining.
 
     if (KoLCharacter.getInebriety() + inebrietyBonus - mimeShotglass
-        > KoLCharacter.getInebrietyLimit()) {
+        > KoLCharacter.getLiverCapacity()) {
       FamiliarData stooper = KoLCharacter.usableFamiliar(FamiliarPool.STOOPER);
       FamiliarData current = KoLCharacter.getFamiliar();
       if (stooper != null
@@ -468,7 +468,7 @@ public class DrinkItemRequest extends UseItemRequest {
         return false;
       }
       if ((KoLCharacter.getAdventuresLeft() > 0
-              || KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit())
+              || KoLCharacter.getFullness() < KoLCharacter.getStomachCapacity())
           && !InputFieldUtilities.confirm("Are you sure you want to overdrink?")) {
         return false;
       }
