@@ -167,7 +167,7 @@ public class DailyLimitDatabase {
     }
 
     public String getLimitReason() {
-      return this.uses.startsWith("_") ? "daily limit" : "lifetime limit";
+      return Preferences.isDaily(this.uses) ? "daily limit" : "lifetime limit";
     }
 
     public int getId() {
