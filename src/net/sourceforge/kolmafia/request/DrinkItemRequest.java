@@ -71,7 +71,7 @@ public class DrinkItemRequest extends UseItemRequest {
         : null;
   }
 
-  public static final int maximumUses(
+  public static int maximumUses(
       final int itemId, final String itemName, final int inebriety, boolean allowOverDrink) {
     if (KoLCharacter.isGreyGoo()) {
       // If we ever track what items have already been absorbed this ascension, this is a great
@@ -90,7 +90,7 @@ public class DrinkItemRequest extends UseItemRequest {
     var notes = ConsumablesDatabase.getNotes(itemName);
 
     if (KoLCharacter.inHighschool()
-        && !itemName.equals("steel margarita")
+        && itemId != ItemPool.STEEL_LIVER
         && (notes == null || !notes.startsWith("KOLHS"))) {
       UseItemRequest.limiter = "your unrefined palate";
       return 0;
@@ -191,7 +191,7 @@ public class DrinkItemRequest extends UseItemRequest {
       maxNumber = maxAvailable;
     }
 
-    if (itemName.equals("ice stein")) {
+    if (itemId == ItemPool.ICE_STEIN) {
       int sixpacks = InventoryManager.getAccessibleCount(ItemPool.ICE_COLD_SIX_PACK);
       if (maxNumber > sixpacks) {
         UseItemRequest.limiter = "ice-cold six-packs";

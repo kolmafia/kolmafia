@@ -86,7 +86,7 @@ public class EatItemRequest extends UseItemRequest {
         : null;
   }
 
-  public static final int maximumUses(final int itemId, final String itemName, final int fullness) {
+  public static int maximumUses(final int itemId, final String itemName, final int fullness) {
     if (KoLCharacter.isGreyGoo()) {
       // If we ever track what items have already been absorbed this ascension, this is a great
       // place to use those data.
@@ -102,21 +102,24 @@ public class EatItemRequest extends UseItemRequest {
     var notes = ConsumablesDatabase.getNotes(itemName);
 
     if (KoLCharacter.inZombiecore()
-        && !itemName.equals("steel lasagna")
+        && itemId != ItemPool.STEEL_STOMACH
         && (notes == null || !notes.startsWith("Zombie Slayer"))) {
       UseItemRequest.limiter = "it not being a brain";
       return 0;
     }
 
     if (KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getFullness(itemName) > 1) {
+      UseItemRequest.limiter = "your narrow, mutated throat";
       return 0;
     }
 
     if (KoLCharacter.isVampyre()
-        && !itemName.equals("magical sausage")
+        && itemId != ItemPool.MAGICAL_SAUSAGE
         && (notes == null || !notes.startsWith("Vampyre"))) {
+      UseItemRequest.limiter = "your lust for blood";
       return 0;
     } else if (!KoLCharacter.isVampyre() && notes != null && notes.startsWith("Vampyre")) {
+      UseItemRequest.limiter = "not being a Vampyre";
       return 0;
     }
 

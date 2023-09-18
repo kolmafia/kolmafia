@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withInebriety;
@@ -15,6 +16,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
+import java.time.Month;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -184,7 +186,7 @@ class DrinkItemRequestTest {
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
-    void nuclearAutumnLimitsFoodSizeToOne(final boolean inNA) {
+    void nuclearAutumnLimitsBoozeSizeToOne(final boolean inNA) {
       var cleanups = new Cleanups(withInebriety(0));
       if (inNA) cleanups.add(withPath(Path.NUCLEAR_AUTUMN));
       try (cleanups) {
@@ -243,6 +245,14 @@ class DrinkItemRequestTest {
         var max =
             DrinkItemRequest.maximumUses(ItemPool.GREEN_DRUNKI_BEAR, "green drunki-bear", 4, false);
         assertThat(max, is(3));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void limitExtendedForGreenBeerOnSSPD(final boolean sspd) {
+      try (var cleanups = new Cleanups(withDay(2023, Month.MAY, sspd ? 17 : 1), withInebriety(0))) {
+        assertThat(DrinkItemRequest.maximumUses(ItemPool.GREEN_BEER), is(sspd ? 25 : 15));
       }
     }
   }
