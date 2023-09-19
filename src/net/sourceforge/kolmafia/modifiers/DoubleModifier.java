@@ -541,7 +541,11 @@ public enum DoubleModifier implements Modifier {
   SPLEEN_CAPACITY(
       "Spleen Capacity",
       Pattern.compile("(.*) Spleen Capacity"),
-      Pattern.compile("Spleen Capacity: " + EXPR));
+      Pattern.compile("Spleen Capacity: " + EXPR)),
+  FREE_RESTS(
+      "Free Rests",
+      Pattern.compile("Rest Without Spending an Adventure \\((\\d+)x / day\\)"),
+      Pattern.compile("Free Rests: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
