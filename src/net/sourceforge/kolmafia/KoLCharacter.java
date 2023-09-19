@@ -2880,6 +2880,12 @@ public abstract class KoLCharacter {
       RequestThread.postRequest(new CampgroundRequest("workshed"));
     }
 
+    // Scale up contents of our stomach and liver in Small
+    if (oldPath == Path.SMALL) {
+      KoLCharacter.setFullness(KoLCharacter.getFullness() * 10);
+      KoLCharacter.setInebriety(KoLCharacter.getInebriety() * 10);
+    }
+
     // If we were in Hardcore or a path that alters skills, automatically recall skills
     if (restricted
         || wasInHardcore
@@ -2917,8 +2923,8 @@ public abstract class KoLCharacter {
       GearChangePanel.updateFamiliars();
     }
 
-    if (restricted || oldPath == Path.NUCLEAR_AUTUMN || oldPath == Path.YOU_ROBOT) {
-      // We haven't previously seen our campground
+    // If we haven't previously seen our campground, visit it.
+    if (restricted || oldPath == Path.NUCLEAR_AUTUMN || oldPath == Path.YOU_ROBOT || oldPath == Path.SMALL) {
       CampgroundRequest.reset();
       RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
       RequestThread.postRequest(new CampgroundRequest("inspectkitchen"));

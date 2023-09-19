@@ -548,4 +548,16 @@ public class KoLCharacterTest {
       }
     }
   }
+
+  @Nested
+  class Liberation {
+    @Test
+    void resizesOrganContentsAfterSmallPath() {
+      try (var cleanups = new Cleanups(withPath(Path.SMALL), withInebriety(1), withFullness(1))) {
+        KoLCharacter.liberateKing();
+        assertThat(KoLCharacter.getFullness(), is(10));
+        assertThat(KoLCharacter.getInebriety(), is(10));
+      }
+    }
+  }
 }
