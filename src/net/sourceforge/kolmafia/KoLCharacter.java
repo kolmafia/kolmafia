@@ -2924,7 +2924,10 @@ public abstract class KoLCharacter {
     }
 
     // If we haven't previously seen our campground, visit it.
-    if (restricted || oldPath == Path.NUCLEAR_AUTUMN || oldPath == Path.YOU_ROBOT || oldPath == Path.SMALL) {
+    if (restricted
+        || oldPath == Path.NUCLEAR_AUTUMN
+        || oldPath == Path.YOU_ROBOT
+        || oldPath == Path.SMALL) {
       CampgroundRequest.reset();
       RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
       RequestThread.postRequest(new CampgroundRequest("inspectkitchen"));
