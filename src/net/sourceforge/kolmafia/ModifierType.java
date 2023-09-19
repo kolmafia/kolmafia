@@ -68,6 +68,7 @@ public enum ModifierType {
   MUTEX_E,
   PASSIVES,
   GENERATED,
+  TERRARIUM_FAMILIAR,
   NONE;
 
   private static Map<String, ModifierType> stringToType =
