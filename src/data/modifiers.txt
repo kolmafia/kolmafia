@@ -2889,7 +2889,6 @@ Item	chintzy turtle brooch	Muscle: +12, Mysticality: +6, Class: "Turtle Tamer", 
 Item	chocolate pocketwatch	Maximum MP: +20, Spell Damage: +15, Spell Critical Percent: +10, Single Equip
 Item	chocolate rabbit's foot	Item Drop: +5, Meat Drop: +5, Candy Drop: +20
 Item	Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Damage: +40, Single Equip
-# Cincho de Mayo: Rest at your campsite, 3 times per day without using an Adventure
 Item	Cincho de Mayo	Moxie Percent: +25, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Booze Drop: +30, Item Drop: +15
 # Claw of the Infernal Seal: 5 Additional Seal Summons Per Day<super>*</super>
 # * This enchantment works even when this item is not equipped
@@ -11076,7 +11075,6 @@ Item	Carol of the Thrills	Skill: "Carol of the Thrills"
 # cartoon heart: Restores 40-60 HP
 Item	cartoon heart	Effect: "Healthy Red Glow", Effect Duration: 10
 # cast: Restores 25-35 HP in combat, and 15-20 out of combat
-# ceiling fan: Rest 5 times per day without using an Adventure
 Item	Celsius 233	Skill: "Eternal Flame"
 Item	Celsius 233 (singed)	Skill: "Eternal Flame"
 # chainsaw chain: Deals 60-80 Physical Damage and weakens enemies a lot
