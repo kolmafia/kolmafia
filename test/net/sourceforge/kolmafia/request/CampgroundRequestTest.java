@@ -114,13 +114,14 @@ public class CampgroundRequestTest {
     }
   }
 
-  @Test 
+  @Test
   void doesNotCountFailedRests() {
     var cleanups =
-      new Cleanups(
-        // A rest did not get processed by the game, because it is pointless to rest (full HP, full MP, no Beaten Up)
-        withNextResponse(200, html("request/test_do_not_count_failed_rests.html")),
-        withProperty("timesRested", 137));
+        new Cleanups(
+            // A rest did not get processed by the game, because it is pointless to rest
+            // (full HP, full MP, no Beaten Up)
+            withNextResponse(200, html("request/test_do_not_count_failed_rests.html")),
+            withProperty("timesRested", 137));
 
     try (cleanups) {
       new GenericRequest("campground.php?action=rest").run();
