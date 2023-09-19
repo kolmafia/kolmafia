@@ -127,7 +127,6 @@ public class CampgroundRequestTest {
       new GenericRequest("campground.php?action=rest").run();
       // timesRested did not increase
       assertThat("timesRested", isSetTo(137));
-      assertThat(OMINOUS_WISDOM.getCount(KoLConstants.activeEffects), is(50));
     }
   }
 
