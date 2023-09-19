@@ -114,6 +114,22 @@ public class CampgroundRequestTest {
     }
   }
 
+  @Test 
+  void doesNotCountFailedRests() {
+    var cleanups =
+      new Cleanups(
+        // A rest did not get processed by the game, because it is pointless to rest (full HP, full MP, no Beaten Up)
+        withNextResponse(200, html("request/test_do_not_count_failed_rests.html")),
+        withProperty("timesRested", 137));
+
+    try (cleanups) {
+      new GenericRequest("campground.php?action=rest").run();
+      // timesRested did not increase
+      assertThat("timesRested", isSetTo(137));
+      assertThat(OMINOUS_WISDOM.getCount(KoLConstants.activeEffects), is(50));
+    }
+  }
+
   @Nested
   class Pumpkins {
     @Test
