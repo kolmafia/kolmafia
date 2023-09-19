@@ -537,7 +537,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
     }
 
-    Matcher eventMatcher = EventManager.eventMatcher(buffer.toString());
+    var eventMatcher = EventManager.findEventsBlock(buffer);
 
     if (EventManager.hasEvents() && (eventMatcher != null || location.equals("main.php"))) {
       int eventTableInsertIndex = 0;
