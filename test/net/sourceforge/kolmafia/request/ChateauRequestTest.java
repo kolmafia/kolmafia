@@ -42,13 +42,11 @@ public class ChateauRequestTest {
 
   @Nested
   class FreeRest {
-    @BeforeEach
-    public void beforeEach() {
-      ChateauRequest.gainItem(ItemPool.get(ItemPool.CHATEAU_FAN, 1));
-    }
-
     public Cleanups propertyCleanups() {
-      return new Cleanups(withProperty("chateauAvailable", true), withProperty("timesRested", 0));
+      return new Cleanups(
+          withProperty("chateauAvailable", true),
+          withProperty("timesRested", 0),
+          withChateau(ItemPool.CHATEAU_FAN));
     }
 
     @ParameterizedTest
