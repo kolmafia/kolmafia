@@ -1011,9 +1011,9 @@ public class CampgroundRequest extends GenericRequest {
 
     if (action.equals("rest")) {
       // You don't need to rest right now.
-      // #  this does not use a free rest charge,
-      // #  and it does not cost an Adventure if out of free rests,
-      // #  so it should not be counted as a rest
+      //   this does not use a free rest charge,
+      //   and it does not cost an Adventure if out of free rests,
+      //   so it should not be counted as a rest
       if (!responseText.contains("You don't need to rest right now.")) {
         Preferences.increment("timesRested", 1);
       }
