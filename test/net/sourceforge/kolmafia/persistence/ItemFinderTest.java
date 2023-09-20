@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -43,7 +44,6 @@ public class ItemFinderTest {
   @BeforeEach
   public void itemFinderSetup() {
     // Reset exactly the preferences used by this package to defaults
-    Preferences.setString("_roboDrinks", "");
     Preferences.setBoolean("autoSatisfyWithNPCs", false);
 
     // Not in error state
@@ -248,73 +248,38 @@ public class ItemFinderTest {
     }
   }
 
-  @Test
-  public void itShouldDetectParameterErrors() {
-    AdventureResult item;
-    String message;
-    String parameter;
-
+  @ParameterizedTest
+  @CsvSource({
     // Test empty string, no error on failure
-    item = ItemFinder.getFirstMatchingItem("", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNull(item);
-
+    "'', false,",
     // Test for an empty string, error on failure
-    item = ItemFinder.getFirstMatchingItem("", true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "Need to provide an item to match.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
+    "'', true, Need to provide an item to match.",
     // Test unsuccessful match for bogus string, no error on failure
-
-    item = ItemFinder.getFirstMatchingItem("Bogus", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNull(item);
-
+    "Bogus, false,",
     // Test unsuccessful exact match for bogus string, error on failure
-
-    item = ItemFinder.getFirstMatchingItem("Bogus", true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    assertEquals(KoLmafia.lastMessage, "[Bogus] has no matches.");
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
+    "Bogus, false, [Bogus] has no matches.",
     // Test for bogus item whose name contains a pilcrow - &para;
-    parameter = "bogus ¶ item";
-    item = ItemFinder.getFirstMatchingItem(parameter, true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "Unknown item " + parameter;
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
+    "bogus ¶ item, true, Unknown item bogus ¶ item",
     // Test for multiple items whose name contain a pilcrow
-    parameter = "4 ¶8207, 28 ¶8206, 5 ¶8209";
-    item = ItemFinder.getFirstMatchingItem(parameter, true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "More than one item specified by item ID.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
+    "'4 ¶8207, 28 ¶8206, 5 ¶8209', true, More than one item specified by item ID.",
     // Test for multiple items specified by item ID
-    parameter = "4 [8207], 28 [8206], 5 [8209]";
-    item = ItemFinder.getFirstMatchingItem(parameter, true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "More than one item specified by item ID.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
+    "'4 [8207], 28 [8206], 5 [8209]', true, More than one item specified by item ID.",
     // Test for item with too many matches
-    item = ItemFinder.getFirstMatchingItem("tea", true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[tea] has too many matches.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
+    "tea, true, [tea] has too many matches."
+  })
+  void itShouldDetectParameterErrors(
+      final String parameter, final boolean errorOnFailure, final String errorMessage) {
+    try (var cleanups = withContinuationState()) {
+      var item = ItemFinder.getFirstMatchingItem(parameter, errorOnFailure, null, Match.ANY);
+      assertThat(
+          StaticEntity.getContinuationState(),
+          is(errorOnFailure ? MafiaState.ERROR : MafiaState.CONTINUE));
+      assertThat(item, nullValue());
+
+      if (errorOnFailure) {
+        assertThat(KoLmafia.lastMessage, is(errorMessage));
+      }
+    }
   }
 
   @ParameterizedTest
@@ -357,7 +322,7 @@ public class ItemFinderTest {
   })
   void itShouldNotFindItemsThatDontMatchTheirType(
       final String itemName, final Match matchType, final String message) {
-    try (var cleanups = withContinuationState()) {
+    try (var cleanups = new Cleanups(withContinuationState(), withProperty("_roboDrinks", ""))) {
       var item = ItemFinder.getFirstMatchingItem(itemName, true, null, matchType);
       assertThat(StaticEntity.getContinuationState(), is(MafiaState.ERROR));
       assertThat(item, nullValue());
