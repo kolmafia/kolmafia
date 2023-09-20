@@ -3830,7 +3830,7 @@ public abstract class KoLCharacter {
         KoLConstants.summoningSkills.add(skill);
         LockableListFactory.sort(KoLConstants.summoningSkills);
       }
-      case REMEDY -> {
+      case REMEDY, REMEDY_PASSIVE -> {
         KoLConstants.usableSkills.add(skill);
         LockableListFactory.sort(KoLConstants.usableSkills);
         KoLConstants.remedySkills.add(skill);
