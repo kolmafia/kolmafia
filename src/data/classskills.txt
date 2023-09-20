@@ -13,7 +13,7 @@
 #     8 (Combat/Passive)
 #     9 (One-at-a-time Noncombat Expression)
 #    10 (One-at-a-time Noncombat Walk)
-#    11 (Noncombat/Passive)
+#    11 (Noncombat healing/Passive)
 
 1	Liver of Steel	liver.gif	0	0	0
 2	Chronic Indigestion	fireball.gif	5	5	0
