@@ -39,8 +39,6 @@ public class ItemFinderTest {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("item finder user");
-    ConcoctionPool.reset();
-    ConcoctionDatabase.reset();
   }
 
   @BeforeEach
