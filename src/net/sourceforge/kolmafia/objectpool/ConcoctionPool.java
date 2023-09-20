@@ -27,14 +27,18 @@ public class ConcoctionPool {
 
   static {
     // Pre-set concoctions for all items.
+    reset();
+  }
+
+  public static void reset() {
     int maxItemId = ItemDatabase.maxItemId();
     for (int i = 1; i <= maxItemId; ++i) {
       // Skip non-existent items
-      if (ItemDatabase.getItemName(i) != null) {
-        AdventureResult ar = ItemPool.get(i, 1);
-        Concoction c = new Concoction(ar, CraftingType.NOCREATE);
-        ConcoctionPool.set(c);
-      }
+      if (ItemDatabase.getItemName(i) == null) continue;
+
+      AdventureResult ar = ItemPool.get(i, 1);
+      Concoction c = new Concoction(ar, CraftingType.NOCREATE);
+      ConcoctionPool.set(c);
     }
   }
 
