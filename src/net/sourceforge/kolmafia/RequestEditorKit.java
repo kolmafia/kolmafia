@@ -544,9 +544,10 @@ public class RequestEditorKit extends HTMLEditorKit {
 
       if (eventMatcher != null) {
         eventTableInsertIndex = eventMatcher.start();
+        var pageWithoutBlock = eventMatcher.replaceFirst("");
 
         buffer.setLength(0);
-        buffer.append(eventMatcher.replaceFirst(""));
+        buffer.append(pageWithoutBlock);
       } else {
         eventTableInsertIndex = buffer.indexOf("</div>") + 6;
       }
@@ -573,7 +574,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       eventsTable.append("<tr><td height=4></td></tr>");
       eventsTable.append("</table></center>");
 
-      buffer.insert(eventTableInsertIndex, eventsTable.toString());
+      buffer.insert(eventTableInsertIndex, eventsTable);
 
       EventManager.clearEventHistory();
     }

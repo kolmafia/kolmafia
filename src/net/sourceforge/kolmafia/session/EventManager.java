@@ -63,19 +63,21 @@ public class EventManager {
     return EventManager.addNormalEvent(eventHTML, false);
   }
 
-  public static boolean addNormalEvent(String eventHTML, boolean addTimestamp) {
-    if (eventHTML == null) {
+  public static boolean addNormalEvent(String eventHtml, boolean addTimestamp) {
+    if (eventHtml == null) {
       return false;
     }
 
-    if (eventHTML.contains("logged") || eventHTML.contains("has left the building")) {
+    if (eventHtml.contains("logged") || eventHtml.contains("has left the building")) {
       return false;
     }
+
+    var autopull = eventHtml.contains("<table class=\"item\"");
 
     if (addTimestamp)
-      eventHTML = EventManager.EVENT_TIMESTAMP.format(new Date()) + " - " + eventHTML;
+      eventHtml = EventManager.EVENT_TIMESTAMP.format(new Date()) + " - " + eventHtml;
 
-    EventManager.eventHyperTexts.add(eventHTML);
+    EventManager.eventHyperTexts.add(eventHtml);
 
     // The event may be marked up with color and links to
     // user profiles. For example:
@@ -87,7 +89,7 @@ public class EventManager {
     // song (The Polka of Plenty) for you.
 
     var eventText =
-        eventHTML
+        eventHtml
             // Add a space before item acquisition
             .replace("<center><table class=\"item\"", " <table")
             // Remove tags that are not hyperlinks
@@ -102,7 +104,7 @@ public class EventManager {
     if (!LoginRequest.isInstanceRunning()) {
       // Print everything to the default shell; this way, the
       // graphical CLI is also notified of events.
-      RequestLogger.printLine(eventText);
+      if (!autopull) RequestLogger.printLine(eventHtml);
 
       // Balloon messages for whenever the person does not have
       // focus on KoLmafia.
