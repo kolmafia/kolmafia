@@ -560,12 +560,12 @@ public class ClanLoungeRequest extends GenericRequest {
 
   private static void resetFloundryConcoctions() {
     for (FloundryData floundryDatum : FLOUNDRY_DATA) {
-        AdventureResult item = floundryDatum.item;
-        if (item != null) {
-            Concoction concoction = ConcoctionPool.get(item);
-            concoction.setMixingMethod(CraftingType.FLOUNDRY);
-            ClanLoungeRequest.ALL_FLOUNDRY.add(concoction);
-        }
+      AdventureResult item = floundryDatum.item;
+      if (item != null) {
+        Concoction concoction = ConcoctionPool.get(item);
+        concoction.setMixingMethod(CraftingType.FLOUNDRY);
+        ClanLoungeRequest.ALL_FLOUNDRY.add(concoction);
+      }
     }
   }
 
