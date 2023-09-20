@@ -1,5 +1,10 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withContinuationState;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -391,166 +396,52 @@ public class ItemFinderTest {
     StaticEntity.setContinuationState(MafiaState.CONTINUE);
   }
 
-  @Test
-  public void itShouldDetectItemFilteringFailures() {
+  @ParameterizedTest
+  @CsvSource({
+    "Hell ramen, ASDON, " + ItemPool.HELL_RAMEN,
+    "Hell ramen, FOOD, " + ItemPool.HELL_RAMEN,
+    "cottage, CREATE, " + ItemPool.COTTAGE,
+    "cottage, UNTINKER, " + ItemPool.COTTAGE,
+    "cottage, USE, " + ItemPool.COTTAGE,
+    "fancy chocolate, CANDY, " + ItemPool.FANCY_CHOCOLATE,
+    "helmet turtle, EQUIP, " + ItemPool.HELMET_TURTLE,
+    "literal grasshopper, ROBO, " + ItemPool.LITERAL_GRASSHOPPER,
+    "moxie weed, SPLEEN, " + ItemPool.MOXIE_WEED,
+    "seal tooth, ABSORB, " + ItemPool.SEAL_TOOTH,
+    "seal tooth, ANY, " + ItemPool.SEAL_TOOTH,
+    "vesper, BOOZE, " + ItemPool.VESPER,
+  })
+  void itShouldFindItemsTHatMatchTheirMatchType(
+      final String itemName, final Match matchType, final int itemId) {
+    var item = ItemFinder.getFirstMatchingItem(itemName, true, null, matchType);
+    assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
+    assertThat(item, notNullValue());
+    assertThat(item.getItemId(), is(itemId));
+    assertThat(item.getCount(), is(1));
+  }
 
-    AdventureResult item;
-    String message;
-
-    // *** Test items that match each Match type
-
-    item = ItemFinder.getFirstMatchingItem("seal tooth", true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.SEAL_TOOTH);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("Hell ramen", true, null, Match.FOOD);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.HELL_RAMEN);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("vesper", true, null, Match.BOOZE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.VESPER);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("moxie weed", true, null, Match.SPLEEN);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.MOXIE_WEED);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("cottage", true, null, Match.USE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.COTTAGE);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("cottage", true, null, Match.CREATE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.COTTAGE);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("cottage", true, null, Match.UNTINKER);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.COTTAGE);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("helmet turtle", true, null, Match.EQUIP);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.HELMET_TURTLE);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("fancy chocolate", true, null, Match.CANDY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.FANCY_CHOCOLATE);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("seal tooth", true, null, Match.ABSORB);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.SEAL_TOOTH);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("literal grasshopper", true, null, Match.ROBO);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.LITERAL_GRASSHOPPER);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("Hell ramen", true, null, Match.ASDON);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.HELL_RAMEN);
-    assertEquals(item.getCount(), 1);
-
-    // *** Test items that don't match each Match type
-
-    // Skip Match.ANY
-
-    item = ItemFinder.getFirstMatchingItem("vesper", true, null, Match.FOOD);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[vesper] cannot be eaten.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("Hell ramen", true, null, Match.BOOZE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[Hell ramen] cannot be drunk.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("seal tooth", true, null, Match.SPLEEN);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[seal tooth] cannot be chewed.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("stolen accordion", true, null, Match.USE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[stolen accordion] cannot be used.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.ERROR);
-
-    item = ItemFinder.getFirstMatchingItem("seal tooth", true, null, Match.CREATE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[seal tooth] cannot be created.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("seal tooth", true, null, Match.UNTINKER);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[seal tooth] cannot be untinkered.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("Hell ramen", true, null, Match.EQUIP);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[Hell ramen] cannot be equipped.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("alien drugs", true, null, Match.CANDY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[alien drugs] is not candy.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("spooky sapling", true, null, Match.ABSORB);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[spooky sapling] cannot be absorbed.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("pink pony", true, null, Match.ROBO);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[pink pony] cannot be fed.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("lemon", true, null, Match.ASDON);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[lemon] cannot be used as fuel.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
+  @ParameterizedTest
+  @CsvSource({
+    "vesper, FOOD, [vesper] cannot be eaten.",
+    "Hell ramen, BOOZE, [Hell ramen] cannot be drunk.",
+    "seal tooth, SPLEEN, [seal tooth] cannot be chewed.",
+    "stolen accordion, USE, [stolen accordion] cannot be used.",
+    "seal tooth, CREATE, [seal tooth] cannot be created.",
+    "seal tooth, UNTINKER, [seal tooth] cannot be untinkered.",
+    "Hell ramen, EQUIP, [Hell ramen] cannot be equipped.",
+    "alien drugs, CANDY, [alien drugs] is not candy.",
+    "spooky sapling, ABSORB, [spooky sapling] cannot be absorbed.",
+    "pink pony, ROBO, [pink pony] cannot be fed.",
+    "lemon, ASDON, [lemon] cannot be used as fuel."
+  })
+  void itShouldNotFindItemsThatDontMatchTheirType(
+      final String itemName, final Match matchType, final String message) {
+    try (var cleanups = withContinuationState()) {
+      var item = ItemFinder.getFirstMatchingItem(itemName, true, null, matchType);
+      assertThat(StaticEntity.getContinuationState(), is(MafiaState.ERROR));
+      assertThat(item, nullValue());
+      assertThat(KoLmafia.lastMessage, is(message));
+    }
   }
 
   @Test
