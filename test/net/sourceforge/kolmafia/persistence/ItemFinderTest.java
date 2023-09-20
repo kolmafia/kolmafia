@@ -1,10 +1,18 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -36,7 +44,6 @@ public class ItemFinderTest {
   @BeforeEach
   public void itemFinderSetup() {
     // Reset exactly the preferences used by this package to defaults
-    Preferences.setString("_roboDrinks", "");
     Preferences.setBoolean("autoSatisfyWithNPCs", false);
 
     // Not in error state
@@ -135,422 +142,192 @@ public class ItemFinderTest {
   // possible with a count. Assuming it unambiguously names a single
   // item, it returns an AdventureResult with itemId and count.
 
-  @Test
-  public void itShouldParseSingleItem() {
-
-    // This set of tests will use null as the source list. That means
-    // that it will not restrict its matches to what is available in a
-    // specific list. The only exception is if you use wildcard counts -
-    // * or -N - in which case, it assumes inventory. We'll test wildcard
-    // counts separately.
-
-    AdventureResult item;
-    String parameter;
-
+  // This set of tests will use null as the source list. That means
+  // that it will not restrict its matches to what is available in a
+  // specific list. The only exception is if you use wildcard counts -
+  // * or -N - in which case, it assumes inventory. We'll test wildcard
+  // counts separately.
+  @ParameterizedTest
+  @CsvSource({
     // Test successful exact match for entire string.
-    item = ItemFinder.getFirstMatchingItem("roll of toilet paper", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
-    assertEquals(item.getCount(), 1);
-
+    "roll of toilet paper, " + ItemPool.TOILET_PAPER,
     // Test successful exact match where item name starts with a number
-    item = ItemFinder.getFirstMatchingItem("1337 7r0uZ0RZ", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.ELITE_TROUSERS);
-    assertEquals(item.getCount(), 1);
-
+    "1337 7r0uZ0RZ, " + ItemPool.ELITE_TROUSERS,
     // Test successful exact match where item name contains commas
-    item = ItemFinder.getFirstMatchingItem("Tea, Earl Grey, Hot", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.EARL_GREY);
-    assertEquals(item.getCount(), 1);
-
+    "'Tea, Earl Grey, Hot', " + ItemPool.EARL_GREY,
     // Test successful exact match for item specified by pilcrow
-    item = ItemFinder.getFirstMatchingItem("¶7961", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), 7961);
-    assertEquals(item.getCount(), 1);
-
-    // Test for the item whose name contains a pilcrow - &para;
-    parameter =
-        StringUtilities.getEntityDecode("Knob G&Atilde;&para;blin l&Atilde;&sup2;ve potion");
-    item = ItemFinder.getFirstMatchingItem(parameter, false, null, Match.ANY);
-    assertNotNull(item);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertEquals(item.getItemId(), ItemPool.BUGGED_POTION);
-    assertEquals(item.getCount(), 1);
-
+    "¶7961, 7961",
     // Test successful exact match for item specified by itemId
-    item = ItemFinder.getFirstMatchingItem("[7961]", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), 7961);
-    assertEquals(item.getCount(), 1);
-
+    "[7961], 7961",
     // Test successful exact match for item specified by itemId and name
-    item = ItemFinder.getFirstMatchingItem("[7961]Staff of Ed", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), 7961);
-    assertEquals(item.getCount(), 1);
-
+    "[7961]Staff of Ed, 7961",
     // Test successful exact match for item specified by itemId and bogus name
     // *** One could argue this should check that the name agrees with item
-    item = ItemFinder.getFirstMatchingItem("[7961]Staff of Edward", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), 7961);
-    assertEquals(item.getCount(), 1);
-
+    "[7961]Staff of Edward, 7961",
     // Test unambiguous fuzzy matching. Fuzzy matching deserves its own test
     // suite. Elsewhere.
-    item = ItemFinder.getFirstMatchingItem("mmj", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.MMJ);
-    assertEquals(item.getCount(), 1);
+    "mmj, " + ItemPool.MMJ
+  })
+  void itShouldParseSingleItem(final String parameter, final int itemId) {
+    var item = ItemFinder.getFirstMatchingItem(parameter, false, null, Match.ANY);
+    assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
+    assertThat(item, notNullValue());
+    assertThat(item.getItemId(), is(itemId));
+    assertThat(item.getCount(), is(1));
   }
 
   @Test
-  public void itShouldParseSingleItemWithCount() {
+  void itShouldParseSingleItemThatContainsAPilcrow() {
+    // Test for the item whose name contains a pilcrow - &para;
+    var parameter =
+        StringUtilities.getEntityDecode("Knob G&Atilde;&para;blin l&Atilde;&sup2;ve potion");
+    var item = ItemFinder.getFirstMatchingItem(parameter, false, null, Match.ANY);
+    assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
+    assertThat(item, notNullValue());
+    assertThat(item.getItemId(), is(ItemPool.BUGGED_POTION));
+    assertThat(item.getCount(), is(1));
+  }
 
-    AdventureResult item;
-
+  @ParameterizedTest
+  @CsvSource({
     // count + item name
-    item = ItemFinder.getFirstMatchingItem("2 roll of toilet paper", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
-    assertEquals(item.getCount(), 2);
-
+    "2 roll of toilet paper, 2, " + ItemPool.TOILET_PAPER,
     // count + item name starts with a number
-    item = ItemFinder.getFirstMatchingItem("2 1337 7r0uZ0RZ", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.ELITE_TROUSERS);
-    assertEquals(item.getCount(), 2);
-
+    "2 1337 7r0uZ0RZ, 2, " + ItemPool.ELITE_TROUSERS,
     // count + item name contains commas
-    item = ItemFinder.getFirstMatchingItem("2 Tea, Earl Grey, Hot", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.EARL_GREY);
-    assertEquals(item.getCount(), 2);
-
+    "'2 Tea, Earl Grey, Hot', 2, " + ItemPool.EARL_GREY,
     // count + item specified by pilcrow
-    item = ItemFinder.getFirstMatchingItem("2 ¶7961", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), 7961);
-    assertEquals(item.getCount(), 2);
-
+    "2 ¶7961, 2, 7961",
     // count + item specified by itemId
-    item = ItemFinder.getFirstMatchingItem("2 [7961]", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), 7961);
-    assertEquals(item.getCount(), 2);
-
+    "2 [7961], 2, 7961",
     // count + item specified by itemId and name
-    item = ItemFinder.getFirstMatchingItem("2 [7961]Staff of Ed", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), 7961);
-    assertEquals(item.getCount(), 2);
-
+    "2 [7961]Staff of Ed, 2, 7961",
     // Single test for fuzzy matching. As I said, that deserves its own test
     // suite. Elsewhere.
-    item = ItemFinder.getFirstMatchingItem("10 mmj", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.MMJ);
-    assertEquals(item.getCount(), 10);
+    "10 mmj, 10, " + ItemPool.MMJ,
+  })
+  void itShouldParseSingleItemWithCount(final String parameter, final int count, final int itemId) {
+    var item = ItemFinder.getFirstMatchingItem(parameter, false, null, Match.ANY);
+    assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
+    assertThat(item, notNullValue());
+    assertThat(item.getItemId(), is(itemId));
+    assertThat(item.getCount(), is(count));
   }
 
-  @Test
-  public void itShouldParseWildcardItem() {
-
-    AdventureResult item;
-
-    // Add stuff to inventory
-    addToInventory(ItemPool.SEAL_TOOTH, 1);
-    addToInventory(ItemPool.TOILET_PAPER, 3);
-    addToInventory(ItemPool.MILK_OF_MAGNESIUM, 1);
-
+  @ParameterizedTest
+  @CsvSource({
     // All available (using null list == inventory)
-    item = ItemFinder.getFirstMatchingItem("* roll of toilet paper", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
-    assertEquals(item.getCount(), 3);
-
+    ItemPool.TOILET_PAPER + ", 3, * roll of toilet paper, 3, false",
     // All but 2
-    item = ItemFinder.getFirstMatchingItem("-2 roll of toilet paper", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
-    assertEquals(item.getCount(), 1);
-
+    ItemPool.TOILET_PAPER + ", 3, -2 roll of toilet paper, 1, false",
     // Zero
-    item = ItemFinder.getFirstMatchingItem("0 roll of toilet paper", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
-    assertEquals(item.getCount(), 0);
-
+    ItemPool.TOILET_PAPER + ", 3, 0 roll of toilet paper, 0, false",
     // All available (using inventory)
-    item =
-        ItemFinder.getFirstMatchingItem(
-            "* roll of toilet paper", false, KoLConstants.inventory, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
-    assertEquals(item.getCount(), 3);
-
+    ItemPool.TOILET_PAPER + ", 3, * roll of toilet paper, 3, true",
     // All but 2
-    item =
-        ItemFinder.getFirstMatchingItem(
-            "-2 roll of toilet paper", false, KoLConstants.inventory, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
-    assertEquals(item.getCount(), 1);
+    ItemPool.TOILET_PAPER + ", 3, -2 roll of toilet paper, 1, true",
+  })
+  void itShouldParseWildcardItem(
+      final int itemId,
+      final int quantity,
+      final String parameter,
+      final int count,
+      final boolean useInventory) {
+    try (var cleanups =
+        new Cleanups(
+            withItem(ItemPool.SEAL_TOOTH),
+            withItem(itemId, quantity),
+            withItem(ItemPool.MILK_OF_MAGNESIUM))) {
+      var item =
+          ItemFinder.getFirstMatchingItem(
+              parameter, false, useInventory ? KoLConstants.inventory : null, Match.ANY);
+      assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
+      assertThat(item, notNullValue());
+      assertThat(item.getItemId(), is(itemId));
+      assertThat(item.getCount(), is(count));
+    }
   }
 
-  @Test
-  public void itShouldDetectParameterErrors() {
-
-    AdventureResult item;
-    String message;
-    String parameter;
-
+  @ParameterizedTest
+  @CsvSource({
     // Test empty string, no error on failure
-    item = ItemFinder.getFirstMatchingItem("", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNull(item);
-
+    "'', false,",
     // Test for an empty string, error on failure
-    item = ItemFinder.getFirstMatchingItem("", true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "Need to provide an item to match.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
+    "'', true, Need to provide an item to match.",
     // Test unsuccessful match for bogus string, no error on failure
-
-    item = ItemFinder.getFirstMatchingItem("Bogus", false, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNull(item);
-
+    "Bogus, false,",
     // Test unsuccessful exact match for bogus string, error on failure
-
-    item = ItemFinder.getFirstMatchingItem("Bogus", true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    assertEquals(KoLmafia.lastMessage, "[Bogus] has no matches.");
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
+    "Bogus, false, [Bogus] has no matches.",
     // Test for bogus item whose name contains a pilcrow - &para;
-    parameter = "bogus ¶ item";
-    item = ItemFinder.getFirstMatchingItem(parameter, true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "Unknown item " + parameter;
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
+    "bogus ¶ item, true, Unknown item bogus ¶ item",
     // Test for multiple items whose name contain a pilcrow
-    parameter = "4 ¶8207, 28 ¶8206, 5 ¶8209";
-    item = ItemFinder.getFirstMatchingItem(parameter, true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "More than one item specified by item ID.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
+    "'4 ¶8207, 28 ¶8206, 5 ¶8209', true, More than one item specified by item ID.",
     // Test for multiple items specified by item ID
-    parameter = "4 [8207], 28 [8206], 5 [8209]";
-    item = ItemFinder.getFirstMatchingItem(parameter, true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "More than one item specified by item ID.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
+    "'4 [8207], 28 [8206], 5 [8209]', true, More than one item specified by item ID.",
     // Test for item with too many matches
-    item = ItemFinder.getFirstMatchingItem("tea", true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[tea] has too many matches.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
+    "tea, true, [tea] has too many matches."
+  })
+  void itShouldDetectParameterErrors(
+      final String parameter, final boolean errorOnFailure, final String errorMessage) {
+    try (var cleanups = withContinuationState()) {
+      var item = ItemFinder.getFirstMatchingItem(parameter, errorOnFailure, null, Match.ANY);
+      assertThat(
+          StaticEntity.getContinuationState(),
+          is(errorOnFailure ? MafiaState.ERROR : MafiaState.CONTINUE));
+      assertThat(item, nullValue());
+
+      if (errorOnFailure) {
+        assertThat(KoLmafia.lastMessage, is(errorMessage));
+      }
+    }
   }
 
-  @Test
-  public void itShouldDetectItemFilteringFailures() {
+  @ParameterizedTest
+  @CsvSource({
+    "Hell ramen, ASDON, " + ItemPool.HELL_RAMEN,
+    "Hell ramen, FOOD, " + ItemPool.HELL_RAMEN,
+    "cottage, CREATE, " + ItemPool.COTTAGE,
+    "cottage, UNTINKER, " + ItemPool.COTTAGE,
+    "cottage, USE, " + ItemPool.COTTAGE,
+    "fancy chocolate, CANDY, " + ItemPool.FANCY_CHOCOLATE,
+    "helmet turtle, EQUIP, " + ItemPool.HELMET_TURTLE,
+    "literal grasshopper, ROBO, " + ItemPool.LITERAL_GRASSHOPPER,
+    "moxie weed, SPLEEN, " + ItemPool.MOXIE_WEED,
+    "seal tooth, ABSORB, " + ItemPool.SEAL_TOOTH,
+    "seal tooth, ANY, " + ItemPool.SEAL_TOOTH,
+    "vesper, BOOZE, " + ItemPool.VESPER,
+  })
+  void itShouldFindItemsThatMatchTheirMatchType(
+      final String itemName, final Match matchType, final int itemId) {
+    var item = ItemFinder.getFirstMatchingItem(itemName, true, null, matchType);
+    assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
+    assertThat(item, notNullValue());
+    assertThat(item.getItemId(), is(itemId));
+    assertThat(item.getCount(), is(1));
+  }
 
-    AdventureResult item;
-    String message;
-
-    // *** Test items that match each Match type
-
-    item = ItemFinder.getFirstMatchingItem("seal tooth", true, null, Match.ANY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.SEAL_TOOTH);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("Hell ramen", true, null, Match.FOOD);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.HELL_RAMEN);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("vesper", true, null, Match.BOOZE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.VESPER);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("moxie weed", true, null, Match.SPLEEN);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.MOXIE_WEED);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("cottage", true, null, Match.USE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.COTTAGE);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("cottage", true, null, Match.CREATE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.COTTAGE);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("cottage", true, null, Match.UNTINKER);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.COTTAGE);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("helmet turtle", true, null, Match.EQUIP);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.HELMET_TURTLE);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("fancy chocolate", true, null, Match.CANDY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.FANCY_CHOCOLATE);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("seal tooth", true, null, Match.ABSORB);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.SEAL_TOOTH);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("literal grasshopper", true, null, Match.ROBO);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.LITERAL_GRASSHOPPER);
-    assertEquals(item.getCount(), 1);
-
-    item = ItemFinder.getFirstMatchingItem("Hell ramen", true, null, Match.ASDON);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNotNull(item);
-    assertEquals(item.getItemId(), ItemPool.HELL_RAMEN);
-    assertEquals(item.getCount(), 1);
-
-    // *** Test items that don't match each Match type
-
-    // Skip Match.ANY
-
-    item = ItemFinder.getFirstMatchingItem("vesper", true, null, Match.FOOD);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[vesper] cannot be eaten.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("Hell ramen", true, null, Match.BOOZE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[Hell ramen] cannot be drunk.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("seal tooth", true, null, Match.SPLEEN);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[seal tooth] cannot be chewed.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("stolen accordion", true, null, Match.USE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[stolen accordion] cannot be used.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.ERROR);
-
-    item = ItemFinder.getFirstMatchingItem("seal tooth", true, null, Match.CREATE);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[seal tooth] cannot be created.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("seal tooth", true, null, Match.UNTINKER);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[seal tooth] cannot be untinkered.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("Hell ramen", true, null, Match.EQUIP);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[Hell ramen] cannot be equipped.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("alien drugs", true, null, Match.CANDY);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[alien drugs] is not candy.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("spooky sapling", true, null, Match.ABSORB);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[spooky sapling] cannot be absorbed.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("pink pony", true, null, Match.ROBO);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[pink pony] cannot be fed.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
-
-    item = ItemFinder.getFirstMatchingItem("lemon", true, null, Match.ASDON);
-    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
-    assertNull(item);
-    message = "[lemon] cannot be used as fuel.";
-    assertEquals(KoLmafia.lastMessage, message);
-    StaticEntity.setContinuationState(MafiaState.CONTINUE);
+  @ParameterizedTest
+  @CsvSource({
+    "vesper, FOOD, [vesper] cannot be eaten.",
+    "Hell ramen, BOOZE, [Hell ramen] cannot be drunk.",
+    "seal tooth, SPLEEN, [seal tooth] cannot be chewed.",
+    "stolen accordion, USE, [stolen accordion] cannot be used.",
+    "1 meat, CREATE, [1 meat] cannot be created.",
+    "seal tooth, UNTINKER, [seal tooth] cannot be untinkered.",
+    "Hell ramen, EQUIP, [Hell ramen] cannot be equipped.",
+    "alien drugs, CANDY, [alien drugs] is not candy.",
+    "spooky sapling, ABSORB, [spooky sapling] cannot be absorbed.",
+    "pink pony, ROBO, [pink pony] cannot be fed.",
+    "lemon, ASDON, [lemon] cannot be used as fuel."
+  })
+  void itShouldNotFindItemsThatDontMatchTheirType(
+      final String itemName, final Match matchType, final String message) {
+    try (var cleanups = new Cleanups(withContinuationState(), withProperty("_roboDrinks", ""))) {
+      var item = ItemFinder.getFirstMatchingItem(itemName, true, null, matchType);
+      assertThat(StaticEntity.getContinuationState(), is(MafiaState.ERROR));
+      assertThat(item, nullValue());
+      assertThat(KoLmafia.lastMessage, is(message));
+    }
   }
 
   @Test

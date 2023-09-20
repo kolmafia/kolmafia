@@ -2889,7 +2889,6 @@ Item	chintzy turtle brooch	Muscle: +12, Mysticality: +6, Class: "Turtle Tamer", 
 Item	chocolate pocketwatch	Maximum MP: +20, Spell Damage: +15, Spell Critical Percent: +10, Single Equip
 Item	chocolate rabbit's foot	Item Drop: +5, Meat Drop: +5, Candy Drop: +20
 Item	Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Damage: +40, Single Equip
-# Cincho de Mayo: Rest at your campsite, 3 times per day without using an Adventure
 Item	Cincho de Mayo	Moxie Percent: +25, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Booze Drop: +30, Item Drop: +15
 # Claw of the Infernal Seal: 5 Additional Seal Summons Per Day<super>*</super>
 # * This enchantment works even when this item is not equipped
@@ -5044,7 +5043,7 @@ Item	Xiblaxian residence-cube	Base Resting HP: +99, Base Resting MP: +100
 Item	antler chandelier	PvP Fights: +3
 Item	artificial skylight	Adventures: +3
 # bowl of potpourri: Gives some Moxie stats when you rest
-# ceiling fan: Rest 5 times per day without using an Adventure
+Item	ceiling fan	Free Rests: 5
 # continental juice bar: Produces 3 random potions each day
 # electric muscle stimulator: Gives some Muscle stats when you rest
 # fancy stationery set: Produces 3 fancy calligraphy pens each day
@@ -7954,8 +7953,7 @@ Skill	Adipose Polymers	Damage Absorption: +100, Damage Reduction: 10
 Skill	Adrenal Gland	Spooky Resistance: +2
 Skill	Advanced Exo-Alloy	Damage Absorption: +100
 # Adventurer of Leisure: Disco Napping is much more effective
-# Adventurer of Leisure: Rest Without Spending an Adventure
-# Adventurer of Leisure: (2x / day)
+Skill	Adventurer of Leisure	Free Rests: 2
 # Air of Mystery: The first attack against you will always miss
 Skill	Algebra	Mysticality: +25
 Skill	Alien Source Code	Maximum MP: +5
@@ -8073,8 +8071,9 @@ Skill	Dimples, How Merry!	Experience: +1
 # Dinsey Operations Expert: Allows access to additional maintenance functions in Dinseylandfill
 Skill	Disco Bravado	Experience: [I-max(I-1,0)/2]
 Skill	Disco Greed	Item Drop: [10*I]
+Skill	Disco Nap	Free Rests: 1
 # Disco State of Mind: Your dance moves build Disco Momentum
-# Dog Tired: Rest Without Spending an Adventure (5x / day)
+Skill	Dog Tired	Free Rests: 5
 Skill	Double-Eidetic Memory	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 # Double-Fisted Skull Smashing: Allows dual-wielding
 Skill	Drinking to Drink	Liver Capacity: +1
@@ -8094,7 +8093,7 @@ Skill	Ensorcel	Maximum HP: -20
 # Eternal Flame: Makes you Politically Active
 Skill	Eternal Flame	Hot Spell Damage: +1, Hot Resistance: +1
 Skill	Even More Elemental Wards	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
-# Executive Narcolepsy: +1 Free Rest per Day
+Skill	Executive Narcolepsy	Free Rests: 1
 Skill	Exhaust Tubules	Stench Damage: +5
 Skill	Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 Skill	Extra Brain	Mysticality Percent: +50
@@ -8125,8 +8124,8 @@ Skill	Flesh Scent	Meat Drop: +100, Maximum HP: -5
 Skill	Fluid Dynamics Simulation	HP Regen Min: 100, HP Regen Max: 100
 Skill	Flock of Bats Form	Maximum HP: -20
 Skill	Flop Sweat	Sleaze Damage: +9
-# Food Coma: Rest Without Spending an Adventure (10x / day)
 # Food Coma: Resting Restores All MP
+Skill	Food Coma	Free Rests: 10
 Skill	Food Coma	Base Resting MP: 9999
 Skill	Fortitude of the Muskox	HP Regen Min: 1, HP Regen Max: 2
 # Frantic Gyrations: Disco Momentum makes you harder to hit
@@ -8214,6 +8213,7 @@ Skill	Legendary Impatience	Initiative: +100
 Skill	Limberger Limberness	Initiative: +75
 Skill	Liver of Steel	Liver Capacity: +5
 Skill	Localized Vacuum	Hot Resistance: +2
+Skill	Long Winter's Nap	Free Rests: 5
 # Louder Bellows: You can bellow louder
 # Louder Bellows: (bellow delevels by 30%, and also stuns the monster for one round)
 Skill	Lower Hypothalamus	Cold Resistance: +1
@@ -11075,7 +11075,6 @@ Item	Carol of the Thrills	Skill: "Carol of the Thrills"
 # cartoon heart: Restores 40-60 HP
 Item	cartoon heart	Effect: "Healthy Red Glow", Effect Duration: 10
 # cast: Restores 25-35 HP in combat, and 15-20 out of combat
-# ceiling fan: Rest 5 times per day without using an Adventure
 Item	Celsius 233	Skill: "Eternal Flame"
 Item	Celsius 233 (singed)	Skill: "Eternal Flame"
 # chainsaw chain: Deals 60-80 Physical Damage and weakens enemies a lot

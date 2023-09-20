@@ -294,6 +294,10 @@ public class ClanLoungeRequest extends GenericRequest {
   public static final ArrayList<Concoction> ALL_HOTDOGS = new ArrayList<>();
 
   static {
+    resetHotdogConcoctions();
+  }
+
+  private static void resetHotdogConcoctions() {
     for (int i = 0; i < HOTDOG_DATA.length; ++i) {
       String itemName = HOTDOG_DATA[i].name;
       Concoction concoction = new Concoction(itemName);
@@ -469,6 +473,10 @@ public class ClanLoungeRequest extends GenericRequest {
   public static final EnumSet<SpeakeasyDrink> ALL_SPEAKEASY = EnumSet.allOf(SpeakeasyDrink.class);
 
   static {
+    resetSpeakeasyConcoctions();
+  }
+
+  private static void resetSpeakeasyConcoctions() {
     for (var drink : ALL_SPEAKEASY) {
       drink.populateMaps();
     }
@@ -547,8 +555,12 @@ public class ClanLoungeRequest extends GenericRequest {
   public static final ArrayList<Concoction> ALL_FLOUNDRY = new ArrayList<>();
 
   static {
-    for (int i = 0; i < FLOUNDRY_DATA.length; ++i) {
-      AdventureResult item = FLOUNDRY_DATA[i].item;
+    resetFloundryConcoctions();
+  }
+
+  private static void resetFloundryConcoctions() {
+    for (FloundryData floundryDatum : FLOUNDRY_DATA) {
+      AdventureResult item = floundryDatum.item;
       if (item != null) {
         Concoction concoction = ConcoctionPool.get(item);
         concoction.setMixingMethod(CraftingType.FLOUNDRY);
