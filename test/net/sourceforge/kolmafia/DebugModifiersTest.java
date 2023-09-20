@@ -583,4 +583,12 @@ public class DebugModifiersTest {
       assertThat(output(), containsDebugRow("Familiar", familiar, 6.0, 6.0));
     }
   }
+
+  @Test
+  void discoNapGivesFreeRests() {
+    try (var cleanups = withSkill(SkillPool.DISCO_NAP)) {
+      evaluateDebugModifiers(DoubleModifier.FREE_RESTS);
+      assertThat(output(), containsDebugRow("Skill", "Disco Nap", 1.0, 1.0));
+    }
+  }
 }

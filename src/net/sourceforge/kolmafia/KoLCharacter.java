@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
-import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
@@ -1576,28 +1575,7 @@ public abstract class KoLCharacter {
   }
 
   public static int freeRestsAvailable() {
-    int freerests = 0;
-    if (KoLCharacter.hasSkill(SkillPool.DISCO_NAP)) ++freerests;
-    if (KoLCharacter.hasSkill(SkillPool.ADVENTURER_OF_LEISURE)) freerests += 2;
-    if (KoLCharacter.hasSkill(SkillPool.EXECUTIVE_NARCOLEPSY)) ++freerests;
-    // Unconscious Collective contributes in G-Lover (e.g.) but not in Standard
-    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective")
-        && KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent())
-      freerests += 3;
-    if (KoLCharacter.hasSkill(SkillPool.FOOD_COMA)) freerests += 10;
-    if (KoLCharacter.hasSkill(SkillPool.DOG_TIRED)) freerests += 5;
-    if (KoLConstants.chateau.contains(ChateauRequest.CHATEAU_FAN)) freerests += 5;
-    if (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
-        && Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
-    if (StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Long Winter's Nap")
-        && KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
-    if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
-        || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
-    if (InventoryManager.getCount(ItemPool.CINCHO_DE_MAYO) > 0
-        || KoLCharacter.hasEquipped(ItemPool.CINCHO_DE_MAYO)) freerests += 3;
-    if (InventoryManager.getCount(ItemPool.REPLICA_CINCHO_DE_MAYO) > 0
-        || KoLCharacter.hasEquipped(ItemPool.REPLICA_CINCHO_DE_MAYO)) freerests += 3;
-    return freerests;
+    return (int) KoLCharacter.currentNumericModifier(DoubleModifier.FREE_RESTS);
   }
 
   public static int freeRestsRemaining() {
@@ -2880,6 +2858,12 @@ public abstract class KoLCharacter {
       RequestThread.postRequest(new CampgroundRequest("workshed"));
     }
 
+    // Scale up contents of our stomach and liver in Small
+    if (oldPath == Path.SMALL) {
+      KoLCharacter.setFullness(KoLCharacter.getFullness() * 10);
+      KoLCharacter.setInebriety(KoLCharacter.getInebriety() * 10);
+    }
+
     // If we were in Hardcore or a path that alters skills, automatically recall skills
     if (restricted
         || wasInHardcore
@@ -2917,8 +2901,11 @@ public abstract class KoLCharacter {
       GearChangePanel.updateFamiliars();
     }
 
-    if (restricted || oldPath == Path.NUCLEAR_AUTUMN || oldPath == Path.YOU_ROBOT) {
-      // We haven't previously seen our campground
+    // If we haven't previously seen our campground, visit it.
+    if (restricted
+        || oldPath == Path.NUCLEAR_AUTUMN
+        || oldPath == Path.YOU_ROBOT
+        || oldPath == Path.SMALL) {
       CampgroundRequest.reset();
       RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
       RequestThread.postRequest(new CampgroundRequest("inspectkitchen"));
@@ -3852,7 +3839,7 @@ public abstract class KoLCharacter {
         KoLConstants.summoningSkills.add(skill);
         LockableListFactory.sort(KoLConstants.summoningSkills);
       }
-      case REMEDY -> {
+      case REMEDY, REMEDY_PASSIVE -> {
         KoLConstants.usableSkills.add(skill);
         LockableListFactory.sort(KoLConstants.usableSkills);
         KoLConstants.remedySkills.add(skill);
@@ -5234,6 +5221,9 @@ public abstract class KoLCharacter {
     // Organ capacity
     newModifiers.applyAdditionalStomachCapacityModifiers();
     newModifiers.applyAdditionalSpleenCapacityModifiers();
+
+    // free rests
+    newModifiers.applyAdditionalFreeRestModifiers();
 
     // Lastly, experience adjustment also implicitly depends on
     // monster level.  Add that information.

@@ -33,7 +33,8 @@ public class SkillDatabase {
     COMBAT_NONCOMBAT_REMEDY("combat/noncombat remedy", 7),
     COMBAT_PASSIVE("combat/passive", 8),
     EXPRESSION("expression", 9),
-    WALK("walk", 10);
+    WALK("walk", 10),
+    REMEDY_PASSIVE("noncombat remedy/passive", 11);
 
     public final String name;
     public final int number;
@@ -910,7 +911,13 @@ public class SkillDatabase {
     SkillType skillType = SkillDatabase.skillTypeById.get(skillId);
     if (skillType == null) return false;
     return switch (skillType) {
-      case SUMMON, REMEDY, SELF_ONLY, SONG, COMBAT_NONCOMBAT_REMEDY, EXPRESSION -> true;
+      case SUMMON,
+          REMEDY,
+          SELF_ONLY,
+          SONG,
+          COMBAT_NONCOMBAT_REMEDY,
+          EXPRESSION,
+          REMEDY_PASSIVE -> true;
       default -> false;
     };
   }
@@ -921,10 +928,10 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill is passive
    */
   public static final boolean isPassive(final int skillId) {
-    // Shake it off is a passive as well as a non-combat heal
     // Vampyre skills all have a passive (-hp) effect
     return SkillDatabase.isType(skillId, SkillType.PASSIVE)
         || SkillDatabase.isType(skillId, SkillType.COMBAT_PASSIVE)
+        || SkillDatabase.isType(skillId, SkillType.REMEDY_PASSIVE)
         || SkillDatabase.isVampyreSkill(skillId);
   }
 
@@ -1340,8 +1347,8 @@ public class SkillDatabase {
     var searchTypes =
         switch (type) {
           case COMBAT -> EnumSet.of(COMBAT, COMBAT_NONCOMBAT_REMEDY, COMBAT_PASSIVE);
-          case REMEDY -> EnumSet.of(REMEDY, COMBAT_NONCOMBAT_REMEDY);
-          case PASSIVE -> EnumSet.of(PASSIVE, SkillType.COMBAT_PASSIVE);
+          case REMEDY -> EnumSet.of(REMEDY, COMBAT_NONCOMBAT_REMEDY, REMEDY_PASSIVE);
+          case PASSIVE -> EnumSet.of(PASSIVE, SkillType.COMBAT_PASSIVE, SkillType.REMEDY_PASSIVE);
           default -> EnumSet.of(type);
         };
     return getSkillsByType(searchTypes, onlyKnown);
@@ -1358,7 +1365,15 @@ public class SkillDatabase {
   public static final List<UseSkillRequest> getCastableSkills(final boolean onlyKnown) {
     return getSkillsByType(
         EnumSet.of(
-            SUMMON, REMEDY, SELF_ONLY, BUFF, SONG, COMBAT_NONCOMBAT_REMEDY, EXPRESSION, WALK),
+            SUMMON,
+            REMEDY,
+            SELF_ONLY,
+            BUFF,
+            SONG,
+            COMBAT_NONCOMBAT_REMEDY,
+            EXPRESSION,
+            WALK,
+            REMEDY_PASSIVE),
         onlyKnown);
   }
 

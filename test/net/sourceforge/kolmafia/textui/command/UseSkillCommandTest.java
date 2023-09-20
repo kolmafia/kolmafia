@@ -49,4 +49,16 @@ public class UseSkillCommandTest extends AbstractCommandTestBase {
       assertThat(output, containsString("Possible matches:"));
     }
   }
+
+  @Test
+  void canCastDiscoNap() {
+    var cleanups = new Cleanups(withSkill(SkillPool.DISCO_NAP), withMP(100, 100, 100));
+
+    try (cleanups) {
+      String output = execute("disco nap");
+
+      assertContinueState();
+      assertThat(output, containsString("Casting Disco Nap"));
+    }
+  }
 }
