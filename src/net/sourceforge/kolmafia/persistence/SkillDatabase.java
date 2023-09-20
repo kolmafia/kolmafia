@@ -34,7 +34,7 @@ public class SkillDatabase {
     COMBAT_PASSIVE("combat/passive", 8),
     EXPRESSION("expression", 9),
     WALK("walk", 10),
-    REMEDY_PASSIVE("noncombat/passive", 11);
+    REMEDY_PASSIVE("noncombat remedy/passive", 11);
 
     public final String name;
     public final int number;
