@@ -38,6 +38,7 @@ public class ItemFinderTest {
     KoLCharacter.reset("");
     KoLCharacter.reset("item finder user");
     ConcoctionPool.reset();
+    ConcoctionDatabase.reset();
   }
 
   @BeforeEach
