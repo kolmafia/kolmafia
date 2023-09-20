@@ -26,11 +26,11 @@ public class ConcoctionPool {
   private static final Map<Integer, Integer> rowCache = new TreeMap<>();
 
   static {
-    // Pre-set concoctions for all items.
     reset();
   }
 
-  public static void reset() {
+  private static void reset() {
+    // Pre-set concoctions for all items.
     int maxItemId = ItemDatabase.maxItemId();
     for (int i = 1; i <= maxItemId; ++i) {
       // Skip non-existent items

@@ -348,7 +348,7 @@ public class ItemFinderTest {
     "Hell ramen, BOOZE, [Hell ramen] cannot be drunk.",
     "seal tooth, SPLEEN, [seal tooth] cannot be chewed.",
     "stolen accordion, USE, [stolen accordion] cannot be used.",
-    "seal tooth, CREATE, [seal tooth] cannot be created.",
+    "1 meat, CREATE, [1 meat] cannot be created.",
     "seal tooth, UNTINKER, [seal tooth] cannot be untinkered.",
     "Hell ramen, EQUIP, [Hell ramen] cannot be equipped.",
     "alien drugs, CANDY, [alien drugs] is not candy.",

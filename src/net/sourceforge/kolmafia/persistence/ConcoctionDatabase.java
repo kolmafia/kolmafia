@@ -184,7 +184,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.usableList.sort(true);
   }
 
-  public static void reset() {
+  private static void reset() {
     // This begins by opening up the data file and preparing
     // a buffered reader; once this is done, every line is
     // examined and float-referenced: once in the name-lookup,

@@ -555,13 +555,6 @@ public class KoLCharacterTest {
 
   @Nested
   class Liberation {
-    @AfterAll
-    static void afterAll() {
-      ConcoctionPool.reset();
-      ConcoctionDatabase.reset();
-      ClanLoungeRequest.resetConcoctions();
-    }
-
     @Test
     void resizesOrganContentsAfterSmallPath() {
       try (var cleanups =

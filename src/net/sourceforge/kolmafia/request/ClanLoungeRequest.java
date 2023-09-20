@@ -126,12 +126,6 @@ public class ClanLoungeRequest extends GenericRequest {
         new SwimmingOption("sprints", "noncombat", SPRINTS),
       };
 
-  public static void resetConcoctions() {
-    resetFloundryConcoctions();
-    resetHotdogConcoctions();
-    resetSpeakeasyConcoctions();
-  }
-
   // *** Hot Dog Stand ***
 
   public record HotDogData(
@@ -303,7 +297,7 @@ public class ClanLoungeRequest extends GenericRequest {
     resetHotdogConcoctions();
   }
 
-  public static void resetHotdogConcoctions() {
+  private static void resetHotdogConcoctions() {
     for (int i = 0; i < HOTDOG_DATA.length; ++i) {
       String itemName = HOTDOG_DATA[i].name;
       Concoction concoction = new Concoction(itemName);
@@ -482,7 +476,7 @@ public class ClanLoungeRequest extends GenericRequest {
     resetSpeakeasyConcoctions();
   }
 
-  public static void resetSpeakeasyConcoctions() {
+  private static void resetSpeakeasyConcoctions() {
     for (var drink : ALL_SPEAKEASY) {
       drink.populateMaps();
     }
@@ -564,14 +558,14 @@ public class ClanLoungeRequest extends GenericRequest {
     resetFloundryConcoctions();
   }
 
-  public static void resetFloundryConcoctions() {
-    for (int i = 0; i < FLOUNDRY_DATA.length; ++i) {
-      AdventureResult item = FLOUNDRY_DATA[i].item;
-      if (item != null) {
-        Concoction concoction = ConcoctionPool.get(item);
-        concoction.setMixingMethod(CraftingType.FLOUNDRY);
-        ClanLoungeRequest.ALL_FLOUNDRY.add(concoction);
-      }
+  private static void resetFloundryConcoctions() {
+    for (FloundryData floundryDatum : FLOUNDRY_DATA) {
+        AdventureResult item = floundryDatum.item;
+        if (item != null) {
+            Concoction concoction = ConcoctionPool.get(item);
+            concoction.setMixingMethod(CraftingType.FLOUNDRY);
+            ClanLoungeRequest.ALL_FLOUNDRY.add(concoction);
+        }
     }
   }
 
