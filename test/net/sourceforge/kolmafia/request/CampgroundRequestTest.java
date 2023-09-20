@@ -115,6 +115,40 @@ public class CampgroundRequestTest {
   }
 
   @Nested
+  class Rests {
+    @Test
+    void doesNotCountFailedRests() {
+      var cleanups =
+          new Cleanups(
+              // A rest did not get processed by the game, because it is pointless to rest
+              // (full HP, full MP, no Beaten Up)
+              withNextResponse(200, html("request/test_do_not_count_failed_rests.html")),
+              withProperty("timesRested", 137));
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=rest").run();
+        // timesRested did not increase
+        assertThat("timesRested", isSetTo(137));
+      }
+    }
+
+    @Test
+    void countsSuccessfulRests() {
+      var cleanups =
+          new Cleanups(
+              // A successful rest
+              withNextResponse(200, html("request/test_count_successful_rests.html")),
+              withProperty("timesRested", 137));
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=rest").run();
+        // timesRested did increase
+        assertThat("timesRested", isSetTo(138));
+      }
+    }
+  }
+
+  @Nested
   class Pumpkins {
     @Test
     void canDetectGinormousPumpkinHouse() {
