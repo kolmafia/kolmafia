@@ -553,7 +553,12 @@ public class KoLCharacterTest {
   class Liberation {
     @Test
     void resizesOrganContentsAfterSmallPath() {
-      try (var cleanups = new Cleanups(withPath(Path.SMALL), withInebriety(1), withFullness(2))) {
+      try (var cleanups =
+          new Cleanups(
+              withProperty("kingLiberated"),
+              withPath(Path.SMALL),
+              withInebriety(1),
+              withFullness(2))) {
         KoLCharacter.liberateKing();
         assertThat(KoLCharacter.getFullness(), is(20));
         assertThat(KoLCharacter.getInebriety(), is(10));
