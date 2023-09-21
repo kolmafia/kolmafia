@@ -55,12 +55,16 @@ public class EventManager {
     return EventManager.eventHyperTexts;
   }
 
-  public static void addChatEvent(final String eventHTML) {
-    EventManager.addNormalEvent(eventHTML, true);
+  public static void addChatEvent(final String eventHtml) {
+    EventManager.addNormalEvent(eventHtml, true);
   }
 
-  public static boolean addNormalEvent(String eventHTML) {
-    return EventManager.addNormalEvent(eventHTML, false);
+  public static boolean addNormalEvent(String eventHtml) {
+    return EventManager.addNormalEvent(eventHtml, false);
+  }
+
+  private static String prependTimestamp(String eventHtml) {
+    return EventManager.EVENT_TIMESTAMP.format(new Date()) + " - " + eventHtml;
   }
 
   public static boolean addNormalEvent(String eventHtml, boolean addTimestamp) {
@@ -72,11 +76,9 @@ public class EventManager {
       return false;
     }
 
-    if (addTimestamp) {
-      // Add the timestamp only to Relay Browser rendering of the event
-      EventManager.eventHyperTexts.add(
-          EventManager.EVENT_TIMESTAMP.format(new Date()) + " - " + eventHtml);
-    }
+    // Add to the event hyper texts list, but only include the timestamp only to Relay Browser
+    // rendering of the event
+    EventManager.eventHyperTexts.add(addTimestamp ? prependTimestamp(eventHtml) : eventHtml);
 
     var autopull = eventHtml.contains("<table class=\"item\"");
 
