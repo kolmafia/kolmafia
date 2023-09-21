@@ -72,12 +72,13 @@ public class EventManager {
       return false;
     }
 
+    if (addTimestamp) {
+      // Add the timestamp only to Relay Browser rendering of the event
+      EventManager.eventHyperTexts.add(
+          EventManager.EVENT_TIMESTAMP.format(new Date()) + " - " + eventHtml);
+    }
+
     var autopull = eventHtml.contains("<table class=\"item\"");
-
-    if (addTimestamp)
-      eventHtml = EventManager.EVENT_TIMESTAMP.format(new Date()) + " - " + eventHtml;
-
-    EventManager.eventHyperTexts.add(eventHtml);
 
     // The event may be marked up with color and links to
     // user profiles. For example:
