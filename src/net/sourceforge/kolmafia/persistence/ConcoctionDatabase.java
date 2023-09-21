@@ -184,12 +184,11 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.usableList.sort(true);
   }
 
-  static {
+  private static void reset() {
     // This begins by opening up the data file and preparing
     // a buffered reader; once this is done, every line is
     // examined and float-referenced: once in the name-lookup,
     // and again in the Id lookup.
-
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("concoctions.txt", KoLConstants.CONCOCTIONS_VERSION)) {
       String[] data;
@@ -200,6 +199,10 @@ public class ConcoctionDatabase {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
+  }
+
+  static {
+    reset();
   }
 
   private static void addConcoction(final String[] data) {
