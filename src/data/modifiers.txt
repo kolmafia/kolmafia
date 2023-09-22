@@ -8125,8 +8125,7 @@ Skill	Fluid Dynamics Simulation	HP Regen Min: 100, HP Regen Max: 100
 Skill	Flock of Bats Form	Maximum HP: -20
 Skill	Flop Sweat	Sleaze Damage: +9
 # Food Coma: Resting Restores All MP
-Skill	Food Coma	Free Rests: 10
-Skill	Food Coma	Base Resting MP: 9999
+Skill	Food Coma	Base Resting MP: 9999, Free Rests: 10
 Skill	Fortitude of the Muskox	HP Regen Min: 1, HP Regen Max: 2
 # Frantic Gyrations: Disco Momentum makes you harder to hit
 Skill	Gift of the Assassin	Weapon Damage: +10, Critical Hit Percent: +30

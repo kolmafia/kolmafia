@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.session;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,30 +19,23 @@ public class EventManager {
   private static final LockableListModel<String> eventTexts = new LockableListModel<>();
   private static final LockableListModel<String> eventHyperTexts = new LockableListModel<>();
 
-  public static final Pattern EVENT_PATTERN1 =
-      Pattern.compile(
-          "<table[^>]*><tr><td[^>]*bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>");
-
-  public static final Pattern EVENT_PATTERN2 =
-      Pattern.compile(
-          "<table[^>]*><tr><td[^>]*bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>(.*?)</td></tr><tr><td height=4></td></tr></table>");
+  public static final List<Pattern> EVENT_PATTERNS =
+      List.of(
+          Pattern.compile(
+              "<table[^>]*><tr><td[^>]*bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table></center></td></tr><tr><td height=4></td></tr></table>"),
+          Pattern.compile(
+              "<table[^>]*><tr><td[^>]*bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>(.*?)</td></tr><tr><td height=4></td></tr></table>"));
 
   private static final SimpleDateFormat EVENT_TIMESTAMP =
       new SimpleDateFormat("MM/dd/yy hh:mm a", Locale.US);
 
   private EventManager() {}
 
-  public static Matcher eventMatcher(final String responseText) {
-    Matcher matcher = EventManager.EVENT_PATTERN1.matcher(responseText);
-    if (matcher.find()) {
-      return matcher;
-    }
-
-    matcher = EventManager.EVENT_PATTERN2.matcher(responseText);
-    if (matcher.find()) {
-      return matcher;
-    }
-    return null;
+  public static List<String> parseEvents(final String responseText) {
+    return EVENT_PATTERNS.stream()
+        .flatMap(p -> p.matcher(responseText).results())
+        .map(r -> r.group(1))
+        .toList();
   }
 
   public static boolean hasEvents() {
@@ -60,36 +55,32 @@ public class EventManager {
     return EventManager.eventHyperTexts;
   }
 
-  public static void addChatEvent(final String eventHTML) {
-    EventManager.addNormalEvent(eventHTML, true);
+  public static void addChatEvent(final String eventHtml) {
+    EventManager.addNormalEvent(eventHtml, true);
   }
 
-  public static boolean addNormalEvent(String eventHTML) {
-    return EventManager.addNormalEvent(eventHTML, false);
+  public static boolean addNormalEvent(String eventHtml) {
+    return EventManager.addNormalEvent(eventHtml, false);
   }
 
-  public static boolean addNormalEvent(String eventHTML, boolean addTimestamp) {
-    if (eventHTML == null) {
+  private static String prependTimestamp(String eventHtml) {
+    return EventManager.EVENT_TIMESTAMP.format(new Date()) + " - " + eventHtml;
+  }
+
+  public static boolean addNormalEvent(String eventHtml, boolean addTimestamp) {
+    if (eventHtml == null) {
       return false;
     }
 
-    if (eventHTML.contains("logged") || eventHTML.contains("has left the building")) {
+    if (eventHtml.contains("logged") || eventHtml.contains("has left the building")) {
       return false;
     }
 
-    if (addTimestamp) {
-      EventManager.eventHyperTexts.add(
-          EventManager.EVENT_TIMESTAMP.format(new Date()) + " - " + eventHTML);
-    } else {
-      EventManager.eventHyperTexts.add(eventHTML);
-    }
+    // Add to the event hyper texts list, but only include the timestamp only to Relay Browser
+    // rendering of the event
+    EventManager.eventHyperTexts.add(addTimestamp ? prependTimestamp(eventHtml) : eventHtml);
 
-    if (!LoginRequest.isInstanceRunning()) {
-      // Print everything to the default shell; this way, the
-      // graphical CLI is also notified of events.
-
-      RequestLogger.printLine(eventHTML);
-    }
+    var autopull = eventHtml.contains("<table class=\"item\"");
 
     // The event may be marked up with color and links to
     // user profiles. For example:
@@ -100,27 +91,26 @@ public class EventManager {
     // href='showplayer.php?who=115875'><b><font color=green>Brianna</font></b></a> has played a
     // song (The Polka of Plenty) for you.
 
-    // Remove tags that are not hyperlinks
+    var eventText =
+        eventHtml
+            // Add a space before item acquisition
+            .replace("<center><table class=\"item\"", " <table")
+            // Remove tags that are not hyperlinks
+            .replaceAll("</?[^aA/][^>]*>", "")
+            // Replace links to profiles with a player descriptor
+            .replaceAll("<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)</a>", "$2 (#$1)")
+            // Remove the rest of the tags
+            .replaceAll("<[^>]*>", "");
 
-    eventHTML = eventHTML.replaceAll("</[^aA][^>]*>", "");
-    eventHTML = eventHTML.replaceAll("<[^aA/][^>]*>", "");
-
-    String eventText =
-        eventHTML.replaceAll("<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)</a>", "$2 (#$1)");
-
-    eventText = eventText.replaceAll("<.*?>", "");
-
-    if (addTimestamp) {
-      EventManager.eventTexts.add(
-          EventManager.EVENT_TIMESTAMP.format(new Date()) + " - " + eventText);
-    } else {
-      EventManager.eventTexts.add(eventText);
-    }
+    EventManager.eventTexts.add(addTimestamp ? prependTimestamp(eventText) : eventText);
 
     if (!LoginRequest.isInstanceRunning()) {
+      // Print everything to the default shell; this way, the
+      // graphical CLI is also notified of events.
+      if (!autopull) RequestLogger.printLine(eventHtml);
+
       // Balloon messages for whenever the person does not have
       // focus on KoLmafia.
-
       if (StaticEntity.usesSystemTray()) {
         SystemTrayFrame.showBalloon(eventText);
       }
@@ -136,33 +126,23 @@ public class EventManager {
 
     // Capture the entire new events table in order to display the
     // appropriate message.
+    EventManager.parseEvents(responseText).stream()
+        .flatMap(fullBlock -> Arrays.stream(fullBlock.split("<p>")))
+        .flatMap(block -> Arrays.stream(block.split("<br(?: /)?>|\n")))
+        .forEach(
+            e -> {
+              EventManager.addNormalEvent(e);
+              if (ChatManager.isRunning()) {
+                ChatManager.broadcastEvent(new EventMessage(e, "green"));
+              }
+            });
+  }
 
-    Matcher eventMatcher = EventManager.eventMatcher(responseText);
-    if (eventMatcher == null) {
-      return;
-    }
-
-    // Make an array of events
-    String allEvents = eventMatcher.group(1);
-    int para = allEvents.indexOf("<p>");
-    String normalEvents = para == -1 ? allEvents : allEvents.substring(0, para);
-    String otherEvents = para == -1 ? "" : allEvents.substring(para);
-
-    normalEvents = normalEvents.replaceAll("<br />", "<br>");
-    normalEvents = normalEvents.replaceAll("<br>", "\n");
-
-    String[] events = normalEvents.split("\n");
-
-    for (String event : events) {
-      if (!event.contains("/")) {
-        continue;
-      }
-
-      EventManager.addNormalEvent(event);
-
-      if (ChatManager.isRunning()) {
-        ChatManager.broadcastEvent(new EventMessage(event, "green"));
-      }
-    }
+  public static Matcher findEventsBlock(final StringBuffer responseText) {
+    return EVENT_PATTERNS.stream()
+        .map(p -> p.matcher(responseText))
+        .filter(Matcher::find)
+        .findFirst()
+        .orElse(null);
   }
 }
