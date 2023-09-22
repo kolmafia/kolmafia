@@ -4186,7 +4186,7 @@ Item	smoker's cloak	Monster Level: +10, Initiative: +20, Stench Damage: +30
 Item	snowpack	Familiar Weight: +5, Cold Damage: +30, Class: "Pastamancer"
 Item	stained glass serape	Experience (Moxie): +3, Sleaze Resistance: +3, Sleaze Damage: +5
 Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Absorption: +100
-# spiky back shell: Enemies take 40-50 when they hit you
+Item	spiky back shell	Thorns: 1
 Item	super-absorbent tarp	Maximum Hooch: +2
 Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 Item	teddybear backpack	Meat Drop: +10, Raveosity: +1

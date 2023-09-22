@@ -2159,7 +2159,7 @@ family of kobolds	1101	kobolds.gif	NOCOPY Atk: 99999 Def: 89999 HP: 99999 Init: 
 
 # Transmissions from planet Xi (Xi Receiver KoL Con XI)
 holographic army	1629	holoarmy.gif	NOCOPY Scale: 30 Floor: ? Init: -10000 Group: 10 P: weird Elem: 50 Article: a	holo-bomber (30)	holo-platoon (30)	holo-tank (30)
-They	1631	they.gif	Scale: 20 Floor: ? Init: -10000 P: humanoid EA: spooky Article: a	They liver (0)	They liver (0)	BUBBLE GUM (c0)
+They	1631	they.gif	Scale: 20 Floor: ? Init: -10000 P: humanoid EA: spooky Article: a	They liver (30)	They liver (30)	BUBBLE GUM (c10)
 Xiblaxian political prisoner	1630	polprisoner.gif	NOCOPY Scale: 40 Floor: ? Init: -10000 P: weird Elem: 75 Article: an	residual zeal (n100)	little red .epub file (c0)
 
 # Antique Maps
@@ -2332,18 +2332,18 @@ gooified rock slab	2225	goo_slab1.gif,goo_slab2.gif,goo_slab3.gif	Atk: 250 Def: 
 massive goo construct	2226		Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct EA: hot EA: sleaze Article: a	gooified animal matter (100)	gooified vegetable matter (100)	gooified mineral matter (100)
 
 # Crimbo 2022
-Brake-Operating Trainbot	2254	trainbot_brake.gif	Scale: 0 Cap: ? Init: -10000 P: construct Article: a	pile of Trainbot parts (c0)	Crimbo train emergency brake (c0)	Trainbot harness (c0)
-Track-Switching Trainbot	2255	trainbot_switch.gif	Scale: 0 Cap: ? Init: -10000 P: construct Article: a	pile of Trainbot parts (c0)	pile of Trainbot parts (c0)
-Ping-Pong-Playing Trainbot	2256	trainbot_ping.gif	Scale: 0 Cap: ? Init: -10000 P: construct Article: a	pile of Trainbot parts (c0)	ping-pong ball (c0)	portable ping-pong table (c0)
-Drink-Delivery Trainbot	2257	trainbot_drinks.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: cold Article: a	cinnamon machine oil (c0)	dregs of a Crimbo cocktail (c0)	Crimbo crystal shards (c0)
-Luggage-Handling Trainbot	2258	trainbot_bags.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a	cinnamon machine oil (c0)	lost elf luggage (c0)	Trainbot luggage hook (c0)
-Ticket-Checking Trainbot	2259	trainbot_check.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a	cinnamon machine oil (c0)	Trainbot radar monocle (c0)
-Table-Waiting Trainbot	2260	trainbot_wait.gif	Scale: 0 Cap: ? Init: -10000 P: construct Article: a	Trainbot autoassembly module (c0)	honey-drenched ham slice (c0)	white arm towel (c0)
-Wine-Pairing Trainbot	2261	trainbot_wine.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: sleaze Article: a	Trainbot autoassembly module (c0)	mostly-empty bottle of cookie wine (c0)	automatic wine thief (c0)
-Table-Bussing Trainbot	2262	trainbot_bus.gif	Scale: 0 Cap: ? Init: -10000 P: construct Article: a	Trainbot autoassembly module (c0)	Crimbo food scraps (c0)	silver table-scraper (c0)
-Coal-Shoveling Trainbot	2263	trainbot_coal.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a	industrially-crushed ice (c0)	really nice lump of coal (c0)
-Slag-Processing Trainbot	2264	trainbot_slag.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a	Trainbot slag (c0)	deactivated mini-Trainbot (c0)
-Steam-Routing Trainbot	2265	trainbot_steam.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a	steamed oyster (c0)	portable steam unit (c0)
+Brake-Operating Trainbot	2254	trainbot_brake.gif	Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Track-Switching Trainbot	2255	trainbot_switch.gif	Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Ping-Pong-Playing Trainbot	2256	trainbot_ping.gif	Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Drink-Delivery Trainbot	2257	trainbot_drinks.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: cold Article: a
+Luggage-Handling Trainbot	2258	trainbot_bags.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+Ticket-Checking Trainbot	2259	trainbot_check.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+Table-Waiting Trainbot	2260	trainbot_wait.gif	Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Wine-Pairing Trainbot	2261	trainbot_wine.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: sleaze Article: a
+Table-Bussing Trainbot	2262	trainbot_bus.gif	Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Coal-Shoveling Trainbot	2263	trainbot_coal.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+Slag-Processing Trainbot	2264	trainbot_slag.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+Steam-Routing Trainbot	2265	trainbot_steam.gif	Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
 The Superconductor	2266	superconductor.gif	BOSS NOCOPY NOMANUEL Scale: 30 Cap: ? HP: 300 Init: -10000 P: construct EA: hot	The Superconductor's CPU (100)
 
 # Old Events
@@ -2429,18 +2429,18 @@ Ribbon-Cutting Elfborg	437	borgelf2.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: con
 Weapons-Assembly Elfborg	439	borgelf3.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct Article: a	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 
 # Sinister Dodecahedron (Crimbo 2007)
-death ray in a pear tree	639	deathray.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	laser-broiled pear (0)
-turtle mech	640	turtlemech.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	polyalloy shield (0)
-Swiss hen	641	swisshen.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	oversized fish scaler (0)
-killing bird	642	killingbird.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	killing feather (0)	killing feather (0)
-golden ring	643	goldenring.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	golden ring (0)
-goose a-laying	644	goosealaying.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct EA: hot Article: a	robotronic egg (0)	robotronic egg (0)
-swarm a-swarming	645	swarmers.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	rogue swarmer (0)	rogue swarmer (0)
-blade a-spinning	646	sawblade.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	sawblade fragment (0)	sawblade fragment (0)
-laser lancing	647	laser.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct EA: hot Article: a	unstable laser battery (0)	unstable laser battery (0)
-borg a-beeping	648	borgabeeping.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	vibrating cyborg knife (0)
-strangler strangling	649	strangler.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	immense cyborg hand (0)
-stomper stomping	650	stomper.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	cyborg stompin' boot (0)
+death ray in a pear tree	639	deathray.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	laser-broiled pear (100)
+turtle mech	640	turtlemech.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	polyalloy shield (10)
+Swiss hen	641	swisshen.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	oversized fish scaler (10)
+killing bird	642	killingbird.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	killing feather (30)	killing feather (30)
+golden ring	643	goldenring.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	golden ring (100)
+goose a-laying	644	goosealaying.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct EA: hot Article: a	robotronic egg (30)	robotronic egg (30)
+swarm a-swarming	645	swarmers.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	rogue swarmer (30)	rogue swarmer (30)
+blade a-spinning	646	sawblade.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	sawblade fragment (30)	sawblade fragment (30)
+laser lancing	647	laser.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct EA: hot Article: a	unstable laser battery (30)	unstable laser battery (30)
+borg a-beeping	648	borgabeeping.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	vibrating cyborg knife (10)
+strangler strangling	649	strangler.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	immense cyborg hand (10)
+stomper stomping	650	stomper.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	cyborg stompin' boot (10)
 
 # Halloween XX (Halloween 2008)
 mutant gila monster	728	mutantgila.gif	Scale: 5 Cap: 500 Init: -10000 P: beast Article: a	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
