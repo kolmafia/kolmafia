@@ -8181,7 +8181,7 @@ Skill	Index Fingers	Pickpocket Chance: +40
 Skill	Infernal Automata	Hot Damage: +10
 Skill	Inner Sauce	MP Regen Min: [1+2*class(Sauceror)], MP Regen Max: [1+3*class(Sauceror)]
 Skill	Innuendo Circuitry	Sleaze Damage: +15
-Skill   Insatiable Hunger   Stomach Capacity: +5
+Skill	Insatiable Hunger	Stomach Capacity: +5
 # Intimidating Aura: Gain more blood from the Blood Bank each day
 Skill	Intimidating Aura	Maximum HP: -30
 Skill	Intrinsic Spiciness	Sauce Spell Damage: [min(L,10)]
