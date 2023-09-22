@@ -6393,7 +6393,7 @@ Effect	Inner Warmth	Cold Resistance: +5
 # Inocente, In a Sense: Te hace ver como un Persona Inocente Cadáver
 Effect	Inocente, In a Sense	Avatar: "Persona Inocente Cadáver"
 Effect	Insani Tea	Random Monster Modifiers: +3
-Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50, Stomach Capacity: +5
+Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50
 Effect	Inscrutable exoskeleton	Damage Absorption: +300
 Effect	Inscrutable Gaze	Experience Percent (Mysticality): +10
 Effect	Insectudinal Fortitude	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -8181,7 +8181,7 @@ Skill	Index Fingers	Pickpocket Chance: +40
 Skill	Infernal Automata	Hot Damage: +10
 Skill	Inner Sauce	MP Regen Min: [1+2*class(Sauceror)], MP Regen Max: [1+3*class(Sauceror)]
 Skill	Innuendo Circuitry	Sleaze Damage: +15
-# Insatiable Hunger: +5 Stomach Capacity
+Skill   Insatiable Hunger   Stomach Capacity: +5
 # Intimidating Aura: Gain more blood from the Blood Bank each day
 Skill	Intimidating Aura	Maximum HP: -30
 Skill	Intrinsic Spiciness	Sauce Spell Damage: [min(L,10)]
