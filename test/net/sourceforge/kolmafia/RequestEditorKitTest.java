@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -215,6 +216,32 @@ public class RequestEditorKitTest {
       var buffer = new StringBuffer("<span id='monname'>" + monsterName + "</span>");
       RequestEditorKit.getFeatureRichHTML("fight.php", buffer, false);
       assertThat(buffer.toString(), containsString("Drops: " + itemDropString));
+    }
+  }
+
+  @Nested
+  class Events {
+    private void loadEvents() {
+      var html = html("request/test_main_loads_of_iotm_events.html");
+      EventManager.checkForNewEvents(html);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"main_replace_events", "main_island"})
+    void addsEventsToMain(final String source) {
+      loadEvents();
+
+      var html = html("request/test_" + source + ".html");
+      var buffer = new StringBuffer(html);
+      RequestEditorKit.applyGlobalAdjustments("main.php", buffer, false);
+      var output = buffer.toString();
+
+      assertThat(output, containsString("<b>New Events:</b>"));
+      assertThat(
+          output,
+          containsString("You remember you have a lifetime VIP membership and grab your key!"));
+
+      EventManager.clearEventHistory();
     }
   }
 }

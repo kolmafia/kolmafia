@@ -4186,7 +4186,7 @@ Item	smoker's cloak	Monster Level: +10, Initiative: +20, Stench Damage: +30
 Item	snowpack	Familiar Weight: +5, Cold Damage: +30, Class: "Pastamancer"
 Item	stained glass serape	Experience (Moxie): +3, Sleaze Resistance: +3, Sleaze Damage: +5
 Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Absorption: +100
-# spiky back shell: Enemies take 40-50 when they hit you
+Item	spiky back shell	Thorns: 1
 Item	super-absorbent tarp	Maximum Hooch: +2
 Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 Item	teddybear backpack	Meat Drop: +10, Raveosity: +1
@@ -6393,7 +6393,7 @@ Effect	Inner Warmth	Cold Resistance: +5
 # Inocente, In a Sense: Te hace ver como un Persona Inocente Cadáver
 Effect	Inocente, In a Sense	Avatar: "Persona Inocente Cadáver"
 Effect	Insani Tea	Random Monster Modifiers: +3
-Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50, Stomach Capacity: +5
+Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50
 Effect	Inscrutable exoskeleton	Damage Absorption: +300
 Effect	Inscrutable Gaze	Experience Percent (Mysticality): +10
 Effect	Insectudinal Fortitude	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -8125,8 +8125,7 @@ Skill	Fluid Dynamics Simulation	HP Regen Min: 100, HP Regen Max: 100
 Skill	Flock of Bats Form	Maximum HP: -20
 Skill	Flop Sweat	Sleaze Damage: +9
 # Food Coma: Resting Restores All MP
-Skill	Food Coma	Free Rests: 10
-Skill	Food Coma	Base Resting MP: 9999
+Skill	Food Coma	Base Resting MP: 9999, Free Rests: 10
 Skill	Fortitude of the Muskox	HP Regen Min: 1, HP Regen Max: 2
 # Frantic Gyrations: Disco Momentum makes you harder to hit
 Skill	Gift of the Assassin	Weapon Damage: +10, Critical Hit Percent: +30
@@ -8181,7 +8180,7 @@ Skill	Index Fingers	Pickpocket Chance: +40
 Skill	Infernal Automata	Hot Damage: +10
 Skill	Inner Sauce	MP Regen Min: [1+2*class(Sauceror)], MP Regen Max: [1+3*class(Sauceror)]
 Skill	Innuendo Circuitry	Sleaze Damage: +15
-# Insatiable Hunger: +5 Stomach Capacity
+Skill	Insatiable Hunger	Stomach Capacity: +5
 # Intimidating Aura: Gain more blood from the Blood Bank each day
 Skill	Intimidating Aura	Maximum HP: -30
 Skill	Intrinsic Spiciness	Sauce Spell Damage: [min(L,10)]
