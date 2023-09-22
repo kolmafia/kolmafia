@@ -102,7 +102,7 @@ public class EventManager {
             // Remove the rest of the tags
             .replaceAll("<[^>]*>", "");
 
-    EventManager.eventTexts.add(eventText);
+    EventManager.eventTexts.add(addTimestamp ? prependTimestamp(eventText) : eventText);
 
     if (!LoginRequest.isInstanceRunning()) {
       // Print everything to the default shell; this way, the
