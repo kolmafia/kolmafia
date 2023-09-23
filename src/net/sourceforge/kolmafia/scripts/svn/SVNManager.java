@@ -707,13 +707,14 @@ public class SVNManager extends ScriptManager {
       message.append(
           "<br><b>Only click yes if you trust the author.</b>"
               + "<p>Clicking no will stop the files from being added locally. (until you checkout the project again)");
-      if (JOptionPane.showConfirmDialog(
-              null,
-              message.toString(),
-              "SVN wants to add new files",
-              JOptionPane.YES_NO_OPTION,
-              JOptionPane.WARNING_MESSAGE)
-          == JOptionPane.YES_OPTION) {
+      if (Preferences.getBoolean("svnAlwaysAdd")
+          || JOptionPane.showConfirmDialog(
+                  null,
+                  message.toString(),
+                  "SVN wants to add new files",
+                  JOptionPane.YES_NO_OPTION,
+                  JOptionPane.WARNING_MESSAGE)
+              == JOptionPane.YES_OPTION) {
         skipFiles.clear();
       }
     }
@@ -808,13 +809,14 @@ public class SVNManager extends ScriptManager {
       message.append(
           "<br>Checking out this project will result in some local files (described above) being overwritten."
               + "<p>Click yes to overwrite them, no to skip installing them.");
-      if (JOptionPane.showConfirmDialog(
-              null,
-              message.toString(),
-              "SVN checkout wants to overwrite local files",
-              JOptionPane.YES_NO_OPTION,
-              JOptionPane.WARNING_MESSAGE)
-          == JOptionPane.YES_OPTION) {
+      if (Preferences.getBoolean("svnAlwaysOverwrite")
+          || JOptionPane.showConfirmDialog(
+                  null,
+                  message.toString(),
+                  "SVN checkout wants to overwrite local files",
+                  JOptionPane.YES_NO_OPTION,
+                  JOptionPane.WARNING_MESSAGE)
+              == JOptionPane.YES_OPTION) {
         skipFiles.clear();
       }
     }
