@@ -124,4 +124,37 @@ public class BeachManagerTest {
           Preferences.getString("_beachLayout"));
     }
   }
+
+  @Test
+  void seeingTwinklesGrantsTwinkleVision() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withHandlingChoice(1388),
+            withProperty("hasTwinkleVision", false),
+            withProperty("_beachCombing", false),
+            withProperty("_beachTides", -1),
+            withProperty("_beachMinutes", 0),
+            withProperty("_beachLayout", ""));
+
+    try (cleanups) {
+      client.addResponse(200, html("request/test_beach_twinkles.html"));
+
+      // choice.php?whichchoice=1388&pwd&option=1&minutes=938
+      String url = "choice.php?whichchoice=1388&pwd&option=1&minutes=938";
+      var request = new GenericRequest(url);
+      request.run();
+      assertTrue(ChoiceManager.handlingChoice);
+      assertEquals(1388, ChoiceManager.lastChoice);
+      assertEquals(3, Preferences.getInteger("_beachTides"));
+      assertTrue(Preferences.getBoolean("_beachCombing"));
+      assertEquals(938, Preferences.getInteger("_beachMinutes"));
+      assertEquals(
+          "4:rrrrrrrrrr,5:rrrrrcrrrr,6:rrrrrcrrrr,7:rrrrrrrrrr,8:rrrrrrrrrt,9:rrrrrrrrrr,10:rrrrrrrrrr",
+          Preferences.getString("_beachLayout"));
+      assertTrue(Preferences.getBoolean("hasTwinkleVision"));
+    }
+  }
 }

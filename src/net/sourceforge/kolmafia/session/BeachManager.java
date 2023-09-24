@@ -342,6 +342,7 @@ public class BeachManager {
     int currentRow = -1;
 
     matcher = BeachManager.MAP_PATTERN.matcher(text);
+    boolean twinkles = false;
     while (matcher.find()) {
       int row = StringUtilities.parseInt(matcher.group(1));
       int col = StringUtilities.parseInt(matcher.group(2));
@@ -382,7 +383,16 @@ public class BeachManager {
                 + "'.");
       }
 
+      if (ch == 't') {
+        twinkles = true;
+      }
+
       layout.append(ch);
+    }
+
+    // If we saw a twinkle, user has TwinkleVision™
+    if (twinkles) {
+      Preferences.setBoolean("hasTwinkleVision", true);
     }
 
     if (currentRow != -1) {
