@@ -438,6 +438,11 @@ public abstract class ChatManager {
       ApiRequest.updateInventory(true);
     }
 
+    if (content.startsWith("Item #") && content.endsWith("given.")) {
+      // You are a devster and you have spawned in some items.
+      ApiRequest.updateInventory(true);
+    }
+
     if (content.contains(" has ")) {
       // Refresh effects via api.php
       ApiRequest.updateStatus(true);
