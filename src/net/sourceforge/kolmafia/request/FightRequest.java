@@ -6538,7 +6538,7 @@ public class FightRequest extends GenericRequest {
 
     if (inode != null) {
       var src = inode.getAttributeByName("src");
-      if (src.endsWith("factbook.gif")) {
+      if (src != null && src.endsWith("factbook.gif")) {
         // log if it's a fact
         var text = node.getText().toString();
         if (!(text.contains("rythm") || text.contains("rhythm"))) {
