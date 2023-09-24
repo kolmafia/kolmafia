@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GnomeTinkerRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
+import net.sourceforge.kolmafia.request.GrandpaRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
@@ -602,6 +603,8 @@ public class ResponseTextParser {
       case "monkeycastle.php" -> {
         if (location.contains("who=2") || location.contains("action=buyitem")) {
           BigBrotherRequest.parseResponse(location, responseText);
+        } else if (location.contains("action=grandpastory")) {
+          GrandpaRequest.parseResponse(location, responseText);
         } else if (location.contains("who=4")) {
           MomRequest.parseResponse(location, responseText);
         }

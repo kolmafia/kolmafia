@@ -781,6 +781,7 @@ user	hasOven	false
 user	hasRange	false
 user	hasShaker	false
 user	hasSushiMat	false
+user	hasTwinkleVision	false
 user	haveBoxingDaydreamHardcore	false
 user	haveBoxingDaydreamSoftcore	false
 user	heavyRainsStartingThunder	0
