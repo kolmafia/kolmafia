@@ -8204,7 +8204,7 @@ Skill	Left Brain Hemisphere	Maximum MP Percent: +20
 Skill	Left Eyeball	Item Drop: +20
 Skill	Left Eyelid	Spooky Resistance: +1
 Skill	Legacy Code	Spooky Damage: +15
-Skill	Legendary Appetite	Stomach Capacity +5
+Skill	Legendary Appetite	Stomach Capacity: +5
 Skill	Legendary Bravado	Muscle: +10, Mysticality: +10, Moxie: +10
 Skill	Legendary Girth	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Legendary Impatience	Initiative: +100
@@ -8221,7 +8221,7 @@ Skill	Lucky Brooch	Item Drop: +30
 # Lucky Buckle: Find more coins after combat
 Skill	Lucky Insignia	Item Drop: +30
 Skill	Lucky Pin	Item Drop: +30
-Skill	Lunch Like a King	Stomach Capacity +5
+Skill	Lunch Like a King	Stomach Capacity: +5
 Skill	Lysosomes	Absorb Stats: +5
 Skill	Macabre Cunning	Experience: +5, Maximum HP: -20
 Skill	Mad Looting Skillz	Item Drop: +20
