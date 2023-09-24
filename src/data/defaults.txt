@@ -157,6 +157,8 @@ global	showAllRequests	false
 global	showExceptionalRequests	false
 global	statusDropdown	0
 global	stealthLogin	true
+global	svnAlwaysAdd	false
+global	svnAlwaysOverwrite	false
 global	svnInstallDependencies	true
 global	svnShowCommitMessages	false
 global	svnThreadPoolSize	2
