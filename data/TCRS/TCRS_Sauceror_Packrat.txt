@@ -38,7 +38,6 @@
 39	skewed pretty flower	0		
 40	casino pass	0		
 41	perfectly mixed ice-cold Sir Schlitz	3	EPIC	
-42	hermit permit	0		
 43	worthless trinket	0		
 44	worthless gewgaw	0		
 45	upside-down worthless knick-knack	0		
@@ -425,7 +424,7 @@
 427	mirror beefy box	0		Muscle: +10
 428	blinking nothing-in-the-box	0		
 429	huge beanbag chair	0		
-430	acid-squirting flower	0		Single Equip
+430	acid-squirting flower	0		Thorns, Single Equip
 431	hardened clown shoes	0		Damage Reduction: 3, Clowniness: 25
 432	yellow healthy bloody clown pants	0		Maximum HP Percent: +20, Clowniness: 25
 433	skinny balloon	0		
@@ -525,7 +524,7 @@
 527	narrow volleyball	0		
 528	blood-faced volleyball	0		
 529	fertilized ghuol egg	0		
-530	pulsating spray paint	0		
+530	concentrated pulsating spray paint	0		Effect: "Scorpio Rising", Effect Duration: 64
 531	gray spinning cool special sauce glove	0		Moxie: +5, Class: "Sauceror", Single Equip
 532	smelly ladle of mystery	0		Stench Spell Damage: +10, Class: "Sauceror"
 533	Gnollish toolbox	0		
@@ -1956,7 +1955,6 @@
 1979	purple gravy fairy	0		
 1980	mirror sleazy gravy fairy	0		
 1981	mirror astral badger	0		
-1982	MagiMechTech MicroMechaMech	0		
 1983	skewed hand turkey	0		
 1984	narrow snowy owl	0		
 1985	scary death orb	0		
@@ -2003,7 +2001,7 @@
 2026	rotten super-sized nutty organic salad	5	crappy	
 2027	decent super salad	4	good	
 2028	bite-sized bland gray spinning tofu wonton	1	decent	
-2029	skewed hippy protest button	0		Single Equip
+2029	skewed hippy protest button	0		Thorns, Single Equip
 2030	blinking avaricious Lockenstock&trade; sandals of bravery	0		Spooky Resistance: +5, Meat Drop: +30, Single Equip
 2031	beefcake's didgeridooka	0		Muscle: +25
 2032	Socratic bullet-proof corduroys of Tarzan	0		Experience (Muscle): +3, Experience (Mysticality): +1
@@ -2356,7 +2354,7 @@
 2382	class ring	0		
 2383	blurry skewed class ring	0		
 2384	upside-down class ring	0		
-2385	bottle opener belt buckle	0		Single Equip
+2385	bottle opener belt buckle	0		Thorns, Single Equip
 2386	blurry Jack Frost's keg shield of the detective	0		Cold Spell Damage: +50, Item Drop: +20, Damage Reduction: 11
 2387	blurry wholesome finger	0		Maximum HP Percent: +10
 2388	foul-smelling hardy war tongs	0		Maximum HP: +50, Stench Damage: +10
@@ -2412,7 +2410,7 @@
 2438	huge scented massage oil	0		
 2439	olive ghostly poltergeist-in-the-jar-o	0		
 2440	unnatural gas	0		
-2441	cyan Knob Goblin encryption key	0		
+2441	cyan Knob Goblin Encryption Key	0		
 2442	maroon Cobb's Knob map	0		
 2443	green zippy brainy pink glowstick	0		Mysticality: +5, Initiative: +20
 2444	tolerable Supernova Champagne	3	good	
@@ -3350,7 +3348,7 @@
 3378	upside-down Chorale of Companionship	0		Skill: "Chorale of Companionship"
 3379	Prelude of Precision	0		Skill: "Prelude of Precision"
 3380	careful smartaleck's Ol' Scratch's infernal pitchfork	0		Moxie Percent: +30, Monster Level: -10
-3381	savvy Ol' Scratch's stove door	0		Mysticality Percent: +20, Damage Reduction: 15
+3381	savvy Ol' Scratch's stove door	0		Mysticality Percent: +20, Thorns: 40-50 <font color=red>Hot Damage</font>, Damage Reduction: 15
 3382	scandalous ruddy quilted Ol' Scratch's manacles	0		Damage Absorption: +40, Maximum HP Percent: +40, Sleaze Damage: +5, Single Equip
 3383	inspector's Chester's sunglasses of the brute of Flo-Jo	0		Muscle Percent: +30, Item Drop: +15, Initiative: +100, Single Equip
 3384	spinning banded Chester's muscle shirt of Tarzan	0		Experience (Muscle): +3, Damage Absorption: +100
@@ -3361,7 +3359,7 @@
 3389	blinking Oprah's stylish Frosty's arm	0		Moxie: +25, Maximum MP Percent: +50
 3390	grievous beefcake's Staff of the Deepest Freeze of wisdom	0		Muscle: +25, Mysticality: +15, Weapon Damage Percent: +50
 3391	narrow green narrow Frosty's iceball	0		
-3392	gray jittery groovy Oscus's garbage can lid	0		Moxie Percent: +10, Damage Reduction: 15
+3392	gray jittery groovy Oscus's garbage can lid	0		Moxie Percent: +10, Thorns: 40-50 <font color=green>Stench Damage</font>, Damage Reduction: 15
 3393	Oscus's neverending soda	0		
 3394	upside-down Jim Carey's occult Oscus's flypaper pants	0		Spell Damage Percent: +25, Monster Level: +25
 3395	skewed padded Hodgman's porkpie hat of the detective	0		Damage Absorption: +20, Item Drop: +20
@@ -3410,7 +3408,7 @@
 3443	jittery kitten	0		
 3444	webbed comic mask of chilblains	0		Cold Damage: +25, Softcore Only
 3445	green blinking Junior Adventurer's kit	0		
-3446	groovy prism necklace	0		Single Equip
+3446	groovy prism necklace	0		Thorns: a rainbow of damage, Single Equip
 3447	Temple Grandin's experienced six-rainbow shield	0		Experience: +2, Familiar Weight: +7, Damage Reduction: 12
 3448	jittery rainbow bomb	0		
 3449	cotton candy cone	0		
@@ -3443,7 +3441,7 @@
 3476	alkaline quadruple-moist yellow squat plum lozenge	0		Effect: "Spooky Demeanor", Effect Duration: 42
 3477	ionized pear lozenge	0		Effect: "Nigh-Invincible", Effect Duration: 15
 3478	denatured polarized activated yellow peach lozenge	0		Effect: "Eyes All Black", Effect Duration: 64
-3479	balloon shield	0		Damage Reduction: 3
+3479	balloon shield	0		Thorns: 2-3 damage, Damage Reduction: 3
 3480	ghostly spot	0		
 3481	uniclops egg	0		Free Pull
 3482	passed-out psychedelic bear	0		Free Pull
@@ -3481,9 +3479,9 @@
 3514	scratch 'n' sniff rock band sticker	0		Weapon Damage: +20, Spell Damage: +20
 3515	wobbly perfumed quilted ganger bandana	0		Damage Absorption: +40, Stench Resistance: +5
 3516	eel skin	0		
-3517	knitted eelskin hat	0		Cold Resistance: +3
-3518	maroon hardy eelskin pants	0		Maximum HP: +50
-3519	jittery flame-wreathed eelskin shield	0		Hot Spell Damage: +10, Damage Reduction: 13
+3517	knitted eelskin hat	0		Cold Resistance: +3, Thorns
+3518	maroon hardy eelskin pants	0		Maximum HP: +50, Thorns
+3519	jittery flame-wreathed eelskin shield	0		Hot Spell Damage: +10, Thorns, Damage Reduction: 13
 3520	shark tooth	0		
 3521	forbidden shark tooth necklace of doom	0		Spell Damage Percent: +50, Spooky Spell Damage: +50, Single Equip
 3522	censurious shark jumper of the sweet-tooth	0		Sleaze Resistance: +3, Candy Drop: +100
@@ -3874,7 +3872,7 @@
 3922	inspector's flame-wreathed turtlemail hauberk	0		Hot Spell Damage: +10, Item Drop: +15
 3923	hedgeturtle	0		
 3924	narrow friendly spiky turtle helmet of Tarzan	0		Experience (Muscle): +3, Familiar Weight: +3
-3925	ghostly sizzling spiky turtle shoulderpads	0		Hot Damage: +10, Single Equip
+3925	ghostly sizzling spiky turtle shoulderpads	0		Hot Damage: +10, Thorns, Single Equip
 3926	shaking dog trainer's spiky turtle shield of the boozehound	0		Experience (familiar): +1, Booze Drop: +100, Damage Reduction: 8
 3927	turtling rod	0		Class: "Turtle Tamer"
 3928	gray syncopated turtle	0		
@@ -4184,7 +4182,7 @@
 4233	shaking hacienda key	0		
 4234	crafty pat&eacute; knife	0		Maximum MP: +10
 4235	salt-shaker	0		
-4236	can of sterno	0		
+4236	can of sterno	0		Damage Aura: 15-20 <font color=red>Hot Damage</font> and 10-20 more
 4237	wobbly huge cheese-slicer of terror	0		Spooky Spell Damage: +10
 4238	yummy shaking beef jerky	4	awesome	
 4239	jittery pipe wrench of the scaredy-cat	0		Monster Level: -15
@@ -4437,7 +4435,7 @@
 4490	gilded BRICKO chalice	0		
 4491	blurry BRICKO brick	0		
 4492	wobbly BRICKO brick	0		
-4493	broken BRICKO brick	0		
+4493	broken BRICKO brick	0		Damage Aura: Physical Damage
 4494	BRICKO reactor	0		
 4495	BRICKO egg	0		
 4496	extra-heavy BRICKO brick	0		Familiar Weight: +5
@@ -4597,7 +4595,7 @@
 4650	fixed-gear bicycle	0		Experience: +3
 4651	spinning green ironic moustache	0		Familiar Weight: +10
 4652	occult ironic knit cap of Gandalf	0		Spell Damage Percent: +25, Spell Critical Percent: +20
-4653	shaking ironic sunglasses	0		Single Equip
+4653	shaking ironic sunglasses	0		Thorns, Single Equip
 4654	jittery occult ironic battle spoon	0		Spell Damage Percent: +25
 4655	hardened occult ironic jogging shorts of the wise owl	0		Mysticality: +20, Spell Damage Percent: +25, Damage Reduction: 3
 4656	cyan Jack Frost's mole skin notebook	0		Cold Spell Damage: +50
@@ -4609,7 +4607,7 @@
 4662	corrupted super-frozen triple-chilled cyan wet venom duct	0		Effect: "Moose Wisdom", Effect Duration: 11
 4663	skewed Ellsbury's journal	0		Skill: "Unaccompanied Miner"
 4664	Ellsbury's skull of the empath of the sewer	0		Familiar Weight: +5, Stench Damage: +25
-4665	coward's hot plate	0		Monster Level: -20, Damage Reduction: 3
+4665	coward's hot plate	0		Monster Level: -20, Thorns, Damage Reduction: 3
 4666	Sherlock's imp unity ring of vim and vigor	0		Maximum HP Percent: +50, Item Drop: +25
 4667	resourceful Victor, the Insult Comic Hellhound Puppet	0		Maximum MP: +50
 4668	observational glasses of courage	0		Spooky Resistance: +3
@@ -6368,7 +6366,7 @@
 6477	sizzling Samson's Unkillable Skeleton's breastplate of wisdom	0		Mysticality: +15, Experience (Muscle): +5, Hot Damage: +10, Class: "Turtle Tamer"
 6478	squat Usain Bolt's forbidden grievous Unkillable Skeleton's shinguards	0		Weapon Damage Percent: +50, Spell Damage Percent: +50, Initiative: +80, Class: "Turtle Tamer"
 6479	mirror smelly flame-wreathed Annie Oakley's energetic hale smartaleck's Unkillable Skeleton's sawsword	0		Moxie Percent: +30, Maximum HP: +20, Maximum MP Percent: +20, Critical Hit Percent: +20, Hot Spell Damage: +10, Stench Spell Damage: +10
-6480	razor-sharp Unkillable Skeleton's shield of doom	0		Weapon Damage Percent: +25, Spooky Spell Damage: +50, Damage Reduction: 23
+6480	razor-sharp Unkillable Skeleton's shield of doom	0		Weapon Damage Percent: +25, Spooky Spell Damage: +50, Thorns: damage, Damage Reduction: 23
 6481	brainy Unkillable Skeleton's restless leg of terror	0		Mysticality: +5, Spooky Spell Damage: +10
 6482	censurious lard-coated Da Vinci's Staff of the Roaring Hearth	0		Experience (Mysticality): +5, Sleaze Spell Damage: +25, Sleaze Resistance: +3
 6483	Kool-Aid	1	good	
@@ -6405,7 +6403,7 @@
 6514	Sherlock's snowstick	0		Item Drop: +25
 6515	mirror eerie fetish of horror	0		Spooky Spell Damage: +25, Single Equip
 6516	drinkable stinkwater	3	good	
-6517	lime green dubious loincloth	0		
+6517	lime green dubious loincloth	0		Damage Aura: <font color=purple>Sleaze Damage</font>
 6518	stale accidental mutton	3	decent	
 6519	tumbling auspicious flame-wreathed drafty drawers	0		Hot Spell Damage: +10, Item Drop: +10
 6520	Rosewater's wolfskull mask of the cougar	0		Moxie: +20, Mysticality Percent: +30
@@ -6419,7 +6417,7 @@
 6528	Jack Frost's hothammer	0		Cold Spell Damage: +50
 6529	smooth distilled blinking yellow Thriller Ice	5	awesome	
 6530	red skewed energetic grandfather watch	0		Maximum MP Percent: +20, Single Equip
-6531	mirror muddy skirt	0		
+6531	mirror muddy skirt	0		Damage Aura: <font color=green>Stench Damage</font>
 6532	blue gravedigger's razor-sharp spyglass	0		Weapon Damage Percent: +25, Spooky Damage: +10
 6533	wobbly electrified vial of hot blood	0		MP Regen Min: 3, MP Regen Max: 5, Single Equip
 6534	remorseless knife of the storm	0		Maximum MP Percent: +40
@@ -6429,7 +6427,7 @@
 6538	blinking clever frying brainpan of extreme caution	0		Maximum MP: +20, Monster Level: -25
 6539	personal trainer's ball and chain of the brute	0		Muscle Percent: +30, Experience Percent (Muscle): +10, Single Equip
 6540	deadly dry bone	0		Weapon Damage: +5
-6541	tailbone shield of extreme caution	0		Monster Level: -25, Damage Reduction: 16
+6541	tailbone shield of extreme caution	0		Monster Level: -25, Thorns: 80-100 <font color=green>Stench Damage</font>, Damage Reduction: 16
 6542	tonguebone of the businessman	0		Meat Drop: +50, Single Equip
 6543	bouncing grievous pogo stick of the empath	0		Weapon Damage Percent: +50, Familiar Weight: +5, Single Equip
 6545	censurious scorching weedy skirt of temperance	0		Hot Damage: +25, Sleaze Resistance: 8
@@ -6474,9 +6472,9 @@
 6584	bouncing fuchsia Jim Carey's hot dog wrapper	0		Monster Level: +25
 6585	upside-down chilly debonair deboner of mayonnaise	0		Cold Damage: +5, Sleaze Spell Damage: +50
 6586	adjusted adjusted frozen huge chicle de salchicha	0		Effect: "Dreams and Lights", Effect Duration: 33
-6587	baleful jar of frostigkraut	0		Spell Damage: +25
+6587	baleful jar of frostigkraut	0		Spell Damage: +25, Damage Aura: Cold Damage
 6588	miser's gnawed-up dog bone of courage	0		Spooky Resistance: +3, Meat Drop: +10
-6589	lard-coated Grey Guanon	0		Sleaze Spell Damage: +25
+6589	lard-coated Grey Guanon	0		Sleaze Spell Damage: +25, Damage Aura: <font color=green>Stench Damage</font>
 6590	huge Annie Oakley's MacGyver's steel-toed Engorged Sausages and You	0		Damage Reduction: 9, Maximum MP: +100, Critical Hit Percent: +20
 6591	hand-crafted watered-down dream of a dog	2	EPIC	
 6592	lime green spinning scandalous steel-toed optimal spreadsheet of the blizzard	0		Damage Reduction: 9, Cold Spell Damage: +25, Sleaze Damage: +5
@@ -6527,7 +6525,7 @@
 6637	folder (catfish)	0		Familiar Weight: +15
 6638	folder (tranquil landscape)	0		Damage Reduction: 15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 6639	folder (owl)	0		
-6640	folder (Stinky Trash Kid)	0		
+6640	folder (Stinky Trash Kid)	0		Damage Aura: <font color=green>Stench Damage</font>
 6641	folder (sports car)	0		Adventures: +5
 6642	ghostly spinning folder (sportsballs)	0		PvP Fights: +5
 6643	ghostly folder (heavy metal)	0		Familiar Weight: +5
@@ -6591,7 +6589,7 @@
 6703	imitation White Russian	1	EPIC	
 6704	pulsating Jack Frost's sinister short-handled mop	0		Spell Damage: +10, Cold Spell Damage: +50
 6705	bland snack-sized ghostly jungle floor wax	2	decent	
-6706	red blinking smirking shrunken head	0		
+6706	red blinking smirking shrunken head	0		Damage Aura: <font color=gray>Spooky Damage</font>
 6707	triple-cold-filtered spinning colorful toad	0		Effect: "The Sweats", Effect Duration: 21
 6708	purple crude voodoo doll	0		
 6709	attorney's badge	0		Single Equip
@@ -7057,7 +7055,7 @@
 7172	juggling ball	0		
 7173	crappy camera	0		
 7174	delicious humble pie	3	awesome	
-7175	spinning small golem	0		
+7175	spinning small golem	0		Damage Aura: Physical Damage
 7176	shaking crappy camera	0		
 7177	dry energized skewed crappy waiter disguise	0		Effect: "Heart of Orange", Effect Duration: 48
 7178	bouncing Copperhead Charm	0		
@@ -7253,7 +7251,7 @@
 7368	normal lime green blurry extra-flat panini	4	good	
 7369	triple-chilled blinking mangled finger	0		Effect: "Gummi-Grin", Effect Duration: 24
 7370	bad Psychotic Train wine	3	decent	
-7371	upside-down crazy hobo notebook	0		
+7371	upside-down crazy hobo notebook	0		Damage Aura: <font color=gray>Spooky Damage</font>
 7372	tasty pie man was not meant to eat	3	awesome	
 7373	purple jittery Oprah's sommelier's towel	0		Maximum MP Percent: +50
 7374	tarnished tastevin of the ox	0		Muscle: +20, Single Equip
@@ -7523,7 +7521,7 @@
 7638	whatsit-covered turtle shell of bravery	0		Spooky Resistance: +5, Class: "Turtle Tamer"
 7639	gray grievous oil shell	0		Weapon Damage Percent: +50, Class: "Turtle Tamer"
 7640	green double-paned wicked turtle shell of the detective	0		Spell Damage: +5, Cold Resistance: +5, Item Drop: +20, Class: "Turtle Tamer"
-7641	cyan bouncing shocked shell	0		Class: "Turtle Tamer"
+7641	cyan bouncing shocked shell	0		Damage Aura: physical damage, Class: "Turtle Tamer"
 7642	ingot turtle	0		
 7643	shaking duty umbrella	0		
 7644	pool skimmer	0		
@@ -7818,7 +7816,7 @@
 7940	Time Cloak	0		
 7941	sleeve deuce	0		
 7942	pocket ace	0		
-7943	narrow nastygeist	0		
+7943	narrow nastygeist	0		Damage Aura: <font color=blueviolet>Sleaze Damage</font>
 7944	tooth	0		
 7945	table	0		
 7946	smelly forbidden outlaw bandana of the ox	0		Muscle: +20, Spell Damage Percent: +50, Stench Spell Damage: +10
@@ -7845,7 +7843,7 @@
 7967	jittery MacGyver's World's Best Adventurer sash	0		Maximum MP: +100
 7968	topiary nugglet	0		
 7969	teal beehive	0		
-7970	boning knife	0		
+7970	boning knife	0		Damage Aura: Physical Damage
 7971	Aggressive Carrot	0		Free Pull
 7972	dehydrated blinking wobbly mummified fig	1	EPIC	Effect: "Three Days Slow", Effect Duration: 5
 7973	vaporized ghostly green mummified loaf of bread	1	decent	
@@ -8076,7 +8074,7 @@
 8207	sunglasses	0		Single Equip
 8208	vacuum-sealed How to Avoid Scams	0		Effect: "Industrial Strength Starch", Effect Duration: 50
 8209	wobbly filthy child leash	0		Familiar Weight: +5
-8210	bag of gross foreign snacks	0		
+8210	bag of gross foreign snacks	0		Damage Aura: <font color=green>Stench Damage</font>
 8211	bag of park garbage	0		
 8212	grogpagne	0		
 8213	green razor-sharp rigging rope of the glutton	0		Weapon Damage Percent: +25, Food Drop: +100
@@ -8383,11 +8381,11 @@
 8514	grievous deadly deuce cape	0		Weapon Damage: +5, Weapon Damage Percent: +50
 8515	wobbly tumbling family-friendly Lavalos's shell of wisdom of the bloodbag	0		Mysticality: +15, Maximum HP: +100, Sleaze Resistance: +1
 8516	bouncing blurry Jack Frost's energetic smooth velvet bra	0		Maximum MP Percent: +20, Cold Spell Damage: +50
-8517	blurry MacGyver's SMOOCH bracers of the glutton	0		Maximum MP: +100, Food Drop: +100, Single Equip
-8518	mirror SMOOCH kneepads of the detective	0		Item Drop: +20, Single Equip
-8519	gray upside-down lion tamer's SMOOCH spaulders	0		Experience (familiar): +2, Single Equip
-8520	stanky hale SMOOCH codpiece	0		Maximum HP: +20, Stench Spell Damage: +25
-8521	manspreader's SMOOCH breastplate	0		Monster Level: +10
+8517	blurry MacGyver's SMOOCH bracers of the glutton	0		Maximum MP: +100, Food Drop: +100, Thorns, Single Equip
+8518	mirror SMOOCH kneepads of the detective	0		Item Drop: +20, Thorns, Single Equip
+8519	gray upside-down lion tamer's SMOOCH spaulders	0		Experience (familiar): +2, Thorns, Single Equip
+8520	stanky hale SMOOCH codpiece	0		Maximum HP: +20, Stench Spell Damage: +25, Thorns
+8521	manspreader's SMOOCH breastplate	0		Monster Level: +10, Thorns
 8522	superduperheated	0		
 8523	fused fuse	0		
 8524	upside-down superheated	0		
@@ -8450,6 +8448,7 @@
 8582	powdered upside-down blurry vibrating mushroom	1	good	
 8583	diluted teal spinning mushroom	1	EPIC	
 8584	upside-down personal trainer's KoL Con 12-gauge	0		Experience Percent (Muscle): +10
+8585	Samson's Golden Mr. Eh?	0		Experience (Muscle): +5
 8586	wizardly barrel gun	0		Mysticality: +25
 8587	blinking barrel	0		
 8588	barrel beryl	0		
@@ -9311,7 +9310,7 @@
 9449	upside-down murderbot component casing	0		
 9450	murderbot monofilament	0		
 9451	super-electrified magnetized murderbot shield unit	0		Effect: "The Real Deal", Effect Duration: 34
-9452	murderbot live wire	0		
+9452	murderbot live wire	0		Damage Aura: <font color=red>Hot Damage</font>
 9453	dog trainer's savvy murderbot mask of James Dean	0		Mysticality Percent: +20, Experience (Moxie): +3, Experience (familiar): +1, Avatar: "Murderbot"
 9454	warmed maroon murderbot spring injector	0		Effect: "[1609]Dancin' Fool", Effect Duration: 18
 9455	squat Oprah's murderbot whip of the pedagogue	0		Experience: +3, Maximum MP Percent: +50
@@ -9938,12 +9937,12 @@
 10087	gray sharpshooter's clever chalk choker	0		Maximum MP: +20, Critical Hit Percent: +10, Single Equip
 10088	distilled jittery chalk chunks	1		
 10089	moist mirror candy chalk	0		Effect: "Truly Gritty", Effect Duration: 40
-10090	lion tamer's padded marble maebari	0		Damage Absorption: +20, Experience (familiar): +2
-10091	greedy brawny marble mantle	0		Muscle Percent: +20, Meat Drop: +20
-10092	stylish marble magnet of courage	0		Moxie: +25, Spooky Resistance: +3, Single Equip
-10093	teal twirling stanky sinister marble mignonette bowl	0		Spell Damage: +10, Stench Spell Damage: +25
-10094	blurry fireproof clever marble medallion	0		Maximum MP: +20, Hot Resistance: +3, Single Equip
-10095	lightning-fast marble mariachi hat of the blizzard	0		Cold Spell Damage: +25, Initiative: +40
+10090	lion tamer's padded marble maebari	0		Damage Absorption: +20, Experience (familiar): +2, Thorns
+10091	greedy brawny marble mantle	0		Muscle Percent: +20, Meat Drop: +20, Thorns
+10092	stylish marble magnet of courage	0		Moxie: +25, Spooky Resistance: +3, Thorns, Single Equip
+10093	teal twirling stanky sinister marble mignonette bowl	0		Spell Damage: +10, Stench Spell Damage: +25, Thorns
+10094	blurry fireproof clever marble medallion	0		Maximum MP: +20, Hot Resistance: +3, Thorns, Single Equip
+10095	lightning-fast marble mariachi hat of the blizzard	0		Cold Spell Damage: +25, Initiative: +40, Thorns
 10096	mixed huge marble molecules	1		
 10097	diffused Mallomarbles	0		Effect: "Lifted Spirits", Effect Duration: 22
 10098	veiny extremely unsafe punching bag	0		Weapon Damage Percent: +100, Maximum HP: +10, Single Equip
@@ -10318,7 +10317,7 @@
 10477	blurry rubber doll body	0		
 10478	plastic doll arms	0		
 10479	squat plastic doll legs	0		
-10480	rubber baby doll	0		
+10480	rubber baby doll	0		Damage Aura: 13 <font color=gray>Spooky Damage</font> to your enemies
 10481	Better Shrooms and Gardens catalog	0		Free Pull
 10482	packet of mushroom spores	0		
 10483	green narrow free-range mushroom	0		
@@ -10752,7 +10751,7 @@
 10917	cyan huge The Big Book of Every Skill	0		
 10918	blue Thwaitgold harvestman statuette	0		
 10919	shaking packaged June cleaver	0		Free Pull
-10920	pulsating gray family-friendly June cleaver of the overflowing toilet of courage	0		Stench Spell Damage: +50, Spooky Resistance: +3, Sleaze Resistance: +1
+10920	pulsating gray family-friendly June cleaver of the overflowing toilet of courage	0		Stench Spell Damage: +50, Spooky Resistance: +3, Sleaze Resistance: +1, Attacks Can't Miss
 10921	weak lousy Dad's brandy	2	decent	
 10922	tumbling padded wizardly teacher's pen	0		Mysticality: +25, Damage Absorption: +20
 10923	low-calorie adequate fire-roasted lake trout	1	good	
@@ -10783,3 +10782,380 @@
 10948	bouncing reflective vest	0		Item Drop: +5
 10949	Lo Pan's dinosaur	0		Spell Critical Percent: +30
 10950	red Thwaitgold mosquito-in-amber statuette	0		
+10951	packaged Jurassic Parka	0		Free Pull
+10952	scorching fortified Jurassic Parka	0		Damage Absorption: +60, Hot Damage: +25
+10953	boxed autumn-aton	0		Free Pull
+10954	cyan autumn-aton	0		
+10955	super-polymerized polarized diffused shaking spinning autumn leaf	0		Effect: "Eye of the Lihc", Effect Duration: 39
+10956	bad AutumnFest ale	3	decent	
+10957	teal frightening razor-sharp autumn sweater-weather sweater of the pedagogue	0		Experience: +3, Weapon Damage Percent: +25, Spooky Damage: +5, Lasts Until Rollover
+10958	ghostly lard-coated stiffened beefcake's autumn debris shield of mayonnaise	0		Muscle: +25, Damage Reduction: 10, Sleaze Spell Damage: 75, Lasts Until Rollover
+10959	flavorless snack-sized twirling autumn-spice donut	2	decent	
+10960	boiled autumn dollar	0		Effect: "White-boy Angst", Effect Duration: 41
+10961	mansplainer's autumn leaf pendant of extreme caution of terror	0		Monster Level: -10, Spooky Spell Damage: +10, Lasts Until Rollover
+10962	powdered autumn breeze	1		Effect: "On Pins and Needles", Effect Duration: 5
+10963	chilled quantum blue bouncing autumn years wisdom	0		Effect: "Healthy Green Glow", Effect Duration: 58
+10965	weak artisanal purple Oopsie IPA	2	EPIC	
+10966	blinking mummified entombed cookbookbat	0		Free Pull
+10967	Yeast of Boris	0		
+10968	huge St. Sneaky Pete's Whey	0		
+10969	Vegetable of Jarlsberg	0		
+10970	normal ratatouille de Jarlsberg	3	good	
+10971	adequate big Jarlsberg's vegetable soup	5	good	
+10972	rotten roasted vegetable of Jarlsberg	3	crappy	
+10973	jumbo moldy St. Pete's sneaky smoothie	5	crappy	
+10974	stale Pete's wiley whey bar	4	decent	
+10975	enchanted bland huge blurry maroon Pete's rich ricotta	7	decent	Effect: "Artificially Sweet", Effect Duration: 40
+10976	mediocre fancy tumbling Boris's beer	4	decent	Effect: "Sludgesick", Effect Duration: 45
+10977	decent special honey bun of Boris	4	good	Effect: "Memory of Smarts", Effect Duration: 25
+10978	decent Boris's bread	3	good	
+10979	Recipe of Before Yore: ratatouille de Jarlsberg	0		
+10980	Recipe of Before Yore: Jarlsberg's vegetable soup	0		
+10981	Recipe of Before Yore: roasted vegetable of J.	0		
+10982	Recipe of Before Yore: St. Pete's sneaky smoothie	0		
+10983	skewed shaking Recipe of Before Yore: Pete's wily whey bar	0		
+10984	Recipe of Before Yore: Pete's rich ricotta	0		
+10985	Recipe of Before Yore: Boris's beer	0		
+10986	Recipe of Before Yore: honey bun of Boris	0		
+10987	Recipe of Before Yore: Boris's bread	0		
+10988	fancy tiny flavorless baked veggie ricotta casserole	1	decent	Effect: "Heart of Green", Effect Duration: 25
+10989	gigantic moldy plain calzone	7	crappy	
+10990	half-sized rotten upside-down roasted vegetable focaccia	2	crappy	
+10991	super-sized decent Pizza of Legend	5	good	
+10992	spoiled gigantic Calzone of Legend	9	crappy	
+10993	huge red Recipe of Before Yore: Calzone of Legend	0		
+10994	gray narrow Recipe of Before Yore: Pizza of Legend	0		
+10995	Recipe of Before Yore: roasted vegetable focaccia	0		
+10996	Recipe of Before Yore: plain calzone	0		
+10997	Recipe of Before Yore: baked veggie ricotta	0		
+10998	cookbookbat book	0		Familiar Weight: +5
+10999	Recipe of Before Yore: Deep Dish of Legend	0		
+11000	stale half-sized Deep Dish of Legend	2	decent	
+11001	deed to Oliver's Place	0		Free Pull
+11002	drink chit	0		
+11003	fuchsia narrow tumbling government per-diem	0		
+11004	prohie's hat of terror	0		Spooky Spell Damage: +10
+11005	nitrogenated pressed imported taffy	0		Effect: "Woad Warrior", Effect Duration: 61
+11006	experienced slick Charleston shoes	0		Moxie: +10, Experience: +2, Single Equip
+11007	booze bindle	0		
+11008	squat clever deadly rare oboe	0		Weapon Damage: +5, Maximum MP: +20
+11009	arcane researcher's bullet necklace of the overflowing toilet	0		Experience Percent (Mysticality): +10, Stench Spell Damage: +50, Single Equip
+11010	flavorless swamp haunch	3	decent	
+11011	blinking Jeselnik's scorching gator shades	0		Hot Damage: +25, Sleaze Damage: +25, Single Equip
+11012	blurry milk cap	0		
+11013	tolerable Charleston Choo-Choo	3	good	
+11014	watered-down perfectly mixed Velvet Veil	2	EPIC	
+11015	mediocre high-proof red Marltini	7	decent	
+11016	mediocre Strong, Silent Type	3	decent	
+11017	acceptable special fortified upside-down Mysterious Stranger	5	good	Effect: "Larger", Effect Duration: 40
+11018	tolerable Champagne Shimmy	3	good	
+11019	the Sot's parcel	0		
+11020	green bouncing greedy banded ceramic cestus	0		Damage Absorption: +100, Meat Drop: +20, Single Equip
+11021	cyan toasty weightlifter's ceramic centurion shield of Gandalf	0		Muscle: +15, Spell Critical Percent: +20, Hot Damage: +5, Damage Reduction: 9
+11022	banded occult ceramic celery grater	0		Spell Damage Percent: +25, Damage Absorption: +100
+11023	Van der Graaf dance instructor's ceramic celsiturometer of the empath	0		Experience Percent (Moxie): +10, Familiar Weight: +5, MP Regen Min: 5, MP Regen Max: 7, Single Equip
+11024	careful sinister ceramic cerecloth belt of horror	0		Spell Damage: +10, Monster Level: -10, Spooky Spell Damage: +25, Single Equip
+11025	aromatic hardened beefcake's ceramic cenobite's robe	0		Muscle: +25, Damage Reduction: 3, Stench Resistance: +1
+11026	powdered ceramic scree	1		Effect: "Tiki Toughness", Effect Duration: 15
+11027	enhanced tarnished ghostly extra-hard jawbreaker	0		Effect: "Is This Your Card?", Effect Duration: 30
+11028	cyan up-at-dawn chiffon chevrons of incineration of the glutton	0		Hot Spell Damage: +50, Food Drop: +100, Adventures: +5, Single Equip
+11029	nasty fortified occult chiffon chapeau	0		Spell Damage Percent: +25, Damage Absorption: +60, Stench Damage: +5, Damage Aura: Cold Damage
+11030	grievous chiffon chamberpot of the storm of doom	0		Weapon Damage Percent: +50, Maximum MP Percent: +40, Spooky Spell Damage: +50, Damage Aura: Stench Damage
+11031	shellacked chiffon chemise of the overflowing toilet of terror	0		Damage Reduction: 7, Stench Spell Damage: +50, Spooky Spell Damage: +10, Damage Aura: Sleaze Damage
+11032	flame-wreathed stiffened arcane researcher's chiffon chakram	0		Experience Percent (Mysticality): +10, Damage Reduction: 1, Hot Spell Damage: +10, Damage Aura: damage
+11033	blinking asbestos-lined supercool chiffon chaps of the boozehound	0		Moxie Percent: +20, Hot Resistance: +5, Booze Drop: +100, Damage Aura: Spooky Damage
+11034	diluted chiffon carbage	1		
+11035	flattened pulsating teal chiffon lemon	0		Effect: "Bricked-In", Effect Duration: 38
+11036	delicious chocomotive	3	awesome	
+11037	decent small freightcake	2	good	
+11038	hand-crafted narrow cabooze	4	EPIC	
+11039	skewed Newton's plastic caboose	0		Experience (Mysticality): +3
+11040	plastic passenger car of wisdom	0		Mysticality: +15
+11041	plastic dining car of the cheetah	0		Initiative: +60
+11042	horrifying scorching plastic coal car	0		Hot Damage: +25, Spooky Damage: +25
+11043	fuchsia blurry Newton's plastic locomotive	0		Experience (Mysticality): +3
+11044	packaged model train set	0		Free Pull
+11045	model train set	0		
+11046	skewed red Crimbo training manual	0		
+11047	Abuela Crimbo's special magnet	0		
+11048	Trainbot radar monocle	0		Single Equip
+11049	ghostly pile of Trainbot parts	0		
+11050	oxidized frozen aerosolized bouncing Trainbot circuitry	0		Effect: "Memento Moir&eacute;", Effect Duration: 26
+11051	enhanced Trainbot tubing	0		Effect: "So You Can Work More...", Effect Duration: 43
+11052	galvanized Trainbot plating	0		Effect: "You Know Who to Call", Effect Duration: 53
+11053	altered dry spinning upside-down Trainbot optics	0		Effect: "Hopped Up on Goofballs", Effect Duration: 16
+11054	enhanced frozen diffused Trainbot servomotors	0		Effect: "Mercenary", Effect Duration: 34
+11055	chilled Trainbot linkages	0		Effect: "Healthy Green Glow", Effect Duration: 53
+11056	squat ping-pong paddle	0		Single Equip
+11057	blurry ping-pong ball	0		
+11058	flame-wreathed Trainbot harness	0		Hot Spell Damage: +10
+11059	ping-pong table	0		
+11060	tumbling Crimbo train emergency brake	0		
+11061	red blurry Trainbot autoassembly module	0		
+11062	Jack Frost's baleful Newton's head-mounted Trainbot	0		Experience (Mysticality): +3, Spell Damage: +25, Cold Spell Damage: +50
+11063	cyan foul-smelling studded leg-mounted Trainbots of terror	0		Damage Absorption: +80, Stench Damage: +10, Spooky Spell Damage: +10
+11064	pulsating Van der Graaf steel-toed shoulder-mounted Trainbot of the pedagogue	0		Experience: +3, Damage Reduction: 9, MP Regen Min: 5, MP Regen Max: 7, Single Equip
+11065	cinnamon machine oil	0		
+11066	upside-down Crimbo crystal shards	0		
+11067	enchanted bad dregs of a Crimbo cocktail	3	decent	Effect: "stats.enq", Effect Duration: 20
+11068	maroon lost elf luggage	0		
+11069	cyan wobbly Trainbot luggage hook	0		Single Equip
+11070	spoiled thick wobbly honey-drenched ham slice	5	crappy	
+11071	strong mediocre mostly-empty bottle of cookie wine	5	decent	
+11072	adequate gigantic Crimbo food scraps	8	good	
+11073	gray arm towel	0		
+11074	automatic wine thief	0		Single Equip
+11075	table-scraper	0		Single Equip
+11076	Trainbot slag	0		
+11077	mirror industrially-crushed ice	0		
+11078	rotten steamed oyster	3	crappy	
+11079	really nice lump of coal	0		
+11080	deactivated mini-Trainbot	0		
+11081	pulsating steam unit	0		
+11082	spinning crystal Crimbo goblet	0		
+11083	twirling crystal Crimbo platter	0		
+11084	perfectly mixed huge Crimbosmopolitan	3	EPIC	
+11085	flavorless small twirling Crimbo dinner	2	decent	
+11086	twirling overloaded Yule battery	0		Familiar Weight: +25
+11087	train whistle	0		
+11088	huge The Superconductor's CPU	0		Single Equip
+11089	tumbling unoccupied sheep suit	0		Free Pull
+11090	half-height cigar	0		Familiar Weight: +5
+11091	grubby wool	0		
+11092	olive Sherlock's grubby wool hat of Calamity Jane	0		Critical Hit Percent: +15, Item Drop: +25
+11093	smartaleck's grubby wool scarf of the scaredy-cat	0		Moxie Percent: +30, Monster Level: -15, Single Equip
+11094	blurry frightening crafty grubby wool trousers	0		Maximum MP: +10, Spooky Damage: +5
+11095	flame-wreathed Samson's grubby wool gloves	0		Experience (Muscle): +5, Hot Spell Damage: +10, Single Equip
+11096	twirling grubby wool beerwarmer	0		
+11097	mediocre wobbly nice warm beer	4	decent	
+11098	grubby woolball	0		
+11099	blurry Rock Garden Guide	0		Free Pull
+11100	spinning packet of rock seeds	0		
+11101	groveling gravel	0		
+11102	twisted fruity pebble	1		
+11103	lodestone	0		Effect: "Loded", Effect Duration: 5
+11104	milestone	0		
+11105	bolder boulder	0		
+11106	molehill mountain	0		
+11107	whet stone	0		
+11108	teal hard rock	0		
+11109	stalagmite	0		
+11110	chocolate covered ping-pong ball	0		
+11112	massive rotten huge pixel bread	6	crappy	
+11113	mediocre pixel whiskey	4	decent	
+11114	green ghostly pixel rock	0		
+11115	S.I.T. Course Voucher	0		Free Pull
+11116	S.I.T. Course Completion Certificate	0		
+11117	extra-cold-filtered glob of extra-green chlorophyll	0		Effect: "Uncaged Power", Effect Duration: 56
+11118	cold-filtered ionized blurry pulsating mushroom	0		Effect: "Comprehensively Nourished", Effect Duration: 40
+11119	quantum narrow five-fingered fern resin	0		Effect: "Wise Spirit", Effect Duration: 59
+11120	half-sized normal huge skewed super good fruit	2	good	
+11121	diluted teal energized spores	1		
+11122	Tesla quilted hot pepper	0		Damage Absorption: +40, MP Regen Min: 7, MP Regen Max: 10
+11123	super-ionized out-of-work circus flea	0		Effect: "Flambé-a-thon", Effect Duration: 44
+11124	extra-grubby grub	0		
+11125	quantum improved concentrated fire ant pheromones	0		Effect: "The Chains Down In The Belly-O", Effect Duration: 48
+11126	electrified flapper fly	0		Effect: "Stop the Presses!", Effect Duration: 31
+11127	lousy blurry shot of wasp venom	4	decent	
+11128	double-galvanized narrow filled mosquito	0		Effect: "Trufflin'", Effect Duration: 44
+11129	triple-chilled modified altered skewed shim of shame shale	0		Effect: "Sizzling with Fury", Effect Duration: 22
+11130	oxidized upside-down fuchsia ghostly pebble of proud pyrite	0		Effect: "In the Slimelight", Effect Duration: 39
+11131	Vulcanized double-liquefied blurry pile of gritty sand	0		Effect: "Libra Rising", Effect Duration: 44
+11132	hollow rock	0		
+11133	adjusted improved angry agate	0		Effect: "Superheroic", Effect Duration: 55
+11134	quadruple-adjusted spinning lump of loyal latite	0		Effect: "Sweet and Red", Effect Duration: 24
+11135	bite-sized rotten fancy gray shadow sausage	1	crappy	Effect: "Chari Tea", Effect Duration: 10
+11136	friendly supercharged shadow skin	0		Maximum MP Percent: +30, Familiar Weight: +3
+11137	ionized concentrated shadow flame	0		Effect: "Broberry Brotality", Effect Duration: 65
+11138	normal shadow bread	4	good	
+11139	shadow ice	0		
+11140	lousy watered-down shadow fluid	2	decent	
+11141	shadow glass	0		
+11142	squat shadow brick	0		
+11143	shadow sinew	0		
+11144	perfectly mixed weak shadow venom	2	EPIC	
+11145	diluted purple jittery shadow nectar	1		
+11146	double-paned resourceful veiny shadow stick	0		Maximum HP: +10, Maximum MP: +50, Cold Resistance: +5
+11147	auspicious Socratic bat paw	0		Experience (Mysticality): +1, Item Drop: +10
+11148	flame-wreathed uncursed bat paw	0		Hot Spell Damage: +10
+11149	groovy sage goblin cape of Tarzan	0		Mysticality Percent: +10, Moxie Percent: +10, Experience (Muscle): +3
+11150	huge Jack Frost's uncursed goblin cape	0		Cold Spell Damage: +50
+11151	lightning-fast studded dragon wishbone	0		Damage Absorption: +80, Initiative: +40
+11152	prompt uncursed dragon wishbone	0		Adventures: +3
+11153	bouncing knitted arcane researcher's savvy stats of terror	0		Mysticality Percent: +20, Experience Percent (Mysticality): +10, Spooky Spell Damage: +10, Cold Resistance: +3
+11154	pulsating rosy-cheeked uncursed stats	0		Maximum HP Percent: +30
+11155	jittery flame-wreathed arcane orb of the empath	0		Familiar Weight: +5, Hot Spell Damage: +10
+11156	steel-toed uncursed arcane orb	0		Damage Reduction: 9
+11157	sharpshooter's machete	0		Critical Hit Percent: +10
+11158	crafty uncursed machete	0		Maximum MP: +10
+11159	spinning blanket	0		
+11160	blinking uncursed blanket	0		
+11161	bouncing lion tamer's medallion of Calamity Jane of horror	0		Critical Hit Percent: +15, Experience (familiar): +2, Spooky Spell Damage: +25
+11162	sharpshooter's uncursed medallion	0		Critical Hit Percent: +10
+11163	Advanced Pig Skinning	0		
+11164	maroon ghostly The Cheese Wizard's Companion	0		
+11165	Jazz Agent sheet music	0		
+11166	Thwaitgold anti-moth statuette	0		
+11167	spinning shadowy cheat sheet	0		Free Pull
+11168	yellow closed-circuit phone system	0		Free Pull
+11169	jittery closed-circuit pay phone	0		
+11170	shadow lighter	0		
+11171	spinning shadow heptahedron	0		
+11172	bouncing lime green shadow snowflake	0		
+11173	shadow heart	0		
+11174	shadow bucket	0		
+11175	olive shadow wave	0		
+11176	Rufus's shadow lodestone	0		
+11177	spinning deadly Da Vinci's shadow chef's hat of incineration	0		Experience (Mysticality): +5, Weapon Damage: +5, Hot Spell Damage: +50
+11178	zippy studded shadow trousers of the cheetah	0		Damage Absorption: +80, Initiative: 80
+11179	squat extremely unsafe groovy shadow hammer	0		Moxie Percent: +10, Weapon Damage Percent: +100
+11180	Annie Oakley's beefy shadow monocle of the bloodbag	0		Muscle: +10, Maximum HP: +100, Critical Hit Percent: +20, Single Equip
+11181	pulsating shadow candle	0		
+11182	gigantic moldy shadow hot dog	8	crappy	
+11183	fancy tolerable skewed shadow martini	3	good	Effect: "Fungal Fortification", Effect Duration: 15
+11184	mixed upside-down shadow pill	1		
+11185	shadow needle	0		
+11186	cursed monkey's paw	0		Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Damage: +10, Spooky Spell Damage: +10, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
+11187	upside-down monkey glove	0		Free Pull
+11188	alkaline shadow candy	0		Effect: "Kernel Panic!", Effect Duration: 30
+11189	huge replica Mr. Accessory	0		
+11190	replica Dark Jill-O-Lantern	0		
+11191	replica hand turkey outline	0		
+11192	replica crimbo elfling	0		
+11193	squat replica pygmy bugbear shaman	0		
+11195	blue replica gravy-covered maypole	0		Item Drop: +25
+11196	replica wax lips	0		Experience: +3
+11197	wobbly replica Tome of Snowcone Summoning	0		
+11199	toasty wicked dance instructor's replica jewel-eyed wizard hat	0		Experience Percent (Moxie): +10, Spell Damage: +5, Hot Damage: +5
+11200	lime green stanky Tesla slick replica bottle-rocket crossbow	0		Moxie: +10, Stench Spell Damage: +25, MP Regen Min: 7, MP Regen Max: 10
+11201	squat foul-smelling frosty stylish replica navel ring of navel gazing of the glutton	0		Moxie: +25, Cold Spell Damage: +10, Stench Damage: +10, Food Drop: +100, Single Equip
+11202	groovy replica V for Vivala mask of Tarzan	0		Moxie Percent: +10, Experience (Muscle): +3, Single Equip
+11203	nasty Oprah's replica haiku katana of incineration	0		Maximum MP Percent: +50, Hot Spell Damage: +50, Stench Damage: +5
+11204	blinking replica box of fireworks	0		Familiar Weight: +5
+11205	replica cotton candy cocoon	0		
+11206	olive blurry greedy scorching weightlifter's replica Elvish sunglasses of James Dean	0		Muscle: +15, Experience (Moxie): +3, Hot Damage: +25, Meat Drop: +20, Single Equip
+11207	replica squamous polyp	0		
+11209	narrow asbestos-lined mansplainer's replica Greatest American Pants of the storm	0		Maximum MP Percent: +40, Monster Level: +15, Hot Resistance: +5
+11210	replica organ grinder	0		
+11211	fortified replica Juju Mojo Mask of mayonnaise of the early riser	0		Damage Absorption: +60, Sleaze Spell Damage: +50, Adventures: +7, Single Equip
+11212	lightning-fast therapeutic hale replica Operation Patriot Shield	0		Maximum HP: +20, Initiative: +40, HP Regen Min: 5, HP Regen Max: 7, Damage Reduction: 15
+11213	replica Libram of Resolutions	0		
+11214	pulsating greasy sizzling replica plastic vampire fangs of chilblains	0		Cold Damage: +25, Hot Damage: +10, Sleaze Spell Damage: +10, Single Equip
+11215	replica angel	0		
+11216	jittery fireproof replica Camp Scout backpack	0		Hot Resistance: +3
+11217	replica deactivated nanobots	0		
+11218	replica Apathargic Bandersnatch	0		
+11219	upside-down replica Smith's Tome	0		
+11220	replica over-the-shoulder Folder Holder	0		
+11221	replica Order of the Green Thumb Order Form	0		
+11222	shrink-wrapped Cincho de Mayo	0		Free Pull
+11223	blue miser's deadly personal trainer's Cincho de Mayo of the wise owl	0		Mysticality: +20, Experience Percent (Muscle): +10, Weapon Damage: +5, Meat Drop: +10
+11225	narrow replica Little Geneticist DNA-Splicing Lab	0		
+11226	olive replica still grill	0		
+11227	replica Crimbo sapling	0		
+11228	replica puck	0		
+11229	replica Chateau Mantegna room key	0		
+11230	replica Deck of Every Card	0		
+11231	upside-down replica Source terminal	0		
+11232	replica disconnected intergnat	0		
+11233	tumbling replica Witchess Set	0		
+11234	ghostly replica genie bottle	0		
+11235	replica space planula	0		
+11236	replica unpowered Robortender	0		
+11237	replica Neverending Party invitation envelope	0		
+11238	replica January's Garbage Tote	0		
+11239	bouncing replica God Lobster Egg	0		
+11240	MacGyver's weightlifter's replica Fourth of May Cosplay Saber of James Dean	0		Muscle: +15, Experience (Moxie): +3, Maximum MP: +100
+11241	clever medical-grade arcane researcher's beefcake's replica Kramco Sausage-o-Matic&trade; of the scaredy-cat	0		Muscle: +25, Experience Percent (Mysticality): +10, Maximum MP: +20, Monster Level: -15, HP Regen Min: 7, HP Regen Max: 10
+11242	mirror gravedigger's frosty Tesla hale steel-toed quilted Rosewater's thinker's beefy replica hewn moon-rune spoon of doom	0		Muscle: +10, Mysticality: +10, Mysticality Percent: +30, Damage Absorption: +40, Damage Reduction: 9, Maximum HP: +20, Cold Spell Damage: +10, Spooky Damage: +10, Spooky Spell Damage: +50, Item Drop: +5, MP Regen Min: 7, MP Regen Max: 10, Single Equip
+11243	spinning replica baby camelCalf	0		
+11244	ghostly veiny banded padded baleful replica Powerful Glove of incineration	0		Spell Damage: +25, Damage Absorption: 120, Maximum HP: +10, Hot Spell Damage: +50, Single Equip
+11245	flame-retardant ribald scorching Sinatra's replica Cargo Cultist Shorts	0		Experience (Moxie): +5, Hot Damage: +25, Sleaze Damage: +10, Hot Resistance: +1
+11246	ghostly blurry lightning-fast double-paned shellacked banded brawny replica industrial fire extinguisher of the sewer	0		Muscle Percent: +20, Damage Absorption: +100, Damage Reduction: 7, Stench Damage: +25, Cold Resistance: +5, Initiative: +40
+11247	replica crystal ball	0		Initiative: +50
+11248	replica emotion chip	0		
+11249	scandalous Annie Oakley's replica Jurassic Parka	0		Critical Hit Percent: +20, Sleaze Damage: +5
+11250	yellow twirling replica grey gosling	0		
+11251	skewed replica designer sweatpants	0		
+11252	replica plastic pumpkin bucket	0		Familiar Weight: +5, Item Drop: +13
+11253	replica Ten Dollars	0		
+11254	up-at-dawn Usain Bolt's flame-retardant replica Cincho de Mayo of horror	0		Spooky Spell Damage: +25, Hot Resistance: +1, Initiative: +80, Adventures: +5
+11255	wobbly wobbly olive wobbly Thwaitgold splendor beetle statuette	0		
+11256	jittery shrink-wrapped 2002 Mr. Store Catalog	0		Free Pull
+11257	2002 Mr. Store Catalog	0		
+11258	asbestos-lined frosty wholesome hardened brawny &quot;I survived Y2K&quot; T-Shirt of the cougar	0		Moxie: +20, Muscle Percent: +20, Damage Reduction: 3, Maximum HP Percent: +10, Cold Spell Damage: +10, Hot Resistance: +5, Single Equip
+11259	upside-down Letter from Carrie Bradshaw	0		
+11260	Oprah's wizardly pro skateboard	0		Mysticality: +25, Maximum MP Percent: +50
+11261	mirror Mr. Accessaturday	0		
+11262	huge Meat Butler	0		
+11263	Loathing Idol Microphone	0		
+11264	pulsating olive spinning Charter: Nellyville	0		
+11265	Manual of Secret Door Detection	0		
+11266	tumbling Flash Liquidizer Ultra Dousing Accessory of the scaredy-cat	0		Monster Level: -15
+11267	asbestos-lined MacGyver's curative Amulet of Perpetual Darkness of the cheetah	0		Maximum MP: +100, Hot Resistance: +5, Initiative: +60, HP Regen Min: 3, HP Regen Max: 5
+11268	Giant monolith	0		
+11269	mirror Crimbo cookie sheet	0		
+11270	VHS Tape	0		
+11271	pressed scroll of minor invulnerability	0		Effect: "Magically Fingered", Effect Duration: 54
+11272	Lapis Lazuli	0		
+11273	jittery bouncing Eye Agate	0		
+11274	twirling Azurite	0		
+11275	Arrow (+1)	0		
+11276	enhanced bouncing scroll of protection from lycanthropes	0		Effect: "All Blued Up", Effect Duration: 11
+11277	Loathing Idol Microphone (75% charged)	0		
+11278	maroon Loathing Idol Microphone (50% charged)	0		
+11279	Loathing Idol Microphone (25% charged)	0		
+11280	Replica 2002 Mr. Store Catalog	0		
+11281	Mr. Big's Wallet	0		
+11282	lousy irresponsibly strong skewed Sexy Cosmo	8	decent	
+11283	Souvenir Chopsticks	0		
+11284	up-at-dawn rock-hard red-soled high heels of temperance	0		Damage Reduction: 5, Sleaze Resistance: +5, Adventures: +5
+11286	blinking ghostly ncle leg of chilblains	0		Cold Damage: +25
+11287	up-at-dawn supercharged rutabuga bag	0		Maximum MP Percent: +30, Adventures: +5
+11288	mesquito proboscis of the brazier	0		Hot Spell Damage: +25
+11289	knitted senate fly thorax	0		Cold Resistance: +3
+11290	concentrated bug juice	0		Effect: "Egg-cellent Vocabulary", Effect Duration: 11
+11291	mirror spider leg of Calamity Jane	0		Critical Hit Percent: +15
+11292	wobbly skewed gravedigger's beetle antenna	0		Spooky Damage: +10
+11293	red skewed mantis skull of the bloodbag	0		Maximum HP: +100
+11294	liquefied lime green blinking chitin powder	0		Effect: "Elemental Saucesphere", Effect Duration: 45
+11295	Sinatra's brawny daddy shortlegs leg	0		Muscle Percent: +20, Experience (Moxie): +5
+11296	miser's veiny birdybug antenna	0		Maximum HP: +10, Meat Drop: +10
+11297	squat pulsating perfumed Jack Frost's kilopede skull	0		Cold Spell Damage: +50, Stench Resistance: +5
+11298	liquefied frozen shaking olive narrow haemolymphnode	0		Effect: "Seal Clubbing Frenzy", Effect Duration: 69
+11299	dry boiled ghostly chitin powder paste	0		Effect: "Cat Class, Cat Style", Effect Duration: 32
+11300	sleeping patriotic eagle	0		Free Pull
+11301	claw-held flag	0		Familiar Weight: +5
+11302	souvenir flag	0		
+11303	name change form	0		
+11304	replica sleeping patriotic eagle	0		
+11305	upside-down boxed august scepter	0		Free Pull
+11306	august scepter	0		Muscle: +15, Mysticality: +15, Moxie: +15, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 7, MP Regen Max: 10, Weapon Damage Percent: +50, Spell Damage Percent: +50
+11307	half-sized fancy adequate bouncing watermelon	2	good	Effect: "You Read The Manual", Effect Duration: 10
+11308	jittery wobbly watermelon seed	0		
+11309	water balloon	0		
+11310	thriftshop coupon	0		
+11311	rotten squat waffle	4	crappy	
+11312	fixodent	0		
+11313	gravedigger's veiny cat o' nine teeth	0		Maximum HP: +10, Spooky Damage: +10
+11314	dangerous tooth cap of the wise owl	0		Mysticality: +20, Weapon Damage: +10
+11315	medical-grade Newton's toothy trousers	0		Experience (Mysticality): +3, HP Regen Min: 7, HP Regen Max: 10
+11316	miniature decent banana split	2	good	
+11317	blue handful of toilet paper	0		
+11318	Mrs. Rush	0		
+11319	medal	0		Familiar Weight: +10, Experience (familiar): +1, Lasts Until Rollover
+11320	aged triple-distilled bottle of Cabernet Sauvignon	6	awesome	
+11321	Sherlock's horrifying wholesome baywatch	0		Maximum HP Percent: +10, Spooky Damage: +25, Item Drop: +25, Lasts Until Rollover
+11322	tumbling Pocket Guide to Mild Evil	0		
+11323	twirling teal skewed Pocket Guide to Mild Evil (used)	0		
+11324	yellow consolation ribbon	0		Familiar Weight: -10, Experience (familiar): -1
+11325	lion tamer's coward's occult baleful replica august scepter of temperance	0		Spell Damage: +25, Spell Damage Percent: +25, Monster Level: -20, Experience (familiar): +2, Sleaze Resistance: +5
+11326	mirror Thwaitgold Fairyfly Statue	0		
+11327	jittery residual chitin paste	0		Skill: "Chitinous Soul"
+11328	altered spinning upside-down teal concentrated cooking	1		Effect: "Quiet 'n' Good", Effect Duration: 30
+11329	boiled bouncing tumbling meat	1		
+11330	altered shaking upside-down mirror sparkling orb	1		
+11331	boiled mirror hardening cream	1		
+11332	diluted twirling pool shark hair oil	1		
+11333	cyan book of facts	0		Skill: "Just the Facts", Free Pull
+11334	book of facts (dog-eared)	0		Skill: "Just the Facts"
