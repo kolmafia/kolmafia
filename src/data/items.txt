@@ -2466,7 +2466,7 @@
 2438	scented massage oil	530550627	vial.gif	usable, combat	t	0	vials of scented massage oil
 2439	poltergeist-in-the-jar-o	844616801	moonshine.gif	none, combat	t	0	poltergeists-in-the-jars-o
 2440	unnatural gas	180343585	moonshine.gif	none, combat	t	0	jars of unnatural gas
-2441	Knob Goblin encryption key	591787452	page.gif	none	q	0
+2441	Knob Goblin Encryption Key	591787452	page.gif	none	q	0
 2442	Cobb's Knob map	325883819	map.gif	usable	q	0
 2443	pink glowstick	199035416	glowstick.gif	accessory		0	pink glowstyx
 2444	Supernova Champagne	150158476	champagne.gif	drink	t,d	180	bottles of Supernova Champagne

@@ -49,7 +49,7 @@ public abstract class BadMoonManager {
     new Encounter(
         "O Goblin, Where Art Thou?",
         "Outskirts of Cobb's Knob",
-        "receiving Knob Goblin encryption key",
+        "receiving Knob Goblin Encryption Key",
         EffectPool.get(EffectPool.MINIONED, 10),
         "Muscle +20, Mysticality -5, Moxie -5",
         Type.STAT1,
