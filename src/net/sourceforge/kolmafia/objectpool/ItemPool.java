@@ -3490,7 +3490,7 @@ public class ItemPool {
   public static final int DINOSAUR_DROPPINGS = 10945;
   public static final int JURASSIC_PARKA = 10952;
   public static final int AUTUMNATON = 10954;
-  public static final int ROASTED_VEGETABLE_OF_JARLSBERG = 10969;
+  public static final int ROASTED_VEGETABLE_OF_JARLSBERG = 10972;
   public static final int PETES_RICH_RICOTTA = 10975;
   public static final int BORIS_BREAD = 10978;
   public static final int ROBY_RATATOUILLE_DE_JARLSBERG = 10979;
