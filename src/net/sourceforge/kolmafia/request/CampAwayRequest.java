@@ -64,6 +64,7 @@ public class CampAwayRequest extends PlaceRequest {
     if (action == null) {
       Preferences.setBoolean(
           "getawayCampsiteUnlocked", responseText.contains("campaway/campawaybg.gif"));
+      KoLCharacter.updateFreeRests(responseText.contains("campaway/restlabel_free.gif"));
       return;
     }
 
@@ -95,6 +96,8 @@ public class CampAwayRequest extends PlaceRequest {
       }
       CampgroundRequest.handleCinchoRest(responseText);
       Preferences.increment("timesRested");
+      KoLCharacter.updateFreeRests(responseText.contains("campaway/restlabel_free.gif"));
+      KoLCharacter.updateStatus();
     } else if (action.equals("campaway_sky")) {
       Matcher m = EFFECT_PATTERN.matcher(responseText);
       if (m.find()) {
