@@ -337,6 +337,8 @@ public class FactDatabase {
   }
 
   protected static void reset() {
+    facts.clear();
+
     boolean error = false;
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("bookoffacts.txt", KoLConstants.BOOKOFFACTS_VERSION)) {
