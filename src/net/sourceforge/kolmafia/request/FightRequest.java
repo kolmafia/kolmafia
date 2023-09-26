@@ -6538,13 +6538,6 @@ public class FightRequest extends GenericRequest {
 
     if (inode != null) {
       var src = inode.getAttributeByName("src");
-      if (src != null && src.endsWith("factbook.gif")) {
-        // log if it's a fact
-        var text = node.getText().toString();
-        if (!(text.contains("rythm") || text.contains("rhythm"))) {
-          FightRequest.logText(text, status);
-        }
-      }
       String alt = inode.getAttributeByName("alt");
       if (alt != null && alt.startsWith("Enemy's")) {
         // This is Monster Manuel stuff
@@ -6814,6 +6807,10 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
+    if (image.equals("factbook.gif")) {
+      FightRequest.handleFactbook(str, status);
+    }
+
     // If you have Just the Best Anapests and go to the
     // haiku dungeon, you see ... anapests!
 
@@ -7069,6 +7066,17 @@ public class FightRequest extends GenericRequest {
     }
 
     status.toyTrain = false;
+  }
+
+  private static void handleFactbook(final String str, final TagStatus status) {
+    // log if it's a fact
+    if (!(str.contains("rythm") || str.contains("rhythm"))) {
+      FightRequest.logText(str, status);
+    }
+
+    if (str.contains("whip up a quick cheat sheet")) {
+      Preferences.increment("_bookOfFactsTatters", 1, 11, false);
+    }
   }
 
   private static void handlePingPong(String str, TagStatus status) {

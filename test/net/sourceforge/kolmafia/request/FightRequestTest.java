@@ -2345,7 +2345,7 @@ public class FightRequestTest {
   @Nested
   class JustTheFacts {
     @Test
-    public void canDetectFactsDrops() {
+    void canDetectFactsDrops() {
       RequestLoggerOutput.startStream();
       var cleanups = new Cleanups(withSkill(SkillPool.JUST_THE_FACTS));
       try (cleanups) {
@@ -2360,7 +2360,7 @@ public class FightRequestTest {
     }
 
     @Test
-    public void doesNotLogCircadianFailures() {
+    void doesNotLogCircadianFailures() {
       RequestLoggerOutput.startStream();
       var cleanups =
           new Cleanups(
@@ -2370,6 +2370,19 @@ public class FightRequestTest {
         parseCombatData("request/test_fight_recall_circadian_wrong_monster.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, not(containsString("rythm")));
+      }
+    }
+
+    @Test
+    void tracksTatteredScrapDrop() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsTatters", 1),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_book_of_facts_tatter.html");
+        assertThat("_bookOfFactsTatters", isSetTo(2));
       }
     }
   }
