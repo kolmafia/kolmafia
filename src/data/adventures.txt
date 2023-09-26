@@ -82,7 +82,7 @@ BatHole	adventure=32	DiffLevel: low Env: underground Stat: 13	The Batrat and Rat
 BatHole	adventure=33	DiffLevel: low Env: underground Stat: 13	The Beanbat Chamber	1 enchanted bean
 BatHole	adventure=34	DiffLevel: low Env: underground Stat: 13	The Boss Bat's Lair
 
-Knob	adventure=114	DiffLevel: low Env: outdoor Stat: 0	The Outskirts of Cobb's Knob	1 chef's hat|1 Knob Goblin encryption key|1 pretentious paintbrush|+1 Knob Goblin lunchbox|1 bone with a price tag on it
+Knob	adventure=114	DiffLevel: low Env: outdoor Stat: 0	The Outskirts of Cobb's Knob	1 chef's hat|1 Knob Goblin Encryption Key|1 pretentious paintbrush|+1 Knob Goblin lunchbox|1 bone with a price tag on it
 Knob	adventure=257	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Barracks	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
 Knob	adventure=258	DiffLevel: low Env: underground Stat: 20	Cobb's Knob Kitchens	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
 Knob	adventure=259	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Harem	outfit|outfit, 1 Knob Goblin perfume|+3 scented massage oil

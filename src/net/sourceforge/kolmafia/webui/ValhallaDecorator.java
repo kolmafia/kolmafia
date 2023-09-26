@@ -817,12 +817,11 @@ public class ValhallaDecorator {
       }
       showPulls = true;
       var itemName = ItemDatabase.getItemName(pull.itemId);
-      var wanted = pull.desiredAmount - countItem;
       var link =
           pull.url != null
               ? pull.url
               : "/KoLmafia/redirectedCommand?cmd=acquire+"
-                  + wanted
+                  + pull.desiredAmount
                   + "+"
                   + StringUtilities.getURLEncode(itemName)
                   + "&pwd="
