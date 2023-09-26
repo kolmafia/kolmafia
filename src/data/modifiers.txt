@@ -8148,8 +8148,8 @@ Skill	Gravitational Compression	Item Drop: [min(ceil(basemys/5),100)]
 # Hammer Throw: Level 2: Reduction increased to 15%
 # Hammer Throw: Level 3: Reduction increased to 20%
 Skill	Hamstrings	Initiative: +10
-Skill	[15025]Hard Drinker	Liver Capacity: +5
-Skill	[18008]Hard Drinker	Liver Capacity: +10
+Skill	[15025]Hard Drinker	Liver Capacity: +10
+Skill	[18008]Hard Drinker	Liver Capacity: +5
 Skill	Harried	Adventures: +5
 Skill	Head in the Game	Critical Hit Percent: +50
 Skill	Healing Scarabs	HP Regen Min: +2, HP Regen Max: +4
