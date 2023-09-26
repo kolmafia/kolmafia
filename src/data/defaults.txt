@@ -377,6 +377,8 @@ user	bondWar	false
 user	bondWeapon2	false
 user	bondWpn	false
 user	boneAbacusVictories	0
+user	bookOfFactsGummi	0
+user	bookOfFactsPinata	0
 user	boomBoxSong
 user	booPeakProgress	100
 user	booPeakLit	false
@@ -1735,6 +1737,8 @@ user	_blackMonolithUsed	false
 user	_blankoutUsed	false
 user	_bonersSummoned	false
 user	_bookOfEverySkillUsed	false
+user	_bookOfFactsWishes	0
+user	_bookOfFactsTatters	0
 user	_boomBoxFights	9
 user	_boomBoxSongsLeft	11
 user	_bootStomps	0

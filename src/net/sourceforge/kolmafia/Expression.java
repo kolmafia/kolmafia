@@ -192,7 +192,7 @@ public class Expression {
         case 'c' -> v = Math.ceil(s[--sp]);
         case 'f' -> v = Math.floor(s[--sp]);
         case 'm' -> v = Math.min(s[--sp], s[--sp]);
-        // args are read in reverse, so the operation is different from what you'd expect
+          // args are read in reverse, so the operation is different from what you'd expect
         case '<' -> v = s[--sp] > s[--sp] ? 1 : 0;
         case '≤' -> v = s[--sp] >= s[--sp] ? 1 : 0;
         case '>' -> v = s[--sp] < s[--sp] ? 1 : 0;

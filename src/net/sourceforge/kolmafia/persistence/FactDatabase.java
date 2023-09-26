@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Objects;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.Expression;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -127,8 +129,11 @@ public class FactDatabase {
   private FactDatabase() {}
 
   public enum FactType {
+    NONE,
     EFFECT,
     ITEM,
+    CONDITIONALEFFECT,
+    CONDITIONALITEM,
     HEAP,
     STATS,
     HP,
@@ -172,22 +177,34 @@ public class FactDatabase {
     }
 
     public Fact resolve(
-        final AscensionClass ascensionClass, final Path path, final MonsterData monster) {
+        final AscensionClass ascensionClass,
+        final Path path,
+        final MonsterData monster,
+        final boolean stateful) {
       return this;
     }
   }
 
   private static class AdventureResultFact extends Fact {
     protected List<AdventureResult> results;
+    private String condition;
 
-    AdventureResultFact(FactType type, List<AdventureResult> results) {
+    AdventureResultFact(FactType type, List<AdventureResult> results, String condition) {
       super(type);
+      this.condition = condition;
       this.results = results;
     }
 
+    AdventureResultFact(FactType type, List<AdventureResult> results) {
+      this(type, results, null);
+    }
+
     AdventureResultFact(FactType type, AdventureResult result) {
-      super(type);
-      this.results = List.of(result);
+      this(type, List.of(result));
+    }
+
+    protected void setCondition(final String condition) {
+      this.condition = condition;
     }
 
     public AdventureResult getResult() {
@@ -199,9 +216,17 @@ public class FactDatabase {
       return getResult().toString();
     }
 
+    private boolean evaluateCondition() {
+      return new Expression(condition.substring(1, condition.length() - 2), "fact").eval() > 0;
+    }
+
     @Override
     public Fact resolve(
-        final AscensionClass ascensionClass, final Path path, final MonsterData monster) {
+        final AscensionClass ascensionClass,
+        final Path path,
+        final MonsterData monster,
+        final boolean stateful) {
+      if (stateful && condition != null && !evaluateCondition()) return new Fact(FactType.NONE);
       var seed = calculateSeed(ascensionClass, path, monster) + 13L;
       var rng = new PHPMTRandom(seed);
       return new AdventureResultFact(
@@ -229,7 +254,10 @@ public class FactDatabase {
 
     @Override
     public Fact resolve(
-        final AscensionClass ascensionClass, final Path path, final MonsterData monster) {
+        final AscensionClass ascensionClass,
+        final Path path,
+        final MonsterData monster,
+        final boolean stateful) {
       var resolved = new MeatFact(baseMeat);
       if (baseMeat) {
         resolved.meat = monster.getBaseMeat();
@@ -249,7 +277,10 @@ public class FactDatabase {
 
     @Override
     public Fact resolve(
-        final AscensionClass ascensionClass, final Path path, final MonsterData monster) {
+        final AscensionClass ascensionClass,
+        final Path path,
+        final MonsterData monster,
+        final boolean stateful) {
       var seed = calculateSeed(ascensionClass, path, monster) + 11L;
       var rng = new PHPMTRandom(seed);
       return new AdventureResultFact(
@@ -305,7 +336,7 @@ public class FactDatabase {
     FactDatabase.reset();
   }
 
-  private static void reset() {
+  protected static void reset() {
     boolean error = false;
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("bookoffacts.txt", KoLConstants.BOOKOFFACTS_VERSION)) {
@@ -342,8 +373,41 @@ public class FactDatabase {
     }
   }
 
+  private static Fact parseConditional(FactType type, String[] data) {
+    var realType =
+        switch (type) {
+          case CONDITIONALEFFECT -> FactType.EFFECT;
+          case CONDITIONALITEM -> FactType.ITEM;
+          default -> null;
+        };
+
+    if (realType == null) return null;
+
+    if (data.length < 4) {
+      RequestLogger.printLine(
+          "Fact for " + data[0] + " stats must specify a condition and at least one " + realType);
+      return null;
+    }
+
+    var condition = data[2];
+
+    if (!condition.startsWith("[") || !condition.endsWith("]")) {
+      RequestLogger.printLine(
+          "Fact for " + data[0] + " must specify its condition between square brackets");
+      return null;
+    }
+
+    data[2] = null;
+
+    var fact = (AdventureResultFact) parseFactData(realType, data);
+    fact.setCondition(condition);
+    return fact;
+  }
+
   private static Fact parseFactData(FactType type, String[] data) {
     return switch (type) {
+      case NONE -> null;
+      case CONDITIONALEFFECT, CONDITIONALITEM -> parseConditional(type, data);
       case EFFECT, ITEM -> {
         if (data.length < 3) {
           RequestLogger.printLine(
@@ -353,11 +417,13 @@ public class FactDatabase {
         var results =
             Arrays.stream(data)
                 .skip(2)
+                .filter(Objects::nonNull)
                 .map(
                     type == FactType.ITEM
                         ? AdventureResult::parseItemString
                         : AdventureResult::parseEffectString)
                 .toList();
+
         yield new AdventureResultFact(type, results);
       }
       case MEAT -> new MeatFact(data.length >= 3 && data[2].equals("Base"));
@@ -406,7 +472,10 @@ public class FactDatabase {
   }
 
   public static Fact getFact(
-      final AscensionClass ascensionClass, final Path path, final MonsterData monster) {
+      final AscensionClass ascensionClass,
+      final Path path,
+      final MonsterData monster,
+      final boolean stateful) {
     var seed = calculateSeed(ascensionClass, path, monster);
     var rng = new PHPMTRandom(seed);
 
@@ -415,6 +484,6 @@ public class FactDatabase {
     var factPool = facts.get(effectivePhylum);
 
     var fact = factPool.get(rng.nextInt(0, factPool.size() - 1));
-    return fact.resolve(ascensionClass, path, monster);
+    return fact.resolve(ascensionClass, path, monster, stateful);
   }
 }
