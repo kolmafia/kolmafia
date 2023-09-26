@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringTokenizer;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -1503,5 +1504,46 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       }
       return null;
     }
+  }
+
+  public static AdventureResult parseEffectString(String effectString) {
+    String name;
+    int duration;
+    int lparen = effectString.lastIndexOf("(");
+    int rparen = effectString.lastIndexOf(")");
+    if (lparen < 0 || rparen < 0) {
+      name = effectString;
+      duration = 0;
+    } else {
+      String durationString = effectString.substring(lparen + 1, rparen);
+      name = effectString.substring(0, lparen).trim();
+      duration =
+          StringUtilities.isNumeric(durationString) ? StringUtilities.parseInt(durationString) : 0;
+    }
+    int effectId = EffectDatabase.getEffectId(name, true);
+    if (effectId < 0) {
+      return null;
+    }
+    return EffectPool.get(effectId, duration);
+  }
+
+  public static AdventureResult parseItemString(String itemString) {
+    String name;
+    int count;
+    int lparen = itemString.lastIndexOf("(");
+    int rparen = itemString.lastIndexOf(")");
+    if (lparen < 0 || rparen < 0) {
+      name = itemString;
+      count = 1;
+    } else {
+      String countString = itemString.substring(lparen + 1, rparen);
+      name = itemString.substring(0, lparen).trim();
+      count = StringUtilities.isNumeric(countString) ? StringUtilities.parseInt(countString) : 0;
+    }
+    int itemId = ItemDatabase.getItemId(name, 1, false);
+    if (itemId < 0) {
+      return null;
+    }
+    return ItemPool.get(itemId, count);
   }
 }

@@ -1,0 +1,90 @@
+1
+# Phylum	EFFECT (DURATION) [, EFFECT (DURATION)]
+Beast	Effect	Eggs-tra Sensory Perception (10)	Egg-stortionary Tactics (10)	Egg-stra Arm (10)	Egg-headedness (10)	Egg-cellent Vocabulary (10)
+Beast	Item	displaced fish
+Beast	Item	long pork
+Bug	Effect	Feeling Excited (15)
+Bug	Effect	Feeling Excited (15)
+Bug	Effect	Industrial Strength Starch (15)
+Bug	Item	filet of tangy gnat ("fotelif")
+Constellation	Item	star
+Constellation	Item	alien drugs
+Constellation	Item	star (3)
+Constellation	Item	line (3)
+Construct	Item	spring	flange	cog	sprocket	clockwork key
+Construct	Effect	Armor-Plated (20)
+Construct	MP	20%
+Demon	Item	fire
+Demon	Item	hot powder
+Dude	Item	broken skull	broken skull	smart skull
+Dude	Item	gob of wet hair
+Dude	Effect	Feeling Excited (15)
+Elemental	Item	cold powder
+Elemental	Item	twinkly nuggets
+Elemental	Stats	1	1	1
+Elf	Item	candy cane
+Elf	Stats	0	0	10
+Elf	Item	bottle of whiskey
+Fish	Effect	Fishy (10)
+Fish	Item	beefy fish meat	glistening fish meat	slick fish meat
+Fish	Item	dull fish scale (3)
+Goblin	Item	Knob mushroom
+Goblin	Item	bowl of cottage cheese
+Goblin	Item	Cobb's Knob Wurstbrau
+Hippy	Item	orange	grapes	tomato	strawberry	grapefruit	olive	lemon
+Hippy	Item	stench powder
+Hippy	Item	pretty flower
+Hobo	Item	bottle of vodka
+Hobo	Item	hobo nickel
+Hobo	Stats	0	0	3
+Horror	Item	thin black candle
+Horror	HP	20%
+Horror	Item	scroll of ancient forbidden unspeakable evil
+Humanoid	Stats	3	0	0
+Humanoid	Item	fine wine
+Mer-kin	Stats	0	3	0
+Mer-kin	Item	beefy fish meat	glistening fish meat	slick fish meat
+Mer-kin	Item	seaweed
+Orc	Item	sleaze powder
+Orc	Item	tattered scrap of paper
+Orc	Item	bottle of tequila
+Penguin	Item	magical icecubes
+Penguin	Stats	10	0	0
+Penguin	Meat	Penguin
+Pirate	Item	bottle of rum
+Pirate	Stats	0	0	3
+Pirate	Item	eyepatch
+Plant	Item	cherry
+Plant	HP	50%
+Plant	Stats	1	1	1
+Slime	Stats	3	3	3
+Slime	Stats	0	0	3
+Slime	Effect	Slimed (20)
+Undead	Item	skeleton bone
+Undead	Item	spooky powder
+Undead	Stats	0	3	0
+Weird	Stats	0	3	0
+Weird	MP	25%
+Weird	Item	flaming feather	frozen feather	frightful feather	fetid feather	flirtatious feather
+
+None	Stats	3	0	0
+None	Stats	0	3	0
+None	Stats	0	0	3
+None	HP	10%
+None	MP	10%
+None	Modifier	Experience (familiar): +1
+None	Modifier	Item Drop: +25
+None	Heap
+None	Effect	Antiantifrozen (10)
+None	Effect	Shamed (10)
+None	Effect	Disabled Olfactory Processing (10)
+None	Effect	Imagining Guts (10)
+None	Effect	Spooked (10)
+None	Effect	Ultrahydrated (10)
+None	Item	worthless trinket	worthless gewgaw	worthless knick-knack
+None	Meat	Base
+None	Item	pocket wish
+None	Item	fat stacks of cash
+None	Effect	Sweet and Yellow (10)	Sweet and Green (10)	Sweet and Red (10)
+None	Effect	Gummiheart (10)	Gummibrain (10)	Gummiskin (10)
+None	Effect	Ooh, Sweet! (10)	Ooh, Salty! (10)	Ooh, Bitter! (10)	Ooh, Sour! (10)	Ooh, Umami! (10)
