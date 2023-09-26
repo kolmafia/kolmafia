@@ -185,6 +185,11 @@ public class FactDatabase {
       this.results = results;
     }
 
+    AdventureResultFact(FactType type, AdventureResult result) {
+      super(type);
+      this.results = List.of(result);
+    }
+
     public AdventureResult getResult() {
       return results.get(0);
     }
@@ -199,8 +204,8 @@ public class FactDatabase {
         final AscensionClass ascensionClass, final Path path, final MonsterData monster) {
       var seed = calculateSeed(ascensionClass, path, monster) + 13L;
       var rng = new PHPMTRandom(seed);
-      results = List.of(results.get(rng.nextInt(0, results.size() - 1)));
-      return this;
+      return new AdventureResultFact(
+          this.getType(), results.get(rng.nextInt(0, results.size() - 1)));
     }
   }
 
@@ -225,14 +230,15 @@ public class FactDatabase {
     @Override
     public Fact resolve(
         final AscensionClass ascensionClass, final Path path, final MonsterData monster) {
+      var resolved = new MeatFact(baseMeat);
       if (baseMeat) {
-        this.meat = monster.getBaseMeat();
+        resolved.meat = monster.getBaseMeat();
       } else {
         var seed = calculateSeed(ascensionClass, path, monster) + 12L;
         var rng = new PHPMTRandom(seed);
-        this.meat = rng.nextInt(0, 50) + 100;
+        resolved.meat = rng.nextInt(0, 50) + 100;
       }
-      return this;
+      return resolved;
     }
   }
 
@@ -246,8 +252,8 @@ public class FactDatabase {
         final AscensionClass ascensionClass, final Path path, final MonsterData monster) {
       var seed = calculateSeed(ascensionClass, path, monster) + 11L;
       var rng = new PHPMTRandom(seed);
-      results = List.of(results.get(rng.nextInt(0, results.size() - 1)));
-      return this;
+      return new AdventureResultFact(
+          FactType.ITEM, results.get(rng.nextInt(0, results.size() - 1)));
     }
   }
 
