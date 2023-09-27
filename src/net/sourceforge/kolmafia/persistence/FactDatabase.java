@@ -229,6 +229,7 @@ public class FactDatabase {
       return results.get(0);
     }
 
+    @Override
     public boolean isGummi() {
       var ar = this.getResult();
       if (!ar.isStatusEffect()) return false;
@@ -238,6 +239,7 @@ public class FactDatabase {
           || effectId == EffectPool.GUMMISKIN;
     }
 
+    @Override
     public boolean isPinata() {
       var ar = this.getResult();
       if (!ar.isStatusEffect()) return false;
@@ -247,15 +249,17 @@ public class FactDatabase {
           || effectId == EffectPool.SWEET_AND_RED;
     }
 
+    @Override
     public boolean isWish() {
       var ar = this.getResult();
-      if (!ar.isStatusEffect()) return false;
+      if (!ar.isItem()) return false;
       return ar.getItemId() == ItemPool.POCKET_WISH;
     }
 
+    @Override
     public boolean isTatter() {
       var ar = this.getResult();
-      if (!ar.isStatusEffect()) return false;
+      if (!ar.isItem()) return false;
       return ar.getItemId() == ItemPool.SCRAP_OF_PAPER;
     }
 

@@ -2375,40 +2375,36 @@ public class FightRequestTest {
       }
     }
 
-    @Test
-    void tracksTatteredScrapDrop() {
-      var cleanups =
-          new Cleanups(
-              withSkill(SkillPool.JUST_THE_FACTS),
-              withProperty("_bookOfFactsTatters", 1),
-              withFight());
-      try (cleanups) {
-        parseCombatData("request/test_fight_book_of_facts_tatter.html");
-        assertThat("_bookOfFactsTatters", isSetTo(2));
-      }
-    }
-
-    @Test
-    void tracksSuccessfulGummiDrop() {
+    @ParameterizedTest
+    @CsvSource({
+      "true, 1, 2",
+      "false, 1, 11",
+    })
+    void tracksTatterDrop(final boolean success, final int current, final int next) {
       var cleanups =
           new Cleanups(
               withClass(AscensionClass.PASTAMANCER),
               withPath(Path.NONE),
-              withNextMonster("fiendish can of asparagus"),
+              withNextMonster("Sorority Nurse"),
               withSkill(SkillPool.JUST_THE_FACTS),
-              withProperty("bookOfFactsGummi", 3),
+              withProperty("_bookOfFactsTatters", current),
               withFight());
       try (cleanups) {
-        parseCombatData("request/test_fight_book_of_facts_gummi_success.html");
-        assertThat("bookOfFactsGummi", isSetTo(1));
+        parseCombatData(
+            "request/test_fight_book_of_facts_tatter_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("_bookOfFactsTatters", isSetTo(next));
       }
     }
 
     @ParameterizedTest
     @CsvSource({
-      "1, 2", "3, 0",
+      "true, 3, 1",
+      "false, 1, 2",
+      "false, 3, 0",
     })
-    void tracksUnsuccessfulGummiDrop(final int current, final int next) {
+    void tracksGummiEffect(final boolean success, final int current, final int next) {
       var cleanups =
           new Cleanups(
               withClass(AscensionClass.PASTAMANCER),
@@ -2418,8 +2414,35 @@ public class FightRequestTest {
               withProperty("bookOfFactsGummi", current),
               withFight());
       try (cleanups) {
-        parseCombatData("request/test_fight_book_of_facts_gummi_fallback.html");
+        parseCombatData(
+            "request/test_fight_book_of_facts_gummi_"
+                + (success ? "success" : "fallback")
+                + ".html");
         assertThat("bookOfFactsGummi", isSetTo(next));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "true, 1, 1",
+      "true, 0, 1",
+      "false, 1, 0",
+    })
+    void tracksPinataEffect(final boolean success, final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER),
+              withPath(Path.NONE),
+              withNextMonster("axe handle"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("bookOfFactsPinata", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_book_of_facts_pinata_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("bookOfFactsPinata", isSetTo(next));
       }
     }
   }
