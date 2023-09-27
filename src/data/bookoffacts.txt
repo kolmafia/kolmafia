@@ -80,7 +80,7 @@ None	Effect	Shamed (10)
 None	Effect	Disabled Olfactory Processing (10)
 None	Effect	Imagining Guts (10)
 None	Effect	Spooked (10)
-None	Effect	Ultrahydrated (10)
+None	Effect	Ultrahydrated (5)
 None	Item	worthless trinket	worthless gewgaw	worthless knick-knack
 None	Meat	Base
 None	ConditionalItem	[lt(pref(_bookOfFactsWishes),3)]	pocket wish
