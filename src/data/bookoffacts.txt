@@ -46,7 +46,7 @@ Mer-kin	Stats	0	3	0
 Mer-kin	Item	beefy fish meat	glistening fish meat	slick fish meat
 Mer-kin	Item	seaweed
 Orc	Item	sleaze powder
-Orc	ConditionalItem	[lt(pref(_bookOfFactsTatters),11)]	tattered scrap of paper
+Orc	Item	[lt(pref(_bookOfFactsTatters),11)]	tattered scrap of paper
 Orc	Item	bottle of tequila
 Penguin	Item	magical ice cubes
 Penguin	Stats	10	0	0
@@ -83,8 +83,8 @@ None	Effect	Spooked (10)
 None	Effect	Ultrahydrated (5)
 None	Item	worthless trinket	worthless gewgaw	worthless knick-knack
 None	Meat	Base
-None	ConditionalItem	[lt(pref(_bookOfFactsWishes),3)]	pocket wish
+None	Item	[lt(pref(_bookOfFactsWishes),3)]	pocket wish
 None	Item	fat stacks of cash
-None	ConditionalEffect	[lt(pref(bookOfFactsPinata),1)]	Sweet and Yellow (10)	Sweet and Green (10)	Sweet and Red (10)
-None	ConditionalEffect	[lt(pref(bookOfFactsGummi),1)]	Gummiheart (10)	Gummibrain (10)	Gummiskin (10)
+None	Effect	[lt(pref(bookOfFactsPinata),1)]	Sweet and Yellow (10)	Sweet and Green (10)	Sweet and Red (10)
+None	Effect	[lt(pref(bookOfFactsGummi),1)]	Gummiheart (10)	Gummibrain (10)	Gummiskin (10)
 None	Effect	Ooh, Sweet! (10)	Ooh, Salty! (10)	Ooh, Bitter! (10)	Ooh, Sour! (10)	Ooh, Umami! (10)

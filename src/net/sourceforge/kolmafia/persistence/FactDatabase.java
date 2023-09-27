@@ -135,8 +135,6 @@ public class FactDatabase {
     NONE,
     EFFECT,
     ITEM,
-    CONDITIONALEFFECT,
-    CONDITIONALITEM,
     HEAP,
     STATS,
     HP,
@@ -206,7 +204,7 @@ public class FactDatabase {
 
   public static class AdventureResultFact extends Fact {
     protected List<AdventureResult> results;
-    private String condition;
+    private final String condition;
 
     AdventureResultFact(FactType type, List<AdventureResult> results, String condition) {
       super(
@@ -222,10 +220,6 @@ public class FactDatabase {
 
     AdventureResultFact(FactType type, AdventureResult result) {
       this(type, List.of(result));
-    }
-
-    protected void setCondition(final String condition) {
-      this.condition = condition;
     }
 
     public AdventureResult getResult() {
@@ -429,47 +423,28 @@ public class FactDatabase {
     }
   }
 
-  private static Fact parseConditional(FactType type, String[] data) {
-    var realType =
-        switch (type) {
-          case CONDITIONALEFFECT -> FactType.EFFECT;
-          case CONDITIONALITEM -> FactType.ITEM;
-          default -> null;
-        };
-
-    if (realType == null) return null;
-
-    if (data.length < 4) {
-      RequestLogger.printLine(
-          "Fact for " + data[0] + " stats must specify a condition and at least one " + realType);
-      return null;
-    }
-
-    var condition = data[2];
-
-    if (!condition.startsWith("[") || !condition.endsWith("]")) {
-      RequestLogger.printLine(
-          "Fact for " + data[0] + " must specify its condition between square brackets");
-      return null;
-    }
-
-    data[2] = null;
-
-    var fact = (AdventureResultFact) parseFactData(realType, data);
-    fact.setCondition(condition);
-    return fact;
-  }
-
   private static Fact parseFactData(FactType type, String[] data) {
     return switch (type) {
       case NONE -> null;
-      case CONDITIONALEFFECT, CONDITIONALITEM -> parseConditional(type, data);
       case EFFECT, ITEM -> {
+        var noValuesError = "Fact for " + data[0] + " stats must specify at least one " + type;
         if (data.length < 3) {
-          RequestLogger.printLine(
-              "Fact for " + data[0] + " stats must specify at least one " + type);
+          RequestLogger.printLine(noValuesError);
           yield null;
         }
+
+        String condition = null;
+        var thirdPart = data[2];
+        if (thirdPart.startsWith("[") && thirdPart.endsWith("]")) {
+          // Has a condition
+          condition = thirdPart;
+          data[2] = null;
+          if (data.length < 4) {
+            RequestLogger.printLine(noValuesError);
+            yield null;
+          }
+        }
+
         var results =
             Arrays.stream(data)
                 .skip(2)
@@ -485,7 +460,7 @@ public class FactDatabase {
           yield null;
         }
 
-        yield new AdventureResultFact(type, results);
+        yield new AdventureResultFact(type, results, condition);
       }
       case MEAT -> new MeatFact(data.length >= 3 && data[2].equals("Base"));
       case HEAP -> new HeapFact();
