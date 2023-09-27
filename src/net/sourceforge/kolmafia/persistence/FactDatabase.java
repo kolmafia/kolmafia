@@ -204,7 +204,7 @@ public class FactDatabase {
     }
   }
 
-  private static class AdventureResultFact extends Fact {
+  public static class AdventureResultFact extends Fact {
     protected List<AdventureResult> results;
     private String condition;
 
@@ -284,7 +284,7 @@ public class FactDatabase {
     }
   }
 
-  private static class MeatFact extends Fact {
+  public static class MeatFact extends Fact {
     private final boolean baseMeat;
     private final int meat;
 
