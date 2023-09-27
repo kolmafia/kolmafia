@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -160,17 +161,17 @@ public class FactDatabase {
     private final FactType type;
     private String value;
 
-    Fact(FactType type) {
-      this.type = type;
-    }
-
     Fact(FactType type, String value) {
-      this(type);
+      this.type = type;
       this.value = value;
     }
 
     public FactType getType() {
       return type;
+    }
+
+    public String getValue() {
+      return value;
     }
 
     @Override
@@ -208,7 +209,9 @@ public class FactDatabase {
     private String condition;
 
     AdventureResultFact(FactType type, List<AdventureResult> results, String condition) {
-      super(type);
+      super(
+          type,
+          results.stream().map(AdventureResult::toString).collect(Collectors.joining(" or ")));
       this.condition = condition;
       this.results = results;
     }
@@ -263,11 +266,6 @@ public class FactDatabase {
       return ar.getItemId() == ItemPool.SCRAP_OF_PAPER;
     }
 
-    @Override
-    public String toString() {
-      return getResult().toString();
-    }
-
     private boolean evaluateCondition() {
       return new Expression(condition.substring(1, condition.length() - 2), "fact").eval() > 0;
     }
@@ -278,7 +276,7 @@ public class FactDatabase {
         final Path path,
         final MonsterData monster,
         final boolean stateful) {
-      if (stateful && condition != null && !evaluateCondition()) return new Fact(FactType.NONE);
+      if (stateful && condition != null && !evaluateCondition()) return new Fact(FactType.NONE, "");
       var seed = calculateSeed(ascensionClass, path, monster) + 13L;
       var rng = new PHPMTRandom(seed);
       return new AdventureResultFact(
@@ -288,20 +286,20 @@ public class FactDatabase {
 
   private static class MeatFact extends Fact {
     private final boolean baseMeat;
-    private int meat = 0;
+    private final int meat;
 
-    MeatFact(final boolean baseMeat) {
-      super(FactType.MEAT);
+    MeatFact(final int meat, final boolean baseMeat) {
+      super(FactType.MEAT, meat + " Meat");
+      this.meat = meat;
       this.baseMeat = baseMeat;
     }
 
-    public int getMeat() {
-      return meat;
+    MeatFact(final boolean baseMeat) {
+      this(0, baseMeat);
     }
 
-    @Override
-    public String toString() {
-      return meat + "";
+    public int getMeat() {
+      return this.meat;
     }
 
     @Override
@@ -310,21 +308,26 @@ public class FactDatabase {
         final Path path,
         final MonsterData monster,
         final boolean stateful) {
-      var resolved = new MeatFact(baseMeat);
+      int resolvedMeat;
       if (baseMeat) {
-        resolved.meat = monster.getBaseMeat();
+        resolvedMeat = monster.getBaseMeat();
       } else {
         var seed = calculateSeed(ascensionClass, path, monster) + 12L;
         var rng = new PHPMTRandom(seed);
-        resolved.meat = rng.nextInt(0, 50) + 100;
+        resolvedMeat = rng.nextInt(0, 50) + 100;
       }
-      return resolved;
+      return new MeatFact(resolvedMeat, baseMeat);
     }
   }
 
   private static class HeapFact extends AdventureResultFact {
     HeapFact() {
       super(FactType.HEAP, HEAP_ITEMS.stream().map(name -> ItemPool.get(name, 1)).toList());
+    }
+
+    @Override
+    public String toString() {
+      return "an item from The Heap";
     }
 
     @Override
@@ -345,8 +348,24 @@ public class FactDatabase {
     private final int mysticality;
     private final int moxie;
 
+    static String toString(int muscle, int mysticality, int moxie) {
+      if (muscle == mysticality && mysticality == moxie) {
+        return "+" + muscle + " all stats";
+      }
+
+      if (muscle > 0) {
+        return "+" + muscle + " muscle";
+      }
+
+      if (mysticality > 0) {
+        return "+" + mysticality + " mysticality";
+      }
+
+      return "+" + moxie + " moxie";
+    }
+
     StatsFact(int muscle, int mysticality, int moxie) {
-      super(FactType.STATS);
+      super(FactType.STATS, StatsFact.toString(muscle, mysticality, moxie));
       this.muscle = muscle;
       this.mysticality = mysticality;
       this.moxie = moxie;
@@ -362,23 +381,6 @@ public class FactDatabase {
 
     public int getMoxie() {
       return this.moxie;
-    }
-
-    @Override
-    public String toString() {
-      if (muscle == mysticality && mysticality == moxie) {
-        return muscle + " all stats";
-      }
-
-      if (muscle > 0) {
-        return muscle + " muscle";
-      }
-
-      if (mysticality > 0) {
-        return mysticality + " mysticality";
-      }
-
-      return moxie + " moxie";
     }
   }
 
@@ -477,6 +479,11 @@ public class FactDatabase {
                         ? AdventureResult::parseItemString
                         : AdventureResult::parseEffectString)
                 .toList();
+
+        if (results.contains(null)) {
+          RequestLogger.printLine("Fact for " + data[0] + " specifies an invalid " + type);
+          yield null;
+        }
 
         yield new AdventureResultFact(type, results);
       }
