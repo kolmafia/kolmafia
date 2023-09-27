@@ -2400,6 +2400,29 @@ public class FightRequestTest {
 
     @ParameterizedTest
     @CsvSource({
+      "true, 1, 2",
+      "false, 1, 3",
+    })
+    void tracksWishDrop(final boolean success, final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER),
+              withPath(Path.CRAZY_RANDOM_SUMMER),
+              withNextMonster("Keese"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsWishes", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_book_of_facts_pocket_wish_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("_bookOfFactsWishes", isSetTo(next));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
       "true, 3, 1",
       "false, 1, 2",
       "false, 3, 0",
