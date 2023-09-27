@@ -7075,16 +7075,24 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(str, status);
     }
 
-    if (str.contains("whip up a quick cheat sheet")) {
-      Preferences.increment("_bookOfFactsTatters", 1, 11, false);
-    }
-
     var fact = FactDatabase.getFact(status.monster, false);
 
-    if (str.contains("actually made of gummy material")) {
+    if (str.contains("whip up a quick cheat sheet")) {
+      Preferences.increment("_bookOfFactsTatters", 1, 11, false);
+    } else if (fact.isTatter()) {
+      Preferences.setInteger("_bookOfFactsTatters", 11);
+    } else if (str.contains("if you stick it up your nose, it will grant you a wish")) {
+      Preferences.increment("_bookOfFactsWishes", 1, 3, false);
+    } else if (fact.isWish()) {
+      Preferences.setInteger("_bookOfFactsWishes", 3);
+    } else if (str.contains("actually made of gummy material?")) {
       Preferences.setInteger("bookOfFactsGummi", 1);
     } else if (fact.isGummi()) {
       Preferences.increment("bookOfFactsGummi", 1, 4, true);
+    } else if (str.contains("actually a piñata?")) {
+      Preferences.setInteger("bookOfFactsPinata", 1);
+    } else if (fact.isPinata()) {
+      Preferences.increment("bookOfFactsPinata", 1, 2, true);
     }
   }
 

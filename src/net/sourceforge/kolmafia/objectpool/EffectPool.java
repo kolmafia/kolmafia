@@ -150,6 +150,9 @@ public class EffectPool {
   public static final int PRELUDE_OF_PRECISION = 534;
   public static final int HAIKU_STATE_OF_MIND = 548;
   public static final int FISHY = 549;
+  public static final int SWEET_AND_YELLOW = 575;
+  public static final int SWEET_AND_GREEN = 576;
+  public static final int SWEET_AND_RED = 577;
   public static final int THE_COLORS = 584;
   public static final int CLUMSY = 612;
   public static final int DONHOS_BUBBLY_BALLAD = 614;

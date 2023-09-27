@@ -179,13 +179,19 @@ public class FactDatabase {
     }
 
     public boolean isGummi() {
-      if (!(this instanceof AdventureResultFact fact)) return false;
-      var ar = fact.getResult();
-      if (!ar.isStatusEffect()) return false;
-      var effectId = ar.getEffectId();
-      return effectId == EffectPool.GUMMIBRAIN
-          || effectId == EffectPool.GUMMIHEART
-          || effectId == EffectPool.GUMMISKIN;
+      return false;
+    }
+
+    public boolean isPinata() {
+      return false;
+    }
+
+    public boolean isWish() {
+      return false;
+    }
+
+    public boolean isTatter() {
+      return false;
     }
 
     public Fact resolve(
@@ -221,6 +227,36 @@ public class FactDatabase {
 
     public AdventureResult getResult() {
       return results.get(0);
+    }
+
+    public boolean isGummi() {
+      var ar = this.getResult();
+      if (!ar.isStatusEffect()) return false;
+      var effectId = ar.getEffectId();
+      return effectId == EffectPool.GUMMIBRAIN
+          || effectId == EffectPool.GUMMIHEART
+          || effectId == EffectPool.GUMMISKIN;
+    }
+
+    public boolean isPinata() {
+      var ar = this.getResult();
+      if (!ar.isStatusEffect()) return false;
+      var effectId = ar.getEffectId();
+      return effectId == EffectPool.SWEET_AND_GREEN
+          || effectId == EffectPool.SWEET_AND_YELLOW
+          || effectId == EffectPool.SWEET_AND_RED;
+    }
+
+    public boolean isWish() {
+      var ar = this.getResult();
+      if (!ar.isStatusEffect()) return false;
+      return ar.getItemId() == ItemPool.POCKET_WISH;
+    }
+
+    public boolean isTatter() {
+      var ar = this.getResult();
+      if (!ar.isStatusEffect()) return false;
+      return ar.getItemId() == ItemPool.SCRAP_OF_PAPER;
     }
 
     @Override
