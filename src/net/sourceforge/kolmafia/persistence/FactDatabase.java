@@ -522,7 +522,8 @@ public class FactDatabase {
 
   public static int calculateSeed(
       final AscensionClass ascensionClass, final Path path, final MonsterData monster) {
-    return (421 * ascensionClass.getId()) + (11 * path.getId()) + monster.getId();
+    var classId = ascensionClass == null ? 0 : ascensionClass.getId();
+    return (421 * classId) + (11 * path.getId()) + monster.getId();
   }
 
   public static Fact getFact(
