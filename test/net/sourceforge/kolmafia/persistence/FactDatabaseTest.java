@@ -42,7 +42,7 @@ class FactDatabaseTest {
     "SEAL_CLUBBER, WILDFIRE, ratbat, EFFECT, Egg-cellent Vocabulary (10)",
     "SEAL_CLUBBER, NONE, Octorok, EFFECT, Egg-stortionary Tactics (10)",
     "PASTAMANCER, NONE, Jacob's adder, EFFECT, Egg-stortionary Tactics (10)",
-    "PASTAMANCER, NONE, Black Crayon Penguin, MEAT, 149"
+    "PASTAMANCER, NONE, Black Crayon Penguin, MEAT, 149 Meat"
   })
   void picksCorrectFact(
       final AscensionClass ascensionClass,
