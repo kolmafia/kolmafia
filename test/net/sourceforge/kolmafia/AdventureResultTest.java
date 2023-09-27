@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class AdventureResultTest {
 
@@ -58,7 +59,7 @@ public class AdventureResultTest {
     @CsvSource({
       "toast (5), " + ItemPool.TOAST + ", 5",
       "toast, " + ItemPool.TOAST + ", 1",
-      "toast (infinite), " + ItemPool.TOAST + ", 0",
+      "filet of tangy gnat (&quot;fotelif&quot;), " + ItemPool.FILET_OF_TANGY_GNAT + ", 1",
     })
     void canParseItem(final String itemString, final int itemId, final int count) {
       var result = AdventureResult.parseItemString(itemString);
@@ -67,9 +68,10 @@ public class AdventureResultTest {
       assertThat(result.getCount(), is(count));
     }
 
-    @Test
-    void cannotParseUnknownItem() {
-      var result = AdventureResult.parseEffectString("troast (5)");
+    @ParameterizedTest
+    @ValueSource(strings = {"toast (infinite)", "troast (5)"})
+    void cannotParseUnknownItem(final String itemString) {
+      var result = AdventureResult.parseItemString(itemString);
       assertThat(result, nullValue());
     }
   }

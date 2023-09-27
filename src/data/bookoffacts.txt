@@ -6,7 +6,7 @@ Beast	Item	long pork
 Bug	Effect	Feeling Excited (15)
 Bug	Effect	Feeling Excited (15)
 Bug	Effect	Industrial Strength Starch (15)
-Bug	Item	filet of tangy gnat ("fotelif")
+Bug	Item	filet of tangy gnat (&quot;fotelif&quot;)
 Constellation	Item	star
 Constellation	Item	alien drugs
 Constellation	Item	star (3)
@@ -48,7 +48,7 @@ Mer-kin	Item	seaweed
 Orc	Item	sleaze powder
 Orc	ConditionalItem	[lt(pref(_bookOfFactsTatters),11)]	tattered scrap of paper
 Orc	Item	bottle of tequila
-Penguin	Item	magical icecubes
+Penguin	Item	magical ice cubes
 Penguin	Stats	10	0	0
 Penguin	Meat	Penguin
 Pirate	Item	bottle of rum

@@ -1528,17 +1528,16 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public static AdventureResult parseItemString(String itemString) {
-    String name;
-    int count;
+    String name = itemString;
+    int count = 1;
     int lparen = itemString.lastIndexOf("(");
     int rparen = itemString.lastIndexOf(")");
-    if (lparen < 0 || rparen < 0) {
-      name = itemString;
-      count = 1;
-    } else {
+    if (lparen >= 0 && rparen >= 0) {
       String countString = itemString.substring(lparen + 1, rparen);
-      name = itemString.substring(0, lparen).trim();
-      count = StringUtilities.isNumeric(countString) ? StringUtilities.parseInt(countString) : 0;
+      if (StringUtilities.isNumeric(countString)) {
+        name = itemString.substring(0, lparen).trim();
+        count = StringUtilities.parseInt(countString);
+      }
     }
     int itemId = ItemDatabase.getItemId(name, 1, false);
     if (itemId < 0) {
