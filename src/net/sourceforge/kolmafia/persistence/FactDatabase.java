@@ -11,12 +11,14 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.Expression;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -174,6 +176,16 @@ public class FactDatabase {
     @Override
     public String toString() {
       return this.value;
+    }
+
+    public boolean isGummi() {
+      if (!(this instanceof AdventureResultFact fact)) return false;
+      var ar = fact.getResult();
+      if (!ar.isStatusEffect()) return false;
+      var effectId = ar.getEffectId();
+      return effectId == EffectPool.GUMMIBRAIN
+          || effectId == EffectPool.GUMMIHEART
+          || effectId == EffectPool.GUMMISKIN;
     }
 
     public Fact resolve(
@@ -487,5 +499,13 @@ public class FactDatabase {
 
     var fact = factPool.get(rng.nextInt(0, factPool.size() - 1));
     return fact.resolve(ascensionClass, path, monster, stateful);
+  }
+
+  public static Fact getFact(final MonsterData monster, final boolean stateful) {
+    return getFact(KoLCharacter.getAscensionClass(), KoLCharacter.getPath(), monster, stateful);
+  }
+
+  public static Fact getFact(final MonsterData monster) {
+    return getFact(monster, true);
   }
 }

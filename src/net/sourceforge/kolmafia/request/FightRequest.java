@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
@@ -7076,6 +7077,14 @@ public class FightRequest extends GenericRequest {
 
     if (str.contains("whip up a quick cheat sheet")) {
       Preferences.increment("_bookOfFactsTatters", 1, 11, false);
+    }
+
+    var fact = FactDatabase.getFact(status.monster, false);
+
+    if (str.contains("actually made of gummy material")) {
+      Preferences.setInteger("bookOfFactsGummi", 1);
+    } else if (fact.isGummi()) {
+      Preferences.increment("bookOfFactsGummi", 1, 4, true);
     }
   }
 

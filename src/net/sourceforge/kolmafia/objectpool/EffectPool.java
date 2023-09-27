@@ -193,6 +193,9 @@ public class EffectPool {
   public static final int BONE_US_ROUND = 941;
   public static final int DIRTY_PEAR = 959;
   public static final int DIS_ABLED = 963;
+  public static final int GUMMIHEART = 970;
+  public static final int GUMMIBRAIN = 971;
+  public static final int GUMMISKIN = 972;
   public static final int JUST_THE_BEST_ANAPESTS = 1003;
   public static final int GLORIOUS_LUNCH = 1005;
   public static final int OVERCONFIDENT = 1011;

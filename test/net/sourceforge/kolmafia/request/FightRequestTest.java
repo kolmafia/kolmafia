@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
@@ -43,6 +44,7 @@ import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -2383,6 +2385,41 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_book_of_facts_tatter.html");
         assertThat("_bookOfFactsTatters", isSetTo(2));
+      }
+    }
+
+    @Test
+    void tracksSuccessfulGummiDrop() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER),
+              withPath(Path.NONE),
+              withNextMonster("fiendish can of asparagus"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("bookOfFactsGummi", 3),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_book_of_facts_gummi_success.html");
+        assertThat("bookOfFactsGummi", isSetTo(1));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "1, 2", "3, 0",
+    })
+    void tracksUnsuccessfulGummiDrop(final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER),
+              withPath(Path.NONE),
+              withNextMonster("fiendish can of asparagus"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("bookOfFactsGummi", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_book_of_facts_gummi_fallback.html");
+        assertThat("bookOfFactsGummi", isSetTo(next));
       }
     }
   }
