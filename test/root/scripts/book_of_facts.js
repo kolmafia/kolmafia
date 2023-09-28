@@ -7,7 +7,7 @@ function item() {
 
     const type = factType(cls, path, monster);
 
-    print(`In KOLHS as a Sauceror, Bushes drops an item: ${type === "item" || type}`);
+    print(`In KOLHS as a Sauceror, Bushes drop an item: ${type === "item" || type}`);
 
     const item = itemFact(cls, path, monster);
     print(`That item is a line: ${item === Item.get("line") || item}`);
@@ -39,7 +39,7 @@ function meat() {
 
     const type = factType(cls, path, monster);
 
-    print(`In Bees Hate You as a Disco Bandit, Mob Penguin Smashers drops meat: ${type === "meat" || type}`);
+    print(`In Bees Hate You as a Disco Bandit, Mob Penguin Smashers drop meat: ${type === "meat" || type}`);
     const count = numericFact(cls, path, monster);
     print(`Specifically 123 meat: ${count === 123 || count}`);
 }
@@ -51,17 +51,42 @@ function allstats() {
 
     const type = factType(cls, path, monster);
 
-    print(`In Way of the Surprising Fist as a Pastamancer, lowercase bs grand stats: ${type === "stats" || type}`);
+    print(`In Way of the Surprising Fist as a Pastamancer, lowercase bs grant stats: ${type === "stats" || type}`);
     const count = numericFact(cls, path, monster);
     print(`Specifically 3 stats: ${count === 3 || count}`);
     const stat = stringFact(cls, path, monster);
-    print(`To all stats that is: ${stat === "all" || stat}`);
+    print(`To all stats, that is: ${stat === "all" || stat}`);
 }
 
-item();
-print("");
-effect();
-print("");
-meat();
-print("");
-allstats();
+function stat() {
+    const cls = Class.get("Sauceror")
+    const path = Path.get("Slow and Steady");
+    const monster = Monster.get("dairy ooze");
+
+    const type = factType(cls, path, monster);
+
+    print(`In Slow and Steady as a Sauceror, dairy oozes grant stats: ${type === "stats" || type}`);
+    const count = numericFact(cls, path, monster);
+    print(`Specifically 3 stats: ${count === 3 || count}`);
+    const stat = stringFact(cls, path, monster);
+    print(`To moxie, that is: ${stat === "moxie" || stat}`);
+}
+
+function itemdrop() {
+    const cls = Class.get("Seal Clubber")
+    const path = Path.get("Live. Ascend. Repeat.");
+    const monster = Monster.get("batrat");
+
+    const type = factType(cls, path, monster);
+
+    print(`In Live. Ascend. Repeat. as a Seal Clubber, batrats grant an in-fight modifier: ${type === "modifier" || type}`);
+    const bonus = stringFact(cls, path, monster);
+    print(`Specifically 25% item drop bonus: ${bonus === "Item Drop: +25" || bonus}`);
+}
+
+[item, effect, meat, allstats, stat, itemdrop].forEach(
+    (fn) => {
+        fn();
+        print("");
+    }
+);
