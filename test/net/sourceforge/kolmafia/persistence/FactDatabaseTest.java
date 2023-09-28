@@ -152,10 +152,10 @@ class FactDatabaseTest {
 
     @ParameterizedTest
     @CsvSource({
-            EffectPool.GUMMIBRAIN + ", true",
-            EffectPool.GUMMIHEART + ", true",
-            EffectPool.GUMMISKIN + ", true",
-            EffectPool.SLEEPY + ", false",
+      EffectPool.GUMMIBRAIN + ", true",
+      EffectPool.GUMMIHEART + ", true",
+      EffectPool.GUMMISKIN + ", true",
+      EffectPool.SLEEPY + ", false",
     })
     void factsGivingGummiEffectsAreGummiFacts(final int effectId, final boolean gummi) {
       var fact = new FactDatabase.AdventureResultFact(FactType.EFFECT, EffectPool.get(effectId));
@@ -164,10 +164,10 @@ class FactDatabaseTest {
 
     @ParameterizedTest
     @CsvSource({
-            EffectPool.SWEET_AND_GREEN + ", true",
-            EffectPool.SWEET_AND_RED + ", true",
-            EffectPool.SWEET_AND_YELLOW + ", true",
-            EffectPool.SLEEPY + ", false",
+      EffectPool.SWEET_AND_GREEN + ", true",
+      EffectPool.SWEET_AND_RED + ", true",
+      EffectPool.SWEET_AND_YELLOW + ", true",
+      EffectPool.SLEEPY + ", false",
     })
     void factsGivingPinataEffectsArePinataFacts(final int effectId, final boolean pinata) {
       var fact = new FactDatabase.AdventureResultFact(FactType.EFFECT, EffectPool.get(effectId));
