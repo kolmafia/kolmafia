@@ -168,6 +168,8 @@ public class Preferences {
         "bondWar",
         "bondWeapon2",
         "bondWpn",
+        "bookOfFactsGummi",
+        "bookOfFactsPinata",
         "boomBoxSong",
         "breathitinCharges",
         "calzoneOfLegendEaten",

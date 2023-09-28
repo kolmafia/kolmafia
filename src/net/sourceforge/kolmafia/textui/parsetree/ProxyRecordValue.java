@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
@@ -1636,6 +1637,8 @@ public class ProxyRecordValue extends RecordValue {
             .add("manuel_name", DataTypes.STRING_TYPE)
             .add("wiki_name", DataTypes.STRING_TYPE)
             .add("attributes", DataTypes.STRING_TYPE)
+            .add("fact_type", DataTypes.STRING_TYPE)
+            .add("fact", DataTypes.STRING_TYPE)
             .finish("monster proxy");
 
     public MonsterProxy(Value obj) {
@@ -1817,6 +1820,18 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_attributes() {
       return this.content != null ? ((MonsterData) this.content).getAttributes() : "";
+    }
+
+    public String get_fact_type() {
+      if (this.content == null) return "";
+      var fact = FactDatabase.getFact((MonsterData) this.content);
+      return fact.getType().toString().toLowerCase();
+    }
+
+    public String get_fact() {
+      if (this.content == null) return "";
+      var fact = FactDatabase.getFact((MonsterData) this.content);
+      return fact.toString();
     }
   }
 

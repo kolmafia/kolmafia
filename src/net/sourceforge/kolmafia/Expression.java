@@ -192,6 +192,11 @@ public class Expression {
         case 'c' -> v = Math.ceil(s[--sp]);
         case 'f' -> v = Math.floor(s[--sp]);
         case 'm' -> v = Math.min(s[--sp], s[--sp]);
+          // args are read in reverse, so the operation is different from what you'd expect
+        case '<' -> v = s[--sp] > s[--sp] ? 1 : 0;
+        case '≤' -> v = s[--sp] >= s[--sp] ? 1 : 0;
+        case '>' -> v = s[--sp] < s[--sp] ? 1 : 0;
+        case '≥' -> v = s[--sp] <= s[--sp] ? 1 : 0;
         case 'p' -> {
           String first = (String) this.literals.get((int) s[--sp]);
           String second = null;
@@ -537,6 +542,20 @@ public class Expression {
     }
   }
 
+  private String unary(char c) {
+    String rv = this.expr();
+    this.expect(")");
+    return rv + c;
+  }
+
+  private String binary(char c) {
+    String rv = this.expr();
+    this.expect(",");
+    rv = rv + this.expr() + c;
+    this.expect(")");
+    return rv;
+  }
+
   private String value() {
     String rv;
     if (this.optional("(")) {
@@ -545,38 +564,34 @@ public class Expression {
       return rv;
     }
     if (this.optional("ceil(")) {
-      rv = this.expr();
-      this.expect(")");
-      return rv + "c";
+      return unary('c');
     }
     if (this.optional("floor(")) {
-      rv = this.expr();
-      this.expect(")");
-      return rv + "f";
+      return unary('f');
     }
     if (this.optional("sqrt(")) {
-      rv = this.expr();
-      this.expect(")");
-      return rv + "s";
+      return unary('s');
     }
     if (this.optional("min(")) {
-      rv = this.expr();
-      this.expect(",");
-      rv = rv + this.expr() + "m";
-      this.expect(")");
-      return rv;
+      return binary('m');
     }
     if (this.optional("max(")) {
-      rv = this.expr();
-      this.expect(",");
-      rv = rv + this.expr() + "x";
-      this.expect(")");
-      return rv;
+      return binary('x');
+    }
+    if (this.optional("gt(")) {
+      return binary('>');
+    }
+    if (this.optional("gte(")) {
+      return binary('≥');
+    }
+    if (this.optional("lt(")) {
+      return binary('<');
+    }
+    if (this.optional("lte(")) {
+      return binary('≤');
     }
     if (this.optional("abs(")) {
-      rv = this.expr();
-      this.expect(")");
-      return rv + "a";
+      return unary('a');
     }
     if (this.optional("pref(")) {
       return this.literal(this.until(")"), 'p');

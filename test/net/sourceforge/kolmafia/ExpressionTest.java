@@ -45,6 +45,18 @@ public class ExpressionTest {
     "floor(5.6), 5",
     "'min(1,2)', 1",
     "'max(1,2)', 2",
+    "'gt(4,5)', 0",
+    "'gt(5,5)', 0",
+    "'gt(5,4)', 1",
+    "'gte(4,5)', 0",
+    "'gte(5,5)', 1",
+    "'gte(5,4)', 1",
+    "'lt(4,5)', 1",
+    "'lt(5,5)', 0",
+    "'lt(5,4)', 0",
+    "'lte(4,5)', 1",
+    "'lte(5,5)', 1",
+    "'lte(5,4)', 0",
     "sqrt(25), 5",
   })
   public void canDoSupportedMathFunctions(String input, String expected) {
