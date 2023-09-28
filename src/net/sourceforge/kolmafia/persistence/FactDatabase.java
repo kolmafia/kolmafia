@@ -369,6 +369,12 @@ public class FactDatabase {
         if (data.length >= 2) {
           var phylum = Phylum.find(data[0]);
 
+          if (phylum == Phylum.NONE && !data[0].equalsIgnoreCase("none")) {
+            RequestLogger.printLine("Invalid phylum: " + data[0]);
+            error = true;
+            continue;
+          }
+
           var type = FactType.find(data[1]);
 
           if (type == null) {
@@ -400,7 +406,7 @@ public class FactDatabase {
     return switch (type) {
       case NONE -> null;
       case EFFECT, ITEM -> {
-        var noValuesError = "Fact for " + data[0] + " stats must specify at least one " + type;
+        var noValuesError = "Fact for " + data[0] + " must specify at least one " + type;
         if (data.length < 3) {
           RequestLogger.printLine(noValuesError);
           yield null;
@@ -450,12 +456,12 @@ public class FactDatabase {
       }
       case STATS -> {
         if (data.length < 4) {
-          RequestLogger.printLine("Fact for " + data[0] + " stats does not have a value and type");
+          RequestLogger.printLine("Fact for " + data[0] + " stats must specify a value and type");
           yield null;
         }
 
         if (!StringUtilities.isNumeric(data[2])) {
-          RequestLogger.printLine("Fact for " + data[0] + " has a bad value");
+          RequestLogger.printLine("Fact for " + data[0] + " stats has a bad value");
           yield null;
         }
 
@@ -464,7 +470,7 @@ public class FactDatabase {
         var stat = data[3].toLowerCase();
 
         if (!data[3].equals("all") && Stat.find(data[3]) == Stat.NONE) {
-          RequestLogger.printLine("Fact for " + data[0] + " has a bad stat type");
+          RequestLogger.printLine("Fact for " + data[0] + " stats has a bad type");
           yield null;
         }
 

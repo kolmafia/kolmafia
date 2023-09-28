@@ -1,24 +1,32 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.blankString;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.StringReader;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.FactDatabase.FactType;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.Mockito;
 
 class FactDatabaseTest {
   @BeforeAll
@@ -27,16 +35,57 @@ class FactDatabaseTest {
     Preferences.reset("FactDatabaseTest");
   }
 
-  @Test
-  void databaseParsesWithNoErrors() {
-    var stream = new ByteArrayOutputStream();
-    try (var out = new PrintStream(stream, true)) {
-      RequestLogger.openCustom(out);
-      FactDatabase.reset();
-      RequestLogger.closeCustom();
+  @Nested
+  class Database {
+    @Test
+    void databaseParsesWithNoErrors() {
+      var stream = new ByteArrayOutputStream();
+      try (var out = new PrintStream(stream, true)) {
+        RequestLogger.openCustom(out);
+        FactDatabase.reset();
+        RequestLogger.closeCustom();
+      }
+      String logged = stream.toString().trim();
+      assertThat(logged, blankString());
     }
-    String logged = stream.toString().trim();
-    assertThat(logged, blankString());
+
+    @ParameterizedTest
+    @CsvSource({
+      // Invalid phylum
+      "Bird\tItem\ttoast, Invalid phylum: Bird",
+      "Orc\tTruth\tGausie is cute, Invalid fact type: Truth",
+      "Fish\tItem, Fact for Fish must specify at least one item",
+      "Fish\tEffect, Fact for Fish must specify at least one effect",
+      "'Dude\tItem\t[pref(somepref,somevalue)]', Fact for Dude must specify at least one item",
+      "Mer-kin\tItem\tnonexistent item of gausie, Fact for Mer-kin specifies an invalid item",
+      "Constellation\tEffect\tnonexistent effect of gausie, Fact for Constellation specifies an invalid effect",
+      "Pirate\tHP, Fact for Pirate must specify a value for hp",
+      "Pirate\tMP, Fact for Pirate must specify a value for mp",
+      "Pirate\tModifier, Fact for Pirate must specify a value for modifier",
+      "Weird\tStats, Fact for Weird stats must specify a value and type",
+      "Undead\tStats\tbork\tmoxie, Fact for Undead stats has a bad value",
+      "Undead\tStats\t3\tmelancholy, Fact for Undead stats has a bad type",
+    })
+    void databaseParserCatchesErrors(final String input, final String error) {
+      var stream = new ByteArrayOutputStream();
+      try (var mock = Mockito.mockStatic(FileUtilities.class, Mockito.CALLS_REAL_METHODS);
+          var out = new PrintStream(stream, true);
+          var cleanups = withContinuationState()) {
+        mock.when(
+                () ->
+                    FileUtilities.getVersionedReader(
+                        "bookoffacts.txt", KoLConstants.BOOKOFFACTS_VERSION))
+            .thenAnswer(invocation -> new BufferedReader(new StringReader(input)));
+        RequestLogger.openCustom(out);
+        FactDatabase.reset();
+        RequestLogger.closeCustom();
+
+        var logged = stream.toString().trim();
+        assertThat(StaticEntity.getContinuationState(), is(KoLConstants.MafiaState.ERROR));
+        assertThat(logged, containsString("Error loading fact database."));
+        assertThat(logged, containsString(error));
+      }
+    }
   }
 
   @ParameterizedTest
@@ -142,6 +191,7 @@ class FactDatabaseTest {
 
   @Nested
   class StatefulFlags {
+    @Test
     void basicFactsDontHaveStatefulFlags() {
       var fact = new FactDatabase.Fact(FactType.NONE, "");
       assertThat(fact.isGummi(), is(false));
