@@ -11,6 +11,7 @@ import static internal.helpers.Maximizer.recommends;
 import static internal.helpers.Maximizer.someBoostIs;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
@@ -33,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import java.time.Month;
 import java.util.Optional;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -96,7 +98,10 @@ public class MaximizerTest {
   public void exactMatchFindsModifier() {
     var cleanups =
         new Cleanups(
-            withEquippableItem("hemlock helm"), withEquippableItem("government-issued slacks"));
+            withEquippableItem("hemlock helm"),
+            withEquippableItem("government-issued slacks"),
+            // Not a muscle day
+            withDay(2023, Month.SEPTEMBER, 27));
 
     try (cleanups) {
       assertTrue(maximize("Muscle Experience Percent, -tie"));
