@@ -13,7 +13,7 @@ Constellation	Item	star (3)
 Constellation	Item	line (3)
 Construct	Item	spring	flange	cog	sprocket	clockwork key
 Construct	Effect	Armor-Plated (20)
-Construct	MP	20%
+Construct	MP	20
 Demon	Item	fire
 Demon	Item	hot powder
 Dude	Item	broken skull	broken skull	smart skull
@@ -38,7 +38,7 @@ Hobo	Item	bottle of vodka
 Hobo	Item	hobo nickel
 Hobo	Stats	3	moxie
 Horror	Item	thin black candle
-Horror	HP	20%
+Horror	HP	20
 Horror	Item	scroll of ancient forbidden unspeakable evil
 Humanoid	Stats	3	muscle
 Humanoid	Item	fine wine
@@ -55,7 +55,7 @@ Pirate	Item	bottle of rum
 Pirate	Stats	3	moxie
 Pirate	Item	eyepatch
 Plant	Item	cherry
-Plant	HP	50%
+Plant	HP	50
 Plant	Stats	1	all
 Slime	Stats	3	all
 Slime	Stats	3	moxie
@@ -64,14 +64,14 @@ Undead	Item	skeleton bone
 Undead	Item	spooky powder
 Undead	Stats	3	mysticality
 Weird	Stats	3	mysticality
-Weird	MP	25%
+Weird	MP	25
 Weird	Item	flaming feather	frozen feather	frightful feather	fetid feather	flirtatious feather
 
 None	Stats	3	muscle
 None	Stats	3	mysticality
 None	Stats	3	moxie
-None	HP	10%
-None	MP	10%
+None	HP	10
+None	MP	10
 None	Modifier	Experience (familiar): +1
 None	Modifier	Item Drop: +25
 None	Heap

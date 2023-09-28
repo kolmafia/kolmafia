@@ -84,7 +84,61 @@ function itemdrop() {
     print(`Specifically 25% item drop bonus: ${bonus === "Item Drop: +25" || bonus}`);
 }
 
-[item, effect, meat, allstats, stat, itemdrop].forEach(
+function hp() {
+    const cls = Class.get("Seal Clubber")
+    const path = Path.get("None");
+    const monster = Monster.get("angry mushroom guy");
+
+    const type = factType(cls, path, monster);
+
+    print(`In Unrestricted as a Seal Clubber, angry mushroom guys restore HP: ${type === "hp" || type}`);
+    const bonus = numericFact(cls, path, monster);
+    print(`Specifically 50% HP: ${bonus === 50 || bonus}`);
+}
+
+function mp() {
+   const cls = Class.get("Seal Clubber")
+    const path = Path.get("None");
+    const monster = Monster.get("strong wind");
+
+    const type = factType(cls, path, monster);
+
+    print(`In Unrestricted as a Seal Clubber, strong winds restore MP: ${type === "mp" || type}`);
+    const bonus = numericFact(cls, path, monster);
+    print(`Specifically 25% MP: ${bonus === 25 || bonus}`);
+}
+
+function itemFromNonItemFact() {
+    const cls = Class.get("Sauceror")
+    const path = Path.get("Slow and Steady");
+    const monster = Monster.get("dairy ooze");
+
+    const item = itemFact(cls, path, monster);
+
+    print(`Accessing an item fact from a non-item type fact returns Item.none: ${item === Item.none || item}`);
+}
+
+function effectFromNonEffectFact() {
+    const cls = Class.get("Sauceror")
+    const path = Path.get("Slow and Steady");
+    const monster = Monster.get("dairy ooze");
+
+    const effect = effectFact(cls, path, monster);
+
+    print(`Accessing an effect fact from a non-effect type fact returns Effect.none: ${effect === Effect.none || effect}`);
+}
+
+function numberFromNonNumericFact() {
+    const cls = Class.get("Seal Clubber")
+    const path = Path.get("Live. Ascend. Repeat.");
+    const monster = Monster.get("batrat");
+
+    const num = numericFact(cls, path, monster);
+
+    print(`Accessing a number from a non-numeric fact returns 0: ${num === 0 || num}`);
+}
+
+[item, effect, meat, allstats, stat, itemdrop, hp, mp, itemFromNonItemFact, effectFromNonEffectFact, numberFromNonNumericFact].forEach(
     (fn) => {
         fn();
         print("");

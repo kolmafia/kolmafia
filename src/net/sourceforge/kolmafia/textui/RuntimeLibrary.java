@@ -10382,8 +10382,7 @@ public abstract class RuntimeLibrary {
     }
 
     if (f.getType() == FactDatabase.FactType.HP || f.getType() == FactDatabase.FactType.MP) {
-      var percentage = f.getValue();
-      return new Value(StringUtilities.parseInt(percentage.substring(0, percentage.length() - 2)));
+      return new Value(StringUtilities.parseInt(f.getValue()));
     }
 
     return DataTypes.INT_INIT;

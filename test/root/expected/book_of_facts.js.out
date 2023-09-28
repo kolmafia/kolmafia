@@ -19,3 +19,15 @@ To moxie, that is: true
 
 In Live. Ascend. Repeat. as a Seal Clubber, batrats grant an in-fight modifier: true
 Specifically 25% item drop bonus: true
+
+In Unrestricted as a Seal Clubber, angry mushroom guys restore HP: true
+Specifically 50% HP: true
+
+In Unrestricted as a Seal Clubber, strong winds restore MP: true
+Specifically 25% MP: true
+
+Accessing an item fact from a non-item type fact returns Item.none: true
+
+Accessing an effect fact from a non-effect type fact returns Effect.none: true
+
+Accessing a number from a non-numeric fact returns 0: true
