@@ -10400,9 +10400,7 @@ public abstract class RuntimeLibrary {
             false);
 
     if (f instanceof FactDatabase.StatsFact fact) {
-      var stat = fact.getStat();
-      var str = (stat == Stat.NONE ? "all" : stat.toString());
-      return new Value(str);
+      return new Value(fact.getStat());
     }
 
     return new Value(f.toString());

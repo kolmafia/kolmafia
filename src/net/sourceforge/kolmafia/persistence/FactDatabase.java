@@ -340,18 +340,18 @@ public class FactDatabase {
 
   public static class StatsFact extends Fact {
     private final int statValue;
-    private final Stat stat;
+    private final String stat;
 
-    StatsFact(final Stat stat, final int value) {
+    StatsFact(final String stat, final int value) {
       super(
           FactType.STATS,
-          "+" + value + " " + (stat == Stat.NONE ? "all stats" : stat.toString().toLowerCase()));
+          "+" + value + " " + stat);
 
       this.stat = stat;
       this.statValue = value;
     }
 
-    public Stat getStat() {
+    public String getStat() {
       return stat;
     }
 
@@ -466,9 +466,9 @@ public class FactDatabase {
 
         var value = StringUtilities.parseInt(data[2]);
 
-        var stat = Stat.find(data[3]);
+        var stat = data[3].toLowerCase();
 
-        if (stat == Stat.NONE && !data[3].equalsIgnoreCase("all")) {
+        if (!data[3].equals("all") && Stat.find(data[3]) == Stat.NONE) {
           RequestLogger.printLine("Fact for " + data[0] + " has a bad stat type");
           yield null;
         }
