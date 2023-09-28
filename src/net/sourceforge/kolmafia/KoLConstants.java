@@ -301,6 +301,13 @@ public interface KoLConstants extends UtilityConstants {
     SUBMOXIE("SubMoxie"),
     NONE("None");
 
+    public static Stat find(final String name) {
+      return Arrays.stream(values())
+          .filter(s -> s.toString().equalsIgnoreCase(name))
+          .findFirst()
+          .orElse(Stat.NONE);
+    }
+
     private final String name;
 
     Stat(String name) {

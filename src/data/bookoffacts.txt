@@ -21,9 +21,9 @@ Dude	Item	gob of wet hair
 Dude	Effect	Feeling Excited (15)
 Elemental	Item	cold powder
 Elemental	Item	twinkly nuggets
-Elemental	Stats	1	1	1
+Elemental	Stats	1	all
 Elf	Item	candy cane
-Elf	Stats	0	0	10
+Elf	Stats	10	moxie
 Elf	Item	bottle of whiskey
 Fish	Effect	Fishy (10)
 Fish	Item	beefy fish meat	glistening fish meat	slick fish meat
@@ -36,40 +36,40 @@ Hippy	Item	stench powder
 Hippy	Item	pretty flower
 Hobo	Item	bottle of vodka
 Hobo	Item	hobo nickel
-Hobo	Stats	0	0	3
+Hobo	Stats	3	moxie
 Horror	Item	thin black candle
 Horror	HP	20%
 Horror	Item	scroll of ancient forbidden unspeakable evil
-Humanoid	Stats	3	0	0
+Humanoid	Stats	3	muscle
 Humanoid	Item	fine wine
-Mer-kin	Stats	0	3	0
+Mer-kin	Stats	3	mysticality
 Mer-kin	Item	beefy fish meat	glistening fish meat	slick fish meat
 Mer-kin	Item	seaweed
 Orc	Item	sleaze powder
 Orc	Item	[lt(pref(_bookOfFactsTatters),11)]	tattered scrap of paper
 Orc	Item	bottle of tequila
 Penguin	Item	magical ice cubes
-Penguin	Stats	10	0	0
+Penguin	Stats	10	muscle
 Penguin	Meat	Penguin
 Pirate	Item	bottle of rum
-Pirate	Stats	0	0	3
+Pirate	Stats	3	moxie
 Pirate	Item	eyepatch
 Plant	Item	cherry
 Plant	HP	50%
-Plant	Stats	1	1	1
-Slime	Stats	3	3	3
-Slime	Stats	0	0	3
+Plant	Stats	1	all
+Slime	Stats	3	all
+Slime	Stats	3	moxie
 Slime	Effect	Slimed (20)
 Undead	Item	skeleton bone
 Undead	Item	spooky powder
-Undead	Stats	0	3	0
-Weird	Stats	0	3	0
+Undead	Stats	3	mysticality
+Weird	Stats	3	mysticality
 Weird	MP	25%
 Weird	Item	flaming feather	frozen feather	frightful feather	fetid feather	flirtatious feather
 
-None	Stats	3	0	0
-None	Stats	0	3	0
-None	Stats	0	0	3
+None	Stats	3	muscle
+None	Stats	3	mysticality
+None	Stats	3	moxie
 None	HP	10%
 None	MP	10%
 None	Modifier	Experience (familiar): +1

@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.Expression;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -337,44 +338,25 @@ public class FactDatabase {
     }
   }
 
-  private static class StatsFact extends Fact {
-    private final int muscle;
-    private final int mysticality;
-    private final int moxie;
+  public static class StatsFact extends Fact {
+    private final int statValue;
+    private final Stat stat;
 
-    static String toString(int muscle, int mysticality, int moxie) {
-      if (muscle == mysticality && mysticality == moxie) {
-        return "+" + muscle + " all stats";
-      }
+    StatsFact(final Stat stat, final int value) {
+      super(
+          FactType.STATS,
+          "+" + value + " " + (stat == Stat.NONE ? "all stats" : stat.toString().toLowerCase()));
 
-      if (muscle > 0) {
-        return "+" + muscle + " muscle";
-      }
-
-      if (mysticality > 0) {
-        return "+" + mysticality + " mysticality";
-      }
-
-      return "+" + moxie + " moxie";
+      this.stat = stat;
+      this.statValue = value;
     }
 
-    StatsFact(int muscle, int mysticality, int moxie) {
-      super(FactType.STATS, StatsFact.toString(muscle, mysticality, moxie));
-      this.muscle = muscle;
-      this.mysticality = mysticality;
-      this.moxie = moxie;
+    public Stat getStat() {
+      return stat;
     }
 
-    public int getMuscle() {
-      return this.muscle;
-    }
-
-    public int getMysticality() {
-      return this.mysticality;
-    }
-
-    public int getMoxie() {
-      return this.moxie;
+    public int getStatValue() {
+      return statValue;
     }
   }
 
@@ -472,23 +454,26 @@ public class FactDatabase {
         yield new Fact(type, data[2]);
       }
       case STATS -> {
-        if (data.length < 5) {
-          RequestLogger.printLine(
-              "Fact for " + data[0] + " stats does not have muscle, mysticality, and moxie");
-          yield null;
-        }
-        var stats =
-            Arrays.stream(data)
-                .skip(2)
-                .map(d -> StringUtilities.isNumeric(d) ? StringUtilities.parseInt(d) : null)
-                .toList();
-
-        if (stats.contains(null)) {
-          RequestLogger.printLine("Fact for " + data[0] + " has a bad stats value");
+        if (data.length < 4) {
+          RequestLogger.printLine("Fact for " + data[0] + " stats does not have a value and type");
           yield null;
         }
 
-        yield new StatsFact(stats.get(0), stats.get(1), stats.get(2));
+        if (!StringUtilities.isNumeric(data[2])) {
+          RequestLogger.printLine("Fact for " + data[0] + " has a bad value");
+          yield null;
+        }
+
+        var value = StringUtilities.parseInt(data[2]);
+
+        var stat = Stat.find(data[3]);
+
+        if (stat == Stat.NONE && !data[3].equalsIgnoreCase("all")) {
+          RequestLogger.printLine("Fact for " + data[0] + " has a bad stat type");
+          yield null;
+        }
+
+        yield new StatsFact(stat, value);
       }
     };
   }

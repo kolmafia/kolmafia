@@ -1,4 +1,4 @@
-const { factType, print, itemFact, numericFact, effectFact } = require('kolmafia');
+const { factType, print, itemFact, numericFact, effectFact, stringFact } = require('kolmafia');
 
 function item() {
     const cls = Class.get("Sauceror")
@@ -44,6 +44,24 @@ function meat() {
     print(`Specifically 123 meat: ${count === 123 || count}`);
 }
 
+function allstats() {
+    const cls = Class.get("Pastamancer")
+    const path = Path.get("Way of the Surprising Fist");
+    const monster = Monster.get("lowercase b");
+
+    const type = factType(cls, path, monster);
+
+    print(`In Way of the Surprising Fist as a Pastamancer, lowercase bs grand stats: ${type === "stats" || type}`);
+    const count = numericFact(cls, path, monster);
+    print(`Specifically 3 stats: ${count === 3 || count}`);
+    const stat = stringFact(cls, path, monster);
+    print(`To all stats that is: ${stat === "all" || stat}`);
+}
+
 item();
+print("");
 effect();
+print("");
 meat();
+print("");
+allstats();

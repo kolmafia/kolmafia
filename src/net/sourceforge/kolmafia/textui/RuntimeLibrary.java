@@ -2946,6 +2946,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("numeric_fact", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("string_fact", DataTypes.STRING_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -10374,6 +10377,34 @@ public abstract class RuntimeLibrary {
       return new Value(fact.getResult().getCount());
     }
 
+    if (f instanceof FactDatabase.StatsFact fact) {
+      return new Value(fact.getStatValue());
+    }
+
+    if (f.getType() == FactDatabase.FactType.HP || f.getType() == FactDatabase.FactType.MP) {
+      var percentage = f.getValue();
+      return new Value(StringUtilities.parseInt(percentage.substring(0, percentage.length() - 2)));
+    }
+
     return DataTypes.INT_INIT;
+  }
+
+  public static Value string_fact(
+      ScriptRuntime controller, final Value cls, final Value path, final Value monster) {
+    if (cls.content == null) return DataTypes.STRING_INIT;
+    var f =
+        FactDatabase.getFact(
+            (AscensionClass) cls.content,
+            (Path) path.content,
+            (MonsterData) monster.content,
+            false);
+
+    if (f instanceof FactDatabase.StatsFact fact) {
+      var stat = fact.getStat();
+      var str = (stat == Stat.NONE ? "all" : stat.toString());
+      return new Value(str);
+    }
+
+    return new Value(f.toString());
   }
 }
