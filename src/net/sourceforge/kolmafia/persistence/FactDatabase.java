@@ -321,11 +321,6 @@ public class FactDatabase {
     }
 
     @Override
-    public String toString() {
-      return "an item from The Heap";
-    }
-
-    @Override
     public Fact resolve(
         final AscensionClass ascensionClass,
         final Path path,

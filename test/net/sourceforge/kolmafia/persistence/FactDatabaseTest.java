@@ -11,9 +11,11 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.FactDatabase.FactType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -42,7 +44,8 @@ class FactDatabaseTest {
     "SEAL_CLUBBER, WILDFIRE, ratbat, EFFECT, Egg-cellent Vocabulary (10)",
     "SEAL_CLUBBER, NONE, Octorok, EFFECT, Egg-stortionary Tactics (10)",
     "PASTAMANCER, NONE, Jacob's adder, EFFECT, Egg-stortionary Tactics (10)",
-    "PASTAMANCER, NONE, Black Crayon Penguin, MEAT, 149 Meat"
+    "PASTAMANCER, NONE, Black Crayon Penguin, MEAT, 149 Meat",
+    "DISCO_BANDIT, SMALL, Bob Racecar, EFFECT, Feeling Excited (15)"
   })
   void picksCorrectFact(
       final AscensionClass ascensionClass,
@@ -134,6 +137,41 @@ class FactDatabaseTest {
       } else {
         assertThat(fact.getType(), is(FactType.NONE));
       }
+    }
+  }
+
+  @Nested
+  class StatefulFlags {
+    void basicFactsDontHaveStatefulFlags() {
+      var fact = new FactDatabase.Fact(FactType.NONE, "");
+      assertThat(fact.isGummi(), is(false));
+      assertThat(fact.isPinata(), is(false));
+      assertThat(fact.isWish(), is(false));
+      assertThat(fact.isTatter(), is(false));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            EffectPool.GUMMIBRAIN + ", true",
+            EffectPool.GUMMIHEART + ", true",
+            EffectPool.GUMMISKIN + ", true",
+            EffectPool.SLEEPY + ", false",
+    })
+    void factsGivingGummiEffectsAreGummiFacts(final int effectId, final boolean gummi) {
+      var fact = new FactDatabase.AdventureResultFact(FactType.EFFECT, EffectPool.get(effectId));
+      assertThat(fact.isGummi(), is(gummi));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            EffectPool.SWEET_AND_GREEN + ", true",
+            EffectPool.SWEET_AND_RED + ", true",
+            EffectPool.SWEET_AND_YELLOW + ", true",
+            EffectPool.SLEEPY + ", false",
+    })
+    void factsGivingPinataEffectsArePinataFacts(final int effectId, final boolean pinata) {
+      var fact = new FactDatabase.AdventureResultFact(FactType.EFFECT, EffectPool.get(effectId));
+      assertThat(fact.isPinata(), is(pinata));
     }
   }
 }
