@@ -28,7 +28,7 @@ import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FactDatabase {
-  private static final List<String> HEAP_ITEMS =
+  protected static final List<String> HEAP_ITEMS =
       List.of(
           "big rock",
           "pretty flower",

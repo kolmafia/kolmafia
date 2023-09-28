@@ -5,6 +5,7 @@ import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.blankString;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 
 import java.io.BufferedReader;
@@ -18,6 +19,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FactDatabase.FactType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -85,6 +87,16 @@ class FactDatabaseTest {
         assertThat(logged, containsString("Error loading fact database."));
         assertThat(logged, containsString(error));
       }
+    }
+
+    @Test
+    void heapItemsAreValid() {
+      var invalidItems =
+          FactDatabase.HEAP_ITEMS.stream()
+              .map(name -> ItemPool.get(name, 1))
+              .filter(a -> a.getItemId() == -1)
+              .toList();
+      assertThat(invalidItems, empty());
     }
   }
 
