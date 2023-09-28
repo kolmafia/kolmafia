@@ -10318,7 +10318,7 @@ public abstract class RuntimeLibrary {
             (Path) path.content,
             (MonsterData) monster.content,
             false);
-    return new Value(fact.getType().toString().toLowerCase());
+    return new Value(fact.getType().toString());
   }
 
   public static Value effect_fact(

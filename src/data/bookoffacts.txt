@@ -74,7 +74,7 @@ None	HP	10
 None	MP	10
 None	Modifier	Experience (familiar): +1
 None	Modifier	Item Drop: +25
-None	Heap
+None	Item	HEAP
 None	Effect	Antiantifrozen (10)
 None	Effect	Shamed (10)
 None	Effect	Disabled Olfactory Processing (10)

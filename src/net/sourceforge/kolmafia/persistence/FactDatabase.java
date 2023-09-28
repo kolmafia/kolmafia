@@ -136,7 +136,6 @@ public class FactDatabase {
     NONE,
     EFFECT,
     ITEM,
-    HEAP,
     STATS,
     HP,
     MP,
@@ -145,12 +144,12 @@ public class FactDatabase {
 
     @Override
     public String toString() {
-      return this.name();
+      return this.name().toLowerCase();
     }
 
     static FactType find(final String name) {
       return Arrays.stream(FactType.values())
-          .filter(f -> f.name().equalsIgnoreCase(name))
+          .filter(f -> f.toString().equalsIgnoreCase(name))
           .findFirst()
           .orElse(null);
     }
@@ -204,15 +203,31 @@ public class FactDatabase {
   }
 
   public static class AdventureResultFact extends Fact {
+    static AdventureResultFact heap() {
+      return new AdventureResultFact(
+          FactType.ITEM, HEAP_ITEMS.stream().map(name -> ItemPool.get(name, 1)).toList(), true);
+    }
+
     protected List<AdventureResult> results;
     private final String condition;
+    private final boolean isHeap;
 
-    AdventureResultFact(FactType type, List<AdventureResult> results, String condition) {
+    AdventureResultFact(
+        FactType type, List<AdventureResult> results, String condition, final boolean heap) {
       super(
           type,
           results.stream().map(AdventureResult::toString).collect(Collectors.joining(" or ")));
       this.condition = condition;
       this.results = results;
+      this.isHeap = heap;
+    }
+
+    AdventureResultFact(FactType type, List<AdventureResult> results, String condition) {
+      this(type, results, condition, false);
+    }
+
+    AdventureResultFact(FactType type, List<AdventureResult> results, boolean heap) {
+      this(type, results, null, heap);
     }
 
     AdventureResultFact(FactType type, List<AdventureResult> results) {
@@ -272,7 +287,8 @@ public class FactDatabase {
         final MonsterData monster,
         final boolean stateful) {
       if (stateful && condition != null && !evaluateCondition()) return new Fact(FactType.NONE, "");
-      var seed = calculateSeed(ascensionClass, path, monster) + 13L;
+      var seedMod = isHeap ? 11L : 13L;
+      var seed = calculateSeed(ascensionClass, path, monster) + seedMod;
       var rng = new PHPMTRandom(seed);
       return new AdventureResultFact(
           this.getType(), results.get(rng.nextInt(0, results.size() - 1)));
@@ -312,24 +328,6 @@ public class FactDatabase {
         resolvedMeat = rng.nextInt(0, 50) + 100;
       }
       return new MeatFact(resolvedMeat, baseMeat);
-    }
-  }
-
-  private static class HeapFact extends AdventureResultFact {
-    HeapFact() {
-      super(FactType.HEAP, HEAP_ITEMS.stream().map(name -> ItemPool.get(name, 1)).toList());
-    }
-
-    @Override
-    public Fact resolve(
-        final AscensionClass ascensionClass,
-        final Path path,
-        final MonsterData monster,
-        final boolean stateful) {
-      var seed = calculateSeed(ascensionClass, path, monster) + 11L;
-      var rng = new PHPMTRandom(seed);
-      return new AdventureResultFact(
-          FactType.ITEM, results.get(rng.nextInt(0, results.size() - 1)));
     }
   }
 
@@ -408,8 +406,13 @@ public class FactDatabase {
           yield null;
         }
 
-        String condition = null;
         var thirdPart = data[2];
+
+        if (thirdPart.equals("HEAP")) {
+          yield AdventureResultFact.heap();
+        }
+
+        String condition = null;
         if (thirdPart.startsWith("[") && thirdPart.endsWith("]")) {
           // Has a condition
           condition = thirdPart;
@@ -438,7 +441,6 @@ public class FactDatabase {
         yield new AdventureResultFact(type, results, condition);
       }
       case MEAT -> new MeatFact(data.length >= 3 && data[2].equals("Base"));
-      case HEAP -> new HeapFact();
       case HP, MP, MODIFIER -> {
         if (data.length < 3) {
           RequestLogger.printLine("Fact for " + data[0] + " must specify a value for " + type);
