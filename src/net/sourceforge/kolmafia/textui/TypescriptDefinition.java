@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.modifiers.ModifierValueType;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
+import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.textui.command.JsRefCommand;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -112,11 +113,13 @@ public class TypescriptDefinition {
   }
 
   private static String getReturnType(Function f) {
-    if (f.getName().equals("abort")) {
-      return "never";
-    }
-
-    return getType(f.getType());
+    return switch (f.getName()) {
+      case "abort" -> "never";
+      case "fact_type" -> Arrays.stream(FactDatabase.FactType.values())
+          .map(v -> "\"" + v.toString() + "\"")
+          .collect(Collectors.joining(" | "));
+      default -> getType(f.getType());
+    };
   }
 
   public static String formatFunction(LibraryFunction f) {
