@@ -1238,7 +1238,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class BookOfFacts {
     @ParameterizedTest
     @CsvSource({
-      "ACCORDION_THIEF, CRAZY_RANDOM_SUMMER, topiary golem, stats, +1 all stats",
+      "ACCORDION_THIEF, CRAZY_RANDOM_SUMMER, topiary golem, stats, +1 all",
       "TURTLE_TAMER, OXYGENARIAN, Blooper, meat, 10 Meat",
       "PASTAMANCER, COMMUNITY_SERVICE, bookbat, modifier, Experience (familiar): +1",
       "SEAL_CLUBBER, KINGDOM_OF_EXPLOATHING, Jefferson pilot, item, foon"
