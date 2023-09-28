@@ -343,9 +343,7 @@ public class FactDatabase {
     private final String stat;
 
     StatsFact(final String stat, final int value) {
-      super(
-          FactType.STATS,
-          "+" + value + " " + stat);
+      super(FactType.STATS, "+" + value + " " + stat);
 
       this.stat = stat;
       this.statValue = value;
