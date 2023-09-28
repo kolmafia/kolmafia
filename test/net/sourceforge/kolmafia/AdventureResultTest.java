@@ -37,7 +37,7 @@ public class AdventureResultTest {
     @CsvSource({
       "Sleepy (5), " + EffectPool.SLEEPY + ", 5",
       "Sleepy, " + EffectPool.SLEEPY + ", 0",
-      "Sleepy (forever), " + EffectPool.SLEEPY + ", 0",
+      "Educated (Kinda), " + EffectPool.EDUCATED_KINDA + ", 0",
     })
     void canParseEffect(final String effectString, final int effectId, final int count) {
       var result = AdventureResult.parseEffectString(effectString);
@@ -48,7 +48,7 @@ public class AdventureResultTest {
 
     @Test
     void cannotParseUnknownEffect() {
-      var result = AdventureResult.parseEffectString("Peepy (5)");
+      var result = AdventureResult.parseEffectString("Peepy (5), Sleepy (forever)");
       assertThat(result, nullValue());
     }
   }

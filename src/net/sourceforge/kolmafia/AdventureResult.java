@@ -1507,18 +1507,16 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public static AdventureResult parseEffectString(String effectString) {
-    String name;
-    int duration;
+    String name = effectString;
+    int duration = 0;
     int lparen = effectString.lastIndexOf("(");
     int rparen = effectString.lastIndexOf(")");
-    if (lparen < 0 || rparen < 0) {
-      name = effectString;
-      duration = 0;
-    } else {
+    if (lparen >= 0 && rparen >= 0) {
       String durationString = effectString.substring(lparen + 1, rparen);
-      name = effectString.substring(0, lparen).trim();
-      duration =
-          StringUtilities.isNumeric(durationString) ? StringUtilities.parseInt(durationString) : 0;
+      if (StringUtilities.isNumeric(durationString)) {
+        name = effectString.substring(0, lparen).trim();
+        duration = StringUtilities.parseInt(durationString);
+      }
     }
     int effectId = EffectDatabase.getEffectId(name, true);
     if (effectId < 0) {
