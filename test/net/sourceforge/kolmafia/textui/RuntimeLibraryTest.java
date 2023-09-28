@@ -1243,7 +1243,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       "PASTAMANCER, COMMUNITY_SERVICE, bookbat, modifier, Experience (familiar): +1",
       "SEAL_CLUBBER, KINGDOM_OF_EXPLOATHING, Jefferson pilot, item, foon"
     })
-    void exposesFactAndFactType(
+    void exposesFactAndFactTypeInMonsterProxy(
         final AscensionClass ascensionClass,
         final Path path,
         final String monsterName,
@@ -1263,7 +1263,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       "1, item, ' pocket wish'",
       "3, none, ''",
     })
-    void factIsStateful(final int wishes, final String factType, final String fact) {
+    void factIsStatefulInMonsterProxy(final int wishes, final String factType, final String fact) {
       final var cleanups =
           new Cleanups(
               withClass(AscensionClass.DISCO_BANDIT),
@@ -1274,6 +1274,23 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         assertThat(actualFactType, equalTo("Returned: " + factType + "\n"));
         String actualFact = execute("$monster[triffid].fact");
         assertThat(actualFact, equalTo("Returned:" + fact + "\n"));
+      }
+    }
+
+    @Test
+    void factIsNotStatefulInFunction() {
+      final var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.DISCO_BANDIT),
+              withPath(Path.THE_SOURCE),
+              withProperty("_bookOfFactsWishes", 3));
+      try (cleanups) {
+        String actualFactType =
+            execute("fact_type($class[Disco Bandit], $path[The Source], $monster[triffid])");
+        assertThat(actualFactType, equalTo("Returned: item\n"));
+        String actualFact =
+            execute("item_fact($class[Disco Bandit], $path[The Source], $monster[triffid]).name");
+        assertThat(actualFact, equalTo("Returned: pocket wish\n"));
       }
     }
   }
