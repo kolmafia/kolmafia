@@ -124,7 +124,7 @@ public class FactDatabase {
           "old leather wallet",
           "old coin purse",
           "gob of wet hair",
-          "rock",
+          "[2108]rock",
           "stringy sinew",
           "stick",
           "tooth",
