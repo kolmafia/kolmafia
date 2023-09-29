@@ -2468,6 +2468,22 @@ public class FightRequestTest {
         assertThat("bookOfFactsPinata", isSetTo(next));
       }
     }
+
+    @Test
+    void circadianRhythmsDoesNotBreakWishTracking() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.TURTLE_TAMER),
+              withPath(Path.NONE),
+              withNextMonster("Furry Giant"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsWishes", 1),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_book_of_facts_rhythms_and_wish.html");
+        assertThat("_bookOfFactsWishes", isSetTo(2));
+      }
+    }
   }
 
   @Nested
