@@ -750,6 +750,7 @@ public class ItemPool {
   public static final int CRUELTY_FREE_WINE = 2521;
   public static final int THISTLE_WINE = 2522;
   public static final int FISHY_FISH_LASAGNA = 2527;
+  public static final int FILET_OF_TANGY_GNAT = 2528;
   public static final int GNAT_LASAGNA = 2531;
   public static final int LONG_PORK_LASAGNA = 2535;
   public static final int TOMB_RATCHET = 2540;

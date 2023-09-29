@@ -101,6 +101,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
@@ -2933,6 +2934,21 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("ping", pingTestRec, params));
+
+    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("fact_type", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("item_fact", DataTypes.ITEM_TYPE, params));
+
+    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("effect_fact", DataTypes.EFFECT_TYPE, params));
+
+    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("numeric_fact", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("string_fact", DataTypes.STRING_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -10291,5 +10307,101 @@ public abstract class RuntimeLibrary {
     rec.aset(7, DataTypes.makeIntValue(Math.round(result.getBPS())), interpreter);
 
     return rec;
+  }
+
+  public static Value fact_type(
+      ScriptRuntime controller, final Value cls, final Value path, final Value monster) {
+    if (cls.content == null) return DataTypes.STRING_INIT;
+    var fact =
+        FactDatabase.getFact(
+            (AscensionClass) cls.content,
+            (Path) path.content,
+            (MonsterData) monster.content,
+            false);
+    return new Value(fact.getType().toString());
+  }
+
+  public static Value effect_fact(
+      ScriptRuntime controller, final Value cls, final Value path, final Value monster) {
+    if (cls.content == null) return DataTypes.EFFECT_INIT;
+    var f =
+        FactDatabase.getFact(
+            (AscensionClass) cls.content,
+            (Path) path.content,
+            (MonsterData) monster.content,
+            false);
+
+    if (!(f instanceof FactDatabase.AdventureResultFact fact)) {
+      return DataTypes.EFFECT_INIT;
+    }
+
+    var result = fact.getResult();
+
+    return DataTypes.makeEffectValue(result.getEffectId(), true);
+  }
+
+  public static Value item_fact(
+      ScriptRuntime controller, final Value cls, final Value path, final Value monster) {
+    if (cls.content == null) return DataTypes.ITEM_INIT;
+    var f =
+        FactDatabase.getFact(
+            (AscensionClass) cls.content,
+            (Path) path.content,
+            (MonsterData) monster.content,
+            false);
+
+    if (!(f instanceof FactDatabase.AdventureResultFact fact)) {
+      return DataTypes.ITEM_INIT;
+    }
+
+    var result = fact.getResult();
+
+    return DataTypes.makeItemValue(result.getItemId(), true);
+  }
+
+  public static Value numeric_fact(
+      ScriptRuntime controller, final Value cls, final Value path, final Value monster) {
+    if (cls.content == null) return DataTypes.INT_INIT;
+    var f =
+        FactDatabase.getFact(
+            (AscensionClass) cls.content,
+            (Path) path.content,
+            (MonsterData) monster.content,
+            false);
+
+    if (f instanceof FactDatabase.MeatFact fact) {
+      return new Value(fact.getMeat());
+    }
+
+    if (f instanceof FactDatabase.AdventureResultFact fact) {
+      return new Value(fact.getResult().getCount());
+    }
+
+    if (f instanceof FactDatabase.StatsFact fact) {
+      return new Value(fact.getStatValue());
+    }
+
+    if (f.getType() == FactDatabase.FactType.HP || f.getType() == FactDatabase.FactType.MP) {
+      return new Value(StringUtilities.parseInt(f.getValue()));
+    }
+
+    return DataTypes.INT_INIT;
+  }
+
+  public static Value string_fact(
+      ScriptRuntime controller, final Value cls, final Value path, final Value monster) {
+    if (cls.content == null) return DataTypes.STRING_INIT;
+    var f =
+        FactDatabase.getFact(
+            (AscensionClass) cls.content,
+            (Path) path.content,
+            (MonsterData) monster.content,
+            false);
+
+    if (f instanceof FactDatabase.StatsFact fact) {
+      return new Value(fact.getStat());
+    }
+
+    return new Value(f.toString());
   }
 }

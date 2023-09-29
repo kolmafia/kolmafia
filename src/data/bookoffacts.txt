@@ -1,0 +1,90 @@
+1
+# Phylum	EFFECT (DURATION) [, EFFECT (DURATION)]
+Beast	Effect	Eggs-tra Sensory Perception (10)	Egg-stortionary Tactics (10)	Egg-stra Arm (10)	Egg-headedness (10)	Egg-cellent Vocabulary (10)
+Beast	Item	displaced fish
+Beast	Item	long pork
+Bug	Effect	Feeling Excited (15)
+Bug	Effect	Feeling Excited (15)
+Bug	Effect	Industrial Strength Starch (15)
+Bug	Item	filet of tangy gnat (&quot;fotelif&quot;)
+Constellation	Item	star
+Constellation	Item	alien drugs
+Constellation	Item	star (3)
+Constellation	Item	line (3)
+Construct	Item	spring	flange	cog	sprocket	clockwork key
+Construct	Effect	Armor-Plated (20)
+Construct	MP	20
+Demon	Item	fire
+Demon	Item	hot powder
+Dude	Item	broken skull	broken skull	smart skull
+Dude	Item	gob of wet hair
+Dude	Effect	Feeling Excited (15)
+Elemental	Item	cold powder
+Elemental	Item	twinkly nuggets
+Elemental	Stats	1	all
+Elf	Item	candy cane
+Elf	Stats	10	moxie
+Elf	Item	bottle of whiskey
+Fish	Effect	Fishy (10)
+Fish	Item	beefy fish meat	glistening fish meat	slick fish meat
+Fish	Item	dull fish scale (3)
+Goblin	Item	Knob mushroom
+Goblin	Item	bowl of cottage cheese
+Goblin	Item	Cobb's Knob Wurstbrau
+Hippy	Item	orange	grapes	tomato	strawberry	grapefruit	olive	lemon
+Hippy	Item	stench powder
+Hippy	Item	pretty flower
+Hobo	Item	bottle of vodka
+Hobo	Item	hobo nickel
+Hobo	Stats	3	moxie
+Horror	Item	thin black candle
+Horror	HP	20
+Horror	Item	scroll of ancient forbidden unspeakable evil
+Humanoid	Stats	3	muscle
+Humanoid	Item	fine wine
+Mer-kin	Stats	3	mysticality
+Mer-kin	Item	beefy fish meat	glistening fish meat	slick fish meat
+Mer-kin	Item	seaweed
+Orc	Item	sleaze powder
+Orc	Item	[lt(pref(_bookOfFactsTatters),11)]	tattered scrap of paper
+Orc	Item	bottle of tequila
+Penguin	Item	magical ice cubes
+Penguin	Stats	10	muscle
+Penguin	Meat	Penguin
+Pirate	Item	bottle of rum
+Pirate	Stats	3	moxie
+Pirate	Item	eyepatch
+Plant	Item	cherry
+Plant	HP	50
+Plant	Stats	1	all
+Slime	Stats	3	all
+Slime	Stats	3	moxie
+Slime	Effect	Slimed (20)
+Undead	Item	skeleton bone
+Undead	Item	spooky powder
+Undead	Stats	3	mysticality
+Weird	Stats	3	mysticality
+Weird	MP	25
+Weird	Item	flaming feather	frozen feather	frightful feather	fetid feather	flirtatious feather
+
+None	Stats	3	muscle
+None	Stats	3	mysticality
+None	Stats	3	moxie
+None	HP	10
+None	MP	10
+None	Modifier	Experience (familiar): +1
+None	Modifier	Item Drop: +25
+None	Item	HEAP
+None	Effect	Antiantifrozen (10)
+None	Effect	Shamed (10)
+None	Effect	Disabled Olfactory Processing (10)
+None	Effect	Imagining Guts (10)
+None	Effect	Spooked (10)
+None	Effect	Ultrahydrated (5)
+None	Item	worthless trinket	worthless gewgaw	worthless knick-knack
+None	Meat	Base
+None	Item	[lt(pref(_bookOfFactsWishes),3)]	pocket wish
+None	Item	fat stacks of cash
+None	Effect	[lt(pref(bookOfFactsPinata),1)]	Sweet and Yellow (10)	Sweet and Green (10)	Sweet and Red (10)
+None	Effect	[lt(pref(bookOfFactsGummi),1)]	Gummiheart (10)	Gummibrain (10)	Gummiskin (10)
+None	Effect	Ooh, Sweet! (10)	Ooh, Salty! (10)	Ooh, Bitter! (10)	Ooh, Sour! (10)	Ooh, Umami! (10)

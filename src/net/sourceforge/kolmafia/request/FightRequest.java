@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
@@ -6538,13 +6539,6 @@ public class FightRequest extends GenericRequest {
 
     if (inode != null) {
       var src = inode.getAttributeByName("src");
-      if (src != null && src.endsWith("factbook.gif")) {
-        // log if it's a fact
-        var text = node.getText().toString();
-        if (!(text.contains("rythm") || text.contains("rhythm"))) {
-          FightRequest.logText(text, status);
-        }
-      }
       String alt = inode.getAttributeByName("alt");
       if (alt != null && alt.startsWith("Enemy's")) {
         // This is Monster Manuel stuff
@@ -6814,6 +6808,10 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
+    if (image.equals("factbook.gif")) {
+      FightRequest.handleFactbook(str, status);
+    }
+
     // If you have Just the Best Anapests and go to the
     // haiku dungeon, you see ... anapests!
 
@@ -7069,6 +7067,40 @@ public class FightRequest extends GenericRequest {
     }
 
     status.toyTrain = false;
+  }
+
+  private static void handleFactbook(final String str, final TagStatus status) {
+    // Don't log circadian rhythm failures
+    if (str.contains("rythm") || str.contains("rhythm")) {
+      return;
+    }
+
+    FightRequest.logText(str, status);
+
+    // Log circadian rhythm successes, but don't try to match facts
+    if (str.contains("probably sleep a bit better tonight")) {
+      return;
+    }
+
+    var fact = FactDatabase.getFact(status.monster, false);
+
+    if (str.contains("whip up a quick cheat sheet")) {
+      Preferences.increment("_bookOfFactsTatters", 1, 11, false);
+    } else if (fact.isTatter()) {
+      Preferences.setInteger("_bookOfFactsTatters", 11);
+    } else if (str.contains("if you stick it up your nose, it will grant you a wish")) {
+      Preferences.increment("_bookOfFactsWishes", 1, 3, false);
+    } else if (fact.isWish()) {
+      Preferences.setInteger("_bookOfFactsWishes", 3);
+    } else if (str.contains("actually made of gummy material?")) {
+      Preferences.setInteger("bookOfFactsGummi", 1);
+    } else if (fact.isGummi()) {
+      Preferences.increment("bookOfFactsGummi", 1, 4, true);
+    } else if (str.contains("actually a piñata?")) {
+      Preferences.setInteger("bookOfFactsPinata", 1);
+    } else if (fact.isPinata()) {
+      Preferences.increment("bookOfFactsPinata", 1, 2, true);
+    }
   }
 
   private static void handlePingPong(String str, TagStatus status) {

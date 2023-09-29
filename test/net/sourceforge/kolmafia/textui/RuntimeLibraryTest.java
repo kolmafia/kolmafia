@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
@@ -36,6 +37,7 @@ import java.time.Month;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
@@ -1228,6 +1230,67 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               average => 28
               bps => 69329
               """));
+      }
+    }
+  }
+
+  @Nested
+  class BookOfFacts {
+    @ParameterizedTest
+    @CsvSource({
+      "ACCORDION_THIEF, CRAZY_RANDOM_SUMMER, topiary golem, stats, +1 all",
+      "TURTLE_TAMER, OXYGENARIAN, Blooper, meat, 10 Meat",
+      "PASTAMANCER, COMMUNITY_SERVICE, bookbat, modifier, Experience (familiar): +1",
+      "SEAL_CLUBBER, KINGDOM_OF_EXPLOATHING, Jefferson pilot, item, foon"
+    })
+    void exposesFactAndFactTypeInMonsterProxy(
+        final AscensionClass ascensionClass,
+        final Path path,
+        final String monsterName,
+        final String factType,
+        final String fact) {
+      final var cleanups = new Cleanups(withClass(ascensionClass), withPath(path));
+      try (cleanups) {
+        String actualFactType = execute("$monster[" + monsterName + "].fact_type");
+        assertThat(actualFactType, equalTo("Returned: " + factType + "\n"));
+        String actualFact = execute("$monster[" + monsterName + "].fact");
+        assertThat(actualFact, equalTo("Returned: " + fact + "\n"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "1, item, ' pocket wish'",
+      "3, none, ''",
+    })
+    void factIsStatefulInMonsterProxy(final int wishes, final String factType, final String fact) {
+      final var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.DISCO_BANDIT),
+              withPath(Path.THE_SOURCE),
+              withProperty("_bookOfFactsWishes", wishes));
+      try (cleanups) {
+        String actualFactType = execute("$monster[triffid].fact_type");
+        assertThat(actualFactType, equalTo("Returned: " + factType + "\n"));
+        String actualFact = execute("$monster[triffid].fact");
+        assertThat(actualFact, equalTo("Returned:" + fact + "\n"));
+      }
+    }
+
+    @Test
+    void factIsNotStatefulInFunction() {
+      final var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.DISCO_BANDIT),
+              withPath(Path.THE_SOURCE),
+              withProperty("_bookOfFactsWishes", 3));
+      try (cleanups) {
+        String actualFactType =
+            execute("fact_type($class[Disco Bandit], $path[The Source], $monster[triffid])");
+        assertThat(actualFactType, equalTo("Returned: item\n"));
+        String actualFact =
+            execute("item_fact($class[Disco Bandit], $path[The Source], $monster[triffid]).name");
+        assertThat(actualFact, equalTo("Returned: pocket wish\n"));
       }
     }
   }

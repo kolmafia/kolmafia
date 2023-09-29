@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
@@ -43,6 +44,7 @@ import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -2345,7 +2347,7 @@ public class FightRequestTest {
   @Nested
   class JustTheFacts {
     @Test
-    public void canDetectFactsDrops() {
+    void canDetectFactsDrops() {
       RequestLoggerOutput.startStream();
       var cleanups = new Cleanups(withSkill(SkillPool.JUST_THE_FACTS));
       try (cleanups) {
@@ -2360,7 +2362,7 @@ public class FightRequestTest {
     }
 
     @Test
-    public void doesNotLogCircadianFailures() {
+    void doesNotLogCircadianFailures() {
       RequestLoggerOutput.startStream();
       var cleanups =
           new Cleanups(
@@ -2370,6 +2372,116 @@ public class FightRequestTest {
         parseCombatData("request/test_fight_recall_circadian_wrong_monster.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, not(containsString("rythm")));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "true, 1, 2",
+      "false, 1, 11",
+    })
+    void tracksTatterDrop(final boolean success, final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER),
+              withPath(Path.NONE),
+              withNextMonster("Sorority Nurse"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsTatters", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_book_of_facts_tatter_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("_bookOfFactsTatters", isSetTo(next));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "true, 1, 2",
+      "false, 1, 3",
+    })
+    void tracksWishDrop(final boolean success, final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER),
+              withPath(Path.CRAZY_RANDOM_SUMMER),
+              withNextMonster("Keese"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsWishes", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_book_of_facts_pocket_wish_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("_bookOfFactsWishes", isSetTo(next));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "true, 3, 1",
+      "false, 1, 2",
+      "false, 3, 0",
+    })
+    void tracksGummiEffect(final boolean success, final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER),
+              withPath(Path.NONE),
+              withNextMonster("fiendish can of asparagus"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("bookOfFactsGummi", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_book_of_facts_gummi_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("bookOfFactsGummi", isSetTo(next));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "true, 1, 1",
+      "true, 0, 1",
+      "false, 1, 0",
+    })
+    void tracksPinataEffect(final boolean success, final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER),
+              withPath(Path.NONE),
+              withNextMonster("axe handle"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("bookOfFactsPinata", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_book_of_facts_pinata_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("bookOfFactsPinata", isSetTo(next));
+      }
+    }
+
+    @Test
+    void circadianRhythmsDoesNotBreakWishTracking() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.TURTLE_TAMER),
+              withPath(Path.NONE),
+              withNextMonster("Furry Giant"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsWishes", 1),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_book_of_facts_rhythms_and_wish.html");
+        assertThat("_bookOfFactsWishes", isSetTo(2));
       }
     }
   }

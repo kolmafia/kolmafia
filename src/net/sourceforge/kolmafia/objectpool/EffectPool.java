@@ -140,6 +140,7 @@ public class EffectPool {
   public static final int DANG_NEAR_CUT_IN_HALF = 445;
   public static final int A_REVOLUTION_IN_YOUR_MOUTH = 453;
   public static final int SOUL_CRUSHING_HEADACHE = 465;
+  public static final int EDUCATED_KINDA = 504;
   public static final int FORM_OF_ROACH = 509;
   public static final int SHAPE_OF_MOLE = 510;
   public static final int FORM_OF_BIRD = 511;
@@ -150,6 +151,9 @@ public class EffectPool {
   public static final int PRELUDE_OF_PRECISION = 534;
   public static final int HAIKU_STATE_OF_MIND = 548;
   public static final int FISHY = 549;
+  public static final int SWEET_AND_YELLOW = 575;
+  public static final int SWEET_AND_GREEN = 576;
+  public static final int SWEET_AND_RED = 577;
   public static final int THE_COLORS = 584;
   public static final int CLUMSY = 612;
   public static final int DONHOS_BUBBLY_BALLAD = 614;
@@ -193,6 +197,9 @@ public class EffectPool {
   public static final int BONE_US_ROUND = 941;
   public static final int DIRTY_PEAR = 959;
   public static final int DIS_ABLED = 963;
+  public static final int GUMMIHEART = 970;
+  public static final int GUMMIBRAIN = 971;
+  public static final int GUMMISKIN = 972;
   public static final int JUST_THE_BEST_ANAPESTS = 1003;
   public static final int GLORIOUS_LUNCH = 1005;
   public static final int OVERCONFIDENT = 1011;

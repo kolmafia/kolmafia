@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -503,7 +502,7 @@ public class PocketDatabase {
           return null;
         }
         String effect1String = data[2];
-        AdventureResult effect1 = PocketDatabase.parseEffect(effect1String);
+        AdventureResult effect1 = AdventureResult.parseEffectString(effect1String);
         if (effect1 == null) {
           RequestLogger.printLine("Pocket " + pocketId + " has unknown effect: " + effect1String);
           return null;
@@ -520,7 +519,7 @@ public class PocketDatabase {
           return null;
         }
         String effect1String = data[2];
-        AdventureResult effect1 = PocketDatabase.parseEffect(effect1String);
+        AdventureResult effect1 = AdventureResult.parseEffectString(effect1String);
         if (effect1 == null) {
           RequestLogger.printLine("Pocket " + pocketId + " has unknown effect: " + effect1String);
           return null;
@@ -530,7 +529,7 @@ public class PocketDatabase {
               "Pocket " + pocketId + " has effect duration 0: " + effect1String);
         }
         String effect2String = data[3];
-        AdventureResult effect2 = PocketDatabase.parseEffect(effect2String);
+        AdventureResult effect2 = AdventureResult.parseEffectString(effect2String);
         if (effect2 == null) {
           RequestLogger.printLine("Pocket " + pocketId + " has unknown effect: " + effect2String);
           return null;
@@ -547,7 +546,7 @@ public class PocketDatabase {
           return null;
         }
         String item1String = data[2];
-        AdventureResult item1 = PocketDatabase.parseItem(item1String);
+        AdventureResult item1 = AdventureResult.parseItemString(item1String);
         if (item1 == null) {
           RequestLogger.printLine("Pocket " + pocketId + " has unknown item: " + item1String);
           return null;
@@ -563,7 +562,7 @@ public class PocketDatabase {
           return null;
         }
         String item1String = data[2];
-        AdventureResult item1 = PocketDatabase.parseItem(item1String);
+        AdventureResult item1 = AdventureResult.parseItemString(item1String);
         if (item1 == null) {
           RequestLogger.printLine("Pocket " + pocketId + " has unknown item: " + item1String);
           return null;
@@ -572,7 +571,7 @@ public class PocketDatabase {
           RequestLogger.printLine("Pocket " + pocketId + " has item count 0: " + item1String);
         }
         String item2String = data[3];
-        AdventureResult item2 = PocketDatabase.parseItem(item2String);
+        AdventureResult item2 = AdventureResult.parseItemString(item2String);
         if (item2 == null) {
           RequestLogger.printLine("Pocket " + pocketId + " has unknown item: " + item2String);
           return null;
@@ -634,47 +633,6 @@ public class PocketDatabase {
     }
 
     return new Pocket(pocketId, type);
-  }
-
-  private static AdventureResult parseEffect(String effectString) {
-    String name;
-    int duration;
-    int lparen = effectString.lastIndexOf("(");
-    int rparen = effectString.lastIndexOf(")");
-    if (lparen < 0 || rparen < 0) {
-      name = effectString;
-      duration = 0;
-    } else {
-      String durationString = effectString.substring(lparen + 1, rparen);
-      name = effectString.substring(0, lparen).trim();
-      duration =
-          StringUtilities.isNumeric(durationString) ? StringUtilities.parseInt(durationString) : 0;
-    }
-    int effectId = EffectDatabase.getEffectId(name, true);
-    if (effectId < 0) {
-      return null;
-    }
-    return EffectPool.get(effectId, duration);
-  }
-
-  private static AdventureResult parseItem(String itemString) {
-    String name;
-    int count;
-    int lparen = itemString.lastIndexOf("(");
-    int rparen = itemString.lastIndexOf(")");
-    if (lparen < 0 || rparen < 0) {
-      name = itemString;
-      count = 1;
-    } else {
-      String countString = itemString.substring(lparen + 1, rparen);
-      name = itemString.substring(0, lparen).trim();
-      count = StringUtilities.isNumeric(countString) ? StringUtilities.parseInt(countString) : 0;
-    }
-    int itemId = ItemDatabase.getItemId(name, 1, false);
-    if (itemId < 0) {
-      return null;
-    }
-    return ItemPool.get(itemId, count);
   }
 
   private static boolean addToDatabase(Pocket pocket) {
