@@ -7070,9 +7070,16 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void handleFactbook(final String str, final TagStatus status) {
-    // log if it's a fact
-    if (!(str.contains("rythm") || str.contains("rhythm"))) {
-      FightRequest.logText(str, status);
+    // Don't log circadian rhythm failures
+    if (str.contains("rythm") || str.contains("rhythm")) {
+      return;
+    }
+
+    FightRequest.logText(str, status);
+
+    // Log circadian rhythm successes, but don't try to match facts
+    if (str.contains("probably sleep a bit better tonight")) {
+      return;
     }
 
     var fact = FactDatabase.getFact(status.monster, false);
