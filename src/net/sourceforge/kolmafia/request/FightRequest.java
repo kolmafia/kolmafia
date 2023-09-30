@@ -7075,7 +7075,7 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(str, status);
     }
 
-    var fact = FactDatabase.getFact(status.monster, false);
+    var fact = FactDatabase.getFact(MonsterStatusTracker.getLastMonster(), false);
 
     if (str.contains("whip up a quick cheat sheet")) {
       Preferences.increment("_bookOfFactsTatters", 1, 11, false);
