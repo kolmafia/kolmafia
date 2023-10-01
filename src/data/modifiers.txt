@@ -4776,6 +4776,7 @@ Throne	Optimistic Candle	Item Drop: +15, Drops Items, Variable
 Throne	Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Pair of Ragged Claws	Familiar Weight: +5
 Throne	Pair of Stomping Boots	Weapon Damage Percent: +10
+Throne	Party Mouse	Booze Drop: +25, Drops Items
 Throne	Patriotic Eagle	Monster Level: +10
 Throne	Penguin Goodfella	Familiar Weight: +5
 Throne	Peppermint Rhino	Weapon Damage Percent: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
