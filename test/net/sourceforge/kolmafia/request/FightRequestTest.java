@@ -2421,6 +2421,22 @@ public class FightRequestTest {
       }
     }
 
+    @Test
+    void doesNotTrackWishDropAfterMonsterReplacement() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SAUCEROR),
+              withPath(Path.NONE),
+              withNextMonster("chalkdust wraith"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsWishes", 0),
+              withFight(0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_book_of_facts_backup.html");
+        assertThat("_bookOfFactsWishes", isSetTo(0));
+      }
+    }
+
     @ParameterizedTest
     @CsvSource({
       "true, 3, 1",
