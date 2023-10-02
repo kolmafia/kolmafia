@@ -4351,6 +4351,7 @@ Item	kill screen	Random Monster Modifiers: +1, Generic
 Item	kitty sheet music	Familiar Weight: +5
 Item	lead collar	Familiar Weight: +5
 Item	lead necklace	Familiar Weight: +3, Generic
+Item	LED candle	Familiar Weight: +5
 # Li'l Businessman Kit: Lets your familiar make deals
 Item	Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
 Item	li'l candy corn costume	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Equips On: "Trick-or-Treating Tot"
@@ -11218,6 +11219,7 @@ Item	dandy lion cub	Free Pull
 # dangerous chemicals: Take it to ChemiCorp's downtown office
 # dangerous jerkcicle: Deals 20-40 <font color=blue>Cold Damage</font>
 Item	Dark Jill-O-Lantern	Free Pull
+Item	Dark Jill-of-All-Trades	Free Pull
 Item	deactivated nanobots	Free Pull
 Item	deanimated reanimator's coffin	Free Pull
 Item	Dear Past Self Package	Free Pull

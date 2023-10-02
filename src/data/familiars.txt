@@ -323,3 +323,4 @@
 291	Pixel Rock	pixelrock.gif	none	pixel rock		0	0	0	0
 292
 293	Patriotic Eagle	pateagle.gif	combat0,stat1,mp0	sleeping patriotic eagle	claw-held flag	0	0	0	0
+294	Jill-of-All-Trades	darkjill2f.gif	stat0,stat1,item0,meat0,combat0,block,delevel,hp0,meat1,variable	Dark Jill-of-All-Trades	LED candle	1	2	3	3	organic,sentient,orb,haseyes,object,vegetable,food,edible,evil,spooky,hot,bite
