@@ -2938,16 +2938,31 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("fact_type", DataTypes.STRING_TYPE, params));
 
+    params = new Type[] {DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("fact_type", DataTypes.STRING_TYPE, params));
+
     params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("item_fact", DataTypes.ITEM_TYPE, params));
+
+    params = new Type[] {DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("item_fact", DataTypes.ITEM_TYPE, params));
 
     params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("effect_fact", DataTypes.EFFECT_TYPE, params));
 
+    params = new Type[] {DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("effect_fact", DataTypes.EFFECT_TYPE, params));
+
     params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("numeric_fact", DataTypes.INT_TYPE, params));
 
+    params = new Type[] {DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("numeric_fact", DataTypes.INT_TYPE, params));
+
     params = new Type[] {DataTypes.CLASS_TYPE, DataTypes.PATH_TYPE, DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("string_fact", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("string_fact", DataTypes.STRING_TYPE, params));
   }
 
@@ -10321,6 +10336,14 @@ public abstract class RuntimeLibrary {
     return new Value(fact.getType().toString());
   }
 
+  public static Value fact_type(ScriptRuntime controller, final Value monster) {
+    return fact_type(
+        controller,
+        DataTypes.makeClassValue(KoLCharacter.getAscensionClass(), true),
+        DataTypes.makePathValue(KoLCharacter.getPath()),
+        monster);
+  }
+
   public static Value effect_fact(
       ScriptRuntime controller, final Value cls, final Value path, final Value monster) {
     if (cls.content == null) return DataTypes.EFFECT_INIT;
@@ -10340,6 +10363,14 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeEffectValue(result.getEffectId(), true);
   }
 
+  public static Value effect_fact(ScriptRuntime controller, final Value monster) {
+    return effect_fact(
+        controller,
+        DataTypes.makeClassValue(KoLCharacter.getAscensionClass(), true),
+        DataTypes.makePathValue(KoLCharacter.getPath()),
+        monster);
+  }
+
   public static Value item_fact(
       ScriptRuntime controller, final Value cls, final Value path, final Value monster) {
     if (cls.content == null) return DataTypes.ITEM_INIT;
@@ -10357,6 +10388,14 @@ public abstract class RuntimeLibrary {
     var result = fact.getResult();
 
     return DataTypes.makeItemValue(result.getItemId(), true);
+  }
+
+  public static Value item_fact(ScriptRuntime controller, final Value monster) {
+    return item_fact(
+        controller,
+        DataTypes.makeClassValue(KoLCharacter.getAscensionClass(), true),
+        DataTypes.makePathValue(KoLCharacter.getPath()),
+        monster);
   }
 
   public static Value numeric_fact(
@@ -10388,6 +10427,14 @@ public abstract class RuntimeLibrary {
     return DataTypes.INT_INIT;
   }
 
+  public static Value numeric_fact(ScriptRuntime controller, final Value monster) {
+    return numeric_fact(
+        controller,
+        DataTypes.makeClassValue(KoLCharacter.getAscensionClass(), true),
+        DataTypes.makePathValue(KoLCharacter.getPath()),
+        monster);
+  }
+
   public static Value string_fact(
       ScriptRuntime controller, final Value cls, final Value path, final Value monster) {
     if (cls.content == null) return DataTypes.STRING_INIT;
@@ -10403,5 +10450,13 @@ public abstract class RuntimeLibrary {
     }
 
     return new Value(f.toString());
+  }
+
+  public static Value string_fact(ScriptRuntime controller, final Value monster) {
+    return string_fact(
+        controller,
+        DataTypes.makeClassValue(KoLCharacter.getAscensionClass(), true),
+        DataTypes.makePathValue(KoLCharacter.getPath()),
+        monster);
   }
 }

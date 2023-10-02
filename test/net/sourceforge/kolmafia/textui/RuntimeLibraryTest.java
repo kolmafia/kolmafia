@@ -1293,5 +1293,24 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         assertThat(actualFact, equalTo("Returned: pocket wish\n"));
       }
     }
+
+    @ParameterizedTest
+    @CsvSource({
+      "fact_type, briefcase bat, modifier",
+      "string_fact, briefcase bat, Experience (familiar): +1",
+      "item_fact, goblin conspirator, Knob mushroom",
+      "effect_fact, trophyfish, Fishy",
+      "numeric_fact, trophyfish, 10",
+    })
+    void functionsHaveVersionsThatUseCurrentClassPath(
+        final String fn, final String monsterName, final String expected) {
+      final var cleanups =
+          new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withPath(Path.NONE));
+      try (cleanups) {
+        var code = fn + "($monster[" + monsterName + "])";
+        String actual = execute(code);
+        assertThat(actual, startsWith("Returned: " + expected + "\n"));
+      }
+    }
   }
 }
