@@ -2466,7 +2466,7 @@
 2438	scented massage oil	530550627	vial.gif	usable, combat	t	0	vials of scented massage oil
 2439	poltergeist-in-the-jar-o	844616801	moonshine.gif	none, combat	t	0	poltergeists-in-the-jars-o
 2440	unnatural gas	180343585	moonshine.gif	none, combat	t	0	jars of unnatural gas
-2441	Knob Goblin encryption key	591787452	page.gif	none	q	0
+2441	Knob Goblin Encryption Key	591787452	page.gif	none	q	0
 2442	Cobb's Knob map	325883819	map.gif	usable	q	0
 2443	pink glowstick	199035416	glowstick.gif	accessory		0	pink glowstyx
 2444	Supernova Champagne	150158476	champagne.gif	drink	t,d	180	bottles of Supernova Champagne
@@ -10980,12 +10980,12 @@
 10952	Jurassic Parka	815637689	jparka7.gif	shirt		0
 10953	boxed autumn-aton	129222297	crate.gif	usable	t	0
 10954	autumn-aton	174185886	autumnaton.gif	usable	q	0
-10955	autumn leaf	639910181	leafflavor.gif	potion, usable	t,d	10	autumn leaves
+10955	autumn leaf	639910181	leafflavor.gif	potion	t,d	10	autumn leaves
 10956	AutumnFest ale	195200911	beerbottle.gif	drink	t,d	10	bottles of AutumnFest ale
 10957	autumn sweater-weather sweater	267218508	redsweater.gif	shirt	q	0
 10958	autumn debris shield	659459391	damshield.gif	offhand	q	0
 10959	autumn-spice donut	765851813	powderdonut.gif	food	t,d	11
-10960	autumn dollar	394864972	goldcoin.gif	potion, usable	t,d	1
+10960	autumn dollar	394864972	goldcoin.gif	potion	t,d	1
 10961	autumn leaf pendant	871526580	maplependant.gif	accessory	q	0
 10962	autumn breeze	709263513	cueball.gif	spleen, usable	t,d	15
 10963	autumn years wisdom	794318555	xicrystal.gif	potion	t,d	15
@@ -11360,3 +11360,6 @@
 11332	pool shark hair oil	972311757	bottle.gif	spleen, usable	t,d	20
 11333	book of facts	678190656	factbook.gif	usable	t	0	books of facts
 11334	book of facts (dog-eared)	397159536	factbook.gif	usable		0	books of facts (dog-eared)
+11335	Dark Jill-of-All-Trades	402938328	darkjill2.gif	grow	t	0	Dark Jills-of-all-Trades
+11336	LED candle	812890675	ledcandle.gif	familiar	t,d	100
+11337	map to a candy-rich block	860567609	warehousemap.gif	usable	t,d	11	maps to candy-rich blocks

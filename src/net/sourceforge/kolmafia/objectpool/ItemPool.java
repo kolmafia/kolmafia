@@ -750,6 +750,7 @@ public class ItemPool {
   public static final int CRUELTY_FREE_WINE = 2521;
   public static final int THISTLE_WINE = 2522;
   public static final int FISHY_FISH_LASAGNA = 2527;
+  public static final int FILET_OF_TANGY_GNAT = 2528;
   public static final int GNAT_LASAGNA = 2531;
   public static final int LONG_PORK_LASAGNA = 2535;
   public static final int TOMB_RATCHET = 2540;
@@ -3490,7 +3491,7 @@ public class ItemPool {
   public static final int DINOSAUR_DROPPINGS = 10945;
   public static final int JURASSIC_PARKA = 10952;
   public static final int AUTUMNATON = 10954;
-  public static final int ROASTED_VEGETABLE_OF_JARLSBERG = 10969;
+  public static final int ROASTED_VEGETABLE_OF_JARLSBERG = 10972;
   public static final int PETES_RICH_RICOTTA = 10975;
   public static final int BORIS_BREAD = 10978;
   public static final int ROBY_RATATOUILLE_DE_JARLSBERG = 10979;

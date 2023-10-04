@@ -40,7 +40,10 @@ public class TypescriptDefinitionTest {
             "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction: string | ((round: number, monster: Monster, text: string) => string)): boolean;"),
         Arguments.of(
             "run_combat(string)",
-            "export function runCombat(filterFunction: string | ((round: number, monster: Monster, text: string) => string)): string;"));
+            "export function runCombat(filterFunction: string | ((round: number, monster: Monster, text: string) => string)): string;"),
+        Arguments.of(
+            "fact_type(class, path, monster)",
+            "export function factType(cls: Class, path: Path, monster: Monster): \"none\" | \"effect\" | \"item\" | \"stats\" | \"hp\" | \"mp\" | \"meat\" | \"modifier\";"));
   }
 
   @ParameterizedTest

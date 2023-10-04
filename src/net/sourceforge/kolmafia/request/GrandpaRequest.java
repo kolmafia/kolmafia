@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class GrandpaRequest extends GenericRequest {
   private static final Pattern WHO_PATTERN = Pattern.compile("who=(\\d*)");
@@ -24,11 +25,31 @@ public class GrandpaRequest extends GenericRequest {
 
   @Override
   public void processResults() {
-    // You can't visit the Sea Monkees without some way of
-    // breathing underwater.
-
+    // You can't visit the Sea Monkees without some way of breathing underwater.
     if (this.responseText.indexOf("can't visit the Sea Monkees") != -1) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You're not equipped to visit the Sea Monkees.");
+      return;
+    }
+
+    parseResponse(this.getURLString(), this.responseText);
+  }
+
+  public static final Pattern TOPIC_PATTERN = Pattern.compile("topic=([^&]*)");
+
+  public static void parseResponse(final String urlString, final String responseText) {
+    String action = GenericRequest.getAction(urlString);
+    if (!action.equals("grandpastory")) {
+      return;
+    }
+    Matcher matcher = TOPIC_PATTERN.matcher(urlString);
+    if (!matcher.find()) {
+      return;
+    }
+    String topic = GenericRequest.decodeField(matcher.group(1));
+    switch (topic) {
+      case "hierfal" -> {
+        Preferences.setBoolean("hasTwinkleVision", true);
+      }
     }
   }
 

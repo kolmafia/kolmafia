@@ -1302,7 +1302,7 @@ Your Lack of Reflection	2115	towermirror.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 3
 
 # Kingdom of Exploathing
 invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 10000 P: construct Article: an	white pixel (40)	white pixel (20)	white pixel (10)	white pixel (5)
-skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead Article: a	skeleton bone (0)	loose teeth (0)	evil eye (0)
+skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead Article: a	skeleton bone (30)	loose teeth (30)	evil eye (30)
 the invader	2138	invader.gif	BOSS NOCOPY Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct EA: cold EA: hot EA: sleaze EA: spooky EA: stench
 
 # Glitch Season
@@ -2449,18 +2449,18 @@ mutant saguaro	727	mutantcactus.gif	Scale: 5 Cap: 500 Init: -10000 P: plant Arti
 swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: bug Article: a	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 
 # Old Crimbo Town Toy Factory (Crimbo 2008)
-Mob Penguin enforcer	752	pengthug.gif	Scale: 6 Init: 75 P: penguin Article: a	patent leather shoes (0)
-Mob Penguin goon (2008)	753	pengbook.gif	Scale: 6 Init: 75 P: penguin Article: a Manuel: "Mob Penguin goon" Wiki: "Mob Penguin goon"	penguin thesaurus (0)
-Mob Penguin hitpenguin	755	penggun.gif	Scale: 6 Init: 100 P: penguin Article: a	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
-Mob Penguin psychopath	756	pengpsycho.gif	Scale: 6 Init: 150 P: penguin Article: a	knuckle sandwich (0)	psycho sweater (c0)
-Mob Penguin racketeer	754	pengracket.gif	Scale: 6 Init: 75 P: penguin Article: a	gray bow tie (0)
+Mob Penguin enforcer	752	pengthug.gif	Scale: 6 Init: 75 P: penguin Article: a	patent leather shoes (3)
+Mob Penguin goon (2008)	753	pengbook.gif	Scale: 6 Init: 75 P: penguin Article: a Manuel: "Mob Penguin goon" Wiki: "Mob Penguin goon"	penguin thesaurus (3)
+Mob Penguin hitpenguin	755	penggun.gif	Scale: 6 Init: 100 P: penguin Article: a	canteen of wine (10)	depleted Grimacite kneecapping stick (c0)
+Mob Penguin psychopath	756	pengpsycho.gif	Scale: 6 Init: 150 P: penguin Article: a	knuckle sandwich (10)	psycho sweater (c0)
+Mob Penguin racketeer	754	pengracket.gif	Scale: 6 Init: 75 P: penguin Article: a	gray bow tie (3)
 
 # The Atomic Crimbo Town Toy Factory (Crimbo 2008)
-mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Floor: ? Init: 150 P: elf Article: a	elven moonshine (0)	miniature antlers (0)
-mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Floor: ? Init: 75 P: elf EA: hot Article: a	festive holiday hat (0)
-mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	cheap elven gloves (0)
-mutant gift-wrapping elf	747	elfclaw.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	elven socks (0)
-mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: ? Init: 100 P: elf Article: a	elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
+mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Floor: ? Init: 150 P: elf Article: a	elven moonshine (10)	miniature antlers (c0)
+mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Floor: ? Init: 75 P: elf EA: hot Article: a	festive holiday hat (3)
+mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	cheap elven gloves (3)
+mutant gift-wrapping elf	747	elfclaw.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	elven socks (3)
+mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: ? Init: 100 P: elf Article: a	elven <i>limbos</i> gingerbread (10)	elven whittling knife (c0)
 
 # Unexplained Tremors (August 2009)
 Crys-Rock	854	crys_rock.gif	NOCOPY NOMANUEL Atk: [min(300,MOX+10)] Def: [min(300,MUS+10)] HP: [min(240,HP*2/3)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50 Elem: 50 EA: cold EA: hot	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)
@@ -2530,7 +2530,7 @@ Book of Faces	1041	c10faces.gif	NOCOPY NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip
 chatty coworker	1042	c10chatty.gif	NOCOPY NOMANUEL Scale: 0 Init: 100 EA: sleaze EA: stench	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
 Tome of Tropes	1043	c10tropes.gif	NOCOPY NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
 Totally Malicious 'Zine	1044	c10tmz.gif	NOCOPY NOMANUEL Scale: 0 Init: 100 EA: sleaze EA: stench	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-water cooler	-66	c10cooler.gif	NOCOPY NOMANUEL Scale: 0 Init: 100 EA: cold EA: hot	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+water cooler	1045	c10cooler.gif	NOCOPY NOMANUEL Scale: 0 Init: 100 EA: cold EA: hot	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
 Best Game Ever	1046	c10bge.gif	NOCOPY NOMANUEL Scale: 0 Init: 100	BGE merchandise order form (n100)
 
 # CRIMBCO WC (Crimbo 2010)
@@ -2649,7 +2649,7 @@ large-headed werewolf	1652	headwolf.gif	NOCOPY NOMANUEL Scale: 0 Cap: 1000 Floor
 oddly-proportioned ghost	1651	headghost.gif	NOCOPY NOMANUEL Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror EA: spooky	BOOterfinger (n100)	mimeplasm (c100)
 
 # The Fully Automated Crimbo Factory (Crimbo 2014)
-Crimbomega	-79	crimbomega.gif	NOMANUEL Atk: 100 Def: 100 HP: 300	Crimbomega drive chain (n100)
+Crimbomega	1655	crimbomega.gif	NOMANUEL Atk: 100 Def: 100 HP: 300	Crimbomega drive chain (n100)
 
 # The Crimbonium Mining Camp (Crimbo 2014)
 ambulatory robo-minecart	1650	crimbominer3.gif	Scale: 5 Init: -10000 P: elf EA: cold EA: hot Article: an	flask of tainted mining oil (15)	cylindrical mold (5)	servo-assisted exo-pants (c1)
@@ -2694,9 +2694,9 @@ Your Brain	2007	brain.gif	NOCOPY NOMANUEL Scale: 6 Cap: 10000 Floor: 40 Init: -1
 The Krampus	2008	krampus.gif	NOCOPY NOMANUEL Scale: 9 Cap: 10000 Floor: 50 Init: -10000 P: weird	Krampus Horn (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
 
 # El Dia de los Muertos Borrachos y Agradecido (Thnaksgiving 2017)
-Guajolote Cad&aacute;ver	-30	turkeyskel.gif	NOCOPY NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	cursed wishbone (c100)
-Peregrino Cad&aacute;ver	-29	pilgrimskel.gif	NOCOPY NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	temperance whiskey (c100)
-T&iacute;o Cad&aacute;ver	-28	drunkleskel.gif	NOCOPY NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	Racisto Ruidoso (c100)
+Guajolote Cad&aacute;ver	2039	turkeyskel.gif	NOCOPY NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	cursed wishbone (c100)
+Peregrino Cad&aacute;ver	2038	pilgrimskel.gif	NOCOPY NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	temperance whiskey (c100)
+T&iacute;o Cad&aacute;ver	2040	drunkleskel.gif	NOCOPY NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	Racisto Ruidoso (c100)
 
 # Crimbo 2017
 cheerless mime functionary	2044	mimefunc1.gif,mimefunc2.gif,mimefunc3.gif	Scale: 1 Init: -10000 P: horror Article: a	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)

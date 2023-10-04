@@ -136,17 +136,14 @@ public class ApiRequest extends GenericRequest {
     String message =
         this.silent
             ? null
-            : this.what.equals("status")
-                ? "Loading character status..."
-                : this.what.equals("inventory")
-                    ? "Updating inventory..."
-                    : this.what.equals("closet")
-                        ? "Updating closet..."
-                        : this.what.equals("storage")
-                            ? "Updating storage..."
-                            : this.what.equals("item")
-                                ? "Looking at item #" + this.id + "..."
-                                : null;
+            : switch (this.what) {
+              case "status" -> "Loading character status...";
+              case "inventory" -> "Updating inventory...";
+              case "closet" -> "Updating closet...";
+              case "storage" -> "Updating storage...";
+              case "item" -> "Looking at item #" + this.id + "...";
+              default -> null;
+            };
 
     if (message != null) {
       KoLmafia.updateDisplay(message);
@@ -484,7 +481,11 @@ public class ApiRequest extends GenericRequest {
     }
 
     int pos = responseText.indexOf("{");
-    return pos == -1 ? null : pos == 0 ? responseText : responseText.substring(pos);
+    return switch (pos) {
+      case -1 -> null;
+      case 0 -> responseText;
+      default -> responseText.substring(pos);
+    };
   }
 
   public static final void reportParseError(

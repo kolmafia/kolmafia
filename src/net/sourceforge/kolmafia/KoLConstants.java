@@ -189,6 +189,7 @@ public interface KoLConstants extends UtilityConstants {
   // The current version number of each data file
 
   int ADVENTURES_VERSION = 6;
+  int BOOKOFFACTS_VERSION = 1;
   int BOUNTY_VERSION = 2;
   int BUFFBOTS_VERSION = 1;
   int CAFE_BOOZE_VERSION = 1;
@@ -299,6 +300,13 @@ public interface KoLConstants extends UtilityConstants {
     SUBMYST("SubMysticality"),
     SUBMOXIE("SubMoxie"),
     NONE("None");
+
+    public static Stat find(final String name) {
+      return Arrays.stream(values())
+          .filter(s -> s.toString().equalsIgnoreCase(name))
+          .findFirst()
+          .orElse(Stat.NONE);
+    }
 
     private final String name;
 
