@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -45,7 +46,7 @@ public class GrandpaRequest extends GenericRequest {
     if (!matcher.find()) {
       return;
     }
-    String topic = GenericRequest.decodeField(matcher.group(1));
+    String topic = GenericRequest.decodeField(matcher.group(1)).toLowerCase();
     switch (topic) {
       case "hierfal" -> {
         Preferences.setBoolean("hasTwinkleVision", true);
