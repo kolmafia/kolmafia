@@ -575,6 +575,24 @@ public class Evaluator {
           index = DoubleModifier.DAMAGE_REDUCTION;
         } else if (keyword.equals("ml")) {
           index = DoubleModifier.MONSTER_LEVEL;
+        } else if (keyword.matches("^mus(cle)? exp(erience)? perc(ent(age)?)?")) {
+          index = DoubleModifier.MUS_EXPERIENCE_PCT;
+        } else if (keyword.matches("^mus(cle)? exp(erience)?")) {
+          index = DoubleModifier.MUS_EXPERIENCE;
+        } else if (keyword.matches("^mus(cle)? perc(ent(age)?)?")) {
+          index = DoubleModifier.MUS_PCT;
+        } else if (keyword.matches("^mys(t(ical(ity)?)?)? exp(erience)? perc(ent(age)?)?")) {
+          index = DoubleModifier.MYS_EXPERIENCE_PCT;
+        } else if (keyword.matches("^mys(t(ical(ity)?)?)? exp(erience)?")) {
+          index = DoubleModifier.MYS_EXPERIENCE;
+        } else if (keyword.matches("^mys(t(ical(ity)?)?)? perc(ent(age)?)?")) {
+          index = DoubleModifier.MYS_PCT;
+        } else if (keyword.matches("^mox(ie)? exp(erience)? perc(ent(age)?)?")) {
+          index = DoubleModifier.MOX_EXPERIENCE_PCT;
+        } else if (keyword.matches("^mox(ie)? exp(erience)?")) {
+          index = DoubleModifier.MOX_EXPERIENCE;
+        } else if (keyword.matches("^mox(ie)? perc(ent(age)?)?")) {
+          index = DoubleModifier.MOX_PCT;
         } else if (keyword.startsWith("mus")) {
           index = DoubleModifier.MUS;
         } else if (keyword.startsWith("mys")) {
