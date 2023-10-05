@@ -56,6 +56,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class MaximizerTest {
   @BeforeAll
@@ -108,6 +110,35 @@ public class MaximizerTest {
       recommendedSlotIsUnchanged(Slot.HAT);
       recommendedSlotIs(Slot.PANTS, "government-issued slacks");
       assertEquals(10, modFor(DoubleModifier.MUS_EXPERIENCE_PCT), 0.01);
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "muscle exp perc, government-issued slacks",
+    "mus experience percent, government-issued slacks",
+    "mus experience percentage, government-issued slacks",
+    "mus exp, Pantsgiving",
+    "mus experience, Pantsgiving",
+    "muscle exp, Pantsgiving",
+    "muscle perc, sugar shorts",
+    "mus percent, sugar shorts",
+    "mus percentage, sugar shorts",
+    "mus, leg-mounted Trainbots"
+  })
+  public void findsGenericAbbreviations(String abbreviation, String expectedItem) {
+    var cleanups =
+        new Cleanups(
+            withEquippableItem("government-issued slacks"),
+            withEquippableItem("pantsgiving"),
+            withEquippableItem("sugar shorts"),
+            withEquippableItem("leg-mounted Trainbots"),
+            // Not a muscle day
+            withDay(2023, Month.SEPTEMBER, 27));
+
+    try (cleanups) {
+      assertTrue(maximize(abbreviation + ", -tie"));
+      recommendedSlotIs(Slot.PANTS, expectedItem);
     }
   }
 
