@@ -1302,7 +1302,7 @@ Your Lack of Reflection	2115	towermirror.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 3
 
 # Kingdom of Exploathing
 invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 10000 P: construct Article: an	white pixel (40)	white pixel (20)	white pixel (10)	white pixel (5)
-skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead Article: a	skeleton bone (0)	loose teeth (0)	evil eye (0)
+skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead Article: a	skeleton bone (30)	loose teeth (30)	evil eye (30)
 the invader	2138	invader.gif	BOSS NOCOPY Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct EA: cold EA: hot EA: sleaze EA: spooky EA: stench
 
 # Glitch Season
@@ -2449,18 +2449,18 @@ mutant saguaro	727	mutantcactus.gif	Scale: 5 Cap: 500 Init: -10000 P: plant Arti
 swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: bug Article: a	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 
 # Old Crimbo Town Toy Factory (Crimbo 2008)
-Mob Penguin enforcer	752	pengthug.gif	Scale: 6 Init: 75 P: penguin Article: a	patent leather shoes (0)
-Mob Penguin goon (2008)	753	pengbook.gif	Scale: 6 Init: 75 P: penguin Article: a Manuel: "Mob Penguin goon" Wiki: "Mob Penguin goon"	penguin thesaurus (0)
-Mob Penguin hitpenguin	755	penggun.gif	Scale: 6 Init: 100 P: penguin Article: a	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
-Mob Penguin psychopath	756	pengpsycho.gif	Scale: 6 Init: 150 P: penguin Article: a	knuckle sandwich (0)	psycho sweater (c0)
-Mob Penguin racketeer	754	pengracket.gif	Scale: 6 Init: 75 P: penguin Article: a	gray bow tie (0)
+Mob Penguin enforcer	752	pengthug.gif	Scale: 6 Init: 75 P: penguin Article: a	patent leather shoes (3)
+Mob Penguin goon (2008)	753	pengbook.gif	Scale: 6 Init: 75 P: penguin Article: a Manuel: "Mob Penguin goon" Wiki: "Mob Penguin goon"	penguin thesaurus (3)
+Mob Penguin hitpenguin	755	penggun.gif	Scale: 6 Init: 100 P: penguin Article: a	canteen of wine (10)	depleted Grimacite kneecapping stick (c0)
+Mob Penguin psychopath	756	pengpsycho.gif	Scale: 6 Init: 150 P: penguin Article: a	knuckle sandwich (10)	psycho sweater (c0)
+Mob Penguin racketeer	754	pengracket.gif	Scale: 6 Init: 75 P: penguin Article: a	gray bow tie (3)
 
 # The Atomic Crimbo Town Toy Factory (Crimbo 2008)
-mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Floor: ? Init: 150 P: elf Article: a	elven moonshine (0)	miniature antlers (0)
-mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Floor: ? Init: 75 P: elf EA: hot Article: a	festive holiday hat (0)
-mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	cheap elven gloves (0)
-mutant gift-wrapping elf	747	elfclaw.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	elven socks (0)
-mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: ? Init: 100 P: elf Article: a	elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
+mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Floor: ? Init: 150 P: elf Article: a	elven moonshine (10)	miniature antlers (c0)
+mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Floor: ? Init: 75 P: elf EA: hot Article: a	festive holiday hat (3)
+mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	cheap elven gloves (3)
+mutant gift-wrapping elf	747	elfclaw.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	elven socks (3)
+mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: ? Init: 100 P: elf Article: a	elven <i>limbos</i> gingerbread (10)	elven whittling knife (c0)
 
 # Unexplained Tremors (August 2009)
 Crys-Rock	854	crys_rock.gif	NOCOPY NOMANUEL Atk: [min(300,MOX+10)] Def: [min(300,MUS+10)] HP: [min(240,HP*2/3)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50 Elem: 50 EA: cold EA: hot	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)
