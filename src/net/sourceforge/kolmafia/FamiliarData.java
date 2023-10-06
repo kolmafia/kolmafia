@@ -1193,7 +1193,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
             ItemPool.MAP_TO_A_CANDY_RICH_BLOCK,
             "maps",
             "_mapToACandyRichBlockDrops",
-            3));
+            -1));
   }
 
   public static DropInfo getDropInfo(int id) {
