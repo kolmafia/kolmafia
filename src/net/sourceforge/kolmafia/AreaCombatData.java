@@ -864,11 +864,7 @@ public class AreaCombatData {
       return this.combats;
     }
 
-    double pct = this.combats;
-
-    if (stateful) {
-      pct += KoLCharacter.getCombatRateAdjustment();
-    }
+    double pct = this.combats + KoLCharacter.getCombatRateAdjustment();
 
     return Math.max(0.0, Math.min(100.0, pct));
   }
