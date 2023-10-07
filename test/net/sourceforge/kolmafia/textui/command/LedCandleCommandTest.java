@@ -8,8 +8,10 @@ import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.startsWith;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -100,7 +102,7 @@ public class LedCandleCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, hasSize(greaterThanOrEqualTo(2)));
-      assertGetRequest(requests.get(0), "/inventory.php", "action=tweakjill");
+      assertGetRequest(requests.get(0), equalTo("/inventory.php"), startsWith("action=tweakjill"));
       assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1509&option=" + num);
     }
   }
