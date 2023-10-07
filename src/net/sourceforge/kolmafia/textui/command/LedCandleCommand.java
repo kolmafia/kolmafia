@@ -45,7 +45,7 @@ public class LedCandleCommand extends AbstractCommand {
 
     KoLmafia.updateDisplay("Tweaking LED Candle");
 
-    RequestThread.postRequest(new GenericRequest("inventory.php?action=tweakjill", false));
+    RequestThread.postRequest(new GenericRequest("inventory.php?action=tweakjill&pwd=" + GenericRequest.passwordHash, false));
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1509&option=" + tweak));
   }
 }
