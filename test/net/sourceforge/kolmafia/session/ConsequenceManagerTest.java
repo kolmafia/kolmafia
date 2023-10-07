@@ -114,4 +114,33 @@ public class ConsequenceManagerTest {
       assertThat(Preferences.getString("_circadianRhythmsPhylum"), equalTo("elemental"));
     }
   }
+
+  @Nested
+  public class LedCandleMode {
+    @Test
+    public void canParseNormal() {
+      var cleanups = new Cleanups(withProperty("ledCandleMode"));
+
+      try (cleanups) {
+        var descid = ItemDatabase.getDescriptionId(ItemPool.LED_CANDLE);
+        var responseText = html("request/test_desc_item_led_candle_reading.html");
+
+        ConsequenceManager.parseItemDesc(descid, responseText);
+        assertThat(Preferences.getString("ledCandleMode"), equalTo("reading"));
+      }
+    }
+
+    @Test
+    public void trimsExtraSpaces() {
+      var cleanups = new Cleanups(withProperty("ledCandleMode"));
+
+      try (cleanups) {
+        var descid = ItemDatabase.getDescriptionId(ItemPool.LED_CANDLE);
+        var responseText = html("request/test_desc_item_led_candle_red_light.html");
+
+        ConsequenceManager.parseItemDesc(descid, responseText);
+        assertThat(Preferences.getString("ledCandleMode"), equalTo("red light"));
+      }
+    }
+  }
 }

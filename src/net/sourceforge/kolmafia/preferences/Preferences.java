@@ -360,6 +360,7 @@ public class Preferences {
         "latteUnlocks",
         "leafletCompleted",
         "ledCandleDropped",
+        "ledCandleMode",
         "locketPhylum",
         "lockPicked",
         "louvreLayout",

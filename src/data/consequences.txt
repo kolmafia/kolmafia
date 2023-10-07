@@ -88,6 +88,7 @@ DESC_ITEM	Powerful Glove	The Glove's battery is (\d+)% charged.	_powerfulGloveBa
 DESC_ITEM	Crimbo training manual	all that's left is Chapter (\d+).	crimboTrainingSkill=$1
 DESC_ITEM	cursed monkey's paw	monkey's paw recently pointed at a ([^<]+).<!-- itemid	monkeyPointMonster=$1
 DESC_ITEM	Cincho de Mayo	Your belt is <b>([\d]+)% </b> cinched	_cinchUsed=[100-$1]
+DESC_ITEM	LED candle	It is currently set to (.*?) mode	ledCandleMode=$1
 
 # Item modifiers
 DESC_ITEM	no hat		_noHatModifier=mods
