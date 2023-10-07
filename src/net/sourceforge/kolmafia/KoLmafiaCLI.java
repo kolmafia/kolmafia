@@ -694,6 +694,7 @@ public class KoLmafiaCLI {
     new KitchenCommand().register("kitchen").register("hellkitchen").register("hellskitchen");
     new LatteCommand().register("latte");
     new LeafletCommand().register("leaflet");
+    new LedCandleCommand().register("ledcandle").register("jillcandle");
     new LoathingIdolCommand().register("loathingidol");
     new LogEchoCommand().register("logecho").register("logprint");
     new LoginCommand().register("login");
