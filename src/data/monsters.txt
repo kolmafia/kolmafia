@@ -2443,10 +2443,10 @@ strangler strangling	649	strangler.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: const
 stomper stomping	650	stomper.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a	cyborg stompin' boot (10)
 
 # Halloween XX (Halloween 2008)
-mutant gila monster	728	mutantgila.gif	Scale: 5 Cap: 500 Init: -10000 P: beast Article: a	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
-mutant rattlesnake	726	mutantsnake.gif	Scale: 5 Cap: 500 Init: 75 P: beast SNAKE Article: a	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
-mutant saguaro	727	mutantcactus.gif	Scale: 5 Cap: 500 Init: -10000 P: plant Article: a	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
-swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: bug Article: a	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
+mutant gila monster	728	mutantgila.gif	Scale: 5 Cap: 500 Init: -10000 P: beast Article: a	beholed bedsheet (c20)	invisible bag (c20)	witch hat (c20)
+mutant rattlesnake	726	mutantsnake.gif	Scale: 5 Cap: 500 Init: 75 P: beast SNAKE Article: a	beholed bedsheet (c20)	invisible bag (c20)	witch hat (c20)
+mutant saguaro	727	mutantcactus.gif	Scale: 5 Cap: 500 Init: -10000 P: plant Article: a	beholed bedsheet (c20)	invisible bag (c20)	witch hat (c20)
+swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: bug Article: a	beholed bedsheet (c20)	invisible bag (c20)	witch hat (c20)
 
 # Old Crimbo Town Toy Factory (Crimbo 2008)
 Mob Penguin enforcer	752	pengthug.gif	Scale: 6 Init: 75 P: penguin Article: a	patent leather shoes (3)

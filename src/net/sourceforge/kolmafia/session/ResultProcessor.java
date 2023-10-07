@@ -3384,6 +3384,19 @@ public class ResultProcessor {
       case ItemPool.REPLICA_CINCHO_DE_MAYO:
         InventoryManager.addCinchoDeMayoSkills();
         break;
+
+      case ItemPool.LED_CANDLE:
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.JILL_OF_ALL_TRADES) {
+          Preferences.setBoolean("ledCandleDropped", true);
+        }
+        break;
+      case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK:
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.JILL_OF_ALL_TRADES) {
+          Preferences.increment("_mapToACandyRichBlockDrops", 1);
+        }
+        break;
     }
 
     // Gaining items can achieve goals.
