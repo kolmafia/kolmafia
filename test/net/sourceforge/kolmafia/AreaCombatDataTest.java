@@ -116,6 +116,15 @@ public class AreaCombatDataTest {
   }
 
   @Test
+  public void nonstatefulDataWithNonzeroCombatRate() {
+    try (var cleanup = withEffect(EffectPool.TAUNT_OF_HORUS)) {
+      Map<MonsterData, Double> appearanceRates =
+          AdventureDatabase.getAreaCombatData("Sonofa Beach").getMonsterData();
+      assertThat(appearanceRates, hasEntry(MonsterDatabase.findMonster("lobsterfrogman"), 30.0));
+    }
+  }
+
+  @Test
   public void saberCopy() {
     var cleanups =
         new Cleanups(
@@ -442,6 +451,44 @@ public class AreaCombatDataTest {
     assertThat(appearanceRates.get(CYBORG_POLICEMAN), equalTo(0.0));
     assertThat(appearanceRates.get(OBESE_TOURIST), greaterThan(0.0));
     assertThat(appearanceRates.get(TERRIFYING_ROBOT), greaterThan(0.0));
+  }
+
+  @Nested
+  class SmutOrcLoggingCamp {
+    @Test
+    public void blechHouseDoesNotHappenAfterFinishingBridge() {
+      var cleanups =
+          new Cleanups(
+              withProperty("smutOrcNoncombatProgress", 15), // Blech House is up
+              withProperty("chasmBridgeProgress", 30) // ...but bridge is finished
+              );
+      try (cleanups) {
+        assertThat(SMUT_ORC_CAMP.areaCombatPercent(), equalTo(100.0));
+      }
+    }
+
+    @Test
+    public void blechHouseHappensWhenEnoughProgressIsReached() {
+      var cleanups =
+          new Cleanups(
+              withProperty("smutOrcNoncombatProgress", 16), // Blech House is up
+              withProperty("chasmBridgeProgress", 26) // and bridge is not finished yet
+              );
+      try (cleanups) {
+        assertThat(SMUT_ORC_CAMP.areaCombatPercent(), equalTo(0.0));
+      }
+    }
+
+    @Test
+    public void blechHouseDoesNotHappenWhenNotEnoughProgressIsReached() {
+      var cleanups =
+          new Cleanups(
+              withProperty("smutOrcNoncombatProgress", 12) // Blech House is not yet up
+              );
+      try (cleanups) {
+        assertThat(SMUT_ORC_CAMP.areaCombatPercent(), equalTo(100.0));
+      }
+    }
   }
 
   @Nested
