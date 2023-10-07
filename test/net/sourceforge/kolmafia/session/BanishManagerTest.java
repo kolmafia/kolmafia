@@ -430,8 +430,8 @@ class BanishManagerTest {
 
     @ParameterizedTest
     @CsvSource({
-      "153, true",
-      "154, false",
+      "152, true",
+      "153, false",
     })
     void banishMonsterCorrectOnTurnCost(final int turns, final boolean banished) {
       var cleanups = new Cleanups(withCurrentRun(123), withProperty("banishedMonsters"));

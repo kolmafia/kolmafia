@@ -201,7 +201,7 @@ public class BanishManager {
 
     public boolean isValid() {
       return switch (banisher.getResetType()) {
-        case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() >= 0;
+        case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() > 0;
         case COSMIC_BOWLING_BALL_RESET -> Preferences.getInteger("cosmicBowlingBallReturnCombats")
             > 0;
         default -> true;
