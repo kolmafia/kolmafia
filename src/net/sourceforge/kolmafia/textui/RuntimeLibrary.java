@@ -2412,6 +2412,10 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("is_banished", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.MONSTER_TYPE};
+    functions.add(
+        new LibraryFunction("banished_by", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
     params = new Type[] {};
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
@@ -9007,6 +9011,20 @@ public abstract class RuntimeLibrary {
       return DataTypes.FALSE_VALUE;
     }
     return DataTypes.makeBooleanValue(BanishManager.isBanished(monster.getName()));
+  }
+
+  public static Value banished_by(ScriptRuntime controller, final Value arg) {
+    MonsterData monster = (MonsterData) arg.rawValue();
+    var banishedBy = BanishManager.banishedBy(monster);
+
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, banishedBy.length);
+    ArrayValue value = new ArrayValue(type);
+
+    for (int i = 0; i < banishedBy.length; i++) {
+      value.aset(new Value(i), DataTypes.makeStringValue(banishedBy[i].getName()));
+    }
+
+    return value;
   }
 
   public static Value jump_chance(ScriptRuntime controller) {
