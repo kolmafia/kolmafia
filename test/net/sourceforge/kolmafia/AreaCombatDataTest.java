@@ -454,6 +454,44 @@ public class AreaCombatDataTest {
   }
 
   @Nested
+  class SmutOrcLoggingCamp {
+    @Test
+    public void blechHouseDoesNotHappenAfterFinishingBridge() {
+      var cleanups =
+          new Cleanups(
+              withProperty("smutOrcNoncombatProgress", 15), // Blech House is up
+              withProperty("chasmBridgeProgress", 30) // ...but bridge is finished
+              );
+      try (cleanups) {
+        assertThat(SMUT_ORC_CAMP.areaCombatPercent(), equalTo(100.0));
+      }
+    }
+
+    @Test
+    public void blechHouseHappensWhenEnoughProgressIsReached() {
+      var cleanups =
+          new Cleanups(
+              withProperty("smutOrcNoncombatProgress", 16), // Blech House is up
+              withProperty("chasmBridgeProgress", 26) // and bridge is not finished yet
+              );
+      try (cleanups) {
+        assertThat(SMUT_ORC_CAMP.areaCombatPercent(), equalTo(0.0));
+      }
+    }
+
+    @Test
+    public void blechHouseDoesNotHappenWhenNotEnoughProgressIsReached() {
+      var cleanups =
+          new Cleanups(
+              withProperty("smutOrcNoncombatProgress", 12) // Blech House is not yet up
+              );
+      try (cleanups) {
+        assertThat(SMUT_ORC_CAMP.areaCombatPercent(), equalTo(100.0));
+      }
+    }
+  }
+
+  @Nested
   class ZeroTotalWeighting {
     @Test
     public void canGetAppearanceRateForZeroTotalWeighting() {
