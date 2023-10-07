@@ -17,6 +17,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class ConsequenceManagerTest {
   @BeforeEach
@@ -117,21 +119,22 @@ public class ConsequenceManagerTest {
 
   @Nested
   public class LedCandleMode {
-    @Test
-    public void canParseNormal() {
+    @ParameterizedTest
+    @ValueSource(strings = {"disco", "ultraviolet", "reading"})
+    public void canParseNormal(String type) {
       var cleanups = new Cleanups(withProperty("ledCandleMode"));
 
       try (cleanups) {
         var descid = ItemDatabase.getDescriptionId(ItemPool.LED_CANDLE);
-        var responseText = html("request/test_desc_item_led_candle_reading.html");
+        var responseText = html("request/test_desc_item_led_candle_" + type + ".html");
 
         ConsequenceManager.parseItemDesc(descid, responseText);
-        assertThat(Preferences.getString("ledCandleMode"), equalTo("reading"));
+        assertThat(Preferences.getString("ledCandleMode"), equalTo(type));
       }
     }
 
     @Test
-    public void trimsExtraSpaces() {
+    public void trimsExtraSpacesForRedLight() {
       var cleanups = new Cleanups(withProperty("ledCandleMode"));
 
       try (cleanups) {
