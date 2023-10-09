@@ -90,7 +90,9 @@ public class PHPMTRandom extends Random {
   }
 
   void reload() {
-    for (int i = 0; i < STATE_LENGTH; i++) {
+    int state_shift = index - STATE_LENGTH;
+
+    for (int i = state_shift; i < state_shift + STATE_LENGTH; i++) {
       long value = twist(state.get(i + PERIOD), state.get(i), state.get(i + 1));
       state.add(value);
     }

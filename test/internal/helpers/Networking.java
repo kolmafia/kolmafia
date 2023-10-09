@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import org.hamcrest.Matcher;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
@@ -51,10 +52,15 @@ public class Networking {
   }
 
   public static void assertGetRequest(HttpRequest request, String path, String query) {
+    assertGetRequest(request, equalTo(path), equalTo(query));
+  }
+
+  public static void assertGetRequest(
+      HttpRequest request, Matcher<String> path, Matcher<String> query) {
     assertThat(request.method(), equalTo("GET"));
     var uri = request.uri();
-    assertThat(uri.getPath(), equalTo(path));
-    assertThat(uri.getQuery(), equalTo(query));
+    assertThat(uri.getPath(), path);
+    assertThat(uri.getQuery(), query);
   }
 
   public static String getPostRequestBody(HttpRequest request) {

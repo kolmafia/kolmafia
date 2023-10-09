@@ -992,6 +992,7 @@ user	lawOfAveragesAvailable	true
 user	lawOfAveragesCost	1000
 user	leafletCompleted	false
 user	ledCandleDropped	false
+user	ledCandleMode
 user	legacyPoints	0
 user	libramSkillsHardcore	none
 user	libramSkillsSoftcore	none
