@@ -45,7 +45,7 @@ public class GrandpaRequest extends GenericRequest {
     if (!matcher.find()) {
       return;
     }
-    String topic = GenericRequest.decodeField(matcher.group(1));
+    String topic = GenericRequest.decodeField(matcher.group(1)).toLowerCase();
     switch (topic) {
       case "hierfal" -> {
         Preferences.setBoolean("hasTwinkleVision", true);
