@@ -1541,21 +1541,21 @@ peeved roommate	971	mh_roommate.gif	FREE Scale: 0 Init: -10000 P: dude Article: 
 random scenester	973	mh_scenester.gif	FREE Scale: 0 Init: -10000 P: dude Article: a	ironic jogging shorts (c10)
 
 # Spaaace (Li'l Xenomorph June 2011)
-alielf	1092	alielf.gif	Scale: 10 Cap: 460 Init: 50 P: horror EA: sleaze Article: an	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
-cat-alien	1090	catalien.gif	Scale: 8 Cap: 450 Init: -10000 P: horror Article: a	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)
-dog-alien	1091	dogalien.gif	Scale: 8 Cap: 450 Init: -10000 P: horror EA: sleaze Article: a	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
-dogcat	1093	catdog.gif	Scale: 10 Cap: 460 Init: -10000 P: horror Article: a	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)
-ferrelf	1095	ferrelf.gif	Scale: 7 Cap: 440 Init: -10000 P: horror EA: stench Article: a	elven magi-pack (0)	lunar isotope (0)	lunar isotope (0)	folder (holographic fractal) (c0)
-grizzled survivor	1085	surv_grizzled.gif	Scale: 5 Cap: 310 Init: -10000 P: dude Article: a	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter II (15)
-hamsterpus	1094	hamsterpus.gif	Scale: 5 Cap: 430 Init: -10000 P: horror Article: a	elven medi-pack (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
-overarmed survivor	1088	surv_overarmed.gif	Scale: 5 Cap: 320 Init: -10000 P: dude Article: an	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter V (15)
-primitive survivor	1089	surv_primitive.gif	Scale: 5 Cap: 310 Init: -10000 P: dude EA: stench Article: a	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter VI (15)
+alielf	1092	alielf.gif	Scale: 10 Cap: 460 Init: 50 P: horror EA: sleaze Article: an	elven medi-pack (25)	lunar isotope (45)	lunar isotope (30)	lunar isotope (15)
+cat-alien	1090	catalien.gif	Scale: 8 Cap: 450 Init: -10000 P: horror Article: a	elven medi-pack (25)	lunar isotope (60)	lunar isotope (30)
+dog-alien	1091	dogalien.gif	Scale: 8 Cap: 450 Init: -10000 P: horror EA: sleaze Article: a	elven magi-pack (25)	lunar isotope (60)	lunar isotope (30)
+dogcat	1093	catdog.gif	Scale: 10 Cap: 460 Init: -10000 P: horror Article: a	elven magi-pack (25)	lunar isotope (60)	lunar isotope (30)
+ferrelf	1095	ferrelf.gif	Scale: 7 Cap: 440 Init: -10000 P: horror EA: stench Article: a	elven magi-pack (25)	lunar isotope (60)	lunar isotope (30)	folder (holographic fractal) (c0)
+grizzled survivor	1085	surv_grizzled.gif	Scale: 5 Cap: 310 Init: -10000 P: dude Article: a	elven hardtack (25)	elven squeeze (20)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter II (15)
+hamsterpus	1094	hamsterpus.gif	Scale: 5 Cap: 430 Init: -10000 P: horror Article: a	elven medi-pack (25)	lunar isotope (60)	lunar isotope (45)	lunar isotope (30)
+overarmed survivor	1088	surv_overarmed.gif	Scale: 5 Cap: 320 Init: -10000 P: dude Article: an	elven hardtack (20)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter V (15)
+primitive survivor	1089	surv_primitive.gif	Scale: 5 Cap: 310 Init: -10000 P: dude EA: stench Article: a	elven hardtack (25)	elven squeeze (20)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter VI (15)
 unhinged survivor	1084	surv_unhinged.gif	Scale: 5 Cap: 300 Init: -10000 P: dude Article: a	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter I (15)
 unlikely survivor	1087	surv_unlikely.gif	Scale: 0 Cap: 300 Init: -10000 P: dude EA: sleaze Article: an	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Ronald Prime (10)	Notes from the Elfpocalypse, Chapter IV (15)
-whiny survivor	1086	surv_whiny.gif	Scale: -5 Cap: 290 Init: -10000 P: dude Article: a	elven hardtack (25)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter III (15)
-alien hamsterpus	1096	muthamster.gif	Scale: 1 Cap: 5000 Init: 100 P: horror Article: an	elven magi-pack (25)	elven medi-pack (25)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
-mutated alielephant	1098	alielephant.gif	Scale: 10 Cap: 5000 Init: -10000 P: horror Article: a	elven magi-pack (25)	elven medi-pack (25)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
-mutated alielf	1097	mutantalielf.gif	Scale: 5 Cap: 5000 Init: 100 P: horror Article: a	elven magi-pack (25)	elven medi-pack (25)	lunar isotope (0)	lunar isotope (0)	lunar isotope (0)
+whiny survivor	1086	surv_whiny.gif	Scale: -5 Cap: 290 Init: -10000 P: dude Article: a	elven hardtack (20)	elven squeeze (25)	Map to Safety Shelter Grimace Prime (10)	Notes from the Elfpocalypse, Chapter III (15)
+alien hamsterpus	1096	muthamster.gif	Scale: 1 Cap: 5000 Init: 100 P: horror Article: an	elven magi-pack (25)	elven medi-pack (25)	lunar isotope (60)	lunar isotope (40)	lunar isotope (20)
+mutated alielephant	1098	alielephant.gif	Scale: 10 Cap: 5000 Init: -10000 P: horror Article: a	elven magi-pack (25)	elven medi-pack (25)	lunar isotope (50)	lunar isotope (35)	lunar isotope (20)	lunar isotope (15)
+mutated alielf	1097	mutantalielf.gif	Scale: 5 Cap: 5000 Init: 100 P: horror Article: a	elven magi-pack (25)	elven medi-pack (25)	lunar isotope (75)	lunar isotope (50)	lunar isotope (25)
 
 # The Clumsiness Grove (Blavious Kloop Year 2012)
 Sorrowful Hickory	1125	tree_hickory.gif	Scale: 2 Cap: 150 Init: 50 P: plant Article: the	clumsiness bark (0)	cup of hickory chicory (0)
@@ -2219,14 +2219,14 @@ water spider	975	waterspider.gif	Atk: 130 Def: 117 HP: 150 Init: 50 P: bug EA: h
 Drunken Tropical Vacationer	1772	kok_drunk.gif	Scale: 0 Cap: ? Init: -10000 Meat: 200 P: dude Article: a	Kokomo Resort Chip (40)	Kokomo Resort Chip (10)	Kokomo Resort Brand Suntan Oil (1)	Kokomo Resort Chip (4)	captured boozles (c10)
 Lovestruck Tropical Honeymooners	1771	kok_lovers.gif	Scale: -5 Cap: ? Init: -10000 Meat: 250 P: dude Article: some	Afternoon Delight (20)	Kokomo Resort Chip (30)	Kokomo Resort Chip (3)
 Resort Waiter	1773	kok_waiter.gif	Scale: 5 Cap: ? Init: -10000 Meat: 100 P: dude EA: hot Article: a	Kokomo Resort Chip (25)	Kokomo Resort Order Pad (20)	drinks tray (c10)
-Brick Mulligan, the Bartender	1774	kok_tender.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude EA: hot	lemon (0)	lime (0)	orange (0)	bottle of gin (0)	bottle of vodka (0)	bottle of rum (0)	coconut shell (0)	little paper umbrella (0)	magical ice cubes (0)	eyebrow lifter (c0)
+Brick Mulligan, the Bartender	1774	kok_tender.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude EA: hot	lemon (20)	lime (20)	orange (20)	bottle of gin (10)	bottle of vodka (10)	bottle of rum (10)	coconut shell (3)	little paper umbrella (3)	magical ice cubes (3)	eyebrow lifter (c50)
 
 # Current Events
 
 # Talk Like a Pirate Day
-ambulatory pirate	721	pirate2.gif	WANDERER Scale: 2 Cap: 150 Init: -10000 P: pirate Article: an	can of Binarrrca (0)	black spot (0)
-migratory pirate	720	pirate2.gif	WANDERER Scale: 2 Cap: 150 Init: -10000 P: pirate Article: a	can of Binarrrca (0)	black spot (0)
-peripatetic pirate	722	pirate2.gif	WANDERER Scale: 2 Cap: 150 Init: -10000 P: pirate Article: a	can of Binarrrca (0)	black spot (0)
+ambulatory pirate	721	pirate2.gif	WANDERER Scale: 2 Cap: 150 Init: -10000 P: pirate Article: an	can of Binarrrca (100)	black spot (10)
+migratory pirate	720	pirate2.gif	WANDERER Scale: 2 Cap: 150 Init: -10000 P: pirate Article: a	can of Binarrrca (100)	black spot (10)
+peripatetic pirate	722	pirate2.gif	WANDERER Scale: 2 Cap: 150 Init: -10000 P: pirate Article: a	can of Binarrrca (100)	black spot (10)
 
 # Feast of Boris
 Candied Yam Golem	317	yamgolem.gif	NOCOPY WANDERER Atk: [min(10000,MOX-3)+max(ML,0)] Def: [min(10000,MUS-3)+max(ML,0)] HP: [0.75*HP] Exp: [min(10000,STAT-3)/4+max(ML,0)/3] Init: 100 P: construct Article: a	yam candy (c100)	candied yams (c100)
