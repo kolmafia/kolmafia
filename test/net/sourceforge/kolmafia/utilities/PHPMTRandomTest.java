@@ -42,4 +42,13 @@ class PHPMTRandomTest {
     assertThat(rng.nextInt(10, 20), is(11));
     assertThat(rng.nextInt(-5, 100), is(32));
   }
+
+  @Test
+  void nextIntAfter700Calls() {
+    var rng = new PHPMTRandom(768);
+    for (int i = 0; i < 700; i++) {
+      rng.nextInt();
+    }
+    assertThat(rng.nextInt(), equalTo(49898254));
+  }
 }

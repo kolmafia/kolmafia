@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
+import net.sourceforge.kolmafia.request.LedCandleRequest;
 import net.sourceforge.kolmafia.request.LocketRequest;
 import net.sourceforge.kolmafia.request.MonkeyPawRequest;
 import net.sourceforge.kolmafia.request.MummeryRequest;
@@ -6553,6 +6554,11 @@ public abstract class ChoiceControl {
           MonkeyPawRequest.postChoice(text, wish);
           break;
         }
+
+      case 1509:
+        // Adjust Jill-of-All-Trades Lighting
+        LedCandleRequest.parseUpgrade(urlString, text);
+        break;
     }
   }
 
@@ -9350,6 +9356,7 @@ public abstract class ChoiceControl {
       case 1494: // Examine S.I.T. Course Certificate
       case 1495: // Get Some Training
       case 1501: // Make a Wish
+      case 1509: // Adjust Jill-of-All-Trades Lighting
         return true;
 
       default:

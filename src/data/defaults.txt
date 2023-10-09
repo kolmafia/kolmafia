@@ -991,6 +991,8 @@ user	latteUnlocks	cinnamon,pumpkin,vanilla
 user	lawOfAveragesAvailable	true
 user	lawOfAveragesCost	1000
 user	leafletCompleted	false
+user	ledCandleDropped	false
+user	ledCandleMode
 user	legacyPoints	0
 user	libramSkillsHardcore	none
 user	libramSkillsSoftcore	none
@@ -2103,6 +2105,8 @@ user	_mafiaMiddleFingerRingUsed	false
 user	_mafiaThumbRingAdvs	0
 user	_managerialManipulationUsed	false
 user	_mansquitoSerumUsed	false
+user	_mapToACandyRichBlockDrops	0
+user	_mapToACandyRichBlockUsed	false
 user	_maydayDropped	false
 user	_mayflowerDrops	0
 user	_mayflySummons	0

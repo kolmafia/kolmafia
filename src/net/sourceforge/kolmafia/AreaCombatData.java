@@ -835,7 +835,11 @@ public class AreaCombatData {
           }
         }
         case "The Smut Orc Logging Camp" -> {
-          return Preferences.getInteger("smutOrcNoncombatProgress") < 15 ? 100 : 0;
+          // Blech House does not appear if the bridge is finished
+          return Preferences.getInteger("smutOrcNoncombatProgress") < 15
+                  || Preferences.getInteger("chasmBridgeProgress") >= 30
+              ? 100
+              : 0;
         }
         case "Barf Mountain" -> {
           return Preferences.getBoolean("dinseyRollercoasterNext") ? 0 : 100;
@@ -864,11 +868,7 @@ public class AreaCombatData {
       return this.combats;
     }
 
-    double pct = this.combats;
-
-    if (stateful) {
-      pct += KoLCharacter.getCombatRateAdjustment();
-    }
+    double pct = this.combats + KoLCharacter.getCombatRateAdjustment();
 
     return Math.max(0.0, Math.min(100.0, pct));
   }

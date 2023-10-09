@@ -4621,6 +4621,7 @@ Familiar	Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [flo
 Familiar	Happy Medium	Initiative: [W]
 Familiar	Hobo Monkey	Leprechaun: 1.25
 Familiar	Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
+Familiar	Jill-of-All-Trades	Fairy: [1+(0.5*equipped(LED candle)*pref(ledCandleMode,disco))], Leprechaun: [1+(0.5*equipped(LED candle)*pref(ledCandleMode,ultraviolet))], Volleyball Effectiveness: [1+(0.5*equipped(LED candle)*pref(ledCandleMode,reading))], Sombrero Effectiveness: [1+(0.5*equipped(LED candle)*pref(ledCandleMode,reading))]
 Familiar	Llama Lama	Volleyball: 0.5
 Familiar	Magic Dragonfish	Spell Damage Percent: [min(2*W,100^env(underwater)*100)]
 Familiar	Mechanical Songbird	Fairy Effectiveness: [1.0+0.5*zone(Dreadsylvania)]

@@ -6133,6 +6133,11 @@ public class UseItemRequest extends GenericRequest {
         // There's a deafening Bwoom-woob-woob-woob and then an ominous hum fills the air.
         CampgroundRequest.setCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH, 1);
         break;
+
+      case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK:
+        Preferences.setBoolean("_mapToACandyRichBlockUsed", true);
+        break;
+
       case ItemPool.VAN_KEY:
         // When the player has a NEP Booze/Food quest active, up to 11 bags or keys can be opened
         if (Preferences.getString("_questPartyFairQuest").equals("food")

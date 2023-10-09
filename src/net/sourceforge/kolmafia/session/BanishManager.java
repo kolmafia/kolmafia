@@ -201,7 +201,7 @@ public class BanishManager {
 
     public boolean isValid() {
       return switch (banisher.getResetType()) {
-        case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() >= 0;
+        case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() > 0;
         case COSMIC_BOWLING_BALL_RESET -> Preferences.getInteger("cosmicBowlingBallReturnCombats")
             > 0;
         default -> true;
@@ -222,7 +222,7 @@ public class BanishManager {
     }
   }
 
-  public static Set<Banished> getBanishedSet(Banisher banisher) {
+  private static Set<Banished> getBanishedSet(Banisher banisher) {
     return switch (banisher.getBanishType()) {
       case MONSTER -> banishedMonsters;
       case PHYLUM -> banishedPhyla;
@@ -251,7 +251,7 @@ public class BanishManager {
     banished.clear();
 
     String banishes = Preferences.getString(prefName);
-    if (banishes.length() == 0) {
+    if (banishes.isEmpty()) {
       return;
     }
 
@@ -491,6 +491,29 @@ public class BanishManager {
         .anyMatch(m -> m.banished().equalsIgnoreCase(data.getPhylum().toString()));
   }
 
+  public static Banisher[] banishedBy(final MonsterData data) {
+    BanishManager.recalculate();
+
+    if (data == null) {
+      return new Banisher[0];
+    }
+    if (data.isNoBanish()) {
+      return new Banisher[0];
+    }
+
+    var monsterBanishes =
+        banishedMonsters.stream()
+            .filter(m -> m.banisher().isEffective())
+            .filter(m -> m.banished().equalsIgnoreCase(data.getName()));
+    var phylaBanishes =
+        banishedPhyla.stream()
+            .filter(m -> m.banisher().isEffective())
+            .filter(m -> m.banished().equalsIgnoreCase(data.getPhylum().toString()));
+    return Stream.concat(monsterBanishes, phylaBanishes)
+        .map(Banished::banisher)
+        .toArray(Banisher[]::new);
+  }
+
   private static int countBanishes(final Banisher banisher) {
     Set<Banished> banished = getBanishedSet(banisher);
     return (int) banished.stream().filter(m -> m.banisher() == banisher).count();
@@ -521,7 +544,7 @@ public class BanishManager {
 
   public static String getFirstBanished(Banisher banisher) {
     var banished = getBanished(banisher);
-    return (banished.size() > 0) ? banished.get(0) : null;
+    return !banished.isEmpty() ? banished.get(0) : null;
   }
 
   public static String[][] getBanishedMonsterData() {

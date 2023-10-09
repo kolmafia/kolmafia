@@ -3678,6 +3678,8 @@ public class ItemPool {
   public static final int RESIDUAL_CHITIN_PASTE = 11327;
   public static final int BOOK_OF_FACTS = 11333;
   public static final int BOOK_OF_FACTS_DOG_EARED = 11334;
+  public static final int LED_CANDLE = 11336;
+  public static final int MAP_TO_A_CANDY_RICH_BLOCK = 11337;
 
   private ItemPool() {}
 
