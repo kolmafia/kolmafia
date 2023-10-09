@@ -9,6 +9,7 @@ import static internal.helpers.Player.withRestricted;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContaining;
+import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.hamcrest.Matchers.arrayWithSize;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
@@ -430,8 +431,8 @@ class BanishManagerTest {
 
     @ParameterizedTest
     @CsvSource({
-      "153, true",
-      "154, false",
+      "152, true",
+      "153, false",
     })
     void banishMonsterCorrectOnTurnCost(final int turns, final boolean banished) {
       var cleanups = new Cleanups(withCurrentRun(123), withProperty("banishedMonsters"));
@@ -626,6 +627,29 @@ class BanishManagerTest {
 
         assertFalse(BanishManager.isBanished("angry tourist"));
       }
+    }
+  }
+
+  @Test
+  void getsBanishedBy() {
+    var cleanups =
+        new Cleanups(
+            withCurrentRun(13),
+            withProperty(
+                "banishedMonsters", "fluffy bunny:louder than bomb:11:fluffy bunny:snokebomb:12"),
+            withProperty("banishedPhyla", "beast:Patriotic Screech:11"));
+
+    try (cleanups) {
+      BanishManager.loadBanished();
+
+      var bunny = MonsterDatabase.findMonster("fluffy bunny");
+      var banishers = BanishManager.banishedBy(bunny);
+
+      assertThat(banishers.length, equalTo(3));
+      assertThat(
+          banishers,
+          arrayContainingInAnyOrder(
+              Banisher.LOUDER_THAN_BOMB, Banisher.SNOKEBOMB, Banisher.PATRIOTIC_SCREECH));
     }
   }
 
