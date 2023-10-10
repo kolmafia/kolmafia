@@ -93,7 +93,7 @@ public class ChateauRequestTest {
       ItemPool.CHATEAU_FAN + ", Free Rests, 5",
     })
     void appliesModifiersFromChateau(final int itemId, final String modifierName, double score) {
-      var cleanups = new Cleanups(withChateau(itemId), withoutHoliday());
+      var cleanups = new Cleanups(withoutHoliday(), withChateau(itemId));
 
       try (cleanups) {
         assertThat(
