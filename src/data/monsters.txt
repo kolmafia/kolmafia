@@ -1744,7 +1744,7 @@ Sloppy Seconds Cocktail	1567	ssd_cocktail.gif	NOBANISH Scale: 5 Cap: 11111 Init:
 Sloppy Seconds Sundae	1568	ssd_sundae.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 P: weird ED: sleaze EA: cold EA: hot	possessed sugar cube (n15)
 Fun-Guy Playmate	1569	fun-gal1.gif,fun-gal2.gif,fun-gal3.gif,fun-gal4.gif,fun-gal5.gif,fun-gal6.gif	NOCOPY Atk: [30] Def: [30] HP: [30] Exp: 30 Init: -10000 P: plant ED: sleaze EA: cold EA: hot EA: sleaze EA: stench	sleight-of-hand mushroom (0)	Fun-Guy spore (5)	pencil thin mushroom (c0)
 broctopus	1571	broctopus.gif	Atk: 375 Def: 300 HP: 500 Init: 50 Meat: 100 P: fish E: sleaze Article: a	BROS Energy Drink (n25)	8-billed baseball cap (n5)
-cocktail shrimp	1572	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: 75 Meat: 50 P: fish Elem: 50 E: sleaze Article: a	giant shrimp fork (5)	shrimp cocktail (25)
+cocktail shrimp	1572	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: 75 Meat: 50 P: fish Elem: 50 E: sleaze Article: a	giant shrimp fork (n5)	shrimp cocktail (n25)
 taco fish	1573	tacofish.gif	NOCOPY Atk: 350 Def: 400 HP: 500 Init: 50 Meat: 150 P: fish ED: sleaze EA: hot Article: a
 wild girl	1570	wildgirl.gif	Atk: 325 Def: 350 HP: 450 Init: 100 Meat: 100 P: dude E: sleaze Article: a	extremely wet T-shirt (n5)	go-go potion (n25)	string of moist beads (n30)
 son of a son of a sailor	1574	sonofsailor.gif	NOCOPY Atk: 350 Def: 350 HP: 600 Init: 50 Meat: 75 P: dude ED: sleaze Article: a
