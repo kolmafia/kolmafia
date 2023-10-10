@@ -27,6 +27,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withoutHoliday;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -56,6 +57,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class MaximizerTest {
   @BeforeAll
@@ -108,6 +111,35 @@ public class MaximizerTest {
       recommendedSlotIsUnchanged(Slot.HAT);
       recommendedSlotIs(Slot.PANTS, "government-issued slacks");
       assertEquals(10, modFor(DoubleModifier.MUS_EXPERIENCE_PCT), 0.01);
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "muscle exp perc, government-issued slacks",
+    "mus experience percent, government-issued slacks",
+    "mus experience percentage, government-issued slacks",
+    "mus exp, Pantsgiving",
+    "mus experience, Pantsgiving",
+    "muscle exp, Pantsgiving",
+    "muscle perc, sugar shorts",
+    "mus percent, sugar shorts",
+    "mus percentage, sugar shorts",
+    "mus, leg-mounted Trainbots"
+  })
+  public void findsGenericAbbreviations(String abbreviation, String expectedItem) {
+    var cleanups =
+        new Cleanups(
+            withEquippableItem("government-issued slacks"),
+            withEquippableItem("pantsgiving"),
+            withEquippableItem("sugar shorts"),
+            withEquippableItem("leg-mounted Trainbots"),
+            // Not a muscle day
+            withDay(2023, Month.SEPTEMBER, 27));
+
+    try (cleanups) {
+      assertTrue(maximize(abbreviation + ", -tie"));
+      recommendedSlotIs(Slot.PANTS, expectedItem);
     }
   }
 
@@ -970,7 +1002,8 @@ public class MaximizerTest {
           new Cleanups(
               withEquippableItem(ItemPool.SHINING_HALO),
               withEquippableItem(ItemPool.TIME_HALO),
-              withEquippableItem(ItemPool.TIME_SWORD));
+              withEquippableItem(ItemPool.TIME_SWORD),
+              withoutHoliday());
 
       try (cleanups) {
         assertTrue(maximize("adv, exp"));
@@ -1428,8 +1461,8 @@ public class MaximizerTest {
               withEquippableItem("Counterclockwise Watch"), // 10, watch
               withEquippableItem("grandfather watch"), // 6, also a watch
               withEquippableItem("plexiglass pocketwatch"), // 3, stacks
-              withEquippableItem("gold wedding ring") // 1
-              );
+              withEquippableItem("gold wedding ring"), // 1
+              withoutHoliday());
 
       try (cleanups) {
         assertTrue(maximize("adv"));

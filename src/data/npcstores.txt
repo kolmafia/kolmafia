@@ -284,7 +284,7 @@ Armory and Leggery	armory	union scalemail pants	375	ROW482
 Armory and Leggery	armory	paper-plate-mail pants	600	ROW483
 Armory and Leggery	armory	troutpiece	825	ROW484
 Armory and Leggery	armory	alpha-mail pants	1050	ROW485
-Armory and Leggery	armory	eldritch scanner	50000	ROW937
+#Armory and Leggery	armory	eldritch scanner	50000	ROW937
 Armory and Leggery	armory	fishin' hat	10000	ROW818
 
 Doc Galaktik's Medicine Show	doc	anti-anti-antidote	30	ROW694
