@@ -1397,6 +1397,15 @@ public class Player {
   }
 
   /**
+   * Set the day used by HolidayDatabase to a day with nothing going on
+   *
+   * @return Restores to using the real day
+   */
+  public static Cleanups withoutHoliday() {
+    return withDay(2023, Month.AUGUST, 1, 12, 0);
+  }
+
+  /**
    * Set the day used by HolidayDatabase
    *
    * @param year Year to set
