@@ -118,6 +118,20 @@ public class Evaluator {
     }
   }
 
+  private static final Pattern MUS_EXP_PERC_PATTERN =
+      Pattern.compile("^mus(cle)? exp(erience)? perc(ent(age)?)?");
+  private static final Pattern MUS_EXP_PATTERN = Pattern.compile("^mus(cle)? exp(erience)?");
+  private static final Pattern MUS_PERC_PATTERN = Pattern.compile("^mus(cle)? perc(ent(age)?)?");
+  private static final Pattern MYS_EXP_PERC_PATTERN =
+      Pattern.compile("^mys(t(ical(ity)?)?)? exp(erience)? perc(ent(age)?)?");
+  private static final Pattern MYS_EXP_PATTERN =
+      Pattern.compile("^mys(t(ical(ity)?)?)? exp(erience)?");
+  private static final Pattern MYS_PERC_PATTERN =
+      Pattern.compile("^mys(t(ical(ity)?)?)? perc(ent(age)?)?");
+  private static final Pattern MOX_EXP_PERC_PATTERN =
+      Pattern.compile("^mox(ie)? exp(erience)? perc(ent(age)?)?");
+  private static final Pattern MOX_EXP_PATTERN = Pattern.compile("^mox(ie)? exp(erience)?");
+  private static final Pattern MOX_PERC_PATTERN = Pattern.compile("^mox(ie)? perc(ent(age)?)?");
   private static final String TIEBREAKER =
       "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
   private static final Pattern KEYWORD_PATTERN =
@@ -575,6 +589,24 @@ public class Evaluator {
           index = DoubleModifier.DAMAGE_REDUCTION;
         } else if (keyword.equals("ml")) {
           index = DoubleModifier.MONSTER_LEVEL;
+        } else if (MUS_EXP_PERC_PATTERN.matcher(keyword).find()) {
+          index = DoubleModifier.MUS_EXPERIENCE_PCT;
+        } else if (MUS_EXP_PATTERN.matcher(keyword).find()) {
+          index = DoubleModifier.MUS_EXPERIENCE;
+        } else if (MUS_PERC_PATTERN.matcher(keyword).find()) {
+          index = DoubleModifier.MUS_PCT;
+        } else if (MYS_EXP_PERC_PATTERN.matcher(keyword).find()) {
+          index = DoubleModifier.MYS_EXPERIENCE_PCT;
+        } else if (MYS_EXP_PATTERN.matcher(keyword).find()) {
+          index = DoubleModifier.MYS_EXPERIENCE;
+        } else if (MYS_PERC_PATTERN.matcher(keyword).find()) {
+          index = DoubleModifier.MYS_PCT;
+        } else if (MOX_EXP_PERC_PATTERN.matcher(keyword).find()) {
+          index = DoubleModifier.MOX_EXPERIENCE_PCT;
+        } else if (MOX_EXP_PATTERN.matcher(keyword).find()) {
+          index = DoubleModifier.MOX_EXPERIENCE;
+        } else if (MOX_PERC_PATTERN.matcher(keyword).find()) {
+          index = DoubleModifier.MOX_PCT;
         } else if (keyword.startsWith("mus")) {
           index = DoubleModifier.MUS;
         } else if (keyword.startsWith("mys")) {
