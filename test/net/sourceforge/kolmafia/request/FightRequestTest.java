@@ -2518,4 +2518,20 @@ public class FightRequestTest {
       }
     }
   }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  public void rainmanMonstersOnlyStartCounterInPath(final boolean inRaincore) {
+    var cleanups = new Cleanups(withFight(0), withNextMonster("alley catfish"), withoutCounters());
+
+    if (inRaincore) {
+      cleanups.add(withPath(Path.HEAVY_RAINS));
+    }
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_alley_catfish.html");
+      assertThat(TurnCounter.isCounting("Rain Monster window begin"), is(inRaincore));
+      assertThat(TurnCounter.isCounting("Rain Monster window end"), is(inRaincore));
+    }
+  }
 }
