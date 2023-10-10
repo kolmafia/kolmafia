@@ -27,6 +27,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
+import static internal.helpers.Player.withoutHoliday;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -1001,7 +1002,8 @@ public class MaximizerTest {
           new Cleanups(
               withEquippableItem(ItemPool.SHINING_HALO),
               withEquippableItem(ItemPool.TIME_HALO),
-              withEquippableItem(ItemPool.TIME_SWORD));
+              withEquippableItem(ItemPool.TIME_SWORD),
+              withoutHoliday());
 
       try (cleanups) {
         assertTrue(maximize("adv, exp"));
@@ -1459,8 +1461,8 @@ public class MaximizerTest {
               withEquippableItem("Counterclockwise Watch"), // 10, watch
               withEquippableItem("grandfather watch"), // 6, also a watch
               withEquippableItem("plexiglass pocketwatch"), // 3, stacks
-              withEquippableItem("gold wedding ring") // 1
-              );
+              withEquippableItem("gold wedding ring"), // 1
+              withoutHoliday());
 
       try (cleanups) {
         assertTrue(maximize("adv"));
