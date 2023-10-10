@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 public class PingRequest extends GenericRequest {
 
-  private String pingURL = "";
+  private final String pingURL;
   private long startTime = 0L;
   private long endTime = 0L;
 
@@ -12,18 +12,15 @@ public class PingRequest extends GenericRequest {
   // api.php's responseText is about 1/4 the size of main.php's - and
   // measured ping time is about 1/4 as long.
 
-  public PingRequest() {
-    this("api.php");
-  }
-
   public PingRequest(String pingURL) {
     super(pingURLToFormURL(pingURL));
-    this.pingURL = pingURL;
+    this.pingURL = pingURLToFormURL(pingURL);
     this.addFormFields();
   }
 
   private static String pingURLToFormURL(String pingURL) {
     return switch (pingURL) {
+      case "api.php", "council.php", "main.php" -> pingURL;
       case "api", "council", "main" -> pingURL + ".php";
       case "(status)", "(events)" -> "api.php";
         // What is this?
@@ -46,8 +43,9 @@ public class PingRequest extends GenericRequest {
 
   private boolean isSafeToRun() {
     return switch (this.pingURL) {
-      case "council", "main" -> !GenericRequest.abortIfInFightOrChoice(true);
-      case "api", "(status)", "(events)" -> true;
+      case "council", "council.php", "main", "main.php" -> !GenericRequest.abortIfInFightOrChoice(
+          true);
+      case "api", "api.php", "(status)", "(events)" -> true;
       default -> false;
     };
   }
@@ -115,14 +113,6 @@ public class PingRequest extends GenericRequest {
   @Override
   protected boolean shouldFollowRedirect() {
     return false;
-  }
-
-  public long getStartTime() {
-    return this.startTime;
-  }
-
-  public long getEndTime() {
-    return this.startTime;
   }
 
   public long getElapsedTime() {
