@@ -842,6 +842,11 @@ public class Modifiers {
       PreferenceListenerRegistry.registerPreferenceListener(
           new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged = true);
     }
+    if (KoLCharacter.getAvailableSkillIds().isEmpty()) {
+      // We probably haven't loaded the player's skills yet. Avoid populating
+      // availablePassiveSkillModifiersByVariable with two empty lists.
+      return;
+    }
 
     if (debug
         || Modifiers.availableSkillsChanged

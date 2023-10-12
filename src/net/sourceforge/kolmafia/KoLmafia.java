@@ -695,6 +695,8 @@ public abstract class KoLmafia {
     // It would be nice to not have to do this
     IslandManager.ensureUpdatedBigIsland();
 
+    KoLCharacter.recalculateAdjustments();
+
     KoLmafia.setIsRefreshing(false);
   }
 
