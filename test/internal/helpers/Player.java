@@ -1853,6 +1853,32 @@ public class Player {
   }
 
   /**
+   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
+   * getRequests() will not work on one set separately
+   *
+   * @param responseMap Map of responses, keyed by request.
+   * @return Cleans up so this response is not given afterwards.
+   */
+  public static Cleanups withResponseMap(final Map<String, FakeHttpResponse<String>> responseMap) {
+    var old = HttpUtilities.getClientBuilder();
+    var builder = new FakeHttpClientBuilder();
+    HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.resetClient();
+    GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
+
+    for (var entry : responseMap.entrySet()) {
+      builder.client.addResponse(entry.getKey(), entry.getValue());
+    }
+
+    return new Cleanups(
+        () -> {
+          GenericRequest.sessionId = null;
+          HttpUtilities.setClientBuilder(() -> old);
+          GenericRequest.resetClient();
+        });
+  }
+
+  /**
    * Visits a choice with a given choice and response
    *
    * @param choice Choice to set
