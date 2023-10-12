@@ -32,6 +32,7 @@ public class FakeHttpClient extends HttpClient {
 
   private final List<HttpRequest> requests = new ArrayList<>();
   private final Queue<FakeHttpResponse<String>> responses = new LinkedList<>();
+  private final Map<String, FakeHttpResponse<String>> responseMap = new HashMap<>();
 
   public void addResponse(int responseCode, String response) {
     addResponse(responseCode, new HashMap<>(), response);
@@ -43,6 +44,10 @@ public class FakeHttpClient extends HttpClient {
 
   public void addResponse(FakeHttpResponse<String> response) {
     responses.add(response);
+  }
+
+  public void addResponse(String uri, FakeHttpResponse<String> response) {
+    responseMap.put(uri, response);
   }
 
   public List<HttpRequest> getRequests() {
@@ -111,7 +116,7 @@ public class FakeHttpClient extends HttpClient {
   public <T> HttpResponse<T> send(HttpRequest request, BodyHandler<T> responseBodyHandler)
       throws IOException, InterruptedException {
     this.requests.add(request);
-    var response = responses.poll();
+    var response = responseMap.getOrDefault(request.uri().toString(), responses.poll());
 
     var responseCode = response != null ? response.statusCode() : 0;
     var headers = response != null ? response.rawHeaders() : new HashMap<String, List<String>>();
