@@ -828,6 +828,10 @@ public class Modifiers {
     };
   }
 
+  public static synchronized void availableSkillsChanged() {
+    availableSkillsChanged = true;
+  }
+
   public void addExpression(Indexed<DoubleModifier, ModifierExpression> entry) {
     if (this.expressions == null) {
       this.expressions = new ArrayList<>();
@@ -840,7 +844,7 @@ public class Modifiers {
       Modifiers.cachedPassiveModifiers =
           new Modifiers(new Lookup(ModifierType.PASSIVES, "cachedPassives"));
       PreferenceListenerRegistry.registerPreferenceListener(
-          new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged = true);
+          new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged());
     }
     if (KoLCharacter.getAvailableSkillIds().isEmpty()) {
       // We probably haven't loaded the player's skills yet. Avoid populating
@@ -848,36 +852,38 @@ public class Modifiers {
       return;
     }
 
-    if (debug
-        || Modifiers.availableSkillsChanged
-        || Modifiers.availablePassiveSkillModifiersByVariable.isEmpty()) {
-      // Collect all passive skills currently on the character.
-      Modifiers.availablePassiveSkillModifiersByVariable.putAll(
-          KoLCharacter.getAvailableSkillIds().stream()
-              .filter(SkillDatabase::isPassive)
-              .map(UseSkillRequest::getUnmodifiedInstance)
-              .filter(Objects::nonNull)
-              .filter(UseSkillRequest::isEffective)
-              .map(skill -> ModifierDatabase.getModifiers(ModifierType.SKILL, skill.getSkillId()))
-              .filter(Objects::nonNull)
-              .collect(
-                  Collectors.partitioningBy(
-                      modifiers -> modifiers.override(modifiers.getLookup()))));
+    synchronized (Modifiers.class) {
+      if (debug
+          || Modifiers.availableSkillsChanged
+          || Modifiers.availablePassiveSkillModifiersByVariable.isEmpty()) {
+        // Collect all passive skills currently on the character.
+        Modifiers.availablePassiveSkillModifiersByVariable.putAll(
+            KoLCharacter.getAvailableSkillIds().stream()
+                .filter(SkillDatabase::isPassive)
+                .map(UseSkillRequest::getUnmodifiedInstance)
+                .filter(Objects::nonNull)
+                .filter(UseSkillRequest::isEffective)
+                .map(skill -> ModifierDatabase.getModifiers(ModifierType.SKILL, skill.getSkillId()))
+                .filter(Objects::nonNull)
+                .collect(
+                    Collectors.partitioningBy(
+                        modifiers -> modifiers.override(modifiers.getLookup()))));
 
-      // Recompute sum of cached constant passive skills.
-      Modifiers.cachedPassiveModifiers.reset();
-      Modifiers.availablePassiveSkillModifiersByVariable
-          .get(false)
-          .forEach(
-              mods -> {
-                Modifiers.cachedPassiveModifiers.add(mods);
+        // Recompute sum of cached constant passive skills.
+        Modifiers.cachedPassiveModifiers.reset();
+        Modifiers.availablePassiveSkillModifiersByVariable
+            .get(false)
+            .forEach(
+                mods -> {
+                  Modifiers.cachedPassiveModifiers.add(mods);
 
-                // If we are debugging, add them directly. Also add them to the cache though
-                if (debug) {
-                  this.add(mods);
-                }
-              });
-      Modifiers.availableSkillsChanged = false;
+                  // If we are debugging, add them directly. Also add them to the cache though
+                  if (debug) {
+                    this.add(mods);
+                  }
+                });
+        Modifiers.availableSkillsChanged = false;
+      }
     }
 
     // If we're debugging we've already added the modifiers while building the passive cache.

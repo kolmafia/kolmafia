@@ -3758,6 +3758,7 @@ public abstract class KoLCharacter {
     KoLConstants.availableSkills.add(skill);
     KoLConstants.availableSkillsSet.add(skillId);
     PreferenceListenerRegistry.firePreferenceChanged("(skill)");
+    Modifiers.availableSkillsChanged();
 
     switch (SkillDatabase.getSkillType(skillId)) {
       case PASSIVE -> {

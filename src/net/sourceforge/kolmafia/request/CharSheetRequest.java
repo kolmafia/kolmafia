@@ -328,6 +328,9 @@ public class CharSheetRequest extends GenericRequest {
     KoLCharacter.setPermedSkills(permedSkillSet);
     KoLCharacter.setHardcorePermedSkills(hardcorePermedSkillSet);
 
+    // Update modifiers.
+    KoLCharacter.recalculateAdjustments();
+
     // Update uneffect methods and heal amounts for updated skills
     UneffectRequest.reset();
     HPRestoreItemList.updateHealthRestored();
