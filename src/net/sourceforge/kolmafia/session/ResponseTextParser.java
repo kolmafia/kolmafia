@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -994,7 +993,6 @@ public class ResponseTextParser {
     if (SkillDatabase.isBookshelfSkill(skillId)) {
       KoLCharacter.setBookshelf(true);
     }
-    PreferenceListenerRegistry.firePreferenceChanged("(skill)");
 
     if (skillId == SkillPool.POWER_PLUS) {
       KoLCharacter.recalculateAdjustments();

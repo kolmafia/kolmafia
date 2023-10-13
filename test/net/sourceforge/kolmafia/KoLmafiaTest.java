@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withResponseMap;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,6 +15,8 @@ import internal.network.FakeHttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -63,15 +66,21 @@ public class KoLmafiaTest {
     // This charsheet contains Stomach of Steel.
     var cleanups =
         new Cleanups(
+            withSkill(SkillPool.MARIACHI_MEMORY),
             withResponseMap(
                 Map.of(
                     "https://www.kingdomofloathing.com:443/charsheet.php",
                     new FakeHttpResponse<>(200, html("request/test_charsheet_normal.html")))));
 
     try (cleanups) {
+      // Prime the passive skill cache.
+      KoLCharacter.recalculateAdjustments();
+
+      PreferenceListenerRegistry.deferPreferenceListeners(true);
       assertEquals(15, KoLCharacter.getStomachCapacity());
       KoLmafia.refreshSession();
       assertEquals(20, KoLCharacter.getStomachCapacity());
+      PreferenceListenerRegistry.deferPreferenceListeners(false);
     }
   }
 }
