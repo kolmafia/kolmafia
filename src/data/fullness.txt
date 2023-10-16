@@ -48,10 +48,10 @@ balaclava baklava	2	1	decent	2-3	4-6	4-6	4-6
 ballroom blintz	3	1	decent	3-8	0	0	10-12
 banana	1	1	crappy	1	1	1	1	banana peel
 banana cream pie	3	7	good	6-12	1-100	1-100	1-100
-banana milkshake	2	8	awesome	4-10	30-90	40-135	10-100
+banana milkshake	2	8	awesome	4-10	30-90	40-135	10-100	BEVERAGE
 banana split	3	1	awesome	0	0	0	0	Unspaded
 banana-frosted king cake	3	1	crappy	3	0	0	0	brown plastic baby
-bar of freeze-dried water	1	1	awesome	4	0	0	0	10 Ultrahydrated
+bar of freeze-dried water	1	1	awesome	4	0	0	0	BEVERAGE, 10 Ultrahydrated
 barrel cracker	1	4	good	3	0	0	0	40 Shortened (+25 sleaze dmg, +50 sleaze spell dmg, +2 sleaze res)
 barrel pickle	2	5	good	5-7	5-10	10-20	0	50 Briny Blood (+20 spell dmg, +40 MP)
 Bash-&#332;s cereal	3	1	crappy	3	0	3-5	0	Bash-&#332;s boxtop
@@ -133,7 +133,7 @@ cactus fruit	2	7	awesome	6-7	6-20	1-5	1-5	lose 8-10 HP
 Calzone of Legend	2	5	EPIC	18-22	80-200	80-200	80-200	100 In the 'zone zone! (+50 Spell Damage, +25 Mys, +300% Mys, +100% Max HP/MP), PIZZA
 campfire baked potato	1	1	awesome	4-5	15-30	0	0	60 Trial by Campfire (Damage Reduction: 10)
 campfire beans	1	1	awesome	3-4	0	10-20	0	40 The More You Eat (Stench Damage +15, Stench Spell Damage +15)
-campfire coffee	1	1	awesome	3-4	0	0	10-20	40 Coffee Achiever (+25 Init)
+campfire coffee	1	1	awesome	3-4	0	0	10-20	BEVERAGE, 40 Coffee Achiever (+25 Init)
 campfire hot dog	1	1	awesome	3-4	10-20	0	0	40 Traditional Eating (+25% meat drop)
 campfire s'more	1	1	awesome	4-5	0	0	15-30	60 Gimme, Gimme (+25% Food Drop)
 campfire stew	1	1	awesome	4-5	0	15-30	0	60 Just Like Me, They Want to Be (+1 Resist All)
@@ -159,9 +159,9 @@ carob chunks	1	1	crappy	1	0	0	0
 carrot cake	3	3	decent	7	4-6	4-6	4-6	10 Pla-see-bo (+10 Item Drop)
 carrot cake precipice bar	1	1	good	3	5-10	5-10	5-10	30 On the Precipice of Carrots (20% Meat drop, 10% Item drop, 15% all stats)
 Carrot, Cabbage, and Kale Pizza	4	1	decent	7-9	0	0	0	20 Healthy, Elfy, and Wise (8-10 HP Regen), PIZZA
-carton of snake milk	3	1	decent	6	0	0	3
+carton of snake milk	3	1	decent	6	0	0	3	BEVERAGE
 catgut taco	2	1	decent	2-5	11-33	0	0
-catsup	1	1	crappy	1	0	0	0
+catsup	1	1	crappy	1	0	0	0	BEVERAGE
 Caviar Carbonara	3	1	good	7-11	0	0	0
 centipede eggs	2	7	awesome	6-7	8-10	8-10	6-10	10 Somewhat Poisoned
 chaos popcorn	1	1	decent	2	0	0	0
@@ -244,7 +244,7 @@ Crimbo pie	3	7	awesome	8-14	25-45	0	0
 Crimbo salad	2	1	good	5-7	10-20	0	0	40 Salad Days (+50 HP, +2 muscle stats/fight), SALAD
 Crimboysters Rockefeller	3	1	EPIC	18-21	10-40	10-40	10-40
 crudles	5	9	awesome	18-22	25-30	0	0
-cup of lukewarm tea	1	1	crappy	1	0	0	0	20 Jittery (+1-3 MP Regen)
+cup of lukewarm tea	1	1	crappy	1	0	0	0	BEVERAGE, 20 Jittery (+1-3 MP Regen)
 cupcake-in-a-cup	2	7	awesome	4-9	5-10	15-20	5-10	10 Cake Caked (+50% mys)
 cursed black pearl onion	1	1	crappy	1	0	0	0	1 Curse of the Black Pearl Onion (combat belches)
 cursed sea biscuit	3	3	good	6-11	0	0	0	10 Curse Magnet
@@ -289,9 +289,9 @@ drippy plum(?)	5	1	drippy	5	0	0	0	5 µg of Drippy Juice
 drive-thru burger	1	1	awesome	3-4	0	0	0	40 It Went Through All Right
 druidic s'more	2	4	good	5-7	30-50	30-50	30-50
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
-eagle's milk	2	2	decent	3-4	0	0	0
+eagle's milk	2	2	decent	3-4	0	0	0	BEVERAGE
 edible alien plant bit	1	1	good	3	0	0	0	gain 5 turns of a random positive effect
-eggwater	1	1	crappy	1	0	0	0
+eggwater	1	1	crappy	1	0	0	0	BEVERAGE
 eldritch mushroom	1	1	crappy	3	11	11	11
 eldritch mushroom pizza	3	12	awesome	9-11	333	333	333	gain eldritch effluvium, 1 Eldritch Attunement, PIZZA
 Eldritch snap	1	12	EPIC	7	11	11	11	3 Eldritch Attunement
@@ -302,7 +302,7 @@ electric giant dragon roll	3	1	sushi	12-17	28-46	0	0	45/55 Fishy
 electric glistening maki	3	1	sushi	10-15	0	8-16	0	45/55 Fishy
 electric Jack LaLanne roll	3	1	sushi	12-17	28-46	20-30	20-30	45/55 Fishy
 electric jacked Santa roll	3	1	sushi	10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
-electric Kool-Aid	2	1	EPIC	12-13	30-50	30-50	30-50	50 Electric, Kool
+electric Kool-Aid	2	1	EPIC	12-13	30-50	30-50	30-50	BEVERAGE, 50 Electric, Kool
 electric musclebound rabbit roll	3	1	sushi	12-17	8-16	20-30	0	45/55 Fishy
 electric omniscient Santa roll	3	1	sushi	10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
 electric python roll	3	1	sushi	12-17	8-16	0	20-30	45/55 Fishy
@@ -321,7 +321,7 @@ elven <i>limbos</i> gingerbread	3	5	good	5-8	22-40	22-40	22-40	20 Yuletide Indus
 elven hardtack	3	4	good	5-8	20-30	20-30	20-30
 enchanted bean burrito	3	2	decent	3-9	0	14-16	0
 Energy Buzz Pastaco	2	3	EPIC	12-14	0	30-50	0	40 Stemonitis Storm (+50 max MP, +5-10 MP regen)
-Ent cider	2	1	decent	2-5	0	0	30-45	70-80 MP
+Ent cider	2	1	decent	2-5	0	0	30-45	BEVERAGE, 70-80 MP
 enticing mayolus	1	4	awesome	4-5	1-20	1-20	1-20
 escargotsicle	2	2	good	4-7	0	0	12-18	10 Extremely Poor Taste (+10 ML)
 Every Day is Like This Sundae	2	1	good	4-6	0	4-6	0	100 Smithsness Dinner (+10 Smithsness)
@@ -357,7 +357,7 @@ fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55	LASAGNA
 flaming mushroom	3	2	decent	3-9	3-5	0	0	lose 3 HP
 flan del mar	1	1	EPIC	0	0	0	0	Unspaded 30 Festively Brined (better diver)
-flask of peppermint oil	0	1	crappy	0	0	0	0
+flask of peppermint oil	0	1	crappy	0	0	0	0	BEVERAGE
 flavorless gruel	4	4	good	9-11	90-110	0	0
 fleetwood mac 'n' cheese	6	8	awesome	28-33	30-40	30-40	30-40	SAUCY
 flour cookie	3	1	crappy	3	0	0	0
@@ -379,7 +379,7 @@ fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
 fusilli marrownarrow	5	7	awesome	16-19	20-30	0	0
 fusillocybin	5	11	awesome	20-23	0	40-45	0	SAUCY
 gallon of milk	15	1	awesome	70-75	500	500	500	100 Feeling Queasy (-10% item drop, -20% meat drop, -30% init)
-Genalen&trade; Bottle	1	10	good	2-4	15-30	15-30	0	useless powder
+Genalen&trade; Bottle	1	10	good	2-4	15-30	15-30	0	BEVERAGE, useless powder
 ghost cucumber	2	2	decent	2-6	5-15	5-15	5-15
 ghost dog	3	1	awesome	11-13	0	0	0	30 Scaredy Dog (-5% Combat Rate, +30 Spooky Dam, +3 Cold/Sleaze Res)
 ghost pepper	2	1	awesome	8-10	60-100	60-100	60-100	Hot damage for 3 combats then 8-10 adventures
@@ -404,8 +404,8 @@ gingerbread mutant bugbear	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (
 Gingerbread Nutrition Block	4	1	decent	6-10	0	0	0	20 Forbear, Warbears! (+40 WarBear Armor Penetration)
 gingerbread robot	2	1	awesome	7-11	0	0	0	20 Gingerbread Robust (+100% all stats)
 gingerbread stir-fry	3	1	decent	3-7	0	0	0	10 Sugar Rush
-glass of baboon milk	1	2	decent	2	3-5	0	0
-glass of goat's milk	1	1	crappy	1	0	0	0
+glass of baboon milk	1	2	decent	2	3-5	0	0	BEVERAGE
+glass of goat's milk	1	1	crappy	1	0	0	0	BEVERAGE
 glass of raw eggs	1	1	EPIC	6-7	1-25	1-25	1-25	50 Boxing Day Breakfast (+50% gear drop, +50% weapon damage, +50% spell damage)
 glistening fish meat	1	1	good	2-3	0	4-8	0	5/15 Fishy
 glistening maki	3	1	sushi	7-12	0	8-16	0	45/55 Fishy
@@ -466,7 +466,7 @@ herbal stuffing	4	7	awesome	15-21	0	0	70-75
 hibiscus petal	1	1	decent	1-3	0	5-10	0
 Hide-rox&trade; cookie	1	1	awesome	3-5	0	20-30	0	30 Broken Bone Nubs (+50% Myst, +25 MP, +25% Spell Dam)
 high-calorie sugar substitute	1	4	awesome	3-4	0	20-25	0
-hippy herbal tea	1	1	decent	2	0	4-7	0	5 Sleepy (-30% mus)
+hippy herbal tea	1	1	decent	2	0	4-7	0	BEVERAGE, 5 Sleepy (-30% mus)
 holiday cheese log	3	1	good	8-10	10-20	10-20	10-20	Stands Alone (+10 Stench dmg)
 honey-dew	2	2	good	4-7	13-15	0	0	10 Mmmmmelon (+30% item drop)
 honey-drenched ham slice	1	1	decent	1-2	1-5	1-5	1-5
@@ -486,7 +486,7 @@ ice rice	1	1	EPIC	6-7	0	5-10	0
 iceberg lettuce	2	6	EPIC	11-13	20-30	0	0	50 Headstrong(+25 Weapon Damage, +50% Muscle, +100 HP)
 idiot brain	1	1	crappy	1	0	0	0	Refund spent Zombie Slayer skill points
 igloo pie	2	2	awesome	7-9	15-20	15-20	5-10
-imitation White Russian	2	6	good	4-6	5-10	5-10	5-10
+imitation White Russian	2	6	good	4-6	5-10	5-10	5-10	BEVERAGE
 immaculate egg salad sandwich	4	1	decent	7-9	5-10	30-40	5-10
 immaculate grilled cheese	4	1	decent	7-9	0	30-40	10-20
 immaculate hot dog	4	1	decent	7-9	5-10	30-40	5-10
@@ -506,7 +506,7 @@ java cookie	2	1	awesome	7-11	0	0	0	10 Updated (+20 all stats)
 jawbruiser	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush, lose 35-45 HP
 jerky coins	1	1	EPIC	5-6	5-6	5-6	5-6
 jive turkey leg	1	1	good	2-3	5-10	0	0	50 Hollow Inside (+6 Maximum Hooch)
-Jumbo Dr. Lucifer	1	1	good	2-3	0	0	0	converts all HP to 9-10x MP
+Jumbo Dr. Lucifer	1	1	good	2-3	0	0	0	BEVERAGE, converts all HP to 9-10x MP
 jumbo olive	1	2	decent	2	0	0	2-5
 jumping bean burrito	3	1	decent	3-8	0	0	11-14
 jumping bean taco	1	1	decent	2	0	0	4-20
@@ -516,7 +516,7 @@ juniper berries	1	2	crappy	1	0	0	10-15
 junk food	2	1	good	4-5	4-5	4-5	4-5
 junkyard dog	3	1	awesome	11-13	0	0	0	30 Dog Breath (+5% Combat Rate, +30 Stench Dam, +3 Hot/Spooky Res)
 karma shawarma	5	7	EPIC	28-32	0	50-100	0	20-100 MP, Instant Karma every 11th eaten
-ketchup	1	1	crappy	1	0	0	0
+ketchup	1	1	crappy	1	0	0	0	BEVERAGE
 king cookie	1	13	EPIC	4-6	15-30	15-30	15-30	30 The Royal We (+25..50 exp)
 kiwi	1	2	decent	2	0	0	0
 knight cookie	1	13	EPIC	4-6	0	0	45-50	30 Knightlife (+100..200% mox)
@@ -557,7 +557,7 @@ lime	1	2	decent	2	0	0	0
 limp broccoli	2	5	good	4-6	10-20	10-20	10-20	100 Nutrient-Rich (+4 exp, +50% HP, +25% MP)
 linguini immondizia bianco	5	8	awesome	17-20	0	0	25-30	SAUCY
 linguini of the sea	5	10	awesome	19-22	0	0	35-40	SAUCY
-liquid bread	1	4	EPIC	5-6	5-10	5-10	5-10	20 Comprehensively Nourished (+2 experience)
+liquid bread	1	4	EPIC	5-6	5-10	5-10	5-10	BEVERAGE, 20 Comprehensively Nourished (+2 experience)
 liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
 Loaded Baked Potato	7	1	EPIC	32-38	0	50-60	30-40
@@ -596,7 +596,7 @@ mana-coated yams	3	5	awesome	0	0	0	0	Unspaded
 mana-fortified cranberry sauce	3	6	awesome	7-14	70-75	70-75	70-75	20 Mana-Blasted (+50% Max MP, +3-5 MP Regen)
 mana-stuffed herbal stuffing	4	7	awesome	0	0	0	0	Unspaded
 Manetwich	2	4	good	3-9	14-30	0	5-18
-maple syrup	1	1	crappy	1	0	0	0	20-30 HP
+maple syrup	1	1	crappy	1	0	0	0	BEVERAGE, 20-30 HP
 mashed potatoes	2	1	awesome	8-10	10-20	0	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 meatball	1	1	awesome	4-5	5-10	5-10	5-10
 Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
@@ -762,7 +762,7 @@ roasted vegetable of Jarlsberg	1	1	EPIC	6-8	0	40-80	0	30 Wizard Sight (+10 Mysti
 robin flan	2	1	awesome	7-9	10-20	10-20	10-20
 rocky road ice cream	2	7	awesome	7-10	12-14	12-14	12-14	40 A Contender (+200% all stats)
 rook cookie	1	13	EPIC	4-6	45-50	0	0	30 Towering Strength (+100..200% mus)
-root beer	1	1	awesome	4	5-10	5-10	5-10	20-30 MP
+root beer	1	1	awesome	4	5-10	5-10	5-10	BEVERAGE, 20-30 MP
 rotting beefsteak	3	1	awesome	9-10	0	0	0	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 royal jelly	1	1	crappy	1	10-15	0	0
 royal jelly taco	1	1	decent	2	4-20	0	0
@@ -824,7 +824,7 @@ sizzling weasel on a stick	5	1	EPIC	60-80	0	0	220-400
 skeleton quiche	2	3	EPIC	10-12	5-15	5-15	5-15
 skewered cat appendix	2	1	decent	2-5	7-17	0	0
 skull-shaped Crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Carol of the Bones (+10% mus)
-Skully's hot chocolate	1	1	decent	1-3	0	0	0	10 Skull Full of Hot Chocolate (+2 cold resistance)
+Skully's hot chocolate	1	1	decent	1-3	0	0	0	BEVERAGE, 10 Skull Full of Hot Chocolate (+2 cold resistance)
 sleazy hi mein	5	12	EPIC	24-27	25-30	25-30	70-75	5 Sleazy Breath (combat skill), SAUCY
 sleeping dog	2	1	awesome	9-10	0	0	0	acquire Dog Tired skill
 slice of pizza	1	1	good	3	12-15	12-15	12-15	PIZZA
@@ -836,7 +836,7 @@ slippery snake roll	3	1	sushi	9-14	0	0	28-46	45/55 Fishy
 sly dog	2	1	awesome	6-8	0	0	10-15	50 Top Dog (+50% Mox, +10% Crit Chance, +50 Dam vs Skeletons/Vampires)
 smashed danish	1	4	awesome	3-5	45-75	0	0	30 Danish Cunning (+25% pickpocket)
 smelted roe	1	4	good	3	10-20	0	0	50 Sizzling with Fury (+25 Hot Damage, +60 Init)
-SMOOCH soda	1	1	good	3-3	0	0	0	Gain 20-35 MP and SMOOCH bottlecap
+SMOOCH soda	1	1	good	3-3	0	0	0	BEVERAGE, Gain 20-35 MP and SMOOCH bottlecap
 Sneaky Pete's key lime pie	4	6	awesome	14-16	0	0	28-33	Sneaky Pete's key
 sneaky rabbit roll	3	1	sushi	9-14	0	20-30	8-16	45/55 Fishy
 sneaky Santa roll	3	1	sushi	10-15	0	0	8-16	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
@@ -909,12 +909,12 @@ t8r tots	1	1	crappy	1-2	0	0	0
 Taco Dan's Basic Taco Dan Taco	1	2	decent	2	10-20	10-20	10-20
 Taco Dan's Taco Fish Fish Taco	2	3	awesome	7-9	40-60	40-60	40-60
 Taco Dan's Taco Stand Taco	1	4	good	2-3	15-30	0	0	5 Meaty and Cheesy (+muscle)
-tainted milk	1	1	good	3	0	0	0	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
+tainted milk	1	1	good	3	0	0	0	BEVERAGE, 30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 tangerine	1	2	decent	2	0	0	0
 tasty tart	1	1	EPIC	5-6	5-6	5-6	5-6
-tea for one	1	5	good	2-3	0	10-20	0	One For Tea (+10-15 MP Regen)
-Tea, Earl Grey, Hot	1	1	EPIC	6-7	0	0	0	+1000 MP, +1000 HP
-temperance whiskey	3	1	good	8-10	20-30	20-30	20-30	100 Old Time Hydration (+30 all stats)
+tea for one	1	5	good	2-3	0	10-20	0	BEVERAGE, One For Tea (+10-15 MP Regen)
+Tea, Earl Grey, Hot	1	1	EPIC	6-7	0	0	0	BEVERAGE, +1000 MP, +1000 HP
+temperance whiskey	3	1	good	8-10	20-30	20-30	20-30	BEVERAGE, 100 Old Time Hydration (+30 all stats)
 tempura avocado	1	5	EPIC	5-7	0	0	50
 tempura avocado bento box with anemone sauce	5	1	EPIC	24-32	75-95	5-15	45-65	80 Fishy
 tempura avocado bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	45-65	80 Fishy
@@ -971,7 +971,7 @@ This Charming Flan	2	1	EPIC	10-12	10-12	0	0
 three-tiered wedding cake	35	1	crappy	34-39	0	0	0
 throbbing organ pie	2	2	awesome	7-9	5-10	5-10	20-40
 thyme jelly donut	1	4	awesome	3-5	15-30	15-30	15-30	+5 turns of a current effect
-Tiger-lily's milk	1	1	crappy	1	5-10	0	0	5 Grrrrrrreat! (+10 mus exp)
+Tiger-lily's milk	1	1	crappy	1	5-10	0	0	BEVERAGE, 5 Grrrrrrreat! (+10 mus exp)
 tin cup of mulligan stew	2	15	EPIC	15-19	300-800	300-800	300-800
 tin of submardines	1	4	awesome	4-5	30-40	0	0	50 Appeteyes (+50% Food drop)
 tin rations	3	1	good	8-10	3-5	3-5	3-5
@@ -998,7 +998,7 @@ tombstone-shaped Crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Crimbo Epiphany 
 toxo	2	5	good	7-9	0	15-20	0	40 Radiated and Grodiated (+50% Mys, +25 Stench Spell Dam, +3 Stench Res)
 traditional Crimbo cookie	2	1	awesome	7-11	0	0	0	75 Yeast-Hungry (+50% food drop)
 traffic jam toast	1	1	decent	1-3	50	0	0
-transparent nog	1	1	crappy	1	0	0	0	10 Holiday Disappointment (+50% all stats)
+transparent nog	1	1	crappy	1	0	0	0	BEVERAGE, 10 Holiday Disappointment (+50% all stats)
 tree-shaped Crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Yuletide Sappiness (+10% mys)
 triangular CRIMBCOOKIE	2	1	awesome	8-10	0	0	0	10 Triangle, Man (+10% mus)
 tricky dragon roll	3	1	sushi	9-14	20-30	0	8-16	45/55 Fishy
