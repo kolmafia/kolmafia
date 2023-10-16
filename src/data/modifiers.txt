@@ -10457,6 +10457,7 @@ Item	Salsa Caliente&trade; candle	Effect: "El Aroma de Salsa", Effect Duration: 
 Item	salt wages	Effect: "Worth Your Salt", Effect Duration: 30
 Item	salty drippy candy bar	Effect: "Bit-o-Salt", Effect Duration: 10
 Item	salty gumdrop	Effect: "Salt Rush", Effect Duration: 1
+Item	sampler size toothpaste	Effect: "Very Clean Teeth", Effect Duration: 10
 Item	Scent of a Human&trade; candle	Effect: "Ew, The Humanity", Effect Duration: 40
 Item	scrap metal	Effect: "Armor-Plated", Effect Duration: 20
 Item	scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
