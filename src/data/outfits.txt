@@ -174,4 +174,4 @@
 162	Ceramic Clothing	ceramtat.gif	ceramic celery grater, ceramic centurion shield, ceramic cenobite's robe, ceramic cestus, ceramic cerecloth belt, ceramic celsiturometer	extra-hard jawbreaker
 163	Chiffon Chiffinery	chiffontat.gif	chiffon chapeau, chiffon chakram, chiffon chamberpot, chiffon chemise, chiffon chaps, chiffon chevrons	chiffon lemon
 164	Shadow Shuit	shadouttat.gif	shadow chef's hat, shadow trousers	shadow candy
-165	Dental Drip	dentaltat.gif	tooth cap, cat o' nine teeth, toothy trousers
+165	Dental Drip	dentaltat.gif	tooth cap, cat o' nine teeth, toothy trousers	sampler size toothpaste

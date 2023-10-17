@@ -11363,3 +11363,4 @@
 11335	Dark Jill-of-All-Trades	402938328	darkjill2.gif	grow	t	0	Dark Jills-of-all-Trades
 11336	LED candle	812890675	ledcandle.gif	familiar	t,d	100
 11337	map to a candy-rich block	860567609	warehousemap.gif	usable	t,d	11	maps to candy-rich blocks
+11338	sampler size toothpaste	549931560	tube.gif	potion, usable	t,d	10
