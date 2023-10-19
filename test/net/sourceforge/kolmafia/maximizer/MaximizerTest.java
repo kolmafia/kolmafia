@@ -1975,4 +1975,22 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  class CardSleeve {
+    @Test
+    public void suggestCardSleeveSlot() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("card sleeve"),
+              withEquippableItem("sturdy cane"),
+              withEquippableItem("Alice's Army Foil Lanceman"));
+
+      try (cleanups) {
+        assertTrue(maximize("PvP Fights"));
+        recommendedSlotIs(Slot.OFFHAND, "card sleeve");
+        recommendedSlotIs(Slot.CARDSLEEVE, "Alice's Army Foil Lanceman");
+      }
+    }
+  }
 }
