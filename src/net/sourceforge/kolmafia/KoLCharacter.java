@@ -5581,25 +5581,32 @@ public abstract class KoLCharacter {
   private static void addOffhandRemarkable(
       Map<Slot, AdventureResult> equipment, Modifiers newModifiers) {
     var offhand = equipment.get(Slot.OFFHAND);
-    addOffhandRemarkable(offhand, newModifiers);
+    addOffhandRemarkable(equipment, offhand, newModifiers);
     // and also offhand items that are equipped on the familiar
     var famItem = equipment.get(Slot.FAMILIAR);
-    addOffhandRemarkable(famItem, newModifiers);
+    addOffhandRemarkable(equipment, famItem, newModifiers);
   }
 
-  private static void addOffhandRemarkable(AdventureResult item, Modifiers newModifiers) {
-    if (item != null
-        && item != EquipmentRequest.UNEQUIP
-        && ItemDatabase.getConsumptionType(item.id) == ConsumptionType.OFFHAND) {
-      if (item.id != ItemPool.LATTE_MUG) {
-        var mods = ModifierDatabase.getItemModifiers(item.id);
+  private static void addOffhandRemarkable(
+      Map<Slot, AdventureResult> equipment, AdventureResult item, Modifiers newModifiers) {
+    if (item == null
+        || item == EquipmentRequest.UNEQUIP
+        || ItemDatabase.getConsumptionType(item.id) != ConsumptionType.OFFHAND
+        || item.id == ItemPool.LATTE_MUG) {
+      return;
+    }
+
+    // use sleeved card as source of modifiers if applicable
+    if (item.id == ItemPool.CARD_SLEEVE) {
+      item = equipment.get(Slot.CARDSLEEVE);
+    }
+
+    var mods = ModifierDatabase.getItemModifiers(item.id);
+    addModifiersWithOffHandRemarkable(newModifiers, mods);
+    for (var modeable : Modeable.values()) {
+      if (item.id == modeable.getItemId()) {
+        mods = ModifierDatabase.getModifiers(modeable.getModifierType(), modeable.getState());
         addModifiersWithOffHandRemarkable(newModifiers, mods);
-        for (var modeable : Modeable.values()) {
-          if (item.id == modeable.getItemId()) {
-            mods = ModifierDatabase.getModifiers(modeable.getModifierType(), modeable.getState());
-            addModifiersWithOffHandRemarkable(newModifiers, mods);
-          }
-        }
       }
     }
   }
