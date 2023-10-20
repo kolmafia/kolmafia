@@ -367,7 +367,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     if (this.equipmentType != ConsumptionType.CARD) {
       this.error =
-          "You can't slide a " + ItemDatabase.getItemName(this.itemId) + " into a card sleeze.";
+          "You can't slide a " + ItemDatabase.getItemName(this.itemId) + " into a card sleeve.";
       return;
     }
 

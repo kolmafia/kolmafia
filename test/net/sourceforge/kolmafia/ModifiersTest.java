@@ -1147,6 +1147,22 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(50.0));
       }
     }
+
+    @Test
+    public void doublesSleevedCard() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.CARD_SLEEVE),
+              withEquipped(Slot.CARDSLEEVE, "Alice's Army Foil Lanceman"),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.PVP_FIGHTS), equalTo(12.0));
+      }
+    }
   }
 
   @Nested
