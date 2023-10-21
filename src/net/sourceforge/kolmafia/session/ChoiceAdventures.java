@@ -9108,11 +9108,6 @@ public abstract class ChoiceAdventures {
           return new ChoiceOption("model airship");
         }
         break;
-      case 793:
-        if (decision == 4) {
-          return new ChoiceOption("gift shop");
-        }
-        break;
     }
 
     if (spoilers == null) {

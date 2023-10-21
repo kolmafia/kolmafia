@@ -7016,10 +7016,10 @@ public abstract class RuntimeLibrary {
       return value;
     }
 
-    ArrayList<AdventureResult> treats = so.getTreats();
+    List<SpecialOutfit.TreatChance> treats = so.getTreats();
 
-    for (AdventureResult treat : treats) {
-      value.aset(DataTypes.makeItemValue(treat), DataTypes.makeFloatValue(1.0));
+    for (var treat : treats) {
+      value.aset(DataTypes.makeItemValue(treat.treat()), DataTypes.makeFloatValue(treat.chance()));
     }
 
     return value;

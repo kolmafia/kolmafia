@@ -95,6 +95,8 @@ public class EquipmentDatabase {
 
   public static boolean newEquipment = false;
 
+  private static Pattern TREAT_AND_CHANCE = Pattern.compile("^(.*?) \\((\\d*\\.?\\d+)\\)$");
+
   static {
     EquipmentDatabase.reset();
   }
@@ -174,9 +176,17 @@ public class EquipmentDatabase {
                 break;
               }
 
+              var m = TREAT_AND_CHANCE.matcher(treat);
+              var chance = 1.0;
+
+              if (m.find()) {
+                treat = m.group(1);
+                chance = Double.parseDouble(m.group(2));
+              }
+
               int treatId = ItemDatabase.getItemId(treat);
               if (treatId != -1) {
-                outfit.addTreat(ItemPool.get(treatId));
+                outfit.addTreat(ItemPool.get(treatId), chance);
               } else {
                 RequestLogger.printLine(
                     "Outfit \"" + name + "\" has an invalid treat: \"" + treat + "\"");

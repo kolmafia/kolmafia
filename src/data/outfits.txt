@@ -2,8 +2,7 @@
 # id	name	image	equipment	halloween drops
 1	Bugbear Costume	bugbear.gif	bugbear beanie, bugbear bungguard	cog, sprocket, spring
 2	Filthy Hippy Disguise	hippy.gif	filthy knitted dread sack, filthy corduroys	herb brownies
-# Treats: random bottle of booze
-3	Frat Boy Ensemble	fratboy.gif	Orcish baseball cap, Orcish frat-paddle, Orcish cargo shorts
+3	Frat Boy Ensemble	fratboy.gif	Orcish baseball cap, Orcish frat-paddle, Orcish cargo shorts	bottle of gin (0.25), bottle of rum (0.25), bottle of vodka (0.25), bottle of whiskey (0.25)
 4	Knob Goblin Harem Girl Disguise	haremgirl.gif	Knob Goblin harem veil, Knob Goblin harem pants	Knob Goblin love potion
 5	Knob Goblin Elite Guard Uniform	eliteguard.gif	Knob Goblin elite helm, Knob Goblin elite polearm, Knob Goblin elite pants	Knob Goblin steroids
 6	Hot and Cold Running Ninja Suit	ninja.gif	cold ninja mask, icy-hot katana, ninja hot pants	Cold Hots candy
@@ -34,12 +33,10 @@
 31	Tropical Crimbo Duds	tropictat.gif	Tropical Crimbo Hat, Tropical Crimbo Sword, Tropical Crimbo Shorts	orange and black Crimboween candy
 32	War Hippy Fatigues	warhiptat.gif	reinforced beaded headband, bullet-proof corduroys, round purple sunglasses	Steal This Candy
 # Treats: three random grapefruit, orange or tomato schnapps
-33	Frat Warrior Fatigues	warfrattat.gif	beer helmet, distressed denim pants, bejeweled pledge pin
+33	Frat Warrior Fatigues	warfrattat.gif	beer helmet, distressed denim pants, bejeweled pledge pin	shot of grapefruit schnapps, shot of orange schnapps, shot of tomato schnapps
 34	Bounty-Hunting Rig	meattat.gif	bounty-hunting helmet, bounty-hunting rifle, bounty-hunting pants	chocolate filthy lucre
-# Treat: black pudding OR Blackfly Chardonnay OR black & tan OR black pepper OR black forest cake OR black forest ham
-35	Black Armaments	blacktat.gif	black helmet, black sword, black shield, black greaves
-# Treat: bit-o-cactus OR honey-dipped locust
-36	Palmist Paraphernalia	palmtat.gif	extra-large palm-frond toupee, palm-frond whip, palm-frond capris
+35	Black Armaments	blacktat.gif	black helmet, black sword, black shield, black greaves	black pudding (0.16), Blackfly Chardonnay (0.16), black & tan (0.16), black pepper (0.16), black forest cake (0.16), black forest ham (0.16)
+36	Palmist Paraphernalia	palmtat.gif	extra-large palm-frond toupee, palm-frond whip, palm-frond capris	bit-o-cactus (0.5), honey-dipped locust (0.5)
 37	Tapered Threads	ducttat.gif	duct tape fedora, duct tape sword, duct tape dockers	Angry Farmer's Wife Candy
 38	Roy Orbison Disguise	orbisontat.gif	clingfilm cap, clingfilm trousers, clingfilm slippers	fruitfilm
 39	Cursed Zombie Pirate Costume	zompirtat.gif	cursed eyepatch, cursed cutlass, cursed breeches	piece of after eight
@@ -133,8 +130,7 @@
 125	SMOOCH Army Uniform	smoochtat.gif	SMOOCH breastplate, SMOOCH codpiece, SMOOCH bracers, SMOOCH kneepads, SMOOCH spaulders	Hersey&trade; SMOOCH
 126	Cooper's Couture	barreltat.gif	barrelhead, chest barrel, bottoms of the barrel	root beer barrel
 127	The Jokester's Costume	jokestertat.gif	The Jokester's wig, The Jokester's gun, The Jokester's pants	exploding gum
-# Treat: eldritch essence OR eldritch effluvium
-128	Eldritch Equipage	elditchtat.gif	eldritch hat, eldritch pants
+128	Eldritch Equipage	elditchtat.gif	eldritch hat, eldritch pants	eldritch essence (0.09), eldritch effluvium (0.91)
 129	Gingerbread Best	gingertat.gif	candy dress shoes, candy necktie, chocolate pocketwatch, gingerbread waistcoat, gingerbread trousers, gingerbread tophat	gingerbread bugbear
 130	Spant Armor	spantat.gif	spant spear, spant backplate, spant shield, spant shoulderpads, spants	Spant eggs
 # Meteor Masquerade can use meteorite guard in place of meteorb, but there's no good way to support that, and
@@ -167,8 +163,7 @@
 156	Whittled Wearables	whittletat.gif	whittled tiara, whittled shorts	leftover chocolate bar
 157	Antique Nutcracker Outfit	nutctat.gif	antique nutcracker hat, antique nutcracker sword, antique nutcracker drumstick, antique nutcracker cape, antique nutcracker waistcoat, antique nutcracker pants, antique nutcracker beard, antique nutcracker epaulets, antique nutcracker boots	candied almond
 158	Mushroom Masquerade	mushtat.gif	mushroom cap, mushroom shield, mushroom pants, mushroom badge	marshroom
-# Treats: Random booze from specific subset
-159	Guzzlr Uniform	guzzlrtat.gif	Guzzlr hat, Guzzlr shoes, Guzzlr pants
+159	Guzzlr Uniform	guzzlrtat.gif	Guzzlr hat, Guzzlr shoes, Guzzlr pants	margarita (0.08), martini (0.08), monkey wrench (0.08), salty dog (0.08), screwdriver (0.08), strawberry daiquiri (0.08), strawberry wine (0.08), tequila sunrise (0.08), vodka martini (0.08), whiskey and soda (0.08), whiskey sour (0.08), wine spritzer (0.08)
 160	Lathed Livery	lathetat.gif	hemlock helm, balsam barrel, purpleheart &quot;pants&quot;, wormwood wedding ring	fistful of wood shavings
 161	Trainbot Trappings	tbottat.gif	head-mounted Trainbot, leg-mounted Trainbots, shoulder-mounted Trainbot	chocolate covered ping-pong ball
 162	Ceramic Clothing	ceramtat.gif	ceramic celery grater, ceramic centurion shield, ceramic cenobite's robe, ceramic cestus, ceramic cerecloth belt, ceramic celsiturometer	extra-hard jawbreaker
