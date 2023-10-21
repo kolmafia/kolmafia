@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -34,7 +35,9 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   // This is TreeMap so that the pieces will be ordered by slot
   private final EnumMap<Slot, AdventureResult> pieces;
 
-  private final ArrayList<AdventureResult> treats;
+  public record TreatChance(AdventureResult treat, double chance) {}
+
+  private final ArrayList<TreatChance> treats;
 
   private int hash;
 
@@ -223,8 +226,8 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
     return hash;
   }
 
-  public void addTreat(final AdventureResult treat) {
-    this.treats.add(treat);
+  public void addTreat(final AdventureResult treat, final double chance) {
+    this.treats.add(new TreatChance(treat, chance));
   }
 
   public void addPiece(final AdventureResult piece) {
@@ -298,11 +301,11 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
     return this.outfitImage;
   }
 
-  public ArrayList<AdventureResult> getTreats() {
+  public List<TreatChance> getTreats() {
 
     if (this.getOutfitId() == SpecialOutfit.COLD_COMFORTS) {
       if (ItemPool.get(ItemPool.RUSSIAN_ICE).getCount(KoLConstants.inventory) > 0) {
-        this.treats.add(ItemPool.get(ItemPool.DOUBLE_ICE_GUM));
+        this.treats.add(new TreatChance(ItemPool.get(ItemPool.DOUBLE_ICE_GUM), 1.0));
       } else {
         this.treats.clear();
       }
