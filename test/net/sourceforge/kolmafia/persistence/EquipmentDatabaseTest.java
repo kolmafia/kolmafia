@@ -1,23 +1,19 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withItem;
-import static net.sourceforge.kolmafia.session.InventoryManager.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.hasItem;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
-
 import internal.helpers.Cleanups;
+import java.io.File;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class EquipmentDatabaseTest {
@@ -122,7 +118,7 @@ public class EquipmentDatabaseTest {
     }
 
     @ParameterizedTest
-    @ValueSource(booleans = { true, false })
+    @ValueSource(booleans = {true, false})
     void stateBasedTreats(final boolean hasRussianIce) {
       var cleanups = new Cleanups();
 
