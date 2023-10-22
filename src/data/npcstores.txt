@@ -143,7 +143,6 @@ The General Store	generalstore	cup of lukewarm tea	40	ROW644
 The General Store	generalstore	fortune cookie	40	ROW645
 The General Store	generalstore	pickled egg	40	ROW646
 The General Store	generalstore	chewing gum on a string	50	ROW648
-The General Store	generalstore	spray paint	50	ROW647
 The General Store	generalstore	fermenting powder	70	ROW649
 The General Store	generalstore	soda water	70	ROW650
 The General Store	generalstore	casino pass	100	ROW651
