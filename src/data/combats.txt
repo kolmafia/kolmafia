@@ -328,11 +328,11 @@ The Evil Cathedral	100	plywood cultists
 The Fungus Plains	100	Blooper	Bullet Bill	Buzzy Beetle: 1e	Goomba: 1o	Koopa Troopa
 The Spectral Pickle Factory	75	carnivorous dill plant	ghostly pickle factory worker	vine gar
 
-// If you are wearing the War Frat uniform, you get all hippies.
-// If you are wearing the War Hippy uniform, you get all frat boys
-// If you are wearing neither, you get both.
-// If you are wearing either uniform, after every six combats, you will get a
-// non-combat, but you cannot influence this with +/- Combat effects or items
+# If you are wearing the War Frat uniform, you get all hippies.
+# If you are wearing the War Hippy uniform, you get all frat boys
+# If you are wearing neither, you get both.
+# If you are wearing either uniform, after every six combats, you will get a
+# non-combat, but you cannot influence this with +/- Combat effects or items
 The Exploaded Battlefield	100	Beer Bongadier	Elite Beer Bongadier	Heavy Kegtank	Naughty Sorority Nurse	Panty Raider Frat Boy	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Captain	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Elite 110th Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Grill Sergeant	War Frat Kegrider	War Frat Senior Grill Sergeant	War Frat Wartender	The Man: 0
 
 The eXtreme Slope	95	sk8 gnome	eXtreme cross-country hippy	eXtreme Orcish snowboarder
