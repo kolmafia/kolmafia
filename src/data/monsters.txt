@@ -87,7 +87,7 @@ Blooper	118	squid.gif	Atk: 25 Def: 22 HP: 15 Init: 60 Meat: 10 P: beast Article:
 Blue Oyster cultist	1528	bluecultist.gif	Atk: 135 Def: 135 HP: 130 Init: 50 Meat: 100 P: dude Elem: 75 EA: hot Article: a	fire of unknown origin (15)	black blade (5)	cigarette lighter (15)	blue oyster badge (c15)
 blur	460	blur.gif	Atk: 136 Def: 126 HP: 141 Init: 40 Meat: 120 P: dude Article: a	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)	Hugo's Weaving Manual (c100)
 boaraffe	568	boaraffe.gif	Atk: 145 Def: 130 HP: 145 Init: 50 Meat: 100 P: beast Article: a	long pork (30)
-Bob Racecar	132	naskar2.gif	Atk: 138 Def: 129 HP: 139 Init: 80 Meat: 120 P: dude	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)	folder (D-Team) (c0)
+Bob Racecar	132	naskar2.gif	Atk: 138 Def: 129 HP: 139 Init: 80 Meat: 120 P: dude	mesh cap (15)	leather chaps (15)	stunt nuts (30)	ketchup hound (35)	a butt tuba (10)	folder (D-Team) (c5)
 bog leech	1345	bogleech.gif	Atk: 44 Def: 50 HP: 60 Init: 20 Meat: 30 P: bug EA: stench Article: a	delicious swamp muck (0)	leechknife (0)
 bog skeleton	1346	bogskeleton.gif	Atk: 50 Def: 52 HP: 50 Init: 25 Meat: 10 P: undead ED: spooky EA: spooky EA: stench Article: a	delicious swamp muck (0)	skeleton bone (0)
 bogart	1348	bogart.gif	Atk: 54 Def: 48 HP: 48 Init: 70 Meat: 30 P: humanoid Article: a	fine aged cheddarwurst (0)	stolen meatpouch (0)
@@ -232,7 +232,7 @@ eXtreme Orcish snowboarder	1155	fratboard.gif	Atk: 74 Def: 66 HP: 65 Init: 60 Me
 extremely annoyed witch	1581	witchy2.gif	NOCOPY Atk: 36 Def: 32 HP: 32 Init: 25 Meat: 40 P: dude EA: hot EA: stench Article: an	wand of pigification (c100)
 eye in the darkness	1373	darkeye.gif	Atk: 600 Def: 650 HP: 700 Init: 200 P: horror E: spooky Article: an	black tear (n50)
 factory-irregular skeleton	1744	badskel1.gif,badskel2.gif,badskel3.gif,badskel4.gif,badskel5.gif,badskel6.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: undead ED: spooky Article: a	really thick spine (50)	oversized skullcap (30)	three-legged pants (30)	skeleton bone (25)	loose teeth (25)	alien autoautopsy kit (c10)
-Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 Meat: 45 P: demon E: hot Article: a	demon skin (15)	evil golden arch (3)	infernal insoles (5)	pink slime (30)	heavy-duty bendy straw (c0)
+Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 Meat: 45 P: demon E: hot Article: a	demon skin (15)	evil golden arch (3)	infernal insoles (5)	pink slime (30)	heavy-duty bendy straw (c100)
 Family Jewels	180	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 Group: 2 P: constellation E: sleaze Article: The	star (30)	star (30)	star (30)
 fan dancer	1532	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 Meat: 100 P: dude Article: a	blowdart (20)	red silk skirt (5)	combat fan (5)	dancing fan (c0)
 Felonia, Queen of the Spooky Gravy Fairies	266	felonia.gif	BOSS NOCOPY Atk: 75 Def: 67 HP: 80 Init: 100 P: plant E: spooky	spooky bicycle chain (n100)	spooky cosmetics bag (n100)	miniature carton of clove cigarettes (c100)
@@ -350,9 +350,9 @@ jamfish	759	jamfish.gif	Atk: 400 Def: 360 HP: 750 Init: -10000 P: fish Article: 
 Jefferson pilot	1530	pilot.gif	Atk: 140 Def: 140 HP: 145 Init: 25 Meat: 125 P: dude Article: a	one pill (25)	Jefferson wings (5)	plastic Jefferson wings (c0)
 Johnringo, the Netdragger	880	merkindragger2.gif	BOSS NOCOPY Atk: 1250 Def: 1200 HP: 1500 Init: 100 Meat: 100 P: mer-kin
 Junk	181	thejunk.gif	Atk: 159 Def: 143 HP: 150 Init: 70 P: constellation E: sleaze Article: The	line (30)	line (30)	star (30)
-junksprite bender	1437	js_bender.gif	Atk: 32 Def: 33 HP: 25 Init: -10000 P: humanoid EA: stench Article: a	funky junk key (0)	bent scrap metal (15)	Worse Homes and Gardens (c0)
-junksprite melter	1438	js_melter.gif	Atk: 37 Def: 32 HP: 21 Init: -10000 P: humanoid EA: hot Article: a	funky junk key (0)	molten scrap metal (15)	Worse Homes and Gardens (c0)
-junksprite sharpener	1436	js_sharpener.gif	Atk: 37 Def: 30 HP: 22 Init: -10000 P: humanoid Article: a	funky junk key (0)	jagged scrap metal (15)	Worse Homes and Gardens (c0)
+junksprite bender	1437	js_bender.gif	Atk: 32 Def: 33 HP: 25 Init: -10000 P: humanoid EA: stench Article: a	funky junk key (c5)	bent scrap metal (15)	Worse Homes and Gardens (c5)
+junksprite melter	1438	js_melter.gif	Atk: 37 Def: 32 HP: 21 Init: -10000 P: humanoid EA: hot Article: a	funky junk key (c5)	molten scrap metal (15)	Worse Homes and Gardens (c5)
+junksprite sharpener	1436	js_sharpener.gif	Atk: 37 Def: 30 HP: 22 Init: -10000 P: humanoid Article: a	funky junk key (c5)	jagged scrap metal (15)	Worse Homes and Gardens (c5)
 Keese	119	keese.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast Article: a	blue pixel (80)	blue pixel (70)	blue pixel (60)
 killer clownfish	767	clownfish.gif	Atk: 500 Def: 450 HP: 700 Init: 75 Meat: 300 P: horror ED: sleaze EA: sleaze EA: spooky Article: a	high-pressure seltzer bottle (n25)	midget clownfish (c1)	rough fish scale (n5)
 knight (Snake)	398	snaknight.gif	Atk: 115 Def: 103 HP: 130 Init: 50 P: dude EA: spooky Article: a Manuel: "knight"	serpentine sword (5)	snake shield (5)
@@ -539,7 +539,7 @@ Quantum Mechanic	223	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80 P: dude Article
 queen filthworm	480	filthworm4.gif	BOSS NOCOPY Atk: 173 Def: 155 HP: 195 Init: 50 Meat: 1000 P: bug E: stench Article: the	heart of the filthworm queen (100)
 QuickBASIC elemental	1422	qbasicele.gif	NOCOPY NOMANUEL ULTRARARE Atk: 70 Def: 65 HP: 80 Init: 75 P: elemental	optimal spreadsheet (100)
 Quiet Healer	161	healer.gif	Atk: 95 Def: 85 HP: 90 Init: 80 Meat: 115 P: dude Article: a	amulet of extreme plot significance (10)	scroll of drastic healing (30)	soft green echo eyedrop antidote (30)	Tears of the Quiet Healer (c0)
-Racecar Bob	131	naskar1.gif	Atk: 144 Def: 124 HP: 139 Init: 80 Meat: 120 P: dude	enormous belt buckle (25)	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)
+Racecar Bob	131	naskar1.gif	Atk: 144 Def: 124 HP: 139 Init: 80 Meat: 120 P: dude	enormous belt buckle (25)	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	folder (D-Team) (c0)
 raging bull	271	ragingbull.gif	Atk: 25 Def: 22 HP: 20 Init: 75 Meat: 30 P: dude Article: a	pile of jumping beans (50)	can of Red Minotaur (30)	boxing glove (5)	boxing glove (5)	bull blubber (c10)
 rampaging adding machine	570	adding.gif	Atk: 80 Def: 72 HP: 70 Init: 50 P: construct Article: a
 ratbat	151	ratbat.gif	Atk: 25 Def: 22 HP: 22 Init: 60 Meat: 22 P: beast EA: sleaze Article: a	rat appendix (15)	ratgut (15)	ratarang (p5)	sonar-in-a-biscuit (15)
@@ -2034,12 +2034,12 @@ LOV Equivocator	2011	lovequivocator.gif	FREE NOCOPY Scale: 5 Cap: ? Floor: ? Ini
 
 # Spacegate (April 2017)
 hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: a	edible alien plant bit (0)	alien plant fibers (0)	alien plant goo (0)
-large hostile plant	2014	sgplantb1.gif,sgplantb2.gif,sgplantb3.gif,sgplantb4.gif,sgplantb5.gif,sgplantb6.gif,sgplantb7.gif,sgplantb8.gif,sgplantb9.gif,sgplantb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: a	edible alien plant bit (0)	edible alien plant bit (0)	alien plant fibers (0)	alien plant fibers (0)	alien plant goo (0)
+large hostile plant	2014	sgplantb1.gif,sgplantb2.gif,sgplantb3.gif,sgplantb4.gif,sgplantb5.gif,sgplantb6.gif,sgplantb7.gif,sgplantb8.gif,sgplantb9.gif,sgplantb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: a	edible alien plant bit (100)	edible alien plant bit (20)	alien plant fibers (100)	alien plant fibers (20)	alien plant goo (20)
 exotic hostile plant	2015	sgplantc1.gif,sgplantc2.gif,sgplantc3.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: an	edible alien plant bit (0)	edible alien plant bit (0)	edible alien plant bit (0)	alien plant fibers (0)	alien plant fibers (0)	alien plant fibers (0)	alien plant goo (0)	alien plant pod (c0)
-small hostile animal	2016	sganimala1.gif,sganimala2.gif,sganimala3.gif,sganimala4.gif,sganimala5.gif,sganimala6.gif,sganimala7.gif,sganimala8.gif,sganimala9.gif,sganimala10.gif,sganimala11.gif,sganimala12.gif,sganimala13.gif,sganimala14.gif,sganimala15.gif,sganimala16.gif,sganimala17.gif,sganimala18.gif,sganimala19.gif,sganimala20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast Article: a	alien meat (0)	alien toenails (0)	alien animal goo (0)
+small hostile animal	2016	sganimala1.gif,sganimala2.gif,sganimala3.gif,sganimala4.gif,sganimala5.gif,sganimala6.gif,sganimala7.gif,sganimala8.gif,sganimala9.gif,sganimala10.gif,sganimala11.gif,sganimala12.gif,sganimala13.gif,sganimala14.gif,sganimala15.gif,sganimala16.gif,sganimala17.gif,sganimala18.gif,sganimala19.gif,sganimala20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast Article: a	alien meat (75)	alien toenails (100)	alien animal goo (10)
 large hostile animal	2017	sganimalb1.gif,sganimalb2.gif,sganimalb3.gif,sganimalb4.gif,sganimalb5.gif,sganimalb6.gif,sganimalb7.gif,sganimalb8.gif,sganimalb9.gif,sganimalb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast EA: stench Article: a	alien meat (0)	alien meat (0)	alien toenails (0)	alien toenails (0)	alien animal goo (0)
 exotic hostile animal	2018	sganimalc1.gif,sganimalc2.gif,sganimalc3.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast EA: stench Article: an	alien meat (0)	alien meat (0)	alien meat (0)	alien toenails (0)	alien toenails (0)	alien toenails (0)	alien animal goo (0)	alien animal milk (c0)
-Spant drone	2019	sgspantdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug EA: hot Article: a	spant chitin (0)	spant chitin (0)	spant tendon (0)	spant tendon (0)
+Spant drone	2019	sgspantdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug EA: hot Article: a	spant chitin (30)	spant chitin (5)	spant tendon (30)	spant tendon (5)
 Spant soldier	2020	sgspantwarrior.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug EA: stench Article: a	spant chitin (0)	spant chitin (0)	spant tendon (0)	spant tendon (0)	spant spear (0)
 Murderbot drone	2021	sgmbdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct EA: cold EA: hot Article: a	murderbot component casing (c100)	murderbot monofilament (c100)	murderbot monofilament (c100)	murderbot power cell (c100)	murderbot power cell (c100)	murderbot memory chip (100)
 Murderbot soldier	2022	sgmb.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct EA: stench Article: a	murderbot component casing (c100)	murderbot component casing (c100)	murderbot monofilament (c100)	murderbot monofilament (c100)	murderbot power cell (c100)	murderbot power cell (c100)	murderbot memory chip (100)	murderbot memory chip (100)	murderbot memory chip (c100)	murderbot plasma rifle (0)
@@ -2209,9 +2209,9 @@ Essence of Soy	967	mc_soy3.gif	NOCOPY Atk: 30 Def: 18 HP: 60 Init: 80 P: element
 Essence of Tofu	966	mc_tofu3.gif	NOCOPY Atk: 20 Def: 27 HP: 60 Init: 80 P: elemental Article: the	essential tofu (c5)
 
 # Ellsbury's Claim (antique pair of blue jeans August-September 2010)
-deadly venomtrout	974	venomtrout.gif	Atk: 130 Def: 117 HP: 150 Init: 50 P: fish Article: a	trout fang (0)	poisonous caviar (0)
+deadly venomtrout	974	venomtrout.gif	Atk: 130 Def: 117 HP: 150 Init: 50 P: fish Article: a	trout fang (5)	poisonous caviar (15)
 unearthed monstrosity	976	ellsburyboss.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 500 Init: 10000 P: horror Article: an	Ellsbury's skull (100)	Ellsbury's journal (100)
-water spider	975	waterspider.gif	Atk: 130 Def: 117 HP: 150 Init: 50 P: bug EA: hot Article: a	wet venom duct (0)
+water spider	975	waterspider.gif	Atk: 130 Def: 117 HP: 150 Init: 50 P: bug EA: hot Article: a	wet venom duct (10)
 
 # PVP Maps
 
