@@ -8515,7 +8515,7 @@ Skill	Zombie Maestro	Mana Cost: -1
 
 Skill	Envy	Item Drop: +30, Meat Drop: -25
 # Gluttony duplicates Opossum's food gains
-Skill	Gluttony	Experience: -2, Stomach Capacity: -1
+Skill	Gluttony	Experience: -2, Stomach Capacity: +2
 Skill	Greed	Meat Drop: +50, Item Drop: -15
 Skill	Lust	Initiative: +50, Weapon Damage: -5, Spell Damage: -5
 # Pride lowers food gains
