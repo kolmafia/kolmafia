@@ -142,7 +142,7 @@
 135	Genie Garments	genietat.gif	genie's turbane, genie's scimitar, genie's pants, genie's bracers	rainbow jellybean
 136	Psychic Enpsemble	psychictat.gif	psychic's amulet, psychic's circlet, psychic's crystal ball, psychic's pslacks	mystery lollipop
 137	FantasyRealm Warrior's Outfit	frtat1.gif	FantasyRealm Warrior's Helm, Dragonscale breastplate, belt of Ogrekind, The Ghoul King's ghoulottes	chocolate Ogre Chieftain
-138	FantasyRealm Wizard's Outfit	frtat2.gif	FantasyRealm Mage's Hat, nozzle of the Phoenix, the Archwizard's briefs, the Ley Incursion's waist	chocolate "Phoenix"
+138	FantasyRealm Wizard's Outfit	frtat2.gif	FantasyRealm Mage's Hat, nozzle of the Phoenix, the Archwizard's briefs, the Ley Incursion's waist	chocolate &quot;Phoenix&quot;
 139	FantasyRealm Thief's Outfit	frtat3.gif	FantasyRealm Rogue's Mask, Duke Vampire's regal cloak, leggings of the Spider Queen, Master Thief's utility belt	chocolate Spider Queen
 140	Snakeskin Suit	vwsnaketat.gif	snakeskin cowboy hat, snakeskin jacket, snakeskin thighboots	licorice snake
 141	Slime Enslamble	vwslimetat.gif	slime fedora, slime knuckles, slime waders	virgin jello shot
