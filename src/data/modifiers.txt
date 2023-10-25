@@ -4351,7 +4351,7 @@ Item	kill screen	Random Monster Modifiers: +1, Generic
 Item	kitty sheet music	Familiar Weight: +5
 Item	lead collar	Familiar Weight: +5
 Item	lead necklace	Familiar Weight: +3, Generic
-Item	LED candle	Familiar Weight: +5
+Item	LED candle	Familiar Weight: +5, Fairy: [0.5*pref(ledCandleMode,disco)], Leprechaun: [0.5*pref(ledCandleMode,ultraviolet)], Volleyball Effectiveness: [0.5*pref(ledCandleMode,reading)], Sombrero Effectiveness: [0.5*pref(ledCandleMode,reading)]
 # Li'l Businessman Kit: Lets your familiar make deals
 Item	Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
 Item	li'l candy corn costume	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Equips On: "Trick-or-Treating Tot"
@@ -4621,7 +4621,6 @@ Familiar	Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [flo
 Familiar	Happy Medium	Initiative: [W]
 Familiar	Hobo Monkey	Leprechaun: 1.25
 Familiar	Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
-Familiar	Jill-of-All-Trades	Fairy: [1+(0.5*equipped(LED candle)*pref(ledCandleMode,disco))], Leprechaun: [1+(0.5*equipped(LED candle)*pref(ledCandleMode,ultraviolet))], Volleyball Effectiveness: [1+(0.5*equipped(LED candle)*pref(ledCandleMode,reading))], Sombrero Effectiveness: [1+(0.5*equipped(LED candle)*pref(ledCandleMode,reading))]
 Familiar	Llama Lama	Volleyball: 0.5
 Familiar	Magic Dragonfish	Spell Damage Percent: [min(2*W,100^env(underwater)*100)]
 Familiar	Mechanical Songbird	Fairy Effectiveness: [1.0+0.5*zone(Dreadsylvania)]

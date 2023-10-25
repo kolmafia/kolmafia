@@ -766,6 +766,9 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.DO_METHOD);
         KoLCharacter.removeAvailableSkill(SkillPool.DO_EPIC_MCTWIST);
         break;
+      case ItemPool.FRANKEN_STEIN:
+        KoLCharacter.removeAvailableSkill(SkillPool.TOAST_YOUR_ENEMY);
+        break;
     }
   }
 
@@ -1126,6 +1129,9 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.DO_KICKFLIP);
         KoLCharacter.addAvailableSkill(SkillPool.DO_METHOD);
         KoLCharacter.addAvailableSkill(SkillPool.DO_EPIC_MCTWIST);
+        break;
+      case ItemPool.FRANKEN_STEIN:
+        KoLCharacter.addAvailableSkill(SkillPool.TOAST_YOUR_ENEMY);
         break;
     }
   }

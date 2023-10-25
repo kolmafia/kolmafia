@@ -1036,6 +1036,7 @@
 7484	Hold Hands	hand.gif	5	0	0
 7485	Recall Facts: Monster Habitats	map.gif	5	0	0
 7486	Recall Facts: %phylum Circadian Rhythms	hourglass.gif	5	0	0
+7487	Toast your enemy		5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
