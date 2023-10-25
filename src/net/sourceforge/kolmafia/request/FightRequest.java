@@ -10347,6 +10347,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.DO_EPIC_MCTWIST:
         if (responseText.contains("degrees in the air while performing")) {
           skillSuccess = true;
+          setFightModifiers("Item Drop: +75");
         }
         break;
 
