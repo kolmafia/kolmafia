@@ -1928,6 +1928,7 @@ foon of fleshiness	50	Mys: 10
 foon of foulness	50	Mys: 10
 foon of frigidity	50	Mys: 10
 foon of fulmination	50	Mys: 10
+Franken Stein	0	none
 frankincenser	0	none
 Frigid Northern Beans	30	none	can of beans
 Gazpacho's Glacial Grimoire	30	none
