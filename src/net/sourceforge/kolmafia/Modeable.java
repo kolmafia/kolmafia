@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
+import net.sourceforge.kolmafia.textui.command.LedCandleCommand;
 import net.sourceforge.kolmafia.textui.command.ModeCommand;
 import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
@@ -69,6 +70,13 @@ public enum Modeable {
       ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA),
       ModifierType.UNBREAKABLE_UMBRELLA,
       new UmbrellaCommand(),
+      true),
+  LED_CANDLE(
+      "ledcandle",
+      "ledCandleMode",
+      ItemPool.get(ItemPool.LED_CANDLE),
+      ModifierType.LED_CANDLE,
+      new LedCandleCommand(),
       true);
 
   private final String command;
