@@ -132,12 +132,15 @@ public class ModifiersTest {
 
   @Test
   public void intrinsicSpicinessModifiers() {
-    KoLCharacter.setAscensionClass(AscensionClass.SAUCEROR);
-    for (int i = 1; i <= 11; i++) {
-      int myst = (i == 1) ? 0 : (i - 1) * (i - 1) + 4;
-      KoLCharacter.setStatPoints(0, 0, myst, (long) myst * myst, 0, 0);
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
-      assertEquals(Math.min(i, 10), mods.getDouble(DoubleModifier.SAUCE_SPELL_DAMAGE));
+    var cleanups = withClass(AscensionClass.SAUCEROR);
+
+    try (cleanups) {
+      for (int i = 1; i <= 11; i++) {
+        int myst = (i == 1) ? 0 : (i - 1) * (i - 1) + 4;
+        KoLCharacter.setStatPoints(0, 0, myst, (long) myst * myst, 0, 0);
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
+        assertEquals(Math.min(i, 10), mods.getDouble(DoubleModifier.SAUCE_SPELL_DAMAGE));
+      }
     }
   }
 
@@ -1247,6 +1250,13 @@ public class ModifiersTest {
 
   @Nested
   class JillOfAllTrades {
+    @BeforeAll
+    static void beforeAll() {
+      // clearer to set here than in every volleyball test
+      // there's a leak somewhere
+      Modifiers.setLocation(null);
+    }
+
     @Test
     void nakedJillIsAOneTimesFairy() {
       var cleanups = withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 100);
