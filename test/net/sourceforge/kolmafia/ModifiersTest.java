@@ -1257,9 +1257,20 @@ public class ModifiersTest {
       Modifiers.setLocation(null);
     }
 
+    private Cleanups withJill(int weight) {
+      return withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, weight * weight);
+    }
+
+    private Cleanups withJillAndCandle(int weight, String candleSetting) {
+      return new Cleanups(
+          withProperty("ledCandleMode", candleSetting),
+          withJill(weight),
+          withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+    }
+
     @Test
     void nakedJillIsAOneTimesFairy() {
-      var cleanups = withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 100);
+      var cleanups = withJill(10);
 
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
@@ -1271,11 +1282,7 @@ public class ModifiersTest {
     @Test
     void configuredCandleMakesJillABetterFairy() {
       // 5-lbs Jill because candle is +5 lb
-      var cleanups =
-          new Cleanups(
-              withProperty("ledCandleMode", "disco"),
-              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 25),
-              withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+      var cleanups = withJillAndCandle(5, "disco");
 
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
@@ -1286,7 +1293,7 @@ public class ModifiersTest {
 
     @Test
     void nakedJillIsAOneTimesLep() {
-      var cleanups = withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 100);
+      var cleanups = withJill(10);
 
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
@@ -1298,11 +1305,7 @@ public class ModifiersTest {
     @Test
     void configuredCandleMakesJillABetterLep() {
       // 5-lbs Jill because candle is +5 lb
-      var cleanups =
-          new Cleanups(
-              withProperty("ledCandleMode", "ultraviolet"),
-              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 25),
-              withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+      var cleanups = withJillAndCandle(5, "ultraviolet");
 
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
@@ -1313,7 +1316,7 @@ public class ModifiersTest {
 
     @Test
     void nakedJillIsAOneTimesVolley() {
-      var cleanups = withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 100);
+      var cleanups = withJill(10);
 
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
@@ -1325,11 +1328,7 @@ public class ModifiersTest {
     @Test
     void configuredCandleMakesJillABetterVolley() {
       // 5-lbs Jill because candle is +5 lb
-      var cleanups =
-          new Cleanups(
-              withProperty("ledCandleMode", "reading"),
-              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 25),
-              withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+      var cleanups = withJillAndCandle(5, "reading");
 
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
@@ -1340,10 +1339,7 @@ public class ModifiersTest {
 
     @Test
     void atHighMLJillIsASombrero() {
-      var cleanups =
-          new Cleanups(
-              withLocation("The Briniest Deepests"),
-              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 100));
+      var cleanups = new Cleanups(withLocation("The Briniest Deepests"), withJill(10));
 
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
@@ -1357,11 +1353,7 @@ public class ModifiersTest {
     void configuredCandleMakesJillABetterSombrero() {
       // 5-lbs Jill because candle is +5 lb
       var cleanups =
-          new Cleanups(
-              withLocation("The Briniest Deepests"),
-              withProperty("ledCandleMode", "reading"),
-              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 25),
-              withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+          new Cleanups(withLocation("The Briniest Deepests"), withJillAndCandle(5, "reading"));
 
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
