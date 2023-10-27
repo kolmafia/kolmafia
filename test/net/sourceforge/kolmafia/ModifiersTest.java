@@ -51,6 +51,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class ModifiersTest {
+  private Double fairyFunction(final double weight) {
+    return Math.max(Math.sqrt(55 * weight) + weight - 3, 0);
+  }
+
+  private Double lepFunction(final double weight) {
+    return 2 * fairyFunction(weight);
+  }
 
   @Test
   public void patriotShieldClassModifiers() {
@@ -1018,10 +1025,6 @@ public class ModifiersTest {
 
   @Nested
   class FairyFamiliars {
-    private Double fairyFunction(final double weight) {
-      return Math.max(Math.sqrt(55 * weight) + weight - 3, 0);
-    }
-
     private Modifiers getFamiliarMods(final int weight) {
       Modifiers familiarMods = new Modifiers();
       var fam = KoLCharacter.getFamiliar();
@@ -1189,6 +1192,80 @@ public class ModifiersTest {
 
         assertThat(current.getDouble(DoubleModifier.MOX_EXPERIENCE_PCT), equalTo(25.0));
         assertThat(current.getDouble(DoubleModifier.MANA_COST), equalTo(-3.0));
+      }
+    }
+  }
+
+  @Nested
+  class Familiars {
+    @Test
+    void volleyballGivesExperience() {
+      var cleanups = withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(4.0));
+      }
+    }
+
+    @Test
+    void sombreroGivesExperience() {
+      var cleanups = withFamiliar(FamiliarPool.SOMBRERO, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(1.0));
+      }
+    }
+
+    @Test
+    void gravyFairyGivesItem() {
+      var cleanups = withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(10), 0.001));
+      }
+    }
+
+    @Test
+    void leprechaunGivesMeat() {
+      var cleanups = withFamiliar(FamiliarPool.LEPRECHAUN, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
+      }
+    }
+  }
+
+  @Nested
+  class JillOfAllTrades {
+    @Test
+    void nakedJillIsAOneTimesLepVolleyFairy() {
+      var cleanups = withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(10), 0.001));
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(4.0));
+      }
+    }
+
+    @Test
+    void atHighMLJillIsASombrero() {
+      var cleanups =
+          new Cleanups(
+              withLocation("The Briniest Deepests"),
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 100));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        // 400 ML
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(15.0, 0.001));
       }
     }
   }
