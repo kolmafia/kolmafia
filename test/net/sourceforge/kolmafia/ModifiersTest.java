@@ -51,6 +51,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class ModifiersTest {
+  @BeforeAll
+  static void beforeAll() {
+    KoLCharacter.reset("ModifiersTest");
+    Preferences.reset("ModifiersTest");
+  }
+
   private Double fairyFunction(final double weight) {
     return Math.max(Math.sqrt(55 * weight) + weight - 3, 0);
   }
@@ -1242,15 +1248,83 @@ public class ModifiersTest {
   @Nested
   class JillOfAllTrades {
     @Test
-    void nakedJillIsAOneTimesLepVolleyFairy() {
+    void nakedJillIsAOneTimesFairy() {
       var cleanups = withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 100);
 
       try (cleanups) {
         Modifiers current = KoLCharacter.getCurrentModifiers();
 
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(10), 0.001));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterFairy() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups =
+          new Cleanups(
+              withProperty("ledCandleMode", "disco"),
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 25),
+              withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(15), 0.001));
+      }
+    }
+
+    @Test
+    void nakedJillIsAOneTimesLep() {
+      var cleanups = withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
         assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterLep() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups =
+          new Cleanups(
+              withProperty("ledCandleMode", "ultraviolet"),
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 25),
+              withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(15), 0.001));
+      }
+    }
+
+    @Test
+    void nakedJillIsAOneTimesVolley() {
+      var cleanups = withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
         assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(4.0));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterVolley() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups =
+          new Cleanups(
+              withProperty("ledCandleMode", "reading"),
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 25),
+              withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(6.0, 0.001));
       }
     }
 
@@ -1266,6 +1340,23 @@ public class ModifiersTest {
 
         // 400 ML
         assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(15.0, 0.001));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterSombrero() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups =
+          new Cleanups(
+              withLocation("The Briniest Deepests"),
+              withProperty("ledCandleMode", "reading"),
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 25),
+              withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(22.5, 0.001));
       }
     }
   }
