@@ -1,13 +1,11 @@
 package internal.helpers;
 
-import static org.mockito.Mockito.mockStatic;
-
 import internal.helpers.Cleanups.OrderedRunnable;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.net.http.HttpClient;
+import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -60,7 +58,7 @@ import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
-import org.mockito.Mockito;
+import net.sourceforge.kolmafia.utilities.TestStatics;
 
 public class Player {
 
@@ -1429,24 +1427,14 @@ public class Player {
    */
   public static Cleanups withDay(
       final int year, final Month month, final int day, final int hour, final int minute) {
-    var mocked = mockStatic(DateTimeManager.class, Mockito.RETURNS_DEFAULTS);
-
-    mocked
-        .when(DateTimeManager::getArizonaDateTime)
-        .thenReturn(
-            ZonedDateTime.of(
-                year, month.getValue(), day, hour, minute, 0, 0, DateTimeManager.ARIZONA));
-    mocked
-        .when(DateTimeManager::getRolloverDateTime)
-        .thenReturn(
-            ZonedDateTime.of(
-                year, month.getValue(), day, hour, minute, 0, 0, DateTimeManager.ROLLOVER));
+    var localDateTime = LocalDateTime.of(year, month, day, hour, minute);
+    TestStatics.setDate(localDateTime);
 
     HolidayDatabase.reset();
 
     return new Cleanups(
         () -> {
-          mocked.close();
+          TestStatics.resetDate();
           HolidayDatabase.reset();
         });
   }

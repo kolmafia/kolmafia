@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
+
 import java.io.File;
 import java.io.PrintStream;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +17,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
