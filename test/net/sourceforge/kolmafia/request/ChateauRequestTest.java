@@ -8,7 +8,6 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
-import static internal.helpers.Player.withoutHoliday;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -93,7 +92,7 @@ public class ChateauRequestTest {
       ItemPool.CHATEAU_FAN + ", Free Rests, 5",
     })
     void appliesModifiersFromChateau(final int itemId, final String modifierName, double score) {
-      var cleanups = new Cleanups(withoutHoliday(), withChateau(itemId));
+      var cleanups = new Cleanups(withChateau(itemId));
 
       try (cleanups) {
         assertThat(
