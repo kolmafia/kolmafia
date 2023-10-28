@@ -9,7 +9,7 @@ public class TestStatics {
     Statics.setDateTimeManager(new TestDateTimeManager(time));
   }
 
-  public static void resetDate() {
-    Statics.setDateTimeManager(new DateTimeManager());
+  public static void setDateTimeManager(DateTimeManager dtm) {
+    Statics.setDateTimeManager(dtm);
   }
 }

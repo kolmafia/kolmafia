@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
+import net.sourceforge.kolmafia.utilities.Statics;
 import net.sourceforge.kolmafia.utilities.TestStatics;
 
 public class Player {
@@ -1414,10 +1415,11 @@ public class Player {
    * @param day Day to set
    * @param hour Hour to set
    * @param minute Minute to set
-   * @return Restores to using the real day
+   * @return Restores to using the previous date time manager
    */
   public static Cleanups withDay(
       final int year, final Month month, final int day, final int hour, final int minute) {
+    var dtm = Statics.DateTimeManager;
     var localDateTime = LocalDateTime.of(year, month, day, hour, minute);
     TestStatics.setDate(localDateTime);
 
@@ -1425,7 +1427,7 @@ public class Player {
 
     return new Cleanups(
         () -> {
-          TestStatics.resetDate();
+          TestStatics.setDateTimeManager(dtm);
           HolidayDatabase.reset();
         });
   }
