@@ -130,17 +130,15 @@ public class ModifiersTest {
     }
   }
 
-  @Test
-  public void intrinsicSpicinessModifiers() {
-    var cleanups = withClass(AscensionClass.SAUCEROR);
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11})
+  public void intrinsicSpicinessModifiers(int level) {
+    int myst = (level == 1) ? 0 : (level - 1) * (level - 1) + 4;
+    var cleanups = new Cleanups(withClass(AscensionClass.SAUCEROR), withStats(0, myst, 0));
 
     try (cleanups) {
-      for (int i = 1; i <= 11; i++) {
-        int myst = (i == 1) ? 0 : (i - 1) * (i - 1) + 4;
-        KoLCharacter.setStatPoints(0, 0, myst, (long) myst * myst, 0, 0);
-        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
-        assertEquals(Math.min(i, 10), mods.getDouble(DoubleModifier.SAUCE_SPELL_DAMAGE));
-      }
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
+      assertEquals(Math.min(level, 10), mods.getDouble(DoubleModifier.SAUCE_SPELL_DAMAGE));
     }
   }
 
