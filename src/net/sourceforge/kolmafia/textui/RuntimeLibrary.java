@@ -427,7 +427,7 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("is_adventuring", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("has_queued_command", DataTypes.BOOLEAN_TYPE, params));
+    functions.add(new LibraryFunction("has_queued_commands", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("cli_execute", DataTypes.BOOLEAN_TYPE, params));
