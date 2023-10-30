@@ -170,6 +170,7 @@ import net.sourceforge.kolmafia.session.TowerDoorManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.VotingBoothManager;
+import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
@@ -421,6 +422,12 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {};
     functions.add(new LibraryFunction("abort", DataTypes.VOID_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("is_adventuring", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("has_queued_commands", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("cli_execute", DataTypes.BOOLEAN_TYPE, params));
@@ -3313,6 +3320,14 @@ public abstract class RuntimeLibrary {
     KoLmafia.updateDisplay(MafiaState.ABORT, string);
     controller.setState(ScriptRuntime.State.EXIT);
     return DataTypes.VOID_VALUE;
+  }
+
+  public static Value is_adventuring(ScriptRuntime controller) {
+    return new Value(KoLmafia.isAdventuring());
+  }
+
+  public static Value has_queued_commands(ScriptRuntime controller) {
+    return new Value(CommandDisplayFrame.hasQueuedCommands());
   }
 
   public static Value cli_execute(ScriptRuntime controller, final Value string) {
