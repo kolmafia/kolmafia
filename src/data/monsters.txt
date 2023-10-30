@@ -107,7 +107,7 @@ Bubblemint Twins	1240	twins_bubble.gif	Atk: 93 Def: 83 HP: 90 Init: 40 Meat: 65 
 bugbear-in-the-box	108	binbox.gif	Atk: 16 Def: 16 HP: 11 Init: 70 Meat: 15 P: beast Article: a	box (20)	bugbear beanie (10)	bugbear bungguard (10)
 bugged bugbear	258	bugbugbear.gif	Atk: 17 Def: 16 HP: 14 Init: 50 P: beast Article: a	gnoll teeth (30)	gnoll lips (30)	software glitch (p25)
 Bullet Bill	121	bulletbill.gif	Atk: 25 Def: 22 HP: 15 Init: 60 Meat: 10 P: construct Article: a	black pixel (70)	black pixel (70)	black pixel (70)
-bunch of drunken rats	995	ratbunch.gif	Atk: 20 Def: 18 HP: 16 Init: 80 Meat: 20 Group: 3 P: beast EA: sleaze Article: a	rat whisker (100)	rat whisker (0)	rat appendix (0)	rat appendix (0)	rat appendix (0)
+bunch of drunken rats	995	ratbunch.gif	Atk: 20 Def: 18 HP: 16 Init: 80 Meat: 20 Group: 3 P: beast EA: sleaze Article: a	rat whisker (100)	rat whisker (25)	rat whisker (10)	rat appendix (20)	rat appendix (20)	rat appendix (20)
 Burly Sidekick	166	sidekick.gif	Atk: 100 Def: 90 HP: 100 Init: 80 Meat: 130 P: dude Article: a	armgun (9)	cocoa eggshell fragment (30)	Mohawk wig (10)	tiny house (30)
 Burrowing Bishop	351	bishop.gif	Atk: 163 Def: 146 HP: 150 Init: 70 P: constellation E: sleaze Article: The	line (30)	line (30)	star (30)
 Bush	537	bush.gif	Atk: 156 Def: 140 HP: 150 Init: 70 P: constellation ED: sleaze EA: hot Article: The	star (30)	star (30)	star (30)
@@ -495,7 +495,7 @@ pair of burnouts	1578	stonebros.gif	Atk: 34 Def: 30 HP: 25 Init: -10000 Meat: 15
 panicking Knott Yeti	1228	yeti.gif	NOCOPY Atk: 105 Def: 92 HP: 90 Init: 60 Meat: 200 P: beast ED: cold EA: cold EA: stench Article: a	yeti fur (30)
 Panty Raider Frat Boy	421	warfratpr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 P: orc E: sleaze Article: a	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 paper towelgeist	374	ptowels.gif	Atk: 21 Def: 18 HP: 22 Init: 30 P: undead Article: a	cardboard katana (5)
-party skelteon	2154	partyskeleton.gif	Atk: 52 Def: 49 HP: 55 Init: 50 P: undead ED: spooky EA: cold EA: hot EA: sleaze EA: spooky Article: a	skeleton bone (0)	loose teeth (0)	margarita (c100)	martini (c100)	monkey wrench (c100)	salty dog (c100)	screwdriver (c100)	strawberry daiquiri (c100)	strawberry wine (c100)	tequila sunrise (c100)	vodka martini (c100)	whiskey and soda (c100)	whiskey sour (c100)	wine spritzer (c100)
+party skelteon	2154	partyskeleton.gif	Atk: 52 Def: 49 HP: 55 Init: 50 P: undead ED: spooky EA: cold EA: hot EA: sleaze EA: spooky Article: a	skeleton bone (40)	loose teeth (20)	margarita (c100)	martini (c100)	monkey wrench (c100)	salty dog (c100)	screwdriver (c100)	strawberry daiquiri (c100)	strawberry wine (c100)	tequila sunrise (c100)	vodka martini (c100)	whiskey and soda (c100)	whiskey sour (c100)	wine spritzer (c100)
 Peanut	1376	peanut.gif	NOCOPY Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror Elem: 25	peanut sauce (40)
 pernicious puddle of pesto	659	pestopuddle.gif	NOCOPY Atk: 21 Def: 18 HP: 18 Init: 20 P: slime Article: a	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 perpendicular bat	47	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 30 P: beast Article: a	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)	perpendicular guano (c0)	guancertina (a100)
@@ -787,7 +787,7 @@ wet seal	802	wetseal.gif	NOCOPY FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: d
 Whatsian Commando Ghost	1258	aboo_who.gif	Atk: 78 Def: 62 HP: 40 Init: -10000 P: undead GHOST Phys: 100 ED: spooky EA: sleaze Article: a	A-Boo clue (c15)	T.U.R.D.S. Key (15)	Whatsian Ionic Pliers (5)	ectoplasmic orbs (10)
 whiny pirate	628	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 80 P: pirate Article: a	bilge wine (30)
 white chocolate golem	67	chocgolem.gif	Atk: 37 Def: 32 HP: 21 Init: 70 P: construct EA: sleaze Article: a	white chocolate chips (50)	mother's secret recipe (p3)	White Chocolate Golem Seeds (c0)
-white elephant	1590	whiteelephant.gif	Atk: 45 Def: 45 HP: 50 Init: 50 Meat: 300 P: beast Article: a	white blood cells (0)	white wine (0)	white elephant gift (0)
+white elephant	1590	whiteelephant.gif	Atk: 45 Def: 45 HP: 50 Init: 50 Meat: 300 P: beast Article: a	white blood cells (50)	white wine (100)	white elephant gift (5)
 white lion	66	lion.gif	Atk: 36 Def: 31 HP: 21 Init: 60 Meat: 30 P: beast Article: a	catgut (15)	lion oil (25)
 whitesnake	65	whitesnake.gif	Atk: 35 Def: 30 HP: 21 Init: 60 Meat: 10 P: beast SNAKE Article: a Poison: "A Little Bit Poisoned"	white snake skin (30)	bird rib (25)
 wild seahorse	778	seahorse.gif	NOCOPY NOMANUEL Atk: 500 Def: 900000 HP: 1000000 Init: 10000 P: fish Phys: 100 Elem: 100 EA: spooky EA: stench
@@ -1470,7 +1470,7 @@ voyeuristic artist	590	smallartist.gif	Atk: [max(min(125,MOX*1.1),5)+max(ML,0)] 
 
 # Stately Pleasure Dome (Green Pixie June 2007)
 Ancient Mariner	582	mariner.gif	Atk: [max(min(125,MOX*1.1),5)+max(ML,0)] Def: [max(min(125,MUS),5)+max(ML,0)] HP: [max(min(100,0.8*(min(125,MUS)+max(ML,0))),5)+max(ML,0)*0.75] Exp: [max(min(125,STAT*1.1),5)/4+max(ML,0)/3] Init: 50 P: dude Article: an	Mariner's Friend cough drops (20)
-angry poet	585	madpoet.gif	Atk: [max(min(125,MOX*1.1),5)+max(ML,0)] Def: [max(min(125,MUS),5)+max(ML,0)] HP: [max(min(100,0.8*(min(125,MUS)+max(ML,0))),5)+max(ML,0)*0.75] Exp: [max(min(125,STAT*1.1),5)/4+max(ML,0)/3] Init: 60 P: dude EA: sleaze Article: an	honey-dew (10)	white Xanadian (0)
+angry poet	585	madpoet.gif	Atk: [max(min(125,MOX*1.1),5)+max(ML,0)] Def: [max(min(125,MUS),5)+max(ML,0)] HP: [max(min(100,0.8*(min(125,MUS)+max(ML,0))),5)+max(ML,0)*0.75] Exp: [max(min(125,STAT*1.1),5)/4+max(ML,0)/3] Init: 60 P: dude EA: sleaze Article: an	honey-dew (10)	white Xanadian (10)
 Kubla Khan	583	kublakhan.gif	Atk: [max(min(125,MOX*1.1),5)+max(ML,0)] Def: [max(min(125,MUS),5)+max(ML,0)] HP: [max(min(100,0.8*(min(125,MUS)+max(ML,0))),5)+max(ML,0)*0.75] Exp: [max(min(125,STAT*1.1),5)/4+max(ML,0)/3] Init: 60 P: dude EA: cold EA: hot EA: sleaze
 roller-skating Muse	586	muse.gif	Atk: [max(min(125,MOX*1.1),5)+max(ML,0)] Def: [max(min(125,MUS),5)+max(ML,0)] HP: [max(min(100,0.8*(min(125,MUS)+max(ML,0))),5)+max(ML,0)*0.75] Exp: [max(min(125,STAT*1.1),5)/4+max(ML,0)/3] Init: 70 P: dude Article: a	bottled inspiration (20)
 toothless mastiff bitch	584	mastiff.gif	Atk: [max(min(125,MOX*1.1),5)+max(ML,0)] Def: [max(min(125,MUS),5)+max(ML,0)] HP: [max(min(100,0.8*(min(125,MUS)+max(ML,0))),5)+max(ML,0)*0.75] Exp: [max(min(125,STAT*1.1),5)/4+max(ML,0)/3] Init: 50 P: beast EA: spooky Article: a	disintegrating spiky collar (20)
@@ -1809,9 +1809,9 @@ flashy pirate	1764	flashypirate.gif	NOBANISH Atk: 200 Def: 200 HP: 150 Init: -10
 toxic beastie	1765	toxbeast1.gif,toxbeast2.gif,toxbeast3.gif,toxbeast4.gif	NOCOPY Scale: [5+55*pref(dinseySafetyProtocolsLoose)] Cap: [11111+11111*pref(dinseySafetyProtocolsLoose)] Floor: 50 Init: -10000 P: slime E: stench Article: a	toxic globule (35)	toxic globule (5)	toxic globule (5)
 
 # Uncle Gator's Country Fun-Time Liquid Waste Sluice (Dinseylandfill April 2015)
-C<i>bzzt</i>er the Grisly Bear	1766	animbear.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct ED: stench EA: spooky EA: stench Wiki: "Cbzzter the Grisly Bear"	jar of swamp honey (0)	backwoods banjo (c0)
-Gurgle the Turgle	1768	animturtle.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct E: stench	turtle voicebox (0)	fake washboard (c0)
-Skeezy the Jug Rat	1767	animrat.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct E: stench	grody jug (0)	ratskin pajama pants (c0)
+C<i>bzzt</i>er the Grisly Bear	1766	animbear.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct ED: stench EA: spooky EA: stench Wiki: "Cbzzter the Grisly Bear"	jar of swamp honey (15)	backwoods banjo (c0.1)
+Gurgle the Turgle	1768	animturtle.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct E: stench	turtle voicebox (15)	fake washboard (c0.1)
+Skeezy the Jug Rat	1767	animrat.gif	NOBANISH Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] Init: -10000 P: construct E: stench	grody jug (15)	ratskin pajama pants (c0.1)
 nasty bear	1769	nastybear.gif	NOBANISH NOCOPY Atk: [(150+ML)*(1-pref(dinseyAudienceEngagement))+(max(min(10000,MOX+20),100)+5*max(ML,0))*pref(dinseyAudienceEngagement)] Def: [(150+ML)*(1-pref(dinseyAudienceEngagement))+(max(min(10000,MUS+20),100)+5*max(ML,0))*pref(dinseyAudienceEngagement)] HP: [(1000+ML)*(1-pref(dinseyAudienceEngagement))+(max(min(10000,MUS+20),100)+5*max(ML,0))*pref(dinseyAudienceEngagement)*0.75] Exp: [(150/4+ML/3)*(1-pref(dinseyAudienceEngagement))+(max(min(10000,STAT+20),100)/4+5*max(ML,0)/3)*pref(dinseyAudienceEngagement)] Init: -10000 P: beast E: stench Article: a
 
 # Dinseylandfill (April 2015)
@@ -2715,8 +2715,8 @@ Mob Penguin organizer	2037	penggoon.gif	NOCOPY Scale: 50 Cap: 1500 Floor: 51 Ini
 Mob Penguin protector	2034	pengthug.gif	NOCOPY Scale: 11 Cap: 1000 Floor: 12 Init: -10000 Meat: 400 P: penguin EA: hot EA: stench Article: a	protection stick (0)	mafia thumb ring (0)	roll of meat (p0)
 Mob Penguin steel driver	2035	penghammer.gif	NOCOPY Scale: 15 Cap: 1000 Floor: 16 Init: 100 Meat: 500 P: penguin EA: hot EA: spooky Article: a	steel drivin' hammer (0)	mafia middle finger ring (0)	little piece of steel (p0)
 Mob Penguin union rail worker	2031	pengthug.gif	NOCOPY Scale: 6 Cap: 1000 Floor: 10 Init: 75 P: penguin Article: a	contract enforcement stick (0)	mafia pinky ring (0)	flask of port (p0)
-tree hugging hippy protestor	2066	limphippy1.gif	NOCOPY Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench Article: a	&quot;Remember the Trees&quot; Shirt (0)
-tree loving hippy protestor	2086	limphippy2.gif	NOCOPY Scale: 6 Cap: 1000 Floor: 10 Init: 50 Meat: 1 P: hippy ED: stench EA: hot Article: a	deadfall branch (0)
+tree hugging hippy protestor	2066	limphippy1.gif	NOCOPY Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench Article: a	&quot;Remember the Trees&quot; Shirt (10)
+tree loving hippy protestor	2086	limphippy2.gif	NOCOPY Scale: 6 Cap: 1000 Floor: 10 Init: 50 Meat: 1 P: hippy ED: stench EA: hot Article: a	deadfall branch (10)
 
 # Crimbo 2019 (December 2019)
 gingerbread maw	2141	gingermaw.gif	Atk: 200 Def: 200 HP: 300 Init: 100 P: horror EA: spooky Article: a	salty gumdrop (0)	soggy gingerbread chunk (0)	ribbon candy ascot (c0)
