@@ -1,11 +1,20 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withItem;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import java.io.File;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class EquipmentDatabaseTest {
 
@@ -91,5 +100,41 @@ public class EquipmentDatabaseTest {
     assertEquals(EquipmentDatabase.getPulverization(13), -1);
     // an index past the end of the array
     assertEquals(EquipmentDatabase.getPulverization(ItemDatabase.maxItemId() + 5), -1);
+  }
+
+  @Nested
+  class Outfits {
+    @Test
+    void chanceBasedTreatsParsed() {
+      var outfit = EquipmentDatabase.getOutfit(128);
+      var treats = outfit.getTreats();
+      assertThat(treats, hasSize(2));
+
+      assertThat(treats.get(0).treat().getName(), is("eldritch essence"));
+      assertThat(treats.get(0).chance(), is(0.09));
+
+      assertThat(treats.get(1).treat().getName(), is("eldritch effluvium"));
+      assertThat(treats.get(1).chance(), is(0.91));
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void stateBasedTreats(final boolean hasRussianIce) {
+      var cleanups = new Cleanups();
+
+      if (hasRussianIce) cleanups.add(withItem(ItemPool.RUSSIAN_ICE));
+
+      try (cleanups) {
+        var outfit = EquipmentDatabase.getOutfit(80);
+        var treats = outfit.getTreats();
+
+        assertThat(treats, hasSize(hasRussianIce ? 1 : 0));
+
+        if (hasRussianIce) {
+          assertThat(treats.get(0).treat().getName(), is("double-ice gum"));
+          assertThat(treats.get(0).chance(), is(1.0));
+        }
+      }
+    }
   }
 }

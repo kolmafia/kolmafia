@@ -2478,7 +2478,7 @@ public class FightRequest extends GenericRequest {
             break;
 
           case RAIN:
-            if (!EncounterManager.ignoreSpecialMonsters) {
+            if (!EncounterManager.ignoreSpecialMonsters && KoLCharacter.inRaincore()) {
               TurnCounter.stopCounting("Rain Monster window begin");
               TurnCounter.stopCounting("Rain Monster window end");
               TurnCounter.startCounting(35, "Rain Monster window begin loc=*", "lparen.gif");
@@ -10347,6 +10347,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.DO_EPIC_MCTWIST:
         if (responseText.contains("degrees in the air while performing")) {
           skillSuccess = true;
+          setFightModifiers("Item Drop: +75");
         }
         break;
 
