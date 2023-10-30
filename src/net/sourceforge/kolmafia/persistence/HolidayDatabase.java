@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
+
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Month;

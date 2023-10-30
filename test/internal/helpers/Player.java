@@ -1,13 +1,11 @@
 package internal.helpers;
 
-import static org.mockito.Mockito.mockStatic;
-
 import internal.helpers.Cleanups.OrderedRunnable;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.net.http.HttpClient;
+import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -60,7 +58,8 @@ import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
-import org.mockito.Mockito;
+import net.sourceforge.kolmafia.utilities.Statics;
+import net.sourceforge.kolmafia.utilities.TestStatics;
 
 public class Player {
 
@@ -1397,15 +1396,6 @@ public class Player {
   }
 
   /**
-   * Set the day used by HolidayDatabase to a day with nothing going on
-   *
-   * @return Restores to using the real day
-   */
-  public static Cleanups withoutHoliday() {
-    return withDay(2023, Month.AUGUST, 1, 12, 0);
-  }
-
-  /**
    * Set the day used by HolidayDatabase
    *
    * @param year Year to set
@@ -1425,28 +1415,19 @@ public class Player {
    * @param day Day to set
    * @param hour Hour to set
    * @param minute Minute to set
-   * @return Restores to using the real day
+   * @return Restores to using the previous date time manager
    */
   public static Cleanups withDay(
       final int year, final Month month, final int day, final int hour, final int minute) {
-    var mocked = mockStatic(DateTimeManager.class, Mockito.RETURNS_DEFAULTS);
-
-    mocked
-        .when(DateTimeManager::getArizonaDateTime)
-        .thenReturn(
-            ZonedDateTime.of(
-                year, month.getValue(), day, hour, minute, 0, 0, DateTimeManager.ARIZONA));
-    mocked
-        .when(DateTimeManager::getRolloverDateTime)
-        .thenReturn(
-            ZonedDateTime.of(
-                year, month.getValue(), day, hour, minute, 0, 0, DateTimeManager.ROLLOVER));
+    var dtm = Statics.DateTimeManager;
+    var localDateTime = LocalDateTime.of(year, month, day, hour, minute);
+    TestStatics.setDate(localDateTime);
 
     HolidayDatabase.reset();
 
     return new Cleanups(
         () -> {
-          mocked.close();
+          TestStatics.setDateTimeManager(dtm);
           HolidayDatabase.reset();
         });
   }

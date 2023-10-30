@@ -578,7 +578,7 @@ public class DebugModifiersTest {
   @ParameterizedTest
   @CsvSource({"_hareAdv,Wild Hare", "_gibbererAdv,Squamous Gibberer"})
   void listsFamiliarAdventures(String preference, String familiar) {
-    try (var cleanups = new Cleanups(withProperty(preference, 6), withoutHoliday())) {
+    try (var cleanups = new Cleanups(withProperty(preference, 6))) {
       evaluateDebugModifiers(DoubleModifier.ADVENTURES);
       assertThat(output(), containsDebugRow("Familiar", familiar, 6.0, 6.0));
     }
