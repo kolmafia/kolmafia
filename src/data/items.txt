@@ -9039,7 +9039,7 @@
 9011	fishin' hat	717158743	fishinhat.gif	hat	t,d	50
 9012	Trout Fishing in Loathing	339113101	book3.gif	usable	t	0	copies of Trout Fishing in Loathing
 9013	sonar fishfinder	463912431	evilometer.gif	offhand	t	0
-9014
+9014	luxury fly-tying workbench	689025155	flybench.gif	usable	t	0	luxury fly-tying workbenches
 9015	antique tacklebox	166401677	tacklebox.gif	none	t	0	antique tackleboxes
 9016	disconnected intergnat	989587076	discognat.gif	grow	t	0
 9017	viral video	473286597	viralvideo.gif	none, combat	t,d	10

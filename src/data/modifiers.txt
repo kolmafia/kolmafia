@@ -11655,6 +11655,7 @@ Item	LT&T telegraph office deed	Free Pull
 # lump of frequently wriggling eldritch matter: Makes you feel Vaguely Uneasy
 # lump of not really wriggling eldritch matter: Makes you feel Vaguely Uneasy
 Item	Lump-Stacking for Beginners	Skill: "Stack Lumps"
+Item	luxury fly-tying workbench	Fishing Skill: +10
 Item	LyleCo Contractor's Manual	Skill: "Expert Corner-Cutter"
 Item	machine elf capsule	Free Pull
 # mafia filofax: Organize some quiet moments in an area
