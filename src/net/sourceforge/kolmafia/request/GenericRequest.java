@@ -128,7 +128,7 @@ public class GenericRequest implements Runnable {
   public static TopMenuStyle topMenuStyle = TopMenuStyle.UNKNOWN;
 
   public static final String[] SERVERS = {
-    "devproxy.kingdomofloathing.com", "www.kingdomofloathing.com"
+    "dev.kingdomofloathing.com", "www.kingdomofloathing.com"
   };
 
   public static String KOL_HOST = GenericRequest.SERVERS[1];
