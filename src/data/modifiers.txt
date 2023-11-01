@@ -5020,7 +5020,6 @@ Item	ticksilver spurs	Adventures: +5
 
 # Campground equipment section of modifiers.txt
 
-Item	A Guide to Burning Leaves	Leaves: +0.5
 Item	barskin tent	Base Resting HP: +19, Base Resting MP: +20
 # bartender-in-the-box
 Item	beanbag chair	Bonus Resting MP: +30
@@ -10919,7 +10918,7 @@ Item	A Crimbo Carol, Ch. 5 (used)	Skill: "Stealth Mistletoe"
 Item	A Crimbo Carol, Ch. 6	Skill: "Cringle's Curative Carol"
 Item	A Crimbo Carol, Ch. 6 (used)	Skill: "Cringle's Curative Carol"
 Item	a cute angel	Free Pull
-Item	A Guide to Burning Leaves	Free Pull
+Item	A Guide to Burning Leaves	Free Pull, Leaves: +0.5
 Item	A Guide to Safari	Skill: "Experience Safari"
 # a ten-percent bonus: Gain 1,000 points in each stat
 # adder: Poisons your opponent
