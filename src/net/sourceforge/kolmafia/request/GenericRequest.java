@@ -2839,6 +2839,25 @@ public class GenericRequest implements Runnable {
         Preferences.setBoolean("_molehillMountainUsed", true);
         break;
 
+      case ItemPool.TIED_UP_LEAFLET:
+        itemName = item.getName();
+        Preferences.setBoolean("_tiedUpFlamingLeafletFought", true);
+        consumed = true;
+        EncounterManager.ignoreSpecialMonsters();
+        break;
+      case ItemPool.TIED_UP_MONSTERA:
+        itemName = item.getName();
+        Preferences.setBoolean("_tiedUpFlamingMonsteraFought", true);
+        consumed = true;
+        EncounterManager.ignoreSpecialMonsters();
+        break;
+      case ItemPool.TIED_UP_LEAVIATHAN:
+        itemName = item.getName();
+        Preferences.setBoolean("_tiedUpLeaviathanFought", true);
+        consumed = true;
+        EncounterManager.ignoreSpecialMonsters();
+        break;
+
       default:
         return;
     }

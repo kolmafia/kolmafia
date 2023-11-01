@@ -6151,6 +6151,24 @@ public class UseItemRequest extends GenericRequest {
           Preferences.increment("_questPartyFairItemsOpened", 1, 11, false);
         }
         break;
+      case ItemPool.TIED_UP_LEAFLET:
+        // If we are redirected to a fight, the item is
+        // consumed elsewhere. If we got here, it wasn't
+        // actually consumed
+        Preferences.setBoolean("_tiedUpFlamingLeafletFought", true);
+        return;
+      case ItemPool.TIED_UP_MONSTERA:
+        // If we are redirected to a fight, the item is
+        // consumed elsewhere. If we got here, it wasn't
+        // actually consumed
+        Preferences.setBoolean("_tiedUpFlamingMonsteraFought", true);
+        return;
+      case ItemPool.TIED_UP_LEAVIATHAN:
+        // If we are redirected to a fight, the item is
+        // consumed elsewhere. If we got here, it wasn't
+        // actually consumed
+        Preferences.setBoolean("_tiedUpLeaviathanFought", true);
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
@@ -6905,6 +6923,9 @@ public class UseItemRequest extends GenericRequest {
           ItemPool.SHAKING_CRAPPY_CAMERA,
           ItemPool.SHAKING_SKULL,
           ItemPool.SPOOKY_PUTTY_MONSTER,
+          ItemPool.TIED_UP_LEAFLET,
+          ItemPool.TIED_UP_LEAVIATHAN,
+          ItemPool.TIED_UP_MONSTERA,
           ItemPool.TIME_SPINNER,
           ItemPool.WAX_BUGBEAR,
           ItemPool.WHITE_PAGE,

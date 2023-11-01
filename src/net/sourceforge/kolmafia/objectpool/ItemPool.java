@@ -3683,6 +3683,9 @@ public class ItemPool {
   public static final int FRANKEN_STEIN = 11339;
   public static final int INFLAMMABLE_LEAF = 11341;
   public static final int A_GUIDE_TO_BURNING_LEAVES = 11340;
+  public static final int TIED_UP_LEAFLET = 11352;
+  public static final int TIED_UP_MONSTERA = 11353;
+  public static final int TIED_UP_LEAVIATHAN = 11354;
 
   private ItemPool() {}
 
