@@ -56,7 +56,8 @@ public class BurningLeavesRequest extends GenericRequest {
   }
 
   public static void postChoice(final String responseText, final int leaves) {
-    if (responseText.contains("You've absorbed the power of fire")) {
+    if (responseText.contains(
+        "You jump in the blazing fire absorb some of the flames and jump out")) {
       Preferences.setBoolean("_leavesJumped", true);
       return;
     }

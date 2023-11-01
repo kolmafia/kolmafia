@@ -70,4 +70,21 @@ public class BurningLeavesRequestTest {
       assertThat("_leavesJumped", isSetTo(true));
     }
   }
+
+  @Test
+  void canParseJump() {
+    var cleanups =
+        new Cleanups(
+            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
+            withProperty("_leavesBurned", 0),
+            withProperty("_leavesJumped"),
+            withChoice(1510, html("request/test_choice_burning_leaves_just_jumped.html")));
+
+    try (cleanups) {
+      new GenericRequest("choice.php?whichchoice=1510&option=2").run();
+
+      assertThat("_leavesBurned", isSetTo(0));
+      assertThat("_leavesJumped", isSetTo(true));
+    }
+  }
 }
