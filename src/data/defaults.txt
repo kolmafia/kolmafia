@@ -455,6 +455,8 @@ user	clumsinessGroveBoss
 user	cocktailSummons	0
 user	coldAirportAlways	false
 user	commaFamiliar
+user	commandBufferGCLI
+user	commandBufferTabbedChat
 user	commerceGhostItem
 user	commerceGhostCombats	0
 user	considerShadowNoodles	false

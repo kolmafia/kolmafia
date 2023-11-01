@@ -24,7 +24,7 @@ public class CommandDisplayFrame extends GenericFrame {
   public CommandDisplayFrame() {
     super("Graphical CLI");
 
-    this.setCenterComponent(new CommandDisplayPanel());
+    this.setCenterComponent(new CommandDisplayPanel("commandBufferGCLI"));
   }
 
   @Override
@@ -42,12 +42,12 @@ public class CommandDisplayFrame extends GenericFrame {
     return true;
   }
 
-  public static final boolean hasQueuedCommands() {
+  public static boolean hasQueuedCommands() {
     return !CommandDisplayFrame.commandQueue.isEmpty() || handler.command != null;
   }
 
-  public static final void executeCommand(final String command) {
-    if (command.length() == 0) {
+  public static void executeCommand(final String command) {
+    if (command.isEmpty()) {
       return;
     }
 

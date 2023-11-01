@@ -24,9 +24,13 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
   private final AutoHighlightTextField entryField;
   private final JButton entryButton;
 
+  private final String preference;
+
   private int commandIndex = 0;
 
-  public CommandDisplayPanel() {
+  public CommandDisplayPanel(String preference) {
+    this.preference = preference;
+    loadHistoryFromPreference();
     RequestPane outputDisplay = new RequestPane();
     outputDisplay.addHyperlinkListener(new HyperlinkAdapter());
 
@@ -55,6 +59,10 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
 
     this.addFocusListener(this);
   }
+
+  private void loadHistoryFromPreference() {}
+
+  private void addToPreference(String command) {}
 
   @Override
   public void focusGained(FocusEvent e) {
@@ -139,6 +147,7 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
           && (CommandDisplayPanel.this.commandHistory.isEmpty()
               || !CommandDisplayPanel.this.commandHistory.getLast().equals(command))) {
         CommandDisplayPanel.this.commandHistory.add(command);
+        addToPreference(command);
       }
 
       CommandDisplayPanel.this.commandIndex = CommandDisplayPanel.this.commandHistory.size();
