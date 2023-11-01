@@ -3571,6 +3571,7 @@ shellacked shell	10	none
 shocked shell	100	Mus: 50
 Size XI Wizard's Robe	0	none
 smoker's cloak	80	Mys: 25
+smoldering drape	0	none
 snowpack	200	Mys: 75
 stained glass serape	120	Mox: 40
 spant backplate	100	Mus: 20

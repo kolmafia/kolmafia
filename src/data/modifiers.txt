@@ -4188,6 +4188,7 @@ Item	shellacked shell	Maximum HP: +5, HP Regen Min: 2, HP Regen Max: 3, Class: "
 Item	shocked shell	Class: "Turtle Tamer", Damage Aura: 1
 Item	Size XI Wizard's Robe	Booze Drop: +11, Food Drop: +11, Candy Drop: +11
 Item	smoker's cloak	Monster Level: +10, Initiative: +20, Stench Damage: +30
+Item	smoldering drape	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Experience (Mysticality): +2, Lasts Until Rollover
 Item	snowpack	Familiar Weight: +5, Cold Damage: +30, Class: "Pastamancer"
 Item	stained glass serape	Experience (Moxie): +3, Sleaze Resistance: +3, Sleaze Damage: +5
 Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Absorption: +100

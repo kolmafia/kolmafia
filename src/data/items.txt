@@ -11382,7 +11382,7 @@
 11354	tied-up leaviathan	832740542	al_monsterbag.gif	usable	t,d	100
 11355	impromptu torch	380784163	al_torch.gif	weapon	q	0
 11356	flaming fig leaf	332125580	al_figleaf.gif	pants	q	0
-11357
+11357	smoldering drape	397884487	al_cape.gif	container	q	0
 11358
 11359	flaming leaf crown	243559095	al_crown.gif	hat		0
 11360	leafy browns	283851958	salad.gif	food	d	25
