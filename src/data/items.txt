@@ -11373,13 +11373,13 @@
 11345
 11346	day shortener	235488166	al_dayshorter.gif	usable	t,d	123
 11347	extra time	172436016	al_daylonger.gif	usable	t,d	1
-11348
+11348	autumnal aegis	265811776	al_shield.gif	offhand	t,d	50
 11349	distilled resin	632409893	al_resin.gif	potion, usable	t,d	50
 11350
 11351	lit leaf lasso	551254908	al_lasso.gif	none, combat	t,d	60
 11352	tied-up flaming leaflet	173945965	al_monsterbag.gif	usable	t,d	100
 11353	tied-up flaming monstera	695238737	al_monsterbag.gif	usable	t,d	100
-11354
+11354	tied-up leaviathan	832740542	al_monsterbag.gif	usable	t,d	100
 11355
 11356
 11357

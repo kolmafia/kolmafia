@@ -2103,6 +2103,7 @@ Item	astral shield	Muscle Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Damag
 Item	astral statuette	Mysticality Percent: +25, Spell Damage Percent: +50, Adventures: +4
 Item	august scepter	Muscle: +15, Mysticality: +15, Moxie: +15, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 7, MP Regen Max: 10, Weapon Damage Percent: +50, Spell Damage Percent: +50
 Item	autumn debris shield	Damage Reduction: 19, Initiative: +30, Hot Damage: +20, Hot Spell Damage: +20, Lasts Until Rollover
+Item	autumnal aegis	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Absorption: +250, Damage Reduction: 9
 # Bag o' Tricks: Summons Animals During Combat
 Item	Bag o' Tricks	Item Drop: +10, Meat Drop: +15, MP Regen Min: 10, MP Regen Max: 12, Spell Damage Percent: +50, Softcore Only
 # bag of Crotchety Pine saplings
