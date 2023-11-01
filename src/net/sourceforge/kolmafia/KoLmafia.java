@@ -289,7 +289,7 @@ public abstract class KoLmafia {
     // Reload your settings and determine all the different users which
     // are present in your save state list.
 
-    Preferences.setBoolean("useDevProxyServer", false);
+    Preferences.setBoolean("useDevServer", false);
     Preferences.setBoolean("relayBrowserOnly", false);
 
     Arrays.stream(StaticEntity.getPastUserList())
@@ -493,7 +493,7 @@ public abstract class KoLmafia {
   }
 
   public static final boolean usingDevServer() {
-    return Preferences.getBoolean("useDevProxyServer");
+    return Preferences.getBoolean("useDevServer");
   }
 
   public static final String getLastMessage() {
