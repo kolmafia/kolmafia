@@ -374,9 +374,7 @@ public class LoginFrame extends GenericFrame {
     public ConnectionOptionsPanel() {
       super();
 
-      this.queue(
-          new PreferenceCheckBox(
-              "useDevProxyServer", "Use devproxy.kingdomofloathing.com to login"));
+      this.queue(new PreferenceCheckBox("useDevServer", "Use dev.kingdomofloathing.com to login"));
       this.queue(this.newSeparator());
       this.queue(new PingOptionsPanel());
       this.makeLayout();

@@ -169,7 +169,7 @@ global	syncAfterSvnUpdate	false
 global	toolbarPosition	1
 global	useChatToolbar	true
 global	useContactsFrame	true
-global	useDevProxyServer	false
+global	useDevServer	false
 global	useDockIconBadge	false
 global	useHugglerChannel	false
 global	useImageCache	true

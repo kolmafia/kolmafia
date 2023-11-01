@@ -170,7 +170,7 @@ public class LoginRequest extends GenericRequest {
 
     if (this.responseText.contains("do not have the privileges")) {
       // Can't use dev server without permission. Skip it.
-      Preferences.setBoolean("useDevProxyServer", false);
+      Preferences.setBoolean("useDevServer", false);
       this.run();
       return;
     }
