@@ -135,6 +135,7 @@ fireman's helmet	150	Mus: 60
 fishin' hat	10	none
 five-gallon hat	100	none
 flagstone fez	120	Mys: 40
+flaming leaf crown	150	none
 floaty rock helmet	100	Mox: 35
 foam commodore's hat	200	Mox: 85
 foolscap fool's cap	40	Mox: 5
@@ -1288,6 +1289,7 @@ icy-hot katana	90	Mus: 30	2-handed sword
 industrial fire extinguisher	100	Mus: 0	1-handed extinguisher
 iFlail	100	Mox: 35	1-handed flail
 immense cyborg hand	150	Mus: 60	1-handed club
+impromptu torch	100	Mus: 0	1-handed club
 infernal fife	55	Mox: 12	2-handed flute
 infernal toilet brush	100	Mus: 35	1-handed club
 inflatable baseball bat	50	Mus: 0	2-handed club

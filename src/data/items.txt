@@ -11380,11 +11380,11 @@
 11352	tied-up flaming leaflet	173945965	al_monsterbag.gif	usable	t,d	100
 11353	tied-up flaming monstera	695238737	al_monsterbag.gif	usable	t,d	100
 11354	tied-up leaviathan	832740542	al_monsterbag.gif	usable	t,d	100
-11355
+11355	impromptu torch	380784163	al_torch.gif	weapon	q	0
 11356
 11357
 11358
-11359
-11360
+11359	flaming leaf crown	243559095	al_crown.gif	hat		0
+11360	leafy browns	283851958	salad.gif	food	d	25
 11361	autumnic balm	776996939	al_balm.gif	potion, usable	t,d	100
 11362	coping juice	215559883	persmug.gif	potion, usable	t,d	100

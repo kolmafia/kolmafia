@@ -227,6 +227,7 @@ Item	fishin' hat	Fishing Skill: +5
 Item	five-gallon hat	Muscle: +5, Mysticality: +5, Moxie: +5, Experience: +3
 # flagstone fez: Unleash dark rituals on your unsuspecting foes
 Item	flagstone fez	Mysticality Percent: +20, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
+Item	flaming leaf crown	Cold Resistance: +5, Hot Damage: +10, Hot Spell Damage: +10, Experience: +3, PvP Fights: +3, Adventures: +3
 # flatusaur gasmask: Protects against flatusaurus emissions
 Item	floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 Item	foam commodore's hat	Weapon Damage Percent: +25, Spell Damage Percent: +25, Familiar Effect: "atk, 1xVolley"
@@ -1523,6 +1524,7 @@ Item	icy-hot katana	Hot Damage: +3, Cold Damage: +3
 Item	industrial fire extinguisher	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Cold Damage: +15, Cold Spell Damage: +15, Maximum HP: +20, Maximum MP: +20, Adventures: +3
 Item	iFlail	Monster Level: +11, Familiar Weight: +5, Combat Rate: -5
 Item	immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+Item	impromptu torch	Hot Damage: +10, Experience (Muscle): +2, Lasts Until Rollover
 Item	infernal fife	Hot Damage: +7
 Item	infernal toilet brush	Stench Damage: +20, Maximum HP: +20, Maximum MP: +20, Class: "Seal Clubber"
 Item	inflatable baseball bat	Weapon Damage: +30
