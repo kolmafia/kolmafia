@@ -2908,6 +2908,11 @@ public class GenericRequest implements Runnable {
         name = "Combat Lover's Locket";
         break;
 
+      case 1510:
+        name = "Burning Leaves";
+        BurningLeavesRequest.registerLeafFight(location);
+        break;
+
       default:
         return;
     }

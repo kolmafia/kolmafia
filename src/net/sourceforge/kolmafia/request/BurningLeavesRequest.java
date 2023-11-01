@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BurningLeavesRequest extends GenericRequest {
   public BurningLeavesRequest(final int leaves) {
@@ -69,5 +70,18 @@ public class BurningLeavesRequest extends GenericRequest {
     ResultProcessor.processItem(ItemPool.INFLAMMABLE_LEAF, leaves * -1);
 
     // Non-random amounts are limited daily, we'll need to handle that here.
+  }
+
+  public static final Pattern URL_LEAVES_PATTERN = Pattern.compile("leaves=(\\d+)");
+
+  public static int extractLeavesFromURL(final String urlString) {
+    Matcher matcher = URL_LEAVES_PATTERN.matcher(urlString);
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
+  }
+
+  public static void registerLeafFight(final String location) {
+    Preferences.increment("_leafMonstersFought", 1, 5, false);
+    var leaves = extractLeavesFromURL(location);
+    ResultProcessor.processItem(ItemPool.INFLAMMABLE_LEAF, leaves * -1);
   }
 }
