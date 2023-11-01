@@ -51,6 +51,19 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class ModifiersTest {
+  @BeforeAll
+  static void beforeAll() {
+    KoLCharacter.reset("ModifiersTest");
+    Preferences.reset("ModifiersTest");
+  }
+
+  private Double fairyFunction(final double weight) {
+    return Math.max(Math.sqrt(55 * weight) + weight - 3, 0);
+  }
+
+  private Double lepFunction(final double weight) {
+    return 2 * fairyFunction(weight);
+  }
 
   @Test
   public void patriotShieldClassModifiers() {
@@ -117,14 +130,15 @@ public class ModifiersTest {
     }
   }
 
-  @Test
-  public void intrinsicSpicinessModifiers() {
-    KoLCharacter.setAscensionClass(AscensionClass.SAUCEROR);
-    for (int i = 1; i <= 11; i++) {
-      int myst = (i == 1) ? 0 : (i - 1) * (i - 1) + 4;
-      KoLCharacter.setStatPoints(0, 0, myst, (long) myst * myst, 0, 0);
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11})
+  public void intrinsicSpicinessModifiers(int level) {
+    int myst = (level == 1) ? 0 : (level - 1) * (level - 1) + 4;
+    var cleanups = new Cleanups(withClass(AscensionClass.SAUCEROR), withStats(0, myst, 0));
+
+    try (cleanups) {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
-      assertEquals(Math.min(i, 10), mods.getDouble(DoubleModifier.SAUCE_SPELL_DAMAGE));
+      assertEquals(Math.min(level, 10), mods.getDouble(DoubleModifier.SAUCE_SPELL_DAMAGE));
     }
   }
 
@@ -1018,10 +1032,6 @@ public class ModifiersTest {
 
   @Nested
   class FairyFamiliars {
-    private Double fairyFunction(final double weight) {
-      return Math.max(Math.sqrt(55 * weight) + weight - 3, 0);
-    }
-
     private Modifiers getFamiliarMods(final int weight) {
       Modifiers familiarMods = new Modifiers();
       var fam = KoLCharacter.getFamiliar();
@@ -1189,6 +1199,164 @@ public class ModifiersTest {
 
         assertThat(current.getDouble(DoubleModifier.MOX_EXPERIENCE_PCT), equalTo(25.0));
         assertThat(current.getDouble(DoubleModifier.MANA_COST), equalTo(-3.0));
+      }
+    }
+  }
+
+  @Nested
+  class Familiars {
+    @Test
+    void volleyballGivesExperience() {
+      var cleanups = withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(4.0));
+      }
+    }
+
+    @Test
+    void sombreroGivesExperience() {
+      var cleanups = withFamiliar(FamiliarPool.SOMBRERO, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(1.0));
+      }
+    }
+
+    @Test
+    void gravyFairyGivesItem() {
+      var cleanups = withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(10), 0.001));
+      }
+    }
+
+    @Test
+    void leprechaunGivesMeat() {
+      var cleanups = withFamiliar(FamiliarPool.LEPRECHAUN, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
+      }
+    }
+  }
+
+  @Nested
+  class JillOfAllTrades {
+    @BeforeAll
+    static void beforeAll() {
+      // clearer to set here than in every volleyball test
+      // there's a leak somewhere
+      Modifiers.setLocation(null);
+    }
+
+    private Cleanups withJill(int weight) {
+      return withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, weight * weight);
+    }
+
+    private Cleanups withJillAndCandle(int weight, String candleSetting) {
+      return new Cleanups(
+          withProperty("ledCandleMode", candleSetting),
+          withJill(weight),
+          withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+    }
+
+    @Test
+    void nakedJillIsAOneTimesFairy() {
+      var cleanups = withJill(10);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(10), 0.001));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterFairy() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups = withJillAndCandle(5, "disco");
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(15), 0.001));
+      }
+    }
+
+    @Test
+    void nakedJillIsAOneTimesLep() {
+      var cleanups = withJill(10);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterLep() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups = withJillAndCandle(5, "ultraviolet");
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(15), 0.001));
+      }
+    }
+
+    @Test
+    void nakedJillIsAOneTimesVolley() {
+      var cleanups = withJill(10);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(4.0));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterVolley() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups = withJillAndCandle(5, "reading");
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(6.0, 0.001));
+      }
+    }
+
+    @Test
+    void atHighMLJillIsASombrero() {
+      var cleanups = new Cleanups(withLocation("The Briniest Deepests"), withJill(10));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        // 400 ML
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(15.0, 0.001));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterSombrero() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups =
+          new Cleanups(withLocation("The Briniest Deepests"), withJillAndCandle(5, "reading"));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(22.5, 0.001));
       }
     }
   }
