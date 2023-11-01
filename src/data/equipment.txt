@@ -135,6 +135,7 @@ fireman's helmet	150	Mus: 60
 fishin' hat	10	none
 five-gallon hat	100	none
 flagstone fez	120	Mys: 40
+flaming leaf crown	150	none
 floaty rock helmet	100	Mox: 35
 foam commodore's hat	200	Mox: 85
 foolscap fool's cap	40	Mox: 5
@@ -530,6 +531,7 @@ fancy party pants	75	Mox: 10
 fancy tuxedo pants	100	Mox: 35
 filthy corduroys	60	Mox: 15
 fire hose	150	Mox: 60
+flaming fig leaf	100	none
 floaty rock pants	100	Mox: 35
 floral-print skirt	150	Mox: 50
 flowing hippy skirt	180	Mox: 75
@@ -1288,6 +1290,7 @@ icy-hot katana	90	Mus: 30	2-handed sword
 industrial fire extinguisher	100	Mus: 0	1-handed extinguisher
 iFlail	100	Mox: 35	1-handed flail
 immense cyborg hand	150	Mus: 60	1-handed club
+impromptu torch	100	Mus: 0	1-handed club
 infernal fife	55	Mox: 12	2-handed flute
 infernal toilet brush	100	Mus: 35	1-handed club
 inflatable baseball bat	50	Mus: 0	2-handed club
@@ -1790,6 +1793,7 @@ astral shield	50	none	shield
 astral statuette	50	none
 august scepter	0	none
 autumn debris shield	150	none	shield
+autumnal aegis	0	Mus: 25	shield
 Bag o' Tricks	0	none
 bag of Crotchety Pine saplings	10	none
 bag of Laughing Willow saplings	10	none
@@ -2130,6 +2134,7 @@ rag doll	110	Mys: 40
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
 Rainbow Jello Mould	0	Mus: 10
+rake	0	none
 recursed compass	0	none
 red balloon	10	none
 red book	150	Mys: 60
@@ -3566,6 +3571,7 @@ shellacked shell	10	none
 shocked shell	100	Mus: 50
 Size XI Wizard's Robe	0	none
 smoker's cloak	80	Mys: 25
+smoldering drape	0	none
 snowpack	200	Mys: 75
 stained glass serape	120	Mox: 40
 spant backplate	100	Mus: 20

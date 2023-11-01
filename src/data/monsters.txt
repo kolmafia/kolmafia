@@ -2152,6 +2152,11 @@ shadow matrix	2303	shadowmatrix.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRif
 # august scepter (Aug 2023)
 Tooth Golem	2336	toothgolem.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: construct Article: a	loose teeth (100)	loose teeth (100)	loose teeth (100)	loose teeth (100)	fixodent (50)
 
+# A Guide to Burning Leaves (Nov 2023)
+flaming leaflet	2389	leaflet.gif	FREE NOCOPY	inflammable leaf (0)	inflammable leaf (0)	inflammable leaf (0)	inflammable leaf (0)
+flaming monstera	2390	monstera.gif	FREE NOCOPY	leafy browns (100)	inflammable leaf (0)
+leaviathan	2391	leaviathan.gif	FREE NOCOPY	flaming leaf crown (100)	inflammable leaf (0)
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)

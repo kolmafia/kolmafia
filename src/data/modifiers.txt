@@ -227,6 +227,7 @@ Item	fishin' hat	Fishing Skill: +5
 Item	five-gallon hat	Muscle: +5, Mysticality: +5, Moxie: +5, Experience: +3
 # flagstone fez: Unleash dark rituals on your unsuspecting foes
 Item	flagstone fez	Mysticality Percent: +20, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
+Item	flaming leaf crown	Cold Resistance: +5, Hot Damage: +10, Hot Spell Damage: +10, Experience: +3, PvP Fights: +3, Adventures: +3
 # flatusaur gasmask: Protects against flatusaurus emissions
 Item	floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 Item	foam commodore's hat	Weapon Damage Percent: +25, Spell Damage Percent: +25, Familiar Effect: "atk, 1xVolley"
@@ -673,6 +674,7 @@ Item	fancy party pants	Moxie Percent: +10, Booze Drop: +40
 Item	fancy tuxedo pants	Moxie Percent: +15, Familiar Effect: "2xVolley, 1xPotato, cap 25"
 Item	filthy corduroys	Mysticality: +3, Moxie: -3, Familiar Effect: "stench atk, 2xPotato, cap 15"
 Item	fire hose	Hot Damage: +20, Hot Spell Damage: +25, Spell Damage Percent: +30, Familiar Effect: "hot atk, 1xVolley, cap 37"
+Item	flaming fig leaf	Cold Resistance: +3, Experience (Moxie): +2, Lasts Until Rollover
 Item	floaty rock pants	Spell Critical Percent: +10, Familiar Effect: "1.5xBarrr, 1xGhuol, cap 25"
 Item	floral-print skirt	Stench Damage: +20, Monster Level: +5, Familiar Effect: "stench atk, 2xPotato, cap 15"
 Item	flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15, Familiar Effect: "stench atk, 1xFairy, cap 45"
@@ -1523,6 +1525,7 @@ Item	icy-hot katana	Hot Damage: +3, Cold Damage: +3
 Item	industrial fire extinguisher	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Cold Damage: +15, Cold Spell Damage: +15, Maximum HP: +20, Maximum MP: +20, Adventures: +3
 Item	iFlail	Monster Level: +11, Familiar Weight: +5, Combat Rate: -5
 Item	immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+Item	impromptu torch	Hot Damage: +10, Experience (Muscle): +2, Lasts Until Rollover
 Item	infernal fife	Hot Damage: +7
 Item	infernal toilet brush	Stench Damage: +20, Maximum HP: +20, Maximum MP: +20, Class: "Seal Clubber"
 Item	inflatable baseball bat	Weapon Damage: +30
@@ -2103,6 +2106,7 @@ Item	astral shield	Muscle Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Damag
 Item	astral statuette	Mysticality Percent: +25, Spell Damage Percent: +50, Adventures: +4
 Item	august scepter	Muscle: +15, Mysticality: +15, Moxie: +15, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 7, MP Regen Max: 10, Weapon Damage Percent: +50, Spell Damage Percent: +50
 Item	autumn debris shield	Damage Reduction: 19, Initiative: +30, Hot Damage: +20, Hot Spell Damage: +20, Lasts Until Rollover
+Item	autumnal aegis	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Absorption: +250, Damage Reduction: 9
 # Bag o' Tricks: Summons Animals During Combat
 Item	Bag o' Tricks	Item Drop: +10, Meat Drop: +15, MP Regen Min: 10, MP Regen Max: 12, Spell Damage Percent: +50, Softcore Only
 # bag of Crotchety Pine saplings
@@ -2504,6 +2508,7 @@ Item	rag doll	Muscle: +3
 # Rain-Doh green lantern: Makes Spells Smell Worse
 Item	Rain-Doh green lantern	Maximum MP: +20, Softcore Only
 Item	Rainbow Jello Mould	Moxie Percent: +25
+Item	rake	Meat Drop: +3, Leaves: +1.5
 # recursed compass: Now it's even more cursed
 Item	recursed compass	Lasts Until Rollover
 # red balloon
@@ -4183,6 +4188,7 @@ Item	shellacked shell	Maximum HP: +5, HP Regen Min: 2, HP Regen Max: 3, Class: "
 Item	shocked shell	Class: "Turtle Tamer", Damage Aura: 1
 Item	Size XI Wizard's Robe	Booze Drop: +11, Food Drop: +11, Candy Drop: +11
 Item	smoker's cloak	Monster Level: +10, Initiative: +20, Stench Damage: +30
+Item	smoldering drape	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Experience (Mysticality): +2, Lasts Until Rollover
 Item	snowpack	Familiar Weight: +5, Cold Damage: +30, Class: "Pastamancer"
 Item	stained glass serape	Experience (Moxie): +3, Sleaze Resistance: +3, Sleaze Damage: +5
 Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Absorption: +100
@@ -4527,6 +4533,7 @@ Item	tiny maracas	Familiar Weight: +5
 Item	tiny Mountie hat	Familiar Weight: +5
 # tiny nose-bone fetish: Reduces familiar's MP expenditure by 2-4
 Item	tiny prop sword	Familiar Weight: +5
+Item	tiny rake	Item Drop: +1, Generic, Leaves: +1.5
 Item	tiny shaker of salt	Familiar Weight: +5
 Item	tiny sombrero	Sombrero Bonus: +10
 Item	tiny stillsuit	Familiar Weight: +5, Experience (familiar): +1, Familiar Damage: +10, Generic
@@ -5034,6 +5041,7 @@ Item	cuckoo clock	Adventures: +3
 Item	elevent	Base Resting HP: +49, Base Resting MP: +50
 Item	Feng Shui for Big Dumb Idiots	Bonus Resting MP: +7
 Item	filth-encrusted futon	Stench Resistance: +2
+Item	forest canopy bed	Free Rests: +5
 Item	frigid air mattress	Cold Resistance: +2
 Item	Frobozz Real-Estate Company Instant House (TM)	Base Resting HP: +39, Base Resting MP: +40
 Item	gauze hammock	Bonus Resting HP: +60
@@ -5226,7 +5234,9 @@ Effect	Assaulted with Pepper	Monster Level: +20
 Effect	Astral Shell	Damage Absorption: +80, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 # Attractive to Fire Ants: Fire Ants will nip at you after each fight
 Effect	Attractive to Fire Ants	Hot Damage: +10
+Effect	Aura of Fire	Muscle Percent: [T], Mysticality Percent: [T], Moxie Percent: [T], Initiative: [min(T,100)], Damage Aura: 1
 Effect	Autopsy-turvy	Avatar: "factory-irregular skeleton"
+Effect	Autumnically Balmy	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 # Avatar of She-Who-Was: You can unleash the Voice of She-Who-Was
 Effect	Avatar of She-Who-Was	Hot Resistance: +5, Cold Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Sleaze Resistance: +5, Spell Damage Percent: +100
 # Avatar of the Storm Tortoise: You can unleash the Will of the Storm Tortoise
@@ -5919,6 +5929,7 @@ Effect	Expert Oiliness	Equalize: "Mysticality"
 Effect	Expert Timing	Item Drop: +20
 # Expert Vacationer: +25% to all stat gains in exotic travel destinations
 Effect	Expert Vacationer	Experience Percent (Muscle): [25*zone(Elemental International Airport)], Experience Percent (Mysticality): [25*zone(Elemental International Airport)], Experience Percent (Moxie): [25*zone(Elemental International Airport)]
+Effect	Explosion of Color	Thorns: 1
 Effect	Extended Toes	Combat Rate: -5
 Effect	Extra Backbone	Muscle: +5, Experience (Muscle): +1
 Effect	Extra Sensory Perception	Item Drop: +50
@@ -7070,6 +7081,7 @@ Effect	Remaining Alive	Damage Absorption: +50, Damage Reduction: 2
 Effect	Rented Costume	Avatar: "Entire Shoplifter"
 Effect	Reptilian Fortitude	Maximum HP: +30
 Effect	Resilient Spirit	Damage Reduction: 15, Damage Absorption: +50
+Effect	Resined	Leaves: +1
 Effect	Resting Beach Face	Initiative: +50
 Effect	Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Effect	Rhinestoned	Moxie: [T]
@@ -9644,6 +9656,7 @@ Item	astral mushroom	Effect: "Half-Astral", Effect Duration: 5
 Item	Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
 Item	Atomic Pop	Effect: "Cinnamouth", Effect Duration: 10
 Item	augmented-reality shades	Effect: "Glasshole", Effect Duration: 50
+Item	autumnic balm	Effect: "Autumnically Balmy", Effect Duration: 30
 Item	bacon bath ball	Effect: "Pork Power", Effect Duration: 10
 Item	bag of Cheat-Os	Effect: "Sticky Fingers", Effect Duration: 10
 Item	bag of grain	Effect: "Nearly All-Natural", Effect Duration: 1
@@ -9796,6 +9809,7 @@ Item	Connery's Elixir of Audacity	Effect: "Cock of the Walk", Effect Duration: [
 Item	Conspiracy&trade; mascara	Effect: "Conspiratory Eyes", Effect Duration: 50
 Item	cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
 Item	cool hot cocoa	Effect: "Cocoa-Chanel", Effect Duration: 20
+Item	coping juice	Effect: "This is Fine", Effect Duration: 50
 Item	cordial of concentration	Effect: "Concentration", Effect Duration: [R]
 Item	correction fluid	Effect: "The Solution", Effect Duration: 30
 Item	corrupted data	Effect: "Corrupted", Effect Duration: 30
@@ -9893,6 +9907,7 @@ Item	disco horoscope (Scorpio)	Effect: "Scorpio Rising", Effect Duration: 10
 Item	disco horoscope (Taurus)	Effect: "Taurus Rising", Effect Duration: 10
 Item	disco horoscope (Virgo)	Effect: "Virgo Rising", Effect Duration: 10
 Item	disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 10
+Item	distilled resin	Effect: "Resined", Effect Duration: 100
 # Doc Galaktik's Ailment Ointment: Heals 35-45 Hit Points
 # Doc Galaktik's Homeopathic Elixir: Heals 18-20 Hit Points
 # Doc Galaktik's Invigorating Tonic: Restores 9-11 MP
@@ -10903,6 +10918,7 @@ Item	A Crimbo Carol, Ch. 5 (used)	Skill: "Stealth Mistletoe"
 Item	A Crimbo Carol, Ch. 6	Skill: "Cringle's Curative Carol"
 Item	A Crimbo Carol, Ch. 6 (used)	Skill: "Cringle's Curative Carol"
 Item	a cute angel	Free Pull
+Item	A Guide to Burning Leaves	Free Pull, Leaves: +0.5
 Item	A Guide to Safari	Skill: "Experience Safari"
 # a ten-percent bonus: Gain 1,000 points in each stat
 # adder: Poisons your opponent

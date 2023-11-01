@@ -150,6 +150,7 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.SOURCE_TERMINAL,
           ItemPool.TRAPEZOID,
           ItemPool.GIANT_BLACK_MONOLITH,
+          ItemPool.A_GUIDE_TO_BURNING_LEAVES,
 
           // Special item that aids resting
           ItemPool.COMFY_BLANKET);
@@ -158,15 +159,16 @@ public class CampgroundRequest extends GenericRequest {
     // Bedding
     ItemPool.BEANBAG_CHAIR,
     ItemPool.COLD_BEDDING,
+    ItemPool.FOREST_CANOPY_BED,
     ItemPool.GAUZE_HAMMOCK,
     ItemPool.HOT_BEDDING,
     ItemPool.LAZYBONES_RECLINER,
+    ItemPool.SALTWATERBED,
     ItemPool.SLEAZE_BEDDING,
+    ItemPool.SLEEPING_STOCKING,
+    ItemPool.SPIRIT_BED,
     ItemPool.SPOOKY_BEDDING,
     ItemPool.STENCH_BEDDING,
-    ItemPool.SLEEPING_STOCKING,
-    ItemPool.SALTWATERBED,
-    ItemPool.SPIRIT_BED,
 
     // Inside dwelling: miscellaneous
     ItemPool.BONSAI_TREE,
@@ -1183,6 +1185,7 @@ public class CampgroundRequest extends GenericRequest {
     findImage(responseText, "chesstable.gif", ItemPool.WITCHESS_SET);
     findImage(responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL);
     findImage(responseText, "monolith.gif", ItemPool.GIANT_BLACK_MONOLITH);
+    findImage(responseText, "campground/leaves", ItemPool.A_GUIDE_TO_BURNING_LEAVES);
 
     if (responseText.contains("portal1.gif")) {
       // Charged portal.
@@ -1802,16 +1805,17 @@ public class CampgroundRequest extends GenericRequest {
   public static boolean isBedding(final int itemId) {
     return switch (itemId) {
       case ItemPool.BEANBAG_CHAIR,
-          ItemPool.GAUZE_HAMMOCK,
-          ItemPool.LAZYBONES_RECLINER,
-          ItemPool.SLEEPING_STOCKING,
-          ItemPool.HOT_BEDDING,
           ItemPool.COLD_BEDDING,
-          ItemPool.STENCH_BEDDING,
-          ItemPool.SPOOKY_BEDDING,
-          ItemPool.SLEAZE_BEDDING,
+          ItemPool.FOREST_CANOPY_BED,
+          ItemPool.GAUZE_HAMMOCK,
+          ItemPool.HOT_BEDDING,
+          ItemPool.LAZYBONES_RECLINER,
           ItemPool.SALTWATERBED,
-          ItemPool.SPIRIT_BED -> true;
+          ItemPool.SLEAZE_BEDDING,
+          ItemPool.SLEEPING_STOCKING,
+          ItemPool.SPIRIT_BED,
+          ItemPool.SPOOKY_BEDDING,
+          ItemPool.STENCH_BEDDING -> true;
       default -> false;
     };
   }

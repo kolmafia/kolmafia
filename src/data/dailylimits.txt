@@ -356,6 +356,9 @@ Use	sweet tooth	_sweetToothUsed
 Use	sweet-corn-flavored Mr. Mediocrebar	_chocolatesUsed	3
 Use	synthetic dog hair pill	_syntheticDogHairPillUsed
 Use	tempura air	_tempuraAirUsed
+Use	tied-up flaming leaflet	_tiedUpFlamingLeafletUsed
+Use	tied-up flaming monstera	_tiedUpFlamingMonsteraUsed
+Use	tied-up leaviathan	_tiedUpLeaviathanUsed
 Use	tonic djinn	_tonicDjinn
 Use	vitachoconutriment capsule	_vitachocCapsulesUsed	3
 Use	warbear breakfast machine	_warbearBreakfastMachineUsed
