@@ -6152,8 +6152,7 @@ public class UseItemRequest extends GenericRequest {
     }
 
     if (CampgroundRequest.isBedding(itemId)) {
-      if (responseText.contains("You've already got")
-              || responseText.contains("You don't have")) {
+      if (responseText.contains("You've already got") || responseText.contains("You don't have")) {
         return;
       }
 
