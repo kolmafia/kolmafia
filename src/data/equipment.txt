@@ -2130,6 +2130,7 @@ rag doll	110	Mys: 40
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
 Rainbow Jello Mould	0	Mus: 10
+rake	0	none
 recursed compass	0	none
 red balloon	10	none
 red book	150	Mys: 60

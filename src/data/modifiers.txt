@@ -2504,6 +2504,7 @@ Item	rag doll	Muscle: +3
 # Rain-Doh green lantern: Makes Spells Smell Worse
 Item	Rain-Doh green lantern	Maximum MP: +20, Softcore Only
 Item	Rainbow Jello Mould	Moxie Percent: +25
+Item	rake	Meat Drop: +3, Leaves: +1.5
 # recursed compass: Now it's even more cursed
 Item	recursed compass	Lasts Until Rollover
 # red balloon
@@ -4527,6 +4528,7 @@ Item	tiny maracas	Familiar Weight: +5
 Item	tiny Mountie hat	Familiar Weight: +5
 # tiny nose-bone fetish: Reduces familiar's MP expenditure by 2-4
 Item	tiny prop sword	Familiar Weight: +5
+Item	tiny rake	Item Drop: +1, Generic, Leaves: +1.5
 Item	tiny shaker of salt	Familiar Weight: +5
 Item	tiny sombrero	Sombrero Bonus: +10
 Item	tiny stillsuit	Familiar Weight: +5, Experience (familiar): +1, Familiar Damage: +10, Generic
@@ -5013,6 +5015,7 @@ Item	ticksilver spurs	Adventures: +5
 
 # Campground equipment section of modifiers.txt
 
+Item	A Guide to Burning Leaves	Leaves: +0.5
 Item	barskin tent	Base Resting HP: +19, Base Resting MP: +20
 # bartender-in-the-box
 Item	beanbag chair	Bonus Resting MP: +30
@@ -5226,7 +5229,9 @@ Effect	Assaulted with Pepper	Monster Level: +20
 Effect	Astral Shell	Damage Absorption: +80, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 # Attractive to Fire Ants: Fire Ants will nip at you after each fight
 Effect	Attractive to Fire Ants	Hot Damage: +10
+Effect	Aura of Fire	Muscle Percent: [T], Mysticality Percent: [T], Moxie Percent: [T], Initiative: [min(T,100)], Thorns: 1
 Effect	Autopsy-turvy	Avatar: "factory-irregular skeleton"
+Effect	Autumnically Balmy	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 # Avatar of She-Who-Was: You can unleash the Voice of She-Who-Was
 Effect	Avatar of She-Who-Was	Hot Resistance: +5, Cold Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Sleaze Resistance: +5, Spell Damage Percent: +100
 # Avatar of the Storm Tortoise: You can unleash the Will of the Storm Tortoise
@@ -7070,6 +7075,7 @@ Effect	Remaining Alive	Damage Absorption: +50, Damage Reduction: 2
 Effect	Rented Costume	Avatar: "Entire Shoplifter"
 Effect	Reptilian Fortitude	Maximum HP: +30
 Effect	Resilient Spirit	Damage Reduction: 15, Damage Absorption: +50
+Effect	Resined	Leaves: +1
 Effect	Resting Beach Face	Initiative: +50
 Effect	Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Effect	Rhinestoned	Moxie: [T]
@@ -9644,6 +9650,7 @@ Item	astral mushroom	Effect: "Half-Astral", Effect Duration: 5
 Item	Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
 Item	Atomic Pop	Effect: "Cinnamouth", Effect Duration: 10
 Item	augmented-reality shades	Effect: "Glasshole", Effect Duration: 50
+Item	autumnic balm	Effect: "Autumnically Balmy", Effect Duration: 30
 Item	bacon bath ball	Effect: "Pork Power", Effect Duration: 10
 Item	bag of Cheat-Os	Effect: "Sticky Fingers", Effect Duration: 10
 Item	bag of grain	Effect: "Nearly All-Natural", Effect Duration: 1
@@ -9796,6 +9803,7 @@ Item	Connery's Elixir of Audacity	Effect: "Cock of the Walk", Effect Duration: [
 Item	Conspiracy&trade; mascara	Effect: "Conspiratory Eyes", Effect Duration: 50
 Item	cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
 Item	cool hot cocoa	Effect: "Cocoa-Chanel", Effect Duration: 20
+Item	coping juice	Effect: "This is Fine", Effect Duration: 50
 Item	cordial of concentration	Effect: "Concentration", Effect Duration: [R]
 Item	correction fluid	Effect: "The Solution", Effect Duration: 30
 Item	corrupted data	Effect: "Corrupted", Effect Duration: 30
@@ -9893,6 +9901,7 @@ Item	disco horoscope (Scorpio)	Effect: "Scorpio Rising", Effect Duration: 10
 Item	disco horoscope (Taurus)	Effect: "Taurus Rising", Effect Duration: 10
 Item	disco horoscope (Virgo)	Effect: "Virgo Rising", Effect Duration: 10
 Item	disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 10
+Item	distilled resin	Effect: "Resined", Effect Duration: 100
 # Doc Galaktik's Ailment Ointment: Heals 35-45 Hit Points
 # Doc Galaktik's Homeopathic Elixir: Heals 18-20 Hit Points
 # Doc Galaktik's Invigorating Tonic: Restores 9-11 MP
@@ -10903,6 +10912,7 @@ Item	A Crimbo Carol, Ch. 5 (used)	Skill: "Stealth Mistletoe"
 Item	A Crimbo Carol, Ch. 6	Skill: "Cringle's Curative Carol"
 Item	A Crimbo Carol, Ch. 6 (used)	Skill: "Cringle's Curative Carol"
 Item	a cute angel	Free Pull
+Item	A Guide to Burning Leaves	Free Pull
 Item	A Guide to Safari	Skill: "Experience Safari"
 # a ten-percent bonus: Gain 1,000 points in each stat
 # adder: Poisons your opponent
