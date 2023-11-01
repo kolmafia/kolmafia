@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeachCombRequest;
+import net.sourceforge.kolmafia.request.BurningLeavesRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.Mushroom;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
@@ -6560,6 +6561,14 @@ public abstract class ChoiceControl {
         // Adjust Jill-of-All-Trades Lighting
         LedCandleRequest.parseUpgrade(urlString, text);
         break;
+
+      case 1510:
+        // Burning Leaves
+        {
+          int leaves = Integer.parseInt(request.getFormField("leaves"));
+          BurningLeavesRequest.postChoice(text, leaves);
+          break;
+        }
     }
   }
 
@@ -8241,6 +8250,11 @@ public abstract class ChoiceControl {
         // Make a Wish
         MonkeyPawRequest.visitChoice(text);
         break;
+
+      case 1510:
+        // Burning Leaves
+        BurningLeavesRequest.visitChoice(text);
+        break;
     }
   }
 
@@ -9358,6 +9372,7 @@ public abstract class ChoiceControl {
       case 1495: // Get Some Training
       case 1501: // Make a Wish
       case 1509: // Adjust Jill-of-All-Trades Lighting
+      case 1510: // Burning Leaves
         return true;
 
       default:

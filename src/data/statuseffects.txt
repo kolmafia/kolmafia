@@ -2845,3 +2845,8 @@
 2845	Spooked	scaredeyes.gif	2d2276d5341df849b76d066622846478	neutral	none
 2846	Recalling Circadian Rhythms	clock.gif	50660df88fde2562b5fa5e2932d7d20b	neutral	none
 2847	Tagged	spraycan.gif	f811f68d5db5e19b8af82f2154090e98	neutral	none	use 1 spray paint
+2848	Explosion of Color	al_bomb.gif	074cba095150ef989887ed88847f1e09	neutral	none
+2849	Resined	al_resin.gif	812f77b37b25d9d6826a3592ebdf3338	neutral	none	use 1 distilled resin
+2850	Autumnically Balmy	al_balm.gif	0f482fdcf4f105ee6647382b8ba4c3da	neutral	none	use 1 autumnic balm
+2851	Aura of Fire	fire.gif	f04dbccae0343bdc1f62df85a2c164bd	neutral	nohookah	# Jump in the Flames!
+2852	This is Fine	persmug.gif	cf115d918e346b9af03dd599498cec84	neutral	nohookah	use 1 coping juice

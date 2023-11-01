@@ -2074,6 +2074,9 @@ user	_latteDrinkUsed	false
 user	_latteMonster
 user	_latteRefillsUsed	0
 user	_leafblowerML	1
+user	_leafMonstersFought	0
+user	_leavesBurned	0
+user	_leavesJumped	false
 user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
 user	_licenseToChillUsed	false
@@ -2345,6 +2348,9 @@ user	_thesisDelivered	false
 user	_thingfinderCasts	0
 user	_thinknerdPackageDrops	0
 user	_thorsPliersCrafting	0
+user	_tiedUpFlamingLeafletFought	false
+user	_tiedUpFlamingMonsteraFought	false
+user	_tiedUpLeaviathanFought	false
 user	_timeHelmetAdv	0
 user	_timeSpinnerFoodAvailable
 user	_timeSpinnerMinutesUsed	0

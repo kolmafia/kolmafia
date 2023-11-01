@@ -535,7 +535,8 @@ public enum DoubleModifier implements Modifier {
   FREE_RESTS(
       "Free Rests",
       Pattern.compile("Rest Without Spending an Adventure \\((\\d+)x / day\\)"),
-      Pattern.compile("Free Rests: " + EXPR));
+      Pattern.compile("Free Rests: " + EXPR)),
+  LEAVES("Leaves", Pattern.compile("Leaves: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
