@@ -409,6 +409,10 @@ public class ResponseTextParser {
             ConsequenceManager.parseItemDesc(descid, responseText);
             int itemId = ItemDatabase.getItemIdFromDescription(descid);
 
+            if (itemId == -1) {
+              itemId = ItemDatabase.registerItem(descid, responseText);
+            }
+
             boolean changesFromTimeToTime = true;
 
             switch (itemId) {

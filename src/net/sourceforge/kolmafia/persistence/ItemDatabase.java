@@ -720,14 +720,7 @@ public class ItemDatabase {
     }
   }
 
-  public static int registerItem(String descId) {
-    // Pull the itemId and itemName from the item description, which will be cached
-    String text =
-        DebugDatabase.itemDescriptionText(DebugDatabase.rawItemDescriptionText(descId, true));
-    if (text == null) {
-      return -1;
-    }
-
+  public static int registerItem(String descId, String text) {
     int itemId = DebugDatabase.parseItemId(text);
 
     // Link this itemId and descId
@@ -740,6 +733,17 @@ public class ItemDatabase {
     ItemDatabase.registerItem(itemId, itemName, descId, null, 0, false);
 
     return itemId;
+  }
+
+  public static int registerItem(String descId) {
+    // Pull the itemId and itemName from the item description, which will be cached
+    String text =
+        DebugDatabase.itemDescriptionText(DebugDatabase.rawItemDescriptionText(descId, true));
+    if (text == null) {
+      return -1;
+    }
+
+    return registerItem(descId, text);
   }
 
   public static final void registerItem(final int itemId, String itemName, String descId) {
