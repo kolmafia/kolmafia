@@ -288,6 +288,9 @@ public class UseItemRequest extends GenericRequest {
   }
 
   private static boolean needsConfirmation(final AdventureResult item) {
+    if (CampgroundRequest.isBedding(item.getItemId())) {
+      return CampgroundRequest.getCurrentBed() != null;
+    }
     return switch (item.getItemId()) {
       case ItemPool.NEWBIESPORT_TENT,
           ItemPool.BARSKIN_TENT,
@@ -306,15 +309,6 @@ public class UseItemRequest extends GenericRequest {
           ItemPool.GIANT_PILGRIM_HAT,
           ItemPool.HOUSE_SIZED_MUSHROOM -> CampgroundRequest.getCurrentDwelling()
           != CampgroundRequest.BIG_ROCK;
-      case ItemPool.HOT_BEDDING,
-          ItemPool.COLD_BEDDING,
-          ItemPool.STENCH_BEDDING,
-          ItemPool.SPOOKY_BEDDING,
-          ItemPool.SLEAZE_BEDDING,
-          ItemPool.BEANBAG_CHAIR,
-          ItemPool.GAUZE_HAMMOCK,
-          ItemPool.SALTWATERBED,
-          ItemPool.SPIRIT_BED -> CampgroundRequest.getCurrentBed() != null;
       default -> false;
     };
   }
@@ -502,6 +496,11 @@ public class UseItemRequest extends GenericRequest {
       restorationMaximum = UseItemRequest.getRestorationMaximum(itemName);
     }
 
+    if (CampgroundRequest.isBedding(itemId)) {
+      UseItemRequest.limiter = "campground regulations";
+      return 1;
+    }
+
     // Set reasonable default if the item fails to set a specific reason
     UseItemRequest.limiter = "a wizard";
 
@@ -591,16 +590,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.SCARECROW:
       case ItemPool.MEAT_GOLEM:
       case ItemPool.MEAT_GLOBE:
-        // Campground equipment
-      case ItemPool.BEANBAG_CHAIR:
-      case ItemPool.GAUZE_HAMMOCK:
-      case ItemPool.HOT_BEDDING:
-      case ItemPool.COLD_BEDDING:
-      case ItemPool.STENCH_BEDDING:
-      case ItemPool.SPOOKY_BEDDING:
-      case ItemPool.SLEAZE_BEDDING:
-      case ItemPool.SALTWATERBED:
-      case ItemPool.SPIRIT_BED:
+        // Other furnishings
       case ItemPool.BLACK_BLUE_LIGHT:
       case ItemPool.LOUDMOUTH_LARRY:
       case ItemPool.PLASMA_BALL:
@@ -943,6 +933,13 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
+    if (CampgroundRequest.isBedding(itemId)) {
+      AdventureResult bed = CampgroundRequest.getCurrentBed();
+      if (bed != null && !UseItemRequest.confirmReplacement(bed.getName())) {
+        return;
+      }
+    }
+
     switch (itemId) {
       case ItemPool.DECK_OF_EVERY_CARD, ItemPool.REPLICA_DECK_OF_EVERY_CARD -> {
         // Treat a "use" of the deck as "play random"
@@ -1006,21 +1003,6 @@ public class UseItemRequest extends GenericRequest {
         if ((oldLevel >= 7 || newLevel < oldLevel)
             && dwelling != null
             && !UseItemRequest.confirmReplacement(dwelling.getName())) {
-          return;
-        }
-      }
-      case ItemPool.HOT_BEDDING,
-          ItemPool.COLD_BEDDING,
-          ItemPool.STENCH_BEDDING,
-          ItemPool.SPOOKY_BEDDING,
-          ItemPool.SLEAZE_BEDDING,
-          ItemPool.SALTWATERBED,
-          ItemPool.SPIRIT_BED,
-          ItemPool.BEANBAG_CHAIR,
-          ItemPool.GAUZE_HAMMOCK,
-          ItemPool.FOREST_CANOPY_BED -> {
-        AdventureResult bed = CampgroundRequest.getCurrentBed();
-        if (bed != null && !UseItemRequest.confirmReplacement(bed.getName())) {
           return;
         }
       }
@@ -3730,27 +3712,6 @@ public class UseItemRequest extends GenericRequest {
         CampgroundRequest.setCampgroundItem(ItemPool.MEAT_BUTLER, 1);
         break;
 
-      case ItemPool.BEANBAG_CHAIR:
-      case ItemPool.GAUZE_HAMMOCK:
-      case ItemPool.HOT_BEDDING:
-      case ItemPool.COLD_BEDDING:
-      case ItemPool.STENCH_BEDDING:
-      case ItemPool.SPOOKY_BEDDING:
-      case ItemPool.SLEAZE_BEDDING:
-      case ItemPool.SLEEPING_STOCKING:
-      case ItemPool.LAZYBONES_RECLINER:
-      case ItemPool.SALTWATERBED:
-      case ItemPool.SPIRIT_BED
-      case ItemPool.FOREST_CANOPY_BED:
-        if (responseText.contains("You've already got")
-            || responseText.contains("You don't have")) {
-          return;
-        }
-
-        CampgroundRequest.setCurrentBed(ItemPool.get(itemId, 1));
-        CampgroundRequest.setCampgroundItem(itemId, 1);
-        break;
-
       case ItemPool.MILKY_POTION:
       case ItemPool.SWIRLY_POTION:
       case ItemPool.BUBBLY_POTION:
@@ -6188,6 +6149,16 @@ public class UseItemRequest extends GenericRequest {
       if (itemId == ItemPool.ASDON_MARTIN) {
         RequestThread.postRequest(new CampgroundRequest("workshed"));
       }
+    }
+
+    if (CampgroundRequest.isBedding(itemId)) {
+      if (responseText.contains("You've already got")
+              || responseText.contains("You don't have")) {
+        return;
+      }
+
+      CampgroundRequest.setCurrentBed(ItemPool.get(itemId, 1));
+      CampgroundRequest.setCampgroundItem(itemId, 1);
     }
 
     // Finally, remove the item from inventory if it was successfully used.

@@ -159,15 +159,16 @@ public class CampgroundRequest extends GenericRequest {
     // Bedding
     ItemPool.BEANBAG_CHAIR,
     ItemPool.COLD_BEDDING,
+    ItemPool.FOREST_CANOPY_BED,
     ItemPool.GAUZE_HAMMOCK,
     ItemPool.HOT_BEDDING,
     ItemPool.LAZYBONES_RECLINER,
+    ItemPool.SALTWATERBED,
     ItemPool.SLEAZE_BEDDING,
+    ItemPool.SLEEPING_STOCKING,
+    ItemPool.SPIRIT_BED,
     ItemPool.SPOOKY_BEDDING,
     ItemPool.STENCH_BEDDING,
-    ItemPool.SLEEPING_STOCKING,
-    ItemPool.SALTWATERBED,
-    ItemPool.SPIRIT_BED,
 
     // Inside dwelling: miscellaneous
     ItemPool.BONSAI_TREE,
@@ -1805,17 +1806,17 @@ public class CampgroundRequest extends GenericRequest {
   public static boolean isBedding(final int itemId) {
     return switch (itemId) {
       case ItemPool.BEANBAG_CHAIR,
-          ItemPool.GAUZE_HAMMOCK,
-          ItemPool.LAZYBONES_RECLINER,
-          ItemPool.SLEEPING_STOCKING,
-          ItemPool.HOT_BEDDING,
           ItemPool.COLD_BEDDING,
-          ItemPool.STENCH_BEDDING,
-          ItemPool.SPOOKY_BEDDING,
-          ItemPool.SLEAZE_BEDDING,
+          ItemPool.FOREST_CANOPY_BED,
+          ItemPool.GAUZE_HAMMOCK,
+          ItemPool.HOT_BEDDING,
+          ItemPool.LAZYBONES_RECLINER,
           ItemPool.SALTWATERBED,
+          ItemPool.SLEAZE_BEDDING,
+          ItemPool.SLEEPING_STOCKING,
           ItemPool.SPIRIT_BED,
-          ItemPool.FOREST_CANOPY_BED -> true;
+          ItemPool.SPOOKY_BEDDING,
+          ItemPool.STENCH_BEDDING -> true;
       default -> false;
     };
   }
