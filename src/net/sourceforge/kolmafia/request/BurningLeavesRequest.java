@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class BurningLeavesRequest extends GenericRequest {
   public BurningLeavesRequest(final int leaves) {
@@ -59,11 +60,13 @@ public class BurningLeavesRequest extends GenericRequest {
       return;
     }
 
-    if (!responseText.contains("You throw the leaves in the fire")) {
+    if (responseText.contains("You can't thrown in none leaves.")
+        || responseText.contains("You don't have that many leaves!")) {
       return;
     }
 
     Preferences.increment("_leavesBurned", leaves);
+    ResultProcessor.processItem(ItemPool.INFLAMMABLE_LEAF, leaves * -1);
 
     // Non-random amounts are limited daily, we'll need to handle that here.
   }

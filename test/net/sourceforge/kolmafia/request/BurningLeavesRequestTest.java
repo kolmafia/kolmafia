@@ -4,7 +4,9 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
+import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -40,6 +42,7 @@ public class BurningLeavesRequestTest {
             withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
             withProperty("_leavesBurned", 0),
             withProperty("_leavesJumped"),
+            withItem(ItemPool.INFLAMMABLE_LEAF, 2),
             withHttpClientBuilder(builder));
 
     try (cleanups) {
@@ -47,6 +50,7 @@ public class BurningLeavesRequestTest {
 
       assertThat("_leavesBurned", isSetTo(1));
       assertThat("_leavesJumped", isSetTo(false));
+      assertThat(ItemPool.INFLAMMABLE_LEAF, isInInventory(1));
     }
   }
 

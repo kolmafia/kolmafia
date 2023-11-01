@@ -3681,6 +3681,7 @@ public class ItemPool {
   public static final int LED_CANDLE = 11336;
   public static final int MAP_TO_A_CANDY_RICH_BLOCK = 11337;
   public static final int FRANKEN_STEIN = 11339;
+  public static final int INFLAMMABLE_LEAF = 11341;
   public static final int A_GUIDE_TO_BURNING_LEAVES = 11340;
 
   private ItemPool() {}
