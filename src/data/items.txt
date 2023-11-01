@@ -11369,7 +11369,7 @@
 11341	inflammable leaf	169088498	al_leaf.gif	none		0
 11342	tiny rake	831675602	al_tinyrake.gif	familiar	q	0
 11343	rake	169376473	al_rake.gif	offhand	q	0
-11344	autumnic bomb	487664689	al_bomb.gif	usable, combat	t,d	100
+11344	autumnic bomb	487664689	al_bomb.gif	potion, combat	t,d	100
 11345	forest canopy bed	549159252	al_bed.gif	usable	t,d	74
 11346	day shortener	235488166	al_dayshorter.gif	usable	t,d	123
 11347	extra time	172436016	al_daylonger.gif	usable	t,d	1
