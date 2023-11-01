@@ -674,6 +674,7 @@ Item	fancy party pants	Moxie Percent: +10, Booze Drop: +40
 Item	fancy tuxedo pants	Moxie Percent: +15, Familiar Effect: "2xVolley, 1xPotato, cap 25"
 Item	filthy corduroys	Mysticality: +3, Moxie: -3, Familiar Effect: "stench atk, 2xPotato, cap 15"
 Item	fire hose	Hot Damage: +20, Hot Spell Damage: +25, Spell Damage Percent: +30, Familiar Effect: "hot atk, 1xVolley, cap 37"
+Item	flaming fig leaf	Cold Resistance: +3, Experience (Moxie): +2, Lasts Until Rollover
 Item	floaty rock pants	Spell Critical Percent: +10, Familiar Effect: "1.5xBarrr, 1xGhuol, cap 25"
 Item	floral-print skirt	Stench Damage: +20, Monster Level: +5, Familiar Effect: "stench atk, 2xPotato, cap 15"
 Item	flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15, Familiar Effect: "stench atk, 1xFairy, cap 45"
@@ -5040,6 +5041,7 @@ Item	cuckoo clock	Adventures: +3
 Item	elevent	Base Resting HP: +49, Base Resting MP: +50
 Item	Feng Shui for Big Dumb Idiots	Bonus Resting MP: +7
 Item	filth-encrusted futon	Stench Resistance: +2
+Item	forest canopy bed	Free Rests: +5
 Item	frigid air mattress	Cold Resistance: +2
 Item	Frobozz Real-Estate Company Instant House (TM)	Base Resting HP: +39, Base Resting MP: +40
 Item	gauze hammock	Bonus Resting HP: +60

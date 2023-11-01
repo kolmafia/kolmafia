@@ -1017,7 +1017,8 @@ public class UseItemRequest extends GenericRequest {
           ItemPool.SALTWATERBED,
           ItemPool.SPIRIT_BED,
           ItemPool.BEANBAG_CHAIR,
-          ItemPool.GAUZE_HAMMOCK -> {
+          ItemPool.GAUZE_HAMMOCK,
+          ItemPool.FOREST_CANOPY_BED -> {
         AdventureResult bed = CampgroundRequest.getCurrentBed();
         if (bed != null && !UseItemRequest.confirmReplacement(bed.getName())) {
           return;
@@ -3739,7 +3740,8 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.SLEEPING_STOCKING:
       case ItemPool.LAZYBONES_RECLINER:
       case ItemPool.SALTWATERBED:
-      case ItemPool.SPIRIT_BED:
+      case ItemPool.SPIRIT_BED
+      case ItemPool.FOREST_CANOPY_BED:
         if (responseText.contains("You've already got")
             || responseText.contains("You don't have")) {
           return;

@@ -1814,7 +1814,8 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.SPOOKY_BEDDING,
           ItemPool.SLEAZE_BEDDING,
           ItemPool.SALTWATERBED,
-          ItemPool.SPIRIT_BED -> true;
+          ItemPool.SPIRIT_BED,
+          ItemPool.FOREST_CANOPY_BED -> true;
       default -> false;
     };
   }

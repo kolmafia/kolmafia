@@ -11370,7 +11370,7 @@
 11342	tiny rake	831675602	al_tinyrake.gif	familiar	q	0
 11343	rake	169376473	al_rake.gif	offhand	q	0
 11344	autumnic bomb	487664689	al_bomb.gif	usable, combat	t,d	100
-11345
+11345	forest canopy bed	549159252	al_bed.gif	usable	t,d	74
 11346	day shortener	235488166	al_dayshorter.gif	usable	t,d	123
 11347	extra time	172436016	al_daylonger.gif	usable	t,d	1
 11348	autumnal aegis	265811776	al_shield.gif	offhand	t,d	50
@@ -11381,7 +11381,7 @@
 11353	tied-up flaming monstera	695238737	al_monsterbag.gif	usable	t,d	100
 11354	tied-up leaviathan	832740542	al_monsterbag.gif	usable	t,d	100
 11355	impromptu torch	380784163	al_torch.gif	weapon	q	0
-11356
+11356	flaming fig leaf	332125580	al_figleaf.gif	pants	q	0
 11357
 11358
 11359	flaming leaf crown	243559095	al_crown.gif	hat		0

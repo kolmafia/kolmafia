@@ -531,6 +531,7 @@ fancy party pants	75	Mox: 10
 fancy tuxedo pants	100	Mox: 35
 filthy corduroys	60	Mox: 15
 fire hose	150	Mox: 60
+flaming fig leaf	100	none
 floaty rock pants	100	Mox: 35
 floral-print skirt	150	Mox: 50
 flowing hippy skirt	180	Mox: 75
