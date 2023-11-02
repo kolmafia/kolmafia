@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.util.Collections;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,12 +20,16 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
+import static net.sourceforge.kolmafia.preferences.Preferences.getString;
+import static net.sourceforge.kolmafia.preferences.Preferences.setString;
+
 public class CommandDisplayPanel extends JPanel implements FocusListener {
   private final RollingLinkedList<String> commandHistory = new RollingLinkedList<>(20);
   private final AutoHighlightTextField entryField;
   private final JButton entryButton;
 
   private final String preference;
+  private final String DELIMITER = "#";
 
   private int commandIndex = 0;
 
@@ -60,9 +65,21 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
     this.addFocusListener(this);
   }
 
-  private void loadHistoryFromPreference() {}
+  private void loadHistoryFromPreference() {
+    String pref = getString(preference);
+    String[] commands = pref.split(DELIMITER);
+      Collections.addAll(commandHistory, commands);
 
-  private void addToPreference(String command) {}
+  }
+
+  private void addToPreference() {
+    StringBuilder newPref = new StringBuilder(" ");
+    for (String s: commandHistory) {
+      newPref.append(DELIMITER).append(s);
+    }
+    newPref = new StringBuilder(newPref.toString().trim());
+    setString(newPref.toString(), preference);
+  }
 
   @Override
   public void focusGained(FocusEvent e) {
@@ -147,7 +164,7 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
           && (CommandDisplayPanel.this.commandHistory.isEmpty()
               || !CommandDisplayPanel.this.commandHistory.getLast().equals(command))) {
         CommandDisplayPanel.this.commandHistory.add(command);
-        addToPreference(command);
+        addToPreference();
       }
 
       CommandDisplayPanel.this.commandIndex = CommandDisplayPanel.this.commandHistory.size();
