@@ -68,15 +68,17 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
   private void loadHistoryFromPreference() {
     String pref = getString(preference);
     String[] commands = pref.split(DELIMITER);
-    Collections.addAll(commandHistory, commands);
+    if (!commands[0].trim().isEmpty()) {
+      Collections.addAll(commandHistory, commands);
+    }
   }
 
-  private void addToPreference() {
-    StringBuilder newPref = new StringBuilder(" ");
+  private void updatePreference() {
+    StringBuilder newPref = new StringBuilder();
     for (String s : commandHistory) {
-      newPref.append(DELIMITER).append(s);
+      newPref.append(s).append(DELIMITER);
     }
-    newPref = new StringBuilder(newPref.toString().trim());
+    newPref.deleteCharAt(newPref.length()-1);
     setString(newPref.toString(), preference);
   }
 
@@ -163,7 +165,7 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
           && (CommandDisplayPanel.this.commandHistory.isEmpty()
               || !CommandDisplayPanel.this.commandHistory.getLast().equals(command))) {
         CommandDisplayPanel.this.commandHistory.add(command);
-        addToPreference();
+        updatePreference();
       }
 
       CommandDisplayPanel.this.commandIndex = CommandDisplayPanel.this.commandHistory.size();
