@@ -11387,4 +11387,4 @@
 11359	flaming leaf crown	243559095	al_crown.gif	hat		0
 11360	leafy browns	283851958	salad.gif	food	d	25	bowls of leafy browns
 11361	autumnic balm	776996939	al_balm.gif	potion, usable	t,d	100
-11362	coping juice	215559883	persmug.gif	potion, usable	t,d	100	cups of coping uice
+11362	coping juice	215559883	persmug.gif	potion, usable	t,d	100	cups of coping juice
