@@ -78,7 +78,7 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
     for (String s : commandHistory) {
       newPref.append(s).append(DELIMITER);
     }
-    newPref.deleteCharAt(newPref.length()-1);
+    newPref.deleteCharAt(newPref.length() - 1);
     setString(newPref.toString(), preference);
   }
 
