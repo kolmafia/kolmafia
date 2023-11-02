@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
+import static net.sourceforge.kolmafia.preferences.Preferences.getString;
+import static net.sourceforge.kolmafia.preferences.Preferences.setString;
+
 import java.awt.BorderLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -19,9 +22,6 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
-
-import static net.sourceforge.kolmafia.preferences.Preferences.getString;
-import static net.sourceforge.kolmafia.preferences.Preferences.setString;
 
 public class CommandDisplayPanel extends JPanel implements FocusListener {
   private final RollingLinkedList<String> commandHistory = new RollingLinkedList<>(20);
@@ -68,13 +68,12 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
   private void loadHistoryFromPreference() {
     String pref = getString(preference);
     String[] commands = pref.split(DELIMITER);
-      Collections.addAll(commandHistory, commands);
-
+    Collections.addAll(commandHistory, commands);
   }
 
   private void addToPreference() {
     StringBuilder newPref = new StringBuilder(" ");
-    for (String s: commandHistory) {
+    for (String s : commandHistory) {
       newPref.append(DELIMITER).append(s);
     }
     newPref = new StringBuilder(newPref.toString().trim());
