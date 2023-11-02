@@ -11336,7 +11336,7 @@
 11308	watermelon seed	967601198	watermelonseed.gif	none, combat	t,d	5
 11309	water balloon	825278204	waterballoon.gif	none, combat	t,d	7
 11310	thriftshop coupon	636172314	thriftcoupon.gif	none	t,d	50
-11311	waffle	693089204	waffle.gif	food, combat	t,d	11	waffles
+11311	waffle	693089204	waffle.gif	food, combat	t,d	11
 11312	fixodent	950484165	fixodent.gif	usable	t,d	11
 11313	cat o' nine teeth	512973092	nineteeth.gif	weapon	t,d	100
 11314	tooth cap	507514456	toothcap.gif	hat	t,d	100
@@ -11365,16 +11365,16 @@
 11337	map to a candy-rich block	860567609	warehousemap.gif	usable	t,d	11	maps to candy-rich blocks
 11338	sampler size toothpaste	549931560	tube.gif	potion, usable	t,d	10
 11339	Franken Stein	788288444	fstein0.gif	offhand		0
-11340	A Guide to Burning Leaves	822295519	al_book.gif	usable	t	0
-11341	inflammable leaf	169088498	al_leaf.gif	none		0
+11340	A Guide to Burning Leaves	822295519	al_book.gif	usable	t	0	Some Guides to Burning Leaves
+11341	inflammable leaf	169088498	al_leaf.gif	none		0	inflammable leaves
 11342	tiny rake	831675602	al_tinyrake.gif	familiar	q	0
 11343	rake	169376473	al_rake.gif	offhand	q	0
-11344	autumnic bomb	487664689	al_bomb.gif	usable, combat	t,d	100
+11344	autumnic bomb	487664689	al_bomb.gif	potion, combat	t,d	100
 11345	forest canopy bed	549159252	al_bed.gif	usable	t,d	74
 11346	day shortener	235488166	al_dayshorter.gif	usable	t,d	123
 11347	extra time	172436016	al_daylonger.gif	usable	t,d	1
 11348	autumnal aegis	265811776	al_shield.gif	offhand	t,d	50
-11349	distilled resin	632409893	al_resin.gif	potion, usable	t,d	50
+11349	distilled resin	632409893	al_resin.gif	potion, usable	t,d	50	bottles of distilled resin
 11350
 11351	lit leaf lasso	551254908	al_lasso.gif	none, combat	t,d	60
 11352	tied-up flaming leaflet	173945965	al_monsterbag.gif	usable	t,d	100
@@ -11385,6 +11385,6 @@
 11357	smoldering drape	397884487	al_cape.gif	container	q	0
 11358
 11359	flaming leaf crown	243559095	al_crown.gif	hat		0
-11360	leafy browns	283851958	salad.gif	food	d	25
+11360	leafy browns	283851958	salad.gif	food	d	25	bowls of leafy browns
 11361	autumnic balm	776996939	al_balm.gif	potion, usable	t,d	100
 11362	coping juice	215559883	persmug.gif	potion, usable	t,d	100
