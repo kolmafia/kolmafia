@@ -6565,7 +6565,8 @@ public abstract class ChoiceControl {
       case 1510:
         // Burning Leaves
         {
-          int leaves = Integer.parseInt(request.getFormField("leaves"));
+          String leavesField = request.getFormField("leaves");
+          int leaves = leavesField == null ? 0 : Integer.parseInt(leavesField);
           BurningLeavesRequest.postChoice(text, leaves);
           break;
         }

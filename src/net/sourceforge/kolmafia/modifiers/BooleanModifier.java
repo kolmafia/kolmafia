@@ -64,7 +64,8 @@ public enum BooleanModifier implements Modifier {
   LOOK_LIKE_A_PIRATE("Pirate", Pattern.compile("Look like a Pirate")),
   BREAKABLE("Breakable", Pattern.compile("Breakable")),
   DROPS_ITEMS("Drops Items", Pattern.compile("Drops Items")),
-  DROPS_MEAT("Drops Meat", Pattern.compile("Drops Meat"));
+  DROPS_MEAT("Drops Meat", Pattern.compile("Drops Meat")),
+  VOLLEYBALL_OR_SOMBRERO("Volleyball or Sombrero", Pattern.compile("Volleyball or Sombrero"));
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;

@@ -1106,6 +1106,9 @@ public class Modifiers {
     int cap = (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT_CAP);
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
 
+    double volleyFactor = 0.0;
+    double sombreroFactor = 0.0;
+
     double effective = cappedWeight * this.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT);
     if (effective == 0.0 && FamiliarDatabase.isVolleyType(familiarId)) {
       effective = weight;
@@ -1171,7 +1174,7 @@ public class Modifiers {
             ModifierType.TUNED_VOLLEYBALL,
             race);
       } else {
-        this.addDouble(DoubleModifier.EXPERIENCE, factor, ModifierType.VOLLEYBALL, race);
+        volleyFactor = factor;
       }
     }
 
@@ -1185,13 +1188,25 @@ public class Modifiers {
       if (factor == 0.0) factor = 1.0;
       // currentML is always >= 4, so we don't need to check for negatives
       int maxStats = 230;
-      this.addDouble(
-          DoubleModifier.EXPERIENCE,
+      sombreroFactor =
           Math.min(
               Math.max(factor * (Modifiers.currentML / 4) * (0.1 + 0.005 * effective), 1),
-              maxStats),
-          ModifierType.FAMILIAR,
-          race);
+              maxStats);
+    }
+
+    if (this.getBoolean(BooleanModifier.VOLLEYBALL_OR_SOMBRERO)) {
+      if (volleyFactor > sombreroFactor) {
+        this.addDouble(DoubleModifier.EXPERIENCE, volleyFactor, ModifierType.VOLLEYBALL, race);
+      } else {
+        this.addDouble(DoubleModifier.EXPERIENCE, sombreroFactor, ModifierType.FAMILIAR, race);
+      }
+    } else {
+      if (volleyFactor > 0) {
+        this.addDouble(DoubleModifier.EXPERIENCE, volleyFactor, ModifierType.VOLLEYBALL, race);
+      }
+      if (sombreroFactor > 0) {
+        this.addDouble(DoubleModifier.EXPERIENCE, sombreroFactor, ModifierType.FAMILIAR, race);
+      }
     }
 
     effective = cappedWeight * this.getDouble(DoubleModifier.LEPRECHAUN_WEIGHT);
