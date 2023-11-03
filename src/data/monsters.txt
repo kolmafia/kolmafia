@@ -2153,8 +2153,8 @@ shadow matrix	2303	shadowmatrix.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRif
 Tooth Golem	2336	toothgolem.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: construct Article: a	loose teeth (100)	loose teeth (100)	loose teeth (100)	loose teeth (100)	fixodent (50)
 
 # A Guide to Burning Leaves (Nov 2023)
-flaming leaflet	2389	leaflet.gif	FREE NOCOPY	inflammable leaf (100)	inflammable leaf (75)	inflammable leaf (50)	inflammable leaf (25)	inflammable leaf (10)	inflammable leaf (5)	inflammable leaf (1)
-flaming monstera	2390	monstera.gif	FREE NOCOPY	leafy browns (100)	inflammable leaf (0)
+flaming leaflet	2389	leaflet.gif	FREE NOCOPY Atk: 11 Def: 11 HP: 11 Init: 11 P: plant E: hot Article: a	inflammable leaf (100)	inflammable leaf (75)	inflammable leaf (50)	inflammable leaf (25)	inflammable leaf (10)	inflammable leaf (5)	inflammable leaf (1)
+flaming monstera	2390	monstera.gif	FREE NOCOPY Scale: ? Cap: ? Floor: ? Init: 50 P: plant ED: hot Article: a	leafy browns (100)	inflammable leaf (0)
 leaviathan	2391	leaviathan.gif	FREE NOCOPY	flaming leaf crown (100)	inflammable leaf (0)
 
 # KoL Con
