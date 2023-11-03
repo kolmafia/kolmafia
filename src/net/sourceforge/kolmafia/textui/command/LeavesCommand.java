@@ -7,7 +7,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BurningLeavesRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -72,6 +74,14 @@ public class LeavesCommand extends AbstractCommand {
     }
 
     InventoryManager.retrieveItem(ItemPool.INFLAMMABLE_LEAF, leaves);
+
+    var outcome = BurningLeavesRequest.Outcome.findByLeaves(leaves);
+
+    if (outcome.getMonsterName() != null) {
+      Preferences.setString("nextAdventure", "None");
+      RecoveryManager.runBetweenBattleChecks(true);
+    }
+
     BurningLeavesRequest.visit();
     RequestThread.postRequest(BurningLeavesRequest.burnLeaves(leaves));
   }
