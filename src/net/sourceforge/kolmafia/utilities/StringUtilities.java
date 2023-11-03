@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -204,6 +205,16 @@ public class StringUtilities {
     }
 
     return canonicalName;
+  }
+
+  /**
+   * Returns a list of all elements which contain the given substring in their name.
+   *
+   * @param names The map in which to search for the string
+   * @param searchString The substring for which to search
+   */
+  public static List<String> getMatchingNames(final Collection<String> names, String searchString) {
+    return getMatchingNames(names.toArray(new String[0]), searchString);
   }
 
   /**

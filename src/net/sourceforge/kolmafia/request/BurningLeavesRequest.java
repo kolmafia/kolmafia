@@ -13,9 +13,9 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BurningLeavesRequest extends CreateItemRequest {
-  private enum Outcome {
+  public enum Outcome {
     NONE(0),
-    LEAFLET(11),
+    LEAFLET(11, "flaming leaflet"),
     BOMB(37, ItemPool.AUTUMNIC_BOMB),
     TORCH(42, ItemPool.IMPROMPTU_TORCH),
     FIG_LEAF(43, ItemPool.FLAMING_FIG_LEAF),
@@ -25,9 +25,9 @@ public class BurningLeavesRequest extends CreateItemRequest {
     LASSO(69, ItemPool.LIT_LEAF_LASSO, "_leafLassosCrafted", 3),
     BED(75, ItemPool.FOREST_CANOPY_BED),
     BALM(99, ItemPool.AUTUMNIC_BALM),
-    MONSTERA(111),
+    MONSTERA(111, "flaming monstera"),
     DAY_SHORTENER(222, ItemPool.DAY_SHORTENER, "_leafDayShortenerCrafted", 1),
-    LEAVIATHAN(666),
+    LEAVIATHAN(666, "leaviathan"),
     COPING_JUICE(1111, ItemPool.COPING_JUICE),
     LEAFCUTTER(6666, ItemPool.SMOLDERING_LEAFCUTTER_ANT_EGG, "_leafcutterAntEggCrafted", 1),
     SUPER_HEATED(11111, ItemPool.SUPER_HEATED_LEAF, "_leafTattooCrafted", 1);
@@ -39,15 +39,20 @@ public class BurningLeavesRequest extends CreateItemRequest {
           .orElse(NONE);
     }
 
-    public static Outcome findByConcoction(final Concoction conc) {
+    public static Outcome findById(final int id) {
       return Arrays.stream(Outcome.values())
-          .filter(o -> o.getItemId() == conc.getItemId())
+          .filter(o -> o.getItemId() == id)
           .findAny()
           .orElse(NONE);
     }
 
+    public static Outcome find(final Concoction conc) {
+      return findById(conc.getItemId());
+    }
+
     private final int leaves;
     private final int itemId;
+    private final String monsterName;
 
     private final String dailyPref;
     private final int dailyMax;
@@ -55,12 +60,21 @@ public class BurningLeavesRequest extends CreateItemRequest {
     Outcome(final int leaves, final int itemId, final String dailyPref, final int dailyMax) {
       this.leaves = leaves;
       this.itemId = itemId;
+      this.monsterName = null;
       this.dailyPref = dailyPref;
       this.dailyMax = dailyMax;
     }
 
     Outcome(final int leaves, final int itemId) {
       this(leaves, itemId, null, -1);
+    }
+
+    Outcome(final int leaves, final String monsterName) {
+      this.leaves = leaves;
+      this.monsterName = monsterName;
+      this.dailyPref = "_leafMonstersFought";
+      this.dailyMax = 5;
+      this.itemId = -1;
     }
 
     Outcome(final int leaves) {
@@ -73,6 +87,10 @@ public class BurningLeavesRequest extends CreateItemRequest {
 
     public int getItemId() {
       return itemId;
+    }
+
+    public String getMonsterName() {
+      return monsterName;
     }
 
     public int canMake() {
@@ -96,9 +114,6 @@ public class BurningLeavesRequest extends CreateItemRequest {
     }
 
     public void setToMax() {
-      if (this.itemId < 0) {
-        Preferences.setInteger("_leafMonstersFought", 5);
-      }
       if (this.dailyMax < 0) return;
       if (this.dailyMax == 1) {
         Preferences.setBoolean(this.dailyPref, true);
@@ -109,28 +124,28 @@ public class BurningLeavesRequest extends CreateItemRequest {
   }
 
   public static int canMake(final Concoction conc) {
-    var outcome = Outcome.findByConcoction(conc);
+    var outcome = Outcome.find(conc);
     return outcome.canMake();
   }
 
   public BurningLeavesRequest(final Concoction conc) {
     super("choice.php", conc);
-    var outcome = Outcome.findByConcoction(conc);
+    var outcome = Outcome.find(conc);
     this.addFormField("whichchoice", "1510");
     this.addFormField("leaves", String.valueOf(outcome.getLeaves()));
     this.addFormField("option", "1");
   }
 
-  private static GenericRequest VISIT_REQUEST =
-      new GenericRequest("campground.php?preaction=leaves", false);
+  public static void visit() {
+    new GenericRequest("campground.php?preaction=leaves", false).run();
+  }
 
-  public static void randomLeaves(final int leaves) {
-    VISIT_REQUEST.run();
+  public static GenericRequest burnLeaves(final int leaves) {
     var req = new GenericRequest("choice.php");
     req.addFormField("whichchoice", "1510");
-    req.addFormField("leaves", String.valueOf(leaves));
     req.addFormField("option", "1");
-    req.run();
+    req.addFormField("leaves", String.valueOf(leaves));
+    return req;
   }
 
   @Override
@@ -154,7 +169,7 @@ public class BurningLeavesRequest extends CreateItemRequest {
 
     int creationYield = this.getYield();
 
-    VISIT_REQUEST.run();
+    visit();
 
     while (count > 0 && KoLmafia.permitsContinue()) {
       this.setQuantityNeeded(Math.min(count, creationYield));
