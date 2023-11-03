@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -835,7 +836,7 @@ public class Player {
    */
   public static Cleanups withFlorist(int locationId, FloristRequest.Florist... plants) {
     KoLAdventure location = AdventureDatabase.getAdventure(locationId);
-    FloristRequest.setHaveFlorist(true);
+    FloristRequest.setFloristFriarAvailable(true);
     for (var plant : plants) {
       FloristRequest.addPlant(location.getAdventureName(), plant.id());
     }
@@ -1883,6 +1884,41 @@ public class Player {
         });
   }
 
+  private static Cleanups withPostChoice(
+      final BiConsumer<String, GenericRequest> cb,
+      final int choice,
+      final int decision,
+      final String extra,
+      final String responseText) {
+    ChoiceManager.lastChoice = choice;
+    ChoiceManager.lastDecision = decision;
+    var url = "choice.php?choice=" + choice + "&option=" + decision;
+    if (extra != null) url = url + "&" + extra;
+    var req = new GenericRequest(url);
+    req.responseText = responseText;
+    cb.accept(url, req);
+
+    return new Cleanups(
+        () -> {
+          ChoiceManager.lastChoice = 0;
+          ChoiceManager.lastDecision = 0;
+        });
+  }
+
+  /**
+   * Runs postChoice1 with a given choice and decision and response
+   *
+   * @param choice Choice to set
+   * @param decision Decision to set
+   * @param extra Any extra parameters for the request
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withPostChoice1(
+      final int choice, final int decision, final String extra, final String responseText) {
+    return withPostChoice(ChoiceControl::postChoice1, choice, decision, extra, responseText);
+  }
+
   /**
    * Runs postChoice1 with a given choice and decision and response
    *
@@ -1893,17 +1929,7 @@ public class Player {
    */
   public static Cleanups withPostChoice1(
       final int choice, final int decision, final String responseText) {
-    ChoiceManager.lastChoice = choice;
-    ChoiceManager.lastDecision = decision;
-    var req = new GenericRequest("choice.php?choice=" + choice + "&option=" + decision);
-    req.responseText = responseText;
-    ChoiceControl.postChoice1("choice.php?choice=" + choice + "&option=" + decision, req);
-
-    return new Cleanups(
-        () -> {
-          ChoiceManager.lastChoice = 0;
-          ChoiceManager.lastDecision = 0;
-        });
+    return withPostChoice1(choice, decision, null, responseText);
   }
 
   /**
@@ -1922,22 +1948,26 @@ public class Player {
    *
    * @param choice Choice to set
    * @param decision Decision to set
+   * @param extra Any extra parameters for the request
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withPostChoice2(
+      final int choice, final int decision, final String extra, final String responseText) {
+    return withPostChoice(ChoiceControl::postChoice2, choice, decision, extra, responseText);
+  }
+
+  /**
+   * Runs postChoice2 with a given choice and decision and response
+   *
+   * @param choice Choice to set
+   * @param decision Decision to set
    * @param responseText Response to fake
    * @return Restores last choice and last decision
    */
   public static Cleanups withPostChoice2(
       final int choice, final int decision, final String responseText) {
-    ChoiceManager.lastChoice = choice;
-    ChoiceManager.lastDecision = decision;
-    var req = new GenericRequest("choice.php?choice=" + choice + "&option=" + decision);
-    req.responseText = responseText;
-    ChoiceControl.postChoice2("choice.php?choice=" + choice + "&option=" + decision, req);
-
-    return new Cleanups(
-        () -> {
-          ChoiceManager.lastChoice = 0;
-          ChoiceManager.lastDecision = 0;
-        });
+    return withPostChoice2(choice, decision, null, responseText);
   }
 
   /**
@@ -1958,14 +1988,31 @@ public class Player {
    *
    * @param choice Choice number
    * @param decision Decision number
+   * @param responseText Response text to simulate
    * @return Restores state for choice handling
    */
   public static Cleanups withChoice(
       final int choice, final int decision, final String responseText) {
+    return withChoice(choice, decision, null, responseText);
+  }
+
+  /**
+   * Simulates a choice (postChoice1, processResults and then postChoice2)
+   *
+   * <p>{@code @todo} Still needs some more choice handling (postChoice0)
+   *
+   * @param choice Choice number
+   * @param decision Decision number
+   * @param extra Any extra parameters for the request
+   * @param responseText Response text to simulate
+   * @return Restores state for choice handling
+   */
+  public static Cleanups withChoice(
+      final int choice, final int decision, final String extra, final String responseText) {
     var cleanups = new Cleanups();
-    cleanups.add(withPostChoice1(choice, decision, responseText));
+    cleanups.add(withPostChoice1(choice, decision, extra, responseText));
     ResultProcessor.processResults(false, responseText);
-    cleanups.add(withPostChoice2(choice, decision, responseText));
+    cleanups.add(withPostChoice2(choice, decision, extra, responseText));
     return cleanups;
   }
 

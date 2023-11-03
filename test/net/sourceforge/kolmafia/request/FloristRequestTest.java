@@ -24,13 +24,11 @@ public class FloristRequestTest {
     FloristRequest.checkFloristAvailable();
     assertFalse(FloristRequest.haveFlorist());
     assertFalse(Preferences.getBoolean("floristFriarChecked"));
-    assertFalse(Preferences.getBoolean("ownsFloristFriar"));
 
     QuestDatabase.setQuest(Quest.LARVA, QuestDatabase.STARTED);
     FloristRequest.checkFloristAvailable();
     assertFalse(FloristRequest.haveFlorist());
     assertTrue(Preferences.getBoolean("floristFriarChecked"));
-    assertFalse(Preferences.getBoolean("ownsFloristFriar"));
   }
 
   @Test
@@ -39,7 +37,6 @@ public class FloristRequestTest {
     FloristRequest.parseResponse("choice.php?whichchoice=720", responseText);
     assertFalse(FloristRequest.haveFlorist());
     assertFalse(Preferences.getBoolean("floristFriarChecked"));
-    assertFalse(Preferences.getBoolean("ownsFloristFriar"));
   }
 
   @Test
@@ -48,7 +45,6 @@ public class FloristRequestTest {
     FloristRequest.parseResponse("choice.php?whichchoice=720", responseText);
     assertTrue(FloristRequest.haveFlorist());
     assertTrue(Preferences.getBoolean("floristFriarChecked"));
-    assertTrue(Preferences.getBoolean("ownsFloristFriar"));
   }
 
   @Test
