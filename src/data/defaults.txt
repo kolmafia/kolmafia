@@ -2074,6 +2074,10 @@ user	_latteDrinkUsed	false
 user	_latteMonster
 user	_latteRefillsUsed	0
 user	_leafblowerML	1
+user	_leafAntEggCrafted	false
+user	_leafDayShortenerCrafted	false
+user	_leafLassosCrafted	0
+user	_leafTattooCrafted	false
 user	_leafMonstersFought	0
 user	_leavesBurned	0
 user	_leavesJumped	false

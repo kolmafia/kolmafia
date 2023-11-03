@@ -11373,18 +11373,18 @@
 11345	forest canopy bed	549159252	al_bed.gif	usable	t,d	74
 11346	day shortener	235488166	al_dayshorter.gif	usable	t,d	123
 11347	extra time	172436016	al_daylonger.gif	usable	t,d	1
-11348	autumnal aegis	265811776	al_shield.gif	offhand	t,d	50
+11348	autumnal aegis	265811776	al_shield.gif	offhand	t,d	50	autumnal aeges
 11349	distilled resin	632409893	al_resin.gif	potion, usable	t,d	50	bottles of distilled resin
-11350
+11350	super-heated leaf	820914388	al_hotleaf.gif	usable	t	0	super-heated leaves
 11351	lit leaf lasso	551254908	al_lasso.gif	none, combat	t,d	60
 11352	tied-up flaming leaflet	173945965	al_monsterbag.gif	usable	t,d	100
 11353	tied-up flaming monstera	695238737	al_monsterbag.gif	usable	t,d	100
 11354	tied-up leaviathan	832740542	al_monsterbag.gif	usable	t,d	100
-11355	impromptu torch	380784163	al_torch.gif	weapon	q	0
-11356	flaming fig leaf	332125580	al_figleaf.gif	pants	q	0
+11355	impromptu torch	380784163	al_torch.gif	weapon	q	0	impromptu torches
+11356	flaming fig leaf	332125580	al_figleaf.gif	pants	q	0	flaming fig leaves
 11357	smoldering drape	397884487	al_cape.gif	container	q	0
-11358
+11358	smoldering leafcutter ant egg	460664539	al_antegg.gif	grow	t	0
 11359	flaming leaf crown	243559095	al_crown.gif	hat		0
 11360	leafy browns	283851958	salad.gif	food	d	25	bowls of leafy browns
 11361	autumnic balm	776996939	al_balm.gif	potion, usable	t,d	100
-11362	coping juice	215559883	persmug.gif	potion, usable	t,d	100
+11362	coping juice	215559883	persmug.gif	potion, usable	t,d	100	cups of coping uice

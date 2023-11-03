@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BarrelShrineRequest;
+import net.sourceforge.kolmafia.request.BurningLeavesRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
@@ -1082,6 +1083,8 @@ public class Concoction implements Comparable<Concoction> {
             + (StringUtilities.isNumeric(Preferences.getString("_frHoursLeft")) ? 0 : 1);
       case STILLSUIT:
         return StillSuitRequest.canMake() ? 1 : 0;
+      case BURNING_LEAVES:
+        return BurningLeavesRequest.canMake(this);
     }
 
     if (needToMake <= 0) { // Have enough on hand already.

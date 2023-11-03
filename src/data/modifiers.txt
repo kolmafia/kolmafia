@@ -4625,10 +4625,11 @@ Familiar	Crimbo Shrub	Familiar Tuning (Muscle): [75*pref(shrubTopper,Muscle)], F
 Familiar	Cute Meteor	Initiative: [2*W]
 Familiar	Disgeist	Combat Rate: [-min(10,floor(W/7.5))]
 Familiar	Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
+Familiar	Flaming Leafcutter Ant	Leaves: +0.5
 Familiar	Happy Medium	Initiative: [W]
 Familiar	Hobo Monkey	Leprechaun: 1.25
-Familiar	Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
 Familiar	Jill-of-All-Trades	Volleyball or Sombrero
+Familiar	Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
 Familiar	Llama Lama	Volleyball: 0.5
 Familiar	Magic Dragonfish	Spell Damage Percent: [min(2*W,100^env(underwater)*100)]
 Familiar	Mechanical Songbird	Fairy Effectiveness: [1.0+0.5*zone(Dreadsylvania)]
@@ -4723,6 +4724,7 @@ Throne	Feral Kobold	Item Drop: +15
 Throne	Fist Turkey	Weapon Damage: +20
 Throne	Flaming Face	Cold Resistance: +3
 Throne	Flaming Gravy Fairy	Hot Damage: +20, Drops Items
+Throne	Flaming Leafcutter Ant	Hot Damage: +5
 Throne	Frozen Gravy Fairy	Cold Damage: +20, Drops Items
 Throne	Frumious Bandersnatch	Experience: +2
 Throne	Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
