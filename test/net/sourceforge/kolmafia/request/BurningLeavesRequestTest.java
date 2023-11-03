@@ -13,6 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
@@ -46,7 +47,8 @@ public class BurningLeavesRequestTest {
             withHttpClientBuilder(builder));
 
     try (cleanups) {
-      BurningLeavesRequest.randomLeaves(1);
+      BurningLeavesRequest.visit();
+      RequestThread.postRequest(new BurningLeavesRequest(1));
 
       assertThat("_leavesBurned", isSetTo(1));
       assertThat("_leavesJumped", isSetTo(false));
