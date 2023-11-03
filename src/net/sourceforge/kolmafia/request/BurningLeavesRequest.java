@@ -129,16 +129,16 @@ public class BurningLeavesRequest extends CreateItemRequest {
     super("choice.php", conc);
     var outcome = Outcome.find(conc);
     this.addFormField("whichchoice", "1510");
-    this.addFormField("leaves", String.valueOf(outcome.getLeaves()));
     this.addFormField("option", "1");
+    this.addFormField("leaves", String.valueOf(outcome.getLeaves()));
   }
 
   // If a number of leaves is specified, use a bogus concoction
   public BurningLeavesRequest(final int leaves) {
     super("choice.php", ConcoctionPool.get(1));
     this.addFormField("whichchoice", "1510");
-    this.addFormField("leaves", String.valueOf(leaves));
     this.addFormField("option", "1");
+    this.addFormField("leaves", String.valueOf(leaves));
   }
 
   @Override

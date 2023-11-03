@@ -4,6 +4,8 @@ import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withEmptyCampground;
+import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -89,10 +91,12 @@ public class LeavesCommandTest extends AbstractCommandTestBase {
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
+            withHandlingChoice(false),
+            withHP(11111, 11111, 11111),
             withItem(ItemPool.INFLAMMABLE_LEAF, leaves),
             withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES));
     try (cleanups) {
-      execute(param);
+      var output = execute(param);
       var requests = client.getRequests();
       assertThat(requests.size(), is(2));
       assertGetRequest(requests.get(0), "/campground.php", "preaction=leaves");
