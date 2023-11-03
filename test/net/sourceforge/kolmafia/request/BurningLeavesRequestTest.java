@@ -48,7 +48,7 @@ public class BurningLeavesRequestTest {
 
     try (cleanups) {
       BurningLeavesRequest.visit();
-      RequestThread.postRequest(BurningLeavesRequest.burnLeaves(1));
+      RequestThread.postRequest(new BurningLeavesRequest(1));
 
       assertThat("_leavesBurned", isSetTo(1));
       assertThat("_leavesJumped", isSetTo(false));

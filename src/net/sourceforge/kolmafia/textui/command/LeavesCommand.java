@@ -83,6 +83,6 @@ public class LeavesCommand extends AbstractCommand {
     }
 
     BurningLeavesRequest.visit();
-    RequestThread.postRequest(BurningLeavesRequest.burnLeaves(leaves));
+    RequestThread.postRequest(new BurningLeavesRequest(leaves));
   }
 }

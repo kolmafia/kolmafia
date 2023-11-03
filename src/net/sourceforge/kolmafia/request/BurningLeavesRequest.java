@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -123,6 +124,8 @@ public class BurningLeavesRequest extends CreateItemRequest {
     }
   }
 
+  private boolean noCreate = false;
+
   public static int canMake(final Concoction conc) {
     var outcome = Outcome.find(conc);
     return outcome.canMake();
@@ -136,16 +139,21 @@ public class BurningLeavesRequest extends CreateItemRequest {
     this.addFormField("option", "1");
   }
 
-  public static void visit() {
-    new GenericRequest("campground.php?preaction=leaves", false).run();
+  public BurningLeavesRequest(final int leaves) {
+    super("choice.php", ConcoctionPool.get(1));
+    this.addFormField("whichchoice", "1510");
+    this.addFormField("leaves", String.valueOf(leaves));
+    this.addFormField("option", "1");
+    this.noCreate = true;
   }
 
-  public static GenericRequest burnLeaves(final int leaves) {
-    var req = new GenericRequest("choice.php");
-    req.addFormField("whichchoice", "1510");
-    req.addFormField("option", "1");
-    req.addFormField("leaves", String.valueOf(leaves));
-    return req;
+  @Override
+  public boolean noCreation() {
+    return this.noCreate;
+  }
+
+  public static void visit() {
+    new GenericRequest("campground.php?preaction=leaves", false).run();
   }
 
   @Override
@@ -155,6 +163,12 @@ public class BurningLeavesRequest extends CreateItemRequest {
 
   @Override
   public void run() {
+    if (this.noCreate) {
+      this.setQuantityNeeded(1);
+      super.run();
+      return;
+    }
+
     int count = this.getQuantityNeeded();
     if (count == 0) {
       return;
