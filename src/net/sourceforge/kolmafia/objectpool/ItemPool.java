@@ -3681,12 +3681,24 @@ public class ItemPool {
   public static final int LED_CANDLE = 11336;
   public static final int MAP_TO_A_CANDY_RICH_BLOCK = 11337;
   public static final int FRANKEN_STEIN = 11339;
-  public static final int INFLAMMABLE_LEAF = 11341;
   public static final int A_GUIDE_TO_BURNING_LEAVES = 11340;
+  public static final int INFLAMMABLE_LEAF = 11341;
+  public static final int AUTUMNIC_BOMB = 11344;
   public static final int FOREST_CANOPY_BED = 11345;
+  public static final int DAY_SHORTENER = 11346;
+  public static final int AUTUMNAL_AEGIS = 11348;
+  public static final int DISTILLED_RESIN = 11349;
+  public static final int SUPER_HEATED_LEAF = 11350;
+  public static final int LIT_LEAF_LASSO = 11351;
   public static final int TIED_UP_LEAFLET = 11352;
   public static final int TIED_UP_MONSTERA = 11353;
   public static final int TIED_UP_LEAVIATHAN = 11354;
+  public static final int IMPROMPTU_TORCH = 11355;
+  public static final int FLAMING_FIG_LEAF = 11356;
+  public static final int SMOLDERING_DRAPE = 11357;
+  public static final int SMOLDERING_LEAFCUTTER_ANT_EGG = 11358;
+  public static final int AUTUMNIC_BALM = 11361;
+  public static final int COPING_JUICE = 11362;
 
   private ItemPool() {}
 

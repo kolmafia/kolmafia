@@ -2000,12 +2000,25 @@ public class ConcoctionDatabase {
     // spent any adventures since you last encountered it.
     if (Preferences.getInteger("lastShadowForgeUnlockAdventure") == KoLCharacter.getCurrentRun()) {
       permitNoCost(CraftingType.SHADOW_FORGE);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.SHADOW_FORGE, "You need to be at The Shadow Forge to make that.");
     }
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.SHADOW_FORGE, "You need to be at The Shadow Forge to make that.");
 
     // Making stuff with fixodent is always allowed
     permitNoCost(CraftingType.FIXODENT);
+
+    // Making stuff with Burning Leaves is always allowed
+
+    boolean burningLeaves =
+        KoLConstants.campground.contains(ItemPool.get(ItemPool.A_GUIDE_TO_BURNING_LEAVES));
+    if (burningLeaves) {
+      permitNoCost(CraftingType.BURNING_LEAVES);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.BURNING_LEAVES,
+          "You need to have a Pile of Burning Leaves in your campsite to make that.");
+    }
 
     // Other creatability flags
 
@@ -2363,6 +2376,7 @@ public class ConcoctionDatabase {
       case WOOL -> result.append("grubby wool");
       case SHADOW_FORGE -> result.append("The Shadow Forge");
       case FIXODENT -> result.append("Craft with Teeth");
+      case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
     }
     if (result.isEmpty()) {
       result.append("[unknown method of creation]");
@@ -2796,6 +2810,7 @@ public class ConcoctionDatabase {
       case "WOOL" -> ConcoctionDatabase.mixingMethod = CraftingType.WOOL;
       case "SHADOW_FORGE" -> ConcoctionDatabase.mixingMethod = CraftingType.SHADOW_FORGE;
       case "FIXODENT" -> ConcoctionDatabase.mixingMethod = CraftingType.FIXODENT;
+      case "BURNING_LEAVES" -> ConcoctionDatabase.mixingMethod = CraftingType.BURNING_LEAVES;
       default -> {
         if (mix.startsWith("ROW")) {
           ConcoctionDatabase.row = StringUtilities.parseInt(mix.substring(3));
