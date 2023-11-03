@@ -121,12 +121,16 @@ public class BurningLeavesRequest extends CreateItemRequest {
     this.addFormField("option", "1");
   }
 
-  public static GenericRequest randomLeaves(final int leaves) {
+  private static GenericRequest VISIT_REQUEST =
+      new GenericRequest("campground.php?preaction=leaves", false);
+
+  public static void randomLeaves(final int leaves) {
+    VISIT_REQUEST.run();
     var req = new GenericRequest("choice.php");
     req.addFormField("whichchoice", "1510");
     req.addFormField("leaves", String.valueOf(leaves));
     req.addFormField("option", "1");
-    return req;
+    req.run();
   }
 
   @Override
@@ -150,8 +154,7 @@ public class BurningLeavesRequest extends CreateItemRequest {
 
     int creationYield = this.getYield();
 
-    var req = new GenericRequest("campground.php?preaction=leaves", false);
-    req.run();
+    VISIT_REQUEST.run();
 
     while (count > 0 && KoLmafia.permitsContinue()) {
       this.setQuantityNeeded(Math.min(count, creationYield));
