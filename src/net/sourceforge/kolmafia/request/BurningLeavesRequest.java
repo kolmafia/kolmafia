@@ -55,6 +55,11 @@ public class BurningLeavesRequest extends GenericRequest {
     }
   }
 
+  private static final int LEAFLET = 11;
+  private static final int MONSTERA = 111;
+  private static final int LEAVIATHAN = 666;
+  private static final int LASSO = 69;
+
   public static void postChoice(final String responseText, final int leaves) {
     if (responseText.contains(
         "You jump in the blazing fire absorb some of the flames and jump out")) {
@@ -67,10 +72,25 @@ public class BurningLeavesRequest extends GenericRequest {
       return;
     }
 
-    Preferences.increment("_leavesBurned", leaves);
-    ResultProcessor.processItem(ItemPool.INFLAMMABLE_LEAF, leaves * -1);
+    if (responseText.contains("You don't feel like burning that many leaves again today.")) {
+      if (leaves == LEAFLET || leaves == MONSTERA || leaves == LEAVIATHAN) {
+        Preferences.setInteger("_leafMonstersFought", 5);
+      } else if (leaves == LASSO) {
+        Preferences.setInteger("_leafLassosCrafted", 3);
+      }
+      return;
+    }
 
-    // Non-random amounts are limited daily, we'll need to handle that here.
+    // Monsters are handled elsewhere
+    if (!responseText.contains("You acquire an item")) {
+      Preferences.increment("_leavesBurned", leaves);
+    }
+
+    if (leaves == LASSO) {
+      Preferences.increment("_leafLassosCrafted", 1, 3, false);
+    }
+
+    ResultProcessor.processItem(ItemPool.INFLAMMABLE_LEAF, leaves * -1);
   }
 
   public static final Pattern URL_LEAVES_PATTERN = Pattern.compile("leaves=(\\d+)");
