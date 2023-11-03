@@ -221,8 +221,6 @@ public class BurningLeavesRequest extends CreateItemRequest {
       return;
     }
 
-    KoLmafia.updateDisplay("Burning " + leaves + " leaves");
-
     if (outcome == Outcome.NONE) {
       Preferences.increment("_leavesBurned", leaves);
     } else {
