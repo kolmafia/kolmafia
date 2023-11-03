@@ -124,8 +124,6 @@ public class BurningLeavesRequest extends CreateItemRequest {
     }
   }
 
-  private boolean noCreate = false;
-
   public static int canMake(final Concoction conc) {
     var outcome = Outcome.find(conc);
     return outcome.canMake();
@@ -139,17 +137,17 @@ public class BurningLeavesRequest extends CreateItemRequest {
     this.addFormField("option", "1");
   }
 
+  // If a number of leaves is specified, use a bogus concoction
   public BurningLeavesRequest(final int leaves) {
     super("choice.php", ConcoctionPool.get(1));
     this.addFormField("whichchoice", "1510");
     this.addFormField("leaves", String.valueOf(leaves));
     this.addFormField("option", "1");
-    this.noCreate = true;
   }
 
   @Override
   public boolean noCreation() {
-    return this.noCreate;
+    return this.concoction.getItemId() == 1;
   }
 
   public static void visit() {
@@ -163,7 +161,7 @@ public class BurningLeavesRequest extends CreateItemRequest {
 
   @Override
   public void run() {
-    if (this.noCreate) {
+    if (this.noCreation()) {
       this.setQuantityNeeded(1);
       super.run();
       return;
