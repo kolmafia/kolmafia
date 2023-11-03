@@ -836,7 +836,7 @@ public class Player {
    */
   public static Cleanups withFlorist(int locationId, FloristRequest.Florist... plants) {
     KoLAdventure location = AdventureDatabase.getAdventure(locationId);
-    FloristRequest.setHaveFlorist(true);
+    FloristRequest.setFloristFriarAvailable(true);
     for (var plant : plants) {
       FloristRequest.addPlant(location.getAdventureName(), plant.id());
     }
