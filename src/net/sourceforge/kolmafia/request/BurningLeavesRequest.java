@@ -102,10 +102,6 @@ public class BurningLeavesRequest extends CreateItemRequest {
     }
 
     public void increment() {
-      if (this == NONE) {
-        Preferences.increment("_leavesBurned");
-        return;
-      }
       if (this.dailyMax < 0) return;
       if (this.dailyMax == 1) {
         Preferences.setBoolean(this.dailyPref, true);
@@ -225,8 +221,12 @@ public class BurningLeavesRequest extends CreateItemRequest {
       return;
     }
 
-    // Note that fights will never reach here as they have no postChoice.
-    outcome.increment();
+    if (outcome == Outcome.NONE) {
+      Preferences.increment("_leavesBurned", leaves);
+    } else {
+      // Note that fights will never reach here as they have no postChoice.
+      outcome.increment();
+    }
 
     ResultProcessor.processItem(ItemPool.INFLAMMABLE_LEAF, leaves * -1);
   }
