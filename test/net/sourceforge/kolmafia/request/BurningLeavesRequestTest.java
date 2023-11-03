@@ -46,7 +46,7 @@ public class BurningLeavesRequestTest {
             withHttpClientBuilder(builder));
 
     try (cleanups) {
-      new BurningLeavesRequest(1).run();
+      BurningLeavesRequest.randomLeaves(1).run();
 
       assertThat("_leavesBurned", isSetTo(1));
       assertThat("_leavesJumped", isSetTo(false));
