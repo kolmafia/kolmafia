@@ -6575,12 +6575,7 @@ public abstract class ChoiceControl {
         // Burning Leaves
         {
           String leavesField = request.getFormField("leaves");
-          int leaves = 0;
-          try {
-            leaves = Integer.parseInt(leavesField);
-          } catch (NumberFormatException ignored) {
-          }
-
+          int leaves = StringUtilities.parseInt(leavesField);
           BurningLeavesRequest.postChoice(text, leaves);
           break;
         }
