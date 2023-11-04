@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -231,9 +232,9 @@ public class BurningLeavesRequest extends CreateItemRequest {
     ResultProcessor.processItem(ItemPool.INFLAMMABLE_LEAF, leaves * -1);
   }
 
-  public static final Pattern URL_LEAVES_PATTERN = Pattern.compile("leaves=(\\d+)");
+  private static final Pattern URL_LEAVES_PATTERN = Pattern.compile("leaves=(\\d+)");
 
-  public static int extractLeavesFromURL(final String urlString) {
+  private static int extractLeavesFromURL(final String urlString) {
     Matcher matcher = URL_LEAVES_PATTERN.matcher(urlString);
     return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
   }
@@ -241,7 +242,18 @@ public class BurningLeavesRequest extends CreateItemRequest {
   public static void registerLeafFight(final String location) {
     Preferences.increment("_leafMonstersFought", 1, 5, false);
     var leaves = extractLeavesFromURL(location);
+    logLeavesBurned(leaves);
     ResultProcessor.processItem(ItemPool.INFLAMMABLE_LEAF, leaves * -1);
+  }
+
+  private static void logLeavesBurned(final int leaves) {
+    logLeavesBurned(String.valueOf(leaves));
+  }
+
+  public static void logLeavesBurned(final String leaves) {
+    var message = "Burning " + leaves + " leaves";
+    RequestLogger.printLine(message);
+    RequestLogger.updateSessionLog(message);
   }
 
   public static boolean registerRequest(final String urlString) {
