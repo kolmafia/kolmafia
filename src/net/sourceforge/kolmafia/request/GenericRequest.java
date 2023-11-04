@@ -1927,7 +1927,8 @@ public class GenericRequest implements Runnable {
           || this instanceof GenieRequest
           || this instanceof LocketRequest
           || this instanceof NumberologyRequest
-          || this instanceof UseSkillRequest) {
+          || this instanceof UseSkillRequest
+          || this instanceof BurningLeavesRequest) {
         this.redirectHandled = true;
         FightRequest.INSTANCE.run(this.redirectLocation);
 

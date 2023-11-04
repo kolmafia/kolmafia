@@ -5932,7 +5932,7 @@ Effect	Expert Oiliness	Equalize: "Mysticality"
 Effect	Expert Timing	Item Drop: +20
 # Expert Vacationer: +25% to all stat gains in exotic travel destinations
 Effect	Expert Vacationer	Experience Percent (Muscle): [25*zone(Elemental International Airport)], Experience Percent (Mysticality): [25*zone(Elemental International Airport)], Experience Percent (Moxie): [25*zone(Elemental International Airport)]
-Effect	Explosion of Color	Thorns: 1
+Effect	Explosion of Color	Thorns: 5
 Effect	Extended Toes	Combat Rate: -5
 Effect	Extra Backbone	Muscle: +5, Experience (Muscle): +1
 Effect	Extra Sensory Perception	Item Drop: +50
