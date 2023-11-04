@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.objectpool;
 
 public class FamiliarPool {
   public static final int MOSQUITO = 1;
+  public static final int LEPRECHAUN = 2;
   public static final int POTATO = 3;
   public static final int GOAT = 4;
   public static final int LIME = 5;

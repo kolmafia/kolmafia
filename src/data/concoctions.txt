@@ -3279,3 +3279,17 @@ cat o' nine teeth	FIXODENT, ROW1393	fixodent (1)	loose teeth (9)
 
 # Short
 chitin powder paste	COOK	chitin powder	haemolymphnode
+
+# Burning Leaves
+autumnic bomb	BURNING_LEAVES	inflammable leaf (37)
+impromptu torch	BURNING_LEAVES	inflammable leaf (42)
+flaming fig leaf	BURNING_LEAVES	inflammable leaf (43)
+smoldering drape	BURNING_LEAVES	inflammable leaf (44)
+distilled resin	BURNING_LEAVES	inflammable leaf (50)
+autumnal aegis	BURNING_LEAVES	inflammable leaf (66)
+lit leaf lasso	BURNING_LEAVES	inflammable leaf (69)
+forest canopy bed	BURNING_LEAVES	inflammable leaf (74)
+day shortener	BURNING_LEAVES	inflammable leaf (222)
+coping juice	BURNING_LEAVES	inflammable leaf (1111)
+smoldering leafcutter ant egg	BURNING_LEAVES	inflammable leaf (6666)
+super-heated leaf	BURNING_LEAVES	inflammable leaf (11111)

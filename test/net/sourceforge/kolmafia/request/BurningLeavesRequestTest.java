@@ -13,6 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
@@ -41,12 +42,13 @@ public class BurningLeavesRequestTest {
         new Cleanups(
             withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
             withProperty("_leavesBurned", 0),
-            withProperty("_leavesJumped"),
+            withProperty("_leavesJumped", false),
             withItem(ItemPool.INFLAMMABLE_LEAF, 2),
             withHttpClientBuilder(builder));
 
     try (cleanups) {
-      new BurningLeavesRequest(1).run();
+      BurningLeavesRequest.visit();
+      RequestThread.postRequest(new BurningLeavesRequest(1));
 
       assertThat("_leavesBurned", isSetTo(1));
       assertThat("_leavesJumped", isSetTo(false));
@@ -60,12 +62,10 @@ public class BurningLeavesRequestTest {
         new Cleanups(
             withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
             withProperty("_leavesBurned", 0),
-            withProperty("_leavesJumped"),
+            withProperty("_leavesJumped", false),
             withChoice(1510, html("request/test_choice_burning_leaves_already_jumped.html")));
 
     try (cleanups) {
-      new GenericRequest("choice.php?whichchoice=1510").run();
-
       assertThat("_leavesBurned", isSetTo(3));
       assertThat("_leavesJumped", isSetTo(true));
     }
@@ -77,14 +77,44 @@ public class BurningLeavesRequestTest {
         new Cleanups(
             withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
             withProperty("_leavesBurned", 0),
-            withProperty("_leavesJumped"),
-            withChoice(1510, html("request/test_choice_burning_leaves_just_jumped.html")));
+            withProperty("_leavesJumped", false),
+            withChoice(1510, 2, html("request/test_choice_burning_leaves_just_jumped.html")));
 
     try (cleanups) {
-      new GenericRequest("choice.php?whichchoice=1510&option=2").run();
-
       assertThat("_leavesBurned", isSetTo(0));
       assertThat("_leavesJumped", isSetTo(true));
+    }
+  }
+
+  @Test
+  void canDetectMaxLassosMade() {
+    var cleanups =
+        new Cleanups(
+            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
+            withProperty("_leavesBurned", 0),
+            withProperty("_leafLassosCrafted", 0),
+            withChoice(
+                1510, 1, "leaves=69", html("request/test_choice_burning_leaves_max_summon.html")));
+
+    try (cleanups) {
+      assertThat("_leavesBurned", isSetTo(0));
+      assertThat("_leafLassosCrafted", isSetTo(3));
+    }
+  }
+
+  @Test
+  void canDetectMaxMonstersFought() {
+    var cleanups =
+        new Cleanups(
+            withCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES),
+            withProperty("_leavesBurned", 0),
+            withProperty("_leafMonstersFought", 0),
+            withChoice(
+                1510, 1, "leaves=666", html("request/test_choice_burning_leaves_max_summon.html")));
+
+    try (cleanups) {
+      assertThat("_leavesBurned", isSetTo(0));
+      assertThat("_leafMonstersFought", isSetTo(5));
     }
   }
 }

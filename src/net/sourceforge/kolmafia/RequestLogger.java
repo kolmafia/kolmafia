@@ -456,6 +456,13 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    // Burning Leaves creation is an instance of choice.php
+    if ((isExternal || request instanceof BurningLeavesRequest)
+        && BurningLeavesRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     // metal meteoroid creation is an instance of choice.php
     if ((isExternal || request instanceof MeteoroidRequest)
         && MeteoroidRequest.registerRequest(urlString)) {

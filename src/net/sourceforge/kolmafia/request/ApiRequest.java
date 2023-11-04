@@ -419,7 +419,10 @@ public class ApiRequest extends GenericRequest {
           Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")),
           Map.entry("hascosmicball", Map.entry("hasCosmicBowlingBall", "")),
           Map.entry("maydaykit", Map.entry("hasMaydayContract", "")),
-          Map.entry("autumnaton", Map.entry("hasAutumnaton", "")));
+          Map.entry("autumnaton", Map.entry("hasAutumnaton", "")),
+          Map.entry("tunnelofloveiotm", Map.entry("loveTunnelAvailable", "_loveTunnelToday")),
+          Map.entry("ltt", Map.entry("telegraphOfficeAvailable", "_telegraphOfficeToday")),
+          Map.entry("floristfriar", Map.entry("ownsFloristFriar", "")));
 
   private static void parseCoolItems(final String coolItems) {
     if (coolItems == null) {

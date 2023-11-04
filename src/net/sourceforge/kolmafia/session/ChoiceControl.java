@@ -4618,6 +4618,15 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(itemId, -1);
         }
         break;
+        // Burning Leaves
+      case 1510:
+        {
+          String leaves = request.getFormField("leaves");
+          var message = "Burning " + leaves + " leaves";
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
+          break;
+        }
     }
   }
 
@@ -6565,7 +6574,8 @@ public abstract class ChoiceControl {
       case 1510:
         // Burning Leaves
         {
-          int leaves = Integer.parseInt(request.getFormField("leaves"));
+          String leavesField = request.getFormField("leaves");
+          int leaves = leavesField == null ? 0 : Integer.parseInt(leavesField);
           BurningLeavesRequest.postChoice(text, leaves);
           break;
         }
