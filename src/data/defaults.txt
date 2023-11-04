@@ -26,6 +26,8 @@ global	combatHotkey6
 global	combatHotkey7
 global	combatHotkey8
 global	combatHotkey9
+global	commandBufferGCLI
+global	commandBufferTabbedChat
 global	commandLineNamespace
 global	compactChessboard	false
 global	copyAsHTML	false
@@ -455,8 +457,6 @@ user	clumsinessGroveBoss
 user	cocktailSummons	0
 user	coldAirportAlways	false
 user	commaFamiliar
-user	commandBufferGCLI
-user	commandBufferTabbedChat
 user	commerceGhostItem
 user	commerceGhostCombats	0
 user	considerShadowNoodles	false
