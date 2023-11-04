@@ -24,7 +24,7 @@ public class BurningLeavesRequest extends CreateItemRequest {
     RESIN(50, ItemPool.DISTILLED_RESIN),
     AEGIS(66, ItemPool.AUTUMNAL_AEGIS),
     LASSO(69, ItemPool.LIT_LEAF_LASSO, "_leafLassosCrafted", 3),
-    BED(75, ItemPool.FOREST_CANOPY_BED),
+    BED(74, ItemPool.FOREST_CANOPY_BED),
     BALM(99, ItemPool.AUTUMNIC_BALM),
     MONSTERA(111, "flaming monstera"),
     DAY_SHORTENER(222, ItemPool.DAY_SHORTENER, "_leafDayShortenerCrafted", 1),
