@@ -31,6 +31,7 @@ import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -345,7 +346,7 @@ public class CampgroundRequestTest {
 
   @Nested
   class BlackMonolith {
-    private static AdventureResult OMINOUS_WISDOM = EffectPool.get(EffectPool.OMINOUS_WISDOM);
+    private static final AdventureResult OMINOUS_WISDOM = EffectPool.get(EffectPool.OMINOUS_WISDOM);
 
     @Test
     void canTrackBlackMonolithFirstUse() {
@@ -461,6 +462,17 @@ public class CampgroundRequestTest {
         assertCampgroundItemCount(ItemPool.MEAT_BUTLER, 1);
         assertEquals(KoLCharacter.getAvailableMeat(), 917);
       }
+    }
+  }
+
+  @Test
+  void canParseBurningLeavesInSmall() {
+    var cleanups = new Cleanups(withEmptyCampground(), withPath(Path.SMALL));
+
+    try (cleanups) {
+      String page = html("request/test_campground_small.html");
+      CampgroundRequest.parseResponse("campground.php", page);
+      assertCampgroundItemCount(ItemPool.A_GUIDE_TO_BURNING_LEAVES, 1);
     }
   }
 }
