@@ -70,6 +70,7 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
     String[] commands = pref.split(DELIMITER);
     if (!commands[0].trim().isEmpty()) {
       Collections.addAll(commandHistory, commands);
+      this.commandIndex = commandHistory.size();
     }
   }
 
