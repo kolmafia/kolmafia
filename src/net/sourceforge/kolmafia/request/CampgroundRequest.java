@@ -1187,6 +1187,11 @@ public class CampgroundRequest extends GenericRequest {
     findImage(responseText, "monolith.gif", ItemPool.GIANT_BLACK_MONOLITH);
     findImage(responseText, "campground/leaves", ItemPool.A_GUIDE_TO_BURNING_LEAVES);
 
+    // small campground has leaves as text, not icon
+    if (KoLCharacter.inSmallcore() && responseText.contains("Burn some Leaves")) {
+      CampgroundRequest.setCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES, 1);
+    }
+
     if (responseText.contains("portal1.gif")) {
       // Charged portal.
 

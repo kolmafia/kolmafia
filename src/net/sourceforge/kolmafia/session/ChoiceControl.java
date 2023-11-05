@@ -4622,9 +4622,9 @@ public abstract class ChoiceControl {
       case 1510:
         {
           String leaves = request.getFormField("leaves");
-          var message = "Burning " + leaves + " leaves";
-          RequestLogger.printLine(message);
-          RequestLogger.updateSessionLog(message);
+          // Redirects to fight.php also run through postChoice, but those are handled elsewhere
+          // in GenericRequest.checkChoiceRedirection
+          if (leaves != null) BurningLeavesRequest.logLeavesBurned(leaves);
           break;
         }
     }
