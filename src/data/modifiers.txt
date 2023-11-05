@@ -5237,7 +5237,7 @@ Effect	Assaulted with Pepper	Monster Level: +20
 Effect	Astral Shell	Damage Absorption: +80, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 # Attractive to Fire Ants: Fire Ants will nip at you after each fight
 Effect	Attractive to Fire Ants	Hot Damage: +10
-Effect	Aura of Fire	Muscle Percent: [T], Mysticality Percent: [T], Moxie Percent: [T], Initiative: [min(T,100)], Damage Aura: 1
+Effect	Aura of Fire	Muscle Percent: [min(T,500)], Mysticality Percent: [min(T,500)], Moxie Percent: [min(T,500)], Initiative: [min(T,100)], Damage Aura: 1
 Effect	Autopsy-turvy	Avatar: "factory-irregular skeleton"
 Effect	Autumnically Balmy	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 # Avatar of She-Who-Was: You can unleash the Voice of She-Who-Was
