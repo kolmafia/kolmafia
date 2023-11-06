@@ -3686,6 +3686,7 @@ public class ItemPool {
   public static final int AUTUMNIC_BOMB = 11344;
   public static final int FOREST_CANOPY_BED = 11345;
   public static final int DAY_SHORTENER = 11346;
+  public static final int EXTRA_TIME = 11347;
   public static final int AUTUMNAL_AEGIS = 11348;
   public static final int DISTILLED_RESIN = 11349;
   public static final int SUPER_HEATED_LEAF = 11350;
