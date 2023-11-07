@@ -2474,6 +2474,13 @@ public abstract class RuntimeLibrary {
             namedParam("regex", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("group_string", DataTypes.REGEX_GROUP_TYPE, params));
 
+    // PHP RNG functions
+    params = new Type[] {DataTypes.INT_TYPE};
+    functions.add(new LibraryFunction("seed", DataTypes.RNG_TYPE, params));
+
+    params = new Type[] {DataTypes.RNG_TYPE};
+    functions.add(new LibraryFunction("mt_rand", DataTypes.INT_TYPE, params));
+
     // Assorted functions
 
     params = List.of(namedParam("expr", DataTypes.STRING_TYPE));
@@ -8679,6 +8686,16 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value seed(ScriptRuntime controller, final Value expr) {
+    var seed = expr.intValue();
+    return new Value(DataTypes.RNG_TYPE, "", new Rng(seed));
+  }
+
+  public static Value mt_rand(ScriptRuntime controller, final Value expr) {
+    Rng r = (Rng) expr.rawValue();
+    return new Value(r.nextInt());
   }
 
   public static Value expression_eval(ScriptRuntime controller, final Value expr) {
