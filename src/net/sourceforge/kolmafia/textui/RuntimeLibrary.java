@@ -2056,10 +2056,13 @@ public abstract class RuntimeLibrary {
 
     // PHP RNG functions
     params = new Type[] {DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("seed", DataTypes.RNG_TYPE, params));
+    functions.add(new LibraryFunction("php_seed", DataTypes.RNG_TYPE, params));
 
     params = new Type[] {DataTypes.RNG_TYPE};
-    functions.add(new LibraryFunction("mt_rand", DataTypes.INT_TYPE, params));
+    functions.add(new LibraryFunction("php_rand", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.RNG_TYPE};
+    functions.add(new LibraryFunction("php_mt_rand", DataTypes.INT_TYPE, params));
 
     // Assorted functions
     params = new Type[] {DataTypes.STRING_TYPE};
@@ -7819,14 +7822,18 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
-  public static Value seed(ScriptRuntime controller, final Value expr) {
-    var seed = expr.intValue();
-    return new Value(DataTypes.RNG_TYPE, "", new Rng(seed));
+  public static Value php_seed(ScriptRuntime controller, final Value seed) {
+    return new Value(DataTypes.RNG_TYPE, "", new Rng(seed.intValue()));
   }
 
-  public static Value mt_rand(ScriptRuntime controller, final Value expr) {
-    Rng r = (Rng) expr.rawValue();
-    return new Value(r.nextInt());
+  public static Value php_rand(ScriptRuntime controller, final Value rng) {
+    Rng r = (Rng) rng.rawValue();
+    return new Value(r.nextRandInt());
+  }
+
+  public static Value php_mt_rand(ScriptRuntime controller, final Value rng) {
+    Rng r = (Rng) rng.rawValue();
+    return new Value(r.nextMtRandInt());
   }
 
   public static Value expression_eval(ScriptRuntime controller, final Value expr) {
