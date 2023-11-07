@@ -4361,6 +4361,10 @@ public class UseItemRequest extends GenericRequest {
         Preferences.increment("_loveChocolatesUsed");
         break;
 
+      case ItemPool.EXTRA_TIME:
+        Preferences.increment("_extraTimeUsed");
+        break;
+
       case ItemPool.CREEPY_VOODOO_DOLL:
         Preferences.setBoolean("_creepyVoodooDollUsed", true);
         return;
