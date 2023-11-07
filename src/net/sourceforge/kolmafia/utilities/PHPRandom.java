@@ -78,7 +78,7 @@ public class PHPRandom extends Random {
     return result;
   }
 
-  public PHPRandom(int s) {
+  public PHPRandom(long s) {
     super(s);
   }
 }
