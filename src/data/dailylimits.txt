@@ -302,6 +302,7 @@ Use	essential tofu	_essentialTofuUsed
 Use	etched hourglass	_etchedHourglassUsed
 Use	eternal car battery	_eternalCarBatteryUsed
 Use	experimental carbon fiber pasta additive	_pastaAdditive
+Use	extra time	_extraTimeUsed	3
 Use	fancy but probably evil chocolate	_chocolatesUsed	3
 Use	fancy chess set	_fancyChessSetUsed
 Use	fancy chocolate	_chocolatesUsed	3
