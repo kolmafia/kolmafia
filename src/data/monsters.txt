@@ -290,7 +290,7 @@ gluttonous ghuol	189	ghuol_fat.gif	Atk: 55 Def: 50 HP: 50 Init: 50 Meat: 60 P: u
 gnarly gnome	249	gnarlgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid Article: a	clockwork key (c5)	clockwork key (c5)	flange (5)
 gnasty gnome	248	gnasgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid Article: a	clockwork key (c5)	clockwork key (c5)	flange (5)
 gnefarious gnome	252	gnefgnome.gif	Atk: 35 Def: 31 HP: 35 Init: 50 P: humanoid Article: a	sprocket (15)	cog (15)	flange (5)
-Gnollish Bodybuilder	13	dk_builder.gif	Atk: 10 Def: 9 HP: 5 Init: 60 Meat: 20 P: humanoid EA: sleaze Article: a	gnoll teeth (5)	gnoll lips (5)	enchanted barbell (0)
+Gnollish Bodybuilder	13	dk_builder.gif	Atk: 10 Def: 9 HP: 5 Init: 60 Meat: 20 P: humanoid EA: sleaze Article: a	gnoll teeth (5)	gnoll lips (5)	enchanted barbell (20)
 Gnollish Crossdresser	19	dk_cross.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humanoid E: sleaze Article: a	gnoll teeth (5)	frilly skirt (25)	maiden wig (25)	frilly shirt (c5)	Gnollish Crossdress (c0)
 Gnollish Flyslayer	11	dk_swatter.gif	Atk: 10 Def: 9 HP: 5 Init: 60 Meat: 20 P: humanoid Article: a	gnoll teeth (5)	gnoll lips (5)	Gnollish flyswatter (25)	Enchanted Flyswatter (c0)
 Gnollish Gearhead	12	dk_gearhead.gif	Atk: 10 Def: 9 HP: 5 Init: 60 Meat: 20 P: humanoid Article: a	Gnollish toolbox (75)	gnoll lips (5)	folder (Knight Writer) (c0)	Gearhead Goo (c0)
@@ -546,7 +546,7 @@ ratbat	151	ratbat.gif	Atk: 25 Def: 22 HP: 22 Init: 60 Meat: 22 P: beast EA: slea
 rattlin' duck	563	duckrattle.gif	Atk: 175 Def: 155 HP: 190 Init: 60 Meat: 150 P: beast E: stench Article: a	fetid feather (10)	duct tape (5)
 Raver Giant	173	giant_raver.gif	Atk: 140 Def: 126 HP: 150 Init: 40 Meat: 150 P: humanoid Article: a	Angry Farmer candy (20)	giant needle (20)	Mick's IcyVapoHotness Rub (20)	rave whistle (5)
 red butler	1522	redbutler.gif	Atk: 150 Def: 155 HP: 160 Init: 50 Meat: 75 P: dude EA: hot Article: a	red box (15)	glark cable (30)
-Red Fox	1525	redfox.gif	LUCKY Atk: 166 Def: 155 HP: 170 Init: 200 Meat: 200 P: dude Article: The	red foxglove (100)	Red Fox glove (1)
+Red Fox	1525	redfox.gif	LUCKY Atk: 166 Def: 155 HP: 170 Init: 200 Meat: 200 P: dude Article: The	red foxglove (100)	Red Fox glove (c1)
 Red Herring	1523	redherring.gif	Atk: 149 Def: 152 HP: 166 Init: 37 Meat: 125 P: dude Article: a	red box (20)
 red skeleton	1521	redskeleton.gif	Atk: 145 Def: 160 HP: 155 Init: 25 P: undead ED: spooky Article: a	red box (15)	red blood cells (25)	red eye (5)	Red Army camouflage kit (c0)
 Red Snapper	1524	redsnapper.gif	Atk: 155 Def: 157 HP: 150 Init: 75 Meat: 125 P: dude Article: a	red box (30)
@@ -2154,8 +2154,8 @@ Tooth Golem	2336	toothgolem.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: constru
 
 # A Guide to Burning Leaves (Nov 2023)
 flaming leaflet	2389	leaflet.gif	FREE NOCOPY Atk: 11 Def: 11 HP: 11 Init: 11 P: plant E: hot Article: a	inflammable leaf (100)	inflammable leaf (75)	inflammable leaf (50)	inflammable leaf (25)	inflammable leaf (10)	inflammable leaf (5)	inflammable leaf (1)
-flaming monstera	2390	monstera.gif	FREE NOCOPY Scale: ? Cap: ? Floor: ? Init: 50 P: plant ED: hot Article: a	leafy browns (100)	inflammable leaf (0)
-leaviathan	2391	leaviathan.gif	FREE NOCOPY	flaming leaf crown (100)	inflammable leaf (0)
+flaming monstera	2390	monstera.gif	FREE NOCOPY Scale: 0 Cap: ? Floor: ? Init: 50 P: plant E: hot Article: a	leafy browns (100)	inflammable leaf (100)
+leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 Init: 0 P: plant EA: hot Article: a	flaming leaf crown (100)	inflammable leaf (100)
 
 # KoL Con
 
@@ -2356,9 +2356,9 @@ The Superconductor	2266	superconductor.gif	BOSS NOCOPY NOMANUEL Scale: 30 Cap: ?
 # White Wednesday (October 26, 2005)
 
 # The Icy Peak in The Recent Past (November 2005)
-emaciated Knott Yeti	219	skinyeti.gif	Atk: 60 Def: 72 HP: 50 Init: 60 Meat: 75 P: beast E: cold Article: an	yeti fur (0)
-Mob Penguin Pasta Chef	216	pengchef.gif	Atk: 90 Def: 81 HP: 80 Init: 70 Meat: 25 P: penguin Article: A	scroll of pasta summoning (0)	delicious noodles (0)	iron pasta spoon (0)
-Mob Penguin Soprano	218	pengprano.gif	Atk: 95 Def: 85 HP: 90 Init: 80 Meat: 25 P: penguin Article: A	support cummerbund (0)	Mob Penguin cellular phone (0)	mafia aria (0)
+emaciated Knott Yeti	219	skinyeti.gif	Atk: 60 Def: 72 HP: 50 Init: 60 Meat: 75 P: beast E: cold Article: an	yeti fur (30)
+Mob Penguin Pasta Chef	216	pengchef.gif	Atk: 90 Def: 81 HP: 80 Init: 70 Meat: 25 P: penguin Article: A	iron pasta spoon (10)	scroll of pasta summoning (20)	delicious noodles (35)
+Mob Penguin Soprano	218	pengprano.gif	Atk: 95 Def: 85 HP: 90 Init: 80 Meat: 25 P: penguin Article: A	support cummerbund (10)	Mob Penguin cellular phone (20)	mafia aria (35)
 Mob Penguin Thug	217	pengthug.gif	Atk: 95 Def: 85 HP: 80 Init: 80 Meat: 50 P: penguin Article: A	kneecapping stick (10)	penguin skin (30)
 
 # Market Square, 28 Days Later (November 2005)
@@ -2556,12 +2556,12 @@ Plastered Can of Cranberry Sauce	1067	drunkcrancan.gif	NOCOPY NOMANUEL WANDERER 
 Soused Stuffing Golem	1068	drunkstuffing.gif	NOCOPY NOMANUEL WANDERER Scale: -3 MLMult: 0 EA: sleaze	breaded beer (c100)
 
 # April Fool's Day (April 2011)
-CDMoyer's butt	-64	butt.gif	NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: sleaze EA: stench	Red Pill (100)
-HotStuff's butt	-63	butt.gif	NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: stench	obnoxious riddle (100)
-Jick's butt	-62	butt.gif	NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: stench	handful of numbers (100)
-Mr Skullhead's butt	-61	butt.gif	NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: stench	Lars the Cyberian (100)
-Multi Czar's butt	-60	butt.gif	NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: stench	Atomic Comic (100)
-Riff's butt	-59	butt.gif	NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: sleaze EA: stench	intriguing puzzle box (100)
+CDMoyer's butt	-64	butt.gif	NOCOPY NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: sleaze EA: stench	Red Pill (100)
+HotStuff's butt	-63	butt.gif	NOCOPY NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: stench	obnoxious riddle (100)
+Jick's butt	-62	butt.gif	NOCOPY NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: stench	handful of numbers (100)
+Mr Skullhead's butt	-61	butt.gif	NOCOPY NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: stench	Lars the Cyberian (100)
+Multi Czar's butt	-60	butt.gif	NOCOPY NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: stench	Atomic Comic (100)
+Riff's butt	-59	butt.gif	NOCOPY NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: sleaze EA: stench	intriguing puzzle box (100)
 
 # A Pile of Old Servers (June 2011)
 antique database server	1099	spiderserver.gif	Atk: [0] Def: [0] HP: 300 Exp: 60 Init: -10000 P: construct Article: an	corrupted data (10)	squirming egg sac (5)
@@ -2654,7 +2654,7 @@ large-headed werewolf	1652	headwolf.gif	NOCOPY NOMANUEL Scale: 0 Cap: 1000 Floor
 oddly-proportioned ghost	1651	headghost.gif	NOCOPY NOMANUEL Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror EA: spooky	BOOterfinger (n100)	mimeplasm (c100)
 
 # The Fully Automated Crimbo Factory (Crimbo 2014)
-Crimbomega	1655	crimbomega.gif	NOMANUEL Atk: 100 Def: 100 HP: 300	Crimbomega drive chain (n100)
+Crimbomega	1655	crimbomega.gif	NOCOPY NOMANUEL Atk: 100 Def: 100 HP: 300	Crimbomega drive chain (n100)
 
 # The Crimbonium Mining Camp (Crimbo 2014)
 ambulatory robo-minecart	1650	crimbominer3.gif	Scale: 5 Init: -10000 P: elf EA: cold EA: hot Article: an	flask of tainted mining oil (15)	cylindrical mold (5)	servo-assisted exo-pants (c1)
@@ -2729,12 +2729,12 @@ nutmeg anemone	2142	nutmeganemone.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 Mea
 icingfish	2143	icingfish.gif	Atk: 200 Def: 200 HP: 100 Init: 300 P: fish Article: an	runny icing (0)	super-sweet fish goo (spoiled) (0)	icing poncho (c0)
 Mer-kin baker	2144	merkinbaker.gif	Atk: 200 Def: 200 HP: 400 Init: 200 Meat: 200 P: mer-kin Article: a	glob of salty molasses (0)	Mer-kin cookiestove (0)	Mer-kin rollpin (c0)
 dolphin "orphan"	2145	dolphin2.gif	Atk: 300 Def: 300 HP: 500 Init: 200 Meat: 300 P: fish Article: a	waterlogged wood (c100)	waterlogged cloth (c100)	waterlogged stuffing (c100)	waterlogged leather (c100)	waterlogged metal (c100)
-kelpie (horse form)	2146	kelpiehorse.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 300 P: beast EA: cold EA: hot EA: stench Article: a	kelp-holly drape (0)
-kelpie (lady form)	2147	kelpielady.gif	Atk: 300 Def: 300 HP: 400 Init: 300 Meat: 200 P: dude EA: stench Article: a	kelp-holly gun (0)
-Crimbylow	2148	crimbylow.gif	Atk: 500 Def: 400 HP: 50 Init: 300 Meat: 100 P: demon Article: a	green and red bean (0)	Crimbylow-rise jeans (0)
-sea-elf	2149	seaelf.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 100 P: elf Article: a	salt plum (0)	soggy elf shoes (0)
-peppermint eel	2150	pepperminteel.gif	Atk: 400 Def: 400 HP: 400 Init: 200 Meat: 150 P: fish EA: cold EA: hot Article: a	peppermint eel sauce (0)	peppermint spine (0)
-Yuleviathan	2151	yuleviathan.gif	Atk: 400 Def: 400 HP: 1000 Init: -10000 Meat: 300 P: fish Article: The	Yuleviathan necklace (0)
+kelpie (horse form)	2146	kelpiehorse.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 300 P: beast EA: cold EA: hot EA: stench Article: a	kelp-holly drape (c0)
+kelpie (lady form)	2147	kelpielady.gif	Atk: 300 Def: 300 HP: 400 Init: 300 Meat: 200 P: dude EA: stench Article: a	kelp-holly gun (c0)
+Crimbylow	2148	crimbylow.gif	Atk: 500 Def: 400 HP: 50 Init: 300 Meat: 100 P: demon Article: a	green and red bean (0)	Crimbylow-rise jeans (c0)
+sea-elf	2149	seaelf.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 100 P: elf Article: a	salt plum (0)	soggy elf shoes (c0)
+peppermint eel	2150	pepperminteel.gif	Atk: 400 Def: 400 HP: 400 Init: 200 Meat: 150 P: fish EA: cold EA: hot Article: a	peppermint eel sauce (0)	peppermint spine (c0)
+Yuleviathan	2151	yuleviathan.gif	Atk: 400 Def: 400 HP: 1000 Init: -10000 Meat: 300 P: fish Article: The	Yuleviathan necklace (c0)
 Dolph Bossin, the Boss Dolphin	2152	dolphbossin.gif	NOCOPY NOMANUEL Atk: 500 Def: 450 HP: 800 Init: -10000 P: fish EA: stench	Dolph Bossin's charity note (100)	Dolph Bossin's Crimbo hat (100)
 
 # Retired Standard Monsters
