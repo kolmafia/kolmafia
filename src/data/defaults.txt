@@ -26,6 +26,8 @@ global	combatHotkey6
 global	combatHotkey7
 global	combatHotkey8
 global	combatHotkey9
+global	commandBufferGCLI
+global	commandBufferTabbedChat
 global	commandLineNamespace
 global	compactChessboard	false
 global	copyAsHTML	false
