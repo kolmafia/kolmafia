@@ -17,7 +17,7 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
     this.setTitle("Loathing Chat");
 
     if (Preferences.getBoolean("addChatCommandLine")) {
-      this.tabs.addTab("[gcli]", new CommandDisplayPanel());
+      this.tabs.addTab("[gcli]", new CommandDisplayPanel("commandBufferTabbedChat"));
     }
 
     this.tabs.addChangeListener(new TabFocusingListener());
