@@ -1812,7 +1812,8 @@ public class MonsterData extends AdventureResult {
                           (rawRate >= 1 || rawRate == 0)
                               ? String.valueOf((int) rawRate)
                               : String.valueOf(rawRate);
-                      return drop.item().getName()
+                      var itemCount = drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
+                      return itemCount + drop.item().getName()
                           + " ("
                           + switch (drop.flag()) {
                             case PICKPOCKET_ONLY -> rate + " pp only";
@@ -1831,7 +1832,7 @@ public class MonsterData extends AdventureResult {
       items.add(bounty + " (bounty)");
     }
 
-    if (items.size() > 0) {
+    if (!items.isEmpty()) {
       buffer.append("<br />Item Drops: ").append(String.join(", ", items));
     }
   }
@@ -2134,7 +2135,7 @@ public class MonsterData extends AdventureResult {
       buffer.append("This is a wandering monster.");
     } else {
       List<String> zones = AdventureDatabase.getAreasWithMonster(this);
-      if (zones.size() > 0) {
+      if (!zones.isEmpty()) {
         buffer.append("This monster can be found in: ");
         boolean first = true;
         for (String zone : zones) {
