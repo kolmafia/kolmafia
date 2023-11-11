@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 
 public interface MonsterDrop {
-  Pattern DROP = Pattern.compile("(.+) \\(([pncfa])?([0-9.]+)\\)");
+  Pattern DROP = Pattern.compile("(.+) \\(([pncfam])?([0-9.]+)\\)");
 
   enum DropFlag {
     NONE(""),
@@ -17,7 +17,8 @@ public interface MonsterDrop {
     NO_PICKPOCKET("n"),
     CONDITIONAL("c"),
     FIXED("f"),
-    STEAL_ACCORDION("a");
+    STEAL_ACCORDION("a"),
+    MULTI_DROP("m");
 
     final String id;
     private static final DropFlag[] VALUES = values();
@@ -40,10 +41,23 @@ public interface MonsterDrop {
 
   AdventureResult item();
 
+  String itemCount();
+
   double chance();
 
   DropFlag flag();
 
   record SimpleMonsterDrop(AdventureResult item, double chance, DropFlag flag)
-      implements MonsterDrop {}
+      implements MonsterDrop {
+
+    @Override
+    public String itemCount() {
+      return "";
+    }
+  }
+
+  record MultiDrop(String itemCount, AdventureResult item, double chance, DropFlag flag)
+      implements MonsterDrop {
+    public static Pattern ITEM = Pattern.compile("(\\d+(?:-\\d+)?) (.+)");
+  }
 }
