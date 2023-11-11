@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.SimpleMonsterDrop;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -612,7 +613,7 @@ public class MonsterDatabase {
       flag = DropFlag.UNKNOWN_RATE;
     }
 
-    return new MonsterDrop(item, chance, flag);
+    return new SimpleMonsterDrop(item, chance, flag);
   }
 
   private static synchronized void initializeMonsterStrings() {

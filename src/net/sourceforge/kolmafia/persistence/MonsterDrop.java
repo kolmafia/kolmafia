@@ -7,11 +7,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 
-public record MonsterDrop(AdventureResult item, double chance, DropFlag flag) {
+public interface MonsterDrop {
+  Pattern DROP = Pattern.compile("(.+) \\(([pncfa])?([0-9.]+)\\)");
 
-  static final Pattern DROP = Pattern.compile("(.+) \\(([pncfa])?([0-9.]+)\\)");
-
-  public enum DropFlag {
+  enum DropFlag {
     NONE(""),
     UNKNOWN_RATE("0"),
     PICKPOCKET_ONLY("p"),
@@ -38,4 +37,13 @@ public record MonsterDrop(AdventureResult item, double chance, DropFlag flag) {
       return this.id;
     }
   }
+
+  AdventureResult item();
+
+  double chance();
+
+  DropFlag flag();
+
+  record SimpleMonsterDrop(AdventureResult item, double chance, DropFlag flag)
+      implements MonsterDrop {}
 }
