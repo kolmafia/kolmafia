@@ -816,6 +816,7 @@ public class MonsterData extends AdventureResult {
           case NO_PICKPOCKET:
           case CONDITIONAL:
           case FIXED:
+          case MULTI_DROP:
             probability = 0.0;
             break;
         }
@@ -1738,7 +1739,7 @@ public class MonsterData extends AdventureResult {
     if (drop != null) {
       return switch (drop.flag()) {
         case PICKPOCKET_ONLY -> true;
-        case NO_PICKPOCKET, CONDITIONAL, FIXED -> false;
+        case NO_PICKPOCKET, CONDITIONAL, FIXED, MULTI_DROP -> false;
         default -> drop.chance() * dropModifier < 100.0;
       };
     }
@@ -1813,7 +1814,8 @@ public class MonsterData extends AdventureResult {
                               ? String.valueOf((int) rawRate)
                               : String.valueOf(rawRate);
                       var itemCount = drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
-                      return itemCount + drop.item().getName()
+                      return itemCount
+                          + drop.item().getName()
                           + " ("
                           + switch (drop.flag()) {
                             case PICKPOCKET_ONLY -> rate + " pp only";
