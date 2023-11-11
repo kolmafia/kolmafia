@@ -2056,7 +2056,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         // is this our "today" skill?
         var date = DateTimeManager.getRolloverDateTime().getDayOfMonth();
         var isTodaySkill = skillId == date - 1 + SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY;
-        if (isTodaySkill) {
+        // "today" skill does not apply in-run
+        if (isTodaySkill && KoLCharacter.canInteract()) {
           Preferences.setBoolean("_augTodayCast", true);
         } else {
           Preferences.increment("_augSkillsCast", 1, 5, false);

@@ -509,7 +509,8 @@ class UseSkillRequestTest {
               withItem(ItemPool.AUGUST_SCEPTER),
               withProperty("_aug12Cast"),
               withProperty("_augSkillsCast", 5),
-              withInteractivity(false));
+              withInteractivity(false),
+              withDay(2023, Month.AUGUST, 12));
       InventoryManager.checkAugustScepter();
 
       try (cleanups) {
@@ -535,6 +536,50 @@ class UseSkillRequestTest {
         assertEquals(1, skill.getMaximumCast());
         skill = UseSkillRequest.getInstance(SkillPool.AUG_30TH_BEACH_DAY);
         assertEquals(0, skill.getMaximumCast());
+      }
+    }
+
+    @Test
+    public void castingTodaySkillAfterRunSetsTodayCast() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.AUGUST_SCEPTER),
+              withProperty("_aug12Cast"),
+              withProperty("_augSkillsCast", 4),
+              withProperty("_augTodayCast", false),
+              withInteractivity(true),
+              withDay(2023, Month.AUGUST, 12));
+      InventoryManager.checkAugustScepter();
+
+      try (cleanups) {
+        UseSkillRequest.lastSkillUsed = SkillPool.AUG_12TH_ELEPHANT_DAY;
+        UseSkillRequest.lastSkillCount = 1;
+        UseSkillRequest.parseResponse(
+            "runskillz.php?action=Skillz&whichskill=7463&ajax=1&quantity=1", "response ignored");
+        assertThat("_augTodayCast", isSetTo(true));
+        assertThat("_augSkillsCast", isSetTo(4));
+      }
+    }
+
+    @Test
+    public void castingTodaySkillInRunIncrementsTotalCast() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.AUGUST_SCEPTER),
+              withProperty("_aug12Cast"),
+              withProperty("_augSkillsCast", 4),
+              withProperty("_augTodayCast", false),
+              withInteractivity(false),
+              withDay(2023, Month.AUGUST, 12));
+      InventoryManager.checkAugustScepter();
+
+      try (cleanups) {
+        UseSkillRequest.lastSkillUsed = SkillPool.AUG_12TH_ELEPHANT_DAY;
+        UseSkillRequest.lastSkillCount = 1;
+        UseSkillRequest.parseResponse(
+            "runskillz.php?action=Skillz&whichskill=7463&ajax=1&quantity=1", "response ignored");
+        assertThat("_augTodayCast", isSetTo(false));
+        assertThat("_augSkillsCast", isSetTo(5));
       }
     }
   }
