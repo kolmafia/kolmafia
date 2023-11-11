@@ -368,7 +368,7 @@ Knob Goblin Elite Guard Captain	263	kg_guardcaptain.gif	LUCKY Atk: 30 Def: 27 HP
 Knob Goblin Embezzler	530	kg_embezzler.gif	LUCKY Atk: 24 Def: 21 HP: 20 Init: 80 Meat: 1000 P: goblin Article: a	meat stack (30)	meat stack (30)	meat stack (30)	meat stack (30)	Knob Goblin visor (25)	embezzler's oil (c30)
 Knob Goblin Harem Girl	78	kg_haremgirl.gif	Atk: 25 Def: 22 HP: 20 Init: 80 P: goblin ED: sleaze EA: hot EA: sleaze Article: a	disease (10)	Knob Goblin harem veil (20)	Knob Goblin harem pants (20)	finger cymbals (5)	harem girl t-shirt (c2)
 Knob Goblin Harem Guard	1061	kg_haremguard.gif	Atk: 25 Def: 22 HP: 20 Init: 50 P: goblin Article: a	Knob Goblin deluxe scimitar (10)	Knob nuts (15)	excitement pill (10)
-Knob Goblin King	81	kg_king.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin Article: The	2 dense meat stack (m100)	Crown of the Knob Goblin King (c100)	Glass Balls of the Goblin King (c100)	Codpiece of the Goblin King (c100)	Cobb's Knob lab key (c100)
+Knob Goblin King	81	kg_king.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin Article: The	2 dense meat stack (m100)	Crown of the Goblin King (c100)	Glass Balls of the Goblin King (c100)	Codpiece of the Goblin King (c100)	Cobb's Knob lab key (c100)
 Knob Goblin Mad Scientist	85	kg_madsci.gif	Atk: 40 Def: 36 HP: 25 Init: 70 Meat: 40 P: goblin Article: a	Knob Goblin love potion (10)	Knob Goblin seltzer (15)	Knob Goblin steroids (10)
 Knob Goblin Madam	1062	kg_madam.gif	Atk: 30 Def: 22 HP: 30 Init: 50 P: goblin EA: sleaze Article: a	Knob Goblin perfume (25)	whalebone corset (15)
 Knob Goblin Master Chef	77	kg_masterchef.gif	Atk: 22 Def: 19 HP: 20 Init: 70 Meat: 30 P: goblin Article: a	dry noodles (15)	Knob Goblin spatula (15)	Knob mushroom (15)	spices (15)
@@ -1243,7 +1243,7 @@ The Rain King	1614	rainking.gif	BOSS NOCOPY Atk: 280 Def: 250 HP: 800 Init: 1000
 
 # Actually Ed the Undying
 Boss Bat?	1664	deadbossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: undead Article: The
-new Knob Goblin King	1665	kg_king.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin Article: The	2 dense meat stack (m100)	Crown of the Knob Goblin King (c100)	Glass Balls of the Goblin King (c100)	Codpiece of the Goblin King (c100)	Cobb's Knob lab key (c100)
+new Knob Goblin King	1665	kg_king.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin Article: The	2 dense meat stack (m100)	Crown of the Goblin King (c100)	Glass Balls of the Goblin King (c100)	Codpiece of the Goblin King (c100)	Cobb's Knob lab key (c100)
 Donerbagon	1666	donerbagon.gif	BOSS NOCOPY Atk: 90 Def: 81 HP: 120 Init: 90 P: undead ED: spooky Item: 25 Skill: 50 Article: The
 Your winged yeti	1667	wingedyeti.gif	BOSS NOCOPY Atk: 120 Def: 108 HP: 250 Init: 50 P: beast E: cold Wiki: "winged yeti"	5 dense meat stack (m100)	winged yeti fur (c100)
 hulking bridge troll	1668	bridgetroll.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 140 Init: 50 Meat: 50 P: humanoid EA: sleaze Article: a
@@ -1356,7 +1356,7 @@ Nautomatic Sorceress	2210	roboss_sorc.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000
 
 # Wildfires
 Blaze Bat	2211	firebossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast E: hot Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	Boss Bat bling (c100)
-fired-up Knob Goblin King	2212	firegoblinking.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin E: hot Article: The	2 dense meat stack (m100)	Crown of the Knob Goblin King (c100)	Glass Balls of the Goblin King (c100)	Codpiece of the Goblin King (c100)	Cobb's Knob lab key (c100)
+fired-up Knob Goblin King	2212	firegoblinking.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin E: hot Article: The	2 dense meat stack (m100)	Crown of the Goblin King (c100)	Glass Balls of the Goblin King (c100)	Codpiece of the Goblin King (c100)	Cobb's Knob lab key (c100)
 Burnerdagon	2213	burnerdagon.gif	BOSS NOCOPY Atk: 90 Def: 81 HP: 120 Init: 90 P: undead ED: hot EA: spooky Article: The	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
 Dr. Awkward, who is on fire	2214	fireawkward.gif	BOSS NOCOPY Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude E: hot	Drowsy Sword (n100)	[2268]Staff of Fats (n100)
 Lord Sootyraven	2215	fireyraven.gif	BOSS NOCOPY Atk: 165 Def: 148 HP: 200 Init: 10000 P: undead E: hot	[2286]Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)
@@ -1409,7 +1409,7 @@ Terrence Poindexter (true form)	2297	aosol_horror.gif	BOSS NOCOPY Atk: 300 Def: 
 # Legacy of Loathing
 
 Classic Boss Bat	2316	bossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	Boss Bat bling (c100)	replica Mr. Accessory (n100)
-Weirdly Scrawny Knob Goblin King	2317	goblinking.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin Article: The	2 dense meat stack (m100)	Crown of the Knob Goblin King (c100)	Glass Balls of the Goblin King (c100)	Codpiece of the Goblin King (c100)	Cobb's Knob lab key (c100)	replica Mr. Accessory (n100)
+Weirdly Scrawny Knob Goblin King	2317	goblinking.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin Article: The	2 dense meat stack (m100)	Crown of the Goblin King (c100)	Glass Balls of the Goblin King (c100)	Codpiece of the Goblin King (c100)	Cobb's Knob lab key (c100)	replica Mr. Accessory (n100)
 Orignial Bonerdagon	2318	bonedragon.gif	BOSS NOCOPY Atk: 90 Def: 81 HP: 120 Init: 90 P: undead ED: spooky Article: The	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)	replica Mr. Accessory (n100)
 Jr. Awkwarj	2319	lilawkward.gif	BOSS NOCOPY Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude	Drowsy Sword (n100)	[2268]Staff of Fats (n100)	replica Mr. Accessory (n100)
 Little Lord Spookyraven	2320	lilspooky.gif	BOSS NOCOPY Atk: 165 Def: 148 HP: 200 Init: 10000 P: undead ED: spooky	[2286]Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)	replica Mr. Accessory (n100)
