@@ -610,14 +610,7 @@ public class MonsterDatabase {
       AdventureResult item = ItemPool.get(itemMatcher.group(2), 1);
       return new MultiDrop(itemMatcher.group(1), item, chance, flag);
     } else {
-      AdventureResult item;
-
-      int itemId = ItemDatabase.getItemId(itemName);
-      if (itemId == -1) {
-        item = ItemPool.get(data, 1);
-      } else {
-        item = ItemPool.get(itemId);
-      }
+      AdventureResult item = ItemPool.get(itemName, 1);
 
       if (flag == DropFlag.NONE && chance == 0) {
         flag = DropFlag.UNKNOWN_RATE;
