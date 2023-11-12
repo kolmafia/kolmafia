@@ -27,6 +27,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.MultiDrop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.SimpleMonsterDrop;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -599,20 +601,23 @@ public class MonsterDatabase {
     var flag = DropFlag.fromFlag(dropMatcher.group(2));
     var chance = StringUtilities.parseDouble(dropMatcher.group(3));
 
-    AdventureResult item;
+    if (flag == DropFlag.MULTI_DROP) {
+      Matcher itemMatcher = MultiDrop.ITEM.matcher(itemName);
+      if (!itemMatcher.matches()) {
+        throw new IllegalStateException(data + " did not match expected layout");
+      }
 
-    int itemId = ItemDatabase.getItemId(itemName);
-    if (itemId == -1) {
-      item = ItemPool.get(data, 1);
+      AdventureResult item = ItemPool.get(itemMatcher.group(2), 1);
+      return new MultiDrop(itemMatcher.group(1), item, chance, flag);
     } else {
-      item = ItemPool.get(itemId);
-    }
+      AdventureResult item = ItemPool.get(itemName, 1);
 
-    if (flag == DropFlag.NONE && chance == 0) {
-      flag = DropFlag.UNKNOWN_RATE;
-    }
+      if (flag == DropFlag.NONE && chance == 0) {
+        flag = DropFlag.UNKNOWN_RATE;
+      }
 
-    return new MonsterDrop(item, chance, flag);
+      return new SimpleMonsterDrop(item, chance, flag);
+    }
   }
 
   private static synchronized void initializeMonsterStrings() {

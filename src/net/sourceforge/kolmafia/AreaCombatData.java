@@ -252,7 +252,7 @@ public class AreaCombatData {
       name = name.substring(0, colon);
       String flag = null;
 
-      if (weight.length() == 0) {
+      if (weight.isEmpty()) {
         KoLmafia.updateDisplay("Missing entry after colon for " + name + " in combats.txt.");
         return false;
       }
@@ -1056,7 +1056,7 @@ public class AreaCombatData {
       final List<MonsterDrop> items,
       final List<Double> pocketRates,
       boolean fullString) {
-    if (items.size() == 0) {
+    if (items.isEmpty()) {
       return;
     }
 
