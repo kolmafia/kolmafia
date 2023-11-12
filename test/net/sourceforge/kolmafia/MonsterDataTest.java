@@ -347,7 +347,7 @@ public class MonsterDataTest {
       var builder = new StringBuilder();
       monster.appendItemDrops(builder);
 
-      assertThat(builder.toString(), not(containsString("Item Drops: ")));
+      assertThat(builder.toString(), not(containsString("Drops: ")));
     }
 
     @ParameterizedTest
@@ -374,7 +374,7 @@ public class MonsterDataTest {
       var builder = new StringBuilder();
       monster.appendItemDrops(builder);
 
-      assertThat(builder.toString(), equalTo("<br />Item Drops: " + itemDropString));
+      assertThat(builder.toString(), equalTo("<br />Drops: " + itemDropString));
     }
   }
 

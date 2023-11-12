@@ -1239,20 +1239,20 @@ public class MonsterData extends AdventureResult {
   // Accessors for the various attributes of a monster,
   // ***********************************************************
 
-  private MonsterExpression compile(Object expr) {
-    return MonsterExpression.getInstance((String) expr, this.getName());
+  private MonsterExpression compile(String expr) {
+    return MonsterExpression.getInstance(expr, this.getName());
   }
 
   private int evaluate(Object obj, int value) {
     if (obj != null) {
-      if (obj instanceof Integer) {
-        return (Integer) obj;
+      if (obj instanceof Integer i) {
+        return i;
       }
-      if (obj instanceof String) {
-        obj = compile(obj);
+      if (obj instanceof String s) {
+        obj = compile(s);
       }
-      if (obj instanceof MonsterExpression) {
-        return (int) (((MonsterExpression) obj).eval());
+      if (obj instanceof MonsterExpression me) {
+        return (int) me.eval();
       }
     }
     return value;
@@ -1340,8 +1340,8 @@ public class MonsterData extends AdventureResult {
       }
       return (int) Math.floor(Math.max(1, hp + ML()) * getBeeosity());
     }
-    if (this.health instanceof String) {
-      this.health = compile(this.health);
+    if (this.health instanceof String s) {
+      this.health = compile(s);
     }
     return Math.max(1, (int) (((MonsterExpression) this.health).eval() * getBeeosity()));
   }
@@ -1397,8 +1397,8 @@ public class MonsterData extends AdventureResult {
       }
       return (int) Math.floor(Math.max(1, attack + ML()) * getBeeosity());
     }
-    if (this.attack instanceof String) {
-      this.attack = compile(this.attack);
+    if (this.attack instanceof String s) {
+      this.attack = compile(s);
     }
     return Math.max(1, (int) (((MonsterExpression) this.attack).eval() * getBeeosity()));
   }
@@ -1458,8 +1458,8 @@ public class MonsterData extends AdventureResult {
       return (int)
           Math.floor(Math.max(1, defense + ML()) * getBeeosity() * (1 - reduceMonsterDefense));
     }
-    if (this.defense instanceof String) {
-      this.defense = compile(this.defense);
+    if (this.defense instanceof String s) {
+      this.defense = compile(s);
     }
     return Math.max(
         1,
@@ -1835,7 +1835,7 @@ public class MonsterData extends AdventureResult {
     }
 
     if (!items.isEmpty()) {
-      buffer.append("<br />Item Drops: ").append(String.join(", ", items));
+      buffer.append("<br />Drops: ").append(String.join(", ", items));
     }
   }
 

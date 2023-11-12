@@ -10,7 +10,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,10 +33,8 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1403,7 +1400,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
     int insertionPointForData = combatIndex + 7;
 
-    StringBuffer monsterData = new StringBuffer("<font size=2 color=gray>");
+    StringBuilder monsterData = new StringBuilder("<font size=2 color=gray>");
     monsterData.append("<br />HP: ");
     monsterData.append(MonsterStatusTracker.getMonsterHealth());
     monsterData.append(", Atk: ");
@@ -1440,57 +1437,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       monsterData.append(danceMoveStatus);
     }
 
-    List<MonsterDrop> items = monster.getItems();
-    if (!items.isEmpty()) {
-      monsterData.append("<br />Drops: ");
-      for (int i = 0; i < items.size(); ++i) {
-        if (i != 0) {
-          monsterData.append(", ");
-        }
-        MonsterDrop drop = items.get(i);
-        double rawRate = drop.chance();
-        String rate =
-            (rawRate >= 1 || rawRate == 0)
-                ? String.valueOf((int) rawRate)
-                : String.valueOf(rawRate);
-        monsterData.append(drop.item().getName());
-        switch (drop.flag()) {
-          case PICKPOCKET_ONLY -> {
-            monsterData.append(" (");
-            monsterData.append(rate);
-            monsterData.append(" pp only)");
-          }
-          case NO_PICKPOCKET -> {
-            monsterData.append(" (");
-            monsterData.append(rate);
-            monsterData.append(" no pp)");
-          }
-          case CONDITIONAL -> {
-            monsterData.append(" (");
-            monsterData.append(rate);
-            monsterData.append(" cond)");
-          }
-          case FIXED -> {
-            monsterData.append(" (");
-            monsterData.append(rate);
-            monsterData.append(" no mod)");
-          }
-          case STEAL_ACCORDION -> monsterData.append(" (stealable accordion)");
-          default -> {
-            monsterData.append(" (");
-            monsterData.append(rate);
-            monsterData.append(")");
-          }
-        }
-      }
-    }
-
-    String bounty = BountyDatabase.getNameByMonster(monsterName);
-    if (bounty != null) {
-      monsterData.append(items.isEmpty() ? "<br />Drops: " : ", ");
-      monsterData.append(bounty);
-      monsterData.append(" (bounty)");
-    }
+    monster.appendItemDrops(monsterData);
 
     int minMeat = monster.getMinMeat();
     int maxMeat = monster.getMaxMeat();
@@ -1523,7 +1470,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     monsterData.append("</font>");
-    buffer.insert(insertionPointForData, monsterData.toString());
+    buffer.insert(insertionPointForData, monsterData);
 
     // Insert color for monster element
     MonsterDatabase.Element monsterElement = monster.getDefenseElement();
