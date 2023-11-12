@@ -4,6 +4,7 @@ import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -339,6 +340,16 @@ public class MonsterDataTest {
 
   @Nested
   class ItemDrops {
+    @Test
+    void noItemDrops() {
+      var monster = MonsterDatabase.findMonster("giant amorphous blob");
+
+      var builder = new StringBuilder();
+      monster.appendItemDrops(builder);
+
+      assertThat(builder.toString(), not(containsString("Item Drops: ")));
+    }
+
     @ParameterizedTest
     @CsvSource({
       // Test regular drops
@@ -346,6 +357,8 @@ public class MonsterDataTest {
       "skeleton with a mop, 'beer-soaked mop (10), ice-cold Willer (30), ice-cold Willer (30)'",
       // Test mix of pp and no pp
       "Dr. Awkward, 'Drowsy Sword (100 no pp), Staff of Fats (100 no pp), fumble formula (5 pp only)'",
+      // Test mix of normal and accordion
+      "bar, 'bar skin (35), baritone accordion (stealable accordion)'",
       // Test mix of item drops and bounty drops
       "novelty tropical skeleton, 'cherry (0), cherry (0), grapefruit (0), grapefruit (0), orange (0), orange (0), strawberry (0), strawberry (0), lemon (0), lemon (0), novelty fruit hat (0 cond), cherry stem (bounty)'",
       // Test fractional drops

@@ -1813,7 +1813,7 @@ public class MonsterData extends AdventureResult {
                           (rawRate >= 1 || rawRate == 0)
                               ? String.valueOf((int) rawRate)
                               : String.valueOf(rawRate);
-                      var itemCount = drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
+                      var itemCount = makeItemCount(drop);
                       return itemCount
                           + drop.item().getName()
                           + " ("
@@ -1837,6 +1837,10 @@ public class MonsterData extends AdventureResult {
     if (!items.isEmpty()) {
       buffer.append("<br />Item Drops: ").append(String.join(", ", items));
     }
+  }
+
+  private String makeItemCount(MonsterDrop drop) {
+    return drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
   }
 
   public MonsterData transform() {
