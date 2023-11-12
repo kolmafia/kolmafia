@@ -1843,26 +1843,42 @@ public class MonsterData extends AdventureResult {
     return drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
   }
 
-  public void appendMeat(StringBuilder buffer) {
+  void appendMeat(StringBuilder buffer) {
+    this.appendMeat(buffer, false);
+  }
+
+  public void appendMeat(StringBuilder buffer, boolean stateful) {
     int minMeat = this.getMinMeat();
     int maxMeat = this.getMaxMeat();
     if (maxMeat > 0) {
+      double modifier =
+          stateful
+              ? Math.max(0.0, (KoLCharacter.getMeatDropPercentAdjustment() + 100.0) / 100.0)
+              : 1.0;
       buffer.append("<br />Meat: ");
-      buffer.append(minMeat);
+      buffer.append((int) Math.floor(minMeat * modifier));
       buffer.append(" - ");
-      buffer.append(maxMeat);
+      buffer.append((int) Math.floor(maxMeat * modifier));
     }
   }
 
-  public void appendSprinkles(StringBuilder buffer) {
+  void appendSprinkles(StringBuilder buffer) {
+    this.appendSprinkles(buffer, false);
+  }
+
+  public void appendSprinkles(StringBuilder buffer, boolean stateful) {
     int minSprinkles = this.getMinSprinkles();
     int maxSprinkles = this.getMaxSprinkles();
     if (maxSprinkles > 0) {
+      double modifier =
+          stateful
+              ? Math.max(0.0, (KoLCharacter.getSprinkleDropPercentAdjustment() + 100.0) / 100.0)
+              : 1.0;
       buffer.append("<br />Sprinkles: ");
-      buffer.append(minSprinkles);
+      buffer.append((int) Math.floor(minSprinkles * modifier));
       if (maxSprinkles != minSprinkles) {
         buffer.append(" - ");
-        buffer.append(maxSprinkles);
+        buffer.append((int) Math.ceil(maxSprinkles * modifier));
       }
     }
   }

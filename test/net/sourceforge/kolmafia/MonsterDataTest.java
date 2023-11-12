@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.helpers.Player;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -399,6 +402,20 @@ public class MonsterDataTest {
 
       assertThat(builder.toString(), equalTo("<br />Meat: 800 - 1200"));
     }
+
+    @Test
+    void statefulMeatDropsAreRenderedWithBonuses() {
+      var monster = MonsterDatabase.findMonster("Knob Goblin Embezzler");
+
+      var cleanups = Player.withEffect(EffectPool.FROSTY);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendMeat(builder, true);
+
+        assertThat(builder.toString(), equalTo("<br />Meat: 2400 - 3600"));
+      }
+    }
   }
 
   @Nested
@@ -425,6 +442,25 @@ public class MonsterDataTest {
       monster.appendSprinkles(builder);
 
       assertThat(builder.toString(), equalTo("<br />Sprinkles: " + dropString));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "gingerbread finance bro, '42 - 48'",
+      "Judge Fudge, '150'",
+    })
+    void statefulSprinkleDropsAreRenderedWithBonuses(
+        final String monsterName, final String dropString) {
+      var monster = MonsterDatabase.findMonster(monsterName);
+
+      var cleanups = withEffect(EffectPool.SPRINKLE_SENSE);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendSprinkles(builder, true);
+
+        assertThat(builder.toString(), equalTo("<br />Sprinkles: " + dropString));
+      }
     }
   }
 

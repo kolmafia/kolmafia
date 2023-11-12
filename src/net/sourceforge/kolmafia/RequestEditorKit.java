@@ -1439,29 +1439,9 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     monster.appendItemDrops(monsterData);
 
-    int minMeat = monster.getMinMeat();
-    int maxMeat = monster.getMaxMeat();
-    if (maxMeat > 0) {
-      double modifier =
-          Math.max(0.0, (KoLCharacter.getMeatDropPercentAdjustment() + 100.0) / 100.0);
-      monsterData.append("<br />Meat: ");
-      monsterData.append((int) Math.floor(minMeat * modifier));
-      monsterData.append("-");
-      monsterData.append((int) Math.floor(maxMeat * modifier));
-    }
+    monster.appendMeat(monsterData, true);
 
-    int minSprinkles = monster.getMinSprinkles();
-    int maxSprinkles = monster.getMaxSprinkles();
-    if (maxSprinkles > 0) {
-      double modifier =
-          Math.max(0.0, (KoLCharacter.getSprinkleDropPercentAdjustment() + 100.0) / 100.0);
-      monsterData.append("<br />Sprinkles: ");
-      monsterData.append((int) Math.floor(minSprinkles * modifier));
-      if (maxSprinkles != minSprinkles) {
-        monsterData.append("-");
-        monsterData.append((int) Math.ceil(maxSprinkles * modifier));
-      }
-    }
+    monster.appendSprinkles(monsterData, true);
 
     IslandDecorator.appendMissingGremlinTool(monster, monsterData);
 
