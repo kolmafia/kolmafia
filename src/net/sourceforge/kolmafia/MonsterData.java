@@ -1843,6 +1843,30 @@ public class MonsterData extends AdventureResult {
     return drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
   }
 
+  public void appendMeat(StringBuilder buffer) {
+    int minMeat = this.getMinMeat();
+    int maxMeat = this.getMaxMeat();
+    if (maxMeat > 0) {
+      buffer.append("<br />Meat: ");
+      buffer.append(minMeat);
+      buffer.append(" - ");
+      buffer.append(maxMeat);
+    }
+  }
+
+  public void appendSprinkles(StringBuilder buffer) {
+    int minSprinkles = this.getMinSprinkles();
+    int maxSprinkles = this.getMaxSprinkles();
+    if (maxSprinkles > 0) {
+      buffer.append("<br />Sprinkles: ");
+      buffer.append(minSprinkles);
+      if (maxSprinkles != minSprinkles) {
+        buffer.append(" - ");
+        buffer.append(maxSprinkles);
+      }
+    }
+  }
+
   public MonsterData transform() {
     // Clone the monster so we don't munge the template
     MonsterData monster;
@@ -2180,25 +2204,9 @@ public class MonsterData extends AdventureResult {
       buffer.append("<br />This monster is of The Drip. ");
     }
 
-    int minMeat = this.getMinMeat();
-    int maxMeat = this.getMaxMeat();
-    if (maxMeat > 0) {
-      buffer.append("<br />Meat: ");
-      buffer.append(minMeat);
-      buffer.append(" - ");
-      buffer.append(maxMeat);
-    }
+    this.appendMeat(buffer);
 
-    int minSprinkles = this.getMinSprinkles();
-    int maxSprinkles = this.getMaxSprinkles();
-    if (maxSprinkles > 0) {
-      buffer.append("<br />Sprinkles: ");
-      buffer.append(minSprinkles);
-      if (maxSprinkles != minSprinkles) {
-        buffer.append(" - ");
-        buffer.append(maxSprinkles);
-      }
-    }
+    this.appendSprinkles(buffer);
 
     stats.appendItemDrops(buffer);
 

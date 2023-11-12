@@ -379,6 +379,56 @@ public class MonsterDataTest {
   }
 
   @Nested
+  class MeatDrops {
+    @Test
+    void monsterWithoutMeatDisplaysNothing() {
+      var monster = MonsterDatabase.findMonster("giant amorphous blob");
+
+      var builder = new StringBuilder();
+      monster.appendMeat(builder);
+
+      assertThat(builder.toString(), not(containsString("Meat: ")));
+    }
+
+    @Test
+    void meatDropsAreRenderedWithoutBonuses() {
+      var monster = MonsterDatabase.findMonster("Knob Goblin Embezzler");
+
+      var builder = new StringBuilder();
+      monster.appendMeat(builder);
+
+      assertThat(builder.toString(), equalTo("<br />Meat: 800 - 1200"));
+    }
+  }
+
+  @Nested
+  class SprinkleDrops {
+    @Test
+    void monsterWithoutSprinklesDisplaysNothing() {
+      var monster = MonsterDatabase.findMonster("giant amorphous blob");
+
+      var builder = new StringBuilder();
+      monster.appendSprinkles(builder);
+
+      assertThat(builder.toString(), not(containsString("Sprinkles: ")));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "gingerbread finance bro, '28 - 32'",
+      "Judge Fudge, '100'",
+    })
+    void sprinkleDropsAreRenderedWithoutBonuses(final String monsterName, final String dropString) {
+      var monster = MonsterDatabase.findMonster(monsterName);
+
+      var builder = new StringBuilder();
+      monster.appendSprinkles(builder);
+
+      assertThat(builder.toString(), equalTo("<br />Sprinkles: " + dropString));
+    }
+  }
+
+  @Nested
   class ShouldSteal {
     @Test
     public void shouldntStealIfNoItems() {
