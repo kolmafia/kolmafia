@@ -1239,20 +1239,20 @@ public class MonsterData extends AdventureResult {
   // Accessors for the various attributes of a monster,
   // ***********************************************************
 
-  private MonsterExpression compile(Object expr) {
-    return MonsterExpression.getInstance((String) expr, this.getName());
+  private MonsterExpression compile(String expr) {
+    return MonsterExpression.getInstance(expr, this.getName());
   }
 
   private int evaluate(Object obj, int value) {
     if (obj != null) {
-      if (obj instanceof Integer) {
-        return (Integer) obj;
+      if (obj instanceof Integer i) {
+        return i;
       }
-      if (obj instanceof String) {
-        obj = compile(obj);
+      if (obj instanceof String s) {
+        obj = compile(s);
       }
-      if (obj instanceof MonsterExpression) {
-        return (int) (((MonsterExpression) obj).eval());
+      if (obj instanceof MonsterExpression me) {
+        return (int) me.eval();
       }
     }
     return value;
@@ -1340,8 +1340,8 @@ public class MonsterData extends AdventureResult {
       }
       return (int) Math.floor(Math.max(1, hp + ML()) * getBeeosity());
     }
-    if (this.health instanceof String) {
-      this.health = compile(this.health);
+    if (this.health instanceof String s) {
+      this.health = compile(s);
     }
     return Math.max(1, (int) (((MonsterExpression) this.health).eval() * getBeeosity()));
   }
@@ -1397,8 +1397,8 @@ public class MonsterData extends AdventureResult {
       }
       return (int) Math.floor(Math.max(1, attack + ML()) * getBeeosity());
     }
-    if (this.attack instanceof String) {
-      this.attack = compile(this.attack);
+    if (this.attack instanceof String s) {
+      this.attack = compile(s);
     }
     return Math.max(1, (int) (((MonsterExpression) this.attack).eval() * getBeeosity()));
   }
@@ -1458,8 +1458,8 @@ public class MonsterData extends AdventureResult {
       return (int)
           Math.floor(Math.max(1, defense + ML()) * getBeeosity() * (1 - reduceMonsterDefense));
     }
-    if (this.defense instanceof String) {
-      this.defense = compile(this.defense);
+    if (this.defense instanceof String s) {
+      this.defense = compile(s);
     }
     return Math.max(
         1,
@@ -1813,7 +1813,7 @@ public class MonsterData extends AdventureResult {
                           (rawRate >= 1 || rawRate == 0)
                               ? String.valueOf((int) rawRate)
                               : String.valueOf(rawRate);
-                      var itemCount = drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
+                      var itemCount = makeItemCount(drop);
                       return itemCount
                           + drop.item().getName()
                           + " ("
@@ -1835,7 +1835,51 @@ public class MonsterData extends AdventureResult {
     }
 
     if (!items.isEmpty()) {
-      buffer.append("<br />Item Drops: ").append(String.join(", ", items));
+      buffer.append("<br />Drops: ").append(String.join(", ", items));
+    }
+  }
+
+  private String makeItemCount(MonsterDrop drop) {
+    return drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
+  }
+
+  void appendMeat(StringBuilder buffer) {
+    this.appendMeat(buffer, false);
+  }
+
+  public void appendMeat(StringBuilder buffer, boolean stateful) {
+    int minMeat = this.getMinMeat();
+    int maxMeat = this.getMaxMeat();
+    if (maxMeat > 0) {
+      double modifier =
+          stateful
+              ? Math.max(0.0, (KoLCharacter.getMeatDropPercentAdjustment() + 100.0) / 100.0)
+              : 1.0;
+      buffer.append("<br />Meat: ");
+      buffer.append((int) Math.floor(minMeat * modifier));
+      buffer.append(" - ");
+      buffer.append((int) Math.floor(maxMeat * modifier));
+    }
+  }
+
+  void appendSprinkles(StringBuilder buffer) {
+    this.appendSprinkles(buffer, false);
+  }
+
+  public void appendSprinkles(StringBuilder buffer, boolean stateful) {
+    int minSprinkles = this.getMinSprinkles();
+    int maxSprinkles = this.getMaxSprinkles();
+    if (maxSprinkles > 0) {
+      double modifier =
+          stateful
+              ? Math.max(0.0, (KoLCharacter.getSprinkleDropPercentAdjustment() + 100.0) / 100.0)
+              : 1.0;
+      buffer.append("<br />Sprinkles: ");
+      buffer.append((int) Math.floor(minSprinkles * modifier));
+      if (maxSprinkles != minSprinkles) {
+        buffer.append(" - ");
+        buffer.append((int) Math.ceil(maxSprinkles * modifier));
+      }
     }
   }
 
@@ -2176,25 +2220,9 @@ public class MonsterData extends AdventureResult {
       buffer.append("<br />This monster is of The Drip. ");
     }
 
-    int minMeat = this.getMinMeat();
-    int maxMeat = this.getMaxMeat();
-    if (maxMeat > 0) {
-      buffer.append("<br />Meat: ");
-      buffer.append(minMeat);
-      buffer.append(" - ");
-      buffer.append(maxMeat);
-    }
+    this.appendMeat(buffer);
 
-    int minSprinkles = this.getMinSprinkles();
-    int maxSprinkles = this.getMaxSprinkles();
-    if (maxSprinkles > 0) {
-      buffer.append("<br />Sprinkles: ");
-      buffer.append(minSprinkles);
-      if (maxSprinkles != minSprinkles) {
-        buffer.append(" - ");
-        buffer.append(maxSprinkles);
-      }
-    }
+    this.appendSprinkles(buffer);
 
     stats.appendItemDrops(buffer);
 
