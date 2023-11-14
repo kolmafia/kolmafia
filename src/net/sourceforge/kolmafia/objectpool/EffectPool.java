@@ -265,6 +265,7 @@ public class EffectPool {
   public static final int MERRY_SMITHSNESS = 1476;
   public static final int SMITHSNESS_CHEER = 1479;
   public static final int REASSURED = 1492;
+  public static final int FROSTY = 1499;
   public static final int HARE_BRAINED = 1515;
   public static final int UNMUFFLED = 1545;
   public static final int MUFFLED = 1546;
@@ -300,6 +301,7 @@ public class EffectPool {
   public static final int LUCKY_STRUCK = 2133;
   public static final int MINISTRATIONS_IN_THE_DARK = 2134;
   public static final int SUPERDRIFTING = 2135;
+  public static final int SPRINKLE_SENSE = 2154;
   public static final int SYNTHESIS_HOT = 2165;
   public static final int SYNTHESIS_COLD = 2166;
   public static final int SYNTHESIS_PUNGENT = 2167;

@@ -183,6 +183,7 @@ public class ResultProcessor {
                   case STEAL_ACCORDION -> "Pickpocketed item "
                       + name
                       + " which is marked as accordion steal.";
+                  case MULTI_DROP -> "Pickpocketed item " + name + " which is marked as multidrop.";
                   default -> null;
                 };
             if (message != null) {
