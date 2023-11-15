@@ -1122,7 +1122,7 @@
 12007	Indefatigable	wallshield.gif	0	0	0	7
 12008	Skullcracker	brokeskull.gif	0	0	0	8
 12009	Neurogourmet	realbrain.gif	0	0	0	9
-12010	Ravenous Pounce	gashes.gif	5	2	0	10
+12010	Ravenous Pounce	gashes.gif	8	2	0	10
 
 # Anger of the Zombie
 
