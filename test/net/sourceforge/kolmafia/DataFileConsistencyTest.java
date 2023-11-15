@@ -300,6 +300,7 @@ public class DataFileConsistencyTest {
             if (id < 0) {
               fail("unrecognised skill " + name);
             }
+            assertTrue(SkillDatabase.isPassive(id), "Skill " + name + " should be passive");
           }
           case "Familiar", "Throne" -> {
             if (!"(none)".equals(name)) {
