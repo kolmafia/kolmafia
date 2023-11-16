@@ -311,7 +311,7 @@ Green Ops Soldier	492	warhipgr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 P: hippy 
 gritty pirate	614	gritpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 Meat: 105 P: pirate EA: hot Article: a	true grit (30)	keel-haulin' knife (5)
 Groar	1157	wingedyeti.gif	BOSS NOCOPY Atk: 120 Def: 108 HP: 250 Init: 50 P: beast E: cold	Groar's fur (100)	5 dense meat stack (m100)
 groovy pirate	613	pirate2.gif	Atk: 140 Def: 126 HP: 120 Init: 50 Meat: 100 P: pirate Article: a	buoybottoms (10)
-grouper groupie	734	groupie.gif	Atk: 350 Def: 405 HP: 500 Init: 40 P: fish Article: a	groupie bra (0)	groupie lipstick (0)	groupie spangles (c0)
+grouper groupie	734	groupie.gif	Atk: 350 Def: 405 HP: 500 Init: 40 P: fish Article: a	groupie bra (n10)	groupie lipstick (n25)	groupie spangles (c30)
 grumpy 7-Foot Dwarf	1151	dwarf_grumpy.gif	Atk: 58 Def: 52 HP: 45 Init: 50 Meat: 50 P: humanoid Article: a	7-Foot Dwarven mattock (10)
 grungy pirate	616	grungypirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 Meat: 98 P: pirate Article: a	acoustic guitarrr (20)	grungy bandana (10)	grungy flannel shirt (c5)
 Guard Bugbear	28	haiku2.gif	Atk: 12 Def: 10 HP: 6 Init: 60 Meat: 24 P: beast EA: sleaze Article: a	bugbear beanie (25)	bugbear bungguard (25)
@@ -335,7 +335,7 @@ hulking construct (translated)	675	vib6.gif	Atk: 500 Def: 450 HP: 1000000 Init: 
 hung-over half-orc hobo	281	hobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 P: hobo E: stench Article: a	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)
 hustled spectre	809	poolghost.gif	LUCKY Atk: 25 Def: 22 HP: 35 Init: 100 P: undead GHOST Article: a	cube of billiard chalk (100)
 Hypnotist of Hey Deze	232	hypnotist.gif	NOCOPY NOMANUEL ULTRARARE Atk: 85 Def: 115 HP: 85 Init: 10000 P: dude	hypnodisk (100)
-ice skate	731	iceskate.gif	Atk: 400 Def: 450 HP: 600 Init: 75 Meat: 100 P: fish Article: an	collapsible baton (0)	skate blade (0)	skate skin (0)	spangly unitard (0)
+ice skate	731	iceskate.gif	Atk: 400 Def: 450 HP: 600 Init: 75 Meat: 100 P: fish Article: an	collapsible baton (n4)	skate blade (n2)	skate skin (n20)	spangly unitard (n15)
 Iiti Kitty	572	mummycat.gif	Atk: 165 Def: 148 HP: 150 Init: 75 P: undead EA: spooky	leathery cat skin (30)	unidentified jerky (10)	ancient Magi-Wipes (50)	ancient vinyl coin purse (20)	mummy wrapping (20)	Iiti Kitty phone charm (10)	Iiti Kitty Gumdrop (c0)
 industrious construct	666	vib3.gif	Atk: 350 Def: 270 HP: 300 Init: 50 P: construct Article: an	El Vibrato punchcard (129 holes) (15)	El Vibrato punchcard (88 holes) (15)
 industrious construct (translated)	672	vib3.gif	Atk: 350 Def: 270 HP: 300 Init: 50 P: construct Article: an Manuel: "industrious construct" Wiki: "industrious construct"	El Vibrato punchcard (129 holes) (15)	El Vibrato punchcard (88 holes) (15)
@@ -559,7 +559,7 @@ revolting bugbear	254	angbugbear.gif	Atk: 13 Def: 12 HP: 10 Init: 50 P: beast E:
 revolving bugbear	255	revbugbear.gif	Atk: 14 Def: 13 HP: 11 Init: 50 P: beast Article: a
 Ringogeorge, the Bladeswitcher	881	merkinswitcher2.gif	BOSS NOCOPY Atk: 1300 Def: 1250 HP: 1600 Init: 100 Meat: 100 P: mer-kin
 rock scorpion	463	scorpion.gif	Atk: 139 Def: 127 HP: 145 Init: 30 Meat: 200 P: bug Article: a	handful of sand (25)	handful of sand (15)	scorpion whip (5)
-roller skate	730	rollerskate.gif	Atk: 450 Def: 360 HP: 700 Init: 30 Meat: 100 P: fish Article: a	brand new key (0)	brass dorsal fin (0)	skate skin (0)	skate skates (0)
+roller skate	730	rollerskate.gif	Atk: 450 Def: 360 HP: 700 Init: 30 Meat: 100 P: fish Article: a	brand new key (n2)	brass dorsal fin (n4)	skate skin (n20)	skate skates (n15)
 rolling stone	574	rollingstone.gif	Atk: 137 Def: 126 HP: 135 Init: 50 P: elemental Article: a	palm frond (10)	handful of moss (20)	brown sugar cane (20)	mother's little helper (10)	Tuesday's ruby (5)	hot date (5)
 Ron "The Weasel" Copperhead	1531	roncopper.gif	BOSS NOCOPY Atk: 165 Def: 170 HP: 180 Init: 100 Meat: 250 P: dude	Copperhead Charm (rampant) (n100)
 rotten dolphin thief	810	realdolphin.gif	NOCOPY Atk: 400 Def: 360 HP: 600 Init: 100 P: fish Article: a
@@ -601,7 +601,7 @@ sheet ghost	1555	sheetghost.gif	Atk: 79 Def: 81 HP: 75 Init: 50 P: undead GHOST 
 shifty pirate	129	pirate2.gif	Atk: 69 Def: 62 HP: 59 Init: 60 Meat: 45 P: pirate Article: a	arrrgyle socks (10)	flaregun (30)	sunken chest (30)
 Shub-Jigguwatt, Elder God of Violence	1377	shub-jigguwatt.gif	BOSS NOCOPY Atk: 4000 Def: 4000 HP: 10000 Init: 10000 P: horror Elem: 95
 sk8 gnome	1156	sk8gnome.gif	Atk: 75 Def: 67 HP: 65 Init: 60 Meat: 70 P: humanoid Article: a	eXtreme mittens (10)	Mountain Stream soda (30)	gr8ps (40)	sk8board (5)	t8r tots (40)	folder (space skeleton) (c0)
-Skate Board member	732	boardskate.gif	Atk: 450 Def: 450 HP: 750 Init: 50 Meat: 150 P: fish Article: a	S.A.V.E. flyer (0)	skate board (0)	skate skin (0)
+Skate Board member	732	boardskate.gif	Atk: 450 Def: 450 HP: 750 Init: 50 Meat: 150 P: fish Article: a	S.A.V.E. flyer (n25)	skate board (n4)	skate skin (n20)
 skeletal cat	379	catskel.gif	Atk: 24 Def: 21 HP: 23 Init: 50 P: undead E: spooky Article: a	pile of dusty animal bones (100)
 skeletal hamster	375	hamskel.gif	Atk: 23 Def: 20 HP: 22 Init: 50 P: undead E: spooky Article: a	pile of dusty animal bones (100)	tiny canopic jar (c0)
 skeletal monkey	380	monkeyskel.gif	Atk: 24 Def: 21 HP: 23 Init: 300 P: undead ED: spooky Article: a	pile of dusty animal bones (100)	skeletal banana (c0)
@@ -727,7 +727,7 @@ unemployed knob goblin	1000	lensgoblin.gif	Atk: 6 Def: 5 HP: 5 Init: -10000 Meat
 unholy diver	745	unholydiver.gif	Atk: 700 Def: 540 HP: 1000 Init: 100 Meat: 250 P: horror Article: an	glowing syringe (c4)	rusty broken diving helmet (n3)	rusty porthole (n2)	rusty rivet (n10)	rusty rivet (n10)	rusty rivet (n2)	rusty rivet (n1)	unholy water (c0)
 upgraded ram	384	ram.gif	Atk: 106 Def: 93 HP: 95 Init: 50 Meat: 100 P: beast E: cold Article: an	ram horns (5)	ram stick (5)	Ram's Face Lager (30)
 uppercase Q	937	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80 P: dude Article: an	left parenthesis (40)	right parenthesis (10)	dollar sign (p20)
-urchin urchin	733	urchin.gif	Atk: 400 Def: 315 HP: 600 Init: 20 P: fish Article: an	mermaid's purse (0)	bazookafish bubble gum (0)	underwater slingshot (0)
+urchin urchin	733	urchin.gif	Atk: 400 Def: 315 HP: 600 Init: 20 P: fish Article: an	mermaid's purse (n5)	bazookafish bubble gum (n30)	underwater slingshot (n25)
 vampire bat	350	regbat.gif	Atk: 17 Def: 14 HP: 10 Init: 60 Meat: 40 P: beast EA: hot EA: stench Article: a	bat wing (15)	batgut (15)	sonar-in-a-biscuit (10)
 vampire duck	564	duckvampire.gif	Atk: 175 Def: 153 HP: 190 Init: 50 Meat: 150 P: beast E: spooky Article: a	frightful feather (10)	duct tape (5)
 vegetable gremlin	550	gremlinveg.gif	Atk: 168 Def: 154 HP: 170 Init: 60 Meat: 50 P: humanoid Article: a	gremlin juice (3)
