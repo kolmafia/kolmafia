@@ -552,6 +552,8 @@ public abstract class KoLCharacter {
     //  so it doesn't work. If you somehow got liver or stomach of steel,
     //  those would similarly not work."
     if (isVampyre()) return false;
+    // small similarly cannot expand or reduce fullness
+    if (inSmallcore()) return false;
 
     return true;
   }
@@ -606,6 +608,8 @@ public abstract class KoLCharacter {
     //  so it doesn't work. If you somehow got liver or stomach of steel,
     //  those would similarly not work."
     if (isVampyre()) return false;
+    // small similarly cannot expand or reduce fullness
+    if (inSmallcore()) return false;
 
     return true;
   }
