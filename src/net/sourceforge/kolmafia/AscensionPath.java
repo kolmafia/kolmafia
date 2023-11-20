@@ -41,7 +41,7 @@ public class AscensionPath {
     AVATAR_OF_WEST_OF_LOATHING("Avatar of West of Loathing", 26, false, "badge", "an"),
     THE_SOURCE("The Source", 27, false, "ss_datasiphon", "a", "sourcePoints", 0, false),
     NUCLEAR_AUTUMN(
-        "Nuclear Autumn", 28, false, "radiation", "a", "nuclearAutumnPoints", 23, false, 5, 2, 3),
+        "Nuclear Autumn", 28, false, "radiation", "a", "nuclearAutumnPoints", 23, false, 3, 2, 3),
     GELATINOUS_NOOB("Gelatinous Noob", 29, true, "gcube", "a", "noobPoints", 20, true),
     LICENSE_TO_ADVENTURE(
         "License to Adventure", 30, false, "briefcase", "a", "bondPoints", 24, true, 0, 2, 15),
