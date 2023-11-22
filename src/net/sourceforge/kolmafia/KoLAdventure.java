@@ -886,7 +886,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         // need payphone in inventory or to be in ASoL
         return false;
       }
-      
+
       if (KoLCharacter.isKingdomOfExploathing()) {
         // KoE gets no access to it regardless for some reason known only to KoL devs.
         return false;
