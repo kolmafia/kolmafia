@@ -1262,75 +1262,99 @@ public class MaximizerTest {
       }
     }
 
-    @Nested
-    class GarbageTote {
-      @Test
-      public void shouldSuggestEquippingGarbageToteItem1() {
-        final var cleanups =
-            new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+    @Test
+    public void shouldSuggestUsingLedCandleWithJill() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 400), withItem(ItemPool.LED_CANDLE));
 
-        try (cleanups) {
-          assertTrue(maximize("monster level"));
-          recommendedSlotIs(Slot.PANTS, "tinsel tights");
-          assertTrue(someBoostIs(x -> commandStartsWith(x, "equip pants ¶9693")));
-        }
+      try (cleanups) {
+        assertTrue(maximize("item"));
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "ledcandle disco")));
       }
+    }
 
-      @Test
-      public void shouldSuggestEquippingGarbageToteItem2() {
-        final var cleanups =
-            new Cleanups(
-                withItem(ItemPool.REPLICA_GARBAGE_TOTE),
-                withItem(ItemPool.REPLICA_HAIKU_KATANA),
-                withItem(ItemPool.BROKEN_CHAMPAGNE),
-                withProperty("garbageChampagneCharge", 5),
-                withSkill("Double-Fisted Skull Smashing"));
+    @Test
+    public void shouldNotSuggestUsingLedCandleWithoutJill() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400), withItem(ItemPool.LED_CANDLE));
 
-        try (cleanups) {
-          assertTrue(maximize("weapon damage percent"));
-          recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
-          assertTrue(someBoostIs(x -> commandStartsWith(x, "equip off-hand ¶9692")));
-        }
+      try (cleanups) {
+        assertTrue(maximize("item"));
+        assertFalse(someBoostIs(x -> commandStartsWith(x, "ledcandle disco")));
       }
+    }
+  }
 
-      @Test
-      public void shouldFoldUnusedChampagneBottle() {
-        final var cleanups =
-            new Cleanups(
-                withItem(ItemPool.REPLICA_GARBAGE_TOTE),
-                withItem(ItemPool.REPLICA_HAIKU_KATANA),
-                withItem(ItemPool.BROKEN_CHAMPAGNE),
-                withProperty("garbageChampagneCharge", 0),
-                withProperty("_garbageItemChanged", false),
-                withSkill("Double-Fisted Skull Smashing"));
+  @Nested
+  class GarbageTote {
+    @Test
+    public void shouldSuggestEquippingGarbageToteItem1() {
+      final var cleanups =
+          new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
 
-        try (cleanups) {
-          assertTrue(maximize("weapon damage percent"));
-          recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
-          assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip off-hand ¶9692")));
-        }
+      try (cleanups) {
+        assertTrue(maximize("monster level"));
+        recommendedSlotIs(Slot.PANTS, "tinsel tights");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "equip pants ¶9693")));
       }
+    }
 
-      @Test
-      public void shouldSuggestFoldingGarbageToteItem() {
-        final var cleanups =
-            new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+    @Test
+    public void shouldSuggestEquippingGarbageToteItem2() {
+      final var cleanups =
+          new Cleanups(
+              withItem(ItemPool.REPLICA_GARBAGE_TOTE),
+              withItem(ItemPool.REPLICA_HAIKU_KATANA),
+              withItem(ItemPool.BROKEN_CHAMPAGNE),
+              withProperty("garbageChampagneCharge", 5),
+              withSkill("Double-Fisted Skull Smashing"));
 
-        try (cleanups) {
-          assertTrue(maximize("weapon damage percent"));
-          recommendedSlotIs(Slot.WEAPON, "broken champagne bottle");
-          assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
-        }
+      try (cleanups) {
+        assertTrue(maximize("weapon damage percent"));
+        recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "equip off-hand ¶9692")));
       }
+    }
 
-      @Test
-      public void shouldNotSuggestUsingGarbageToteItem() {
-        final var cleanups = new Cleanups(withItem(ItemPool.TINSEL_TIGHTS));
+    @Test
+    public void shouldFoldUnusedChampagneBottle() {
+      final var cleanups =
+          new Cleanups(
+              withItem(ItemPool.REPLICA_GARBAGE_TOTE),
+              withItem(ItemPool.REPLICA_HAIKU_KATANA),
+              withItem(ItemPool.BROKEN_CHAMPAGNE),
+              withProperty("garbageChampagneCharge", 0),
+              withProperty("_garbageItemChanged", false),
+              withSkill("Double-Fisted Skull Smashing"));
 
-        try (cleanups) {
-          assertTrue(maximize("weapon damage percent"));
-          assertFalse(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
-        }
+      try (cleanups) {
+        assertTrue(maximize("weapon damage percent"));
+        recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip off-hand ¶9692")));
+      }
+    }
+
+    @Test
+    public void shouldSuggestFoldingGarbageToteItem() {
+      final var cleanups =
+          new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon damage percent"));
+        recommendedSlotIs(Slot.WEAPON, "broken champagne bottle");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
+      }
+    }
+
+    @Test
+    public void shouldNotSuggestUsingGarbageToteItem() {
+      final var cleanups = new Cleanups(withItem(ItemPool.TINSEL_TIGHTS));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon damage percent"));
+        assertFalse(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
       }
     }
   }

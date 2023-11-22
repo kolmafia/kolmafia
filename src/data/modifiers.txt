@@ -4357,7 +4357,7 @@ Item	kill screen	Random Monster Modifiers: +1, Generic
 Item	kitty sheet music	Familiar Weight: +5
 Item	lead collar	Familiar Weight: +5
 Item	lead necklace	Familiar Weight: +3, Generic
-Item	LED candle	Familiar Weight: +5, Fairy: [1.5*pref(ledCandleMode,disco)], Leprechaun: [1.5*pref(ledCandleMode,ultraviolet)], Volleyball Effectiveness: [1.5*pref(ledCandleMode,reading)], Sombrero Effectiveness: [1.5*pref(ledCandleMode,reading)]
+Item	LED candle	Familiar Weight: +5
 # Li'l Businessman Kit: Lets your familiar make deals
 Item	Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
 Item	li'l candy corn costume	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Equips On: "Trick-or-Treating Tot"
@@ -12625,6 +12625,12 @@ JurassicParka	dilophosaur	Stench Resistance: +2, Sleaze Spell Damage: +20, Sleaz
 JurassicParka	pterodactyl	Hot Resistance: +2, Combat Rate: -5, Initiative: 50
 JurassicParka	kachungasaur	Cold Resistance: +2, Maximum HP Percent: +100, Meat Drop: +50
 JurassicParka	spikolodon	Sleaze Resistance: +2, Monster Level: [min(L,11)*3]
+
+# LED candle
+LedCandle	disco	Fairy: 1.5
+LedCandle	ultraviolet	Leprechaun: 1.5
+LedCandle	reading	Volleyball Effectiveness: 1.5, Sombrero Effectiveness: 1.5
+LedCandle	red light	Familiar Action Bonus: 25
 
 # Disguises Delimit
 Mask	Mr. Mask	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1

@@ -81,7 +81,6 @@ public class EdPieceCommand extends AbstractCommand implements ModeCommand {
     return Arrays.stream(Animal.values()).anyMatch(a -> parameters.equalsIgnoreCase(a.getName()));
   }
 
-  @Override
   public String normalize(String parameters) {
     return parameters;
   }
