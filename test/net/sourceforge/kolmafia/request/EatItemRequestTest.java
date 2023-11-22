@@ -270,7 +270,7 @@ class EatItemRequestTest {
       var cleanups = new Cleanups(withFullness(0));
       if (inNA) cleanups.add(withPath(AscensionPath.Path.NUCLEAR_AUTUMN));
       try (cleanups) {
-        assertThat(EatItemRequest.maximumUses(ItemPool.TOAST), is(inNA ? 5 : 15));
+        assertThat(EatItemRequest.maximumUses(ItemPool.TOAST), is(inNA ? 3 : 15));
         if (inNA) {
           assertThat(EatItemRequest.maximumUses(ItemPool.BROWSER_COOKIE), is(0));
           assertThat(DrinkItemRequest.limiter, is("your narrow, mutated throat"));
