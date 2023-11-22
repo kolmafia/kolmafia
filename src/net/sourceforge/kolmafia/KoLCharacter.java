@@ -3627,10 +3627,6 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean desertBeachAccessible() {
-    if (KoLCharacter.isKingdomOfExploathing()) {
-      return false;
-    }
-
     // Temporary code to allow Mafia to catch up with the fact that unlock is a flag
     if (Preferences.getInteger("lastDesertUnlock") != KoLCharacter.getAscensions()) {
       if (InventoryManager.getCount(ItemPool.BITCHIN_MEATCAR) > 0
@@ -3640,7 +3636,8 @@ public abstract class KoLCharacter {
           || Preferences.getString("peteMotorbikeGasTank").equals("Large Capacity Tank")
           || QuestDatabase.isQuestFinished(Quest.MEATCAR)
           || KoLCharacter.kingLiberated()
-          || KoLCharacter.isEd()) {
+          || KoLCharacter.isEd()
+          || KoLCharacter.isKingdomOfExploathing()) {
         Preferences.setInteger("lastDesertUnlock", KoLCharacter.getAscensions());
       }
     }
