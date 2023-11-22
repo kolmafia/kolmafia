@@ -39,6 +39,7 @@ public enum ModifierType {
   MASK,
   RETRO_CAPE,
   UNBREAKABLE_UMBRELLA,
+  LED_CANDLE,
   AUTUMNATON,
   SNOW_SUIT,
   FAMILIAR,

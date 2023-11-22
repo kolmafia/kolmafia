@@ -22,7 +22,6 @@ public class BackupCameraCommand extends AbstractCommand implements ModeCommand 
     return getChoiceForParameters(parameters) > 0;
   }
 
-  @Override
   public String normalize(String parameters) {
     return parameters;
   }

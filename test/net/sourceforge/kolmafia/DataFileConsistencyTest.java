@@ -390,6 +390,7 @@ public class DataFileConsistencyTest {
               "BackupCamera",
               "UnbreakableUmbrella",
               "JurassicParka",
+              "LedCandle",
               "Mask",
               "Ensorcel",
               "Robot",
