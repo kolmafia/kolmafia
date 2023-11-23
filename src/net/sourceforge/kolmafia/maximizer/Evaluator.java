@@ -2164,8 +2164,13 @@ public class Evaluator {
           // If we only need as many fold items as we have, then we can
           // count them against the items we need to pass through
           FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
+
           int foldItemsNeeded = 0;
           if (group != null && Preferences.getBoolean("maximizerFoldables")) {
+            if (KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity(group.getHead())) {
+              break;
+            }
+
             foldItemsNeeded += Math.max(item.getCount(), useful);
             // How many times have we already used this fold item?
             for (var checkSlot : SlotSet.SLOTS) {

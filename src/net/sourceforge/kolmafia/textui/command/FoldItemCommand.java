@@ -63,7 +63,7 @@ public class FoldItemCommand extends AbstractCommand {
       return;
     }
 
-    String groupHead = group.names.get(0);
+    String groupHead = group.getHead();
     String canon = StringUtilities.getCanonicalName(targetName);
 
     // Confirm that we'll be able to make this item

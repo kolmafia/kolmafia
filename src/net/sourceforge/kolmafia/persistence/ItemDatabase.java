@@ -487,6 +487,10 @@ public class ItemDatabase {
       this.damage = damage;
       this.names = names;
     }
+
+    public final String getHead() {
+      return this.names.get(0);
+    }
   }
 
   private static void readFoldGroups() {

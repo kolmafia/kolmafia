@@ -1312,7 +1312,7 @@ public class MaximizerTest {
       }
 
       @Test
-      public void shouldSuggestFoldingGarbageToteItem() {
+      void shouldSuggestFoldingGarbageToteItem() {
         final var cleanups =
             new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
 
@@ -1320,6 +1320,17 @@ public class MaximizerTest {
           assertTrue(maximize("weapon damage percent"));
           recommendedSlotIs(Slot.WEAPON, "broken champagne bottle");
           assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
+        }
+      }
+
+      @Test
+      void shouldNotSuggestFoldingGarbageToteItemInBeecore() {
+        final var cleanups =
+                new Cleanups(withPath(Path.BEES_HATE_YOU), withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+
+        try (cleanups) {
+          assertTrue(maximize("weapon damage percent"));
+          assertFalse(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
         }
       }
 
