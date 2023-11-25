@@ -1326,7 +1326,10 @@ public class MaximizerTest {
       @Test
       void shouldNotSuggestFoldingGarbageToteItemInBeecore() {
         final var cleanups =
-                new Cleanups(withPath(Path.BEES_HATE_YOU), withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+            new Cleanups(
+                withPath(Path.BEES_HATE_YOU),
+                withItem(ItemPool.GARBAGE_TOTE),
+                withItem(ItemPool.TINSEL_TIGHTS));
 
         try (cleanups) {
           assertTrue(maximize("weapon damage percent"));
