@@ -887,6 +887,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return false;
       }
 
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        // KoE gets no access to it regardless for some reason known only to KoL devs.
+        return false;
+      }
+
       // These are "place.php" visits.
       ShadowRift rift = ShadowRift.findAdventureName(this.adventureName);
       String ingress = Preferences.getString("shadowRiftIngress");
