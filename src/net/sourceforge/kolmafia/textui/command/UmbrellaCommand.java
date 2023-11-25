@@ -24,7 +24,6 @@ public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
     return UmbrellaMode.find(normalize(parameter));
   }
 
-  @Override
   public String normalize(final String parameter) {
     var mode = UmbrellaMode.findByShortHand(parameter);
     return mode == null ? parameter : mode.getName();
