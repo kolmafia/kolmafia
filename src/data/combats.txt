@@ -82,6 +82,7 @@ Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspe
 Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier	The Temporal Bandit: -1
 Battlefield (No Uniform)	0	The Temporal Bandit: -1
 Belowdecks	100	gaudy pirate	grassy pirate	gritty pirate	groovy pirate	grungy pirate
+Boltsmann Bearings	95	Boltsmann security robot	automated bearing foundry	clerical robot
 Burnbarrel Blvd.	-1	Hot hobo	Ol' Scratch: 0
 Camp Logging Camp	80	decent lumberjack	lumberjack supervisor	lumberjill	lumberjuan	hockey elemental: -1
 Center Park After Dark	100	common criminal
@@ -250,6 +251,7 @@ South of the Border	50	angry pi&ntilde;ata	handsome mariachi	irate mariachi	mari
 Special Ops	-1	Black Ops Bugbear
 Spookiest Adventurer Contest	100	Ghostpuncher	Plague Chef	Batburglar	Arthur Frankenstein: 0
 Spooky Fright Factory	100	bow-making mummy	Cookie-baking Thing from Beyond Time	gift-wrapping vampire	skeletal reindeer	stocking-stuffing zombie	toy-making creature from the Gray Lagoon
+Spring Bros. Solenoids	95	Spring Bros. security robot	automated solenoid press	janitor robot
 Stinkiest Adventurer Contest	100	Granola Barbarian	Cheese Wizard	Assassin	Odorous Humongous: 0
 Strongest Adventurer Contest	100	Macho Man	Iron Chef	Entire Shoplifter	Mr. Loathing: 0
 Summoning Chamber	100	Lord Spookyraven
@@ -384,6 +386,7 @@ The Hidden Park	85	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch law
 The Hidden Temple	90	baa-relief sheep	clan of cave bars: 0	craven carven raven	stone temple pirate	Baa'baa'bu'ran: 0
 The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	sabre-toothed ferret
 The Hole in the Sky	100	Astronomer: 2r25	One-Eyed Willie: 1o	Burrowing Bishop: 1o	Family Jewels: 1o	Hooded Warrior: 1o	Junk: 1o	Pork Sword: 1o	Skinflute: 1o	Trouser Snake: 1o	Twig and Berries: 1o	Axe Wound: 1e	Beaver: 1e	Box: 1e	Bush: 1e	Camel's Toe: 1e	Flange: 1e	Honey Pot: 1e	Little Man in the Canoe: 1e	Muff: 1e	The Snake With Like Ten Heads: 0
+The Home of The Future	100	robot maid	wardrobe robot	exercise robot
 The Ice Caves	100	alien	alien UFO	caveman	yeti
 The Ice Hole	100	Norwhal	Tin of Submardines	Arctic Octolus
 The Ice Hotel	-1	ice bartender	ice clerk	ice concierge	ice housekeeper	ice porter
