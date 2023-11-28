@@ -11388,3 +11388,35 @@
 11360	leafy browns	283851958	salad.gif	food	d	25	bowls of leafy browns
 11361	autumnic balm	776996939	al_balm.gif	potion, usable	t,d	100
 11362	coping juice	215559883	persmug.gif	potion, usable	t,d	100	cups of coping juice
+11363
+11364
+11365
+11366
+11367
+11368
+11369	automa-bot parts	211028264	aparts.gif	none	t	0
+11370	security automa-core	402766321	acore_sec.gif	usable	t	0
+11371	clerical automa-core	858021651	acore_cleric.gif	usable	t	0
+11372	handful of Boltsmann bearings	555951392	bearings.gif	none, combat	t	0
+11373	Spring Bros. solenoid	902435737	solenoid2.gif	none, combat	t	0
+11374	Spring Bros. ID badge	991549415	jetbadge1.gif	accessory	t	0
+11375	Boltsmann ID badge	234426278	jetbadge2.gif	accessory	t	0
+11376	housekeeping automa-core	366637852	acore_maid.gif	usable	t	0
+11377	portable housekeeping robot	202288746	amaid.gif	usable	t,d	200
+11378
+11379
+11380
+11381
+11382
+11383
+11384
+11385
+11386
+11387
+11388
+11389
+11390	wardrobe-o-matic	282462204	jwardbot.gif	usable		0
+11391	futuristic shirt	206138657	jw_shirt1.gif	shirt	q	0
+11392	futuristic hat	807452069	jw_hat1.gif	hat	q	0
+11393	futuristic collar	147705294	jw_pet9.gif	familiar	q	0
+11394	crated wardrobe-o-matic	237057182	crate.gif	usable	t	0
