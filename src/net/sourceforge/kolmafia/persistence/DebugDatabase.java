@@ -2410,7 +2410,7 @@ public class DebugDatabase {
       var length = array.length();
       for (int i = 0; i < length; i++) {
         var entry = array.getJSONObject(i);
-        var id = entry.getInt("id");
+        var id = entry.getInt("itemid");
         var name = entry.getString("name");
         var plural = entry.optString("plural", "");
 
