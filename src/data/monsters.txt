@@ -2155,7 +2155,7 @@ Tooth Golem	2336	toothgolem.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: constru
 # A Guide to Burning Leaves (Nov 2023)
 flaming leaflet	2389	leaflet.gif	FREE NOCOPY Atk: 11 Def: 11 HP: 11 Init: 11 P: plant E: hot Article: a	inflammable leaf (100)	inflammable leaf (75)	inflammable leaf (50)	inflammable leaf (25)	inflammable leaf (10)	inflammable leaf (5)	inflammable leaf (1)
 flaming monstera	2390	monstera.gif	FREE NOCOPY Scale: 0 Cap: ? Floor: ? Init: 50 P: plant E: hot Article: a	leafy browns (100)	6-8 inflammable leaf (m100)
-leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 Init: 0 P: plant EA: hot Article: a	flaming leaf crown (100)	100-150 inflammable leaf (m100)
+leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 Init: -10000 P: plant EA: hot Article: the	flaming leaf crown (100)	100-150 inflammable leaf (m100)
 
 # KoL Con
 
@@ -2320,6 +2320,17 @@ nerd rapper	1968	nerdrapper.gif	Scale: 5 Init: -10000 P: dude Article: a	charism
 stumbling-drunk congoer (female)	1972	congoerf1.gif,congoerf2.gif,congoerf3.gif	Scale: 5 Init: -10000 P: dude	unidentified drink (15)	KoL Con 13 T-shirt (5)
 stumbling-drunk congoer (male)	1969	congoer1.gif,congoer2.gif,congoer3.gif	Scale: 5 Init: -10000 P: dude	unidentified drink (15)	KoL Con 13 T-shirt (5)
 swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental EA: sleaze Article: a	diluted makeup (20)	discarded swimming trunks (5)
+
+# Twitch 9 - Jetsons (November 2023)
+robot maid	2396	jetmaid.gif	Scale: ? Init: -10000 P: construct Article: a	automa-bot parts (30)	housekeeping automa-core (c0)
+wardrobe robot	2397	jetwardrobe.gif	Scale: ? Init: -10000 P: construct Article: a	automa-bot parts (20)	Spring Bros. ID badge (c100)	Boltsmann ID badge (c100)
+exercise robot	2398	jettreadmill.gif	Scale: ? Init: -10000 P: construct	automa-bot parts (50)
+Spring Bros. security robot	2399	jetsecurity2.gif	Scale: ? Init: -10000 P: construct Article: a	automa-bot parts (30)	security automa-core (c0)
+automated solenoid press	2400	jetpress.gif	Scale: ? Init: -10000 P: construct Article: an	automa-bot parts (100)	Spring Bros. solenoid (30)	Spring Bros. solenoid (5)
+janitor robot	2401	jetjanitor.gif	Scale: ? Init: -10000 P: construct Article: a	automa-bot parts (30)	automa-bot parts (20)	automa-bot parts (10)
+Boltsmann security robot	2402	jetsecurity1.gif	Scale: ? Init: -10000 P: construct Article: a	automa-bot parts (40)	security automa-core (c0)
+automated bearing foundry	2403	jetfoundry.gif	Scale: ? Init: -10000 P: construct Article: a	automa-bot parts (50)	handful of Boltsmann bearings (30)	handful of Boltsmann bearings (5)
+clerical robot	2404	jetcleric.gif	Scale: ? Init: -10000 P: construct Article: a	automa-bot parts (40)	clerical automa-core (c0)
 
 # Crimbo 2018
 wild walrus	2099	c18walrus.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast E: cold Article: a	thick walrus blubber (10)	pristine walrus tusk (c0)
