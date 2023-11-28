@@ -1558,11 +1558,11 @@ mutated alielephant	1098	alielephant.gif	Scale: 10 Cap: 5000 Init: -10000 P: hor
 mutated alielf	1097	mutantalielf.gif	Scale: 5 Cap: 5000 Init: 100 P: horror Article: a	elven magi-pack (25)	elven medi-pack (25)	lunar isotope (75)	lunar isotope (50)	lunar isotope (25)
 
 # The Clumsiness Grove (Blavious Kloop Year 2012)
-Sorrowful Hickory	1125	tree_hickory.gif	Scale: 2 Cap: 150 Init: 50 P: plant Article: the	clumsiness bark (80) clumsiness bark (2)	cup of hickory chicory (15)
-Suffering Juniper	1123	tree_juniper.gif	Scale: 2 Cap: 150 Init: 50 P: plant Article: the	berries of suffering (30)	clumsiness bark (80) clumsiness bark (2)
-Tormented Baobab	1124	tree_baobab.gif	Scale: 2 Cap: 150 Init: 50 P: plant Article: the	baobab sap (2)	clumsiness bark (80) clumsiness bark (2)
+Sorrowful Hickory	1125	tree_hickory.gif	Scale: 2 Cap: 150 Init: 50 P: plant Article: the	clumsiness bark (80)	clumsiness bark (2)	cup of hickory chicory (15)
+Suffering Juniper	1123	tree_juniper.gif	Scale: 2 Cap: 150 Init: 50 P: plant Article: the	berries of suffering (30)	clumsiness bark (80)	clumsiness bark (2)
+Tormented Baobab	1124	tree_baobab.gif	Scale: 2 Cap: 150 Init: 50 P: plant Article: the	baobab sap (2)	clumsiness bark (80)	clumsiness bark (2)
 Whimpering Willow	1122	tree_willow.gif	Scale: 2 Cap: 150 Init: 50 P: plant Article: the	clumsiness bark (80)	clumsiness bark (2)	whimpering willow bark (30)
-Woeful Magnolia	1126	tree_magnolia.gif	Scale: 2 Cap: 150 Init: 50 P: plant Article: the	clumsiness bark (80) clumsiness bark (2)	magnolia blossom (15)
+Woeful Magnolia	1126	tree_magnolia.gif	Scale: 2 Cap: 150 Init: 50 P: plant Article: the	clumsiness bark (80)	clumsiness bark (2)	magnolia blossom (15)
 The Thorax	1127	thethorax.gif	BOSS NOCOPY Atk: 150 Def: 135 HP: 9500 Init: 100 P: beast	furious stone (100)
 The Bat in the Spats	1128	batinspats.gif	BOSS NOCOPY Atk: 150 Def: 135 HP: 9500 Init: 100 P: beast	vanity stone (100)
 
