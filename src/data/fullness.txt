@@ -670,6 +670,7 @@ Peche a la Frog	3	1	decent	3-4	0	0	0
 penguin focaccia bread	7	1	good	18-24	21-38	21-38	21-38
 Pete's rich ricotta	1	1	EPIC	6-8	0	0	40-80	30 Rippin' Riccotta (+200 Initiative, +10 Moxie, +100% Moxie)
 Pete's wiley whey bar	1	1	EPIC	5-7	0	0	20-40	30 Awfully Wily (+5 Moxie, +50% Moxie, +5 Sleaze Res)
+peppermint donut	1	1	good	0	0	0	0	Unspaded
 Peppermint Nutrition Block	3	1	decent	3-6	0	0	0	10 Forbear, Warbears! (+40 WarBear Armor Penetration)
 peppermint patty	2	2	EPIC	9-12	10-20	10-20	10-20
 perfect breakfast	5	1	good	14-16	20-30	40-50	0
