@@ -11388,8 +11388,8 @@
 11360	leafy browns	283851958	salad.gif	food	d	25	bowls of leafy browns
 11361	autumnic balm	776996939	al_balm.gif	potion, usable	t,d	100
 11362	coping juice	215559883	persmug.gif	potion, usable	t,d	100	cups of coping juice
-11363
-11364
+11363	candy cane sword cane	113452664	ccsword.gif	weapon		0
+11364	wrapped candy cane sword cane	701664395	ccsword_box.gif	usable	t	0
 11365
 11366
 11367
@@ -11420,3 +11420,4 @@
 11392	futuristic hat	807452069	jw_hat1.gif	hat	q	0
 11393	futuristic collar	147705294	jw_pet9.gif	familiar	q	0
 11394	crated wardrobe-o-matic	237057182	crate.gif	usable	t	0
+11395	peppermint donut	892693823	powderdonut.gif	food	t,d	35

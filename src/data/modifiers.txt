@@ -1227,6 +1227,7 @@ Item	can of maces	Weapon Damage: +2, Sleaze Resistance: +1
 Item	can opener	Weakens Monster, Hat Drop: +50
 # can-you-dig-it?: + ???
 Item	candlestick	Experience (Mysticality): +2, Mysticality Percent: +100, Lasts Until Rollover
+Item	candy cane sword cane	Weapon Damage Percent: +50, Never Fumble, Rollover Effect: "Sugar Rush", Rollover Effect Duration: 250, Weapon Damage: +5, Muscle: +10, Mysticality: +10, Moxie: +10
 Item	candy crowbar	Weapon Damage Percent: +100, Lasts Until Rollover
 # candy knife
 Item	candy knuckles	Weapon Damage: +25
@@ -5199,6 +5200,7 @@ Effect	Angry	Combat Rate: +5
 # Angry Bone: +40 Damage vs. Undead
 Effect	Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
 Effect	Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
+Effect	Animal Lover	Experience (familiar): +2
 Effect	Annoyed by Threats	Monster Level: +25
 # Antarctic Memories: Recover HP and MP after battle
 Effect	Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
@@ -6901,6 +6903,7 @@ Effect	Peeled Eyeballs	Experience: -1, Meat Drop: -30, Item Drop: +20
 Effect	Penguinny Flavor	Cold Damage: +10, Cold Resistance: +2
 Effect	Penne Fedora	Moxie: +10
 Effect	Peppermint Bite	Muscle: +5
+Effect	Peppermint Rush	Initiative: +40, Muscle Percent: +10, Moxie Percent: +10, Mysticality Percent: -10, Experience: +3
 Effect	Peppermint Twisted	Initiative: +40, Meat Drop: +50, Monster Level: +10
 Effect	PERL of Great Price	Meat Drop: +25
 Effect	Perceptive Pressure	Item Drop: +50
@@ -7156,7 +7159,7 @@ Effect	Sea Guts	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10
 Effect	Sea Seeing	Item Drop: [30*env(underwater)]
 Effect	Seal Clubbing Frenzy	Muscle: +2
 Effect	Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
-# Securitybot Escort: Deals damage to your enemies each round
+Effect	Securitybot Escort	Damage Aura: 1
 Effect	Seeing Colors	Mysticality Percent: +50
 # Seeing Red: Monsters will always hit you
 Effect	Seeing Red	Weapon Damage: +25, Weapon Damage Percent: +100
@@ -9055,6 +9058,7 @@ Item	one with everything	Effect: "Inner Dog", Effect Duration: 50
 Item	packet of beer nuts	Effect: "Salty Mouth", Effect Duration: 1
 Item	pawn cookie	Effect: "Pwnd", Effect Duration: 30
 Item	pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
+Item	peppermint donut	Effect: "Peppermint Rush", Effect Duration: 10
 Item	Pete's rich ricotta	Effect: "Rippin' Ricotta", Effect Duration: 30
 Item	Pete's wiley whey bar	Effect: "Awfully Wily", Effect Duration: 30
 Item	petit 4.1	Effect: "Petit Force", Effect Duration: 20
@@ -12484,6 +12488,7 @@ Item	wizard action figure	Free Pull
 # Wolfman Nardz: Restores 200-300 MP
 # wood screw: Deals 20-30 Physical Damage and briefly stuns your opponent
 # world's most dangerous birdhouse: Instantly defeats most monsters
+Item	wrapped candy cane sword cane	Free Pull
 # wumpus-hair bolo: Lets you escape from combat without spending an Adventure
 # wumpus-hair bolo: (Maybe)
 # wumpus-hair net: Weakens enemies somewhat
