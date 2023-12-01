@@ -1694,6 +1694,8 @@ user	_aug31Cast	false
 user	_augSkillsCast	0
 user	_augTodayCast	false
 user	_authorsInkUsed	false
+user	_automatedFutureSide
+user	_automatedFutureManufactures	0
 user	_autumnatonQuests	0
 user	_backUpUses	0
 user	_baconMachineUsed	false
