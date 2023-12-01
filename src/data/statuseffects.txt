@@ -2853,5 +2853,5 @@
 2853	Peppermint Rush	ccsword.gif	97bac5f12530c253303ed4fa944bec0d	neutral	none
 2854	Securitybot Escort	acore_sec.gif	8e1e6645801b75d190a9ab72e97d104c	neutral	none
 2855	Clericbot Blessing	acore_cleric.gif	8411214ff53d8afb3375ea40fda74e27	neutral	none
-2856
+2856	Martially-Minded	sword.gif	13078bcdf837700bc047bbc706e97bbb	neutral	none
 2857	Animal Lover	happy.gif	e6711e9b198ebf036a0ff668a5f370b0	neutral	none

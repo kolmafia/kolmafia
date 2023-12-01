@@ -224,6 +224,7 @@ cool jelly donut	1	4	awesome	3-5	0	0	40-60	30 Filled With Magic (+100% spell dmg
 cool mint precipice bar	1	1	good	3	5-10	5-10	5-10	30 On the Minty Precipice (+10 stats/fight, +15% all stats)
 cool mushroom	2	1	decent	2-3	0	12-15	0
 cool mushroom casserole	4	1	decent	4-12	0	35-40	0
+corned beet	1	1	good	3	0	8-10	0	pirate encryption key
 corned-beef Reuben	3	9	awesome	12-13	28-34	0	0
 crabsicle	2	4	EPIC	12-14	5-20	5-20	5-20
 cranberries	1	1	crappy	1	0	0	0
@@ -682,6 +683,7 @@ petit 4.1	2	1	awesome	7-11	0	0	0	20 Petit Force (+100% all stats)
 petit fortran	2	1	awesome	7-11	0	0	0	10 Petit Forbearance (+8-10 MP regen, +10-20 HP regen)
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
 phish stick	1	1	awesome	4-5	20-55	20-55	20-55
+pickled bread	1	1	good	3	8-10	0	0	pirate encryption key
 pickled egg	1	1	crappy	1	1-2	1-2	1-2
 pie man was not meant to eat	100	15	EPIC	100-200	100-200	100-200	100-200
 piece of wedding cake	2	1	decent	2-5	0	0	0
@@ -773,6 +775,7 @@ St. Pete's sneaky smoothie	1	1	EPIC	5-7	0	0	20-40	30 Gritty Soul (+5 Moxie, +50%
 s'more	1	1	crappy	1	0	0	0
 salacious crumbs	3	1	decent	5-7	0	0	15-20
 salt plum	2	1	good	6	0	0	0
+salted mutton	1	1	good	3	0	0	8-10	pirate encryption key
 salty ancient serpent roll	3	1	sushi	9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
 salty beefy maki	3	1	sushi	7-12	8-16	0	0	45/55 Fishy, 10 Salty Dogs
 salty eleven oceans roll	3	1	sushi	9-14	20-30	20-30	28-46	45/55 Fishy, 10 Salty Dogs
