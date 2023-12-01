@@ -11403,18 +11403,18 @@
 11375	Boltsmann ID badge	234426278	jetbadge2.gif	accessory	t	0
 11376	housekeeping automa-core	366637852	acore_maid.gif	usable	t	0
 11377	portable housekeeping robot	202288746	amaid.gif	usable	t,d	200
-11378
-11379
-11380
+11378	pickled bread	675408908	saltbread.gif	food	t,d	0
+11379	salted mutton	657514472	saltmutton.gif	food	t,d	0
+11380	corned beet	163378662	saltbet.gif	food	t,d	0
 11381
 11382
 11383
 11384
 11385
-11386
-11387
-11388
-11389
+11386	pirate encryption key alpha	330102605	c23enc1.gif	none	t	0
+11387	pirate encryption key bravo	383639417	c23enc2.gif	none	t	0
+11388	pirate encryption key charlie	364036743	c23enc3.gif	none	t	0
+11389	pirate encryption key delta	901600524	c23enc4.gif	none	t	0
 11390	wardrobe-o-matic	282462204	jwardbot.gif	usable		0
 11391	futuristic shirt	206138657	jw_shirt1.gif	shirt	q	0
 11392	futuristic hat	807452069	jw_hat1.gif	hat	q	0
