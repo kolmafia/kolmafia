@@ -4627,6 +4627,13 @@ public abstract class ChoiceControl {
           if (leaves != null) BurningLeavesRequest.logLeavesBurned(leaves);
           break;
         }
+      case 1512, 1513:
+        if (ChoiceManager.lastDecision == 1 && text.contains("You press the button.")) {
+          Preferences.setString(
+              "_automatedFutureSide", ChoiceManager.lastChoice == 1512 ? "solenoids" : "bearings");
+          Preferences.increment("_automatedFutureManufactures", 1, 11, false);
+        }
+        break;
     }
   }
 
@@ -8264,6 +8271,17 @@ public abstract class ChoiceControl {
       case 1510:
         // Burning Leaves
         BurningLeavesRequest.visitChoice(text);
+        break;
+
+      case 1512, 1513:
+        if (text.contains("don't even think about pressing that button")) {
+          Preferences.setString(
+              "_automatedFutureSide", ChoiceManager.lastChoice == 1512 ? "bearings" : "solenoids");
+        } else if (text.contains("You've already pushed the button eleven times today")) {
+          Preferences.setString(
+              "_automatedFutureSide", ChoiceManager.lastChoice == 1512 ? "solenoids" : "bearings");
+          Preferences.setInteger("_automatedFutureManufactures", 11);
+        }
         break;
     }
   }
