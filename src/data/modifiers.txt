@@ -6635,6 +6635,7 @@ Effect	Margaritish	Moxie Percent: [min(200,5*T)]
 Effect	Mariachi Mood	Maximum HP: +3, Moxie: +1
 Effect	Marinated	Muscle: +15, Mysticality: +15
 Effect	Mark of Candy Cain	Critical Hit Percent: +20, Spell Critical Percent: +20
+Effect	Martially-Minded	Weapon Damage: +50, Weapon Damage Percent: +25
 Effect	Matador Nemesis	Avatar: "raging bull"
 Effect	Material Witness	Meat Drop: +10
 # Mathematically Precise: Combat items deal 50% more damage
