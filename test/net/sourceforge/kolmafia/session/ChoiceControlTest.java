@@ -389,4 +389,65 @@ class ChoiceControlTest {
       assertThat("noncombatForcerActive", isSetTo(Boolean.parseBoolean(propertyValue)));
     }
   }
+
+  @Nested
+  class AutomatedFuture {
+    @Test
+    void choosingSolenoids() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_automatedFutureSide", ""),
+              withProperty("_automatedFutureManufactures", 0),
+              withChoice(
+                  1512, 1, html("request/test_choice_automated_future_choose_solenoids.html")));
+
+      try (cleanups) {
+        assertThat("_automatedFutureSide", isSetTo("solenoids"));
+        assertThat("_automatedFutureManufactures", isSetTo(1));
+      }
+    }
+
+    @Test
+    void correctWrongSide() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_automatedFutureSide", "bearings"),
+              withProperty("_automatedFutureManufactures", 2),
+              withChoice(
+                  1512, 1, html("request/test_choice_automated_future_choose_solenoids.html")));
+
+      try (cleanups) {
+        assertThat("_automatedFutureSide", isSetTo("solenoids"));
+        assertThat("_automatedFutureManufactures", isSetTo(3));
+      }
+    }
+
+    @Test
+    void discoverSide() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_automatedFutureSide", ""),
+              withProperty("_automatedFutureManufactures", 2),
+              withChoice(1513, html("request/test_choice_automated_future_try_other_side.html")));
+
+      try (cleanups) {
+        assertThat("_automatedFutureSide", isSetTo("solenoids"));
+        assertThat("_automatedFutureManufactures", isSetTo(2));
+      }
+    }
+
+    @Test
+    void adjustWhenHitMaxManufactures() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_automatedFutureSide", ""),
+              withProperty("_automatedFutureManufactures", 5),
+              withChoice(1512, html("request/test_choice_automated_future_max_manufactures.html")));
+
+      try (cleanups) {
+        assertThat("_automatedFutureSide", isSetTo("solenoids"));
+        assertThat("_automatedFutureManufactures", isSetTo(11));
+      }
+    }
+  }
 }
