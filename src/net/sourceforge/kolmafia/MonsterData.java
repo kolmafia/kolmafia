@@ -53,8 +53,8 @@ public class MonsterData extends AdventureResult {
     NOBANISH("NOBANISH"),
     NOCOPY("NOCOPY"),
     NOMANUEL("NOMANUEL"),
-    WISH("WISH"),
     NOWISH("NOWISH"),
+    WISH("WISH"),
     EA("EA:"),
     ED("ED:"),
     PHYS("Phys:"),
@@ -255,8 +255,8 @@ public class MonsterData extends AdventureResult {
               NOBANISH,
               NOCOPY,
               NOMANUEL,
-              WISH,
               NOWISH,
+              WISH,
               WANDERER,
               ULTRARARE,
               LUCKY,
@@ -364,6 +364,7 @@ public class MonsterData extends AdventureResult {
     saveKeywordAttribute(Attribute.NOCOPY, attributeMap, buf);
     saveKeywordAttribute(Attribute.NOMANUEL, attributeMap, buf);
     saveKeywordAttribute(Attribute.NOWISH, attributeMap, buf);
+    saveKeywordAttribute(Attribute.WISH, attributeMap, buf);
 
     // Encounter Types
     saveKeywordAttribute(Attribute.WANDERER, attributeMap, buf);
