@@ -999,30 +999,30 @@ Your Shadow	210	otherimages/shadows/20.gif	BOSS NOCOPY Atk: [150] Def: [89999] H
 
 topiary golem	205	topiary.gif	NOCOPY Atk: 235 Def: 211 HP: 220 Init: 80 P: plant Article: a	hedge maze puzzle (60)
 
-Beer Batter	208	batter.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-best-selling novelist	602	novelist.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
-Big Meat Golem	276	bigmeat.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-Bowling Cricket	277	cricket.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
-Bronze Chef	604	bronzechef.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-collapsed mineshaft golem	611	minegolem.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-concert pianist	601	pianist.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
-darkness	608	rorshach.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental Article: the Wiki: "Darkness (The Sorceress' Tower)"
-El Diablo	605	eldiablo.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
-Electron Submarine	280	submarine.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: an
-endangered inflatable white tiger	609	inflatiger.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: an
-Enraged Cow	209	cow.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: an
-fancy bath slug	610	bathslug.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
-Fickle Finger of F8	204	finger.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: weird Article: the
-Flaming Samurai	206	samurai.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
-giant bee	612	giantbee.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
-Giant Desktop Globe	279	globe.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-giant fried egg	606	friedegg.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: slime Article: a
-Ice Cube	207	icecube.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental Article: an
-malevolent crop circle	603	cropcircle.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-possessed pipe-organ	607	organ.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
-Pretty Fly	203	fly.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Exp: 40 Init: -10000 P: beast Article: a
-Tyrannosaurus Tex	278	tex.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: a
-Vicious Easel	275	easel.gif	NOCOPY Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+Beer Batter	208	batter.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+best-selling novelist	602	novelist.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
+Big Meat Golem	276	bigmeat.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+Bowling Cricket	277	cricket.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
+Bronze Chef	604	bronzechef.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+collapsed mineshaft golem	611	minegolem.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+concert pianist	601	pianist.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
+darkness	608	rorshach.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental Article: the Wiki: "Darkness (The Sorceress' Tower)"
+El Diablo	605	eldiablo.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
+Electron Submarine	280	submarine.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: an
+endangered inflatable white tiger	609	inflatiger.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: an
+Enraged Cow	209	cow.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: an
+fancy bath slug	610	bathslug.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
+Fickle Finger of F8	204	finger.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: weird Article: the
+Flaming Samurai	206	samurai.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: dude Article: a
+giant bee	612	giantbee.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug Article: a
+Giant Desktop Globe	279	globe.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+giant fried egg	606	friedegg.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: slime Article: a
+Ice Cube	207	icecube.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: elemental Article: an
+malevolent crop circle	603	cropcircle.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+possessed pipe-organ	607	organ.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
+Pretty Fly	203	fly.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Exp: 40 Init: -10000 P: beast Article: a
+Tyrannosaurus Tex	278	tex.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: beast Article: a
+Vicious Easel	275	easel.gif	NOCOPY WISH Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct Article: a
 
 # Basement
 
