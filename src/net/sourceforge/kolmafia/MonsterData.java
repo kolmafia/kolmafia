@@ -667,10 +667,13 @@ public class MonsterData extends AdventureResult {
     this.noBanish = attributes.containsKey(Attribute.NOBANISH);
     this.noCopy = attributes.containsKey(Attribute.NOCOPY);
     this.noManuel = attributes.containsKey(Attribute.NOMANUEL);
-    if (!attributes.containsKey(Attribute.WISH)) {
-      this.noWish =
-          attributes.containsKey(Attribute.NOWISH) || this.boss || this.noCopy || this.noManuel;
-    }
+    this.noWish =
+        attributes.containsKey(Attribute.WISH)
+            ? false
+            : (attributes.containsKey(Attribute.NOWISH)
+                || this.boss
+                || this.noCopy
+                || this.noManuel);
     this.type = type;
     this.subTypes = subTypes;
     this.manuelName = (String) attributes.get(Attribute.MANUEL_NAME);
