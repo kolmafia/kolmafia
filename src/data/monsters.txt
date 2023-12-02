@@ -1884,7 +1884,7 @@ X-32-F Combat Training Snowman	1858	blank.gif	NOCOPY NOMANUEL NOWANDER Atk: 1 De
 
 drunk cowpoke	1899	drunkpoke.gif	NOWISH Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: -10000 P: dude Article: a	cow poker (20)
 surly gambler	1900	gamblinman.gif	NOWISH Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: -10000 P: dude Article: a	poker face paint (20)
-wannabe gunslinger	1901	wannabecowboy.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: dude Article: a	realistic cap gun (20)
+wannabe gunslinger	1901	wannabecowboy.gif	NOWISH Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: dude Article: a	realistic cap gun (20)
 cow cultist	1902	cowcultist.gif	NOWISH Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: dude Elem: [max(min(75*(pref(lttQuestDifficulty)-1),100),0)] Article: a	tainted milk (20)
 hired gun	1903	outlawboss.gif	NOWISH Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 75 P: dude Article: a	gun parts (30)
 camp cook	1904	campcook.gif	NOWISH Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: dude Article: a	plate of Heimz Fortified Kidney Beans (c20)	plate of Mixed Garbanzos and Chickpeas (c20)	plate of Tesla's Electroplated Beans (c20)
