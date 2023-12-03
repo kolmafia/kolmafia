@@ -1042,12 +1042,12 @@ C. H. U. M.	682	chum1.gif,chum2.gif,chum3.gif,chum4.gif,chum5.gif	Atk: 260 Def: 
 C. H. U. M. chieftain	715	chumchief.gif	LUCKY Atk: 330 Def: 270 HP: 400 Init: 40 P: humanoid EA: stench Article: a	C.H.U.M. knife (2)	bottle of sewage schnapps (30)	bottle of sewage schnapps (30)	sewer nuggets (40)	sewer nuggets (40)	C.H.U.M. chum (p40)
 giant zombie goldfish	681	zomfish.gif	Atk: 250 Def: 229 HP: 250 Init: 60 P: undead EA: stench Article: a	decaying goldfish liver (15)	sewer nuggets (20)	sewer nuggets (20)
 sewer gator	679	sewergator.gif	Atk: 245 Def: 225 HP: 300 Init: 60 Meat: 75 P: beast Article: a	gator skin (15)	sewer nuggets (20)	sewer nuggets (20)
-Normal hobo	651	nhobo1.gif,nhobo2.gif,nhobo3.gif,nhobo4.gif,nhobo5.gif,nhobo6.gif,nhobo7.gif,nhobo8.gif,nhobo9.gif,nhobo10.gif,nhobo11.gif,nhobo12.gif,nhobo13.gif,nhobo14.gif,nhobo15.gif,nhobo16.gif,nhobo17.gif,nhobo18.gif	Atk: 300 Def: 270 HP: 400 Init: 100 P: hobo	hobo nickel (c15)	Mr. Joe's bangles (c0.1)	corncob pipe (c0.1)	panhandle panhandling hat (c0.1)	frayed rope belt (c0.1)	cup of infinite pencils (c0.1)	'WILL WORK FOR BOOZE' sign (c0.1)	lucky bottlecap (c0.1)	rusty piece of rebar (c0.1)
-Cold hobo	690	coldhobo1.gif,coldhobo2.gif,coldhobo3.gif,coldhobo4.gif,coldhobo5.gif,coldhobo6.gif,coldhobo7.gif,coldhobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo E: cold	hobo nickel (c15)	freezin' bindle (c0.1)	Maxing, Relaxing (c0.1)	Blizzards I Have Died In (c0.1)	frigid air mattress (c0.1)
-Hot hobo	689	hothobo1.gif,hothobo2.gif,hothobo3.gif,hothobo4.gif,hothobo5.gif,hothobo6.gif,hothobo7.gif,hothobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo E: hot	bed of coals (c0.1)	hobo nickel (c15)	flamin' bindle (c0.1)	Tales from the Fireside (c0.1)	Kissin' Cousins (c0.1)
-Sleaze hobo	693	slhobo1.gif,slhobo2.gif,slhobo3.gif,slhobo4.gif,slhobo5.gif,slhobo6.gif,slhobo7.gif,slhobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo ED: sleaze	hobo nickel (c15)	sleazy bindle (c0.1)	Summer Nights (c0.1)	Sensual Massage for Creeps (c0.1)	stained mattress (c0.1)
-Spooky hobo	692	spookyhobo1.gif,spookyhobo2.gif,spookyhobo3.gif,spookyhobo4.gif,spookyhobo5.gif,spookyhobo6.gif,spookyhobo7.gif,spookyhobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo Elem: 100 E: spooky	hobo nickel (c15)	spooky bindle (c0.1)	Asleep in the Cemetery (c0.1)	Let Me Be! (c0.1)	comfy coffin (c0.1)
-Stench hobo	691	stenchhobo1.gif,stenchhobo2.gif,stenchhobo3.gif,stenchhobo4.gif,stenchhobo5.gif,stenchhobo6.gif,stenchhobo7.gif,stenchhobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo E: stench	hobo nickel (c15)	stinkin' bindle (c0.1)	Biddy Cracker's Old-Fashioned Cookbook (c0.1)	Travels with Jerry (c0.1)	filth-encrusted futon (c0.1)
+Normal hobo	651	nhobo1.gif,nhobo2.gif,nhobo3.gif,nhobo4.gif,nhobo5.gif,nhobo6.gif,nhobo7.gif,nhobo8.gif,nhobo9.gif,nhobo10.gif,nhobo11.gif,nhobo12.gif,nhobo13.gif,nhobo14.gif,nhobo15.gif,nhobo16.gif,nhobo17.gif,nhobo18.gif	NOWISH Atk: 300 Def: 270 HP: 400 Init: 100 P: hobo	hobo nickel (c15)	Mr. Joe's bangles (c0.1)	corncob pipe (c0.1)	panhandle panhandling hat (c0.1)	frayed rope belt (c0.1)	cup of infinite pencils (c0.1)	'WILL WORK FOR BOOZE' sign (c0.1)	lucky bottlecap (c0.1)	rusty piece of rebar (c0.1)
+Cold hobo	690	coldhobo1.gif,coldhobo2.gif,coldhobo3.gif,coldhobo4.gif,coldhobo5.gif,coldhobo6.gif,coldhobo7.gif,coldhobo8.gif	NOWISH Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo E: cold	hobo nickel (c15)	freezin' bindle (c0.1)	Maxing, Relaxing (c0.1)	Blizzards I Have Died In (c0.1)	frigid air mattress (c0.1)
+Hot hobo	689	hothobo1.gif,hothobo2.gif,hothobo3.gif,hothobo4.gif,hothobo5.gif,hothobo6.gif,hothobo7.gif,hothobo8.gif	NOWISH Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo E: hot	bed of coals (c0.1)	hobo nickel (c15)	flamin' bindle (c0.1)	Tales from the Fireside (c0.1)	Kissin' Cousins (c0.1)
+Sleaze hobo	693	slhobo1.gif,slhobo2.gif,slhobo3.gif,slhobo4.gif,slhobo5.gif,slhobo6.gif,slhobo7.gif,slhobo8.gif	NOWISH Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo ED: sleaze	hobo nickel (c15)	sleazy bindle (c0.1)	Summer Nights (c0.1)	Sensual Massage for Creeps (c0.1)	stained mattress (c0.1)
+Spooky hobo	692	spookyhobo1.gif,spookyhobo2.gif,spookyhobo3.gif,spookyhobo4.gif,spookyhobo5.gif,spookyhobo6.gif,spookyhobo7.gif,spookyhobo8.gif	NOWISH Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo Elem: 100 E: spooky	hobo nickel (c15)	spooky bindle (c0.1)	Asleep in the Cemetery (c0.1)	Let Me Be! (c0.1)	comfy coffin (c0.1)
+Stench hobo	691	stenchhobo1.gif,stenchhobo2.gif,stenchhobo3.gif,stenchhobo4.gif,stenchhobo5.gif,stenchhobo6.gif,stenchhobo7.gif,stenchhobo8.gif	NOWISH Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo E: stench	hobo nickel (c15)	stinkin' bindle (c0.1)	Biddy Cracker's Old-Fashioned Cookbook (c0.1)	Travels with Jerry (c0.1)	filth-encrusted futon (c0.1)
 gang of hobo muggers	707	muggers.gif	Atk: 800 Def: 900 HP: 3000 Init: 300 P: hobo EA: hot Article: a
 
 # Hobopolis Bosses
@@ -1154,8 +1154,8 @@ The Luter	1152	theluter.gif	NOCOPY Atk: 75 Def: 67 HP: 100 Init: 50 P: undead Ph
 
 # Bugbear Invasion
 scavenger bugbear	1165	bb_scav.gif	Atk: 5 Def: 4 HP: 5 Init: 150 P: beast EA: stench Article: a	BURT (100)
-creepy eye-stalk tentacle monster	1174	dianoga.gif	Atk: 8 Def: 5 HP: 6 Init: 100 P: horror ED: stench EA: sleaze EA: stench Article: a	handful of juicy garbage (0)
-grouchy furry monster	1175	grouchewie.gif	Atk: 6 Def: 6 HP: 8 Init: 50 P: beast EA: stench Article: a	handful of juicy garbage (0)	Osk'r Chow (c0)
+creepy eye-stalk tentacle monster	1174	dianoga.gif	NOWISH Atk: 8 Def: 5 HP: 6 Init: 100 P: horror ED: stench EA: sleaze EA: stench Article: a	handful of juicy garbage (0)
+grouchy furry monster	1175	grouchewie.gif	NOWISH Atk: 6 Def: 6 HP: 8 Init: 50 P: beast EA: stench Article: a	handful of juicy garbage (0)	Osk'r Chow (c0)
 hypodermic bugbear	1166	bb_vamp.gif	Atk: 8 Def: 7 HP: 8 Init: 100 P: beast Article: a	BURT (100)
 anesthesiologist bugbear	1176	bb_doctor.gif	NOWISH Atk: 12 Def: 7 HP: 10 Init: 50 P: beast Article: an	BURT (100)
 bugbear robo-surgeon	1177	robosurgeon.gif	NOCOPY Atk: 15 Def: 22 HP: 20 Init: 50 P: construct EA: hot Article: a
@@ -1171,7 +1171,7 @@ liquid metal bugbear	1181	bb_liquidmetal.gif	Atk: 140 Def: 162 HP: 175 Init: 150
 ancient unspeakable bugbear	1172	bb_horror.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: beast ED: spooky Article: an	BURT (100)
 N-space Virtual Assistant	1184	bb_vassist.gif	Atk: 175 Def: 157 HP: 180 Init: 100 P: construct Phys: 60 Elem: 60 EA: sleaze Article: an
 trendy bugbear chef	1173	bb_chef.gif	Atk: 200 Def: 180 HP: 250 Init: 50 P: beast Phys: 25 ED: stench Article: a	BURT (100)
-angry cavebugbear	1183	bb_caveman.gif	Atk: 220 Def: 211 HP: 300 Init: 25 P: beast Elem: 75 Article: an
+angry cavebugbear	1183	bb_caveman.gif	NOWISH Atk: 220 Def: 211 HP: 300 Init: 25 P: beast Elem: 75 Article: an
 Bugbear Captain	1182	bb_captain.gif	NOCOPY Atk: 280 Def: 288 HP: 1337 Init: 200 P: beast Phys: 25 Elem: 30 Article: the
 
 # Zombie Slayer
@@ -1248,9 +1248,9 @@ Donerbagon	1666	donerbagon.gif	BOSS NOCOPY Atk: 90 Def: 81 HP: 120 Init: 90 P: u
 Your winged yeti	1667	wingedyeti.gif	BOSS NOCOPY Atk: 120 Def: 108 HP: 250 Init: 50 P: beast E: cold Wiki: "winged yeti"	5 dense meat stack (m100)	winged yeti fur (c100)
 hulking bridge troll	1668	bridgetroll.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 140 Init: 50 Meat: 50 P: humanoid EA: sleaze Article: a
 You the Adventurer	1669		BOSS NOCOPY Atk: 240 Def: 210 HP: 900 Init: 150 P: dude Wiki: "%playername the Adventurer"
-warehouse guard	1740	warehouseguard.gif	Atk: 210 Def: 230 HP: 250 Init: 50 Meat: 50 P: dude Article: a	warehouse map page (10)	warehouse walkie-talkie (c15)
-warehouse janitor	1741	warehousejanitor.gif	Atk: 230 Def: 230 HP: 230 Init: 150 Meat: 30 P: dude Article: a	janitor sponge (10)	janitor's mop (c15)
-warehouse clerk	1742	warehouseclerk.gif	Atk: 220 Def: 240 HP: 210 Init: 200 Meat: 75 P: dude Article: a	warehouse inventory page (10)	warehouse clerk's glasses (c15)
+warehouse guard	1740	warehouseguard.gif	NOWISH Atk: 210 Def: 230 HP: 250 Init: 50 Meat: 50 P: dude Article: a	warehouse map page (10)	warehouse walkie-talkie (c15)
+warehouse janitor	1741	warehousejanitor.gif	NOWISH Atk: 230 Def: 230 HP: 230 Init: 150 Meat: 30 P: dude Article: a	janitor sponge (10)	janitor's mop (c15)
+warehouse clerk	1742	warehouseclerk.gif	NOWISH Atk: 220 Def: 240 HP: 210 Init: 200 Meat: 75 P: dude Article: a	warehouse inventory page (10)	warehouse clerk's glasses (c15)
 
 # Avatar of West of Loathing
 furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: demon EA: hot EA: sleaze Article: a
@@ -2496,9 +2496,9 @@ Underworld Tree	866	shiv_underworld.gif	NOCOPY NOMANUEL P: plant	Underworld acor
 # Crimbo Town Toy Factory (Crimbo 2009)
 amateur elf	899	elf_amateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: an	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 auteur elf	898	elf_auteur.gif	Scale: -5 Floor: 5 Init: -10000 Meat: 20 P: elf Article: an	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-bolt-cuttin' elf	900	elf_boltcutters.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
-monkey wrenchin' elf	894	elf_wrench.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
-propaganda-spewin' elf	901	elf_propaganda.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
+bolt-cuttin' elf	900	elf_boltcutters.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
+monkey wrenchin' elf	894	elf_wrench.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
+propaganda-spewin' elf	901	elf_propaganda.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
 provocateur elf	896	elf_provocateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 raconteur elf	897	elf_raconteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 saboteur elf	895	elf_saboteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
@@ -2506,15 +2506,15 @@ wire-crossin' elf	902	elf_wires.gif	NOCOPY NOMANUEL P: elf	elf resistance button
 Edwing Abbidriel	903	edwing.gif	NOCOPY NOMANUEL P: elf	elf resistance button (100)
 
 # Don Crimbo's Compound (Crimbo 2009)
-Black-and-White-Ops Penguin	911	pengblackop.gif	Scale: 3 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	grappling hook (c100)	night-vision goggles (0)
-Cement Cobbler Penguin	912	pengcement.gif	Scale: 4 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	cement sandals (0)	chunk of cement (c100)
-Mesmerizing Penguin	909	pengmesmer.gif	Scale: 2 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	pocketwatch on a chain (0)	spiraling shape (c100)
+Black-and-White-Ops Penguin	911	pengblackop.gif	NOWISH Scale: 3 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	grappling hook (c100)	night-vision goggles (0)
+Cement Cobbler Penguin	912	pengcement.gif	NOWISH Scale: 4 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	cement sandals (0)	chunk of cement (c100)
+Mesmerizing Penguin	909	pengmesmer.gif	NOWISH Scale: 2 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	pocketwatch on a chain (0)	spiraling shape (c100)
 Mob Penguin Arsonist	905	pengarson.gif	Scale: 0 Init: -10000 P: penguin EA: hot Article: a	8-12 Crimbuck (m100)	herringcello (0)	penguin focaccia bread (0)
 Mob Penguin Caporegime	907	pengcapo.gif	Scale: 0 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	herringcello (0)	penguin focaccia bread (0)
 Mob Penguin Demolitionist	908	pengdemo.gif	Scale: 0 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	herringcello (0)	penguin focaccia bread (0)
 Mob Penguin Goon (2009)	906	penggoon.gif	Scale: 0 Init: -10000 P: penguin Article: a Manuel: "Mob Penguin Goon" Wiki: "Mob Penguin Goon"	8-12 Crimbuck (m100)	herringcello (0)	penguin focaccia bread (0)
 Mob Penguin Kneecapper	904	pengthug.gif	Scale: 0 Init: -10000 P: penguin Article: a	8-12 Crimbuck (m100)	herringcello (0)	penguin focaccia bread (0)
-Undercover Penguin	910	pengundercover.gif	Scale: 1 Init: -10000 P: penguin Article: an	cardboard elf ear (c100)	8-12 Crimbuck (m100)	passable elf mask (0)
+Undercover Penguin	910	pengundercover.gif	NOWISH Scale: 1 Init: -10000 P: penguin Article: an	cardboard elf ear (c100)	8-12 Crimbuck (m100)	passable elf mask (0)
 Don Crimbo	913	doncrimbo.gif	NOCOPY NOMANUEL Atk: 99999 Def: 89999 HP: 1000000 Init: 100 Phys: 100
 
 # Bigg's Diggg (September 2010)
@@ -2578,11 +2578,11 @@ Riff's butt	-59	butt.gif	NOCOPY NOMANUEL WANDERER Atk: 69 Def: 76 HP: 52 EA: sle
 antique database server	1099	spiderserver.gif	Atk: [0] Def: [0] HP: 300 Exp: 60 Init: -10000 P: construct Article: an	corrupted data (10)	squirming egg sac (5)
 
 # The Haunted Sorority House (October 2011)
-sexy sorority ghost	1102	sororghost1.gif,sororghost2.gif,sororghost3.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: undead GHOST Phys: 100 EA: sleaze EA: spooky	Haunted Sorority House staff guide (1)	ghostly body paint (5)	Ecto-Cooler (c1)	ghost protocol (c1)	extra-see-thru nightie (c1)
-sexy sorority skeleton	1103	sororeton1.gif,sororeton2.gif,sororeton3.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: undead Elem: 100 EA: spooky	Haunted Sorority House staff guide (1)	press-on ribs (5)	Bone's Farm &quot;wine&quot; (c1)	throwing bone (c1)	extremely skinny jeans (c1)
-sexy sorority vampire	1104	sororpire1.gif,sororpire2.gif,sororpire3.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: undead	Haunted Sorority House staff guide (1)	bite-me-red lipstick (5)	Blood Light (c1)	Nightstalker perfume (c1)	Mesmereyes&trade; contact lenses (c1)
-sexy sorority werewolf	1106	sororwolf1.gif,sororwolf2.gif,sororwolf3.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: dude Phys: 50 Elem: 50 EA: spooky	Haunted Sorority House staff guide (1)	whisker pencil (5)	Silver Bullet beer (c1)	drum of pomade (c1)	cursed scrunchie (c1)
-sexy sorority zombie	1105	sororbie1.gif,sororbie2.gif,sororbie3.gif	Atk: 50 Def: 45 HP: 100 Init: 50 P: undead EA: spooky	Haunted Sorority House staff guide (1)	necrotizing body spray (5)	Bartles and BRAAAINS wine cooler (c1)	sorority brain (c1)	BRAINS shorts (c1)
+sexy sorority ghost	1102	sororghost1.gif,sororghost2.gif,sororghost3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead GHOST Phys: 100 EA: sleaze EA: spooky	Haunted Sorority House staff guide (1)	ghostly body paint (5)	Ecto-Cooler (c1)	ghost protocol (c1)	extra-see-thru nightie (c1)
+sexy sorority skeleton	1103	sororeton1.gif,sororeton2.gif,sororeton3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead Elem: 100 EA: spooky	Haunted Sorority House staff guide (1)	press-on ribs (5)	Bone's Farm &quot;wine&quot; (c1)	throwing bone (c1)	extremely skinny jeans (c1)
+sexy sorority vampire	1104	sororpire1.gif,sororpire2.gif,sororpire3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead	Haunted Sorority House staff guide (1)	bite-me-red lipstick (5)	Blood Light (c1)	Nightstalker perfume (c1)	Mesmereyes&trade; contact lenses (c1)
+sexy sorority werewolf	1106	sororwolf1.gif,sororwolf2.gif,sororwolf3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: dude Phys: 50 Elem: 50 EA: spooky	Haunted Sorority House staff guide (1)	whisker pencil (5)	Silver Bullet beer (c1)	drum of pomade (c1)	cursed scrunchie (c1)
+sexy sorority zombie	1105	sororbie1.gif,sororbie2.gif,sororbie3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead EA: spooky	Haunted Sorority House staff guide (1)	necrotizing body spray (5)	Bartles and BRAAAINS wine cooler (c1)	sorority brain (c1)	BRAINS shorts (c1)
 
 # Lollipop Forest (Crimbo 2011)
 lollicat	1112	lollicat.gif	Atk: 20 Def: 18 HP: 30 Init: 50 P: beast Article: a	lollipop stick (10)	pearidot (c1)
@@ -2642,22 +2642,22 @@ Frank &quot;Skipper&quot; Dan, the Accordion Lord	1455	accboss.gif	NOCOPY NOMANU
 
 # The Spirit World (November 2013)
 spirit alarm clock	1460	spiritalclock.gif	NOCOPY NOMANUEL Scale: 5 Cap: 1000 Init: -10000 P: undead EA: spooky	spirit bell (n100)
-spirit bedbug	1456	spiritbug.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead EA: sleaze Article: a	spirit gum (5)
-spirit faucet	1458	spiritfaucet.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead EA: cold EA: hot EA: sleaze Article: a	spirit gum (5)
-spirit pea	1457	spiritpea.gif	Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead EA: spooky Article: a	spirit gum (5)
+spirit bedbug	1456	spiritbug.gif	NOWISH Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead EA: sleaze Article: a	spirit gum (5)
+spirit faucet	1458	spiritfaucet.gif	NOWISH Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead EA: cold EA: hot EA: sleaze Article: a	spirit gum (5)
+spirit pea	1457	spiritpea.gif	NOWISH Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead EA: spooky Article: a	spirit gum (5)
 
 # Peripatetic Pasta (November 2013)
-Possessed Can of Linguine-Os	1461	mystwander1.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: hot Article: a	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
-Possessed Can of Creepy Pasta	1465	mystwander2.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: spooky Article: a	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
-Frozen Bag of Tortellini	1462	mystwander3.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: cold Article: a	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
-Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: stench Article: a Manuel: "Possessed Jar of Alphredo™"	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
-Box of Crafty Dinner	1464	mystwander5.gif	FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: sleaze Article: a	handful of crafty noodles (c0)	handful of crafty noodles (c0)
+Possessed Can of Linguine-Os	1461	mystwander1.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: hot Article: a	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
+Possessed Can of Creepy Pasta	1465	mystwander2.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: spooky Article: a	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
+Frozen Bag of Tortellini	1462	mystwander3.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: cold Article: a	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
+Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: stench Article: a Manuel: "Possessed Jar of Alphredo™"	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
+Box of Crafty Dinner	1464	mystwander5.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: sleaze Article: a	handful of crafty noodles (c0)	handful of crafty noodles (c0)
 Chef Boy, R&amp;D	1466	chefboy.gif	NOCOPY NOMANUEL WANDERER Scale: 5 Init: -10000 P: dude Phys: 100 Elem: 50 EA: hot
 
 # The WarBear Fortress (Crimbo 2013)
-Warbear Foot Soldier	1459	warbear11.gif,warbear12.gif,warbear13.gif	Scale: -3 Floor: 20 Init: -10000 P: beast EA: supercold	warbear whosit (n100)
-Warbear Officer	1467	warbear21.gif,warbear22.gif,warbear23.gif	Scale: ? Cap: ? Floor: ? Init: 50 P: beast EA: supercold	2 warbear whosit (m100)	warbear requisition box (f0)	warbear badge (f0)
-High-Ranking Warbear Officer	1468	warbear31.gif,warbear32.gif,warbear33.gif	Scale: ? Cap: ? Floor: ? Init: 100 P: beast EA: supercold	3 warbear whosit (m100)	warbear officer requisition box (f0)
+Warbear Foot Soldier	1459	warbear11.gif,warbear12.gif,warbear13.gif	NOWISH Scale: -3 Floor: 20 Init: -10000 P: beast EA: supercold	warbear whosit (n100)
+Warbear Officer	1467	warbear21.gif,warbear22.gif,warbear23.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: 50 P: beast EA: supercold	2 warbear whosit (m100)	warbear requisition box (f0)	warbear badge (f0)
+High-Ranking Warbear Officer	1468	warbear31.gif,warbear32.gif,warbear33.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: 100 P: beast EA: supercold	3 warbear whosit (m100)	warbear officer requisition box (f0)
 
 # Halloween 2014
 giant pumpkin-head	1653	headpumpkin.gif	NOCOPY NOMANUEL Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror EA: spooky	Big Punk (n100)	mimeplasm (c100)
@@ -2668,9 +2668,9 @@ oddly-proportioned ghost	1651	headghost.gif	NOCOPY NOMANUEL Scale: 0 Cap: 1000 F
 Crimbomega	1655	crimbomega.gif	NOCOPY NOMANUEL Atk: 100 Def: 100 HP: 300	Crimbomega drive chain (n100)
 
 # The Crimbonium Mining Camp (Crimbo 2014)
-ambulatory robo-minecart	1650	crimbominer3.gif	Scale: 5 Init: -10000 P: elf EA: cold EA: hot Article: an	flask of tainted mining oil (15)	cylindrical mold (5)	servo-assisted exo-pants (c1)
-exo-suited miner	1648	crimbominer1.gif	Scale: 5 Init: -10000 P: elf EA: hot Article: an	flask of tainted mining oil (15)	cylindrical mold (5)	high-energy mining laser (c1)
-semi-autonomous drill unit	1649	crimbominer2.gif	Scale: 5 Init: -10000 P: elf EA: stench Article: a	flask of tainted mining oil (15)	cylindrical mold (5)	radiation-resistant helmet (c1)
+ambulatory robo-minecart	1650	crimbominer3.gif	NOWISH Scale: 5 Init: -10000 P: elf EA: cold EA: hot Article: an	flask of tainted mining oil (15)	cylindrical mold (5)	servo-assisted exo-pants (c1)
+exo-suited miner	1648	crimbominer1.gif	NOWISH Scale: 5 Init: -10000 P: elf EA: hot Article: an	flask of tainted mining oil (15)	cylindrical mold (5)	high-energy mining laser (c1)
+semi-autonomous drill unit	1649	crimbominer2.gif	NOWISH Scale: 5 Init: -10000 P: elf EA: stench Article: a	flask of tainted mining oil (15)	cylindrical mold (5)	radiation-resistant helmet (c1)
 
 # The Ruins of the Fully Automated Crimbo Factory (Crimbo 2015)
 armored Crimbot	1862	crimbot2.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct Article: an	pitted sheet metal (0)
@@ -2679,7 +2679,7 @@ unstable nuclear Crimbot	1864	crimbot3.gif	Scale: 1 Cap: 10000 Init: -10000 P: c
 
 # Tres de Mayo (May 2016)
 
-Cinco de Mayo reveler	1943	reveler1.gif,reveler2.gif	Scale: 5 Init: -10000 Meat: 100 P: dude EA: sleaze EA: stench Article: a
+Cinco de Mayo reveler	1943	reveler1.gif,reveler2.gif	NOWISH Scale: 5 Init: -10000 Meat: 100 P: dude EA: sleaze EA: stench Article: a
 
 # Eldritch Incursion (October 2016)
 
