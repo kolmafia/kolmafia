@@ -2323,7 +2323,7 @@ swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental EA
 
 # Twitch 9 - Jetsons (November 2023)
 robot maid	2396	jetmaid.gif	Scale: ? Cap: 1000 Init: -10000 P: construct Article: a	automa-bot parts (30)	housekeeping automa-core (f1)
-wardrobe robot	2397	jetwardrobe.gif	Scale: ? Cap: 1000 Init: -10000 P: construct Article: a	automa-bot parts (20)	Spring Bros. ID badge (c100)	Boltsmann ID badge (c100)
+wardrobe robot	2397	jetwardrobe.gif	NOWISH Scale: ? Cap: 1000 Init: -10000 P: construct Article: a	automa-bot parts (20)	Spring Bros. ID badge (c100)	Boltsmann ID badge (c100)
 exercise robot	2398	jettreadmill.gif	Scale: ? Cap: 1000 Init: -10000 P: construct	automa-bot parts (50)
 Spring Bros. security robot	2399	jetsecurity2.gif	Scale: ? Cap: 1000 Init: -10000 P: construct Article: a	automa-bot parts (30)	security automa-core (f5)
 automated solenoid press	2400	jetpress.gif	Scale: ? Cap: 1000 Init: -10000 P: construct Article: an	automa-bot parts (100)	Spring Bros. solenoid (30)	Spring Bros. solenoid (5)
