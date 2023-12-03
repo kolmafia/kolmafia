@@ -53,6 +53,8 @@ public class MonsterData extends AdventureResult {
     NOBANISH("NOBANISH"),
     NOCOPY("NOCOPY"),
     NOMANUEL("NOMANUEL"),
+    NOWISH("NOWISH"),
+    WISH("WISH"),
     EA("EA:"),
     ED("ED:"),
     PHYS("Phys:"),
@@ -253,6 +255,8 @@ public class MonsterData extends AdventureResult {
               NOBANISH,
               NOCOPY,
               NOMANUEL,
+              NOWISH,
+              WISH,
               WANDERER,
               ULTRARARE,
               LUCKY,
@@ -359,6 +363,8 @@ public class MonsterData extends AdventureResult {
     saveKeywordAttribute(Attribute.NOBANISH, attributeMap, buf);
     saveKeywordAttribute(Attribute.NOCOPY, attributeMap, buf);
     saveKeywordAttribute(Attribute.NOMANUEL, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOWISH, attributeMap, buf);
+    saveKeywordAttribute(Attribute.WISH, attributeMap, buf);
 
     // Encounter Types
     saveKeywordAttribute(Attribute.WANDERER, attributeMap, buf);
@@ -608,6 +614,7 @@ public class MonsterData extends AdventureResult {
   private final boolean noBanish;
   private final boolean noCopy;
   private final boolean noManuel;
+  private final boolean noWish;
   private boolean transformed; // from CLEESH and such
   private final EnumSet<EncounterType> type;
   private final String image;
@@ -661,6 +668,10 @@ public class MonsterData extends AdventureResult {
     this.noBanish = attributes.containsKey(Attribute.NOBANISH);
     this.noCopy = attributes.containsKey(Attribute.NOCOPY);
     this.noManuel = attributes.containsKey(Attribute.NOMANUEL);
+    this.noWish =
+        attributes.containsKey(Attribute.WISH)
+            ? false
+            : (attributes.containsKey(Attribute.NOWISH) || this.boss || this.noCopy);
     this.type = type;
     this.subTypes = subTypes;
     this.manuelName = (String) attributes.get(Attribute.MANUEL_NAME);
@@ -772,6 +783,7 @@ public class MonsterData extends AdventureResult {
     this.subTypes = monster.subTypes;
     this.attributes = monster.attributes;
     this.noManuel = monster.noManuel;
+    this.noWish = monster.noWish;
     this.beeCount = monster.beeCount;
     this.items = monster.items;
     this.pocketRates = monster.pocketRates;
@@ -1627,6 +1639,10 @@ public class MonsterData extends AdventureResult {
 
   public boolean isNoCopy() {
     return this.noCopy;
+  }
+
+  public boolean isNoWish() {
+    return this.noWish;
   }
 
   public boolean isDrippy() {
