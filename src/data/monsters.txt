@@ -1169,7 +1169,7 @@ Battlesuit Bugbear Type	1171	bb_mech.gif	Atk: 125 Def: 112 HP: 150 Init: 50 P: b
 bugbear drone	1180	bb_drone.gif	Atk: 135 Def: 121 HP: 150 Init: 75 P: construct Phys: 50 Elem: 50 EA: cold Article: a	drone self-destruct chip (0)
 liquid metal bugbear	1181	bb_liquidmetal.gif	Atk: 140 Def: 162 HP: 175 Init: 150 P: construct Phys: 50 Elem: 50 Article: a
 ancient unspeakable bugbear	1172	bb_horror.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: beast ED: spooky Article: an	BURT (100)
-N-space Virtual Assistant	1184	bb_vassist.gif	Atk: 175 Def: 157 HP: 180 Init: 100 P: construct Phys: 60 Elem: 60 EA: sleaze Article: an
+N-space Virtual Assistant	1184	bb_vassist.gif	NOWISH Atk: 175 Def: 157 HP: 180 Init: 100 P: construct Phys: 60 Elem: 60 EA: sleaze Article: an
 trendy bugbear chef	1173	bb_chef.gif	Atk: 200 Def: 180 HP: 250 Init: 50 P: beast Phys: 25 ED: stench Article: a	BURT (100)
 angry cavebugbear	1183	bb_caveman.gif	NOWISH Atk: 220 Def: 211 HP: 300 Init: 25 P: beast Elem: 75 Article: an
 Bugbear Captain	1182	bb_captain.gif	NOCOPY Atk: 280 Def: 288 HP: 1337 Init: 200 P: beast Phys: 25 Elem: 30 Article: the
