@@ -1681,6 +1681,8 @@ public abstract class ChoiceControl {
         }
         if (ChoiceManager.lastDecision == 1) {
           ResultProcessor.removeItem(ItemPool.BOWLING_BALL);
+        }
+        if (ChoiceManager.lastDecision == 1 || ChoiceManager.lastDecision == 2) {
           int bowlCount = Preferences.getInteger("hiddenBowlingAlleyProgress");
           if (bowlCount < 6) {
             Preferences.setInteger(
