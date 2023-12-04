@@ -160,6 +160,8 @@ Cast	Summon Kokomo Resort Pass	_summonResortPassUsed
 Cast	Summon Mayfly Swarm	_mayflySummons	30
 Cast	Summon Tasteful Items	grimoire2Summons
 Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3
+Cast    Surprisingly Sweet Slash    _sweetSlashUsed  11
+Cast    Surprisingly Sweet Stab _sweetStabUsed  11
 Cast	Talk About Politics	_pantsgivingBanish	5
 Cast	That's Not a Knife	_discoKnife
 Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10
