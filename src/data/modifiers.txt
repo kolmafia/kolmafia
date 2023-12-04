@@ -4295,7 +4295,7 @@ Item	fin-bit wax	Familiar Weight: +5
 Item	fireproof skip lid	Familiar Weight: +5
 # fishy wand: Lets your familiar cast fishy spells
 Item	fishy wand	Generic, Familiar Effect: "fishy spells", Sporadic Damage Aura: [0.2475*env(underwater)]
-Item	fixed-gear bicycle	Experience: +3, Effect: "stats", Equips On: "Mini-Hipster"
+Item	fixed-gear bicycle	Experience: +3, Equips On: "Mini-Hipster"
 # flaming familiar doppelg&auml;nger: Familiar gains 1-2 extra experience per Adventure
 Item	flaming familiar doppelg&auml;nger	Monster Level: +5, Softcore Only, Generic, Experience (familiar): +1.5
 Item	flaming glowsticks	Familiar Weight: +5
