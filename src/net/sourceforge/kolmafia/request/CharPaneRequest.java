@@ -1716,7 +1716,7 @@ public class CharPaneRequest extends GenericRequest {
         String descId = keys.next();
         JSONArray data = effects.getJSONArray(descId);
         String effectName = data.getString(0);
-        int count = data.getInt(1);
+        int count = StringUtilities.parseInt(data.get(1).toString());
 
         AdventureResult effect = CharPaneRequest.extractEffect(descId, effectName, count);
         if (effect != null) {
