@@ -268,7 +268,7 @@ Item	green cloth cap	Stench Resistance: +1, Maximum HP: +15, Maximum MP: +15, Mo
 Item	green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
 Item	Grimacite gasmask	Weapon Damage: +15, Muscle Percent: [10*G], Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Item	Grimacite goggles	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: "1xVolley, 1xLep, cap 31"
-Item	grubby wool hat	Stench Damage: +5, Sleaze Damage: +5
+Item	grubby wool hat	Stench Damage: +15, Sleaze Damage: +15, Muscle: +15, Mysticality: +15, Moxie: +15
 Item	grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
 Item	guard turtle shell	Maximum HP: +50, Familiar Effect: "atk, 1xFairy, cap 40"
 # Guzzlr hat: Earn 25% more stats from Guzzlr deliveries
@@ -707,7 +707,7 @@ Item	Greatest American Pants	Muscle Percent: +10, Mysticality Percent: +10, Moxi
 Item	Greaves of the Murk Lord	HP Regen Min: 2, HP Regen Max: 5, Familiar Weight: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "1xBarrr, cap 30"
 Item	Grimacite gaiters	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: "3xBarrr, 2xGhoul, cap 37"
 Item	Grimacite greaves	Initiative: +20, Moxie Percent: [10*G], Familiar Effect: "2xBarrr, 3xGhoul, cap 37"
-Item	grubby wool trousers	Initiative: +25, Damage Reduction: 5
+Item	grubby wool trousers	Initiative: +25, Damage Reduction: 5, Familiar Weight: +5
 # Guzzlr pants: Get more Guzzlrbucks for successful deliveries
 Item	gym shorts	PvP Fights: +2, Initiative: +20, Familiar Effect: "sleaze atk, 1xGhuol, cap 25"
 Item	hardened slime pants	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Never Fumble, Moxie Percent: +20, Familiar Effect: "atk, 1xPotato"
@@ -3124,8 +3124,8 @@ Item	Grimacite gorget	Item Drop: +25, Muscle Percent: [10*G]
 # Groll doll: Is The Best The Best The Best The Best The Best The Best The Best
 Item	Groll doll	Single Equip, Sporadic Damage Aura: 0.6
 Item	groovy prism necklace	Single Equip, Sporadic Thorns: 2.5
-Item	grubby wool gloves	Sleaze Resistance: +2, Item Drop: +10, Single Equip
-Item	grubby wool scarf	Cold Resistance: +2, Stench Resistance: +2, Single Equip
+Item	grubby wool gloves	Sleaze Resistance: +2, Item Drop: +10, Maximum HP: +20, Maximum MP: +20, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Single Equip
+Item	grubby wool scarf	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Adventures: +5, Single Equip
 Item	grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
 Item	gummi bowtie	Moxie: +5
 Item	gumshoes	Muscle Percent: +25, Experience (Muscle): +2, Single Equip
@@ -5670,6 +5670,7 @@ Effect	Cowboy Stache	Ranged Damage: +25, Maximum HP: +50, Maximum MP: +25
 Effect	Cowlick	Meat Drop: +50
 Effect	Cowrruption	Muscle Limit: [30-30*class(Cow Puncher)], Moxie Limit: [30-30*class(Cow Puncher)], Weapon Damage Percent: +200, Spell Damage Percent: +200
 # Coy to the Hurled: variable DR
+Effect	Cracked Open a Warm One	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Craft Tea: Lets you craft things more quickly
 Effect	Cranberry Cordiality	Meat Drop: +10
 # Crappily Disguised as a Waiter: You almost look sort of like a waiter.
@@ -9382,6 +9383,7 @@ Item	natto-infused sake	Effect: "Ninja, Please", Effect Duration: 30
 Item	nega-mushroom wine	Effect: "Double Negavision", Effect Duration: 50
 Item	New Zealand iced tea	Effect: "New Zeal", Effect Duration: 20
 Item	Newark	Effect: "Hobo Powering Up!", Effect Duration: 40
+Item	nice warm beer	Effect: "Cracked Open a Warm One", Effect Duration: 30
 Item	Nog-on-the-Cob	Effect: "Sulfurous Sinuses", Effect Duration: 20
 Item	non-aged vinegar	Effect: "Sour Grapes", Effect Duration: 40
 Item	nothingtini	Effect: "Nothing Happened", Effect Duration: 40
