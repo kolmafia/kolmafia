@@ -97,6 +97,9 @@ DESC_ITEM	pantogram pants		_pantogramModifier=mods
 DESC_ITEM	latte lovers member's mug		latteModifier=mods
 DESC_ITEM	Kremlin's Greatest Briefcase
 DESC_ITEM	fresh coat of paint		_coatOfPaintModifier=mods
+DESC_ITEM	futuristic shirt		_futuristicShirtModifier=mods
+DESC_ITEM	futuristic hat		_futuristicHatModifier=mods
+DESC_ITEM	futuristic collar		_futuristicCollarModifier=mods
 
 DESC_SKILL	Banishing Shout	currently banished:<br>([^<]+)<br>(?:([^<]+)<br>(?:([^<]+)<br>|</blockquote>)|</blockquote>)	banishingShoutMonsters=$1|$2|$3
 DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=[$1/2]

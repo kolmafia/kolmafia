@@ -21,7 +21,7 @@ agua de vida	4	4	good	5-10	0	0	0	empty agua de vida bottle
 alien animal goo	1	1	crappy	0	0	0	0	40 Celestial Body (+100% weapon damage, +20% critical hit chance)
 alien plant goo	1	1	crappy	0	0	0	0	40 Celestial Mind (+100% spell damage, +20% spell critical hit chance)
 alien protein powder	3	4	awesome	8-10	0	0	0
-ancient meat	1	1		0	0	0	0	Unspaded
+ancient meat	1	1		0	0	0	0	Gain some meat
 ancient medicinal herbs	1	1	awesome	0	0	0	0	50 Ancient Fortitude (+100% HP, +90-100 HP Regen, Impervious to negative effects)
 ancient pills	1	2	crappy	0	8-10	18-20	8-10	Restore 30-40 MP
 ancient protein powder	1	1	good	0	12-14	0	0
@@ -62,7 +62,7 @@ chlorophyll paste	4	4	good	5-10	18-22	18-22	18-22	10 Chlorophyll Flavor (mp rege
 coffee pixie stick	4	4	good	5-10	0	0	0
 cold jelly	1	1	crappy	0	0	50-60	0	50 Cold Jellied (+3 mys stats/fight, +5 cold damage, +30% mys), gain base booze when drinking
 cold wad	1	6	good	0	50-60	30-40	10-20	20 Cold Blooded (+30% mus, +20% mys, +10% mox, cold dmg/res)
-concentrated cooking	1	1		0	0	0	0	Unspaded
+concentrated cooking	1	1		0	0	0	0	10 Cooking Concentrate (Cook things without costing a turn)
 concentrated magicalness pill	1	2	decent	0	0	5-7	0
 cosmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Cosmic Flavor (+10% critical spell)
 Crimbeau de toilette	1	1	awesome	0	20	20	20	Unspaded, 50 Crimbeau'd (+10 familiar weight, +25 item drop, +50 meat drop)
@@ -113,7 +113,7 @@ groose grease	4	1	good	5-10	20-30	20-30	20-30	50 Just the Best Anapests
 guy made of bee pollen	3	8	awesome	0	100-150	100-150	100-150
 handful of moss	1	1	good	0	0	0	12-14
 handful of Smithereens	1	1	decent	1-2	0	0	0	100 Smithsness Presence (Smithsness: +10)
-hardening cream	1	1		0	0	0	0	Unspaded
+hardening cream	1	1		0	0	0	0	50 Really Hard (50 DR)
 Hatorade	5	1	crappy	0	0	0	0	+1 PvP fight
 haunted battery	1	1	EPIC	0	0	30-40	0
 hippy paste	4	4	good	5-10	18-22	18-22	18-22	10 Hippy Flavor (+15 mys)
@@ -178,7 +178,7 @@ penguin paste	4	4	good	5-10	18-22	18-22	18-22	10 Penguinny Flavor (cold dmg/res)
 pewter shavings	1	4	good	0	0	0	0	100 Pewtershot (+250 DA, +25 DR)
 pirate paste	4	4	good	5-10	18-22	18-22	18-22	10 Piratey Flavor (+5% critical)
 polyesterene powder	2	1	good	5	0	0	0
-pool shark hair oil	1	1		0	0	0	0	Unspaded
+pool shark hair oil	1	1		0	0	0	0	20 Sharky (+5 Pool Skill, +15 Moxie)
 porcelain powder	3	1	awesome	0	100-120	100-120	100-120
 powdered gold	4	1	good	5-10	20-30	20-30	20-30
 powdered oxygen	3	4	good	0	0	0	0	10 Hyperoxygenated Blood (Breath Underwater)
@@ -204,7 +204,7 @@ sleaze wad	1	6	good	0	20-30	20-30	50-60	20 Supafly (+30% mox, +15% mus, +15% mys
 slimy alveolus	1	5	crappy	0	0	0	0	50 Slimebreath (+50 ML, slime res)
 slimy paste	4	4	good	5-10	18-22	18-22	18-22	10 Slimy Flavor (sleaze dmg/res)
 SMOOCH coffee cup	2	6	good	4-6	0	0	10-20
-sparkling orb	1	1		0	0	0	0	Unspaded
+sparkling orb	1	1		0	0	0	0	20 Latently Energized (20-30 MP regen)
 spooky jelly	1	1	crappy	0	15-20	15-20	15-20	50 Spooky Jellied (+5 stats/fight, +5 spooky damage, +10% all stats), next monster defeated drops all items
 spooky wad	1	6	good	0	10-20	50-60	30-40	20 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
 stained glass shards	3	12	EPIC	0	0	0	0	Unspaded

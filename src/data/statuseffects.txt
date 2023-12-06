@@ -534,7 +534,7 @@
 532	Elron's Explosive Etude	etude.gif	26318ef7c75a6bf1fa80584e2e8941b3	good	song	cast 1 Elron's Explosive Etude|use 1 recording of Elron's Explosive Etude
 533	Chorale of Companionship	chorale.gif	e9227c476b197f54d5fe6be5e52995b5	good	song	cast 1 Chorale of Companionship|use 1 recording of Chorale of Companionship
 534	Prelude of Precision	prelude.gif	3f442b411c8d73c4116db7b89669b852	good	song	cast 1 Prelude of Precision|use 1 recording of Prelude of Precision
-535	Deadly Lampblade	blacksword.gif	32cfd91b38e4cfd44a05d368aec7cf48	good	song	use 1 deadly lampshade
+535	Deadly Lampblade	blacksword.gif	32cfd91b38e4cfd44a05d368aec7cf48	good	none	use 1 deadly lampshade
 536	Drenched With Filth	blooddrops.gif	0bae503909ac0e2a21763466adf33d29	good	none	use 1 concentrated garbage juice
 537	Hobonic	hobohead.gif	1a4b9db2f98937c155609f54c14cdf7c	good	none	# resting in Hobo Fortress
 538	Crotchety, Pining	pineneedles.gif	a03720e54550e5757e0e8107c6f842bc	good	none	use 1 handful of Crotchety Pine needles|cargo effect Crotchety, Pining
@@ -2855,3 +2855,4 @@
 2855	Clericbot Blessing	acore_cleric.gif	8411214ff53d8afb3375ea40fda74e27	neutral	none
 2856	Martially-Minded	sword.gif	13078bcdf837700bc047bbc706e97bbb	neutral	none
 2857	Animal Lover	happy.gif	e6711e9b198ebf036a0ff668a5f370b0	neutral	none
+2858	Cracked Open a Warm One	gwoolbeer.gif	a1704d5a88cbcc92db8c129396b4d984	neutral	none

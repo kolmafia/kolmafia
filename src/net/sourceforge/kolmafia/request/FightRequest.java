@@ -10393,6 +10393,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("really improve your sleep tonight")) {
           Phylum phylum = monster != null ? monster.getPhylum() : Phylum.NONE;
           Preferences.setString("_circadianRhythmsPhylum", phylum.toString());
+          Preferences.increment("_circadianRhythmsAdventures", 1, 11, false);
           skillSuccess = true;
         }
         break;
