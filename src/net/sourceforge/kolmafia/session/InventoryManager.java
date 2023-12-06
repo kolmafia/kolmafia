@@ -1638,20 +1638,11 @@ public abstract class InventoryManager {
     checkVampireVintnerWine();
     checkCrimboTrainingManual();
     checkRing();
+    checkFuturistic();
   }
 
   public static void checkNoHat() {
-    AdventureResult NO_HAT = ItemPool.get(ItemPool.NO_HAT, 1);
-    String mod = Preferences.getString("_noHatModifier");
-    if (!KoLCharacter.hasEquipped(NO_HAT, Slot.HAT) && !KoLConstants.inventory.contains(NO_HAT)) {
-      return;
-    }
-    if (!mod.equals("")) {
-      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.NO_HAT, mod);
-      return;
-    }
-
-    checkItemDescription(ItemPool.NO_HAT);
+    checkItem(ItemPool.NO_HAT, "_noHatModifier");
   }
 
   public static void checkJickSword() {
@@ -1673,33 +1664,11 @@ public abstract class InventoryManager {
   }
 
   public static void checkPantogram() {
-    AdventureResult PANTOGRAM_PANTS = ItemPool.get(ItemPool.PANTOGRAM_PANTS, 1);
-    String mod = Preferences.getString("_pantogramModifier");
-    if (!KoLCharacter.hasEquipped(PANTOGRAM_PANTS, Slot.PANTS)
-        && !KoLConstants.inventory.contains(PANTOGRAM_PANTS)) {
-      return;
-    }
-    if (!mod.equals("")) {
-      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.PANTOGRAM_PANTS, mod);
-      return;
-    }
-
-    checkItemDescription(ItemPool.PANTOGRAM_PANTS);
+    checkItem(ItemPool.PANTOGRAM_PANTS, "_pantogramModifier");
   }
 
   public static void checkLatte() {
-    AdventureResult LATTE_MUG = ItemPool.get(ItemPool.LATTE_MUG, 1);
-    String mod = Preferences.getString("latteModifier");
-    if (!KoLCharacter.hasEquipped(LATTE_MUG, Slot.OFFHAND)
-        && !KoLConstants.inventory.contains(LATTE_MUG)) {
-      return;
-    }
-    if (!mod.equals("")) {
-      ModifierDatabase.overrideModifier(ModifierType.ITEM, ItemPool.LATTE_MUG, mod);
-      return;
-    }
-
-    checkItemDescription(ItemPool.LATTE_MUG);
+    checkItem(ItemPool.LATTE_MUG, "latteModifier");
   }
 
   public static void checkSaber() {
@@ -1831,6 +1800,26 @@ public abstract class InventoryManager {
 
     DebugDatabase.readEffectDescriptionText(EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD);
     DebugDatabase.readEffectDescriptionText(EffectPool.BLESSING_OF_THE_BIRD);
+  }
+
+  public static void checkFuturistic() {
+    checkItem(ItemPool.FUTURISTIC_HAT, "_futuristicHatModifier");
+    checkItem(ItemPool.FUTURISTIC_SHIRT, "_futuristicShirtModifier");
+    checkItem(ItemPool.FUTURISTIC_COLLAR, "_futuristicCollarModifier");
+  }
+
+  private static void checkItem(int id, String preference) {
+    AdventureResult ITEM = ItemPool.get(id, 1);
+    String mod = Preferences.getString(preference);
+    if (!InventoryManager.equippedOrInInventory(ITEM)) {
+      return;
+    }
+    if (!mod.isEmpty()) {
+      ModifierDatabase.overrideModifier(ModifierType.ITEM, id, mod);
+      return;
+    }
+
+    checkItemDescription(id);
   }
 
   private static final AdventureResult GOLDEN_MR_ACCESSORY =
