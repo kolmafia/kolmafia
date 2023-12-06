@@ -5255,7 +5255,6 @@ public abstract class RuntimeLibrary {
         continue;
       }
 
-
       Monster monsterObject = bot.getMonsterByActualName(actualName);
       if (monsterObject == null) {
         continue;
