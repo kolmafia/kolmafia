@@ -1086,6 +1086,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("can_faxbot", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.MONSTER_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("can_faxbot", DataTypes.BOOLEAN_TYPE, params));
+
     // Major functions which provide item-related
     // information.
 
@@ -5215,6 +5218,43 @@ public abstract class RuntimeLibrary {
       if (botName == null) {
         continue;
       }
+
+      Monster monsterObject = bot.getMonsterByActualName(actualName);
+      if (monsterObject == null) {
+        continue;
+      }
+
+      // Don't check if bot is online til we can do it safely for large numbers of can_faxbot
+      // requests
+      // if ( !FaxRequestFrame.isBotOnline( botName ) )
+      // {
+      //	continue;
+      // }
+      return DataTypes.TRUE_VALUE;
+    }
+    return DataTypes.FALSE_VALUE;
+  }
+
+  public static Value can_faxbot(ScriptRuntime controller, final Value arg1, final Value arg2) {
+    MonsterData monster = (MonsterData) arg1.rawValue();
+    if (monster == null) {
+      return DataTypes.FALSE_VALUE;
+    }
+
+    String botName = arg2.toString().toLowerCase();
+
+    FaxBotDatabase.configure();
+
+    String actualName = monster.getName();
+    for (FaxBot bot : FaxBotDatabase.faxbots) {
+      if (bot == null) {
+        continue;
+      }
+
+      if (!botName.equals(bot.getName().toLowerCase())) {
+        continue;
+      }
+
 
       Monster monsterObject = bot.getMonsterByActualName(actualName);
       if (monsterObject == null) {
