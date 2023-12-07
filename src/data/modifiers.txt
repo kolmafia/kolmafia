@@ -4350,7 +4350,7 @@ Item	iced-out bling	Familiar Weight: +5
 Item	icicle katana	Familiar Weight: +5
 # imitation whetstone: Makes Imitation Crab claws sharper
 Item	immense ballet shoes	Familiar Weight: +5
-Item	ironic moustache	Familiar Weight: +10, Familiar Effect: "+10 lbs", Equips On: "Mini-Hipster"
+Item	ironic moustache	Familiar Weight: +10, Familiar Effect: "+10 lbs"
 # ittah bittah hookah: Magical Smoke!
 Item	ittah bittah hookah	Familiar Weight: +5, Generic
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
