@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withClass;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import net.sourceforge.kolmafia.AscensionClass;
@@ -98,6 +100,29 @@ public class SkillDatabaseTest {
       assertTrue(maxSkillOpt.isPresent());
       var maxSkill = maxSkillOpt.getAsInt();
       assertEquals(SkillDatabase.getSkillCategory(maxSkill + 1000), Category.UNKNOWN);
+    }
+  }
+
+  @Nested
+  class Permability {
+    @Test
+    void assumesSkillsUnder7000ArePermable() {
+      assertThat(SkillDatabase.isPermable(10), is(true));
+    }
+
+    @Test
+    void someSkillsUnder7000AreBlacklisted() {
+      assertThat(SkillDatabase.isPermable(156), is(false));
+    }
+
+    @Test
+    void assumesSkillsOver7000AreNotPermable() {
+      assertThat(SkillDatabase.isPermable(7001), is(false));
+    }
+
+    @Test
+    void someSkillsOver7000AreWhitelisted() {
+      assertThat(SkillDatabase.isPermable(7254), is(true));
     }
   }
 }
