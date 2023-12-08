@@ -11403,9 +11403,9 @@
 11375	Boltsmann ID badge	234426278	jetbadge2.gif	accessory	t	0
 11376	housekeeping automa-core	366637852	acore_maid.gif	usable	t	0
 11377	portable housekeeping robot	202288746	amaid.gif	usable	t,d	200
-11378	pickled bread	675408908	saltbread.gif	food	t,d	0
-11379	salted mutton	657514472	saltmutton.gif	food	t,d	0
-11380	corned beet	163378662	saltbet.gif	food	t,d	0
+11378	pickled bread	675408908	saltbread.gif	food	t,d	5	slices of pickled bread
+11379	salted mutton	657514472	saltmutton.gif	food	t,d	5	chunks of salted mutton
+11380	corned beet	163378662	saltbet.gif	food	t,d	5
 11381
 11382
 11383
