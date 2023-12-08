@@ -166,6 +166,20 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 139:
+        // The Thin Tie-Dyed Line
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordWarHippyBait", true);
+        }
+        break;
+
+      case 140:
+        // The Thin Tie-Dyed Line
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordWarHippyLine", true);
+        }
+        break;
+
         // Start the Island War Quest
       case 142:
       case 146:
@@ -179,6 +193,27 @@ public abstract class ChoiceControl {
             Preferences.setInteger("hippiesDefeated", 500);
             Preferences.setInteger("fratboysDefeated", 500);
           }
+        }
+        break;
+
+      case 143:
+        // Catching Some Zetas
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordWarFratZetas", true);
+        }
+        break;
+
+      case 144:
+        // One Less Room Than In That Movie
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordWarFratRoom", true);
+        }
+        break;
+
+      case 151:
+        // Adventurer, $1.99
+        if (ChoiceManager.lastDecision == 3) {
+          Preferences.setBoolean("candyCaneSwordFunHouse", true);
         }
         break;
 
@@ -210,6 +245,13 @@ public abstract class ChoiceControl {
         TurnCounter.stopCounting("Silent Invasion window end");
         TurnCounter.startCounting(35, "Silent Invasion window begin loc=*", "lparen.gif");
         TurnCounter.startCounting(40, "Silent Invasion window end loc=*", "rparen.gif");
+        break;
+
+      case 793:
+        // Welcome to The Shore, Inc.
+        if (ChoiceManager.lastDecision == 5) {
+          Preferences.setBoolean("candyCaneSwordShore", true);
+        }
         break;
 
       case 794:
@@ -907,6 +949,13 @@ public abstract class ChoiceControl {
             request, ChoiceManager.lastChoice, ChoiceManager.lastDecision);
         break;
 
+      case 523:
+        // Death Rattlin'
+        if (ChoiceManager.lastDecision == 5) {
+          Preferences.setBoolean("candyCaneSwordDefiledCranny", true);
+        }
+        break;
+
       case 529:
       case 531:
       case 532:
@@ -1598,6 +1647,8 @@ public abstract class ChoiceControl {
           }
         } else if (ChoiceManager.lastDecision == 3) {
           Preferences.setInteger("relocatePygmyLawyer", KoLCharacter.getAscensions());
+        } else if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordApartmentBuilding", true);
         }
         return;
 
@@ -1688,6 +1739,9 @@ public abstract class ChoiceControl {
             Preferences.setInteger(
                 "hiddenBowlingAlleyProgress", (bowlCount < 2 ? 2 : bowlCount + 1));
           }
+        }
+        if (ChoiceManager.lastDecision == 2) {
+          Preferences.setBoolean("candyCaneSwordBowlingAlley", true);
         }
         return;
 
@@ -2038,6 +2092,12 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.MIND_DESTROYER, -1);
         }
         break;
+
+      case 923:
+        // All Over the Map
+        if (ChoiceManager.lastDecision == 5) {
+          Preferences.setBoolean("candyCaneSwordBlackForest", true);
+        }
 
       case 930:
         // Another Errand I Mean Quest
@@ -2551,6 +2611,13 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 1062:
+        // Lots of Options
+        if (ChoiceManager.lastDecision == 6) {
+          Preferences.setBoolean("_candyCaneSwordOvergrownLot", true);
+        }
+        break;
+
       case 1064:
         // The Doctor is Out.  Of Herbs.
         if (ChoiceManager.lastDecision == 1) {
@@ -2662,6 +2729,9 @@ public abstract class ChoiceControl {
         // Bagelmat-5000
         if (text.contains("shove a wad of dough into the slot")) {
           ResultProcessor.removeItem(ItemPool.DOUGH);
+        }
+        if (ChoiceManager.lastDecision == 2) {
+          Preferences.setBoolean("_candyCaneSwordMadnessBakery", true);
         }
         break;
 
@@ -4693,6 +4763,14 @@ public abstract class ChoiceControl {
           Preferences.setInteger("lastPlusSignUnlock", KoLCharacter.getAscensions());
         }
         break;
+
+      case 4:
+        // Finger-Lickin'... Death.
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordSouthOfTheBorder", true);
+        }
+        break;
+
       case 7:
         // How Depressing
 
@@ -4775,6 +4853,13 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 109:
+        // Dumpster Diving
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordBackAlley", true);
+        }
+        break;
+
       case 112:
         // Please, Hammer
         if (ChoiceManager.lastDecision == 1 && KoLmafia.isAdventuring()) {
@@ -4786,6 +4871,13 @@ public abstract class ChoiceControl {
         // No visible means of support
         if (ChoiceManager.lastDecision == 3) {
           QuestDatabase.setQuestProgress(Quest.WORSHIP, "step3");
+        }
+        break;
+
+      case 127:
+        // No sir, away! A papaya war is on!
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordPalindome", true);
         }
         break;
 
@@ -4945,6 +5037,13 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision != 6) {
           // Option 6 does not consume the map. Others do.
           ResultProcessor.processItem(ItemPool.REFLECTION_OF_MAP, -1);
+        }
+        break;
+
+      case 502:
+        // Arboreal Respite
+        if (ChoiceManager.lastDecision == 5) {
+          Preferences.setBoolean("_candyCaneSwordSpookyForest", true);
         }
         break;
 
@@ -5339,6 +5438,13 @@ public abstract class ChoiceControl {
         EquipmentRequest.parseFolders(text);
         break;
 
+      case 785:
+        // Air Apparent
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordOvergrownShrine", true);
+        }
+        break;
+
       case 786:
         if (ChoiceManager.lastDecision == 2) {
           ResultProcessor.autoCreate(ItemPool.MCCLUSKY_FILE);
@@ -5412,6 +5518,7 @@ public abstract class ChoiceControl {
           String hazard = Preferences.getString("copperheadClubHazard");
           switch (ChoiceManager.lastDecision) {
             case 1:
+            case 5:
               hazard = "gong";
               break;
             case 2:
@@ -5422,6 +5529,9 @@ public abstract class ChoiceControl {
               break;
           }
           Preferences.setString("copperheadClubHazard", hazard);
+          if (ChoiceManager.lastDecision == 5) {
+            Preferences.setBoolean("candyCaneSwordCopperheadClub", true);
+          }
           break;
         }
 
@@ -5538,6 +5648,20 @@ public abstract class ChoiceControl {
           }
           break;
         }
+
+      case 876:
+        // One Simple Nightstand
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordHauntedBedroom", true);
+        }
+        break;
+
+      case 888:
+        // Take a Look, it's in a Book! (Rise)
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordHauntedLibrary", true);
+        }
+        break;
 
       case 918:
         // Yachtzee!
@@ -6917,6 +7041,9 @@ public abstract class ChoiceControl {
       case 691:
         // Second Chest
         Preferences.setInteger("_lastDailyDungeonRoom", 9);
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordDailyDungeon", true);
+        }
         break;
 
       case 692:
