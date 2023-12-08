@@ -4264,7 +4264,7 @@ Item	cactus monocle	Familiar Weight: +5
 Item	candied yam pinky ring	Familiar Weight: +5
 Item	candy dog collar	Sprinkle Drop: +25, Generic
 Item	charpuce jub-jub bird	Familiar Weight: +5, Familiar Tuning (Moxie): 100, Familiar Effect: "mox stats", Equips On: "Frumious Bandersnatch"
-Item	chiptune guitar	Item Drop: +25, Effect: "item drop", Equips On: "Mini-Hipster"
+Item	chiptune guitar	Item Drop: +25, Familiar Effect: "item drop", Equips On: "Mini-Hipster"
 Item	chocolate bowtie	Familiar Weight: +5
 Item	chocolate leash	Familiar Weight: +10
 Item	chocolate spurs	Familiar Weight: +5
@@ -4295,7 +4295,7 @@ Item	fin-bit wax	Familiar Weight: +5
 Item	fireproof skip lid	Familiar Weight: +5
 # fishy wand: Lets your familiar cast fishy spells
 Item	fishy wand	Generic, Familiar Effect: "fishy spells", Sporadic Damage Aura: [0.2475*env(underwater)]
-Item	fixed-gear bicycle	Experience: +3, Effect: "stats", Equips On: "Mini-Hipster"
+Item	fixed-gear bicycle	Experience: +3, Familiar Effect: "stats", Equips On: "Mini-Hipster"
 # flaming familiar doppelg&auml;nger: Familiar gains 1-2 extra experience per Adventure
 Item	flaming familiar doppelg&auml;nger	Monster Level: +5, Softcore Only, Generic, Experience (familiar): +1.5
 Item	flaming glowsticks	Familiar Weight: +5
@@ -4350,7 +4350,7 @@ Item	iced-out bling	Familiar Weight: +5
 Item	icicle katana	Familiar Weight: +5
 # imitation whetstone: Makes Imitation Crab claws sharper
 Item	immense ballet shoes	Familiar Weight: +5
-Item	ironic moustache	Familiar Weight: +10, Effect: "+10 lbs."
+Item	ironic moustache	Familiar Weight: +10, Familiar Effect: "+10 lbs"
 # ittah bittah hookah: Magical Smoke!
 Item	ittah bittah hookah	Familiar Weight: +5, Generic
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
