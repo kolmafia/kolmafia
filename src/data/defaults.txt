@@ -1777,6 +1777,7 @@ user	_canSeekBirds	false
 user	_candyCaneSwordBackAlley	false
 user	_candyCaneSwordHauntedBedroom	false
 user	_candyCaneSwordHauntedLibrary	false
+user	_candyCaneSwordLyle	false
 user	_candyCaneSwordMadnessBakery	false
 user	_candyCaneSwordOvergrownLot	false
 user	_candyCaneSwordOvergrownShrine	false
