@@ -2233,8 +2233,15 @@ public abstract class ChoiceManager {
    * state until the final response is received - although the "current" choice
    * will change along the way.
    *
-   * This would be a good place to explain which of these methods is called
-   * where and what the intended purpose is.
+   * (from https://github.com/kolmafia/kolmafia/pull/1941#discussion_r1317902492)
+   * When GenericRequest gets a response from choice.php (whether or not you are visiting the first time or are submitting an option to take the choice, it goes through this sequence of calls in ChoiceManager:
+   *
+   * preChoice (before registering the request - which is before submitting the request)
+   * postChoice0 (after getting the response before registering the Encounter)
+   * postChoice1 (before processing results)
+   * (if you are not taking an option, that calls visitChoice)
+   * postChoice2 (after processing results)
+   * (If you are still handling a (chain of) choices, this calls visitChoice)
    */
 
   public static final void preChoice(final GenericRequest request) {
