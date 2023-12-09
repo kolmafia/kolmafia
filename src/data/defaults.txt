@@ -411,6 +411,18 @@ user	camelSpit	0
 user	cameraMonster
 user	camerasUsed	0
 user	campAwayDecoration	0
+user	candyCaneSwordApartmentBuilding	false
+user	candyCaneSwordBlackForest	false
+user	candyCaneSwordBowlingAlley	false
+user	candyCaneSwordCopperheadClub	false
+user	candyCaneSwordDailyDungeon	false
+user	candyCaneSwordDefiledCranny	false
+user	candyCaneSwordFunHouse	false
+user	candyCaneSwordShore	false
+user	candyCaneSwordWarFratRoom	false
+user	candyCaneSwordWarFratZetas	false
+user	candyCaneSwordWarHippyBait	false
+user	candyCaneSwordWarHippyLine	false
 user	candyWitchTurnsUsed	0
 user	candyWitchCandyTotal	0
 user	canteenUnlocked	false
@@ -1762,6 +1774,16 @@ user	_campAwayCloudBuffs	0
 user	_campAwaySmileBuffSign
 user	_campAwaySmileBuffs	0
 user	_canSeekBirds	false
+user	_candyCaneSwordBackAlley	false
+user	_candyCaneSwordHauntedBedroom	false
+user	_candyCaneSwordHauntedLibrary	false
+user	_candyCaneSwordLyle	false
+user	_candyCaneSwordMadnessBakery	false
+user	_candyCaneSwordOvergrownLot	false
+user	_candyCaneSwordOvergrownShrine	false
+user	_candyCaneSwordPalindome	false
+user	_candyCaneSwordSouthOfTheBorder	false
+user	_candyCaneSwordSpookyForest	false
 user	_candySummons	0
 user	_captainHagnkUsed	0
 user	_carboLoaded	false
