@@ -19,7 +19,7 @@
 # if their id is greater than that.
 
 1	Liver of Steel	liver.gif	0	0	0	Permable: false
-2	Chronic Indigestion	fireball.gif	5	5	0	Permable: false
+2	Chronic Indigestion	fireball.gif	5	5	0
 3	The Old Old Smile of Mr. A.	gma.gif	4	0	40	Permable: false
 4	Arse Shoot	asshat.gif	4	5	0	Permable: false
 5	Stomach of Steel	stomach.gif	0	0	0	Permable: false
