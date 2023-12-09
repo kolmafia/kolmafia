@@ -531,7 +531,7 @@ public abstract class ChoiceControl {
         break;
 
       case 139:
-        // The Thin Tie-Dyed Line
+        // Bait and Switch
         if (ChoiceManager.lastDecision == 4) {
           Preferences.setBoolean("candyCaneSwordWarHippyBait", true);
         }
@@ -557,7 +557,6 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("candyCaneSwordWarFratRoom", true);
         }
         break;
-
 
       case 147:
         // Cornered!
@@ -6872,6 +6871,64 @@ public abstract class ChoiceControl {
   public static void visitChoice(final GenericRequest request) {
     String text = request.responseText;
     switch (ChoiceManager.lastChoice) {
+      case 4:
+        // Finger-Lickin'... Death.
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Teach them a lesson")) {
+          Preferences.setBoolean("_candyCaneSwordSouthOfTheBorder", true);
+        }
+        break;
+
+      case 109:
+        // Dumpster Diving
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy sword")) {
+          Preferences.setBoolean("_candyCaneSwordBackAlley", true);
+        }
+        break;
+
+      case 127:
+        // No sir, away! A papaya war is on!
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordPalindome", true);
+        }
+        break;
+
+      case 139:
+        // Bait and Switch
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordWarHippyBait", true);
+        }
+        break;
+
+      case 140:
+        // The Thin Tie-Dyed Line
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Threaten a passerby")) {
+          Preferences.setBoolean("candyCaneSwordWarHippyLine", true);
+        }
+        break;
+
+      /* TODO: fill this in once we know the choice options
+      case 143:
+        // Catching Some Zetas
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordWarFratZetas", true);
+        }
+        break;
+
+      case 144:
+        // One Less Room Than In That Movie
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordWarFratRoom", true);
+        }
+        break;
+      */
+
+      case 151:
+        // Adventurer, $1.99
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("your cane")) {
+          Preferences.setBoolean("candyCaneSwordFunHouse", true);
+        }
+        break;
+
       case 360:
         // Wumpus Hunt
         WumpusManager.visitChoice(text);
@@ -6933,6 +6990,20 @@ public abstract class ChoiceControl {
       case 1001:
         // Hot and Cold Dripping Rats
         TavernRequest.postTavernVisit(request);
+        break;
+
+      case 502:
+        // Arboreal Respite
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordSpookyForest", true);
+        }
+        break;
+
+      case 523:
+        // Death Rattlin'
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordDefiledCranny", true);
+        }
         break;
 
       case 537:
@@ -7043,6 +7114,9 @@ public abstract class ChoiceControl {
       case 691:
         // Second Chest
         Preferences.setInteger("_lastDailyDungeonRoom", 9);
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordDailyDungeon", true);
+        }
         break;
 
       case 692:
@@ -7082,6 +7156,13 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 780:
+        // Action Elevator
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Climb on top")) {
+          Preferences.setBoolean("candyCaneSwordApartmentBuilding", true);
+        }
+        break;
+
       case 781:
         // Earthbound and Down
         if (!text.contains("option value=1")) {
@@ -7107,6 +7188,10 @@ public abstract class ChoiceControl {
             Preferences.setInteger("hiddenOfficeProgress", 1);
           }
         }
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordOvergrownShrine", true);
+        }
+
         break;
 
       case 787:
@@ -7118,9 +7203,23 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 788:
+        // Life is Like a Cherry of Bowls
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordBowlingAlley", true);
+        }
+        break;
+
       case 791:
         // Legend of the Temple in the Hidden City
         Preferences.setInteger("zigguratLianas", 1);
+        break;
+
+      case 793:
+        // Welcome to The Shore, Inc.
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Fencing Competition")) {
+          Preferences.setBoolean("candyCaneSwordShore", true);
+        }
         break;
 
       case 798:
@@ -7222,6 +7321,13 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 855:
+        // Behind the 'Stache
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("and knock over")) {
+          Preferences.setBoolean("candyCaneSwordCopperheadClub", true);
+        }
+        break;
+
       case 871:
         {
           // inspecting Motorbike
@@ -7257,6 +7363,20 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 876:
+        // One Simple Nightstand
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordHauntedBedroom", true);
+        }
+        break;
+
+      case 888:
+        // Take a Look, it's in a Book! (Rise)
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Sword Canes")) {
+          Preferences.setBoolean("_candyCaneSwordHauntedLibrary", true);
+        }
+        break;
+
       case 890: // Lights Out in the Storage Room
       case 891: // Lights Out in the Laundry Room
       case 892: // Lights Out in the Bathroom
@@ -7275,6 +7395,13 @@ public abstract class ChoiceControl {
         // as soon as the next adventure is started
         TurnCounter.stopCounting("Spookyraven Lights Out");
         Preferences.setInteger("lastLightsOutTurn", KoLCharacter.getTurnsPlayed());
+        break;
+
+      case 923:
+        // All Over the Map
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordBlackForest", true);
+        }
         break;
 
       case 930:
@@ -7439,6 +7566,13 @@ public abstract class ChoiceControl {
         EdServantData.inspectServants(text);
         break;
 
+      case 1062:
+        // Lots of Options
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordOvergrownLot", true);
+        }
+        break;
+
       case 1063:
         {
           // Adjust your 'Edpiece
@@ -7513,6 +7647,13 @@ public abstract class ChoiceControl {
           }
           break;
         }
+
+      case 1080:
+        // Bagelmat-5000
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordMadnessBakery", true);
+        }
+        break;
 
       case 1087:
         // The Dark and Dank and Sinister Cave Entrance
