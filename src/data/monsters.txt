@@ -232,6 +232,7 @@ eXtreme Orcish snowboarder	1155	fratboard.gif	Atk: 74 Def: 66 HP: 65 Init: 60 Me
 extremely annoyed witch	1581	witchy2.gif	NOCOPY Atk: 36 Def: 32 HP: 32 Init: 25 Meat: 40 P: dude EA: hot EA: stench Article: an	wand of pigification (c100)
 eye in the darkness	1373	darkeye.gif	Atk: 600 Def: 650 HP: 700 Init: 200 P: horror E: spooky Article: an	black tear (n50)
 factory-irregular skeleton	1744	badskel1.gif,badskel2.gif,badskel3.gif,badskel4.gif,badskel5.gif,badskel6.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: undead ED: spooky Article: a	really thick spine (50)	oversized skullcap (30)	three-legged pants (30)	skeleton bone (25)	loose teeth (25)	alien autoautopsy kit (c10)
+Falcoer	1836	falcoer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude Article: a
 Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 Meat: 45 P: demon E: hot Article: a	demon skin (15)	evil golden arch (3)	infernal insoles (5)	pink slime (30)	heavy-duty bendy straw (c100)
 Family Jewels	180	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 Group: 2 P: constellation E: sleaze Article: The	star (30)	star (30)	star (30)
 fan dancer	1532	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 Meat: 100 P: dude Article: a	blowdart (20)	red silk skirt (5)	combat fan (5)	dancing fan (c0)
