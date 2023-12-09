@@ -87,7 +87,8 @@ public abstract class ChoiceControl {
 
   private static int abooPeakLevel = 0;
 
-  private static final AdventureResult CANDY_CANE_SWORD = ItemPool.get(ItemPool.CANDY_CANE_SWORD, 1);
+  private static final AdventureResult CANDY_CANE_SWORD =
+      ItemPool.get(ItemPool.CANDY_CANE_SWORD, 1);
 
   public static final Pattern URL_IID_PATTERN = Pattern.compile("iid=(\\d+)");
 
@@ -6906,21 +6907,21 @@ public abstract class ChoiceControl {
         }
         break;
 
-      /* TODO: fill this in once we know the choice options
-      case 143:
-        // Catching Some Zetas
-        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
-          Preferences.setBoolean("candyCaneSwordWarFratZetas", true);
-        }
-        break;
+        /* TODO: fill this in once we know the choice options
+        case 143:
+          // Catching Some Zetas
+          if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+            Preferences.setBoolean("candyCaneSwordWarFratZetas", true);
+          }
+          break;
 
-      case 144:
-        // One Less Room Than In That Movie
-        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
-          Preferences.setBoolean("candyCaneSwordWarFratRoom", true);
-        }
-        break;
-      */
+        case 144:
+          // One Less Room Than In That Movie
+          if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+            Preferences.setBoolean("candyCaneSwordWarFratRoom", true);
+          }
+          break;
+        */
 
       case 151:
         // Adventurer, $1.99
