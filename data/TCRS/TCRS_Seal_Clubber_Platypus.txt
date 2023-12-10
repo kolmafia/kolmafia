@@ -3488,7 +3488,7 @@
 3521	dance instructor's shark tooth necklace of the boozehound	0		Experience Percent (Moxie): +10, Booze Drop: +100, Single Equip
 3522	blurry blue deadly brawny shark jumper	0		Muscle Percent: +20, Weapon Damage: +5
 3523	tarnished cyan shark cartilage	0		Effect: "Drunk With Power", Effect Duration: 25
-3524	liquefied eel battery	0		Effect: "The Style... of the Future", Effect Duration: 39
+3524	liquefied eel battery	0		Effect: "The Style...  of the Future", Effect Duration: 39
 3525	liquefied tumbling temporary teardrop tattoo	0		Effect: "No Worries", Effect Duration: 24
 3526	huge greasy scratch 'n' sniff crossbow	0		Sleaze Spell Damage: +10
 3527	mutant rattlesnake egg	0		
@@ -8817,7 +8817,7 @@
 8952	fuchsia nicksilver spurs	0		
 8953	upside-down ticksilver spurs	0		
 8954	special edition Batfellow comic	0		Free Pull
-8955	Tales of the West:  Cow Punching	0		
+8955	Tales of the West: Cow Punching	0
 8956	lime green Tales of the West: Beanslinging	0		
 8957	Tales of the West: Snake Oiling	0		
 8958	mirror briefcase full of snakes	0		

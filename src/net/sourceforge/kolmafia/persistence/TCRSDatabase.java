@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +16,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.TreeMap;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -26,9 +32,12 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -37,6 +46,8 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
+import net.sourceforge.kolmafia.utilities.PHPMTRandom;
+import net.sourceforge.kolmafia.utilities.PHPRandom;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TCRSDatabase {
@@ -90,6 +101,8 @@ public class TCRSDatabase {
   private static final Map<Integer, TCRS> TCRSFoodMap =
       new TreeMap<>(new CafeDatabase.InverseIntegerOrder());
 
+  private static final List<Integer> TCRSEffectPool = new ArrayList<Integer>();
+
   static {
     TCRSDatabase.reset();
   }
@@ -99,11 +112,21 @@ public class TCRSDatabase {
     TCRSMap.clear();
     TCRSBoozeMap.clear();
     TCRSFoodMap.clear();
+    TCRSEffectPool.clear();
+    getEffectPool();
+  }
+
+  public static boolean hasData(int itemId) {
+    return TCRSMap.containsKey(itemId);
   }
 
   public static String getTCRSName(int itemId) {
     TCRS tcrs = TCRSMap.get(itemId);
     return (tcrs == null) ? ItemDatabase.getDataName(itemId) : tcrs.name;
+  }
+
+  public static TCRS getData(int itemId) {
+    return TCRSMap.get(itemId);
   }
 
   public static String filename() {
@@ -451,6 +474,747 @@ public class TCRSDatabase {
 
     // Create and return the TCRS object
     return new TCRS(name, size, quality, modifiers);
+  }
+
+  private static final List<String> COLOR_MODS =
+      List.of(
+          "red",
+          "lime green",
+          "blue",
+          "gray",
+          "maroon",
+          "yellow",
+          "olive",
+          "cyan",
+          "teal",
+          "green",
+          "fuchsia",
+          "purple");
+
+  private static final List<String> COSMETIC_MODS =
+      List.of(
+          "narrow",
+          "huge",
+          "skewed",
+          "blinking",
+          "upside-down",
+          "mirror",
+          "wobbly",
+          "twirling",
+          "pulsating",
+          "jittery",
+          "squat",
+          "spinning",
+          "tumbling",
+          "shaking",
+          "ghostly",
+          "blurry",
+          "bouncing");
+
+  private static final List<String> POTION_MODS =
+      List.of(
+          "galvanized",
+          "liquefied",
+          "magnetized",
+          "nitrogenated",
+          "oxidized",
+          "polarized",
+          "polymerized",
+          "quantum",
+          "tarnished",
+          "vacuum-sealed",
+          "energized",
+          "frozen",
+          "diffused",
+          "electrified",
+          "concentrated",
+          "colloidal",
+          "activated",
+          "aerosolized",
+          "anodized",
+          "alkaline",
+          "ionized",
+          "deionized",
+          "denatured",
+          "pickled",
+          "cold-filtered",
+          "boiled",
+          "modified",
+          "altered",
+          "corrupted",
+          "unsweetened",
+          "improved",
+          "adjusted",
+          "enhanced",
+          "moist",
+          "dry",
+          "chilled",
+          "warmed",
+          "ionized",
+          "Vulcanized",
+          "wet",
+          "dry",
+          "pressed",
+          "flattened",
+          "irradiated");
+
+  private static final List<String> POTION_PREFIXES =
+      List.of("double", "triple", "quadruple", "extra", "non", "super");
+
+  private static final Set<String> ADJECTIVES =
+      new HashSet<>(
+          List.of(
+              "Brimstone",
+              "Spooky",
+              "aerogel",
+              "ancient",
+              "antique",
+              "bakelite",
+              "big",
+              "black",
+              "blue",
+              "brass",
+              "candied",
+              "cardboard",
+              "cheap",
+              "cold",
+              "creepy",
+              "cursed",
+              "cute",
+              "delicious",
+              "dirty",
+              "disintegrating",
+              "dusty",
+              "electric",
+              "enchanted",
+              "fancy",
+              "fishy",
+              "flaming",
+              "floaty",
+              "foam",
+              "frigid",
+              "frozen",
+              "fuchsia",
+              "gabardine",
+              "giant",
+              "glowing",
+              "gold",
+              "golden",
+              "green",
+              "haunted",
+              "heavy",
+              "intricate",
+              "large",
+              "lavender",
+              "leather",
+              "little",
+              "long",
+              "lucky",
+              "magical",
+              "maroon",
+              "metal",
+              "miniature",
+              "oily",
+              "old",
+              "orange",
+              "oversized",
+              "paisley",
+              "paraffin",
+              "polka-dot",
+              "porcelain",
+              "portable",
+              "powdered",
+              "primitive",
+              "purple",
+              "red",
+              "rusty",
+              "shiny",
+              "silver",
+              "sour",
+              "solid",
+              "spicy",
+              "spooky",
+              "stained",
+              "sticky",
+              "stinky",
+              "strange",
+              "striped",
+              "stuffed",
+              "tiny",
+              "white",
+              "wooden",
+              "wrought-iron",
+              "yellow"));
+
+  public static void getEffectPool() {
+    EffectDatabase.entrySet().stream()
+        .map(Map.Entry::getKey)
+        // Effects must be marked as good
+        .filter(id -> EffectDatabase.getQuality(id) == EffectDatabase.GOOD)
+        // Effects must be hookah/wish-able
+        .filter(id -> !EffectDatabase.hasAttribute(id, "nohookah"))
+        // Some effects seem to be unavailable without any obvious reason, and so are tagged thusly
+        .filter(id -> !EffectDatabase.hasAttribute(id, "notcrs"))
+        // TCRS effects are limited to whatever was available at the time of the path (Tiki
+        // Temerity)
+        .filter(id -> id <= 2468)
+        .forEachOrdered(TCRSEffectPool::add);
+  }
+
+  private static String removeAdjectives(final String name) {
+    var words = Arrays.asList(name.split(" "));
+    return String.join(" ", words.stream().filter(w -> !ADJECTIVES.contains(w)).toList());
+  }
+
+  private static String rollCosmetics(final PHPMTRandom mtRng, final PHPRandom rng, final int max) {
+    // Determine cosmetic modifiers
+    var cosmeticMods = new ArrayList<String>();
+
+    //   Roll 1d6 on whether to add a color
+    if (mtRng.nextInt(1, max) == 1) {
+      cosmeticMods.add(mtRng.pickOne(COLOR_MODS));
+    }
+
+    //   Work out how many cosmetic modifiers to add
+    var numCosmeticMods = 0;
+    if (mtRng.nextInt(1, max) == 1) numCosmeticMods++;
+    if (mtRng.nextInt(1, max) == 1) numCosmeticMods++;
+    if (mtRng.nextInt(1, max) == 1) numCosmeticMods++;
+
+    //   Pick and add cosmetic modifiers
+    for (var i = 0; i < numCosmeticMods; i++) {
+      cosmeticMods.add(mtRng.pickOne(COSMETIC_MODS));
+    }
+
+    if (cosmeticMods.size() > 0) {
+      rng.shuffle(cosmeticMods);
+    }
+
+    Collections.reverse(cosmeticMods);
+
+    return String.join(" ", cosmeticMods);
+  }
+
+  static class Enchantment {
+    String effect;
+    int duration;
+
+    Enchantment(String effect, int duration) {
+      this.effect = effect;
+      this.duration = duration;
+    }
+
+    @Override
+    public String toString() {
+      if (this.effect.isBlank()) return "";
+      return "Effect: \"" + this.effect + "\", Effect Duration: " + this.duration;
+    }
+  }
+
+  private static ModifierList getRetainedModifiers(final int itemId) {
+    var list = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, itemId));
+    switch (ItemDatabase.getConsumptionType(itemId)) {
+      case EAT, DRINK, SPLEEN, POTION, AVATAR_POTION -> {
+        while (list.containsModifier("Effect")) list.removeModifier("Effect");
+        while (list.containsModifier("Effect Duration")) list.removeModifier("Effect Duration");
+      }
+    }
+
+    return list;
+  }
+
+  private static Enchantment rollConsumableEnchantment(final int itemId, final PHPMTRandom mtRng) {
+    var roll = mtRng.nextInt(0, TCRSEffectPool.size());
+
+    var effectName =
+        (roll != TCRSEffectPool.size())
+            ? EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName()
+            : ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
+    var duration = 5 * mtRng.nextInt(1, 10);
+
+    return new Enchantment(effectName, duration);
+  }
+
+  public static TCRS guessPotion(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
+    var id = item.getItemId();
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, 6);
+
+    var mods = getRetainedModifiers(id);
+
+    if (TCRS_GENERIC.contains(id)) {
+      mods = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, id));
+      var name =
+          Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+              .filter(Predicate.not(String::isBlank))
+              .collect(Collectors.joining(" "));
+
+      return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
+    }
+
+    // Determine potion modifiers
+    var potionMods = new ArrayList<String>();
+
+    //   Work out how many potion modifiers to add
+    var numPotionMods = 1;
+    if (mtRng.nextInt(1, 3) == 1) numPotionMods++;
+    if (mtRng.nextInt(1, 3) == 1) numPotionMods++;
+
+    //   Pick and add potion modifiers
+    for (var i = 0; i < numPotionMods; i++) {
+      potionMods.add(mtRng.pickOne(POTION_MODS));
+    }
+
+    // Pick effect (note that purposely pick a number that can overflow the pool by 1)
+    var roll = mtRng.nextInt(0, TCRSEffectPool.size());
+
+    var effectName =
+        (roll == TCRSEffectPool.size())
+            ?
+            //   If we picked an overflow size, the item retains its original effect
+            ModifierDatabase.getStringModifier(
+                ModifierType.ITEM, item.getDisambiguatedName(), StringModifier.EFFECT)
+            :
+            //   Otherwise use the roll we got
+            EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
+
+    // @TODO what is going on here
+    if (item.getItemId() == 3159 && roll == TCRSEffectPool.size()) {
+      effectName = "";
+    }
+
+    // Pick duration of effect
+    var duration = mtRng.nextInt(11, 69);
+
+    // Pick potion mod prefixes
+    var prefixedPotionMods = new ArrayList<String>();
+
+    for (var mod : potionMods) {
+      var prefixRoll = mtRng.nextInt(1, 40);
+      if (prefixRoll <= POTION_PREFIXES.size()) {
+        mod = POTION_PREFIXES.get(prefixRoll - 1) + "-" + mod;
+      }
+
+      // They get rendered in reverse
+      prefixedPotionMods.add(0, mod);
+    }
+
+    var potionString = String.join(" ", prefixedPotionMods);
+
+    if (!effectName.isBlank()) {
+      mods.addModifier("Effect", effectName);
+      mods.addModifier("Effect Duration", String.valueOf(duration));
+    }
+
+    var name =
+        Stream.of(
+                potionString,
+                cosmeticsString,
+                removeAdjectives(ItemDatabase.getItemName(item.getItemId())))
+            .filter(Predicate.not(String::isBlank))
+            .collect(Collectors.joining(" "));
+
+    return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
+  }
+
+  private static ConsumableQuality determineFoodQuality(
+      final int qualityRoll, final boolean beverage) {
+    return switch (qualityRoll) {
+      case 1 -> ConsumableQuality.CRAPPY;
+      case 2 -> beverage ? ConsumableQuality.DECENT : ConsumableQuality.CRAPPY;
+      case 3 -> ConsumableQuality.DECENT;
+      case 4 -> beverage ? ConsumableQuality.GOOD : ConsumableQuality.DECENT;
+      case 5 -> ConsumableQuality.GOOD;
+      case 6 -> beverage ? ConsumableQuality.AWESOME : ConsumableQuality.GOOD;
+      case 7 -> beverage ? ConsumableQuality.EPIC : ConsumableQuality.AWESOME;
+      default -> null;
+    };
+  }
+
+  private static ConsumableQuality determineBoozeQuality(final int qualityRoll) {
+    return switch (qualityRoll) {
+      case 1, 2 -> ConsumableQuality.DECENT;
+      case 3, 4 -> ConsumableQuality.GOOD;
+      case 5 -> ConsumableQuality.AWESOME;
+      case 6, 7 -> ConsumableQuality.EPIC;
+      default -> null;
+    };
+  }
+
+  private static ConsumableQuality determineSpleenQuality(final int qualityRoll) {
+    return switch (qualityRoll) {
+      case 1 -> ConsumableQuality.CRAPPY;
+      case 2, 3 -> ConsumableQuality.DECENT;
+      case 4, 5 -> ConsumableQuality.GOOD;
+      case 6 -> ConsumableQuality.AWESOME;
+      case 7 -> ConsumableQuality.EPIC;
+      default -> null;
+    };
+  }
+
+  private static final List<List<String>> FOOD_SIZE_DESCRIPTORS =
+      List.of(
+          List.of("tiny", "bite-sized", "diet", "low-calorie"),
+          List.of("small", "snack-sized", "half-sized", "miniature"),
+          List.of(),
+          List.of(),
+          List.of("big", "thick", "super-sized", "jumbo"),
+          List.of("massive", "gigantic", "huge", "immense"));
+
+  private static final List<List<String>> BOOZE_SIZE_DESCRIPTORS =
+      List.of(
+          List.of("practically non-alcoholic"),
+          List.of("weak", "watered-down"),
+          List.of(),
+          List.of(),
+          List.of("strong", "spirit-forward", "fortified", "boozy", "distilled", "extra-dry"),
+          List.of("irresponsibly strong", "high-proof", "triple-distilled"));
+
+  private static final List<String> FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR =
+      List.of("special", "fancy", "enchanted");
+
+  private static final Map<ConsumableQuality, List<String>> FOOD_QUALITY_DESCRIPTORS =
+      Map.ofEntries(
+          Map.entry(ConsumableQuality.CRAPPY, List.of("rotten", "spoiled", "moldy")),
+          Map.entry(ConsumableQuality.DECENT, List.of("bland", "stale", "flavorless")),
+          Map.entry(ConsumableQuality.GOOD, List.of("decent", "adequate", "normal")),
+          Map.entry(ConsumableQuality.AWESOME, List.of("delicious", "tasty", "toothsome", "yummy")),
+          Map.entry(ConsumableQuality.EPIC, List.of("")));
+
+  private static final Map<ConsumableQuality, List<String>> BOOZE_QUALITY_DESCRIPTORS =
+      Map.ofEntries(
+          Map.entry(ConsumableQuality.CRAPPY, List.of("")),
+          Map.entry(ConsumableQuality.DECENT, List.of("bad", "lousy", "mediocre")),
+          Map.entry(ConsumableQuality.GOOD, List.of("acceptable", "drinkable", "tolerable")),
+          Map.entry(ConsumableQuality.AWESOME, List.of("delicious", "smooth", "aged")),
+          Map.entry(
+              ConsumableQuality.EPIC, List.of("perfectly mixed", "artisanal", "hand-crafted")));
+
+  private static TCRS guessFoodBooze(
+      final AscensionClass ascensionClass,
+      final ZodiacSign sign,
+      final AdventureResult item,
+      final boolean isFood) {
+    var id = item.getItemId();
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var beverage = ConsumablesDatabase.isBeverage(id);
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, beverage ? 8 : 10);
+
+    switch (id) {
+      case ItemPool.GUNPOWDER_BURRITO, ItemPool.BEERY_BLOOD -> {
+        var name =
+            Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+                .filter(Predicate.not(String::isBlank))
+                .collect(Collectors.joining(" "));
+
+        var mods = getRetainedModifiers(id);
+
+        var size =
+            switch (ItemDatabase.getConsumptionType(id)) {
+              case EAT -> ConsumablesDatabase.getFullness(id);
+              case DRINK -> ConsumablesDatabase.getInebriety(id);
+              default -> 0;
+            };
+
+        var quality = ConsumablesDatabase.getQuality(id);
+
+        return new TCRS(name, size, quality, mods.toString());
+      }
+    }
+
+    var qualityRoll = mtRng.nextInt(1, 7);
+    var quality =
+        isFood ? determineFoodQuality(qualityRoll, beverage) : determineBoozeQuality(qualityRoll);
+
+    // Does it roll the size if a beverage?
+    var size =
+        beverage
+            ? 1
+            : switch (mtRng.nextInt(1, 10)) {
+              case 1 -> 1;
+              case 2, 3 -> 2;
+              case 4, 5, 6 -> 3;
+              case 7, 8 -> 4;
+              case 9 -> 5;
+              case 10 -> 5 + mtRng.nextInt(1, 5);
+              default -> 0;
+            };
+
+    var adjectives = new ArrayList<String>();
+
+    if (!beverage) {
+      var sizeDescriptors =
+          (isFood ? FOOD_SIZE_DESCRIPTORS : BOOZE_SIZE_DESCRIPTORS).get(Math.min(size - 1, 5));
+      if (sizeDescriptors.size() > 0) {
+        var sizeDescriptor = mtRng.pickOne(sizeDescriptors);
+        adjectives.add(sizeDescriptor);
+      }
+
+      var qualityDescriptors =
+          (isFood ? FOOD_QUALITY_DESCRIPTORS : BOOZE_QUALITY_DESCRIPTORS).get(quality);
+      var qualityDescriptor =
+          qualityDescriptors.size() > 1
+              ? mtRng.pickOne(qualityDescriptors)
+              : qualityDescriptors.get(0);
+      adjectives.add(qualityDescriptor);
+    }
+
+    if (quality.getValue() * size >= 5) {
+      mtRng.nextDouble();
+    }
+
+    var mods = getRetainedModifiers(id);
+
+    var enchanted = mtRng.nextInt(1, 10) == 1;
+    if (enchanted) {
+      adjectives.add(mtRng.pickOne(FOOD_BOOZE_ENCHANTMENT_DESCRIPTOR));
+    }
+
+    var enchantment = rollConsumableEnchantment(id, mtRng);
+
+    if (HARDCODED_EFFECT.contains(id)) {
+      enchanted = true;
+      enchantment.effect =
+          ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.EFFECT);
+
+      if (!HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
+        enchantment.duration =
+            (int)
+                ModifierDatabase.getNumericModifier(
+                    ModifierType.ITEM, id, DoubleModifier.EFFECT_DURATION);
+      }
+    }
+
+    if (enchanted && !enchantment.effect.isBlank()) {
+      mods.addModifier("Effect", enchantment.effect);
+      mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
+    }
+
+    if (id == ItemPool.QUANTUM_TACO
+        || id == ItemPool.SCHRODINGERS_THERMOS
+        || id == ItemPool.SMORE) {
+      size = 0;
+    }
+
+    rng.shuffle(adjectives);
+
+    Collections.reverse(adjectives);
+
+    adjectives.add(cosmeticsString);
+    adjectives.add(removeAdjectives(ItemDatabase.getItemName(item.getItemId())));
+
+    var name =
+        adjectives.stream().filter(Predicate.not(String::isBlank)).collect(Collectors.joining(" "));
+
+    return new TCRS(name, size, quality, mods.toString());
+  }
+
+  private static final List<String> SPLEEN_MODIFIERS =
+      List.of(
+          "boiled",
+          "dried",
+          "dehydrated",
+          "diluted",
+          "powdered",
+          "mixed",
+          "distilled",
+          "altered",
+          "modified",
+          "twisted",
+          "vaporized",
+          "denatured",
+          "compressed",
+          "pickled");
+
+  /** Items whose item types are ignored for TCRS */
+  private static final Set<Integer> TCRS_GENERIC =
+      Set.of(
+          // Potions
+          ItemPool.JAZZ_SOAP,
+          ItemPool.CAN_OF_BINARRRCA,
+          // Food
+          8462,
+          8899);
+
+  /** Dynamically named items aren't renamed by TCRS */
+  public static final Set<Integer> DYNAMICALLY_NAMED =
+      Set.of(
+          ItemPool.EXPERIMENTAL_CRIMBO_FOOD,
+          ItemPool.EXPERIMENTAL_CRIMBO_BOOZE,
+          ItemPool.EXPERIMENTAL_CRIMBO_SPLEEN,
+          ItemPool.LOVE_POTION_XYZ,
+          ItemPool.DIABOLIC_PIZZA,
+          ItemPool.VAMPIRE_VINTNER_WINE);
+
+  /** Items that keep their Effect despite rolling for a new one */
+  private static final Set<Integer> HARDCODED_EFFECT =
+      Set.of(
+          ItemPool.WREATH_CRIMBO_COOKIE,
+          ItemPool.BELL_CRIMBO_COOKIE,
+          ItemPool.TREE_CRIMBO_COOKIE,
+          ItemPool.JAZZ_SOAP,
+          ItemPool.BAT_CRIMBOWEEN_COOKIE,
+          ItemPool.SKULL_CRIMBOWEEN_COOKIE,
+          ItemPool.TOMBSTONE_CRIMBOWEEN_COOKIE,
+          ItemPool.TURTLE_SOUP,
+          ItemPool.BEEFY_FISH_MEAT,
+          ItemPool.GLISTENING_FISH_MEAT,
+          ItemPool.SLICK_FISH_MEAT,
+          ItemPool.BLOB_CRIMBCOOKIE,
+          ItemPool.QUEEN_COOKIE,
+          ItemPool.SUN_DRIED_TOFU,
+          ItemPool.SOYBURGER_JUICE,
+          ItemPool.CIRCULAR_CRIMBCOOKIE,
+          ItemPool.TRIANGULAR_CRIMBCOOKIE,
+          ItemPool.SQUARE_CRIMBCOOKIE,
+          ItemPool.CHAOS_POPCORN,
+          ItemPool.TEMPS_TEMPRANILLO,
+          ItemPool.THYME_JELLY_DONUT);
+
+  /** Items that keep their Effect but take on a new Effect Duration */
+  private static final Set<Integer> HARDCODED_EFFECT_DYNAMIC_DURATION =
+      Set.of(ItemPool.QUEEN_COOKIE, ItemPool.TURTLE_SOUP);
+
+  private static TCRS guessSpleen(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
+    var id = item.getItemId();
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, 4);
+
+    var quality = determineSpleenQuality(mtRng.nextInt(1, 7));
+
+    var adjective = mtRng.pickOne(SPLEEN_MODIFIERS);
+
+    // Some unknown machinations here, only CDM can explain
+    {
+      if (quality == ConsumableQuality.CRAPPY) {
+        if (mtRng.nextInt(1, 6) == 6) {
+          mtRng.nextDouble();
+        }
+      } else {
+        mtRng.nextDouble();
+        mtRng.nextDouble();
+      }
+
+      mtRng.nextDouble();
+    }
+
+    var mods = getRetainedModifiers(id);
+
+    if ((mtRng.nextInt(1, 3) == 1)) {
+      var enchantment = rollConsumableEnchantment(id, mtRng);
+      if (!enchantment.effect.isBlank()) {
+        mods.addModifier("Effect", enchantment.effect);
+        mods.addModifier("Effect Duration", String.valueOf(enchantment.duration));
+      }
+    }
+
+    var name =
+        Stream.of(adjective, cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+            .filter(Predicate.not(String::isBlank))
+            .collect(Collectors.joining(" "));
+
+    return new TCRS(name, 1, quality, mods.toString());
+  }
+
+  private static TCRS guessEquipment(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
+    var id = item.getItemId();
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, 8);
+
+    var name =
+        Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+            .filter(Predicate.not(String::isBlank))
+            .collect(Collectors.joining(" "));
+
+    var mods = getRetainedModifiers(id);
+
+    return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
+  }
+
+  private static TCRS guessGeneric(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final AdventureResult item) {
+    var id = item.getItemId();
+    var seed = (50 * id) + (12345 * sign.getId()) + (100000 * ascensionClass.getId());
+    var mtRng = new PHPMTRandom(seed);
+    var rng = new PHPRandom(seed);
+
+    var cosmeticsString = rollCosmetics(mtRng, rng, 8);
+
+    var name =
+        Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+            .filter(Predicate.not(String::isBlank))
+            .collect(Collectors.joining(" "));
+
+    var mods = getRetainedModifiers(id);
+
+    var size =
+        switch (ItemDatabase.getConsumptionType(id)) {
+          case EAT -> ConsumablesDatabase.getFullness(id);
+          case DRINK -> ConsumablesDatabase.getInebriety(id);
+          case SPLEEN -> ConsumablesDatabase.getSpleenHit(id);
+          default -> 0;
+        };
+
+    var quality = ConsumablesDatabase.getQuality(id);
+
+    return new TCRS(name, size, quality, mods.toString());
+  }
+
+  public static TCRS guessItem(
+      final AscensionClass ascensionClass, final ZodiacSign sign, final int itemId) {
+    var item = ItemPool.get(itemId);
+    var type = ItemDatabase.getConsumptionType(itemId);
+
+    if (DYNAMICALLY_NAMED.contains(itemId)) {
+      var name = ItemDatabase.getItemName(itemId);
+
+      var size =
+          switch (type) {
+            case EAT -> ConsumablesDatabase.getFullness(name);
+            case DRINK -> ConsumablesDatabase.getInebriety(name);
+            case SPLEEN -> ConsumablesDatabase.getSpleenHit(name);
+            default -> 0;
+          };
+
+      return new TCRS(name, size, ConsumablesDatabase.getQuality(name), "");
+    }
+
+    switch (itemId) {
+      case
+      // Glitch item isn't really a food
+      ItemPool.GLITCH_ITEM -> type = ConsumptionType.NONE;
+    }
+
+    return switch (type) {
+      case POTION, AVATAR_POTION -> guessPotion(ascensionClass, sign, item);
+      case EAT, DRINK -> guessFoodBooze(ascensionClass, sign, item, type == ConsumptionType.EAT);
+      case SPLEEN -> guessSpleen(ascensionClass, sign, item);
+      case HAT,
+          SHIRT,
+          CONTAINER,
+          WEAPON,
+          OFFHAND,
+          PANTS,
+          ACCESSORY,
+          FAMILIAR_EQUIPMENT -> guessEquipment(ascensionClass, sign, item);
+      default -> guessGeneric(ascensionClass, sign, item);
+    };
   }
 
   private static boolean deriveCafe(final boolean verbose) {

@@ -6661,7 +6661,7 @@
 6773	jittery tin roof (rusted)	0		
 6774	skewed teal tin snips	0		
 6775	tin lizzie	0		
-6776	alkaline alkaline electrified foetid seal tear	0		Effect: "The Style... of the Future", Effect Duration: 18
+6776	alkaline alkaline electrified foetid seal tear	0		Effect: "The Style...  of the Future", Effect Duration: 18
 6777	cold-filtered triple-irradiated blurry cyan seal sweat	0		Effect: "meat.enh", Effect Duration: 13
 6778	super-tarnished boiling seal blood	0		Effect: "Capricorn Rising", Effect Duration: 27
 6779	mirror crystalline seal eye	0		Single Equip
@@ -8817,7 +8817,7 @@
 8952	wobbly nicksilver spurs	0		
 8953	ticksilver spurs	0		
 8954	special edition Batfellow comic	0		Free Pull
-8955	Tales of the West:  Cow Punching	0		
+8955	Tales of the West: Cow Punching	0
 8956	Tales of the West: Beanslinging	0		
 8957	Tales of the West: Snake Oiling	0		
 8958	briefcase full of snakes	0		

@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -74,6 +75,14 @@ public class PHPMTRandom extends Random {
   public int nextInt(final int min, final int max) {
     double clamped = (max - min + 1.0) * nextDouble();
     return min + (int) clamped;
+  }
+
+  public <T> T pickOne(List<T> list) {
+    if (list.size() == 0) {
+      return null;
+    }
+
+    return list.get(nextInt(0, list.size() - 1));
   }
 
   void initialize(final long seed) {
