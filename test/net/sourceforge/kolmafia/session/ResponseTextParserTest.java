@@ -47,6 +47,17 @@ class ResponseTextParserTest {
 
   @ParameterizedTest
   @ValueSource(ints = {SkillPool.SLIMY_SHOULDERS, SkillPool.SLIMY_SYNAPSES, SkillPool.SLIMY_SINEWS})
+  void cannotLearnMoreSlimeSkillsThanPossible(int skillId) {
+    var levelPref = "skillLevel" + skillId;
+    var cleanups = new Cleanups(withProperty(levelPref, 10));
+    try (cleanups) {
+      ResponseTextParser.learnSkill(skillId);
+      assertThat(levelPref, isSetTo(10));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {SkillPool.SLIMY_SHOULDERS, SkillPool.SLIMY_SYNAPSES, SkillPool.SLIMY_SINEWS})
   void cannotOverlearnSlimeSkills(int skillId) {
     var levelPref = "skillLevel" + skillId;
     var cleanups = new Cleanups(withProperty(levelPref, 10));
