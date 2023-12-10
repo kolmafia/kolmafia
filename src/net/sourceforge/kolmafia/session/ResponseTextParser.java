@@ -930,8 +930,9 @@ public class ResponseTextParser {
           ResultProcessor.processItem(ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1);
         }
       }
-      case SkillPool.BELCH_THE_RAINBOW, SkillPool.CHITINOUS_SOUL -> Preferences.increment(
-          levelPref, 1, 11, false);
+        // These skills are separate as we expect their max level to change from time to time
+        // We don't want to avoid incrementing the pref if they are increased before that maximum
+        // is reflected in KoLmafia data
       case SkillPool.TOGGLE_OPTIMALITY,
           SkillPool.PIRATE_BELLOW,
           SkillPool.HOLIDAY_FUN,
@@ -939,10 +940,12 @@ public class ResponseTextParser {
           SkillPool.BEAR_ESSENCE,
           SkillPool.CALCULATE_THE_UNIVERSE,
           SkillPool.EXPERIENCE_SAFARI -> Preferences.increment(levelPref);
-      case SkillPool.SLIMY_SHOULDERS,
-          SkillPool.SLIMY_SINEWS,
-          SkillPool.SLIMY_SYNAPSES -> Preferences.increment(levelPref, 1, 10, false);
-      case SkillPool.IMPLODE_UNIVERSE -> Preferences.increment(levelPref, 1, 13, false);
+      default -> {
+        var maxLevel = SkillDatabase.getMaxLevel(skillId);
+        if (maxLevel > 0) {
+          Preferences.increment(levelPref, 1, maxLevel, false);
+        }
+      }
     }
 
     if (KoLCharacter.inNuclearAutumn()) {
