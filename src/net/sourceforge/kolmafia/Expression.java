@@ -353,7 +353,7 @@ public class Expression {
         case '\u0089' -> v = FightRequest.dreadKisses("Castle");
 
           // Valid with MonsterExpression:
-        case '\u0090' -> v = KoLCharacter.getAdjustedHighestStat();
+        case '\u0090' -> v = KoLCharacter.getAdjustedMainstat();
 
           // Valid with RestoreExpression:
         case '\u0091' -> v = KoLCharacter.getMaximumMP();

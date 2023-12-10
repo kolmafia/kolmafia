@@ -1950,12 +1950,6 @@ public abstract class KoLCharacter {
     return KoLCharacter.adjustedStats[2];
   }
 
-  public static final int getAdjustedHighestStat() {
-    return Math.max(
-        Math.max(KoLCharacter.getAdjustedMuscle(), KoLCharacter.getAdjustedMysticality()),
-        KoLCharacter.getAdjustedMoxie());
-  }
-
   public static final int getBaseMainstat() {
     return switch (KoLCharacter.mainStat()) {
       case MUSCLE -> getBaseMuscle();
