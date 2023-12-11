@@ -3701,6 +3701,7 @@ public class ItemPool {
   public static final int AUTUMNIC_BALM = 11361;
   public static final int COPING_JUICE = 11362;
   public static final int CANDY_CANE_SWORD = 11363;
+  public static final int WARDROBE_O_MATIC = 11390;
   public static final int FUTURISTIC_SHIRT = 11391;
   public static final int FUTURISTIC_HAT = 11392;
   public static final int FUTURISTIC_COLLAR = 11393;
