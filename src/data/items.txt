@@ -4156,7 +4156,7 @@
 4128	hardened slime pants	255854067	hardslimepants.gif	pants	d	5000	pairs of hardened slime pants
 4129	hardened slime belt	663508936	hardslimebelt.gif	accessory	d	5000
 4130	empty agua de vida bottle	917576836	emptybottle.gif	none		0
-4131
+4131	boot plant	507919648	bootplant.gif	spleen, usable	t,d	50
 4132	sham champagne	319658078	chamflute.gif	drink	t,d	133	glasses of sham champagne
 4133	tempura air	647220670	tempuraair.gif	potion, usable	d	75
 4134	pressurized potion of pneumaticity	792712954	airpotion.gif	potion, usable	d	75	pressurized potions of pneumaticity
@@ -6138,7 +6138,7 @@
 6110	bubble-wrap simulator (half broken)	339492599	bubblewrap2.gif	usable	t,d	25	bubble-wrap simulators (half broken)
 6111	bubble-wrap simulator (one button left)	465240155	bubblewrap1.gif	usable	t,d	25	bubble-wrap simulators (one button left)
 6112	zaibatsu lobby card	828324391	littlecard.gif	none	q	0
-6113
+6113	zaibatsu level 1 card	836582946	littlecard.gif	none	q	0
 6114	zaibatsu level 2 card	524857668	littlecard.gif	usable	q	0
 6115	zaibatsu level 3 card	942771743	littlecard.gif	usable	q	0
 6116	CEO office card	733208229	littlecard.gif	usable	q	0
@@ -8899,7 +8899,7 @@
 8871	World's Blackest-Eyed Peas	201826562	beanscan.gif	offhand, usable	t,d	10	cans of World's Blackest-Eyed Peas
 8872	Trader Olaf's Exotic Stinkbeans	574029361	beanscan.gif	offhand, usable	t,d	10	cans of Trader Olaf's Exotic Stinkbeans
 8873	Pork 'n' Pork 'n' Pork 'n' Beans	488524941	beanscan.gif	offhand, usable	t,d	10	cans of Pork 'n' Pork 'n' Pork 'n' Beans
-8874
+8874	Val-U Brand Every Bean Salad	664111970	beanscan.gif	offhand	t,d	25
 8875	Shrub's Premium Baked Beans	480503509	beanscan.gif	offhand, usable	d	25	cans of Shrub's Premium Baked Beans
 8876	plate of Heimz Fortified Kidney Beans	199791931	franksbeans.gif	food	t,d	5	plates of Heimz Fortified Kidney Beans
 8877	plate of Tesla's Electroplated Beans	183096346	franksbeans.gif	food	t,d	5	plates of Tesla's Electroplated Beans
@@ -10099,11 +10099,11 @@
 10071	Crimbeau de toilette	111575274	potion9.gif	spleen, usable	t	0	bottles of Crimbeau de toilette
 10072	Crimbo candle	957016117	crimbocandle.gif	usable	t	0
 10073	Carol of the Bulls	734149089	music.gif	usable	t	0	Carols of the Bulls
-10074
+10074	Carol of the Bulls (used)	239738731	music.gif	usable		0
 10075	Carol of the Hells	810080798	music.gif	usable	t	0	Carols of the Hells
-10076
+10076	Carol of the Hells (used)	121221548	music.gif	usable		0
 10077	Carol of the Thrills	140051819	music.gif	usable	t	0	Carols of the Thrills
-10078
+10078	Carol of the Thrills (used)	273402568	music.gif	usable		0
 10079	Crimbolex watch	382354277	nicewatch.gif	accessory	t	0	Crimbolex watches
 10080	Crimbo tattoo kit	478768623	c18tat.gif	usable	t	0
 10081	hand-knitted Crimbo socks	290044310	abuelasocks.gif	accessory		0
@@ -10231,7 +10231,7 @@
 10203	bottle of super-extra-dark rhum	626331997	pr_rhum.gif	drink, mix	t,d	20	bottles of super-extra-dark rhum
 10204	pirate shaving cream	529804567	pr_shavingcream.gif	potion, usable	t,d	15	cans of pirate shaving cream
 10205	conquistador's breastplate	471803689	pr_breastplate.gif	shirt		0
-10206
+10206	pirate pantaloons	149383983	pr_pants.gif	pants		0
 10207	[glitch season reward name]	286010589	nopic.gif	food, reusable		0
 10208	signal fragment	946907321	pr_signal.gif	usable	t,d	5
 10209	windicle	704440940	pr_windicle.gif	none, combat	t,d	10

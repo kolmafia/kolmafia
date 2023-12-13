@@ -2855,4 +2855,4 @@
 2855	Clericbot Blessing	acore_cleric.gif	8411214ff53d8afb3375ea40fda74e27	neutral	none
 2856	Martially-Minded	sword.gif	13078bcdf837700bc047bbc706e97bbb	neutral	none
 2857	Animal Lover	happy.gif	e6711e9b198ebf036a0ff668a5f370b0	neutral	none
-2858	Cracked Open a Warm One	gwoolbeer.gif	a1704d5a88cbcc92db8c129396b4d984	neutral	none
+2858	Cracked Open a Warm One	gwoolbeer.gif	a1704d5a88cbcc92db8c129396b4d984	neutral	none	drink 1 nice warm beer
