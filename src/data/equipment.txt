@@ -636,6 +636,7 @@ penguinskin mini-skirt	120	Mox: 45
 pig-iron shinguards	90	Mox: 30
 pin-stripe slacks	30	none
 pink pinkslip slip	200	Mox: 85
+pirate pantaloons	80	none
 pixel pants	50	Mox: 10
 plaid skirt	155	Mox: 62
 plexiglass pants	180	Mox: 75
@@ -2295,6 +2296,7 @@ uncursed stats	0	none
 Unkillable Skeleton's shield	350	Mus: 100	shield
 unstable fulminate	0	none
 UV-resistant compass	0	none
+Val-U Brand Every Bean Salad	0	Mys: 15
 vampire pellet	180	Mys: 35
 velcro shield	220	Mus: 85	shield
 velour valise	50	none
