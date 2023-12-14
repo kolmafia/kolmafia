@@ -4783,6 +4783,8 @@ public abstract class ChoiceControl {
 
   private static final Pattern BENCH_WARRANT_PATTERN =
       Pattern.compile("creep <font color=blueviolet><b>(\\d+)</b></font> of them");
+  private static final Pattern BENCH_WARRANT_CANDY_PATTERN =
+      Pattern.compile("scare off <font color=blueviolet><b>(\\d+)</b></font> protestors");
   private static final Pattern FOG_PATTERN = Pattern.compile("<font.*?><b>(.*?)</b></font>");
   private static final Pattern LOV_EXIT_PATTERN =
       Pattern.compile("a sign above it that says <b>(.*?)</b>");
@@ -5571,6 +5573,13 @@ public abstract class ChoiceControl {
             int protestersCreeped = StringUtilities.parseInt(benchWarrantMatcher.group(1));
             Preferences.increment("zeppelinProtestors", protestersCreeped);
             RequestLogger.printLine("Creeped out " + protestersCreeped + " protesters");
+          } else {
+            benchWarrantMatcher = BENCH_WARRANT_CANDY_PATTERN.matcher(text);
+            if (benchWarrantMatcher.find()) {
+              int protestersCreeped = StringUtilities.parseInt(benchWarrantMatcher.group(1));
+              Preferences.increment("zeppelinProtestors", protestersCreeped);
+              RequestLogger.printLine("Scared off " + protestersCreeped + " protesters");
+            }
           }
           break;
         }
