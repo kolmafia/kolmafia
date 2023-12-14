@@ -450,4 +450,15 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Test
+  void updatesProtestorsWithCandyCane() {
+    var cleanups =
+        new Cleanups(
+            withProperty("zeppelinProtestors", 30),
+            withPostChoice2(857, 2, html("request/test_choice_bench_warrant_candy.html")));
+    try (cleanups) {
+      assertThat("zeppelinProtestors", isSetTo(78));
+    }
+  }
 }
