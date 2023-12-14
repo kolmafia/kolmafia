@@ -792,6 +792,7 @@ Item	penguinskin mini-skirt	Initiative: +20, Familiar Effect: "cold atk, 1xFairy
 Item	pig-iron shinguards	Moxie: +6, Initiative: +10, Familiar Effect: "2xBarrr, 1.5xFairy, cap 22"
 Item	pin-stripe slacks	Initiative: +15, Familiar Effect: "6xSombrero, 2xPotato, cap 7"
 Item	pink pinkslip slip	Initiative: +35, Damage Reduction: 4, Familiar Effect: "1xVolley, 1xBarrr"
+Item	pirate pantaloons	Experience (Moxie): +2, Weapon Damage Percent: +15
 Item	pixel pants	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "atk, 4xPotato, cap 12"
 Item	plaid skirt	Initiative: +25, MP Regen Min: 6, MP Regen Max: 10, Familiar Effect: "1xPotato, 1xFairy, cap 38"
 Item	plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
@@ -2680,6 +2681,7 @@ Item	uncursed stats	Experience: +1
 Item	Unkillable Skeleton's shield	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Maximum MP: -300, Damage Reduction: 23, Thorns: 1
 # unstable fulminate
 # UV-resistant compass: Aids in desert exploration
+Item	Val-U Brand Every Bean Salad	Hot Spell Damage: +5, Cold Spell Damage: +5, Spooky Spell Damage: +5, Stench Spell Damage: +5, Sleaze Spell Damage: +5
 Item	vampire pellet	MP Regen Min: 4, MP Regen Max: 8, Spooky Damage: +10, Spooky Spell Damage: +20
 Item	velcro shield	Mysticality Percent: +10, Damage Reduction: 24, Weapon Drop: +25
 # velour valise: Triples the damage and deleveling of Tango of Terror
@@ -11125,8 +11127,11 @@ Item	candy cornucopia	Free Pull
 # carbonated water lily: Restores 60-70 MP
 # caret: Guarantees that your next regular attack will Critically Hit
 Item	Carol of the Bulls	Skill: "Carol of the Bulls"
+Item	Carol of the Bulls (used)	Skill: "Carol of the Bulls"
 Item	Carol of the Hells	Skill: "Carol of the Hells"
+Item	Carol of the Hells (used)	Skill: "Carol of the Hells"
 Item	Carol of the Thrills	Skill: "Carol of the Thrills"
+Item	Carol of the Thrills (used)	Skill: "Carol of the Thrills"
 # carton of rotten eggs: Deals 12-15 <font color=green>Stench Damage</font>
 # carton of rotten eggs: (can be used 8-10 times before the carton is empty)
 # cartoon heart: Restores 40-60 HP
