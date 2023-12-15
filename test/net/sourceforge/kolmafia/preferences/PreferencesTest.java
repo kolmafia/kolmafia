@@ -654,7 +654,10 @@ class PreferencesTest {
           unrelatedValue,
           Preferences.getString(unrelatedPref, false),
           "unrelated pref does not match");
-      System.out.println("Final value: " + Preferences.getInteger(incrementedPref));
+      assertEquals(
+          threadCount,
+          Preferences.getInteger(incrementedPref),
+          "Incremented preference does not match");
     }
   }
 
