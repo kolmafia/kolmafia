@@ -5157,6 +5157,7 @@ Effect	AAA-Charged	Spell Damage Percent: +50, MP Regen Min: 5, MP Regen Max: 10
 Effect	AA-Charged	Spell Damage Percent: +50, Initiative: +50, MP Regen Min: 5, MP Regen Max: 10
 Effect	Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
+Effect	Abuela's Army	Maximum HP Percent: +100, HP Regen Min: 8, HP Regen Max: 10
 Effect	Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min: 40, HP Regen Max: 50
 # Abyssal Sweat: The first attack against you will always miss
 Effect	Abyssal Tears	Reduce Enemy Defense: 20
@@ -6416,6 +6417,7 @@ Effect	Impregnably Delicious	Damage Reduction: 30
 Effect	Improprie Tea	Sleaze Damage: +30
 Effect	Improved Candy Vision	Candy Drop: +25
 Effect	In a Lather	Hot Damage: +20, Cold Damage: +20, Stench Damage: +20, Spooky Damage: +20, Sleaze Damage: +20, Hot Spell Damage: +40, Cold Spell Damage: +40, Stench Spell Damage: +40, Spooky Spell Damage: +40, Sleaze Spell Damage: +40, Ranged Damage: +20, Weapon Damage: +20, Weapon Damage Percent: +50, Spell Damage: +40, Spell Damage Percent: +50
+# In a Stealin' Mood: Get more MPCs from Elf Guard soldiers
 Effect	In The Darkness	Combat Rate: -10
 Effect	In the Depths	Familiar Weight: +15, Muscle: +25, Muscle Percent: +300, Maximum HP Percent: +100, Maximum MP Percent: +100
 Effect	In the Limelight	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
@@ -6499,6 +6501,7 @@ Effect	Jaba&ntilde;ero Saucesphere	Damage Reduction: 5, Thorns: 1
 Effect	Jackasses' Symphony of Destruction	Weapon Damage: +12, Spell Damage: +12
 Effect	Jacked In	Item Drop: +10, Meat Drop: +20, Spell Damage: +30, Weapon Damage: +40, Initiative: +50
 Effect	Jalape&ntilde;o Saucesphere	Damage Reduction: 3, Thorns: 1
+# Jamaican' Me Acquisitive: Increases Item Drops on Crimbo Battlefields
 # Jammin': Deal extra damage as the fight goes on
 # Jammin': and on...
 # Jamming with the Jocks: +25% Item Drops from Monsters (Shop Class only)
@@ -7131,6 +7134,7 @@ Effect	Rootin' Around	Candy Drop: +25
 Effect	Rosewater Mark	Mysticality: +10, Spell Damage: +10, Experience (Mysticality): +2
 Effect	Rotten Memories	Stench Damage: +15
 Effect	Ruby-ous	Initiative: +150, Weapon Damage: +10
+# Rum of Darkness: +5 Elf Warfare Effectiveness
 Effect	Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
 Effect	Rushin' Hands	Weapon Damage: +3
 Effect	Rushtacean'	Initiative: +50
@@ -7387,6 +7391,7 @@ Effect	Spangled Star	Monster Level: +10
 Effect	Speakin' Easy	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Speakin' Even Easier	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Spectacle Moustache	Item Drop: +50, Spooky Resistance: +5
+# Sugarplum Visions: Get more Pieces of 12 from Crimbuccaneers
 Effect	Sugary World View	Candy Drop: +100
 Effect	Sparkling Consciousness	Mysticality Percent: +100
 # Sparkly!: +50 Damage vs. Undead
@@ -7485,6 +7490,7 @@ Effect	Stinkybeard	Damage Aura: 1
 # Stinky Breath: Can breathe stench in combat
 Effect	Stinky Hands	Stench Damage: +10, Stench Spell Damage: +20, Hot Resistance: +2, Spooky Resistance: +2
 Effect	Stinky Weapon	Stench Damage: +3
+# Stocking Stuffer: Increases Item Drops on Crimbo Battlefields
 Effect	Stogied	Stench Damage: +50, Stench Spell Damage: +50, Hot Resistance: +5, Spooky Resistance: +5
 Effect	Stone-Faced	Damage Reduction: 3
 # Stop and Smell the Fudge: Find 25% More Fudge
@@ -7904,6 +7910,8 @@ Effect	Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
 Effect	Wet Willied	Underwater Familiar
 # What Are The Odds!?: All item drop rolls will be 50%
+# Whalethoughts: +10 Elf Warfare Effectiveness
+# Whalethoughts: +10 Pirate Warfare Effectiveness
 Effect	What's That Smell?	Stench Damage: +3
 Effect	When the Plague Hits Your Eye	Avatar: "Plague Chef"
 Effect	Whet Appetite	Food Drop: +100
@@ -8015,7 +8023,6 @@ Skill	20/20 Vision	Item Drop: +10
 Skill	Abdominal Muscles	Muscle: +15
 Skill	Abs of Tin	Maximum HP Percent: +10
 Skill	Abstract Reasoning	Mysticality: +10
-Effect	Abuela's Army	Maximum HP Percent: +100, HP Regen Min: 8, HP Regen Max: 10
 # Accordion Appreciation: Double-strength enchantments on accordions
 Skill	Achilles Tendons	Initiative: +40
 Skill	Adipose Polymers	Damage Absorption: +100, Damage Reduction: 10
@@ -8250,7 +8257,6 @@ Skill	Ice Water In Your Veins	Cold Damage: +11
 Skill	Impeccable Timing	Initiative: +100
 # Impetuous Sauciness: +5 reagent potion duration
 Skill	Improv Muscles	Maximum HP Percent: +25, Initiative: +25
-# In a Stealin' Mood: Get more MPCs from Elf Guard soldiers
 Skill	Indefatigable	HP Regen Min: 16, HP Regen Max: 20
 Skill	Index Fingers	Pickpocket Chance: +40
 Skill	Infernal Automata	Hot Damage: +10
@@ -8265,7 +8271,6 @@ Skill	Introspection	Mysticality: +20
 Skill	Ire Proof	Hot Resistance: +3
 Skill	Irrepressible Spunk	Maximum HP Percent: +5, Maximum MP Percent: +5
 # Itchy Curse Finger: Your curses take hold too quickly for your opponents to react
-# Jamaican' Me Acquisitive: Increases Item Drops on Crimbo Battlefields
 Skill	Jazz Hands	MP Regen Min: 4, MP Regen Max: 5
 # Juggle Fireballs: Level 1: Briefly stun enemy and increase your stats by 100%
 # Juggle Fireballs: Level 2: Stat gain raised to 200%
@@ -8411,7 +8416,6 @@ Skill	Ring Fingers	Pickpocket Chance: +20
 # Rowdy Drinker: You love booze, and get more Adventures from drinking it
 Skill	Rudimentary Alimentary Canal	Absorb Adventures: +1
 # Rugged Survivalist: Restore HP and MP after fights
-# Rum of Darkness: +5 Elf Warfare Effectiveness
 Skill	Saccade Reflex	Item Drop: +40
 # Salacious Cocktailcrafting: Lets you make salacious cocktails
 # Sanguine Magnetism: Recover some HP after each combat
@@ -8471,7 +8475,6 @@ Skill	Spot Weakness	Maximum HP: -15
 Skill	Steam Mycelia	Hot Damage: +15
 # Sticky Fingers: Pickpocketing also gives Meat
 Skill	Still Another Extra Spleen	Spleen Capacity: +5
-# Stocking Stuffer: Increases Item Drops on Crimbo Battlefields
 Skill	Stomach of Steel	Stomach Capacity: +5
 Skill	Stomach-Like Thing	Absorb Adventures: +2
 Skill	Strong Back	Muscle: +20
@@ -8481,7 +8484,6 @@ Skill	Subcutaneous Fat	Cold Resistance: +3
 Skill	Subcutaneous Gouda	Damage Absorption: +75, Damage Reduction: 5
 Skill	Subtle and Quick to Anger	Spell Damage Percent: +10
 Skill	Sucker Fingers	Item Drop: +15
-# Sugarplum Visions: Get more Pieces of 12 from Crimbuccaneers
 Skill	Sunglasses	Moxie: +25
 Skill	Sunken Cheeks	Spooky Damage: +3
 # Super-Advanced Meatsmithing: Allows the Meatsmithing of advanced weapons
@@ -8553,8 +8555,6 @@ Skill	Warm Smile	Hot Damage: +3
 Skill	Waxy Ears	Sleaze Damage: +5
 Skill	Weak Esophageal Sphincter	Stench Damage: +9
 # Well-Oiled Guns: All skills involving your sixgun are more effective
-# Whalethoughts: +10 Elf Warfare Effectiveness
-# Whalethoughts: +10 Pirate Warfare Effectiveness
 Skill	Wisdom of Countless Centuries	Experience: +3
 Skill	Wisdom of Jarlsberg	Experience (Mysticality): +3
 Skill	Wisdom of the Elder Tortoises	Maximum MP Percent: +50
