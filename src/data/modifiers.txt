@@ -2359,13 +2359,13 @@ Item	incredibly creepy marionette	Mysticality: +3
 Item	iShield	Hot Resistance: +3, Damage Reduction: 16, Moxie Percent: +15
 Item	ivory cue ball	Item Drop: +5
 Item	jar of frostigkraut	Cold Damage: +10, Damage Aura: 1
+# Jarlsberg's pan: +1 Food Conjuration for Jarlsberg
+# Jarlsberg's pan: Softcore Only (except for Avatar of Jarlsberg)
 Item	Jarlsberg's pan	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, Damage Reduction: 30, Free Pull
 # Jarlsberg's pan (Cosmic portal mode): +1 Food Conjuration for Jarlsberg
 # Jarlsberg's pan (Cosmic portal mode): Converts dropped food and booze into Cosmic Calories
 # Jarlsberg's pan (Cosmic portal mode): Softcore Only (except for Avatar of Jarlsberg)
 Item	Jarlsberg's pan (Cosmic portal mode)	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, Damage Reduction: 30, Free Pull
-# Jarlsberg's pan: +1 Food Conjuration for Jarlsberg
-# Jarlsberg's pan: Softcore Only (except for Avatar of Jarlsberg)
 Item	jet bennie marble	Spooky Spell Damage: +55
 # joybuzzer: Grants &quot;Shake Hands&quot; Combat Skill
 # joybuzzer: (31-50 damage per successful handshake)
@@ -2889,8 +2889,8 @@ Item	Caveman Dan's favorite rock	Maximum HP: +60, Food Drop: +30, Experience (Mu
 Item	cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
 # cement shoes: Makes you sleep like the dead
 Item	cement shoes	Mysticality: +20, Moxie: +20
-# ceramic celsiturometer: but also make them very angry
 # ceramic celsiturometer: Deal 60 Hot Damage to a foe and briefly stun them,
+# ceramic celsiturometer: but also make them very angry
 Item	ceramic celsiturometer	Experience (Mysticality): +3, Maximum MP: +30, MP Regen Min: 6, MP Regen Max: 12
 # ceramic cerecloth belt: Deal 30 Spooky Damage to a target and weaken them
 Item	ceramic cerecloth belt	Moxie Percent: +20, Initiative: +40, Never Fumble
@@ -2924,7 +2924,6 @@ Item	Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spel
 Item	Cincho de Mayo	Moxie Percent: +25, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Booze Drop: +30, Item Drop: +15
 # Claw of the Infernal Seal: 5 Additional Seal Summons Per Day
 # Claw of the Infernal Seal: This enchantment works even when this item is not equipped
-# * This enchantment works even when this item is not equipped
 Item	Claw of the Infernal Seal	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Seal Clubber", Single Equip
 # Claybender glasses: +15 Damage vs. Ghosts
 Item	Claybender glasses	Item Drop: +4, Single Equip
@@ -4172,7 +4171,6 @@ Item	Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class
 Item	Duke Vampire's regal cloak	Moxie: +15, Moxie Percent: +25, Initiative: +50
 Item	elf army poncho	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Lasts Until Rollover
 Item	Elf Guard SCUBA tank	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Maximum HP: -100, Maximum MP: -100, Adventure Underwater
-Item	Elf Guard SCUBA tank	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Maximum HP: -100, Maximum MP: -100, Adventure Underwater, Adventure Underwater
 # fiberglass frock: Makes it so dealing Cold damage causes ongoing additional Cold damage
 Item	fiberglass frock	Experience (Mysticality): +3, Maximum MP: +20
 Item	frozen turtle shell	Cold Damage: +15, Stench Resistance: +2, Sleaze Resistance: +2, Class: "Turtle Tamer"
@@ -5348,6 +5346,8 @@ Effect	Bent Knees	Combat Rate: -5
 Effect	Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
 Effect	Berry Critical	Critical Hit Percent: +30
 Effect	Berry Defensive	Damage Reduction: 10, Damage Absorption: +100
+# *** KoL bug: Berry Elemental has Spooky Resistance: +1, Spooky Resistance: +1
+# *** Bug reported and acknowledged
 Effect	Berry Elemental	Cold Resistance: +1, Hot Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Berry Experiential	Experience: +6
 Effect	Berry Statistical	Muscle Percent: +66, Mysticality Percent: +100, Moxie Percent: +66
@@ -11055,9 +11055,9 @@ Item	bagged Cargo Cultist Shorts	Free Pull
 Item	Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
 Item	basking robin	Free Pull
 # Bastille Battalion cheese wheel: Lets you specify your favorite kind of cheese on your profile
+# Bastille Battalion control rig: Lets you control a mobile castle in Battle Royales for Cheese
 Item	Bastille Battalion control rig	Free Pull
 Item	Bastille Battalion control rig crate	Free Pull
-# Bastille Battalion control rig: Lets you control a mobile castle in Battle Royales for Cheese
 # Bat-Aid&trade; bandage: Quickly restores 20 Bat-Health
 # bat-bearing: Deals 15 damage and briefly stuns foes
 # bat-jute: Lets you tie up and interrogate a weakened foe
@@ -11617,9 +11617,9 @@ Item	hibernating robot reindeer	Free Pull
 Item	History's Most Offensive Jokes, Vol. IX	Skill: "Unoffendable"
 Item	Hjodor's Guide to Arctic Dalmatians	Skill: "Frigidalmatian"
 Item	Hjodor's Guide to Arctic Dalmatians (used)	Skill: "Frigidalmatian"
+# HOA citation pad: Weakens enemies a lot
 # HOA citation pad: (by 30% if they are dudes, hippies or orcs)
 # HOA citation pad: (doesn't go away when used)
-# HOA citation pad: Weakens enemies a lot
 Item	Hodgman's journal #1: The Lean Times	Skill: "Natural Born Scrabbler"
 Item	Hodgman's journal #2: Entrepreneurythmics	Skill: "Thrift and Grift"
 Item	Hodgman's journal #3: Pumping Tin	Skill: "Abs of Tin"
@@ -11782,9 +11782,9 @@ Item	mayo lance	Lasts Until Rollover
 # Mayodiol: One Fullness of the next thing you eat will be converted into Drunkenness
 # Mayoflex: The next thing you eat will grant an additional Adventure
 # Mayonex: Instead of giving Adventures, the next thing you eat will increase your blood-mayonnaise level.
+# Mayor Ghost's scissors: Weakens enemies a lot
 # Mayor Ghost's scissors: (by 30% if they are undead)
 # Mayor Ghost's scissors: (doesn't go away when used)
-# Mayor Ghost's scissors: Weakens enemies a lot
 # Mayostat: Recover a portion of the next substantial thing you eat for later use
 # Mayozapine: Increases the stat gains from the next thing you eat
 Item	McPhee's Grimoire of Hilarious Object Summoning	Skill: "Summon Hilarious Objects"
@@ -11830,10 +11830,10 @@ Item	Merc Core Field Manual: Sanity Maintenance	Skill: "Hypersane"
 # miniature boiler: Deals 20-40 Physical Damage
 # Miniborg beeper: Deals 20-25 Physical Damage and hurts you a little bit
 # Miniborg beeper: (doesn't go away when used)
-# Miniborg Destroy-O-Bot: Deals 10-15 <font color=red>Hot Damage</font>
 # Miniborg Destroy-O-Bot: Deals 10-15 Physical Damage
-# Miniborg Destroy-O-Bot: (doesn't go away when used)
+# Miniborg Destroy-O-Bot: Deals 10-15 <font color=red>Hot Damage</font>
 # Miniborg Destroy-O-Bot: Weakens Enemies Slightly
+# Miniborg Destroy-O-Bot: (doesn't go away when used)
 # Miniborg hiveminder: Weakens enemies somewhat
 # Miniborg hiveminder: (doesn't go away when used)
 # Miniborg laser: Deals 15-20 <font color=red>Hot Damage</font>
@@ -11879,8 +11879,8 @@ Item	mysterious chest	Free Pull
 Item	Nadsat berry	Effect: "Berry Critical", Effect Duration: 20
 # Nardz energy beverage: Restores 50-70 MP
 Item	nasty haunch	Lasts Until Rollover
-# nasty-smelling moss: Doesn't go away when used.
 # nasty-smelling moss: Restores 20-30 HP and briefly stuns opponents.
+# nasty-smelling moss: Doesn't go away when used.
 # nastygeist: Deals <font color=blueviolet>Sleaze Damage</font> each round for the rest of the fight
 # natural fennel soda: Restores 80-120 MP
 # naughty paper shuriken: Removes a monster's pants and stuns it for a few rounds
@@ -11908,9 +11908,9 @@ Item	note from Clancy	Skill: "Request Sandwich"
 # Notes from the Elfpocalypse, Chapter VI: Restores 30-40 HP and MP
 Item	Now You're Cooking With Grease	Skill: "Grease Up"
 # noxious gas grenade: Deals 200-300 <font color=green>Stench Damage</font> and lingering Poison Damage
+# nuclear stockpile: Instantly destroy an enemy
 # nuclear stockpile: (up to 10 times per day)
 # nuclear stockpile: (during the Crimbo 2015 event only)
-# nuclear stockpile: Instantly destroy an enemy
 # nugget of sodium: Deals 10-20 <font color=red>Hot Damage</font> and 10-20 <font color=green>Stench Damage</font>
 # odor extractor: Capture a monster's smell so you can track down similar monsters
 # off-white plastic oyster egg: Weakens enemies a little bit
