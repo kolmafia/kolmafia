@@ -273,7 +273,6 @@ Item	grubby wool hat	Stench Damage: +15, Sleaze Damage: +15, Muscle: +15, Mystic
 Item	grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
 Item	guard turtle shell	Maximum HP: +50, Familiar Effect: "atk, 1xFairy, cap 40"
 # Guzzlr hat: Earn 25% more stats from Guzzlr deliveries
-# Hairpiece On Fire: (+Maximum MP based on Smithsness)
 Item	Hairpiece On Fire	Cold Resistance: +2, Adventures: +4, Smithsness: +5, Maximum MP: [K], Familiar Effect: "atk, 1xPotato, cap 25"
 Item	hangman's hood	Muscle: +50, Weapon Damage: +50, Damage Reduction: 10
 Item	hardened slime hat	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Muscle Percent: +20, Familiar Effect: "1xFairy"
@@ -891,7 +890,6 @@ Item	union scalemail pants	Familiar Effect: "2xBarrr, cap 12"
 Item	Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Class: "Turtle Tamer", Familiar Effect: "1xVolley, 1xBarrr"
 # velour vaqueros: Triples the effectiveness of the Dirge of Dreadfulness
 Item	velour vaqueros	Moxie: +10, Pants Drop: +30
-# Vicar's Tutu: (+Maximum HP based on Smithsness)
 Item	Vicar's Tutu	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, PvP Fights: +3, Smithsness: +5, Maximum HP: [2*K], Familiar Effect: "1.2xFairy, cap 25"
 Item	Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit", Familiar Effect: "1xPotato, 1.5xFairy, cap 31"
 Item	Voluminous Radio Pants	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "2xGhoul, cap 37"
@@ -1506,7 +1504,6 @@ Item	hammer	Plumber Stat: "Muscle", Plumber Power: 1
 Item	Hammer of Smiting	Muscle: +16, Critical Hit Percent: +7, Class: "Seal Clubber"
 Item	hammerus	Spooky Damage: +15
 # Hand that Rocks the Ladle: Eminently Twistable
-# Hand that Rocks the Ladle: (+% to Mysticality Based on Smithsness)
 Item	Hand that Rocks the Ladle	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Smithsness: +5, Class: "Pastamancer", Mysticality Percent: [2*K]
 Item	hand-carved bokken	Muscle Percent: +5, Weapon Damage: +15, Critical Hit Percent: +5
 Item	hand-carved bow	Moxie Percent: +10, Ranged Damage: +10, Initiative: +20
@@ -1614,7 +1611,6 @@ Item	Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 # Mayor Ghost's gavel: This gavel, specifically.
 Item	Mayor Ghost's gavel	Critical Hit Percent: +10, Weapon Damage: +30
 # Meat Tenderizer is Murder: 25% chance to gain an extra gallon of Fury when you gain a gallon of Fury.
-# Meat Tenderizer is Murder: (+% to Muscle Based on Smithsness)
 Item	Meat Tenderizer is Murder	Weapon Damage Percent: +20, Smithsness: +5, Class: "Seal Clubber", Muscle Percent: [2*K]
 Item	Meatcleaver	Meat Drop: +35, Weapon Damage Percent: +100
 Item	meatspout staff	Mysticality: +7, Adventures: +3, Meat Drop: +15
@@ -1790,7 +1786,6 @@ Item	sabre teeth	Weapon Damage: +4
 Item	Saturday Night Special	Hot Resistance: +2
 # saucepan
 # Saucepanic: Lets you gather more Soulsauce
-# Saucepanic: (+% to Mysticality Based on Smithsness)
 Item	Saucepanic	Experience (Mysticality): +2, Smithsness: +5, Class: "Sauceror", Mysticality Percent: [2*K]
 Item	savory crossbow	Moxie: +4
 Item	savory staff	Mysticality: +4
@@ -1815,10 +1810,8 @@ Item	shadow hammer	Combat Rate: +5, Experience: +3
 Item	shadow stick	Spooky Damage: +13, Cold Damage: +13, Weakens Monster
 Item	Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7, Class: "Disco Bandit"
 # Shakespeare's Sister's Accordion: Has a cool Cadenza
-# Shakespeare's Sister's Accordion: (+% to Moxie Based on Smithsness)
 Item	Shakespeare's Sister's Accordion	Mana Cost: [-1*(1+skill(Accordion Appreciation))], Smithsness: [5*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15, Moxie Percent: [2*K]
 # sharpened spoon
-# Sheila Take a Crossbow: (+Initiative based on Smithsness)
 Item	Sheila Take a Crossbow	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Pickpocket Chance: +5, Smithsness: +5, Initiative: [K]
 Item	shiny butcherknife	Spell Damage: +8
 # shipwright's hammer: +3 Pirate Warfare Effectiveness
@@ -1905,7 +1898,6 @@ Item	Staff of the Electric Range	Spell Damage Percent: +50, Spooky Spell Damage:
 Item	Staff of the Grand Flamb&eacute;	Spell Damage Percent: +150, Cold Resistance: +5, MP Regen Min: 8, MP Regen Max: 10
 Item	Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Item	Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 4
-# Staff of the Headmaster's Victuals: (+Spell Damage based on Smithsness)
 Item	Staff of the Headmaster's Victuals	MP Regen Min: 2, MP Regen Max: 3, Sleaze Spell Damage: +5, Smithsness: +5, Spell Damage: [2*K]
 Item	Staff of the Healthy Breakfast	Spell Damage: +10, Maximum HP: +15, Item Drop: +10, MP Regen Min: 2, MP Regen Max: 4, Jiggle: "Recover Some HP"
 Item	Staff of the Hearty Dinner	Spell Damage: +10, Damage Reduction: 5, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Weaken Bad Guy"
@@ -2072,7 +2064,6 @@ Item	wolf whistle	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen
 Item	wooden axe	Muscle: +3
 Item	wooden spoon	Spell Damage: +5
 Item	wooden stakes	Weapon Damage: +1
-# Work is a Four Letter Sword: (+Damage based on Smithsness)
 Item	Work is a Four Letter Sword	HP Regen Min: 4, HP Regen Max: 6, Critical Hit Percent: +5, Smithsness: +5, Weapon Damage: [K]
 Item	world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 # worm-riding hooks
@@ -2104,7 +2095,6 @@ Item	6-ball	Stench Damage: +8, Stench Spell Damage: +8
 Item	7-ball	Meat Drop: +5
 Item	9-ball	Weapon Damage: +8, Ranged Damage: +8, Spell Damage: +8
 Item	17-ball	Spooky Damage: +20, Stench Damage: +20, Hot Damage: +20, Cold Damage: +20, Sleaze Damage: +20
-# A Light that Never Goes Out: (+Item Drops based on Smithsness)
 Item	A Light that Never Goes Out	Mysticality: +5, Hot Damage: +5, Smithsness: +5, Item Drop: [K]
 Item	Abracandalabra	Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 10, Maximum MP Percent: +100, Lasts Until Rollover
 # Abuela Crimbo's special magnet: Get more items from Trainbots
@@ -2320,7 +2310,6 @@ Item	Grey Guanon	Stench Damage: +5, Damage Aura: 1
 Item	grisly shield	Weapon Damage: +50, PvP Fights: +5, Slime Hates It: +1, Damage Reduction: 13
 Item	gunwale	Muscle Percent: +25, Maximum HP: +50, Damage Absorption: +75, Damage Reduction: 9
 Item	Guzzlr souvenir stein	Booze Drop: +50
-# Half a Purse: (+Meat Drops based on Smithsness)
 Item	Half a Purse	Experience: +1, Damage Reduction: 3, Smithsness: +5, Meat Drop: [2*K]
 # hand of Mr. Cards: Can be thrown
 Item	hand of Mr. Cards	Muscle: +5, Mysticality: +5, Moxie: +5
@@ -2484,7 +2473,6 @@ Item	orcish stud-finder	Weapon Damage: +5, Sleaze Damage: +5
 # ornate dowsing rod: Aids in desert exploration
 Item	Oscus's garbage can lid	Stench Damage: +20, Damage Reduction: 15, Thorns: 1
 # Ouija Board, Ouija Board: Gain the favor of the Turtle Spirits more quickly
-# Ouija Board, Ouija Board: (+% to Muscle Based on Smithsness)
 Item	Ouija Board, Ouija Board	Familiar Weight: +5, Smithsness: +5, Class: "Turtle Tamer", Damage Reduction: 7, Muscle Percent: [2*K]
 Item	outmoded fidget toy	Experience: +2
 Item	ox-head shield	Maximum HP: +100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 26, PvP Fights: +8, Never Fumble, Lasts Until Rollover
@@ -6696,7 +6684,6 @@ Effect	Mer-kinny Flavor	Adventure Underwater
 Effect	Mercenary	Item Drop: +40
 Effect	Mer-kindliness	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Mer-kinkiness	Hot Resistance: +4, Cold Resistance: +4, Stench Resistance: +4, Spooky Resistance: +4, Sleaze Resistance: +4
-# Merry Smithsness: (+% to All Stats Based on Smithsness)
 Effect	Merry Smithsness	Smithsness: +25, Muscle Percent: [K], Mysticality Percent: [K], Moxie Percent: [K]
 Effect	Metal Speed	Initiative: +20
 Effect	Meteor Showered	Weapon Damage Percent: +200, Spell Damage Percent: +200, Familiar Weight: +20
