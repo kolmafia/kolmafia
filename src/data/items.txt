@@ -11522,10 +11522,10 @@
 11494
 11495	stuffed kraken	165429188	crimbuckraken.gif	offhand	g	0
 11496
-11497
-11498
+11497	Elf Guard Field Manual: Culinary Arts (used)	894142436	book.gif	usable		0
+11498	Cocktails of the Age of Sail (used)	332132489	book4.gif	usable		0
 11499
-11500
+11500	The Encyclopedia of Fruit (used)	413436542	book3.gif	usable		0
 11501
 11502	military candy cane	132951284	pep_bigcane.gif	potion, usable	t,d	5
 11503	groggipop	933817198	neutronpop.gif	potion, usable	t,d	5

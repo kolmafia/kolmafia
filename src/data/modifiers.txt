@@ -11208,6 +11208,7 @@ Item	closed-circuit phone system	Free Pull
 # coal snakeskin: Adds Spooky Damage to kicks with your cowboy boots
 # cocktail napkin: Deals 20-40 <font color=red>Hot Damage</font>
 Item	Cocktails of the Age of Sail	Skill: "Old-School Cocktailcrafting"
+Item	Cocktails of the Age of Sail (used)	Skill: "Old-School Cocktailcrafting"
 # cocoa of youth: Extend the duration of up to 10 of your effects by 5 Adventures
 Item	coffee sprite	Free Pull
 # cold clusterbomb: Deals <font color=blue>Cold Damage</font> based on your highest stat
@@ -11389,6 +11390,7 @@ Item	electronic Brain Trainer game	Skill: "Brain Games"
 # electronics kit: Shocks your opponent, weakening and briefly stunning them.<p>Also restores 30-40 MP.
 # eleven-foot pole: You know...  For traps.
 Item	Elf Guard Field Manual: Culinary Arts	Skill: "Elf Guard Cooking"
+Item	Elf Guard Field Manual: Culinary Arts (used)	Skill: "Elf Guard Cooking"
 Item	Elf Guard Field Manual: Wilderness Sleeping	Skill: "Elf Guard Relaxation Techniques"
 # Elf Guard hangover cure: Reduces your Drunkenness by 5 (1 after Crimbo)
 # Elf Guard hangover cure: (limit 1x / day)
@@ -12344,6 +12346,7 @@ Item	the Crymbich Manuscript	Skill: "Ancient Crymbo Lore"
 Item	the Crymbich Manuscript (used)	Skill: "Ancient Crymbo Lore"
 # The Emperor's new cookie: So delicious!
 Item	The Encyclopedia of Fruit	Skill: "Fruit Recognition"
+Item	The Encyclopedia of Fruit (used)	Skill: "Fruit Recognition"
 # The Fingernail of the Thing in the Basement: Jeremy Science will be interested in this
 Item	The Firegate Tapes	Skill: "Firegate"
 Item	The Fun-Guy Cold Weather Bartender's Guide	Skill: "Perfect Freeze"
