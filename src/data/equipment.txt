@@ -1158,6 +1158,7 @@ electric crutch	30	Mus: 0	1-handed staff
 elegant nightstick	90	Mus: 30	1-handed club
 elephant stinger	75	Mus: 22	2-handed spear
 elevenderizing hammer	115	Mus: 11	1-handed club
+Elf Guard broom	100	Mus: 0	2-handed polearm
 Elf Guard mouthknife	50	Mus: 0	1-handed knife
 elf ploughshare	100	Mus: 0	1-handed sword
 elven tambourine	100	Mox: 0	1-handed rattle

@@ -1373,6 +1373,8 @@ Item	elegant nightstick	Maximum HP: +30, Maximum MP: +15
 # elephant stinger: 50% chance of poisoning opponent.
 Item	elephant stinger	Muscle: +3
 Item	elevenderizing hammer	Muscle: +11, Mysticality: +11, Moxie: +11, Weapon Damage: +11
+# Elf Guard broom: Helps clean up the Bar at War
+Item	Elf Guard broom	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Weakens Monster
 Item	Elf Guard mouthknife	Elf Warfare Effectiveness: +3, Moxie Percent: +20
 Item	elven tambourine	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # elven whittling knife: On Critical:  Whittles enemy down
@@ -8157,6 +8159,7 @@ Skill	Eldritch Intellect	Spooky Spell Damage: +1, Spooky Resistance: +1
 Skill	Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Elemental Wards	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 # Elf Guard Cooking: Cook 3x per day without using an Adventure
+Skill	Elf Guard Relaxation Techniques	Free Rests: 3
 # Emotionally Chipped: Gives you access to emotions
 Skill	Ensorcel	Maximum HP: -20
 Skill	Envy	Item Drop: +30, Meat Drop: -25
@@ -8339,6 +8342,7 @@ Skill	Object Permanence	Mysticality: +5
 Skill	Object Quasi-Permanence	Item Drop: +10
 Skill	Oily Scalp	Sleaze Damage: +7
 Skill	Okay Seriously, This is the Last Spleen	Spleen Capacity: +5
+# Old-School Cocktailcrafting: Make 3 cocktails per day without spending an Adventure
 Skill	Olfactory Burnout	Stench Resistance: +3
 Skill	Olfactory Cortex	Stench Resistance: +3
 Skill	Ominous Substrate	Spooky Damage: +10
@@ -11203,6 +11207,7 @@ Item	closed-circuit phone system	Free Pull
 # clutch of dodecapede eggs: Weakens enemies somewhat as it poisons them
 # coal snakeskin: Adds Spooky Damage to kicks with your cowboy boots
 # cocktail napkin: Deals 20-40 <font color=red>Hot Damage</font>
+Item	Cocktails of the Age of Sail	Skill: "Old-School Cocktailcrafting"
 # cocoa of youth: Extend the duration of up to 10 of your effects by 5 Adventures
 Item	coffee sprite	Free Pull
 # cold clusterbomb: Deals <font color=blue>Cold Damage</font> based on your highest stat
@@ -11384,6 +11389,7 @@ Item	electronic Brain Trainer game	Skill: "Brain Games"
 # electronics kit: Shocks your opponent, weakening and briefly stunning them.<p>Also restores 30-40 MP.
 # eleven-foot pole: You know...  For traps.
 Item	Elf Guard Field Manual: Culinary Arts	Skill: "Elf Guard Cooking"
+Item	Elf Guard Field Manual: Wilderness Sleeping	Skill: "Elf Guard Relaxation Techniques"
 # Elf Guard hangover cure: Reduces your Drunkenness by 5 (1 after Crimbo)
 # Elf Guard hangover cure: (limit 1x / day)
 # Elf Guard payroll bag: Contains a bunch of Elf Guard MPCs
@@ -12028,6 +12034,7 @@ Item	Psycho From The Heat	Skill: "Pyromania"
 # pufferfish spine: Poisons your opponent, and using additional ones makes the poison way worse
 # pumpkin bomb: Vaporizes an enemy and causes all of its items to drop
 # pumpkin carriage: <b>Allows Travel to Desert Beach</b>
+# punching mirror: Punch it for 5 PvP fights per day
 Item	puppet strings	Free Pull
 # pygmy blowgun: Poisons enemies, dealing damage over multiple rounds
 Item	pygmy bugbear shaman	Free Pull
