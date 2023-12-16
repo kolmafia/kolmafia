@@ -8153,6 +8153,7 @@ Skill	Cryocurrency	Cold Damage: +5
 Skill	Curses Library	Spooky Damage: +5
 Skill	Dark Circles Under Your Eyes	Spooky Damage: +7
 # Data Siphon: Makes Source Punches and Source Kicks restore MP
+# Dead Nostrils: Stay fresh a little longer
 Skill	Dead Nostrils	Stench Spell Damage: +1, Stench Resistance: +1
 Skill	Deductive Reasoning	Mysticality: +15
 # Deep Saucery: Lets you cook with Deep Sauce
@@ -8181,6 +8182,7 @@ Skill	Eldritch Intellect	Spooky Spell Damage: +1, Spooky Resistance: +1
 Skill	Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Elemental Wards	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 # Elf Guard Cooking: Cook 3x per day without using an Adventure
+# Emotionally Chipped: Gives you access to emotions
 Skill	Ensorcel	Maximum HP: -20
 Skill	Envy	Item Drop: +30, Meat Drop: -25
 Skill	Eternal Flame	Hot Spell Damage: +1, Hot Resistance: +1
@@ -8465,8 +8467,6 @@ Skill	Shock-Absorbing Joints	Damage Reduction: 10
 Skill	Sick Pythons	Weapon Damage: +20
 # Sick Pythons: Attacks Miss Less Often
 Skill	Sinister Charm	Floor Buffed Moxie: "Mysticality", Maximum HP: -15
-# Skill	Emotionally Chipped: Gives you access to emotions
-# Skill Dead Nostrils: Stay fresh a little longer
 Skill	Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 # Skullcracker: +100% Brain Drops from Monsters
 # Skullcracker: Critical hits occasionally stun opponents

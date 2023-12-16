@@ -302,7 +302,7 @@ public class FamiliarDatabase {
     }
 
     var larvaName = ItemDatabase.getItemName(larvaId);
-    var printMe = "New familiar: \"" + larvaName + "\" hatches into \"" + familiarName + "\" (" + familiarId + ") @ " + image
+    var printMe = "New familiar: \"" + larvaName + "\" hatches into \"" + familiarName + "\" (" + familiarId + ") @ " + image;
 
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
