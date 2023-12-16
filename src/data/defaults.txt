@@ -1789,6 +1789,7 @@ user	_captainHagnkUsed	0
 user	_carboLoaded	false
 user	_cargoPocketEmptied	false
 user	_carnieCandyDrops	0
+user	_carnivorousPottedPlantWins	0
 user	_carrotNoseDrops	0
 user	_catBurglarCharge	0
 user	_catBurglarHeistsComplete	0

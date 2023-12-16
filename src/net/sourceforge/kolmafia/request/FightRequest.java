@@ -6372,6 +6372,7 @@ public class FightRequest extends GenericRequest {
 
       // Your potted plant swallows your opponent{s} whole.
       if (status.carnivorous && str.contains("Your potted plant swallows")) {
+        Preferences.increment("_carnivorousPottedPlantWins", 1);
         FightRequest.logText(str, status);
       }
 
