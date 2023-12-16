@@ -8858,7 +8858,7 @@
 8830	battoo kit	623721699	battookit.gif	usable		0
 8831	basking robin	662653769	baskinrobin.gif	grow	t	0
 8832	tiny domino mask	832460823	robinmask.gif	familiar	t,d	75
-8833	robin's egg	666856428	jarl_egg.gif	potion, cook, mix	t,d	5	robins's's egg
+8833	robin's egg	666856428	jarl_egg.gif	potion, cook, mix, combat	t,d	5	robins's's egg
 8834	robin flan	799707876	flan.gif	food	t,d	5
 8835	robin nog	124049550	coffeecup.gif	drink	t,d	5	cups of robin nog
 8836	LT&T telegraph office deed	544828426	document.gif	usable	t	0
@@ -11390,10 +11390,10 @@
 11362	coping juice	215559883	persmug.gif	potion, usable	t,d	100	cups of coping juice
 11363	candy cane sword cane	113452664	ccsword.gif	weapon		0
 11364	wrapped candy cane sword cane	701664395	ccsword_box.gif	usable	t	0
-11365
-11366
-11367
-11368
+11365	Elf Guard patrol cap	145186919	eghat.gif	hat	t,d	50
+11366	Elf Guard hotpants	189702223	egpants.gif	pants	t,d	50
+11367	Crimbuccaneer tricorn	403795484	crimbuchat.gif	hat	t,d	50
+11368	Crimbuccaneer breeches	461075987	crimbucpants.gif	pants	t,d	50
 11369	automa-bot parts	211028264	aparts.gif	none	t	0
 11370	security automa-core	402766321	acore_sec.gif	usable	t	0
 11371	clerical automa-core	858021651	acore_cleric.gif	usable	t	0
@@ -11421,3 +11421,111 @@
 11393	futuristic collar	147705294	jw_pet9.gif	familiar	q	0
 11394	crated wardrobe-o-matic	237057182	crate.gif	usable	t	0
 11395	peppermint donut	892693823	powderdonut.gif	food	t,d	35
+11396	Elf Guard insignia (private)	983611383	eginsignia1.gif	accessory	t,d	50
+11397	Crimbuccaneer fledges (mint)	432740379	crimbucfledge.gif	accessory	t,d	50
+11398
+11399
+11400
+11401
+11402
+11403
+11404
+11405
+11406
+11407
+11408	Elf Guard MPC	981842797	egmoney.gif	none		0	Elf Guard MPCs
+11409	Crimbuccaneer piece of 12	485274010	crimbucmoney.gif	none		0
+11410
+11411
+11412
+11413
+11414
+11415
+11416
+11417
+11418
+11419
+11420	Crimbuccaneer tavern swab	587885280	crimbucmop.gif	weapon	t	0
+11421	Elf Guard hangover cure	520317664	egcure.gif	usable	t	0
+11422	old-school pirate grog	716801313	crimbuctankard.gif	drink, mix	t	0
+11423	grog nuts	690314926	crimbucnuts.gif	food, combat	t	0
+11424	sawed-off blunderbuss	493752694	crimbucgun.gif	weapon	t	0
+11425	officer's nog	953790582	egnog.gif	drink	t	0
+11426	peppermint bomb	210735568	egbomb.gif	none, combat	t	0
+11427	sundae ration	204285615	sundae.gif	food	t	0
+11428	peppermint tack	302499068	egpeptack.gif	food, cook	t	0
+11429	Elf Guard Field Manual: Culinary Arts	798908594	book.gif	usable	t	0
+11430	whalesteak	273792733	grilledsteak.gif	food, cook	t	0
+11431	whalegun	574080275	whalegun.gif	weapon, paste	t	0
+11432
+11433	Elf Guard payroll bag	682179450	egmoneybag.gif	usable	t	0
+11434	Elf Guard clipboard	409196611	egclipboard.gif	offhand	t	0
+11435	pegfinger	731849980	pegfinger.gif	accessory	t	0
+11436	red and white claret	154632547	egclaret.gif	drink, mix	t	0
+11437	Elf Guard red and white beret	262408921	egberet.gif	hat	t	0
+11438	shipwright's hammer	927728921	crimbuchammer.gif	weapon	t	0
+11439	gunwale	235605307	gunwale.gif	offhand, paste	t	0
+11440	Kelflar vest	616560556	egvest.gif	shirt	t	0
+11441	whale cerebrospinal fluid	515897465	lightvial.gif	potion, usable	t	0
+11442	Crimbuccaneer runebone	796177154	runebone.gif	accessory	t	0
+11443	cannonbomb	131238950	crimbucbomb.gif	none, combat	t	0
+11444	Elf Guard mouthknife	353853148	mouthknife.gif	weapon	t	0
+11445	Crimbuccaneer fledges (disintegrating)	619365824	crimbucfledge2.gif	accessory	t	0
+11446
+11447
+11448
+11449
+11450	The Encyclopedia of Fruit	966029305	book3.gif	usable	t	0
+11451
+11452	ancient Elf dessert spoon	231753264	egspoon.gif	weapon	t	0
+11453	Elf Guard SCUBA tank	303906801	elfscuba.gif	container	t	0
+11454
+11455	free boots	184381676	crimbucboots.gif	accessory	t	0
+11456
+11457	Elvish underarmor	818267349	egarmor.gif	accessory	t	0
+11458
+11459	sugarplum ration	189858284	sugarplum.gif	food	t	0
+11460	gingerbread nylons	363568811	gingernylons.gif	food	t	0
+11461	rum-soaked fruitcake	971219375	fruitcake.gif	food	t	0
+11462
+11463
+11464
+11465
+11466
+11467
+11468	hot wine	319954775	icewine.gif	drink	t	0
+11469	Jamaican coffee	804218824	coffeecup.gif	drink	t	0
+11470	flask of egggrog	536421114	flask.gif	drink	t	0
+11471
+11472
+11473
+11474
+11475
+11476	whalecake	119486089	whalecake.gif	food	t,d	0
+11477
+11478
+11479
+11480
+11481
+11482
+11483
+11484
+11485
+11486
+11487	prank Crimbo card	598532985	c23card.gif	none, combat	t	0
+11488	Crimbuccaneer squirtblunderbuss	161565670	crimbucsquirt.gif	weapon	t	0
+11489	My First Paycheck envelope	676567657	envelope.gif	usable	t	0
+11490	barnacle-encrusted sweater	729920985	c23sweater2.gif	shirt	t	0
+11491	Crimbuccaneer nose ring	696182050	crimbucnosering.gif	accessory	t	0
+11492	pet anchor	120654814	anchor.gif	grow	t	0
+11493	Crimbuccaneer tattoo gift certificate	229285610	crimbuccert.gif	usable	t,d	0
+11494
+11495	stuffed kraken	165429188	crimbuckraken.gif	offhand	g	0
+11496
+11497
+11498
+11499
+11500
+11501
+11502	military candy cane	132951284	pep_bigcane.gif	potion, usable	t,d	5
+11503	groggipop	933817198	neutronpop.gif	potion, usable	t,d	5
