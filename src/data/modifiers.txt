@@ -10962,7 +10962,6 @@ Item	zombie hollandaise	Effect: "Chef Brains-are-dee", Effect Duration: 30
 
 # Everything Else section of modifiers.txt
 
-
 # 4-d camera: Makes a copy of a monster to fight later
 # 4:20 bomb: (super effective against hippies)
 # 4:20 bomb: Deals 400-500 Physical Damage
