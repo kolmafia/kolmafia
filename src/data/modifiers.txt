@@ -4173,7 +4173,7 @@ Item	Drip harness	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Item	Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class: "Sauceror"
 Item	Duke Vampire's regal cloak	Moxie: +15, Moxie Percent: +25, Initiative: +50
 Item	elf army poncho	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Lasts Until Rollover
-Item	Elf Guard SCUBA tank	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Maximum HP: -100, Maximum MP: -100, Adventure Underwater, Adventure Underwater
+Item	Elf Guard SCUBA tank	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Maximum HP: -100, Maximum MP: -100, Adventure Underwater
 Item	fiberglass frock	Experience (Mysticality): +3, Maximum MP: +20
 # fiberglass frock: Makes it so dealing Cold damage causes ongoing additional Cold damage
 Item	frozen turtle shell	Cold Damage: +15, Stench Resistance: +2, Sleaze Resistance: +2, Class: "Turtle Tamer"

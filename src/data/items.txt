@@ -11448,7 +11448,7 @@
 11420	Crimbuccaneer tavern swab	587885280	crimbucmop.gif	weapon	t	0
 11421	Elf Guard hangover cure	520317664	egcure.gif	usable	t	0
 11422	old-school pirate grog	716801313	crimbuctankard.gif	drink, mix	t	0
-11423	grog nuts	690314926	crimbucnuts.gif	food	t	0
+11423	grog nuts	690314926	crimbucnuts.gif	food, combat	t	0
 11424	sawed-off blunderbuss	493752694	crimbucgun.gif	weapon	t	0
 11425	officer's nog	953790582	egnog.gif	drink	t	0
 11426	peppermint bomb	210735568	egbomb.gif	none, combat	t	0
