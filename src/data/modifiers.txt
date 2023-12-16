@@ -8331,7 +8331,6 @@ Skill	Metallic Skin	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: 
 Skill	Microburner	Hot Damage: +5
 Skill	Microweave	Cold Resistance: +2
 Skill	Middle Fingers	Pickpocket Chance: +30
-Effect	Militarily Minted	Damage Reduction: 3
 Skill	Mind Over Muenster	Maximum MP Percent: +30, MP Regen Min: 3, MP Regen Max: 4
 Skill	Mist Form	Maximum HP: -30
 Skill	Mitochondria	Absorb Stats: +10
