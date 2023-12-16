@@ -8035,7 +8035,6 @@ Effect	Zomg WTF	Monster Level: +30
 
 Skill	5-D Earning Potential	Meat Drop: +20
 Skill	20/20 Vision	Item Drop: +10
-# A modifier is twice as potent when positive as when negative
 Skill	Abdominal Muscles	Muscle: +15
 Skill	Abs of Tin	Maximum HP Percent: +10
 Skill	Abstract Reasoning	Mysticality: +10
@@ -8076,7 +8075,6 @@ Skill	AUTOEXEC.BAT	Stench Damage: +15
 Skill	Autovampirism Routines	Spooky Resistance: +3
 Skill	Backwards Knees	Initiative: +20
 Skill	Bad Breath	Stench Damage: +3
-# Bad Moon passive skills: the Seven Deadly Sins.
 Skill	Baleful Howl	Maximum HP: -30
 Skill	Barrel Chested	Muscle Percent: +50
 Skill	Basic Improvements	Adventures: +5
@@ -8173,7 +8171,6 @@ Skill	Drinking to Drink	Liver Capacity: +1
 # Drippy Eye-Beetle: It is awful!
 # Drippy Eye-Sprout: It tickles!
 # Drippy Eye-Stone: It is irritating!
-# Each skill has one positive modifier and one negative modifier.
 # Early Riser: +1 Food Conjuration
 Skill	Easy Riding	Experience (Moxie): +5
 Skill	Ectogenesis	Spooky Resistance: +2
@@ -8528,7 +8525,6 @@ Skill	Temporal Hyperextension	Adventures: +10
 Skill	The Concept of Property	Meat Drop: +30
 Skill	The Long View	Adventures: +3
 # The Most Important Meal: Gain a bunch more Adventures and stats from the first thing you eat each day
-# The skills positively or negatively modify seven aspects of gameplay
 # The Way of Sauce: Allows the use of scrumdiddlyumptious solutions
 # The Way of Sauce: Lets you summon more scrumptious reagents per day
 Skill	Thick Calluses	Damage Absorption: +50, Damage Reduction: 3
