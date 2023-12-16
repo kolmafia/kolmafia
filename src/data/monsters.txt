@@ -2333,35 +2333,17 @@ Boltsmann security robot	2402	jetsecurity1.gif	Scale: 9 Cap: 1000 Init: -10000 P
 automated bearing foundry	2403	jetfoundry.gif	Scale: 1 Cap: 1000 Init: -10000 P: construct Article: a	automa-bot parts (50)	handful of Boltsmann bearings (30)	handful of Boltsmann bearings (5)
 clerical robot	2404	jetcleric.gif	Scale: 3 Cap: 1000 Init: -10000 P: construct	automa-bot parts (40)	clerical automa-core (f10)
 
-# Crimbo 2018
-wild walrus	2099	c18walrus.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast E: cold Article: a	thick walrus blubber (10)	pristine walrus tusk (c0)
-herd of wild lemmings	2100	c18lemmings.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast ED: cold Article: a	tiny bomb (10)	plastic bazooka (c0)
-wild moose	2101	c18moose.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast E: cold Article: a	mooseflank (10)	balanced antler (c0)
-wild beaver	2102	c18beaver.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast E: cold Article: a	beavermouth (10)	portable dam (c0)
-wild reindeer	2103	c18reindeer.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast ED: cold Article: a
-
-# Crimbo 2021
-gooified elf-thing	2221	goo_elf1.gif,goo_elf2.gif,goo_elf3.gif	Atk: 130 Def: 130 HP: 150 Init: 100 P: elf EA: hot EA: sleaze EA: spooky EA: stench Article: a	gooified animal matter (100)	gooified animal matter (20)	gooified animal matter (1)
-gooified dog-thing	2222	goo_dog.gif	Atk: 150 Def: 150 HP: 200 Init: 200 P: beast Article: a	gooified animal matter (100)	gooified animal matter (50)	gooified animal matter (25)	gooified animal matter (5)	gooified animal matter (1)
-gooified flower	2223	goo_flower.gif	Atk: 180 Def: 180 HP: 300 Init: -10000 P: plant Article: a	gooified vegetable matter (100)	gooified vegetable matter (100)	gooified vegetable matter (100)
-gooified tree	2224	goo_tree.gif	Atk: 150 Def: 50 HP: 1000 Init: -10000 P: plant Article: a	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)
-gooified rock slab	2225	goo_slab1.gif,goo_slab2.gif,goo_slab3.gif	Atk: 250 Def: 250 HP: 500 Init: -10000 P: elemental Article: a	1-6 gooified mineral matter (m100)
-massive goo construct	2226		Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct EA: hot EA: sleaze Article: a	4-20 gooified animal matter (m100)	4-20 gooified vegetable matter (m100)	4-20 gooified mineral matter (m100)
-
-# Crimbo 2022
-Brake-Operating Trainbot	2254	trainbot_brake.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
-Track-Switching Trainbot	2255	trainbot_switch.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
-Ping-Pong-Playing Trainbot	2256	trainbot_ping.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
-Drink-Delivery Trainbot	2257	trainbot_drinks.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: cold Article: a
-Luggage-Handling Trainbot	2258	trainbot_bags.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
-Ticket-Checking Trainbot	2259	trainbot_check.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
-Table-Waiting Trainbot	2260	trainbot_wait.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
-Wine-Pairing Trainbot	2261	trainbot_wine.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: sleaze Article: a
-Table-Bussing Trainbot	2262	trainbot_bus.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
-Coal-Shoveling Trainbot	2263	trainbot_coal.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
-Slag-Processing Trainbot	2264	trainbot_slag.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
-Steam-Routing Trainbot	2265	trainbot_steam.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
-The Superconductor	2266	superconductor.gif	BOSS NOCOPY NOMANUEL Scale: 30 Cap: ? HP: 300 Init: -10000 P: construct EA: hot	The Superconductor's CPU (100)
+# Crimbo 2023 (December 2023)
+Crimbuccaneer carpenter	2432	cbcarpenter.gif
+Crimbuccaneer freebooter	2430	cbboots.gif
+Crimbuccaneer military school dropout	2405	cbdropout.gif
+Crimbuccaneer new recruit	2395	cbrecruit.gif
+Crimbuccaneer privateer	2436	cbprivateer.gif
+Crimbuccaneer scrimshander	2431	cbscrimshander.gif
+Crimbuccaneer whalehunter	2428	cbwhaler.gif
+Elf Guard conscript	2392	egconscript.gif
+Elf Guard convict	2393	egconvict.gif
+Elf Guard private	2394	egprivate.gif
 
 # Old Events
 
@@ -2735,6 +2717,13 @@ Mob Penguin union rail worker	2031	pengthug.gif	NOCOPY Scale: 6 Cap: 1000 Floor:
 tree hugging hippy protestor	2066	limphippy1.gif	NOCOPY Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench Article: a	&quot;Remember the Trees&quot; Shirt (10)
 tree loving hippy protestor	2086	limphippy2.gif	NOCOPY Scale: 6 Cap: 1000 Floor: 10 Init: 50 Meat: 1 P: hippy ED: stench EA: hot Article: a	deadfall branch (10)
 
+# Crimbo 2018 (December 2018)
+wild walrus	2099	c18walrus.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast E: cold Article: a	thick walrus blubber (10)	pristine walrus tusk (c0)
+herd of wild lemmings	2100	c18lemmings.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast ED: cold Article: a	tiny bomb (10)	plastic bazooka (c0)
+wild moose	2101	c18moose.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast E: cold Article: a	mooseflank (10)	balanced antler (c0)
+wild beaver	2102	c18beaver.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast E: cold Article: a	beavermouth (10)	portable dam (c0)
+wild reindeer	2103	c18reindeer.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast ED: cold Article: a
+
 # Crimbo 2019 (December 2019)
 gingerbread maw	2141	gingermaw.gif	Atk: 200 Def: 200 HP: 300 Init: 100 P: horror EA: spooky Article: a	salty gumdrop (0)	soggy gingerbread chunk (0)	ribbon candy ascot (c0)
 nutmeg anemone	2142	nutmeganemone.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 Meat: 100 P: plant EA: stench Article: a	intact anemone spike (0)	moist Crimbo spices (0)	anemoney clip (c0)
@@ -2748,6 +2737,32 @@ sea-elf	2149	seaelf.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 100 P: elf Art
 peppermint eel	2150	pepperminteel.gif	Atk: 400 Def: 400 HP: 400 Init: 200 Meat: 150 P: fish EA: cold EA: hot Article: a	peppermint eel sauce (0)	peppermint spine (c0)
 Yuleviathan	2151	yuleviathan.gif	Atk: 400 Def: 400 HP: 1000 Init: -10000 Meat: 300 P: fish Article: The	Yuleviathan necklace (c0)
 Dolph Bossin, the Boss Dolphin	2152	dolphbossin.gif	NOCOPY NOMANUEL Atk: 500 Def: 450 HP: 800 Init: -10000 P: fish EA: stench	Dolph Bossin's charity note (100)	Dolph Bossin's Crimbo hat (100)
+
+# Crimbo 2020 (December 2020)
+# There were no monsters this year!
+
+# Crimbo 2021 (December 2021)
+gooified elf-thing	2221	goo_elf1.gif,goo_elf2.gif,goo_elf3.gif	Atk: 130 Def: 130 HP: 150 Init: 100 P: elf EA: hot EA: sleaze EA: spooky EA: stench Article: a	gooified animal matter (100)	gooified animal matter (20)	gooified animal matter (1)
+gooified dog-thing	2222	goo_dog.gif	Atk: 150 Def: 150 HP: 200 Init: 200 P: beast Article: a	gooified animal matter (100)	gooified animal matter (50)	gooified animal matter (25)	gooified animal matter (5)	gooified animal matter (1)
+gooified flower	2223	goo_flower.gif	Atk: 180 Def: 180 HP: 300 Init: -10000 P: plant Article: a	gooified vegetable matter (100)	gooified vegetable matter (100)	gooified vegetable matter (100)
+gooified tree	2224	goo_tree.gif	Atk: 150 Def: 50 HP: 1000 Init: -10000 P: plant Article: a	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)
+gooified rock slab	2225	goo_slab1.gif,goo_slab2.gif,goo_slab3.gif	Atk: 250 Def: 250 HP: 500 Init: -10000 P: elemental Article: a	1-6 gooified mineral matter (m100)
+massive goo construct	2226		Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct EA: hot EA: sleaze Article: a	4-20 gooified animal matter (m100)	4-20 gooified vegetable matter (m100)	4-20 gooified mineral matter (m100)
+
+# Crimbo 2022 (December 2022)
+Brake-Operating Trainbot	2254	trainbot_brake.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Track-Switching Trainbot	2255	trainbot_switch.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Ping-Pong-Playing Trainbot	2256	trainbot_ping.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Drink-Delivery Trainbot	2257	trainbot_drinks.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot EA: cold Article: a
+Luggage-Handling Trainbot	2258	trainbot_bags.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+Ticket-Checking Trainbot	2259	trainbot_check.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+Table-Waiting Trainbot	2260	trainbot_wait.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Wine-Pairing Trainbot	2261	trainbot_wine.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: sleaze Article: a
+Table-Bussing Trainbot	2262	trainbot_bus.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a
+Coal-Shoveling Trainbot	2263	trainbot_coal.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+Slag-Processing Trainbot	2264	trainbot_slag.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+Steam-Routing Trainbot	2265	trainbot_steam.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct EA: hot Article: a
+The Superconductor	2266	superconductor.gif	BOSS NOCOPY NOMANUEL Scale: 30 Cap: ? HP: 300 Init: -10000 P: construct EA: hot	The Superconductor's CPU (100)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation EA: hot Article: The Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)

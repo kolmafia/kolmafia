@@ -331,6 +331,7 @@
 329	Broken Fast	ccheese.gif	1e776d50f7d0c07ae3bf04aa1ea13e49	good	none	eat 1 bowl of Bounty-Os
 330	Hoity Toity	snifter.gif	89a2e36f2f2fa3c6c4053a6a35c2a12a	good	none	drink 1 Oreille Divis&eacute;e brandy
 # 331	On the Trail	snout.gif	91635be2834f8a07c8ff9e3b47d2e43a	neutral	nopvp	# Transcendent Olfaction
+331
 332	Moon'd	moon4.gif	3f23af7d42cd450e5a198ba091a842c1	good	none	concert Moon'd
 333	Dilated Pupils	pupils.gif	dd0d5b24b28fff02cb53607f45d0d220	good	none	concert Dilated Pupils
 334	Optimist Primal	happy.gif	63965c29290f23349477c4199c9b10c3	good	none	concert Optimist Primal
@@ -2637,6 +2638,7 @@
 2635	9-Volt-Charged	ppbattery4.gif	cbc9d05db14b61807188116cf6b1039d	neutral	nohookah	use 1 battery (9-Volt)
 2636	Lantern-Charged	ppbattery5.gif	0f13af62fe10c6f2fa4654d29f68eaa0	neutral	nohookah	use 1 battery (lantern)
 2637	Car-Charged	ppbattery6.gif	a25be554ef73863a46f1e0068bd8c9a5	neutral	nohookah	use 1 battery (car)
+2638
 2639	Shortly Drunk	shortbeer.gif	8ba1d9f9dfc1197ccf779d3afbce2888	neutral	nohookah	use 1 short beer
 2640	Shortly Stacked	shortstack.gif	191d687c832bc3f3b476cc0a440e3ade	neutral	nohookah	use 1 short stack of pancakes
 2641	Shortly Buttered	shortbutter.gif	f69d6c792ac3eece4dd49731b6bde325	neutral	nohookah	use 1 short stick of butter
@@ -2700,6 +2702,7 @@
 2699	Shifted Phase	goocon31.gif	ab69049d57f4169be06e7eede432c728	neutral	none	cast 1 Phase Shift
 2700	Hooooooooonk!	goocon32.gif	30aa72118d7cd78067cbbf56bc6ef240	neutral	none	cast 1 Piezoelectric Honk
 2701	Darkened Photons	goocon45.gif	7bb8929bf51b4629e9ccb113b3cdefff	neutral	none	cast 1 Photonic Shroud
+2702
 2703	Glowing Hands	maydayglowstick.gif	70f654ece069988c295d6c1e79737102	good	none	use 1 emergency glowstick
 2704	Tingly Tongue	maydaybattery.gif	3543e77d43816e573a802c5c68226f3d	good	none	use 1 spare battery
 2705	Temporarily Filtered	maydaymask.gif	3c274a686e3d4364c0ae2aed6f80c877	good	none	use 1 single-use dust mask
@@ -2856,3 +2859,21 @@
 2856	Martially-Minded	sword.gif	13078bcdf837700bc047bbc706e97bbb	neutral	none
 2857	Animal Lover	happy.gif	e6711e9b198ebf036a0ff668a5f370b0	neutral	none
 2858	Cracked Open a Warm One	gwoolbeer.gif	a1704d5a88cbcc92db8c129396b4d984	neutral	none	drink 1 nice warm beer
+2859
+2860	Whalethoughts	realbrain.gif	1b7a1beabd7276bf26a976bb56c3fd96	neutral	none	use 1 whale cerebrospinal fluid
+2861	Jamaican' Me Acquisitive	coffeecup.gif	5a4ef3e149e9a128ee2d3a8d7c248b71	neutral	none	drink 1 Jamaican coffee
+2862	Sugarplum Visions	sugarplum.gif	b2b21db45bc8812d9398c416cad15e75	neutral	none	eat 1 sugarplum ration
+2863
+2864
+2865	In a Stealin' Mood	icewine.gif	d96b4e7654d17995ffde4faf38afa909	neutral	none	drink 1 hot wine
+2866	Rum of Darkness	fruitcake.gif	68624e517b227173377de23d6f950c1b	neutral	none	eat 1 rum-soaked fruitcake
+2867	Stocking Stuffer	gingernylons.gif	5ec54d1d09b7dd2e8800428389678deb	neutral	none	eat 1 gingerbread nylons
+2868
+2869
+2870
+2871
+2872	Grogged For Battle	flask.gif	0fd395468fb546496eb74d36fbc9f6dc	neutral	none	drink 1 flask of egggrog
+2873	Abuela's Army	eginsignia2.gif	fc02d532f4b1039d66aea96112f5abd3	neutral	none
+2874
+2875	Militarily Minted	pep_bigcane.gif	7e223c4883f683168e9d293e3663af88	neutral	none	use 1 military candy cane
+2876	Groggipopped	neutronpop.gif	477dbdf51c06ae7c5460c3c1b7438607	neutral	none	use 1 groggipop
