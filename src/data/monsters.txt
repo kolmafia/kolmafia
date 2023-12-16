@@ -736,9 +736,9 @@ vegetable gremlin (tool)	551	gremlinveg.gif	Atk: 168 Def: 154 HP: 170 Init: 60 M
 vengeful turtle spectre	654	turtleghost.gif	NOCOPY Atk: 21 Def: 18 HP: 18 Init: 20 P: undead EA: hot EA: spooky Article: a	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 vicious gnauga	247	gnauga.gif	Atk: 45 Def: 36 HP: 40 Init: 60 P: beast Article: a	gnauga hide (10)
 Victor the Insult Comic Hellhound	983	victor.gif	BOSS NOCOPY Atk: 70 Def: 63 HP: 70 Init: 50 P: demon EA: hot	Victor, the Insult Comic Hellhound Puppet (100)
-void slab	2227	voidslab.gif	WANDERER Atk: 13 Def: 13 HP: 13 Init: 999 P: horror EA: cold EA: hot EA: spooky Article: a
-void spider	2228	voidspider.gif	WANDERER Atk: 13 Def: 13 HP: 13 Init: 999 P: horror EA: cold Article: a
-void guy	2229	voidguy.gif	WANDERER Atk: 13 Def: 13 HP: 13 Init: 999 P: horror EA: cold EA: spooky
+void slab	2227	voidslab.gif	WANDERER Atk: 13 Def: 13 HP: 13 Init: 999 P: horror EA: cold EA: hot EA: spooky Article: a	void burger (c100)	void lager (c100)	void stone (c100)	void shard (c100)
+void spider	2228	voidspider.gif	WANDERER Atk: 13 Def: 13 HP: 13 Init: 999 P: horror EA: cold Article: a	void burger (c100)	void lager (c100)	void stone (c100)	void shard (c100)
+void guy	2229	voidguy.gif	WANDERER Atk: 13 Def: 13 HP: 13 Init: 999 P: horror EA: cold EA: spooky	void burger (c100)	void lager (c100)	void stone (c100)	void shard (c100)
 W imp	122	wimp.gif	Atk: 40 Def: 36 HP: 40 Init: 60 Meat: 30 P: demon E: hot Article: a	Imp Ale (30)	ruby W (30)	wussiness potion (30)	infernal fife (10)
 wacky pirate	630	wackypirate.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 75 P: pirate EA: sleaze Article: a	cannonball charrrm (10)	yohohoyo (5)	pirate cream pie (c0)
 wailing mushroom guy	1807	mush_shrieking.gif	Atk: 25 Def: 25 HP: 20 Init: -10000 P: plant Article: a	jingling spore pod (0)	frozen mushroom (0)
@@ -1254,17 +1254,17 @@ warehouse janitor	1741	warehousejanitor.gif	NOWISH Atk: 230 Def: 230 HP: 230 Ini
 warehouse clerk	1742	warehouseclerk.gif	NOWISH Atk: 220 Def: 240 HP: 210 Init: 200 Meat: 75 P: dude Article: a	warehouse inventory page (10)	warehouse clerk's glasses (c15)
 
 # Avatar of West of Loathing
-furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: demon EA: hot EA: sleaze Article: a
-furious giant cow	1929	awolcow2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 P: demon Article: a
-ungulith	1932	awolcow3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: demon EA: cold EA: hot EA: sleaze EA: stench Article: an
+furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: demon EA: hot EA: sleaze Article: a	corrupted marrow (0)
+furious giant cow	1929	awolcow2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: demon Article: a	corrupted marrow (0)
+ungulith	1932	awolcow3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: demon EA: cold EA: hot EA: sleaze EA: stench Article: an	corrupted marrow (0)
 
-emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: horror EA: spooky Article: an
-menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 P: horror EA: spooky Article: a
-grizzled rodeo clown	1933	awolclown3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: horror EA: spooky EA: stench Article: a
+emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: horror EA: spooky Article: an	rodeo whiskey (0)
+menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: horror EA: spooky Article: a	rodeo whiskey (0)	Mixed Garbanzos and Chickpeas (c0)	Tesla's Electroplated Beans (c0)	Heimz Fortified Kidney Beans (c0)
+grizzled rodeo clown	1933	awolclown3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: horror EA: spooky EA: stench Article: a	rodeo whiskey (0)	Frigid Northern Beans (c0)	Hellfire Spicy Beans (c0)	Pork 'n' Pork 'n' Pork 'n' Beans (c0)	Trader Olaf's Exotic Stinkbeans (c0)	World's Blackest-Eyed Peas (c0)
 
-aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: beast SNAKE Article: an
-prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 P: beast SNAKE ED: sleaze Article: a	2 snake oil (m100)
-king snake	1934	awolsnake3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: beast SNAKE Article: a	3 snake oil (m100)
+aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: beast SNAKE Article: an
+prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: beast SNAKE ED: sleaze Article: a	2 snake oil (m100)
+king snake	1934	awolsnake3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: beast SNAKE Article: a	3 snake oil (m100)
 
 # The Source
 Source Agent	1945	sourceagent.gif	NOWISH Atk: [30+30*pref(sourceAgentsDefeated)+ML] Def: [30+30*pref(sourceAgentsDefeated)+ML] HP: [40+40*pref(sourceAgentsDefeated)+ML] Exp: [((30+30*pref(sourceAgentsDefeated))/4+ML/3)*15] Init: [25+25*pref(sourceAgentsDefeated)] P: construct EA: cold EA: hot EA: sleaze EA: spooky EA: stench
@@ -1274,7 +1274,7 @@ One Thousand Source Agents	1944	sourceagents.gif	NOCOPY Atk: 500 Def: 500 HP: 70
 "Blofeld"	2028	bond_villain5.gif	NOCOPY Atk: 100 Def: 100 HP: 100 Init: 10 P: dude
 Villainous Minion	2024	bond_minion1.gif,bond_minion2.gif,bond_minion3.gif,bond_minion4.gif	NOWISH Scale: -2 Cap: ? Floor: ? Init: 50 P: dude Article: A
 Villainous Henchperson	2025	bond_sidekick1.gif,bond_sidekick2.gif,bond_sidekick3.gif,bond_sidekick4.gif,bond_sidekick5.gif,bond_sidekick6.gif,bond_sidekick7.gif,bond_sidekick8.gif,bond_sidekick9.gif	NOCOPY Scale: 10 Cap: ? Floor: ? Init: -10000 P: dude Article: The
-Villainous Villain	2026	bond_villain1.gif,bond_villain2.gif,bond_villain3.gif,bond_villain4.gif,bond_villain5.gif,bond_villain6.gif,bond_villain7.gif	NOCOPY Scale: 11 Cap: ? Floor: ? Init: -10000 P: dude EA: cold EA: hot EA: stench
+Villainous Villain	2026	bond_villain1.gif,bond_villain2.gif,bond_villain3.gif,bond_villain4.gif,bond_villain5.gif,bond_villain6.gif,bond_villain7.gif	NOCOPY Scale: 11 Cap: ? Floor: ? Init: -10000 P: dude EA: cold EA: hot EA: stench	Victor's Spoils (c100)
 
 # Pocket Familiars
 Jerry Bradford	2050	larryscrote.gif	NOCOPY Atk: 35 Def: 0 HP: 0 Init: -10000 P: dude Wiki: "Jerry Bradford (Boss Bat)"	batskin belt (n100)	dense meat stack (n100)
@@ -2495,15 +2495,15 @@ toilet-papered tree	861	shiv_tp.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: p
 Underworld Tree	866	shiv_underworld.gif	NOCOPY NOMANUEL P: plant	Underworld acorn (100)	Underworld trunk (100)
 
 # Crimbo Town Toy Factory (Crimbo 2009)
-amateur elf	899	elf_amateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: an	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-auteur elf	898	elf_auteur.gif	Scale: -5 Floor: 5 Init: -10000 Meat: 20 P: elf Article: an	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-bolt-cuttin' elf	900	elf_boltcutters.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
-monkey wrenchin' elf	894	elf_wrench.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
-propaganda-spewin' elf	901	elf_propaganda.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
-provocateur elf	896	elf_provocateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-raconteur elf	897	elf_raconteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-saboteur elf	895	elf_saboteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-wire-crossin' elf	902	elf_wires.gif	NOCOPY NOMANUEL P: elf	elf resistance button (100)	handful of wires (c100)	live wire (0)
+amateur elf	899	elf_amateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: an	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
+auteur elf	898	elf_auteur.gif	Scale: -5 Floor: 5 Init: -10000 Meat: 20 P: elf Article: an	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
+bolt-cuttin' elf	900	elf_boltcutters.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	elf resistance button (40)	handful of headless bolts (c100)	pair of bolt cutters (10)
+monkey wrenchin' elf	894	elf_wrench.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	elf resistance button (40)	throwing wrench (10)	wrench handle (c100)
+propaganda-spewin' elf	901	elf_propaganda.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: -10000 P: elf Article: a	bottle of agitprop ink (c100)	elf resistance button (40)	poison pen (10)
+provocateur elf	896	elf_provocateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
+raconteur elf	897	elf_raconteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
+saboteur elf	895	elf_saboteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf Article: a	elf resistance button (40)	elven cellocello (5)	elven suicide capsule (5)
+wire-crossin' elf	902	elf_wires.gif	NOCOPY NOMANUEL P: elf	elf resistance button (40)	handful of wires (c100)	live wire (10)
 Edwing Abbidriel	903	edwing.gif	NOCOPY NOMANUEL P: elf	elf resistance button (100)
 
 # Don Crimbo's Compound (Crimbo 2009)
