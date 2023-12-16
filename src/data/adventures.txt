@@ -438,6 +438,10 @@ Tammy's Offshore Platform	adventure=536	DiffLevel: unknown Env: underwater Stat:
 Tammy's Offshore Platform	adventure=537	DiffLevel: unknown Env: underwater Stat: 0	The Wreck of the H. M. S. Kringle
 Tammy's Offshore Platform	adventure=538	DiffLevel: unknown Env: underwater Stat: 0	The Impenetrable Kelp-Holly Forest
 
+Crimbo23	adventure=577	DiffLevel: mid Env: indoor Stat: 0	The Bar At War
+Crimbo23	adventure=578	DiffLevel: mid Env: indoor Stat: 0	A Cafe Divided
+Crimbo23	adventure=579	DiffLevel: mid Env: indoor Stat: 0	The Armory Up In Arms
+
 Crimbo22	adventure=559	DiffLevel: mid Env: indoor Stat: 0 nowander	Crimbo Train (Caboose)
 Crimbo22	adventure=560	DiffLevel: mid Env: indoor Stat: 0 nowander	Crimbo Train (Passenger Car)
 Crimbo22	adventure=561	DiffLevel: mid Env: indoor Stat: 0 nowander	Crimbo Train (Dining Car)
