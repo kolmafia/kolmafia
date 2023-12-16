@@ -2334,16 +2334,30 @@ automated bearing foundry	2403	jetfoundry.gif	Scale: 1 Cap: 1000 Init: -10000 P:
 clerical robot	2404	jetcleric.gif	Scale: 3 Cap: 1000 Init: -10000 P: construct	automa-bot parts (40)	clerical automa-core (f10)
 
 # Crimbo 2023 (December 2023)
-Crimbuccaneer carpenter	2432	cbcarpenter.gif
-Crimbuccaneer freebooter	2430	cbboots.gif
-Crimbuccaneer military school dropout	2405	cbdropout.gif
-Crimbuccaneer new recruit	2395	cbrecruit.gif
-Crimbuccaneer privateer	2436	cbprivateer.gif
-Crimbuccaneer scrimshander	2431	cbscrimshander.gif
-Crimbuccaneer whalehunter	2428	cbwhaler.gif
-Elf Guard conscript	2392	egconscript.gif
-Elf Guard convict	2393	egconvict.gif
-Elf Guard private	2394	egprivate.gif
+Elf Guard conscript	2392	egconscript.gif		Elf Guard patrol cap (c0)
+Elf Guard convict	2393	egconvict.gif		Elf Guard hotpants (c0)
+Elf Guard private	2394	egprivate.gif		Elf Guard insignia (private) (c0)
+Crimbuccaneer new recruit	2395	cbrecruit.gif		Crimbuccaneer tricorn (c0)
+Crimbuccaneer military school dropout	2405	cbdropout.gif		Crimbuccaneer breeches (c0)
+Crimbuccaneer barrrback	2418	cbbarback.gif		sawed-off blunderbuss (c0)	Crimbuccaneer tavern swab (c0)
+Crimbuccaneer grognard	2419	cbgrognard.gif		old-school pirate grog (c0)	Cocktails of the Age of Sail (c0)
+Crimbuccaneer bar brawler	2420	cbbrawler.gif		grog nuts (c0)	punching mirror (c0)
+Elf Guard sanitation officer	2421	egjanitor.gif		peppermint bomb (c0)	Elf Guard broom (c0)
+Elf Guard chemist	2422	egchemist.gif		bottle of gin (0)	bottle of rum (0)	bottle of vodka (0)	bottle of tequila (0)	bottle of whiskey (0)	boxed wine (0)	Elf Guard hangover cure (c0)
+Elf Guard shore leave specialist	2423	egshoreleave.gif		officer's nog (c0)	Elf Guard Field Manual: Wilderness Sleeping (c0)
+Elf Guard desserter	2424	egdessert.gif		sundae ration (c0)	ancient Elf dessert spoon (c0)
+Elf Guard provisioner	2425	egprovisioner.gif		peppermint tack (c0)	Elf Guard Field Manual: Culinary Arts (c0)
+Elf Guard steward	2426	egsteward.gif		Elf Guard payroll bag (c0)	Elf Guard clipboard (c0)
+Crimbuccaneer fruit plunderer	2427	cbfruit.gif		plum (c0)	orange (c0)	lemon (c0)	cherry (c0)	strawberry (c0)	pear (c0)	lemon (c0)	grapefruit (c0)	lime (c0)	raspberry (c0)	kumquat (c0)	peach (c0)	papaya (c0)	kiwi (c0)	blackberry (c0)	tangerine (c0)	The Encyclopedia of Fruit (c0)
+Crimbuccaneer whalehunter	2428	cbwhaler.gif		whalesteak (c0)	whalegun (c0)
+Crimbuccaneer retiree	2429	cbretiree.gif		pegfinger (c0)	Crimbuccaneer fledges (disintegrating) (c0)
+Crimbuccaneer freebooter	2430	cbboots.gif		cannonbomb (c0)	free boots (c0)
+Crimbuccaneer scrimshander	2431	cbscrimshander.gif		whale cerebrospinal fluid (c0)	Crimbuccaneer runebone (c0)
+Crimbuccaneer carpenter	2432	cbcarpenter.gif		shipwright's hammer (c0)	gunwale (c0)
+Elf Guard arctic seal	2433	egseal.gif		Elf guard mouthknife (c0)	Elf Guard SCUBA tank (c0)
+Elf Guard armorer	2434	egarmorer.gif		Kelflar vest (c0)	Elvish underarmor (c0)
+Elf Guard Red and White Beret	2435	egberet.gif		red and white claret (c0)	Elf Guard red and white beret (c0)
+Crimbuccaneer privateer	2436	cbprivateer.gif		Crimbuccaneer fledges (mint) (c0)
 
 # Old Events
 

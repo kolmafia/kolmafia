@@ -1161,3 +1161,22 @@ Mr. Store 2002	buy	1	Flash Liquidizer Ultra Dousing Accessory	ROW1387
 Mr. Store 2002	buy	1	Amulet of Perpetual Darkness	ROW1388
 Mr. Store 2002	buy	1	Giant black monolith	ROW1389
 Mr. Store 2002	buy	1	Crimbo cookie sheet	ROW1390
+
+# Crimbo 2023
+
+Crimbuccaneer Foundry	buy	10	prank Crimbo card	ROW1431
+Crimbuccaneer Foundry	buy	20	Crimbuccaneer squirtblunderbuss	ROW1432
+Crimbuccaneer Foundry	buy	40	My First Paycheck envelope	ROW1433
+Crimbuccaneer Foundry	buy	80	barnacle-encrusted sweater	ROW1434
+Crimbuccaneer Foundry	buy	150	Crimbuccaneer nose ring	ROW1435
+Crimbuccaneer Foundry	buy	400	pet anchor	ROW1436
+Crimbuccaneer Foundry	buy	2000	Crimbuccaneer tattoo gift certificate	ROW1437
+Crimbuccaneer Foundry	buy	1000	stuffed kraken	ROW1441
+
+Crimbuccaneer Bar	buy	5	hot wine	ROW1408
+Crimbuccaneer Bar	buy	20	Jamaican coffee	ROW1409
+Crimbuccaneer Bar	buy	10	flask of egggrog	ROW1410
+
+Elf Guard Mess Hall	buy	5	sugarplum ration	ROW1399
+Elf Guard Mess Hall	buy	20	gingerbread nylons	ROW1400
+Elf Guard Mess Hall	buy	10	rum-soaked fruitcake	ROW1401

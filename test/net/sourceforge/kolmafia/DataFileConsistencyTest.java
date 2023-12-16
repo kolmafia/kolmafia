@@ -438,4 +438,22 @@ public class DataFileConsistencyTest {
       fail("Couldn't read from " + file);
     }
   }
+
+  @Test
+  public void npcStoresShouldSellItems() {
+    String file = "npcstores.txt";
+    int version = 2;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        String item = fields[2];
+        var id = ItemDatabase.getExactItemId(item);
+        if (id == -1) {
+          fail("unrecognised item " + item);
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from " + file);
+    }
+  }
 }
