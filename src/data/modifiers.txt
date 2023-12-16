@@ -308,9 +308,9 @@ Item	isotophat	Stench Damage: +10, Stench Spell Damage: +20, Familiar Effect: "s
 # Iunion Crown: Becomes more powerful as you adventure each day
 Item	Iunion Crown	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +10, Initiative: +10
 Item	Jarlsberg's hat	Mysticality: +5, MP Regen Min: 4, MP Regen Max: 5, Experience (Mysticality): +1
+# jewel-eyed wizard hat: Regenerate MP Based on Level
 # jewel-eyed wizard hat: +5 Duration to Buffs You Cast
 # jewel-eyed wizard hat: Allows casting of Magic Missile
-# jewel-eyed wizard hat: Regenerate MP Based on Level
 Item	jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, Softcore Only, MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Familiar Effect: "atk, 5xVolley, 5xLep, cap 2"
 Item	Kentucky-style derby	Familiar Effect: "atk, cap 5"
 Item	kilopede skull	Ranged Damage: +10, Moxie: [4*L]
@@ -442,9 +442,9 @@ Item	ravioli hat	Spell Damage: +1, Familiar Effect: "atk, cap 2"
 Item	real cowboy hat	PvP Fights: +3
 Item	red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
 Item	reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
+# replica jewel-eyed wizard hat: Regenerate MP Based on Level
 # replica jewel-eyed wizard hat: +5 Duration to Buffs You Cast
 # replica jewel-eyed wizard hat: Allows casting of Magic Missile
-# replica jewel-eyed wizard hat: Regenerate MP Based on Level
 Item	replica jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3]
 Item	rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50, Familiar Effect: "0.5xPotato"
 # safarrri hat: +10 Damage vs. Lions
@@ -501,8 +501,8 @@ Item	Team Avarice cap	Item Drop: +100
 Item	Team Sloth cap	Combat Rate: -15
 Item	Team Wrath cap	Monster Level: +30
 Item	ten-gallon hat	Muscle: +10, Mysticality: +10, Moxie: +10, Experience: +3
-# The Crown of Ed the Undying: Allows you to read thoughts
 # The Crown of Ed the Undying: Ed's servants will level up faster
+# The Crown of Ed the Undying: Allows you to read thoughts
 Item	The Crown of Ed the Undying	Maximum HP: +50, Maximum MP: +50, Initiative: +25, Familiar Effect: "spooky atk, 1.5xVolley, cap 25"
 Item	The Emperor's new hat	Mysticality: [L]
 Item	The Jokester's wig	MP Regen Min: 6, MP Regen Max: 8, Monster Level: +10, Spooky Damage: +25, Familiar Effect: "1xPotato, 1xGhuol"
@@ -1061,10 +1061,10 @@ Item	smooth velvet bra	Maximum HP: +20, HP Regen Min: 5, HP Regen Max: 10
 Item	smooth velvet shirt	Disco Style: +1
 Item	snailmail hauberk	Damage Absorption: +60, HP Regen Min: 6, HP Regen Max: 14, MP Regen Min: 6, MP Regen Max: 14
 Item	snakeskin jacket	Moxie: +15, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
+# Sneaky Pete's leather jacket: The Audience Loves/Hates You Even More!
 Item	Sneaky Pete's leather jacket	Moxie: +10, Meat Drop: +20, Pickpocket Chance: +30, Adventures: +4, Free Pull
 # Sneaky Pete's leather jacket (collar popped): The Audience Loves/Hates You Even More!
 Item	Sneaky Pete's leather jacket (collar popped)	Moxie: +10, Initiative: +20, Monster Level: +30, PvP Fights: +4, Free Pull
-# Sneaky Pete's leather jacket: The Audience Loves/Hates You Even More!
 Item	soggy wofl t-shirt	Muscle: +3
 Item	souvenir ski t-shirt	Moxie: +5
 Item	spangly mariachi vest	Moxie Percent: +10, Initiative: -25
@@ -1618,8 +1618,6 @@ Item	Mayor Ghost's gavel	Critical Hit Percent: +10, Weapon Damage: +30
 Item	Meat Tenderizer is Murder	Weapon Damage Percent: +20, Smithsness: +5, Class: "Seal Clubber", Muscle Percent: [2*K]
 Item	Meatcleaver	Meat Drop: +35, Weapon Damage Percent: +100
 Item	meatspout staff	Mysticality: +7, Adventures: +3, Meat Drop: +15
-# mecenary pistol: Allows the Use of Specialty Ammunition
-# mecenary rifle: Allows the Use of Specialty Ammunition
 Item	Mer-kin digpick	Weapon Damage: +30
 Item	Mer-kin dodgeball	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
 Item	Mer-kin dragnet	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
@@ -1628,7 +1626,9 @@ Item	Mer-kin dragnet	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
 Item	Mer-kin hookspear	Initiative: +20, Weapon Damage: +40, Drops Meat
 Item	Mer-kin rollpin	Mysticality Percent: +25, Food Drop: +75
 Item	Mer-kin switchblade	PvP Fights: +7, Muscle Percent: [10*G], Moxie Percent: +10
+# mercenary pistol: Allows the Use of Specialty Ammunition
 Item	mercenary pistol	Muscle: +10, Mysticality: +10, Moxie: +10, Never Fumble
+# mercenary rifle: Allows the Use of Specialty Ammunition
 Item	mercenary rifle	Ranged Damage: +20, Initiative: +50
 # Meteoid ice beam: On Critical:  Freeze Opponent
 Item	Meteoid ice beam	Cold Damage: +20, Critical Hit Percent: +10
@@ -1987,8 +1987,8 @@ Item	The Nuge's favorite crossbow	Ranged Damage: +30, Initiative: +100, Adventur
 # The Trickster's Trikitixa: Special Attack:  Extreme High Note
 Item	The Trickster's Trikitixa	Moxie: [15*(1+skill(Accordion Appreciation))], Ranged Damage: [23*(1+skill(Accordion Appreciation))], Item Drop: [11*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 20
 Item	third-hand nunchaku	Weapon Damage: +3
-# Thor's Pliers: Allows You to Ply Reality
 # Thor's Pliers: Lets You Smith and Make Jewelry Faster
+# Thor's Pliers: Allows You to Ply Reality
 # Thor's Pliers: Regenerates Lightning Power (in Heavy Rains only)
 Item	Thor's Pliers	Experience: +4, MP Regen Min: 6, MP Regen Max: 9, Pickpocket Chance: +20, Attacks Can't Miss, Single Equip
 Item	throwing wrench	Weakens Monster
