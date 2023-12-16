@@ -536,7 +536,15 @@ public enum DoubleModifier implements Modifier {
       "Free Rests",
       Pattern.compile("Rest Without Spending an Adventure \\((\\d+)x / day\\)"),
       Pattern.compile("Free Rests: " + EXPR)),
-  LEAVES("Leaves", Pattern.compile("Leaves: " + EXPR));
+  LEAVES("Leaves", Pattern.compile("Leaves: " + EXPR)),
+  ELF_WARFARE_EFFECTIVENESS(
+      "Elf Warfare Effectiveness",
+      Pattern.compile("([+-]\\d+) Elf Warfare Effectiveness"),
+      Pattern.compile("Elf Warfare Effectiveness: " + EXPR)),
+  PIRATE_WARFARE_EFFECTIVENESS(
+      "Pirate Warfare Effectiveness",
+      Pattern.compile("([+-]\\d+) Pirate Warfare Effectiveness"),
+      Pattern.compile("Pirate Warfare Effectiveness: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
