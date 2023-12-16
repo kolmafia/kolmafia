@@ -2736,8 +2736,6 @@ Item	zoological sample kit	Lasts Until Rollover
 
 # Accessories section of modifiers.txt
 
-# * This enchantment works even when this item is not equipped
-# * This enchantment works even when this item is not equipped
 Item	&quot;I survived Y2K&quot; T-Shirt	Maximum HP: +2, Maximum MP: +2, Adventures: +2, Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2, Single Equip
 Item	&quot;I Voted!&quot; sticker	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Lasts Until Rollover
 Item	acid-squirting flower	Single Equip, Thorns: 1
@@ -2925,7 +2923,9 @@ Item	chocolate pocketwatch	Maximum MP: +20, Spell Damage: +15, Spell Critical Pe
 Item	chocolate rabbit's foot	Item Drop: +5, Meat Drop: +5, Candy Drop: +20
 Item	Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Damage: +40, Single Equip
 Item	Cincho de Mayo	Moxie Percent: +25, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Booze Drop: +30, Item Drop: +15
-# Claw of the Infernal Seal: 5 Additional Seal Summons Per Day<super>*</super>
+# Claw of the Infernal Seal: 5 Additional Seal Summons Per Day
+# Claw of the Infernal Seal: This enchantment works even when this item is not equipped
+# * This enchantment works even when this item is not equipped
 Item	Claw of the Infernal Seal	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Seal Clubber", Single Equip
 # Claybender glasses: +15 Damage vs. Ghosts
 Item	Claybender glasses	Item Drop: +4, Single Equip
@@ -3147,7 +3147,8 @@ Item	government-issued necktie	Experience Percent (Mysticality): +10, Meat Drop:
 Item	government-issued night-vision goggles	Item Drop: +5, Monster Level: +5, Single Equip
 # GPS-tracking wristwatch
 Item	grandfather watch	Adventures: +6, Single Equip, Nonstackable Watch
-# Gravyskin Belt of the Sauceblob: 3 Additional Scrumptious Reagent Summons Per Day<super>*</super>
+# Gravyskin Belt of the Sauceblob: 3 Additional Scrumptious Reagent Summons Per Day
+# Gravyskin Belt of the Sauceblob: This enchantment works even when this item is not equipped
 Item	Gravyskin Belt of the Sauceblob	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Sauceror", Single Equip
 Item	gray bow tie	Moxie: +1, Spooky Resistance: +1
 Item	Green Clover of Justice	Muscle: +8, Mysticality: +8, Moxie: +8, Item Drop: +8, Single Equip
