@@ -6712,6 +6712,7 @@ Effect	Meteor Showered	Weapon Damage Percent: +200, Spell Damage Percent: +200, 
 Effect	Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
 Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
+Effect	Militarily Minted	Damage Reduction: 3
 Effect	Milk Studly	Muscle: +15
 Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T], Muscle Percent: [-50*T], Mysticality Percent: [-50*T], Moxie Percent: [-50*T]
 Effect	Mimeoflage	Combat Rate: -15
@@ -8338,7 +8339,6 @@ Skill	Metallic Skin	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: 
 Skill	Microburner	Hot Damage: +5
 Skill	Microweave	Cold Resistance: +2
 Skill	Middle Fingers	Pickpocket Chance: +30
-Effect	Militarily Minted	Damage Reduction: 3
 Skill	Mind Over Muenster	Maximum MP Percent: +30, MP Regen Min: 3, MP Regen Max: 4
 Skill	Mist Form	Maximum HP: -30
 Skill	Mitochondria	Absorb Stats: +10
