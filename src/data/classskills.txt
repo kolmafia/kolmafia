@@ -255,6 +255,10 @@
 226	Perpetrate Mild Evil	skull.gif	5	0	0
 227	Chitinous Soul	chitinpowder.gif	0	0	0	Max Level: 11
 228	Just the Facts	factbook.gif	0	0	0
+229	Elf Guard Cooking	fruitcake.gif	0	0	0
+230
+231
+232	Fruit Recognition	cherry.gif	0	0	0
 
 # Skills available to Clubbers
 
