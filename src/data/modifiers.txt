@@ -8023,8 +8023,6 @@ Effect	Zomg WTF	Monster Level: +30
 
 # Passive Skills section of modifiers.txt
 
-
-
 Skill	5-D Earning Potential	Meat Drop: +20
 Skill	20/20 Vision	Item Drop: +10
 Skill	Abdominal Muscles	Muscle: +15
