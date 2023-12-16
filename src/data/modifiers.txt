@@ -2465,15 +2465,21 @@ Item	Ol' Scratch's stove door	Hot Damage: +20, Damage Reduction: 15, Thorns: 1
 Item	old pizza box	Damage Absorption: +50, Damage Reduction: 6
 Item	old school flying disc	Muscle Percent: +15, Damage Reduction: 24, Familiar Weight: +5
 Item	Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Softcore Only, Variable
-# Operation Patriot Shield	Four Songs
-# Operation Patriot Shield	HP Regen Min: 10, HP Regen Max: 12, Familiar Weight: +5
-# Operation Patriot Shield	HP Regen Min: 10, HP Regen Max: 12, Weapon Damage: +15, Damage Reduction: 1
-# Operation Patriot Shield	MP Regen Min: 5, MP Regen Max: 6, Mana Cost (combat): -3
-# Operation Patriot Shield	MP Regen Min: 5, MP Regen Max: 6, Spell Damage: +20
-# Operation Patriot Shield	Ranged Damage: +20
+# * Seal Clubber:
+# * Operation Patriot Shield	HP Regen Min: 10, HP Regen Max: 12, Weapon Damage: +15, Damage Reduction: 1
+# * Turtle Tamer:
+# * Operation Patriot Shield	HP Regen Min: 10, HP Regen Max: 12, Familiar Weight: +5
+# * Pastamancer:
+# * Operation Patriot Shield	MP Regen Min: 5, MP Regen Max: 6, Mana Cost (combat): -3
+# * Sauceror:
+# * Operation Patriot Shield	MP Regen Min: 5, MP Regen Max: 6, Spell Damage: +20
+# * Disco Bandit:
+# * Operation Patriot Shield: Makes you a Crack Shot
+# * Operation Patriot Shield	Ranged Damage: +20
+# * Accordion Thief:
+# * Operation Patriot Shield: Lets You Sing More Proudly
+# * Operation Patriot Shield	Four Songs
 # Operation Patriot Shield: Can be Thrown in Combat
-# Operation Patriot Shield: Lets You Sing More Proudly
-# Operation Patriot Shield: Makes you a Crack Shot
 Item	optimal spreadsheet	Muscle: +10, Mysticality: +10, Moxie: +10, PvP Fights: +5, Monster Level: +20
 Item	orcish stud-finder	Weapon Damage: +5, Sleaze Damage: +5
 # ornate dowsing rod: Aids in desert exploration
