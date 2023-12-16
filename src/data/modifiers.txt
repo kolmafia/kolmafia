@@ -12097,22 +12097,14 @@ Item	record of menacing silence	Skill: "Silent Slice"
 Item	record of menacing silence (used)	Skill: "Silent Slice"
 Item	record of tranquil silence	Skill: "Silent Squirt"
 Item	record of tranquil silence (used)	Skill: "Silent Squirt"
-# recovered elf magazine: 1 Crimbo Credit
-# recovered elf magazine: Turn it in at the E. R. F. camp for
-# recovered elf photo album: 4 Crimbo Credits
-# recovered elf photo album: Turn it in at the E. R. F. camp for
-# recovered elf pocketwatch: 3 Crimbo Credits
-# recovered elf pocketwatch: Turn it in at the E. R. F. camp for
-# recovered elf sleeping pills: 2 Crimbo Credits
-# recovered elf sleeping pills: Turn it in at the E. R. F. camp for
-# recovered elf smartphone: 5 Crimbo Credits
-# recovered elf smartphone: Turn it in at the E. R. F. camp for
-# recovered elf toothbrush: 1 Crimbo Credit
-# recovered elf toothbrush: Turn it in at the E. R. F. camp for
-# recovered elf underpants: 2 Crimbo Credits
-# recovered elf underpants: Turn it in at the E. R. F. camp for
-# recovered elf wallet: 3 Crimbo Credits
-# recovered elf wallet: Turn it in at the E. R. F. camp for
+# recovered elf magazine: Turn it in at the E. R. F. camp for 1 Crimbo Credit
+# recovered elf photo album: Turn it in at the E. R. F. camp for 4 Crimbo Credits
+# recovered elf pocketwatch: Turn it in at the E. R. F. camp for 3 Crimbo Credits
+# recovered elf sleeping pills: Turn it in at the E. R. F. camp for 2 Crimbo Credits
+# recovered elf smartphone: Turn it in at the E. R. F. camp for 5 Crimbo Credits
+# recovered elf toothbrush: Turn it in at the E. R. F. camp for 1 Crimbo Credit
+# recovered elf underpants: Turn it in at the E. R. F. camp for 2 Crimbo Credits
+# recovered elf wallet: Turn it in at the E. R. F. camp for 3 Crimbo Credits
 Item	red and green rain stick	Effect: "Peaceful, Easy Feeling", Effect Duration: 30
 # red button: Deals Physical Damage based on how many of them you have
 # red coin: Try using 11 of them!
