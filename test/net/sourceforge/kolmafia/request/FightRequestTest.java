@@ -1119,11 +1119,15 @@ public class FightRequestTest {
   @Test
   public void canDetectPottedPlantWins() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, "carnivorous potted plant"));
+    var cleanups =
+        new Cleanups(
+            withEquipped(Slot.OFFHAND, "carnivorous potted plant"),
+            withProperty("_carnivorousPottedPlantWins", 0));
     try (cleanups) {
       parseCombatData("request/test_fight_potted_plant.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("Your potted plant swallows your opponent{s} whole."));
+      assertEquals(1, Preferences.getInteger("_carnivorousPottedPlantWins"));
     }
   }
 
