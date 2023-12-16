@@ -170,3 +170,5 @@
 163	Chiffon Chiffinery	chiffontat.gif	chiffon chapeau, chiffon chakram, chiffon chamberpot, chiffon chemise, chiffon chaps, chiffon chevrons	chiffon lemon
 164	Shadow Shuit	shadouttat.gif	shadow chef's hat, shadow trousers	shadow candy
 165	Dental Drip	dentaltat.gif	tooth cap, cat o' nine teeth, toothy trousers	sampler size toothpaste
+166	Elf Guard Fatigues	elfguardtat1.gif	Elf Guard patrol cap, Elf Guard hotpants
+167	Crimbuccaneer rigging	crimbuctat1.gif	Crimbuccaneer tricorn, Crimbuccaneer breeches
