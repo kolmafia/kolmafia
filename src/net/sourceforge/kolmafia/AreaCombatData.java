@@ -1894,7 +1894,7 @@ public class AreaCombatData {
               "Crimbuccaneer privateer",
               "Elf Guard conscript",
               "Elf Guard convict",
-              "Elf Guard private" -> !elfOutfit && !elfOutfit ? 1 : 0;
+              "Elf Guard private" -> !elfOutfit && !pirateOutfit ? 1 : 0;
           default -> (elfOutfit && pirateMonster) || (pirateOutfit && elfMonster) ? 1 : 0;
         };
       }
