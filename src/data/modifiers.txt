@@ -1012,9 +1012,8 @@ Item	icing poncho	Cold Damage: +25, Cold Spell Damage: +25, Food Drop: +50
 Item	junk-mail shirt	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	Jurassic Parka	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Resistance: 1, Stench Resistance: 1, Hot Resistance: 1, Cold Resistance: 1, Sleaze Resistance: 1
 Item	Kashmir sweater	Hot Damage: +10, Hot Spell Damage: +10
-# Kelflar vest: +3 Elf Warfare Effectiveness
 # Kelflar vest: 75% Chance of Preventing Negative Status Attacks
-Item	Kelflar vest	Damage Reduction: 5
+Item	Kelflar vest	Elf Warfare Effectiveness: +3, Damage Reduction: 5
 Item	Kiss the Knob apron	Maximum MP: +5
 Item	Knob Goblin elite shirt	Muscle: +3
 Item	KoL Con 13 T-shirt	Sleaze Resistance: +2, Experience Percent (Moxie): +5
@@ -1374,8 +1373,9 @@ Item	elegant nightstick	Maximum HP: +30, Maximum MP: +15
 # elephant stinger: 50% chance of poisoning opponent.
 Item	elephant stinger	Muscle: +3
 Item	elevenderizing hammer	Muscle: +11, Mysticality: +11, Moxie: +11, Weapon Damage: +11
-# Elf Guard mouthknife: +3 Elf Warfare Effectiveness
-Item	Elf Guard mouthknife	Moxie Percent: +20
+# Elf Guard broom: Helps clean up the Bar at War
+Item	Elf Guard broom	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Weakens Monster
+Item	Elf Guard mouthknife	Elf Warfare Effectiveness: +3, Moxie Percent: +20
 Item	elven tambourine	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # elven whittling knife: On Critical:  Whittles enemy down
 Item	evil paper umbrella	Monster Level: +1
@@ -1790,8 +1790,7 @@ Item	Saucepanic	Experience (Mysticality): +2, Smithsness: +5, Class: "Sauceror",
 Item	savory crossbow	Moxie: +4
 Item	savory staff	Mysticality: +4
 Item	savory sword	Muscle: +4
-# sawed-off blunderbuss: +3 Pirate Warfare Effectiveness
-Item	sawed-off blunderbuss	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+Item	sawed-off blunderbuss	Pirate Warfare Effectiveness: +3, Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 Item	scepter of the Skeleton Lord	Moxie Percent: +50, Adventures: +3, PvP Fights: +3, Single Equip
 # scorpion whip: 50% chance of poisoning opponent.
 Item	scorpion whip	Weapon Damage: +13
@@ -1814,9 +1813,8 @@ Item	Shakespeare's Sister's Accordion	Mana Cost: [-1*(1+skill(Accordion Apprecia
 # sharpened spoon
 Item	Sheila Take a Crossbow	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Pickpocket Chance: +5, Smithsness: +5, Initiative: [K]
 Item	shiny butcherknife	Spell Damage: +8
-# shipwright's hammer: +3 Pirate Warfare Effectiveness
 # shipwright's hammer: +30% Damage vs. Skeletons
-Item	shipwright's hammer	Weapon Damage Percent: +30
+Item	shipwright's hammer	Pirate Warfare Effectiveness: +3, Weapon Damage Percent: +30
 Item	shooting morning star	Muscle Percent: +15, Hot Damage: +15, Weakens Monster, Single Equip
 Item	short-handled mop	Stench Damage: +10, Sleaze Damage: +10
 Item	shotgun	Ranged Damage: +10
@@ -2044,8 +2042,7 @@ Item	warbear oil pan	Hot Spell Damage: +10, Sleaze Spell Damage: +10, Class: "Sa
 Item	weeping willow wand	Spell Damage Percent: +100, Mysticality: +25, Experience (Mysticality): +5, Lasts Until Rollover
 Item	weighted paperclip chain	Weapon Damage: +12
 Item	western-style skinning knife	Weapon Damage: +5, Hat Drop: +10
-# whalegun: +10 Pirate Warfare Effectiveness
-Item	whalegun	Monster Level: +10, Weapon Damage: +100
+Item	whalegun	Pirate Warfare Effectiveness: +10, Monster Level: +10, Weapon Damage: +100
 Item	White Dragon Fang	Muscle Percent: +9, Mysticality Percent: +9, Moxie Percent: +9, Spooky Damage: +9, Stench Damage: +9, Hot Damage: +9, Cold Damage: +9, Sleaze Damage: +9, MP Regen Min: 9, MP Regen Max: 9
 Item	white sword	Muscle: +2
 Item	white whip	Experience: +1
@@ -2938,11 +2935,9 @@ Item	CRIMBCO lanyard	Single Equip
 Item	Crimbolex watch	Adventures: +5, PvP Fights: +5, Rollover Effect: "Watched Over", Rollover Effect Duration: 100, Single Equip, Nonstackable Watch
 # Crimbomega drive chain: Allows use of LUBE in combat
 Item	Crimbomega drive chain	Moxie: +5, Sleaze Damage: +20, Sleaze Spell Damage: +20, Crimbot Outfit Power: +1, Single Equip
-# Crimbuccaneer fledges (disintegrating): +10 Pirate Warfare Effectiveness
-Item	Crimbuccaneer fledges (disintegrating)	PvP Fights: +9, Single Equip
-# Crimbuccaneer fledges (mint): +1 Pirate Warfare Effectiveness
-# Crimbuccaneer nose ring: +5 Pirate Warfare Effectiveness
-Item	Crimbuccaneer nose ring	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Potion Drop: +25
+Item	Crimbuccaneer fledges (disintegrating)	Pirate Warfare Effectiveness: +10, PvP Fights: +9, Single Equip
+Item	Crimbuccaneer fledges (mint)	Pirate Warfare Effectiveness: +1
+Item	Crimbuccaneer nose ring	Pirate Warfare Effectiveness: +5, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Potion Drop: +25
 Item	Crimbuccaneer runebone	Mysticality Percent: +25, Spell Damage: +50, Single Equip
 # crusty hula hoop: 75% Chance of Preventing Negative Status Attacks
 Item	crusty hula hoop	Mysticality Percent: +15, Spell Damage: +50, Single Equip
@@ -3010,7 +3005,7 @@ Item	eerie fetish	Spooky Resistance: +4, Single Equip
 Item	Eight Days a Week Pill Keeper	Maximum HP: +20, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Muscle: +10, Mysticality: +10, Moxie: +10
 # El Vibrato translator
 Item	elevennis shoes	Muscle: +11, Mysticality: +11, Moxie: +11, Maximum HP: +11, Maximum MP: +11
-# Elf Guard insignia (private): +1 Elf Warfare Effectiveness
+Item	Elf Guard insignia (private)	Elf Warfare Effectiveness: +1
 Item	Elmley shades	Muscle: +12, Critical Hit Percent: +3, Single Equip
 Item	elven socks	Muscle: +1, Cold Resistance: +1
 # Elvish sunglasses: Lets you Rock Out
@@ -7134,7 +7129,7 @@ Effect	Rootin' Around	Candy Drop: +25
 Effect	Rosewater Mark	Mysticality: +10, Spell Damage: +10, Experience (Mysticality): +2
 Effect	Rotten Memories	Stench Damage: +15
 Effect	Ruby-ous	Initiative: +150, Weapon Damage: +10
-# Rum of Darkness: +5 Elf Warfare Effectiveness
+Effect	Rum of Darkness	Elf Warfare Effectiveness: +5
 Effect	Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
 Effect	Rushin' Hands	Weapon Damage: +3
 Effect	Rushtacean'	Initiative: +50
@@ -7910,8 +7905,7 @@ Effect	Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
 Effect	Wet Willied	Underwater Familiar
 # What Are The Odds!?: All item drop rolls will be 50%
-# Whalethoughts: +10 Elf Warfare Effectiveness
-# Whalethoughts: +10 Pirate Warfare Effectiveness
+Effect	Whalethoughts	Elf Warfare Effectiveness: +10, Pirate Warfare Effectiveness: +10
 Effect	What's That Smell?	Stench Damage: +3
 Effect	When the Plague Hits Your Eye	Avatar: "Plague Chef"
 Effect	Whet Appetite	Food Drop: +100
@@ -8165,6 +8159,7 @@ Skill	Eldritch Intellect	Spooky Spell Damage: +1, Spooky Resistance: +1
 Skill	Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Elemental Wards	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 # Elf Guard Cooking: Cook 3x per day without using an Adventure
+Skill	Elf Guard Relaxation Techniques	Free Rests: 3
 # Emotionally Chipped: Gives you access to emotions
 Skill	Ensorcel	Maximum HP: -20
 Skill	Envy	Item Drop: +30, Meat Drop: -25
@@ -8347,6 +8342,7 @@ Skill	Object Permanence	Mysticality: +5
 Skill	Object Quasi-Permanence	Item Drop: +10
 Skill	Oily Scalp	Sleaze Damage: +7
 Skill	Okay Seriously, This is the Last Spleen	Spleen Capacity: +5
+# Old-School Cocktailcrafting: Make 3 cocktails per day without spending an Adventure
 Skill	Olfactory Burnout	Stench Resistance: +3
 Skill	Olfactory Cortex	Stench Resistance: +3
 Skill	Ominous Substrate	Spooky Damage: +10
@@ -11211,6 +11207,8 @@ Item	closed-circuit phone system	Free Pull
 # clutch of dodecapede eggs: Weakens enemies somewhat as it poisons them
 # coal snakeskin: Adds Spooky Damage to kicks with your cowboy boots
 # cocktail napkin: Deals 20-40 <font color=red>Hot Damage</font>
+Item	Cocktails of the Age of Sail	Skill: "Old-School Cocktailcrafting"
+Item	Cocktails of the Age of Sail (used)	Skill: "Old-School Cocktailcrafting"
 # cocoa of youth: Extend the duration of up to 10 of your effects by 5 Adventures
 Item	coffee sprite	Free Pull
 # cold clusterbomb: Deals <font color=blue>Cold Damage</font> based on your highest stat
@@ -11392,6 +11390,8 @@ Item	electronic Brain Trainer game	Skill: "Brain Games"
 # electronics kit: Shocks your opponent, weakening and briefly stunning them.<p>Also restores 30-40 MP.
 # eleven-foot pole: You know...  For traps.
 Item	Elf Guard Field Manual: Culinary Arts	Skill: "Elf Guard Cooking"
+Item	Elf Guard Field Manual: Culinary Arts (used)	Skill: "Elf Guard Cooking"
+Item	Elf Guard Field Manual: Wilderness Sleeping	Skill: "Elf Guard Relaxation Techniques"
 # Elf Guard hangover cure: Reduces your Drunkenness by 5 (1 after Crimbo)
 # Elf Guard hangover cure: (limit 1x / day)
 # Elf Guard payroll bag: Contains a bunch of Elf Guard MPCs
@@ -12036,6 +12036,7 @@ Item	Psycho From The Heat	Skill: "Pyromania"
 # pufferfish spine: Poisons your opponent, and using additional ones makes the poison way worse
 # pumpkin bomb: Vaporizes an enemy and causes all of its items to drop
 # pumpkin carriage: <b>Allows Travel to Desert Beach</b>
+# punching mirror: Punch it for 5 PvP fights per day
 Item	puppet strings	Free Pull
 # pygmy blowgun: Poisons enemies, dealing damage over multiple rounds
 Item	pygmy bugbear shaman	Free Pull
@@ -12345,6 +12346,7 @@ Item	the Crymbich Manuscript	Skill: "Ancient Crymbo Lore"
 Item	the Crymbich Manuscript (used)	Skill: "Ancient Crymbo Lore"
 # The Emperor's new cookie: So delicious!
 Item	The Encyclopedia of Fruit	Skill: "Fruit Recognition"
+Item	The Encyclopedia of Fruit (used)	Skill: "Fruit Recognition"
 # The Fingernail of the Thing in the Basement: Jeremy Science will be interested in this
 Item	The Firegate Tapes	Skill: "Firegate"
 Item	The Fun-Guy Cold Weather Bartender's Guide	Skill: "Perfect Freeze"

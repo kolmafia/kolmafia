@@ -42,6 +42,7 @@
 2nd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 3rd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 A Barroom Brawl	100	drunken 7-foot dwarf	plastered frat orc	skeleton with a mop	unemployed knob goblin	werecougar
+A Cafe Divided	100	Crimbuccaneer military school dropout	Crimbuccaneer new recruit	Crimbuccaneer privateer	Elf Guard conscript	Elf Guard convict	Elf Guard private	Crimbuccaneer fruit plunderer	Crimbuccaneer retiree	Crimbuccaneer whalehunter	Elf Guard desserter	Elf Guard provisioner	Elf Guard steward
 A Crater Full of Space Beasts	100	space beast	space beast matriarch: 0
 A Crowd of (Element) Adventurers	100
 A Crowd of (Stat) Adventurers	100
@@ -263,8 +264,10 @@ The Ancient Burial Ground	100	skeleton	vampire
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
 The Archwizard's Tower	0	Archwizard: 0
 The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
+The Armory Up In Arms	100	Crimbuccaneer military school dropout	Crimbuccaneer new recruit	Crimbuccaneer privateer	Elf Guard conscript	Elf Guard convict	Elf Guard private	Crimbuccaneer carpenter	Crimbuccaneer freebooter	Crimbuccaneer scrimshander	Elf Guard arctic seal	Elf Guard armorer	Elf Guard Red and White Beret
 The Bandit Crossroads	100	fantasy bandit
 The Barrow Mounds	100	barrow wraith?
+The Bar At War	100	Crimbuccaneer military school dropout	Crimbuccaneer new recruit	Crimbuccaneer privateer	Elf Guard conscript	Elf Guard convict	Elf Guard private	Crimbuccaneer bar brawler	Crimbuccaneer barrrback	Crimbuccaneer grognard	Elf Guard chemist	Elf Guard sanitation officer	Elf Guard shore leave specialist
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
 The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0	Batsnake: 0
 The Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0

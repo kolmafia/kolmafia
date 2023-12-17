@@ -291,7 +291,7 @@ Flaming Mohobo	2	8	awesome	8-9	15-20	15-20	15-20	15 Mo' Hobo (+10 Hobo power)
 flaming mushroom wine	3	6	awesome	10-14	12-15	0	0	WINE
 Flaming Sazerorc	2	8	awesome	8-9	30-40	0	0	15 Orc Chops (+50 Muscle)
 flask of Amontillado	4	4	awesome	10-15	10-30	15-30	10-30
-flask of egggrog	5	1	awesome	0	0	0	0	Unspaded
+flask of egggrog	5	1	awesome	0	0	0	0	Unspaded, 100 Grogged For Battle (+5 Pirate Warfare Effectiveness)
 flask of moonshine	2	1	awesome	9-11	50-70	50-70	50-70
 flask of peppermint schnapps	1	1	decent	1	0	0	0
 flask of port	2	1	awesome	6-8	20-30	5-10	5-10	WINE
@@ -377,7 +377,7 @@ hot mint schnocolate	1	1	good	2-4	5-10	5-10	5-10	25 Alpine Mintiness (+25 HP/MP,
 Hot Socks	3	1	awesome	10-14	0	0	0	50 Hip to the Jive (+2 Familiar experience, +10 Familiar Weight, +20 Familiar Damage)
 hot toady	4	4	decent	6-10	7-8	7-8	7-8
 hot watered rum	3	1	good	9-10	0	0	0
-hot wine	4	1	awesome	0	0	0	0	Unspaded
+hot wine	4	1	awesome	0	0	0	0	Unspaded, 50 In a Stealin' Mood (more MPCs from Elf Guards)
 Humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP, MARTINI
 Hundred Headed IPA	2	13	awesome	9-11	15-30	15-30	15-30	20 Hoppyness (+100% Initiative)
 Ice Island Long Tea	4	1	EPIC	18-22	15-30	15-30	15-30
@@ -400,7 +400,7 @@ Island Thunderstorm	4	1	awesome	0	0	0	0	Unspaded 20 Tiki Thoughtfulness (+100% M
 Isotope Nog	4	5	decent	6-11	0	0	0
 Jack-O-Lantern beer	2	1	awesome	7-9	0	0	10-20	30 Toothy Grin (+5 familiar weight)
 Jackhammer	2	4	awesome	6-7	20-30	0	0	10 Mortarfied (+100 DA)
-Jamaican coffee	3	1	awesome	0	0	0	0	Unspaded
+Jamaican coffee	3	1	awesome	12	0	0	0	50 Jamaican' Me Acquisitive (increase drops on Crimbo battlefields)
 jar of fermented pickle juice	5	13	EPIC	29-34	80-100	80-100	80-100	-5 spleen
 jar of squeeze	7	8	awesome	25-30	25-45	25-45	25-45
 Jeppson's Malort	3	1	EPIC	22-26	10-20	10-20	10-20
@@ -493,7 +493,7 @@ Nog-on-the-Cob	3	1	awesome	12	15-30	15-30	15-30	20 Sulfurous Sinuses (+3 Stench 
 non-aged vinegar	2	4	awesome	6-7	5-10	5-10	5-10	40 Sour Grapes (+40% Item Drop)
 nothingtini	1	1	good	2-4	0	0	0	40 Nothing Happened (+20 Monster Level), MARTINI
 ocean motion	4	4	good	10-14	25-27	8-10	0
-officer's nog	2	1	EPIC	0	0	0	0	Unspaded
+officer's nog	2	1	EPIC	14	0	0	0
 Oh, the Humanitini	2	8	awesome	8-9	15-20	15-20	15-20	Restores HP, MARTINI
 Oil Nog	4	5	decent	7-9	0	0	0
 oily mushroom wine	3	7	awesome	12-17	14-15	12-15	12-15	WINE
@@ -556,7 +556,7 @@ Radberry Rip wine cooler	2	1	good	6	7-8	0	0
 Ralph IX cognac	6	15	EPIC	55-59	228-300	228-300	228-300
 Ram's Face Lager	1	2	decent	2	8-10	0	0	4-8 MP, BEER
 red ale	2	1	good	5-7	0	0	10-20	40 Putting the Pro in Proletariat (+50% Moxie, +25 ranged damage), BEER
-red and white claret	2	1	awesome	0	0	0	0	Unspaded
+red and white claret	2	1	awesome	10	0	0	0
 red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Fullness 80 Gummiheart (+100 Muscle)
 Red Dwarf	2	1	good	4-5	0	10-20	0	5 World's Shortest Giant (+2 Prismatic Res)
 red red wine	2	4	decent	3-5	0	0	10-20	10-20 HP, WINE
