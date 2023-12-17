@@ -1268,6 +1268,7 @@ Grimacite glaive	125	Mus: 47	2-handed polearm
 groping claw	225	Mus: 200	1-handed claw
 guancertina	50	Mox: 10	2-handed accordion
 gummi sword	120	Mus: 45	1-handed sword
+gunwale whalegun	200	Mox: 0	2-handed 
 haiku katana	100	Mus: 0	1-handed sword
 hairy staff	135	Mus: 45	2-handed staff
 half-melted spoon	115	Mys: 42	1-handed utensil
