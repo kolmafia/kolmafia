@@ -1496,6 +1496,7 @@ Item	Grimacite glaive	Weapon Damage: +15, Muscle Percent: [10*G]
 Item	groping claw	Weakens Monster, Sleaze Damage: +30
 Item	guancertina	Stench Damage: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 9
 Item	gummi sword	Muscle: +7, Candy Drop: +50
+Item	gunwale whalegun	Damage Absorption: +100, Weapon Damage Percent: +100, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 # haiku katana: Allows use of seasonal attacks
 Item	haiku katana	Muscle Percent: +15, Critical Hit Percent: +5, Weapon Damage Percent: +50, Softcore Only
 Item	hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
