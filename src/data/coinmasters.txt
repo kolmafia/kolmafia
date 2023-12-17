@@ -1180,3 +1180,5 @@ Crimbuccaneer Bar	buy	10	flask of egggrog	ROW1410
 Elf Guard Mess Hall	buy	5	sugarplum ration	ROW1399
 Elf Guard Mess Hall	buy	20	gingerbread nylons	ROW1400
 Elf Guard Mess Hall	buy	10	rum-soaked fruitcake	ROW1401
+
+Elf Guard Armory	buy	200	Elf Guard honor present	ROW1411

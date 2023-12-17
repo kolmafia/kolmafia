@@ -11427,23 +11427,23 @@
 11399
 11400
 11401
-11402
+11402	Elf Army machine parts	178038499	egparts.gif	none	t	0	piles of Elf Army machine parts
 11403
-11404
-11405
-11406
-11407
+11404	Crimbuccaneer lantern	413623993	lantern2.gif	offhand	t	0
+11405	Crimbuccaneer flotsam	269803558	crimbucparts.gif	none	t	0	piles of Crimbuccaneer flotsam
+11406	Crimbuccaneer invasion map	677028160	crimbucmap.gif	usable	t	0
+11407	Crimbuccaneer shirt	837813050	pirateshirt.gif	shirt	t	0
 11408	Elf Guard MPC	981842797	egmoney.gif	none		0
 11409	Crimbuccaneer piece of 12	485274010	crimbucmoney.gif	none		0	Crimbuccaneer pieces of 12
-11410
-11411
-11412
-11413
-11414
-11415
+11410	Elf Guard commandeering gloves	417746382	stickygloves.gif	accessory	t	0	pairs of Elf Guard commandeering gloves
+11411	Elf Guard eyedrops	282936845	eyedrops.gif	potion, usable	t	0	bottles of Elf Guard eyedrops
+11412	Crimbuccaneer premium booty sack	860810827	spelunksack.gif	usable	t	0
+11413	Elf Guard honor present	299773650	egpresent.gif	usable	t	0
+11414	Elf Guard officer's sidearm	439538646	autopistol.gif	weapon	t	0
+11415	Elf Guard insignia (general)	927387656	eginsignia2.gif	accessory	t	0
 11416
-11417
-11418
+11417	Elf Guard strategic map	650846868	egmap.gif	usable	t	0
+11418	Crimbuccaneer captain's purse	708487222	coinpurse.gif	usable	t	0
 11419	Elf Guard broom	761011803	egbroom.gif	weapon	t	0
 11420	Crimbuccaneer tavern swab	587885280	crimbucmop.gif	weapon	t	0
 11421	Elf Guard hangover cure	520317664	egcure.gif	usable	t	0
@@ -11471,19 +11471,19 @@
 11443	cannonbomb	131238950	crimbucbomb.gif	none, combat	t	0
 11444	Elf Guard mouthknife	353853148	mouthknife.gif	weapon	t	0
 11445	Crimbuccaneer fledges (disintegrating)	619365824	crimbucfledge2.gif	accessory	t	0	sets of Crimbuccaneer fledges (disintegrating)
-11446
-11447
-11448
-11449
+11446	Elf Guard fuel tank	839231411	egtank.gif	container	t	0
+11447	massive wrench	615915001	egwrench.gif	weapon	t	0	massive wrenches
+11448	brown pirate pants	879963972	brownpants.gif	pants	t	0	pairs of brown pirate pants
+11449	Elf Guard Field Manual: Extortion	420210939	book.gif	usable	t	0	copies of Elf Guard Field Manual: Extortion
 11450	The Encyclopedia of Fruit	966029305	book3.gif	usable	t	0	copies of The Encyclopedia of Fruit
 11451	punching mirror	911655077	crimbucmirror.gif	usable	t	0
 11452	ancient Elf dessert spoon	231753264	egspoon.gif	weapon	t	0
 11453	Elf Guard SCUBA tank	303906801	elfscuba.gif	container	t	0
 11454	Elf Guard Field Manual: Wilderness Sleeping	424878071	book.gif	usable	t	0	copies of Elf Guard Field Manual: Wilderness Sleep
 11455	free boots	184381676	crimbucboots.gif	accessory	t	0	pairs of free boots
-11456
+11456	baby rigging snake	418328037	rigsnakelarva.gif	grow	t	0
 11457	Elvish underarmor	818267349	egarmor.gif	accessory	t	0	sets of Elvish underarmor
-11458
+11458	Crimbuccaneer bombjacket	480222973	cardigan.gif	shirt	t	0
 11459	sugarplum ration	189858284	sugarplum.gif	food	t	0
 11460	gingerbread nylons	363568811	gingernylons.gif	food	t	0	pairs of gingerbread nylons
 11461	rum-soaked fruitcake	971219375	fruitcake.gif	food	t	0
@@ -11524,8 +11524,8 @@
 11496
 11497	Elf Guard Field Manual: Culinary Arts (used)	894142436	book.gif	usable		0
 11498	Cocktails of the Age of Sail (used)	332132489	book4.gif	usable		0	copies of Cocktails of the Age of Sail (used)
-11499
+11499	Elf Guard Field Manual: Extortion (used)	193745312	book.gif	usable		0	copies of Elf Guard Field Manual: Extortion (used)
 11500	The Encyclopedia of Fruit (used)	413436542	book3.gif	usable		0	copies of The Encyclopedia of Fruit (used)
-11501
+11501	Elf Guard Field Manual: Wilderness Sleeping (used)	838155166	book.gif	usable		0	copies of Elf Guard Field Manual: Wilderness Sleep
 11502	military candy cane	132951284	pep_bigcane.gif	potion, usable	t,d	5
 11503	groggipop	933817198	neutronpop.gif	potion, usable	t,d	5

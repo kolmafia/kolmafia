@@ -479,6 +479,7 @@ BRICKO pants	90	none
 Brimstone Boxers	200	Mox: 30
 Brogre brorts	100	Mox: 35
 brown paper pants	20	none
+brown pirate pants	100	none
 bugbear bungguard	30	none
 bullet-proof corduroys	170	Mox: 70
 buoybottoms	150	Mox: 60
@@ -794,6 +795,8 @@ Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 conquistador's breastplate	80	none
 cool iron breastplate	250	Mus: 200
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
+Crimbuccaneer bombjacket	100	none
+Crimbuccaneer shirt	50	none
 demonskin jacket	80	Mus: 25
 denim jacket	50	none
 Dragonscale breastplate	200	Mus: 40
@@ -1160,6 +1163,7 @@ elephant stinger	75	Mus: 22	2-handed spear
 elevenderizing hammer	115	Mus: 11	1-handed club
 Elf Guard broom	100	Mus: 0	2-handed polearm
 Elf Guard mouthknife	50	Mus: 0	1-handed knife
+Elf Guard officer's sidearm	50	Mox: 0	1-handed pistol
 elf ploughshare	100	Mus: 0	1-handed sword
 elven tambourine	100	Mox: 0	1-handed rattle
 elven whittling knife	100	Mus: 35	1-handed knife
@@ -1368,6 +1372,7 @@ magilaser blastercannon	155	Mox: 62	2-handed laser cannon
 mama's squeezebox	40	Mox: 5	2-handed accordion
 mannequin leg	110	Mus: 40	1-handed club
 massive sitar	190	Mox: 80	2-handed sitar
+massive wrench	100	Mus: 0	2-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
 Mayor Ghost's gavel	10	Mus: 0	1-handed club
 Meat Tenderizer is Murder	100	Mus: 0	1-handed club
@@ -1887,6 +1892,7 @@ Crimbo light-up Rudolph doll	20	none
 Crimbo smile	50	none
 Crimbo stogie-scented room odorizer	20	none
 Crimbo tree flocker	20	none
+Crimbuccaneer lantern	0	none
 crumbling rabbit's foot	50	none
 crumbling skull	0	none
 cuddly teddy bear	125	Mys: 47
@@ -2579,6 +2585,8 @@ eerie fetish	225	Mys: 200
 Eight Days a Week Pill Keeper	100	none
 El Vibrato translator	200	none
 elevennis shoes	111	Mys: 11
+Elf Guard commandeering gloves	0	none
+Elf Guard insignia (general)	0	none
 Elf Guard insignia (private)	0	none
 Elmley shades	180	Mys: 75
 elven socks	30	none
@@ -3557,6 +3565,7 @@ Drapes-You-Regally	300	Mox: 250
 Drip harness	0	Mus: 100
 Drunkula's cape	300	Mys: 250
 Duke Vampire's regal cloak	200	Mox: 40
+Elf Guard fuel tank	0	none
 Elf Guard SCUBA tank	0	none
 fiberglass frock	120	Mus: 40
 frozen turtle shell	100	Mus: 50

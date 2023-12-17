@@ -61,6 +61,7 @@ A Stinking Abyssal Portal	100	scout seal
 A Terrifying Abyssal Portal	100	scout seal
 A Yawning Abyssal Portal	100	official seal
 A-Boo Peak	100	Battlie Knight Ghost	Claybender Sorcerer Ghost	Dusken Raider Ghost	Space Tourist Explorer Ghost	Whatsian Commando Ghost
+Abuela's Cottage (Contested)	100	Crimbuccaneer military school dropout	Crimbuccaneer new recruit	Crimbuccaneer privateer	Elf Guard conscript	Elf Guard convict	Elf Guard private	Crimbuccaneer mudlark	Crimbuccaneer navigator	Crimbuccaneer vice-captain	Elf Guard general	Elf Guard requisitions officer	Elf Guard strategist
 An Eldritch Fissure	100	Eldritch Tentacle
 An Illicit Bohemian Party	100	hep cat	cigarette girl	Mob Penguin entrepreneur
 An Incredibly Strange Place (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Casey Kasem)	Trippy Floating Head (Grand Moff Tarkin)	Trippy Floating Head (Mona Lisa)	Zombie Baby

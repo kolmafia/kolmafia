@@ -613,6 +613,7 @@ Item	BRICKO pants	Damage Absorption: +9, Familiar Effect: "1.5xVolley, 2xLep, 1x
 Item	Brimstone Boxers	Moxie Percent: +50, Mysticality Percent: -20, Initiative: +50, Brimstone, Familiar Effect: "1xVolley, 1xLep"
 Item	Brogre brorts	Monster Level: +10, Familiar Effect: "sleaze atk, 1xGhuol, cap 25"
 Item	brown paper pants	Moxie: +2, Initiative: +10
+Item	brown pirate pants	Spooky Resistance: +4, Monster Level: +15
 Item	bugbear bungguard	Familiar Effect: "5xBarrr, cap 7"
 Item	bullet-proof corduroys	Maximum MP: +40, Damage Reduction: 2, Familiar Effect: "stench atk, 1xBarrr, cap 42"
 Item	buoybottoms	Moxie: +11, Monster Level: +7, Initiative: -30, Familiar Effect: "1xPotato, 1xLep, cap 37"
@@ -967,6 +968,9 @@ Item	coconut bikini top	Mysticality: +5
 Item	conquistador's breastplate	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Meat Drop: +15
 Item	cool iron breastplate	Damage Reduction: 20, Maximum HP: +200
 Item	Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
+# Crimbuccaneer bombjacket: Combat items deal 100% more damage
+Item	Crimbuccaneer bombjacket	Moxie Percent: +25, Ranged Damage: +25
+Item	Crimbuccaneer shirt	Familiar Weight: [+10*event(December)]
 Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
 Item	denim jacket	Mysticality: +10, MP Regen Min: 4, MP Regen Max: 8
 Item	Dragonscale breastplate	Muscle: +15, Muscle Percent: +25, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
@@ -1376,6 +1380,7 @@ Item	elevenderizing hammer	Muscle: +11, Mysticality: +11, Moxie: +11, Weapon Dam
 # Elf Guard broom: Helps clean up the Bar at War
 Item	Elf Guard broom	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Weakens Monster
 Item	Elf Guard mouthknife	Elf Warfare Effectiveness: +3, Moxie Percent: +20
+Item	Elf Guard officer's sidearm	Elf Warfare Effectiveness: +3, Weapon Damage Percent: +10
 Item	elven tambourine	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # elven whittling knife: On Critical:  Whittles enemy down
 Item	evil paper umbrella	Monster Level: +1
@@ -1605,6 +1610,7 @@ Item	magilaser blastercannon	Ranged Damage: +15, Hot Damage: +5
 Item	mama's squeezebox	Moxie: [3*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 8
 Item	mannequin leg	Sleaze Damage: +20, Moxie: +5, Class: "Seal Clubber"
 Item	massive sitar	Mysticality: +12, Spell Damage: +20
+Item	massive wrench	Elf Warfare Effectiveness: +10, Critical Hit Percent: +20, Weapon Damage Percent: +50
 Item	Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 # Mayor Ghost's gavel: +50 Damage vs. Ghosts
 # Mayor Ghost's gavel: Lets you hit ghosts with a gavel.
@@ -2203,6 +2209,8 @@ Item	Crimbo light-up Rudolph doll	Sleaze Damage: +10
 Item	Crimbo smile	Experience: [5*event(December)]
 Item	Crimbo stogie-scented room odorizer	Stench Spell Damage: +10
 Item	Crimbo tree flocker	Cold Damage: +10
+# Crimbuccaneer lantern: Increases Item Drops on Crimbo Battlefields
+Item	Crimbuccaneer lantern	Hat Drop: +50, Weapon Drop: +50, Accessory Drop: +50
 Item	crumbling rabbit's foot	Meat Drop: +30
 Item	cuddly teddy bear	Monster Level: +10
 Item	cup of infinite pencils	Meat Drop: +15, Damage Aura: 1
@@ -3005,6 +3013,8 @@ Item	eerie fetish	Spooky Resistance: +4, Single Equip
 Item	Eight Days a Week Pill Keeper	Maximum HP: +20, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Muscle: +10, Mysticality: +10, Moxie: +10
 # El Vibrato translator
 Item	elevennis shoes	Muscle: +11, Mysticality: +11, Moxie: +11, Maximum HP: +11, Maximum MP: +11
+Item	Elf Guard commandeering gloves	Item Drop: +3, Piece of Twelve Drop: 0.5, Single Equip
+Item	Elf Guard insignia (general)	Elf Warfare Effectiveness: +10, Adventures: +9, Single Equip
 Item	Elf Guard insignia (private)	Elf Warfare Effectiveness: +1
 Item	Elmley shades	Muscle: +12, Critical Hit Percent: +3, Single Equip
 Item	elven socks	Muscle: +1, Cold Resistance: +1
@@ -3406,8 +3416,7 @@ Item	pearl diver's necklace	Critical Hit Percent: +4, Monster Level: +20, Single
 Item	pearl diver's ring	Critical Hit Percent: +3, Monster Level: +15, Single Equip, Item Drop: [20*env(underwater)]
 Item	pearl necklace	Sleaze Damage: +23, Sleaze Spell Damage: +37, Moxie Percent: +69, Single Equip
 Item	peg key	Experience: +5
-# pegfinger: Extra MPC drops from Elf Guard soldiers
-Item	pegfinger	Spell Damage Percent: +25, Single Equip
+Item	pegfinger	Spell Damage Percent: +25, MPC Drop: 0.5, Single Equip
 Item	Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
 Item	peppermint-scented socks	MP Regen Min: 8, MP Regen Max: 16
@@ -4153,6 +4162,7 @@ Item	Drip harness	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Item	Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class: "Sauceror"
 Item	Duke Vampire's regal cloak	Moxie: +15, Moxie Percent: +25, Initiative: +50
 Item	elf army poncho	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Lasts Until Rollover
+Item	Elf Guard fuel tank	Adventures: +4
 Item	Elf Guard SCUBA tank	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Maximum HP: -100, Maximum MP: -100, Adventure Underwater
 # fiberglass frock: Makes it so dealing Cold damage causes ongoing additional Cold damage
 Item	fiberglass frock	Experience (Mysticality): +3, Maximum MP: +20
@@ -5909,6 +5919,7 @@ Effect	Electrolyte Fantastic	Experience Percent (Mysticality): +10
 Effect	Elemental Flavor	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Effect	Elemental Mastery	Hot Damage: +5, Cold Damage: +5, Spooky Damage: +5, Stench Damage: +5, Sleaze Damage: +5
 Effect	Elemental Saucesphere	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
+# Elf Watch: Increases Item Drops on Crimbo Battlefields
 Effect	Elron's Explosive Etude	Spell Damage Percent: +50
 Effect	Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Embarrassed	Moxie Percent: -30
@@ -6412,7 +6423,7 @@ Effect	Impregnably Delicious	Damage Reduction: 30
 Effect	Improprie Tea	Sleaze Damage: +30
 Effect	Improved Candy Vision	Candy Drop: +25
 Effect	In a Lather	Hot Damage: +20, Cold Damage: +20, Stench Damage: +20, Spooky Damage: +20, Sleaze Damage: +20, Hot Spell Damage: +40, Cold Spell Damage: +40, Stench Spell Damage: +40, Spooky Spell Damage: +40, Sleaze Spell Damage: +40, Ranged Damage: +20, Weapon Damage: +20, Weapon Damage Percent: +50, Spell Damage: +40, Spell Damage Percent: +50
-# In a Stealin' Mood: Get more MPCs from Elf Guard soldiers
+Effect	In a Stealin' Mood	MPC Drop: 0.5
 Effect	In The Darkness	Combat Rate: -10
 Effect	In the Depths	Familiar Weight: +15, Muscle: +25, Muscle Percent: +300, Maximum HP Percent: +100, Maximum MP Percent: +100
 Effect	In the Limelight	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
@@ -7386,7 +7397,7 @@ Effect	Spangled Star	Monster Level: +10
 Effect	Speakin' Easy	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Speakin' Even Easier	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Spectacle Moustache	Item Drop: +50, Spooky Resistance: +5
-# Sugarplum Visions: Get more Pieces of 12 from Crimbuccaneers
+Effect	Sugarplum Visions	Piece of Twelve Drop: 0.5
 Effect	Sugary World View	Candy Drop: +100
 Effect	Sparkling Consciousness	Mysticality Percent: +100
 # Sparkly!: +50 Damage vs. Undead
@@ -8159,6 +8170,7 @@ Skill	Eldritch Intellect	Spooky Spell Damage: +1, Spooky Resistance: +1
 Skill	Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Elemental Wards	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 # Elf Guard Cooking: Cook 3x per day without using an Adventure
+Skill	Elf Guard Extortion Techniques	Meat Drop: +10
 Skill	Elf Guard Relaxation Techniques	Free Rests: 3
 # Emotionally Chipped: Gives you access to emotions
 Skill	Ensorcel	Maximum HP: -20
@@ -9973,6 +9985,7 @@ Item	eldritch concentrate	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	eldritch oil	Effect: "Uncanny Shot", Effect Duration: 30
 Item	eldritch rub	Effect: "Infused with Sssshhsssblllrrggghsssssggggrrgglssss", Effect Duration: 10
 Item	electric mushroom	Effect: "Tingling Insides", Effect Duration: 20
+Item	Elf Guard eyedrops	Effect: "Elf Watch", Effect Duration: 30
 Item	Elizabeth's paintbrush	Effect: "Boschface", Effect Duration: 25
 Item	elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 Item	Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
@@ -11272,6 +11285,9 @@ Item	Crimbot ROM: Rapid Prototyping	Skill: "Rapid Prototyping"
 Item	Crimbot ROM: Rapid Prototyping (dirty)	Skill: "Rapid Prototyping"
 Item	Crimbot ROM: Ruthless Efficiency	Skill: "Ruthless Efficiency"
 Item	Crimbot ROM: Ruthless Efficiency (dirty)	Skill: "Ruthless Efficiency"
+# Crimbuccaneer captain's purse: Contains a bunch of Pieces of 12
+# Crimbuccaneer invasion map: Globally increase MPC drops from Elf Guard enemies for an hour
+# Crimbuccaneer premium booty sack: Contains a random rare Crimbuccaneer item
 # croquet hedgehog: Weakens enemies a little bit every round for the rest of the fight
 # crude oil congealer: Converts 12 bubblin' crude into a jar of oil
 # crude voodoo doll: Makes an enemy smaller than you
@@ -11391,10 +11407,15 @@ Item	electronic Brain Trainer game	Skill: "Brain Games"
 # eleven-foot pole: You know...  For traps.
 Item	Elf Guard Field Manual: Culinary Arts	Skill: "Elf Guard Cooking"
 Item	Elf Guard Field Manual: Culinary Arts (used)	Skill: "Elf Guard Cooking"
+Item	Elf Guard Field Manual: Extortion	Skill: "Elf Guard Extortion Techniques"
+Item	Elf Guard Field Manual: Extortion (used)	Skill: "Elf Guard Extortion Techniques"
 Item	Elf Guard Field Manual: Wilderness Sleeping	Skill: "Elf Guard Relaxation Techniques"
+Item	Elf Guard Field Manual: Wilderness Sleeping (used)	Skill: "Elf Guard Relaxation Techniques"
 # Elf Guard hangover cure: Reduces your Drunkenness by 5 (1 after Crimbo)
 # Elf Guard hangover cure: (limit 1x / day)
+# Elf Guard honor present: Contains a random rare Elf Guard item
 # Elf Guard payroll bag: Contains a bunch of Elf Guard MPCs
+# Elf Guard strategic map: Globally increase Piece of 12 drops from Crimbuccaneer enemies for an hour
 Item	elf sleeper agent	Free Pull
 Item	Ellsbury's journal	Skill: "Unaccompanied Miner"
 Item	Ellsbury's journal (used)	Skill: "Unaccompanied Miner"
