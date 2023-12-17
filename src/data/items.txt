@@ -11502,7 +11502,7 @@
 11474
 11475
 11476	whalecake	119486089	whalecake.gif	food	t,d	0
-11477
+11477	gunwale whalegun	602303862	whalegungun.gif	weapon		0
 11478
 11479
 11480

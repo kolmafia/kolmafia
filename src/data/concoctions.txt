@@ -3294,3 +3294,6 @@ day shortener	BURNING_LEAVES	inflammable leaf (222)
 coping juice	BURNING_LEAVES	inflammable leaf (1111)
 smoldering leafcutter ant egg	BURNING_LEAVES	inflammable leaf (6666)
 super-heated leaf	BURNING_LEAVES	inflammable leaf (11111)
+
+# Crimbo 2023
+gunwale whalegun	COMBINE	gunwale	whalegun
