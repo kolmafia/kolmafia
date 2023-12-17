@@ -295,6 +295,11 @@ public class AdventurePool {
   public static final int VANYAS_CASTLE = 565;
   public static final int MEGALO_CITY = 566;
   public static final int SHADOW_RIFT = 567;
+  public static final int CRIMBO23_COTTAGE = 575;
+  public static final int CRIMBO23_FOUNDRY = 576;
+  public static final int CRIMBO23_BAR = 577;
+  public static final int CRIMBO23_CAFE = 578;
+  public static final int CRIMBO23_ARMORY = 579;
 
   private AdventurePool() {}
 }

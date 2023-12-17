@@ -245,4 +245,32 @@ class PlaceRequestTest {
       }
     }
   }
+
+  @Nested
+  class Crimbo23 {
+    @Test
+    void parsesWarState() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("crimbo23ArmoryAtWar", false),
+              withProperty("crimbo23BarAtWar", false),
+              withProperty("crimbo23CafeAtWar", false),
+              withProperty("crimbo23CottageAtWar", false),
+              withProperty("crimbo23FoundryAtWar", false));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_place_crimbo23_1.html"));
+
+        var request = new PlaceRequest("crimbo23");
+        request.run();
+
+        assertThat("crimbo23ArmoryAtWar", isSetTo(false));
+        assertThat("crimbo23BarAtWar", isSetTo(true));
+        assertThat("crimbo23CafeAtWar", isSetTo(false));
+        assertThat("crimbo23CottageAtWar", isSetTo(true));
+        assertThat("crimbo23FoundryAtWar", isSetTo(false));
+      }
+    }
+  }
 }
