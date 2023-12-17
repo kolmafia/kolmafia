@@ -1,0 +1,111 @@
+1
+# id	year	type	class	row	name
+
+7985	2015	norm	SC	ROW931	polyester parachute
+7986	2015	norm	TT	ROW805	polyester pad
+7987	2015	norm	PA	ROW806	polyester peeler
+7988	2015	norm	SA	ROW807	polyester pettipants
+7989	2015	norm	DB	ROW808	polyester panama hat
+7990	2015	norm	AT	ROW809	polyester pulsera
+7991	2015	hard	SC	ROW810	porcelain police baton
+7992	2015	hard	TT	ROW811	porcelain plus-fours
+7993	2015	hard	PA	ROW812	porcelain porkpie
+7994	2015	hard	SA	ROW813	porcelain pepper mill
+7995	2015	hard	DB	ROW814	porcelain pelerine
+7996	2015	hard	AT	ROW815	porcelain phantom mask
+8092	2016	norm	SC	ROW926	wicker kickers
+8093	2016	norm	TT	ROW804	wicker slicker
+8094	2016	norm	PA	ROW925	wicker knickers
+8095	2016	norm	SA	ROW927	wicker ticker
+8096	2016	norm	DB	ROW928	wicker sticker
+8097	2016	norm	AT	ROW929	wicker clicker
+8099	2016	hard	SC	ROW930	bakelite belt
+8100	2016	hard	TT	ROW932	bakelite badge
+8101	2016	hard	PA	ROW933	bakelite bowl
+8102	2016	hard	SA	ROW934	bakelite brooch
+8103	2016	hard	DB	ROW935	bakelite breeches
+8104	2016	hard	AT	ROW936	bakelite backpack
+8106	2017	norm	SC	ROW980	aerogel anvil
+8107	2017	norm	TT	ROW981	aerogel akubra
+8108	2017	norm	PA	ROW982	aerogel apron
+8109	2017	norm	SA	ROW983	aerogel ascot
+8110	2017	norm	DB	ROW984	aerogel attache case
+8111	2017	norm	AT	ROW985	aerogel accordion
+8113	2017	hard	SC	ROW986	wrought-iron wig
+8114	2017	hard	TT	ROW987	wrought-iron winch crank
+8115	2017	hard	PA	ROW988	wrought-iron widget
+8116	2017	hard	SA	ROW989	wrought-iron whisk
+8117	2017	hard	DB	ROW990	wrought-iron walker
+8118	2017	hard	AT	ROW991	wrought-iron waders
+8120	2018	norm	SC	ROW1041	gabardine gaiters
+8121	2018	norm	TT	ROW1042	gabardine garland
+8122	2018	norm	PA	ROW1043	gabardine gunnysack
+8123	2018	norm	SA	ROW1044	gabardine garibaldi
+8124	2018	norm	DB	ROW1045	gabardine girdle
+8125	2018	norm	AT	ROW1046	gabardine gloves
+8127	2018	hard	SC	ROW1047	fiberglass fetish
+8128	2018	hard	TT	ROW1048	fiberglass foil
+8129	2018	hard	PA	ROW1049	fiberglass fannypack
+8130	2018	hard	SA	ROW1050	fiberglass frock
+8131	2018	hard	DB	ROW1051	fiberglass fingerguard
+8132	2018	hard	AT	ROW1052	fiberglass fedora
+10082	2019	norm	SC	ROW1116	chalk chlamys
+10083	2019	norm	TT	ROW1117	chalk chain
+10084	2019	norm	PA	ROW1118	chalk chalice
+10085	2019	norm	SA	ROW1119	chalk chinos
+10086	2019	norm	DB	ROW1120	chalk chapeau
+10087	2019	norm	AT	ROW1121	chalk choker
+10090	2019	hard	SC	ROW1122	marble maebari
+10091	2019	hard	TT	ROW1123	marble mantle
+10092	2019	hard	PA	ROW1124	marble magnet
+10093	2019	hard	SA	ROW1125	marble mignonette bowl
+10094	2019	hard	DB	ROW1126	marble medallion
+10095	2019	hard	AT	ROW1127	marble mariachi hat
+10098	2020	norm	SC	ROW1235	paraffin punching bag
+10099	2020	norm	TT	ROW1236	paraffin pith helmet
+10100	2020	norm	PA	ROW1237	paraffin poncho
+10101	2020	norm	SA	ROW1238	paraffin pendant
+10102	2020	norm	DB	ROW1239	paraffin palazzos
+10103	2020	norm	AT	ROW1240	paraffin pseudoaccordion
+10106	2020	hard	SC	ROW1241	terra cotta truss
+10107	2020	hard	TT	ROW1242	terra cotta trousers
+10108	2020	hard	PA	ROW1243	terra cotta tongs
+10109	2020	hard	SA	ROW1244	terra cotta train
+10110	2020	hard	DB	ROW1245	terra cotta tie tack
+10111	2020	hard	AT	ROW1246	terra cotta tambourine
+10114	2021	norm	SC	ROW1267	velour voulge
+10115	2021	norm	TT	ROW1268	velour vambraces
+10116	2021	norm	PA	ROW1269	velour veil
+10117	2021	norm	SA	ROW1270	velour viscometer
+10118	2021	norm	DB	ROW1271	velour valise
+10119	2021	norm	AT	ROW1272	velour vaqueros
+10122	2021	hard	SC	ROW1273	stained glass suspenders
+10123	2021	hard	TT	ROW1274	stained glass shield
+10124	2021	hard	PA	ROW1275	stained glass stetson
+10125	2021	hard	SA	ROW1276	stained glass spectacles
+10126	2021	hard	DB	ROW1277	stained glass shiv
+10127	2021	hard	AT	ROW1278	stained glass serape
+10130	2022	norm	SC	ROW1295	loofah lumberjack's hat
+10131	2022	norm	TT	ROW1296	loofah lei
+10132	2022	norm	PA	ROW1297	loofah lederhosen
+10133	2022	norm	SA	ROW1298	loofah ladle
+10134	2022	norm	DB	ROW1299	loofah legwarmers
+10135	2022	norm	AT	ROW1300	loofah lavalier
+10138	2022	hard	SC	ROW1301	flagstone flag
+10139	2022	hard	TT	ROW1302	flagstone flail
+10140	2022	hard	PA	ROW1303	flagstone flip-flops
+10141	2022	hard	SA	ROW1304	flagstone fez
+10142	2022	hard	DB	ROW1305	flagstone fleece
+10143	2022	hard	AT	ROW1306	flagstone fringe
+11028	2023	norm	SC	UNKNOWN	chiffon chevrons
+11029	2023	norm	TT	UNKNOWN	chiffon chapeau
+11030	2023	norm	PA	UNKNOWN	chiffon chamberpot
+11031	2023	norm	SA	UNKNOWN	chiffon chemise
+11032	2023	norm	DB	UNKNOWN	chiffon chakram
+11033	2023	norm	AT	UNKNOWN	chiffon chaps
+11020	2023	hard	SC	UNKNOWN	ceramic cestus
+11021	2023	hard	TT	UNKNOWN	ceramic centurion shield
+11022	2023	hard	PA	UNKNOWN	ceramic celery grater
+11023	2023	hard	SA	UNKNOWN	ceramic celsiturometer
+11024	2023	hard	DB	UNKNOWN	ceramic cerecloth belt
+11025	2023	hard	AT	UNKNOWN	ceramic cenobite's robe
