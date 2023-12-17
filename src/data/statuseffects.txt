@@ -2859,7 +2859,7 @@
 2856	Martially-Minded	sword.gif	13078bcdf837700bc047bbc706e97bbb	neutral	none
 2857	Animal Lover	happy.gif	e6711e9b198ebf036a0ff668a5f370b0	neutral	none
 2858	Cracked Open a Warm One	gwoolbeer.gif	a1704d5a88cbcc92db8c129396b4d984	neutral	none	drink 1 nice warm beer
-2859
+2859	Elf Watch	eyes.gif	b17a1e7aecddb2fc6852a1b117f278b0	neutral	none	use 1 Elf Guard eyedrops
 2860	Whalethoughts	realbrain.gif	1b7a1beabd7276bf26a976bb56c3fd96	neutral	none	use 1 whale cerebrospinal fluid
 2861	Jamaican' Me Acquisitive	coffeecup.gif	5a4ef3e149e9a128ee2d3a8d7c248b71	neutral	none	drink 1 Jamaican coffee
 2862	Sugarplum Visions	sugarplum.gif	b2b21db45bc8812d9398c416cad15e75	neutral	none	eat 1 sugarplum ration

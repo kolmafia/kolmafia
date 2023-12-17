@@ -257,7 +257,7 @@
 228	Just the Facts	factbook.gif	0	0	0
 229	Elf Guard Cooking	fruitcake.gif	0	0	0
 230	Old-School Cocktailcrafting	martini.gif	0	0	0
-231
+231	Elf Guard Extortion Techniques	dollarsign.gif	0	0	0
 232	Fruit Recognition	cherry.gif	0	0	0
 233	Elf Guard Relaxation Techniques	sleepy.gif	0	0	0
 
