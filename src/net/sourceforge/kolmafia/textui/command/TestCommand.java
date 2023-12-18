@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -45,8 +46,10 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
@@ -1203,6 +1206,25 @@ public class TestCommand extends AbstractCommand {
     if (command.equals("speakeasy")) {
       ClanLoungeRequest.parseSpeakeasy(TestCommand.contents, true);
       TestCommand.contents = null;
+      return;
+    }
+
+    if (command.equals("standard-rewards")) {
+      Matcher matcher = ArmoryAndLeggeryRequest.ITEM_PATTERN.matcher(TestCommand.contents);
+      TestCommand.contents = null;
+      int count = 0;
+      while (matcher.find()) {
+        ArmoryAndLeggeryRequest.CoinmasterItem reward =
+            ArmoryAndLeggeryRequest.parseCoinmasterItem(matcher);
+        if (reward == null) {
+          // Skip items purchased with Meat
+          continue;
+        }
+        String line = StandardRewardDatabase.coinmasterString(reward);
+        RequestLogger.updateSessionLog(line);
+        count++;
+      }
+      RequestLogger.printLine(String.valueOf(count) + " items printed to session log.");
       return;
     }
 

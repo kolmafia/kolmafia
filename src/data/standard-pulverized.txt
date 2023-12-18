@@ -1,0 +1,21 @@
+1
+# id	year	type	name
+
+7997	2015	norm	polyesterene powder
+7998	2015	hard	porcelain powder
+8098	2016	norm	wickerbits
+8105	2016	hard	bakelite bits
+8112	2017	norm	aerosolized aerogel
+8119	2017	hard	wrought-iron flakes
+8126	2018	norm	gabardine smithereens
+8133	2018	hard	fiberglass fibers
+10088	2019	norm	chalk chunks
+10096	2019	hard	marble molecules
+10104	2020	norm	paraffin pieces
+10112	2020	hard	terra cotta tidbits
+10120	2021	norm	velour veneer
+10128	2021	hard	stained glass shards
+10136	2022	norm	loofah lumps
+10144	2022	hard	flagstone flagments
+11034	2023	norm	chiffon carbage
+11026	2023	hard	ceramic scree
