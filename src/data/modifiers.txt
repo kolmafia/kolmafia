@@ -5192,6 +5192,7 @@ Effect	All Fired Up	Initiative: +30
 Effect	All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2, Stench Damage: +2, Sleaze Damage: +2
 Effect	All I Want For Crimbo Is Stuff	Item Drop: +30
 Effect	All Is Forgiven	Familiar Weight: +10
+Effect	All Liquored Up For War	Elf Warfare Effectiveness: +10
 Effect	All Rainbow-y	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2, Hot Damage: +10, Cold Damage: +10, Spooky Damage: +10, Stench Damage: +10, Sleaze Damage: +10, Hot Spell Damage: +10, Cold Spell Damage: +10, Spooky Spell Damage: +10, Stench Spell Damage: +10, Sleaze Spell Damage: +10
 Effect	All Revved Up	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
@@ -6750,6 +6751,7 @@ Effect	Mucilaginous Muscle	Muscle Percent: +200
 Effect	Muddled	Muscle Percent: +200, Monster Level: +15
 Effect	Muddy Buddy	Avatar: "mud turtle"
 Effect	Muffled	Combat Rate: -15
+Effect	Mullin' for Bullion	Piece of Twelve Drop: 0.5
 Effect	Multi-Level Mindset	Muscle Percent: +10
 Effect	Muscle Unbound	Experience Percent (Muscle): +5
 Effect	Muscular Intentions	Experience (Muscle): +3
@@ -7555,6 +7557,7 @@ Effect	Superveiny 9000	Maximum HP: +300
 Effect	Surrealist's Moustache	Mysticality: +25, Food Drop: +50
 Effect	Surreally Buff	Muscle Percent: +20
 Effect	Suspicious Gaze	Initiative: +20
+Effect	Swedish Courage	Monster Level: -50
 Effect	Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
 Effect	Sweet and Red	Spell Damage: +10, Spell Damage Percent: +10
 Effect	Sweet and Yellow	Ranged Damage: +30, Initiative: +10
@@ -9260,6 +9263,7 @@ Item	buzzing mushroom wine	Effect: "Stemonitis Storm", Effect Duration: 80
 Item	Caipiranha	Effect: "Fishy", Effect Duration: 5
 Item	Candicaine	Effect: "Holiday Bliss", Effect Duration: 15
 Item	Candy Alexander	Effect: "Holiday Bliss", Effect Duration: 10
+Item	canteen of eggnog	Effect: "All Liquored Up For War", Effect Duration: 100
 Item	canteen of wine	Effect: "In Vino Vires", Effect Duration: 20
 Item	carrot claret	Effect: "Pla-see-bo", Effect Duration: 10
 Item	Cement Mixer	Effect: "Mortarfied", Effect Duration: 5
@@ -9411,6 +9415,7 @@ Item	morning dew	Effect: "Granolarrrgh", Effect Duration: 40
 Item	Morto Moreto	Effect: "Majorly Poisoned", Effect Duration: 100
 Item	mulled berry wine	Effect: "Sweet Nostalgia", Effect Duration: 30
 Item	mulled hobo wine	Effect: "Burnt 'n' Turnt", Effect Duration: 20
+Item	mulled wine	Effect: "Mullin' for Bullion", Effect Duration: 50
 Item	Murderer's Punch	Effect: "Punchy, Murdery", Effect Duration: 40
 Item	Muschat	Effect: "L'instinct F&eacute;lin", Effect Duration: 20
 Item	Mysterious Island iced tea	Effect: "Orcmouth", Effect Duration: 40
@@ -9488,6 +9493,7 @@ Item	Strikes Again Bigmouth	Effect: "Smithsness Cheer", Effect Duration: 50
 Item	Strong, Silent Type	Effect: "Speakin' Even Easier", Effect Duration: 30
 Item	Suffering Sinner	Effect: "Heart Aflame", Effect Duration: 5
 Item	Suppurating Sinner	Effect: "Heart Aflame", Effect Duration: 10
+Item	Swedish coffee	Effect: "Swedish Courage", Effect Duration: 50
 Item	swirling mushroom wine	Effect: "Tremella Tremens", Effect Duration: 80
 Item	Taco Dan's Taco Stand Chimichangarita	Effect: "Margaritish", Effect Duration: 10
 Item	Temps Tempranillo	Effect Duration: 5
@@ -10944,9 +10950,9 @@ Item	zombie hollandaise	Effect: "Chef Brains-are-dee", Effect Duration: 30
 
 # Everything Else section of modifiers.txt
 
-# 4-d camera: Makes a copy of a monster to fight later
 # 4:20 bomb: Deals 400-500 Physical Damage
 # 4:20 bomb: (super effective against hippies)
+# 4-d camera: Makes a copy of a monster to fight later
 # 8-ball: Weakens enemies very slightly
 # 11-leaf clover: Gives you good luck
 # 334 scroll: Mostly Just Confuses Enemies
@@ -11130,9 +11136,9 @@ Item	Boxing Day care package	Free Pull
 # brass abacus: Stuns your opponent for a few rounds
 Item	brass Dreadsylvanian flask	Effect: "Brass Loins", Effect Duration: 100
 # brass gear: Deals 20-30 Physical Damage and causes bleeding
+Item	brick	Free Pull
 # brick of sand: Deals 60-80 Physical Damage
 # brick of sand: Weakens Enemies a Lot
-Item	brick	Free Pull
 Item	BRICKO octopus	Wiki Name: "BRICKO octopus (item)"
 # BRICKO reactor: Deals 200-1000 Physical Damage
 # BRICKO reactor: (more effective against BRICKO monsters)
@@ -11140,8 +11146,8 @@ Item	BRICKO octopus	Wiki Name: "BRICKO octopus (item)"
 # broken BRICKO brick: (deals more damage if you use additional ones)
 # broken glass grenade: Deals 100-200 Physical Damage
 # broken glass grenade: Weakens enemies a lot
-# bronze handcuffs: Handcuff yourself to your opponent
 # bronze: Give a Pokefamiliar Armor
+# bronze handcuffs: Handcuff yourself to your opponent
 # bronzed locust: Weakens enemies a lot
 # bubblegum heart: Restores 80-100 Hit Points
 # buckyball: Lets you escape from combat
@@ -11235,9 +11241,9 @@ Item	Comma Chameleon egg	Free Pull
 # complex alien plant sample: Worth 10 pages of Spacegate Research
 # complex alien zoological sample: Worth 10 pages of Spacegate Research
 # complimentary Dinsey refreshments: Ya eat 'em.  Well, tourists do.
-# Comprehensive Cartographic Compendium (well-read): Imparts deep cartographic knowledge
 # Comprehensive Cartographic Compendium: Imparts deep cartographic knowledge
 Item	Comprehensive Cartographic Compendium	Free Pull
+# Comprehensive Cartographic Compendium (well-read): Imparts deep cartographic knowledge
 # confidence-building hug: Increases the damage of your bat-punches and bat-kicks
 # continental juice bar: Produces 3 random potions each day
 Item	control crystal	Free Pull
@@ -11314,10 +11320,10 @@ Item	custom avatar form	Free Pull
 # d10: Weakens enemies somewhat
 # d12: Deals a bunch of damage of a random element
 Item	d12	Effect: "Bastard!", Effect Duration: 10
+# d20: Deals 1-20 <font color=red>Hot Damage</font> times your Level
 # d20	Effect: "20/20 Vision", Effect Duration: 20d20
 # d20	Effect: "Natural 1", Effect Duration: 1
 # d20	Effect: "Natural 20", Effect Duration: 1
-# d20: Deals 1-20 <font color=red>Hot Damage</font> times your Level
 # daily dungeon malware: Hacks a Daily Dungeon Monster
 Item	dandy lion cub	Free Pull
 # dangerous chemicals: Take it to ChemiCorp's downtown office
@@ -11417,6 +11423,7 @@ Item	Elf Guard Field Manual: Wilderness Sleeping (used)	Skill: "Elf Guard Relaxa
 # Elf Guard honor present: Contains a random rare Elf Guard item
 # Elf Guard payroll bag: Contains a bunch of Elf Guard MPCs
 # Elf Guard strategic map: Globally increase Piece of 12 drops from Crimbuccaneer enemies for an hour
+# Elf Guard tinsel grenade: Blow up a bunch of Crimbuccaneers
 Item	elf sleeper agent	Free Pull
 Item	Ellsbury's journal	Skill: "Unaccompanied Miner"
 Item	Ellsbury's journal (used)	Skill: "Unaccompanied Miner"
@@ -11685,9 +11692,9 @@ Item	Jackass Plumber home game	Effect: "Gamer Rage", Effect Duration: 10
 # Jamocha berry: Grants passive physical damage and energizes you for a while
 Item	Jamocha berry	Effect: "Berry Thorny", Effect Duration: 20
 # janitor sponge: Deals 20-30 <font color=green>Stench Damage</font> and briefly stuns your opponent
+# January's Garbage Tote: Allows you to rummage up Holiday Detritus
 # January's Garbage Tote (unopened): Allows you to rummage up Holiday Detritus
 Item	January's Garbage Tote (unopened)	Free Pull
-# January's Garbage Tote: Allows you to rummage up Holiday Detritus
 # jar full of wind: Weakens enemies somewhat and briefly stuns them
 # jar of swamp gas: Deals 20-30 <font color=green>Stench Damage</font>
 # jar of swamp gas: Stuns enemies for a few rounds
@@ -12012,8 +12019,8 @@ Item	plump purple mushroom	Lasts Until Rollover
 # plus-sized phylactery: Contains the soul of a specific lihc
 Item	Pocket Guide to Mild Evil	Skill: "Perpetrate Mild Evil"
 Item	Pocket Guide to Mild Evil (used)	Skill: "Perpetrate Mild Evil"
-# Pocket Meteor Guide (well-thumbed): Teaches you everything about meteors
 # Pocket Meteor Guide: Teaches you everything about meteors
+# Pocket Meteor Guide (well-thumbed): Teaches you everything about meteors
 # pog #01 (spider): Does all sorts of crazy things
 # pog #02 (Knob goblin): Does all sorts of crazy things
 # pog #03 (warwelf): Does all sorts of crazy things
@@ -12136,6 +12143,7 @@ Item	residual chitin paste	Skill: "Chitinous Soul"
 Item	Rethinking Candy	Skill: "Sweet Synthesis"
 Item	Retrospecs try-at-home kit	Free Pull
 # riboflavin: Increase a Pokefamiliar's maximum HP by 1
+Item	rigging knot	Familiar Weight: +5
 # Riker's Search History: Deals 900-1000 Sleaze Damage
 # robotronic egg: Crazy robotronic action!
 # rock band flyers: Advertise!
@@ -12251,8 +12259,8 @@ Item	Snarf berry	Effect: "Berry Statistical", Effect Duration: 20
 # soggy used band-aid: Heals all of your Hit Points and stuns your opponent for a few rounds
 # solid gold jewel: Can be sold for 100,000 Meat
 # sonar-in-a-biscuit: Freaks Bats Out
-Item	SongBoom&trade; BoomBox Box	Free Pull
 # SongBoom&trade; BoomBox: Plays a Soundtrack for your Life<br />Lets you <i>Sing Along</i> during Fights
+Item	SongBoom&trade; BoomBox Box	Free Pull
 Item	Sorcerers of the Shore Grimoire	Free Pull, Skill: "Summon Alice's Army Cards"
 # soup turtle: Deals 5-10 <font color=red>Hot Damage</font>
 Item	Source terminal	Free Pull
@@ -12574,8 +12582,8 @@ Item	yellow puck	Free Pull
 Item	yellow puck with a bow on it	Free Pull
 # yellow submarine: Allows Travel to The Mysterious Island of Mystery
 # yellowcake bomb: Vaporizes an enemy and causes all of its items to drop
-# yo-yo: Deals 30-40 Physical Damage
 # yo: Deals 15-20 Physical Damage
+# yo-yo: Deals 30-40 Physical Damage
 # your own black heart: Restores all HP and MP
 Item	yuletide troll chrysalis	Free Pull
 # Zombo's empty eye: Deals 150-200 <font color=gray>Spooky Damage</font>

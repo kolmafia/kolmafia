@@ -72,6 +72,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel crimbo20boozePanel = null;
   private CoinmasterPanel crimbo20candyPanel = null;
   private CoinmasterPanel crimbo20foodPanel = null;
+  private CoinmasterPanel crimbo23ElfBarPanel = null;
   private CoinmasterPanel crimbo23ElfCafePanel = null;
   private CoinmasterPanel crimbo23PirateBarPanel = null;
   private CoinmasterPanel crimbo23PirateFactoryPanel = null;
@@ -497,6 +498,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     warbearBoxPanel = new WarbearBoxPanel();
     panel.add(warbearBoxPanel);
     this.selectorPanel.addPanel(warbearBoxPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfBarPanel = new Crimbo23ElfBarPanel();
+    panel.add(crimbo23ElfBarPanel);
+    this.selectorPanel.addPanel(crimbo23ElfBarPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
     crimbo23ElfCafePanel = new Crimbo23ElfCafePanel();
@@ -1471,6 +1477,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class MrStore2002Panel extends CoinmasterPanel {
     public MrStore2002Panel() {
       super(MrStore2002Request.MR_STORE_2002);
+    }
+  }
+
+  private class Crimbo23ElfBarPanel extends CoinmasterPanel {
+    public Crimbo23ElfBarPanel() {
+      super(Crimbo23ElfBarRequest.DATA);
     }
   }
 

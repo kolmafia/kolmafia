@@ -11423,12 +11423,12 @@
 11395	peppermint donut	892693823	powderdonut.gif	food	t,d	35
 11396	Elf Guard insignia (private)	983611383	eginsignia1.gif	accessory	t,d	50	Elf Guard insignias (private)
 11397	Crimbuccaneer fledges (mint)	432740379	crimbucfledge.gif	accessory	t,d	50	sets of Crimbuccaneer fledges (mint)
-11398
-11399
-11400
-11401
+11398	military-grade peppermint oil	637054218	egoil.gif	none, cook, mix	t	0	cans of military-grade peppermint oil
+11399	Crimbuccaneer whale oil	511768498	crimbucoil.gif	none, cook, mix	t	0	mini-barrels of Crimbuccaneer whale oil
+11400	Elf Guard tinsel grenade	785482606	eggrenade.gif	none, combat	t	0
+11401	Crimbuccaneer mologrog cocktail	339591408	hurricand_f.gif	drink, combat	t	0
 11402	Elf Army machine parts	178038499	egparts.gif	none	t	0	piles of Elf Army machine parts
-11403
+11403	Crimbuccaneer rigging lasso	722561390	lasso.gif	none, combat	t	0
 11404	Crimbuccaneer lantern	413623993	lantern2.gif	offhand	t	0
 11405	Crimbuccaneer flotsam	269803558	crimbucparts.gif	none	t	0	piles of Crimbuccaneer flotsam
 11406	Crimbuccaneer invasion map	677028160	crimbucmap.gif	usable	t	0
@@ -11441,7 +11441,7 @@
 11413	Elf Guard honor present	299773650	egpresent.gif	usable	t	0
 11414	Elf Guard officer's sidearm	439538646	autopistol.gif	weapon	t	0
 11415	Elf Guard insignia (general)	927387656	eginsignia2.gif	accessory	t	0
-11416
+11416	Crimbow Rainbo	502100880	c23cocktail.gif	drink		0
 11417	Elf Guard strategic map	650846868	egmap.gif	usable	t	0
 11418	Crimbuccaneer captain's purse	708487222	coinpurse.gif	usable	t	0
 11419	Elf Guard broom	761011803	egbroom.gif	weapon	t	0
@@ -11490,21 +11490,21 @@
 11462
 11463
 11464
-11465
-11466
-11467
+11465	mulled wine	906612746	mulledwine.gif	drink	t	0	glasses of mulled wine
+11466	Swedish coffee	157954343	coffeecup.gif	drink	t	0	mugs of Swedish coffee
+11467	canteen of eggnog	169086098	canteen.gif	drink	t	0	canteens of eggnog
 11468	hot wine	319954775	icewine.gif	drink	t	0	glasses of hot wine
 11469	Jamaican coffee	804218824	coffeecup.gif	drink	t	0	mugs of Jamaican coffee
 11470	flask of egggrog	536421114	flask.gif	drink	t	0	flasks of egggrog
 11471
 11472
 11473
-11474
-11475
+11474	yule grog	857711662	tankard.gif	drink, mix	t	0	tankards of yule grog
+11475	wet tack	458308953	wettack.gif	food	t	0	pieces of wet tack
 11476	whalecake	119486089	whalecake.gif	food	t,d	0
 11477	gunwale whalegun	602303862	whalegungun.gif	weapon		0
-11478
-11479
+11478	red white and blue claret	227207466	egclaret2.gif	drink, mix	t	0	glasses of red white and blue claret
+11479	rigging knot	788405217	knot.gif	familiar	t,d	75
 11480
 11481
 11482

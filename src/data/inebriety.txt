@@ -143,6 +143,7 @@ can of the cheapest beer	1	1	decent	2	3	2	2	KOLHS, BEER, CANNED
 Candicaine	2	8	awesome	8-9	0	0	30-40	15 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
 Candy Alexander	2	4	awesome	6-7	0	0	20-30	10 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
 candycaine	4	1	decent	7-10	0	0	0	10 Sugar Rush
+canteen of eggnog	5	1	awesome	0	0	0	0	Unspaded
 canteen of wine	3	5	good	7-10	22-40	22-40	22-40	20 In Vino Vires (+50% all), WINE
 carrot claret	3	3	decent	7-8	3-4	3-4	3-4	10 Pla-see-bo (+10 Item Drop), WINE
 Cement Mixer	2	1	good	4-5	10-20	0	0	5 Mortarfied (+100 DA)
@@ -183,6 +184,8 @@ Crimbo Saketini	3	1	decent	3-6	0	0	0
 Crimbojito	2	2	EPIC	10-13	10-20	25-50	10-20
 Crimboku Drop	4	1	decent	6-10	0	0	0
 Crimbosmopolitan	3	11	EPIC	0	0	0	0	Unspaded
+Crimbow Rainbo	4	1	EPIC	44	0	0	0
+Crimbuccaneer mologrog cocktail	2	1	EPIC	0	0	0	0	Unspaded
 cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg), WINE
 crystal skeleton vodka	3	3	EPIC	15-17	15-35	15-35	15-35	20 Aykrophobia (+25% Item Drop, +20 spooky dmg, +15 ML)
 CSA cheerfulness ration	1	6	awesome	4	40-50	40-50	40-50	BEER, CANNED
@@ -473,6 +476,7 @@ mulled berry wine	5	7	awesome	18-22	0	30-50	0	30 Sweet Nostalgia (+20 Candy Drop
 mulled blood	1	1	EPIC	14	10-15	10-15	10-15	Vampyre
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 mulled hobo wine	1	1	awesome	4-5	5-15	5-15	5-15	20 Burnt 'n' Turnt (Unimplemented)
+mulled wine	4	1	awesome	0	0	0	0	Unspaded
 Murderer's Punch	3	6	good	8-10	10-20	0	0	40 Punchy, Murdery (+50% Weapon Damage)
 Muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sleeper), WINE
 mushroom whiskey	1	1	awesome	3-5	5-20	5-20	5-20	
@@ -562,6 +566,7 @@ Red Dwarf	2	1	good	4-5	0	10-20	0	5 World's Shortest Giant (+2 Prismatic Res)
 red red wine	2	4	decent	3-5	0	0	10-20	10-20 HP, WINE
 red rum	3	3	decent	4	0	0	0	20-30 HP
 Red Russian	1	1	EPIC	17	15-20	15-20	15-20	Vampyre
+red white and blue claret	3	1	EPIC	0	0	0	0	Unspaded
 red-headed corpse	3	1	good	6-10	0	31-35	0
 red-hot boilermaker	4	9	good	11-13	25-30	10-14	10-14	50 Boilermade (+5 Cold/Spooky Res)
 redrum	3	1	decent	5-6	0	15-30	0
@@ -673,6 +678,7 @@ Suffering Sinner	2	1	good	4-5	10-20	0	0	5 Heart Aflame (+50 Hot Dam)
 super-size brogurt	3	8	awesome	12-13	50-100	0	50-100
 Supernova Champagne	3	8	good	7-11	8-12	8-12	8-12	15-20 MP, WINE
 Suppurating Sinner	2	4	awesome	6-7	20-30	0	0	10 Heart Aflame (+50 Hot Dam)
+Swedish coffee	3	1	EPIC	18	0	0	0
 swirling mushroom wine	4	3	EPIC	22-26	0	0	50-100	80 Tremella Tremens (+40 Item Drop), WINE
 Taco Dan's Taco Stand Chimichangarita	1	4	good	2-3	0	0	15-30	5 Margaritish (+moxie)
 tangarita	4	6	awesome	14-18	0	16-20	25-27
@@ -750,6 +756,7 @@ Xiblaxian space-whiskey	4	7	EPIC	19-22	50	50	50
 Ye Olde Meade	5	7	good	14-16	20-30	20-30	20-30	WINE
 yellow brick road	4	6	awesome	14-18	0	40-47	0
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Fullness 80 Gummskin (+100 Mox)
+yule grog	3	1	EPIC	0	0	0	0	Unspaded
 zmobie	3	3	good	5-10	0	16-20	0
 zombie	2	1	EPIC	10-12	0	10-20	0
 Zoodriver	2	1	good	4-5	10-20	0	0	5 Rampage! (+50% Weapon Dam)
