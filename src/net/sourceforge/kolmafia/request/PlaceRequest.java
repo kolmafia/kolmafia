@@ -172,6 +172,13 @@ public class PlaceRequest extends GenericRequest {
           Preferences.setBoolean("superconductorDefeated", true);
         }
       }
+      case "crimbo23" -> {
+        Preferences.setBoolean("crimbo23ArmoryAtWar", responseText.contains("armory_war.gif"));
+        Preferences.setBoolean("crimbo23BarAtWar", responseText.contains("bar_war.gif"));
+        Preferences.setBoolean("crimbo23CafeAtWar", responseText.contains("cafe_war.gif"));
+        Preferences.setBoolean("crimbo23CottageAtWar", responseText.contains("abuela_war.gif"));
+        Preferences.setBoolean("crimbo23FoundryAtWar", responseText.contains("factory_war.gif"));
+      }
       case "desertbeach" -> {
         if ("db_nukehouse".equals(action)) {
           if (responseText.contains("anticheese")) {
