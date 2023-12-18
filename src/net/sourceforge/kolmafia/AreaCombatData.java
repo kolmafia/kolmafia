@@ -1875,6 +1875,7 @@ public class AreaCombatData {
             : -4;
       }
       case "Abuela's Cottage (Contested)",
+          "The Embattled Factory",
           "The Bar At War",
           "A Cafe Divided",
           "The Armory Up In Arms" -> {

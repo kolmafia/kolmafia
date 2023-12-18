@@ -439,6 +439,7 @@ Tammy's Offshore Platform	adventure=537	DiffLevel: unknown Env: underwater Stat:
 Tammy's Offshore Platform	adventure=538	DiffLevel: unknown Env: underwater Stat: 0	The Impenetrable Kelp-Holly Forest
 
 Crimbo23	adventure=575	DiffLevel: mid Env: indoor Stat: 0	Abuela's Cottage (Contested)
+Crimbo23	adventure=576	DiffLevel: mid Env: indoor Stat: 0	The Embattled Factory
 Crimbo23	adventure=577	DiffLevel: mid Env: indoor Stat: 0	The Bar At War
 Crimbo23	adventure=578	DiffLevel: mid Env: indoor Stat: 0	A Cafe Divided
 Crimbo23	adventure=579	DiffLevel: mid Env: indoor Stat: 0	The Armory Up In Arms
