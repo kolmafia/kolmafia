@@ -846,6 +846,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       Crimbo20FoodRequest.parseResponse(urlString, responseText);
     }
 
+    if (shopId.equals("crimbo23_elf_bar")) {
+      Crimbo23ElfBarRequest.parseResponse(urlString, responseText);
+    }
+
     if (shopId.equals("crimbo23_elf_cafe")) {
       Crimbo23ElfCafeRequest.parseResponse(urlString, responseText);
     }
