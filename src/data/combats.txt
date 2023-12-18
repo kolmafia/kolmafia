@@ -329,6 +329,7 @@ The Druidic Campsite	100	druid plants
 The Dungeons of Doom	70	swarm of killer bees	acid blob	mind flayer	large kobold	Quantum Mechanic	mimic: 0	The Master Of Thieves: -1
 The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet cast member	Susie Soyburger	Susie Soyburger cast member	Timmy Tofurkey	Timmy Tofurkey cast member
+The Embattled Factory	100	Crimbuccaneer military school dropout	Crimbuccaneer new recruit	Crimbuccaneer privateer	Elf Guard conscript	Elf Guard convict	Elf Guard private	Crimbuccaneer bombjack	Crimbuccaneer lamplighter	Crimbuccaneer rigging rigger	Elf Guard engineer	Elf Guard fuel courier	Elf Guard ordnance packer
 The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	uppercase Q
 The Evil Cathedral	100	plywood cultists
 The Fungus Plains	100	Blooper	Bullet Bill	Buzzy Beetle: 1e	Goomba: 1o	Koopa Troopa

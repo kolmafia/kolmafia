@@ -1182,3 +1182,12 @@ Elf Guard Mess Hall	buy	20	gingerbread nylons	ROW1400
 Elf Guard Mess Hall	buy	10	rum-soaked fruitcake	ROW1401
 
 Elf Guard Armory	buy	200	Elf Guard honor present	ROW1411
+Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1412
+Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1413
+Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1414
+Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1415
+Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1416
+
+Elf Guard Officers' Club	buy	5	mulled wine	ROW1405
+Elf Guard Officers' Club	buy	20	Swedish coffee	ROW1406
+Elf Guard Officers' Club	buy	10	canteen of eggnog	ROW1407
