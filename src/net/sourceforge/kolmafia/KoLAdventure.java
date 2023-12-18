@@ -1891,6 +1891,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return true;
     }
 
+    if (this.zone.equals("Crimbo23")) {
+      return Preferences.getBoolean(
+          "crimbo23"
+              + switch (this.adventureNumber) {
+                case AdventurePool.CRIMBO23_ARMORY -> "Armory";
+                case AdventurePool.CRIMBO23_BAR -> "Bar";
+                case AdventurePool.CRIMBO23_CAFE -> "Cafe";
+                case AdventurePool.CRIMBO23_COTTAGE -> "Cottage";
+                case AdventurePool.CRIMBO23_FOUNDRY -> "Foundry";
+                default -> "Unknown";
+              }
+              + "AtWar");
+    }
+
     // The rest of this method validates item-generated zones.
     // We have already rejected items restricted by Standard.
 
@@ -4144,6 +4158,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         "You've already defeated the Trainbot boss.",
         "Nothing more to do here.",
         MafiaState.PENDING),
+    new AdventureFailure(
+        "Looks like peace has broken out in this area",
+        "The balance of power has shifted, you can no longer fight here",
+        MafiaState.PENDING)
   };
 
   private static final Pattern CRIMBO21_COLD_RES =
@@ -4152,7 +4170,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public static int findAdventureFailure(String responseText) {
     // KoL is known to sometimes simply return a blank page as a
     // failure to adventure.
-    if (responseText.length() == 0) {
+    if (responseText.isEmpty()) {
       return 0;
     }
 
@@ -4175,6 +4193,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         int required = Integer.parseInt(matcher.group(1));
         Preferences.setInteger("_crimbo21ColdResistance", required);
       }
+    } else if (responseText.contains("Looks like peace has broken out in this area.")) {
+      RequestThread.postRequest(new GenericRequest("place.php?whichplace=crimbo23"));
     }
 
     for (int i = 1; i < ADVENTURE_FAILURES.length; ++i) {

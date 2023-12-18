@@ -3701,10 +3701,16 @@ public class ItemPool {
   public static final int AUTUMNIC_BALM = 11361;
   public static final int COPING_JUICE = 11362;
   public static final int CANDY_CANE_SWORD = 11363;
+  public static final int ELF_GUARD_PATROL_CAP = 11365;
+  public static final int ELF_GUARD_HOTPANTS = 11366;
+  public static final int CRIMBUCCANEER_TRICORN = 11367;
+  public static final int CRIMBUCCANEER_BREECHES = 11368;
   public static final int WARDROBE_O_MATIC = 11390;
   public static final int FUTURISTIC_SHIRT = 11391;
   public static final int FUTURISTIC_HAT = 11392;
   public static final int FUTURISTIC_COLLAR = 11393;
+  public static final int ELF_GUARD_MPC = 11408;
+  public static final int CRIMBUCCANEER_PIECE_OF_12 = 11409;
 
   private ItemPool() {}
 
