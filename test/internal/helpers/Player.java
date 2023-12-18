@@ -2400,4 +2400,19 @@ public class Player {
           GenericRequest.topMenuStyle = oldStyle;
         });
   }
+
+  /**
+   * Sets the user id
+   *
+   * @param id The user id
+   * @return Returns value to previous value
+   */
+  public static Cleanups withUserId(final int id) {
+    var oldId = KoLCharacter.getUserId();
+    KoLCharacter.setUserId(id);
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setUserId(oldId);
+        });
+  }
 }
