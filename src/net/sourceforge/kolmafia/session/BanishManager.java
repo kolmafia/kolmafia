@@ -75,6 +75,8 @@ public class BanishManager {
     CHATTERBOXING("chatterboxing", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
     CLASSY_MONKEY("classy monkey", 20, 1, false, Reset.TURN_RESET),
     COCKTAIL_NAPKIN("cocktail napkin", 20, 1, true, Reset.TURN_RESET),
+    CRIMBUCCANEER_RIGGING_LASSO(
+        "Crimbuccaneer rigging lasso", 100, 1, false, Reset.TURN_ROLLOVER_RESET),
     CRYSTAL_SKULL("crystal skull", 20, 1, false, Reset.TURN_RESET),
     CURSE_OF_VACATION("curse of vacation", -1, 1, false, Reset.ROLLOVER_RESET),
     DEATHCHUCKS("deathchucks", -1, 1, true, Reset.ROLLOVER_RESET),
@@ -96,6 +98,7 @@ public class BanishManager {
     NANORHINO("nanorhino", -1, 1, false, Reset.ROLLOVER_RESET),
     PANTSGIVING("pantsgiving", 30, 1, false, Reset.TURN_ROLLOVER_RESET),
     PEEL_OUT("peel out", -1, 1, true, Reset.AVATAR_RESET),
+    PEPPERMINT_BOMB("peppermint bomb", 100, 1, false, Reset.TURN_ROLLOVER_RESET),
     PULLED_INDIGO_TAFFY("pulled indigo taffy", 40, 1, true, Reset.TURN_RESET),
     PUNT("Punt", -1, 1, false, Reset.ROLLOVER_RESET),
     REFLEX_HAMMER("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),

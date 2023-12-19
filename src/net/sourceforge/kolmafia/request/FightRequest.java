@@ -10712,6 +10712,18 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("hiddenBowlingAlleyProgress", 1);
         }
         break;
+
+      case ItemPool.PEPPERMINT_BOMB:
+        if (responseText.contains("at least until they can wash their hands")) {
+          BanishManager.banishCurrentMonster(Banisher.PEPPERMINT_BOMB);
+        }
+        break;
+
+      case ItemPool.CRIMBUCCANEER_RIGGING_LASSO:
+        if (responseText.contains("then toss it roguishly")) {
+          BanishManager.banishCurrentMonster(Banisher.CRIMBUCCANEER_RIGGING_LASSO);
+        }
+        break;
     }
 
     if (itemId != itemId2) {
