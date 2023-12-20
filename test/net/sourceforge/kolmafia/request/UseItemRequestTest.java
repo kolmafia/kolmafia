@@ -429,6 +429,27 @@ class UseItemRequestTest {
       assertTrue(KoLCharacter.hasSkill(SkillPool.ANTIPHON));
     }
   }
+  
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+          "request/test_use_punching_mirror_success.html",
+          "request/test_use_punching_mirror_failure.html"
+      })
+  void setsPunchingMirrorPreference(String htmlSource) {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.PUNCHING_MIRROR),
+            withProperty("_punchingMirrorUsed", false),
+            withNextResponse(200, html(htmlSource)));
+
+    try (cleaups) {
+        var req = UseItemRequest.getInstance(ItemPool.PUNCHING_MIRROR);
+        req.run();
+
+        assertThat("_punchingMirrorUsed", isSetTo(true));
+    }
+  }
 
   @Test
   void detectsBastilleLoanerVoucherUse() {
@@ -1192,27 +1213,6 @@ class UseItemRequestTest {
         // Verify that the correct item increments the quest
         UseItemRequest.getInstance(ItemPool.UNREMARKABLE_DUFFEL_BAG).run();
         assertThat("_questPartyFairItemsOpened", isSetTo(1));
-      }
-    }
-    
-    @ParameterizedTest
-    @ValueSource (
-        strings = {
-            "request/test_use_punching_mirror_success.html",
-            "request/test_use_punching_mirror_failure.html"
-        })
-    void setsPunchingMirrorPreference(String htmlSource) {
-      var cleanups =
-          new Cleanups(
-              withItem(ItemPool.PUNCHING_MIRROR),
-              withProperty("_punchingMirrorUsed", false),
-              withNextResponse(200, html(htmlSource));
-      
-      try (cleaups) {
-          var req = UseItemRequest.getInstance(ItemPool.PUNCHING_MIRROR);
-          req.run();
-
-          assertThat("_punchingMirrorUsed", isSetTo(true));
       }
     }
   }
