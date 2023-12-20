@@ -3294,3 +3294,11 @@ day shortener	BURNING_LEAVES	inflammable leaf (222)
 coping juice	BURNING_LEAVES	inflammable leaf (1111)
 smoldering leafcutter ant egg	BURNING_LEAVES	inflammable leaf (6666)
 super-heated leaf	BURNING_LEAVES	inflammable leaf (11111)
+
+# Crimbo 2023
+gunwale whalegun	COMBINE	gunwale	whalegun
+wet tack	COOK	Crimbuccaneer whale oil	peppermint tack
+whalecake	COOK	military-grade peppermint oil	whalesteak
+yule grog	MIX	military-grade peppermint oil	old-school pirate grog
+red white and blue claret	MIX	Crimbuccaneer whale oil	red and white claret
+Crimbow Rainbo	MIX	yule grog	red white and blue claret

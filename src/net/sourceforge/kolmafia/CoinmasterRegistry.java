@@ -25,6 +25,10 @@ import net.sourceforge.kolmafia.request.Crimbo17Request;
 import net.sourceforge.kolmafia.request.Crimbo20BoozeRequest;
 import net.sourceforge.kolmafia.request.Crimbo20CandyRequest;
 import net.sourceforge.kolmafia.request.Crimbo20FoodRequest;
+import net.sourceforge.kolmafia.request.Crimbo23ElfBarRequest;
+import net.sourceforge.kolmafia.request.Crimbo23ElfCafeRequest;
+import net.sourceforge.kolmafia.request.Crimbo23PirateBarRequest;
+import net.sourceforge.kolmafia.request.Crimbo23PirateFactoryRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DinostaurRequest;
@@ -108,6 +112,10 @@ public abstract class CoinmasterRegistry {
         Crimbo20BoozeRequest.CRIMBO20BOOZE,
         Crimbo20CandyRequest.CRIMBO20CANDY,
         Crimbo20FoodRequest.CRIMBO20FOOD,
+        Crimbo23ElfBarRequest.DATA,
+        Crimbo23ElfCafeRequest.DATA,
+        Crimbo23PirateBarRequest.DATA,
+        Crimbo23PirateFactoryRequest.DATA,
         CrimboCartelRequest.CRIMBO_CARTEL,
         DimemasterRequest.HIPPY,
         DinostaurRequest.DINOSTAUR,

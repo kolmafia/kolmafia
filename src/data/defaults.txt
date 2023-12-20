@@ -411,6 +411,18 @@ user	camelSpit	0
 user	cameraMonster
 user	camerasUsed	0
 user	campAwayDecoration	0
+user	candyCaneSwordApartmentBuilding	false
+user	candyCaneSwordBlackForest	false
+user	candyCaneSwordBowlingAlley	false
+user	candyCaneSwordCopperheadClub	false
+user	candyCaneSwordDailyDungeon	false
+user	candyCaneSwordDefiledCranny	false
+user	candyCaneSwordFunHouse	false
+user	candyCaneSwordShore	false
+user	candyCaneSwordWarFratRoom	false
+user	candyCaneSwordWarFratZetas	false
+user	candyCaneSwordWarHippyBait	false
+user	candyCaneSwordWarHippyLine	false
 user	candyWitchTurnsUsed	0
 user	candyWitchCandyTotal	0
 user	canteenUnlocked	false
@@ -496,6 +508,11 @@ user	crimbo16NippleChakraCleanliness	0
 user	crimbo16NoseChakraCleanliness	0
 user	crimbo16ReindeerChakraCleanliness	0
 user	crimbo16SackChakraCleanliness	0
+user	crimbo23ArmoryAtWar	false
+user	crimbo23BarAtWar	false
+user	crimbo23CafeAtWar	false
+user	crimbo23CottageAtWar	false
+user	crimbo23FoundryAtWar	false
 user	crimboTrainingSkill	0
 user	crimboTreeDays	7
 user	crimbotChassis	
@@ -1762,11 +1779,22 @@ user	_campAwayCloudBuffs	0
 user	_campAwaySmileBuffSign
 user	_campAwaySmileBuffs	0
 user	_canSeekBirds	false
+user	_candyCaneSwordBackAlley	false
+user	_candyCaneSwordHauntedBedroom	false
+user	_candyCaneSwordHauntedLibrary	false
+user	_candyCaneSwordLyle	false
+user	_candyCaneSwordMadnessBakery	false
+user	_candyCaneSwordOvergrownLot	false
+user	_candyCaneSwordOvergrownShrine	false
+user	_candyCaneSwordPalindome	false
+user	_candyCaneSwordSouthOfTheBorder	false
+user	_candyCaneSwordSpookyForest	false
 user	_candySummons	0
 user	_captainHagnkUsed	0
 user	_carboLoaded	false
 user	_cargoPocketEmptied	false
 user	_carnieCandyDrops	0
+user	_carnivorousPottedPlantWins	0
 user	_carrotNoseDrops	0
 user	_catBurglarCharge	0
 user	_catBurglarHeistsComplete	0
@@ -1929,6 +1957,9 @@ user	_frMonstersKilled
 user	_frToday	false
 user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
+user	_futuristicCollarModifier
+user	_futuristicHatModifier
+user	_futuristicShirtModifier
 user	_gallapagosMonster
 user	_gapBuffs	0
 user	_garbageFireDrops	0

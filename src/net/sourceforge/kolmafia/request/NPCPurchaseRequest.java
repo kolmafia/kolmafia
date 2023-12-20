@@ -846,6 +846,22 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       Crimbo20FoodRequest.parseResponse(urlString, responseText);
     }
 
+    if (shopId.equals("crimbo23_elf_bar")) {
+      Crimbo23ElfBarRequest.parseResponse(urlString, responseText);
+    }
+
+    if (shopId.equals("crimbo23_elf_cafe")) {
+      Crimbo23ElfCafeRequest.parseResponse(urlString, responseText);
+    }
+
+    if (shopId.startsWith("crimbo23_pirate_bar")) {
+      Crimbo23PirateBarRequest.parseResponse(urlString, responseText);
+    }
+
+    if (shopId.startsWith("crimbo23_pirate_factory")) {
+      Crimbo23PirateFactoryRequest.parseResponse(urlString, responseText);
+    }
+
     if (shopId.equals("edunder_shopshop")) {
       EdShopRequest.parseResponse(urlString, responseText);
       return;

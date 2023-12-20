@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1872,6 +1873,31 @@ public class AreaCombatData {
             }
             ? weighting
             : -4;
+      }
+      case "Abuela's Cottage (Contested)",
+          "The Embattled Factory",
+          "The Bar At War",
+          "A Cafe Divided",
+          "The Armory Up In Arms" -> {
+        final AdventureResult hat = EquipmentManager.getEquipment(Slot.HAT);
+        final AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
+        final boolean elfOutfit =
+            hat.getItemId() == ItemPool.ELF_GUARD_PATROL_CAP
+                && pants.getItemId() == ItemPool.ELF_GUARD_HOTPANTS;
+        final boolean pirateOutfit =
+            hat.getItemId() == ItemPool.CRIMBUCCANEER_TRICORN
+                && pants.getItemId() == ItemPool.CRIMBUCCANEER_BREECHES;
+        final boolean elfMonster = monster.startsWith("Elf Guard");
+        final boolean pirateMonster = monster.startsWith("Crimbuccaneer");
+        return switch (monster) {
+          case "Crimbuccaneer military school dropout",
+              "Crimbuccaneer new recruit",
+              "Crimbuccaneer privateer",
+              "Elf Guard conscript",
+              "Elf Guard convict",
+              "Elf Guard private" -> !elfOutfit && !pirateOutfit ? 1 : 0;
+          default -> (elfOutfit && pirateMonster) || (pirateOutfit && elfMonster) ? 1 : 0;
+        };
       }
     }
     return weighting;

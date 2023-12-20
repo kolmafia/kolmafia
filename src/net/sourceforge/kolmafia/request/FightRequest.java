@@ -4926,6 +4926,13 @@ public class FightRequest extends GenericRequest {
         return 0;
       }
 
+      // after-crimbo23 points are not damage
+      // "Arr," says a nearby Crimbuccaneer. "10 points for ye, to be sure."
+
+      if (text.contains("Crimbuccaneer")) {
+        return 0;
+      }
+
       damage += StringUtilities.parseInt(m.group(2));
 
       // The last string contains all of the extra damage
@@ -6372,6 +6379,7 @@ public class FightRequest extends GenericRequest {
 
       // Your potted plant swallows your opponent{s} whole.
       if (status.carnivorous && str.contains("Your potted plant swallows")) {
+        Preferences.increment("_carnivorousPottedPlantWins", 1);
         FightRequest.logText(str, status);
       }
 
@@ -10393,6 +10401,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("really improve your sleep tonight")) {
           Phylum phylum = monster != null ? monster.getPhylum() : Phylum.NONE;
           Preferences.setString("_circadianRhythmsPhylum", phylum.toString());
+          Preferences.increment("_circadianRhythmsAdventures", 1, 11, false);
           skillSuccess = true;
         }
         break;
@@ -10708,6 +10717,18 @@ public class FightRequest extends GenericRequest {
         Preferences.setInteger("cosmicBowlingBallReturnCombats", 0);
         if (responseText.contains("you hurl it down the ancient lanes")) {
           Preferences.increment("hiddenBowlingAlleyProgress", 1);
+        }
+        break;
+
+      case ItemPool.PEPPERMINT_BOMB:
+        if (responseText.contains("at least until they can wash their hands")) {
+          BanishManager.banishCurrentMonster(Banisher.PEPPERMINT_BOMB);
+        }
+        break;
+
+      case ItemPool.CRIMBUCCANEER_RIGGING_LASSO:
+        if (responseText.contains("then toss it roguishly")) {
+          BanishManager.banishCurrentMonster(Banisher.CRIMBUCCANEER_RIGGING_LASSO);
         }
         break;
     }

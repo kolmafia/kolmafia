@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -70,6 +71,8 @@ public class SkillDatabase {
   private static final Map<Integer, SkillType> skillTypeById = new TreeMap<>();
   private static final Map<Integer, Integer> durationById = new HashMap<>();
   private static final Map<Integer, Integer> levelById = new HashMap<>();
+  private static final Map<Integer, Boolean> permableById = new HashMap<>();
+  private static final Map<Integer, Integer> maxLevelById = new HashMap<>();
   private static final Map<Category, List<String>> skillsByCategory = new EnumMap<>(Category.class);
   private static final Map<Integer, Category> skillCategoryById = new HashMap<>();
   // Per-user data. Needs to be reset when log in as a new user.
@@ -204,8 +207,8 @@ public class SkillDatabase {
         SkillType type = SkillType.byNumber(Integer.parseInt(data[3]));
         Long mp = Long.valueOf(data[4]);
         Integer duration = Integer.valueOf(data[5]);
-        Integer level = (data.length > 6) ? Integer.valueOf(data[6]) : null;
-        SkillDatabase.addSkill(skillId, name, image, type, mp, duration, level);
+        Map<String, String> attributes = attributesToMap(data.length > 6 ? data[6] : null);
+        SkillDatabase.addSkill(skillId, name, image, type, mp, duration, attributes);
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -213,6 +216,18 @@ public class SkillDatabase {
 
     SkillDatabase.canonicalNames = new String[SkillDatabase.skillIdSetByName.size()];
     SkillDatabase.skillIdSetByName.keySet().toArray(SkillDatabase.canonicalNames);
+  }
+
+  private static Map<String, String> attributesToMap(final String attributeString) {
+    if (attributeString == null) return Map.of();
+
+    return Arrays.stream(attributeString.split(","))
+        .map(
+            attr -> {
+              var parts = attr.split(":");
+              return Map.entry(parts[0].trim().toLowerCase(), parts[1].trim().toLowerCase());
+            })
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   public static void resetCasts() {
@@ -246,7 +261,7 @@ public class SkillDatabase {
       final SkillType skillType,
       final Long mpConsumption,
       final Integer duration,
-      final Integer level) {
+      final Map<String, String> attributes) {
     String canonicalName = StringUtilities.getCanonicalName(name);
     SkillDatabase.nameById.put(skillId, name);
     SkillDatabase.addIdToName(canonicalName, skillId);
@@ -258,8 +273,14 @@ public class SkillDatabase {
 
     SkillDatabase.mpConsumptionById.put(skillId, mpConsumption);
     SkillDatabase.durationById.put(skillId, duration);
-    if (level != null) {
-      SkillDatabase.levelById.put(skillId, level);
+
+    for (var attr : attributes.entrySet()) {
+      var value = attr.getValue();
+      switch (attr.getKey()) {
+        case "level" -> SkillDatabase.levelById.put(skillId, Integer.valueOf(value));
+        case "permable" -> SkillDatabase.permableById.put(skillId, Boolean.valueOf(value));
+        case "max level" -> SkillDatabase.maxLevelById.put(skillId, Integer.valueOf(value));
+      }
     }
 
     Category category = Category.bySkillId(skillId);
@@ -1182,127 +1203,13 @@ public class SkillDatabase {
     };
   }
 
+  public static int getMaxLevel(final int skillId) {
+    return SkillDatabase.maxLevelById.getOrDefault(skillId, 0);
+  }
+
   /** Utility method used to determine if the given skill can be made permanent */
-  public static final boolean isPermable(final int skillId) {
-    switch (skillId) {
-      case SkillPool.OLD_OLD_SMILE:
-      case SkillPool.SMILE_OF_MR_A:
-      case SkillPool.ARSE_SHOOT:
-      case SkillPool.CRYPTOBOTANIST:
-      case SkillPool.INSECTOLOGIST:
-      case SkillPool.PSYCHOGEOLOGIST:
-        // Item granted skills
-        return false;
-
-      case SkillPool.STEEL_LIVER:
-      case SkillPool.STEEL_STOMACH:
-      case SkillPool.STEEL_SPLEEN:
-        // Steel Organs
-        return false;
-
-      case SkillPool.LUST: // Lust
-      case SkillPool.GLUTTONY: // Gluttony
-      case SkillPool.GREED: // Greed
-      case SkillPool.SLOTH: // Sloth
-      case SkillPool.WRATH: // Wrath
-      case SkillPool.ENVY: // Envy
-      case SkillPool.PRIDE: // Pride
-        // Bad Moon skills
-        return false;
-
-      case SkillPool.DOG_TIRED:
-      case SkillPool.HOLLOW_LEG:
-        // VIP lounge skills
-        return false;
-
-      case SkillPool.GOTHY_HANDWAVE:
-      case SkillPool.BREAK_IT_ON_DOWN:
-      case SkillPool.POP_AND_LOCK:
-      case SkillPool.RUN_LIKE_THE_WIND:
-      case SkillPool.CARBOLOADING:
-        // Nemesis skills
-        return false;
-
-      case SkillPool.MIYAGI_MASSAGE:
-      case SkillPool.SALAMANDER_KATA:
-      case SkillPool.FLYING_FIRE_FIST:
-      case SkillPool.STINKPALM:
-      case SkillPool.SEVEN_FINGER_STRIKE:
-      case SkillPool.KNUCKLE_SANDWICH:
-      case SkillPool.CHILLED_MONKEY_BRAIN:
-      case SkillPool.DRUNKEN_BABY_STYLE:
-      case SkillPool.WORLDPUNCH:
-      case SkillPool.ZENDO_KOBUSHI_KANCHO:
-        // Way of the Surprising Fist skills
-        return false;
-
-      case SkillPool.OLFACTION:
-      case SkillPool.THICK_SKINNED:
-      case SkillPool.CHIP_ON_YOUR_SHOULDER:
-      case SkillPool.REQUEST_SANDWICH:
-      case SkillPool.PIRATE_BELLOW:
-      case SkillPool.INCREDIBLE_SELF_ESTEEM:
-      case SkillPool.GET_BIG:
-      case SkillPool.MATING_CALL:
-      case SkillPool.INSCRUTABLE_GAZE:
-      case SkillPool.LOVE_MIXOLOGY:
-      case SkillPool.ACQUIRE_RHINESTONES:
-      case SkillPool.POP_SONG:
-      case SkillPool.BUDGET_CONSCIOUS:
-      case SkillPool.DRINKING_TO_DRINK:
-      case SkillPool.CAROL_OF_THE_BULLS:
-      case SkillPool.CAROL_OF_THE_HELLS:
-      case SkillPool.CAROL_OF_THE_THRILLS:
-        // Auto-HP-Permed
-        return false;
-
-      case SkillPool.SPIRIT_CAYENNE:
-      case SkillPool.SPIRIT_PEPPERMINT:
-      case SkillPool.SPIRIT_GARLIC:
-      case SkillPool.SPIRIT_WORMWOOD:
-      case SkillPool.SPIRIT_BACON:
-      case SkillPool.SPIRIT_NOTHING:
-        // Derived skills
-        return false;
-
-      case SkillPool.GEMELLIS_MARCH_OF_TESTERY:
-        // Skills players can't get
-        return false;
-
-      case SkillPool.MILD_CURSE:
-        // Other skills from this class are not permable
-        return true;
-
-      case SkillPool.SHOOT:
-        // Avatar of West of Loathing skills
-        return false;
-    }
-
-    switch (skillId / 1000) {
-      case 7: // Skills granted by items
-      case 8: // Mystical Bookshelf Skills
-      case 11: // Avatar of Boris skills
-      case 12: // Zombie Slayer skills
-      case 14: // Avatar of Jarlsberg skills
-      case 15: // Avatar of Sneaky Pete skills
-      case 16: // Heavy Rains skills
-      case 17: // Ed skills
-      case 18: // Cow Puncher skills
-      case 19: // Bean Slinger skills
-      case 20: // Snake Oiler skills
-      case 21: // The Source skills
-      case 22: // Nuclear Autumn skills
-      case 23: // Gelatinous Noob skills
-      case 24: // Vampyre skills
-      case 25: // Plumber skills
-      case 27: // Grey Goo skills
-      case 28: // Pig Skinner skills
-      case 29: // Cheese Wizard skills
-      case 30: // Jazz Agent skills
-        return false;
-    }
-
-    return true;
+  public static boolean isPermable(final int skillId) {
+    return SkillDatabase.permableById.getOrDefault(skillId, skillId < 7000);
   }
 
   public static final boolean isBookshelfSkill(final int skillId) {
@@ -1612,7 +1519,7 @@ public class SkillDatabase {
       final SkillType type,
       final long mp,
       final int duration,
-      final int level) {
+      final Map<String, String> attrs) {
     StringBuilder buffer = new StringBuilder();
 
     buffer.append(skillId);
@@ -1626,10 +1533,10 @@ public class SkillDatabase {
     buffer.append(mp);
     buffer.append("\t");
     buffer.append(duration);
-    if (level != 0) {
-      buffer.append("\t");
-      buffer.append(level);
-    }
+    buffer.append(
+        attrs.entrySet().stream()
+            .map(e -> e.getKey() + ": " + e.getValue())
+            .collect(Collectors.joining(", ")));
     return buffer.toString();
   }
 
@@ -1667,9 +1574,8 @@ public class SkillDatabase {
                 : typeString.equals("Combat") ? SkillType.COMBAT : SkillType.UNKNOWN;
     long mp = DebugDatabase.parseSkillMPCost(text);
     int duration = DebugDatabase.parseSkillEffectDuration(text);
-    int level = 0;
 
-    SkillDatabase.addSkill(skillId, skillName, image, type, mp, duration, level);
+    SkillDatabase.addSkill(skillId, skillName, image, type, mp, duration, Map.of());
 
     String printMe;
 
@@ -1678,7 +1584,7 @@ public class SkillDatabase {
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
 
-    printMe = SkillDatabase.skillString(skillId, skillName, image, type, mp, duration, level);
+    printMe = SkillDatabase.skillString(skillId, skillName, image, type, mp, duration, Map.of());
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
 

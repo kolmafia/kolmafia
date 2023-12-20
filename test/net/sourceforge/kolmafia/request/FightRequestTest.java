@@ -1119,11 +1119,15 @@ public class FightRequestTest {
   @Test
   public void canDetectPottedPlantWins() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, "carnivorous potted plant"));
+    var cleanups =
+        new Cleanups(
+            withEquipped(Slot.OFFHAND, "carnivorous potted plant"),
+            withProperty("_carnivorousPottedPlantWins", 0));
     try (cleanups) {
       parseCombatData("request/test_fight_potted_plant.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("Your potted plant swallows your opponent{s} whole."));
+      assertEquals(1, Preferences.getInteger("_carnivorousPottedPlantWins"));
     }
   }
 
@@ -2532,6 +2536,16 @@ public class FightRequestTest {
       parseCombatData("request/test_fight_alley_catfish.html");
       assertThat(TurnCounter.isCounting("Rain Monster window begin"), is(inRaincore));
       assertThat(TurnCounter.isCounting("Rain Monster window end"), is(inRaincore));
+    }
+  }
+
+  @Test
+  public void crimbuccaneerScoreIsNotDamage() {
+    var cleanups = new Cleanups(withFight(0));
+    try (cleanups) {
+      assertEquals(0, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
+      parseCombatData("request/test_fight_crimbo23.html");
+      assertEquals(3, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
     }
   }
 }

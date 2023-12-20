@@ -6136,6 +6136,9 @@ public class UseItemRequest extends GenericRequest {
         // actually consumed
         Preferences.setBoolean("_tiedUpLeaviathanFought", true);
         return;
+      case ItemPool.WARDROBE_O_MATIC:
+        InventoryManager.checkFuturistic();
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

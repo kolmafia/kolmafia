@@ -72,6 +72,10 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel crimbo20boozePanel = null;
   private CoinmasterPanel crimbo20candyPanel = null;
   private CoinmasterPanel crimbo20foodPanel = null;
+  private CoinmasterPanel crimbo23ElfBarPanel = null;
+  private CoinmasterPanel crimbo23ElfCafePanel = null;
+  private CoinmasterPanel crimbo23PirateBarPanel = null;
+  private CoinmasterPanel crimbo23PirateFactoryPanel = null;
   private CoinmasterPanel crimboCartelPanel = null;
   private CoinmasterPanel dimemasterPanel = null;
   private CoinmasterPanel dinostaurPanel = null;
@@ -494,6 +498,26 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     warbearBoxPanel = new WarbearBoxPanel();
     panel.add(warbearBoxPanel);
     this.selectorPanel.addPanel(warbearBoxPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfBarPanel = new Crimbo23ElfBarPanel();
+    panel.add(crimbo23ElfBarPanel);
+    this.selectorPanel.addPanel(crimbo23ElfBarPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfCafePanel = new Crimbo23ElfCafePanel();
+    panel.add(crimbo23ElfCafePanel);
+    this.selectorPanel.addPanel(crimbo23ElfCafePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23PirateBarPanel = new Crimbo23PirateBarPanel();
+    panel.add(crimbo23PirateBarPanel);
+    this.selectorPanel.addPanel(crimbo23PirateBarPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23PirateFactoryPanel = new Crimbo23PirateFactoryPanel();
+    panel.add(crimbo23PirateFactoryPanel);
+    this.selectorPanel.addPanel(crimbo23PirateFactoryPanel.getPanelSelector(), panel);
 
     // Removed coinmasters
     this.selectorPanel.addSeparator();
@@ -1453,6 +1477,30 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class MrStore2002Panel extends CoinmasterPanel {
     public MrStore2002Panel() {
       super(MrStore2002Request.MR_STORE_2002);
+    }
+  }
+
+  private class Crimbo23ElfBarPanel extends CoinmasterPanel {
+    public Crimbo23ElfBarPanel() {
+      super(Crimbo23ElfBarRequest.DATA);
+    }
+  }
+
+  private class Crimbo23ElfCafePanel extends CoinmasterPanel {
+    public Crimbo23ElfCafePanel() {
+      super(Crimbo23ElfCafeRequest.DATA);
+    }
+  }
+
+  private class Crimbo23PirateBarPanel extends CoinmasterPanel {
+    public Crimbo23PirateBarPanel() {
+      super(Crimbo23PirateBarRequest.DATA);
+    }
+  }
+
+  private class Crimbo23PirateFactoryPanel extends CoinmasterPanel {
+    public Crimbo23PirateFactoryPanel() {
+      super(Crimbo23PirateFactoryRequest.DATA);
     }
   }
 

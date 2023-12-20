@@ -5,3 +5,4 @@
 # faustbot	http://faust.kolbots.com/faustbot.xml
 easyfax	https://svn.code.sf.net/p/easyfax/code/Easyfax.xml
 cheesefax	http://cheesellc.com/kol/faxlist.xml
+onlyfax	https://onlyfax.loathers.net/OnlyFax.xml

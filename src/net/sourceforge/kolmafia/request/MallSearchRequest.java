@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -546,11 +547,10 @@ public class MallSearchRequest extends GenericRequest {
 
   private static final Pattern NOBUYERS_PATTERN =
       Pattern.compile("<td valign=\"center\" class=\"buyers\">&nbsp;</td>");
-  private static final Pattern BUYERS_PATTERN = Pattern.compile(" class=\"buyers\"");
 
   public static void decorateMallSearch(StringBuffer buffer) {
     decorateMallSearchAddBuyButtons(buffer);
-    decorateMallSearchDecorateForbidden(buffer);
+    decorateMallSearchHighlightStores(buffer);
   }
 
   public static void decorateMallSearchAddBuyButtons(StringBuffer buffer) {
@@ -609,7 +609,7 @@ public class MallSearchRequest extends GenericRequest {
     }
   }
 
-  public static void decorateMallSearchDecorateForbidden(StringBuffer buffer) {
+  public static void decorateMallSearchHighlightStores(StringBuffer buffer) {
     Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
 
     Matcher matcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher(buffer);
@@ -625,19 +625,28 @@ public class MallSearchRequest extends GenericRequest {
       String whichstore = detailsMatcher.group(1);
       int storeId = StringUtilities.parseInt(whichstore);
 
-      // If the store is not in the forbidden list
-      if (!forbidden.contains(storeId)) {
+      // If the store is in the forbidden list
+      if (forbidden.contains(storeId)) {
+        // Add a red gradient background and a title attribute to explain.
+        store =
+            store.replaceFirst(
+                ">",
+                " style=\"background-image:linear-gradient(to right, rgba(255,0,0,0), pink);\" title=\"The preference 'forbiddenStores' "
+                    + "contains this store.\">");
+
+        buffer.replace(matcher.start(), matcher.end(), store);
         continue;
       }
 
-      // Add a gradiant background and a title attribute to explain.
-      store =
-          store.replaceFirst(
-              ">",
-              " style=\"background-image:linear-gradient(to right, rgba(255,0,0,0), pink);\" title=\"The preference 'forbiddenStores' "
-                  + "contains this store.\">");
+      if (KoLCharacter.getUserId() == storeId) {
+        // Add a blue gradient background and a title attribute to explain.
+        store =
+            store.replaceFirst(
+                ">",
+                " style=\"background-image:linear-gradient(to right, rgba(0,0,255,0), lightblue);\" title=\"This is your store.\">");
 
-      buffer.replace(matcher.start(), matcher.end(), store);
+        buffer.replace(matcher.start(), matcher.end(), store);
+      }
     }
   }
 

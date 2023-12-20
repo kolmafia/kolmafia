@@ -194,7 +194,7 @@ public interface KoLConstants extends UtilityConstants {
   int BUFFBOTS_VERSION = 1;
   int CAFE_BOOZE_VERSION = 1;
   int CAFE_FOOD_VERSION = 1;
-  int CLASSSKILLS_VERSION = 4;
+  int CLASSSKILLS_VERSION = 5;
   int COINMASTERS_VERSION = 2;
   int COMBATS_VERSION = 1;
   int CONCOCTIONS_VERSION = 3;
@@ -222,6 +222,8 @@ public interface KoLConstants extends UtilityConstants {
   int QUESTSCOUNCIL_VERSION = 1;
   int QUESTSLOG_VERSION = 1;
   int SPLEENHIT_VERSION = 3;
+  int STANDARD_REWARDS_VERSION = 1;
+  int STANDARD_PULVERIZED_VERSION = 1;
   int STATUSEFFECTS_VERSION = 4;
   int ZAPGROUPS_VERSION = 1;
   int ZONELIST_VERSION = 2;

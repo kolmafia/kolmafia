@@ -671,6 +671,9 @@ public class DebugDatabase {
     if (text.contains("Cocktailcrafting ingredient")) {
       attributes.add(Attribute.MIX);
     }
+    if (text.contains("can also be used in combat")) {
+      attributes.add(Attribute.COMBAT);
+    }
     return attributes;
   }
 

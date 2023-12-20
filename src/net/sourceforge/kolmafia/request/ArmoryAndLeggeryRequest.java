@@ -65,10 +65,36 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
   // height=30 onClick='javascript:descitem(134381888)' alt="wickerbits"
   // title="wickerbits"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=armory&action=buyitem&quantity=1&whichrow=804&pwd=' value='Buy'></td></tr>
 
-  private static final Pattern ITEM_PATTERN =
+  public static final Pattern ITEM_PATTERN =
       Pattern.compile(
           "<tr rel=\"(\\d+)\">.*?onClick='javascript:descitem\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?title=\"(.*?)\".*?<b>([\\d,]+)</b>.*?whichrow=(\\d+)",
           Pattern.DOTALL);
+
+  public static record CoinmasterItem(
+      int itemId, String itemName, String currency, int price, int row) {}
+
+  public static CoinmasterItem parseCoinmasterItem(Matcher matcher) {
+    int itemId = StringUtilities.parseInt(matcher.group(1));
+    Integer iitemId = itemId;
+    String descId = matcher.group(2);
+    String itemName = matcher.group(3).trim();
+    String currency = matcher.group(4);
+    int price = StringUtilities.parseInt(matcher.group(5));
+    int row = StringUtilities.parseInt(matcher.group(6));
+
+    // The currency must be an item
+    if (currency.equals("Meat")) {
+      return null;
+    }
+
+    // We can learn new items from this shop
+    String match = ItemDatabase.getItemDataName(itemId);
+    if (match == null || !match.equals(itemName)) {
+      ItemDatabase.registerItem(itemId, itemName, descId);
+    }
+
+    return new CoinmasterItem(itemId, itemName, currency, price, row);
+  }
 
   public static void parseResponse(final String location, final String responseText) {
     if (!location.contains("whichshop=armory")) {
@@ -86,28 +112,13 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
 
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     while (matcher.find()) {
-      int itemId = StringUtilities.parseInt(matcher.group(1));
-      Integer iitemId = itemId;
-      String descId = matcher.group(2);
-      String itemName = matcher.group(3).trim();
-      String currency = matcher.group(4);
-      int price = StringUtilities.parseInt(matcher.group(5));
-      int row = StringUtilities.parseInt(matcher.group(6));
+      CoinmasterItem reward = parseCoinmasterItem(matcher);
 
-      if (currency.equals("Meat")) {
-        continue;
-      }
-
-      String match = ItemDatabase.getItemDataName(itemId);
-      if (match == null || !match.equals(itemName)) {
-        ItemDatabase.registerItem(itemId, itemName, descId);
-      }
-
-      AdventureResult item = ItemPool.get(itemId, PurchaseRequest.MAX_QUANTITY);
+      AdventureResult item = ItemPool.get(reward.itemId, PurchaseRequest.MAX_QUANTITY);
       items.add(item);
-      AdventureResult cost = ItemPool.get(currency, price);
-      costs.put(iitemId, cost);
-      rows.put(iitemId, row);
+      AdventureResult cost = ItemPool.get(reward.currency, reward.price);
+      costs.put(reward.itemId, cost);
+      rows.put(reward.itemId, reward.row);
     }
 
     data.getRows().clear();

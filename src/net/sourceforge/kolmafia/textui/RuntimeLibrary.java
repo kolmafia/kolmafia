@@ -1086,6 +1086,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("can_faxbot", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.MONSTER_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("can_faxbot", DataTypes.BOOLEAN_TYPE, params));
+
     // Major functions which provide item-related
     // information.
 
@@ -5197,10 +5200,25 @@ public abstract class RuntimeLibrary {
     return DataTypes.FALSE_VALUE;
   }
 
-  public static Value can_faxbot(ScriptRuntime controller, final Value arg) {
-    MonsterData monster = (MonsterData) arg.rawValue();
+  public static Value can_faxbot(ScriptRuntime controller, final Value arg1) {
+    MonsterData monster = (MonsterData) arg1.rawValue();
+    return can_faxbot(monster, null);
+  }
+
+  public static Value can_faxbot(ScriptRuntime controller, final Value arg1, final Value arg2) {
+    MonsterData monster = (MonsterData) arg1.rawValue();
+    String faxbot = arg2.toString();
+    return can_faxbot(monster, faxbot);
+  }
+
+  private static Value can_faxbot(MonsterData monster, String faxbot) {
     if (monster == null) {
       return DataTypes.FALSE_VALUE;
+    }
+
+    // KoL doesn't care about the case of player names. Normalize.
+    if (faxbot != null) {
+      faxbot = faxbot.toLowerCase();
     }
 
     FaxBotDatabase.configure();
@@ -5211,8 +5229,8 @@ public abstract class RuntimeLibrary {
         continue;
       }
 
-      String botName = bot.getName();
-      if (botName == null) {
+      String botName = bot.getName().toLowerCase();
+      if (faxbot != null && !faxbot.equals(botName)) {
         continue;
       }
 
@@ -5221,13 +5239,9 @@ public abstract class RuntimeLibrary {
         continue;
       }
 
-      // Don't check if bot is online til we can do it safely for large numbers of can_faxbot
-      // requests
-      // if ( !FaxRequestFrame.isBotOnline( botName ) )
-      // {
-      //	continue;
-      // }
-      return DataTypes.TRUE_VALUE;
+      if (KoLmafia.isPlayerOnline(botName)) {
+        return DataTypes.TRUE_VALUE;
+      }
     }
     return DataTypes.FALSE_VALUE;
   }

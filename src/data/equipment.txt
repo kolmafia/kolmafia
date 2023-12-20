@@ -73,9 +73,10 @@ cool iron helmet	250	Mox: 200
 cornuthaum	85	Mox: 27
 corrosive cowl	200	Mox: 150
 Covers-Your-Head	300	Mox: 250
-crappy Mer-kin mask	200	Mox: 85
 cr&ecirc;epy mask	20	none
+crappy Mer-kin mask	200	Mox: 85
 Crimbo hat	100	Mox: 35
+Crimbuccaneer tricorn	50	none
 Crown of the Goblin King	70	Mox: 20
 Crown of Thrones	100	none
 crown-shaped beanie	200	Mox: 200
@@ -111,6 +112,8 @@ eldritch hat	125	Mox: 47
 eldritch scanner	10	Mus: 10
 electrician's hardhat	200	Mus: 85
 eleven-gallon hat	220	none
+Elf Guard patrol cap	50	none
+Elf Guard red and white beret	100	none
 enchanted eyepatch	35	Mox: 2
 enchantlers	115	Mox: 42
 extra-large palm-frond toupee	150	Mox: 60
@@ -223,8 +226,8 @@ Lens of Violence	200	Mys: 125
 lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
 literal bucket hat	100	Mus: 35
-loofah lumberjack's hat	50	none
 longhaired hippy wig	200	Mox: 85
+loofah lumberjack's hat	50	none
 lynyrdskin cap	170	Mox: 70
 MAHI fez	200	Mox: 85
 maiden wig	35	Mox: 2
@@ -287,14 +290,14 @@ oversized skullcap	20	none
 oxygenated eggnog helmet	100	none
 pail	30	none
 panhandle panhandling hat	150	Mus: 175
-paraffin pith helmet	50	none
-pentagram bandana	50	none
 paperclip turban	50	none
 papier-mitre	100	Mox: 20
+paraffin pith helmet	50	none
 parasitic headgnawer	30	none
 party hat	30	none
 passable elf mask	10	none
 pentacorn hat	40	Mox: 5
+pentagram bandana	50	none
 pickelhaube	75	Mox: 22
 pig-iron helm	90	Mox: 30
 pimpin' meat hat	55	Mox: 12
@@ -362,10 +365,10 @@ spiky turtle helmet	130	Mox: 50
 sponge helmet	200	Mox: 85
 spooky hockey mask	100	Mox: 35
 Spooky Putty mitre	100	none
+stained glass stetson	120	Mys: 40
 stainless steel skullcap	90	Mox: 30
 star hat	165	Mox: 67
 stone baseball cap	195	Mox: 82
-stained glass stetson	120	Mys: 40
 straw hat	200	Mox: 85
 sucker kabuto	50	none
 sugar chapeau	100	none
@@ -476,6 +479,7 @@ BRICKO pants	90	none
 Brimstone Boxers	200	Mox: 30
 Brogre brorts	100	Mox: 35
 brown paper pants	20	none
+brown pirate pants	100	none
 bugbear bungguard	30	none
 bullet-proof corduroys	170	Mox: 70
 buoybottoms	150	Mox: 60
@@ -498,6 +502,7 @@ corroded breeches	200	Mox: 150
 crappy Mer-kin tailpiece	200	Mox: 85
 Crimbo pants	100	Mox: 35
 Crimbo stockings	200	Mox: 75
+Crimbuccaneer breeches	50	none
 Crimbylow-rise jeans	125	Mox: 15
 crotchety pants	75	Mox: 22
 cursed breeches	200	Mox: 85
@@ -506,9 +511,9 @@ Danglin' Chad's loincloth	200	Mox: 75
 demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
 designer sweatpants	100	none
-discarded swimming trunks	100	none
 dice-print pajama pants	10	none
 Dinsey's pants	200	Mox: 100
+discarded swimming trunks	100	none
 distressed denim pants	170	Mox: 70
 double-ice britches	70	Mox: 20
 drafty drawers	225	Mox: 200
@@ -526,6 +531,7 @@ El Vibrato leg guards	200	Mox: 200
 eldritch pants	125	Mox: 47
 electric pants	100	Mox: 30
 electronic dulcimer pants	10	none
+Elf Guard hotpants	50	none
 exo-servo leg braces	10	none
 extremely skinny jeans	200	Mox: 200
 fancy party pants	75	Mox: 10
@@ -583,8 +589,8 @@ Krakrox's Loincloth	125	Mus: 30
 lava-proof pants	100	Mox: 35
 Leapin' Trousers	12	none
 leather chaps	160	Mox: 65
-leg-mounted Trainbots	50	none
 Lederhosen of the Night	125	Mox: 30
+leg-mounted Trainbots	50	none
 leggings of the Spider Queen	200	Mox: 40
 lemon drop trousers	50	Mox: 10
 leotarrrd	90	Mox: 30
@@ -636,6 +642,7 @@ penguinskin mini-skirt	120	Mox: 45
 pig-iron shinguards	90	Mox: 30
 pin-stripe slacks	30	none
 pink pinkslip slip	200	Mox: 85
+pirate pantaloons	80	none
 pixel pants	50	Mox: 10
 plaid skirt	155	Mox: 62
 plexiglass pants	180	Mox: 75
@@ -763,6 +770,7 @@ Ascension Souvenir T-Shirt	15	none
 ASCII shirt	90	Mus: 30
 astral shirt	50	none
 autumn sweater-weather sweater	50	none
+barnacle-encrusted sweater	50	none
 bat-ass leather jacket	180	Mus: 77
 BGE 'cuddly critter' shirt	30	none
 BGE 'ferocious fruit' shirt	30	none
@@ -787,6 +795,8 @@ Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 conquistador's breastplate	80	none
 cool iron breastplate	250	Mus: 200
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
+Crimbuccaneer bombjacket	100	none
+Crimbuccaneer shirt	50	none
 demonskin jacket	80	Mus: 25
 denim jacket	50	none
 Dragonscale breastplate	200	Mus: 40
@@ -832,6 +842,7 @@ icing poncho	80	Mus: 35
 junk-mail shirt	60	Mus: 15
 Jurassic Parka	100	none
 Kashmir sweater	155	Mus: 62
+Kelflar vest	50	none
 Kiss the Knob apron	10	none
 Knob Goblin elite shirt	35	Mus: 2
 KoL Con 13 T-shirt	50	none
@@ -848,7 +859,6 @@ midriff scrubs	160	Mus: 65
 miming shirt	50	none
 Moonthril Cuirass	100	Mus: 40
 Mr. Shirt	30	none
-trench coat	200	Mus: 100
 origami pasties	100	none
 Othello's military jacket	150	Mus: 40
 PARTY HARD T-shirt	10	none
@@ -923,6 +933,7 @@ aerogel accordion	50	Mox: 0	1-handed accordion
 airblaster gun	10	Mox: 0	1-handed pistol
 alarm accordion	180	Mox: 75	2-handed accordion
 amok putter	30	Mus: 0	2-handed club
+ancient Elf dessert spoon	100	Mys: 0	1-handed utensil
 ancient ice cream scoop	170	Mys: 70	1-handed utensil
 ancient stone fist	85	Mus: 27	1-handed club
 anger blaster	85	Mox: 30	1-handed forearm replacement
@@ -1089,6 +1100,8 @@ creepy-ass club	160	Mus: 65	2-handed club
 Crimbo sword	100	Mus: 35	2-handed sword
 Crimbo ukulele	80	Mox: 20	2-handed guitar
 Crimbomination Contraption	100	Mus: 0	2-handed club
+Crimbuccaneer squirtblunderbuss	50	Mox: 0	1-handed pistol
+Crimbuccaneer tavern swab	100	Mus: 0	2-handed polearm
 crowbar	140	Mus: 55	1-handed club
 crowbarrr	80	Mus: 25	2-handed staff
 crystalline reamer	75	Mys: 22	1-handed utensil
@@ -1148,6 +1161,9 @@ electric crutch	30	Mus: 0	1-handed staff
 elegant nightstick	90	Mus: 30	1-handed club
 elephant stinger	75	Mus: 22	2-handed spear
 elevenderizing hammer	115	Mus: 11	1-handed club
+Elf Guard broom	100	Mus: 0	2-handed polearm
+Elf Guard mouthknife	50	Mus: 0	1-handed knife
+Elf Guard officer's sidearm	50	Mox: 0	1-handed pistol
 elf ploughshare	100	Mus: 0	1-handed sword
 elven tambourine	100	Mox: 0	1-handed rattle
 elven whittling knife	100	Mus: 35	1-handed knife
@@ -1252,6 +1268,7 @@ Grimacite glaive	125	Mus: 47	2-handed polearm
 groping claw	225	Mus: 200	1-handed claw
 guancertina	50	Mox: 10	2-handed accordion
 gummi sword	120	Mus: 45	1-handed sword
+gunwale whalegun	200	Mox: 0	2-handed 
 haiku katana	100	Mus: 0	1-handed sword
 hairy staff	135	Mus: 45	2-handed staff
 half-melted spoon	115	Mys: 42	1-handed utensil
@@ -1290,10 +1307,10 @@ huge spoon	90	Mys: 30	1-handed utensil
 ice nine	100	Mox: 0	1-handed pistol
 ice sickle	100	Mus: 0	1-handed knife
 icy-hot katana	90	Mus: 30	2-handed sword
-industrial fire extinguisher	100	Mus: 0	1-handed extinguisher
 iFlail	100	Mox: 35	1-handed flail
 immense cyborg hand	150	Mus: 60	1-handed club
 impromptu torch	100	Mus: 0	1-handed club
+industrial fire extinguisher	100	Mus: 0	1-handed extinguisher
 infernal fife	55	Mox: 12	2-handed flute
 infernal toilet brush	100	Mus: 35	1-handed club
 inflatable baseball bat	50	Mus: 0	2-handed club
@@ -1356,6 +1373,7 @@ magilaser blastercannon	155	Mox: 62	2-handed laser cannon
 mama's squeezebox	40	Mox: 5	2-handed accordion
 mannequin leg	110	Mus: 40	1-handed club
 massive sitar	190	Mox: 80	2-handed sitar
+massive wrench	100	Mus: 0	2-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
 Mayor Ghost's gavel	10	Mus: 0	1-handed club
 Meat Tenderizer is Murder	100	Mus: 0	1-handed club
@@ -1515,6 +1533,7 @@ Saucepanic	100	Mys: 0	1-handed saucepan
 savory crossbow	80	Mox: 25	2-handed crossbow
 savory staff	80	Mus: 25	2-handed staff
 savory sword	80	Mus: 25	1-handed sword
+sawed-off blunderbuss	50	Mox: 0	1-handed pistol
 scepter of the Skeleton Lord	300	Mys: 50	2-handed staff
 scorpion whip	20	Mus: 0	1-handed whip
 scratch 'n' sniff crossbow	100	Mox: 0	1-handed crossbow
@@ -1534,6 +1553,7 @@ Shakespeare's Sister's Accordion	100	Mox: 0	1-handed accordion
 sharpened spoon	100	Mus: 20	1-handed knife
 Sheila Take a Crossbow	100	Mox: 0	1-handed crossbow
 shiny butcherknife	60	Mys: 15	1-handed utensil
+shipwright's hammer	50	Mus: 0	1-handed club
 shooting morning star	100	Mus: 0	1-handed flail
 short-handled mop	165	Mus: 67	1-handed polearm
 shotgun	60	Mox: 0	1-handed
@@ -1729,6 +1749,7 @@ warbear oil pan	50	Mys: 0	1-handed saucepan
 weeping willow wand	100	Mus: 0	1-handed wand
 weighted paperclip chain	40	Mus: 0	2-handed flail
 western-style skinning knife	40	Mus: 5	1-handed knife
+whalegun	100	Mox: 0	2-handed rifle
 White Dragon Fang	200	Mus: 200	1-handed sword
 white sword	40	Mus: 5	1-handed sword
 white whip	10	Mus: 0	1-handed whip
@@ -1761,10 +1782,9 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 
 # Off-hand Items section of equipment.txt
 
-&quot;reusable&quot; grocery bag	0	none
 'WILL WORK FOR BOOZE' sign	150	Mus: 175
+&quot;reusable&quot; grocery bag	0	none
 1-ball	60	Mys: 15
-17-ball	200	none
 2-ball	60	Mys: 15
 3-ball	60	Mys: 15
 4-ball	60	Mys: 15
@@ -1772,13 +1792,14 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 6-ball	60	Mys: 15
 7-ball	60	Mys: 15
 9-ball	60	Mys: 15
+17-ball	200	none
 A Light that Never Goes Out	100	none
 Abracandalabra	100	none
 Abuela Crimbo's special magnet	0	none
-Adventurer bobblehead	100	none
 Abuela Crimbo's special magnet	10	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
+Adventurer bobblehead	100	none
 aerogel attache case	50	none
 ancient calendar	70	Mus: 20	shield
 ancient hot dog wrapper	200	Mys: 85
@@ -1806,8 +1827,8 @@ ball-in-a-cup	20	none
 balloon shield	50	Mus: 10	shield
 barrel lid	150	none	shield
 barskin buckler	25	none	shield
-basic meat foon	50	Mys: 10
 basaltamander buckler	240	Mus: 40	shield
+basic meat foon	50	Mys: 10
 battered hubcap	220	Mus: 65	shield
 beach ball marble	209	Mys: 85
 beetle antenna	0	none
@@ -1872,6 +1893,7 @@ Crimbo light-up Rudolph doll	20	none
 Crimbo smile	50	none
 Crimbo stogie-scented room odorizer	20	none
 Crimbo tree flocker	20	none
+Crimbuccaneer lantern	0	none
 crumbling rabbit's foot	50	none
 crumbling skull	0	none
 cuddly teddy bear	125	Mys: 47
@@ -1905,6 +1927,7 @@ Dungeon Fist gauntlet	100	Mus: 35
 Dyspepsi-Cola shield	70	none	shield
 easter egg balloon	100	Mys: 35
 eelskin shield	200	Mus: 85	shield
+Elf Guard clipboard	0	none
 Elizabeth's Dollie	120	Mys: 45
 Ellsbury's skull	100	Mys: 35
 enchanted brass knuckles	50	Mys: 10
@@ -1964,6 +1987,7 @@ green LavaCo Lamp&trade;	100	Mox: 35
 green peawee marble	201	Mys: 85
 Grey Guanon	60	Mys: 15
 grisly shield	200	Mus: 150	shield
+gunwale	0	none	shield
 Guzzlr souvenir stein	100	none
 Half a Purse	100	none
 hand of Mr. Cards	10	none
@@ -2038,8 +2062,8 @@ magic lamp	30	none
 magical ice cubes	30	none
 makeshift castanets	160	Mox: 150
 maple magnet	100	none
-marinara jug	160	Mys: 150
 marble mignonette bowl	120	Mys: 40
+marinara jug	160	Mys: 150
 marionette	110	Mys: 40
 marionette collective	110	Mys: 40
 martini dregs	50	none
@@ -2050,8 +2074,8 @@ Mer-kin roundshield	215	Mus: 85	shield
 Mer-kin stopwatch	200	Mys: 85
 Mer-kin takebag	200	Mys: 85
 mesquito proboscis	0	none
-meteorite guard	150	none	shield
 meteorb	100	none
+meteorite guard	150	none	shield
 Microplushie: Bropane	5	none
 Microplushie: Dorkonide	5	none
 Microplushie: Ermahgerdic Acid	5	none
@@ -2198,8 +2222,8 @@ sock monkey	110	Mys: 40
 Solstice Shield	0	none
 sommelier's towel	150	Mys: 60
 sonar fishfinder	10	none
-Space Tourist palmdoctor	50	none
 space shield	150	none	shield
+Space Tourist palmdoctor	50	none
 spaghetti-box banjo	160	Mys: 150
 Spanish fly trap	10	none
 spant shield	100	Mus: 20	shield
@@ -2236,6 +2260,7 @@ stuffed frozen gravy fairy	10	none
 stuffed ghuol whelp	10	none
 stuffed hand turkey	10	none
 stuffed key	10	none
+stuffed kraken	0	none
 stuffed MagiMechTech MicroMechaMech	10	none
 stuffed martini	10	none
 stuffed Meat	10	none
@@ -2295,6 +2320,7 @@ uncursed stats	0	none
 Unkillable Skeleton's shield	350	Mus: 100	shield
 unstable fulminate	0	none
 UV-resistant compass	0	none
+Val-U Brand Every Bean Salad	0	Mys: 15
 vampire pellet	180	Mys: 35
 velcro shield	220	Mus: 85	shield
 velour valise	50	none
@@ -2325,6 +2351,7 @@ zoological sample kit	10	none
 # Accessories section of equipment.txt
 
 &quot;I survived Y2K&quot; T-Shirt	100	none
+&quot;I Voted!&quot; sticker	10	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
@@ -2500,6 +2527,10 @@ crank-powered radio on a lanyard	100	none
 CRIMBCO lanyard	0	none
 Crimbolex watch	200	Mys: 20
 Crimbomega drive chain	100	none
+Crimbuccaneer fledges (disintegrating)	0	none
+Crimbuccaneer fledges (mint)	0	none
+Crimbuccaneer nose ring	0	none
+Crimbuccaneer runebone	0	none
 crusty hula hoop	200	Mys: 200
 crying statue earrings	50	none
 crystal belt buckle	100	Mys: 35
@@ -2525,7 +2556,6 @@ depleted Grimacite grappling hook	80	Mys: 25
 depleted Grimacite weightlifting belt	80	Mys: 25
 dethklok	30	none
 diamond necklace	10	none
-discarded bike lock key	10	none
 dice belt buckle	10	none
 dice ring	10	none
 dice sunglasses	10	none
@@ -2533,6 +2563,7 @@ Dinsey's glove	200	Mys: 100
 Dinsey's oculus	200	Mus: 100
 dirty hobo gloves	20	none
 disbelief suspenders	50	Mys: 10
+discarded bike lock key	10	none
 discarded bowtie	0	none
 disembodied smile	20	none
 diving muff	200	Mys: 85
@@ -2541,9 +2572,9 @@ dope gangsta bling-bling	45	Mys: 7
 dorky glasses	50	none
 Draftsman's driving gloves	200	none
 Dreadsylvania Auditor's badge	250	Mys: 200
-drippy orb	0	none
 driftwood beach comb	0	none
 driftwood bracelet	50	Mys: 10
+drippy orb	0	none
 droll monocle	100	Mys: 35
 Drunkula's ring of haze	300	Mys: 100
 duonoculars	65	Mys: 17
@@ -2555,15 +2586,20 @@ eerie fetish	225	Mys: 200
 Eight Days a Week Pill Keeper	100	none
 El Vibrato translator	200	none
 elevennis shoes	111	Mys: 11
+Elf Guard commandeering gloves	0	none
+Elf Guard insignia (general)	0	none
+Elf Guard insignia (private)	0	none
 Elmley shades	180	Mys: 75
 elven socks	30	none
 Elvish sunglasses	0	none
+Elvish underarmor	0	none
 Emblem of Ak'gyxoth	0	Mys: 30
 enchanted handwarmer	60	Mys: 15
 enchanted toothpick	80	Mys: 25
 encoder ring	10	none
 energy drink IV	180	Mys: 75
 enormous hoop earring	120	Mys: 45
+ert grey goo ring	0	none
 ESP suppression collar	0	none
 evil flaming eyeball pendant	0	none
 exclusive ultra-rare item	0	none
@@ -2598,6 +2634,7 @@ food drive button	10	none
 Former Sheriff Dan's tin star	225	Mus: 50
 fossilized necklace	50	none
 frayed rope belt	200	Mys: 200
+free boots	0	none
 French slippers	10	none
 freshwater pearl necklace	80	Mys: 25
 frosty button	0	none
@@ -2697,7 +2734,6 @@ hockey stick of furious angry rage	100	Mys: 35
 Hodgman's bow tie	200	Mys: 200
 Hodgman's lucky sock	200	Mys: 200
 hopping socks	200	Mys: 200
-&quot;I Voted!&quot; sticker	10	none
 ice key	10	none
 ice skates	0	none
 ice wrap	0	none
@@ -2708,7 +2744,6 @@ Iiti Kitty phone charm	165	Mys: 67
 imitation nice watch	100	Mys: 35
 imp unity ring	45	Mys: 15
 incredibly dense meat gem	200	none
-ert grey goo ring	0	none
 infernal insoles	60	Mys: 15
 inflatable duck	10	none
 intergalactic pom poms	0	none
@@ -2749,10 +2784,10 @@ Loathing Legion necktie	0	none
 Loathing Legion rollerblades	0	none
 Lockenstock&trade; sandals	160	Mys: 65
 lollipop cufflinks	0	none
+long-forgotten necklace	200	Mys: 85
 loofah lavalier	50	none
 loofah legwarmers	50	none
 loofah lei	50	none
-long-forgotten necklace	200	Mys: 85
 Lord Soggyraven's Slippers	150	Mys: 60
 Lord Spookyraven's ear trumpet	150	Mys: 20
 Lord Spookyraven's spectacles	10	none
@@ -2852,8 +2887,8 @@ offensive moustache	0	none
 Official Council Aide Pin	100	Mys: 37
 Ol' Scratch's manacles	200	Mys: 200
 old ball and chain	225	Mys: 200
-old soft shoes	200	Mys: 200
 old school calculator watch	10	none
+old soft shoes	200	Mys: 200
 orange glowstick	20	none
 orange leather lanyard	50	none
 Orange Star of Sacrifice	200	Mys: 85
@@ -2879,6 +2914,7 @@ pearl diver's necklace	200	Mys: 85
 pearl diver's ring	200	Mys: 85
 pearl necklace	0	Mox: 37
 peg key	10	none
+pegfinger	0	none
 Pendant of Fire	150	Mys: 60
 Pendant of Gargalesis	150	Mys: 60
 peppermint-scented socks	50	none
@@ -2892,9 +2928,9 @@ Pine-Fresh air freshener	50	Mys: 10
 pink glowstick	20	none
 Pink Heart of Spirit	200	Mys: 85
 pink plastic baby	20	none
-PirateRealm eyepatch	10	none
 pirate fledges	140	Mys: 60
 pirate radio ring	80	none
+PirateRealm eyepatch	10	none
 plaid pocket square	150	Mys: 50
 plastic detective badge	10	none
 plastic Duskwalker necklace	50	none
@@ -2946,6 +2982,7 @@ Putrid Pendant	150	Mys: 60
 pygmy nose-bone	155	Mys: 62
 quicksilver ring	100	Mys: 10
 Quiets-Your-Steps	300	Mox: 100
+rabbit's foot key	10	none
 Radio KoL Antenna Ball	0	none
 Radio KoL Bottle Opener	0	none
 Radio KoL Coffee Mug	0	none
@@ -2953,13 +2990,11 @@ Radio KoL Flashlight	0	none
 Radio KoL Keychain	0	none
 Radio KoL Maracas	0	none
 Radio KoL Patch	0	none
-rabbit's foot key	10	none
 rainbow pearl earring	0	Mys: 200
 rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
 ratskin belt	180	Mys: 75
 recovered cufflinks	0	none
-red-soled high heels	0	none
 red armband	10	none
 red badge	150	Mys: 60
 Red Balloon of Valor	200	Mys: 85
@@ -2971,8 +3006,8 @@ Red Roger's red left foot	120	none
 Red Roger's red right foot	120	none
 red shoe	150	Mys: 40
 red-hot medallion	50	none
+red-soled high heels	0	none
 reinforced furry underpants	30	none
-Retrospecs	100	none
 replica Cincho de Mayo	100	none
 replica Elvish sunglasses	0	none
 replica hewn moon-rune spoon	200	none
@@ -2983,6 +3018,7 @@ replica over-the-shoulder Folder Holder	0	none
 replica plastic vampire fangs	0	none
 replica Powerful Glove	0	none
 replica V for Vivala mask	0	none
+Retrospecs	100	none
 ribbon candy ascot	80	Mys: 20
 rickety old unicycle	200	Mox: 200
 ridiculous belt	0	none
@@ -3060,14 +3096,14 @@ slicksilver ring	100	Mys: 10
 slime convention pin	10	none
 slime-covered necklace	200	Mys: 200
 Slow Talkin' Elliot's dogtags	200	Mys: 45
-sneakeasies	150	Mox: 60
-Sneaky Pete's breath spray	80	Mys: 25
 SMOOCH bracers	85	Mys: 27
 SMOOCH kneepads	90	Mys: 30
 SMOOCH spaulders	95	Mus: 32
 smooth velvet hanky	50	Mys: 10
 smooth velvet pocket square	50	Mys: 10
 smooth velvet socks	50	Mys: 10
+sneakeasies	150	Mox: 60
+Sneaky Pete's breath spray	80	Mys: 25
 snow belly	50	Mys: 10
 snow belt	100	none
 sock garters	150	Mys: 60
@@ -3098,8 +3134,8 @@ spiky turtle shoulderpads	130	Mus: 50
 spirit bell	0	none
 spooky glove	60	Mys: 15
 Spookyraven signet	100	Mys: 10
-Spring Bros. ID badge	0	none
 spring boots	0	none
+Spring Bros. ID badge	0	none
 stained glass spectacles	120	Mys: 40
 stained glass suspenders	120	Mus: 40
 stainless steel scarf	90	Mys: 30
@@ -3180,8 +3216,8 @@ tiny die-cast turtle mech	20	none
 tiny die-cast Uncle Hobo	50	none
 tiny die-cast Unionize the Elves Sign	10	none
 tiny die-cast Zeppo the Reindeer	10	none
-tiny plastic 11 Dealer	0	none
 tiny plastic 7-foot dwarf	10	none
+tiny plastic 11 Dealer	0	none
 tiny plastic abominable fudgeman	0	none
 tiny plastic Abuela Crimbo	25	none
 tiny plastic accordion thief	20	none
@@ -3523,13 +3559,15 @@ Catherine Wheel	150	none
 chalk chlamys	50	none
 Cloak of Dire Shadows	120	none
 cod cape	225	Mox: 200
-cursed goblin cape	0	none
 cursed blanket	0	none
+cursed goblin cape	0	none
 dice-shaped backpack	10	none
 Drapes-You-Regally	300	Mox: 250
 Drip harness	0	Mus: 100
 Drunkula's cape	300	Mys: 250
 Duke Vampire's regal cloak	200	Mox: 40
+Elf Guard fuel tank	0	none
+Elf Guard SCUBA tank	0	none
 fiberglass frock	120	Mus: 40
 frozen turtle shell	100	Mus: 50
 gabardine gunnysack	50	none
@@ -3578,9 +3616,9 @@ Size XI Wizard's Robe	0	none
 smoker's cloak	80	Mys: 25
 smoldering drape	0	none
 snowpack	200	Mys: 75
-stained glass serape	120	Mox: 40
 spant backplate	100	Mus: 20
 spiky back shell	0	none
+stained glass serape	120	Mox: 40
 super-absorbent tarp	50	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 teddybear backpack	150	Mox: 75
@@ -3591,8 +3629,8 @@ Time Cape	100	none
 Time Cloak	100	none
 toy jet pack	175	Mys: 75
 Trainbot harness	10	none
-uncursed goblin cape	0	none
 uncursed blanket	0	none
+uncursed goblin cape	0	none
 unwrapped knock-off retro superhero cape	100	none
 vampyric cloake	100	none
 whatsit-covered turtle shell	50	Mus: 20
