@@ -433,15 +433,16 @@ class UseItemRequestTest {
   @ParameterizedTest
   @ValueSource(
       strings = {
-          "request/test_use_punching_mirror_success.html",
-          "request/test_use_punching_mirror_failure.html"
+          "success",
+          "failure"
       })
   void setsPunchingMirrorPreference(String htmlSource) {
+    var path = "request/test_use_punching_mirror_" + htmlSource + ".html";
     var cleanups =
         new Cleanups(
             withItem(ItemPool.PUNCHING_MIRROR),
             withProperty("_punchingMirrorUsed", false),
-            withNextResponse(200, html(htmlSource)));
+            withNextResponse(200, html(path)));
 
     try (cleaups) {
         var req = UseItemRequest.getInstance(ItemPool.PUNCHING_MIRROR);
