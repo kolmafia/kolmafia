@@ -429,13 +429,9 @@ class UseItemRequestTest {
       assertTrue(KoLCharacter.hasSkill(SkillPool.ANTIPHON));
     }
   }
-  
+
   @ParameterizedTest
-  @ValueSource(
-      strings = {
-          "success",
-          "failure"
-      })
+  @ValueSource(strings = {"success", "failure"})
   void setsPunchingMirrorPreference(String htmlSource) {
     var path = "request/test_use_punching_mirror_" + htmlSource + ".html";
     var cleanups =
@@ -445,10 +441,10 @@ class UseItemRequestTest {
             withNextResponse(200, html(path)));
 
     try (cleaups) {
-        var req = UseItemRequest.getInstance(ItemPool.PUNCHING_MIRROR);
-        req.run();
+      var req = UseItemRequest.getInstance(ItemPool.PUNCHING_MIRROR);
+      req.run();
 
-        assertThat("_punchingMirrorUsed", isSetTo(true));
+      assertThat("_punchingMirrorUsed", isSetTo(true));
     }
   }
 
