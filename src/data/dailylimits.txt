@@ -365,3 +365,4 @@ Use	vitachoconutriment capsule	_vitachocCapsulesUsed	3
 Use	warbear breakfast machine	_warbearBreakfastMachineUsed
 Use	warbear gyrocopter	_warbearGyrocopterUsed
 Use	warbear soda machine	_warbearSodaMachineUsed
+Use	punching mirror	_punchingMirrorUsed
