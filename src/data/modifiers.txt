@@ -5164,6 +5164,7 @@ Effect	AA-Charged	Spell Damage Percent: +50, Initiative: +50, MP Regen Min: 5, M
 Effect	Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
 Effect	Abuela's Army	Maximum HP Percent: +100, HP Regen Min: 8, HP Regen Max: 10
+Effect	Abuela's Navy	Pirate Warfare Effectiveness: +10, Maximum MP Percent: +100, MP Regen Min: 8, MP Regen Max: 10
 Effect	Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min: 40, HP Regen Max: 50
 # Abyssal Sweat: The first attack against you will always miss
 Effect	Abyssal Tears	Reduce Enemy Defense: 20
