@@ -337,7 +337,7 @@ expired can of franks 'n' beans	3	1	awesome	7-10	20-40	20-40	20-40	30 Crimbo Nos
 expired MRE	2	1	awesome	8-10	0	0	0	gain 10 turns of 3 random positive effects
 extra-flat panini	2	11	awesome	7-8	0	0	50-80
 extra-greasy slider	5	13	EPIC	29-34	80-100	80-100	80-100	-5 spleen
-extra-toasted half sandwich	1	1	awesome	4-5	5-15	5-15	5-15	20 Stop the Presses! (Unimplemented)
+extra-toasted half sandwich	1	1	awesome	4-5	5-15	5-15	5-15	20 Stop the Presses! (+100% HP)
 fancy beef jerky	4	9	EPIC	19-22	0	48-58	0
 fancy canap&eacute;s	2	5	awesome	7-10	25-40	25-40	25-40	French slippers (1 time)
 FantasyRealm turkey leg	1	1	EPIC	6-8	10-20	10-20	10-20
@@ -438,7 +438,7 @@ grilled cheese sandwich	3	6	awesome	9-12	10-20	20-30	0
 grilled mooseflank	3	1	EPIC	15-17	10-20	10-20	10-20
 Grimdrop Chow Mein	4	5	decent	6-11	0	0	0
 Grimgerbread House	5	5	good	10-15	0	0	0
-grog nuts	2	1	EPIC	0	0	0	0	Unspaded
+grog nuts	2	1	EPIC	14	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
 guffin	3	1	awesome	11-13	0	0	0
 guilty sprout	1	8	good	2-3	200-250	200-250	200-250
@@ -1058,7 +1058,7 @@ wedge of gray cheese	2	9	EPIC	7-13	50-69	50-69	50-69
 weird gazelle steak	10	1	awesome	40	0	0	0	1 Gaze of the Gazelle (+200% Spell Damage, +60 Booze drop)
 wet dog	3	1	awesome	11-13	0	0	0	30 Hangdog (+20 Init, +30 Sleaze Dam, +3 Hot/Stench Res)
 wet stew	6	1	good	12-15	16-19	0	0
-wet tack	4	1	EPIC	0	0	0	0	Unspaded
+wet tack	4	1	EPIC	36	0	0	0
 whalecake	4	1	EPIC	0	0	0	0	Unspaded
 whalesteak	3	1	EPIC	18	0	0	0
 white chocolate and tomato pizza	3	2	decent	3-9	0	0	0	PIZZA
