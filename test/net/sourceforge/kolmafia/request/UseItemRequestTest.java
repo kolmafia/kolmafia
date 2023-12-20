@@ -440,7 +440,7 @@ class UseItemRequestTest {
             withProperty("_punchingMirrorUsed", false),
             withNextResponse(200, html(path)));
 
-    try (cleaups) {
+    try (cleanups) {
       var req = UseItemRequest.getInstance(ItemPool.PUNCHING_MIRROR);
       req.run();
 
