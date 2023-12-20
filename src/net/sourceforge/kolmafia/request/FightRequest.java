@@ -4926,6 +4926,13 @@ public class FightRequest extends GenericRequest {
         return 0;
       }
 
+      // after-crimbo23 points are not damage
+      // "Arr," says a nearby Crimbuccaneer. "10 points for ye, to be sure."
+
+      if (text.contains("Crimbuccaneer")) {
+        return 0;
+      }
+
       damage += StringUtilities.parseInt(m.group(2));
 
       // The last string contains all of the extra damage

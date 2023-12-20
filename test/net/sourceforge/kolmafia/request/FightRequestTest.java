@@ -2538,4 +2538,14 @@ public class FightRequestTest {
       assertThat(TurnCounter.isCounting("Rain Monster window end"), is(inRaincore));
     }
   }
+
+  @Test
+  public void crimbuccaneerScoreIsNotDamage() {
+    var cleanups = new Cleanups(withFight(0));
+    try (cleanups) {
+      assertEquals(0, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
+      parseCombatData("request/test_fight_crimbo23.html");
+      assertEquals(3, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
+    }
+  }
 }
