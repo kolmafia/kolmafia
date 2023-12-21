@@ -2548,4 +2548,17 @@ public class FightRequestTest {
       assertEquals(3, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
     }
   }
+
+  @Test
+  void canTrackSuccessfulPrankCardUse() {
+    var cleanups =
+        new Cleanups(withProperty("_prankCardMonster"), withItem(ItemPool.PRANK_CRIMBO_CARD));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_elf_crimbo_card.html",
+          "fight.php?action=useitem&whichitem=11487&whichitem2=0");
+      assertThat("_prankCardMonster", isSetTo("Elf Guard engineer"));
+    }
+  }
 }
