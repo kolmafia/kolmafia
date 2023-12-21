@@ -3,29 +3,7 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.withClass;
-import static internal.helpers.Player.withFamiliar;
-import static internal.helpers.Player.withFight;
-import static internal.helpers.Player.withFullness;
-import static internal.helpers.Player.withGender;
-import static internal.helpers.Player.withHP;
-import static internal.helpers.Player.withHandlingChoice;
-import static internal.helpers.Player.withHttpClientBuilder;
-import static internal.helpers.Player.withInebriety;
-import static internal.helpers.Player.withItem;
-import static internal.helpers.Player.withLevel;
-import static internal.helpers.Player.withLimitMode;
-import static internal.helpers.Player.withMP;
-import static internal.helpers.Player.withNextResponse;
-import static internal.helpers.Player.withNoEffects;
-import static internal.helpers.Player.withNoItems;
-import static internal.helpers.Player.withPasswordHash;
-import static internal.helpers.Player.withPath;
-import static internal.helpers.Player.withProperty;
-import static internal.helpers.Player.withSkill;
-import static internal.helpers.Player.withSpleenUse;
-import static internal.helpers.Player.withSubStats;
-import static internal.helpers.Player.withoutSkill;
+import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -427,6 +405,25 @@ class UseItemRequestTest {
 
       assertThat("_bookOfEverySkillUsed", isSetTo(true));
       assertTrue(KoLCharacter.hasSkill(SkillPool.ANTIPHON));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"success", "failure"})
+  void setsPunchingMirrorPreference(String htmlSource) {
+    var path = "request/test_use_punching_mirror_" + htmlSource + ".html";
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.PUNCHING_MIRROR),
+            withProperty("_punchingMirrorUsed", false),
+            withHippyStoneBroken(),
+            withNextResponse(200, html(path)));
+
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.PUNCHING_MIRROR);
+      req.run();
+
+      assertThat("_punchingMirrorUsed", isSetTo(true));
     }
   }
 

@@ -3709,10 +3709,12 @@ public class ItemPool {
   public static final int FUTURISTIC_SHIRT = 11391;
   public static final int FUTURISTIC_HAT = 11392;
   public static final int FUTURISTIC_COLLAR = 11393;
+  public static final int ELF_ARMY_MACHINE_PARTS = 11402;
   public static final int CRIMBUCCANEER_RIGGING_LASSO = 11403;
   public static final int ELF_GUARD_MPC = 11408;
   public static final int CRIMBUCCANEER_PIECE_OF_12 = 11409;
   public static final int PEPPERMINT_BOMB = 11426;
+  public static final int PUNCHING_MIRROR = 11451;
 
   private ItemPool() {}
 

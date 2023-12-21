@@ -340,6 +340,7 @@ Use	portable ping-pong table	_pingPongGame
 Use	portable steam unit	_portableSteamUnitUsed
 Use	pressurized potion of pneumaticity	_pneumaticityPotionUsed
 Use	pump-up high-tops	_highTopPumps	3
+Use	punching mirror	_punchingMirrorUsed
 Use	red and green rain stick	_rainStickUsed
 Use	redwood rain stick	_redwoodRainStickUsed
 Use	refurbished air fryer	_airFryerUsed
