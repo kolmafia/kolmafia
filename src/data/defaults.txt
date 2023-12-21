@@ -2244,6 +2244,7 @@ user	_powerfulGloveBatteryPowerUsed	0
 user	_powerPillDrops	0
 user	_powerPillUses	0
 user	_precisionCasts	0
+user	_prankCardMonster	
 user	_prToday	false
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false
