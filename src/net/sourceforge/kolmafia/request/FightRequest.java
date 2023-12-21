@@ -10731,6 +10731,14 @@ public class FightRequest extends GenericRequest {
           BanishManager.banishCurrentMonster(Banisher.CRIMBUCCANEER_RIGGING_LASSO);
         }
         break;
+
+      case ItemPool.PRANK_CRIMBO_CARD:
+        if (responseText.contains("You hand the Crimbo card to the elf")) {
+          TurnCounter.stopCounting("Prank Card Monster");
+          TurnCounter.startCounting(100, "Prank Card Monster loc=*", "snout.gif");
+          Preferences.setString("_prankCardMonster", MonsterStatusTracker.getLastMonsterName());
+        }
+        break;
     }
 
     if (itemId != itemId2) {

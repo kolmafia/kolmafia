@@ -174,6 +174,11 @@ public class AreaCombatData {
       if (Preferences.getString("monkeyPointMonster").equals(monsterName)) {
         currentWeighting += 2 * baseWeighting;
       }
+      // If prank Crimbo card used, add three to encounter pool
+      if (Preferences.getString("_prankCardMonster").equals(monsterName)
+          && TurnCounter.isCounting("Prank Card Monster")) {
+        currentWeighting += 3 * baseWeighting;
+      }
 
       if (BanishManager.isBanished(monsterName)
           || (rwbRelevant && !Preferences.getString("rwbMonster").equals(monsterName))) {
