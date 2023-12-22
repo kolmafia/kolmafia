@@ -878,6 +878,7 @@ reflective vest	50	none
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
+sequin-encrusted sweater	50
 shark jumper	200	Mus: 85
 shoe ad T-shirt	50	none
 SMOOCH breastplate	105	Mus: 37
@@ -1164,6 +1165,7 @@ elevenderizing hammer	115	Mus: 11	1-handed club
 Elf Guard broom	100	Mus: 0	2-handed polearm
 Elf Guard mouthknife	50	Mus: 0	1-handed knife
 Elf Guard officer's sidearm	50	Mox: 0	1-handed pistol
+Elf Guard squirtgun	50	Mox: 0	1-handed pistol
 elf ploughshare	100	Mus: 0	1-handed sword
 elven tambourine	100	Mox: 0	1-handed rattle
 elven whittling knife	100	Mus: 35	1-handed knife
@@ -1928,6 +1930,7 @@ Dyspepsi-Cola shield	70	none	shield
 easter egg balloon	100	Mys: 35
 eelskin shield	200	Mus: 85	shield
 Elf Guard clipboard	0	none
+Elf Guard safety bear	0	none
 Elizabeth's Dollie	120	Mys: 45
 Ellsbury's skull	100	Mys: 35
 enchanted brass knuckles	50	Mys: 10
@@ -3009,6 +3012,7 @@ red-hot medallion	50	none
 red-soled high heels	0	none
 reinforced furry underpants	30	none
 replica Cincho de Mayo	100	none
+replica Elf Guard medal	0	none
 replica Elvish sunglasses	0	none
 replica hewn moon-rune spoon	200	none
 replica Juju Mojo Mask	0	none
