@@ -11,7 +11,7 @@ import static internal.helpers.Player.withUsedAbsorbs;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
@@ -128,7 +128,12 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
     }
 
     var requests = client.getRequests();
-    assertThat(requests.size(), equalTo(16)); // 15 items + 1 charpane
+    // Under some circumstances loading the charpane will trigger a request for the image
+    // gladiatar.gif.  So this request should have 15 responses for the absorb, one for the charpane
+    // and perhaps one for the image
+    assertTrue(
+        requests.size() >= 16,
+        "Unexpected number of responses: " + requests.size()); // 15 items + 1 charpane
   }
 
   @Test
