@@ -810,6 +810,7 @@ public class UseItemRequest extends GenericRequest {
         return InventoryManager.hasItem(ItemPool.WRIST_BOY) ? Integer.MAX_VALUE : 0;
 
       case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+      case ItemPool.PUNCHING_MIRROR:
         if (!KoLCharacter.getHippyStoneBroken()) {
           UseItemRequest.limiter = "an unbroken hippy stone";
           return 0;
@@ -5262,6 +5263,10 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
         Preferences.setBoolean("_hardKnocksDiplomaUsed", true);
+        break;
+
+      case ItemPool.PUNCHING_MIRROR:
+        Preferences.setBoolean("_punchingMirrorUsed", true);
         break;
 
       case ItemPool.SOURCE_TERMINAL_PRAM_CHIP:

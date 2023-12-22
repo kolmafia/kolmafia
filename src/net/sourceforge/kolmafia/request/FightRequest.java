@@ -4926,6 +4926,13 @@ public class FightRequest extends GenericRequest {
         return 0;
       }
 
+      // after-crimbo23 points are not damage
+      // "Arr," says a nearby Crimbuccaneer. "10 points for ye, to be sure."
+
+      if (text.contains("Crimbuccaneer")) {
+        return 0;
+      }
+
       damage += StringUtilities.parseInt(m.group(2));
 
       // The last string contains all of the extra damage
@@ -10722,6 +10729,14 @@ public class FightRequest extends GenericRequest {
       case ItemPool.CRIMBUCCANEER_RIGGING_LASSO:
         if (responseText.contains("then toss it roguishly")) {
           BanishManager.banishCurrentMonster(Banisher.CRIMBUCCANEER_RIGGING_LASSO);
+        }
+        break;
+
+      case ItemPool.PRANK_CRIMBO_CARD:
+        if (responseText.contains("You hand the Crimbo card to the elf")) {
+          TurnCounter.stopCounting("Prank Card Monster");
+          TurnCounter.startCounting(100, "Prank Card Monster loc=*", "snout.gif");
+          Preferences.setString("_prankCardMonster", MonsterStatusTracker.getLastMonsterName());
         }
         break;
     }

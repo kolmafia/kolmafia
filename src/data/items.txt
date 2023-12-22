@@ -11476,7 +11476,7 @@
 11448	brown pirate pants	879963972	brownpants.gif	pants	t	0	pairs of brown pirate pants
 11449	Elf Guard Field Manual: Extortion	420210939	book.gif	usable	t	0	copies of Elf Guard Field Manual: Extortion
 11450	The Encyclopedia of Fruit	966029305	book3.gif	usable	t	0	copies of The Encyclopedia of Fruit
-11451	punching mirror	911655077	crimbucmirror.gif	usable	t	0
+11451	punching mirror	911655077	crimbucmirror.gif	reusable	t	0
 11452	ancient Elf dessert spoon	231753264	egspoon.gif	weapon	t	0
 11453	Elf Guard SCUBA tank	303906801	elfscuba.gif	container	t	0
 11454	Elf Guard Field Manual: Wilderness Sleeping	424878071	book.gif	usable	t	0	copies of Elf Guard Field Manual: Wilderness Sleep
