@@ -2538,4 +2538,27 @@ public class FightRequestTest {
       assertThat(TurnCounter.isCounting("Rain Monster window end"), is(inRaincore));
     }
   }
+
+  @Test
+  public void crimbuccaneerScoreIsNotDamage() {
+    var cleanups = new Cleanups(withFight(0));
+    try (cleanups) {
+      assertEquals(0, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
+      parseCombatData("request/test_fight_crimbo23.html");
+      assertEquals(3, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
+    }
+  }
+
+  @Test
+  void canTrackSuccessfulPrankCardUse() {
+    var cleanups =
+        new Cleanups(withProperty("_prankCardMonster"), withItem(ItemPool.PRANK_CRIMBO_CARD));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_elf_crimbo_card.html",
+          "fight.php?action=useitem&whichitem=11487&whichitem2=0");
+      assertThat("_prankCardMonster", isSetTo("Elf Guard engineer"));
+    }
+  }
 }

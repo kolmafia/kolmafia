@@ -287,7 +287,8 @@ public class AdventureQueueDatabase implements Serializable {
               && ((Preferences.getString("olfactedMonster").equals(queueMonster.getName())
                       && KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL))
                   || Preferences.getString("longConMonster").equals(queueMonster.getName())
-                  || Preferences.getString("motifMonster").equals(queueMonster.getName()));
+                  || Preferences.getString("motifMonster").equals(queueMonster.getName())
+                  || Preferences.getString("_prankCardMonster").equals(queueMonster.getName()));
       if (queueMonster != null && data.getWeighting(queueMonster) > 0 && !olfacted) {
         queueWeight += data.getWeighting(queueMonster);
       }
