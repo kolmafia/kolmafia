@@ -11406,11 +11406,11 @@
 11378	pickled bread	675408908	saltbread.gif	food	t,d	5	slices of pickled bread
 11379	salted mutton	657514472	saltmutton.gif	food	t,d	5	chunks of salted mutton
 11380	corned beet	163378662	saltbet.gif	food	t,d	5
-11381
-11382
-11383
-11384
-11385
+11381	tiny plastic Elf Guard Armory	897987307	tp23_armory.gif	accessory	t	0
+11382	tiny plastic Bar	360984319	tp23_bar.gif	accessory	t	0
+11383	tiny plastic Cafe	344789071	tp23_cafe.gif	accessory	t	0
+11384	tiny plastic Factory	213979399	tp23_factory.gif	accessory	t	0
+11385	tiny plastic Abuela's cottage	697445644	tp23_abuela.gif	accessory	t	0
 11386	pirate encryption key alpha	330102605	c23enc1.gif	none	t	0
 11387	pirate encryption key bravo	383639417	c23enc2.gif	none	t	0
 11388	pirate encryption key charlie	364036743	c23enc3.gif	none	t	0
@@ -11487,9 +11487,9 @@
 11459	sugarplum ration	189858284	sugarplum.gif	food	t	0
 11460	gingerbread nylons	363568811	gingernylons.gif	food	t	0	pairs of gingerbread nylons
 11461	rum-soaked fruitcake	971219375	fruitcake.gif	food	t	0
-11462
-11463
-11464
+11462	candied lime	213410535	candylime.gif	food	t	0
+11463	gingerbread pirate	231889259	gingerpirate.gif	food	t	0
+11464	fruit-stuffed rumcake	469219075	fruitrumcake.gif	food	t	0
 11465	mulled wine	906612746	mulledwine.gif	drink	t	0	glasses of mulled wine
 11466	Swedish coffee	157954343	coffeecup.gif	drink	t	0	mugs of Swedish coffee
 11467	canteen of eggnog	169086098	canteen.gif	drink	t	0	canteens of eggnog
@@ -11505,13 +11505,13 @@
 11477	gunwale whalegun	602303862	whalegungun.gif	weapon		0
 11478	red white and blue claret	227207466	egclaret2.gif	drink, mix	t	0	glasses of red white and blue claret
 11479	rigging knot	788405217	knot.gif	familiar	t,d	75
-11480
-11481
-11482
-11483
-11484
-11485
-11486
+11480	trick coin	201534780	prankcoin.gif	none, combat	t	0
+11481	Elf Guard squirtgun	537938412	elfsquirtgun.gif	weapon	t,d	0
+11482	chest of &quot;pirate gold&quot;	999917759	lilchest.gif	usable	t	0
+11483	sequin-encrusted sweater	614716541	c23sweater1.gif	shirt	t	0
+11484	replica Elf Guard medal	821622244	egmedal.gif	accessory	t	0
+11485	Lil' Snowball Factory	816732337	snowfactory.gif	reusable	t	0	Lil' Snowball Factories
+11486	Elf Guard temporary (permanent) tattoo	271982729	egtat.gif	usable	t	0
 11487	prank Crimbo card	598532985	c23card.gif	none, combat	t	0
 11488	Crimbuccaneer squirtblunderbuss	161565670	crimbucsquirt.gif	weapon	t	0	Crimbuccaneer squirtblunderbusses
 11489	My First Paycheck envelope	676567657	envelope.gif	usable	t	0
@@ -11519,9 +11519,9 @@
 11491	Crimbuccaneer nose ring	696182050	crimbucnosering.gif	accessory	t	0
 11492	pet anchor	120654814	anchor.gif	grow	t	0
 11493	Crimbuccaneer tattoo gift certificate	229285610	crimbuccert.gif	usable	t,d	0
-11494
+11494	Elf Guard safety bear	512733269	egbear.gif	offhand	g	0
 11495	stuffed kraken	165429188	crimbuckraken.gif	offhand	g	0
-11496
+11496	precision snowball	645124468	hellsnowball.gif	usable, combat	t	0
 11497	Elf Guard Field Manual: Culinary Arts (used)	894142436	book.gif	usable		0
 11498	Cocktails of the Age of Sail (used)	332132489	book4.gif	usable		0	copies of Cocktails of the Age of Sail (used)
 11499	Elf Guard Field Manual: Extortion (used)	193745312	book.gif	usable		0	copies of Elf Guard Field Manual: Extortion (used)
