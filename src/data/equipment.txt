@@ -1819,7 +1819,7 @@ astral shield	50	none	shield
 astral statuette	50	none
 august scepter	0	none
 autumn debris shield	150	none	shield
-autumnal aegis	0	Mus: 25	shield
+autumnal aegis	150	Mus: 25	shield
 Bag o' Tricks	0	none
 bag of Crotchety Pine saplings	10	none
 bag of Laughing Willow saplings	10	none
@@ -1895,7 +1895,7 @@ Crimbo light-up Rudolph doll	20	none
 Crimbo smile	50	none
 Crimbo stogie-scented room odorizer	20	none
 Crimbo tree flocker	20	none
-Crimbuccaneer lantern	0	none
+Crimbuccaneer lantern	100	none
 crumbling rabbit's foot	50	none
 crumbling skull	0	none
 cuddly teddy bear	125	Mys: 47
@@ -2530,10 +2530,10 @@ crank-powered radio on a lanyard	100	none
 CRIMBCO lanyard	0	none
 Crimbolex watch	200	Mys: 20
 Crimbomega drive chain	100	none
-Crimbuccaneer fledges (disintegrating)	0	none
-Crimbuccaneer fledges (mint)	0	none
-Crimbuccaneer nose ring	0	none
-Crimbuccaneer runebone	0	none
+Crimbuccaneer fledges (disintegrating)	100	none
+Crimbuccaneer fledges (mint)	10	none
+Crimbuccaneer nose ring	50	none
+Crimbuccaneer runebone	100	none
 crusty hula hoop	200	Mys: 200
 crying statue earrings	50	none
 crystal belt buckle	100	Mys: 35
@@ -2589,13 +2589,13 @@ eerie fetish	225	Mys: 200
 Eight Days a Week Pill Keeper	100	none
 El Vibrato translator	200	none
 elevennis shoes	111	Mys: 11
-Elf Guard commandeering gloves	0	none
-Elf Guard insignia (general)	0	none
-Elf Guard insignia (private)	0	none
+Elf Guard commandeering gloves	50	none
+Elf Guard insignia (general)	100	none
+Elf Guard insignia (private)	10	none
 Elmley shades	180	Mys: 75
 elven socks	30	none
 Elvish sunglasses	0	none
-Elvish underarmor	0	none
+Elvish underarmor	100	none
 Emblem of Ak'gyxoth	0	Mys: 30
 enchanted handwarmer	60	Mys: 15
 enchanted toothpick	80	Mys: 25
@@ -2637,7 +2637,7 @@ food drive button	10	none
 Former Sheriff Dan's tin star	225	Mus: 50
 fossilized necklace	50	none
 frayed rope belt	200	Mys: 200
-free boots	0	none
+free boots	100	none
 French slippers	10	none
 freshwater pearl necklace	80	Mys: 25
 frosty button	0	none
@@ -2701,8 +2701,8 @@ Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
 Groll doll	50	none
 groovy prism necklace	150	Mys: 60
-grubby wool gloves	0	none
-grubby wool scarf	0	none
+grubby wool gloves	50	none
+grubby wool scarf	50	none
 grumpy old man charrrm bracelet	150	Mys: 60
 gummi bowtie	0	none
 gumshoes	50	Mus: 10
@@ -2917,7 +2917,7 @@ pearl diver's necklace	200	Mys: 85
 pearl diver's ring	200	Mys: 85
 pearl necklace	0	Mox: 37
 peg key	10	none
-pegfinger	0	none
+pegfinger	50	none
 Pendant of Fire	150	Mys: 60
 Pendant of Gargalesis	150	Mys: 60
 peppermint-scented socks	50	none
@@ -3012,7 +3012,7 @@ red-hot medallion	50	none
 red-soled high heels	0	none
 reinforced furry underpants	30	none
 replica Cincho de Mayo	100	none
-replica Elf Guard medal	0	none
+replica Elf Guard medal	50	none
 replica Elvish sunglasses	0	none
 replica hewn moon-rune spoon	200	none
 replica Juju Mojo Mask	0	none
@@ -3575,8 +3575,8 @@ Drapes-You-Regally	300	Mox: 250
 Drip harness	0	Mus: 100
 Drunkula's cape	300	Mys: 250
 Duke Vampire's regal cloak	200	Mox: 40
-Elf Guard fuel tank	0	none
-Elf Guard SCUBA tank	0	none
+Elf Guard fuel tank	100	none
+Elf Guard SCUBA tank	100	none
 fiberglass frock	120	Mus: 40
 frozen turtle shell	100	Mus: 50
 gabardine gunnysack	50	none
