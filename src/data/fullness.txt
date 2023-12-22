@@ -141,6 +141,7 @@ can of Adultwitch&trade;	2	4	decent	2-4	0	0	0	20 Greasy Visage (+50 Sleaze Spell
 can of franks 'n' beans	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
 can of sardines	1	4	awesome	3-4	20-25	0	0
 can-shaped gelatinous cranberry sauce	3	6	awesome	9-17	0	0	71-74
+candied lime	4	1	awesome	0	0	0	0	Unspaded, 50 Limed Up (+MPC drops)
 candied pecan	1	1	decent	2	5-10	0	0	10 Sugar Rush
 candied sweet potatoes	2	1	awesome	8-10	0	10-20	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 candied yams	3	5	awesome	7-14	0	72-75	0
@@ -374,6 +375,7 @@ frozen banquet	6	15	EPIC	42-48	100-289	100-289	100-289
 frozen danish	1	4	awesome	3-5	0	0	45-75	30 Danish Cunning (+25% pickpocket)
 frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
 frozen tofu pop	1	1	EPIC	5-6	0	0	0
+fruit-stuffed rumcake	5	1	awesome	0	0	0	0	Unspaded, 100 Fruit-Based Animosity (+5 Pirate Warfare Effectiveness)
 fruitcake	3	1	decent	3-6	17-23	17-23	17-23
 fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
@@ -404,6 +406,7 @@ gingerbread mug	2	1	decent	3-4	2-4	2-4	2-4
 gingerbread mutant bugbear	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
 Gingerbread Nutrition Block	4	1	decent	6-10	0	0	0	20 Forbear, Warbears! (+40 WarBear Armor Penetration)
 gingerbread nylons	3	1	awesome	12	0	0	0	50 Stocking Stuffer (increase drops on Crimbo battlefields)
+gingerbread pirate	3	1	EPIC	0	0	0	0	Unspaded, 50 Tiny Pirate Inside (+50% HP, 10 DR, 100 DA)
 gingerbread robot	2	1	awesome	7-11	0	0	0	20 Gingerbread Robust (+100% all stats)
 gingerbread stir-fry	3	1	decent	3-7	0	0	0	10 Sugar Rush
 glass of baboon milk	1	2	decent	2	3-5	0	0	BEVERAGE

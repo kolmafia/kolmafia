@@ -1191,3 +1191,12 @@ Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1416
 Elf Guard Officers' Club	buy	5	mulled wine	ROW1405
 Elf Guard Officers' Club	buy	20	Swedish coffee	ROW1406
 Elf Guard Officers' Club	buy	10	canteen of eggnog	ROW1407
+
+Elf Guard Toy and Munitions Factory	buy	10	trick coin	ROW1424
+Elf Guard Toy and Munitions Factory	buy	20	Elf Guard squirtgun	ROW1425
+Elf Guard Toy and Munitions Factory	buy	40	chest of &quot;pirate gold&quot;	ROW1426
+Elf Guard Toy and Munitions Factory	buy	80	sequin-encrusted sweater	ROW1427
+Elf Guard Toy and Munitions Factory	buy	150	replica Elf Guard medal	ROW1428
+Elf Guard Toy and Munitions Factory	buy	400	Lil' Snowball Factory	ROW1429
+Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
+Elf Guard Toy and Munitions Factory	buy	1000	Elf Guard safety bear	ROW1440

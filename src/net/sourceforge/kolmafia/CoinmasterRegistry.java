@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.request.Crimbo20CandyRequest;
 import net.sourceforge.kolmafia.request.Crimbo20FoodRequest;
 import net.sourceforge.kolmafia.request.Crimbo23ElfBarRequest;
 import net.sourceforge.kolmafia.request.Crimbo23ElfCafeRequest;
+import net.sourceforge.kolmafia.request.Crimbo23ElfFactoryRequest;
 import net.sourceforge.kolmafia.request.Crimbo23PirateBarRequest;
 import net.sourceforge.kolmafia.request.Crimbo23PirateFactoryRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
@@ -114,6 +115,7 @@ public abstract class CoinmasterRegistry {
         Crimbo20FoodRequest.CRIMBO20FOOD,
         Crimbo23ElfBarRequest.DATA,
         Crimbo23ElfCafeRequest.DATA,
+        Crimbo23ElfFactoryRequest.DATA,
         Crimbo23PirateBarRequest.DATA,
         Crimbo23PirateFactoryRequest.DATA,
         CrimboCartelRequest.CRIMBO_CARTEL,
