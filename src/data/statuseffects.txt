@@ -2864,12 +2864,12 @@
 2861	Jamaican' Me Acquisitive	coffeecup.gif	5a4ef3e149e9a128ee2d3a8d7c248b71	neutral	none	drink 1 Jamaican coffee
 2862	Sugarplum Visions	sugarplum.gif	b2b21db45bc8812d9398c416cad15e75	neutral	none	eat 1 sugarplum ration
 2863	Mullin' for Bullion	mulledwine.gif	54ebdf4c0f4a95abe0abab60b767bd5b	neutral	none	drink 1 mulled wine
-2864
+2864	Limed Up	candylime.gif	076a7e2eb39f91a4055bdb49ed0c1f1b	neutral	none	eat 1 candied lime
 2865	In a Stealin' Mood	icewine.gif	d96b4e7654d17995ffde4faf38afa909	neutral	none	drink 1 hot wine
 2866	Rum of Darkness	fruitcake.gif	68624e517b227173377de23d6f950c1b	neutral	none	eat 1 rum-soaked fruitcake
 2867	Stocking Stuffer	gingernylons.gif	5ec54d1d09b7dd2e8800428389678deb	neutral	none	eat 1 gingerbread nylons
-2868
-2869
+2868	Tiny Pirate Inside	gingerpirate.gif	2abfea7455bc3f9602395e3a72f107a2	neutral	none	eat 1 gingerbread pirate
+2869	Fruit-Based Animosity	fruitrumcake.gif	20e0893ec448342f47293263b75eccee	neutral	none	eat 1 fruit-stuffed rumcake
 2870	Swedish Courage	coffeecup.gif	c72546f4452019961109535a0803f172	neutral	none	drink 1 Swedish coffee
 2871	All Liquored Up For War	canteen.gif	8c9403bf70d7d58d325b2ef813289cf0	neutral	none	drink 1 canteen of eggnog
 2872	Grogged For Battle	flask.gif	0fd395468fb546496eb74d36fbc9f6dc	neutral	none	drink 1 flask of egggrog
