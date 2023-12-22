@@ -878,7 +878,7 @@ reflective vest	50	none
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
-sequin-encrusted sweater	50
+sequin-encrusted sweater	50	none
 shark jumper	200	Mus: 85
 shoe ad T-shirt	50	none
 SMOOCH breastplate	105	Mus: 37

@@ -1192,11 +1192,11 @@ Elf Guard Officers' Club	buy	5	mulled wine	ROW1405
 Elf Guard Officers' Club	buy	20	Swedish coffee	ROW1406
 Elf Guard Officers' Club	buy	10	canteen of eggnog	ROW1407
 
-Elf Guard Foundry	buy 10	trick coin	ROW1424
-Elf Guard Foundry	buy 20	Elf Guard squirtgun	ROW1425
-Elf Guard Foundry	buy 40	chest of "pirate gold"	ROW1426
-Elf Guard Foundry	buy 80	sequin-encrusted sweater	ROW1427
-Elf Guard Foundry	buy 150	replica Elf Guard medal	ROW1428
-Elf Guard Foundry	buy 400	Lil' Snowball Factory	ROW1429
-Elf Guard Foundry	buy 1000	Elf Guard safety bear	ROW1440
-Elf Guard Foundry	buy 2000	Elf Guard temporary (permanent) tattoo	ROW1430
+Elf Guard Foundry	buy	10	trick coin	ROW1424
+Elf Guard Foundry	buy	20	Elf Guard squirtgun	ROW1425
+Elf Guard Foundry	buy	40	chest of "pirate gold"	ROW1426
+Elf Guard Foundry	buy	80	sequin-encrusted sweater	ROW1427
+Elf Guard Foundry	buy	150	replica Elf Guard medal	ROW1428
+Elf Guard Foundry	buy	400	Lil' Snowball Factory	ROW1429
+Elf Guard Foundry	buy	1000	Elf Guard safety bear	ROW1440
+Elf Guard Foundry	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
