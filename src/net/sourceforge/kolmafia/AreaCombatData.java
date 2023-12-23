@@ -180,6 +180,12 @@ public class AreaCombatData {
         currentWeighting += 3 * baseWeighting;
       }
 
+      // If trick coin used, add three to encounter pool
+      if (Preferences.getString("_trickCoinMonster").equals(monsterName)
+          && TurnCounter.isCounting("Trick Coin Monster")) {
+        currentWeighting += 3 * baseWeighting;
+      }
+
       if (BanishManager.isBanished(monsterName)
           || (rwbRelevant && !Preferences.getString("rwbMonster").equals(monsterName))) {
         // Banishing reduces number of copies

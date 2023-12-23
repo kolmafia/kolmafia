@@ -2561,4 +2561,16 @@ public class FightRequestTest {
       assertThat("_prankCardMonster", isSetTo("Elf Guard engineer"));
     }
   }
+
+  @Test
+  void canTrackSuccessfulTrickCoinUse() {
+    var cleanups = new Cleanups(withProperty("_trickCoinMonster"), withItem(ItemPool.TRICK_COIN));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_pirate_crimbo_coin.html",
+          "fight.php?action=useitem&whichitem=11480&whichitem2=0");
+      assertThat("_trickCoinMonster", isSetTo("Crimbuccaneer mudlark"));
+    }
+  }
 }
