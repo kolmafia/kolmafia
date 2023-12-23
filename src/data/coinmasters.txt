@@ -1177,6 +1177,12 @@ Crimbuccaneer Bar	buy	5	hot wine	ROW1408
 Crimbuccaneer Bar	buy	20	Jamaican coffee	ROW1409
 Crimbuccaneer Bar	buy	10	flask of egggrog	ROW1410
 
+Crimbuccaneer Junkworks	buy	1	Crimbuccaneer flotsam (3)	ROW1420
+Crimbuccaneer Junkworks	buy	1	Crimbuccaneer flotsam (3)	ROW1418
+Crimbuccaneer Junkworks	buy	1	Crimbuccaneer flotsam (3)	ROW1422
+Crimbuccaneer Junkworks	buy	1	Crimbuccaneer flotsam (3)	ROW1421
+Crimbuccaneer Junkworks	buy	200	Crimbuccaneer premium booty sack	ROW1417
+
 Elf Guard Mess Hall	buy	5	sugarplum ration	ROW1399
 Elf Guard Mess Hall	buy	20	gingerbread nylons	ROW1400
 Elf Guard Mess Hall	buy	10	rum-soaked fruitcake	ROW1401
