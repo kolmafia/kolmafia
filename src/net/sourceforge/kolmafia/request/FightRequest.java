@@ -10739,6 +10739,14 @@ public class FightRequest extends GenericRequest {
           Preferences.setString("_prankCardMonster", MonsterStatusTracker.getLastMonsterName());
         }
         break;
+
+      case ItemPool.TRICK_COIN:
+        if (responseText.contains("You show the coin to your opponent")) {
+          TurnCounter.stopCounting("Trick Coin Monster");
+          TurnCounter.startCounting(100, "Trick Coin Monster loc=*", "snout.gif");
+          Preferences.setString("_trickCoinMonster", MonsterStatusTracker.getLastMonsterName());
+        }
+        break;
     }
 
     if (itemId != itemId2) {
