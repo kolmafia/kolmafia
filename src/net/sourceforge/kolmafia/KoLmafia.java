@@ -101,6 +101,7 @@ import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
@@ -604,6 +605,10 @@ public abstract class KoLmafia {
     BanishManager.loadBanished();
     BanishManager.resetRollover();
 
+    // Make sure Tracks are loaded before removing them
+    TrackManager.loadTracked();
+    TrackManager.resetRollover();
+
     // Libram summoning skills now costs 1 MP again
     LockableListFactory.sort(KoLConstants.summoningSkills);
     LockableListFactory.sort(KoLConstants.usableSkills);
@@ -985,6 +990,7 @@ public abstract class KoLmafia {
     Preferences.setString("peteMotorbikeMuffler", "");
     Preferences.setString("peteMotorbikeSeat", "");
     BanishManager.resetAvatar();
+    TrackManager.resetAvatar();
 
     // Hermit items depend on character class
     HermitRequest.initialize();

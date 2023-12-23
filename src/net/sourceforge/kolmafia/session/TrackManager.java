@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -73,6 +72,7 @@ public class TrackManager {
     PERCEIVE_SOUL("Perceive Soul", 2, false, 30, Reset.AVATAR_TURN_RESET),
     MOTIF("Motif", 2, true, -1, Reset.AVATAR_RESET),
     MONKEY_POINT("Motif", 2, false, -1, Reset.ASCENSION_RESET),
+    // HOLD_HANDS, but we have no idea for the copies
     PRANK_CARD("prank Crimbo card", 3, true, 100, Reset.TURN_RESET),
     TRICK_COIN("trick coin", 3, true, 100, Reset.TURN_RESET),
     ;
@@ -133,18 +133,6 @@ public class TrackManager {
       return switch (tracker.getResetType()) {
         case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() > 0;
         default -> true;
-      };
-    }
-
-    public String getDescription() {
-      return switch (tracker.getResetType()) {
-        case TURN_RESET -> turnsLeft().toString();
-        case ROLLOVER_RESET -> "Until Rollover";
-        case TURN_ROLLOVER_RESET -> turnsLeft() + " or Until Rollover";
-        case AVATAR_RESET -> "Until Prism Break";
-        case AVATAR_ROLLOVER_RESET -> "Until Rollover or Until Prism Break";
-        case AVATAR_TURN_RESET -> turnsLeft() + " or Until Prism Break";
-        case ASCENSION_RESET -> "Until Ascension";
       };
     }
   }

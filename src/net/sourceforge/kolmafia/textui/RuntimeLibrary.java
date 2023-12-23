@@ -168,6 +168,7 @@ import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TowerDoorManager;
+import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.VotingBoothManager;
@@ -2426,6 +2427,16 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.MONSTER_TYPE};
     functions.add(
         new LibraryFunction("banished_by", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = new Type[] {DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("track_copy_count", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.MONSTER_TYPE};
+    functions.add(new LibraryFunction("track_ignore_queue", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.MONSTER_TYPE};
+    functions.add(
+        new LibraryFunction("tracked_by", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
     params = new Type[] {};
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
@@ -9052,6 +9063,36 @@ public abstract class RuntimeLibrary {
 
     for (int i = 0; i < banishedBy.length; i++) {
       value.aset(new Value(i), DataTypes.makeStringValue(banishedBy[i].getName()));
+    }
+
+    return value;
+  }
+
+  public static Value track_copy_count(ScriptRuntime controller, final Value arg) {
+    MonsterData monster = (MonsterData) arg.rawValue();
+    if (monster == null) {
+      return DataTypes.FALSE_VALUE;
+    }
+    return DataTypes.makeIntValue(TrackManager.countCopies(monster.getName()));
+  }
+
+  public static Value track_ignore_queue(ScriptRuntime controller, final Value arg) {
+    MonsterData monster = (MonsterData) arg.rawValue();
+    if (monster == null) {
+      return DataTypes.FALSE_VALUE;
+    }
+    return DataTypes.makeBooleanValue(TrackManager.isQueueIgnored(monster.getName()));
+  }
+
+  public static Value tracked_by(ScriptRuntime controller, final Value arg) {
+    MonsterData monster = (MonsterData) arg.rawValue();
+    var trackedBy = TrackManager.trackedBy(monster);
+
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, trackedBy.length);
+    ArrayValue value = new ArrayValue(type);
+
+    for (int i = 0; i < trackedBy.length; i++) {
+      value.aset(new Value(i), DataTypes.makeStringValue(trackedBy[i].getName()));
     }
 
     return value;
