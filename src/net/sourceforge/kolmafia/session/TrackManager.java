@@ -6,12 +6,12 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -36,7 +36,8 @@ public class TrackManager {
 
     final boolean isRolloverReset() {
       if (rolloverReset == null) {
-        this.rolloverReset = this == TURN_ROLLOVER_RESET || this == ROLLOVER_RESET || this == AVATAR_ROLLOVER_RESET;
+        this.rolloverReset =
+            this == TURN_ROLLOVER_RESET || this == ROLLOVER_RESET || this == AVATAR_ROLLOVER_RESET;
       }
 
       return rolloverReset;
@@ -44,7 +45,8 @@ public class TrackManager {
 
     final boolean isTurnReset() {
       if (turnReset == null) {
-        this.turnReset = this == TURN_RESET || this == TURN_ROLLOVER_RESET || this == AVATAR_TURN_RESET;
+        this.turnReset =
+            this == TURN_RESET || this == TURN_ROLLOVER_RESET || this == AVATAR_TURN_RESET;
       }
 
       return turnReset;
@@ -52,7 +54,8 @@ public class TrackManager {
 
     final boolean isAvatarReset() {
       if (avatarReset == null) {
-        this.avatarReset = this == AVATAR_RESET || this == AVATAR_TURN_RESET || this == AVATAR_ROLLOVER_RESET;
+        this.avatarReset =
+            this == AVATAR_RESET || this == AVATAR_TURN_RESET || this == AVATAR_ROLLOVER_RESET;
       }
 
       return avatarReset;
@@ -61,7 +64,7 @@ public class TrackManager {
 
   public enum Tracker {
     OLFACTION("Transcendent Olfaction", 3, true, -1, Reset.ASCENSION_RESET),
-    NOSY_NOSE("Nosy Nose", 1, false, -1, Reset.ASCENSION_RESET), // TODO: only applies if nose out
+    NOSY_NOSE("Nosy Nose", 1, false, -1, Reset.ASCENSION_RESET),
     GALLAPAGOS("Gallapagosian Mating Call", 1, false, -1, Reset.ROLLOVER_RESET),
     LATTE("Offer Latte to Opponent", 2, false, 30, Reset.TURN_ROLLOVER_RESET),
     SUPERFICIAL("Daily Affirmation: Be Superficially interested", 3, false, 80, Reset.TURN_RESET),
@@ -119,8 +122,11 @@ public class TrackManager {
       return this.duration;
     }
 
-    public final Reset getResetType() {
-      return this.resetType;
+    public final boolean isEffective() {
+      if (this == Tracker.NOSY_NOSE) {
+        return KoLCharacter.getFamiliar().getId() == FamiliarPool.NOSY_NOSE;
+      }
+      return true;
     }
   }
 
@@ -130,7 +136,7 @@ public class TrackManager {
     }
 
     public boolean isValid() {
-      return switch (tracker.getResetType()) {
+      return switch (tracker.resetType) {
         case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() > 0;
         default -> true;
       };
@@ -195,7 +201,7 @@ public class TrackManager {
    * @param predicate Predicate dictating removal
    */
   private static void resetIfType(Predicate<Reset> predicate) {
-    resetIf(m -> predicate.test(m.tracker().getResetType()));
+    resetIf(m -> predicate.test(m.tracker().resetType));
   }
 
   public static void resetRollover() {
@@ -289,16 +295,11 @@ public class TrackManager {
     trackMonster(monster, tracker, true);
   }
 
-  private static void addTracked(
-      final String entry, final Tracker tracker, final int turnTracked) {
+  private static void addTracked(final String entry, final Tracker tracker, final int turnTracked) {
     var tracked = new Tracked(entry, tracker, turnTracked);
     if (!tracked.isValid()) {
       KoLmafia.updateDisplay(
-          "Track of "
-              + entry
-              + " by "
-              + tracker.getName()
-              + " failed, as the track was invalid.");
+          "Track of " + entry + " by " + tracker.getName() + " failed, as the track was invalid.");
       return;
     }
 
@@ -312,13 +313,21 @@ public class TrackManager {
   public static long countCopies(final String monster) {
     TrackManager.recalculate();
 
-    return trackedMonsters.stream().filter(m -> m.tracked().equalsIgnoreCase(monster)).mapToInt(t -> t.tracker().copies).count();
+    return trackedMonsters.stream()
+        .filter(m -> m.tracked().equalsIgnoreCase(monster) && m.tracker().isEffective())
+        .mapToInt(t -> t.tracker().copies)
+        .sum();
   }
 
   public static boolean isQueueIgnored(final String monster) {
     TrackManager.recalculate();
 
-    return trackedMonsters.stream().anyMatch(m -> m.tracker().isIgnoreQueue() && m.tracked().equalsIgnoreCase(monster));
+    return trackedMonsters.stream()
+        .anyMatch(
+            m ->
+                m.tracker().isIgnoreQueue()
+                    && m.tracked().equalsIgnoreCase(monster)
+                    && m.tracker().isEffective());
   }
 
   public static Tracker[] trackedBy(final MonsterData data) {
@@ -330,6 +339,7 @@ public class TrackManager {
 
     return trackedMonsters.stream()
         .filter(m -> m.tracked().equalsIgnoreCase(data.getName()))
+        .filter(m -> m.tracker().isEffective())
         .map(Tracked::tracker)
         .toArray(Tracker[]::new);
   }

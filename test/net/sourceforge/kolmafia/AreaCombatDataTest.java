@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TrackManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -212,23 +213,55 @@ public class AreaCombatDataTest {
 
   @Test
   public void olfaction() {
-    AdventureQueueDatabase.resetQueue();
-    KoLConstants.activeEffects.add(EffectPool.get(EffectPool.ON_THE_TRAIL));
-    Preferences.setString("olfactedMonster", "smut orc pipelayer");
+    var cleanups =
+        new Cleanups(
+            withCurrentRun(30),
+            withProperty("trackedMonsters", "smut orc pipelayer:Transcendent Olfaction:26"),
+            withEffect(EffectPool.ON_THE_TRAIL));
 
-    Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+    try (cleanups) {
+      TrackManager.loadTracked();
 
-    assertThat(
-        appearanceRates,
-        allOf(
-            aMapWithSize(7),
-            hasEntry(JACKER, 400 / 28.0),
-            hasEntry(NAILER, 400 / 28.0),
-            hasEntry(PIPELAYER, 1600 / 28.0),
-            hasEntry(SCREWER, 400 / 28.0),
-            hasEntry(PERVERT, 0.0),
-            hasEntry(SNAKE, 0.0),
-            hasEntry(GHOST, 0.0)));
+      Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+
+      assertThat(
+          appearanceRates,
+          allOf(
+              aMapWithSize(7),
+              hasEntry(JACKER, 400 / 28.0),
+              hasEntry(NAILER, 400 / 28.0),
+              hasEntry(PIPELAYER, 1600 / 28.0),
+              hasEntry(SCREWER, 400 / 28.0),
+              hasEntry(PERVERT, 0.0),
+              hasEntry(SNAKE, 0.0),
+              hasEntry(GHOST, 0.0)));
+    }
+  }
+
+  @Nested
+  class NosyNose {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void onlyAppliesIfNosyNoseActive(boolean active) {
+      var cleanups =
+          new Cleanups(
+              withCurrentRun(30),
+              withProperty("trackedMonsters", "swamp duck:Nosy Nose:26"),
+              withFamiliar(active ? FamiliarPool.NOSY_NOSE : FamiliarPool.MOSQUITO));
+
+      try (cleanups) {
+        TrackManager.loadTracked();
+
+        var bog = AdventureDatabase.getAreaCombatData("McMillicancuddy's Bog");
+        Map<MonsterData, Double> appearanceRates = bog.getMonsterData(true);
+
+        assertThat(
+            appearanceRates,
+            allOf(
+                aMapWithSize(2),
+                hasEntry(MonsterDatabase.findMonster("swamp duck"), active ? 200 / 3.0 : 50.0)));
+      }
+    }
   }
 
   @Test
