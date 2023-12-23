@@ -198,7 +198,7 @@ public class BanishManager {
   }
 
   private record Banished(String banished, Banisher banisher, int turnBanished) {
-    public Integer turnsLeft() {
+    private Integer turnsLeft() {
       return (turnBanished + banisher.getDuration()) - KoLCharacter.getCurrentRun();
     }
 
@@ -242,11 +242,11 @@ public class BanishManager {
     BanishManager.loadBanishedPhyla();
   }
 
-  public static void loadBanishedMonsters() {
+  static void loadBanishedMonsters() {
     loadBanishedX("banishedMonsters", BanishManager.banishedMonsters);
   }
 
-  public static void loadBanishedPhyla() {
+  static void loadBanishedPhyla() {
     loadBanishedX("banishedPhyla", BanishManager.banishedPhyla);
   }
 
