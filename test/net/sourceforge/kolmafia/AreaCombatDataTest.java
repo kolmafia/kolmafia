@@ -882,4 +882,37 @@ public class AreaCombatDataTest {
       }
     }
   }
+
+  @Nested
+  class PhylumTrack {
+    @Test
+    public void trackedPhylaStackWithTrackedMonsters() {
+      var cleanups =
+          new Cleanups(
+              withCurrentRun(30),
+              withProperty("trackedPhyla", "dude:Ew, The Humanity:25:beast:A Beastly Odor:25"),
+              withEffect(EffectPool.A_BEASTLY_ODOR),
+              withEffect(EffectPool.EW_THE_HUMANITY),
+              withProperty("trackedMonsters", "eagle:Gallapagosian Mating Call:26"),
+              withEffect(EffectPool.TAUNT_OF_HORUS));
+
+      try (cleanups) {
+        TrackManager.loadTracked();
+
+        var zone = AdventureDatabase.getAreaCombatData("A Mob of Zeppelin Protesters");
+        Map<MonsterData, Double> appearanceRates = zone.getMonsterData(true);
+
+        assertThat(appearanceRates, aMapWithSize(6));
+        assertThat(
+            appearanceRates,
+            allOf(
+                hasEntry(MonsterDatabase.findMonster("Blue Oyster cultist"), 300.0 / 16.0),
+                hasEntry(MonsterDatabase.findMonster("eagle"), 400.0 / 16.0),
+                hasEntry(MonsterDatabase.findMonster("fleet woodsman"), 300.0 / 16.0),
+                hasEntry(MonsterDatabase.findMonster("Jefferson pilot"), 300.0 / 16.0),
+                hasEntry(MonsterDatabase.findMonster("lynyrd skinner"), 300.0 / 16.0),
+                hasEntry(MonsterDatabase.findMonster("The Nuge"), -3.0)));
+      }
+    }
+  }
 }

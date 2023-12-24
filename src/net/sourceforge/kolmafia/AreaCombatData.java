@@ -108,26 +108,12 @@ public class AreaCombatData {
       baseWeighting = baseWeighting >> WEIGHT_SHIFT;
 
       String monsterName = monster.getName();
-      Phylum monsterPhylum = monster.getPhylum();
 
       baseWeighting = AreaCombatData.adjustConditionalWeighting(zone, monsterName, baseWeighting);
       int currentWeighting = baseWeighting;
 
       var copies = (int) TrackManager.countCopies(monsterName);
       currentWeighting += copies * baseWeighting;
-
-      // If Red Snapper tracks its phylum, and is current familiar, add two to encounter pool
-      if (Preferences.getString("redSnapperPhylum").equals(monsterPhylum.toString())
-          && KoLCharacter.getFamiliar().getId() == FamiliarPool.RED_SNAPPER) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If any relevant Daily Candle familiar-tracking potions are active, add two to the
-      // encounter pool
-      if ((monsterPhylum == Phylum.HUMANOID && KoLConstants.activeEffects.contains(EW_THE_HUMANITY))
-          || (monsterPhylum == Phylum.BEAST
-              && KoLConstants.activeEffects.contains(A_BEASTLY_ODOR))) {
-        currentWeighting += 2 * baseWeighting;
-      }
 
       if (BanishManager.isBanished(monsterName)
           || (rwbRelevant && !Preferences.getString("rwbMonster").equals(monsterName))) {

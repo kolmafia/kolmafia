@@ -8,9 +8,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -31,6 +33,7 @@ public class TrackManager {
     TURN_RESET,
     TURN_ROLLOVER_RESET,
     ROLLOVER_RESET,
+    EFFECT_RESET,
     AVATAR_RESET,
     AVATAR_TURN_RESET,
     AVATAR_ROLLOVER_RESET,
@@ -81,15 +84,13 @@ public class TrackManager {
     LONG_CON("Long Con", 3, true, -1, Reset.AVATAR_RESET),
     PERCEIVE_SOUL("Perceive Soul", 2, false, 30, Reset.AVATAR_TURN_RESET),
     MOTIF("Motif", 2, true, -1, Reset.AVATAR_RESET),
-    MONKEY_POINT("Motif", 2, false, -1, Reset.ASCENSION_RESET),
+    MONKEY_POINT("Monkey Point", 2, false, -1, Reset.ASCENSION_RESET),
     // HOLD_HANDS, but we have no idea for the copies
     PRANK_CARD("prank Crimbo card", 3, true, 100, Reset.TURN_RESET),
     TRICK_COIN("trick coin", 3, true, 100, Reset.TURN_RESET),
     RED_SNAPPER("Red-Nosed Snapper", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
-    // TODO: effect reset
-    A_BEASTLY_ODOR("A Beastly Odor", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
-    // TODO: effect reset
-    EW_THE_HUMANITY("Ew, The Humanity", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
+    A_BEASTLY_ODOR("A Beastly Odor", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
+    EW_THE_HUMANITY("Ew, The Humanity", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
     ;
 
     final String name;
@@ -153,6 +154,8 @@ public class TrackManager {
     public final boolean isEffective() {
       if (this == Tracker.NOSY_NOSE) {
         return KoLCharacter.getFamiliar().getId() == FamiliarPool.NOSY_NOSE;
+      } else if (this == Tracker.RED_SNAPPER) {
+        return KoLCharacter.getFamiliar().getId() == FamiliarPool.RED_SNAPPER;
       }
       return true;
     }
@@ -166,6 +169,15 @@ public class TrackManager {
     public boolean isValid() {
       return switch (tracker.resetType) {
         case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() > 0;
+        case EFFECT_RESET -> {
+          var effect =
+              switch (tracker) {
+                case A_BEASTLY_ODOR -> EffectPool.get(EffectPool.A_BEASTLY_ODOR);
+                case EW_THE_HUMANITY -> EffectPool.get(EffectPool.EW_THE_HUMANITY);
+                default -> throw new IllegalStateException("Unexpected value: " + tracker);
+              };
+          yield KoLConstants.activeEffects.contains(effect);
+        }
         default -> true;
       };
     }

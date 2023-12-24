@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withCurrentRun;
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withProperty;
@@ -20,6 +21,7 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -181,20 +183,6 @@ class BanishManagerTest {
         assertThat("banishedMonsters", isSetTo("smut orc nailer:Reflex Hammer:420"));
       }
     }
-
-    @Test
-    void roarLikeALionExpiresWithoutEffect() {
-      var cleanups =
-          new Cleanups(
-              withCurrentRun(4), withProperty("banishedMonsters", "crate:Roar like a Lion:3"));
-
-      try (cleanups) {
-        BanishManager.loadBanishedMonsters();
-        BanishManager.recalculate();
-
-        assertThat("banishedMonsters", isSetTo(""));
-      }
-    }
   }
 
   @Nested
@@ -278,6 +266,39 @@ class BanishManagerTest {
             "banishedMonsters",
             isSetTo(
                 "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
+      }
+    }
+
+    @Nested
+    class EffectReset {
+      @Test
+      void roarLikeALionStaysWithEffect() {
+        var cleanups =
+            new Cleanups(
+                withCurrentRun(4),
+                withProperty("banishedMonsters", "crate:Roar like a Lion:3"),
+                withEffect(EffectPool.HEAR_ME_ROAR));
+
+        try (cleanups) {
+          BanishManager.loadBanishedMonsters();
+          BanishManager.recalculate();
+
+          assertThat("banishedMonsters", isSetTo("crate:Roar like a Lion:3"));
+        }
+      }
+
+      @Test
+      void roarLikeALionExpiresWithoutEffect() {
+        var cleanups =
+            new Cleanups(
+                withCurrentRun(4), withProperty("banishedMonsters", "crate:Roar like a Lion:3"));
+
+        try (cleanups) {
+          BanishManager.loadBanishedMonsters();
+          BanishManager.recalculate();
+
+          assertThat("banishedMonsters", isSetTo(""));
+        }
       }
     }
   }

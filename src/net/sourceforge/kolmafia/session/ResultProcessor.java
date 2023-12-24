@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.TrackManager.Tracker;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1145,6 +1146,16 @@ public class ResultProcessor {
           int duration = result.getCount();
           if (duration <= 0) break;
           Preferences.setInteger("chilledToTheBone", (int) Math.pow(3, duration));
+        }
+        case EffectPool.A_BEASTLY_ODOR -> {
+          int duration = result.getCount();
+          if (duration <= 0) break;
+          TrackManager.track("beast", Tracker.A_BEASTLY_ODOR);
+        }
+        case EffectPool.EW_THE_HUMANITY -> {
+          int duration = result.getCount();
+          if (duration <= 0) break;
+          TrackManager.track("dude", Tracker.EW_THE_HUMANITY);
         }
       }
 
