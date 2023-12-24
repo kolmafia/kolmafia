@@ -291,42 +291,23 @@ public class TrackManager {
   /**
    * Track a monster
    *
-   * @param monsterName Name of the monster to track
-   * @param tracker Tracker type
-   * @param adventureResult Whether this track is the result of an adventure (vs observed through
-   *     some other means)
-   */
-  public static void trackMonster(
-      final String monsterName, final Tracker tracker, final boolean adventureResult) {
-    MonsterData monster = MonsterDatabase.findMonster(monsterName, false, false);
-
-    if (monster == null) {
-      KoLmafia.updateDisplay("Couldn't find monster by the name " + monsterName + ".");
-      return;
-    }
-
-    trackMonster(monster, tracker, adventureResult);
-  }
-
-  /**
-   * Track a monster
-   *
    * @param monster Instance of the monster to track
    * @param tracker Tracker type
-   * @param adventureResult Whether this track is the result of an adventure (vs observed through
-   *     some other means)
    */
-  public static void trackMonster(
-      final MonsterData monster, final Tracker tracker, final boolean adventureResult) {
+  public static void trackMonster(final MonsterData monster, final Tracker tracker) {
     String tracked =
         switch (tracker.getTrackType()) {
           case MONSTER -> monster.getName();
           case PHYLUM -> monster.getPhylum().toString();
         };
 
-    TrackManager.removeTrack(tracker);
-
     // TODO: Tracks fail in some areas, monsters in them cannot be tracked, but we don't track this
+
+    track(tracked, tracker);
+  }
+
+  public static void track(final String tracked, final Tracker tracker) {
+    TrackManager.removeTrack(tracker);
 
     KoLmafia.updateDisplay(tracked + " tracked by " + tracker.getName() + ".");
 
@@ -351,11 +332,8 @@ public class TrackManager {
       case MONKEY_POINT -> Preferences.setString("monkeyPointMonster", tracked);
       case PRANK_CARD -> Preferences.setString("_prankCardMonster", tracked);
       case TRICK_COIN -> Preferences.setString("_trickCoinMonster", tracked);
+      case RED_SNAPPER -> Preferences.setString("redSnapperPhylum", tracked);
     }
-  }
-
-  public static void trackMonster(final MonsterData monster, final Tracker tracker) {
-    trackMonster(monster, tracker, true);
   }
 
   private static void addTracked(final String entry, final Tracker tracker, final int turnTracked) {
