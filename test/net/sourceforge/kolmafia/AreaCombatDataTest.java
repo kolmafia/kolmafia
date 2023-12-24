@@ -1,11 +1,15 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withBanishedMonsters;
+import static internal.helpers.Player.withBanishedPhyla;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withTrackedMonsters;
+import static internal.helpers.Player.withTrackedPhyla;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.allOf;
@@ -32,10 +36,8 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.TrackManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -216,12 +218,10 @@ public class AreaCombatDataTest {
     var cleanups =
         new Cleanups(
             withCurrentRun(30),
-            withProperty("trackedMonsters", "smut orc pipelayer:Transcendent Olfaction:26"),
-            withEffect(EffectPool.ON_THE_TRAIL));
+            withEffect(EffectPool.ON_THE_TRAIL),
+            withTrackedMonsters("smut orc pipelayer:Transcendent Olfaction:26"));
 
     try (cleanups) {
-      TrackManager.loadTracked();
-
       Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
       assertThat(
@@ -246,12 +246,10 @@ public class AreaCombatDataTest {
       var cleanups =
           new Cleanups(
               withCurrentRun(30),
-              withProperty("trackedMonsters", "swamp duck:Nosy Nose:26"),
-              withFamiliar(active ? FamiliarPool.NOSY_NOSE : FamiliarPool.MOSQUITO));
+              withFamiliar(active ? FamiliarPool.NOSY_NOSE : FamiliarPool.MOSQUITO),
+              withTrackedMonsters("swamp duck:Nosy Nose:26"));
 
       try (cleanups) {
-        TrackManager.loadTracked();
-
         var bog = AdventureDatabase.getAreaCombatData("McMillicancuddy's Bog");
         Map<MonsterData, Double> appearanceRates = bog.getMonsterData(true);
 
@@ -834,11 +832,9 @@ public class AreaCombatDataTest {
               withProperty("rwbLocation", "The Smut Orc Logging Camp"),
               withProperty("rwbMonster", "smut orc jacker"),
               withProperty("rwbMonsterCount", 2),
-              withProperty("trackedMonsters", "smut orc nailer:Gallapagosian Mating Call:1"));
+              withTrackedMonsters("smut orc nailer:Gallapagosian Mating Call:1"));
 
       try (cleanups) {
-        TrackManager.loadTracked();
-
         Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
         assertThat(
@@ -859,13 +855,11 @@ public class AreaCombatDataTest {
       var cleanups =
           new Cleanups(
               withCurrentRun(30),
-              withProperty("banishedPhyla", "dude:Patriotic Screech:25"),
-              withProperty("banishedMonsters", "bearpig topiary animal:snokebomb:26"),
+              withBanishedPhyla("dude:Patriotic Screech:25"),
+              withBanishedMonsters("bearpig topiary animal:snokebomb:26"),
               withEffect(EffectPool.TAUNT_OF_HORUS));
 
       try (cleanups) {
-        BanishManager.loadBanished();
-
         var twinPeak = AdventureDatabase.getAreaCombatData("Twin Peak");
         Map<MonsterData, Double> appearanceRates = twinPeak.getMonsterData(true);
 
@@ -892,15 +886,13 @@ public class AreaCombatDataTest {
       var cleanups =
           new Cleanups(
               withCurrentRun(30),
-              withProperty("trackedPhyla", "dude:Ew, The Humanity:25:beast:A Beastly Odor:25"),
               withEffect(EffectPool.A_BEASTLY_ODOR),
               withEffect(EffectPool.EW_THE_HUMANITY),
-              withProperty("trackedMonsters", "eagle:Gallapagosian Mating Call:26"),
+              withTrackedPhyla("dude:Ew, The Humanity:25:beast:A Beastly Odor:25"),
+              withTrackedMonsters("eagle:Gallapagosian Mating Call:26"),
               withEffect(EffectPool.TAUNT_OF_HORUS));
 
       try (cleanups) {
-        TrackManager.loadTracked();
-
         var zone = AdventureDatabase.getAreaCombatData("A Mob of Zeppelin Protesters");
         Map<MonsterData, Double> appearanceRates = zone.getMonsterData(true);
 
