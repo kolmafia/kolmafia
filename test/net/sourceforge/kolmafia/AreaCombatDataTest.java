@@ -834,9 +834,11 @@ public class AreaCombatDataTest {
               withProperty("rwbLocation", "The Smut Orc Logging Camp"),
               withProperty("rwbMonster", "smut orc jacker"),
               withProperty("rwbMonsterCount", 2),
-              withProperty("_gallapagosMonster", "smut orc nailer"));
+              withProperty("trackedMonsters", "smut orc nailer:Gallapagosian Mating Call:1"));
 
       try (cleanups) {
+        TrackManager.loadTracked();
+
         Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
         assertThat(
