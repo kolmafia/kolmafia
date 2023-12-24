@@ -951,6 +951,48 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof Crimbo23ElfArmoryRequest)
+        && Crimbo23ElfArmoryRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23ElfBarRequest)
+        && Crimbo23ElfBarRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23ElfCafeRequest)
+        && Crimbo23ElfCafeRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23ElfFactoryRequest)
+        && Crimbo23ElfFactoryRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23PirateArmoryRequest)
+        && Crimbo23PirateArmoryRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23PirateBarRequest)
+        && Crimbo23PirateBarRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23PirateFactoryRequest)
+        && Crimbo23PirateFactoryRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof CrimboCartelRequest)
         && CrimboCartelRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
