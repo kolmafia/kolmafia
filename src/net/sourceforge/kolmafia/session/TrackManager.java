@@ -18,8 +18,14 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TrackManager {
   private static final Set<Tracked> trackedMonsters = new LinkedHashSet<>();
+  private static final Set<Tracked> trackedPhyla = new LinkedHashSet<>();
 
   private TrackManager() {}
+
+  private enum TrackType {
+    MONSTER,
+    PHYLUM
+  }
 
   private enum Reset {
     TURN_RESET,
@@ -67,6 +73,7 @@ public class TrackManager {
     NOSY_NOSE("Nosy Nose", 1, false, -1, Reset.ASCENSION_RESET),
     GALLAPAGOS("Gallapagosian Mating Call", 1, false, -1, Reset.ROLLOVER_RESET),
     LATTE("Offer Latte to Opponent", 2, false, 30, Reset.TURN_ROLLOVER_RESET),
+    // TODO: preference needs to deal with colons (or name not)
     SUPERFICIAL("Daily Affirmation: Be Superficially interested", 3, false, 80, Reset.TURN_RESET),
     CREAM_JIGGLE("Staff of the Cream of the Cream", 2, false, -1, Reset.AVATAR_ROLLOVER_RESET),
     MAKE_FRIENDS("Make Friends", 3, false, -1, Reset.AVATAR_RESET),
@@ -78,6 +85,11 @@ public class TrackManager {
     // HOLD_HANDS, but we have no idea for the copies
     PRANK_CARD("prank Crimbo card", 3, true, 100, Reset.TURN_RESET),
     TRICK_COIN("trick coin", 3, true, 100, Reset.TURN_RESET),
+    RED_SNAPPER("Red-Nosed Snapper", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
+    // TODO: effect reset
+    A_BEASTLY_ODOR("A Beastly Odor", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
+    // TODO: effect reset
+    EW_THE_HUMANITY("Ew, The Humanity", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
     ;
 
     final String name;
@@ -85,6 +97,7 @@ public class TrackManager {
     final boolean ignoreQueue;
     final int duration;
     final Reset resetType;
+    final TrackType trackType;
 
     public static Tracker find(final String name) {
       return Arrays.stream(values())
@@ -99,11 +112,22 @@ public class TrackManager {
         final boolean ignoreQueue,
         final int duration,
         final Reset resetType) {
+      this(name, copies, ignoreQueue, duration, resetType, TrackType.MONSTER);
+    }
+
+    Tracker(
+        final String name,
+        final int copies,
+        final boolean ignoreQueue,
+        final int duration,
+        final Reset resetType,
+        final TrackType trackType) {
       this.name = name;
       this.copies = copies;
       this.ignoreQueue = ignoreQueue;
       this.duration = duration;
       this.resetType = resetType;
+      this.trackType = trackType;
     }
 
     public final String getName() {
@@ -120,6 +144,10 @@ public class TrackManager {
 
     public final int getDuration() {
       return this.duration;
+    }
+
+    public final TrackType getTrackType() {
+      return this.trackType;
     }
 
     public final boolean isEffective() {
@@ -143,14 +171,35 @@ public class TrackManager {
     }
   }
 
+  private static Set<Tracked> getTrackedSet(Tracker tracker) {
+    return switch (tracker.getTrackType()) {
+      case MONSTER -> trackedMonsters;
+      case PHYLUM -> trackedPhyla;
+    };
+  }
+
   public static void clearCache() {
     TrackManager.trackedMonsters.clear();
+    TrackManager.trackedPhyla.clear();
   }
 
   public static void loadTracked() {
-    trackedMonsters.clear();
+    TrackManager.loadTrackedMonsters();
+    TrackManager.loadTrackedPhyla();
+  }
 
-    String tracks = Preferences.getString("trackedMonsters");
+  static void loadTrackedMonsters() {
+    loadTrackedX("trackedMonsters", TrackManager.trackedMonsters);
+  }
+
+  static void loadTrackedPhyla() {
+    loadTrackedX("trackedPhyla", TrackManager.trackedPhyla);
+  }
+
+  private static void loadTrackedX(String prefName, Set<Tracked> tracked) {
+    tracked.clear();
+
+    String tracks = Preferences.getString(prefName);
     if (tracks.isEmpty()) {
       return;
     }
@@ -184,6 +233,15 @@ public class TrackManager {
             .collect(Collectors.joining(":")));
   }
 
+  private static void saveTrackedPhyla() {
+    Preferences.setString(
+        "trackedPhyla",
+        trackedPhyla.stream()
+            .flatMap(m -> Stream.of(m.tracked(), m.tracker().getName(), m.turnTracked()))
+            .map(Object::toString)
+            .collect(Collectors.joining(":")));
+  }
+
   /**
    * Iterate through all tracked monsters removing entries if the supplied predicate matches.
    *
@@ -192,6 +250,8 @@ public class TrackManager {
   private static void resetIf(Predicate<Tracked> predicate) {
     TrackManager.trackedMonsters.removeIf(predicate);
     TrackManager.saveTrackedMonsters();
+    TrackManager.trackedPhyla.removeIf(predicate);
+    TrackManager.saveTrackedPhyla();
   }
 
   /**
@@ -213,8 +273,7 @@ public class TrackManager {
   }
 
   public static void resetAscension() {
-    TrackManager.trackedMonsters.clear();
-    TrackManager.saveTrackedMonsters();
+    resetIf(x -> true);
   }
 
   public static void recalculate() {
@@ -259,7 +318,11 @@ public class TrackManager {
    */
   public static void trackMonster(
       final MonsterData monster, final Tracker tracker, final boolean adventureResult) {
-    String tracked = monster.getName();
+    String tracked =
+        switch (tracker.getTrackType()) {
+          case MONSTER -> monster.getName();
+          case PHYLUM -> monster.getPhylum().toString();
+        };
 
     TrackManager.removeTrack(tracker);
 
@@ -303,7 +366,7 @@ public class TrackManager {
       return;
     }
 
-    trackedMonsters.add(tracked);
+    getTrackedSet(tracker).add(tracked);
   }
 
   private static void removeTrack(final Tracker tracker) {
@@ -313,15 +376,29 @@ public class TrackManager {
   public static long countCopies(final String monster) {
     TrackManager.recalculate();
 
-    return trackedMonsters.stream()
-        .filter(m -> m.tracked().equalsIgnoreCase(monster) && m.tracker().isEffective())
-        .mapToInt(t -> t.tracker().copies)
-        .sum();
+    var monsterCopies =
+        trackedMonsters.stream()
+            .filter(m -> m.tracked().equalsIgnoreCase(monster) && m.tracker().isEffective())
+            .mapToInt(t -> t.tracker().copies)
+            .sum();
+
+    MonsterData data = MonsterDatabase.findMonster(monster, false, false);
+    if (data == null) {
+      return monsterCopies;
+    }
+    var phylaCopies =
+        trackedPhyla.stream()
+            .filter(m -> m.tracker().isEffective())
+            .filter(m -> m.tracked().equalsIgnoreCase(data.getPhylum().toString()))
+            .mapToInt(t -> t.tracker().copies)
+            .sum();
+    return monsterCopies + phylaCopies;
   }
 
   public static boolean isQueueIgnored(final String monster) {
     TrackManager.recalculate();
 
+    // there is no way for a phyla copy to make the monster ignore queue
     return trackedMonsters.stream()
         .anyMatch(
             m ->
@@ -337,10 +414,14 @@ public class TrackManager {
       return new Tracker[0];
     }
 
-    return trackedMonsters.stream()
-        .filter(m -> m.tracked().equalsIgnoreCase(data.getName()))
-        .filter(m -> m.tracker().isEffective())
-        .map(Tracked::tracker)
-        .toArray(Tracker[]::new);
+    var monsterTracks =
+        trackedMonsters.stream()
+            .filter(m -> m.tracked().equalsIgnoreCase(data.getName()))
+            .filter(m -> m.tracker().isEffective());
+    var phylaTracks =
+        trackedPhyla.stream()
+            .filter(m -> m.tracked().equalsIgnoreCase(data.getPhylum().toString()))
+            .filter(m -> m.tracker().isEffective());
+    return Stream.concat(monsterTracks, phylaTracks).map(Tracked::tracker).toArray(Tracker[]::new);
   }
 }
