@@ -174,10 +174,25 @@ class BanishManagerTest {
           new Cleanups(withCurrentRun(420), withProperty("banishedMonsters", "crate:snokebomb:69"));
 
       try (cleanups) {
+        BanishManager.loadBanishedMonsters();
         BanishManager.banishMonster(SMUT_ORC_NAILER, Banisher.REFLEX_HAMMER);
         BanishManager.recalculate();
 
         assertThat("banishedMonsters", isSetTo("smut orc nailer:Reflex Hammer:420"));
+      }
+    }
+
+    @Test
+    void roarLikeALionExpiresWithoutEffect() {
+      var cleanups =
+          new Cleanups(
+              withCurrentRun(4), withProperty("banishedMonsters", "crate:Roar like a Lion:3"));
+
+      try (cleanups) {
+        BanishManager.loadBanishedMonsters();
+        BanishManager.recalculate();
+
+        assertThat("banishedMonsters", isSetTo(""));
       }
     }
   }
