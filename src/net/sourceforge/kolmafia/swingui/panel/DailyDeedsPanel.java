@@ -2851,6 +2851,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("_vmaskAdv");
       this.addListener("_gnomeAdv");
       this.addListener("_mafiaThumbRingAdvs");
+      this.addListener("_carnivorousPottedPlantWins");
       this.addListener("(character)");
       this.addLabel("");
     }
@@ -2858,44 +2859,56 @@ public class DailyDeedsPanel extends Box implements Listener {
     @Override
     public void update() {
       FamiliarData gibberer = KoLCharacter.usableFamiliar(FamiliarPool.GIBBERER);
-      boolean hf1 = gibberer != null && gibberer.canEquip();
       FamiliarData hare = KoLCharacter.usableFamiliar(FamiliarPool.HARE);
-      boolean hf2 = hare != null && hare.canEquip();
       FamiliarData riftlet = KoLCharacter.usableFamiliar(FamiliarPool.RIFTLET);
-      boolean hf3 = riftlet != null && riftlet.canEquip();
-      boolean hf4 =
-          Preferences.getInteger("_timeHelmetAdv") > 0
-              || KoLCharacter.hasEquipped(ItemPool.TIME_HELMET)
-              || InventoryManager.getCount(ItemPool.TIME_HELMET) > 0;
-      boolean hf5 =
-          Preferences.getInteger("_vmaskAdv") > 0
-              || KoLCharacter.hasEquipped(ItemPool.V_MASK)
-              || InventoryManager.getCount(ItemPool.V_MASK) > 0
-              || (KoLCharacter.inLegacyOfLoathing()
-                  && (KoLCharacter.hasEquipped(ItemPool.REPLICA_V_MASK)
-                      || InventoryManager.getCount(ItemPool.REPLICA_V_MASK) > 0));
       FamiliarData gnome = KoLCharacter.usableFamiliar(FamiliarPool.REAGNIMATED_GNOME);
-      boolean hf6 = gnome != null && gnome.canEquip();
-      boolean hf7 =
-          Preferences.getInteger("_mafiaThumbRingAdvs") > 0
-              || KoLCharacter.hasEquipped(ItemPool.MAFIA_THUMB_RING)
-              || InventoryManager.getCount(ItemPool.MAFIA_THUMB_RING) > 0;
-      String text = "Advs: ";
-      if (hf1) text = text + Preferences.getInteger("_gibbererAdv") + " gibberer";
-      if (hf1 && (hf2 || hf3 || hf4 || hf5 || hf6 || hf7)) text = text + ", ";
-      if (hf2) text = text + Preferences.getInteger("_hareAdv") + " hare";
-      if (hf2 && (hf3 || hf4 || hf5 || hf6 || hf7)) text = text + ", ";
-      if (hf3) text = text + Preferences.getInteger("_riftletAdv") + " riftlet";
-      if (hf3 && (hf4 || hf5 || hf6 || hf7)) text = text + ", ";
-      if (hf4) text = text + Preferences.getInteger("_timeHelmetAdv") + " time helmet";
-      if (hf4 && (hf5 || hf6 || hf7)) text = text + ", ";
-      if (hf5) text = text + Preferences.getInteger("_vmaskAdv") + " V mask";
-      if (hf5 && (hf6 || hf7)) text = text + ", ";
-      if (hf6) text = text + Preferences.getInteger("_gnomeAdv") + " gnome";
-      if (hf6 && hf7) text = text + ", ";
-      if (hf7) text = text + Preferences.getInteger("_mafiaThumbRingAdvs") + " thumb ring";
-      this.setShown(hf1 || hf2 || hf3 || hf4 || hf5 || hf6 || hf7);
-      this.setText(text);
+      List<String> text = new ArrayList<>();
+
+      if (gibberer != null && gibberer.canEquip()) {
+        text.add(Preferences.getInteger("_gibbererAdv") + " gibberer");
+      }
+
+      if (hare != null && hare.canEquip()) {
+        text.add(Preferences.getInteger("_hareAdv") + " hare");
+      }
+
+      if (riftlet != null && riftlet.canEquip()) {
+        text.add(Preferences.getInteger("_riftletAdv") + " riftlet");
+      }
+
+      if (Preferences.getInteger("_timeHelmetAdv") > 0
+          || KoLCharacter.hasEquipped(ItemPool.TIME_HELMET)
+          || InventoryManager.getCount(ItemPool.TIME_HELMET) > 0) {
+        text.add(Preferences.getInteger("_timeHelmetAdv") + " time helmet");
+      }
+
+      if (Preferences.getInteger("_vmaskAdv") > 0
+          || KoLCharacter.hasEquipped(ItemPool.V_MASK)
+          || InventoryManager.getCount(ItemPool.V_MASK) > 0
+          || (KoLCharacter.inLegacyOfLoathing()
+              && (KoLCharacter.hasEquipped(ItemPool.REPLICA_V_MASK)
+                  || InventoryManager.getCount(ItemPool.REPLICA_V_MASK) > 0))) {
+        text.add(Preferences.getInteger("_vmaskAdv") + " V mask");
+      }
+
+      if (gnome != null && gnome.canEquip()) {
+        text.add(Preferences.getInteger("_gnomeAdv") + " gnome");
+      }
+
+      if (Preferences.getInteger("_mafiaThumbRingAdvs") > 0
+          || KoLCharacter.hasEquipped(ItemPool.MAFIA_THUMB_RING)
+          || InventoryManager.getCount(ItemPool.MAFIA_THUMB_RING) > 0) {
+        text.add(Preferences.getInteger("_mafiaThumbRingAdvs") + " thumb ring");
+      }
+
+      if (Preferences.getInteger("_carnivorousPottedPlantWins") > 0
+          || KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT)
+          || InventoryManager.getCount(ItemPool.CARNIVOROUS_POTTED_PLANT) > 0) {
+        text.add(Preferences.getInteger("_carnivorousPottedPlantWins") + " potted plant");
+      }
+
+      this.setShown(!text.isEmpty());
+      this.setText("Advs: " + String.join(", ", text));
     }
   }
 
