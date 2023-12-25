@@ -11,6 +11,9 @@ import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -20,6 +23,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel.AdvsDaily;
 import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel.FreeFightsDaily;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -305,6 +309,47 @@ public class DailyDeedsPanelTest {
         dd.update();
         assertThat(dd.getText(), containsString("1/1 cookbookbat recipe"));
       }
+    }
+  }
+
+  @Nested
+  class AdvsGained {
+    @Test
+    public void showsMafiaThumbRing() {
+      var advs = new AdvsDaily();
+      advs.update();
+      assertFalse(advs.isVisible());
+      assertThat(advs.getText(), not(containsString(" thumb ring")));
+      Preferences.setInteger("_mafiaThumbRingAdvs", 5);
+      advs.update();
+      assertThat(advs.getText(), containsString("Advs: 5 thumb ring"));
+      assertTrue(advs.isVisible());
+    }
+
+    @Test
+    public void showsPottedPlant() {
+      var advs = new AdvsDaily();
+      advs.update();
+      assertFalse(advs.isVisible());
+      assertThat(advs.getText(), not(containsString(" potted plant")));
+      Preferences.setInteger("_carnivorousPottedPlantWins", 5);
+      advs.update();
+      assertThat(advs.getText(), containsString("Advs: 5 potted plant"));
+      assertTrue(advs.isVisible());
+    }
+
+    @Test
+    public void showsTimeHelmetAndPottedPlant() {
+      var advs = new AdvsDaily();
+      advs.update();
+      assertFalse(advs.isVisible());
+      assertThat(advs.getText(), not(containsString(" time helmet")));
+      assertThat(advs.getText(), not(containsString(" potted plant")));
+      Preferences.setInteger("_carnivorousPottedPlantWins", 5);
+      Preferences.setInteger("_timeHelmetAdv", 5);
+      advs.update();
+      assertThat(advs.getText(), containsString("Advs: 5 time helmet, 5 potted plant"));
+      assertTrue(advs.isVisible());
     }
   }
 }
