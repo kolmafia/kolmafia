@@ -19,6 +19,8 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withTrackedMonsters;
+import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withValueOfAdventure;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -1310,6 +1312,83 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         var code = fn + "($monster[" + monsterName + "])";
         String actual = execute(code);
         assertThat(actual, startsWith("Returned: " + expected + "\n"));
+      }
+    }
+  }
+
+  @Nested
+  class Tracking {
+    @Test
+    void noCopiesIsZeroCount() {
+      final var cleanups = withTrackedMonsters("");
+
+      try (cleanups) {
+        var code = "track_copy_count($monster[crate])";
+        String actual = execute(code);
+        assertThat(actual, equalTo("Returned: 0\n"));
+      }
+    }
+
+    @Test
+    void noCopiesIsNotIgnoreQueue() {
+      final var cleanups = withTrackedMonsters("");
+
+      try (cleanups) {
+        var code = "track_ignore_queue($monster[crate])";
+        String actual = execute(code);
+        assertThat(actual, equalTo("Returned: false\n"));
+      }
+    }
+
+    @Test
+    void copyCountIncludesAllCopies() {
+      final var cleanups =
+          new Cleanups(
+              withTrackedMonsters(
+                  "crate:Transcendent Olfaction:1:crate:Gallapagosian Mating Call:2"),
+              withFamiliar(FamiliarPool.RED_SNAPPER),
+              withTrackedPhyla("construct:Red-Nosed Snapper:3"));
+
+      try (cleanups) {
+        var code = "track_copy_count($monster[crate])";
+        String actual = execute(code);
+        assertThat(actual, equalTo("Returned: 6\n"));
+      }
+    }
+
+    @Test
+    void copyCountIsIgnoreQueueIfAnyCopyIs() {
+      final var cleanups =
+          withTrackedMonsters("crate:Gallapagosian Mating Call:1:crate:Transcendent Olfaction:2");
+
+      try (cleanups) {
+        var code = "track_ignore_queue($monster[crate])";
+        String actual = execute(code);
+        assertThat(actual, equalTo("Returned: true\n"));
+      }
+    }
+
+    @Test
+    void trackedByIncludesAllTracks() {
+      final var cleanups =
+          new Cleanups(
+              withTrackedMonsters(
+                  "crate:Transcendent Olfaction:1:crate:Gallapagosian Mating Call:2"),
+              withFamiliar(FamiliarPool.RED_SNAPPER),
+              withTrackedPhyla("construct:Red-Nosed Snapper:3"));
+
+      try (cleanups) {
+        var code = "tracked_by($monster[crate])";
+        String actual = execute(code);
+        assertThat(
+            actual,
+            equalTo(
+                """
+            Returned: aggregate string [3]
+            0 => Transcendent Olfaction
+            1 => Gallapagosian Mating Call
+            2 => Red-Nosed Snapper
+            """));
       }
     }
   }
