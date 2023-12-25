@@ -3711,6 +3711,7 @@ public class ItemPool {
   public static final int FUTURISTIC_COLLAR = 11393;
   public static final int ELF_ARMY_MACHINE_PARTS = 11402;
   public static final int CRIMBUCCANEER_RIGGING_LASSO = 11403;
+  public static final int CRIMBUCCANEER_FLOTSAM = 11405;
   public static final int ELF_GUARD_MPC = 11408;
   public static final int CRIMBUCCANEER_PIECE_OF_12 = 11409;
   public static final int PEPPERMINT_BOMB = 11426;

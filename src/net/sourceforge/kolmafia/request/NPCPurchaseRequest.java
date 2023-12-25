@@ -846,6 +846,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       Crimbo20FoodRequest.parseResponse(urlString, responseText);
     }
 
+    if (shopId.equals("crimbo23_elf_armory")) {
+      Crimbo23ElfArmoryRequest.parseResponse(urlString, responseText);
+    }
+
     if (shopId.equals("crimbo23_elf_bar")) {
       Crimbo23ElfBarRequest.parseResponse(urlString, responseText);
     }
@@ -856,6 +860,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     if (shopId.equals("crimbo23_elf_factory")) {
       Crimbo23ElfFactoryRequest.parseResponse(urlString, responseText);
+    }
+
+    if (shopId.equals("crimbo23_pirate_armory")) {
+      Crimbo23PirateArmoryRequest.parseResponse(urlString, responseText);
     }
 
     if (shopId.startsWith("crimbo23_pirate_bar")) {
@@ -1318,6 +1326,34 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.equals("crimbo20food")) {
         return Crimbo20FoodRequest.registerRequest(urlString);
+      }
+
+      if (shopId.startsWith("crimbo23_elf_armory")) {
+        Crimbo23ElfArmoryRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("crimbo23_elf_bar")) {
+        Crimbo23ElfBarRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("crimbo23_elf_cafe")) {
+        Crimbo23ElfCafeRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("crimbo23_elf_factory")) {
+        Crimbo23ElfFactoryRequest.registerRequest(urlString);
+      }
+
+      if (shopId.startsWith("crimbo23_pirate_armory")) {
+        Crimbo23PirateArmoryRequest.registerRequest(urlString);
+      }
+
+      if (shopId.startsWith("crimbo23_pirate_bar")) {
+        Crimbo23PirateBarRequest.registerRequest(urlString);
+      }
+
+      if (shopId.startsWith("crimbo23_pirate_factory")) {
+        Crimbo23PirateFactoryRequest.registerRequest(urlString);
       }
 
       if (shopId.equals("edunder_shopshop")) {

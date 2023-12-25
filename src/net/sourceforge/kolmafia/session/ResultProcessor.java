@@ -1386,6 +1386,11 @@ public class ResultProcessor {
       case ItemPool.MILK_CAP:
       case ItemPool.DRINK_CHIT:
       case ItemPool.REPLICA_MR_ACCESSORY:
+        // Crimbo23 currencies
+      case ItemPool.ELF_GUARD_MPC:
+      case ItemPool.ELF_ARMY_MACHINE_PARTS:
+      case ItemPool.CRIMBUCCANEER_PIECE_OF_12:
+      case ItemPool.CRIMBUCCANEER_FLOTSAM:
         NamedListenerRegistry.fireChange("(coinmaster)");
         break;
 
