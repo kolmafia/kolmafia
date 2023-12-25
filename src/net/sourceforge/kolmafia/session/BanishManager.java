@@ -221,7 +221,7 @@ public class BanishManager {
         case TURN_RESET -> turnsLeft().toString();
         case ROLLOVER_RESET -> "Until Rollover";
         case TURN_ROLLOVER_RESET -> turnsLeft() + " or Until Rollover";
-        case EFFECT_RESET -> "Until Roar like a Lion expires";
+        case EFFECT_RESET -> "Until Hear Me Roar expires";
         case AVATAR_RESET -> "Until Prism Break";
         case NEVER_RESET -> "Until Ice House opened";
         case COSMIC_BOWLING_BALL_RESET -> "Until Ball returns ("

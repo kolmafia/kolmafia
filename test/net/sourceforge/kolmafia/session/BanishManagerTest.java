@@ -743,13 +743,14 @@ class BanishManagerTest {
           new Cleanups(
               withCurrentRun(128),
               withProperty("cosmicBowlingBallReturnCombats", 16),
+              withEffect(EffectPool.HEAR_ME_ROAR),
               withBanishedMonsters(
-                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128:Taco Cat:Bowl a Curveball:124"));
+                  "spooky vampire:ice house:0:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128:Taco Cat:Bowl a Curveball:124:Tan Gnat:Roar like a Lion:125"));
 
       try (cleanups) {
         var data = BanishManager.getBanishedMonsterData();
 
-        assertThat(data, arrayWithSize(12));
+        assertThat(data, arrayWithSize(13));
         assertThat(
             data,
             arrayContaining(
@@ -770,7 +771,9 @@ class BanishManagerTest {
                     "Taco Cat",
                     "Bowl a Curveball",
                     "124",
-                    "Until Ball returns (16 combats) or Until Rollover")));
+                    "Until Ball returns (16 combats) or Until Rollover"),
+                arrayContaining(
+                    "Tan Gnat", "Roar like a Lion", "125", "Until Hear Me Roar expires")));
       }
     }
 
