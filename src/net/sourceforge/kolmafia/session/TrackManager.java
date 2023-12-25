@@ -76,8 +76,7 @@ public class TrackManager {
     NOSY_NOSE("Nosy Nose", 1, false, -1, Reset.ASCENSION_RESET),
     GALLAPAGOS("Gallapagosian Mating Call", 1, false, -1, Reset.ROLLOVER_RESET),
     LATTE("Offer Latte to Opponent", 2, false, 30, Reset.TURN_ROLLOVER_RESET),
-    // TODO: preference needs to deal with colons (or name not)
-    SUPERFICIAL("Daily Affirmation: Be Superficially interested", 3, false, 80, Reset.TURN_RESET),
+    SUPERFICIAL("Be Superficially interested", 3, false, 80, Reset.TURN_RESET),
     CREAM_JIGGLE("Staff of the Cream of the Cream", 2, false, -1, Reset.AVATAR_ROLLOVER_RESET),
     MAKE_FRIENDS("Make Friends", 3, false, -1, Reset.AVATAR_RESET),
     CURSE_OF_STENCH("Curse of Stench", 3, false, -1, Reset.AVATAR_RESET),
@@ -86,8 +85,8 @@ public class TrackManager {
     MOTIF("Motif", 2, true, -1, Reset.AVATAR_RESET),
     MONKEY_POINT("Monkey Point", 2, false, -1, Reset.ASCENSION_RESET),
     // HOLD_HANDS, but we have no idea for the copies
-    PRANK_CARD("prank Crimbo card", 3, true, 100, Reset.TURN_RESET),
-    TRICK_COIN("trick coin", 3, true, 100, Reset.TURN_RESET),
+    PRANK_CARD("prank Crimbo card", 3, true, 100, Reset.TURN_ROLLOVER_RESET),
+    TRICK_COIN("trick coin", 3, true, 100, Reset.TURN_ROLLOVER_RESET),
     RED_SNAPPER("Red-Nosed Snapper", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
     A_BEASTLY_ODOR("A Beastly Odor", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
     EW_THE_HUMANITY("Ew, The Humanity", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
