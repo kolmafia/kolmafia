@@ -1164,39 +1164,39 @@ Mr. Store 2002	buy	1	Crimbo cookie sheet	ROW1390
 
 # Crimbo 2023
 
+Crimbuccaneer Bar	buy	5	hot wine	ROW1408
+Crimbuccaneer Bar	buy	20	Jamaican coffee	ROW1409
+Crimbuccaneer Bar	buy	10	flask of egggrog	ROW1410
+
+Crimbuccaneer Junkworks	sell	3	sawed-off blunderbuss	ROW1420
+Crimbuccaneer Junkworks	sell	3	Crimbuccaneer shirt	ROW1418
+Crimbuccaneer Junkworks	sell	3	pegfinger	ROW1422
+Crimbuccaneer Junkworks	sell	3	shipwright's hammer	ROW1421
+Crimbuccaneer Junkworks	buy	200	Crimbuccaneer premium booty sack	ROW1417
+
 Crimbuccaneer Foundry	buy	10	prank Crimbo card	ROW1431
 Crimbuccaneer Foundry	buy	20	Crimbuccaneer squirtblunderbuss	ROW1432
 Crimbuccaneer Foundry	buy	40	My First Paycheck envelope	ROW1433
 Crimbuccaneer Foundry	buy	80	barnacle-encrusted sweater	ROW1434
 Crimbuccaneer Foundry	buy	150	Crimbuccaneer nose ring	ROW1435
 Crimbuccaneer Foundry	buy	400	pet anchor	ROW1436
-Crimbuccaneer Foundry	buy	2000	Crimbuccaneer tattoo gift certificate	ROW1437
 Crimbuccaneer Foundry	buy	1000	stuffed kraken	ROW1441
-
-Crimbuccaneer Bar	buy	5	hot wine	ROW1408
-Crimbuccaneer Bar	buy	20	Jamaican coffee	ROW1409
-Crimbuccaneer Bar	buy	10	flask of egggrog	ROW1410
-
-Crimbuccaneer Junkworks	buy	1	Crimbuccaneer flotsam (3)	ROW1420
-Crimbuccaneer Junkworks	buy	1	Crimbuccaneer flotsam (3)	ROW1418
-Crimbuccaneer Junkworks	buy	1	Crimbuccaneer flotsam (3)	ROW1422
-Crimbuccaneer Junkworks	buy	1	Crimbuccaneer flotsam (3)	ROW1421
-Crimbuccaneer Junkworks	buy	200	Crimbuccaneer premium booty sack	ROW1417
+Crimbuccaneer Foundry	buy	2000	Crimbuccaneer tattoo gift certificate	ROW1437
 
 Elf Guard Mess Hall	buy	5	sugarplum ration	ROW1399
 Elf Guard Mess Hall	buy	20	gingerbread nylons	ROW1400
 Elf Guard Mess Hall	buy	10	rum-soaked fruitcake	ROW1401
 
-Elf Guard Armory	buy	200	Elf Guard honor present	ROW1411
-Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1412
-Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1413
-Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1414
-Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1415
-Elf Guard Armory	buy	1	Elf Army machine parts (3)	ROW1416
-
 Elf Guard Officers' Club	buy	5	mulled wine	ROW1405
 Elf Guard Officers' Club	buy	20	Swedish coffee	ROW1406
 Elf Guard Officers' Club	buy	10	canteen of eggnog	ROW1407
+
+# Elf Guard Armory	sell	3	Elf Guard broom	ROW1414
+Elf Guard Armory	sell	3	Elf Guard commandeering gloves	ROW1412
+Elf Guard Armory	sell	3	Elf Guard officer's sidearm	ROW1413
+Elf Guard Armory	sell	3	Kelflar vest	ROW1415
+Elf Guard Armory	sell	3	Elf Guard mouthknife	ROW1416
+Elf Guard Armory	buy	200	Elf Guard honor present	ROW1411
 
 Elf Guard Toy and Munitions Factory	buy	10	trick coin	ROW1424
 Elf Guard Toy and Munitions Factory	buy	20	Elf Guard squirtgun	ROW1425
@@ -1204,5 +1204,5 @@ Elf Guard Toy and Munitions Factory	buy	40	chest of &quot;pirate gold&quot;	ROW1
 Elf Guard Toy and Munitions Factory	buy	80	sequin-encrusted sweater	ROW1427
 Elf Guard Toy and Munitions Factory	buy	150	replica Elf Guard medal	ROW1428
 Elf Guard Toy and Munitions Factory	buy	400	Lil' Snowball Factory	ROW1429
-Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
 Elf Guard Toy and Munitions Factory	buy	1000	Elf Guard safety bear	ROW1440
+Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
