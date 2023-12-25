@@ -319,7 +319,7 @@ public class DailyDeedsPanelTest {
       var advs = new AdvsDaily();
       advs.update();
       assertFalse(advs.isVisible());
-      assertThat(advs.getText(), not( containsString(" thumb ring")));
+      assertThat(advs.getText(), not(containsString(" thumb ring")));
       Preferences.setInteger("_mafiaThumbRingAdvs", 5);
       advs.update();
       assertThat(advs.getText(), containsString("Advs: 5 thumb ring"));
@@ -331,7 +331,7 @@ public class DailyDeedsPanelTest {
       var advs = new AdvsDaily();
       advs.update();
       assertFalse(advs.isVisible());
-      assertThat(advs.getText(), not( containsString(" potted plant")));
+      assertThat(advs.getText(), not(containsString(" potted plant")));
       Preferences.setInteger("_carnivorousPottedPlantWins", 5);
       advs.update();
       assertThat(advs.getText(), containsString("Advs: 5 potted plant"));
